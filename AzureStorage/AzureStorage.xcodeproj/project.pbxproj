@@ -1,0 +1,973 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9316585C202CC6FC00026082 /* AzureStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 939E837C202CC5D80020574D /* AzureStorage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9316585D202CC6FD00026082 /* AzureStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 939E837C202CC5D80020574D /* AzureStorage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9316585E202CC6FE00026082 /* AzureStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 939E837C202CC5D80020574D /* AzureStorage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9316585F202CC70A00026082 /* AzureStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939E8387202CC5D80020574D /* AzureStorageTests.swift */; };
+		93165860202CC70B00026082 /* AzureStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939E8387202CC5D80020574D /* AzureStorageTests.swift */; };
+		939E8383202CC5D80020574D /* AzureStorage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 939E8379202CC5D80020574D /* AzureStorage.framework */; };
+		939E8388202CC5D80020574D /* AzureStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939E8387202CC5D80020574D /* AzureStorageTests.swift */; };
+		939E838A202CC5D80020574D /* AzureStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 939E837C202CC5D80020574D /* AzureStorage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		939E83A1202CC6150020574D /* AzureStorage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 939E8398202CC6150020574D /* AzureStorage.framework */; };
+		939E83BD202CC6260020574D /* AzureStorage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 939E83B4202CC6260020574D /* AzureStorage.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		939E8384202CC5D80020574D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 939E8370202CC5D80020574D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 939E8378202CC5D80020574D;
+			remoteInfo = AzureStorage;
+		};
+		939E83A2202CC6150020574D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 939E8370202CC5D80020574D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 939E8397202CC6150020574D;
+			remoteInfo = "AzureStorage macOS";
+		};
+		939E83BE202CC6260020574D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 939E8370202CC5D80020574D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 939E83B3202CC6260020574D;
+			remoteInfo = "AzureStorage tvOS";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		939E8379202CC5D80020574D /* AzureStorage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureStorage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		939E837C202CC5D80020574D /* AzureStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AzureStorage.h; sourceTree = "<group>"; };
+		939E837D202CC5D80020574D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		939E8382202CC5D80020574D /* AzureStorage iOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AzureStorage iOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		939E8387202CC5D80020574D /* AzureStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzureStorageTests.swift; sourceTree = "<group>"; };
+		939E8389202CC5D80020574D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		939E8398202CC6150020574D /* AzureStorage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureStorage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		939E83A0202CC6150020574D /* AzureStorage macOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AzureStorage macOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		939E83B4202CC6260020574D /* AzureStorage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureStorage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		939E83BC202CC6260020574D /* AzureStorage tvOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AzureStorage tvOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		939E83D0202CC6390020574D /* AzureStorage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureStorage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		939E8375202CC5D80020574D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		939E837F202CC5D80020574D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				939E8383202CC5D80020574D /* AzureStorage.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		939E8394202CC6150020574D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		939E839D202CC6150020574D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				939E83A1202CC6150020574D /* AzureStorage.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		939E83B0202CC6260020574D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		939E83B9202CC6260020574D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				939E83BD202CC6260020574D /* AzureStorage.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		939E83CC202CC6390020574D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9316585B202CC6C500026082 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				939E837D202CC5D80020574D /* Info.plist */,
+				939E837C202CC5D80020574D /* AzureStorage.h */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		939E836F202CC5D80020574D = {
+			isa = PBXGroup;
+			children = (
+				939E837A202CC5D80020574D /* Products */,
+				939E837B202CC5D80020574D /* Source */,
+				939E8386202CC5D80020574D /* Tests */,
+			);
+			sourceTree = "<group>";
+		};
+		939E837A202CC5D80020574D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				939E8379202CC5D80020574D /* AzureStorage.framework */,
+				939E8382202CC5D80020574D /* AzureStorage iOS Tests.xctest */,
+				939E8398202CC6150020574D /* AzureStorage.framework */,
+				939E83A0202CC6150020574D /* AzureStorage macOS Tests.xctest */,
+				939E83B4202CC6260020574D /* AzureStorage.framework */,
+				939E83BC202CC6260020574D /* AzureStorage tvOS Tests.xctest */,
+				939E83D0202CC6390020574D /* AzureStorage.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		939E837B202CC5D80020574D /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				9316585B202CC6C500026082 /* Supporting Files */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		939E8386202CC5D80020574D /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				939E8387202CC5D80020574D /* AzureStorageTests.swift */,
+				939E8389202CC5D80020574D /* Info.plist */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		939E8376202CC5D80020574D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				939E838A202CC5D80020574D /* AzureStorage.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		939E8395202CC6150020574D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9316585C202CC6FC00026082 /* AzureStorage.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		939E83B1202CC6260020574D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9316585D202CC6FD00026082 /* AzureStorage.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		939E83CD202CC6390020574D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9316585E202CC6FE00026082 /* AzureStorage.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		939E8378202CC5D80020574D /* AzureStorage iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 939E838D202CC5D80020574D /* Build configuration list for PBXNativeTarget "AzureStorage iOS" */;
+			buildPhases = (
+				939E8374202CC5D80020574D /* Sources */,
+				939E8375202CC5D80020574D /* Frameworks */,
+				939E8376202CC5D80020574D /* Headers */,
+				939E8377202CC5D80020574D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AzureStorage iOS";
+			productName = AzureStorage;
+			productReference = 939E8379202CC5D80020574D /* AzureStorage.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		939E8381202CC5D80020574D /* AzureStorage iOS Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 939E8390202CC5D80020574D /* Build configuration list for PBXNativeTarget "AzureStorage iOS Tests" */;
+			buildPhases = (
+				939E837E202CC5D80020574D /* Sources */,
+				939E837F202CC5D80020574D /* Frameworks */,
+				939E8380202CC5D80020574D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				939E8385202CC5D80020574D /* PBXTargetDependency */,
+			);
+			name = "AzureStorage iOS Tests";
+			productName = AzureStorageTests;
+			productReference = 939E8382202CC5D80020574D /* AzureStorage iOS Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		939E8397202CC6150020574D /* AzureStorage macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 939E83A9202CC6150020574D /* Build configuration list for PBXNativeTarget "AzureStorage macOS" */;
+			buildPhases = (
+				939E8393202CC6150020574D /* Sources */,
+				939E8394202CC6150020574D /* Frameworks */,
+				939E8395202CC6150020574D /* Headers */,
+				939E8396202CC6150020574D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AzureStorage macOS";
+			productName = "AzureStorage macOS";
+			productReference = 939E8398202CC6150020574D /* AzureStorage.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		939E839F202CC6150020574D /* AzureStorage macOS Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 939E83AC202CC6150020574D /* Build configuration list for PBXNativeTarget "AzureStorage macOS Tests" */;
+			buildPhases = (
+				939E839C202CC6150020574D /* Sources */,
+				939E839D202CC6150020574D /* Frameworks */,
+				939E839E202CC6150020574D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				939E83A3202CC6150020574D /* PBXTargetDependency */,
+			);
+			name = "AzureStorage macOS Tests";
+			productName = "AzureStorage macOSTests";
+			productReference = 939E83A0202CC6150020574D /* AzureStorage macOS Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		939E83B3202CC6260020574D /* AzureStorage tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 939E83C5202CC6260020574D /* Build configuration list for PBXNativeTarget "AzureStorage tvOS" */;
+			buildPhases = (
+				939E83AF202CC6260020574D /* Sources */,
+				939E83B0202CC6260020574D /* Frameworks */,
+				939E83B1202CC6260020574D /* Headers */,
+				939E83B2202CC6260020574D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AzureStorage tvOS";
+			productName = "AzureStorage tvOS";
+			productReference = 939E83B4202CC6260020574D /* AzureStorage.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		939E83BB202CC6260020574D /* AzureStorage tvOS Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 939E83C8202CC6260020574D /* Build configuration list for PBXNativeTarget "AzureStorage tvOS Tests" */;
+			buildPhases = (
+				939E83B8202CC6260020574D /* Sources */,
+				939E83B9202CC6260020574D /* Frameworks */,
+				939E83BA202CC6260020574D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				939E83BF202CC6260020574D /* PBXTargetDependency */,
+			);
+			name = "AzureStorage tvOS Tests";
+			productName = "AzureStorage tvOSTests";
+			productReference = 939E83BC202CC6260020574D /* AzureStorage tvOS Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		939E83CF202CC6390020574D /* AzureStorage watchOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 939E83D5202CC6390020574D /* Build configuration list for PBXNativeTarget "AzureStorage watchOS" */;
+			buildPhases = (
+				939E83CB202CC6390020574D /* Sources */,
+				939E83CC202CC6390020574D /* Frameworks */,
+				939E83CD202CC6390020574D /* Headers */,
+				939E83CE202CC6390020574D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AzureStorage watchOS";
+			productName = "AzureStorage watchOS";
+			productReference = 939E83D0202CC6390020574D /* AzureStorage.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		939E8370202CC5D80020574D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0920;
+				LastUpgradeCheck = 0920;
+				ORGANIZATIONNAME = Microsoft;
+				TargetAttributes = {
+					939E8378202CC5D80020574D = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+					939E8381202CC5D80020574D = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+					939E8397202CC6150020574D = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+					939E839F202CC6150020574D = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+					939E83B3202CC6260020574D = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+					939E83BB202CC6260020574D = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+					939E83CF202CC6390020574D = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 939E8373202CC5D80020574D /* Build configuration list for PBXProject "AzureStorage" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 939E836F202CC5D80020574D;
+			productRefGroup = 939E837A202CC5D80020574D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				939E8378202CC5D80020574D /* AzureStorage iOS */,
+				939E8381202CC5D80020574D /* AzureStorage iOS Tests */,
+				939E8397202CC6150020574D /* AzureStorage macOS */,
+				939E839F202CC6150020574D /* AzureStorage macOS Tests */,
+				939E83B3202CC6260020574D /* AzureStorage tvOS */,
+				939E83BB202CC6260020574D /* AzureStorage tvOS Tests */,
+				939E83CF202CC6390020574D /* AzureStorage watchOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		939E8377202CC5D80020574D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		939E8380202CC5D80020574D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		939E8396202CC6150020574D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		939E839E202CC6150020574D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		939E83B2202CC6260020574D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		939E83BA202CC6260020574D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		939E83CE202CC6390020574D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		939E8374202CC5D80020574D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		939E837E202CC5D80020574D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				939E8388202CC5D80020574D /* AzureStorageTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		939E8393202CC6150020574D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		939E839C202CC6150020574D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9316585F202CC70A00026082 /* AzureStorageTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		939E83AF202CC6260020574D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		939E83B8202CC6260020574D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				93165860202CC70B00026082 /* AzureStorageTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		939E83CB202CC6390020574D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		939E8385202CC5D80020574D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 939E8378202CC5D80020574D /* AzureStorage iOS */;
+			targetProxy = 939E8384202CC5D80020574D /* PBXContainerItemProxy */;
+		};
+		939E83A3202CC6150020574D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 939E8397202CC6150020574D /* AzureStorage macOS */;
+			targetProxy = 939E83A2202CC6150020574D /* PBXContainerItemProxy */;
+		};
+		939E83BF202CC6260020574D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 939E83B3202CC6260020574D /* AzureStorage tvOS */;
+			targetProxy = 939E83BE202CC6260020574D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		939E838B202CC5D80020574D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		939E838C202CC5D80020574D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		939E838E202CC5D80020574D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.azure.storage;
+				PRODUCT_NAME = AzureStorage;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		939E838F202CC5D80020574D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.azure.storage;
+				PRODUCT_NAME = AzureStorage;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		939E8391202CC5D80020574D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = AzureStorageTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.azure.storage.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		939E8392202CC5D80020574D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = AzureStorageTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.azure.storage.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		939E83AA202CC6150020574D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = com.azure.storage;
+				PRODUCT_NAME = AzureStorage;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		939E83AB202CC6150020574D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = com.azure.storage;
+				PRODUCT_NAME = AzureStorage;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+		939E83AD202CC6150020574D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "AzureStorage macOSTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = com.azure.storage.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		939E83AE202CC6150020574D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "AzureStorage macOSTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = com.azure.storage.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+		939E83C6202CC6260020574D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.azure.storage;
+				PRODUCT_NAME = AzureStorage;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 11.2;
+			};
+			name = Debug;
+		};
+		939E83C7202CC6260020574D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.azure.storage;
+				PRODUCT_NAME = AzureStorage;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 11.2;
+			};
+			name = Release;
+		};
+		939E83C9202CC6260020574D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = "AzureStorage tvOSTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.azure.storage.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 11.2;
+			};
+			name = Debug;
+		};
+		939E83CA202CC6260020574D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = "AzureStorage tvOSTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.azure.storage.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 11.2;
+			};
+			name = Release;
+		};
+		939E83D6202CC6390020574D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.azure.storage;
+				PRODUCT_NAME = AzureStorage;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 4.2;
+			};
+			name = Debug;
+		};
+		939E83D7202CC6390020574D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.azure.storage;
+				PRODUCT_NAME = AzureStorage;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 4.2;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		939E8373202CC5D80020574D /* Build configuration list for PBXProject "AzureStorage" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				939E838B202CC5D80020574D /* Debug */,
+				939E838C202CC5D80020574D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		939E838D202CC5D80020574D /* Build configuration list for PBXNativeTarget "AzureStorage iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				939E838E202CC5D80020574D /* Debug */,
+				939E838F202CC5D80020574D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		939E8390202CC5D80020574D /* Build configuration list for PBXNativeTarget "AzureStorage iOS Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				939E8391202CC5D80020574D /* Debug */,
+				939E8392202CC5D80020574D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		939E83A9202CC6150020574D /* Build configuration list for PBXNativeTarget "AzureStorage macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				939E83AA202CC6150020574D /* Debug */,
+				939E83AB202CC6150020574D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		939E83AC202CC6150020574D /* Build configuration list for PBXNativeTarget "AzureStorage macOS Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				939E83AD202CC6150020574D /* Debug */,
+				939E83AE202CC6150020574D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		939E83C5202CC6260020574D /* Build configuration list for PBXNativeTarget "AzureStorage tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				939E83C6202CC6260020574D /* Debug */,
+				939E83C7202CC6260020574D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		939E83C8202CC6260020574D /* Build configuration list for PBXNativeTarget "AzureStorage tvOS Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				939E83C9202CC6260020574D /* Debug */,
+				939E83CA202CC6260020574D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		939E83D5202CC6390020574D /* Build configuration list for PBXNativeTarget "AzureStorage watchOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				939E83D6202CC6390020574D /* Debug */,
+				939E83D7202CC6390020574D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 939E8370202CC5D80020574D /* Project object */;
+}
