@@ -1,3 +1,42 @@
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+x64/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+
+# globs
+Makefile.in
+*.DS_Store
+*.sln.cache
+*.cache
+*.pidb
+*.userprefs
+*.usertasks
+config.log
+config.make
+config.status
+aclocal.m4
+install-sh
+autom4te.cache/
+*.tar.gz
+tarballs/
+test-results/
+Thumbs.db
+
+#Mac bundle stuff
+*.dmg
+*.app
+
+#bitrise
+.bitrise*
+
+#Visual Studio Code
+.vscode*
+
 # Xcode
 #
 # gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
@@ -50,9 +89,12 @@ playground.xcworkspace
 # Carthage
 #
 # Add this line if you want to avoid checking in source code from Carthage dependencies.
-# Carthage/Checkouts
-
+Carthage/Checkouts
 Carthage/Build
+
+AzureData Sample/Carthage/Checkouts
+AzureData Sample/Carthage/Build/
+
 
 # fastlane
 #
@@ -65,3 +107,21 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots
 fastlane/test_output
+
+*.csproj.bak
+project.lock.json
+.vs/
+
+[Ll]ocal/
+[Pp]rivateKeys.cs
+[Pp]rivateKeys.swift
+
+
+*.paw
+
+*.xcbkptlist
+*.xcuserstate
+# *.xcworkspacedata
+
+AzureData Sample/scripts/test-all.sh
+
