@@ -4,7 +4,7 @@
 
 Azure.iOS is a collection of SDKs for rapidly creating iOS apps with modern, highly-scalable backends on Azure.
 
-_**This project is in active development and will change.** As the SDKs become ready for use, they will be versioned and released. We will do our best to conduct all development openly by posting detailed [requirements](/wiki/Requirements) and managing the project using [issues](/issues), [milestones](/milestones), and [projects](/projects)._
+_**This project is in active development and will change.** As the SDKs become ready for use, they will be versioned and released. We will do our best to conduct all development openly by posting detailed [requirements](wiki/Requirements) and managing the project using [issues](issues), [milestones](/milestones), and [projects](/projects)._
 
 # SDKs
 The SDKs are broken out by function and are designed to work just as well individually as they do together.
