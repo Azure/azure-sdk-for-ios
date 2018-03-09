@@ -8,11 +8,11 @@ _**This project is in active development and will change.** As the SDKs become r
 
 # SDKs
 The SDKs are broken out by function and are designed to work just as well individually as they do together.
-- [AzureCore](#AzureCore)
-- [AzureAuth](#AzureAuth)
-- [AzureData](#AzureData)
-- [AzurePush](#AzurePush)
-- [AzureStorage](#AzureStorage)
+- [AzureCore](#azurecore)
+- [AzureAuth](#azureauth)
+- [AzureData](#azuredata)
+- [AzurePush](#azurepush)
+- [AzureStorage](#azurestorage)
 
 ## AzureCore
 ![Current State: Requirements](https://img.shields.io/badge/Current_State-Requirements-red.svg)
