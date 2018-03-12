@@ -90,6 +90,7 @@ extension DocumentClient {
     
     /// Creates default values for the "Accept-Encoding", "Accept-Language", "User-Agent", and "x-ms-version" headers.
     static let defaultHTTPHeaders: HTTPHeaders = {
+        
         // https://docs.microsoft.com/en-us/rest/api/documentdb/#supported-rest-api-versions
         let apiVersion = "2017-02-22"
         
@@ -123,7 +124,7 @@ extension DocumentClient {
                         #elseif os(tvOS)
                             return "tvOS"
                         #elseif os(macOS)
-                            return "OS X"
+                            return "macOS"
                         #elseif os(Linux)
                             return "Linux"
                         #else
@@ -134,20 +135,21 @@ extension DocumentClient {
                     return "\(osName) \(versionString)" // iOS 10.0.0
                 }()
                 
-                let azureDataVersion: String = {
+                let fmwkNameVersion: String = {
                     guard
-                        let adInfo = Bundle(for: DocumentClient.self).infoDictionary,
-                        let build = adInfo["CFBundleShortVersionString"]
-                        else { return "Unknown" }
+                        let fmwkInfo =      Bundle(for: DocumentClient.self).infoDictionary,
+                        let fmwkName =      fmwkInfo[kCFBundleNameKey as String],
+                        let fmwkVersion =   fmwkInfo["CFBundleShortVersionString"]
+                    else { return "Unknown" }
                     
-                    return "AzureData/\(build)" // AzureData/2.0.0
+                    return "\(fmwkName)/\(fmwkVersion)" // AzureData/2.0.0
                 }()
                 
-                print("\(executable)/\(appVersion) (\(bundle); build:\(appBuild); \(osNameVersion)) \(azureDataVersion)\n");
-                return "\(executable)/\(appVersion) (\(bundle); build:\(appBuild); \(osNameVersion)) \(azureDataVersion)"
+                print("\(executable)/\(appVersion) (\(bundle); build:\(appBuild); \(osNameVersion)) \(fmwkNameVersion)\n");
+                return "\(executable)/\(appVersion) (\(bundle); build:\(appBuild); \(osNameVersion)) \(fmwkNameVersion)"
             }
-            
-            return "AzureData"
+
+            return "Unknown"
         }()
         
         let dict: [HttpRequestHeader:String] = [
