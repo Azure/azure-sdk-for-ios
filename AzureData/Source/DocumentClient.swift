@@ -644,7 +644,7 @@ public class DocumentClient {
     // MARK: - Permissions
     
     // create
-    public func create (permissionWithId permissionId: String, mode permissionMode: Permission.PermissionMode, in resource: CodableResource, forUser userId: String, inDatabase databaseId: String, callback: @escaping (Response<Permission>) -> ()) {
+    public func create (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource, forUser userId: String, inDatabase databaseId: String, callback: @escaping (Response<Permission>) -> ()) {
         
         let resourceUri = baseUri?.permission(databaseId, userId: userId)
         
@@ -653,7 +653,7 @@ public class DocumentClient {
         return self.create(permission, at: resourceUri, callback: callback)
     }
     
-    public func create (permissionWithId permissionId: String, mode permissionMode: Permission.PermissionMode, in resource: CodableResource, forUser user: User, callback: @escaping (Response<Permission>) -> ()) {
+    public func create (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource, forUser user: User, callback: @escaping (Response<Permission>) -> ()) {
         
         let resourceUri = baseUri?.permission(atLink: user.selfLink!, withResourceId: permissionId)
 
@@ -708,7 +708,7 @@ public class DocumentClient {
     }
     
     // replace
-    public func replace (permissionWithId permissionId: String, mode permissionMode: Permission.PermissionMode, in resource: CodableResource, forUser userId: String, inDatabase databaseId: String, callback: @escaping (Response<Permission>) -> ()) {
+    public func replace (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource, forUser userId: String, inDatabase databaseId: String, callback: @escaping (Response<Permission>) -> ()) {
         
         let resourceUri = baseUri?.permission(databaseId, userId: userId, permissionId: permissionId)
         
@@ -717,7 +717,7 @@ public class DocumentClient {
         return self.create(permission, at: resourceUri, callback: callback)
     }
     
-    public func replace (permissionWithId permissionId: String, mode permissionMode: Permission.PermissionMode, in resource: CodableResource, forUser user: User, callback: @escaping (Response<Permission>) -> ()) {
+    public func replace (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource, forUser user: User, callback: @escaping (Response<Permission>) -> ()) {
         
         let resourceUri = baseUri?.permission(atLink: user.selfLink!, withResourceId: permissionId)
         

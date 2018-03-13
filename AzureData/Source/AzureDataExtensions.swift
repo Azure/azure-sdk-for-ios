@@ -261,7 +261,7 @@ public extension User {
     // MARK: Permissions
     
     // create
-    public func create (permissionWithId permissionId: String, mode permissionMode: Permission.PermissionMode, in resource: CodableResource, callback: @escaping (Response<Permission>) -> ()) {
+    public func create (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource, callback: @escaping (Response<Permission>) -> ()) {
         return DocumentClient.default.create (permissionWithId: permissionId, mode: permissionMode, in: resource, forUser: self, callback: callback)
     }
     
@@ -281,7 +281,7 @@ public extension User {
     }
     
     // replace
-    public func replace (permissionWithId permissionId: String, mode permissionMode: Permission.PermissionMode, in resource: CodableResource, callback: @escaping (Response<Permission>) -> ()) {
+    public func replace (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource, callback: @escaping (Response<Permission>) -> ()) {
         return DocumentClient.default.replace (permissionWithId: permissionId, mode: permissionMode, in: resource, forUser: self, callback: callback)
     }
 }

@@ -22,6 +22,10 @@
 		93554D8D20322C5A007FD4F7 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93554D8B20322C5A007FD4F7 /* Token.swift */; };
 		93554D8E20322C5A007FD4F7 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93554D8B20322C5A007FD4F7 /* Token.swift */; };
 		93554D8F20322C5A007FD4F7 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93554D8B20322C5A007FD4F7 /* Token.swift */; };
+		93935D9B20585C8600F1832A /* PermissionMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93935D9A20585C8600F1832A /* PermissionMode.swift */; };
+		93935D9C20585C8600F1832A /* PermissionMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93935D9A20585C8600F1832A /* PermissionMode.swift */; };
+		93935D9D20585C8600F1832A /* PermissionMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93935D9A20585C8600F1832A /* PermissionMode.swift */; };
+		93935D9E20585C8600F1832A /* PermissionMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93935D9A20585C8600F1832A /* PermissionMode.swift */; };
 		93F9ACCC1FC0CA4800AC240C /* DocumentClientError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F9ACCB1FC0CA4800AC240C /* DocumentClientError.swift */; };
 		93F9ACCD1FC0CA4800AC240C /* DocumentClientError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F9ACCB1FC0CA4800AC240C /* DocumentClientError.swift */; };
 		93F9ACCE1FC0CA4800AC240C /* DocumentClientError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F9ACCB1FC0CA4800AC240C /* DocumentClientError.swift */; };
@@ -251,6 +255,7 @@
 		931EA5BE1FBE201F003CCFF4 /* DocumentClientExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentClientExtensions.swift; sourceTree = "<group>"; };
 		931EA5C01FBE2775003CCFF4 /* CodableResourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableResourceTests.swift; sourceTree = "<group>"; };
 		93554D8B20322C5A007FD4F7 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
+		93935D9A20585C8600F1832A /* PermissionMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionMode.swift; sourceTree = "<group>"; };
 		93F9ACCB1FC0CA4800AC240C /* DocumentClientError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentClientError.swift; sourceTree = "<group>"; };
 		93F9ACD01FC0D01400AC240C /* ResourceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceError.swift; sourceTree = "<group>"; };
 		93FA99F52003C0E200D3B3F8 /* NSData+CCHmac.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+CCHmac.h"; sourceTree = "<group>"; };
@@ -490,6 +495,7 @@
 				B58361C21FBA13B0001CEC66 /* DocumentCollection.swift */,
 				B58361D11FBA15A8001CEC66 /* Offer.swift */,
 				B58361D61FBA16F9001CEC66 /* Permission.swift */,
+				93935D9A20585C8600F1832A /* PermissionMode.swift */,
 				93F9ACD01FC0D01400AC240C /* ResourceError.swift */,
 				B583619C1FB77A70001CEC66 /* Resources.swift */,
 				B58361DB1FBA17B5001CEC66 /* StoredProcedure.swift */,
@@ -843,6 +849,7 @@
 				B5B6AC251FBA4B3900B93106 /* Query.swift in Sources */,
 				93FDD37D1FC1368000BD1CC3 /* ResourceCache.swift in Sources */,
 				93FA99FC2003C0E200D3B3F8 /* NSData+CCHmac.m in Sources */,
+				93935D9C20585C8600F1832A /* PermissionMode.swift in Sources */,
 				931EA5C41FBE6920003CCFF4 /* DocumentClientExtensions.swift in Sources */,
 				B58361B41FB78F7A001CEC66 /* Response.swift in Sources */,
 				B52241021FB3409F00D0343F /* AzureData.swift in Sources */,
@@ -912,6 +919,7 @@
 				B5B6AC261FBA4B3900B93106 /* Query.swift in Sources */,
 				93FDD37E1FC1368000BD1CC3 /* ResourceCache.swift in Sources */,
 				93FA99FD2003C0E200D3B3F8 /* NSData+CCHmac.m in Sources */,
+				93935D9D20585C8600F1832A /* PermissionMode.swift in Sources */,
 				931EA5C61FBE6922003CCFF4 /* DocumentClientExtensions.swift in Sources */,
 				B58361AF1FB78F7A001CEC66 /* Response.swift in Sources */,
 				B52240FD1FB3409E00D0343F /* AzureData.swift in Sources */,
@@ -981,6 +989,7 @@
 				B5B6AC271FBA4B3900B93106 /* Query.swift in Sources */,
 				93FDD37F1FC1368000BD1CC3 /* ResourceCache.swift in Sources */,
 				93FA99FE2003C0E200D3B3F8 /* NSData+CCHmac.m in Sources */,
+				93935D9E20585C8600F1832A /* PermissionMode.swift in Sources */,
 				931EA5C51FBE6922003CCFF4 /* DocumentClientExtensions.swift in Sources */,
 				B58361AA1FB78F78001CEC66 /* Response.swift in Sources */,
 				B52240F81FB3409D00D0343F /* AzureData.swift in Sources */,
@@ -1021,6 +1030,7 @@
 				B5B6AC241FBA4B3900B93106 /* Query.swift in Sources */,
 				93FDD37C1FC1368000BD1CC3 /* ResourceCache.swift in Sources */,
 				93FA99FB2003C0E200D3B3F8 /* NSData+CCHmac.m in Sources */,
+				93935D9B20585C8600F1832A /* PermissionMode.swift in Sources */,
 				931EA5BF1FBE201F003CCFF4 /* DocumentClientExtensions.swift in Sources */,
 				B583619D1FB77A70001CEC66 /* Resources.swift in Sources */,
 				B52241071FB3409F00D0343F /* AzureData.swift in Sources */,

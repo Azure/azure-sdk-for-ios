@@ -392,11 +392,11 @@ public func replace (userWithId userId: String, with newUserId: String, inDataba
 // MARK: - Permissions
 
 // create
-public func create (permissionWithId permissionId: String, mode permissionMode: Permission.PermissionMode, in resource: CodableResource, forUser userId: String, inDatabase databaseId: String, callback: @escaping (Response<Permission>) -> ()) {
+public func create (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource, forUser userId: String, inDatabase databaseId: String, callback: @escaping (Response<Permission>) -> ()) {
     return DocumentClient.default.create (permissionWithId: permissionId, mode: permissionMode, in: resource, forUser: userId, inDatabase: databaseId, callback: callback)
 }
 
-public func create (permissionWithId permissionId: String, mode permissionMode: Permission.PermissionMode, in resource: CodableResource, forUser user: User, callback: @escaping (Response<Permission>) -> ()) {
+public func create (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource, forUser user: User, callback: @escaping (Response<Permission>) -> ()) {
     return DocumentClient.default.create (permissionWithId: permissionId, mode: permissionMode, in: resource, forUser: user, callback: callback)
 }
 
@@ -428,11 +428,11 @@ public func delete (_ permission: Permission, forUser user: User, callback: @esc
 }
 
 // replace
-public func replace (permissionWithId permissionId: String, mode permissionMode: Permission.PermissionMode, in resource: CodableResource, forUser userId: String, inDatabase databaseId: String, callback: @escaping (Response<Permission>) -> ()) {
+public func replace (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource, forUser userId: String, inDatabase databaseId: String, callback: @escaping (Response<Permission>) -> ()) {
     return DocumentClient.default.replace (permissionWithId: permissionId, mode: permissionMode, in: resource, forUser: userId, inDatabase: databaseId, callback: callback)
 }
 
-public func replace (permissionWithId permissionId: String, mode permissionMode: Permission.PermissionMode, in resource: CodableResource, forUser user: User, callback: @escaping (Response<Permission>) -> ()) {
+public func replace (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource, forUser user: User, callback: @escaping (Response<Permission>) -> ()) {
     return DocumentClient.default.replace (permissionWithId: permissionId, mode: permissionMode, in: resource, forUser: user, callback: callback)
 }
 

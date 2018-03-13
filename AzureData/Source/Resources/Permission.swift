@@ -23,7 +23,7 @@ public struct Permission : CodableResource {
     
     
     /// Gets or sets the permission mode in the Azure Cosmos DB service.
-    public private(set) var permissionMode: PermissionMode?
+    public private(set) var permissionMode: PermissionMode
     
     /// Gets or sets the self-link of resource to which the permission applies in the Azure Cosmos DB service.
     public private(set) var resourceLink: String?
@@ -39,18 +39,6 @@ public struct Permission : CodableResource {
     
     /// Gets the access token granting the defined permission from the Azure Cosmos DB service.
     public private(set) var token: String?
-
-
-    /// These are the access permissions for creating or replacing a Permission resource in the Azure Cosmos DB service.
-    ///
-    /// - read: All permission mode will provide the user with full access(read, insert, replace and delete)
-    ///         to a resource.
-    /// - all:  Read permission mode will provide the user with Read only access to a resource.
-    public enum PermissionMode: String, Codable {
-        case read   = "Read"
-        case all    = "All"
-    }
-    
     
     init(withId id: String, mode: PermissionMode, forResource resource: String) {
         self.id = id
