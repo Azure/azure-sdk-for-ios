@@ -3,9 +3,23 @@
    LastUpgradeVersion = "0920"
    version = "1.3">
    <BuildAction
-      parallelizeBuildables = "YES"
+      parallelizeBuildables = "NO"
       buildImplicitDependencies = "YES">
       <BuildActionEntries>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "930A020A202BBA16002BD1FE"
+               BuildableName = "AzureCore.framework"
+               BlueprintName = "AzureCore watchOS"
+               ReferencedContainer = "container:../AzureCore/AzureCore.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
          <BuildActionEntry
             buildForTesting = "YES"
             buildForRunning = "YES"
@@ -30,6 +44,15 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "939E83CF202CC6390020574D"
+            BuildableName = "AzureStorage.framework"
+            BlueprintName = "AzureStorage watchOS"
+            ReferencedContainer = "container:AzureStorage.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
