@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9302CE5C2059A4BC000F6885 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9302CE5D2059A4BC000F6885 /* AzureCore.framework */; };
+		9302CE5E2059A4C3000F6885 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9302CE5F2059A4C3000F6885 /* AzureCore.framework */; };
+		9302CE602059A4CD000F6885 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9302CE612059A4CD000F6885 /* AzureCore.framework */; };
+		9302CE622059A4FA000F6885 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9302CE632059A4FA000F6885 /* AzureCore.framework */; };
 		9316585C202CC6FC00026082 /* AzureStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 939E837C202CC5D80020574D /* AzureStorage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9316585D202CC6FD00026082 /* AzureStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 939E837C202CC5D80020574D /* AzureStorage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9316585E202CC6FE00026082 /* AzureStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 939E837C202CC5D80020574D /* AzureStorage.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -44,6 +48,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9302CE5D2059A4BC000F6885 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9302CE5F2059A4C3000F6885 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9302CE612059A4CD000F6885 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9302CE632059A4FA000F6885 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		939E8379202CC5D80020574D /* AzureStorage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureStorage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		939E837C202CC5D80020574D /* AzureStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AzureStorage.h; sourceTree = "<group>"; };
 		939E837D202CC5D80020574D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -62,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9302CE5C2059A4BC000F6885 /* AzureCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9302CE5E2059A4C3000F6885 /* AzureCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,6 +102,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9302CE602059A4CD000F6885 /* AzureCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,12 +118,24 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9302CE622059A4FA000F6885 /* AzureCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9302CE5B2059A4BC000F6885 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9302CE632059A4FA000F6885 /* AzureCore.framework */,
+				9302CE612059A4CD000F6885 /* AzureCore.framework */,
+				9302CE5F2059A4C3000F6885 /* AzureCore.framework */,
+				9302CE5D2059A4BC000F6885 /* AzureCore.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		9316585B202CC6C500026082 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -128,6 +151,7 @@
 				939E837A202CC5D80020574D /* Products */,
 				939E837B202CC5D80020574D /* Source */,
 				939E8386202CC5D80020574D /* Tests */,
+				9302CE5B2059A4BC000F6885 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
