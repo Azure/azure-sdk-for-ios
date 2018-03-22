@@ -17,6 +17,10 @@
 		93DA9411206038C700C49122 /* Willow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93DA9410206038C700C49122 /* Willow.framework */; };
 		93DA9413206038D100C49122 /* Willow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93DA9412206038D100C49122 /* Willow.framework */; };
 		93DA9415206038D900C49122 /* Willow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93DA9414206038D900C49122 /* Willow.framework */; };
+		93DA941F20634C5500C49122 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DA941E20634C5500C49122 /* Logger.swift */; };
+		93DA942020634C5500C49122 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DA941E20634C5500C49122 /* Logger.swift */; };
+		93DA942120634C5500C49122 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DA941E20634C5500C49122 /* Logger.swift */; };
+		93DA942220634C5500C49122 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DA941E20634C5500C49122 /* Logger.swift */; };
 		93F80552202BB20300D0B4F4 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93F80548202BB20300D0B4F4 /* AzureCore.framework */; };
 		93F80557202BB20300D0B4F4 /* AzureCoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F80556202BB20300D0B4F4 /* AzureCoreTests.swift */; };
 		93F80559202BB20300D0B4F4 /* AzureCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 93F8054B202BB20300D0B4F4 /* AzureCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -55,6 +59,7 @@
 		93DA9410206038C700C49122 /* Willow.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Willow.framework; path = Carthage/Build/Mac/Willow.framework; sourceTree = "<group>"; };
 		93DA9412206038D100C49122 /* Willow.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Willow.framework; path = Carthage/Build/tvOS/Willow.framework; sourceTree = "<group>"; };
 		93DA9414206038D900C49122 /* Willow.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Willow.framework; path = Carthage/Build/watchOS/Willow.framework; sourceTree = "<group>"; };
+		93DA941E20634C5500C49122 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		93F80548202BB20300D0B4F4 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		93F8054B202BB20300D0B4F4 /* AzureCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AzureCore.h; sourceTree = "<group>"; };
 		93F8054C202BB20300D0B4F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -173,6 +178,7 @@
 			isa = PBXGroup;
 			children = (
 				930A01B6202BB910002BD1FE /* Supporting Files */,
+				93DA941E20634C5500C49122 /* Logger.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -605,6 +611,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93DA942020634C5500C49122 /* Logger.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -620,6 +627,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93DA941F20634C5500C49122 /* Logger.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -627,6 +635,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93DA942120634C5500C49122 /* Logger.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -642,6 +651,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93DA942220634C5500C49122 /* Logger.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
