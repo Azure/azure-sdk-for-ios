@@ -89,8 +89,8 @@ playground.xcworkspace
 # Carthage
 #
 # Add this line if you want to avoid checking in source code from Carthage dependencies.
-Carthage/Checkouts
-Carthage/Build
+*/Carthage/Checkouts
+*/Carthage/Build
 
 AzureData Sample/Carthage/Checkouts
 AzureData Sample/Carthage/Build/

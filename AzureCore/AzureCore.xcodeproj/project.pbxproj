@@ -13,6 +13,10 @@
 		930A0244202BBB43002BD1FE /* AzureCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 93F8054B202BB20300D0B4F4 /* AzureCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		930A0247202BBCF0002BD1FE /* AzureCoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F80556202BB20300D0B4F4 /* AzureCoreTests.swift */; };
 		930A0248202BBCF3002BD1FE /* AzureCoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F80556202BB20300D0B4F4 /* AzureCoreTests.swift */; };
+		93DA940F206038B900C49122 /* Willow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93DA940E206038B900C49122 /* Willow.framework */; };
+		93DA9411206038C700C49122 /* Willow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93DA9410206038C700C49122 /* Willow.framework */; };
+		93DA9413206038D100C49122 /* Willow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93DA9412206038D100C49122 /* Willow.framework */; };
+		93DA9415206038D900C49122 /* Willow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93DA9414206038D900C49122 /* Willow.framework */; };
 		93F80552202BB20300D0B4F4 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93F80548202BB20300D0B4F4 /* AzureCore.framework */; };
 		93F80557202BB20300D0B4F4 /* AzureCoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F80556202BB20300D0B4F4 /* AzureCoreTests.swift */; };
 		93F80559202BB20300D0B4F4 /* AzureCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 93F8054B202BB20300D0B4F4 /* AzureCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -47,6 +51,10 @@
 		930A01EF202BBA09002BD1FE /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		930A01F7202BBA09002BD1FE /* AzureCore tvOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AzureCore tvOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		930A020B202BBA16002BD1FE /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		93DA940E206038B900C49122 /* Willow.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Willow.framework; path = Carthage/Build/iOS/Willow.framework; sourceTree = "<group>"; };
+		93DA9410206038C700C49122 /* Willow.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Willow.framework; path = Carthage/Build/Mac/Willow.framework; sourceTree = "<group>"; };
+		93DA9412206038D100C49122 /* Willow.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Willow.framework; path = Carthage/Build/tvOS/Willow.framework; sourceTree = "<group>"; };
+		93DA9414206038D900C49122 /* Willow.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Willow.framework; path = Carthage/Build/watchOS/Willow.framework; sourceTree = "<group>"; };
 		93F80548202BB20300D0B4F4 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		93F8054B202BB20300D0B4F4 /* AzureCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AzureCore.h; sourceTree = "<group>"; };
 		93F8054C202BB20300D0B4F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -62,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93DA9413206038D100C49122 /* Willow.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93DA9415206038D900C49122 /* Willow.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,6 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93DA940F206038B900C49122 /* Willow.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,6 +110,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93DA9411206038C700C49122 /* Willow.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -122,12 +134,24 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		93DA940D206038B900C49122 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				93DA9414206038D900C49122 /* Willow.framework */,
+				93DA9412206038D100C49122 /* Willow.framework */,
+				93DA9410206038C700C49122 /* Willow.framework */,
+				93DA940E206038B900C49122 /* Willow.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		93F8053E202BB20300D0B4F4 = {
 			isa = PBXGroup;
 			children = (
 				93F8054A202BB20300D0B4F4 /* Source */,
 				93F80555202BB20300D0B4F4 /* Tests */,
 				93F80549202BB20300D0B4F4 /* Products */,
+				93DA940D206038B900C49122 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -208,6 +232,8 @@
 				930A01EB202BBA09002BD1FE /* Frameworks */,
 				930A01EC202BBA09002BD1FE /* Headers */,
 				930A01ED202BBA09002BD1FE /* Resources */,
+				93DA9418206039DF00C49122 /* Carthage Copy Frameworks */,
+				93DA941B20603A6900C49122 /* Carthage Outdated Warning */,
 			);
 			buildRules = (
 			);
@@ -244,6 +270,8 @@
 				930A0207202BBA16002BD1FE /* Frameworks */,
 				930A0208202BBA16002BD1FE /* Headers */,
 				930A0209202BBA16002BD1FE /* Resources */,
+				93DA9419206039E600C49122 /* Carthage Copy Frameworks */,
+				93DA941A20603A5F00C49122 /* Carthage Outdated Warning */,
 			);
 			buildRules = (
 			);
@@ -262,6 +290,8 @@
 				93F80544202BB20300D0B4F4 /* Frameworks */,
 				93F80545202BB20300D0B4F4 /* Headers */,
 				93F80546202BB20300D0B4F4 /* Resources */,
+				93DA94162060390B00C49122 /* Carthage Copy Frameworks */,
+				93DA941D20603A7600C49122 /* Carthage Outdated Warning */,
 			);
 			buildRules = (
 			);
@@ -298,6 +328,8 @@
 				93F80610202BB5F600D0B4F4 /* Frameworks */,
 				93F80611202BB5F600D0B4F4 /* Headers */,
 				93F80612202BB5F600D0B4F4 /* Resources */,
+				93DA9417206039D700C49122 /* Carthage Copy Frameworks */,
+				93DA941C20603A7000C49122 /* Carthage Outdated Warning */,
 			);
 			buildRules = (
 			);
@@ -441,6 +473,129 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		93DA94162060390B00C49122 /* Carthage Copy Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/Willow.framework",
+			);
+			name = "Carthage Copy Frameworks";
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Willow.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+		93DA9417206039D700C49122 /* Carthage Copy Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/Mac/Willow.framework",
+			);
+			name = "Carthage Copy Frameworks";
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Willow.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+		93DA9418206039DF00C49122 /* Carthage Copy Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/tvOS/Willow.framework",
+			);
+			name = "Carthage Copy Frameworks";
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Willow.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+		93DA9419206039E600C49122 /* Carthage Copy Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/watchOS/Willow.framework",
+			);
+			name = "Carthage Copy Frameworks";
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Willow.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+		93DA941A20603A5F00C49122 /* Carthage Outdated Warning */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Carthage Outdated Warning";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage outdated --xcode-warnings";
+		};
+		93DA941B20603A6900C49122 /* Carthage Outdated Warning */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Carthage Outdated Warning";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage outdated --xcode-warnings";
+		};
+		93DA941C20603A7000C49122 /* Carthage Outdated Warning */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Carthage Outdated Warning";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage outdated --xcode-warnings";
+		};
+		93DA941D20603A7600C49122 /* Carthage Outdated Warning */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Carthage Outdated Warning";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage outdated --xcode-warnings";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		930A01EA202BBA09002BD1FE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -526,6 +681,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -551,6 +710,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -607,6 +770,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/watchOS",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -632,6 +799,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/watchOS",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -769,6 +940,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -793,6 +968,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -845,6 +1024,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -872,6 +1055,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
