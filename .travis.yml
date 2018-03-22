@@ -49,12 +49,12 @@ env:
 
 cache:
   directories:
-  - "AzureCore"/Carthage
+  - "$AZURECORE/Carthage"
 
 before_install:
   - brew update
   - brew outdated carthage || brew upgrade carthage
-  - carthage bootstrap --project-directory AzureCore --verbose --no-use-binaries --cache-builds
+  - carthage bootstrap --project-directory "$AZURECORE" --verbose --no-use-binaries --cache-builds
 
 script:
   - set -o pipefail
