@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AzureCore
 
 public struct DocumentClientError : Error {
     
@@ -56,14 +57,14 @@ public struct DocumentClientError : Error {
     public private(set) var requestCharge: Double? = nil
     
     /// Gets the headers associated with the response from the Azure Cosmos DB service.
-    public private(set) var responseHeaders: [HttpResponseHeader:Any]? = nil
+    public private(set) var responseHeaders: [String:Any]? = nil
     
     /// Gets the recommended time interval after which the client can retry failed requests from
     /// the Azure Cosmos DB service
     public private(set) var retryAfter: TimeInterval? = nil
     
     /// Gets or sets the request status code in the Azure Cosmos DB service.
-    public private(set) var statusCode: StatusCode? = nil
+    public private(set) var statusCode: HttpStatusCode? = nil
     
     /// Kind of error.
     public private(set) var kind: ErrorKind = .unknownError
@@ -84,21 +85,21 @@ public struct DocumentClientError : Error {
         
         if let response = response {
             
-            var headers = [HttpResponseHeader:Any]()
+            var headers = [String:Any]()
             
             for header in response.allHeaderFields {
-                if let keyString = header.key as? String, let responseHeader = HttpResponseHeader(rawValue: keyString) {
-                    headers[responseHeader] = header.value
+                if let keyString = header.key as? String {
+                    headers[keyString] = header.value
                 }
             }
             
             self.responseHeaders = headers
 
-            self.activityId = headers[.xMsActivityId] as? String
-            self.requestCharge = headers[.xMsRequestCharge] as? Double
-            self.retryAfter = headers[.xMsRetryAfterMs] as? Double
+            self.activityId = headers[.msActivityId] as? String
+            self.requestCharge = headers[.msRequestCharge] as? Double
+            self.retryAfter = headers[.msRetryAfterMs] as? Double
             
-            if let code = StatusCode(rawValue: response.statusCode) {                
+            if let code = HttpStatusCode(rawValue: response.statusCode) {
                 self.statusCode = code
                 self.kind = code.errorKind
             }
@@ -113,7 +114,7 @@ public struct DocumentClientError : Error {
 }
 
 
-extension StatusCode {
+extension HttpStatusCode {
     public var errorKind: DocumentClientError.ErrorKind {
         switch self {
         case .badRequest:           return .badRequest

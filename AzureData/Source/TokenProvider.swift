@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AzureCore
 //import CommonCrypto
 
 public enum TokenType: String {

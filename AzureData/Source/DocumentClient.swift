@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AzureCore
 
 public class DocumentClient {
     
@@ -301,7 +302,7 @@ public class DocumentClient {
         
         let resourceUri = baseUri?.attachment(databaseId, collectionId: collectionId, documentId: documentId)
         
-        return self.createOrReplace(media, at: resourceUri, additionalHeaders: [ contentType: .contentType, mediaName: .slug ], callback: callback)
+        return self.createOrReplace(media, at: resourceUri, additionalHeaders: [ HttpHeader.contentType.rawValue: contentType, HttpHeader.slug.rawValue: mediaName ], callback: callback)
     }
     
     public func create(attachmentWithId attachmentId: String, contentType: String, andMediaUrl mediaUrl: URL, onDocument document: Document, callback: @escaping (Response<Attachment>) -> ()) {
@@ -315,7 +316,7 @@ public class DocumentClient {
         
         let resourceUri = baseUri?.attachment(atLink: document.selfLink!)
         
-        return self.createOrReplace(media, at: resourceUri, additionalHeaders: [ contentType: .contentType, mediaName: .slug ], callback: callback)
+        return self.createOrReplace(media, at: resourceUri, additionalHeaders: [ HttpHeader.contentType.rawValue: contentType, HttpHeader.slug.rawValue: mediaName ], callback: callback)
     }
     
     // list
@@ -360,7 +361,7 @@ public class DocumentClient {
         
         let resourceUri = baseUri?.attachment(databaseId, collectionId: collectionId, documentId: documentId, attachmentId: attachmentId)
         
-        return self.createOrReplace(media, at: resourceUri, replacing: true, additionalHeaders: [ contentType: .contentType, mediaName: .slug ], callback: callback)
+        return self.createOrReplace(media, at: resourceUri, replacing: true, additionalHeaders: [ HttpHeader.contentType.rawValue: contentType, HttpHeader.slug.rawValue: mediaName ], callback: callback)
     }
     
     public func replace(attachmentWithId attachmentId: String, contentType: String, andMediaUrl mediaUrl: URL, onDocument document: Document, callback: @escaping (Response<Attachment>) -> ()) {
@@ -375,7 +376,7 @@ public class DocumentClient {
         
         let resourceUri = baseUri?.attachment(atLink: document.selfLink!, withResourceId: attachmentId)
 
-        return self.createOrReplace(media, at: resourceUri, replacing: true, additionalHeaders: [ contentType: .contentType, mediaName: .slug ], callback: callback)
+        return self.createOrReplace(media, at: resourceUri, replacing: true, additionalHeaders: [ HttpHeader.contentType.rawValue: contentType, HttpHeader.slug.rawValue: mediaName ], callback: callback)
     }
 
     
@@ -761,14 +762,14 @@ public class DocumentClient {
     // MARK: - Resources
     
     // create
-    fileprivate func create<T> (_ resource: T, at resourceUri: (URL, String)?, additionalHeaders: [String:HttpRequestHeader]? = nil, callback: @escaping (Response<T>) -> ()) {
+    fileprivate func create<T> (_ resource: T, at resourceUri: (URL, String)?, additionalHeaders: HttpHeaders? = nil, callback: @escaping (Response<T>) -> ()) {
         
         guard resource.id.isValidResourceId else { callback(Response(DocumentClientError(withKind: .invalidId))); return }
         
         return self.createOrReplace(resource, at: resourceUri, additionalHeaders: additionalHeaders, callback: callback)
     }
 
-    fileprivate func create<T> (resourceWithId resourceId: String, andData data: [String:String?]? = nil, at resourceUri: (URL, String)?, additionalHeaders: [String:HttpRequestHeader]? = nil, callback: @escaping (Response<T>) -> ()) {
+    fileprivate func create<T> (resourceWithId resourceId: String, andData data: [String:String?]? = nil, at resourceUri: (URL, String)?, additionalHeaders: HttpHeaders? = nil, callback: @escaping (Response<T>) -> ()) {
         
         guard resourceId.isValidResourceId else { callback(Response(DocumentClientError(withKind: .invalidId))); return }
         
@@ -808,7 +809,7 @@ public class DocumentClient {
         
         let resourceUri = resource.resourceUri(forHost: baseUri!.baseUri)
         
-        let request = dataRequest(T.self, .get, resourceUri: resourceUri!, additionalHeaders: [ resource.etag! : .ifNoneMatch ])
+        let request = dataRequest(T.self, .get, resourceUri: resourceUri!, additionalHeaders: [ HttpHeader.ifNoneMatch.rawValue : resource.etag! ])
         
         return self.sendRequest(request, currentResource: resource, callback: callback)
     }
@@ -837,14 +838,14 @@ public class DocumentClient {
     }
     
     // replace
-    fileprivate func replace<T> (_ resource: T, at resourceUri: (URL, String)?, additionalHeaders: [String:HttpRequestHeader]? = nil, callback: @escaping (Response<T>) -> ()) {
+    fileprivate func replace<T> (_ resource: T, at resourceUri: (URL, String)?, additionalHeaders: HttpHeaders? = nil, callback: @escaping (Response<T>) -> ()) {
         
         guard resource.id.isValidResourceId else { callback(Response(DocumentClientError(withKind: .invalidId))); return }
         
         return self.createOrReplace(resource, at: resourceUri, replacing: true, additionalHeaders: additionalHeaders, callback: callback)
     }
 
-    fileprivate func replace<T> (resourceWithId resourceId: String, andData data: [String:String]? = nil, at resourceUri: (URL, String)?, additionalHeaders: [String:HttpRequestHeader]? = nil, callback: @escaping (Response<T>) -> ()) {
+    fileprivate func replace<T> (resourceWithId resourceId: String, andData data: [String:String]? = nil, at resourceUri: (URL, String)?, additionalHeaders: HttpHeaders? = nil, callback: @escaping (Response<T>) -> ()) {
         
         guard resourceId.isValidResourceId else { callback(Response(DocumentClientError(withKind: .invalidId))); return }
         
@@ -894,7 +895,7 @@ public class DocumentClient {
     }
     
     // create or replace
-    fileprivate func createOrReplace<T, R:Encodable> (_ body: R, at resourceUri: (URL, String)?, replacing: Bool = false, additionalHeaders: [String:HttpRequestHeader]? = nil, callback: @escaping (Response<T>) -> ()) {
+    fileprivate func createOrReplace<T, R:Encodable> (_ body: R, at resourceUri: (URL, String)?, replacing: Bool = false, additionalHeaders: HttpHeaders? = nil, callback: @escaping (Response<T>) -> ()) {
         
         guard isConfigured else { callback(Response<T>(DocumentClientError(withKind: .configureError))); return }
         
@@ -912,7 +913,7 @@ public class DocumentClient {
         }
     }
     
-    fileprivate func createOrReplace<T> (_ body: Data, at resourceUri: (URL, String)?, replacing: Bool = false, additionalHeaders: [String:HttpRequestHeader]? = nil, callback: @escaping (Response<T>) -> ()) {
+    fileprivate func createOrReplace<T> (_ body: Data, at resourceUri: (URL, String)?, replacing: Bool = false, additionalHeaders: HttpHeaders? = nil, callback: @escaping (Response<T>) -> ()) {
         
         guard isConfigured else { callback(Response<T>(DocumentClientError(withKind: .configureError))); return }
         
@@ -951,7 +952,7 @@ public class DocumentClient {
                 
                 //if self.verboseLogging { print("*** data: \(String(data: data, encoding: .utf8) ?? "nil")") }
                 
-                if let current = currentResource, let statusCode = StatusCode(rawValue: httpResponse.statusCode), statusCode == .notModified {
+                if let current = currentResource, let statusCode = HttpStatusCode(rawValue: httpResponse.statusCode), statusCode == .notModified {
                     
                     callback(Response(request: request, data: data, response: httpResponse, result: .success(current)))
                 
@@ -1088,7 +1089,7 @@ public class DocumentClient {
     }
     
     
-    fileprivate func dataRequest<T:CodableResource>(_ type: T.Type = T.self, _ method: HttpMethod, resourceUri: (url:URL, link:String),  additionalHeaders:[String:HttpRequestHeader]? = nil, forQuery: Bool = false) -> URLRequest {
+    fileprivate func dataRequest<T:CodableResource>(_ type: T.Type = T.self, _ method: HttpMethod, resourceUri: (url:URL, link:String),  additionalHeaders:HttpHeaders? = nil, forQuery: Bool = false) -> URLRequest {
         
         let (token, date) = tokenProvider.getToken(type, verb: method, resourceLink: resourceUri.link)
         
@@ -1096,12 +1097,12 @@ public class DocumentClient {
         
         request.method = method
         
-        request.addValue(date, forHTTPHeaderField: .xMSDate)
+        request.addValue(date, forHTTPHeaderField: .msDate)
         request.addValue(token, forHTTPHeaderField: .authorization)
         
         if forQuery {
             
-            request.addValue ("true", forHTTPHeaderField: .xMSDocumentdbIsQuery)
+            request.addValue ("true", forHTTPHeaderField: .msDocumentdbIsQuery)
             request.addValue("application/query+json", forHTTPHeaderField: .contentType)
             
         } else if (method == .post || method == .put) && type.type != Attachment.type {
@@ -1113,7 +1114,7 @@ public class DocumentClient {
         
         if let additionalHeaders = additionalHeaders {
             for header in additionalHeaders {
-                request.addValue(header.key, forHTTPHeaderField: header.value)
+                request.addValue(header.value, forHTTPHeaderField: header.key)
             }
         }
         

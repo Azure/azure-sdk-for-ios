@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AzureCore
 
 extension DocumentClient {
     
@@ -89,76 +90,13 @@ extension DocumentClient {
 extension DocumentClient {
     
     /// Creates default values for the "Accept-Encoding", "Accept-Language", "User-Agent", and "x-ms-version" headers.
-    static let defaultHTTPHeaders: HTTPHeaders = {
+    static let defaultHTTPHeaders: HttpHeaders = {
+        
+        var headers = Bundle(for: DocumentClient.self).defaultHttpHeaders
         
         // https://docs.microsoft.com/en-us/rest/api/documentdb/#supported-rest-api-versions
-        let apiVersion = "2017-02-22"
+        headers[.msVersion] = "2017-02-22"
         
-        // Accept-Encoding HTTP Header; see https://tools.ietf.org/html/rfc7230#section-4.2.3
-        let acceptEncoding: String = "gzip;q=1.0, compress;q=0.5"
-        
-        // Accept-Language HTTP Header; see https://tools.ietf.org/html/rfc7231#section-5.3.5
-        let acceptLanguage = Locale.preferredLanguages.prefix(6).enumerated().map { index, languageCode in
-            let quality = 1.0 - (Double(index) * 0.1)
-            return "\(languageCode);q=\(quality)"
-            }.joined(separator: ", ")
-        
-        // User-Agent Header; see https://tools.ietf.org/html/rfc7231#section-5.5.3
-        // Example: `iOS Example/1.1.0 (com.azure.data; build:23; iOS 10.0.0) AzureData/2.0.0`
-        let userAgent: String = {
-            if let info = Bundle.main.infoDictionary {
-                let executable =    info[kCFBundleExecutableKey as String]  as? String ?? "Unknown" // iOS Example
-                let bundle =        info[kCFBundleIdentifierKey as String]  as? String ?? "Unknown" // com.azure.data
-                let appVersion =    info["CFBundleShortVersionString"]      as? String ?? "Unknown" // 1.1.0
-                let appBuild =      info[kCFBundleVersionKey as String]     as? String ?? "Unknown" // 23
-                
-                let osNameVersion: String = {
-                    let version = ProcessInfo.processInfo.operatingSystemVersion
-                    let versionString = "\(version.majorVersion).\(version.minorVersion).\(version.patchVersion)" // 10.0.0
-                    
-                    let osName: String = {
-                        #if os(iOS)
-                            return "iOS"
-                        #elseif os(watchOS)
-                            return "watchOS"
-                        #elseif os(tvOS)
-                            return "tvOS"
-                        #elseif os(macOS)
-                            return "macOS"
-                        #elseif os(Linux)
-                            return "Linux"
-                        #else
-                            return "Unknown"
-                        #endif
-                    }()
-                    
-                    return "\(osName) \(versionString)" // iOS 10.0.0
-                }()
-                
-                let fmwkNameVersion: String = {
-                    guard
-                        let fmwkInfo =      Bundle(for: DocumentClient.self).infoDictionary,
-                        let fmwkName =      fmwkInfo[kCFBundleNameKey as String],
-                        let fmwkVersion =   fmwkInfo["CFBundleShortVersionString"]
-                    else { return "Unknown" }
-                    
-                    return "\(fmwkName)/\(fmwkVersion)" // AzureData/2.0.0
-                }()
-                
-                print("\(executable)/\(appVersion) (\(bundle); build:\(appBuild); \(osNameVersion)) \(fmwkNameVersion)\n");
-                return "\(executable)/\(appVersion) (\(bundle); build:\(appBuild); \(osNameVersion)) \(fmwkNameVersion)"
-            }
-
-            return "Unknown"
-        }()
-        
-        let dict: [HttpRequestHeader:String] = [
-            .acceptEncoding: acceptEncoding,
-            .acceptLanguage: acceptLanguage,
-            .userAgent: userAgent,
-            .xMSVersion: apiVersion
-        ]
-        
-        return dict.strings
+        return headers
     }()
 }

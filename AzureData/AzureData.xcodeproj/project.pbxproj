@@ -30,6 +30,10 @@
 		93935D9C20585C8600F1832A /* PermissionMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93935D9A20585C8600F1832A /* PermissionMode.swift */; };
 		93935D9D20585C8600F1832A /* PermissionMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93935D9A20585C8600F1832A /* PermissionMode.swift */; };
 		93935D9E20585C8600F1832A /* PermissionMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93935D9A20585C8600F1832A /* PermissionMode.swift */; };
+		93B7240B2064560F00984CA8 /* MSHttpHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B7240A2064560F00984CA8 /* MSHttpHeader.swift */; };
+		93B7240C2064560F00984CA8 /* MSHttpHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B7240A2064560F00984CA8 /* MSHttpHeader.swift */; };
+		93B7240D2064560F00984CA8 /* MSHttpHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B7240A2064560F00984CA8 /* MSHttpHeader.swift */; };
+		93B7240E2064560F00984CA8 /* MSHttpHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B7240A2064560F00984CA8 /* MSHttpHeader.swift */; };
 		93F9ACCC1FC0CA4800AC240C /* DocumentClientError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F9ACCB1FC0CA4800AC240C /* DocumentClientError.swift */; };
 		93F9ACCD1FC0CA4800AC240C /* DocumentClientError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F9ACCB1FC0CA4800AC240C /* DocumentClientError.swift */; };
 		93F9ACCE1FC0CA4800AC240C /* DocumentClientError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F9ACCB1FC0CA4800AC240C /* DocumentClientError.swift */; };
@@ -137,16 +141,12 @@
 		B52240E71FB3409200D0343F /* ResourceUri.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52240281FB33CD000D0343F /* ResourceUri.swift */; };
 		B52240F71FB3409D00D0343F /* AzureData.h in Headers */ = {isa = PBXBuildFile; fileRef = B52240331FB33CD000D0343F /* AzureData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B52240F81FB3409D00D0343F /* AzureData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52240341FB33CD000D0343F /* AzureData.swift */; };
-		B52240FA1FB3409D00D0343F /* ADHttp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52240361FB33CD000D0343F /* ADHttp.swift */; };
 		B52240FB1FB3409D00D0343F /* UtilityExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52240381FB33CD000D0343F /* UtilityExtensions.swift */; };
 		B52240FD1FB3409E00D0343F /* AzureData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52240341FB33CD000D0343F /* AzureData.swift */; };
-		B52240FF1FB3409E00D0343F /* ADHttp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52240361FB33CD000D0343F /* ADHttp.swift */; };
 		B52241001FB3409E00D0343F /* UtilityExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52240381FB33CD000D0343F /* UtilityExtensions.swift */; };
 		B52241021FB3409F00D0343F /* AzureData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52240341FB33CD000D0343F /* AzureData.swift */; };
-		B52241041FB3409F00D0343F /* ADHttp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52240361FB33CD000D0343F /* ADHttp.swift */; };
 		B52241051FB3409F00D0343F /* UtilityExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52240381FB33CD000D0343F /* UtilityExtensions.swift */; };
 		B52241071FB3409F00D0343F /* AzureData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52240341FB33CD000D0343F /* AzureData.swift */; };
-		B52241091FB3409F00D0343F /* ADHttp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52240361FB33CD000D0343F /* ADHttp.swift */; };
 		B522410A1FB3409F00D0343F /* UtilityExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52240381FB33CD000D0343F /* UtilityExtensions.swift */; };
 		B522410B1FB340AF00D0343F /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B522404E1FB33D1200D0343F /* Info.plist */; };
 		B522410C1FB340B600D0343F /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B522404E1FB33D1200D0343F /* Info.plist */; };
@@ -257,6 +257,7 @@
 		931EA5C01FBE2775003CCFF4 /* CodableResourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableResourceTests.swift; sourceTree = "<group>"; };
 		93554D8B20322C5A007FD4F7 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		93935D9A20585C8600F1832A /* PermissionMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionMode.swift; sourceTree = "<group>"; };
+		93B7240A2064560F00984CA8 /* MSHttpHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSHttpHeader.swift; sourceTree = "<group>"; };
 		93F9ACCB1FC0CA4800AC240C /* DocumentClientError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentClientError.swift; sourceTree = "<group>"; };
 		93F9ACD01FC0D01400AC240C /* ResourceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceError.swift; sourceTree = "<group>"; };
 		93FA99F52003C0E200D3B3F8 /* NSData+CCHmac.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+CCHmac.h"; sourceTree = "<group>"; };
@@ -274,7 +275,6 @@
 		B52240281FB33CD000D0343F /* ResourceUri.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceUri.swift; sourceTree = "<group>"; };
 		B52240331FB33CD000D0343F /* AzureData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AzureData.h; sourceTree = "<group>"; };
 		B52240341FB33CD000D0343F /* AzureData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzureData.swift; sourceTree = "<group>"; };
-		B52240361FB33CD000D0343F /* ADHttp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADHttp.swift; sourceTree = "<group>"; };
 		B52240371FB33CD000D0343F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B52240381FB33CD000D0343F /* UtilityExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityExtensions.swift; sourceTree = "<group>"; };
 		B522403A1FB33D1200D0343F /* UserDefinedFunctionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefinedFunctionTests.swift; sourceTree = "<group>"; };
@@ -463,8 +463,8 @@
 		B55AEFE61FB34CF600F7BEED /* Domain */ = {
 			isa = PBXGroup;
 			children = (
-				B52240361FB33CD000D0343F /* ADHttp.swift */,
 				B5B6AC281FBA84C400B93106 /* CodableDictionary.swift */,
+				93B7240A2064560F00984CA8 /* MSHttpHeader.swift */,
 				B5B6AC231FBA4B3900B93106 /* Query.swift */,
 				B522401D1FB33CD000D0343F /* ResourceType.swift */,
 				B52240281FB33CD000D0343F /* ResourceUri.swift */,
@@ -479,7 +479,6 @@
 			isa = PBXGroup;
 			children = (
 				B522403D1FB33D1200D0343F /* QueryTests.swift */,
-				B52241151FB342A300D0343F /* NetworkReachabilityManagerTests.swift */,
 			);
 			name = Domain;
 			sourceTree = "<group>";
@@ -842,7 +841,6 @@
 			files = (
 				B5B6AC2A1FBA84C400B93106 /* CodableDictionary.swift in Sources */,
 				B507D4F21FBB722000B2D18D /* Conflict.swift in Sources */,
-				B52241041FB3409F00D0343F /* ADHttp.swift in Sources */,
 				B58361CE1FBA1439001CEC66 /* Attachment.swift in Sources */,
 				B52240951FB3407C00D0343F /* TokenProvider.swift in Sources */,
 				930B2F491FFD56AB00F86BF1 /* DictionaryDocument.swift in Sources */,
@@ -873,6 +871,7 @@
 				B58361BA1FBA1385001CEC66 /* CodableResource.swift in Sources */,
 				B58361A71FB78F73001CEC66 /* DocumentClient.swift in Sources */,
 				B52240BD1FB3409000D0343F /* ResourceUri.swift in Sources */,
+				93B7240C2064560F00984CA8 /* MSHttpHeader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -910,7 +909,6 @@
 			files = (
 				B5B6AC2B1FBA84C400B93106 /* CodableDictionary.swift in Sources */,
 				B507D4F31FBB722000B2D18D /* Conflict.swift in Sources */,
-				B52240FF1FB3409E00D0343F /* ADHttp.swift in Sources */,
 				B58361CF1FBA1439001CEC66 /* Attachment.swift in Sources */,
 				B52240981FB3407D00D0343F /* TokenProvider.swift in Sources */,
 				930B2F4A1FFD56AB00F86BF1 /* DictionaryDocument.swift in Sources */,
@@ -941,6 +939,7 @@
 				B58361BB1FBA1385001CEC66 /* CodableResource.swift in Sources */,
 				B58361A61FB78F73001CEC66 /* DocumentClient.swift in Sources */,
 				B52240D21FB3409100D0343F /* ResourceUri.swift in Sources */,
+				93B7240D2064560F00984CA8 /* MSHttpHeader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -978,7 +977,6 @@
 			files = (
 				B5B6AC2C1FBA84C400B93106 /* CodableDictionary.swift in Sources */,
 				B507D4F41FBB722000B2D18D /* Conflict.swift in Sources */,
-				B52240FA1FB3409D00D0343F /* ADHttp.swift in Sources */,
 				B58361D01FBA1439001CEC66 /* Attachment.swift in Sources */,
 				B522409B1FB3407E00D0343F /* TokenProvider.swift in Sources */,
 				930B2F4B1FFD56AB00F86BF1 /* DictionaryDocument.swift in Sources */,
@@ -1009,6 +1007,7 @@
 				B58361BC1FBA1385001CEC66 /* CodableResource.swift in Sources */,
 				B58361A51FB78F71001CEC66 /* DocumentClient.swift in Sources */,
 				B52240E71FB3409200D0343F /* ResourceUri.swift in Sources */,
+				93B7240E2064560F00984CA8 /* MSHttpHeader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1018,7 +1017,6 @@
 			files = (
 				B5B6AC291FBA84C400B93106 /* CodableDictionary.swift in Sources */,
 				B507D4F11FBB722000B2D18D /* Conflict.swift in Sources */,
-				B52241091FB3409F00D0343F /* ADHttp.swift in Sources */,
 				B58361CD1FBA1439001CEC66 /* Attachment.swift in Sources */,
 				B52240921FB3407900D0343F /* TokenProvider.swift in Sources */,
 				930B2F481FFD56AB00F86BF1 /* DictionaryDocument.swift in Sources */,
@@ -1049,6 +1047,7 @@
 				B58361B91FBA1385001CEC66 /* CodableResource.swift in Sources */,
 				B52240931FB3407900D0343F /* AzureDataExtensions.swift in Sources */,
 				B52240A81FB3408E00D0343F /* ResourceUri.swift in Sources */,
+				93B7240B2064560F00984CA8 /* MSHttpHeader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
