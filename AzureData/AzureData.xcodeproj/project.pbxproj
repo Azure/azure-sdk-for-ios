@@ -119,16 +119,12 @@
 		B522408C1FB33DFA00D0343F /* DocumentCollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B522404B1FB33D1200D0343F /* DocumentCollectionTests.swift */; };
 		B522408D1FB33DFA00D0343F /* OfferTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B522404C1FB33D1200D0343F /* OfferTests.swift */; };
 		B522408E1FB33DFA00D0343F /* DocumentAttachmentExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B522404D1FB33D1200D0343F /* DocumentAttachmentExtensionsTests.swift */; };
-		B52240911FB3407900D0343F /* NetworkReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52240191FB33CD000D0343F /* NetworkReachabilityManager.swift */; };
 		B52240921FB3407900D0343F /* TokenProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B522401A1FB33CD000D0343F /* TokenProvider.swift */; };
 		B52240931FB3407900D0343F /* AzureDataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B522401B1FB33CD000D0343F /* AzureDataExtensions.swift */; };
-		B52240941FB3407C00D0343F /* NetworkReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52240191FB33CD000D0343F /* NetworkReachabilityManager.swift */; };
 		B52240951FB3407C00D0343F /* TokenProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B522401A1FB33CD000D0343F /* TokenProvider.swift */; };
 		B52240961FB3407C00D0343F /* AzureDataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B522401B1FB33CD000D0343F /* AzureDataExtensions.swift */; };
-		B52240971FB3407D00D0343F /* NetworkReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52240191FB33CD000D0343F /* NetworkReachabilityManager.swift */; };
 		B52240981FB3407D00D0343F /* TokenProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B522401A1FB33CD000D0343F /* TokenProvider.swift */; };
 		B52240991FB3407D00D0343F /* AzureDataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B522401B1FB33CD000D0343F /* AzureDataExtensions.swift */; };
-		B522409A1FB3407E00D0343F /* NetworkReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52240191FB33CD000D0343F /* NetworkReachabilityManager.swift */; };
 		B522409B1FB3407E00D0343F /* TokenProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B522401A1FB33CD000D0343F /* TokenProvider.swift */; };
 		B522409C1FB3407E00D0343F /* AzureDataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B522401B1FB33CD000D0343F /* AzureDataExtensions.swift */; };
 		B522409D1FB3408E00D0343F /* ResourceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B522401D1FB33CD000D0343F /* ResourceType.swift */; };
@@ -156,9 +152,6 @@
 		B522410C1FB340B600D0343F /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B522404E1FB33D1200D0343F /* Info.plist */; };
 		B522410D1FB340B600D0343F /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B522404E1FB33D1200D0343F /* Info.plist */; };
 		B522410E1FB340B700D0343F /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B522404E1FB33D1200D0343F /* Info.plist */; };
-		B52241161FB342A300D0343F /* NetworkReachabilityManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52241151FB342A300D0343F /* NetworkReachabilityManagerTests.swift */; };
-		B52241171FB342A300D0343F /* NetworkReachabilityManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52241151FB342A300D0343F /* NetworkReachabilityManagerTests.swift */; };
-		B52241181FB342A300D0343F /* NetworkReachabilityManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52241151FB342A300D0343F /* NetworkReachabilityManagerTests.swift */; };
 		B583619A1FB779B6001CEC66 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58361991FB779B6001CEC66 /* Response.swift */; };
 		B583619D1FB77A70001CEC66 /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = B583619C1FB77A70001CEC66 /* Resources.swift */; };
 		B583619F1FB78763001CEC66 /* DocumentClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B583619E1FB78763001CEC66 /* DocumentClient.swift */; };
@@ -275,7 +268,6 @@
 		B5223FD31FB33B0F00D0343F /* AzureData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5223FDB1FB33B0F00D0343F /* AzureData tvOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AzureData tvOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5223FEF1FB33B2600D0343F /* AzureData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B52240191FB33CD000D0343F /* NetworkReachabilityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkReachabilityManager.swift; sourceTree = "<group>"; };
 		B522401A1FB33CD000D0343F /* TokenProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenProvider.swift; sourceTree = "<group>"; };
 		B522401B1FB33CD000D0343F /* AzureDataExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzureDataExtensions.swift; sourceTree = "<group>"; };
 		B522401D1FB33CD000D0343F /* ResourceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceType.swift; sourceTree = "<group>"; };
@@ -306,7 +298,6 @@
 		B522404C1FB33D1200D0343F /* OfferTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferTests.swift; sourceTree = "<group>"; };
 		B522404D1FB33D1200D0343F /* DocumentAttachmentExtensionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentAttachmentExtensionsTests.swift; sourceTree = "<group>"; };
 		B522404E1FB33D1200D0343F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B52241151FB342A300D0343F /* NetworkReachabilityManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkReachabilityManagerTests.swift; sourceTree = "<group>"; };
 		B58361991FB779B6001CEC66 /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
 		B583619C1FB77A70001CEC66 /* Resources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
 		B583619E1FB78763001CEC66 /* DocumentClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentClient.swift; sourceTree = "<group>"; };
@@ -474,7 +465,6 @@
 			children = (
 				B52240361FB33CD000D0343F /* ADHttp.swift */,
 				B5B6AC281FBA84C400B93106 /* CodableDictionary.swift */,
-				B52240191FB33CD000D0343F /* NetworkReachabilityManager.swift */,
 				B5B6AC231FBA4B3900B93106 /* Query.swift */,
 				B522401D1FB33CD000D0343F /* ResourceType.swift */,
 				B52240281FB33CD000D0343F /* ResourceUri.swift */,
@@ -853,7 +843,6 @@
 				B5B6AC2A1FBA84C400B93106 /* CodableDictionary.swift in Sources */,
 				B507D4F21FBB722000B2D18D /* Conflict.swift in Sources */,
 				B52241041FB3409F00D0343F /* ADHttp.swift in Sources */,
-				B52240941FB3407C00D0343F /* NetworkReachabilityManager.swift in Sources */,
 				B58361CE1FBA1439001CEC66 /* Attachment.swift in Sources */,
 				B52240951FB3407C00D0343F /* TokenProvider.swift in Sources */,
 				930B2F491FFD56AB00F86BF1 /* DictionaryDocument.swift in Sources */,
@@ -891,7 +880,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B52241171FB342A300D0343F /* NetworkReachabilityManagerTests.swift in Sources */,
 				B52240691FB33DF800D0343F /* UserPermissionExtensionsTests.swift in Sources */,
 				B52240751FB33DF800D0343F /* DatabaseTests.swift in Sources */,
 				B52240671FB33DF800D0343F /* UserDefinedFunctionTests.swift in Sources */,
@@ -923,7 +911,6 @@
 				B5B6AC2B1FBA84C400B93106 /* CodableDictionary.swift in Sources */,
 				B507D4F31FBB722000B2D18D /* Conflict.swift in Sources */,
 				B52240FF1FB3409E00D0343F /* ADHttp.swift in Sources */,
-				B52240971FB3407D00D0343F /* NetworkReachabilityManager.swift in Sources */,
 				B58361CF1FBA1439001CEC66 /* Attachment.swift in Sources */,
 				B52240981FB3407D00D0343F /* TokenProvider.swift in Sources */,
 				930B2F4A1FFD56AB00F86BF1 /* DictionaryDocument.swift in Sources */,
@@ -961,7 +948,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B52241181FB342A300D0343F /* NetworkReachabilityManagerTests.swift in Sources */,
 				B522407D1FB33DFA00D0343F /* UserPermissionExtensionsTests.swift in Sources */,
 				B52240891FB33DFA00D0343F /* DatabaseTests.swift in Sources */,
 				B522407B1FB33DFA00D0343F /* UserDefinedFunctionTests.swift in Sources */,
@@ -993,7 +979,6 @@
 				B5B6AC2C1FBA84C400B93106 /* CodableDictionary.swift in Sources */,
 				B507D4F41FBB722000B2D18D /* Conflict.swift in Sources */,
 				B52240FA1FB3409D00D0343F /* ADHttp.swift in Sources */,
-				B522409A1FB3407E00D0343F /* NetworkReachabilityManager.swift in Sources */,
 				B58361D01FBA1439001CEC66 /* Attachment.swift in Sources */,
 				B522409B1FB3407E00D0343F /* TokenProvider.swift in Sources */,
 				930B2F4B1FFD56AB00F86BF1 /* DictionaryDocument.swift in Sources */,
@@ -1034,7 +1019,6 @@
 				B5B6AC291FBA84C400B93106 /* CodableDictionary.swift in Sources */,
 				B507D4F11FBB722000B2D18D /* Conflict.swift in Sources */,
 				B52241091FB3409F00D0343F /* ADHttp.swift in Sources */,
-				B52240911FB3407900D0343F /* NetworkReachabilityManager.swift in Sources */,
 				B58361CD1FBA1439001CEC66 /* Attachment.swift in Sources */,
 				B52240921FB3407900D0343F /* TokenProvider.swift in Sources */,
 				930B2F481FFD56AB00F86BF1 /* DictionaryDocument.swift in Sources */,
@@ -1072,7 +1056,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B52241161FB342A300D0343F /* NetworkReachabilityManagerTests.swift in Sources */,
 				B52240551FB33DF100D0343F /* UserPermissionExtensionsTests.swift in Sources */,
 				B52240611FB33DF100D0343F /* DatabaseTests.swift in Sources */,
 				B52240531FB33DF100D0343F /* UserDefinedFunctionTests.swift in Sources */,
