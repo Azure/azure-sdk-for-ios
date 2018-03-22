@@ -51,6 +51,15 @@ env:
     - AZURE_SDK="$AZURESTORAGE" DESTINATION="OS=11.2,name=Apple TV"                   SCHEME="$TVOS_FRAMEWORK_SCHEME"    SDK="$TVOS_SDK"    RUN_TESTS="NO"  POD_LINT="NO"
     - AZURE_SDK="$AZURESTORAGE" DESTINATION="OS=4.2,name=Apple Watch Series 2 - 42mm" SCHEME="$WATCHOS_FRAMEWORK_SCHEME" SDK="$WATCHOS_SDK" RUN_TESTS="NO"  POD_LINT="NO"
 
+cache:
+  directories:
+  - AzureCore/Carthage
+
+before_install:
+  - brew update
+  - brew outdated carthage || brew upgrade carthage
+  - carthage bootstrap --verbose --no-use-binaries --cache-builds
+
 script:
   - set -o pipefail
   - xcodebuild -version
