@@ -962,8 +962,6 @@ public class DocumentClient {
                     
                     ResourceOracle.storeLinks(forResource: current)
 
-                    log?.debugMessage(ResourceOracle.getFilePath(forResource: current) ?? "nope")
-                    
                     log?.debugMessage ("\(current)")
                     
                     callback(Response(request: request, data: data, response: httpResponse, result: .success(current)))
@@ -980,8 +978,6 @@ public class DocumentClient {
                         
                         ResourceOracle.storeLinks(forResource: resource)
                         
-                        log?.debugMessage(ResourceOracle.getFilePath(forResource: resource) ?? "nope")
-
                         log?.debugMessage ("\(resource)")
                         
                         callback(Response(request: request, data: data, response: httpResponse, result: .success(resource)))
@@ -1047,10 +1043,6 @@ public class DocumentClient {
                     
                     for item in resource.items {
                         ResourceOracle.storeLinks(forResource: item)
-                    }
-                    
-                    for item in resource.items {
-                        log?.debugMessage(ResourceOracle.getFilePath(forResource: item) ?? "nope")
                     }
                     
                     log?.debugMessage("\(resource)")

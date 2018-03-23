@@ -47,15 +47,47 @@ public class ResourceOracle {
     }
     
     
+    public static func getParentAltLink(forResource resource: CodableResource) -> String? {
+
+        guard
+            let altLink = getAltLink(forResource: resource)
+        else { return nil }
+
+        let altLinkSubstrings = altLink.split(separator: slashCharacter)
+        
+        guard
+            altLinkSubstrings.count > 2
+        else { return nil }
+        
+        return altLinkSubstrings.dropLast(2).joined(separator: slashString)
+    }
+    
+    
+    public static func getParentSelfLink(forResource resource: CodableResource) -> String? {
+        
+        guard
+            let selfLink = getSelfLink(forResource: resource)
+        else { return nil }
+        
+        let selfLinkSubstrings = selfLink.split(separator: slashCharacter)
+        
+        guard
+            selfLinkSubstrings.count > 2
+        else { return nil }
+        
+        return selfLinkSubstrings.dropLast(2).joined(separator: slashString)
+    }
+    
+    
     public static func getAltLink(forResource resource: CodableResource) -> String? {
         
-        var altLink = resource.altLink
+        var altLink = resource.altLink?.trimmingCharacters(in: slashCharacterSet)
         
-        if altLink.isNilOrEmpty, let selfLink = resource.selfLink, !selfLink.isEmpty {
+        if altLink.isNilOrEmpty, let selfLink = resource.selfLink?.trimmingCharacters(in: slashCharacterSet), !selfLink.isEmpty {
             altLink = altLinkLookup[selfLink]
         }
         
-        if let altLink = altLink?.trimmingCharacters(in: slashCharacterSet), !altLink.isEmpty {
+        if let altLink = altLink, !altLink.isEmpty {
             return altLink
         }
         
@@ -65,13 +97,13 @@ public class ResourceOracle {
     
     public static func getSelfLink(forResource resource: CodableResource) -> String? {
         
-        var selfLink = resource.selfLink
+        var selfLink = resource.selfLink?.trimmingCharacters(in: slashCharacterSet)
         
-        if selfLink.isNilOrEmpty, let altLink = resource.altLink, !altLink.isEmpty {
+        if selfLink.isNilOrEmpty, let altLink = resource.altLink?.trimmingCharacters(in: slashCharacterSet), !altLink.isEmpty {
             selfLink = selfLinkLookup[altLink]
         }
 
-        if let selfLink = selfLink?.trimmingCharacters(in: slashCharacterSet), !selfLink.isEmpty {
+        if let selfLink = selfLink, !selfLink.isEmpty {
             return selfLink
         }
         
@@ -97,11 +129,12 @@ public class ResourceOracle {
     
     public static func getFilePath(forResource resource: CodableResource) -> String? {
         
-        if let selfLink = getSelfLink(forResource: resource), let resourceId = getResourceId(forResource: resource, withSelfLink: selfLink) {
-            return "\(selfLink)/\(resourceId).json"
-        }
-
-        return nil
+        guard
+            let selfLink = getSelfLink(forResource: resource),
+            let resourceId = getResourceId(forResource: resource, withSelfLink: selfLink)
+        else { return nil }
+        
+        return "\(selfLink)/\(resourceId).json"
     }
     
     
