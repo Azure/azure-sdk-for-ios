@@ -10,6 +10,10 @@ import Foundation
 import AzureCore
 //import CommonCrypto
 
+
+
+
+
 public enum TokenType: String {
     case master = "master"
     case resource = "resource"
@@ -25,15 +29,8 @@ public class TokenProvider {
     let keyType: String
     let tokenVersion: String
     
-    let dateFormatter: DateFormatter = {
-        
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.dateFormat = "E, dd MMM yyyy HH:mm:ss zzz"
-        formatter.timeZone = TimeZone(secondsFromGMT: 0)
-
-        return formatter
-    }()
+    let dateFormatter: DateFormatter = DateFormat.getHttpDateFormatter()
+    
     
     public init(key k: String, keyType type: TokenType = .master, tokenVersion version: String = "1.0") {
         key = k
@@ -51,6 +48,8 @@ public class TokenProvider {
         let dateString = dateFormatter.string(from: Date())
         
         let payload = "\(verb.lowercased())\n\(resourceType.lowercased())\n\(resourceLink)\n\(dateString.lowercased())\n\n"
+        
+        log?.debugMessage(payload)
         
         let signiture = payload.hmac(key: key)
         
@@ -71,6 +70,8 @@ public class TokenProvider {
         let dateString = dateFormatter.string(from: Date())
 
         let payload = "\(verb.lowercased())\n\(resourceType.lowercased())\n\(resourceLink)\n\(dateString.lowercased())\n\n"
+        
+        log?.debugMessage(payload)
         
         let signiture = payload.hmac(key: key)
         
