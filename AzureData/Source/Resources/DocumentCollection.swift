@@ -28,6 +28,9 @@ public struct DocumentCollection : CodableResource {
     public private(set) var timestamp:  Date?
     public private(set) var altLink:    String? = nil
     
+    public mutating func setAltLink(to link: String) {
+        self.altLink = link
+    }
     
     /// Gets the self-link for conflicts in a collection from the Azure Cosmos DB service.
     public private(set) var conflictsLink: String?
@@ -199,7 +202,7 @@ private extension DocumentCollection {
 
 extension DocumentCollection : CustomDebugStringConvertible {
     public var debugDescription: String {
-        return "DocumentCollection :\n\tid : \(self.id)\n\tresourceId : \(self.resourceId)\n\tselfLink : \(self.selfLink.valueOrNilString)\n\tetag : \(self.etag.valueOrNilString)\n\ttimestamp : \(self.timestamp.valueOrNilString)\n\tconflictsLink : \(self.conflictsLink.valueOrNilString)\n\tdocumentsLink : \(self.documentsLink.valueOrNilString)\n\tindexingPolicy : ..todo\n\tpartitionKey : ..todo\n\tstoredProceduresLink : \(self.storedProceduresLink.valueOrNilString)\n\ttriggersLink : \(self.triggersLink.valueOrNilString)\n\tuserDefinedFunctionsLink : \(self.userDefinedFunctionsLink.valueOrNilString)\n--"
+        return "DocumentCollection :\n\tid : \(self.id)\n\tresourceId : \(self.resourceId)\n\tselfLink : \(self.selfLink.valueOrNilString)\n\tetag : \(self.etag.valueOrNilString)\n\ttimestamp : \(self.timestamp.valueOrNilString)\n\taltLink : \(self.altLink.valueOrNilString)\n\tconflictsLink : \(self.conflictsLink.valueOrNilString)\n\tdocumentsLink : \(self.documentsLink.valueOrNilString)\n\tindexingPolicy : ..todo\n\tpartitionKey : ..todo\n\tstoredProceduresLink : \(self.storedProceduresLink.valueOrNilString)\n\ttriggersLink : \(self.triggersLink.valueOrNilString)\n\tuserDefinedFunctionsLink : \(self.userDefinedFunctionsLink.valueOrNilString)\n--"
     }
 }
 

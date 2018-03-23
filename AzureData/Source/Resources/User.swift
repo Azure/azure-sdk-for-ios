@@ -21,6 +21,10 @@ public struct User : CodableResource {
     public private(set) var timestamp:  Date?
     public private(set) var altLink:    String? = nil
     
+    public mutating func setAltLink(to link: String) {
+        self.altLink = link
+    }
+    
     /// Gets the self-link of the permissions associated with the user for the Azure Cosmos DB service.
     public private(set) var permissionsLink:String?
 }

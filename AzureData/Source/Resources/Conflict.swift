@@ -25,7 +25,10 @@ public struct Conflict : CodableResource {
     public private(set) var etag:       String?
     public private(set) var timestamp:  Date?
     public private(set) var altLink:    String? = nil
-
+    
+    public mutating func setAltLink(to link: String) {
+        self.altLink = link
+    }
     
     /// Gets the operation that resulted in the conflict in the Azure Cosmos DB service.
     public private(set) var operationKind: OperationKind?

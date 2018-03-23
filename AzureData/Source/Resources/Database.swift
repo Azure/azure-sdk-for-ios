@@ -26,6 +26,9 @@ public struct Database : CodableResource {
     public private(set) var timestamp:  Date?
     public private(set) var altLink:    String? = nil
     
+    public mutating func setAltLink(to link: String) {
+        self.altLink = link
+    }
     
     /// Gets the self-link for collections from the Azure Cosmos DB service.
     public private(set) var collectionsLink: String?
@@ -54,6 +57,6 @@ private extension Database {
 
 extension Database : CustomDebugStringConvertible {
     public var debugDescription: String {
-        return "Database :\n\tid : \(self.id)\n\tresourceId : \(self.resourceId)\n\tselfLink : \(self.selfLink.valueOrNilString)\n\tetag : \(self.etag.valueOrNilString)\n\ttimestamp : \(self.timestamp.valueOrNilString)\n\tcollectionsLink : \(self.collectionsLink.valueOrNilString)\n\tusersLink : \(self.usersLink.valueOrNilString)\n--"
+        return "Database :\n\tid : \(self.id)\n\tresourceId : \(self.resourceId)\n\tselfLink : \(self.selfLink.valueOrNilString)\n\tetag : \(self.etag.valueOrNilString)\n\ttimestamp : \(self.timestamp.valueOrNilString)\n\taltLink : \(self.altLink.valueOrNilString)\n\tcollectionsLink : \(self.collectionsLink.valueOrNilString)\n\tusersLink : \(self.usersLink.valueOrNilString)\n--"
     }
 }

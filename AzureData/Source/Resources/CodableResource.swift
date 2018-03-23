@@ -32,6 +32,8 @@ public protocol CodableResource : Codable {
     
     /// Gets the alt-link associated with the resource from the Azure Cosmos DB service.
     var altLink: String? { get }
+    
+    mutating func setAltLink(to link: String)
 }
 
 extension CodableResource {
@@ -62,5 +64,14 @@ extension CodableResource {
     
     static func url (atHost host: String, at path: String = Self.type) -> URL? {
         return URL(string: "https://\(host)/\(path)")
+    }
+}
+
+
+extension CodableResource {
+    
+    public mutating func setAltLink(withContentPath path: String?) {
+        let pathComponent = path.isNilOrEmpty ? Self.type : "\(path!)/\(Self.type)"
+        self.setAltLink(to: "\(pathComponent)/\(id)")
     }
 }

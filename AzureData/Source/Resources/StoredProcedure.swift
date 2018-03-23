@@ -26,6 +26,10 @@ public struct StoredProcedure : CodableResource {
     public private(set) var timestamp:  Date?
     public private(set) var altLink:    String? = nil
     
+    public mutating func setAltLink(to link: String) {
+        self.altLink = link
+    }
+    
     /// Gets or sets the body of the Azure Cosmos DB stored procedure.
     ///
     /// - Remark:

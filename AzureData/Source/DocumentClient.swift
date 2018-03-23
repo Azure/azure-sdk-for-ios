@@ -954,7 +954,13 @@ public class DocumentClient {
             
             } else if let data = data {
                 
-                if let current = currentResource, let statusCode = HttpStatusCode(rawValue: httpResponse.statusCode), statusCode == .notModified {
+                if var current = currentResource, let statusCode = HttpStatusCode(rawValue: httpResponse.statusCode), statusCode == .notModified {
+                    
+                    let altContentPath = httpResponse.allHeaderFields[MSHttpHeader.msAltContentPath.rawValue] as? String
+                    
+                    current.setAltLink(withContentPath: altContentPath)
+                    
+                    log?.debugMessage ("\(current)")
                     
                     callback(Response(request: request, data: data, response: httpResponse, result: .success(current)))
                 
@@ -962,7 +968,11 @@ public class DocumentClient {
                 
                     do {
                         
-                        let resource = try self.jsonDecoder.decode(T.self, from: data)
+                        var resource = try self.jsonDecoder.decode(T.self, from: data)
+                        
+                        let altContentPath = httpResponse.allHeaderFields[MSHttpHeader.msAltContentPath.rawValue] as? String
+                        
+                        resource.setAltLink(withContentPath: altContentPath)
                         
                         log?.debugMessage ("\(resource)")
                         
@@ -1009,7 +1019,7 @@ public class DocumentClient {
 
         session.dataTask(with: request) { (data, response, error) in
             
-            let httpResponse = response as? HTTPURLResponse
+            let httpResponse = response as! HTTPURLResponse
             
             if let error = error {
                 
@@ -1021,8 +1031,12 @@ public class DocumentClient {
                 
                 do {
                     
-                    let resource = try self.jsonDecoder.decode(Resources<T>.self, from: data)
-                
+                    var resource = try self.jsonDecoder.decode(Resources<T>.self, from: data)
+                    
+                    let altContentPath = httpResponse.allHeaderFields[MSHttpHeader.msAltContentPath.rawValue] as? String
+                    
+                    resource.setAltLinks(withContentPath: altContentPath)
+                    
                     log?.debugMessage("\(resource)")
                     
                     callback(ListResponse(request: request, data: data, response: httpResponse, result: .success(resource)))

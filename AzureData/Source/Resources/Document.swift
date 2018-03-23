@@ -26,6 +26,9 @@ open class Document : CodableResource, CustomDebugStringConvertible {
     public private(set) var timestamp:  Date?
     public private(set) var altLink:    String? = nil
     
+    public func setAltLink(to link: String) {
+        self.altLink = link
+    }
     
     /// Gets the self-link corresponding to attachments of the document from the Azure Cosmos DB service.
     public private(set) var attachmentsLink: String?
@@ -39,7 +42,7 @@ open class Document : CodableResource, CustomDebugStringConvertible {
     
     
     open var debugDescription: String {
-        return "Document :\n\tid : \(self.id)\n\tresourceId : \(self.resourceId)\n\tselfLink : \(self.selfLink.valueOrNilString)\n\tetag : \(self.etag.valueOrNilString)\n\ttimestamp : \(self.timestamp.valueOrNilString)\n\tattachmentsLink : \(self.attachmentsLink.valueOrNilString)\n--"
+        return "Document :\n\tid : \(self.id)\n\tresourceId : \(self.resourceId)\n\tselfLink : \(self.selfLink.valueOrNilString)\n\tetag : \(self.etag.valueOrNilString)\n\ttimestamp : \(self.timestamp.valueOrNilString)\n\taltLink : \(self.altLink.valueOrNilString)\n\tattachmentsLink : \(self.attachmentsLink.valueOrNilString)\n--"
     }
 }
 

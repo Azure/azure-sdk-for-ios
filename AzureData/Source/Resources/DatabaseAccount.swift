@@ -21,6 +21,9 @@ public struct DatabaseAccount : CodableResource {
     public private(set) var timestamp:  Date?
     public private(set) var altLink:    String? = nil
     
+    public mutating func setAltLink(to link: String) {
+        self.altLink = link
+    }
     
     /// Gets the ConsistencyPolicy settings from the Azure Cosmos DB service.
     public private(set) var consistencyPolicy: ConsistencyPolicy?

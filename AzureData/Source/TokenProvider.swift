@@ -49,7 +49,7 @@ public class TokenProvider {
         
         let payload = "\(verb.lowercased())\n\(resourceType.lowercased())\n\(resourceLink)\n\(dateString.lowercased())\n\n"
         
-        log?.debugMessage(payload)
+        log?.debugMessage("\ntoken payload:\n\(payload)")
         
         let signiture = payload.hmac(key: key)
         
@@ -71,7 +71,7 @@ public class TokenProvider {
 
         let payload = "\(verb.lowercased())\n\(resourceType.lowercased())\n\(resourceLink)\n\(dateString.lowercased())\n\n"
         
-        log?.debugMessage(payload)
+        log?.debugMessage("\ntoken payload:\n\(payload)")
         
         let signiture = payload.hmac(key: key)
         

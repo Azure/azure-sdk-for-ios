@@ -474,8 +474,8 @@
 		B58361B71FBA1339001CEC66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				B58361CC1FBA1439001CEC66 /* Attachment.swift */,
 				B58361B81FBA1384001CEC66 /* CodableResource.swift */,
+				B58361CC1FBA1439001CEC66 /* Attachment.swift */,
 				B507D4F01FBB722000B2D18D /* Conflict.swift */,
 				B58361C71FBA13D8001CEC66 /* Database.swift */,
 				B58361EF1FBA19A7001CEC66 /* DatabaseAccount.swift */,

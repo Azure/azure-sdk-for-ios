@@ -22,6 +22,9 @@ public struct Permission : CodableResource {
     public private(set) var timestamp:  Date?
     public private(set) var altLink:    String? = nil
     
+    public mutating func setAltLink(to link: String) {
+        self.altLink = link
+    }
     
     /// Gets or sets the permission mode in the Azure Cosmos DB service.
     public private(set) var permissionMode: PermissionMode
