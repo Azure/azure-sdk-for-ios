@@ -19,7 +19,8 @@ public struct Attachment : CodableResource {
     public private(set) var selfLink:   String?
     public private(set) var etag:       String?
     public private(set) var timestamp:  Date?
-    
+    public private(set) var altLink:    String? = nil
+
     
     /// Gets or sets the MIME content type of the attachment in the Azure Cosmos DB service.
     public private(set) var contentType: String?

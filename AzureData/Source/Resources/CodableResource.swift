@@ -29,6 +29,9 @@ public protocol CodableResource : Codable {
     
     /// Gets the last modified timestamp associated with the resource from the Azure Cosmos DB service.
     var timestamp: Date?   { get }
+    
+    /// Gets the alt-link associated with the resource from the Azure Cosmos DB service.
+    var altLink: String? { get }
 }
 
 extension CodableResource {

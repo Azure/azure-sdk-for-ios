@@ -24,6 +24,7 @@ open class Document : CodableResource, CustomDebugStringConvertible {
     public private(set) var selfLink:   String?
     public private(set) var etag:       String?
     public private(set) var timestamp:  Date?
+    public private(set) var altLink:    String? = nil
     
     
     /// Gets the self-link corresponding to attachments of the document from the Azure Cosmos DB service.

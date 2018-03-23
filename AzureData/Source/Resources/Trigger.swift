@@ -23,6 +23,7 @@ public struct Trigger : CodableResource {
     public private(set) var selfLink:   String?
     public private(set) var etag:       String?
     public private(set) var timestamp:  Date?
+    public private(set) var altLink:    String? = nil
     
     
     /// Gets or sets the body of the trigger for the Azure Cosmos DB service.

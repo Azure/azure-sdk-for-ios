@@ -19,6 +19,7 @@ public struct DatabaseAccount : CodableResource {
     public private(set) var selfLink:   String?
     public private(set) var etag:       String?
     public private(set) var timestamp:  Date?
+    public private(set) var altLink:    String? = nil
     
     
     /// Gets the ConsistencyPolicy settings from the Azure Cosmos DB service.
