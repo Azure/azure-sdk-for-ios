@@ -8,11 +8,6 @@
 
 import Foundation
 import AzureCore
-//import CommonCrypto
-
-
-
-
 
 public enum TokenType: String {
     case master = "master"
@@ -49,9 +44,7 @@ public class TokenProvider {
         
         let payload = "\(verb.lowercased())\n\(resourceType.lowercased())\n\(resourceLink)\n\(dateString.lowercased())\n\n"
         
-        log?.debugMessage("\ntoken payload:\n\(payload)")
-        
-        let signiture = payload.hmac(key: key)
+        let signiture = CryptoProvider.hmacSHA256(payload, withKey: key)!
         
         let authString = "type=\(keyType)&ver=\(tokenVersion)&sig=\(signiture)"
         
@@ -71,35 +64,12 @@ public class TokenProvider {
 
         let payload = "\(verb.lowercased())\n\(resourceType.lowercased())\n\(resourceLink)\n\(dateString.lowercased())\n\n"
         
-        log?.debugMessage("\ntoken payload:\n\(payload)")
-        
-        let signiture = payload.hmac(key: key)
+        let signiture = CryptoProvider.hmacSHA256(payload, withKey: key)!
         
         let authString = "type=\(keyType)&ver=\(tokenVersion)&sig=\(signiture)"
         
         let authStringEncoded = authString.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics)!
         
         return (authStringEncoded, dateString)
-    }
-}
-
-
-extension String {
-
-    func hmac(key: String) -> String {
-
-        let keyData = NSData(base64Encoded: key, options: .ignoreUnknownCharacters)!
-
-        let data = self.data(using: .utf8, allowLossyConversion: false)
-
-        return data?.withUnsafeBytes{ (bytes: UnsafePointer<CUnsignedChar>) -> String in
-
-            let hash = keyData.ccHmac(withBytes: bytes)!
-
-            let hashString = hash.base64EncodedString(options: NSData.Base64EncodingOptions([]))
-
-            return hashString
-
-        } ?? ""
     }
 }

@@ -8,6 +8,8 @@
 
 @import Foundation;
 
+#import <AzureCore/CryptoProvider.h>
+
 FOUNDATION_EXPORT double AzureCoreVersionNumber;
 
 FOUNDATION_EXPORT const unsigned char AzureCoreVersionString[];

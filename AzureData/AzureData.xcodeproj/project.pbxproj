@@ -42,14 +42,6 @@
 		93F9ACD21FC0D01400AC240C /* ResourceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F9ACD01FC0D01400AC240C /* ResourceError.swift */; };
 		93F9ACD31FC0D01400AC240C /* ResourceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F9ACD01FC0D01400AC240C /* ResourceError.swift */; };
 		93F9ACD41FC0D01400AC240C /* ResourceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F9ACD01FC0D01400AC240C /* ResourceError.swift */; };
-		93FA99F72003C0E200D3B3F8 /* NSData+CCHmac.h in Headers */ = {isa = PBXBuildFile; fileRef = 93FA99F52003C0E200D3B3F8 /* NSData+CCHmac.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		93FA99F82003C0E200D3B3F8 /* NSData+CCHmac.h in Headers */ = {isa = PBXBuildFile; fileRef = 93FA99F52003C0E200D3B3F8 /* NSData+CCHmac.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		93FA99F92003C0E200D3B3F8 /* NSData+CCHmac.h in Headers */ = {isa = PBXBuildFile; fileRef = 93FA99F52003C0E200D3B3F8 /* NSData+CCHmac.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		93FA99FA2003C0E200D3B3F8 /* NSData+CCHmac.h in Headers */ = {isa = PBXBuildFile; fileRef = 93FA99F52003C0E200D3B3F8 /* NSData+CCHmac.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		93FA99FB2003C0E200D3B3F8 /* NSData+CCHmac.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FA99F62003C0E200D3B3F8 /* NSData+CCHmac.m */; };
-		93FA99FC2003C0E200D3B3F8 /* NSData+CCHmac.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FA99F62003C0E200D3B3F8 /* NSData+CCHmac.m */; };
-		93FA99FD2003C0E200D3B3F8 /* NSData+CCHmac.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FA99F62003C0E200D3B3F8 /* NSData+CCHmac.m */; };
-		93FA99FE2003C0E200D3B3F8 /* NSData+CCHmac.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FA99F62003C0E200D3B3F8 /* NSData+CCHmac.m */; };
 		B507D4F11FBB722000B2D18D /* Conflict.swift in Sources */ = {isa = PBXBuildFile; fileRef = B507D4F01FBB722000B2D18D /* Conflict.swift */; };
 		B507D4F21FBB722000B2D18D /* Conflict.swift in Sources */ = {isa = PBXBuildFile; fileRef = B507D4F01FBB722000B2D18D /* Conflict.swift */; };
 		B507D4F31FBB722000B2D18D /* Conflict.swift in Sources */ = {isa = PBXBuildFile; fileRef = B507D4F01FBB722000B2D18D /* Conflict.swift */; };
@@ -256,8 +248,6 @@
 		93ED3460206546C7008F8807 /* ResourceValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceValidation.swift; sourceTree = "<group>"; };
 		93F9ACCB1FC0CA4800AC240C /* DocumentClientError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentClientError.swift; sourceTree = "<group>"; };
 		93F9ACD01FC0D01400AC240C /* ResourceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceError.swift; sourceTree = "<group>"; };
-		93FA99F52003C0E200D3B3F8 /* NSData+CCHmac.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+CCHmac.h"; sourceTree = "<group>"; };
-		93FA99F62003C0E200D3B3F8 /* NSData+CCHmac.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+CCHmac.m"; sourceTree = "<group>"; };
 		B507D4F01FBB722000B2D18D /* Conflict.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conflict.swift; sourceTree = "<group>"; };
 		B5223FB71FB33A9F00D0343F /* AzureData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5223FBF1FB33A9F00D0343F /* AzureData macOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AzureData macOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -385,8 +375,6 @@
 				B58361B71FBA1339001CEC66 /* Resources */,
 				B55AEFE61FB34CF600F7BEED /* Domain */,
 				B55AEFDF1FB34B7400F7BEED /* Supporting Files */,
-				93FA99F52003C0E200D3B3F8 /* NSData+CCHmac.h */,
-				93FA99F62003C0E200D3B3F8 /* NSData+CCHmac.m */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -544,7 +532,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B52240511FB33DAB00D0343F /* AzureData.h in Headers */,
-				93FA99F82003C0E200D3B3F8 /* NSData+CCHmac.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -553,7 +540,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B52240501FB33DA900D0343F /* AzureData.h in Headers */,
-				93FA99F92003C0E200D3B3F8 /* NSData+CCHmac.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -562,7 +548,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B52240F71FB3409D00D0343F /* AzureData.h in Headers */,
-				93FA99FA2003C0E200D3B3F8 /* NSData+CCHmac.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -571,7 +556,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B52240521FB33DAD00D0343F /* AzureData.h in Headers */,
-				93FA99F72003C0E200D3B3F8 /* NSData+CCHmac.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -845,7 +829,6 @@
 				93F9ACD21FC0D01400AC240C /* ResourceError.swift in Sources */,
 				B58361C41FBA13B0001CEC66 /* DocumentCollection.swift in Sources */,
 				B5B6AC251FBA4B3900B93106 /* Query.swift in Sources */,
-				93FA99FC2003C0E200D3B3F8 /* NSData+CCHmac.m in Sources */,
 				93935D9C20585C8600F1832A /* PermissionMode.swift in Sources */,
 				931EA5C41FBE6920003CCFF4 /* DocumentClientExtensions.swift in Sources */,
 				B58361B41FB78F7A001CEC66 /* Response.swift in Sources */,
@@ -912,7 +895,6 @@
 				93F9ACD31FC0D01400AC240C /* ResourceError.swift in Sources */,
 				B58361C51FBA13B0001CEC66 /* DocumentCollection.swift in Sources */,
 				B5B6AC261FBA4B3900B93106 /* Query.swift in Sources */,
-				93FA99FD2003C0E200D3B3F8 /* NSData+CCHmac.m in Sources */,
 				93935D9D20585C8600F1832A /* PermissionMode.swift in Sources */,
 				931EA5C61FBE6922003CCFF4 /* DocumentClientExtensions.swift in Sources */,
 				B58361AF1FB78F7A001CEC66 /* Response.swift in Sources */,
@@ -979,7 +961,6 @@
 				93F9ACD41FC0D01400AC240C /* ResourceError.swift in Sources */,
 				B58361C61FBA13B0001CEC66 /* DocumentCollection.swift in Sources */,
 				B5B6AC271FBA4B3900B93106 /* Query.swift in Sources */,
-				93FA99FE2003C0E200D3B3F8 /* NSData+CCHmac.m in Sources */,
 				93935D9E20585C8600F1832A /* PermissionMode.swift in Sources */,
 				931EA5C51FBE6922003CCFF4 /* DocumentClientExtensions.swift in Sources */,
 				B58361AA1FB78F78001CEC66 /* Response.swift in Sources */,
@@ -1018,7 +999,6 @@
 				93F9ACD11FC0D01400AC240C /* ResourceError.swift in Sources */,
 				B583619A1FB779B6001CEC66 /* Response.swift in Sources */,
 				B5B6AC241FBA4B3900B93106 /* Query.swift in Sources */,
-				93FA99FB2003C0E200D3B3F8 /* NSData+CCHmac.m in Sources */,
 				93935D9B20585C8600F1832A /* PermissionMode.swift in Sources */,
 				931EA5BF1FBE201F003CCFF4 /* DocumentClientExtensions.swift in Sources */,
 				B583619D1FB77A70001CEC66 /* Resources.swift in Sources */,

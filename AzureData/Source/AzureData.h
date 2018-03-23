@@ -8,8 +8,6 @@
 
 @import Foundation;
 
-#import <AzureData/NSData+CCHmac.h>
-
 FOUNDATION_EXPORT double AzureDataVersionNumber;
 
 FOUNDATION_EXPORT const unsigned char AzureDataVersionString[];
