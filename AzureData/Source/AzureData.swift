@@ -11,12 +11,6 @@ import Foundation
 
 // MARK: - Configure
 
-/// Print responses, resources, etc. to output log
-public var verboseLogging: Bool {
-    get { return DocumentClient.default.verboseLogging }
-    set { DocumentClient.default.verboseLogging = newValue }
-}
-
 
 /// Whether or not `configure` has been called on the client
 public func isConfigured() -> Bool { return DocumentClient.default.isConfigured }

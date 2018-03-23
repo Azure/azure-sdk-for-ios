@@ -103,12 +103,6 @@ public class Query : Encodable {
             "parameters": parameters.isEmpty ? [] : [parameters]
         ]
     }
-    
-    
-    
-    public func printQuery() {
-        print(query)
-    }
 }
 
 extension Query {

@@ -13,7 +13,7 @@ public class DocumentClient {
     
     open static let `default`: DocumentClient = {
         let configuration = URLSessionConfiguration.default
-        configuration.httpAdditionalHeaders = DocumentClient.defaultHTTPHeaders
+        configuration.httpAdditionalHeaders = DocumentClient.defaultHttpHeaders
         
         return DocumentClient(configuration: configuration)
     }()
@@ -28,10 +28,7 @@ public class DocumentClient {
     /// The underlying session.
     open let session: URLSession
 
-    /// Print responses, resources, etc. to output log
-    public var verboseLogging = false
 
-    
     public init(configuration: URLSessionConfiguration = URLSessionConfiguration.default/*, delegate: SessionDelegate = SessionDelegate(), serverTrustPolicyManager: ServerTrustPolicyManager? = nil*/)
     {
         //self.delegate = delegate
@@ -52,18 +49,25 @@ public class DocumentClient {
         
         let encoder = JSONEncoder()
         
-        if self.dateEncoder == nil { self.dateEncoder = DocumentClient.roundTripIso8601Encoder }
+        if self.dateEncoder == nil {
+            self.dateEncoder = DocumentClient.roundTripIso8601Encoder
+        }
         
         encoder.dateEncodingStrategy = .custom(self.dateEncoder!)
         
-        if verboseLogging { encoder.outputFormatting = .prettyPrinted }
+        log?.debugMessage {
+            encoder.outputFormatting = .prettyPrinted
+            return "encoder.outputFormatting = .prettyPrinted"
+        }
         
         return encoder
     }()
     
     public lazy var jsonDecoder: JSONDecoder = {
         
-        if self.dateDecoder == nil { self.dateDecoder = DocumentClient.roundTripIso8601Decoder }
+        if self.dateDecoder == nil {
+            self.dateDecoder = DocumentClient.roundTripIso8601Decoder
+        }
         
         let decoder = JSONDecoder()
         
@@ -94,7 +98,6 @@ public class DocumentClient {
         baseUri = nil
         tokenProvider = nil
     }
-    
     
     
     
@@ -861,7 +864,7 @@ public class DocumentClient {
         
         guard isConfigured else { callback(ListResponse<T>(DocumentClientError(withKind: .configureError))); return }
         
-        if self.verboseLogging { query.printQuery(); print() }
+        log?.debugMessage(query.query)
         
         do {
             
@@ -932,10 +935,11 @@ public class DocumentClient {
     
     fileprivate func sendRequest<T> (_ request: URLRequest, currentResource: T? = nil, callback: @escaping (Response<T>) -> ()) {
         
-        if verboseLogging {
-            print("***")
-            print("Sending \(request.httpMethod ?? "") request for \(T.self) to \(request.url?.absoluteString ?? "")")
-            print("\tBody : \(request.httpBody != nil ? String(data: request.httpBody!, encoding: .utf8) ?? "empty" : "empty")")
+        log?.debugMessage {
+            let methodString = request.httpMethod ?? ""
+            let urlString = request.url?.absoluteString ?? ""
+            let bodyString = request.httpBody != nil ? String(data: request.httpBody!, encoding: .utf8) ?? "empty" : "empty"
+            return "***\nSending \(methodString) request for \(T.self) to \(urlString)\n\tBody : \(bodyString)"
         }
         
         session.dataTask(with: request) { (data, response, error) in
@@ -944,13 +948,11 @@ public class DocumentClient {
             
             if let error = error {
                 
-                if self.verboseLogging { print("❌ error: \(error.localizedDescription)\n") }
+                log?.errorMessage(error.localizedDescription)
                 
                 callback(Response(request: request, data: data, response: httpResponse, result: .failure(error)))
             
             } else if let data = data {
-                
-                //if self.verboseLogging { print("*** data: \(String(data: data, encoding: .utf8) ?? "nil")") }
                 
                 if let current = currentResource, let statusCode = HttpStatusCode(rawValue: httpResponse.statusCode), statusCode == .notModified {
                     
@@ -962,13 +964,14 @@ public class DocumentClient {
                         
                         let resource = try self.jsonDecoder.decode(T.self, from: data)
                         
-                        if self.verboseLogging { print("\(resource)\n"); }
+                        log?.debugMessage ("\(resource)")
                         
                         callback(Response(request: request, data: data, response: httpResponse, result: .success(resource)))
                         
                     } catch let decodeError as DecodingError {
                         
-                        if self.verboseLogging { decodeError.printLog(); print(String(data: data, encoding: .utf8) ?? "nil") }
+                        log?.errorMessage(decodeError.logMessage)
+                        log?.debugMessage(String(data: data, encoding: .utf8) ?? "nil")
                         
                         let docError = DocumentClientError(withData: data, response: httpResponse, error: decodeError)
                         
@@ -976,7 +979,7 @@ public class DocumentClient {
                         
                     } catch let otherError {
                         
-                        if self.verboseLogging { print("❌ error: \(otherError.localizedDescription)\n") }
+                        log?.errorMessage(otherError.localizedDescription)
                         
                         let docError = DocumentClientError(withData: data, response: httpResponse, error: otherError)
                         
@@ -987,7 +990,7 @@ public class DocumentClient {
                 
                 let unknownError = DocumentClientError(withKind: .unknownError)
                 
-                if self.verboseLogging { print("❌ error: \(unknownError.message!)\n") }
+                log?.errorMessage(unknownError.message!)
                 
                 callback(Response(request: request, data: data, response: httpResponse, result: .failure(unknownError)))
             }
@@ -997,10 +1000,11 @@ public class DocumentClient {
     
     fileprivate func sendRequest<T> (_ request: URLRequest, callback: @escaping (ListResponse<T>) -> ()) {
         
-        if verboseLogging {
-            print("***")
-            print("Sending \(request.httpMethod ?? "") request for \(T.self) List to \(request.url?.absoluteString ?? "")")
-            print("\tBody : \(request.httpBody != nil ? String(data: request.httpBody!, encoding: .utf8) ?? "empty" : "empty")")
+        log?.debugMessage {
+            let methodString = request.httpMethod ?? ""
+            let urlString = request.url?.absoluteString ?? ""
+            let bodyString = request.httpBody != nil ? String(data: request.httpBody!, encoding: .utf8) ?? "empty" : "empty"
+            return "***\nSending \(methodString) request for \(T.self) to \(urlString)\n\tBody : \(bodyString)"
         }
 
         session.dataTask(with: request) { (data, response, error) in
@@ -1009,25 +1013,25 @@ public class DocumentClient {
             
             if let error = error {
                 
-                if self.verboseLogging { print("❌ error: \(error.localizedDescription)\n") }
+                log?.errorMessage(error.localizedDescription)
                 
                 callback(ListResponse(request: request, data: data, response: httpResponse, result: .failure(error)))
                 
             } else if let data = data {
                 
-                //if self.verboseLogging { print("*** data: \(String(data: data, encoding: .utf8) ?? "nil")") }
-                
                 do {
                     
                     let resource = try self.jsonDecoder.decode(Resources<T>.self, from: data)
                 
-                    if self.verboseLogging { print("\(resource)\n"); }
+                    log?.debugMessage("\(resource)")
                     
                     callback(ListResponse(request: request, data: data, response: httpResponse, result: .success(resource)))
                     
                 } catch let decodeError as DecodingError {
                     
-                    if self.verboseLogging { decodeError.printLog(); print(String(data: data, encoding: .utf8) ?? "nil") }
+                    log?.errorMessage(decodeError.logMessage)
+                    log?.debugMessage(String(data: data, encoding: .utf8) ?? "nil")
+
                     
                     let docError = DocumentClientError(withData: data, response: httpResponse, error: decodeError)
                     
@@ -1035,7 +1039,7 @@ public class DocumentClient {
                 
                 } catch let otherError {
                     
-                    if self.verboseLogging { print("❌ error: \(otherError.localizedDescription)\n") }
+                    log?.errorMessage(otherError.localizedDescription)
                     
                     let docError = DocumentClientError(withData: data, response: httpResponse, error: otherError)
                     
@@ -1045,7 +1049,7 @@ public class DocumentClient {
                 
                 let unknownError = DocumentClientError(withKind: .unknownError)
                 
-                if self.verboseLogging { print("❌ error: \(unknownError.message!)\n") }
+                log?.errorMessage(unknownError.message!)
                 
                 callback(ListResponse(request: request, data: data, response: httpResponse, result: .failure(unknownError)))
             }
@@ -1055,10 +1059,11 @@ public class DocumentClient {
     
     fileprivate func sendRequest (_ request: URLRequest, callback: @escaping (DataResponse) -> ()) {
         
-        if verboseLogging {
-            print("***")
-            print("Sending \(request.httpMethod ?? "") request for Data to \(request.url?.absoluteString ?? "")")
-            print("\tBody : \(request.httpBody != nil ? String(data: request.httpBody!, encoding: .utf8) ?? "empty" : "empty")")
+        log?.debugMessage {
+            let methodString = request.httpMethod ?? ""
+            let urlString = request.url?.absoluteString ?? ""
+            let bodyString = request.httpBody != nil ? String(data: request.httpBody!, encoding: .utf8) ?? "empty" : "empty"
+            return "***\nSending \(methodString) request for Data to \(urlString)\n\tBody : \(bodyString)"
         }
 
         session.dataTask(with: request) { (data, response, error) in
@@ -1067,21 +1072,21 @@ public class DocumentClient {
             
             if let error = error {
                 
-                if self.verboseLogging { print("❌ error: \(error.localizedDescription)\n") }
+                log?.errorMessage(error.localizedDescription)
                 
                 callback(DataResponse(request: request, data: data, response: httpResponse, result: .failure(error)))
 
             } else if let data = data {
                 
-                if self.verboseLogging { print("Data : \(String(data: data, encoding: .utf8) ?? "nil")\n") }
-
+                log?.debugMessage(String(data: data, encoding: .utf8) ?? "nil")
+                
                 callback(DataResponse.init(request: request, data: data, response: httpResponse, result: .success(data)))
                 
             } else {
                 
                 let unknownError = DocumentClientError(withKind: .unknownError)
                 
-                if self.verboseLogging { print("❌ error: \(unknownError.message!)\n") }
+                log?.errorMessage(unknownError.message!)
                 
                 callback(DataResponse(request: request, data: data, response: httpResponse, result: .failure(unknownError)))
             }

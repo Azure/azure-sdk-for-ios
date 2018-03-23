@@ -41,12 +41,3 @@ private extension ResourceError {
         case message    = "message"
     }
 }
-
-
-
-//print("")
-//print("ADError")
-//print("\t\(code)")
-//print("\t\(message)")
-//print("")
-

@@ -62,7 +62,7 @@ extension DocumentClient {
 extension DocumentClient {
     
     /// Creates default values for the "Accept-Encoding", "Accept-Language", "User-Agent", and "x-ms-version" headers.
-    static let defaultHTTPHeaders: HttpHeaders = {
+    static let defaultHttpHeaders: HttpHeaders = {
         
         var headers = Bundle(for: DocumentClient.self).defaultHttpHeaders
         

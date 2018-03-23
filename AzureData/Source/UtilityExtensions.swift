@@ -70,19 +70,16 @@ extension Encodable {
 
 extension DecodingError {
     
-    func printLog() {
+    var logMessage: String {
         switch self {
         case .typeMismatch(let type, let context):
-            print("❌ decodeError: typeMismatch\n\ttype: \(type)\n\tcontext: \(context)\n")
-            
+            return "❌ decodeError: typeMismatch\n\ttype: \(type)\n\tcontext: \(context)\n"
         case .dataCorrupted(let context):
-            print("❌ decodeError: dataCorrupted\n\tcontext: \(context)\n")
-            
+            return "❌ decodeError: dataCorrupted\n\tcontext: \(context)\n"
         case .keyNotFound(let key, let context):
-            print("❌ decodeError: keyNotFound\n\tkey: \(key)\n\tcontext: \(context)\n")
-            
+            return "❌ decodeError: keyNotFound\n\tkey: \(key)\n\tcontext: \(context)\n"
         case .valueNotFound(let type, let context):
-            print("❌ decodeError: valueNotFound\n\ttype: \(type)\n\tcontext: \(context)\n")
+            return "❌ decodeError: valueNotFound\n\ttype: \(type)\n\tcontext: \(context)\n"
         }
     }
 }
