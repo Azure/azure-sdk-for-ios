@@ -767,14 +767,14 @@ public class DocumentClient {
     // create
     fileprivate func create<T> (_ resource: T, at resourceUri: (URL, String)?, additionalHeaders: HttpHeaders? = nil, callback: @escaping (Response<T>) -> ()) {
         
-        guard resource.id.isValidResourceId else { callback(Response(DocumentClientError(withKind: .invalidId))); return }
+        guard resource.hasValidId else { callback(Response(DocumentClientError(withKind: .invalidId))); return }
         
         return self.createOrReplace(resource, at: resourceUri, additionalHeaders: additionalHeaders, callback: callback)
     }
 
     fileprivate func create<T> (resourceWithId resourceId: String, andData data: [String:String?]? = nil, at resourceUri: (URL, String)?, additionalHeaders: HttpHeaders? = nil, callback: @escaping (Response<T>) -> ()) {
         
-        guard resourceId.isValidResourceId else { callback(Response(DocumentClientError(withKind: .invalidId))); return }
+        guard resourceId.isValidIdForResource else { callback(Response(DocumentClientError(withKind: .invalidId))); return }
         
         var dict = data ?? [:]
         
@@ -843,14 +843,14 @@ public class DocumentClient {
     // replace
     fileprivate func replace<T> (_ resource: T, at resourceUri: (URL, String)?, additionalHeaders: HttpHeaders? = nil, callback: @escaping (Response<T>) -> ()) {
         
-        guard resource.id.isValidResourceId else { callback(Response(DocumentClientError(withKind: .invalidId))); return }
+        guard resource.hasValidId else { callback(Response(DocumentClientError(withKind: .invalidId))); return }
         
         return self.createOrReplace(resource, at: resourceUri, replacing: true, additionalHeaders: additionalHeaders, callback: callback)
     }
 
     fileprivate func replace<T> (resourceWithId resourceId: String, andData data: [String:String]? = nil, at resourceUri: (URL, String)?, additionalHeaders: HttpHeaders? = nil, callback: @escaping (Response<T>) -> ()) {
         
-        guard resourceId.isValidResourceId else { callback(Response(DocumentClientError(withKind: .invalidId))); return }
+        guard resourceId.isValidIdForResource else { callback(Response(DocumentClientError(withKind: .invalidId))); return }
         
         var dict = data ?? [:]
         

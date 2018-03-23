@@ -38,6 +38,15 @@ public protocol CodableResource : Codable {
 
 extension CodableResource {
     
+    public mutating func setAltLink(withContentPath path: String?) {
+        let pathComponent = path.isNilOrEmpty ? Self.type : "\(path!)/\(Self.type)"
+        self.setAltLink(to: "\(pathComponent)/\(id)")
+    }
+}
+
+
+extension CodableResource {
+    
     static func fragment (_ resourceId: String? = nil) -> String {
         return resourceId.isNilOrEmpty ? Self.type : "\(Self.type)/\(resourceId!)"
     }
@@ -64,14 +73,5 @@ extension CodableResource {
     
     static func url (atHost host: String, at path: String = Self.type) -> URL? {
         return URL(string: "https://\(host)/\(path)")
-    }
-}
-
-
-extension CodableResource {
-    
-    public mutating func setAltLink(withContentPath path: String?) {
-        let pathComponent = path.isNilOrEmpty ? Self.type : "\(path!)/\(Self.type)"
-        self.setAltLink(to: "\(pathComponent)/\(id)")
     }
 }
