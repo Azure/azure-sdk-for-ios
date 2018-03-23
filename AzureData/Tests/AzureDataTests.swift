@@ -59,7 +59,7 @@ class AzureDataTests: XCTestCase {
         // AzureData.configure(forAccountNamed: "<Database Name>", withKey: "<Database Master Key OR Resource Permission Token>", ofType: "<Master Key or Resource Token>")
         
         
-        AzureData.verboseLogging = true
+        //AzureData.verboseLogging = true
         
         if !AzureData.isConfigured() {
             

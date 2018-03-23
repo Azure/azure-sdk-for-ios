@@ -68,6 +68,7 @@ public extension Document {
         document.etag = "\"88005b65-0000-0000-0000-5a0dfabb0000\""
         document.attachmentsLink = "attachments/"
         document.timestamp = Date(timeIntervalSince1970: 1510865595)
+        document.altLink = "dbs/MyDatabase/colls/MyCollection/docs/MyDocument"
         return document
     }
 }
