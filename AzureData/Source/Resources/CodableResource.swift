@@ -37,41 +37,8 @@ public protocol CodableResource : Codable {
 }
 
 extension CodableResource {
-    
     public mutating func setAltLink(withContentPath path: String?) {
         let pathComponent = path.isNilOrEmpty ? Self.type : "\(path!)/\(Self.type)"
         self.setAltLink(to: "\(pathComponent)/\(id)")
-    }
-}
-
-
-extension CodableResource {
-    
-    static func fragment (_ resourceId: String? = nil) -> String {
-        return resourceId.isNilOrEmpty ? Self.type : "\(Self.type)/\(resourceId!)"
-    }
-    
-    static func path (fromParent parentPath: String? = nil, resourceId: String? = nil) -> String {
-        return parentPath.isNilOrEmpty ? fragment(resourceId) : "\(parentPath!)/\(fragment(resourceId))"
-    }
-    
-    static func link (fromParentPath parentPath: String? = nil, resourceId: String? = nil) -> String {
-        return resourceId.isNilOrEmpty ? parentPath ?? "" : path(fromParent: parentPath, resourceId: resourceId)
-    }
-    
-    static func link (fromParentSelfLink parentSelf: String, resourceId: String? = nil) -> String {
-        return resourceId.isNilOrEmpty ? String((parentSelf).split(separator: "/").last!).lowercased() : resourceId!.lowercased()
-    }
-    
-    func resourceUri (forHost host: String) -> (URL, String)? {
-        return self.selfLink.isNilOrEmpty ? nil : (URL(string: "\(host)/\(self.selfLink!)")!, self.resourceId.lowercased())
-    }
-//    public var link: String {
-//        self.selfLink?.split(separator: "/")
-//        // dbs/TC1AAA==/colls/TC1AAMDvwgA=/docs/TC1AAMDvwgBQAAAAAAAAAA==/
-//    }
-    
-    static func url (atHost host: String, at path: String = Self.type) -> URL? {
-        return URL(string: "https://\(host)/\(path)")
     }
 }

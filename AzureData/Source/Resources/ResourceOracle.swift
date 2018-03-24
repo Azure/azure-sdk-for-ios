@@ -7,19 +7,39 @@
 //
 
 import Foundation
+import AzureCore
 
 public class ResourceOracle {
+    
+    static var host: String?
+    
+    fileprivate static let altLinkLookupStorageKey  = "com.azure.data.lookup.altlink"
+    fileprivate static let selfLinkLookupStorageKey = "com.azure.data.lookup.selflink"
     
     fileprivate static let slashString: String = "/"
     fileprivate static let slashCharacter: Character = "/"
     fileprivate static let slashCharacterSet: CharacterSet = ["/"]
     
-
     fileprivate static var altLinkLookup:  [String:String] = [:]
     fileprivate static var selfLinkLookup: [String:String] = [:]
 
+    public static func commit() {
+        UserDefaults.standard.set(altLinkLookup,  forKey: altLinkLookupStorageKey)
+        UserDefaults.standard.set(selfLinkLookup, forKey: selfLinkLookupStorageKey)
+    }
     
-    public static func storeLinks(forResource resource: CodableResource) {
+    public static func restore() {
+        altLinkLookup  = UserDefaults.standard.dictionary(forKey: altLinkLookupStorageKey)  as? [String:String] ?? [:]
+        selfLinkLookup = UserDefaults.standard.dictionary(forKey: selfLinkLookupStorageKey) as? [String:String] ?? [:]
+    }
+
+    public static func purge() {
+        altLinkLookup  = [:]
+        selfLinkLookup = [:]
+        commit()
+    }
+    
+    fileprivate static func _storeLinks(forResource resource: CodableResource) {
         
         if let selfLink = resource.selfLink, let altLink = resource.altLink {
             
@@ -33,10 +53,10 @@ public class ResourceOracle {
                 var i = 0
                 
                 while i < count {
-                
+                    
                     let altLinkComponent  = altLinkSubstrings.dropLast(i).joined(separator: slashString)
                     let selfLinkComponent = selfLinkSubstrings.dropLast(i).joined(separator: slashString)
-
+                    
                     altLinkLookup[selfLinkComponent] = altLinkComponent
                     selfLinkLookup[altLinkComponent] = selfLinkComponent
                     
@@ -44,6 +64,44 @@ public class ResourceOracle {
                 }
             }
         }
+    }
+    
+    
+    public static func storeLinks(forResource resource: CodableResource) {
+        
+        _storeLinks(forResource: resource)
+        
+        commit()
+    }
+
+    
+    public static func storeLinks<T>(forResources resources: Resources<T>) {
+        
+        for resource in resources.items {
+            _storeLinks(forResource: resource)
+        }
+        
+        commit()
+    }
+
+    
+    fileprivate static func _removeLinks(forResource resource: CodableResource) {
+
+        if let selfLink = getSelfLink(forResource: resource) {
+            altLinkLookup[selfLink] = nil
+        }
+
+        if let altLink = getAltLink(forResource: resource) {
+            selfLinkLookup[altLink] = nil
+        }
+    }
+    
+    
+    public static func removeLinks(forResource resource: CodableResource) {
+        
+        _removeLinks(forResource: resource)
+        
+        commit()
     }
     
     
@@ -139,26 +197,17 @@ public class ResourceOracle {
     
     
     public static func printDump() {
-        print("")
-        print("")
-        print("altLinkLookup:")
-        print("")
+        
+        print("\n*****\n*****\n\naltLinkLookup  : \(altLinkLookup.count)\nselfLinkLookup : \(selfLinkLookup.count)\n\n*****\n*****\n")
+        
+        print("\n\naltLinkLookup:\n")
         for al in altLinkLookup {
-            print("key   : \(al.key)")
-            print("value : \(al.value)")
-            print("")
+            print("key   : \(al.key)\nvalue : \(al.value)\n")
         }
-        print("")
-        print("")
-        print("selfLinkLookup:")
-        print("")
+        print("\n\nselfLinkLookup:\n")
         for sl in selfLinkLookup {
-            print("key   : \(sl.key)")
-            print("value : \(sl.value)")
-            print("")
-
+            print("key   : \(sl.key)\nvalue : \(sl.value)\n")
         }
-        print("")
-        print("")
+        print("\n")
     }
 }

@@ -102,7 +102,7 @@ class UserTests: AzureDataTests {
         // Delete
         if let user = replaceResponse?.resource ?? createResponse?.resource {
             
-            AzureData.delete(user, fromDatabase: databaseId) { r in
+            AzureData.delete(user) { r in
                 deleteResponse = r
                 self.deleteExpectation.fulfill()
             }

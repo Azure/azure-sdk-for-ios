@@ -63,9 +63,9 @@ public func get (databaseWithId databaseId: String, callback: @escaping (Respons
 }
 
 /// Delete a Database
-public func delete (_ database: Database, callback: @escaping (DataResponse) -> ()) {
-    return DocumentClient.default.delete (database, callback: callback)
-}
+//public func delete (_ database: Database, callback: @escaping (DataResponse) -> ()) {
+//    return DocumentClient.default.delete (database, callback: callback)
+//}
 
 
 
@@ -88,9 +88,9 @@ public func get (collectionWithId collectionId: String, inDatabase databaseId: S
 }
 
 // delete
-public func delete (_ collection: DocumentCollection, fromDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
-    return DocumentClient.default.delete (collection, fromDatabase: databaseId, callback: callback)
-}
+//public func delete (_ collection: DocumentCollection, fromDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
+//    return DocumentClient.default.delete (collection, fromDatabase: databaseId, callback: callback)
+//}
 
 // replace
 // TODO: replace
@@ -128,13 +128,13 @@ public func get<T: Document> (documentWithId documentId: String, as documentType
 }
 
 // delete
-public func delete (_ document: Document, fromCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
-    return DocumentClient.default.delete (document, fromCollection: collectionId, inDatabase: databaseId, callback: callback)
-}
-
-public func delete (_ document: Document, from collection: DocumentCollection, callback: @escaping (DataResponse) -> ()) {
-    return DocumentClient.default.delete (document, from: collection, callback: callback)
-}
+//public func delete (_ document: Document, fromCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
+//    return DocumentClient.default.delete (document, fromCollection: collectionId, inDatabase: databaseId, callback: callback)
+//}
+//
+//public func delete (_ document: Document, from collection: DocumentCollection, callback: @escaping (DataResponse) -> ()) {
+//    return DocumentClient.default.delete (document, from: collection, callback: callback)
+//}
 
 // replace
 public func replace<T: Document> (_ document: T, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<T>) -> ()) {
@@ -193,13 +193,13 @@ public func get (attachmentsOn document: Document, callback: @escaping (ListResp
 }
 
 // delete
-public func delete (_ attachment: Attachment, onDocument documentId: String, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
-    return DocumentClient.default.delete (attachment, onDocument: documentId, inCollection: collectionId, inDatabase: databaseId, callback: callback)
-}
-
-public func delete (_ attachment: Attachment, onDocument document: Document, callback: @escaping (DataResponse) -> ()) {
-    return DocumentClient.default.delete (attachment, onDocument: document, callback: callback)
-}
+//public func delete (_ attachment: Attachment, onDocument documentId: String, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
+//    return DocumentClient.default.delete (attachment, onDocument: documentId, inCollection: collectionId, inDatabase: databaseId, callback: callback)
+//}
+//
+//public func delete (_ attachment: Attachment, onDocument document: Document, callback: @escaping (DataResponse) -> ()) {
+//    return DocumentClient.default.delete (attachment, onDocument: document, callback: callback)
+//}
 
 // replace
 public func replace (attachmentWithId attachmentId: String, contentType: String, andMediaUrl mediaUrl: URL, onDocument documentId: String, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Attachment>) -> ()) {
@@ -242,13 +242,13 @@ public func get (storedProceduresIn collection: DocumentCollection, callback: @e
 }
 
 // delete
-public func delete (_ storedProcedure: StoredProcedure, fromCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
-    return DocumentClient.default.delete (storedProcedure, fromCollection: collectionId, inDatabase: databaseId, callback: callback)
-}
-
-public func delete (_ storedProcedure: StoredProcedure, from collection: DocumentCollection, callback: @escaping (DataResponse) -> ()) {
-    return DocumentClient.default.delete (storedProcedure, from: collection, callback: callback)
-}
+//public func delete (_ storedProcedure: StoredProcedure, fromCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
+//    return DocumentClient.default.delete (storedProcedure, fromCollection: collectionId, inDatabase: databaseId, callback: callback)
+//}
+//
+//public func delete (_ storedProcedure: StoredProcedure, from collection: DocumentCollection, callback: @escaping (DataResponse) -> ()) {
+//    return DocumentClient.default.delete (storedProcedure, from: collection, callback: callback)
+//}
 
 // replace
 public func replace (storedProcedureWithId storedProcedureId: String, andBody procedure: String, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<StoredProcedure>) -> ()) {
@@ -292,13 +292,13 @@ public func get (userDefinedFunctionsIn collection: DocumentCollection, callback
 }
 
 // delete
-public func delete (_ userDefinedFunction: UserDefinedFunction, fromCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
-    return DocumentClient.default.delete (userDefinedFunction, fromCollection: collectionId, inDatabase: databaseId, callback: callback)
-}
-
-public func delete (_ userDefinedFunction: UserDefinedFunction, from collection: DocumentCollection, callback: @escaping (DataResponse) -> ()) {
-    return DocumentClient.default.delete (userDefinedFunction, from: collection, callback: callback)
-}
+//public func delete (_ userDefinedFunction: UserDefinedFunction, fromCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
+//    return DocumentClient.default.delete (userDefinedFunction, fromCollection: collectionId, inDatabase: databaseId, callback: callback)
+//}
+//
+//public func delete (_ userDefinedFunction: UserDefinedFunction, from collection: DocumentCollection, callback: @escaping (DataResponse) -> ()) {
+//    return DocumentClient.default.delete (userDefinedFunction, from: collection, callback: callback)
+//}
 
 // replace
 public func replace (userDefinedFunctionWithId functionId: String, andBody function: String, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<UserDefinedFunction>) -> ()) {
@@ -333,13 +333,13 @@ public func get (triggersIn collection: DocumentCollection, callback: @escaping 
 }
 
 // delete
-public func delete (_ trigger: Trigger, fromCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
-    return DocumentClient.default.delete (trigger, fromCollection: collectionId, inDatabase: databaseId, callback: callback)
-}
-
-public func delete (_ trigger: Trigger, from collection: DocumentCollection, callback: @escaping (DataResponse) -> ()) {
-    return DocumentClient.default.delete (trigger, from: collection, callback: callback)
-}
+//public func delete (_ trigger: Trigger, fromCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
+//    return DocumentClient.default.delete (trigger, fromCollection: collectionId, inDatabase: databaseId, callback: callback)
+//}
+//
+//public func delete (_ trigger: Trigger, from collection: DocumentCollection, callback: @escaping (DataResponse) -> ()) {
+//    return DocumentClient.default.delete (trigger, from: collection, callback: callback)
+//}
 
 // replace
 public func replace (triggerWithId triggerId: String, operation: Trigger.TriggerOperation, type triggerType: Trigger.TriggerType, andBody triggerBody: String, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Trigger>) -> ()) {
@@ -371,9 +371,9 @@ public func get (userWithId userId: String, inDatabase databaseId: String, callb
 }
 
 // delete
-public func delete (_ user: User, fromDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
-    return DocumentClient.default.delete (user, fromDatabase: databaseId, callback: callback)
-}
+//public func delete (_ user: User, fromDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
+//    return DocumentClient.default.delete (user, fromDatabase: databaseId, callback: callback)
+//}
 
 // replace
 public func replace (userWithId userId: String, with newUserId: String, inDatabase databaseId: String, callback: @escaping (Response<User>) -> ()) {
@@ -413,13 +413,13 @@ public func get (permissionWithId permissionId: String, forUser user: User, call
 }
 
 // delete
-public func delete (_ permission: Permission, forUser userId: String, inDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
-    return DocumentClient.default.delete (permission, forUser: userId, inDatabase: databaseId, callback: callback)
-}
-
-public func delete (_ permission: Permission, forUser user: User, callback: @escaping (DataResponse) -> ()) {
-    return DocumentClient.default.delete (permission, forUser: user, callback: callback)
-}
+//public func delete (_ permission: Permission, forUser userId: String, inDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
+//    return DocumentClient.default.delete (permission, forUser: userId, inDatabase: databaseId, callback: callback)
+//}
+//
+//public func delete (_ permission: Permission, forUser user: User, callback: @escaping (DataResponse) -> ()) {
+//    return DocumentClient.default.delete (permission, forUser: user, callback: callback)
+//}
 
 // replace
 public func replace (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource, forUser userId: String, inDatabase databaseId: String, callback: @escaping (Response<Permission>) -> ()) {
@@ -461,7 +461,7 @@ public func refresh<T> (_ resource: T, callback: @escaping (Response<T>) -> ()) 
 
 
 // Delete
-fileprivate func delete<T:CodableResource>(_ resource: T, callback: @escaping (DataResponse) -> ()) {
+public func delete<T:CodableResource>(_ resource: T, callback: @escaping (DataResponse) -> ()) {
     return DocumentClient.default.delete(resource, callback: callback)
 }
 

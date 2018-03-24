@@ -39,7 +39,7 @@ class OfferTests: AzureDataTests {
         // Get
         if let offer = listResponse?.resource?.items.first {
 
-            AzureData.get(offerWithId: offer.resourceId) { r in
+            AzureData.get(offerWithId: offer.id) { r in
                 getResponse = r
                 self.getExpectation.fulfill()
             }

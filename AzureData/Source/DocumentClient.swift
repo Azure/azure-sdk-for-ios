@@ -87,11 +87,15 @@ public class DocumentClient {
     public func configure (forAccountNamed name: String, withKey key: String, ofType keyType: TokenType) {
         baseUri = ResourceUri(forAccountNamed: name)
         tokenProvider = TokenProvider(key: key, keyType: keyType, tokenVersion: "1.0")
+        ResourceOracle.host = baseUri?.host
+        ResourceOracle.restore()
     }
     
     public func configure (forAccountAt url: URL, withKey key: String, ofType keyType: TokenType) {
         baseUri = ResourceUri(forAccountAt: url)
         tokenProvider = TokenProvider(key: key, keyType: keyType, tokenVersion: "1.0")
+        ResourceOracle.host = baseUri?.host
+        ResourceOracle.restore()
     }
     
     public func reset () {
@@ -129,12 +133,12 @@ public class DocumentClient {
     }
     
     // delete
-    public func delete (_ database: Database, callback: @escaping (DataResponse) -> ()) {
-        
-        let resourceUri = baseUri?.database(database.id)
-        
-        return self.delete(Database.self, resourceUri: resourceUri, callback: callback)
-    }
+//    public func delete (_ database: Database, callback: @escaping (DataResponse) -> ()) {
+//
+//        let resourceUri = baseUri?.database(database.id)
+//
+//        return self.delete(Database.self, resourceUri: resourceUri, callback: callback)
+//    }
     
     
     
@@ -167,12 +171,12 @@ public class DocumentClient {
     }
     
     // delete
-    public func delete (_ collection: DocumentCollection, fromDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
-        
-        let resourceUri = baseUri?.collection(databaseId, collectionId: collection.id)
-        
-        return self.delete(DocumentCollection.self, resourceUri: resourceUri, callback: callback)
-    }
+//    public func delete (_ collection: DocumentCollection, fromDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
+//
+//        let resourceUri = baseUri?.collection(databaseId, collectionId: collection.id)
+//
+//        return self.delete(DocumentCollection.self, resourceUri: resourceUri, callback: callback)
+//    }
     
     // replace
     // TODO: replace
@@ -229,19 +233,19 @@ public class DocumentClient {
     }
     
     // delete
-    public func delete (_ document: Document, fromCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
-        
-        let resourceUri = baseUri?.document(inDatabase: databaseId, inCollection: collectionId, withId: document.id)
-        
-        return self.delete(Document.self, resourceUri: resourceUri, callback: callback)
-    }
-    
-    public func delete (_ document: Document, from collection: DocumentCollection, callback: @escaping (DataResponse) -> ()) {
-        
-        let resourceUri = baseUri?.document(atLink: collection.selfLink!, withResourceId: document.resourceId)
-        
-        return self.delete(Document.self, resourceUri: resourceUri, callback: callback)
-    }
+//    public func delete (_ document: Document, fromCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
+//
+//        let resourceUri = baseUri?.document(inDatabase: databaseId, inCollection: collectionId, withId: document.id)
+//
+//        return self.delete(Document.self, resourceUri: resourceUri, callback: callback)
+//    }
+//
+//    public func delete (_ document: Document, from collection: DocumentCollection, callback: @escaping (DataResponse) -> ()) {
+//
+//        let resourceUri = baseUri?.document(atLink: collection.selfLink!, withResourceId: document.resourceId)
+//
+//        return self.delete(Document.self, resourceUri: resourceUri, callback: callback)
+//    }
     
     // replace
     public func replace<T: Document> (_ document: T, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<T>) -> ()) {
@@ -338,19 +342,19 @@ public class DocumentClient {
     }
     
     // delete
-    public func delete (_ attachment: Attachment, onDocument documentId: String, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
-        
-        let resourceUri = baseUri?.attachment(databaseId, collectionId: collectionId, documentId: documentId, attachmentId: attachment.id)
-        
-        return self.delete(Attachment.self, resourceUri: resourceUri, callback: callback)
-    }
-    
-    public func delete (_ attachment: Attachment, onDocument document: Document, callback: @escaping (DataResponse) -> ()) {
-        
-        let resourceUri = baseUri?.attachment(atLink: document.selfLink!, withResourceId: attachment.id)
-        
-        return self.delete(Attachment.self, resourceUri: resourceUri, callback: callback)
-    }
+//    public func delete (_ attachment: Attachment, onDocument documentId: String, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
+//
+//        let resourceUri = baseUri?.attachment(databaseId, collectionId: collectionId, documentId: documentId, attachmentId: attachment.id)
+//
+//        return self.delete(Attachment.self, resourceUri: resourceUri, callback: callback)
+//    }
+//
+//    public func delete (_ attachment: Attachment, onDocument document: Document, callback: @escaping (DataResponse) -> ()) {
+//
+//        let resourceUri = baseUri?.attachment(atLink: document.selfLink!, withResourceId: attachment.id)
+//
+//        return self.delete(Attachment.self, resourceUri: resourceUri, callback: callback)
+//    }
     
     // replace
     public func replace(attachmentWithId attachmentId: String, contentType: String, andMediaUrl mediaUrl: URL, onDocument documentId: String, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Attachment>) -> ()) {
@@ -419,19 +423,19 @@ public class DocumentClient {
     }
     
     // delete
-    public func delete (_ storedProcedure: StoredProcedure, fromCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
-        
-        let resourceUri = baseUri?.storedProcedure(databaseId, collectionId: collectionId, storedProcedureId: storedProcedure.id)
-        
-        return self.delete(StoredProcedure.self, resourceUri: resourceUri, callback: callback)
-    }
-    
-    public func delete (_ storedProcedure: StoredProcedure, from collection: DocumentCollection, callback: @escaping (DataResponse) -> ()) {
-        
-        let resourceUri = baseUri?.storedProcedure(atLink: collection.selfLink!, withResourceId: storedProcedure.id)
-        
-        return self.delete(StoredProcedure.self, resourceUri: resourceUri, callback: callback)
-    }
+//    public func delete (_ storedProcedure: StoredProcedure, fromCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
+//        
+//        let resourceUri = baseUri?.storedProcedure(databaseId, collectionId: collectionId, storedProcedureId: storedProcedure.id)
+//        
+//        return self.delete(StoredProcedure.self, resourceUri: resourceUri, callback: callback)
+//    }
+//    
+//    public func delete (_ storedProcedure: StoredProcedure, from collection: DocumentCollection, callback: @escaping (DataResponse) -> ()) {
+//        
+//        let resourceUri = baseUri?.storedProcedure(atLink: collection.selfLink!, withResourceId: storedProcedure.id)
+//        
+//        return self.delete(StoredProcedure.self, resourceUri: resourceUri, callback: callback)
+//    }
     
     // replace
     public func replace (storedProcedureWithId storedProcedureId: String, andBody procedure: String, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<StoredProcedure>) -> ()) {
@@ -500,19 +504,19 @@ public class DocumentClient {
     }
     
     // delete
-    public func delete (_ userDefinedFunction: UserDefinedFunction, fromCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
-        
-        let resourceUri = baseUri?.udf(databaseId, collectionId: collectionId, udfId: userDefinedFunction.id)
-        
-        return self.delete(UserDefinedFunction.self, resourceUri: resourceUri, callback: callback)
-    }
-    
-    public func delete (_ userDefinedFunction: UserDefinedFunction, from collection: DocumentCollection, callback: @escaping (DataResponse) -> ()) {
-        
-        let resourceUri = baseUri?.udf(atLink: collection.selfLink!, withResourceId: userDefinedFunction.id)
-        
-        return self.delete(UserDefinedFunction.self, resourceUri: resourceUri, callback: callback)
-    }
+//    public func delete (_ userDefinedFunction: UserDefinedFunction, fromCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
+//
+//        let resourceUri = baseUri?.udf(databaseId, collectionId: collectionId, udfId: userDefinedFunction.id)
+//
+//        return self.delete(UserDefinedFunction.self, resourceUri: resourceUri, callback: callback)
+//    }
+//
+//    public func delete (_ userDefinedFunction: UserDefinedFunction, from collection: DocumentCollection, callback: @escaping (DataResponse) -> ()) {
+//
+//        let resourceUri = baseUri?.udf(atLink: collection.selfLink!, withResourceId: userDefinedFunction.id)
+//
+//        return self.delete(UserDefinedFunction.self, resourceUri: resourceUri, callback: callback)
+//    }
     
     // replace
     public func replace (userDefinedFunctionWithId functionId: String, andBody function: String, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<UserDefinedFunction>) -> ()) {
@@ -566,19 +570,19 @@ public class DocumentClient {
     }
     
     // delete
-    public func delete (_ trigger: Trigger, fromCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
-        
-        let resourceUri = baseUri?.trigger(databaseId, collectionId: collectionId, triggerId: trigger.id)
-        
-        return self.delete(Trigger.self, resourceUri: resourceUri, callback: callback)
-    }
+//    public func delete (_ trigger: Trigger, fromCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
+//
+//        let resourceUri = baseUri?.trigger(databaseId, collectionId: collectionId, triggerId: trigger.id)
+//
+//        return self.delete(Trigger.self, resourceUri: resourceUri, callback: callback)
+//    }
     
-    public func delete (_ trigger: Trigger, from collection: DocumentCollection, callback: @escaping (DataResponse) -> ()) {
-        
-        let resourceUri = baseUri?.trigger(atLink: collection.selfLink!, withResourceId: trigger.id)
-        
-        return self.delete(Trigger.self, resourceUri: resourceUri, callback: callback)
-    }
+//    public func delete (_ trigger: Trigger, from collection: DocumentCollection, callback: @escaping (DataResponse) -> ()) {
+//
+//        let resourceUri = baseUri?.trigger(atLink: collection.selfLink!, withResourceId: trigger.id)
+//
+//        return self.delete(Trigger.self, resourceUri: resourceUri, callback: callback)
+//    }
     
     // replace
     public func replace (triggerWithId triggerId: String, operation: Trigger.TriggerOperation, type triggerType: Trigger.TriggerType, andBody triggerBody: String, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Trigger>) -> ()) {
@@ -626,12 +630,12 @@ public class DocumentClient {
     }
     
     // delete
-    public func delete (_ user: User, fromDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
-        
-        let resourceUri = baseUri?.user(databaseId, userId: user.id)
-        
-        return self.delete(User.self, resourceUri: resourceUri, callback: callback)
-    }
+//    public func delete (_ user: User, fromDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
+//
+//        let resourceUri = baseUri?.user(databaseId, userId: user.id)
+//
+//        return self.delete(User.self, resourceUri: resourceUri, callback: callback)
+//    }
     
     // replace
     public func replace (userWithId userId: String, with newUserId: String, inDatabase databaseId: String, callback: @escaping (Response<User>) -> ()) {
@@ -697,19 +701,19 @@ public class DocumentClient {
     }
     
     // delete
-    public func delete (_ permission: Permission, forUser userId: String, inDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
-        
-        let resourceUri = baseUri?.permission(databaseId, userId: userId, permissionId: permission.id)
-        
-        return self.delete(Permission.self, resourceUri: resourceUri, callback: callback)
-    }
-    
-    public func delete (_ permission: Permission, forUser user: User, callback: @escaping (DataResponse) -> ()) {
-        
-        let resourceUri = baseUri?.permission(atLink: user.selfLink!, withResourceId: permission.id)
-        
-        return self.delete(Permission.self, resourceUri: resourceUri, callback: callback)
-    }
+//    public func delete (_ permission: Permission, forUser userId: String, inDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
+//
+//        let resourceUri = baseUri?.permission(databaseId, userId: userId, permissionId: permission.id)
+//
+//        return self.delete(Permission.self, resourceUri: resourceUri, callback: callback)
+//    }
+//
+//    public func delete (_ permission: Permission, forUser user: User, callback: @escaping (DataResponse) -> ()) {
+//
+//        let resourceUri = baseUri?.permission(atLink: user.selfLink!, withResourceId: permission.id)
+//
+//        return self.delete(Permission.self, resourceUri: resourceUri, callback: callback)
+//    }
     
     // replace
     public func replace (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource, forUser userId: String, inDatabase databaseId: String, callback: @escaping (Response<Permission>) -> ()) {
@@ -808,34 +812,40 @@ public class DocumentClient {
         
         guard isConfigured else { callback(Response(DocumentClientError(withKind: .configureError))); return }
         
-        guard !resource.selfLink.isNilOrEmpty && !resource.resourceId.isEmpty else { callback(Response(DocumentClientError(withKind: .incompleteIds))); return }
+        guard !resource.selfLink.isNilOrEmpty && !resource.resourceId.isEmpty
+            else { callback(Response(DocumentClientError(withKind: .incompleteIds))); return }
         
-        let resourceUri = resource.resourceUri(forHost: baseUri!.baseUri)
+        let resourceUri = (URL(string: "\(baseUri!.baseUri)/\(resource.selfLink!)")!, resource.resourceId.lowercased())
         
-        let request = dataRequest(T.self, .get, resourceUri: resourceUri!, additionalHeaders: [ HttpHeader.ifNoneMatch.rawValue : resource.etag! ])
+        let request = dataRequest(T.self, .get, resourceUri: resourceUri, additionalHeaders: [ HttpHeader.ifNoneMatch.rawValue : resource.etag! ])
         
         return self.sendRequest(request, currentResource: resource, callback: callback)
     }
     
     // delete
-    fileprivate func delete<T:CodableResource>(_ type: T.Type = T.self, resourceUri: (URL, String)?, callback: @escaping (DataResponse) -> ()) {
-        
-        guard isConfigured else { callback(DataResponse(DocumentClientError(withKind: .configureError))); return }
-        
-        let request = dataRequest(T.self, .delete, resourceUri: resourceUri!)
-        
-        return self.sendRequest(request, callback: callback)
-    }
+//    fileprivate func delete<T:CodableResource>(_ type: T.Type = T.self, resourceUri: (URL, String)?, callback: @escaping (DataResponse) -> ()) {
+//        
+//        guard isConfigured else { callback(DataResponse(DocumentClientError(withKind: .configureError))); return }
+//        
+//        print("delete aaa \(resourceUri!.1)")
+//        
+//        let request = dataRequest(T.self, .delete, resourceUri: resourceUri!)
+//        
+//        return self.sendRequest(request, callback: callback)
+//    }
 
     func delete<T:CodableResource>(_ resource: T, callback: @escaping (DataResponse) -> ()) {
         
         guard isConfigured else { callback(DataResponse(DocumentClientError(withKind: .configureError))); return }
         
-        guard !resource.selfLink.isNilOrEmpty && !resource.resourceId.isEmpty else { callback(DataResponse(DocumentClientError(withKind: .incompleteIds))); return }
+        guard !resource.selfLink.isNilOrEmpty && !resource.resourceId.isEmpty
+            else { callback(DataResponse(DocumentClientError(withKind: .incompleteIds))); return }
         
-        let resourceUri = resource.resourceUri(forHost: baseUri!.baseUri)
+        ResourceOracle.removeLinks(forResource: resource)
         
-        let request = dataRequest(T.self, .delete, resourceUri: resourceUri!)
+        let resourceUri = (URL(string: "\(baseUri!.baseUri)/\(resource.selfLink!)")!, resource.resourceId.lowercased())
+        
+        let request = dataRequest(T.self, .delete, resourceUri: resourceUri)
         
         return self.sendRequest(request, callback: callback)
     }

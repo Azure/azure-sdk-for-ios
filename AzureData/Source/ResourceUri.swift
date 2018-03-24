@@ -10,15 +10,21 @@ import Foundation
 
 // https://docs.microsoft.com/en-us/rest/api/documentdb/documentdb-resource-uri-syntax-for-rest
 public struct ResourceUri {
+    
+    fileprivate let slashCharacterSet: CharacterSet = ["/"]
+    
     let empty = ""
     
+    let host: String
     let baseUri: String
     
     init(forAccountNamed databaseaccount: String) {
-        baseUri = "https://\(databaseaccount).documents.azure.com"
+        host = databaseaccount + ".documents.azure.com"
+        baseUri = "https://" + host
     }
 
     init(forAccountAt databaseurl: URL) {
+        host = databaseurl.host!
         baseUri = databaseurl.absoluteString
     }
     
@@ -122,18 +128,19 @@ public struct ResourceUri {
     
     fileprivate func getItemLink(forType type: ResourceType, baseLink: String, resourceId: String?) -> String {
         
+        let base = baseLink.trimmingCharacters(in: slashCharacterSet)
         let fragment = resourceId.isNilOrEmpty ? empty : "/\(resourceId!)"
         
         switch type {
         case .database:         return "dbs\(fragment)"
-        case .user:             return "\(baseLink)/users\(fragment)"
-        case .permission:       return "\(baseLink)/permissions\(fragment)"
-        case .collection:       return "\(baseLink)/colls\(fragment)"
-        case .storedProcedure:  return "\(baseLink)/sprocs\(fragment)"
-        case .trigger:          return "\(baseLink)/triggers\(fragment)"
-        case .udf:              return "\(baseLink)/udfs\(fragment)"
-        case .document:         return "\(baseLink)/docs\(fragment)"
-        case .attachment:       return "\(baseLink)/attachments\(fragment)"
+        case .user:             return "\(base)/users\(fragment)"
+        case .permission:       return "\(base)/permissions\(fragment)"
+        case .collection:       return "\(base)/colls\(fragment)"
+        case .storedProcedure:  return "\(base)/sprocs\(fragment)"
+        case .trigger:          return "\(base)/triggers\(fragment)"
+        case .udf:              return "\(base)/udfs\(fragment)"
+        case .document:         return "\(base)/docs\(fragment)"
+        case .attachment:       return "\(base)/attachments\(fragment)"
         case .offer:            return "offers\(fragment)"
         }
     }

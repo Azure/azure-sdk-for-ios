@@ -73,7 +73,7 @@ class AttachmentTests: AzureDataTests {
         // Delete
         if let attachment = replaceResponse?.resource ?? createResponse?.resource {
             
-            AzureData.delete (attachment, onDocument: documentId, inCollection: collectionId, inDatabase: databaseId) { r in
+            AzureData.delete (attachment) { r in
                 deleteResponse = r
                 self.deleteExpectation.fulfill()
             }

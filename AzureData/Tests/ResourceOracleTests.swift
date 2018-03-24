@@ -22,12 +22,21 @@ class ResourceOracleTests: XCTestCase {
     }
     
     func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
         
-        ResourceOracle.storeLinks(forResource: Document.testDocument)
+//        ResourceOracle.storeLinks(forResource: Document.testDocument)
+//        print("pd 0")
+//        ResourceOracle.printDump()
         
-        ResourceOracle.printDump()
+//        ResourceOracle.commit()
+//        ResourceOracle.printDump()
+        
+//        print("pd 1")
+//        ResourceOracle.restore()
+//        ResourceOracle.printDump()
+//
+//        print("pd 2")
+//        ResourceOracle.purge()
+//        ResourceOracle.printDump()
     }
     
     func testPerformanceExample() {

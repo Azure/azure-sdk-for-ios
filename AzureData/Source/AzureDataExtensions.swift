@@ -47,7 +47,7 @@ public extension Database {
     
     //delete
     public func delete (_ resource: DocumentCollection, callback: @escaping (DataResponse) -> ()) {
-        return DocumentClient.default.delete(resource, fromDatabase: self.id, callback: callback)
+        return DocumentClient.default.delete(resource, callback: callback)
     }
     
     
@@ -71,7 +71,7 @@ public extension Database {
     
     //delete
     public func delete (_ user: User, callback: @escaping (DataResponse) -> ()) {
-        return DocumentClient.default.delete (user, fromDatabase: self.id, callback: callback)
+        return DocumentClient.default.delete (user, callback: callback)
     }
     
     // replace
@@ -110,7 +110,7 @@ public extension DocumentCollection {
     
     // delete
     public func delete (_ document: Document, callback: @escaping (DataResponse) -> ()) {
-        return DocumentClient.default.delete(document, from: self, callback: callback)
+        return DocumentClient.default.delete(document, callback: callback)
     }
     
     // replace
@@ -143,7 +143,7 @@ public extension DocumentCollection {
     
     // delete
     public func delete (_ storedProcedure: StoredProcedure, callback: @escaping (DataResponse) -> ()) {
-        return DocumentClient.default.delete (storedProcedure, from: self, callback: callback)
+        return DocumentClient.default.delete (storedProcedure, callback: callback)
     }
     
     // replace
@@ -172,7 +172,7 @@ public extension DocumentCollection {
     
     // delete
     public func delete (_ userDefinedFunction: UserDefinedFunction, callback: @escaping (DataResponse) -> ()) {
-        return DocumentClient.default.delete (userDefinedFunction, from: self, callback: callback)
+        return DocumentClient.default.delete (userDefinedFunction, callback: callback)
     }
     
     // replace
@@ -196,7 +196,7 @@ public extension DocumentCollection {
     
     // delete
     public func delete (_ trigger: Trigger, callback: @escaping (DataResponse) -> ()) {
-        return DocumentClient.default.delete (trigger, from: self, callback: callback)
+        return DocumentClient.default.delete (trigger, callback: callback)
     }
     
     // replace
@@ -234,7 +234,7 @@ public extension Document {
     
     // delete
     public func delete (_ attachment: Attachment, callback: @escaping (DataResponse) -> ()) {
-        return DocumentClient.default.delete (attachment, onDocument: self, callback: callback)
+        return DocumentClient.default.delete (attachment, callback: callback)
     }
     
     // replace
@@ -277,7 +277,7 @@ public extension User {
     
     // delete
     public func delete (_ permission: Permission, callback: @escaping (DataResponse) -> ()) {
-        return DocumentClient.default.delete (permission, forUser: self, callback: callback)
+        return DocumentClient.default.delete (permission, callback: callback)
     }
     
     // replace
