@@ -15,7 +15,7 @@ The SDKs are broken out by function and are designed to work just as well indivi
 - [AzureStorage](#azurestorage)
 
 ## AzureCore
-![Current State: Requirements](https://img.shields.io/badge/Current_State-Requirements-red.svg)
+![Current State: Development](https://img.shields.io/badge/Current_State-Development-blue.svg)
 
 [AzureCore API Reference](https://github.com/Azure/Azure.iOS/wiki/AzureCore) and [samples](https://github.com/Azure/Azure.iOS/wiki/AzureCore) can be found on our [wiki](https://github.com/Azure/Azure.iOS/wiki).
 
