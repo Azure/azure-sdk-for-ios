@@ -59,19 +59,7 @@ class AzureDataTests: XCTestCase {
         // AzureData.configure(forAccountNamed: "<Database Name>", withKey: "<Database Master Key OR Resource Permission Token>", ofType: "<Master Key or Resource Token>")
         
         
-        //AzureData.verboseLogging = true
-        
-        if !AzureData.isConfigured() {
-            
-            let bundle = Bundle(for: type(of: self))
-            
-            if let accountName = bundle.infoDictionary?["ADDatabaseAccountName"] as? String, accountName != "AZURE_COSMOS_DB_ACCOUNT_NAME",
-                let accountKey = bundle.infoDictionary?["ADDatabaseAccountKey"]  as? String, accountKey  != "AZURE_COSMOS_DB_ACCOUNT_Key" {
-            
-                AzureData.configure(forAccountNamed: accountName, withKey: accountKey, ofType: .master)
-            }
-        }
-        
+
         DocumentClient.default.dateEncoder = DocumentClient.roundTripIso8601Encoder
         DocumentClient.default.dateDecoder = DocumentClient.roundTripIso8601Decoder
         

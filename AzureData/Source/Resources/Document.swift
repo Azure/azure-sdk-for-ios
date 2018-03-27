@@ -64,7 +64,7 @@ public extension Document {
     public static var testDocument: Document {
         let document = Document()
         document.resourceId = "TC1AAMDvwgB4AAAAAAAAAA=="
-        document.selfLink = "dbs/TC1AAA==/colls/TC1AAMDvwgA=/docs/TC1AAMDvwgB4AAAAAAAAAA==/"
+        document.selfLink = "dbs/TC1AAA==/colls/TC1AAMDvwgA=/docs/TC1AAMDvwgB4AAAAAAAAAA=="
         document.etag = "\"88005b65-0000-0000-0000-5a0dfabb0000\""
         document.attachmentsLink = "attachments/"
         document.timestamp = Date(timeIntervalSince1970: 1510865595)

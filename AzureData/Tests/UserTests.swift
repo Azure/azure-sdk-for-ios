@@ -55,15 +55,12 @@ class UserTests: AzureDataTests {
         
         
         // Get
-        if createResponse?.result.isSuccess ?? false {
-            
-            AzureData.get(userWithId: resourceId, inDatabase: databaseId) { r in
-                getResponse = r
-                self.getExpectation.fulfill()
-            }
-            
-            wait(for: [getExpectation], timeout: timeout)
+        AzureData.get(userWithId: resourceId, inDatabase: databaseId) { r in
+            getResponse = r
+            self.getExpectation.fulfill()
         }
+        
+        wait(for: [getExpectation], timeout: timeout)
         
         XCTAssertNotNil(getResponse?.resource)
         
@@ -85,7 +82,7 @@ class UserTests: AzureDataTests {
         
         
         // Replace
-        if let user = createResponse?.resource  {
+        if let user = getResponse?.resource  {
          
             AzureData.replace(userWithId: user.id, with: replacedId, inDatabase: databaseId) { r in
                 replaceResponse = r
@@ -100,7 +97,7 @@ class UserTests: AzureDataTests {
         
         
         // Delete
-        if let user = replaceResponse?.resource ?? createResponse?.resource {
+        if let user = replaceResponse?.resource ?? getResponse?.resource {
             
             AzureData.delete(user) { r in
                 deleteResponse = r

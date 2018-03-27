@@ -58,22 +58,19 @@ class DatabaseUserExtensionsTests: AzureDataTests {
             
             
             // Get
-            if createResponse?.result.isSuccess ?? false {
-                
-                database.get(userWithId: resourceId) { r in
-                    getResponse = r
-                    self.getExpectation.fulfill()
-                }
-                
-                wait(for: [getExpectation], timeout: timeout)
+            database.get(userWithId: resourceId) { r in
+                getResponse = r
+                self.getExpectation.fulfill()
             }
             
+            wait(for: [getExpectation], timeout: timeout)
+
             XCTAssertNotNil(getResponse?.resource)
             
             
             
             // Replace
-            if let user = createResponse?.resource  {
+            if let user = getResponse?.resource  {
                 
                 database.replace(userWithId: user.id, with: replacedId) { r in
                     replaceResponse = r
@@ -88,7 +85,7 @@ class DatabaseUserExtensionsTests: AzureDataTests {
             
             
             // Delete
-            if let user = replaceResponse?.resource ?? createResponse?.resource {
+            if let user = replaceResponse?.resource ?? getResponse?.resource {
                 
                 database.delete(user) { r in
                     deleteResponse = r

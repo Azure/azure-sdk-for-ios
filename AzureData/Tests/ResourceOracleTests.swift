@@ -23,7 +23,63 @@ class ResourceOracleTests: XCTestCase {
     
     func testExample() {
         
-//        ResourceOracle.storeLinks(forResource: Document.testDocument)
+//        let document = Document.testDocument
+//        
+//        ResourceOracle.storeLinks(forResource: document)
+//        
+//        
+//        let altLink0 = ResourceOracle.getAltLink(forResource: document)
+//        
+//        XCTAssertNotNil(altLink0)
+//        XCTAssertEqual(altLink0!, document.altLink!)
+//
+//        
+//        let selfLink0 = ResourceOracle.getSelfLink(forResource: document)
+//        
+//        XCTAssertNotNil(selfLink0)
+//        XCTAssertEqual(selfLink0!, document.selfLink!)
+//
+//        
+//        let altLink1 = ResourceOracle.getAltLink(forSelfLink: document.selfLink!)
+//        
+//        XCTAssertNotNil(altLink1)
+//        XCTAssertEqual(altLink1!, document.altLink!)
+//
+//        
+//        let selfLink1 = ResourceOracle.getSelfLink(forAltLink: document.altLink!)
+//        
+//        XCTAssertNotNil(selfLink1)
+//        XCTAssertEqual(selfLink1!, document.selfLink!)
+//
+//        
+//        ResourceOracle.removeLinks(forResource: document)
+//        
+//        
+//        let altLink2 = ResourceOracle.getAltLink(forResource: document)
+//        
+//        XCTAssertNotNil(altLink2)
+//        XCTAssertEqual(altLink2!, document.altLink!)
+//
+//        
+//        let selfLink2 = ResourceOracle.getSelfLink(forResource: document)
+//        
+//        XCTAssertNotNil(selfLink2)
+//        XCTAssertEqual(selfLink2!, document.selfLink!)
+//        
+//        
+//        let altLink3 = ResourceOracle.getAltLink(forSelfLink: document.selfLink!)
+//        
+//        XCTAssertNil(altLink3)
+//
+//        
+//        let selfLink3 = ResourceOracle.getSelfLink(forAltLink: document.altLink!)
+//        
+//        XCTAssertNil(selfLink3)
+//
+//
+//        ResourceOracle.purge()
+
+        
 //        print("pd 0")
 //        ResourceOracle.printDump()
         

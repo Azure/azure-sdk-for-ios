@@ -57,15 +57,13 @@ class DatabaseCollectionExtensionsTests: AzureDataTests {
             
             
             // Get
-            if let collection = createResponse?.resource {
                 
-                database.get(collectionWithId: collection.id) { r in
-                    getResponse = r
-                    self.getExpectation.fulfill()
-                }
-                
-                wait(for: [getExpectation], timeout: timeout)
+            database.get(collectionWithId: collectionId) { r in
+                getResponse = r
+                self.getExpectation.fulfill()
             }
+            
+            wait(for: [getExpectation], timeout: timeout)
 
             XCTAssertNotNil(getResponse?.resource)
                 
@@ -73,7 +71,7 @@ class DatabaseCollectionExtensionsTests: AzureDataTests {
             
             
             // Delete
-            if let collection = createResponse?.resource {
+            if let collection = getResponse?.resource {
                 
                 database.delete(collection) { r in
                     deleteResponse = r

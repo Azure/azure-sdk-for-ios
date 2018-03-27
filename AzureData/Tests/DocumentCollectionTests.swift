@@ -54,15 +54,12 @@ class DocumentCollectionTests: AzureDataTests {
         
         
         // Get
-        if createResponse?.result.isSuccess ?? false {
-            
-            AzureData.get(collectionWithId: resourceId, inDatabase: databaseId) { r in
-                getResponse = r
-                self.getExpectation.fulfill()
-            }
-            
-            wait(for: [getExpectation], timeout: timeout)
+        AzureData.get(collectionWithId: resourceId, inDatabase: databaseId) { r in
+            getResponse = r
+            self.getExpectation.fulfill()
         }
+        
+        wait(for: [getExpectation], timeout: timeout)
         
         XCTAssertNotNil(getResponse?.resource)
 
