@@ -37,6 +37,11 @@ public protocol CodableResource : Codable {
 }
 
 extension CodableResource {
+    
+    public var path: String {
+        return Self.type
+    }
+    
     public mutating func setAltLink(withContentPath path: String?) {
         let pathComponent = path.isNilOrEmpty ? Self.type : "\(path!)/\(Self.type)"
         self.setAltLink(to: "\(pathComponent)/\(id)")

@@ -56,7 +56,7 @@ class AzureDataTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        // AzureData.configure(forAccountNamed: "<Database Name>", withKey: "<Database Master Key OR Resource Permission Token>", ofType: "<Master Key or Resource Token>")
+        // AzureData.configure(forAccountNamed: "<Database Name>", withMasterKey: "<Database Master Key OR Resource Permission Token>", withPermissionMode: "<Master Key Permission Mode>")
         
         
 

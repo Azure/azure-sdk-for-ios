@@ -22,9 +22,9 @@ public func isConfigured() -> Bool { return DocumentClient.default.isConfigured 
 ///   - name:       The name of the Cosmos DB account - used to create resource urls
 ///   - key:        A master read/read-write key for the account, or a permission token for a resource
 ///   - keyType:    The type of key - `.master` read/read-write key or a `.resource` permission token
-public func configure (forAccountNamed name: String, withKey key: String, ofType keyType: TokenType) {
-    return DocumentClient.default.configure (forAccountNamed: name, withKey: key, ofType: keyType)
-}
+//public func configure (forAccountNamed name: String, withKey key: String, ofType keyType: TokenType) {
+//    return DocumentClient.default.configure (forAccountNamed: name, withKey: key, ofType: keyType)
+//}
 
 /// Configures the client.  This should be called before performing any CRUD operations
 ///
@@ -32,8 +32,24 @@ public func configure (forAccountNamed name: String, withKey key: String, ofType
 ///   - name:       The custom domain of the Cosmos DB account - used to create resource urls
 ///   - key:        A master read/read-write key for the account, or a permission token for a resource
 ///   - keyType:    The type of key - `.master` read/read-write key or a `.resource` permission token
-public func configure (forAccountAt url: URL, withKey key: String, ofType keyType: TokenType) {
-    return DocumentClient.default.configure (forAccountAt: url, withKey: key, ofType: keyType)
+//public func configure (forAccountAt url: URL, withKey key: String, ofType keyType: TokenType) {
+//    return DocumentClient.default.configure (forAccountAt: url, withKey: key, ofType: keyType)
+//}
+
+public func configure (forAccountNamed name: String, withMasterKey key: String, withPermissionMode mode: PermissionMode) {
+    DocumentClient.default.configure(forAccountNamed: name, withMasterKey: key, withPermissionMode: mode)
+}
+
+public func configure (forAccountAt url: URL, withMasterKey key: String, withPermissionMode mode: PermissionMode) {
+    DocumentClient.default.configure(forAccountAt: url, withMasterKey: key, withPermissionMode: mode)
+}
+
+public func configure (forAccountNamed name: String, withPermissionProvider permissionProvider: PermissionProvider) {
+    DocumentClient.default.configure(forAccountNamed: name, withPermissionProvider: permissionProvider)
+}
+
+public func configure (forAccountAt url: URL, withPermissionProvider permissionProvider: PermissionProvider) {
+    DocumentClient.default.configure(forAccountAt: url, withPermissionProvider: permissionProvider)
 }
 
 

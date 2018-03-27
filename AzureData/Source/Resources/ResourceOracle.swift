@@ -39,6 +39,9 @@ public class ResourceOracle {
         commit()
     }
     
+    
+    // MARK: - storeLinks
+    
     fileprivate static func _storeLinks(forResource resource: CodableResource) {
         
         if let selfLink = resource.selfLink, let altLink = resource.altLink {
@@ -66,14 +69,12 @@ public class ResourceOracle {
         }
     }
     
-    
     public static func storeLinks(forResource resource: CodableResource) {
         
         _storeLinks(forResource: resource)
         
         commit()
     }
-
     
     public static func storeLinks<T>(forResources resources: Resources<T>) {
         
@@ -84,6 +85,8 @@ public class ResourceOracle {
         commit()
     }
 
+
+    // MARK: - removeLinks
     
     fileprivate static func _removeLinks(forResource resource: CodableResource) {
 
@@ -96,7 +99,6 @@ public class ResourceOracle {
         }
     }
     
-    
     public static func removeLinks(forResource resource: CodableResource) {
         
         _removeLinks(forResource: resource)
@@ -104,6 +106,8 @@ public class ResourceOracle {
         commit()
     }
     
+    
+    // MARK: - Get Parent Links
     
     public static func getParentAltLink(forResource resource: CodableResource) -> String? {
 
@@ -119,7 +123,6 @@ public class ResourceOracle {
         
         return altLinkSubstrings.dropLast(2).joined(separator: slashString)
     }
-    
     
     public static func getParentSelfLink(forResource resource: CodableResource) -> String? {
         
@@ -137,6 +140,8 @@ public class ResourceOracle {
     }
     
     
+    // MARK: - Get Links for Resource
+    
     public static func getAltLink(forResource resource: CodableResource) -> String? {
         
         var altLink = resource.altLink?.trimmingCharacters(in: slashCharacterSet)
@@ -151,7 +156,6 @@ public class ResourceOracle {
         
         return nil
     }
-
     
     public static func getSelfLink(forResource resource: CodableResource) -> String? {
         
@@ -169,6 +173,37 @@ public class ResourceOracle {
     }
 
     
+    // MARK: - Get Links for Links
+    
+    public static func getAltLink(forSelfLink selfLink: String) -> String? {
+        
+        let selfLink = selfLink.trimmingCharacters(in: slashCharacterSet)
+        
+        guard
+            !selfLink.isEmpty,
+            let altLink = altLinkLookup[selfLink],
+            !altLink.isEmpty
+            else { return nil }
+        
+        return altLink
+    }
+    
+    public static func getSelfLink(forAltLink altLink: String) -> String? {
+        
+        let altLink = altLink.trimmingCharacters(in: slashCharacterSet)
+        
+        guard
+            !altLink.isEmpty,
+            let selfLink = selfLinkLookup[altLink],
+            !selfLink.isEmpty
+            else { return nil }
+        
+        return selfLink
+    }
+    
+    
+    // MARK: - Get ResourceId
+    
     public static func getResourceId(forResource resource: CodableResource, withSelfLink selfLink: String? = nil) -> String? {
         
         var resourceId = resource.resourceId
@@ -184,6 +219,8 @@ public class ResourceOracle {
         return nil
     }
     
+    
+    // MARK: - Get File Path
     
     public static func getFilePath(forResource resource: CodableResource) -> String? {
         
