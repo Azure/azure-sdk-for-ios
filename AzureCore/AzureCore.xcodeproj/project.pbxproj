@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3259AE7E206C550A002EF09B /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3259AE7D206C550A002EF09B /* KeychainAccess.framework */; };
+		3259AE80206C5519002EF09B /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3259AE7F206C5519002EF09B /* KeychainAccess.framework */; };
+		3259AE82206C5523002EF09B /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3259AE81206C5523002EF09B /* KeychainAccess.framework */; };
+		3259AE84206C5531002EF09B /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3259AE83206C5531002EF09B /* KeychainAccess.framework */; };
 		930A01BB202BB95E002BD1FE /* AzureCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 93F8054B202BB20300D0B4F4 /* AzureCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		930A01F8202BBA09002BD1FE /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 930A01EF202BBA09002BD1FE /* AzureCore.framework */; };
 		930A0243202BBB3F002BD1FE /* AzureCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 93F8054B202BB20300D0B4F4 /* AzureCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -76,6 +80,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3259AE7D206C550A002EF09B /* KeychainAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainAccess.framework; path = Carthage/Build/iOS/KeychainAccess.framework; sourceTree = "<group>"; };
+		3259AE7F206C5519002EF09B /* KeychainAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainAccess.framework; path = Carthage/Build/Mac/KeychainAccess.framework; sourceTree = "<group>"; };
+		3259AE81206C5523002EF09B /* KeychainAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainAccess.framework; path = Carthage/Build/tvOS/KeychainAccess.framework; sourceTree = "<group>"; };
+		3259AE83206C5531002EF09B /* KeychainAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainAccess.framework; path = Carthage/Build/watchOS/KeychainAccess.framework; sourceTree = "<group>"; };
 		930A01EF202BBA09002BD1FE /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		930A01F7202BBA09002BD1FE /* AzureCore tvOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AzureCore tvOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		930A020B202BBA16002BD1FE /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -106,6 +114,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				93DA9413206038D100C49122 /* Willow.framework in Frameworks */,
+				3259AE82206C5523002EF09B /* KeychainAccess.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -122,6 +131,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				93DA9415206038D900C49122 /* Willow.framework in Frameworks */,
+				3259AE84206C5531002EF09B /* KeychainAccess.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -130,6 +140,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				93DA940F206038B900C49122 /* Willow.framework in Frameworks */,
+				3259AE7E206C550A002EF09B /* KeychainAccess.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -146,6 +157,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				93DA9411206038C700C49122 /* Willow.framework in Frameworks */,
+				3259AE80206C5519002EF09B /* KeychainAccess.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,6 +203,10 @@
 		93DA940D206038B900C49122 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3259AE7D206C550A002EF09B /* KeychainAccess.framework */,
+				3259AE7F206C5519002EF09B /* KeychainAccess.framework */,
+				3259AE81206C5523002EF09B /* KeychainAccess.framework */,
+				3259AE83206C5531002EF09B /* KeychainAccess.framework */,
 				93DA9414206038D900C49122 /* Willow.framework */,
 				93DA9412206038D100C49122 /* Willow.framework */,
 				93DA9410206038C700C49122 /* Willow.framework */,
@@ -547,10 +563,12 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/Willow.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/KeychainAccess.framework",
 			);
 			name = "Carthage Copy Frameworks";
 			outputPaths = (
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Willow.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/KeychainAccess.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -563,10 +581,12 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/Mac/Willow.framework",
+				"$(SRCROOT)/Carthage/Build/Mac/KeychainAccess.framework",
 			);
 			name = "Carthage Copy Frameworks";
 			outputPaths = (
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Willow.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/KeychainAccess.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -579,10 +599,12 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/tvOS/Willow.framework",
+				"$(SRCROOT)/Carthage/Build/tvOS/KeychainAccess.framework",
 			);
 			name = "Carthage Copy Frameworks";
 			outputPaths = (
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Willow.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/KeychainAccess.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -595,10 +617,12 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/watchOS/Willow.framework",
+				"$(SRCROOT)/Carthage/Build/watchOS/KeychainAccess.framework",
 			);
 			name = "Carthage Copy Frameworks";
 			outputPaths = (
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Willow.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/KeychainAccess.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
