@@ -89,8 +89,7 @@ class DatabaseTests: AzureDataTests {
         
         // Delete
         
-        //AzureData.delete(Database(databaseId)) { r in
-        getResponse?.resource?.delete { r in
+        AzureData.delete(databaseWithId: databaseId) { r in
             deleteResponse = r
             self.deleteExpectation.fulfill()
         }

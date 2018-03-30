@@ -79,9 +79,13 @@ public func get (databaseWithId databaseId: String, callback: @escaping (Respons
 }
 
 /// Delete a Database
-//public func delete (_ database: Database, callback: @escaping (DataResponse) -> ()) {
-//    return DocumentClient.default.delete (database, callback: callback)
-//}
+public func delete (_ database: Database, callback: @escaping (DataResponse) -> ()) {
+    return DocumentClient.default.delete (database, callback: callback)
+}
+
+public func delete (databaseWithId databaseId: String, callback: @escaping (DataResponse) -> ()) {
+    return DocumentClient.default.delete (databaseWithId: databaseId, callback: callback)
+}
 
 
 
