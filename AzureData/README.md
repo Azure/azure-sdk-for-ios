@@ -67,8 +67,16 @@ AzureData.get (databaseWithId: id) { r in
 
 #### Delete
 ```swift
-AzureData.delete (database) { s in
-    // s == successfully deleted
+AzureData.delete (database) { r in
+    // successfully deleted == r.isSuccess
+}
+
+AzureData.delete (databaseWithId: id) { r in
+    // successfully deleted == r.isSuccess
+}
+
+database.delete { r in
+    // successfully deleted == r.isSuccess
 }
 ```
 
