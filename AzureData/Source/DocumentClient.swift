@@ -187,11 +187,17 @@ public class DocumentClient {
     }
     
     // delete
-//    public func delete (_ collection: DocumentCollection, fromDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
-//
-//        return self.delete(DocumentCollection.self, at: resourceLocation, callback: callback)
-//    }
-    
+    public func delete (_ collection: DocumentCollection, fromDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
+        return self.delete(collectionWithId: collection.id, fromDatabase: databaseId, callback: callback)
+    }
+
+    public func delete (collectionWithId collectionId: String, fromDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
+
+        let resourceLocation: ResourceLocation = .collection(databaseId: databaseId, id: collectionId)
+
+        return self.delete(DocumentCollection.self, at: resourceLocation, callback: callback)
+    }
+
     // replace
     // TODO: replace
     

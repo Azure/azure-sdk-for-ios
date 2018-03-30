@@ -104,9 +104,13 @@ public func get (collectionWithId collectionId: String, inDatabase databaseId: S
 }
 
 // delete
-//public func delete (_ collection: DocumentCollection, fromDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
-//    return DocumentClient.default.delete (collection, fromDatabase: databaseId, callback: callback)
-//}
+public func delete (_ collection: DocumentCollection, fromDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
+    return DocumentClient.default.delete (collection, fromDatabase: databaseId, callback: callback)
+}
+
+public func delete (collectionWithId collectionId: String, fromDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
+    return DocumentClient.default.delete (collectionWithId: collectionId, fromDatabase: databaseId, callback: callback)
+}
 
 // replace
 // TODO: replace
