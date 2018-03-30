@@ -151,13 +151,13 @@ public class DocumentClient {
     }
     
     // delete
-//    public func delete (_ database: Database, callback: @escaping (DataResponse) -> ()) {
-//
-//        return self.delete(Database.self, at: resourceLocation, callback: callback)
-//    }
-    
-    
-    
+    public func delete (databaseWithId databaseId: String, callback: @escaping (DataResponse) -> ()) {
+
+        let resourceLocation: ResourceLocation = .database(id: databaseId)
+
+        return self.delete(Database.self, at: resourceLocation, callback: callback)
+    }
+
     
     
     // MARK: - Collections
@@ -828,14 +828,18 @@ public class DocumentClient {
     }
     
     // delete
-//    fileprivate func delete<T:CodableResource>(_ type: T.Type = T.self, at resourceLocation: ResourceLocation, callback: @escaping (DataResponse) -> ()) {
-//        
-//        guard isConfigured else { callback(DataResponse(DocumentClientError(withKind: .configureError))); return }
-//        
-//        let request = dataRequest(T.self, .delete, resourceLocation: resourceLocation)
-//        
-//        return self.sendRequest(request, callback: callback)
-//    }
+    fileprivate func delete<T:CodableResource>(_ type: T.Type, at resourceLocation: ResourceLocation, callback: @escaping (DataResponse) -> ()) {
+
+        guard isConfigured else { callback(DataResponse(DocumentClientError(withKind: .configureError))); return }
+
+        guard !resourceLocation.link.isEmpty else { callback(DataResponse(DocumentClientError(withKind: .incompleteIds))); return }
+
+        ResourceOracle.removeLinks(forResourceWithLink: resourceLocation.link)
+
+        let request = dataRequest(T.self, .delete, resourceLocation: resourceLocation)
+
+        return self.sendRequest(request, callback: callback)
+    }
 
     func delete<T:CodableResource>(_ resource: T, callback: @escaping (DataResponse) -> ()) {
         

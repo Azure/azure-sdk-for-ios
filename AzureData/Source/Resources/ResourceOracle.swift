@@ -98,15 +98,34 @@ public class ResourceOracle {
             selfLinkLookup[altLink] = nil
         }
     }
-    
+
+    fileprivate static func _removeLinks(forResourceWithLink link: String) {
+
+        if let selfLink = selfLinkLookup[link] {
+            selfLinkLookup[link] = nil
+            altLinkLookup[selfLink] = nil
+            return
+        }
+
+        if let altLink = altLinkLookup[link] {
+            altLinkLookup[link] = nil
+            selfLinkLookup[altLink] = nil
+        }
+    }
+
     public static func removeLinks(forResource resource: CodableResource) {
         
         _removeLinks(forResource: resource)
         
         commit()
     }
-    
-    
+
+    public static func removeLinks(forResourceWithLink link: String) {
+
+        _removeLinks(forResourceWithLink: link)
+
+        commit()
+    }
     // MARK: - Get Parent Links
     
     public static func getParentAltLink(forResource resource: CodableResource) -> String? {
@@ -171,7 +190,6 @@ public class ResourceOracle {
         
         return nil
     }
-
     
     // MARK: - Get Links for Links
     
