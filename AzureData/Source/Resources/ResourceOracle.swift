@@ -103,23 +103,14 @@ public class ResourceOracle {
 
         if let selfLink = selfLinkLookup[link] {
             selfLinkLookup[link] = nil
-
-            if let _ = altLinkLookup[selfLink] {
-                altLinkLookup[selfLink] = nil
-            }
-
+            altLinkLookup[selfLink] = nil
             return
         }
 
         if let altLink = altLinkLookup[link] {
             altLinkLookup[link] = nil
-
-            if let _ = selfLinkLookup[altLink] {
-                selfLinkLookup[altLink] = nil
-            }
+            selfLinkLookup[altLink] = nil
         }
-
-        commit()
     }
 
     public static func removeLinks(forResource resource: CodableResource) {
