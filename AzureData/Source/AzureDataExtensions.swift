@@ -47,7 +47,7 @@ public extension Database {
     
     //delete
     public func delete (_ collection: DocumentCollection, callback: @escaping (DataResponse) -> ()) {
-        return DocumentClient.default.delete(collection, fromDatabase: self.id, callback: callback)
+        return self.delete(collectionWithId: collection.id, callback: callback)
     }
 
     public func delete (collectionWithId collectionId: String, callback: @escaping (DataResponse) -> ()) {

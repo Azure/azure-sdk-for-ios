@@ -119,7 +119,7 @@ database.get (collectionWithId: id) { r in
 
 #### Delete
 ```swift
-AzureData.delete (collection, fromDatabase: databaseId) { r in
+AzureData.delete (collection) { r in
     // successfully deleted == r.isSuccess
 }
 
@@ -131,7 +131,7 @@ database.delete (collection) { r in
     // successfully deleted == r.isSuccess
 }
 
-database.delete (collectionWithId: collectionId, fromDatabase: databaseId) { r in
+database.delete (collectionWithId: collectionId) { r in
     // successfully deleted == r.isSuccess
 }
 
