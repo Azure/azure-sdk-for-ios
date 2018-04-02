@@ -46,7 +46,6 @@ public struct CodableDictionary {
 
 extension CodableDictionary: Collection {
 
-    public typealias IndexDistance = DictionaryType.IndexDistance
     public typealias Indices = DictionaryType.Indices
     public typealias Iterator = DictionaryType.Iterator
     public typealias SubSequence = DictionaryType.SubSequence
