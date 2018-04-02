@@ -97,7 +97,7 @@ class CollectionDocumentExtensionsTests: AzureDataTests {
             // Get
             if let document = createResponse?.resource {
                 
-                collection.get(documentWithResourceId: document.resourceId, as: DictionaryDocument.self) { r in
+                collection.get(documentWithResourceId: document.id, as: DictionaryDocument.self) { r in
                     getResponse = r
                     self.getExpectation.fulfill()
                 }
