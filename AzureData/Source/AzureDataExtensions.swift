@@ -46,10 +46,13 @@ public extension Database {
     }
     
     //delete
-    public func delete (_ resource: DocumentCollection, callback: @escaping (DataResponse) -> ()) {
-        return DocumentClient.default.delete(resource, callback: callback)
+    public func delete (_ collection: DocumentCollection, callback: @escaping (DataResponse) -> ()) {
+        return self.delete(collectionWithId: collection.id, callback: callback)
     }
-    
+
+    public func delete (collectionWithId collectionId: String, callback: @escaping (DataResponse) -> ()) {
+        return DocumentClient.default.delete(collectionWithId: collectionId, fromDatabase: self.id, callback: callback)
+    }
     
     
     // MARK: Users
