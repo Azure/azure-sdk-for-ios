@@ -191,7 +191,7 @@ public class DocumentClient {
 
         let resourceLocation: ResourceLocation = .collection(databaseId: databaseId, id: collectionId)
 
-        return self.delete(DocumentCollection.self, at: resourceLocation, callback: callback)
+        return self.delete(resourceAt: resourceLocation, callback: callback)
     }
 
     // replace
