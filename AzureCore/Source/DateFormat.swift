@@ -82,7 +82,7 @@ public extension DateFormatter {
             let fractionStr = String(dateString[fractionRange])
             
             if var fraction = Double(fractionStr) {
-                fraction = Double(floor(1000000*fraction)/1000000)
+                fraction = Double(ceil(1000000*fraction)/1000000)
                 preliminaryDate.addTimeInterval(fraction)
             }
         }
