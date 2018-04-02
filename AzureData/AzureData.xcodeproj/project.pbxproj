@@ -69,6 +69,9 @@
 		93ED3462206546C7008F8807 /* ResourceValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93ED3460206546C7008F8807 /* ResourceValidation.swift */; };
 		93ED3463206546C7008F8807 /* ResourceValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93ED3460206546C7008F8807 /* ResourceValidation.swift */; };
 		93ED3464206546C7008F8807 /* ResourceValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93ED3460206546C7008F8807 /* ResourceValidation.swift */; };
+		93F7CA1C206EDBED00D92C2E /* PermissionCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F7CA17206EDBC100D92C2E /* PermissionCacheTests.swift */; };
+		93F7CA1D206EDBEF00D92C2E /* PermissionCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F7CA17206EDBC100D92C2E /* PermissionCacheTests.swift */; };
+		93F7CA1E206EDBF100D92C2E /* PermissionCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F7CA17206EDBC100D92C2E /* PermissionCacheTests.swift */; };
 		93F9ACCC1FC0CA4800AC240C /* DocumentClientError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F9ACCB1FC0CA4800AC240C /* DocumentClientError.swift */; };
 		93F9ACCD1FC0CA4800AC240C /* DocumentClientError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F9ACCB1FC0CA4800AC240C /* DocumentClientError.swift */; };
 		93F9ACCE1FC0CA4800AC240C /* DocumentClientError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F9ACCB1FC0CA4800AC240C /* DocumentClientError.swift */; };
@@ -282,6 +285,7 @@
 		93935D9A20585C8600F1832A /* PermissionMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionMode.swift; sourceTree = "<group>"; };
 		93B7240A2064560F00984CA8 /* MSHttpHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSHttpHeader.swift; sourceTree = "<group>"; };
 		93ED3460206546C7008F8807 /* ResourceValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceValidation.swift; sourceTree = "<group>"; };
+		93F7CA17206EDBC100D92C2E /* PermissionCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionCacheTests.swift; sourceTree = "<group>"; };
 		93F9ACCB1FC0CA4800AC240C /* DocumentClientError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentClientError.swift; sourceTree = "<group>"; };
 		93F9ACD01FC0D01400AC240C /* ResourceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceError.swift; sourceTree = "<group>"; };
 		B507D4F01FBB722000B2D18D /* Conflict.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conflict.swift; sourceTree = "<group>"; };
@@ -428,6 +432,7 @@
 				B55AEFE21FB34BB400F7BEED /* ResourceTests */,
 				B55AEFE01FB34B8C00F7BEED /* Supporting Files */,
 				931EA5C01FBE2775003CCFF4 /* CodableResourceTests.swift */,
+				93F7CA17206EDBC100D92C2E /* PermissionCacheTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -924,6 +929,7 @@
 				B522406C1FB33DF800D0343F /* CollectionUserDefinedFunctionExtensionsTests.swift in Sources */,
 				B522406D1FB33DF800D0343F /* DatabaseCollectionExtensionsTests.swift in Sources */,
 				B52240711FB33DF800D0343F /* DatabaseUserExtensionsTests.swift in Sources */,
+				93F7CA1D206EDBEF00D92C2E /* PermissionCacheTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -997,6 +1003,7 @@
 				B52240801FB33DFA00D0343F /* CollectionUserDefinedFunctionExtensionsTests.swift in Sources */,
 				B52240811FB33DFA00D0343F /* DatabaseCollectionExtensionsTests.swift in Sources */,
 				B52240851FB33DFA00D0343F /* DatabaseUserExtensionsTests.swift in Sources */,
+				93F7CA1E206EDBF100D92C2E /* PermissionCacheTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1114,6 +1121,7 @@
 				B52240581FB33DF100D0343F /* CollectionUserDefinedFunctionExtensionsTests.swift in Sources */,
 				B52240591FB33DF100D0343F /* DatabaseCollectionExtensionsTests.swift in Sources */,
 				B522405D1FB33DF100D0343F /* DatabaseUserExtensionsTests.swift in Sources */,
+				93F7CA1C206EDBED00D92C2E /* PermissionCacheTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

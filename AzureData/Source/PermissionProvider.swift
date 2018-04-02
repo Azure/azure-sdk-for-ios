@@ -8,77 +8,56 @@
 
 import Foundation
 
+public struct PermissionResult {
+    
+    public let error: Error?
+    public let permission: Permission?
+    
+    public init(_ error: Error) {
+        self.permission = nil
+        self.error = error
+    }
+    
+    public init(_ permission: Permission) {
+        self.permission = permission
+        self.error = nil
+    }
+}
+
 public protocol PermissionProvider {
     
     //var configuration: PermissionProviderConfiguration { get }
     
     //init()
     
-    //init(with configuration: PermissionProviderConfiguration)
+    init(with configuration: PermissionProviderConfiguration)
     
     
-    func getPermission(forResourceAtAltLink altLink: String, withPermissionMode mode: PermissionMode, callback: @escaping (PermissionProviderResponse) -> ())
+//    func getPermission(forResourceAtAltLink altLink: String, withPermissionMode mode: PermissionMode, completion: @escaping (PermissionProviderResponse) -> Void)
+//
+//    func getPermission(forResourceAtSelfLink selfLink: String, withPermissionMode mode: PermissionMode, completion: @escaping (PermissionProviderResponse) -> Void)
+
+    func getPermission(forResourceAt location: ResourceLocation, withPermissionMode mode: PermissionMode, completion: @escaping (PermissionResult) -> Void)
     
-    func getPermission(forResourceAtSelfLink selfLink: String, withPermissionMode mode: PermissionMode, callback: @escaping (PermissionProviderResponse) -> ())
-    
-    func getPermission<T:CodableResource>(forResource resource: T, withPermissionMode mode: PermissionMode, callback: @escaping (PermissionProviderResponse) -> ())
+    func getPermission<T:CodableResource>(forResource resource: T, withPermissionMode mode: PermissionMode, completion: @escaping (PermissionResult) -> Void)
 }
 
 
-public struct ExamplePermissionProvider : PermissionProvider {
-    
-    public var configuration: PermissionProviderConfiguration
-    
-    public init() {
-        self.configuration = PermissionProviderConfiguration.default
-    }
-    
-    public init(with configuration: PermissionProviderConfiguration) {
-        self.configuration = configuration
-    }
+//public class BasePermissionProvider : PermissionProvider {
+//
+//    let configuration: PermissionProviderConfiguration
+//
+//    public required init(with configuration: PermissionProviderConfiguration) {
+//        self.configuration = configuration
+//    }
+//
+//
+//    public func getPermission(forResourceAt location: ResourceLocation, withPermissionMode mode: PermissionMode, completion: @escaping (PermissionResult) -> Void) {
+//        <#code#>
+//    }
+//
+//    public func getPermission<T>(forResource resource: T, withPermissionMode mode: PermissionMode, completion: @escaping (PermissionResult) -> Void) where T : CodableResource {
+//        <#code#>
+//    }
+//}
 
-    public func getPermission(forResourceAtAltLink altLink: String, withPermissionMode mode: PermissionMode, callback: @escaping (PermissionProviderResponse) -> ()) {
-        
-        if let permission = PermissionCache.getPermission(forResourceAtAltLink: altLink), mode == .read || permission.permissionMode == .all {
-            callback(PermissionProviderResponse(permission))
-        }
-
-        let permission = Permission(withId: "foo", mode: mode, forResource: altLink) // call your webservice and get a Permission
-        
-        if !PermissionCache.setPermission(permission, forResourceAtAltLink: altLink) {
-            callback(PermissionProviderResponse(PermissionProviderError.unsuccessfulCache))
-        }
-        
-        callback(PermissionProviderResponse(permission))
-    }
-    
-    public func getPermission(forResourceAtSelfLink selfLink: String, withPermissionMode mode: PermissionMode, callback: @escaping (PermissionProviderResponse) -> ()) {
-
-        if let permission = PermissionCache.getPermission(forResourceAtSelfLink: selfLink), mode == .read || permission.permissionMode == .all {
-            callback(PermissionProviderResponse(permission))
-        }
-        
-        let permission = Permission(withId: "foo", mode: mode, forResource: selfLink) // call your webservice and get a Permission
-        
-        if !PermissionCache.setPermission(permission, forResourceAtSelfLink: selfLink) {
-            callback(PermissionProviderResponse(PermissionProviderError.unsuccessfulCache))
-        }
-        
-        callback(PermissionProviderResponse(permission))
-    }
-    
-    public func getPermission<T>(forResource resource: T, withPermissionMode mode: PermissionMode, callback: @escaping (PermissionProviderResponse) -> ()) where T : CodableResource {
-
-        if let permission = PermissionCache.getPermission(forResource: resource), mode == .read || permission.permissionMode == .all {
-            callback(PermissionProviderResponse(permission))
-        }
-        
-        let permission = Permission(withId: "foo", mode: mode, forResource: resource.selfLink!) // call your webservice and get a Permission
-        
-        if !PermissionCache.setPermission(permission, forResource: resource) {
-            callback(PermissionProviderResponse(PermissionProviderError.unsuccessfulCache))
-        }
-        
-        callback(PermissionProviderResponse(permission))
-    }
-}

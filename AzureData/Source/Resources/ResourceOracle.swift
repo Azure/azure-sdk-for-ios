@@ -126,36 +126,45 @@ public class ResourceOracle {
 
         commit()
     }
+    
+    
     // MARK: - Get Parent Links
     
     public static func getParentAltLink(forResource resource: CodableResource) -> String? {
-
-        guard
-            let altLink = getAltLink(forResource: resource)
-        else { return nil }
-
-        let altLinkSubstrings = altLink.split(separator: slashCharacter)
         
-        guard
-            altLinkSubstrings.count > 2
-        else { return nil }
-        
-        return altLinkSubstrings.dropLast(2).joined(separator: slashString)
+        return getAltLink(forResource: resource)?.parentLink
     }
+    
+    public static func getParentAltLink(forResourceWithSelfLink selfLink: String) -> String? {
+
+        guard let parentSelfLink = selfLink.parentLink else { return nil }
+        
+        return getAltLink(forSelfLink: parentSelfLink)
+    }
+    
     
     public static func getParentSelfLink(forResource resource: CodableResource) -> String? {
         
-        guard
-            let selfLink = getSelfLink(forResource: resource)
-        else { return nil }
+        return getSelfLink(forResource: resource)?.parentLink
+    }
+    
+    public static func getParentSelfLink(forResourceWithAltLink altLink: String) -> String? {
+
+        guard let parentAltLink = altLink.parentLink else { return nil }
         
-        let selfLinkSubstrings = selfLink.split(separator: slashCharacter)
-        
-        guard
-            selfLinkSubstrings.count > 2
-        else { return nil }
-        
-        return selfLinkSubstrings.dropLast(2).joined(separator: slashString)
+        return getSelfLink(forAltLink: parentAltLink)
+    }
+
+    public static func getParentLink(forLink link: String) -> String? {
+        return link.parentLink
+    }
+    
+    public static func getResourceId(fromSelfLink selfLink: String) -> String? {
+        return selfLink.lastPathComponent
+    }
+    
+    public static func getId(fromAltLink altLink: String) -> String? {
+        return altLink.lastPathComponent
     }
     
     
@@ -201,7 +210,7 @@ public class ResourceOracle {
             !selfLink.isEmpty,
             let altLink = altLinkLookup[selfLink],
             !altLink.isEmpty
-            else { return nil }
+        else { return nil }
         
         return altLink
     }
@@ -214,7 +223,7 @@ public class ResourceOracle {
             !altLink.isEmpty,
             let selfLink = selfLinkLookup[altLink],
             !selfLink.isEmpty
-            else { return nil }
+        else { return nil }
         
         return selfLink
     }
@@ -226,8 +235,8 @@ public class ResourceOracle {
         
         var resourceId = resource.resourceId
         
-        if resourceId.isEmpty, let selfLink = selfLink ?? getSelfLink(forResource: resource), let selfLinkSubstring = selfLink.split(separator: slashCharacter).last {
-            resourceId = String(selfLinkSubstring)
+        if resourceId.isEmpty, let selfLink = selfLink ?? getSelfLink(forResource: resource), let rId = selfLink.lastPathComponent {
+            resourceId = rId
         }
 
         if !resourceId.isEmpty {
@@ -264,5 +273,26 @@ public class ResourceOracle {
             print("key   : \(sl.key)\nvalue : \(sl.value)\n")
         }
         print("\n")
+    }
+}
+
+fileprivate extension String {
+    
+    var lastPathComponent: String? {
+        
+        if let selfSubstring = self.split(separator: "/").last, !selfSubstring.isEmpty  {
+            return String(selfSubstring)
+        }
+        
+        return nil
+    }
+    
+    var parentLink: String? {
+        
+        let selfSubstrings = self.split(separator: "/")
+        
+        guard selfSubstrings.count > 2 else { return nil }
+        
+        return selfSubstrings.dropLast(2).joined(separator: "/")
     }
 }

@@ -9,6 +9,23 @@
 import XCTest
 @testable import AzureData
 
+extension ResourceType {
+    var name: String {
+        switch self {
+        case .database:         return "Database"
+        case .user:             return "User"
+        case .permission:       return "Permission"
+        case .collection:       return "DocumentCollection"
+        case .storedProcedure:  return "StoredProcedure"
+        case .trigger:          return "Trigger"
+        case .udf:              return "UserDefinedFunction"
+        case .document:         return "Document"
+        case .attachment:       return "Attachment"
+        case .offer:            return "Offer"
+        }
+    }
+}
+
 class AzureDataTests: XCTestCase {
     
     let timeout: TimeInterval = 30.0
