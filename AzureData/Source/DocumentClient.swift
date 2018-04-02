@@ -155,7 +155,7 @@ public class DocumentClient {
 
         let resourceLocation: ResourceLocation = .database(id: databaseId)
 
-        return self.delete(Database.self, at: resourceLocation, callback: callback)
+        return self.delete(resourceAt: resourceLocation, callback: callback)
     }
 
     
@@ -797,7 +797,7 @@ public class DocumentClient {
         
         guard isConfigured else { callback(ListResponse<T>(DocumentClientError(withKind: .configureError))); return }
         
-        let request = dataRequest(T.self, .get, resourceLocation: resourceLocation)
+        let request = dataRequest(forResourceAt: resourceLocation, withMethod: .get)
         
         return self.sendRequest(request, callback: callback)
     }
@@ -807,7 +807,7 @@ public class DocumentClient {
         
         guard isConfigured else { callback(Response<T>(DocumentClientError(withKind: .configureError))); return }
         
-        let request = dataRequest(T.self, .get, resourceLocation: resourceLocation)
+        let request = dataRequest(forResourceAt: resourceLocation, withMethod: .get)
         
         return self.sendRequest(request, callback: callback)
     }
@@ -822,22 +822,27 @@ public class DocumentClient {
         
         let resourceLocation: ResourceLocation = .resource(resource: resource)
         
-        let request = dataRequest(T.self, .get, resourceLocation: resourceLocation, additionalHeaders: [ HttpHeader.ifNoneMatch.rawValue : resource.etag! ])
+        let request = dataRequest(forResourceAt: resourceLocation, withMethod: .get, andAdditionalHeaders: [ HttpHeader.ifNoneMatch.rawValue : resource.etag! ])
+        
+        print(" ###############  path :: " + resourceLocation.path)
+        print(" ###############  link :: " + resourceLocation.link)
+        print(" ###############  etag :: " + resource.etag!)
         
         return self.sendRequest(request, currentResource: resource, callback: callback)
     }
     
     // delete
-    fileprivate func delete<T:CodableResource>(_ type: T.Type, at resourceLocation: ResourceLocation, callback: @escaping (DataResponse) -> ()) {
-
+    fileprivate func delete(resourceAt resourceLocation: ResourceLocation, callback: @escaping (DataResponse) -> ()) {
+        
         guard isConfigured else { callback(DataResponse(DocumentClientError(withKind: .configureError))); return }
-
+        
         guard !resourceLocation.link.isEmpty else { callback(DataResponse(DocumentClientError(withKind: .incompleteIds))); return }
-
+        
+        // I believe this will always be an altLink
         ResourceOracle.removeLinks(forResourceWithLink: resourceLocation.link)
-
-        let request = dataRequest(T.self, .delete, resourceLocation: resourceLocation)
-
+        
+        let request = dataRequest(forResourceAt: resourceLocation, withMethod: .delete)
+        
         return self.sendRequest(request, callback: callback)
     }
 
@@ -852,7 +857,7 @@ public class DocumentClient {
         
         let resourceLocation: ResourceLocation = .resource(resource: resource)
         
-        let request = dataRequest(T.self, .delete, resourceLocation: resourceLocation)
+        let request = dataRequest(forResourceAt: resourceLocation, withMethod: .delete)
         
         return self.sendRequest(request, callback: callback)
     }
@@ -885,7 +890,7 @@ public class DocumentClient {
         
         do {
             
-            var request = dataRequest(T.self, .post, resourceLocation: resourceLocation, forQuery: true)
+            var request = dataRequest(forResourceAt: resourceLocation, withMethod: .post, forQuery: true)
         
             request.httpBody = try jsonEncoder.encode(query)
             
@@ -903,7 +908,7 @@ public class DocumentClient {
         
         do {
             
-            var request = dataRequest(type.self, .post, resourceLocation: resourceLocation)
+            var request = dataRequest(forResourceAt: resourceLocation, withMethod: .post)
             
             request.httpBody = body == nil ? try jsonEncoder.encode([String]()) : try jsonEncoder.encode(body)
 
@@ -921,7 +926,7 @@ public class DocumentClient {
         
         do {
             
-            var request = dataRequest(T.self, replacing ? .put : .post, resourceLocation: resourceLocation, additionalHeaders: additionalHeaders)
+            var request = dataRequest(forResourceAt: resourceLocation, withMethod: replacing ? .put : .post, andAdditionalHeaders: additionalHeaders)
             
             request.httpBody = try jsonEncoder.encode(body)
             
@@ -937,7 +942,7 @@ public class DocumentClient {
         
         guard isConfigured else { callback(Response<T>(DocumentClientError(withKind: .configureError))); return }
         
-        var request = dataRequest(T.self, replacing ? .put : .post, resourceLocation: resourceLocation, additionalHeaders: additionalHeaders)
+        var request = dataRequest(forResourceAt: resourceLocation, withMethod: replacing ? .put : .post, andAdditionalHeaders: additionalHeaders)
         
         request.httpBody = body
         
@@ -971,7 +976,13 @@ public class DocumentClient {
             
             } else if let data = data {
                 
+                if var _ = currentResource, let statusCode1 = HttpStatusCode(rawValue: httpResponse.statusCode) {
+                    print(" @@@@@@@@@@@@@@@@@@@@@@@   \(statusCode1)   @@@@@@@@@@@@@@@@@@@@@@@ ")
+                }
+                
                 if var current = currentResource, let statusCode = HttpStatusCode(rawValue: httpResponse.statusCode), statusCode == .notModified {
+                    
+                    print(" @@@@@@@@@@@@@@@@@@@@@@@   NOT MODIFIED   @@@@@@@@@@@@@@@@@@@@@@@ ")
                     
                     let altContentPath = httpResponse.allHeaderFields[MSHttpHeader.msAltContentPath.rawValue] as? String
                     
@@ -1132,10 +1143,10 @@ public class DocumentClient {
         }.resume()
     }
     
-    
-    fileprivate func dataRequest<T:CodableResource>(_ type: T.Type = T.self, _ method: HttpMethod, resourceLocation: ResourceLocation, additionalHeaders:HttpHeaders? = nil, forQuery: Bool = false) -> URLRequest {
+
+    fileprivate func dataRequest(forResourceAt resourceLocation: ResourceLocation, withMethod method: HttpMethod, andAdditionalHeaders additionalHeaders: HttpHeaders? = nil, forQuery: Bool = false) -> URLRequest {
         
-        let resourceToken = resourceTokenProvider!.getToken(type, verb: method, resourceLink: resourceLocation.link)!
+        let resourceToken = resourceTokenProvider!.getToken(forResourceAt: resourceLocation, andMethod: method)!
         
         let url = URL.init(string: "https://" + host! + "/" + resourceLocation.path)
         
@@ -1151,7 +1162,7 @@ public class DocumentClient {
             request.addValue ("true", forHTTPHeaderField: .msDocumentdbIsQuery)
             request.addValue("application/query+json", forHTTPHeaderField: .contentType)
             
-        } else if (method == .post || method == .put) && type.type != Attachment.type {
+        } else if (method == .post || method == .put) && resourceLocation.resourceType != .attachment {
             // For POST on query operations, it must be application/query+json
             // For attachments, must be set to the Mime type of the attachment.
             // For all other tasks, must be application/json.
@@ -1166,5 +1177,4 @@ public class DocumentClient {
         
         return request
     }
-
 }

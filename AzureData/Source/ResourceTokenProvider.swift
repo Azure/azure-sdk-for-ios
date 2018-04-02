@@ -29,16 +29,16 @@ class ResourceTokenProvider {
     }
     
     // https://docs.microsoft.com/en-us/rest/api/documentdb/access-control-on-documentdb-resources#constructkeytoken
-    fileprivate func _getToken(verb v: HttpMethod, typeString type: String, resourceLink link: String) -> ResourceToken? {
+    func getToken(forResourceAt location: ResourceLocation, andMethod method: HttpMethod) -> ResourceToken? {
         
-        guard v.read || mode == .all else {
-            return nil
-        }
+        guard method.read || mode == .all else { return nil }
         
         let date = dateFormatter.string(from: Date())
         
-        let payload = "\(v.lowercased)\n\(type)\n\(link)\n\(date.lowercased())\n\n"
+        let payload = "\(method.lowercased)\n\(location.type)\n\(location.link)\n\(date.lowercased())\n\n"
+
         print(payload)
+        
         let signiture = CryptoProvider.hmacSHA256(payload, withKey: key)!
         
         let authString = "type=master&ver=\(tokenVersion)&sig=\(signiture)"
@@ -47,13 +47,4 @@ class ResourceTokenProvider {
         
         return ResourceToken(date: date, token: authStringEncoded)
     }
-    
-    func getToken(verb v: HttpMethod, resourceType type: ResourceType, resourceLink link: String) -> ResourceToken? {
-        return _getToken(verb: v, typeString: type.rawValue, resourceLink: link)
-    }
-    
-    func getToken<T:CodableResource>(_ type: T.Type = T.self, verb v: HttpMethod, resourceLink link: String) -> ResourceToken? {
-        return _getToken(verb: v, typeString: type.type, resourceLink: link)
-    }
 }
- 
