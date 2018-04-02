@@ -30,7 +30,7 @@ class DocumentCollectionTests: AzureDataTests {
 
         
         // Create
-        AzureData.create(collectionWithId: resourceId, inDatabase: databaseId) { r in
+        AzureData.create(collectionWithId: collectionId, inDatabase: databaseId) { r in
             createResponse = r
             self.createExpectation.fulfill()
         }
@@ -54,7 +54,7 @@ class DocumentCollectionTests: AzureDataTests {
         
         
         // Get
-        AzureData.get(collectionWithId: resourceId, inDatabase: databaseId) { r in
+        AzureData.get(collectionWithId: collectionId, inDatabase: databaseId) { r in
             getResponse = r
             self.getExpectation.fulfill()
         }
@@ -81,15 +81,14 @@ class DocumentCollectionTests: AzureDataTests {
         
         
         // Delete
-        //if getResponse?.result.isSuccess ?? false {
-            //AzureData.delete(DocumentCollection(resourceId), fromDatabase: databaseId) { r in
-        getResponse?.resource?.delete { r in
-            deleteResponse = r
-            self.deleteExpectation.fulfill()
-        }
+        if getResponse?.result.isSuccess ?? false {
+            AzureData.delete(collectionWithId: collectionId, fromDatabase: databaseId) { r in
+                deleteResponse = r
+                self.deleteExpectation.fulfill()
+            }
         
-        wait(for: [deleteExpectation], timeout: timeout)
-        //}
+            wait(for: [deleteExpectation], timeout: timeout)
+        }
         
         XCTAssert(deleteResponse?.result.isSuccess ?? false)
     }
