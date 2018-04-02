@@ -29,6 +29,10 @@
 		93426C8920641EE500AA27C5 /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93426C8720641EE500AA27C5 /* HttpMethod.swift */; };
 		93426C8A20641EE500AA27C5 /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93426C8720641EE500AA27C5 /* HttpMethod.swift */; };
 		93426C8B20641EE500AA27C5 /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93426C8720641EE500AA27C5 /* HttpMethod.swift */; };
+		935410D2206ECFC5004B20B9 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935410D1206ECFC5004B20B9 /* Keychain.swift */; };
+		935410D3206ECFC5004B20B9 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935410D1206ECFC5004B20B9 /* Keychain.swift */; };
+		935410D4206ECFC5004B20B9 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935410D1206ECFC5004B20B9 /* Keychain.swift */; };
+		935410D5206ECFC5004B20B9 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935410D1206ECFC5004B20B9 /* Keychain.swift */; };
 		93B72410206486FC00984CA8 /* DateFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B7240F206486FC00984CA8 /* DateFormat.swift */; };
 		93B72411206486FC00984CA8 /* DateFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B7240F206486FC00984CA8 /* DateFormat.swift */; };
 		93B72412206486FC00984CA8 /* DateFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B7240F206486FC00984CA8 /* DateFormat.swift */; };
@@ -90,6 +94,7 @@
 		93426C7D20641EA900AA27C5 /* HttpHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpHeader.swift; sourceTree = "<group>"; };
 		93426C8220641ED200AA27C5 /* HttpStatusCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpStatusCode.swift; sourceTree = "<group>"; };
 		93426C8720641EE500AA27C5 /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
+		935410D1206ECFC5004B20B9 /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		93B7240F206486FC00984CA8 /* DateFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormat.swift; sourceTree = "<group>"; };
 		93DA940E206038B900C49122 /* Willow.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Willow.framework; path = Carthage/Build/iOS/Willow.framework; sourceTree = "<group>"; };
 		93DA9410206038C700C49122 /* Willow.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Willow.framework; path = Carthage/Build/Mac/Willow.framework; sourceTree = "<group>"; };
@@ -243,6 +248,7 @@
 			isa = PBXGroup;
 			children = (
 				93B7240F206486FC00984CA8 /* DateFormat.swift */,
+				935410D1206ECFC5004B20B9 /* Keychain.swift */,
 				93DA941E20634C5500C49122 /* Logger.swift */,
 				9317A815206569D200338B63 /* Crypto */,
 				93426C7C20641E9300AA27C5 /* Http */,
@@ -697,6 +703,7 @@
 				93426C8520641ED200AA27C5 /* HttpStatusCode.swift in Sources */,
 				93B72412206486FC00984CA8 /* DateFormat.swift in Sources */,
 				93DA942120634C5500C49122 /* Logger.swift in Sources */,
+				935410D4206ECFC5004B20B9 /* Keychain.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -718,6 +725,7 @@
 				93426C8620641ED200AA27C5 /* HttpStatusCode.swift in Sources */,
 				93B72413206486FC00984CA8 /* DateFormat.swift in Sources */,
 				93DA942220634C5500C49122 /* Logger.swift in Sources */,
+				935410D5206ECFC5004B20B9 /* Keychain.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -731,6 +739,7 @@
 				93426C8320641ED200AA27C5 /* HttpStatusCode.swift in Sources */,
 				93B72410206486FC00984CA8 /* DateFormat.swift in Sources */,
 				93DA941F20634C5500C49122 /* Logger.swift in Sources */,
+				935410D2206ECFC5004B20B9 /* Keychain.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -752,6 +761,7 @@
 				93426C8420641ED200AA27C5 /* HttpStatusCode.swift in Sources */,
 				93B72411206486FC00984CA8 /* DateFormat.swift in Sources */,
 				93DA942020634C5500C49122 /* Logger.swift in Sources */,
+				935410D3206ECFC5004B20B9 /* Keychain.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
