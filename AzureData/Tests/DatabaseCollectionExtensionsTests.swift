@@ -74,6 +74,7 @@ class DatabaseCollectionExtensionsTests: AzureDataTests {
             if let collection = getResponse?.resource {
                 
                 database.delete(collection) { r in
+                //database.delete(collectionWithId: collection.id) { r in
                     deleteResponse = r
                     self.deleteExpectation.fulfill()
                 }

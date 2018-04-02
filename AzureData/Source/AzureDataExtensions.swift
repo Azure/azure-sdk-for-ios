@@ -32,17 +32,17 @@ public extension Database {
     
     //create
     public func create (collectionWithId id: String, callback: @escaping (Response<DocumentCollection>) -> ()) {
-        return DocumentClient.default.create(collectionWithId: id, inDatabase: self.id, callback: callback)
+        return DocumentClient.default.create(collectionWithId: id, inDatabase: self, callback: callback)
     }
     
     // list
     public func getCollections (callback: @escaping (ListResponse<DocumentCollection>) -> ()) {
-        return DocumentClient.default.get(collectionsIn: self.id, callback: callback)
+        return DocumentClient.default.get(collectionsIn: self, callback: callback)
     }
     
     // get
     public func get (collectionWithId collectionId: String, callback: @escaping (Response<DocumentCollection>) -> ()) {
-        return DocumentClient.default.get(collectionWithId: collectionId, inDatabase: self.id, callback: callback)
+        return DocumentClient.default.get(collectionWithId: collectionId, inDatabase: self, callback: callback)
     }
     
     //delete
@@ -51,7 +51,7 @@ public extension Database {
     }
 
     public func delete (collectionWithId collectionId: String, callback: @escaping (DataResponse) -> ()) {
-        return DocumentClient.default.delete(collectionWithId: collectionId, fromDatabase: self.id, callback: callback)
+        return DocumentClient.default.delete(collectionWithId: collectionId, fromDatabase: self, callback: callback)
     }
     
     
@@ -59,17 +59,17 @@ public extension Database {
     
     //create
     public func create (userWithId id: String, callback: @escaping (Response<User>) -> ()) {
-        return DocumentClient.default.create (userWithId: id, inDatabase: self.id, callback: callback)
+        return DocumentClient.default.create (userWithId: id, inDatabase: self, callback: callback)
     }
     
     // list
     public func getUsers (callback: @escaping (ListResponse<User>) -> ()) {
-        return DocumentClient.default.get (usersIn: self.id, callback: callback)
+        return DocumentClient.default.get (usersIn: self, callback: callback)
     }
     
     // get
     public func get (userWithId id: String, callback: @escaping (Response<User>) -> ()) {
-        return DocumentClient.default.get (userWithId: id, inDatabase: self.id, callback: callback)
+        return DocumentClient.default.get (userWithId: id, inDatabase: self, callback: callback)
     }
     
     //delete
@@ -79,7 +79,7 @@ public extension Database {
     
     // replace
     public func replace (userWithId id: String, with newUserId: String, callback: @escaping (Response<User>) -> ()) {
-        return DocumentClient.default.replace (userWithId: id, with: newUserId, inDatabase: self.id, callback: callback)
+        return DocumentClient.default.replace (userWithId: id, with: newUserId, inDatabase: self, callback: callback)
     }
 }
 

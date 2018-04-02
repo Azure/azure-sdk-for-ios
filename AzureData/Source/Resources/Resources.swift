@@ -43,6 +43,8 @@ public struct Resources<T:CodableResource> : Decodable {
     }
     
     public mutating func setAltLinks(withContentPath path: String?) {
+        guard !items.isEmpty else { return }
+        
         for i in 0...items.count-1 {
             items[i].setAltLink(withContentPath: path)
         }
