@@ -99,16 +99,14 @@ public class ResourceOracle {
         }
     }
 
-    fileprivate static func _removeLinks(forResourceWithLink link: String) {
-
-        if let selfLink = selfLinkLookup[link] {
-            selfLinkLookup[link] = nil
+    fileprivate static func _removeLinks(forResourceWithAltLink altLink: String) {
+        if let selfLink = selfLinkLookup.removeValue(forKey: altLink) {
             altLinkLookup[selfLink] = nil
-            return
         }
+    }
 
-        if let altLink = altLinkLookup[link] {
-            altLinkLookup[link] = nil
+    fileprivate static func _removeLinks(forResourceWithSelfLink selfLink: String) {
+        if let altLink = altLinkLookup.removeValue(forKey: selfLink) {
             selfLinkLookup[altLink] = nil
         }
     }
@@ -120,9 +118,9 @@ public class ResourceOracle {
         commit()
     }
 
-    public static func removeLinks(forResourceWithLink link: String) {
+    public static func removeLinks(forResourceWithAltLink altLink: String) {
 
-        _removeLinks(forResourceWithLink: link)
+        _removeLinks(forResourceWithAltLink: altLink)
 
         commit()
     }
@@ -159,13 +157,6 @@ public class ResourceOracle {
         return link.parentLink
     }
     
-    public static func getResourceId(fromSelfLink selfLink: String) -> String? {
-        return selfLink.lastPathComponent
-    }
-    
-    public static func getId(fromAltLink altLink: String) -> String? {
-        return altLink.lastPathComponent
-    }
     
     
     // MARK: - Get Links for Resource
@@ -200,6 +191,8 @@ public class ResourceOracle {
         return nil
     }
     
+    
+    
     // MARK: - Get Links for Links
     
     public static func getAltLink(forSelfLink selfLink: String) -> String? {
@@ -229,13 +222,22 @@ public class ResourceOracle {
     }
     
     
-    // MARK: - Get ResourceId
+    
+    // MARK: - Get Ids
+
+    public static func extractResourceId(for resourceType: ResourceType, fromSelfLink selfLink: String) -> String? {
+        return selfLink.extractId(for: resourceType)
+    }
+    
+    public static func extractId(for resourceType: ResourceType, fromAltLink altLink: String) -> String? {
+        return altLink.extractId(for: resourceType)
+    }
     
     public static func getResourceId(forResource resource: CodableResource, withSelfLink selfLink: String? = nil) -> String? {
         
         var resourceId = resource.resourceId
         
-        if resourceId.isEmpty, let selfLink = selfLink ?? getSelfLink(forResource: resource), let rId = selfLink.lastPathComponent {
+        if resourceId.isEmpty, let selfLink = selfLink ?? getSelfLink(forResource: resource), let rId = selfLink.extractId(for: resource.path) {
             resourceId = rId
         }
 
@@ -294,5 +296,48 @@ fileprivate extension String {
         guard selfSubstrings.count > 2 else { return nil }
         
         return selfSubstrings.dropLast(2).joined(separator: "/")
+    }
+    
+    func extractId(for resourceType: String) -> String? {
+        
+        let path = Substring(resourceType)
+        
+        let split = self.split(separator: "/")
+        
+        if let key = split.index(of: path), key < split.endIndex {
+            return String(split[split.index(after: key)])
+        }
+        
+        return nil
+    }
+
+    func extractId(for resourceType: ResourceType) -> String? {
+        
+        let path = Substring(resourceType.path)
+        
+        let split = self.split(separator: "/")
+        
+        if let key = split.index(of: path), key < split.endIndex {
+            return String(split[split.index(after: key)])
+        }
+        
+        return nil
+    }
+}
+
+fileprivate extension CodableResource {
+    
+    func extractResourceIdFromSelfLink() -> String? {
+        
+        guard let link = self.selfLink, !link.isEmpty else { return nil }
+        
+        return link.extractId(for: Self.type)
+    }
+    
+    func extractIdFromAltLink() -> String? {
+        
+        guard let link = self.altLink, !link.isEmpty else { return nil }
+        
+        return link.extractId(for: Self.type)
     }
 }

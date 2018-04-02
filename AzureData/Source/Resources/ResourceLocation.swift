@@ -25,7 +25,7 @@ public enum ResourceLocation : ResourceLocator {
     case attachment(databaseId: String, collectionId: String, documentId: String, id: String?)
     case offer(id: String?)
     case resource(resource: CodableResource)
-    case child(_ :ResourceType, in: CodableResource, resourceId: String?)
+    case child(_ :ResourceType, in: CodableResource, id: String?)
     
     
     public var path: String {
@@ -41,7 +41,7 @@ public enum ResourceLocation : ResourceLocator {
         case let .attachment(databaseId, collectionId, documentId, id): return "dbs/"   + databaseId + "/colls/" + collectionId + "/docs/" + documentId + "/attachments" + id.path
         case let .offer(id):                                            return "offers" + id.path
         case let .resource(resource):                                   return ResourceOracle.getAltLink(forResource: resource)!
-        case let .child(type, resource, resourceId):                    return ResourceOracle.getAltLink(forResource: resource)! + "/" + type.rawValue + resourceId.path
+        case let .child(type, resource, id):                            return ResourceOracle.getAltLink(forResource: resource)! + "/" + type.rawValue + id.path
         }
     }
     
@@ -59,7 +59,7 @@ public enum ResourceLocation : ResourceLocator {
         case let .attachment(databaseId, collectionId, documentId, id): return "dbs/"   + databaseId + "/colls/" + collectionId + "/docs/" + documentId + id.path(in:"/attachments")
         case let .offer(id):                                            return id?.lowercased() ?? ""// .path(in: "offers")
         case let .resource(resource):                                   return ResourceOracle.getAltLink(forResource: resource)!//.lowercased()
-        case let .child(type, resource, resourceId):                    return ResourceOracle.getAltLink(forResource: resource)! + resourceId.path(in:"/" + type.rawValue)
+        case let .child(type, resource, id):                            return ResourceOracle.getAltLink(forResource: resource)! + id.path(in:"/" + type.rawValue)
         }
     }
     
@@ -119,5 +119,21 @@ fileprivate extension Optional where Wrapped == String {
         }
         
         return ""
+    }
+}
+
+fileprivate extension String {
+    
+    func extractId(for resourceType: ResourceType) -> String? {
+        
+        let path = Substring(resourceType.path)
+        
+        let split = self.split(separator: "/")
+        
+        if let key = split.index(of: path), key < split.endIndex {
+            return String(split[split.index(after: key)])
+        }
+        
+        return nil
     }
 }
