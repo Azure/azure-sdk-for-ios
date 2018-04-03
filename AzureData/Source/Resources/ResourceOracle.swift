@@ -128,36 +128,49 @@ public class ResourceOracle {
     
     // MARK: - Get Parent Links
     
-    public static func getParentAltLink(forResource resource: CodableResource) -> String? {
+    public static func getAltLink(forParentOfResource resource: CodableResource) -> String? {
         
         return getAltLink(forResource: resource)?.parentLink
     }
     
-    public static func getParentAltLink(forResourceWithSelfLink selfLink: String) -> String? {
+    public static func getAltLink(forParentOfResourceWithSelfLink selfLink: String) -> String? {
 
         guard let parentSelfLink = selfLink.parentLink else { return nil }
         
         return getAltLink(forSelfLink: parentSelfLink)
     }
+
+    public static func getAltLink(forAncestorAt resourceType: ResourceType, ofResource resource: CodableResource) -> String? {
+        
+        return getAltLink(forResource: resource)?.extractLink(for: resourceType)
+    }
     
     
-    public static func getParentSelfLink(forResource resource: CodableResource) -> String? {
+    public static func getSelfLink(forParentOfResource resource: CodableResource) -> String? {
         
         return getSelfLink(forResource: resource)?.parentLink
     }
     
-    public static func getParentSelfLink(forResourceWithAltLink altLink: String) -> String? {
+    public static func getSelfLink(forParentOfResourceWithAltLink altLink: String) -> String? {
 
         guard let parentAltLink = altLink.parentLink else { return nil }
         
         return getSelfLink(forAltLink: parentAltLink)
     }
+    
+    public static func getSelfLink(forAncestorAt resourceType: ResourceType, ofResource resource: CodableResource) -> String? {
+        
+        return getSelfLink(forResource: resource)?.extractLink(for: resourceType)
+    }
 
-    public static func getParentLink(forLink link: String) -> String? {
+    public static func getLink(forParentOfResourceWithLink link: String) -> String? {
         return link.parentLink
     }
-    
-    
+
+    public static func getLink(forAncestorAt resourceType: ResourceType, ofResourceWithLink link: String) -> String? {
+        return link.parentLink
+    }
+
     
     // MARK: - Get Links for Resource
     
@@ -297,6 +310,25 @@ fileprivate extension String {
         
         return selfSubstrings.dropLast(2).joined(separator: "/")
     }
+
+    func extractLink(for resourceType: String) -> String? {
+        
+        let path = Substring(resourceType)
+        
+        let split = self.split(separator: "/")
+        
+        //  0            1             2               3             4          5
+        // dbs/DocumentTestsDatabase/colls/DocumentTestsCollection/docs/DocumentTestsDocument
+        
+        if let key = split.index(of: path), key < split.endIndex {
+            
+            let drop = split.endIndex - split.index(after: key)
+            
+            return split.dropLast(drop).joined(separator: "/")
+        }
+        
+        return nil
+    }
     
     func extractId(for resourceType: String) -> String? {
         
@@ -311,17 +343,12 @@ fileprivate extension String {
         return nil
     }
 
+    func extractLink(for resourceType: ResourceType) -> String? {
+        return self.extractLink(for: resourceType.path)
+    }
+    
     func extractId(for resourceType: ResourceType) -> String? {
-        
-        let path = Substring(resourceType.path)
-        
-        let split = self.split(separator: "/")
-        
-        if let key = split.index(of: path), key < split.endIndex {
-            return String(split[split.index(after: key)])
-        }
-        
-        return nil
+        return self.extractId(for: resourceType.path)
     }
 }
 

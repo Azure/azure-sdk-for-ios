@@ -57,6 +57,17 @@
 		931EA5C41FBE6920003CCFF4 /* DocumentClientExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931EA5BE1FBE201F003CCFF4 /* DocumentClientExtensions.swift */; };
 		931EA5C51FBE6922003CCFF4 /* DocumentClientExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931EA5BE1FBE201F003CCFF4 /* DocumentClientExtensions.swift */; };
 		931EA5C61FBE6922003CCFF4 /* DocumentClientExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931EA5BE1FBE201F003CCFF4 /* DocumentClientExtensions.swift */; };
+		932832E62072CD9E0075ECC7 /* ExamplePermissionProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932832E52072CD9E0075ECC7 /* ExamplePermissionProviderTests.swift */; };
+		932832E72072CD9E0075ECC7 /* ExamplePermissionProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932832E52072CD9E0075ECC7 /* ExamplePermissionProviderTests.swift */; };
+		932832E82072CD9E0075ECC7 /* ExamplePermissionProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932832E52072CD9E0075ECC7 /* ExamplePermissionProviderTests.swift */; };
+		932832EA2073393B0075ECC7 /* BasePermissionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932832E92073393B0075ECC7 /* BasePermissionProvider.swift */; };
+		932832EB2073393B0075ECC7 /* BasePermissionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932832E92073393B0075ECC7 /* BasePermissionProvider.swift */; };
+		932832EC2073393B0075ECC7 /* BasePermissionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932832E92073393B0075ECC7 /* BasePermissionProvider.swift */; };
+		932832ED2073393B0075ECC7 /* BasePermissionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932832E92073393B0075ECC7 /* BasePermissionProvider.swift */; };
+		932832EF207339610075ECC7 /* PermissionResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932832EE207339610075ECC7 /* PermissionResult.swift */; };
+		932832F0207339610075ECC7 /* PermissionResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932832EE207339610075ECC7 /* PermissionResult.swift */; };
+		932832F1207339610075ECC7 /* PermissionResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932832EE207339610075ECC7 /* PermissionResult.swift */; };
+		932832F2207339610075ECC7 /* PermissionResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932832EE207339610075ECC7 /* PermissionResult.swift */; };
 		93935D9B20585C8600F1832A /* PermissionMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93935D9A20585C8600F1832A /* PermissionMode.swift */; };
 		93935D9C20585C8600F1832A /* PermissionMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93935D9A20585C8600F1832A /* PermissionMode.swift */; };
 		93935D9D20585C8600F1832A /* PermissionMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93935D9A20585C8600F1832A /* PermissionMode.swift */; };
@@ -282,6 +293,9 @@
 		9319DF012069DD7B0083475D /* ResourceTokenProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceTokenProvider.swift; sourceTree = "<group>"; };
 		931EA5BE1FBE201F003CCFF4 /* DocumentClientExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentClientExtensions.swift; sourceTree = "<group>"; };
 		931EA5C01FBE2775003CCFF4 /* CodableResourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableResourceTests.swift; sourceTree = "<group>"; };
+		932832E52072CD9E0075ECC7 /* ExamplePermissionProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamplePermissionProviderTests.swift; sourceTree = "<group>"; };
+		932832E92073393B0075ECC7 /* BasePermissionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasePermissionProvider.swift; sourceTree = "<group>"; };
+		932832EE207339610075ECC7 /* PermissionResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionResult.swift; sourceTree = "<group>"; };
 		93935D9A20585C8600F1832A /* PermissionMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionMode.swift; sourceTree = "<group>"; };
 		93B7240A2064560F00984CA8 /* MSHttpHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSHttpHeader.swift; sourceTree = "<group>"; };
 		93ED3460206546C7008F8807 /* ResourceValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceValidation.swift; sourceTree = "<group>"; };
@@ -408,17 +422,19 @@
 				B52240341FB33CD000D0343F /* AzureData.swift */,
 				B522401B1FB33CD000D0343F /* AzureDataExtensions.swift */,
 				B583619E1FB78763001CEC66 /* DocumentClient.swift */,
-				931EA5BE1FBE201F003CCFF4 /* DocumentClientExtensions.swift */,
 				93F9ACCB1FC0CA4800AC240C /* DocumentClientError.swift */,
-				B58361B71FBA1339001CEC66 /* Resources */,
-				B55AEFE61FB34CF600F7BEED /* Domain */,
-				B55AEFDF1FB34B7400F7BEED /* Supporting Files */,
+				931EA5BE1FBE201F003CCFF4 /* DocumentClientExtensions.swift */,
 				9319DEF720698FB90083475D /* PermissionCache.swift */,
 				9319DEE820698C3D0083475D /* PermissionProvider.swift */,
+				932832E92073393B0075ECC7 /* BasePermissionProvider.swift */,
 				9319DEED20698C840083475D /* PermissionProviderConfiguration.swift */,
 				9319DEF220698F260083475D /* PermissionProviderError.swift */,
 				9319DEFC2069D2EF0083475D /* PermissionProviderResponse.swift */,
+				932832EE207339610075ECC7 /* PermissionResult.swift */,
 				9319DF012069DD7B0083475D /* ResourceTokenProvider.swift */,
+				B55AEFE61FB34CF600F7BEED /* Domain */,
+				B58361B71FBA1339001CEC66 /* Resources */,
+				B55AEFDF1FB34B7400F7BEED /* Supporting Files */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -427,6 +443,7 @@
 			isa = PBXGroup;
 			children = (
 				B522404A1FB33D1200D0343F /* AzureDataTests.swift */,
+				932832E52072CD9E0075ECC7 /* ExamplePermissionProviderTests.swift */,
 				B55AEFE81FB34D6500F7BEED /* Domain */,
 				B55AEFE41FB34BCB00F7BEED /* ResourceExtensionTests */,
 				B55AEFE21FB34BB400F7BEED /* ResourceTests */,
@@ -872,6 +889,7 @@
 				B58361B31FB78F7A001CEC66 /* Resources.swift in Sources */,
 				93ED3462206546C7008F8807 /* ResourceValidation.swift in Sources */,
 				93F9ACCD1FC0CA4800AC240C /* DocumentClientError.swift in Sources */,
+				932832F0207339610075ECC7 /* PermissionResult.swift in Sources */,
 				B58361D81FBA16F9001CEC66 /* Permission.swift in Sources */,
 				93F9ACD21FC0D01400AC240C /* ResourceError.swift in Sources */,
 				B58361C41FBA13B0001CEC66 /* DocumentCollection.swift in Sources */,
@@ -895,6 +913,7 @@
 				B58361DD1FBA17B5001CEC66 /* StoredProcedure.swift in Sources */,
 				9316F450206A977F00D7BA8B /* ResourceLocation.swift in Sources */,
 				9319DEEF20698C840083475D /* PermissionProviderConfiguration.swift in Sources */,
+				932832EB2073393B0075ECC7 /* BasePermissionProvider.swift in Sources */,
 				B52240961FB3407C00D0343F /* AzureDataExtensions.swift in Sources */,
 				B58361BA1FBA1385001CEC66 /* CodableResource.swift in Sources */,
 				9319DEFE2069D2EF0083475D /* PermissionProviderResponse.swift in Sources */,
@@ -917,6 +936,7 @@
 				B52240731FB33DF800D0343F /* UserTests.swift in Sources */,
 				B52240761FB33DF800D0343F /* CollectionDocumentExtensionsTests.swift in Sources */,
 				B522406F1FB33DF800D0343F /* AttachmentTests.swift in Sources */,
+				932832E72072CD9E0075ECC7 /* ExamplePermissionProviderTests.swift in Sources */,
 				B522406E1FB33DF800D0343F /* TriggerTests.swift in Sources */,
 				9317A81D2065763700338B63 /* ResourceOracleTests.swift in Sources */,
 				B52240701FB33DF800D0343F /* PermissionTests.swift in Sources */,
@@ -946,6 +966,7 @@
 				B58361AE1FB78F7A001CEC66 /* Resources.swift in Sources */,
 				93ED3463206546C7008F8807 /* ResourceValidation.swift in Sources */,
 				93F9ACCE1FC0CA4800AC240C /* DocumentClientError.swift in Sources */,
+				932832F1207339610075ECC7 /* PermissionResult.swift in Sources */,
 				B58361D91FBA16F9001CEC66 /* Permission.swift in Sources */,
 				93F9ACD31FC0D01400AC240C /* ResourceError.swift in Sources */,
 				B58361C51FBA13B0001CEC66 /* DocumentCollection.swift in Sources */,
@@ -969,6 +990,7 @@
 				B58361DE1FBA17B5001CEC66 /* StoredProcedure.swift in Sources */,
 				9316F451206A977F00D7BA8B /* ResourceLocation.swift in Sources */,
 				9319DEF020698C840083475D /* PermissionProviderConfiguration.swift in Sources */,
+				932832EC2073393B0075ECC7 /* BasePermissionProvider.swift in Sources */,
 				B52240991FB3407D00D0343F /* AzureDataExtensions.swift in Sources */,
 				B58361BB1FBA1385001CEC66 /* CodableResource.swift in Sources */,
 				9319DEFF2069D2EF0083475D /* PermissionProviderResponse.swift in Sources */,
@@ -991,6 +1013,7 @@
 				B52240871FB33DFA00D0343F /* UserTests.swift in Sources */,
 				B522408A1FB33DFA00D0343F /* CollectionDocumentExtensionsTests.swift in Sources */,
 				B52240831FB33DFA00D0343F /* AttachmentTests.swift in Sources */,
+				932832E82072CD9E0075ECC7 /* ExamplePermissionProviderTests.swift in Sources */,
 				B52240821FB33DFA00D0343F /* TriggerTests.swift in Sources */,
 				9317A81E2065763700338B63 /* ResourceOracleTests.swift in Sources */,
 				B52240841FB33DFA00D0343F /* PermissionTests.swift in Sources */,
@@ -1020,6 +1043,7 @@
 				B58361A91FB78F78001CEC66 /* Resources.swift in Sources */,
 				93ED3464206546C7008F8807 /* ResourceValidation.swift in Sources */,
 				93F9ACCF1FC0CA4800AC240C /* DocumentClientError.swift in Sources */,
+				932832F2207339610075ECC7 /* PermissionResult.swift in Sources */,
 				B58361DA1FBA16F9001CEC66 /* Permission.swift in Sources */,
 				93F9ACD41FC0D01400AC240C /* ResourceError.swift in Sources */,
 				B58361C61FBA13B0001CEC66 /* DocumentCollection.swift in Sources */,
@@ -1043,6 +1067,7 @@
 				B58361DF1FBA17B5001CEC66 /* StoredProcedure.swift in Sources */,
 				9316F452206A977F00D7BA8B /* ResourceLocation.swift in Sources */,
 				9319DEF120698C840083475D /* PermissionProviderConfiguration.swift in Sources */,
+				932832ED2073393B0075ECC7 /* BasePermissionProvider.swift in Sources */,
 				B522409C1FB3407E00D0343F /* AzureDataExtensions.swift in Sources */,
 				B58361BC1FBA1385001CEC66 /* CodableResource.swift in Sources */,
 				9319DF002069D2EF0083475D /* PermissionProviderResponse.swift in Sources */,
@@ -1064,6 +1089,7 @@
 				B58361D71FBA16F9001CEC66 /* Permission.swift in Sources */,
 				93ED3461206546C7008F8807 /* ResourceValidation.swift in Sources */,
 				93F9ACCC1FC0CA4800AC240C /* DocumentClientError.swift in Sources */,
+				932832EF207339610075ECC7 /* PermissionResult.swift in Sources */,
 				B58361C31FBA13B0001CEC66 /* DocumentCollection.swift in Sources */,
 				93F9ACD11FC0D01400AC240C /* ResourceError.swift in Sources */,
 				B583619A1FB779B6001CEC66 /* Response.swift in Sources */,
@@ -1087,6 +1113,7 @@
 				B522410A1FB3409F00D0343F /* UtilityExtensions.swift in Sources */,
 				9316F44F206A977F00D7BA8B /* ResourceLocation.swift in Sources */,
 				9319DEEE20698C840083475D /* PermissionProviderConfiguration.swift in Sources */,
+				932832EA2073393B0075ECC7 /* BasePermissionProvider.swift in Sources */,
 				B583619F1FB78763001CEC66 /* DocumentClient.swift in Sources */,
 				B58361B91FBA1385001CEC66 /* CodableResource.swift in Sources */,
 				9319DEFD2069D2EF0083475D /* PermissionProviderResponse.swift in Sources */,
@@ -1109,6 +1136,7 @@
 				B522405F1FB33DF100D0343F /* UserTests.swift in Sources */,
 				B52240621FB33DF100D0343F /* CollectionDocumentExtensionsTests.swift in Sources */,
 				B522405B1FB33DF100D0343F /* AttachmentTests.swift in Sources */,
+				932832E62072CD9E0075ECC7 /* ExamplePermissionProviderTests.swift in Sources */,
 				B522405A1FB33DF100D0343F /* TriggerTests.swift in Sources */,
 				9317A81C2065763700338B63 /* ResourceOracleTests.swift in Sources */,
 				B522405C1FB33DF100D0343F /* PermissionTests.swift in Sources */,

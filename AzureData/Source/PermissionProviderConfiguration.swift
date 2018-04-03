@@ -19,8 +19,8 @@ public struct PermissionProviderConfiguration {
     //
     // if this is set to .all, should always request a readWrite token from server
     //
-    // default: .all
-    var defaultPermissionMode: PermissionMode = .all
+    // default: .read
+    var defaultPermissionMode: PermissionMode = .read
     
     // this specifies the at what level of the resource hierarchy
     // (Database/Collection/Document) to request a resource token
@@ -30,5 +30,5 @@ public struct PermissionProviderConfiguration {
     // entire collection versus requesting a token only for the document
     //
     // default: .collection
-    var defaultResourceLevel: ResourceType = .collection
+    var defaultResourceLevel: ResourceType? = .collection
 }

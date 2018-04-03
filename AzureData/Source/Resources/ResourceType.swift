@@ -23,4 +23,34 @@ public enum ResourceType : String {
     var path: String {
         return self.rawValue
     }
+    
+    func isDecendent(of rt: ResourceType) -> Bool {
+        switch self {
+        case .database,
+             .offer:            return false
+        case .user,
+             .collection:       return rt == .database
+        case .document,
+             .storedProcedure,
+             .trigger,
+             .udf:              return rt == .collection || rt == .database
+        case .permission:       return rt == .user       || rt == .database
+        case .attachment:       return rt == .document   || rt == .collection || rt == .database
+        }
+    }
+    
+    func isAncestor(of rt: ResourceType) -> Bool {
+        return rt.isDecendent(of: self)
+    }
+    
+    var supportsPermissionToken: Bool {
+        switch self {
+        case .database, .offer, .user, .permission: return false
+        case .collection, .document, .storedProcedure, .trigger, .udf, .attachment: return true
+        }
+    }
+    
+    static var ancestors: [ResourceType] {
+        return [ .database, .user, .collection, .document ]
+    }
 }

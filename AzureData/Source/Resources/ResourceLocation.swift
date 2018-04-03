@@ -98,8 +98,25 @@ public enum ResourceLocation : ResourceLocator {
         case let .child(t, _, _):   return t
         }
     }
+    
+    
+    public func ancestorIds() -> [ResourceType:String] {
+        switch self {
+        case .database:                                                 return [:]
+        case let .user(databaseId, _):                                  return [ .database : databaseId ]
+        case let .permission(databaseId, userId, _):                    return [ .database : databaseId, .user : userId]
+        case let .collection(databaseId, _):                            return [ .database : databaseId ]
+        case let .storedProcedure(databaseId, collectionId, _):         return [ .database : databaseId, .collection : collectionId ]
+        case let .trigger(databaseId, collectionId, _):                 return [ .database : databaseId, .collection : collectionId ]
+        case let .udf(databaseId, collectionId, _):                     return [ .database : databaseId, .collection : collectionId ]
+        case let .document(databaseId, collectionId, _):                return [ .database : databaseId, .collection : collectionId ]
+        case let .attachment(databaseId, collectionId, documentId, _):  return [ .database : databaseId, .collection : collectionId, .document : documentId ]
+        case .offer:                                                    return [:]
+        case let .resource(resource):                                   return resource.ancestorIds()
+        case let .child(_, resource, _):                                return resource.ancestorIds(includingSelf: true)
+        }
+    }
 }
-
 
 fileprivate extension Optional where Wrapped == String {
     

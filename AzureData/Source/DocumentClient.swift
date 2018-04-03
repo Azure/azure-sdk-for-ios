@@ -24,6 +24,8 @@ public class DocumentClient {
     
     fileprivate var resourceTokenProvider: ResourceTokenProvider?
     
+    fileprivate var configuredWithMasterKey: Bool { return resourceTokenProvider != nil }
+    
     
     /// The underlying session.
     open let session: URLSession
@@ -869,9 +871,14 @@ public class DocumentClient {
         
         guard isConfigured else { callback(ListResponse<T>(DocumentClientError(withKind: .configureError))); return }
         
-        let request = dataRequest(forResourceAt: resourceLocation, withMethod: .get)
-        
-        return self.sendRequest(request, callback: callback)
+        dataRequest(forResourceAt: resourceLocation, withMethod: .get) { request in
+    
+            if let request = request {
+                return self.sendRequest(request, callback: callback)
+            }
+            
+            callback(ListResponse<T>(DocumentClientError(withKind: .unknownError)))
+        }
     }
     
     // get
@@ -879,9 +886,14 @@ public class DocumentClient {
         
         guard isConfigured else { callback(Response<T>(DocumentClientError(withKind: .configureError))); return }
         
-        let request = dataRequest(forResourceAt: resourceLocation, withMethod: .get)
-        
-        return self.sendRequest(request, callback: callback)
+        dataRequest(forResourceAt: resourceLocation, withMethod: .get) { request in
+            
+            if let request = request {
+                return self.sendRequest(request, callback: callback)
+            }
+            
+            callback(Response<T>(DocumentClientError(withKind: .unknownError)))
+        }
     }
     
     // refresh
@@ -894,9 +906,14 @@ public class DocumentClient {
         
         let resourceLocation: ResourceLocation = .resource(resource: resource)
         
-        let request = dataRequest(forResourceAt: resourceLocation, withMethod: .get, andAdditionalHeaders: [ HttpHeader.ifNoneMatch.rawValue : resource.etag! ])
-        
-        return self.sendRequest(request, currentResource: resource, callback: callback)
+        dataRequest(forResourceAt: resourceLocation, withMethod: .get, andAdditionalHeaders: [ HttpHeader.ifNoneMatch.rawValue : resource.etag! ]) { request in
+            
+            if let request = request {
+                return self.sendRequest(request, currentResource: resource, callback: callback)
+            }
+            
+            callback(Response<T>(DocumentClientError(withKind: .unknownError)))
+        }
     }
     
     // delete
@@ -908,9 +925,14 @@ public class DocumentClient {
         
         ResourceOracle.removeLinks(forResourceWithAltLink: resourceLocation.path)
         
-        let request = dataRequest(forResourceAt: resourceLocation, withMethod: .delete)
-        
-        return self.sendRequest(request, callback: callback)
+        dataRequest(forResourceAt: resourceLocation, withMethod: .delete) { request in
+            
+            if let request = request {
+                return self.sendRequest(request, callback: callback)
+            }
+            
+            callback(DataResponse(DocumentClientError(withKind: .unknownError)))
+        }
     }
 
     func delete<T:CodableResource>(_ resource: T, callback: @escaping (DataResponse) -> ()) {
@@ -924,9 +946,14 @@ public class DocumentClient {
         
         let resourceLocation: ResourceLocation = .resource(resource: resource)
         
-        let request = dataRequest(forResourceAt: resourceLocation, withMethod: .delete)
-        
-        return self.sendRequest(request, callback: callback)
+        dataRequest(forResourceAt: resourceLocation, withMethod: .delete) { request in
+            
+            if let request = request {
+                return self.sendRequest(request, callback: callback)
+            }
+            
+            callback(DataResponse(DocumentClientError(withKind: .unknownError)))
+        }
     }
     
     // replace
@@ -955,16 +982,23 @@ public class DocumentClient {
         
         log?.debugMessage(query.query)
         
-        do {
-            
-            var request = dataRequest(forResourceAt: resourceLocation, withMethod: .post, forQuery: true)
         
-            request.httpBody = try jsonEncoder.encode(query)
+        dataRequest(forResourceAt: resourceLocation, withMethod: .post, forQuery: true) { request in
+                
+            if var request = request {
+                
+                do {
+                
+                request.httpBody = try self.jsonEncoder.encode(query)
+                
+                } catch {
+                    callback(ListResponse(error)); return
+                }
+                
+                return self.sendRequest(request, callback: callback)
+            }
             
-            return self.sendRequest(request, callback: callback)
-            
-        } catch {
-            callback(ListResponse(error)); return
+            callback(ListResponse<T>(DocumentClientError(withKind: .unknownError)))
         }
     }
     
@@ -973,16 +1007,22 @@ public class DocumentClient {
         
         guard isConfigured else { callback(DataResponse(DocumentClientError(withKind: .configureError))); return }
         
-        do {
+        dataRequest(forResourceAt: resourceLocation, withMethod: .post, forQuery: true) { request in
             
-            var request = dataRequest(forResourceAt: resourceLocation, withMethod: .post)
+            if var request = request {
+                
+                do {
+                    
+                    request.httpBody = body == nil ? try self.jsonEncoder.encode([String]()) : try self.jsonEncoder.encode(body)
+                    
+                } catch {
+                    callback(DataResponse(error)); return
+                }
+                
+                return self.sendRequest(request, callback: callback)
+            }
             
-            request.httpBody = body == nil ? try jsonEncoder.encode([String]()) : try jsonEncoder.encode(body)
-
-            return self.sendRequest(request, callback: callback)
-            
-        } catch {
-            callback(DataResponse(error)); return
+            callback(DataResponse(DocumentClientError(withKind: .unknownError)))
         }
     }
     
@@ -991,17 +1031,22 @@ public class DocumentClient {
         
         guard isConfigured else { callback(Response<T>(DocumentClientError(withKind: .configureError))); return }
         
-        do {
+        
+        dataRequest(forResourceAt: resourceLocation, withMethod: replacing ? .put : .post, andAdditionalHeaders: additionalHeaders) { request in
             
-            var request = dataRequest(forResourceAt: resourceLocation, withMethod: replacing ? .put : .post, andAdditionalHeaders: additionalHeaders)
+            if var request = request {
+                do {
+                    request.httpBody = try self.jsonEncoder.encode(body)
+                    
+                    return self.sendRequest(request, callback: callback)
+                
+                } catch {
+                    
+                    callback(Response(error)); return
+                }
+            }
             
-            request.httpBody = try jsonEncoder.encode(body)
-            
-            return self.sendRequest(request, callback: callback)
-            
-        } catch {
-            
-            callback(Response(error)); return
+            callback(Response<T>(DocumentClientError(withKind: .unknownError)))
         }
     }
     
@@ -1009,15 +1054,18 @@ public class DocumentClient {
         
         guard isConfigured else { callback(Response<T>(DocumentClientError(withKind: .configureError))); return }
         
-        var request = dataRequest(forResourceAt: resourceLocation, withMethod: replacing ? .put : .post, andAdditionalHeaders: additionalHeaders)
-        
-        request.httpBody = body
-        
-        return self.sendRequest(request, callback: callback)
+        dataRequest(forResourceAt: resourceLocation, withMethod: replacing ? .put : .post, andAdditionalHeaders: additionalHeaders) { request in
+            
+            if var request = request {
+                
+                request.httpBody = body
+                
+                return self.sendRequest(request, callback: callback)
+            }
+            
+            callback(Response<T>(DocumentClientError(withKind: .unknownError)))
+        }
     }
-
-
-    
 
     
     // MARK: - Request
@@ -1033,7 +1081,7 @@ public class DocumentClient {
         
         session.dataTask(with: request) { (data, response, error) in
             
-            let httpResponse = response as! HTTPURLResponse
+            let httpResponse = response as? HTTPURLResponse
             
             if let error = error {
                 
@@ -1041,7 +1089,7 @@ public class DocumentClient {
                 
                 callback(Response(request: request, data: data, response: httpResponse, result: .failure(error)))
             
-            } else if let data = data {
+            } else if let data = data, let httpResponse = httpResponse {
                 
                 if var _ = currentResource, let statusCode1 = HttpStatusCode(rawValue: httpResponse.statusCode) {
                     print(" @@@@@@@@@@@@@@@@@@@@@@@   \(statusCode1)   @@@@@@@@@@@@@@@@@@@@@@@ ")
@@ -1118,7 +1166,7 @@ public class DocumentClient {
 
         session.dataTask(with: request) { (data, response, error) in
             
-            let httpResponse = response as! HTTPURLResponse
+            let httpResponse = response as? HTTPURLResponse
             
             if let error = error {
                 
@@ -1126,7 +1174,7 @@ public class DocumentClient {
                 
                 callback(ListResponse(request: request, data: data, response: httpResponse, result: .failure(error)))
                 
-            } else if let data = data {
+            } else if let data = data, let httpResponse = httpResponse {
                 
                 do {
                     
@@ -1209,39 +1257,71 @@ public class DocumentClient {
             }
         }.resume()
     }
-    
 
-    fileprivate func dataRequest(forResourceAt resourceLocation: ResourceLocation, withMethod method: HttpMethod, andAdditionalHeaders additionalHeaders: HttpHeaders? = nil, forQuery: Bool = false) -> URLRequest {
+
+    fileprivate func dataRequest(forResourceAt resourceLocation: ResourceLocation, withMethod method: HttpMethod, andAdditionalHeaders additionalHeaders: HttpHeaders? = nil, forQuery: Bool = false, callback: @escaping (URLRequest?) -> ()) {
         
-        let resourceToken = resourceTokenProvider!.getToken(forResourceAt: resourceLocation, andMethod: method)!
+        getToken(forResourceAt: resourceLocation, withMethod: method) { resourceToken in
         
-        let url = URL.init(string: "https://" + host! + "/" + resourceLocation.path)
-        
-        var request = URLRequest(url: url!)
-        
-        request.method = method
-        
-        request.addValue(resourceToken.date, forHTTPHeaderField: .msDate)
-        request.addValue(resourceToken.token, forHTTPHeaderField: .authorization)
-        
-        if forQuery {
-            
-            request.addValue ("true", forHTTPHeaderField: .msDocumentdbIsQuery)
-            request.addValue("application/query+json", forHTTPHeaderField: .contentType)
-            
-        } else if (method == .post || method == .put) && resourceLocation.resourceType != .attachment {
-            // For POST on query operations, it must be application/query+json
-            // For attachments, must be set to the Mime type of the attachment.
-            // For all other tasks, must be application/json.
-            request.addValue("application/json", forHTTPHeaderField: .contentType)
-        }
-        
-        if let additionalHeaders = additionalHeaders {
-            for header in additionalHeaders {
-                request.addValue(header.value, forHTTPHeaderField: header.key)
+            if let resourceToken = resourceToken {
+                
+                let url = URL.init(string: "https://" + self.host! + "/" + resourceLocation.path)
+                
+                var request = URLRequest(url: url!)
+                
+                request.method = method
+                
+                request.addValue(resourceToken.date, forHTTPHeaderField: .msDate)
+                request.addValue(resourceToken.token, forHTTPHeaderField: .authorization)
+                
+                if forQuery {
+                    
+                    request.addValue ("true", forHTTPHeaderField: .msDocumentdbIsQuery)
+                    request.addValue("application/query+json", forHTTPHeaderField: .contentType)
+                    
+                } else if (method == .post || method == .put) && resourceLocation.resourceType != .attachment {
+                    // For POST on query operations, it must be application/query+json
+                    // For attachments, must be set to the Mime type of the attachment.
+                    // For all other tasks, must be application/json.
+                    request.addValue("application/json", forHTTPHeaderField: .contentType)
+                }
+                
+                if let additionalHeaders = additionalHeaders {
+                    for header in additionalHeaders {
+                        request.addValue(header.value, forHTTPHeaderField: header.key)
+                    }
+                }
+                
+                callback(request)
+
+            } else {
+
+                callback(nil)
             }
         }
+    }
+    
+    fileprivate let httpDateFormatter: DateFormatter = DateFormat.getHttpDateFormatter()
+
+    fileprivate func getToken(forResourceAt resourceLocation: ResourceLocation, withMethod method: HttpMethod, callback: @escaping (ResourceToken?) -> ()) {
         
-        return request
+        if let resourceTokenProvider = resourceTokenProvider {
+            
+            let resourceToken = resourceTokenProvider.getToken(forResourceAt: resourceLocation, andMethod: method)!
+            
+            callback(resourceToken)
+            
+        } else if let permissionProvider = permissionProvider {
+            
+            permissionProvider.getPermission(forResourceAt: resourceLocation, withPermissionMode: method.write ? .all : .read) { result in
+             
+                //log?.debugMessage(result.error?.localizedDescription ?? result.permission?.token ?? "nope")
+                
+                if let token = result.permission?.token?.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics)! {
+                    
+                    callback(ResourceToken(date: self.httpDateFormatter.string(from: Date()), token: token))
+                }
+            }
+        }
     }
 }

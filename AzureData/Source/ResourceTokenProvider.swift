@@ -37,8 +37,6 @@ class ResourceTokenProvider {
         
         let payload = "\(method.lowercased)\n\(location.type)\n\(location.link)\n\(date.lowercased())\n\n"
 
-        print(payload)
-        
         let signiture = CryptoProvider.hmacSHA256(payload, withKey: key)!
         
         let authString = "type=master&ver=\(tokenVersion)&sig=\(signiture)"

@@ -9,5 +9,10 @@
 import Foundation
 
 public enum PermissionProviderError : Error {
+    case notImplemented
     case unsuccessfulCache
+    case failedToGetParentLink
+    case failedToGetPermissionFromServer
+    case resourceTokenUnsupportedForResourceType
+    case invalidDefaultResourceLevel
 }

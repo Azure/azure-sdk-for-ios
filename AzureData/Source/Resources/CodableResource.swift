@@ -46,4 +46,27 @@ extension CodableResource {
         let pathComponent = path.isNilOrEmpty ? Self.type : "\(path!)/\(Self.type)"
         self.setAltLink(to: "\(pathComponent)/\(id)")
     }
+    
+    public func ancestorIds(includingSelf: Bool = false) -> [ResourceType:String] {
+        
+        var ancestors: [ResourceType:String] = [:]
+        
+        if let split = self.altLink?.split(separator: "/") {
+            
+            for ancestor in ResourceType.ancestors {
+                
+                let ancestorPath = Substring(ancestor.path)
+                
+                if let key = split.index(of: ancestorPath), key < split.endIndex {
+                     ancestors[ancestor] = String(split[split.index(after: key)])
+                }
+            }
+        }
+        
+        if includingSelf {
+            ancestors[ResourceType(rawValue: Self.type)!] = self.id
+        }
+        
+        return ancestors
+    }
 }
