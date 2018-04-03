@@ -31,4 +31,9 @@ public struct PermissionProviderConfiguration {
     //
     // default: .collection
     var defaultResourceLevel: ResourceType? = .collection
+    
+    
+    var defaultTokenDuration: Double = 3600 // 1 hour
+    
+    var tokenRefreshThreshold: Double = 600 // 10 minutes
 }

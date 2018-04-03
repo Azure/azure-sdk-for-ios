@@ -19,14 +19,30 @@ public struct PermissionRequest : Codable {
 
 public class ExamplePermissionProvider : BasePermissionProvider {
     
-    let encoder = JSONEncoder()
-    let decoder = JSONDecoder()
+    let encoder: JSONEncoder = {
+        
+        let e = JSONEncoder()
+        
+        e.dateEncodingStrategy = .custom(DocumentClient.roundTripIso8601Encoder)
+        
+        return e
+    }()
+    
+    let decoder: JSONDecoder = {
+        
+        let d = JSONDecoder()
+        
+        d.dateDecodingStrategy = .custom(DocumentClient.roundTripIso8601Decoder)
+        
+        return d
+    }()
     
     let session = URLSession.init(configuration: URLSessionConfiguration.default)
     
+    
     override public func getPermission(forCollectionWithId collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (PermissionResult) -> Void) {
         
-        let permissionRequest = PermissionRequest(databaseId: databaseId, collectionId: collectionId, tokenDuration: 3600, permissionMode: mode)
+        let permissionRequest = PermissionRequest(databaseId: databaseId, collectionId: collectionId, tokenDuration: Int(configuration.defaultTokenDuration), permissionMode: mode)
         
         let url = URL(string: "")
 
@@ -94,16 +110,6 @@ class ExamplePermissionProviderTests: XCTestCase {
         super.setUp()
         
         // AzureData.configure(forAccountNamed: "<Database Name>", withPermissionProvider: ExamplePermissionProvider(with: PermissionProviderConfiguration.default))
-
-
-        //let config = PermissionProviderConfiguration(defaultPermissionMode: .all, defaultResourceLevel: .collection)
-        //let provider = ExamplePermissionProvider(with: config)
-        //AzureData.configure(forAccountNamed: "databasemao5xlrroux6s", withPermissionProvider: provider)
-        
-        AzureData.configure(forAccountNamed: "databasemao5xlrroux6s", withPermissionProvider: ExamplePermissionProvider(with: PermissionProviderConfiguration.default))
-        
-        DocumentClient.default.dateEncoder = DocumentClient.roundTripIso8601Encoder
-        DocumentClient.default.dateDecoder = DocumentClient.roundTripIso8601Decoder
     }
     
     override func tearDown() {
@@ -113,10 +119,10 @@ class ExamplePermissionProviderTests: XCTestCase {
     
     func testExample() {
 
-        var deleteResponse: DataResponse?
+        var getResponse:    Response<DictionaryDocument>?
+        var listResponse:   ListResponse<DictionaryDocument>?
         var createResponse: Response<DictionaryDocument>?
-        var getResponse: Response<DictionaryDocument>?
-        var listResponse: ListResponse<DictionaryDocument>?
+        var deleteResponse: DataResponse?
         
         AzureData.get(collectionWithId: "MyCollectionThree", inDatabase: "MyDatabaseThree") { r in
             self.collection = r.resource

@@ -126,51 +126,6 @@ public class ResourceOracle {
     }
     
     
-    // MARK: - Get Parent Links
-    
-    public static func getAltLink(forParentOfResource resource: CodableResource) -> String? {
-        
-        return getAltLink(forResource: resource)?.parentLink
-    }
-    
-    public static func getAltLink(forParentOfResourceWithSelfLink selfLink: String) -> String? {
-
-        guard let parentSelfLink = selfLink.parentLink else { return nil }
-        
-        return getAltLink(forSelfLink: parentSelfLink)
-    }
-
-    public static func getAltLink(forAncestorAt resourceType: ResourceType, ofResource resource: CodableResource) -> String? {
-        
-        return getAltLink(forResource: resource)?.extractLink(for: resourceType)
-    }
-    
-    
-    public static func getSelfLink(forParentOfResource resource: CodableResource) -> String? {
-        
-        return getSelfLink(forResource: resource)?.parentLink
-    }
-    
-    public static func getSelfLink(forParentOfResourceWithAltLink altLink: String) -> String? {
-
-        guard let parentAltLink = altLink.parentLink else { return nil }
-        
-        return getSelfLink(forAltLink: parentAltLink)
-    }
-    
-    public static func getSelfLink(forAncestorAt resourceType: ResourceType, ofResource resource: CodableResource) -> String? {
-        
-        return getSelfLink(forResource: resource)?.extractLink(for: resourceType)
-    }
-
-    public static func getLink(forParentOfResourceWithLink link: String) -> String? {
-        return link.parentLink
-    }
-
-    public static func getLink(forAncestorAt resourceType: ResourceType, ofResourceWithLink link: String) -> String? {
-        return link.parentLink
-    }
-
     
     // MARK: - Get Links for Resource
     
@@ -236,16 +191,8 @@ public class ResourceOracle {
     
     
     
-    // MARK: - Get Ids
+    // MARK: - Get resourceId
 
-    public static func extractResourceId(for resourceType: ResourceType, fromSelfLink selfLink: String) -> String? {
-        return selfLink.extractId(for: resourceType)
-    }
-    
-    public static func extractId(for resourceType: ResourceType, fromAltLink altLink: String) -> String? {
-        return altLink.extractId(for: resourceType)
-    }
-    
     public static func getResourceId(forResource resource: CodableResource, withSelfLink selfLink: String? = nil) -> String? {
         
         var resourceId = resource.resourceId
@@ -277,58 +224,21 @@ public class ResourceOracle {
     
     public static func printDump() {
         
-        print("\n*****\n*****\n\naltLinkLookup  : \(altLinkLookup.count)\nselfLinkLookup : \(selfLinkLookup.count)\n\n*****\n*****\n")
+        log?.debugMessage("\n*****\n*****\n\naltLinkLookup  : \(altLinkLookup.count)\nselfLinkLookup : \(selfLinkLookup.count)\n\n*****\n*****\n")
         
-        print("\n\naltLinkLookup:\n")
+        log?.debugMessage("\n\naltLinkLookup:\n")
         for al in altLinkLookup {
-            print("key   : \(al.key)\nvalue : \(al.value)\n")
+            log?.debugMessage("key   : \(al.key)\nvalue : \(al.value)\n")
         }
-        print("\n\nselfLinkLookup:\n")
+        log?.debugMessage("\n\nselfLinkLookup:\n")
         for sl in selfLinkLookup {
-            print("key   : \(sl.key)\nvalue : \(sl.value)\n")
+            log?.debugMessage("key   : \(sl.key)\nvalue : \(sl.value)\n")
         }
-        print("\n")
+        log?.debugMessage("\n")
     }
 }
 
 fileprivate extension String {
-    
-    var lastPathComponent: String? {
-        
-        if let selfSubstring = self.split(separator: "/").last, !selfSubstring.isEmpty  {
-            return String(selfSubstring)
-        }
-        
-        return nil
-    }
-    
-    var parentLink: String? {
-        
-        let selfSubstrings = self.split(separator: "/")
-        
-        guard selfSubstrings.count > 2 else { return nil }
-        
-        return selfSubstrings.dropLast(2).joined(separator: "/")
-    }
-
-    func extractLink(for resourceType: String) -> String? {
-        
-        let path = Substring(resourceType)
-        
-        let split = self.split(separator: "/")
-        
-        //  0            1             2               3             4          5
-        // dbs/DocumentTestsDatabase/colls/DocumentTestsCollection/docs/DocumentTestsDocument
-        
-        if let key = split.index(of: path), key < split.endIndex {
-            
-            let drop = split.endIndex - split.index(after: key)
-            
-            return split.dropLast(drop).joined(separator: "/")
-        }
-        
-        return nil
-    }
     
     func extractId(for resourceType: String) -> String? {
         
@@ -341,30 +251,5 @@ fileprivate extension String {
         }
         
         return nil
-    }
-
-    func extractLink(for resourceType: ResourceType) -> String? {
-        return self.extractLink(for: resourceType.path)
-    }
-    
-    func extractId(for resourceType: ResourceType) -> String? {
-        return self.extractId(for: resourceType.path)
-    }
-}
-
-fileprivate extension CodableResource {
-    
-    func extractResourceIdFromSelfLink() -> String? {
-        
-        guard let link = self.selfLink, !link.isEmpty else { return nil }
-        
-        return link.extractId(for: Self.type)
-    }
-    
-    func extractIdFromAltLink() -> String? {
-        
-        guard let link = self.altLink, !link.isEmpty else { return nil }
-        
-        return link.extractId(for: Self.type)
     }
 }

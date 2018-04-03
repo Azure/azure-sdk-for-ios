@@ -16,7 +16,7 @@ public class PermissionCache {
     fileprivate static let slashCharacterSet: CharacterSet = ["/"]
 
     
-    // Key is based on altLink
+    // Key is altLink
     fileprivate static var cache: [String:Permission] = [:]
     
     
@@ -49,62 +49,7 @@ public class PermissionCache {
         
         return nil
     }
-    
-    public static func getPermission(forParentOf resource: CodableResource) -> Permission? {
-        
-        if let altLink = ResourceOracle.getAltLink(forParentOfResource: resource) {
-            return getPermission(forResourceWithAltLink: altLink)
-        }
-        
-        return nil
-    }
-    
-    public static func getPermission(forResourceWithSelfLink selfLink: String) -> Permission? {
-        
-        if let altLink = ResourceOracle.getAltLink(forSelfLink: selfLink) {
-            return getPermission(forResourceWithAltLink: altLink)
-        }
-        
-        return nil
-    }
 
-    public static func getPermission(forParentOfResourceWithSelfLink selfLink: String) -> Permission? {
-        
-        if let altLink = ResourceOracle.getAltLink(forParentOfResourceWithSelfLink: selfLink) {
-            return getPermission(forResourceWithAltLink: altLink)
-        }
-        
-        return nil
-    }
-
-    public static func getPermission(forParentOfResourceWithAltLink altLink: String) -> Permission? {
-        
-        if let altLink = ResourceOracle.getLink(forParentOfResourceWithLink: altLink) {
-            return getPermission(forResourceWithAltLink: altLink)
-        }
-        
-        return nil
-    }
-    
-    public static func getPermission(forAncestorAt resourceType: ResourceType, ofResource resource: CodableResource) -> Permission? {
-        
-        if let altLink = ResourceOracle.getAltLink(forAncestorAt: resourceType, ofResource: resource) {
-            return getPermission(forResourceWithAltLink: altLink)
-        }
-        
-        return nil
-    }
-
-    public static func getPermission(forAncestorAt resourceType: ResourceType, ofResourceWithAltLink altLink: String) -> Permission? {
-        
-        if let altLink = ResourceOracle.getLink(forAncestorAt: resourceType, ofResourceWithLink: altLink) {
-            return getPermission(forResourceWithAltLink: altLink)
-        }
-
-        return nil
-    }
-
-    
     public static func getPermission(forResourceWithAltLink altLink: String) -> Permission? {
         
         let altLink = altLink.trimmingCharacters(in: slashCharacterSet)
@@ -128,61 +73,6 @@ public class PermissionCache {
         return false
     }
 
-    public static func setPermission(_ permission: Permission, forParentOf resource: CodableResource) -> Bool {
-        
-        if let altLink = ResourceOracle.getAltLink(forParentOfResource: resource) {
-            return setPermission(permission, forResourceWithAltLink: altLink)
-        }
-        
-        return false
-    }
-
-    public static func setPermission(_ permission: Permission, forResourceWithSelfLink selfLink: String) -> Bool {
-        
-        if let altLink = ResourceOracle.getAltLink(forSelfLink: selfLink) {
-            return setPermission(permission, forResourceWithAltLink: altLink)
-        }
-        
-        return false
-    }
-
-    public static func setPermission(_ permission: Permission, forParentOfResourceWithSelfLink selfLink: String) -> Bool {
-        
-        if let altLink = ResourceOracle.getAltLink(forParentOfResourceWithSelfLink: selfLink) {
-            return setPermission(permission, forResourceWithAltLink: altLink)
-        }
-        
-        return false
-    }
-    
-    public static func setPermission(_ permission: Permission, forParentOfResourceWithAltLink altLink: String) -> Bool {
-        
-        if let altLink = ResourceOracle.getLink(forParentOfResourceWithLink: altLink) {
-            return setPermission(permission, forResourceWithAltLink: altLink)
-        }
-        
-        return false
-    }
-
-    public static func setPermission(_ permission: Permission, forAncestorAt resourceType: ResourceType, ofResource resource: CodableResource) -> Bool {
-        
-        if let altLink = ResourceOracle.getAltLink(forAncestorAt: resourceType, ofResource: resource) {
-            return setPermission(permission, forResourceWithAltLink: altLink)
-        }
-        
-        return false
-    }
-    
-    public static func setPermission(_ permission: Permission, forAncestorAt resourceType: ResourceType, ofResourceWithAltLink altLink: String) -> Bool {
-        
-        if let altLink = ResourceOracle.getLink(forAncestorAt: resourceType, ofResourceWithLink: altLink) {
-            return setPermission(permission, forResourceWithAltLink: altLink)
-        }
-        
-        return false
-    }
-
-    
     public static func setPermission(_ permission: Permission, forResourceWithAltLink altLink: String) -> Bool {
         
         let altLink = altLink.trimmingCharacters(in: slashCharacterSet)
@@ -199,12 +89,12 @@ public class PermissionCache {
     
     public static func printDump() {
         
-        print("\n*****\n*****\n\ncount  : \(cache.count)\n\n*****\n*****\n")
+        log?.debugMessage("\n*****\n*****\n\ncount  : \(cache.count)\n\n*****\n*****\n")
         
-        print("\n\ncache:\n")
+        log?.debugMessage("\n\ncache:\n")
         for c in cache {
-            print("key   : \(c.key)\nvalue : \(c.value)\n")
+            log?.debugMessage("key   : \(c.key)\nvalue : \(c.value)\n")
         }
-        print("\n")
+        log?.debugMessage("\n")
     }
 }

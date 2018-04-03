@@ -116,6 +116,11 @@ public enum ResourceLocation : ResourceLocator {
         case let .child(_, resource, _):                                return resource.ancestorIds(includingSelf: true)
         }
     }
+    
+    
+    public var supportsPermissionToken: Bool {
+        return self.resourceType.supportsPermissionToken
+    }
 }
 
 fileprivate extension Optional where Wrapped == String {
