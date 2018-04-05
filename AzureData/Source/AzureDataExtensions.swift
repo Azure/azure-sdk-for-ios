@@ -239,7 +239,7 @@ public extension Document {
     }
     
     // list
-    public func getAttachemnts (callback: @escaping (Response<Resources<Attachment>>) -> ()) {
+    public func getAttachments (callback: @escaping (Response<Resources<Attachment>>) -> ()) {
         return DocumentClient.default.get (attachmentsOn: self, callback: callback)
     }
     
@@ -247,7 +247,11 @@ public extension Document {
     public func delete (_ attachment: Attachment, callback: @escaping (Response<Data>) -> ()) {
         return DocumentClient.default.delete (attachment, callback: callback)
     }
-    
+
+    public func delete (attachmentWithId id: String, callback: @escaping (Response<Data>) -> ()) {
+        return DocumentClient.default.delete(attachmentWithId: id, fromDocument: self, callback: callback)
+    }
+
     // replace
     public func replace (attachmentWithId attachmentId: String, contentType: String, andMediaUrl mediaUrl: URL, callback: @escaping (Response<Attachment>) -> ()) {
         return DocumentClient.default.replace(attachmentWithId: attachmentId, contentType: contentType, andMediaUrl: mediaUrl, onDocument: self, callback: callback)
