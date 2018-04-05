@@ -32,14 +32,55 @@ class UserDefinedFunctionTests: AzureDataTests {
         }
     }
     
-    //func testUserDefinedFunctionCrud() {
+    func testUserDefinedFunctionCrud() {
 
-        //var createResponse:     Response<UserDefinedFunction>?
-        //var listResponse:       ListResponse<UserDefinedFunction>?
-        //var getResponse:        Response<UserDefinedFunction>?
-        //var replaceResponse:    Response<UserDefinedFunction>?
-        //var queryResponse:      ListResponse<UserDefinedFunction>?
+        var createResponse:     Response<UserDefinedFunction>?
+        var listResponse:       Response<Resources<UserDefinedFunction>>?
+        var replaceResponse:    Response<UserDefinedFunction>?
+        var deleteResponse:     Response<Data>?
 
-    //}
-        
+        // Create
+        AzureData.create(userDefinedFunctionWithId: resourceId, andBody: "function updateMetadata() {}", inCollection: collectionId, inDatabase: databaseId) { r in
+            createResponse = r
+            self.createExpectation.fulfill()
+        }
+
+        wait(for: [createExpectation], timeout: timeout)
+
+        XCTAssertNotNil(createResponse?.resource)
+
+        // List
+        AzureData.get(userDefinedFunctionsIn: collectionId, inDatabase: databaseId) { r in
+            listResponse = r
+            self.listExpectation.fulfill()
+        }
+
+        wait(for: [listExpectation], timeout: timeout)
+
+        XCTAssertNotNil(listResponse?.resource)
+
+        // Replace
+        if let udf = createResponse?.resource {
+            AzureData.replace(userDefinedFunctionWithId: udf.id, andBody: "function update() {}", inCollection: collectionId, inDatabase: databaseId) { r in
+                replaceResponse = r
+                self.replaceExpectation.fulfill()
+            }
+
+            wait(for: [replaceExpectation], timeout: timeout)
+
+            XCTAssertNotNil(replaceResponse?.resource)
+        }
+
+        // Delete
+        if let udf = replaceResponse?.resource ?? createResponse?.resource {
+            AzureData.delete(userDefinedFunctionWithId: udf.id, fromCollection: collectionId, inDatabase: databaseId) { r in
+                deleteResponse = r
+                self.deleteExpectation.fulfill()
+            }
+
+            wait(for: [deleteExpectation], timeout: timeout)
+
+            XCTAssert(deleteResponse?.result.isSuccess ?? false)
+        }
+    }
 }

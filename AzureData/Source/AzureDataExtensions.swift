@@ -185,7 +185,11 @@ public extension DocumentCollection {
     public func delete (_ userDefinedFunction: UserDefinedFunction, callback: @escaping (Response<Data>) -> ()) {
         return DocumentClient.default.delete (userDefinedFunction, callback: callback)
     }
-    
+
+    public func delete (userDefinedFunctionWithId functionId: String, callback: @escaping (Response<Data>) -> ()) {
+        return DocumentClient.default.delete (userDefinedFunctionWithId: functionId, fromCollection: self, callback: callback)
+    }
+
     // replace
     public func replace (userDefinedFunctionWithId id: String, andBody body: String, callback: @escaping (Response<UserDefinedFunction>) -> ()) {
         return DocumentClient.default.replace (userDefinedFunctionWithId: id, andBody: body, from: self, callback: callback)
