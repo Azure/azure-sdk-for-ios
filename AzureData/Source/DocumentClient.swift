@@ -716,14 +716,14 @@ public class DocumentClient {
 
         let resourceLocation: ResourceLocation = .user(databaseId: databaseId, id: userId)
         
-        return self.replace(resourceWithId: userId, at: resourceLocation, callback: callback)
+        return self.replace(resourceWithId: newUserId, at: resourceLocation, callback: callback)
     }
 
     public func replace (userWithId userId: String, with newUserId: String, inDatabase database: Database, callback: @escaping (Response<User>) -> ()) {
         
         let resourceLocation: ResourceLocation = .child(.user, in: database, id: userId)
         
-        return self.replace(resourceWithId: userId, at: resourceLocation, callback: callback)
+        return self.replace(resourceWithId: newUserId, at: resourceLocation, callback: callback)
     }
 
     
@@ -801,7 +801,7 @@ public class DocumentClient {
         
         let permission = Permission(withId: permissionId, mode: permissionMode, forResource: resource.selfLink!)
         
-        return self.create(permission, at: resourceLocation, callback: callback)
+        return self.replace(permission, at: resourceLocation, callback: callback)
     }
     
     public func replace (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource, forUser user: User, callback: @escaping (Response<Permission>) -> ()) {
@@ -810,7 +810,7 @@ public class DocumentClient {
         
         let permission = Permission(withId: permissionId, mode: permissionMode, forResource: resource.selfLink!)
         
-        return self.create(permission, at: resourceLocation, callback: callback)
+        return self.replace(permission, at: resourceLocation, callback: callback)
     }
     
     

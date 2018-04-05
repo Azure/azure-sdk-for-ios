@@ -15,6 +15,10 @@ public extension CodableResource {
     public func delete(_ callback: @escaping (Response<Data>) -> ()) {
         DocumentClient.default.delete(self, callback: callback)
     }
+
+    public func create(permissionWithId permissionId: String, mode permissionMode: PermissionMode, forUser user: User, callback: @escaping (Response<Permission>) -> ()) {
+        return DocumentClient.default.create(permissionWithId: permissionId, mode: permissionMode, in: self, forUser: user, callback: callback)
+    }
 }
 
 
@@ -286,7 +290,11 @@ public extension User {
     public func delete (_ permission: Permission, callback: @escaping (Response<Data>) -> ()) {
         return DocumentClient.default.delete (permission, callback: callback)
     }
-    
+
+    public func delete (permissionWithId permissionId: String, callback: @escaping (Response<Data>) -> ()) {
+        return DocumentClient.default.delete(permissionWithId: permissionId, fromUser: self, callback: callback)
+    }
+
     // replace
     public func replace (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource, callback: @escaping (Response<Permission>) -> ()) {
         return DocumentClient.default.replace (permissionWithId: permissionId, mode: permissionMode, in: resource, forUser: self, callback: callback)

@@ -15,18 +15,72 @@ class PermissionTests: AzureDataTests {
         resourceType = .permission
         ensureDatabase = true
         ensureCollection = true
+        ensureUser = true
         super.setUp()
     }
     
     override func tearDown() { super.tearDown() }
     
-    //func testPermissionCrud() {
-        
-        //var createResponse:     Response<Permission>?
-        //var listResponse:       ListResponse<Permission>?
-        //var getResponse:        Response<Permission>?
-        //var replaceResponse:    Response<Permission>?
-        //var queryResponse:      ListResponse<Permission>?
+    func testPermissionCrud() {
 
-    //}
+        var createResponse:     Response<Permission>?
+        var listResponse:       Response<Resources<Permission>>?
+        var getResponse:        Response<Permission>?
+        var replaceResponse:    Response<Permission>?
+        var deleteResponse:     Response<Data>?
+
+        // Create
+        AzureData.create(permissionWithId: resourceId, mode: .all, in: collection!, forUser: user!) { r in
+            createResponse = r
+            self.createExpectation.fulfill()
+        }
+
+        wait(for: [createExpectation], timeout: timeout)
+
+        XCTAssertNotNil(createResponse?.resource)
+
+        // List
+        AzureData.get(permissionsFor: user!) { r in
+            listResponse = r
+            self.listExpectation.fulfill()
+        }
+
+        wait(for: [listExpectation], timeout: timeout)
+
+        XCTAssertNotNil(listResponse?.resource)
+
+        // Get
+        AzureData.get(permissionWithId: resourceId, forUser: user!) { r in
+            getResponse = r
+            self.getExpectation.fulfill()
+        }
+
+        wait(for: [getExpectation], timeout: timeout)
+
+        XCTAssertNotNil(getResponse?.resource)
+
+        // Replace
+        if let permission = getResponse?.resource {
+            AzureData.replace(permissionWithId: permission.id, mode: .read, in: collection!, forUser: user!) { r in
+                replaceResponse = r
+                self.replaceExpectation.fulfill()
+            }
+
+            wait(for: [replaceExpectation], timeout: timeout)
+
+            XCTAssertNotNil(replaceResponse?.resource)
+        }
+
+        // Delete
+        if let permission = replaceResponse?.resource ?? getResponse?.resource {
+            AzureData.delete(permissionWithId: permission.id, fromUser: user!) { r in
+                deleteResponse = r
+                self.deleteExpectation.fulfill()
+            }
+
+            wait(for: [deleteExpectation], timeout: timeout)
+
+            XCTAssert(deleteResponse?.result.isSuccess ?? false)
+        }
+    }
 }
