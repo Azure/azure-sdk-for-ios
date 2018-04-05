@@ -26,9 +26,9 @@ class DatabaseCollectionExtensionsTests: AzureDataTests {
         if let database = self.database {
             
             var createResponse:     Response<DocumentCollection>?
-            var listResponse:       ListResponse<DocumentCollection>?
+            var listResponse:       Response<Resources<DocumentCollection>>?
             var getResponse:        Response<DocumentCollection>?
-            var deleteResponse:     DataResponse?
+            var deleteResponse:     Response<Data>?
 
             
             

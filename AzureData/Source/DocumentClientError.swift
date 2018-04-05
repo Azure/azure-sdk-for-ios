@@ -29,6 +29,7 @@ public struct DocumentClientError : Error {
         case retryWith
         case internalServerError
         case serviceUnavailable
+        case permissionError
 
         var message: String {
             switch self {
@@ -37,6 +38,7 @@ public struct DocumentClientError : Error {
             case .configureError:   return "AzureData is not configured.  Must call AzureData.configure() before attempting CRUD operations on resources."
             case .invalidId:        return "Cosmos DB Resource IDs must not exceed 255 characters and cannot contain whitespace"
             case .incompleteIds:    return "This resource is missing the selfLink and/or resourceId properties.  Use an override that takes parent resource or ids instead."
+            case .permissionError:  return "Configuring AzureData using a PermissionProvider implements access control based on resource-specific Permissions. This authorization model only supports accessing application resources (Collections, Stored Procedures, Triggers, UDFs, Documents, and Attachments). In order to access administrative resources (Database Accounts, Databases, Users, Permission, and Offers) require AzureData is configured using a master key."
             default: return ""
             }
         }
@@ -147,13 +149,4 @@ extension DocumentClientError : CustomDebugStringConvertible {
         let baseErrorDescription = self.baseError != nil ? "\n\t baseError: \(self.baseError!.localizedDescription)" : ""
         return "\(self.localizedDescription)\(baseErrorDescription)\n"
     }
-}
-
-
-extension DocumentClientError {
-    
-    
-    
-    
-    
 }

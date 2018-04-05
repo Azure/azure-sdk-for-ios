@@ -12,5 +12,5 @@ public protocol PermissionProvider {
     
     init(with configuration: PermissionProviderConfiguration)
     
-    func getPermission(forResourceAt location: ResourceLocation, withPermissionMode mode: PermissionMode, completion: @escaping (PermissionResult) -> Void)
+    func getPermission(forResourceAt location: ResourceLocation, withPermissionMode mode: PermissionMode, completion: @escaping (Response<Permission>) -> Void)
 }

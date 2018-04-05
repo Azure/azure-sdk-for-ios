@@ -100,6 +100,24 @@ public enum ResourceLocation : ResourceLocator {
     }
     
     
+    public var id: String? {
+        switch self {
+        case let .database(id):                 return id
+        case let .user(_, id):                  return id
+        case let .permission(_, _, id):     	return id
+        case let .collection(_, id):        	return id
+        case let .storedProcedure(_, _, id):    return id
+        case let .trigger(_, _, id):        	return id
+        case let .udf(_, _, id):            	return id
+        case let .document(_, _, id):       	return id
+        case let .attachment(_, _, _, id):  	return id
+        case let .offer(id):                	return id
+        case let .resource(resource):       	return resource.id
+        case let .child(_, _, id):          	return id
+        }
+    }
+
+    
     public func ancestorIds() -> [ResourceType:String] {
         switch self {
         case .database:                                                 return [:]

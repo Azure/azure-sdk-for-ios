@@ -23,11 +23,11 @@ class UserTests: AzureDataTests {
     func testUserCrud() {
         
         var createResponse:     Response<User>?
-        var listResponse:       ListResponse<User>?
+        var listResponse:       Response<Resources<User>>?
         var getResponse:        Response<User>?
         var replaceResponse:    Response<User>?
         var refreshResponse:    Response<User>?
-        var deleteResponse:     DataResponse?
+        var deleteResponse:     Response<Data>?
 
 
         // Create

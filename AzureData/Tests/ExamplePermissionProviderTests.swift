@@ -11,8 +11,9 @@ import XCTest
 
 public struct PermissionRequest : Codable {
     
-    let databaseId: String?
-    let collectionId: String?
+    let databaseId: String
+    let collectionId: String
+    let documentId: String?
     let tokenDuration: Int
     let permissionMode: PermissionMode
 }
@@ -40,9 +41,9 @@ public class ExamplePermissionProvider : BasePermissionProvider {
     let session = URLSession.init(configuration: URLSessionConfiguration.default)
     
     
-    override public func getPermission(forCollectionWithId collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (PermissionResult) -> Void) {
+    override public func getPermission(forCollectionWithId collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (Response<Permission>) -> Void) {
         
-        let permissionRequest = PermissionRequest(databaseId: databaseId, collectionId: collectionId, tokenDuration: Int(configuration.defaultTokenDuration), permissionMode: mode)
+        let permissionRequest = PermissionRequest(databaseId: databaseId, collectionId: collectionId, documentId: nil, tokenDuration: Int(configuration.defaultTokenDuration), permissionMode: mode)
         
         let url = URL(string: "")
 
@@ -54,14 +55,14 @@ public class ExamplePermissionProvider : BasePermissionProvider {
         do {
             request.httpBody = try encoder.encode(permissionRequest)
         } catch {
-            completion(PermissionResult(PermissionProviderError.failedToGetPermissionFromServer)); return;
+            completion(Response(PermissionProviderError.failedToGetPermissionFromServer)); return;
         }
         
         session.dataTask(with: request) { (data, response, error) in
             
             if let error = error {
                 
-                completion(PermissionResult(error))
+                completion(Response(request: request, data: data, response: response as? HTTPURLResponse, result: .failure(error)))
                 
             } else if let data = data {
                 
@@ -70,16 +71,15 @@ public class ExamplePermissionProvider : BasePermissionProvider {
                 do {
                     let permission = try self.decoder.decode(Permission.self, from: data)
                     
-                    completion(PermissionResult(permission))
+                    completion(Response(request: request, data: data, response: response as? HTTPURLResponse, result: .success(permission)))
                     
                 } catch {
-                    completion(PermissionResult(PermissionProviderError.failedToGetPermissionFromServer)); return;
+                    
+                    completion(Response(request: request, data: data, response: response as? HTTPURLResponse, result: .failure(error))); return;
                 }
             } else {
                 
-                let unknownError = DocumentClientError(withKind: .unknownError)
-                
-                completion(PermissionResult(unknownError))
+                completion(Response(request: request, data: data, response: response as? HTTPURLResponse, result: .failure(DocumentClientError(withKind: .unknownError)))); return;
             }
         }.resume()
     }
@@ -120,11 +120,11 @@ class ExamplePermissionProviderTests: XCTestCase {
     func testExample() {
 
         var getResponse:    Response<DictionaryDocument>?
-        var listResponse:   ListResponse<DictionaryDocument>?
+        var listResponse:   Response<Resources<DictionaryDocument>>?
         var createResponse: Response<DictionaryDocument>?
-        var deleteResponse: DataResponse?
+        var deleteResponse: Response<Data>?
         
-        AzureData.get(collectionWithId: "MyCollectionThree", inDatabase: "MyDatabaseThree") { r in
+        AzureData.get(collectionWithId: "MyCollectionFour", inDatabase: "MyDatabaseFour") { r in
             self.collection = r.resource
             self.getExpectation.fulfill()
         }

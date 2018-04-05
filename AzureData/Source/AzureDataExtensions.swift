@@ -12,7 +12,7 @@ import Foundation
 
 public extension CodableResource {
     
-    public func delete(_ callback: @escaping (DataResponse) -> ()) {
+    public func delete(_ callback: @escaping (Response<Data>) -> ()) {
         DocumentClient.default.delete(self, callback: callback)
     }
 }
@@ -36,7 +36,7 @@ public extension Database {
     }
     
     // list
-    public func getCollections (callback: @escaping (ListResponse<DocumentCollection>) -> ()) {
+    public func getCollections (callback: @escaping (Response<Resources<DocumentCollection>>) -> ()) {
         return DocumentClient.default.get(collectionsIn: self, callback: callback)
     }
     
@@ -46,11 +46,11 @@ public extension Database {
     }
     
     //delete
-    public func delete (_ collection: DocumentCollection, callback: @escaping (DataResponse) -> ()) {
+    public func delete (_ collection: DocumentCollection, callback: @escaping (Response<Data>) -> ()) {
         return DocumentClient.default.delete(collection, callback: callback)
     }
 
-    public func delete (collectionWithId collectionId: String, callback: @escaping (DataResponse) -> ()) {
+    public func delete (collectionWithId collectionId: String, callback: @escaping (Response<Data>) -> ()) {
         return DocumentClient.default.delete(collectionWithId: collectionId, fromDatabase: self, callback: callback)
     }
     
@@ -63,7 +63,7 @@ public extension Database {
     }
     
     // list
-    public func getUsers (callback: @escaping (ListResponse<User>) -> ()) {
+    public func getUsers (callback: @escaping (Response<Resources<User>>) -> ()) {
         return DocumentClient.default.get (usersIn: self, callback: callback)
     }
     
@@ -73,7 +73,7 @@ public extension Database {
     }
     
     //delete
-    public func delete (_ user: User, callback: @escaping (DataResponse) -> ()) {
+    public func delete (_ user: User, callback: @escaping (Response<Data>) -> ()) {
         return DocumentClient.default.delete (user, callback: callback)
     }
     
@@ -102,7 +102,7 @@ public extension DocumentCollection {
     }
     
     // list
-    public func get<T: Document> (documentsAs documentType:T.Type, callback: @escaping (ListResponse<T>) -> ()) {
+    public func get<T: Document> (documentsAs documentType:T.Type, callback: @escaping (Response<Resources<T>>) -> ()) {
         return DocumentClient.default.get(documentsAs: documentType, in: self, callback: callback)
     }
     
@@ -112,7 +112,7 @@ public extension DocumentCollection {
     }
     
     // delete
-    public func delete (_ document: Document, callback: @escaping (DataResponse) -> ()) {
+    public func delete (_ document: Document, callback: @escaping (Response<Data>) -> ()) {
         return DocumentClient.default.delete(document, callback: callback)
     }
     
@@ -122,11 +122,11 @@ public extension DocumentCollection {
     }
     
     // query
-    public func query (documentsWith query: Query, callback: @escaping (ListResponse<Document>) -> ()) {
+    public func query (documentsWith query: Query, callback: @escaping (Response<Resources<Document>>) -> ()) {
         return DocumentClient.default.query(documentsIn: self, with: query, callback: callback)
     }
 
-    public func query (documentsWith query: Query, callback: @escaping (ListResponse<DictionaryDocument>) -> ()) {
+    public func query (documentsWith query: Query, callback: @escaping (Response<Resources<DictionaryDocument>>) -> ()) {
         return DocumentClient.default.query(documentsIn: self, with: query, callback: callback)
     }
 
@@ -140,12 +140,12 @@ public extension DocumentCollection {
     }
     
     // list
-    public func getStoredProcedures (callback: @escaping (ListResponse<StoredProcedure>) -> ()) {
+    public func getStoredProcedures (callback: @escaping (Response<Resources<StoredProcedure>>) -> ()) {
         return DocumentClient.default.get (storedProceduresIn: self, callback: callback)
     }
     
     // delete
-    public func delete (_ storedProcedure: StoredProcedure, callback: @escaping (DataResponse) -> ()) {
+    public func delete (_ storedProcedure: StoredProcedure, callback: @escaping (Response<Data>) -> ()) {
         return DocumentClient.default.delete (storedProcedure, callback: callback)
     }
     
@@ -155,7 +155,7 @@ public extension DocumentCollection {
     }
     
     // execute
-    public func execute (storedProcedureWithId id: String, usingParameters parameters: [String]?, callback: @escaping (DataResponse) -> ()) {
+    public func execute (storedProcedureWithId id: String, usingParameters parameters: [String]?, callback: @escaping (Response<Data>) -> ()) {
         return DocumentClient.default.execute (storedProcedureWithId: id, usingParameters: parameters, in: self, callback: callback)
     }
     
@@ -169,12 +169,12 @@ public extension DocumentCollection {
     }
     
     // list
-    public func getUserDefinedFunctions (callback: @escaping (ListResponse<UserDefinedFunction>) -> ()) {
+    public func getUserDefinedFunctions (callback: @escaping (Response<Resources<UserDefinedFunction>>) -> ()) {
         return DocumentClient.default.get (userDefinedFunctionsIn: self, callback: callback)
     }
     
     // delete
-    public func delete (_ userDefinedFunction: UserDefinedFunction, callback: @escaping (DataResponse) -> ()) {
+    public func delete (_ userDefinedFunction: UserDefinedFunction, callback: @escaping (Response<Data>) -> ()) {
         return DocumentClient.default.delete (userDefinedFunction, callback: callback)
     }
     
@@ -193,12 +193,12 @@ public extension DocumentCollection {
     }
     
     // list
-    public func getTriggers (callback: @escaping (ListResponse<Trigger>) -> ()) {
+    public func getTriggers (callback: @escaping (Response<Resources<Trigger>>) -> ()) {
         return DocumentClient.default.get (triggersIn: self, callback: callback)
     }
     
     // delete
-    public func delete (_ trigger: Trigger, callback: @escaping (DataResponse) -> ()) {
+    public func delete (_ trigger: Trigger, callback: @escaping (Response<Data>) -> ()) {
         return DocumentClient.default.delete (trigger, callback: callback)
     }
     
@@ -231,12 +231,12 @@ public extension Document {
     }
     
     // list
-    public func getAttachemnts (callback: @escaping (ListResponse<Attachment>) -> ()) {
+    public func getAttachemnts (callback: @escaping (Response<Resources<Attachment>>) -> ()) {
         return DocumentClient.default.get (attachmentsOn: self, callback: callback)
     }
     
     // delete
-    public func delete (_ attachment: Attachment, callback: @escaping (DataResponse) -> ()) {
+    public func delete (_ attachment: Attachment, callback: @escaping (Response<Data>) -> ()) {
         return DocumentClient.default.delete (attachment, callback: callback)
     }
     
@@ -269,7 +269,7 @@ public extension User {
     }
     
     // list
-    public func getPermissions (callback: @escaping (ListResponse<Permission>) -> ()) {
+    public func getPermissions (callback: @escaping (Response<Resources<Permission>>) -> ()) {
         return DocumentClient.default.get (permissionsFor: self, callback: callback)
     }
     
@@ -279,7 +279,7 @@ public extension User {
     }
     
     // delete
-    public func delete (_ permission: Permission, callback: @escaping (DataResponse) -> ()) {
+    public func delete (_ permission: Permission, callback: @escaping (Response<Data>) -> ()) {
         return DocumentClient.default.delete (permission, callback: callback)
     }
     

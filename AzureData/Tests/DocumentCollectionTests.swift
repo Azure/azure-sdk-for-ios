@@ -23,10 +23,10 @@ class DocumentCollectionTests: AzureDataTests {
     func testCollectionCrud() {
         
         var createResponse:     Response<DocumentCollection>?
-        var listResponse:       ListResponse<DocumentCollection>?
+        var listResponse:       Response<Resources<DocumentCollection>>?
         var getResponse:        Response<DocumentCollection>?
         var refreshResponse:    Response<DocumentCollection>?
-        var deleteResponse:     DataResponse?
+        var deleteResponse:     Response<Data>?
 
         
         // Create

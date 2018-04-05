@@ -22,9 +22,9 @@ class DatabaseTests: AzureDataTests {
     func testDatabaseCrud() {
         
         var createResponse:     Response<Database>?
-        var listResponse:       ListResponse<Database>?
+        var listResponse:       Response<Resources<Database>>?
         var getResponse:        Response<Database>?
-        var deleteResponse:     DataResponse?
+        var deleteResponse:     Response<Data>?
         var refreshResponse:    Response<Database>?
         //var replaceResponse:    Response<Database>?
         //var queryResponse:      ListResponse<Database>?

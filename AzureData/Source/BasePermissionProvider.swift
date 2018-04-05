@@ -18,38 +18,38 @@ open class BasePermissionProvider : PermissionProvider {
         PermissionCache.restore()
     }
     
-    open func getPermission(forCollectionWithId collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (PermissionResult) -> Void) {
+    open func getPermission(forCollectionWithId collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (Response<Permission>) -> Void) {
         log?.debugMessage("\n @@@@\n\n collection\n\tcollectionId: \(collectionId)\n\tdatabaseId: \(databaseId)\n\n @@@\n\n")
-        completion(PermissionResult(PermissionProviderError.notImplemented))
+        completion(Response(PermissionProviderError.notImplemented))
     }
     
-    open func getPermission(forDocumentWithId documentId: String, inCollection collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (PermissionResult) -> Void) {
+    open func getPermission(forDocumentWithId documentId: String, inCollection collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (Response<Permission>) -> Void) {
         log?.debugMessage("\n @@@@\n\n document\n\tdocumentId: \(documentId)\n\tcollectionId: \(collectionId)\n\tdatabaseId: \(databaseId)\n\n @@@\n\n")
-        completion(PermissionResult(PermissionProviderError.notImplemented))
+        completion(Response(PermissionProviderError.notImplemented))
     }
     
-    open func getPermission(forAttachmentsWithId attachmentId: String, onDocument documentId: String, inCollection collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (PermissionResult) -> Void) {
+    open func getPermission(forAttachmentsWithId attachmentId: String, onDocument documentId: String, inCollection collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (Response<Permission>) -> Void) {
         log?.debugMessage("\n @@@@\n\n attachment\n\tattachmentId: \(attachmentId)\n\tdocumentId: \(documentId)\n\tcollectionId: \(collectionId)\n\tdatabaseId: \(databaseId)\n\n @@@\n\n")
-        completion(PermissionResult(PermissionProviderError.notImplemented))
+        completion(Response(PermissionProviderError.notImplemented))
     }
     
-    open func getPermission(forStoredProcedureWithId storedProcedureId: String, inCollection collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (PermissionResult) -> Void) {
+    open func getPermission(forStoredProcedureWithId storedProcedureId: String, inCollection collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (Response<Permission>) -> Void) {
         log?.debugMessage("\n @@@@\n\n storedProcedure\n\tstoredProcedure: \(storedProcedureId)\n\tcollectionId: \(collectionId)\n\tdatabaseId: \(databaseId)\n\n @@@\n\n")
-        completion(PermissionResult(PermissionProviderError.notImplemented))
+        completion(Response(PermissionProviderError.notImplemented))
     }
     
-    open func getPermission(forUserDefinedFunctionWithId functionId: String, inCollection collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (PermissionResult) -> Void) {
+    open func getPermission(forUserDefinedFunctionWithId functionId: String, inCollection collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (Response<Permission>) -> Void) {
         log?.debugMessage("\n @@@@\n\n userDefinedFunction\n\tfunctionId: \(functionId)\n\tcollectionId: \(collectionId)\n\tdatabaseId: \(databaseId)\n\n @@@\n\n")
-        completion(PermissionResult(PermissionProviderError.notImplemented))
+        completion(Response(PermissionProviderError.notImplemented))
     }
     
-    open func getPermission(forTriggerWithId triggerId: String, inCollection collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (PermissionResult) -> Void) {
+    open func getPermission(forTriggerWithId triggerId: String, inCollection collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (Response<Permission>) -> Void) {
         log?.debugMessage("\n @@@@\n\n trigger\n\ttriggerId: \(triggerId)\n\tcollectionId: \(collectionId)\n\tdatabaseId: \(databaseId)\n\n @@@\n\n")
-        completion(PermissionResult(PermissionProviderError.notImplemented))
+        completion(Response(PermissionProviderError.notImplemented))
     }
     
     
-    public func getPermission(forResourceAt resourceLocation: ResourceLocation, withPermissionMode mode: PermissionMode, completion: @escaping (PermissionResult) -> Void) {
+    public func getPermission(forResourceAt resourceLocation: ResourceLocation, withPermissionMode mode: PermissionMode, completion: @escaping (Response<Permission>) -> Void) {
         
         var location = resourceLocation
         
@@ -60,7 +60,7 @@ open class BasePermissionProvider : PermissionProvider {
         guard
             resourceType.supportsPermissionToken
         else {
-            completion(PermissionResult(PermissionProviderError.invalidDefaultResourceLevel)); return
+            completion(Response(PermissionProviderError.invalidDefaultResourceLevel)); return
         }
         
         if let resourceLevel = configuration.defaultResourceLevel {
@@ -68,7 +68,7 @@ open class BasePermissionProvider : PermissionProvider {
             guard
                 resourceLevel.supportsPermissionToken
             else {
-                completion(PermissionResult(PermissionProviderError.invalidDefaultResourceLevel)); return
+                completion(Response(PermissionProviderError.invalidDefaultResourceLevel)); return
             }
             
             if resourceType != resourceLevel && resourceType.isDecendent(of: resourceLevel) {
@@ -84,7 +84,7 @@ open class BasePermissionProvider : PermissionProvider {
                     
                     location = .document(databaseId: ancestorIds[.database]!, collectionId: ancestorIds[.collection]!, id: ancestorIds[.document]!)
                     
-                default: completion(PermissionResult(PermissionProviderError.invalidDefaultResourceLevel))
+                default: completion(Response(PermissionProviderError.invalidDefaultResourceLevel))
                 }
             }
         }
@@ -97,14 +97,14 @@ open class BasePermissionProvider : PermissionProvider {
             
             log?.debugMessage("found cached Permission with PermissionMode.\(permission.permissionMode.rawValue) and a remaining duration of \(self.configuration.defaultTokenDuration - Date().timeIntervalSince(timestamp)) seconds  (greater than the \(self.configuration.tokenRefreshThreshold) second threshold)")
 
-            completion(PermissionResult(permission))
+            completion(Response(permission))
             
         } else {
             
             _getPermission(forResourceAt: location, withPermissionMode: permissionMode) { result in
                 
-                if let permission = result.permission, !PermissionCache.setPermission(permission, forResourceWithAltLink: location.link) {
-                    completion(PermissionResult(PermissionProviderError.unsuccessfulCache))
+                if let permission = result.resource, !PermissionCache.setPermission(permission, forResourceWithAltLink: location.link) {
+                    completion(Response(PermissionProviderError.unsuccessfulCache))
                 } else {
                     completion(result)
                 }
@@ -113,14 +113,14 @@ open class BasePermissionProvider : PermissionProvider {
     }
     
     
-    fileprivate func _getPermission(forResourceAt location: ResourceLocation, withPermissionMode mode: PermissionMode, completion: @escaping (PermissionResult) -> Void) {
+    fileprivate func _getPermission(forResourceAt location: ResourceLocation, withPermissionMode mode: PermissionMode, completion: @escaping (Response<Permission>) -> Void) {
         
         switch location {
             
         case .database,
              .user,
              .permission,
-             .offer: completion(PermissionResult(PermissionProviderError.resourceTokenUnsupportedForResourceType))
+             .offer: completion(Response(PermissionProviderError.resourceTokenUnsupportedForResourceType))
             
         case let .storedProcedure(databaseId, collectionId, nil),
              let .trigger(databaseId, collectionId, nil),
@@ -134,7 +134,7 @@ open class BasePermissionProvider : PermissionProvider {
             if let collectionId = id {
                 return getPermission(forCollectionWithId: collectionId, inDatabase: databaseId, withPermissionMode: mode, completion: completion)
             } else {
-                completion(PermissionResult(PermissionProviderError.resourceTokenUnsupportedForResourceType))
+                completion(Response(PermissionProviderError.resourceTokenUnsupportedForResourceType))
             }
             
         case let .storedProcedure(databaseId, collectionId, id):
@@ -168,7 +168,7 @@ open class BasePermissionProvider : PermissionProvider {
             case .database,
                  .user,
                  .permission,
-                 .offer: completion(PermissionResult(PermissionProviderError.resourceTokenUnsupportedForResourceType))
+                 .offer: completion(Response(PermissionProviderError.resourceTokenUnsupportedForResourceType))
                 
             case .collection:
                 
@@ -225,7 +225,7 @@ open class BasePermissionProvider : PermissionProvider {
                  .user,
                  .permission,
                  .offer,
-                 .collection: completion(PermissionResult(PermissionProviderError.resourceTokenUnsupportedForResourceType))
+                 .collection: completion(Response(PermissionProviderError.resourceTokenUnsupportedForResourceType))
                 
             case .storedProcedure,
                  .trigger,
@@ -252,7 +252,7 @@ open class BasePermissionProvider : PermissionProvider {
             case .database,
                  .user,
                  .permission,
-                 .offer: completion(PermissionResult(PermissionProviderError.resourceTokenUnsupportedForResourceType))
+                 .offer: completion(Response(PermissionProviderError.resourceTokenUnsupportedForResourceType))
 
             case .collection:
                 

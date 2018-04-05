@@ -25,10 +25,10 @@ class DatabaseUserExtensionsTests: AzureDataTests {
     func testUserCrud() {
         
         var createResponse:     Response<User>?
-        var listResponse:       ListResponse<User>?
+        var listResponse:       Response<Resources<User>>?
         var getResponse:        Response<User>?
         var replaceResponse:    Response<User>?
-        var deleteResponse:     DataResponse?
+        var deleteResponse:     Response<Data>?
 
         
         if let database = self.database {

@@ -25,11 +25,11 @@ class AttachmentTests: AzureDataTests {
     func testAttachmentCrud() {
         
         var createResponse:     Response<Attachment>?
-        var listResponse:       ListResponse<Attachment>?
+        var listResponse:       Response<Resources<Attachment>>?
         //var getResponse:        Response<Attachment>?
         var replaceResponse:    Response<Attachment>?
-        var deleteResponse:     DataResponse?
-        //var queryResponse:      ListResponse<Attachment>?
+        var deleteResponse:     Response<Data>?
+        //var queryResponse:    Response<Resources<Attachment>>?
 
         let url: URL! = URL(string: "https://azuredatatests.blob.core.windows.net/attachment-tests/youre%20welcome.jpeg?st=2017-11-07T14%3A00%3A00Z&se=2020-11-08T14%3A00%3A00Z&sp=rl&sv=2017-04-17&sr=c&sig=RAHr6Mee%2Bt7RrDnGHyjgSX3HSqJgj8guhy0IrEMh3KQ%3D")
         

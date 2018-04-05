@@ -25,10 +25,10 @@ class CollectionDocumentExtensionsTests: AzureDataTests {
     func testCollectionCrud() {
         
         var createResponse:     Response<DictionaryDocument>?
-        var listResponse:       ListResponse<DictionaryDocument>?
+        var listResponse:       Response<Resources<DictionaryDocument>>?
         var getResponse:        Response<DictionaryDocument>?
-        var deleteResponse:     DataResponse?
-        var queryResponse:      ListResponse<DictionaryDocument>?
+        var deleteResponse:     Response<Data>?
+        var queryResponse:      Response<Resources<DictionaryDocument>>?
 
         
         if let collection = self.collection {
@@ -76,7 +76,7 @@ class CollectionDocumentExtensionsTests: AzureDataTests {
                 .and("\(customNumberKey)", is: customNumberValue)
                 .orderBy("_etag", descending: true)
             
-            collection.query(documentsWith: query) { (r:ListResponse<DictionaryDocument>?) in
+            collection.query(documentsWith: query) { (r:Response<Resources<DictionaryDocument>>?) in
                 queryResponse = r
                 self.queryExpectation.fulfill()
             }

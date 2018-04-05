@@ -21,7 +21,7 @@ class OfferTests: AzureDataTests {
     
     func testOfferCrud() {
         
-        var listResponse:       ListResponse<Offer>?
+        var listResponse:       Response<Resources<Offer>>?
         var getResponse:        Response<Offer>?
 
         

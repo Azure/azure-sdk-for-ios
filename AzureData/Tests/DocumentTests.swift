@@ -64,11 +64,11 @@ class DocumentTests: AzureDataTests {
     func testDocumentCrud() {
         
         var createResponse:     Response<DictionaryDocument>?
-        var listResponse:       ListResponse<DictionaryDocument>?
+        var listResponse:       Response<Resources<DictionaryDocument>>?
         var getResponse:        Response<DictionaryDocument>?
-        var queryResponse:      ListResponse<DictionaryDocument>?
+        var queryResponse:      Response<Resources<DictionaryDocument>>?
         var refreshResponse:    Response<DictionaryDocument>?
-        var deleteResponse:     DataResponse?
+        var deleteResponse:     Response<Data>?
 
         
         let newDocument = DictionaryDocument(resourceId)
@@ -123,7 +123,7 @@ class DocumentTests: AzureDataTests {
             .and("\(customNumberKey)", is: customNumberValue)
             .orderBy("_etag", descending: true)
         
-        AzureData.query(documentsIn: collectionId, inDatabase: databaseId, with: query) { (r:ListResponse<DictionaryDocument>?) in
+        AzureData.query(documentsIn: collectionId, inDatabase: databaseId, with: query) { (r:Response<Resources<DictionaryDocument>>?) in
             queryResponse = r
             self.queryExpectation.fulfill()
         }
