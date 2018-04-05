@@ -605,22 +605,30 @@ database.get (userWithId: userId) { r in
 
 #### Delete
 ```swift
-AzureData.delete (user, fromDatabase: databaseId) { s in
-    // s == successfully deleted
+AzureData.delete (userWithId: userId, fromDatabase: databaseId) { r in
+    // r.isSuccess == successfully deleted
 }
 
-database.delete (user: user) { s in
-    // s == successfully deleted
+database.delete (user) { r in
+    // r.isSuccess == successfully deleted
+}
+
+database.delete (userWithId: userId) { r in
+    // r.isSuccess == successfully deleted
 }
 ```
 
 #### Replace
 ```swift
-AzureData.replace (userWithId: id, with: newUserId, inDatabase: databaseId) { r in
+AzureData.replace (userWithId: userId, with: newUserId, inDatabase: database) { r in
     // user = r.resource
 }
 
-database.replace (userWithId: userId) { r in
+AzureData.replace (userWithId: userId, with: newUserId, inDatabase: databaseId) { r in
+    // user = r.resource
+}
+
+database.replace (userWithId: userId, with: newUserId) { r in
     // user = r.resource
 }
 ```
