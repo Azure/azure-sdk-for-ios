@@ -64,10 +64,6 @@
 		93B7240C2064560F00984CA8 /* MSHttpHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B7240A2064560F00984CA8 /* MSHttpHeader.swift */; };
 		93B7240D2064560F00984CA8 /* MSHttpHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B7240A2064560F00984CA8 /* MSHttpHeader.swift */; };
 		93B7240E2064560F00984CA8 /* MSHttpHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B7240A2064560F00984CA8 /* MSHttpHeader.swift */; };
-		93ED3461206546C7008F8807 /* ResourceValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93ED3460206546C7008F8807 /* ResourceValidation.swift */; };
-		93ED3462206546C7008F8807 /* ResourceValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93ED3460206546C7008F8807 /* ResourceValidation.swift */; };
-		93ED3463206546C7008F8807 /* ResourceValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93ED3460206546C7008F8807 /* ResourceValidation.swift */; };
-		93ED3464206546C7008F8807 /* ResourceValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93ED3460206546C7008F8807 /* ResourceValidation.swift */; };
 		93F7CA1C206EDBED00D92C2E /* PermissionCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F7CA17206EDBC100D92C2E /* PermissionCacheTests.swift */; };
 		93F7CA1D206EDBEF00D92C2E /* PermissionCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F7CA17206EDBC100D92C2E /* PermissionCacheTests.swift */; };
 		93F7CA1E206EDBF100D92C2E /* PermissionCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F7CA17206EDBC100D92C2E /* PermissionCacheTests.swift */; };
@@ -283,7 +279,6 @@
 		932832E52072CD9E0075ECC7 /* ExamplePermissionProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamplePermissionProviderTests.swift; sourceTree = "<group>"; };
 		93935D9A20585C8600F1832A /* PermissionMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionMode.swift; sourceTree = "<group>"; };
 		93B7240A2064560F00984CA8 /* MSHttpHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSHttpHeader.swift; sourceTree = "<group>"; };
-		93ED3460206546C7008F8807 /* ResourceValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceValidation.swift; sourceTree = "<group>"; };
 		93F7CA17206EDBC100D92C2E /* PermissionCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionCacheTests.swift; sourceTree = "<group>"; };
 		93F9ACCB1FC0CA4800AC240C /* DocumentClientError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentClientError.swift; sourceTree = "<group>"; };
 		93F9ACD01FC0D01400AC240C /* ResourceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceError.swift; sourceTree = "<group>"; };
@@ -419,7 +414,6 @@
 				9317A81620656ED100338B63 /* ResourceOracle.swift */,
 				9319DF012069DD7B0083475D /* ResourceTokenProvider.swift */,
 				B522401D1FB33CD000D0343F /* ResourceType.swift */,
-				93ED3460206546C7008F8807 /* ResourceValidation.swift */,
 				B58361991FB779B6001CEC66 /* Response.swift */,
 				B52240381FB33CD000D0343F /* UtilityExtensions.swift */,
 				B58361B71FBA1339001CEC66 /* Resources */,
@@ -861,7 +855,6 @@
 				9319DEF920698FB90083475D /* PermissionCache.swift in Sources */,
 				930B2F491FFD56AB00F86BF1 /* DictionaryDocument.swift in Sources */,
 				B58361B31FB78F7A001CEC66 /* Resources.swift in Sources */,
-				93ED3462206546C7008F8807 /* ResourceValidation.swift in Sources */,
 				93F9ACCD1FC0CA4800AC240C /* DocumentClientError.swift in Sources */,
 				B58361D81FBA16F9001CEC66 /* Permission.swift in Sources */,
 				93F9ACD21FC0D01400AC240C /* ResourceError.swift in Sources */,
@@ -935,7 +928,6 @@
 				9319DEFA20698FB90083475D /* PermissionCache.swift in Sources */,
 				930B2F4A1FFD56AB00F86BF1 /* DictionaryDocument.swift in Sources */,
 				B58361AE1FB78F7A001CEC66 /* Resources.swift in Sources */,
-				93ED3463206546C7008F8807 /* ResourceValidation.swift in Sources */,
 				93F9ACCE1FC0CA4800AC240C /* DocumentClientError.swift in Sources */,
 				B58361D91FBA16F9001CEC66 /* Permission.swift in Sources */,
 				93F9ACD31FC0D01400AC240C /* ResourceError.swift in Sources */,
@@ -1009,7 +1001,6 @@
 				9319DEFB20698FB90083475D /* PermissionCache.swift in Sources */,
 				930B2F4B1FFD56AB00F86BF1 /* DictionaryDocument.swift in Sources */,
 				B58361A91FB78F78001CEC66 /* Resources.swift in Sources */,
-				93ED3464206546C7008F8807 /* ResourceValidation.swift in Sources */,
 				93F9ACCF1FC0CA4800AC240C /* DocumentClientError.swift in Sources */,
 				B58361DA1FBA16F9001CEC66 /* Permission.swift in Sources */,
 				93F9ACD41FC0D01400AC240C /* ResourceError.swift in Sources */,
@@ -1052,7 +1043,6 @@
 				9319DEF820698FB90083475D /* PermissionCache.swift in Sources */,
 				930B2F481FFD56AB00F86BF1 /* DictionaryDocument.swift in Sources */,
 				B58361D71FBA16F9001CEC66 /* Permission.swift in Sources */,
-				93ED3461206546C7008F8807 /* ResourceValidation.swift in Sources */,
 				93F9ACCC1FC0CA4800AC240C /* DocumentClientError.swift in Sources */,
 				B58361C31FBA13B0001CEC66 /* DocumentCollection.swift in Sources */,
 				93F9ACD11FC0D01400AC240C /* ResourceError.swift in Sources */,

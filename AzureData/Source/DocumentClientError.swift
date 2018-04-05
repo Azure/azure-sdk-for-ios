@@ -124,6 +124,7 @@ struct ErrorMessage : Decodable {
     let message: String
     
     var formattedMessage: String {
+        
         let m = message.replacingOccurrences(of: "Message: {\"Errors\":[\"", with: "")
                        .replacingOccurrences(of: "\",\"", with: " | ")
                        .replacingOccurrences(of: "\"]}", with: "\n")
