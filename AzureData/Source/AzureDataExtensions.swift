@@ -74,9 +74,13 @@ public extension Database {
     
     //delete
     public func delete (_ user: User, callback: @escaping (DataResponse) -> ()) {
-        return DocumentClient.default.delete (user, callback: callback)
+        return DocumentClient.default.delete(user, callback: callback)
     }
-    
+
+    public func delete(userWithId userId: String, callback: @escaping (DataResponse) -> ()) {
+        return DocumentClient.default.delete(userWithId: userId, fromDatabase: self, callback: callback)
+    }
+
     // replace
     public func replace (userWithId id: String, with newUserId: String, callback: @escaping (Response<User>) -> ()) {
         return DocumentClient.default.replace (userWithId: id, with: newUserId, inDatabase: self, callback: callback)
