@@ -226,7 +226,12 @@ public class DocumentClient {
 
 
     // replace
-    // TODO: replace
+    public func replace (inCollectionWithId collectionId: String, fromDatabase databaseId: String, policy: DocumentCollection.IndexingPolicy, callback: @escaping (Response<DocumentCollection>) -> ()) {
+
+        let resourceLocation: ResourceLocation = .collection(databaseId: databaseId, id: collectionId)
+
+        return self.update(resourceWithId: collectionId, withData: policy.asJSONDictionary, at: resourceLocation, callback: callback)
+    }
     
     
     
@@ -982,6 +987,20 @@ public class DocumentClient {
         dict["id"] = resourceId
 
         return self.createOrReplace(dict, at: resourceLocation, replacing: true, additionalHeaders: additionalHeaders, callback: callback)
+    }
+
+    fileprivate func update<T:CodableResource> (resourceWithId resourceId: String, withData data: [String:Any]? = nil, at resourceLocation: ResourceLocation, additionalHeaders: HttpHeaders? = nil, callback: @escaping (Response<T>) -> ()) {
+
+        var dict = data ?? [:]
+
+        dict["id"] = resourceId
+
+        guard let data = try? JSONSerialization.data(withJSONObject: dict) else {
+            callback(Response(DocumentClientError(withKind: .badRequest)))
+            return
+        }
+
+        return self.createOrReplace(data, at: resourceLocation, replacing: true, callback: callback)
     }
 
     // query

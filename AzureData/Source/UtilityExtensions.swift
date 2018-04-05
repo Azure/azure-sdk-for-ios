@@ -49,6 +49,12 @@ extension Encodable {
         encoder.outputFormatting = .prettyPrinted
         return try encoder.encode(self)
     }
+
+    internal var asJSONDictionary: [String: Any]? {
+        guard let data = try? self.encode() else { return nil }
+        guard let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) else { return nil }
+        return json as? [String: Any]
+    }
 }
 
 
