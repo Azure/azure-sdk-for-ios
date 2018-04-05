@@ -1044,15 +1044,15 @@ public class DocumentClient {
         dataRequest(forResourceAt: resourceLocation, withMethod: replacing ? .put : .post, andAdditionalHeaders: additionalHeaders) { r in
             
             if var request = r.resource {
+                
                 do {
                     request.httpBody = try self.jsonEncoder.encode(body)
                     
-                    return self.sendRequest(request, callback: callback)
-                
                 } catch {
-                    
                     callback(Response(error)); return
                 }
+                
+                return self.sendRequest(request, callback: callback)
                 
             } else if let error = r.error {
                 
@@ -1108,30 +1108,29 @@ public class DocumentClient {
                 
                 callback(Response(request: request, data: data, response: httpResponse, result: .failure(error)))
             
-            } else if let data = data, let httpResponse = httpResponse {
+            } else if let data = data, let httpResponse = httpResponse, let statusCode = HttpStatusCode(rawValue: httpResponse.statusCode) {
                 
-                if var _ = currentResource, let statusCode1 = HttpStatusCode(rawValue: httpResponse.statusCode) {
-                    print(" @@@@@@@@@@@@@@@@@@@@@@@   \(statusCode1)   @@@@@@@@@@@@@@@@@@@@@@@ ")
-                }
-                
-                if var current = currentResource, let statusCode = HttpStatusCode(rawValue: httpResponse.statusCode), statusCode == .notModified {
-                    
-                    print(" @@@@@@@@@@@@@@@@@@@@@@@   NOT MODIFIED   @@@@@@@@@@@@@@@@@@@@@@@ ")
-                    
-                    let altContentPath = httpResponse.allHeaderFields[MSHttpHeader.msAltContentPath.rawValue] as? String
-                    
-                    current.setAltLink(withContentPath: altContentPath)
-                    
-                    ResourceOracle.storeLinks(forResource: current)
+                do {
 
-                    log?.debugMessage ("\(current)")
-                    
-                    callback(Response(request: request, data: data, response: httpResponse, result: .success(current)))
-                
-                } else {
-                
-                    do {
+                    switch statusCode {
+                    //case .created: // cache locally
+                    //case .noContent: // DELETEing a resource remotely should delete the cached version (if the delete was successful indicated by a response status code of 204 No Content)
+                    case .notModified:
                         
+                        print(" @@@@@@@@@@@@@@@@@@@@@@@   NOT MODIFIED   @@@@@@@@@@@@@@@@@@@@@@@ ")
+                        
+                        //let altContentPath = httpResponse.allHeaderFields[MSHttpHeader.msAltContentPath.rawValue] as? String
+                        
+                        //currentResource.setAltLink(withContentPath: altContentPath)
+                        
+                        //ResourceOracle.storeLinks(forResource: current)
+                        
+                        log?.debugMessage ("\(currentResource!)")
+                        
+                        callback(Response(request: request, data: data, response: httpResponse, result: .success(currentResource!)))
+
+                    case .ok, .created, .accepted, .noContent:
+
                         var resource = try self.jsonDecoder.decode(T.self, from: data)
                         
                         let altContentPath = httpResponse.allHeaderFields[MSHttpHeader.msAltContentPath.rawValue] as? String
@@ -1143,30 +1142,46 @@ public class DocumentClient {
                         log?.debugMessage ("\(resource)")
                         
                         callback(Response(request: request, data: data, response: httpResponse, result: .success(resource)))
+
                         
-                    } catch let decodeError as DecodingError {
+                        //case .unauthorized:
+                        //case .forbidden: // reauth
+                        //case .conflict: // conflict callback
+                        //case .notFound: // (indicating the resource has been deleted/no longer exists in the remote database), confirm that resource does not exist locally, and if it does, delete it
+                        //case .preconditionFailure: // The operation specified an eTag that is different from the version available at the server, that is, an optimistic concurrency error. Retry the request after reading the latest version of the resource and updating the eTag on the request.
+                    //case .badRequest, .requestTimeout, .entityTooLarge, .tooManyRequests, .retryWith, .internalServerError, .serviceUnavailable:
+                    default:
                         
-                        log?.errorMessage(decodeError.logMessage)
-                        log?.debugMessage(String(data: data, encoding: .utf8) ?? "nil")
+                        let clientError = DocumentClientError(withData: data, response: httpResponse)
                         
-                        let docError = DocumentClientError(withData: data, response: httpResponse, error: decodeError)
+                        log?.errorMessage(clientError.message)
                         
-                        callback(Response(request: request, data: data, response: httpResponse, result: .failure(docError)))
-                        
-                    } catch let otherError {
-                        
-                        log?.errorMessage(otherError.localizedDescription)
-                        
-                        let docError = DocumentClientError(withData: data, response: httpResponse, error: otherError)
-                        
-                        callback(Response(request: request, data: data, response: httpResponse, result: .failure(docError)))
+                        callback(Response(request: request, data: data, response: httpResponse, result: .failure(clientError)))
                     }
+                    
+                } catch let decodeError as DecodingError {
+                    
+                    log?.errorMessage(decodeError.logMessage)
+                    log?.debugMessage(String(data: data, encoding: .utf8) ?? "nil")
+                    
+                    let docError = DocumentClientError(withData: data, response: httpResponse, error: decodeError)
+                    
+                    callback(Response(request: request, data: data, response: httpResponse, result: .failure(docError)))
+                    
+                } catch let otherError {
+                    
+                    let clientError = DocumentClientError(withData: data, response: httpResponse, error: otherError)
+                    
+                    log?.errorMessage(clientError.message)
+                    
+                    callback(Response(request: request, data: data, response: httpResponse, result: .failure(clientError)))
                 }
+                
             } else {
                 
                 let unknownError = DocumentClientError(withKind: .unknownError)
                 
-                log?.errorMessage(unknownError.message!)
+                log?.errorMessage(unknownError.message)
                 
                 callback(Response(request: request, data: data, response: httpResponse, result: .failure(unknownError)))
             }
@@ -1193,45 +1208,64 @@ public class DocumentClient {
                 
                 callback(Response(request: request, data: data, response: httpResponse, result: .failure(error)))
                 
-            } else if let data = data, let httpResponse = httpResponse {
+            } else if let data = data, let httpResponse = httpResponse, let statusCode = HttpStatusCode(rawValue: httpResponse.statusCode) {
                 
                 do {
                     
-                    var resource = try self.jsonDecoder.decode(Resources<T>.self, from: data)
-                    
-                    let altContentPath = httpResponse.allHeaderFields[MSHttpHeader.msAltContentPath.rawValue] as? String
-                    
-                    resource.setAltLinks(withContentPath: altContentPath)
-                    
-                    ResourceOracle.storeLinks(forResources: resource)
-                    
-                    log?.debugMessage("\(resource)")
-                    
-                    callback(Response(request: request, data: data, response: httpResponse, result: .success(resource)))
+                    switch statusCode {
+                    //case .created: // cache locally
+                    //case .noContent: // DELETEing a resource remotely should delete the cached version (if the delete was successful indicated by a response status code of 204 No Content)
+                    case .ok, .created, .accepted, .noContent, .notModified:
+                        
+                        var resource = try self.jsonDecoder.decode(Resources<T>.self, from: data)
+                        
+                        let altContentPath = httpResponse.allHeaderFields[MSHttpHeader.msAltContentPath.rawValue] as? String
+                        
+                        resource.setAltLinks(withContentPath: altContentPath)
+                        
+                        ResourceOracle.storeLinks(forResources: resource)
+                        
+                        log?.debugMessage("\(resource)")
+                        
+                        callback(Response(request: request, data: data, response: httpResponse, result: .success(resource)))
+
+
+                        //case .unauthorized:
+                        //case .forbidden: // reauth
+                        //case .conflict: // conflict callback
+                        //case .notFound: // (indicating the resource has been deleted/no longer exists in the remote database), confirm that resource does not exist locally, and if it does, delete it
+                        //case .preconditionFailure: // The operation specified an eTag that is different from the version available at the server, that is, an optimistic concurrency error. Retry the request after reading the latest version of the resource and updating the eTag on the request.
+                    //case .badRequest, .requestTimeout, .entityTooLarge, .tooManyRequests, .retryWith, .internalServerError, .serviceUnavailable:
+                    default:
+                        
+                        let clientError = DocumentClientError(withData: data, response: httpResponse)
+                        
+                        log?.errorMessage(clientError.message)
+
+                        callback(Response(request: request, data: data, response: httpResponse, result: .failure(clientError)))
+                    }
                     
                 } catch let decodeError as DecodingError {
                     
-                    log?.errorMessage(decodeError.logMessage)
-                    log?.debugMessage(String(data: data, encoding: .utf8) ?? "nil")
-
+                    let clientError = DocumentClientError(withData: data, response: httpResponse, error: decodeError)
                     
-                    let docError = DocumentClientError(withData: data, response: httpResponse, error: decodeError)
+                    log?.errorMessage(clientError.message)
                     
-                    callback(Response(request: request, data: data, response: httpResponse, result: .failure(docError)))
+                    callback(Response(request: request, data: data, response: httpResponse, result: .failure(clientError)))
                 
                 } catch let otherError {
                     
-                    log?.errorMessage(otherError.localizedDescription)
+                    let clientError = DocumentClientError(withData: data, response: httpResponse, error: otherError)
                     
-                    let docError = DocumentClientError(withData: data, response: httpResponse, error: otherError)
+                    log?.errorMessage(clientError.message)
                     
-                    callback(Response(request: request, data: data, response: httpResponse, result: .failure(docError)))
+                    callback(Response(request: request, data: data, response: httpResponse, result: .failure(clientError)))
                 }
             } else {
                 
                 let unknownError = DocumentClientError(withKind: .unknownError)
                 
-                log?.errorMessage(unknownError.message!)
+                log?.errorMessage(unknownError.message)
                 
                 callback(Response(request: request, data: data, response: httpResponse, result: .failure(unknownError)))
             }
@@ -1239,6 +1273,7 @@ public class DocumentClient {
     }
     
     
+    // currently only used by delete and execute operations
     fileprivate func sendRequest (_ request: URLRequest, callback: @escaping (Response<Data>) -> ()) {
         
         log?.debugMessage {
@@ -1258,17 +1293,35 @@ public class DocumentClient {
                 
                 callback(Response(request: request, data: data, response: httpResponse, result: .failure(error)))
 
-            } else if let data = data {
+            } else if let data = data, let code = httpResponse?.statusCode, let statusCode = HttpStatusCode(rawValue: code) {
                 
                 log?.debugMessage(String(data: data, encoding: .utf8) ?? "nil")
                 
-                callback(Response(request: request, data: data, response: httpResponse, result: .success(data)))
-                
+                switch statusCode {
+                //case .created: // cache locally
+                //case .noContent: // DELETEing a resource remotely should delete the cached version (if the delete was successful indicated by a response status code of 204 No Content)
+                case .ok, .created, .accepted, .noContent, .notModified:
+                    callback(Response(request: request, data: data, response: httpResponse, result: .success(data)))
+                //case .unauthorized:
+                //case .forbidden: // reauth
+                //case .conflict: // conflict callback
+                //case .notFound: // (indicating the resource has been deleted/no longer exists in the remote database), confirm that resource does not exist locally, and if it does, delete it
+                //case .preconditionFailure: // The operation specified an eTag that is different from the version available at the server, that is, an optimistic concurrency error. Retry the request after reading the latest version of the resource and updating the eTag on the request.
+                //case .badRequest, .requestTimeout, .entityTooLarge, .tooManyRequests, .retryWith, .internalServerError, .serviceUnavailable:
+                default:
+                    
+                    let clientError = DocumentClientError(withData: data, response: httpResponse)
+                    
+                    log?.errorMessage(clientError.message)
+                    
+                    callback(Response(request: request, data: data, response: httpResponse, result: .failure(clientError)))
+                }
+
             } else {
                 
                 let unknownError = DocumentClientError(withKind: .unknownError)
                 
-                log?.errorMessage(unknownError.message!)
+                log?.errorMessage(unknownError.message)
                 
                 callback(Response(request: request, data: data, response: httpResponse, result: .failure(unknownError)))
             }
