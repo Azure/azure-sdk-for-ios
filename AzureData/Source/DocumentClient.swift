@@ -631,16 +631,16 @@ public class DocumentClient {
     }
     
     // replace
+    public func replace (_ trigger: Trigger, inCollection collection: DocumentCollection, callback: @escaping (Response<Trigger>) -> ()) {
+
+        let resourceLocation: ResourceLocation = .child(.trigger, in: collection, id: trigger.id)
+
+        return self.replace(trigger, at: resourceLocation, callback: callback)
+    }
+
     public func replace (triggerWithId triggerId: String, operation: Trigger.TriggerOperation, type triggerType: Trigger.TriggerType, andBody triggerBody: String, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Trigger>) -> ()) {
 
         let resourceLocation: ResourceLocation = .trigger(databaseId: databaseId, collectionId: collectionId, id: triggerId)
-        
-        return self.replace(Trigger(withId: triggerId, body: triggerBody, operation: operation, type: triggerType), at: resourceLocation, callback: callback)
-    }
-    
-    public func replace (triggerWithId triggerId: String, operation: Trigger.TriggerOperation, type triggerType: Trigger.TriggerType, andBody triggerBody: String, in collection: DocumentCollection, callback: @escaping (Response<Trigger>) -> ()) {
-
-        let resourceLocation: ResourceLocation = .child(.trigger, in: collection, id: triggerId)
         
         return self.replace(Trigger(withId: triggerId, body: triggerBody, operation: operation, type: triggerType), at: resourceLocation, callback: callback)
     }

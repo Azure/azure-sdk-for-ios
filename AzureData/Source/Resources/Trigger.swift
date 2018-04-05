@@ -42,12 +42,12 @@ public struct Trigger : CodableResource {
     /// Specifies the operations on which a trigger should be executed in the Azure Cosmos DB service.
     ///
     /// - all:      Specifies all operations.
-    /// - insert:   Specifies insert operations only.
+    /// - create:   Specifies create operations only.
     /// - replace:  Specifies replace operations only.
     /// - delete:   Specifies delete operations only.
     public enum TriggerOperation: String, Codable {
         case all        = "All"
-        case insert     = "Insert"
+        case create     = "Create"
         case replace    = "Replace"
         case delete     = "Delete"
     }

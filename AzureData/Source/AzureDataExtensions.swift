@@ -115,7 +115,7 @@ public extension DocumentCollection {
     public func delete (_ document: Document, callback: @escaping (DataResponse) -> ()) {
         return DocumentClient.default.delete(document, callback: callback)
     }
-    
+
     // replace
     public func replace<T: Document> (_ document: T, callback: @escaping (Response<T>) -> ()) {
         return DocumentClient.default.replace(document, in: self, callback: callback)
@@ -198,13 +198,21 @@ public extension DocumentCollection {
     }
     
     // delete
-    public func delete (_ trigger: Trigger, callback: @escaping (DataResponse) -> ()) {
-        return DocumentClient.default.delete (trigger, callback: callback)
+    public func delete(_ trigger: Trigger, callback: @escaping (DataResponse) -> ()) {
+        return DocumentClient.default.delete(trigger, callback: callback)
+    }
+
+    public func delete (triggerWithId triggerId: String, callback: @escaping (DataResponse) -> ()) {
+        return DocumentClient.default.delete(triggerWithId: triggerId, fromCollection: self, callback: callback)
     }
     
     // replace
-    public func replace (triggerWithId id: String, operation: Trigger.TriggerOperation, type: Trigger.TriggerType, andBody body: String, callback: @escaping (Response<Trigger>) -> ()) {
-        return DocumentClient.default.replace (triggerWithId: id, operation: operation, type: type, andBody: body, in: self, callback: callback)
+    public func replace(_ trigger: Trigger, callback: @escaping (Response<Trigger>) -> ()) {
+        return DocumentClient.default.replace(trigger, inCollection: self, callback: callback)
+    }
+
+    public func replace (triggerWithId triggerId: String, operation: Trigger.TriggerOperation, type triggerType: Trigger.TriggerType, andBody triggerBody: String, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Trigger>) -> ()) {
+        return DocumentClient.default.replace(triggerWithId: triggerId, operation: operation, type: triggerType, andBody: triggerBody, inCollection: collectionId, inDatabase:databaseId, callback: callback)
     }
 }
 

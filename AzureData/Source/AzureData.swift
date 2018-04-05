@@ -374,14 +374,13 @@ public func delete (triggerWithId triggerId: String, fromCollection collection: 
 }
 
 // replace
+public func replace (_ trigger: Trigger, inCollection collection: DocumentCollection, callback: @escaping (Response<Trigger>) -> ()) {
+    return DocumentClient.default.replace(trigger, inCollection: collection, callback: callback)
+}
+
 public func replace (triggerWithId triggerId: String, operation: Trigger.TriggerOperation, type triggerType: Trigger.TriggerType, andBody triggerBody: String, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Trigger>) -> ()) {
     return DocumentClient.default.replace (triggerWithId: triggerId, operation: operation, type: triggerType, andBody: triggerBody, inCollection: collectionId, inDatabase: databaseId, callback: callback)
 }
-
-public func replace (triggerWithId triggerId: String, operation: Trigger.TriggerOperation, type triggerType: Trigger.TriggerType, andBody triggerBody: String, in collection: DocumentCollection, callback: @escaping (Response<Trigger>) -> ()) {
-    return DocumentClient.default.replace (triggerWithId: triggerId, operation: operation, type: triggerType, andBody: triggerBody, in: collection, callback: callback)
-}
-
 
 
 

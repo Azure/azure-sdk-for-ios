@@ -538,31 +538,35 @@ collection.getTriggers () { r in
 
 #### Delete
 ```swift
-AzureData.delete (trigger, fromCollection: collectionId, inDatabase: databaseId) { s in
-    // s == successfully deleted
+AzureData.delete (triggerWithId: triggerId, fromCollection: collectionId, inDatabase: databaseId) { r in
+    // r.isSuccess == successfully deleted
 }
 
-AzureData.delete (trigger, from: collection) { s in
-    // s == successfully deleted
+collection.delete (trigger) { r in
+    // r.isSuccess == successfully deleted
 }
 
-collection.delete (trigger) { s in
-    // s == successfully deleted
+collection.delete (triggerWithId: triggerId) { r in
+    // r.isSuccess == successfully deleted
+}
+
+trigger.delete { r in
+    // r.isSuccess == successfully deleted
 }
 ```
 
 #### Replace
 ```swift
-AzureData.replace (triggerWithId: id, operation: .all, type: .pre, andBody: body, inCollection: collectionId, inDatabase: databaseId) { r in
+AzureData.replace (triggerWithId: triggerId, operation: .all, type: .pre, andBody: body, inCollection: collectionId, inDatabase: databaseId) { r in
     // trigger = r.resource
 }
 
-AzureData.replace (triggerWithId: id, operation: .all, type: .pre, andBody: body, in: collection) { r in
-    // trigger = r.resource
+AzureData.replace (trigger, inCollection: collection) { r in
+    // trigger == r.resource
 }
 
-collection.replace (triggerWithId: triggerId, andBody: body, operation: operation, type: type) { r in
-    // trigger = r.resource
+collection.replace (trigger) { r in
+    // trigger ==  r.resource
 }
 ```
 
