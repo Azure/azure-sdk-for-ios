@@ -66,22 +66,17 @@ extension PermissionProvider {
         guard
             resourceType.supportsPermissionToken
         else {
-            completion(Response(PermissionProviderError.invalidDefaultResourceLevel)); return
+            completion(Response(PermissionProviderError.invalidResourceType)); return
         }
         
-        if let resourceLevel = configuration.defaultResourceLevel {
+        if let defaultResourceType = configuration.defaultResourceType {
             
-            guard
-                resourceLevel.supportsPermissionToken
-            else {
-                completion(Response(PermissionProviderError.invalidDefaultResourceLevel)); return
-            }
-            
-            if resourceType != resourceLevel && resourceType.isDecendent(of: resourceLevel) {
+            if resourceType != defaultResourceType && resourceType.isDecendent(of: defaultResourceType) {
                 
                 let ancestorIds = resourceLocation.ancestorIds()
                 
-                switch resourceLevel {
+                switch defaultResourceType {
+                
                 case .collection:
                     
                     location = .collection(databaseId: ancestorIds[.database]!, id: ancestorIds[.collection]!)
@@ -90,7 +85,7 @@ extension PermissionProvider {
                     
                     location = .document(databaseId: ancestorIds[.database]!, collectionId: ancestorIds[.collection]!, id: ancestorIds[.document]!)
                     
-                default: completion(Response(PermissionProviderError.invalidDefaultResourceLevel))
+                default: completion(Response(PermissionProviderError.invalidDefaultResourceType))
                 }
             }
         }
@@ -110,7 +105,7 @@ extension PermissionProvider {
             _getPermission(forResourceAt: location, withPermissionMode: permissionMode) { result in
                 
                 if let permission = result.resource, !PermissionCache.setPermission(permission, forResourceWithAltLink: location.link) {
-                    completion(Response(PermissionProviderError.unsuccessfulCache))
+                    completion(Response(PermissionProviderError.permissionCachefailed))
                 } else {
                     completion(result)
                 }
@@ -123,10 +118,9 @@ extension PermissionProvider {
         
         switch location {
             
-        case .database,
-             .user,
-             .permission,
-             .offer: completion(Response(PermissionProviderError.resourceTokenUnsupportedForResourceType))
+        case .database, .user, .permission, .offer, .collection(_, nil):
+            
+            completion(Response(PermissionProviderError.invalidResourceType))
             
         case let .storedProcedure(databaseId, collectionId, nil),
              let .trigger(databaseId, collectionId, nil),
@@ -137,11 +131,7 @@ extension PermissionProvider {
             
         case let .collection(databaseId, id):
             
-            if let collectionId = id {
-                return getPermission(forCollectionWithId: collectionId, inDatabase: databaseId, withPermissionMode: mode, completion: completion)
-            } else {
-                completion(Response(PermissionProviderError.resourceTokenUnsupportedForResourceType))
-            }
+            return getPermission(forCollectionWithId: id!, inDatabase: databaseId, withPermissionMode: mode, completion: completion)
             
         case let .storedProcedure(databaseId, collectionId, id):
             
@@ -171,10 +161,9 @@ extension PermissionProvider {
             
             switch location.resourceType {
                 
-            case .database,
-                 .user,
-                 .permission,
-                 .offer: completion(Response(PermissionProviderError.resourceTokenUnsupportedForResourceType))
+            case .database, .user, .permission, .offer:
+                
+                completion(Response(PermissionProviderError.invalidResourceType))
                 
             case .collection:
                 
@@ -227,16 +216,11 @@ extension PermissionProvider {
             
             switch location.resourceType {
                 
-            case .database,
-                 .user,
-                 .permission,
-                 .offer,
-                 .collection: completion(Response(PermissionProviderError.resourceTokenUnsupportedForResourceType))
+            case .database, .user, .permission, .offer, .collection:
                 
-            case .storedProcedure,
-                 .trigger,
-                 .udf,
-                 .document:
+                completion(Response(PermissionProviderError.invalidResourceType))
+                
+            case .storedProcedure, .trigger, .udf, .document:
                 
                 if let databaseId = resource.ancestorIds()[.database] {
                     return getPermission(forCollectionWithId: resource.id, inDatabase: databaseId, withPermissionMode: mode, completion: completion)
@@ -255,10 +239,9 @@ extension PermissionProvider {
             
             switch location.resourceType {
                 
-            case .database,
-                 .user,
-                 .permission,
-                 .offer: completion(Response(PermissionProviderError.resourceTokenUnsupportedForResourceType))
+            case .database, .user, .permission, .offer:
+                
+                completion(Response(PermissionProviderError.invalidResourceType))
                 
             case .collection:
                 

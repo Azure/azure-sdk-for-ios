@@ -409,12 +409,19 @@
 				B583619E1FB78763001CEC66 /* DocumentClient.swift */,
 				93F9ACCB1FC0CA4800AC240C /* DocumentClientError.swift */,
 				931EA5BE1FBE201F003CCFF4 /* DocumentClientExtensions.swift */,
+				93B7240A2064560F00984CA8 /* MSHttpHeader.swift */,
 				9319DEF720698FB90083475D /* PermissionCache.swift */,
 				9319DEE820698C3D0083475D /* PermissionProvider.swift */,
 				9319DEED20698C840083475D /* PermissionProviderConfiguration.swift */,
 				9319DEF220698F260083475D /* PermissionProviderError.swift */,
+				B5B6AC231FBA4B3900B93106 /* Query.swift */,
+				9316F44E206A977F00D7BA8B /* ResourceLocation.swift */,
+				9317A81620656ED100338B63 /* ResourceOracle.swift */,
 				9319DF012069DD7B0083475D /* ResourceTokenProvider.swift */,
-				B55AEFE61FB34CF600F7BEED /* Domain */,
+				B522401D1FB33CD000D0343F /* ResourceType.swift */,
+				93ED3460206546C7008F8807 /* ResourceValidation.swift */,
+				B58361991FB779B6001CEC66 /* Response.swift */,
+				B52240381FB33CD000D0343F /* UtilityExtensions.swift */,
 				B58361B71FBA1339001CEC66 /* Resources */,
 				B55AEFDF1FB34B7400F7BEED /* Supporting Files */,
 			);
@@ -486,17 +493,6 @@
 			name = ResourceExtensionTests;
 			sourceTree = "<group>";
 		};
-		B55AEFE61FB34CF600F7BEED /* Domain */ = {
-			isa = PBXGroup;
-			children = (
-				93B7240A2064560F00984CA8 /* MSHttpHeader.swift */,
-				B5B6AC231FBA4B3900B93106 /* Query.swift */,
-				B58361991FB779B6001CEC66 /* Response.swift */,
-				B52240381FB33CD000D0343F /* UtilityExtensions.swift */,
-			);
-			name = Domain;
-			sourceTree = "<group>";
-		};
 		B55AEFE81FB34D6500F7BEED /* Domain */ = {
 			isa = PBXGroup;
 			children = (
@@ -512,10 +508,6 @@
 				B58361B81FBA1384001CEC66 /* CodableResource.swift */,
 				B5B6AC281FBA84C400B93106 /* CodableDictionary.swift */,
 				93F9ACD01FC0D01400AC240C /* ResourceError.swift */,
-				9316F44E206A977F00D7BA8B /* ResourceLocation.swift */,
-				9317A81620656ED100338B63 /* ResourceOracle.swift */,
-				B522401D1FB33CD000D0343F /* ResourceType.swift */,
-				93ED3460206546C7008F8807 /* ResourceValidation.swift */,
 				B58361CC1FBA1439001CEC66 /* Attachment.swift */,
 				B507D4F01FBB722000B2D18D /* Conflict.swift */,
 				B58361C71FBA13D8001CEC66 /* Database.swift */,
