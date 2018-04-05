@@ -415,10 +415,6 @@ public func get (userWithId userId: String, inDatabase database: Database, callb
 }
 
 // delete
-public func delete (_ user: User, fromDatabase database: Database, callback: @escaping (DataResponse) -> ()) {
-    return DocumentClient.default.delete(userWithId: user.id, fromDatabase: database.id, callback: callback)
-}
-
 public func delete (userWithId userId: String, fromDatabase databaseId: String, callback: @escaping (DataResponse) -> ()) {
     return DocumentClient.default.delete(userWithId: userId, fromDatabase: databaseId, callback: callback)
 }

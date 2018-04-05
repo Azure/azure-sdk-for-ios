@@ -605,14 +605,6 @@ database.get (userWithId: userId) { r in
 
 #### Delete
 ```swift
-AzureData.delete (user, fromDatabase: database) { r in
-    // r.isSuccess == successfully deleted
-}
-
-AzureData.delete (user, fromDatabase: databaseId) { r in
-    // r.isSuccess == successfully deleted
-}
-
 AzureData.delete (userWithId: userId, fromDatabase: databaseId) { r in
     // r.isSuccess == successfully deleted
 }
