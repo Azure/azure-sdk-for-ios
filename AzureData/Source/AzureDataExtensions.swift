@@ -209,7 +209,11 @@ public extension DocumentCollection {
     public func delete (_ trigger: Trigger, callback: @escaping (Response<Data>) -> ()) {
         return DocumentClient.default.delete (trigger, callback: callback)
     }
-    
+
+    public func delete (triggerWithId triggerId: String, callback: @escaping (Response<Data>) -> ()) {
+        return DocumentClient.default.delete(triggerWithId: triggerId, fromCollection: self, callback: callback)
+    }
+
     // replace
     public func replace (triggerWithId id: String, operation: Trigger.TriggerOperation, type: Trigger.TriggerType, andBody body: String, callback: @escaping (Response<Trigger>) -> ()) {
         return DocumentClient.default.replace (triggerWithId: id, operation: operation, type: type, andBody: body, in: self, callback: callback)
