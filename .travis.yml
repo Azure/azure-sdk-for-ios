@@ -54,12 +54,15 @@ cache:
 before_install:
   - brew update
   - brew outdated carthage || brew upgrade carthage
+  - brew outdated swiftlint || brew upgrade swiftlint
+  - gem install danger
   - carthage bootstrap --project-directory "$AZURECORE" --verbose --no-use-binaries --cache-builds
 
 script:
   - set -o pipefail
   - xcodebuild -version
   - xcodebuild -showsdks
+  - swiftlint lint --quiet >> lintreport.json || true # Dont crash on lint errors
 
   # Build Framework in Debug and Run Tests if specified
   - if [ $RUN_TESTS == "YES" ]; then
@@ -79,3 +82,6 @@ script:
   - if [ $POD_LINT == "YES" ]; then
       pod lib lint;
     fi
+
+after_success:
+  - danger
