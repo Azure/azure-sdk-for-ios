@@ -125,8 +125,8 @@ public func delete (collectionWithId collectionId: String, fromDatabase database
 }
 
 // replace
-public func replace (inCollectionWithId collectionId: String, fromDatabase databaseId: String, policy: DocumentCollection.IndexingPolicy, callback: @escaping (Response<DocumentCollection>) -> ()) {
-    return DocumentClient.default.replace(inCollectionWithId: collectionId, fromDatabase: databaseId, policy: policy, callback: callback)
+public func replace (collectionWithId collectionId: String, inDatabase databaseId: String, usingPolicy policy: DocumentCollection.IndexingPolicy, callback: @escaping (Response<DocumentCollection>) -> ()) {
+    return DocumentClient.default.replace(collectionWithId: collectionId, inDatabase: databaseId, usingPolicy: policy, callback: callback)
 }
 
 

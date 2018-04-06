@@ -100,7 +100,7 @@ class DocumentCollectionTests: AzureDataTests {
                 indexingMode: .lazy
             )
 
-            AzureData.replace(inCollectionWithId: collectionId, fromDatabase: databaseId, policy: policy) { r in
+            AzureData.replace(collectionWithId: collectionId, inDatabase: databaseId, usingPolicy: policy) { r in
                 replaceResponse = r
                 self.replaceExpectation.fulfill()
             }

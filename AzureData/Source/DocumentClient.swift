@@ -226,13 +226,15 @@ public class DocumentClient {
 
 
     // replace
-    public func replace (inCollectionWithId collectionId: String, fromDatabase databaseId: String, policy: DocumentCollection.IndexingPolicy, callback: @escaping (Response<DocumentCollection>) -> ()) {
-
-        guard let indexingPolicy = policy.asJSONDictionary else { callback(Response(DocumentClientError(withKind: .badRequest))); return }
+    public func replace (collectionWithId collectionId: String, inDatabase databaseId: String, usingPolicy policy: DocumentCollection.IndexingPolicy, callback: @escaping (Response<DocumentCollection>) -> ()) {
 
         let resourceLocation: ResourceLocation = .collection(databaseId: databaseId, id: collectionId)
 
-        return self.update(resourceWithId: collectionId, withData: ["indexingPolicy": indexingPolicy], at: resourceLocation, callback: callback)
+        var collection = DocumentCollection(collectionId)
+
+        collection.indexingPolicy = policy
+
+        return self.replace(collection, at: resourceLocation, callback: callback)
     }
     
     
@@ -1019,20 +1021,6 @@ public class DocumentClient {
         dict["id"] = resourceId
 
         return self.createOrReplace(dict, at: resourceLocation, replacing: true, additionalHeaders: additionalHeaders, callback: callback)
-    }
-
-    fileprivate func update<T:CodableResource> (resourceWithId resourceId: String, withData data: [String:Any]? = nil, at resourceLocation: ResourceLocation, additionalHeaders: HttpHeaders? = nil, callback: @escaping (Response<T>) -> ()) {
-
-        var dict = data ?? [:]
-
-        dict["id"] = resourceId
-
-        guard let data = try? JSONSerialization.data(withJSONObject: dict) else {
-            callback(Response(DocumentClientError(withKind: .badRequest)))
-            return
-        }
-
-        return self.createOrReplace(data, at: resourceLocation, replacing: true, additionalHeaders: additionalHeaders, callback: callback)
     }
 
     // query

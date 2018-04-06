@@ -169,7 +169,7 @@ let policy = DocumentCollection.IndexingPolicy(
 Use the following function to replace the `IndexingPolicy` of a collection.
 
 ```swift
-AzureData.replace(inCollectionWithId: collectionId, fromDatabase: databaseId, policy: policy) { r in
+AzureData.replace(collectionWithId: collectionId, inDatabase: databaseId, usingPolicy: policy) { r in
     // replaced collection = r.resource
 }
 ```
