@@ -123,7 +123,11 @@ public extension DocumentCollection {
     public func delete (_ document: Document, callback: @escaping (Response<Data>) -> ()) {
         return DocumentClient.default.delete(document, callback: callback)
     }
-    
+
+    public func delete (documentWithId documentId: String, callback: @escaping (Response<Data>) -> ()) {
+        return DocumentClient.default.delete(documentWithId: documentId, fromCollection: self, callback: callback)
+    }
+
     // replace
     public func replace<T: Document> (_ document: T, callback: @escaping (Response<T>) -> ()) {
         return DocumentClient.default.replace(document, in: self, callback: callback)

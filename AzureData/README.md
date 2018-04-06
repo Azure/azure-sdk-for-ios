@@ -265,16 +265,24 @@ collection.get (documentWithResourceId: id: as: CustomDocument.self) { r in
 
 #### Delete
 ```swift
-AzureData.delete (document, fromCollection: collectionId, inDatabase: databaseId) { r in
-    // document = r.resource
+AzureData.delete (documentWithId: documentId, fromCollection: collectionId, inDatabase: databaseId) { r in
+    // r.isSuccess == successfully deleted
 }
 
-AzureData.delete (document, from: collection) { r in
-    // document = r.resource
+AzureData.delete (document) { r in
+    // r.isSuccess == successfully deleted
 }
 
-collection.delete (document) { s in
-    // s == successfully deleted
+collection.delete (document) { r in
+    // r.isSuccess == successfully deleted
+}
+
+collection.delete (documentWithId: documentId) { r in
+    // r.isSuccess == successfully deleted
+}
+
+document.delete { r in
+    // r.isSuccess == successfully deleted
 }
 ```
 
