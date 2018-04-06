@@ -156,7 +156,11 @@ public extension DocumentCollection {
     public func delete (_ storedProcedure: StoredProcedure, callback: @escaping (Response<Data>) -> ()) {
         return DocumentClient.default.delete (storedProcedure, callback: callback)
     }
-    
+
+    public func delete (storedProcedureWithId id: String, callback: @escaping (Response<Data>) -> ()) {
+        return DocumentClient.default.delete (storedProcedureWithId: id, fromCollection: self, callback: callback)
+    }
+
     // replace
     public func replace (storedProcedureWithId id: String, andBody body: String, callback: @escaping (Response<StoredProcedure>) -> ()) {
         return DocumentClient.default.replace (storedProcedureWithId: id, andBody: body, in: self, callback: callback)

@@ -423,16 +423,20 @@ collection.getStoredProcedures () { r in
 
 #### Delete
 ```swift
-AzureData.delete (storedProcedure, fromCollection: collectionId, inDatabase: databaseId) { s in
-    // s == successfully deleted
+AzureData.delete (storedProcedureWithId: id, fromCollection: collectionId, inDatabase: databaseId) { r in
+    // r.isSuccess == successfully deleted
 }
 
-AzureData.delete (storedProcedure, from: collection) { s in
-    // s == successfully deleted
+collection.delete (storedProcedure) { r in
+    // r.isSuccess == successfully deleted
 }
 
-collection.delete (storedProcedure) { s in
-    // s == successfully deleted
+collection.delete (storedProcedureWithId: id) { r in
+    // r.isSuccess == successfully deleted
+}
+
+storedProcedure.delete { r in
+    // r.isSuccess == successfully deleted
 }
 ```
 
