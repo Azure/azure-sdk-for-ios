@@ -326,8 +326,16 @@ AzureData.create (attachmentWithId: id, contentType: "image/png", andMediaUrl: u
     // attachment = r.resource
 }
 
+document.create (attachmentWithId: id, contentType: "image/png", andMediaUrl: url) { r in
+    // attachment = r.resource
+}
+
 //or upload the media directly:
 AzureData.create (attachmentWithId: id, contentType: "image/png", name: "file.png", with: media, onDocument: documentId, inCollection: collectionId, inDatabase: databaseId) { r in
+    // attachment = r.resource
+}
+
+document.create (attachmentWithId: id, contentType: "image/png", name: "file.png", with: media) { r in
     // attachment = r.resource
 }
 ```
@@ -335,14 +343,26 @@ AzureData.create (attachmentWithId: id, contentType: "image/png", name: "file.pn
 #### List
 ```swift
 AzureData.get (attachmentsOn: documentId, inCollection: collectionId, inDatabase: databaseId) { r in
-    // attachments = r.resource
+    // attachments = r.resource?.items
+}
+
+document.getAttachments { r in
+    // attachments = r.resource?.items
 }
 ```
 
 #### Delete
 ```swift
-AzureData.delete (attachment, onDocument: documentId, inCollection: collectionId, inDatabase: databaseId) { s in
-    // s == successfully deleted
+AzureData.delete (attachmentWithId: attachmentId, onDocument: documentId, inCollection: collectionId, inDatabase: databaseId) { r in
+    // r.isSuccess == successfully deleted
+}
+
+document.delete (attachment) { r in
+    // r.isSuccess == successfully deleted
+}
+
+document.delete (attachmentWithId: attachmentId) { r in
+    // r.isSuccess == successfully deleted
 }
 ```
 
@@ -353,8 +373,16 @@ AzureData.replace(attachmentWithId: id, contentType: "image/png", andMediaUrl: u
     // attachment = r.resource
 }
 
+document.replace(attachmentWithId: id, contentType: "image/png", andMediaUrl: url) { r in
+    // attachment = r.resource
+}
 
+//or upload the media directly:
 AzureData.replace(attachmentWithId: id, contentType: "image/png", name: "file.png", with: media, onDocument: documentId, inCollection: collectionId, inDatabase: databaseId) { r in
+    // attachment = r.resource
+}
+
+document.replace(attachmentWithId: id, contentType: "image/png", name: "file.png", with: media) { r in
     // attachment = r.resource
 }
 ```
