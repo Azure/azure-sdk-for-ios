@@ -8,12 +8,22 @@
 
 import Foundation
 
-protocol ResourceLocator {
-    var path: String { get }
-    var link: String { get }
-}
-
-public enum ResourceLocation : ResourceLocator {
+/// The logical location of 1) a resource or feed and the and 2) the resource for which permissions are required
+///
+/// - Remark:
+/// `path` refers to the logical location of the resource or feed of a coorisponding CRUD operation
+/// `link` refers to the logical location of the the resource the operation is acting on (thus need permissions for)
+///
+/// - Example: Listing all documents in a collection:
+///   `let location: ResourceLocation = .document(databaseId: "MyDatabase", collectionId: "MyCollection", id: nil)`
+///   `location.path // "dbs/MyDatabase/colls/MyCollection/docs" (the locaiton of the documents feed)`
+///   `location.link // "dbs/MyDatabase/colls/MyCollection" (the location of the collection itself)`
+///
+/// - Example: Get a single existing document from the collection:
+///   `let location: ResourceLocation = .document(databaseId: "MyDatabase", collectionId: "MyCollection", id: "MyDocument")`
+///   `location.path // "dbs/MyDatabase/colls/MyCollection/docs/MyDocument" (the locaiton of the document)`
+///   `location.link // "dbs/MyDatabase/colls/MyCollection/docs/MyDocument" (the location of the document)`
+public enum ResourceLocation {
     case database(id: String?)
     case user(databaseId: String, id: String?)
     case permission(databaseId: String, userId: String, id: String?)
@@ -57,8 +67,8 @@ public enum ResourceLocation : ResourceLocator {
         case let .udf(databaseId, collectionId, id):                    return "dbs/"   + databaseId + "/colls/" + collectionId + id.path(in:"/udfs")
         case let .document(databaseId, collectionId, id):               return "dbs/"   + databaseId + "/colls/" + collectionId + id.path(in:"/docs")
         case let .attachment(databaseId, collectionId, documentId, id): return "dbs/"   + databaseId + "/colls/" + collectionId + "/docs/" + documentId + id.path(in:"/attachments")
-        case let .offer(id):                                            return id?.lowercased() ?? ""// .path(in: "offers")
-        case let .resource(resource):                                   return ResourceOracle.getAltLink(forResource: resource)!//.lowercased()
+        case let .offer(id):                                            return id?.lowercased() ?? ""
+        case let .resource(resource):                                   return ResourceOracle.getAltLink(forResource: resource)!
         case let .child(type, resource, id):                            return ResourceOracle.getAltLink(forResource: resource)! + id.path(in:"/" + type.rawValue)
         }
     }
@@ -141,6 +151,7 @@ public enum ResourceLocation : ResourceLocator {
     }
 }
 
+
 fileprivate extension Optional where Wrapped == String {
     
     var path: String {
@@ -159,21 +170,5 @@ fileprivate extension Optional where Wrapped == String {
         }
         
         return ""
-    }
-}
-
-fileprivate extension String {
-    
-    func extractId(for resourceType: ResourceType) -> String? {
-        
-        let path = Substring(resourceType.path)
-        
-        let split = self.split(separator: "/")
-        
-        if let key = split.index(of: path), key < split.endIndex {
-            return String(split[split.index(after: key)])
-        }
-        
-        return nil
     }
 }
