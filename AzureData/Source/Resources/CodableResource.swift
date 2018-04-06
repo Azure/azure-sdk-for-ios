@@ -36,10 +36,19 @@ public protocol CodableResource : Codable {
     mutating func setAltLink(to link: String)
 }
 
+fileprivate struct ResourceValidation {
+    static let maximumIdLength: Int = 255
+    static let invalidIdCharacters: CharacterSet = CharacterSet.whitespacesAndNewlines.union([ "/", "?", "#" ])
+}
+
 extension CodableResource {
     
     public var path: String {
         return Self.type
+    }
+    
+    public var hasValidId: Bool {
+        return self.id.isValidIdForResource
     }
     
     public mutating func setAltLink(withContentPath path: String?) {
@@ -68,5 +77,16 @@ extension CodableResource {
         }
         
         return ancestors
+    }
+}
+
+extension String {
+
+    var isValidIdForResource: Bool {
+        
+        let validLength = self.count < ResourceValidation.maximumIdLength
+        let validCharacters = self.rangeOfCharacter(from: ResourceValidation.invalidIdCharacters) == nil
+        
+        return validLength && validCharacters
     }
 }
