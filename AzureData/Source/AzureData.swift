@@ -473,10 +473,6 @@ public func delete (permissionWithId permissionId: String, fromUser user: User, 
     return DocumentClient.default.delete(permissionWithId: permissionId, fromUser: user, callback: callback)
 }
 
-public func delete(_ permission: Permission, callback: @escaping (Response<Data>) -> ()) {
-    return DocumentClient.default.delete(permission, callback: callback)
-}
-
 // replace
 public func replace (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource, forUser userId: String, inDatabase databaseId: String, callback: @escaping (Response<Permission>) -> ()) {
     return DocumentClient.default.replace (permissionWithId: permissionId, mode: permissionMode, in: resource, forUser: userId, inDatabase: databaseId, callback: callback)

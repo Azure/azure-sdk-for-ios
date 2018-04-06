@@ -294,16 +294,24 @@ collection.get (documentWithResourceId: id: as: CustomDocument.self) { r in
 
 #### Delete
 ```swift
-AzureData.delete (document, fromCollection: collectionId, inDatabase: databaseId) { r in
-    // document = r.resource
+AzureData.delete (documentWithId: documentId, fromCollection: collectionId, inDatabase: databaseId) { r in
+    // r.isSuccess == successfully deleted
 }
 
-AzureData.delete (document, from: collection) { r in
-    // document = r.resource
+AzureData.delete (document) { r in
+    // r.isSuccess == successfully deleted
 }
 
-collection.delete (document) { s in
-    // s == successfully deleted
+collection.delete (document) { r in
+    // r.isSuccess == successfully deleted
+}
+
+collection.delete (documentWithId: documentId) { r in
+    // r.isSuccess == successfully deleted
+}
+
+document.delete { r in
+    // r.isSuccess == successfully deleted
 }
 ```
 
@@ -355,8 +363,16 @@ AzureData.create (attachmentWithId: id, contentType: "image/png", andMediaUrl: u
     // attachment = r.resource
 }
 
+document.create (attachmentWithId: id, contentType: "image/png", andMediaUrl: url) { r in
+    // attachment = r.resource
+}
+
 //or upload the media directly:
 AzureData.create (attachmentWithId: id, contentType: "image/png", name: "file.png", with: media, onDocument: documentId, inCollection: collectionId, inDatabase: databaseId) { r in
+    // attachment = r.resource
+}
+
+document.create (attachmentWithId: id, contentType: "image/png", name: "file.png", with: media) { r in
     // attachment = r.resource
 }
 ```
@@ -364,14 +380,26 @@ AzureData.create (attachmentWithId: id, contentType: "image/png", name: "file.pn
 #### List
 ```swift
 AzureData.get (attachmentsOn: documentId, inCollection: collectionId, inDatabase: databaseId) { r in
-    // attachments = r.resource
+    // attachments = r.resource?.items
+}
+
+document.getAttachments { r in
+    // attachments = r.resource?.items
 }
 ```
 
 #### Delete
 ```swift
-AzureData.delete (attachment, onDocument: documentId, inCollection: collectionId, inDatabase: databaseId) { s in
-    // s == successfully deleted
+AzureData.delete (attachmentWithId: attachmentId, onDocument: documentId, inCollection: collectionId, inDatabase: databaseId) { r in
+    // r.isSuccess == successfully deleted
+}
+
+document.delete (attachment) { r in
+    // r.isSuccess == successfully deleted
+}
+
+document.delete (attachmentWithId: attachmentId) { r in
+    // r.isSuccess == successfully deleted
 }
 ```
 
@@ -382,8 +410,16 @@ AzureData.replace(attachmentWithId: id, contentType: "image/png", andMediaUrl: u
     // attachment = r.resource
 }
 
+document.replace(attachmentWithId: id, contentType: "image/png", andMediaUrl: url) { r in
+    // attachment = r.resource
+}
 
+//or upload the media directly:
 AzureData.replace(attachmentWithId: id, contentType: "image/png", name: "file.png", with: media, onDocument: documentId, inCollection: collectionId, inDatabase: databaseId) { r in
+    // attachment = r.resource
+}
+
+document.replace(attachmentWithId: id, contentType: "image/png", name: "file.png", with: media) { r in
     // attachment = r.resource
 }
 ```
@@ -424,16 +460,20 @@ collection.getStoredProcedures () { r in
 
 #### Delete
 ```swift
-AzureData.delete (storedProcedure, fromCollection: collectionId, inDatabase: databaseId) { s in
-    // s == successfully deleted
+AzureData.delete (storedProcedureWithId: id, fromCollection: collectionId, inDatabase: databaseId) { r in
+    // r.isSuccess == successfully deleted
 }
 
-AzureData.delete (storedProcedure, from: collection) { s in
-    // s == successfully deleted
+collection.delete (storedProcedure) { r in
+    // r.isSuccess == successfully deleted
 }
 
-collection.delete (storedProcedure) { s in
-    // s == successfully deleted
+collection.delete (storedProcedureWithId: id) { r in
+    // r.isSuccess == successfully deleted
+}
+
+storedProcedure.delete { r in
+    // r.isSuccess == successfully deleted
 }
 ```
 
@@ -503,16 +543,20 @@ collection.getUserDefinedFunctions () { r in
 
 #### Delete
 ```swift
-AzureData.delete (userDefinedFunction, fromCollection: collectionId, inDatabase: databaseId) { s in
-    // s == successfully deleted
+AzureData.delete (userDefinedFunctionWithId: functionId, fromCollection: collectionId, inDatabase: databaseId) { r in
+    // r.isSuccess == successfully deleted
 }
 
-AzureData.delete (userDefinedFunction, from: collection) { s in
-    // s == successfully deleted
+collection.delete (userDefinedFunction) { r in
+    // r.isSuccess == successfully deleted
 }
 
-collection.delete (userDefinedFunction) { s in
-    // s == successfully deleted
+collection.delete (userDefinedFunctionWithId: functionId) { r in
+    // r.isSuccess == successfully deleted
+}
+
+userDefinedFunction.delete { r in
+    // r.isSuccess == successfully deleted
 }
 ```
 
@@ -560,23 +604,27 @@ AzureData.get (triggersIn: collection) { r in
     // triggers = r.resource?.items
 }
 
-collection.getTriggers () { r in
+collection.getTriggers { r in
     // triggers in r.resource?.list
 }
 ```
 
 #### Delete
 ```swift
-AzureData.delete (trigger, fromCollection: collectionId, inDatabase: databaseId) { s in
-    // s == successfully deleted
+AzureData.delete (triggerWithId: triggerId, fromCollection: collectionId, inDatabase: databaseId) { r in
+    // r.isSuccess == successfully deleted
 }
 
-AzureData.delete (trigger, from: collection) { s in
-    // s == successfully deleted
+collection.delete (trigger) { r in
+    // r.isSuccess == successfully deleted
 }
 
-collection.delete (trigger) { s in
-    // s == successfully deleted
+collection.delete (triggerWithId: triggerId) { r in
+    // r.isSuccess == successfully deleted
+}
+
+trigger.delete { r in
+    // r.isSuccess == successfully deleted
 }
 ```
 

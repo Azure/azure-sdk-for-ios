@@ -22,7 +22,8 @@ class ResourceOracleTests: XCTestCase {
     }
     
     func testExample() {
-        
+//        ResourceCache.purge()
+//        ResourceOracle.purge()
 //        let document = Document.testDocument
 //        
 //        ResourceOracle.storeLinks(forResource: document)

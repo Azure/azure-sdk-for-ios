@@ -18,7 +18,7 @@ public class DocumentClient {
         return DocumentClient(configuration: configuration)
     }()
     
-    fileprivate var host: String?
+    fileprivate var host: String!
         
     fileprivate var permissionProvider: PermissionProvider?
     
@@ -26,13 +26,22 @@ public class DocumentClient {
     
     fileprivate var configuredWithMasterKey: Bool { return resourceTokenProvider != nil }
     
+    fileprivate var reachabilityManager: ReachabilityManager! {
+        willSet {
+            newValue.listener = networkReachabilityChanged
+            newValue.startListening()
+        }
+    }
+    
+    func networkReachabilityChanged(status: ReachabilityManager.NetworkReachabilityStatus) {
+        print("Network Status Changed: \(status)")
+    }
     
     /// The underlying session.
     open let session: URLSession
 
 
-    public init(configuration: URLSessionConfiguration = URLSessionConfiguration.default/*, delegate: SessionDelegate = SessionDelegate(), serverTrustPolicyManager: ServerTrustPolicyManager? = nil*/)
-    {
+    public init(configuration: URLSessionConfiguration = URLSessionConfiguration.default/*, delegate: SessionDelegate = SessionDelegate(), serverTrustPolicyManager: ServerTrustPolicyManager? = nil*/) {
         //self.delegate = delegate
         self.session = URLSession.init(configuration: configuration)
         //self.session = URLSession(configuration: configuration, delegate: delegate, delegateQueue: nil)
@@ -89,33 +98,35 @@ public class DocumentClient {
     }
     
     public func configure (forAccountNamed name: String, withMasterKey key: String, withPermissionMode mode: PermissionMode) {
-        host = name + ".documents.azure.com"
         resourceTokenProvider = ResourceTokenProvider(withMasterKey: key, withPermissionMode: mode)
-        ResourceOracle.host = host
-        ResourceOracle.restore()
+        commonConfigure(withHost: name + ".documents.azure.com")
     }
     
     public func configure (forAccountAt url: URL, withMasterKey key: String, withPermissionMode mode: PermissionMode) {
-        host = url.host
         resourceTokenProvider = ResourceTokenProvider(withMasterKey: key, withPermissionMode: mode)
-        ResourceOracle.host = host
-        ResourceOracle.restore()
+        commonConfigure(withHost: url.host)
     }
 
-    public func configure (forAccountNamed name: String, withPermissionProvider permissionProvider: PermissionProvider) {
-        host = name + ".documents.azure.com"
-        self.permissionProvider = permissionProvider
+    public func configure (forAccountNamed name: String, withPermissionProvider provider: PermissionProvider) {
+        permissionProvider = provider
+        commonConfigure(withHost: name + ".documents.azure.com")
+    }
+    
+    public func configure (forAccountAt url: URL, withPermissionProvider provider: PermissionProvider) {
+        permissionProvider = provider
+        commonConfigure(withHost: url.host)
+    }
+
+    fileprivate func commonConfigure(withHost host: String?) {
+        guard
+            let host = host, !host.isEmpty
+        else { fatalError("Host is invalid") }
+        self.host = host
+        reachabilityManager = ReachabilityManager(host: host)
         ResourceOracle.host = host
         ResourceOracle.restore()
     }
     
-    public func configure (forAccountAt url: URL, withPermissionProvider permissionProvider: PermissionProvider) {
-        host = url.host
-        self.permissionProvider = permissionProvider
-        ResourceOracle.host = host
-        ResourceOracle.restore()
-    }
-
     
     public func reset () {
         host = nil
@@ -878,8 +889,14 @@ public class DocumentClient {
     
             if let request = r.resource {
                 
-                return self.sendRequest(request, callback: callback)
-            
+                self.sendRequest(request) { (response:Response<Resources<T>>) in
+                    
+                    callback(response)
+                    
+                    if let resource = response.resource {
+                        ResourceCache.cache(resource)
+                    }
+                }
             } else if let error = r.error {
                 
                 callback(Response(request: r.request, data: r.data, response: r.response, result: .failure(error)))
@@ -899,15 +916,13 @@ public class DocumentClient {
             if let request = r.resource {
             
                 self.sendRequest(request) { (response:Response<T>) in
+                    
                     callback(response)
                     
                     if let resource = response.resource {
                         ResourceCache.cache(resource)
                     }
                 }
-
-                //return self.sendRequest(request, callback: callback)
-            
             } else if let error = r.error {
                 
                 callback(Response(request: r.request, data: r.data, response: r.response, result: .failure(error)))
@@ -929,15 +944,13 @@ public class DocumentClient {
             if let request = r.resource {
             
                 self.sendRequest(request, currentResource: resource) { (response:Response<T>) in
+                    
                     callback(response)
                     
                     if let resource = response.resource {
                         ResourceCache.cache(resource)
                     }
                 }
-
-                //return self.sendRequest(request, currentResource: resource, callback: callback)
-            
             } else if let error = r.error {
                 
                 callback(Response(request: r.request, data: r.data, response: r.response, result: .failure(error)))
@@ -957,16 +970,13 @@ public class DocumentClient {
             if let request = r.resource {
             
                 self.sendRequest(request) { (response:Response<Data>) in
+                    
                     callback(response)
                     
                     if response.result.isSuccess {
                         ResourceCache.remove(resourceAt: resourceLocation)
-                        ResourceOracle.removeLinks(forResourceWithAltLink: resourceLocation.path)
                     }
                 }
-
-                //return self.sendRequest(request, callback: callback)
-            
             } else if let error = r.error {
                 
                 callback(Response(request: r.request, data: r.data, response: r.response, result: .failure(error)))
@@ -980,32 +990,7 @@ public class DocumentClient {
 
     func delete<T:CodableResource>(_ resource: T, callback: @escaping (Response<Data>) -> ()) {
         
-        let resourceLocation: ResourceLocation = .resource(resource: resource)
-        
-        dataRequest(forResourceAt: resourceLocation, withMethod: .delete) { r in
-            
-            if let request = r.resource {
-                
-                self.sendRequest(request) { (response:Response<Data>) in
-                    callback(response)
-                    
-                    if response.result.isSuccess {
-                        ResourceCache.remove(resourceAt: resourceLocation)
-                        ResourceOracle.removeLinks(forResource: resource)
-                    }
-                }
-
-                //return self.sendRequest(request, callback: callback)
-                
-            } else if let error = r.error {
-                
-                callback(Response(request: r.request, data: r.data, response: r.response, result: .failure(error)))
-                
-            } else {
-                
-                callback(Response(DocumentClientError(withKind: .unknownError)))
-            }
-        }
+        return self.delete(resourceAt: .resource(resource: resource), callback: callback)
     }
     
     // replace
@@ -1032,13 +1017,18 @@ public class DocumentClient {
                 
                 do {
                     request.httpBody = try self.jsonEncoder.encode(query)
-                
                 } catch {
                     callback(Response(error)); return
                 }
                 
-                return self.sendRequest(request, callback: callback)
-                
+                self.sendRequest(request) { (response:Response<Resources<T>>) in
+                    
+                    callback(response)
+                    
+                    if let resource = response.resource {
+                        ResourceCache.cache(resource)
+                    }
+                }
             } else if let error = r.error {
                 
                 callback(Response(request: r.request, data: r.data, response: r.response, result: .failure(error)))
@@ -1059,7 +1049,6 @@ public class DocumentClient {
                 
                 do {
                     request.httpBody = body == nil ? try self.jsonEncoder.encode([String]()) : try self.jsonEncoder.encode(body)
-                    
                 } catch {
                     callback(Response<Data>(error)); return
                 }
@@ -1086,21 +1075,23 @@ public class DocumentClient {
                 
                 do {
                     request.httpBody = try self.jsonEncoder.encode(body)
-                    
                 } catch {
                     callback(Response(error)); return
                 }
                 
                 self.sendRequest(request) { (response:Response<T>) in
+                    
                     callback(response)
                     
                     if let resource = response.resource {
-                       ResourceCache.cache(resource)
+                        
+                        if replacing {
+                            ResourceCache.replace(resource, at: resourceLocation)
+                        } else {
+                            ResourceCache.cache(resource)
+                        }
                     }
                 }
-                
-                //return self.sendRequest(request, callback: callback)
-                
             } else if let error = r.error {
                 
                 callback(Response(request: r.request, data: r.data, response: r.response, result: .failure(error)))
@@ -1121,15 +1112,18 @@ public class DocumentClient {
                 request.httpBody = body
                 
                 self.sendRequest(request) { (response:Response<T>) in
+                    
                     callback(response)
                     
                     if let resource = response.resource {
-                        ResourceCache.cache(resource)
+                        
+                        if replacing {
+                            ResourceCache.replace(resource, at: resourceLocation)
+                        } else {
+                            ResourceCache.cache(resource)
+                        }
                     }
                 }
-
-                //return self.sendRequest(request, callback: callback)
-            
             } else if let error = r.error {
                 
                 callback(Response(request: r.request, data: r.data, response: r.response, result: .failure(error)))
@@ -1159,9 +1153,11 @@ public class DocumentClient {
             
             if let error = error {
                 
-                log?.errorMessage(error.localizedDescription)
+                let clientError = DocumentClientError(withData: data, response: httpResponse, error: error)
                 
-                callback(Response(request: request, data: data, response: httpResponse, result: .failure(error)))
+                log?.errorMessage(clientError.message)
+                
+                callback(Response(request: request, data: data, response: httpResponse, result: .failure(clientError)))
             
             } else if let data = data, let httpResponse = httpResponse, let statusCode = HttpStatusCode(rawValue: httpResponse.statusCode) {
                 
@@ -1170,15 +1166,13 @@ public class DocumentClient {
                     switch statusCode {
                     //case .created: // cache locally
                     //case .noContent: // DELETEing a resource remotely should delete the cached version (if the delete was successful indicated by a response status code of 204 No Content)
+                    //case .unauthorized:
+                    //case .forbidden: // reauth
+                    //case .conflict: // conflict callback
+                    //case .notFound: // (indicating the resource has been deleted/no longer exists in the remote database), confirm that resource does not exist locally, and if it does, delete it
+                    //case .preconditionFailure: // The operation specified an eTag that is different from the version available at the server, that is, an optimistic concurrency error. Retry the request after reading the latest version of the resource and updating the eTag on the request.
+                        
                     case .notModified:
-                        
-                        print(" @@@@@@@@@@@@@@@@@@@@@@@   NOT MODIFIED   @@@@@@@@@@@@@@@@@@@@@@@ ")
-                        
-                        //let altContentPath = httpResponse.allHeaderFields[MSHttpHeader.msAltContentPath.rawValue] as? String
-                        
-                        //currentResource.setAltLink(withContentPath: altContentPath)
-                        
-                        //ResourceOracle.storeLinks(forResource: current)
                         
                         log?.debugMessage ("\(currentResource!)")
                         
@@ -1188,24 +1182,12 @@ public class DocumentClient {
 
                         var resource = try self.jsonDecoder.decode(T.self, from: data)
                         
-                        let altContentPath = httpResponse.allHeaderFields[MSHttpHeader.msAltContentPath.rawValue] as? String
-                        
-                        resource.setAltLink(withContentPath: altContentPath)
-                        
-                        ResourceOracle.storeLinks(forResource: resource)
+                        resource.setAltLink(withContentPath: httpResponse.msAltContentPathHeader)
                         
                         log?.debugMessage ("\(resource)")
                         
                         callback(Response(request: request, data: data, response: httpResponse, result: .success(resource)))
-
-                        // ResourceCache.cache(resource)
                         
-                        //case .unauthorized:
-                        //case .forbidden: // reauth
-                        //case .conflict: // conflict callback
-                        //case .notFound: // (indicating the resource has been deleted/no longer exists in the remote database), confirm that resource does not exist locally, and if it does, delete it
-                        //case .preconditionFailure: // The operation specified an eTag that is different from the version available at the server, that is, an optimistic concurrency error. Retry the request after reading the latest version of the resource and updating the eTag on the request.
-                    //case .badRequest, .requestTimeout, .entityTooLarge, .tooManyRequests, .retryWith, .internalServerError, .serviceUnavailable:
                     default:
                         
                         let clientError = DocumentClientError(withData: data, response: httpResponse)
@@ -1214,19 +1196,9 @@ public class DocumentClient {
                         
                         callback(Response(request: request, data: data, response: httpResponse, result: .failure(clientError)))
                     }
+                } catch let error {
                     
-                } catch let decodeError as DecodingError {
-                    
-                    log?.errorMessage(decodeError.logMessage)
-                    log?.debugMessage(String(data: data, encoding: .utf8) ?? "nil")
-                    
-                    let docError = DocumentClientError(withData: data, response: httpResponse, error: decodeError)
-                    
-                    callback(Response(request: request, data: data, response: httpResponse, result: .failure(docError)))
-                    
-                } catch let otherError {
-                    
-                    let clientError = DocumentClientError(withData: data, response: httpResponse, error: otherError)
+                    let clientError = DocumentClientError(withData: data, response: httpResponse, error: error)
                     
                     log?.errorMessage(clientError.message)
                     
@@ -1275,11 +1247,7 @@ public class DocumentClient {
                         
                         var resource = try self.jsonDecoder.decode(Resources<T>.self, from: data)
                         
-                        let altContentPath = httpResponse.allHeaderFields[MSHttpHeader.msAltContentPath.rawValue] as? String
-                        
-                        resource.setAltLinks(withContentPath: altContentPath)
-                        
-                        ResourceOracle.storeLinks(forResources: resource)
+                        resource.setAltLinks(withContentPath: httpResponse.msAltContentPathHeader)
                         
                         log?.debugMessage("\(resource)")
                         
@@ -1300,18 +1268,9 @@ public class DocumentClient {
 
                         callback(Response(request: request, data: data, response: httpResponse, result: .failure(clientError)))
                     }
+                } catch let error {
                     
-                } catch let decodeError as DecodingError {
-                    
-                    let clientError = DocumentClientError(withData: data, response: httpResponse, error: decodeError)
-                    
-                    log?.errorMessage(clientError.message)
-                    
-                    callback(Response(request: request, data: data, response: httpResponse, result: .failure(clientError)))
-                
-                } catch let otherError {
-                    
-                    let clientError = DocumentClientError(withData: data, response: httpResponse, error: otherError)
+                    let clientError = DocumentClientError(withData: data, response: httpResponse, error: error)
                     
                     log?.errorMessage(clientError.message)
                     
@@ -1391,7 +1350,7 @@ public class DocumentClient {
         
             if let resourceToken = r.resource {
                 
-                let url = URL.init(string: "https://" + self.host! + "/" + resourceLocation.path)
+                let url = URL.init(string: "https://" + self.host + "/" + resourceLocation.path)
                 
                 var request = URLRequest(url: url!)
                 

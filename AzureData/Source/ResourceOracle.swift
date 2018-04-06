@@ -11,7 +11,7 @@ import AzureCore
 
 public class ResourceOracle {
     
-    static var host: String?
+    static var host: String!
     
     fileprivate static let altLinkLookupStorageKey  = "com.azure.data.lookup.altlink"
     fileprivate static let selfLinkLookupStorageKey = "com.azure.data.lookup.selflink"
@@ -111,6 +111,7 @@ public class ResourceOracle {
         }
     }
 
+    
     public static func removeLinks(forResource resource: CodableResource) {
         
         _removeLinks(forResource: resource)
@@ -118,13 +119,15 @@ public class ResourceOracle {
         commit()
     }
 
-    public static func removeLinks(forResourceWithAltLink altLink: String) {
-
-        _removeLinks(forResourceWithAltLink: altLink)
-
-        commit()
+    public static func removeLink(forResourceAt location: ResourceLocation)
+    {
+        if !location.isFeed {
+            
+            _removeLinks(forResourceWithAltLink: location.link)
+            
+            commit()
+        }
     }
-    
     
     
     // MARK: - Get Links for Resource
@@ -161,11 +164,10 @@ public class ResourceOracle {
 
     static func getSelfLink(forResourceAt location: ResourceLocation) -> String? {
         
-        if !location.id.isNilOrEmpty {
-            let altLink = location.link.trimmingCharacters(in: slashCharacterSet)
-            if let selfLink = selfLinkLookup[altLink], !selfLink.isEmpty {
-                return selfLink
-            }
+        let altLink = location.link
+
+        if let selfLink = selfLinkLookup[altLink], !selfLink.isEmpty {
+            return selfLink
         }
         
         return nil
@@ -232,7 +234,7 @@ public class ResourceOracle {
     
     // MARK: - Get File Path
     
-    public static func getFilePath(forResource resource: CodableResource) -> (directory:String, resource:String)? {
+    public static func getFilePath(forResource resource: CodableResource) -> (directory:String, file:String)? {
         
         guard
             let selfLink = getSelfLink(forResource: resource),
@@ -242,14 +244,37 @@ public class ResourceOracle {
         return (selfLink, "\(selfLink)/\(resourceId).json")
     }
 
-    public static func getFilePath(forResourceAt locaiton: ResourceLocation) -> (directory:String, resource:String)? {
+    public static func getDirectoryPath(forResource resource: CodableResource) -> String? {
+        
+        guard
+            let selfLink = getSelfLink(forResource: resource)
+        else { return nil }
+        
+        return selfLink
+    }
+
+    public static func getFilePath(forResourceAt locaiton: ResourceLocation) -> String? {
         
         guard
             let selfLink = getSelfLink(forResourceAt: locaiton),
             let resourceId = getResourceId(forResourceAt: locaiton, withSelfLink: selfLink)
-            else { return nil }
+        else { return nil }
         
-        return (selfLink, "\(selfLink)/\(resourceId).json")
+        return "\(selfLink)/\(resourceId).json"
+    }
+
+    public static func getDirectoryPath(forResourceAt locaiton: ResourceLocation) -> (path:String, resourceId: String)? {
+        
+        guard
+            let selfLink = getSelfLink(forResourceAt: locaiton),
+            let resourceId = getResourceId(forResourceAt: locaiton, withSelfLink: selfLink)
+        else { return (locaiton.type, "") }
+        
+        if locaiton.isFeed {
+            return (selfLink + "/" + locaiton.type, resourceId)
+        }
+        
+        return (selfLink, resourceId)
     }
 
     
