@@ -53,6 +53,12 @@ public func configure (forAccountAt url: URL, withPermissionProvider permissionP
 }
 
 
+public var offlineDataEnabled: Bool {
+    get { return ResourceCache.isEnabled }
+    set { ResourceCache.isEnabled = newValue }
+}
+
+
 // Resets the client
 public func reset () {
     return DocumentClient.default.reset()

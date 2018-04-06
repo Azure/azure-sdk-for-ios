@@ -33,6 +33,7 @@ public class DocumentClient {
         }
     }
     
+    
     func networkReachabilityChanged(status: ReachabilityManager.NetworkReachabilityStatus) {
         log?.debugMessage("Network Status Changed: \(status)")
     }
@@ -46,8 +47,6 @@ public class DocumentClient {
         self.session = URLSession(configuration: configuration)
         //self.session = URLSession(configuration: configuration, delegate: delegate, delegateQueue: nil)
     }
-    
-    
     
     
     // MARK: - JSONEncoder & JSONDecoder

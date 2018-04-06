@@ -11,6 +11,9 @@ import AzureCore
 
 public class ResourceCache {
     
+    static var isEnabled = true
+    
+    
     static let jsonEncoder: JSONEncoder = {
         
         let encoder = JSONEncoder()
@@ -34,6 +37,8 @@ public class ResourceCache {
     
     
     static func _cache<T:CodableResource>(_ resource: T) {
+        
+        guard isEnabled else { return }
         
         dispatchQueue.async {
             do {
@@ -79,6 +84,8 @@ public class ResourceCache {
     
     static func get<T:CodableResource>(resourceAt location: ResourceLocation) -> T? {
         
+        guard isEnabled else { return nil }
+        
         do {
             if let file = try FileManager.default.file(at: ResourceOracle.getFilePath(forResourceAt: location)) {
                 
@@ -94,6 +101,8 @@ public class ResourceCache {
 
     
     static func get<T:CodableResource>(resourcesAt location: ResourceLocation, as type: T.Type = T.self) -> Resources<T>? {
+        
+        guard isEnabled else { return nil }
         
         guard location.isFeed else { return nil }
         
@@ -115,6 +124,11 @@ public class ResourceCache {
 
     
     static func remove(resourceAt location: ResourceLocation) {
+        
+        guard isEnabled else {
+            ResourceOracle.removeLink(forResourceAt: location)
+            return
+        }
         
         guard !location.isFeed else { return }
         
