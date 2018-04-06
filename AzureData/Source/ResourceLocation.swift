@@ -149,6 +149,11 @@ public enum ResourceLocation {
     public var supportsPermissionToken: Bool {
         return self.resourceType.supportsPermissionToken
     }
+    
+    
+    public var isFeed: Bool {
+        return id.isNilOrEmpty
+    }
 }
 
 

@@ -74,6 +74,12 @@ public extension Dictionary where Key == String, Value == String {
     }
 }
 
+extension HTTPURLResponse {
+    var msAltContentPathHeader: String? {
+        return self.allHeaderFields[MSHttpHeader.msAltContentPath.rawValue] as? String
+    }
+}
+
 extension URLRequest {
     mutating func addValue(_ value: String, forHTTPHeaderField: MSHttpHeader) {
         self.addValue(value, forHTTPHeaderField: forHTTPHeaderField.rawValue)
