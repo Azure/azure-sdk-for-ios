@@ -559,23 +559,27 @@ AzureData.get (triggersIn: collection) { r in
     // triggers = r.resource?.items
 }
 
-collection.getTriggers () { r in
+collection.getTriggers { r in
     // triggers in r.resource?.list
 }
 ```
 
 #### Delete
 ```swift
-AzureData.delete (trigger, fromCollection: collectionId, inDatabase: databaseId) { s in
-    // s == successfully deleted
+AzureData.delete (triggerWithId: triggerId, fromCollection: collectionId, inDatabase: databaseId) { r in
+    // r.isSuccess == successfully deleted
 }
 
-AzureData.delete (trigger, from: collection) { s in
-    // s == successfully deleted
+collection.delete (trigger) { r in
+    // r.isSuccess == successfully deleted
 }
 
-collection.delete (trigger) { s in
-    // s == successfully deleted
+collection.delete (triggerWithId: triggerId) { r in
+    // r.isSuccess == successfully deleted
+}
+
+trigger.delete { r in
+    // r.isSuccess == successfully deleted
 }
 ```
 
