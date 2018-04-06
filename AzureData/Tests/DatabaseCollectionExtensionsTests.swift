@@ -83,6 +83,8 @@ class DatabaseCollectionExtensionsTests: AzureDataTests {
             }
             
             XCTAssert(deleteResponse?.result.isSuccess ?? false)
+            
+            
         }
     }
 }

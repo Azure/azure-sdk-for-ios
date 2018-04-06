@@ -18,30 +18,19 @@ public struct PermissionRequest : Codable {
     let permissionMode: PermissionMode
 }
 
-public class ExamplePermissionProvider : BasePermissionProvider {
+public class ExamplePermissionProvider : PermissionProvider {
     
-    let encoder: JSONEncoder = {
-        
-        let e = JSONEncoder()
-        
-        e.dateEncodingStrategy = .custom(DocumentClient.roundTripIso8601Encoder)
-        
-        return e
-    }()
+    lazy var encoder: JSONEncoder = getPermissionEncoder()
     
-    let decoder: JSONDecoder = {
-        
-        let d = JSONDecoder()
-        
-        d.dateDecodingStrategy = .custom(DocumentClient.roundTripIso8601Decoder)
-        
-        return d
-    }()
+    lazy var decoder: JSONDecoder = getPermissionDecoder()
+
     
     let session = URLSession.init(configuration: URLSessionConfiguration.default)
     
+
+    public var configuration: PermissionProviderConfiguration!
     
-    override public func getPermission(forCollectionWithId collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (Response<Permission>) -> Void) {
+    public func getPermission(forCollectionWithId collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (Response<Permission>) -> Void) {
         
         let permissionRequest = PermissionRequest(databaseId: databaseId, collectionId: collectionId, documentId: nil, tokenDuration: Int(configuration.defaultTokenDuration), permissionMode: mode)
         
@@ -55,7 +44,7 @@ public class ExamplePermissionProvider : BasePermissionProvider {
         do {
             request.httpBody = try encoder.encode(permissionRequest)
         } catch {
-            completion(Response(PermissionProviderError.failedToGetPermissionFromServer)); return;
+            completion(Response(PermissionProviderError.getPermissionFailed)); return;
         }
         
         session.dataTask(with: request) { (data, response, error) in
@@ -83,6 +72,17 @@ public class ExamplePermissionProvider : BasePermissionProvider {
             }
         }.resume()
     }
+
+    public func getPermission(forDocumentWithId documentId: String, inCollection collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (Response<Permission>) -> Void) {}
+    
+    public func getPermission(forAttachmentsWithId attachmentId: String, onDocument documentId: String, inCollection collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (Response<Permission>) -> Void) {}
+    
+    public func getPermission(forStoredProcedureWithId storedProcedureId: String, inCollection collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (Response<Permission>) -> Void) {}
+    
+    public func getPermission(forUserDefinedFunctionWithId functionId: String, inCollection collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (Response<Permission>) -> Void) {}
+    
+    public func getPermission(forTriggerWithId triggerId: String, inCollection collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (Response<Permission>) -> Void) {}
+
 }
 
 class ExamplePermissionProviderTests: XCTestCase {

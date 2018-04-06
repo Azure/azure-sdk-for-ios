@@ -30,7 +30,7 @@ public struct PermissionProviderConfiguration {
     // entire collection versus requesting a token only for the document
     //
     // default: .collection
-    var defaultResourceLevel: ResourceType? = .collection
+    var defaultResourceType: ResourceType? = .collection
     
     
     var defaultTokenDuration: Double = 3600 // 1 hour
