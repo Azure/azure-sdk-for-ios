@@ -889,7 +889,15 @@ public class DocumentClient {
             
             if let request = r.resource {
             
-                return self.sendRequest(request, callback: callback)
+                self.sendRequest(request) { (response:Response<T>) in
+                    callback(response)
+                    
+                    if let resource = response.resource {
+                        ResourceCache.cache(resource)
+                    }
+                }
+
+                //return self.sendRequest(request, callback: callback)
             
             } else if let error = r.error {
                 
@@ -911,7 +919,15 @@ public class DocumentClient {
             
             if let request = r.resource {
             
-                return self.sendRequest(request, currentResource: resource, callback: callback)
+                self.sendRequest(request, currentResource: resource) { (response:Response<T>) in
+                    callback(response)
+                    
+                    if let resource = response.resource {
+                        ResourceCache.cache(resource)
+                    }
+                }
+
+                //return self.sendRequest(request, currentResource: resource, callback: callback)
             
             } else if let error = r.error {
                 
@@ -931,9 +947,16 @@ public class DocumentClient {
             
             if let request = r.resource {
             
-                ResourceOracle.removeLinks(forResourceWithAltLink: resourceLocation.path)
-                
-                return self.sendRequest(request, callback: callback)
+                self.sendRequest(request) { (response:Response<Data>) in
+                    callback(response)
+                    
+                    if response.result.isSuccess {
+                        ResourceCache.remove(resourceAt: resourceLocation)
+                        ResourceOracle.removeLinks(forResourceWithAltLink: resourceLocation.path)
+                    }
+                }
+
+                //return self.sendRequest(request, callback: callback)
             
             } else if let error = r.error {
                 
@@ -954,9 +977,16 @@ public class DocumentClient {
             
             if let request = r.resource {
                 
-                ResourceOracle.removeLinks(forResource: resource)
-                
-                return self.sendRequest(request, callback: callback)
+                self.sendRequest(request) { (response:Response<Data>) in
+                    callback(response)
+                    
+                    if response.result.isSuccess {
+                        ResourceCache.remove(resourceAt: resourceLocation)
+                        ResourceOracle.removeLinks(forResource: resource)
+                    }
+                }
+
+                //return self.sendRequest(request, callback: callback)
                 
             } else if let error = r.error {
                 
@@ -1052,7 +1082,15 @@ public class DocumentClient {
                     callback(Response(error)); return
                 }
                 
-                return self.sendRequest(request, callback: callback)
+                self.sendRequest(request) { (response:Response<T>) in
+                    callback(response)
+                    
+                    if let resource = response.resource {
+                       ResourceCache.cache(resource)
+                    }
+                }
+                
+                //return self.sendRequest(request, callback: callback)
                 
             } else if let error = r.error {
                 
@@ -1073,7 +1111,15 @@ public class DocumentClient {
                 
                 request.httpBody = body
                 
-                return self.sendRequest(request, callback: callback)
+                self.sendRequest(request) { (response:Response<T>) in
+                    callback(response)
+                    
+                    if let resource = response.resource {
+                        ResourceCache.cache(resource)
+                    }
+                }
+
+                //return self.sendRequest(request, callback: callback)
             
             } else if let error = r.error {
                 
@@ -1143,6 +1189,7 @@ public class DocumentClient {
                         
                         callback(Response(request: request, data: data, response: httpResponse, result: .success(resource)))
 
+                        // ResourceCache.cache(resource)
                         
                         //case .unauthorized:
                         //case .forbidden: // reauth
