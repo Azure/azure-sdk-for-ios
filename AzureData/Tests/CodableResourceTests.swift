@@ -52,19 +52,7 @@ class CodableResourceTests: XCTestCase {
         
         var doc: Document?
         
-        do {
-            
-            doc = try jsonDecoder.decode(Document.self, from: documentJson)
-        
-            print()
-            print(doc!)
-            print()
-            
-        } catch {
-            print()
-            print(error)
-            print()
-        }
+        doc = try? jsonDecoder.decode(Document.self, from: documentJson)
         
         XCTAssertNotNil(doc)
     }
@@ -72,21 +60,9 @@ class CodableResourceTests: XCTestCase {
     func testDocumentEncode() {
         
         let doc = Document.testDocument
+            
+        let json = try? jsonEncoder.encode(doc)
         
-        do {
-            
-            let json = try jsonEncoder.encode(doc)
-            
-            print()
-            print(String.init(data: json, encoding: .utf8)!)
-            print()
-            
-        } catch {
-            print()
-            print(error)
-            print()
-        }
-        
-        XCTAssertNotNil(doc)
+        XCTAssertNotNil(json)
     }
 }

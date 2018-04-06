@@ -34,7 +34,7 @@ public class DocumentClient {
     }
     
     func networkReachabilityChanged(status: ReachabilityManager.NetworkReachabilityStatus) {
-        print("Network Status Changed: \(status)")
+        log?.debugMessage("Network Status Changed: \(status)")
     }
     
     /// The underlying session.
@@ -43,7 +43,7 @@ public class DocumentClient {
 
     public init(configuration: URLSessionConfiguration = URLSessionConfiguration.default/*, delegate: SessionDelegate = SessionDelegate(), serverTrustPolicyManager: ServerTrustPolicyManager? = nil*/) {
         //self.delegate = delegate
-        self.session = URLSession.init(configuration: configuration)
+        self.session = URLSession(configuration: configuration)
         //self.session = URLSession(configuration: configuration, delegate: delegate, delegateQueue: nil)
     }
     
@@ -1182,7 +1182,7 @@ public class DocumentClient {
                         
                     case .notModified:
                         
-                        log?.debugMessage ("\(currentResource!)")
+                        //log?.debugMessage ("\(currentResource!)")
                         
                         callback(Response(request: request, data: data, response: httpResponse, result: .success(currentResource!)))
 
@@ -1192,7 +1192,7 @@ public class DocumentClient {
                         
                         resource.setAltLink(withContentPath: httpResponse.msAltContentPathHeader)
                         
-                        log?.debugMessage ("\(resource)")
+                        //log?.debugMessage ("\(resource)")
                         
                         callback(Response(request: request, data: data, response: httpResponse, result: .success(resource)))
                         
@@ -1257,7 +1257,7 @@ public class DocumentClient {
                         
                         resource.setAltLinks(withContentPath: httpResponse.msAltContentPathHeader)
                         
-                        log?.debugMessage("\(resource)")
+                        //log?.debugMessage("\(resource)")
                         
                         callback(Response(request: request, data: data, response: httpResponse, result: .success(resource)))
 
@@ -1318,7 +1318,7 @@ public class DocumentClient {
 
             } else if let data = data, let code = httpResponse?.statusCode, let statusCode = HttpStatusCode(rawValue: code) {
                 
-                log?.debugMessage(String(data: data, encoding: .utf8) ?? "nil")
+                //log?.debugMessage(String(data: data, encoding: .utf8) ?? "nil")
                 
                 switch statusCode {
                 //case .created: // cache locally
@@ -1358,7 +1358,7 @@ public class DocumentClient {
         
             if let resourceToken = r.resource {
                 
-                let url = URL.init(string: "https://" + self.host + "/" + resourceLocation.path)
+                let url = URL(string: "https://" + self.host + "/" + resourceLocation.path)
                 
                 var request = URLRequest(url: url!)
                 
