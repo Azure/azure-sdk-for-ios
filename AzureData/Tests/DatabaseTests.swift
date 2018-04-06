@@ -99,5 +99,7 @@ class DatabaseTests: AzureDataTests {
         XCTAssert(deleteResponse?.result.isSuccess ?? false)
         
         //deleteResponse?.response?.printHeaders()
+        
+        //ResourceCache.purge()
     }
 }

@@ -158,7 +158,19 @@ public class ResourceOracle {
         
         return nil
     }
-    
+
+    static func getSelfLink(forResourceAt location: ResourceLocation) -> String? {
+        
+        if !location.id.isNilOrEmpty {
+            let altLink = location.link.trimmingCharacters(in: slashCharacterSet)
+            if let selfLink = selfLinkLookup[altLink], !selfLink.isEmpty {
+                return selfLink
+            }
+        }
+        
+        return nil
+    }
+
     
     
     // MARK: - Get Links for Links
@@ -200,8 +212,17 @@ public class ResourceOracle {
         if resourceId.isEmpty, let selfLink = selfLink ?? getSelfLink(forResource: resource), let rId = selfLink.extractId(for: resource.path) {
             resourceId = rId
         }
-
+        
         if !resourceId.isEmpty {
+            return resourceId
+        }
+        
+        return nil
+    }
+    
+    static func getResourceId(forResourceAt location: ResourceLocation, withSelfLink selfLink: String? = nil) -> String? {
+        
+        if let selfLink = selfLink ?? getSelfLink(forResourceAt: location), let resourceId = selfLink.extractId(for: location.type), !resourceId.isEmpty {
             return resourceId
         }
         
@@ -211,16 +232,26 @@ public class ResourceOracle {
     
     // MARK: - Get File Path
     
-    public static func getFilePath(forResource resource: CodableResource) -> String? {
+    public static func getFilePath(forResource resource: CodableResource) -> (directory:String, resource:String)? {
         
         guard
             let selfLink = getSelfLink(forResource: resource),
             let resourceId = getResourceId(forResource: resource, withSelfLink: selfLink)
         else { return nil }
         
-        return "\(selfLink)/\(resourceId).json"
+        return (selfLink, "\(selfLink)/\(resourceId).json")
     }
-    
+
+    public static func getFilePath(forResourceAt locaiton: ResourceLocation) -> (directory:String, resource:String)? {
+        
+        guard
+            let selfLink = getSelfLink(forResourceAt: locaiton),
+            let resourceId = getResourceId(forResourceAt: locaiton, withSelfLink: selfLink)
+            else { return nil }
+        
+        return (selfLink, "\(selfLink)/\(resourceId).json")
+    }
+
     
     public static func printDump() {
         
