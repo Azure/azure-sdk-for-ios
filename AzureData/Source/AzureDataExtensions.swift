@@ -213,7 +213,11 @@ public extension DocumentCollection {
     public func delete (_ trigger: Trigger, callback: @escaping (Response<Data>) -> ()) {
         return DocumentClient.default.delete (trigger, callback: callback)
     }
-    
+
+    public func delete (triggerWithId triggerId: String, callback: @escaping (Response<Data>) -> ()) {
+        return DocumentClient.default.delete(triggerWithId: triggerId, fromCollection: self, callback: callback)
+    }
+
     // replace
     public func replace (triggerWithId id: String, operation: Trigger.TriggerOperation, type: Trigger.TriggerType, andBody body: String, callback: @escaping (Response<Trigger>) -> ()) {
         return DocumentClient.default.replace (triggerWithId: id, operation: operation, type: type, andBody: body, in: self, callback: callback)
@@ -243,7 +247,7 @@ public extension Document {
     }
     
     // list
-    public func getAttachemnts (callback: @escaping (Response<Resources<Attachment>>) -> ()) {
+    public func getAttachments (callback: @escaping (Response<Resources<Attachment>>) -> ()) {
         return DocumentClient.default.get (attachmentsOn: self, callback: callback)
     }
     
@@ -251,7 +255,11 @@ public extension Document {
     public func delete (_ attachment: Attachment, callback: @escaping (Response<Data>) -> ()) {
         return DocumentClient.default.delete (attachment, callback: callback)
     }
-    
+
+    public func delete (attachmentWithId id: String, callback: @escaping (Response<Data>) -> ()) {
+        return DocumentClient.default.delete(attachmentWithId: id, fromDocument: self, callback: callback)
+    }
+
     // replace
     public func replace (attachmentWithId attachmentId: String, contentType: String, andMediaUrl mediaUrl: URL, callback: @escaping (Response<Attachment>) -> ()) {
         return DocumentClient.default.replace(attachmentWithId: attachmentId, contentType: contentType, andMediaUrl: mediaUrl, onDocument: self, callback: callback)
