@@ -9,6 +9,7 @@
 import Foundation
 
 extension Optional where Wrapped == String {
+    
     var valueOrEmpty: String {
         return self ?? ""
     }
@@ -63,14 +64,13 @@ extension DecodingError {
     var logMessage: String {
         switch self {
         case .typeMismatch(let type, let context):
-            return "❌ decodeError: typeMismatch\n\ttype: \(type)\n\tcontext: \(context)\n"
+            return "decodeError: typeMismatch\n\ttype: \(type)\n\tcontext: \(context)\n"
         case .dataCorrupted(let context):
-            return "❌ decodeError: dataCorrupted\n\tcontext: \(context)\n"
+            return "decodeError: dataCorrupted\n\tcontext: \(context)\n"
         case .keyNotFound(let key, let context):
-            return "❌ decodeError: keyNotFound\n\tkey: \(key)\n\tcontext: \(context)\n"
+            return "decodeError: keyNotFound\n\tkey: \(key)\n\tcontext: \(context)\n"
         case .valueNotFound(let type, let context):
-            return "❌ decodeError: valueNotFound\n\ttype: \(type)\n\tcontext: \(context)\n"
+            return "decodeError: valueNotFound\n\ttype: \(type)\n\tcontext: \(context)\n"
         }
     }
 }
-
