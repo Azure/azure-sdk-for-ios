@@ -47,7 +47,7 @@ public class ResourceCache {
                 try FileManager.default.cache(json, at: ResourceOracle.getFilePath(forResource: resource))
                 
             } catch {
-                log?.errorMessage("Cache Error [_cache]: " + error.localizedDescription)
+                log?.errorMessage("❌ Cache Error [_cache]: " + error.localizedDescription)
             }
         }
     }
@@ -92,7 +92,7 @@ public class ResourceCache {
                 return try jsonDecoder.decode(T.self, from: file)
             }
         } catch {
-            log?.errorMessage("Cache Error [get]: " + error.localizedDescription)
+            log?.errorMessage("❌ Cache Error [get]: " + error.localizedDescription)
             return nil
         }
 
@@ -117,7 +117,7 @@ public class ResourceCache {
                 return nil
             }
         } catch {
-            log?.errorMessage("Cache Error [get]: " + error.localizedDescription)
+            log?.errorMessage("❌ Cache Error [get]: " + error.localizedDescription)
             return nil
         }
     }
@@ -138,16 +138,17 @@ public class ResourceCache {
             ResourceOracle.removeLink(forResourceAt: location)
             
         } catch {
-            log?.errorMessage("Cache Error [remove]: " + error.localizedDescription)
+            log?.errorMessage("❌ Cache Error [remove]: " + error.localizedDescription)
         }
     }
     
     
-    public static func purge() {
+    public static func purge() throws {
         do {
             try FileManager.default.purge()
         } catch {
-            log?.errorMessage("Cache Error [purge]: " + error.localizedDescription)
+            log?.errorMessage("❌ Cache Error [purge]: " + error.localizedDescription)
+            throw error
         }
     }
 }
@@ -225,8 +226,25 @@ extension FileManager {
     
     fileprivate func purge() throws {
 
-        let root = try self.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent(FileManager.root)
+        let dbs = try self.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent(FileManager.root).appendingPathComponent("dbs")
+
+        try purgeContents(of: dbs)
+        
+        let offers = try self.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent(FileManager.root).appendingPathComponent("offers")
+        
+        try purgeContents(of: offers)
+    }
+    
+    
+    fileprivate func purgeContents(of url: URL) throws {
+        
+        if self.fileExists(atPath: url.path) {
             
-        try self.removeItem(at: root)
+            let contents = try self.contentsOfDirectory(at: url, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
+            
+            for item in contents {
+                try self.removeItem(at: item)
+            }
+        }
     }
 }

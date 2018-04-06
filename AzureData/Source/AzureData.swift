@@ -58,6 +58,11 @@ public var offlineDataEnabled: Bool {
     set { ResourceCache.isEnabled = newValue }
 }
 
+public func purgeOfflineData() throws {
+    try ResourceCache.purge()
+}
+
+
 
 // Resets the client
 public func reset () {
