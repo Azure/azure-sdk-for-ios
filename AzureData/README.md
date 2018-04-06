@@ -141,8 +141,37 @@ collection.delete { r in
 ```
 
 #### Replace
+
+A `Replace` operation on a `DocumentCollection` allows you to replace the `IndexingPolicy` for the collection.
+
+Given a created `IndexingPolicy`:
+
 ```swift
-// TODO...
+let policy = DocumentCollection.IndexingPolicy(
+    automatic: true,
+    excludedPaths: [
+        .init(path: "/test/*")
+    ],
+    includedPaths: [
+        .init(
+            path: "/*",
+            indexes: [
+                .range(withDataType: .number, andPrecision: -1),
+                .hash(withDataType: .string, andPrecision: 3),
+                .spatial(withDataType: .point)
+            ]
+        )
+    ],
+    indexingMode: .lazy
+)
+```
+
+Use the following function to replace the `IndexingPolicy` of a collection.
+
+```swift
+AzureData.replace(collectionWithId: collectionId, inDatabase: databaseId, usingPolicy: policy) { r in
+    // replaced collection = r.resource
+}
 ```
 
 

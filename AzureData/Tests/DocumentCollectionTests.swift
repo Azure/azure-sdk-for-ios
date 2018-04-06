@@ -26,6 +26,7 @@ class DocumentCollectionTests: AzureDataTests {
         var listResponse:       Response<Resources<DocumentCollection>>?
         var getResponse:        Response<DocumentCollection>?
         var refreshResponse:    Response<DocumentCollection>?
+        var replaceResponse:    Response<DocumentCollection>?
         var deleteResponse:     Response<Data>?
 
         
@@ -79,7 +80,36 @@ class DocumentCollectionTests: AzureDataTests {
         XCTAssertNotNil(refreshResponse?.resource)
 
         
-        
+        if getResponse?.result.isSuccess ?? false {
+
+            let policy = DocumentCollection.IndexingPolicy(
+                automatic: true,
+                excludedPaths: [
+                    .init(path: "/test/*")
+                ],
+                includedPaths: [
+                    .init(
+                        path: "/*",
+                        indexes: [
+                            .range(withDataType: .number, andPrecision: -1),
+                            .hash(withDataType: .string, andPrecision: 2),
+                            .spatial(withDataType: .polygon)
+                        ]
+                    )
+                ],
+                indexingMode: .lazy
+            )
+
+            AzureData.replace(collectionWithId: collectionId, inDatabase: databaseId, usingPolicy: policy) { r in
+                replaceResponse = r
+                self.replaceExpectation.fulfill()
+            }
+
+            wait(for: [replaceExpectation], timeout: timeout)
+
+            XCTAssertNotNil(replaceResponse?.resource)
+        }
+
         // Delete
         if getResponse?.result.isSuccess ?? false {
             AzureData.delete(collectionWithId: collectionId, fromDatabase: databaseId) { r in

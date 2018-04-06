@@ -237,7 +237,16 @@ public class DocumentClient {
 
 
     // replace
-    // TODO: replace
+    public func replace (collectionWithId collectionId: String, inDatabase databaseId: String, usingPolicy policy: DocumentCollection.IndexingPolicy, callback: @escaping (Response<DocumentCollection>) -> ()) {
+
+        let resourceLocation: ResourceLocation = .collection(databaseId: databaseId, id: collectionId)
+
+        var collection = DocumentCollection(collectionId)
+
+        collection.indexingPolicy = policy
+
+        return self.replace(collection, at: resourceLocation, callback: callback)
+    }
     
     
     
