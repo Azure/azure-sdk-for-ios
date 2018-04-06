@@ -48,11 +48,14 @@ public struct DocumentClientError : Error {
     public private(set) var activityId: String? = nil
 
     /// Gets the error code associated with the exception in the Azure Cosmos DB service.
-    public private(set) var resourceError: ResourceError? = nil
+    var resourceError: ErrorMessage? = nil
     
     /// Gets a message that describes the current exception from the Azure Cosmos DB service.
-    public var message: String? {
-        return baseError?.localizedDescription ?? resourceError?.message ?? kind.message
+    public var message: String {
+        let errorDescription = "\n❌ \(kind) ❌" + (kind.message.isEmpty ? "" : "\n \(kind.message)")
+        let baseErrorDescription = baseError != nil ? "\n\(baseError!.localizedDescription)" : ""
+        let resourceErrorDescription = resourceError != nil ? "\n\(resourceError!.formattedMessage)" : ""
+        return errorDescription + baseErrorDescription + resourceErrorDescription + "\n --\n"
     }
     
     /// Cost of the request in the Azure Cosmos DB service.
@@ -107,14 +110,31 @@ public struct DocumentClientError : Error {
             }
         }
 
-        if let data = data, let resourceError = try? ResourceError.decode(data: data) {
-            self.resourceError = resourceError
+        if let data = data, let errorMessage = try? ErrorMessage.decode(data: data) {
+            self.resourceError = errorMessage
         }
         
         self.baseError = error
     }
 }
 
+struct ErrorMessage : Decodable {
+    
+    let code: String
+    let message: String
+    
+    var formattedMessage: String {
+        
+        let m = message.replacingOccurrences(of: "Message: {\"Errors\":[\"", with: "")
+                       .replacingOccurrences(of: "\",\"", with: " | ")
+                       .replacingOccurrences(of: "\"]}", with: "\n")
+                       .replacingOccurrences(of: ", ActivityId:", with: "\nActivityId:")
+                       .replacingOccurrences(of: ", Request", with: "\nRequest")
+                       .replacingOccurrences(of: ", SDK:", with: "\nSDK:")
+        
+        return (code.isEmpty ? "" : code + " | ") + (!m.isEmpty ? m : message)
+    }
+}
 
 extension HttpStatusCode {
     public var errorKind: DocumentClientError.ErrorKind {
@@ -139,14 +159,12 @@ extension HttpStatusCode {
 
 extension DocumentClientError : CustomStringConvertible {
     public var description: String {
-        let baseErrorDescription = self.baseError != nil ? "\n\t baseError: \(self.baseError!.localizedDescription)" : ""
-        return "\(self.localizedDescription)\(baseErrorDescription)\n"
+        return self.message
     }
 }
 
 extension DocumentClientError : CustomDebugStringConvertible {
     public var debugDescription: String {
-        let baseErrorDescription = self.baseError != nil ? "\n\t baseError: \(self.baseError!.localizedDescription)" : ""
-        return "\(self.localizedDescription)\(baseErrorDescription)\n"
+        return self.message
     }
 }
