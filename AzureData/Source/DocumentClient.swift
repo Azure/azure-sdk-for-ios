@@ -228,9 +228,11 @@ public class DocumentClient {
     // replace
     public func replace (inCollectionWithId collectionId: String, fromDatabase databaseId: String, policy: DocumentCollection.IndexingPolicy, callback: @escaping (Response<DocumentCollection>) -> ()) {
 
+        guard let indexingPolicy = policy.asJSONDictionary else { callback(Response(DocumentClientError(withKind: .badRequest))); return }
+
         let resourceLocation: ResourceLocation = .collection(databaseId: databaseId, id: collectionId)
 
-        return self.update(resourceWithId: collectionId, withData: policy.asJSONDictionary, at: resourceLocation, callback: callback)
+        return self.update(resourceWithId: collectionId, withData: ["indexingPolicy": indexingPolicy], at: resourceLocation, callback: callback)
     }
     
     
@@ -1030,7 +1032,7 @@ public class DocumentClient {
             return
         }
 
-        return self.createOrReplace(data, at: resourceLocation, replacing: true, callback: callback)
+        return self.createOrReplace(data, at: resourceLocation, replacing: true, additionalHeaders: additionalHeaders, callback: callback)
     }
 
     // query

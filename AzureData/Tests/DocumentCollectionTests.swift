@@ -92,8 +92,8 @@ class DocumentCollectionTests: AzureDataTests {
                         path: "/*",
                         indexes: [
                             .range(withDataType: .number, andPrecision: -1),
-                            .hash(withDataType: .string, andPrecision: 3),
-                            .spatial(withDataType: .point)
+                            .hash(withDataType: .string, andPrecision: 2),
+                            .spatial(withDataType: .polygon)
                         ]
                     )
                 ],
