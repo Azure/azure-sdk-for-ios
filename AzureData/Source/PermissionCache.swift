@@ -20,6 +20,9 @@ public class PermissionCache {
     fileprivate static var cache: [String:Permission] = [:]
     
     
+    public static var isRestored: Bool = false
+    
+    
     public static func commit() {
         if let data = try? JSONEncoder().encode(cache) {
             try? Keychain.saveDataToKeychain(data, withKey: permissionCacheStorageKey)
@@ -31,6 +34,7 @@ public class PermissionCache {
            let dict = try? JSONDecoder().decode([String:Permission].self, from: cacheData) {
             cache = dict
         }
+        isRestored = true
     }
     
     public static func purge() {
@@ -39,6 +43,8 @@ public class PermissionCache {
     }
     
 
+    
+    
     // MARK: - Get Permission
     
     public static func getPermission(for resource: CodableResource) -> Permission? {
