@@ -30,7 +30,7 @@ public class ResourceCache {
     }()
 
     
-    static let dispatchQueue = DispatchQueue.global(qos: .default)
+    static var dispatchQueue: DispatchQueue { return DispatchQueue.global(qos: .default) }
     
     
     static func _cache<T:CodableResource>(_ resource: T) {

@@ -18,7 +18,7 @@ public class DocumentClient {
         return DocumentClient(configuration: configuration)
     }()
     
-    fileprivate var host: String?
+    fileprivate var host: String!
         
     fileprivate var permissionProvider: PermissionProvider?
     
@@ -26,13 +26,22 @@ public class DocumentClient {
     
     fileprivate var configuredWithMasterKey: Bool { return resourceTokenProvider != nil }
     
+    fileprivate var reachabilityManager: ReachabilityManager! {
+        willSet {
+            newValue.listener = networkReachabilityChanged
+            newValue.startListening()
+        }
+    }
+    
+    func networkReachabilityChanged(status: ReachabilityManager.NetworkReachabilityStatus) {
+        print("Network Status Changed: \(status)")
+    }
     
     /// The underlying session.
     open let session: URLSession
 
 
-    public init(configuration: URLSessionConfiguration = URLSessionConfiguration.default/*, delegate: SessionDelegate = SessionDelegate(), serverTrustPolicyManager: ServerTrustPolicyManager? = nil*/)
-    {
+    public init(configuration: URLSessionConfiguration = URLSessionConfiguration.default/*, delegate: SessionDelegate = SessionDelegate(), serverTrustPolicyManager: ServerTrustPolicyManager? = nil*/) {
         //self.delegate = delegate
         self.session = URLSession.init(configuration: configuration)
         //self.session = URLSession(configuration: configuration, delegate: delegate, delegateQueue: nil)
@@ -89,33 +98,35 @@ public class DocumentClient {
     }
     
     public func configure (forAccountNamed name: String, withMasterKey key: String, withPermissionMode mode: PermissionMode) {
-        host = name + ".documents.azure.com"
         resourceTokenProvider = ResourceTokenProvider(withMasterKey: key, withPermissionMode: mode)
-        ResourceOracle.host = host
-        ResourceOracle.restore()
+        commonConfigure(withHost: name + ".documents.azure.com")
     }
     
     public func configure (forAccountAt url: URL, withMasterKey key: String, withPermissionMode mode: PermissionMode) {
-        host = url.host
         resourceTokenProvider = ResourceTokenProvider(withMasterKey: key, withPermissionMode: mode)
-        ResourceOracle.host = host
-        ResourceOracle.restore()
+        commonConfigure(withHost: url.host)
     }
 
-    public func configure (forAccountNamed name: String, withPermissionProvider permissionProvider: PermissionProvider) {
-        host = name + ".documents.azure.com"
-        self.permissionProvider = permissionProvider
+    public func configure (forAccountNamed name: String, withPermissionProvider provider: PermissionProvider) {
+        permissionProvider = provider
+        commonConfigure(withHost: name + ".documents.azure.com")
+    }
+    
+    public func configure (forAccountAt url: URL, withPermissionProvider provider: PermissionProvider) {
+        permissionProvider = provider
+        commonConfigure(withHost: url.host)
+    }
+
+    fileprivate func commonConfigure(withHost host: String?) {
+        guard
+            let host = host, !host.isEmpty
+        else { fatalError("Host is invalid") }
+        self.host = host
+        reachabilityManager = ReachabilityManager(host: host)
         ResourceOracle.host = host
         ResourceOracle.restore()
     }
     
-    public func configure (forAccountAt url: URL, withPermissionProvider permissionProvider: PermissionProvider) {
-        host = url.host
-        self.permissionProvider = permissionProvider
-        ResourceOracle.host = host
-        ResourceOracle.restore()
-    }
-
     
     public func reset () {
         host = nil
@@ -1330,7 +1341,7 @@ public class DocumentClient {
         
             if let resourceToken = r.resource {
                 
-                let url = URL.init(string: "https://" + self.host! + "/" + resourceLocation.path)
+                let url = URL.init(string: "https://" + self.host + "/" + resourceLocation.path)
                 
                 var request = URLRequest(url: url!)
                 

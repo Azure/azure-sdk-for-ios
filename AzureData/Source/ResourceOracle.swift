@@ -11,7 +11,7 @@ import AzureCore
 
 public class ResourceOracle {
     
-    static var host: String?
+    static var host: String!
     
     fileprivate static let altLinkLookupStorageKey  = "com.azure.data.lookup.altlink"
     fileprivate static let selfLinkLookupStorageKey = "com.azure.data.lookup.selflink"
