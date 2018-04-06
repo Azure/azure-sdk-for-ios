@@ -642,11 +642,31 @@ database.replace (userWithId: userId, with: newUserId) { r in
 AzureData.create (permissionWithId: id, mode: .read, in: resource, forUser: userId, inDatabase: databaseId) { r in
     // permission = r.resource
 }
+
+AzureData.create (permissionWithId: id, mode: .read, in: resource, forUser: user) { r in
+    // permission = r.resource
+}
+
+<resource>.create (permissionWithId: id, mode: .read, forUser: user) { r in
+    // permission = r.resource
+}
+
+user.create (permissionWithId: id, mode: .read, in: resource) { r in
+    // permission = r.resource
+}
 ```
 
 #### List
 ```swift
 AzureData.get (permissionsFor: userId, inDatabase: databaseId) { r in
+    // permissions = r.resource
+}
+
+AzureData.get (permissionsFor: user) { r in
+    // permissions = r.resource
+}
+
+user.getPermissions { r in
     // permissions = r.resource
 }
 ```
@@ -656,18 +676,54 @@ AzureData.get (permissionsFor: userId, inDatabase: databaseId) { r in
 AzureData.get (permissionWithId: id, forUser: userId, inDatabase: databaseId) { r in
     // permission = r.resource
 }
+
+AzureData.get (permissionWithId: id, forUser: user) { r in
+    // permission = r.resource
+}
+
+user.get(permissionWithId: id) { r in
+    // permission = r.resource
+}
 ```
 
 #### Delete
 ```swift
-AzureData.delete (permission, forUser: userId, inDatabase: databaseId) { s in
-    // s == successfully deleted
+AzureData.delete (permissionWithId: id, forUser: userId, inDatabase: databaseId) { r in
+    // r.isSuccess == successfully deleted
+}
+
+AzureData.delete (permissionWithId: id, forUser: user) { r in
+    // r.isSuccess == successfully deleted
+}
+
+AzureData.delete (permission) { r in
+    // r.isSuccess == successfully deleted
+}
+
+user.delete (permissionWithId: id) { r in
+    // r.isSuccess == successfully deleted
+}
+
+user.delete (permission) { r in
+    // r.isSuccess == successfully deleted
+}
+
+permission.delete { r in
+    // r.isSuccess == successfully deleted
 }
 ```
 
 #### Replace
 ```swift
 AzureData.replace (permissionWithId: id, mode: .read, in: resource, forUser: userId, inDatabase: databaseId) { r in
+    // permission = r.resource
+}
+
+AzureData.replace (permissionWithId: id, mode: .read, in: resource, forUser: user) { r in
+    // permission = r.resource
+}
+
+user.replace (permissionWithId: id, mode: .read, in: resource) { r in
     // permission = r.resource
 }
 ```

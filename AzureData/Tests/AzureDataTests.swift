@@ -33,10 +33,12 @@ class AzureDataTests: XCTestCase {
     var ensureDatabase:     Bool = false
     var ensureCollection:   Bool = false
     var ensureDocument:     Bool = false
+    var ensureUser:         Bool = false
 
     fileprivate(set) var database:  Database?
     fileprivate(set) var collection:DocumentCollection?
     fileprivate(set) var document:  Document?
+    fileprivate(set) var user: User?
     
     var resourceName: String?
     var resourceType: ResourceType!
@@ -46,6 +48,7 @@ class AzureDataTests: XCTestCase {
     var databaseId:     String { return "\(rname)TestsDatabase" }
     var collectionId:   String { return "\(rname)TestsCollection" }
     var documentId:     String { return "\(rname)TestsDocument" }
+    var userId:         String { return "\(rname)TestsUser" }
     var resourceId:     String { return "\(rname)Tests\(rname)" }
     var replacedId:     String { return "\(rname)Replaced" }
 
@@ -74,7 +77,6 @@ class AzureDataTests: XCTestCase {
         super.setUp()
         
         // AzureData.configure(forAccountNamed: "<Database Name>", withMasterKey: "<Database Master Key OR Resource Permission Token>", withPermissionMode: "<Master Key Permission Mode>")
-        
         
 
         DocumentClient.default.dateEncoder = DocumentClient.roundTripIso8601Encoder
@@ -174,6 +176,36 @@ class AzureDataTests: XCTestCase {
                     
                     XCTAssertNotNil(document)
 
+                }
+
+                if ensureUser {
+                    let initGetUserExpectation = self.expectation(description: "Should get user")
+                    var initGetUserResponse: Response<User>?
+
+                    AzureData.get(userWithId: userId, inDatabase: database) { r in
+                        initGetUserResponse = r
+                        initGetUserExpectation.fulfill()
+                    }
+
+                    wait(for: [initGetUserExpectation], timeout: timeout)
+
+                    user = initGetUserResponse?.resource
+
+                    if user == nil {
+                        let initCreateUserExpectation = self.expectation(description: "Should create user")
+                        var initCreateUserResponse: Response<User>?
+
+                        AzureData.create(userWithId: userId, inDatabase: database) { r in
+                            initCreateUserResponse = r
+                            initCreateUserExpectation.fulfill()
+                        }
+
+                        wait(for: [initCreateUserExpectation], timeout: timeout)
+
+                        user = initCreateUserResponse?.resource
+                    }
+
+                    XCTAssertNotNil(user)
                 }
             }
         }
