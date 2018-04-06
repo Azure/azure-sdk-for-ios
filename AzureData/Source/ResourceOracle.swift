@@ -87,28 +87,28 @@ public class ResourceOracle {
 
 
     // MARK: - removeLinks
-    
+
+    fileprivate static func _removeLinks(forAltLink altLink: String?, andSelfLink selfLink: String?) {
+        
+        if let altLink = altLink, !altLink.isEmpty {
+            selfLinkLookup = selfLinkLookup.filter { !$0.key.contains(altLink) }
+        }
+        
+        if let selfLink = selfLink, !selfLink.isEmpty {
+            altLinkLookup = altLinkLookup.filter { !$0.key.contains(selfLink) }
+        }
+    }
+
     fileprivate static func _removeLinks(forResource resource: CodableResource) {
-
-        if let selfLink = getSelfLink(forResource: resource) {
-            altLinkLookup[selfLink] = nil
-        }
-
-        if let altLink = getAltLink(forResource: resource) {
-            selfLinkLookup[altLink] = nil
-        }
+        _removeLinks(forAltLink: getAltLink(forResource: resource), andSelfLink: getSelfLink(forResource: resource))
     }
 
     fileprivate static func _removeLinks(forResourceWithAltLink altLink: String) {
-        if let selfLink = selfLinkLookup.removeValue(forKey: altLink) {
-            altLinkLookup[selfLink] = nil
-        }
+        _removeLinks(forAltLink: altLink, andSelfLink: selfLinkLookup[altLink])
     }
 
     fileprivate static func _removeLinks(forResourceWithSelfLink selfLink: String) {
-        if let altLink = altLinkLookup.removeValue(forKey: selfLink) {
-            selfLinkLookup[altLink] = nil
-        }
+        _removeLinks(forAltLink: altLinkLookup[selfLink], andSelfLink: selfLink)
     }
 
     
@@ -279,17 +279,23 @@ public class ResourceOracle {
 
     
     public static func printDump() {
-        
-        log?.debugMessage("\n*****\n*****\n\naltLinkLookup  : \(altLinkLookup.count)\nselfLinkLookup : \(selfLinkLookup.count)\n\n*****\n*****\n")
-        
-        log?.debugMessage("\n\naltLinkLookup:\n")
+        log?.debugMessage("************************************************************")
+        log?.debugMessage("************************************************************")
+        log?.debugMessage("altLinkLookup  : \(altLinkLookup.count)")
+        log?.debugMessage("selfLinkLookup : \(selfLinkLookup.count)")
+        log?.debugMessage("")
+        log?.debugMessage("altLinkLookup:")
         for al in altLinkLookup {
-            log?.debugMessage("key   : \(al.key)\nvalue : \(al.value)\n")
+            log?.debugMessage("key   : \(al.key)")
+            log?.debugMessage("value : \(al.value)")
         }
-        log?.debugMessage("\n\nselfLinkLookup:\n")
+        log?.debugMessage("")
+        log?.debugMessage("selfLinkLookup:")
         for sl in selfLinkLookup {
-            log?.debugMessage("key   : \(sl.key)\nvalue : \(sl.value)\n")
+            log?.debugMessage("key   : \(sl.key)")
+            log?.debugMessage("value : \(sl.value)")
         }
+        log?.debugMessage("")
         log?.debugMessage("\n")
     }
 }

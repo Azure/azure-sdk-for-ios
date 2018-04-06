@@ -52,10 +52,10 @@ public struct DocumentClientError : Error {
     
     /// Gets a message that describes the current exception from the Azure Cosmos DB service.
     public var message: String {
-        let errorDescription = "\n❌ \(kind) ❌" + (kind.message.isEmpty ? "" : "\n \(kind.message)")
+        let errorDescription = "❌ \(kind) ❌" + (kind.message.isEmpty ? "" : "   \(kind.message)")
         let baseErrorDescription = baseError != nil ? "\n\(baseError!.localizedDescription)" : ""
         let resourceErrorDescription = resourceError != nil ? "\n\(resourceError!.formattedMessage)" : ""
-        return errorDescription + baseErrorDescription + resourceErrorDescription + "\n --\n"
+        return errorDescription + baseErrorDescription + resourceErrorDescription + "\n .........\n"
     }
     
     /// Cost of the request in the Azure Cosmos DB service.
@@ -127,7 +127,7 @@ struct ErrorMessage : Decodable {
         
         let m = message.replacingOccurrences(of: "Message: {\"Errors\":[\"", with: "")
                        .replacingOccurrences(of: "\",\"", with: " | ")
-                       .replacingOccurrences(of: "\"]}", with: "\n")
+                       .replacingOccurrences(of: "\"]}", with: "")
                        .replacingOccurrences(of: ", ActivityId:", with: "\nActivityId:")
                        .replacingOccurrences(of: ", Request", with: "\nRequest")
                        .replacingOccurrences(of: ", SDK:", with: "\nSDK:")

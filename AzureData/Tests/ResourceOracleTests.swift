@@ -26,8 +26,15 @@ class ResourceOracleTests: XCTestCase {
 //        ResourceOracle.purge()
 //        let document = Document.testDocument
 //        
-//        ResourceOracle.storeLinks(forResource: document)
+//        ResourceOracle.restore()
 //        
+//        ResourceOracle.purge()
+//        
+//        ResourceOracle.printDump()
+//        
+//        ResourceOracle.storeLinks(forResource: document)
+//
+//        ResourceOracle.printDump()
 //        
 //        let altLink0 = ResourceOracle.getAltLink(forResource: document)
 //        
@@ -55,6 +62,7 @@ class ResourceOracleTests: XCTestCase {
 //        
 //        ResourceOracle.removeLinks(forResource: document)
 //        
+//        ResourceOracle.printDump()
 //        
 //        let altLink2 = ResourceOracle.getAltLink(forResource: document)
 //        
@@ -77,6 +85,7 @@ class ResourceOracleTests: XCTestCase {
 //        
 //        XCTAssertNil(selfLink3)
 //
+//        ResourceOracle.printDump()
 //
 //        ResourceOracle.purge()
 

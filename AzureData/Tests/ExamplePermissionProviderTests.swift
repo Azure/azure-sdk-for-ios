@@ -106,10 +106,14 @@ class ExamplePermissionProviderTests: XCTestCase {
     let customNumberValue = 86
 
     
+    var databaseName: String? // = your database name
+    
     override func setUp() {
         super.setUp()
         
-        // AzureData.configure(forAccountNamed: "<Database Name>", withPermissionProvider: ExamplePermissionProvider(with: PermissionProviderConfiguration.default))
+        if let dbname = databaseName, !dbname.isEmpty {
+            AzureData.configure(forAccountNamed: dbname, withPermissionProvider: ExamplePermissionProvider())
+        }
     }
     
     override func tearDown() {
@@ -119,71 +123,74 @@ class ExamplePermissionProviderTests: XCTestCase {
     
     func testExample() {
 
-        var getResponse:    Response<DictionaryDocument>?
-        var listResponse:   Response<Resources<DictionaryDocument>>?
-        var createResponse: Response<DictionaryDocument>?
-        var deleteResponse: Response<Data>?
+        if let dbname = databaseName, !dbname.isEmpty {
         
-        AzureData.get(collectionWithId: "MyCollectionFour", inDatabase: "MyDatabaseFour") { r in
-            self.collection = r.resource
-            self.getExpectation.fulfill()
-        }
-        
-        wait(for: [getExpectation], timeout: timeout)
-        
-        XCTAssertNotNil(collection)
-        
-        if let collection = collection {
-         
-            let newDocument = DictionaryDocument("MyDocument")
+            var getResponse:    Response<DictionaryDocument>?
+            var listResponse:   Response<Resources<DictionaryDocument>>?
+            var createResponse: Response<DictionaryDocument>?
+            var deleteResponse: Response<Data>?
             
-            newDocument[customStringKey] = customStringValue
-            newDocument[customNumberKey] = customNumberValue
-
-            
-            collection.create(newDocument) { r in
-                createResponse = r
-                self.createExpectation.fulfill()
+            AzureData.get(collectionWithId: "MyCollectionFour", inDatabase: "MyDatabaseFour") { r in
+                self.collection = r.resource
+                self.getExpectation.fulfill()
             }
             
-            wait(for: [createExpectation], timeout: timeout)
+            wait(for: [getExpectation], timeout: timeout)
             
-            XCTAssertNotNil(createResponse?.resource)
+            XCTAssertNotNil(collection)
             
-            
-            
-            collection.get(documentsAs: DictionaryDocument.self) { r in
-                listResponse = r
-                self.listExpectation.fulfill()
-            }
-            
-            wait(for: [listExpectation], timeout: timeout)
-            
-            XCTAssertNotNil(listResponse?.resource)
-
-            
-            
-            collection.get(documentWithResourceId: newDocument.id, as: DictionaryDocument.self) { r in
-                getResponse = r
-                self.getDocExpectation.fulfill()
-            }
-
-            wait(for: [getDocExpectation], timeout: timeout)
-            
-            XCTAssertNotNil(getResponse?.resource)
-
-            if let doc = getResponse?.resource ?? createResponse?.resource {
+            if let collection = collection {
+             
+                let newDocument = DictionaryDocument("MyDocument")
                 
-                collection.delete(doc) { r in
-                    deleteResponse = r
-                    self.deleteExpectation.fulfill()
+                newDocument[customStringKey] = customStringValue
+                newDocument[customNumberKey] = customNumberValue
+
+                
+                collection.create(newDocument) { r in
+                    createResponse = r
+                    self.createExpectation.fulfill()
                 }
                 
-                wait(for: [deleteExpectation], timeout: timeout)
+                wait(for: [createExpectation], timeout: timeout)
                 
+                XCTAssertNotNil(createResponse?.resource)
+                
+                
+                
+                collection.get(documentsAs: DictionaryDocument.self) { r in
+                    listResponse = r
+                    self.listExpectation.fulfill()
+                }
+                
+                wait(for: [listExpectation], timeout: timeout)
+                
+                XCTAssertNotNil(listResponse?.resource)
+
+                
+                
+                collection.get(documentWithResourceId: newDocument.id, as: DictionaryDocument.self) { r in
+                    getResponse = r
+                    self.getDocExpectation.fulfill()
+                }
+
+                wait(for: [getDocExpectation], timeout: timeout)
+                
+                XCTAssertNotNil(getResponse?.resource)
+
+                if let doc = getResponse?.resource ?? createResponse?.resource {
+                    
+                    collection.delete(doc) { r in
+                        deleteResponse = r
+                        self.deleteExpectation.fulfill()
+                    }
+                    
+                    wait(for: [deleteExpectation], timeout: timeout)
+                    
+                }
+                
+                XCTAssert(deleteResponse?.result.isSuccess ?? false)
             }
-            
-            XCTAssert(deleteResponse?.result.isSuccess ?? false)
         }
     }
     
