@@ -514,16 +514,20 @@ collection.getUserDefinedFunctions () { r in
 
 #### Delete
 ```swift
-AzureData.delete (userDefinedFunction, fromCollection: collectionId, inDatabase: databaseId) { s in
-    // s == successfully deleted
+AzureData.delete (userDefinedFunctionWithId: functionId, fromCollection: collectionId, inDatabase: databaseId) { r in
+    // r.isSuccess == successfully deleted
 }
 
-AzureData.delete (userDefinedFunction, from: collection) { s in
-    // s == successfully deleted
+collection.delete (userDefinedFunction) { r in
+    // r.isSuccess == successfully deleted
 }
 
-collection.delete (userDefinedFunction) { s in
-    // s == successfully deleted
+collection.delete (userDefinedFunctionWithId: functionId) { r in
+    // r.isSuccess == successfully deleted
+}
+
+userDefinedFunction.delete { r in
+    // r.isSuccess == successfully deleted
 }
 ```
 
