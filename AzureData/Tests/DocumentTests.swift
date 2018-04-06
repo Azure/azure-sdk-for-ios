@@ -52,11 +52,11 @@ class DocumentTests: AzureDataTests {
     func testThatCreateValidatesId() {
         
         AzureData.create(DictionaryDocument(idWith256Chars), inCollection: collectionId, inDatabase: databaseId) { r in
-            XCTAssertNotNil(r.error)
+            XCTAssert((r.error as? DocumentClientError)?.kind == .invalidId)
         }
         
         AzureData.create(DictionaryDocument(idWithWhitespace), inCollection: collectionId, inDatabase: databaseId) { r in
-            XCTAssertNotNil(r.error)
+            XCTAssert((r.error as? DocumentClientError)?.kind == .invalidId)
         }
     }
 

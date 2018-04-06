@@ -292,9 +292,9 @@ public class DocumentClient {
         return self.resource(at: resourceLocation, callback: callback)
     }
     
-    public func get<T: Document> (documentWithId resourceId: String, as documentType:T.Type, in collection: DocumentCollection, callback: @escaping (Response<T>) -> ()) {
+    public func get<T: Document> (documentWithId documentId: String, as documentType:T.Type, in collection: DocumentCollection, callback: @escaping (Response<T>) -> ()) {
         
-        let resourceLocation: ResourceLocation = .child(.document, in: collection, id: resourceId)
+        let resourceLocation: ResourceLocation = .child(.document, in: collection, id: documentId)
         
         return self.resource(at: resourceLocation, callback: callback)
     }
@@ -324,7 +324,7 @@ public class DocumentClient {
     
     public func replace<T: Document> (_ document: T, in collection: DocumentCollection, callback: @escaping (Response<T>) -> ()) {
         
-        let resourceLocation: ResourceLocation = .child(.document, in: collection, id: document.resourceId)
+        let resourceLocation: ResourceLocation = .child(.document, in: collection, id: document.id)
         
         return self.replace(document, at: resourceLocation, callback: callback)
     }
@@ -418,7 +418,7 @@ public class DocumentClient {
     
     public func delete (attachmentWithId attachmentId: String, fromDocument document: Document, callback: @escaping (Response<Data>) -> ()) {
         
-        let resourceLocation: ResourceLocation = .child(.document, in: document, id: attachmentId)
+        let resourceLocation: ResourceLocation = .child(.attachment, in: document, id: attachmentId)
         
         return self.delete(resourceAt: resourceLocation, callback: callback)
     }
@@ -870,14 +870,22 @@ public class DocumentClient {
     // create
     fileprivate func create<T:CodableResource> (_ resource: T, at resourceLocation: ResourceLocation, additionalHeaders: HttpHeaders? = nil, callback: @escaping (Response<T>) -> ()) {
         
+        guard resource.hasValidId else {
+            callback(Response(DocumentClientError(withKind: .invalidId))); return
+        }
+        
         return self.createOrReplace(resource, at: resourceLocation, additionalHeaders: additionalHeaders, callback: callback)
     }
 
-    fileprivate func create<T:CodableResource> (resourceWithId resourceId: String, andData data: [String:String?]? = nil, at resourceLocation: ResourceLocation, additionalHeaders: HttpHeaders? = nil, callback: @escaping (Response<T>) -> ()) {
+    fileprivate func create<T:CodableResource> (resourceWithId id: String, andData data: [String:String?]? = nil, at resourceLocation: ResourceLocation, additionalHeaders: HttpHeaders? = nil, callback: @escaping (Response<T>) -> ()) {
+        
+        guard id.isValidIdForResource else {
+            callback(Response(DocumentClientError(withKind: .invalidId))); return
+        }
         
         var dict = data ?? [:]
         
-        dict["id"] = resourceId
+        dict["id"] = id
 
         return self.createOrReplace(dict, at: resourceLocation, additionalHeaders: additionalHeaders, callback: callback)
     }
@@ -999,11 +1007,11 @@ public class DocumentClient {
         return self.createOrReplace(resource, at: resourceLocation, replacing: true, additionalHeaders: additionalHeaders, callback: callback)
     }
 
-    fileprivate func replace<T:CodableResource> (resourceWithId resourceId: String, andData data: [String:String]? = nil, at resourceLocation: ResourceLocation, additionalHeaders: HttpHeaders? = nil, callback: @escaping (Response<T>) -> ()) {
+    fileprivate func replace<T:CodableResource> (resourceWithId id: String, andData data: [String:String]? = nil, at resourceLocation: ResourceLocation, additionalHeaders: HttpHeaders? = nil, callback: @escaping (Response<T>) -> ()) {
         
         var dict = data ?? [:]
         
-        dict["id"] = resourceId
+        dict["id"] = id
 
         return self.createOrReplace(dict, at: resourceLocation, replacing: true, additionalHeaders: additionalHeaders, callback: callback)
     }
@@ -1143,8 +1151,8 @@ public class DocumentClient {
         log?.debugMessage {
             let methodString = request.httpMethod ?? ""
             let urlString = request.url?.absoluteString ?? ""
-            let bodyString = request.httpBody != nil ? String(data: request.httpBody!, encoding: .utf8) ?? "empty" : "empty"
-            return "***\nSending \(methodString) request for \(T.self) to \(urlString)\n\tBody : \(bodyString)"
+            //let bodyString = request.httpBody != nil ? String(data: request.httpBody!, encoding: .utf8) ?? "empty" : "empty"
+            return "Sending \(methodString) request for \(T.self) to \(urlString)" // "\n\tBody : \(bodyString)"
         }
         
         session.dataTask(with: request) { (data, response, error) in
@@ -1222,8 +1230,8 @@ public class DocumentClient {
         log?.debugMessage {
             let methodString = request.httpMethod ?? ""
             let urlString = request.url?.absoluteString ?? ""
-            let bodyString = request.httpBody != nil ? String(data: request.httpBody!, encoding: .utf8) ?? "empty" : "empty"
-            return "***\nSending \(methodString) request for \(T.self) to \(urlString)\n\tBody : \(bodyString)"
+            //let bodyString = request.httpBody != nil ? String(data: request.httpBody!, encoding: .utf8) ?? "empty" : "empty"
+            return "Sending \(methodString) request for \(T.self) to \(urlString)" //\n\tBody : \(bodyString)"
         }
 
         session.dataTask(with: request) { (data, response, error) in
@@ -1294,8 +1302,8 @@ public class DocumentClient {
         log?.debugMessage {
             let methodString = request.httpMethod ?? ""
             let urlString = request.url?.absoluteString ?? ""
-            let bodyString = request.httpBody != nil ? String(data: request.httpBody!, encoding: .utf8) ?? "empty" : "empty"
-            return "***\nSending \(methodString) request for Data to \(urlString)\n\tBody : \(bodyString)"
+            //let bodyString = request.httpBody != nil ? String(data: request.httpBody!, encoding: .utf8) ?? "empty" : "empty"
+            return "Sending \(methodString) request for Data to \(urlString)" //"\n\tBody : \(bodyString)"
         }
 
         session.dataTask(with: request) { (data, response, error) in

@@ -24,11 +24,11 @@ class UserDefinedFunctionTests: AzureDataTests {
     func testThatCreateValidatesId() {
     
         AzureData.create (userDefinedFunctionWithId: idWith256Chars, andBody: "", inCollection: collectionId, inDatabase: databaseId) { r in
-            XCTAssertNotNil(r.error)
+            XCTAssert((r.error as? DocumentClientError)?.kind == .invalidId)
         }
 
         AzureData.create (userDefinedFunctionWithId: idWithWhitespace, andBody: "", inCollection: collectionId, inDatabase: databaseId) { r in
-            XCTAssertNotNil(r.error)
+            XCTAssert((r.error as? DocumentClientError)?.kind == .invalidId)
         }
     }
     

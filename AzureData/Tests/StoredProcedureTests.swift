@@ -24,11 +24,11 @@ class StoredProcedureTests: AzureDataTests {
     func testThatCreateValidatesId() {
         
         AzureData.create (storedProcedureWithId: idWith256Chars, andBody: "", inCollection: collectionId, inDatabase: databaseId) { r in
-            XCTAssertNotNil(r.error)
+            XCTAssert((r.error as? DocumentClientError)?.kind == .invalidId)
         }
         
         AzureData.create (storedProcedureWithId: idWithWhitespace, andBody: "", inCollection: collectionId, inDatabase: databaseId) { r in
-            XCTAssertNotNil(r.error)
+            XCTAssert((r.error as? DocumentClientError)?.kind == .invalidId)
         }
     }
 
