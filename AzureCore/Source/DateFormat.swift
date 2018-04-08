@@ -12,7 +12,8 @@ public struct DateFormat {
     
     public static let httpDateFormat    = "E, dd MMM yyyy HH:mm:ss zzz"         // https://tools.ietf.org/html/rfc7231#section-7.1.1.1
     public static let iso8601Format     = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSXXXXX"   // http://www.iso.org/iso/catalogue_detail?csnumber=40874
-    
+    public static let rfc1123Format     = "EEE, dd MMM yyyy HH:mm:ss z"
+
     public static let calendar  = Calendar(identifier: .iso8601)
     
     public static let locale    = Locale(identifier: "en_US_POSIX")
@@ -46,6 +47,18 @@ public struct DateFormat {
         formatter.timeZone      = timeZone
         formatter.dateFormat    = iso8601Format
         
+        return formatter
+    }
+
+    public static func getRFC1123Formatter() -> DateFormatter {
+
+        let formatter = DateFormatter()
+
+        formatter.calendar = calendar
+        formatter.locale = locale
+        formatter.timeZone = timeZone
+        formatter.dateFormat = rfc1123Format
+
         return formatter
     }
 }
