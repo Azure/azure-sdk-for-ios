@@ -21,7 +21,9 @@ public struct Response<T> {
     public var error: Error? { return result.error }
     
     public var resource: T?  { return result.resource }
-    
+
+    public lazy var metadata: ResponseMetadata? = response.flatMap { ResponseMetadata(for: $0) }
+
     public init(request: URLRequest?, data: Data?, response: HTTPURLResponse?, result: Result<T>) {
         self.request = request
         self.data = data

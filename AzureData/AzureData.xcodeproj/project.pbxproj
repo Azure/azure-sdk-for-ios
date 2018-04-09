@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		32532A5A207825A1002BFFCA /* ResponseMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32532A59207825A1002BFFCA /* ResponseMetadata.swift */; };
+		32532A5C207825A1002BFFCA /* ResponseMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32532A59207825A1002BFFCA /* ResponseMetadata.swift */; };
+		32532A5E207825A1002BFFCA /* ResponseMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32532A59207825A1002BFFCA /* ResponseMetadata.swift */; };
+		32532A60207825A1002BFFCA /* ResponseMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32532A59207825A1002BFFCA /* ResponseMetadata.swift */; };
+		32AD4619207976AB00A0D02F /* ResponseMetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AD4618207976AB00A0D02F /* ResponseMetadataTests.swift */; };
+		32AD461A207976AB00A0D02F /* ResponseMetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AD4618207976AB00A0D02F /* ResponseMetadataTests.swift */; };
+		32AD461B207976AB00A0D02F /* ResponseMetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AD4618207976AB00A0D02F /* ResponseMetadataTests.swift */; };
 		9302CE412059A3A5000F6885 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9302CE422059A3A5000F6885 /* AzureCore.framework */; };
 		9302CE432059A3C5000F6885 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9302CE442059A3C5000F6885 /* AzureCore.framework */; };
 		9302CE452059A3D2000F6885 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9302CE462059A3D2000F6885 /* AzureCore.framework */; };
@@ -265,6 +272,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		32532A59207825A1002BFFCA /* ResponseMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseMetadata.swift; sourceTree = "<group>"; };
+		32AD4618207976AB00A0D02F /* ResponseMetadataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseMetadataTests.swift; sourceTree = "<group>"; };
 		9302CE422059A3A5000F6885 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9302CE442059A3C5000F6885 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9302CE462059A3D2000F6885 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -497,6 +506,7 @@
 			isa = PBXGroup;
 			children = (
 				B522403D1FB33D1200D0343F /* QueryTests.swift */,
+				32AD4618207976AB00A0D02F /* ResponseMetadataTests.swift */,
 			);
 			name = Domain;
 			sourceTree = "<group>";
@@ -516,6 +526,7 @@
 				B58361BD1FBA13A0001CEC66 /* Document.swift */,
 				B58361C21FBA13B0001CEC66 /* DocumentCollection.swift */,
 				B58361D11FBA15A8001CEC66 /* Offer.swift */,
+				32532A59207825A1002BFFCA /* ResponseMetadata.swift */,
 				B58361D61FBA16F9001CEC66 /* Permission.swift */,
 				93935D9A20585C8600F1832A /* PermissionMode.swift */,
 				B58361DB1FBA17B5001CEC66 /* StoredProcedure.swift */,
@@ -867,6 +878,7 @@
 				B58361C41FBA13B0001CEC66 /* DocumentCollection.swift in Sources */,
 				B5B6AC251FBA4B3900B93106 /* Query.swift in Sources */,
 				93935D9C20585C8600F1832A /* PermissionMode.swift in Sources */,
+				32532A5C207825A1002BFFCA /* ResponseMetadata.swift in Sources */,
 				9317A81820656ED100338B63 /* ResourceOracle.swift in Sources */,
 				931EA5C41FBE6920003CCFF4 /* DocumentClientExtensions.swift in Sources */,
 				B58361B41FB78F7A001CEC66 /* Response.swift in Sources */,
@@ -903,6 +915,7 @@
 				931EA5C21FBE2775003CCFF4 /* CodableResourceTests.swift in Sources */,
 				B522406B1FB33DF800D0343F /* DocumentTests.swift in Sources */,
 				B52240741FB33DF800D0343F /* CollectionStoredProcedureExtensionsTests.swift in Sources */,
+				32AD461A207976AB00A0D02F /* ResponseMetadataTests.swift in Sources */,
 				B52240721FB33DF800D0343F /* CollectionTriggerExtensionsTests.swift in Sources */,
 				B52240731FB33DF800D0343F /* UserTests.swift in Sources */,
 				B52240761FB33DF800D0343F /* CollectionDocumentExtensionsTests.swift in Sources */,
@@ -941,6 +954,7 @@
 				B58361C51FBA13B0001CEC66 /* DocumentCollection.swift in Sources */,
 				B5B6AC261FBA4B3900B93106 /* Query.swift in Sources */,
 				93935D9D20585C8600F1832A /* PermissionMode.swift in Sources */,
+				32532A5E207825A1002BFFCA /* ResponseMetadata.swift in Sources */,
 				9317A81920656ED100338B63 /* ResourceOracle.swift in Sources */,
 				931EA5C61FBE6922003CCFF4 /* DocumentClientExtensions.swift in Sources */,
 				B58361AF1FB78F7A001CEC66 /* Response.swift in Sources */,
@@ -977,6 +991,7 @@
 				931EA5C31FBE2775003CCFF4 /* CodableResourceTests.swift in Sources */,
 				B522407F1FB33DFA00D0343F /* DocumentTests.swift in Sources */,
 				B52240881FB33DFA00D0343F /* CollectionStoredProcedureExtensionsTests.swift in Sources */,
+				32AD461B207976AB00A0D02F /* ResponseMetadataTests.swift in Sources */,
 				B52240861FB33DFA00D0343F /* CollectionTriggerExtensionsTests.swift in Sources */,
 				B52240871FB33DFA00D0343F /* UserTests.swift in Sources */,
 				B522408A1FB33DFA00D0343F /* CollectionDocumentExtensionsTests.swift in Sources */,
@@ -1015,6 +1030,7 @@
 				B58361C61FBA13B0001CEC66 /* DocumentCollection.swift in Sources */,
 				B5B6AC271FBA4B3900B93106 /* Query.swift in Sources */,
 				93935D9E20585C8600F1832A /* PermissionMode.swift in Sources */,
+				32532A60207825A1002BFFCA /* ResponseMetadata.swift in Sources */,
 				9317A81A20656ED100338B63 /* ResourceOracle.swift in Sources */,
 				931EA5C51FBE6922003CCFF4 /* DocumentClientExtensions.swift in Sources */,
 				B58361AA1FB78F78001CEC66 /* Response.swift in Sources */,
@@ -1058,6 +1074,7 @@
 				B583619A1FB779B6001CEC66 /* Response.swift in Sources */,
 				B5B6AC241FBA4B3900B93106 /* Query.swift in Sources */,
 				93935D9B20585C8600F1832A /* PermissionMode.swift in Sources */,
+				32532A5A207825A1002BFFCA /* ResponseMetadata.swift in Sources */,
 				9317A81720656ED100338B63 /* ResourceOracle.swift in Sources */,
 				931EA5BF1FBE201F003CCFF4 /* DocumentClientExtensions.swift in Sources */,
 				B583619D1FB77A70001CEC66 /* Resources.swift in Sources */,
@@ -1094,6 +1111,7 @@
 				931EA5C11FBE2775003CCFF4 /* CodableResourceTests.swift in Sources */,
 				B52240571FB33DF100D0343F /* DocumentTests.swift in Sources */,
 				B52240601FB33DF100D0343F /* CollectionStoredProcedureExtensionsTests.swift in Sources */,
+				32AD4619207976AB00A0D02F /* ResponseMetadataTests.swift in Sources */,
 				B522405E1FB33DF100D0343F /* CollectionTriggerExtensionsTests.swift in Sources */,
 				B522405F1FB33DF100D0343F /* UserTests.swift in Sources */,
 				B52240621FB33DF100D0343F /* CollectionDocumentExtensionsTests.swift in Sources */,
