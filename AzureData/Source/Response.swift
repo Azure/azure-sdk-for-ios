@@ -21,6 +21,8 @@ public struct Response<T> {
     public var error: Error? { return result.error }
     
     public var resource: T?  { return result.resource }
+    
+    public var fromCache: Bool = false
 
     public lazy var metadata: ResponseMetadata? = response.flatMap { ResponseMetadata(for: $0) }
 
