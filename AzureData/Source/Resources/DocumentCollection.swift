@@ -31,7 +31,10 @@ public struct DocumentCollection : CodableResource {
     public mutating func setAltLink(to link: String) {
         self.altLink = link
     }
-    
+    public mutating func setEtag(to tag: String) {
+        self.etag = tag
+    }
+
     /// Gets the self-link for conflicts in a collection from the Azure Cosmos DB service.
     public private(set) var conflictsLink: String?
     

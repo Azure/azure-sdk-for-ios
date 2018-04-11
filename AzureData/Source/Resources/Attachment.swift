@@ -24,6 +24,9 @@ public struct Attachment : CodableResource {
     public mutating func setAltLink(to link: String) {
         self.altLink = link
     }
+    public mutating func setEtag(to tag: String) {
+        self.etag = tag
+    }
     
     /// Gets or sets the MIME content type of the attachment in the Azure Cosmos DB service.
     public private(set) var contentType: String?

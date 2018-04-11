@@ -24,7 +24,10 @@ public struct User : CodableResource {
     public mutating func setAltLink(to link: String) {
         self.altLink = link
     }
-    
+    public mutating func setEtag(to tag: String) {
+        self.etag = tag
+    }
+
     /// Gets the self-link of the permissions associated with the user for the Azure Cosmos DB service.
     public private(set) var permissionsLink:String?
 }

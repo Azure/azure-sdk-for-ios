@@ -29,7 +29,10 @@ public struct StoredProcedure : CodableResource {
     public mutating func setAltLink(to link: String) {
         self.altLink = link
     }
-    
+    public mutating func setEtag(to tag: String) {
+        self.etag = tag
+    }
+
     /// Gets or sets the body of the Azure Cosmos DB stored procedure.
     ///
     /// - Remark:

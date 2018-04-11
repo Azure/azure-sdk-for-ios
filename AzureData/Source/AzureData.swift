@@ -71,6 +71,22 @@ public func reset () {
 
 
 
+// MARK: - Conflict Strategy
+
+public var conflictStrategies: [ResourceType:ConflictStrategy] {
+    get { return DocumentClient.default.conflictStrategies }
+    set { DocumentClient.default.conflictStrategies = newValue }
+}
+
+public func register(strategy: ConflictStrategy, for resourceTypes: ResourceType...) {
+    return DocumentClient.default.register(strategy: strategy, for: resourceTypes)
+}
+
+public func register(resolver: @escaping ConflictResolver, for resourceTypes: ResourceType...) {
+    return DocumentClient.default.register(strategy: .custom(resolver), for: resourceTypes)
+}
+
+
 
 // MARK: - Databases
 

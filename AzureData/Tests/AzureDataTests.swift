@@ -64,13 +64,14 @@ class AzureDataTests: XCTestCase {
     let idWithWhitespace = "id value with spaces"
 
     
-    lazy var createExpectation  = self.expectation(description: "should create and return \(rname)")
-    lazy var listExpectation    = self.expectation(description: "should return a list of \(rname)")
-    lazy var getExpectation     = self.expectation(description: "should get and return \(rname)")
-    lazy var deleteExpectation  = self.expectation(description: "should delete \(rname)")
-    lazy var queryExpectation   = self.expectation(description: "should query \(rname)")
-    lazy var replaceExpectation = self.expectation(description: "should replace \(rname)")
-    lazy var refreshExpectation = self.expectation(description: "should refresh \(rname)")
+    lazy var createExpectation   = self.expectation(description: "should create and return \(rname)")
+    lazy var listExpectation     = self.expectation(description: "should return a list of \(rname)")
+    lazy var getExpectation      = self.expectation(description: "should get and return \(rname)")
+    lazy var deleteExpectation   = self.expectation(description: "should delete \(rname)")
+    lazy var queryExpectation    = self.expectation(description: "should query \(rname)")
+    lazy var replaceExpectation  = self.expectation(description: "should replace \(rname)")
+    lazy var replaceExpectation2 = self.expectation(description: "should replace \(rname)")
+    lazy var refreshExpectation  = self.expectation(description: "should refresh \(rname)")
 
     
     override func setUp() {

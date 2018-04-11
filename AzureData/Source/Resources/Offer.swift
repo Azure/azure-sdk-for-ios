@@ -27,7 +27,10 @@ public struct Offer : CodableResource {
     public mutating func setAltLink(to link: String) {
         self.altLink = link
     }
-    
+    public mutating func setEtag(to tag: String) {
+        self.etag = tag
+    }
+
     /// Gets or sets the OfferType for the resource offer in the Azure Cosmos DB service.
     public private(set) var offerType: String?
     

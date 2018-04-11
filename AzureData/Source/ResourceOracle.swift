@@ -253,25 +253,25 @@ public class ResourceOracle {
         return selfLink
     }
 
-    public static func getFilePath(forResourceAt locaiton: ResourceLocation) -> String? {
+    public static func getFilePath(forResourceAt location: ResourceLocation) -> String? {
         
         guard
-            let selfLink = getSelfLink(forResourceAt: locaiton),
-            let resourceId = getResourceId(forResourceAt: locaiton, withSelfLink: selfLink)
+            let selfLink = getSelfLink(forResourceAt: location),
+            let resourceId = getResourceId(forResourceAt: location, withSelfLink: selfLink)
         else { return nil }
         
         return "\(selfLink)/\(resourceId).json"
     }
 
-    public static func getDirectoryPath(forResourceAt locaiton: ResourceLocation) -> (path:String, resourceId: String)? {
+    public static func getDirectoryPath(forResourceAt location: ResourceLocation) -> (path:String, resourceId: String)? {
         
         guard
-            let selfLink = getSelfLink(forResourceAt: locaiton),
-            let resourceId = getResourceId(forResourceAt: locaiton, withSelfLink: selfLink)
-        else { return (locaiton.type, "") }
+            let selfLink = getSelfLink(forResourceAt: location),
+            let resourceId = getResourceId(forResourceAt: location, withSelfLink: selfLink)
+        else { return (location.type, "") }
         
-        if locaiton.isFeed {
-            return (selfLink + "/" + locaiton.type, resourceId)
+        if location.isFeed {
+            return (selfLink + "/" + location.type, resourceId)
         }
         
         return (selfLink, resourceId)

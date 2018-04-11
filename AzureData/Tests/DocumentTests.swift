@@ -60,7 +60,7 @@ class DocumentTests: AzureDataTests {
         }
     }
 
-    
+
     func testDocumentCrud() {
         
         var createResponse:     Response<DictionaryDocument>?
@@ -68,6 +68,8 @@ class DocumentTests: AzureDataTests {
         var getResponse:        Response<DictionaryDocument>?
         var queryResponse:      Response<Resources<DictionaryDocument>>?
         var refreshResponse:    Response<DictionaryDocument>?
+        var replaceResponse:    Response<DictionaryDocument>?
+        var replaceResponse2:   Response<DictionaryDocument>?
         var deleteResponse:     Response<Data>?
 
         
@@ -77,6 +79,7 @@ class DocumentTests: AzureDataTests {
         newDocument[customNumberKey] = customNumberValue
         
         
+        AzureData.register(resolver: { $1 } , for: .document)
         
         
         // Create
@@ -97,8 +100,6 @@ class DocumentTests: AzureDataTests {
         }
 
         //createResponse?.response?.printHeaders()
-
-        
         
         
         // List
@@ -143,15 +144,12 @@ class DocumentTests: AzureDataTests {
         
 
         // Get
-        //if createResponse?.result.isSuccess ?? false {
-            
-            AzureData.get(documentWithId: resourceId, as: DictionaryDocument.self, inCollection: collectionId, inDatabase: databaseId) { r in
-                getResponse = r
-                self.getExpectation.fulfill()
-            }
-            
-            wait(for: [getExpectation], timeout: timeout)
-        //}
+        AzureData.get(documentWithId: resourceId, as: DictionaryDocument.self, inCollection: collectionId, inDatabase: databaseId) { r in
+            getResponse = r
+            self.getExpectation.fulfill()
+        }
+        
+        wait(for: [getExpectation], timeout: timeout)
         
         XCTAssertNotNil(getResponse?.resource)
         
@@ -165,6 +163,30 @@ class DocumentTests: AzureDataTests {
         //getResponse?.response?.printHeaders()
 
         
+        
+        // Replace
+        if getResponse?.result.isSuccess ?? false {
+            
+            AzureData.replace(getResponse!.resource!, inCollection: collectionId, inDatabase: databaseId) { r in
+                replaceResponse = r
+                self.replaceExpectation.fulfill()
+            }
+            
+            wait(for: [replaceExpectation], timeout: timeout)
+            
+            
+            AzureData.replace(getResponse!.resource!, inCollection: collectionId, inDatabase: databaseId) { r in
+                replaceResponse2 = r
+                self.replaceExpectation2.fulfill()
+            }
+            
+            wait(for: [replaceExpectation2], timeout: timeout)
+        }
+        
+        XCTAssertNotNil(replaceResponse?.resource)
+        XCTAssertNotNil(replaceResponse2?.resource)
+        
+
         
 
         // Refresh

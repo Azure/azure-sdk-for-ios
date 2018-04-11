@@ -77,6 +77,8 @@ public struct DocumentClientError : Error {
     /// A nested error.
     public private(set) var baseError: Error? = nil
     
+    /// A URLError
+    public var urlError: URLError? { return baseError as? URLError }
     
     init(withError error: Error) {
         self.baseError = error
@@ -157,6 +159,13 @@ extension HttpStatusCode {
 }
 
 
+extension Optional where Wrapped == DocumentClientError {
+    
+    public var isConnectivityError: Bool {
+        return self?.urlError?.code == .notConnectedToInternet //|| urlError?.code == .
+    }
+}
+
 extension DocumentClientError : CustomStringConvertible {
     public var description: String {
         return self.message
@@ -166,5 +175,27 @@ extension DocumentClientError : CustomStringConvertible {
 extension DocumentClientError : CustomDebugStringConvertible {
     public var debugDescription: String {
         return self.message
+    }
+}
+
+extension DocumentClientError {
+    public var localizedDescription: String {
+        return self.message
+    }
+}
+
+public extension Response {
+    
+    public var clientError: DocumentClientError? {
+        return error as? DocumentClientError
+    }
+    
+    func logError() {
+        
+        if clientError?.kind == .preconditionFailure { return }
+        
+        if let errorMessage = clientError?.localizedDescription ?? error?.localizedDescription {
+            log?.errorMessage(errorMessage)
+        }
     }
 }

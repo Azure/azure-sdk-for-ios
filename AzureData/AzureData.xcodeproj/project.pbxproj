@@ -67,6 +67,10 @@
 		932F01342076AC5A001D708B /* ResourceCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932F01322076AC5A001D708B /* ResourceCache.swift */; };
 		932F01352076AC5A001D708B /* ResourceCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932F01322076AC5A001D708B /* ResourceCache.swift */; };
 		932F01362076AC5A001D708B /* ResourceCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932F01322076AC5A001D708B /* ResourceCache.swift */; };
+		9358A972207E435200B25D67 /* ConflictStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9358A971207E435200B25D67 /* ConflictStrategy.swift */; };
+		9358A973207E435200B25D67 /* ConflictStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9358A971207E435200B25D67 /* ConflictStrategy.swift */; };
+		9358A974207E435200B25D67 /* ConflictStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9358A971207E435200B25D67 /* ConflictStrategy.swift */; };
+		9358A975207E435200B25D67 /* ConflictStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9358A971207E435200B25D67 /* ConflictStrategy.swift */; };
 		93935D9B20585C8600F1832A /* PermissionMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93935D9A20585C8600F1832A /* PermissionMode.swift */; };
 		93935D9C20585C8600F1832A /* PermissionMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93935D9A20585C8600F1832A /* PermissionMode.swift */; };
 		93935D9D20585C8600F1832A /* PermissionMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93935D9A20585C8600F1832A /* PermissionMode.swift */; };
@@ -291,6 +295,7 @@
 		931EA5C01FBE2775003CCFF4 /* CodableResourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableResourceTests.swift; sourceTree = "<group>"; };
 		932832E52072CD9E0075ECC7 /* ExamplePermissionProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamplePermissionProviderTests.swift; sourceTree = "<group>"; };
 		932F01322076AC5A001D708B /* ResourceCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceCache.swift; sourceTree = "<group>"; };
+		9358A971207E435200B25D67 /* ConflictStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConflictStrategy.swift; sourceTree = "<group>"; };
 		93935D9A20585C8600F1832A /* PermissionMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionMode.swift; sourceTree = "<group>"; };
 		93B7240A2064560F00984CA8 /* MSHttpHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSHttpHeader.swift; sourceTree = "<group>"; };
 		93F7CA17206EDBC100D92C2E /* PermissionCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionCacheTests.swift; sourceTree = "<group>"; };
@@ -415,6 +420,7 @@
 			children = (
 				B52240341FB33CD000D0343F /* AzureData.swift */,
 				B522401B1FB33CD000D0343F /* AzureDataExtensions.swift */,
+				9358A971207E435200B25D67 /* ConflictStrategy.swift */,
 				B583619E1FB78763001CEC66 /* DocumentClient.swift */,
 				93F9ACCB1FC0CA4800AC240C /* DocumentClientError.swift */,
 				931EA5BE1FBE201F003CCFF4 /* DocumentClientExtensions.swift */,
@@ -427,12 +433,12 @@
 				932F01322076AC5A001D708B /* ResourceCache.swift */,
 				9316F44E206A977F00D7BA8B /* ResourceLocation.swift */,
 				9317A81620656ED100338B63 /* ResourceOracle.swift */,
+				B58361B71FBA1339001CEC66 /* Resources */,
 				9319DF012069DD7B0083475D /* ResourceTokenProvider.swift */,
 				B522401D1FB33CD000D0343F /* ResourceType.swift */,
 				B58361991FB779B6001CEC66 /* Response.swift */,
-				B52240381FB33CD000D0343F /* UtilityExtensions.swift */,
-				B58361B71FBA1339001CEC66 /* Resources */,
 				B55AEFDF1FB34B7400F7BEED /* Supporting Files */,
+				B52240381FB33CD000D0343F /* UtilityExtensions.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -879,6 +885,7 @@
 				B5B6AC251FBA4B3900B93106 /* Query.swift in Sources */,
 				93935D9C20585C8600F1832A /* PermissionMode.swift in Sources */,
 				32532A5C207825A1002BFFCA /* ResponseMetadata.swift in Sources */,
+				9358A973207E435200B25D67 /* ConflictStrategy.swift in Sources */,
 				9317A81820656ED100338B63 /* ResourceOracle.swift in Sources */,
 				931EA5C41FBE6920003CCFF4 /* DocumentClientExtensions.swift in Sources */,
 				B58361B41FB78F7A001CEC66 /* Response.swift in Sources */,
@@ -955,6 +962,7 @@
 				B5B6AC261FBA4B3900B93106 /* Query.swift in Sources */,
 				93935D9D20585C8600F1832A /* PermissionMode.swift in Sources */,
 				32532A5E207825A1002BFFCA /* ResponseMetadata.swift in Sources */,
+				9358A974207E435200B25D67 /* ConflictStrategy.swift in Sources */,
 				9317A81920656ED100338B63 /* ResourceOracle.swift in Sources */,
 				931EA5C61FBE6922003CCFF4 /* DocumentClientExtensions.swift in Sources */,
 				B58361AF1FB78F7A001CEC66 /* Response.swift in Sources */,
@@ -1031,6 +1039,7 @@
 				B5B6AC271FBA4B3900B93106 /* Query.swift in Sources */,
 				93935D9E20585C8600F1832A /* PermissionMode.swift in Sources */,
 				32532A60207825A1002BFFCA /* ResponseMetadata.swift in Sources */,
+				9358A975207E435200B25D67 /* ConflictStrategy.swift in Sources */,
 				9317A81A20656ED100338B63 /* ResourceOracle.swift in Sources */,
 				931EA5C51FBE6922003CCFF4 /* DocumentClientExtensions.swift in Sources */,
 				B58361AA1FB78F78001CEC66 /* Response.swift in Sources */,
@@ -1075,6 +1084,7 @@
 				B5B6AC241FBA4B3900B93106 /* Query.swift in Sources */,
 				93935D9B20585C8600F1832A /* PermissionMode.swift in Sources */,
 				32532A5A207825A1002BFFCA /* ResponseMetadata.swift in Sources */,
+				9358A972207E435200B25D67 /* ConflictStrategy.swift in Sources */,
 				9317A81720656ED100338B63 /* ResourceOracle.swift in Sources */,
 				931EA5BF1FBE201F003CCFF4 /* DocumentClientExtensions.swift in Sources */,
 				B583619D1FB77A70001CEC66 /* Resources.swift in Sources */,

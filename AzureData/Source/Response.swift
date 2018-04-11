@@ -78,10 +78,8 @@ extension Response where T:CodableResource {
         self.response = response
         self.result = result
     }
-
-    
-    
 }
+
 
 //extension Response where T == Resources<CodableResource> {
 //

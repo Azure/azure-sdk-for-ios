@@ -29,7 +29,10 @@ open class Document : CodableResource, CustomDebugStringConvertible {
     public func setAltLink(to link: String) {
         self.altLink = link
     }
-    
+    public func setEtag(to tag: String) {
+        self.etag = tag
+    }
+
     /// Gets the self-link corresponding to attachments of the document from the Azure Cosmos DB service.
     public private(set) var attachmentsLink: String?
     

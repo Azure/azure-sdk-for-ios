@@ -34,6 +34,8 @@ public protocol CodableResource : Codable {
     var altLink: String? { get }
     
     mutating func setAltLink(to link: String)
+    
+    mutating func setEtag(to tag: String)
 }
 
 fileprivate struct ResourceValidation {

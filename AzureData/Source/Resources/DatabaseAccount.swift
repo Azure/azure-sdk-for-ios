@@ -24,7 +24,10 @@ public struct DatabaseAccount : CodableResource {
     public mutating func setAltLink(to link: String) {
         self.altLink = link
     }
-    
+    public mutating func setEtag(to tag: String) {
+        self.etag = tag
+    }
+
     /// Gets the ConsistencyPolicy settings from the Azure Cosmos DB service.
     public private(set) var consistencyPolicy: ConsistencyPolicy?
     
