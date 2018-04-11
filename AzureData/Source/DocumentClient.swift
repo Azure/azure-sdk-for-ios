@@ -646,7 +646,7 @@ public class DocumentClient {
 
                     } else {
 
-                        response.logError()
+                        // response.logError()
                         
                         callback(response)
                     
@@ -680,7 +680,7 @@ public class DocumentClient {
                         
                     } else {
                         
-                        response.logError()
+                        //response.logError()
                         
                         callback(response)
                         
@@ -706,7 +706,7 @@ public class DocumentClient {
             
                 self.sendRequest(request) { (response:Response<Data>) in
                     
-                    response.logError()
+                    //response.logError()
                     
                     self.isOffline = response.clientError.isConnectivityError
 
@@ -787,7 +787,7 @@ public class DocumentClient {
                 
                 self.sendRequest(request) { (response:Response<Resources<T>>) in
                     
-                    response.logError()
+                    //response.logError()
                     
                     self.isOffline = response.clientError.isConnectivityError
                     
@@ -851,7 +851,7 @@ public class DocumentClient {
                 
                 self.sendRequest(request) { (response:Response<T>) in
                     
-                    response.logError()
+                    //response.logError()
                     
                     self.isOffline = response.clientError.isConnectivityError
                     

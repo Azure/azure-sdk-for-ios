@@ -96,7 +96,7 @@ extension PermissionProvider {
            let timestamp = permission.timestamp,
                (configuration.defaultTokenDuration - Date().timeIntervalSince(timestamp)) > configuration.tokenRefreshThreshold {
             
-            log?.debugMessage("found cached Permission with PermissionMode.\(permission.permissionMode.rawValue) and a remaining duration of \(self.configuration.defaultTokenDuration - Date().timeIntervalSince(timestamp)) seconds  (greater than the \(self.configuration.tokenRefreshThreshold) second threshold)")
+            //log?.debugMessage("found cached Permission with PermissionMode.\(permission.permissionMode.rawValue) and a remaining duration of \(self.configuration.defaultTokenDuration - Date().timeIntervalSince(timestamp)) seconds  (greater than the \(self.configuration.tokenRefreshThreshold) second threshold)")
             
             completion(Response(permission))
             
