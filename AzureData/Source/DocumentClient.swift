@@ -68,10 +68,10 @@ public class DocumentClient {
         
         encoder.dateEncodingStrategy = .custom(self.dateEncoder!)
         
-        log?.debugMessage {
-            encoder.outputFormatting = .prettyPrinted
-            return "encoder.outputFormatting = .prettyPrinted"
-        }
+//        log?.debugMessage {
+//            encoder.outputFormatting = .prettyPrinted
+//            return "encoder.outputFormatting = .prettyPrinted"
+//        }
         
         return encoder
     }()
