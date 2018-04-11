@@ -433,12 +433,12 @@
 				932F01322076AC5A001D708B /* ResourceCache.swift */,
 				9316F44E206A977F00D7BA8B /* ResourceLocation.swift */,
 				9317A81620656ED100338B63 /* ResourceOracle.swift */,
-				B58361B71FBA1339001CEC66 /* Resources */,
 				9319DF012069DD7B0083475D /* ResourceTokenProvider.swift */,
 				B522401D1FB33CD000D0343F /* ResourceType.swift */,
 				B58361991FB779B6001CEC66 /* Response.swift */,
-				B55AEFDF1FB34B7400F7BEED /* Supporting Files */,
 				B52240381FB33CD000D0343F /* UtilityExtensions.swift */,
+				B58361B71FBA1339001CEC66 /* Resources */,
+				B55AEFDF1FB34B7400F7BEED /* Supporting Files */,
 			);
 			path = Source;
 			sourceTree = "<group>";
