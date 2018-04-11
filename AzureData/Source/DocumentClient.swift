@@ -28,6 +28,7 @@ public class DocumentClient {
     
     fileprivate var configuredWithMasterKey: Bool { return resourceTokenProvider != nil }
     
+    #if !os(watchOS)
     fileprivate var reachabilityManager: ReachabilityManager! {
         willSet {
             newValue.listener = networkReachabilityChanged
@@ -38,6 +39,7 @@ public class DocumentClient {
     func networkReachabilityChanged(status: ReachabilityManager.NetworkReachabilityStatus) {
         log?.debugMessage("Network Status Changed: \(status)")
     }
+    #endif
     
     /// The underlying session.
     open let session: URLSession
@@ -119,7 +121,9 @@ public class DocumentClient {
             let host = host, !host.isEmpty
         else { fatalError("Host is invalid") }
         self.host = host
+        #if !os(watchOS)
         reachabilityManager = ReachabilityManager(host: host)
+        #endif
         ResourceOracle.host = host
         ResourceOracle.restore()
     }
