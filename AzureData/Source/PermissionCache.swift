@@ -95,12 +95,12 @@ public class PermissionCache {
     
     public static func printDump() {
         
-        log?.debugMessage("\n*****\n*****\n\ncount  : \(cache.count)\n\n*****\n*****\n")
+        print("\n*****\n*****\n\ncount  : \(cache.count)\n\n*****\n*****\n")
         
-        log?.debugMessage("\n\ncache:\n")
+        print("\n\ncache:\n")
         for c in cache {
-            log?.debugMessage("key   : \(c.key)\nvalue : \(c.value)\n")
+            print("key   : \(c.key)\nvalue : \(c.value)\n")
         }
-        log?.debugMessage("\n")
+        print("\n")
     }
 }

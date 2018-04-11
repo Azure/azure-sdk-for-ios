@@ -279,24 +279,24 @@ public class ResourceOracle {
 
     
     public static func printDump() {
-        log?.debugMessage("************************************************************")
-        log?.debugMessage("************************************************************")
-        log?.debugMessage("altLinkLookup  : \(altLinkLookup.count)")
-        log?.debugMessage("selfLinkLookup : \(selfLinkLookup.count)")
-        log?.debugMessage("")
-        log?.debugMessage("altLinkLookup:")
+        print("************************************************************")
+        print("************************************************************")
+        print("altLinkLookup  : \(altLinkLookup.count)")
+        print("selfLinkLookup : \(selfLinkLookup.count)")
+        print("")
+        print("altLinkLookup:")
         for al in altLinkLookup {
-            log?.debugMessage("key   : \(al.key)")
-            log?.debugMessage("value : \(al.value)")
+            print("key   : \(al.key)")
+            print("value : \(al.value)")
         }
-        log?.debugMessage("")
-        log?.debugMessage("selfLinkLookup:")
+        print("")
+        print("selfLinkLookup:")
         for sl in selfLinkLookup {
-            log?.debugMessage("key   : \(sl.key)")
-            log?.debugMessage("value : \(sl.value)")
+            print("key   : \(sl.key)")
+            print("value : \(sl.value)")
         }
-        log?.debugMessage("")
-        log?.debugMessage("\n")
+        print("")
+        print("\n")
     }
 }
 
