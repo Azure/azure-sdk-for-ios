@@ -30,6 +30,8 @@ public struct User : CodableResource {
 
     /// Gets the self-link of the permissions associated with the user for the Azure Cosmos DB service.
     public private(set) var permissionsLink:String?
+    
+    public init (_ id: String) { self.id = id; resourceId = "" }
 }
 
 

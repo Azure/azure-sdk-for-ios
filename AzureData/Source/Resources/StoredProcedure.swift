@@ -41,6 +41,12 @@ public struct StoredProcedure : CodableResource {
     /// - Example:
     ///   `"function () { getContext().getResponse().setBody('Hello World!'); }`
     public private(set) var body:       String?
+    
+    public init (_ id: String, body: String) {
+        self.id = id
+        self.resourceId = ""
+        self.body = body
+    }
 }
 
 

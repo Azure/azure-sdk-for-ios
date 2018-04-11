@@ -31,7 +31,7 @@ class DatabaseTests: AzureDataTests {
 
         
         // Create
-        AzureData.create(databaseWithId: databaseId) { r in
+        AzureData.create(databaseWithId: resourceId) { r in
             createResponse = r
             self.createExpectation.fulfill()
         }
@@ -59,7 +59,7 @@ class DatabaseTests: AzureDataTests {
         
         
         // Get
-        AzureData.get(databaseWithId: databaseId) { r in
+        AzureData.get(databaseWithId: resourceId) { r in
             getResponse = r
             self.getExpectation.fulfill()
         }
@@ -73,23 +73,23 @@ class DatabaseTests: AzureDataTests {
         
 
         // Refresh
-        if getResponse?.result.isSuccess ?? false {
-            
-            AzureData.refresh(getResponse!.resource!) { r in
-                refreshResponse = r
-                self.refreshExpectation.fulfill()
-            }
-            
-            wait(for: [refreshExpectation], timeout: timeout)
-        }
-        
-        XCTAssertNotNil(refreshResponse?.resource)
+//        if getResponse?.result.isSuccess ?? false {
+//
+//            AzureData.refresh(getResponse!.resource!) { r in
+//                refreshResponse = r
+//                self.refreshExpectation.fulfill()
+//            }
+//
+//            wait(for: [refreshExpectation], timeout: timeout)
+//        }
+//
+//        XCTAssertNotNil(refreshResponse?.resource)
 
         
         
         // Delete
         
-        AzureData.delete(databaseWithId: databaseId) { r in
+        AzureData.delete(databaseWithId: resourceId) { r in
             deleteResponse = r
             self.deleteExpectation.fulfill()
         }

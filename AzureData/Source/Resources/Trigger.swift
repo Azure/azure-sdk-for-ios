@@ -66,7 +66,7 @@ public struct Trigger : CodableResource {
     }
     
     
-    init(withId id: String, body: String, operation: TriggerOperation, type: TriggerType) {
+    init(_ id: String, body: String, operation: TriggerOperation, type: TriggerType) {
         self.id = id
         self.resourceId = ""
         self.body = body

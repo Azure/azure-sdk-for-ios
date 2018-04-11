@@ -153,7 +153,7 @@ public class DocumentClient {
     
     // create
     public func create (databaseWithId databaseId: String, callback: @escaping (Response<Database>) -> ()) {
-        return self.create(resourceWithId: databaseId, at: .database(id: nil), callback: callback)
+        return self.create(Database(databaseId), at: .database(id: nil), callback: callback)
     }
     
     // list
@@ -177,11 +177,11 @@ public class DocumentClient {
     
     // create
     public func create (collectionWithId collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<DocumentCollection>) -> ()) {
-        return self.create(resourceWithId: collectionId, at: .collection(databaseId: databaseId, id: nil), callback: callback)
+        return self.create(DocumentCollection(collectionId), at: .collection(databaseId: databaseId, id: nil), callback: callback)
     }
 
     public func create (collectionWithId collectionId: String, inDatabase database: Database, callback: @escaping (Response<DocumentCollection>) -> ()) {
-        return self.create(resourceWithId: collectionId, at: .child(.collection, in: database, id: nil), callback: callback)
+        return self.create(DocumentCollection(collectionId), at: .child(.collection, in: database, id: nil), callback: callback)
     }
 
     // list
@@ -213,12 +213,7 @@ public class DocumentClient {
 
     // replace
     public func replace (collectionWithId collectionId: String, inDatabase databaseId: String, usingPolicy policy: DocumentCollection.IndexingPolicy, callback: @escaping (Response<DocumentCollection>) -> ()) {
-        
-        var collection = DocumentCollection(collectionId)
-
-        collection.indexingPolicy = policy
-
-        return self.replace(collection, at: .collection(databaseId: databaseId, id: collectionId), callback: callback)
+        return self.replace(DocumentCollection(collectionId, indexingPolicy: policy), at: .collection(databaseId: databaseId, id: collectionId), callback: callback)
     }
     
     
@@ -296,7 +291,7 @@ public class DocumentClient {
     
     // create
     public func create(attachmentWithId attachmentId: String, contentType: String, andMediaUrl mediaUrl: URL, onDocument documentId: String, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Attachment>) -> ()) {
-        return self.create(Attachment(withId: attachmentId, contentType: contentType, url: mediaUrl.absoluteString), at: .attachment(databaseId: databaseId, collectionId: collectionId, documentId: documentId, id: nil), callback: callback)
+        return self.create(Attachment(attachmentId, contentType: contentType, url: mediaUrl.absoluteString), at: .attachment(databaseId: databaseId, collectionId: collectionId, documentId: documentId, id: nil), callback: callback)
     }
     
     public func create(attachmentWithId attachmentId: String, contentType: String, name mediaName: String, with media: Data, onDocument documentId: String, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Attachment>) -> ()) {
@@ -304,7 +299,7 @@ public class DocumentClient {
     }
     
     public func create(attachmentWithId attachmentId: String, contentType: String, andMediaUrl mediaUrl: URL, onDocument document: Document, callback: @escaping (Response<Attachment>) -> ()) {
-        return self.create(Attachment(withId: attachmentId, contentType: contentType, url: mediaUrl.absoluteString), at: .child(.attachment, in: document, id: nil), callback: callback)
+        return self.create(Attachment(attachmentId, contentType: contentType, url: mediaUrl.absoluteString), at: .child(.attachment, in: document, id: nil), callback: callback)
     }
     
     public func create(attachmentWithId attachmentId: String, contentType: String, name mediaName: String, with media: Data, onDocument document: Document, callback: @escaping (Response<Attachment>) -> ()) {
@@ -331,7 +326,7 @@ public class DocumentClient {
     
     // replace
     public func replace(attachmentWithId attachmentId: String, contentType: String, andMediaUrl mediaUrl: URL, onDocument documentId: String, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Attachment>) -> ()) {
-        return self.replace(Attachment(withId: attachmentId, contentType: contentType, url: mediaUrl.absoluteString), at: .attachment(databaseId: databaseId, collectionId: collectionId, documentId: documentId, id: attachmentId), callback: callback)
+        return self.replace(Attachment(attachmentId, contentType: contentType, url: mediaUrl.absoluteString), at: .attachment(databaseId: databaseId, collectionId: collectionId, documentId: documentId, id: attachmentId), callback: callback)
     }
     
     public func replace(attachmentWithId attachmentId: String, contentType: String, name mediaName: String, with media: Data, onDocument documentId: String, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Attachment>) -> ()) {
@@ -339,7 +334,7 @@ public class DocumentClient {
     }
     
     public func replace(attachmentWithId attachmentId: String, contentType: String, andMediaUrl mediaUrl: URL, onDocument document: Document, callback: @escaping (Response<Attachment>) -> ()) {
-        return self.replace(Attachment(withId: attachmentId, contentType: contentType, url: mediaUrl.absoluteString), at: .child(.attachment, in: document, id: attachmentId), callback: callback)
+        return self.replace(Attachment(attachmentId, contentType: contentType, url: mediaUrl.absoluteString), at: .child(.attachment, in: document, id: attachmentId), callback: callback)
     }
     
     public func replace(attachmentWithId attachmentId: String, contentType: String, name mediaName: String, with media: Data, onDocument document: Document, callback: @escaping (Response<Attachment>) -> ()) {
@@ -354,11 +349,11 @@ public class DocumentClient {
     
     // create
     public func create (storedProcedureWithId storedProcedureId: String, andBody procedure: String, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<StoredProcedure>) -> ()) {
-        return self.create(resourceWithId: storedProcedureId, andData: ["body":procedure], at: .storedProcedure(databaseId: databaseId, collectionId: collectionId, id: nil), callback: callback)
+        return self.create(StoredProcedure(storedProcedureId, body: procedure), at: .storedProcedure(databaseId: databaseId, collectionId: collectionId, id: nil), callback: callback)
     }
     
     public func create (storedProcedureWithId storedProcedureId: String, andBody procedure: String, in collection: DocumentCollection, callback: @escaping (Response<StoredProcedure>) -> ()) {
-        return self.create(resourceWithId: storedProcedureId, andData: ["body":procedure], at: .child(.storedProcedure, in: collection, id: nil), callback: callback)
+        return self.create(StoredProcedure(storedProcedureId, body: procedure), at: .child(.storedProcedure, in: collection, id: nil), callback: callback)
     }
     
     // list
@@ -381,11 +376,11 @@ public class DocumentClient {
     
     // replace
     public func replace (storedProcedureWithId storedProcedureId: String, andBody procedure: String, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<StoredProcedure>) -> ()) {
-        return self.replace(resourceWithId: storedProcedureId, andData: ["body":procedure], at: .storedProcedure(databaseId: databaseId, collectionId: collectionId, id: storedProcedureId), callback: callback)
+        return self.replace(StoredProcedure(storedProcedureId, body: procedure), at: .storedProcedure(databaseId: databaseId, collectionId: collectionId, id: storedProcedureId), callback: callback)
     }
     
     public func replace (storedProcedureWithId storedProcedureId: String, andBody procedure: String, in collection: DocumentCollection, callback: @escaping (Response<StoredProcedure>) -> ()) {
-        return self.replace(resourceWithId: storedProcedureId, andData: ["body":procedure], at: .child(.storedProcedure, in: collection, id: storedProcedureId), callback: callback)
+        return self.replace(StoredProcedure(storedProcedureId, body: procedure), at: .child(.storedProcedure, in: collection, id: storedProcedureId), callback: callback)
     }
     
     // execute
@@ -405,11 +400,11 @@ public class DocumentClient {
     
     // create
     public func create (userDefinedFunctionWithId functionId: String, andBody function: String, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<UserDefinedFunction>) -> ()) {
-        return self.create(resourceWithId: functionId, andData: ["body":function], at: .udf(databaseId: databaseId, collectionId: collectionId, id: nil), callback: callback)
+        return self.create(UserDefinedFunction(functionId, body: function), at: .udf(databaseId: databaseId, collectionId: collectionId, id: nil), callback: callback)
     }
     
     public func create (userDefinedFunctionWithId functionId: String, andBody function: String, in collection: DocumentCollection, callback: @escaping (Response<UserDefinedFunction>) -> ()) {
-        return self.create(resourceWithId: functionId, andData: ["body":function], at: .child(.udf, in: collection, id: nil), callback: callback)
+        return self.create(UserDefinedFunction(functionId, body: function), at: .child(.udf, in: collection, id: nil), callback: callback)
     }
     
     // list
@@ -432,11 +427,11 @@ public class DocumentClient {
     
     // replace
     public func replace (userDefinedFunctionWithId functionId: String, andBody function: String, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<UserDefinedFunction>) -> ()) {
-        return self.replace(resourceWithId: functionId, andData: ["body":function], at: .udf(databaseId: databaseId, collectionId: collectionId, id: functionId), callback: callback)
+        return self.replace(UserDefinedFunction(functionId, body: function), at: .udf(databaseId: databaseId, collectionId: collectionId, id: functionId), callback: callback)
     }
     
     public func replace (userDefinedFunctionWithId functionId: String, andBody function: String, from collection: DocumentCollection, callback: @escaping (Response<UserDefinedFunction>) -> ()) {
-        return self.replace(resourceWithId: functionId, andData: ["body":function], at: .child(.udf, in: collection, id: functionId), callback: callback)
+        return self.replace(UserDefinedFunction(functionId, body: function), at: .child(.udf, in: collection, id: functionId), callback: callback)
     }
     
     
@@ -447,11 +442,11 @@ public class DocumentClient {
     
     // create
     public func create (triggerWithId triggerId: String, operation: Trigger.TriggerOperation, type triggerType: Trigger.TriggerType, andBody triggerBody: String, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Trigger>) -> ()) {
-        return self.create(Trigger(withId: triggerId, body: triggerBody, operation: operation, type: triggerType), at: .trigger(databaseId: databaseId, collectionId: collectionId, id: nil), callback: callback)
+        return self.create(Trigger(triggerId, body: triggerBody, operation: operation, type: triggerType), at: .trigger(databaseId: databaseId, collectionId: collectionId, id: nil), callback: callback)
     }
     
     public func create (triggerWithId triggerId: String, operation: Trigger.TriggerOperation, type triggerType: Trigger.TriggerType, andBody triggerBody: String, in collection: DocumentCollection, callback: @escaping (Response<Trigger>) -> ()) {
-        return self.create(Trigger(withId: triggerId, body: triggerBody, operation: operation, type: triggerType), at: .child(.trigger, in: collection, id: nil), callback: callback)
+        return self.create(Trigger(triggerId, body: triggerBody, operation: operation, type: triggerType), at: .child(.trigger, in: collection, id: nil), callback: callback)
     }
     
     // list
@@ -474,11 +469,11 @@ public class DocumentClient {
     
     // replace
     public func replace (triggerWithId triggerId: String, operation: Trigger.TriggerOperation, type triggerType: Trigger.TriggerType, andBody triggerBody: String, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Trigger>) -> ()) {
-        return self.replace(Trigger(withId: triggerId, body: triggerBody, operation: operation, type: triggerType), at: .trigger(databaseId: databaseId, collectionId: collectionId, id: triggerId), callback: callback)
+        return self.replace(Trigger(triggerId, body: triggerBody, operation: operation, type: triggerType), at: .trigger(databaseId: databaseId, collectionId: collectionId, id: triggerId), callback: callback)
     }
     
     public func replace (triggerWithId triggerId: String, operation: Trigger.TriggerOperation, type triggerType: Trigger.TriggerType, andBody triggerBody: String, in collection: DocumentCollection, callback: @escaping (Response<Trigger>) -> ()) {
-        return self.replace(Trigger(withId: triggerId, body: triggerBody, operation: operation, type: triggerType), at: .child(.trigger, in: collection, id: triggerId), callback: callback)
+        return self.replace(Trigger(triggerId, body: triggerBody, operation: operation, type: triggerType), at: .child(.trigger, in: collection, id: triggerId), callback: callback)
     }
 
     
@@ -489,11 +484,11 @@ public class DocumentClient {
     
     // create
     public func create (userWithId userId: String, inDatabase databaseId: String, callback: @escaping (Response<User>) -> ()) {
-        return self.create(resourceWithId: userId, at: .user(databaseId: databaseId, id: nil), callback: callback)
+        return self.create(User(userId), at: .user(databaseId: databaseId, id: nil), callback: callback)
     }
 
     public func create (userWithId userId: String, inDatabase database: Database, callback: @escaping (Response<User>) -> ()) {
-        return self.create(resourceWithId: userId, at: .child(.user, in: database, id: nil), callback: callback)
+        return self.create(User(userId), at: .child(.user, in: database, id: nil), callback: callback)
     }
 
     // list
@@ -525,11 +520,11 @@ public class DocumentClient {
     
     // replace
     public func replace (userWithId userId: String, with newUserId: String, inDatabase databaseId: String, callback: @escaping (Response<User>) -> ()) {
-        return self.replace(resourceWithId: newUserId, at: .user(databaseId: databaseId, id: userId), callback: callback)
+        return self.replace(User(userId), at: .user(databaseId: databaseId, id: userId), callback: callback)
     }
 
     public func replace (userWithId userId: String, with newUserId: String, inDatabase database: Database, callback: @escaping (Response<User>) -> ()) {
-        return self.replace(resourceWithId: newUserId, at: .child(.user, in: database, id: userId), callback: callback)
+        return self.replace(User(userId), at: .child(.user, in: database, id: userId), callback: callback)
     }
 
     
@@ -538,11 +533,11 @@ public class DocumentClient {
     
     // create
     public func create (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource, forUser userId: String, inDatabase databaseId: String, callback: @escaping (Response<Permission>) -> ()) {
-        return self.create(Permission(withId: permissionId, mode: permissionMode, forResource: resource.selfLink!), at: .permission(databaseId: databaseId, userId: userId, id: nil), callback: callback)
+        return self.create(Permission(permissionId, mode: permissionMode, forResource: resource.selfLink!), at: .permission(databaseId: databaseId, userId: userId, id: nil), callback: callback)
     }
     
     public func create (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource, forUser user: User, callback: @escaping (Response<Permission>) -> ()) {
-        return self.create(Permission(withId: permissionId, mode: permissionMode, forResource: resource.selfLink!), at: .child(.permission, in: user, id: nil), callback: callback)
+        return self.create(Permission(permissionId, mode: permissionMode, forResource: resource.selfLink!), at: .child(.permission, in: user, id: nil), callback: callback)
     }
     
     // list
@@ -574,11 +569,11 @@ public class DocumentClient {
     
     // replace
     public func replace (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource, forUser userId: String, inDatabase databaseId: String, callback: @escaping (Response<Permission>) -> ()) {
-        return self.replace(Permission(withId: permissionId, mode: permissionMode, forResource: resource.selfLink!), at: .permission(databaseId: databaseId, userId: userId, id: permissionId), callback: callback)
+        return self.replace(Permission(permissionId, mode: permissionMode, forResource: resource.selfLink!), at: .permission(databaseId: databaseId, userId: userId, id: permissionId), callback: callback)
     }
     
     public func replace (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource, forUser user: User, callback: @escaping (Response<Permission>) -> ()) {
-        return self.replace(Permission(withId: permissionId, mode: permissionMode, forResource: resource.selfLink!), at: .child(.permission, in: user, id: permissionId), callback: callback)
+        return self.replace(Permission(permissionId, mode: permissionMode, forResource: resource.selfLink!), at: .child(.permission, in: user, id: permissionId), callback: callback)
     }
     
     
@@ -618,19 +613,6 @@ public class DocumentClient {
         
         return self.createOrReplace(resource, at: resourceLocation, additionalHeaders: additionalHeaders, callback: callback)
     }
-
-    fileprivate func create<T:CodableResource> (resourceWithId id: String, andData data: [String:String?]? = nil, at resourceLocation: ResourceLocation, additionalHeaders: HttpHeaders? = nil, callback: @escaping (Response<T>) -> ()) {
-        
-        guard id.isValidIdForResource else {
-            callback(Response(DocumentClientError(withKind: .invalidId))); return
-        }
-        
-        var dict = data ?? [:]
-        
-        dict["id"] = id
-
-        return self.createOrReplace(dict, at: resourceLocation, additionalHeaders: additionalHeaders, callback: callback)
-    }
     
     // refresh
     func refresh<T:CodableResource>(_ resource: T, callback: @escaping (Response<T>) -> ()) {
@@ -639,14 +621,14 @@ public class DocumentClient {
         
         if let etag = resource.etag {
             
-            return self.resource(at: resourceLocation, additionalHeaders: [ HttpHeader.ifNoneMatch.rawValue : etag ], callback: callback)
+            return self.resource(at: resourceLocation, currentResource: resource, additionalHeaders: [ HttpHeader.ifNoneMatch.rawValue : etag ], callback: callback)
         }
 
-        return self.resource(at: resourceLocation, callback: callback)
+        return self.resource(at: resourceLocation, currentResource: resource, callback: callback)
     }
     
     // get
-    fileprivate func resource<T:CodableResource>(at resourceLocation: ResourceLocation, additionalHeaders: HttpHeaders? = nil, callback: @escaping (Response<T>) -> ()) {
+    fileprivate func resource<T:CodableResource>(at resourceLocation: ResourceLocation, currentResource current: T? = nil, additionalHeaders: HttpHeaders? = nil, callback: @escaping (Response<T>) -> ()) {
         
         guard !isOffline else { return cachedResource(at: resourceLocation, callback: callback) }
 
@@ -654,7 +636,7 @@ public class DocumentClient {
             
             if let request = r.resource {
             
-                self.sendRequest(request) { (response:Response<T>) in
+                self.sendRequest(request, currentResource: current) { (response:Response<T>) in
                     
                     self.isOffline = response.clientError.isConnectivityError
                     
@@ -788,16 +770,6 @@ public class DocumentClient {
         }
     }
 
-    // only used for Stored Procedures,
-    fileprivate func replace<T:CodableResource> (resourceWithId id: String, andData data: [String:String]? = nil, at resourceLocation: ResourceLocation, additionalHeaders: HttpHeaders? = nil, callback: @escaping (Response<T>) -> ()) {
-        
-        var dict = data ?? [:]
-        
-        dict["id"] = id
-
-        return self.createOrReplace(dict, at: resourceLocation, replacing: true, additionalHeaders: additionalHeaders, callback: callback)
-    }
-
     // query
     fileprivate func query<T:CodableResource> (_ query: Query, at resourceLocation: ResourceLocation, callback: @escaping (Response<Resources<T>>) -> ()) {
         
@@ -904,7 +876,9 @@ public class DocumentClient {
     fileprivate func cachedResource<T:CodableResource>(at resourceLocation: ResourceLocation, withResponse response: Response<T>? = nil, callback: @escaping (Response<T>) -> ()) {
         
         if let resource: T = ResourceCache.get(resourceAt: resourceLocation) {
-            callback(Response(request: response?.request, data: response?.data, response: response?.response, result: .success(resource)))
+            var cacheResponse = Response(request: response?.request, data: response?.data, response: response?.response, result: .success(resource))
+            cacheResponse.fromCache = true
+            callback(cacheResponse)
         } else {
             callback(Response(request: response?.request, data: response?.data, response: response?.response, result: .failure(DocumentClientError(withKind: .serviceUnavailable))))
         }

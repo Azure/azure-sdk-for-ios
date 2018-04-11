@@ -35,7 +35,7 @@ public struct Attachment : CodableResource {
     public private(set) var mediaLink: String?
 
     
-    init(withId id: String, contentType: String, url: String) {
+    init(_ id: String, contentType: String, url: String) {
         self.id = id
         self.resourceId = ""
         self.contentType = contentType

@@ -29,7 +29,7 @@ public enum HttpHeader : String {
     case contentRange       = "Content-Range"
     case contentType        = "Content-Type"
     case date               = "Date"
-    case etag               = "ETag"
+    case etag               = "Etag"
     case expect             = "Expect"
     case expires            = "Expires"
     case from               = "From"

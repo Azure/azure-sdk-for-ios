@@ -57,6 +57,8 @@ public struct Offer : CodableResource {
         /// Represents customizable throughput chosen by user for his collection in the Azure Cosmos DB service.
         public private(set) var offerThroughput: Int = 1000
     }
+    
+    public init (_ id: String) { self.id = id; resourceId = "" }
 }
 
 

@@ -33,6 +33,8 @@ public struct ResourceError : CodableResource {
     
     /// Gets or sets the error message in the Azure Cosmos DB service.
     public private(set) var message: String?
+    
+    public init (_ id: String) { self.id = id; resourceId = "" }
 }
 
 

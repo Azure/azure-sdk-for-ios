@@ -119,6 +119,8 @@ public struct DatabaseAccount : CodableResource {
         /// For example, "West US" as the name of the database account location in the West US region.
         public private(set) var name: String?
     }
+    
+    public init (_ id: String) { self.id = id; resourceId = "" }
 }
 
 

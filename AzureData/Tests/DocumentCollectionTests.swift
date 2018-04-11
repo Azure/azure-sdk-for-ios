@@ -31,7 +31,7 @@ class DocumentCollectionTests: AzureDataTests {
 
         
         // Create
-        AzureData.create(collectionWithId: collectionId, inDatabase: databaseId) { r in
+        AzureData.create(collectionWithId: resourceId, inDatabase: databaseId) { r in
             createResponse = r
             self.createExpectation.fulfill()
         }
@@ -55,7 +55,7 @@ class DocumentCollectionTests: AzureDataTests {
         
         
         // Get
-        AzureData.get(collectionWithId: collectionId, inDatabase: databaseId) { r in
+        AzureData.get(collectionWithId: resourceId, inDatabase: databaseId) { r in
             getResponse = r
             self.getExpectation.fulfill()
         }
@@ -80,6 +80,7 @@ class DocumentCollectionTests: AzureDataTests {
         XCTAssertNotNil(refreshResponse?.resource)
 
         
+        // Replace
         if getResponse?.result.isSuccess ?? false {
 
             let policy = DocumentCollection.IndexingPolicy(
@@ -100,7 +101,7 @@ class DocumentCollectionTests: AzureDataTests {
                 indexingMode: .lazy
             )
 
-            AzureData.replace(collectionWithId: collectionId, inDatabase: databaseId, usingPolicy: policy) { r in
+            AzureData.replace(collectionWithId: resourceId, inDatabase: databaseId, usingPolicy: policy) { r in
                 replaceResponse = r
                 self.replaceExpectation.fulfill()
             }
@@ -112,7 +113,7 @@ class DocumentCollectionTests: AzureDataTests {
 
         // Delete
         if getResponse?.result.isSuccess ?? false {
-            AzureData.delete(collectionWithId: collectionId, fromDatabase: databaseId) { r in
+            AzureData.delete(collectionWithId: resourceId, fromDatabase: databaseId) { r in
                 deleteResponse = r
                 self.deleteExpectation.fulfill()
             }

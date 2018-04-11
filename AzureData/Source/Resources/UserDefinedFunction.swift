@@ -42,6 +42,12 @@ public struct UserDefinedFunction : CodableResource {
     /// - Example:
     ///   `"function (input) { return input.toLowerCase(); }"`
     public private(set) var body: String?
+    
+    public init (_ id: String, body: String) {
+        self.id = id
+        self.resourceId = ""
+        self.body = body
+    }
 }
 
 

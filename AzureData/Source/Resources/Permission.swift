@@ -47,7 +47,7 @@ public struct Permission : CodableResource {
     /// Gets the access token granting the defined permission from the Azure Cosmos DB service.
     public private(set) var token: String?
     
-    init(withId id: String, mode: PermissionMode, forResource resource: String) {
+    init(_ id: String, mode: PermissionMode, forResource resource: String) {
         self.id = id
         self.resourceId = ""
         self.permissionMode = mode

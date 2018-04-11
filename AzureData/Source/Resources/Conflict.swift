@@ -61,6 +61,8 @@ public struct Conflict : CodableResource {
         case read       = "Read"
         case replace    = "Replace"
     }
+    
+    public init (_ id: String) { self.id = id; resourceId = "" }
 }
 
 private extension Conflict {

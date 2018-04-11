@@ -181,6 +181,11 @@ public struct DocumentCollection : CodableResource {
     
     
     public init (_ id: String) { self.id = id; resourceId = "" }
+    public init (_ id: String, indexingPolicy: IndexingPolicy) {
+        self.id = id
+        self.resourceId = ""
+        self.indexingPolicy = indexingPolicy
+    }
 }
 
 
