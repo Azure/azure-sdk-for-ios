@@ -25,7 +25,7 @@ class DatabaseTests: AzureDataTests {
         var listResponse:       Response<Resources<Database>>?
         var getResponse:        Response<Database>?
         var deleteResponse:     Response<Data>?
-        var refreshResponse:    Response<Database>?
+        //var refreshResponse:    Response<Database>?
         //var replaceResponse:    Response<Database>?
         //var queryResponse:      ListResponse<Database>?
 
