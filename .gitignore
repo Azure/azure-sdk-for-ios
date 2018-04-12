@@ -92,8 +92,8 @@ playground.xcworkspace
 */Carthage/Checkouts
 */Carthage/Build
 
-AzureData Sample/Carthage/Checkouts
-AzureData Sample/Carthage/Build/
+Example/AzureData iOS Example/Carthage/Checkouts
+Example/AzureData iOS Example/Carthage/Build
 
 
 # fastlane
@@ -125,3 +125,4 @@ project.lock.json
 
 AzureData Sample/scripts/test-all.sh
 
+Azure.framework.zip

@@ -33,10 +33,11 @@ class DocumentClient {
     
     func networkReachabilityChanged(status: ReachabilityManager.NetworkReachabilityStatus) {
         Log.debug("Network Status Changed: \(status)")
+        self.isOffline = false
     }
     #endif
     
-    /// The underlying session.
+
     fileprivate let session: URLSession
 
 

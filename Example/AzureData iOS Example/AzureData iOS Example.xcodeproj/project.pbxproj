@@ -1,0 +1,460 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9379D8A9207EF5AF008EF22B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9379D8A8207EF5AF008EF22B /* AppDelegate.swift */; };
+		9379D8AE207EF5AF008EF22B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9379D8AC207EF5AF008EF22B /* Main.storyboard */; };
+		9379D8B0207EF5B0008EF22B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9379D8AF207EF5B0008EF22B /* Assets.xcassets */; };
+		9379D8B3207EF5B0008EF22B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9379D8B1207EF5B0008EF22B /* LaunchScreen.storyboard */; };
+		9379D8C6207EF6D7008EF22B /* DatabaseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9379D8BA207EF6D6008EF22B /* DatabaseTableViewController.swift */; };
+		9379D8C7207EF6D7008EF22B /* CollectionResourceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9379D8BB207EF6D6008EF22B /* CollectionResourceTableViewController.swift */; };
+		9379D8C8207EF6D7008EF22B /* CollectionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9379D8BC207EF6D6008EF22B /* CollectionTableViewController.swift */; };
+		9379D8C9207EF6D7008EF22B /* DocumentDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9379D8BD207EF6D6008EF22B /* DocumentDetailTableViewController.swift */; };
+		9379D8CA207EF6D7008EF22B /* DocumentTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9379D8BE207EF6D6008EF22B /* DocumentTableViewController.swift */; };
+		9379D8CB207EF6D7008EF22B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9379D8BF207EF6D7008EF22B /* Extensions.swift */; };
+		9379D8CC207EF6D7008EF22B /* UserDefinedFunctionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9379D8C0207EF6D7008EF22B /* UserDefinedFunctionTableViewController.swift */; };
+		9379D8CD207EF6D7008EF22B /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9379D8C1207EF6D7008EF22B /* Models.swift */; };
+		9379D8CE207EF6D7008EF22B /* CustomDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9379D8C2207EF6D7008EF22B /* CustomDocument.swift */; };
+		9379D8CF207EF6D7008EF22B /* StoredProcedureTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9379D8C3207EF6D7008EF22B /* StoredProcedureTableViewController.swift */; };
+		9379D8D0207EF6D7008EF22B /* PermissionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9379D8C4207EF6D7008EF22B /* PermissionTableViewController.swift */; };
+		9379D8D1207EF6D7008EF22B /* TriggerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9379D8C5207EF6D7008EF22B /* TriggerTableViewController.swift */; };
+		9379D8D6207F010D008EF22B /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9379D8D5207F010D008EF22B /* AzureCore.framework */; };
+		9379D8D8207F0113008EF22B /* AzureData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9379D8D7207F0113008EF22B /* AzureData.framework */; };
+		9379D8DA207F0893008EF22B /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9379D8D9207F0893008EF22B /* KeychainAccess.framework */; };
+		9379D8DC207F0898008EF22B /* Willow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9379D8DB207F0897008EF22B /* Willow.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		9379D8A5207EF5AF008EF22B /* AzureData iOS Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AzureData iOS Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9379D8A8207EF5AF008EF22B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		9379D8AD207EF5AF008EF22B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		9379D8AF207EF5B0008EF22B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9379D8B2207EF5B0008EF22B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		9379D8B4207EF5B0008EF22B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9379D8BA207EF6D6008EF22B /* DatabaseTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseTableViewController.swift; sourceTree = "<group>"; };
+		9379D8BB207EF6D6008EF22B /* CollectionResourceTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionResourceTableViewController.swift; sourceTree = "<group>"; };
+		9379D8BC207EF6D6008EF22B /* CollectionTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionTableViewController.swift; sourceTree = "<group>"; };
+		9379D8BD207EF6D6008EF22B /* DocumentDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentDetailTableViewController.swift; sourceTree = "<group>"; };
+		9379D8BE207EF6D6008EF22B /* DocumentTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentTableViewController.swift; sourceTree = "<group>"; };
+		9379D8BF207EF6D7008EF22B /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		9379D8C0207EF6D7008EF22B /* UserDefinedFunctionTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefinedFunctionTableViewController.swift; sourceTree = "<group>"; };
+		9379D8C1207EF6D7008EF22B /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		9379D8C2207EF6D7008EF22B /* CustomDocument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomDocument.swift; sourceTree = "<group>"; };
+		9379D8C3207EF6D7008EF22B /* StoredProcedureTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoredProcedureTableViewController.swift; sourceTree = "<group>"; };
+		9379D8C4207EF6D7008EF22B /* PermissionTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionTableViewController.swift; sourceTree = "<group>"; };
+		9379D8C5207EF6D7008EF22B /* TriggerTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TriggerTableViewController.swift; sourceTree = "<group>"; };
+		9379D8D5207F010D008EF22B /* AzureCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AzureCore.framework; path = Carthage/Build/iOS/AzureCore.framework; sourceTree = "<group>"; };
+		9379D8D7207F0113008EF22B /* AzureData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AzureData.framework; path = Carthage/Build/iOS/AzureData.framework; sourceTree = "<group>"; };
+		9379D8D9207F0893008EF22B /* KeychainAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainAccess.framework; path = Carthage/Build/iOS/KeychainAccess.framework; sourceTree = "<group>"; };
+		9379D8DB207F0897008EF22B /* Willow.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Willow.framework; path = Carthage/Build/iOS/Willow.framework; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9379D8A2207EF5AF008EF22B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9379D8D6207F010D008EF22B /* AzureCore.framework in Frameworks */,
+				9379D8D8207F0113008EF22B /* AzureData.framework in Frameworks */,
+				9379D8DC207F0898008EF22B /* Willow.framework in Frameworks */,
+				9379D8DA207F0893008EF22B /* KeychainAccess.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9379D89C207EF5AF008EF22B = {
+			isa = PBXGroup;
+			children = (
+				9379D8A7207EF5AF008EF22B /* AzureData iOS Example */,
+				9379D8A6207EF5AF008EF22B /* Products */,
+				9379D8D4207F010D008EF22B /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		9379D8A6207EF5AF008EF22B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9379D8A5207EF5AF008EF22B /* AzureData iOS Example.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9379D8A7207EF5AF008EF22B /* AzureData iOS Example */ = {
+			isa = PBXGroup;
+			children = (
+				9379D8BB207EF6D6008EF22B /* CollectionResourceTableViewController.swift */,
+				9379D8BC207EF6D6008EF22B /* CollectionTableViewController.swift */,
+				9379D8C2207EF6D7008EF22B /* CustomDocument.swift */,
+				9379D8BA207EF6D6008EF22B /* DatabaseTableViewController.swift */,
+				9379D8BD207EF6D6008EF22B /* DocumentDetailTableViewController.swift */,
+				9379D8BE207EF6D6008EF22B /* DocumentTableViewController.swift */,
+				9379D8BF207EF6D7008EF22B /* Extensions.swift */,
+				9379D8C1207EF6D7008EF22B /* Models.swift */,
+				9379D8C4207EF6D7008EF22B /* PermissionTableViewController.swift */,
+				9379D8C3207EF6D7008EF22B /* StoredProcedureTableViewController.swift */,
+				9379D8C5207EF6D7008EF22B /* TriggerTableViewController.swift */,
+				9379D8C0207EF6D7008EF22B /* UserDefinedFunctionTableViewController.swift */,
+				9379D8A8207EF5AF008EF22B /* AppDelegate.swift */,
+				9379D8AC207EF5AF008EF22B /* Main.storyboard */,
+				9379D8AF207EF5B0008EF22B /* Assets.xcassets */,
+				9379D8B1207EF5B0008EF22B /* LaunchScreen.storyboard */,
+				9379D8B4207EF5B0008EF22B /* Info.plist */,
+			);
+			path = "AzureData iOS Example";
+			sourceTree = "<group>";
+		};
+		9379D8D4207F010D008EF22B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9379D8DB207F0897008EF22B /* Willow.framework */,
+				9379D8D9207F0893008EF22B /* KeychainAccess.framework */,
+				9379D8D7207F0113008EF22B /* AzureData.framework */,
+				9379D8D5207F010D008EF22B /* AzureCore.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9379D8A4207EF5AF008EF22B /* AzureData iOS Example */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9379D8B7207EF5B0008EF22B /* Build configuration list for PBXNativeTarget "AzureData iOS Example" */;
+			buildPhases = (
+				9379D8A1207EF5AF008EF22B /* Sources */,
+				9379D8A2207EF5AF008EF22B /* Frameworks */,
+				9379D8A3207EF5AF008EF22B /* Resources */,
+				9379D8D2207EF737008EF22B /* Carthage Copy Frameworks */,
+				9379D8D3207EF79D008EF22B /* Carthage Outdated Warning */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AzureData iOS Example";
+			productName = "AzureData iOS Example";
+			productReference = 9379D8A5207EF5AF008EF22B /* AzureData iOS Example.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9379D89D207EF5AF008EF22B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0930;
+				LastUpgradeCheck = 0930;
+				TargetAttributes = {
+					9379D8A4207EF5AF008EF22B = {
+						CreatedOnToolsVersion = 9.3;
+					};
+				};
+			};
+			buildConfigurationList = 9379D8A0207EF5AF008EF22B /* Build configuration list for PBXProject "AzureData iOS Example" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 9379D89C207EF5AF008EF22B;
+			productRefGroup = 9379D8A6207EF5AF008EF22B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9379D8A4207EF5AF008EF22B /* AzureData iOS Example */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9379D8A3207EF5AF008EF22B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9379D8B3207EF5B0008EF22B /* LaunchScreen.storyboard in Resources */,
+				9379D8B0207EF5B0008EF22B /* Assets.xcassets in Resources */,
+				9379D8AE207EF5AF008EF22B /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		9379D8D2207EF737008EF22B /* Carthage Copy Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/AzureCore.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/AzureData.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Willow.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/KeychainAccess.framework",
+			);
+			name = "Carthage Copy Frameworks";
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/AzureCore.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/AzureData.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Willow.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/KeychainAccess.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+		9379D8D3207EF79D008EF22B /* Carthage Outdated Warning */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Carthage Outdated Warning";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage outdated --xcode-warnings";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9379D8A1207EF5AF008EF22B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9379D8CF207EF6D7008EF22B /* StoredProcedureTableViewController.swift in Sources */,
+				9379D8CC207EF6D7008EF22B /* UserDefinedFunctionTableViewController.swift in Sources */,
+				9379D8CA207EF6D7008EF22B /* DocumentTableViewController.swift in Sources */,
+				9379D8C9207EF6D7008EF22B /* DocumentDetailTableViewController.swift in Sources */,
+				9379D8CB207EF6D7008EF22B /* Extensions.swift in Sources */,
+				9379D8CE207EF6D7008EF22B /* CustomDocument.swift in Sources */,
+				9379D8C8207EF6D7008EF22B /* CollectionTableViewController.swift in Sources */,
+				9379D8C7207EF6D7008EF22B /* CollectionResourceTableViewController.swift in Sources */,
+				9379D8C6207EF6D7008EF22B /* DatabaseTableViewController.swift in Sources */,
+				9379D8D1207EF6D7008EF22B /* TriggerTableViewController.swift in Sources */,
+				9379D8A9207EF5AF008EF22B /* AppDelegate.swift in Sources */,
+				9379D8CD207EF6D7008EF22B /* Models.swift in Sources */,
+				9379D8D0207EF6D7008EF22B /* PermissionTableViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		9379D8AC207EF5AF008EF22B /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9379D8AD207EF5AF008EF22B /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		9379D8B1207EF5B0008EF22B /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9379D8B2207EF5B0008EF22B /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		9379D8B5207EF5B0008EF22B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		9379D8B6207EF5B0008EF22B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		9379D8B8207EF5B0008EF22B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = N7C38P267Q;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = "AzureData iOS Example/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.azure.AzureData-iOS-Example";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		9379D8B9207EF5B0008EF22B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = N7C38P267Q;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = "AzureData iOS Example/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.azure.AzureData-iOS-Example";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9379D8A0207EF5AF008EF22B /* Build configuration list for PBXProject "AzureData iOS Example" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9379D8B5207EF5B0008EF22B /* Debug */,
+				9379D8B6207EF5B0008EF22B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9379D8B7207EF5B0008EF22B /* Build configuration list for PBXNativeTarget "AzureData iOS Example" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9379D8B8207EF5B0008EF22B /* Debug */,
+				9379D8B9207EF5B0008EF22B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9379D89D207EF5AF008EF22B /* Project object */;
+}
