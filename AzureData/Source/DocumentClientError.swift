@@ -80,15 +80,15 @@ public struct DocumentClientError : Error {
     /// A URLError
     public var urlError: URLError? { return baseError as? URLError }
     
-    init(withError error: Error) {
+    public init(withError error: Error) {
         self.baseError = error
     }
 
-    init(withKind kind: ErrorKind) {
+    public init(withKind kind: ErrorKind) {
         self.kind = kind
     }
     
-    init(withData data: Data?, response: HTTPURLResponse?, error: Error? = nil) {
+    public init(withData data: Data?, response: HTTPURLResponse?, error: Error? = nil) {
         
         if let response = response {
             
@@ -159,8 +159,7 @@ extension HttpStatusCode {
 }
 
 
-extension Optional where Wrapped == DocumentClientError {
-    
+public extension Optional where Wrapped == DocumentClientError {
     public var isConnectivityError: Bool {
         return self?.urlError?.code == .notConnectedToInternet //|| urlError?.code == .
     }
@@ -178,7 +177,7 @@ extension DocumentClientError : CustomDebugStringConvertible {
     }
 }
 
-extension DocumentClientError {
+public extension DocumentClientError {
     public var localizedDescription: String {
         return self.message
     }
@@ -190,7 +189,7 @@ public extension Response {
         return error as? DocumentClientError
     }
     
-    func logError() {
+    public func logError() {
         
         if clientError?.kind == .preconditionFailure { return }
         
