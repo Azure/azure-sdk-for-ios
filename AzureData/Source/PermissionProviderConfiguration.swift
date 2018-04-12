@@ -10,7 +10,7 @@ import Foundation
 
 public struct PermissionProviderConfiguration {
     
-    static let `default`: PermissionProviderConfiguration = PermissionProviderConfiguration()
+    public static let `default`: PermissionProviderConfiguration = PermissionProviderConfiguration()
     
     // get readWrite token even for read operations to prevent scenario of
     // getting a read token for a read operation then subsequently performing
@@ -20,7 +20,7 @@ public struct PermissionProviderConfiguration {
     // if this is set to .all, should always request a readWrite token from server
     //
     // default: .read
-    var defaultPermissionMode: PermissionMode = .read
+    public var defaultPermissionMode: PermissionMode = .read
     
     // this specifies the at what level of the resource hierarchy
     // (Database/Collection/Document) to request a resource token
@@ -30,10 +30,10 @@ public struct PermissionProviderConfiguration {
     // entire collection versus requesting a token only for the document
     //
     // default: .collection
-    var defaultResourceType: ResourceType? = .collection
+    public var defaultResourceType: ResourceType? = .collection
     
     
-    var defaultTokenDuration: Double = 3600 // 1 hour
+    public var defaultTokenDuration: Double = 3600 // 1 hour
     
-    var tokenRefreshThreshold: Double = 600 // 10 minutes
+    public var tokenRefreshThreshold: Double = 600 // 10 minutes
 }
