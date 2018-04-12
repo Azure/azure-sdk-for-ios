@@ -195,25 +195,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		9317A815206569D200338B63 /* Crypto */ = {
-			isa = PBXGroup;
-			children = (
-				93ED346A20654D68008F8807 /* CryptoProvider.h */,
-				93ED346520654D45008F8807 /* CryptoProvider.m */,
-			);
-			name = Crypto;
-			sourceTree = "<group>";
-		};
-		93426C7C20641E9300AA27C5 /* Http */ = {
-			isa = PBXGroup;
-			children = (
-				93426C7D20641EA900AA27C5 /* HttpHeader.swift */,
-				93426C8220641ED200AA27C5 /* HttpStatusCode.swift */,
-				93426C8720641EE500AA27C5 /* HttpMethod.swift */,
-			);
-			name = Http;
-			sourceTree = "<group>";
-		};
 		93DA940D206038B900C49122 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -256,13 +237,16 @@
 		93F8054A202BB20300D0B4F4 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				93ED346A20654D68008F8807 /* CryptoProvider.h */,
+				93ED346520654D45008F8807 /* CryptoProvider.m */,
 				93B7240F206486FC00984CA8 /* DateFormat.swift */,
+				93426C7D20641EA900AA27C5 /* HttpHeader.swift */,
+				93426C8720641EE500AA27C5 /* HttpMethod.swift */,
+				93426C8220641ED200AA27C5 /* HttpStatusCode.swift */,
 				935410D1206ECFC5004B20B9 /* Keychain.swift */,
 				93DA941E20634C5500C49122 /* Logger.swift */,
-				9317A815206569D200338B63 /* Crypto */,
-				93426C7C20641E9300AA27C5 /* Http */,
-				930A01B6202BB910002BD1FE /* Supporting Files */,
 				932F01372077C318001D708B /* ReachabilityManager.swift */,
+				930A01B6202BB910002BD1FE /* Supporting Files */,
 			);
 			path = Source;
 			sourceTree = "<group>";

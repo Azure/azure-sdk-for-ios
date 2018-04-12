@@ -68,7 +68,7 @@ public struct ResponseMetadata {
         self.alternateContentPath = headers[.msAltContentPath]
         self.contentType = headers[HttpHeader.contentType.rawValue] as? String
         self.continuation = headers[.msContinuation]
-        self.date = DateFormat.getRFC1123Formatter().date(from: (headers["Date"] as? String) ?? "")
+        self.date = DateFormat.getRFC1123Formatter().date(from: (headers[HttpHeader.date.rawValue] as? String) ?? "")
         self.etag = headers[HttpHeader.etag.rawValue] as? String
         self.itemCount = headers[.msItemCount]
         self.requestCharge = headers[.msRequestCharge]
