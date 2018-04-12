@@ -37,7 +37,7 @@ public class DocumentClient {
     }
     
     func networkReachabilityChanged(status: ReachabilityManager.NetworkReachabilityStatus) {
-        log?.debugMessage("Network Status Changed: \(status)")
+        Log.debug("Network Status Changed: \(status)")
     }
     #endif
     
@@ -68,10 +68,10 @@ public class DocumentClient {
         
         encoder.dateEncodingStrategy = .custom(self.dateEncoder!)
         
-//        log?.debugMessage {
-//            encoder.outputFormatting = .prettyPrinted
-//            return "encoder.outputFormatting = .prettyPrinted"
-//        }
+        Log.debug {
+            encoder.outputFormatting = .prettyPrinted
+            return "encoder.outputFormatting = .prettyPrinted"
+        }
         
         return encoder
     }()
@@ -1015,7 +1015,7 @@ public class DocumentClient {
 
             } else if let data = data, let code = httpResponse?.statusCode, let statusCode = HttpStatusCode(rawValue: code) {
                 
-                //log?.debugMessage(String(data: data, encoding: .utf8) ?? "nil")
+                //Log.debugMessage(String(data: data, encoding: .utf8) ?? "nil")
                 
                 switch statusCode {
                 //case .created: // cache locally
@@ -1115,7 +1115,7 @@ public class DocumentClient {
             
             permissionProvider.getPermission(forResourceAt: resourceLocation, withPermissionMode: method.write ? .all : .read) { r in
              
-                //log?.debugMessage(result.error?.localizedDescription ?? result.permission?.token ?? "nope")
+                //Log.debugMessage(result.error?.localizedDescription ?? result.permission?.token ?? "nope")
                 
                 if let token = r.resource?.token?.addingPercentEncoding(withAllowedCharacters: CharacterSet.alphanumerics)! {
                     
@@ -1136,7 +1136,7 @@ public class DocumentClient {
     }
     
     fileprivate func logRequest<T>(_ request: URLRequest, for type: T.Type) {
-        log?.debugMessage {
+        Log.debug {
             let methodString = request.httpMethod ?? ""
             let urlString = request.url?.absoluteString ?? ""
             //let bodyString = request.httpBody != nil ? String(data: request.httpBody!, encoding: .utf8) ?? "empty" : "empty"

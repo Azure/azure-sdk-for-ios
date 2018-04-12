@@ -55,7 +55,7 @@ public class ExamplePermissionProvider : PermissionProvider {
                 
             } else if let data = data {
                 
-                //print(String(data: data, encoding: .utf8) ?? "fail")
+                //Log.debugMessage(String(data: data, encoding: .utf8) ?? "fail")
                 
                 do {
                     let permission = try self.decoder.decode(Permission.self, from: data)

@@ -47,7 +47,7 @@ public class ResourceCache {
                 try FileManager.default.cache(json, at: ResourceOracle.getFilePath(forResource: resource))
                 
             } catch {
-                log?.errorMessage("❌ Cache Error [_cache]: " + error.localizedDescription)
+                Log.error("❌ Cache Error [_cache]: " + error.localizedDescription)
             }
         }
     }
@@ -92,7 +92,7 @@ public class ResourceCache {
                 return try jsonDecoder.decode(T.self, from: file)
             }
         } catch {
-            log?.errorMessage("❌ Cache Error [get]: " + error.localizedDescription)
+            Log.error("❌ Cache Error [get]: " + error.localizedDescription)
             return nil
         }
 
@@ -117,7 +117,7 @@ public class ResourceCache {
                 return nil
             }
         } catch {
-            log?.errorMessage("❌ Cache Error [get]: " + error.localizedDescription)
+            Log.error("❌ Cache Error [get]: " + error.localizedDescription)
             return nil
         }
     }
@@ -138,7 +138,7 @@ public class ResourceCache {
             ResourceOracle.removeLink(forResourceAt: location)
             
         } catch {
-            log?.errorMessage("❌ Cache Error [remove]: " + error.localizedDescription)
+            Log.error("❌ Cache Error [remove]: " + error.localizedDescription)
         }
     }
     
@@ -147,7 +147,7 @@ public class ResourceCache {
         do {
             try FileManager.default.purge()
         } catch {
-            log?.errorMessage("❌ Cache Error [purge]: " + error.localizedDescription)
+            Log.error("❌ Cache Error [purge]: " + error.localizedDescription)
             throw error
         }
     }

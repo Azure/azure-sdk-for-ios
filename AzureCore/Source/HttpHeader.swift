@@ -165,7 +165,7 @@ public extension Bundle {
                 return "\(fmwkName)/\(fmwkVersion)" // AzureData/2.0.0
             }()
             
-            log?.debugMessage("\nUserAgent: \(executable)/\(appVersion) (\(bundle); build:\(appBuild); \(osNameVersion)) \(fmwkNameVersion)")
+            Log.debug("\nUserAgent: \(executable)/\(appVersion) (\(bundle); build:\(appBuild); \(osNameVersion)) \(fmwkNameVersion)")
             
             return "\(executable)/\(appVersion) (\(bundle); build:\(appBuild); \(osNameVersion)) \(fmwkNameVersion)"
         }

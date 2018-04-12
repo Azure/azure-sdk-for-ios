@@ -195,7 +195,7 @@ public extension Response {
         if clientError?.kind == .preconditionFailure { return }
         
         if let errorMessage = clientError?.localizedDescription ?? error?.localizedDescription {
-            log?.errorMessage(errorMessage)
+            Log.error(errorMessage)
         }
     }
 }
