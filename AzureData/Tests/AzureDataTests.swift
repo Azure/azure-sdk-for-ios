@@ -80,11 +80,8 @@ class AzureDataTests: XCTestCase {
         // AzureData.configure(forAccountNamed: "<Database Name>", withMasterKey: "<Database Master Key OR Resource Permission Token>", withPermissionMode: "<Master Key Permission Mode>")
         
 
-        AzureData.offlineDataEnabled = false
-        
-        DocumentClient.default.dateEncoder = DocumentClient.roundTripIso8601Encoder
-        DocumentClient.default.dateDecoder = DocumentClient.roundTripIso8601Decoder
-        
+        //AzureData.offlineDataEnabled = false
+                
         if ensureDatabase {
         
             let initGetDatabaseExpectation = self.expectation(description: "Should get database")

@@ -23,8 +23,8 @@ class DocumentTests: AzureDataTests {
     
     func testHandleDate() {
         
-        let encoder = DocumentClient.default.jsonEncoder
-        let decoder = DocumentClient.default.jsonDecoder
+        let encoder = AzureData.jsonEncoder
+        let decoder = AzureData.jsonDecoder
         
         let now = Date()
         

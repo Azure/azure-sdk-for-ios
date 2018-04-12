@@ -12,13 +12,13 @@ import XCTest
 class CodableResourceTests: XCTestCase {
     
     let jsonEncoder: JSONEncoder = {
-        let encoder = DocumentClient.default.jsonEncoder
+        let encoder = AzureData.jsonEncoder
         encoder.outputFormatting = .prettyPrinted
         return encoder
     }()
 
     let jsonDecoder: JSONDecoder = {
-        let decoder = DocumentClient.default.jsonDecoder
+        let decoder = AzureData.jsonDecoder
         return decoder
     }()
 
