@@ -66,7 +66,7 @@ class PermissionTableViewController: UITableViewController {
                 debugPrint("id: \(id)")
                 debugPrint("mode: \(mode)")
                 
-                self.user.create(permissionWithId: id, mode: .read, forUser: self.user) { r in
+                self.user.create(permissionWithId: id, mode: .read, in: self.collection) { r in
                     debugPrint(r.result)
                     DispatchQueue.main.async {
                         if let permission = r.resource {

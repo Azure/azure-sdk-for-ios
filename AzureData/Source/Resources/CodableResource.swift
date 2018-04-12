@@ -49,6 +49,10 @@ extension CodableResource {
         return Self.type
     }
     
+    public var resourceType: ResourceType? {
+        return ResourceType(rawValue: Self.type)
+    }
+    
     public var hasValidId: Bool {
         return self.id.isValidIdForResource
     }
