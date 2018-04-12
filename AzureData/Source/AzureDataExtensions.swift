@@ -16,6 +16,10 @@ public extension CodableResource {
         return DocumentClient.shared.delete(self, callback: callback)
     }
 
+    public func refresh(_ callback: @escaping (Response<Self>) -> ()) {
+        return DocumentClient.shared.refresh(self, callback: callback)
+    }
+
     public func create(permissionWithId permissionId: String, mode permissionMode: PermissionMode, forUser user: User, callback: @escaping (Response<Permission>) -> ()) {
         return DocumentClient.shared.create(permissionWithId: permissionId, mode: permissionMode, in: self, forUser: user, callback: callback)
     }
@@ -26,12 +30,7 @@ public extension CodableResource {
 // MARK: -
 
 public extension Database {
-    
-    public func refresh(_ callback: @escaping (Response<Database>) -> ()) {
-        return DocumentClient.shared.refresh(self, callback: callback)
-    }
 
-    
     // MARK: Document Collection
     
     //create
@@ -96,11 +95,6 @@ public extension Database {
 // MARK: -
 
 public extension DocumentCollection {
-    
-    public func refresh(_ callback: @escaping (Response<DocumentCollection>) -> ()) {
-        return DocumentClient.shared.refresh(self, callback: callback)
-    }
-
     
     // MARK: Documents
     
@@ -238,11 +232,6 @@ public extension DocumentCollection {
 
 public extension Document {
     
-    public func refresh(_ callback: @escaping (Response<Document>) -> ()) {
-        return DocumentClient.shared.refresh(self, callback: callback)
-    }
-    
-    
     // MARK: Attachments
     
     // create
@@ -284,11 +273,6 @@ public extension Document {
 
 public extension User {
     
-    public func refresh(_ callback: @escaping (Response<User>) -> ()) {
-        return DocumentClient.shared.refresh(self, callback: callback)
-    }
-
-    
     // MARK: Permissions
     
     // create
@@ -320,9 +304,6 @@ public extension User {
         return DocumentClient.shared.replace (permissionWithId: permissionId, mode: permissionMode, in: resource, forUser: self, callback: callback)
     }
 }
-
-
-
 
 
 
