@@ -35,7 +35,6 @@ extension Optional where Wrapped == Date {
     }
 }
 
-
 extension Decodable {
     static func decode(data: Data) throws -> Self {
         let decoder = JSONDecoder()

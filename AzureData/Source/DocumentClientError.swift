@@ -30,6 +30,8 @@ public struct DocumentClientError : Error {
         case internalServerError
         case serviceUnavailable
         case permissionError
+        case noMoreResultsError
+        case resourceRequestError(_: ResourceRequestError)
 
         var message: String {
             switch self {
@@ -39,6 +41,8 @@ public struct DocumentClientError : Error {
             case .invalidId:        return "Cosmos DB Resource IDs must not exceed 255 characters and cannot contain whitespace"
             case .incompleteIds:    return "This resource is missing the selfLink and/or resourceId properties.  Use an override that takes parent resource or ids instead."
             case .permissionError:  return "Configuring AzureData using a PermissionProvider implements access control based on resource-specific Permissions. This authorization model only supports accessing application resources (Collections, Stored Procedures, Triggers, UDFs, Documents, and Attachments). In order to access administrative resources (Database Accounts, Databases, Users, Permission, and Offers) require AzureData is configured using a master key."
+            case .noMoreResultsError: return "Response.next() has been called but there are no more results to fetch. Must check that Response.hasMoreResults is true before calling Response.next()."
+            case .resourceRequestError(let error): return error.localizedDescription
             default: return ""
             }
         }
@@ -192,7 +196,7 @@ public extension Response {
     
     func logError() {
         
-        if clientError?.kind == .preconditionFailure { return }
+        if let error = clientError?.kind, case .preconditionFailure = error { return }
         
         if let errorMessage = clientError?.localizedDescription ?? error?.localizedDescription {
             Log.error(errorMessage)

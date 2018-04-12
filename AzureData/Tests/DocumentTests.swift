@@ -52,11 +52,11 @@ class DocumentTests: AzureDataTests {
     func testThatCreateValidatesId() {
         
         AzureData.create(DictionaryDocument(idWith256Chars), inCollection: collectionId, inDatabase: databaseId) { r in
-            XCTAssert((r.error as? DocumentClientError)?.kind == .invalidId)
+            XCTAssertTrue(r.clientError.isInvalidIdError)
         }
         
         AzureData.create(DictionaryDocument(idWithWhitespace), inCollection: collectionId, inDatabase: databaseId) { r in
-            XCTAssert((r.error as? DocumentClientError)?.kind == .invalidId)
+            XCTAssertTrue(r.clientError.isInvalidIdError)
         }
     }
 
@@ -226,5 +226,106 @@ class DocumentTests: AzureDataTests {
         //}
         
         XCTAssert(deleteResponse?.result.isSuccess ?? false)
+    }
+
+
+    func testDocumentListPagination() {
+        let noMaxItemCountExpectation = self.expectation(description: "request headers should not contain x-ms-max-item-count header")
+        let maxItemCountExpectation = self.expectation(description: "request headers should contain x-ms-max-item-count header")
+        let lessThan1ErrorExpectation = self.expectation(description: "should return an error if x-ms-max-item-count is less than 1")
+        let greaterThan1000ErrorExpectation = self.expectation(description: "should return an error if x-ms-max-item-count is greater than 1000")
+        let continuationExpectation = self.expectation(description: "request headers should contain x-ms-continuation when next is called")
+
+        var listResponse: Response<Resources<Document>>?
+        var requestHeaders: [String: String] = [:]
+        var continuationHeader: String?
+
+
+        // The request headers should not contain the header 'x-ms-max-item-count' if 'itemsPerPage' is nil
+        AzureData.get(documentsAs: Document.self, in: collection!) { r in
+            listResponse = r
+            noMaxItemCountExpectation.fulfill()
+        }
+
+        wait(for: [noMaxItemCountExpectation], timeout: timeout)
+
+        XCTAssertNotNil(listResponse?.request?.allHTTPHeaderFields)
+
+        requestHeaders = listResponse!.request!.allHTTPHeaderFields!
+
+        XCTAssertNil(requestHeaders[.msMaxItemCount])
+
+
+
+        // The request headers should contain the header 'x-mas-max-item-count' if 'itemsPerPage' is not nil
+        AzureData.get(documentsAs: Document.self, in: collection!, maxPerPage: 14) { r in
+            listResponse = r
+            maxItemCountExpectation.fulfill()
+        }
+
+        wait(for: [maxItemCountExpectation], timeout: timeout)
+
+        XCTAssertNotNil(listResponse?.request?.allHTTPHeaderFields)
+
+        requestHeaders = listResponse!.request!.allHTTPHeaderFields!
+
+        XCTAssertEqual(requestHeaders[.msMaxItemCount], "14")
+
+
+
+        // The request should return an error if the value of 'x-ms-max-item-count' is less than 1
+        AzureData.get(documentsAs: Document.self, in: collection!, maxPerPage: 0) { r in
+            listResponse = r
+            lessThan1ErrorExpectation.fulfill()
+        }
+
+        wait(for: [lessThan1ErrorExpectation], timeout: timeout)
+
+        XCTAssertNotNil(listResponse)
+        XCTAssertTrue(listResponse!.clientError.isInvalidHeaderError(forHeader: .msMaxItemCount, withMessage: "must be between 1 and 1000."))
+
+
+        // The request should return an error if x-ms-max-item-count is greater than 1000
+        AzureData.get(documentsAs: Document.self, in: collection!, maxPerPage: 2000) { r in
+            listResponse = r
+            greaterThan1000ErrorExpectation.fulfill()
+        }
+
+        wait(for: [greaterThan1000ErrorExpectation], timeout: timeout)
+
+        XCTAssertNotNil(listResponse)
+        XCTAssertTrue(listResponse!.clientError.isInvalidHeaderError(forHeader: .msMaxItemCount, withMessage: "must be between 1 and 1000."))
+
+
+
+        // When next is called, the request headers should contain a valid value for the header 'x-ms-continuation'
+        let id = documentId
+        collection!.create(Document("\(id)Next")) { _ in
+            self.collection!.create(Document("\(id)NextNext")) { _ in
+                AzureData.get(documentsAs: Document.self, in: self.collection!, maxPerPage: 1) { r in
+                    continuationHeader = r.response?.allHeaderFields[MSHttpHeader.msContinuation.rawValue] as? String
+
+                    XCTAssertTrue(r.hasMoreResults)
+
+                    r.next { r in
+                        listResponse = r
+                        continuationExpectation.fulfill()
+                    }
+                }
+            }
+        }
+
+        wait(for: [continuationExpectation], timeout: timeout)
+
+        XCTAssertNotNil(continuationHeader)
+        XCTAssertNotNil(listResponse?.request?.allHTTPHeaderFields)
+
+        requestHeaders = listResponse!.request!.allHTTPHeaderFields!
+
+        XCTAssertEqual(requestHeaders[.msContinuation], continuationHeader)
+
+        AzureData.delete(documentWithId: "\(id)Next", fromCollection: collection!) { _ in
+            AzureData.delete(documentWithId: "\(id)NextNext", fromCollection: self.collection!) { _ in }
+        }
     }
 }

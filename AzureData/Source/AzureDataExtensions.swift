@@ -40,8 +40,8 @@ public extension Database {
     }
     
     // list
-    public func getCollections (callback: @escaping (Response<Resources<DocumentCollection>>) -> ()) {
-        return DocumentClient.shared.get(collectionsIn: self, callback: callback)
+    public func getCollections (perPage: Int? = nil, callback: @escaping (Response<Resources<DocumentCollection>>) -> ()) {
+        return DocumentClient.shared.get(collectionsIn: self, maxPerPage: perPage, callback: callback)
     }
     
     // get
@@ -67,8 +67,8 @@ public extension Database {
     }
     
     // list
-    public func getUsers (callback: @escaping (Response<Resources<User>>) -> ()) {
-        return DocumentClient.shared.get (usersIn: self, callback: callback)
+    public func getUsers (maxPerPage: Int? = nil, callback: @escaping (Response<Resources<User>>) -> ()) {
+        return DocumentClient.shared.get (usersIn: self, maxPerPage: maxPerPage, callback: callback)
     }
     
     // get
@@ -110,8 +110,8 @@ public extension DocumentCollection {
     }
     
     // list
-    public func get<T: Document> (documentsAs documentType:T.Type, callback: @escaping (Response<Resources<T>>) -> ()) {
-        return DocumentClient.shared.get(documentsAs: documentType, in: self, callback: callback)
+    public func get<T: Document> (documentsAs documentType:T.Type, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<T>>) -> ()) {
+        return DocumentClient.shared.get(documentsAs: documentType, in: self, maxPerPage: maxPerPage, callback: callback)
     }
     
     // get
@@ -134,12 +134,12 @@ public extension DocumentCollection {
     }
     
     // query
-    public func query (documentsWith query: Query, callback: @escaping (Response<Resources<Document>>) -> ()) {
-        return DocumentClient.shared.query(documentsIn: self, with: query, callback: callback)
+    public func query (documentsWith query: Query, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<Document>>) -> ()) {
+        return DocumentClient.shared.query(documentsIn: self, with: query, maxPerPage: maxPerPage, callback: callback)
     }
 
-    public func query (documentsWith query: Query, callback: @escaping (Response<Resources<DictionaryDocument>>) -> ()) {
-        return DocumentClient.shared.query(documentsIn: self, with: query, callback: callback)
+    public func query (documentsWith query: Query, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<DictionaryDocument>>) -> ()) {
+        return DocumentClient.shared.query(documentsIn: self, with: query, maxPerPage: maxPerPage, callback: callback)
     }
 
     
@@ -152,8 +152,8 @@ public extension DocumentCollection {
     }
     
     // list
-    public func getStoredProcedures (callback: @escaping (Response<Resources<StoredProcedure>>) -> ()) {
-        return DocumentClient.shared.get (storedProceduresIn: self, callback: callback)
+    public func getStoredProcedures (maxPerPage: Int? = nil, callback: @escaping (Response<Resources<StoredProcedure>>) -> ()) {
+        return DocumentClient.shared.get (storedProceduresIn: self, maxPerPage: maxPerPage, callback: callback)
     }
     
     // delete
@@ -185,8 +185,8 @@ public extension DocumentCollection {
     }
     
     // list
-    public func getUserDefinedFunctions (callback: @escaping (Response<Resources<UserDefinedFunction>>) -> ()) {
-        return DocumentClient.shared.get (userDefinedFunctionsIn: self, callback: callback)
+    public func getUserDefinedFunctions (maxPerPage: Int? = nil, callback: @escaping (Response<Resources<UserDefinedFunction>>) -> ()) {
+        return DocumentClient.shared.get (userDefinedFunctionsIn: self, maxPerPage: maxPerPage, callback: callback)
     }
     
     // delete
@@ -213,8 +213,8 @@ public extension DocumentCollection {
     }
     
     // list
-    public func getTriggers (callback: @escaping (Response<Resources<Trigger>>) -> ()) {
-        return DocumentClient.shared.get (triggersIn: self, callback: callback)
+    public func getTriggers (maxPerPage: Int? = nil, callback: @escaping (Response<Resources<Trigger>>) -> ()) {
+        return DocumentClient.shared.get (triggersIn: self, maxPerPage: maxPerPage, callback: callback)
     }
     
     // delete
@@ -255,8 +255,8 @@ public extension Document {
     }
     
     // list
-    public func getAttachments (callback: @escaping (Response<Resources<Attachment>>) -> ()) {
-        return DocumentClient.shared.get (attachmentsOn: self, callback: callback)
+    public func getAttachments (maxPerPage: Int? = nil, callback: @escaping (Response<Resources<Attachment>>) -> ()) {
+        return DocumentClient.shared.get (attachmentsOn: self, maxPerPage: maxPerPage, callback: callback)
     }
     
     // delete
@@ -297,8 +297,8 @@ public extension User {
     }
     
     // list
-    public func getPermissions (callback: @escaping (Response<Resources<Permission>>) -> ()) {
-        return DocumentClient.shared.get (permissionsFor: self, callback: callback)
+    public func getPermissions (maxPerPage: Int? = nil, callback: @escaping (Response<Resources<Permission>>) -> ()) {
+        return DocumentClient.shared.get (permissionsFor: self, maxPerPage: maxPerPage, callback: callback)
     }
     
     // get

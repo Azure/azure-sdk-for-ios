@@ -7,12 +7,13 @@
 //
 
 import Foundation
+import AzureCore
 
-public struct Resources<T:CodableResource> : Decodable {
-    
+public struct Resources<Item: CodableResource> : CodableResources {
+
     public private(set) var resourceId: String
     public private(set) var count:      Int
-    public private(set) var items:      [T]
+    public private(set) var items:      [Item]
 
     private enum CodingKeys : CodingKey {
         case resourceId
@@ -23,7 +24,7 @@ public struct Resources<T:CodableResource> : Decodable {
             switch self {
             case .resourceId: return "_rid"
             case .count: return "_count"
-            case .items: return T.list
+            case .items: return Item.list
             }
         }
         
@@ -31,17 +32,16 @@ public struct Resources<T:CodableResource> : Decodable {
             switch stringValue {
             case "_rid": self = .resourceId
             case "_count": self = .count
-            case T.list: self = .items
+            case Item.list: self = .items
             default: return nil
             }
         }
         
         var intValue: Int? { return nil }
-        
-        
+
         init?(intValue: Int) { return nil }
     }
-    
+
     public mutating func setAltLinks(withContentPath path: String?) {
         guard !items.isEmpty else { return }
         

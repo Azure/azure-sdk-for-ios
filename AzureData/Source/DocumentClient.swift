@@ -154,8 +154,8 @@ class DocumentClient {
     }
     
     // list
-    func databases (callback: @escaping (Response<Resources<Database>>) -> ()) {
-        return self.resources(at: .database(id: nil), callback: callback)
+    public func databases (maxPerPage: Int? = nil, callback: @escaping (Response<Resources<Database>>) -> ()) {
+        return self.resources(at: .database(id: nil), maxPerPage: maxPerPage, callback: callback)
     }
     
     // get
@@ -182,12 +182,12 @@ class DocumentClient {
     }
 
     // list
-    func get (collectionsIn databaseId: String, callback: @escaping (Response<Resources<DocumentCollection>>) -> ()) {
-        return self.resources(at: .collection(databaseId: databaseId, id: nil), callback: callback)
+    func get (collectionsIn databaseId: String, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<DocumentCollection>>) -> ()) {
+        return self.resources(at: .collection(databaseId: databaseId, id: nil), maxPerPage: maxPerPage, callback: callback)
     }
 
-    func get (collectionsIn database: Database, callback: @escaping (Response<Resources<DocumentCollection>>) -> ()) {
-        return self.resources(at: .child(.collection, in: database, id: nil), callback: callback)
+    func get (collectionsIn database: Database, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<DocumentCollection>>) -> ()) {
+        return self.resources(at: .child(.collection, in: database, id: nil), maxPerPage: maxPerPage, callback: callback)
     }
 
     // get
@@ -229,12 +229,12 @@ class DocumentClient {
     }
     
     // list
-    func get<T: Document> (documentsAs documentType:T.Type, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Resources<T>>) -> ()) {
-        return self.resources(at: .document(databaseId: databaseId, collectionId: collectionId, id: nil), callback: callback)
+    func get<T: Document> (documentsAs documentType:T.Type, inCollection collectionId: String, inDatabase databaseId: String, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<T>>) -> ()) {
+        return self.resources(at: .document(databaseId: databaseId, collectionId: collectionId, id: nil), maxPerPage: maxPerPage, callback: callback)
     }
     
-    func get<T: Document> (documentsAs documentType:T.Type, in collection: DocumentCollection, callback: @escaping (Response<Resources<T>>) -> ()) {
-        return self.resources(at: .child(.document, in: collection, id: nil), callback: callback)
+    func get<T: Document> (documentsAs documentType:T.Type, in collection: DocumentCollection, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<T>>) -> ()) {
+        return self.resources(at: .child(.document, in: collection, id: nil), maxPerPage: maxPerPage, callback: callback)
     }
     
     // get
@@ -265,20 +265,20 @@ class DocumentClient {
     }
     
     // query
-    func query (documentsIn collectionId: String, inDatabase databaseId: String, with query: Query, callback: @escaping (Response<Resources<Document>>) -> ()) {
-        return self.query(query, at: .document(databaseId: databaseId, collectionId: collectionId, id: nil), callback: callback)
+    func query (documentsIn collectionId: String, inDatabase databaseId: String, with query: Query, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<Document>>) -> ()) {
+        return self.query(query, at: .document(databaseId: databaseId, collectionId: collectionId, id: nil), maxPerPage: maxPerPage, callback: callback)
     }
     
-    func query (documentsIn collection: DocumentCollection, with query: Query, callback: @escaping (Response<Resources<Document>>) -> ()) {
-        return self.query(query, at: .child(.document, in: collection, id: nil), callback: callback)
+    func query (documentsIn collection: DocumentCollection, with query: Query, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<Document>>) -> ()) {
+        return self.query(query, at: .child(.document, in: collection, id: nil), maxPerPage: maxPerPage, callback: callback)
+    }
+
+    func query (documentsIn collectionId: String, inDatabase databaseId: String, with query: Query, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<DictionaryDocument>>) -> ()) {
+        return self.query(query, at: .document(databaseId: databaseId, collectionId: collectionId, id: nil), maxPerPage: maxPerPage, callback: callback)
     }
     
-    func query (documentsIn collectionId: String, inDatabase databaseId: String, with query: Query, callback: @escaping (Response<Resources<DictionaryDocument>>) -> ()) {
-        return self.query(query, at: .document(databaseId: databaseId, collectionId: collectionId, id: nil), callback: callback)
-    }
-    
-    func query (documentsIn collection: DocumentCollection, with query: Query, callback: @escaping (Response<Resources<DictionaryDocument>>) -> ()) {
-        return self.query(query, at: .child(.document, in: collection, id: nil), callback: callback)
+    func query (documentsIn collection: DocumentCollection, with query: Query, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<DictionaryDocument>>) -> ()) {
+        return self.query(query, at: .child(.document, in: collection, id: nil), maxPerPage: maxPerPage, callback: callback)
     }
     
     
@@ -304,12 +304,12 @@ class DocumentClient {
     }
     
     // list
-    func get (attachmentsOn documentId: String, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Resources<Attachment>>) -> ()) {
-        return self.resources(at: .attachment(databaseId: databaseId, collectionId: collectionId, documentId: documentId, id: nil), callback: callback)
+    func get (attachmentsOn documentId: String, inCollection collectionId: String, inDatabase databaseId: String, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<Attachment>>) -> ()) {
+        return self.resources(at: .attachment(databaseId: databaseId, collectionId: collectionId, documentId: documentId, id: nil), maxPerPage: maxPerPage, callback: callback)
     }
-    
-    func get (attachmentsOn document: Document, callback: @escaping (Response<Resources<Attachment>>) -> ()) {
-        return self.resources(at: .child(.attachment, in: document, id: nil), callback: callback)
+
+    func get (attachmentsOn document: Document, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<Attachment>>) -> ()) {
+        return self.resources(at: .child(.attachment, in: document, id: nil), maxPerPage: maxPerPage, callback: callback)
     }
     
     // delete
@@ -354,12 +354,12 @@ class DocumentClient {
     }
     
     // list
-    func get (storedProceduresIn collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Resources<StoredProcedure>>) -> ()) {
-        return self.resources(at: .storedProcedure(databaseId: databaseId, collectionId: collectionId, id: nil), callback: callback)
+    func get (storedProceduresIn collectionId: String, inDatabase databaseId: String, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<StoredProcedure>>) -> ()) {
+        return self.resources(at: .storedProcedure(databaseId: databaseId, collectionId: collectionId, id: nil), maxPerPage: maxPerPage, callback: callback)
     }
     
-    func get (storedProceduresIn collection: DocumentCollection, callback: @escaping (Response<Resources<StoredProcedure>>) -> ()) {
-        return self.resources(at: .child(.storedProcedure, in: collection, id: nil), callback: callback)
+    func get (storedProceduresIn collection: DocumentCollection, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<StoredProcedure>>) -> ()) {
+        return self.resources(at: .child(.storedProcedure, in: collection, id: nil), maxPerPage: maxPerPage, callback: callback)
     }
     
     // delete
@@ -405,12 +405,12 @@ class DocumentClient {
     }
     
     // list
-    func get (userDefinedFunctionsIn collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Resources<UserDefinedFunction>>) -> ()) {
-        return self.resources(at: .udf(databaseId: databaseId, collectionId: collectionId, id: nil), callback: callback)
+    func get (userDefinedFunctionsIn collectionId: String, inDatabase databaseId: String, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<UserDefinedFunction>>) -> ()) {
+        return self.resources(at: .udf(databaseId: databaseId, collectionId: collectionId, id: nil), maxPerPage: maxPerPage, callback: callback)
     }
     
-    func get (userDefinedFunctionsIn collection: DocumentCollection, callback: @escaping (Response<Resources<UserDefinedFunction>>) -> ()) {
-        return self.resources(at: .child(.udf, in: collection, id: nil), callback: callback)
+    func get (userDefinedFunctionsIn collection: DocumentCollection, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<UserDefinedFunction>>) -> ()) {
+        return self.resources(at: .child(.udf, in: collection, id: nil), maxPerPage: maxPerPage, callback: callback)
     }
     
     // delete
@@ -447,12 +447,12 @@ class DocumentClient {
     }
     
     // list
-    func get (triggersIn collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Resources<Trigger>>) -> ()) {
-        return self.resources(at: .trigger(databaseId: databaseId, collectionId: collectionId, id: nil), callback: callback)
+    func get (triggersIn collectionId: String, inDatabase databaseId: String, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<Trigger>>) -> ()) {
+        return self.resources(at: .trigger(databaseId: databaseId, collectionId: collectionId, id: nil), maxPerPage: maxPerPage, callback: callback)
     }
     
-    func get (triggersIn collection: DocumentCollection, callback: @escaping (Response<Resources<Trigger>>) -> ()) {
-        return self.resources(at: .child(.trigger, in: collection, id: nil), callback: callback)
+    func get (triggersIn collection: DocumentCollection, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<Trigger>>) -> ()) {
+        return self.resources(at: .child(.trigger, in: collection, id: nil), maxPerPage: maxPerPage, callback: callback)
     }
     
     // delete
@@ -489,12 +489,12 @@ class DocumentClient {
     }
 
     // list
-    func get (usersIn databaseId: String, callback: @escaping (Response<Resources<User>>) -> ()) {
-        return self.resources(at: .user(databaseId: databaseId, id: nil), callback: callback)
+    func get (usersIn databaseId: String, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<User>>) -> ()) {
+        return self.resources(at: .user(databaseId: databaseId, id: nil), maxPerPage: maxPerPage, callback: callback)
     }
 
-    func get (usersIn database: Database, callback: @escaping (Response<Resources<User>>) -> ()) {
-        return self.resources(at: .child(.user, in: database, id: nil), callback: callback)
+    func get (usersIn database: Database, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<User>>) -> ()) {
+        return self.resources(at: .child(.user, in: database, id: nil), maxPerPage: maxPerPage, callback: callback)
     }
 
     // get
@@ -538,12 +538,12 @@ class DocumentClient {
     }
     
     // list
-    func get (permissionsFor userId: String, inDatabase databaseId: String, callback: @escaping (Response<Resources<Permission>>) -> ()) {
-        return self.resources(at: .permission(databaseId: databaseId, userId: userId, id: nil), callback: callback)
+    func get (permissionsFor userId: String, inDatabase databaseId: String, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<Permission>>) -> ()) {
+        return self.resources(at: .permission(databaseId: databaseId, userId: userId, id: nil), maxPerPage: maxPerPage, callback: callback)
     }
     
-    func get (permissionsFor user: User, callback: @escaping (Response<Resources<Permission>>) -> ()) {
-        return self.resources(at: .child(.permission, in: user, id: nil), callback: callback)
+    func get (permissionsFor user: User, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<Permission>>) -> ()) {
+        return self.resources(at: .child(.permission, in: user, id: nil), maxPerPage: maxPerPage, callback: callback)
     }
     
     // get
@@ -580,8 +580,8 @@ class DocumentClient {
     // MARK: - Offers
     
     // list
-    func offers (callback: @escaping (Response<Resources<Offer>>) -> ()) {
-        return self.resources(at: .offer(id: nil), callback: callback)
+    func offers (maxPerPage: Int? = nil, callback: @escaping (Response<Resources<Offer>>) -> ()) {
+        return self.resources(at: .offer(id: nil), maxPerPage: maxPerPage, callback: callback)
     }
     
     // get
@@ -659,11 +659,11 @@ class DocumentClient {
     }
     
     // list
-    fileprivate func resources<T> (at resourceLocation: ResourceLocation, callback: @escaping (Response<Resources<T>>) -> ()) {
+    fileprivate func resources<T> (at resourceLocation: ResourceLocation, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<T>>) -> ()) {
         
         guard !isOffline else { return cachedResources(at: resourceLocation, callback: callback) }
         
-        dataRequest(forResourceAt: resourceLocation, withMethod: .get) { r in
+        dataRequest(forResourceAt: resourceLocation, withMethod: .get, andAdditionalHeaders: HttpHeaders.forMaxItemCount(maxPerPage)) { r in
             
             if let request = r.resource {
                 
@@ -747,7 +747,7 @@ class DocumentClient {
             
             self.createOrReplace(resource, at: resourceLocation, replacing: true, additionalHeaders: headers) { (replaceResponse:Response<T>) in
                 
-                if replaceResponse.clientError?.kind == .preconditionFailure {
+                if let error = replaceResponse.clientError?.kind, case .preconditionFailure = error {
                     
                     self.resource(at: resourceLocation) { (getResponse:Response<T>) in
                     
@@ -768,12 +768,12 @@ class DocumentClient {
     }
 
     // query
-    fileprivate func query<T:CodableResource> (_ query: Query, at resourceLocation: ResourceLocation, callback: @escaping (Response<Resources<T>>) -> ()) {
+    fileprivate func query<T:CodableResource> (_ query: Query, at resourceLocation: ResourceLocation, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<T>>) -> ()) {
         
         guard !isOffline else { callback(Response(DocumentClientError(withKind: .serviceUnavailable))); return }
         
-        dataRequest(forResourceAt: resourceLocation, withMethod: .post, forQuery: true) { r in
-                
+        dataRequest(forResourceAt: resourceLocation, withMethod: .post, andAdditionalHeaders: HttpHeaders.forMaxItemCount(maxPerPage), forQuery: true) { r in
+
             if var request = r.resource {
                 
                 do {
@@ -947,7 +947,7 @@ class DocumentClient {
     }
 
     
-    fileprivate func sendRequest<T> (_ request: URLRequest, callback: @escaping (Response<Resources<T>>) -> ()) {
+    internal func sendRequest<T: CodableResources> (_ request: URLRequest, callback: @escaping (Response<T>) -> ()) {
         
         logRequest(request, for: T.self)
 
@@ -968,9 +968,11 @@ class DocumentClient {
                     //case .noContent: // DELETEing a resource remotely should delete the cached version (if the delete was successful indicated by a response status code of 204 No Content)
                     case .ok, .created, .accepted, .noContent, .notModified:
                         
-                        var resource = try self.jsonDecoder.decode(Resources<T>.self, from: data)
+                        var resource = try self.jsonDecoder.decode(T.self, from: data)
                         
                         resource.setAltLinks(withContentPath: httpResponse.msAltContentPathHeader)
+
+                        //log?.debugMessage("\(resource)")
                         
                         callback(Response(request: request, data: data, response: httpResponse, result: .success(resource)))
 
@@ -1039,7 +1041,16 @@ class DocumentClient {
 
 
     fileprivate func dataRequest(forResourceAt resourceLocation: ResourceLocation, withMethod method: HttpMethod, andAdditionalHeaders additionalHeaders: HttpHeaders? = nil, forQuery: Bool = false, callback: @escaping (Response<URLRequest>) -> ()) {
-        
+
+        if let error = additionalHeaders?.validate() {
+
+            Log.error(error.description)
+
+            callback(Response(DocumentClientError(withKind: .resourceRequestError(error))))
+
+            return
+        }
+
         getToken(forResourceAt: resourceLocation, withMethod: method) { r in
         
             if let resourceToken = r.resource {
@@ -1139,5 +1150,24 @@ class DocumentClient {
             //let bodyString = request.httpBody != nil ? String(data: request.httpBody!, encoding: .utf8) ?? "empty" : "empty"
             return "Sending \(methodString) request for \(T.self) to \(urlString)" // "\n\tBody : \(bodyString)"
         }
+    }
+}
+
+// MARK: - HttpHeaders
+
+fileprivate extension Dictionary where Key == String, Value == String {
+    /// HttpHeaders.forMaxItemCount(100) -> ["x-ms-max-item-count": "100"]
+    /// HttpHeaders.forMaxItemCount(nil) -> nil
+    static func forMaxItemCount(_ value: Int?) -> HttpHeaders? {
+        guard let value = value else { return nil }
+        return [MSHttpHeader.msMaxItemCount.rawValue: "\(value)"]
+    }
+
+    func validate() -> ResourceRequestError? {
+        if let maxItemCount = Int(self[.msMaxItemCount].valueOrEmpty), !(1...1000).contains(maxItemCount) {
+            return .invalidValue(forHeader: MSHttpHeader.msMaxItemCount.rawValue, message: "must be between 1 and 1000.")
+        }
+
+        return nil
     }
 }

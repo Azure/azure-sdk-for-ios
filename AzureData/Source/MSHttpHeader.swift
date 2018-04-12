@@ -78,6 +78,10 @@ extension HTTPURLResponse {
     var msAltContentPathHeader: String? {
         return self.allHeaderFields[MSHttpHeader.msAltContentPath.rawValue] as? String
     }
+
+    var msContinuationHeader: String? {
+        return self.allHeaderFields[MSHttpHeader.msContinuation.rawValue] as? String
+    }
 }
 
 extension URLRequest {
@@ -85,4 +89,3 @@ extension URLRequest {
         self.addValue(value, forHTTPHeaderField: forHTTPHeaderField.rawValue)
     }
 }
-
