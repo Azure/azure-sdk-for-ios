@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		323AE94A2080230E00EAE1F5 /* SupportsPermissionToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323AE9492080230E00EAE1F5 /* SupportsPermissionToken.swift */; };
+		323AE94B2080230E00EAE1F5 /* SupportsPermissionToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323AE9492080230E00EAE1F5 /* SupportsPermissionToken.swift */; };
+		323AE94C2080230E00EAE1F5 /* SupportsPermissionToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323AE9492080230E00EAE1F5 /* SupportsPermissionToken.swift */; };
+		323AE94D2080230E00EAE1F5 /* SupportsPermissionToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323AE9492080230E00EAE1F5 /* SupportsPermissionToken.swift */; };
 		32532A5A207825A1002BFFCA /* ResponseMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32532A59207825A1002BFFCA /* ResponseMetadata.swift */; };
 		32532A5C207825A1002BFFCA /* ResponseMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32532A59207825A1002BFFCA /* ResponseMetadata.swift */; };
 		32532A5E207825A1002BFFCA /* ResponseMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32532A59207825A1002BFFCA /* ResponseMetadata.swift */; };
@@ -276,6 +280,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		323AE9492080230E00EAE1F5 /* SupportsPermissionToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportsPermissionToken.swift; sourceTree = "<group>"; };
 		32532A59207825A1002BFFCA /* ResponseMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseMetadata.swift; sourceTree = "<group>"; };
 		32AD4618207976AB00A0D02F /* ResponseMetadataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseMetadataTests.swift; sourceTree = "<group>"; };
 		9302CE422059A3A5000F6885 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -439,6 +444,7 @@
 				B52240381FB33CD000D0343F /* UtilityExtensions.swift */,
 				B58361B71FBA1339001CEC66 /* Resources */,
 				B55AEFDF1FB34B7400F7BEED /* Supporting Files */,
+				323AE9492080230E00EAE1F5 /* SupportsPermissionToken.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -893,6 +899,7 @@
 				B52240B21FB3409000D0343F /* ResourceType.swift in Sources */,
 				9319DEF420698F260083475D /* PermissionProviderError.swift in Sources */,
 				B58361F11FBA19A7001CEC66 /* DatabaseAccount.swift in Sources */,
+				323AE94B2080230E00EAE1F5 /* SupportsPermissionToken.swift in Sources */,
 				B58361E71FBA17D8001CEC66 /* User.swift in Sources */,
 				B52241051FB3409F00D0343F /* UtilityExtensions.swift in Sources */,
 				9319DF032069DD7B0083475D /* ResourceTokenProvider.swift in Sources */,
@@ -970,6 +977,7 @@
 				B52240C71FB3409100D0343F /* ResourceType.swift in Sources */,
 				9319DEF520698F260083475D /* PermissionProviderError.swift in Sources */,
 				B58361F21FBA19A7001CEC66 /* DatabaseAccount.swift in Sources */,
+				323AE94C2080230E00EAE1F5 /* SupportsPermissionToken.swift in Sources */,
 				B58361E81FBA17D8001CEC66 /* User.swift in Sources */,
 				B52241001FB3409E00D0343F /* UtilityExtensions.swift in Sources */,
 				9319DF042069DD7B0083475D /* ResourceTokenProvider.swift in Sources */,
@@ -1047,6 +1055,7 @@
 				B52240DC1FB3409200D0343F /* ResourceType.swift in Sources */,
 				9319DEF620698F260083475D /* PermissionProviderError.swift in Sources */,
 				B58361F31FBA19A7001CEC66 /* DatabaseAccount.swift in Sources */,
+				323AE94D2080230E00EAE1F5 /* SupportsPermissionToken.swift in Sources */,
 				B58361E91FBA17D8001CEC66 /* User.swift in Sources */,
 				B52240FB1FB3409D00D0343F /* UtilityExtensions.swift in Sources */,
 				9319DF052069DD7B0083475D /* ResourceTokenProvider.swift in Sources */,
@@ -1092,6 +1101,7 @@
 				B58361F01FBA19A7001CEC66 /* DatabaseAccount.swift in Sources */,
 				9319DEF320698F260083475D /* PermissionProviderError.swift in Sources */,
 				B522409D1FB3408E00D0343F /* ResourceType.swift in Sources */,
+				323AE94A2080230E00EAE1F5 /* SupportsPermissionToken.swift in Sources */,
 				B58361E61FBA17D8001CEC66 /* User.swift in Sources */,
 				B58361EB1FBA17E8001CEC66 /* UserDefinedFunction.swift in Sources */,
 				9319DF022069DD7B0083475D /* ResourceTokenProvider.swift in Sources */,

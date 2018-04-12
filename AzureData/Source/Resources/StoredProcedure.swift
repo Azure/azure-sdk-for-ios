@@ -14,7 +14,7 @@ import Foundation
 ///   Azure Cosmos DB allows application logic written entirely in JavaScript to be executed directly inside
 ///   the database engine under the database transaction.
 ///   For additional details, refer to the server-side JavaScript API documentation.
-public struct StoredProcedure : CodableResource {
+public struct StoredProcedure : CodableResource, SupportsPermissionToken {
     
     public static var type = "sprocs"
     public static var list = "StoredProcedures"
