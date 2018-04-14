@@ -342,6 +342,10 @@ public func replace (storedProcedureWithId storedProcedureId: String, andBody pr
 }
 
 // execute
+public func execute (_ storedProcedure: StoredProcedure, usingParameters parameters: [String]?, callback: @escaping (Response<Data>) -> ()) {
+    return DocumentClient.shared.execute(storedProcedure, usingParameters: parameters, callback: callback)
+}
+
 public func execute (storedProcedureWithId storedProcedureId: String, usingParameters parameters: [String]?, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Data>) -> ()) {
     return DocumentClient.shared.execute (storedProcedureWithId: storedProcedureId, usingParameters: parameters, inCollection: collectionId, inDatabase: databaseId, callback: callback)
 }
