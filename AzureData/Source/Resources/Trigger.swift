@@ -13,7 +13,7 @@ import Foundation
 /// - Remark:
 ///   Azure Cosmos DB supports pre and post triggers written in JavaScript to be executed on creates, updates and deletes.
 ///   For additional details, refer to the server-side JavaScript API documentation.
-public struct Trigger : CodableResource {
+public struct Trigger : CodableResource, SupportsPermissionToken {
     
     public static var type = "triggers"
     public static var list = "Triggers"

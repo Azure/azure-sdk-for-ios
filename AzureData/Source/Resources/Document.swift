@@ -14,7 +14,7 @@ import Foundation
 ///   A document is a structured JSON document. There is no set schema for the JSON documents,
 ///   and a document may contain any number of custom properties as well as an optional list of attachments.
 ///   Document is an application resource and can be authorized using the master key or resource keys.
-open class Document : CodableResource, CustomDebugStringConvertible {
+open class Document : CodableResource, SupportsPermissionToken, CustomDebugStringConvertible {
 
     public static var type = "docs"
     public static var list = "Documents"

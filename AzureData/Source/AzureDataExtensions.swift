@@ -19,13 +19,15 @@ public extension CodableResource {
     public func refresh(_ callback: @escaping (Response<Self>) -> ()) {
         return DocumentClient.shared.refresh(self, callback: callback)
     }
+}
+
+public extension CodableResource where Self: SupportsPermissionToken {
 
     public func create(permissionWithId permissionId: String, mode permissionMode: PermissionMode, forUser user: User, callback: @escaping (Response<Permission>) -> ()) {
         return DocumentClient.shared.create(permissionWithId: permissionId, mode: permissionMode, in: self, forUser: user, callback: callback)
     }
+
 }
-
-
 
 // MARK: -
 
@@ -280,7 +282,7 @@ public extension User {
     // MARK: Permissions
     
     // create
-    public func create (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource, callback: @escaping (Response<Permission>) -> ()) {
+    public func create (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource & SupportsPermissionToken, callback: @escaping (Response<Permission>) -> ()) {
         return DocumentClient.shared.create (permissionWithId: permissionId, mode: permissionMode, in: resource, forUser: self, callback: callback)
     }
     
@@ -304,7 +306,7 @@ public extension User {
     }
 
     // replace
-    public func replace (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource, callback: @escaping (Response<Permission>) -> ()) {
+    public func replace (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource & SupportsPermissionToken, callback: @escaping (Response<Permission>) -> ()) {
         return DocumentClient.shared.replace (permissionWithId: permissionId, mode: permissionMode, in: resource, forUser: self, callback: callback)
     }
 }
