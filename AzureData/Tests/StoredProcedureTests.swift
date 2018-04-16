@@ -38,6 +38,7 @@ class StoredProcedureTests: AzureDataTests {
         var createResponse:     Response<StoredProcedure>?
         var listResponse:       Response<Resources<StoredProcedure>>?
         var replaceResponse:    Response<StoredProcedure>?
+        var executeResponse:    Response<Data>?
         var deleteResponse:     Response<Data>?
 
         // Create
@@ -71,6 +72,19 @@ class StoredProcedureTests: AzureDataTests {
 
             XCTAssertNotNil(replaceResponse?.resource)
         }
+
+        // Execute
+        if let storedProcedure = createResponse?.resource {
+            AzureData.execute(storedProcedure, usingParameters: []) { r in
+                executeResponse = r
+                self.executeExpectation.fulfill()
+            }
+        }
+
+        wait(for: [executeExpectation], timeout: timeout)
+
+        XCTAssertNotNil(executeResponse)
+        XCTAssertTrue(executeResponse!.result.isSuccess)
 
         // Delete
         if let storedProcedure = replaceResponse?.resource ?? createResponse?.resource {

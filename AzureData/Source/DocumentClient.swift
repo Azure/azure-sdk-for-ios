@@ -389,6 +389,10 @@ class DocumentClient {
     }
     
     // execute
+    func execute (_ storedProcedure: StoredProcedure, usingParameters parameters: [String]?, callback: @escaping (Response<Data>) -> ()) {
+        return self.execute(StoredProcedure.self, withBody: parameters, at: .resource(resource: storedProcedure), callback: callback)
+    }
+
     func execute (storedProcedureWithId storedProcedureId: String, usingParameters parameters: [String]?, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Data>) -> ()) {
         return self.execute(StoredProcedure.self, withBody: parameters, at: .storedProcedure(databaseId: databaseId, collectionId: collectionId, id: storedProcedureId), callback: callback)
     }
