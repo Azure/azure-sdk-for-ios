@@ -63,14 +63,15 @@ class DocumentTests: AzureDataTests {
 
     func testDocumentCrud() {
         
-        var createResponse:     Response<DictionaryDocument>?
-        var listResponse:       Response<Resources<DictionaryDocument>>?
-        var getResponse:        Response<DictionaryDocument>?
-        var queryResponse:      Response<Resources<DictionaryDocument>>?
-        var refreshResponse:    Response<DictionaryDocument>?
-        var replaceResponse:    Response<DictionaryDocument>?
-        var replaceResponse2:   Response<DictionaryDocument>?
-        var deleteResponse:     Response<Data>?
+        var createResponse:           Response<DictionaryDocument>?
+        var createOrReplaceResponse : Response<DictionaryDocument>?
+        var listResponse:             Response<Resources<DictionaryDocument>>?
+        var getResponse:              Response<DictionaryDocument>?
+        var queryResponse:            Response<Resources<DictionaryDocument>>?
+        var refreshResponse:          Response<DictionaryDocument>?
+        var replaceResponse:          Response<DictionaryDocument>?
+        var replaceResponse2:         Response<DictionaryDocument>?
+        var deleteResponse:           Response<Data>?
 
         
         let newDocument = DictionaryDocument(resourceId)
@@ -101,7 +102,30 @@ class DocumentTests: AzureDataTests {
 
         //createResponse?.response?.printHeaders()
         
-        
+
+
+        // Create or replace
+        let createOrReplaceExpectation = self.expectation(description: "should replace an existing document")
+        newDocument["new\(customStringKey)"] = "new\(customStringValue)"
+        AzureData.createOrReplace(newDocument, inCollection: collectionId, inDatabase: databaseId) { r in
+            createOrReplaceResponse = r
+            createOrReplaceExpectation.fulfill()
+        }
+
+        wait(for: [createOrReplaceExpectation], timeout: timeout)
+
+        XCTAssertNotNil(createOrReplaceResponse?.resource)
+
+        if let document = createOrReplaceResponse?.resource {
+            XCTAssertEqual(document.id, createResponse?.resource?.id)
+            XCTAssertNotNil(document[customStringKey] as? String)
+            XCTAssertEqual (document[customStringKey] as! String, customStringValue)
+            XCTAssertNotNil(document[customNumberKey] as? Int)
+            XCTAssertEqual (document[customNumberKey] as! Int, customNumberValue)
+            XCTAssertNotNil(document["new\(customStringKey)"] as? String)
+            XCTAssertEqual(document["new\(customStringKey)"] as! String, "new\(customStringValue)")
+        }
+
         // List
         AzureData.get(documentsAs: DictionaryDocument.self, inCollection: collectionId, inDatabase: databaseId) { r in
             listResponse = r
@@ -111,7 +135,6 @@ class DocumentTests: AzureDataTests {
         wait(for: [listExpectation], timeout: timeout)
         
         XCTAssertNotNil(listResponse?.resource)
-
         //listResponse?.response?.printHeaders()
 
         

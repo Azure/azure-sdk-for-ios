@@ -227,7 +227,15 @@ class DocumentClient {
     func create<T: Document> (_ document: T, in collection: DocumentCollection, callback: @escaping (Response<T>) -> ()) {
         return self.create(document, at: .child(.document, in: collection, id: nil), callback: callback)
     }
-    
+
+    func createOrReplace<T: Document> (_ document: T, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<T>) -> ()) {
+        return self.create(document, at: .document(databaseId: databaseId, collectionId: collectionId, id: nil), additionalHeaders: [MSHttpHeader.msDocumentdbIsUpsert.rawValue: "true"], callback: callback)
+    }
+
+    func createOrReplace<T: Document> (_ document: T, in collection: DocumentCollection, callback: @escaping (Response<T>) -> ()) {
+        return self.create(document, at: .child(.document, in: collection, id: nil), additionalHeaders: [MSHttpHeader.msDocumentdbIsUpsert.rawValue: "true"], callback: callback)
+    }
+
     // list
     func get<T: Document> (documentsAs documentType:T.Type, inCollection collectionId: String, inDatabase databaseId: String, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<T>>) -> ()) {
         return self.resources(at: .document(databaseId: databaseId, collectionId: collectionId, id: nil), maxPerPage: maxPerPage, callback: callback)
