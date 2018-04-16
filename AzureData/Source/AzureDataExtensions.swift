@@ -166,7 +166,7 @@ public extension DocumentCollection {
     
     // execute
     public func execute (_ storedProcedure: StoredProcedure, usingParameters parameters: [String]?, callback: @escaping (Response<Data>) -> ()) {
-        return DocumentClient.shared.execute (storedProcedureWithId: storedProcedure.id, usingParameters: parameters, in: self, callback: callback)
+        return DocumentClient.shared.execute (storedProcedure, usingParameters: parameters, callback: callback)
     }
 
     public func execute (storedProcedureWithId id: String, usingParameters parameters: [String]?, callback: @escaping (Response<Data>) -> ()) {
