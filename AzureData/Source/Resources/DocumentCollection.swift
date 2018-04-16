@@ -16,7 +16,7 @@ import Foundation
 ///   Being schema-free, the documents in a collection do not need to share the same structure or fields.
 ///   Since collections are application resources, they can be authorized using either the master key or resource keys.
 ///   Refer to [collections](http://azure.microsoft.com/documentation/articles/documentdb-resources/#collections) for more details on collections.
-public struct DocumentCollection : CodableResource {
+public struct DocumentCollection : CodableResource, SupportsPermissionToken {
     
     public static var type = "colls"
     public static var list = "DocumentCollections"
