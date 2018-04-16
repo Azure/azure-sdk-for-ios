@@ -19,6 +19,7 @@ public enum MSHttpHeader : String {
     case msContinuation                     = "x-ms-continuation"
     case msDate                             = "x-ms-date"
     case msDocumentdbIsQuery                = "x-ms-documentdb-isquery"
+    case msDocumentdbIsUpsert               = "x-ms-documentdb-is-upsert"
     case msDocumentdbPartitionkey           = "x-ms-documentdb-partitionkey"
     case msDocumentdbPartitionKeyRangeId    = "x-ms-documentdb-partitionkeyrangeid"
     case msItemCount                        = "x-ms-item-count"
