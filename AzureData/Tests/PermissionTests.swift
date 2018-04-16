@@ -26,6 +26,7 @@ class PermissionTests: AzureDataTests {
         var createResponse:     Response<Permission>?
         var listResponse:       Response<Resources<Permission>>?
         var getResponse:        Response<Permission>?
+        var refreshResponse:    Response<Permission>?
         var replaceResponse:    Response<Permission>?
         var deleteResponse:     Response<Data>?
 
@@ -58,6 +59,18 @@ class PermissionTests: AzureDataTests {
         wait(for: [getExpectation], timeout: timeout)
 
         XCTAssertNotNil(getResponse?.resource)
+
+        // Refresh
+        if let permission = getResponse?.resource {
+            permission.refresh { r in
+                refreshResponse = r
+                self.refreshExpectation.fulfill()
+            }
+
+            wait(for: [refreshExpectation], timeout: timeout)
+        }
+
+        XCTAssertNotNil(refreshResponse?.resource)
 
         // Replace
         if let permission = getResponse?.resource {

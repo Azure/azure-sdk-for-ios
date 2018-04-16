@@ -118,8 +118,8 @@ public func create (databaseWithId databaseId: String, callback: @escaping (Resp
 }
 
 /// List all Databases
-public func databases (callback: @escaping (Response<Resources<Database>>) -> ()) {
-    return DocumentClient.shared.databases (callback: callback)
+public func databases (maxPerPage: Int? = nil, callback: @escaping (Response<Resources<Database>>) -> ()) {
+    return DocumentClient.shared.databases (maxPerPage: maxPerPage, callback: callback)
 }
 
 /// Get a Database
@@ -147,12 +147,12 @@ public func create (collectionWithId collectionId: String, inDatabase database: 
 }
 
 // list
-public func get (collectionsIn databaseId: String, callback: @escaping (Response<Resources<DocumentCollection>>) -> ()) {
-    return DocumentClient.shared.get (collectionsIn: databaseId, callback: callback)
+public func get (collectionsIn databaseId: String, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<DocumentCollection>>) -> ()) {
+    return DocumentClient.shared.get (collectionsIn: databaseId, maxPerPage: maxPerPage, callback: callback)
 }
 
-public func get (collectionsIn database: Database, callback: @escaping (Response<Resources<DocumentCollection>>) -> ()) {
-    return DocumentClient.shared.get (collectionsIn: database, callback: callback)
+public func get (collectionsIn database: Database, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<DocumentCollection>>) -> ()) {
+    return DocumentClient.shared.get (collectionsIn: database, maxPerPage: maxPerPage, callback: callback)
 }
 
 // get
@@ -191,13 +191,21 @@ public func create<T: Document> (_ document: T, in collection: DocumentCollectio
     return DocumentClient.shared.create (document, in: collection, callback: callback)
 }
 
-// list
-public func get<T: Document> (documentsAs documentType: T.Type, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Resources<T>>) -> ()) {
-    return DocumentClient.shared.get (documentsAs: documentType, inCollection: collectionId, inDatabase: databaseId, callback: callback)
+public func createOrReplace<T: Document> (_ document: T, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<T>) -> ()) {
+    return DocumentClient.shared.createOrReplace (document, inCollection: collectionId, inDatabase: databaseId, callback: callback)
 }
 
-public func get<T: Document> (documentsAs documentType: T.Type, in collection: DocumentCollection, callback: @escaping (Response<Resources<T>>) -> ()) {
-    return DocumentClient.shared.get (documentsAs: documentType, in: collection, callback: callback)
+public func createOrReplace<T: Document> (_ document: T, in collection: DocumentCollection, callback: @escaping (Response<T>) -> ()) {
+    return DocumentClient.shared.createOrReplace(document, in: collection, callback: callback)
+}
+
+// list
+public func get<T: Document> (documentsAs documentType: T.Type, inCollection collectionId: String, inDatabase databaseId: String, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<T>>) -> ()) {
+    return DocumentClient.shared.get (documentsAs: documentType, inCollection: collectionId, inDatabase: databaseId, maxPerPage: maxPerPage, callback: callback)
+}
+
+public func get<T: Document> (documentsAs documentType: T.Type, in collection: DocumentCollection, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<T>>) -> ()) {
+    return DocumentClient.shared.get (documentsAs: documentType, in: collection, maxPerPage: maxPerPage, callback: callback)
 }
 
 // get
@@ -228,20 +236,20 @@ public func replace<T: Document> (_ document: T, in collection: DocumentCollecti
 }
 
 // query
-public func query (documentsIn collectionId: String, inDatabase databaseId: String, with query: Query, callback: @escaping (Response<Resources<Document>>) -> ()) {
-    return DocumentClient.shared.query (documentsIn: collectionId, inDatabase: databaseId, with: query, callback: callback)
+public func query (documentsIn collectionId: String, inDatabase databaseId: String, with query: Query, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<Document>>) -> ()) {
+    return DocumentClient.shared.query (documentsIn: collectionId, inDatabase: databaseId, with: query, maxPerPage: maxPerPage, callback: callback)
 }
 
-public func query (documentsIn collection: DocumentCollection, with query: Query, callback: @escaping (Response<Resources<Document>>) -> ()) {
-    return DocumentClient.shared.query (documentsIn: collection, with: query, callback: callback)
+public func query (documentsIn collection: DocumentCollection, with query: Query, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<Document>>) -> ()) {
+    return DocumentClient.shared.query (documentsIn: collection, with: query, maxPerPage: maxPerPage, callback: callback)
 }
 
-public func query (documentsIn collectionId: String, inDatabase databaseId: String, with query: Query, callback: @escaping (Response<Resources<DictionaryDocument>>) -> ()) {
-    return DocumentClient.shared.query (documentsIn: collectionId, inDatabase: databaseId, with: query, callback: callback)
+public func query (documentsIn collectionId: String, inDatabase databaseId: String, with query: Query, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<DictionaryDocument>>) -> ()) {
+    return DocumentClient.shared.query (documentsIn: collectionId, inDatabase: databaseId, with: query, maxPerPage: maxPerPage, callback: callback)
 }
 
-public func query (documentsIn collection: DocumentCollection, with query: Query, callback: @escaping (Response<Resources<DictionaryDocument>>) -> ()) {
-    return DocumentClient.shared.query (documentsIn: collection, with: query, callback: callback)
+public func query (documentsIn collection: DocumentCollection, with query: Query, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<DictionaryDocument>>) -> ()) {
+    return DocumentClient.shared.query (documentsIn: collection, with: query, maxPerPage: maxPerPage, callback: callback)
 }
 
 
@@ -266,12 +274,12 @@ public func create (attachmentWithId attachmentId: String, contentType: String, 
 }
 
 // list
-public func get (attachmentsOn documentId: String, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Resources<Attachment>>) -> ()) {
-    return DocumentClient.shared.get (attachmentsOn: documentId, inCollection: collectionId, inDatabase: databaseId, callback: callback)
+public func get (attachmentsOn documentId: String, inCollection collectionId: String, inDatabase databaseId: String, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<Attachment>>) -> ()) {
+    return DocumentClient.shared.get (attachmentsOn: documentId, inCollection: collectionId, inDatabase: databaseId, maxPerPage: maxPerPage, callback: callback)
 }
 
-public func get (attachmentsOn document: Document, callback: @escaping (Response<Resources<Attachment>>) -> ()) {
-    return DocumentClient.shared.get (attachmentsOn: document, callback: callback)
+public func get (attachmentsOn document: Document, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<Attachment>>) -> ()) {
+    return DocumentClient.shared.get (attachmentsOn: document, maxPerPage: maxPerPage, callback: callback)
 }
 
 // delete
@@ -315,12 +323,12 @@ public func create (storedProcedureWithId storedProcedureId: String, andBody pro
 }
 
 // list
-public func get (storedProceduresIn collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Resources<StoredProcedure>>) -> ()) {
-    return DocumentClient.shared.get (storedProceduresIn: collectionId, inDatabase: databaseId, callback: callback)
+public func get (storedProceduresIn collectionId: String, inDatabase databaseId: String, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<StoredProcedure>>) -> ()) {
+    return DocumentClient.shared.get (storedProceduresIn: collectionId, inDatabase: databaseId, maxPerPage: maxPerPage, callback: callback)
 }
 
-public func get (storedProceduresIn collection: DocumentCollection, callback: @escaping (Response<Resources<StoredProcedure>>) -> ()) {
-    return DocumentClient.shared.get (storedProceduresIn: collection, callback: callback)
+public func get (storedProceduresIn collection: DocumentCollection, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<StoredProcedure>>) -> ()) {
+    return DocumentClient.shared.get (storedProceduresIn: collection, maxPerPage: maxPerPage, callback: callback)
 }
 
 // delete
@@ -342,6 +350,10 @@ public func replace (storedProcedureWithId storedProcedureId: String, andBody pr
 }
 
 // execute
+public func execute (_ storedProcedure: StoredProcedure, usingParameters parameters: [String]?, callback: @escaping (Response<Data>) -> ()) {
+    return DocumentClient.shared.execute(storedProcedure, usingParameters: parameters, callback: callback)
+}
+
 public func execute (storedProcedureWithId storedProcedureId: String, usingParameters parameters: [String]?, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Data>) -> ()) {
     return DocumentClient.shared.execute (storedProcedureWithId: storedProcedureId, usingParameters: parameters, inCollection: collectionId, inDatabase: databaseId, callback: callback)
 }
@@ -365,12 +377,12 @@ public func create (userDefinedFunctionWithId functionId: String, andBody functi
 }
 
 // list
-public func get (userDefinedFunctionsIn collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Resources<UserDefinedFunction>>) -> ()) {
-    return DocumentClient.shared.get (userDefinedFunctionsIn: collectionId, inDatabase: databaseId, callback: callback)
+public func get (userDefinedFunctionsIn collectionId: String, inDatabase databaseId: String, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<UserDefinedFunction>>) -> ()) {
+    return DocumentClient.shared.get (userDefinedFunctionsIn: collectionId, inDatabase: databaseId, maxPerPage: maxPerPage, callback: callback)
 }
 
-public func get (userDefinedFunctionsIn collection: DocumentCollection, callback: @escaping (Response<Resources<UserDefinedFunction>>) -> ()) {
-    return DocumentClient.shared.get (userDefinedFunctionsIn: collection, callback: callback)
+public func get (userDefinedFunctionsIn collection: DocumentCollection, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<UserDefinedFunction>>) -> ()) {
+    return DocumentClient.shared.get (userDefinedFunctionsIn: collection, maxPerPage: maxPerPage, callback: callback)
 }
 
 // delete
@@ -406,12 +418,12 @@ public func create (triggerWithId triggerId: String, operation: Trigger.TriggerO
 }
 
 // list
-public func get (triggersIn collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Resources<Trigger>>) -> ()) {
-    return DocumentClient.shared.get (triggersIn: collectionId, inDatabase: databaseId, callback: callback)
+public func get (triggersIn collectionId: String, inDatabase databaseId: String, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<Trigger>>) -> ()) {
+    return DocumentClient.shared.get (triggersIn: collectionId, inDatabase: databaseId, maxPerPage: maxPerPage, callback: callback)
 }
 
-public func get (triggersIn collection: DocumentCollection, callback: @escaping (Response<Resources<Trigger>>) -> ()) {
-    return DocumentClient.shared.get (triggersIn: collection, callback: callback)
+public func get (triggersIn collection: DocumentCollection, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<Trigger>>) -> ()) {
+    return DocumentClient.shared.get (triggersIn: collection, maxPerPage: maxPerPage, callback: callback)
 }
 
 // delete
@@ -447,12 +459,12 @@ public func create (userWithId userId: String, inDatabase database: Database, ca
 }
 
 // list
-public func get (usersIn databaseId: String, callback: @escaping (Response<Resources<User>>) -> ()) {
-    return DocumentClient.shared.get (usersIn: databaseId, callback: callback)
+public func get (usersIn databaseId: String, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<User>>) -> ()) {
+    return DocumentClient.shared.get (usersIn: databaseId, maxPerPage: maxPerPage, callback: callback)
 }
 
-public func get (usersIn database: Database, callback: @escaping (Response<Resources<User>>) -> ()) {
-    return DocumentClient.shared.get (usersIn: database, callback: callback)
+public func get (usersIn database: Database, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<User>>) -> ()) {
+    return DocumentClient.shared.get (usersIn: database, maxPerPage: maxPerPage, callback: callback)
 }
 
 // get
@@ -487,21 +499,21 @@ public func replace (userWithId userId: String, with newUserId: String, inDataba
 // MARK: - Permissions
 
 // create
-public func create (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource, forUser userId: String, inDatabase databaseId: String, callback: @escaping (Response<Permission>) -> ()) {
+public func create (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource & SupportsPermissionToken, forUser userId: String, inDatabase databaseId: String, callback: @escaping (Response<Permission>) -> ()) {
     return DocumentClient.shared.create (permissionWithId: permissionId, mode: permissionMode, in: resource, forUser: userId, inDatabase: databaseId, callback: callback)
 }
 
-public func create (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource, forUser user: User, callback: @escaping (Response<Permission>) -> ()) {
+public func create (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource & SupportsPermissionToken, forUser user: User, callback: @escaping (Response<Permission>) -> ()) {
     return DocumentClient.shared.create (permissionWithId: permissionId, mode: permissionMode, in: resource, forUser: user, callback: callback)
 }
 
 // list
-public func get (permissionsFor userId: String, inDatabase databaseId: String, callback: @escaping (Response<Resources<Permission>>) -> ()) {
-    return DocumentClient.shared.get (permissionsFor: userId, inDatabase: databaseId, callback: callback)
+public func get (permissionsFor userId: String, inDatabase databaseId: String, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<Permission>>) -> ()) {
+    return DocumentClient.shared.get (permissionsFor: userId, inDatabase: databaseId, maxPerPage: maxPerPage, callback: callback)
 }
 
-public func get (permissionsFor user: User, callback: @escaping (Response<Resources<Permission>>) -> ()) {
-    return DocumentClient.shared.get (permissionsFor: user, callback: callback)
+public func get (permissionsFor user: User, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<Permission>>) -> ()) {
+    return DocumentClient.shared.get (permissionsFor: user, maxPerPage: maxPerPage, callback: callback)
 }
 
 // get
@@ -523,11 +535,11 @@ public func delete (permissionWithId permissionId: String, fromUser user: User, 
 }
 
 // replace
-public func replace (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource, forUser userId: String, inDatabase databaseId: String, callback: @escaping (Response<Permission>) -> ()) {
+public func replace (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource & SupportsPermissionToken, forUser userId: String, inDatabase databaseId: String, callback: @escaping (Response<Permission>) -> ()) {
     return DocumentClient.shared.replace (permissionWithId: permissionId, mode: permissionMode, in: resource, forUser: userId, inDatabase: databaseId, callback: callback)
 }
 
-public func replace (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource, forUser user: User, callback: @escaping (Response<Permission>) -> ()) {
+public func replace (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource & SupportsPermissionToken, forUser user: User, callback: @escaping (Response<Permission>) -> ()) {
     return DocumentClient.shared.replace (permissionWithId: permissionId, mode: permissionMode, in: resource, forUser: user, callback: callback)
 }
 
@@ -536,8 +548,8 @@ public func replace (permissionWithId permissionId: String, mode permissionMode:
 // MARK: - Offers
 
 // list
-public func offers (callback: @escaping (Response<Resources<Offer>>) -> ()) {
-    return DocumentClient.shared.offers (callback: callback)
+public func offers (maxPerPage: Int? = nil, callback: @escaping (Response<Resources<Offer>>) -> ()) {
+    return DocumentClient.shared.offers (maxPerPage: maxPerPage, callback: callback)
 }
 
 // get

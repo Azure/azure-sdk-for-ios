@@ -9,7 +9,7 @@
 import Foundation
 
 /// Represents a document attachment in the Azure Cosmos DB service.
-public struct Attachment : CodableResource {
+public struct Attachment : CodableResource, SupportsPermissionToken {
     
     public static var type = "attachments"
     public static var list = "Attachments"

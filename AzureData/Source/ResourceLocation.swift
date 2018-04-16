@@ -21,7 +21,7 @@ import Foundation
 ///
 /// - Example: Get a single existing document from the collection:
 ///   `let location: ResourceLocation = .document(databaseId: "MyDatabase", collectionId: "MyCollection", id: "MyDocument")`
-///   `location.path // "dbs/MyDatabase/colls/MyCollection/docs/MyDocument" (the locaiton of the document)`
+///   `location.path // "dbs/MyDatabase/colls/MyCollection/docs/MyDocument" (the location of the document)`
 ///   `location.link // "dbs/MyDatabase/colls/MyCollection/docs/MyDocument" (the location of the document)`
 public enum ResourceLocation {
     case database(id: String?)

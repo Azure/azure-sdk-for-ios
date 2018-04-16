@@ -19,6 +19,7 @@ public enum MSHttpHeader : String {
     case msContinuation                     = "x-ms-continuation"
     case msDate                             = "x-ms-date"
     case msDocumentdbIsQuery                = "x-ms-documentdb-isquery"
+    case msDocumentdbIsUpsert               = "x-ms-documentdb-is-upsert"
     case msDocumentdbPartitionkey           = "x-ms-documentdb-partitionkey"
     case msDocumentdbPartitionKeyRangeId    = "x-ms-documentdb-partitionkeyrangeid"
     case msItemCount                        = "x-ms-item-count"
@@ -78,6 +79,10 @@ extension HTTPURLResponse {
     var msAltContentPathHeader: String? {
         return self.allHeaderFields[MSHttpHeader.msAltContentPath.rawValue] as? String
     }
+
+    var msContinuationHeader: String? {
+        return self.allHeaderFields[MSHttpHeader.msContinuation.rawValue] as? String
+    }
 }
 
 extension URLRequest {
@@ -85,4 +90,3 @@ extension URLRequest {
         self.addValue(value, forHTTPHeaderField: forHTTPHeaderField.rawValue)
     }
 }
-

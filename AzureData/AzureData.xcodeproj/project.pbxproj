@@ -7,6 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		323AE94A2080230E00EAE1F5 /* SupportsPermissionToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323AE9492080230E00EAE1F5 /* SupportsPermissionToken.swift */; };
+		323AE94B2080230E00EAE1F5 /* SupportsPermissionToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323AE9492080230E00EAE1F5 /* SupportsPermissionToken.swift */; };
+		323AE94C2080230E00EAE1F5 /* SupportsPermissionToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323AE9492080230E00EAE1F5 /* SupportsPermissionToken.swift */; };
+		323AE94D2080230E00EAE1F5 /* SupportsPermissionToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323AE9492080230E00EAE1F5 /* SupportsPermissionToken.swift */; };
+		323A90E9207F976400537769 /* CodableResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323A90E8207F976400537769 /* CodableResources.swift */; };
+		323A90EA207F976400537769 /* CodableResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323A90E8207F976400537769 /* CodableResources.swift */; };
+		323A90EB207F976400537769 /* CodableResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323A90E8207F976400537769 /* CodableResources.swift */; };
+		323A90EC207F976400537769 /* CodableResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323A90E8207F976400537769 /* CodableResources.swift */; };
+		323A90F220800DEB00537769 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323A90F120800DEB00537769 /* Extensions.swift */; };
+		323A90F320800DEB00537769 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323A90F120800DEB00537769 /* Extensions.swift */; };
+		323A90F520800E6C00537769 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323A90F120800DEB00537769 /* Extensions.swift */; };
+		323B71AA207E6B75000F20F6 /* ResourceRequestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323B71A9207E6B75000F20F6 /* ResourceRequestError.swift */; };
+		323B71AB207E6B75000F20F6 /* ResourceRequestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323B71A9207E6B75000F20F6 /* ResourceRequestError.swift */; };
+		323B71AC207E6B75000F20F6 /* ResourceRequestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323B71A9207E6B75000F20F6 /* ResourceRequestError.swift */; };
+		323B71AD207E6B75000F20F6 /* ResourceRequestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323B71A9207E6B75000F20F6 /* ResourceRequestError.swift */; };
 		32532A5A207825A1002BFFCA /* ResponseMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32532A59207825A1002BFFCA /* ResponseMetadata.swift */; };
 		32532A5C207825A1002BFFCA /* ResponseMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32532A59207825A1002BFFCA /* ResponseMetadata.swift */; };
 		32532A5E207825A1002BFFCA /* ResponseMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32532A59207825A1002BFFCA /* ResponseMetadata.swift */; };
@@ -276,6 +291,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		323AE9492080230E00EAE1F5 /* SupportsPermissionToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportsPermissionToken.swift; sourceTree = "<group>"; };
+		323A90E8207F976400537769 /* CodableResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableResources.swift; sourceTree = "<group>"; };
+		323A90F120800DEB00537769 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		323B71A9207E6B75000F20F6 /* ResourceRequestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceRequestError.swift; sourceTree = "<group>"; };
 		32532A59207825A1002BFFCA /* ResponseMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseMetadata.swift; sourceTree = "<group>"; };
 		32AD4618207976AB00A0D02F /* ResponseMetadataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseMetadataTests.swift; sourceTree = "<group>"; };
 		9302CE422059A3A5000F6885 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -439,6 +458,7 @@
 				B52240381FB33CD000D0343F /* UtilityExtensions.swift */,
 				B58361B71FBA1339001CEC66 /* Resources */,
 				B55AEFDF1FB34B7400F7BEED /* Supporting Files */,
+				323AE9492080230E00EAE1F5 /* SupportsPermissionToken.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -489,6 +509,7 @@
 				B522403A1FB33D1200D0343F /* UserDefinedFunctionTests.swift */,
 				B52240461FB33D1200D0343F /* UserTests.swift */,
 				9317A81B2065763700338B63 /* ResourceOracleTests.swift */,
+				323A90F120800DEB00537769 /* Extensions.swift */,
 			);
 			name = ResourceTests;
 			sourceTree = "<group>";
@@ -522,6 +543,7 @@
 			children = (
 				B583619C1FB77A70001CEC66 /* Resources.swift */,
 				B58361B81FBA1384001CEC66 /* CodableResource.swift */,
+				323A90E8207F976400537769 /* CodableResources.swift */,
 				B5B6AC281FBA84C400B93106 /* CodableDictionary.swift */,
 				93F9ACD01FC0D01400AC240C /* ResourceError.swift */,
 				B58361CC1FBA1439001CEC66 /* Attachment.swift */,
@@ -539,6 +561,7 @@
 				B58361E01FBA17C8001CEC66 /* Trigger.swift */,
 				B58361E51FBA17D8001CEC66 /* User.swift */,
 				B58361EA1FBA17E8001CEC66 /* UserDefinedFunction.swift */,
+				323B71A9207E6B75000F20F6 /* ResourceRequestError.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -876,6 +899,7 @@
 				B58361CE1FBA1439001CEC66 /* Attachment.swift in Sources */,
 				9319DEEA20698C3D0083475D /* PermissionProvider.swift in Sources */,
 				9319DEF920698FB90083475D /* PermissionCache.swift in Sources */,
+				323A90EA207F976400537769 /* CodableResources.swift in Sources */,
 				930B2F491FFD56AB00F86BF1 /* DictionaryDocument.swift in Sources */,
 				B58361B31FB78F7A001CEC66 /* Resources.swift in Sources */,
 				93F9ACCD1FC0CA4800AC240C /* DocumentClientError.swift in Sources */,
@@ -886,6 +910,7 @@
 				93935D9C20585C8600F1832A /* PermissionMode.swift in Sources */,
 				32532A5C207825A1002BFFCA /* ResponseMetadata.swift in Sources */,
 				9358A973207E435200B25D67 /* ConflictStrategy.swift in Sources */,
+				323B71AB207E6B75000F20F6 /* ResourceRequestError.swift in Sources */,
 				9317A81820656ED100338B63 /* ResourceOracle.swift in Sources */,
 				931EA5C41FBE6920003CCFF4 /* DocumentClientExtensions.swift in Sources */,
 				B58361B41FB78F7A001CEC66 /* Response.swift in Sources */,
@@ -893,6 +918,7 @@
 				B52240B21FB3409000D0343F /* ResourceType.swift in Sources */,
 				9319DEF420698F260083475D /* PermissionProviderError.swift in Sources */,
 				B58361F11FBA19A7001CEC66 /* DatabaseAccount.swift in Sources */,
+				323AE94B2080230E00EAE1F5 /* SupportsPermissionToken.swift in Sources */,
 				B58361E71FBA17D8001CEC66 /* User.swift in Sources */,
 				B52241051FB3409F00D0343F /* UtilityExtensions.swift in Sources */,
 				9319DF032069DD7B0083475D /* ResourceTokenProvider.swift in Sources */,
@@ -937,6 +963,7 @@
 				B52240781FB33DF800D0343F /* DocumentCollectionTests.swift in Sources */,
 				B52240791FB33DF800D0343F /* OfferTests.swift in Sources */,
 				B522407A1FB33DF800D0343F /* DocumentAttachmentExtensionsTests.swift in Sources */,
+				323A90F320800DEB00537769 /* Extensions.swift in Sources */,
 				B522406C1FB33DF800D0343F /* CollectionUserDefinedFunctionExtensionsTests.swift in Sources */,
 				B522406D1FB33DF800D0343F /* DatabaseCollectionExtensionsTests.swift in Sources */,
 				B52240711FB33DF800D0343F /* DatabaseUserExtensionsTests.swift in Sources */,
@@ -953,6 +980,7 @@
 				B58361CF1FBA1439001CEC66 /* Attachment.swift in Sources */,
 				9319DEEB20698C3D0083475D /* PermissionProvider.swift in Sources */,
 				9319DEFA20698FB90083475D /* PermissionCache.swift in Sources */,
+				323A90EB207F976400537769 /* CodableResources.swift in Sources */,
 				930B2F4A1FFD56AB00F86BF1 /* DictionaryDocument.swift in Sources */,
 				B58361AE1FB78F7A001CEC66 /* Resources.swift in Sources */,
 				93F9ACCE1FC0CA4800AC240C /* DocumentClientError.swift in Sources */,
@@ -963,6 +991,7 @@
 				93935D9D20585C8600F1832A /* PermissionMode.swift in Sources */,
 				32532A5E207825A1002BFFCA /* ResponseMetadata.swift in Sources */,
 				9358A974207E435200B25D67 /* ConflictStrategy.swift in Sources */,
+				323B71AC207E6B75000F20F6 /* ResourceRequestError.swift in Sources */,
 				9317A81920656ED100338B63 /* ResourceOracle.swift in Sources */,
 				931EA5C61FBE6922003CCFF4 /* DocumentClientExtensions.swift in Sources */,
 				B58361AF1FB78F7A001CEC66 /* Response.swift in Sources */,
@@ -970,6 +999,7 @@
 				B52240C71FB3409100D0343F /* ResourceType.swift in Sources */,
 				9319DEF520698F260083475D /* PermissionProviderError.swift in Sources */,
 				B58361F21FBA19A7001CEC66 /* DatabaseAccount.swift in Sources */,
+				323AE94C2080230E00EAE1F5 /* SupportsPermissionToken.swift in Sources */,
 				B58361E81FBA17D8001CEC66 /* User.swift in Sources */,
 				B52241001FB3409E00D0343F /* UtilityExtensions.swift in Sources */,
 				9319DF042069DD7B0083475D /* ResourceTokenProvider.swift in Sources */,
@@ -1014,6 +1044,7 @@
 				B522408C1FB33DFA00D0343F /* DocumentCollectionTests.swift in Sources */,
 				B522408D1FB33DFA00D0343F /* OfferTests.swift in Sources */,
 				B522408E1FB33DFA00D0343F /* DocumentAttachmentExtensionsTests.swift in Sources */,
+				323A90F520800E6C00537769 /* Extensions.swift in Sources */,
 				B52240801FB33DFA00D0343F /* CollectionUserDefinedFunctionExtensionsTests.swift in Sources */,
 				B52240811FB33DFA00D0343F /* DatabaseCollectionExtensionsTests.swift in Sources */,
 				B52240851FB33DFA00D0343F /* DatabaseUserExtensionsTests.swift in Sources */,
@@ -1030,6 +1061,7 @@
 				B58361D01FBA1439001CEC66 /* Attachment.swift in Sources */,
 				9319DEEC20698C3D0083475D /* PermissionProvider.swift in Sources */,
 				9319DEFB20698FB90083475D /* PermissionCache.swift in Sources */,
+				323A90EC207F976400537769 /* CodableResources.swift in Sources */,
 				930B2F4B1FFD56AB00F86BF1 /* DictionaryDocument.swift in Sources */,
 				B58361A91FB78F78001CEC66 /* Resources.swift in Sources */,
 				93F9ACCF1FC0CA4800AC240C /* DocumentClientError.swift in Sources */,
@@ -1040,6 +1072,7 @@
 				93935D9E20585C8600F1832A /* PermissionMode.swift in Sources */,
 				32532A60207825A1002BFFCA /* ResponseMetadata.swift in Sources */,
 				9358A975207E435200B25D67 /* ConflictStrategy.swift in Sources */,
+				323B71AD207E6B75000F20F6 /* ResourceRequestError.swift in Sources */,
 				9317A81A20656ED100338B63 /* ResourceOracle.swift in Sources */,
 				931EA5C51FBE6922003CCFF4 /* DocumentClientExtensions.swift in Sources */,
 				B58361AA1FB78F78001CEC66 /* Response.swift in Sources */,
@@ -1047,6 +1080,7 @@
 				B52240DC1FB3409200D0343F /* ResourceType.swift in Sources */,
 				9319DEF620698F260083475D /* PermissionProviderError.swift in Sources */,
 				B58361F31FBA19A7001CEC66 /* DatabaseAccount.swift in Sources */,
+				323AE94D2080230E00EAE1F5 /* SupportsPermissionToken.swift in Sources */,
 				B58361E91FBA17D8001CEC66 /* User.swift in Sources */,
 				B52240FB1FB3409D00D0343F /* UtilityExtensions.swift in Sources */,
 				9319DF052069DD7B0083475D /* ResourceTokenProvider.swift in Sources */,
@@ -1075,6 +1109,7 @@
 				B58361CD1FBA1439001CEC66 /* Attachment.swift in Sources */,
 				9319DEE920698C3D0083475D /* PermissionProvider.swift in Sources */,
 				9319DEF820698FB90083475D /* PermissionCache.swift in Sources */,
+				323A90E9207F976400537769 /* CodableResources.swift in Sources */,
 				930B2F481FFD56AB00F86BF1 /* DictionaryDocument.swift in Sources */,
 				B58361D71FBA16F9001CEC66 /* Permission.swift in Sources */,
 				93F9ACCC1FC0CA4800AC240C /* DocumentClientError.swift in Sources */,
@@ -1085,6 +1120,7 @@
 				93935D9B20585C8600F1832A /* PermissionMode.swift in Sources */,
 				32532A5A207825A1002BFFCA /* ResponseMetadata.swift in Sources */,
 				9358A972207E435200B25D67 /* ConflictStrategy.swift in Sources */,
+				323B71AA207E6B75000F20F6 /* ResourceRequestError.swift in Sources */,
 				9317A81720656ED100338B63 /* ResourceOracle.swift in Sources */,
 				931EA5BF1FBE201F003CCFF4 /* DocumentClientExtensions.swift in Sources */,
 				B583619D1FB77A70001CEC66 /* Resources.swift in Sources */,
@@ -1092,6 +1128,7 @@
 				B58361F01FBA19A7001CEC66 /* DatabaseAccount.swift in Sources */,
 				9319DEF320698F260083475D /* PermissionProviderError.swift in Sources */,
 				B522409D1FB3408E00D0343F /* ResourceType.swift in Sources */,
+				323AE94A2080230E00EAE1F5 /* SupportsPermissionToken.swift in Sources */,
 				B58361E61FBA17D8001CEC66 /* User.swift in Sources */,
 				B58361EB1FBA17E8001CEC66 /* UserDefinedFunction.swift in Sources */,
 				9319DF022069DD7B0083475D /* ResourceTokenProvider.swift in Sources */,
@@ -1136,6 +1173,7 @@
 				B52240641FB33DF100D0343F /* DocumentCollectionTests.swift in Sources */,
 				B52240651FB33DF100D0343F /* OfferTests.swift in Sources */,
 				B52240661FB33DF100D0343F /* DocumentAttachmentExtensionsTests.swift in Sources */,
+				323A90F220800DEB00537769 /* Extensions.swift in Sources */,
 				B52240581FB33DF100D0343F /* CollectionUserDefinedFunctionExtensionsTests.swift in Sources */,
 				B52240591FB33DF100D0343F /* DatabaseCollectionExtensionsTests.swift in Sources */,
 				B522405D1FB33DF100D0343F /* DatabaseUserExtensionsTests.swift in Sources */,

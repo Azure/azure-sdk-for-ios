@@ -15,7 +15,7 @@ import Foundation
 ///   the database and can be used inside queries.
 ///   Refer to [javascript-integration](http://azure.microsoft.com/documentation/articles/documentdb-sql-query/#javascript-integration) for how to use UDFs within queries.
 ///   Refer to [udf](http://azure.microsoft.com/documentation/articles/documentdb-programming/#udf) for more details about implementing UDFs in JavaScript.
-public struct UserDefinedFunction : CodableResource {
+public struct UserDefinedFunction : CodableResource, SupportsPermissionToken {
     
     public static var type = "udfs"
     public static var list = "UserDefinedFunctions"

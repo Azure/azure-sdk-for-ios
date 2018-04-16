@@ -15,7 +15,7 @@ public class Query : Encodable {
     fileprivate var whereCalled     = false
     fileprivate var andCalled       = false
     fileprivate var orderByCalled   = false
-    
+
     fileprivate var selectProperties:   [String] = []
     fileprivate var fromFragment:        String?
     fileprivate var whereFragment:       String?
@@ -23,7 +23,7 @@ public class Query : Encodable {
     fileprivate var orderByFragment:     String?
     
     fileprivate var type:       String?
-    
+
     private enum CodingKeys: String, CodingKey {
         case query
         case parameters
@@ -300,6 +300,8 @@ extension Query {
     
     public func orderBy(_ property: String, descending: Bool = false) -> Self {
         assert(!orderByCalled, "you can only call `orderBy` once, to order on an additional level use `thenBy`")
+        orderByCalled = true
+
         orderByFragment = property
         
         if descending { orderByFragment! += " DESC" }
