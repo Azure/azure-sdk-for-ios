@@ -191,6 +191,14 @@ public func create<T: Document> (_ document: T, in collection: DocumentCollectio
     return DocumentClient.shared.create (document, in: collection, callback: callback)
 }
 
+public func createOrReplace<T: Document> (_ document: T, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<T>) -> ()) {
+    return DocumentClient.shared.createOrReplace (document, inCollection: collectionId, inDatabase: databaseId, callback: callback)
+}
+
+public func createOrReplace<T: Document> (_ document: T, in collection: DocumentCollection, callback: @escaping (Response<T>) -> ()) {
+    return DocumentClient.shared.createOrReplace(document, in: collection, callback: callback)
+}
+
 // list
 public func get<T: Document> (documentsAs documentType: T.Type, inCollection collectionId: String, inDatabase databaseId: String, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<T>>) -> ()) {
     return DocumentClient.shared.get (documentsAs: documentType, inCollection: collectionId, inDatabase: databaseId, maxPerPage: maxPerPage, callback: callback)
