@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AzureCore
 
 public struct Response<T> {
     
@@ -83,11 +84,6 @@ extension Response where T:CodableResource {
 }
 
 
-//extension Response where T == Resources<CodableResource> {
-//
-//}
-
-
 // MARK: - CustomStringConvertible
 
 extension Result: CustomStringConvertible {
@@ -107,5 +103,29 @@ extension Result: CustomDebugStringConvertible {
         case .success(let value): return "✅ SUCCESS: \(value)"
         case .failure(let error): return "❌ FAILURE: \(error)"
         }
+    }
+}
+
+// MARK: - Pagination support
+
+extension Response where T: CodableResources {
+    public var hasMoreResults: Bool {
+        guard let continuation = response?.msContinuationHeader else { return false }
+        return !continuation.isEmpty
+    }
+
+    public func next(callback: @escaping (Response<T>) -> ()) {
+        assert(request != nil && response != nil, "`next` must be called after an initial set of items have been fetched.")
+
+        guard let continuation = response?.msContinuationHeader else {
+            Log.debug("No more items to fetch.")
+            callback(Response(DocumentClientError(withKind: .noMoreResultsError)))
+            return
+        }
+
+        var continuationRequest = request!
+        continuationRequest.addValue(continuation, forHTTPHeaderField: .msContinuation)
+
+        return DocumentClient.shared.sendRequest(continuationRequest, callback: callback)
     }
 }
