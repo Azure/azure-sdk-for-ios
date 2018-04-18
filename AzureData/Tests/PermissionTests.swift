@@ -31,7 +31,7 @@ class PermissionTests: AzureDataTests {
         var deleteResponse:     Response<Data>?
 
         // Create
-        AzureData.create(permissionWithId: resourceId, mode: .all, in: collection!, forUser: user!) { r in
+        AzureData.create(permissionWithId: resourceId, mode: .all, in: collection!, for: user!) { r in
             createResponse = r
             self.createExpectation.fulfill()
         }
@@ -51,7 +51,7 @@ class PermissionTests: AzureDataTests {
         XCTAssertNotNil(listResponse?.resource)
 
         // Get
-        AzureData.get(permissionWithId: resourceId, forUser: user!) { r in
+        AzureData.get(permissionWithId: resourceId, for: user!) { r in
             getResponse = r
             self.getExpectation.fulfill()
         }
@@ -74,7 +74,7 @@ class PermissionTests: AzureDataTests {
 
         // Replace
         if let permission = getResponse?.resource {
-            AzureData.replace(permissionWithId: permission.id, mode: .read, in: collection!, forUser: user!) { r in
+            AzureData.replace(permissionWithId: permission.id, mode: .read, in: collection!, for: user!) { r in
                 replaceResponse = r
                 self.replaceExpectation.fulfill()
             }
@@ -86,7 +86,7 @@ class PermissionTests: AzureDataTests {
 
         // Delete
         if let permission = replaceResponse?.resource ?? getResponse?.resource {
-            AzureData.delete(permissionWithId: permission.id, fromUser: user!) { r in
+            AzureData.delete(permissionWithId: permission.id, from: user!) { r in
                 deleteResponse = r
                 self.deleteExpectation.fulfill()
             }

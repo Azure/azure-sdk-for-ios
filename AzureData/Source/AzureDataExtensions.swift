@@ -23,8 +23,8 @@ public extension CodableResource {
 
 public extension CodableResource where Self: SupportsPermissionToken {
 
-    public func create(permissionWithId permissionId: String, mode permissionMode: PermissionMode, forUser user: User, callback: @escaping (Response<Permission>) -> ()) {
-        return DocumentClient.shared.create(permissionWithId: permissionId, mode: permissionMode, in: self, forUser: user, callback: callback)
+    public func create(permissionWithId permissionId: String, mode permissionMode: PermissionMode, for user: User, callback: @escaping (Response<Permission>) -> ()) {
+        return DocumentClient.shared.create(permissionWithId: permissionId, mode: permissionMode, in: self, for: user, callback: callback)
     }
 
 }
@@ -37,7 +37,7 @@ public extension Database {
     
     //create
     public func create (collectionWithId id: String, callback: @escaping (Response<DocumentCollection>) -> ()) {
-        return DocumentClient.shared.create(collectionWithId: id, inDatabase: self, callback: callback)
+        return DocumentClient.shared.create(collectionWithId: id, in: self, callback: callback)
     }
     
     // list
@@ -56,7 +56,7 @@ public extension Database {
     }
 
     public func delete (collectionWithId collectionId: String, callback: @escaping (Response<Data>) -> ()) {
-        return DocumentClient.shared.delete(collectionWithId: collectionId, fromDatabase: self, callback: callback)
+        return DocumentClient.shared.delete(collectionWithId: collectionId, from: self, callback: callback)
     }
     
     
@@ -64,7 +64,7 @@ public extension Database {
     
     //create
     public func create (userWithId id: String, callback: @escaping (Response<User>) -> ()) {
-        return DocumentClient.shared.create (userWithId: id, inDatabase: self, callback: callback)
+        return DocumentClient.shared.create (userWithId: id, in: self, callback: callback)
     }
     
     // list
@@ -74,7 +74,7 @@ public extension Database {
     
     // get
     public func get (userWithId id: String, callback: @escaping (Response<User>) -> ()) {
-        return DocumentClient.shared.get (userWithId: id, inDatabase: self, callback: callback)
+        return DocumentClient.shared.get (userWithId: id, in: self, callback: callback)
     }
     
     //delete
@@ -83,12 +83,12 @@ public extension Database {
     }
 
     public func delete(userWithId userId: String, callback: @escaping (Response<Data>) -> ()) {
-        return DocumentClient.shared.delete(userWithId: userId, fromDatabase: self, callback: callback)
+        return DocumentClient.shared.delete(userWithId: userId, from: self, callback: callback)
     }
 
     // replace
     public func replace (userWithId id: String, with newUserId: String, callback: @escaping (Response<User>) -> ()) {
-        return DocumentClient.shared.replace (userWithId: id, with: newUserId, inDatabase: self, callback: callback)
+        return DocumentClient.shared.replace (userWithId: id, with: newUserId, in: self, callback: callback)
     }
 }
 
@@ -104,14 +104,18 @@ public extension DocumentCollection {
     public func create<T: Document> (_ document: T, callback: @escaping (Response<T>) -> ()) {
         return DocumentClient.shared.create(document, in: self, callback: callback)
     }
-    
+
+    public func createOrReplace<T: Document> (_ document: T, callback: @escaping (Response<T>) -> ()) {
+        return DocumentClient.shared.createOrReplace(document, in: self, callback: callback)
+    }
+
     // list
     public func get<T: Document> (documentsAs documentType:T.Type, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<T>>) -> ()) {
         return DocumentClient.shared.get(documentsAs: documentType, in: self, maxPerPage: maxPerPage, callback: callback)
     }
     
     // get
-    public func get<T: Document> (documentWithResourceId id: String, as documentType:T.Type, callback: @escaping (Response<T>) -> ()) {
+    public func get<T: Document> (documentWithId id: String, as documentType:T.Type, callback: @escaping (Response<T>) -> ()) {
         return DocumentClient.shared.get(documentWithId: id, as: documentType, in: self, callback: callback)
     }
     
@@ -121,7 +125,7 @@ public extension DocumentCollection {
     }
 
     public func delete (documentWithId documentId: String, callback: @escaping (Response<Data>) -> ()) {
-        return DocumentClient.shared.delete(documentWithId: documentId, fromCollection: self, callback: callback)
+        return DocumentClient.shared.delete(documentWithId: documentId, from: self, callback: callback)
     }
 
     // replace
@@ -130,8 +134,8 @@ public extension DocumentCollection {
     }
     
     // query
-    public func query (documentsWith query: Query, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<Document>>) -> ()) {
-        return DocumentClient.shared.query(documentsIn: self, with: query, maxPerPage: maxPerPage, callback: callback)
+    public func query<T: Document> (documentsWith query: Query, as documentType: T.Type, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<T>>) -> ()) {
+        return DocumentClient.shared.query(documentsIn: self, as: documentType, with: query, maxPerPage: maxPerPage, callback: callback)
     }
 
     public func query (documentsWith query: Query, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<DictionaryDocument>>) -> ()) {
@@ -158,7 +162,7 @@ public extension DocumentCollection {
     }
 
     public func delete (storedProcedureWithId id: String, callback: @escaping (Response<Data>) -> ()) {
-        return DocumentClient.shared.delete (storedProcedureWithId: id, fromCollection: self, callback: callback)
+        return DocumentClient.shared.delete (storedProcedureWithId: id, from: self, callback: callback)
     }
 
     // replace
@@ -195,7 +199,7 @@ public extension DocumentCollection {
     }
 
     public func delete (userDefinedFunctionWithId functionId: String, callback: @escaping (Response<Data>) -> ()) {
-        return DocumentClient.shared.delete (userDefinedFunctionWithId: functionId, fromCollection: self, callback: callback)
+        return DocumentClient.shared.delete (userDefinedFunctionWithId: functionId, from: self, callback: callback)
     }
 
     // replace
@@ -223,7 +227,7 @@ public extension DocumentCollection {
     }
 
     public func delete (triggerWithId triggerId: String, callback: @escaping (Response<Data>) -> ()) {
-        return DocumentClient.shared.delete(triggerWithId: triggerId, fromCollection: self, callback: callback)
+        return DocumentClient.shared.delete(triggerWithId: triggerId, from: self, callback: callback)
     }
 
     // replace
@@ -242,11 +246,11 @@ public extension Document {
     
     // create
     public func create (attachmentWithId attachmentId: String, contentType: String, andMediaUrl mediaUrl: URL, callback: @escaping (Response<Attachment>) -> ()) {
-        return DocumentClient.shared.create(attachmentWithId: attachmentId, contentType: contentType, andMediaUrl: mediaUrl, onDocument: self, callback: callback)
+        return DocumentClient.shared.create(attachmentWithId: attachmentId, contentType: contentType, andMediaUrl: mediaUrl, on: self, callback: callback)
     }
     
     public func create (attachmentWithId attachmentId: String, contentType: String, name mediaName: String, with media: Data, callback: @escaping (Response<Attachment>) -> ()) {
-        return DocumentClient.shared.create(attachmentWithId: attachmentId, contentType: contentType, name: mediaName, with: media, onDocument: self, callback: callback)
+        return DocumentClient.shared.create(attachmentWithId: attachmentId, contentType: contentType, name: mediaName, with: media, on: self, callback: callback)
     }
     
     // list
@@ -260,16 +264,16 @@ public extension Document {
     }
 
     public func delete (attachmentWithId id: String, callback: @escaping (Response<Data>) -> ()) {
-        return DocumentClient.shared.delete(attachmentWithId: id, fromDocument: self, callback: callback)
+        return DocumentClient.shared.delete(attachmentWithId: id, from: self, callback: callback)
     }
 
     // replace
     public func replace (attachmentWithId attachmentId: String, contentType: String, andMediaUrl mediaUrl: URL, callback: @escaping (Response<Attachment>) -> ()) {
-        return DocumentClient.shared.replace(attachmentWithId: attachmentId, contentType: contentType, andMediaUrl: mediaUrl, onDocument: self, callback: callback)
+        return DocumentClient.shared.replace(attachmentWithId: attachmentId, contentType: contentType, andMediaUrl: mediaUrl, on: self, callback: callback)
     }
     
     public func replace (attachmentWithId attachmentId: String, contentType: String, name mediaName: String, with media: Data, callback: @escaping (Response<Attachment>) -> ()) {
-        return DocumentClient.shared.replace(attachmentWithId: attachmentId, contentType: contentType, name: mediaName, with: media, onDocument: self, callback: callback)
+        return DocumentClient.shared.replace(attachmentWithId: attachmentId, contentType: contentType, name: mediaName, with: media, on: self, callback: callback)
     }
 }
 
@@ -283,7 +287,7 @@ public extension User {
     
     // create
     public func create (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource & SupportsPermissionToken, callback: @escaping (Response<Permission>) -> ()) {
-        return DocumentClient.shared.create (permissionWithId: permissionId, mode: permissionMode, in: resource, forUser: self, callback: callback)
+        return DocumentClient.shared.create (permissionWithId: permissionId, mode: permissionMode, in: resource, for: self, callback: callback)
     }
     
     // list
@@ -293,7 +297,7 @@ public extension User {
     
     // get
     public func get (permissionWithId permissionId: String, callback: @escaping (Response<Permission>) -> ()) {
-        return DocumentClient.shared.get (permissionWithId: permissionId, forUser: self, callback: callback)
+        return DocumentClient.shared.get (permissionWithId: permissionId, for: self, callback: callback)
     }
     
     // delete
@@ -302,12 +306,12 @@ public extension User {
     }
 
     public func delete (permissionWithId permissionId: String, callback: @escaping (Response<Data>) -> ()) {
-        return DocumentClient.shared.delete(permissionWithId: permissionId, fromUser: self, callback: callback)
+        return DocumentClient.shared.delete(permissionWithId: permissionId, from: self, callback: callback)
     }
 
     // replace
     public func replace (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource & SupportsPermissionToken, callback: @escaping (Response<Permission>) -> ()) {
-        return DocumentClient.shared.replace (permissionWithId: permissionId, mode: permissionMode, in: resource, forUser: self, callback: callback)
+        return DocumentClient.shared.replace (permissionWithId: permissionId, mode: permissionMode, in: resource, for: self, callback: callback)
     }
 }
 

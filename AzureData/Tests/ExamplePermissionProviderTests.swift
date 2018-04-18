@@ -169,7 +169,7 @@ class ExamplePermissionProviderTests: XCTestCase {
 
                 
                 
-                collection.get(documentWithResourceId: newDocument.id, as: DictionaryDocument.self) { r in
+                collection.get(documentWithId: newDocument.id, as: DictionaryDocument.self) { r in
                     getResponse = r
                     self.getDocExpectation.fulfill()
                 }

@@ -177,7 +177,7 @@ class DocumentClient {
         return self.create(DocumentCollection(collectionId), at: .collection(databaseId: databaseId, id: nil), callback: callback)
     }
 
-    func create (collectionWithId collectionId: String, inDatabase database: Database, callback: @escaping (Response<DocumentCollection>) -> ()) {
+    func create (collectionWithId collectionId: String, in database: Database, callback: @escaping (Response<DocumentCollection>) -> ()) {
         return self.create(DocumentCollection(collectionId), at: .child(.collection, in: database, id: nil), callback: callback)
     }
 
@@ -204,7 +204,7 @@ class DocumentClient {
         return self.delete(resourceAt: .collection(databaseId: databaseId, id: collectionId), callback: callback)
     }
     
-    func delete (collectionWithId collectionId: String, fromDatabase database: Database, callback: @escaping (Response<Data>) -> ()) {
+    func delete (collectionWithId collectionId: String, from database: Database, callback: @escaping (Response<Data>) -> ()) {
         return self.delete(resourceAt: .child(.collection, in: database, id: collectionId), callback: callback)
     }
 
@@ -259,7 +259,7 @@ class DocumentClient {
         return self.delete(resourceAt: .document(databaseId: databaseId, collectionId: collectionId, id: documentId), callback: callback)
     }
     
-    func delete (documentWithId documentId: String, fromCollection collection: DocumentCollection, callback: @escaping (Response<Data>) -> ()) {
+    func delete (documentWithId documentId: String, from collection: DocumentCollection, callback: @escaping (Response<Data>) -> ()) {
         return self.delete(resourceAt: .child(.document, in: collection, id: documentId), callback: callback)
     }
     
@@ -273,11 +273,11 @@ class DocumentClient {
     }
     
     // query
-    func query (documentsIn collectionId: String, inDatabase databaseId: String, with query: Query, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<Document>>) -> ()) {
+    func query<T: Document> (documentsIn collectionId: String, as documentType: T.Type, inDatabase databaseId: String, with query: Query, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<T>>) -> ()) {
         return self.query(query, at: .document(databaseId: databaseId, collectionId: collectionId, id: nil), maxPerPage: maxPerPage, callback: callback)
     }
     
-    func query (documentsIn collection: DocumentCollection, with query: Query, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<Document>>) -> ()) {
+    func query<T: Document> (documentsIn collection: DocumentCollection, as documentType: T.Type, with query: Query, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<T>>) -> ()) {
         return self.query(query, at: .child(.document, in: collection, id: nil), maxPerPage: maxPerPage, callback: callback)
     }
 
@@ -303,11 +303,11 @@ class DocumentClient {
         return self.createOrReplace(media, at: .attachment(databaseId: databaseId, collectionId: collectionId, documentId: documentId, id: nil), additionalHeaders: [ HttpHeader.contentType.rawValue: contentType, HttpHeader.slug.rawValue: mediaName ], callback: callback)
     }
     
-    func create(attachmentWithId attachmentId: String, contentType: String, andMediaUrl mediaUrl: URL, onDocument document: Document, callback: @escaping (Response<Attachment>) -> ()) {
+    func create(attachmentWithId attachmentId: String, contentType: String, andMediaUrl mediaUrl: URL, on document: Document, callback: @escaping (Response<Attachment>) -> ()) {
         return self.create(Attachment(attachmentId, contentType: contentType, url: mediaUrl.absoluteString), at: .child(.attachment, in: document, id: nil), callback: callback)
     }
     
-    func create(attachmentWithId attachmentId: String, contentType: String, name mediaName: String, with media: Data, onDocument document: Document, callback: @escaping (Response<Attachment>) -> ()) {
+    func create(attachmentWithId attachmentId: String, contentType: String, name mediaName: String, with media: Data, on document: Document, callback: @escaping (Response<Attachment>) -> ()) {
         return self.createOrReplace(media, at: .child(.attachment, in: document, id: nil), additionalHeaders: [ HttpHeader.contentType.rawValue: contentType, HttpHeader.slug.rawValue: mediaName ], callback: callback)
     }
     
@@ -325,7 +325,7 @@ class DocumentClient {
         return self.delete(resourceAt: .attachment(databaseId: databaseId, collectionId: collectionId, documentId: documentId, id: attachmentId), callback: callback)
     }
     
-    func delete (attachmentWithId attachmentId: String, fromDocument document: Document, callback: @escaping (Response<Data>) -> ()) {
+    func delete (attachmentWithId attachmentId: String, from document: Document, callback: @escaping (Response<Data>) -> ()) {
         return self.delete(resourceAt: .child(.attachment, in: document, id: attachmentId), callback: callback)
     }
     
@@ -338,11 +338,11 @@ class DocumentClient {
         return self.createOrReplace(media, at: .attachment(databaseId: databaseId, collectionId: collectionId, documentId: documentId, id: attachmentId), replacing: true, additionalHeaders: [ HttpHeader.contentType.rawValue: contentType, HttpHeader.slug.rawValue: mediaName ], callback: callback)
     }
     
-    func replace(attachmentWithId attachmentId: String, contentType: String, andMediaUrl mediaUrl: URL, onDocument document: Document, callback: @escaping (Response<Attachment>) -> ()) {
+    func replace(attachmentWithId attachmentId: String, contentType: String, andMediaUrl mediaUrl: URL, on document: Document, callback: @escaping (Response<Attachment>) -> ()) {
         return self.replace(Attachment(attachmentId, contentType: contentType, url: mediaUrl.absoluteString), at: .child(.attachment, in: document, id: attachmentId), callback: callback)
     }
     
-    func replace(attachmentWithId attachmentId: String, contentType: String, name mediaName: String, with media: Data, onDocument document: Document, callback: @escaping (Response<Attachment>) -> ()) {
+    func replace(attachmentWithId attachmentId: String, contentType: String, name mediaName: String, with media: Data, on document: Document, callback: @escaping (Response<Attachment>) -> ()) {
         return self.createOrReplace(media, at: .child(.attachment, in: document, id: attachmentId), replacing: true, additionalHeaders: [ HttpHeader.contentType.rawValue: contentType, HttpHeader.slug.rawValue: mediaName ], callback: callback)
     }
 
@@ -375,7 +375,7 @@ class DocumentClient {
         return self.delete(resourceAt: .storedProcedure(databaseId: databaseId, collectionId: collectionId, id: storedProcedureId), callback: callback)
     }
     
-    func delete (storedProcedureWithId storedProcedureId: String, fromCollection collection: DocumentCollection, callback: @escaping (Response<Data>) -> ()) {
+    func delete (storedProcedureWithId storedProcedureId: String, from collection: DocumentCollection, callback: @escaping (Response<Data>) -> ()) {
         return self.delete(resourceAt: .child(.storedProcedure, in: collection, id: storedProcedureId), callback: callback)
     }
     
@@ -430,7 +430,7 @@ class DocumentClient {
         return self.delete(resourceAt: .udf(databaseId: databaseId, collectionId: collectionId, id: functionId), callback: callback)
     }
     
-    func delete (userDefinedFunctionWithId functionId: String, fromCollection collection: DocumentCollection, callback: @escaping (Response<Data>) -> ()) {
+    func delete (userDefinedFunctionWithId functionId: String, from collection: DocumentCollection, callback: @escaping (Response<Data>) -> ()) {
         return self.delete(resourceAt: .child(.udf, in: collection, id: functionId), callback: callback)
     }
     
@@ -472,7 +472,7 @@ class DocumentClient {
         return self.delete(resourceAt: .trigger(databaseId: databaseId, collectionId: collectionId, id: triggerId), callback: callback)
     }
 
-    func delete (triggerWithId triggerId: String, fromCollection collection: DocumentCollection, callback: @escaping (Response<Data>) -> ()) {
+    func delete (triggerWithId triggerId: String, from collection: DocumentCollection, callback: @escaping (Response<Data>) -> ()) {
         return self.delete(resourceAt: .child(.trigger, in: collection, id: triggerId), callback: callback)
     }
     
@@ -496,7 +496,7 @@ class DocumentClient {
         return self.create(User(userId), at: .user(databaseId: databaseId, id: nil), callback: callback)
     }
 
-    func create (userWithId userId: String, inDatabase database: Database, callback: @escaping (Response<User>) -> ()) {
+    func create (userWithId userId: String, in database: Database, callback: @escaping (Response<User>) -> ()) {
         return self.create(User(userId), at: .child(.user, in: database, id: nil), callback: callback)
     }
 
@@ -514,7 +514,7 @@ class DocumentClient {
         return self.resource(at: .user(databaseId: databaseId, id: userId), callback: callback)
     }
 
-    func get (userWithId userId: String, inDatabase database: Database, callback: @escaping (Response<User>) -> ()) {
+    func get (userWithId userId: String, in database: Database, callback: @escaping (Response<User>) -> ()) {
         return self.resource(at: .child(.user, in: database, id: userId), callback: callback)
     }
 
@@ -523,7 +523,7 @@ class DocumentClient {
         return self.delete(resourceAt: .user(databaseId: databaseId, id: userId), callback: callback)
     }
     
-    func delete (userWithId userId: String, fromDatabase database: Database, callback: @escaping (Response<Data>) -> ()) {
+    func delete (userWithId userId: String, from database: Database, callback: @escaping (Response<Data>) -> ()) {
         return self.delete(resourceAt: .child(.user, in: database, id: userId), callback: callback)
     }
     
@@ -532,7 +532,7 @@ class DocumentClient {
         return self.replace(User(userId), at: .user(databaseId: databaseId, id: userId), callback: callback)
     }
 
-    func replace (userWithId userId: String, with newUserId: String, inDatabase database: Database, callback: @escaping (Response<User>) -> ()) {
+    func replace (userWithId userId: String, with newUserId: String, in database: Database, callback: @escaping (Response<User>) -> ()) {
         return self.replace(User(userId), at: .child(.user, in: database, id: userId), callback: callback)
     }
 
@@ -545,7 +545,7 @@ class DocumentClient {
         return self.create(Permission(permissionId, mode: permissionMode, forResource: resource.selfLink!), at: .permission(databaseId: databaseId, userId: userId, id: nil), callback: callback)
     }
     
-    func create (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource & SupportsPermissionToken, forUser user: User, callback: @escaping (Response<Permission>) -> ()) {
+    func create (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource & SupportsPermissionToken, for user: User, callback: @escaping (Response<Permission>) -> ()) {
         return self.create(Permission(permissionId, mode: permissionMode, forResource: resource.selfLink!), at: .child(.permission, in: user, id: nil), callback: callback)
     }
     
@@ -563,7 +563,7 @@ class DocumentClient {
         return self.resource(at: .permission(databaseId: databaseId, userId: userId, id: permissionId), callback: callback)
     }
     
-    func get (permissionWithId permissionId: String, forUser user: User, callback: @escaping (Response<Permission>) -> ()) {
+    func get (permissionWithId permissionId: String, for user: User, callback: @escaping (Response<Permission>) -> ()) {
         return self.resource(at: .child(.permission, in: user, id: permissionId), callback: callback)
     }
     
@@ -572,7 +572,7 @@ class DocumentClient {
         return self.delete(resourceAt: .permission(databaseId: databaseId, userId: userId, id: permissionId), callback: callback)
     }
     
-    func delete (permissionWithId permissionId: String, fromUser user: User, callback: @escaping (Response<Data>) -> ()) {
+    func delete (permissionWithId permissionId: String, from user: User, callback: @escaping (Response<Data>) -> ()) {
         return self.delete(resourceAt: .child(.permission, in: user, id: permissionId), callback: callback)
     }
     
@@ -581,7 +581,7 @@ class DocumentClient {
         return self.replace(Permission(permissionId, mode: permissionMode, forResource: resource.selfLink!), at: .permission(databaseId: databaseId, userId: userId, id: permissionId), callback: callback)
     }
     
-    func replace (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource & SupportsPermissionToken, forUser user: User, callback: @escaping (Response<Permission>) -> ()) {
+    func replace (permissionWithId permissionId: String, mode permissionMode: PermissionMode, in resource: CodableResource & SupportsPermissionToken, for user: User, callback: @escaping (Response<Permission>) -> ()) {
         return self.replace(Permission(permissionId, mode: permissionMode, forResource: resource.selfLink!), at: .child(.permission, in: user, id: permissionId), callback: callback)
     }
     

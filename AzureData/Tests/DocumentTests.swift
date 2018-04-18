@@ -347,8 +347,8 @@ class DocumentTests: AzureDataTests {
 
         XCTAssertEqual(requestHeaders[.msContinuation], continuationHeader)
 
-        AzureData.delete(documentWithId: "\(id)Next", fromCollection: collection!) { _ in
-            AzureData.delete(documentWithId: "\(id)NextNext", fromCollection: self.collection!) { _ in }
+        AzureData.delete(documentWithId: "\(id)Next", from: collection!) { _ in
+            AzureData.delete(documentWithId: "\(id)NextNext", from: self.collection!) { _ in }
         }
     }
 }
