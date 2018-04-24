@@ -182,7 +182,7 @@ class AzureDataTests: XCTestCase {
                     let initGetUserExpectation = self.expectation(description: "Should get user")
                     var initGetUserResponse: Response<User>?
 
-                    AzureData.get(userWithId: userId, inDatabase: database) { r in
+                    AzureData.get(userWithId: userId, in: database) { r in
                         initGetUserResponse = r
                         initGetUserExpectation.fulfill()
                     }
@@ -195,7 +195,7 @@ class AzureDataTests: XCTestCase {
                         let initCreateUserExpectation = self.expectation(description: "Should create user")
                         var initCreateUserResponse: Response<User>?
 
-                        AzureData.create(userWithId: userId, inDatabase: database) { r in
+                        AzureData.create(userWithId: userId, in: database) { r in
                             initCreateUserResponse = r
                             initCreateUserExpectation.fulfill()
                         }
