@@ -27,13 +27,14 @@ public struct Response<T> {
 
     public lazy var metadata: ResponseMetadata? = response.flatMap { ResponseMetadata(for: $0) }
 
-    public init(request: URLRequest?, data: Data?, response: HTTPURLResponse?, result: Result<T>) {
+    public init(request: URLRequest?, data: Data?, response: HTTPURLResponse?, result: Result<T>, fromCache: Bool = false) {
         self.request = request
         self.data = data
         self.response = response
         self.result = result
+        self.fromCache = fromCache
     }
-    
+
     public init (_ resource: T) {
         self.init(request: nil, data: nil, response: nil, result: .success(resource))
     }

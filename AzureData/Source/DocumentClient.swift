@@ -24,16 +24,16 @@ class DocumentClient {
     fileprivate var configuredWithMasterKey: Bool { return resourceTokenProvider != nil }
     
     #if !os(watchOS)
-    fileprivate var reachabilityManager: ReachabilityManager! {
+    internal var reachabilityManager: ReachabilityManagerType! {
         willSet {
-            newValue.listener = networkReachabilityChanged
+            newValue.registerListener(networkReachabilityChanged)
             newValue.startListening()
         }
     }
     
-    func networkReachabilityChanged(status: ReachabilityManager.NetworkReachabilityStatus) {
+    func networkReachabilityChanged(status: NetworkReachabilityStatus) {
         Log.debug("Network Status Changed: \(status)")
-        self.isOffline = false
+        self.isOffline = status == .notReachable
     }
     #endif
     
@@ -85,8 +85,8 @@ class DocumentClient {
         
         return decoder
     }()
-    
-    
+
+
     // MARK: - Setup
     
     var isConfigured: Bool {
@@ -661,6 +661,11 @@ class DocumentClient {
                     
                         if let resource = response.resource {
                             ResourceCache.cache(resource)
+                            return
+                        }
+
+                        if let error = response.clientError?.kind, case .notFound = error {
+                            ResourceCache.remove(resourceAt: resourceLocation)
                         }
                     }
                 }
@@ -885,9 +890,7 @@ class DocumentClient {
     fileprivate func cachedResource<T:CodableResource>(at resourceLocation: ResourceLocation, withResponse response: Response<T>? = nil, callback: @escaping (Response<T>) -> ()) {
         
         if let resource: T = ResourceCache.get(resourceAt: resourceLocation) {
-            var cacheResponse = Response(request: response?.request, data: response?.data, response: response?.response, result: .success(resource))
-            cacheResponse.fromCache = true
-            callback(cacheResponse)
+            callback(Response(request: response?.request, data: response?.data, response: response?.response, result: .success(resource), fromCache: true))
         } else {
             callback(Response(request: response?.request, data: response?.data, response: response?.response, result: .failure(DocumentClientError(withKind: .serviceUnavailable))))
         }
@@ -896,7 +899,7 @@ class DocumentClient {
     fileprivate func cachedResources<T:CodableResource>(at resourceLocation: ResourceLocation, withResponse response: Response<Resources<T>>? = nil, callback: @escaping (Response<Resources<T>>) -> ()) {
         
         if let resources: Resources<T> = ResourceCache.get(resourcesAt: resourceLocation) {
-            callback(Response(request: response?.request, data: response?.data, response: response?.response, result: .success(resources)))
+            callback(Response(request: response?.request, data: response?.data, response: response?.response, result: .success(resources), fromCache: true))
         } else {
             callback(Response(request: response?.request, data: response?.data, response: response?.response, result: .failure(DocumentClientError(withKind: .serviceUnavailable))))
         }

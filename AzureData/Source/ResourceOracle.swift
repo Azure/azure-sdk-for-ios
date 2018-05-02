@@ -264,20 +264,18 @@ public class ResourceOracle {
     }
 
     public static func getDirectoryPath(forResourceAt location: ResourceLocation) -> (path:String, resourceId: String)? {
-        
-        guard
-            let selfLink = getSelfLink(forResourceAt: location),
-            let resourceId = getResourceId(forResourceAt: location, withSelfLink: selfLink)
-        else { return (location.type, "") }
-        
+
+        guard let selfLink = getSelfLink(forResourceAt: location) else { return (location.type, "") }
+
+        let resourceId = getResourceId(forResourceAt: location, withSelfLink: selfLink)
+
         if location.isFeed {
-            return (selfLink + "/" + location.type, resourceId)
+            return (selfLink + "/" + location.type, resourceId.valueOrEmpty)
         }
-        
-        return (selfLink, resourceId)
+
+        return (selfLink, resourceId.valueOrEmpty)
     }
 
-    
     public static func printDump() {
         Log.debug("************************************************************")
         Log.debug("************************************************************")

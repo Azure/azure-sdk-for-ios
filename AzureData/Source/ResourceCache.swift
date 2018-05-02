@@ -9,11 +9,13 @@
 import Foundation
 import AzureCore
 
+
 public class ResourceCache {
-    
+
+    // MARK: - Properties
+
     static var isEnabled = true
-    
-    
+
     static let jsonEncoder: JSONEncoder = {
         
         let encoder = JSONEncoder()
@@ -22,7 +24,7 @@ public class ResourceCache {
         
         return encoder
     }()
-    
+
     static let jsonDecoder: JSONDecoder = {
         
         let decoder = JSONDecoder()
@@ -32,10 +34,11 @@ public class ResourceCache {
         return decoder
     }()
 
-    
     static var dispatchQueue: DispatchQueue { return DispatchQueue.global(qos: .default) }
-    
-    
+
+
+    // MARK: -
+
     static func _cache<T:CodableResource>(_ resource: T) {
         
         guard isEnabled else { return }
@@ -43,7 +46,7 @@ public class ResourceCache {
         dispatchQueue.async {
             do {
                 let json = try jsonEncoder.encode(resource)
-                
+
                 try FileManager.default.cache(json, at: ResourceOracle.getFilePath(forResource: resource))
                 
             } catch {
@@ -88,7 +91,7 @@ public class ResourceCache {
         
         do {
             if let file = try FileManager.default.file(at: ResourceOracle.getFilePath(forResourceAt: location)) {
-                
+
                 return try jsonDecoder.decode(T.self, from: file)
             }
         } catch {

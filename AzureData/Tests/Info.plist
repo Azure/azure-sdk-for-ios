@@ -22,5 +22,9 @@
 	<string>AZURE_COSMOS_DB_ACCOUNT_NAME</string>
 	<key>ADDatabaseAccountKey</key>
 	<string>AZURE_COSMOS_DB_ACCOUNT_KEY</string>
+    <key>LSSupportsOpeningDocumentsInPlace</key>
+    <string>YES</string>
+    <key>UIFileSharingEnabled</key>
+    <string>YES</string>
 </dict>
 </plist>

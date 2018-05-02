@@ -117,7 +117,7 @@ class ReachabilityManagerTests: XCTestCase {
         }
         
         let expectation = self.expectation(description: "listener closure should be executed")
-        var networkReachabilityStatus: ReachabilityManager.NetworkReachabilityStatus?
+        var networkReachabilityStatus: NetworkReachabilityStatus?
         
         manager.listener = { status in
             guard networkReachabilityStatus == nil else { return }
@@ -138,7 +138,7 @@ class ReachabilityManagerTests: XCTestCase {
         let manager = ReachabilityManager()
         let expectation = self.expectation(description: "listener closure should be executed")
         
-        var networkReachabilityStatus: ReachabilityManager.NetworkReachabilityStatus?
+        var networkReachabilityStatus: NetworkReachabilityStatus?
         
         manager?.listener = { status in
             networkReachabilityStatus = status
