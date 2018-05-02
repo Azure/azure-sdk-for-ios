@@ -11,7 +11,9 @@ More information on the features to be included in AzureData can be found the [R
 
 # Configure
 
-Before making calls to AzureData, you'll need to call `AzureData.configure`.  We recommend doing this in `application(_:didFinishLaunchingWithOptions:)`.
+Before making calls to AzureData, you'll need to configure AzureData with your Azure account name and master key using one of the `AzureData.configure` functions. We recommend doing this in `application(_:didFinishLaunchingWithOptions:)`. You  can provide your Azure account name and master key, programmatically, as parameters to `AzureData.configure` or you can provide them in a property list (`.plist`) file.
+
+## Programmatically
 
 ```swift
 func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -22,6 +24,25 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 }
 ```
 
+## Using a .plist
+
+You can provide your Azure account name and master key in your project's `Info.plist`, a separate `Azure.plist` or a custom named `.plist`.
+
+Add the keys `AzureAccountName` and `AzureAccountMasterKey` to the `.plist` and call one of the `Azure.configure` functions.
+
+```swift
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+
+    // Account name and master key will be loaded from Azure.plist.
+    // If Azure.plist is not provided, they will be loaded from Info.plist.
+    AzureData.configure(withPermissionMode: <mode>)
+
+    // Account name and master key will be loaded from 'myplist.plist'.
+    AzureData.configure(withPlistNamed: "myplist.plist", withPermissionMode: <mode>)
+
+    return true
+}
+```
 
 # Usage
 
