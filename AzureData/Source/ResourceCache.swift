@@ -9,6 +9,11 @@
 import Foundation
 import AzureCore
 
+protocol DataEncryptor {
+    func encrypt(_ data: Data) -> Data
+    func decrypt(_ data: Data) -> Data
+}
+
 public class ResourceCache {
     
     static var isEnabled = true
@@ -34,7 +39,8 @@ public class ResourceCache {
 
     
     static var dispatchQueue: DispatchQueue { return DispatchQueue.global(qos: .default) }
-    
+
+    static var dataEncryptor: DataEncryptor? = nil
     
     static func _cache<T:CodableResource>(_ resource: T) {
         
@@ -42,7 +48,7 @@ public class ResourceCache {
         
         dispatchQueue.async {
             do {
-                let json = try jsonEncoder.encode(resource)
+                let json = try encrypt(jsonEncoder.encode(resource))
                 
                 try FileManager.default.cache(json, at: ResourceOracle.getFilePath(forResource: resource))
                 
@@ -89,7 +95,7 @@ public class ResourceCache {
         do {
             if let file = try FileManager.default.file(at: ResourceOracle.getFilePath(forResourceAt: location)) {
                 
-                return try jsonDecoder.decode(T.self, from: file)
+                return try jsonDecoder.decode(T.self, from: decrypt(file))
             }
         } catch {
             Log.error("❌ Cache Error [get]: " + error.localizedDescription)
@@ -110,7 +116,7 @@ public class ResourceCache {
             if let feed = ResourceOracle.getDirectoryPath(forResourceAt: location),
                 let files = try FileManager.default.files(at: feed.path) {
                
-                let resources = try files.map { try jsonDecoder.decode(type.self, from: $0) }
+                let resources = try files.map { try jsonDecoder.decode(type.self, from: decrypt($0)) }
                 
                 return Resources<T>(resourceId: feed.resourceId, count: resources.count, items: resources)
             } else {
@@ -150,6 +156,16 @@ public class ResourceCache {
             Log.error("❌ Cache Error [purge]: " + error.localizedDescription)
             throw error
         }
+    }
+
+    private static func encrypt(_ data: Data) -> Data {
+        guard let encryptor = dataEncryptor else { return data }
+        return encryptor.encrypt(data)
+    }
+
+    private static func decrypt(_ data: Data) -> Data {
+        guard let encryptor = dataEncryptor else { return data }
+        return encryptor.decrypt(data)
     }
 }
 
