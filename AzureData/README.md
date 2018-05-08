@@ -28,7 +28,9 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 
 You can provide your Azure account name and master key in your project's `Info.plist`, a separate `Azure.plist` or a custom named `.plist`.
 
-Add the keys `AzureAccountName` and `AzureAccountMasterKey` to the `.plist` and call one of the `Azure.configure` functions.
+Add the keys `AzureCosmosDbDatabaseAccountName` and `AzureCosmosDbDatabaseAccountMasterKey` to the `.plist` and call one of the `Azure.configure` functions.
+
+**Note: This method is provided for convenience when quickly developing samples and is not recommended to ship these values in a plist in production apps.**
 
 ```swift
 func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
