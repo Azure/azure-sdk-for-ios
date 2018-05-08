@@ -9,11 +9,6 @@
 import Foundation
 import AzureCore
 
-protocol DataEncryptor {
-    func encrypt(_ data: Data) -> Data
-    func decrypt(_ data: Data) -> Data
-}
-
 public class ResourceCache {
     
     static var isEnabled = true
@@ -40,7 +35,7 @@ public class ResourceCache {
     
     static var dispatchQueue: DispatchQueue { return DispatchQueue.global(qos: .default) }
 
-    static var dataEncryptor: DataEncryptor? = nil
+    static var resourceEncryptor: ResourceEncryptor? = nil
     
     static func _cache<T:CodableResource>(_ resource: T) {
         
@@ -159,12 +154,12 @@ public class ResourceCache {
     }
 
     private static func encrypt(_ data: Data) -> Data {
-        guard let encryptor = dataEncryptor else { return data }
+        guard let encryptor = resourceEncryptor else { return data }
         return encryptor.encrypt(data)
     }
 
     private static func decrypt(_ data: Data) -> Data {
-        guard let encryptor = dataEncryptor else { return data }
+        guard let encryptor = resourceEncryptor else { return data }
         return encryptor.decrypt(data)
     }
 }
