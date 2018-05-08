@@ -115,7 +115,7 @@ class DocumentClient {
 
     func configure (withPlistNamed name: String? = nil, withPermissionMode mode: PermissionMode) {
         guard let keys = AzureKeys.loadFromPlist(named: name) else { return }
-        configure(forAccountNamed: keys.accountName, withMasterKey: keys.masterKey, withPermissionMode: mode)
+        configure(forAccountNamed: keys.cosmosAccountName, withMasterKey: keys.cosmosMasterKey, withPermissionMode: mode)
     }
 
     fileprivate func commonConfigure(withHost host: String?) {

@@ -10,27 +10,27 @@ import Foundation
 
 public class AzureKeys: Codable {
     enum CodingKeys: String, CodingKey {
-        case accountName = "AzureAccountName"
-        case masterKey = "AzureAccountMasterKey"
+        case cosmosAccountName = "AzureCosmosDbDatabaseAccountName"
+        case cosmosMasterKey = "AzureCosmosDbDatabaseAccountMasterKey"
     }
 
-    public let accountName: String
-    public let masterKey: String
+    public let cosmosAccountName: String
+    public let cosmosMasterKey: String
 
-    public var hasValidAccountName: Bool {
-        return !accountName.trimmingCharacters(in: .whitespaces).isEmpty
+    public var hasValidCosmosAccountName: Bool {
+        return !cosmosAccountName.trimmingCharacters(in: .whitespaces).isEmpty
     }
 
-    public var hasValidMasterKey: Bool {
-        return !masterKey.trimmingCharacters(in: .whitespaces).isEmpty
+    public var hasValidCosmosMasterKey: Bool {
+        return !cosmosMasterKey.trimmingCharacters(in: .whitespaces).isEmpty
     }
 
     private init?(from info: [String: Any]) {
-        guard let accountName = info[CodingKeys.accountName.rawValue] as? String else { return nil }
-        guard let masterKey = info[CodingKeys.masterKey.rawValue] as? String else { return nil }
+        guard let accountName = info[CodingKeys.cosmosAccountName.rawValue] as? String else { return nil }
+        guard let masterKey = info[CodingKeys.cosmosMasterKey.rawValue] as? String else { return nil }
 
-        self.accountName = accountName
-        self.masterKey = masterKey
+        self.cosmosAccountName = accountName
+        self.cosmosMasterKey = masterKey
     }
 
     public static func loadFromPlist(named name: String? = nil) -> AzureKeys? {
@@ -39,19 +39,19 @@ public class AzureKeys: Codable {
         if let name = name,
            let data = Bundle.current.plist(named: name),
            let keys = try? decoder.decode(AzureKeys.self, from: data),
-           (keys.hasValidAccountName && keys.hasValidMasterKey) {
+           (keys.hasValidCosmosAccountName && keys.hasValidCosmosMasterKey) {
             return keys
         }
 
         if let data = Bundle.current.plist(named: "Azure"),
            let keys = try? decoder.decode(AzureKeys.self, from: data),
-           (keys.hasValidAccountName && keys.hasValidMasterKey) {
+           (keys.hasValidCosmosAccountName && keys.hasValidCosmosMasterKey) {
             return keys
         }
 
         if let info = Bundle.current.infoDictionary,
            let keys = AzureKeys(from: info),
-           (keys.hasValidAccountName && keys.hasValidMasterKey) {
+           (keys.hasValidCosmosAccountName && keys.hasValidCosmosMasterKey) {
             return keys
         }
 
