@@ -15,6 +15,14 @@
 		3259AE80206C5519002EF09B /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3259AE7F206C5519002EF09B /* KeychainAccess.framework */; };
 		3259AE82206C5523002EF09B /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3259AE81206C5523002EF09B /* KeychainAccess.framework */; };
 		3259AE84206C5531002EF09B /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3259AE83206C5531002EF09B /* KeychainAccess.framework */; };
+		32A5030C20A24729000C5948 /* Azure.plist in Resources */ = {isa = PBXBuildFile; fileRef = 32A5030B20A24729000C5948 /* Azure.plist */; };
+		32A5030D20A24729000C5948 /* Azure.plist in Resources */ = {isa = PBXBuildFile; fileRef = 32A5030B20A24729000C5948 /* Azure.plist */; };
+		32A5030E20A24729000C5948 /* Azure.plist in Resources */ = {isa = PBXBuildFile; fileRef = 32A5030B20A24729000C5948 /* Azure.plist */; };
+		32A5030F20A24729000C5948 /* Azure.plist in Resources */ = {isa = PBXBuildFile; fileRef = 32A5030B20A24729000C5948 /* Azure.plist */; };
+		32A5031120A2483F000C5948 /* AzureTests.plist in Resources */ = {isa = PBXBuildFile; fileRef = 32A5031020A2483F000C5948 /* AzureTests.plist */; };
+		32A5031220A2483F000C5948 /* AzureTests.plist in Resources */ = {isa = PBXBuildFile; fileRef = 32A5031020A2483F000C5948 /* AzureTests.plist */; };
+		32A5031320A2483F000C5948 /* AzureTests.plist in Resources */ = {isa = PBXBuildFile; fileRef = 32A5031020A2483F000C5948 /* AzureTests.plist */; };
+		32A5031420A2483F000C5948 /* AzureTests.plist in Resources */ = {isa = PBXBuildFile; fileRef = 32A5031020A2483F000C5948 /* AzureTests.plist */; };
 		930A01BB202BB95E002BD1FE /* AzureCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 93F8054B202BB20300D0B4F4 /* AzureCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		930A01F8202BBA09002BD1FE /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 930A01EF202BBA09002BD1FE /* AzureCore.framework */; };
 		930A0243202BBB3F002BD1FE /* AzureCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 93F8054B202BB20300D0B4F4 /* AzureCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -100,6 +108,8 @@
 		3259AE7F206C5519002EF09B /* KeychainAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainAccess.framework; path = Carthage/Build/Mac/KeychainAccess.framework; sourceTree = "<group>"; };
 		3259AE81206C5523002EF09B /* KeychainAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainAccess.framework; path = Carthage/Build/tvOS/KeychainAccess.framework; sourceTree = "<group>"; };
 		3259AE83206C5531002EF09B /* KeychainAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainAccess.framework; path = Carthage/Build/watchOS/KeychainAccess.framework; sourceTree = "<group>"; };
+		32A5030B20A24729000C5948 /* Azure.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Azure.plist; sourceTree = "<group>"; };
+		32A5031020A2483F000C5948 /* AzureTests.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = AzureTests.plist; sourceTree = "<group>"; };
 		930A01EF202BBA09002BD1FE /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		930A01F7202BBA09002BD1FE /* AzureCore tvOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AzureCore tvOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		930A020B202BBA16002BD1FE /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -194,8 +204,10 @@
 		930A01B6202BB910002BD1FE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				93F8054C202BB20300D0B4F4 /* Info.plist */,
+				32A5030B20A24729000C5948 /* Azure.plist */,
 				93F8054B202BB20300D0B4F4 /* AzureCore.h */,
+				32A5031020A2483F000C5948 /* AzureTests.plist */,
+				93F8054C202BB20300D0B4F4 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -242,6 +254,7 @@
 		93F8054A202BB20300D0B4F4 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				3248D8152099E4DB003CD381 /* AzureKeys.swift */,
 				93ED346A20654D68008F8807 /* CryptoProvider.h */,
 				93ED346520654D45008F8807 /* CryptoProvider.m */,
 				93B7240F206486FC00984CA8 /* DateFormat.swift */,
@@ -251,7 +264,6 @@
 				935410D1206ECFC5004B20B9 /* Keychain.swift */,
 				93DA941E20634C5500C49122 /* Logger.swift */,
 				932F01372077C318001D708B /* ReachabilityManager.swift */,
-				3248D8152099E4DB003CD381 /* AzureKeys.swift */,
 				930A01B6202BB910002BD1FE /* Supporting Files */,
 			);
 			path = Source;
@@ -515,6 +527,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32A5031320A2483F000C5948 /* AzureTests.plist in Resources */,
+				32A5030E20A24729000C5948 /* Azure.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -529,6 +543,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32A5031420A2483F000C5948 /* AzureTests.plist in Resources */,
+				32A5030F20A24729000C5948 /* Azure.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -536,6 +552,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32A5031120A2483F000C5948 /* AzureTests.plist in Resources */,
+				32A5030C20A24729000C5948 /* Azure.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -550,6 +568,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32A5031220A2483F000C5948 /* AzureTests.plist in Resources */,
+				32A5030D20A24729000C5948 /* Azure.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

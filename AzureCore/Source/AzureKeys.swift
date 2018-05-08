@@ -9,6 +9,10 @@
 import Foundation
 
 public class AzureKeys: Codable {
+
+    private static let defaultCosmosAccountName = "AZURE_COSMOS_DB_DATABASE_ACCOUNT_NAME"
+    private static let defaultCosmosMasterKey = "AZURE_COSMOS_DB_DATABASE_ACCOUNT_MASTER_KEY"
+
     enum CodingKeys: String, CodingKey {
         case cosmosAccountName = "AzureCosmosDbDatabaseAccountName"
         case cosmosMasterKey = "AzureCosmosDbDatabaseAccountMasterKey"
@@ -18,11 +22,11 @@ public class AzureKeys: Codable {
     public let cosmosMasterKey: String
 
     public var hasValidCosmosAccountName: Bool {
-        return !cosmosAccountName.trimmingCharacters(in: .whitespaces).isEmpty
+        return !cosmosAccountName.trimmed.isEmpty && cosmosAccountName != AzureKeys.defaultCosmosAccountName
     }
 
     public var hasValidCosmosMasterKey: Bool {
-        return !cosmosMasterKey.trimmingCharacters(in: .whitespaces).isEmpty
+        return !cosmosMasterKey.trimmed.isEmpty && cosmosMasterKey != AzureKeys.defaultCosmosMasterKey
     }
 
     private init?(from info: [String: Any]) {
@@ -75,6 +79,10 @@ extension Bundle {
 }
 
 extension String {
+    fileprivate var trimmed: String {
+        return trimmingCharacters(in: .whitespaces)
+    }
+
     fileprivate func removingSuffix(_ suffix: String) -> String {
         guard hasSuffix(suffix) else { return self }
         return String(dropLast(suffix.count))
