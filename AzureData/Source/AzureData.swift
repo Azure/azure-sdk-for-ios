@@ -52,6 +52,9 @@ public func configure (forAccountAt url: URL, withPermissionProvider permissionP
     DocumentClient.shared.configure(forAccountAt: url, withPermissionProvider: permissionProvider)
 }
 
+public func configure (withPlistNamed name: String? = nil, withPermissionMode mode: PermissionMode) {
+    DocumentClient.shared.configure(withPlistNamed: name, withPermissionMode: mode)
+}
 
 public var offlineDataEnabled: Bool {
     get { return ResourceCache.isEnabled }
@@ -108,7 +111,12 @@ public func register(resolver: @escaping ConflictResolver, for resourceTypes: Re
     return DocumentClient.shared.register(strategy: .custom(resolver), for: resourceTypes)
 }
 
+// MARK: - Resource Encryption
 
+public var resourceEncryptor: ResourceEncryptor? {
+    get { return ResourceCache.resourceEncryptor }
+    set { ResourceCache.resourceEncryptor = newValue }
+}
 
 // MARK: - Databases
 

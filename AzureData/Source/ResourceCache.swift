@@ -36,17 +36,19 @@ public class ResourceCache {
 
     static var dispatchQueue: DispatchQueue { return DispatchQueue.global(qos: .default) }
 
-
     // MARK: -
 
+    static var resourceEncryptor: ResourceEncryptor? = nil
+    
     static func _cache<T:CodableResource>(_ resource: T) {
         
         guard isEnabled else { return }
         
         dispatchQueue.async {
             do {
-                let json = try jsonEncoder.encode(resource)
-
+              
+                let json = try encrypt(jsonEncoder.encode(resource))
+              
                 try FileManager.default.cache(json, at: ResourceOracle.getFilePath(forResource: resource))
                 
             } catch {
@@ -91,8 +93,8 @@ public class ResourceCache {
         
         do {
             if let file = try FileManager.default.file(at: ResourceOracle.getFilePath(forResourceAt: location)) {
-
-                return try jsonDecoder.decode(T.self, from: file)
+                
+                return try jsonDecoder.decode(T.self, from: decrypt(file))
             }
         } catch {
             Log.error("❌ Cache Error [get]: " + error.localizedDescription)
@@ -113,7 +115,7 @@ public class ResourceCache {
             if let feed = ResourceOracle.getDirectoryPath(forResourceAt: location),
                 let files = try FileManager.default.files(at: feed.path) {
                
-                let resources = try files.map { try jsonDecoder.decode(type.self, from: $0) }
+                let resources = try files.map { try jsonDecoder.decode(type.self, from: decrypt($0)) }
                 
                 return Resources<T>(resourceId: feed.resourceId, count: resources.count, items: resources)
             } else {
@@ -153,6 +155,16 @@ public class ResourceCache {
             Log.error("❌ Cache Error [purge]: " + error.localizedDescription)
             throw error
         }
+    }
+
+    private static func encrypt(_ data: Data) -> Data {
+        guard let encryptor = resourceEncryptor else { return data }
+        return encryptor.encrypt(data)
+    }
+
+    private static func decrypt(_ data: Data) -> Data {
+        guard let encryptor = resourceEncryptor else { return data }
+        return encryptor.decrypt(data)
     }
 }
 
