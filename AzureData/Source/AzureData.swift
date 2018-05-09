@@ -111,7 +111,12 @@ public func register(resolver: @escaping ConflictResolver, for resourceTypes: Re
     return DocumentClient.shared.register(strategy: .custom(resolver), for: resourceTypes)
 }
 
+// MARK: - Resource Encryption
 
+public var resourceEncryptor: ResourceEncryptor? {
+    get { return ResourceCache.resourceEncryptor }
+    set { ResourceCache.resourceEncryptor = newValue }
+}
 
 // MARK: - Databases
 
