@@ -76,9 +76,8 @@ class AzureDataTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        
-        // AzureData.configure(forAccountNamed: "<Database Name>", withMasterKey: "<Database Master Key OR Resource Permission Token>", withPermissionMode: "<Master Key Permission Mode>")
-        
+
+        AzureData.configure(withPlistNamed: "AzureTests.plist", withPermissionMode: .all)
 
         //AzureData.offlineDataEnabled = false
                 

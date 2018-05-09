@@ -113,6 +113,11 @@ class DocumentClient {
         commonConfigure(withHost: url.host)
     }
 
+    func configure (withPlistNamed name: String? = nil, withPermissionMode mode: PermissionMode) {
+        guard let keys = AzureKeys.loadFromPlist(named: name) else { return }
+        configure(forAccountNamed: keys.cosmosAccountName, withMasterKey: keys.cosmosMasterKey, withPermissionMode: mode)
+    }
+
     fileprivate func commonConfigure(withHost host: String?) {
         guard
             let host = host, !host.isEmpty
