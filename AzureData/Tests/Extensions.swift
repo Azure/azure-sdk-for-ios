@@ -18,6 +18,14 @@ extension Optional where Wrapped == DocumentClientError {
         return true
     }
 
+    var isNotFoundError: Bool {
+        guard let errorKind = self?.kind, case .notFound = errorKind else {
+            return false
+        }
+
+        return true
+    }
+
     func isInvalidHeaderError(forHeader header: MSHttpHeader, withMessage message: String) -> Bool {
         guard let errorKind = self?.kind else { return false }
 

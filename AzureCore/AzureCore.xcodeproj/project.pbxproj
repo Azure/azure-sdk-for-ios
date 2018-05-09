@@ -15,6 +15,10 @@
 		3259AE80206C5519002EF09B /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3259AE7F206C5519002EF09B /* KeychainAccess.framework */; };
 		3259AE82206C5523002EF09B /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3259AE81206C5523002EF09B /* KeychainAccess.framework */; };
 		3259AE84206C5531002EF09B /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3259AE83206C5531002EF09B /* KeychainAccess.framework */; };
+		3276EA17208F3D91003F6382 /* ReachabilityManagerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3276EA16208F3D91003F6382 /* ReachabilityManagerType.swift */; };
+		3276EA18208F3D91003F6382 /* ReachabilityManagerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3276EA16208F3D91003F6382 /* ReachabilityManagerType.swift */; };
+		3276EA19208F3D91003F6382 /* ReachabilityManagerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3276EA16208F3D91003F6382 /* ReachabilityManagerType.swift */; };
+		3276EA1A208F3D91003F6382 /* ReachabilityManagerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3276EA16208F3D91003F6382 /* ReachabilityManagerType.swift */; };
 		32A5030C20A24729000C5948 /* Azure.plist in Resources */ = {isa = PBXBuildFile; fileRef = 32A5030B20A24729000C5948 /* Azure.plist */; };
 		32A5030D20A24729000C5948 /* Azure.plist in Resources */ = {isa = PBXBuildFile; fileRef = 32A5030B20A24729000C5948 /* Azure.plist */; };
 		32A5030E20A24729000C5948 /* Azure.plist in Resources */ = {isa = PBXBuildFile; fileRef = 32A5030B20A24729000C5948 /* Azure.plist */; };
@@ -108,6 +112,7 @@
 		3259AE7F206C5519002EF09B /* KeychainAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainAccess.framework; path = Carthage/Build/Mac/KeychainAccess.framework; sourceTree = "<group>"; };
 		3259AE81206C5523002EF09B /* KeychainAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainAccess.framework; path = Carthage/Build/tvOS/KeychainAccess.framework; sourceTree = "<group>"; };
 		3259AE83206C5531002EF09B /* KeychainAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainAccess.framework; path = Carthage/Build/watchOS/KeychainAccess.framework; sourceTree = "<group>"; };
+		3276EA16208F3D91003F6382 /* ReachabilityManagerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityManagerType.swift; sourceTree = "<group>"; };
 		32A5030B20A24729000C5948 /* Azure.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Azure.plist; sourceTree = "<group>"; };
 		32A5031520A2E63E000C5948 /* AzureTests.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = AzureTests.plist; sourceTree = "<group>"; };
 		930A01EF202BBA09002BD1FE /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -263,6 +268,7 @@
 				93426C8220641ED200AA27C5 /* HttpStatusCode.swift */,
 				935410D1206ECFC5004B20B9 /* Keychain.swift */,
 				93DA941E20634C5500C49122 /* Logger.swift */,
+				3276EA16208F3D91003F6382 /* ReachabilityManagerType.swift */,
 				932F01372077C318001D708B /* ReachabilityManager.swift */,
 				930A01B6202BB910002BD1FE /* Supporting Files */,
 			);
@@ -727,6 +733,7 @@
 				93B72412206486FC00984CA8 /* DateFormat.swift in Sources */,
 				93DA942120634C5500C49122 /* Logger.swift in Sources */,
 				935410D4206ECFC5004B20B9 /* Keychain.swift in Sources */,
+				3276EA19208F3D91003F6382 /* ReachabilityManagerType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -752,6 +759,7 @@
 				93B72413206486FC00984CA8 /* DateFormat.swift in Sources */,
 				93DA942220634C5500C49122 /* Logger.swift in Sources */,
 				935410D5206ECFC5004B20B9 /* Keychain.swift in Sources */,
+				3276EA1A208F3D91003F6382 /* ReachabilityManagerType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -768,6 +776,7 @@
 				93B72410206486FC00984CA8 /* DateFormat.swift in Sources */,
 				93DA941F20634C5500C49122 /* Logger.swift in Sources */,
 				935410D2206ECFC5004B20B9 /* Keychain.swift in Sources */,
+				3276EA17208F3D91003F6382 /* ReachabilityManagerType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -793,6 +802,7 @@
 				93B72411206486FC00984CA8 /* DateFormat.swift in Sources */,
 				93DA942020634C5500C49122 /* Logger.swift in Sources */,
 				935410D3206ECFC5004B20B9 /* Keychain.swift in Sources */,
+				3276EA18208F3D91003F6382 /* ReachabilityManagerType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
