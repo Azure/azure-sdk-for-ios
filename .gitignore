@@ -126,4 +126,3 @@ project.lock.json
 AzureData Sample/scripts/test-all.sh
 
 Azure.framework.zip
-/AzureCore/Source/AzureTests.plist
