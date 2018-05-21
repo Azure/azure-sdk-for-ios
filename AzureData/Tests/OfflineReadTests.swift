@@ -1,5 +1,5 @@
 //
-//  OfflineTests.swift
+//  OfflineReadTests.swift
 //  AzureData
 //
 //  Copyright (c) Microsoft Corporation. All rights reserved.
@@ -12,21 +12,16 @@ import XCTest
 
 #if !os(watchOS)
 
-class OfflineTests: _AzureDataTests {
+class OfflineReadTests: _AzureDataTests {
 
     // MARK: - Properties
 
-    private let cacheOperationDuration = 2.0
-    private let queue = DispatchQueue(label: "com.azure.data")
     private let cachesDirectoryURL = try! URL(string: "com.azure.data/", relativeTo: FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: false))!
-    private var reachabilityManager = MockReachabilityManager(.reachable(.ethernetOrWiFi))
 
     // MARK: -
 
     override func setUp() {
-        resourceName = "Offline"
-        reachabilityManager = MockReachabilityManager(.reachable(.ethernetOrWiFi))
-        DocumentClient.shared.reachabilityManager = reachabilityManager
+        resourceName = "OfflineRead"
         super.setUp()
     }
     
@@ -38,17 +33,20 @@ class OfflineTests: _AzureDataTests {
 
     func testFromCacheIsSetToTrueForResourcesFetchedFromLocalCache() {
         ensureDatabaseExists()
+
         let fromCacheExpectation = self.expectation(description: "fromCache should be set to true for resources fetched from the cache")
 
-        reachabilityManager.networkReachabilityStatus = .notReachable
+        turnOffInternetConnection()
 
-        AzureData.databases { r in
-            XCTAssertTrue(r.result.isSuccess)
-            XCTAssertTrue(r.fromCache)
+        wait {
+            AzureData.databases { r in
+                XCTAssertTrue(r.result.isSuccess)
+                XCTAssertTrue(r.fromCache)
 
-            self.purgeCache()
-
-            fromCacheExpectation.fulfill()
+                self.purgeCache {
+                    fromCacheExpectation.fulfill()
+                }
+            }
         }
 
         wait(for: [fromCacheExpectation], timeout: timeout)
@@ -56,17 +54,16 @@ class OfflineTests: _AzureDataTests {
 
     func testFromCacheIsSetToFalseForResourcesFetchedOnline() {
         ensureDatabaseExists()
-        let fromCacheExpectation = self.expectation(description: "fromCache should be set to false for resources fetched online")
 
-        reachabilityManager.networkReachabilityStatus = .reachable(.ethernetOrWiFi)
+        let fromCacheExpectation = self.expectation(description: "fromCache should be set to false for resources fetched online")
 
         AzureData.databases { r in
             XCTAssertTrue(r.result.isSuccess)
             XCTAssertFalse(r.fromCache)
 
-            self.purgeCache()
-
-            fromCacheExpectation.fulfill()
+            self.purgeCache {
+                fromCacheExpectation.fulfill()
+            }
         }
 
         wait(for: [fromCacheExpectation], timeout: timeout)
@@ -74,17 +71,20 @@ class OfflineTests: _AzureDataTests {
 
     func testFromCacheIsSetToTrueForAResourceFetchedFromLocalCache() {
         ensureDatabaseExists()
+
         let fromCacheExpectation = self.expectation(description: "fromCache should be set to true for a resource fetched from the cache")
 
-        reachabilityManager.networkReachabilityStatus = .notReachable
+        turnOffInternetConnection()
 
-        AzureData.get(databaseWithId: databaseId) { r in
-            XCTAssertTrue(r.result.isSuccess)
-            XCTAssertTrue(r.fromCache)
+        wait {
+            AzureData.get(databaseWithId: self.databaseId) { r in
+                XCTAssertTrue(r.result.isSuccess)
+                XCTAssertTrue(r.fromCache)
 
-            self.purgeCache()
-
-            fromCacheExpectation.fulfill()
+                self.purgeCache {
+                    fromCacheExpectation.fulfill()
+                }
+            }
         }
 
         wait(for: [fromCacheExpectation], timeout: timeout)
@@ -92,17 +92,16 @@ class OfflineTests: _AzureDataTests {
 
     func testFromCacheIsSetToFalseForAResourceFetchedOnline() {
         ensureDatabaseExists()
-        let fromCacheExpectation = self.expectation(description: "fromCache should be set to false for a resource fetched online")
 
-        reachabilityManager.networkReachabilityStatus = .reachable(.ethernetOrWiFi)
+        let fromCacheExpectation = self.expectation(description: "fromCache should be set to false for a resource fetched online")
 
         AzureData.get(databaseWithId: databaseId) { r in
             XCTAssertTrue(r.result.isSuccess)
             XCTAssertFalse(r.fromCache)
 
-            self.purgeCache()
-
-            fromCacheExpectation.fulfill()
+            self.purgeCache {
+                fromCacheExpectation.fulfill()
+            }
         }
 
         wait(for: [fromCacheExpectation], timeout: timeout)
@@ -127,78 +126,105 @@ class OfflineTests: _AzureDataTests {
 
     func testCollectionsAreCachedLocallyWhenNetworkIsReachable() {
         ensureCollectionExists()
+
         let mainExpectation = expectation(description: "collections should be cached locally when the network is reachable")
+
+        var database: Database! = nil
 
         AzureData.get(databaseWithId: databaseId) { r in
             XCTAssertNotNil(r.resource!)
 
-            let database = r.resource!
+            database = r.resource!
 
-            self.ensureResourcesAreCachedLocallyWhenNetworkIsReachable(
-                resourceType: DocumentCollection.self,
-                getResources: { AzureData.get(collectionsIn: database, callback: $0) },
-                localCachePath: "dbs/\(database.resourceId)/colls/",
-                completion: { mainExpectation.fulfill() }
-            )
+            self.getExpectation.fulfill()
         }
+
+        wait(for: [getExpectation], timeout: timeout)
+
+        ensureResourcesAreCachedLocallyWhenNetworkIsReachable(
+            resourceType: DocumentCollection.self,
+            getResources: { AzureData.get(collectionsIn: database, callback: $0) },
+            localCachePath: "dbs/\(database.resourceId)/colls/",
+            completion: { mainExpectation.fulfill() }
+        )
 
         wait(for: [mainExpectation], timeout: timeout)
     }
 
     func testCollectionsAreFetchedFromLocalCacheWhenNetworkIsNotReachable() {
         ensureCollectionExists()
+
         let mainExpectation = self.expectation(description: "collections should be fetched from the local cache when the network is not reachable")
+
+        var database: Database! = nil
 
         AzureData.get(databaseWithId: databaseId) { r in
             XCTAssertNotNil(r.resource)
+            database = r.resource!
 
-            let database = r.resource!
-
-            self.ensureResourcesAreFetchedFromLocalCacheWhenNetworkIsNotReachable(
-                resourceType: DocumentCollection.self,
-                getResources: { AzureData.get(collectionsIn: database, callback: $0) },
-                completion: { mainExpectation.fulfill() }
-            )
+            self.getExpectation.fulfill()
         }
+
+        wait(for: [getExpectation], timeout: timeout)
+
+        ensureResourcesAreFetchedFromLocalCacheWhenNetworkIsNotReachable(
+            resourceType: DocumentCollection.self,
+            getResources: { AzureData.get(collectionsIn: database, callback: $0) },
+            completion: { mainExpectation.fulfill() }
+        )
 
         wait(for: [mainExpectation], timeout: timeout)
     }
 
     func testDocumentsAreCachedLocallyWhenNetworkIsReachable() {
         ensureDocumentExists()
+
         let mainExpectation = self.expectation(description: "documents should be cached locally when the network is reachable")
+
+        var collection: DocumentCollection! = nil
 
         AzureData.get(collectionWithId: self.collectionId, inDatabase: self.databaseId) { r in
             XCTAssertNotNil(r.resource)
 
-            let collection = r.resource!
+            collection = r.resource!
 
-            self.ensureResourcesAreCachedLocallyWhenNetworkIsReachable(
-                resourceType: Document.self,
-                getResources: { AzureData.get(documentsAs: Document.self, in: collection, callback: $0) },
-                localCachePath: "\(collection.selfLink!)docs/)",
-                completion: { mainExpectation.fulfill() }
-            )
+            self.getExpectation.fulfill()
         }
+
+        wait(for: [getExpectation], timeout: timeout)
+
+        ensureResourcesAreCachedLocallyWhenNetworkIsReachable(
+            resourceType: Document.self,
+            getResources: { AzureData.get(documentsAs: Document.self, in: collection, callback: $0) },
+            localCachePath: "\(collection.selfLink!)docs/)",
+            completion: { mainExpectation.fulfill() }
+        )
 
         wait(for: [mainExpectation], timeout: timeout)
     }
 
     func testDocumentsAreFetchedFromLocalCacheWhenNetworkIsNotReachable() {
         ensureDocumentExists()
+
         let mainExpectation = self.expectation(description: "documents should be fetched from the local cache when the network is not reachable")
+
+        var collection: DocumentCollection! = nil
 
         AzureData.get(collectionWithId: self.collectionId, inDatabase: self.databaseId) { r in
             XCTAssertNotNil(r.resource)
 
-            let collection = r.resource!
+            collection = r.resource!
 
-            self.ensureResourcesAreFetchedFromLocalCacheWhenNetworkIsNotReachable(
-                resourceType: Document.self,
-                getResources: { AzureData.get(documentsAs: Document.self, in: collection, callback: $0) },
-                completion: { mainExpectation.fulfill() }
-            )
+            self.getExpectation.fulfill()
         }
+
+        wait(for: [getExpectation], timeout: timeout)
+
+        ensureResourcesAreFetchedFromLocalCacheWhenNetworkIsNotReachable(
+            resourceType: Document.self,
+            getResources: { AzureData.get(documentsAs: Document.self, in: collection, callback: $0) },
+            completion: { mainExpectation.fulfill() }
+        )
 
         wait(for: [mainExpectation], timeout: timeout)
     }
@@ -210,7 +236,7 @@ class OfflineTests: _AzureDataTests {
             AzureData.delete(databaseWithId: database.id) { r in
                 XCTAssertTrue(r.result.isSuccess)
 
-                self.waitForCacheToProcessResources {
+                self.wait {
                     let databasesCachesDirectoryURL = URL(string: "dbs/", relativeTo: self.cachesDirectoryURL)
                     let directoryURL = URL(string: "\(database.resourceId)/", relativeTo: databasesCachesDirectoryURL)!
                     let JSONFileURL = URL(string: "\(database.resourceId).json", relativeTo: directoryURL)!
@@ -238,7 +264,7 @@ class OfflineTests: _AzureDataTests {
                     XCTAssertFalse(r.result.isSuccess)
                     XCTAssertTrue(r.clientError.isNotFoundError)
 
-                    self.waitForCacheToProcessResources {
+                    self.wait {
                         let databasesCachesDirectoryURL = URL(string: "dbs/", relativeTo: self.cachesDirectoryURL)
                         let directoryURL = URL(string: "\(database.resourceId)/", relativeTo: databasesCachesDirectoryURL)!
                         let JSONFileURL = URL(string: "\(database.resourceId).json", relativeTo: directoryURL)!
@@ -265,35 +291,29 @@ class OfflineTests: _AzureDataTests {
     ) {
         var resources = [T]()
 
-        queue.async {
-            getResources { r in
-                XCTAssertTrue(r.result.isSuccess)
-                resources = r.resource?.items ?? []
+        getResources { r in
+            XCTAssertTrue(r.result.isSuccess)
+            resources = r.resource?.items ?? []
 
-                self.waitForCacheToProcessResources {
-                    self.listExpectation.fulfill()
-                }
+            self.wait {
+                self.listExpectation.fulfill()
             }
         }
 
-        DispatchQueue.main.async {
-            self.wait(for: [self.listExpectation], timeout: self.timeout)
+        wait(for: [self.listExpectation], timeout: self.timeout)
 
-            XCTAssertFalse(resources.isEmpty)
+        XCTAssertFalse(resources.isEmpty)
 
-            let resourcesCacheDirectoryURL = URL(string: localCachePath, relativeTo: self.cachesDirectoryURL)!
+        let resourcesCacheDirectoryURL = URL(string: localCachePath, relativeTo: self.cachesDirectoryURL)!
 
-            resources.forEach { resource in
-                let directoryURL = URL(string: "\(resource.resourceId)/", relativeTo: resourcesCacheDirectoryURL)!
-                let JSONFileURL = URL(string: "\(resource.resourceId).json", relativeTo: directoryURL)!
-                XCTAssertTrue(FileManager.default.fileExists(atPath: directoryURL.path))
-                XCTAssertTrue(FileManager.default.fileExists(atPath: JSONFileURL.path))
-            }
-
-            self.purgeCache()
-
-            completion?()
+        resources.forEach { resource in
+            let directoryURL = URL(string: "\(resource.resourceId)/", relativeTo: resourcesCacheDirectoryURL)!
+            let JSONFileURL = URL(string: "\(resource.resourceId).json", relativeTo: directoryURL)!
+            XCTAssertTrue(FileManager.default.fileExists(atPath: directoryURL.path))
+            XCTAssertTrue(FileManager.default.fileExists(atPath: JSONFileURL.path))
         }
+
+        purgeCache { completion?() }
     }
 
     private func ensureResourcesAreFetchedFromLocalCacheWhenNetworkIsNotReachable<T: CodableResource>(
@@ -304,76 +324,29 @@ class OfflineTests: _AzureDataTests {
         var onlineResources = [T]()
         var offlineResources = [T]()
 
-        queue.async {
-            getResources { r in
-                onlineResources = r.resource?.items ?? []
+        getResources { r in
+            onlineResources = r.resource?.items ?? []
 
-                self.waitForCacheToProcessResources {
-                    self.reachabilityManager.networkReachabilityStatus = .notReachable
+            self.wait {
+                self.turnOffInternetConnection()
 
-                    getResources { r in
-                        offlineResources = r.resource?.items ?? []
-                        self.listExpectation.fulfill()
-                    }
+                getResources { r in
+                    offlineResources = r.resource?.items ?? []
+                    self.listExpectation.fulfill()
                 }
             }
         }
 
-        DispatchQueue.main.async {
-            self.wait(for: [self.listExpectation], timeout: self.timeout)
+        self.wait(for: [self.listExpectation], timeout: self.timeout)
 
-            XCTAssertFalse(onlineResources.isEmpty)
-            XCTAssertFalse(offlineResources.isEmpty)
+        XCTAssertFalse(onlineResources.isEmpty)
+        XCTAssertFalse(offlineResources.isEmpty)
 
-            offlineResources.forEach { resource in
-                XCTAssertTrue(onlineResources.contains(where: { $0.resourceId == resource.resourceId }))
-            }
-
-            self.purgeCache()
-
-            completion?()
+        offlineResources.forEach { resource in
+            XCTAssertTrue(onlineResources.contains(where: { $0.resourceId == resource.resourceId }))
         }
-    }
 
-    private func waitForCacheToProcessResources(_ completion: @escaping () -> Void) {
-        queue.asyncAfter(deadline: .now() + self.cacheOperationDuration) {
-            completion()
-        }
-    }
-
-    private func purgeCache() {
-        try! ResourceCache.purge()
-    }
-}
-
-// MARK: -
-
-class MockReachabilityManager: ReachabilityManagerType {
-    var networkReachabilityStatus: NetworkReachabilityStatus = .reachable(.ethernetOrWiFi) {
-        didSet {
-            if isListening { listener?(networkReachabilityStatus) }
-        }
-    }
-
-    var listener: ReachabilityStatusListener?
-    var isListening = false
-
-    init(_ status: NetworkReachabilityStatus) {
-        self.networkReachabilityStatus = status
-    }
-
-    func registerListener(_ listener: @escaping ReachabilityStatusListener) {
-        self.listener = listener
-    }
-
-    func startListening() -> Bool {
-        isListening = true
-        listener?(networkReachabilityStatus)
-        return true
-    }
-
-    func stopListening() {
-        isListening = false
+        self.purgeCache { completion?() }
     }
 }
 

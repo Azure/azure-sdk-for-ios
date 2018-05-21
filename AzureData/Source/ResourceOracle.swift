@@ -41,32 +41,36 @@ public class ResourceOracle {
     
     
     // MARK: - storeLinks
-    
-    fileprivate static func _storeLinks(forResource resource: CodableResource) {
-        
-        if let selfLink = resource.selfLink, let altLink = resource.altLink {
-            
-            let altLinkSubstrings  = altLink.split(separator: slashCharacter)
-            let selfLinkSubstrings = selfLink.split(separator: slashCharacter)
-            
-            let count = selfLinkSubstrings.count
-            
-            if count == altLinkSubstrings.count {
-                
-                var i = 0
-                
-                while i < count {
-                    
-                    let altLinkComponent  = altLinkSubstrings.dropLast(i).joined(separator: slashString)
-                    let selfLinkComponent = selfLinkSubstrings.dropLast(i).joined(separator: slashString)
-                    
-                    altLinkLookup[selfLinkComponent] = altLinkComponent
-                    selfLinkLookup[altLinkComponent] = selfLinkComponent
-                    
-                    i += 2
-                }
+
+    static func store(selfLink: String?, forAltLink altLink: String?) {
+        guard let selfLink = selfLink, let altLink = altLink else { return }
+
+        let altLinkSubstrings  = altLink.split(separator: slashCharacter)
+        let selfLinkSubstrings = selfLink.split(separator: slashCharacter)
+
+        let count = selfLinkSubstrings.count
+
+        if count == altLinkSubstrings.count {
+
+            var i = 0
+
+            while i < count {
+
+                let altLinkComponent  = altLinkSubstrings.dropLast(i).joined(separator: slashString)
+                let selfLinkComponent = selfLinkSubstrings.dropLast(i).joined(separator: slashString)
+
+                altLinkLookup[selfLinkComponent] = altLinkComponent
+                selfLinkLookup[altLinkComponent] = selfLinkComponent
+
+                i += 2
             }
         }
+
+        commit()
+    }
+
+    fileprivate static func _storeLinks(forResource resource: CodableResource) {
+        store(selfLink: resource.selfLink, forAltLink: resource.altLink)
     }
     
     public static func storeLinks(forResource resource: CodableResource) {
@@ -107,7 +111,7 @@ public class ResourceOracle {
         _removeLinks(forAltLink: altLink, andSelfLink: selfLinkLookup[altLink])
     }
 
-    fileprivate static func _removeLinks(forResourceWithSelfLink selfLink: String) {
+    static func removeLinks(forResourceWithSelfLink selfLink: String) {
         _removeLinks(forAltLink: altLinkLookup[selfLink], andSelfLink: selfLink)
     }
 

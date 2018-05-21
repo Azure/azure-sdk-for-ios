@@ -12,10 +12,12 @@ import AzureCore
 class DocumentClient {
     
     static let shared: DocumentClient = DocumentClient()
+
+    var session: URLSession
+
+    var host: String!
     
-    fileprivate var host: String!
-    
-    fileprivate var isOffline: Bool = false
+    var isOffline: Bool = false
         
     fileprivate var permissionProvider: PermissionProvider?
     
@@ -34,12 +36,12 @@ class DocumentClient {
     func networkReachabilityChanged(status: NetworkReachabilityStatus) {
         Log.debug("Network Status Changed: \(status)")
         self.isOffline = status == .notReachable
+
+        if status != .notReachable {
+            ResourceWriteOperationQueue.shared.sync()
+        }
     }
     #endif
-    
-
-    fileprivate let session: URLSession
-
 
     fileprivate init(configuration: URLSessionConfiguration = URLSessionConfiguration.default) {
 
@@ -47,7 +49,6 @@ class DocumentClient {
         
         self.session = URLSession(configuration: configuration)
     }
-    
     
     // MARK: - JSONEncoder & JSONDecoder
     
@@ -651,9 +652,6 @@ class DocumentClient {
             if let request = r.resource {
             
                 self.sendRequest(request, currentResource: current) { (response:Response<T>) in
-                    
-                    self.isOffline = response.clientError.isConnectivityError
-                    
                     if self.isOffline {
 
                         return self.cachedResource(at: resourceLocation, withResponse: response, callback: callback)
@@ -690,9 +688,6 @@ class DocumentClient {
             if let request = r.resource {
                 
                 self.sendRequest(request) { (response:Response<Resources<T>>) in
-                    
-                    self.isOffline = response.clientError.isConnectivityError
-                    
                     if self.isOffline {
 
                         return self.cachedResources(at: resourceLocation, withResponse: response, callback: callback)
@@ -715,19 +710,18 @@ class DocumentClient {
     }
 
     // delete
-    fileprivate func delete(resourceAt resourceLocation: ResourceLocation, callback: @escaping (Response<Data>) -> ()) {
-        
-        guard !isOffline else { callback(Response(DocumentClientError(withKind: .serviceUnavailable))); return }
-        
+    func delete(resourceAt resourceLocation: ResourceLocation, callback: @escaping (Response<Data>) -> ()) {
+
         dataRequest(forResourceAt: resourceLocation, withMethod: .delete) { r in
             
             if let request = r.resource {
             
                 self.sendRequest(request) { (response:Response<Data>) in
-                    
-                    //response.logError()
-                    
-                    self.isOffline = response.clientError.isConnectivityError
+
+                    guard !response.clientError.isConnectivityError else {
+                        ResourceWriteOperationQueue.shared.addDelete(forResourceAt: resourceLocation, callback: callback)
+                        return
+                    }
 
                     callback(response)
                     
@@ -805,11 +799,6 @@ class DocumentClient {
                 }
                 
                 self.sendRequest(request) { (response:Response<Resources<T>>) in
-                    
-                    //response.logError()
-                    
-                    self.isOffline = response.clientError.isConnectivityError
-                    
                     callback(response)
                     
                     if let resource = response.resource {
@@ -846,47 +835,46 @@ class DocumentClient {
     }
     
     // create or replace
-    fileprivate func createOrReplace<T:CodableResource, R:Encodable> (_ body: R, at resourceLocation: ResourceLocation, replacing: Bool = false, additionalHeaders: HttpHeaders? = nil, callback: @escaping (Response<T>) -> ()) {
-        
+    func createOrReplace<T: CodableResource>(_ resource: T, at resourceLocation: ResourceLocation, replacing: Bool = false, additionalHeaders: HttpHeaders? = nil, callback: @escaping (Response<T>) -> ()) {
+
         do {
-            let data = try self.jsonEncoder.encode(body)
-            
-            return createOrReplace(data, at: resourceLocation, replacing: replacing, additionalHeaders: additionalHeaders, callback: callback)
+            let body = try jsonEncoder.encode(resource)
+
+            createOrReplace(body, at: resourceLocation, replacing: replacing, additionalHeaders: additionalHeaders, callback: callback)
 
         } catch {
-            callback(Response(error)); return
+            callback(Response(error))
         }
     }
-    
-    fileprivate func createOrReplace<T:CodableResource> (_ body: Data, at resourceLocation: ResourceLocation, replacing: Bool = false, additionalHeaders: HttpHeaders? = nil, callback: @escaping (Response<T>) -> ()) {
-        
-        guard !isOffline else { callback(Response(DocumentClientError(withKind: .serviceUnavailable))); return }
-        
+
+    fileprivate func createOrReplace<T: CodableResource>(_ body: Data, at resourceLocation: ResourceLocation, replacing: Bool = false, additionalHeaders: HttpHeaders? = nil, callback: @escaping (Response<T>) -> ()) {
+
+        createOrReplace(body, at: resourceLocation, replacing: replacing, additionalHeaders: additionalHeaders, callback: { callback($0.resourceResponse()) })
+    }
+
+    func createOrReplace (_ data: Data, at resourceLocation: ResourceLocation, replacing: Bool = false, additionalHeaders: HttpHeaders? = nil, callback: @escaping (Response<Data>) -> ()) {
+
         dataRequest(forResourceAt: resourceLocation, withMethod: replacing ? .put : .post, andAdditionalHeaders: additionalHeaders) { r in
-            
-            if var request = r.resource {
-                
-                request.httpBody = body
-                
-                self.sendRequest(request) { (response:Response<T>) in
-                    
-                    //response.logError()
-                    
-                    self.isOffline = response.clientError.isConnectivityError
-                    
-                    callback(response)
-                    
-                    if let resource = response.resource {
-                        
-                        if replacing {
-                            ResourceCache.replace(resource, at: resourceLocation)
-                        } else {
-                            ResourceCache.cache(resource)
-                        }
-                    }
-                }
-            } else {
+            guard var request = r.resource else {
                 callback(Response(request: r.request, data: r.data, response: r.response, result: .failure(r.error ?? DocumentClientError(withKind: .unknownError))))
+                return
+            }
+
+            request.httpBody = data
+
+            self.sendRequest(request) { (r: Response<Data>) in
+                guard !r.clientError.isConnectivityError else {
+                    ResourceWriteOperationQueue.shared.addCreateOrReplace(resource: data, location: resourceLocation, httpHeaders: additionalHeaders, replacing: replacing, callback: callback)
+                    return
+                }
+
+                callback(r)
+
+                if let resource = r.resource, let properties = ResourceSystemProperties(for: resource),
+                   let selfLink = properties.selfLink {
+                    let altLink = resourceLocation.altLink(forId: properties.id)
+                    ResourceCache.cache(resource, usingSelfLink: selfLink, andAltLink: altLink, replacing: replacing)
+                }
             }
         }
     }
@@ -912,22 +900,40 @@ class DocumentClient {
 
     
     // MARK: - Request
-    
-    fileprivate func sendRequest<T:CodableResource> (_ request: URLRequest, currentResource: T? = nil, callback: @escaping (Response<T>) -> ()) {
-        
+
+    func sendRequest<T: CodableResource>(_ request: URLRequest, currentResource: T? = nil, callback: @escaping (Response<T>) -> ()) {
         logRequest(request, for: T.self)
+
+        do {
+            let currentResource = currentResource != nil ? try jsonEncoder.encode(currentResource!) : nil
+
+            sendRequest(request, currentResource: currentResource) { callback($0.resourceResponse()) }
+
+        } catch {
+            callback(Response(error))
+        }
+    }
+
+    func sendRequest<T: CodableResources>(_ request: URLRequest, callback: @escaping (Response<T>) -> ()) {
+        logRequest(request, for: T.self)
+
+        sendRequest(request) { callback($0.resourcesResponse()) }
+    }
+
+    func sendRequest (_ request: URLRequest, currentResource: Data? = nil, callback: @escaping (Response<Data>) -> ()) {
+        
+        logRequest(request, for: Data.self)
         
         session.dataTask(with: request) { (data, response, error) in
             
             let httpResponse = response as? HTTPURLResponse
             
             if let error = error {
-                
+                self.isOffline = error.isConnectivityError
+
                 callback(Response(request: request, data: data, response: httpResponse, result: .failure(DocumentClientError(withData: data, response: httpResponse, error: error))))
             
             } else if let data = data, let httpResponse = httpResponse, let statusCode = HttpStatusCode(rawValue: httpResponse.statusCode) {
-                
-                do {
 
                     switch statusCode {
                     //case .created: // cache locally
@@ -944,20 +950,12 @@ class DocumentClient {
 
                     case .ok, .created, .accepted, .noContent:
 
-                        var resource = try self.jsonDecoder.decode(T.self, from: data)
-                        
-                        resource.setAltLink(withContentPath: httpResponse.msAltContentPathHeader)
-                        
-                        callback(Response(request: request, data: data, response: httpResponse, result: .success(resource)))
-                        
+                        callback(Response(request: request, data: data, response: httpResponse, result: .success(data)))
+
                     default:
                         
                         callback(Response(request: request, data: data, response: httpResponse, result: .failure(DocumentClientError(withData: data, response: httpResponse))))
                     }
-                } catch let error {
-                    
-                    callback(Response(request: request, data: data, response: httpResponse, result: .failure(DocumentClientError(withData: data, response: httpResponse, error: error))))
-                }
                 
             } else {
                 
@@ -965,100 +963,6 @@ class DocumentClient {
             }
         }.resume()
     }
-
-    
-    internal func sendRequest<T: CodableResources> (_ request: URLRequest, callback: @escaping (Response<T>) -> ()) {
-        
-        logRequest(request, for: T.self)
-
-        session.dataTask(with: request) { (data, response, error) in
-            
-            let httpResponse = response as? HTTPURLResponse
-            
-            if let error = error {
-                
-                callback(Response(request: request, data: data, response: httpResponse, result: .failure(DocumentClientError(withData: data, response: httpResponse, error: error))))
-                
-            } else if let data = data, let httpResponse = httpResponse, let statusCode = HttpStatusCode(rawValue: httpResponse.statusCode) {
-                
-                do {
-                    
-                    switch statusCode {
-                    //case .created: // cache locally
-                    //case .noContent: // DELETEing a resource remotely should delete the cached version (if the delete was successful indicated by a response status code of 204 No Content)
-                    case .ok, .created, .accepted, .noContent, .notModified:
-                        
-                        var resource = try self.jsonDecoder.decode(T.self, from: data)
-                        
-                        resource.setAltLinks(withContentPath: httpResponse.msAltContentPathHeader)
-
-                        //log?.debugMessage("\(resource)")
-                        
-                        callback(Response(request: request, data: data, response: httpResponse, result: .success(resource)))
-
-
-                        //case .unauthorized:
-                        //case .forbidden: // reauth
-                        //case .conflict: // conflict callback
-                        //case .notFound: // (indicating the resource has been deleted/no longer exists in the remote database), confirm that resource does not exist locally, and if it does, delete it
-                        //case .preconditionFailure: // The operation specified an eTag that is different from the version available at the server, that is, an optimistic concurrency error. Retry the request after reading the latest version of the resource and updating the eTag on the request.
-                    //case .badRequest, .requestTimeout, .entityTooLarge, .tooManyRequests, .retryWith, .internalServerError, .serviceUnavailable:
-                    default:
-
-                        callback(Response(request: request, data: data, response: httpResponse, result: .failure(DocumentClientError(withData: data, response: httpResponse))))
-                    }
-                } catch let error {
-                    
-                    callback(Response(request: request, data: data, response: httpResponse, result: .failure(DocumentClientError(withData: data, response: httpResponse, error: error))))
-                }
-            } else {
-                
-                callback(Response(request: request, data: data, response: httpResponse, result: .failure(DocumentClientError(withKind: .unknownError))))
-            }
-        }.resume()
-    }
-    
-    
-    // currently only used by delete and execute operations
-    fileprivate func sendRequest (_ request: URLRequest, callback: @escaping (Response<Data>) -> ()) {
-        
-        logRequest(request, for: Data.self)
-        
-        session.dataTask(with: request) { (data, response, error) in
-            
-            let httpResponse = response as? HTTPURLResponse
-            
-            if let error = error {
-                
-                callback(Response(request: request, data: data, response: httpResponse, result: .failure(DocumentClientError(withData: data, response: httpResponse, error: error))))
-
-            } else if let data = data, let code = httpResponse?.statusCode, let statusCode = HttpStatusCode(rawValue: code) {
-                
-                //Log.debugMessage(String(data: data, encoding: .utf8) ?? "nil")
-                
-                switch statusCode {
-                //case .created: // cache locally
-                //case .noContent: // DELETEing a resource remotely should delete the cached version (if the delete was successful indicated by a response status code of 204 No Content)
-                case .ok, .created, .accepted, .noContent, .notModified:
-                    callback(Response(request: request, data: data, response: httpResponse, result: .success(data)))
-                //case .unauthorized:
-                //case .forbidden: // reauth
-                //case .conflict: // conflict callback
-                //case .notFound: // (indicating the resource has been deleted/no longer exists in the remote database), confirm that resource does not exist locally, and if it does, delete it
-                //case .preconditionFailure: // The operation specified an eTag that is different from the version available at the server, that is, an optimistic concurrency error. Retry the request after reading the latest version of the resource and updating the eTag on the request.
-                //case .badRequest, .requestTimeout, .entityTooLarge, .tooManyRequests, .retryWith, .internalServerError, .serviceUnavailable:
-                default:
-                    
-                    callback(Response(request: request, data: data, response: httpResponse, result: .failure(DocumentClientError(withData: data, response: httpResponse))))
-                }
-
-            } else {
-                
-                callback(Response(request: request, data: data, response: httpResponse, result: .failure(DocumentClientError(withKind: .unknownError))))
-            }
-        }.resume()
-    }
-
 
     fileprivate func dataRequest(forResourceAt resourceLocation: ResourceLocation, withMethod method: HttpMethod, andAdditionalHeaders additionalHeaders: HttpHeaders? = nil, forQuery: Bool = false, callback: @escaping (Response<URLRequest>) -> ()) {
 

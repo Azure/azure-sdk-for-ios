@@ -29,6 +29,7 @@ public struct StoredProcedure : CodableResource, SupportsPermissionToken {
     public mutating func setAltLink(to link: String) {
         self.altLink = link
     }
+
     public mutating func setEtag(to tag: String) {
         self.etag = tag
     }

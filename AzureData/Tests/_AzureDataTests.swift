@@ -8,10 +8,12 @@
 
 import XCTest
 @testable import AzureData
+@testable import AzureCore
 
 class _AzureDataTests: XCTestCase {
 
     let timeout: TimeInterval = 30.0
+    let waitTime = 2.0
 
     var resourceName: String?
     var resourceType: ResourceType!
@@ -38,8 +40,10 @@ class _AzureDataTests: XCTestCase {
     override func setUp() {
         super.setUp()
 
-        // AzureData.configure(forAccountNamed: "<Database Name>", withMasterKey: "<Database Master Key OR Resource Permission Token>", withPermissionMode: "<Master Key Permission Mode>")
+        AzureData.configure(withPlistNamed: "AzureTests.plist", withPermissionMode: .all)
         AzureData.offlineDataEnabled = true
+
+        turnOnInternetConnection()
     }
 
 
@@ -76,6 +80,54 @@ class _AzureDataTests: XCTestCase {
         )
     }
 
+    func ensureDatabaseIsDeleted() {
+        ensureResourceIsDeleted(Database.self, delete: { AzureData.delete(databaseWithId: self.databaseId, callback: $0) })
+    }
+
+    func purgeCache(completion: @escaping () -> Void) {
+        try? ResourceCache.purge()
+        ResourceWriteOperationQueue.shared.purge()
+        ResourceOracle.purge()
+
+        // Because cache operations are done asynchronously, we wait
+        // a bit (for them to complete) before we return.
+        wait {
+            completion()
+        }
+    }
+
+    func wait(_ completion: @escaping () -> Void) {
+        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + waitTime) {
+            completion()
+        }
+    }
+
+    func turnOffInternetConnection() {
+        let session = MockURLSession()
+        session.shouldReturnError(NSError(domain: NSURLErrorDomain, code: URLError.notConnectedToInternet.rawValue, userInfo: nil))
+        DocumentClient.shared.session = session
+
+        let reachabilityManager = MockReachabilityManager(.notReachable)
+        DocumentClient.shared.reachabilityManager = reachabilityManager
+
+        DocumentClient.shared.isOffline = true
+    }
+
+    func turnOnInternetConnection() {
+        precondition(AzureData.isConfigured(), "AzureData should be configured. Make sure that the keys in AzureTests.plist are set to valid values.")
+
+        let configuration = URLSessionConfiguration.default
+        configuration.httpAdditionalHeaders = DocumentClient.defaultHttpHeaders
+
+        let session = URLSession(configuration: configuration)
+        DocumentClient.shared.session = session
+
+        let reachabilityManager = ReachabilityManager(host: DocumentClient.shared.host)
+        DocumentClient.shared.reachabilityManager = reachabilityManager
+
+        DocumentClient.shared.isOffline = false
+    }
+
     // MARK: - Private helpers
 
     private func ensureResourceExists<T: CodableResource>(
@@ -102,6 +154,16 @@ class _AzureDataTests: XCTestCase {
         precondition(resource != nil, "\(String(describing: type).lowercased()) should exist")
 
         completion?(resource!)
+    }
+
+    private func ensureResourceIsDeleted<T: CodableResource>(_ type: T.Type, delete: @escaping (_ completion: @escaping (Response<Data>) -> ()) -> ()) {
+        let ensureExpectation = expectation(description: "\(String(describing: type).lowercased()) should be deleted")
+
+        delete { r in
+            ensureExpectation.fulfill()
+        }
+
+        wait(for: [ensureExpectation], timeout: timeout)
     }
 }
 
