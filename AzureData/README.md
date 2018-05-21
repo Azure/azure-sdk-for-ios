@@ -960,3 +960,39 @@ AzureData.get(documentsIn: collection, as: CustomDocument.self, maxPerPage: 20) 
     }
 }
 ```
+
+# Offline Capabilities
+
+When offline capabilities are enabled, data returned by any `list` or `get` requests is cached locally. When the device is offline, `list` and `get` requests return the data cached locally.
+
+## Enabling Offline Capabilities
+
+The offline capabilities of Azure are enabled by setting the property `offlineDataEnabled` of `AzureData` to `true`.
+
+```swift
+AzureData.offlineDataEnabled = true
+```
+
+## Security
+
+If, for security reasons you need to encrypt the data returned by `AzureData` before it is cached locally, you can do so by setting a custom `ResourceEncryptor` to `AzureData`.
+
+```swift
+class AES128Encryptor: ResourceEncryptor {
+    /// Encrypts the data before it's cached locally.
+    func encrypt(_ data: Data) -> Data {
+        // ...
+    }
+
+    /// Decrypts the cached encrypted data
+    /// when it's being read.
+    func decrypt(_ data: Data) -> Data {
+        // ...
+    }
+}
+```
+
+```swift
+/// Data will be encrypted using AES128ResourceEncrytpor before it's cached locally.
+AzureData.resourceEncryptor = AES128ResourceEncryptor()
+```
