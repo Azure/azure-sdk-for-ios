@@ -679,18 +679,35 @@ class DocumentClient {
     }
     
     // list
-    fileprivate func resources<T> (at resourceLocation: ResourceLocation, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<T>>) -> ()) {
+    func resources<T: CodableResources> (at resourceLocation: ResourceLocation, maxPerPage: Int? = nil, additionalHeaders headers: HttpHeaders? = nil, callback: @escaping (Response<T>) -> ()) {
         
-        guard !isOffline else { return cachedResources(at: resourceLocation, callback: callback) }
-        
-        dataRequest(forResourceAt: resourceLocation, withMethod: .get, andAdditionalHeaders: HttpHeaders.forMaxItemCount(maxPerPage)) { r in
+        guard !isOffline else {
+
+            let continuation = headers?[MSHttpHeader.msContinuation.rawValue] ?? nil
+
+            return cachedResources(at: resourceLocation, withContinuation: continuation, callback: callback)
+        }
+
+        var requestHeaders = headers ?? [:]
+
+        if let maxPerPage = maxPerPage {
+
+            requestHeaders[MSHttpHeader.msMaxItemCount.rawValue] = String(maxPerPage)
+        }
+
+        dataRequest(forResourceAt: resourceLocation, withMethod: .get, andAdditionalHeaders: requestHeaders) { r in
             
             if let request = r.resource {
-                
-                self.sendRequest(request) { (response:Response<Resources<T>>) in
+
+                self.sendRequest(request) { (response: Response<T>) in
+                    
+                    self.isOffline = response.clientError.isConnectivityError
+                    
                     if self.isOffline {
 
-                        return self.cachedResources(at: resourceLocation, withResponse: response, callback: callback)
+                        let continuation = headers?[MSHttpHeader.msContinuation.rawValue] ?? nil
+
+                        return self.cachedResources(at: resourceLocation, withContinuation: continuation, withResponse: response, callback: callback)
                         
                     } else {
                         
@@ -889,13 +906,21 @@ class DocumentClient {
         }
     }
     
-    fileprivate func cachedResources<T:CodableResource>(at resourceLocation: ResourceLocation, withResponse response: Response<Resources<T>>? = nil, callback: @escaping (Response<Resources<T>>) -> ()) {
-        
-        if let resources: Resources<T> = ResourceCache.get(resourcesAt: resourceLocation) {
-            callback(Response(request: response?.request, data: response?.data, response: response?.response, result: .success(resources), fromCache: true))
-        } else {
-            callback(Response(request: response?.request, data: response?.data, response: response?.response, result: .failure(DocumentClientError(withKind: .serviceUnavailable))))
+    fileprivate func cachedResources<T:CodableResources>(at resourceLocation: ResourceLocation, withContinuation continuation: String? = nil, withResponse response: Response<T>? = nil, callback: @escaping (Response<T>) -> ()) {
+
+        guard let (resources, continuation) = ResourceCache.get(resourcesAt: resourceLocation, withContinuation: continuation, as: T.self),
+              let r = resources else {
+                callback(Response(request: response?.request, data: response?.data, response: response?.response, result: .failure(DocumentClientError(withKind: .serviceUnavailable))))
+                return
         }
+
+        callback(Response(
+            request: response?.request,
+            data: response?.data,
+            response: response?.response.withValue(continuation.valueOrEmpty, forHeader: MSHttpHeader.msContinuation.rawValue),
+            result: .success(r),
+            fromCache: true)
+        )
     }
 
     

@@ -118,7 +118,10 @@ extension Response where T: CodableResources {
     public func next(callback: @escaping (Response<T>) -> ()) {
         assert(request != nil && response != nil, "`next` must be called after an initial set of items have been fetched.")
 
-        guard let continuation = msContinuation else {
+       guard let resources = resource,
+             let location = resources.items.first?.parentLocation,
+             let continuation = response?.msContinuation,
+             !continuation.isEmpty else {
             Log.debug("No more items to fetch.")
             callback(Response(DocumentClientError(withKind: .noMoreResultsError)))
             return
@@ -127,7 +130,7 @@ extension Response where T: CodableResources {
         var continuationRequest = request!
         continuationRequest.addValue(continuation, forHTTPHeaderField: .msContinuation)
 
-        return DocumentClient.shared.sendRequest(continuationRequest, callback: callback)
+        return DocumentClient.shared.resources(at: location, additionalHeaders: [MSHttpHeader.msContinuation.rawValue: continuation], callback: callback)
     }
 }
 

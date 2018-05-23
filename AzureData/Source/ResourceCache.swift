@@ -92,8 +92,9 @@ public class ResourceCache {
         _cache(data, usingSelfLink: selfLink)
     }
 
-    static func cache<T:CodableResource>(_ resources: Resources<T>) {
-        
+    
+    static func cache<T:CodableResources>(_ resources: T) {
+
         ResourceOracle.storeLinks(forResources: resources)
         
         for resource in resources.items {
@@ -140,19 +141,23 @@ public class ResourceCache {
         return nil
     }
 
-    static func get<T:CodableResource>(resourcesAt location: ResourceLocation, as type: T.Type = T.self) -> Resources<T>? {
-        
+    static func get<T:CodableResources>(resourcesAt location: ResourceLocation, withContinuation continuation: String? = nil, as type: T.Type = T.self) -> (resources: T?, continuation: String?)? {
+
         guard isEnabled else { return nil }
         
         guard location.isFeed else { return nil }
         
         do {
+            let paginationParams = ResourcesPaginationParams(from: continuation)
+
             if let feed = ResourceOracle.getDirectoryPath(forResourceAt: location),
-                let files = try FileManager.default.files(at: feed.path) {
-               
-                let resources = try files.map { try jsonDecoder.decode(type.self, from: decrypt($0)) }
-                
-                return Resources<T>(resourceId: feed.resourceId, count: resources.count, items: resources)
+               let files = try FileManager.default.files(at: feed.path, paginateWith: paginationParams) {
+
+                let items = try files.map { try jsonDecoder.decode(T.Item.self, from: decrypt($0)) }
+
+                let resources = Resources(resourceId: feed.resourceId, count: items.count, items: items) as! T
+
+                return (resources, paginationParams.next(in: files.count).stringValue)
             } else {
                 return nil
             }
@@ -218,6 +223,7 @@ public class ResourceCache {
     }
 }
 
+// MARK: - FileManager
 
 extension FileManager {
     
@@ -269,11 +275,14 @@ extension FileManager {
     }
 
     
-    fileprivate func files(at path: String?) throws -> [Data]? {
+    fileprivate func files(at path: String?, paginateWith params: ResourcesPaginationParams) throws -> [Data]? {
         
         guard let path = path else { return nil }
         
         let urls = try self.fileUrls(for: path)
+                           .sorted(by: { $0.absoluteString < $1.absoluteString })
+                           .dropFirst(params.offset)
+                           .prefix(params.limit)
         
         return urls.compactMap { self.contents(atPath: $0.path) }
     }
@@ -311,5 +320,58 @@ extension FileManager {
                 try self.removeItem(at: item)
             }
         }
+    }
+}
+
+// MARK: - Continuation
+
+fileprivate struct ResourcesPaginationParams: Codable {
+    static let defaultLimit = 100
+
+    enum CodingKeys: String, CodingKey {
+        case offset
+        case limit
+    }
+
+    let offset: Int
+    let limit: Int
+}
+
+
+fileprivate extension ResourcesPaginationParams {
+    init(from string: String?) {
+        guard let string = string,
+              let data = string.data(using: .utf8),
+              let params = try? jsonDecoder.decode(ResourcesPaginationParams.self, from: data) else {
+                self.offset = 0
+                self.limit = ResourcesPaginationParams.defaultLimit
+                return
+        }
+
+        self.offset = params.offset
+        self.limit = params.limit
+    }
+
+    init(maxItemCount: Int?) {
+        self.offset = 0
+        self.limit = maxItemCount ?? ResourcesPaginationParams.defaultLimit
+    }
+
+    func next(`in` count: Int) -> ResourcesPaginationParams? {
+        let newOffset = offset + limit
+        guard count > newOffset else { return nil }
+        return ResourcesPaginationParams(offset: newOffset, limit: limit)
+    }
+
+    var stringValue: String? {
+        guard let data = try? jsonEncoder.encode(self) else { return nil }
+        return String(data: data, encoding: .utf8)
+    }
+}
+
+fileprivate extension Optional where Wrapped == ResourcesPaginationParams {
+    var stringValue: String? {
+        guard let params = self else { return nil }
+        return params.stringValue
     }
 }
