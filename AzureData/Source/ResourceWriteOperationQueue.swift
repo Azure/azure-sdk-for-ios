@@ -105,7 +105,7 @@ class ResourceWriteOperationQueue {
                 let data = try urls.map { try Data(contentsOf: $0) }
                 let decoder = JSONDecoder()
 
-                self?.writes = try data.map { try decoder.decode(ResourceWriteOperation.self, from: $0) }
+                self?.writes = data.compactMap { try? decoder.decode(ResourceWriteOperation.self, from: $0) }
 
             } catch {
                 Log.error("❌ Write Queue Error [load]: " + error.localizedDescription)
