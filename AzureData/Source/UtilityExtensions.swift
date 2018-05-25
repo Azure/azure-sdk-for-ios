@@ -23,7 +23,6 @@ extension Optional where Wrapped == String {
     }
 }
 
-
 extension Optional where Wrapped == Date {
     
     var valueOrEmpty: String {
@@ -34,23 +33,6 @@ extension Optional where Wrapped == Date {
         return self != nil ? "\(self!.timeIntervalSince1970)" : "nil"
     }
 }
-
-extension Decodable {
-    static func decode(data: Data) throws -> Self {
-        let decoder = JSONDecoder()
-        return try decoder.decode(Self.self, from: data)
-    }
-}
-
-
-extension Encodable {
-    func encode() throws -> Data {
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = .prettyPrinted
-        return try encoder.encode(self)
-    }
-}
-
 
 extension DecodingError {
     
@@ -65,5 +47,35 @@ extension DecodingError {
         case .valueNotFound(let type, let context):
             return "decodeError: valueNotFound\n\ttype: \(type)\n\tcontext: \(context)\n"
         }
+    }
+}
+
+extension String {
+    /// "dbs/TC1AAA==/colls/TC1AAMDvwgA=".path = ("dbs/TC1AAA==/colls", "TC1AAMDvwgA=")
+    var path: (directory: String, file: String)? {
+        let components = self.split(separator: "/")
+        let count = components.count
+
+        guard count > 0 else { return nil }
+        guard count >= 2 else { return ("/", String(components[count - 1])) }
+
+        return (components[0...(count - 2)].joined(separator: "/"), String(components[count - 1]))
+    }
+
+    /// "dbs/TC1AAA==/colls/TC1AAMDvwgA=".contentPath = "dbs/TC1AAA=="
+    /// "dbs/TC1AAA==/colls/TC1AAMDvwgA=/docs/ZBcw7B==".contentPath = "dbs/TC1AAA==/colls/TC1AAMDvwgA="
+    var ancestorPath: String? {
+        let components = self.split(separator: "/")
+        let count = components.count
+
+        guard count > 2 else { return nil }
+
+        return components[0...(count - 3)].joined(separator: "/")
+    }
+
+    /// "dbs/TC1AAA==/colls/TC1AAMDvwgA=".lastPathComponent = "TC1AAMDvwgA="
+    var lastPathComponent: String {
+        let components = self.split(separator: "/")
+        return components.count > 1 ? String(components[components.count - 1]) : self
     }
 }

@@ -35,12 +35,12 @@ public struct Response<T> {
         self.fromCache = fromCache
     }
 
-    public init (_ resource: T) {
-        self.init(request: nil, data: nil, response: nil, result: .success(resource))
+    public init (_ resource: T, fromCache: Bool = false) {
+        self.init(request: nil, data: nil, response: nil, result: .success(resource), fromCache: fromCache)
     }
     
-    public init (_ error: Error) {
-        self.init(request: nil, data: nil, response: nil, result: .failure(error))
+    public init (_ error: Error, fromCache: Bool = false) {
+        self.init(request: nil, data: nil, response: nil, result: .failure(error), fromCache: fromCache)
     }
 }
 
@@ -111,14 +111,14 @@ extension Result: CustomDebugStringConvertible {
 
 extension Response where T: CodableResources {
     public var hasMoreResults: Bool {
-        guard let continuation = response?.msContinuationHeader else { return false }
+        guard let continuation = msContinuation else { return false }
         return !continuation.isEmpty
     }
 
     public func next(callback: @escaping (Response<T>) -> ()) {
         assert(request != nil && response != nil, "`next` must be called after an initial set of items have been fetched.")
 
-        guard let continuation = response?.msContinuationHeader else {
+        guard let continuation = msContinuation else {
             Log.debug("No more items to fetch.")
             callback(Response(DocumentClientError(withKind: .noMoreResultsError)))
             return
@@ -128,5 +128,57 @@ extension Response where T: CodableResources {
         continuationRequest.addValue(continuation, forHTTPHeaderField: .msContinuation)
 
         return DocumentClient.shared.sendRequest(continuationRequest, callback: callback)
+    }
+}
+
+// MARK: _
+
+extension Response where T == Data {
+    func resourceResponse<U: CodableResource>() -> Response<U> {
+        return decodableResponse { data in
+            var resource = try DocumentClient.shared.jsonDecoder.decode(U.self, from: data)
+            resource.setAltLink(withContentPath: msAltContentPath)
+
+            return resource
+        }
+    }
+
+    func resourcesResponse<U: CodableResources>() -> Response<U> {
+        return decodableResponse { data -> U in
+            var resources = try DocumentClient.shared.jsonDecoder.decode(U.self, from: data)
+            resources.setAltLinks(withContentPath: msAltContentPath)
+
+            return resources
+        }
+    }
+
+    private func decodableResponse<U: Decodable>(decode: (Data) throws -> U) -> Response<U> {
+        do {
+            switch result {
+            case .success(let data):
+                return try Response<U>(request: request, data: self.data, response: response, result: .success(decode(data)), fromCache: fromCache)
+
+            case .failure(let error):
+                return Response<U>(request: request, data: data, response: response, result: Result.failure(error), fromCache: fromCache)
+            }
+        } catch {
+            return Response<U>(request: request, data: data, response: response, result: .failure(DocumentClientError(withError: error)), fromCache: fromCache)
+        }
+    }
+}
+
+// MARK: -
+
+extension Response {
+    var msAltContentPath: String? {
+        return response?.allHeaderFields[MSHttpHeader.msAltContentPath.rawValue] as? String
+    }
+
+    var msContinuation: String? {
+        return response?.allHeaderFields[MSHttpHeader.msContinuation.rawValue] as? String
+    }
+
+    var msContentPath: String? {
+        return response?.allHeaderFields[MSHttpHeader.msContentPath.rawValue] as? String
     }
 }

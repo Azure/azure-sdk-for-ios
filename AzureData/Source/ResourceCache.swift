@@ -39,18 +39,32 @@ public class ResourceCache {
     // MARK: -
 
     static var resourceEncryptor: ResourceEncryptor? = nil
-    
-    static func _cache<T:CodableResource>(_ resource: T) {
+
+    // MARK: - cache
+
+    private static func _cache<T:CodableResource>(_ resource: T) {
         
         guard isEnabled else { return }
         
         dispatchQueue.async {
             do {
-              
                 let json = try encrypt(jsonEncoder.encode(resource))
-              
+
                 try FileManager.default.cache(json, at: ResourceOracle.getFilePath(forResource: resource))
                 
+            } catch {
+                Log.error("❌ Cache Error [_cache]: " + error.localizedDescription)
+            }
+        }
+    }
+
+    private static func _cache(_ data: Data, usingSelfLink selfLink: String) {
+        guard isEnabled else { return }
+        guard let resourceId = selfLink.path?.file else { return }
+
+        dispatchQueue.async {
+            do {
+                try FileManager.default.cache(encrypt(data), at: (directory: selfLink, file: "\(selfLink)/\(resourceId).json"))
             } catch {
                 Log.error("❌ Cache Error [_cache]: " + error.localizedDescription)
             }
@@ -66,7 +80,18 @@ public class ResourceCache {
         _cache(resource)
     }
 
-    
+    static func cache(_ data: Data, usingSelfLink selfLink: String, andAltLink altLink: String, replacing: Bool = false) {
+        if replacing {
+            replace(data, usingSelfLink: selfLink, andAltLink: altLink)
+
+            return
+        }
+
+        ResourceOracle.store(selfLink: selfLink, forAltLink: altLink)
+
+        _cache(data, usingSelfLink: selfLink)
+    }
+
     static func cache<T:CodableResource>(_ resources: Resources<T>) {
         
         ResourceOracle.storeLinks(forResources: resources)
@@ -76,7 +101,9 @@ public class ResourceCache {
         }
     }
 
-    
+
+    // MARK: - replace
+
     static func replace<T:CodableResource>(_ resource: T, at location: ResourceLocation) {
         
         remove(resourceAt: location)
@@ -85,8 +112,17 @@ public class ResourceCache {
         
         _cache(resource)
     }
-    
-    
+
+    static func replace(_ data: Data, usingSelfLink selfLink: String, andAltLink altLink: String) {
+        remove(resourceWithSelfLink: selfLink)
+
+        ResourceOracle.store(selfLink: selfLink, forAltLink: altLink)
+
+        _cache(data, usingSelfLink: selfLink)
+    }
+
+    // MARK: - get
+
     static func get<T:CodableResource>(resourceAt location: ResourceLocation) -> T? {
         
         guard isEnabled else { return nil }
@@ -104,7 +140,6 @@ public class ResourceCache {
         return nil
     }
 
-    
     static func get<T:CodableResource>(resourcesAt location: ResourceLocation, as type: T.Type = T.self) -> Resources<T>? {
         
         guard isEnabled else { return nil }
@@ -127,7 +162,8 @@ public class ResourceCache {
         }
     }
 
-    
+    // MARK: - remove
+
     static func remove(resourceAt location: ResourceLocation) {
         
         guard isEnabled else {
@@ -146,8 +182,22 @@ public class ResourceCache {
             Log.error("❌ Cache Error [remove]: " + error.localizedDescription)
         }
     }
-    
-    
+
+    static func remove(resourceWithSelfLink selfLink: String?) {
+        guard let selfLink = selfLink else { return }
+        guard isEnabled else { ResourceOracle.removeLinks(forResourceWithSelfLink: selfLink) ; return }
+
+        do {
+            try FileManager.default.remove(at: selfLink)
+
+            ResourceOracle.removeLinks(forResourceWithSelfLink: selfLink)
+        } catch {
+            Log.error("❌ Cache Error [remove]: " + error.localizedDescription)
+        }
+    }
+
+    // MARK: -
+
     public static func purge() throws {
         do {
             try FileManager.default.purge()
@@ -173,7 +223,7 @@ extension FileManager {
     
     fileprivate static let root = "com.azure.data"
 
-    fileprivate func fileUrl(for path: String) throws -> URL {
+    func cacheFileUrl(for path: String) throws -> URL {
         
         return try self.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent(FileManager.root).appendingPathComponent(path)
     }
@@ -181,19 +231,19 @@ extension FileManager {
     
     fileprivate func fileUrl(for path: (directory:String, file:String)) throws -> URL {
 
-        let directory = try fileUrl(for: path.directory)
+        let directory = try cacheFileUrl(for: path.directory)
         
         if !self.fileExists(atPath: directory.path) {
             try self.createDirectory(at: directory, withIntermediateDirectories: true, attributes: nil)
         }
         
-        return try fileUrl(for: path.file)
+        return try cacheFileUrl(for: path.file)
     }
 
     
     fileprivate func fileUrls(for path: String) throws -> [URL] {
         
-        let url = try fileUrl(for: path)
+        let url = try cacheFileUrl(for: path)
         
         return try self.contentsOfDirectory(at: url, includingPropertiesForKeys: nil, options: .skipsHiddenFiles).map { $0.appendingPathComponent($0.lastPathComponent).appendingPathExtension("json") }
     }
@@ -213,7 +263,7 @@ extension FileManager {
 
         guard let path = path else { return nil }
         
-        let url = try self.fileUrl(for: path)
+        let url = try self.cacheFileUrl(for: path)
         
         return self.contents(atPath: url.path)
     }
@@ -233,7 +283,7 @@ extension FileManager {
         
         guard let path = path else { return }
         
-        let url = try self.fileUrl(for: path)
+        let url = try self.cacheFileUrl(for: path)
         
         try self.removeItem(at: url)
     }

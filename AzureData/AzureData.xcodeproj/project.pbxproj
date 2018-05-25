@@ -29,16 +29,37 @@
 		32532A5C207825A1002BFFCA /* ResponseMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32532A59207825A1002BFFCA /* ResponseMetadata.swift */; };
 		32532A5E207825A1002BFFCA /* ResponseMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32532A59207825A1002BFFCA /* ResponseMetadata.swift */; };
 		32532A60207825A1002BFFCA /* ResponseMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32532A59207825A1002BFFCA /* ResponseMetadata.swift */; };
-		3276EA13208F3450003F6382 /* OfflineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3276EA12208F3450003F6382 /* OfflineTests.swift */; };
-		3276EA14208F3450003F6382 /* OfflineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3276EA12208F3450003F6382 /* OfflineTests.swift */; };
-		3276EA15208F3450003F6382 /* OfflineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3276EA12208F3450003F6382 /* OfflineTests.swift */; };
+		3276EA13208F3450003F6382 /* OfflineReadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3276EA12208F3450003F6382 /* OfflineReadTests.swift */; };
+		3276EA14208F3450003F6382 /* OfflineReadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3276EA12208F3450003F6382 /* OfflineReadTests.swift */; };
+		3276EA15208F3450003F6382 /* OfflineReadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3276EA12208F3450003F6382 /* OfflineReadTests.swift */; };
+		327996FF209C830C0062A374 /* ResourceWriteOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327996FE209C830C0062A374 /* ResourceWriteOperationQueue.swift */; };
+		32799700209C830C0062A374 /* ResourceWriteOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327996FE209C830C0062A374 /* ResourceWriteOperationQueue.swift */; };
+		32799701209C830C0062A374 /* ResourceWriteOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327996FE209C830C0062A374 /* ResourceWriteOperationQueue.swift */; };
+		32799702209C830C0062A374 /* ResourceWriteOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327996FE209C830C0062A374 /* ResourceWriteOperationQueue.swift */; };
+		329AA646209CEF470007A955 /* ResourceSystemProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329AA645209CEF470007A955 /* ResourceSystemProperties.swift */; };
+		329AA647209CEF470007A955 /* ResourceSystemProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329AA645209CEF470007A955 /* ResourceSystemProperties.swift */; };
+		329AA648209CEF470007A955 /* ResourceSystemProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329AA645209CEF470007A955 /* ResourceSystemProperties.swift */; };
+		329AA649209CEF470007A955 /* ResourceSystemProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329AA645209CEF470007A955 /* ResourceSystemProperties.swift */; };
 		32A5030720A1D16F000C5948 /* ResourceEncryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A5030620A1D16F000C5948 /* ResourceEncryptor.swift */; };
 		32A5030820A1D16F000C5948 /* ResourceEncryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A5030620A1D16F000C5948 /* ResourceEncryptor.swift */; };
 		32A5030920A1D16F000C5948 /* ResourceEncryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A5030620A1D16F000C5948 /* ResourceEncryptor.swift */; };
 		32A5030A20A1D16F000C5948 /* ResourceEncryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A5030620A1D16F000C5948 /* ResourceEncryptor.swift */; };
+		32AABD1E20AC9FB900F66DC6 /* OfflineWriteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AABD1D20AC9FB900F66DC6 /* OfflineWriteTests.swift */; };
+		32AABD1F20AC9FB900F66DC6 /* OfflineWriteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AABD1D20AC9FB900F66DC6 /* OfflineWriteTests.swift */; };
+		32AABD2020AC9FB900F66DC6 /* OfflineWriteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AABD1D20AC9FB900F66DC6 /* OfflineWriteTests.swift */; };
+		32AABD2220ACA05400F66DC6 /* MockReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AABD2120ACA05400F66DC6 /* MockReachabilityManager.swift */; };
+		32AABD2320ACA05400F66DC6 /* MockReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AABD2120ACA05400F66DC6 /* MockReachabilityManager.swift */; };
+		32AABD2420ACA05400F66DC6 /* MockReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AABD2120ACA05400F66DC6 /* MockReachabilityManager.swift */; };
+		32AABD2720ACA83300F66DC6 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AABD2620ACA83300F66DC6 /* MockURLSession.swift */; };
+		32AABD2820ACA83300F66DC6 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AABD2620ACA83300F66DC6 /* MockURLSession.swift */; };
+		32AABD2920ACA83300F66DC6 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AABD2620ACA83300F66DC6 /* MockURLSession.swift */; };
 		32AD4619207976AB00A0D02F /* ResponseMetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AD4618207976AB00A0D02F /* ResponseMetadataTests.swift */; };
 		32AD461A207976AB00A0D02F /* ResponseMetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AD4618207976AB00A0D02F /* ResponseMetadataTests.swift */; };
 		32AD461B207976AB00A0D02F /* ResponseMetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AD4618207976AB00A0D02F /* ResponseMetadataTests.swift */; };
+		32EB2C1D209C5DA700CEBB77 /* ResourceWriteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EB2C1C209C5DA700CEBB77 /* ResourceWriteOperation.swift */; };
+		32EB2C1E209C5DA700CEBB77 /* ResourceWriteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EB2C1C209C5DA700CEBB77 /* ResourceWriteOperation.swift */; };
+		32EB2C1F209C5DA700CEBB77 /* ResourceWriteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EB2C1C209C5DA700CEBB77 /* ResourceWriteOperation.swift */; };
+		32EB2C20209C5DA700CEBB77 /* ResourceWriteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EB2C1C209C5DA700CEBB77 /* ResourceWriteOperation.swift */; };
 		9302CE412059A3A5000F6885 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9302CE422059A3A5000F6885 /* AzureCore.framework */; };
 		9302CE432059A3C5000F6885 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9302CE442059A3C5000F6885 /* AzureCore.framework */; };
 		9302CE452059A3D2000F6885 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9302CE462059A3D2000F6885 /* AzureCore.framework */; };
@@ -307,9 +328,15 @@
 		323AE9492080230E00EAE1F5 /* SupportsPermissionToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportsPermissionToken.swift; sourceTree = "<group>"; };
 		323B71A9207E6B75000F20F6 /* ResourceRequestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceRequestError.swift; sourceTree = "<group>"; };
 		32532A59207825A1002BFFCA /* ResponseMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseMetadata.swift; sourceTree = "<group>"; };
-		3276EA12208F3450003F6382 /* OfflineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineTests.swift; sourceTree = "<group>"; };
+		3276EA12208F3450003F6382 /* OfflineReadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineReadTests.swift; sourceTree = "<group>"; };
+		327996FE209C830C0062A374 /* ResourceWriteOperationQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceWriteOperationQueue.swift; sourceTree = "<group>"; };
+		329AA645209CEF470007A955 /* ResourceSystemProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceSystemProperties.swift; sourceTree = "<group>"; };
 		32A5030620A1D16F000C5948 /* ResourceEncryptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceEncryptor.swift; sourceTree = "<group>"; };
+		32AABD1D20AC9FB900F66DC6 /* OfflineWriteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineWriteTests.swift; sourceTree = "<group>"; };
+		32AABD2120ACA05400F66DC6 /* MockReachabilityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockReachabilityManager.swift; sourceTree = "<group>"; };
+		32AABD2620ACA83300F66DC6 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		32AD4618207976AB00A0D02F /* ResponseMetadataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseMetadataTests.swift; sourceTree = "<group>"; };
+		32EB2C1C209C5DA700CEBB77 /* ResourceWriteOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceWriteOperation.swift; sourceTree = "<group>"; };
 		9302CE422059A3A5000F6885 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9302CE442059A3C5000F6885 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9302CE462059A3D2000F6885 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -447,6 +474,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		32AABD2520ACA81D00F66DC6 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				32AABD2120ACA05400F66DC6 /* MockReachabilityManager.swift */,
+				32AABD2620ACA83300F66DC6 /* MockURLSession.swift */,
+			);
+			name = Mocks;
+			sourceTree = "<group>";
+		};
 		B52240181FB33CD000D0343F /* Source */ = {
 			isa = PBXGroup;
 			children = (
@@ -468,6 +504,8 @@
 				9317A81620656ED100338B63 /* ResourceOracle.swift */,
 				9319DF012069DD7B0083475D /* ResourceTokenProvider.swift */,
 				B522401D1FB33CD000D0343F /* ResourceType.swift */,
+				32EB2C1C209C5DA700CEBB77 /* ResourceWriteOperation.swift */,
+				327996FE209C830C0062A374 /* ResourceWriteOperationQueue.swift */,
 				B58361991FB779B6001CEC66 /* Response.swift */,
 				323AE9492080230E00EAE1F5 /* SupportsPermissionToken.swift */,
 				B52240381FB33CD000D0343F /* UtilityExtensions.swift */,
@@ -547,9 +585,11 @@
 		B55AEFE81FB34D6500F7BEED /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				3276EA12208F3450003F6382 /* OfflineReadTests.swift */,
+				32AABD1D20AC9FB900F66DC6 /* OfflineWriteTests.swift */,
 				B522403D1FB33D1200D0343F /* QueryTests.swift */,
 				32AD4618207976AB00A0D02F /* ResponseMetadataTests.swift */,
-				3276EA12208F3450003F6382 /* OfflineTests.swift */,
+				32AABD2520ACA81D00F66DC6 /* Mocks */,
 			);
 			name = Domain;
 			sourceTree = "<group>";
@@ -557,7 +597,6 @@
 		B58361B71FBA1339001CEC66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				B583619C1FB77A70001CEC66 /* Resources.swift */,
 				B58361B81FBA1384001CEC66 /* CodableResource.swift */,
 				323A90E8207F976400537769 /* CodableResources.swift */,
 				B5B6AC281FBA84C400B93106 /* CodableDictionary.swift */,
@@ -570,14 +609,16 @@
 				B58361BD1FBA13A0001CEC66 /* Document.swift */,
 				B58361C21FBA13B0001CEC66 /* DocumentCollection.swift */,
 				B58361D11FBA15A8001CEC66 /* Offer.swift */,
-				32532A59207825A1002BFFCA /* ResponseMetadata.swift */,
 				B58361D61FBA16F9001CEC66 /* Permission.swift */,
 				93935D9A20585C8600F1832A /* PermissionMode.swift */,
+				B583619C1FB77A70001CEC66 /* Resources.swift */,
+				323B71A9207E6B75000F20F6 /* ResourceRequestError.swift */,
+				329AA645209CEF470007A955 /* ResourceSystemProperties.swift */,
+				32532A59207825A1002BFFCA /* ResponseMetadata.swift */,
 				B58361DB1FBA17B5001CEC66 /* StoredProcedure.swift */,
 				B58361E01FBA17C8001CEC66 /* Trigger.swift */,
 				B58361E51FBA17D8001CEC66 /* User.swift */,
 				B58361EA1FBA17E8001CEC66 /* UserDefinedFunction.swift */,
-				323B71A9207E6B75000F20F6 /* ResourceRequestError.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -912,6 +953,7 @@
 			files = (
 				B5B6AC2A1FBA84C400B93106 /* CodableDictionary.swift in Sources */,
 				B507D4F21FBB722000B2D18D /* Conflict.swift in Sources */,
+				329AA647209CEF470007A955 /* ResourceSystemProperties.swift in Sources */,
 				B58361CE1FBA1439001CEC66 /* Attachment.swift in Sources */,
 				9319DEEA20698C3D0083475D /* PermissionProvider.swift in Sources */,
 				9319DEF920698FB90083475D /* PermissionCache.swift in Sources */,
@@ -947,8 +989,10 @@
 				9316F450206A977F00D7BA8B /* ResourceLocation.swift in Sources */,
 				932F01342076AC5A001D708B /* ResourceCache.swift in Sources */,
 				9319DEEF20698C840083475D /* PermissionProviderConfiguration.swift in Sources */,
+				32EB2C1E209C5DA700CEBB77 /* ResourceWriteOperation.swift in Sources */,
 				B52240961FB3407C00D0343F /* AzureDataExtensions.swift in Sources */,
 				32A5030820A1D16F000C5948 /* ResourceEncryptor.swift in Sources */,
+				32799700209C830C0062A374 /* ResourceWriteOperationQueue.swift in Sources */,
 				B58361BA1FBA1385001CEC66 /* CodableResource.swift in Sources */,
 				B58361A71FB78F73001CEC66 /* DocumentClient.swift in Sources */,
 				93B7240C2064560F00984CA8 /* MSHttpHeader.swift in Sources */,
@@ -969,11 +1013,13 @@
 				B52240721FB33DF800D0343F /* CollectionTriggerExtensionsTests.swift in Sources */,
 				B52240731FB33DF800D0343F /* UserTests.swift in Sources */,
 				B52240761FB33DF800D0343F /* CollectionDocumentExtensionsTests.swift in Sources */,
+				32AABD1F20AC9FB900F66DC6 /* OfflineWriteTests.swift in Sources */,
 				B522406F1FB33DF800D0343F /* AttachmentTests.swift in Sources */,
 				932832E72072CD9E0075ECC7 /* ExamplePermissionProviderTests.swift in Sources */,
 				B522406E1FB33DF800D0343F /* TriggerTests.swift in Sources */,
 				9317A81D2065763700338B63 /* ResourceOracleTests.swift in Sources */,
-				3276EA14208F3450003F6382 /* OfflineTests.swift in Sources */,
+				3276EA14208F3450003F6382 /* OfflineReadTests.swift in Sources */,
+				32AABD2320ACA05400F66DC6 /* MockReachabilityManager.swift in Sources */,
 				B52240701FB33DF800D0343F /* PermissionTests.swift in Sources */,
 				B52240681FB33DF800D0343F /* StoredProcedureTests.swift in Sources */,
 				B52240771FB33DF800D0343F /* AzureDataTests.swift in Sources */,
@@ -981,6 +1027,7 @@
 				3236FBDE209160F70002FB5F /* _AzureDataTests.swift in Sources */,
 				B52240781FB33DF800D0343F /* DocumentCollectionTests.swift in Sources */,
 				B52240791FB33DF800D0343F /* OfferTests.swift in Sources */,
+				32AABD2820ACA83300F66DC6 /* MockURLSession.swift in Sources */,
 				B522407A1FB33DF800D0343F /* DocumentAttachmentExtensionsTests.swift in Sources */,
 				323A90F320800DEB00537769 /* Extensions.swift in Sources */,
 				B522406C1FB33DF800D0343F /* CollectionUserDefinedFunctionExtensionsTests.swift in Sources */,
@@ -996,6 +1043,7 @@
 			files = (
 				B5B6AC2B1FBA84C400B93106 /* CodableDictionary.swift in Sources */,
 				B507D4F31FBB722000B2D18D /* Conflict.swift in Sources */,
+				329AA648209CEF470007A955 /* ResourceSystemProperties.swift in Sources */,
 				B58361CF1FBA1439001CEC66 /* Attachment.swift in Sources */,
 				9319DEEB20698C3D0083475D /* PermissionProvider.swift in Sources */,
 				9319DEFA20698FB90083475D /* PermissionCache.swift in Sources */,
@@ -1031,8 +1079,10 @@
 				9316F451206A977F00D7BA8B /* ResourceLocation.swift in Sources */,
 				932F01352076AC5A001D708B /* ResourceCache.swift in Sources */,
 				9319DEF020698C840083475D /* PermissionProviderConfiguration.swift in Sources */,
+				32EB2C1F209C5DA700CEBB77 /* ResourceWriteOperation.swift in Sources */,
 				B52240991FB3407D00D0343F /* AzureDataExtensions.swift in Sources */,
 				32A5030920A1D16F000C5948 /* ResourceEncryptor.swift in Sources */,
+				32799701209C830C0062A374 /* ResourceWriteOperationQueue.swift in Sources */,
 				B58361BB1FBA1385001CEC66 /* CodableResource.swift in Sources */,
 				B58361A61FB78F73001CEC66 /* DocumentClient.swift in Sources */,
 				93B7240D2064560F00984CA8 /* MSHttpHeader.swift in Sources */,
@@ -1053,11 +1103,13 @@
 				B52240861FB33DFA00D0343F /* CollectionTriggerExtensionsTests.swift in Sources */,
 				B52240871FB33DFA00D0343F /* UserTests.swift in Sources */,
 				B522408A1FB33DFA00D0343F /* CollectionDocumentExtensionsTests.swift in Sources */,
+				32AABD2020AC9FB900F66DC6 /* OfflineWriteTests.swift in Sources */,
 				B52240831FB33DFA00D0343F /* AttachmentTests.swift in Sources */,
 				932832E82072CD9E0075ECC7 /* ExamplePermissionProviderTests.swift in Sources */,
 				B52240821FB33DFA00D0343F /* TriggerTests.swift in Sources */,
 				9317A81E2065763700338B63 /* ResourceOracleTests.swift in Sources */,
-				3276EA15208F3450003F6382 /* OfflineTests.swift in Sources */,
+				3276EA15208F3450003F6382 /* OfflineReadTests.swift in Sources */,
+				32AABD2420ACA05400F66DC6 /* MockReachabilityManager.swift in Sources */,
 				B52240841FB33DFA00D0343F /* PermissionTests.swift in Sources */,
 				B522407C1FB33DFA00D0343F /* StoredProcedureTests.swift in Sources */,
 				B522408B1FB33DFA00D0343F /* AzureDataTests.swift in Sources */,
@@ -1065,6 +1117,7 @@
 				3236FBDF209160F70002FB5F /* _AzureDataTests.swift in Sources */,
 				B522408C1FB33DFA00D0343F /* DocumentCollectionTests.swift in Sources */,
 				B522408D1FB33DFA00D0343F /* OfferTests.swift in Sources */,
+				32AABD2920ACA83300F66DC6 /* MockURLSession.swift in Sources */,
 				B522408E1FB33DFA00D0343F /* DocumentAttachmentExtensionsTests.swift in Sources */,
 				323A90F520800E6C00537769 /* Extensions.swift in Sources */,
 				B52240801FB33DFA00D0343F /* CollectionUserDefinedFunctionExtensionsTests.swift in Sources */,
@@ -1080,6 +1133,7 @@
 			files = (
 				B5B6AC2C1FBA84C400B93106 /* CodableDictionary.swift in Sources */,
 				B507D4F41FBB722000B2D18D /* Conflict.swift in Sources */,
+				329AA649209CEF470007A955 /* ResourceSystemProperties.swift in Sources */,
 				B58361D01FBA1439001CEC66 /* Attachment.swift in Sources */,
 				9319DEEC20698C3D0083475D /* PermissionProvider.swift in Sources */,
 				9319DEFB20698FB90083475D /* PermissionCache.swift in Sources */,
@@ -1115,8 +1169,10 @@
 				9316F452206A977F00D7BA8B /* ResourceLocation.swift in Sources */,
 				932F01362076AC5A001D708B /* ResourceCache.swift in Sources */,
 				9319DEF120698C840083475D /* PermissionProviderConfiguration.swift in Sources */,
+				32EB2C20209C5DA700CEBB77 /* ResourceWriteOperation.swift in Sources */,
 				B522409C1FB3407E00D0343F /* AzureDataExtensions.swift in Sources */,
 				32A5030A20A1D16F000C5948 /* ResourceEncryptor.swift in Sources */,
+				32799702209C830C0062A374 /* ResourceWriteOperationQueue.swift in Sources */,
 				B58361BC1FBA1385001CEC66 /* CodableResource.swift in Sources */,
 				B58361A51FB78F71001CEC66 /* DocumentClient.swift in Sources */,
 				93B7240E2064560F00984CA8 /* MSHttpHeader.swift in Sources */,
@@ -1129,6 +1185,7 @@
 			files = (
 				B5B6AC291FBA84C400B93106 /* CodableDictionary.swift in Sources */,
 				B507D4F11FBB722000B2D18D /* Conflict.swift in Sources */,
+				329AA646209CEF470007A955 /* ResourceSystemProperties.swift in Sources */,
 				B58361CD1FBA1439001CEC66 /* Attachment.swift in Sources */,
 				9319DEE920698C3D0083475D /* PermissionProvider.swift in Sources */,
 				9319DEF820698FB90083475D /* PermissionCache.swift in Sources */,
@@ -1164,8 +1221,10 @@
 				9316F44F206A977F00D7BA8B /* ResourceLocation.swift in Sources */,
 				932F01332076AC5A001D708B /* ResourceCache.swift in Sources */,
 				9319DEEE20698C840083475D /* PermissionProviderConfiguration.swift in Sources */,
+				32EB2C1D209C5DA700CEBB77 /* ResourceWriteOperation.swift in Sources */,
 				B583619F1FB78763001CEC66 /* DocumentClient.swift in Sources */,
 				32A5030720A1D16F000C5948 /* ResourceEncryptor.swift in Sources */,
+				327996FF209C830C0062A374 /* ResourceWriteOperationQueue.swift in Sources */,
 				B58361B91FBA1385001CEC66 /* CodableResource.swift in Sources */,
 				B52240931FB3407900D0343F /* AzureDataExtensions.swift in Sources */,
 				93B7240B2064560F00984CA8 /* MSHttpHeader.swift in Sources */,
@@ -1186,11 +1245,13 @@
 				B522405E1FB33DF100D0343F /* CollectionTriggerExtensionsTests.swift in Sources */,
 				B522405F1FB33DF100D0343F /* UserTests.swift in Sources */,
 				B52240621FB33DF100D0343F /* CollectionDocumentExtensionsTests.swift in Sources */,
+				32AABD1E20AC9FB900F66DC6 /* OfflineWriteTests.swift in Sources */,
 				B522405B1FB33DF100D0343F /* AttachmentTests.swift in Sources */,
 				932832E62072CD9E0075ECC7 /* ExamplePermissionProviderTests.swift in Sources */,
 				B522405A1FB33DF100D0343F /* TriggerTests.swift in Sources */,
 				9317A81C2065763700338B63 /* ResourceOracleTests.swift in Sources */,
-				3276EA13208F3450003F6382 /* OfflineTests.swift in Sources */,
+				3276EA13208F3450003F6382 /* OfflineReadTests.swift in Sources */,
+				32AABD2220ACA05400F66DC6 /* MockReachabilityManager.swift in Sources */,
 				B522405C1FB33DF100D0343F /* PermissionTests.swift in Sources */,
 				B52240541FB33DF100D0343F /* StoredProcedureTests.swift in Sources */,
 				B52240631FB33DF100D0343F /* AzureDataTests.swift in Sources */,
@@ -1198,6 +1259,7 @@
 				3236FBDD209160F70002FB5F /* _AzureDataTests.swift in Sources */,
 				B52240641FB33DF100D0343F /* DocumentCollectionTests.swift in Sources */,
 				B52240651FB33DF100D0343F /* OfferTests.swift in Sources */,
+				32AABD2720ACA83300F66DC6 /* MockURLSession.swift in Sources */,
 				B52240661FB33DF100D0343F /* DocumentAttachmentExtensionsTests.swift in Sources */,
 				323A90F220800DEB00537769 /* Extensions.swift in Sources */,
 				B52240581FB33DF100D0343F /* CollectionUserDefinedFunctionExtensionsTests.swift in Sources */,

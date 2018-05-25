@@ -116,7 +116,7 @@ public struct DocumentClientError : Error {
             }
         }
 
-        if let data = data, let errorMessage = try? ErrorMessage.decode(data: data) {
+        if let data = data, let errorMessage = try? JSONDecoder().decode(ErrorMessage.self, from: data) {
             self.resourceError = errorMessage
         }
         
@@ -165,7 +165,7 @@ extension HttpStatusCode {
 
 public extension Optional where Wrapped == DocumentClientError {
     public var isConnectivityError: Bool {
-        return self?.urlError?.code == .notConnectedToInternet //|| urlError?.code == .
+        return self?.baseError?.isConnectivityError ?? false
     }
 }
 
@@ -200,5 +200,11 @@ public extension Response {
         if let errorMessage = clientError?.localizedDescription ?? error?.localizedDescription {
             Log.error(errorMessage)
         }
+    }
+}
+
+extension Error {
+    var isConnectivityError: Bool {
+        return (self as NSError).code == URLError.notConnectedToInternet.rawValue
     }
 }
