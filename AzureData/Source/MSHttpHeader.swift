@@ -75,15 +75,6 @@ public extension Dictionary where Key == String, Value == String {
     }
 }
 
-extension HTTPURLResponse {
-    var msAltContentPathHeader: String? {
-        return self.allHeaderFields[MSHttpHeader.msAltContentPath.rawValue] as? String
-    }
-
-    var msContinuationHeader: String? {
-        return self.allHeaderFields[MSHttpHeader.msContinuation.rawValue] as? String
-    }
-}
 
 extension URLRequest {
     mutating func addValue(_ value: String, forHTTPHeaderField: MSHttpHeader) {
