@@ -6,5 +6,12 @@ Pod::Spec.new do |spec|
   spec.authors      = { 'Microsoft Open Source' => 'opensource@microsoft.com' }
   spec.summary      = 'iOS client SDKs for Microsoft Azure'
   spec.source       = { :git => 'https://github.com/Azure/Azure.iOS.git', :tag => 'v0.0.2' }
-  spec.source_files = 'AzureAuth/Source/*.swift', 'AzureCore/Source/*.swift', 'AzureData/Source/*.swift', 'AzurePush/Source/*.swift', 'AzureStorage/Source/*.swift'
+
+  spec.subspec 'AzureCore' do |cs|
+     cs.source_files = 'AzureCore/Source/*.swift'
+  end
+
+  spec.subspec 'AzureData' do |ds|
+     ds.source_files = 'AzureData/Source/*.swift'
+  end
 end
