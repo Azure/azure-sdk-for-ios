@@ -84,6 +84,27 @@ extension Response where T:CodableResource {
     }
 }
 
+extension Response {
+    public func map<U>(_ transform: (T) throws -> U) -> Response<U> {
+        return Response<U>(
+            request: request,
+            data: data,
+            response: response,
+            result: result.map(transform),
+            fromCache: fromCache
+        )
+    }
+}
+
+extension Result {
+    public func map<U>(_ transform: (T) throws -> U) -> Result<U> {
+        do {
+            return try isSuccess ? Result<U>.success(transform(resource!)) : Result<U>.failure(error!)
+        } catch {
+            return Result<U>.failure(error)
+        }
+    }
+}
 
 // MARK: - CustomStringConvertible
 

@@ -24,7 +24,11 @@ public class DictionaryDocument : Document {
     
     public override init () { super.init() }
     public override init (_ id: String) { super.init(id) }
-    
+
+    internal init(data: CodableDictionary) {
+        super.init()
+        self.data = data
+    }
     
     public subscript (key: String) -> Any? {
         get { return data?[key] }

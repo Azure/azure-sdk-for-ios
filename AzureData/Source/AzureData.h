@@ -10,4 +10,6 @@
 
 FOUNDATION_EXPORT double AzureDataVersionNumber;
 
+#import <AzureData/ADDocument.h>
+
 FOUNDATION_EXPORT const unsigned char AzureDataVersionString[];

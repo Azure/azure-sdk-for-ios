@@ -44,9 +44,9 @@ public struct Attachment : CodableResource, SupportsPermissionToken {
 }
 
 
-private extension Attachment {
+extension Attachment {
     
-    private enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case id
         case resourceId         = "_rid"
         case selfLink           = "_self"

@@ -44,9 +44,9 @@ public struct Database : CodableResource {
 }
 
 
-private extension Database {
+extension Database {
     
-    private enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case id
         case resourceId         = "_rid"
         case selfLink           = "_self"

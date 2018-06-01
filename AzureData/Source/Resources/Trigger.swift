@@ -76,9 +76,9 @@ public struct Trigger : CodableResource, SupportsPermissionToken {
 }
 
 
-private extension Trigger {
+extension Trigger {
     
-    private enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case id
         case resourceId         = "_rid"
         case selfLink           = "_self"

@@ -62,9 +62,9 @@ public struct Offer : CodableResource {
 }
 
 
-private extension Offer {
+extension Offer {
     
-    private enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case id
         case resourceId         = "_rid"
         case selfLink           = "_self"

@@ -15,12 +15,12 @@ public struct Permission : CodableResource {
     public static var type = "permissions"
     public static var list = "Permissions"
 
-    public private(set) var id:         String
-    public private(set) var resourceId: String
-    public private(set) var selfLink:   String?
-    public private(set) var etag:       String?
-    public private(set) var timestamp:  Date?
-    public private(set) var altLink:    String? = nil
+    public internal(set) var id:         String
+    public internal(set) var resourceId: String
+    public internal(set) var selfLink:   String?
+    public internal(set) var etag:       String?
+    public internal(set) var timestamp:  Date?
+    public internal(set) var altLink:    String? = nil
     
     public mutating func setAltLink(to link: String) {
         self.altLink = link
@@ -30,10 +30,10 @@ public struct Permission : CodableResource {
     }
 
     /// Gets or sets the permission mode in the Azure Cosmos DB service.
-    public private(set) var permissionMode: PermissionMode
+    public internal(set) var permissionMode: PermissionMode
     
     /// Gets or sets the self-link of resource to which the permission applies in the Azure Cosmos DB service.
-    public private(set) var resourceLink: String?
+    public internal(set) var resourceLink: String?
     
 //    /// Gets or sets optional partition key value for the permission in the Azure Cosmos DB service.
 //    /// A permission applies to resources when two conditions are met:
@@ -45,7 +45,7 @@ public struct Permission : CodableResource {
 //    public private(set) var resourcePartitionKey:   String?
     
     /// Gets the access token granting the defined permission from the Azure Cosmos DB service.
-    public private(set) var token: String?
+    public internal(set) var token: String?
     
     init(_ id: String, mode: PermissionMode, forResource resource: String) {
         self.id = id
@@ -56,9 +56,9 @@ public struct Permission : CodableResource {
 }
 
 
-private extension Permission {
+extension Permission {
     
-    private enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case id
         case resourceId     = "_rid"
         case selfLink       = "_self"

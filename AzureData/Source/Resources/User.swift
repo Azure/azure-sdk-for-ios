@@ -14,12 +14,12 @@ public struct User : CodableResource {
     public static var type = "users"
     public static var list = "Users"
 
-    public private(set) var id:         String
-    public private(set) var resourceId: String
-    public private(set) var selfLink:   String?
-    public private(set) var etag:       String?
-    public private(set) var timestamp:  Date?
-    public private(set) var altLink:    String? = nil
+    public internal(set) var id:         String
+    public internal(set) var resourceId: String
+    public internal(set) var selfLink:   String?
+    public internal(set) var etag:       String?
+    public internal(set) var timestamp:  Date?
+    public internal(set) var altLink:    String? = nil
     
     public mutating func setAltLink(to link: String) {
         self.altLink = link
@@ -29,15 +29,15 @@ public struct User : CodableResource {
     }
 
     /// Gets the self-link of the permissions associated with the user for the Azure Cosmos DB service.
-    public private(set) var permissionsLink:String?
+    public internal(set) var permissionsLink:String?
     
     public init (_ id: String) { self.id = id; resourceId = "" }
 }
 
 
-private extension User {
+extension User {
     
-    private enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case id
         case resourceId         = "_rid"
         case selfLink           = "_self"

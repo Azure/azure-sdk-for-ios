@@ -19,12 +19,12 @@ open class Document : CodableResource, SupportsPermissionToken, CustomDebugStrin
     public static var type = "docs"
     public static var list = "Documents"
     
-    public private(set) var id:         String
-    public private(set) var resourceId: String
-    public private(set) var selfLink:   String?
-    public private(set) var etag:       String?
-    public private(set) var timestamp:  Date?
-    public private(set) var altLink:    String? = nil
+    public internal(set) var id:         String
+    public internal(set) var resourceId: String
+    public internal(set) var selfLink:   String?
+    public internal(set) var etag:       String?
+    public internal(set) var timestamp:  Date?
+    public internal(set) var altLink:    String? = nil
     
     public func setAltLink(to link: String) {
         self.altLink = link
@@ -34,7 +34,7 @@ open class Document : CodableResource, SupportsPermissionToken, CustomDebugStrin
     }
 
     /// Gets the self-link corresponding to attachments of the document from the Azure Cosmos DB service.
-    public private(set) var attachmentsLink: String?
+    public internal(set) var attachmentsLink: String?
     
     /// Gets or sets the time to live in seconds of the document in the Azure Cosmos DB service.
     public var timeToLive: Int? = nil
@@ -50,9 +50,9 @@ open class Document : CodableResource, SupportsPermissionToken, CustomDebugStrin
 }
 
 
-private extension Document {
+extension Document {
     
-    private enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case id
         case resourceId         = "_rid"
         case selfLink           = "_self"

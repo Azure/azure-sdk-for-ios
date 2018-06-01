@@ -19,12 +19,12 @@ public struct StoredProcedure : CodableResource, SupportsPermissionToken {
     public static var type = "sprocs"
     public static var list = "StoredProcedures"
 
-    public private(set) var id:         String
-    public private(set) var resourceId: String
-    public private(set) var selfLink:   String?
-    public private(set) var etag:       String?
-    public private(set) var timestamp:  Date?
-    public private(set) var altLink:    String? = nil
+    public internal(set) var id:         String
+    public internal(set) var resourceId: String
+    public internal(set) var selfLink:   String?
+    public internal(set) var etag:       String?
+    public internal(set) var timestamp:  Date?
+    public internal(set) var altLink:    String? = nil
     
     public mutating func setAltLink(to link: String) {
         self.altLink = link
@@ -41,7 +41,7 @@ public struct StoredProcedure : CodableResource, SupportsPermissionToken {
     ///
     /// - Example:
     ///   `"function () { getContext().getResponse().setBody('Hello World!'); }`
-    public private(set) var body:       String?
+    public internal(set) var body:       String?
     
     public init (_ id: String, body: String) {
         self.id = id
@@ -51,9 +51,9 @@ public struct StoredProcedure : CodableResource, SupportsPermissionToken {
 }
 
 
-private extension StoredProcedure {
+extension StoredProcedure {
     
-    private enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case id
         case resourceId         = "_rid"
         case selfLink           = "_self"
