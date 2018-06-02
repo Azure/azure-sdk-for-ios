@@ -22,7 +22,7 @@ public class ADResponse: NSObject {
     public var data: Data? { return _response.data }
 
     @objc
-    public var result: ObjCResult { return ObjCResult(_response.result) }
+    public var result: ADResult { return ADResult(_response.result) }
 
     @objc
     public var resource: AnyObject? { return result.resource }
@@ -39,7 +39,7 @@ public class ADResponse: NSObject {
     private var _response: Response<AnyObject>
 
     @objc
-    public init(request: URLRequest?, data: Data?, response: HTTPURLResponse?, result: ObjCResult, fromCache: Bool = false) {
+    public init(request: URLRequest?, data: Data?, response: HTTPURLResponse?, result: ADResult, fromCache: Bool = false) {
         self._response = Response(request: request, data: data, response: response, result: Result<AnyObject>(bridgedFromObjectiveC: result), fromCache: fromCache)
     }
 
@@ -53,7 +53,7 @@ public class ADResponse: NSObject {
 }
 
 @objc(ADResult)
-public class ObjCResult: NSObject {
+public class ADResult: NSObject {
     @objc
     public var isSuccess: Bool { return result.isSuccess }
 
@@ -123,24 +123,30 @@ extension Response where T == Resources<DictionaryDocument> {
 }
 
 extension Result: ObjectiveCBridgeable where T: ObjectiveCBridgeable {
-    typealias ObjectiveCType = ObjCResult
+    typealias ObjectiveCType = ADResult
 
-    func bridgeToObjectiveC() -> ObjCResult {
-        return ObjCResult(self.map { $0.bridgeToObjectiveC() })
+    func bridgeToObjectiveC() -> ADResult {
+        return ADResult(self.map { $0.bridgeToObjectiveC() })
     }
 
-    init?(bridgedFromObjectiveC: ObjCResult) {
-        if bridgedFromObjectiveC.isSuccess {
-            self = Result<T>.success(T.init(bridgedFromObjectiveC: bridgedFromObjectiveC.resource! as! T.ObjectiveCType)!)
+    init?(bridgedFromObjectiveC: ADResult) {
+        guard bridgedFromObjectiveC.isSuccess else {
+            self = Result<T>.failure(bridgedFromObjectiveC.error!)
             return
         }
 
-        self = Result<T>.failure(bridgedFromObjectiveC.error!)
+        guard let objectiveCResource = bridgedFromObjectiveC.resource! as? T.ObjectiveCType,
+              let resource = T.init(bridgedFromObjectiveC: objectiveCResource) else {
+                self = Result<T>.failure(DocumentClientError(withKind: .internalError))
+                return
+        }
+
+        self = Result<T>.success(resource)
     }
 }
 
 extension Result where T == AnyObject {
-    init(bridgedFromObjectiveC: ObjCResult) {
+    init(bridgedFromObjectiveC: ADResult) {
         if bridgedFromObjectiveC.isSuccess {
             self = Result<T>.success(bridgedFromObjectiveC.resource!)
             return

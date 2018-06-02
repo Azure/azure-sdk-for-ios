@@ -34,13 +34,13 @@ public class ADTrigger: NSObject, ADResource, ADSupportsPermissionToken {
     public let body: String?
 
     @objc
-    public let triggerOperation: ObjCTriggerOperation
+    public let triggerOperation: ADTriggerOperation
 
     @objc
-    public let triggerType: ObjCTriggerType
+    public let triggerType: ADTriggerType
 
     @objc(ADTriggerOperation)
-    public enum ObjCTriggerOperation: Int {
+    public enum ADTriggerOperation: Int {
         @objc(ADTriggerOperationAll)
         case all
 
@@ -55,7 +55,7 @@ public class ADTrigger: NSObject, ADResource, ADSupportsPermissionToken {
     }
 
     @objc(ADTriggerType)
-    public enum ObjCTriggerType: Int {
+    public enum ADTriggerType: Int {
         @objc(ADTriggerTypePre)
         case pre
 
@@ -64,11 +64,11 @@ public class ADTrigger: NSObject, ADResource, ADSupportsPermissionToken {
     }
 
     @objc
-    public convenience init(id: String, body: String, operation: ObjCTriggerOperation, type: ObjCTriggerType) {
+    public convenience init(id: String, body: String, operation: ADTriggerOperation, type: ADTriggerType) {
         self.init(id: id, resourceId: "", selfLink: nil, etag: nil, timestamp: nil, altLink: nil, body: body, operation: operation, type: type)
     }
 
-    internal init(id: String, resourceId: String, selfLink: String?, etag: String?, timestamp: Date?, altLink: String?, body: String?, operation: ObjCTriggerOperation, type: ObjCTriggerType) {
+    internal init(id: String, resourceId: String, selfLink: String?, etag: String?, timestamp: Date?, altLink: String?, body: String?, operation: ADTriggerOperation, type: ADTriggerType) {
         self.id = id
         self.resourceId = resourceId
         self.selfLink = selfLink
@@ -130,7 +130,7 @@ extension Trigger: ObjectiveCBridgeable {
 }
 
 extension Trigger.TriggerOperation {
-    var bridgedToObjectiveC: ADTrigger.ObjCTriggerOperation {
+    var bridgedToObjectiveC: ADTrigger.ADTriggerOperation {
         switch self {
         case .all:     return .all
         case .insert:  return .insert
@@ -139,7 +139,7 @@ extension Trigger.TriggerOperation {
         }
     }
 
-    init(bridgedFromObjectiveC: ADTrigger.ObjCTriggerOperation) {
+    init(bridgedFromObjectiveC: ADTrigger.ADTriggerOperation) {
         switch bridgedFromObjectiveC {
         case .all:     self = .all
         case .insert:  self = .insert
@@ -150,14 +150,14 @@ extension Trigger.TriggerOperation {
 }
 
 extension Trigger.TriggerType {
-    var bridgedToObjectiveC: ADTrigger.ObjCTriggerType {
+    var bridgedToObjectiveC: ADTrigger.ADTriggerType {
         switch self {
         case .pre:  return .pre
         case .post: return .post
         }
     }
 
-    init(bridgedFromObjectiveC: ADTrigger.ObjCTriggerType) {
+    init(bridgedFromObjectiveC: ADTrigger.ADTriggerType) {
         switch bridgedFromObjectiveC {
         case .pre:  self = .pre
         case .post: self = .post

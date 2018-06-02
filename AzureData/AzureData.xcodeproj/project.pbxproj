@@ -188,6 +188,18 @@
 		32D4D57920C2176200BF3154 /* ADDateEncoders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D57720C2176200BF3154 /* ADDateEncoders.swift */; };
 		32D4D57A20C2176200BF3154 /* ADDateEncoders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D57720C2176200BF3154 /* ADDateEncoders.swift */; };
 		32D4D57B20C2176200BF3154 /* ADDateEncoders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D57720C2176200BF3154 /* ADDateEncoders.swift */; };
+		32D4D57D20C22B2300BF3154 /* ADConflictStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D57C20C22B2300BF3154 /* ADConflictStrategy.swift */; };
+		32D4D57E20C22B2300BF3154 /* ADConflictStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D57C20C22B2300BF3154 /* ADConflictStrategy.swift */; };
+		32D4D57F20C22B2300BF3154 /* ADConflictStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D57C20C22B2300BF3154 /* ADConflictStrategy.swift */; };
+		32D4D58020C22B2300BF3154 /* ADConflictStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D57C20C22B2300BF3154 /* ADConflictStrategy.swift */; };
+		32D4D58720C2860F00BF3154 /* ObjectiveCWrappers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D58620C2860F00BF3154 /* ObjectiveCWrappers.swift */; };
+		32D4D58820C2860F00BF3154 /* ObjectiveCWrappers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D58620C2860F00BF3154 /* ObjectiveCWrappers.swift */; };
+		32D4D58920C2860F00BF3154 /* ObjectiveCWrappers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D58620C2860F00BF3154 /* ObjectiveCWrappers.swift */; };
+		32D4D58A20C2860F00BF3154 /* ObjectiveCWrappers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D58620C2860F00BF3154 /* ObjectiveCWrappers.swift */; };
+		32D4D58C20C289B200BF3154 /* ADResourceSystemKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D58B20C289B200BF3154 /* ADResourceSystemKeys.swift */; };
+		32D4D58D20C289B200BF3154 /* ADResourceSystemKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D58B20C289B200BF3154 /* ADResourceSystemKeys.swift */; };
+		32D4D58E20C289B200BF3154 /* ADResourceSystemKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D58B20C289B200BF3154 /* ADResourceSystemKeys.swift */; };
+		32D4D58F20C289B200BF3154 /* ADResourceSystemKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D58B20C289B200BF3154 /* ADResourceSystemKeys.swift */; };
 		32EB2C1D209C5DA700CEBB77 /* ResourceWriteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EB2C1C209C5DA700CEBB77 /* ResourceWriteOperation.swift */; };
 		32EB2C1E209C5DA700CEBB77 /* ResourceWriteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EB2C1C209C5DA700CEBB77 /* ResourceWriteOperation.swift */; };
 		32EB2C1F209C5DA700CEBB77 /* ResourceWriteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EB2C1C209C5DA700CEBB77 /* ResourceWriteOperation.swift */; };
@@ -513,6 +525,9 @@
 		32AABD2620ACA83300F66DC6 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		32AD4618207976AB00A0D02F /* ResponseMetadataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseMetadataTests.swift; sourceTree = "<group>"; };
 		32D4D57720C2176200BF3154 /* ADDateEncoders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADDateEncoders.swift; sourceTree = "<group>"; };
+		32D4D57C20C22B2300BF3154 /* ADConflictStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADConflictStrategy.swift; sourceTree = "<group>"; };
+		32D4D58620C2860F00BF3154 /* ObjectiveCWrappers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectiveCWrappers.swift; sourceTree = "<group>"; };
+		32D4D58B20C289B200BF3154 /* ADResourceSystemKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADResourceSystemKeys.swift; sourceTree = "<group>"; };
 		32EB2C1C209C5DA700CEBB77 /* ResourceWriteOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceWriteOperation.swift; sourceTree = "<group>"; };
 		32FB702720BD5444009A35D9 /* ADPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADPermission.swift; sourceTree = "<group>"; };
 		32FB703120BD8070009A35D9 /* ADCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADCodable.swift; sourceTree = "<group>"; };
@@ -682,15 +697,18 @@
 			isa = PBXGroup;
 			children = (
 				326E731720BC2041006D2DBD /* ADAzureData.swift */,
+				32D4D57C20C22B2300BF3154 /* ADConflictStrategy.swift */,
 				32D4D57720C2176200BF3154 /* ADDateEncoders.swift */,
 				326E732120BC22EE006D2DBD /* ADPermissionProvider.swift */,
 				326E732620BC2339006D2DBD /* ADPermissionProviderConfiguration.swift */,
 				329C7DAE20BEB3EE00A49453 /* ADQuery.swift */,
+				32D4D58B20C289B200BF3154 /* ADResourceSystemKeys.swift */,
 				326E732B20BC23BE006D2DBD /* ADResourceType.swift */,
 				326E733020BC28B4006D2DBD /* ADResponse.swift */,
 				329C7DDA20BF08DF00A49453 /* ADSupportsPermissionToken.swift */,
 				326E734E20BC9D07006D2DBD /* ObjectiveCBridgeable.swift */,
 				3257CC5420C1486A004E51FF /* ObjectiveCUtilities.swift */,
+				32D4D58620C2860F00BF3154 /* ObjectiveCWrappers.swift */,
 				329C7DDF20BF0CED00A49453 /* SwiftWrappers.swift */,
 			);
 			path = "Objective-C";
@@ -1199,12 +1217,14 @@
 				329C7DCD20BEF15D00A49453 /* ADUser.swift in Sources */,
 				32A77CEB20C0570E00846397 /* ADIndex.swift in Sources */,
 				329C7DD720BEFDF600A49453 /* ADOffer.swift in Sources */,
+				32D4D57E20C22B2300BF3154 /* ADConflictStrategy.swift in Sources */,
 				B5B6AC2A1FBA84C400B93106 /* CodableDictionary.swift in Sources */,
 				329C7DBE20BEDCF200A49453 /* ADStoredProcedure.swift in Sources */,
 				B507D4F21FBB722000B2D18D /* Conflict.swift in Sources */,
 				329AA647209CEF470007A955 /* ResourceSystemProperties.swift in Sources */,
 				32FB702920BD5444009A35D9 /* ADPermission.swift in Sources */,
 				329C7DE120BF0CED00A49453 /* SwiftWrappers.swift in Sources */,
+				32D4D58820C2860F00BF3154 /* ObjectiveCWrappers.swift in Sources */,
 				B58361CE1FBA1439001CEC66 /* Attachment.swift in Sources */,
 				326E735020BC9D07006D2DBD /* ObjectiveCBridgeable.swift in Sources */,
 				326E732320BC22EE006D2DBD /* ADPermissionProvider.swift in Sources */,
@@ -1270,6 +1290,7 @@
 				329C7DC320BEE3B500A49453 /* ADUserDefinedFunction.swift in Sources */,
 				32799700209C830C0062A374 /* ResourceWriteOperationQueue.swift in Sources */,
 				32A77CF520C0574A00846397 /* ADExcludedPath.swift in Sources */,
+				32D4D58D20C289B200BF3154 /* ADResourceSystemKeys.swift in Sources */,
 				B58361BA1FBA1385001CEC66 /* CodableResource.swift in Sources */,
 				B58361A71FB78F73001CEC66 /* DocumentClient.swift in Sources */,
 				93B7240C2064560F00984CA8 /* MSHttpHeader.swift in Sources */,
@@ -1324,12 +1345,14 @@
 				329C7DCE20BEF15D00A49453 /* ADUser.swift in Sources */,
 				32A77CEC20C0570E00846397 /* ADIndex.swift in Sources */,
 				329C7DD820BEFDF600A49453 /* ADOffer.swift in Sources */,
+				32D4D57F20C22B2300BF3154 /* ADConflictStrategy.swift in Sources */,
 				B5B6AC2B1FBA84C400B93106 /* CodableDictionary.swift in Sources */,
 				329C7DBF20BEDCF200A49453 /* ADStoredProcedure.swift in Sources */,
 				B507D4F31FBB722000B2D18D /* Conflict.swift in Sources */,
 				329AA648209CEF470007A955 /* ResourceSystemProperties.swift in Sources */,
 				32FB702A20BD5444009A35D9 /* ADPermission.swift in Sources */,
 				329C7DE220BF0CED00A49453 /* SwiftWrappers.swift in Sources */,
+				32D4D58920C2860F00BF3154 /* ObjectiveCWrappers.swift in Sources */,
 				B58361CF1FBA1439001CEC66 /* Attachment.swift in Sources */,
 				326E735120BC9D07006D2DBD /* ObjectiveCBridgeable.swift in Sources */,
 				326E732420BC22EE006D2DBD /* ADPermissionProvider.swift in Sources */,
@@ -1395,6 +1418,7 @@
 				329C7DC420BEE3B500A49453 /* ADUserDefinedFunction.swift in Sources */,
 				32799701209C830C0062A374 /* ResourceWriteOperationQueue.swift in Sources */,
 				32A77CF620C0574A00846397 /* ADExcludedPath.swift in Sources */,
+				32D4D58E20C289B200BF3154 /* ADResourceSystemKeys.swift in Sources */,
 				B58361BB1FBA1385001CEC66 /* CodableResource.swift in Sources */,
 				B58361A61FB78F73001CEC66 /* DocumentClient.swift in Sources */,
 				93B7240D2064560F00984CA8 /* MSHttpHeader.swift in Sources */,
@@ -1449,12 +1473,14 @@
 				329C7DCF20BEF15D00A49453 /* ADUser.swift in Sources */,
 				32A77CED20C0570E00846397 /* ADIndex.swift in Sources */,
 				329C7DD920BEFDF600A49453 /* ADOffer.swift in Sources */,
+				32D4D58020C22B2300BF3154 /* ADConflictStrategy.swift in Sources */,
 				B5B6AC2C1FBA84C400B93106 /* CodableDictionary.swift in Sources */,
 				329C7DC020BEDCF200A49453 /* ADStoredProcedure.swift in Sources */,
 				B507D4F41FBB722000B2D18D /* Conflict.swift in Sources */,
 				329AA649209CEF470007A955 /* ResourceSystemProperties.swift in Sources */,
 				32FB702B20BD5444009A35D9 /* ADPermission.swift in Sources */,
 				329C7DE320BF0CED00A49453 /* SwiftWrappers.swift in Sources */,
+				32D4D58A20C2860F00BF3154 /* ObjectiveCWrappers.swift in Sources */,
 				B58361D01FBA1439001CEC66 /* Attachment.swift in Sources */,
 				326E735220BC9D07006D2DBD /* ObjectiveCBridgeable.swift in Sources */,
 				326E732520BC22EE006D2DBD /* ADPermissionProvider.swift in Sources */,
@@ -1520,6 +1546,7 @@
 				329C7DC520BEE3B500A49453 /* ADUserDefinedFunction.swift in Sources */,
 				32799702209C830C0062A374 /* ResourceWriteOperationQueue.swift in Sources */,
 				32A77CF720C0574A00846397 /* ADExcludedPath.swift in Sources */,
+				32D4D58F20C289B200BF3154 /* ADResourceSystemKeys.swift in Sources */,
 				B58361BC1FBA1385001CEC66 /* CodableResource.swift in Sources */,
 				B58361A51FB78F71001CEC66 /* DocumentClient.swift in Sources */,
 				93B7240E2064560F00984CA8 /* MSHttpHeader.swift in Sources */,
@@ -1536,12 +1563,14 @@
 				329C7DCC20BEF15D00A49453 /* ADUser.swift in Sources */,
 				32A77CEA20C0570E00846397 /* ADIndex.swift in Sources */,
 				329C7DD620BEFDF600A49453 /* ADOffer.swift in Sources */,
+				32D4D57D20C22B2300BF3154 /* ADConflictStrategy.swift in Sources */,
 				B5B6AC291FBA84C400B93106 /* CodableDictionary.swift in Sources */,
 				329C7DBD20BEDCF200A49453 /* ADStoredProcedure.swift in Sources */,
 				B507D4F11FBB722000B2D18D /* Conflict.swift in Sources */,
 				329AA646209CEF470007A955 /* ResourceSystemProperties.swift in Sources */,
 				32FB702820BD5444009A35D9 /* ADPermission.swift in Sources */,
 				329C7DE020BF0CED00A49453 /* SwiftWrappers.swift in Sources */,
+				32D4D58720C2860F00BF3154 /* ObjectiveCWrappers.swift in Sources */,
 				B58361CD1FBA1439001CEC66 /* Attachment.swift in Sources */,
 				326E734F20BC9D07006D2DBD /* ObjectiveCBridgeable.swift in Sources */,
 				326E732220BC22EE006D2DBD /* ADPermissionProvider.swift in Sources */,
@@ -1607,6 +1636,7 @@
 				329C7DC220BEE3B500A49453 /* ADUserDefinedFunction.swift in Sources */,
 				327996FF209C830C0062A374 /* ResourceWriteOperationQueue.swift in Sources */,
 				32A77CF420C0574A00846397 /* ADExcludedPath.swift in Sources */,
+				32D4D58C20C289B200BF3154 /* ADResourceSystemKeys.swift in Sources */,
 				B58361B91FBA1385001CEC66 /* CodableResource.swift in Sources */,
 				B52240931FB3407900D0343F /* AzureDataExtensions.swift in Sources */,
 				93B7240B2064560F00984CA8 /* MSHttpHeader.swift in Sources */,

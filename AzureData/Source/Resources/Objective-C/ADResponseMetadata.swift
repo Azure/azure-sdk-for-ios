@@ -38,10 +38,10 @@ public class ADResponseMetadata: NSObject {
     public var requestCharge: Double { return responseMetadata.requestCharge ?? Double.nil }
 
     @objc
-    public var resourceQuota: ObjCMetrics? { return ObjCMetrics(responseMetadata.resourceQuota) }
+    public var resourceQuota: ADMetrics? { return ADMetrics(responseMetadata.resourceQuota) }
 
     @objc
-    public var resourceUsage: ObjCMetrics? { return ObjCMetrics(responseMetadata.resourceUsage) }
+    public var resourceUsage: ADMetrics? { return ADMetrics(responseMetadata.resourceUsage) }
 
     @objc
     public var retryAfter: TimeInterval { return responseMetadata.retryAfter ?? Double.nil }
@@ -61,7 +61,7 @@ public class ADResponseMetadata: NSObject {
     }
 
     @objc(ADMetrics)
-    public class ObjCMetrics: NSObject {
+    public class ADMetrics: NSObject {
         private var metrics: ResponseMetadata.Metrics
 
         @objc

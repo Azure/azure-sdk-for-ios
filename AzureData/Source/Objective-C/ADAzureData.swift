@@ -43,6 +43,21 @@ public class ADAzureData: NSObject {
         AzureData.configure(withPlistNamed: name, withPermissionMode: mode.permissionMode)
     }
 
+    // MARK: - Conflict Strategy
+
+    @objc(registerConflictStrategy:forResourceType:)
+    public func register(strategy: ADConflictStrategy, for resourceType: ADResourceType) {
+        if let type = ResourceType(bridgedFromObjectiveC: resourceType) {
+            AzureData.register(strategy: ConflictStrategy(bridgedFromObjectiveC: strategy), for: type)
+        }
+    }
+
+    @objc(conflictStrategyForResourceType:)
+    public func conflictStrategy(for resourceType: ADResourceType) -> ADConflictStrategy? {
+        guard let type = ResourceType(bridgedFromObjectiveC: resourceType) else { return nil }
+        return DocumentClient.shared.conflictStrategies[type]?.bridgedToObjectiveC
+    }
+
     // MARK: - Offline Data
 
     @objc
@@ -499,12 +514,12 @@ public class ADAzureData: NSObject {
 
     // create
     @objc(createTriggerWithId:operation:type:andBody:inCollectionWithId:inDatabaseWithId:completion:)
-    public static func create(triggerWithId triggerId: String, operation: ADTrigger.ObjCTriggerOperation, type: ADTrigger.ObjCTriggerType, andBody body: String, inCollection collectionId: String, inDatabase databaseId: String, completion: @escaping (ADResponse) -> ()) {
+    public static func create(triggerWithId triggerId: String, operation: ADTrigger.ADTriggerOperation, type: ADTrigger.ADTriggerType, andBody body: String, inCollection collectionId: String, inDatabase databaseId: String, completion: @escaping (ADResponse) -> ()) {
         AzureData.create(triggerWithId: triggerId, operation: Trigger.TriggerOperation(bridgedFromObjectiveC: operation), type: Trigger.TriggerType(bridgedFromObjectiveC: type), andBody: body, inCollection: collectionId, inDatabase: databaseId) { completion($0.bridgeToObjectiveC()) }
     }
 
     @objc(createTriggerWithId:operation:type:andBody:inCollection:completion:)
-    public static func create(triggerWithId triggerId: String, operation: ADTrigger.ObjCTriggerOperation, type: ADTrigger.ObjCTriggerType, andBody body: String, in collection: ADDocumentCollection, completion: @escaping (ADResponse) -> ()) {
+    public static func create(triggerWithId triggerId: String, operation: ADTrigger.ADTriggerOperation, type: ADTrigger.ADTriggerType, andBody body: String, in collection: ADDocumentCollection, completion: @escaping (ADResponse) -> ()) {
         AzureData.create(triggerWithId: triggerId, operation: Trigger.TriggerOperation(bridgedFromObjectiveC: operation), type: Trigger.TriggerType(bridgedFromObjectiveC: type), andBody: body, in: DocumentCollection(unconditionallyBridgedFromObjectiveC: collection)) { completion($0.bridgeToObjectiveC()) }
     }
 
@@ -542,12 +557,12 @@ public class ADAzureData: NSObject {
 
     // replace
     @objc(replaceTriggerWithId:operation:type:andBody:inCollectionWithId:inDatabaseWithId:completion:)
-    public static func replace(triggerWithId triggerId: String, operation: ADTrigger.ObjCTriggerOperation, type: ADTrigger.ObjCTriggerType, andBody body: String, inCollection collectionId: String, inDatabase databaseId: String, completion: @escaping (ADResponse) -> Void) {
+    public static func replace(triggerWithId triggerId: String, operation: ADTrigger.ADTriggerOperation, type: ADTrigger.ADTriggerType, andBody body: String, inCollection collectionId: String, inDatabase databaseId: String, completion: @escaping (ADResponse) -> Void) {
         AzureData.replace(triggerWithId: triggerId, operation: Trigger.TriggerOperation(bridgedFromObjectiveC: operation), type: Trigger.TriggerType(bridgedFromObjectiveC: type), andBody: body, inCollection: collectionId, inDatabase: databaseId) { completion($0.bridgeToObjectiveC()) }
     }
 
     @objc(replaceTriggerWithId:operation:type:andBody:inCollection:completion:)
-    public static func replace(triggerWithId triggerId: String, operation: ADTrigger.ObjCTriggerOperation, type: ADTrigger.ObjCTriggerType, andBody body: String, in collection: ADDocumentCollection, completion: @escaping (ADResponse) -> Void) {
+    public static func replace(triggerWithId triggerId: String, operation: ADTrigger.ADTriggerOperation, type: ADTrigger.ADTriggerType, andBody body: String, in collection: ADDocumentCollection, completion: @escaping (ADResponse) -> Void) {
         AzureData.replace(triggerWithId: triggerId, operation: Trigger.TriggerOperation(bridgedFromObjectiveC: operation), type: Trigger.TriggerType(bridgedFromObjectiveC: type), andBody: body, in: DocumentCollection(unconditionallyBridgedFromObjectiveC: collection)) { completion($0.bridgeToObjectiveC()) }
     }
 
@@ -623,12 +638,12 @@ public class ADAzureData: NSObject {
     // create
     @objc(createPermissionWithId:andMode:inResource:forUserWithId:inDatabaseWithId:completion:)
     public static func create(permissionWithId permissionId: String, mode: ADPermissionMode, in resource: ADResource & ADSupportsPermissionToken, forUser userId: String, inDatabase databaseId: String, completion: @escaping (ADResponse) -> Void) {
-        AzureData.create(permissionWithId: permissionId, mode: mode.permissionMode, in: PermissionEnabledADResourceWrapper(resource), forUser: userId, inDatabase: databaseId) { completion($0.bridgeToObjectiveC()) }
+        AzureData.create(permissionWithId: permissionId, mode: mode.permissionMode, in: PermissionEnabledADResourceSwiftWrapper(resource), forUser: userId, inDatabase: databaseId) { completion($0.bridgeToObjectiveC()) }
     }
 
     @objc(createPermissionWithId:andMode:inResource:forUser:completion:)
     public static func create(permissionWithId permissionId: String, mode: ADPermissionMode, in resource: ADResource & ADSupportsPermissionToken, for user: ADUser, completion: @escaping (ADResponse) -> Void) {
-        AzureData.create(permissionWithId: permissionId, mode: mode.permissionMode, in: PermissionEnabledADResourceWrapper(resource), for: User(unconditionallyBridgedFromObjectiveC: user)) { completion($0.bridgeToObjectiveC()) }
+        AzureData.create(permissionWithId: permissionId, mode: mode.permissionMode, in: PermissionEnabledADResourceSwiftWrapper(resource), for: User(unconditionallyBridgedFromObjectiveC: user)) { completion($0.bridgeToObjectiveC()) }
     }
 
     // list
@@ -677,12 +692,12 @@ public class ADAzureData: NSObject {
     // replace
     @objc(replacePermissionWithId:andMode:inResource:forUserWithId:inDatabaseWithId:completion:)
     public static func replace(permissionWithId permissionId: String, mode: ADPermissionMode, in resource: ADResource & ADSupportsPermissionToken, forUser userId: String, inDatabase databaseId: String, completion: @escaping (ADResponse) -> Void) {
-        AzureData.replace(permissionWithId: permissionId, mode: mode.permissionMode, in: PermissionEnabledADResourceWrapper(resource), forUser: userId, inDatabase: databaseId) { completion($0.bridgeToObjectiveC()) }
+        AzureData.replace(permissionWithId: permissionId, mode: mode.permissionMode, in: PermissionEnabledADResourceSwiftWrapper(resource), forUser: userId, inDatabase: databaseId) { completion($0.bridgeToObjectiveC()) }
     }
 
     @objc(replacePermissionWithId:andMode:inResource:forUser:completion:)
     public static func replace(permissionWithId permissionId: String, mode: ADPermissionMode, in resource: ADResource & ADSupportsPermissionToken, for user: ADUser, completion: @escaping (ADResponse) -> Void) {
-        AzureData.replace(permissionWithId: permissionId, mode: mode.permissionMode, in: PermissionEnabledADResourceWrapper(resource), for: User(unconditionallyBridgedFromObjectiveC: user)) { completion($0.bridgeToObjectiveC()) }
+        AzureData.replace(permissionWithId: permissionId, mode: mode.permissionMode, in: PermissionEnabledADResourceSwiftWrapper(resource), for: User(unconditionallyBridgedFromObjectiveC: user)) { completion($0.bridgeToObjectiveC()) }
     }
 
     // MARK: - Offers
@@ -723,6 +738,6 @@ public class ADAzureData: NSObject {
 
     @objc(deleteResource:completion:)
     public static func delete(_ resource: ADResource, completion: @escaping (ADResponse) -> Void) {
-        AzureData.delete(ADResourceWrapper(resource)) { completion($0.bridgeToObjectiveC()) }
+        AzureData.delete(ADResourceSwiftWrapper(resource)) { completion($0.bridgeToObjectiveC()) }
     }
 }

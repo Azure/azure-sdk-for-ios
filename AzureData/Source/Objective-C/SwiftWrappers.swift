@@ -8,16 +8,10 @@
 
 import Foundation
 
-// MARK: - ADResourceWrapper
+// MARK: - ADResourceSwiftWrapper
 
-class ADResourceWrapper: CodableResource {
-    private enum CodingKeys: String, CodingKey {
-        case id
-        case resourceId         = "_rid"
-        case selfLink           = "_self"
-        case etag               = "_etag"
-        case timestamp          = "_ts"
-    }
+class ADResourceSwiftWrapper: CodableResource {
+    private typealias CodingKeys = ADResourceSystemKeys
 
     static var type: String { return "" }
     static var list: String { return "" }
@@ -43,16 +37,10 @@ class ADResourceWrapper: CodableResource {
     }
 }
 
-// MARK: - PermissionEnabledADResourceWrapper
+// MARK: - PermissionEnabledADResourceSwiftWrapper
 
-class PermissionEnabledADResourceWrapper: CodableResource, SupportsPermissionToken {
-    private enum CodingKeys: String, CodingKey {
-        case id
-        case resourceId         = "_rid"
-        case selfLink           = "_self"
-        case etag               = "_etag"
-        case timestamp          = "_ts"
-    }
+class PermissionEnabledADResourceSwiftWrapper: CodableResource, SupportsPermissionToken {
+    private typealias CodingKeys = ADResourceSystemKeys
 
     static var type: String { return "" }
     static var list: String { return "" }
