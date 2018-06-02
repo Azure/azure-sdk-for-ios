@@ -145,4 +145,31 @@ extension DocumentCollection: ObjectiveCBridgeable {
             partitionKey: self.partitionKey?.bridgeToObjectiveC()
         )
     }
+
+    init(bridgedFromObjectiveC: ObjectiveCType) {
+        let indexingPolicy: DocumentCollection.IndexingPolicy? = {
+            guard let policy = bridgedFromObjectiveC.indexingPolicy else { return nil }
+            return DocumentCollection.IndexingPolicy(bridgedFromObjectiveC: policy)
+        }()
+
+        let partitionKey: DocumentCollection.PartitionKeyDefinition? = {
+            guard let key = bridgedFromObjectiveC.partitionKey else { return nil }
+            return DocumentCollection.PartitionKeyDefinition(bridgedFromObjectiveC: key)
+        }()
+
+        self.init(
+            id: bridgedFromObjectiveC.id,
+            resourceId: bridgedFromObjectiveC.resourceId,
+            selfLink: bridgedFromObjectiveC.selfLink,
+            etag: bridgedFromObjectiveC.etag,
+            timestamp: bridgedFromObjectiveC.timestamp,
+            conflictsLink: bridgedFromObjectiveC.conflictsLink,
+            documentsLink: bridgedFromObjectiveC.documentsLink,
+            indexingPolicy: indexingPolicy,
+            partitionKey: partitionKey,
+            storedProceduresLink: bridgedFromObjectiveC.storedProceduresLink,
+            triggersLink: bridgedFromObjectiveC.triggersLink,
+            userDefinedFunctionsLink: bridgedFromObjectiveC.userDefinedFunctionsLink
+        )
+    }
 }

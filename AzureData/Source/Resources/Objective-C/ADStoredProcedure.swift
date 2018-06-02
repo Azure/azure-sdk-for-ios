@@ -90,13 +90,15 @@ extension StoredProcedure: ObjectiveCBridgeable {
         )
     }
 
-    init?(bridgedFromObjectiveC: ADStoredProcedure) {
-        self.id = bridgedFromObjectiveC.id
-        self.resourceId = bridgedFromObjectiveC.resourceId
-        self.selfLink = bridgedFromObjectiveC.selfLink
-        self.etag = bridgedFromObjectiveC.etag
-        self.timestamp = bridgedFromObjectiveC.timestamp
-        self.altLink = bridgedFromObjectiveC.altLink
-        self.body = bridgedFromObjectiveC.body
+    init(bridgedFromObjectiveC: ADStoredProcedure) {
+        self.init(
+            id: bridgedFromObjectiveC.id,
+            resourceId: bridgedFromObjectiveC.resourceId,
+            selfLink: bridgedFromObjectiveC.selfLink,
+            etag: bridgedFromObjectiveC.etag,
+            timestamp: bridgedFromObjectiveC.timestamp,
+            altLink: bridgedFromObjectiveC.altLink,
+            body: bridgedFromObjectiveC.body
+        )
     }
 }

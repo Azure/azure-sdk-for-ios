@@ -13,15 +13,5 @@ protocol ObjectiveCBridgeable {
 
     func bridgeToObjectiveC() -> ObjectiveCType
 
-    init?(bridgedFromObjectiveC: ObjectiveCType)
-}
-
-extension ObjectiveCBridgeable {
-    init?(bridgedFromObjectiveC: ObjectiveCType) {
-        return nil
-    }
-
-    init(unconditionallyBridgedFromObjectiveC bridgedFromObjectiveC: ObjectiveCType) {
-        self.init(bridgedFromObjectiveC: bridgedFromObjectiveC)!
-    }
+    init(bridgedFromObjectiveC: ObjectiveCType)
 }

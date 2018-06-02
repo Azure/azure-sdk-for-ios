@@ -105,15 +105,17 @@ extension Permission: ObjectiveCBridgeable {
         )
     }
 
-    init?(bridgedFromObjectiveC: ADPermission) {
-        self.id = bridgedFromObjectiveC.id
-        self.resourceId = bridgedFromObjectiveC.resourceId
-        self.selfLink = bridgedFromObjectiveC.selfLink
-        self.etag = bridgedFromObjectiveC.etag
-        self.timestamp = bridgedFromObjectiveC.timestamp
-        self.altLink = bridgedFromObjectiveC.altLink
-        self.permissionMode = bridgedFromObjectiveC.permissionMode.permissionMode
-        self.resourceLink = bridgedFromObjectiveC.resourceLink
-        self.token = bridgedFromObjectiveC.token
+    init(bridgedFromObjectiveC: ADPermission) {
+        self.init(
+            id: bridgedFromObjectiveC.id,
+            resourceId: bridgedFromObjectiveC.resourceId,
+            selfLink: bridgedFromObjectiveC.selfLink,
+            etag: bridgedFromObjectiveC.etag,
+            timestamp: bridgedFromObjectiveC.timestamp,
+            altLink: bridgedFromObjectiveC.altLink,
+            permissionMode: bridgedFromObjectiveC.permissionMode.permissionMode,
+            resourceLink: bridgedFromObjectiveC.resourceLink,
+            token: bridgedFromObjectiveC.token
+        )
     }
 }

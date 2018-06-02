@@ -19,12 +19,12 @@ public struct Database : CodableResource {
     public static var type = "dbs"
     public static var list = "Databases"
 
-    public internal(set) var id:         String
-    public internal(set) var resourceId: String
-    public internal(set) var selfLink:   String?
-    public internal(set) var etag:       String?
-    public internal(set) var timestamp:  Date?
-    public internal(set) var altLink:    String? = nil
+    public private(set) var id:         String
+    public private(set) var resourceId: String
+    public private(set) var selfLink:   String?
+    public private(set) var etag:       String?
+    public private(set) var timestamp:  Date?
+    public private(set) var altLink:    String? = nil
     
     public mutating func setAltLink(to link: String) {
         self.altLink = link
@@ -34,10 +34,10 @@ public struct Database : CodableResource {
     }
 
     /// Gets the self-link for collections from the Azure Cosmos DB service.
-    public internal(set) var collectionsLink: String?
+    public private(set) var collectionsLink: String?
     
     /// Gets the self-link for users from the Azure Cosmos DB service.
-    public internal(set) var usersLink: String?
+    public private(set) var usersLink: String?
     
     
     public init (_ id: String) { self.id = id; resourceId = "" }
@@ -45,7 +45,6 @@ public struct Database : CodableResource {
 
 
 extension Database {
-    
     enum CodingKeys: String, CodingKey {
         case id
         case resourceId         = "_rid"
@@ -54,6 +53,17 @@ extension Database {
         case timestamp          = "_ts"
         case collectionsLink    = "_colls"
         case usersLink          = "_users"
+    }
+
+    init(id: String, resourceId: String, selfLink: String?, etag: String?, timestamp: Date?, altLink: String?, collectionsLink: String?, usersLink: String?) {
+        self.id = id
+        self.resourceId = resourceId
+        self.selfLink = selfLink
+        self.etag = etag
+        self.timestamp = timestamp
+        self.altLink = altLink
+        self.collectionsLink = collectionsLink
+        self.usersLink = usersLink
     }
 }
 

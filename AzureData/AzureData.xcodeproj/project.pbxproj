@@ -204,6 +204,10 @@
 		32D4D59220C2996900BF3154 /* ADAzureDataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D59020C2996900BF3154 /* ADAzureDataExtensions.swift */; };
 		32D4D59320C2996900BF3154 /* ADAzureDataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D59020C2996900BF3154 /* ADAzureDataExtensions.swift */; };
 		32D4D59420C2996900BF3154 /* ADAzureDataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D59020C2996900BF3154 /* ADAzureDataExtensions.swift */; };
+		32D4D59620C2C69800BF3154 /* ADOfferContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D59520C2C69800BF3154 /* ADOfferContent.swift */; };
+		32D4D59720C2C69800BF3154 /* ADOfferContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D59520C2C69800BF3154 /* ADOfferContent.swift */; };
+		32D4D59820C2C69800BF3154 /* ADOfferContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D59520C2C69800BF3154 /* ADOfferContent.swift */; };
+		32D4D59920C2C69800BF3154 /* ADOfferContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D59520C2C69800BF3154 /* ADOfferContent.swift */; };
 		32EB2C1D209C5DA700CEBB77 /* ResourceWriteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EB2C1C209C5DA700CEBB77 /* ResourceWriteOperation.swift */; };
 		32EB2C1E209C5DA700CEBB77 /* ResourceWriteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EB2C1C209C5DA700CEBB77 /* ResourceWriteOperation.swift */; };
 		32EB2C1F209C5DA700CEBB77 /* ResourceWriteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EB2C1C209C5DA700CEBB77 /* ResourceWriteOperation.swift */; };
@@ -533,6 +537,7 @@
 		32D4D58620C2860F00BF3154 /* ObjectiveCWrappers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectiveCWrappers.swift; sourceTree = "<group>"; };
 		32D4D58B20C289B200BF3154 /* ADResourceSystemKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADResourceSystemKeys.swift; sourceTree = "<group>"; };
 		32D4D59020C2996900BF3154 /* ADAzureDataExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADAzureDataExtensions.swift; sourceTree = "<group>"; };
+		32D4D59520C2C69800BF3154 /* ADOfferContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADOfferContent.swift; sourceTree = "<group>"; };
 		32EB2C1C209C5DA700CEBB77 /* ResourceWriteOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceWriteOperation.swift; sourceTree = "<group>"; };
 		32FB702720BD5444009A35D9 /* ADPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADPermission.swift; sourceTree = "<group>"; };
 		32FB703120BD8070009A35D9 /* ADCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADCodable.swift; sourceTree = "<group>"; };
@@ -685,6 +690,7 @@
 				3257CCA020C1CCE4004E51FF /* ADDocument.m */,
 				32FB703620BD9B11009A35D9 /* ADDocument.swift */,
 				329C7DD520BEFDF600A49453 /* ADOffer.swift */,
+				32D4D59520C2C69800BF3154 /* ADOfferContent.swift */,
 				32FB702720BD5444009A35D9 /* ADPermission.swift */,
 				326E731C20BC2185006D2DBD /* ADPermissionMode.swift */,
 				326E733520BC2AB8006D2DBD /* ADResponseMetadata.swift */,
@@ -1219,6 +1225,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32D4D59720C2C69800BF3154 /* ADOfferContent.swift in Sources */,
 				326E735520BCA3FC006D2DBD /* ADDocumentCollection.swift in Sources */,
 				329C7DCD20BEF15D00A49453 /* ADUser.swift in Sources */,
 				32A77CEB20C0570E00846397 /* ADIndex.swift in Sources */,
@@ -1348,6 +1355,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32D4D59820C2C69800BF3154 /* ADOfferContent.swift in Sources */,
 				326E735620BCA3FC006D2DBD /* ADDocumentCollection.swift in Sources */,
 				329C7DCE20BEF15D00A49453 /* ADUser.swift in Sources */,
 				32A77CEC20C0570E00846397 /* ADIndex.swift in Sources */,
@@ -1477,6 +1485,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32D4D59920C2C69800BF3154 /* ADOfferContent.swift in Sources */,
 				326E735720BCA3FC006D2DBD /* ADDocumentCollection.swift in Sources */,
 				329C7DCF20BEF15D00A49453 /* ADUser.swift in Sources */,
 				32A77CED20C0570E00846397 /* ADIndex.swift in Sources */,
@@ -1568,6 +1577,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32D4D59620C2C69800BF3154 /* ADOfferContent.swift in Sources */,
 				326E735420BCA3FC006D2DBD /* ADDocumentCollection.swift in Sources */,
 				329C7DCC20BEF15D00A49453 /* ADUser.swift in Sources */,
 				32A77CEA20C0570E00846397 /* ADIndex.swift in Sources */,

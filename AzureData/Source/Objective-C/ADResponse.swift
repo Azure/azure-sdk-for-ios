@@ -92,12 +92,12 @@ extension Response: ObjectiveCBridgeable where T: ObjectiveCBridgeable {
         return ADResponse(self.map { $0.bridgeToObjectiveC() })
     }
 
-    init?(bridgedFromObjectiveC: ADResponse) {
+    init(bridgedFromObjectiveC: ADResponse) {
         self.init(
             request: bridgedFromObjectiveC.request,
             data: bridgedFromObjectiveC.data,
             response: bridgedFromObjectiveC.response,
-            result: Result<T>(unconditionallyBridgedFromObjectiveC: bridgedFromObjectiveC.result),
+            result: Result<T>(bridgedFromObjectiveC: bridgedFromObjectiveC.result),
             fromCache: bridgedFromObjectiveC.fromCache
         )
     }
@@ -129,19 +129,18 @@ extension Result: ObjectiveCBridgeable where T: ObjectiveCBridgeable {
         return ADResult(self.map { $0.bridgeToObjectiveC() })
     }
 
-    init?(bridgedFromObjectiveC: ADResult) {
+    init(bridgedFromObjectiveC: ADResult) {
         guard bridgedFromObjectiveC.isSuccess else {
             self = Result<T>.failure(bridgedFromObjectiveC.error!)
             return
         }
 
-        guard let objectiveCResource = bridgedFromObjectiveC.resource! as? T.ObjectiveCType,
-              let resource = T.init(bridgedFromObjectiveC: objectiveCResource) else {
-                self = Result<T>.failure(DocumentClientError(withKind: .internalError))
-                return
+        guard let objectiveCResource = bridgedFromObjectiveC.resource! as? T.ObjectiveCType else {
+            self = Result<T>.failure(DocumentClientError(withKind: .internalError))
+            return
         }
 
-        self = Result<T>.success(resource)
+        self = Result<T>.success(T.init(bridgedFromObjectiveC: objectiveCResource))
     }
 }
 
@@ -161,5 +160,9 @@ extension Data: ObjectiveCBridgeable {
 
     func bridgeToObjectiveC() -> NSData {
         return NSData(data: self)
+    }
+
+    init(bridgedFromObjectiveC: NSData) {
+        self = bridgedFromObjectiveC as Data
     }
 }

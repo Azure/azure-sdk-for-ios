@@ -55,7 +55,7 @@ extension DocumentCollection.IndexingPolicy.IncludedPath: ObjectiveCBridgeable {
         return ADIncludedPath(path: self.path, indexes: self.indexes.map { $0.bridgeToObjectiveC() })
     }
 
-    init?(bridgedFromObjectiveC: ADIncludedPath) {
+    init(bridgedFromObjectiveC: ADIncludedPath) {
         self.init(
             path: bridgedFromObjectiveC.path,
             indexes: bridgedFromObjectiveC.indexes.compactMap { SwiftType.Index(bridgedFromObjectiveC: $0) }

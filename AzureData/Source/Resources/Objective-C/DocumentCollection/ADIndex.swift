@@ -79,7 +79,7 @@ extension DocumentCollection.IndexingPolicy.IncludedPath.Index: ObjectiveCBridge
         return ADIndex(kind: kind, dataType: dataType, precision: precision ?? Int16.nil)
     }
 
-    init?(bridgedFromObjectiveC: ADIndex) {
+    init(bridgedFromObjectiveC: ADIndex) {
         let kind = SwiftType.IndexKind(bridgedFromObjectiveC: bridgedFromObjectiveC.kind)
         let dataType = SwiftType.DataType(bridgedFromObjectiveC: bridgedFromObjectiveC.dataType)
         let precision = bridgedFromObjectiveC.precision

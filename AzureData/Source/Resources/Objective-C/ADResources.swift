@@ -38,4 +38,17 @@ extension Resources: ObjectiveCBridgeable where Resources.Item: ObjectiveCBridge
             items: self.items.map { $0.bridgeToObjectiveC() }
         )
     }
+
+    init(bridgedFromObjectiveC: ObjectiveCType) {
+        let items = bridgedFromObjectiveC.items.compactMap { swiftValue -> Item? in
+            guard let objectiveCValue = swiftValue as? Item.ObjectiveCType else { return nil }
+            return Item.init(bridgedFromObjectiveC: objectiveCValue)
+        }
+
+        self.init(
+            resourceId: bridgedFromObjectiveC.resourceId,
+            count: items.count,
+            items: items
+        )
+    }
 }

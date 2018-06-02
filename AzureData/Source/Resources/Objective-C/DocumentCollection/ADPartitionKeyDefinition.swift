@@ -41,4 +41,8 @@ extension DocumentCollection.PartitionKeyDefinition: ObjectiveCBridgeable {
     func bridgeToObjectiveC() -> ADPartitionKeyDefinition {
         return ADPartitionKeyDefinition(paths: self.paths)
     }
+
+    init(bridgedFromObjectiveC: ObjectiveCType) {
+        self.init(paths: bridgedFromObjectiveC.paths)
+    }
 }

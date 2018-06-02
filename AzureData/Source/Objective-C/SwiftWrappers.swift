@@ -71,43 +71,43 @@ class PermissionEnabledADResourceSwiftWrapper: CodableResource, SupportsPermissi
 class ADPermissionProviderWrapper: PermissionProvider {
 
     var configuration: PermissionProviderConfiguration! {
-        get { return PermissionProviderConfiguration(unconditionallyBridgedFromObjectiveC: permissionProvider.configuration) }
+        get { return PermissionProviderConfiguration(bridgedFromObjectiveC: permissionProvider.configuration) }
         set { permissionProvider.configuration = configuration.bridgeToObjectiveC() }
     }
 
     func getPermission(forCollectionWithId collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (Response<Permission>) -> Void) {
         permissionProvider.getPermission(forCollectionWithId: collectionId, inDatabase: databaseId, withPermissionMode: ADPermissionMode(mode)) {
-            completion(Response<Permission>(unconditionallyBridgedFromObjectiveC: $0))
+            completion(Response<Permission>(bridgedFromObjectiveC: $0))
         }
     }
 
     func getPermission(forDocumentWithId documentId: String, inCollection collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (Response<Permission>) -> Void) {
         permissionProvider.getPermission(forDocumentWithId: documentId, inCollection: collectionId, inDatabase: databaseId, withPermissionMode: ADPermissionMode(mode)) {
-            completion(Response<Permission>(unconditionallyBridgedFromObjectiveC: $0))
+            completion(Response<Permission>(bridgedFromObjectiveC: $0))
         }
     }
 
     func getPermission(forAttachmentsWithId attachmentId: String, onDocument documentId: String, inCollection collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (Response<Permission>) -> Void) {
         permissionProvider.getPermission(forAttachmentsWithId: attachmentId, onDocument: documentId, inCollection: collectionId, inDatabase: databaseId, withPermissionMode: ADPermissionMode(mode)) {
-            completion(Response<Permission>(unconditionallyBridgedFromObjectiveC: $0))
+            completion(Response<Permission>(bridgedFromObjectiveC: $0))
         }
     }
 
     func getPermission(forStoredProcedureWithId storedProcedureId: String, inCollection collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (Response<Permission>) -> Void) {
         permissionProvider.getPermission(forStoredProcedureWithId: storedProcedureId, inCollection: collectionId, inDatabase: databaseId, withPermissionMode: ADPermissionMode(mode)) {
-            completion(Response<Permission>(unconditionallyBridgedFromObjectiveC: $0))
+            completion(Response<Permission>(bridgedFromObjectiveC: $0))
         }
     }
 
     func getPermission(forUserDefinedFunctionWithId functionId: String, inCollection collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (Response<Permission>) -> Void) {
         permissionProvider.getPermission(forUserDefinedFunctionWithId: functionId, inCollection: collectionId, inDatabase: databaseId, withPermissionMode: ADPermissionMode(mode)) {
-            completion(Response<Permission>(unconditionallyBridgedFromObjectiveC: $0))
+            completion(Response<Permission>(bridgedFromObjectiveC: $0))
         }
     }
 
     func getPermission(forTriggerWithId triggerId: String, inCollection collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (Response<Permission>) -> Void) {
         permissionProvider.getPermission(forTriggerWithId: triggerId, inCollection: collectionId, inDatabase: databaseId, withPermissionMode: ADPermissionMode(mode)) {
-            completion(Response<Permission>(unconditionallyBridgedFromObjectiveC: $0))
+            completion(Response<Permission>(bridgedFromObjectiveC: $0))
         }
     }
 

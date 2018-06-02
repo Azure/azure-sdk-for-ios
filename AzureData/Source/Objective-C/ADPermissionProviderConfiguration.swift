@@ -39,7 +39,7 @@ extension PermissionProviderConfiguration: ObjectiveCBridgeable {
         return configuration
     }
 
-    init?(bridgedFromObjectiveC: ADPermissionProviderConfiguration) {
+    init(bridgedFromObjectiveC: ADPermissionProviderConfiguration) {
         defaultPermissionMode = bridgedFromObjectiveC.defaultPermissionMode.permissionMode
         defaultResourceType = ResourceType(bridgedFromObjectiveC: bridgedFromObjectiveC.defaultResourceType)
         defaultTokenDuration = bridgedFromObjectiveC.defaultTokenDuration

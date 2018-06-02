@@ -43,11 +43,14 @@ public class ADOffer: NSObject, ADResource {
     public let offerResourceId: String?
 
     @objc
+    public let content: ADOfferContent?
+
+    @objc
     public convenience init(id: String) {
-        self.init(id: id, resourceId: "", selfLink: nil, etag: nil, timestamp: nil, altLink: nil, offerType: nil, offerVersion: nil, resourceLink: nil, offerResourceId: nil)
+        self.init(id: id, resourceId: "", selfLink: nil, etag: nil, timestamp: nil, altLink: nil, offerType: nil, offerVersion: nil, resourceLink: nil, offerResourceId: nil, content: nil)
     }
 
-    internal init(id: String, resourceId: String, selfLink: String?, etag: String?, timestamp: Date?, altLink: String?, offerType: String?, offerVersion: String?, resourceLink: String?, offerResourceId: String?) {
+    internal init(id: String, resourceId: String, selfLink: String?, etag: String?, timestamp: Date?, altLink: String?, offerType: String?, offerVersion: String?, resourceLink: String?, offerResourceId: String?, content: ADOfferContent?) {
         self.id = id
         self.resourceId = resourceId
         self.selfLink = selfLink
@@ -58,6 +61,7 @@ public class ADOffer: NSObject, ADResource {
         self.offerVersion = offerVersion
         self.resourceLink = resourceLink
         self.offerResourceId = offerResourceId
+        self.content = content
     }
 
     public required init?(from dictionary: NSDictionary) {
@@ -74,6 +78,12 @@ public class ADOffer: NSObject, ADResource {
         self.offerVersion = dictionary[CodingKeys.offerVersion] as? String
         self.resourceLink = dictionary[CodingKeys.resourceLink] as? String
         self.offerResourceId = dictionary[CodingKeys.offerResourceId] as? String
+
+        if let content = dictionary[CodingKeys.content] as? NSDictionary {
+            self.content = ADOfferContent(from: content)
+        } else {
+            self.content = nil
+        }
     }
 
     public func encode() -> NSDictionary {
@@ -88,6 +98,7 @@ public class ADOffer: NSObject, ADResource {
         dictionary[CodingKeys.offerVersion] = offerVersion
         dictionary[CodingKeys.resourceLink] = resourceLink
         dictionary[CodingKeys.offerResourceId] = offerResourceId
+        dictionary[CodingKeys.content] = content?.encode()
 
         return dictionary
     }
@@ -107,7 +118,29 @@ extension Offer: ObjectiveCBridgeable {
             offerType: self.offerType,
             offerVersion: self.offerVersion,
             resourceLink: self.resourceLink,
-            offerResourceId: self.offerResourceId
+            offerResourceId: self.offerResourceId,
+            content: self.content?.bridgeToObjectiveC()
+        )
+    }
+
+    init(bridgedFromObjectiveC: ADOffer) {
+        let offerContent: OfferContent? = {
+            guard let content = bridgedFromObjectiveC.content else { return nil }
+            return OfferContent(bridgedFromObjectiveC: content)
+        }()
+
+        self.init(
+            id: bridgedFromObjectiveC.id,
+            resourceId: bridgedFromObjectiveC.resourceId,
+            selfLink: bridgedFromObjectiveC.selfLink,
+            etag: bridgedFromObjectiveC.etag,
+            timestamp: bridgedFromObjectiveC.timestamp,
+            altLink: bridgedFromObjectiveC.altLink,
+            offerType: bridgedFromObjectiveC.offerType,
+            offerVersion: bridgedFromObjectiveC.offerVersion,
+            resourceLink: bridgedFromObjectiveC.resourceLink,
+            offerResourceId: bridgedFromObjectiveC.offerResourceId,
+            content: offerContent
         )
     }
 }

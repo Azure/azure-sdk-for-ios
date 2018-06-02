@@ -56,6 +56,11 @@ public struct Offer : CodableResource {
         
         /// Represents customizable throughput chosen by user for his collection in the Azure Cosmos DB service.
         public private(set) var offerThroughput: Int = 1000
+
+        internal init(offerIsRUPerMinuteThroughputEnabled: Bool, offerThroughput: Int) {
+            self.offerIsRUPerMinuteThroughputEnabled = offerIsRUPerMinuteThroughputEnabled
+            self.offerThroughput = offerThroughput
+        }
     }
     
     public init (_ id: String) { self.id = id; resourceId = "" }
@@ -63,7 +68,6 @@ public struct Offer : CodableResource {
 
 
 extension Offer {
-    
     enum CodingKeys: String, CodingKey {
         case id
         case resourceId         = "_rid"
@@ -75,5 +79,19 @@ extension Offer {
         case resourceLink       = "resource"
         case offerResourceId
         case content
+    }
+
+    init(id: String, resourceId: String, selfLink: String?, etag: String?, timestamp: Date?, altLink: String?, offerType: String?, offerVersion: String?, resourceLink: String?, offerResourceId: String?, content: OfferContent?) {
+        self.id = id
+        self.resourceId = resourceId
+        self.selfLink = selfLink
+        self.etag = etag
+        self.timestamp = timestamp
+        self.altLink = altLink
+        self.offerType = offerType
+        self.offerVersion = offerVersion
+        self.resourceLink = resourceLink
+        self.offerResourceId = offerResourceId
+        self.content = content
     }
 }

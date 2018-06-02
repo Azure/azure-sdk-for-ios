@@ -45,7 +45,6 @@ public struct Attachment : CodableResource, SupportsPermissionToken {
 
 
 extension Attachment {
-    
     enum CodingKeys: String, CodingKey {
         case id
         case resourceId         = "_rid"
@@ -54,5 +53,16 @@ extension Attachment {
         case timestamp          = "_ts"
         case contentType
         case mediaLink          = "media"
+    }
+
+    init(id: String, resourceId: String, selfLink: String?, etag: String?, timestamp: Date?, altLink: String?, contentType: String?, mediaLink: String?) {
+        self.id = id
+        self.resourceId = resourceId
+        self.selfLink = selfLink
+        self.etag = etag
+        self.timestamp = timestamp
+        self.altLink = altLink
+        self.contentType = contentType
+        self.mediaLink = mediaLink
     }
 }

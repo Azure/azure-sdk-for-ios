@@ -96,4 +96,17 @@ extension Attachment: ObjectiveCBridgeable {
             mediaLink: self.mediaLink
         )
     }
+
+    init(bridgedFromObjectiveC: ObjectiveCType) {
+        self.init(
+            id: bridgedFromObjectiveC.id,
+            resourceId: bridgedFromObjectiveC.resourceId,
+            selfLink: bridgedFromObjectiveC.selfLink,
+            etag: bridgedFromObjectiveC.etag,
+            timestamp: bridgedFromObjectiveC.timestamp,
+            altLink: bridgedFromObjectiveC.altLink,
+            contentType: bridgedFromObjectiveC.contentType,
+            mediaLink: bridgedFromObjectiveC.mediaLink
+        )
+    }
 }

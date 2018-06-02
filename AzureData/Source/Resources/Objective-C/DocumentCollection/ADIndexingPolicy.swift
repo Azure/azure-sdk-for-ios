@@ -76,7 +76,7 @@ extension DocumentCollection.IndexingPolicy: ObjectiveCBridgeable {
         )
     }
 
-    init?(bridgedFromObjectiveC: ADIndexingPolicy) {
+    init(bridgedFromObjectiveC: ADIndexingPolicy) {
         let automatic = bridgedFromObjectiveC.automatic
         let excludedPaths = bridgedFromObjectiveC.excludedPaths.compactMap { SwiftType.ExcludedPath(bridgedFromObjectiveC: $0) }
         let includedPaths = bridgedFromObjectiveC.includedPaths.compactMap { SwiftType.IncludedPath(bridgedFromObjectiveC: $0) }

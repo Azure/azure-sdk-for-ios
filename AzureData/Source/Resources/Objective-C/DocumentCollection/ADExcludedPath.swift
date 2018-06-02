@@ -41,7 +41,7 @@ extension DocumentCollection.IndexingPolicy.ExcludedPath: ObjectiveCBridgeable {
         return ADExcludedPath(path: self.path)
     }
 
-    init?(bridgedFromObjectiveC: ADExcludedPath) {
+    init(bridgedFromObjectiveC: ADExcludedPath) {
         self.init(path: bridgedFromObjectiveC.path)
     }
 }

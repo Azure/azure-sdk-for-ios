@@ -190,7 +190,6 @@ public struct DocumentCollection : CodableResource, SupportsPermissionToken {
 
 
 extension DocumentCollection {
-    
     enum CodingKeys: String, CodingKey {
         case id
         case resourceId                 = "_rid"
@@ -204,6 +203,21 @@ extension DocumentCollection {
         case storedProceduresLink       = "_sprocs"
         case triggersLink               = "_triggers"
         case userDefinedFunctionsLink   = "_udfs"
+    }
+
+    init(id: String, resourceId: String, selfLink: String?, etag: String?, timestamp: Date?, conflictsLink: String?, documentsLink: String?, indexingPolicy: DocumentCollection.IndexingPolicy?, partitionKey: DocumentCollection.PartitionKeyDefinition?, storedProceduresLink: String?, triggersLink: String?, userDefinedFunctionsLink: String?) {
+        self.id = id
+        self.resourceId = resourceId
+        self.selfLink = selfLink
+        self.etag = etag
+        self.timestamp = timestamp
+        self.conflictsLink = conflictsLink
+        self.documentsLink = documentsLink
+        self.indexingPolicy = indexingPolicy
+        self.partitionKey = partitionKey
+        self.storedProceduresLink = storedProceduresLink
+        self.triggersLink = triggersLink
+        self.userDefinedFunctionsLink = userDefinedFunctionsLink
     }
 }
 

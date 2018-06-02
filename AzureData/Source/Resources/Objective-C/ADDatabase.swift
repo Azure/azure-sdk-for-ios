@@ -97,14 +97,16 @@ extension Database: ObjectiveCBridgeable {
         )
     }
 
-    init?(bridgedFromObjectiveC: ADDatabase) {
-        self.id = bridgedFromObjectiveC.id
-        self.resourceId = bridgedFromObjectiveC.resourceId
-        self.selfLink = bridgedFromObjectiveC.selfLink
-        self.etag = bridgedFromObjectiveC.etag
-        self.altLink = bridgedFromObjectiveC.altLink
-        self.timestamp = bridgedFromObjectiveC.timestamp
-        self.collectionsLink = bridgedFromObjectiveC.collectionsLink
-        self.usersLink = bridgedFromObjectiveC.usersLink
+    init(bridgedFromObjectiveC: ADDatabase) {
+        self.init(
+            id: bridgedFromObjectiveC.id,
+            resourceId: bridgedFromObjectiveC.resourceId,
+            selfLink: bridgedFromObjectiveC.selfLink,
+            etag: bridgedFromObjectiveC.etag,
+            timestamp: bridgedFromObjectiveC.timestamp,
+            altLink: bridgedFromObjectiveC.altLink,
+            collectionsLink: bridgedFromObjectiveC.collectionsLink,
+            usersLink: bridgedFromObjectiveC.usersLink
+        )
     }
 }

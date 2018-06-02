@@ -11,7 +11,7 @@ import Foundation
 extension ADDocument {
     var dictionaryDocument: DictionaryDocument {
         let dictionary = self.encode() as NSDictionary
-        let dictionaryDocument = DictionaryDocument(data: CodableDictionary(unconditionallyBridgedFromObjectiveC: dictionary))
+        let dictionaryDocument = DictionaryDocument(data: CodableDictionary(bridgedFromObjectiveC: dictionary))
 
         dictionaryDocument.id = self.id
         dictionaryDocument.resourceId = self.resourceId
@@ -37,10 +37,10 @@ extension CodableDictionary: ObjectiveCBridgeable {
         return dictionary
     }
 
-    init?(bridgedFromObjectiveC: NSDictionary) {
+    init(bridgedFromObjectiveC: NSDictionary) {
         self.init(Dictionary(
                 uniqueKeysWithValues: bridgedFromObjectiveC.map { (key, value) in
-                    return (key as! String, CodableDictionaryValueType(unconditionallyBridgedFromObjectiveC: value as AnyObject).value)
+                    return (key as! String, CodableDictionaryValueType(bridgedFromObjectiveC: value as AnyObject).value)
                 }
             )
         )
@@ -75,7 +75,7 @@ extension CodableDictionaryValueType: ObjectiveCBridgeable {
         }
     }
 
-    init?(bridgedFromObjectiveC: AnyObject) {
+    init(bridgedFromObjectiveC: AnyObject) {
         switch bridgedFromObjectiveC {
         case let uuid as NSUUID:
             self.init(UUID(uuidString: uuid.uuidString)!)
@@ -92,9 +92,9 @@ extension CodableDictionaryValueType: ObjectiveCBridgeable {
         case let string as NSString:
             self.init(String(string))
         case let dict as NSDictionary:
-            self.init(CodableDictionary(unconditionallyBridgedFromObjectiveC: dict))
+            self.init(CodableDictionary(bridgedFromObjectiveC: dict))
         case let array as NSArray:
-            self.init(array.map { CodableDictionaryValueType(unconditionallyBridgedFromObjectiveC: $0 as AnyObject) })
+            self.init(array.map { CodableDictionaryValueType(bridgedFromObjectiveC: $0 as AnyObject) })
         case is NSNull:
             self.init(NSNull())
         default:

@@ -90,13 +90,15 @@ extension User: ObjectiveCBridgeable {
         )
     }
 
-    init?(bridgedFromObjectiveC: ADUser) {
-        self.id = bridgedFromObjectiveC.id
-        self.resourceId = bridgedFromObjectiveC.resourceId
-        self.selfLink = bridgedFromObjectiveC.selfLink
-        self.etag = bridgedFromObjectiveC.etag
-        self.timestamp = bridgedFromObjectiveC.timestamp
-        self.altLink = bridgedFromObjectiveC.altLink
-        self.permissionsLink = bridgedFromObjectiveC.permissionsLink
+    init(bridgedFromObjectiveC: ADUser) {
+        self.init(
+            id: bridgedFromObjectiveC.id,
+            resourceId: bridgedFromObjectiveC.resourceId,
+            selfLink: bridgedFromObjectiveC.selfLink,
+            etag: bridgedFromObjectiveC.etag,
+            timestamp: bridgedFromObjectiveC.timestamp,
+            altLink: bridgedFromObjectiveC.altLink,
+            permissionsLink: bridgedFromObjectiveC.permissionsLink
+        )
     }
 }

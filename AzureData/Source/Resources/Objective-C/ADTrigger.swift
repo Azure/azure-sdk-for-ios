@@ -127,6 +127,20 @@ extension Trigger: ObjectiveCBridgeable {
             type: self.triggerType?.bridgedToObjectiveC ?? .pre
         )
     }
+
+    init(bridgedFromObjectiveC: ADTrigger) {
+        self.init(
+            id: bridgedFromObjectiveC.id,
+            resourceId: bridgedFromObjectiveC.resourceId,
+            selfLink: bridgedFromObjectiveC.selfLink,
+            etag: bridgedFromObjectiveC.etag,
+            timestamp: bridgedFromObjectiveC.timestamp,
+            altLink: bridgedFromObjectiveC.altLink,
+            body: bridgedFromObjectiveC.body,
+            triggerOperation: TriggerOperation(bridgedFromObjectiveC: bridgedFromObjectiveC.triggerOperation),
+            triggerType: TriggerType(bridgedFromObjectiveC: bridgedFromObjectiveC.triggerType)
+        )
+    }
 }
 
 extension Trigger.TriggerOperation {
