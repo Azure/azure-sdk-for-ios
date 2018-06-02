@@ -64,6 +64,8 @@ public class ADOffer: NSObject, ADResource {
         self.content = content
     }
 
+    // MARK: - ADCodable
+
     public required init?(from dictionary: NSDictionary) {
         guard let id = dictionary[CodingKeys.id] as? String else { return nil }
         guard let resourceId = dictionary[CodingKeys.resourceId] as? String else { return nil }
@@ -103,6 +105,8 @@ public class ADOffer: NSObject, ADResource {
         return dictionary
     }
 }
+
+// MARK: - Objective-C Bridging
 
 extension Offer: ObjectiveCBridgeable {
     typealias ObjectiveCType = ADOffer

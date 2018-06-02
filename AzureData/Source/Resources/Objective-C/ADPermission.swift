@@ -56,6 +56,8 @@ public class ADPermission: NSObject, ADResource {
         self.token = token
     }
 
+    // MARK: - ADCodable
+
     public required init?(from dictionary: NSDictionary) {
         guard let id = dictionary[CodingKeys.id] as? String else { return nil }
         guard let resourceId = dictionary[CodingKeys.resourceId] as? String else { return nil }
@@ -87,6 +89,8 @@ public class ADPermission: NSObject, ADResource {
         return dictionary
     }
 }
+
+// MARK: - Objective-C Bridging
 
 extension Permission: ObjectiveCBridgeable {
     typealias ObjectiveCType = ADPermission

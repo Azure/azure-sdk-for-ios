@@ -8,6 +8,11 @@
 
 import Foundation
 
+/// These are the access permissions for creating or replacing a Permission resource in the Azure Cosmos DB service.
+///
+/// - ADPermissionModeRead: All permission mode will provide the user with full access(read, insert, replace and delete)
+///         to a resource.
+/// - ADPermissionModeAll:  Read permission mode will provide the user with Read only access to a resource.
 @objc(ADPermissionMode)
 public enum ADPermissionMode: Int {
     @objc(ADPermissionModeRead)

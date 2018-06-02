@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Represents the indexing policy configuration for a collection in the Azure Cosmos DB service.
 @objc(ADIndexingPolicy)
 public class ADIndexingPolicy: NSObject, ADCodable {
     private enum CodingKeys: String, CodingKey {
@@ -19,15 +20,20 @@ public class ADIndexingPolicy: NSObject, ADCodable {
 
     private typealias SwiftType = DocumentCollection.IndexingPolicy
 
+    /// A value that indicates whether automatic indexing is enabled for a collection in
+    /// the Azure Cosmos DB service.
     @objc
     public let automatic: Bool
 
+    /// The collection containing `ADExcludedPath` objects in the Azure Cosmos DB service.
     @objc
     public let excludedPaths: [ADExcludedPath]
 
+    /// The collection containing `ADIncludedPath` objects in the Azure Cosmos DB service.
     @objc
     public let includedPaths: [ADIncludedPath]
 
+    /// The indexing mode in the Azure Cosmos DB service.
     @objc
     public let indexingMode: ADIndexingMode
 
@@ -38,6 +44,8 @@ public class ADIndexingPolicy: NSObject, ADCodable {
         self.includedPaths = includedPaths
         self.indexingMode = indexingMode
     }
+
+    // MARK: - ADCodable
 
     public required init?(from dictionary: NSDictionary) {
         self.automatic = dictionary[CodingKeys.automatic] as? Bool ?? false
@@ -62,6 +70,8 @@ public class ADIndexingPolicy: NSObject, ADCodable {
         return dictionary
     }
 }
+
+// MARK: - Objective-C Bridging
 
 extension DocumentCollection.IndexingPolicy: ObjectiveCBridgeable {
     typealias ObjectiveCType = ADIndexingPolicy

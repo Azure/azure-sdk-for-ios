@@ -8,6 +8,14 @@
 
 import Foundation
 
+/// Represents a document collection in the Azure Cosmos DB service.
+/// A collection is a named logical container for documents.
+///
+/// - Remark:
+///   A database may contain zero or more named collections and each collection consists of zero or more JSON documents.
+///   Being schema-free, the documents in a collection do not need to share the same structure or fields.
+///   Since collections are application resources, they can be authorized using either the master key or resource keys.
+///   Refer to [collections](http://azure.microsoft.com/documentation/articles/documentdb-resources/#collections) for more details on collections.
 @objc(ADDocumentCollection)
 public class ADDocumentCollection: NSObject, ADResource, ADSupportsPermissionToken {
     private typealias CodingKeys = DocumentCollection.CodingKeys
@@ -30,27 +38,35 @@ public class ADDocumentCollection: NSObject, ADResource, ADSupportsPermissionTok
     @objc
     public let altLink: String?
 
+    /// The self-link for conflicts in this collection from the Azure Cosmos DB service.
     @objc
     public let conflictsLink: String?
 
+    /// The default time to live in seconds for documents in a collection from the Azure Cosmos DB service.
     @objc
     public let defaultTimeToLive: Int
 
+    /// The self-link for documents in a collection from the Azure Cosmos DB service.
     @objc
     public let documentsLink: String?
 
+    /// The self-link for stored procedures in a collection from the Azure Cosmos DB service.
     @objc
     public let storedProceduresLink: String?
 
+    /// The self-link for triggers in a collection from the Azure Cosmos DB service.
     @objc
     public let triggersLink: String?
 
+    /// The self-link for user defined functions in a collection from the Azure Cosmos DB service.
     @objc
     public let userDefinedFunctionsLink: String?
 
+    /// The `ADIndexingPolicy` associated with the collection from the Azure Cosmos DB service.
     @objc
     public let indexingPolicy: ADIndexingPolicy?
 
+    /// The `PartitionKeyDefinition` object associated with the collection in the Azure Cosmos DB service.
     @objc
     public let partitionKey: ADPartitionKeyDefinition?
 
@@ -75,6 +91,8 @@ public class ADDocumentCollection: NSObject, ADResource, ADSupportsPermissionTok
         self.indexingPolicy = indexingPolicy
         self.partitionKey = partitionKey
     }
+
+    // MARK: - ADCodable
 
     public required init?(from dictionary: NSDictionary) {
         guard let id = dictionary[CodingKeys.id] as? String else { return nil }
@@ -123,6 +141,8 @@ public class ADDocumentCollection: NSObject, ADResource, ADSupportsPermissionTok
         return dictionary
     }
 }
+
+// MARK: - Objective-C Bridging
 
 extension DocumentCollection: ObjectiveCBridgeable {
     typealias ObjectiveCType = ADDocumentCollection

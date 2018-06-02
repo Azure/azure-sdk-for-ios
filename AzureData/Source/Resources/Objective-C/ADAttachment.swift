@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Represents a document attachment in the Azure Cosmos DB service.
 @objc(ADAttachment)
 public class ADAttachment: NSObject, ADResource, ADSupportsPermissionToken {
     private typealias CodingKeys = Attachment.CodingKeys
@@ -30,9 +31,13 @@ public class ADAttachment: NSObject, ADResource, ADSupportsPermissionToken {
     @objc
     public let altLink: String?
 
+    /// The MIME content type of the attachment in the
+    /// Azure Cosmos DB service.
     @objc
     public let contentType: String?
 
+    /// The media link associated with the attachment content
+    /// in the Azure Cosmos DB service.
     @objc
     public let mediaLink: String?
 
@@ -51,6 +56,8 @@ public class ADAttachment: NSObject, ADResource, ADSupportsPermissionToken {
         self.contentType = contentType
         self.mediaLink = mediaLink
     }
+
+    // MARK: - ADCodable
 
     public required init?(from dictionary: NSDictionary) {
         guard let id = dictionary[CodingKeys.id] as? String else { return nil }
@@ -80,6 +87,8 @@ public class ADAttachment: NSObject, ADResource, ADSupportsPermissionToken {
         return dictionary
     }
 }
+
+// MARK: - Objective-C Bridging
 
 extension Attachment: ObjectiveCBridgeable {
     typealias ObjectiveCType = ADAttachment

@@ -8,12 +8,14 @@
 
 import Foundation
 
+/// Specifies a path within a JSON document to be excluded while indexing data for the Azure Cosmos DB service.
 @objc(ADExcludedPath)
 public class ADExcludedPath: NSObject, ADCodable {
     private enum CodingKeys: String, CodingKey {
         case path
     }
 
+    /// The path to be excluded from indexing in the Azure Cosmos DB service.
     @objc
     public let path: String?
 
@@ -21,6 +23,8 @@ public class ADExcludedPath: NSObject, ADCodable {
     public init(path: String?) {
         self.path = path
     }
+
+    // MARK: - ADCodable
 
     public required init?(from dictionary: NSDictionary) {
         self.path = dictionary[CodingKeys.path] as? String
@@ -33,6 +37,8 @@ public class ADExcludedPath: NSObject, ADCodable {
         return dictionary
     }
 }
+
+// MARK: - Objective-C Bridging
 
 extension DocumentCollection.IndexingPolicy.ExcludedPath: ObjectiveCBridgeable {
     typealias ObjectiveCType = ADExcludedPath

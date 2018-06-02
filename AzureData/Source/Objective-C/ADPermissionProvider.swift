@@ -11,7 +11,6 @@ import AzureCore
 
 @objc(ADPermissionProvider)
 public protocol ADPermissionProvider {
-
     var configuration: ADPermissionProviderConfiguration! { get set }
 
     func getPermission(forCollectionWithId collectionId: String, inDatabase databaseId: String, withPermissionMode mode: ADPermissionMode, completion: @escaping (ADResponse) -> Void)

@@ -8,6 +8,13 @@
 
 import Foundation
 
+/// Represents a user defined function in the Azure Cosmos DB service.
+///
+/// - Remark:
+///   Azure Cosmos DB supports JavaScript user defined functions (UDFs) which are stored in
+///   the database and can be used inside queries.
+///   Refer to [javascript-integration](http://azure.microsoft.com/documentation/articles/documentdb-sql-query/#javascript-integration) for how to use UDFs within queries.
+///   Refer to [udf](http://azure.microsoft.com/documentation/articles/documentdb-programming/#udf) for more details about implementing UDFs in JavaScript.
 @objc(ADUserDefinedFunction)
 public class ADUserDefinedFunction: NSObject, ADResource, ADSupportsPermissionToken {
     private typealias CodingKeys = UserDefinedFunction.CodingKeys
@@ -30,6 +37,13 @@ public class ADUserDefinedFunction: NSObject, ADResource, ADSupportsPermissionTo
     @objc
     public let altLink: String?
 
+    /// The body of the user defined function for the Azure Cosmos DB service.
+    ///
+    /// - Remark:
+    ///   This must be a valid JavaScript function
+    ///
+    /// - Example:
+    ///   `"function (input) { return input.toLowerCase(); }"`
     @objc
     public let body: String?
 
@@ -47,6 +61,8 @@ public class ADUserDefinedFunction: NSObject, ADResource, ADSupportsPermissionTo
         self.altLink = altLink
         self.body = body
     }
+
+    // MARK: - ADCodable
 
     public required init?(from dictionary: NSDictionary) {
         guard let id = dictionary[CodingKeys.id] as? String else { return nil }
@@ -74,6 +90,8 @@ public class ADUserDefinedFunction: NSObject, ADResource, ADSupportsPermissionTo
         return dictionary
     }
 }
+
+// MARK: - Objective-C Bridging
 
 extension UserDefinedFunction: ObjectiveCBridgeable {
     typealias ObjectiveCType = ADUserDefinedFunction

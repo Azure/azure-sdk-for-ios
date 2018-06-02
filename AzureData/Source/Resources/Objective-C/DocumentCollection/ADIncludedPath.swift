@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Specifies a path within a JSON document to be included while indexing data in the Azure Cosmos DB service.
 @objc(ADIncludedPath)
 public class ADIncludedPath: NSObject, ADCodable {
     private enum CodingKeys: String, CodingKey {
@@ -15,9 +16,12 @@ public class ADIncludedPath: NSObject, ADCodable {
         case indexes
     }
 
+    /// The path to be indexed in the Azure Cosmos DB service.
     @objc
     public let path: String?
 
+    /// The collection of `ADIndex` objects to be applied for this included path in
+    /// the Azure Cosmos DB service.
     @objc
     public let indexes: [ADIndex]
 
@@ -26,6 +30,8 @@ public class ADIncludedPath: NSObject, ADCodable {
         self.path = path
         self.indexes = indexes
     }
+
+    // MARK: - ADCodable
 
     public required init?(from dictionary: NSDictionary) {
         self.path = dictionary[CodingKeys.path] as? String
@@ -46,6 +52,8 @@ public class ADIncludedPath: NSObject, ADCodable {
         return dictionary
     }
 }
+
+// MARK: - Objective-C Bridging
 
 extension DocumentCollection.IndexingPolicy.IncludedPath: ObjectiveCBridgeable {
     typealias ObjectiveCType = ADIncludedPath

@@ -23,6 +23,8 @@ public class ADOfferContent: NSObject, ADCodable {
         self.offerThroughput = offerThroughput
     }
 
+    // MARK: - ADCodable
+
     public required init?(from dictionary: NSDictionary) {
         self.offerIsRUPerMinuteThroughputEnabled = dictionary[CodingKeys.offerIsRUPerMinuteThroughputEnabled] as? Bool ?? false
         self.offerThroughput = dictionary[CodingKeys.offerThroughput] as? Int ?? 1000
@@ -37,6 +39,8 @@ public class ADOfferContent: NSObject, ADCodable {
         return dictionary
     }
 }
+
+// MARK: - Objective-C Bridging
 
 extension Offer.OfferContent: ObjectiveCBridgeable {
     typealias ObjectiveCType = ADOfferContent

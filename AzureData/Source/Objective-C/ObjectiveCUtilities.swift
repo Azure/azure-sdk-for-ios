@@ -9,14 +9,6 @@
 import Foundation
 
 extension NSDictionary {
-    func data() throws -> Data {
-        if #available(iOS 11.0, *) {
-            return try JSONSerialization.data(withJSONObject: self, options: .sortedKeys)
-        } else {
-            return try JSONSerialization.data(withJSONObject: self, options: .prettyPrinted)
-        }
-    }
-
     func value(forKey key: CodingKey) -> Any? {
         return self.value(forKey: key.stringValue)
     }
@@ -38,6 +30,10 @@ extension NSDictionary {
         }
 
         return dict
+    }
+
+    func data() throws -> Data {
+        return try JSONSerialization.data(withJSONObject: self, options: .prettyPrinted)
     }
 }
 

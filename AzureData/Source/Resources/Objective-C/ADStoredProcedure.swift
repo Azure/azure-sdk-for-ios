@@ -8,6 +8,12 @@
 
 import Foundation
 
+/// Represents a stored procedure in the Azure Cosmos DB service.
+///
+/// - Remark:
+///   Azure Cosmos DB allows application logic written entirely in JavaScript to be executed directly inside
+///   the database engine under the database transaction.
+///   For additional details, refer to the server-side JavaScript API documentation.
 @objc(ADStoredProcedure)
 public class ADStoredProcedure: NSObject, ADResource, ADSupportsPermissionToken {
     private typealias CodingKeys = StoredProcedure.CodingKeys
@@ -30,6 +36,13 @@ public class ADStoredProcedure: NSObject, ADResource, ADSupportsPermissionToken 
     @objc
     public let altLink: String?
 
+    /// The body of the Azure Cosmos DB stored procedure.
+    ///
+    /// - Remark:
+    ///   Must be a valid JavaScript function.
+    ///
+    /// - Example:
+    ///   `"function () { getContext().getResponse().setBody('Hello World!'); }`
     @objc
     public let body: String?
 

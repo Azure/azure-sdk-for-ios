@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Represents a user in the Azure Cosmos DB service.
 @objc(ADUser)
 public class ADUser: NSObject, ADResource {
     private typealias CodingKeys = User.CodingKeys
@@ -30,6 +31,7 @@ public class ADUser: NSObject, ADResource {
     @objc
     public let altLink: String?
 
+    /// The self-link of the permissions associated with the user for the Azure Cosmos DB service.
     @objc
     public let permissionsLink: String?
 
@@ -47,6 +49,8 @@ public class ADUser: NSObject, ADResource {
         self.altLink = altLink
         self.permissionsLink = permissionsLink
     }
+
+    // MARK: - ADCodable
 
     public required init?(from dictionary: NSDictionary) {
         guard let id = dictionary.value(forKey: User.CodingKeys.id.rawValue) as? String else { return nil }
@@ -74,6 +78,8 @@ public class ADUser: NSObject, ADResource {
         return dictionary
     }
 }
+
+// MARK: - Objective-C Bridging
 
 extension User: ObjectiveCBridgeable {
     typealias ObjectiveCType = ADUser

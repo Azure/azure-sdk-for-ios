@@ -8,6 +8,11 @@
 
 import Foundation
 
+/// Represents a trigger in the Azure Cosmos DB service.
+///
+/// - Remark:
+///   Azure Cosmos DB supports pre and post triggers written in JavaScript to be executed on creates, updates and deletes.
+///   For additional details, refer to the server-side JavaScript API documentation.
 @objc(ADTrigger)
 public class ADTrigger: NSObject, ADResource, ADSupportsPermissionToken {
     private typealias CodingKeys = Trigger.CodingKeys
@@ -30,15 +35,24 @@ public class ADTrigger: NSObject, ADResource, ADSupportsPermissionToken {
     @objc
     public let altLink: String?
 
+    /// The body of the trigger for the Azure Cosmos DB service.
     @objc
     public let body: String?
 
+    /// The operation the trigger is associated with for the Azure Cosmos DB service.
     @objc
     public let triggerOperation: ADTriggerOperation
 
+    /// The type of the trigger for the Azure Cosmos DB service.
     @objc
     public let triggerType: ADTriggerType
 
+    /// Specifies the operations on which a trigger should be executed in the Azure Cosmos DB service.
+    ///
+    /// - ADTriggerOperationAll:      Specifies all operations.
+    /// - ADTriggerOperationInsert:   Specifies insert operations only.
+    /// - ADTriggerOperationReplace:  Specifies replace operations only.
+    /// - ADTriggerOperationDelete:   Specifies delete operations only.
     @objc(ADTriggerOperation)
     public enum ADTriggerOperation: Int {
         @objc(ADTriggerOperationAll)
@@ -54,6 +68,10 @@ public class ADTrigger: NSObject, ADResource, ADSupportsPermissionToken {
         case delete
     }
 
+    /// Specifies the type of the trigger in the Azure Cosmos DB service.
+    ///
+    /// - ADTriggerTypePre:  Trigger should be executed after the associated operation(s).
+    /// - ADTriggerTypePost: Trigger should be executed before the associated operation(s).
     @objc(ADTriggerType)
     public enum ADTriggerType: Int {
         @objc(ADTriggerTypePre)
@@ -67,6 +85,8 @@ public class ADTrigger: NSObject, ADResource, ADSupportsPermissionToken {
     public convenience init(id: String, body: String, operation: ADTriggerOperation, type: ADTriggerType) {
         self.init(id: id, resourceId: "", selfLink: nil, etag: nil, timestamp: nil, altLink: nil, body: body, operation: operation, type: type)
     }
+
+    // MARK: - ADCodable
 
     internal init(id: String, resourceId: String, selfLink: String?, etag: String?, timestamp: Date?, altLink: String?, body: String?, operation: ADTriggerOperation, type: ADTriggerType) {
         self.id = id
@@ -110,6 +130,8 @@ public class ADTrigger: NSObject, ADResource, ADSupportsPermissionToken {
         return dictionary
     }
 }
+
+// MARK: - ObjectiveCBridging
 
 extension Trigger: ObjectiveCBridgeable {
     typealias ObjectiveCType = ADTrigger

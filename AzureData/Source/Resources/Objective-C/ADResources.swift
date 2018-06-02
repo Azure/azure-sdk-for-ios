@@ -9,6 +9,7 @@
 import Foundation
 import AzureCore
 
+/// Represents a collection of resources in the Azure Cosmos DB service.
 @objc(ADResources)
 public class ADResources: NSObject {
     @objc
@@ -27,6 +28,8 @@ public class ADResources: NSObject {
         self.items = items
     }
 }
+
+// MARK: - Objective-C Bridging
 
 extension Resources: ObjectiveCBridgeable where Resources.Item: ObjectiveCBridgeable {
     typealias ObjectiveCType = ADResources

@@ -28,6 +28,8 @@
     return self;
 }
 
+// MARK: - ADCodable
+
 - (nullable instancetype)initFrom:(NSDictionary *)dictionary {
     self = [super init];
 

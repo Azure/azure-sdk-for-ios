@@ -8,6 +8,10 @@
 
 import Foundation
 
+/// Wraps a `CodableResource` and allows it to be
+/// represented as an `ADResource`.
+/// - Note: Only the system properties of the `CodableResource`
+///         will be visible and accessible.
 class CodableResourceObjectiveWrapper: ADResource {
     private typealias CodingKeys = ADResourceSystemKeys
 
@@ -26,6 +30,8 @@ class CodableResourceObjectiveWrapper: ADResource {
         self.timestamp = resource.timestamp
         self.altLink = resource.altLink
     }
+
+    // MARK: - ADCodable
 
     public required init?(from dictionary: NSDictionary) {
         guard let id = dictionary[CodingKeys.id] as? String else { return nil }

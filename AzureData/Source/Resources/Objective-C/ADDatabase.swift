@@ -30,9 +30,11 @@ public class ADDatabase: NSObject, ADResource {
     @objc
     public let timestamp: Date?
 
+    /// The self-link for the collections in this database.
     @objc
     public let collectionsLink: String?
 
+    /// The self-link for the users in this database.
     @objc
     public let usersLink: String?
 
@@ -51,6 +53,8 @@ public class ADDatabase: NSObject, ADResource {
         self.collectionsLink = collectionsLink
         self.usersLink = usersLink
     }
+
+    // MARK: - ADCodable
 
     public required init?(from dictionary: NSDictionary) {
         guard let id = dictionary[CodingKeys.id] as? String else { return nil }
@@ -80,6 +84,8 @@ public class ADDatabase: NSObject, ADResource {
         return dictionary
     }
 }
+
+// MARK: - Objective-C Bridging
 
 extension Database: ObjectiveCBridgeable {
     typealias ObjectiveCType = ADDatabase

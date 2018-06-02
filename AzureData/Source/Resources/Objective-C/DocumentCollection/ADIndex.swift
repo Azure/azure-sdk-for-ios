@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Class representing `IndexingPolicy` `Indexes` in the Azure Cosmos DB service,
 @objc(ADIndex)
 public class ADIndex: NSObject, ADCodable {
     private enum CodingKeys: String, CodingKey {
@@ -18,12 +19,15 @@ public class ADIndex: NSObject, ADCodable {
 
     private typealias SwiftType = DocumentCollection.IndexingPolicy.IncludedPath.Index
 
+    /// The kind of indexing to be applied in the Azure Cosmos DB service.
     @objc
     public let kind: ADIndexKind
 
+    /// The target data type for the index path specification.
     @objc
     public let dataType: ADIndexDataType
 
+    /// The precision to be used for the data type associated with this index.
     @objc
     public let precision: Int16
 
@@ -33,17 +37,25 @@ public class ADIndex: NSObject, ADCodable {
         self.precision = precision
     }
 
+    /// Returns a hash index with the specified data type (and precision) for
+    /// the Azure Cosmos DB service.
     public static func hash(withDataType dataType: ADIndexDataType, andPrecision precision: Int16) -> ADIndex {
         return ADIndex(kind: .hash, dataType: dataType, precision: precision)
     }
 
+    /// Returns a range index with the specified data type (and precision) for
+    /// the Azure Cosmos DB service.
     public static func range(withDataType dataType: ADIndexDataType, andPrecision precision: Int16) -> ADIndex {
         return ADIndex(kind: .range, dataType: dataType, precision: precision)
     }
 
+    /// Returns a spatial index with the specified data type for
+    /// the Azure Cosmos DB service.
     public static func spatial(withDataType dataType: ADIndexDataType) -> ADIndex {
         return ADIndex(kind: .spatial, dataType: dataType, precision: Int16.nil)
     }
+
+    // MARK: - ADCodable
 
     public required init?(from dictionary: NSDictionary) {
         guard let kind = dictionary[CodingKeys.kind] as? String else { return nil }
@@ -67,6 +79,8 @@ public class ADIndex: NSObject, ADCodable {
         return dictionary
     }
 }
+
+// MARK: - Objective-C Bridging
 
 extension DocumentCollection.IndexingPolicy.IncludedPath.Index: ObjectiveCBridgeable {
     typealias ObjectiveCType = ADIndex

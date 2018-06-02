@@ -10,6 +10,10 @@ import Foundation
 
 // MARK: - ADResourceSwiftWrapper
 
+/// Wraps an `ADResource` and allows it to act
+/// as a `CodableResource`.
+/// - Note: Only the resource system properties
+///         will be visible.
 class ADResourceSwiftWrapper: CodableResource {
     private typealias CodingKeys = ADResourceSystemKeys
 
@@ -39,6 +43,10 @@ class ADResourceSwiftWrapper: CodableResource {
 
 // MARK: - PermissionEnabledADResourceSwiftWrapper
 
+/// Wraps an `ADResource` and allows it to act
+/// as a `CodableResource` supporting permission tokens.
+/// - Note: Only the resource system properties
+///         will be visible.
 class PermissionEnabledADResourceSwiftWrapper: CodableResource, SupportsPermissionToken {
     private typealias CodingKeys = ADResourceSystemKeys
 
@@ -68,8 +76,9 @@ class PermissionEnabledADResourceSwiftWrapper: CodableResource, SupportsPermissi
 
 // MARK: - ADPermissionProviderWrapper
 
+/// Wraps an `ADPermissionProvider` and allows it to act
+/// as a `PermissionProvider`.
 class ADPermissionProviderWrapper: PermissionProvider {
-
     var configuration: PermissionProviderConfiguration! {
         get { return PermissionProviderConfiguration(bridgedFromObjectiveC: permissionProvider.configuration) }
         set { permissionProvider.configuration = configuration.bridgeToObjectiveC() }

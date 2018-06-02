@@ -8,6 +8,11 @@
 
 import Foundation
 
+/// Specifies the supported indexing modes in the Azure Cosmos DB service.
+///
+/// - ADIndexingModeConsistent:   Index is updated synchronously with a create, update or delete operation.
+/// - ADIndexingModeLazy:         Index is updated asynchronously with respect to a create, update or delete operation.
+/// - ADIndexingModeNone:         No index is provided.
 @objc(ADIndexingMode)
 public enum ADIndexingMode: Int {
     @objc(ADIndexingModeConsistent)
@@ -19,6 +24,8 @@ public enum ADIndexingMode: Int {
     @objc(ADIndexingModeNone)
     case none
 }
+
+// MARK: - Objective-C Bridging
 
 extension DocumentCollection.IndexingPolicy.IndexingMode {
     var bridgedToObjectiveC: ADIndexingMode {

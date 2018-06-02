@@ -8,6 +8,12 @@
 
 import Foundation
 
+/// Because `ADDocument` is an open class, we lack the necessary type
+/// information to perform a 1-to-1 bridging between `ADDocument` and
+/// `Document`. To be able to use `ADDocument` and its subclasses in the
+/// Swift world, we convert it to a `DictionaryDocument` and we bridge
+/// the internal `CodableDictionary` of the `DictionaryDocument` to
+/// `NSDictionary`.
 extension ADDocument {
     var dictionaryDocument: DictionaryDocument {
         let dictionary = self.encode() as NSDictionary
@@ -23,6 +29,8 @@ extension ADDocument {
         return dictionaryDocument
     }
 }
+
+// MARK: - Objective-C Bridging
 
 extension CodableDictionary: ObjectiveCBridgeable {
     typealias ObjectiveCType = NSDictionary

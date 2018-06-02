@@ -8,12 +8,14 @@
 
 import Foundation
 
+/// Specifies a partition key definition for a particular path in the Azure Cosmos DB service.
 @objc(ADPartitionKeyDefinition)
 public class ADPartitionKeyDefinition: NSObject, ADCodable {
     private enum CodingKeys: String, CodingKey {
         case paths
     }
 
+    /// The paths to be partitioned in the Azure Cosmos DB service.
     @objc
     public let paths: [String]
 
@@ -21,6 +23,8 @@ public class ADPartitionKeyDefinition: NSObject, ADCodable {
     public init(paths: [String]) {
         self.paths = paths
     }
+
+    // MARK: - ADCodable
 
     public required init?(from dictionary: NSDictionary) {
         guard let paths = dictionary[CodingKeys.paths] as? [String] else { return nil }
@@ -34,6 +38,8 @@ public class ADPartitionKeyDefinition: NSObject, ADCodable {
         return dictionary
     }
 }
+
+// MARK: - Objective-C Bridging
 
 extension DocumentCollection.PartitionKeyDefinition: ObjectiveCBridgeable {
     typealias ObjectiveCType = ADPartitionKeyDefinition
