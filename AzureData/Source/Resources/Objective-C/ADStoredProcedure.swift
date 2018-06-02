@@ -56,7 +56,7 @@ public class ADStoredProcedure: NSObject, ADResource, ADSupportsPermissionToken 
         self.resourceId = resourceId
         self.selfLink = dictionary[CodingKeys.selfLink] as? String
         self.etag = dictionary[CodingKeys.etag] as? String
-        self.timestamp = dictionary[CodingKeys.timestamp] as? Date
+        self.timestamp = ADDateEncoders.decodeTimestamp(from: dictionary[CodingKeys.timestamp])
         self.altLink = nil
         self.body = dictionary[CodingKeys.body] as? String
     }
@@ -68,7 +68,7 @@ public class ADStoredProcedure: NSObject, ADResource, ADSupportsPermissionToken 
         dictionary[CodingKeys.resourceId] = resourceId
         dictionary[CodingKeys.selfLink] = selfLink
         dictionary[CodingKeys.etag] = etag
-        dictionary[CodingKeys.timestamp] = timestamp
+        dictionary[CodingKeys.timestamp] = ADDateEncoders.encodeTimestamp(timestamp)
         dictionary[CodingKeys.body] = body
 
         return dictionary

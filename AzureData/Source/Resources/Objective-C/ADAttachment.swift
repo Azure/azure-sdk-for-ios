@@ -60,7 +60,7 @@ public class ADAttachment: NSObject, ADResource, ADSupportsPermissionToken {
         self.resourceId = resourceId
         self.selfLink = dictionary[CodingKeys.selfLink] as? String
         self.etag = dictionary[CodingKeys.etag] as? String
-        self.timestamp = dictionary[CodingKeys.timestamp] as? Date
+        self.timestamp = ADDateEncoders.decodeTimestamp(from: dictionary[CodingKeys.timestamp])
         self.altLink = nil
         self.contentType = dictionary[CodingKeys.contentType] as? String
         self.mediaLink = dictionary[CodingKeys.mediaLink] as? String
@@ -73,7 +73,7 @@ public class ADAttachment: NSObject, ADResource, ADSupportsPermissionToken {
         dictionary[CodingKeys.resourceId] = resourceId
         dictionary[CodingKeys.selfLink] = selfLink
         dictionary[CodingKeys.etag] = etag
-        dictionary[CodingKeys.timestamp] = timestamp
+        dictionary[CodingKeys.timestamp] = ADDateEncoders.encodeTimestamp(timestamp)
         dictionary[CodingKeys.contentType] = contentType
         dictionary[CodingKeys.mediaLink] = mediaLink
 

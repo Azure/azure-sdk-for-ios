@@ -65,7 +65,7 @@ public class ADPermission: NSObject, ADResource {
         self.resourceId = resourceId
         self.selfLink = dictionary[CodingKeys.selfLink] as? String
         self.etag = dictionary[CodingKeys.etag] as? String
-        self.timestamp = dictionary[CodingKeys.timestamp] as? Date
+        self.timestamp = ADDateEncoders.decodeTimestamp(from: dictionary[CodingKeys.timestamp])
         self.altLink = nil
         self.permissionMode = ADPermissionMode(PermissionMode(rawValue: permissionMode)!)
         self.resourceLink = dictionary[CodingKeys.resourceLink] as? String
@@ -79,7 +79,7 @@ public class ADPermission: NSObject, ADResource {
         dictionary[CodingKeys.resourceId] = resourceId
         dictionary[CodingKeys.selfLink] = selfLink
         dictionary[CodingKeys.etag] = etag
-        dictionary[CodingKeys.timestamp] = timestamp
+        dictionary[CodingKeys.timestamp] = ADDateEncoders.encodeTimestamp(timestamp)
         dictionary[CodingKeys.permissionMode] = permissionMode.permissionMode.rawValue
         dictionary[CodingKeys.resourceLink] = resourceLink
         dictionary[CodingKeys.token] = token

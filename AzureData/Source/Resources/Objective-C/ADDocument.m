@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import <AzureData/AzureData-Swift.h>
 #import "ADDocument.h"
 
 @implementation ADDocument
@@ -43,7 +43,7 @@
         _resourceId = [resourceId copy];
         _selfLink = [[dictionary valueForKey:@"_self"] copy];
         _etag = [[dictionary valueForKey:@"_etag"] copy];
-        _timestamp = [[dictionary valueForKey:@"_ts"] copy];
+        _timestamp = [ADDateEncoders decodeTimestampFrom:[[dictionary valueForKey:@"_ts"] copy]];
         _attachmentsLink = [[dictionary valueForKey:@"_attachments"] copy];
     }
 
@@ -58,7 +58,7 @@
         [dictionary setValue:_resourceId forKey:@"_rid"];
         [dictionary setValue:_selfLink forKey:@"_self"];
         [dictionary setValue:_etag forKey:@"_etag"];
-        [dictionary setValue:_timestamp forKey:@"_ts"];
+        [dictionary setValue:[ADDateEncoders encodeTimestamp:_timestamp] forKey:@"_ts"];
         [dictionary setValue:_attachmentsLink forKey:@"_attachments"];
     }
 

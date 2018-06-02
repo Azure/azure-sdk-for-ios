@@ -9,13 +9,14 @@
 #ifndef ADDocument_h
 #define ADDocument_h
 
-@protocol ADResource
-@end
+@protocol ADResource;
+@protocol ADSupportsPermissionToken;
 
-@protocol ADSupportsPermissionToken
-@end
-
+#pragma clang diagnostic push
+// Ignore the 'Cannot find ADResource and ADSupportsPermissionToken protocols' warnings.
+#pragma clang diagnostic ignored "-Weverything"
 @interface ADDocument: NSObject <ADResource, ADSupportsPermissionToken>
+#pragma clang diagnostic pop
 
 @property (nonatomic, readonly, copy) NSString* _Nonnull  id;
 @property (nonatomic, readonly, copy) NSString* _Nonnull  resourceId;

@@ -63,28 +63,6 @@ public class ADAzureData: NSObject {
         AzureData.reset()
     }
 
-    // MARK: - Encoders & Decoders
-
-    public static var dateDecoder: ((Decoder) throws -> Date)? {
-        get { return AzureData.dateDecoder }
-        set { AzureData.dateDecoder = newValue }
-    }
-
-    public static var dateEncoder: ((Date, Encoder) throws -> Void)? {
-        get { return AzureData.dateEncoder }
-        set { AzureData.dateEncoder = newValue }
-    }
-
-    public static var jsonEncoder: JSONEncoder {
-        get { return AzureData.jsonEncoder }
-        set { AzureData.jsonEncoder = newValue }
-    }
-
-    public static var jsonDecoder: JSONDecoder {
-        get { return AzureData.jsonDecoder }
-        set { AzureData.jsonDecoder = newValue }
-    }
-
     // MARK: - Conflict Strategy
 
     // MARK: - Resource Encryption

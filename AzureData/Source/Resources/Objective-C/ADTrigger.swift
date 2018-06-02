@@ -88,7 +88,7 @@ public class ADTrigger: NSObject, ADResource, ADSupportsPermissionToken {
         self.resourceId = resourceId
         self.selfLink = dictionary[CodingKeys.selfLink] as? String
         self.etag = dictionary[CodingKeys.etag] as? String
-        self.timestamp = dictionary[CodingKeys.timestamp] as? Date
+        self.timestamp = ADDateEncoders.decodeTimestamp(from: dictionary[CodingKeys.timestamp])
         self.altLink = nil
         self.body = dictionary[CodingKeys.body] as? String
         self.triggerOperation = (Trigger.TriggerOperation(rawValue: dictionary[CodingKeys.triggerOperation] as? String ?? "")?.bridgedToObjectiveC) ?? .all
@@ -102,7 +102,7 @@ public class ADTrigger: NSObject, ADResource, ADSupportsPermissionToken {
         dictionary[CodingKeys.resourceId] = resourceId
         dictionary[CodingKeys.selfLink] = selfLink
         dictionary[CodingKeys.etag] = etag
-        dictionary[CodingKeys.timestamp] = timestamp
+        dictionary[CodingKeys.timestamp] = ADDateEncoders.encodeTimestamp(timestamp)
         dictionary[CodingKeys.body] = body
         dictionary[CodingKeys.triggerOperation] = Trigger.TriggerOperation(bridgedFromObjectiveC: triggerOperation)
         dictionary[CodingKeys.triggerType] = Trigger.TriggerType(bridgedFromObjectiveC: triggerType)

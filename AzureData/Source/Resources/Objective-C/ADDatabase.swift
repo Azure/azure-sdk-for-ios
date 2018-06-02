@@ -60,7 +60,7 @@ public class ADDatabase: NSObject, ADResource {
         self.resourceId = resourceId
         self.selfLink = dictionary[CodingKeys.selfLink] as? String
         self.etag = dictionary[CodingKeys.etag] as? String
-        self.timestamp = dictionary[CodingKeys.timestamp] as? Date
+        self.timestamp = ADDateEncoders.decodeTimestamp(from: dictionary[CodingKeys.timestamp])
         self.altLink = nil
         self.collectionsLink = dictionary[CodingKeys.collectionsLink] as? String
         self.usersLink = dictionary[CodingKeys.usersLink] as? String
@@ -73,7 +73,7 @@ public class ADDatabase: NSObject, ADResource {
         dictionary[CodingKeys.resourceId] = resourceId
         dictionary[CodingKeys.selfLink] = selfLink
         dictionary[CodingKeys.etag] = etag
-        dictionary[CodingKeys.timestamp] = timestamp
+        dictionary[CodingKeys.timestamp] = ADDateEncoders.encodeTimestamp(timestamp)
         dictionary[CodingKeys.collectionsLink] = collectionsLink
         dictionary[CodingKeys.usersLink] = usersLink
 

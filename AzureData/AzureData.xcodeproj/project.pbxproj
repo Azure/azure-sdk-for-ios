@@ -184,6 +184,10 @@
 		32AD4619207976AB00A0D02F /* ResponseMetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AD4618207976AB00A0D02F /* ResponseMetadataTests.swift */; };
 		32AD461A207976AB00A0D02F /* ResponseMetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AD4618207976AB00A0D02F /* ResponseMetadataTests.swift */; };
 		32AD461B207976AB00A0D02F /* ResponseMetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AD4618207976AB00A0D02F /* ResponseMetadataTests.swift */; };
+		32D4D57820C2176200BF3154 /* ADDateEncoders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D57720C2176200BF3154 /* ADDateEncoders.swift */; };
+		32D4D57920C2176200BF3154 /* ADDateEncoders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D57720C2176200BF3154 /* ADDateEncoders.swift */; };
+		32D4D57A20C2176200BF3154 /* ADDateEncoders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D57720C2176200BF3154 /* ADDateEncoders.swift */; };
+		32D4D57B20C2176200BF3154 /* ADDateEncoders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D57720C2176200BF3154 /* ADDateEncoders.swift */; };
 		32EB2C1D209C5DA700CEBB77 /* ResourceWriteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EB2C1C209C5DA700CEBB77 /* ResourceWriteOperation.swift */; };
 		32EB2C1E209C5DA700CEBB77 /* ResourceWriteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EB2C1C209C5DA700CEBB77 /* ResourceWriteOperation.swift */; };
 		32EB2C1F209C5DA700CEBB77 /* ResourceWriteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EB2C1C209C5DA700CEBB77 /* ResourceWriteOperation.swift */; };
@@ -508,6 +512,7 @@
 		32AABD2120ACA05400F66DC6 /* MockReachabilityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockReachabilityManager.swift; sourceTree = "<group>"; };
 		32AABD2620ACA83300F66DC6 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		32AD4618207976AB00A0D02F /* ResponseMetadataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseMetadataTests.swift; sourceTree = "<group>"; };
+		32D4D57720C2176200BF3154 /* ADDateEncoders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADDateEncoders.swift; sourceTree = "<group>"; };
 		32EB2C1C209C5DA700CEBB77 /* ResourceWriteOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceWriteOperation.swift; sourceTree = "<group>"; };
 		32FB702720BD5444009A35D9 /* ADPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADPermission.swift; sourceTree = "<group>"; };
 		32FB703120BD8070009A35D9 /* ADCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADCodable.swift; sourceTree = "<group>"; };
@@ -677,6 +682,7 @@
 			isa = PBXGroup;
 			children = (
 				326E731720BC2041006D2DBD /* ADAzureData.swift */,
+				32D4D57720C2176200BF3154 /* ADDateEncoders.swift */,
 				326E732120BC22EE006D2DBD /* ADPermissionProvider.swift */,
 				326E732620BC2339006D2DBD /* ADPermissionProviderConfiguration.swift */,
 				329C7DAE20BEB3EE00A49453 /* ADQuery.swift */,
@@ -1214,6 +1220,7 @@
 				B58361B31FB78F7A001CEC66 /* Resources.swift in Sources */,
 				32A77CFA20C0576600846397 /* ADIndexingPolicy.swift in Sources */,
 				93F9ACCD1FC0CA4800AC240C /* DocumentClientError.swift in Sources */,
+				32D4D57920C2176200BF3154 /* ADDateEncoders.swift in Sources */,
 				32FB703820BD9B11009A35D9 /* ADDocument.swift in Sources */,
 				B58361D81FBA16F9001CEC66 /* Permission.swift in Sources */,
 				326E731E20BC2185006D2DBD /* ADPermissionMode.swift in Sources */,
@@ -1338,6 +1345,7 @@
 				B58361AE1FB78F7A001CEC66 /* Resources.swift in Sources */,
 				32A77CFB20C0576600846397 /* ADIndexingPolicy.swift in Sources */,
 				93F9ACCE1FC0CA4800AC240C /* DocumentClientError.swift in Sources */,
+				32D4D57A20C2176200BF3154 /* ADDateEncoders.swift in Sources */,
 				32FB703920BD9B11009A35D9 /* ADDocument.swift in Sources */,
 				B58361D91FBA16F9001CEC66 /* Permission.swift in Sources */,
 				326E731F20BC2185006D2DBD /* ADPermissionMode.swift in Sources */,
@@ -1462,6 +1470,7 @@
 				B58361A91FB78F78001CEC66 /* Resources.swift in Sources */,
 				32A77CFC20C0576600846397 /* ADIndexingPolicy.swift in Sources */,
 				93F9ACCF1FC0CA4800AC240C /* DocumentClientError.swift in Sources */,
+				32D4D57B20C2176200BF3154 /* ADDateEncoders.swift in Sources */,
 				32FB703A20BD9B11009A35D9 /* ADDocument.swift in Sources */,
 				B58361DA1FBA16F9001CEC66 /* Permission.swift in Sources */,
 				326E732020BC2185006D2DBD /* ADPermissionMode.swift in Sources */,
@@ -1548,6 +1557,7 @@
 				B58361D71FBA16F9001CEC66 /* Permission.swift in Sources */,
 				32A77CF920C0576600846397 /* ADIndexingPolicy.swift in Sources */,
 				93F9ACCC1FC0CA4800AC240C /* DocumentClientError.swift in Sources */,
+				32D4D57820C2176200BF3154 /* ADDateEncoders.swift in Sources */,
 				32FB703720BD9B11009A35D9 /* ADDocument.swift in Sources */,
 				B58361C31FBA13B0001CEC66 /* DocumentCollection.swift in Sources */,
 				326E731D20BC2185006D2DBD /* ADPermissionMode.swift in Sources */,
