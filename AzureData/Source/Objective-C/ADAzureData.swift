@@ -43,21 +43,6 @@ public class ADAzureData: NSObject {
         AzureData.configure(withPlistNamed: name, withPermissionMode: mode.permissionMode)
     }
 
-    // MARK: - Conflict Strategy
-
-    @objc(registerConflictStrategy:forResourceType:)
-    public func register(strategy: ADConflictStrategy, for resourceType: ADResourceType) {
-        if let type = ResourceType(bridgedFromObjectiveC: resourceType) {
-            AzureData.register(strategy: ConflictStrategy(bridgedFromObjectiveC: strategy), for: type)
-        }
-    }
-
-    @objc(conflictStrategyForResourceType:)
-    public func conflictStrategy(for resourceType: ADResourceType) -> ADConflictStrategy? {
-        guard let type = ResourceType(bridgedFromObjectiveC: resourceType) else { return nil }
-        return DocumentClient.shared.conflictStrategies[type]?.bridgedToObjectiveC
-    }
-
     // MARK: - Offline Data
 
     @objc
@@ -80,7 +65,26 @@ public class ADAzureData: NSObject {
 
     // MARK: - Conflict Strategy
 
+    @objc(registerConflictStrategy:forResourceType:)
+    public func register(strategy: ADConflictStrategy, for resourceType: ADResourceType) {
+        if let type = ResourceType(bridgedFromObjectiveC: resourceType) {
+            AzureData.register(strategy: ConflictStrategy(bridgedFromObjectiveC: strategy), for: type)
+        }
+    }
+
+    @objc(conflictStrategyForResourceType:)
+    public func conflictStrategy(for resourceType: ADResourceType) -> ADConflictStrategy? {
+        guard let type = ResourceType(bridgedFromObjectiveC: resourceType) else { return nil }
+        return DocumentClient.shared.conflictStrategies[type]?.bridgedToObjectiveC
+    }
+
     // MARK: - Resource Encryption
+
+    @objc
+    public var resourceEncryptor: ResourceEncryptor? {
+        get { return AzureData.resourceEncryptor }
+        set { AzureData.resourceEncryptor = newValue }
+    }
 
     // MARK: - Databases
 
