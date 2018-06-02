@@ -201,7 +201,7 @@ class DocumentClient {
         return self.resource(at: .collection(databaseId: databaseId, id: collectionId), callback: callback)
     }
 
-    func get (collectionWithId collectionId: String, inDatabase database: Database, callback: @escaping (Response<DocumentCollection>) -> ()) {
+    func get (collectionWithId collectionId: String, in database: Database, callback: @escaping (Response<DocumentCollection>) -> ()) {
         return self.resource(at: .child(.collection, in: database, id: collectionId), callback: callback)
     }
 
@@ -445,7 +445,7 @@ class DocumentClient {
         return self.replace(UserDefinedFunction(functionId, body: function), at: .udf(databaseId: databaseId, collectionId: collectionId, id: functionId), callback: callback)
     }
     
-    func replace (userDefinedFunctionWithId functionId: String, andBody function: String, from collection: DocumentCollection, callback: @escaping (Response<UserDefinedFunction>) -> ()) {
+    func replace (userDefinedFunctionWithId functionId: String, andBody function: String, in collection: DocumentCollection, callback: @escaping (Response<UserDefinedFunction>) -> ()) {
         return self.replace(UserDefinedFunction(functionId, body: function), at: .child(.udf, in: collection, id: functionId), callback: callback)
     }
     

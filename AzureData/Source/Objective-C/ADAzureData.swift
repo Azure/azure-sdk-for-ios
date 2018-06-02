@@ -107,8 +107,8 @@ public class ADAzureData: NSObject {
 
     // get
     @objc(getDatabaseWithId:completion:)
-    public static func get(databaseWithId databaseId: String, callback: @escaping (ADResponse) -> Void) {
-        AzureData.get(databaseWithId: databaseId) { callback($0.bridgeToObjectiveC()) }
+    public static func get(databaseWithId databaseId: String, completion: @escaping (ADResponse) -> Void) {
+        AzureData.get(databaseWithId: databaseId) { completion($0.bridgeToObjectiveC()) }
     }
 
     // delete
@@ -137,18 +137,18 @@ public class ADAzureData: NSObject {
     }
 
     @objc(getCollectionsInDatabaseWithId:withMaxPerPage:completion:)
-    public static func get(collectionsIn databaseId: String, maxPerPage: Int, callback: @escaping (ADResponse) -> Void) {
-        AzureData.get(collectionsIn: databaseId, maxPerPage: maxPerPage) { callback($0.bridgeToObjectiveC()) }
+    public static func get(collectionsIn databaseId: String, maxPerPage: Int, completion: @escaping (ADResponse) -> Void) {
+        AzureData.get(collectionsIn: databaseId, maxPerPage: maxPerPage) { completion($0.bridgeToObjectiveC()) }
     }
 
     @objc(getCollectionsInDatabase:completion:)
-    public static func get(collectionsIn database: ADDatabase, callback: @escaping (ADResponse) -> Void) {
-        AzureData.get(collectionsIn: database.id, maxPerPage: nil) { callback($0.bridgeToObjectiveC()) }
+    public static func get(collectionsIn database: ADDatabase, completion: @escaping (ADResponse) -> Void) {
+        AzureData.get(collectionsIn: database.id, maxPerPage: nil) { completion($0.bridgeToObjectiveC()) }
     }
 
     @objc(getCollectionsInDatabase:withMaxPerPage:completion:)
-    public static func get(collectionsIn database: ADDatabase, maxPerPage: Int, callback: @escaping (ADResponse) -> Void) {
-        AzureData.get(collectionsIn: database.id, maxPerPage: maxPerPage) { callback($0.bridgeToObjectiveC()) }
+    public static func get(collectionsIn database: ADDatabase, maxPerPage: Int, completion: @escaping (ADResponse) -> Void) {
+        AzureData.get(collectionsIn: database.id, maxPerPage: maxPerPage) { completion($0.bridgeToObjectiveC()) }
     }
 
     // get
@@ -158,14 +158,19 @@ public class ADAzureData: NSObject {
     }
 
     @objc(getCollectionWithId:inDatabase:completion:)
-    public static func get(collectionWithId collectionId: String, in database: ADDatabase, callback: @escaping (ADResponse) -> Void) {
-        AzureData.get(collectionWithId: collectionId, inDatabase: database.id) { callback($0.bridgeToObjectiveC()) }
+    public static func get(collectionWithId collectionId: String, in database: ADDatabase, completion: @escaping (ADResponse) -> Void) {
+        AzureData.get(collectionWithId: collectionId, inDatabase: database.id) { completion($0.bridgeToObjectiveC()) }
     }
 
     // delete
     @objc(deleteCollectionWithId:fromDatabaseWithId:completion:)
     public static func delete(collectionWithId collectionId: String, fromDatabase databaseId: String, completion: @escaping (ADResponse) -> Void) {
         AzureData.delete(collectionWithId: collectionId, fromDatabase: databaseId) { completion($0.bridgeToObjectiveC()) }
+    }
+
+    @objc(deleteCollectionWithId:from:completion:)
+    public static func delete(collectionWithId collectionId: String, from database: ADDatabase, completion: @escaping (ADResponse) -> Void) {
+        AzureData.delete(collectionWithId: collectionId, from: Database(unconditionallyBridgedFromObjectiveC: database)) { completion($0.bridgeToObjectiveC()) }
     }
 
     // replace
@@ -382,8 +387,8 @@ public class ADAzureData: NSObject {
     }
 
     @objc(replaceAttachmentWithId:contentType:name:withMedia:onDocument:completion:)
-    public static func replace (attachmentWithId attachmentId: String, contentType: String, name mediaName: String, with media: Data, on document: ADDocument, callback: @escaping (ADResponse) -> Void) {
-        AzureData.replace(attachmentWithId: attachmentId, contentType: contentType, name: mediaName, with: media, on: document.dictionaryDocument) { callback($0.bridgeToObjectiveC()) }
+    public static func replace (attachmentWithId attachmentId: String, contentType: String, name mediaName: String, with media: Data, on document: ADDocument, completion: @escaping (ADResponse) -> Void) {
+        AzureData.replace(attachmentWithId: attachmentId, contentType: contentType, name: mediaName, with: media, on: document.dictionaryDocument) { completion($0.bridgeToObjectiveC()) }
     }
 
     // MARK: - Stored Procedures
@@ -422,8 +427,8 @@ public class ADAzureData: NSObject {
 
     // delete
     @objc(deleteStoredProcedureWithId:fromCollectionWithId:inDatabaseWithId:completion:)
-    public static func delete(storedProcedureWithId storedProcedureId: String, fromCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (ADResponse) -> Void) {
-        AzureData.delete(storedProcedureWithId: storedProcedureId, fromCollection: collectionId, inDatabase: databaseId) { callback($0.bridgeToObjectiveC()) }
+    public static func delete(storedProcedureWithId storedProcedureId: String, fromCollection collectionId: String, inDatabase databaseId: String, completion: @escaping (ADResponse) -> Void) {
+        AzureData.delete(storedProcedureWithId: storedProcedureId, fromCollection: collectionId, inDatabase: databaseId) { completion($0.bridgeToObjectiveC()) }
     }
 
     @objc(deleteStoredProcedureWithId:fromCollection:completion:)
@@ -510,8 +515,8 @@ public class ADAzureData: NSObject {
     }
 
     @objc(replaceUserDefinedFunctionWithId:andBody:fromCollection:completion:)
-    public static func replace(userDefinedFunctionWithId functionId: String, andBody function: String, from collection: ADDocumentCollection, completion: @escaping (ADResponse) -> Void) {
-        AzureData.replace(userDefinedFunctionWithId: functionId, andBody: function, from: DocumentCollection(unconditionallyBridgedFromObjectiveC: collection)) { completion($0.bridgeToObjectiveC()) }
+    public static func replace(userDefinedFunctionWithId functionId: String, andBody function: String, in collection: ADDocumentCollection, completion: @escaping (ADResponse) -> Void) {
+        AzureData.replace(userDefinedFunctionWithId: functionId, andBody: function, in: DocumentCollection(unconditionallyBridgedFromObjectiveC: collection)) { completion($0.bridgeToObjectiveC()) }
     }
 
     // MARK: - Triggers
@@ -694,12 +699,12 @@ public class ADAzureData: NSObject {
     }
 
     // replace
-    @objc(replacePermissionWithId:andMode:inResource:forUserWithId:inDatabaseWithId:completion:)
+    @objc(replacePermissionWithId:mode:inResource:forUserWithId:inDatabaseWithId:completion:)
     public static func replace(permissionWithId permissionId: String, mode: ADPermissionMode, in resource: ADResource & ADSupportsPermissionToken, forUser userId: String, inDatabase databaseId: String, completion: @escaping (ADResponse) -> Void) {
         AzureData.replace(permissionWithId: permissionId, mode: mode.permissionMode, in: PermissionEnabledADResourceSwiftWrapper(resource), forUser: userId, inDatabase: databaseId) { completion($0.bridgeToObjectiveC()) }
     }
 
-    @objc(replacePermissionWithId:andMode:inResource:forUser:completion:)
+    @objc(replacePermissionWithId:mode:inResource:forUser:completion:)
     public static func replace(permissionWithId permissionId: String, mode: ADPermissionMode, in resource: ADResource & ADSupportsPermissionToken, for user: ADUser, completion: @escaping (ADResponse) -> Void) {
         AzureData.replace(permissionWithId: permissionId, mode: mode.permissionMode, in: PermissionEnabledADResourceSwiftWrapper(resource), for: User(unconditionallyBridgedFromObjectiveC: user)) { completion($0.bridgeToObjectiveC()) }
     }

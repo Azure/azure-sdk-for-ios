@@ -168,8 +168,8 @@ public func get (collectionWithId collectionId: String, inDatabase databaseId: S
     return DocumentClient.shared.get (collectionWithId: collectionId, inDatabase: databaseId, callback: callback)
 }
 
-public func get (collectionWithId collectionId: String, inDatabase database: Database, callback: @escaping (Response<DocumentCollection>) -> ()) {
-    return DocumentClient.shared.get (collectionWithId: collectionId, inDatabase: database, callback: callback)
+public func get (collectionWithId collectionId: String, in database: Database, callback: @escaping (Response<DocumentCollection>) -> ()) {
+    return DocumentClient.shared.get (collectionWithId: collectionId, in: database, callback: callback)
 }
 
 // delete
@@ -407,8 +407,8 @@ public func replace (userDefinedFunctionWithId functionId: String, andBody funct
     return DocumentClient.shared.replace (userDefinedFunctionWithId: functionId, andBody: function, inCollection: collectionId, inDatabase: databaseId, callback: callback)
 }
 
-public func replace (userDefinedFunctionWithId functionId: String, andBody function: String, from collection: DocumentCollection, callback: @escaping (Response<UserDefinedFunction>) -> ()) {
-    return DocumentClient.shared.replace (userDefinedFunctionWithId: functionId, andBody: function, from: collection, callback: callback)
+public func replace (userDefinedFunctionWithId functionId: String, andBody function: String, in collection: DocumentCollection, callback: @escaping (Response<UserDefinedFunction>) -> ()) {
+    return DocumentClient.shared.replace (userDefinedFunctionWithId: functionId, andBody: function, in: collection, callback: callback)
 }
 
 

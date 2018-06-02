@@ -19,12 +19,12 @@ public struct Database : CodableResource {
     public static var type = "dbs"
     public static var list = "Databases"
 
-    public private(set) var id:         String
-    public private(set) var resourceId: String
-    public private(set) var selfLink:   String?
-    public private(set) var etag:       String?
-    public private(set) var timestamp:  Date?
-    public private(set) var altLink:    String? = nil
+    public internal(set) var id:         String
+    public internal(set) var resourceId: String
+    public internal(set) var selfLink:   String?
+    public internal(set) var etag:       String?
+    public internal(set) var timestamp:  Date?
+    public internal(set) var altLink:    String? = nil
     
     public mutating func setAltLink(to link: String) {
         self.altLink = link
@@ -34,10 +34,10 @@ public struct Database : CodableResource {
     }
 
     /// Gets the self-link for collections from the Azure Cosmos DB service.
-    public private(set) var collectionsLink: String?
+    public internal(set) var collectionsLink: String?
     
     /// Gets the self-link for users from the Azure Cosmos DB service.
-    public private(set) var usersLink: String?
+    public internal(set) var usersLink: String?
     
     
     public init (_ id: String) { self.id = id; resourceId = "" }
