@@ -80,7 +80,7 @@ public class ResourceOracle {
         commit()
     }
     
-    public static func storeLinks<T>(forResources resources: Resources<T>) {
+    public static func storeLinks<T: CodableResources>(forResources resources: T) {
         
         for resource in resources.items {
             _storeLinks(forResource: resource)
@@ -299,21 +299,5 @@ public class ResourceOracle {
         }
         Log.debug("")
         Log.debug("\n")
-    }
-}
-
-fileprivate extension String {
-    
-    func extractId(for resourceType: String) -> String? {
-        
-        let path = Substring(resourceType)
-        
-        let split = self.split(separator: "/")
-        
-        if let key = split.index(of: path), key < split.endIndex {
-            return String(split[split.index(after: key)])
-        }
-        
-        return nil
     }
 }
