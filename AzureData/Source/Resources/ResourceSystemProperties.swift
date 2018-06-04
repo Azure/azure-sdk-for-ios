@@ -23,12 +23,12 @@ struct ResourceSystemProperties: CodableResource {
     static var type = ""
     static var list = ""
 
-    var id:                 String
+    var id:         String
     var resourceId: String
     var selfLink:   String?
-    var etag:               String?
-    var timestamp:          Date?
-    var altLink:            String? = nil
+    var etag:       String?
+    var timestamp:  Date?
+    var altLink:    String? = nil
 
     mutating func setEtag(to tag: String) { etag = tag }
     mutating func setAltLink(to link: String) { altLink = link }
@@ -56,11 +56,15 @@ extension Data {
         return ResourceSystemProperties(for: self)?.id
     }
 
+    var resourceId: String? {
+        return ResourceSystemProperties(for: self)?.resourceId
+    }
+
     var selfLink: String? {
         return ResourceSystemProperties(for: self)?.selfLink
     }
 
-    var resourceId: String? {
-        return ResourceSystemProperties(for: self)?.resourceId
+    var etag: String? {
+        return ResourceSystemProperties(for: self)?.etag
     }
 }

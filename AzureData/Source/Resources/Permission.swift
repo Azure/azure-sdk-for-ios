@@ -56,9 +56,8 @@ public struct Permission : CodableResource {
 }
 
 
-private extension Permission {
-    
-    private enum CodingKeys: String, CodingKey {
+extension Permission {
+    enum CodingKeys: String, CodingKey {
         case id
         case resourceId     = "_rid"
         case selfLink       = "_self"
@@ -67,5 +66,17 @@ private extension Permission {
         case permissionMode
         case resourceLink   = "resource"
         case token          = "_token"
+    }
+
+    init(id: String, resourceId: String, selfLink: String?, etag: String?, timestamp: Date?, altLink: String?, permissionMode: PermissionMode, resourceLink: String?, token: String?) {
+        self.id = id
+        self.resourceId = resourceId
+        self.selfLink = selfLink
+        self.etag = etag
+        self.timestamp = timestamp
+        self.altLink = altLink
+        self.permissionMode = permissionMode
+        self.resourceLink = resourceLink
+        self.token = token
     }
 }

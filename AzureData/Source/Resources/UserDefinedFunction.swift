@@ -51,14 +51,23 @@ public struct UserDefinedFunction : CodableResource, SupportsPermissionToken {
 }
 
 
-private extension UserDefinedFunction {
-    
-    private enum CodingKeys: String, CodingKey {
+extension UserDefinedFunction {
+    enum CodingKeys: String, CodingKey {
         case id
         case resourceId = "_rid"
         case selfLink   = "_self"
         case etag       = "_etag"
         case timestamp  = "_ts"
         case body
+    }
+
+    init(id: String, resourceId: String, selfLink: String?, etag: String?, timestamp: Date?, altLink: String?, body: String?) {
+        self.id = id
+        self.resourceId = resourceId
+        self.selfLink = selfLink
+        self.etag = etag
+        self.timestamp = timestamp
+        self.altLink = altLink
+        self.body = body
     }
 }

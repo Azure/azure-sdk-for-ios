@@ -44,9 +44,8 @@ public struct Database : CodableResource {
 }
 
 
-private extension Database {
-    
-    private enum CodingKeys: String, CodingKey {
+extension Database {
+    enum CodingKeys: String, CodingKey {
         case id
         case resourceId         = "_rid"
         case selfLink           = "_self"
@@ -54,6 +53,17 @@ private extension Database {
         case timestamp          = "_ts"
         case collectionsLink    = "_colls"
         case usersLink          = "_users"
+    }
+
+    init(id: String, resourceId: String, selfLink: String?, etag: String?, timestamp: Date?, altLink: String?, collectionsLink: String?, usersLink: String?) {
+        self.id = id
+        self.resourceId = resourceId
+        self.selfLink = selfLink
+        self.etag = etag
+        self.timestamp = timestamp
+        self.altLink = altLink
+        self.collectionsLink = collectionsLink
+        self.usersLink = usersLink
     }
 }
 

@@ -64,8 +64,7 @@ public struct Trigger : CodableResource, SupportsPermissionToken {
         case pre  = "Pre"
         case post = "Post"
     }
-    
-    
+
     init(_ id: String, body: String, operation: TriggerOperation, type: TriggerType) {
         self.id = id
         self.resourceId = ""
@@ -76,9 +75,8 @@ public struct Trigger : CodableResource, SupportsPermissionToken {
 }
 
 
-private extension Trigger {
-    
-    private enum CodingKeys: String, CodingKey {
+extension Trigger {
+    enum CodingKeys: String, CodingKey {
         case id
         case resourceId         = "_rid"
         case selfLink           = "_self"
@@ -87,5 +85,16 @@ private extension Trigger {
         case body
         case triggerOperation
         case triggerType
+    }
+
+    init(id: String, resourceId: String, selfLink: String?, etag: String?, timestamp: Date?, altLink: String?, body: String?, triggerOperation: TriggerOperation?, triggerType: TriggerType?) {
+        self.id = id
+        self.resourceId = resourceId
+        self.selfLink = selfLink
+        self.etag = etag
+        self.timestamp = timestamp
+        self.altLink = altLink
+        self.triggerOperation = triggerOperation
+        self.triggerType = triggerType
     }
 }

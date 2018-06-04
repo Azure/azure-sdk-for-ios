@@ -125,20 +125,35 @@ public class ResourceCache {
     // MARK: - get
 
     static func get<T:CodableResource>(resourceAt location: ResourceLocation) -> T? {
-        
-        guard isEnabled else { return nil }
-        
+        guard let data = get(resourceAt: location) else { return nil }
+
         do {
-            if let file = try FileManager.default.file(at: ResourceOracle.getFilePath(forResourceAt: location)) {
-                
-                return try jsonDecoder.decode(T.self, from: decrypt(file))
-            }
+            return try jsonDecoder.decode(T.self, from: data)
+
         } catch {
             Log.error("❌ Cache Error [get]: " + error.localizedDescription)
+
             return nil
         }
+    }
 
-        return nil
+    static func get(resourceAt location: ResourceLocation) -> Data? {
+
+        guard isEnabled else { return nil }
+
+        do {
+
+            guard let data = try FileManager.default.file(at: ResourceOracle.getFilePath(forResourceAt: location)) else {
+                return nil
+            }
+
+            return decrypt(data)
+
+        } catch {
+            Log.error("❌ Cache Error [get]: " + error.localizedDescription)
+
+            return nil
+        }
     }
 
     static func get<T:CodableResources>(resourcesAt location: ResourceLocation, withContinuation continuation: String? = nil, as type: T.Type = T.self) -> (resources: T?, continuation: String?)? {

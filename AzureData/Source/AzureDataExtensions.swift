@@ -47,7 +47,7 @@ public extension Database {
     
     // get
     public func get (collectionWithId collectionId: String, callback: @escaping (Response<DocumentCollection>) -> ()) {
-        return DocumentClient.shared.get(collectionWithId: collectionId, inDatabase: self, callback: callback)
+        return DocumentClient.shared.get(collectionWithId: collectionId, in: self, callback: callback)
     }
     
     //delete
@@ -204,7 +204,7 @@ public extension DocumentCollection {
 
     // replace
     public func replace (userDefinedFunctionWithId id: String, andBody body: String, callback: @escaping (Response<UserDefinedFunction>) -> ()) {
-        return DocumentClient.shared.replace (userDefinedFunctionWithId: id, andBody: body, from: self, callback: callback)
+        return DocumentClient.shared.replace (userDefinedFunctionWithId: id, andBody: body, in: self, callback: callback)
     }
     
     

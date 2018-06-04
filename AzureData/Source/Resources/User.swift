@@ -35,14 +35,23 @@ public struct User : CodableResource {
 }
 
 
-private extension User {
-    
-    private enum CodingKeys: String, CodingKey {
+extension User {
+    enum CodingKeys: String, CodingKey {
         case id
         case resourceId         = "_rid"
         case selfLink           = "_self"
         case etag               = "_etag"
         case timestamp          = "_ts"
         case permissionsLink    = "_permissions"
+    }
+
+    init(id: String, resourceId: String, selfLink: String?, etag: String?, timestamp: Date?, altLink: String?, permissionsLink: String?) {
+        self.id = id
+        self.resourceId = resourceId
+        self.selfLink = selfLink
+        self.etag = etag
+        self.timestamp = timestamp
+        self.altLink = altLink
+        self.permissionsLink = permissionsLink
     }
 }

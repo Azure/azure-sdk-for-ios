@@ -201,7 +201,7 @@ class DocumentClient {
         return self.resource(at: .collection(databaseId: databaseId, id: collectionId), callback: callback)
     }
 
-    func get (collectionWithId collectionId: String, inDatabase database: Database, callback: @escaping (Response<DocumentCollection>) -> ()) {
+    func get (collectionWithId collectionId: String, in database: Database, callback: @escaping (Response<DocumentCollection>) -> ()) {
         return self.resource(at: .child(.collection, in: database, id: collectionId), callback: callback)
     }
 
@@ -445,7 +445,7 @@ class DocumentClient {
         return self.replace(UserDefinedFunction(functionId, body: function), at: .udf(databaseId: databaseId, collectionId: collectionId, id: functionId), callback: callback)
     }
     
-    func replace (userDefinedFunctionWithId functionId: String, andBody function: String, from collection: DocumentCollection, callback: @escaping (Response<UserDefinedFunction>) -> ()) {
+    func replace (userDefinedFunctionWithId functionId: String, andBody function: String, in collection: DocumentCollection, callback: @escaping (Response<UserDefinedFunction>) -> ()) {
         return self.replace(UserDefinedFunction(functionId, body: function), at: .child(.udf, in: collection, id: functionId), callback: callback)
     }
     
@@ -641,35 +641,57 @@ class DocumentClient {
 
         return self.resource(at: resourceLocation, currentResource: resource, callback: callback)
     }
-    
+
+    func refresh(_ resource: Data, at location: ResourceLocation, callback: @escaping (Response<Data>) -> ()) {
+
+        if let etag = resource.etag {
+
+            return self.resource(at: location, currentResource: resource, additionalHeaders: [HttpHeader.ifNoneMatch.rawValue: etag], callback: callback)
+        }
+
+        return self.resource(at: location, currentResource: resource, callback: callback)
+    }
+
     // get
     fileprivate func resource<T:CodableResource>(at resourceLocation: ResourceLocation, currentResource current: T? = nil, additionalHeaders: HttpHeaders? = nil, callback: @escaping (Response<T>) -> ()) {
-        
-        guard !isOffline else { return cachedResource(at: resourceLocation, callback: callback) }
 
-        dataRequest(forResourceAt: resourceLocation, withMethod: .get, andAdditionalHeaders: additionalHeaders) { r in
-            
+        do {
+            let data = try current != nil ? jsonEncoder.encode(current!) : nil
+
+            resource(at: resourceLocation, currentResource: data, additionalHeaders: additionalHeaders) {
+                callback($0.map { try self.jsonDecoder.decode(T.self, from: $0) })
+            }
+
+        } catch {
+            callback(Response(DocumentClientError(withError: error)))
+        }
+    }
+
+    func resource(at location: ResourceLocation, currentResource current: Data? = nil, additionalHeaders headers: HttpHeaders? = nil, callback: @escaping (Response<Data>) -> ()) {
+
+        guard !isOffline else { return cachedResource(at: location, callback: callback) }
+
+        dataRequest(forResourceAt: location, withMethod: .get, andAdditionalHeaders: headers) { r in
+
             if let request = r.resource {
-            
-                self.sendRequest(request, currentResource: current) { (response:Response<T>) in
+
+                self.sendRequest(request, currentResource: current) { r in
                     if self.isOffline {
 
-                        return self.cachedResource(at: resourceLocation, withResponse: response, callback: callback)
+                        return self.cachedResource(at: location, withResponse: r, callback: callback)
+                    }
 
-                    } else {
+                    callback(r)
 
-                        // response.logError()
-                        
-                        callback(response)
-                    
-                        if let resource = response.resource {
-                            ResourceCache.cache(resource)
-                            return
-                        }
+                    if let resource = r.resource, let properties = ResourceSystemProperties(for: resource),
+                        let selfLink = properties.selfLink {
+                        let altLink = location.altLink(forId: properties.id)
+                        ResourceCache.cache(resource, usingSelfLink: selfLink, andAltLink: altLink)
+                        return
+                    }
 
-                        if let error = response.clientError?.kind, case .notFound = error {
-                            ResourceCache.remove(resourceAt: resourceLocation)
-                        }
+                    if let error = r.clientError?.kind, case .notFound = error {
+                        ResourceCache.remove(resourceAt: location)
                     }
                 }
             } else {
@@ -677,7 +699,7 @@ class DocumentClient {
             }
         }
     }
-    
+
     // list
     func resources<T: CodableResources> (at resourceLocation: ResourceLocation, maxPerPage: Int? = nil, additionalHeaders headers: HttpHeaders? = nil, callback: @escaping (Response<T>) -> ()) {
         
@@ -898,9 +920,14 @@ class DocumentClient {
 
     // cached
     fileprivate func cachedResource<T:CodableResource>(at resourceLocation: ResourceLocation, withResponse response: Response<T>? = nil, callback: @escaping (Response<T>) -> ()) {
-        
-        if let resource: T = ResourceCache.get(resourceAt: resourceLocation) {
+        cachedResource(at: resourceLocation) { callback($0.map { try self.jsonDecoder.decode(T.self, from: $0) }) }
+    }
+
+    fileprivate func cachedResource(at location: ResourceLocation, withResponse response: Response<Data>? = nil, callback: @escaping (Response<Data>) -> ()) {
+
+        if let resource: Data = ResourceCache.get(resourceAt: location) {
             callback(Response(request: response?.request, data: response?.data, response: response?.response, result: .success(resource), fromCache: true))
+
         } else {
             callback(Response(request: response?.request, data: response?.data, response: response?.response, result: .failure(DocumentClientError(withKind: .serviceUnavailable))))
         }
