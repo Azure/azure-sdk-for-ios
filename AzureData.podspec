@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name          = 'AzureData'
-  s.version       = '0.1.2'
+  s.version       = '0.1.3'
   s.summary       = 'Microsoft Azure Cosmos DB client SDKs for iOS.'
 
   s.description   = 'Microsoft Azure Cosmos DB client SDKs for iOS, macOS, watchOS, tvOS.'
@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
 
   s.source        = { :git => 'https://github.com/Azure/Azure.iOS.git', :tag => "v#{s.version}" }
 
-  s.dependency 'AzureCore', '0.1.2'
+  s.dependency 'AzureCore', '0.1.3'
 
   s.swift_version = '4.1'
 
