@@ -8,7 +8,7 @@
 
 @import Foundation;
 
-#import <AzureCore/CryptoProvider.h>
+#import "CryptoProvider.h"
 
 FOUNDATION_EXPORT double AzureCoreVersionNumber;
 

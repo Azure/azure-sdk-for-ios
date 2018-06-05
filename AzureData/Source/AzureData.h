@@ -8,8 +8,10 @@
 
 @import Foundation;
 
-FOUNDATION_EXPORT double AzureDataVersionNumber;
+#import "ADDocument.h"
 
-#import <AzureData/ADDocument.h>
+#import <AzureCore/AzureCore-Swift.h>
+
+FOUNDATION_EXPORT double AzureDataVersionNumber;
 
 FOUNDATION_EXPORT const unsigned char AzureDataVersionString[];
