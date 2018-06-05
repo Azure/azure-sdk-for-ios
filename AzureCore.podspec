@@ -10,7 +10,8 @@ Pod::Spec.new do |s|
   s.license       = { :type => 'MIT', :file => 'LICENSE' }
   s.author        = 'Microsoft Azure'
   
-  s.source        = { :git => 'https://github.com/Azure/Azure.iOS.git', :tag => "v#{s.version}" }
+  s.source        = { :git => 'https://github.com/Azure/Azure.iOS.git',
+                      :tag => "v#{s.version}" }
 
   s.dependency 'Willow', '~> 5.0'
   s.dependency 'KeychainAccess', '~> 3.1'
