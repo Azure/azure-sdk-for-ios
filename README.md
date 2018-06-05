@@ -8,14 +8,14 @@ _**This project is in active development and will change.** As the SDKs become r
 
 # SDKs
 The SDKs are broken out by function and are designed to work just as well individually as they do together.
-- [AzureCore](#azurecore)
-- [AzureAuth](#azureauth)
-- [AzureData](#azuredata)
-- [AzurePush](#azurepush)
-- [AzureStorage](#azurestorage)
+- [AzureCore](AzureCore)
+- [AzureData](AzureData)
+- [AzureAuth](AzureAuth)
+- [AzurePush](AzurePush)
+- [AzureStorage](AzureStorage)
 
 ## AzureCore
-![Current State: Development](https://img.shields.io/badge/Current_State-Development-blue.svg)
+![Current State: Preview](https://img.shields.io/badge/Current_State-Preview-green.svg)
 
 [AzureCore API Reference](https://github.com/Azure/Azure.iOS/wiki/AzureCore) and [samples](https://github.com/Azure/Azure.iOS/wiki/AzureCore) can be found on our [wiki](https://github.com/Azure/Azure.iOS/wiki).
 
@@ -31,6 +31,17 @@ AzureCore is a shared dependency of the other four SDKs. It will include the fol
 More information on the features to be included in AzureCore can be found the [Requirements](https://github.com/Azure/Azure.iOS/wiki/Requirements-AzureCore) wiki document.
 
 
+## AzureData
+![Current State: Preview](https://img.shields.io/badge/Current_State-Preview-green.svg)
+
+[AzureData API Reference](AzureData#usage) and [samples](Example/AzureData%20iOS%20Example) can be found on on the [README](AzureData).
+
+AzureData is an SDK for interfacing with [Azure Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-introduction) - A schema-less JSON database engine with rich SQL querying capabilities. It currently supports the full SQL (DocumentDB) API and development to add offline persistence will start very soon.
+
+
+More information on the features to be included in AzureData can be found the [Requirements](https://github.com/Azure/Azure.iOS/wiki/Requirements-AzureData) wiki document.
+
+
 ## AzureAuth
 ![Current State: Requirements](https://img.shields.io/badge/Current_State-Requirements-red.svg)
 
@@ -41,17 +52,6 @@ AzureAuth is an SDK that enables authentication with popular identity providers 
 Azure App Service uses federated identity, in which a third-party identity provider stores accounts and authenticates users. The application relies on the provider's identity information so that the app doesn't have to store that information itself. 
 
 More information on the features to be included in AzureAuth can be found the [Requirements](https://github.com/Azure/Azure.iOS/wiki/Requirements-AzureAuth) wiki document.
-
-
-## AzureData
-![Current State: Development](https://img.shields.io/badge/Current_State-Development-blue.svg)
-
-[AzureData API Reference](https://github.com/Azure/Azure.iOS/wiki/AzureData) and [samples](https://github.com/Azure/Azure.iOS/wiki/AzureData) can be found on our [wiki](https://github.com/Azure/Azure.iOS/wiki).
-
-AzureData is an SDK for interfacing with [Azure Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-introduction) - A schema-less JSON database engine with rich SQL querying capabilities. It currently supports the full SQL (DocumentDB) API and development to add offline persistence will start very soon.
-
-
-More information on the features to be included in AzureData can be found the [Requirements](https://github.com/Azure/Azure.iOS/wiki/Requirements-AzureData) wiki document.
 
 
 ## AzurePush
