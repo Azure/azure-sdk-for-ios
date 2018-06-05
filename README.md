@@ -1,6 +1,6 @@
 
 
-# Azure.iOS [![Build Status](https://travis-ci.org/Azure/Azure.iOS.svg?branch=master)](https://travis-ci.org/Azure/Azure.iOS) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![CocoaPod](https://img.shields.io/cocoapods/v/AzureData.svg)](https://cocoapods.org/pods/AzureData)
+# Azure.iOS [![Build Status](https://travis-ci.org/Azure/Azure.iOS.svg?branch=master)](https://travis-ci.org/Azure/Azure.iOS) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![CocoaPod](https://img.shields.io/cocoapods/v/AzureData.svg)](https://cocoapods.org/pods/AzureData) ![Platforms](https://img.shields.io/cocoapods/p/AzureData.svg)
 
 Azure.iOS is a collection of SDKs for rapidly creating iOS apps with modern, highly-scalable backends on Azure.
 
@@ -8,14 +8,26 @@ _**This project is in active development and will change.** As the SDKs become r
 
 # SDKs
 The SDKs are broken out by function and are designed to work just as well individually as they do together.
-- [AzureCore](AzureCore)
 - [AzureData](AzureData)
+- [AzureCore](AzureCore)
 - [AzureAuth](AzureAuth)
 - [AzurePush](AzurePush)
 - [AzureStorage](AzureStorage)
 
+
+## AzureData
+![Current State: Preview Release](https://img.shields.io/badge/Current_State-Preview_Release-brightgreen.svg)
+
+[AzureData API Reference](AzureData#usage) and [samples](Example/AzureData%20iOS%20Example) can be found on on the [README](AzureData).
+
+AzureData is an SDK for interfacing with [Azure Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-introduction) - A schema-less JSON database engine with rich SQL querying capabilities. It currently supports the full SQL (DocumentDB) API and development to add offline persistence will start very soon.
+
+
+More information on the features to be included in AzureData can be found the [Requirements](https://github.com/Azure/Azure.iOS/wiki/Requirements-AzureData) wiki document.
+
+
 ## AzureCore
-![Current State: Preview](https://img.shields.io/badge/Current_State-Preview-green.svg)
+![Current State: Preview Release](https://img.shields.io/badge/Current_State-Preview_Release-brightgreen.svg)
 
 [AzureCore API Reference](https://github.com/Azure/Azure.iOS/wiki/AzureCore) and [samples](https://github.com/Azure/Azure.iOS/wiki/AzureCore) can be found on our [wiki](https://github.com/Azure/Azure.iOS/wiki).
 
@@ -29,17 +41,6 @@ AzureCore is a shared dependency of the other four SDKs. It will include the fol
 - Base Errors
 
 More information on the features to be included in AzureCore can be found the [Requirements](https://github.com/Azure/Azure.iOS/wiki/Requirements-AzureCore) wiki document.
-
-
-## AzureData
-![Current State: Preview](https://img.shields.io/badge/Current_State-Preview-green.svg)
-
-[AzureData API Reference](AzureData#usage) and [samples](Example/AzureData%20iOS%20Example) can be found on on the [README](AzureData).
-
-AzureData is an SDK for interfacing with [Azure Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-introduction) - A schema-less JSON database engine with rich SQL querying capabilities. It currently supports the full SQL (DocumentDB) API and development to add offline persistence will start very soon.
-
-
-More information on the features to be included in AzureData can be found the [Requirements](https://github.com/Azure/Azure.iOS/wiki/Requirements-AzureData) wiki document.
 
 
 ## AzureAuth
