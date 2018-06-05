@@ -1,24 +1,28 @@
 # AzureData
 
-![Current State: Development](https://img.shields.io/badge/Current_State-Development-blue.svg)
+![Current State: Development](https://img.shields.io/badge/Current_State-Development-blue.svg) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![CocoaPod](https://img.shields.io/cocoapods/v/AzureData.svg)](https://cocoapods.org/pods/AzureData) ![Platforms](https://img.shields.io/cocoapods/p/AzureData.svg)
 
 [AzureData API Reference](https://github.com/Azure/Azure.iOS/wiki/AzureData) and [samples](https://github.com/Azure/Azure.iOS/wiki/AzureData) can be found on our [wiki](https://github.com/Azure/Azure.iOS/wiki).
 
-AzureData is an SDK for interfacing with [Azure Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-introduction) - A schema-less JSON database engine with rich SQL querying capabilities. It currently supports the full SQL (DocumentDB) API and development to add offline persistence will start very soon.
+AzureData is an SDK for interfacing with [Azure Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-introduction) - A schema-less JSON database engine with rich SQL querying capabilities. It currently supports the full SQL (DocumentDB) API, and offline persistence (inluding read/write).
 
 More information on the features to be included in AzureData can be found the [Requirements](https://github.com/Azure/Azure.iOS/wiki/Requirements-AzureData) wiki document.
 
 
 # Configure
 
-Before making calls to AzureData, you'll need to configure AzureData with your Azure account name and master key using one of the `AzureData.configure` functions. We recommend doing this in `application(_:didFinishLaunchingWithOptions:)`. You  can provide your Azure account name and master key, programmatically, as parameters to `AzureData.configure` or you can provide them in a property list (`.plist`) file.
+Before making calls to AzureData, you'll need to configure AzureData with your Azure account name and master key using one of the `AzureData.configure` functions. We recommend doing this in `application(_:didFinishLaunchingWithOptions:)`. You can provide your Azure account name and master key, programmatically, as parameters to `AzureData.configure` or you can provide them in a property list (`.plist`) file.
 
 ## Programmatically
 
 ```swift
 func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     
-    AzureData.configure(forAccountNamed: "<Database Name>", withMasterKey: "<Database Master Key>", withPermissionMode: "<Master Key Permission Mode>")
+    AzureData.configure(forAccountNamed: "<Account Name>", withPermissionProvider: MyPermissionProvider())
+
+    // or
+
+    AzureData.configure(forAccountNamed: "<Account Name>", withMasterKey: "<Account Master Key>", withPermissionMode: "<Master Key Permission Mode>")
 
     return true
 }
