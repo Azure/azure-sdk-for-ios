@@ -14,6 +14,8 @@ Pod::Spec.new do |s|
 
   s.dependency 'AzureCore', s.version
 
+  s.swift_version = '4.1'
+
   s.source_files = 'AzureData/Source/**/*.{swift,h,m}'
 
   s.ios.deployment_target     = '10.0'

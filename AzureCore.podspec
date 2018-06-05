@@ -15,6 +15,8 @@ Pod::Spec.new do |s|
   s.dependency 'Willow', '~> 5.0'
   s.dependency 'KeychainAccess', '~> 3.1'
 
+  s.swift_version = '4.1'
+
   s.source_files = 'AzureCore/Source/*.{swift,h,m}'
   
   s.ios.deployment_target     = '10.0'
