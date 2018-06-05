@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
 
   s.source        = { :git => 'https://github.com/Azure/Azure.iOS.git', :tag => "v#{s.version}" }
 
-  s.dependency 'AzureCore', s.version
+  s.dependency 'AzureCore', '0.1.2'
 
   s.swift_version = '4.1'
 
