@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name          = 'AzureData'
-  s.version       = '0.1.1'
+  s.version       = '0.1.2'
   s.summary       = 'Microsoft Azure Cosmos DB client SDKs for iOS.'
 
   s.description   = 'Microsoft Azure Cosmos DB client SDKs for iOS, macOS, watchOS, tvOS.'
@@ -9,10 +9,10 @@ Pod::Spec.new do |s|
   s.homepage      = 'https://github.com/Azure/Azure.iOS'
   s.license       = { :type => 'MIT', :file => 'LICENSE' }
   s.author        = 'Microsoft Azure'
-  s.source        = { :git => 'https://github.com/Azure/Azure.iOS.git',
-                      :tag => "v#{s.version}" }
 
-  s.dependency 'AzureCore', '0.1.1'
+  s.source        = { :git => 'https://github.com/Azure/Azure.iOS.git', :tag => "v#{s.version}" }
+
+  s.dependency 'AzureCore', s.version
 
   s.source_files = 'AzureData/Source/**/*.{swift,h,m}'
 

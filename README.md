@@ -15,31 +15,20 @@ The SDKs are broken out by function and are designed to work just as well indivi
 - [AzureStorage](AzureStorage)
 
 
-## AzureData
+## [AzureData](AzureData)
 ![Current State: Preview Release](https://img.shields.io/badge/Current_State-Preview_Release-brightgreen.svg)
-
-[AzureData API Reference](AzureData#usage) and [samples](Example/AzureData%20iOS%20Example) can be found on on the [README](AzureData).
 
 AzureData is an SDK for interfacing with [Azure Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-introduction) - A schema-less JSON database engine with rich SQL querying capabilities. It currently supports the full SQL (DocumentDB) API, and offline persistence (inluding read/write).
 
-More information on the features to be included in AzureData can be found the [Requirements](https://github.com/Azure/Azure.iOS/wiki/Requirements-AzureData) wiki document.
+[AzureData API reference](AzureData#usage) can be found on the [AzureData README](AzureData), and an [example app](Example/AzureData%20iOS%20Example) can be found in the [Example](Example) directory.
 
 
-## AzureCore
+## [AzureCore](AzureCore)
 ![Current State: Preview Release](https://img.shields.io/badge/Current_State-Preview_Release-brightgreen.svg)
 
-[AzureCore API Reference](https://github.com/Azure/Azure.iOS/wiki/AzureCore) and [samples](https://github.com/Azure/Azure.iOS/wiki/AzureCore) can be found on our [wiki](https://github.com/Azure/Azure.iOS/wiki).
+AzureCore is a shared dependency of the other four SDKs. It includes functionality like secure storage, reachablility, logging, etc.
 
-AzureCore is a shared dependency of the other four SDKs. It will include the following functionality:
-- Secure Storage
-- Preference Storage
-- Reachability
-- Logging
-- Encoding
-- User Agent Generation
-- Base Errors
-
-More information on the features to be included in AzureCore can be found the [Requirements](https://github.com/Azure/Azure.iOS/wiki/Requirements-AzureCore) wiki document.
+AzureCore API reference and feature coverage can be found on the [AzureCore README](AzureCore)
 
 
 ## AzureAuth
