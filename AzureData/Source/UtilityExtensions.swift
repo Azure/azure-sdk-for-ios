@@ -71,14 +71,14 @@ extension HTTPURLResponse {
 
         headers[header] = value
 
-        return HTTPURLResponse(url: self.url ?? URL(string: "")!, statusCode: statusCode, httpVersion: "HTTP/1.1", headerFields: headers)
+        return HTTPURLResponse(url: self.url ?? URL(string: "nourl://")!, statusCode: statusCode, httpVersion: "HTTP/1.1", headerFields: headers)
     }
 }
 
 extension Optional where Wrapped == HTTPURLResponse {
     func withValue(_ value: String, forHeader header: String) -> HTTPURLResponse? {
         guard let response = self else {
-            return HTTPURLResponse(url: URL(string: "")!, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: [header: value])
+            return HTTPURLResponse(url: URL(string: "nourl://")!, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: [header: value])
         }
 
         return response.withValue(value, forHeader: header)
