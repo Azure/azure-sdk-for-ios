@@ -29,62 +29,6 @@
 		32532A5C207825A1002BFFCA /* ResponseMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32532A59207825A1002BFFCA /* ResponseMetadata.swift */; };
 		32532A5E207825A1002BFFCA /* ResponseMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32532A59207825A1002BFFCA /* ResponseMetadata.swift */; };
 		32532A60207825A1002BFFCA /* ResponseMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32532A59207825A1002BFFCA /* ResponseMetadata.swift */; };
-		3257CC5520C1486A004E51FF /* ObjectiveCUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3257CC5420C1486A004E51FF /* ObjectiveCUtilities.swift */; };
-		3257CC5620C1486A004E51FF /* ObjectiveCUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3257CC5420C1486A004E51FF /* ObjectiveCUtilities.swift */; };
-		3257CC5720C1486A004E51FF /* ObjectiveCUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3257CC5420C1486A004E51FF /* ObjectiveCUtilities.swift */; };
-		3257CC5820C1486A004E51FF /* ObjectiveCUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3257CC5420C1486A004E51FF /* ObjectiveCUtilities.swift */; };
-		3257CCA120C1CCE4004E51FF /* ADDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 3257CCA020C1CCE4004E51FF /* ADDocument.m */; };
-		3257CCA220C1CCE4004E51FF /* ADDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 3257CCA020C1CCE4004E51FF /* ADDocument.m */; };
-		3257CCA320C1CCE4004E51FF /* ADDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 3257CCA020C1CCE4004E51FF /* ADDocument.m */; };
-		3257CCA420C1CCE4004E51FF /* ADDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 3257CCA020C1CCE4004E51FF /* ADDocument.m */; };
-		3257CCA620C1D701004E51FF /* ADDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 3257CCA520C1D701004E51FF /* ADDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		3257CCA720C1D701004E51FF /* ADDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 3257CCA520C1D701004E51FF /* ADDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		3257CCA820C1D701004E51FF /* ADDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 3257CCA520C1D701004E51FF /* ADDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		3257CCA920C1D701004E51FF /* ADDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 3257CCA520C1D701004E51FF /* ADDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		326E731820BC2041006D2DBD /* ADAzureData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E731720BC2041006D2DBD /* ADAzureData.swift */; };
-		326E731920BC2041006D2DBD /* ADAzureData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E731720BC2041006D2DBD /* ADAzureData.swift */; };
-		326E731A20BC2041006D2DBD /* ADAzureData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E731720BC2041006D2DBD /* ADAzureData.swift */; };
-		326E731B20BC2041006D2DBD /* ADAzureData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E731720BC2041006D2DBD /* ADAzureData.swift */; };
-		326E731D20BC2185006D2DBD /* ADPermissionMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E731C20BC2185006D2DBD /* ADPermissionMode.swift */; };
-		326E731E20BC2185006D2DBD /* ADPermissionMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E731C20BC2185006D2DBD /* ADPermissionMode.swift */; };
-		326E731F20BC2185006D2DBD /* ADPermissionMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E731C20BC2185006D2DBD /* ADPermissionMode.swift */; };
-		326E732020BC2185006D2DBD /* ADPermissionMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E731C20BC2185006D2DBD /* ADPermissionMode.swift */; };
-		326E732220BC22EE006D2DBD /* ADPermissionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E732120BC22EE006D2DBD /* ADPermissionProvider.swift */; };
-		326E732320BC22EE006D2DBD /* ADPermissionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E732120BC22EE006D2DBD /* ADPermissionProvider.swift */; };
-		326E732420BC22EE006D2DBD /* ADPermissionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E732120BC22EE006D2DBD /* ADPermissionProvider.swift */; };
-		326E732520BC22EE006D2DBD /* ADPermissionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E732120BC22EE006D2DBD /* ADPermissionProvider.swift */; };
-		326E732720BC2339006D2DBD /* ADPermissionProviderConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E732620BC2339006D2DBD /* ADPermissionProviderConfiguration.swift */; };
-		326E732820BC2339006D2DBD /* ADPermissionProviderConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E732620BC2339006D2DBD /* ADPermissionProviderConfiguration.swift */; };
-		326E732920BC2339006D2DBD /* ADPermissionProviderConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E732620BC2339006D2DBD /* ADPermissionProviderConfiguration.swift */; };
-		326E732A20BC2339006D2DBD /* ADPermissionProviderConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E732620BC2339006D2DBD /* ADPermissionProviderConfiguration.swift */; };
-		326E732C20BC23BE006D2DBD /* ADResourceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E732B20BC23BE006D2DBD /* ADResourceType.swift */; };
-		326E732D20BC23BE006D2DBD /* ADResourceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E732B20BC23BE006D2DBD /* ADResourceType.swift */; };
-		326E732E20BC23BE006D2DBD /* ADResourceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E732B20BC23BE006D2DBD /* ADResourceType.swift */; };
-		326E732F20BC23BE006D2DBD /* ADResourceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E732B20BC23BE006D2DBD /* ADResourceType.swift */; };
-		326E733120BC28B4006D2DBD /* ADResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E733020BC28B4006D2DBD /* ADResponse.swift */; };
-		326E733220BC28B4006D2DBD /* ADResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E733020BC28B4006D2DBD /* ADResponse.swift */; };
-		326E733320BC28B4006D2DBD /* ADResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E733020BC28B4006D2DBD /* ADResponse.swift */; };
-		326E733420BC28B4006D2DBD /* ADResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E733020BC28B4006D2DBD /* ADResponse.swift */; };
-		326E733620BC2AB8006D2DBD /* ADResponseMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E733520BC2AB8006D2DBD /* ADResponseMetadata.swift */; };
-		326E733720BC2AB8006D2DBD /* ADResponseMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E733520BC2AB8006D2DBD /* ADResponseMetadata.swift */; };
-		326E733820BC2AB8006D2DBD /* ADResponseMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E733520BC2AB8006D2DBD /* ADResponseMetadata.swift */; };
-		326E733920BC2AB8006D2DBD /* ADResponseMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E733520BC2AB8006D2DBD /* ADResponseMetadata.swift */; };
-		326E734520BC95E7006D2DBD /* ADDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E734420BC95E7006D2DBD /* ADDatabase.swift */; };
-		326E734620BC95E7006D2DBD /* ADDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E734420BC95E7006D2DBD /* ADDatabase.swift */; };
-		326E734720BC95E7006D2DBD /* ADDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E734420BC95E7006D2DBD /* ADDatabase.swift */; };
-		326E734820BC95E7006D2DBD /* ADDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E734420BC95E7006D2DBD /* ADDatabase.swift */; };
-		326E734A20BC9B9B006D2DBD /* ADResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E734920BC9B9B006D2DBD /* ADResources.swift */; };
-		326E734B20BC9B9B006D2DBD /* ADResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E734920BC9B9B006D2DBD /* ADResources.swift */; };
-		326E734C20BC9B9B006D2DBD /* ADResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E734920BC9B9B006D2DBD /* ADResources.swift */; };
-		326E734D20BC9B9B006D2DBD /* ADResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E734920BC9B9B006D2DBD /* ADResources.swift */; };
-		326E734F20BC9D07006D2DBD /* ObjectiveCBridgeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E734E20BC9D07006D2DBD /* ObjectiveCBridgeable.swift */; };
-		326E735020BC9D07006D2DBD /* ObjectiveCBridgeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E734E20BC9D07006D2DBD /* ObjectiveCBridgeable.swift */; };
-		326E735120BC9D07006D2DBD /* ObjectiveCBridgeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E734E20BC9D07006D2DBD /* ObjectiveCBridgeable.swift */; };
-		326E735220BC9D07006D2DBD /* ObjectiveCBridgeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E734E20BC9D07006D2DBD /* ObjectiveCBridgeable.swift */; };
-		326E735420BCA3FC006D2DBD /* ADDocumentCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E735320BCA3FC006D2DBD /* ADDocumentCollection.swift */; };
-		326E735520BCA3FC006D2DBD /* ADDocumentCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E735320BCA3FC006D2DBD /* ADDocumentCollection.swift */; };
-		326E735620BCA3FC006D2DBD /* ADDocumentCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E735320BCA3FC006D2DBD /* ADDocumentCollection.swift */; };
-		326E735720BCA3FC006D2DBD /* ADDocumentCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326E735320BCA3FC006D2DBD /* ADDocumentCollection.swift */; };
 		327996FF209C830C0062A374 /* ResourceWriteOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327996FE209C830C0062A374 /* ResourceWriteOperationQueue.swift */; };
 		32799700209C830C0062A374 /* ResourceWriteOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327996FE209C830C0062A374 /* ResourceWriteOperationQueue.swift */; };
 		32799701209C830C0062A374 /* ResourceWriteOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327996FE209C830C0062A374 /* ResourceWriteOperationQueue.swift */; };
@@ -93,85 +37,13 @@
 		329AA647209CEF470007A955 /* ResourceSystemProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329AA645209CEF470007A955 /* ResourceSystemProperties.swift */; };
 		329AA648209CEF470007A955 /* ResourceSystemProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329AA645209CEF470007A955 /* ResourceSystemProperties.swift */; };
 		329AA649209CEF470007A955 /* ResourceSystemProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329AA645209CEF470007A955 /* ResourceSystemProperties.swift */; };
-		329C7DAF20BEB3EE00A49453 /* ADQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DAE20BEB3EE00A49453 /* ADQuery.swift */; };
-		329C7DB020BEB3EE00A49453 /* ADQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DAE20BEB3EE00A49453 /* ADQuery.swift */; };
-		329C7DB120BEB3EE00A49453 /* ADQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DAE20BEB3EE00A49453 /* ADQuery.swift */; };
-		329C7DB220BEB3EE00A49453 /* ADQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DAE20BEB3EE00A49453 /* ADQuery.swift */; };
 		329C7DB420BEC28000A49453 /* OfflineReadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DB320BEC28000A49453 /* OfflineReadTests.swift */; };
 		329C7DB520BEC28000A49453 /* OfflineReadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DB320BEC28000A49453 /* OfflineReadTests.swift */; };
 		329C7DB620BEC28000A49453 /* OfflineReadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DB320BEC28000A49453 /* OfflineReadTests.swift */; };
-		329C7DB820BECBEB00A49453 /* ADAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DB720BECBEB00A49453 /* ADAttachment.swift */; };
-		329C7DB920BECBEB00A49453 /* ADAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DB720BECBEB00A49453 /* ADAttachment.swift */; };
-		329C7DBA20BECBEB00A49453 /* ADAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DB720BECBEB00A49453 /* ADAttachment.swift */; };
-		329C7DBB20BECBEB00A49453 /* ADAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DB720BECBEB00A49453 /* ADAttachment.swift */; };
-		329C7DBD20BEDCF200A49453 /* ADStoredProcedure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DBC20BEDCF200A49453 /* ADStoredProcedure.swift */; };
-		329C7DBE20BEDCF200A49453 /* ADStoredProcedure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DBC20BEDCF200A49453 /* ADStoredProcedure.swift */; };
-		329C7DBF20BEDCF200A49453 /* ADStoredProcedure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DBC20BEDCF200A49453 /* ADStoredProcedure.swift */; };
-		329C7DC020BEDCF200A49453 /* ADStoredProcedure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DBC20BEDCF200A49453 /* ADStoredProcedure.swift */; };
-		329C7DC220BEE3B500A49453 /* ADUserDefinedFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DC120BEE3B500A49453 /* ADUserDefinedFunction.swift */; };
-		329C7DC320BEE3B500A49453 /* ADUserDefinedFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DC120BEE3B500A49453 /* ADUserDefinedFunction.swift */; };
-		329C7DC420BEE3B500A49453 /* ADUserDefinedFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DC120BEE3B500A49453 /* ADUserDefinedFunction.swift */; };
-		329C7DC520BEE3B500A49453 /* ADUserDefinedFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DC120BEE3B500A49453 /* ADUserDefinedFunction.swift */; };
-		329C7DC720BEE7A600A49453 /* ADTrigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DC620BEE7A600A49453 /* ADTrigger.swift */; };
-		329C7DC820BEE7A600A49453 /* ADTrigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DC620BEE7A600A49453 /* ADTrigger.swift */; };
-		329C7DC920BEE7A600A49453 /* ADTrigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DC620BEE7A600A49453 /* ADTrigger.swift */; };
-		329C7DCA20BEE7A600A49453 /* ADTrigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DC620BEE7A600A49453 /* ADTrigger.swift */; };
-		329C7DCC20BEF15D00A49453 /* ADUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DCB20BEF15D00A49453 /* ADUser.swift */; };
-		329C7DCD20BEF15D00A49453 /* ADUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DCB20BEF15D00A49453 /* ADUser.swift */; };
-		329C7DCE20BEF15D00A49453 /* ADUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DCB20BEF15D00A49453 /* ADUser.swift */; };
-		329C7DCF20BEF15D00A49453 /* ADUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DCB20BEF15D00A49453 /* ADUser.swift */; };
-		329C7DD120BEF9E100A49453 /* ADResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DD020BEF9E100A49453 /* ADResource.swift */; };
-		329C7DD220BEF9E100A49453 /* ADResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DD020BEF9E100A49453 /* ADResource.swift */; };
-		329C7DD320BEF9E100A49453 /* ADResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DD020BEF9E100A49453 /* ADResource.swift */; };
-		329C7DD420BEF9E100A49453 /* ADResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DD020BEF9E100A49453 /* ADResource.swift */; };
-		329C7DD620BEFDF600A49453 /* ADOffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DD520BEFDF600A49453 /* ADOffer.swift */; };
-		329C7DD720BEFDF600A49453 /* ADOffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DD520BEFDF600A49453 /* ADOffer.swift */; };
-		329C7DD820BEFDF600A49453 /* ADOffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DD520BEFDF600A49453 /* ADOffer.swift */; };
-		329C7DD920BEFDF600A49453 /* ADOffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DD520BEFDF600A49453 /* ADOffer.swift */; };
-		329C7DDB20BF08DF00A49453 /* ADSupportsPermissionToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DDA20BF08DF00A49453 /* ADSupportsPermissionToken.swift */; };
-		329C7DDC20BF08DF00A49453 /* ADSupportsPermissionToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DDA20BF08DF00A49453 /* ADSupportsPermissionToken.swift */; };
-		329C7DDD20BF08DF00A49453 /* ADSupportsPermissionToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DDA20BF08DF00A49453 /* ADSupportsPermissionToken.swift */; };
-		329C7DDE20BF08DF00A49453 /* ADSupportsPermissionToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DDA20BF08DF00A49453 /* ADSupportsPermissionToken.swift */; };
-		329C7DE020BF0CED00A49453 /* SwiftWrappers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DDF20BF0CED00A49453 /* SwiftWrappers.swift */; };
-		329C7DE120BF0CED00A49453 /* SwiftWrappers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DDF20BF0CED00A49453 /* SwiftWrappers.swift */; };
-		329C7DE220BF0CED00A49453 /* SwiftWrappers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DDF20BF0CED00A49453 /* SwiftWrappers.swift */; };
-		329C7DE320BF0CED00A49453 /* SwiftWrappers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329C7DDF20BF0CED00A49453 /* SwiftWrappers.swift */; };
 		32A5030720A1D16F000C5948 /* ResourceEncryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A5030620A1D16F000C5948 /* ResourceEncryptor.swift */; };
 		32A5030820A1D16F000C5948 /* ResourceEncryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A5030620A1D16F000C5948 /* ResourceEncryptor.swift */; };
 		32A5030920A1D16F000C5948 /* ResourceEncryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A5030620A1D16F000C5948 /* ResourceEncryptor.swift */; };
 		32A5030A20A1D16F000C5948 /* ResourceEncryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A5030620A1D16F000C5948 /* ResourceEncryptor.swift */; };
-		32A77CD620C0566E00846397 /* ADPartitionKeyDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A77CD520C0566E00846397 /* ADPartitionKeyDefinition.swift */; };
-		32A77CD720C0566E00846397 /* ADPartitionKeyDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A77CD520C0566E00846397 /* ADPartitionKeyDefinition.swift */; };
-		32A77CD820C0566E00846397 /* ADPartitionKeyDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A77CD520C0566E00846397 /* ADPartitionKeyDefinition.swift */; };
-		32A77CD920C0566E00846397 /* ADPartitionKeyDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A77CD520C0566E00846397 /* ADPartitionKeyDefinition.swift */; };
-		32A77CDB20C0569C00846397 /* ADIndexingMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A77CDA20C0569C00846397 /* ADIndexingMode.swift */; };
-		32A77CDC20C0569C00846397 /* ADIndexingMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A77CDA20C0569C00846397 /* ADIndexingMode.swift */; };
-		32A77CDD20C0569C00846397 /* ADIndexingMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A77CDA20C0569C00846397 /* ADIndexingMode.swift */; };
-		32A77CDE20C0569C00846397 /* ADIndexingMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A77CDA20C0569C00846397 /* ADIndexingMode.swift */; };
-		32A77CE020C056D900846397 /* ADIndexKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A77CDF20C056D900846397 /* ADIndexKind.swift */; };
-		32A77CE120C056D900846397 /* ADIndexKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A77CDF20C056D900846397 /* ADIndexKind.swift */; };
-		32A77CE220C056D900846397 /* ADIndexKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A77CDF20C056D900846397 /* ADIndexKind.swift */; };
-		32A77CE320C056D900846397 /* ADIndexKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A77CDF20C056D900846397 /* ADIndexKind.swift */; };
-		32A77CE520C056F100846397 /* ADIndexDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A77CE420C056F100846397 /* ADIndexDataType.swift */; };
-		32A77CE620C056F100846397 /* ADIndexDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A77CE420C056F100846397 /* ADIndexDataType.swift */; };
-		32A77CE720C056F100846397 /* ADIndexDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A77CE420C056F100846397 /* ADIndexDataType.swift */; };
-		32A77CE820C056F100846397 /* ADIndexDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A77CE420C056F100846397 /* ADIndexDataType.swift */; };
-		32A77CEA20C0570E00846397 /* ADIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A77CE920C0570E00846397 /* ADIndex.swift */; };
-		32A77CEB20C0570E00846397 /* ADIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A77CE920C0570E00846397 /* ADIndex.swift */; };
-		32A77CEC20C0570E00846397 /* ADIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A77CE920C0570E00846397 /* ADIndex.swift */; };
-		32A77CED20C0570E00846397 /* ADIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A77CE920C0570E00846397 /* ADIndex.swift */; };
-		32A77CEF20C0573000846397 /* ADIncludedPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A77CEE20C0573000846397 /* ADIncludedPath.swift */; };
-		32A77CF020C0573000846397 /* ADIncludedPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A77CEE20C0573000846397 /* ADIncludedPath.swift */; };
-		32A77CF120C0573000846397 /* ADIncludedPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A77CEE20C0573000846397 /* ADIncludedPath.swift */; };
-		32A77CF220C0573000846397 /* ADIncludedPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A77CEE20C0573000846397 /* ADIncludedPath.swift */; };
-		32A77CF420C0574A00846397 /* ADExcludedPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A77CF320C0574A00846397 /* ADExcludedPath.swift */; };
-		32A77CF520C0574A00846397 /* ADExcludedPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A77CF320C0574A00846397 /* ADExcludedPath.swift */; };
-		32A77CF620C0574A00846397 /* ADExcludedPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A77CF320C0574A00846397 /* ADExcludedPath.swift */; };
-		32A77CF720C0574A00846397 /* ADExcludedPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A77CF320C0574A00846397 /* ADExcludedPath.swift */; };
-		32A77CF920C0576600846397 /* ADIndexingPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A77CF820C0576600846397 /* ADIndexingPolicy.swift */; };
-		32A77CFA20C0576600846397 /* ADIndexingPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A77CF820C0576600846397 /* ADIndexingPolicy.swift */; };
-		32A77CFB20C0576600846397 /* ADIndexingPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A77CF820C0576600846397 /* ADIndexingPolicy.swift */; };
-		32A77CFC20C0576600846397 /* ADIndexingPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A77CF820C0576600846397 /* ADIndexingPolicy.swift */; };
 		32AABD1E20AC9FB900F66DC6 /* OfflineWriteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AABD1D20AC9FB900F66DC6 /* OfflineWriteTests.swift */; };
 		32AABD1F20AC9FB900F66DC6 /* OfflineWriteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AABD1D20AC9FB900F66DC6 /* OfflineWriteTests.swift */; };
 		32AABD2020AC9FB900F66DC6 /* OfflineWriteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AABD1D20AC9FB900F66DC6 /* OfflineWriteTests.swift */; };
@@ -184,46 +56,10 @@
 		32AD4619207976AB00A0D02F /* ResponseMetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AD4618207976AB00A0D02F /* ResponseMetadataTests.swift */; };
 		32AD461A207976AB00A0D02F /* ResponseMetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AD4618207976AB00A0D02F /* ResponseMetadataTests.swift */; };
 		32AD461B207976AB00A0D02F /* ResponseMetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AD4618207976AB00A0D02F /* ResponseMetadataTests.swift */; };
-		32D4D57820C2176200BF3154 /* ADDateEncoders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D57720C2176200BF3154 /* ADDateEncoders.swift */; };
-		32D4D57920C2176200BF3154 /* ADDateEncoders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D57720C2176200BF3154 /* ADDateEncoders.swift */; };
-		32D4D57A20C2176200BF3154 /* ADDateEncoders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D57720C2176200BF3154 /* ADDateEncoders.swift */; };
-		32D4D57B20C2176200BF3154 /* ADDateEncoders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D57720C2176200BF3154 /* ADDateEncoders.swift */; };
-		32D4D57D20C22B2300BF3154 /* ADConflictStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D57C20C22B2300BF3154 /* ADConflictStrategy.swift */; };
-		32D4D57E20C22B2300BF3154 /* ADConflictStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D57C20C22B2300BF3154 /* ADConflictStrategy.swift */; };
-		32D4D57F20C22B2300BF3154 /* ADConflictStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D57C20C22B2300BF3154 /* ADConflictStrategy.swift */; };
-		32D4D58020C22B2300BF3154 /* ADConflictStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D57C20C22B2300BF3154 /* ADConflictStrategy.swift */; };
-		32D4D58720C2860F00BF3154 /* ObjectiveCWrappers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D58620C2860F00BF3154 /* ObjectiveCWrappers.swift */; };
-		32D4D58820C2860F00BF3154 /* ObjectiveCWrappers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D58620C2860F00BF3154 /* ObjectiveCWrappers.swift */; };
-		32D4D58920C2860F00BF3154 /* ObjectiveCWrappers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D58620C2860F00BF3154 /* ObjectiveCWrappers.swift */; };
-		32D4D58A20C2860F00BF3154 /* ObjectiveCWrappers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D58620C2860F00BF3154 /* ObjectiveCWrappers.swift */; };
-		32D4D58C20C289B200BF3154 /* ADResourceSystemKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D58B20C289B200BF3154 /* ADResourceSystemKeys.swift */; };
-		32D4D58D20C289B200BF3154 /* ADResourceSystemKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D58B20C289B200BF3154 /* ADResourceSystemKeys.swift */; };
-		32D4D58E20C289B200BF3154 /* ADResourceSystemKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D58B20C289B200BF3154 /* ADResourceSystemKeys.swift */; };
-		32D4D58F20C289B200BF3154 /* ADResourceSystemKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D58B20C289B200BF3154 /* ADResourceSystemKeys.swift */; };
-		32D4D59120C2996900BF3154 /* ADAzureDataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D59020C2996900BF3154 /* ADAzureDataExtensions.swift */; };
-		32D4D59220C2996900BF3154 /* ADAzureDataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D59020C2996900BF3154 /* ADAzureDataExtensions.swift */; };
-		32D4D59320C2996900BF3154 /* ADAzureDataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D59020C2996900BF3154 /* ADAzureDataExtensions.swift */; };
-		32D4D59420C2996900BF3154 /* ADAzureDataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D59020C2996900BF3154 /* ADAzureDataExtensions.swift */; };
-		32D4D59620C2C69800BF3154 /* ADOfferContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D59520C2C69800BF3154 /* ADOfferContent.swift */; };
-		32D4D59720C2C69800BF3154 /* ADOfferContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D59520C2C69800BF3154 /* ADOfferContent.swift */; };
-		32D4D59820C2C69800BF3154 /* ADOfferContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D59520C2C69800BF3154 /* ADOfferContent.swift */; };
-		32D4D59920C2C69800BF3154 /* ADOfferContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D4D59520C2C69800BF3154 /* ADOfferContent.swift */; };
 		32EB2C1D209C5DA700CEBB77 /* ResourceWriteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EB2C1C209C5DA700CEBB77 /* ResourceWriteOperation.swift */; };
 		32EB2C1E209C5DA700CEBB77 /* ResourceWriteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EB2C1C209C5DA700CEBB77 /* ResourceWriteOperation.swift */; };
 		32EB2C1F209C5DA700CEBB77 /* ResourceWriteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EB2C1C209C5DA700CEBB77 /* ResourceWriteOperation.swift */; };
 		32EB2C20209C5DA700CEBB77 /* ResourceWriteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EB2C1C209C5DA700CEBB77 /* ResourceWriteOperation.swift */; };
-		32FB702820BD5444009A35D9 /* ADPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FB702720BD5444009A35D9 /* ADPermission.swift */; };
-		32FB702920BD5444009A35D9 /* ADPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FB702720BD5444009A35D9 /* ADPermission.swift */; };
-		32FB702A20BD5444009A35D9 /* ADPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FB702720BD5444009A35D9 /* ADPermission.swift */; };
-		32FB702B20BD5444009A35D9 /* ADPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FB702720BD5444009A35D9 /* ADPermission.swift */; };
-		32FB703220BD8070009A35D9 /* ADCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FB703120BD8070009A35D9 /* ADCodable.swift */; };
-		32FB703320BD8070009A35D9 /* ADCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FB703120BD8070009A35D9 /* ADCodable.swift */; };
-		32FB703420BD8070009A35D9 /* ADCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FB703120BD8070009A35D9 /* ADCodable.swift */; };
-		32FB703520BD8070009A35D9 /* ADCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FB703120BD8070009A35D9 /* ADCodable.swift */; };
-		32FB703720BD9B11009A35D9 /* ADDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FB703620BD9B11009A35D9 /* ADDocument.swift */; };
-		32FB703820BD9B11009A35D9 /* ADDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FB703620BD9B11009A35D9 /* ADDocument.swift */; };
-		32FB703920BD9B11009A35D9 /* ADDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FB703620BD9B11009A35D9 /* ADDocument.swift */; };
-		32FB703A20BD9B11009A35D9 /* ADDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FB703620BD9B11009A35D9 /* ADDocument.swift */; };
 		9302CE412059A3A5000F6885 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9302CE422059A3A5000F6885 /* AzureCore.framework */; };
 		9302CE432059A3C5000F6885 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9302CE442059A3C5000F6885 /* AzureCore.framework */; };
 		9302CE452059A3D2000F6885 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9302CE462059A3D2000F6885 /* AzureCore.framework */; };
@@ -492,56 +328,15 @@
 		323AE9492080230E00EAE1F5 /* SupportsPermissionToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportsPermissionToken.swift; sourceTree = "<group>"; };
 		323B71A9207E6B75000F20F6 /* ResourceRequestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceRequestError.swift; sourceTree = "<group>"; };
 		32532A59207825A1002BFFCA /* ResponseMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseMetadata.swift; sourceTree = "<group>"; };
-		3257CC5420C1486A004E51FF /* ObjectiveCUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectiveCUtilities.swift; sourceTree = "<group>"; };
-		3257CCA020C1CCE4004E51FF /* ADDocument.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADDocument.m; sourceTree = "<group>"; };
-		3257CCA520C1D701004E51FF /* ADDocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADDocument.h; sourceTree = "<group>"; };
-		326E731720BC2041006D2DBD /* ADAzureData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADAzureData.swift; sourceTree = "<group>"; };
-		326E731C20BC2185006D2DBD /* ADPermissionMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADPermissionMode.swift; sourceTree = "<group>"; };
-		326E732120BC22EE006D2DBD /* ADPermissionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADPermissionProvider.swift; sourceTree = "<group>"; };
-		326E732620BC2339006D2DBD /* ADPermissionProviderConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADPermissionProviderConfiguration.swift; sourceTree = "<group>"; };
-		326E732B20BC23BE006D2DBD /* ADResourceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADResourceType.swift; sourceTree = "<group>"; };
-		326E733020BC28B4006D2DBD /* ADResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADResponse.swift; sourceTree = "<group>"; };
-		326E733520BC2AB8006D2DBD /* ADResponseMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADResponseMetadata.swift; sourceTree = "<group>"; };
-		326E734420BC95E7006D2DBD /* ADDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADDatabase.swift; sourceTree = "<group>"; };
-		326E734920BC9B9B006D2DBD /* ADResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADResources.swift; sourceTree = "<group>"; };
-		326E734E20BC9D07006D2DBD /* ObjectiveCBridgeable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectiveCBridgeable.swift; sourceTree = "<group>"; };
-		326E735320BCA3FC006D2DBD /* ADDocumentCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADDocumentCollection.swift; sourceTree = "<group>"; };
 		327996FE209C830C0062A374 /* ResourceWriteOperationQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceWriteOperationQueue.swift; sourceTree = "<group>"; };
 		329AA645209CEF470007A955 /* ResourceSystemProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceSystemProperties.swift; sourceTree = "<group>"; };
-		329C7DAE20BEB3EE00A49453 /* ADQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADQuery.swift; sourceTree = "<group>"; };
 		329C7DB320BEC28000A49453 /* OfflineReadTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineReadTests.swift; sourceTree = "<group>"; };
-		329C7DB720BECBEB00A49453 /* ADAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADAttachment.swift; sourceTree = "<group>"; };
-		329C7DBC20BEDCF200A49453 /* ADStoredProcedure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADStoredProcedure.swift; sourceTree = "<group>"; };
-		329C7DC120BEE3B500A49453 /* ADUserDefinedFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADUserDefinedFunction.swift; sourceTree = "<group>"; };
-		329C7DC620BEE7A600A49453 /* ADTrigger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADTrigger.swift; sourceTree = "<group>"; };
-		329C7DCB20BEF15D00A49453 /* ADUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADUser.swift; sourceTree = "<group>"; };
-		329C7DD020BEF9E100A49453 /* ADResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADResource.swift; sourceTree = "<group>"; };
-		329C7DD520BEFDF600A49453 /* ADOffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADOffer.swift; sourceTree = "<group>"; };
-		329C7DDA20BF08DF00A49453 /* ADSupportsPermissionToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADSupportsPermissionToken.swift; sourceTree = "<group>"; };
-		329C7DDF20BF0CED00A49453 /* SwiftWrappers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftWrappers.swift; sourceTree = "<group>"; };
 		32A5030620A1D16F000C5948 /* ResourceEncryptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceEncryptor.swift; sourceTree = "<group>"; };
-		32A77CD520C0566E00846397 /* ADPartitionKeyDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADPartitionKeyDefinition.swift; sourceTree = "<group>"; };
-		32A77CDA20C0569C00846397 /* ADIndexingMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADIndexingMode.swift; sourceTree = "<group>"; };
-		32A77CDF20C056D900846397 /* ADIndexKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADIndexKind.swift; sourceTree = "<group>"; };
-		32A77CE420C056F100846397 /* ADIndexDataType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADIndexDataType.swift; sourceTree = "<group>"; };
-		32A77CE920C0570E00846397 /* ADIndex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADIndex.swift; sourceTree = "<group>"; };
-		32A77CEE20C0573000846397 /* ADIncludedPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADIncludedPath.swift; sourceTree = "<group>"; };
-		32A77CF320C0574A00846397 /* ADExcludedPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADExcludedPath.swift; sourceTree = "<group>"; };
-		32A77CF820C0576600846397 /* ADIndexingPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADIndexingPolicy.swift; sourceTree = "<group>"; };
 		32AABD1D20AC9FB900F66DC6 /* OfflineWriteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineWriteTests.swift; sourceTree = "<group>"; };
 		32AABD2120ACA05400F66DC6 /* MockReachabilityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockReachabilityManager.swift; sourceTree = "<group>"; };
 		32AABD2620ACA83300F66DC6 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		32AD4618207976AB00A0D02F /* ResponseMetadataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseMetadataTests.swift; sourceTree = "<group>"; };
-		32D4D57720C2176200BF3154 /* ADDateEncoders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADDateEncoders.swift; sourceTree = "<group>"; };
-		32D4D57C20C22B2300BF3154 /* ADConflictStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADConflictStrategy.swift; sourceTree = "<group>"; };
-		32D4D58620C2860F00BF3154 /* ObjectiveCWrappers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectiveCWrappers.swift; sourceTree = "<group>"; };
-		32D4D58B20C289B200BF3154 /* ADResourceSystemKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADResourceSystemKeys.swift; sourceTree = "<group>"; };
-		32D4D59020C2996900BF3154 /* ADAzureDataExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADAzureDataExtensions.swift; sourceTree = "<group>"; };
-		32D4D59520C2C69800BF3154 /* ADOfferContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADOfferContent.swift; sourceTree = "<group>"; };
 		32EB2C1C209C5DA700CEBB77 /* ResourceWriteOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceWriteOperation.swift; sourceTree = "<group>"; };
-		32FB702720BD5444009A35D9 /* ADPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADPermission.swift; sourceTree = "<group>"; };
-		32FB703120BD8070009A35D9 /* ADCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADCodable.swift; sourceTree = "<group>"; };
-		32FB703620BD9B11009A35D9 /* ADDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADDocument.swift; sourceTree = "<group>"; };
 		9302CE422059A3A5000F6885 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9302CE442059A3C5000F6885 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9302CE462059A3D2000F6885 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -563,6 +358,7 @@
 		93935D9A20585C8600F1832A /* PermissionMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionMode.swift; sourceTree = "<group>"; };
 		93B7240A2064560F00984CA8 /* MSHttpHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSHttpHeader.swift; sourceTree = "<group>"; };
 		93F7CA17206EDBC100D92C2E /* PermissionCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionCacheTests.swift; sourceTree = "<group>"; };
+		93F991EF20C895E5009598C0 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		93F9ACCB1FC0CA4800AC240C /* DocumentClientError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentClientError.swift; sourceTree = "<group>"; };
 		93F9ACD01FC0D01400AC240C /* ResourceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceError.swift; sourceTree = "<group>"; };
 		B507D4F01FBB722000B2D18D /* Conflict.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conflict.swift; sourceTree = "<group>"; };
@@ -679,69 +475,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		326E730B20BC1318006D2DBD /* Objective-C */ = {
-			isa = PBXGroup;
-			children = (
-				32A77CD420C0564800846397 /* DocumentCollection */,
-				329C7DB720BECBEB00A49453 /* ADAttachment.swift */,
-				32FB703120BD8070009A35D9 /* ADCodable.swift */,
-				326E734420BC95E7006D2DBD /* ADDatabase.swift */,
-				3257CCA520C1D701004E51FF /* ADDocument.h */,
-				3257CCA020C1CCE4004E51FF /* ADDocument.m */,
-				32FB703620BD9B11009A35D9 /* ADDocument.swift */,
-				329C7DD520BEFDF600A49453 /* ADOffer.swift */,
-				32D4D59520C2C69800BF3154 /* ADOfferContent.swift */,
-				32FB702720BD5444009A35D9 /* ADPermission.swift */,
-				326E731C20BC2185006D2DBD /* ADPermissionMode.swift */,
-				326E733520BC2AB8006D2DBD /* ADResponseMetadata.swift */,
-				329C7DD020BEF9E100A49453 /* ADResource.swift */,
-				326E734920BC9B9B006D2DBD /* ADResources.swift */,
-				329C7DBC20BEDCF200A49453 /* ADStoredProcedure.swift */,
-				329C7DC620BEE7A600A49453 /* ADTrigger.swift */,
-				329C7DCB20BEF15D00A49453 /* ADUser.swift */,
-				329C7DC120BEE3B500A49453 /* ADUserDefinedFunction.swift */,
-			);
-			path = "Objective-C";
-			sourceTree = "<group>";
-		};
-		326E731620BC2032006D2DBD /* Objective-C */ = {
-			isa = PBXGroup;
-			children = (
-				326E731720BC2041006D2DBD /* ADAzureData.swift */,
-				32D4D59020C2996900BF3154 /* ADAzureDataExtensions.swift */,
-				32D4D57C20C22B2300BF3154 /* ADConflictStrategy.swift */,
-				32D4D57720C2176200BF3154 /* ADDateEncoders.swift */,
-				326E732120BC22EE006D2DBD /* ADPermissionProvider.swift */,
-				326E732620BC2339006D2DBD /* ADPermissionProviderConfiguration.swift */,
-				329C7DAE20BEB3EE00A49453 /* ADQuery.swift */,
-				32D4D58B20C289B200BF3154 /* ADResourceSystemKeys.swift */,
-				326E732B20BC23BE006D2DBD /* ADResourceType.swift */,
-				326E733020BC28B4006D2DBD /* ADResponse.swift */,
-				329C7DDA20BF08DF00A49453 /* ADSupportsPermissionToken.swift */,
-				326E734E20BC9D07006D2DBD /* ObjectiveCBridgeable.swift */,
-				3257CC5420C1486A004E51FF /* ObjectiveCUtilities.swift */,
-				32D4D58620C2860F00BF3154 /* ObjectiveCWrappers.swift */,
-				329C7DDF20BF0CED00A49453 /* SwiftWrappers.swift */,
-			);
-			path = "Objective-C";
-			sourceTree = "<group>";
-		};
-		32A77CD420C0564800846397 /* DocumentCollection */ = {
-			isa = PBXGroup;
-			children = (
-				326E735320BCA3FC006D2DBD /* ADDocumentCollection.swift */,
-				32A77CF320C0574A00846397 /* ADExcludedPath.swift */,
-				32A77CEE20C0573000846397 /* ADIncludedPath.swift */,
-				32A77CE920C0570E00846397 /* ADIndex.swift */,
-				32A77CE420C056F100846397 /* ADIndexDataType.swift */,
-				32A77CDF20C056D900846397 /* ADIndexKind.swift */,
-				32A77CDA20C0569C00846397 /* ADIndexingMode.swift */,
-				32A77CF820C0576600846397 /* ADIndexingPolicy.swift */,
-				32A77CD520C0566E00846397 /* ADPartitionKeyDefinition.swift */,
-			);
-			path = DocumentCollection;
-			sourceTree = "<group>";
-		};
 		32AABD2520ACA81D00F66DC6 /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
@@ -754,7 +487,7 @@
 		B52240181FB33CD000D0343F /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				326E731620BC2032006D2DBD /* Objective-C */,
+				B58361B71FBA1339001CEC66 /* Resources */,
 				B52240341FB33CD000D0343F /* AzureData.swift */,
 				B522401B1FB33CD000D0343F /* AzureDataExtensions.swift */,
 				9358A971207E435200B25D67 /* ConflictStrategy.swift */,
@@ -778,7 +511,6 @@
 				B58361991FB779B6001CEC66 /* Response.swift */,
 				323AE9492080230E00EAE1F5 /* SupportsPermissionToken.swift */,
 				B52240381FB33CD000D0343F /* UtilityExtensions.swift */,
-				B58361B71FBA1339001CEC66 /* Resources */,
 				B55AEFDF1FB34B7400F7BEED /* Supporting Files */,
 			);
 			path = Source;
@@ -866,7 +598,6 @@
 		B58361B71FBA1339001CEC66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				326E730B20BC1318006D2DBD /* Objective-C */,
 				B58361B81FBA1384001CEC66 /* CodableResource.swift */,
 				323A90E8207F976400537769 /* CodableResources.swift */,
 				B5B6AC281FBA84C400B93106 /* CodableDictionary.swift */,
@@ -920,6 +651,7 @@
 		B5F76C941F96ACCC001E8B11 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				93F991EF20C895E5009598C0 /* AzureCore.framework */,
 				9302CE482059A3EA000F6885 /* AzureCore.framework */,
 				9302CE462059A3D2000F6885 /* AzureCore.framework */,
 				9302CE442059A3C5000F6885 /* AzureCore.framework */,
@@ -935,7 +667,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3257CCA720C1D701004E51FF /* ADDocument.h in Headers */,
 				B52240511FB33DAB00D0343F /* AzureData.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -944,7 +675,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3257CCA820C1D701004E51FF /* ADDocument.h in Headers */,
 				B52240501FB33DA900D0343F /* AzureData.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -953,7 +683,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3257CCA920C1D701004E51FF /* ADDocument.h in Headers */,
 				B52240F71FB3409D00D0343F /* AzureData.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -962,7 +691,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3257CCA620C1D701004E51FF /* ADDocument.h in Headers */,
 				B52240521FB33DAD00D0343F /* AzureData.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1102,7 +830,7 @@
 		B5F76C301F96A7AF001E8B11 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0900;
+				LastSwiftUpdateCheck = 0940;
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {
@@ -1225,91 +953,51 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				32D4D59720C2C69800BF3154 /* ADOfferContent.swift in Sources */,
-				326E735520BCA3FC006D2DBD /* ADDocumentCollection.swift in Sources */,
-				329C7DCD20BEF15D00A49453 /* ADUser.swift in Sources */,
-				32A77CEB20C0570E00846397 /* ADIndex.swift in Sources */,
-				329C7DD720BEFDF600A49453 /* ADOffer.swift in Sources */,
-				32D4D57E20C22B2300BF3154 /* ADConflictStrategy.swift in Sources */,
 				B5B6AC2A1FBA84C400B93106 /* CodableDictionary.swift in Sources */,
-				329C7DBE20BEDCF200A49453 /* ADStoredProcedure.swift in Sources */,
 				B507D4F21FBB722000B2D18D /* Conflict.swift in Sources */,
 				329AA647209CEF470007A955 /* ResourceSystemProperties.swift in Sources */,
-				32FB702920BD5444009A35D9 /* ADPermission.swift in Sources */,
-				329C7DE120BF0CED00A49453 /* SwiftWrappers.swift in Sources */,
-				32D4D58820C2860F00BF3154 /* ObjectiveCWrappers.swift in Sources */,
 				B58361CE1FBA1439001CEC66 /* Attachment.swift in Sources */,
-				326E735020BC9D07006D2DBD /* ObjectiveCBridgeable.swift in Sources */,
-				326E732320BC22EE006D2DBD /* ADPermissionProvider.swift in Sources */,
 				9319DEEA20698C3D0083475D /* PermissionProvider.swift in Sources */,
 				9319DEF920698FB90083475D /* PermissionCache.swift in Sources */,
-				329C7DB020BEB3EE00A49453 /* ADQuery.swift in Sources */,
-				326E731920BC2041006D2DBD /* ADAzureData.swift in Sources */,
 				323A90EA207F976400537769 /* CodableResources.swift in Sources */,
 				930B2F491FFD56AB00F86BF1 /* DictionaryDocument.swift in Sources */,
-				326E733220BC28B4006D2DBD /* ADResponse.swift in Sources */,
-				32FB703320BD8070009A35D9 /* ADCodable.swift in Sources */,
-				326E732D20BC23BE006D2DBD /* ADResourceType.swift in Sources */,
 				B58361B31FB78F7A001CEC66 /* Resources.swift in Sources */,
-				32A77CFA20C0576600846397 /* ADIndexingPolicy.swift in Sources */,
 				93F9ACCD1FC0CA4800AC240C /* DocumentClientError.swift in Sources */,
-				32D4D57920C2176200BF3154 /* ADDateEncoders.swift in Sources */,
-				32FB703820BD9B11009A35D9 /* ADDocument.swift in Sources */,
 				B58361D81FBA16F9001CEC66 /* Permission.swift in Sources */,
-				326E731E20BC2185006D2DBD /* ADPermissionMode.swift in Sources */,
 				93F9ACD21FC0D01400AC240C /* ResourceError.swift in Sources */,
-				32A77CE620C056F100846397 /* ADIndexDataType.swift in Sources */,
 				B58361C41FBA13B0001CEC66 /* DocumentCollection.swift in Sources */,
 				B5B6AC251FBA4B3900B93106 /* Query.swift in Sources */,
 				93935D9C20585C8600F1832A /* PermissionMode.swift in Sources */,
-				326E732820BC2339006D2DBD /* ADPermissionProviderConfiguration.swift in Sources */,
 				32532A5C207825A1002BFFCA /* ResponseMetadata.swift in Sources */,
 				9358A973207E435200B25D67 /* ConflictStrategy.swift in Sources */,
-				32A77CF020C0573000846397 /* ADIncludedPath.swift in Sources */,
-				329C7DC820BEE7A600A49453 /* ADTrigger.swift in Sources */,
-				32A77CE120C056D900846397 /* ADIndexKind.swift in Sources */,
 				323B71AB207E6B75000F20F6 /* ResourceRequestError.swift in Sources */,
 				9317A81820656ED100338B63 /* ResourceOracle.swift in Sources */,
 				931EA5C41FBE6920003CCFF4 /* DocumentClientExtensions.swift in Sources */,
 				B58361B41FB78F7A001CEC66 /* Response.swift in Sources */,
 				B52241021FB3409F00D0343F /* AzureData.swift in Sources */,
 				B52240B21FB3409000D0343F /* ResourceType.swift in Sources */,
-				32D4D59220C2996900BF3154 /* ADAzureDataExtensions.swift in Sources */,
-				3257CCA220C1CCE4004E51FF /* ADDocument.m in Sources */,
-				3257CC5620C1486A004E51FF /* ObjectiveCUtilities.swift in Sources */,
 				9319DEF420698F260083475D /* PermissionProviderError.swift in Sources */,
 				B58361F11FBA19A7001CEC66 /* DatabaseAccount.swift in Sources */,
 				323AE94B2080230E00EAE1F5 /* SupportsPermissionToken.swift in Sources */,
 				B58361E71FBA17D8001CEC66 /* User.swift in Sources */,
-				329C7DB920BECBEB00A49453 /* ADAttachment.swift in Sources */,
 				B52241051FB3409F00D0343F /* UtilityExtensions.swift in Sources */,
 				9319DF032069DD7B0083475D /* ResourceTokenProvider.swift in Sources */,
-				32A77CDC20C0569C00846397 /* ADIndexingMode.swift in Sources */,
 				B58361EC1FBA17E8001CEC66 /* UserDefinedFunction.swift in Sources */,
 				B58361BF1FBA13A0001CEC66 /* Document.swift in Sources */,
-				329C7DDC20BF08DF00A49453 /* ADSupportsPermissionToken.swift in Sources */,
 				B58361D31FBA15A8001CEC66 /* Offer.swift in Sources */,
 				B58361C91FBA13D8001CEC66 /* Database.swift in Sources */,
 				B58361E21FBA17C8001CEC66 /* Trigger.swift in Sources */,
 				B58361DD1FBA17B5001CEC66 /* StoredProcedure.swift in Sources */,
 				9316F450206A977F00D7BA8B /* ResourceLocation.swift in Sources */,
-				326E734620BC95E7006D2DBD /* ADDatabase.swift in Sources */,
-				32A77CD720C0566E00846397 /* ADPartitionKeyDefinition.swift in Sources */,
-				326E734B20BC9B9B006D2DBD /* ADResources.swift in Sources */,
 				932F01342076AC5A001D708B /* ResourceCache.swift in Sources */,
 				9319DEEF20698C840083475D /* PermissionProviderConfiguration.swift in Sources */,
 				32EB2C1E209C5DA700CEBB77 /* ResourceWriteOperation.swift in Sources */,
 				B52240961FB3407C00D0343F /* AzureDataExtensions.swift in Sources */,
 				32A5030820A1D16F000C5948 /* ResourceEncryptor.swift in Sources */,
-				329C7DC320BEE3B500A49453 /* ADUserDefinedFunction.swift in Sources */,
 				32799700209C830C0062A374 /* ResourceWriteOperationQueue.swift in Sources */,
-				32A77CF520C0574A00846397 /* ADExcludedPath.swift in Sources */,
-				32D4D58D20C289B200BF3154 /* ADResourceSystemKeys.swift in Sources */,
 				B58361BA1FBA1385001CEC66 /* CodableResource.swift in Sources */,
 				B58361A71FB78F73001CEC66 /* DocumentClient.swift in Sources */,
 				93B7240C2064560F00984CA8 /* MSHttpHeader.swift in Sources */,
-				326E733720BC2AB8006D2DBD /* ADResponseMetadata.swift in Sources */,
-				329C7DD220BEF9E100A49453 /* ADResource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1355,91 +1043,51 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				32D4D59820C2C69800BF3154 /* ADOfferContent.swift in Sources */,
-				326E735620BCA3FC006D2DBD /* ADDocumentCollection.swift in Sources */,
-				329C7DCE20BEF15D00A49453 /* ADUser.swift in Sources */,
-				32A77CEC20C0570E00846397 /* ADIndex.swift in Sources */,
-				329C7DD820BEFDF600A49453 /* ADOffer.swift in Sources */,
-				32D4D57F20C22B2300BF3154 /* ADConflictStrategy.swift in Sources */,
 				B5B6AC2B1FBA84C400B93106 /* CodableDictionary.swift in Sources */,
-				329C7DBF20BEDCF200A49453 /* ADStoredProcedure.swift in Sources */,
 				B507D4F31FBB722000B2D18D /* Conflict.swift in Sources */,
 				329AA648209CEF470007A955 /* ResourceSystemProperties.swift in Sources */,
-				32FB702A20BD5444009A35D9 /* ADPermission.swift in Sources */,
-				329C7DE220BF0CED00A49453 /* SwiftWrappers.swift in Sources */,
-				32D4D58920C2860F00BF3154 /* ObjectiveCWrappers.swift in Sources */,
 				B58361CF1FBA1439001CEC66 /* Attachment.swift in Sources */,
-				326E735120BC9D07006D2DBD /* ObjectiveCBridgeable.swift in Sources */,
-				326E732420BC22EE006D2DBD /* ADPermissionProvider.swift in Sources */,
 				9319DEEB20698C3D0083475D /* PermissionProvider.swift in Sources */,
 				9319DEFA20698FB90083475D /* PermissionCache.swift in Sources */,
-				329C7DB120BEB3EE00A49453 /* ADQuery.swift in Sources */,
-				326E731A20BC2041006D2DBD /* ADAzureData.swift in Sources */,
 				323A90EB207F976400537769 /* CodableResources.swift in Sources */,
 				930B2F4A1FFD56AB00F86BF1 /* DictionaryDocument.swift in Sources */,
-				326E733320BC28B4006D2DBD /* ADResponse.swift in Sources */,
-				32FB703420BD8070009A35D9 /* ADCodable.swift in Sources */,
-				326E732E20BC23BE006D2DBD /* ADResourceType.swift in Sources */,
 				B58361AE1FB78F7A001CEC66 /* Resources.swift in Sources */,
-				32A77CFB20C0576600846397 /* ADIndexingPolicy.swift in Sources */,
 				93F9ACCE1FC0CA4800AC240C /* DocumentClientError.swift in Sources */,
-				32D4D57A20C2176200BF3154 /* ADDateEncoders.swift in Sources */,
-				32FB703920BD9B11009A35D9 /* ADDocument.swift in Sources */,
 				B58361D91FBA16F9001CEC66 /* Permission.swift in Sources */,
-				326E731F20BC2185006D2DBD /* ADPermissionMode.swift in Sources */,
 				93F9ACD31FC0D01400AC240C /* ResourceError.swift in Sources */,
-				32A77CE720C056F100846397 /* ADIndexDataType.swift in Sources */,
 				B58361C51FBA13B0001CEC66 /* DocumentCollection.swift in Sources */,
 				B5B6AC261FBA4B3900B93106 /* Query.swift in Sources */,
 				93935D9D20585C8600F1832A /* PermissionMode.swift in Sources */,
-				326E732920BC2339006D2DBD /* ADPermissionProviderConfiguration.swift in Sources */,
 				32532A5E207825A1002BFFCA /* ResponseMetadata.swift in Sources */,
 				9358A974207E435200B25D67 /* ConflictStrategy.swift in Sources */,
-				32A77CF120C0573000846397 /* ADIncludedPath.swift in Sources */,
-				329C7DC920BEE7A600A49453 /* ADTrigger.swift in Sources */,
-				32A77CE220C056D900846397 /* ADIndexKind.swift in Sources */,
 				323B71AC207E6B75000F20F6 /* ResourceRequestError.swift in Sources */,
 				9317A81920656ED100338B63 /* ResourceOracle.swift in Sources */,
 				931EA5C61FBE6922003CCFF4 /* DocumentClientExtensions.swift in Sources */,
 				B58361AF1FB78F7A001CEC66 /* Response.swift in Sources */,
 				B52240FD1FB3409E00D0343F /* AzureData.swift in Sources */,
 				B52240C71FB3409100D0343F /* ResourceType.swift in Sources */,
-				32D4D59320C2996900BF3154 /* ADAzureDataExtensions.swift in Sources */,
-				3257CCA320C1CCE4004E51FF /* ADDocument.m in Sources */,
-				3257CC5720C1486A004E51FF /* ObjectiveCUtilities.swift in Sources */,
 				9319DEF520698F260083475D /* PermissionProviderError.swift in Sources */,
 				B58361F21FBA19A7001CEC66 /* DatabaseAccount.swift in Sources */,
 				323AE94C2080230E00EAE1F5 /* SupportsPermissionToken.swift in Sources */,
 				B58361E81FBA17D8001CEC66 /* User.swift in Sources */,
-				329C7DBA20BECBEB00A49453 /* ADAttachment.swift in Sources */,
 				B52241001FB3409E00D0343F /* UtilityExtensions.swift in Sources */,
 				9319DF042069DD7B0083475D /* ResourceTokenProvider.swift in Sources */,
-				32A77CDD20C0569C00846397 /* ADIndexingMode.swift in Sources */,
 				B58361ED1FBA17E8001CEC66 /* UserDefinedFunction.swift in Sources */,
 				B58361C01FBA13A0001CEC66 /* Document.swift in Sources */,
-				329C7DDD20BF08DF00A49453 /* ADSupportsPermissionToken.swift in Sources */,
 				B58361D41FBA15A8001CEC66 /* Offer.swift in Sources */,
 				B58361CA1FBA13D8001CEC66 /* Database.swift in Sources */,
 				B58361E31FBA17C8001CEC66 /* Trigger.swift in Sources */,
 				B58361DE1FBA17B5001CEC66 /* StoredProcedure.swift in Sources */,
 				9316F451206A977F00D7BA8B /* ResourceLocation.swift in Sources */,
-				326E734720BC95E7006D2DBD /* ADDatabase.swift in Sources */,
-				32A77CD820C0566E00846397 /* ADPartitionKeyDefinition.swift in Sources */,
-				326E734C20BC9B9B006D2DBD /* ADResources.swift in Sources */,
 				932F01352076AC5A001D708B /* ResourceCache.swift in Sources */,
 				9319DEF020698C840083475D /* PermissionProviderConfiguration.swift in Sources */,
 				32EB2C1F209C5DA700CEBB77 /* ResourceWriteOperation.swift in Sources */,
 				B52240991FB3407D00D0343F /* AzureDataExtensions.swift in Sources */,
 				32A5030920A1D16F000C5948 /* ResourceEncryptor.swift in Sources */,
-				329C7DC420BEE3B500A49453 /* ADUserDefinedFunction.swift in Sources */,
 				32799701209C830C0062A374 /* ResourceWriteOperationQueue.swift in Sources */,
-				32A77CF620C0574A00846397 /* ADExcludedPath.swift in Sources */,
-				32D4D58E20C289B200BF3154 /* ADResourceSystemKeys.swift in Sources */,
 				B58361BB1FBA1385001CEC66 /* CodableResource.swift in Sources */,
 				B58361A61FB78F73001CEC66 /* DocumentClient.swift in Sources */,
 				93B7240D2064560F00984CA8 /* MSHttpHeader.swift in Sources */,
-				326E733820BC2AB8006D2DBD /* ADResponseMetadata.swift in Sources */,
-				329C7DD320BEF9E100A49453 /* ADResource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1485,91 +1133,51 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				32D4D59920C2C69800BF3154 /* ADOfferContent.swift in Sources */,
-				326E735720BCA3FC006D2DBD /* ADDocumentCollection.swift in Sources */,
-				329C7DCF20BEF15D00A49453 /* ADUser.swift in Sources */,
-				32A77CED20C0570E00846397 /* ADIndex.swift in Sources */,
-				329C7DD920BEFDF600A49453 /* ADOffer.swift in Sources */,
-				32D4D58020C22B2300BF3154 /* ADConflictStrategy.swift in Sources */,
 				B5B6AC2C1FBA84C400B93106 /* CodableDictionary.swift in Sources */,
-				329C7DC020BEDCF200A49453 /* ADStoredProcedure.swift in Sources */,
 				B507D4F41FBB722000B2D18D /* Conflict.swift in Sources */,
 				329AA649209CEF470007A955 /* ResourceSystemProperties.swift in Sources */,
-				32FB702B20BD5444009A35D9 /* ADPermission.swift in Sources */,
-				329C7DE320BF0CED00A49453 /* SwiftWrappers.swift in Sources */,
-				32D4D58A20C2860F00BF3154 /* ObjectiveCWrappers.swift in Sources */,
 				B58361D01FBA1439001CEC66 /* Attachment.swift in Sources */,
-				326E735220BC9D07006D2DBD /* ObjectiveCBridgeable.swift in Sources */,
-				326E732520BC22EE006D2DBD /* ADPermissionProvider.swift in Sources */,
 				9319DEEC20698C3D0083475D /* PermissionProvider.swift in Sources */,
 				9319DEFB20698FB90083475D /* PermissionCache.swift in Sources */,
-				329C7DB220BEB3EE00A49453 /* ADQuery.swift in Sources */,
-				326E731B20BC2041006D2DBD /* ADAzureData.swift in Sources */,
 				323A90EC207F976400537769 /* CodableResources.swift in Sources */,
 				930B2F4B1FFD56AB00F86BF1 /* DictionaryDocument.swift in Sources */,
-				326E733420BC28B4006D2DBD /* ADResponse.swift in Sources */,
-				32FB703520BD8070009A35D9 /* ADCodable.swift in Sources */,
-				326E732F20BC23BE006D2DBD /* ADResourceType.swift in Sources */,
 				B58361A91FB78F78001CEC66 /* Resources.swift in Sources */,
-				32A77CFC20C0576600846397 /* ADIndexingPolicy.swift in Sources */,
 				93F9ACCF1FC0CA4800AC240C /* DocumentClientError.swift in Sources */,
-				32D4D57B20C2176200BF3154 /* ADDateEncoders.swift in Sources */,
-				32FB703A20BD9B11009A35D9 /* ADDocument.swift in Sources */,
 				B58361DA1FBA16F9001CEC66 /* Permission.swift in Sources */,
-				326E732020BC2185006D2DBD /* ADPermissionMode.swift in Sources */,
 				93F9ACD41FC0D01400AC240C /* ResourceError.swift in Sources */,
-				32A77CE820C056F100846397 /* ADIndexDataType.swift in Sources */,
 				B58361C61FBA13B0001CEC66 /* DocumentCollection.swift in Sources */,
 				B5B6AC271FBA4B3900B93106 /* Query.swift in Sources */,
 				93935D9E20585C8600F1832A /* PermissionMode.swift in Sources */,
-				326E732A20BC2339006D2DBD /* ADPermissionProviderConfiguration.swift in Sources */,
 				32532A60207825A1002BFFCA /* ResponseMetadata.swift in Sources */,
 				9358A975207E435200B25D67 /* ConflictStrategy.swift in Sources */,
-				32A77CF220C0573000846397 /* ADIncludedPath.swift in Sources */,
-				329C7DCA20BEE7A600A49453 /* ADTrigger.swift in Sources */,
-				32A77CE320C056D900846397 /* ADIndexKind.swift in Sources */,
 				323B71AD207E6B75000F20F6 /* ResourceRequestError.swift in Sources */,
 				9317A81A20656ED100338B63 /* ResourceOracle.swift in Sources */,
 				931EA5C51FBE6922003CCFF4 /* DocumentClientExtensions.swift in Sources */,
 				B58361AA1FB78F78001CEC66 /* Response.swift in Sources */,
 				B52240F81FB3409D00D0343F /* AzureData.swift in Sources */,
 				B52240DC1FB3409200D0343F /* ResourceType.swift in Sources */,
-				32D4D59420C2996900BF3154 /* ADAzureDataExtensions.swift in Sources */,
-				3257CCA420C1CCE4004E51FF /* ADDocument.m in Sources */,
-				3257CC5820C1486A004E51FF /* ObjectiveCUtilities.swift in Sources */,
 				9319DEF620698F260083475D /* PermissionProviderError.swift in Sources */,
 				B58361F31FBA19A7001CEC66 /* DatabaseAccount.swift in Sources */,
 				323AE94D2080230E00EAE1F5 /* SupportsPermissionToken.swift in Sources */,
 				B58361E91FBA17D8001CEC66 /* User.swift in Sources */,
-				329C7DBB20BECBEB00A49453 /* ADAttachment.swift in Sources */,
 				B52240FB1FB3409D00D0343F /* UtilityExtensions.swift in Sources */,
 				9319DF052069DD7B0083475D /* ResourceTokenProvider.swift in Sources */,
-				32A77CDE20C0569C00846397 /* ADIndexingMode.swift in Sources */,
 				B58361EE1FBA17E8001CEC66 /* UserDefinedFunction.swift in Sources */,
 				B58361C11FBA13A0001CEC66 /* Document.swift in Sources */,
-				329C7DDE20BF08DF00A49453 /* ADSupportsPermissionToken.swift in Sources */,
 				B58361D51FBA15A8001CEC66 /* Offer.swift in Sources */,
 				B58361CB1FBA13D8001CEC66 /* Database.swift in Sources */,
 				B58361E41FBA17C8001CEC66 /* Trigger.swift in Sources */,
 				B58361DF1FBA17B5001CEC66 /* StoredProcedure.swift in Sources */,
 				9316F452206A977F00D7BA8B /* ResourceLocation.swift in Sources */,
-				326E734820BC95E7006D2DBD /* ADDatabase.swift in Sources */,
-				32A77CD920C0566E00846397 /* ADPartitionKeyDefinition.swift in Sources */,
-				326E734D20BC9B9B006D2DBD /* ADResources.swift in Sources */,
 				932F01362076AC5A001D708B /* ResourceCache.swift in Sources */,
 				9319DEF120698C840083475D /* PermissionProviderConfiguration.swift in Sources */,
 				32EB2C20209C5DA700CEBB77 /* ResourceWriteOperation.swift in Sources */,
 				B522409C1FB3407E00D0343F /* AzureDataExtensions.swift in Sources */,
 				32A5030A20A1D16F000C5948 /* ResourceEncryptor.swift in Sources */,
-				329C7DC520BEE3B500A49453 /* ADUserDefinedFunction.swift in Sources */,
 				32799702209C830C0062A374 /* ResourceWriteOperationQueue.swift in Sources */,
-				32A77CF720C0574A00846397 /* ADExcludedPath.swift in Sources */,
-				32D4D58F20C289B200BF3154 /* ADResourceSystemKeys.swift in Sources */,
 				B58361BC1FBA1385001CEC66 /* CodableResource.swift in Sources */,
 				B58361A51FB78F71001CEC66 /* DocumentClient.swift in Sources */,
 				93B7240E2064560F00984CA8 /* MSHttpHeader.swift in Sources */,
-				326E733920BC2AB8006D2DBD /* ADResponseMetadata.swift in Sources */,
-				329C7DD420BEF9E100A49453 /* ADResource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1577,91 +1185,51 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				32D4D59620C2C69800BF3154 /* ADOfferContent.swift in Sources */,
-				326E735420BCA3FC006D2DBD /* ADDocumentCollection.swift in Sources */,
-				329C7DCC20BEF15D00A49453 /* ADUser.swift in Sources */,
-				32A77CEA20C0570E00846397 /* ADIndex.swift in Sources */,
-				329C7DD620BEFDF600A49453 /* ADOffer.swift in Sources */,
-				32D4D57D20C22B2300BF3154 /* ADConflictStrategy.swift in Sources */,
 				B5B6AC291FBA84C400B93106 /* CodableDictionary.swift in Sources */,
-				329C7DBD20BEDCF200A49453 /* ADStoredProcedure.swift in Sources */,
 				B507D4F11FBB722000B2D18D /* Conflict.swift in Sources */,
 				329AA646209CEF470007A955 /* ResourceSystemProperties.swift in Sources */,
-				32FB702820BD5444009A35D9 /* ADPermission.swift in Sources */,
-				329C7DE020BF0CED00A49453 /* SwiftWrappers.swift in Sources */,
-				32D4D58720C2860F00BF3154 /* ObjectiveCWrappers.swift in Sources */,
 				B58361CD1FBA1439001CEC66 /* Attachment.swift in Sources */,
-				326E734F20BC9D07006D2DBD /* ObjectiveCBridgeable.swift in Sources */,
-				326E732220BC22EE006D2DBD /* ADPermissionProvider.swift in Sources */,
 				9319DEE920698C3D0083475D /* PermissionProvider.swift in Sources */,
 				9319DEF820698FB90083475D /* PermissionCache.swift in Sources */,
-				329C7DAF20BEB3EE00A49453 /* ADQuery.swift in Sources */,
-				326E731820BC2041006D2DBD /* ADAzureData.swift in Sources */,
 				323A90E9207F976400537769 /* CodableResources.swift in Sources */,
 				930B2F481FFD56AB00F86BF1 /* DictionaryDocument.swift in Sources */,
-				326E733120BC28B4006D2DBD /* ADResponse.swift in Sources */,
-				32FB703220BD8070009A35D9 /* ADCodable.swift in Sources */,
-				326E732C20BC23BE006D2DBD /* ADResourceType.swift in Sources */,
 				B58361D71FBA16F9001CEC66 /* Permission.swift in Sources */,
-				32A77CF920C0576600846397 /* ADIndexingPolicy.swift in Sources */,
 				93F9ACCC1FC0CA4800AC240C /* DocumentClientError.swift in Sources */,
-				32D4D57820C2176200BF3154 /* ADDateEncoders.swift in Sources */,
-				32FB703720BD9B11009A35D9 /* ADDocument.swift in Sources */,
 				B58361C31FBA13B0001CEC66 /* DocumentCollection.swift in Sources */,
-				326E731D20BC2185006D2DBD /* ADPermissionMode.swift in Sources */,
 				93F9ACD11FC0D01400AC240C /* ResourceError.swift in Sources */,
-				32A77CE520C056F100846397 /* ADIndexDataType.swift in Sources */,
 				B583619A1FB779B6001CEC66 /* Response.swift in Sources */,
 				B5B6AC241FBA4B3900B93106 /* Query.swift in Sources */,
 				93935D9B20585C8600F1832A /* PermissionMode.swift in Sources */,
-				326E732720BC2339006D2DBD /* ADPermissionProviderConfiguration.swift in Sources */,
 				32532A5A207825A1002BFFCA /* ResponseMetadata.swift in Sources */,
 				9358A972207E435200B25D67 /* ConflictStrategy.swift in Sources */,
-				32A77CEF20C0573000846397 /* ADIncludedPath.swift in Sources */,
-				329C7DC720BEE7A600A49453 /* ADTrigger.swift in Sources */,
-				32A77CE020C056D900846397 /* ADIndexKind.swift in Sources */,
 				323B71AA207E6B75000F20F6 /* ResourceRequestError.swift in Sources */,
 				9317A81720656ED100338B63 /* ResourceOracle.swift in Sources */,
 				931EA5BF1FBE201F003CCFF4 /* DocumentClientExtensions.swift in Sources */,
 				B583619D1FB77A70001CEC66 /* Resources.swift in Sources */,
 				B52241071FB3409F00D0343F /* AzureData.swift in Sources */,
 				B58361F01FBA19A7001CEC66 /* DatabaseAccount.swift in Sources */,
-				32D4D59120C2996900BF3154 /* ADAzureDataExtensions.swift in Sources */,
-				3257CCA120C1CCE4004E51FF /* ADDocument.m in Sources */,
-				3257CC5520C1486A004E51FF /* ObjectiveCUtilities.swift in Sources */,
 				9319DEF320698F260083475D /* PermissionProviderError.swift in Sources */,
 				B522409D1FB3408E00D0343F /* ResourceType.swift in Sources */,
 				323AE94A2080230E00EAE1F5 /* SupportsPermissionToken.swift in Sources */,
 				B58361E61FBA17D8001CEC66 /* User.swift in Sources */,
-				329C7DB820BECBEB00A49453 /* ADAttachment.swift in Sources */,
 				B58361EB1FBA17E8001CEC66 /* UserDefinedFunction.swift in Sources */,
 				9319DF022069DD7B0083475D /* ResourceTokenProvider.swift in Sources */,
-				32A77CDB20C0569C00846397 /* ADIndexingMode.swift in Sources */,
 				B58361BE1FBA13A0001CEC66 /* Document.swift in Sources */,
 				B58361D21FBA15A8001CEC66 /* Offer.swift in Sources */,
-				329C7DDB20BF08DF00A49453 /* ADSupportsPermissionToken.swift in Sources */,
 				B58361C81FBA13D8001CEC66 /* Database.swift in Sources */,
 				B58361E11FBA17C8001CEC66 /* Trigger.swift in Sources */,
 				B58361DC1FBA17B5001CEC66 /* StoredProcedure.swift in Sources */,
 				B522410A1FB3409F00D0343F /* UtilityExtensions.swift in Sources */,
 				9316F44F206A977F00D7BA8B /* ResourceLocation.swift in Sources */,
-				326E734520BC95E7006D2DBD /* ADDatabase.swift in Sources */,
-				32A77CD620C0566E00846397 /* ADPartitionKeyDefinition.swift in Sources */,
-				326E734A20BC9B9B006D2DBD /* ADResources.swift in Sources */,
 				932F01332076AC5A001D708B /* ResourceCache.swift in Sources */,
 				9319DEEE20698C840083475D /* PermissionProviderConfiguration.swift in Sources */,
 				32EB2C1D209C5DA700CEBB77 /* ResourceWriteOperation.swift in Sources */,
 				B583619F1FB78763001CEC66 /* DocumentClient.swift in Sources */,
 				32A5030720A1D16F000C5948 /* ResourceEncryptor.swift in Sources */,
-				329C7DC220BEE3B500A49453 /* ADUserDefinedFunction.swift in Sources */,
 				327996FF209C830C0062A374 /* ResourceWriteOperationQueue.swift in Sources */,
-				32A77CF420C0574A00846397 /* ADExcludedPath.swift in Sources */,
-				32D4D58C20C289B200BF3154 /* ADResourceSystemKeys.swift in Sources */,
 				B58361B91FBA1385001CEC66 /* CodableResource.swift in Sources */,
 				B52240931FB3407900D0343F /* AzureDataExtensions.swift in Sources */,
 				93B7240B2064560F00984CA8 /* MSHttpHeader.swift in Sources */,
-				326E733620BC2AB8006D2DBD /* ADResponseMetadata.swift in Sources */,
-				329C7DD120BEF9E100A49453 /* ADResource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2012,7 +1580,6 @@
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
 				SWIFT_VERSION = 4.0;
 				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
@@ -2070,7 +1637,6 @@
 				SWIFT_VERSION = 4.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};

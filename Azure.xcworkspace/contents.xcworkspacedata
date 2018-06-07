@@ -16,4 +16,11 @@
    <FileRef
       location = "group:AzureStorage/AzureStorage.xcodeproj">
    </FileRef>
+   <Group
+      location = "container:"
+      name = "Azure.iOS ObjC">
+      <FileRef
+         location = "group:/Users/colbylwilliams/GitHub/Azure.iOS/AzureData ObjC/AzureData ObjC.xcodeproj">
+      </FileRef>
+   </Group>
 </Workspace>

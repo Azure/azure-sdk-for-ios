@@ -1,6 +1,6 @@
 //
 //  Response.swift
-//  AzureData iOS
+//  AzureData
 //
 //  Copyright (c) Microsoft Corporation. All rights reserved.
 //  Licensed under the MIT License.
