@@ -36,7 +36,7 @@ if (($# == 0)); then
     echo "$helpText" >&2; exit 0
 fi
 
-while getopts ":bv:h:" opt; do
+while getopts ":b:v:h:" opt; do
     case $opt in
         b)  build=$OPTARG;;
         v)  version=$OPTARG;;

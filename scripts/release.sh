@@ -1,8 +1,10 @@
 #!/bin/sh
 
+rgx='^[0-9]+([.][0-9]+)*$'
+
 cdir=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
 
-projectDir=${dir%/*}
+projectDir=${cdir%/*}
 
 helpText=$(cat << endHelp
 
@@ -38,7 +40,7 @@ if (($# == 0)); then
 fi
 
 
-while getopts ":bv:h:" opt; do
+while getopts ":b:v:h:" opt; do
     case $opt in
         b)  build=$OPTARG;;
         v)  version=$OPTARG;;
@@ -48,6 +50,9 @@ while getopts ":bv:h:" opt; do
     esac
 done
 
+echo build $build
+echo version $version
+echo projectDir $projectDir
 
 # 
 # check if values were provided for the build and version arguments
@@ -64,11 +69,11 @@ fi
 
 
 if ! [[ $version ]]; then
-    echo "    Must provide a value for Version (-v) argument as a single number (1) numbers seperated by periods (1.0.0)." >&2; exit 1
+    echo "    Must provide a value for Version (-v) argument as a single number (1) or numbers seperated by periods (1.0.0)." >&2; exit 1
 fi
 
 if ! [[ $version =~ $rgx ]]; then
-    echo "    Invalid Value for Version (-v). Must be a single number (1) numbers seperated by periods (1.0.0)." >&2; exit 1
+    echo "    Invalid Value for Version (-v). Must be a single number (1) or numbers seperated by periods (1.0.0)." >&2; exit 1
 fi
 
 echo "  Setting Version (CFBundleShortVersionString) to: $version"
@@ -99,7 +104,7 @@ done
 
 carthage build --project-directory "$projectDir" --no-skip-current && \
 carthage archive AzureCore AzureAuth AzureData AzurePush AzureStorage AzureMobile --project-directory "$projectDir" --output "$projectDir/Azure.framework.zip" && \
-hub release create -p -a "$projectDir/Azure.framework.zip" -m "v$versionNumber" "v$versionNumber" && \
+hub release create -p -a "$projectDir/Azure.framework.zip" -m "v$version" "v$version" && \
 pod spec lint "$projectDir/AzureCore.podspec" --allow-warnings && pod trunk push "$projectDir/AzureCore.podspec" --allow-warnings && \
 pod spec lint "$projectDir/AzureData.podspec" --allow-warnings && pod trunk push "$projectDir/AzureData.podspec" --allow-warnings && \
 pod spec lint "$projectDir/AzureMobile.podspec" --allow-warnings && pod trunk push "$projectDir/AzureMobile.podspec" --allow-warnings
