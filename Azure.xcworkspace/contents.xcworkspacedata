@@ -26,4 +26,30 @@
          location = "group:/Users/colbylwilliams/GitHub/Azure.iOS/AzureData ObjC/AzureData ObjC.xcodeproj">
       </FileRef>
    </Group>
+   <Group
+      location = "container:"
+      name = "Deployment">
+      <FileRef
+         location = "group:LICENSE">
+      </FileRef>
+      <FileRef
+         location = "group:Package.swift">
+      </FileRef>
+      <FileRef
+         location = "group:README.md">
+      </FileRef>
+      <Group
+         location = "group:scripts"
+         name = "scripts">
+         <FileRef
+            location = "group:package.sh">
+         </FileRef>
+         <FileRef
+            location = "group:release.sh">
+         </FileRef>
+         <FileRef
+            location = "group:version.sh">
+         </FileRef>
+      </Group>
+   </Group>
 </Workspace>

@@ -123,3 +123,4 @@ project.lock.json
 # *.xcworkspacedata
 
 Azure.framework.zip
+Package.resolved

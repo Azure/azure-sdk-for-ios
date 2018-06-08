@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "9345CF7920CB003C0002247E"
-               BuildableName = "AzureMobile_iOS.framework"
+               BuildableName = "AzureMobile.framework"
                BlueprintName = "AzureMobile iOS"
                ReferencedContainer = "container:AzureMobile.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9345CF7920CB003C0002247E"
-            BuildableName = "AzureMobile_iOS.framework"
+            BuildableName = "AzureMobile.framework"
             BlueprintName = "AzureMobile iOS"
             ReferencedContainer = "container:AzureMobile.xcodeproj">
          </BuildableReference>
@@ -65,7 +65,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9345CF7920CB003C0002247E"
-            BuildableName = "AzureMobile_iOS.framework"
+            BuildableName = "AzureMobile.framework"
             BlueprintName = "AzureMobile iOS"
             ReferencedContainer = "container:AzureMobile.xcodeproj">
          </BuildableReference>
@@ -83,7 +83,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9345CF7920CB003C0002247E"
-            BuildableName = "AzureMobile_iOS.framework"
+            BuildableName = "AzureMobile.framework"
             BlueprintName = "AzureMobile iOS"
             ReferencedContainer = "container:AzureMobile.xcodeproj">
          </BuildableReference>
