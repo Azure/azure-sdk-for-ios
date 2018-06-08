@@ -16,6 +16,9 @@
    <FileRef
       location = "group:AzureStorage/AzureStorage.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:AzureMobile/AzureMobile.xcodeproj">
+   </FileRef>
    <Group
       location = "container:"
       name = "Azure.iOS ObjC">

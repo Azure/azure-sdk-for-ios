@@ -1,10 +1,10 @@
 Pod::Spec.new do |s|
 
-  s.name          = 'AzureAuth'
+  s.name          = 'AzureMobile'
   s.version       = '0.1.5'
-  s.summary       = 'Microsoft Azure App Service Auth client SDK for iOS.'
+  s.summary       = 'Microsoft Azure client SDK for iOS.'
 
-  s.description   = 'Microsoft Azure App Service Auth client SDK for iOS, macOS, watchOS, tvOS.'
+  s.description   = 'Microsoft Azure client SDK for iOS, macOS, watchOS, tvOS.'
 
   s.homepage      = 'https://github.com/Azure/Azure.iOS'
   s.license       = { :type => 'MIT', :file => 'LICENSE' }
@@ -12,11 +12,11 @@ Pod::Spec.new do |s|
 
   s.source        = { :git => 'https://github.com/Azure/Azure.iOS.git', :tag => "v#{s.version}" }
 
-  s.dependency 'AzureCore', s.version.to_s
-
   s.swift_version = '4.1'
 
-  s.source_files = 'AzureAuth/Source/**/*.{swift,h,m}'
+  s.dependency 'AzureData', s.version.to_s
+
+  s.source_files = 'AzureMobile/Source/*.{swift,h,m}'
 
   s.ios.deployment_target     = '10.0'
   s.osx.deployment_target     = '10.12'
