@@ -3,23 +3,9 @@
    LastUpgradeVersion = "0940"
    version = "1.3">
    <BuildAction
-      parallelizeBuildables = "NO"
+      parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
       <BuildActionEntries>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "93F80547202BB20300D0B4F4"
-               BuildableName = "AzureCore.framework"
-               BlueprintName = "AzureCore iOS"
-               ReferencedContainer = "container:../AzureCore/AzureCore.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
          <BuildActionEntry
             buildForTesting = "YES"
             buildForRunning = "YES"
@@ -70,10 +56,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "93F6672F20C987E5009E4DBF"
-            BuildableName = "AzureDataObjC.framework"
-            BlueprintName = "AzureData ObjC iOS"
-            ReferencedContainer = "container:AzureDataObjC.xcodeproj">
+            BlueprintIdentifier = "93F80547202BB20300D0B4F4"
+            BuildableName = "AzureCore.framework"
+            BlueprintName = "AzureCore iOS"
+            ReferencedContainer = "container:../AzureCore/AzureCore.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -98,6 +84,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "93F6672F20C987E5009E4DBF"
+            BuildableName = "AzureDataObjC.framework"
+            BlueprintName = "AzureData ObjC iOS"
+            ReferencedContainer = "container:AzureData ObjC.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
