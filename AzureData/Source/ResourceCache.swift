@@ -252,12 +252,20 @@ extension FileManager {
     
     fileprivate func fileUrl(for path: (directory:String, file:String)) throws -> URL {
 
-        let directory = try cacheFileUrl(for: path.directory)
-        
-        if !self.fileExists(atPath: directory.path) {
-            try self.createDirectory(at: directory, withIntermediateDirectories: true, attributes: nil)
+        let directoryUrl = try cacheFileUrl(for: path.directory)
+
+        // Create the directory for the resource if it does not exist.
+        if !self.fileExists(atPath: directoryUrl.path) {
+            try self.createDirectory(at: directoryUrl, withIntermediateDirectories: true, attributes: nil)
         }
-        
+
+        // Create empty child directories for the resource if they don't exist.
+        try path.directory.resourceType?
+            .childrens
+            .compactMap { URL(string: $0.rawValue, relativeTo: directoryUrl) }
+            .filter { !fileExists(atPath: $0.path) }
+            .forEach { try createDirectory(at: $0, withIntermediateDirectories: true, attributes: nil) }
+
         return try cacheFileUrl(for: path.file)
     }
 

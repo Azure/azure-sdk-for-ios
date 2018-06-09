@@ -108,6 +108,11 @@ extension String {
         return (ResourceType(rawValue: String(components[count - 4])), String(components[count - 3]))
     }
 
+    var resourceType: ResourceType? {
+        guard let (directory, _) = self.path else { return nil }
+        return ResourceType(rawValue: directory.lastPathComponent)
+    }
+
     /// "dbs/TC1AAA==/colls/TC1AAMDvwgA=".path = ("dbs/TC1AAA==/colls", "TC1AAMDvwgA=")
     var path: (directory: String, file: String)? {
         let components = self.split(separator: "/")

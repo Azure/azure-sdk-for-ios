@@ -80,6 +80,16 @@ class _AzureDataTests: XCTestCase {
         )
     }
 
+    func ensureUserExists(completion: ((User) -> ())? = nil) {
+        ensureDatabaseExists()
+        ensureResourceExists(
+            type: User.self,
+            get: { AzureData.get(userWithId: self.userId, inDatabase: self.databaseId, callback: $0) },
+            create: { AzureData.create(userWithId: self.userId, inDatabase: self.databaseId, callback: $0) },
+            completion: completion
+        )
+    }
+
     func ensureDatabaseIsDeleted() {
         ensureResourceIsDeleted(Database.self, delete: { AzureData.delete(databaseWithId: self.databaseId, callback: $0) })
     }
