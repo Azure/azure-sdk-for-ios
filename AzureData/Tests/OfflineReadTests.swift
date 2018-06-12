@@ -301,6 +301,8 @@ class OfflineReadTests: _AzureDataTests {
                 }
             }
         }
+        
+        wait(for: [createExpectation], timeout: timeout)
     }
 
     func testEmptyChildDirectoriesAreCreatedWhenANewCollectionIsCachedOffline() {
@@ -329,6 +331,8 @@ class OfflineReadTests: _AzureDataTests {
                 }
             }
         }
+        
+        wait(for: [createExpectation], timeout: timeout)
     }
 
     func testEmptyChildDirectoriesAreCreatedWhenANewDocumentIsCachedOffline() {
@@ -353,6 +357,8 @@ class OfflineReadTests: _AzureDataTests {
                 }
             }
         }
+        
+        wait(for: [createExpectation], timeout: timeout)
     }
 
     func testEmptyChildDirectoriesAreCreatedWhenANewUserIsCachedOffline() {
@@ -375,6 +381,8 @@ class OfflineReadTests: _AzureDataTests {
                 }
             }
         }
+        
+        wait(for: [createExpectation], timeout: timeout)
     }
 
     // MARK: - Private helpers
