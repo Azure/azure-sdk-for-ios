@@ -50,7 +50,7 @@ public enum ResourceType : String {
         }
     }
 
-    var childrens: [ResourceType] {
+    var children: [ResourceType] {
         switch self {
         case .database:        return [.collection, .user]
         case .user:            return [.permission]

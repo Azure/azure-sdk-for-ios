@@ -261,7 +261,7 @@ extension FileManager {
 
         // Create empty child directories for the resource if they don't exist.
         try path.directory.resourceType?
-            .childrens
+            .children
             .map { directoryUrl.appendingPathComponent($0.rawValue) }
             .filter { !fileExists(atPath: $0.path) }
             .forEach { try createDirectory(at: $0, withIntermediateDirectories: true, attributes: nil) }
