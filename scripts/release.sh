@@ -77,6 +77,16 @@ if ! [[ $version =~ $rgx ]]; then
 fi
 
 echo "  Setting Version (CFBundleShortVersionString) to: $version"
+echo
+
+while true; do
+    read -p "Has the version been updated to $version in all podspecs (y/n)? : " yn
+    case $yn in
+        [Yy]* ) break;;
+        [Nn]* ) echo "    Please update the version property in all podspecs to $version and run this script again." >&2; exit 1;;
+        * ) echo "Please answer yes (y) or no (n).";;
+    esac
+done
 
 
 #
@@ -100,6 +110,18 @@ for project in AzureCore AzureData AzureAuth AzurePush AzureStorage AzureMobile;
 
 done
 
+echo
+echo "Please confirm the local build/version number changes are correct and push to github."
+echo
+
+while true; do
+    read -p "Have the updated version numbers pushed to github (y/n)? : " yn
+    case $yn in
+        [Yy]* ) break;;
+        [Nn]* ) echo "    Please confirm/fix the local changes and run this script again." >&2; exit 1;;
+        * ) echo "Please answer yes (y) or no (n).";;
+    esac
+done
 
 
 carthage build --project-directory "$projectDir" --no-skip-current && \
@@ -111,6 +133,6 @@ pod spec lint "$projectDir/AzureMobile.podspec" --allow-warnings && pod trunk pu
 
 
 
-
+echo "Successfully released: v$version ($build)"
 
 
