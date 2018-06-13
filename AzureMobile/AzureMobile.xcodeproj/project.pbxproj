@@ -1,0 +1,1083 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9345CF8420CB003D0002247E /* AzureMobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9345CF7A20CB003C0002247E /* AzureMobile.framework */; };
+		9345CF8920CB003D0002247E /* AzureMobileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9345CF8820CB003D0002247E /* AzureMobileTests.swift */; };
+		9345CF8B20CB003D0002247E /* AzureMobile.h in Headers */ = {isa = PBXBuildFile; fileRef = 9345CF7D20CB003C0002247E /* AzureMobile.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9345CFA220CB006D0002247E /* AzureMobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9345CF9920CB006C0002247E /* AzureMobile.framework */; };
+		9345CFBE20CB00850002247E /* AzureMobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9345CFB520CB00850002247E /* AzureMobile.framework */; };
+		9345CFDA20CB025E0002247E /* DefaultPermissionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9345CFD920CB025E0002247E /* DefaultPermissionProvider.swift */; };
+		9345CFDB20CB025E0002247E /* DefaultPermissionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9345CFD920CB025E0002247E /* DefaultPermissionProvider.swift */; };
+		9345CFDC20CB025E0002247E /* DefaultPermissionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9345CFD920CB025E0002247E /* DefaultPermissionProvider.swift */; };
+		9345CFDD20CB025E0002247E /* DefaultPermissionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9345CFD920CB025E0002247E /* DefaultPermissionProvider.swift */; };
+		9345CFE520CB02EC0002247E /* AzureData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9345CFE420CB02EC0002247E /* AzureData.framework */; };
+		9345CFE720CB02FA0002247E /* AzureData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9345CFE620CB02FA0002247E /* AzureData.framework */; };
+		9345CFE920CB03050002247E /* AzureData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9345CFE820CB03050002247E /* AzureData.framework */; };
+		9345CFEB20CB030F0002247E /* AzureData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9345CFEA20CB030F0002247E /* AzureData.framework */; };
+		9345CFEC20CB03CA0002247E /* DefaultPermissionProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9345CFDE20CB027A0002247E /* DefaultPermissionProviderTests.swift */; };
+		9345CFED20CB03CB0002247E /* DefaultPermissionProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9345CFDE20CB027A0002247E /* DefaultPermissionProviderTests.swift */; };
+		9345CFEE20CB03CC0002247E /* DefaultPermissionProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9345CFDE20CB027A0002247E /* DefaultPermissionProviderTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		9345CF8520CB003D0002247E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9345CF7120CB003C0002247E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9345CF7920CB003C0002247E;
+			remoteInfo = AzureMobile;
+		};
+		9345CFA320CB006D0002247E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9345CF7120CB003C0002247E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9345CF9820CB006C0002247E;
+			remoteInfo = "AzureMobile macOS";
+		};
+		9345CFBF20CB00850002247E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9345CF7120CB003C0002247E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9345CFB420CB00850002247E;
+			remoteInfo = "AzureMobile tvOS";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		9345CF7A20CB003C0002247E /* AzureMobile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureMobile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9345CF7D20CB003C0002247E /* AzureMobile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AzureMobile.h; sourceTree = "<group>"; };
+		9345CF7E20CB003C0002247E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9345CF8320CB003D0002247E /* AzureMobile iOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AzureMobile iOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9345CF8820CB003D0002247E /* AzureMobileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzureMobileTests.swift; sourceTree = "<group>"; };
+		9345CF8A20CB003D0002247E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9345CF9920CB006C0002247E /* AzureMobile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureMobile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9345CFA120CB006C0002247E /* AzureMobile macOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AzureMobile macOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9345CFB520CB00850002247E /* AzureMobile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureMobile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9345CFBD20CB00850002247E /* AzureMobile tvOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AzureMobile tvOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9345CFD120CB00A20002247E /* AzureMobile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureMobile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9345CFD920CB025E0002247E /* DefaultPermissionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultPermissionProvider.swift; sourceTree = "<group>"; };
+		9345CFDE20CB027A0002247E /* DefaultPermissionProviderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultPermissionProviderTests.swift; sourceTree = "<group>"; };
+		9345CFE420CB02EC0002247E /* AzureData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9345CFE620CB02FA0002247E /* AzureData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9345CFE820CB03050002247E /* AzureData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9345CFEA20CB030F0002247E /* AzureData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9345CF7620CB003C0002247E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9345CFE520CB02EC0002247E /* AzureData.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9345CF8020CB003D0002247E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9345CF8420CB003D0002247E /* AzureMobile.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9345CF9520CB006C0002247E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9345CFE720CB02FA0002247E /* AzureData.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9345CF9E20CB006C0002247E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9345CFA220CB006D0002247E /* AzureMobile.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9345CFB120CB00850002247E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9345CFE920CB03050002247E /* AzureData.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9345CFBA20CB00850002247E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9345CFBE20CB00850002247E /* AzureMobile.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9345CFCD20CB00A20002247E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9345CFEB20CB030F0002247E /* AzureData.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9345CF7020CB003C0002247E = {
+			isa = PBXGroup;
+			children = (
+				9345CF7C20CB003C0002247E /* Source */,
+				9345CF8720CB003D0002247E /* Tests */,
+				9345CF7B20CB003C0002247E /* Products */,
+				9345CFE320CB02EC0002247E /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		9345CF7B20CB003C0002247E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9345CF7A20CB003C0002247E /* AzureMobile.framework */,
+				9345CF8320CB003D0002247E /* AzureMobile iOS Tests.xctest */,
+				9345CF9920CB006C0002247E /* AzureMobile.framework */,
+				9345CFA120CB006C0002247E /* AzureMobile macOS Tests.xctest */,
+				9345CFB520CB00850002247E /* AzureMobile.framework */,
+				9345CFBD20CB00850002247E /* AzureMobile tvOS Tests.xctest */,
+				9345CFD120CB00A20002247E /* AzureMobile.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9345CF7C20CB003C0002247E /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				9345CFD920CB025E0002247E /* DefaultPermissionProvider.swift */,
+				9345CF7D20CB003C0002247E /* AzureMobile.h */,
+				9345CF7E20CB003C0002247E /* Info.plist */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		9345CF8720CB003D0002247E /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				9345CFDE20CB027A0002247E /* DefaultPermissionProviderTests.swift */,
+				9345CF8820CB003D0002247E /* AzureMobileTests.swift */,
+				9345CF8A20CB003D0002247E /* Info.plist */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		9345CFE320CB02EC0002247E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9345CFEA20CB030F0002247E /* AzureData.framework */,
+				9345CFE820CB03050002247E /* AzureData.framework */,
+				9345CFE620CB02FA0002247E /* AzureData.framework */,
+				9345CFE420CB02EC0002247E /* AzureData.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		9345CF7720CB003C0002247E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9345CF8B20CB003D0002247E /* AzureMobile.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9345CF9620CB006C0002247E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9345CFB220CB00850002247E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9345CFCE20CB00A20002247E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		9345CF7920CB003C0002247E /* AzureMobile iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9345CF8E20CB003D0002247E /* Build configuration list for PBXNativeTarget "AzureMobile iOS" */;
+			buildPhases = (
+				9345CF7520CB003C0002247E /* Sources */,
+				9345CF7620CB003C0002247E /* Frameworks */,
+				9345CF7720CB003C0002247E /* Headers */,
+				9345CF7820CB003C0002247E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AzureMobile iOS";
+			productName = AzureMobile;
+			productReference = 9345CF7A20CB003C0002247E /* AzureMobile.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		9345CF8220CB003D0002247E /* AzureMobile iOS Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9345CF9120CB003D0002247E /* Build configuration list for PBXNativeTarget "AzureMobile iOS Tests" */;
+			buildPhases = (
+				9345CF7F20CB003D0002247E /* Sources */,
+				9345CF8020CB003D0002247E /* Frameworks */,
+				9345CF8120CB003D0002247E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9345CF8620CB003D0002247E /* PBXTargetDependency */,
+			);
+			name = "AzureMobile iOS Tests";
+			productName = AzureMobileTests;
+			productReference = 9345CF8320CB003D0002247E /* AzureMobile iOS Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		9345CF9820CB006C0002247E /* AzureMobile macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9345CFAA20CB006D0002247E /* Build configuration list for PBXNativeTarget "AzureMobile macOS" */;
+			buildPhases = (
+				9345CF9420CB006C0002247E /* Sources */,
+				9345CF9520CB006C0002247E /* Frameworks */,
+				9345CF9620CB006C0002247E /* Headers */,
+				9345CF9720CB006C0002247E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AzureMobile macOS";
+			productName = "AzureMobile macOS";
+			productReference = 9345CF9920CB006C0002247E /* AzureMobile.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		9345CFA020CB006C0002247E /* AzureMobile macOS Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9345CFAD20CB006D0002247E /* Build configuration list for PBXNativeTarget "AzureMobile macOS Tests" */;
+			buildPhases = (
+				9345CF9D20CB006C0002247E /* Sources */,
+				9345CF9E20CB006C0002247E /* Frameworks */,
+				9345CF9F20CB006C0002247E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9345CFA420CB006D0002247E /* PBXTargetDependency */,
+			);
+			name = "AzureMobile macOS Tests";
+			productName = "AzureMobile macOSTests";
+			productReference = 9345CFA120CB006C0002247E /* AzureMobile macOS Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		9345CFB420CB00850002247E /* AzureMobile tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9345CFC620CB00850002247E /* Build configuration list for PBXNativeTarget "AzureMobile tvOS" */;
+			buildPhases = (
+				9345CFB020CB00850002247E /* Sources */,
+				9345CFB120CB00850002247E /* Frameworks */,
+				9345CFB220CB00850002247E /* Headers */,
+				9345CFB320CB00850002247E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AzureMobile tvOS";
+			productName = "AzureMobile tvOS";
+			productReference = 9345CFB520CB00850002247E /* AzureMobile.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		9345CFBC20CB00850002247E /* AzureMobile tvOS Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9345CFC920CB00850002247E /* Build configuration list for PBXNativeTarget "AzureMobile tvOS Tests" */;
+			buildPhases = (
+				9345CFB920CB00850002247E /* Sources */,
+				9345CFBA20CB00850002247E /* Frameworks */,
+				9345CFBB20CB00850002247E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9345CFC020CB00850002247E /* PBXTargetDependency */,
+			);
+			name = "AzureMobile tvOS Tests";
+			productName = "AzureMobile tvOSTests";
+			productReference = 9345CFBD20CB00850002247E /* AzureMobile tvOS Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		9345CFD020CB00A20002247E /* AzureMobile watchOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9345CFD620CB00A20002247E /* Build configuration list for PBXNativeTarget "AzureMobile watchOS" */;
+			buildPhases = (
+				9345CFCC20CB00A20002247E /* Sources */,
+				9345CFCD20CB00A20002247E /* Frameworks */,
+				9345CFCE20CB00A20002247E /* Headers */,
+				9345CFCF20CB00A20002247E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AzureMobile watchOS";
+			productName = "AzureMobile watchOS";
+			productReference = 9345CFD120CB00A20002247E /* AzureMobile.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9345CF7120CB003C0002247E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0940;
+				LastUpgradeCheck = 0940;
+				ORGANIZATIONNAME = Microsoft;
+				TargetAttributes = {
+					9345CF7920CB003C0002247E = {
+						CreatedOnToolsVersion = 9.4;
+						LastSwiftMigration = 0940;
+					};
+					9345CF8220CB003D0002247E = {
+						CreatedOnToolsVersion = 9.4;
+					};
+					9345CF9820CB006C0002247E = {
+						CreatedOnToolsVersion = 9.4;
+						LastSwiftMigration = 0940;
+					};
+					9345CFA020CB006C0002247E = {
+						CreatedOnToolsVersion = 9.4;
+					};
+					9345CFB420CB00850002247E = {
+						CreatedOnToolsVersion = 9.4;
+						LastSwiftMigration = 0940;
+					};
+					9345CFBC20CB00850002247E = {
+						CreatedOnToolsVersion = 9.4;
+					};
+					9345CFD020CB00A20002247E = {
+						CreatedOnToolsVersion = 9.4;
+						LastSwiftMigration = 0940;
+					};
+				};
+			};
+			buildConfigurationList = 9345CF7420CB003C0002247E /* Build configuration list for PBXProject "AzureMobile" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 9345CF7020CB003C0002247E;
+			productRefGroup = 9345CF7B20CB003C0002247E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9345CF7920CB003C0002247E /* AzureMobile iOS */,
+				9345CF8220CB003D0002247E /* AzureMobile iOS Tests */,
+				9345CF9820CB006C0002247E /* AzureMobile macOS */,
+				9345CFA020CB006C0002247E /* AzureMobile macOS Tests */,
+				9345CFB420CB00850002247E /* AzureMobile tvOS */,
+				9345CFBC20CB00850002247E /* AzureMobile tvOS Tests */,
+				9345CFD020CB00A20002247E /* AzureMobile watchOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9345CF7820CB003C0002247E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9345CF8120CB003D0002247E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9345CF9720CB006C0002247E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9345CF9F20CB006C0002247E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9345CFB320CB00850002247E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9345CFBB20CB00850002247E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9345CFCF20CB00A20002247E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9345CF7520CB003C0002247E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9345CFDA20CB025E0002247E /* DefaultPermissionProvider.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9345CF7F20CB003D0002247E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9345CF8920CB003D0002247E /* AzureMobileTests.swift in Sources */,
+				9345CFEC20CB03CA0002247E /* DefaultPermissionProviderTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9345CF9420CB006C0002247E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9345CFDB20CB025E0002247E /* DefaultPermissionProvider.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9345CF9D20CB006C0002247E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9345CFED20CB03CB0002247E /* DefaultPermissionProviderTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9345CFB020CB00850002247E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9345CFDC20CB025E0002247E /* DefaultPermissionProvider.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9345CFB920CB00850002247E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9345CFEE20CB03CC0002247E /* DefaultPermissionProviderTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9345CFCC20CB00A20002247E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9345CFDD20CB025E0002247E /* DefaultPermissionProvider.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9345CF8620CB003D0002247E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9345CF7920CB003C0002247E /* AzureMobile iOS */;
+			targetProxy = 9345CF8520CB003D0002247E /* PBXContainerItemProxy */;
+		};
+		9345CFA420CB006D0002247E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9345CF9820CB006C0002247E /* AzureMobile macOS */;
+			targetProxy = 9345CFA320CB006D0002247E /* PBXContainerItemProxy */;
+		};
+		9345CFC020CB00850002247E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9345CFB420CB00850002247E /* AzureMobile tvOS */;
+			targetProxy = 9345CFBF20CB00850002247E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		9345CF8C20CB003D0002247E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 16;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		9345CF8D20CB003D0002247E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 16;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 4.0;
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		9345CF8F20CB003D0002247E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 16;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Source/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.azure.mobile;
+				PRODUCT_NAME = AzureMobile;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.1;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		9345CF9020CB003D0002247E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 16;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Source/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.azure.mobile;
+				PRODUCT_NAME = AzureMobile;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.1;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		9345CF9220CB003D0002247E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.azure.mobile.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		9345CF9320CB003D0002247E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.azure.mobile.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		9345CFAB20CB006D0002247E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 16;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = Source/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = com.azure.mobile;
+				PRODUCT_NAME = AzureMobile;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.1;
+			};
+			name = Debug;
+		};
+		9345CFAC20CB006D0002247E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 16;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = Source/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = com.azure.mobile;
+				PRODUCT_NAME = AzureMobile;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.1;
+			};
+			name = Release;
+		};
+		9345CFAE20CB006D0002247E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = com.azure.mobile.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		9345CFAF20CB006D0002247E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = com.azure.mobile.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+		9345CFC720CB00850002247E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 16;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Source/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.azure.mobile;
+				PRODUCT_NAME = AzureMobile;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.1;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
+		};
+		9345CFC820CB00850002247E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 16;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Source/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.azure.mobile;
+				PRODUCT_NAME = AzureMobile;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.1;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Release;
+		};
+		9345CFCA20CB00850002247E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.azure.mobile.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 11.4;
+			};
+			name = Debug;
+		};
+		9345CFCB20CB00850002247E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.azure.mobile.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 11.4;
+			};
+			name = Release;
+		};
+		9345CFD720CB00A20002247E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 16;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Source/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.azure.mobile;
+				PRODUCT_NAME = AzureMobile;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.1;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 3.0;
+			};
+			name = Debug;
+		};
+		9345CFD820CB00A20002247E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 16;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Source/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.azure.mobile;
+				PRODUCT_NAME = AzureMobile;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.1;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 3.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9345CF7420CB003C0002247E /* Build configuration list for PBXProject "AzureMobile" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9345CF8C20CB003D0002247E /* Debug */,
+				9345CF8D20CB003D0002247E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9345CF8E20CB003D0002247E /* Build configuration list for PBXNativeTarget "AzureMobile iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9345CF8F20CB003D0002247E /* Debug */,
+				9345CF9020CB003D0002247E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9345CF9120CB003D0002247E /* Build configuration list for PBXNativeTarget "AzureMobile iOS Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9345CF9220CB003D0002247E /* Debug */,
+				9345CF9320CB003D0002247E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9345CFAA20CB006D0002247E /* Build configuration list for PBXNativeTarget "AzureMobile macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9345CFAB20CB006D0002247E /* Debug */,
+				9345CFAC20CB006D0002247E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9345CFAD20CB006D0002247E /* Build configuration list for PBXNativeTarget "AzureMobile macOS Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9345CFAE20CB006D0002247E /* Debug */,
+				9345CFAF20CB006D0002247E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9345CFC620CB00850002247E /* Build configuration list for PBXNativeTarget "AzureMobile tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9345CFC720CB00850002247E /* Debug */,
+				9345CFC820CB00850002247E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9345CFC920CB00850002247E /* Build configuration list for PBXNativeTarget "AzureMobile tvOS Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9345CFCA20CB00850002247E /* Debug */,
+				9345CFCB20CB00850002247E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9345CFD620CB00A20002247E /* Build configuration list for PBXNativeTarget "AzureMobile watchOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9345CFD720CB00A20002247E /* Debug */,
+				9345CFD820CB00A20002247E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9345CF7120CB003C0002247E /* Project object */;
+}

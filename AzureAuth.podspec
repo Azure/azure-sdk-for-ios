@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name          = 'AzureAuth'
-  s.version       = '0.1.3'
+  s.version       = '0.1.5'
   s.summary       = 'Microsoft Azure App Service Auth client SDK for iOS.'
 
   s.description   = 'Microsoft Azure App Service Auth client SDK for iOS, macOS, watchOS, tvOS.'

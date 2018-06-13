@@ -116,14 +116,11 @@ project.lock.json
 [Pp]rivateKeys.cs
 [Pp]rivateKeys.swift
 
-
 *.paw
 
 *.xcbkptlist
 *.xcuserstate
 # *.xcworkspacedata
 
-AzureData Sample/scripts/test-all.sh
-
 Azure.framework.zip
-package.sh
+Package.resolved

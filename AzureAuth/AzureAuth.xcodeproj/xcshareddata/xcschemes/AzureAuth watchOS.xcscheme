@@ -14,20 +14,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "930A020A202BBA16002BD1FE"
-               BuildableName = "AzureCore.framework"
-               BlueprintName = "AzureCore watchOS"
-               ReferencedContainer = "container:../AzureCore/AzureCore.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "930A01E1202BB9F0002BD1FE"
                BuildableName = "AzureAuth.framework"
                BlueprintName = "AzureAuth watchOS"
@@ -42,16 +28,6 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "93F80653202BB71500D0B4F4"
-               BuildableName = "AzureAuth watchOS Tests.xctest"
-               BlueprintName = "AzureAuth watchOS Tests"
-               ReferencedContainer = "container:AzureAuth.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

@@ -365,7 +365,7 @@ fileprivate extension ResourcesPaginationParams {
     init(from string: String?) {
         guard let string = string,
               let data = string.data(using: .utf8),
-              let params = try? jsonDecoder.decode(ResourcesPaginationParams.self, from: data) else {
+              let params = try? AzureData.jsonDecoder.decode(ResourcesPaginationParams.self, from: data) else {
                 self.offset = 0
                 self.limit = ResourcesPaginationParams.defaultLimit
                 return
@@ -387,7 +387,7 @@ fileprivate extension ResourcesPaginationParams {
     }
 
     var stringValue: String? {
-        guard let data = try? jsonEncoder.encode(self) else { return nil }
+        guard let data = try? AzureData.jsonEncoder.encode(self) else { return nil }
         return String(data: data, encoding: .utf8)
     }
 }
