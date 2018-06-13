@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name          = 'AzureData'
-  s.version       = '0.1.5'
+  s.version       = '0.1.7'
   s.summary       = 'Microsoft Azure Cosmos DB client SDK for iOS.'
 
   s.description   = 'Microsoft Azure Cosmos DB client SDK for iOS, macOS, watchOS, tvOS.'
