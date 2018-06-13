@@ -19,7 +19,7 @@ public enum ResourceType : String {
     case document           = "docs"
     case attachment         = "attachments"
     case offer              = "offers"
-    
+
     var path: String {
         return self.rawValue
     }
@@ -49,7 +49,22 @@ public enum ResourceType : String {
         case .collection, .document, .storedProcedure, .trigger, .udf, .attachment: return true
         }
     }
-    
+
+    var children: [ResourceType] {
+        switch self {
+        case .database:        return [.collection, .user]
+        case .user:            return [.permission]
+        case .permission:      return []
+        case .collection:      return [.document, .storedProcedure, .trigger, .udf]
+        case .document:        return [.attachment]
+        case .storedProcedure: return []
+        case .trigger:         return []
+        case .udf:             return []
+        case .attachment:      return []
+        case .offer:           return []
+        }
+    }
+
     static var ancestors: [ResourceType] {
         return [ .database, .user, .collection, .document ]
     }

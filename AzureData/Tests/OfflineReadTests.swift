@@ -281,6 +281,110 @@ class OfflineReadTests: _AzureDataTests {
         wait(for: [deleteExpectation], timeout: timeout)
     }
 
+    func testEmptyChildDirectoriesAreCreatedWhenANewDatabaseIsCachedOffline() {
+        let createExpectation = self.expectation(description: "empty child directories are created when a new database is cached offline.")
+
+        ensureDatabaseExists { database in
+            AzureData.get(databaseWithId: database.id) { r in
+                XCTAssertTrue(r.result.isSuccess)
+    
+                self.wait {
+                    let databaseDirectoryUrl = URL(string: "dbs/\(database.resourceId)/", relativeTo: self.cachesDirectoryURL)!
+                    let collectionsDirectoryUrl = URL(string: "colls/", relativeTo: databaseDirectoryUrl)!
+                    let usersDirectoryUrl = URL(string: "users/", relativeTo: databaseDirectoryUrl)!
+
+                    XCTAssertTrue(FileManager.default.fileExists(atPath: databaseDirectoryUrl.path))
+                    XCTAssertTrue(FileManager.default.fileExists(atPath: collectionsDirectoryUrl.path))
+                    XCTAssertTrue(FileManager.default.fileExists(atPath: usersDirectoryUrl.path))
+
+                    createExpectation.fulfill()
+                }
+            }
+        }
+        
+        wait(for: [createExpectation], timeout: timeout)
+    }
+
+    func testEmptyChildDirectoriesAreCreatedWhenANewCollectionIsCachedOffline() {
+        let createExpectation = self.expectation(description: "empty child directories are created when a new collection is cached offline.")
+
+        ensureDatabaseExists { database in
+            self.ensureCollectionExists { collection in
+                AzureData.get(collectionWithId: collection.id, inDatabase: database.id) { r in
+                    XCTAssertTrue(r.result.isSuccess)
+                    
+                    self.wait {
+                        let collectionDirectoryUrl = URL(string: "dbs/\(database.resourceId)/colls/\(collection.resourceId)/", relativeTo: self.cachesDirectoryURL)!
+                        let documentsDirectoryUrl = URL(string: "docs/", relativeTo: collectionDirectoryUrl)!
+                        let sprocsDirectoryUrl = URL(string: "sprocs/", relativeTo: collectionDirectoryUrl)!
+                        let triggersDirectoryUrl = URL(string: "triggers/", relativeTo: collectionDirectoryUrl)!
+                        let udfsDirectoryUrl = URL(string: "udfs/", relativeTo: collectionDirectoryUrl)!
+
+                        XCTAssertTrue(FileManager.default.fileExists(atPath: collectionDirectoryUrl.path))
+                        XCTAssertTrue(FileManager.default.fileExists(atPath: documentsDirectoryUrl.path))
+                        XCTAssertTrue(FileManager.default.fileExists(atPath: sprocsDirectoryUrl.path))
+                        XCTAssertTrue(FileManager.default.fileExists(atPath: triggersDirectoryUrl.path))
+                        XCTAssertTrue(FileManager.default.fileExists(atPath: udfsDirectoryUrl.path))
+
+                        createExpectation.fulfill()
+                    }
+                }
+            }
+        }
+        
+        wait(for: [createExpectation], timeout: timeout)
+    }
+
+    func testEmptyChildDirectoriesAreCreatedWhenANewDocumentIsCachedOffline() {
+        let createExpectation = self.expectation(description: "empty child directories are created when a new document is cached offline.")
+        
+        ensureDatabaseExists { database in
+            self.ensureCollectionExists { collection in
+                self.ensureDocumentExists { document in
+                    AzureData.get(documentWithId: document.id, as: Document.self, inCollection: collection.id, inDatabase: database.id) { r in
+                        XCTAssertTrue(r.result.isSuccess)
+                        
+                        self.wait {
+                            let documentDirectoryUrl = URL(string: "dbs/\(database.resourceId)/colls/\(collection.resourceId)/docs/\(document.resourceId)/", relativeTo: self.cachesDirectoryURL)!
+                            let attachments = URL(string: "attachments/", relativeTo: documentDirectoryUrl)!
+                            
+                            XCTAssertTrue(FileManager.default.fileExists(atPath: documentDirectoryUrl.path))
+                            XCTAssertTrue(FileManager.default.fileExists(atPath: attachments.path))
+                            
+                            createExpectation.fulfill()
+                        }
+                    }
+                }
+            }
+        }
+        
+        wait(for: [createExpectation], timeout: timeout)
+    }
+
+    func testEmptyChildDirectoriesAreCreatedWhenANewUserIsCachedOffline() {
+        let createExpectation = self.expectation(description: "empty child directories are created when a new user is cached offline.")
+        
+        ensureDatabaseExists { database in
+            self.ensureUserExists { user in
+                AzureData.get(userWithId: user.id, inDatabase: database.id) { r in
+                    XCTAssertTrue(r.result.isSuccess)
+                    
+                    self.wait {
+                        let userDirectoryUrl = URL(string: "dbs/\(database.resourceId)/users/\(user.resourceId)/", relativeTo: self.cachesDirectoryURL)!
+                        let permissionsDirectoryUrl = URL(string: "permissions/", relativeTo: userDirectoryUrl)!
+                        
+                        XCTAssertTrue(FileManager.default.fileExists(atPath: userDirectoryUrl.path))
+                        XCTAssertTrue(FileManager.default.fileExists(atPath: permissionsDirectoryUrl.path))
+                        
+                        createExpectation.fulfill()
+                    }
+                }
+            }
+        }
+        
+        wait(for: [createExpectation], timeout: timeout)
+    }
+
     // MARK: - Private helpers
 
     private func ensureResourcesAreCachedLocallyWhenNetworkIsReachable<T: CodableResource>(
