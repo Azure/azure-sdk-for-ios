@@ -7,14 +7,14 @@ Azure.iOS is a collection of SDKs for rapidly creating iOS apps with modern, hig
 
 The SDKs are broken out by function and are designed to work just as well individually as they do together.
 
-| SDK | Status | Pod | Source | Docs | Summary |
-|:--- |:------ |:---:|:------:|:----:|:------- |
-| **[AzureData](AzureData)**       | :white_check_mark:[Preview Release](https://github.com/Azure/Azure.iOS/releases) | [v0.1.7](https://cocoapods.org/pods/AzureData)              | [source](AzureData)    | [wiki](https://github.com/Azure/Azure.iOS/wiki/AzureData)    | _Online/offline schema-less JSON database_ |
-| **[AzureCore](AzureCore)**       | :white_check_mark:[Preview Release](https://github.com/Azure/Azure.iOS/releases) | [v0.1.7](https://cocoapods.org/pods/AzureCore)              | [source](AzureCore)    | [wiki](https://github.com/Azure/Azure.iOS/wiki/AzureCore)    | _Core functionality shared among SDKs_ |
-| **[AzureMobile](AzureMobile)**   | [Development](AzureAuth)                                                         | [v0.1.7](https://cocoapods.org/pods/AzureMobile)            | [source](AzureMobile)  | [wiki](https://github.com/Azure/Azure.iOS/wiki/AzureMobile)  | _Authenticate with identity providers SDKs_ |
-| **[AzureAuth](AzureAuth)**       | [Development](AzureAuth)                                                         | <!--[v0.1.7](https://cocoapods.org/pods/AzureAuth)--> --    | [source](AzureAuth)    | [wiki](https://github.com/Azure/Azure.iOS/wiki/AzureAuth)    | _Connect to [Azure.Mobile](https://aka.ms/mobile) services_ |
-| **[AzurePush](AzurePush)**       | Backlog                                                                          | <!--[v0.1.7](https://cocoapods.org/pods/AzurePush)--> --    | [source](AzurePush)    | [wiki](https://github.com/Azure/Azure.iOS/wiki/AzurePush)    | _Push notifications (current SDK [here](https://github.com/Azure/azure-notificationhubs/tree/master/iOS/WindowsAzureMessaging))_ |
-| **[AzureStorage](AzureStorage)** | Backlog                                                                          | <!--[v0.1.7](https://cocoapods.org/pods/AzureStorage)--> -- | [source](AzureStorage) | [wiki](https://github.com/Azure/Azure.iOS/wiki/AzureStorage) | _Cloud storage (current SDK [here](https://github.com/Azure/azure-storage-ios))_ |
+| SDK | Summary | Status | Pod | Source | Docs |
+|:--- |:------- |:------ |:---:|:------:|:----:|
+| **[AzureData](AzureData)**       | _Online/offline schema-less JSON database_ | :white_check_mark:[Preview Release](https://github.com/Azure/Azure.iOS/releases) | [v0.1.7](https://cocoapods.org/pods/AzureData) | [source](AzureData) | [wiki](https://github.com/Azure/Azure.iOS/wiki/AzureData) |
+| **[AzureCore](AzureCore)**       | _Core functionality shared among SDKs_ | :white_check_mark:[Preview Release](https://github.com/Azure/Azure.iOS/releases) | [v0.1.7](https://cocoapods.org/pods/AzureCore) | [source](AzureCore) | [wiki](https://github.com/Azure/Azure.iOS/wiki/AzureCore) |
+| **[AzureMobile](AzureMobile)**   | _Authenticate with identity providers SDKs_ | [Development](AzureAuth) | [v0.1.7](https://cocoapods.org/pods/AzureMobile) | [source](AzureMobile)  | [wiki](https://github.com/Azure/Azure.iOS/wiki/AzureMobile) |
+| **[AzureAuth](AzureAuth)**       | _Connect to [Azure.Mobile](https://aka.ms/mobile) services_ | [Development](AzureAuth) | <!--[v0.1.7](https://cocoapods.org/pods/AzureAuth)--> --  | [source](AzureAuth)    | [wiki](https://github.com/Azure/Azure.iOS/wiki/AzureAuth) |
+| **[AzurePush](AzurePush)**       | _Push notifications (current SDK [here](https://github.com/Azure/azure-notificationhubs/tree/master/iOS/WindowsAzureMessaging))_  | Backlog  | <!--[v0.1.7](https://cocoapods.org/pods/AzurePush)--> -- | [source](AzurePush) | [wiki](https://github.com/Azure/Azure.iOS/wiki/AzurePush) |
+| **[AzureStorage](AzureStorage)** | _Cloud storage (current SDK [here](https://github.com/Azure/azure-storage-ios))_  | Backlog  | <!--[v0.1.7](https://cocoapods.org/pods/AzureStorage)--> --  | [source](AzureStorage) | [wiki](https://github.com/Azure/Azure.iOS/wiki/AzureStorage) |
 
 
 # Installation
