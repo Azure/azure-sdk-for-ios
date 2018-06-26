@@ -27,6 +27,7 @@
 		9379D8D8207F0113008EF22B /* AzureData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9379D8D7207F0113008EF22B /* AzureData.framework */; };
 		9379D8DA207F0893008EF22B /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9379D8D9207F0893008EF22B /* KeychainAccess.framework */; };
 		9379D8DC207F0898008EF22B /* Willow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9379D8DB207F0897008EF22B /* Willow.framework */; };
+		937C2C9F20E2BDC90068C89B /* Azure.plist in Resources */ = {isa = PBXBuildFile; fileRef = 937C2C9E20E2BDC90068C89B /* Azure.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		9379D8D7207F0113008EF22B /* AzureData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AzureData.framework; path = Carthage/Build/iOS/AzureData.framework; sourceTree = "<group>"; };
 		9379D8D9207F0893008EF22B /* KeychainAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainAccess.framework; path = Carthage/Build/iOS/KeychainAccess.framework; sourceTree = "<group>"; };
 		9379D8DB207F0897008EF22B /* Willow.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Willow.framework; path = Carthage/Build/iOS/Willow.framework; sourceTree = "<group>"; };
+		937C2C9E20E2BDC90068C89B /* Azure.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Azure.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 				9379D8AF207EF5B0008EF22B /* Assets.xcassets */,
 				9379D8B1207EF5B0008EF22B /* LaunchScreen.storyboard */,
 				9379D8B4207EF5B0008EF22B /* Info.plist */,
+				937C2C9E20E2BDC90068C89B /* Azure.plist */,
 			);
 			path = "AzureData iOS Example";
 			sourceTree = "<group>";
@@ -180,6 +183,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				937C2C9F20E2BDC90068C89B /* Azure.plist in Resources */,
 				9379D8B3207EF5B0008EF22B /* LaunchScreen.storyboard in Resources */,
 				9379D8B0207EF5B0008EF22B /* Assets.xcassets in Resources */,
 				9379D8AE207EF5AF008EF22B /* Main.storyboard in Resources */,
