@@ -3,18 +3,55 @@
 # Azure.iOS [![Build Status](https://travis-ci.org/Azure/Azure.iOS.svg?branch=master)](https://travis-ci.org/Azure/Azure.iOS) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![CocoaPod](https://img.shields.io/cocoapods/v/AzureData.svg)](https://cocoapods.org/pods/AzureData) ![Platforms](https://img.shields.io/cocoapods/p/AzureData.svg)
 _**This project is in active development and will change.**_
 
+# SDKs 
 Azure.iOS is a collection of SDKs for rapidly creating iOS apps with modern, highly-scalable backends on Azure.
 
-The SDKs are broken out by function and are designed to work just as well individually as they do together.
+## [AzureData](AzureData)
+![Current State: Preview Release](https://img.shields.io/badge/Current_State-Preview_Release-brightgreen.svg)
 
-| SDK | Summary | Status | Pod | Source | Docs |
-|:--- |:------- |:------ |:---:|:------:|:----:|
-| **[AzureData](AzureData)**       | _Online/offline schema-less JSON database_ | :white_check_mark:[Preview Release](https://github.com/Azure/Azure.iOS/releases) | [v0.1.7](https://cocoapods.org/pods/AzureData) | [source](AzureData) | [wiki](https://github.com/Azure/Azure.iOS/wiki/AzureData) |
-| **[AzureCore](AzureCore)**       | _Core functionality shared among SDKs_ | :white_check_mark:[Preview Release](https://github.com/Azure/Azure.iOS/releases) | [v0.1.7](https://cocoapods.org/pods/AzureCore) | [source](AzureCore) | [wiki](https://github.com/Azure/Azure.iOS/wiki/AzureCore) |
-| **[AzureMobile](AzureMobile)**   | _Authenticate with identity providers SDKs_ | [Development](AzureAuth) | [v0.1.7](https://cocoapods.org/pods/AzureMobile) | [source](AzureMobile)  | [wiki](https://github.com/Azure/Azure.iOS/wiki/AzureMobile) |
-| **[AzureAuth](AzureAuth)**       | _Connect to [Azure.Mobile](https://aka.ms/mobile) services_ | [Development](AzureAuth) | <!--[v0.1.7](https://cocoapods.org/pods/AzureAuth)--> --  | [source](AzureAuth)    | [wiki](https://github.com/Azure/Azure.iOS/wiki/AzureAuth) |
-| **[AzurePush](AzurePush)**       | _Push notifications (current SDK [here](https://github.com/Azure/azure-notificationhubs/tree/master/iOS/WindowsAzureMessaging))_  | Backlog  | <!--[v0.1.7](https://cocoapods.org/pods/AzurePush)--> -- | [source](AzurePush) | [wiki](https://github.com/Azure/Azure.iOS/wiki/AzurePush) |
-| **[AzureStorage](AzureStorage)** | _Cloud storage (current SDK [here](https://github.com/Azure/azure-storage-ios))_  | Backlog  | <!--[v0.1.7](https://cocoapods.org/pods/AzureStorage)--> --  | [source](AzureStorage) | [wiki](https://github.com/Azure/Azure.iOS/wiki/AzureStorage) |
+AzureData is an SDK for interfacing with [Azure Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-introduction) - A schema-less JSON database engine with rich SQL querying capabilities. It currently supports the full SQL (DocumentDB) API, and offline persistence (inluding read/write).
+
+[AzureData API reference](AzureData#usage) can be found on the [AzureData README](AzureData), and an [example app](Example/AzureData%20iOS%20Example) can be found in the [Example](Example) directory.
+
+
+## [AzureCore](AzureCore)
+![Current State: Preview Release](https://img.shields.io/badge/Current_State-Preview_Release-brightgreen.svg)
+
+AzureCore is a shared dependency of the other four SDKs. It includes functionality like secure storage, reachablility, logging, etc.
+
+AzureCore API reference and feature coverage can be found on the [AzureCore README](AzureCore)
+
+
+## [AzureMobile](AzureMobile)
+![Current State: Development](https://img.shields.io/badge/Current_State-Development-blue.svg)
+
+[AzureMobile API Reference](https://github.com/Azure/Azure.iOS/wiki/AzureMobile) and [samples](https://github.com/Azure/Azure.iOS/wiki/AzureMobile) will be published on our [wiki](https://github.com/Azure/Azure.iOS/wiki).
+
+AzureAuth is an SDK that connects to services deployed using [Azure.Mobile](https://aka.ms/mobile).
+
+
+### [AzureAuth](AzureAuth)
+![Current State: Development](https://img.shields.io/badge/Current_State-Development-blue.svg)
+
+[AzureAuth API Reference](https://github.com/Azure/Azure.iOS/wiki/AzureAuth) and [samples](https://github.com/Azure/Azure.iOS/wiki/AzureAuth) will be published on our [wiki](https://github.com/Azure/Azure.iOS/wiki).
+
+AzureAuth is an SDK that enables authentication with popular identity providers' SDKs to be used to securely access backend services on [Azure App Service](https://docs.microsoft.com/en-us/azure/app-service/app-service-authentication-overview). It supports five identity providers out of the box: Azure Active Directory, Facebook, Google, Microsoft Account, and Twitter. Your app can use any number of these identity providers to provide your users with options for how they sign in.
+
+
+### [AzurePush](AzurePush)
+![Current State: Requirements](https://img.shields.io/badge/Current_State-Requirements-red.svg)
+
+[AzurePush API Reference](https://github.com/Azure/Azure.iOS/wiki/AzurePush), [Requirements](https://github.com/Azure/Azure.iOS/wiki/Requirements-AzurePush), and [samples](https://github.com/Azure/Azure.iOS/wiki/AzurePush) will be published on our [wiki](https://github.com/Azure/Azure.iOS/wiki).
+
+AzurePush will provide push notification functionality.  The current SDK for Azure Notification Hubs can be found [here](https://github.com/Azure/azure-notificationhubs/tree/master/iOS/WindowsAzureMessaging). The intent is to migrate that SDK to this repository, update it, and refactor the API to ensure it works seamlessly with the other SDKs in this project to provide the best possible developer experience.
+
+
+### [AzureStorage](AzureStorage)
+![Current State: Requirements](https://img.shields.io/badge/Current_State-Requirements-red.svg)
+
+[AzurePush API Reference](https://github.com/Azure/Azure.iOS/wiki/AzureStorage), [Requirements](https://github.com/Azure/Azure.iOS/wiki/Requirements-AzureStorage) and [samples](https://github.com/Azure/Azure.iOS/wiki/AzureStorage) will be published on our [wiki](https://github.com/Azure/Azure.iOS/wiki).
+
+AzureStorage will provide cloud storage functionality.  The current SDK for Azure Storage can be found [here](https://github.com/Azure/azure-storage-ios). The intent is to migrate that SDK to this repository, update it, and refactor the API to ensure it works seamlessly with the other SDKs in this project to provide the best possible developer experience.
 
 
 # Installation
