@@ -264,19 +264,19 @@
 		93F8054A202BB20300D0B4F4 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				3248D8152099E4DB003CD381 /* AzureKeys.swift */,
 				93ED346A20654D68008F8807 /* CryptoProvider.h */,
 				93ED346520654D45008F8807 /* CryptoProvider.m */,
+				3248D8152099E4DB003CD381 /* AzureKeys.swift */,
 				93B7240F206486FC00984CA8 /* DateFormat.swift */,
 				93426C7D20641EA900AA27C5 /* HttpHeader.swift */,
 				93426C8720641EE500AA27C5 /* HttpMethod.swift */,
 				93426C8220641ED200AA27C5 /* HttpStatusCode.swift */,
 				935410D1206ECFC5004B20B9 /* Keychain.swift */,
 				93DA941E20634C5500C49122 /* Logger.swift */,
-				3276EA16208F3D91003F6382 /* ReachabilityManagerType.swift */,
 				932F01372077C318001D708B /* ReachabilityManager.swift */,
-				930A01B6202BB910002BD1FE /* Supporting Files */,
+				3276EA16208F3D91003F6382 /* ReachabilityManagerType.swift */,
 				932B5B0320E56829000D21B5 /* Response.swift */,
+				930A01B6202BB910002BD1FE /* Supporting Files */,
 			);
 			path = Source;
 			sourceTree = "<group>";
