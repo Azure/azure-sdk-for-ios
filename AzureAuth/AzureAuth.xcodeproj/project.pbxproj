@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9301002D20E555A000B41E42 /* AzureAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9301002C20E555A000B41E42 /* AzureAuth.swift */; };
+		9301002E20E555A000B41E42 /* AzureAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9301002C20E555A000B41E42 /* AzureAuth.swift */; };
+		9301002F20E555A000B41E42 /* AzureAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9301002C20E555A000B41E42 /* AzureAuth.swift */; };
+		9301003020E555A100B41E42 /* AzureAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9301002C20E555A000B41E42 /* AzureAuth.swift */; };
+		9301003220E55E2100B41E42 /* AuthClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9301003120E55E2100B41E42 /* AuthClient.swift */; };
+		9301003320E55E2100B41E42 /* AuthClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9301003120E55E2100B41E42 /* AuthClient.swift */; };
+		9301003420E55E2100B41E42 /* AuthClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9301003120E55E2100B41E42 /* AuthClient.swift */; };
+		9301003520E55E2100B41E42 /* AuthClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9301003120E55E2100B41E42 /* AuthClient.swift */; };
 		9302CE4A2059A402000F6885 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9302CE4B2059A402000F6885 /* AzureCore.framework */; };
 		9302CE4C2059A479000F6885 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9302CE4D2059A479000F6885 /* AzureCore.framework */; };
 		9302CE4E2059A486000F6885 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9302CE4F2059A486000F6885 /* AzureCore.framework */; };
@@ -15,6 +23,18 @@
 		930A01CF202BB9DE002BD1FE /* AzureAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 930A01C6202BB9DE002BD1FE /* AzureAuth.framework */; };
 		930A0241202BBB38002BD1FE /* AzureAuth.h in Headers */ = {isa = PBXBuildFile; fileRef = 93F8056F202BB24600D0B4F4 /* AzureAuth.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		930A0242202BBB38002BD1FE /* AzureAuth.h in Headers */ = {isa = PBXBuildFile; fileRef = 93F8056F202BB24600D0B4F4 /* AzureAuth.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		932B5B0920E5827C000D21B5 /* AuthUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932B5B0820E5827C000D21B5 /* AuthUser.swift */; };
+		932B5B0A20E5827C000D21B5 /* AuthUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932B5B0820E5827C000D21B5 /* AuthUser.swift */; };
+		932B5B0B20E5827C000D21B5 /* AuthUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932B5B0820E5827C000D21B5 /* AuthUser.swift */; };
+		932B5B0C20E5827C000D21B5 /* AuthUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932B5B0820E5827C000D21B5 /* AuthUser.swift */; };
+		932B5B0E20E582B0000D21B5 /* AuthClientError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932B5B0D20E582B0000D21B5 /* AuthClientError.swift */; };
+		932B5B0F20E582B0000D21B5 /* AuthClientError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932B5B0D20E582B0000D21B5 /* AuthClientError.swift */; };
+		932B5B1020E582B0000D21B5 /* AuthClientError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932B5B0D20E582B0000D21B5 /* AuthClientError.swift */; };
+		932B5B1120E582B0000D21B5 /* AuthClientError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932B5B0D20E582B0000D21B5 /* AuthClientError.swift */; };
+		93B2DCD320E1DF7A005FB44D /* IdentityProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B2DCD220E1DF7A005FB44D /* IdentityProvider.swift */; };
+		93B2DCD420E1DF7A005FB44D /* IdentityProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B2DCD220E1DF7A005FB44D /* IdentityProvider.swift */; };
+		93B2DCD520E1DF7A005FB44D /* IdentityProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B2DCD220E1DF7A005FB44D /* IdentityProvider.swift */; };
+		93B2DCD620E1DF7A005FB44D /* IdentityProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B2DCD220E1DF7A005FB44D /* IdentityProvider.swift */; };
 		93F80576202BB24600D0B4F4 /* AzureAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93F8056C202BB24600D0B4F4 /* AzureAuth.framework */; };
 		93F8057B202BB24600D0B4F4 /* AzureAuthTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F8057A202BB24600D0B4F4 /* AzureAuthTests.swift */; };
 		93F8057D202BB24600D0B4F4 /* AzureAuth.h in Headers */ = {isa = PBXBuildFile; fileRef = 93F8056F202BB24600D0B4F4 /* AzureAuth.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -46,6 +66,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9301002C20E555A000B41E42 /* AzureAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzureAuth.swift; sourceTree = "<group>"; };
+		9301003120E55E2100B41E42 /* AuthClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthClient.swift; sourceTree = "<group>"; };
 		9302CE4B2059A402000F6885 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9302CE4D2059A479000F6885 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9302CE4F2059A486000F6885 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -53,6 +75,9 @@
 		930A01C6202BB9DE002BD1FE /* AzureAuth.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureAuth.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		930A01CE202BB9DE002BD1FE /* AzureAuth tvOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AzureAuth tvOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		930A01E2202BB9F0002BD1FE /* AzureAuth.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureAuth.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		932B5B0820E5827C000D21B5 /* AuthUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthUser.swift; sourceTree = "<group>"; };
+		932B5B0D20E582B0000D21B5 /* AuthClientError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthClientError.swift; sourceTree = "<group>"; };
+		93B2DCD220E1DF7A005FB44D /* IdentityProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentityProvider.swift; sourceTree = "<group>"; };
 		93F8056C202BB24600D0B4F4 /* AzureAuth.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureAuth.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		93F8056F202BB24600D0B4F4 /* AzureAuth.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AzureAuth.h; sourceTree = "<group>"; };
 		93F80570202BB24600D0B4F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -170,6 +195,11 @@
 		93F8056E202BB24600D0B4F4 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				9301002C20E555A000B41E42 /* AzureAuth.swift */,
+				932B5B0820E5827C000D21B5 /* AuthUser.swift */,
+				9301003120E55E2100B41E42 /* AuthClient.swift */,
+				932B5B0D20E582B0000D21B5 /* AuthClientError.swift */,
+				93B2DCD220E1DF7A005FB44D /* IdentityProvider.swift */,
 				930A01B5202BB8DF002BD1FE /* Supporting Files */,
 			);
 			path = Source;
@@ -475,6 +505,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93B2DCD520E1DF7A005FB44D /* IdentityProvider.swift in Sources */,
+				9301003420E55E2100B41E42 /* AuthClient.swift in Sources */,
+				932B5B0B20E5827C000D21B5 /* AuthUser.swift in Sources */,
+				932B5B1020E582B0000D21B5 /* AuthClientError.swift in Sources */,
+				9301002F20E555A000B41E42 /* AzureAuth.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -489,6 +524,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93B2DCD620E1DF7A005FB44D /* IdentityProvider.swift in Sources */,
+				9301003520E55E2100B41E42 /* AuthClient.swift in Sources */,
+				932B5B0C20E5827C000D21B5 /* AuthUser.swift in Sources */,
+				932B5B1120E582B0000D21B5 /* AuthClientError.swift in Sources */,
+				9301003020E555A100B41E42 /* AzureAuth.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -504,6 +544,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93B2DCD320E1DF7A005FB44D /* IdentityProvider.swift in Sources */,
+				9301003220E55E2100B41E42 /* AuthClient.swift in Sources */,
+				932B5B0920E5827C000D21B5 /* AuthUser.swift in Sources */,
+				932B5B0E20E582B0000D21B5 /* AuthClientError.swift in Sources */,
+				9301002D20E555A000B41E42 /* AzureAuth.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -511,6 +556,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93B2DCD420E1DF7A005FB44D /* IdentityProvider.swift in Sources */,
+				9301003320E55E2100B41E42 /* AuthClient.swift in Sources */,
+				932B5B0A20E5827C000D21B5 /* AuthUser.swift in Sources */,
+				932B5B0F20E582B0000D21B5 /* AuthClientError.swift in Sources */,
+				9301002E20E555A000B41E42 /* AzureAuth.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
