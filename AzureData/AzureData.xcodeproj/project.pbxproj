@@ -226,18 +226,18 @@
 		B522410C1FB340B600D0343F /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B522404E1FB33D1200D0343F /* Info.plist */; };
 		B522410D1FB340B600D0343F /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B522404E1FB33D1200D0343F /* Info.plist */; };
 		B522410E1FB340B700D0343F /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B522404E1FB33D1200D0343F /* Info.plist */; };
-		B583619A1FB779B6001CEC66 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58361991FB779B6001CEC66 /* Response.swift */; };
+		B583619A1FB779B6001CEC66 /* ResponseExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58361991FB779B6001CEC66 /* ResponseExtensions.swift */; };
 		B583619D1FB77A70001CEC66 /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = B583619C1FB77A70001CEC66 /* Resources.swift */; };
 		B583619F1FB78763001CEC66 /* DocumentClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B583619E1FB78763001CEC66 /* DocumentClient.swift */; };
 		B58361A51FB78F71001CEC66 /* DocumentClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B583619E1FB78763001CEC66 /* DocumentClient.swift */; };
 		B58361A61FB78F73001CEC66 /* DocumentClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B583619E1FB78763001CEC66 /* DocumentClient.swift */; };
 		B58361A71FB78F73001CEC66 /* DocumentClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B583619E1FB78763001CEC66 /* DocumentClient.swift */; };
 		B58361A91FB78F78001CEC66 /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = B583619C1FB77A70001CEC66 /* Resources.swift */; };
-		B58361AA1FB78F78001CEC66 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58361991FB779B6001CEC66 /* Response.swift */; };
+		B58361AA1FB78F78001CEC66 /* ResponseExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58361991FB779B6001CEC66 /* ResponseExtensions.swift */; };
 		B58361AE1FB78F7A001CEC66 /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = B583619C1FB77A70001CEC66 /* Resources.swift */; };
-		B58361AF1FB78F7A001CEC66 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58361991FB779B6001CEC66 /* Response.swift */; };
+		B58361AF1FB78F7A001CEC66 /* ResponseExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58361991FB779B6001CEC66 /* ResponseExtensions.swift */; };
 		B58361B31FB78F7A001CEC66 /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = B583619C1FB77A70001CEC66 /* Resources.swift */; };
-		B58361B41FB78F7A001CEC66 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58361991FB779B6001CEC66 /* Response.swift */; };
+		B58361B41FB78F7A001CEC66 /* ResponseExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58361991FB779B6001CEC66 /* ResponseExtensions.swift */; };
 		B58361B91FBA1385001CEC66 /* CodableResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58361B81FBA1384001CEC66 /* CodableResource.swift */; };
 		B58361BA1FBA1385001CEC66 /* CodableResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58361B81FBA1384001CEC66 /* CodableResource.swift */; };
 		B58361BB1FBA1385001CEC66 /* CodableResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58361B81FBA1384001CEC66 /* CodableResource.swift */; };
@@ -394,7 +394,7 @@
 		B522404C1FB33D1200D0343F /* OfferTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferTests.swift; sourceTree = "<group>"; };
 		B522404D1FB33D1200D0343F /* DocumentAttachmentExtensionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentAttachmentExtensionsTests.swift; sourceTree = "<group>"; };
 		B522404E1FB33D1200D0343F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B58361991FB779B6001CEC66 /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
+		B58361991FB779B6001CEC66 /* ResponseExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseExtensions.swift; sourceTree = "<group>"; };
 		B583619C1FB77A70001CEC66 /* Resources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
 		B583619E1FB78763001CEC66 /* DocumentClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentClient.swift; sourceTree = "<group>"; };
 		B58361B81FBA1384001CEC66 /* CodableResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableResource.swift; sourceTree = "<group>"; };
@@ -508,7 +508,7 @@
 				B522401D1FB33CD000D0343F /* ResourceType.swift */,
 				32EB2C1C209C5DA700CEBB77 /* ResourceWriteOperation.swift */,
 				327996FE209C830C0062A374 /* ResourceWriteOperationQueue.swift */,
-				B58361991FB779B6001CEC66 /* Response.swift */,
+				B58361991FB779B6001CEC66 /* ResponseExtensions.swift */,
 				323AE9492080230E00EAE1F5 /* SupportsPermissionToken.swift */,
 				B52240381FB33CD000D0343F /* UtilityExtensions.swift */,
 				B55AEFDF1FB34B7400F7BEED /* Supporting Files */,
@@ -973,7 +973,7 @@
 				323B71AB207E6B75000F20F6 /* ResourceRequestError.swift in Sources */,
 				9317A81820656ED100338B63 /* ResourceOracle.swift in Sources */,
 				931EA5C41FBE6920003CCFF4 /* DocumentClientExtensions.swift in Sources */,
-				B58361B41FB78F7A001CEC66 /* Response.swift in Sources */,
+				B58361B41FB78F7A001CEC66 /* ResponseExtensions.swift in Sources */,
 				B52241021FB3409F00D0343F /* AzureData.swift in Sources */,
 				B52240B21FB3409000D0343F /* ResourceType.swift in Sources */,
 				9319DEF420698F260083475D /* PermissionProviderError.swift in Sources */,
@@ -1063,7 +1063,7 @@
 				323B71AC207E6B75000F20F6 /* ResourceRequestError.swift in Sources */,
 				9317A81920656ED100338B63 /* ResourceOracle.swift in Sources */,
 				931EA5C61FBE6922003CCFF4 /* DocumentClientExtensions.swift in Sources */,
-				B58361AF1FB78F7A001CEC66 /* Response.swift in Sources */,
+				B58361AF1FB78F7A001CEC66 /* ResponseExtensions.swift in Sources */,
 				B52240FD1FB3409E00D0343F /* AzureData.swift in Sources */,
 				B52240C71FB3409100D0343F /* ResourceType.swift in Sources */,
 				9319DEF520698F260083475D /* PermissionProviderError.swift in Sources */,
@@ -1153,7 +1153,7 @@
 				323B71AD207E6B75000F20F6 /* ResourceRequestError.swift in Sources */,
 				9317A81A20656ED100338B63 /* ResourceOracle.swift in Sources */,
 				931EA5C51FBE6922003CCFF4 /* DocumentClientExtensions.swift in Sources */,
-				B58361AA1FB78F78001CEC66 /* Response.swift in Sources */,
+				B58361AA1FB78F78001CEC66 /* ResponseExtensions.swift in Sources */,
 				B52240F81FB3409D00D0343F /* AzureData.swift in Sources */,
 				B52240DC1FB3409200D0343F /* ResourceType.swift in Sources */,
 				9319DEF620698F260083475D /* PermissionProviderError.swift in Sources */,
@@ -1197,7 +1197,7 @@
 				93F9ACCC1FC0CA4800AC240C /* DocumentClientError.swift in Sources */,
 				B58361C31FBA13B0001CEC66 /* DocumentCollection.swift in Sources */,
 				93F9ACD11FC0D01400AC240C /* ResourceError.swift in Sources */,
-				B583619A1FB779B6001CEC66 /* Response.swift in Sources */,
+				B583619A1FB779B6001CEC66 /* ResponseExtensions.swift in Sources */,
 				B5B6AC241FBA4B3900B93106 /* Query.swift in Sources */,
 				93935D9B20585C8600F1832A /* PermissionMode.swift in Sources */,
 				32532A5A207825A1002BFFCA /* ResponseMetadata.swift in Sources */,

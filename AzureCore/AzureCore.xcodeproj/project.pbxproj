@@ -33,6 +33,10 @@
 		930A0244202BBB43002BD1FE /* AzureCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 93F8054B202BB20300D0B4F4 /* AzureCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		930A0247202BBCF0002BD1FE /* AzureCoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F80556202BB20300D0B4F4 /* AzureCoreTests.swift */; };
 		930A0248202BBCF3002BD1FE /* AzureCoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F80556202BB20300D0B4F4 /* AzureCoreTests.swift */; };
+		932B5B0420E56829000D21B5 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932B5B0320E56829000D21B5 /* Response.swift */; };
+		932B5B0520E56829000D21B5 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932B5B0320E56829000D21B5 /* Response.swift */; };
+		932B5B0620E56829000D21B5 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932B5B0320E56829000D21B5 /* Response.swift */; };
+		932B5B0720E56829000D21B5 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932B5B0320E56829000D21B5 /* Response.swift */; };
 		932F01382077C318001D708B /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932F01372077C318001D708B /* ReachabilityManager.swift */; };
 		932F01392077C318001D708B /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932F01372077C318001D708B /* ReachabilityManager.swift */; };
 		932F013A2077C318001D708B /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932F01372077C318001D708B /* ReachabilityManager.swift */; };
@@ -118,6 +122,7 @@
 		930A01EF202BBA09002BD1FE /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		930A01F7202BBA09002BD1FE /* AzureCore tvOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AzureCore tvOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		930A020B202BBA16002BD1FE /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		932B5B0320E56829000D21B5 /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
 		932F01372077C318001D708B /* ReachabilityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityManager.swift; sourceTree = "<group>"; };
 		932F013C2077C3A2001D708B /* ReachabilityManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityManagerTests.swift; sourceTree = "<group>"; };
 		93426C7D20641EA900AA27C5 /* HttpHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpHeader.swift; sourceTree = "<group>"; };
@@ -271,6 +276,7 @@
 				3276EA16208F3D91003F6382 /* ReachabilityManagerType.swift */,
 				932F01372077C318001D708B /* ReachabilityManager.swift */,
 				930A01B6202BB910002BD1FE /* Supporting Files */,
+				932B5B0320E56829000D21B5 /* Response.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -731,6 +737,7 @@
 				3248D8182099E4DB003CD381 /* AzureKeys.swift in Sources */,
 				93426C8520641ED200AA27C5 /* HttpStatusCode.swift in Sources */,
 				93B72412206486FC00984CA8 /* DateFormat.swift in Sources */,
+				932B5B0620E56829000D21B5 /* Response.swift in Sources */,
 				93DA942120634C5500C49122 /* Logger.swift in Sources */,
 				935410D4206ECFC5004B20B9 /* Keychain.swift in Sources */,
 				3276EA19208F3D91003F6382 /* ReachabilityManagerType.swift in Sources */,
@@ -757,6 +764,7 @@
 				3248D8192099E4DB003CD381 /* AzureKeys.swift in Sources */,
 				93426C8620641ED200AA27C5 /* HttpStatusCode.swift in Sources */,
 				93B72413206486FC00984CA8 /* DateFormat.swift in Sources */,
+				932B5B0720E56829000D21B5 /* Response.swift in Sources */,
 				93DA942220634C5500C49122 /* Logger.swift in Sources */,
 				935410D5206ECFC5004B20B9 /* Keychain.swift in Sources */,
 				3276EA1A208F3D91003F6382 /* ReachabilityManagerType.swift in Sources */,
@@ -774,6 +782,7 @@
 				3248D8162099E4DB003CD381 /* AzureKeys.swift in Sources */,
 				93426C8320641ED200AA27C5 /* HttpStatusCode.swift in Sources */,
 				93B72410206486FC00984CA8 /* DateFormat.swift in Sources */,
+				932B5B0420E56829000D21B5 /* Response.swift in Sources */,
 				93DA941F20634C5500C49122 /* Logger.swift in Sources */,
 				935410D2206ECFC5004B20B9 /* Keychain.swift in Sources */,
 				3276EA17208F3D91003F6382 /* ReachabilityManagerType.swift in Sources */,
@@ -800,6 +809,7 @@
 				3248D8172099E4DB003CD381 /* AzureKeys.swift in Sources */,
 				93426C8420641ED200AA27C5 /* HttpStatusCode.swift in Sources */,
 				93B72411206486FC00984CA8 /* DateFormat.swift in Sources */,
+				932B5B0520E56829000D21B5 /* Response.swift in Sources */,
 				93DA942020634C5500C49122 /* Logger.swift in Sources */,
 				935410D3206ECFC5004B20B9 /* Keychain.swift in Sources */,
 				3276EA18208F3D91003F6382 /* ReachabilityManagerType.swift in Sources */,
