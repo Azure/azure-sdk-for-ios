@@ -99,7 +99,7 @@ class DatabaseTableViewController: UITableViewController {
 
             self.tableView.reloadData()
             
-            (UIApplication.shared.delegate as? AppDelegate)?.storeDatabaseAccount(name: nil, key: nil)
+            //(UIApplication.shared.delegate as? AppDelegate)?.storeDatabaseAccount(name: nil, key: nil)
         })
         
         present(alertController, animated: true) { }
