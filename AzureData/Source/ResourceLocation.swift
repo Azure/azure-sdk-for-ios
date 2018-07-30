@@ -253,7 +253,7 @@ extension ResourceLocation: Codable {
         case attachment
         case offer
         case resource
-        case child = "child"
+        case child
     }
 
     public init(from decoder: Decoder) throws {
