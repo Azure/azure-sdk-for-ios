@@ -99,7 +99,7 @@ class ResourceWriteOperationQueue {
     // MARK: - Private helpers
 
     private func load() {
-        dispatchQueue.async { [weak self] in
+        dispatchQueue.sync { [weak self] in
             do {
                 let urls = try FileManager.default.pendingWritesUrls()
                 let data = try urls.map { try Data(contentsOf: $0) }

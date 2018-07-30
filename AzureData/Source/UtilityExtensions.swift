@@ -140,6 +140,12 @@ extension String {
         let components = self.split(separator: "/")
         return components.count > 1 ? String(components[components.count - 1]) : self
     }
+
+    /// "dbs/TC1AAA==/colls/TC1AAMDvwgA=".lastPathComponentRemoved = "dbs/TC1AAA==/colls"
+    var lastPathComponentRemoved: String {
+        let components = self.split(separator: "/")
+        return components.dropLast().joined(separator: "/")
+    }
 }
 
 extension CodableResource {
