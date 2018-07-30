@@ -31,6 +31,12 @@ class DatabaseTableViewController: UITableViewController {
         segmentedControl.selectedSegmentIndex = UserDefaults.standard.integer(forKey: selectedSegmentIndexKey)
         
         addButton.isEnabled = databasesSelected
+
+        NotificationCenter.default.addObserver(forName: .ResourceWriteOperationQueueProcessed, object: nil, queue: nil) { [weak self] _ in
+            DispatchQueue.main.async {
+                self?.refreshData()
+            }
+        }
     }
     
     
