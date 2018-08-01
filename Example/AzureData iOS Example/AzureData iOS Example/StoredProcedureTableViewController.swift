@@ -23,6 +23,13 @@ class StoredProcedureTableViewController: UITableViewController {
         super.viewDidLoad()
 
         navigationItem.rightBarButtonItems = [addButton, editButtonItem]
+
+
+        NotificationCenter.default.addObserver(forName: .ResourceWriteOperationQueueProcessed, object: nil, queue: nil) { [weak self] _ in
+            DispatchQueue.main.async {
+                self?.refreshData()
+            }
+        }
     }
 
     

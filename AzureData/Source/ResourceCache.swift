@@ -128,7 +128,10 @@ public class ResourceCache {
         guard let data = get(resourceAt: location) else { return nil }
 
         do {
-            return try jsonDecoder.decode(T.self, from: data)
+            var resource = try jsonDecoder.decode(T.self, from: data)
+            resource.setAltLink(to: location.link)
+            
+            return resource
 
         } catch {
             Log.error("❌ Cache Error [get]: " + error.localizedDescription)
@@ -170,7 +173,8 @@ public class ResourceCache {
 
                 let items = try files.map { try jsonDecoder.decode(T.Item.self, from: decrypt($0)) }
 
-                let resources = Resources(resourceId: feed.resourceId, count: items.count, items: items) as! T
+                var resources = Resources(resourceId: feed.resourceId, count: items.count, items: items) as! T
+                resources.setAltLinks(withContentPath: location.link)
 
                 return (resources, paginationParams.next(in: files.count).stringValue)
             } else {

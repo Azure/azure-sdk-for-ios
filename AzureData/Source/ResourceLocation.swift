@@ -187,31 +187,31 @@ extension ResourceLocation {
     }
 
     func selfLink(forResourceId resourceId: String) -> String? {
-        guard let parent = parentSelfLink else { return nil }
+        guard let directory = directory else { return nil }
 
-        return "\(parent)/\(resourceId)"
+        return "\(directory)/\(resourceId)"
     }
 
-    var parentSelfLink: String? {
-        guard let ancestor = ancestorSelfLink else { return nil }
+    var directory: String? {
+        guard let parent = parentSelfLink else { return nil }
 
         switch self {
-        case .database:                return "\(ancestor)"
-        case .user:                    return "\(ancestor)/users"
-        case .collection:              return "\(ancestor)/colls"
-        case .storedProcedure:         return "\(ancestor)/sprocs"
-        case .trigger:                 return "\(ancestor)/triggers"
-        case .udf:                     return "\(ancestor)/udfs"
-        case .document:                return "\(ancestor)/docs"
-        case .attachment:              return "\(ancestor)/attachments"
-        case .permission:              return "\(ancestor)/permissions"
-        case .offer:                   return "\(ancestor)"
-        case .child(_, let parent, _): return ResourceOracle.getSelfLink(forResource: parent)
-        case .resource(let resource):  return ResourceOracle.getSelfLink(forResource: resource)
+        case .database:               return "\(parent)"
+        case .user:                   return "\(parent)/users"
+        case .collection:             return "\(parent)/colls"
+        case .storedProcedure:        return "\(parent)/sprocs"
+        case .trigger:                return "\(parent)/triggers"
+        case .udf:                    return "\(parent)/udfs"
+        case .document:               return "\(parent)/docs"
+        case .attachment:             return "\(parent)/attachments"
+        case .permission:             return "\(parent)/permissions"
+        case .offer:                  return "\(parent)"
+        case .child(let type, _, _):  return "\(parent)/\(type.rawValue)"
+        case .resource(let resource): return ResourceOracle.getSelfLink(forResource: resource)?.lastPathComponentRemoved
         }
     }
 
-    private var ancestorSelfLink: String? {
+    private var parentSelfLink: String? {
         switch self {
         case .database:
             return "dbs"
@@ -229,10 +229,11 @@ extension ResourceLocation {
             return ResourceOracle.getSelfLink(forResourceAt: .user(databaseId: databaseId, id: userId))
         case .offer:
             return "offers"
-        case .child(_, let resource, _):
-            return ResourceOracle.getSelfLink(forResource: resource)
+        case .child(_, let parent, _):
+            return ResourceOracle.getSelfLink(forResource: parent)
         case .resource(let resource):
-            return ResourceOracle.getSelfLink(forResource: resource)
+            return ResourceOracle.getSelfLink(forResource: resource)?.lastPathComponentRemoved.lastPathComponentRemoved
+            
         }
     }
 }
@@ -258,61 +259,83 @@ extension ResourceLocation: Codable {
     public init(from decoder: Decoder) throws {
         let  container = try decoder.container(keyedBy: CodingKeys.self)
 
-        if let database = try container.decodeIfPresent([String: String].self, forKey: .database) {
-            self = .database(id: database["id"])
+        if let database = try container.decodeIfPresent([String: String?].self, forKey: .database),
+           let databaseId = database["id"] {
+            self = .database(id: databaseId)
             return
         }
 
-        if let user = try container.decodeIfPresent([String: String].self, forKey: .user) {
-            self = .user(databaseId: user["databaseId"]!, id: user["id"])
+        if let user = try container.decodeIfPresent([String: String?].self, forKey: .user),
+           let databaseId = user["databaseId"],
+           let userId = user["id"] {
+            self = .user(databaseId: databaseId!, id: userId)
             return
         }
 
-        if let permission = try container.decodeIfPresent([String: String].self, forKey: .permission) {
-            self = .permission(databaseId: permission["databaseId"]!, userId: permission["userId"]!, id: permission["id"])
+        if let permission = try container.decodeIfPresent([String: String?].self, forKey: .permission),
+           let databaseId = permission["databaseId"], let userId =  permission["userId"],
+           let permissionId = permission["id"] {
+            self = .permission(databaseId: databaseId!, userId: userId!, id: permissionId)
             return
         }
 
-        if let collection = try container.decodeIfPresent([String: String].self, forKey: .collection) {
-            self = .collection(databaseId: collection["databaseId"]!, id: collection["id"])
+        if let collection = try container.decodeIfPresent([String: String?].self, forKey: .collection),
+           let databaseId = collection["databaseId"],
+           let collectionId = collection["id"] {
+            self = .collection(databaseId: databaseId!, id: collectionId)
             return
         }
 
-        if let storedProcedure = try container.decodeIfPresent([String: String].self, forKey: .storedProcedure) {
-            self = .storedProcedure(databaseId: storedProcedure["databaseId"]!, collectionId: storedProcedure["collectionId"]!, id: storedProcedure["id"])
+        if let storedProcedure = try container.decodeIfPresent([String: String?].self, forKey: .storedProcedure),
+           let databaseId = storedProcedure["databaseId"], let collectionId = storedProcedure["collectionId"],
+           let id = storedProcedure["id"] {
+            self = .storedProcedure(databaseId: databaseId!, collectionId: collectionId!, id: id)
             return
         }
 
-        if let trigger = try container.decodeIfPresent([String: String].self, forKey: .trigger) {
-            self = .trigger(databaseId: trigger["databaseId"]!, collectionId: trigger["collectionId"]!, id: trigger["id"])
+        if let trigger = try container.decodeIfPresent([String: String?].self, forKey: .trigger),
+           let databaseId = trigger["databaseId"], let collectionId = trigger["collectionId"],
+           let triggerId = trigger["id"] {
+            self = .trigger(databaseId: databaseId!, collectionId: collectionId!, id: triggerId)
             return
         }
 
-        if let udf = try container.decodeIfPresent([String: String].self, forKey: .udf) {
-            self = .udf(databaseId: udf["databaseId"]!, collectionId: udf["collectionId"]!, id: udf["id"])
+        if let udf = try container.decodeIfPresent([String: String?].self, forKey: .udf),
+           let databaseId = udf["databaseId"], let collectionId = udf["collectionId"],
+           let id = udf["id"] {
+            self = .udf(databaseId: databaseId!, collectionId: collectionId!, id: id)
             return
         }
 
-        if let document = try container.decodeIfPresent([String: String].self, forKey: .document) {
-            self = .document(databaseId: document["databaseId"]!, collectionId: document["collectionId"]!, id: document["id"])
+        if let document = try container.decodeIfPresent([String: String?].self, forKey: .document),
+           let databaseId = document["databaseId"], let collectionId = document["collectionId"],
+           let documentId = document["id"] {
+            self = .document(databaseId: databaseId!, collectionId: collectionId!, id: documentId)
             return
         }
 
-        if let offer = try container.decodeIfPresent([String: String].self, forKey: .offer) {
-            self = .offer(id: offer["id"])
+        if let offer = try container.decodeIfPresent([String: String?].self, forKey: .offer),
+           let id = offer["id"] {
+            self = .offer(id: id)
             return
         }
 
-        if let resource = try container.decodeIfPresent(ResourceSystemProperties.self, forKey: .resource) {
-            self = .resource(resource: resource)
+        if let resource = try container.decodeIfPresent([String: String?].self, forKey: .resource),
+           let altLink = resource["altLink"],
+           let codableResourceString = resource["resource"],
+           var codableResource = ResourceSystemProperties(for: codableResourceString!.data(using: .utf8)!) {
+            codableResource.setAltLink(to: altLink!)
+            self = .resource(resource: codableResource)
             return
         }
 
-        if let child = try container.decodeIfPresent([String: String].self, forKey: .child),
-           let parent = ResourceSystemProperties(for: child["parent"]!.data(using: .utf8)!) {
-            let resourceType = ResourceType(rawValue: child["resourceType"]!)!
-            let id = child["id"]
-
+        if let child = try container.decodeIfPresent([String: String?].self, forKey: .child),
+           let parentString = child["parent"], let resourceTypeString = child["resourceType"],
+           var parent = ResourceSystemProperties(for: parentString!.data(using: .utf8)!),
+           let parentAltLink = child["parentAltLink"],
+           let resourceType = ResourceType(rawValue: resourceTypeString!),
+           let id = child["id"] {
+            parent.setAltLink(to: parentAltLink!)
             self = .child(resourceType, in: parent, id: id)
 
             return
@@ -346,11 +369,18 @@ extension ResourceLocation: Codable {
         case .offer(let id):
             try container.encode(["id": id], forKey: .offer)
         case .resource(let resource):
-            try container.encode(ResourceSystemProperties(for: resource), forKey: .resource)
+            try container.encode(
+                [
+                    "altLink": resource.altLink,
+                    "resource": String(data: JSONEncoder().encode(ResourceSystemProperties(for: resource)), encoding: .utf8)
+                ],
+                forKey: .resource
+            )
         case .child(let resourceType, let parent, let id):
             try container.encode(
                 [
                     "resourceType": resourceType.rawValue,
+                    "parentAltLink": parent.altLink,
                     "parent": String(data: JSONEncoder().encode(ResourceSystemProperties(for: parent)), encoding: .utf8),
                     "id": id
                 ],
