@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AzureCore
 import AzureData
 
 public struct PermissionRequest : Codable {
@@ -14,6 +15,7 @@ public struct PermissionRequest : Codable {
     let databaseId: String
     let collectionId: String
     let documentId: String?
+    let resourceLink: String?
     let tokenDuration: Int
     let permissionMode: PermissionMode
 }
@@ -41,9 +43,55 @@ public class DefaultPermissionProvider : PermissionProvider {
 
     
     public func getPermission(forCollectionWithId collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (Response<Permission>) -> Void) {
+        let permissionRequest = PermissionRequest(databaseId: databaseId, collectionId: collectionId, documentId: nil, resourceLink: nil, tokenDuration: Int(configuration.defaultTokenDuration), permissionMode: mode)
+        getPermission(with: permissionRequest, completion: completion)
+    }
 
-        let permissionRequest = PermissionRequest(databaseId: databaseId, collectionId: collectionId, documentId: nil, tokenDuration: Int(configuration.defaultTokenDuration), permissionMode: mode)
+    public func getPermission(forDocumentWithId documentId: String, inCollection collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (Response<Permission>) -> Void) {
+        let altLink = "\(ResourceType.database.rawValue)/\(databaseId)/\(ResourceType.collection.rawValue)/\(collectionId)/\(ResourceType.document.rawValue)/\(documentId)"
+        getPermission(forResourceWithAltLink: altLink, inDocument: documentId, inCollection: collectionId, inDatabase: databaseId, withPermissionMode: mode, completion: completion)
+    }
 
+    public func getPermission(forAttachmentsWithId attachmentId: String, onDocument documentId: String, inCollection collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (Response<Permission>) -> Void) {
+        let altLink = "\(ResourceType.database.rawValue)/\(databaseId)/\(ResourceType.collection.rawValue)/\(collectionId)/\(ResourceType.document.rawValue)/\(documentId)/\(ResourceType.attachment.rawValue)/\(attachmentId)"
+        getPermission(forResourceWithAltLink: altLink, inDocument: documentId, inCollection: collectionId, inDatabase: databaseId, withPermissionMode: mode, completion: completion)
+
+    }
+
+    public func getPermission(forStoredProcedureWithId storedProcedureId: String, inCollection collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (Response<Permission>) -> Void) {
+        let altLink = "\(ResourceType.database.rawValue)/\(databaseId)/\(ResourceType.collection.rawValue)/\(collectionId)/\(ResourceType.storedProcedure.rawValue)/\(storedProcedureId)"
+        getPermission(forResourceWithAltLink: altLink, inDocument: nil, inCollection: collectionId, inDatabase: databaseId, withPermissionMode: mode, completion: completion)
+    }
+
+    public func getPermission(forUserDefinedFunctionWithId functionId: String, inCollection collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (Response<Permission>) -> Void) {
+        let altLink = "\(ResourceType.database.rawValue)/\(databaseId)/\(ResourceType.collection.rawValue)/\(collectionId)/\(ResourceType.udf.rawValue)/\(functionId)"
+        getPermission(forResourceWithAltLink: altLink, inDocument: nil, inCollection: collectionId, inDatabase: databaseId, withPermissionMode: mode, completion: completion)
+    }
+
+    public func getPermission(forTriggerWithId triggerId: String, inCollection collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (Response<Permission>) -> Void) {
+        let altLink = "\(ResourceType.database.rawValue)/\(databaseId)/\(ResourceType.collection.rawValue)/\(collectionId)/\(ResourceType.trigger.rawValue)/\(triggerId)"
+        getPermission(forResourceWithAltLink: altLink, inDocument: nil, inCollection: collectionId, inDatabase: databaseId, withPermissionMode: mode, completion: completion)
+    }
+
+    private func getPermission(forResourceWithAltLink altLink: String, inDocument documentId: String?, inCollection collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (Response<Permission>) -> Void) {
+        guard let resourceLink = ResourceOracle.getSelfLink(forAltLink: altLink) else {
+            completion(Response(PermissionProviderError.getPermissionFailed))
+            return
+        }
+
+        let permissionRequest = PermissionRequest(
+            databaseId: databaseId,
+            collectionId: collectionId,
+            documentId: documentId,
+            resourceLink: resourceLink,
+            tokenDuration: Int(configuration.defaultTokenDuration),
+            permissionMode: mode
+        )
+
+        getPermission(with: permissionRequest, completion: completion)
+    }
+
+    private func getPermission(with permissionRequest: PermissionRequest, completion: @escaping (Response<Permission>) -> Void) {
         let url = baseUrl.appendingPathComponent("api/data/permission")
 
         var request = URLRequest(url: url)
@@ -58,7 +106,7 @@ public class DefaultPermissionProvider : PermissionProvider {
         }
 
         session.dataTask(with: request) { (data, response, error) in
-        
+
             let httpResponse = response as? HTTPURLResponse
 
             if let error = error {
@@ -84,15 +132,4 @@ public class DefaultPermissionProvider : PermissionProvider {
             }
         }.resume()
     }
-
-    public func getPermission(forDocumentWithId documentId: String, inCollection collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (Response<Permission>) -> Void) {}
-
-    public func getPermission(forAttachmentsWithId attachmentId: String, onDocument documentId: String, inCollection collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (Response<Permission>) -> Void) {}
-
-    public func getPermission(forStoredProcedureWithId storedProcedureId: String, inCollection collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (Response<Permission>) -> Void) {}
-
-    public func getPermission(forUserDefinedFunctionWithId functionId: String, inCollection collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (Response<Permission>) -> Void) {}
-
-    public func getPermission(forTriggerWithId triggerId: String, inCollection collectionId: String, inDatabase databaseId: String, withPermissionMode mode: PermissionMode, completion: @escaping (Response<Permission>) -> Void) {}
-
 }
