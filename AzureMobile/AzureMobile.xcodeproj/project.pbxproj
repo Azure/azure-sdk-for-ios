@@ -23,6 +23,9 @@
 		9345CFEC20CB03CA0002247E /* DefaultPermissionProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9345CFDE20CB027A0002247E /* DefaultPermissionProviderTests.swift */; };
 		9345CFED20CB03CB0002247E /* DefaultPermissionProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9345CFDE20CB027A0002247E /* DefaultPermissionProviderTests.swift */; };
 		9345CFEE20CB03CC0002247E /* DefaultPermissionProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9345CFDE20CB027A0002247E /* DefaultPermissionProviderTests.swift */; };
+		93A3A75B2165484900C4511D /* AzureMobile.h in Headers */ = {isa = PBXBuildFile; fileRef = 9345CF7D20CB003C0002247E /* AzureMobile.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93A3A75C2165484A00C4511D /* AzureMobile.h in Headers */ = {isa = PBXBuildFile; fileRef = 9345CF7D20CB003C0002247E /* AzureMobile.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93A3A75D2165484A00C4511D /* AzureMobile.h in Headers */ = {isa = PBXBuildFile; fileRef = 9345CF7D20CB003C0002247E /* AzureMobile.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -199,6 +202,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93A3A75D2165484A00C4511D /* AzureMobile.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -206,6 +210,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93A3A75C2165484A00C4511D /* AzureMobile.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,6 +218,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93A3A75B2165484900C4511D /* AzureMobile.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -594,7 +600,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -650,7 +656,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -724,7 +730,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.azure.mobile.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -742,7 +748,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.azure.mobile.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -823,7 +829,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.azure.mobile.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -844,7 +850,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.azure.mobile.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
@@ -919,7 +925,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.azure.mobile.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 11.4;
 			};
@@ -939,7 +945,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.azure.mobile.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 11.4;
 			};
