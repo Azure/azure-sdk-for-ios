@@ -129,10 +129,7 @@ carthage archive AzureCore AzureAuth AzureData AzurePush AzureStorage AzureMobil
 hub release create -p -a "$projectDir/Azure.framework.zip" -m "v$version" "v$version" && \
 pod spec lint "$projectDir/AzureCore.podspec" --allow-warnings && pod trunk push "$projectDir/AzureCore.podspec" --allow-warnings && \
 pod spec lint "$projectDir/AzureData.podspec" --allow-warnings && pod trunk push "$projectDir/AzureData.podspec" --allow-warnings && \
-pod spec lint "$projectDir/AzureMobile.podspec" --allow-warnings && pod trunk push "$projectDir/AzureMobile.podspec" --allow-warnings
-
-
-
+pod spec lint "$projectDir/AzureMobile.podspec" --allow-warnings && pod trunk push "$projectDir/AzureMobile.podspec" --allow-warnings && \
 echo "Successfully released: v$version ($build)"
 
 

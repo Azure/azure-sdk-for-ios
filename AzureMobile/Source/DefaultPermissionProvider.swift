@@ -8,6 +8,7 @@
 
 import Foundation
 import AzureData
+import AzureCore
 
 public struct PermissionRequest : Codable {
     
