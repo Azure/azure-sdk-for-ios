@@ -222,10 +222,6 @@
 		B52241051FB3409F00D0343F /* UtilityExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52240381FB33CD000D0343F /* UtilityExtensions.swift */; };
 		B52241071FB3409F00D0343F /* AzureData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52240341FB33CD000D0343F /* AzureData.swift */; };
 		B522410A1FB3409F00D0343F /* UtilityExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52240381FB33CD000D0343F /* UtilityExtensions.swift */; };
-		B522410B1FB340AF00D0343F /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B522404E1FB33D1200D0343F /* Info.plist */; };
-		B522410C1FB340B600D0343F /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B522404E1FB33D1200D0343F /* Info.plist */; };
-		B522410D1FB340B600D0343F /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B522404E1FB33D1200D0343F /* Info.plist */; };
-		B522410E1FB340B700D0343F /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B522404E1FB33D1200D0343F /* Info.plist */; };
 		B583619A1FB779B6001CEC66 /* ResponseExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58361991FB779B6001CEC66 /* ResponseExtensions.swift */; };
 		B583619D1FB77A70001CEC66 /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = B583619C1FB77A70001CEC66 /* Resources.swift */; };
 		B583619F1FB78763001CEC66 /* DocumentClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B583619E1FB78763001CEC66 /* DocumentClient.swift */; };
@@ -897,7 +893,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B522410C1FB340B600D0343F /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -912,7 +907,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B522410D1FB340B600D0343F /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -927,7 +921,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B522410E1FB340B700D0343F /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -935,7 +928,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B522410B1FB340AF00D0343F /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

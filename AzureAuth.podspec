@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name          = 'AzureAuth'
-  s.version       = '0.1.7'
+  s.version       = '0.2.0'
   s.summary       = 'Microsoft Azure App Service Auth client SDK for iOS.'
 
   s.description   = 'Microsoft Azure App Service Auth client SDK for iOS, macOS, watchOS, tvOS.'
@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
 
   s.dependency 'AzureCore', s.version.to_s
 
-  s.swift_version = '4.1'
+  s.swift_version = '4.2'
 
   s.source_files = 'AzureAuth/Source/**/*.{swift,h,m}'
 
