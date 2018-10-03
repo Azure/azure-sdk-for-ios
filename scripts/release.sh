@@ -23,13 +23,13 @@ Options:
 Examples:
   
   Increment the build number by one
-    $ version.sh -b
+    $ release.sh -b
 
   Increment the build number by one and set the version number to 1.0.0
-    $ version.sh -b -v 1.0.0
+    $ release.sh -b -v 1.0.0
 
   Set the build number to 35 and set the version number to 1.0.0
-    $ version.sh -b 35 -v 1.0.0
+    $ release.sh -b 35 -v 1.0.0
   
 endHelp
 )
