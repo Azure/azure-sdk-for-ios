@@ -20,6 +20,7 @@ public enum HttpStatusCode : Int {
     case notFound               = 404
     case requestTimeout         = 408
     case conflict               = 409
+    case gone                   = 410
     case preconditionFailure    = 412
     case entityTooLarge         = 413
     case tooManyRequests        = 429
