@@ -10,11 +10,11 @@ import Foundation
 
 internal struct ConnectionParams {
     private enum Keys: String {
-        case endpoint = "endpoint"
-        case sharedAccessKeyName = "sharedaccesskeyname"
-        case sharedAccessKey = "sharedaccesskey"
-        case sharedSecretIssuer = "sharedsecretissuer"
-        case sharedSecretValue = "sharedsecretvalue"
+        case endpoint = "Endpoint"
+        case sharedAccessKeyName = "SharedAccessKeyName"
+        case sharedAccessKey = "SharedAccessKey"
+        case sharedSecretIssuer = "SharedSecretIssuer"
+        case sharedSecretValue = "SharedSecretValue"
         case stsendpoint = "stsendpoint"
     }
 
@@ -26,25 +26,24 @@ internal struct ConnectionParams {
 
     internal var sharedAccessKeyValue: String? { return params[.sharedAccessKey] as? String }
 
-    internal var sharedSecretIssuer: String { return params[.sharedSecretIssuer] as! String }
+    internal var sharedSecretIssuer: String? { return params[.sharedSecretIssuer] as? String }
 
-    internal var sharedSecretValue: String { return params[.sharedSecretValue] as! String }
+    internal var sharedSecretValue: String? { return params[.sharedSecretValue] as? String }
 
-    internal var stsHostName: URL { return params[.stsendpoint] as! URL }
+    internal var stsHostName: URL? { return params[.stsendpoint] as? URL }
 
     init(connectionString string: String) throws {
         let components = string.components(separatedBy: ";")
-        let keyValuePairs = components.map { $0.components(separatedBy: "=") }
-                                      .filter { $0.count == 2 }
-                                      .map { (Keys(rawValue: $0[0]), $0[1]) }
+        let keyValuePairs = components.map { $0.split(separator: "=", maxSplits: 1, omittingEmptySubsequences: true) }
+                                      .map { (Keys(rawValue: String($0[0])), String($0[1])) }
 
         for (key, value) in keyValuePairs {
             guard let key = key else { continue }
             switch key {
             case .endpoint:
-                params[.endpoint] = URL(string: value.sanitized)
+                params[.endpoint] = URL(string: value.replacingScheme(with: "https"))
             case .stsendpoint:
-                params[.stsendpoint] = URL(string: value.sanitized)
+                params[.stsendpoint] = URL(string: value)
             default:
                 params[key] = value
             }
@@ -61,12 +60,8 @@ internal struct ConnectionParams {
             throw AzurePush.Error.invalidConnectionString("the endpoint is missing or is in an invalid format in the connection string")
         }
 
-        if (sharedAccessKeyName == nil || sharedAccessKeyValue == nil) && sharedSecretValue == nil {
+        if (sharedAccessKeyName == nil && sharedAccessKeyValue == nil) || sharedSecretValue == nil {
             throw AzurePush.Error.invalidConnectionString("the security information is missing in the connection string")
-        }
-
-        if stsHostName == nil {
-            throw AzurePush.Error.invalidConnectionString("the StsHostname is missing or is in an invalid format in the connection string")
         }
 
         if sharedSecretValue != nil && sharedSecretIssuer == nil {
@@ -76,21 +71,17 @@ internal struct ConnectionParams {
 }
 
 extension String {
-    fileprivate var sanitized: String {
-        var value = self
-
-        if value.hasPrefix("http://") {
-            value = value.replacingOccurrences(of: "http://", with: "https://")
+    fileprivate func replacingScheme(with scheme: String) -> String {
+        guard let previousScheme = self.split(separator: ":", maxSplits: 1, omittingEmptySubsequences: true).first else {
+            return "\(scheme)://\(self)/"
         }
 
-        if !value.hasPrefix("https://") {
-            value = "https://\(value)"
+        var result = self.replacingOccurrences(of: previousScheme, with: scheme)
+
+        if !result.hasSuffix("/") {
+            result = "\(result)/"
         }
 
-        if !value.hasSuffix("/") {
-            value = "\(value)/"
-        }
-
-        return value
+        return result
     }
 }

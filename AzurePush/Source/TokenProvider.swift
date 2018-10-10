@@ -69,19 +69,20 @@ internal class TokenProvider {
         components?.query = nil
 
         guard let uri = components?.string?.addingPercentEncodingWithAzureAllowedCharacters(),
-            let secret = Data(base64Encoded: connectionParams.sharedSecretValue),
-            let secretString = String(data: secret, encoding: .utf8)
+            let secret = connectionParams.sharedSecretValue.flatMap({ Data(base64Encoded: $0) }),
+            let secretString = String(data: secret, encoding: .utf8),
+            let secretIssuer = connectionParams.sharedSecretIssuer
         else {
             return nil
         }
 
-        let issuer = "Issuer=\(connectionParams.sharedSecretIssuer)"
+        let issuer = "Issuer=\(secretIssuer)"
         let signature = CryptoProvider.hmacSHA256(issuer, withKey: secretString)?.addingPercentEncodingWithAzureAllowedCharacters()
         let webToken = signature.flatMap { "\(issuer)&HMACSHA256=\($0)" }?.addingPercentEncodingWithAzureAllowedCharacters()
 
         guard let body = webToken.flatMap({ "wrap_scope=\(uri)&wrap_assertion_format=SWT&wrap_assertion=\($0)" }),
             let httpBody = body.data(using: .utf8),
-            let stsUrl = URL(string: "\(connectionParams.stsHostName.absoluteString)/WRAPv0.9/")
+            let stsUrl = connectionParams.stsHostName.flatMap({URL(string: "\($0.absoluteString)/WRAPv0.9/")})
         else {
             return nil
         }
