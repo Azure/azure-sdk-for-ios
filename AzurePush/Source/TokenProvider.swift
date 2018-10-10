@@ -98,9 +98,9 @@ internal class TokenProvider {
     }
 
     private func getToken(for url: URL, andSharedAccessKey sharedAccessKey: String, completion: @escaping (Response<String>) -> Void) {
-        let expiresOn = Date().addingTimeInterval(TokenProvider.defaultTokenTimeToLive).timeIntervalSince1970
+        let expiresOn = Int(Date().addingTimeInterval(TokenProvider.defaultTokenTimeToLive).timeIntervalSince1970 * 60)
         let audienceUri = url.absoluteString.replacingOccurrences(of: "https", with: "http").addingPercentEncodingWithAzureAllowedCharacters()?.lowercased()
-        let signature = audienceUri.flatMap { CryptoProvider.hmacSHA256("\($0)\n\(expiresOn)", withKey: sharedAccessKey).addingPercentEncodingWithAzureAllowedCharacters() }
+        let signature = audienceUri.flatMap { CryptoProvider.hmacSHA256("\($0)\n\(expiresOn)", withUTF8Key: sharedAccessKey)?.addingPercentEncodingWithAzureAllowedCharacters() }
 
         if let sharedAccessKeyName = connectionParams.sharedAccessKeyName, let audienceUri = audienceUri, let signature = signature {
             let token = "SharedAccessSignature sr=\(audienceUri)&sig=\(signature)&se=\(expiresOn)&skn=\(sharedAccessKeyName)"
@@ -124,9 +124,20 @@ internal class TokenProvider {
 }
 
 extension String {
-    func addingPercentEncodingWithAzureAllowedCharacters() -> String? {
+    fileprivate func addingPercentEncodingWithAzureAllowedCharacters() -> String? {
         let allowed = NSMutableCharacterSet.alphanumeric()
-        allowed.addCharacters(in: "!*'();:@&=+$,/?%#[]")
+        allowed.addCharacters(in: ".-")
         return self.addingPercentEncoding(withAllowedCharacters: allowed as CharacterSet)
+    }
+
+    fileprivate var base64Encoded: String? {
+        return data(using: .utf8)?.base64EncodedString()
+    }
+}
+
+extension CryptoProvider {
+    fileprivate static func hmacSHA256(_ data: String, withUTF8Key key: String) -> String? {
+        guard let base64Key = key.base64Encoded else { return nil }
+        return CryptoProvider.hmacSHA256(data, withKey: base64Key)
     }
 }

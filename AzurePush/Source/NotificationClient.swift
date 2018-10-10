@@ -15,11 +15,11 @@ internal class NotificationClient {
 
     internal static let shared: NotificationClient = NotificationClient()
 
-    internal var session: URLSession!
+    internal lazy var session = URLSession(configuration: .default)
 
     private var isConfigured = false
 
-    private var path: String!
+    private var path: String = ""
 
     private var endpoint: URL!
 
@@ -300,7 +300,7 @@ extension Response {
 }
 
 extension URL {
-    var registrationId: String? {
+    fileprivate var registrationId: String? {
         return nil
     }
 }

@@ -60,7 +60,7 @@ internal struct ConnectionParams {
             throw AzurePush.Error.invalidConnectionString("the endpoint is missing or is in an invalid format in the connection string")
         }
 
-        if (sharedAccessKeyName == nil && sharedAccessKeyValue == nil) || sharedSecretValue == nil {
+        if sharedAccessKeyName == nil && sharedAccessKeyValue == nil && sharedSecretValue == nil {
             throw AzurePush.Error.invalidConnectionString("the security information is missing in the connection string")
         }
 
