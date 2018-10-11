@@ -9,6 +9,9 @@
 import Foundation
 
 internal class RegistrationDecoder: NSObject {
+
+    // MARK: -
+
     private enum CodingKeys: String {
         case registrationDescription = "AppleRegistrationDescription"
         case templateRegistrationDescription = "AppleTemplateRegistrationDescription"
@@ -21,6 +24,8 @@ internal class RegistrationDecoder: NSObject {
         case templateBody = "BodyTemplate"
         case templateExpiry = "Expiry"
     }
+
+    // MARK: -
 
     private struct State {
         var text: String? = nil
@@ -51,6 +56,8 @@ internal class RegistrationDecoder: NSObject {
 
     private var state = State()
 
+    // MARK: - API
+
     internal func decode(from data: Data) -> [Registration] {
         state.reset()
 
@@ -64,10 +71,16 @@ internal class RegistrationDecoder: NSObject {
 
 extension RegistrationDecoder: XMLParserDelegate {
     internal func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-        guard let key = CodingKeys(rawValue: elementName) else { return }
+        guard let key = CodingKeys(rawValue: elementName) else {
+            state.text = nil
+            return
+        }
+
         switch key {
         case .registrationDescription, .templateRegistrationDescription:
             state.createRegistration()
+        case .registrationId:
+            state.properties[.registrationId] = state.text
         case .expirationTime:
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss.SSS'Z'"
@@ -85,8 +98,6 @@ extension RegistrationDecoder: XMLParserDelegate {
             state.properties[.templateBody] = state.text
         case .templateName:
             state.properties[.templateName] = state.text
-        default:
-            break
         }
 
         state.text = nil

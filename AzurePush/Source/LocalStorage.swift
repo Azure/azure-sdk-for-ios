@@ -11,10 +11,22 @@ import Foundation
 internal class LocalStorage {
     private static let version = "v1.0.0"
 
+    // MARK: - Keys
+
     private let deviceTokenKey: String
     private let versionKey: String
     private let registrationsKey: String
+
+    // MARK: -
+
     private var container: [String: Registration] = [:]
+
+    // MARK: - Encoding & Decoding
+
+    private lazy var encoder = JSONEncoder()
+    private lazy var decoder = JSONDecoder()
+
+    // MARK: - API
 
     internal var needsRefresh = false
     internal var deviceToken: String? = nil
@@ -57,10 +69,12 @@ internal class LocalStorage {
         syncWithUserDefaults()
     }
 
+    // MARK: - Private helpers
+
     @discardableResult
     private func syncWithUserDefaults() -> Bool {
         UserDefaults.standard.set(deviceToken, forKey: deviceTokenKey)
-        UserDefaults.standard.set(container.map { (key, value) in value }, forKey: registrationsKey)
+        UserDefaults.standard.set(container.compactMap { (key, value) in try? encoder.encode(value) }, forKey: registrationsKey)
         return UserDefaults.standard.synchronize()
     }
 
@@ -73,7 +87,8 @@ internal class LocalStorage {
             return
         }
 
-        if let registrations = UserDefaults.standard.object(forKey: registrationsKey) as? [Registration] {
+        if let data = UserDefaults.standard.object(forKey: registrationsKey) as? [Data] {
+            let registrations = data.compactMap { try? decoder.decode(Registration.self, from: $0) }
             registrations.forEach { registration in
                 container[registration.name] = registration
             }

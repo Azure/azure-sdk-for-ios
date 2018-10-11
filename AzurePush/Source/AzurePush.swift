@@ -83,7 +83,7 @@ public class AzurePush {
 // MARK: -
 
 extension AzurePush {
-    internal enum Error: Swift.Error {
+    public enum Error: Swift.Error {
         case notConfigured
         case invalidConnectionString(String)
         case reservedTemplateName
@@ -91,7 +91,7 @@ extension AzurePush {
         case failedToRetrieveAuthorizationToken
         case unknown
 
-        var localizedDescription: String {
+        public var localizedDescription: String {
             switch self {
             case .notConfigured: return "AzurePush is not yet configured. AzurePush.configure(withHubName:andConnectionString:) must be called before attempting any operation."
             case .invalidConnectionString(let message): return message

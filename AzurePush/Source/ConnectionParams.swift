@@ -53,7 +53,6 @@ internal struct ConnectionParams {
         let sharedAccessKeyName = params[.sharedAccessKeyName] as? String
         let sharedAccessKeyValue = params[.sharedAccessKey] as? String
         let sharedSecretValue = params[.sharedSecretValue] as? String
-        let stsHostName = params[.stsendpoint] as? URL
         let sharedSecretIssuer = params[.sharedSecretIssuer] as? String
 
         if endpoint == nil {

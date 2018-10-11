@@ -12,11 +12,11 @@ import Foundation
 /// The device will receive all push notifications targetting any or all of the tags associated and
 /// if a template is provided, the push notifications contents will be in the format specified by
 /// the template.
-public struct Registration {
+public struct Registration: Codable {
 
     /// A `Template` enables a client to specify the exact format of the notifications it wants to receive.
     /// https://docs.microsoft.com/en-us/previous-versions/azure/azure-services/dn530748(v%3dazure.100)
-    public struct Template {
+    public struct Template: Codable {
 
         /// The name of the template
         public let name: String

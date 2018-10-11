@@ -12,6 +12,8 @@ import AzureCore
 internal class TokenProvider {
     private static let defaultTokenTimeToLive: TimeInterval = 1200
 
+    // MARK: -
+
     private struct Token {
         let value: String
         let obtainedAt: Date
@@ -20,8 +22,15 @@ internal class TokenProvider {
         var isExpired: Bool { return obtainedAt.addingTimeInterval(timeToLive) > Date() }
     }
 
+    // MARK: -
+
     private let connectionParams: ConnectionParams
+
+    // MARK: -
+
     private var cache: [URL: Token] = [:]
+
+    // MARK: -
 
     internal init(connectionParams params: ConnectionParams) {
         self.connectionParams = params
@@ -63,6 +72,8 @@ internal class TokenProvider {
             completion(Response(request: request, data: data, response: httpResponse, result: .failure(AzurePush.Error.failedToRetrieveAuthorizationToken)))
         }
     }
+
+    // MARK: - Private helpers
 
     private func getTokenRequest(for url: URL) -> URLRequest? {
         var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
@@ -122,6 +133,8 @@ internal class TokenProvider {
         return "WRAP access_token=\"\(tokenKeyValuePair[1])\""
     }
 }
+
+// MARK: -
 
 extension String {
     fileprivate func addingPercentEncodingWithAzureAllowedCharacters() -> String? {

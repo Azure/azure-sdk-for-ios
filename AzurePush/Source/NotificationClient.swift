@@ -72,7 +72,7 @@ internal class NotificationClient {
         registerForRemoteNotifications(withDeviceToken: token, name: template.name, andPayload: payload, completion: completion)
     }
 
-    // MARK: - Unregistrations
+    // MARK: - Unregistration
 
     internal func unregisterForRemoteNotifications(completion: @escaping (Response<Data>) -> Void) {
         guard isConfigured else {
@@ -172,12 +172,12 @@ internal class NotificationClient {
         let url = URL(string: "\(endpoint.absoluteString)\(path)/registrationids/?api-version=\(NotificationClient.apiVersion)")!
 
         sendRequest(url: url, method: .post, payload: payload) { [weak self] response in
-            guard let location = response.value(forHeader: .location), let locationUrl = URL(string: location), let registrationId = locationUrl.registrationId else {
+            guard let location = response.value(forHeader: .location), let locationUrl = URL(string: location) else {
                 completion(Response(request: response.request, data: response.data, response: response.response, result: .failure(AzurePush.Error.unknown)))
                 return
             }
 
-            self?.upsert(registrationWithId: registrationId, name: name, payload: payload, deviceToken: deviceToken, completion: completion)
+            self?.upsert(registrationWithId: locationUrl.registrationId, name: name, payload: payload, deviceToken: deviceToken, completion: completion)
         }
     }
 
@@ -221,7 +221,7 @@ internal class NotificationClient {
 
         let url = URL(string: "\(endpoint.absoluteString)\(path)/Registrations/\(registration.id)?api-version=\(NotificationClient.apiVersion)")!
 
-        sendRequest(url: url, method: .delete) { [weak self] response in
+        sendRequest(url: url, method: .delete, etag: "*") { [weak self] response in
             if response.result.isSuccess {
                 self?.localStorage.removeRegistration(withName: name)
             }
@@ -258,7 +258,7 @@ internal class NotificationClient {
                 } else {
                     completion(Response(request: request, data: data, response: httpResponse, result: .failure(AzurePush.Error.unknown)))
                 }
-            }
+            }.resume()
         }
     }
 }
@@ -300,7 +300,7 @@ extension Response {
 }
 
 extension URL {
-    fileprivate var registrationId: String? {
-        return nil
+    fileprivate var registrationId: String {
+        return self.lastPathComponent
     }
 }
