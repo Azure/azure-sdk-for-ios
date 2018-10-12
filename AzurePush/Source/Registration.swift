@@ -25,8 +25,14 @@ public struct Registration: Codable {
         /// https://docs.microsoft.com/en-us/previous-versions/azure/azure-services/dn530748(v%3dazure.100)#template-expression-language
         public let body: String
 
-        /// A constant or a template expression that can be set in case of APNS.
-        public let expiry: String
+        /// A constant or a template expression that evaluates to a date in the W3D date format.
+        public let expiry: String?
+
+        public init(name: String, body: String, expiry: String? = nil) {
+            self.name = name
+            self.body = body
+            self.expiry = expiry
+        }
     }
 
     internal static let defaultName = "$Default"
@@ -64,7 +70,7 @@ public struct Registration: Codable {
     }
 
     internal static func payload(forDeviceToken deviceToken: String, template: Template, priority: String? = nil, andTags tags: [String]) -> String {
-        let expiryNode = template.expiry.isEmpty ? "" : "<Expiry>\(template.expiry)</Expiry>"
+        let expiryNode = template.expiry.isNilOrEmpty ? "" : "<Expiry>\(template.expiry!)</Expiry>"
         let priorityNode = priority == nil ? "" : "<Priority>\(priority!)</Priority>"
         let tagsNode = tags.isEmpty ? "" : "<Tags>\(tags.joined(separator: ","))</Tags>"
 
@@ -77,5 +83,11 @@ extension Registration.Template {
         guard name != Registration.defaultName else { return AzurePush.Error.reservedTemplateName }
         guard !name.contains(":") else { return AzurePush.Error.invalidTemplateName }
         return nil
+    }
+}
+
+extension Optional where Wrapped == String {
+    fileprivate var isNilOrEmpty: Bool {
+        return self == nil || self!.isEmpty
     }
 }

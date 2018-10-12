@@ -45,8 +45,8 @@ internal class RegistrationDecoder: NSObject {
             let tags = (properties[.tags] as? [String]) ?? []
             var template: Registration.Template? = nil
 
-            if let name = properties[.templateName] as? String, let body = properties[.templateBody] as? String, let expiry = properties[.templateExpiry] as? String {
-                template = .init(name: name, body: body, expiry: expiry)
+            if let name = properties[.templateName] as? String, let body = properties[.templateBody] as? String {
+                template = .init(name: name, body: body, expiry: properties[.templateExpiry] as? String)
             }
 
             registrations.append(Registration(id: id, etag: etag, deviceToken: deviceToken, expiresAt: expiresAt, tags: tags, template: template))
