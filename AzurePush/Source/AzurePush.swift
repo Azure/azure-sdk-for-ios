@@ -6,6 +6,8 @@
 //  Licensed under the MIT License.
 //
 
+#if os(iOS)
+
 import Foundation
 import AzureCore
 
@@ -103,3 +105,5 @@ extension AzurePush {
         }
     }
 }
+
+#endif

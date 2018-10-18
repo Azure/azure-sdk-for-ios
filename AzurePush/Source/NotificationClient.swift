@@ -6,6 +6,8 @@
 //  Licensed under the MIT License.
 //
 
+#if os(iOS)
+
 import UIKit
 import Foundation
 import AzureCore
@@ -304,3 +306,5 @@ extension URL {
         return self.lastPathComponent
     }
 }
+
+#endif

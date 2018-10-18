@@ -6,6 +6,8 @@
 //  Licensed under the MIT License.
 //
 
+#if os(iOS)
+
 import Foundation
 
 internal class RegistrationDecoder: NSObject {
@@ -111,3 +113,5 @@ extension RegistrationDecoder: XMLParserDelegate {
         }
     }
 }
+
+#endif

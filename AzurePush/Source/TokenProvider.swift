@@ -6,6 +6,8 @@
 //  Licensed under the MIT License.
 //
 
+#if os(iOS)
+
 import Foundation
 import AzureCore
 
@@ -115,6 +117,7 @@ internal class TokenProvider {
 
         if let sharedAccessKeyName = connectionParams.sharedAccessKeyName, let audienceUri = audienceUri, let signature = signature {
             let token = "SharedAccessSignature sr=\(audienceUri)&sig=\(signature)&se=\(expiresOn)&skn=\(sharedAccessKeyName)"
+            cache[url] = Token(value: token, obtainedAt: Date(), timeToLive: TokenProvider.defaultTokenTimeToLive)
             completion(Response(request: nil, data: nil, response: nil, result: .success(token)))
             return
         }
@@ -154,3 +157,5 @@ extension CryptoProvider {
         return CryptoProvider.hmacSHA256(data, withKey: base64Key)
     }
 }
+
+#endif

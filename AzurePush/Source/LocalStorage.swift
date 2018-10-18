@@ -6,6 +6,8 @@
 //  Licensed under the MIT License.
 //
 
+#if os(iOS)
+
 import Foundation
 
 internal class LocalStorage {
@@ -95,3 +97,5 @@ internal class LocalStorage {
         }
     }
 }
+
+#endif

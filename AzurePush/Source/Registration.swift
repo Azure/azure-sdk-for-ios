@@ -6,6 +6,8 @@
 //  Licensed under the MIT License.
 //
 
+#if os(iOS)
+
 import Foundation
 
 /// A `Registration` associates a specific device with a set of tags and possibly a template.
@@ -91,3 +93,5 @@ extension Optional where Wrapped == String {
         return self == nil || self!.isEmpty
     }
 }
+
+#endif

@@ -6,6 +6,8 @@
 //  Licensed under the MIT License.
 //
 
+#if os(iOS)
+
 import Foundation
 
 internal struct ConnectionParams {
@@ -84,3 +86,5 @@ extension String {
         return result
     }
 }
+
+#endif
