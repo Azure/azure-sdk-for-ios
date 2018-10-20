@@ -15,24 +15,15 @@ internal struct ConnectionParams {
         case endpoint = "Endpoint"
         case sharedAccessKeyName = "SharedAccessKeyName"
         case sharedAccessKey = "SharedAccessKey"
-        case sharedSecretIssuer = "SharedSecretIssuer"
-        case sharedSecretValue = "SharedSecretValue"
-        case stsendpoint = "stsendpoint"
     }
 
     private var params: [Keys: Any] = [:]
 
     internal var endpoint: URL { return params[.endpoint] as! URL }
 
-    internal var sharedAccessKeyName: String? { return params[.sharedAccessKeyName] as? String }
+    internal var sharedAccessKeyName: String { return params[.sharedAccessKeyName] as! String }
 
-    internal var sharedAccessKeyValue: String? { return params[.sharedAccessKey] as? String }
-
-    internal var sharedSecretIssuer: String? { return params[.sharedSecretIssuer] as? String }
-
-    internal var sharedSecretValue: String? { return params[.sharedSecretValue] as? String }
-
-    internal var stsHostName: URL? { return params[.stsendpoint] as? URL }
+    internal var sharedAccessKey: String { return params[.sharedAccessKey] as! String }
 
     init(connectionString string: String) throws {
         let components = string.components(separatedBy: ";")
@@ -44,8 +35,6 @@ internal struct ConnectionParams {
             switch key {
             case .endpoint:
                 params[.endpoint] = URL(string: value.replacingScheme(with: "https"))
-            case .stsendpoint:
-                params[.stsendpoint] = URL(string: value)
             default:
                 params[key] = value
             }
@@ -53,20 +42,14 @@ internal struct ConnectionParams {
 
         let endpoint = params[.endpoint] as? URL
         let sharedAccessKeyName = params[.sharedAccessKeyName] as? String
-        let sharedAccessKeyValue = params[.sharedAccessKey] as? String
-        let sharedSecretValue = params[.sharedSecretValue] as? String
-        let sharedSecretIssuer = params[.sharedSecretIssuer] as? String
+        let sharedAccessKey = params[.sharedAccessKey] as? String
 
         if endpoint == nil {
             throw AzurePush.Error.invalidConnectionString("the endpoint is missing or is in an invalid format in the connection string")
         }
 
-        if sharedAccessKeyName == nil && sharedAccessKeyValue == nil && sharedSecretValue == nil {
+        if sharedAccessKeyName == nil && sharedAccessKey == nil {
             throw AzurePush.Error.invalidConnectionString("the security information is missing in the connection string")
-        }
-
-        if sharedSecretValue != nil && sharedSecretIssuer == nil {
-            params[.sharedSecretIssuer] = "owner"
         }
     }
 }

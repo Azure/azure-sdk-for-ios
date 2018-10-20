@@ -233,35 +233,33 @@ internal class NotificationClient {
     }
 
     private func sendRequest(url: URL, method: HttpMethod, payload: String? = nil, etag: String? = nil, completion: @escaping (Response<Data>) -> Void) {
-        tokenProvider.getToken(for: url) { [weak self] response in
-            guard case .success(let token) = response.result else {
-                completion(Response(response.error ?? AzurePush.Error.unknown))
+        guard let authToken = tokenProvider.getToken(for: url) else {
+            completion(Response(AzurePush.Error.failedToRetrieveAuthorizationToken))
+            return
+        }
+
+        var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 60.0)
+        request.httpMethod = method.rawValue
+        request.httpBody = payload?.data(using: .utf8)
+        request.addValue(authToken, forHTTPHeaderField: HttpHeader.authorization.rawValue)
+        request.setValue(NotificationClient.userAgent, forHTTPHeaderField: HttpHeader.userAgent.rawValue)
+        etag.flatMap { request.addValue("\"\($0)\"", forHTTPHeaderField: HttpHeader.ifMatch.rawValue) }
+        payload.flatMap { request.setValue($0.contentType, forHTTPHeaderField: HttpHeader.contentType.rawValue) }
+
+        session.dataTask(with: request) { data, response, error in
+            let httpResponse = response as? HTTPURLResponse
+
+            if let error = error {
+                completion(Response(request: request, data: data, response: httpResponse, result: .failure(error)))
                 return
             }
 
-            var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 60.0)
-            request.httpMethod = method.rawValue
-            request.httpBody = payload?.data(using: .utf8)
-            request.addValue(token, forHTTPHeaderField: HttpHeader.authorization.rawValue)
-            request.setValue(NotificationClient.userAgent, forHTTPHeaderField: HttpHeader.userAgent.rawValue)
-            etag.flatMap { request.addValue("\"\($0)\"", forHTTPHeaderField: HttpHeader.ifMatch.rawValue) }
-            payload.flatMap { request.setValue($0.contentType, forHTTPHeaderField: HttpHeader.contentType.rawValue) }
-
-            self?.session.dataTask(with: request) { data, response, error in
-                let httpResponse = response as? HTTPURLResponse
-
-                if let error = error {
-                    completion(Response(request: request, data: data, response: httpResponse, result: .failure(error)))
-                    return
-                }
-
-                if let data = data, let httpResponse = httpResponse, let statusCode = HttpStatusCode(rawValue: httpResponse.statusCode), statusCode.isSuccess {
-                    completion(Response(request: request, data: data, response: httpResponse, result: .success(data)))
-                } else {
-                    completion(Response(request: request, data: data, response: httpResponse, result: .failure(AzurePush.Error.unknown)))
-                }
-            }.resume()
-        }
+            if let data = data, let httpResponse = httpResponse, let statusCode = HttpStatusCode(rawValue: httpResponse.statusCode), statusCode.isSuccess {
+                completion(Response(request: request, data: data, response: httpResponse, result: .success(data)))
+            } else {
+                completion(Response(request: request, data: data, response: httpResponse, result: .failure(AzurePush.Error.unknown)))
+            }
+        }.resume()
     }
 }
 
