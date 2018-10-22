@@ -21,7 +21,7 @@ let package = Package(
         .library(name: "AzureMobile", targets: ["AzureMobile"])
     ],
     dependencies: [
-        .package(url: "https://github.com/Nike-Inc/Willow.git", from: "5.0.2"),
+        .package(url: "https://github.com/Nike-Inc/Willow.git", from: "5.1.0"),
         .package(url: "https://github.com/kishikawakatsumi/KeychainAccess.git", from: "3.1.1"),
     ],
     targets: [

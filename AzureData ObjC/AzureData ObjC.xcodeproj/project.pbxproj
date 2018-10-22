@@ -194,21 +194,18 @@
 		9358442E20C99272000541E9 /* ResourceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F667C020C989BC009E4DBF /* ResourceType.swift */; };
 		9358442F20C99272000541E9 /* ResourceWriteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F667C320C989BC009E4DBF /* ResourceWriteOperation.swift */; };
 		9358443020C99272000541E9 /* ResourceWriteOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F667B920C989BB009E4DBF /* ResourceWriteOperationQueue.swift */; };
-		9358443120C99272000541E9 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F667B620C989BB009E4DBF /* Response.swift */; };
 		9358443220C99272000541E9 /* SupportsPermissionToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F667C420C989BC009E4DBF /* SupportsPermissionToken.swift */; };
 		9358443320C99272000541E9 /* UtilityExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F667BC20C989BC009E4DBF /* UtilityExtensions.swift */; };
 		9358443420C99273000541E9 /* ResourceTokenProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F667C520C989BC009E4DBF /* ResourceTokenProvider.swift */; };
 		9358443520C99273000541E9 /* ResourceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F667C020C989BC009E4DBF /* ResourceType.swift */; };
 		9358443620C99273000541E9 /* ResourceWriteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F667C320C989BC009E4DBF /* ResourceWriteOperation.swift */; };
 		9358443720C99273000541E9 /* ResourceWriteOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F667B920C989BB009E4DBF /* ResourceWriteOperationQueue.swift */; };
-		9358443820C99273000541E9 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F667B620C989BB009E4DBF /* Response.swift */; };
 		9358443920C99273000541E9 /* SupportsPermissionToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F667C420C989BC009E4DBF /* SupportsPermissionToken.swift */; };
 		9358443A20C99273000541E9 /* UtilityExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F667BC20C989BC009E4DBF /* UtilityExtensions.swift */; };
 		9358443B20C99274000541E9 /* ResourceTokenProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F667C520C989BC009E4DBF /* ResourceTokenProvider.swift */; };
 		9358443C20C99274000541E9 /* ResourceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F667C020C989BC009E4DBF /* ResourceType.swift */; };
 		9358443D20C99274000541E9 /* ResourceWriteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F667C320C989BC009E4DBF /* ResourceWriteOperation.swift */; };
 		9358443E20C99274000541E9 /* ResourceWriteOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F667B920C989BB009E4DBF /* ResourceWriteOperationQueue.swift */; };
-		9358443F20C99274000541E9 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F667B620C989BB009E4DBF /* Response.swift */; };
 		9358444020C99274000541E9 /* SupportsPermissionToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F667C420C989BC009E4DBF /* SupportsPermissionToken.swift */; };
 		9358444120C99274000541E9 /* UtilityExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F667BC20C989BC009E4DBF /* UtilityExtensions.swift */; };
 		9358445920C992D2000541E9 /* Offer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9358444320C992D2000541E9 /* Offer.swift */; };
@@ -313,7 +310,6 @@
 		93F667CC20C989BC009E4DBF /* PermissionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F667B320C989BB009E4DBF /* PermissionProvider.swift */; };
 		93F667CD20C989BC009E4DBF /* AzureDataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F667B420C989BB009E4DBF /* AzureDataExtensions.swift */; };
 		93F667CE20C989BC009E4DBF /* ResourceCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F667B520C989BB009E4DBF /* ResourceCache.swift */; };
-		93F667CF20C989BC009E4DBF /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F667B620C989BB009E4DBF /* Response.swift */; };
 		93F667D120C989BC009E4DBF /* PermissionProviderConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F667B820C989BB009E4DBF /* PermissionProviderConfiguration.swift */; };
 		93F667D220C989BC009E4DBF /* ResourceWriteOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F667B920C989BB009E4DBF /* ResourceWriteOperationQueue.swift */; };
 		93F667D320C989BC009E4DBF /* ResourceOracle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F667BA20C989BB009E4DBF /* ResourceOracle.swift */; };
@@ -441,7 +437,6 @@
 		93F667B320C989BB009E4DBF /* PermissionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PermissionProvider.swift; path = ../AzureData/Source/PermissionProvider.swift; sourceTree = "<group>"; };
 		93F667B420C989BB009E4DBF /* AzureDataExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AzureDataExtensions.swift; path = ../AzureData/Source/AzureDataExtensions.swift; sourceTree = "<group>"; };
 		93F667B520C989BB009E4DBF /* ResourceCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResourceCache.swift; path = ../AzureData/Source/ResourceCache.swift; sourceTree = "<group>"; };
-		93F667B620C989BB009E4DBF /* Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Response.swift; path = ../AzureData/Source/Response.swift; sourceTree = "<group>"; };
 		93F667B820C989BB009E4DBF /* PermissionProviderConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PermissionProviderConfiguration.swift; path = ../AzureData/Source/PermissionProviderConfiguration.swift; sourceTree = "<group>"; };
 		93F667B920C989BB009E4DBF /* ResourceWriteOperationQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResourceWriteOperationQueue.swift; path = ../AzureData/Source/ResourceWriteOperationQueue.swift; sourceTree = "<group>"; };
 		93F667BA20C989BB009E4DBF /* ResourceOracle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResourceOracle.swift; path = ../AzureData/Source/ResourceOracle.swift; sourceTree = "<group>"; };
@@ -683,7 +678,6 @@
 				93F667C020C989BC009E4DBF /* ResourceType.swift */,
 				93F667C320C989BC009E4DBF /* ResourceWriteOperation.swift */,
 				93F667B920C989BB009E4DBF /* ResourceWriteOperationQueue.swift */,
-				93F667B620C989BB009E4DBF /* Response.swift */,
 				93F667C420C989BC009E4DBF /* SupportsPermissionToken.swift */,
 				93F667BC20C989BC009E4DBF /* UtilityExtensions.swift */,
 			);
@@ -1066,7 +1060,6 @@
 				9358439520C98CA9000541E9 /* ADConflictStrategy.swift in Sources */,
 				9358439A20C98CA9000541E9 /* ADResourceSystemKeys.swift in Sources */,
 				9358441D20C9926D000541E9 /* AzureDataExtensions.swift in Sources */,
-				9358443F20C99274000541E9 /* Response.swift in Sources */,
 				935843A120C98CA9000541E9 /* SwiftWrappers.swift in Sources */,
 				935843EC20C98CC1000541E9 /* ADIndexDataType.swift in Sources */,
 				935843C420C98CB1000541E9 /* ADOfferContent.swift in Sources */,
@@ -1166,7 +1159,6 @@
 				9358438520C98CA8000541E9 /* ADConflictStrategy.swift in Sources */,
 				9358438A20C98CA8000541E9 /* ADResourceSystemKeys.swift in Sources */,
 				9358440C20C9926C000541E9 /* AzureDataExtensions.swift in Sources */,
-				9358443820C99273000541E9 /* Response.swift in Sources */,
 				9358439120C98CA8000541E9 /* SwiftWrappers.swift in Sources */,
 				935843E320C98CC0000541E9 /* ADIndexDataType.swift in Sources */,
 				935843B820C98CB0000541E9 /* ADOfferContent.swift in Sources */,
@@ -1266,7 +1258,6 @@
 				9358437520C98CA7000541E9 /* ADConflictStrategy.swift in Sources */,
 				9358437A20C98CA7000541E9 /* ADResourceSystemKeys.swift in Sources */,
 				935843FB20C9926B000541E9 /* AzureDataExtensions.swift in Sources */,
-				9358443120C99272000541E9 /* Response.swift in Sources */,
 				9358438120C98CA7000541E9 /* SwiftWrappers.swift in Sources */,
 				935843DA20C98CBF000541E9 /* ADIndexDataType.swift in Sources */,
 				935843AC20C98CAF000541E9 /* ADOfferContent.swift in Sources */,
@@ -1359,7 +1350,6 @@
 				93F6686A20C98A81009E4DBF /* ObjectiveCBridgeable.swift in Sources */,
 				93F6687720C98A81009E4DBF /* ADPermission.swift in Sources */,
 				93F6688120C98A81009E4DBF /* ADIncludedPath.swift in Sources */,
-				93F667CF20C989BC009E4DBF /* Response.swift in Sources */,
 				93F6686220C98A81009E4DBF /* ADDateEncoders.swift in Sources */,
 				93F6686720C98A81009E4DBF /* ADAzureData.swift in Sources */,
 				93F6686820C98A81009E4DBF /* ADPermissionProviderConfiguration.swift in Sources */,
