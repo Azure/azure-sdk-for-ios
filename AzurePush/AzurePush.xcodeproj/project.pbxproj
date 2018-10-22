@@ -7,6 +7,34 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		323728FE21482031002ABA16 /* NotificationClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323728FD21482031002ABA16 /* NotificationClient.swift */; };
+		323728FF21482031002ABA16 /* NotificationClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323728FD21482031002ABA16 /* NotificationClient.swift */; };
+		3237290021482031002ABA16 /* NotificationClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323728FD21482031002ABA16 /* NotificationClient.swift */; };
+		3237290121482031002ABA16 /* NotificationClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323728FD21482031002ABA16 /* NotificationClient.swift */; };
+		32492A9C2156A2D300211A92 /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32492A9B2156A2D300211A92 /* LocalStorage.swift */; };
+		32492A9D2156A2D300211A92 /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32492A9B2156A2D300211A92 /* LocalStorage.swift */; };
+		32492A9E2156A2D300211A92 /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32492A9B2156A2D300211A92 /* LocalStorage.swift */; };
+		32492A9F2156A2D300211A92 /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32492A9B2156A2D300211A92 /* LocalStorage.swift */; };
+		32492AA12156A32100211A92 /* Registration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32492AA02156A32100211A92 /* Registration.swift */; };
+		32492AA22156A32100211A92 /* Registration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32492AA02156A32100211A92 /* Registration.swift */; };
+		32492AA32156A32100211A92 /* Registration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32492AA02156A32100211A92 /* Registration.swift */; };
+		32492AA42156A32100211A92 /* Registration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32492AA02156A32100211A92 /* Registration.swift */; };
+		32492AA62156A38A00211A92 /* RegistrationDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32492AA52156A38A00211A92 /* RegistrationDecoder.swift */; };
+		32492AA72156A38A00211A92 /* RegistrationDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32492AA52156A38A00211A92 /* RegistrationDecoder.swift */; };
+		32492AA82156A38A00211A92 /* RegistrationDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32492AA52156A38A00211A92 /* RegistrationDecoder.swift */; };
+		32492AA92156A38A00211A92 /* RegistrationDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32492AA52156A38A00211A92 /* RegistrationDecoder.swift */; };
+		32492AAB2156A45300211A92 /* TokenProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32492AAA2156A45300211A92 /* TokenProvider.swift */; };
+		32492AAC2156A45300211A92 /* TokenProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32492AAA2156A45300211A92 /* TokenProvider.swift */; };
+		32492AAD2156A45300211A92 /* TokenProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32492AAA2156A45300211A92 /* TokenProvider.swift */; };
+		32492AAE2156A45300211A92 /* TokenProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32492AAA2156A45300211A92 /* TokenProvider.swift */; };
+		32492AB02156A4A800211A92 /* AzurePush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32492AAF2156A4A800211A92 /* AzurePush.swift */; };
+		32492AB12156A4A800211A92 /* AzurePush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32492AAF2156A4A800211A92 /* AzurePush.swift */; };
+		32492AB22156A4A800211A92 /* AzurePush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32492AAF2156A4A800211A92 /* AzurePush.swift */; };
+		32492AB32156A4A800211A92 /* AzurePush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32492AAF2156A4A800211A92 /* AzurePush.swift */; };
+		32492AB52156A74200211A92 /* ConnectionParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32492AB42156A74200211A92 /* ConnectionParams.swift */; };
+		32492AB62156A74200211A92 /* ConnectionParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32492AB42156A74200211A92 /* ConnectionParams.swift */; };
+		32492AB72156A74200211A92 /* ConnectionParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32492AB42156A74200211A92 /* ConnectionParams.swift */; };
+		32492AB82156A74200211A92 /* ConnectionParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32492AB42156A74200211A92 /* ConnectionParams.swift */; };
 		9302CE532059A497000F6885 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9302CE542059A497000F6885 /* AzureCore.framework */; };
 		9302CE552059A4A6000F6885 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9302CE562059A4A6000F6885 /* AzureCore.framework */; };
 		9302CE572059A4AF000F6885 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9302CE582059A4AF000F6885 /* AzureCore.framework */; };
@@ -48,6 +76,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		323728FD21482031002ABA16 /* NotificationClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationClient.swift; sourceTree = "<group>"; };
+		32492A9B2156A2D300211A92 /* LocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorage.swift; sourceTree = "<group>"; };
+		32492AA02156A32100211A92 /* Registration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registration.swift; sourceTree = "<group>"; };
+		32492AA52156A38A00211A92 /* RegistrationDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationDecoder.swift; sourceTree = "<group>"; };
+		32492AAA2156A45300211A92 /* TokenProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenProvider.swift; sourceTree = "<group>"; };
+		32492AAF2156A4A800211A92 /* AzurePush.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzurePush.swift; sourceTree = "<group>"; };
+		32492AB42156A74200211A92 /* ConnectionParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionParams.swift; sourceTree = "<group>"; };
 		9302CE542059A497000F6885 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9302CE562059A4A6000F6885 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9302CE582059A4AF000F6885 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -172,6 +207,13 @@
 		93F80526202BB06900D0B4F4 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				32492AAF2156A4A800211A92 /* AzurePush.swift */,
+				32492AB42156A74200211A92 /* ConnectionParams.swift */,
+				32492A9B2156A2D300211A92 /* LocalStorage.swift */,
+				323728FD21482031002ABA16 /* NotificationClient.swift */,
+				32492AA02156A32100211A92 /* Registration.swift */,
+				32492AA52156A38A00211A92 /* RegistrationDecoder.swift */,
+				32492AAA2156A45300211A92 /* TokenProvider.swift */,
 				930A01B7202BB91F002BD1FE /* Supporting Files */,
 			);
 			path = Source;
@@ -473,6 +515,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3237290021482031002ABA16 /* NotificationClient.swift in Sources */,
+				32492AB22156A4A800211A92 /* AzurePush.swift in Sources */,
+				32492AA82156A38A00211A92 /* RegistrationDecoder.swift in Sources */,
+				32492AAD2156A45300211A92 /* TokenProvider.swift in Sources */,
+				32492AB72156A74200211A92 /* ConnectionParams.swift in Sources */,
+				32492AA32156A32100211A92 /* Registration.swift in Sources */,
+				32492A9E2156A2D300211A92 /* LocalStorage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -488,6 +537,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3237290121482031002ABA16 /* NotificationClient.swift in Sources */,
+				32492AB32156A4A800211A92 /* AzurePush.swift in Sources */,
+				32492AA92156A38A00211A92 /* RegistrationDecoder.swift in Sources */,
+				32492AAE2156A45300211A92 /* TokenProvider.swift in Sources */,
+				32492AB82156A74200211A92 /* ConnectionParams.swift in Sources */,
+				32492AA42156A32100211A92 /* Registration.swift in Sources */,
+				32492A9F2156A2D300211A92 /* LocalStorage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -495,6 +551,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				323728FE21482031002ABA16 /* NotificationClient.swift in Sources */,
+				32492AB02156A4A800211A92 /* AzurePush.swift in Sources */,
+				32492AA62156A38A00211A92 /* RegistrationDecoder.swift in Sources */,
+				32492AAB2156A45300211A92 /* TokenProvider.swift in Sources */,
+				32492AB52156A74200211A92 /* ConnectionParams.swift in Sources */,
+				32492AA12156A32100211A92 /* Registration.swift in Sources */,
+				32492A9C2156A2D300211A92 /* LocalStorage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -510,6 +573,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				323728FF21482031002ABA16 /* NotificationClient.swift in Sources */,
+				32492AB12156A4A800211A92 /* AzurePush.swift in Sources */,
+				32492AA72156A38A00211A92 /* RegistrationDecoder.swift in Sources */,
+				32492AAC2156A45300211A92 /* TokenProvider.swift in Sources */,
+				32492AB62156A74200211A92 /* ConnectionParams.swift in Sources */,
+				32492AA22156A32100211A92 /* Registration.swift in Sources */,
+				32492A9D2156A2D300211A92 /* LocalStorage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
