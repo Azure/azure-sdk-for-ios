@@ -6,20 +6,20 @@ Azure.iOS is a collection of SDKs for rapidly creating iOS apps with modern, hig
 
 _**This project is in active development and will change.**_
 
-# SDKs 
+# SDKs
 
 **Usage and API references for all SDKs can be found on our [wiki](https://github.com/Azure/Azure.iOS/wiki).**
 
 ### [AzureData](AzureData)
 ![Current State: Preview Release](https://img.shields.io/badge/Current_State-Preview_Release-brightgreen.svg)
 
-AzureData is an SDK for interfacing with [Azure Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-introduction) - A schema-less JSON database engine with rich SQL querying capabilities. It currently supports the full SQL (DocumentDB) API, and offline persistence (inluding read/write).
+AzureData is an SDK for interfacing with [Azure Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/sql-api-introduction) - A schema-less JSON database engine with rich SQL querying capabilities. It currently supports the full SQL (DocumentDB) API, and offline persistence (including read/write).
 
 
 ### [AzureCore](AzureCore)
 ![Current State: Preview Release](https://img.shields.io/badge/Current_State-Preview_Release-brightgreen.svg)
 
-AzureCore is a shared dependency of the other four SDKs. It includes functionality like secure storage, reachablility, logging, etc.
+AzureCore is a shared dependency of the other four SDKs. It includes functionality like secure storage, reachability, logging, etc.
 
 
 ### [AzureMobile](AzureMobile)
@@ -35,7 +35,7 @@ AzureAuth is an SDK that enables authentication with popular identity providers'
 
 
 ### [AzurePush](AzurePush)
-![Current State: Requirements](https://img.shields.io/badge/Current_State-Requirements-red.svg)
+![Current State: Development](https://img.shields.io/badge/Current_State-Development-blue.svg)
 
 AzurePush will provide push notification functionality.  The current SDK for Azure Notification Hubs can be found [here](https://github.com/Azure/azure-notificationhubs/tree/master/iOS/WindowsAzureMessaging). The intent is to migrate that SDK to this repository, update it, and refactor the API to ensure it works seamlessly with the other SDKs in this project to provide the best possible developer experience.
 
@@ -48,7 +48,7 @@ AzureStorage will provide cloud storage functionality.  The current SDK for Azur
 
 # Installation
 
-### CocoaPods
+## CocoaPods
 
 [CocoaPods](http://cocoapods.org) is a dependency manager for Cocoa projects.
 You can install it with the following command:
@@ -76,7 +76,7 @@ Then, run the following command:
 $ pod install
 ```
 
-### Carthage
+## Carthage
 
 [Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.
 
