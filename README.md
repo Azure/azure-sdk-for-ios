@@ -8,8 +8,6 @@ _**This project is in active development and will change.**_
 
 # SDKs
 
-**Usage and API references for all SDKs can be found on our [wiki](https://github.com/Azure/Azure.iOS/wiki).**
-
 ### [AzureData](AzureData)
 ![Current State: Preview Release](https://img.shields.io/badge/Current_State-Preview_Release-brightgreen.svg)
 
