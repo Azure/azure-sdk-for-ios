@@ -21,13 +21,6 @@
    </FileRef>
    <Group
       location = "container:"
-      name = "Azure.iOS ObjC">
-      <FileRef
-         location = "group:AzureData ObjC/AzureData ObjC.xcodeproj">
-      </FileRef>
-   </Group>
-   <Group
-      location = "container:"
       name = "Deployment">
       <FileRef
          location = "group:LICENSE">
