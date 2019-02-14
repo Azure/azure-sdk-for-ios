@@ -83,7 +83,7 @@ public enum ResourceLocation {
         case .storedProcedure:      return StoredProcedure.type
         case .trigger:              return Trigger.type
         case .udf:                  return UserDefinedFunction.type
-        case .document:             return Document.type
+        case .document:             return DocumentContainer<AnyDocument>.type
         case .attachment:           return Attachment.type
         case .offer:                return Offer.type
         case let .resource(r):      return r.path

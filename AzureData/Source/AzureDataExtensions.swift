@@ -37,8 +37,8 @@ public extension Database {
     // MARK: Document Collection
     
     //create
-    public func create (collectionWithId id: String, callback: @escaping (Response<DocumentCollection>) -> ()) {
-        return DocumentClient.shared.create(collectionWithId: id, in: self, callback: callback)
+    public func create (collectionWithId id: String, andPartitionKey partitionKey: DocumentCollection.PartitionKeyDefinition? = nil, callback: @escaping (Response<DocumentCollection>) -> ()) {
+        return DocumentClient.shared.create(collectionWithId: id, andPartitionKey: partitionKey, in: self, callback: callback)
     }
     
     // list
@@ -111,7 +111,7 @@ public extension DocumentCollection {
     }
 
     // list
-    public func get<T: Document> (documentsAs documentType:T.Type, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<T>>) -> ()) {
+    public func get<T: Document> (documentsAs documentType:T.Type, maxPerPage: Int? = nil, callback: @escaping (Response<Documents<T>>) -> ()) {
         return DocumentClient.shared.get(documentsAs: documentType, in: self, maxPerPage: maxPerPage, callback: callback)
     }
     
@@ -121,7 +121,7 @@ public extension DocumentCollection {
     }
     
     // delete
-    public func delete (_ document: Document, callback: @escaping (Response<Data>) -> ()) {
+    public func delete<T: Document> (_ document: T, callback: @escaping (Response<Data>) -> ()) {
         return DocumentClient.shared.delete(document, callback: callback)
     }
 
@@ -135,12 +135,8 @@ public extension DocumentCollection {
     }
     
     // query
-    public func query<T: Document> (documentsWith query: Query, as documentType: T.Type, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<T>>) -> ()) {
+    public func query<T: Document> (documentsWith query: Query, as documentType: T.Type, maxPerPage: Int? = nil, callback: @escaping (Response<Documents<T>>) -> ()) {
         return DocumentClient.shared.query(documentsIn: self, as: documentType, with: query, maxPerPage: maxPerPage, callback: callback)
-    }
-
-    public func query (documentsWith query: Query, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<DictionaryDocument>>) -> ()) {
-        return DocumentClient.shared.query(documentsIn: self, with: query, maxPerPage: maxPerPage, callback: callback)
     }
 
     

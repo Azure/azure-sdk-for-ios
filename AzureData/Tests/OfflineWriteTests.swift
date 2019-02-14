@@ -18,6 +18,7 @@ class OfflineWriteTests: _AzureDataTests {
 
     override func setUp() {
         resourceName = "OfflineWrite"
+        partitionKey = "/birthCity"
         super.setUp()
     }
 
@@ -83,9 +84,10 @@ class OfflineWriteTests: _AzureDataTests {
         turnOffInternetConnection()
 
         let notFoundExpectation = self.expectation(description: "should return a response with the client error NotFound")
+        let document = TestDocument.stub(documentId)
 
         ensureCollectionExists { collection in
-            AzureData.replace(Document(self.documentId), in: collection) { r in
+            AzureData.replace(document, in: collection) { r in
                 XCTAssertTrue(r.result.isFailure)
                 XCTAssertTrue(r.clientError.isNotFoundError)
 

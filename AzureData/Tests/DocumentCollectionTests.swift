@@ -8,83 +8,37 @@
 
 import XCTest
 @testable import AzureData
+@testable import AzureCore
 
-class DocumentCollectionTests: AzureDataTests {
-    
+class DocumentCollectionTests: _AzureDataTests {
     override func setUp() {
-        resourceType = .collection
-        ensureDatabase = true
         super.setUp()
+        resourceType = .collection
+        partitionKey = "/birthCity"
     }
 
-    override func tearDown() { super.tearDown() }
-    
-    
-    func testCollectionCrud() {
-        
-        var createResponse:     Response<DocumentCollection>?
-        var listResponse:       Response<Resources<DocumentCollection>>?
-        var getResponse:        Response<DocumentCollection>?
-        var refreshResponse:    Response<DocumentCollection>?
-        var replaceResponse:    Response<DocumentCollection>?
-        var deleteResponse:     Response<Data>?
+    func testCreate() {
+        let expectation = self.expectation(description: "should create collection")
 
-        
-        // Create
-        AzureData.create(collectionWithId: resourceId, inDatabase: databaseId) { r in
-            createResponse = r
-            self.createExpectation.fulfill()
-        }
-        
-        wait(for: [createExpectation], timeout: timeout)
-        
-        XCTAssertNotNil(createResponse?.resource)
-        
-        
-        
-        // List
-        AzureData.get(collectionsIn: databaseId) { r in
-            listResponse = r
-            self.listExpectation.fulfill()
-        }
-        
-        wait(for: [listExpectation], timeout: timeout)
-        
-        XCTAssertNotNil(listResponse?.resource)
-        
-        
-        
-        // Get
-        AzureData.get(collectionWithId: resourceId, inDatabase: databaseId) { r in
-            getResponse = r
-            self.getExpectation.fulfill()
-        }
-        
-        wait(for: [getExpectation], timeout: timeout)
-        
-        XCTAssertNotNil(getResponse?.resource)
+        ensureDatabaseExists()
+        AzureData.create(collectionWithId: collectionId, andPartitionKey: partitionKey, inDatabase: databaseId) { r in
+            XCTAssertTrue(r.result.isSuccess)
+            XCTAssertNotNil(r.resource)
+            XCTAssertEqual(r.resource?.id, self.collectionId)
+            XCTAssertEqual(r.resource?.partitionKey, self.partitionKey)
 
-        
-        
-        // Refresh
-        if getResponse?.result.isSuccess ?? false {
-            
-            AzureData.refresh(getResponse!.resource!) { r in
-                refreshResponse = r
-                self.refreshExpectation.fulfill()
-            }
-            
-            wait(for: [refreshExpectation], timeout: timeout)
+            expectation.fulfill()
         }
-        
-        XCTAssertNotNil(refreshResponse?.resource)
 
-        
-        // Replace
-        if getResponse?.result.isSuccess ?? false {
+        wait(for: [expectation], timeout: timeout)
+    }
 
+    func testReplace() {
+        let expectation = self.expectation(description: "should replace collection")
+
+        ensureCollectionExists { collection in
             let policy = DocumentCollection.IndexingPolicy(
-                automatic: true,
+                automatic: false,
                 excludedPaths: [
                     .init(path: "/test/*")
                 ],
@@ -92,35 +46,77 @@ class DocumentCollectionTests: AzureDataTests {
                     .init(
                         path: "/*",
                         indexes: [
-                            .range(withDataType: .number, andPrecision: -1),
                             .hash(withDataType: .string, andPrecision: 2),
-                            .spatial(withDataType: .polygon)
                         ]
                     )
                 ],
                 indexingMode: .lazy
             )
 
-            AzureData.replace(collectionWithId: resourceId, inDatabase: databaseId, usingPolicy: policy) { r in
-                replaceResponse = r
-                self.replaceExpectation.fulfill()
+            AzureData.replace(collectionWithId: collection.id, andPartitionKey: self.partitionKey, inDatabase: self.databaseId, usingPolicy: policy) { r in
+                XCTAssertTrue(r.result.isSuccess)
+                XCTAssertNotNil(r.resource)
+                XCTAssertEqual(r.resource?.id, self.collectionId)
+                XCTAssertEqual(r.resource?.partitionKey, self.partitionKey)
+                //                XCTAssertEqual(r.resource?.indexingPolicy, policy)
+
+                expectation.fulfill()
             }
-
-            wait(for: [replaceExpectation], timeout: timeout)
-
-            XCTAssertNotNil(replaceResponse?.resource)
         }
 
-        // Delete
-        if getResponse?.result.isSuccess ?? false {
-            AzureData.delete(collectionWithId: resourceId, fromDatabase: databaseId) { r in
-                deleteResponse = r
-                self.deleteExpectation.fulfill()
-            }
-        
-            wait(for: [deleteExpectation], timeout: timeout)
+        wait(for: [expectation], timeout: timeout)
+    }
+
+    func testGet() {
+        let expectation = self.expectation(description: "should get collection")
+
+        ensureCollectionExists()
+
+        AzureData.get(collectionWithId: collectionId, inDatabase: databaseId) { r in
+            XCTAssertTrue(r.result.isSuccess)
+            XCTAssertNotNil(r.resource)
+            XCTAssertEqual(r.resource?.id, self.collectionId)
+
+            expectation.fulfill()
         }
-        
-        XCTAssert(deleteResponse?.result.isSuccess ?? false)
+
+        wait(for: [expectation], timeout: timeout)
+    }
+
+    func testList() {
+        let expectation = self.expectation(description: "should list collections")
+
+        let first = collectionId + "1"
+        let second = collectionId + "2"
+
+        ensureCollectionExists(withId: first)
+        ensureCollectionExists(withId: second)
+
+        AzureData.get(collectionsIn: databaseId) { r in
+            XCTAssertTrue(r.result.isSuccess)
+            XCTAssertNotNil(r.resource)
+            XCTAssertEqual(r.resource?.items.count, 2)
+            XCTAssertFalse(r.resource?.items.filter({ $0.id == first }).isEmpty ?? true)
+            XCTAssertFalse(r.resource?.items.filter({ $0.id == second }).isEmpty ?? true)
+
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: timeout)
+    }
+
+    func testDelete() {
+        let expectation = self.expectation(description: "should delete document")
+
+        ensureCollectionExists()
+
+        AzureData.delete(collectionWithId: collectionId, fromDatabase: databaseId) { r in
+            XCTAssertTrue(r.result.isSuccess)
+
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: timeout)
     }
 }
+

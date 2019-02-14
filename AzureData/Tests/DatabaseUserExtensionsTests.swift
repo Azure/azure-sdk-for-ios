@@ -8,11 +8,12 @@
 
 import XCTest
 @testable import AzureData
+@testable import AzureCore
 
 class DatabaseUserExtensionsTests: AzureDataTests {
-    
+
     override func setUp() {
-        resourceType = .document
+        resourceType = .user
         resourceName = "CollectionUserExtensions"
         ensureDatabase = true
         ensureCollection = true

@@ -22,6 +22,7 @@ class OfflineReadTests: _AzureDataTests {
 
     override func setUp() {
         resourceName = "OfflineRead"
+        partitionKey = "/birthCity"
         super.setUp()
     }
     
@@ -177,7 +178,8 @@ class OfflineReadTests: _AzureDataTests {
     }
 
     func testDocumentsAreCachedLocallyWhenNetworkIsReachable() {
-        ensureDocumentExists()
+        let document = TestDocument.stub(documentId)
+        ensureDocumentExists(document)
 
         let mainExpectation = self.expectation(description: "documents should be cached locally when the network is reachable")
 
@@ -194,8 +196,8 @@ class OfflineReadTests: _AzureDataTests {
         wait(for: [getExpectation], timeout: timeout)
 
         ensureResourcesAreCachedLocallyWhenNetworkIsReachable(
-            resourceType: Document.self,
-            getResources: { AzureData.get(documentsAs: Document.self, in: collection, callback: $0) },
+            resourceType: TestDocument.self,
+            getResources: { AzureData.get(documentsAs: TestDocument.self, in: collection, callback: $0) },
             localCachePath: "\(collection.selfLink!)docs/)",
             completion: { mainExpectation.fulfill() }
         )
@@ -204,7 +206,8 @@ class OfflineReadTests: _AzureDataTests {
     }
 
     func testDocumentsAreFetchedFromLocalCacheWhenNetworkIsNotReachable() {
-        ensureDocumentExists()
+        let document = TestDocument.stub(documentId)
+        ensureDocumentExists(document)
 
         let mainExpectation = self.expectation(description: "documents should be fetched from the local cache when the network is not reachable")
 
@@ -221,8 +224,8 @@ class OfflineReadTests: _AzureDataTests {
         wait(for: [getExpectation], timeout: timeout)
 
         ensureResourcesAreFetchedFromLocalCacheWhenNetworkIsNotReachable(
-            resourceType: Document.self,
-            getResources: { AzureData.get(documentsAs: Document.self, in: collection, callback: $0) },
+            resourceType: TestDocument.self,
+            getResources: { AzureData.get(documentsAs: TestDocument.self, in: collection, callback: $0) },
             completion: { mainExpectation.fulfill() }
         )
 
@@ -337,11 +340,12 @@ class OfflineReadTests: _AzureDataTests {
 
     func testEmptyChildDirectoriesAreCreatedWhenANewDocumentIsCachedOffline() {
         let createExpectation = self.expectation(description: "empty child directories are created when a new document is cached offline.")
-        
+        let document = TestDocument.stub(documentId)
+
         ensureDatabaseExists { database in
             self.ensureCollectionExists { collection in
-                self.ensureDocumentExists { document in
-                    AzureData.get(documentWithId: document.id, as: Document.self, inCollection: collection.id, inDatabase: database.id) { r in
+                self.ensureDocumentExists(document) { document in
+                    AzureData.get(documentWithId: document.id, as: TestDocument.self, inCollection: collection.id, inDatabase: database.id) { r in
                         XCTAssertTrue(r.result.isSuccess)
                         
                         self.wait {
@@ -420,11 +424,77 @@ class OfflineReadTests: _AzureDataTests {
         purgeCache { completion?() }
     }
 
+    private func ensureResourcesAreCachedLocallyWhenNetworkIsReachable<T: Document>(
+        resourceType: T.Type,
+        getResources: @escaping (_ completion: @escaping (Response<Documents<T>>) -> ()) -> (),
+        localCachePath: String,
+        completion: (() -> ())? = nil
+        ) {
+        var resources = [T]()
+
+        getResources { r in
+            XCTAssertTrue(r.result.isSuccess)
+            resources = r.resource?.items ?? []
+
+            self.wait {
+                self.listExpectation.fulfill()
+            }
+        }
+
+        wait(for: [self.listExpectation], timeout: self.timeout)
+
+        XCTAssertFalse(resources.isEmpty)
+
+        let resourcesCacheDirectoryURL = URL(string: localCachePath, relativeTo: self.cachesDirectoryURL)!
+
+        resources.forEach { resource in
+            let directoryURL = URL(string: "\(resource.resourceId)/", relativeTo: resourcesCacheDirectoryURL)!
+            let JSONFileURL = URL(string: "\(resource.resourceId).json", relativeTo: directoryURL)!
+            XCTAssertTrue(FileManager.default.fileExists(atPath: directoryURL.path))
+            XCTAssertTrue(FileManager.default.fileExists(atPath: JSONFileURL.path))
+        }
+
+        purgeCache { completion?() }
+    }
+
     private func ensureResourcesAreFetchedFromLocalCacheWhenNetworkIsNotReachable<T: CodableResource>(
         resourceType: T.Type,
         getResources: @escaping (_ completion: @escaping (Response<Resources<T>>) -> ()) -> (),
         completion: (() -> ())? = nil
     ) {
+        var onlineResources = [T]()
+        var offlineResources = [T]()
+
+        getResources { r in
+            onlineResources = r.resource?.items ?? []
+
+            self.wait {
+                self.turnOffInternetConnection()
+
+                getResources { r in
+                    offlineResources = r.resource?.items ?? []
+                    self.listExpectation.fulfill()
+                }
+            }
+        }
+
+        self.wait(for: [self.listExpectation], timeout: self.timeout)
+
+        XCTAssertFalse(onlineResources.isEmpty)
+        XCTAssertFalse(offlineResources.isEmpty)
+
+        offlineResources.forEach { resource in
+            XCTAssertTrue(onlineResources.contains(where: { $0.resourceId == resource.resourceId }))
+        }
+
+        self.purgeCache { completion?() }
+    }
+
+    private func ensureResourcesAreFetchedFromLocalCacheWhenNetworkIsNotReachable<T: Document>(
+        resourceType: T.Type,
+        getResources: @escaping (_ completion: @escaping (Response<Documents<T>>) -> ()) -> (),
+        completion: (() -> ())? = nil
+        ) {
         var onlineResources = [T]()
         var offlineResources = [T]()
 

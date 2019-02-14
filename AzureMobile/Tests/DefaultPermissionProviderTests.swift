@@ -9,6 +9,7 @@
 import XCTest
 import AzureData
 @testable import AzureMobile
+@testable import AzureCore
 
 class DefaultPermissionProviderTests: XCTestCase {
     
@@ -46,16 +47,15 @@ class DefaultPermissionProviderTests: XCTestCase {
     }
 
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
     
     func testExample() {
         if let dbname = databaseName, !dbname.isEmpty {
             
-            var getResponse:    Response<DictionaryDocument>?
-            var listResponse:   Response<Resources<DictionaryDocument>>?
-            var createResponse: Response<DictionaryDocument>?
+            var getResponse:    Response<TestDocument>?
+            var listResponse:   Response<Documents<TestDocument>>?
+            var createResponse: Response<TestDocument>?
             var deleteResponse: Response<Data>?
             
             AzureData.get(collectionWithId: "MyCollectionFive", inDatabase: "MyDatabaseFive") { r in
@@ -69,10 +69,7 @@ class DefaultPermissionProviderTests: XCTestCase {
             
             if let collection = collection {
                 
-                let newDocument = DictionaryDocument("MyDocument")
-                
-                newDocument[customStringKey] = customStringValue
-                newDocument[customNumberKey] = customNumberValue
+                let newDocument = TestDocument.stub("MyDocument")
                 
                 
                 collection.create(newDocument) { r in
@@ -86,7 +83,7 @@ class DefaultPermissionProviderTests: XCTestCase {
                 
                 
                 
-                collection.get(documentsAs: DictionaryDocument.self) { r in
+                collection.get(documentsAs: TestDocument.self) { r in
                     listResponse = r
                     self.listExpectation.fulfill()
                 }
@@ -96,7 +93,7 @@ class DefaultPermissionProviderTests: XCTestCase {
                 XCTAssertNotNil(listResponse?.resource)
                 
                 
-                collection.get(documentWithId: newDocument.id, as: DictionaryDocument.self) { r in
+                collection.get(documentWithId: newDocument.id, as: TestDocument.self) { r in
                     getResponse = r
                     self.getDocExpectation.fulfill()
                 }
@@ -126,5 +123,29 @@ class DefaultPermissionProviderTests: XCTestCase {
         self.measure {
             // Put the code you want to measure the time of here.
         }
+    }
+}
+
+fileprivate final class TestDocument: Document {
+    static var partitionKey: PartitionKey? {
+        return \.birthCity
+    }
+
+    let id: String
+    let firstName: String
+    let lastName: String
+    let birthCity: String
+
+    init(id: String, firstName: String, lastName: String, birthCity: String) {
+        self.id = id
+        self.firstName = firstName
+        self.lastName = lastName
+        self.birthCity = birthCity
+    }
+}
+
+fileprivate extension TestDocument {
+    static func stub(_ id: String, firstName: String = "Faiçal", lastName: String = "Tchirou", birthCity: String = "Kharkov") -> TestDocument {
+        return TestDocument(id: id, firstName: firstName, lastName: lastName, birthCity: birthCity)
     }
 }

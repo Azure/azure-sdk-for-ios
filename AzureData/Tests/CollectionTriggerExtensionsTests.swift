@@ -8,9 +8,10 @@
 
 import XCTest
 @testable import AzureData
+@testable import AzureCore
 
 class CollectionTriggerExtensionsTests: AzureDataTests {
-    
+
     override func setUp() {
         resourceType = .trigger
         resourceName = "CollectionTriggerExtensions"

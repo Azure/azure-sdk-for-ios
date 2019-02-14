@@ -8,9 +8,10 @@
 
 import XCTest
 @testable import AzureData
+@testable import AzureCore
 
 class UserTests: AzureDataTests {
-    
+
     override func setUp() {
         resourceType = .user
         ensureDatabase = true
@@ -19,7 +20,7 @@ class UserTests: AzureDataTests {
     
     override func tearDown() { super.tearDown() }
 
-    
+
     func testUserCrud() {
         
         var createResponse:     Response<User>?

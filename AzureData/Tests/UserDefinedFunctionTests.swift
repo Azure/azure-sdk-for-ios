@@ -8,9 +8,10 @@
 
 import XCTest
 @testable import AzureData
+@testable import AzureCore
 
 class UserDefinedFunctionTests: AzureDataTests {
-    
+
     override func setUp() {
         resourceType = .udf
         ensureDatabase = true

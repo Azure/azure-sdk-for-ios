@@ -61,7 +61,7 @@ public struct DocumentCollection : CodableResource, SupportsPermissionToken {
     
     
     /// Represents the indexing policy configuration for a collection in the Azure Cosmos DB service.
-    public struct IndexingPolicy : Codable {
+    public struct IndexingPolicy : Codable, Equatable {
         
         /// Gets or sets a value that indicates whether automatic indexing is enabled for a collection in
         /// the Azure Cosmos DB service.
@@ -78,7 +78,7 @@ public struct DocumentCollection : CodableResource, SupportsPermissionToken {
         
         
         /// Specifies a path within a JSON document to be excluded while indexing data for the Azure Cosmos DB service.
-        public struct ExcludedPath : Codable {
+        public struct ExcludedPath : Codable, Equatable {
             
             /// Gets or sets the path to be excluded from indexing in the Azure Cosmos DB service.
             public var path: String?
@@ -86,7 +86,7 @@ public struct DocumentCollection : CodableResource, SupportsPermissionToken {
         
         
         /// Specifies a path within a JSON document to be included in the Azure Cosmos DB service.
-        public struct IncludedPath : Codable {
+        public struct IncludedPath : Codable, Equatable {
             
             /// Gets or sets the path to be indexed in the Azure Cosmos DB service.
             public var path: String?
@@ -98,7 +98,7 @@ public struct DocumentCollection : CodableResource, SupportsPermissionToken {
             
             /// Base class for `IndexingPolicy` `Indexes` in the Azure Cosmos DB service,
             /// you should use a concrete `Index` like `HashIndex` or `RangeIndex`.
-            public struct Index : Codable {
+            public struct Index : Codable, Equatable {
                 
                 /// Gets or sets the kind of indexing to be applied in the Azure Cosmos DB service.
                 public var kind: IndexKind?
@@ -173,17 +173,23 @@ public struct DocumentCollection : CodableResource, SupportsPermissionToken {
     
     
     /// Specifies a partition key definition for a particular path in the Azure Cosmos DB service.
-    public struct PartitionKeyDefinition : Codable {
+    public struct PartitionKeyDefinition : Codable, Equatable {
         
         /// Gets or sets the paths to be partitioned in the Azure Cosmos DB service.
         public var paths: [String] = []
     }
     
     
-    public init (_ id: String) { self.id = id; resourceId = "" }
-    public init (_ id: String, indexingPolicy: IndexingPolicy) {
+    public init (_ id: String, partitionKey: PartitionKeyDefinition?) {
         self.id = id
         self.resourceId = ""
+        self.partitionKey = partitionKey
+    }
+
+    public init (_ id: String, partitionKey: PartitionKeyDefinition?, indexingPolicy: IndexingPolicy) {
+        self.id = id
+        self.resourceId = ""
+        self.partitionKey = partitionKey
         self.indexingPolicy = indexingPolicy
     }
 }
@@ -205,7 +211,7 @@ extension DocumentCollection {
         case userDefinedFunctionsLink   = "_udfs"
     }
 
-    init(id: String, resourceId: String, selfLink: String?, etag: String?, timestamp: Date?, conflictsLink: String?, documentsLink: String?, indexingPolicy: DocumentCollection.IndexingPolicy?, partitionKey: DocumentCollection.PartitionKeyDefinition?, storedProceduresLink: String?, triggersLink: String?, userDefinedFunctionsLink: String?) {
+    init(id: String, resourceId: String, selfLink: String?, etag: String?, timestamp: Date?, conflictsLink: String?, documentsLink: String?, indexingPolicy: IndexingPolicy?, partitionKey: PartitionKeyDefinition, storedProceduresLink: String?, triggersLink: String?, userDefinedFunctionsLink: String?) {
         self.id = id
         self.resourceId = resourceId
         self.selfLink = selfLink
