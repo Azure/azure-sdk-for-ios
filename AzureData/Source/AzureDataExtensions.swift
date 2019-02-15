@@ -119,7 +119,11 @@ public extension DocumentCollection {
     public func get<T: Document> (documentWithId id: String, as documentType:T.Type, callback: @escaping (Response<T>) -> ()) {
         return DocumentClient.shared.get(documentWithId: id, as: documentType, in: self, callback: callback)
     }
-    
+
+    public func get<T: Document> (documentWithId id: String, as documentType: T.Type, andPartitionKey partitionKey: String, callback: @escaping (Response<T>) -> ()) {
+        return DocumentClient.shared.get(documentWithId: id, as: documentType, in: self, withPartitionKey: partitionKey, callback: callback)
+    }
+
     // delete
     public func delete<T: Document> (_ document: T, callback: @escaping (Response<Data>) -> ()) {
         return DocumentClient.shared.delete(document, callback: callback)

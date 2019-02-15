@@ -330,6 +330,14 @@ AzureData.get (documentWithId: id, as: Person.self, in: collection) { r in
     // document = r.resource
 }
 
+AzureData.get (documentWithId: id, as: Person.self, inCollection: collectionId, withPartitionKey: partitionKey, inDatabase: databaseId) { r in 
+    // document = r.resource
+}
+
+AzureData.get (documentWithId: id, as: Person.self, in: collection, withPartitionKey: partitionKey) { r in
+    // document = r.resource
+}
+
 collection.get (documentWithId: id, as: Person.self) { r in
     // document = r.resource
 }
