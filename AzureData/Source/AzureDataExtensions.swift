@@ -37,7 +37,7 @@ public extension Database {
     // MARK: Document Collection
     
     //create
-    public func create (collectionWithId id: String, andPartitionKey partitionKey: DocumentCollection.PartitionKeyDefinition? = nil, callback: @escaping (Response<DocumentCollection>) -> ()) {
+    public func create (collectionWithId id: String, andPartitionKey partitionKey: DocumentCollection.PartitionKeyDefinition?, callback: @escaping (Response<DocumentCollection>) -> ()) {
         return DocumentClient.shared.create(collectionWithId: id, andPartitionKey: partitionKey, in: self, callback: callback)
     }
     
