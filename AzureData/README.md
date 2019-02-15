@@ -231,8 +231,6 @@ AzureData.replace(collectionWithId: collectionId, inDatabase: databaseId, usingP
 
 ## Documents
 
-There are two different classes you can use to interact with documents:
-
 ### Document
 
 You create your custom model types by conforming to the `Document` protocol declared as follows:
@@ -244,10 +242,15 @@ protocol Document: Codable {
 }
 ```
 
-Your models are required to provide at a minimum a partition key and an id. The [partition key](https://docs.microsoft.com/en-us/azure/cosmos-db/partition-data) is used to automatically partition data among servers for [scalability](https://azure.microsoft.com/en-us/resources/videos/azure-documentdb-elastic-scale-partitioning/) and should be a reference to a property of your model whose type is a `String`. You can return `nil` as the partition key if you want to opt-out of the automatic partitioning performed by Azure CosmosDB; however the partition key is required to be non-nil if the associated collection has a partition key definition. The id is simply the unique identifier of your model. In addition,  `Document` conforms to the `Codable` protocol so your models are also required to conform to `Codable`.
+Your models are required to provide at a minimum a partition key and an id.
 
+The [partition key](https://docs.microsoft.com/en-us/azure/cosmos-db/partition-data) is used to automatically partition data among servers for [scalability](https://azure.microsoft.com/en-us/resources/videos/azure-documentdb-elastic-scale-partitioning/) and should be a reference to a property (of type `String`) of your model.
 
-Here is an example of a class `Person` that conforms to `Document`:
+You can return `nil` as the partition key if you want to opt-out of the automatic partitioning performed by Azure CosmosDB. However the partition key is required to be non-nil if the associated collection has a partition key definition. 
+
+The id is simply a unique identifier of your model. In addition, `Document` conforms to the `Codable` protocol so your models are also required to conform to `Codable`.
+
+Here is an example of a class that conforms to `Document`:
 
 ```swift
 final class Person: Document {
@@ -272,7 +275,7 @@ final class Person: Document {
 
 #### Create
 ```swift
-let person = Person(id: "1", firstName: "Faiçal", lastName: "Tchirou", birthCity: "Lome")
+let document = Person(id: "1", firstName: "Faiçal", lastName: "Tchirou", birthCity: "Lome")
 
 
 AzureData.create (document, inCollection: collectionId, inDatabase: databaseId) { r in
