@@ -28,9 +28,9 @@ class DocumentTests: _AzureDataTests {
                 XCTAssertTrue(r.result.isSuccess)
                 XCTAssertNotNil(r.resource)
                 XCTAssertFalse(r.resource?.resourceId.isEmpty ?? true)
-                XCTAssertEqual(r.resource?.firstName, "Faiçal")
-                XCTAssertEqual(r.resource?.lastName, "Tchirou")
-                XCTAssertEqual(r.resource?.birthCity, "Kharkov")
+                XCTAssertEqual(r.resource?.firstName, document.firstName)
+                XCTAssertEqual(r.resource?.lastName, document.lastName)
+                XCTAssertEqual(r.resource?.birthCity, document.birthCity)
 
                 expectation.fulfill()
             }
@@ -51,9 +51,9 @@ class DocumentTests: _AzureDataTests {
                 XCTAssertNotNil(r.resource)
                 XCTAssertFalse(r.resource?.resourceId.isEmpty ?? true)
                 XCTAssertEqual(r.resource?.id, oldDocument.id)
-                XCTAssertEqual(r.resource?.firstName, "Baba")
-                XCTAssertEqual(r.resource?.lastName, "Tchirou")
-                XCTAssertEqual(r.resource?.birthCity, "Lome")
+                XCTAssertEqual(r.resource?.firstName, newDocument.firstName)
+                XCTAssertEqual(r.resource?.lastName, newDocument.lastName)
+                XCTAssertEqual(r.resource?.birthCity, newDocument.birthCity)
 
                 expectation.fulfill()
             }

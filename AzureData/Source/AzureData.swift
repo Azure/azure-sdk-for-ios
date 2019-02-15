@@ -148,11 +148,11 @@ public class AzureData {
     // MARK: - Collections
 
     // create
-    public static func create (collectionWithId collectionId: String, andPartitionKey partitionKey: DocumentCollection.PartitionKeyDefinition? = nil, inDatabase databaseId: String, callback: @escaping (Response<DocumentCollection>) -> ()) {
+    public static func create (collectionWithId collectionId: String, andPartitionKey partitionKey: DocumentCollection.PartitionKeyDefinition?, inDatabase databaseId: String, callback: @escaping (Response<DocumentCollection>) -> ()) {
         return DocumentClient.shared.create (collectionWithId: collectionId, andPartitionKey: partitionKey, inDatabase: databaseId, callback: callback)
     }
 
-    public static func create (collectionWithId collectionId: String, andPartitionKey partitionKey: DocumentCollection.PartitionKeyDefinition? = nil, in database: Database, callback: @escaping (Response<DocumentCollection>) -> ()) {
+    public static func create (collectionWithId collectionId: String, andPartitionKey partitionKey: DocumentCollection.PartitionKeyDefinition?, in database: Database, callback: @escaping (Response<DocumentCollection>) -> ()) {
         return DocumentClient.shared.create(collectionWithId: collectionId, andPartitionKey: partitionKey, in: database, callback: callback)
     }
 
@@ -184,7 +184,7 @@ public class AzureData {
     }
 
     // replace
-    public static func replace (collectionWithId collectionId: String, andPartitionKey partitionKey: DocumentCollection.PartitionKeyDefinition? = nil, inDatabase databaseId: String, usingPolicy policy: DocumentCollection.IndexingPolicy, callback: @escaping (Response<DocumentCollection>) -> ()) {
+    public static func replace (collectionWithId collectionId: String, andPartitionKey partitionKey: DocumentCollection.PartitionKeyDefinition?, inDatabase databaseId: String, usingPolicy policy: DocumentCollection.IndexingPolicy, callback: @escaping (Response<DocumentCollection>) -> ()) {
         return DocumentClient.shared.replace(collectionWithId: collectionId, andPartitionKey: partitionKey, inDatabase: databaseId, usingPolicy: policy, callback: callback)
     }
 
@@ -271,11 +271,11 @@ public class AzureData {
     // MARK: - Attachments
 
     // create
-    public static func create (attachmentWithId attachmentId: String, contentType: String, andMediaUrl mediaUrl: URL, onDocument documentId: String, inCollection collectionId: String, withPartitionKey partitionKey: String? = nil, inDatabase databaseId: String, callback: @escaping (Response<Attachment>) -> ()) {
+    public static func create (attachmentWithId attachmentId: String, contentType: String, andMediaUrl mediaUrl: URL, onDocument documentId: String, inCollection collectionId: String, withPartitionKey partitionKey: String?, inDatabase databaseId: String, callback: @escaping (Response<Attachment>) -> ()) {
         return DocumentClient.shared.create (attachmentWithId: attachmentId, contentType: contentType, andMediaUrl: mediaUrl, onDocument: documentId, inCollection: collectionId, withPartitionKey: partitionKey, inDatabase: databaseId, callback: callback)
     }
 
-    public static func create (attachmentWithId attachmentId: String, contentType: String, name mediaName: String, with media: Data, onDocument documentId: String, inCollection collectionId: String, withPartitionKey partitionKey: String? = nil, inDatabase databaseId: String, callback: @escaping (Response<Attachment>) -> ()) {
+    public static func create (attachmentWithId attachmentId: String, contentType: String, name mediaName: String, with media: Data, onDocument documentId: String, inCollection collectionId: String, withPartitionKey partitionKey: String?, inDatabase databaseId: String, callback: @escaping (Response<Attachment>) -> ()) {
         return DocumentClient.shared.create (attachmentWithId: attachmentId, contentType: contentType, name: mediaName, with: media, onDocument: documentId, inCollection: collectionId, withPartitionKey: partitionKey, inDatabase: databaseId, callback: callback)
     }
 
@@ -288,7 +288,7 @@ public class AzureData {
     }
 
     // list
-    public static func get (attachmentsOn documentId: String, inCollection collectionId: String, withPartitionKey partitionKey: String? = nil, inDatabase databaseId: String, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<Attachment>>) -> ()) {
+    public static func get (attachmentsOn documentId: String, inCollection collectionId: String, withPartitionKey partitionKey: String?, inDatabase databaseId: String, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<Attachment>>) -> ()) {
         return DocumentClient.shared.get (attachmentsOn: documentId, inCollection: collectionId, withPartitionKey: partitionKey, inDatabase: databaseId, maxPerPage: maxPerPage, callback: callback)
     }
 
@@ -297,7 +297,7 @@ public class AzureData {
     }
 
     // delete
-    public static func delete (attachmentWithId attachmentId: String, fromDocument documentId: String, inCollection collectionId: String, withPartitionKey partitionKey: String? = nil, inDatabase databaseId: String, callback: @escaping (Response<Data>) -> ()) {
+    public static func delete (attachmentWithId attachmentId: String, fromDocument documentId: String, inCollection collectionId: String, withPartitionKey partitionKey: String?, inDatabase databaseId: String, callback: @escaping (Response<Data>) -> ()) {
         return DocumentClient.shared.delete(attachmentWithId: attachmentId, fromDocument: documentId, inCollection: collectionId, withPartitionKey: partitionKey, inDatabase: databaseId, callback: callback)
     }
 
@@ -306,11 +306,11 @@ public class AzureData {
     }
 
     // replace
-    public static func replace (attachmentWithId attachmentId: String, contentType: String, andMediaUrl mediaUrl: URL, onDocument documentId: String, inCollection collectionId: String, withPartitionKey partitionKey: String? = nil, inDatabase databaseId: String, callback: @escaping (Response<Attachment>) -> ()) {
+    public static func replace (attachmentWithId attachmentId: String, contentType: String, andMediaUrl mediaUrl: URL, onDocument documentId: String, inCollection collectionId: String, withPartitionKey partitionKey: String?, inDatabase databaseId: String, callback: @escaping (Response<Attachment>) -> ()) {
         return DocumentClient.shared.replace (attachmentWithId: attachmentId, contentType: contentType, andMediaUrl: mediaUrl, onDocument: documentId, inCollection: collectionId, withPartitionKey: partitionKey, inDatabase: databaseId, callback: callback)
     }
 
-    public static func replace (attachmentWithId attachmentId: String, contentType: String, name mediaName: String, with media: Data, onDocument documentId: String, inCollection collectionId: String, withPartitionKey partitionKey: String? = nil, inDatabase databaseId: String, callback: @escaping (Response<Attachment>) -> ()) {
+    public static func replace (attachmentWithId attachmentId: String, contentType: String, name mediaName: String, with media: Data, onDocument documentId: String, inCollection collectionId: String, withPartitionKey partitionKey: String?, inDatabase databaseId: String, callback: @escaping (Response<Attachment>) -> ()) {
         return DocumentClient.shared.replace (attachmentWithId: attachmentId, contentType: contentType, name: mediaName, with: media, onDocument: documentId, inCollection: collectionId, withPartitionKey: partitionKey, inDatabase: databaseId, callback: callback)
     }
 

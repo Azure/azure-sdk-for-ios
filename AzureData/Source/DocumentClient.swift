@@ -336,12 +336,12 @@ class DocumentClient {
     // MARK: - Attachments
     
     // create
-    func create(attachmentWithId attachmentId: String, contentType: String, andMediaUrl mediaUrl: URL, onDocument documentId: String, inCollection collectionId: String, withPartitionKey partitionKey: String? = nil, inDatabase databaseId: String, callback: @escaping (Response<Attachment>) -> ()) {
+    func create(attachmentWithId attachmentId: String, contentType: String, andMediaUrl mediaUrl: URL, onDocument documentId: String, inCollection collectionId: String, withPartitionKey partitionKey: String?, inDatabase databaseId: String, callback: @escaping (Response<Attachment>) -> ()) {
         let headers = HttpHeaders.msDocumentdbPartitionKey(partitionKey)
         return self.create(Attachment(attachmentId, contentType: contentType, url: mediaUrl.absoluteString), at: .attachment(databaseId: databaseId, collectionId: collectionId, documentId: documentId, id: nil), additionalHeaders: headers, callback: callback)
     }
     
-    func create(attachmentWithId attachmentId: String, contentType: String, name mediaName: String, with media: Data, onDocument documentId: String, inCollection collectionId: String, withPartitionKey partitionKey: String? = nil, inDatabase databaseId: String, callback: @escaping (Response<Attachment>) -> ()) {
+    func create(attachmentWithId attachmentId: String, contentType: String, name mediaName: String, with media: Data, onDocument documentId: String, inCollection collectionId: String, withPartitionKey partitionKey: String?, inDatabase databaseId: String, callback: @escaping (Response<Attachment>) -> ()) {
         let headers = HttpHeaders.msDocumentdbPartitionKey(partitionKey).merging([HttpHeader.contentType.rawValue: contentType, HttpHeader.slug.rawValue: mediaName])
         return self.createOrReplace(media, at: .attachment(databaseId: databaseId, collectionId: collectionId, documentId: documentId, id: nil), additionalHeaders: headers, callback: callback)
     }
@@ -358,7 +358,7 @@ class DocumentClient {
     }
     
     // list
-    func get (attachmentsOn documentId: String, inCollection collectionId: String, withPartitionKey partitionKey: String? = nil, inDatabase databaseId: String, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<Attachment>>) -> ()) {
+    func get (attachmentsOn documentId: String, inCollection collectionId: String, withPartitionKey partitionKey: String?, inDatabase databaseId: String, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<Attachment>>) -> ()) {
         let headers = HttpHeaders.msDocumentdbPartitionKey(partitionKey)
         return self.resources(at: .attachment(databaseId: databaseId, collectionId: collectionId, documentId: documentId, id: nil), maxPerPage: maxPerPage, additionalHeaders: headers, callback: callback)
     }
@@ -370,7 +370,7 @@ class DocumentClient {
     }
     
     // delete
-    func delete (attachmentWithId attachmentId: String, fromDocument documentId: String, inCollection collectionId: String, withPartitionKey partitionKey: String? = nil, inDatabase databaseId: String, callback: @escaping (Response<Data>) -> ()) {
+    func delete (attachmentWithId attachmentId: String, fromDocument documentId: String, inCollection collectionId: String, withPartitionKey partitionKey: String?, inDatabase databaseId: String, callback: @escaping (Response<Data>) -> ()) {
         let headers = HttpHeaders.msDocumentdbPartitionKey(partitionKey)
         return self.delete(resourceAt: .attachment(databaseId: databaseId, collectionId: collectionId, documentId: documentId, id: attachmentId), additionalHeaders: headers, callback: callback)
     }
@@ -382,12 +382,12 @@ class DocumentClient {
     }
     
     // replace
-    func replace(attachmentWithId attachmentId: String, contentType: String, andMediaUrl mediaUrl: URL, onDocument documentId: String, inCollection collectionId: String, withPartitionKey partitionKey: String? = nil, inDatabase databaseId: String, callback: @escaping (Response<Attachment>) -> ()) {
+    func replace(attachmentWithId attachmentId: String, contentType: String, andMediaUrl mediaUrl: URL, onDocument documentId: String, inCollection collectionId: String, withPartitionKey partitionKey: String?, inDatabase databaseId: String, callback: @escaping (Response<Attachment>) -> ()) {
         let headers = HttpHeaders.msDocumentdbPartitionKey(partitionKey)
         return self.replace(Attachment(attachmentId, contentType: contentType, url: mediaUrl.absoluteString), at: .attachment(databaseId: databaseId, collectionId: collectionId, documentId: documentId, id: attachmentId), additionalHeaders: headers, callback: callback)
     }
     
-    func replace(attachmentWithId attachmentId: String, contentType: String, name mediaName: String, with media: Data, onDocument documentId: String, inCollection collectionId: String, withPartitionKey partitionKey: String? = nil, inDatabase databaseId: String, callback: @escaping (Response<Attachment>) -> ()) {
+    func replace(attachmentWithId attachmentId: String, contentType: String, name mediaName: String, with media: Data, onDocument documentId: String, inCollection collectionId: String, withPartitionKey partitionKey: String?, inDatabase databaseId: String, callback: @escaping (Response<Attachment>) -> ()) {
         let headers = HttpHeaders.msDocumentdbPartitionKey(partitionKey).merging([HttpHeader.contentType.rawValue: contentType, HttpHeader.slug.rawValue: mediaName])
         return self.createOrReplace(media, at: .attachment(databaseId: databaseId, collectionId: collectionId, documentId: documentId, id: attachmentId), replacing: true, additionalHeaders: headers, callback: callback)
     }
