@@ -269,7 +269,21 @@ class DocumentClient {
         let headers: HttpHeaders = [MSHttpHeader.msDocumentdbQueryEnableCrossPartition.rawValue: "true"]
         return self.query(documentIn: collection, as: documentType, with: query, additionalHeaders: headers, callback: callback)
     }
-    
+
+    func get<T: Document> (documentWithId documentId: String, as documentType: T.Type, inCollection collectionId: String, withPartitionKey partitionKey: String, inDatabase databaseId: String, callback: @escaping (Response<T>) -> ()) {
+        let headers = HttpHeaders.msDocumentdbPartitionKey(partitionKey)
+        return self.resource(at: .document(databaseId: databaseId, collectionId: collectionId, id: documentId), additionalHeaders: headers) { (r: Response<DocumentContainer<T>>) in
+            callback(r.map { $0.document })
+        }
+    }
+
+    func get<T: Document> (documentWithId documentId: String, as documentType: T.Type, in collection: DocumentCollection, withPartitionKey partitionKey: String, callback: @escaping (Response<T>) -> ()) {
+        let headers = HttpHeaders.msDocumentdbPartitionKey(partitionKey)
+        return self.resource(at: .child(.document, in: collection, id: documentId), additionalHeaders: headers) { (r: Response<DocumentContainer<T>>) in
+            callback(r.map { $0.document })
+        }
+    }
+
     // delete
     func delete (documentWithId documentId: String, fromCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Data>) -> ()) {
         return self.delete(resourceAt: .document(databaseId: databaseId, collectionId: collectionId, id: documentId), callback: callback)

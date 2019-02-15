@@ -82,6 +82,28 @@ class DocumentTests: _AzureDataTests {
         wait(for: [expectation], timeout: timeout)
     }
 
+    func testGetWithPartitionKey() {
+        let expectation = self.expectation(description: "should get document with partition key")
+        let document = TestDocument.stub(documentId)
+        guard let partitionKey = TestDocument.partitionKey else { return }
+        let partitionKeyValue = document[keyPath: partitionKey]
+
+        ensureDocumentExists(document)
+
+        AzureData.get(documentWithId: document.id, as: TestDocument.self, inCollection: collectionId, withPartitionKey: partitionKeyValue, inDatabase: databaseId) { r in
+            XCTAssertTrue(r.result.isSuccess)
+            XCTAssertNotNil(r.resource)
+            XCTAssertFalse(r.resource?.resourceId.isEmpty ?? true)
+            XCTAssertEqual(r.resource?.firstName, document.firstName)
+            XCTAssertEqual(r.resource?.lastName, document.lastName)
+            XCTAssertEqual(r.resource?.birthCity, document.birthCity)
+
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: timeout)
+    }
+
     func testList() {
         let expectation = self.expectation(description: "should list documents")
 

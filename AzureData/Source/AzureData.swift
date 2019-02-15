@@ -219,13 +219,22 @@ public class AzureData {
     }
 
     // get
-    public static func get<T: Document> (documentWithId documentId: String, as documentType:T.Type, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<T>) -> ()) {
+    public static func get<T: Document> (documentWithId documentId: String, as documentType: T.Type, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<T>) -> ()) {
         return DocumentClient.shared.get (documentWithId: documentId, as: documentType, inCollection: collectionId, inDatabase: databaseId, callback: callback)
     }
 
-    public static func get<T: Document> (documentWithId documentId: String, as documentType:T.Type, in collection: DocumentCollection, callback: @escaping (Response<T>) -> ()) {
+    public static func get<T: Document> (documentWithId documentId: String, as documentType: T.Type, in collection: DocumentCollection, callback: @escaping (Response<T>) -> ()) {
         return DocumentClient.shared.get (documentWithId: documentId, as: documentType, in: collection, callback: callback)
     }
+
+    public static func get<T: Document> (documentWithId documentId: String, as documentType: T.Type, inCollection collectionId: String, withPartitionKey partitionKey: String, inDatabase databaseId: String, callback: @escaping (Response<T>) -> ()) {
+        return DocumentClient.shared.get (documentWithId: documentId, as: documentType, inCollection: collectionId, withPartitionKey: partitionKey, inDatabase: databaseId, callback: callback)
+    }
+
+    public static func get<T: Document> (documentWithId documentId: String, as documentType: T.Type, in collection: DocumentCollection, withPartitionKey partitionKey: String, callback: @escaping (Response<T>) -> ()) {
+        return DocumentClient.shared.get (documentWithId: documentId, as: documentType, in: collection, withPartitionKey: partitionKey, callback: callback)
+    }
+
 
     // delete
     public static func delete (documentWithId documentId: String, fromCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Data>) -> ()) {
