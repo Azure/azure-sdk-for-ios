@@ -254,9 +254,7 @@ Here is an example of a class that conforms to `Document`:
 
 ```swift
 final class Person: Document {
-    static var partitionKey: PartitionKey? {
-        return \.birthCity
-    }
+    static let partitionKey = \.birthCity
 
     let id: String
     let firstName: String
