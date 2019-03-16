@@ -31,7 +31,7 @@ class DatabaseCollectionExtensionsTests: AzureDataTests {
             
             
             // Create
-            database.create(collectionWithId: collectionId) { r in
+            database.create(collectionWithId: collectionId, andPartitionKey: nil) { r in
                 createResponse = r
                 self.createExpectation.fulfill()
             }
