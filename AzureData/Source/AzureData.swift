@@ -255,12 +255,20 @@ public class AzureData {
     }
 
     // query
-    public static func query<T: Document> (documentsIn collectionId: String, as documentType: T.Type, inDatabase databaseId: String, with query: Query, maxPerPage: Int? = nil, callback: @escaping (Response<Documents<T>>) -> ()) {
-        return DocumentClient.shared.query (documentsIn: collectionId, as: documentType, inDatabase: databaseId, with: query, maxPerPage: maxPerPage, callback: callback)
+    public static func query<T: Document> (documentsIn collectionId: String, as documentType: T.Type, inDatabase databaseId: String, with query: Query, andPartitionKey partitionKey: String, maxPerPage: Int? = nil, callback: @escaping (Response<Documents<T>>) -> ()) {
+        return DocumentClient.shared.query (documentsIn: collectionId, as: documentType, inDatabase: databaseId, with: query, andPartitionKey: partitionKey, maxPerPage: maxPerPage, callback: callback)
     }
 
-    public static func query<T: Document> (documentsIn collection: DocumentCollection, as documentType: T.Type, with query: Query, maxPerPage: Int? = nil, callback: @escaping (Response<Documents<T>>) -> ()) {
-        return DocumentClient.shared.query (documentsIn: collection, as: documentType, with: query, maxPerPage: maxPerPage, callback: callback)
+    public static func query<T: Document> (documentsIn collection: DocumentCollection, as documentType: T.Type, with query: Query, andPartitionKey partitionKey: String, maxPerPage: Int? = nil, callback: @escaping (Response<Documents<T>>) -> ()) {
+        return DocumentClient.shared.query (documentsIn: collection, as: documentType, with: query, andPartitionKey: partitionKey, maxPerPage: maxPerPage, callback: callback)
+    }
+
+    public static func query<T: Document> (documentsAcrossAllPartitionsIn collectionId: String, as documentType: T.Type, inDatabase databaseId: String, with query: Query, maxPerPage: Int? = nil, callback: @escaping (Response<Documents<T>>) -> ()) {
+        return DocumentClient.shared.query (documentsIn: collectionId, as: documentType, inDatabase: databaseId, with: query, andPartitionKey: nil, maxPerPage: maxPerPage, callback: callback)
+    }
+
+    public static func query<T: Document> (documentsAcrossAllPartitionsIn collection: DocumentCollection, as documentType: T.Type, with query: Query, maxPerPage: Int? = nil, callback: @escaping (Response<Documents<T>>) -> ()) {
+        return DocumentClient.shared.query (documentsIn: collection, as: documentType, with: query, andPartitionKey: nil, maxPerPage: maxPerPage, callback: callback)
     }
 
     // delete

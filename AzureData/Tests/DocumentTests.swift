@@ -141,4 +141,50 @@ class DocumentTests: _AzureDataTests {
 
         wait(for: [expectation], timeout: timeout)
     }
+
+    func testQueryWithPartitionKey() {
+        let expectation = self.expectation(description: "should query documents in the specified partition")
+
+        let first = TestDocument.stub(documentId + "1")
+        let second = TestDocument.stub(documentId + "2", firstName: "Anoura", lastName: "Akaya", birthCity: "Lome")
+
+        ensureDocumentExists(first)
+        ensureDocumentExists(second)
+
+        let query = Query().from("TestDocument").orderBy("birthCity")
+        AzureData.query(documentsIn: self.collectionId, as: TestDocument.self, inDatabase: self.databaseId, with: query, andPartitionKey: second.birthCity) { r in
+            XCTAssertTrue(r.result.isSuccess)
+            XCTAssertNotNil(r.resource)
+            XCTAssertEqual(r.resource?.items.count, 1)
+            XCTAssertEqual(r.resource?.items[0], second)
+
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: timeout)
+    }
+
+    func testQueryAcrossAllPartitions() {
+        let expectation = self.expectation(description: "should query documents across all partitions")
+
+        let first = TestDocument.stub(documentId + "1")
+        let second = TestDocument.stub(documentId + "2", firstName: "Anoura", lastName: "Akaya", birthCity: "Lome")
+
+        ensureDocumentExists(first)
+        ensureDocumentExists(second)
+
+        let query = Query().from("TestDocument").orderBy("birthCity")
+        AzureData.query(documentsAcrossAllPartitionsIn: self.collectionId, as: TestDocument.self, inDatabase: self.databaseId, with: query) { r in
+            XCTAssertTrue(r.result.isSuccess)
+            XCTAssertNotNil(r.resource)
+            XCTAssertEqual(r.resource?.items.count, 2)
+
+            XCTAssertFalse(r.resource?.items.filter({ $0.firstName == first.firstName }).isEmpty ?? true)
+            XCTAssertFalse(r.resource?.items.filter({ $0.firstName == second.firstName }).isEmpty ?? true)
+
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: timeout)
+    }
 }

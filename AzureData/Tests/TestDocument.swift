@@ -33,3 +33,12 @@ extension TestDocument {
         return TestDocument(id: id, firstName: firstName, lastName: lastName, birthCity: birthCity)
     }
 }
+
+extension TestDocument: Equatable {
+    static func == (lhs: TestDocument, rhs: TestDocument) -> Bool {
+        return lhs.id == rhs.id
+            && lhs.firstName == rhs.firstName
+            && lhs.lastName == rhs.lastName
+            && lhs.birthCity == rhs.birthCity
+    }
+}

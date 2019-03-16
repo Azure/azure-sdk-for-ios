@@ -260,14 +260,12 @@ class DocumentClient {
     // get
     func get<T: Document> (documentWithId documentId: String, as documentType:T.Type, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<T>) -> ()) {
         let query = Query().from(String(describing: documentType)).where("id", is: documentId)
-        let headers: HttpHeaders = [MSHttpHeader.msDocumentdbQueryEnableCrossPartition.rawValue: "true"]
-        return self.query(documentIn: collectionId, as: documentType, inDatabase: databaseId, with: query, additionalHeaders: headers, callback: callback)
+        return self.query(documentIn: collectionId, as: documentType, inDatabase: databaseId, with: query, andPartitionKey: nil, callback: callback)
     }
     
     func get<T: Document> (documentWithId documentId: String, as documentType: T.Type, in collection: DocumentCollection, callback: @escaping (Response<T>) -> ()) {
         let query = Query().from(String(describing: documentType)).where("id", is: documentId)
-        let headers: HttpHeaders = [MSHttpHeader.msDocumentdbQueryEnableCrossPartition.rawValue: "true"]
-        return self.query(documentIn: collection, as: documentType, with: query, additionalHeaders: headers, callback: callback)
+        return self.query(documentIn: collection, as: documentType, with: query, andPartitionKey: nil, callback: callback)
     }
 
     func get<T: Document> (documentWithId documentId: String, as documentType: T.Type, inCollection collectionId: String, withPartitionKey partitionKey: String, inDatabase databaseId: String, callback: @escaping (Response<T>) -> ()) {
@@ -308,26 +306,26 @@ class DocumentClient {
     }
     
     // query
-    func query<T: Document> (documentsIn collectionId: String, as documentType: T.Type, inDatabase databaseId: String, with query: Query, maxPerPage: Int? = nil, callback: @escaping (Response<Documents<T>>) -> ()) {
-        return self.query(query, at: .document(databaseId: databaseId, collectionId: collectionId, id: nil), maxPerPage: maxPerPage) { (r: Response<Resources<DocumentContainer<T>>>) in
+    func query<T: Document> (documentsIn collectionId: String, as documentType: T.Type, inDatabase databaseId: String, with query: Query, andPartitionKey partitionKey: String?, maxPerPage: Int? = nil, callback: @escaping (Response<Documents<T>>) -> ()) {
+        return self.query(query, at: .document(databaseId: databaseId, collectionId: collectionId, id: nil), withPartitionKey: partitionKey, maxPerPage: maxPerPage) { (r: Response<Resources<DocumentContainer<T>>>) in
             callback(r.map { Documents($0) })
         }
     }
     
-    func query<T: Document> (documentsIn collection: DocumentCollection, as documentType: T.Type, with query: Query, maxPerPage: Int? = nil, callback: @escaping (Response<Documents<T>>) -> ()) {
-        return self.query(query, at: .child(.document, in: collection, id: nil), maxPerPage: maxPerPage) { (r: Response<Resources<DocumentContainer<T>>>) in
+    func query<T: Document> (documentsIn collection: DocumentCollection, as documentType: T.Type, with query: Query, andPartitionKey partitionKey: String?, maxPerPage: Int? = nil, callback: @escaping (Response<Documents<T>>) -> ()) {
+        return self.query(query, at: .child(.document, in: collection, id: nil), withPartitionKey: partitionKey, maxPerPage: maxPerPage) { (r: Response<Resources<DocumentContainer<T>>>) in
             callback(r.map { Documents($0) })
         }
     }
 
-    func query<T: Document> (documentIn collectionId: String, as documentType: T.Type, inDatabase databaseId: String, with query: Query, maxPerPage: Int? = nil, additionalHeaders: HttpHeaders = [:], callback: @escaping (Response<T>) -> ()) {
-        return self.query(query, at: .document(databaseId: databaseId, collectionId: collectionId, id: nil), additionalHeaders: additionalHeaders) { (r: Response<DocumentContainer<T>>) in
+    func query<T: Document> (documentIn collectionId: String, as documentType: T.Type, inDatabase databaseId: String, with query: Query, andPartitionKey partitionKey: String?, callback: @escaping (Response<T>) -> ()) {
+        return self.query(query, at: .document(databaseId: databaseId, collectionId: collectionId, id: nil), withPartitionKey: partitionKey) { (r: Response<DocumentContainer<T>>) in
             callback(r.map { $0.document })
         }
     }
 
-    func query<T: Document> (documentIn collection: DocumentCollection, as documentType: T.Type, with query: Query, maxPerPage: Int? = nil, additionalHeaders: HttpHeaders = [:], callback: @escaping (Response<T>) -> ()) {
-        return self.query(query, at: .child(.document, in: collection, id: nil), additionalHeaders: additionalHeaders) { (r: Response<DocumentContainer<T>>) in
+    func query<T: Document> (documentIn collection: DocumentCollection, as documentType: T.Type, with query: Query, andPartitionKey partitionKey: String?, callback: @escaping (Response<T>) -> ()) {
+        return self.query(query, at: .child(.document, in: collection, id: nil), withPartitionKey: partitionKey) { (r: Response<DocumentContainer<T>>) in
             callback(r.map { $0.document })
         }
     }
@@ -666,7 +664,11 @@ class DocumentClient {
     // TODO: query
     
     
-    
+    // MARK: - Partition Key Ranges
+
+    private func getPartitionKeyRanges(forCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Resources<PartitionKeyRange>>) -> ()) {
+        return resources(at: .partitionKeyRange(databaseId: databaseId, collectionId: collectionId, id: nil), callback: callback)
+    }
     
     
     // MARK: - Resources
@@ -875,8 +877,8 @@ class DocumentClient {
     }
 
     // query
-    fileprivate func query<T: CodableResource>(_ query: Query, at resourceLocation: ResourceLocation, additionalHeaders: HttpHeaders = [:], callback: @escaping (Response<T>) -> ()) {
-        self.query(query, at: resourceLocation, maxPerPage: 1, additionalHeaders: additionalHeaders) { (response: Response<Resources<T>>) in
+    fileprivate func query<T: CodableResource>(_ query: Query, at resourceLocation: ResourceLocation, withPartitionKey partitionKey: String? = nil, additionalHeaders: HttpHeaders = [:], callback: @escaping (Response<T>) -> ()) {
+        self.query(query, at: resourceLocation, withPartitionKey: partitionKey, maxPerPage: 1, additionalHeaders: additionalHeaders) { (response: Response<Resources<T>>) in
             callback(
                 response
                     .map { $0.items.first }
@@ -885,11 +887,18 @@ class DocumentClient {
         }
     }
 
-    fileprivate func query<T:CodableResource> (_ query: Query, at resourceLocation: ResourceLocation, maxPerPage: Int? = nil, additionalHeaders: HttpHeaders = [:], callback: @escaping (Response<Resources<T>>) -> ()) {
+    fileprivate func query<T:CodableResource> (_ query: Query, at resourceLocation: ResourceLocation, withPartitionKey partitionKey: String?, maxPerPage: Int? = nil, additionalHeaders: HttpHeaders = [:], callback: @escaping (Response<Resources<T>>) -> ()) {
         
         guard !isOffline else { callback(Response(DocumentClientError(withKind: .serviceUnavailable))); return }
 
-        let headers = (HttpHeaders.msMaxItemCount(maxPerPage) ?? [:]).merging(additionalHeaders, uniquingKeysWith: { current, _ in current })
+        guard let partitionKey = partitionKey else {
+            crossPartitionQuery(query, at: resourceLocation, maxPerPage: maxPerPage, additionalHeaders: additionalHeaders, callback: callback)
+            return
+        }
+
+        let headers = HttpHeaders.msMaxItemCount(maxPerPage)
+            .merging(HttpHeaders.msDocumentdbPartitionKey(partitionKey))
+            .merging(additionalHeaders)
 
         dataRequest(forResourceAt: resourceLocation, withMethod: .post, andAdditionalHeaders: headers, forQuery: true) { r in
 
@@ -913,7 +922,51 @@ class DocumentClient {
             }
         }
     }
-    
+
+    fileprivate func crossPartitionQuery<T:CodableResource> (_ query: Query, at resourceLocation: ResourceLocation, maxPerPage: Int? = nil, additionalHeaders: HttpHeaders = [:], callback: @escaping (Response<Resources<T>>) -> ()) {
+
+        guard !isOffline else { callback(Response(DocumentClientError(withKind: .serviceUnavailable))); return }
+
+        guard let databaseId = resourceLocation.ancestorIds()[.database], let collectionId = resourceLocation.ancestorIds()[.collection] else {
+            callback(Response(DocumentClientError(withKind: .incompleteIds)))
+            return
+        }
+
+        getPartitionKeyRanges(forCollection: collectionId, inDatabase: databaseId) { [unowned self] r in
+            guard let partitionKeyRanges = r.resource, let partitionKeyRange = partitionKeyRanges.items.first else {
+                callback(Response(DocumentClientError(withKind: .noPartitionKeyRange)))
+                return
+            }
+
+            let headers = HttpHeaders.msMaxItemCount(maxPerPage)
+                .merging([MSHttpHeader.msDocumentdbQueryEnableCrossPartition.rawValue: "true"])
+                .merging([MSHttpHeader.msDocumentdbPartitionKeyRangeId.rawValue: "\(partitionKeyRanges.resourceId),\(partitionKeyRange.id)"])
+                .merging(additionalHeaders)
+
+            self.dataRequest(forResourceAt: resourceLocation, withMethod: .post, andAdditionalHeaders: headers, forQuery: true) { r in
+
+                if var request = r.resource {
+
+                    do {
+                        request.httpBody = try self.jsonEncoder.encode(query)
+                    } catch {
+                        callback(Response(error)); return
+                    }
+
+                    self.sendRequest(request) { (response:Response<Resources<T>>) in
+                        callback(response)
+
+                        if let resource = response.resource {
+                            ResourceCache.cache(resource)
+                        }
+                    }
+                } else {
+                    callback(Response(request: r.request, data: r.data, response: r.response, result: .failure(r.error ?? DocumentClientError(withKind: .unknownError))))
+                }
+            }
+        }
+    }
+
     // execute
     fileprivate func execute<T:CodableResource, R: Encodable>(_ type: T.Type, withBody body: R? = nil, at resourceLocation: ResourceLocation, callback: @escaping (Response<Data>) -> ()) {
         
@@ -1198,8 +1251,8 @@ class DocumentClient {
 fileprivate extension Dictionary where Key == String, Value == String {
     /// HttpHeaders.msMaxItemCount(100) -> ["x-ms-max-item-count": "100"]
     /// HttpHeaders.msMaxItemCount(nil) -> nil
-    static func msMaxItemCount(_ value: Int?) -> HttpHeaders? {
-        guard let value = value else { return nil }
+    static func msMaxItemCount(_ value: Int?) -> HttpHeaders {
+        guard let value = value else { return [:] }
         return [MSHttpHeader.msMaxItemCount.rawValue: "\(value)"]
     }
 

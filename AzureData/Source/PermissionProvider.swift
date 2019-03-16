@@ -118,7 +118,7 @@ extension PermissionProvider {
         
         switch location {
             
-        case .database, .user, .permission, .offer, .collection(_, nil):
+        case .database, .user, .permission, .offer, .collection(_, nil), .partitionKeyRange:
             
             completion(Response(PermissionProviderError.invalidResourceType))
             
@@ -161,7 +161,7 @@ extension PermissionProvider {
             
             switch location.resourceType {
                 
-            case .database, .user, .permission, .offer:
+            case .database, .user, .permission, .offer, .partitionKeyRange:
                 
                 completion(Response(PermissionProviderError.invalidResourceType))
                 
@@ -216,7 +216,7 @@ extension PermissionProvider {
             
             switch location.resourceType {
                 
-            case .database, .user, .permission, .offer, .collection:
+            case .database, .user, .permission, .offer, .collection, .partitionKeyRange:
                 
                 completion(Response(PermissionProviderError.invalidResourceType))
                 
@@ -239,7 +239,7 @@ extension PermissionProvider {
             
             switch location.resourceType {
                 
-            case .database, .user, .permission, .offer:
+            case .database, .user, .permission, .offer, .partitionKeyRange:
                 
                 completion(Response(PermissionProviderError.invalidResourceType))
                 

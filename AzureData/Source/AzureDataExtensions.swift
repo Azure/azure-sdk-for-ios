@@ -139,8 +139,8 @@ public extension DocumentCollection {
     }
     
     // query
-    public func query<T: Document> (documentsWith query: Query, as documentType: T.Type, maxPerPage: Int? = nil, callback: @escaping (Response<Documents<T>>) -> ()) {
-        return DocumentClient.shared.query(documentsIn: self, as: documentType, with: query, maxPerPage: maxPerPage, callback: callback)
+    public func query<T: Document> (documentsWith query: Query, as documentType: T.Type, withPartitionKey partitionKey: String?, maxPerPage: Int? = nil, callback: @escaping (Response<Documents<T>>) -> ()) {
+        return DocumentClient.shared.query(documentsIn: self, as: documentType, with: query, andPartitionKey: partitionKey, maxPerPage: maxPerPage, callback: callback)
     }
 
     
