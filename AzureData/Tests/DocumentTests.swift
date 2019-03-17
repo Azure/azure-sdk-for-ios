@@ -187,4 +187,77 @@ class DocumentTests: _AzureDataTests {
 
         wait(for: [expectation], timeout: timeout)
     }
+
+    func testQueryResultsAreCachedLocally() {
+        let expectation = self.expectation(description: "should cache query results locally")
+
+        let first = TestDocument.stub(documentId + "1")
+        let second = TestDocument.stub(documentId + "2", firstName: "Anoura", lastName: "Akaya", birthCity: "Lome")
+
+        ensureDocumentExists(first)
+        ensureDocumentExists(second)
+
+        var resources: [TestDocument] = []
+        let query = Query().from("TestDocument")
+        AzureData.query(documentsAcrossAllPartitionsIn: self.collectionId, as: TestDocument.self, inDatabase: self.databaseId, with: query) { r in
+            XCTAssertTrue(r.result.isSuccess)
+            resources = r.resource?.items ?? []
+
+            self.wait {
+                expectation.fulfill()
+            }
+        }
+
+        wait(for: [expectation], timeout: self.timeout)
+
+        let cachesDirectoryUrl = try! URL(string: "com.azure.data/", relativeTo: FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: false))!
+
+        resources.forEach { resource in
+            let url = URL(string: "queries/\(query.hashValue)/results/\(resource.resourceId).json", relativeTo: cachesDirectoryUrl)!
+            XCTAssertTrue(FileManager.default.fileExists(atPath: url.path))
+        }
+    }
+
+    func testQueryResultsAreFetchedFromLocalCacheWhenNetworkIsNotReachable() {
+        let expectation = self.expectation(description: "should fetch query results from the local cache")
+
+        let first = TestDocument.stub(documentId + "1")
+        let second = TestDocument.stub(documentId + "2", firstName: "Anoura", lastName: "Akaya", birthCity: "Lome")
+
+        ensureDocumentExists(first)
+        ensureDocumentExists(second)
+
+        var onlineResources: [TestDocument] = []
+        var offlineResources: [TestDocument] = []
+
+        let query = Query().from("TestDocument")
+
+        AzureData.query(documentsAcrossAllPartitionsIn: self.collectionId, as: TestDocument.self, inDatabase: self.databaseId, with: query) { r in
+            XCTAssertTrue(r.result.isSuccess)
+
+            onlineResources = r.resource?.items ?? []
+
+            self.wait {
+                self.turnOffInternetConnection()
+
+                AzureData.query(documentsAcrossAllPartitionsIn: self.collectionId, as: TestDocument.self, inDatabase: self.databaseId, with: query) { r in
+                    XCTAssertTrue(r.result.isSuccess)
+                    XCTAssertTrue(r.fromCache)
+
+                    offlineResources = r.resource?.items ?? []
+
+                    expectation.fulfill()
+                }
+            }
+        }
+
+        wait(for: [expectation], timeout: self.timeout)
+
+        XCTAssertFalse(onlineResources.isEmpty)
+        XCTAssertFalse(offlineResources.isEmpty)
+
+        offlineResources.forEach { resource in
+            XCTAssertTrue(onlineResources.contains(where: { $0.resourceId == resource.resourceId }))
+        }
+    }
 }

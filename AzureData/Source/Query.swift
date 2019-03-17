@@ -309,3 +309,25 @@ extension Query {
         return self
     }
 }
+
+
+
+extension Query : Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(type)
+        hasher.combine(selectProperties)
+        hasher.combine(fromFragment)
+        hasher.combine(whereFragment)
+        hasher.combine(andFragments)
+        hasher.combine(orderByFragment)
+    }
+
+    public static func == (lhs: Query, rhs: Query) -> Bool {
+        return lhs.type == rhs.type
+            && lhs.selectProperties == rhs.selectProperties
+            && lhs.fromFragment == rhs.fromFragment
+            && lhs.whereFragment == rhs.whereFragment
+            && lhs.andFragments == rhs.andFragments
+            && lhs.orderByFragment == rhs.orderByFragment
+    }
+}

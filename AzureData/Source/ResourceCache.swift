@@ -102,6 +102,27 @@ public class ResourceCache {
         }
     }
 
+    static func cache<T: CodableResource>(_ resources: Resources<T>, for query: Query, usingContentPath contentPath: String) {
+        guard resources.count > 0 else { return }
+
+        dispatchQueue.async {
+            let metadata = ResourcesMetadata(resourceId: resources.resourceId, contentPath: contentPath)
+
+            do {
+                let metadataUrl = try FileManager.default.metadatafileUrl(for: query)
+                try jsonEncoder.encode(metadata).write(to: metadataUrl)
+
+                try resources.items.forEach { resource in
+                    let data = try jsonEncoder.encode(resource)
+                    let url = try FileManager.default.fileUrl(for: resource, asResultOf: query)
+
+                    try data.write(to: url)
+                }
+            } catch {
+                Log.error("❌ Cache Error \(#function): " + error.localizedDescription)
+            }
+        }
+    }
 
     // MARK: - replace
 
@@ -182,6 +203,33 @@ public class ResourceCache {
             }
         } catch {
             Log.error("❌ Cache Error [get]: " + error.localizedDescription)
+            return nil
+        }
+    }
+
+    static func get<T: CodableResource>(for query: Query, as type: T.Type = T.self) -> Resources<T>? {
+        guard isEnabled else { return nil }
+
+        do {
+            let metadataUrl = try FileManager.default.metadatafileUrl(for: query)
+
+            if let metadata = FileManager.default.contents(atPath: metadataUrl.path) {
+                let resourcesMetadata = try jsonDecoder.decode(ResourcesMetadata.self, from: metadata)
+
+                let filesUrls = try FileManager.default.resultsFilesUrls(for: query)
+                let data = filesUrls.compactMap { FileManager.default.contents(atPath: $0.path) }
+                let items = try data.map { try jsonDecoder.decode(T.self, from: $0) }
+
+                var resources = Resources(resourceId: resourcesMetadata.resourceId, count: items.count, items: items)
+                resources.setAltLinks(withContentPath: resourcesMetadata.contentPath)
+
+                return resources
+            }
+
+            return nil
+
+        } catch {
+            Log.error("❌ Cache Error \(#function): " + error.localizedDescription)
             return nil
         }
     }
@@ -273,7 +321,51 @@ extension FileManager {
         return try cacheFileUrl(for: path.file)
     }
 
-    
+    fileprivate func fileUrl(for query: Query) throws -> URL {
+        let url = try self.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+            .appendingPathComponent(FileManager.root)
+            .appendingPathComponent("queries")
+            .appendingPathComponent("\(query.hashValue)")
+
+        if !fileExists(atPath: url.path) {
+            try self.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
+        }
+
+        return url
+    }
+
+    fileprivate func metadatafileUrl(for query: Query) throws -> URL {
+        let url = try fileUrl(for: query)
+            .appendingPathComponent("metadata.json")
+
+        return url
+    }
+
+    fileprivate func resultsDirectoryUrl(for query: Query) throws -> URL {
+        let url = try fileUrl(for: query)
+            .appendingPathComponent("results")
+
+        if !fileExists(atPath: url.path) {
+            try self.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
+        }
+
+        return url
+    }
+
+    fileprivate func fileUrl(for resource: CodableResource, asResultOf query: Query) throws -> URL {
+        let filename = "\(resource.selfLink?.lastPathComponent ?? resource.resourceId).json"
+        let url = try resultsDirectoryUrl(for: query)
+            .appendingPathComponent(filename)
+
+        return url
+    }
+
+    fileprivate func resultsFilesUrls(for query: Query) throws -> [URL] {
+        let url = try resultsDirectoryUrl(for: query)
+
+        return try self.contentsOfDirectory(at: url, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
+    }
+
     fileprivate func fileUrls(for path: String) throws -> [URL] {
         
         let url = try cacheFileUrl(for: path)
@@ -313,7 +405,6 @@ extension FileManager {
         
         return urls.compactMap { self.contents(atPath: $0.path) }
     }
-
     
     fileprivate func remove(at path: String?) throws {
         
@@ -334,6 +425,10 @@ extension FileManager {
         let offers = try self.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent(FileManager.root).appendingPathComponent("offers")
         
         try purgeContents(of: offers)
+
+        let queries = try self.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent(FileManager.root).appendingPathComponent("queries")
+
+        try purgeContents(of: queries)
     }
     
     
@@ -401,4 +496,9 @@ fileprivate extension Optional where Wrapped == ResourcesPaginationParams {
         guard let params = self else { return nil }
         return params.stringValue
     }
+}
+
+fileprivate struct ResourcesMetadata: Codable {
+    let resourceId: String
+    let contentPath: String
 }

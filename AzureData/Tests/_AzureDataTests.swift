@@ -177,7 +177,9 @@ class _AzureDataTests: XCTestCase {
 
     func cleanUp(completion: @escaping () -> Void) {
         AzureData.delete(databaseWithId: self.databaseId) { _ in
-            completion()
+            self.purgeCache {
+                completion()
+            }
         }
     }
 
