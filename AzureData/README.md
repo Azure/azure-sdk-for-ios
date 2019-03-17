@@ -385,26 +385,44 @@ collection.replace (document) { r in
 
 #### Query
 ```swift
+let query = Query().from("Person")
+                 .where("firstName", is: "Colby")
+                 .and("lastName", is: "Williams")
+                 .orderBy("birthCity", descending: true)
+
+AzureData.query(documentsIn: collectionId, as: Person.self, inDatabase: databaseId, with: query, andPartitionKey: partitionKey) { r in
+    // documents = r.resource?.items
+}
+
+AzureData.query(documentsIn: collection, as: Person.self, with: query, andPartitionKey: partitionKey) { r in
+    // documents = r.resource?.items
+}
+
+collection.query (documentsWith: query, as: Person.self, withPartitionKey: partitionKey) { r in
+    // documents in r.resource?.list
+}
+```
+
+##### Query across all partitions
+```swift
 let query = Query.select("firstName", "lastName", ...)
                  .from("Person")
                  .where("firstName", is: "Colby")
                  .and("lastName", is: "Williams")
                  .orderBy("birthCity", descending: true)
 
-AzureData.query(documentsIn: collectionId, as: Person.self, inDatabase: databaseId, with: query) { r in
+AzureData.query(documentsAcrossAllPartitionsIn: collectionId, as: Person.self, inDatabase: databaseId, with: query, andPartitionKey: partitionKey) { r in
     // documents = r.resource?.items
 }
 
-AzureData.query(documentsIn: collection, as: Person.self, with: query) { r in
+AzureData.query(documentsAcrossAllPartitionsIn: collection, as: Person.self, with: query, andPartitionKey: partitionKey) { r in
     // documents = r.resource?.items
 }
 
-collection.query (documentsWith: query, as: Person.self) { r in
+collection.query (documentsAcrossAllPartitionsIn: query, as: Person.self, withPartitionKey: partitionKey) { r in
     // documents in r.resource?.list
 }
 ```
-
-
 
 ## Attachments
 
