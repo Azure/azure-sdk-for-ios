@@ -30,6 +30,10 @@ extension Point: ExpressibleByArrayLiteral {
     public typealias ArrayLiteralElement = CLLocationDegrees
 
     public init(arrayLiteral elements: CLLocationDegrees...) {
+        guard elements.count >= 2 else {
+            fatalError("an array literal representing a `Point` should have at least 2 elements")
+        }
+
         self.init(coordinate: CLLocationCoordinate2D(latitude: elements[1], longitude: elements[0]))
     }
 }
