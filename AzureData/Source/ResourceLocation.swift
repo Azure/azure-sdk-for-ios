@@ -34,6 +34,7 @@ public enum ResourceLocation {
     case document(databaseId: String, collectionId: String, id: String?)
     case attachment(databaseId: String, collectionId: String, documentId: String, id: String?)
     case offer(id: String?)
+    case partitionKeyRange(databaseId: String, collectionId: String, id: String?)
     case resource(resource: CodableResource)
     case child(_ :ResourceType, in: CodableResource, id: String?)
     
@@ -50,6 +51,7 @@ public enum ResourceLocation {
         case let .document(databaseId, collectionId, id):               return "dbs/"   + databaseId + "/colls/" + collectionId + "/docs"     + id.path
         case let .attachment(databaseId, collectionId, documentId, id): return "dbs/"   + databaseId + "/colls/" + collectionId + "/docs/" + documentId + "/attachments" + id.path
         case let .offer(id):                                            return "offers" + id.path
+        case let .partitionKeyRange(databaseId, collectionId, id):      return "dbs/"   + databaseId + "/colls/" + collectionId + "/pkranges" + id.path
         case let .resource(resource):                                   return ResourceOracle.getAltLink(forResource: resource)!
         case let .child(type, resource, id):                            return ResourceOracle.getAltLink(forResource: resource)! + "/" + type.rawValue + id.path
         }
@@ -68,6 +70,7 @@ public enum ResourceLocation {
         case let .document(databaseId, collectionId, id):               return "dbs/"   + databaseId + "/colls/" + collectionId + id.path(in:"/docs")
         case let .attachment(databaseId, collectionId, documentId, id): return "dbs/"   + databaseId + "/colls/" + collectionId + "/docs/" + documentId + id.path(in:"/attachments")
         case let .offer(id):                                            return id?.lowercased() ?? ""
+        case let .partitionKeyRange(databaseId, collectionId, _):      return "dbs/"   + databaseId + "/colls/" + collectionId
         case let .resource(resource):                                   return ResourceOracle.getAltLink(forResource: resource)!
         case let .child(type, resource, id):                            return ResourceOracle.getAltLink(forResource: resource)! + id.path(in:"/" + type.rawValue)
         }
@@ -83,9 +86,10 @@ public enum ResourceLocation {
         case .storedProcedure:      return StoredProcedure.type
         case .trigger:              return Trigger.type
         case .udf:                  return UserDefinedFunction.type
-        case .document:             return Document.type
+        case .document:             return DocumentContainer<AnyDocument>.type
         case .attachment:           return Attachment.type
         case .offer:                return Offer.type
+        case .partitionKeyRange:    return PartitionKeyRange.type
         case let .resource(r):      return r.path
         case let .child(t, _, _):   return t.rawValue
         }
@@ -104,6 +108,7 @@ public enum ResourceLocation {
         case .document:             return .document
         case .attachment:           return .attachment
         case .offer:                return .offer
+        case .partitionKeyRange:    return .partitionKeyRange
         case let .resource(r):      return ResourceType(rawValue: r.path)!
         case let .child(t, _, _):   return t
         }
@@ -122,6 +127,7 @@ public enum ResourceLocation {
         case let .document(_, _, id):       	return id
         case let .attachment(_, _, _, id):  	return id
         case let .offer(id):                	return id
+        case let .partitionKeyRange(_, _, id):  return id
         case let .resource(resource):       	return resource.id
         case let .child(_, _, id):          	return id
         }
@@ -140,6 +146,7 @@ public enum ResourceLocation {
         case let .document(databaseId, collectionId, _):                return [ .database : databaseId, .collection : collectionId ]
         case let .attachment(databaseId, collectionId, documentId, _):  return [ .database : databaseId, .collection : collectionId, .document : documentId ]
         case .offer:                                                    return [:]
+        case let .partitionKeyRange(databaseId, collectionId, _):       return [ .database : databaseId, .collection : collectionId ]
         case let .resource(resource):                                   return resource.ancestorIds()
         case let .child(_, resource, _):                                return resource.ancestorIds(includingSelf: true)
         }
@@ -206,6 +213,7 @@ extension ResourceLocation {
         case .attachment:             return "\(parent)/attachments"
         case .permission:             return "\(parent)/permissions"
         case .offer:                  return "\(parent)"
+        case .partitionKeyRange:      return "\(parent)/pkranges"
         case .child(let type, _, _):  return "\(parent)/\(type.rawValue)"
         case .resource(let resource): return ResourceOracle.getSelfLink(forResource: resource)?.lastPathComponentRemoved
         }
@@ -229,6 +237,8 @@ extension ResourceLocation {
             return ResourceOracle.getSelfLink(forResourceAt: .user(databaseId: databaseId, id: userId))
         case .offer:
             return "offers"
+        case .partitionKeyRange(let databaseId, let collectionId, _):
+            return ResourceOracle.getSelfLink(forResourceAt: .collection(databaseId: databaseId, id: collectionId))
         case .child(_, let parent, _):
             return ResourceOracle.getSelfLink(forResource: parent)
         case .resource(let resource):
@@ -252,6 +262,7 @@ extension ResourceLocation: Codable {
         case document
         case attachment
         case offer
+        case partitionKeyRange
         case resource
         case child
     }
@@ -320,6 +331,13 @@ extension ResourceLocation: Codable {
             return
         }
 
+        if let partitionKeyRange = try container.decodeIfPresent([String: String?].self, forKey: .partitionKeyRange),
+            let databaseId = partitionKeyRange["databaseId"], let collectionId = partitionKeyRange["collectionId"],
+            let partitionKeyRangeId = partitionKeyRange["id"] {
+            self = .partitionKeyRange(databaseId: databaseId!, collectionId: collectionId!, id: partitionKeyRangeId)
+            return
+        }
+
         if let resource = try container.decodeIfPresent([String: String?].self, forKey: .resource),
            let altLink = resource["altLink"],
            let codableResourceString = resource["resource"],
@@ -368,6 +386,8 @@ extension ResourceLocation: Codable {
             try container.encode(["databaseId": databaseId, "collectionId": collectionId, "documentId": documentId, "id": id], forKey: .attachment)
         case .offer(let id):
             try container.encode(["id": id], forKey: .offer)
+        case .partitionKeyRange(let databaseId, let collectionId, let id):
+            try container.encode(["databaseId": databaseId, "collectionId": collectionId, "id": id], forKey: .partitionKeyRange)
         case .resource(let resource):
             try container.encode(
                 [

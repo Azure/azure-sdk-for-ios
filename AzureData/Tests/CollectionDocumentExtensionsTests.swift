@@ -8,127 +8,122 @@
 
 import XCTest
 @testable import AzureData
+@testable import AzureCore
 
-class CollectionDocumentExtensionsTests: AzureDataTests {
-    
+class CollectionDocumentExtensionsTests: _AzureDataTests {
     override func setUp() {
-        resourceType = .document
-        resourceName = "CollectionDocumentExtensions"
-        ensureDatabase = true
-        ensureCollection = true
         super.setUp()
+        resourceType = .document
+        resourceName = "Person"
+        partitionKey = "/birthCity"
     }
 
-    override func tearDown() { super.tearDown() }
+    func testCreate() {
+        let expectation = self.expectation(description: "should create document")
+        let document = TestDocument.stub(documentId)
 
-    
-    func testCollectionCrud() {
-        
-        var createResponse:     Response<DictionaryDocument>?
-        var listResponse:       Response<Resources<DictionaryDocument>>?
-        var getResponse:        Response<DictionaryDocument>?
-        var deleteResponse:     Response<Data>?
-        var queryResponse:      Response<Resources<DictionaryDocument>>?
+        ensureCollectionExists { collection in
+            collection.create(document) { r in
+                XCTAssertTrue(r.result.isSuccess)
+                XCTAssertNotNil(r.resource)
+                XCTAssertFalse(r.resource?.resourceId.isEmpty ?? true)
+                XCTAssertEqual(r.resource?.firstName, document.firstName)
+                XCTAssertEqual(r.resource?.lastName, document.lastName)
+                XCTAssertEqual(r.resource?.birthCity, document.birthCity)
 
-        
-        if let collection = self.collection {
-        
-            let newDocument = DictionaryDocument(resourceId)
-            
-            newDocument[customStringKey] = customStringValue
-            newDocument[customNumberKey] = customNumberValue
-            
-            
-            // Create
-            collection.create(newDocument) { r in
-                createResponse = r
-                self.createExpectation.fulfill()
+                expectation.fulfill()
             }
-            
-            wait(for: [createExpectation], timeout: timeout)
-            
-            XCTAssertNotNil(createResponse?.resource)
-            
-            if let document = createResponse?.resource {
-                
-                XCTAssertNotNil(document[customStringKey] as? String)
-                XCTAssertEqual (document[customStringKey] as! String, customStringValue)
-                XCTAssertNotNil(document[customNumberKey] as? Int)
-                XCTAssertEqual (document[customNumberKey] as! Int, customNumberValue)
-            }
-            
-            
-            // List
-            collection.get(documentsAs: DictionaryDocument.self) { r in
-                listResponse = r
-                self.listExpectation.fulfill()
-            }
-            
-            wait(for: [listExpectation], timeout: timeout)
-            
-            XCTAssertNotNil(listResponse?.resource)
-            
-            
-            // Query
-            let query = Query.select()
-                .from(collectionId)
-                .where("\(customStringKey)", is: customStringValue)
-                .and("\(customNumberKey)", is: customNumberValue)
-                .orderBy("_etag", descending: true)
-            
-            collection.query(documentsWith: query) { (r:Response<Resources<DictionaryDocument>>?) in
-                queryResponse = r
-                self.queryExpectation.fulfill()
-            }
-            
-            wait(for: [queryExpectation], timeout: timeout)
-            
-            XCTAssertNotNil(queryResponse?.resource?.items.first)
-            
-            if let document = queryResponse?.resource?.items.first {
-                
-                XCTAssertNotNil(document[customStringKey] as? String)
-                XCTAssertEqual (document[customStringKey] as! String, customStringValue)
-                XCTAssertNotNil(document[customNumberKey] as? Int)
-                XCTAssertEqual (document[customNumberKey] as! Int, customNumberValue)
-            }
-            
-            
-            // Get
-            if let document = createResponse?.resource {
-                
-                collection.get(documentWithId: document.id, as: DictionaryDocument.self) { r in
-                    getResponse = r
-                    self.getExpectation.fulfill()
-                }
-                
-                wait(for: [getExpectation], timeout: timeout)
-            }
-            
-            XCTAssertNotNil(getResponse?.resource)
-            
-            if let document = getResponse?.resource {
-                
-                XCTAssertNotNil(document[customStringKey] as? String)
-                XCTAssertEqual (document[customStringKey] as! String, customStringValue)
-                XCTAssertNotNil(document[customNumberKey] as? Int)
-                XCTAssertEqual (document[customNumberKey] as! Int, customNumberValue)
-            }
-
-            
-            // Delete
-            if let document = createResponse?.resource {
-                
-                collection.delete(document) { r in
-                    deleteResponse = r
-                    self.deleteExpectation.fulfill()
-                }
-                
-                wait(for: [deleteExpectation], timeout: timeout)
-            }
-            
-            XCTAssert(deleteResponse?.result.isSuccess ?? false)
         }
+
+        wait(for: [expectation], timeout: timeout)
+    }
+
+    func testCreateOrReplace() {
+        let expectation = self.expectation(description: "should replace document")
+        let document = TestDocument.stub(documentId)
+
+        ensureCollectionExists { collection in
+            self.ensureDocumentExists(document) { oldDocument in
+                let newDocument = TestDocument.stub(oldDocument.id, firstName: "Baba", birthCity: "Lome")
+
+                collection.createOrReplace(newDocument) { r in
+                    XCTAssertTrue(r.result.isSuccess)
+                    XCTAssertNotNil(r.resource)
+                    XCTAssertFalse(r.resource?.resourceId.isEmpty ?? true)
+                    XCTAssertEqual(r.resource?.id, oldDocument.id)
+                    XCTAssertEqual(r.resource?.firstName, newDocument.firstName)
+                    XCTAssertEqual(r.resource?.lastName, newDocument.lastName)
+                    XCTAssertEqual(r.resource?.birthCity, newDocument.birthCity)
+
+                    expectation.fulfill()
+                }
+            }
+        }
+
+        wait(for: [expectation], timeout: timeout)
+    }
+
+    func testGet() {
+        let expectation = self.expectation(description: "should get document")
+        let document = TestDocument.stub(documentId)
+
+        ensureCollectionExists { collection in
+            self.ensureDocumentExists(document)
+            collection.get(documentWithId: document.id, as: TestDocument.self) { r in
+                XCTAssertTrue(r.result.isSuccess)
+                XCTAssertNotNil(r.resource)
+                XCTAssertFalse(r.resource?.resourceId.isEmpty ?? true)
+                XCTAssertEqual(r.resource?.firstName, document.firstName)
+                XCTAssertEqual(r.resource?.lastName, document.lastName)
+                XCTAssertEqual(r.resource?.birthCity, document.birthCity)
+
+                expectation.fulfill()
+            }
+        }
+
+        wait(for: [expectation], timeout: timeout)
+    }
+
+    func testList() {
+        let expectation = self.expectation(description: "should list documents")
+
+        ensureCollectionExists { collection in
+            let first = TestDocument.stub(self.documentId + "1")
+            let second = TestDocument.stub(self.documentId + "2", firstName: "Farid", lastName: "Akaya", birthCity: "Lome")
+
+            self.ensureDocumentExists(first)
+            self.ensureDocumentExists(second)
+
+            collection.get(documentsAs: TestDocument.self) { r in
+                XCTAssertTrue(r.result.isSuccess)
+                XCTAssertNotNil(r.resource)
+                XCTAssertEqual(r.resource?.items.count, 2)
+
+                XCTAssertFalse(r.resource?.items.filter({ $0.firstName == first.firstName }).isEmpty ?? true)
+                XCTAssertFalse(r.resource?.items.filter({ $0.firstName == second.firstName }).isEmpty ?? true)
+
+                expectation.fulfill()
+            }
+        }
+
+        wait(for: [expectation], timeout: timeout)
+    }
+
+    func testDelete() {
+        let expectation = self.expectation(description: "should delete document")
+        let document = TestDocument.stub(documentId)
+
+        ensureCollectionExists { collection in
+            self.ensureDocumentExists(document) { (document: TestDocument) in
+                collection.delete(document) { r in
+                    XCTAssertTrue(r.result.isSuccess)
+
+                    expectation.fulfill()
+                }
+            }
+        }
+
+        wait(for: [expectation], timeout: timeout)
     }
 }
 

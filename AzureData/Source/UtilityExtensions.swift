@@ -175,6 +175,8 @@ extension CodableResource {
             return ResourceLocation.user(databaseId: selfLink.extractId(for: .user)!, id: parent.id)
         case .udf:
             return ResourceLocation.udf(databaseId: selfLink.extractId(for: .database)!, collectionId: selfLink.extractId(for: .collection)!, id: parent.id)
+        case .partitionKeyRange:
+            return ResourceLocation.partitionKeyRange(databaseId: selfLink.extractId(for: .database)!, collectionId: selfLink.extractId(for: .collection)!, id: parent.id)
         }
     }
 }

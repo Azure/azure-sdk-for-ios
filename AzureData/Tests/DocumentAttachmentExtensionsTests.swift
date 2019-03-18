@@ -8,15 +8,17 @@
 
 import XCTest
 @testable import AzureData
+@testable import AzureCore
 
 class DocumentAttachmentExtensionsTests: AzureDataTests {
-    
+
     override func setUp() {
         resourceType = .attachment
         resourceName = "DocumentAttachmentExtensions"
         ensureDatabase = true
         ensureCollection = true
-        ensureDocument = true
+        ensureDocument = TestDocument.stub(documentId)
+
         super.setUp()
     }
     

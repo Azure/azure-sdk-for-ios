@@ -8,9 +8,10 @@
 
 import XCTest
 @testable import AzureData
+@testable import AzureCore
 
 class CollectionUserDefinedFunctionExtensionsTests: AzureDataTests {
-    
+
     override func setUp() {
         resourceType = .udf
         resourceName = "CollectionUserDefinedFunctionExtensions"

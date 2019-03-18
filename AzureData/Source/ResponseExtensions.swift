@@ -104,3 +104,33 @@ extension Response {
         return response?.allHeaderFields[MSHttpHeader.msContentPath.rawValue] as? String
     }
 }
+
+// MARK: -
+
+extension Response where T: OptionalType {
+    func unwrap(orErrorWith error: @autoclosure () -> Error) -> Response<T.Wrapped> {
+        return Response<T.Wrapped>(
+            request: request,
+            data: data,
+            response: response,
+            result: result.map { data in
+                if data.optional == nil {
+                    throw error()
+                }
+                return data.optional!
+            },
+            fromCache: fromCache
+        )
+    }
+}
+
+protocol OptionalType {
+    associatedtype Wrapped
+    var optional: Wrapped? { get }
+}
+
+extension Optional: OptionalType {
+    var optional: Wrapped? {
+        return self
+    }
+}

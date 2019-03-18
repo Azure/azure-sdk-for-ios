@@ -8,9 +8,10 @@
 
 import XCTest
 @testable import AzureData
+@testable import AzureCore
 
 class StoredProcedureTests: AzureDataTests {
-    
+
     override func setUp() {
         resourceType = .storedProcedure
         ensureDatabase = true

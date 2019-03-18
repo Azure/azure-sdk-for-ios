@@ -8,6 +8,7 @@
 
 import XCTest
 @testable import AzureData
+@testable import AzureCore
 
 class AttachmentTests: AzureDataTests {
 
@@ -15,7 +16,7 @@ class AttachmentTests: AzureDataTests {
         resourceType = .attachment
         ensureDatabase = true
         ensureCollection = true
-        ensureDocument = true
+        ensureDocument = TestDocument.stub(documentId)
         super.setUp()
     }
 
@@ -33,9 +34,10 @@ class AttachmentTests: AzureDataTests {
 
         let url: URL! = URL(string: "https://azuredatatests.blob.core.windows.net/attachment-tests/youre%20welcome.jpeg?st=2017-11-07T14%3A00%3A00Z&se=2020-11-08T14%3A00%3A00Z&sp=rl&sv=2017-04-17&sr=c&sig=RAHr6Mee%2Bt7RrDnGHyjgSX3HSqJgj8guhy0IrEMh3KQ%3D")
         
-        
+        let partitionKey = DocumentType.partitionKey.flatMap { document?[keyPath: $0] }
+
         // Create
-        AzureData.create (attachmentWithId: resourceId, contentType: "image/jpeg", andMediaUrl: url, onDocument: documentId, inCollection: collectionId, inDatabase: databaseId) { r in
+        AzureData.create (attachmentWithId: resourceId, contentType: "image/jpeg", andMediaUrl: url, onDocument: documentId, inCollection: collectionId, withPartitionKey: partitionKey, inDatabase: databaseId) { r in
             createResponse = r
             self.createExpectation.fulfill()
         }
@@ -46,7 +48,7 @@ class AttachmentTests: AzureDataTests {
         
         
         // List
-        AzureData.get(attachmentsOn: documentId, inCollection: collectionId, inDatabase: databaseId) { r in
+        AzureData.get(attachmentsOn: documentId, inCollection: collectionId, withPartitionKey: partitionKey, inDatabase: databaseId) { r in
             listResponse = r
             self.listExpectation.fulfill()
         }
@@ -59,7 +61,7 @@ class AttachmentTests: AzureDataTests {
         // Replace
         if let attachment = createResponse?.resource  {
             
-            AzureData.replace(attachmentWithId: attachment.id, contentType: "image/jpeg", andMediaUrl: url, onDocument: documentId, inCollection: collectionId, inDatabase: databaseId) { r in
+            AzureData.replace(attachmentWithId: attachment.id, contentType: "image/jpeg", andMediaUrl: url, onDocument: documentId, inCollection: collectionId, withPartitionKey: partitionKey, inDatabase: databaseId) { r in
                 replaceResponse = r
                 self.replaceExpectation.fulfill()
             }
@@ -71,9 +73,9 @@ class AttachmentTests: AzureDataTests {
         
         
         // Delete
-        if let attachment = replaceResponse?.resource ?? createResponse?.resource {
+        if let document = document, let attachment = replaceResponse?.resource ?? createResponse?.resource {
             
-            AzureData.delete (attachment) { r in
+            AzureData.delete(attachmentWithId: attachment.id, from: document) { r in
                 deleteResponse = r
                 self.deleteExpectation.fulfill()
             }

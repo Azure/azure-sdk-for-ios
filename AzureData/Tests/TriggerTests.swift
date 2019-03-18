@@ -8,9 +8,10 @@
 
 import XCTest
 @testable import AzureData
+@testable import AzureCore
 
 class TriggerTests: AzureDataTests {
-    
+
     override func setUp() {
         resourceType = .trigger
         ensureDatabase = true
@@ -19,7 +20,7 @@ class TriggerTests: AzureDataTests {
     }
     
     override func tearDown() { super.tearDown() }
-    
+
     func testTriggerCrud() {
 
         var createResponse:     Response<Trigger>?

@@ -113,17 +113,31 @@ database.delete { r in
 
 #### Create
 ```swift
-AzureData.create (collectionWithId: id, inDatabase: databaseId) { r in
+AzureData.create (collectionWithId: id, andPartitionKey: partitionKey, inDatabase: databaseId) { r in
     // collection = r.resource
 }
 
-AzureData.create (collectionWithId: id, in: database) { r in 
+AzureData.create (collectionWithId: id, andPartitionKey: partitionKey, in: database) { r in 
     // collection = r.resource
 }
 
-database.create (collectionWithId: id) { r in
+database.create (collectionWithId: id, andPartitionKey: partitionKey) { r in
     // collection = r.resource
 }
+```
+
+The `partitionKey` can be provided as a simple string or an array of strings (in case of multiple partition keys) or an object of type `DocumentCollection.PartitionKeyDefinition`. Example:
+
+```swift
+AzureData.create (collectionWithId: id, andPartitionKey: "/birthCity", inDatabase: database) { _ in }
+
+// or
+
+AzureData.create (collectionWithId: id, andPartitionKey: ["/birthCity", "/residencyCity"], inDatabase: database) { _ in }
+
+// or
+
+AzureData.create (collectionWithId: id, andPartitionKey: DocumentCollection.PartitionKeyDefinition(paths: ["/birthCity"], inDatabase: database) { _ in }
 ```
 
 #### List
@@ -217,128 +231,112 @@ AzureData.replace(collectionWithId: collectionId, inDatabase: databaseId, usingP
 
 ## Documents
 
-There are two different classes you can use to interact with documents:
-
 ### Document
 
-The `Document` type is intended to be inherited by your custom model types. Subclasses must conform to the `Codable` protocal and require minimal boilerplate code for successful serialization/deserialization.
-
-Here is an example of a class `CustomDocument` that inherits from `Document`:
+You create your custom model types by conforming to the `Document` protocol declared as follows:
 
 ```swift
-class CustomDocument: Document {
-    
-    var testDate:   Date?
-    var testNumber: Double?
-    
-    public override init () { super.init() }
-    public override init (_ id: String) { super.init(id) }
-    
-    public required init(from decoder: Decoder) throws {
-        try super.init(from: decoder)
-        
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        
-        testDate    = try container.decode(Date.self,   forKey: .testDate)
-        testNumber  = try container.decode(Double.self, forKey: .testNumber)
-    }
-    
-    public override func encode(to encoder: Encoder) throws {
-        try super.encode(to: encoder)
-
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        
-        try container.encode(testDate,      forKey: .testDate)
-        try container.encode(testNumber,    forKey: .testNumber)
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case testDate
-        case testNumber
-    }
+protocol Document: Codable {
+    static var partitionKey: PartitionKey?
+    var id: String { get }
 }
 ```
 
-### DictionaryDocument
+Your models are required to provide at a minimum a partition key and an id.
 
-The `DictionaryDocument` type behaves very much like a `[String:Any]` dictionary while handling all properties required by the database.  This allows you to interact with the document directly using subscript syntax.  `DictionaryDocument` cannot be subclassed.
+The [partition key](https://docs.microsoft.com/en-us/azure/cosmos-db/partition-data) is used to automatically partition data among servers for [scalability](https://azure.microsoft.com/en-us/resources/videos/azure-documentdb-elastic-scale-partitioning/) and should be a reference to a property (of type `String`) of your model.
 
-Here is an example of using `DictionaryDocument` to create a document with the same properties as the `CustomDocument` above:
+You can return `nil` as the partition key if you want to opt-out of the automatic partitioning performed by Azure CosmosDB. However the partition key is required to be non-nil if the associated collection has a partition key definition. 
+
+The id is simply a unique identifier of your model. In addition, `Document` conforms to the `Codable` protocol so your models are also required to conform to `Codable`.
+
+Here is an example of a class that conforms to `Document`:
 
 ```swift
-let document = DictionaryDocument()
+final class Person: Document {
+    static let partitionKey = \.birthCity
 
-document["testDate"]   = Date(timeIntervalSince1970: 1510865595)         
-document["testNumber"] = 1_000_000
+    let id: String
+    let firstName: String
+    let lastName: String
+    let birthCity: String
+
+    init(id: String, firstName: String, lastName: String, birthCity: String) {
+        self.id = id
+        self.firstName = firstName
+        self.lastName = lastName
+        self.birthCity = birthCity
+    }
+}
 ```
 
 
 #### Create
 ```swift
-let document = CustomDocument()
-
-document.testDate   = Date(timeIntervalSince1970: 1510865595)
-document.testNumber = 1_000_000
-
-// or
-
-let document = DictionaryDocument()
-
-document["testDate"]   = Date(timeIntervalSince1970: 1510865595)         
-document["testNumber"] = 1_000_000
+let document = Person(id: "1", firstName: "Faiçal", lastName: "Tchirou", birthCity: "Lome")
 
 
 AzureData.create (document, inCollection: collectionId, inDatabase: databaseId) { r in
-    // document = r.resource
+    // created document = r.resource
 }
 
 AzureData.create (document, in: collection) { r in
-    // document = r.resource
+    // created document = r.resource
 }
 
 collection.create (document) { r in
-    // document = r.resource
+    // created document = r.resource
 }
 
 AzureData.createOrReplace (document, inCollection: collectionId, inDatabase: databaseId) { r in 
-    // document = r.resource
+    // created document = r.resource
 }
 
 AzureData.createOrReplace (document, in: collection) { r in 
-    // document = r.resource
+    // created document = r.resource
 }
 
 collection.createOrReplace (document) { r in 
-    // document = r.resource
+    // created document = r.resource
 }
 ```
 
+The created document is of the same type as the model passed to the `create` functions, with a few extra properties like `resourceId` which is the ID automatically generated and assigned to your model by Azure CosmosDB or `selfLink` which is a link that can be used to access your model in Azure CosmosDB.
+
 #### List
 ```swift
-AzureData.get (documentsAs: CustomDocument.self, inCollection: collectionId, inDatabase: databaseId) { r in
+AzureData.get (documentsAs: Person.self, inCollection: collectionId, inDatabase: databaseId) { r in
     // documents = r.resource?.items
 }
 
-AzureData.get (documentsAs: CustomDocument.self, in: collection) { r in
+AzureData.get (documentsAs: Person.self, in: collection) { r in
     // documents = r.resource?.items
 }
 
-collection.get (documentsAs: CustomDocument.self) { r in
+collection.get (documentsAs: Person.self) { r in
     // documents in r.resource?.items
 }
 ```
 
 #### Get
 ```swift
-AzureData.get (documentWithId: id, as: CustomDocument.self, inCollection: collectionId, inDatabase: databaseId) { r in
+AzureData.get (documentWithId: id, as: Person.self, inCollection: collectionId, inDatabase: databaseId) { r in
     // document = r.resource
 }
 
-AzureData.get (documentWithId: id, as: CustomDocument.self, in: collection) { r in
+AzureData.get (documentWithId: id, as: Person.self, in: collection) { r in
     // document = r.resource
 }
 
-collection.get (documentWithId: id, as: CustomDocument.self) { r in
+AzureData.get (documentWithId: id, as: Person.self, inCollection: collectionId, withPartitionKey: partitionKey, inDatabase: databaseId) { r in 
+    // document = r.resource
+}
+
+AzureData.get (documentWithId: id, as: Person.self, in: collection, withPartitionKey: partitionKey) { r in
+    // document = r.resource
+}
+
+collection.get (documentWithId: id, as: Person.self) { r in
     // document = r.resource
 }
 ```
@@ -387,43 +385,50 @@ collection.replace (document) { r in
 
 #### Query
 ```swift
-class People: Document {
+let query = Query().from("Person")
+                   .where("firstName", is: "Colby")
+                   .and("lastName", is: "Williams")
+                   .orderBy("birthCity", descending: true)
 
-    var firstName:   String?
-    var lastName: String?
-    var age: Int?
-
-    // ...
-}
-
-let query = Query.select("firstName", "lastName", ...)
-                 .from("People")
-                 .where("firstName", is: "Colby")
-                 .and("lastName", is: "Williams")
-                 .and("age", isGreaterThanOrEqualTo: 20)
-                 .orderBy("_etag", descending: true)
-
-AzureData.query(documentsIn: collectionId, as: People.self, inDatabase: databaseId, with: query) { r in
+AzureData.query (documentsIn: collectionId, as: Person.self, inDatabase: databaseId, with: query, andPartitionKey: partitionKey) { r in
     // documents = r.resource?.items
 }
 
-AzureData.query(documentsIn: collection, as: People.self, with: query) { r in
+AzureData.query (documentsIn: collection, as: Person.self, with: query, andPartitionKey: partitionKey) { r in
     // documents = r.resource?.items
 }
 
-collection.query (documentsWith: query, as: People.self) { r in
+collection.query (documentsWith: query, as: Person.self, withPartitionKey: partitionKey) { r in
     // documents in r.resource?.list
 }
 ```
 
+##### Query across all partitions
+```swift
+let query = Query.from("Person")
+                 .where("firstName", is: "Colby")
+                 .and("lastName", is: "Williams")
+                 .orderBy("birthCity", descending: true)
 
+AzureData.query (documentsAcrossAllPartitionsIn: collectionId, as: Person.self, inDatabase: databaseId, with: query) { r in
+    // documents = r.resource?.items
+}
+
+AzureData.query (documentsAcrossAllPartitionsIn: collection, as: Person.self, with: query) { r in
+    // documents = r.resource?.items
+}
+
+collection.query (documentsAcrossAllPartitionsWith: query, as: Person.self) { r in
+    // documents in r.resource?.list
+}
+```
 
 ## Attachments
 
 #### Create
 ```swift
 // link to existing media asset:
-AzureData.create (attachmentWithId: id, contentType: "image/png", andMediaUrl: url, onDocument: documentId, inCollection: collectionId, inDatabase: databaseId) { r in
+AzureData.create (attachmentWithId: id, contentType: "image/png", andMediaUrl: url, onDocument: documentId, inCollection: collectionId, withPartitionKey: partitionKey, inDatabase: databaseId) { r in
     // attachment = r.resource
 }
 
@@ -436,7 +441,7 @@ document.create (attachmentWithId: id, contentType: "image/png", andMediaUrl: ur
 }
 
 //or upload the media directly:
-AzureData.create (attachmentWithId: id, contentType: "image/png", name: "file.png", with: media, onDocument: documentId, inCollection: collectionId, inDatabase: databaseId) { r in
+AzureData.create (attachmentWithId: id, contentType: "image/png", name: "file.png", with: media, onDocument: documentId, inCollection: collectionId, withPartitionKey: partitionKey, inDatabase: databaseId) { r in
     // attachment = r.resource
 }
 
@@ -451,7 +456,7 @@ document.create (attachmentWithId: id, contentType: "image/png", name: "file.png
 
 #### List
 ```swift
-AzureData.get (attachmentsOn: documentId, inCollection: collectionId, inDatabase: databaseId) { r in
+AzureData.get (attachmentsOn: documentId, inCollection: collectionId, withPartitionKey: partitionKey, inDatabase: databaseId) { r in
     // attachments = r.resource?.items
 }
 
@@ -466,7 +471,7 @@ document.getAttachments { r in
 
 #### Delete
 ```swift
-AzureData.delete (attachmentWithId: attachmentId, fromDocument: documentId, inCollection: collectionId, inDatabase: databaseId) { r in
+AzureData.delete (attachmentWithId: attachmentId, fromDocument: documentId, inCollection: collectionId, withPartitionKey: partitionKey, inDatabase: databaseId) { r in
     // r.isSuccess == successfully deleted
 }
 
@@ -486,7 +491,7 @@ document.delete (attachmentWithId: attachmentId) { r in
 #### Replace
 ```swift
 // link to existing media asset:
-AzureData.replace(attachmentWithId: id, contentType: "image/png", andMediaUrl: url, onDocument: documentId, inCollection: collectionId, inDatabase: databaseId) { r in
+AzureData.replace(attachmentWithId: id, contentType: "image/png", andMediaUrl: url, onDocument: documentId, inCollection: collectionId, withPartitionKey: partitionKey, inDatabase: databaseId) { r in
     // attachment = r.resource
 }
 
@@ -495,7 +500,7 @@ document.replace(attachmentWithId: id, contentType: "image/png", andMediaUrl: ur
 }
 
 //or upload the media directly:
-AzureData.replace(attachmentWithId: id, contentType: "image/png", name: "file.png", with: media, onDocument: documentId, inCollection: collectionId, inDatabase: databaseId) { r in
+AzureData.replace(attachmentWithId: id, contentType: "image/png", name: "file.png", with: media, onDocument: documentId, inCollection: collectionId, withPartitionKey: partitionKey, inDatabase: databaseId) { r in
     // attachment = r.resource
 }
 
@@ -504,6 +509,7 @@ document.replace(attachmentWithId: id, contentType: "image/png", name: "file.png
 }
 ```
 
+For the functions accepting a `partitionKey`, the `partitionKey` is the value of the partition key defined on the document associated with the attachment being created. This parameter can be omitted if the collection associated to the document does not have a partition key definition.
 
 
 ## Stored Procedures

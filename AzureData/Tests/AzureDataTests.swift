@@ -8,41 +8,45 @@
 
 import XCTest
 @testable import AzureData
+@testable import AzureCore
 
 extension ResourceType {
     var name: String {
         switch self {
-        case .database:         return "Database"
-        case .user:             return "User"
-        case .permission:       return "Permission"
-        case .collection:       return "DocumentCollection"
-        case .storedProcedure:  return "StoredProcedure"
-        case .trigger:          return "Trigger"
-        case .udf:              return "UserDefinedFunction"
-        case .document:         return "Document"
-        case .attachment:       return "Attachment"
-        case .offer:            return "Offer"
+        case .database:          return "Database"
+        case .user:              return "User"
+        case .permission:        return "Permission"
+        case .collection:        return "DocumentCollection"
+        case .storedProcedure:   return "StoredProcedure"
+        case .trigger:           return "Trigger"
+        case .udf:               return "UserDefinedFunction"
+        case .document:          return "Document"
+        case .attachment:        return "Attachment"
+        case .offer:             return "Offer"
+        case .partitionKeyRange: return "PartitionKeyRange"
         }
     }
 }
 
 class AzureDataTests: XCTestCase {
-    
+    typealias DocumentType = TestDocument
+
     let timeout: TimeInterval = 30.0
 
     var ensureDatabase:     Bool = false
     var ensureCollection:   Bool = false
-    var ensureDocument:     Bool = false
+    var ensureDocument:     DocumentType? = nil
     var ensureUser:         Bool = false
 
     fileprivate(set) var database:  Database?
     fileprivate(set) var collection:DocumentCollection?
-    fileprivate(set) var document:  Document?
+    fileprivate(set) var document:  DocumentType?
     fileprivate(set) var user: User?
     
     var resourceName: String?
     var resourceType: ResourceType!
-    
+    var partitionKey: DocumentCollection.PartitionKeyDefinition? = [DocumentType.partitionKeyDefinition]
+
     var rname: String { return resourceName ?? resourceType.name }
     
     var databaseId:     String { return "\(rname)TestsDatabase" }
@@ -79,8 +83,6 @@ class AzureDataTests: XCTestCase {
 
         AzureData.configure(withPlistNamed: "AzureTests.plist", withPermissionMode: .all)
 
-        //AzureData.offlineDataEnabled = false
-                
         if ensureDatabase {
         
             let initGetDatabaseExpectation = self.expectation(description: "Should get database")
@@ -116,7 +118,7 @@ class AzureDataTests: XCTestCase {
             if ensureCollection, let database = database {
                 
                 let initGetCollectionExpectation = self.expectation(description: "Should get collection")
-                var initGetCollectionResponse: Response<AzureData.DocumentCollection>?
+                var initGetCollectionResponse: Response<DocumentCollection>?
                 
                 database.get(collectionWithId: collectionId) { r in
                     initGetCollectionResponse = r
@@ -130,9 +132,9 @@ class AzureDataTests: XCTestCase {
                 if collection == nil {
                     
                     let initCreateCollectionExpectation = self.expectation(description: "Should initialize collection")
-                    var initCreateCollectionResponse: Response<AzureData.DocumentCollection>?
+                    var initCreateCollectionResponse: Response<DocumentCollection>?
 
-                    database.create(collectionWithId: collectionId) { r in
+                    database.create(collectionWithId: collectionId, andPartitionKey: partitionKey) { r in
                         initCreateCollectionResponse = r
                         initCreateCollectionExpectation.fulfill()
                     }
@@ -143,13 +145,13 @@ class AzureDataTests: XCTestCase {
                 }
                 
                 XCTAssertNotNil(collection)
-                
-                if ensureDocument, let collection = collection {
+
+                if let ensureDocument = ensureDocument, let collection = collection {
                     
                     let initGetDocumentExpectation = self.expectation(description: "Should get document")
-                    var initGetDocumentResponse: Response<Document>?
+                    var initGetDocumentResponse: Response<DocumentType>?
                     
-                    AzureData.get(documentWithId: documentId, as: Document.self, inCollection: collection.id, inDatabase: database.id) { r in
+                    AzureData.get(documentWithId: ensureDocument.id, as: DocumentType.self, inCollection: collection.id, inDatabase: database.id) { r in
                         initGetDocumentResponse = r
                         initGetDocumentExpectation.fulfill()
                     }
@@ -161,9 +163,9 @@ class AzureDataTests: XCTestCase {
                     if document == nil {
                         
                         let initCreateDocumentExpectation = self.expectation(description: "Should initialize document")
-                        var initCreateDocumentResponse: Response<Document>?
+                        var initCreateDocumentResponse: Response<DocumentType>?
                         
-                        collection.create(Document(documentId)) { r in
+                        collection.create(ensureDocument) { r in
                             initCreateDocumentResponse = r
                             initCreateDocumentExpectation.fulfill()
                         }
@@ -214,7 +216,13 @@ class AzureDataTests: XCTestCase {
     
     
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
+        let expectation = self.expectation(description: "should delete database after tests")
+
+        AzureData.delete(databaseWithId: databaseId) { _ in
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: timeout)
     }
 }

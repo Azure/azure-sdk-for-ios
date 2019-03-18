@@ -179,12 +179,12 @@ class DocumentClient {
     // MARK: - Collections
     
     // create
-    func create (collectionWithId collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<DocumentCollection>) -> ()) {
-        return self.create(DocumentCollection(collectionId), at: .collection(databaseId: databaseId, id: nil), callback: callback)
+    func create (collectionWithId collectionId: String, andPartitionKey partitionKey: DocumentCollection.PartitionKeyDefinition?, inDatabase databaseId: String, callback: @escaping (Response<DocumentCollection>) -> ()) {
+        return self.create(DocumentCollection(collectionId, partitionKey: partitionKey), at: .collection(databaseId: databaseId, id: nil), callback: callback)
     }
 
-    func create (collectionWithId collectionId: String, in database: Database, callback: @escaping (Response<DocumentCollection>) -> ()) {
-        return self.create(DocumentCollection(collectionId), at: .child(.collection, in: database, id: nil), callback: callback)
+    func create (collectionWithId collectionId: String, andPartitionKey partitionKey: DocumentCollection.PartitionKeyDefinition?, in database: Database, callback: @escaping (Response<DocumentCollection>) -> ()) {
+        return self.create(DocumentCollection(collectionId, partitionKey: partitionKey), at: .child(.collection, in: database, id: nil), callback: callback)
     }
 
     // list
@@ -215,8 +215,8 @@ class DocumentClient {
     }
 
     // replace
-    func replace (collectionWithId collectionId: String, inDatabase databaseId: String, usingPolicy policy: DocumentCollection.IndexingPolicy, callback: @escaping (Response<DocumentCollection>) -> ()) {
-        return self.replace(DocumentCollection(collectionId, indexingPolicy: policy), at: .collection(databaseId: databaseId, id: collectionId), callback: callback)
+    func replace (collectionWithId collectionId: String, andPartitionKey partitionKey: DocumentCollection.PartitionKeyDefinition? = nil, inDatabase databaseId: String, usingPolicy policy: DocumentCollection.IndexingPolicy, callback: @escaping (Response<DocumentCollection>) -> ()) {
+        return self.replace(DocumentCollection(collectionId, partitionKey: partitionKey, indexingPolicy: policy), at: .collection(databaseId: databaseId, id: collectionId), callback: callback)
     }
     
     
@@ -227,39 +227,61 @@ class DocumentClient {
     
     // create
     func create<T: Document> (_ document: T, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<T>) -> ()) {
-        return self.create(document, at: .document(databaseId: databaseId, collectionId: collectionId, id: nil), callback: callback)
+        return self.create(DocumentContainer(document), at: .document(databaseId: databaseId, collectionId: collectionId, id: nil), additionalHeaders: HttpHeaders.msDocumentdbPartitionKey(document)) { callback($0.map { $0.document }) }
     }
-    
+
     func create<T: Document> (_ document: T, in collection: DocumentCollection, callback: @escaping (Response<T>) -> ()) {
-        return self.create(document, at: .child(.document, in: collection, id: nil), callback: callback)
+        return self.create(DocumentContainer(document), at: .child(.document, in: collection, id: nil), additionalHeaders: HttpHeaders.msDocumentdbPartitionKey(document)) { callback($0.map { $0.document }) }
     }
 
     func createOrReplace<T: Document> (_ document: T, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<T>) -> ()) {
-        return self.create(document, at: .document(databaseId: databaseId, collectionId: collectionId, id: nil), additionalHeaders: [MSHttpHeader.msDocumentdbIsUpsert.rawValue: "true"], callback: callback)
+        let headers: HttpHeaders = [MSHttpHeader.msDocumentdbIsUpsert.rawValue: "true"].merging(HttpHeaders.msDocumentdbPartitionKey(document))
+        return self.create(DocumentContainer(document), at: .document(databaseId: databaseId, collectionId: collectionId, id: nil), additionalHeaders: headers) { callback($0.map { $0.document }) }
     }
 
     func createOrReplace<T: Document> (_ document: T, in collection: DocumentCollection, callback: @escaping (Response<T>) -> ()) {
-        return self.create(document, at: .child(.document, in: collection, id: nil), additionalHeaders: [MSHttpHeader.msDocumentdbIsUpsert.rawValue: "true"], callback: callback)
+        let headers: HttpHeaders = [MSHttpHeader.msDocumentdbIsUpsert.rawValue: "true"].merging(HttpHeaders.msDocumentdbPartitionKey(document))
+        return self.create(DocumentContainer(document), at: .child(.document, in: collection, id: nil), additionalHeaders: headers) { callback($0.map { $0.document }) }
     }
 
     // list
-    func get<T: Document> (documentsAs documentType:T.Type, inCollection collectionId: String, inDatabase databaseId: String, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<T>>) -> ()) {
-        return self.resources(at: .document(databaseId: databaseId, collectionId: collectionId, id: nil), maxPerPage: maxPerPage, callback: callback)
+    func get<T: Document> (documentsAs documentType:T.Type, inCollection collectionId: String, inDatabase databaseId: String, maxPerPage: Int? = nil, callback: @escaping (Response<Documents<T>>) -> ()) {
+        return self.resources(at: .document(databaseId: databaseId, collectionId: collectionId, id: nil), maxPerPage: maxPerPage) { (r: Response<Resources<DocumentContainer<T>>>) in
+            callback(r.map { Documents($0) })
+        }
     }
     
-    func get<T: Document> (documentsAs documentType:T.Type, in collection: DocumentCollection, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<T>>) -> ()) {
-        return self.resources(at: .child(.document, in: collection, id: nil), maxPerPage: maxPerPage, callback: callback)
+    func get<T: Document> (documentsAs documentType:T.Type, in collection: DocumentCollection, maxPerPage: Int? = nil, callback: @escaping (Response<Documents<T>>) -> ()) {
+        return self.resources(at: .child(.document, in: collection, id: nil), maxPerPage: maxPerPage) { (r: Response<Resources<DocumentContainer<T>>>) in
+            callback(r.map { Documents($0) })
+        }
     }
     
     // get
     func get<T: Document> (documentWithId documentId: String, as documentType:T.Type, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<T>) -> ()) {
-        return self.resource(at: .document(databaseId: databaseId, collectionId: collectionId, id: documentId), callback: callback)
+        let query = Query().from(String(describing: documentType)).where("id", is: documentId)
+        return self.query(documentIn: collectionId, as: documentType, inDatabase: databaseId, with: query, andPartitionKey: nil, callback: callback)
     }
     
-    func get<T: Document> (documentWithId documentId: String, as documentType:T.Type, in collection: DocumentCollection, callback: @escaping (Response<T>) -> ()) {
-        return self.resource(at: .child(.document, in: collection, id: documentId), callback: callback)
+    func get<T: Document> (documentWithId documentId: String, as documentType: T.Type, in collection: DocumentCollection, callback: @escaping (Response<T>) -> ()) {
+        let query = Query().from(String(describing: documentType)).where("id", is: documentId)
+        return self.query(documentIn: collection, as: documentType, with: query, andPartitionKey: nil, callback: callback)
     }
-    
+
+    func get<T: Document> (documentWithId documentId: String, as documentType: T.Type, inCollection collectionId: String, withPartitionKey partitionKey: String, inDatabase databaseId: String, callback: @escaping (Response<T>) -> ()) {
+        let headers = HttpHeaders.msDocumentdbPartitionKey(partitionKey)
+        return self.resource(at: .document(databaseId: databaseId, collectionId: collectionId, id: documentId), additionalHeaders: headers) { (r: Response<DocumentContainer<T>>) in
+            callback(r.map { $0.document })
+        }
+    }
+
+    func get<T: Document> (documentWithId documentId: String, as documentType: T.Type, in collection: DocumentCollection, withPartitionKey partitionKey: String, callback: @escaping (Response<T>) -> ()) {
+        let headers = HttpHeaders.msDocumentdbPartitionKey(partitionKey)
+        return self.resource(at: .child(.document, in: collection, id: documentId), additionalHeaders: headers) { (r: Response<DocumentContainer<T>>) in
+            callback(r.map { $0.document })
+        }
+    }
+
     // delete
     func delete (documentWithId documentId: String, fromCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Data>) -> ()) {
         return self.delete(resourceAt: .document(databaseId: databaseId, collectionId: collectionId, id: documentId), callback: callback)
@@ -268,88 +290,116 @@ class DocumentClient {
     func delete (documentWithId documentId: String, from collection: DocumentCollection, callback: @escaping (Response<Data>) -> ()) {
         return self.delete(resourceAt: .child(.document, in: collection, id: documentId), callback: callback)
     }
-    
+
+    func delete<T: Document> (_ document: T, callback: @escaping (Response<Data>) -> ()) {
+        guard let container = document.container else { return callback(Response(DocumentClientError(withKind: .notFound))) }
+        return self.delete(resourceAt: .resource(resource: container), additionalHeaders: HttpHeaders.msDocumentdbPartitionKey(document), callback: callback)
+    }
+
     // replace
     func replace<T: Document> (_ document: T, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<T>) -> ()) {
-        return self.replace(document, at: .document(databaseId: databaseId, collectionId: collectionId, id: document.id), callback: callback)
+        return self.replace(DocumentContainer(document), at: .document(databaseId: databaseId, collectionId: collectionId, id: document.id)) { callback($0.map { $0.document }) }
     }
     
     func replace<T: Document> (_ document: T, in collection: DocumentCollection, callback: @escaping (Response<T>) -> ()) {
-        return self.replace(document, at: .child(.document, in: collection, id: document.id), callback: callback)
+        return self.replace(DocumentContainer(document), at: .child(.document, in: collection, id: document.id)) { callback($0.map { $0.document }) }
     }
     
     // query
-    func query<T: Document> (documentsIn collectionId: String, as documentType: T.Type, inDatabase databaseId: String, with query: Query, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<T>>) -> ()) {
-        return self.query(query, at: .document(databaseId: databaseId, collectionId: collectionId, id: nil), maxPerPage: maxPerPage, callback: callback)
+    func query<T: Document> (documentsIn collectionId: String, as documentType: T.Type, inDatabase databaseId: String, with query: Query, andPartitionKey partitionKey: String?, maxPerPage: Int? = nil, callback: @escaping (Response<Documents<T>>) -> ()) {
+        return self.query(query, at: .document(databaseId: databaseId, collectionId: collectionId, id: nil), withPartitionKey: partitionKey, maxPerPage: maxPerPage) { (r: Response<Resources<DocumentContainer<T>>>) in
+            callback(r.map { Documents($0) })
+        }
     }
     
-    func query<T: Document> (documentsIn collection: DocumentCollection, as documentType: T.Type, with query: Query, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<T>>) -> ()) {
-        return self.query(query, at: .child(.document, in: collection, id: nil), maxPerPage: maxPerPage, callback: callback)
+    func query<T: Document> (documentsIn collection: DocumentCollection, as documentType: T.Type, with query: Query, andPartitionKey partitionKey: String?, maxPerPage: Int? = nil, callback: @escaping (Response<Documents<T>>) -> ()) {
+        return self.query(query, at: .child(.document, in: collection, id: nil), withPartitionKey: partitionKey, maxPerPage: maxPerPage) { (r: Response<Resources<DocumentContainer<T>>>) in
+            callback(r.map { Documents($0) })
+        }
     }
 
-    func query (documentsIn collectionId: String, inDatabase databaseId: String, with query: Query, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<DictionaryDocument>>) -> ()) {
-        return self.query(query, at: .document(databaseId: databaseId, collectionId: collectionId, id: nil), maxPerPage: maxPerPage, callback: callback)
+    func query<T: Document> (documentIn collectionId: String, as documentType: T.Type, inDatabase databaseId: String, with query: Query, andPartitionKey partitionKey: String?, callback: @escaping (Response<T>) -> ()) {
+        return self.query(query, at: .document(databaseId: databaseId, collectionId: collectionId, id: nil), withPartitionKey: partitionKey) { (r: Response<DocumentContainer<T>>) in
+            callback(r.map { $0.document })
+        }
     }
-    
-    func query (documentsIn collection: DocumentCollection, with query: Query, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<DictionaryDocument>>) -> ()) {
-        return self.query(query, at: .child(.document, in: collection, id: nil), maxPerPage: maxPerPage, callback: callback)
+
+    func query<T: Document> (documentIn collection: DocumentCollection, as documentType: T.Type, with query: Query, andPartitionKey partitionKey: String?, callback: @escaping (Response<T>) -> ()) {
+        return self.query(query, at: .child(.document, in: collection, id: nil), withPartitionKey: partitionKey) { (r: Response<DocumentContainer<T>>) in
+            callback(r.map { $0.document })
+        }
     }
-    
-    
 
     
     // MARK: - Attachments
     
     // create
-    func create(attachmentWithId attachmentId: String, contentType: String, andMediaUrl mediaUrl: URL, onDocument documentId: String, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Attachment>) -> ()) {
-        return self.create(Attachment(attachmentId, contentType: contentType, url: mediaUrl.absoluteString), at: .attachment(databaseId: databaseId, collectionId: collectionId, documentId: documentId, id: nil), callback: callback)
+    func create(attachmentWithId attachmentId: String, contentType: String, andMediaUrl mediaUrl: URL, onDocument documentId: String, inCollection collectionId: String, withPartitionKey partitionKey: String?, inDatabase databaseId: String, callback: @escaping (Response<Attachment>) -> ()) {
+        let headers = HttpHeaders.msDocumentdbPartitionKey(partitionKey)
+        return self.create(Attachment(attachmentId, contentType: contentType, url: mediaUrl.absoluteString), at: .attachment(databaseId: databaseId, collectionId: collectionId, documentId: documentId, id: nil), additionalHeaders: headers, callback: callback)
     }
     
-    func create(attachmentWithId attachmentId: String, contentType: String, name mediaName: String, with media: Data, onDocument documentId: String, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Attachment>) -> ()) {
-        return self.createOrReplace(media, at: .attachment(databaseId: databaseId, collectionId: collectionId, documentId: documentId, id: nil), additionalHeaders: [ HttpHeader.contentType.rawValue: contentType, HttpHeader.slug.rawValue: mediaName ], callback: callback)
+    func create(attachmentWithId attachmentId: String, contentType: String, name mediaName: String, with media: Data, onDocument documentId: String, inCollection collectionId: String, withPartitionKey partitionKey: String?, inDatabase databaseId: String, callback: @escaping (Response<Attachment>) -> ()) {
+        let headers = HttpHeaders.msDocumentdbPartitionKey(partitionKey).merging([HttpHeader.contentType.rawValue: contentType, HttpHeader.slug.rawValue: mediaName])
+        return self.createOrReplace(media, at: .attachment(databaseId: databaseId, collectionId: collectionId, documentId: documentId, id: nil), additionalHeaders: headers, callback: callback)
     }
     
-    func create(attachmentWithId attachmentId: String, contentType: String, andMediaUrl mediaUrl: URL, on document: Document, callback: @escaping (Response<Attachment>) -> ()) {
-        return self.create(Attachment(attachmentId, contentType: contentType, url: mediaUrl.absoluteString), at: .child(.attachment, in: document, id: nil), callback: callback)
+    func create<T: Document>(attachmentWithId attachmentId: String, contentType: String, andMediaUrl mediaUrl: URL, on document: T, callback: @escaping (Response<Attachment>) -> ()) {
+        guard let container = document.container else { return callback(Response(DocumentClientError(withKind: .notFound))) }
+        let headers = HttpHeaders.msDocumentdbPartitionKey(document)
+        return self.create(Attachment(attachmentId, contentType: contentType, url: mediaUrl.absoluteString), at: .child(.attachment, in: container, id: nil), additionalHeaders: headers, callback: callback)
     }
     
-    func create(attachmentWithId attachmentId: String, contentType: String, name mediaName: String, with media: Data, on document: Document, callback: @escaping (Response<Attachment>) -> ()) {
-        return self.createOrReplace(media, at: .child(.attachment, in: document, id: nil), additionalHeaders: [ HttpHeader.contentType.rawValue: contentType, HttpHeader.slug.rawValue: mediaName ], callback: callback)
+    func create<T: Document>(attachmentWithId attachmentId: String, contentType: String, name mediaName: String, with media: Data, on document: T, callback: @escaping (Response<Attachment>) -> ()) {
+        let headers = HttpHeaders.msDocumentdbPartitionKey(document).merging([HttpHeader.contentType.rawValue: contentType, HttpHeader.slug.rawValue: mediaName])
+        return self.createOrReplace(media, at: .child(.attachment, in: DocumentContainer(document), id: nil), additionalHeaders: headers, callback: callback)
     }
     
     // list
-    func get (attachmentsOn documentId: String, inCollection collectionId: String, inDatabase databaseId: String, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<Attachment>>) -> ()) {
-        return self.resources(at: .attachment(databaseId: databaseId, collectionId: collectionId, documentId: documentId, id: nil), maxPerPage: maxPerPage, callback: callback)
+    func get (attachmentsOn documentId: String, inCollection collectionId: String, withPartitionKey partitionKey: String?, inDatabase databaseId: String, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<Attachment>>) -> ()) {
+        let headers = HttpHeaders.msDocumentdbPartitionKey(partitionKey)
+        return self.resources(at: .attachment(databaseId: databaseId, collectionId: collectionId, documentId: documentId, id: nil), maxPerPage: maxPerPage, additionalHeaders: headers, callback: callback)
     }
 
-    func get (attachmentsOn document: Document, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<Attachment>>) -> ()) {
-        return self.resources(at: .child(.attachment, in: document, id: nil), maxPerPage: maxPerPage, callback: callback)
+    func get<T: Document>(attachmentsOn document: T, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<Attachment>>) -> ()) {
+        guard let container = document.container else { return callback(Response<Resources<Attachment>>(DocumentClientError(withKind: .notFound))) }
+        let headers = HttpHeaders.msDocumentdbPartitionKey(document)
+        return self.resources(at: .child(.attachment, in: container, id: nil), maxPerPage: maxPerPage, additionalHeaders: headers, callback: callback)
     }
     
     // delete
-    func delete (attachmentWithId attachmentId: String, fromDocument documentId: String, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Data>) -> ()) {
-        return self.delete(resourceAt: .attachment(databaseId: databaseId, collectionId: collectionId, documentId: documentId, id: attachmentId), callback: callback)
+    func delete (attachmentWithId attachmentId: String, fromDocument documentId: String, inCollection collectionId: String, withPartitionKey partitionKey: String?, inDatabase databaseId: String, callback: @escaping (Response<Data>) -> ()) {
+        let headers = HttpHeaders.msDocumentdbPartitionKey(partitionKey)
+        return self.delete(resourceAt: .attachment(databaseId: databaseId, collectionId: collectionId, documentId: documentId, id: attachmentId), additionalHeaders: headers, callback: callback)
     }
     
-    func delete (attachmentWithId attachmentId: String, from document: Document, callback: @escaping (Response<Data>) -> ()) {
-        return self.delete(resourceAt: .child(.attachment, in: document, id: attachmentId), callback: callback)
+    func delete<T: Document>(attachmentWithId attachmentId: String, from document: T, callback: @escaping (Response<Data>) -> ()) {
+        guard let container = document.container else { return callback(Response(DocumentClientError(withKind: .notFound))) }
+        let headers = HttpHeaders.msDocumentdbPartitionKey(document)
+        return self.delete(resourceAt: .child(.attachment, in: container, id: attachmentId), additionalHeaders: headers, callback: callback)
     }
     
     // replace
-    func replace(attachmentWithId attachmentId: String, contentType: String, andMediaUrl mediaUrl: URL, onDocument documentId: String, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Attachment>) -> ()) {
-        return self.replace(Attachment(attachmentId, contentType: contentType, url: mediaUrl.absoluteString), at: .attachment(databaseId: databaseId, collectionId: collectionId, documentId: documentId, id: attachmentId), callback: callback)
+    func replace(attachmentWithId attachmentId: String, contentType: String, andMediaUrl mediaUrl: URL, onDocument documentId: String, inCollection collectionId: String, withPartitionKey partitionKey: String?, inDatabase databaseId: String, callback: @escaping (Response<Attachment>) -> ()) {
+        let headers = HttpHeaders.msDocumentdbPartitionKey(partitionKey)
+        return self.replace(Attachment(attachmentId, contentType: contentType, url: mediaUrl.absoluteString), at: .attachment(databaseId: databaseId, collectionId: collectionId, documentId: documentId, id: attachmentId), additionalHeaders: headers, callback: callback)
     }
     
-    func replace(attachmentWithId attachmentId: String, contentType: String, name mediaName: String, with media: Data, onDocument documentId: String, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Attachment>) -> ()) {
-        return self.createOrReplace(media, at: .attachment(databaseId: databaseId, collectionId: collectionId, documentId: documentId, id: attachmentId), replacing: true, additionalHeaders: [ HttpHeader.contentType.rawValue: contentType, HttpHeader.slug.rawValue: mediaName ], callback: callback)
+    func replace(attachmentWithId attachmentId: String, contentType: String, name mediaName: String, with media: Data, onDocument documentId: String, inCollection collectionId: String, withPartitionKey partitionKey: String?, inDatabase databaseId: String, callback: @escaping (Response<Attachment>) -> ()) {
+        let headers = HttpHeaders.msDocumentdbPartitionKey(partitionKey).merging([HttpHeader.contentType.rawValue: contentType, HttpHeader.slug.rawValue: mediaName])
+        return self.createOrReplace(media, at: .attachment(databaseId: databaseId, collectionId: collectionId, documentId: documentId, id: attachmentId), replacing: true, additionalHeaders: headers, callback: callback)
     }
     
-    func replace(attachmentWithId attachmentId: String, contentType: String, andMediaUrl mediaUrl: URL, on document: Document, callback: @escaping (Response<Attachment>) -> ()) {
-        return self.replace(Attachment(attachmentId, contentType: contentType, url: mediaUrl.absoluteString), at: .child(.attachment, in: document, id: attachmentId), callback: callback)
+    func replace<T: Document>(attachmentWithId attachmentId: String, contentType: String, andMediaUrl mediaUrl: URL, on document: T, callback: @escaping (Response<Attachment>) -> ()) {
+        guard let container = document.container else { return callback(Response(DocumentClientError(withKind: .notFound))) }
+        let headers = HttpHeaders.msDocumentdbPartitionKey(document)
+        return self.replace(Attachment(attachmentId, contentType: contentType, url: mediaUrl.absoluteString), at: .child(.attachment, in: container, id: attachmentId), additionalHeaders: headers, callback: callback)
     }
     
-    func replace(attachmentWithId attachmentId: String, contentType: String, name mediaName: String, with media: Data, on document: Document, callback: @escaping (Response<Attachment>) -> ()) {
-        return self.createOrReplace(media, at: .child(.attachment, in: document, id: attachmentId), replacing: true, additionalHeaders: [ HttpHeader.contentType.rawValue: contentType, HttpHeader.slug.rawValue: mediaName ], callback: callback)
+    func replace<T: Document>(attachmentWithId attachmentId: String, contentType: String, name mediaName: String, with media: Data, on document: T, callback: @escaping (Response<Attachment>) -> ()) {
+        guard let container = document.container else { return callback(Response(DocumentClientError(withKind: .notFound))) }
+        let headers = HttpHeaders.msDocumentdbPartitionKey(document).merging([HttpHeader.contentType.rawValue: contentType, HttpHeader.slug.rawValue: mediaName])
+        return self.createOrReplace(media, at: .child(.attachment, in: container, id: attachmentId), replacing: true, additionalHeaders: headers, callback: callback)
     }
 
     
@@ -614,7 +664,11 @@ class DocumentClient {
     // TODO: query
     
     
-    
+    // MARK: - Partition Key Ranges
+
+    private func getPartitionKeyRanges(forCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Resources<PartitionKeyRange>>) -> ()) {
+        return resources(at: .partitionKeyRange(databaseId: databaseId, collectionId: collectionId, id: nil), callback: callback)
+    }
     
     
     // MARK: - Resources
@@ -749,9 +803,9 @@ class DocumentClient {
     }
 
     // delete
-    func delete(resourceAt resourceLocation: ResourceLocation, callback: @escaping (Response<Data>) -> ()) {
+    func delete(resourceAt resourceLocation: ResourceLocation, additionalHeaders: [String: String] = [:], callback: @escaping (Response<Data>) -> ()) {
 
-        dataRequest(forResourceAt: resourceLocation, withMethod: .delete) { r in
+        dataRequest(forResourceAt: resourceLocation, withMethod: .delete, andAdditionalHeaders: additionalHeaders) { r in
             
             if let request = r.resource {
             
@@ -823,11 +877,30 @@ class DocumentClient {
     }
 
     // query
-    fileprivate func query<T:CodableResource> (_ query: Query, at resourceLocation: ResourceLocation, maxPerPage: Int? = nil, callback: @escaping (Response<Resources<T>>) -> ()) {
+    fileprivate func query<T: CodableResource>(_ query: Query, at resourceLocation: ResourceLocation, withPartitionKey partitionKey: String? = nil, additionalHeaders: HttpHeaders = [:], callback: @escaping (Response<T>) -> ()) {
+        self.query(query, at: resourceLocation, withPartitionKey: partitionKey, maxPerPage: 1, additionalHeaders: additionalHeaders) { (response: Response<Resources<T>>) in
+            callback(
+                response
+                    .map { $0.items.first }
+                    .unwrap(orErrorWith: DocumentClientError(withKind: .notFound))
+            )
+        }
+    }
+
+    fileprivate func query<T:CodableResource> (_ query: Query, at resourceLocation: ResourceLocation, withPartitionKey partitionKey: String?, maxPerPage: Int? = nil, additionalHeaders: HttpHeaders = [:], callback: @escaping (Response<Resources<T>>) -> ()) {
         
         guard !isOffline else { callback(Response(DocumentClientError(withKind: .serviceUnavailable))); return }
-        
-        dataRequest(forResourceAt: resourceLocation, withMethod: .post, andAdditionalHeaders: HttpHeaders.forMaxItemCount(maxPerPage), forQuery: true) { r in
+
+        guard let partitionKey = partitionKey else {
+            crossPartitionQuery(query, at: resourceLocation, maxPerPage: maxPerPage, additionalHeaders: additionalHeaders, callback: callback)
+            return
+        }
+
+        let headers = HttpHeaders.msMaxItemCount(maxPerPage)
+            .merging(HttpHeaders.msDocumentdbPartitionKey(partitionKey))
+            .merging(additionalHeaders)
+
+        dataRequest(forResourceAt: resourceLocation, withMethod: .post, andAdditionalHeaders: headers, forQuery: true) { r in
 
             if var request = r.resource {
                 
@@ -849,7 +922,51 @@ class DocumentClient {
             }
         }
     }
-    
+
+    fileprivate func crossPartitionQuery<T:CodableResource> (_ query: Query, at resourceLocation: ResourceLocation, maxPerPage: Int? = nil, additionalHeaders: HttpHeaders = [:], callback: @escaping (Response<Resources<T>>) -> ()) {
+
+        guard !isOffline else { callback(Response(DocumentClientError(withKind: .serviceUnavailable))); return }
+
+        guard let databaseId = resourceLocation.ancestorIds()[.database], let collectionId = resourceLocation.ancestorIds()[.collection] else {
+            callback(Response(DocumentClientError(withKind: .incompleteIds)))
+            return
+        }
+
+        getPartitionKeyRanges(forCollection: collectionId, inDatabase: databaseId) { [unowned self] r in
+            guard let partitionKeyRanges = r.resource, let partitionKeyRange = partitionKeyRanges.items.first else {
+                callback(Response(DocumentClientError(withKind: .noPartitionKeyRange)))
+                return
+            }
+
+            let headers = HttpHeaders.msMaxItemCount(maxPerPage)
+                .merging([MSHttpHeader.msDocumentdbQueryEnableCrossPartition.rawValue: "true"])
+                .merging([MSHttpHeader.msDocumentdbPartitionKeyRangeId.rawValue: "\(partitionKeyRanges.resourceId),\(partitionKeyRange.id)"])
+                .merging(additionalHeaders)
+
+            self.dataRequest(forResourceAt: resourceLocation, withMethod: .post, andAdditionalHeaders: headers, forQuery: true) { r in
+
+                if var request = r.resource {
+
+                    do {
+                        request.httpBody = try self.jsonEncoder.encode(query)
+                    } catch {
+                        callback(Response(error)); return
+                    }
+
+                    self.sendRequest(request) { (response:Response<Resources<T>>) in
+                        callback(response)
+
+                        if let resource = response.resource {
+                            ResourceCache.cache(resource)
+                        }
+                    }
+                } else {
+                    callback(Response(request: r.request, data: r.data, response: r.response, result: .failure(r.error ?? DocumentClientError(withKind: .unknownError))))
+                }
+            }
+        }
+    }
+
     // execute
     fileprivate func execute<T:CodableResource, R: Encodable>(_ type: T.Type, withBody body: R? = nil, at resourceLocation: ResourceLocation, callback: @escaping (Response<Data>) -> ()) {
         
@@ -1132,11 +1249,21 @@ class DocumentClient {
 // MARK: - HttpHeaders
 
 fileprivate extension Dictionary where Key == String, Value == String {
-    /// HttpHeaders.forMaxItemCount(100) -> ["x-ms-max-item-count": "100"]
-    /// HttpHeaders.forMaxItemCount(nil) -> nil
-    static func forMaxItemCount(_ value: Int?) -> HttpHeaders? {
-        guard let value = value else { return nil }
+    /// HttpHeaders.msMaxItemCount(100) -> ["x-ms-max-item-count": "100"]
+    /// HttpHeaders.msMaxItemCount(nil) -> nil
+    static func msMaxItemCount(_ value: Int?) -> HttpHeaders {
+        guard let value = value else { return [:] }
         return [MSHttpHeader.msMaxItemCount.rawValue: "\(value)"]
+    }
+
+    static func msDocumentdbPartitionKey<T: Document>(_ document: T) -> HttpHeaders {
+        guard let partitionKey = T.partitionKey else { return [:] }
+        return [MSHttpHeader.msDocumentdbPartitionkey.rawValue: "[\"\(document[keyPath: partitionKey])\"]"]
+    }
+
+    static func msDocumentdbPartitionKey(_ value: String?) -> HttpHeaders {
+        guard let value = value else { return [:] }
+        return [MSHttpHeader.msDocumentdbPartitionkey.rawValue: "[\"\(value)\"]"]
     }
 
     func validate() -> ResourceRequestError? {
@@ -1145,5 +1272,9 @@ fileprivate extension Dictionary where Key == String, Value == String {
         }
 
         return nil
+    }
+
+    func merging(_ other: HttpHeaders) -> HttpHeaders {
+        return self.merging(other, uniquingKeysWith: { current, _ in current })
     }
 }

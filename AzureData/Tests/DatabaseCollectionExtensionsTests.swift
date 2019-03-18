@@ -8,18 +8,16 @@
 
 import XCTest
 @testable import AzureData
+@testable import AzureCore
 
 class DatabaseCollectionExtensionsTests: AzureDataTests {
-    
+
     override func setUp() {
         resourceType = .collection
         resourceName = "DatabaseCollectionExtensions"
         ensureDatabase = true
         super.setUp()
     }
-    
-    override func tearDown() { super.tearDown() }
-
     
     func testDatabaseCrud() {
         
@@ -33,7 +31,7 @@ class DatabaseCollectionExtensionsTests: AzureDataTests {
             
             
             // Create
-            database.create(collectionWithId: collectionId) { r in
+            database.create(collectionWithId: collectionId, andPartitionKey: nil) { r in
                 createResponse = r
                 self.createExpectation.fulfill()
             }

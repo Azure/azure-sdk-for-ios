@@ -8,9 +8,10 @@
 
 import XCTest
 @testable import AzureData
+@testable import AzureCore
 
 class PermissionTests: AzureDataTests {
-    
+
     override func setUp() {
         resourceType = .permission
         ensureDatabase = true
@@ -20,9 +21,8 @@ class PermissionTests: AzureDataTests {
     }
     
     override func tearDown() { super.tearDown() }
-    
-    func testPermissionCrud() {
 
+    func testPermissionCrud() {
         var createResponse:     Response<Permission>?
         var listResponse:       Response<Resources<Permission>>?
         var getResponse:        Response<Permission>?

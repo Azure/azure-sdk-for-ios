@@ -17,8 +17,9 @@ class _AzureDataTests: XCTestCase {
 
     var resourceName: String?
     var resourceType: ResourceType!
+    var partitionKey: DocumentCollection.PartitionKeyDefinition = []
 
-    var rname: String { return resourceName ?? resourceType.name }
+    var rname: String { return resourceName ?? resourceType.path.capitalized }
 
     var databaseId:     String { return "\(rname)TestsDatabase" }
     var collectionId:   String { return "\(rname)TestsCollection" }
@@ -49,33 +50,41 @@ class _AzureDataTests: XCTestCase {
 
     override func tearDown() {
         super.tearDown()
+
+        let expectation = self.expectation(description: "should clean up")
+
+        self.cleanUp {
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: timeout)
     }
 
-    func ensureDatabaseExists(completion: ((Database) -> ())? = nil) {
+    func ensureDatabaseExists(withId id: String? = nil, completion: ((Database) -> ())? = nil) {
         ensureResourceExists(
             type: Database.self,
-            get: { AzureData.get(databaseWithId: self.databaseId, callback: $0) },
-            create: { AzureData.create(databaseWithId: self.databaseId, callback: $0) },
+            get: { AzureData.get(databaseWithId: id ?? self.databaseId, callback: $0) },
+            create: { AzureData.create(databaseWithId: id ?? self.databaseId, callback: $0) },
             completion: completion
         )
     }
 
-    func ensureCollectionExists(completion: ((DocumentCollection) -> ())? = nil) {
+    func ensureCollectionExists(withId id: String? = nil, completion: ((DocumentCollection) -> ())? = nil) {
         ensureDatabaseExists()
         ensureResourceExists(
             type: DocumentCollection.self,
-            get: { AzureData.get(collectionWithId: self.collectionId, inDatabase: self.databaseId, callback: $0) },
-            create: { AzureData.create(collectionWithId: self.collectionId, inDatabase: self.databaseId, callback: $0) },
+            get: { AzureData.get(collectionWithId: id ?? self.collectionId, inDatabase: self.databaseId, callback: $0) },
+            create: { AzureData.create(collectionWithId: id ?? self.collectionId, andPartitionKey: self.partitionKey, inDatabase: self.databaseId, callback: $0) },
             completion: completion
         )
     }
 
-    func ensureDocumentExists(completion: ((Document) -> ())? = nil) {
+    func ensureDocumentExists<T: Document>(_ document: T, completion: ((T) -> ())? = nil) {
         ensureCollectionExists()
         ensureResourceExists(
-            type: Document.self,
-            get: { AzureData.get(documentWithId: self.documentId, as: Document.self, inCollection: self.collectionId, inDatabase: self.databaseId, callback: $0) },
-            create: { AzureData.create(Document(self.documentId), inCollection: self.collectionId, inDatabase: self.databaseId, callback: $0) },
+            type: T.self,
+            get: { AzureData.get(documentWithId: document.id, as: T.self, inCollection: self.collectionId, inDatabase: self.databaseId, callback: $0) },
+            create: { AzureData.create(document, inCollection: self.collectionId, inDatabase: self.databaseId, callback: $0) },
             completion: completion
         )
     }
@@ -140,7 +149,7 @@ class _AzureDataTests: XCTestCase {
 
     // MARK: - Private helpers
 
-    private func ensureResourceExists<T: CodableResource>(
+    private func ensureResourceExists<T>(
         type: T.Type,
         get: @escaping (_ completion: @escaping (Response<T>) -> ()) -> (),
         create: @escaping (_ completion: @escaping (Response<T>) -> ()) -> (),
@@ -164,6 +173,12 @@ class _AzureDataTests: XCTestCase {
         precondition(resource != nil, "\(String(describing: type).lowercased()) should exist")
 
         completion?(resource!)
+    }
+
+    func cleanUp(completion: @escaping () -> Void) {
+        AzureData.delete(databaseWithId: self.databaseId) { _ in
+            completion()
+        }
     }
 
     private func ensureResourceIsDeleted<T: CodableResource>(_ type: T.Type, delete: @escaping (_ completion: @escaping (Response<Data>) -> ()) -> ()) {

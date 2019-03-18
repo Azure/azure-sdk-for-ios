@@ -8,9 +8,10 @@
 
 import XCTest
 @testable import AzureData
+@testable import AzureCore
 
 class OfferTests: AzureDataTests {
-    
+
     override func setUp() {
         resourceType = .offer
         super.setUp()
@@ -18,7 +19,7 @@ class OfferTests: AzureDataTests {
     
     override func tearDown() { super.tearDown() }
 
-    
+
     func testOfferCrud() {
         
         var listResponse:       Response<Resources<Offer>>?

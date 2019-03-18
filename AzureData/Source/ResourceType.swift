@@ -19,6 +19,7 @@ public enum ResourceType : String {
     case document           = "docs"
     case attachment         = "attachments"
     case offer              = "offers"
+    case partitionKeyRange  = "pkranges"
 
     var path: String {
         return self.rawValue
@@ -27,15 +28,16 @@ public enum ResourceType : String {
     func isDecendent(of rt: ResourceType) -> Bool {
         switch self {
         case .database,
-             .offer:            return false
+             .offer:             return false
         case .user,
-             .collection:       return rt == .database
+             .collection:        return rt == .database
         case .document,
              .storedProcedure,
              .trigger,
-             .udf:              return rt == .collection || rt == .database
-        case .permission:       return rt == .user       || rt == .database
-        case .attachment:       return rt == .document   || rt == .collection || rt == .database
+             .udf:               return rt == .collection || rt == .database
+        case .permission:        return rt == .user       || rt == .database
+        case .attachment:        return rt == .document   || rt == .collection || rt == .database
+        case .partitionKeyRange: return rt == .collection || rt == .database
         }
     }
     
@@ -45,23 +47,24 @@ public enum ResourceType : String {
     
     var supportsPermissionToken: Bool {
         switch self {
-        case .database, .offer, .user, .permission: return false
+        case .database, .offer, .user, .permission, .partitionKeyRange: return false
         case .collection, .document, .storedProcedure, .trigger, .udf, .attachment: return true
         }
     }
 
     var children: [ResourceType] {
         switch self {
-        case .database:        return [.collection, .user]
-        case .user:            return [.permission]
-        case .permission:      return []
-        case .collection:      return [.document, .storedProcedure, .trigger, .udf]
-        case .document:        return [.attachment]
-        case .storedProcedure: return []
-        case .trigger:         return []
-        case .udf:             return []
-        case .attachment:      return []
-        case .offer:           return []
+        case .database:          return [.collection, .user]
+        case .user:              return [.permission]
+        case .permission:        return []
+        case .collection:        return [.document, .storedProcedure, .trigger, .udf, .partitionKeyRange]
+        case .document:          return [.attachment]
+        case .storedProcedure:   return []
+        case .trigger:           return []
+        case .udf:               return []
+        case .attachment:        return []
+        case .offer:             return []
+        case .partitionKeyRange: return []
         }
     }
 

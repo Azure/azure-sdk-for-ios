@@ -8,9 +8,10 @@
 
 import XCTest
 @testable import AzureData
+@testable import AzureCore
 
 class UserPermissionExtensionsTests: AzureDataTests {
-    
+
     override func setUp() {
         resourceType = .permission
         resourceName = "UserPermissionExtensions"
