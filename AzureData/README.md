@@ -418,7 +418,7 @@ AzureData.query (documentsAcrossAllPartitionsIn: collection, as: Person.self, wi
     // documents = r.resource?.items
 }
 
-collection.query (documentsAcrossAllPartitionsIn: query, as: Person.self) { r in
+collection.query (documentsAcrossAllPartitionsWith: query, as: Person.self) { r in
     // documents in r.resource?.list
 }
 ```
