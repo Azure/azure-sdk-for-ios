@@ -888,8 +888,6 @@ class DocumentClient {
     }
 
     fileprivate func query<T:CodableResource> (_ query: Query, at resourceLocation: ResourceLocation, withPartitionKey partitionKey: String?, maxPerPage: Int? = nil, additionalHeaders: HttpHeaders = [:], callback: @escaping (Response<Resources<T>>) -> ()) {
-        
-        guard !isOffline else { callback(Response(DocumentClientError(withKind: .serviceUnavailable))); return }
 
         guard let partitionKey = partitionKey else {
             crossPartitionQuery(query, at: resourceLocation, maxPerPage: maxPerPage, additionalHeaders: additionalHeaders, callback: callback)
@@ -911,10 +909,16 @@ class DocumentClient {
                 }
                 
                 self.sendRequest(request) { (response:Response<Resources<T>>) in
+                    self.isOffline = response.clientError.isConnectivityError
+
+                    if self.isOffline {
+                        return self.cachedResources(for: query, callback: callback)
+                    }
+
                     callback(response)
                     
                     if let resource = response.resource {
-                        ResourceCache.cache(resource)
+                        ResourceCache.cache(resource, for: query, usingContentPath: resourceLocation.link)
                     }
                 }
             } else {
@@ -924,8 +928,6 @@ class DocumentClient {
     }
 
     fileprivate func crossPartitionQuery<T:CodableResource> (_ query: Query, at resourceLocation: ResourceLocation, maxPerPage: Int? = nil, additionalHeaders: HttpHeaders = [:], callback: @escaping (Response<Resources<T>>) -> ()) {
-
-        guard !isOffline else { callback(Response(DocumentClientError(withKind: .serviceUnavailable))); return }
 
         guard let databaseId = resourceLocation.ancestorIds()[.database], let collectionId = resourceLocation.ancestorIds()[.collection] else {
             callback(Response(DocumentClientError(withKind: .incompleteIds)))
@@ -954,10 +956,16 @@ class DocumentClient {
                     }
 
                     self.sendRequest(request) { (response:Response<Resources<T>>) in
+                        self.isOffline = response.clientError.isConnectivityError
+
+                        if self.isOffline {
+                            return self.cachedResources(for: query, callback: callback)
+                        }
+
                         callback(response)
 
                         if let resource = response.resource {
-                            ResourceCache.cache(resource)
+                            ResourceCache.cache(resource, for: query, usingContentPath: resourceLocation.link)
                         }
                     }
                 } else {
@@ -1067,6 +1075,20 @@ class DocumentClient {
         )
     }
 
+    fileprivate func cachedResources<T: CodableResource>(for query: Query, withResponse response: Response<T>? = nil, callback: @escaping (Response<Resources<T>>) -> ()) {
+        guard let resources = ResourceCache.get(for: query, as: T.self) else {
+            callback(Response(request: response?.request, data: response?.data, response: response?.response, result: .failure(DocumentClientError(withKind: .serviceUnavailable))))
+            return
+        }
+
+        callback(Response(
+            request: response?.request,
+            data: response?.data,
+            response: response?.response,
+            result: .success(resources),
+            fromCache: true
+        ))
+    }
     
     // MARK: - Request
 

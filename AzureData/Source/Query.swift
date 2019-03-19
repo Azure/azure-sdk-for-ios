@@ -10,19 +10,20 @@ import Foundation
 
 public class Query : Encodable {
     
-    fileprivate var selectCalled    = false
-    fileprivate var fromCalled      = false
-    fileprivate var whereCalled     = false
-    fileprivate var andCalled       = false
-    fileprivate var orderByCalled   = false
+    internal var selectCalled       = false
+    internal var fromCalled         = false
+    internal var whereCalled        = false
+    internal var spatialWhereCalled = false
+    internal var andCalled          = false
+    internal var orderByCalled      = false
 
-    fileprivate var selectProperties:   [String] = []
-    fileprivate var fromFragment:        String?
-    fileprivate var whereFragment:       String?
-    fileprivate var andFragments:       [String] = []
-    fileprivate var orderByFragment:     String?
+    internal var selectProperties:   [String] = []
+    internal var fromFragment:        String?
+    internal var whereFragment:       String?
+    internal var andFragments:       [String] = []
+    internal var orderByFragment:     String?
     
-    fileprivate var type:       String?
+    internal var type:       String?
 
     private enum CodingKeys: String, CodingKey {
         case query
@@ -73,10 +74,10 @@ public class Query : Encodable {
             //fromFragment = type!
             
             query = "SELECT \(selectFragment) FROM \(type!)"
-            
+
             if whereCalled && !whereFragment.isNilOrEmpty {
                 
-                query += " WHERE \(type!).\(whereFragment!)"
+                query += " WHERE " + (spatialWhereCalled ? whereFragment! : "\(type!).\(whereFragment!)")
                 
                 if andCalled && !andFragments.isEmpty {
                     query += " AND \(type!)."
@@ -188,7 +189,6 @@ extension Query {
         
         return self
     }
-    
     
     public func and(_ property: String, is value: String) -> Self {
         assert(whereCalled, "must call where before calling and")
@@ -307,5 +307,27 @@ extension Query {
         if descending { orderByFragment! += " DESC" }
         
         return self
+    }
+}
+
+
+
+extension Query : Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(type)
+        hasher.combine(selectProperties)
+        hasher.combine(fromFragment)
+        hasher.combine(whereFragment)
+        hasher.combine(andFragments)
+        hasher.combine(orderByFragment)
+    }
+
+    public static func == (lhs: Query, rhs: Query) -> Bool {
+        return lhs.type == rhs.type
+            && lhs.selectProperties == rhs.selectProperties
+            && lhs.fromFragment == rhs.fromFragment
+            && lhs.whereFragment == rhs.whereFragment
+            && lhs.andFragments == rhs.andFragments
+            && lhs.orderByFragment == rhs.orderByFragment
     }
 }
