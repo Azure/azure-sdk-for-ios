@@ -24,11 +24,11 @@ final class DocumentContainer<DocumentType: Document>: CodableResource, Supports
     var document: DocumentType
 
     func setAltLink(to link: String) {
-        metadata.altLink = altLink
+        metadata.altLink = link
     }
 
     func setEtag(to tag: String) {
-        metadata.etag = etag
+        metadata.etag = tag
     }
 
     internal init(_ document: DocumentType) {

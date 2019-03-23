@@ -105,6 +105,8 @@ public class ResourceCache {
     static func cache<T: CodableResource>(_ resources: Resources<T>, for query: Query, usingContentPath contentPath: String) {
         guard resources.count > 0 else { return }
 
+        ResourceOracle.storeLinks(forResources: resources)
+
         dispatchQueue.async {
             let metadata = ResourcesMetadata(resourceId: resources.resourceId, contentPath: contentPath)
 
