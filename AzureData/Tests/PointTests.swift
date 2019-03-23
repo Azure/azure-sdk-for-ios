@@ -41,7 +41,7 @@ class PointTests: XCTestCase {
 
     func testLessThanDistanceQuery() {
         let query = Query().from("Document")
-            .where("location", to: [42.12, 34.4], isLessThan: 3000)
+            .where(distanceFrom: "location", to: [42.12, 34.4], isLessThan: 3000)
             .query
 
         XCTAssertEqual(query, "SELECT * FROM Document WHERE ST_DISTANCE(Document.location, {\'type\': \'Point\', \'coordinates\':[42.12, 34.4]}) < 3000.0")
@@ -49,7 +49,7 @@ class PointTests: XCTestCase {
 
     func testLessThanOrEqualToDistanceQuery() {
         let query = Query().from("Document")
-            .where("location", to: [42.12, 34.4], isLessThanOrEqualTo: 3000)
+            .where(distanceFrom: "location", to: [42.12, 34.4], isLessThanOrEqualTo: 3000)
             .query
 
         XCTAssertEqual(query, "SELECT * FROM Document WHERE ST_DISTANCE(Document.location, {\'type\': \'Point\', \'coordinates\':[42.12, 34.4]}) <= 3000.0")
@@ -57,7 +57,7 @@ class PointTests: XCTestCase {
 
     func testEqualToDistanceQuery() {
         let query = Query().from("Document")
-            .where("location", to: [42.12, 34.4], is: 3000)
+            .where(distanceFrom: "location", to: [42.12, 34.4], is: 3000)
             .query
 
         XCTAssertEqual(query, "SELECT * FROM Document WHERE ST_DISTANCE(Document.location, {\'type\': \'Point\', \'coordinates\':[42.12, 34.4]}) = 3000.0")
@@ -65,7 +65,7 @@ class PointTests: XCTestCase {
 
     func testGreaterThanDistanceQuery() {
         let query = Query().from("Document")
-            .where("location", to: [42.12, 34.4], isGreaterThan: 3000)
+            .where(distanceFrom: "location", to: [42.12, 34.4], isGreaterThan: 3000)
             .query
 
         XCTAssertEqual(query, "SELECT * FROM Document WHERE ST_DISTANCE(Document.location, {\'type\': \'Point\', \'coordinates\':[42.12, 34.4]}) > 3000.0")
@@ -73,9 +73,54 @@ class PointTests: XCTestCase {
 
     func testGreatherThanOrEqualToDistanceQuery() {
         let query = Query().from("Document")
-            .where("location", to: [42.12, 34.4], isGreaterThanOrEqualTo: 3000)
+            .where(distanceFrom: "location", to: [42.12, 34.4], isGreaterThanOrEqualTo: 3000)
             .query
 
         XCTAssertEqual(query, "SELECT * FROM Document WHERE ST_DISTANCE(Document.location, {\'type\': \'Point\', \'coordinates\':[42.12, 34.4]}) >= 3000.0")
+    }
+
+    func testAndDistanceLessThanQuery() {
+        let query = Query().from("Document")
+            .where("age", isLessThan: 42)
+            .and(distanceFrom: "location", to: [42.12, 34.4], isLessThan: 3000)
+            .query
+
+        XCTAssertEqual(query, "SELECT * FROM Document WHERE Document.age < 42 AND ST_DISTANCE(Document.location, {\'type\': \'Point\', \'coordinates\':[42.12, 34.4]}) < 3000.0")
+    }
+
+    func testAndDistanceLessThanOrEqualToQuery() {
+        let query = Query().from("Document")
+            .where("age", isLessThan: 42)
+            .and(distanceFrom: "location", to: [42.12, 34.4], isLessThanOrEqualTo: 3000)
+            .query
+
+        XCTAssertEqual(query, "SELECT * FROM Document WHERE Document.age < 42 AND ST_DISTANCE(Document.location, {\'type\': \'Point\', \'coordinates\':[42.12, 34.4]}) <= 3000.0")
+    }
+
+    func testAndDistanceisEqualToQuery() {
+        let query = Query().from("Document")
+            .where("age", isLessThan: 42)
+            .and(distanceFrom: "location", to: [42.12, 34.4], is: 3000)
+            .query
+
+        XCTAssertEqual(query, "SELECT * FROM Document WHERE Document.age < 42 AND ST_DISTANCE(Document.location, {\'type\': \'Point\', \'coordinates\':[42.12, 34.4]}) = 3000.0")
+    }
+
+    func testAndDistanceIsGreaterThanQuery() {
+        let query = Query().from("Document")
+            .where("age", isLessThan: 42)
+            .and(distanceFrom: "location", to: [42.12, 34.4], isGreaterThan: 3000)
+            .query
+
+        XCTAssertEqual(query, "SELECT * FROM Document WHERE Document.age < 42 AND ST_DISTANCE(Document.location, {\'type\': \'Point\', \'coordinates\':[42.12, 34.4]}) > 3000.0")
+    }
+
+    func testAndDistanceIsGreaterThanOrEqualToQuery() {
+        let query = Query().from("Document")
+            .where("age", isLessThan: 42)
+            .and(distanceFrom: "location", to: [42.12, 34.4], isGreaterThanOrEqualTo: 3000)
+            .query
+
+        XCTAssertEqual(query, "SELECT * FROM Document WHERE Document.age < 42 AND ST_DISTANCE(Document.location, {\'type\': \'Point\', \'coordinates\':[42.12, 34.4]}) >= 3000.0")
     }
 }

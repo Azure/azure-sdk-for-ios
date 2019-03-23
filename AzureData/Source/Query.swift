@@ -15,12 +15,14 @@ public class Query : Encodable {
     internal var whereCalled        = false
     internal var spatialWhereCalled = false
     internal var andCalled          = false
+    internal var spatialAndCalled   = false
     internal var orderByCalled      = false
 
-    internal var selectProperties:   [String] = []
+    internal var selectProperties:    [String] = []
     internal var fromFragment:        String?
     internal var whereFragment:       String?
-    internal var andFragments:       [String] = []
+    internal var andFragments:        [String] = []
+    internal var spatialAndFragments: [String] = []
     internal var orderByFragment:     String?
     
     internal var type:       String?
@@ -82,6 +84,11 @@ public class Query : Encodable {
                 if andCalled && !andFragments.isEmpty {
                     query += " AND \(type!)."
                     query += andFragments.joined(separator: " AND \(type!).")
+                }
+
+                if spatialAndCalled && !spatialAndFragments.isEmpty {
+                    query += " AND "
+                    query += spatialAndFragments.joined(separator: " AND ")
                 }
             }
             
