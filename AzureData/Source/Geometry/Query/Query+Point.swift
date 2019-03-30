@@ -1,5 +1,5 @@
 //
-//  Query+Location.swift
+//  Query+Point.swift
 //  AzureData
 //
 //  Copyright (c) Microsoft Corporation. All rights reserved.
