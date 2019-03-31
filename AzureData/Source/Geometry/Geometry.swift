@@ -8,7 +8,10 @@
 
 import Foundation
 
+/// Represents a GeoJSON geometry. A `Geometry`
+/// can be a `Point`, a `LineString` or a `Polygon`.
 public protocol Geometry: Codable {
+    /// The description of the `Geometry` in the GeoJSON format.
     var description: String { get }
 }
 
