@@ -23,6 +23,10 @@ public struct Point: Geometry {
         self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
 
+    public var description: String {
+        return "{'type': 'Point', 'coordinates': [\(coordinate.longitude), \(coordinate.latitude)]}"
+    }
+
     // MARK: - Codable
 
     private typealias CodingKeys = GeometryCodingKeys

@@ -294,4 +294,69 @@ class PolygonTests: XCTestCase {
             Point(latitude: 7, longitude: 8),
         ]))
     }
+
+    func testSimplePolygonDescription() throws {
+        let polygon: Polygon = try Polygon.SimpleBuilder()
+            .add(Point(latitude: 1, longitude: 2))
+            .add(Point(latitude: 3, longitude: 4))
+            .add(Point(latitude: 5, longitude: 6))
+            .close()
+            .build()
+
+        XCTAssertEqual(polygon.description, "{\'type\': \'Polygon\', \'coordinates\':[[[2.0, 1.0],[4.0, 3.0],[6.0, 5.0],[2.0, 1.0]]]}")
+    }
+
+    func testPolygonWithHoleDescription() throws {
+        let polygon = try Polygon.Builder()
+            .add(
+                Polygon.Ring.Builder()
+                    .add(Point(latitude: 1, longitude: 2))
+                    .add(Point(latitude: 3, longitude: 4))
+                    .add(Point(latitude: 5, longitude: 6))
+                    .close()
+                    .build()
+            )
+            .add(
+                Polygon.Ring.Builder()
+                    .add(Point(latitude: 7, longitude: 8))
+                    .add(Point(latitude: 9, longitude: 10))
+                    .add(Point(latitude: 11, longitude: 12))
+                    .close()
+                    .build()
+            )
+            .build()
+
+        XCTAssertEqual(polygon.description, "{\'type\': \'Polygon\', \'coordinates\':[[[2.0, 1.0],[4.0, 3.0],[6.0, 5.0],[2.0, 1.0]],[[8.0, 7.0],[10.0, 9.0],[12.0, 11.0],[8.0, 7.0]]]}")
+    }
+
+    func testPolygonWithMultipleHolesDescription() throws {
+        let polygon = try Polygon.Builder()
+            .add(
+                Polygon.Ring.Builder()
+                    .add(Point(latitude: 1, longitude: 2))
+                    .add(Point(latitude: 3, longitude: 4))
+                    .add(Point(latitude: 5, longitude: 6))
+                    .close()
+                    .build()
+            )
+            .add(
+                Polygon.Ring.Builder()
+                    .add(Point(latitude: 7, longitude: 8))
+                    .add(Point(latitude: 9, longitude: 10))
+                    .add(Point(latitude: 11, longitude: 12))
+                    .close()
+                    .build()
+            )
+            .add(
+                Polygon.Ring.Builder()
+                    .add(Point(latitude: 13, longitude: 14))
+                    .add(Point(latitude: 15, longitude: 16))
+                    .add(Point(latitude: 17, longitude: 18))
+                    .close()
+                    .build()
+            )
+            .build()
+
+        XCTAssertEqual(polygon.description, "{\'type\': \'Polygon\', \'coordinates\':[[[2.0, 1.0],[4.0, 3.0],[6.0, 5.0],[2.0, 1.0]],[[8.0, 7.0],[10.0, 9.0],[12.0, 11.0],[8.0, 7.0]],[[14.0, 13.0],[16.0, 15.0],[18.0, 17.0],[14.0, 13.0]]]}")
+    }
 }

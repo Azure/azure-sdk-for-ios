@@ -18,7 +18,7 @@
 		3234AC04223EBD6500270767 /* PointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3234AC03223EBD6500270767 /* PointTests.swift */; };
 		3234AC05223EBD6500270767 /* PointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3234AC03223EBD6500270767 /* PointTests.swift */; };
 		3234AC06223EBD6500270767 /* PointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3234AC03223EBD6500270767 /* PointTests.swift */; };
-		323650672250078200D329B1 /* Query+Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323650662250078200D329B1 /* Query+Point.swift */; };
+		323650672250078200D329B1 /* Query+Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323650662250078200D329B1 /* Query+Distance.swift */; };
 		32365069225007EB00D329B1 /* LineStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32365068225007EB00D329B1 /* LineStringTests.swift */; };
 		3236506A225007EB00D329B1 /* LineStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32365068225007EB00D329B1 /* LineStringTests.swift */; };
 		3236506B225007EB00D329B1 /* LineStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32365068225007EB00D329B1 /* LineStringTests.swift */; };
@@ -28,6 +28,20 @@
 		3236507222500C8300D329B1 /* PolygonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236507122500C8300D329B1 /* PolygonTests.swift */; };
 		3236507322500C8300D329B1 /* PolygonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236507122500C8300D329B1 /* PolygonTests.swift */; };
 		3236507422500C8300D329B1 /* PolygonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236507122500C8300D329B1 /* PolygonTests.swift */; };
+		32365076225031B100D329B1 /* Query+Within.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32365075225031B100D329B1 /* Query+Within.swift */; };
+		32365077225031B100D329B1 /* Query+Within.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32365075225031B100D329B1 /* Query+Within.swift */; };
+		32365078225031B100D329B1 /* Query+Within.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32365075225031B100D329B1 /* Query+Within.swift */; };
+		32365079225031B100D329B1 /* Query+Within.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32365075225031B100D329B1 /* Query+Within.swift */; };
+		3236508022503A0B00D329B1 /* Query+Intersects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236507F22503A0B00D329B1 /* Query+Intersects.swift */; };
+		3236508122503A0B00D329B1 /* Query+Intersects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236507F22503A0B00D329B1 /* Query+Intersects.swift */; };
+		3236508222503A0B00D329B1 /* Query+Intersects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236507F22503A0B00D329B1 /* Query+Intersects.swift */; };
+		3236508322503A0B00D329B1 /* Query+Intersects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236507F22503A0B00D329B1 /* Query+Intersects.swift */; };
+		3236508A22503D4400D329B1 /* IntersectsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236508922503D4400D329B1 /* IntersectsTests.swift */; };
+		3236508B22503D4400D329B1 /* IntersectsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236508922503D4400D329B1 /* IntersectsTests.swift */; };
+		3236508C22503D4400D329B1 /* IntersectsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236508922503D4400D329B1 /* IntersectsTests.swift */; };
+		3236508E2250DDA300D329B1 /* WithinTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236508D2250DDA300D329B1 /* WithinTests.swift */; };
+		3236508F2250DDA300D329B1 /* WithinTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236508D2250DDA300D329B1 /* WithinTests.swift */; };
+		323650902250DDA300D329B1 /* WithinTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236508D2250DDA300D329B1 /* WithinTests.swift */; };
 		3236FBDD209160F70002FB5F /* _AzureDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236FBDC209160F70002FB5F /* _AzureDataTests.swift */; };
 		3236FBDE209160F70002FB5F /* _AzureDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236FBDC209160F70002FB5F /* _AzureDataTests.swift */; };
 		3236FBDF209160F70002FB5F /* _AzureDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236FBDC209160F70002FB5F /* _AzureDataTests.swift */; };
@@ -370,10 +384,14 @@
 		3234ABF2223D40C400270767 /* PartitionKeyRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartitionKeyRange.swift; sourceTree = "<group>"; };
 		3234ABF8223EB35A00270767 /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		3234AC03223EBD6500270767 /* PointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointTests.swift; sourceTree = "<group>"; };
-		323650662250078200D329B1 /* Query+Point.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Query+Point.swift"; sourceTree = "<group>"; };
+		323650662250078200D329B1 /* Query+Distance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Query+Distance.swift"; sourceTree = "<group>"; };
 		32365068225007EB00D329B1 /* LineStringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineStringTests.swift; sourceTree = "<group>"; };
 		3236506D22500C3F00D329B1 /* DistanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceTests.swift; sourceTree = "<group>"; };
 		3236507122500C8300D329B1 /* PolygonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolygonTests.swift; sourceTree = "<group>"; };
+		32365075225031B100D329B1 /* Query+Within.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Query+Within.swift"; sourceTree = "<group>"; };
+		3236507F22503A0B00D329B1 /* Query+Intersects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Query+Intersects.swift"; sourceTree = "<group>"; };
+		3236508922503D4400D329B1 /* IntersectsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntersectsTests.swift; sourceTree = "<group>"; };
+		3236508D2250DDA300D329B1 /* WithinTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithinTests.swift; sourceTree = "<group>"; };
 		3236FBDC209160F70002FB5F /* _AzureDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _AzureDataTests.swift; sourceTree = "<group>"; };
 		323A90E8207F976400537769 /* CodableResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableResources.swift; sourceTree = "<group>"; };
 		323A90F120800DEB00537769 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -564,6 +582,8 @@
 			isa = PBXGroup;
 			children = (
 				3236506D22500C3F00D329B1 /* DistanceTests.swift */,
+				3236508922503D4400D329B1 /* IntersectsTests.swift */,
+				3236508D2250DDA300D329B1 /* WithinTests.swift */,
 			);
 			name = QueryTests;
 			sourceTree = "<group>";
@@ -596,7 +616,9 @@
 		32DA0954225007520065FF83 /* Query */ = {
 			isa = PBXGroup;
 			children = (
-				323650662250078200D329B1 /* Query+Point.swift */,
+				323650662250078200D329B1 /* Query+Distance.swift */,
+				3236507F22503A0B00D329B1 /* Query+Intersects.swift */,
+				32365075225031B100D329B1 /* Query+Within.swift */,
 			);
 			path = Query;
 			sourceTree = "<group>";
@@ -1074,6 +1096,7 @@
 			files = (
 				B5B6AC2A1FBA84C400B93106 /* CodableDictionary.swift in Sources */,
 				B507D4F21FBB722000B2D18D /* Conflict.swift in Sources */,
+				3236508122503A0B00D329B1 /* Query+Intersects.swift in Sources */,
 				329AA647209CEF470007A955 /* ResourceSystemProperties.swift in Sources */,
 				B58361CE1FBA1439001CEC66 /* Attachment.swift in Sources */,
 				9319DEEA20698C3D0083475D /* PermissionProvider.swift in Sources */,
@@ -1119,6 +1142,7 @@
 				9319DEEF20698C840083475D /* PermissionProviderConfiguration.swift in Sources */,
 				32EB2C1E209C5DA700CEBB77 /* ResourceWriteOperation.swift in Sources */,
 				B52240961FB3407C00D0343F /* AzureDataExtensions.swift in Sources */,
+				32365077225031B100D329B1 /* Query+Within.swift in Sources */,
 				32A5030820A1D16F000C5948 /* ResourceEncryptor.swift in Sources */,
 				32799700209C830C0062A374 /* ResourceWriteOperationQueue.swift in Sources */,
 				B58361BA1FBA1385001CEC66 /* CodableResource.swift in Sources */,
@@ -1132,6 +1156,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3236508F2250DDA300D329B1 /* WithinTests.swift in Sources */,
 				B52240691FB33DF800D0343F /* UserPermissionExtensionsTests.swift in Sources */,
 				B52240751FB33DF800D0343F /* DatabaseTests.swift in Sources */,
 				B52240671FB33DF800D0343F /* UserDefinedFunctionTests.swift in Sources */,
@@ -1155,6 +1180,7 @@
 				B52240681FB33DF800D0343F /* StoredProcedureTests.swift in Sources */,
 				329C7DB520BEC28000A49453 /* OfflineReadTests.swift in Sources */,
 				B52240771FB33DF800D0343F /* AzureDataTests.swift in Sources */,
+				3236508B22503D4400D329B1 /* IntersectsTests.swift in Sources */,
 				B522406A1FB33DF800D0343F /* QueryTests.swift in Sources */,
 				3236FBDE209160F70002FB5F /* _AzureDataTests.swift in Sources */,
 				B52240781FB33DF800D0343F /* DocumentCollectionTests.swift in Sources */,
@@ -1177,6 +1203,7 @@
 			files = (
 				B5B6AC2B1FBA84C400B93106 /* CodableDictionary.swift in Sources */,
 				B507D4F31FBB722000B2D18D /* Conflict.swift in Sources */,
+				3236508222503A0B00D329B1 /* Query+Intersects.swift in Sources */,
 				329AA648209CEF470007A955 /* ResourceSystemProperties.swift in Sources */,
 				B58361CF1FBA1439001CEC66 /* Attachment.swift in Sources */,
 				9319DEEB20698C3D0083475D /* PermissionProvider.swift in Sources */,
@@ -1222,6 +1249,7 @@
 				9319DEF020698C840083475D /* PermissionProviderConfiguration.swift in Sources */,
 				32EB2C1F209C5DA700CEBB77 /* ResourceWriteOperation.swift in Sources */,
 				B52240991FB3407D00D0343F /* AzureDataExtensions.swift in Sources */,
+				32365078225031B100D329B1 /* Query+Within.swift in Sources */,
 				32A5030920A1D16F000C5948 /* ResourceEncryptor.swift in Sources */,
 				32799701209C830C0062A374 /* ResourceWriteOperationQueue.swift in Sources */,
 				B58361BB1FBA1385001CEC66 /* CodableResource.swift in Sources */,
@@ -1235,6 +1263,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				323650902250DDA300D329B1 /* WithinTests.swift in Sources */,
 				B522407D1FB33DFA00D0343F /* UserPermissionExtensionsTests.swift in Sources */,
 				B52240891FB33DFA00D0343F /* DatabaseTests.swift in Sources */,
 				B522407B1FB33DFA00D0343F /* UserDefinedFunctionTests.swift in Sources */,
@@ -1258,6 +1287,7 @@
 				B522407C1FB33DFA00D0343F /* StoredProcedureTests.swift in Sources */,
 				329C7DB620BEC28000A49453 /* OfflineReadTests.swift in Sources */,
 				B522408B1FB33DFA00D0343F /* AzureDataTests.swift in Sources */,
+				3236508C22503D4400D329B1 /* IntersectsTests.swift in Sources */,
 				B522407E1FB33DFA00D0343F /* QueryTests.swift in Sources */,
 				3236FBDF209160F70002FB5F /* _AzureDataTests.swift in Sources */,
 				B522408C1FB33DFA00D0343F /* DocumentCollectionTests.swift in Sources */,
@@ -1280,6 +1310,7 @@
 			files = (
 				B5B6AC2C1FBA84C400B93106 /* CodableDictionary.swift in Sources */,
 				B507D4F41FBB722000B2D18D /* Conflict.swift in Sources */,
+				3236508322503A0B00D329B1 /* Query+Intersects.swift in Sources */,
 				329AA649209CEF470007A955 /* ResourceSystemProperties.swift in Sources */,
 				B58361D01FBA1439001CEC66 /* Attachment.swift in Sources */,
 				9319DEEC20698C3D0083475D /* PermissionProvider.swift in Sources */,
@@ -1325,6 +1356,7 @@
 				9319DEF120698C840083475D /* PermissionProviderConfiguration.swift in Sources */,
 				32EB2C20209C5DA700CEBB77 /* ResourceWriteOperation.swift in Sources */,
 				B522409C1FB3407E00D0343F /* AzureDataExtensions.swift in Sources */,
+				32365079225031B100D329B1 /* Query+Within.swift in Sources */,
 				32A5030A20A1D16F000C5948 /* ResourceEncryptor.swift in Sources */,
 				32799702209C830C0062A374 /* ResourceWriteOperationQueue.swift in Sources */,
 				B58361BC1FBA1385001CEC66 /* CodableResource.swift in Sources */,
@@ -1341,12 +1373,14 @@
 				B5B6AC291FBA84C400B93106 /* CodableDictionary.swift in Sources */,
 				B507D4F11FBB722000B2D18D /* Conflict.swift in Sources */,
 				32DA093C224F99B60065FF83 /* CLLocationCoordinate2D+Equatable.swift in Sources */,
+				3236508022503A0B00D329B1 /* Query+Intersects.swift in Sources */,
 				3234ABF3223D40C400270767 /* PartitionKeyRange.swift in Sources */,
 				32DA0941224FF5FA0065FF83 /* LineString.swift in Sources */,
 				329AA646209CEF470007A955 /* ResourceSystemProperties.swift in Sources */,
 				32DA0950224FFD610065FF83 /* Polygon.swift in Sources */,
 				324301F82213779C009D209F /* PartitionKeyDefinition.swift in Sources */,
 				32DA0946224FF7080065FF83 /* Geometry.swift in Sources */,
+				32365076225031B100D329B1 /* Query+Within.swift in Sources */,
 				B58361CD1FBA1439001CEC66 /* Attachment.swift in Sources */,
 				9319DEE920698C3D0083475D /* PermissionProvider.swift in Sources */,
 				9319DEF820698FB90083475D /* PermissionCache.swift in Sources */,
@@ -1358,7 +1392,7 @@
 				93F9ACD11FC0D01400AC240C /* ResourceError.swift in Sources */,
 				B583619A1FB779B6001CEC66 /* ResponseExtensions.swift in Sources */,
 				B5B6AC241FBA4B3900B93106 /* Query.swift in Sources */,
-				323650672250078200D329B1 /* Query+Point.swift in Sources */,
+				323650672250078200D329B1 /* Query+Distance.swift in Sources */,
 				93935D9B20585C8600F1832A /* PermissionMode.swift in Sources */,
 				32532A5A207825A1002BFFCA /* ResponseMetadata.swift in Sources */,
 				3234ABF9223EB35A00270767 /* Point.swift in Sources */,
@@ -1400,6 +1434,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3236508E2250DDA300D329B1 /* WithinTests.swift in Sources */,
 				B52240551FB33DF100D0343F /* UserPermissionExtensionsTests.swift in Sources */,
 				B52240611FB33DF100D0343F /* DatabaseTests.swift in Sources */,
 				B52240531FB33DF100D0343F /* UserDefinedFunctionTests.swift in Sources */,
@@ -1423,6 +1458,7 @@
 				B52240541FB33DF100D0343F /* StoredProcedureTests.swift in Sources */,
 				329C7DB420BEC28000A49453 /* OfflineReadTests.swift in Sources */,
 				B52240631FB33DF100D0343F /* AzureDataTests.swift in Sources */,
+				3236508A22503D4400D329B1 /* IntersectsTests.swift in Sources */,
 				B52240561FB33DF100D0343F /* QueryTests.swift in Sources */,
 				3236FBDD209160F70002FB5F /* _AzureDataTests.swift in Sources */,
 				B52240641FB33DF100D0343F /* DocumentCollectionTests.swift in Sources */,

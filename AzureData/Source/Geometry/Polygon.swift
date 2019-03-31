@@ -33,6 +33,12 @@ public struct Polygon: Geometry {
         self.rings = rings
     }
 
+    public var description: String {
+        return "{'type': 'Polygon', 'coordinates':"
+            + "[" + rings.map { $0.description }.joined(separator: ",") + "]"
+            + "}"
+    }
+
     // MARK: - Builders
 
     /// Builds a polygon from a single ring.
@@ -79,6 +85,10 @@ public struct Polygon: Geometry {
             }
 
             self.points = points
+        }
+
+        public var description: String {
+            return "[" + points.map { "[\($0.coordinate.longitude), \($0.coordinate.latitude)]" }.joined(separator: ",") + "]"
         }
 
         // MARK: - Builder

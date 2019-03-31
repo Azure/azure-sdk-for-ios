@@ -9,6 +9,7 @@
 import Foundation
 
 public protocol Geometry: Codable {
+    var description: String { get }
 }
 
 internal enum GeometryCodingKeys: String, CodingKey {

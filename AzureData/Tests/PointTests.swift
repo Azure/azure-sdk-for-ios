@@ -12,11 +12,11 @@ import XCTest
 
 class PointTests: XCTestCase {
     func testEncode() throws {
-        let point: Point = [1, 2]
+        let point = Point(latitude: 1, longitude: 2)
         let json = try JSONSerialization.jsonObject(with: JSONEncoder().encode(point), options: .allowFragments) as! [String: Any]
 
         XCTAssertEqual(json["type"] as? String, "Point")
-        XCTAssertEqual(json["coordinates"] as? [Double], [1, 2])
+        XCTAssertEqual(json["coordinates"] as? [Double], [2.0, 1.0])
     }
 
     func testDecode() throws {
@@ -37,5 +37,10 @@ class PointTests: XCTestCase {
 
         XCTAssertEqual(point.coordinate.latitude, 2)
         XCTAssertEqual(point.coordinate.longitude, 1)
+    }
+
+    func testDescription() {
+        let point = Point(latitude: 1, longitude: 2)
+        XCTAssertEqual(point.description, "{\'type\': \'Point\', \'coordinates\': [2.0, 1.0]}")
     }
 }

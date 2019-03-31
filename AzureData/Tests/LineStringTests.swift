@@ -71,4 +71,13 @@ class LineStringTests: XCTestCase {
         XCTAssertEqual(lineString.points.first, Point(latitude: 1, longitude: 2))
         XCTAssertEqual(lineString.points.last, Point(latitude: 3, longitude: 3))
     }
+
+    func testDescription() throws {
+        let lineString = try LineString.Builder()
+            .add(Point(latitude: 1, longitude: 2))
+            .add(Point(latitude: 3, longitude: 4))
+            .build()
+
+        XCTAssertEqual(lineString.description, "{\'type\': \'LineString\', \'coordinates\':[[2.0, 1.0],[4.0, 3.0]]}")
+    }
 }

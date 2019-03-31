@@ -23,6 +23,12 @@ public struct LineString: Geometry {
         self.points = points
     }
 
+    public var description: String {
+        return "{'type': 'LineString', 'coordinates':"
+            + "[" + points.map { "[\($0.coordinate.longitude), \($0.coordinate.latitude)]" }.joined(separator: ",") + "]"
+            + "}"
+    }
+
     // MARK: - Builder
 
     public class Builder {
