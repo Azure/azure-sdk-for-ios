@@ -15,13 +15,33 @@
 		3234ABFA223EB35A00270767 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3234ABF8223EB35A00270767 /* Point.swift */; };
 		3234ABFB223EB35A00270767 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3234ABF8223EB35A00270767 /* Point.swift */; };
 		3234ABFC223EB35A00270767 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3234ABF8223EB35A00270767 /* Point.swift */; };
-		3234ABFE223EBA1600270767 /* Query+Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3234ABFD223EBA1600270767 /* Query+Geometry.swift */; };
-		3234ABFF223EBA1600270767 /* Query+Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3234ABFD223EBA1600270767 /* Query+Geometry.swift */; };
-		3234AC00223EBA1600270767 /* Query+Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3234ABFD223EBA1600270767 /* Query+Geometry.swift */; };
-		3234AC01223EBA1600270767 /* Query+Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3234ABFD223EBA1600270767 /* Query+Geometry.swift */; };
 		3234AC04223EBD6500270767 /* PointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3234AC03223EBD6500270767 /* PointTests.swift */; };
 		3234AC05223EBD6500270767 /* PointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3234AC03223EBD6500270767 /* PointTests.swift */; };
 		3234AC06223EBD6500270767 /* PointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3234AC03223EBD6500270767 /* PointTests.swift */; };
+		323650672250078200D329B1 /* Query+Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323650662250078200D329B1 /* Query+Distance.swift */; };
+		32365069225007EB00D329B1 /* LineStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32365068225007EB00D329B1 /* LineStringTests.swift */; };
+		3236506A225007EB00D329B1 /* LineStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32365068225007EB00D329B1 /* LineStringTests.swift */; };
+		3236506B225007EB00D329B1 /* LineStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32365068225007EB00D329B1 /* LineStringTests.swift */; };
+		3236506E22500C3F00D329B1 /* DistanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236506D22500C3F00D329B1 /* DistanceTests.swift */; };
+		3236506F22500C3F00D329B1 /* DistanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236506D22500C3F00D329B1 /* DistanceTests.swift */; };
+		3236507022500C3F00D329B1 /* DistanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236506D22500C3F00D329B1 /* DistanceTests.swift */; };
+		3236507222500C8300D329B1 /* PolygonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236507122500C8300D329B1 /* PolygonTests.swift */; };
+		3236507322500C8300D329B1 /* PolygonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236507122500C8300D329B1 /* PolygonTests.swift */; };
+		3236507422500C8300D329B1 /* PolygonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236507122500C8300D329B1 /* PolygonTests.swift */; };
+		32365076225031B100D329B1 /* Query+Within.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32365075225031B100D329B1 /* Query+Within.swift */; };
+		32365077225031B100D329B1 /* Query+Within.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32365075225031B100D329B1 /* Query+Within.swift */; };
+		32365078225031B100D329B1 /* Query+Within.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32365075225031B100D329B1 /* Query+Within.swift */; };
+		32365079225031B100D329B1 /* Query+Within.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32365075225031B100D329B1 /* Query+Within.swift */; };
+		3236508022503A0B00D329B1 /* Query+Intersects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236507F22503A0B00D329B1 /* Query+Intersects.swift */; };
+		3236508122503A0B00D329B1 /* Query+Intersects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236507F22503A0B00D329B1 /* Query+Intersects.swift */; };
+		3236508222503A0B00D329B1 /* Query+Intersects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236507F22503A0B00D329B1 /* Query+Intersects.swift */; };
+		3236508322503A0B00D329B1 /* Query+Intersects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236507F22503A0B00D329B1 /* Query+Intersects.swift */; };
+		3236508A22503D4400D329B1 /* IntersectsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236508922503D4400D329B1 /* IntersectsTests.swift */; };
+		3236508B22503D4400D329B1 /* IntersectsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236508922503D4400D329B1 /* IntersectsTests.swift */; };
+		3236508C22503D4400D329B1 /* IntersectsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236508922503D4400D329B1 /* IntersectsTests.swift */; };
+		3236508E2250DDA300D329B1 /* WithinTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236508D2250DDA300D329B1 /* WithinTests.swift */; };
+		3236508F2250DDA300D329B1 /* WithinTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236508D2250DDA300D329B1 /* WithinTests.swift */; };
+		323650902250DDA300D329B1 /* WithinTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236508D2250DDA300D329B1 /* WithinTests.swift */; };
 		3236FBDD209160F70002FB5F /* _AzureDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236FBDC209160F70002FB5F /* _AzureDataTests.swift */; };
 		3236FBDE209160F70002FB5F /* _AzureDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236FBDC209160F70002FB5F /* _AzureDataTests.swift */; };
 		3236FBDF209160F70002FB5F /* _AzureDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236FBDC209160F70002FB5F /* _AzureDataTests.swift */; };
@@ -83,6 +103,26 @@
 		32AD4619207976AB00A0D02F /* ResponseMetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AD4618207976AB00A0D02F /* ResponseMetadataTests.swift */; };
 		32AD461A207976AB00A0D02F /* ResponseMetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AD4618207976AB00A0D02F /* ResponseMetadataTests.swift */; };
 		32AD461B207976AB00A0D02F /* ResponseMetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AD4618207976AB00A0D02F /* ResponseMetadataTests.swift */; };
+		32DA093C224F99B60065FF83 /* CLLocationCoordinate2D+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA093B224F99B60065FF83 /* CLLocationCoordinate2D+Equatable.swift */; };
+		32DA093D224F99B60065FF83 /* CLLocationCoordinate2D+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA093B224F99B60065FF83 /* CLLocationCoordinate2D+Equatable.swift */; };
+		32DA093E224F99B60065FF83 /* CLLocationCoordinate2D+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA093B224F99B60065FF83 /* CLLocationCoordinate2D+Equatable.swift */; };
+		32DA093F224F99B60065FF83 /* CLLocationCoordinate2D+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA093B224F99B60065FF83 /* CLLocationCoordinate2D+Equatable.swift */; };
+		32DA0941224FF5FA0065FF83 /* LineString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA0940224FF5FA0065FF83 /* LineString.swift */; };
+		32DA0942224FF5FA0065FF83 /* LineString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA0940224FF5FA0065FF83 /* LineString.swift */; };
+		32DA0943224FF5FA0065FF83 /* LineString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA0940224FF5FA0065FF83 /* LineString.swift */; };
+		32DA0944224FF5FA0065FF83 /* LineString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA0940224FF5FA0065FF83 /* LineString.swift */; };
+		32DA0946224FF7080065FF83 /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA0945224FF7080065FF83 /* Geometry.swift */; };
+		32DA0947224FF7080065FF83 /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA0945224FF7080065FF83 /* Geometry.swift */; };
+		32DA0948224FF7080065FF83 /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA0945224FF7080065FF83 /* Geometry.swift */; };
+		32DA0949224FF7080065FF83 /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA0945224FF7080065FF83 /* Geometry.swift */; };
+		32DA094B224FFB9A0065FF83 /* GeometryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA094A224FFB9A0065FF83 /* GeometryError.swift */; };
+		32DA094C224FFB9A0065FF83 /* GeometryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA094A224FFB9A0065FF83 /* GeometryError.swift */; };
+		32DA094D224FFB9A0065FF83 /* GeometryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA094A224FFB9A0065FF83 /* GeometryError.swift */; };
+		32DA094E224FFB9A0065FF83 /* GeometryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA094A224FFB9A0065FF83 /* GeometryError.swift */; };
+		32DA0950224FFD610065FF83 /* Polygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA094F224FFD610065FF83 /* Polygon.swift */; };
+		32DA0951224FFD610065FF83 /* Polygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA094F224FFD610065FF83 /* Polygon.swift */; };
+		32DA0952224FFD610065FF83 /* Polygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA094F224FFD610065FF83 /* Polygon.swift */; };
+		32DA0953224FFD610065FF83 /* Polygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA094F224FFD610065FF83 /* Polygon.swift */; };
 		32EB2C1D209C5DA700CEBB77 /* ResourceWriteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EB2C1C209C5DA700CEBB77 /* ResourceWriteOperation.swift */; };
 		32EB2C1E209C5DA700CEBB77 /* ResourceWriteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EB2C1C209C5DA700CEBB77 /* ResourceWriteOperation.swift */; };
 		32EB2C1F209C5DA700CEBB77 /* ResourceWriteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EB2C1C209C5DA700CEBB77 /* ResourceWriteOperation.swift */; };
@@ -343,8 +383,15 @@
 /* Begin PBXFileReference section */
 		3234ABF2223D40C400270767 /* PartitionKeyRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartitionKeyRange.swift; sourceTree = "<group>"; };
 		3234ABF8223EB35A00270767 /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
-		3234ABFD223EBA1600270767 /* Query+Geometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Query+Geometry.swift"; sourceTree = "<group>"; };
 		3234AC03223EBD6500270767 /* PointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointTests.swift; sourceTree = "<group>"; };
+		323650662250078200D329B1 /* Query+Distance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Query+Distance.swift"; sourceTree = "<group>"; };
+		32365068225007EB00D329B1 /* LineStringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineStringTests.swift; sourceTree = "<group>"; };
+		3236506D22500C3F00D329B1 /* DistanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceTests.swift; sourceTree = "<group>"; };
+		3236507122500C8300D329B1 /* PolygonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolygonTests.swift; sourceTree = "<group>"; };
+		32365075225031B100D329B1 /* Query+Within.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Query+Within.swift"; sourceTree = "<group>"; };
+		3236507F22503A0B00D329B1 /* Query+Intersects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Query+Intersects.swift"; sourceTree = "<group>"; };
+		3236508922503D4400D329B1 /* IntersectsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntersectsTests.swift; sourceTree = "<group>"; };
+		3236508D2250DDA300D329B1 /* WithinTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithinTests.swift; sourceTree = "<group>"; };
 		3236FBDC209160F70002FB5F /* _AzureDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _AzureDataTests.swift; sourceTree = "<group>"; };
 		323A90E8207F976400537769 /* CodableResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableResources.swift; sourceTree = "<group>"; };
 		323A90F120800DEB00537769 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -363,6 +410,11 @@
 		32AABD2120ACA05400F66DC6 /* MockReachabilityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockReachabilityManager.swift; sourceTree = "<group>"; };
 		32AABD2620ACA83300F66DC6 /* MockURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		32AD4618207976AB00A0D02F /* ResponseMetadataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseMetadataTests.swift; sourceTree = "<group>"; };
+		32DA093B224F99B60065FF83 /* CLLocationCoordinate2D+Equatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordinate2D+Equatable.swift"; sourceTree = "<group>"; };
+		32DA0940224FF5FA0065FF83 /* LineString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineString.swift; sourceTree = "<group>"; };
+		32DA0945224FF7080065FF83 /* Geometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geometry.swift; sourceTree = "<group>"; };
+		32DA094A224FFB9A0065FF83 /* GeometryError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryError.swift; sourceTree = "<group>"; };
+		32DA094F224FFD610065FF83 /* Polygon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Polygon.swift; sourceTree = "<group>"; };
 		32EB2C1C209C5DA700CEBB77 /* ResourceWriteOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceWriteOperation.swift; sourceTree = "<group>"; };
 		9302CE422059A3A5000F6885 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9302CE442059A3C5000F6885 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -504,8 +556,13 @@
 		3234ABF7223EB34A00270767 /* Geometry */ = {
 			isa = PBXGroup;
 			children = (
+				32DA0954225007520065FF83 /* Query */,
+				32DA093B224F99B60065FF83 /* CLLocationCoordinate2D+Equatable.swift */,
+				32DA0945224FF7080065FF83 /* Geometry.swift */,
+				32DA094A224FFB9A0065FF83 /* GeometryError.swift */,
+				32DA0940224FF5FA0065FF83 /* LineString.swift */,
 				3234ABF8223EB35A00270767 /* Point.swift */,
-				3234ABFD223EBA1600270767 /* Query+Geometry.swift */,
+				32DA094F224FFD610065FF83 /* Polygon.swift */,
 			);
 			path = Geometry;
 			sourceTree = "<group>";
@@ -513,9 +570,22 @@
 		3234AC02223EBD4C00270767 /* GeometryTests */ = {
 			isa = PBXGroup;
 			children = (
+				3236506C22500C3000D329B1 /* QueryTests */,
+				32365068225007EB00D329B1 /* LineStringTests.swift */,
 				3234AC03223EBD6500270767 /* PointTests.swift */,
+				3236507122500C8300D329B1 /* PolygonTests.swift */,
 			);
 			name = GeometryTests;
+			sourceTree = "<group>";
+		};
+		3236506C22500C3000D329B1 /* QueryTests */ = {
+			isa = PBXGroup;
+			children = (
+				3236506D22500C3F00D329B1 /* DistanceTests.swift */,
+				3236508922503D4400D329B1 /* IntersectsTests.swift */,
+				3236508D2250DDA300D329B1 /* WithinTests.swift */,
+			);
+			name = QueryTests;
 			sourceTree = "<group>";
 		};
 		324301F422137762009D209F /* Extensions */ = {
@@ -541,6 +611,16 @@
 				32AABD2620ACA83300F66DC6 /* MockURLSession.swift */,
 			);
 			name = Mocks;
+			sourceTree = "<group>";
+		};
+		32DA0954225007520065FF83 /* Query */ = {
+			isa = PBXGroup;
+			children = (
+				323650662250078200D329B1 /* Query+Distance.swift */,
+				3236507F22503A0B00D329B1 /* Query+Intersects.swift */,
+				32365075225031B100D329B1 /* Query+Within.swift */,
+			);
+			path = Query;
 			sourceTree = "<group>";
 		};
 		B52240181FB33CD000D0343F /* Source */ = {
@@ -1016,6 +1096,7 @@
 			files = (
 				B5B6AC2A1FBA84C400B93106 /* CodableDictionary.swift in Sources */,
 				B507D4F21FBB722000B2D18D /* Conflict.swift in Sources */,
+				3236508122503A0B00D329B1 /* Query+Intersects.swift in Sources */,
 				329AA647209CEF470007A955 /* ResourceSystemProperties.swift in Sources */,
 				B58361CE1FBA1439001CEC66 /* Attachment.swift in Sources */,
 				9319DEEA20698C3D0083475D /* PermissionProvider.swift in Sources */,
@@ -1028,7 +1109,6 @@
 				3234ABF4223D40C400270767 /* PartitionKeyRange.swift in Sources */,
 				93F9ACD21FC0D01400AC240C /* ResourceError.swift in Sources */,
 				B58361C41FBA13B0001CEC66 /* DocumentCollection.swift in Sources */,
-				3234ABFF223EBA1600270767 /* Query+Geometry.swift in Sources */,
 				B5B6AC251FBA4B3900B93106 /* Query.swift in Sources */,
 				93935D9C20585C8600F1832A /* PermissionMode.swift in Sources */,
 				32532A5C207825A1002BFFCA /* ResponseMetadata.swift in Sources */,
@@ -1036,13 +1116,16 @@
 				323B71AB207E6B75000F20F6 /* ResourceRequestError.swift in Sources */,
 				9317A81820656ED100338B63 /* ResourceOracle.swift in Sources */,
 				931EA5C41FBE6920003CCFF4 /* DocumentClientExtensions.swift in Sources */,
+				32DA0942224FF5FA0065FF83 /* LineString.swift in Sources */,
 				B58361B41FB78F7A001CEC66 /* ResponseExtensions.swift in Sources */,
 				B52241021FB3409F00D0343F /* AzureData.swift in Sources */,
 				B52240B21FB3409000D0343F /* ResourceType.swift in Sources */,
+				32DA093D224F99B60065FF83 /* CLLocationCoordinate2D+Equatable.swift in Sources */,
 				9319DEF420698F260083475D /* PermissionProviderError.swift in Sources */,
 				3295124722146B8D00E8A069 /* DocumentContainer.swift in Sources */,
 				B58361F11FBA19A7001CEC66 /* DatabaseAccount.swift in Sources */,
 				323AE94B2080230E00EAE1F5 /* SupportsPermissionToken.swift in Sources */,
+				32DA0951224FFD610065FF83 /* Polygon.swift in Sources */,
 				B58361E71FBA17D8001CEC66 /* User.swift in Sources */,
 				B52241051FB3409F00D0343F /* UtilityExtensions.swift in Sources */,
 				9319DF032069DD7B0083475D /* ResourceTokenProvider.swift in Sources */,
@@ -1053,16 +1136,19 @@
 				B58361C91FBA13D8001CEC66 /* Database.swift in Sources */,
 				B58361E21FBA17C8001CEC66 /* Trigger.swift in Sources */,
 				B58361DD1FBA17B5001CEC66 /* StoredProcedure.swift in Sources */,
+				32DA094C224FFB9A0065FF83 /* GeometryError.swift in Sources */,
 				9316F450206A977F00D7BA8B /* ResourceLocation.swift in Sources */,
 				932F01342076AC5A001D708B /* ResourceCache.swift in Sources */,
 				9319DEEF20698C840083475D /* PermissionProviderConfiguration.swift in Sources */,
 				32EB2C1E209C5DA700CEBB77 /* ResourceWriteOperation.swift in Sources */,
 				B52240961FB3407C00D0343F /* AzureDataExtensions.swift in Sources */,
+				32365077225031B100D329B1 /* Query+Within.swift in Sources */,
 				32A5030820A1D16F000C5948 /* ResourceEncryptor.swift in Sources */,
 				32799700209C830C0062A374 /* ResourceWriteOperationQueue.swift in Sources */,
 				B58361BA1FBA1385001CEC66 /* CodableResource.swift in Sources */,
 				B58361A71FB78F73001CEC66 /* DocumentClient.swift in Sources */,
 				93B7240C2064560F00984CA8 /* MSHttpHeader.swift in Sources */,
+				32DA0947224FF7080065FF83 /* Geometry.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1070,6 +1156,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3236508F2250DDA300D329B1 /* WithinTests.swift in Sources */,
 				B52240691FB33DF800D0343F /* UserPermissionExtensionsTests.swift in Sources */,
 				B52240751FB33DF800D0343F /* DatabaseTests.swift in Sources */,
 				B52240671FB33DF800D0343F /* UserDefinedFunctionTests.swift in Sources */,
@@ -1082,6 +1169,8 @@
 				B52240731FB33DF800D0343F /* UserTests.swift in Sources */,
 				B52240761FB33DF800D0343F /* CollectionDocumentExtensionsTests.swift in Sources */,
 				32AABD1F20AC9FB900F66DC6 /* OfflineWriteTests.swift in Sources */,
+				3236507322500C8300D329B1 /* PolygonTests.swift in Sources */,
+				3236506A225007EB00D329B1 /* LineStringTests.swift in Sources */,
 				B522406F1FB33DF800D0343F /* AttachmentTests.swift in Sources */,
 				932832E72072CD9E0075ECC7 /* ExamplePermissionProviderTests.swift in Sources */,
 				B522406E1FB33DF800D0343F /* TriggerTests.swift in Sources */,
@@ -1091,6 +1180,7 @@
 				B52240681FB33DF800D0343F /* StoredProcedureTests.swift in Sources */,
 				329C7DB520BEC28000A49453 /* OfflineReadTests.swift in Sources */,
 				B52240771FB33DF800D0343F /* AzureDataTests.swift in Sources */,
+				3236508B22503D4400D329B1 /* IntersectsTests.swift in Sources */,
 				B522406A1FB33DF800D0343F /* QueryTests.swift in Sources */,
 				3236FBDE209160F70002FB5F /* _AzureDataTests.swift in Sources */,
 				B52240781FB33DF800D0343F /* DocumentCollectionTests.swift in Sources */,
@@ -1100,6 +1190,7 @@
 				323A90F320800DEB00537769 /* Extensions.swift in Sources */,
 				B522406C1FB33DF800D0343F /* CollectionUserDefinedFunctionExtensionsTests.swift in Sources */,
 				B522406D1FB33DF800D0343F /* DatabaseCollectionExtensionsTests.swift in Sources */,
+				3236506F22500C3F00D329B1 /* DistanceTests.swift in Sources */,
 				B52240711FB33DF800D0343F /* DatabaseUserExtensionsTests.swift in Sources */,
 				329512C822157C5B00E8A069 /* TestDocument.swift in Sources */,
 				93F7CA1D206EDBEF00D92C2E /* PermissionCacheTests.swift in Sources */,
@@ -1112,6 +1203,7 @@
 			files = (
 				B5B6AC2B1FBA84C400B93106 /* CodableDictionary.swift in Sources */,
 				B507D4F31FBB722000B2D18D /* Conflict.swift in Sources */,
+				3236508222503A0B00D329B1 /* Query+Intersects.swift in Sources */,
 				329AA648209CEF470007A955 /* ResourceSystemProperties.swift in Sources */,
 				B58361CF1FBA1439001CEC66 /* Attachment.swift in Sources */,
 				9319DEEB20698C3D0083475D /* PermissionProvider.swift in Sources */,
@@ -1124,7 +1216,6 @@
 				3234ABF5223D40C400270767 /* PartitionKeyRange.swift in Sources */,
 				93F9ACD31FC0D01400AC240C /* ResourceError.swift in Sources */,
 				B58361C51FBA13B0001CEC66 /* DocumentCollection.swift in Sources */,
-				3234AC00223EBA1600270767 /* Query+Geometry.swift in Sources */,
 				B5B6AC261FBA4B3900B93106 /* Query.swift in Sources */,
 				93935D9D20585C8600F1832A /* PermissionMode.swift in Sources */,
 				32532A5E207825A1002BFFCA /* ResponseMetadata.swift in Sources */,
@@ -1132,13 +1223,16 @@
 				323B71AC207E6B75000F20F6 /* ResourceRequestError.swift in Sources */,
 				9317A81920656ED100338B63 /* ResourceOracle.swift in Sources */,
 				931EA5C61FBE6922003CCFF4 /* DocumentClientExtensions.swift in Sources */,
+				32DA0943224FF5FA0065FF83 /* LineString.swift in Sources */,
 				B58361AF1FB78F7A001CEC66 /* ResponseExtensions.swift in Sources */,
 				B52240FD1FB3409E00D0343F /* AzureData.swift in Sources */,
 				B52240C71FB3409100D0343F /* ResourceType.swift in Sources */,
+				32DA093E224F99B60065FF83 /* CLLocationCoordinate2D+Equatable.swift in Sources */,
 				9319DEF520698F260083475D /* PermissionProviderError.swift in Sources */,
 				3295124822146B8D00E8A069 /* DocumentContainer.swift in Sources */,
 				B58361F21FBA19A7001CEC66 /* DatabaseAccount.swift in Sources */,
 				323AE94C2080230E00EAE1F5 /* SupportsPermissionToken.swift in Sources */,
+				32DA0952224FFD610065FF83 /* Polygon.swift in Sources */,
 				B58361E81FBA17D8001CEC66 /* User.swift in Sources */,
 				B52241001FB3409E00D0343F /* UtilityExtensions.swift in Sources */,
 				9319DF042069DD7B0083475D /* ResourceTokenProvider.swift in Sources */,
@@ -1149,16 +1243,19 @@
 				B58361CA1FBA13D8001CEC66 /* Database.swift in Sources */,
 				B58361E31FBA17C8001CEC66 /* Trigger.swift in Sources */,
 				B58361DE1FBA17B5001CEC66 /* StoredProcedure.swift in Sources */,
+				32DA094D224FFB9A0065FF83 /* GeometryError.swift in Sources */,
 				9316F451206A977F00D7BA8B /* ResourceLocation.swift in Sources */,
 				932F01352076AC5A001D708B /* ResourceCache.swift in Sources */,
 				9319DEF020698C840083475D /* PermissionProviderConfiguration.swift in Sources */,
 				32EB2C1F209C5DA700CEBB77 /* ResourceWriteOperation.swift in Sources */,
 				B52240991FB3407D00D0343F /* AzureDataExtensions.swift in Sources */,
+				32365078225031B100D329B1 /* Query+Within.swift in Sources */,
 				32A5030920A1D16F000C5948 /* ResourceEncryptor.swift in Sources */,
 				32799701209C830C0062A374 /* ResourceWriteOperationQueue.swift in Sources */,
 				B58361BB1FBA1385001CEC66 /* CodableResource.swift in Sources */,
 				B58361A61FB78F73001CEC66 /* DocumentClient.swift in Sources */,
 				93B7240D2064560F00984CA8 /* MSHttpHeader.swift in Sources */,
+				32DA0948224FF7080065FF83 /* Geometry.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1166,6 +1263,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				323650902250DDA300D329B1 /* WithinTests.swift in Sources */,
 				B522407D1FB33DFA00D0343F /* UserPermissionExtensionsTests.swift in Sources */,
 				B52240891FB33DFA00D0343F /* DatabaseTests.swift in Sources */,
 				B522407B1FB33DFA00D0343F /* UserDefinedFunctionTests.swift in Sources */,
@@ -1178,6 +1276,8 @@
 				B52240871FB33DFA00D0343F /* UserTests.swift in Sources */,
 				B522408A1FB33DFA00D0343F /* CollectionDocumentExtensionsTests.swift in Sources */,
 				32AABD2020AC9FB900F66DC6 /* OfflineWriteTests.swift in Sources */,
+				3236507422500C8300D329B1 /* PolygonTests.swift in Sources */,
+				3236506B225007EB00D329B1 /* LineStringTests.swift in Sources */,
 				B52240831FB33DFA00D0343F /* AttachmentTests.swift in Sources */,
 				932832E82072CD9E0075ECC7 /* ExamplePermissionProviderTests.swift in Sources */,
 				B52240821FB33DFA00D0343F /* TriggerTests.swift in Sources */,
@@ -1187,6 +1287,7 @@
 				B522407C1FB33DFA00D0343F /* StoredProcedureTests.swift in Sources */,
 				329C7DB620BEC28000A49453 /* OfflineReadTests.swift in Sources */,
 				B522408B1FB33DFA00D0343F /* AzureDataTests.swift in Sources */,
+				3236508C22503D4400D329B1 /* IntersectsTests.swift in Sources */,
 				B522407E1FB33DFA00D0343F /* QueryTests.swift in Sources */,
 				3236FBDF209160F70002FB5F /* _AzureDataTests.swift in Sources */,
 				B522408C1FB33DFA00D0343F /* DocumentCollectionTests.swift in Sources */,
@@ -1196,6 +1297,7 @@
 				323A90F520800E6C00537769 /* Extensions.swift in Sources */,
 				B52240801FB33DFA00D0343F /* CollectionUserDefinedFunctionExtensionsTests.swift in Sources */,
 				B52240811FB33DFA00D0343F /* DatabaseCollectionExtensionsTests.swift in Sources */,
+				3236507022500C3F00D329B1 /* DistanceTests.swift in Sources */,
 				B52240851FB33DFA00D0343F /* DatabaseUserExtensionsTests.swift in Sources */,
 				329512C922157C5B00E8A069 /* TestDocument.swift in Sources */,
 				93F7CA1E206EDBF100D92C2E /* PermissionCacheTests.swift in Sources */,
@@ -1208,6 +1310,7 @@
 			files = (
 				B5B6AC2C1FBA84C400B93106 /* CodableDictionary.swift in Sources */,
 				B507D4F41FBB722000B2D18D /* Conflict.swift in Sources */,
+				3236508322503A0B00D329B1 /* Query+Intersects.swift in Sources */,
 				329AA649209CEF470007A955 /* ResourceSystemProperties.swift in Sources */,
 				B58361D01FBA1439001CEC66 /* Attachment.swift in Sources */,
 				9319DEEC20698C3D0083475D /* PermissionProvider.swift in Sources */,
@@ -1220,7 +1323,6 @@
 				3234ABF6223D40C400270767 /* PartitionKeyRange.swift in Sources */,
 				93F9ACD41FC0D01400AC240C /* ResourceError.swift in Sources */,
 				B58361C61FBA13B0001CEC66 /* DocumentCollection.swift in Sources */,
-				3234AC01223EBA1600270767 /* Query+Geometry.swift in Sources */,
 				B5B6AC271FBA4B3900B93106 /* Query.swift in Sources */,
 				93935D9E20585C8600F1832A /* PermissionMode.swift in Sources */,
 				32532A60207825A1002BFFCA /* ResponseMetadata.swift in Sources */,
@@ -1228,13 +1330,16 @@
 				323B71AD207E6B75000F20F6 /* ResourceRequestError.swift in Sources */,
 				9317A81A20656ED100338B63 /* ResourceOracle.swift in Sources */,
 				931EA5C51FBE6922003CCFF4 /* DocumentClientExtensions.swift in Sources */,
+				32DA0944224FF5FA0065FF83 /* LineString.swift in Sources */,
 				B58361AA1FB78F78001CEC66 /* ResponseExtensions.swift in Sources */,
 				B52240F81FB3409D00D0343F /* AzureData.swift in Sources */,
 				B52240DC1FB3409200D0343F /* ResourceType.swift in Sources */,
+				32DA093F224F99B60065FF83 /* CLLocationCoordinate2D+Equatable.swift in Sources */,
 				9319DEF620698F260083475D /* PermissionProviderError.swift in Sources */,
 				3295124922146B8D00E8A069 /* DocumentContainer.swift in Sources */,
 				B58361F31FBA19A7001CEC66 /* DatabaseAccount.swift in Sources */,
 				323AE94D2080230E00EAE1F5 /* SupportsPermissionToken.swift in Sources */,
+				32DA0953224FFD610065FF83 /* Polygon.swift in Sources */,
 				B58361E91FBA17D8001CEC66 /* User.swift in Sources */,
 				B52240FB1FB3409D00D0343F /* UtilityExtensions.swift in Sources */,
 				9319DF052069DD7B0083475D /* ResourceTokenProvider.swift in Sources */,
@@ -1245,16 +1350,19 @@
 				B58361CB1FBA13D8001CEC66 /* Database.swift in Sources */,
 				B58361E41FBA17C8001CEC66 /* Trigger.swift in Sources */,
 				B58361DF1FBA17B5001CEC66 /* StoredProcedure.swift in Sources */,
+				32DA094E224FFB9A0065FF83 /* GeometryError.swift in Sources */,
 				9316F452206A977F00D7BA8B /* ResourceLocation.swift in Sources */,
 				932F01362076AC5A001D708B /* ResourceCache.swift in Sources */,
 				9319DEF120698C840083475D /* PermissionProviderConfiguration.swift in Sources */,
 				32EB2C20209C5DA700CEBB77 /* ResourceWriteOperation.swift in Sources */,
 				B522409C1FB3407E00D0343F /* AzureDataExtensions.swift in Sources */,
+				32365079225031B100D329B1 /* Query+Within.swift in Sources */,
 				32A5030A20A1D16F000C5948 /* ResourceEncryptor.swift in Sources */,
 				32799702209C830C0062A374 /* ResourceWriteOperationQueue.swift in Sources */,
 				B58361BC1FBA1385001CEC66 /* CodableResource.swift in Sources */,
 				B58361A51FB78F71001CEC66 /* DocumentClient.swift in Sources */,
 				93B7240E2064560F00984CA8 /* MSHttpHeader.swift in Sources */,
+				32DA0949224FF7080065FF83 /* Geometry.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1264,9 +1372,15 @@
 			files = (
 				B5B6AC291FBA84C400B93106 /* CodableDictionary.swift in Sources */,
 				B507D4F11FBB722000B2D18D /* Conflict.swift in Sources */,
+				32DA093C224F99B60065FF83 /* CLLocationCoordinate2D+Equatable.swift in Sources */,
+				3236508022503A0B00D329B1 /* Query+Intersects.swift in Sources */,
 				3234ABF3223D40C400270767 /* PartitionKeyRange.swift in Sources */,
+				32DA0941224FF5FA0065FF83 /* LineString.swift in Sources */,
 				329AA646209CEF470007A955 /* ResourceSystemProperties.swift in Sources */,
+				32DA0950224FFD610065FF83 /* Polygon.swift in Sources */,
 				324301F82213779C009D209F /* PartitionKeyDefinition.swift in Sources */,
+				32DA0946224FF7080065FF83 /* Geometry.swift in Sources */,
+				32365076225031B100D329B1 /* Query+Within.swift in Sources */,
 				B58361CD1FBA1439001CEC66 /* Attachment.swift in Sources */,
 				9319DEE920698C3D0083475D /* PermissionProvider.swift in Sources */,
 				9319DEF820698FB90083475D /* PermissionCache.swift in Sources */,
@@ -1278,6 +1392,7 @@
 				93F9ACD11FC0D01400AC240C /* ResourceError.swift in Sources */,
 				B583619A1FB779B6001CEC66 /* ResponseExtensions.swift in Sources */,
 				B5B6AC241FBA4B3900B93106 /* Query.swift in Sources */,
+				323650672250078200D329B1 /* Query+Distance.swift in Sources */,
 				93935D9B20585C8600F1832A /* PermissionMode.swift in Sources */,
 				32532A5A207825A1002BFFCA /* ResponseMetadata.swift in Sources */,
 				3234ABF9223EB35A00270767 /* Point.swift in Sources */,
@@ -1294,6 +1409,7 @@
 				323AE94A2080230E00EAE1F5 /* SupportsPermissionToken.swift in Sources */,
 				B58361E61FBA17D8001CEC66 /* User.swift in Sources */,
 				B58361EB1FBA17E8001CEC66 /* UserDefinedFunction.swift in Sources */,
+				32DA094B224FFB9A0065FF83 /* GeometryError.swift in Sources */,
 				9319DF022069DD7B0083475D /* ResourceTokenProvider.swift in Sources */,
 				B58361BE1FBA13A0001CEC66 /* Document.swift in Sources */,
 				B58361D21FBA15A8001CEC66 /* Offer.swift in Sources */,
@@ -1305,7 +1421,6 @@
 				932F01332076AC5A001D708B /* ResourceCache.swift in Sources */,
 				9319DEEE20698C840083475D /* PermissionProviderConfiguration.swift in Sources */,
 				32EB2C1D209C5DA700CEBB77 /* ResourceWriteOperation.swift in Sources */,
-				3234ABFE223EBA1600270767 /* Query+Geometry.swift in Sources */,
 				B583619F1FB78763001CEC66 /* DocumentClient.swift in Sources */,
 				32A5030720A1D16F000C5948 /* ResourceEncryptor.swift in Sources */,
 				327996FF209C830C0062A374 /* ResourceWriteOperationQueue.swift in Sources */,
@@ -1319,6 +1434,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3236508E2250DDA300D329B1 /* WithinTests.swift in Sources */,
 				B52240551FB33DF100D0343F /* UserPermissionExtensionsTests.swift in Sources */,
 				B52240611FB33DF100D0343F /* DatabaseTests.swift in Sources */,
 				B52240531FB33DF100D0343F /* UserDefinedFunctionTests.swift in Sources */,
@@ -1331,6 +1447,8 @@
 				B522405F1FB33DF100D0343F /* UserTests.swift in Sources */,
 				B52240621FB33DF100D0343F /* CollectionDocumentExtensionsTests.swift in Sources */,
 				32AABD1E20AC9FB900F66DC6 /* OfflineWriteTests.swift in Sources */,
+				3236507222500C8300D329B1 /* PolygonTests.swift in Sources */,
+				32365069225007EB00D329B1 /* LineStringTests.swift in Sources */,
 				B522405B1FB33DF100D0343F /* AttachmentTests.swift in Sources */,
 				932832E62072CD9E0075ECC7 /* ExamplePermissionProviderTests.swift in Sources */,
 				B522405A1FB33DF100D0343F /* TriggerTests.swift in Sources */,
@@ -1340,6 +1458,7 @@
 				B52240541FB33DF100D0343F /* StoredProcedureTests.swift in Sources */,
 				329C7DB420BEC28000A49453 /* OfflineReadTests.swift in Sources */,
 				B52240631FB33DF100D0343F /* AzureDataTests.swift in Sources */,
+				3236508A22503D4400D329B1 /* IntersectsTests.swift in Sources */,
 				B52240561FB33DF100D0343F /* QueryTests.swift in Sources */,
 				3236FBDD209160F70002FB5F /* _AzureDataTests.swift in Sources */,
 				B52240641FB33DF100D0343F /* DocumentCollectionTests.swift in Sources */,
@@ -1349,6 +1468,7 @@
 				323A90F220800DEB00537769 /* Extensions.swift in Sources */,
 				B52240581FB33DF100D0343F /* CollectionUserDefinedFunctionExtensionsTests.swift in Sources */,
 				B52240591FB33DF100D0343F /* DatabaseCollectionExtensionsTests.swift in Sources */,
+				3236506E22500C3F00D329B1 /* DistanceTests.swift in Sources */,
 				B522405D1FB33DF100D0343F /* DatabaseUserExtensionsTests.swift in Sources */,
 				329512C722157C5B00E8A069 /* TestDocument.swift in Sources */,
 				93F7CA1C206EDBED00D92C2E /* PermissionCacheTests.swift in Sources */,
