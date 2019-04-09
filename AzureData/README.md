@@ -9,6 +9,55 @@ AzureData is an SDK for interfacing with [Azure Cosmos DB](https://docs.microsof
 More information on the features to be included in AzureData can be found the [Requirements](https://github.com/Azure/Azure.iOS/wiki/Requirements-AzureData) wiki document.
 
 
+# Installation
+
+## CocoaPods
+
+[CocoaPods](http://cocoapods.org) is a dependency manager for Cocoa projects.
+You can install it with the following command:
+
+```bash
+[sudo] gem install cocoapods
+```
+
+> CocoaPods 1.3+ is required.
+
+To integrate the AzureData into your project, specify it in your [Podfile](http://guides.cocoapods.org/using/the-podfile.html):
+
+```ruby
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '12.0'
+use_frameworks!
+
+pod 'AzureData', '~> 0.3'
+```
+
+Then, run the following command:
+
+```bash
+$ pod install
+```
+
+## Carthage
+
+[Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.
+
+You can install Carthage with [Homebrew](http://brew.sh/) using the following command:
+
+```bash
+$ brew update
+$ brew install carthage
+```
+
+To integrate AzureData into your Xcode project using Carthage, specify it in your [Cartfile](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile):
+
+```
+github "Azure/Azure.iOS" ~> 0.3
+```
+
+Run `carthage update` to build the framework and drag the built `Azure.framework`, `Azure.framework`, etc. into your Xcode project.
+
+
 # Configure
 
 Before making calls to AzureData, you'll need to configure AzureData with your Azure account name and master key using one of the `AzureData.configure` functions. We recommend doing this in `application(_:didFinishLaunchingWithOptions:)`. You can provide your Azure account name and master key, programmatically, as parameters to `AzureData.configure` or you can provide them in a property list (`.plist`) file.

@@ -61,11 +61,11 @@ To integrate the Azure.iOS into your project, specify it in your [Podfile](http:
 
 ```ruby
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '11.0'
+platform :ios, '12.0'
 use_frameworks!
 
-# pod 'AzureAuth', '~> 0.1'
-pod 'AzureData', '~> 0.1'
+# pod 'AzureAuth', '~> 0.3'
+pod 'AzureData', '~> 0.3'
 ```
 
 Then, run the following command:
@@ -88,7 +88,7 @@ $ brew install carthage
 To integrate Azure.iOS into your Xcode project using Carthage, specify it in your [Cartfile](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile):
 
 ```
-github "Azure/Azure.iOS" ~> 0.1
+github "Azure/Azure.iOS" ~> 0.3
 ```
 
 Run `carthage update` to build the framework and drag the built `AzureData.framework`, `AzureData.framework`, etc. into your Xcode project.
