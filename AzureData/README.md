@@ -303,7 +303,7 @@ Here is an example of a class that conforms to `Document`:
 
 ```swift
 final class Person: Document {
-    static let partitionKey = \.birthCity
+    static let partitionKey: PartitionKey? = \.birthCity
 
     let id: String
     let firstName: String
