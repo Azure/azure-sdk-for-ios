@@ -12,27 +12,27 @@ final class DocumentContainer<DocumentType: Document>: CodableResource, Supports
     static var type: String { return "docs" }
     static var list: String { return "Documents" }
 
-    var id: String { return metadata.id }
-    var resourceId: String { return metadata.id }
-    var selfLink: String? { return metadata.selfLink }
-    var etag: String? { return metadata.etag }
-    var timestamp: Date? { return metadata.timestamp }
-    var altLink: String? { return metadata.altLink }
-    var attachmentsLink: String? { return metadata.attachmentsLink }
+    var id: String { return document.id }
+    var resourceId: String { return metadata?.resourceId ?? "" }
+    var selfLink: String? { return metadata?.selfLink }
+    var etag: String? { return metadata?.etag }
+    var timestamp: Date? { return metadata?.timestamp }
+    var altLink: String? { return metadata?.altLink }
+    var attachmentsLink: String? { return metadata?.attachmentsLink }
 
-    var metadata: DocumentMetadata
+    var metadata: DocumentMetadata?
     var document: DocumentType
 
     func setAltLink(to link: String) {
-        metadata.altLink = link
+        metadata?.altLink = link
     }
 
     func setEtag(to tag: String) {
-        metadata.etag = tag
+        metadata?.etag = tag
     }
 
     internal init(_ document: DocumentType) {
-        self.metadata = DocumentMetadata(id: document.id, resourceId: "")
+        self.metadata = DocumentMetadata(resourceId: "")
         self.document = document
     }
 
@@ -41,20 +41,21 @@ final class DocumentContainer<DocumentType: Document>: CodableResource, Supports
     }
 
     required init(from decoder: Decoder) throws {
-        self.metadata = try DocumentMetadata(from: decoder)
+        self.metadata = try? DocumentMetadata(from: decoder)
         self.document = try DocumentType(from: decoder)
-        self.document.metadata = self.metadata
+        if let metadata = self.metadata {
+            self.document.metadata = metadata
+        }
     }
 
     func encode(to encoder: Encoder) throws {
-        try metadata.encode(to: encoder)
+        try metadata?.encode(to: encoder)
         try document.encode(to: encoder)
     }
 }
 
 final class DocumentMetadata: Codable {
     enum CodingKeys: String, CodingKey {
-        case id
         case resourceId         = "_rid"
         case selfLink           = "_self"
         case etag               = "_etag"
@@ -62,7 +63,6 @@ final class DocumentMetadata: Codable {
         case attachmentsLink    = "_attachments"
     }
 
-    let id: String
     let resourceId: String
     let selfLink:   String?
     var etag:       String?
@@ -78,8 +78,7 @@ final class DocumentMetadata: Codable {
         etag = tag
     }
 
-    init(id: String, resourceId: String, selfLink: String? = nil, etag: String? = nil, timestamp: Date? = nil, altLink: String? = nil, attachmentsLink: String? = nil) {
-        self.id = id
+    init(resourceId: String, selfLink: String? = nil, etag: String? = nil, timestamp: Date? = nil, altLink: String? = nil, attachmentsLink: String? = nil) {
         self.resourceId = resourceId
         self.selfLink = selfLink
         self.etag = etag
