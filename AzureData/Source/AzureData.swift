@@ -271,6 +271,22 @@ public class AzureData {
         return DocumentClient.shared.query (documentsIn: collection, as: documentType, with: query, andPartitionKey: nil, maxPerPage: maxPerPage, callback: callback)
     }
 
+    public static func query (documentPropertiesIn collectionId: String, inDatabase databaseId: String, with query: Query, andPartitionKey partitionKey: String, maxPerPage: Int? = nil, callback: @escaping (Response<Documents<DocumentProperties>>) -> ()) {
+        return DocumentClient.shared.query (documentsIn: collectionId, as: DocumentProperties.self, inDatabase: databaseId, with: query, andPartitionKey: partitionKey, maxPerPage: maxPerPage, callback: callback)
+    }
+
+    public static func query (documentPropertiesIn collection: DocumentCollection, with query: Query, andPartitionKey partitionKey: String, maxPerPage: Int? = nil, callback: @escaping (Response<Documents<DocumentProperties>>) -> ()) {
+        return DocumentClient.shared.query (documentsIn: collection, as: DocumentProperties.self, with: query, andPartitionKey: partitionKey, maxPerPage: maxPerPage, callback: callback)
+    }
+
+    public static func query (documentPropertiesAcrossAllPartitionsIn collectionId: String, inDatabase databaseId: String, with query: Query, maxPerPage: Int? = nil, callback: @escaping (Response<Documents<DocumentProperties>>) -> ()) {
+        return DocumentClient.shared.query (documentsIn: collectionId, as: DocumentProperties.self, inDatabase: databaseId, with: query, andPartitionKey: nil, maxPerPage: maxPerPage, callback: callback)
+    }
+
+    public static func query (documentPropertiesAcrossAllPartitionsIn collection: DocumentCollection, with query: Query, maxPerPage: Int? = nil, callback: @escaping (Response<Documents<DocumentProperties>>) -> ()) {
+        return DocumentClient.shared.query (documentsIn: collection, as: DocumentProperties.self, with: query, andPartitionKey: nil, maxPerPage: maxPerPage, callback: callback)
+    }
+
     // delete
     public static func delete<T: Document>(_ document: T, callback: @escaping (Response<Data>) -> ()) {
         return DocumentClient.shared.delete(document, callback: callback)

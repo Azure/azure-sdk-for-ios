@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		321CD7CE227599CF0036E8B1 /* DocumentProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321CD7CD227599CF0036E8B1 /* DocumentProperties.swift */; };
+		321CD7CF227599CF0036E8B1 /* DocumentProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321CD7CD227599CF0036E8B1 /* DocumentProperties.swift */; };
+		321CD7D0227599CF0036E8B1 /* DocumentProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321CD7CD227599CF0036E8B1 /* DocumentProperties.swift */; };
+		321CD7D1227599CF0036E8B1 /* DocumentProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321CD7CD227599CF0036E8B1 /* DocumentProperties.swift */; };
 		3234ABF3223D40C400270767 /* PartitionKeyRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3234ABF2223D40C400270767 /* PartitionKeyRange.swift */; };
 		3234ABF4223D40C400270767 /* PartitionKeyRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3234ABF2223D40C400270767 /* PartitionKeyRange.swift */; };
 		3234ABF5223D40C400270767 /* PartitionKeyRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3234ABF2223D40C400270767 /* PartitionKeyRange.swift */; };
@@ -381,6 +385,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		321CD7CD227599CF0036E8B1 /* DocumentProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentProperties.swift; sourceTree = "<group>"; };
 		3234ABF2223D40C400270767 /* PartitionKeyRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartitionKeyRange.swift; sourceTree = "<group>"; };
 		3234ABF8223EB35A00270767 /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		3234AC03223EBD6500270767 /* PointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointTests.swift; sourceTree = "<group>"; };
@@ -752,6 +757,7 @@
 				B58361BD1FBA13A0001CEC66 /* Document.swift */,
 				3295124522146B8D00E8A069 /* DocumentContainer.swift */,
 				B58361C21FBA13B0001CEC66 /* DocumentCollection.swift */,
+				321CD7CD227599CF0036E8B1 /* DocumentProperties.swift */,
 				3295125F2214A82600E8A069 /* Documents.swift */,
 				B58361D11FBA15A8001CEC66 /* Offer.swift */,
 				3234ABF2223D40C400270767 /* PartitionKeyRange.swift */,
@@ -1118,6 +1124,7 @@
 				931EA5C41FBE6920003CCFF4 /* DocumentClientExtensions.swift in Sources */,
 				32DA0942224FF5FA0065FF83 /* LineString.swift in Sources */,
 				B58361B41FB78F7A001CEC66 /* ResponseExtensions.swift in Sources */,
+				321CD7CF227599CF0036E8B1 /* DocumentProperties.swift in Sources */,
 				B52241021FB3409F00D0343F /* AzureData.swift in Sources */,
 				B52240B21FB3409000D0343F /* ResourceType.swift in Sources */,
 				32DA093D224F99B60065FF83 /* CLLocationCoordinate2D+Equatable.swift in Sources */,
@@ -1225,6 +1232,7 @@
 				931EA5C61FBE6922003CCFF4 /* DocumentClientExtensions.swift in Sources */,
 				32DA0943224FF5FA0065FF83 /* LineString.swift in Sources */,
 				B58361AF1FB78F7A001CEC66 /* ResponseExtensions.swift in Sources */,
+				321CD7D0227599CF0036E8B1 /* DocumentProperties.swift in Sources */,
 				B52240FD1FB3409E00D0343F /* AzureData.swift in Sources */,
 				B52240C71FB3409100D0343F /* ResourceType.swift in Sources */,
 				32DA093E224F99B60065FF83 /* CLLocationCoordinate2D+Equatable.swift in Sources */,
@@ -1332,6 +1340,7 @@
 				931EA5C51FBE6922003CCFF4 /* DocumentClientExtensions.swift in Sources */,
 				32DA0944224FF5FA0065FF83 /* LineString.swift in Sources */,
 				B58361AA1FB78F78001CEC66 /* ResponseExtensions.swift in Sources */,
+				321CD7D1227599CF0036E8B1 /* DocumentProperties.swift in Sources */,
 				B52240F81FB3409D00D0343F /* AzureData.swift in Sources */,
 				B52240DC1FB3409200D0343F /* ResourceType.swift in Sources */,
 				32DA093F224F99B60065FF83 /* CLLocationCoordinate2D+Equatable.swift in Sources */,
@@ -1404,6 +1413,7 @@
 				B583619D1FB77A70001CEC66 /* Resources.swift in Sources */,
 				B52241071FB3409F00D0343F /* AzureData.swift in Sources */,
 				B58361F01FBA19A7001CEC66 /* DatabaseAccount.swift in Sources */,
+				321CD7CE227599CF0036E8B1 /* DocumentProperties.swift in Sources */,
 				9319DEF320698F260083475D /* PermissionProviderError.swift in Sources */,
 				B522409D1FB3408E00D0343F /* ResourceType.swift in Sources */,
 				323AE94A2080230E00EAE1F5 /* SupportsPermissionToken.swift in Sources */,

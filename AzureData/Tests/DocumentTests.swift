@@ -188,6 +188,84 @@ class DocumentTests: _AzureDataTests {
         wait(for: [expectation], timeout: timeout)
     }
 
+    func testPartialQueryWithPartitionKey() {
+        let expectation = self.expectation(description: "should query a subset of fields of documents in a specified partition")
+
+        let first = TestDocument.stub(documentId + "1")
+        let second = TestDocument.stub(documentId + "2", firstName: "Anoura", lastName: "Akaya", birthCity: "Lome")
+        let third = TestDocument.stub(documentId + "3", firstName: "Farid", lastName: "Akaya", birthCity: "Lome")
+
+        ensureDocumentExists(first)
+        ensureDocumentExists(second)
+        ensureDocumentExists(third)
+
+        let query = Query.select("firstName").from("Document")
+        AzureData.query(documentPropertiesIn: collectionId, inDatabase: databaseId, with: query, andPartitionKey: second.birthCity) { r in
+            XCTAssertTrue(r.result.isSuccess)
+            XCTAssertNotNil(r.resource)
+            XCTAssertEqual(r.resource?.items.count, 2)
+
+            XCTAssertFalse(r.resource?.items.filter({ ($0["firstName"] as? String) == second.firstName }).isEmpty ?? true)
+            XCTAssertFalse(r.resource?.items.filter({ ($0["firstName"] as? String) == third.firstName }).isEmpty ?? true)
+
+            let first = r.resource?.items.first
+            XCTAssertNotNil(first)
+            XCTAssertNil(first?["lastName"])
+            XCTAssertNil(first?["birthCity"])
+
+            let second = r.resource?.items.first
+            XCTAssertNotNil(second)
+            XCTAssertNil(second?["lastName"])
+            XCTAssertNil(second?["birthCity"])
+
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: timeout)
+    }
+
+    func testPartialQueryAcrossAllPartitions() {
+        let expectation = self.expectation(description: "should query documents across all partitions")
+
+        let first = TestDocument.stub(documentId + "1")
+        let second = TestDocument.stub(documentId + "2", firstName: "Anoura", lastName: "Akaya", birthCity: "Lome")
+        let third = TestDocument.stub(documentId + "3", firstName: "Farid", lastName: "Akaya", birthCity: "Lome")
+
+        ensureDocumentExists(first)
+        ensureDocumentExists(second)
+        ensureDocumentExists(third)
+
+        let query = Query.select("lastName").from("TestDocument").orderBy("birthCity")
+        AzureData.query(documentPropertiesAcrossAllPartitionsIn: self.collectionId, inDatabase: self.databaseId, with: query) { r in
+            XCTAssertTrue(r.result.isSuccess)
+            XCTAssertNotNil(r.resource)
+            XCTAssertEqual(r.resource?.items.count, 3)
+
+            XCTAssertFalse(r.resource?.items.filter({ ($0["lastName"] as? String) == first.lastName }).isEmpty ?? true)
+            XCTAssertFalse(r.resource?.items.filter({ ($0["lastName"] as? String) == second.lastName }).isEmpty ?? true)
+            XCTAssertFalse(r.resource?.items.filter({ ($0["lastName"] as? String) == third.lastName }).isEmpty ?? true)
+
+            let first = r.resource?.items[0]
+            XCTAssertNotNil(first)
+            XCTAssertNil(first?["firstName"])
+            XCTAssertNil(first?["birthCity"])
+
+            let second = r.resource?.items[1]
+            XCTAssertNotNil(second)
+            XCTAssertNil(second?["firstName"])
+            XCTAssertNil(second?["birthCity"])
+
+            let third = r.resource?.items[2]
+            XCTAssertNotNil(third)
+            XCTAssertNil(third?["firstName"])
+            XCTAssertNil(third?["birthCity"])
+
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: timeout)
+    }
+
     func testQueryResultsAreCachedLocally() {
         let expectation = self.expectation(description: "should cache query results locally")
 

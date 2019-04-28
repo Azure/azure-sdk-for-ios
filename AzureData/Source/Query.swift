@@ -39,7 +39,7 @@ public class Query : Encodable {
         try container.encode(parameters.isEmpty ? [] : [parameters], forKey: .parameters)
     }
     
-    init(_ properties: [String]? = nil) {
+    internal init(_ properties: [String]? = nil) {
         selectCalled = true
         
         if let properties = properties, !properties.isEmpty {
@@ -48,19 +48,18 @@ public class Query : Encodable {
     }
     
     public static func select() -> Query {
-        //assert(!selectCalled, "you can only call select once")
-        //selectCalled = true;
-        
-        return Query()
+        let query = Query()
+        query.selectCalled = true
+
+        return query
     }
     
     public static func select(_ properties: String...) -> Query {
-        //        assert(selectCalled, "you can only call `select` once")
-        //        selectCalled = true;
-        
-        //        self.selectProperties = properties
-        
-        return Query()
+        let query = Query()
+        query.selectCalled = true
+        query.selectProperties = properties
+
+        return query
     }
     
     

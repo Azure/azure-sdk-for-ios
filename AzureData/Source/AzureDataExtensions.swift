@@ -11,7 +11,7 @@ import AzureCore
 
 // MARK: -
 
-public extension CodableResource {
+extension CodableResource {
     
     public func delete(_ callback: @escaping (Response<Data>) -> ()) {
         return DocumentClient.shared.delete(self, callback: callback)
@@ -22,7 +22,7 @@ public extension CodableResource {
     }
 }
 
-public extension CodableResource where Self: SupportsPermissionToken {
+extension CodableResource where Self: SupportsPermissionToken {
 
     public func create(permissionWithId permissionId: String, mode permissionMode: PermissionMode, for user: User, callback: @escaping (Response<Permission>) -> ()) {
         return DocumentClient.shared.create(permissionWithId: permissionId, mode: permissionMode, in: self, for: user, callback: callback)
@@ -32,7 +32,7 @@ public extension CodableResource where Self: SupportsPermissionToken {
 
 // MARK: -
 
-public extension Database {
+extension Database {
 
     // MARK: Document Collection
     
@@ -97,7 +97,7 @@ public extension Database {
 
 // MARK: -
 
-public extension DocumentCollection {
+extension DocumentCollection {
     
     // MARK: Documents
     
@@ -146,7 +146,15 @@ public extension DocumentCollection {
     public func query<T: Document> (documentsAcrossAllPartitionsWith query: Query, as documentType: T.Type, maxPerPage: Int? = nil, callback: @escaping (Response<Documents<T>>) -> ()) {
         return DocumentClient.shared.query(documentsIn: self, as: documentType, with: query, andPartitionKey: nil, maxPerPage: maxPerPage, callback: callback)
     }
-    
+
+    public func query (documentPropertiesWith query: Query, andPartitionKey partitionKey: String, maxPerPage: Int? = nil, callback: @escaping (Response<Documents<DocumentProperties>>) -> ()) {
+        return DocumentClient.shared.query (documentsIn: self, as: DocumentProperties.self, with: query, andPartitionKey: partitionKey, maxPerPage: maxPerPage, callback: callback)
+    }
+
+    public func query (documentPropertiesAcrossAllPartitionsWith query: Query, maxPerPage: Int? = nil, callback: @escaping (Response<Documents<DocumentProperties>>) -> ()) {
+        return DocumentClient.shared.query (documentsIn: self, as: DocumentProperties.self, with: query, andPartitionKey: nil, maxPerPage: maxPerPage, callback: callback)
+    }
+
     // MARK: Stored Procedures
     
     // create
@@ -243,7 +251,7 @@ public extension DocumentCollection {
 
 // MARK: -
 
-public extension Document {
+extension Document {
     
     // MARK: Attachments
     
@@ -284,7 +292,7 @@ public extension Document {
 
 // MARK: -
 
-public extension User {
+extension User {
     
     // MARK: Permissions
     
@@ -320,7 +328,7 @@ public extension User {
 
 // MARK: -
 
-public extension StoredProcedure {
+extension StoredProcedure {
 
     // execute
     public func execute (usingParameters parameters: [String]?, callback: @escaping (Response<Data>) -> ()) {

@@ -330,7 +330,14 @@ class DocumentClient {
         }
     }
 
-    
+    func query(documentPropertiesIn collectionId: String, inDatabase databaseId: String, with query: Query, andPartitionKey partitionKey: String?, maxPerPage: Int? = nil, callback: @escaping (Response<Documents<DocumentProperties>>) -> ()) {
+        return self.query(documentsIn: collectionId, as: DocumentProperties.self, inDatabase: databaseId, with: query, andPartitionKey: partitionKey, maxPerPage: maxPerPage, callback: callback)
+    }
+
+    func query(documentPropertiesIn collection: DocumentCollection, with query: Query, andPartitionKey partitionKey: String?, maxPerPage: Int? = nil, callback: @escaping (Response<Documents<DocumentProperties>>) -> ()) {
+        return self.query(documentsIn: collection, as: DocumentProperties.self, with: query, andPartitionKey: partitionKey, maxPerPage: maxPerPage, callback: callback)
+    }
+
     // MARK: - Attachments
     
     // create
