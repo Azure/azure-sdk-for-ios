@@ -55,7 +55,7 @@ public enum HttpHeader : String {
 }
 
 
-public extension Dictionary where Key == HttpHeader, Value == String  {
+extension Dictionary where Key == HttpHeader, Value == String  {
     public var strings: [String:String] {
         return Dictionary<String, String>.init(uniqueKeysWithValues: self.map{ (k, v) in
             (k.rawValue, v)
@@ -64,7 +64,7 @@ public extension Dictionary where Key == HttpHeader, Value == String  {
 }
 
 
-public extension Dictionary where Key == String, Value == String {
+extension Dictionary where Key == String, Value == String {
     public subscript (index: HttpHeader) -> String? {
         get {
             return self[index.rawValue]
@@ -75,7 +75,7 @@ public extension Dictionary where Key == String, Value == String {
     }
 }
 
-public extension Dictionary where Key == String, Value == Any {
+extension Dictionary where Key == String, Value == Any {
     public subscript (index: HttpHeader) -> Any? {
         get {
             return self[index.rawValue]
@@ -86,13 +86,13 @@ public extension Dictionary where Key == String, Value == Any {
     }
 }
 
-public extension URLRequest {
+extension URLRequest {
     public mutating func addValue(_ value: String, forHTTPHeaderField: HttpHeader) {
         self.addValue(value, forHTTPHeaderField: forHTTPHeaderField.rawValue)
     }
 }
 
-public extension Bundle {
+extension Bundle {
     
     /// Creates default values for the "Accept-Encoding", "Accept-Language", and "User-Agent" headers.
     public var defaultHttpHeaders: HttpHeaders {

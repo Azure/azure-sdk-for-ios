@@ -59,8 +59,8 @@ extension ResourceWriteOperation: Equatable {
 // MARK: - Hashable
 
 extension ResourceWriteOperation: Hashable {
-    var hashValue: Int {
-        return resourceLocalContentPath.hashValue
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(resourceLocalContentPath.hashValue)
     }
 }
 
