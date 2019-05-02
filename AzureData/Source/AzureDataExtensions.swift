@@ -181,7 +181,10 @@ public extension DocumentCollection {
     public func execute (storedProcedureWithId id: String, usingParameters parameters: [String]?, callback: @escaping (Response<Data>) -> ()) {
         return DocumentClient.shared.execute (storedProcedureWithId: id, usingParameters: parameters, in: self, callback: callback)
     }
-    
+
+    public func execute (storedProcedureWithId id: String, usingParameters parameters: [String]?, andPartitionKey partitionKey: String, callback: @escaping (Response<Data>) -> ()) {
+        return DocumentClient.shared.execute (storedProcedureWithId: id, usingParameters: parameters, andPartitionKey: partitionKey, in: self, callback: callback)
+    }
     
     
     // MARK: User Defined Functions
