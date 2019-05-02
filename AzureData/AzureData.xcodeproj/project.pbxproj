@@ -69,6 +69,9 @@
 		32799700209C830C0062A374 /* ResourceWriteOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327996FE209C830C0062A374 /* ResourceWriteOperationQueue.swift */; };
 		32799701209C830C0062A374 /* ResourceWriteOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327996FE209C830C0062A374 /* ResourceWriteOperationQueue.swift */; };
 		32799702209C830C0062A374 /* ResourceWriteOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327996FE209C830C0062A374 /* ResourceWriteOperationQueue.swift */; };
+		328D005222651EF4003120A8 /* _StoredProcedureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328D005122651EF4003120A8 /* _StoredProcedureTests.swift */; };
+		328D005322651EF4003120A8 /* _StoredProcedureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328D005122651EF4003120A8 /* _StoredProcedureTests.swift */; };
+		328D005422651EF4003120A8 /* _StoredProcedureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328D005122651EF4003120A8 /* _StoredProcedureTests.swift */; };
 		3295124622146B8D00E8A069 /* DocumentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3295124522146B8D00E8A069 /* DocumentContainer.swift */; };
 		3295124722146B8D00E8A069 /* DocumentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3295124522146B8D00E8A069 /* DocumentContainer.swift */; };
 		3295124822146B8D00E8A069 /* DocumentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3295124522146B8D00E8A069 /* DocumentContainer.swift */; };
@@ -400,6 +403,7 @@
 		324301F72213779C009D209F /* PartitionKeyDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PartitionKeyDefinition.swift; sourceTree = "<group>"; };
 		32532A59207825A1002BFFCA /* ResponseMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseMetadata.swift; sourceTree = "<group>"; };
 		327996FE209C830C0062A374 /* ResourceWriteOperationQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceWriteOperationQueue.swift; sourceTree = "<group>"; };
+		328D005122651EF4003120A8 /* _StoredProcedureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _StoredProcedureTests.swift; sourceTree = "<group>"; };
 		3295124522146B8D00E8A069 /* DocumentContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentContainer.swift; sourceTree = "<group>"; };
 		3295125F2214A82600E8A069 /* Documents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Documents.swift; sourceTree = "<group>"; };
 		329512C622157C5B00E8A069 /* TestDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDocument.swift; sourceTree = "<group>"; };
@@ -706,6 +710,7 @@
 				B52240461FB33D1200D0343F /* UserTests.swift */,
 				9317A81B2065763700338B63 /* ResourceOracleTests.swift */,
 				323A90F120800DEB00537769 /* Extensions.swift */,
+				328D005122651EF4003120A8 /* _StoredProcedureTests.swift */,
 			);
 			name = ResourceTests;
 			sourceTree = "<group>";
@@ -1170,6 +1175,7 @@
 				B52240761FB33DF800D0343F /* CollectionDocumentExtensionsTests.swift in Sources */,
 				32AABD1F20AC9FB900F66DC6 /* OfflineWriteTests.swift in Sources */,
 				3236507322500C8300D329B1 /* PolygonTests.swift in Sources */,
+				328D005322651EF4003120A8 /* _StoredProcedureTests.swift in Sources */,
 				3236506A225007EB00D329B1 /* LineStringTests.swift in Sources */,
 				B522406F1FB33DF800D0343F /* AttachmentTests.swift in Sources */,
 				932832E72072CD9E0075ECC7 /* ExamplePermissionProviderTests.swift in Sources */,
@@ -1277,6 +1283,7 @@
 				B522408A1FB33DFA00D0343F /* CollectionDocumentExtensionsTests.swift in Sources */,
 				32AABD2020AC9FB900F66DC6 /* OfflineWriteTests.swift in Sources */,
 				3236507422500C8300D329B1 /* PolygonTests.swift in Sources */,
+				328D005422651EF4003120A8 /* _StoredProcedureTests.swift in Sources */,
 				3236506B225007EB00D329B1 /* LineStringTests.swift in Sources */,
 				B52240831FB33DFA00D0343F /* AttachmentTests.swift in Sources */,
 				932832E82072CD9E0075ECC7 /* ExamplePermissionProviderTests.swift in Sources */,
@@ -1448,6 +1455,7 @@
 				B52240621FB33DF100D0343F /* CollectionDocumentExtensionsTests.swift in Sources */,
 				32AABD1E20AC9FB900F66DC6 /* OfflineWriteTests.swift in Sources */,
 				3236507222500C8300D329B1 /* PolygonTests.swift in Sources */,
+				328D005222651EF4003120A8 /* _StoredProcedureTests.swift in Sources */,
 				32365069225007EB00D329B1 /* LineStringTests.swift in Sources */,
 				B522405B1FB33DF100D0343F /* AttachmentTests.swift in Sources */,
 				932832E62072CD9E0075ECC7 /* ExamplePermissionProviderTests.swift in Sources */,
