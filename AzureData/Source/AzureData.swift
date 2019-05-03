@@ -400,7 +400,13 @@ public class AzureData {
         return DocumentClient.shared.execute (storedProcedureWithId: storedProcedureId, usingParameters: parameters, in: collection, callback: callback)
     }
 
+    public static func execute (storedProcedureWithId storedProcedureId: String, usingParameters parameters: [String]?, andPartitionKey partitionKey: String, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Data>) -> ()) {
+        return DocumentClient.shared.execute (storedProcedureWithId: storedProcedureId, usingParameters: parameters, andPartitionKey: partitionKey, inCollection: collectionId, inDatabase: databaseId, callback: callback)
+    }
 
+    public static func execute (storedProcedureWithId storedProcedureId: String, usingParameters parameters: [String]?, andPartitionKey partitionKey: String, in collection: DocumentCollection, callback: @escaping (Response<Data>) -> ()) {
+        return DocumentClient.shared.execute (storedProcedureWithId: storedProcedureId, usingParameters: parameters, andPartitionKey: partitionKey, in: collection, callback: callback)
+    }
 
 
     // MARK: - User Defined Functions

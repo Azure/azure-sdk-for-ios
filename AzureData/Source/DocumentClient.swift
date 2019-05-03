@@ -464,9 +464,15 @@ class DocumentClient {
         return self.execute(StoredProcedure.self, withBody: parameters, at: .child(.storedProcedure, in: collection, id: storedProcedureId), callback: callback)
     }
 
+    func execute (storedProcedureWithId storedProcedureId: String, usingParameters parameters: [String]?, andPartitionKey partitionKey: String, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<Data>) -> ()) {
+        let headers = HttpHeaders.msDocumentdbPartitionKey(partitionKey)
+        return self.execute(StoredProcedure.self, withBody: parameters, at: .storedProcedure(databaseId: databaseId, collectionId: collectionId, id: storedProcedureId), additionalHeaders: headers, callback: callback)
+    }
     
-    
-
+    func execute (storedProcedureWithId storedProcedureId: String, usingParameters parameters: [String]?, andPartitionKey partitionKey: String, in collection: DocumentCollection, callback: @escaping (Response<Data>) -> ()) {
+        let headers = HttpHeaders.msDocumentdbPartitionKey(partitionKey)
+        return self.execute(StoredProcedure.self, withBody: parameters, at: .child(.storedProcedure, in: collection, id: storedProcedureId), additionalHeaders: headers, callback: callback)
+    }
     
     // MARK: - User Defined Functions
     
@@ -983,11 +989,11 @@ class DocumentClient {
     }
 
     // execute
-    fileprivate func execute<T:CodableResource, R: Encodable>(_ type: T.Type, withBody body: R? = nil, at resourceLocation: ResourceLocation, callback: @escaping (Response<Data>) -> ()) {
+    fileprivate func execute<T:CodableResource, R: Encodable>(_ type: T.Type, withBody body: R? = nil, at resourceLocation: ResourceLocation, additionalHeaders: HttpHeaders = [:], callback: @escaping (Response<Data>) -> ()) {
         
         guard !isOffline else { callback(Response(DocumentClientError(withKind: .serviceUnavailable))); return }
-        
-        dataRequest(forResourceAt: resourceLocation, withMethod: .post) { r in
+
+        dataRequest(forResourceAt: resourceLocation, withMethod: .post, andAdditionalHeaders: additionalHeaders) { r in
             
             if var request = r.resource {
                 

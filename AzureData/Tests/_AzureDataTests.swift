@@ -21,12 +21,13 @@ class _AzureDataTests: XCTestCase {
 
     var rname: String { return resourceName ?? resourceType.path.capitalized }
 
-    var databaseId:     String { return "\(rname)TestsDatabase" }
-    var collectionId:   String { return "\(rname)TestsCollection" }
-    var documentId:     String { return "\(rname)TestsDocument" }
-    var userId:         String { return "\(rname)TestsUser" }
-    var resourceId:     String { return "\(rname)Tests\(rname)" }
-    var replacedId:     String { return "\(rname)Replaced" }
+    var databaseId:        String { return "\(rname)TestsDatabase" }
+    var collectionId:      String { return "\(rname)TestsCollection" }
+    var documentId:        String { return "\(rname)TestsDocument" }
+    var userId:            String { return "\(rname)TestsUser" }
+    var resourceId:        String { return "\(rname)Tests\(rname)" }
+    var replacedId:        String { return "\(rname)Replaced" }
+    var storedProcedureId: String { return "\(rname)TestsStoredProcedure" }
 
     lazy var createExpectation   = self.expectation(description: "should create and return \(rname)")
     lazy var listExpectation     = self.expectation(description: "should return a list of \(rname)")
