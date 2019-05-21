@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name          = 'AzureMobile'
-  s.version       = '0.3.0'
+  s.version       = '0.3.1'
   s.summary       = 'Microsoft Azure client SDK for iOS.'
 
   s.description   = 'Microsoft Azure client SDK for iOS, macOS, watchOS, tvOS.'
@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
 
   s.dependency 'AzureData', s.version.to_s
 
-  s.swift_version = '4.2'
+  s.swift_version = '5.0'
 
   s.source_files = 'AzureMobile/Source/*.{swift,h,m}'
 

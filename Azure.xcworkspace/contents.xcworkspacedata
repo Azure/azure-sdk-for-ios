@@ -23,6 +23,24 @@
       location = "container:"
       name = "Deployment">
       <FileRef
+         location = "group:AzureAuth.podspec">
+      </FileRef>
+      <FileRef
+         location = "group:AzureCore.podspec">
+      </FileRef>
+      <FileRef
+         location = "group:AzureData.podspec">
+      </FileRef>
+      <FileRef
+         location = "group:AzureMobile.podspec">
+      </FileRef>
+      <FileRef
+         location = "group:AzurePush.podspec">
+      </FileRef>
+      <FileRef
+         location = "group:AzureStorage.podspec">
+      </FileRef>
+      <FileRef
          location = "group:LICENSE">
       </FileRef>
       <FileRef
@@ -34,9 +52,6 @@
       <Group
          location = "group:scripts"
          name = "scripts">
-         <FileRef
-            location = "group:package.sh">
-         </FileRef>
          <FileRef
             location = "group:release.sh">
          </FileRef>
