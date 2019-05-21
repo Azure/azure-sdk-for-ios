@@ -34,8 +34,8 @@ class AuthClient {
         
         session = URLSession(configuration: configuration)
         
-        if let keyData = try? Keychain.getDataFromKeychain(forKey: "authuser"), let userData = keyData,
-            let authUser = try? decoder.decode(AuthUser.self, from: userData) {
+        if let keyData = try? Keychain.getDataFromKeychain(forKey: "authuser"),
+            let authUser = try? decoder.decode(AuthUser.self, from: keyData) {
             user = authUser
         }
     }

@@ -72,7 +72,7 @@ extension CodableResource {
                 
                 let ancestorPath = Substring(ancestor.path)
                 
-                if let key = split.index(of: ancestorPath), key < split.endIndex {
+                if let key = split.firstIndex(of: ancestorPath), key < split.endIndex {
                      ancestors[ancestor] = String(split[split.index(after: key)])
                 }
             }

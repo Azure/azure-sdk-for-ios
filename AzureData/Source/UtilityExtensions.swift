@@ -46,6 +46,8 @@ extension DecodingError {
             return "decodeError: keyNotFound\n\tkey: \(key)\n\tcontext: \(context)\n"
         case .valueNotFound(let type, let context):
             return "decodeError: valueNotFound\n\ttype: \(type)\n\tcontext: \(context)\n"
+        @unknown default:
+            return "decodeError: unknown\n"
         }
     }
 }
@@ -94,7 +96,7 @@ extension String {
         let path = Substring(resourceType)
         let split = self.split(separator: "/")
 
-        if let key = split.index(of: path), key < split.endIndex {
+        if let key = split.firstIndex(of: path), key < split.endIndex {
             return String(split[split.index(after: key)])
         }
 

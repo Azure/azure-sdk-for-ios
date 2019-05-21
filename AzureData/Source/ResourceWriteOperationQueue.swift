@@ -169,7 +169,7 @@ class ResourceWriteOperationQueue {
     }
 
     private func removeWrite(_ write: ResourceWriteOperation) {
-        if let index = writes.index(of: write) {
+        if let index = writes.firstIndex(of: write) {
             writes.remove(at: index)
         }
 
@@ -178,7 +178,7 @@ class ResourceWriteOperationQueue {
 
     private func enqueue(_ write: ResourceWriteOperation) {
         dispatchQueue.sync {
-            guard let index = writes.index(of: write) else {
+            guard let index = writes.firstIndex(of: write) else {
                 writes.append(write)
                 persistWriteOnDisk(write)
                 return

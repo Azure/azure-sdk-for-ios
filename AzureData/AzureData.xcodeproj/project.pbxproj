@@ -195,6 +195,12 @@
 		93B7240C2064560F00984CA8 /* MSHttpHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B7240A2064560F00984CA8 /* MSHttpHeader.swift */; };
 		93B7240D2064560F00984CA8 /* MSHttpHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B7240A2064560F00984CA8 /* MSHttpHeader.swift */; };
 		93B7240E2064560F00984CA8 /* MSHttpHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B7240A2064560F00984CA8 /* MSHttpHeader.swift */; };
+		93D0477B22946BAD00CC3284 /* PartitionKeyDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324301F72213779C009D209F /* PartitionKeyDefinition.swift */; };
+		93D0477C22946BAE00CC3284 /* PartitionKeyDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324301F72213779C009D209F /* PartitionKeyDefinition.swift */; };
+		93D0477D22946BB000CC3284 /* PartitionKeyDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324301F72213779C009D209F /* PartitionKeyDefinition.swift */; };
+		93D0477E22946BC200CC3284 /* Query+Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323650662250078200D329B1 /* Query+Distance.swift */; };
+		93D0477F22946BC300CC3284 /* Query+Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323650662250078200D329B1 /* Query+Distance.swift */; };
+		93D0478022946BC400CC3284 /* Query+Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323650662250078200D329B1 /* Query+Distance.swift */; };
 		93F7CA1C206EDBED00D92C2E /* PermissionCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F7CA17206EDBC100D92C2E /* PermissionCacheTests.swift */; };
 		93F7CA1D206EDBEF00D92C2E /* PermissionCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F7CA17206EDBC100D92C2E /* PermissionCacheTests.swift */; };
 		93F7CA1E206EDBF100D92C2E /* PermissionCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F7CA17206EDBC100D92C2E /* PermissionCacheTests.swift */; };
@@ -1010,16 +1016,17 @@
 					};
 					B5223FEE1FB33B2600D0343F = {
 						CreatedOnToolsVersion = 9.0;
-						LastSwiftMigration = 0930;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 					};
 					B5F76C381F96A7AF001E8B11 = {
 						CreatedOnToolsVersion = 9.0;
-						LastSwiftMigration = 0930;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 					};
 					B5F76C411F96A7AF001E8B11 = {
 						CreatedOnToolsVersion = 9.0;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -1108,6 +1115,7 @@
 				B5B6AC2A1FBA84C400B93106 /* CodableDictionary.swift in Sources */,
 				B507D4F21FBB722000B2D18D /* Conflict.swift in Sources */,
 				3236508122503A0B00D329B1 /* Query+Intersects.swift in Sources */,
+				93D0478022946BC400CC3284 /* Query+Distance.swift in Sources */,
 				329AA647209CEF470007A955 /* ResourceSystemProperties.swift in Sources */,
 				B58361CE1FBA1439001CEC66 /* Attachment.swift in Sources */,
 				9319DEEA20698C3D0083475D /* PermissionProvider.swift in Sources */,
@@ -1117,6 +1125,7 @@
 				93F9ACCD1FC0CA4800AC240C /* DocumentClientError.swift in Sources */,
 				B58361D81FBA16F9001CEC66 /* Permission.swift in Sources */,
 				329512612214A82600E8A069 /* Documents.swift in Sources */,
+				93D0477D22946BB000CC3284 /* PartitionKeyDefinition.swift in Sources */,
 				3234ABF4223D40C400270767 /* PartitionKeyRange.swift in Sources */,
 				93F9ACD21FC0D01400AC240C /* ResourceError.swift in Sources */,
 				B58361C41FBA13B0001CEC66 /* DocumentCollection.swift in Sources */,
@@ -1217,6 +1226,7 @@
 				B5B6AC2B1FBA84C400B93106 /* CodableDictionary.swift in Sources */,
 				B507D4F31FBB722000B2D18D /* Conflict.swift in Sources */,
 				3236508222503A0B00D329B1 /* Query+Intersects.swift in Sources */,
+				93D0477F22946BC300CC3284 /* Query+Distance.swift in Sources */,
 				329AA648209CEF470007A955 /* ResourceSystemProperties.swift in Sources */,
 				B58361CF1FBA1439001CEC66 /* Attachment.swift in Sources */,
 				9319DEEB20698C3D0083475D /* PermissionProvider.swift in Sources */,
@@ -1226,6 +1236,7 @@
 				93F9ACCE1FC0CA4800AC240C /* DocumentClientError.swift in Sources */,
 				B58361D91FBA16F9001CEC66 /* Permission.swift in Sources */,
 				329512622214A82600E8A069 /* Documents.swift in Sources */,
+				93D0477C22946BAE00CC3284 /* PartitionKeyDefinition.swift in Sources */,
 				3234ABF5223D40C400270767 /* PartitionKeyRange.swift in Sources */,
 				93F9ACD31FC0D01400AC240C /* ResourceError.swift in Sources */,
 				B58361C51FBA13B0001CEC66 /* DocumentCollection.swift in Sources */,
@@ -1326,6 +1337,7 @@
 				B5B6AC2C1FBA84C400B93106 /* CodableDictionary.swift in Sources */,
 				B507D4F41FBB722000B2D18D /* Conflict.swift in Sources */,
 				3236508322503A0B00D329B1 /* Query+Intersects.swift in Sources */,
+				93D0477E22946BC200CC3284 /* Query+Distance.swift in Sources */,
 				329AA649209CEF470007A955 /* ResourceSystemProperties.swift in Sources */,
 				B58361D01FBA1439001CEC66 /* Attachment.swift in Sources */,
 				9319DEEC20698C3D0083475D /* PermissionProvider.swift in Sources */,
@@ -1335,6 +1347,7 @@
 				93F9ACCF1FC0CA4800AC240C /* DocumentClientError.swift in Sources */,
 				B58361DA1FBA16F9001CEC66 /* Permission.swift in Sources */,
 				329512632214A82600E8A069 /* Documents.swift in Sources */,
+				93D0477B22946BAD00CC3284 /* PartitionKeyDefinition.swift in Sources */,
 				3234ABF6223D40C400270767 /* PartitionKeyRange.swift in Sources */,
 				93F9ACD41FC0D01400AC240C /* ResourceError.swift in Sources */,
 				B58361C61FBA13B0001CEC66 /* DocumentCollection.swift in Sources */,
@@ -1543,7 +1556,6 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -1575,7 +1587,6 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
@@ -1596,7 +1607,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.azure.data.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -1617,7 +1627,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.azure.data.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
@@ -1646,7 +1655,6 @@
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 10.0;
 			};
@@ -1675,7 +1683,6 @@
 				PRODUCT_NAME = AzureData;
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 10.0;
 			};
@@ -1695,7 +1702,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.azure.data.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 11.1;
 			};
@@ -1715,7 +1721,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.azure.data.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 11.1;
 			};
@@ -1746,7 +1751,6 @@
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 3.0;
 			};
@@ -1775,7 +1779,6 @@
 				PRODUCT_NAME = AzureData;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 3.0;
 			};
@@ -1840,7 +1843,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1897,7 +1900,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1930,7 +1933,6 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1960,7 +1962,6 @@
 				PRODUCT_NAME = AzureData;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -1979,7 +1980,6 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.azure.data.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1998,7 +1998,6 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.azure.data.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

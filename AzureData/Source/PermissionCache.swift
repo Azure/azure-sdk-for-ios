@@ -30,8 +30,8 @@ public class PermissionCache {
     }
     
     public static func restore() {
-        if let data = try? Keychain.getDataFromKeychain(forKey: permissionCacheStorageKey), let cacheData = data,
-           let dict = try? JSONDecoder().decode([String:Permission].self, from: cacheData) {
+        if let data = try? Keychain.getDataFromKeychain(forKey: permissionCacheStorageKey),
+           let dict = try? JSONDecoder().decode([String:Permission].self, from: data) {
             cache = dict
         }
         isRestored = true
