@@ -63,7 +63,7 @@ public struct DateFormat {
     }
 }
 
-public extension DateFormatter {
+extension DateFormatter {
     
     public func roundTripIso8601StringWithMicroseconds(from date: Date) -> String {
         

@@ -165,7 +165,7 @@ extension HttpStatusCode {
 }
 
 
-public extension Optional where Wrapped == DocumentClientError {
+extension Optional where Wrapped == DocumentClientError {
     public var isConnectivityError: Bool {
         return self?.baseError?.isConnectivityError ?? false
     }
@@ -183,13 +183,13 @@ extension DocumentClientError : CustomDebugStringConvertible {
     }
 }
 
-public extension DocumentClientError {
+extension DocumentClientError {
     public var localizedDescription: String {
         return self.message
     }
 }
 
-public extension Response {
+extension Response {
     
     public var clientError: DocumentClientError? {
         return error as? DocumentClientError

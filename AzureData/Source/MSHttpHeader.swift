@@ -54,7 +54,7 @@ public enum MSHttpHeader : String {
 }
 
 
-public extension Dictionary where Key == String, Value == Any {
+extension Dictionary where Key == String, Value == Any {
     public subscript (index: MSHttpHeader) -> Any? {
         get {
             return self[index.rawValue]
@@ -65,7 +65,7 @@ public extension Dictionary where Key == String, Value == Any {
     }
 }
 
-public extension Dictionary where Key == String, Value == String {
+extension Dictionary where Key == String, Value == String {
     public subscript (index: MSHttpHeader) -> String? {
         get {
             return self[index.rawValue]

@@ -472,6 +472,42 @@ collection.query (documentsAcrossAllPartitionsWith: query, as: Person.self) { r 
 }
 ```
 
+##### Query a subset of properties
+It's possible to query only a subset of a document properties to reduce responses payload or to reduce the costs of usage.
+
+```swift
+let query = Query.select("firstName", "lastName")
+                .from("Person")
+                .orderBy("birthCity")
+
+AzureData.query (documentPropertiesIn: collectionId, inDatabase: databaseId, with: query, andPartitionKey: partitionKey) { r in
+    // properties = r.resource?.items
+}
+
+AzureData.query (documentPropertiesAcrossAllPartitionsIn: collectionId, inDatabase: databaseId, with: query) { r in 
+    // properties = r.resource?.items
+}
+
+collection.query (documentPropertiesWith: query, andPartitionKey: partitionKey) { r in 
+    // properties = r.resource?.items
+}
+```
+
+Each of the resources returned by the above functions is of the type `DocumentProperties`. `DocumentProperties` should be used like a standard Swift dictionary. The values of the queried properties can be retrieved using the subscript operator. Properties not specified in the `select` fragment of the query will have `nil` values if tried to be retrieved with the subscript operator.
+
+```swift
+let query = Query.select("birthCity")
+                .from("Person")
+                .where("firstName", is: "Faiçal")
+                .and("lastName" is: "Tchirou")
+
+AzureData.query (documentPropertiesAcrossAllPartitionsIn: collectionId, inDatabase: databaseId, with: query) { r in 
+    let properties = r.resource?.items.first
+    let birthCity = properties["birthCity"] // -> Returns the value of the `birthCity` property.
+    let firstName = properties["firstName"] // -> Returns `nil` because the property `firstName` was not specified in the query.
+    let lastName = properties["lastName"] // -> Returns `nil` because the property `lastName` was not specified in the query.
+}
+```
 ## Attachments
 
 #### Create

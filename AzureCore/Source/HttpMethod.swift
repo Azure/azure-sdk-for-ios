@@ -38,7 +38,7 @@ public enum HttpMethod : String {
 }
 
 
-public extension URLRequest {
+extension URLRequest {
     
     public var method: HttpMethod? {
         get {
