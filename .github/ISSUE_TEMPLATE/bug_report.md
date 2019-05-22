@@ -1,10 +1,11 @@
 ---
-name: Bug report
-about: Create a report to help us improve
+name: Bug
+about: Create a bug report to help us improve.
 title: ''
-labels: ''
+labels: bug
 assignees: colbylwilliams
 ---
+
 ### Environment
 
 - iOS version:
