@@ -8,14 +8,14 @@ assignees: colbylwilliams
 
 ### Feature Summary
 
-_Describe the feature you are requesting and the problem it will solve._
+Describe the feature you are requesting and the problem it will solve.
 
 
 ### Example Problem
 
-_Provide an example of the problem the new feature would solve._
+Provide an example of the problem the new feature would solve.
 
 
 ### Recommended Solution
 
-_Optionally provide details of your recommended solution._
+Optionally provide details of your recommended solution.
