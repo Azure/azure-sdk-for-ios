@@ -38,7 +38,7 @@ class ResourceWriteOperationQueue {
         createOrReplaceOffline(resource: resource, at: location, replacing: replacing) { [weak self] r in
             callback(r)
 
-            if r.result.isSuccess {
+            if case .success = r.result {
                 let type: ResourceWriteOperation.Kind = replacing ? .replace : .create
                 self?.enqueue(ResourceWriteOperation(type: type, resource: resource, resourceLocation: location, resourceLocalContentPath: r.msContentPath!, httpHeaders: httpHeaders))
             }
@@ -51,7 +51,7 @@ class ResourceWriteOperationQueue {
         deleteOffline(resourceAt: location) { [weak self] r in
             callback(r)
 
-            if r.result.isSuccess {
+            if case .success = r.result {
                 self?.enqueue(ResourceWriteOperation(type: .delete, resource: nil, resourceLocation: location, resourceLocalContentPath: r.msContentPath!, httpHeaders: httpHeaders))
             }
         }
