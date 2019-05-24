@@ -113,12 +113,11 @@ extension Response where T: OptionalType {
             request: request,
             data: data,
             response: response,
-            result: result.map { data in
-                if data.optional == nil {
-                    throw error()
-                }
-                return data.optional!
-            },
+            result: {
+                guard case let .success(resource) = result, resource.optional != nil
+                    else { return .failure(error()) }
+                return .success(resource.optional!)
+            }(),
             fromCache: fromCache
         )
     }

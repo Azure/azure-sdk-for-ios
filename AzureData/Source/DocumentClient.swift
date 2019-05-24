@@ -831,7 +831,7 @@ class DocumentClient {
 
                     callback(response)
                     
-                    if response.result.isSuccess {
+                    if case .success = response.result {
                         ResourceCache.remove(resourceAt: resourceLocation)
                     }
                 }

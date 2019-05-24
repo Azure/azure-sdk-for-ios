@@ -16,17 +16,27 @@ public struct Response<T> {
     
     public let data: Data?
     
-    public let result: Result<T>
+    public let result: Result<T, Error>
     
-    public var error: Error? { return result.error }
+    public var error: Error? {
+        switch result {
+        case .failure(let error): return error
+        default: return nil
+        }
+    }
     
-    public var resource: T?  { return result.resource }
+    public var resource: T?  {
+        switch result {
+        case .success(let resource): return resource
+        default: return nil
+        }
+    }
     
     public var fromCache: Bool = false
     
     public var metadata: Any?
     
-    public init(request: URLRequest?, data: Data?, response: HTTPURLResponse?, result: Result<T>, fromCache: Bool = false) {
+    public init(request: URLRequest?, data: Data?, response: HTTPURLResponse?, result: Result<T, Error>, fromCache: Bool = false) {
         self.request = request
         self.data = data
         self.response = response
@@ -43,75 +53,21 @@ public struct Response<T> {
     }
 }
 
-public enum Result<T> {
-    case success(T)
-    case failure(Error)
-    
-    public var isSuccess: Bool {
-        switch self {
-        case .success: return true
-        case .failure: return false
-        }
-    }
-    
-    public var isFailure: Bool { return !isSuccess }
-    
-    public var resource: T? {
-        switch self {
-        case .success(let resource): return resource
-        case .failure: return nil
-        }
-    }
-    
-    public var error: Error? {
-        switch self {
-        case .success: return nil
-        case .failure(let error): return error
-        }
-    }
-}
-
-
 extension Response {
-    public func map<U>(_ transform: (T) throws -> U) -> Response<U> {
+    public func map<U>(_ transform: @escaping (T) throws -> U) -> Response<U> {
         return Response<U>(
             request: request,
             data: data,
             response: response,
-            result: result.map(transform),
+            result: {
+                switch result {
+                case .success(let resource):
+                    return Result { try transform(resource) }
+                case .failure(let error):
+                    return Result<U, Error>.failure(error)
+                }
+            }(),
             fromCache: fromCache
         )
-    }
-}
-
-extension Result {
-    public func map<U>(_ transform: (T) throws -> U) -> Result<U> {
-        do {
-            return try isSuccess ? Result<U>.success(transform(resource!)) : Result<U>.failure(error!)
-        } catch {
-            return Result<U>.failure(error)
-        }
-    }
-}
-
-// MARK: - CustomStringConvertible
-
-extension Result: CustomStringConvertible {
-    public var description: String {
-        switch self {
-        case .success: return "✅ SUCCESS"
-        case .failure: return "❌ FAILURE"
-        }
-    }
-}
-
-// MARK: - CustomDebugStringConvertible
-
-extension Result: CustomDebugStringConvertible {
-    public var debugDescription: String {
-        switch self {
-        case .success(let value): return "✅ SUCCESS: \(value)"
-        case .failure(let error): return "❌ FAILURE: \(error)"
-        }
     }
 }

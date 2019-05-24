@@ -110,27 +110,29 @@ internal class NotificationClient {
         let token = deviceToken.hexString
 
         getRegistrations(forDeviceToken: token) { [weak self] response in
-            guard response.result.isSuccess else {
-                completion(Response(request: response.request, data: response.data, response: response.response, result: .failure(response.result.error!)))
+            
+            switch response.result {
+            case .failure(let error):
+                completion(Response(request: response.request, data: response.data, response: response.response, result: .failure(error)))
                 return
-            }
+            case .success(let resource):
+                for registration in resource {
+                    dispatchGroup.enter()
+                    
+                    self?.delete(registrationWithName: registration.name) { r in
+                        if case .failure = r.result {
+                            completion(r)
+                            return
+                        }
 
-            for registration in response.result.resource! {
-                dispatchGroup.enter()
-
-                self?.delete(registrationWithName: registration.name) { r in
-                    if r.result.isFailure {
-                        completion(r)
-                        return
+                        dispatchGroup.leave()
                     }
-
-                    dispatchGroup.leave()
                 }
+                
+                dispatchGroup.notify(queue: .main, execute: {
+                    completion(Response("".data(using: .utf8)!))
+                })
             }
-
-            dispatchGroup.notify(queue: .main, execute: {
-                completion(Response("".data(using: .utf8)!))
-            })
         }
     }
 
@@ -147,7 +149,7 @@ internal class NotificationClient {
             switch response.result {
             case .failure(let error):
                 completion(Response(error))
-            case .success(_):
+            case .success:
                 self?.localStorage.refresh(withDeviceToken: refreshedDeviceToken)
                 self?.createOrUpdate(registrationWithName: name, payload: payload, deviceToken: token, completion: completion)
             }
@@ -224,7 +226,7 @@ internal class NotificationClient {
         let url = URL(string: "\(endpoint.absoluteString)\(path)/Registrations/\(registration.id)?api-version=\(NotificationClient.apiVersion)")!
 
         sendRequest(url: url, method: .delete, etag: "*") { [weak self] response in
-            if response.result.isSuccess {
+            if case .success = response.result {
                 self?.localStorage.removeRegistration(withName: name)
             }
 
