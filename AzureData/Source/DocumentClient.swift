@@ -298,11 +298,11 @@ class DocumentClient {
 
     // replace
     func replace<T: Document> (_ document: T, inCollection collectionId: String, inDatabase databaseId: String, callback: @escaping (Response<T>) -> ()) {
-        return self.replace(DocumentContainer(document), at: .document(databaseId: databaseId, collectionId: collectionId, id: document.id)) { callback($0.map { $0.document }) }
+        return self.replace(DocumentContainer(document), at: .document(databaseId: databaseId, collectionId: collectionId, id: document.id), additionalHeaders: HttpHeaders.msDocumentdbPartitionKey(document)) { callback($0.map { $0.document }) }
     }
     
     func replace<T: Document> (_ document: T, in collection: DocumentCollection, callback: @escaping (Response<T>) -> ()) {
-        return self.replace(DocumentContainer(document), at: .child(.document, in: collection, id: document.id)) { callback($0.map { $0.document }) }
+        return self.replace(DocumentContainer(document), at: .child(.document, in: collection, id: document.id), additionalHeaders: HttpHeaders.msDocumentdbPartitionKey(document)) { callback($0.map { $0.document }) }
     }
     
     // query
