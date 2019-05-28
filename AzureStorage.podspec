@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name          = 'AzureStorage'
-  s.version       = '0.4.0'
+  s.version       = '0.4.1'
   s.summary       = 'Microsoft Azure Storage client SDK for iOS.'
 
   s.description   = 'Microsoft Azure Storage client SDK for iOS, macOS, watchOS, tvOS.'

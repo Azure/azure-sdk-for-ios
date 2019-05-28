@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name          = 'AzurePush'
-  s.version       = '0.4.0'
+  s.version       = '0.4.1'
   s.summary       = 'Microsoft Azure Notification Hubs client SDK for iOS.'
 
   s.description   = 'Microsoft Azure Notification Hubs client SDK for iOS, macOS, watchOS, tvOS.'
