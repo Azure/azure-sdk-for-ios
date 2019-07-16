@@ -124,11 +124,13 @@ extension Query {
         return self
     }
     
+    // MARK: Where
+    
     public func `where`(_ property: String, is value: String) -> Self {
         assert(!whereCalled, "you can only call `where` once, to add more constraints use `and`")
         whereCalled = true
         
-        whereFragment = "\(property) = '\(value)'"
+        whereFragment = #"\#(property) = "\#(value)""#
         
         return self
     }
@@ -146,7 +148,7 @@ extension Query {
         assert(!whereCalled, "you can only call `where` once, to add more constraints use `and`")
         whereCalled = true
         
-        whereFragment = "\(property) != '\(value)'"
+        whereFragment = #"\#(property) != "\#(value)""#
         
         return self
     }
@@ -164,7 +166,7 @@ extension Query {
         assert(!whereCalled, "you can only call `where` once, to add more constraints use `and`")
         whereCalled = true
         
-        whereFragment = "\(property) > '\(value)'"
+        whereFragment = #"\#(property) > "\#(value)""#
         
         return self
     }
@@ -182,7 +184,7 @@ extension Query {
         assert(!whereCalled, "you can only call `where` once, to add more constraints use `and`")
         whereCalled = true
         
-        whereFragment = "\(property) < '\(value)'"
+        whereFragment = #"\#(property) < "\#(value)""#
         
         return self
     }
@@ -196,11 +198,22 @@ extension Query {
         return self
     }
     
+    public func `where`(_ property: String) -> Self {
+        assert(!whereCalled, "you can only call `where` once, to add more constraints use `and`")
+        whereCalled = true
+        
+        whereFragment = property
+        
+        return self
+    }
+    
+    // MARK: And
+    
     public func and(_ property: String, is value: String) -> Self {
         assert(whereCalled, "must call where before calling and")
         andCalled = true
         
-        andFragments.append("\(property) = '\(value)'")
+        andFragments.append(#"\#(property) = "\#(value)""#)
         
         return self
     }
@@ -218,7 +231,7 @@ extension Query {
         assert(whereCalled, "must call where before calling and")
         andCalled = true
         
-        andFragments.append("\(property) != '\(value)'")
+        andFragments.append(#"\#(property) != "\#(value)""#)
         
         return self
     }
@@ -236,7 +249,7 @@ extension Query {
         assert(whereCalled, "must call where before calling and")
         andCalled = true
         
-        andFragments.append("\(property) > '\(value)'")
+        andFragments.append(#"\#(property) > "\#(value)""#)
         
         return self
     }
@@ -254,7 +267,7 @@ extension Query {
         assert(whereCalled, "must call where before calling and")
         andCalled = true
         
-        andFragments.append("\(property) >= '\(value)'")
+        andFragments.append(#"\#(property) >= "\#(value)""#)
         
         return self
     }
@@ -272,7 +285,7 @@ extension Query {
         assert(whereCalled, "must call where before calling and")
         andCalled = true
         
-        andFragments.append("\(property) < '\(value)'")
+        andFragments.append(#"\#(property) < "\#(value)""#)
         
         return self
     }
@@ -290,7 +303,7 @@ extension Query {
         assert(whereCalled, "must call where before calling and")
         andCalled = true
         
-        andFragments.append("\(property) <= '\(value)'")
+        andFragments.append(#"\#(property) <= "\#(value)""#)
         
         return self
     }
@@ -303,6 +316,17 @@ extension Query {
         
         return self
     }
+    
+    public func and(_ property: String) -> Self {
+        assert(whereCalled, "must call where before calling and")
+        andCalled = true
+        
+        andFragments.append(property)
+        
+        return self
+    }
+    
+    // MARK: Order By
     
     public func orderBy(_ property: String, descending: Bool = false) -> Self {
         assert(!orderByCalled, "you can only call `orderBy` once, to order on an additional level use `thenBy`")
