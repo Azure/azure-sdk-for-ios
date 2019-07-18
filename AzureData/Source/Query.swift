@@ -198,11 +198,11 @@ extension Query {
         return self
     }
     
-    public func `where`(_ property: String) -> Self {
+    public func `where`(_ property: String, is value: Bool = true) -> Self {
         assert(!whereCalled, "you can only call `where` once, to add more constraints use `and`")
         whereCalled = true
         
-        whereFragment = property
+        whereFragment = "\(property) = \(value)"
         
         return self
     }
@@ -317,11 +317,11 @@ extension Query {
         return self
     }
     
-    public func and(_ property: String) -> Self {
+    public func and(_ property: String, is value: Bool = true) -> Self {
         assert(whereCalled, "must call where before calling and")
         andCalled = true
         
-        andFragments.append(property)
+        andFragments.append("\(property) = \(value)")
         
         return self
     }
