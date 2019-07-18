@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name          = 'AzureMobile'
-  s.version       = '0.4.2'
+  s.version       = '0.4.3'
   s.summary       = 'Microsoft Azure client SDK for iOS.'
 
   s.description   = 'Microsoft Azure client SDK for iOS, macOS, watchOS, tvOS.'
