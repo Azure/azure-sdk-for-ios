@@ -17,15 +17,17 @@ public class Query : Encodable {
     internal var andCalled          = false
     internal var spatialAndCalled   = false
     internal var orderByCalled      = false
+    internal var fromStringLiteral  = false
 
-    internal var selectProperties:    [String] = []
-    internal var fromFragment:        String?
-    internal var whereFragment:       String?
-    internal var andFragments:        [String] = []
-    internal var spatialAndFragments: [String] = []
-    internal var orderByFragment:     String?
+    internal var selectProperties:      [String] = []
+    internal var fromFragment:          String?
+    internal var whereFragment:         String?
+    internal var andFragments:          [String] = []
+    internal var spatialAndFragments:   [String] = []
+    internal var orderByFragment:       String?
+    internal var stringLiteralQuery:    String?
     
-    internal var type:       String?
+    internal var type:                  String?
 
     private enum CodingKeys: String, CodingKey {
         case query
@@ -62,9 +64,19 @@ public class Query : Encodable {
         return query
     }
     
+    public static func createFrom(queryString: String) -> Query {
+        let query = Query()
+        query.fromStringLiteral = true
+        
+        return query
+    }
     
     
     public var query : String {
+        
+        if fromStringLiteral, let literalQuery = stringLiteralQuery, !literalQuery.isEmpty {
+            return literalQuery
+        }
         
         var query = ""
         
@@ -115,6 +127,7 @@ public class Query : Encodable {
 extension Query {
     
     public func from(_ type: String) -> Self {
+        assert(!fromStringLiteral, "`from` cannot be called on a Query created from a string literal")
         assert(selectCalled, "must call `select` before calling `from`")
         assert(!fromCalled, "you can only call `from` once")
         fromCalled = true;
@@ -127,6 +140,7 @@ extension Query {
     // MARK: Where
     
     public func `where`(_ property: String, is value: String) -> Self {
+        assert(!fromStringLiteral, "`where` cannot be called on a Query created from a string literal")
         assert(!whereCalled, "you can only call `where` once, to add more constraints use `and`")
         whereCalled = true
         
@@ -136,6 +150,7 @@ extension Query {
     }
     
     public func `where`(_ property: String, is value: Int) -> Self {
+        assert(!fromStringLiteral, "`where` cannot be called on a Query created from a string literal")
         assert(!whereCalled, "you can only call `where` once, to add more constraints use `and`")
         whereCalled = true
         
@@ -145,6 +160,7 @@ extension Query {
     }
     
     public func `where`(_ property: String, isNot value: String) -> Self {
+        assert(!fromStringLiteral, "`where` cannot be called on a Query created from a string literal")
         assert(!whereCalled, "you can only call `where` once, to add more constraints use `and`")
         whereCalled = true
         
@@ -154,6 +170,7 @@ extension Query {
     }
     
     public func `where`(_ property: String, isNot value: Int) -> Self {
+        assert(!fromStringLiteral, "`where` cannot be called on a Query created from a string literal")
         assert(!whereCalled, "you can only call `where` once, to add more constraints use `and`")
         whereCalled = true
         
@@ -163,6 +180,7 @@ extension Query {
     }
     
     public func `where`(_ property: String, isGreaterThan value: String) -> Self {
+        assert(!fromStringLiteral, "`where` cannot be called on a Query created from a string literal")
         assert(!whereCalled, "you can only call `where` once, to add more constraints use `and`")
         whereCalled = true
         
@@ -172,6 +190,7 @@ extension Query {
     }
     
     public func `where`(_ property: String, isGreaterThan value: Int) -> Self {
+        assert(!fromStringLiteral, "`where` cannot be called on a Query created from a string literal")
         assert(!whereCalled, "you can only call `where` once, to add more constraints use `and`")
         whereCalled = true
         
@@ -181,6 +200,7 @@ extension Query {
     }
     
     public func `where`(_ property: String, isLessThan value: String) -> Self {
+        assert(!fromStringLiteral, "`where` cannot be called on a Query created from a string literal")
         assert(!whereCalled, "you can only call `where` once, to add more constraints use `and`")
         whereCalled = true
         
@@ -190,6 +210,7 @@ extension Query {
     }
     
     public func `where`(_ property: String, isLessThan value: Int) -> Self {
+        assert(!fromStringLiteral, "`where` cannot be called on a Query created from a string literal")
         assert(!whereCalled, "you can only call `where` once, to add more constraints use `and`")
         whereCalled = true
         
@@ -199,6 +220,7 @@ extension Query {
     }
     
     public func `where`(_ property: String, is value: Bool = true) -> Self {
+        assert(!fromStringLiteral, "`where` cannot be called on a Query created from a string literal")
         assert(!whereCalled, "you can only call `where` once, to add more constraints use `and`")
         whereCalled = true
         
@@ -210,6 +232,7 @@ extension Query {
     // MARK: And
     
     public func and(_ property: String, is value: String) -> Self {
+        assert(!fromStringLiteral, "`and` cannot be called on a Query created from a string literal")
         assert(whereCalled, "must call where before calling and")
         andCalled = true
         
@@ -219,6 +242,7 @@ extension Query {
     }
     
     public func and(_ property: String, is value: Int) -> Self {
+        assert(!fromStringLiteral, "`and` cannot be called on a Query created from a string literal")
         assert(whereCalled, "must call where before calling and")
         andCalled = true
         
@@ -228,6 +252,7 @@ extension Query {
     }
     
     public func and(_ property: String, isNot value: String) -> Self {
+        assert(!fromStringLiteral, "`and` cannot be called on a Query created from a string literal")
         assert(whereCalled, "must call where before calling and")
         andCalled = true
         
@@ -237,6 +262,7 @@ extension Query {
     }
     
     public func and(_ property: String, isNot value: Int) -> Self {
+        assert(!fromStringLiteral, "`and` cannot be called on a Query created from a string literal")
         assert(whereCalled, "must call where before calling and")
         andCalled = true
         
@@ -246,6 +272,7 @@ extension Query {
     }
     
     public func and(_ property: String, isGreaterThan value: String) -> Self {
+        assert(!fromStringLiteral, "`and` cannot be called on a Query created from a string literal")
         assert(whereCalled, "must call where before calling and")
         andCalled = true
         
@@ -255,6 +282,7 @@ extension Query {
     }
     
     public func and(_ property: String, isGreaterThan value: Int) -> Self {
+        assert(!fromStringLiteral, "`and` cannot be called on a Query created from a string literal")
         assert(whereCalled, "must call where before calling and")
         andCalled = true
         
@@ -264,6 +292,7 @@ extension Query {
     }
     
     public func and(_ property: String, isGreaterThanOrEqualTo value: String) -> Self {
+        assert(!fromStringLiteral, "`and` cannot be called on a Query created from a string literal")
         assert(whereCalled, "must call where before calling and")
         andCalled = true
         
@@ -273,6 +302,7 @@ extension Query {
     }
     
     public func and(_ property: String, isGreaterThanOrEqualTo value: Int) -> Self {
+        assert(!fromStringLiteral, "`and` cannot be called on a Query created from a string literal")
         assert(whereCalled, "must call where before calling and")
         andCalled = true
         
@@ -282,6 +312,7 @@ extension Query {
     }
     
     public func and(_ property: String, isLessThan value: String) -> Self {
+        assert(!fromStringLiteral, "`and` cannot be called on a Query created from a string literal")
         assert(whereCalled, "must call where before calling and")
         andCalled = true
         
@@ -291,6 +322,7 @@ extension Query {
     }
     
     public func and(_ property: String, isLessThan value: Int) -> Self {
+        assert(!fromStringLiteral, "`and` cannot be called on a Query created from a string literal")
         assert(whereCalled, "must call where before calling and")
         andCalled = true
         
@@ -300,6 +332,7 @@ extension Query {
     }
     
     public func and(_ property: String, isLessThanOrEqualTo value: String) -> Self {
+        assert(!fromStringLiteral, "`and` cannot be called on a Query created from a string literal")
         assert(whereCalled, "must call where before calling and")
         andCalled = true
         
@@ -309,6 +342,7 @@ extension Query {
     }
     
     public func and(_ property: String, isLessThanOrEqualTo value: Int) -> Self {
+        assert(!fromStringLiteral, "`and` cannot be called on a Query created from a string literal")
         assert(whereCalled, "must call where before calling and")
         andCalled = true
         
@@ -318,6 +352,7 @@ extension Query {
     }
     
     public func and(_ property: String, is value: Bool = true) -> Self {
+        assert(!fromStringLiteral, "`and` cannot be called on a Query created from a string literal")
         assert(whereCalled, "must call where before calling and")
         andCalled = true
         
@@ -329,6 +364,7 @@ extension Query {
     // MARK: Order By
     
     public func orderBy(_ property: String, descending: Bool = false) -> Self {
+        assert(!fromStringLiteral, "`orderBy` cannot be called on a Query created from a string literal")
         assert(!orderByCalled, "you can only call `orderBy` once, to order on an additional level use `thenBy`")
         orderByCalled = true
 
@@ -339,8 +375,6 @@ extension Query {
         return self
     }
 }
-
-
 
 extension Query : Hashable {
     public func hash(into hasher: inout Hasher) {
