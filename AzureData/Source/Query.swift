@@ -67,6 +67,7 @@ public class Query : Encodable {
     public static func createFrom(queryString: String) -> Query {
         let query = Query()
         query.fromStringLiteral = true
+        query.stringLiteralQuery = queryString
         
         return query
     }
