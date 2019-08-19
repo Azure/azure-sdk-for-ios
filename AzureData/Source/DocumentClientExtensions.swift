@@ -66,8 +66,8 @@ extension DocumentClient {
         
         var headers = Bundle(for: DocumentClient.self).defaultHttpHeaders
         
-        // https://docs.microsoft.com/en-us/rest/api/documentdb/#supported-rest-api-versions
-        headers[.msVersion] = "2017-02-22"
+        // https://docs.microsoft.com/en-us/rest/api/cosmos-db/index#supported-rest-api-versions
+        headers[.msVersion] = "2018-12-31"
         
         return headers
     }()
