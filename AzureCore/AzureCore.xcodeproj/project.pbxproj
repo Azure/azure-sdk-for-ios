@@ -1,0 +1,558 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0A3A5D7B2315C89C00473FDA /* AzureCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A3A5D792315C89C00473FDA /* AzureCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0A3A5D832315CA1000473FDA /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 0A3A5D812315CA1000473FDA /* LICENSE */; };
+		0A3A5D842315CA1000473FDA /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 0A3A5D822315CA1000473FDA /* README.md */; };
+		0A3A5D9B2315CEB600473FDA /* HttpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D902315CEB600473FDA /* HttpRequest.swift */; };
+		0A3A5D9C2315CEB600473FDA /* HttpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D912315CEB600473FDA /* HttpResponse.swift */; };
+		0A3A5D9D2315CEB600473FDA /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D922315CEB600473FDA /* HttpMethod.swift */; };
+		0A3A5D9E2315CEB600473FDA /* HttpHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D932315CEB600473FDA /* HttpHeader.swift */; };
+		0A3A5D9F2315CEB600473FDA /* HttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D942315CEB600473FDA /* HttpClient.swift */; };
+		0A3A5DA02315CEB600473FDA /* HttpPipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D952315CEB600473FDA /* HttpPipeline.swift */; };
+		0A3A5DA12315CEB600473FDA /* HttpPipelineNextPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D962315CEB600473FDA /* HttpPipelineNextPolicy.swift */; };
+		0A3A5DA22315CEB600473FDA /* HttpPipelineCallContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D972315CEB600473FDA /* HttpPipelineCallContext.swift */; };
+		0A3A5DA32315CEB600473FDA /* HttpPipelinePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D992315CEB600473FDA /* HttpPipelinePolicy.swift */; };
+		0A3A5DA42315CEB600473FDA /* ProxyOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D9A2315CEB600473FDA /* ProxyOptions.swift */; };
+		0A3A5DA72315CEC000473FDA /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5DA62315CEC000473FDA /* Context.swift */; };
+		0A3A5DE32315D17F00473FDA /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3A5D762315C89C00473FDA /* AzureCore.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0A3A5DE42315D17F00473FDA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A3A5D6D2315C89C00473FDA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0A3A5D752315C89C00473FDA;
+			remoteInfo = "AzureCore iOS Framework";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0A3A5D762315C89C00473FDA /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0A3A5D792315C89C00473FDA /* AzureCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AzureCore.h; sourceTree = "<group>"; };
+		0A3A5D7A2315C89C00473FDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0A3A5D812315CA1000473FDA /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		0A3A5D822315CA1000473FDA /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		0A3A5D902315CEB600473FDA /* HttpRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpRequest.swift; sourceTree = "<group>"; };
+		0A3A5D912315CEB600473FDA /* HttpResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpResponse.swift; sourceTree = "<group>"; };
+		0A3A5D922315CEB600473FDA /* HttpMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
+		0A3A5D932315CEB600473FDA /* HttpHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpHeader.swift; sourceTree = "<group>"; };
+		0A3A5D942315CEB600473FDA /* HttpClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpClient.swift; sourceTree = "<group>"; };
+		0A3A5D952315CEB600473FDA /* HttpPipeline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpPipeline.swift; sourceTree = "<group>"; };
+		0A3A5D962315CEB600473FDA /* HttpPipelineNextPolicy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpPipelineNextPolicy.swift; sourceTree = "<group>"; };
+		0A3A5D972315CEB600473FDA /* HttpPipelineCallContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpPipelineCallContext.swift; sourceTree = "<group>"; };
+		0A3A5D992315CEB600473FDA /* HttpPipelinePolicy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpPipelinePolicy.swift; sourceTree = "<group>"; };
+		0A3A5D9A2315CEB600473FDA /* ProxyOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProxyOptions.swift; sourceTree = "<group>"; };
+		0A3A5DA62315CEC000473FDA /* Context.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Context.swift; sourceTree = "<group>"; };
+		0A3A5DDE2315D17F00473FDA /* AzureCore_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AzureCore_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0A3A5DE22315D17F00473FDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0A3A5D732315C89C00473FDA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0A3A5DDB2315D17F00473FDA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0A3A5DE32315D17F00473FDA /* AzureCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0A3A5D6C2315C89C00473FDA = {
+			isa = PBXGroup;
+			children = (
+				0A3A5D812315CA1000473FDA /* LICENSE */,
+				0A3A5D822315CA1000473FDA /* README.md */,
+				0A3A5D892315CC0D00473FDA /* Assets */,
+				0A3A5D782315C89C00473FDA /* Source */,
+				0A3A5DDF2315D17F00473FDA /* Tests */,
+				0A3A5D772315C89C00473FDA /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		0A3A5D772315C89C00473FDA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0A3A5D762315C89C00473FDA /* AzureCore.framework */,
+				0A3A5DDE2315D17F00473FDA /* AzureCore_Tests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0A3A5D782315C89C00473FDA /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				0A3A5D8F2315CEB600473FDA /* Http */,
+				0A3A5DA52315CEBF00473FDA /* Util */,
+				0A3A5DA92315CF0200473FDA /* Supporting Files */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		0A3A5D892315CC0D00473FDA /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		0A3A5D8F2315CEB600473FDA /* Http */ = {
+			isa = PBXGroup;
+			children = (
+				0A3A5D902315CEB600473FDA /* HttpRequest.swift */,
+				0A3A5D912315CEB600473FDA /* HttpResponse.swift */,
+				0A3A5D922315CEB600473FDA /* HttpMethod.swift */,
+				0A3A5D932315CEB600473FDA /* HttpHeader.swift */,
+				0A3A5D942315CEB600473FDA /* HttpClient.swift */,
+				0A3A5D952315CEB600473FDA /* HttpPipeline.swift */,
+				0A3A5D962315CEB600473FDA /* HttpPipelineNextPolicy.swift */,
+				0A3A5D972315CEB600473FDA /* HttpPipelineCallContext.swift */,
+				0A3A5D982315CEB600473FDA /* Policy */,
+				0A3A5D9A2315CEB600473FDA /* ProxyOptions.swift */,
+			);
+			path = Http;
+			sourceTree = "<group>";
+		};
+		0A3A5D982315CEB600473FDA /* Policy */ = {
+			isa = PBXGroup;
+			children = (
+				0A3A5D992315CEB600473FDA /* HttpPipelinePolicy.swift */,
+			);
+			path = Policy;
+			sourceTree = "<group>";
+		};
+		0A3A5DA52315CEBF00473FDA /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				0A3A5DA62315CEC000473FDA /* Context.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+		0A3A5DA92315CF0200473FDA /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0A3A5D792315C89C00473FDA /* AzureCore.h */,
+				0A3A5D7A2315C89C00473FDA /* Info.plist */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		0A3A5DDF2315D17F00473FDA /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				0A3A5DE22315D17F00473FDA /* Info.plist */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		0A3A5D712315C89C00473FDA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0A3A5D7B2315C89C00473FDA /* AzureCore.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		0A3A5D752315C89C00473FDA /* AzureCore */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0A3A5D7E2315C89C00473FDA /* Build configuration list for PBXNativeTarget "AzureCore" */;
+			buildPhases = (
+				0A3A5D712315C89C00473FDA /* Headers */,
+				0A3A5D722315C89C00473FDA /* Sources */,
+				0A3A5D732315C89C00473FDA /* Frameworks */,
+				0A3A5D742315C89C00473FDA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AzureCore;
+			productName = AzureCore;
+			productReference = 0A3A5D762315C89C00473FDA /* AzureCore.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		0A3A5DDD2315D17F00473FDA /* AzureCore_Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0A3A5DE62315D17F00473FDA /* Build configuration list for PBXNativeTarget "AzureCore_Tests" */;
+			buildPhases = (
+				0A3A5DDA2315D17F00473FDA /* Sources */,
+				0A3A5DDB2315D17F00473FDA /* Frameworks */,
+				0A3A5DDC2315D17F00473FDA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0A3A5DE52315D17F00473FDA /* PBXTargetDependency */,
+			);
+			name = AzureCore_Tests;
+			productName = AzureCore_iOS_FrameworkTests;
+			productReference = 0A3A5DDE2315D17F00473FDA /* AzureCore_Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0A3A5D6D2315C89C00473FDA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1030;
+				LastUpgradeCheck = 1030;
+				ORGANIZATIONNAME = "Azure SDK Team";
+				TargetAttributes = {
+					0A3A5D752315C89C00473FDA = {
+						CreatedOnToolsVersion = 10.3;
+						LastSwiftMigration = 1030;
+					};
+					0A3A5DDD2315D17F00473FDA = {
+						CreatedOnToolsVersion = 10.3;
+					};
+				};
+			};
+			buildConfigurationList = 0A3A5D702315C89C00473FDA /* Build configuration list for PBXProject "AzureCore" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 0A3A5D6C2315C89C00473FDA;
+			productRefGroup = 0A3A5D772315C89C00473FDA /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0A3A5D752315C89C00473FDA /* AzureCore */,
+				0A3A5DDD2315D17F00473FDA /* AzureCore_Tests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0A3A5D742315C89C00473FDA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0A3A5D842315CA1000473FDA /* README.md in Resources */,
+				0A3A5D832315CA1000473FDA /* LICENSE in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0A3A5DDC2315D17F00473FDA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0A3A5D722315C89C00473FDA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0A3A5DA12315CEB600473FDA /* HttpPipelineNextPolicy.swift in Sources */,
+				0A3A5D9F2315CEB600473FDA /* HttpClient.swift in Sources */,
+				0A3A5D9E2315CEB600473FDA /* HttpHeader.swift in Sources */,
+				0A3A5D9C2315CEB600473FDA /* HttpResponse.swift in Sources */,
+				0A3A5DA72315CEC000473FDA /* Context.swift in Sources */,
+				0A3A5DA02315CEB600473FDA /* HttpPipeline.swift in Sources */,
+				0A3A5D9D2315CEB600473FDA /* HttpMethod.swift in Sources */,
+				0A3A5D9B2315CEB600473FDA /* HttpRequest.swift in Sources */,
+				0A3A5DA42315CEB600473FDA /* ProxyOptions.swift in Sources */,
+				0A3A5DA22315CEB600473FDA /* HttpPipelineCallContext.swift in Sources */,
+				0A3A5DA32315CEB600473FDA /* HttpPipelinePolicy.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0A3A5DDA2315D17F00473FDA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0A3A5DE52315D17F00473FDA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0A3A5D752315C89C00473FDA /* AzureCore */;
+			targetProxy = 0A3A5DE42315D17F00473FDA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0A3A5D7C2315C89C00473FDA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		0A3A5D7D2315C89C00473FDA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		0A3A5D7F2315C89C00473FDA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = UBF8T346G9;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Supporting Files/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.azure.AzureCore;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0A3A5D802315C89C00473FDA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = UBF8T346G9;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Supporting Files/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.azure.AzureCore;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		0A3A5DE72315D17F00473FDA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = UBF8T346G9;
+				INFOPLIST_FILE = AzureCore_iOS_FrameworkTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.azure.ai.AzureCore-iOS-FrameworkTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0A3A5DE82315D17F00473FDA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = UBF8T346G9;
+				INFOPLIST_FILE = AzureCore_iOS_FrameworkTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.azure.ai.AzureCore-iOS-FrameworkTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0A3A5D702315C89C00473FDA /* Build configuration list for PBXProject "AzureCore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0A3A5D7C2315C89C00473FDA /* Debug */,
+				0A3A5D7D2315C89C00473FDA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0A3A5D7E2315C89C00473FDA /* Build configuration list for PBXNativeTarget "AzureCore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0A3A5D7F2315C89C00473FDA /* Debug */,
+				0A3A5D802315C89C00473FDA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0A3A5DE62315D17F00473FDA /* Build configuration list for PBXNativeTarget "AzureCore_Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0A3A5DE72315D17F00473FDA /* Debug */,
+				0A3A5DE82315D17F00473FDA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0A3A5D6D2315C89C00473FDA /* Project object */;
+}

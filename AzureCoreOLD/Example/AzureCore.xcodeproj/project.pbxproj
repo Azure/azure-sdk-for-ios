@@ -19,6 +19,41 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		0A3A5D3E2315A0F700473FDA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A3A5D362315A0F700473FDA /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2A0569FC6542319D29A5F4C7D66F6F5C;
+			remoteInfo = AzureCore;
+		};
+		0A3A5D402315A0F700473FDA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A3A5D362315A0F700473FDA /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BAE263041362D074978BB3B577DF0A05;
+			remoteInfo = Nimble;
+		};
+		0A3A5D422315A0F700473FDA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A3A5D362315A0F700473FDA /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A86C167731FFAFA6FFE29ECFEE93C188;
+			remoteInfo = "Pods-AzureCore_Example";
+		};
+		0A3A5D442315A0F700473FDA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A3A5D362315A0F700473FDA /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A5516831E0AA4EFF8685C9EAA4FF8127;
+			remoteInfo = "Pods-AzureCore_Tests";
+		};
+		0A3A5D462315A0F700473FDA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A3A5D362315A0F700473FDA /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0D631E9908483F9525A6B3F36F16CC61;
+			remoteInfo = Quick;
+		};
 		607FACE61AFB9204008FA782 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 607FACC81AFB9204008FA782 /* Project object */;
@@ -29,6 +64,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0A3A5D362315A0F700473FDA /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Pods.xcodeproj; path = Pods/Pods.xcodeproj; sourceTree = "<group>"; };
 		0AC57D5C230F53C300B8D6D1 /* AzureCore_Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AzureCore_Example-Bridging-Header.h"; sourceTree = "<group>"; };
 		0AC57D5D230F53C300B8D6D1 /* ObjCController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjCController.h; sourceTree = "<group>"; };
 		0AC57D5E230F53C300B8D6D1 /* ObjCController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ObjCController.m; sourceTree = "<group>"; };
@@ -73,9 +109,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A3A5D372315A0F700473FDA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0A3A5D3F2315A0F700473FDA /* AzureCore.framework */,
+				0A3A5D412315A0F700473FDA /* Nimble.framework */,
+				0A3A5D432315A0F700473FDA /* Pods_AzureCore_Example.framework */,
+				0A3A5D452315A0F700473FDA /* Pods_AzureCore_Tests.framework */,
+				0A3A5D472315A0F700473FDA /* Quick.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		607FACC71AFB9204008FA782 = {
 			isa = PBXGroup;
 			children = (
+				0A3A5D362315A0F700473FDA /* Pods.xcodeproj */,
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
 				607FACD21AFB9204008FA782 /* Example for AzureCore */,
 				607FACE81AFB9204008FA782 /* Tests */,
@@ -241,6 +290,12 @@
 			mainGroup = 607FACC71AFB9204008FA782;
 			productRefGroup = 607FACD11AFB9204008FA782 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 0A3A5D372315A0F700473FDA /* Products */;
+					ProjectRef = 0A3A5D362315A0F700473FDA /* Pods.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				607FACCF1AFB9204008FA782 /* AzureCore_Example */,
@@ -248,6 +303,44 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		0A3A5D3F2315A0F700473FDA /* AzureCore.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AzureCore.framework;
+			remoteRef = 0A3A5D3E2315A0F700473FDA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0A3A5D412315A0F700473FDA /* Nimble.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Nimble.framework;
+			remoteRef = 0A3A5D402315A0F700473FDA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0A3A5D432315A0F700473FDA /* Pods_AzureCore_Example.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Pods_AzureCore_Example.framework;
+			remoteRef = 0A3A5D422315A0F700473FDA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0A3A5D452315A0F700473FDA /* Pods_AzureCore_Tests.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Pods_AzureCore_Tests.framework;
+			remoteRef = 0A3A5D442315A0F700473FDA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0A3A5D472315A0F700473FDA /* Quick.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Quick.framework;
+			remoteRef = 0A3A5D462315A0F700473FDA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		607FACCE1AFB9204008FA782 /* Resources */ = {

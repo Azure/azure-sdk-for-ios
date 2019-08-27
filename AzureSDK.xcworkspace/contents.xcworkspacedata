@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:AzureCore/AzureCore.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:AzureCSTextAnalytics/AzureCSTextAnalytics.xcodeproj">
+   </FileRef>
+   <Group
+      location = "container:"
+      name = "Examples">
+      <FileRef
+         location = "group:AzureSDKDemoSwift/AzureSDKDemoSwift.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:AzureSDKDemoObjC/AzureSDKDemoObjC.xcodeproj">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
+      name = "Deployment">
+      <FileRef
+         location = "group:AzureCore/AzureCore.podspec">
+      </FileRef>
+   </Group>
+</Workspace>
