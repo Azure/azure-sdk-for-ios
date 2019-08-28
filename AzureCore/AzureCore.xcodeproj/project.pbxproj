@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0A3A5D7B2315C89C00473FDA /* AzureCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A3A5D792315C89C00473FDA /* AzureCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0A3A5D832315CA1000473FDA /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 0A3A5D812315CA1000473FDA /* LICENSE */; };
-		0A3A5D842315CA1000473FDA /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 0A3A5D822315CA1000473FDA /* README.md */; };
 		0A3A5D9B2315CEB600473FDA /* HttpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D902315CEB600473FDA /* HttpRequest.swift */; };
 		0A3A5D9C2315CEB600473FDA /* HttpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D912315CEB600473FDA /* HttpResponse.swift */; };
 		0A3A5D9D2315CEB600473FDA /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D922315CEB600473FDA /* HttpMethod.swift */; };
@@ -38,8 +36,6 @@
 		0A3A5D762315C89C00473FDA /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A3A5D792315C89C00473FDA /* AzureCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AzureCore.h; sourceTree = "<group>"; };
 		0A3A5D7A2315C89C00473FDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0A3A5D812315CA1000473FDA /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		0A3A5D822315CA1000473FDA /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		0A3A5D902315CEB600473FDA /* HttpRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpRequest.swift; sourceTree = "<group>"; };
 		0A3A5D912315CEB600473FDA /* HttpResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpResponse.swift; sourceTree = "<group>"; };
 		0A3A5D922315CEB600473FDA /* HttpMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
@@ -77,9 +73,6 @@
 		0A3A5D6C2315C89C00473FDA = {
 			isa = PBXGroup;
 			children = (
-				0A3A5D812315CA1000473FDA /* LICENSE */,
-				0A3A5D822315CA1000473FDA /* README.md */,
-				0A3A5D892315CC0D00473FDA /* Assets */,
 				0A3A5D782315C89C00473FDA /* Source */,
 				0A3A5DDF2315D17F00473FDA /* Tests */,
 				0A3A5D772315C89C00473FDA /* Products */,
@@ -103,13 +96,6 @@
 				0A3A5DA92315CF0200473FDA /* Supporting Files */,
 			);
 			path = Source;
-			sourceTree = "<group>";
-		};
-		0A3A5D892315CC0D00473FDA /* Assets */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Assets;
 			sourceTree = "<group>";
 		};
 		0A3A5D8F2315CEB600473FDA /* Http */ = {
@@ -254,8 +240,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A3A5D842315CA1000473FDA /* README.md in Resources */,
-				0A3A5D832315CA1000473FDA /* LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
