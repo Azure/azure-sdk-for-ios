@@ -8,7 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		0A3A5DBE2315D02F00473FDA /* AzureCSTextAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3A5DB42315D02F00473FDA /* AzureCSTextAnalytics.framework */; };
-		0A3A5DD42315D0DC00473FDA /* AzureCSTextAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A3A5DD22315D0DC00473FDA /* AzureCSTextAnalytics.h */; };
+		0A3A5EA82315FB2100473FDA /* TextAnalyticsClientCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5EA62315FB2000473FDA /* TextAnalyticsClientCredentials.swift */; };
+		0A3A5EA92315FB2100473FDA /* TextAnalyticsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5EA72315FB2000473FDA /* TextAnalyticsClient.swift */; };
+		0A3A5EAC2315FB9700473FDA /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3A5EAB2315FB9700473FDA /* AzureCore.framework */; };
+		0A3A5EAD2315FC0D00473FDA /* AzureCSTextAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A3A5DD22315D0DC00473FDA /* AzureCSTextAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +30,9 @@
 		0A3A5DD22315D0DC00473FDA /* AzureCSTextAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AzureCSTextAnalytics.h; sourceTree = "<group>"; };
 		0A3A5DD32315D0DC00473FDA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A3A5DD72315D0E600473FDA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0A3A5EA62315FB2000473FDA /* TextAnalyticsClientCredentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextAnalyticsClientCredentials.swift; sourceTree = "<group>"; };
+		0A3A5EA72315FB2000473FDA /* TextAnalyticsClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextAnalyticsClient.swift; sourceTree = "<group>"; };
+		0A3A5EAB2315FB9700473FDA /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A3A5EAC2315FB9700473FDA /* AzureCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,6 +62,7 @@
 				0A3A5DCF2315D05400473FDA /* Source */,
 				0A3A5DD02315D06100473FDA /* Tests */,
 				0A3A5DB52315D02F00473FDA /* Products */,
+				0A3A5EAA2315FB9700473FDA /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -77,6 +85,8 @@
 		0A3A5DCF2315D05400473FDA /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				0A3A5EA52315FB2000473FDA /* Credentials */,
+				0A3A5EA72315FB2000473FDA /* TextAnalyticsClient.swift */,
 				0A3A5DD12315D07C00473FDA /* Supporting Files */,
 			);
 			path = Source;
@@ -99,6 +109,22 @@
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		0A3A5EA52315FB2000473FDA /* Credentials */ = {
+			isa = PBXGroup;
+			children = (
+				0A3A5EA62315FB2000473FDA /* TextAnalyticsClientCredentials.swift */,
+			);
+			path = Credentials;
+			sourceTree = "<group>";
+		};
+		0A3A5EAA2315FB9700473FDA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0A3A5EAB2315FB9700473FDA /* AzureCore.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -106,7 +132,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A3A5DD42315D0DC00473FDA /* AzureCSTextAnalytics.h in Headers */,
+				0A3A5EAD2315FC0D00473FDA /* AzureCSTextAnalytics.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,6 +234,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A3A5EA92315FB2100473FDA /* TextAnalyticsClient.swift in Sources */,
+				0A3A5EA82315FB2100473FDA /* TextAnalyticsClientCredentials.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -411,6 +439,7 @@
 		0A3A5DCC2315D02F00473FDA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = AzureCSTextAnalyticsTests/Info.plist;
@@ -429,6 +458,7 @@
 		0A3A5DCD2315D02F00473FDA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = AzureCSTextAnalyticsTests/Info.plist;
