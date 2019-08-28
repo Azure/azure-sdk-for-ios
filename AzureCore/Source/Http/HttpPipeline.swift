@@ -18,14 +18,14 @@ public final class HttpPipeline: NSObject {
     }
     
     @objc func send(request: HttpRequest) -> HttpResponse? {
-        return self.send(context: HttpPipelineCallContext(request: request))
+        return self.send(context: PipelineRequest(request: request))
     }
     
-    @objc func send(request: HttpRequest, context: Context) -> HttpResponse? {
-        return self.send(context: HttpPipelineCallContext(request: request, context: context))
+    @objc func send(request: HttpRequest, context: PipelineContext) -> HttpResponse? {
+        return self.send(context: PipelineRequest(request: request, context: context))
     }
     
-    @objc func send(context: HttpPipelineCallContext) -> HttpResponse? {
+    @objc func send(context: PipelineRequest) -> HttpResponse? {
         // TODO: convert Java
 //        return Mono.defer(() -> {
 //            HttpPipelineNextPolicy next = new HttpPipelineNextPolicy(this, context);

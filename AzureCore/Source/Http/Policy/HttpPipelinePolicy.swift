@@ -8,5 +8,5 @@
 import Foundation
 
 @objc protocol HttpPipelinePolicy {
-    @objc func process(context: HttpPipelineCallContext, next: HttpPipelineNextPolicy) -> HttpResponse
+    @objc func process(context: PipelineRequest, next: HttpPipelineNextPolicy) -> HttpResponse
 }

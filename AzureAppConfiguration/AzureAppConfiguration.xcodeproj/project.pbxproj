@@ -11,6 +11,11 @@
 		0A3A5EF12316DC4E00473FDA /* AzureAppConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5EF02316DC4E00473FDA /* AzureAppConfigurationTests.swift */; };
 		0A3A5EF32316DC4E00473FDA /* AzureAppConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A3A5EE52316DC4E00473FDA /* AzureAppConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0A3A5EFF2316DCA500473FDA /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3A5EFE2316DCA500473FDA /* AzureCore.framework */; };
+		0A3A5F0B2316DFC200473FDA /* ConfigurationSettingsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F052316DFC200473FDA /* ConfigurationSettingsResponse.swift */; };
+		0A3A5F0C2316DFC200473FDA /* ConfigurationSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F062316DFC200473FDA /* ConfigurationSetting.swift */; };
+		0A3A5F0D2316DFC200473FDA /* ConfigurationSettingPutParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F072316DFC200473FDA /* ConfigurationSettingPutParameters.swift */; };
+		0A3A5F0E2316DFC200473FDA /* AppConfigurationClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F082316DFC200473FDA /* AppConfigurationClient.swift */; };
+		0A3A5F0F2316DFC200473FDA /* AppConfigurationClientCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F0A2316DFC200473FDA /* AppConfigurationClientCredentials.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +36,11 @@
 		0A3A5EF02316DC4E00473FDA /* AzureAppConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzureAppConfigurationTests.swift; sourceTree = "<group>"; };
 		0A3A5EF22316DC4E00473FDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A3A5EFE2316DCA500473FDA /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0A3A5F052316DFC200473FDA /* ConfigurationSettingsResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationSettingsResponse.swift; sourceTree = "<group>"; };
+		0A3A5F062316DFC200473FDA /* ConfigurationSetting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationSetting.swift; sourceTree = "<group>"; };
+		0A3A5F072316DFC200473FDA /* ConfigurationSettingPutParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationSettingPutParameters.swift; sourceTree = "<group>"; };
+		0A3A5F082316DFC200473FDA /* AppConfigurationClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConfigurationClient.swift; sourceTree = "<group>"; };
+		0A3A5F0A2316DFC200473FDA /* AppConfigurationClientCredentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConfigurationClientCredentials.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +85,9 @@
 		0A3A5EE42316DC4E00473FDA /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				0A3A5F082316DFC200473FDA /* AppConfigurationClient.swift */,
+				0A3A5F092316DFC200473FDA /* Credentials */,
+				0A3A5F042316DFC200473FDA /* Models */,
 				0A3A5EFC2316DC5B00473FDA /* Supporting Files */,
 			);
 			path = Source;
@@ -104,6 +117,24 @@
 				0A3A5EFE2316DCA500473FDA /* AzureCore.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		0A3A5F042316DFC200473FDA /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0A3A5F052316DFC200473FDA /* ConfigurationSettingsResponse.swift */,
+				0A3A5F062316DFC200473FDA /* ConfigurationSetting.swift */,
+				0A3A5F072316DFC200473FDA /* ConfigurationSettingPutParameters.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		0A3A5F092316DFC200473FDA /* Credentials */ = {
+			isa = PBXGroup;
+			children = (
+				0A3A5F0A2316DFC200473FDA /* AppConfigurationClientCredentials.swift */,
+			);
+			path = Credentials;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -168,6 +199,7 @@
 				TargetAttributes = {
 					0A3A5EE12316DC4E00473FDA = {
 						CreatedOnToolsVersion = 10.3;
+						LastSwiftMigration = 1030;
 					};
 					0A3A5EEA2316DC4E00473FDA = {
 						CreatedOnToolsVersion = 10.3;
@@ -214,6 +246,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A3A5F0D2316DFC200473FDA /* ConfigurationSettingPutParameters.swift in Sources */,
+				0A3A5F0F2316DFC200473FDA /* AppConfigurationClientCredentials.swift in Sources */,
+				0A3A5F0B2316DFC200473FDA /* ConfigurationSettingsResponse.swift in Sources */,
+				0A3A5F0C2316DFC200473FDA /* ConfigurationSetting.swift in Sources */,
+				0A3A5F0E2316DFC200473FDA /* AppConfigurationClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -362,6 +399,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -380,6 +418,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.azure.management.AzureAppConfiguration;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -389,6 +428,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -415,6 +455,7 @@
 		0A3A5EFA2316DC4E00473FDA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = AzureAppConfigurationTests/Info.plist;
@@ -433,6 +474,7 @@
 		0A3A5EFB2316DC4E00473FDA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = AzureAppConfigurationTests/Info.plist;

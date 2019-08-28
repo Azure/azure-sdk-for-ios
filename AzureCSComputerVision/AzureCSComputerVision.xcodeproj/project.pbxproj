@@ -11,6 +11,8 @@
 		0A3A5EC72316DB1E00473FDA /* AzureCSComputerVisionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5EC62316DB1E00473FDA /* AzureCSComputerVisionTests.swift */; };
 		0A3A5EC92316DB1E00473FDA /* AzureCSComputerVision.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A3A5EBB2316DB1E00473FDA /* AzureCSComputerVision.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0A3A5ED72316DB8F00473FDA /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3A5ED62316DB8F00473FDA /* AzureCore.framework */; };
+		0A3A5F132316DFFE00473FDA /* CSComputerVisionClientCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F112316DFFE00473FDA /* CSComputerVisionClientCredentials.swift */; };
+		0A3A5F142316DFFE00473FDA /* CSComputerVisionClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F122316DFFE00473FDA /* CSComputerVisionClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +33,8 @@
 		0A3A5EC62316DB1E00473FDA /* AzureCSComputerVisionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzureCSComputerVisionTests.swift; sourceTree = "<group>"; };
 		0A3A5EC82316DB1E00473FDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A3A5ED62316DB8F00473FDA /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0A3A5F112316DFFE00473FDA /* CSComputerVisionClientCredentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSComputerVisionClientCredentials.swift; sourceTree = "<group>"; };
+		0A3A5F122316DFFE00473FDA /* CSComputerVisionClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSComputerVisionClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +79,8 @@
 		0A3A5EBA2316DB1E00473FDA /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				0A3A5F122316DFFE00473FDA /* CSComputerVisionClient.swift */,
+				0A3A5F102316DFFE00473FDA /* Credentials */,
 				0A3A5ED32316DB3800473FDA /* Supporting Files */,
 			);
 			path = Source;
@@ -104,6 +110,14 @@
 				0A3A5ED62316DB8F00473FDA /* AzureCore.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		0A3A5F102316DFFE00473FDA /* Credentials */ = {
+			isa = PBXGroup;
+			children = (
+				0A3A5F112316DFFE00473FDA /* CSComputerVisionClientCredentials.swift */,
+			);
+			path = Credentials;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -168,6 +182,7 @@
 				TargetAttributes = {
 					0A3A5EB72316DB1E00473FDA = {
 						CreatedOnToolsVersion = 10.3;
+						LastSwiftMigration = 1030;
 					};
 					0A3A5EC02316DB1E00473FDA = {
 						CreatedOnToolsVersion = 10.3;
@@ -214,6 +229,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A3A5F132316DFFE00473FDA /* CSComputerVisionClientCredentials.swift in Sources */,
+				0A3A5F142316DFFE00473FDA /* CSComputerVisionClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -362,6 +379,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -380,6 +398,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.azure.ai.AzureCSComputerVision;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -389,6 +408,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -415,6 +435,7 @@
 		0A3A5ED02316DB1E00473FDA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = AzureCSComputerVisionTests/Info.plist;
@@ -433,6 +454,7 @@
 		0A3A5ED12316DB1E00473FDA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = AzureCSComputerVisionTests/Info.plist;

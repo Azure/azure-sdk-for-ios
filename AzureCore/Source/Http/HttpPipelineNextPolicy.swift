@@ -10,10 +10,10 @@ import Foundation
 @objc
 public class HttpPipelineNextPolicy: NSObject {
     private let pipeline: HttpPipeline
-    private let context: HttpPipelineCallContext
+    private let context: PipelineRequest
     private var currentPolicyIndex: Int
     
-    @objc public init(pipeline: HttpPipeline, context: HttpPipelineCallContext) {
+    @objc public init(pipeline: HttpPipeline, context: PipelineRequest) {
         self.pipeline = pipeline
         self.context = context
         self.currentPolicyIndex = -1
