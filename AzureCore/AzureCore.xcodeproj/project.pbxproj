@@ -29,11 +29,12 @@
 		0A3A5F24231714F800473FDA /* NetworkTraceLoggingPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F23231714F800473FDA /* NetworkTraceLoggingPolicy.swift */; };
 		0A3A5F26231718D200473FDA /* ContentDecodePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F25231718D200473FDA /* ContentDecodePolicy.swift */; };
 		0A3A5F2823171C5000473FDA /* ProxyPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F2723171C5000473FDA /* ProxyPolicy.swift */; };
-		0A3A5F2A23171E3200473FDA /* RedirectPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F2923171E3200473FDA /* RedirectPolicy.swift */; };
-		0A3A5F2C231720BC00473FDA /* RetryPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F2B231720BC00473FDA /* RetryPolicy.swift */; };
+		0A3A5F2A23171E3200473FDA /* RetryPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F2923171E3200473FDA /* RetryPolicy.swift */; };
+		0A3A5F2C231720BC00473FDA /* RedirectPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F2B231720BC00473FDA /* RedirectPolicy.swift */; };
 		0A3A5F2E231720C400473FDA /* CustomHookPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F2D231720C400473FDA /* CustomHookPolicy.swift */; };
 		0A3A5F32231720DE00473FDA /* AuthenticationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F31231720DE00473FDA /* AuthenticationPolicy.swift */; };
 		0A3A5F35231731B700473FDA /* Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F34231731B700473FDA /* Credentials.swift */; };
+		0A3A5F382318686C00473FDA /* HttpTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F372318686C00473FDA /* HttpTransport.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,11 +73,12 @@
 		0A3A5F23231714F800473FDA /* NetworkTraceLoggingPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTraceLoggingPolicy.swift; sourceTree = "<group>"; };
 		0A3A5F25231718D200473FDA /* ContentDecodePolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentDecodePolicy.swift; sourceTree = "<group>"; };
 		0A3A5F2723171C5000473FDA /* ProxyPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProxyPolicy.swift; sourceTree = "<group>"; };
-		0A3A5F2923171E3200473FDA /* RedirectPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedirectPolicy.swift; sourceTree = "<group>"; };
-		0A3A5F2B231720BC00473FDA /* RetryPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetryPolicy.swift; sourceTree = "<group>"; };
+		0A3A5F2923171E3200473FDA /* RetryPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetryPolicy.swift; sourceTree = "<group>"; };
+		0A3A5F2B231720BC00473FDA /* RedirectPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedirectPolicy.swift; sourceTree = "<group>"; };
 		0A3A5F2D231720C400473FDA /* CustomHookPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomHookPolicy.swift; sourceTree = "<group>"; };
 		0A3A5F31231720DE00473FDA /* AuthenticationPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationPolicy.swift; sourceTree = "<group>"; };
 		0A3A5F34231731B700473FDA /* Credentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
+		0A3A5F372318686C00473FDA /* HttpTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpTransport.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,6 +185,7 @@
 		0A3A5F192316EADB00473FDA /* Pipeline */ = {
 			isa = PBXGroup;
 			children = (
+				0A3A5F362318680900473FDA /* Transport */,
 				0A3A5F1A2316EAE500473FDA /* Policies */,
 				0A3A5F1F2316EF9400473FDA /* PipelineBase.swift */,
 			);
@@ -198,12 +201,20 @@
 				0A3A5F23231714F800473FDA /* NetworkTraceLoggingPolicy.swift */,
 				0A3A5F25231718D200473FDA /* ContentDecodePolicy.swift */,
 				0A3A5F2723171C5000473FDA /* ProxyPolicy.swift */,
-				0A3A5F2923171E3200473FDA /* RedirectPolicy.swift */,
-				0A3A5F2B231720BC00473FDA /* RetryPolicy.swift */,
+				0A3A5F2923171E3200473FDA /* RetryPolicy.swift */,
+				0A3A5F2B231720BC00473FDA /* RedirectPolicy.swift */,
 				0A3A5F2D231720C400473FDA /* CustomHookPolicy.swift */,
 				0A3A5F31231720DE00473FDA /* AuthenticationPolicy.swift */,
 			);
 			path = Policies;
+			sourceTree = "<group>";
+		};
+		0A3A5F362318680900473FDA /* Transport */ = {
+			isa = PBXGroup;
+			children = (
+				0A3A5F372318686C00473FDA /* HttpTransport.swift */,
+			);
+			path = Transport;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -329,9 +340,10 @@
 				0A3A5D9B2315CEB600473FDA /* HttpRequest.swift in Sources */,
 				0A3A5F1E2316EC4C00473FDA /* PolicyBase.swift in Sources */,
 				0A3A5F032316DF6600473FDA /* CryptoUtils.swift in Sources */,
-				0A3A5F2A23171E3200473FDA /* RedirectPolicy.swift in Sources */,
-				0A3A5F2C231720BC00473FDA /* RetryPolicy.swift in Sources */,
+				0A3A5F2A23171E3200473FDA /* RetryPolicy.swift in Sources */,
+				0A3A5F2C231720BC00473FDA /* RedirectPolicy.swift in Sources */,
 				0A3A5F1C2316EBC600473FDA /* HeadersPolicy.swift in Sources */,
+				0A3A5F382318686C00473FDA /* HttpTransport.swift in Sources */,
 				0A3A5F222316FAF000473FDA /* UserAgentPolicy.swift in Sources */,
 				0A3A5F2E231720C400473FDA /* CustomHookPolicy.swift in Sources */,
 				0A3A5F012316DF1B00473FDA /* Errors.swift in Sources */,

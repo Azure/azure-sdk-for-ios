@@ -7,16 +7,17 @@
 
 import Foundation
 
-@objc
-public enum HttpMethod: UInt {
+@objc public enum HttpMethod: UInt {
     case GET
     case PUT
     case POST
     case PATCH
     case DELETE
     case HEAD
+    case OPTIONS
+    case TRACE
     
-    func name() -> String {
+    func value() -> String {
         switch self {
         case .GET:
             return "GET"
@@ -30,6 +31,10 @@ public enum HttpMethod: UInt {
             return "DELETE"
         case .HEAD:
             return "HEAD"
+        case .OPTIONS:
+            return "OPTIONS"
+        case .TRACE:
+            return "TRACE"
         }
     }
 }

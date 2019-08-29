@@ -1,5 +1,5 @@
 //
-//  RedirectPolicy.swift
+//  RetryPolicy.swift
 //  AzureCore
 //
 //  Created by Travis Prescott on 8/28/19.
@@ -10,44 +10,95 @@ import Foundation
 
 @objc public class RedirectPolicy: NSObject, HttpPolicy {
 
-    @objc public var next: HttpPolicy?
-    
-    @objc public let totalRetries: Int = 10
-    @objc public let connectRetries: Int = 3
-    @objc public let readRetries: Int = 3
-    @objc public let statusRetries: Int = 3
-    @objc public let backoffFactor: Double = 0.8
-    @objc public var backoffMax: Int = 120
-    
-    private let safeCodes: [Int]
-    private let retryCodes: [Int]
-
-    @objc public init(totalRetries: NSNumber?, connectRetries: NSNumber?, readRetries: NSNumber?, statusRetries: NSNumber?, statusRetries: NSNumber?, backoffFactor: NSDecimalNumber?, backoffMax: NSNumber?) {
+    internal class RedirectSettings {
+        var allowRedirects: Bool
+        var maxRedirects: Int
+        var history: [RequestHistory]
         
+        init(context: PipelineContext?, policy: RedirectPolicy) {
+            self.allowRedirects = context?.getValue(forKey: "allowRedirects") as? Bool ?? policy.allowRedirects
+            self.maxRedirects = context?.getValue(forKey: "maxRedirects") as? Int ?? policy.maxRedirects
+            self.history = [RequestHistory]()
+        }
     }
 
     
-//        safe_codes = [i for i in range(500) if i != 408] + [501, 505]
-//        retry_codes = [i for i in range(999) if i not in safe_codes]
-//        status_codes = kwargs.pop('retry_on_status_codes', [])
-//        self._retry_on_status_codes = set(status_codes + retry_codes)
-//        self._method_whitelist = frozenset(['HEAD', 'GET', 'PUT', 'DELETE', 'OPTIONS', 'TRACE'])
-//        self._respect_retry_after_header = True
-//        super(RetryPolicy, self).__init__()
+    @objc public var next: HttpPolicy?
+    
+    private var allowRedirects: Bool
+    private var maxRedirects: Int
+    
+    private let redirectHeadersBlacklist: [HttpHeaderType] = [.authorization]
+    private let redirectStatusCodes: [Int] = [300, 301, 302, 303, 307, 308]
+    
+    private var removeHeadersOnRedirect: [HttpHeaderType]
+    private var redirectOnStatusCodes: [Int]
+    
+    @objc public init(allowRedirects: Bool = true, maxRedirects: Int = 30, /* removeHeadersOnRedirect: [HttpHeaderType]?,*/ redirectOnStatusCodes: [Int]? = nil) {
+        self.allowRedirects = allowRedirects
+        self.maxRedirects = maxRedirects
 
+        self.removeHeadersOnRedirect = self.redirectHeadersBlacklist
+        // TODO: Fix this...
+//        if let removeHeaders = removeHeadersOnRedirect {
+//            self.removeHeadersOnRedirect.append(contentsOf: removeHeaders)
+//        }
+        self.redirectOnStatusCodes = self.redirectStatusCodes
+        if let redirect = redirectOnStatusCodes {
+            self.redirectOnStatusCodes.append(contentsOf: redirect)
+        }
+    }
+    
+    @objc public static func noRedirect() -> RedirectPolicy {
+        return RedirectPolicy(allowRedirects: false)
+    }
+    
+    private func getRedirectLocation(response: PipelineResponse) -> String? {
+        let statusCode = response.httpResponse.statusCode()
+        let method = response.httpRequest.httpMethod
+        if [301, 302].contains(statusCode) {
+            if [HttpMethod.GET, HttpMethod.HEAD].contains(method) {
+                return response.httpResponse.headers()["location"] as String?
+            }
+            return nil
+        }
+        if self.redirectOnStatusCodes.contains(statusCode) {
+            return response.httpResponse.headers()["location"] as String?
+        }
+        return nil
+    }
+    
+    private func increment(settings: RedirectSettings, response: PipelineResponse, location: String) -> Bool {
+        settings.maxRedirects -= 1
+        settings.history.append(RequestHistory(request: response.httpRequest, response: response.httpResponse, context: response.context, error: nil))
+        
+        if let redirectUrl = URL(string: location) {
+            response.httpRequest.url = redirectUrl
+        } else {
+            // TODO: Do something else to build the redirect url?
+        }
+        if response.httpResponse.statusCode() == 303 {
+            response.httpRequest.httpMethod = .GET
+        }
+        for nonRedirectHeader in self.removeHeadersOnRedirect {
+            response.httpRequest.headers.removeValue(forKey: nonRedirectHeader.name())
+        }
+        return settings.maxRedirects >= 0
+    }
     
     @objc public func send(request: PipelineRequest) throws -> PipelineResponse {
-//        var retryable = true
-//        let redirectSettings = self.configureRedirects(request.context)
-//        while retryable {
-//            let response = self.next?.send(request: request)
-//            let redirectLocation = self.getRedirectLocation(response: response)
-//            if (redirectLocation != nil && redirectSettings["allow"]) {
-//                retryable = self.increment(redirectSettings: redirectSettings, response: response, redirectLocation: redirectLocation)
-//                request.httpRequest = response!.httpRequest
-//                continue
-//            }
-//            return response
-//        }
+        var retryable = true
+        let settings = RedirectSettings(context: request.context, policy: self)
+        var response: PipelineResponse
+        while retryable {
+            response = try self.next!.send(request: request)
+            if let redirectLocation = self.getRedirectLocation(response: response) {
+                retryable = self.increment(settings: settings, response: response, location: redirectLocation)
+                request.httpRequest = response.httpRequest
+                continue
+            }
+            return response
+        }
+        throw TooManyRedirectsError(message: settings.history.description, response: nil)
     }
 }

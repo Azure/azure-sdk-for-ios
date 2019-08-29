@@ -7,3 +7,7 @@
 //
 
 import Foundation
+
+@objc public class PipelineClient: NSObject {
+    
+}

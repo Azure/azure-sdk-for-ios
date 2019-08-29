@@ -9,8 +9,7 @@ import Foundation
 
 public typealias HttpHeaders = [String: String]
 
-@objc
-public enum HttpHeaderType: UInt {
+@objc public enum HttpHeaderType: UInt {
     case accept
     case acceptCharset
     case acceptEncoding
