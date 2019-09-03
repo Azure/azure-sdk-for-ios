@@ -8,7 +8,7 @@
 
 import Foundation
 
-@objc public class HeadersPolicy: SansIOHttpPolicy {
+@objc public class HeadersPolicy: NSObject, SansIOHttpPolicy {
     
     private var _headers: HttpHeaders
     public var headers: HttpHeaders {
@@ -19,11 +19,11 @@ import Foundation
         self._headers = baseHeaders ?? HttpHeaders()
     }
     
-    @objc public func add(header: HttpHeaderType, value: String) {
-        self._headers[header.name()] = value
+    @objc public func add(header: HttpHeader, value: String) {
+        self._headers[header.rawValue] = value
     }
     
-    override public func onRequest(_ request: PipelineRequest) {
+    @objc public func onRequest(_ request: PipelineRequest) {
         for (key, value) in self.headers {
             request.httpRequest.headers[key] = value
         }

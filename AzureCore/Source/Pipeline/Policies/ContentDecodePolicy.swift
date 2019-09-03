@@ -8,9 +8,9 @@
 
 import Foundation
 
-@objc public class ContentDecodePolicy: SansIOHttpPolicy {
+@objc public class ContentDecodePolicy: NSObject, SansIOHttpPolicy {
     
-    @objc public override func onResponse(request: PipelineRequest, response: PipelineResponse) {
+    @objc public func onResponse(_ response: PipelineResponse, request: PipelineRequest) {
         guard response.context?.getValue(forKey: "stream") as? Bool == true else { return }
         let contextName = "deserializedData"
         response.context = response.context?.add(value: ContentDecodePolicy.deserializeFromHttpGenerics(response: response.httpResponse), forKey: contextName)

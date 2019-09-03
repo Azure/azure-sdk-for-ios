@@ -9,22 +9,46 @@
 import AzureCore
 import Foundation
 
-@objc
-class AppConfigurationClient: NSObject {
+@objc class AppConfigurationClient: NSObject, PipelineClient {
 
     private static let apiVersion = "2019-01-01"
-    private var pipeline: HttpPipeline
+    private var pipeline: Pipeline
+   
     lazy var session = URLSession(configuration: .default)
     private var isConfigured = false
 
     private var path: String = ""
     private var endpoint: URL!
     private var credential: AppConfigurationClientCredentials?
+
+    @objc public func init() {
+        let config = PipelineConfiguration(
+            headersPolicy: HeadersPolicy(),
+            proxyPolicy: ProxyPolicy(),
+            redirectPolicy: RedirectPolicy(),
+            retryPolicy: RetryPolicy(),
+            customHookPolicy: CustomHookPolicy(),
+            loggingPolicy: NetworkTraceLoggingPolicy(),
+            userAgentPolicy: UserAgentPolicy(),
+            authenticationPolicy: BearerTokenCredentialPolicy()
+        )
+        let policies: HttpPolicy = [
+            config.userAgentPolicy,
+            config.headerPolicy,
+            config.authenticationPolicy,
+            ContentDecodePolicy(),
+            config.proxyPolicy,
+            config.redirectPolicy,
+            config.retryPolicy,
+            config.loggingPolicy
+        ]
+        self.pipeline = Pipeline(transport: UrlSessionTransport, policies: policies)
+    }
     
     @objc func configure(withConnectionString connectionString: String) throws {
-        self.credential = try AppConfigurationClientCredentials.init(withConnectionString: connectionString)
-        self.endpoint = self.credential!.credentials.baseUri!
-        self.isConfigured = true
+//        self.credential = try AppConfigurationClientCredentials.init(withConnectionString: connectionString)
+//        self.endpoint = self.credential!.credentials.baseUri!
+//        self.isConfigured = true
     }
     
     @objc func getConfigurationSettings(forKey key: String?, forLabel label: String?, completion: @escaping ([ConfigurationSetting]?) -> Void) {

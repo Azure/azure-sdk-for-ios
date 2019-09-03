@@ -8,7 +8,7 @@
 
 import Foundation
 
-@objc public class UserAgentPolicy: SansIOHttpPolicy {
+@objc public class UserAgentPolicy: NSObject, SansIOHttpPolicy {
     
     private var _userAgent: String
     @objc public let userAgentOverwrite: Bool
@@ -34,8 +34,8 @@ import Foundation
         self._userAgent = "\(self._userAgent) \(value)"
     }
     
-    @objc override func onRequest(_ request: PipelineRequest) {
-        let userAgentHeader = HttpHeaderType.userAgent.name()
+    @objc public func onRequest(_ request: PipelineRequest) {
+        let userAgentHeader = HttpHeader.userAgent.rawValue
         if let contextUserAgent = request.context?.getValue(forKey: "userAgent") as? String {
             if request.context?.getValue(forKey: "userAgentOverwrite") != nil {
                 request.httpRequest.headers[userAgentHeader] = contextUserAgent

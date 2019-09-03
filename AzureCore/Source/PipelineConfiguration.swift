@@ -8,18 +8,17 @@
 
 import Foundation
 
-@objc
-public class PipelineConfiguration: NSObject {
+@objc public class PipelineConfiguration: NSObject {
     
-    let headersPolicy: HeadersPolicy
-    let proxyPolicy: ProxyPolicy
-    let redirectPolicy: RedirectPolicy
-    let retryPolicy: RetryPolicy
-    let customHookPolicy: CustomHookPolicy
-    let loggingPolicy: NetworkTraceLoggingPolicy
-    let userAgentPolicy: UserAgentPolicy
-    let authenticationPolicy: BearerTokenCredentialPolicy
-    let pollingInterval: Int
+    @objc public let headersPolicy: HeadersPolicy
+    @objc public let proxyPolicy: ProxyPolicy
+    @objc public let redirectPolicy: RedirectPolicy
+    @objc public let retryPolicy: RetryPolicy
+    @objc public let customHookPolicy: CustomHookPolicy
+    @objc public let loggingPolicy: NetworkTraceLoggingPolicy
+    @objc public let userAgentPolicy: UserAgentPolicy
+    @objc public let authenticationPolicy: BearerTokenCredentialPolicy
+    @objc public let pollingInterval: Int
     
     private let defaultPollingInterval = 30
     

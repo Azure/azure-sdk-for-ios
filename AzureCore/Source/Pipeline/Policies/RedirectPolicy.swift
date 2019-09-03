@@ -23,15 +23,15 @@ import Foundation
     }
 
     
-    @objc public var next: HttpPolicy?
+    @objc public var next: PipelineSendable?
     
     private var allowRedirects: Bool
     private var maxRedirects: Int
     
-    private let redirectHeadersBlacklist: [HttpHeaderType] = [.authorization]
+    private let redirectHeadersBlacklist: [HttpHeader] = [.authorization]
     private let redirectStatusCodes: [Int] = [300, 301, 302, 303, 307, 308]
     
-    private var removeHeadersOnRedirect: [HttpHeaderType]
+    private var removeHeadersOnRedirect: [HttpHeader]
     private var redirectOnStatusCodes: [Int]
     
     @objc public init(allowRedirects: Bool = true, maxRedirects: Int = 30, /* removeHeadersOnRedirect: [HttpHeaderType]?,*/ redirectOnStatusCodes: [Int]? = nil) {
@@ -54,16 +54,16 @@ import Foundation
     }
     
     private func getRedirectLocation(response: PipelineResponse) -> String? {
-        let statusCode = response.httpResponse.statusCode()
+        let statusCode = response.httpResponse.statusCode
         let method = response.httpRequest.httpMethod
         if [301, 302].contains(statusCode) {
             if [HttpMethod.GET, HttpMethod.HEAD].contains(method) {
-                return response.httpResponse.headers()["location"] as String?
+                return response.httpResponse.headers[HttpHeader.retryAfter] as String?
             }
             return nil
         }
         if self.redirectOnStatusCodes.contains(statusCode) {
-            return response.httpResponse.headers()["location"] as String?
+            return response.httpResponse.headers[HttpHeader.retryAfter] as String?
         }
         return nil
     }
@@ -72,16 +72,12 @@ import Foundation
         settings.maxRedirects -= 1
         settings.history.append(RequestHistory(request: response.httpRequest, response: response.httpResponse, context: response.context, error: nil))
         
-        if let redirectUrl = URL(string: location) {
-            response.httpRequest.url = redirectUrl
-        } else {
-            // TODO: Do something else to build the redirect url?
-        }
-        if response.httpResponse.statusCode() == 303 {
+        response.httpRequest.url = location
+        if response.httpResponse.statusCode == 303 {
             response.httpRequest.httpMethod = .GET
         }
         for nonRedirectHeader in self.removeHeadersOnRedirect {
-            response.httpRequest.headers.removeValue(forKey: nonRedirectHeader.name())
+            response.httpRequest.headers.removeValue(forKey: nonRedirectHeader.rawValue)
         }
         return settings.maxRedirects >= 0
     }

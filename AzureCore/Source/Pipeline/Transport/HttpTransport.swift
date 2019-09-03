@@ -8,15 +8,8 @@
 
 import Foundation
 
-@objc protocol HttpTransportProtocol {
-    @objc func send(request: PipelineRequest) -> PipelineResponse
+@objc public protocol HttpTransport: PipelineSendable {
     @objc func open()
     @objc func close()
     @objc func sleep(duration: Int)
-}
-
-@objc public class HttpTransport: NSObject {
-    @objc public final func sleep(duration: Int) {
-        Foundation.sleep(UInt32(duration))
-    }
 }

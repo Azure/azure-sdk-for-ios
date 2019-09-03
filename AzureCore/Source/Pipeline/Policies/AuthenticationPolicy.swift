@@ -10,7 +10,7 @@ import Foundation
 
 @objc public class BearerTokenCredentialPolicy: NSObject, HttpPolicy {
     
-    @objc public var next: HttpPolicy?
+    @objc public var next: PipelineSendable?
     @objc public let scopes: [String]
     @objc public let credential: TokenCredential
     @objc public var needNewToken: Bool {
@@ -27,7 +27,7 @@ import Foundation
     }
     
     @objc public func updateHeaders(request: PipelineRequest, token: String) {
-        request.httpRequest.headers[HttpHeaderType.authorization.name()] = "Bearer \(token)"
+        request.httpRequest.headers[HttpHeader.authorization.rawValue] = "Bearer \(token)"
     }
     
     @objc public func send(request: PipelineRequest) throws -> PipelineResponse {

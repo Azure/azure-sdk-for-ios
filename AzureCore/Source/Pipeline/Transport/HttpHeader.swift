@@ -7,9 +7,21 @@
 
 import Foundation
 
-public typealias HttpHeaders = [String: String]
+public typealias HttpHeaders = [String:String]
 
-@objc public enum HttpHeaderType: UInt {
+extension HttpHeaders {
+    subscript(index: HttpHeader) -> String? {
+        get {
+            return self[index.rawValue]
+        }
+        
+        set(newValue) {
+            self[index.rawValue] = newValue
+        }
+    }
+}
+
+@objc public enum HttpHeader: Int, RawRepresentable {
     case accept
     case acceptCharset
     case acceptEncoding
@@ -41,6 +53,7 @@ public typealias HttpHeaders = [String: String]
     case pragma
     case range
     case referer
+    case retryAfter
     case server
     case slug
     case trailer
@@ -51,7 +64,9 @@ public typealias HttpHeaders = [String: String]
     case warning
     case wwwAuthenticate
     
-    func name() -> String {
+    public typealias RawValue = String
+    
+    public var rawValue: RawValue {
         switch self {
         case .accept:
             return "Accept"
@@ -115,6 +130,8 @@ public typealias HttpHeaders = [String: String]
             return "Range"
         case .referer:
             return "Referer"
+        case .retryAfter:
+            return "Retry-After"
         case .server:
             return "Server"
         case .slug:
@@ -135,38 +152,93 @@ public typealias HttpHeaders = [String: String]
             return "WWW-Authenticate"
         }
     }
-}
-
-@objc
-public class HttpHeader: NSObject {
-
-    private let _name: String
-
-    @objc var name: String {
-        return self._name
-    }
-
-    @objc var value: String?
-
-    @objc var values: [String]? {
-        guard let value = value else { return nil }
-        return value.components(separatedBy: ",")
-    }
-
-    @objc public override var description: String {
-        return "\(self.name):\(self.value ?? "")"
-    }
     
-    @objc public init(header: HttpHeaderType, value: String?) {
-        self._name = header.name()
-        self.value = value
-    }
-
-    @objc public func add(value: String) {
-        guard self.value != nil else {
-            self.value = value
-            return
+    public init?(rawValue: RawValue) {
+        switch rawValue {
+        case "Accept":
+            self = .accept
+        case "Accept-Charset":
+            self = .acceptCharset
+        case "Accept-Encoding":
+            self = .acceptEncoding
+        case "Accept-Language":
+            self = .acceptLanguage
+        case "Accept-Ranges":
+            self = .acceptRanges
+        case "Age":
+            self = .age
+        case "Allow":
+            self = .allow
+        case "Authorization":
+            self = .authorization
+        case "Cache-Control":
+            self = .cacheControl
+        case "Connection":
+            self = .connection
+        case "Content-Encoding":
+            self = .contentEncoding
+        case "Content-Language":
+            self = .contentLanguage
+        case "Content-Length":
+            self = .contentLength
+        case "Content-Location":
+            self = .contentLocation
+        case "Content-Range":
+            self = .contentRange
+        case "Content-Type":
+            self = .contentType
+        case "Date":
+            self = .date
+        case "Etag":
+            self = .etag
+        case "Expect":
+            self = .expect
+        case "Expires":
+            self = .expires
+        case "From":
+            self = .from
+        case "Host":
+            self = .host
+        case "If-Match":
+            self = .ifMatch
+        case "If-Modified-Since":
+            self = .ifModifiedSince
+        case "If-None-Match":
+            self = .ifNoneMatch
+        case "If-Unmodified-Since":
+            self = .ifUnmodifiedSince
+        case "Last-Modified":
+            self = .lastModified
+        case "Location":
+            self = .location
+        case "Pragma":
+            self = .pragma
+        case "Range":
+            self = .range
+        case "Referer":
+            self = .referer
+        case "Retry-After":
+            self = .retryAfter
+        case "Server":
+            self = .server
+        case "Slug":
+            self = .slug
+        case "Trailer":
+            self = .trailer
+        case "Transfer-Encoding":
+            self = .transferEncoding
+        case "User-Agent":
+            self = .userAgent
+        case "Vary":
+            self = .vary
+        case "Via":
+            self = .via
+        case "Warning":
+            self = .warning
+        case "WWW-Authenticate":
+            self = .wwwAuthenticate
+        default:
+            fatalError("Unrecognized enum value: \(rawValue)")
         }
-        self.value! += ",\(value)"
     }
 }

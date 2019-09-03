@@ -32,7 +32,7 @@ import Foundation
         }
     }
     
-    @objc public var next: HttpPolicy?
+    @objc public var next: PipelineSendable?
     
     @objc public let totalRetries: Int
     @objc public let connectRetries: Int
@@ -87,7 +87,7 @@ import Foundation
     }
     
     private func getRetryAfter(response: PipelineResponse) -> Int {
-        return self.parse(retryAfter: response.httpResponse.headers()["Retry-After"] ?? "")
+        return self.parse(retryAfter: response.httpResponse.headers[HttpHeader.retryAfter] ?? "")
     }
     
     private func sleepForRetry(response: PipelineResponse, transport: HttpTransport) -> Bool {
@@ -124,7 +124,7 @@ import Foundation
     private func isMethodRetryable(settings: RetrySettings, request: HttpRequest, response: HttpResponse?) -> Bool {
         let method = request.httpMethod
         if let response = response {
-            let statusCode = response.statusCode()
+            let statusCode = response.statusCode
             let allowMethods = [HttpMethod.POST, HttpMethod.PATCH]
             let allowCodes = [500, 503, 504]
             if allowMethods.contains(method) && allowCodes.contains(statusCode) { return true }
@@ -134,10 +134,10 @@ import Foundation
     }
     
     private func isRetry(settings: RetrySettings, response: PipelineResponse) -> Bool {
-        let hasRetryAfter = response.httpResponse.headers()["Retry-After"] != nil
+        let hasRetryAfter = response.httpResponse.headers[HttpHeader.retryAfter] != nil
         if hasRetryAfter && self.respectRetryAfterHeader { return true }
         if !self.isMethodRetryable(settings: settings, request: response.httpRequest, response: response.httpResponse) { return false }
-        return settings.totalRetries > 0 && self.retryOnStatusCodes.contains(response.httpResponse.statusCode())
+        return settings.totalRetries > 0 && self.retryOnStatusCodes.contains(response.httpResponse.statusCode)
     }
     
     private func isExhausted(settings: RetrySettings) -> Bool {
@@ -148,7 +148,7 @@ import Foundation
     
     private func increment(settings: RetrySettings, response: PipelineResponse?, error: Error?) -> Bool {
         settings.totalRetries -= 1
-        guard response?.httpResponse.statusCode() != 202 else { return false }
+        guard response?.httpResponse.statusCode != 202 else { return false }
 
         if let error = error {
             if self.isConnectionError(error: error) {
@@ -182,8 +182,10 @@ import Foundation
                 if self.isRetry(settings: settings, response: response) {
                     retryActive = self.increment(settings: settings, response: response, error: nil)
                     if retryActive {
-                        self.sleep(settings: settings, transport: HttpTransport(), response: response)
-                        continue
+                        if let transport = request.context?.getValue(forKey: "transport") as? HttpTransport {
+                            self.sleep(settings: settings, transport: transport, response: response)
+                            continue
+                        }
                     }
                 }
                 self.updateContext(request: request, settings: settings)
@@ -192,8 +194,10 @@ import Foundation
                 if self.isMethodRetryable(settings: settings, request: request.httpRequest, response: nil) {
                     retryActive = self.increment(settings: settings, response: nil, error: error)
                     if retryActive {
-                        self.sleep(settings: settings, transport: HttpTransport(), response: nil)
-                        continue
+                        if let transport = request.context?.getValue(forKey: "transport") as? HttpTransport {
+                            self.sleep(settings: settings, transport: transport, response: nil)
+                            continue
+                        }
                     }
                 }
                 throw error

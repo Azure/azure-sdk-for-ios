@@ -8,7 +8,7 @@
 
 import Foundation
 
-@objc public class ProxyPolicy: SansIOHttpPolicy {
+@objc public class ProxyPolicy: NSObject, SansIOHttpPolicy {
     
     @objc public var proxies: [String:String]?
     
@@ -16,7 +16,7 @@ import Foundation
         self.proxies = proxies
     }
     
-    @objc override public func onRequest(_ request: PipelineRequest) {
+    @objc public func onRequest(_ request: PipelineRequest) {
         guard let proxies = self.proxies else { return }
         request.context = request.context?.add(value: proxies as AnyObject, forKey: "proxies")
     }

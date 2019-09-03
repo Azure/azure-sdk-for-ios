@@ -8,23 +8,14 @@
 
 import Foundation
 
-public class SansIOHttpPolicy: NSObject {
-    func onRequest(_ request: PipelineRequest) {
-        return
-    }
-    
-    func onResponse(request: PipelineRequest, response: PipelineResponse) {
-        return
-    }
-
-    func onError(request: PipelineRequest) -> Bool {
-        return false
-    }
+@objc public protocol SansIOHttpPolicy {
+    @objc optional func onRequest(_ request: PipelineRequest)
+    @objc optional func onResponse(_ response: PipelineResponse, request: PipelineRequest)
+    @objc optional func onError(request: PipelineRequest) -> Bool
 }
 
-@objc public protocol HttpPolicy {
-    @objc var next: HttpPolicy? { get set }
-    @objc func send(request: PipelineRequest) throws -> PipelineResponse
+@objc public protocol HttpPolicy: PipelineSendable {
+    @objc var next: PipelineSendable? { get set }
 }
 
 @objc public class RequestHistory: NSObject {

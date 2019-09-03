@@ -8,7 +8,7 @@
 
 import Foundation
 
-@objc public class NetworkTraceLoggingPolicy: SansIOHttpPolicy {
+@objc public class NetworkTraceLoggingPolicy: NSObject, SansIOHttpPolicy {
     
     @objc public var enableLogging: Bool
     
@@ -16,7 +16,7 @@ import Foundation
         self.enableLogging = enableLogging
     }
     
-    @objc public override func onRequest(_ request: PipelineRequest) {
+    @objc public func onRequest(_ request: PipelineRequest) {
         let enableLogging = request.context?.getValue(forKey: "enableLogging") as? Bool ?? self.enableLogging
         guard enableLogging else { return }
         request.context = request.context?.add(value: true as AnyObject, forKey: "enableLogging")
@@ -30,7 +30,7 @@ import Foundation
         // on error, log error
     }
     
-    @objc public override func onResponse(request: PipelineRequest, response: PipelineResponse) {
+    @objc public func onResponse(_ response: PipelineResponse, request: PipelineRequest) {
         let enableLogging = request.context?.getValue(forKey: "enableLogging") as? Bool ?? self.enableLogging
         guard enableLogging else { return }
         // TODO: implement

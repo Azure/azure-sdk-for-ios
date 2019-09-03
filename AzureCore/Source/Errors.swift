@@ -47,7 +47,7 @@ import Foundation
     @objc public init(message: String?, response: HttpResponse?) {
         // TODO: implement response reason
         let reason  = "TBD"
-        let statusCode = response?.statusCode() ?? -1
+        let statusCode = response?.statusCode ?? -1
         let finalMessage = message ?? "Operation returned an invalid status '\(reason)'"
         // TODO: Add a bunch of crazy error handling code here
         self.reason = reason

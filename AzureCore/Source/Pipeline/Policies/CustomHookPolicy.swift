@@ -8,15 +8,15 @@
 
 import Foundation
 
-@objc public class CustomHookPolicy: SansIOHttpPolicy {
+@objc public class CustomHookPolicy: NSObject, SansIOHttpPolicy {
     
     private var callback: ((PipelineResponse) -> Void)?
     
-    @objc override public func onRequest(_ request: PipelineRequest) {
+    @objc public func onRequest(_ request: PipelineRequest) {
         self.callback = request.context?.getValue(forKey: "rawResponseHook") as? ((PipelineResponse) -> Void)
     }
     
-    @objc override public func onResponse(request: PipelineRequest, response: PipelineResponse) {
+    @objc public func onResponse(_ response: PipelineResponse, request: PipelineRequest) {
         guard let callback = self.callback else { return }
         callback(response)
         request.context = request.context?.add(value: self.callback as AnyObject, forKey: "rawResponseHook")

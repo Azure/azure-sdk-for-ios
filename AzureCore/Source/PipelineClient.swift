@@ -9,5 +9,12 @@
 import Foundation
 
 @objc public class PipelineClient: NSObject {
+    // TODO: include PipelineBase
+    @objc let baseUrl: URL
+    @objc let config: PipelineConfiguration
     
+    @objc public init(baseUrl: URL, config: PipelineConfiguration) {
+        self.baseUrl = baseUrl
+        self.config = config
+    }
 }
