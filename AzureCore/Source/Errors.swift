@@ -8,62 +8,42 @@
 
 import Foundation
 
-@objc public class AzureError: NSObject, Error {
-
-    @objc public let innerError: String?
-//    @objc public let errorType: String
-//    @objc public let errorValue: String
-//    @objc public let errorTraceback: String
-    @objc public let errorMessage: String
-    @objc public let message: String?
+@objc public class ErrorUtil: NSObject {
     
-    @objc convenience public init(message: String) {
-        self.init(message: message, errorKwargs: nil)
+    internal static func _makeNSError<T: RawRepresentable>(_ errorType: T, withMessage message: String, userInfo: [String:AnyObject]? = nil) -> NSError {
+        var combinedUserInfo: [String:AnyObject] = [
+            NSLocalizedDescriptionKey: "ERROR: \(message)" as AnyObject,
+        ]
+        if let extraUserInfo = userInfo {
+            combinedUserInfo = combinedUserInfo.merging(extraUserInfo, uniquingKeysWith: { (_, last) in last })
+        }
+        let domain = String(reflecting: errorType.self)
+        let error = NSError(domain: "\(domain)", code: errorType.rawValue as! Int, userInfo: combinedUserInfo)
+        return error
     }
     
-    @objc public init(message: String?, errorKwargs: [String:String]?) {
-        self.innerError = errorKwargs?["error"]
-        // TODO: get error type, value, traceback
-        self.errorMessage = "ERROR: \(message)"
-        self.message = message
+    @objc public static func makeNSError(_ errorType: AzureError, withMessage message: String, parameters: [String:String]? = nil) -> NSError {
+        return ErrorUtil._makeNSError(errorType, withMessage: message)
     }
     
-    @objc public func throwWithTraceback() throws {
-        // TODO: handle traceback
-        throw self
+    @objc public static func makeNSError(_ errorType: HttpResponseError, withMessage message: String, response: HttpResponse?) -> NSError {
+        let userInfo = ["response": response as AnyObject]
+        return ErrorUtil._makeNSError(errorType, withMessage: message, userInfo: userInfo)
     }
 }
 
-@objc public class ServiceRequestError: AzureError {}
-
-@objc public class ServiceResponseError: AzureError {}
-
-@objc public class HttpResponseError: AzureError {
-    
-    @objc public let reason: String?
-    @objc public let statusCode: Int
-    @objc public var response: HttpResponse?
-    
-    @objc public init(message: String?, response: HttpResponse?) {
-        // TODO: implement response reason
-        let reason  = "TBD"
-        let statusCode = response?.statusCode ?? -1
-        let finalMessage = message ?? "Operation returned an invalid status '\(reason)'"
-        // TODO: Add a bunch of crazy error handling code here
-        self.reason = reason
-        self.statusCode = statusCode
-        super.init(message: finalMessage, errorKwargs: nil)
-    }
+@objc public enum AzureError: Int, Error {
+    case General
+    case ServiceRequest
+    case ServiceResponse
 }
 
-@objc public class DecodeError: HttpResponseError {}
-
-@objc public class ResourceExistsError: HttpResponseError {}
-
-@objc public class ResourceNotFoundError: HttpResponseError {}
-
-@objc public class ClientAuthenticationError: HttpResponseError {}
-
-@objc public class ResourceModifiedError: HttpResponseError {}
-
-@objc public class TooManyRedirectsError: HttpResponseError {}
+@objc public enum HttpResponseError: Int, Error {
+    case General
+    case Decode
+    case ResourceExists
+    case ResourceNotFound
+    case ClientAuthentication
+    case ResourceModified
+    case TooManyRedirects
+}

@@ -36,7 +36,7 @@ extension Array where Element == UInt8 {
 //    kCCHmacAlgSHA224
 public enum HmacAlgorithm {
     case sha1, md5, sha256, sha384, sha512, sha224
-    var algorithm: CCHmacAlgorithm {
+    public var algorithm: CCHmacAlgorithm {
         var alg = 0
         switch self {
         case .sha1:
@@ -54,7 +54,7 @@ public enum HmacAlgorithm {
         }
         return CCHmacAlgorithm(alg)
     }
-    var digestLength: Int {
+    public var digestLength: Int {
         var len: Int32 = 0
         switch self {
         case .sha1:
@@ -75,7 +75,7 @@ public enum HmacAlgorithm {
 }
 
 extension String {
-    func hmac(algorithm: HmacAlgorithm, key: Data) -> [UInt8] {
+    public func hmac(algorithm: HmacAlgorithm, key: Data) -> [UInt8] {
         var digest = [UInt8](repeating: 0, count: algorithm.digestLength)
         key.withUnsafeBytes { keyBytes in
             CCHmac(algorithm.algorithm, keyBytes, key.count, String(self.utf8), self.count, &digest)
@@ -83,12 +83,12 @@ extension String {
         return digest
     }
     
-    var base64String: String {
+    public var base64String: String {
         let data = Data(bytes: self, count: self.count)
         return data.base64EncodedString()
     }
     
-    var decodeHex: Data? {
+    public var decodeHex: Data? {
         var data = Data(capacity: self.count / 2)
         
         let regex = try! NSRegularExpression(pattern: "[0-9a-f]{1,2}", options: .caseInsensitive)
@@ -101,16 +101,7 @@ extension String {
         return data
     }
     
-    var decodeBase64: Data? {
+    public var decodeBase64: Data? {
         return Data(base64Encoded: self)
-    }
-}
-
-extension Date {
-    var httpFormat: String {
-        let dateFormat = DateFormatter()
-        dateFormat.dateFormat = "EEE, dd MMM yyyy HH:mm:ss z"
-        dateFormat.timeZone = TimeZone(abbreviation: "UTC")
-        return dateFormat.string(from: self)
     }
 }

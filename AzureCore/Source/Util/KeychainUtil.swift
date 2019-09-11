@@ -16,8 +16,8 @@ import Security
 
 @objc public class KeychainUtil: NSObject {
 
-    let keychainErrorDomain = "com.azure"
-    let keychainSecurityService = "com.azure"
+    let keychainErrorDomain = "com.azure.core"
+    let keychainSecurityService = "com.azure.core"
     
     private func setupQueryDictionary(forKey key: String) -> [String: Any] {
         var queryDictionary: [String: Any] = [kSecClass as String: kSecClassGenericPassword]

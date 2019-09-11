@@ -12,7 +12,7 @@ import Foundation
     
     @objc public var proxies: [String:String]?
     
-    @objc public init(proxies: [String:String]?) {
+    @objc public init(proxies: [String:String]? = nil) {
         self.proxies = proxies
     }
     

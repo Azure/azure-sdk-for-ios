@@ -15,7 +15,7 @@ import Foundation
         return self._headers
     }
     
-    @objc public init(baseHeaders: HttpHeaders?) {
+    @objc public init(baseHeaders: HttpHeaders? = nil) {
         self._headers = baseHeaders ?? HttpHeaders()
     }
     

@@ -58,12 +58,12 @@ import Foundation
         let method = response.httpRequest.httpMethod
         if [301, 302].contains(statusCode) {
             if [HttpMethod.GET, HttpMethod.HEAD].contains(method) {
-                return response.httpResponse.headers[HttpHeader.retryAfter] as String?
+                return response.httpResponse.headers?[HttpHeader.retryAfter] as String?
             }
             return nil
         }
-        if self.redirectOnStatusCodes.contains(statusCode) {
-            return response.httpResponse.headers[HttpHeader.retryAfter] as String?
+        if self.redirectOnStatusCodes.contains(statusCode!.intValue) {
+            return response.httpResponse.headers?[HttpHeader.retryAfter] as String?
         }
         return nil
     }
@@ -95,6 +95,6 @@ import Foundation
             }
             return response
         }
-        throw TooManyRedirectsError(message: settings.history.description, response: nil)
+        throw ErrorUtil.makeNSError(.TooManyRedirects, withMessage: settings.history.description, response: nil)
     }
 }

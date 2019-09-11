@@ -5,7 +5,7 @@
       location = "group:AzureCore/AzureCore.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:AzureAppConfiguration/AzureAppConfiguration.xcodeproj">
+      location = "group:/Users/travisprescott/repos/azure-sdk-for-ios/AzureAppConfiguration/AzureAppConfiguration.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:AzureCSComputerVision/AzureCSComputerVision.xcodeproj">

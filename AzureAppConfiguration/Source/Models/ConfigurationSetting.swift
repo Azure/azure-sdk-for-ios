@@ -8,8 +8,8 @@
 
 import Foundation
 
-@objc
-class ConfigurationSetting: NSObject, Codable {
+@objc class ConfigurationSetting: NSObject, Codable {
+    
     @objc var key: String
     @objc var value: String
     @objc var label: String?

@@ -17,12 +17,12 @@ import Foundation
     @objc public let customHookPolicy: CustomHookPolicy
     @objc public let loggingPolicy: NetworkTraceLoggingPolicy
     @objc public let userAgentPolicy: UserAgentPolicy
-    @objc public let authenticationPolicy: BearerTokenCredentialPolicy
+    @objc public let authenticationPolicy: AuthenticationPolicy
     @objc public let pollingInterval: Int
     
     private let defaultPollingInterval = 30
     
-    @objc public init(headersPolicy: HeadersPolicy, proxyPolicy: ProxyPolicy, redirectPolicy: RedirectPolicy, retryPolicy: RetryPolicy, customHookPolicy: CustomHookPolicy, loggingPolicy: NetworkTraceLoggingPolicy, userAgentPolicy: UserAgentPolicy, authenticationPolicy: BearerTokenCredentialPolicy, pollingInterval: Int = -1) {
+    @objc public init(headersPolicy: HeadersPolicy, proxyPolicy: ProxyPolicy, redirectPolicy: RedirectPolicy, retryPolicy: RetryPolicy, customHookPolicy: CustomHookPolicy, loggingPolicy: NetworkTraceLoggingPolicy, userAgentPolicy: UserAgentPolicy, authenticationPolicy: AuthenticationPolicy, pollingInterval: Int = -1) {
         self.headersPolicy = headersPolicy
         self.proxyPolicy = proxyPolicy
         self.redirectPolicy = redirectPolicy

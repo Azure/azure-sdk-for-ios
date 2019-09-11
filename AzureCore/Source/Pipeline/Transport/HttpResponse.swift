@@ -7,35 +7,53 @@
 
 import Foundation
 
-@objc public class HttpResponse: NSObject {
+@objc public protocol HttpResponseDelegate {
+    @objc var data: Data? { get set }
+    @objc var body: Data? { get set }
+}
+
+@objc public class HttpResponse: NSObject, HttpResponseDelegate {
     
-    @objc public var httpRequest: HttpRequest
-    @objc public let statusCode: Int = 500
-    @objc public let headers: HttpHeaders
-    @objc public let reason: String?
-    @objc public let contentType: String?
-    @objc public let blockSize: Int
+    @objc public var delegate: HttpResponseDelegate?
+    @objc public var httpRequest: HttpRequest?
+    @objc public var statusCode: NSNumber?
+    @objc public var headers: HttpHeaders?
+    @objc public var blockSize: NSNumber?
+    @objc public var data: Data?
+    @objc public var body: Data? {
+        get {
+            return self.data
+        }
+        set(newValue) {
+            self.data = newValue
+        }
+    }
 
-    private let internalResponse: AnyObject?
-
-    @objc public init(request: HttpRequest, internalResponse: AnyObject?, blockSize: Int = 4096) {
+    @objc override public init() {
+        super.init()
+    }
+    
+    @objc public init(request: HttpRequest, blockSize: NSNumber = 4096, delegate: HttpResponseDelegate? = nil) {
         self.httpRequest = request
-        self.internalResponse = internalResponse
         self.headers = HttpHeaders()
-        self.reason = nil
-        self.contentType = nil
         self.blockSize = blockSize
+        super.init()
+        self.delegate = delegate ?? self
+    }
+
+    @objc public func update(withResponse response: HttpResponse) {
+        self.httpRequest = response.httpRequest
+        self.headers = response.headers
+        self.blockSize = response.blockSize
+        self.delegate = response.delegate
+        self.statusCode = response.statusCode
+        self.data = response.data
     }
     
-    @objc public func body() -> Data? {
-        // TODO: implement properly
-        return Data(base64Encoded: "Foo")
-    }
-    
-    @objc public func text(encoding: String = "utf-8") {
-        // TODO: Implement
-        // return self.body.decode(encoding)
-    }
+//    @objc public func text(encoding: String = "utf-8") {
+//        // TODO: Implement
+//        // return self.body.decode(encoding)
+//    }
 
     // TODO: Implmenet
 //    @objc public func streamDownload(pipeline: Pipeline) -> ByteIterator {

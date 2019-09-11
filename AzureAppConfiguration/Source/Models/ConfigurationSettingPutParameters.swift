@@ -8,8 +8,7 @@
 
 import Foundation
 
-@objc
-class ConfigurationSettingPutParameters: NSObject, Codable {
+@objc class ConfigurationSettingPutParameters: NSObject, Codable {
     @objc var value: String
     @objc var tags: [String: String]?
     @objc var contentType: String = ""

@@ -9,96 +9,93 @@
 import AzureCore
 import Foundation
 
-@objc
-class AppConfigurationClientCredentials: NSObject {
-    let credentials: CredentialInformation
-    let headerProvider: AuthorizationHeaderProvider
-    var baseUri: URL? {
-        return self.credentials.baseUri
-    }
+@objc public class AppConfigurationCredential: NSObject {
     
-    @objc init(withConnectionString connectionString: String) throws {
-        self.credentials = try CredentialInformation.init(withConnectionString: connectionString)
-        self.headerProvider = AuthorizationHeaderProvider.init(withCredentials: self.credentials)
-    }
-    
-    func getAuthorizationheaders(url: URL, httpMethod: String, contents: Data?) -> [String: String] {
-        let bytes = [UInt8](contents ?? Data())
-        let digest = bytes.sha256
-        return self.headerProvider.getAuthenticationHeaders(url: url, httpMethod: httpMethod, messageDigest: digest)
-    }
-    
-    class CredentialInformation {
-        var baseUri: URL?       // endpoint
-        var id: String?         // access key id
-        var secret: String?     // access key value
-        
-        init(withConnectionString connectionString: String) throws {
-            let cs_comps = connectionString.components(separatedBy: ";")
-            guard cs_comps.count == 3 else {
-                throw AzureError.credentialError
-            }
-            
-            for component in connectionString.components(separatedBy: ";") {
-                let comp_splits = component.split(separator: "=", maxSplits: 1)
-                let key = String(comp_splits[0])
-                let value = String(comp_splits[1])
-                
-                switch key.lowercased() {
-                case "endpoint":
-                    self.baseUri = URL(string: value)
-                case "id":
-                    self.id = value
-                case "secret":
-                    self.secret = value
-                default:
-                    throw AzureError.credentialError
-                }
-            }
-            guard baseUri != nil, id != nil, secret != nil else { throw AzureError.credentialError }
-        }
-    }
-    
-    class AuthorizationHeaderProvider {
-        let credentials: CredentialInformation
-        
-        init(withCredentials credentials: CredentialInformation) {
-            self.credentials = credentials
-        }
-        
-        func getAuthenticationHeaders(url: URL, httpMethod: String, messageDigest: [UInt8]) -> [String: String] {
-            var headers = [String: String]()
-            let contentHash = messageDigest.base64String
-            headers[HttpHeader.host.rawValue] = url.host ?? ""
-            headers[HttpHeader.contentHash.rawValue] = contentHash
-            if headers[HttpHeader.date.rawValue] == nil {
-                headers[HttpHeader.date.rawValue] = Date().httpFormat
-            }
-            headers = self.addSignatureHeader(url: url, httpMethod: httpMethod, headers: headers)
-            return headers
-        }
+    internal let endpoint: String    // endpoint
+    internal let id: String          // access key id
+    internal let secret: String      // access key value
 
-        func addSignatureHeader(url: URL, httpMethod: String, headers: [String: String]) -> [String: String] {
-            var newHeaders = headers
-            let signedHeaderKeys = [HttpHeader.date.rawValue, HttpHeader.host.rawValue, HttpHeader.contentHash.rawValue]
-            var signedHeaderValues = [String]()
-            for key in signedHeaderKeys {
-                guard newHeaders[key] != nil else {
-                    continue
-                }
-                signedHeaderValues.append(newHeaders[key]!)
-            }
-            
-            var pathAndQuery = url.path
-            if let query = url.query {
-                pathAndQuery += "?" + query
-            }
-            if let decodedSecret = self.credentials.secret?.decodeBase64 {
-                let stringToSign = httpMethod.uppercased(with: Locale.init(identifier: "en_US")) + "\n" + pathAndQuery + "\n" + signedHeaderValues.joined(separator: ";")
-                let signature = stringToSign.hmac(algorithm: .sha256, key: decodedSecret)
-                newHeaders[HttpHeader.authorization.rawValue] = "HMAC-SHA256 Credential=\(self.credentials.id!), SignedHeaders=\(signedHeaderKeys.joined(separator: ";")), Signature=\(signature.base64String)"
-            }
-            return newHeaders
+    @objc public init(connectionString: String) throws {
+        let cs_comps = connectionString.components(separatedBy: ";")
+        guard cs_comps.count == 3 else {
+            throw ErrorUtil.makeNSError(.ClientAuthentication, withMessage: "Invalid connection string format", response: nil)
         }
+        var endpoint: String? = nil
+        var id: String? = nil
+        var secret: String? = nil
+        
+        for component in connectionString.components(separatedBy: ";") {
+            let comp_splits = component.split(separator: "=", maxSplits: 1)
+            let key = String(comp_splits[0]).lowercased()
+            let value = String(comp_splits[1])
+            switch key {
+            case "endpoint":
+                endpoint = value
+            case "id":
+                id = value
+            case "secret":
+                secret = value
+            default:
+                throw ErrorUtil.makeNSError(.ClientAuthentication, withMessage: "Unrecognized key '\(key)' in connection string", response: nil)
+            }
+        }
+        guard endpoint != nil && id != nil && secret != nil else {
+            throw ErrorUtil.makeNSError(.ClientAuthentication, withMessage: "Bad connection string.", response: nil)
+        }
+        self.endpoint = endpoint!
+        self.id = id!
+        self.secret = secret!
+        super.init()
+    }
+}
+
+@objc public class AppConfigurationAuthenticationPolicy: NSObject, AuthenticationPolicy {
+
+    @objc public var next: PipelineSendable?
+    @objc public let scopes: [String]
+    @objc public let credential: AppConfigurationCredential
+
+    @objc public init(credential: AppConfigurationCredential, scopes: [String]) {
+        self.scopes = scopes
+        self.credential = credential
+    }
+    
+    @objc public func authenticate(request: PipelineRequest) {
+        let httpRequest = request.httpRequest
+        let contentHash = [UInt8](httpRequest.body ?? Data()).sha256.base64String
+        if let url = URL(string: httpRequest.url) {
+            request.httpRequest.headers[HttpHeader.host.rawValue] = url.host ?? ""
+        }
+        request.httpRequest.headers[AppConfigurationHeader.contentHash.rawValue] = contentHash
+        let dateValue = request.httpRequest.headers[HttpHeader.date.rawValue] ?? request.httpRequest.headers[AppConfigurationHeader.date.rawValue]
+        if dateValue == nil {
+             request.httpRequest.headers[AppConfigurationHeader.date.rawValue] = Date().httpFormat
+        }
+        sign(request: request)
+    }
+    
+    private func sign(request: PipelineRequest) {
+        let headers = request.httpRequest.headers
+        let signedHeaderKeys = [AppConfigurationHeader.date.rawValue, HttpHeader.host.rawValue, AppConfigurationHeader.contentHash.rawValue]
+        var signedHeaderValues = [String]()
+        for key in signedHeaderKeys {
+            if let value = headers[key] {
+                signedHeaderValues.append(value)
+            }
+        }
+        if let urlComps = URLComponents(string: request.httpRequest.url) {
+            let stringToRemove = "\(urlComps.scheme!)://\(urlComps.host!)"
+            let signingUrl = String(request.httpRequest.url.dropFirst(stringToRemove.count))
+            if let decodedSecret = self.credential.secret.decodeBase64 {
+                let stringToSign = "\(request.httpRequest.httpMethod.rawValue.uppercased(with: Locale(identifier: "en_US")))\n\(signingUrl)\n\(signedHeaderValues.joined(separator: ";"))"
+                let signature = stringToSign.hmac(algorithm: .sha256, key: decodedSecret)
+                request.httpRequest.headers[HttpHeader.authorization.rawValue] = "HMAC-SHA256 Credential=\(self.credential.id), SignedHeaders=\(signedHeaderKeys.joined(separator: ";")), Signature=\(signature.base64String)"
+            }
+        }
+    }
+    
+    @objc public func send(request: PipelineRequest) throws -> PipelineResponse {
+        self.authenticate(request: request)
+        return try self.next!.send(request: request)
     }
 }

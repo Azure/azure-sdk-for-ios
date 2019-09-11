@@ -87,7 +87,7 @@ import Foundation
     }
     
     private func getRetryAfter(response: PipelineResponse) -> Int {
-        return self.parse(retryAfter: response.httpResponse.headers[HttpHeader.retryAfter] ?? "")
+        return self.parse(retryAfter: response.httpResponse.headers?[HttpHeader.retryAfter] ?? "")
     }
     
     private func sleepForRetry(response: PipelineResponse, transport: HttpTransport) -> Bool {
@@ -114,11 +114,13 @@ import Foundation
     }
     
     private func isConnectionError(error: Error) -> Bool {
-        return type(of: error) == ServiceRequestError.self
+        //return type(of: error) == AzureError.ServiceRequest.self
+        return true
     }
     
     private func isReadError(error: Error) -> Bool {
-        return type(of: error) == ServiceResponseError.self
+        // return type(of: error) == AzureError.ServiceResponse.self
+        return true
     }
     
     private func isMethodRetryable(settings: RetrySettings, request: HttpRequest, response: HttpResponse?) -> Bool {
@@ -127,17 +129,17 @@ import Foundation
             let statusCode = response.statusCode
             let allowMethods = [HttpMethod.POST, HttpMethod.PATCH]
             let allowCodes = [500, 503, 504]
-            if allowMethods.contains(method) && allowCodes.contains(statusCode) { return true }
+            if allowMethods.contains(method) && allowCodes.contains(statusCode!.intValue) { return true }
         }
         if !settings.retryOnMethods.contains(method) { return false }
         return true
     }
     
     private func isRetry(settings: RetrySettings, response: PipelineResponse) -> Bool {
-        let hasRetryAfter = response.httpResponse.headers[HttpHeader.retryAfter] != nil
+        let hasRetryAfter = response.httpResponse.headers?[HttpHeader.retryAfter] != nil
         if hasRetryAfter && self.respectRetryAfterHeader { return true }
         if !self.isMethodRetryable(settings: settings, request: response.httpRequest, response: response.httpResponse) { return false }
-        return settings.totalRetries > 0 && self.retryOnStatusCodes.contains(response.httpResponse.statusCode)
+        return settings.totalRetries > 0 && self.retryOnStatusCodes.contains(response.httpResponse.statusCode!.intValue)
     }
     
     private func isExhausted(settings: RetrySettings) -> Bool {
@@ -190,7 +192,7 @@ import Foundation
                 }
                 self.updateContext(request: request, settings: settings)
                 return response
-            } catch let error as AzureError {
+            } catch {
                 if self.isMethodRetryable(settings: settings, request: request.httpRequest, response: nil) {
                     retryActive = self.increment(settings: settings, response: nil, error: error)
                     if retryActive {
@@ -203,6 +205,6 @@ import Foundation
                 throw error
             }
         }
-        throw ServiceRequestError(message: "Too many retries")
+        throw ErrorUtil.makeNSError(AzureError.ServiceRequest, withMessage: "Too many retries.")
     }
 }

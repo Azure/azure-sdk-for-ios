@@ -8,9 +8,9 @@
 
 import Foundation
 
-@objc public class PipelineResponse: NSObject {
-    internal var httpRequest: HttpRequest
-    internal var httpResponse: HttpResponse
+@objc public class PipelineResponse: NSObject, PipelineContextSupportable {
+    @objc public var httpRequest: HttpRequest
+    @objc public var httpResponse: HttpResponse
     internal var context: PipelineContext?
     
     @objc convenience init(request: HttpRequest, response: HttpResponse) {
@@ -23,4 +23,15 @@ import Foundation
         self.context = context
     }
     
+    @objc public func add(value: AnyObject, forKey key: AnyHashable) {
+        if let context = self.context {
+            self.context = context.add(value: value, forKey: key)
+        } else {
+            self.context = PipelineContext(key: key, value: value)
+        }
+    }
+    
+    @objc public func getValue(forKey key: AnyHashable) -> AnyObject? {
+        return self.context?.getValue(forKey: key)
+    }
 }

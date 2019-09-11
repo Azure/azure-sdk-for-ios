@@ -16,7 +16,7 @@ import Foundation
         return self._userAgent
     }
 
-    @objc public init(baseUserAgent: String?, userAgentOverwrite: Bool = false) {
+    @objc public init(baseUserAgent: String? = nil, userAgentOverwrite: Bool = false) {
         self.userAgentOverwrite = userAgentOverwrite
         if baseUserAgent == nil {
             // TODO: Update this

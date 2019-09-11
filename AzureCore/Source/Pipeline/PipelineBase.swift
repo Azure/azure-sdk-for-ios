@@ -9,5 +9,6 @@
 import Foundation
 
 @objc public protocol PipelineSendable {
+    @objc var next: PipelineSendable? { get set }
     @objc func send(request: PipelineRequest) throws -> PipelineResponse
 }

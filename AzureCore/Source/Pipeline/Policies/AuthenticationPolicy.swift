@@ -8,7 +8,11 @@
 
 import Foundation
 
-@objc public class BearerTokenCredentialPolicy: NSObject, HttpPolicy {
+@objc public protocol AuthenticationPolicy: HttpPolicy {
+    @objc func authenticate(request: PipelineRequest)
+}
+
+@objc public class BearerTokenCredentialPolicy: NSObject, AuthenticationPolicy {
     
     @objc public var next: PipelineSendable?
     @objc public let scopes: [String]
@@ -26,15 +30,17 @@ import Foundation
         self.token = nil
     }
     
-    @objc public func updateHeaders(request: PipelineRequest, token: String) {
-        request.httpRequest.headers[HttpHeader.authorization.rawValue] = "Bearer \(token)"
+    @objc public func authenticate(request: PipelineRequest) {
+        if let token = self.token?.token {
+            request.httpRequest.headers[HttpHeader.authorization.rawValue] = "Bearer \(token)"
+        }
     }
     
     @objc public func send(request: PipelineRequest) throws -> PipelineResponse {
         if self.needNewToken {
             self.token = self.credential.getToken(scopes: self.scopes)
         }
-        self.updateHeaders(request: request, token: self.token!.token)
+        self.authenticate(request: request)
         return try self.next!.send(request: request)
     }
 }

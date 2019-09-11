@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A29CC4023230716006CEFA7 /* AppConfigurationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A29CC3F23230716006CEFA7 /* AppConfigurationHeader.swift */; };
+		0A2C6A612328532E00F51027 /* NativeTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0A2C6A5F2328532E00F51027 /* NativeTest.cpp */; };
+		0A2C6A622328532E00F51027 /* NativeTest.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 0A2C6A602328532E00F51027 /* NativeTest.hpp */; };
 		0A3A5EEC2316DC4E00473FDA /* AzureAppConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3A5EE22316DC4E00473FDA /* AzureAppConfiguration.framework */; };
 		0A3A5EF12316DC4E00473FDA /* AzureAppConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5EF02316DC4E00473FDA /* AzureAppConfigurationTests.swift */; };
 		0A3A5EF32316DC4E00473FDA /* AzureAppConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A3A5EE52316DC4E00473FDA /* AzureAppConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -29,6 +32,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0A29CC3F23230716006CEFA7 /* AppConfigurationHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigurationHeader.swift; sourceTree = "<group>"; };
+		0A2C6A5F2328532E00F51027 /* NativeTest.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NativeTest.cpp; sourceTree = "<group>"; };
+		0A2C6A602328532E00F51027 /* NativeTest.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = NativeTest.hpp; sourceTree = "<group>"; };
 		0A3A5EE22316DC4E00473FDA /* AzureAppConfiguration.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureAppConfiguration.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A3A5EE52316DC4E00473FDA /* AzureAppConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AzureAppConfiguration.h; sourceTree = "<group>"; };
 		0A3A5EE62316DC4E00473FDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -39,7 +45,7 @@
 		0A3A5F052316DFC200473FDA /* ConfigurationSettingsResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationSettingsResponse.swift; sourceTree = "<group>"; };
 		0A3A5F062316DFC200473FDA /* ConfigurationSetting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationSetting.swift; sourceTree = "<group>"; };
 		0A3A5F072316DFC200473FDA /* ConfigurationSettingPutParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationSettingPutParameters.swift; sourceTree = "<group>"; };
-		0A3A5F082316DFC200473FDA /* AppConfigurationClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConfigurationClient.swift; sourceTree = "<group>"; };
+		0A3A5F082316DFC200473FDA /* AppConfigurationClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppConfigurationClient.swift; path = ../../AzureAppConfigurationObjC/Source/AppConfigurationClient.swift; sourceTree = "<group>"; };
 		0A3A5F0A2316DFC200473FDA /* AppConfigurationClientCredentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConfigurationClientCredentials.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -63,6 +69,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A2C6A5E2328531A00F51027 /* Native */ = {
+			isa = PBXGroup;
+			children = (
+				0A2C6A5F2328532E00F51027 /* NativeTest.cpp */,
+				0A2C6A602328532E00F51027 /* NativeTest.hpp */,
+			);
+			path = Native;
+			sourceTree = "<group>";
+		};
 		0A3A5ED82316DC4E00473FDA = {
 			isa = PBXGroup;
 			children = (
@@ -88,6 +103,7 @@
 				0A3A5F082316DFC200473FDA /* AppConfigurationClient.swift */,
 				0A3A5F092316DFC200473FDA /* Credentials */,
 				0A3A5F042316DFC200473FDA /* Models */,
+				0A2C6A5E2328531A00F51027 /* Native */,
 				0A3A5EFC2316DC5B00473FDA /* Supporting Files */,
 			);
 			path = Source;
@@ -133,6 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				0A3A5F0A2316DFC200473FDA /* AppConfigurationClientCredentials.swift */,
+				0A29CC3F23230716006CEFA7 /* AppConfigurationHeader.swift */,
 			);
 			path = Credentials;
 			sourceTree = "<group>";
@@ -145,6 +162,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A3A5EF32316DC4E00473FDA /* AzureAppConfiguration.h in Headers */,
+				0A2C6A622328532E00F51027 /* NativeTest.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,9 +266,11 @@
 			files = (
 				0A3A5F0D2316DFC200473FDA /* ConfigurationSettingPutParameters.swift in Sources */,
 				0A3A5F0F2316DFC200473FDA /* AppConfigurationClientCredentials.swift in Sources */,
+				0A2C6A612328532E00F51027 /* NativeTest.cpp in Sources */,
 				0A3A5F0B2316DFC200473FDA /* ConfigurationSettingsResponse.swift in Sources */,
 				0A3A5F0C2316DFC200473FDA /* ConfigurationSetting.swift in Sources */,
 				0A3A5F0E2316DFC200473FDA /* AppConfigurationClient.swift in Sources */,
+				0A29CC4023230716006CEFA7 /* AppConfigurationHeader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

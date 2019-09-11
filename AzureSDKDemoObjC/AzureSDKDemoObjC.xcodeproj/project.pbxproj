@@ -16,6 +16,8 @@
 		0A3A5E0F2315D27E00473FDA /* AzureSDKDemoObjCTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5E0E2315D27E00473FDA /* AzureSDKDemoObjCTests.m */; };
 		0A3A5EA22315E8D900473FDA /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3A5EA12315E8D900473FDA /* AzureCore.framework */; };
 		0A3A5EA32315E8D900473FDA /* AzureCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3A5EA12315E8D900473FDA /* AzureCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0A7F563C2321784100E9765A /* AzureAppConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A7F563B2321784100E9765A /* AzureAppConfiguration.framework */; };
+		0A7F563D2321784100E9765A /* AzureAppConfiguration.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0A7F563B2321784100E9765A /* AzureAppConfiguration.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +38,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				0A3A5EA32315E8D900473FDA /* AzureCore.framework in Embed Frameworks */,
+				0A7F563D2321784100E9765A /* AzureAppConfiguration.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -58,6 +61,8 @@
 		0A3A5E102315D27E00473FDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A3A5EA12315E8D900473FDA /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A3A5EA42315E8E100473FDA /* AzureCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AzureCore.framework; path = "../../../Library/Developer/Xcode/DerivedData/AzureSDK-dokwwfkallhmwrdbgtyzwmpwglwy/Build/Products/Debug-iphoneos/AzureCore.framework"; sourceTree = "<group>"; };
+		0A7F563B2321784100E9765A /* AzureAppConfiguration.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureAppConfiguration.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0A7F563E2321784500E9765A /* AzureAppConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AzureAppConfiguration.framework; path = "../../../Library/Developer/Xcode/DerivedData/AzureSDK-dokwwfkallhmwrdbgtyzwmpwglwy/Build/Products/Debug-iphoneos/AzureAppConfiguration.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +71,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A3A5EA22315E8D900473FDA /* AzureCore.framework in Frameworks */,
+				0A7F563C2321784100E9765A /* AzureAppConfiguration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,6 +88,7 @@
 		0A3A5DE92315D27D00473FDA = {
 			isa = PBXGroup;
 			children = (
+				0A7F563B2321784100E9765A /* AzureAppConfiguration.framework */,
 				0A3A5EA12315E8D900473FDA /* AzureCore.framework */,
 				0A3A5DF42315D27D00473FDA /* Source */,
 				0A3A5E0D2315D27E00473FDA /* Tests */,
@@ -135,6 +142,7 @@
 		0A3A5E222315D59400473FDA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0A7F563E2321784500E9765A /* AzureAppConfiguration.framework */,
 				0A3A5EA42315E8E100473FDA /* AzureCore.framework */,
 			);
 			name = Frameworks;

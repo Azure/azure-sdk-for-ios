@@ -11,21 +11,28 @@ import Foundation
 @objc public class ContentDecodePolicy: NSObject, SansIOHttpPolicy {
     
     @objc public func onResponse(_ response: PipelineResponse, request: PipelineRequest) {
-        guard response.context?.getValue(forKey: "stream") as? Bool == true else { return }
-        let contextName = "deserializedData"
-        response.context = response.context?.add(value: ContentDecodePolicy.deserializeFromHttpGenerics(response: response.httpResponse), forKey: contextName)
-    }
-    
-    @objc public static func deserializeFromHttpGenerics(response: HttpResponse) -> AnyObject {
-        var contentType = "application/json"
-//        if response.contentType {
-//            contentType = response.contentType.split(";")[0].strip().lower()
+        // TODO: For now, no-op
+//        if let streamValue = response.getValue(forKey: "stream") as? Bool {
+//            if streamValue == true { return }
 //        }
-        return ContentDecodePolicy.deserializeFromText(response: response, contentType: contentType)
+//        let contentType = response.getValue(forKey: "contentType") as? String ?? "application/json"
+//        if let deserialized = ContentDecodePolicy.deserializeFromData(response: response.httpResponse, contentType: contentType) {
+//            response.add(value: deserialized, forKey: "deserializedData")
+//        }
     }
     
-    @objc public static func deserializeFromText(response: HttpResponse, contentType: String) -> AnyObject {
-        // TODO: implement
-        return "TBD!" as AnyObject
+//    @objc static func object(type: NSCoding, fromResponse: HttpResponse, contentType: String = "application/json") throws -> NSCoding {
+//        
+//    }
+    
+    @objc static func deserializeFromData(response: HttpResponse, contentType: String) -> AnyObject? {
+        guard let data = response.body else { return nil }
+        do {
+            let jsonObject = try JSONSerialization.jsonObject(with: data, options: [.mutableContainers, .mutableLeaves]) as AnyObject?
+            return jsonObject
+        } catch {
+            NSLog("Error: \(error.localizedDescription)")
+            return nil
+        }
     }
 }

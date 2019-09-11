@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+int getTestFromCPP(int i);
+
 //! Project version number for AzureAppConfiguration.
 FOUNDATION_EXPORT double AzureAppConfigurationVersionNumber;
 
