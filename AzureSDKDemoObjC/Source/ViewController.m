@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import <AzureCore/AzureCore.h>
 #import <AzureAppConfiguration/AzureAppConfiguration.h>
+#import <os/log.h>
 
 @interface ViewController ()
 
@@ -27,10 +28,10 @@ NSString *connectionString = @"";
     NSError *error;
     AppConfigurationClient *client = [[AppConfigurationClient alloc] initWithConnectionString:connectionString error:&error];
     HttpResponse *raw = [[HttpResponse alloc] init];
-    NSArray<ConfigurationSetting *> *settings = [client getConfigurationSettingsForKey:nil forLabel:nil withResponse:raw error:&error];
+    AZCPagedCollection *settings = [client getConfigurationSettingsForKey:nil forLabel:nil withResponse:raw error:&error];
     if (settings != nil) {
         [_textLabel setTextColor:UIColor.blackColor];
-        NSString *text = [[NSString alloc] initWithFormat:@"%@ : %i", [[raw statusCode] description], (unsigned int)[settings count]];
+        NSString *text = [[NSString alloc] initWithFormat:@"%@", [[raw statusCode] description]];
         for (id object in settings) {
             ConfigurationSetting *setting = (ConfigurationSetting *)object;
             text = [NSString stringWithFormat:@"%@\n{%@: %@}", text, [setting key], [setting value]];

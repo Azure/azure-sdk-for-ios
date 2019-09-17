@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0A29CC3E2322F3CD006CEFA7 /* DateUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A29CC3D2322F3CD006CEFA7 /* DateUtil.swift */; };
-		0A2C6A652329A61D00F51027 /* Pageable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2C6A642329A61D00F51027 /* Pageable.swift */; };
+		0A2C6A672329B2F700F51027 /* DistributedTracingPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2C6A662329B2F700F51027 /* DistributedTracingPolicy.swift */; };
 		0A3A5D7B2315C89C00473FDA /* AzureCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A3A5D792315C89C00473FDA /* AzureCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0A3A5D9B2315CEB600473FDA /* HttpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D902315CEB600473FDA /* HttpRequest.swift */; };
 		0A3A5D9C2315CEB600473FDA /* HttpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D912315CEB600473FDA /* HttpResponse.swift */; };
@@ -37,8 +37,12 @@
 		0A3A5F402318975900473FDA /* PipelineClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F3F2318975900473FDA /* PipelineClient.swift */; };
 		0A3A5F422319834500473FDA /* PipelineBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F412319834500473FDA /* PipelineBase.swift */; };
 		0A3A5F442319D49700473FDA /* UrlSessionTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F432319D49700473FDA /* UrlSessionTransport.swift */; };
+		0A441C33233035D100677531 /* AZCPagedCollection.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A441C31233035D100677531 /* AZCPagedCollection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0A441C34233035D100677531 /* AZCPagedCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A441C32233035D100677531 /* AZCPagedCollection.m */; };
 		0A7F563A2321732B00E9765A /* UrlHttpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F56392321732B00E9765A /* UrlHttpResponse.swift */; };
 		0AE5C3A6231F150A0013CA85 /* KeychainUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE5C3A5231F150A0013CA85 /* KeychainUtil.swift */; };
+		0AF0185B232B026700A0C94D /* AZCPipelineClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 0AF01859232B026700A0C94D /* AZCPipelineClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0AF0185C232B026700A0C94D /* AZCPipelineClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF0185A232B026700A0C94D /* AZCPipelineClient.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,7 +57,7 @@
 
 /* Begin PBXFileReference section */
 		0A29CC3D2322F3CD006CEFA7 /* DateUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtil.swift; sourceTree = "<group>"; };
-		0A2C6A642329A61D00F51027 /* Pageable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pageable.swift; sourceTree = "<group>"; };
+		0A2C6A662329B2F700F51027 /* DistributedTracingPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistributedTracingPolicy.swift; sourceTree = "<group>"; };
 		0A3A5D762315C89C00473FDA /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A3A5D792315C89C00473FDA /* AzureCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AzureCore.h; sourceTree = "<group>"; };
 		0A3A5D7A2315C89C00473FDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -85,8 +89,12 @@
 		0A3A5F3F2318975900473FDA /* PipelineClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineClient.swift; sourceTree = "<group>"; };
 		0A3A5F412319834500473FDA /* PipelineBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineBase.swift; sourceTree = "<group>"; };
 		0A3A5F432319D49700473FDA /* UrlSessionTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlSessionTransport.swift; sourceTree = "<group>"; };
+		0A441C31233035D100677531 /* AZCPagedCollection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AZCPagedCollection.h; sourceTree = "<group>"; };
+		0A441C32233035D100677531 /* AZCPagedCollection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AZCPagedCollection.m; sourceTree = "<group>"; };
 		0A7F56392321732B00E9765A /* UrlHttpResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlHttpResponse.swift; sourceTree = "<group>"; };
 		0AE5C3A5231F150A0013CA85 /* KeychainUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainUtil.swift; sourceTree = "<group>"; };
+		0AF01859232B026700A0C94D /* AZCPipelineClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AZCPipelineClient.h; sourceTree = "<group>"; };
+		0AF0185A232B026700A0C94D /* AZCPipelineClient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AZCPipelineClient.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +143,7 @@
 				0A3A5F34231731B700473FDA /* Credentials.swift */,
 				0A3A5F002316DF1B00473FDA /* Errors.swift */,
 				0A3A5F3F2318975900473FDA /* PipelineClient.swift */,
+				0AF0185A232B026700A0C94D /* AZCPipelineClient.m */,
 				0A3A5F172316E98F00473FDA /* PipelineConfiguration.swift */,
 				0A3A5DA92315CF0200473FDA /* Supporting Files */,
 			);
@@ -155,6 +164,8 @@
 			isa = PBXGroup;
 			children = (
 				0A3A5D792315C89C00473FDA /* AzureCore.h */,
+				0A441C31233035D100677531 /* AZCPagedCollection.h */,
+				0AF01859232B026700A0C94D /* AZCPipelineClient.h */,
 				0A3A5D7A2315C89C00473FDA /* Info.plist */,
 			);
 			path = "Supporting Files";
@@ -171,6 +182,7 @@
 		0A3A5F192316EADB00473FDA /* Pipeline */ = {
 			isa = PBXGroup;
 			children = (
+				0AF01856232AF2CC00A0C94D /* Paging */,
 				0A3A5F362318680900473FDA /* Transport */,
 				0A3A5F1A2316EAE500473FDA /* Policies */,
 				0A3A5F412319834500473FDA /* PipelineBase.swift */,
@@ -185,16 +197,17 @@
 		0A3A5F1A2316EAE500473FDA /* Policies */ = {
 			isa = PBXGroup;
 			children = (
-				0A3A5F1D2316EC4C00473FDA /* PolicyBase.swift */,
-				0A3A5F1B2316EBC600473FDA /* HeadersPolicy.swift */,
-				0A3A5F212316FAF000473FDA /* UserAgentPolicy.swift */,
-				0A3A5F23231714F800473FDA /* NetworkTraceLoggingPolicy.swift */,
-				0A3A5F25231718D200473FDA /* ContentDecodePolicy.swift */,
-				0A3A5F2723171C5000473FDA /* ProxyPolicy.swift */,
-				0A3A5F2923171E3200473FDA /* RetryPolicy.swift */,
-				0A3A5F2B231720BC00473FDA /* RedirectPolicy.swift */,
-				0A3A5F2D231720C400473FDA /* CustomHookPolicy.swift */,
 				0A3A5F31231720DE00473FDA /* AuthenticationPolicy.swift */,
+				0A3A5F25231718D200473FDA /* ContentDecodePolicy.swift */,
+				0A3A5F2D231720C400473FDA /* CustomHookPolicy.swift */,
+				0A2C6A662329B2F700F51027 /* DistributedTracingPolicy.swift */,
+				0A3A5F1B2316EBC600473FDA /* HeadersPolicy.swift */,
+				0A3A5F23231714F800473FDA /* NetworkTraceLoggingPolicy.swift */,
+				0A3A5F1D2316EC4C00473FDA /* PolicyBase.swift */,
+				0A3A5F2723171C5000473FDA /* ProxyPolicy.swift */,
+				0A3A5F2B231720BC00473FDA /* RedirectPolicy.swift */,
+				0A3A5F2923171E3200473FDA /* RetryPolicy.swift */,
+				0A3A5F212316FAF000473FDA /* UserAgentPolicy.swift */,
 			);
 			path = Policies;
 			sourceTree = "<group>";
@@ -207,7 +220,6 @@
 				0A3A5D902315CEB600473FDA /* HttpRequest.swift */,
 				0A3A5D912315CEB600473FDA /* HttpResponse.swift */,
 				0A3A5D922315CEB600473FDA /* HttpMethod.swift */,
-				0A2C6A642329A61D00F51027 /* Pageable.swift */,
 			);
 			path = Transport;
 			sourceTree = "<group>";
@@ -229,6 +241,14 @@
 			path = Transport;
 			sourceTree = "<group>";
 		};
+		0AF01856232AF2CC00A0C94D /* Paging */ = {
+			isa = PBXGroup;
+			children = (
+				0A441C32233035D100677531 /* AZCPagedCollection.m */,
+			);
+			path = Paging;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -237,6 +257,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A3A5D7B2315C89C00473FDA /* AzureCore.h in Headers */,
+				0AF0185B232B026700A0C94D /* AZCPipelineClient.h in Headers */,
+				0A441C33233035D100677531 /* AZCPagedCollection.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,18 +375,20 @@
 				0A3A5D9B2315CEB600473FDA /* HttpRequest.swift in Sources */,
 				0A3A5F1E2316EC4C00473FDA /* PolicyBase.swift in Sources */,
 				0A3A5F3C2318904F00473FDA /* PipelineResponse.swift in Sources */,
+				0A2C6A672329B2F700F51027 /* DistributedTracingPolicy.swift in Sources */,
 				0A3A5F032316DF6600473FDA /* CryptoUtils.swift in Sources */,
 				0A3A5F2A23171E3200473FDA /* RetryPolicy.swift in Sources */,
 				0A3A5F2C231720BC00473FDA /* RedirectPolicy.swift in Sources */,
 				0A3A5F1C2316EBC600473FDA /* HeadersPolicy.swift in Sources */,
 				0A3A5F382318686C00473FDA /* HttpTransport.swift in Sources */,
 				0A3A5F222316FAF000473FDA /* UserAgentPolicy.swift in Sources */,
+				0A441C34233035D100677531 /* AZCPagedCollection.m in Sources */,
 				0A3A5F402318975900473FDA /* PipelineClient.swift in Sources */,
 				0A3A5F2E231720C400473FDA /* CustomHookPolicy.swift in Sources */,
 				0A3A5F012316DF1B00473FDA /* Errors.swift in Sources */,
-				0A2C6A652329A61D00F51027 /* Pageable.swift in Sources */,
 				0A7F563A2321732B00E9765A /* UrlHttpResponse.swift in Sources */,
 				0A3A5F26231718D200473FDA /* ContentDecodePolicy.swift in Sources */,
+				0AF0185C232B026700A0C94D /* AZCPipelineClient.m in Sources */,
 				0A3A5F32231720DE00473FDA /* AuthenticationPolicy.swift in Sources */,
 				0A3A5F182316E98F00473FDA /* PipelineConfiguration.swift in Sources */,
 				0A3A5F3E2318906100473FDA /* Pipeline.swift in Sources */,
@@ -393,6 +417,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -457,6 +482,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

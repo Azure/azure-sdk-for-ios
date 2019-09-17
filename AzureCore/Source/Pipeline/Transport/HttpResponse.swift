@@ -7,14 +7,13 @@
 
 import Foundation
 
-@objc public protocol HttpResponseDelegate {
-    @objc var data: Data? { get set }
-    @objc var body: Data? { get set }
-}
+//@objc public protocol HttpResponseProtocol {
+//    @objc var data: Data? { get set }
+//    @objc var body: Data? { get set }
+//}
 
-@objc public class HttpResponse: NSObject, HttpResponseDelegate {
+@objc public class HttpResponse: NSObject {//}, HttpResponseProtocol {
     
-    @objc public var delegate: HttpResponseDelegate?
     @objc public var httpRequest: HttpRequest?
     @objc public var statusCode: NSNumber?
     @objc public var headers: HttpHeaders?
@@ -33,19 +32,17 @@ import Foundation
         super.init()
     }
     
-    @objc public init(request: HttpRequest, blockSize: NSNumber = 4096, delegate: HttpResponseDelegate? = nil) {
+    @objc public init(request: HttpRequest, blockSize: NSNumber = 4096) {
         self.httpRequest = request
         self.headers = HttpHeaders()
         self.blockSize = blockSize
         super.init()
-        self.delegate = delegate ?? self
     }
 
     @objc public func update(withResponse response: HttpResponse) {
         self.httpRequest = response.httpRequest
         self.headers = response.headers
         self.blockSize = response.blockSize
-        self.delegate = response.delegate
         self.statusCode = response.statusCode
         self.data = response.data
     }

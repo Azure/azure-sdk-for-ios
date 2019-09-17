@@ -23,15 +23,17 @@ import Foundation
             redirectPolicy: RedirectPolicy(),
             retryPolicy: RetryPolicy(),
             customHookPolicy: CustomHookPolicy(),
+            contentDecodePolicy: ContentDecodePolicy(),
             loggingPolicy: NetworkTraceLoggingPolicy(),
             userAgentPolicy: UserAgentPolicy(),
-            authenticationPolicy: AppConfigurationAuthenticationPolicy(credential: credential, scopes: [credential.endpoint])
+            authenticationPolicy: AppConfigurationAuthenticationPolicy(credential: credential, scopes: [credential.endpoint]),
+            distributedTracingPolicy: DistributedTracingPolicy()
         )
         let policies: [NSObject] = [
             config.userAgentPolicy,
             config.headersPolicy,
             config.authenticationPolicy as! NSObject,
-            ContentDecodePolicy(),
+            config.contentDecodePolicy,
             config.proxyPolicy,
             config.redirectPolicy,
             config.retryPolicy,
@@ -41,11 +43,10 @@ import Foundation
         super.init(baseUrl: credential.endpoint, config: config, pipeline: pipeline)
     }
 
-    @objc public func getConfigurationSettings(forKey key: String?, forLabel label: String?, withResponse response: HttpResponse? = nil) throws -> [ConfigurationSetting] {
+    @objc public func getConfigurationSettings(forKey key: String?, forLabel label: String?, withResponse response: HttpResponse? = nil) throws -> AZCPagedCollection {
         // TODO: Additional supported functionality
         // $select query param
         // Accept-Datetime header
-        
         let queryParams = [
             "key": key ?? "*",
             "label": label ?? "*",
@@ -56,15 +57,21 @@ import Foundation
             urlTemplate: "/kv",
             queryParams: queryParams
         ))
+        request.add(value: [ConfigurationSetting].self as AnyObject, forKey: "deserializedType")
         if let pipelineResponse = try? self.pipeline.run(request: request) {
             // update response if passed in
             if let responseIn = response {
                 responseIn.update(withResponse: pipelineResponse.httpResponse)
             }
             if let data = pipelineResponse.httpResponse.data {
-                let decoder = JSONDecoder()
-                let deserialized = try decoder.decode(ConfigurationSettingsResponse.self, from: data)
-                return deserialized.items
+                let json = try? JSONSerialization.jsonObject(with: data, options: [.mutableContainers, .mutableLeaves]) as? Dictionary<String, AnyObject>
+                let items = json?["items"] as? [Any]
+                let nextLink = json?["@nextLink"] as? String
+                if items != nil {
+                    return AZCPagedCollection(items: items!, withNextLink: nextLink)
+                } else {
+                    throw ErrorUtil.makeNSError(.Decode, withMessage: "Unable to decode response body.", response: pipelineResponse.httpResponse)
+                }
             } else {
                 throw ErrorUtil.makeNSError(.General, withMessage: "Expected response body but didn't find one.", response: pipelineResponse.httpResponse)
             }
@@ -92,7 +99,7 @@ import Foundation
             queryParams: queryParams,
             headers: ["Content-Type": "application/vnd.microsoft.appconfig.kv+json;"],
             content: body))
-        
+
         if let pipelineResponse = try? self.pipeline.run(request: request) {
             // update response if passed in
             if let responseIn = response {

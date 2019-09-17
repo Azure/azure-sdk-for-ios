@@ -6,6 +6,7 @@
 //  Copyright © 2019 Azure SDK Team. All rights reserved.
 //
 
+import os
 import Foundation
 
 @objc public enum UrlSessionTransportError: Int, Error {
@@ -49,7 +50,7 @@ import Foundation
         var httpResponse = UrlHttpResponse(request: request.httpRequest, response: nil)
         session.dataTask(with: urlRequest) { (data, response, error) in
             if let error = error {
-                NSLog("Error: \(error.localizedDescription)")
+                os_log("Error: %@", type: .error, error.localizedDescription)
             } else if let data = data, let rawResponse = response as? HTTPURLResponse {
                 httpResponse = UrlHttpResponse(request: request.httpRequest, response: rawResponse)
                 httpResponse.data = data

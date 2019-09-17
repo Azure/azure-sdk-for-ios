@@ -21,20 +21,18 @@ import Foundation
     }
     
     @objc public func request(method: HttpMethod, urlTemplate: String?, queryParams: [String:String]? = nil, headers: [String:String]? = nil, content: Data? = nil, formContent: [String:AnyObject]? = nil, streamContent: AnyObject? = nil) -> HttpRequest {
-        var request = HttpRequest(httpMethod: method, url: self.format(urlTemplate: urlTemplate))
+        let request = HttpRequest(httpMethod: method, url: self.format(urlTemplate: urlTemplate))
         
         if let queryParams = queryParams {
             request.format(queryParams: queryParams)
         }
-        if let headers = headers {
-
-        }
+        // TODO: apply custom headers
         return request
     }
     
     private func formatUrlSection(template: String) -> String {
         // TODO: replace {these} with their values
-        let components = template.components(separatedBy: "/")
+        // let components = template.components(separatedBy: "/")
         return template
     }
     
@@ -53,32 +51,4 @@ import Foundation
         }
         return url
     }
-    
-//    private func get(url: String, queryParams: [String:String]? = nil, headers: [String:String]? = nil, content: Data? = nil, formContent: [String:AnyObject]? = nil) -> HttpRequest {
-//        return self.request(method: .GET, url: url, queryParams: queryParams, headers: headers, content: content, formContent: formContent)
-//    }
-//    
-//    private func put(url: String, queryParams: [String:String]? = nil, headers: [String:String]? = nil, content: Data? = nil, formContent: [String:AnyObject]? = nil, streamContent: AnyObject? = nil) -> HttpRequest {
-//        return self.request(method: .PUT, url: url, queryParams: queryParams, headers: headers, content: content, formContent: formContent, streamContent: streamContent)
-//    }
-//    
-//    private func post(url: String, queryParams: [String:String]? = nil, headers: [String:String]? = nil, content: Data? = nil, formContent: [String:AnyObject]? = nil, streamContent: AnyObject? = nil) -> HttpRequest {
-//        return self.request(method: .POST, url: url, queryParams: queryParams, headers: headers, content: content, formContent: formContent, streamContent: streamContent)
-//    }
-//    
-//    private func head(url: String, queryParams: [String:String]? = nil, headers: [String:String]? = nil, content: Data? = nil, formContent: [String:AnyObject]? = nil, streamContent: AnyObject? = nil) -> HttpRequest {
-//        return self.request(method: .HEAD, url: url, queryParams: queryParams, headers: headers, content: content, formContent: formContent, streamContent: streamContent)
-//    }
-//
-//    private func patch(url: String, queryParams: [String:String]? = nil, headers: [String:String]? = nil, content: Data? = nil, formContent: [String:AnyObject]? = nil, streamContent: AnyObject? = nil) -> HttpRequest {
-//        return self.request(method: .PATCH, url: url, queryParams: queryParams, headers: headers, content: content, formContent: formContent, streamContent: streamContent)
-//    }
-//
-//    private func delete(url: String, queryParams: [String:String]? = nil, headers: [String:String]? = nil, content: Data? = nil, formContent: [String:AnyObject]? = nil) -> HttpRequest {
-//        return self.request(method: .DELETE, url: url, queryParams: queryParams, headers: headers, content: content, formContent: formContent)
-//    }
-//
-//    private func merge(url: String, queryParams: [String:String]? = nil, headers: [String:String]? = nil, content: Data? = nil, formContent: [String:AnyObject]? = nil) -> HttpRequest {
-//        return self.request(method: .MERGE, url: url, queryParams: queryParams, headers: headers, content: content, formContent: formContent)
-//    }
 }
