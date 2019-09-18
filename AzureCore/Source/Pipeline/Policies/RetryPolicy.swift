@@ -19,7 +19,7 @@ import Foundation
         var backoffMax: Int
         var retryOnMethods: [HttpMethod]
         var history: [RequestHistory]
-        
+
         init(context: PipelineContext?, policy: RetryPolicy) {
             self.totalRetries = context?.getValue(forKey: "totalRetries") as? Int ?? policy.totalRetries
             self.connectRetries = context?.getValue(forKey: "connectRetries") as? Int ?? policy.connectRetries
@@ -31,9 +31,9 @@ import Foundation
             self.history = [RequestHistory]()
         }
     }
-    
+
     @objc public var next: PipelineSendable?
-    
+
     @objc public let totalRetries: Int
     @objc public let connectRetries: Int
     @objc public let readRetries: Int
@@ -45,24 +45,25 @@ import Foundation
     private let methodWhitelist: [HttpMethod] = [.GET, .HEAD, .PUT, .DELETE, .OPTIONS, .TRACE]
     private let respectRetryAfterHeader: Bool = true
 
-    @objc public init(totalRetries: Int = 10, connectRetries: Int = 3, readRetries: Int = 3, statusRetries: Int = 3, backoffFactor: Double = 0.8, backoffMax: Int = 120, retryOnStatusCodes: [Int] = [Int]()) {
+    @objc public init(totalRetries: Int = 10, connectRetries: Int = 3, readRetries: Int = 3, statusRetries: Int = 3,
+                      backoffFactor: Double = 0.8, backoffMax: Int = 120, retryOnStatusCodes: [Int] = [Int]()) {
         self.totalRetries = totalRetries
         self.connectRetries = connectRetries
         self.readRetries = readRetries
         self.statusRetries = statusRetries
         self.backoffFactor = backoffFactor
         self.backoffMax = backoffMax
-        
+
         var retryCodes = [Int]()
-        var safeCodes = Array(stride(from: 1, to: 500, by: 1)).filter{$0 != 408}
+        var safeCodes = Array(stride(from: 1, to: 500, by: 1)).filter {$0 != 408}
         safeCodes.append(contentsOf: [501, 505])
-        for i in 1...999 {
-            if safeCodes.contains(i) { continue }
-            retryCodes.append(i)
+        for code in 1...999 {
+            if safeCodes.contains(code) { continue }
+            retryCodes.append(code)
         }
         self.retryOnStatusCodes = Set<Int>(retryOnStatusCodes + retryCodes)
     }
-    
+
     @objc static public func noRetries() -> RetryPolicy {
         return RetryPolicy(totalRetries: 0)
     }
@@ -70,11 +71,11 @@ import Foundation
     internal func getBackoffTime(settings: RetrySettings) -> Int {
         let consecutiveErrorsCount = settings.history.count
         guard consecutiveErrorsCount > 1 else { return 0 }
-        
+
         let backoffValue = settings.backoffFactor * Double(truncating: pow(2, consecutiveErrorsCount - 1) as NSNumber)
         return min(settings.backoffMax, Int(backoffValue))
     }
-    
+
     private func parse(retryAfter: String) -> Int {
         var seconds = Int(retryAfter)
         if seconds == nil {
@@ -85,11 +86,11 @@ import Foundation
         guard seconds != nil else { return 0 }
         return seconds! >= 0 ? seconds! : 0
     }
-    
+
     private func getRetryAfter(response: PipelineResponse) -> Int {
         return self.parse(retryAfter: response.httpResponse.headers?[HttpHeader.retryAfter] ?? "")
     }
-    
+
     private func sleepForRetry(response: PipelineResponse, transport: HttpTransport) -> Bool {
         let retryAfter = self.getRetryAfter(response: response)
         if retryAfter > 0 {
@@ -98,13 +99,13 @@ import Foundation
         }
         return false
     }
-    
+
     private func sleepBackoff(settings: RetrySettings, transport: HttpTransport) {
         let backoff = self.getBackoffTime(settings: settings)
         guard backoff > 0 else { return }
         transport.sleep(duration: backoff)
     }
-    
+
     private func sleep(settings: RetrySettings, transport: HttpTransport, response: PipelineResponse?) {
         if let response = response {
             let slept = self.sleepForRetry(response: response, transport: transport)
@@ -112,17 +113,17 @@ import Foundation
         }
         self.sleepBackoff(settings: settings, transport: transport)
     }
-    
+
     private func isConnectionError(error: Error) -> Bool {
         //return type(of: error) == AzureError.ServiceRequest.self
         return true
     }
-    
+
     private func isReadError(error: Error) -> Bool {
         // return type(of: error) == AzureError.ServiceResponse.self
         return true
     }
-    
+
     private func isMethodRetryable(settings: RetrySettings, request: HttpRequest, response: HttpResponse?) -> Bool {
         let method = request.httpMethod
         if let response = response {
@@ -134,20 +135,22 @@ import Foundation
         if !settings.retryOnMethods.contains(method) { return false }
         return true
     }
-    
+
     private func isRetry(settings: RetrySettings, response: PipelineResponse) -> Bool {
         let hasRetryAfter = response.httpResponse.headers?[HttpHeader.retryAfter] != nil
         if hasRetryAfter && self.respectRetryAfterHeader { return true }
-        if !self.isMethodRetryable(settings: settings, request: response.httpRequest, response: response.httpResponse) { return false }
+        if !self.isMethodRetryable(settings: settings, request: response.httpRequest, response: response.httpResponse) {
+            return false }
         return settings.totalRetries > 0 && self.retryOnStatusCodes.contains(response.httpResponse.statusCode!.intValue)
     }
-    
+
     private func isExhausted(settings: RetrySettings) -> Bool {
-        let counts = [settings.totalRetries, settings.connectRetries, settings.readRetries, settings.statusRetries].filter{$0 > 0}
+        let counts = [settings.totalRetries, settings.connectRetries, settings.readRetries,
+                      settings.statusRetries].filter {$0 > 0}
         guard counts.count > 0 else { return false }
         return counts.min()! < 0
     }
-    
+
     private func increment(settings: RetrySettings, response: PipelineResponse?, error: Error?) -> Bool {
         settings.totalRetries -= 1
         guard response?.httpResponse.statusCode != 202 else { return false }
@@ -159,21 +162,23 @@ import Foundation
                 settings.readRetries -= 1
             }
             if let response = response {
-                settings.history.append(RequestHistory(request: response.httpRequest, response: response.httpResponse, context: response.context, error: error))
+                settings.history.append(RequestHistory(request: response.httpRequest, response: response.httpResponse,
+                                                       context: response.context, error: error))
             }
         } else if let response = response {
             settings.statusRetries -= 1
-            settings.history.append(RequestHistory(request: response.httpRequest, response: response.httpResponse, context: response.context, error: error))
+            settings.history.append(RequestHistory(request: response.httpRequest, response: response.httpResponse,
+                                                   context: response.context, error: error))
         }
         return self.isExhausted(settings: settings)
     }
-    
+
     private func updateContext(request: PipelineRequest, settings: RetrySettings) {
         if settings.history.count > 0 {
             request.context = request.context?.add(value: settings.history as AnyObject, forKey: "history")
         }
     }
-    
+
     @objc public func send(request: PipelineRequest) throws -> PipelineResponse {
         var retryActive = true
         var response: PipelineResponse
@@ -205,6 +210,6 @@ import Foundation
                 throw error
             }
         }
-        throw ErrorUtil.makeNSError(AzureError.ServiceRequest, withMessage: "Too many retries.")
+        throw ErrorUtil.makeNSError(AzureError.serviceRequest, withMessage: "Too many retries.")
     }
 }

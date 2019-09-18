@@ -9,14 +9,14 @@
 import Foundation
 
 internal class SansIOHttpPolicyRunner: HttpPolicy {
-    
+
     var next: PipelineSendable?
     let policy: SansIOHttpPolicy
-    
+
     init(policy: SansIOHttpPolicy) {
         self.policy = policy
     }
-    
+
     func send(request: PipelineRequest) throws -> PipelineResponse {
         var response: PipelineResponse
         self.policy.onRequest?(request)
@@ -29,19 +29,20 @@ internal class SansIOHttpPolicyRunner: HttpPolicy {
                 throw error
             }
         }
-        return PipelineResponse(request: request.httpRequest, response: HttpResponse(request: request.httpRequest), context: request.context)
+        return PipelineResponse(request: request.httpRequest,
+                                response: HttpResponse(request: request.httpRequest), context: request.context)
     }
 }
 
 internal class TransportRunner {
-    
+
     var next: PipelineSendable?
     let sender: HttpTransport
-    
+
     init(sender: HttpTransport) {
         self.sender = sender
     }
-    
+
     func send(request: PipelineRequest) throws -> PipelineResponse {
         return PipelineResponse(
             request: request.httpRequest,
@@ -52,14 +53,14 @@ internal class TransportRunner {
 }
 
 @objc public class Pipeline: NSObject {
-    
+
     private var implPolicies: [AnyObject]
     private let transport: HttpTransport
-    
+
     @objc public init(transport: HttpTransport, policies: [AnyObject] = [AnyObject]()) {
         self.transport = transport
         self.implPolicies = [PipelineSendable]()
-        var prevPolicy: PipelineSendable? = nil
+        var prevPolicy: PipelineSendable?
         for policy in policies {
             var newPolicy: PipelineSendable
             if let policy = policy as? SansIOHttpPolicy {
@@ -67,7 +68,7 @@ internal class TransportRunner {
             } else if let policy = policy as? HttpPolicy {
                 newPolicy = policy
             } else {
-                fatalError("Unrecognized policy type: \(type(of:policy))")
+                fatalError("Unrecognized policy type: \(type(of: policy))")
             }
             if prevPolicy != nil {
                 prevPolicy!.next = newPolicy
@@ -75,9 +76,11 @@ internal class TransportRunner {
             self.implPolicies.append(newPolicy)
             prevPolicy = newPolicy
         }
-        (self.implPolicies.last as! PipelineSendable).next = transport
+        if let lastPolicy = self.implPolicies.last as? PipelineSendable {
+            lastPolicy.next = transport
+        }
     }
-    
+
     @objc public func run(request: PipelineRequest) throws -> PipelineResponse {
         let firstNode = self.implPolicies.first ?? TransportRunner(sender: self.transport)
         return try firstNode.send(request: request)

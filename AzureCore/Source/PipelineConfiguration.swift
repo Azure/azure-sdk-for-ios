@@ -9,7 +9,7 @@
 import Foundation
 
 @objc public class PipelineConfiguration: NSObject {
-    
+
     @objc public let headersPolicy: HeadersPolicy
     @objc public let proxyPolicy: ProxyPolicy
     @objc public let redirectPolicy: RedirectPolicy
@@ -21,10 +21,20 @@ import Foundation
     @objc public let authenticationPolicy: AuthenticationPolicy
     @objc public let distributedTracingPolicy: DistributedTracingPolicy
     @objc public let pollingInterval: Int
-    
+
     private let defaultPollingInterval = 30
-    
-    @objc public init(headersPolicy: HeadersPolicy, proxyPolicy: ProxyPolicy, redirectPolicy: RedirectPolicy, retryPolicy: RetryPolicy, customHookPolicy: CustomHookPolicy, contentDecodePolicy: ContentDecodePolicy, loggingPolicy: NetworkTraceLoggingPolicy, userAgentPolicy: UserAgentPolicy, authenticationPolicy: AuthenticationPolicy, distributedTracingPolicy: DistributedTracingPolicy, pollingInterval: Int = -1) {
+
+    @objc public init(headersPolicy: HeadersPolicy,
+                      proxyPolicy: ProxyPolicy,
+                      redirectPolicy: RedirectPolicy,
+                      retryPolicy: RetryPolicy,
+                      customHookPolicy: CustomHookPolicy,
+                      contentDecodePolicy: ContentDecodePolicy,
+                      loggingPolicy: NetworkTraceLoggingPolicy,
+                      userAgentPolicy: UserAgentPolicy,
+                      authenticationPolicy: AuthenticationPolicy,
+                      distributedTracingPolicy: DistributedTracingPolicy,
+                      pollingInterval: Int = -1) {
         self.headersPolicy = headersPolicy
         self.proxyPolicy = proxyPolicy
         self.redirectPolicy = redirectPolicy

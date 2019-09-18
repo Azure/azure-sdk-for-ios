@@ -13,16 +13,16 @@ import AzureCore
 class TextAnalyticsClient: NSObject {
     let credential: TextAnalyticsClientCredentials
     let endpoint: URL?
-    
+
     @objc init(withEndpoint endpoint: String, withKey key: String, withRegion region: String?) throws {
         self.credential = try TextAnalyticsClientCredentials.init(withEndpoint: endpoint, withKey: key, withRegion: region)
         self.endpoint = URL(string: endpoint)
     }
-    
+
     @objc func getSentiment(fromText text: String, withLanauage lang: String?, showStats: Bool = false, completion: @escaping (Float, NSError?) -> Void) {
 
         guard self.endpoint != nil else { return }
-        
+
         let baseUrl = "\(self.endpoint!)/text/analytics/v2.1/sentiment"
         let queryStringParams = [
             "showStats": String(showStats)

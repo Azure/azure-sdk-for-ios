@@ -7,20 +7,21 @@
 
 import Foundation
 
-public typealias HttpHeaders = [String:String]
+public typealias HttpHeaders = [String: String]
 
 extension HttpHeaders {
     subscript(index: HttpHeader) -> String? {
         get {
             return self[index.rawValue]
         }
-        
+
         set(newValue) {
             self[index.rawValue] = newValue
         }
     }
 }
 
+// swiftlint:disable type_body_length
 @objc public enum HttpHeader: Int, RawRepresentable {
     case accept
     case acceptCharset
@@ -63,9 +64,9 @@ extension HttpHeaders {
     case via
     case warning
     case wwwAuthenticate
-    
+
     public typealias RawValue = String
-    
+
     public var rawValue: RawValue {
         switch self {
         case .accept:
@@ -152,7 +153,8 @@ extension HttpHeaders {
             return "WWW-Authenticate"
         }
     }
-    
+
+    // swiftlint:disable cyclomatic_complexity function_body_length
     public init?(rawValue: RawValue) {
         switch rawValue {
         case "Accept":

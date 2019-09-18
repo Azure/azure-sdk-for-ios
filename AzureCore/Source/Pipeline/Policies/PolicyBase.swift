@@ -23,7 +23,7 @@ import Foundation
     @objc let httpResponse: HttpResponse
     @objc let error: Error?
     @objc let context: PipelineContext?
-    
+
     @objc public init(request: HttpRequest, response: HttpResponse, context: PipelineContext?, error: Error?) {
         // TODO: request should be a deep copy
         self.httpRequest = request

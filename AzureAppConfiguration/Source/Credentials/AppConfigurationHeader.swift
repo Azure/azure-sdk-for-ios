@@ -11,9 +11,9 @@ import Foundation
 @objc public enum AppConfigurationHeader: Int, RawRepresentable {
     case date
     case contentHash
-    
+
     public typealias RawValue = String
-    
+
     public var rawValue: RawValue {
         switch self {
         case .date:
@@ -22,7 +22,7 @@ import Foundation
             return "x-ms-content-sha256"
         }
     }
-    
+
     public init?(rawValue: RawValue) {
         switch rawValue.lowercased() {
         case "x-ms-date":

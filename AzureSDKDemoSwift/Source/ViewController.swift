@@ -16,11 +16,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
+
         let request = HttpRequest(httpMethod: .GET, url: URL(string: "www.microsoft.com")!)
         textLabel.text = request.description
     }
 
-
 }
-

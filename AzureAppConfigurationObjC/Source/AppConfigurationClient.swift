@@ -12,10 +12,10 @@ import Foundation
 @objc class AppConfigurationClient: PipelineClient {
 
     private static let apiVersion = "2019-01-01"
-        
+
     @objc public init(connectionString: String) throws {
         guard let credential = try? AppConfigurationCredential(connectionString: connectionString) else {
-            throw ErrorUtil.makeNSError(.General, withMessage: "Invalid connection string.")
+            throw ErrorUtil.makeNSError(.general, withMessage: "Invalid connection string.")
         }
         let config = PipelineConfiguration(
             headersPolicy: HeadersPolicy(),
@@ -42,8 +42,8 @@ import Foundation
         let pipeline = Pipeline(transport: UrlSessionTransport(), policies: policies)
         super.init(baseUrl: credential.endpoint, config: config, pipeline: pipeline)
     }
-
-    @objc public func getConfigurationSettings(forKey key: String?, forLabel label: String?, withResponse response: HttpResponse? = nil) throws -> AZCPagedCollection {
+    
+    @objc public func getConfigurationSettings(forKey key: String?, forLabel label: String?, withResponse response: HttpResponse? = nil) throws -> AZCCollection {
         // TODO: Additional supported functionality
         // $select query param
         // Accept-Datetime header
@@ -68,18 +68,18 @@ import Foundation
                 let items = json?["items"] as? [Any]
                 let nextLink = json?["@nextLink"] as? String
                 if items != nil {
-                    return AZCPagedCollection(items: items!, withNextLink: nextLink)
+                    return AZCCollection(items: items as [AnyObject])
                 } else {
-                    throw ErrorUtil.makeNSError(.Decode, withMessage: "Unable to decode response body.", response: pipelineResponse.httpResponse)
+                    throw ErrorUtil.makeNSError(.decode, withMessage: "Unable to decode response body.", response: pipelineResponse.httpResponse)
                 }
             } else {
-                throw ErrorUtil.makeNSError(.General, withMessage: "Expected response body but didn't find one.", response: pipelineResponse.httpResponse)
+                throw ErrorUtil.makeNSError(.general, withMessage: "Expected response body but didn't find one.", response: pipelineResponse.httpResponse)
             }
         } else {
-            throw ErrorUtil.makeNSError(.General, withMessage: "Failure obtaining HTTP response.", response: nil)
+            throw ErrorUtil.makeNSError(.general, withMessage: "Failure obtaining HTTP response.", response: nil)
         }
     }
-    
+
     @objc public func set(parameters: ConfigurationSettingPutParameters, key: String, label: String?, withResponse response: HttpResponse? = nil) throws -> ConfigurationSetting {
         // TODO: Additional supported functionality
         // If-Match (eTag) header
@@ -91,7 +91,7 @@ import Foundation
         let encoder = JSONEncoder()
         encoder.keyEncodingStrategy = .convertToSnakeCase
         guard let body = try? encoder.encode(parameters) else {
-            throw ErrorUtil.makeNSError(.General, withMessage: "Unable to serialize parameters.")
+            throw ErrorUtil.makeNSError(.general, withMessage: "Unable to serialize parameters.")
         }
         let request = PipelineRequest(request: self.request(
             method: HttpMethod.PUT,
@@ -110,10 +110,10 @@ import Foundation
                 let deserialized = try decoder.decode(ConfigurationSetting.self, from: data)
                 return deserialized
             } else {
-                throw ErrorUtil.makeNSError(.General, withMessage: "Expected response body but didn't find one.", response: pipelineResponse.httpResponse)
+                throw ErrorUtil.makeNSError(.general, withMessage: "Expected response body but didn't find one.", response: pipelineResponse.httpResponse)
             }
         } else {
-            throw ErrorUtil.makeNSError(.General, withMessage: "Failure obtaining HTTP response.", response: nil)
+            throw ErrorUtil.makeNSError(.general, withMessage: "Failure obtaining HTTP response.", response: nil)
         }
     }
 }

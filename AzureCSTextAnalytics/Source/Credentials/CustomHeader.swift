@@ -15,9 +15,9 @@ import Foundation
     case contentHash
     case ocpApimSubscriptionKey
     case ocpApimSubscriptionRegion
-    
+
     public typealias RawValue = String
-    
+
     public var rawValue: RawValue {
         switch self {
         case .authorization:
@@ -34,7 +34,7 @@ import Foundation
             return "Ocp-Apim-Subscription-Region"
         }
     }
-    
+
     public init?(rawValue: RawValue) {
         switch rawValue {
             case "Authorization":

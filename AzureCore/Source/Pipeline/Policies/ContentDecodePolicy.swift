@@ -10,7 +10,7 @@ import os
 import Foundation
 
 @objc public class ContentDecodePolicy: NSObject, SansIOHttpPolicy {
-    
+
     @objc public func onResponse(_ response: PipelineResponse, request: PipelineRequest) {
         // TODO: For now, no-op
         let deserializedType = response.getValue(forKey: "deserializedType")
@@ -24,15 +24,16 @@ import Foundation
 //            response.add(value: deserialized, forKey: "deserializedData")
 //        }
     }
-    
+
 //    @objc static func object(type: NSCoding, fromResponse: HttpResponse, contentType: String = "application/json") throws -> NSCoding {
 //        
 //    }
-    
+
     @objc static func deserializeFromData(response: HttpResponse, contentType: String) -> AnyObject? {
         guard let data = response.body else { return nil }
         do {
-            let jsonObject = try JSONSerialization.jsonObject(with: data, options: [.mutableContainers, .mutableLeaves]) as AnyObject?
+            let jsonObject = try JSONSerialization.jsonObject(
+                with: data, options: [.mutableContainers, .mutableLeaves]) as AnyObject?
             return jsonObject
         } catch {
             os_log("Error: %@", type: .error, error.localizedDescription)

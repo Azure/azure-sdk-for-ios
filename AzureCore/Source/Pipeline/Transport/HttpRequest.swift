@@ -7,21 +7,14 @@
 
 import Foundation
 
-@objc public protocol HttpRequestDelegate {
-    @objc var query: [URLQueryItem]? { get }
-    @objc var data: Data? { get set }
-    @objc var body: Data? { get set }
-}
+@objc public class HttpRequest: NSObject {
 
-@objc public class HttpRequest: NSObject, HttpRequestDelegate {
-    
-    @objc public var delegate: HttpRequestDelegate?
     @objc public var httpMethod: HttpMethod
     @objc public var url: String
     @objc public var headers: HttpHeaders
     @objc public var files: [String]?
     @objc public var data: Data?
-    
+
     @objc public var query: [URLQueryItem]? {
         let comps = URLComponents(string: self.url)?.queryItems
         return comps
@@ -35,12 +28,13 @@ import Foundation
             self.data = newValue
         }
     }
-    
+
     @objc convenience public init(httpMethod: HttpMethod, url: String) {
         self.init(httpMethod: httpMethod, url: url, headers: HttpHeaders())
     }
-    
-    @objc public init(httpMethod: HttpMethod, url: String, headers: HttpHeaders? = nil, files: [String]? = nil, data: Data? = nil, delegate: HttpRequestDelegate? = nil) {
+
+    @objc public init(httpMethod: HttpMethod, url: String, headers: HttpHeaders? = nil, files: [String]? = nil,
+                      data: Data? = nil) {
         self.httpMethod = httpMethod
         self.url = url
         self.headers = headers ?? HttpHeaders()
@@ -48,10 +42,9 @@ import Foundation
         self.data = data
 
         super.init()
-        self.delegate = delegate ?? self
     }
-    
-    @objc public func format(queryParams: [String:String]?) {
+
+    @objc public func format(queryParams: [String: String]?) {
         guard var urlComps = URLComponents(string: self.url) else { return }
         let queryString = urlComps.query
         var queryItems = [URLQueryItem]()

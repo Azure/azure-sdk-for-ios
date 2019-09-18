@@ -9,7 +9,7 @@
 import Foundation
 
 @objc class ConfigurationSetting: NSObject, Codable {
-    
+
     @objc var key: String
     @objc var value: String
     @objc var label: String?
@@ -18,9 +18,9 @@ import Foundation
     @objc var etag: String?
     @objc var locked: Bool = false
     @objc var lastModified: Date?
-    
+
     @objc static let emptyLabel = "\0"
-    
+
     @objc init(key: String, value: String, label: String?, tags: Dictionary<String, String>?, contentType: String?, locked: Bool = false) {
         self.key = key
         self.value = value

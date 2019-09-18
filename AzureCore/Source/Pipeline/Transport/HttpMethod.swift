@@ -17,9 +17,9 @@ import Foundation
     case OPTIONS
     case TRACE
     case MERGE
-    
+
     public typealias RawValue = String
-    
+
     public var rawValue: RawValue {
         switch self {
         case .GET:
@@ -42,7 +42,7 @@ import Foundation
             return "MERGE"
         }
     }
-    
+
     public init?(rawValue: RawValue) {
         let rawUpper = (rawValue as String).uppercased()
         switch rawUpper {

@@ -17,12 +17,12 @@ extension Array where Element == UInt8 {
         }
         return digest
     }
-    
+
     public var base64String: String {
         let data = Data(bytes: self, count: self.count)
         return data.base64EncodedString()
     }
-    
+
     public var hexString: String {
         return self.compactMap({ String(format: "%02x", $0) }).joined().uppercased()
     }
@@ -82,25 +82,26 @@ extension String {
         }
         return digest
     }
-    
+
     public var base64String: String {
         let data = Data(bytes: self, count: self.count)
         return data.base64EncodedString()
     }
-    
+
     public var decodeHex: Data? {
         var data = Data(capacity: self.count / 2)
-        
-        let regex = try! NSRegularExpression(pattern: "[0-9a-f]{1,2}", options: .caseInsensitive)
-        regex.enumerateMatches(in: self, range: NSRange(startIndex..., in: self)) { match, _, _ in
-            let byteString = (self as NSString).substring(with: match!.range)
-            let num = UInt8(byteString, radix: 16)!
-            data.append(num)
+
+        if let regex = try? NSRegularExpression(pattern: "[0-9a-f]{1,2}", options: .caseInsensitive) {
+            regex.enumerateMatches(in: self, range: NSRange(startIndex..., in: self)) { match, _, _ in
+                let byteString = (self as NSString).substring(with: match!.range)
+                let num = UInt8(byteString, radix: 16)!
+                data.append(num)
+            }
         }
         guard data.count > 0 else { return nil }
         return data
     }
-    
+
     public var decodeBase64: Data? {
         return Data(base64Encoded: self)
     }

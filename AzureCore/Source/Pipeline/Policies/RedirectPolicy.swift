@@ -14,7 +14,7 @@ import Foundation
         var allowRedirects: Bool
         var maxRedirects: Int
         var history: [RequestHistory]
-        
+
         init(context: PipelineContext?, policy: RedirectPolicy) {
             self.allowRedirects = context?.getValue(forKey: "allowRedirects") as? Bool ?? policy.allowRedirects
             self.maxRedirects = context?.getValue(forKey: "maxRedirects") as? Int ?? policy.maxRedirects
@@ -22,19 +22,18 @@ import Foundation
         }
     }
 
-    
     @objc public var next: PipelineSendable?
-    
+
     private var allowRedirects: Bool
     private var maxRedirects: Int
-    
+
     private let redirectHeadersBlacklist: [HttpHeader] = [.authorization]
     private let redirectStatusCodes: [Int] = [300, 301, 302, 303, 307, 308]
-    
+
     private var removeHeadersOnRedirect: [HttpHeader]
     private var redirectOnStatusCodes: [Int]
-    
-    @objc public init(allowRedirects: Bool = true, maxRedirects: Int = 30, /* removeHeadersOnRedirect: [HttpHeaderType]?,*/ redirectOnStatusCodes: [Int]? = nil) {
+
+    @objc public init(allowRedirects: Bool = true, maxRedirects: Int = 30, redirectOnStatusCodes: [Int]? = nil) {
         self.allowRedirects = allowRedirects
         self.maxRedirects = maxRedirects
 
@@ -48,11 +47,11 @@ import Foundation
             self.redirectOnStatusCodes.append(contentsOf: redirect)
         }
     }
-    
+
     @objc public static func noRedirect() -> RedirectPolicy {
         return RedirectPolicy(allowRedirects: false)
     }
-    
+
     private func getRedirectLocation(response: PipelineResponse) -> String? {
         let statusCode = response.httpResponse.statusCode
         let method = response.httpRequest.httpMethod
@@ -67,11 +66,12 @@ import Foundation
         }
         return nil
     }
-    
+
     private func increment(settings: RedirectSettings, response: PipelineResponse, location: String) -> Bool {
         settings.maxRedirects -= 1
-        settings.history.append(RequestHistory(request: response.httpRequest, response: response.httpResponse, context: response.context, error: nil))
-        
+        settings.history.append(RequestHistory(request: response.httpRequest, response: response.httpResponse,
+                                               context: response.context, error: nil))
+
         response.httpRequest.url = location
         if response.httpResponse.statusCode == 303 {
             response.httpRequest.httpMethod = .GET
@@ -81,7 +81,7 @@ import Foundation
         }
         return settings.maxRedirects >= 0
     }
-    
+
     @objc public func send(request: PipelineRequest) throws -> PipelineResponse {
         var retryable = true
         let settings = RedirectSettings(context: request.context, policy: self)
@@ -95,6 +95,6 @@ import Foundation
             }
             return response
         }
-        throw ErrorUtil.makeNSError(.TooManyRedirects, withMessage: settings.history.description, response: nil)
+        throw ErrorUtil.makeNSError(.tooManyRedirects, withMessage: settings.history.description, response: nil)
     }
 }

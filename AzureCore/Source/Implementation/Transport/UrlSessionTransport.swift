@@ -15,28 +15,28 @@ import Foundation
 
 @objc public class UrlSessionTransport: NSObject, HttpTransport {
 
-    public var next: PipelineSendable? = nil
-    
+    public var next: PipelineSendable?
+
     private var session: URLSession?
     private var config: URLSessionConfiguration
-    
+
     @objc override public init() {
         self.config = URLSessionConfiguration.default
     }
-    
+
     @objc public func open() {
         guard self.session == nil else { return }
         self.session = URLSession(configuration: self.config, delegate: nil, delegateQueue: nil)
     }
-    
+
     @objc public func close() {
         self.session = nil
     }
-    
+
     @objc public func sleep(duration: Int) {
         Foundation.sleep(UInt32(duration))
     }
-    
+
     @objc public func send(request: PipelineRequest) throws -> PipelineResponse {
         self.open()
         guard let session = self.session else {
@@ -57,7 +57,7 @@ import Foundation
             }
             semaphore.signal()
         }.resume()
-        
+
         semaphore.wait()
         return PipelineResponse(request: request.httpRequest, response: httpResponse, context: request.context)
     }

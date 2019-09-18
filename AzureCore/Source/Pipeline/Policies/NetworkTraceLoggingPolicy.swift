@@ -9,13 +9,13 @@
 import Foundation
 
 @objc public class NetworkTraceLoggingPolicy: NSObject, SansIOHttpPolicy {
-    
+
     @objc public var enableLogging: Bool
-    
+
     @objc public init(enableLogging: Bool = false) {
         self.enableLogging = enableLogging
     }
-    
+
     @objc public func onRequest(_ request: PipelineRequest) {
         let enableLogging = request.context?.getValue(forKey: "enableLogging") as? Bool ?? self.enableLogging
         guard enableLogging else { return }
@@ -29,7 +29,7 @@ import Foundation
         // log "file upload" for binary data, else the body string
         // on error, log error
     }
-    
+
     @objc public func onResponse(_ response: PipelineResponse, request: PipelineRequest) {
         let enableLogging = request.context?.getValue(forKey: "enableLogging") as? Bool ?? self.enableLogging
         guard enableLogging else { return }

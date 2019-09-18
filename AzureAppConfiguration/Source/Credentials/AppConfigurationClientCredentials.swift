@@ -10,7 +10,7 @@ import AzureCore
 import Foundation
 
 @objc public class AppConfigurationCredential: NSObject {
-    
+
     internal let endpoint: String    // endpoint
     internal let id: String          // access key id
     internal let secret: String      // access key value
@@ -18,12 +18,12 @@ import Foundation
     @objc public init(connectionString: String) throws {
         let cs_comps = connectionString.components(separatedBy: ";")
         guard cs_comps.count == 3 else {
-            throw ErrorUtil.makeNSError(.ClientAuthentication, withMessage: "Invalid connection string format", response: nil)
+            throw ErrorUtil.makeNSError(.clientAuthentication, withMessage: "Invalid connection string format", response: nil)
         }
-        var endpoint: String? = nil
-        var id: String? = nil
-        var secret: String? = nil
-        
+        var endpoint: String?
+        var id: String?
+        var secret: String?
+
         for component in connectionString.components(separatedBy: ";") {
             let comp_splits = component.split(separator: "=", maxSplits: 1)
             let key = String(comp_splits[0]).lowercased()
@@ -36,11 +36,11 @@ import Foundation
             case "secret":
                 secret = value
             default:
-                throw ErrorUtil.makeNSError(.ClientAuthentication, withMessage: "Unrecognized key '\(key)' in connection string", response: nil)
+                throw ErrorUtil.makeNSError(.clientAuthentication, withMessage: "Unrecognized key '\(key)' in connection string", response: nil)
             }
         }
         guard endpoint != nil && id != nil && secret != nil else {
-            throw ErrorUtil.makeNSError(.ClientAuthentication, withMessage: "Bad connection string.", response: nil)
+            throw ErrorUtil.makeNSError(.clientAuthentication, withMessage: "Bad connection string.", response: nil)
         }
         self.endpoint = endpoint!
         self.id = id!
@@ -59,7 +59,7 @@ import Foundation
         self.scopes = scopes
         self.credential = credential
     }
-    
+
     @objc public func authenticate(request: PipelineRequest) {
         let httpRequest = request.httpRequest
         let contentHash = [UInt8](httpRequest.body ?? Data()).sha256.base64String
@@ -73,7 +73,7 @@ import Foundation
         }
         sign(request: request)
     }
-    
+
     private func sign(request: PipelineRequest) {
         let headers = request.httpRequest.headers
         let signedHeaderKeys = [AppConfigurationHeader.date.rawValue, HttpHeader.host.rawValue, AppConfigurationHeader.contentHash.rawValue]
@@ -93,7 +93,7 @@ import Foundation
             }
         }
     }
-    
+
     @objc public func send(request: PipelineRequest) throws -> PipelineResponse {
         self.authenticate(request: request)
         return try self.next!.send(request: request)

@@ -18,20 +18,20 @@ import Security
 
     let keychainErrorDomain = "com.azure.core"
     let keychainSecurityService = "com.azure.core"
-    
+
     private func setupQueryDictionary(forKey key: String) -> [String: Any] {
         var queryDictionary: [String: Any] = [kSecClass as String: kSecClassGenericPassword]
         queryDictionary[kSecAttrAccount as String] = key.data(using: .utf8)
         return queryDictionary
     }
-    
+
     @objc public func store(string: String, forKey key: String) throws {
         guard !string.isEmpty else {
             throw KeychainUtilError.invalidContent
         }
         try self.store(secret: string.data(using: .utf8)!, forKey: key)
     }
-    
+
     @objc public func store(secret: Data, forKey key: String) throws {
         guard !key.isEmpty else {
             throw KeychainUtilError.invalidContent
@@ -48,7 +48,7 @@ import Security
             throw KeychainUtilError.failure
         }
     }
-    
+
     @objc public func secret(forKey key: String) throws -> Data {
         guard !key.isEmpty else {
             throw KeychainUtilError.invalidContent
@@ -67,7 +67,7 @@ import Security
             throw KeychainUtilError.invalidContent
         }
     }
-    
+
     @objc public func string(forKey key: String) throws -> String {
         do {
             let data = try secret(forKey: key)
@@ -80,7 +80,7 @@ import Security
             throw error
         }
     }
-    
+
     @objc public func deleteSecret(forKey key: String) throws {
         guard !key.isEmpty else {
             throw KeychainUtilError.invalidContent

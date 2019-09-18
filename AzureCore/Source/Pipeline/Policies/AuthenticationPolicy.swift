@@ -13,7 +13,7 @@ import Foundation
 }
 
 @objc public class BearerTokenCredentialPolicy: NSObject, AuthenticationPolicy {
-    
+
     @objc public var next: PipelineSendable?
     @objc public let scopes: [String]
     @objc public let credential: TokenCredential
@@ -21,7 +21,7 @@ import Foundation
         // TODO: Also if token expires within 300... ms?
         return (self.token == nil)
     }
-    
+
     private var token: AccessToken?
 
     @objc public init(credential: TokenCredential, scopes: [String]) {
@@ -29,13 +29,13 @@ import Foundation
         self.credential = credential
         self.token = nil
     }
-    
+
     @objc public func authenticate(request: PipelineRequest) {
         if let token = self.token?.token {
             request.httpRequest.headers[HttpHeader.authorization.rawValue] = "Bearer \(token)"
         }
     }
-    
+
     @objc public func send(request: PipelineRequest) throws -> PipelineResponse {
         if self.needNewToken {
             self.token = self.credential.getToken(scopes: self.scopes)

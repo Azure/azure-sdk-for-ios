@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0A29CC3E2322F3CD006CEFA7 /* DateUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A29CC3D2322F3CD006CEFA7 /* DateUtil.swift */; };
 		0A2C6A672329B2F700F51027 /* DistributedTracingPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2C6A662329B2F700F51027 /* DistributedTracingPolicy.swift */; };
+		0A35294E2331A6D8005BA459 /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A35294D2331A6D8005BA459 /* Collection.swift */; };
 		0A3A5D7B2315C89C00473FDA /* AzureCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A3A5D792315C89C00473FDA /* AzureCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0A3A5D9B2315CEB600473FDA /* HttpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D902315CEB600473FDA /* HttpRequest.swift */; };
 		0A3A5D9C2315CEB600473FDA /* HttpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D912315CEB600473FDA /* HttpResponse.swift */; };
@@ -37,12 +38,12 @@
 		0A3A5F402318975900473FDA /* PipelineClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F3F2318975900473FDA /* PipelineClient.swift */; };
 		0A3A5F422319834500473FDA /* PipelineBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F412319834500473FDA /* PipelineBase.swift */; };
 		0A3A5F442319D49700473FDA /* UrlSessionTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F432319D49700473FDA /* UrlSessionTransport.swift */; };
-		0A441C33233035D100677531 /* AZCPagedCollection.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A441C31233035D100677531 /* AZCPagedCollection.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0A441C34233035D100677531 /* AZCPagedCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A441C32233035D100677531 /* AZCPagedCollection.m */; };
 		0A7F563A2321732B00E9765A /* UrlHttpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F56392321732B00E9765A /* UrlHttpResponse.swift */; };
+		0AD2142923314416003A2E3E /* ObjectiveCBridgeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD2142823314416003A2E3E /* ObjectiveCBridgeable.swift */; };
 		0AE5C3A6231F150A0013CA85 /* KeychainUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE5C3A5231F150A0013CA85 /* KeychainUtil.swift */; };
 		0AF0185B232B026700A0C94D /* AZCPipelineClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 0AF01859232B026700A0C94D /* AZCPipelineClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0AF0185C232B026700A0C94D /* AZCPipelineClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF0185A232B026700A0C94D /* AZCPipelineClient.m */; };
+		0AF473192331A64000AC5571 /* Iterable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF473182331A64000AC5571 /* Iterable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,7 @@
 /* Begin PBXFileReference section */
 		0A29CC3D2322F3CD006CEFA7 /* DateUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtil.swift; sourceTree = "<group>"; };
 		0A2C6A662329B2F700F51027 /* DistributedTracingPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistributedTracingPolicy.swift; sourceTree = "<group>"; };
+		0A35294D2331A6D8005BA459 /* Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
 		0A3A5D762315C89C00473FDA /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A3A5D792315C89C00473FDA /* AzureCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AzureCore.h; sourceTree = "<group>"; };
 		0A3A5D7A2315C89C00473FDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -89,12 +91,12 @@
 		0A3A5F3F2318975900473FDA /* PipelineClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineClient.swift; sourceTree = "<group>"; };
 		0A3A5F412319834500473FDA /* PipelineBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineBase.swift; sourceTree = "<group>"; };
 		0A3A5F432319D49700473FDA /* UrlSessionTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlSessionTransport.swift; sourceTree = "<group>"; };
-		0A441C31233035D100677531 /* AZCPagedCollection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AZCPagedCollection.h; sourceTree = "<group>"; };
-		0A441C32233035D100677531 /* AZCPagedCollection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AZCPagedCollection.m; sourceTree = "<group>"; };
 		0A7F56392321732B00E9765A /* UrlHttpResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlHttpResponse.swift; sourceTree = "<group>"; };
+		0AD2142823314416003A2E3E /* ObjectiveCBridgeable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectiveCBridgeable.swift; sourceTree = "<group>"; };
 		0AE5C3A5231F150A0013CA85 /* KeychainUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainUtil.swift; sourceTree = "<group>"; };
 		0AF01859232B026700A0C94D /* AZCPipelineClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AZCPipelineClient.h; sourceTree = "<group>"; };
 		0AF0185A232B026700A0C94D /* AZCPipelineClient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AZCPipelineClient.m; sourceTree = "<group>"; };
+		0AF473182331A64000AC5571 /* Iterable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Iterable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +139,7 @@
 		0A3A5D782315C89C00473FDA /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				0AD21427233143F8003A2E3E /* ObjectiveCCompatibility */,
 				0A7F56372321730200E9765A /* Implementation */,
 				0A3A5F192316EADB00473FDA /* Pipeline */,
 				0A3A5DA52315CEBF00473FDA /* Util */,
@@ -164,7 +167,6 @@
 			isa = PBXGroup;
 			children = (
 				0A3A5D792315C89C00473FDA /* AzureCore.h */,
-				0A441C31233035D100677531 /* AZCPagedCollection.h */,
 				0AF01859232B026700A0C94D /* AZCPipelineClient.h */,
 				0A3A5D7A2315C89C00473FDA /* Info.plist */,
 			);
@@ -182,7 +184,7 @@
 		0A3A5F192316EADB00473FDA /* Pipeline */ = {
 			isa = PBXGroup;
 			children = (
-				0AF01856232AF2CC00A0C94D /* Paging */,
+				0AF01856232AF2CC00A0C94D /* Collections */,
 				0A3A5F362318680900473FDA /* Transport */,
 				0A3A5F1A2316EAE500473FDA /* Policies */,
 				0A3A5F412319834500473FDA /* PipelineBase.swift */,
@@ -241,12 +243,21 @@
 			path = Transport;
 			sourceTree = "<group>";
 		};
-		0AF01856232AF2CC00A0C94D /* Paging */ = {
+		0AD21427233143F8003A2E3E /* ObjectiveCCompatibility */ = {
 			isa = PBXGroup;
 			children = (
-				0A441C32233035D100677531 /* AZCPagedCollection.m */,
+				0AD2142823314416003A2E3E /* ObjectiveCBridgeable.swift */,
 			);
-			path = Paging;
+			path = ObjectiveCCompatibility;
+			sourceTree = "<group>";
+		};
+		0AF01856232AF2CC00A0C94D /* Collections */ = {
+			isa = PBXGroup;
+			children = (
+				0AF473182331A64000AC5571 /* Iterable.swift */,
+				0A35294D2331A6D8005BA459 /* Collection.swift */,
+			);
+			path = Collections;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -258,7 +269,6 @@
 			files = (
 				0A3A5D7B2315C89C00473FDA /* AzureCore.h in Headers */,
 				0AF0185B232B026700A0C94D /* AZCPipelineClient.h in Headers */,
-				0A441C33233035D100677531 /* AZCPagedCollection.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,6 +283,7 @@
 				0A3A5D722315C89C00473FDA /* Sources */,
 				0A3A5D732315C89C00473FDA /* Frameworks */,
 				0A3A5D742315C89C00473FDA /* Resources */,
+				0AF4731723315A2000AC5571 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -355,6 +366,26 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0AF4731723315A2000AC5571 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed. Download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		0A3A5D722315C89C00473FDA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -375,6 +406,7 @@
 				0A3A5D9B2315CEB600473FDA /* HttpRequest.swift in Sources */,
 				0A3A5F1E2316EC4C00473FDA /* PolicyBase.swift in Sources */,
 				0A3A5F3C2318904F00473FDA /* PipelineResponse.swift in Sources */,
+				0AD2142923314416003A2E3E /* ObjectiveCBridgeable.swift in Sources */,
 				0A2C6A672329B2F700F51027 /* DistributedTracingPolicy.swift in Sources */,
 				0A3A5F032316DF6600473FDA /* CryptoUtils.swift in Sources */,
 				0A3A5F2A23171E3200473FDA /* RetryPolicy.swift in Sources */,
@@ -382,14 +414,15 @@
 				0A3A5F1C2316EBC600473FDA /* HeadersPolicy.swift in Sources */,
 				0A3A5F382318686C00473FDA /* HttpTransport.swift in Sources */,
 				0A3A5F222316FAF000473FDA /* UserAgentPolicy.swift in Sources */,
-				0A441C34233035D100677531 /* AZCPagedCollection.m in Sources */,
 				0A3A5F402318975900473FDA /* PipelineClient.swift in Sources */,
 				0A3A5F2E231720C400473FDA /* CustomHookPolicy.swift in Sources */,
+				0A35294E2331A6D8005BA459 /* Collection.swift in Sources */,
 				0A3A5F012316DF1B00473FDA /* Errors.swift in Sources */,
 				0A7F563A2321732B00E9765A /* UrlHttpResponse.swift in Sources */,
 				0A3A5F26231718D200473FDA /* ContentDecodePolicy.swift in Sources */,
 				0AF0185C232B026700A0C94D /* AZCPipelineClient.m in Sources */,
 				0A3A5F32231720DE00473FDA /* AuthenticationPolicy.swift in Sources */,
+				0AF473192331A64000AC5571 /* Iterable.swift in Sources */,
 				0A3A5F182316E98F00473FDA /* PipelineConfiguration.swift in Sources */,
 				0A3A5F3E2318906100473FDA /* Pipeline.swift in Sources */,
 			);
