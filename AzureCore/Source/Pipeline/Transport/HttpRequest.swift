@@ -7,20 +7,20 @@
 
 import Foundation
 
-@objc public class HttpRequest: NSObject {
+public class HttpRequest {
 
-    @objc public var httpMethod: HttpMethod
-    @objc public var url: String
-    @objc public var headers: HttpHeaders
-    @objc public var files: [String]?
-    @objc public var data: Data?
+    public var httpMethod: HttpMethod
+    public var url: String
+    public var headers: HttpHeaders
+    public var files: [String]?
+    public var data: Data?
 
-    @objc public var query: [URLQueryItem]? {
+    public var query: [URLQueryItem]? {
         let comps = URLComponents(string: self.url)?.queryItems
         return comps
     }
 
-    @objc public var body: Data? {
+    public var body: Data? {
         get {
             return self.data
         }
@@ -29,22 +29,20 @@ import Foundation
         }
     }
 
-    @objc convenience public init(httpMethod: HttpMethod, url: String) {
+    convenience public init(httpMethod: HttpMethod, url: String) {
         self.init(httpMethod: httpMethod, url: url, headers: HttpHeaders())
     }
 
-    @objc public init(httpMethod: HttpMethod, url: String, headers: HttpHeaders? = nil, files: [String]? = nil,
+    public init(httpMethod: HttpMethod, url: String, headers: HttpHeaders? = nil, files: [String]? = nil,
                       data: Data? = nil) {
         self.httpMethod = httpMethod
         self.url = url
         self.headers = headers ?? HttpHeaders()
         self.files = files
         self.data = data
-
-        super.init()
     }
 
-    @objc public func format(queryParams: [String: String]?) {
+    public func format(queryParams: [String: String]?) {
         guard var urlComps = URLComponents(string: self.url) else { return }
         let queryString = urlComps.query
         var queryItems = [URLQueryItem]()
@@ -73,13 +71,13 @@ import Foundation
 //        return ""
 //    }
 //
-//    @objc public func set(streamedDataBody data: Data) {
+//    public func set(streamedDataBody data: Data) {
 //        // TODO: Check type here with guard statement
 //        self.data = data
 //        self.files = nil
 //    }
 //
-//    @objc public func set(xmlBody data: Data) {
+//    public func set(xmlBody data: Data) {
 //        // TODO: Implement
 //        // convert XML to UTF-8 string
 //        // replace "encoding='utf8'" with "encoding='utf-8'"
@@ -87,14 +85,14 @@ import Foundation
 //        self.files = nil
 //    }
 //
-//    @objc public func set(jsonBody data: Data) {
+//    public func set(jsonBody data: Data) {
 //        // TODO: Implement
 //        // dump json body to string
 //        // update Content-Length header
 //        self.files = nil
 //    }
 //
-//    @objc public func set(formDataBody data: Data) {
+//    public func set(formDataBody data: Data) {
 //        if let contentType = self.headers[HttpHeader.contentType]?.lowercased() {
 //            if contentType == "application/x-www-form-urlencoded" {
 //                // TODO: do something to data
@@ -106,7 +104,7 @@ import Foundation
 //        self.data = nil
 //    }
 //
-//    @objc public func set(bytesBody data: Data) {
+//    public func set(bytesBody data: Data) {
 //        self.headers[HttpHeader.contentLength] = data.count.description
 //        self.data = data
 //        self.files = nil

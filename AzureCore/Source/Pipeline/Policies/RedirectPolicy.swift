@@ -8,8 +8,7 @@
 
 import Foundation
 
-@objc(AZCoreRedirectPolicy)
-public class RedirectPolicy: NSObject, HttpPolicy {
+public class RedirectPolicy: HttpPolicy {
 
     internal class RedirectSettings {
         var allowRedirects: Bool
@@ -23,7 +22,7 @@ public class RedirectPolicy: NSObject, HttpPolicy {
         }
     }
 
-    @objc public var next: PipelineSendable?
+    public var next: PipelineSendable?
 
     private var allowRedirects: Bool
     private var maxRedirects: Int
@@ -34,7 +33,7 @@ public class RedirectPolicy: NSObject, HttpPolicy {
     private var removeHeadersOnRedirect: [HttpHeader]
     private var redirectOnStatusCodes: [Int]
 
-    @objc public init(allowRedirects: Bool = true, maxRedirects: Int = 30, redirectOnStatusCodes: [Int]? = nil) {
+    public init(allowRedirects: Bool = true, maxRedirects: Int = 30, redirectOnStatusCodes: [Int]? = nil) {
         self.allowRedirects = allowRedirects
         self.maxRedirects = maxRedirects
 
@@ -49,7 +48,7 @@ public class RedirectPolicy: NSObject, HttpPolicy {
         }
     }
 
-    @objc public static func noRedirect() -> RedirectPolicy {
+    public static func noRedirect() -> RedirectPolicy {
         return RedirectPolicy(allowRedirects: false)
     }
 
@@ -62,7 +61,7 @@ public class RedirectPolicy: NSObject, HttpPolicy {
             }
             return nil
         }
-        if self.redirectOnStatusCodes.contains(statusCode!.intValue) {
+        if self.redirectOnStatusCodes.contains(statusCode!) {
             return response.httpResponse.headers?[HttpHeader.retryAfter] as String?
         }
         return nil
@@ -83,7 +82,7 @@ public class RedirectPolicy: NSObject, HttpPolicy {
         return settings.maxRedirects >= 0
     }
 
-    @objc public func send(request: PipelineRequest) throws -> PipelineResponse {
+    public func send(request: PipelineRequest) throws -> PipelineResponse {
         var retryable = true
         let settings = RedirectSettings(context: request.context, policy: self)
         var response: PipelineResponse
@@ -96,6 +95,6 @@ public class RedirectPolicy: NSObject, HttpPolicy {
             }
             return response
         }
-        throw ErrorUtil.makeNSError(.tooManyRedirects, withMessage: settings.history.description, response: nil)
+        throw HttpResponseError.tooManyRedirects
     }
 }

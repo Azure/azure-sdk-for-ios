@@ -14,12 +14,12 @@ struct Contants {
 }
 
 public class AppConfigurationClient: PipelineClient {
-    
+
     private static let apiVersion = Contants.apiVersion
-    
+
     public init(connectionString: String) throws {
         guard let credential = try? AppConfigurationCredential(connectionString: connectionString) else {
-            throw ErrorUtil.makeNSError(.general, withMessage: "Invalid connection string.")
+            throw AzureError.general
         }
         let config = PipelineConfiguration(
             headersPolicy: HeadersPolicy(),
@@ -32,10 +32,10 @@ public class AppConfigurationClient: PipelineClient {
             authenticationPolicy: AppConfigurationAuthenticationPolicy(credential: credential, scopes: [credential.endpoint]),
             distributedTracingPolicy: DistributedTracingPolicy()
         )
-        let policies: [NSObject] = [
+        let policies: [AnyObject] = [
             config.userAgentPolicy,
             config.headersPolicy,
-            config.authenticationPolicy as! NSObject,
+            config.authenticationPolicy as AnyObject,
             config.contentDecodePolicy,
             config.redirectPolicy,
             config.retryPolicy,
@@ -44,7 +44,7 @@ public class AppConfigurationClient: PipelineClient {
         let pipeline = Pipeline(transport: UrlSessionTransport(), policies: policies)
         super.init(baseUrl: credential.endpoint, config: config, pipeline: pipeline)
     }
-    
+
     public func getConfigurationSettings(forKey key: String?, forLabel label: String?, withResponse response: HttpResponse? = nil) throws -> Collection<ConfigurationSetting>? {
         // TODO: Additional supported functionality
         // $select query param
@@ -70,10 +70,10 @@ public class AppConfigurationClient: PipelineClient {
                 let deserialized = try? decoder.decode(Collection<ConfigurationSetting>.self, from: data)
                 return deserialized
             } else {
-                throw ErrorUtil.makeNSError(.general, withMessage: "Expected response body but didn't find one.", response: pipelineResponse.httpResponse)
+                throw HttpResponseError.general
             }
         } else {
-            throw ErrorUtil.makeNSError(.general, withMessage: "Failure obtaining HTTP response.", response: nil)
+            throw HttpResponseError.general
         }
     }
 

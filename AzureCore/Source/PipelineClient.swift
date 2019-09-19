@@ -8,22 +8,21 @@
 
 import Foundation
 
-@objc(AZCorePipelineClient)
-open class PipelineClient: NSObject {
+open class PipelineClient {
 
-    @objc public var baseUrl: String
-    @objc public var config: PipelineConfiguration
-    @objc public var pipeline: Pipeline
+    public var baseUrl: String
+    public var config: PipelineConfiguration
+    public var pipeline: Pipeline
 
-    @objc public init(baseUrl: String, config: PipelineConfiguration, pipeline: Pipeline) {
+    public init(baseUrl: String, config: PipelineConfiguration, pipeline: Pipeline) {
         self.baseUrl = baseUrl
         self.config = config
         self.pipeline = pipeline
     }
 
-    @objc public func request(method: HttpMethod, urlTemplate: String?, queryParams: [String: String]? = nil,
-                              content: Data? = nil, formContent: [String: AnyObject]? = nil,
-                              streamContent: AnyObject? = nil) -> HttpRequest {
+    public func request(method: HttpMethod, urlTemplate: String?, queryParams: [String: String]? = nil,
+                        content: Data? = nil, formContent: [String: AnyObject]? = nil,
+                        streamContent: AnyObject? = nil) -> HttpRequest {
         let request = HttpRequest(httpMethod: method, url: format(urlTemplate: urlTemplate))
         if let queryParams = queryParams {
             request.format(queryParams: queryParams)

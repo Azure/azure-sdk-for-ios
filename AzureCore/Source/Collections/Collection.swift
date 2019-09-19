@@ -21,7 +21,7 @@ public struct Collection<T> {
 
 extension Collection {
     public func map<U>(_ transform: @escaping ([T]) throws -> [U]) -> Collection<U> {
-        // swiftlint:disable force_try
+        // swiftlint:disable:next force_try
         let transformed = try! transform(items)
         return Collection<U>(items: transformed)
     }
@@ -39,6 +39,10 @@ extension Collection: ObjectiveCBridgeable where T: ObjectiveCBridgeable {
 
     public func bridgeToObjectiveC() -> AZCCollection {
         return AZCCollection(items: items as [AnyObject])
+    }
+
+    public init(bridgedFromObjectiveC: ObjectiveCType) {
+        self.items = bridgedFromObjectiveC.items.compactMap { $0 as? T }
     }
 }
 

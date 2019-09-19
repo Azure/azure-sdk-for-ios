@@ -8,8 +8,8 @@
 
 import Foundation
 
-@objc public protocol HttpTransport: PipelineSendable {
-    @objc func open()
-    @objc func close()
-    @objc func sleep(duration: Int)
+public protocol HttpTransport: PipelineSendable {
+    func open()
+    func close()
+    func sleep(duration: Int)
 }

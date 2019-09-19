@@ -9,9 +9,11 @@
 import os
 import Foundation
 
-@objc public class ContentDecodePolicy: NSObject, SansIOHttpPolicy {
+public class ContentDecodePolicy: SansIOHttpPolicy {
 
-    @objc public func onResponse(_ response: PipelineResponse, request: PipelineRequest) {
+    public init() {}
+    
+    public func onResponse(_ response: PipelineResponse, request: PipelineRequest) {
         // TODO: For now, no-op
         let deserializedType = response.getValue(forKey: "deserializedType")
 //        if let streamValue = response.getValue(forKey: "stream") as? Bool {
@@ -23,11 +25,11 @@ import Foundation
 //        }
     }
 
-//    @objc static func object(type: NSCoding, fromResponse: HttpResponse, contentType: String = "application/json") throws -> NSCoding {
+//    static func object(type: NSCoding, fromResponse: HttpResponse, contentType: String = "application/json") throws -> NSCoding {
 //        
 //    }
 
-    @objc static func deserializeFromData(response: HttpResponse, contentType: String) -> AnyObject? {
+    static func deserializeFromData(response: HttpResponse, contentType: String) -> AnyObject? {
         guard let data = response.body else { return nil }
         do {
             let jsonObject = try JSONSerialization.jsonObject(

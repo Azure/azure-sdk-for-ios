@@ -22,5 +22,5 @@ public protocol ObjectiveCBridgeable {
     /// Reconstructs a Swift value of type `Self`
     /// from its corresponding value of type
     /// `ObjectiveCType`.
-    // init(bridgedFromObjectiveC: ObjectiveCType)
+    init(bridgedFromObjectiveC: ObjectiveCType)
 }

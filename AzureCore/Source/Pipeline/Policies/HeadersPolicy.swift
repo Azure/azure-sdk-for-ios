@@ -8,22 +8,22 @@
 
 import Foundation
 
-@objc public class HeadersPolicy: NSObject, SansIOHttpPolicy {
+public class HeadersPolicy: SansIOHttpPolicy {
 
     private var _headers: HttpHeaders
     public var headers: HttpHeaders {
         return self._headers
     }
 
-    @objc public init(baseHeaders: HttpHeaders? = nil) {
+    public init(baseHeaders: HttpHeaders? = nil) {
         self._headers = baseHeaders ?? HttpHeaders()
     }
 
-    @objc public func add(header: HttpHeader, value: String) {
+    public func add(header: HttpHeader, value: String) {
         self._headers[header.rawValue] = value
     }
 
-    @objc public func onRequest(_ request: PipelineRequest) {
+    public func onRequest(_ request: PipelineRequest) {
         for (key, value) in self.headers {
             request.httpRequest.headers[key] = value
         }

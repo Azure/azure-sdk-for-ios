@@ -8,16 +8,16 @@
 
 import Foundation
 
-@objc(AZCoreUserAgentPolicy)
-public class UserAgentPolicy: NSObject, SansIOHttpPolicy {
+public class UserAgentPolicy: SansIOHttpPolicy {
 
     private var _userAgent: String
-    @objc public let userAgentOverwrite: Bool
-    @objc public var userAgent: String {
+    
+    public let userAgentOverwrite: Bool
+    public var userAgent: String {
         return self._userAgent
     }
 
-    @objc public init(baseUserAgent: String? = nil, userAgentOverwrite: Bool = false) {
+    public init(baseUserAgent: String? = nil, userAgentOverwrite: Bool = false) {
         // TODO: User-Agent format accoring to SDK guidelines
         // [<application_id> ]azsdk-<sdk_language>-<package_name>/<package_version> <platform_info>
         // [Application/Version] azsdk-ios-AppConfiguration/0.1.0
@@ -34,11 +34,11 @@ public class UserAgentPolicy: NSObject, SansIOHttpPolicy {
         }
     }
 
-    @objc public func appendUserAgent(value: String) {
+    public func appendUserAgent(value: String) {
         self._userAgent = "\(self._userAgent) \(value)"
     }
 
-    @objc public func onRequest(_ request: PipelineRequest) {
+    public func onRequest(_ request: PipelineRequest) {
         let userAgentHeader = HttpHeader.userAgent.rawValue
         if let contextUserAgent = request.context?.getValue(forKey: "userAgent") as? String {
             if request.context?.getValue(forKey: "userAgentOverwrite") != nil {

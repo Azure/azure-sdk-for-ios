@@ -8,8 +8,7 @@
 
 import Foundation
 
-@objc(AZCoreRetryPolicy)
-public class RetryPolicy: NSObject, HttpPolicy {
+public class RetryPolicy: HttpPolicy {
 
     internal class RetrySettings {
         var totalRetries: Int
@@ -33,20 +32,20 @@ public class RetryPolicy: NSObject, HttpPolicy {
         }
     }
 
-    @objc public var next: PipelineSendable?
+    public var next: PipelineSendable?
 
-    @objc public let totalRetries: Int
-    @objc public let connectRetries: Int
-    @objc public let readRetries: Int
-    @objc public let statusRetries: Int
-    @objc public let backoffFactor: Double
-    @objc public var backoffMax: Int
+    public let totalRetries: Int
+    public let connectRetries: Int
+    public let readRetries: Int
+    public let statusRetries: Int
+    public let backoffFactor: Double
+    public var backoffMax: Int
 
     private let retryOnStatusCodes: Set<Int>
     private let methodWhitelist: [HttpMethod] = [.GET, .HEAD, .PUT, .DELETE, .OPTIONS, .TRACE]
     private let respectRetryAfterHeader: Bool = true
 
-    @objc public init(totalRetries: Int = 10, connectRetries: Int = 3, readRetries: Int = 3, statusRetries: Int = 3,
+    public init(totalRetries: Int = 10, connectRetries: Int = 3, readRetries: Int = 3, statusRetries: Int = 3,
                       backoffFactor: Double = 0.8, backoffMax: Int = 120, retryOnStatusCodes: [Int] = [Int]()) {
         self.totalRetries = totalRetries
         self.connectRetries = connectRetries
@@ -65,7 +64,7 @@ public class RetryPolicy: NSObject, HttpPolicy {
         self.retryOnStatusCodes = Set<Int>(retryOnStatusCodes + retryCodes)
     }
 
-    @objc static public func noRetries() -> RetryPolicy {
+    static public func noRetries() -> RetryPolicy {
         return RetryPolicy(totalRetries: 0)
     }
 
@@ -131,7 +130,7 @@ public class RetryPolicy: NSObject, HttpPolicy {
             let statusCode = response.statusCode
             let allowMethods = [HttpMethod.POST, HttpMethod.PATCH]
             let allowCodes = [500, 503, 504]
-            if allowMethods.contains(method) && allowCodes.contains(statusCode!.intValue) { return true }
+            if allowMethods.contains(method) && allowCodes.contains(statusCode!) { return true }
         }
         if !settings.retryOnMethods.contains(method) { return false }
         return true
@@ -142,7 +141,7 @@ public class RetryPolicy: NSObject, HttpPolicy {
         if hasRetryAfter && self.respectRetryAfterHeader { return true }
         if !self.isMethodRetryable(settings: settings, request: response.httpRequest, response: response.httpResponse) {
             return false }
-        return settings.totalRetries > 0 && self.retryOnStatusCodes.contains(response.httpResponse.statusCode!.intValue)
+        return settings.totalRetries > 0 && self.retryOnStatusCodes.contains(response.httpResponse.statusCode!)
     }
 
     private func isExhausted(settings: RetrySettings) -> Bool {
@@ -180,7 +179,7 @@ public class RetryPolicy: NSObject, HttpPolicy {
         }
     }
 
-    @objc public func send(request: PipelineRequest) throws -> PipelineResponse {
+    public func send(request: PipelineRequest) throws -> PipelineResponse {
         var retryActive = true
         var response: PipelineResponse
         let settings = RetrySettings(context: request.context, policy: self)
@@ -211,6 +210,6 @@ public class RetryPolicy: NSObject, HttpPolicy {
                 throw error
             }
         }
-        throw ErrorUtil.makeNSError(AzureError.serviceRequest, withMessage: "Too many retries.")
+        throw AzureError.serviceRequest
     }
 }

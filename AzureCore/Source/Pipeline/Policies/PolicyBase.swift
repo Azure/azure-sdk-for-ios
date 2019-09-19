@@ -8,23 +8,29 @@
 
 import Foundation
 
-@objc public protocol SansIOHttpPolicy {
-    @objc optional func onRequest(_ request: PipelineRequest)
-    @objc optional func onResponse(_ response: PipelineResponse, request: PipelineRequest)
-    @objc optional func onError(request: PipelineRequest) -> Bool
+public protocol SansIOHttpPolicy {
+    func onRequest(_ request: PipelineRequest)
+    func onResponse(_ response: PipelineResponse, request: PipelineRequest)
+    func onError(request: PipelineRequest) -> Bool
 }
 
-@objc public protocol HttpPolicy: PipelineSendable {
-    @objc var next: PipelineSendable? { get set }
+extension SansIOHttpPolicy {
+    public func onRequest(_ request: PipelineRequest) {}
+    public func onResponse(_ response: PipelineResponse, request: PipelineRequest) {}
+    public func onError(request: PipelineRequest) -> Bool { return false }
 }
 
-@objc public class RequestHistory: NSObject {
-    @objc let httpRequest: HttpRequest
-    @objc let httpResponse: HttpResponse
-    @objc let error: Error?
-    @objc let context: PipelineContext?
+public protocol HttpPolicy: PipelineSendable {
+    var next: PipelineSendable? { get set }
+}
 
-    @objc public init(request: HttpRequest, response: HttpResponse, context: PipelineContext?, error: Error?) {
+public class RequestHistory {
+    let httpRequest: HttpRequest
+    let httpResponse: HttpResponse
+    let error: Error?
+    let context: PipelineContext?
+
+    public init(request: HttpRequest, response: HttpResponse, context: PipelineContext?, error: Error?) {
         // TODO: request should be a deep copy
         self.httpRequest = request
         self.httpResponse = response

@@ -19,13 +19,13 @@ internal class SansIOHttpPolicyRunner: HttpPolicy {
 
     func send(request: PipelineRequest) throws -> PipelineResponse {
         var response: PipelineResponse
-        self.policy.onRequest?(request)
+        self.policy.onRequest(request)
         do {
             response = try self.next!.send(request: request)
-            self.policy.onResponse?(response, request: request)
+            self.policy.onResponse(response, request: request)
             return response
         } catch {
-            if !(self.policy.onError?(request: request) ?? false) {
+            if !(self.policy.onError(request: request)) {
                 throw error
             }
         }
@@ -34,7 +34,7 @@ internal class SansIOHttpPolicyRunner: HttpPolicy {
     }
 }
 
-internal class TransportRunner {
+internal class TransportRunner: PipelineSendable {
 
     var next: PipelineSendable?
     let sender: HttpTransport
@@ -52,13 +52,12 @@ internal class TransportRunner {
     }
 }
 
-@objc(AZCorePipeline)
-public class Pipeline: NSObject {
+public class Pipeline {
 
-    private var implPolicies: [AnyObject]
+    private var implPolicies: [PipelineSendable]
     private let transport: HttpTransport
 
-    @objc public init(transport: HttpTransport, policies: [AnyObject] = [AnyObject]()) {
+    public init(transport: HttpTransport, policies: [AnyObject] = [AnyObject]()) {
         self.transport = transport
         self.implPolicies = [PipelineSendable]()
         var prevPolicy: PipelineSendable?
@@ -77,12 +76,12 @@ public class Pipeline: NSObject {
             self.implPolicies.append(newPolicy)
             prevPolicy = newPolicy
         }
-        if let lastPolicy = self.implPolicies.last as? PipelineSendable {
-            lastPolicy.next = transport
-        }
+        var lastPolicy = self.implPolicies.removeLast()
+        lastPolicy.next = transport
+        self.implPolicies.append(lastPolicy)
     }
 
-    @objc public func run(request: PipelineRequest) throws -> PipelineResponse {
+    public func run(request: PipelineRequest) throws -> PipelineResponse {
         let firstNode = self.implPolicies.first ?? TransportRunner(sender: self.transport)
         return try firstNode.send(request: request)
     }

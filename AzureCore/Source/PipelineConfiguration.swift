@@ -8,32 +8,31 @@
 
 import Foundation
 
-@objc(AZCorePipelineConfiguration)
-public class PipelineConfiguration: NSObject {
+public class PipelineConfiguration {
 
-    @objc public let headersPolicy: HeadersPolicy
-    @objc public let redirectPolicy: RedirectPolicy
-    @objc public let retryPolicy: RetryPolicy
-    @objc public let customHookPolicy: CustomHookPolicy
-    @objc public let contentDecodePolicy: ContentDecodePolicy
-    @objc public let loggingPolicy: NetworkTraceLoggingPolicy
-    @objc public let userAgentPolicy: UserAgentPolicy
-    @objc public let authenticationPolicy: AuthenticationPolicy
-    @objc public let distributedTracingPolicy: DistributedTracingPolicy
-    @objc public let pollingInterval: Int
+    public let headersPolicy: HeadersPolicy
+    public let redirectPolicy: RedirectPolicy
+    public let retryPolicy: RetryPolicy
+    public let customHookPolicy: CustomHookPolicy
+    public let contentDecodePolicy: ContentDecodePolicy
+    public let loggingPolicy: NetworkTraceLoggingPolicy
+    public let userAgentPolicy: UserAgentPolicy
+    public let authenticationPolicy: AuthenticationPolicy
+    public let distributedTracingPolicy: DistributedTracingPolicy
+    public let pollingInterval: Int
 
     private let defaultPollingInterval = 30
 
-    @objc public init(headersPolicy: HeadersPolicy,
-                      redirectPolicy: RedirectPolicy,
-                      retryPolicy: RetryPolicy,
-                      customHookPolicy: CustomHookPolicy,
-                      contentDecodePolicy: ContentDecodePolicy,
-                      loggingPolicy: NetworkTraceLoggingPolicy,
-                      userAgentPolicy: UserAgentPolicy,
-                      authenticationPolicy: AuthenticationPolicy,
-                      distributedTracingPolicy: DistributedTracingPolicy,
-                      pollingInterval: Int = -1) {
+    public init(headersPolicy: HeadersPolicy,
+                redirectPolicy: RedirectPolicy,
+                retryPolicy: RetryPolicy,
+                customHookPolicy: CustomHookPolicy,
+                contentDecodePolicy: ContentDecodePolicy,
+                loggingPolicy: NetworkTraceLoggingPolicy,
+                userAgentPolicy: UserAgentPolicy,
+                authenticationPolicy: AuthenticationPolicy,
+                distributedTracingPolicy: DistributedTracingPolicy,
+                pollingInterval: Int = -1) {
         self.headersPolicy = headersPolicy
         self.redirectPolicy = redirectPolicy
         self.retryPolicy = retryPolicy

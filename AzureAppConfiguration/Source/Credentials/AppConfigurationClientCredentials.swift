@@ -9,16 +9,16 @@
 import AzureCore
 import Foundation
 
-@objc public class AppConfigurationCredential: NSObject {
+public class AppConfigurationCredential {
 
     internal let endpoint: String    // endpoint
     internal let id: String          // access key id
     internal let secret: String      // access key value
 
-    @objc public init(connectionString: String) throws {
+    public init(connectionString: String) throws {
         let cs_comps = connectionString.components(separatedBy: ";")
         guard cs_comps.count == 3 else {
-            throw ErrorUtil.makeNSError(.clientAuthentication, withMessage: "Invalid connection string format", response: nil)
+            throw HttpResponseError.clientAuthentication
         }
         var endpoint: String?
         var id: String?
@@ -36,31 +36,30 @@ import Foundation
             case "secret":
                 secret = value
             default:
-                throw ErrorUtil.makeNSError(.clientAuthentication, withMessage: "Unrecognized key '\(key)' in connection string", response: nil)
+                throw HttpResponseError.clientAuthentication
             }
         }
         guard endpoint != nil && id != nil && secret != nil else {
-            throw ErrorUtil.makeNSError(.clientAuthentication, withMessage: "Bad connection string.", response: nil)
+            throw HttpResponseError.clientAuthentication
         }
         self.endpoint = endpoint!
         self.id = id!
         self.secret = secret!
-        super.init()
     }
 }
 
-@objc public class AppConfigurationAuthenticationPolicy: NSObject, AuthenticationPolicy {
+public class AppConfigurationAuthenticationPolicy: AuthenticationPolicy {
 
-    @objc public var next: PipelineSendable?
-    @objc public let scopes: [String]
-    @objc public let credential: AppConfigurationCredential
+    public var next: PipelineSendable?
+    public let scopes: [String]
+    public let credential: AppConfigurationCredential
 
-    @objc public init(credential: AppConfigurationCredential, scopes: [String]) {
+    public init(credential: AppConfigurationCredential, scopes: [String]) {
         self.scopes = scopes
         self.credential = credential
     }
 
-    @objc public func authenticate(request: PipelineRequest) {
+    public func authenticate(request: PipelineRequest) {
         let httpRequest = request.httpRequest
         let contentHash = [UInt8](httpRequest.body ?? Data()).sha256.base64String
         if let url = URL(string: httpRequest.url) {
@@ -94,7 +93,7 @@ import Foundation
         }
     }
 
-    @objc public func send(request: PipelineRequest) throws -> PipelineResponse {
+    public func send(request: PipelineRequest) throws -> PipelineResponse {
         self.authenticate(request: request)
         return try self.next!.send(request: request)
     }

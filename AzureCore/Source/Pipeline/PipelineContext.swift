@@ -8,14 +8,12 @@
 
 import Foundation
 
-@objc(AZCorePipelineContextSupportable)
 public protocol PipelineContextSupportable {
-    @objc func add(value: AnyObject, forKey key: AnyHashable)
-    @objc func getValue(forKey key: AnyHashable) -> AnyObject?
+    func add(value: AnyObject, forKey key: AnyHashable)
+    func getValue(forKey key: AnyHashable) -> AnyObject?
 }
 
-@objc(AZCorePipelineContext)
-public class PipelineContext: NSObject {
+public class PipelineContext {
     // TODO: Compare to Python's context implementation...
     // private let logger = ClientLogger(Context.class)
 
@@ -33,11 +31,11 @@ public class PipelineContext: NSObject {
         self.value = value
     }
 
-    @objc public func add(value: AnyObject, forKey key: AnyHashable) -> PipelineContext {
+    public func add(value: AnyObject, forKey key: AnyHashable) -> PipelineContext {
         return PipelineContext(parent: self, key: key, value: value)
     }
 
-    @objc public static func of(keyValues: [AnyHashable: AnyObject]) -> PipelineContext {
+    public static func of(keyValues: [AnyHashable: AnyObject]) -> PipelineContext {
         var context: PipelineContext?
         for (key, value) in keyValues {
             context = context?.add(value: value, forKey: key)
@@ -48,7 +46,7 @@ public class PipelineContext: NSObject {
         return context!
     }
 
-    @objc public func getValue(forKey key: AnyHashable) -> AnyObject? {
+    public func getValue(forKey key: AnyHashable) -> AnyObject? {
         var current: PipelineContext? = self
         repeat {
             if key == current?.key {

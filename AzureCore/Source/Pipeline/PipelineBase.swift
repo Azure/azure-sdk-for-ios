@@ -8,8 +8,7 @@
 
 import Foundation
 
-@objc(AZCorePipelineSendable)
 public protocol PipelineSendable {
-    @objc var next: PipelineSendable? { get set }
-    @objc func send(request: PipelineRequest) throws -> PipelineResponse
+    var next: PipelineSendable? { get set }
+    func send(request: PipelineRequest) throws -> PipelineResponse
 }

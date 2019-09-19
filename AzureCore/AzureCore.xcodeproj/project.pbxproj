@@ -37,6 +37,7 @@
 		0A3A5F402318975900473FDA /* PipelineClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F3F2318975900473FDA /* PipelineClient.swift */; };
 		0A3A5F422319834500473FDA /* PipelineBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F412319834500473FDA /* PipelineBase.swift */; };
 		0A3A5F442319D49700473FDA /* UrlSessionTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F432319D49700473FDA /* UrlSessionTransport.swift */; };
+		0A4081B62333EB380071EAEE /* ObjectiveCHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4081B52333EB380071EAEE /* ObjectiveCHelpers.swift */; };
 		0A7F563A2321732B00E9765A /* UrlHttpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F56392321732B00E9765A /* UrlHttpResponse.swift */; };
 		0AD2142923314416003A2E3E /* ObjectiveCBridgeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD2142823314416003A2E3E /* ObjectiveCBridgeable.swift */; };
 		0AE5C3A6231F150A0013CA85 /* KeychainUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE5C3A5231F150A0013CA85 /* KeychainUtil.swift */; };
@@ -87,6 +88,7 @@
 		0A3A5F3F2318975900473FDA /* PipelineClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineClient.swift; sourceTree = "<group>"; };
 		0A3A5F412319834500473FDA /* PipelineBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineBase.swift; sourceTree = "<group>"; };
 		0A3A5F432319D49700473FDA /* UrlSessionTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlSessionTransport.swift; sourceTree = "<group>"; };
+		0A4081B52333EB380071EAEE /* ObjectiveCHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectiveCHelpers.swift; sourceTree = "<group>"; };
 		0A7F56392321732B00E9765A /* UrlHttpResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlHttpResponse.swift; sourceTree = "<group>"; };
 		0AD2142823314416003A2E3E /* ObjectiveCBridgeable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectiveCBridgeable.swift; sourceTree = "<group>"; };
 		0AE5C3A5231F150A0013CA85 /* KeychainUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainUtil.swift; sourceTree = "<group>"; };
@@ -238,6 +240,7 @@
 			isa = PBXGroup;
 			children = (
 				0AD2142823314416003A2E3E /* ObjectiveCBridgeable.swift */,
+				0A4081B52333EB380071EAEE /* ObjectiveCHelpers.swift */,
 			);
 			path = ObjectiveCCompatibility;
 			sourceTree = "<group>";
@@ -394,6 +397,7 @@
 				0A3A5D9D2315CEB600473FDA /* HttpMethod.swift in Sources */,
 				0A3A5D9B2315CEB600473FDA /* HttpRequest.swift in Sources */,
 				0A3A5F1E2316EC4C00473FDA /* PolicyBase.swift in Sources */,
+				0A4081B62333EB380071EAEE /* ObjectiveCHelpers.swift in Sources */,
 				0A3A5F3C2318904F00473FDA /* PipelineResponse.swift in Sources */,
 				0AD2142923314416003A2E3E /* ObjectiveCBridgeable.swift in Sources */,
 				0A2C6A672329B2F700F51027 /* DistributedTracingPolicy.swift in Sources */,

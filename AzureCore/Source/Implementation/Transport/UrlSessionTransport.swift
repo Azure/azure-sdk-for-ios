@@ -9,35 +9,35 @@
 import os
 import Foundation
 
-@objc public enum UrlSessionTransportError: Int, Error {
+public enum UrlSessionTransportError: Error {
     case invalidSession
 }
 
-@objc public class UrlSessionTransport: NSObject, HttpTransport {
+public class UrlSessionTransport: HttpTransport {
 
     public var next: PipelineSendable?
 
     private var session: URLSession?
     private var config: URLSessionConfiguration
 
-    @objc override public init() {
+    public init() {
         self.config = URLSessionConfiguration.default
     }
 
-    @objc public func open() {
+    public func open() {
         guard self.session == nil else { return }
         self.session = URLSession(configuration: self.config, delegate: nil, delegateQueue: nil)
     }
 
-    @objc public func close() {
+    public func close() {
         self.session = nil
     }
 
-    @objc public func sleep(duration: Int) {
+    public func sleep(duration: Int) {
         Foundation.sleep(UInt32(duration))
     }
 
-    @objc public func send(request: PipelineRequest) throws -> PipelineResponse {
+    public func send(request: PipelineRequest) throws -> PipelineResponse {
         self.open()
         guard let session = self.session else {
             throw UrlSessionTransportError.invalidSession

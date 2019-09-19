@@ -9,14 +9,12 @@
 import Foundation
 import Security
 
-@objc(AZCoreKeychainUtilError)
-public enum KeychainUtilError: Int, Error {
+public enum KeychainUtilError: Error {
     case invalidContent
     case failure
 }
 
-@objc(AZCoreKeychainUtil)
-public class KeychainUtil: NSObject {
+public class KeychainUtil {
 
     let keychainErrorDomain = "com.azure.core"
     let keychainSecurityService = "com.azure.core"
@@ -27,14 +25,14 @@ public class KeychainUtil: NSObject {
         return queryDictionary
     }
 
-    @objc public func store(string: String, forKey key: String) throws {
+    public func store(string: String, forKey key: String) throws {
         guard !string.isEmpty else {
             throw KeychainUtilError.invalidContent
         }
         try self.store(secret: string.data(using: .utf8)!, forKey: key)
     }
 
-    @objc public func store(secret: Data, forKey key: String) throws {
+    public func store(secret: Data, forKey key: String) throws {
         guard !key.isEmpty else {
             throw KeychainUtilError.invalidContent
         }
@@ -51,7 +49,7 @@ public class KeychainUtil: NSObject {
         }
     }
 
-    @objc public func secret(forKey key: String) throws -> Data {
+    public func secret(forKey key: String) throws -> Data {
         guard !key.isEmpty else {
             throw KeychainUtilError.invalidContent
         }
@@ -70,7 +68,7 @@ public class KeychainUtil: NSObject {
         }
     }
 
-    @objc public func string(forKey key: String) throws -> String {
+    public func string(forKey key: String) throws -> String {
         do {
             let data = try secret(forKey: key)
             if let result = String(data: data, encoding: .utf8) {
@@ -83,7 +81,7 @@ public class KeychainUtil: NSObject {
         }
     }
 
-    @objc public func deleteSecret(forKey key: String) throws {
+    public func deleteSecret(forKey key: String) throws {
         guard !key.isEmpty else {
             throw KeychainUtilError.invalidContent
         }
