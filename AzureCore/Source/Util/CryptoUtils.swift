@@ -77,8 +77,10 @@ public enum HmacAlgorithm {
 extension String {
     public func hmac(algorithm: HmacAlgorithm, key: Data) -> [UInt8] {
         var digest = [UInt8](repeating: 0, count: algorithm.digestLength)
+
         key.withUnsafeBytes { keyBytes in
-            CCHmac(algorithm.algorithm, keyBytes, key.count, String(self.utf8), self.count, &digest)
+            CCHmac(algorithm.algorithm, keyBytes.baseAddress?.assumingMemoryBound(to: UInt8.self),
+                   key.count, String(self.utf8), self.count, &digest)
         }
         return digest
     }

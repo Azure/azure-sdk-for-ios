@@ -8,16 +8,19 @@
 
 import Foundation
 
-@objc public class AccessToken: NSObject {
+@objc(AZCoreAccessToken)
+public class AccessToken: NSObject {
     @objc public let token: String
     @objc public let expiresOn: Int
+
     @objc public init(token: String, expiresOn: Int) {
         self.token = token
         self.expiresOn = expiresOn
     }
 }
 
-@objc public protocol TokenCredential {
+@objc(AZCoreTokenCredential)
+public protocol TokenCredential {
     @objc var scopes: [String] { get }
     @objc func getToken(scopes: [String]) -> AccessToken
 }

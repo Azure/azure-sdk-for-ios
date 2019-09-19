@@ -14,8 +14,6 @@ import Foundation
     @objc public func onResponse(_ response: PipelineResponse, request: PipelineRequest) {
         // TODO: For now, no-op
         let deserializedType = response.getValue(forKey: "deserializedType")
-        let actualType = Mirror(reflecting: deserializedType).description
-        let test = "bet"
 //        if let streamValue = response.getValue(forKey: "stream") as? Bool {
 //            if streamValue == true { return }
 //        }

@@ -8,7 +8,8 @@
 
 import Foundation
 
-@objc open class PipelineClient: NSObject {
+@objc(AZCorePipelineClient)
+open class PipelineClient: NSObject {
 
     @objc public var baseUrl: String
     @objc public var config: PipelineConfiguration
@@ -21,14 +22,12 @@ import Foundation
     }
 
     @objc public func request(method: HttpMethod, urlTemplate: String?, queryParams: [String: String]? = nil,
-                              headers: [String: String]? = nil, content: Data? = nil,
-                              formContent: [String: AnyObject]? = nil, streamContent: AnyObject? = nil) -> HttpRequest {
-        let request = HttpRequest(httpMethod: method, url: self.format(urlTemplate: urlTemplate))
-
+                              content: Data? = nil, formContent: [String: AnyObject]? = nil,
+                              streamContent: AnyObject? = nil) -> HttpRequest {
+        let request = HttpRequest(httpMethod: method, url: format(urlTemplate: urlTemplate))
         if let queryParams = queryParams {
             request.format(queryParams: queryParams)
         }
-        // TODO: apply custom headers
         return request
     }
 
@@ -38,18 +37,13 @@ import Foundation
         return template
     }
 
-    private func join(base: String, stub: String) -> String {
-        // TODO: Implement
-        return "\(base)\(stub)"
-    }
-
     private func format(urlTemplate: String?) -> String {
         var url: String
         if let urlTemplate = urlTemplate {
-            url = self.formatUrlSection(template: join(base: self.baseUrl, stub: urlTemplate))
+            url = formatUrlSection(template: "\(baseUrl)\(urlTemplate)")
             // TODO: Some more URL parsing here...
         } else {
-            url = self.baseUrl
+            url = baseUrl
         }
         return url
     }

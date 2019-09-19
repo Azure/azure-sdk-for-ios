@@ -52,7 +52,8 @@ internal class TransportRunner {
     }
 }
 
-@objc public class Pipeline: NSObject {
+@objc(AZCorePipeline)
+public class Pipeline: NSObject {
 
     private var implPolicies: [AnyObject]
     private let transport: HttpTransport

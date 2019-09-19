@@ -8,10 +8,10 @@
 
 import Foundation
 
-@objc public class PipelineConfiguration: NSObject {
+@objc(AZCorePipelineConfiguration)
+public class PipelineConfiguration: NSObject {
 
     @objc public let headersPolicy: HeadersPolicy
-    @objc public let proxyPolicy: ProxyPolicy
     @objc public let redirectPolicy: RedirectPolicy
     @objc public let retryPolicy: RetryPolicy
     @objc public let customHookPolicy: CustomHookPolicy
@@ -25,7 +25,6 @@ import Foundation
     private let defaultPollingInterval = 30
 
     @objc public init(headersPolicy: HeadersPolicy,
-                      proxyPolicy: ProxyPolicy,
                       redirectPolicy: RedirectPolicy,
                       retryPolicy: RetryPolicy,
                       customHookPolicy: CustomHookPolicy,
@@ -36,7 +35,6 @@ import Foundation
                       distributedTracingPolicy: DistributedTracingPolicy,
                       pollingInterval: Int = -1) {
         self.headersPolicy = headersPolicy
-        self.proxyPolicy = proxyPolicy
         self.redirectPolicy = redirectPolicy
         self.retryPolicy = retryPolicy
         self.customHookPolicy = customHookPolicy

@@ -8,7 +8,8 @@
 
 import Foundation
 
-@objc public class RedirectPolicy: NSObject, HttpPolicy {
+@objc(AZCoreRedirectPolicy)
+public class RedirectPolicy: NSObject, HttpPolicy {
 
     internal class RedirectSettings {
         var allowRedirects: Bool

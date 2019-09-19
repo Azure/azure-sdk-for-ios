@@ -8,12 +8,14 @@
 
 import Foundation
 
-@objc public protocol PipelineContextSupportable {
+@objc(AZCorePipelineContextSupportable)
+public protocol PipelineContextSupportable {
     @objc func add(value: AnyObject, forKey key: AnyHashable)
     @objc func getValue(forKey key: AnyHashable) -> AnyObject?
 }
 
-@objc public class PipelineContext: NSObject {
+@objc(AZCorePipelineContext)
+public class PipelineContext: NSObject {
     // TODO: Compare to Python's context implementation...
     // private let logger = ClientLogger(Context.class)
 

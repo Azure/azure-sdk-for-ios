@@ -8,7 +8,8 @@
 
 import Foundation
 
-@objc public class ErrorUtil: NSObject {
+@objc(AZCoreErrorUtil)
+public class ErrorUtil: NSObject {
 
     internal static func createNSError<T: RawRepresentable>(_ errorType: T, withMessage message: String,
                                                             userInfo: [String: AnyObject]? = nil) -> NSError {
@@ -36,13 +37,15 @@ import Foundation
     }
 }
 
-@objc public enum AzureError: Int, Error {
+@objc(AZCoreAzureError)
+public enum AzureError: Int, Error {
     case general
     case serviceRequest
     case serviceResponse
 }
 
-@objc public enum HttpResponseError: Int, Error {
+@objc(AZCoreHttpResponseError)
+public enum HttpResponseError: Int, Error {
     case general
     case decode
     case resourceExists

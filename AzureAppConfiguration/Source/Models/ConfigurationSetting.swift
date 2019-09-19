@@ -8,20 +8,20 @@
 
 import Foundation
 
-@objc class ConfigurationSetting: NSObject, Codable {
+public class ConfigurationSetting: Codable {
 
-    @objc var key: String
-    @objc var value: String
-    @objc var label: String?
-    @objc var tags: [String: String]?
-    @objc var contentType: String?
-    @objc var etag: String?
-    @objc var locked: Bool = false
-    @objc var lastModified: Date?
+    public let key: String
+    public let value: String
+    public let label: String?
+    public let tags: [String: String]?
+    public let contentType: String?
+    public let etag: String?
+    public let locked: Bool
+    public let lastModified: Date?
 
-    @objc static let emptyLabel = "\0"
+    public static let emptyLabel = "\0"
 
-    @objc init(key: String, value: String, label: String?, tags: Dictionary<String, String>?, contentType: String?, locked: Bool = false) {
+    init(key: String, value: String, label: String?, tags: Dictionary<String, String>?, contentType: String?, locked: Bool = false) {
         self.key = key
         self.value = value
         self.label = label

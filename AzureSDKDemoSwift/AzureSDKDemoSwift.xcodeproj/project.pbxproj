@@ -15,6 +15,7 @@
 		0A3A5E8F2315E70600473FDA /* AzureSDKDemoSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5E8E2315E70600473FDA /* AzureSDKDemoSwiftTests.swift */; };
 		0A3A5E9E2315E8C800473FDA /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3A5E9D2315E8C800473FDA /* AzureCore.framework */; };
 		0A3A5E9F2315E8C800473FDA /* AzureCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3A5E9D2315E8C800473FDA /* AzureCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0A4081B42333DE170071EAEE /* AzureAppConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A4081B32333DE170071EAEE /* AzureAppConfiguration.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 		0A3A5E902315E70600473FDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A3A5E9B2315E8BE00473FDA /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A3A5E9D2315E8C800473FDA /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0A4081B32333DE170071EAEE /* AzureAppConfiguration.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureAppConfiguration.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A3A5E9E2315E8C800473FDA /* AzureCore.framework in Frameworks */,
+				0A4081B42333DE170071EAEE /* AzureAppConfiguration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,6 +132,7 @@
 			isa = PBXGroup;
 			children = (
 				0A3A5E9B2315E8BE00473FDA /* AzureCore.framework */,
+				0A4081B32333DE170071EAEE /* AzureAppConfiguration.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

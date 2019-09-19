@@ -8,7 +8,8 @@
 
 import Foundation
 
-@objc public class PipelineResponse: NSObject, PipelineContextSupportable {
+@objc(AZCorePipelineResponse)
+public class PipelineResponse: NSObject, PipelineContextSupportable {
     @objc public var httpRequest: HttpRequest
     @objc public var httpResponse: HttpResponse
     internal var context: PipelineContext?

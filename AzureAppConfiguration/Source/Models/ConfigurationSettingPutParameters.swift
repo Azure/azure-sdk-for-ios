@@ -8,12 +8,12 @@
 
 import Foundation
 
-@objc class ConfigurationSettingPutParameters: NSObject, Codable {
-    @objc var value: String
-    @objc var tags: [String: String]?
-    @objc var contentType: String = ""
+public class ConfigurationSettingPutParameters: Codable {
+    let value: String
+    let tags: [String: String]?
+    let contentType: String
 
-    @objc init(withConfigurationSetting setting: ConfigurationSetting) {
+    public init(withConfigurationSetting setting: ConfigurationSetting) {
         self.value = setting.value
         self.tags = setting.tags
         self.contentType = setting.contentType ?? ""

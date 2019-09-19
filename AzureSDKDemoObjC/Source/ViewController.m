@@ -32,7 +32,7 @@ NSString *connectionString = @"";
     if (settings != nil) {
         [_textLabel setTextColor:UIColor.blackColor];
         NSString *text = [[NSString alloc] initWithFormat:@"%@", [[raw statusCode] description]];
-        for (id object in settings) {
+        for (id object in [settings items]) {
             ConfigurationSetting *setting = (ConfigurationSetting *)object;
             text = [NSString stringWithFormat:@"%@\n{%@: %@}", text, [setting key], [setting value]];
         }

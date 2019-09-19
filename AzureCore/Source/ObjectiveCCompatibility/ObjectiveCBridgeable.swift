@@ -11,7 +11,7 @@ import Foundation
 /// This protocol is used internally to expose a Swift
 /// type to a type that is representable in Objective-C
 /// as the type `ObjectiveCType` or one of its subclasses.
-protocol ObjectiveCBridgeable {
+public protocol ObjectiveCBridgeable {
     /// The type corresponding to `Self` in Objective-C.
     associatedtype ObjectiveCType: AnyObject
 

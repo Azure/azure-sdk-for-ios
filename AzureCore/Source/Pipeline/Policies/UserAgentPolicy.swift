@@ -8,7 +8,8 @@
 
 import Foundation
 
-@objc public class UserAgentPolicy: NSObject, SansIOHttpPolicy {
+@objc(AZCoreUserAgentPolicy)
+public class UserAgentPolicy: NSObject, SansIOHttpPolicy {
 
     private var _userAgent: String
     @objc public let userAgentOverwrite: Bool

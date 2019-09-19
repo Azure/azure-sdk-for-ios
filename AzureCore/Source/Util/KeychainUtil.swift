@@ -9,12 +9,14 @@
 import Foundation
 import Security
 
-@objc public enum KeychainUtilError: Int, Error {
+@objc(AZCoreKeychainUtilError)
+public enum KeychainUtilError: Int, Error {
     case invalidContent
     case failure
 }
 
-@objc public class KeychainUtil: NSObject {
+@objc(AZCoreKeychainUtil)
+public class KeychainUtil: NSObject {
 
     let keychainErrorDomain = "com.azure.core"
     let keychainSecurityService = "com.azure.core"

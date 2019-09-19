@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AZCPipelineClient.h"
 
 //! Project version number for AzureCore.
 FOUNDATION_EXPORT double AzureCoreVersionNumber;

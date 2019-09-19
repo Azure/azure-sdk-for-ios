@@ -8,7 +8,8 @@
 
 import Foundation
 
-@objc public class RetryPolicy: NSObject, HttpPolicy {
+@objc(AZCoreRetryPolicy)
+public class RetryPolicy: NSObject, HttpPolicy {
 
     internal class RetrySettings {
         var totalRetries: Int

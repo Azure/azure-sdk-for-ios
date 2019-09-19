@@ -6,19 +6,38 @@
 //  Copyright © 2019 Azure SDK Team. All rights reserved.
 //
 
-import UIKit
 import AzureCore
+import AzureAppConfiguration
+import os.log
+import UIKit
 
 class ViewController: UIViewController {
 
     @IBOutlet weak var textLabel: UILabel!
 
+    private let connectionString = ""
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
 
-        let request = HttpRequest(httpMethod: .GET, url: URL(string: "www.microsoft.com")!)
-        textLabel.text = request.description
+        guard let client = try? AppConfigurationClient(connectionString: connectionString) else { return }
+        let raw = HttpResponse()
+        do {
+            if let settings = try client.getConfigurationSettings(forKey: nil, forLabel: nil, withResponse: raw) {
+                textLabel.textColor = .black
+                var text = "\(raw.statusCode!)"
+                for item in settings.items {
+                    text = "\(text)\n\(item.key) : \(item.value)"
+                }
+                textLabel.text = text
+            } else {
+                textLabel.textColor = .red
+                textLabel.text = "No settings found..."
+            }
+        } catch {
+            textLabel.textColor = .red
+            textLabel.text = error.localizedDescription
+        }
     }
 
 }

@@ -27,20 +27,24 @@ extension Collection {
     }
 }
 
-// MARK: - ObjectiveCBridgeable
+// MARK: - Collection: Codable
+
+extension Collection: Codable where T: Codable {}
+
+// MARK: - Collection: ObjectiveCBridgeable
 
 extension Collection: ObjectiveCBridgeable where T: ObjectiveCBridgeable {
 
-    typealias ObjectiveCType = AZCCollection
+    public typealias ObjectiveCType = AZCCollection
 
-    func bridgeToObjectiveC() -> AZCCollection {
+    public func bridgeToObjectiveC() -> AZCCollection {
         return AZCCollection(items: items as [AnyObject])
     }
 }
 
 // MARK: - ObjC AZCCollection
 
-@objc(AZCCollection)
+@objc(AZCoreCollection)
 public class AZCCollection: NSObject {
 
     @objc public var items: [AnyObject] { return wrapped.items }
