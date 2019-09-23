@@ -12,14 +12,34 @@ public typealias CompletionHandler = (Result<HttpResponse, Error>) -> Void
 
 open class PipelineClient {
 
-    public var baseUrl: String
-    public var config: PipelineConfiguration
-    public var pipeline: Pipeline
+    internal var pipeline: Pipeline
 
-    public init(baseUrl: String, config: PipelineConfiguration, pipeline: Pipeline) {
+    internal var baseUrl: String
+
+    internal let headersPolicy: HeadersPolicy
+    internal let userAgentPolicy: UserAgentPolicy
+    internal let authenticationPolicy: AuthenticationPolicy
+    internal let transport: HttpTransport
+
+    public init(baseUrl: String, headersPolicy: HeadersPolicy, userAgentPolicy: UserAgentPolicy,
+                authenticationPolicy: AuthenticationPolicy, transport: HttpTransport) {
         self.baseUrl = baseUrl
-        self.config = config
-        self.pipeline = pipeline
+
+        self.headersPolicy = headersPolicy
+        self.userAgentPolicy = userAgentPolicy
+        self.authenticationPolicy = authenticationPolicy
+        self.transport = transport
+
+        let policies: [AnyObject] = [
+            headersPolicy,
+            userAgentPolicy,
+            authenticationPolicy as AnyObject
+        ]
+        self.pipeline = Pipeline(transport: transport, policies: policies)
+    }
+
+    public func run(request: PipelineRequest) throws -> PipelineResponse {
+        return try self.pipeline.run(request: request)
     }
 
     public func request(method: HttpMethod, urlTemplate: String?, queryParams: [String: String]? = nil,

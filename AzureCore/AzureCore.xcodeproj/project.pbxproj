@@ -17,7 +17,6 @@
 		0A3A5DE32315D17F00473FDA /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3A5D762315C89C00473FDA /* AzureCore.framework */; };
 		0A3A5F012316DF1B00473FDA /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F002316DF1B00473FDA /* Errors.swift */; };
 		0A3A5F032316DF6600473FDA /* CryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F022316DF6600473FDA /* CryptoUtils.swift */; };
-		0A3A5F182316E98F00473FDA /* PipelineConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F172316E98F00473FDA /* PipelineConfiguration.swift */; };
 		0A3A5F1C2316EBC600473FDA /* HeadersPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F1B2316EBC600473FDA /* HeadersPolicy.swift */; };
 		0A3A5F1E2316EC4C00473FDA /* PolicyBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F1D2316EC4C00473FDA /* PolicyBase.swift */; };
 		0A3A5F202316EF9400473FDA /* PipelineContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F1F2316EF9400473FDA /* PipelineContext.swift */; };
@@ -64,7 +63,6 @@
 		0A3A5DE22315D17F00473FDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A3A5F002316DF1B00473FDA /* Errors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		0A3A5F022316DF6600473FDA /* CryptoUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoUtils.swift; sourceTree = "<group>"; };
-		0A3A5F172316E98F00473FDA /* PipelineConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineConfiguration.swift; sourceTree = "<group>"; };
 		0A3A5F1B2316EBC600473FDA /* HeadersPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadersPolicy.swift; sourceTree = "<group>"; };
 		0A3A5F1D2316EC4C00473FDA /* PolicyBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyBase.swift; sourceTree = "<group>"; };
 		0A3A5F1F2316EF9400473FDA /* PipelineContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineContext.swift; sourceTree = "<group>"; };
@@ -135,7 +133,6 @@
 				0A3A5F34231731B700473FDA /* Credentials.swift */,
 				0A3A5F002316DF1B00473FDA /* Errors.swift */,
 				0A3A5F3F2318975900473FDA /* PipelineClient.swift */,
-				0A3A5F172316E98F00473FDA /* PipelineConfiguration.swift */,
 				0A3A5DA92315CF0200473FDA /* Supporting Files */,
 			);
 			path = Source;
@@ -400,7 +397,6 @@
 				0A3A5F32231720DE00473FDA /* AuthenticationPolicy.swift in Sources */,
 				0A4081BA233432C30071EAEE /* HttpUtil.swift in Sources */,
 				0AF473192331A64000AC5571 /* Iterable.swift in Sources */,
-				0A3A5F182316E98F00473FDA /* PipelineConfiguration.swift in Sources */,
 				0A3A5F3E2318906100473FDA /* Pipeline.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

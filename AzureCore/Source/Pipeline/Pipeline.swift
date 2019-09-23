@@ -52,7 +52,7 @@ internal class TransportRunner: PipelineSendable {
     }
 }
 
-public class Pipeline {
+internal class Pipeline {
 
     private var implPolicies: [PipelineSendable]
     private let transport: HttpTransport

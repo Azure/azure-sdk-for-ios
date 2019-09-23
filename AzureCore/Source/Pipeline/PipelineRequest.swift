@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class PipelineRequest: PipelineContextSupportable {
+final public class PipelineRequest: PipelineContextSupportable {
 
     public var httpRequest: HttpRequest
     internal var context: PipelineContext?

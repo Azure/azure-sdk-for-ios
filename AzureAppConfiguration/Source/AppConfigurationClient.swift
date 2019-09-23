@@ -17,18 +17,12 @@ public class AppConfigurationClient: PipelineClient {
         guard let credential = try? AppConfigurationCredential(connectionString: connectionString) else {
             throw AzureError.general
         }
-        let config = PipelineConfiguration(
-            headersPolicy: HeadersPolicy(),
-            userAgentPolicy: UserAgentPolicy(),
-            authenticationPolicy: AppConfigurationAuthenticationPolicy(credential: credential, scopes: [credential.endpoint])
-        )
-        let policies: [AnyObject] = [
-            config.userAgentPolicy,
-            config.headersPolicy,
-            config.authenticationPolicy as AnyObject
-        ]
-        let pipeline = Pipeline(transport: UrlSessionTransport(), policies: policies)
-        super.init(baseUrl: credential.endpoint, config: config, pipeline: pipeline)
+        let authPolicy = AppConfigurationAuthenticationPolicy(credential: credential, scopes: [credential.endpoint])
+        super.init(baseUrl: credential.endpoint,
+                   headersPolicy: HeadersPolicy(),
+                   userAgentPolicy: UserAgentPolicy(),
+                   authenticationPolicy: authPolicy,
+                   transport: UrlSessionTransport())
     }
 
     public func getConfigurationSettings(forKey key: String?, forLabel label: String?, withResponse response: HttpResponse? = nil) throws -> PagedCollection<ConfigurationSetting>? {
@@ -45,21 +39,17 @@ public class AppConfigurationClient: PipelineClient {
             urlTemplate: "/kv",
             queryParams: queryParams
         ))
-        request.add(value: [ConfigurationSetting].self as AnyObject, forKey: "deserializedType")
-        if let pipelineResponse = try? self.pipeline.run(request: request) {
-            // update response if passed in
-            if let responseIn = response {
-                responseIn.update(withResponse: pipelineResponse.httpResponse)
-            }
-            if let data = pipelineResponse.httpResponse.data {
-                let decoder = JSONDecoder()
-                var deserialized = try? decoder.decode(PagedCollection<ConfigurationSetting>.self, from: data)
-                deserialized?.client = self
-                deserialized?.request = request
-                return deserialized
-            } else {
-                throw HttpResponseError.general
-            }
+        let pipelineResponse = try self.run(request: request)
+        // update response if passed in
+        if let responseIn = response {
+            responseIn.update(withResponse: pipelineResponse.httpResponse)
+        }
+        if let data = pipelineResponse.httpResponse.data {
+            let decoder = JSONDecoder()
+            var deserialized = try? decoder.decode(PagedCollection<ConfigurationSetting>.self, from: data)
+            deserialized?.client = self
+            deserialized?.request = request
+            return deserialized
         } else {
             throw HttpResponseError.general
         }

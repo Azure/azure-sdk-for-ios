@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class PipelineResponse: PipelineContextSupportable {
+final public class PipelineResponse: PipelineContextSupportable {
 
     public var httpRequest: HttpRequest
     public var httpResponse: HttpResponse
