@@ -15,7 +15,7 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var textLabel: UILabel!
 
-    private let connectionString = ""
+    private let connectionString = "Endpoint=https://tjpappconfig.azconfig.io;Id=2-l0-s0:zSvXZtO9L9bv9s3QVyD3;Secret=FzxmbflLwAt5+2TUbnSIsAuATyY00L+GFpuxuJZRmzI="
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,9 +26,12 @@ class ViewController: UIViewController {
             if let settings = try client.getConfigurationSettings(forKey: nil, forLabel: nil, withResponse: raw) {
                 textLabel.textColor = .black
                 var text = "\(raw.statusCode!)"
-                for item in settings.items {
+                var count = 0
+                for item in settings {
+                    count += 1
                     text = "\(text)\n\(item.key) : \(item.value)"
                 }
+                os_log("%i settings!", count)
                 textLabel.text = text
             } else {
                 textLabel.textColor = .red
@@ -36,7 +39,7 @@ class ViewController: UIViewController {
             }
         } catch {
             textLabel.textColor = .red
-            textLabel.text = error.localizedDescription
+            textLabel.text = "\(error.localizedDescription) - \(error)"
         }
     }
 

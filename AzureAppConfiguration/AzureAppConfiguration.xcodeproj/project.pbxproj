@@ -14,8 +14,9 @@
 		0A3A5EFF2316DCA500473FDA /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3A5EFE2316DCA500473FDA /* AzureCore.framework */; };
 		0A3A5F0C2316DFC200473FDA /* ConfigurationSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F062316DFC200473FDA /* ConfigurationSetting.swift */; };
 		0A3A5F0D2316DFC200473FDA /* ConfigurationSettingPutParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F072316DFC200473FDA /* ConfigurationSettingPutParameters.swift */; };
-		0A3A5F0E2316DFC200473FDA /* AppConfigurationClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F082316DFC200473FDA /* AppConfigurationClient.swift */; };
 		0A3A5F0F2316DFC200473FDA /* AppConfigurationClientCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F0A2316DFC200473FDA /* AppConfigurationClientCredentials.swift */; };
+		0AB883772339681F00B03111 /* AppConfigurationClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB883762339681F00B03111 /* AppConfigurationClient.swift */; };
+		0AB883792339684C00B03111 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB883782339684C00B03111 /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,8 +40,9 @@
 		0A3A5EFE2316DCA500473FDA /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A3A5F062316DFC200473FDA /* ConfigurationSetting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationSetting.swift; sourceTree = "<group>"; };
 		0A3A5F072316DFC200473FDA /* ConfigurationSettingPutParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationSettingPutParameters.swift; sourceTree = "<group>"; };
-		0A3A5F082316DFC200473FDA /* AppConfigurationClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppConfigurationClient.swift; path = ../../AzureAppConfigurationObjC/Source/AppConfigurationClient.swift; sourceTree = "<group>"; };
 		0A3A5F0A2316DFC200473FDA /* AppConfigurationClientCredentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConfigurationClientCredentials.swift; sourceTree = "<group>"; };
+		0AB883762339681F00B03111 /* AppConfigurationClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigurationClient.swift; sourceTree = "<group>"; };
+		0AB883782339684C00B03111 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,7 +87,8 @@
 		0A3A5EE42316DC4E00473FDA /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				0A3A5F082316DFC200473FDA /* AppConfigurationClient.swift */,
+				0AB883762339681F00B03111 /* AppConfigurationClient.swift */,
+				0AB883782339684C00B03111 /* Constants.swift */,
 				0A3A5F092316DFC200473FDA /* Credentials */,
 				0A3A5F042316DFC200473FDA /* Models */,
 				0A3A5EFC2316DC5B00473FDA /* Supporting Files */,
@@ -212,6 +215,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 0A3A5ED82316DC4E00473FDA;
 			productRefGroup = 0A3A5EE32316DC4E00473FDA /* Products */;
@@ -249,8 +253,9 @@
 				0A3A5F0D2316DFC200473FDA /* ConfigurationSettingPutParameters.swift in Sources */,
 				0A3A5F0F2316DFC200473FDA /* AppConfigurationClientCredentials.swift in Sources */,
 				0A3A5F0C2316DFC200473FDA /* ConfigurationSetting.swift in Sources */,
-				0A3A5F0E2316DFC200473FDA /* AppConfigurationClient.swift in Sources */,
+				0AB883792339684C00B03111 /* Constants.swift in Sources */,
 				0A29CC4023230716006CEFA7 /* AppConfigurationHeader.swift in Sources */,
+				0AB883772339681F00B03111 /* AppConfigurationClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

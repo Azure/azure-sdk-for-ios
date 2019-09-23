@@ -38,14 +38,4 @@ public class HttpResponse {
         statusCode = response.statusCode
         data = response.data
     }
-
-//    public func text(encoding: String = "utf-8") {
-//        // TODO: Implement
-//        // return self.body.decode(encoding)
-//    }
-
-    // TODO: Implmenet
-//    public func streamDownload(pipeline: Pipeline) -> ByteIterator {
-//
-//    }
 }

@@ -20,7 +20,7 @@ public class HeadersPolicy: SansIOHttpPolicy {
     }
 
     public func add(header: HttpHeader, value: String) {
-        self._headers[header.rawValue] = value
+        self._headers[header] = value
     }
 
     public func onRequest(_ request: PipelineRequest) {

@@ -8,6 +8,8 @@
 
 import Foundation
 
+public typealias CompletionHandler = (Result<HttpResponse, Error>) -> Void
+
 open class PipelineClient {
 
     public var baseUrl: String

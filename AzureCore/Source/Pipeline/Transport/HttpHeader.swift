@@ -10,7 +10,7 @@ import Foundation
 public typealias HttpHeaders = [String: String]
 
 extension HttpHeaders {
-    subscript(index: HttpHeader) -> String? {
+    public subscript(index: HttpHeader) -> String? {
         get {
             return self[index.rawValue]
         }
@@ -18,6 +18,10 @@ extension HttpHeaders {
         set(newValue) {
             self[index.rawValue] = newValue
         }
+    }
+
+    public mutating func removeValue(forKey key: HttpHeader) -> String? {
+        return self.removeValue(forKey: key.rawValue)
     }
 }
 

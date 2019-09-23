@@ -10,60 +10,65 @@ import Foundation
 
 // MARK: - Swift Collection<Element>
 
-public struct Collection<T> {
+public struct Collection<T: Codable>: Iterable, Codable {
 
-    public var items: [T]
+    public typealias Element = T
+    private let items: [T]
+    private var iteratorIndex: Int = 0
 
-    public init(items: [T]) {
-        self.items = items
+    public var count: Int {
+        return items.count
+    }
+
+    public var underestimatedCount: Int {
+        return count
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case items
+    }
+
+    mutating public func next() -> T? {
+        guard iteratorIndex < items.count else { return nil }
+        let item = items[iteratorIndex]
+        iteratorIndex += 1
+        return item
     }
 }
-
-extension Collection {
-    public func map<U>(_ transform: @escaping ([T]) throws -> [U]) -> Collection<U> {
-        // swiftlint:disable:next force_try
-        let transformed = try! transform(items)
-        return Collection<U>(items: transformed)
-    }
-}
-
-// MARK: - Collection: Codable
-
-extension Collection: Codable where T: Codable {}
 
 // MARK: - Collection: ObjectiveCBridgeable
 
-extension Collection: ObjectiveCBridgeable where T: ObjectiveCBridgeable {
-
-    public typealias ObjectiveCType = AZCCollection
-
-    public func bridgeToObjectiveC() -> AZCCollection {
-        return AZCCollection(items: items as [AnyObject])
-    }
-
-    public init(bridgedFromObjectiveC: ObjectiveCType) {
-        self.items = bridgedFromObjectiveC.items.compactMap { $0 as? T }
-    }
-}
+//extension Collection: ObjectiveCBridgeable where T: ObjectiveCBridgeable {
+//
+//    public typealias ObjectiveCType = AZCCollection
+//
+//    public func bridgeToObjectiveC() -> AZCCollection {
+//        return AZCCollection(items: items as [AnyObject])
+//    }
+//
+//    public init(bridgedFromObjectiveC: ObjectiveCType) {
+//        self.items = bridgedFromObjectiveC.items.compactMap { $0 as? T }
+//    }
+//}
 
 // MARK: - ObjC AZCCollection
 
-@objc(AZCoreCollection)
-public class AZCCollection: NSObject {
-
-    @objc public var items: [AnyObject] { return wrapped.items }
-
-    private var wrapped: Collection<AnyObject>
-
-    @objc public init(items: [AnyObject]) {
-        self.wrapped = Collection<AnyObject>(items: items)
-    }
-
-    internal init(_ collection: Collection<AnyObject>) {
-        self.wrapped = collection
-    }
-
-    internal init<T: Any>(erasingTypeOf: Collection<T>) {
-        self.wrapped = erasingTypeOf.map { $0 as [AnyObject] }
-    }
-}
+//@objc(AZCoreCollection)
+//public class AZCCollection: NSObject {
+//
+//    @objc public var items: [AnyObject] { return wrapped.items }
+//
+//    private var wrapped: Collection<AnyObject>
+//
+//    @objc public init(items: [AnyObject]) {
+//        self.wrapped = Collection<AnyObject>(items: items)
+//    }
+//
+//    internal init(_ collection: Collection<AnyObject>) {
+//        self.wrapped = collection
+//    }
+//
+//    internal init<T: Any>(erasingTypeOf: Collection<T>) {
+//        self.wrapped = erasingTypeOf.map { $0 as [AnyObject] }
+//    }
+//}

@@ -32,7 +32,7 @@ public class BearerTokenCredentialPolicy: AuthenticationPolicy {
 
     public func authenticate(request: PipelineRequest) {
         if let token = self.token?.token {
-            request.httpRequest.headers[HttpHeader.authorization.rawValue] = "Bearer \(token)"
+            request.httpRequest.headers[.authorization] = "Bearer \(token)"
         }
     }
 

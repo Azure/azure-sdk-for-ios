@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0A29CC3E2322F3CD006CEFA7 /* DateUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A29CC3D2322F3CD006CEFA7 /* DateUtil.swift */; };
-		0A2C6A672329B2F700F51027 /* DistributedTracingPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2C6A662329B2F700F51027 /* DistributedTracingPolicy.swift */; };
 		0A35294E2331A6D8005BA459 /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A35294D2331A6D8005BA459 /* Collection.swift */; };
 		0A3A5D7B2315C89C00473FDA /* AzureCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A3A5D792315C89C00473FDA /* AzureCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0A3A5D9B2315CEB600473FDA /* HttpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D902315CEB600473FDA /* HttpRequest.swift */; };
@@ -23,11 +22,6 @@
 		0A3A5F1E2316EC4C00473FDA /* PolicyBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F1D2316EC4C00473FDA /* PolicyBase.swift */; };
 		0A3A5F202316EF9400473FDA /* PipelineContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F1F2316EF9400473FDA /* PipelineContext.swift */; };
 		0A3A5F222316FAF000473FDA /* UserAgentPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F212316FAF000473FDA /* UserAgentPolicy.swift */; };
-		0A3A5F24231714F800473FDA /* NetworkTraceLoggingPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F23231714F800473FDA /* NetworkTraceLoggingPolicy.swift */; };
-		0A3A5F26231718D200473FDA /* ContentDecodePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F25231718D200473FDA /* ContentDecodePolicy.swift */; };
-		0A3A5F2A23171E3200473FDA /* RetryPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F2923171E3200473FDA /* RetryPolicy.swift */; };
-		0A3A5F2C231720BC00473FDA /* RedirectPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F2B231720BC00473FDA /* RedirectPolicy.swift */; };
-		0A3A5F2E231720C400473FDA /* CustomHookPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F2D231720C400473FDA /* CustomHookPolicy.swift */; };
 		0A3A5F32231720DE00473FDA /* AuthenticationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F31231720DE00473FDA /* AuthenticationPolicy.swift */; };
 		0A3A5F35231731B700473FDA /* Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F34231731B700473FDA /* Credentials.swift */; };
 		0A3A5F382318686C00473FDA /* HttpTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F372318686C00473FDA /* HttpTransport.swift */; };
@@ -38,6 +32,8 @@
 		0A3A5F422319834500473FDA /* PipelineBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F412319834500473FDA /* PipelineBase.swift */; };
 		0A3A5F442319D49700473FDA /* UrlSessionTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F432319D49700473FDA /* UrlSessionTransport.swift */; };
 		0A4081B62333EB380071EAEE /* ObjectiveCHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4081B52333EB380071EAEE /* ObjectiveCHelpers.swift */; };
+		0A4081B8233417EE0071EAEE /* PagedCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4081B7233417EE0071EAEE /* PagedCollection.swift */; };
+		0A4081BA233432C30071EAEE /* HttpUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4081B9233432C30071EAEE /* HttpUtil.swift */; };
 		0A7F563A2321732B00E9765A /* UrlHttpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F56392321732B00E9765A /* UrlHttpResponse.swift */; };
 		0AD2142923314416003A2E3E /* ObjectiveCBridgeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD2142823314416003A2E3E /* ObjectiveCBridgeable.swift */; };
 		0AE5C3A6231F150A0013CA85 /* KeychainUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE5C3A5231F150A0013CA85 /* KeychainUtil.swift */; };
@@ -56,7 +52,6 @@
 
 /* Begin PBXFileReference section */
 		0A29CC3D2322F3CD006CEFA7 /* DateUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtil.swift; sourceTree = "<group>"; };
-		0A2C6A662329B2F700F51027 /* DistributedTracingPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistributedTracingPolicy.swift; sourceTree = "<group>"; };
 		0A35294D2331A6D8005BA459 /* Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
 		0A3A5D762315C89C00473FDA /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A3A5D792315C89C00473FDA /* AzureCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AzureCore.h; sourceTree = "<group>"; };
@@ -74,11 +69,6 @@
 		0A3A5F1D2316EC4C00473FDA /* PolicyBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyBase.swift; sourceTree = "<group>"; };
 		0A3A5F1F2316EF9400473FDA /* PipelineContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineContext.swift; sourceTree = "<group>"; };
 		0A3A5F212316FAF000473FDA /* UserAgentPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAgentPolicy.swift; sourceTree = "<group>"; };
-		0A3A5F23231714F800473FDA /* NetworkTraceLoggingPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTraceLoggingPolicy.swift; sourceTree = "<group>"; };
-		0A3A5F25231718D200473FDA /* ContentDecodePolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentDecodePolicy.swift; sourceTree = "<group>"; };
-		0A3A5F2923171E3200473FDA /* RetryPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetryPolicy.swift; sourceTree = "<group>"; };
-		0A3A5F2B231720BC00473FDA /* RedirectPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedirectPolicy.swift; sourceTree = "<group>"; };
-		0A3A5F2D231720C400473FDA /* CustomHookPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomHookPolicy.swift; sourceTree = "<group>"; };
 		0A3A5F31231720DE00473FDA /* AuthenticationPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationPolicy.swift; sourceTree = "<group>"; };
 		0A3A5F34231731B700473FDA /* Credentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
 		0A3A5F372318686C00473FDA /* HttpTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpTransport.swift; sourceTree = "<group>"; };
@@ -89,6 +79,8 @@
 		0A3A5F412319834500473FDA /* PipelineBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineBase.swift; sourceTree = "<group>"; };
 		0A3A5F432319D49700473FDA /* UrlSessionTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlSessionTransport.swift; sourceTree = "<group>"; };
 		0A4081B52333EB380071EAEE /* ObjectiveCHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectiveCHelpers.swift; sourceTree = "<group>"; };
+		0A4081B7233417EE0071EAEE /* PagedCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedCollection.swift; sourceTree = "<group>"; };
+		0A4081B9233432C30071EAEE /* HttpUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpUtil.swift; sourceTree = "<group>"; };
 		0A7F56392321732B00E9765A /* UrlHttpResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlHttpResponse.swift; sourceTree = "<group>"; };
 		0AD2142823314416003A2E3E /* ObjectiveCBridgeable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectiveCBridgeable.swift; sourceTree = "<group>"; };
 		0AE5C3A5231F150A0013CA85 /* KeychainUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainUtil.swift; sourceTree = "<group>"; };
@@ -155,6 +147,7 @@
 				0A3A5F022316DF6600473FDA /* CryptoUtils.swift */,
 				0A29CC3D2322F3CD006CEFA7 /* DateUtil.swift */,
 				0AE5C3A5231F150A0013CA85 /* KeychainUtil.swift */,
+				0A4081B9233432C30071EAEE /* HttpUtil.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -194,14 +187,8 @@
 			isa = PBXGroup;
 			children = (
 				0A3A5F31231720DE00473FDA /* AuthenticationPolicy.swift */,
-				0A3A5F25231718D200473FDA /* ContentDecodePolicy.swift */,
-				0A3A5F2D231720C400473FDA /* CustomHookPolicy.swift */,
-				0A2C6A662329B2F700F51027 /* DistributedTracingPolicy.swift */,
 				0A3A5F1B2316EBC600473FDA /* HeadersPolicy.swift */,
-				0A3A5F23231714F800473FDA /* NetworkTraceLoggingPolicy.swift */,
 				0A3A5F1D2316EC4C00473FDA /* PolicyBase.swift */,
-				0A3A5F2B231720BC00473FDA /* RedirectPolicy.swift */,
-				0A3A5F2923171E3200473FDA /* RetryPolicy.swift */,
 				0A3A5F212316FAF000473FDA /* UserAgentPolicy.swift */,
 			);
 			path = Policies;
@@ -250,6 +237,7 @@
 			children = (
 				0AF473182331A64000AC5571 /* Iterable.swift */,
 				0A35294D2331A6D8005BA459 /* Collection.swift */,
+				0A4081B7233417EE0071EAEE /* PagedCollection.swift */,
 			);
 			path = Collections;
 			sourceTree = "<group>";
@@ -330,6 +318,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 0A3A5D6C2315C89C00473FDA;
 			productRefGroup = 0A3A5D772315C89C00473FDA /* Products */;
@@ -393,27 +382,23 @@
 				0A3A5F202316EF9400473FDA /* PipelineContext.swift in Sources */,
 				0AE5C3A6231F150A0013CA85 /* KeychainUtil.swift in Sources */,
 				0A3A5F422319834500473FDA /* PipelineBase.swift in Sources */,
-				0A3A5F24231714F800473FDA /* NetworkTraceLoggingPolicy.swift in Sources */,
 				0A3A5D9D2315CEB600473FDA /* HttpMethod.swift in Sources */,
 				0A3A5D9B2315CEB600473FDA /* HttpRequest.swift in Sources */,
 				0A3A5F1E2316EC4C00473FDA /* PolicyBase.swift in Sources */,
 				0A4081B62333EB380071EAEE /* ObjectiveCHelpers.swift in Sources */,
 				0A3A5F3C2318904F00473FDA /* PipelineResponse.swift in Sources */,
 				0AD2142923314416003A2E3E /* ObjectiveCBridgeable.swift in Sources */,
-				0A2C6A672329B2F700F51027 /* DistributedTracingPolicy.swift in Sources */,
 				0A3A5F032316DF6600473FDA /* CryptoUtils.swift in Sources */,
-				0A3A5F2A23171E3200473FDA /* RetryPolicy.swift in Sources */,
-				0A3A5F2C231720BC00473FDA /* RedirectPolicy.swift in Sources */,
 				0A3A5F1C2316EBC600473FDA /* HeadersPolicy.swift in Sources */,
 				0A3A5F382318686C00473FDA /* HttpTransport.swift in Sources */,
 				0A3A5F222316FAF000473FDA /* UserAgentPolicy.swift in Sources */,
 				0A3A5F402318975900473FDA /* PipelineClient.swift in Sources */,
-				0A3A5F2E231720C400473FDA /* CustomHookPolicy.swift in Sources */,
 				0A35294E2331A6D8005BA459 /* Collection.swift in Sources */,
 				0A3A5F012316DF1B00473FDA /* Errors.swift in Sources */,
+				0A4081B8233417EE0071EAEE /* PagedCollection.swift in Sources */,
 				0A7F563A2321732B00E9765A /* UrlHttpResponse.swift in Sources */,
-				0A3A5F26231718D200473FDA /* ContentDecodePolicy.swift in Sources */,
 				0A3A5F32231720DE00473FDA /* AuthenticationPolicy.swift in Sources */,
+				0A4081BA233432C30071EAEE /* HttpUtil.swift in Sources */,
 				0AF473192331A64000AC5571 /* Iterable.swift in Sources */,
 				0A3A5F182316E98F00473FDA /* PipelineConfiguration.swift in Sources */,
 				0A3A5F3E2318906100473FDA /* Pipeline.swift in Sources */,
@@ -491,7 +476,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -550,7 +535,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

@@ -8,14 +8,11 @@
 
 import Foundation
 
-protocol Iterable: ObjectiveCBridgeable, Sequence {
-    func byItem()
-    func nextItem()
-}
-
-protocol StreamIterable: Iterable {}
+protocol Iterable: Sequence, IteratorProtocol {}
 
 protocol PagedIterable: Iterable {
-    func byPage()
-    func nextPage()
+
+    associatedtype T
+
+    mutating func nextPage() throws -> [T]?
 }

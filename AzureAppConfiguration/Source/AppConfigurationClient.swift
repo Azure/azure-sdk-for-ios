@@ -1,17 +1,13 @@
 //
 //  AppConfigurationClient.swift
-//  DemoAppObjC
+//  AzureAppConfiguration
 //
-//  Created by Travis Prescott on 8/8/19.
-//  Copyright © 2019 Travis Prescott. All rights reserved.
+//  Created by Travis Prescott on 9/23/19.
+//  Copyright © 2019 Azure SDK Team. All rights reserved.
 //
 
 import AzureCore
 import Foundation
-
-struct Contants {
-    static let apiVersion = "2019-01-01"
-}
 
 public class AppConfigurationClient: PipelineClient {
 
@@ -23,29 +19,19 @@ public class AppConfigurationClient: PipelineClient {
         }
         let config = PipelineConfiguration(
             headersPolicy: HeadersPolicy(),
-            redirectPolicy: RedirectPolicy(),
-            retryPolicy: RetryPolicy(),
-            customHookPolicy: CustomHookPolicy(),
-            contentDecodePolicy: ContentDecodePolicy(),
-            loggingPolicy: NetworkTraceLoggingPolicy(),
             userAgentPolicy: UserAgentPolicy(),
-            authenticationPolicy: AppConfigurationAuthenticationPolicy(credential: credential, scopes: [credential.endpoint]),
-            distributedTracingPolicy: DistributedTracingPolicy()
+            authenticationPolicy: AppConfigurationAuthenticationPolicy(credential: credential, scopes: [credential.endpoint])
         )
         let policies: [AnyObject] = [
             config.userAgentPolicy,
             config.headersPolicy,
-            config.authenticationPolicy as AnyObject,
-            config.contentDecodePolicy,
-            config.redirectPolicy,
-            config.retryPolicy,
-            config.loggingPolicy
+            config.authenticationPolicy as AnyObject
         ]
         let pipeline = Pipeline(transport: UrlSessionTransport(), policies: policies)
         super.init(baseUrl: credential.endpoint, config: config, pipeline: pipeline)
     }
 
-    public func getConfigurationSettings(forKey key: String?, forLabel label: String?, withResponse response: HttpResponse? = nil) throws -> Collection<ConfigurationSetting>? {
+    public func getConfigurationSettings(forKey key: String?, forLabel label: String?, withResponse response: HttpResponse? = nil) throws -> PagedCollection<ConfigurationSetting>? {
         // TODO: Additional supported functionality
         // $select query param
         // Accept-Datetime header
@@ -67,7 +53,9 @@ public class AppConfigurationClient: PipelineClient {
             }
             if let data = pipelineResponse.httpResponse.data {
                 let decoder = JSONDecoder()
-                let deserialized = try? decoder.decode(Collection<ConfigurationSetting>.self, from: data)
+                var deserialized = try? decoder.decode(PagedCollection<ConfigurationSetting>.self, from: data)
+                deserialized?.client = self
+                deserialized?.request = request
                 return deserialized
             } else {
                 throw HttpResponseError.general
@@ -76,5 +64,4 @@ public class AppConfigurationClient: PipelineClient {
             throw HttpResponseError.general
         }
     }
-
 }

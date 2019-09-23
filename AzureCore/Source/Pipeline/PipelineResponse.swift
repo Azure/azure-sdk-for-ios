@@ -8,12 +8,11 @@
 
 import Foundation
 
-
 public class PipelineResponse: PipelineContextSupportable {
 
     public var httpRequest: HttpRequest
     public var httpResponse: HttpResponse
-    
+
     internal var context: PipelineContext?
 
     convenience init(request: HttpRequest, response: HttpResponse) {

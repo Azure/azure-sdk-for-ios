@@ -11,7 +11,7 @@ import Foundation
 public class UserAgentPolicy: SansIOHttpPolicy {
 
     private var _userAgent: String
-    
+
     public let userAgentOverwrite: Bool
     public var userAgent: String {
         return self._userAgent
@@ -39,15 +39,14 @@ public class UserAgentPolicy: SansIOHttpPolicy {
     }
 
     public func onRequest(_ request: PipelineRequest) {
-        let userAgentHeader = HttpHeader.userAgent.rawValue
         if let contextUserAgent = request.context?.getValue(forKey: "userAgent") as? String {
             if request.context?.getValue(forKey: "userAgentOverwrite") != nil {
-                request.httpRequest.headers[userAgentHeader] = contextUserAgent
+                request.httpRequest.headers[.userAgent] = contextUserAgent
             } else {
-                request.httpRequest.headers[userAgentHeader] = "\(self.userAgent) \(contextUserAgent)"
+                request.httpRequest.headers[.userAgent] = "\(self.userAgent) \(contextUserAgent)"
             }
-        } else if self.userAgentOverwrite || request.httpRequest.headers[userAgentHeader] == nil {
-            request.httpRequest.headers[userAgentHeader] = self.userAgent
+        } else if self.userAgentOverwrite || request.httpRequest.headers[HttpHeader.userAgent] == nil {
+            request.httpRequest.headers[.userAgent] = self.userAgent
         }
     }
 }

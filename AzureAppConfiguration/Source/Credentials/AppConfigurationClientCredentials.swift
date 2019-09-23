@@ -63,12 +63,12 @@ public class AppConfigurationAuthenticationPolicy: AuthenticationPolicy {
         let httpRequest = request.httpRequest
         let contentHash = [UInt8](httpRequest.body ?? Data()).sha256.base64String
         if let url = URL(string: httpRequest.url) {
-            request.httpRequest.headers[HttpHeader.host.rawValue] = url.host ?? ""
+            request.httpRequest.headers[HttpHeader.host] = url.host ?? ""
         }
         request.httpRequest.headers[AppConfigurationHeader.contentHash.rawValue] = contentHash
-        let dateValue = request.httpRequest.headers[HttpHeader.date.rawValue] ?? request.httpRequest.headers[AppConfigurationHeader.date.rawValue]
+        let dateValue = request.httpRequest.headers[HttpHeader.date] ?? request.httpRequest.headers[AppConfigurationHeader.date.rawValue]
         if dateValue == nil {
-             request.httpRequest.headers[AppConfigurationHeader.date.rawValue] = Date().httpFormat
+            request.httpRequest.headers[AppConfigurationHeader.date.rawValue] = Date().httpFormat
         }
         sign(request: request)
     }
