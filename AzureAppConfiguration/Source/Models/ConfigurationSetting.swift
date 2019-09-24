@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class ConfigurationSetting: Codable {
+public struct ConfigurationSetting: Codable {
 
     public let key: String
     public let value: String

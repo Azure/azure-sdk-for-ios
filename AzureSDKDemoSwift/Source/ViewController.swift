@@ -21,26 +21,32 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         guard let client = try? AppConfigurationClient(connectionString: connectionString) else { return }
-        let raw = HttpResponse()
-        do {
-            try client.getConfigurationSettings(forKey: nil, forLabel: nil, withResponse: raw, completion: { response, error in
-                self.textLabel.textColor = .black
-                var text = "\(raw.statusCode!)"
+        client.getConfigurationSettings(forKey: nil, forLabel: nil, completion: { settings, response, error in
+            if let error = error {
+                DispatchQueue.main.async { [weak self] in
+                    self?.textLabel.textColor = .red
+                    self?.textLabel.text = "\(error.localizedDescription) - \(error)"
+                }
+                return
+            }
+            var text = ""
+            if let statusCode = response?.statusCode {
+                text = "\(statusCode)"
+            } else {
+                text = "UNKNOWN STATUS"
+            }
+            if let settings = settings {
                 var count = 0
-//                for item in settings {
-//                    count += 1
-//                    text = "\(text)\n\(item.key) : \(item.value)"
-//                }
+                for item in settings {
+                    count += 1
+                    text = "\(text)\n\(item.key) : \(item.value)"
+                }
                 os_log("%i settings!", count)
-                self.textLabel.text = text
-
-                self.textLabel.textColor = .red
-                self.textLabel.text = "No settings found..."
-            })
-        } catch {
-            textLabel.textColor = .red
-            textLabel.text = "\(error.localizedDescription) - \(error)"
-        }
+            }
+            DispatchQueue.main.async { [weak self] in
+                self?.textLabel.textColor = .black
+                self?.textLabel.text = text
+            }
+        })
     }
-
 }

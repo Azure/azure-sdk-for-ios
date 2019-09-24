@@ -8,7 +8,8 @@
 
 import Foundation
 
-public class ConfigurationSettingPutParameters: Codable {
+public struct ConfigurationSettingPutParameters: Codable {
+
     let value: String
     let tags: [String: String]?
     let contentType: String

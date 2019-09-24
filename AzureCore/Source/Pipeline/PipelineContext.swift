@@ -8,9 +8,30 @@
 
 import Foundation
 
-public protocol PipelineContextSupportable {
-    func add(value: AnyObject, forKey key: AnyHashable)
+// MARK: - PipelineContextProtocol
+
+public protocol PipelineContextProtocol {
+    var context: PipelineContext? { get set }
+
+    mutating func add(value: AnyObject, forKey key: AnyHashable)
     func getValue(forKey key: AnyHashable) -> AnyObject?
+}
+
+// MARK: - PipelineContextProtocol extension
+
+extension PipelineContextProtocol {
+
+    mutating public func add(value: AnyObject, forKey key: AnyHashable) {
+        if let context = self.context {
+            self.context = context.add(value: value, forKey: key)
+        } else {
+            self.context = PipelineContext(key: key, value: value)
+        }
+    }
+
+    public func getValue(forKey key: AnyHashable) -> AnyObject? {
+        return self.context?.getValue(forKey: key)
+    }
 }
 
 public class PipelineContext {

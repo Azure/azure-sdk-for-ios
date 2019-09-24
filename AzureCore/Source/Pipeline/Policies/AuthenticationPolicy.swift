@@ -8,13 +8,14 @@
 
 import Foundation
 
-public protocol AuthenticationPolicy: HttpPolicy {
+public protocol AuthenticationProtocol: PipelineStageProtocol {
     func authenticate(request: PipelineRequest)
 }
 
-public class BearerTokenCredentialPolicy: AuthenticationPolicy {
+public class BearerTokenCredentialPolicy: AuthenticationProtocol {
 
-    public var next: PipelineSendable?
+    public var next: PipelineStageProtocol?
+
     public let scopes: [String]
     public let credential: TokenCredential
     public var needNewToken: Bool {
@@ -36,13 +37,10 @@ public class BearerTokenCredentialPolicy: AuthenticationPolicy {
         }
     }
 
-    public func send(request: PipelineRequest, onResult handler: @escaping CompletionHandler) throws {
+    public func onRequest(_ request: PipelineRequest) {
         if self.needNewToken {
             self.token = self.credential.getToken(scopes: self.scopes)
         }
         self.authenticate(request: request)
-        try self.next!.send(request: request, onResult: { response, error in
-            handler(response, error)
-        })
     }
 }

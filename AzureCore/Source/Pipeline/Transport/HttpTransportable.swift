@@ -1,5 +1,5 @@
 //
-//  HttpTransport.swift
+//  HttpTransportable.swift
 //  AzureCore
 //
 //  Created by Travis Prescott on 8/29/19.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol HttpTransport: PipelineSendable {
+public protocol HttpTransportable: PipelineStageProtocol {
     func open()
     func close()
     func sleep(duration: Int)

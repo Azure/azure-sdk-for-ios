@@ -8,8 +8,6 @@
 
 import Foundation
 
-public typealias CompletionHandler = (HttpResponse?, Error?) -> Void
-
 open class PipelineClient {
 
     internal var pipeline: Pipeline
@@ -18,11 +16,11 @@ open class PipelineClient {
 
     internal let headersPolicy: HeadersPolicy
     internal let userAgentPolicy: UserAgentPolicy
-    internal let authenticationPolicy: AuthenticationPolicy
-    internal let transport: HttpTransport
+    internal let authenticationPolicy: PipelineStageProtocol
+    internal let transport: HttpTransportable
 
     public init(baseUrl: String, headersPolicy: HeadersPolicy, userAgentPolicy: UserAgentPolicy,
-                authenticationPolicy: AuthenticationPolicy, transport: HttpTransport) {
+                authenticationPolicy: PipelineStageProtocol, transport: HttpTransportable) {
         self.baseUrl = baseUrl
 
         self.headersPolicy = headersPolicy
@@ -30,23 +28,26 @@ open class PipelineClient {
         self.authenticationPolicy = authenticationPolicy
         self.transport = transport
 
-        let policies: [AnyObject] = [
+        let policies: [PipelineStageProtocol] = [
             headersPolicy,
             userAgentPolicy,
-            authenticationPolicy as AnyObject
+            authenticationPolicy
         ]
         self.pipeline = Pipeline(transport: transport, policies: policies)
     }
 
-    public func run(request: PipelineRequest, onResult handler: @escaping CompletionHandler) throws {
-        try self.pipeline.run(request: request, onResult: { response, error in
-            handler(response, error)
+    public func run(request: HttpRequest, completion: @escaping (Data?, HttpResponse?, Error?) -> Void) {
+        let pipelineRequest = PipelineRequest(request: request)
+        self.pipeline.run(request: pipelineRequest, completion: { pipelineResponse, error in
+            let data = pipelineResponse?.httpResponse?.data
+            completion(data, pipelineResponse?.httpResponse, error)
         })
     }
 
     public func request(method: HttpMethod, urlTemplate: String?, queryParams: [String: String]? = nil,
                         content: Data? = nil, formContent: [String: AnyObject]? = nil,
                         streamContent: AnyObject? = nil) -> HttpRequest {
+        // TODO: Why isn't this part of the pipeline!?!
         let request = HttpRequest(httpMethod: method, url: format(urlTemplate: urlTemplate))
         if let queryParams = queryParams {
             request.format(queryParams: queryParams)

@@ -8,7 +8,9 @@
 
 import Foundation
 
-public class UserAgentPolicy: SansIOHttpPolicy {
+public class UserAgentPolicy: PipelineStageProtocol {
+
+    public var next: PipelineStageProtocol?
 
     private var _userAgent: String
 

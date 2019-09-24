@@ -13,12 +13,22 @@ public enum UrlSessionTransportError: Error {
     case invalidSession
 }
 
-public class UrlSessionTransport: HttpTransport {
-
-    public var next: PipelineSendable?
-
+public class UrlSessionTransport: HttpTransportable {
+    
     private var session: URLSession?
     private var config: URLSessionConfiguration
+
+    private var _next: PipelineStageProtocol?
+    public var next: PipelineStageProtocol? {
+        get {
+            return _next
+        }
+
+        // swiftlint:disable:next unused_setter_value
+        set {
+            _next = nil
+        }
+    }
 
     public init() {
         self.config = URLSessionConfiguration.default
@@ -37,22 +47,30 @@ public class UrlSessionTransport: HttpTransport {
         Foundation.sleep(UInt32(duration))
     }
 
-    public func send(request: PipelineRequest, onResult handler: @escaping CompletionHandler) throws {
+    public func onRequest(_ request: PipelineRequest) {}
+    public func onResponse(_ response: PipelineResponse, request: PipelineRequest) {}
+    public func onError(request: PipelineRequest) -> Bool { return false }
+
+    public func process(request: PipelineRequest, completion: @escaping PipelineCompletionHandler) {
         self.open()
         guard let session = self.session else {
-            throw UrlSessionTransportError.invalidSession
+            os_log("Invalid session.")
+            return
         }
-
         var urlRequest = URLRequest(url: URL(string: request.httpRequest.url)!)
         urlRequest.httpMethod = request.httpRequest.httpMethod.rawValue
         urlRequest.allHTTPHeaderFields = request.httpRequest.headers
         session.dataTask(with: urlRequest) { (data, response, error) in
+            var pipelineResponse: PipelineResponse?
             var httpResponse: UrlHttpResponse?
+
             if let data = data, let rawResponse = response as? HTTPURLResponse {
                 httpResponse = UrlHttpResponse(request: request.httpRequest, response: rawResponse)
                 httpResponse?.data = data
+                pipelineResponse = PipelineResponse(request: request.httpRequest, response: httpResponse,
+                                                    context: request.context)
             }
-            request.completion(httpResponse, error)
+            completion(pipelineResponse, error)
         }.resume()
     }
 }

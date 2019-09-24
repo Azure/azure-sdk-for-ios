@@ -8,7 +8,9 @@
 
 import Foundation
 
-public class HeadersPolicy: SansIOHttpPolicy {
+public class HeadersPolicy: PipelineStageProtocol {
+
+    public var next: PipelineStageProtocol?
 
     private var _headers: HttpHeaders
     public var headers: HttpHeaders {

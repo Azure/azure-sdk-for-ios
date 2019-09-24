@@ -13,9 +13,7 @@ public class UrlHttpResponse: HttpResponse {
 
     public init(request: HttpRequest, response: HTTPURLResponse?, blockSize: Int = 4096) {
         self.internalResponse = response
-        super.init(request: request, blockSize: blockSize)
-        if let statusCode = response?.statusCode {
-            self.statusCode = statusCode
-        }
+        let statusCode = response?.statusCode
+        super.init(request: request, statusCode: statusCode, blockSize: blockSize)
     }
 }

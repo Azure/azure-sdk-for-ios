@@ -18,12 +18,11 @@
 		0A3A5F012316DF1B00473FDA /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F002316DF1B00473FDA /* Errors.swift */; };
 		0A3A5F032316DF6600473FDA /* CryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F022316DF6600473FDA /* CryptoUtils.swift */; };
 		0A3A5F1C2316EBC600473FDA /* HeadersPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F1B2316EBC600473FDA /* HeadersPolicy.swift */; };
-		0A3A5F1E2316EC4C00473FDA /* PolicyBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F1D2316EC4C00473FDA /* PolicyBase.swift */; };
 		0A3A5F202316EF9400473FDA /* PipelineContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F1F2316EF9400473FDA /* PipelineContext.swift */; };
 		0A3A5F222316FAF000473FDA /* UserAgentPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F212316FAF000473FDA /* UserAgentPolicy.swift */; };
 		0A3A5F32231720DE00473FDA /* AuthenticationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F31231720DE00473FDA /* AuthenticationPolicy.swift */; };
 		0A3A5F35231731B700473FDA /* Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F34231731B700473FDA /* Credentials.swift */; };
-		0A3A5F382318686C00473FDA /* HttpTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F372318686C00473FDA /* HttpTransport.swift */; };
+		0A3A5F382318686C00473FDA /* HttpTransportable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F372318686C00473FDA /* HttpTransportable.swift */; };
 		0A3A5F3A2318903900473FDA /* PipelineRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F392318903900473FDA /* PipelineRequest.swift */; };
 		0A3A5F3C2318904F00473FDA /* PipelineResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F3B2318904F00473FDA /* PipelineResponse.swift */; };
 		0A3A5F3E2318906100473FDA /* Pipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F3D2318906100473FDA /* Pipeline.swift */; };
@@ -34,6 +33,7 @@
 		0A4081B8233417EE0071EAEE /* PagedCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4081B7233417EE0071EAEE /* PagedCollection.swift */; };
 		0A4081BA233432C30071EAEE /* HttpUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4081B9233432C30071EAEE /* HttpUtil.swift */; };
 		0A7F563A2321732B00E9765A /* UrlHttpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F56392321732B00E9765A /* UrlHttpResponse.swift */; };
+		0A8A583B233A78D4009846C1 /* RequestHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8A583A233A78D4009846C1 /* RequestHistory.swift */; };
 		0AD2142923314416003A2E3E /* ObjectiveCBridgeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD2142823314416003A2E3E /* ObjectiveCBridgeable.swift */; };
 		0AE5C3A6231F150A0013CA85 /* KeychainUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE5C3A5231F150A0013CA85 /* KeychainUtil.swift */; };
 		0AF473192331A64000AC5571 /* Iterable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF473182331A64000AC5571 /* Iterable.swift */; };
@@ -64,12 +64,11 @@
 		0A3A5F002316DF1B00473FDA /* Errors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		0A3A5F022316DF6600473FDA /* CryptoUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoUtils.swift; sourceTree = "<group>"; };
 		0A3A5F1B2316EBC600473FDA /* HeadersPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadersPolicy.swift; sourceTree = "<group>"; };
-		0A3A5F1D2316EC4C00473FDA /* PolicyBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyBase.swift; sourceTree = "<group>"; };
 		0A3A5F1F2316EF9400473FDA /* PipelineContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineContext.swift; sourceTree = "<group>"; };
 		0A3A5F212316FAF000473FDA /* UserAgentPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAgentPolicy.swift; sourceTree = "<group>"; };
 		0A3A5F31231720DE00473FDA /* AuthenticationPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationPolicy.swift; sourceTree = "<group>"; };
 		0A3A5F34231731B700473FDA /* Credentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
-		0A3A5F372318686C00473FDA /* HttpTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpTransport.swift; sourceTree = "<group>"; };
+		0A3A5F372318686C00473FDA /* HttpTransportable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpTransportable.swift; sourceTree = "<group>"; };
 		0A3A5F392318903900473FDA /* PipelineRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineRequest.swift; sourceTree = "<group>"; };
 		0A3A5F3B2318904F00473FDA /* PipelineResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineResponse.swift; sourceTree = "<group>"; };
 		0A3A5F3D2318906100473FDA /* Pipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pipeline.swift; sourceTree = "<group>"; };
@@ -80,6 +79,7 @@
 		0A4081B7233417EE0071EAEE /* PagedCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedCollection.swift; sourceTree = "<group>"; };
 		0A4081B9233432C30071EAEE /* HttpUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpUtil.swift; sourceTree = "<group>"; };
 		0A7F56392321732B00E9765A /* UrlHttpResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlHttpResponse.swift; sourceTree = "<group>"; };
+		0A8A583A233A78D4009846C1 /* RequestHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHistory.swift; sourceTree = "<group>"; };
 		0AD2142823314416003A2E3E /* ObjectiveCBridgeable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectiveCBridgeable.swift; sourceTree = "<group>"; };
 		0AE5C3A5231F150A0013CA85 /* KeychainUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainUtil.swift; sourceTree = "<group>"; };
 		0AF473182331A64000AC5571 /* Iterable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Iterable.swift; sourceTree = "<group>"; };
@@ -185,8 +185,8 @@
 			children = (
 				0A3A5F31231720DE00473FDA /* AuthenticationPolicy.swift */,
 				0A3A5F1B2316EBC600473FDA /* HeadersPolicy.swift */,
-				0A3A5F1D2316EC4C00473FDA /* PolicyBase.swift */,
 				0A3A5F212316FAF000473FDA /* UserAgentPolicy.swift */,
+				0A8A583A233A78D4009846C1 /* RequestHistory.swift */,
 			);
 			path = Policies;
 			sourceTree = "<group>";
@@ -195,7 +195,7 @@
 			isa = PBXGroup;
 			children = (
 				0A3A5D932315CEB600473FDA /* HttpHeader.swift */,
-				0A3A5F372318686C00473FDA /* HttpTransport.swift */,
+				0A3A5F372318686C00473FDA /* HttpTransportable.swift */,
 				0A3A5D902315CEB600473FDA /* HttpRequest.swift */,
 				0A3A5D912315CEB600473FDA /* HttpResponse.swift */,
 				0A3A5D922315CEB600473FDA /* HttpMethod.swift */,
@@ -381,19 +381,19 @@
 				0A3A5F422319834500473FDA /* PipelineBase.swift in Sources */,
 				0A3A5D9D2315CEB600473FDA /* HttpMethod.swift in Sources */,
 				0A3A5D9B2315CEB600473FDA /* HttpRequest.swift in Sources */,
-				0A3A5F1E2316EC4C00473FDA /* PolicyBase.swift in Sources */,
 				0A4081B62333EB380071EAEE /* ObjectiveCHelpers.swift in Sources */,
 				0A3A5F3C2318904F00473FDA /* PipelineResponse.swift in Sources */,
 				0AD2142923314416003A2E3E /* ObjectiveCBridgeable.swift in Sources */,
 				0A3A5F032316DF6600473FDA /* CryptoUtils.swift in Sources */,
 				0A3A5F1C2316EBC600473FDA /* HeadersPolicy.swift in Sources */,
-				0A3A5F382318686C00473FDA /* HttpTransport.swift in Sources */,
+				0A3A5F382318686C00473FDA /* HttpTransportable.swift in Sources */,
 				0A3A5F222316FAF000473FDA /* UserAgentPolicy.swift in Sources */,
 				0A3A5F402318975900473FDA /* PipelineClient.swift in Sources */,
 				0A35294E2331A6D8005BA459 /* Collection.swift in Sources */,
 				0A3A5F012316DF1B00473FDA /* Errors.swift in Sources */,
 				0A4081B8233417EE0071EAEE /* PagedCollection.swift in Sources */,
 				0A7F563A2321732B00E9765A /* UrlHttpResponse.swift in Sources */,
+				0A8A583B233A78D4009846C1 /* RequestHistory.swift in Sources */,
 				0A3A5F32231720DE00473FDA /* AuthenticationPolicy.swift in Sources */,
 				0A4081BA233432C30071EAEE /* HttpUtil.swift in Sources */,
 				0AF473192331A64000AC5571 /* Iterable.swift in Sources */,

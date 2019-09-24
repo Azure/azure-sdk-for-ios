@@ -48,9 +48,9 @@ public class AppConfigurationCredential {
     }
 }
 
-public class AppConfigurationAuthenticationPolicy: AuthenticationPolicy {
+public class AppConfigurationAuthenticationPolicy: AuthenticationProtocol {
 
-    public var next: PipelineSendable?
+    public var next: PipelineStageProtocol?
     public let scopes: [String]
     public let credential: AppConfigurationCredential
 
@@ -93,10 +93,7 @@ public class AppConfigurationAuthenticationPolicy: AuthenticationPolicy {
         }
     }
 
-    public func send(request: PipelineRequest, onResult handler: @escaping CompletionHandler) throws {
+    public func onRequest(_ request: PipelineRequest) {
         self.authenticate(request: request)
-        try self.next!.send(request: request, onResult: { response, error in
-            handler(response, error)
-        })
     }
 }

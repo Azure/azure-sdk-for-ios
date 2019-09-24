@@ -12,7 +12,7 @@ public class HttpResponse {
     public var httpRequest: HttpRequest?
     public var statusCode: Int?
     public var headers: HttpHeaders?
-    public var blockSize: Int?
+    public var blockSize: Int
     public var data: Data?
     public var body: Data? {
         get {
@@ -22,20 +22,11 @@ public class HttpResponse {
             self.data = newValue
         }
     }
-    
-    public init() {}
 
-    public init(request: HttpRequest, blockSize: Int = 4096) {
+    public init(request: HttpRequest, statusCode: Int?, blockSize: Int = 4096) {
         self.httpRequest = request
         self.headers = HttpHeaders()
         self.blockSize = blockSize
-    }
-
-    public func update(withResponse response: HttpResponse) {
-        httpRequest = response.httpRequest
-        headers = response.headers
-        blockSize = response.blockSize
-        statusCode = response.statusCode
-        data = response.data
+        self.statusCode = statusCode
     }
 }
