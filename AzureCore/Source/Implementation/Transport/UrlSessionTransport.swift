@@ -37,7 +37,7 @@ public class UrlSessionTransport: HttpTransport {
         Foundation.sleep(UInt32(duration))
     }
 
-    public func send(request: PipelineRequest) throws -> PipelineResponse {
+    public func send(request: PipelineRequest, onResult handler: @escaping CompletionHandler) throws {
         self.open()
         guard let session = self.session else {
             throw UrlSessionTransportError.invalidSession
@@ -46,19 +46,13 @@ public class UrlSessionTransport: HttpTransport {
         var urlRequest = URLRequest(url: URL(string: request.httpRequest.url)!)
         urlRequest.httpMethod = request.httpRequest.httpMethod.rawValue
         urlRequest.allHTTPHeaderFields = request.httpRequest.headers
-        let semaphore = DispatchSemaphore(value: 0)
-        var httpResponse = UrlHttpResponse(request: request.httpRequest, response: nil)
         session.dataTask(with: urlRequest) { (data, response, error) in
-            if let error = error {
-                os_log("Error: %@", type: .error, error.localizedDescription)
-            } else if let data = data, let rawResponse = response as? HTTPURLResponse {
+            var httpResponse: UrlHttpResponse?
+            if let data = data, let rawResponse = response as? HTTPURLResponse {
                 httpResponse = UrlHttpResponse(request: request.httpRequest, response: rawResponse)
-                httpResponse.data = data
+                httpResponse?.data = data
             }
-            semaphore.signal()
+            request.completion(httpResponse, error)
         }.resume()
-
-        semaphore.wait()
-        return PipelineResponse(request: request.httpRequest, response: httpResponse, context: request.context)
     }
 }

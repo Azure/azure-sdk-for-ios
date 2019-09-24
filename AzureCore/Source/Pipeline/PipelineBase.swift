@@ -10,5 +10,5 @@ import Foundation
 
 public protocol PipelineSendable {
     var next: PipelineSendable? { get set }
-    func send(request: PipelineRequest) throws -> PipelineResponse
+    func send(request: PipelineRequest, onResult: @escaping CompletionHandler) throws
 }

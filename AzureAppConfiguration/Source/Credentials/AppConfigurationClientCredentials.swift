@@ -93,8 +93,10 @@ public class AppConfigurationAuthenticationPolicy: AuthenticationPolicy {
         }
     }
 
-    public func send(request: PipelineRequest) throws -> PipelineResponse {
+    public func send(request: PipelineRequest, onResult handler: @escaping CompletionHandler) throws {
         self.authenticate(request: request)
-        return try self.next!.send(request: request)
+        try self.next!.send(request: request, onResult: { response, error in
+            handler(response, error)
+        })
     }
 }

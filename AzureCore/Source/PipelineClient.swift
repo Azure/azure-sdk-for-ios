@@ -8,7 +8,7 @@
 
 import Foundation
 
-public typealias CompletionHandler = (Result<HttpResponse, Error>) -> Void
+public typealias CompletionHandler = (HttpResponse?, Error?) -> Void
 
 open class PipelineClient {
 
@@ -38,8 +38,10 @@ open class PipelineClient {
         self.pipeline = Pipeline(transport: transport, policies: policies)
     }
 
-    public func run(request: PipelineRequest) throws -> PipelineResponse {
-        return try self.pipeline.run(request: request)
+    public func run(request: PipelineRequest, onResult handler: @escaping CompletionHandler) throws {
+        try self.pipeline.run(request: request, onResult: { response, error in
+            handler(response, error)
+        })
     }
 
     public func request(method: HttpMethod, urlTemplate: String?, queryParams: [String: String]? = nil,

@@ -12,14 +12,16 @@ final public class PipelineRequest: PipelineContextSupportable {
 
     public var httpRequest: HttpRequest
     internal var context: PipelineContext?
+    internal var completion: CompletionHandler
 
-    public convenience init(request: HttpRequest) {
-        self.init(request: request, context: nil)
+    public convenience init(request: HttpRequest, completion: @escaping CompletionHandler) {
+        self.init(request: request, context: nil, completion: completion)
     }
 
-    public init(request: HttpRequest, context: PipelineContext?) {
+    public init(request: HttpRequest, context: PipelineContext?, completion: @escaping CompletionHandler) {
         self.httpRequest = request
         self.context = context
+        self.completion = completion
     }
 
     public func add(value: AnyObject, forKey key: AnyHashable) {

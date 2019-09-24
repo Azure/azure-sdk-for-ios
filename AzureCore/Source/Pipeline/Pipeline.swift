@@ -17,20 +17,17 @@ internal class SansIOHttpPolicyRunner: HttpPolicy {
         self.policy = policy
     }
 
-    func send(request: PipelineRequest) throws -> PipelineResponse {
-        var response: PipelineResponse
+    func send(request: PipelineRequest, onResult handler: @escaping CompletionHandler) throws {
         self.policy.onRequest(request)
         do {
-            response = try self.next!.send(request: request)
-            self.policy.onResponse(response, request: request)
-            return response
+            try self.next!.send(request: request, onResult: { response, error in
+                handler(response, error)
+            })
         } catch {
             if !(self.policy.onError(request: request)) {
                 throw error
             }
         }
-        return PipelineResponse(request: request.httpRequest,
-                                response: HttpResponse(request: request.httpRequest), context: request.context)
     }
 }
 
@@ -43,12 +40,8 @@ internal class TransportRunner: PipelineSendable {
         self.sender = sender
     }
 
-    func send(request: PipelineRequest) throws -> PipelineResponse {
-        return PipelineResponse(
-            request: request.httpRequest,
-            response: try self.sender.send(request: request).httpResponse,
-            context: request.context
-        )
+    func send(request: PipelineRequest, onResult handler: @escaping CompletionHandler) throws {
+        let test = "best"
     }
 }
 
@@ -81,8 +74,10 @@ internal class Pipeline {
         self.implPolicies.append(lastPolicy)
     }
 
-    public func run(request: PipelineRequest) throws -> PipelineResponse {
+    public func run(request: PipelineRequest, onResult handler: @escaping CompletionHandler) throws {
         let firstNode = self.implPolicies.first ?? TransportRunner(sender: self.transport)
-        return try firstNode.send(request: request)
+        try firstNode.send(request: request, onResult: { response, error in
+            handler(response, error)
+        })
     }
 }

@@ -36,11 +36,13 @@ public class BearerTokenCredentialPolicy: AuthenticationPolicy {
         }
     }
 
-    public func send(request: PipelineRequest) throws -> PipelineResponse {
+    public func send(request: PipelineRequest, onResult handler: @escaping CompletionHandler) throws {
         if self.needNewToken {
             self.token = self.credential.getToken(scopes: self.scopes)
         }
         self.authenticate(request: request)
-        return try self.next!.send(request: request)
+        try self.next!.send(request: request, onResult: { response, error in
+            handler(response, error)
+        })
     }
 }

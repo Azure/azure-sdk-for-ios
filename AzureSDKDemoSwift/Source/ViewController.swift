@@ -23,20 +23,20 @@ class ViewController: UIViewController {
         guard let client = try? AppConfigurationClient(connectionString: connectionString) else { return }
         let raw = HttpResponse()
         do {
-            if let settings = try client.getConfigurationSettings(forKey: nil, forLabel: nil, withResponse: raw) {
-                textLabel.textColor = .black
+            try client.getConfigurationSettings(forKey: nil, forLabel: nil, withResponse: raw, completion: { response, error in
+                self.textLabel.textColor = .black
                 var text = "\(raw.statusCode!)"
                 var count = 0
-                for item in settings {
-                    count += 1
-                    text = "\(text)\n\(item.key) : \(item.value)"
-                }
+//                for item in settings {
+//                    count += 1
+//                    text = "\(text)\n\(item.key) : \(item.value)"
+//                }
                 os_log("%i settings!", count)
-                textLabel.text = text
-            } else {
-                textLabel.textColor = .red
-                textLabel.text = "No settings found..."
-            }
+                self.textLabel.text = text
+
+                self.textLabel.textColor = .red
+                self.textLabel.text = "No settings found..."
+            })
         } catch {
             textLabel.textColor = .red
             textLabel.text = "\(error.localizedDescription) - \(error)"

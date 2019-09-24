@@ -39,14 +39,15 @@ public struct PagedCollection<T: Codable>: PagedIterable, Codable {
             throw HttpResponseError.general
         }
         if let nextLink = nextLink {
-            request!.httpRequest.format(queryParams: nextLink.parseQueryString())
-            let nextResponse = try client!.pipeline.run(request: request!)
-            if let data = nextResponse.httpResponse.data {
-                let decoder = JSONDecoder()
-                let nextPage = try decoder.decode(PagedCollection<T>.self, from: data)
-                self.nextLink = nextPage.nextLink
-                return nextPage.pageItems
-            }
+            // TODO: Re-solve for Async... 
+//            request!.httpRequest.format(queryParams: nextLink.parseQueryString())
+//            let nextResponse = try client!.pipeline.run(request: request!)
+//            if let data = nextResponse.httpResponse.data {
+//                let decoder = JSONDecoder()
+//                let nextPage = try decoder.decode(PagedCollection<T>.self, from: data)
+//                self.nextLink = nextPage.nextLink
+//                return nextPage.pageItems
+//            }
         }
         return nil
     }

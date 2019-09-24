@@ -22,7 +22,7 @@ public class HttpResponse {
             self.data = newValue
         }
     }
-
+    
     public init() {}
 
     public init(request: HttpRequest, blockSize: Int = 4096) {
