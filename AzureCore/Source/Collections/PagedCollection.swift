@@ -11,11 +11,11 @@ import os.log
 
 // MARK: - Swift Collection<T>
 
-public struct PagedCollection<T: Codable>: PagedIterable, Codable {
+public struct PagedCollection<Element: Codable>: PagedIterable, Codable {
 
-    public typealias Element = T
-
-    private var pageItems: [T]?
+    public typealias Element = Element
+    
+    private var pageItems: [Element]?
     private var nextLink: String?
 
     private enum CodingKeys: String, CodingKey {
@@ -23,36 +23,33 @@ public struct PagedCollection<T: Codable>: PagedIterable, Codable {
         case nextLink = "@nextLink"
     }
 
-    // swiftlint:disable redundant_optional_initialization
     private var iteratorIndex: Int = 0
-    public var request: PipelineRequest? = nil
-    public var client: PipelineClient? = nil
-    // swiftlint:enable redundant_optional_initialization
+    private var request: PipelineRequest?
+    private var client: PipelineClient?
 
     public var underestimatedCount: Int {
         return pageItems?.count ?? 0
     }
 
-    mutating public func nextPage() throws -> [T]? {
-        print("NextPage called with NextLink: \(nextLink ?? "nil")")
-        guard client != nil && request != nil else {
-            throw HttpResponseError.general
-        }
+    mutating public func nextPage() throws -> [Element]? {
         if let nextLink = nextLink {
-            // TODO: Re-solve for Async... 
-//            request!.httpRequest.format(queryParams: nextLink.parseQueryString())
-//            let nextResponse = try client!.pipeline.run(request: request!)
-//            if let data = nextResponse.httpResponse.data {
-//                let decoder = JSONDecoder()
-//                let nextPage = try decoder.decode(PagedCollection<T>.self, from: data)
-//                self.nextLink = nextPage.nextLink
-//                return nextPage.pageItems
-//            }
+//            request.httpRequest.format(queryParams: nextLink.parseQueryString())
+//
+//            client.pipeline.run(request: request, completion: { response, error in
+//                // TODO: Re-solve for Async...
+//                let test = "best"
+//                if let data = response.httpResponse.data {
+//                    let decoder = JSONDecoder()
+//                    let nextPage = try decoder.decode(PagedCollection<T>.self, from: data)
+//                    self.nextLink = nextPage.nextLink
+//                    return nextPage.pageItems
+//                }
+//            })
         }
         return nil
     }
 
-    mutating public func next() -> T? {
+    mutating public func next() -> Element? {
         guard let pageItems = pageItems else { return nil }
         if iteratorIndex >= pageItems.count {
             do {

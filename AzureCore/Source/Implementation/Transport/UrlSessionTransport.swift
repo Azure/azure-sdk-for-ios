@@ -51,7 +51,7 @@ public class UrlSessionTransport: HttpTransportable {
     public func onResponse(_ response: PipelineResponse, request: PipelineRequest) {}
     public func onError(request: PipelineRequest) -> Bool { return false }
 
-    public func process(request: PipelineRequest, completion: @escaping PipelineCompletionHandler) {
+    public func process(request: PipelineRequest, completion: @escaping PipelineStageResultHandler) {
         self.open()
         guard let session = self.session else {
             os_log("Invalid session.")
@@ -61,16 +61,16 @@ public class UrlSessionTransport: HttpTransportable {
         urlRequest.httpMethod = request.httpRequest.httpMethod.rawValue
         urlRequest.allHTTPHeaderFields = request.httpRequest.headers
         session.dataTask(with: urlRequest) { (data, response, error) in
-            var pipelineResponse: PipelineResponse?
-            var httpResponse: UrlHttpResponse?
+            let rawResponse = response as? HTTPURLResponse
+            let httpResponse = UrlHttpResponse(request: request.httpRequest, response: rawResponse)
+            httpResponse.data = data
 
-            if let data = data, let rawResponse = response as? HTTPURLResponse {
-                httpResponse = UrlHttpResponse(request: request.httpRequest, response: rawResponse)
-                httpResponse?.data = data
-                pipelineResponse = PipelineResponse(request: request.httpRequest, response: httpResponse,
-                                                    context: request.context)
+            if let error = error {
+                completion(.failure(error), httpResponse)
             }
-            completion(pipelineResponse, error)
+            let pipelineResponse = PipelineResponse(request: request.httpRequest, response: httpResponse,
+                                                    context: request.context)
+            completion(.success(pipelineResponse), httpResponse)
         }.resume()
     }
 }

@@ -20,7 +20,7 @@ open class PipelineClient {
     internal let transport: HttpTransportable
 
     public init(baseUrl: String, headersPolicy: HeadersPolicy, userAgentPolicy: UserAgentPolicy,
-                authenticationPolicy: PipelineStageProtocol, transport: HttpTransportable) {
+                authenticationPolicy: AuthenticationProtocol, transport: HttpTransportable) {
         self.baseUrl = baseUrl
 
         self.headersPolicy = headersPolicy
@@ -31,16 +31,23 @@ open class PipelineClient {
         let policies: [PipelineStageProtocol] = [
             headersPolicy,
             userAgentPolicy,
-            authenticationPolicy
+            authenticationPolicy as PipelineStageProtocol
         ]
         self.pipeline = Pipeline(transport: transport, policies: policies)
     }
 
-    public func run(request: HttpRequest, completion: @escaping (Data?, HttpResponse?, Error?) -> Void) {
-        let pipelineRequest = PipelineRequest(request: request)
-        self.pipeline.run(request: pipelineRequest, completion: { pipelineResponse, error in
-            let data = pipelineResponse?.httpResponse?.data
-            completion(data, pipelineResponse?.httpResponse, error)
+    public func run(request: HttpRequest, completion: @escaping (Result<Data?, Error>, HttpResponse) -> Void) {
+        var pipelineRequest = PipelineRequest(request: request)
+        pipelineRequest.add(value: self as AnyObject, forKey: "pipelineClient")
+        pipelineRequest.add(value: pipelineRequest as AnyObject, forKey: "pipelineRequest")
+        self.pipeline.run(request: pipelineRequest, completion: { result, httpResponse in
+            switch result {
+            case .success(let pipelineResponse):
+                let data = pipelineResponse.httpResponse?.data
+                completion(.success(data), httpResponse)
+            case .failure(let error):
+                completion(.failure(error), httpResponse)
+            }
         })
     }
 

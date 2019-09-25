@@ -21,31 +21,30 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         guard let client = try? AppConfigurationClient(connectionString: connectionString) else { return }
-        client.getConfigurationSettings(forKey: nil, forLabel: nil, completion: { settings, response, error in
-            if let error = error {
+        client.getConfigurationSettings(forKey: nil, forLabel: nil, completion: { result, httpResponse in
+            switch result {
+            case .failure(let error):
                 DispatchQueue.main.async { [weak self] in
                     self?.textLabel.textColor = .red
                     self?.textLabel.text = "\(error.localizedDescription) - \(error)"
                 }
-                return
-            }
-            var text = ""
-            if let statusCode = response?.statusCode {
-                text = "\(statusCode)"
-            } else {
-                text = "UNKNOWN STATUS"
-            }
-            if let settings = settings {
+            case .success(let settings):
+                var text = ""
+                if let statusCode = httpResponse.statusCode {
+                    text = "\(statusCode)"
+                } else {
+                    text = "UNKNOWN STATUS"
+                }
                 var count = 0
                 for item in settings {
                     count += 1
                     text = "\(text)\n\(item.key) : \(item.value)"
                 }
                 os_log("%i settings!", count)
-            }
-            DispatchQueue.main.async { [weak self] in
-                self?.textLabel.textColor = .black
-                self?.textLabel.text = text
+                DispatchQueue.main.async { [weak self] in
+                    self?.textLabel.textColor = .black
+                    self?.textLabel.text = text
+                }
             }
         })
     }

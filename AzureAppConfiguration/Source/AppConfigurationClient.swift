@@ -26,7 +26,7 @@ public class AppConfigurationClient: PipelineClient {
     }
 
     public func getConfigurationSettings(forKey key: String?, forLabel label: String?,
-                                         completion: @escaping ResultHandler<PagedCollection<ConfigurationSetting>>) {
+                                         completion: @escaping HttpResultHandler<PagedCollection<ConfigurationSetting>>) {
         // TODO: Additional supported functionality
         // $select query param
         // Accept-Datetime header
@@ -38,14 +38,24 @@ public class AppConfigurationClient: PipelineClient {
         let request = self.request(method: HttpMethod.GET,
                                    urlTemplate: "/kv",
                                    queryParams: queryParams)
-        self.run(request: request, completion: { data, response, error in
+        self.run(request: request, completion: { result, httpResponse in
             let decoder = JSONDecoder()
             let type = PagedCollection<ConfigurationSetting>.self
-            if let data = data {
-                let deserialized = try? decoder.decode(type, from: data)
-                completion(deserialized, response, error)
-            } else {
-                completion(nil, response, error)
+            // TODO: Find way to do this in the pipeline!
+            switch result {
+            case .success(let data):
+                if let data = data {
+                    do {
+                        let deserialized = try decoder.decode(type, from: data)
+                        completion(.success(deserialized), httpResponse)
+                    } catch {
+                        completion(.failure(error), httpResponse)
+                    }
+                } else {
+                    completion(.failure(HttpResponseError.decode), httpResponse)
+                }
+            case .failure(let error):
+                completion(.failure(error), httpResponse)
             }
         })
     }

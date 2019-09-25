@@ -8,9 +8,8 @@
 
 import Foundation
 
-public typealias PipelineCompletionHandler = (PipelineResponse?, Error?) -> Void
-
-public typealias ResultHandler<T> = (T?, HttpResponse?, Error?) -> Void
+public typealias HttpResultHandler<T> = (Result<T, Error>, HttpResponse) -> Void
+public typealias PipelineStageResultHandler = HttpResultHandler<PipelineResponse>
 
 public protocol PipelineStageProtocol {
     var next: PipelineStageProtocol? { get set }
@@ -19,7 +18,7 @@ public protocol PipelineStageProtocol {
     func onResponse(_ response: PipelineResponse, request: PipelineRequest)
     func onError(request: PipelineRequest) -> Bool
 
-    func process(request: PipelineRequest, completion: @escaping PipelineCompletionHandler)
+    func process(request: PipelineRequest, completion: @escaping PipelineStageResultHandler)
 }
 
 extension PipelineStageProtocol {
@@ -27,13 +26,16 @@ extension PipelineStageProtocol {
     public func onResponse(_ response: PipelineResponse, request: PipelineRequest) {}
     public func onError(request: PipelineRequest) -> Bool { return false }
 
-    public func process(request: PipelineRequest, completion: @escaping PipelineCompletionHandler) {
+    public func process(request: PipelineRequest, completion: @escaping PipelineStageResultHandler) {
         self.onRequest(request)
-        self.next!.process(request: request, completion: { pipelineResponse, error in
-            if let pipelineResponse = pipelineResponse {
+        self.next!.process(request: request, completion: { result, httpResponse in
+            switch result {
+            case .success(let pipelineResponse):
                 self.onResponse(pipelineResponse, request: request)
+                completion(.success(pipelineResponse), httpResponse)
+            case .failure(let error):
+                completion(.failure(error), httpResponse)
             }
-            completion(pipelineResponse, error)
         })
     }
 }
