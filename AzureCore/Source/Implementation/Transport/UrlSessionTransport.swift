@@ -67,6 +67,7 @@ public class UrlSessionTransport: HttpTransportable {
 
             if let error = error {
                 completion(.failure(error), httpResponse)
+                return
             }
             let pipelineResponse = PipelineResponse(request: request.httpRequest, response: httpResponse,
                                                     context: request.context)

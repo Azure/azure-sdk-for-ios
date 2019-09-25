@@ -39,20 +39,14 @@ public class AppConfigurationClient: PipelineClient {
                                    urlTemplate: "/kv",
                                    queryParams: queryParams)
         self.run(request: request, completion: { result, httpResponse in
-            let decoder = JSONDecoder()
-            let type = PagedCollection<ConfigurationSetting>.self
-            // TODO: Find way to do this in the pipeline!
             switch result {
             case .success(let data):
-                if let data = data {
-                    do {
-                        let deserialized = try decoder.decode(type, from: data)
-                        completion(.success(deserialized), httpResponse)
-                    } catch {
-                        completion(.failure(error), httpResponse)
-                    }
-                } else {
-                    completion(.failure(HttpResponseError.decode), httpResponse)
+                let codingKeys = PagedCodingKeys(continuationToken: "@nextLink")
+                do {
+                    let paged = try PagedCollection<ConfigurationSetting>(client: self, data: data, codingKeys: codingKeys)
+                    completion(.success(paged), httpResponse)
+                } catch {
+                    completion(.failure(error), httpResponse)
                 }
             case .failure(let error):
                 completion(.failure(error), httpResponse)
