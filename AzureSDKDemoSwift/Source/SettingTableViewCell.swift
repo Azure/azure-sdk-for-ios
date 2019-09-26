@@ -11,10 +11,10 @@ import UIKit
 class SettingTableViewCell: UITableViewCell {
 
     // MARK: Properties
-    
+
     @IBOutlet weak var keyLabel: UILabel!
     @IBOutlet weak var valueLabel: UILabel!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
