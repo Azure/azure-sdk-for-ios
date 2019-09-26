@@ -9,23 +9,25 @@
 import Foundation
 import os.log
 
-// MARK: - Swift Collection<T>
-
 public struct PagedCodingKeys {
     public let items: String
     public let continuationToken: String
-    
+
     public init(items: String = "items", continuationToken: String = "continuationToken") {
         self.items = items
         self.continuationToken = continuationToken
     }
 }
 
-public class PagedCollection<Element: Codable>: PagedIterable {
+public enum PagedCollectionError: Error {
+    case noMorePages
+}
 
-    public typealias Element = Element
+public class PagedCollection<SingleElement: Codable>: PagedIterable {
 
-    private var items: [Element]?
+    public typealias Element = [SingleElement]
+
+    private var items: Element?
     private var continuationToken: String?
 
     private var iteratorIndex: Int = 0
@@ -43,7 +45,7 @@ public class PagedCollection<Element: Codable>: PagedIterable {
             if let itemJson = json[codingKeys.items] {
                 let decoder = JSONDecoder()
                 let itemData = try JSONSerialization.data(withJSONObject: itemJson)
-                self.items = try decoder.decode([Element].self, from: itemData)
+                self.items = try decoder.decode(Element.self, from: itemData)
             } else {
                 self.items = nil
             }
@@ -51,7 +53,6 @@ public class PagedCollection<Element: Codable>: PagedIterable {
         } else {
             self.items = nil
         }
-        self.iteratorIndex = 0
     }
 
     public init(client: PipelineClient, data: Data?, codingKeys: PagedCodingKeys? = nil) throws {
@@ -61,42 +62,66 @@ public class PagedCollection<Element: Codable>: PagedIterable {
         try update(with: data)
     }
 
-    public func nextPage() throws -> [Element]? {
-        guard let continuationToken = continuationToken else { return nil }
+    public func nextPage() throws -> Element? {
+        guard let continuationToken = continuationToken else { throw PagedCollectionError.noMorePages }
         os_log("Fetching next page with: %@", continuationToken)
         let request = client.request(method: .GET,
                                      urlTemplate: continuationToken)
         let semaphore = DispatchSemaphore(value: 0)
+        var returnError: Error?
         client.run(request: request, completion: { result, _ in
             switch result {
             case .failure(let error):
-                os_log("Error: %@", error.localizedDescription)
+                returnError = error
             case .success(let data):
                 do {
                     try self.update(with: data)
                 } catch {
-                    os_log("Error: %@", error.localizedDescription)
+                    returnError = error
                 }
             }
             semaphore.signal()
         })
         _ = semaphore.wait(wallTimeout: .distantFuture)
+        self.iteratorIndex = 0
+        if let error = returnError {
+            throw error
+        }
         return self.items
     }
 
-    public func next() -> Element? {
+    public func nextItem() throws -> SingleElement? {
         guard let items = items else { return nil }
         if iteratorIndex >= items.count {
             do {
                 _ = try nextPage()
-            } catch {
-                os_log("Error: %@", error.localizedDescription)
+            } catch PagedCollectionError.noMorePages {
                 return nil
+            } catch {
+                throw error
             }
         }
-        let item = self.items?[iteratorIndex]
+        guard let item = self.items?[iteratorIndex] else { return nil }
         iteratorIndex += 1
         return item
+    }
+
+    public func next() -> Element? {
+        guard let items = items else { return nil }
+        if iteratorIndex < items.count {
+            iteratorIndex = items.count
+            return items
+        }
+        do {
+            let newItems = try nextPage()
+            iteratorIndex = newItems?.count ?? 0
+            return newItems
+        } catch PagedCollectionError.noMorePages {
+            return nil
+        } catch {
+            os_log("Error: %@", error.localizedDescription)
+            return nil
+        }
     }
 }
 

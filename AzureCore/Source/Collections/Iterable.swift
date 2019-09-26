@@ -12,7 +12,7 @@ protocol Iterable: Sequence, IteratorProtocol {}
 
 protocol PagedIterable: Iterable {
 
-    associatedtype Element
-
-    mutating func nextPage() throws -> [Element]?
+    associatedtype SingleElement
+    mutating func nextPage() throws -> [SingleElement]?
+    mutating func nextItem() throws -> SingleElement?
 }

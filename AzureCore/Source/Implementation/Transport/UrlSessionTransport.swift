@@ -14,9 +14,10 @@ public enum UrlSessionTransportError: Error {
 }
 
 public class UrlSessionTransport: HttpTransportable {
-    
+
     private var session: URLSession?
     private var config: URLSessionConfiguration
+    private let operationQueue: OperationQueue
 
     private var _next: PipelineStageProtocol?
     public var next: PipelineStageProtocol? {
@@ -32,11 +33,13 @@ public class UrlSessionTransport: HttpTransportable {
 
     public init() {
         self.config = URLSessionConfiguration.default
+        self.operationQueue = OperationQueue()
+        self.operationQueue.name = "com.domain.AzureCore.networkQueue"
     }
 
     public func open() {
         guard self.session == nil else { return }
-        self.session = URLSession(configuration: self.config, delegate: nil, delegateQueue: nil)
+        self.session = URLSession(configuration: self.config, delegate: nil, delegateQueue: self.operationQueue)
     }
 
     public func close() {
