@@ -19,11 +19,14 @@ class MainViewController: UITableViewController {
     private var settingsCollection: PagedCollection<ConfigurationSetting>?
 
     override func viewDidLoad() {
+        // If I try to call loadAllSettingsByItem here, the execution hangs...
         super.viewDidLoad()
         loadInitialSettings()
     }
 
     // MARK: Private Methods
+    
+    /// Constructs the PagedCollection and retrieves the first page of results to initalize the table view.
     private func loadInitialSettings() {
         guard let client = try? AppConfigurationClient(connectionString: connectionString) else { return }
         client.getConfigurationSettings(forKey: nil, forLabel: nil, completion: { result, _ in
@@ -32,11 +35,33 @@ class MainViewController: UITableViewController {
                 os_log("Error: %@", error.localizedDescription)
             case .success(let pagedCollection):
                 self.settingsCollection = pagedCollection
+                // self.loadAllSettingsByItem()
                 self.reloadTableView()
             }
         })
     }
 
+    /// For demo purposes only to illustrate usage of the "nextItem" method to retrieve all items.
+    /// Requires semaphore to force synchronous behavior, otherwise concurrency issues arise.
+    private func loadAllSettingsByItem() {
+        var newItem: ConfigurationSetting?
+        let semaphore = DispatchSemaphore(value: 0)
+        repeat {
+            self.settingsCollection?.nextItem { result in
+                defer { semaphore.signal() }
+                switch result {
+                case .failure(let error):
+                    newItem = nil
+                    os_log("Error: %@", error.localizedDescription)
+                case .success(let item):
+                    newItem = item
+                }
+            }
+            _ = semaphore.wait(wallTimeout: .distantFuture)
+        } while(newItem != nil)
+    }
+    
+    /// Uses asynchronous "nextPage" method to fetch the next page of results and update the table view.
     private func loadMoreSettings() {
         self.settingsCollection?.nextPage { result in
             switch result {
@@ -48,6 +73,7 @@ class MainViewController: UITableViewController {
         }
     }
 
+    /// Reload the table view on the UI thread.
     private func reloadTableView() {
         DispatchQueue.main.async { [weak self] in
             self?.tableView.reloadData()

@@ -9,6 +9,9 @@
 import Foundation
 import os.log
 
+// MARK: Paged Collection
+
+/// Defines the property keys used to conform to the Azure paging design.
 public struct PagedCodingKeys {
     public let items: String
     public let continuationToken: String
@@ -19,12 +22,8 @@ public struct PagedCodingKeys {
     }
 }
 
-public enum PagedCollectionError: Error {
-    case noMorePages
-    case noMoreItems
-}
-
-public class PagedCollection<SingleElement: Codable>: PagedIterable {
+/// A collection that fetches paged results in a lazy fashion.
+public class PagedCollection<SingleElement: Codable>: Sequence, IteratorProtocol {
 
     public typealias Element = [SingleElement]
 
@@ -71,7 +70,7 @@ public class PagedCollection<SingleElement: Codable>: PagedIterable {
                 let decoder = JSONDecoder()
                 let itemData = try JSONSerialization.data(withJSONObject: itemJson)
                 let newItems = try decoder.decode(Element.self, from: itemData)
-                if var currentItems = self._items {
+                if let currentItems = self._items {
                     // append rather than throw away old items
                     self.pageRange = currentItems.count..<(currentItems.count + newItems.count)
                     self._items = currentItems + newItems
@@ -92,9 +91,9 @@ public class PagedCollection<SingleElement: Codable>: PagedIterable {
     }
 
     /// Retrieves the next page of results asynchronously.
-    public func nextPage(then completion: @escaping (Result<Element, Error>) -> Void) {
+    public func nextPage(then completion: @escaping (Result<Element?, Error>) -> Void) {
         guard let continuationToken = continuationToken else {
-            completion(.failure(PagedCollectionError.noMorePages))
+            completion(.success(nil))
             return
         }
         os_log("Fetching next page with: %@", continuationToken)
@@ -116,36 +115,40 @@ public class PagedCollection<SingleElement: Codable>: PagedIterable {
             if let returnError = returnError {
                 completion(.failure(returnError))
             }
-            if let newPage = self.pageItems {
-                self.iteratorIndex = 0
-                completion(.success(newPage))
-            } else {
-                completion(.failure(PagedCollectionError.noMoreItems))
-            }
+            self.iteratorIndex = 0
+            completion(.success(self.pageItems))
         }
     }
 
     /// Retrieves the next item in the collection, automatically fetching new pages when needed.
-    public func nextItem(then completion: @escaping (Result<SingleElement, Error>) -> Void) {
-        guard let items = items else {
-            completion(.failure(PagedCollectionError.noMoreItems))
+    public func nextItem(then completion: @escaping (Result<SingleElement?, Error>) -> Void) {
+        guard let pageItems = pageItems else {
+            completion(.success(nil))
             return
         }
-        if iteratorIndex >= items.count {
+        if iteratorIndex >= pageItems.count {
             nextPage { result in
                 switch result {
                 case .failure(let error):
                     completion(.failure(error))
                 case .success(let newPage):
-                    let test = "best"
+                    if let newPage = newPage {
+                        // since we return the first new item, the next iteration should start with the second item.
+                        self.iteratorIndex = 1
+                        completion(.success(newPage[0]))
+                    } else {
+                        self.iteratorIndex = 0
+                        completion(.success(nil))
+                    }
                 }
             }
         } else {
-            if let item = self.items?[iteratorIndex] {
+            if let item = self.pageItems?[iteratorIndex] {
                 iteratorIndex += 1
                 completion(.success(item))
             } else {
-                completion(.failure(PagedCollectionError.noMoreItems))
+                iteratorIndex = 0
+                completion(.success(nil))
             }
         }
     }
@@ -167,7 +170,7 @@ public class PagedCollection<SingleElement: Codable>: PagedIterable {
         nextPage { result in
             switch result {
             case .success(let newPage):
-                self.iteratorIndex = newPage.count
+                self.iteratorIndex = newPage?.count ?? 0
                 newItems = newPage
             case .failure(let error):
                 os_log("Error: %@", error.localizedDescription)
@@ -179,35 +182,3 @@ public class PagedCollection<SingleElement: Codable>: PagedIterable {
         return newItems
     }
 }
-
-// TODO: Remove when no longer useful
-//func makeAPICall() -> Result<String?, Error> {
-//    let path = "blah"
-//    guard let url = URL(string: path) else { return .failure(.url) }
-//    var result: Result<String?, Error>!
-//    let semaphore = DispatchSemaphore(value: 0)
-//    URLSession.shared.dataTask(with: url) { (data, _, _) in
-//        if let data = data {
-//            result = .success(String(data: data, encoding: .utf8))
-//        } else {
-//            result = .failure(.server)
-//        }
-//        semaphore.signal()
-//    }.resume()
-//    _ = semaphore.wait(wallTimeout: .distantFuture)
-//    return result
-//}
-//
-//func load() {
-//    DispatchQueue.global(qos: .utility).async {
-//        let result = self.makeAPICall().flatMap { self.anotherAPICall($0) }.flatMap { self.andAnotherAPICall($0) }
-//        DispatchQueue.main.async {
-//            switch result {
-//            case let .success(data):
-//                print(data)
-//            case let .failure(error):
-//                print(error)
-//            }
-//        }
-//    }
-//}
