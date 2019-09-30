@@ -14,9 +14,9 @@
 		0A3A5E842315E70500473FDA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A3A5E822315E70500473FDA /* LaunchScreen.storyboard */; };
 		0A3A5E8F2315E70600473FDA /* AzureSDKDemoSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5E8E2315E70600473FDA /* AzureSDKDemoSwiftTests.swift */; };
 		0A3A5E9E2315E8C800473FDA /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3A5E9D2315E8C800473FDA /* AzureCore.framework */; };
-		0A3A5E9F2315E8C800473FDA /* AzureCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3A5E9D2315E8C800473FDA /* AzureCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0A4081B42333DE170071EAEE /* AzureAppConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A4081B32333DE170071EAEE /* AzureAppConfiguration.framework */; };
 		0A68647C233D33CD004B7E17 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A68647B233D33CD004B7E17 /* SettingTableViewCell.swift */; };
+		0A6864B5233E8C8E004B7E17 /* AzureStorageBlob.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A6864B4233E8C8E004B7E17 /* AzureStorageBlob.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,20 +28,6 @@
 			remoteInfo = AzureSDKDemoSwift;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		0A3A5EA02315E8C800473FDA /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				0A3A5E9F2315E8C800473FDA /* AzureCore.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0A3A5E762315E70400473FDA /* AzureSDKDemoSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AzureSDKDemoSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -58,6 +44,7 @@
 		0A3A5E9D2315E8C800473FDA /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A4081B32333DE170071EAEE /* AzureAppConfiguration.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureAppConfiguration.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A68647B233D33CD004B7E17 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
+		0A6864B4233E8C8E004B7E17 /* AzureStorageBlob.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureStorageBlob.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +53,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A3A5E9E2315E8C800473FDA /* AzureCore.framework in Frameworks */,
+				0A6864B5233E8C8E004B7E17 /* AzureStorageBlob.framework in Frameworks */,
 				0A4081B42333DE170071EAEE /* AzureAppConfiguration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -136,6 +124,7 @@
 			children = (
 				0A3A5E9B2315E8BE00473FDA /* AzureCore.framework */,
 				0A4081B32333DE170071EAEE /* AzureAppConfiguration.framework */,
+				0A6864B4233E8C8E004B7E17 /* AzureStorageBlob.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -150,7 +139,6 @@
 				0A3A5E722315E70400473FDA /* Sources */,
 				0A3A5E732315E70400473FDA /* Frameworks */,
 				0A3A5E742315E70400473FDA /* Resources */,
-				0A3A5EA02315E8C800473FDA /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

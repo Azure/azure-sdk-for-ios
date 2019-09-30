@@ -5,13 +5,16 @@
       location = "group:AzureCore/AzureCore.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:/Users/travisprescott/repos/azure-sdk-for-ios/AzureAppConfiguration/AzureAppConfiguration.xcodeproj">
+      location = "group:AzureAppConfiguration/AzureAppConfiguration.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:AzureCSComputerVision/AzureCSComputerVision.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:AzureCSTextAnalytics/AzureCSTextAnalytics.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:AzureStorageBlob/AzureStorageBlob.xcodeproj">
    </FileRef>
    <Group
       location = "container:"

@@ -12,6 +12,12 @@ public protocol AuthenticationProtocol: PipelineStageProtocol {
     func authenticate(request: PipelineRequest)
 }
 
+extension AuthenticationProtocol {
+    public func onRequest(_ request: inout PipelineRequest) {
+        self.authenticate(request: request)
+    }
+}
+
 public class BearerTokenCredentialPolicy: AuthenticationProtocol {
 
     public var next: PipelineStageProtocol?
@@ -37,7 +43,7 @@ public class BearerTokenCredentialPolicy: AuthenticationProtocol {
         }
     }
 
-    public func onRequest(_ request: PipelineRequest) {
+    public func onRequest(_ request: inout PipelineRequest) {
         if self.needNewToken {
             self.token = self.credential.getToken(scopes: self.scopes)
         }

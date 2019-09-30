@@ -22,6 +22,7 @@ public class AppConfigurationClient: PipelineClient {
                    headersPolicy: HeadersPolicy(),
                    userAgentPolicy: UserAgentPolicy(),
                    authenticationPolicy: authPolicy,
+                   contentDecodePolicy: ContentDecodePolicy(),
                    transport: UrlSessionTransport())
     }
 

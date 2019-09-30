@@ -17,34 +17,38 @@ open class PipelineClient {
     internal let headersPolicy: HeadersPolicy
     internal let userAgentPolicy: UserAgentPolicy
     internal let authenticationPolicy: PipelineStageProtocol
+    internal let contentDecodePolicy: ContentDecodePolicy
     internal let transport: HttpTransportable
 
     public init(baseUrl: String, headersPolicy: HeadersPolicy, userAgentPolicy: UserAgentPolicy,
-                authenticationPolicy: AuthenticationProtocol, transport: HttpTransportable) {
+                authenticationPolicy: AuthenticationProtocol, contentDecodePolicy: ContentDecodePolicy,
+                transport: HttpTransportable) {
         self.baseUrl = baseUrl
 
         self.headersPolicy = headersPolicy
         self.userAgentPolicy = userAgentPolicy
         self.authenticationPolicy = authenticationPolicy
+        self.contentDecodePolicy = contentDecodePolicy
         self.transport = transport
 
         let policies: [PipelineStageProtocol] = [
             headersPolicy,
             userAgentPolicy,
-            authenticationPolicy as PipelineStageProtocol
+            authenticationPolicy as PipelineStageProtocol,
+            contentDecodePolicy
         ]
         self.pipeline = Pipeline(transport: transport, policies: policies)
     }
 
     public func run(request: HttpRequest, completion: @escaping (Result<Data?, Error>, HttpResponse) -> Void) {
         var pipelineRequest = PipelineRequest(request: request)
-        pipelineRequest.add(value: self as AnyObject, forKey: "pipelineClient")
-        pipelineRequest.add(value: pipelineRequest as AnyObject, forKey: "pipelineRequest")
-        self.pipeline.run(request: pipelineRequest, completion: { result, httpResponse in
+        self.pipeline.run(request: &pipelineRequest, completion: { result, httpResponse in
             switch result {
             case .success(let pipelineResponse):
-                let data = pipelineResponse.httpResponse?.data
-                completion(.success(data), httpResponse)
+                let deserialized = pipelineResponse.getValue(forKey: "deserializedData")
+                if let data = pipelineResponse.httpResponse?.data {
+                    completion(.success(data), httpResponse)
+                }
             case .failure(let error):
                 completion(.failure(error), httpResponse)
             }

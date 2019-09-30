@@ -8,6 +8,7 @@
 
 import AzureCore
 import AzureAppConfiguration
+import AzureStorageBlob
 import os.log
 import UIKit
 
@@ -18,6 +19,8 @@ class MainViewController: UITableViewController {
     private let connectionString = "Endpoint=https://tjpappconfig.azconfig.io;Id=2-l0-s0:zSvXZtO9L9bv9s3QVyD3;Secret=FzxmbflLwAt5+2TUbnSIsAuATyY00L+GFpuxuJZRmzI="
     private var settingsCollection: PagedCollection<ConfigurationSetting>?
 
+    private let storageBaseUrl = "https://tjpstorage1.blob.core.windows.net"
+
     override func viewDidLoad() {
         // If I try to call loadAllSettingsByItem here, the execution hangs...
         super.viewDidLoad()
@@ -25,7 +28,7 @@ class MainViewController: UITableViewController {
     }
 
     // MARK: Private Methods
-    
+
     /// Constructs the PagedCollection and retrieves the first page of results to initalize the table view.
     private func loadInitialSettings() {
         guard let client = try? AppConfigurationClient(connectionString: connectionString) else { return }
@@ -39,6 +42,18 @@ class MainViewController: UITableViewController {
                 self.reloadTableView()
             }
         })
+
+        if let blobClient = try? StorageBlobClient(baseUrl: storageBaseUrl) {
+            blobClient.listContainers { result, httpResponse in
+                debugPrint(httpResponse)
+                switch result {
+                case .success(let containers):
+                    let test = "best"
+                case .failure(let error):
+                    os_log("Error: %@", error.localizedDescription)
+                }
+            }
+        }
     }
 
     /// For demo purposes only to illustrate usage of the "nextItem" method to retrieve all items.
@@ -60,7 +75,7 @@ class MainViewController: UITableViewController {
             _ = semaphore.wait(wallTimeout: .distantFuture)
         } while(newItem != nil)
     }
-    
+
     /// Uses asynchronous "nextPage" method to fetch the next page of results and update the table view.
     private func loadMoreSettings() {
         self.settingsCollection?.nextPage { result in

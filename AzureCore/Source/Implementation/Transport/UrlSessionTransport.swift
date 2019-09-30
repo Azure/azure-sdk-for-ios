@@ -50,11 +50,11 @@ public class UrlSessionTransport: HttpTransportable {
         Foundation.sleep(UInt32(duration))
     }
 
-    public func onRequest(_ request: PipelineRequest) {}
-    public func onResponse(_ response: PipelineResponse, request: PipelineRequest) {}
+    public func onRequest(_ request: inout PipelineRequest) {}
+    public func onResponse(_ response: inout PipelineResponse) {}
     public func onError(request: PipelineRequest) -> Bool { return false }
 
-    public func process(request: PipelineRequest, completion: @escaping PipelineStageResultHandler) {
+    public func process(request: inout PipelineRequest, completion: @escaping PipelineStageResultHandler) {
         self.open()
         guard let session = self.session else {
             os_log("Invalid session.")
@@ -63,17 +63,22 @@ public class UrlSessionTransport: HttpTransportable {
         var urlRequest = URLRequest(url: URL(string: request.httpRequest.url)!)
         urlRequest.httpMethod = request.httpRequest.httpMethod.rawValue
         urlRequest.allHTTPHeaderFields = request.httpRequest.headers
+
+        // need immutable copies to pass into the closure. At this point, these can't change
+        // anyways.
+        let httpRequest = request.httpRequest
+        let responseContext = request.context
         session.dataTask(with: urlRequest) { (data, response, error) in
             let rawResponse = response as? HTTPURLResponse
-            let httpResponse = UrlHttpResponse(request: request.httpRequest, response: rawResponse)
+            let httpResponse = UrlHttpResponse(request: httpRequest, response: rawResponse)
             httpResponse.data = data
 
             if let error = error {
                 completion(.failure(error), httpResponse)
                 return
             }
-            let pipelineResponse = PipelineResponse(request: request.httpRequest, response: httpResponse,
-                                                    context: request.context)
+            let pipelineResponse = PipelineResponse(request: httpRequest, response: httpResponse,
+                                                    context: responseContext)
             completion(.success(pipelineResponse), httpResponse)
         }.resume()
     }

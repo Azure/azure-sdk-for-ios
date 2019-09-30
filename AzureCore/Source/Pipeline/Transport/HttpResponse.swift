@@ -11,7 +11,7 @@ public class HttpResponse {
 
     public var httpRequest: HttpRequest?
     public var statusCode: Int?
-    public var headers: HttpHeaders?
+    public var headers = HttpHeaders()
     public var blockSize: Int
     public var data: Data?
     public var body: Data? {
@@ -23,9 +23,13 @@ public class HttpResponse {
         }
     }
 
+    public func text(encoding: String.Encoding = .utf8) -> String? {
+        guard let data = self.data else { return "" }
+        return String(data: data, encoding: encoding)
+    }
+
     public init(request: HttpRequest, statusCode: Int?, blockSize: Int = 4096) {
         self.httpRequest = request
-        self.headers = HttpHeaders()
         self.blockSize = blockSize
         self.statusCode = statusCode
     }

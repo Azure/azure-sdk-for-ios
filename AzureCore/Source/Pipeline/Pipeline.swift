@@ -28,9 +28,9 @@ internal class Pipeline {
         self.policies.append(lastPolicy)
     }
 
-    public func run(request: PipelineRequest, completion: @escaping PipelineStageResultHandler) {
+    public func run(request: inout PipelineRequest, completion: @escaping PipelineStageResultHandler) {
         if let firstPolicy = policies.first {
-            firstPolicy.process(request: request, completion: { result, httpResponse in
+            firstPolicy.process(request: &request, completion: { result, httpResponse in
                 switch result {
                 case .success(let pipelineResponse):
                     completion(.success(pipelineResponse), httpResponse)

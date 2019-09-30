@@ -15,5 +15,10 @@ public class UrlHttpResponse: HttpResponse {
         self.internalResponse = response
         let statusCode = response?.statusCode
         super.init(request: request, statusCode: statusCode, blockSize: blockSize)
+        guard let internalHeaders = response?.allHeaderFields else { return }
+        for (key, value) in internalHeaders where key is String {
+            // swiftlint:disable:next force_cast
+            self.headers[key as! String] = value as? String
+        }
     }
 }

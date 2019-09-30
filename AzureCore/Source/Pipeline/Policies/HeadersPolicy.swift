@@ -25,7 +25,7 @@ public class HeadersPolicy: PipelineStageProtocol {
         self._headers[header] = value
     }
 
-    public func onRequest(_ request: PipelineRequest) {
+    public func onRequest(_ request: inout PipelineRequest) {
         for (key, value) in self.headers {
             request.httpRequest.headers[key] = value
         }

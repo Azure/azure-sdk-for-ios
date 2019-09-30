@@ -35,8 +35,6 @@ extension PipelineContextProtocol {
 }
 
 public class PipelineContext {
-    // TODO: Compare to Python's context implementation...
-    // private let logger = ClientLogger(Context.class)
 
     private let parent: PipelineContext?
     private let key: AnyHashable

@@ -31,6 +31,8 @@
 		0A4081B62333EB380071EAEE /* ObjectiveCHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4081B52333EB380071EAEE /* ObjectiveCHelpers.swift */; };
 		0A4081B8233417EE0071EAEE /* Collections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4081B7233417EE0071EAEE /* Collections.swift */; };
 		0A4081BA233432C30071EAEE /* HttpUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4081B9233432C30071EAEE /* HttpUtil.swift */; };
+		0A6864B8233EAC76004B7E17 /* ContentDecodePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6864B7233EAC76004B7E17 /* ContentDecodePolicy.swift */; };
+		0A6A9B4F234293B50013FCAA /* RegexUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6A9B4E234293B50013FCAA /* RegexUtil.swift */; };
 		0A7F563A2321732B00E9765A /* UrlHttpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F56392321732B00E9765A /* UrlHttpResponse.swift */; };
 		0A8A583B233A78D4009846C1 /* RequestHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8A583A233A78D4009846C1 /* RequestHistory.swift */; };
 		0AD2142923314416003A2E3E /* ObjectiveCBridgeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD2142823314416003A2E3E /* ObjectiveCBridgeable.swift */; };
@@ -75,6 +77,8 @@
 		0A4081B52333EB380071EAEE /* ObjectiveCHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectiveCHelpers.swift; sourceTree = "<group>"; };
 		0A4081B7233417EE0071EAEE /* Collections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collections.swift; sourceTree = "<group>"; };
 		0A4081B9233432C30071EAEE /* HttpUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpUtil.swift; sourceTree = "<group>"; };
+		0A6864B7233EAC76004B7E17 /* ContentDecodePolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentDecodePolicy.swift; sourceTree = "<group>"; };
+		0A6A9B4E234293B50013FCAA /* RegexUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegexUtil.swift; sourceTree = "<group>"; };
 		0A7F56392321732B00E9765A /* UrlHttpResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlHttpResponse.swift; sourceTree = "<group>"; };
 		0A8A583A233A78D4009846C1 /* RequestHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHistory.swift; sourceTree = "<group>"; };
 		0AD2142823314416003A2E3E /* ObjectiveCBridgeable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectiveCBridgeable.swift; sourceTree = "<group>"; };
@@ -141,6 +145,7 @@
 				0A29CC3D2322F3CD006CEFA7 /* DateUtil.swift */,
 				0AE5C3A5231F150A0013CA85 /* KeychainUtil.swift */,
 				0A4081B9233432C30071EAEE /* HttpUtil.swift */,
+				0A6A9B4E234293B50013FCAA /* RegexUtil.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -180,9 +185,10 @@
 			isa = PBXGroup;
 			children = (
 				0A3A5F31231720DE00473FDA /* AuthenticationPolicy.swift */,
+				0A6864B7233EAC76004B7E17 /* ContentDecodePolicy.swift */,
 				0A3A5F1B2316EBC600473FDA /* HeadersPolicy.swift */,
-				0A3A5F212316FAF000473FDA /* UserAgentPolicy.swift */,
 				0A8A583A233A78D4009846C1 /* RequestHistory.swift */,
+				0A3A5F212316FAF000473FDA /* UserAgentPolicy.swift */,
 			);
 			path = Policies;
 			sourceTree = "<group>";
@@ -384,8 +390,10 @@
 				0A3A5F222316FAF000473FDA /* UserAgentPolicy.swift in Sources */,
 				0A3A5F402318975900473FDA /* PipelineClient.swift in Sources */,
 				0A3A5F012316DF1B00473FDA /* Errors.swift in Sources */,
+				0A6864B8233EAC76004B7E17 /* ContentDecodePolicy.swift in Sources */,
 				0A4081B8233417EE0071EAEE /* Collections.swift in Sources */,
 				0A7F563A2321732B00E9765A /* UrlHttpResponse.swift in Sources */,
+				0A6A9B4F234293B50013FCAA /* RegexUtil.swift in Sources */,
 				0A8A583B233A78D4009846C1 /* RequestHistory.swift in Sources */,
 				0A3A5F32231720DE00473FDA /* AuthenticationPolicy.swift in Sources */,
 				0A4081BA233432C30071EAEE /* HttpUtil.swift in Sources */,

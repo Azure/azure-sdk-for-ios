@@ -92,8 +92,4 @@ public class AppConfigurationAuthenticationPolicy: AuthenticationProtocol {
             }
         }
     }
-
-    public func onRequest(_ request: PipelineRequest) {
-        self.authenticate(request: request)
-    }
 }
