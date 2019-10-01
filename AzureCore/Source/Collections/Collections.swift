@@ -46,6 +46,9 @@ public class PagedCollection<SingleElement: Codable>: Sequence, IteratorProtocol
     /// The continuation token used to fetch the next page of results.
     private var continuationToken: String?
 
+    /// The headers that accompanied the orignal request. Used as the basis for subsequent paged requests.
+    private var requestHeaders: HttpHeaders!
+
     /// An index which tracks the next item to be returned when using the nextItem method.
     private var iteratorIndex: Int = 0
 
@@ -63,30 +66,33 @@ public class PagedCollection<SingleElement: Codable>: Sequence, IteratorProtocol
     /// Deserializes the JSON payload to append the new items, update tracking of the "current page" of items
     /// and reset the per page iterator.
     private func update(with data: Data?) throws {
-        guard let data = data else { throw HttpResponseError.decode }
+        let noDataError = HttpResponseError.decode("Response data expected but not found.")
+        guard let data = data else { throw noDataError }
+        guard let json = try JSONSerialization.jsonObject(with: data) as? [String: Any] else { throw noDataError }
         let codingKeys = self.codingKeys
-        if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any] {
-            if let itemJson = json[codingKeys.items] {
-                let decoder = JSONDecoder()
-                let itemData = try JSONSerialization.data(withJSONObject: itemJson)
-                let newItems = try decoder.decode(Element.self, from: itemData)
-                if let currentItems = self._items {
-                    // append rather than throw away old items
-                    self.pageRange = currentItems.count..<(currentItems.count + newItems.count)
-                    self._items = currentItems + newItems
-                } else {
-                    self._items = newItems
-                    self.pageRange = 0..<newItems.count
-                }
-            }
-            self.continuationToken = json[codingKeys.continuationToken] as? String
+        let notPagedError = HttpResponseError.decode("Paged response expected but not found.")
+        guard let itemJson = json[codingKeys.items] else { throw notPagedError }
+        self.continuationToken = json[codingKeys.continuationToken] as? String
+
+        let decoder = JSONDecoder()
+        let itemData = try JSONSerialization.data(withJSONObject: itemJson)
+        let newItems = try decoder.decode(Element.self, from: itemData)
+        if let currentItems = self._items {
+            // append rather than throw away old items
+            self.pageRange = currentItems.count..<(currentItems.count + newItems.count)
+            self._items = currentItems + newItems
+        } else {
+            self._items = newItems
+            self.pageRange = 0..<newItems.count
         }
     }
 
-    public init(client: PipelineClient, data: Data?, codingKeys: PagedCodingKeys? = nil) throws {
-        guard let data = data else { throw HttpResponseError.decode }
+    public init(client: PipelineClient, request: HttpRequest, data: Data?, codingKeys: PagedCodingKeys? = nil) throws {
+        let noDataError = HttpResponseError.decode("Response data expected but not found.")
+        guard let data = data else { throw noDataError }
         self.client = client
         self.codingKeys = codingKeys ?? PagedCodingKeys()
+        self.requestHeaders = request.headers
         try update(with: data)
     }
 
@@ -97,10 +103,13 @@ public class PagedCollection<SingleElement: Codable>: Sequence, IteratorProtocol
             return
         }
         os_log("Fetching next page with: %@", continuationToken)
+        let queryParams = [String: String]()
+        let url = client.format(urlTemplate: continuationToken)
         let request = client.request(method: .GET,
-                                     urlTemplate: continuationToken)
-
-        client.run(request: request) { result, _ in
+                                     url: url,
+                                     queryParams: queryParams,
+                                     headerParams: requestHeaders)
+        client.run(request: request, allowedStatusCodes: [200]) { result, _ in
             var returnError: Error?
             switch result {
             case .failure(let error):

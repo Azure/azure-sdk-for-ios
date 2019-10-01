@@ -29,15 +29,11 @@ public class HttpRequest {
         }
     }
 
-    convenience public init(httpMethod: HttpMethod, url: String) {
-        self.init(httpMethod: httpMethod, url: url, headers: HttpHeaders())
-    }
-
-    public init(httpMethod: HttpMethod, url: String, headers: HttpHeaders? = nil, files: [String]? = nil,
+    public init(httpMethod: HttpMethod, url: String, headers: HttpHeaders, files: [String]? = nil,
                 data: Data? = nil) {
         self.httpMethod = httpMethod
         self.url = url
-        self.headers = headers ?? HttpHeaders()
+        self.headers = headers
         self.files = files
         self.data = data
     }

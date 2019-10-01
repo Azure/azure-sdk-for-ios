@@ -32,10 +32,10 @@ class MainViewController: UITableViewController {
     /// Constructs the PagedCollection and retrieves the first page of results to initalize the table view.
     private func loadInitialSettings() {
         guard let client = try? AppConfigurationClient(connectionString: connectionString) else { return }
-        client.getConfigurationSettings(forKey: nil, forLabel: nil, completion: { result, _ in
+        client.getConfigurationSettings(forKey: nil, forLabel: "DemoApp", completion: { result, _ in
             switch result {
             case .failure(let error):
-                os_log("Error: %@", error.localizedDescription)
+                os_log("Error: %@", String(describing: error))
             case .success(let pagedCollection):
                 self.settingsCollection = pagedCollection
                 // self.loadAllSettingsByItem()
@@ -45,12 +45,11 @@ class MainViewController: UITableViewController {
 
         if let blobClient = try? StorageBlobClient(baseUrl: storageBaseUrl) {
             blobClient.listContainers { result, httpResponse in
-                debugPrint(httpResponse)
                 switch result {
                 case .success(let containers):
-                    let test = "best"
+                    debugPrint(containers)
                 case .failure(let error):
-                    os_log("Error: %@", error.localizedDescription)
+                    os_log("Error: %@", String(describing: error))
                 }
             }
         }
@@ -67,7 +66,7 @@ class MainViewController: UITableViewController {
                 switch result {
                 case .failure(let error):
                     newItem = nil
-                    os_log("Error: %@", error.localizedDescription)
+                    os_log("Error: %@", String(describing: error))
                 case .success(let item):
                     newItem = item
                 }
@@ -83,7 +82,7 @@ class MainViewController: UITableViewController {
             case .success:
                 self.reloadTableView()
             case .failure(let error):
-                os_log("Error: %@", error.localizedDescription)
+                os_log("Error: %@", String(describing: error))
             }
         }
     }

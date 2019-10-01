@@ -15,11 +15,12 @@ public enum AzureError: Error {
 }
 
 public enum HttpResponseError: Error {
-    case general
-    case decode
+    case general(String)
+    case decode(String)
     case resourceExists
     case resourceNotFound
     case clientAuthentication
     case resourceModified
     case tooManyRedirects
+    case statusCode(Int, String)
 }

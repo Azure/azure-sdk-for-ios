@@ -9,5 +9,5 @@
 import Foundation
 
 struct Constants {
-    static let apiVersion = ""
+    static let latestApiVersion = "2019-02-02"
 }

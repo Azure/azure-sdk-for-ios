@@ -10,11 +10,12 @@ import AzureCore
 import Foundation
 
 public class StorageBlobClient: PipelineClient {
+    
+    private let apiVersion: String!
 
-    private static let apiVersion = Constants.apiVersion
-
-    public init(baseUrl: String) throws {
+    public init(baseUrl: String, apiVersion: String? = nil) throws {
         let authPolicy = StorageAuthenticationPolicy()
+        self.apiVersion = apiVersion ?? Constants.latestApiVersion
         super.init(baseUrl: baseUrl,
                    headersPolicy: HeadersPolicy(),
                    userAgentPolicy: UserAgentPolicy(),
@@ -24,23 +25,68 @@ public class StorageBlobClient: PipelineClient {
     }
 
     public func listContainers(withPrefix prefix: String? = nil, completion: @escaping HttpResultHandler<PagedCollection<BlobContainer>>) {
-        let queryParams = [
-            "prefix": prefix ?? ""
-        ]
+
+        // Python: error_map = kwargs.pop('error_map', None)
+        let comp = "list"
+
+        // Construct URL
+        let urlTemplate = "{url}"
+        var pathFormatArgs = [String: String]()
+        pathFormatArgs["url"] = "/"
+        let url = self.format(urlTemplate: urlTemplate, withKwargs: pathFormatArgs)
+
+        // Construct parameters
+        var queryParams = [String: String]()
+        // TODO: Need to serialize each query arg
+        // query_parameters['marker'] = self._serialize.query("marker", marker, 'str')
+        if let prefix = prefix { queryParams["prefix"] = prefix }
+//        if let marker = marker { queryParams["marker"] = marker }
+//        if let maxResults = maxResults { queryParams["maxResults"] = maxResults }
+//        if let include = include { queryParams["include"] = include }
+//        if let timeout = timeout { queryParams["timeout"] = timeout }
+        queryParams["comp"] = comp
+
+        
+        // Construct headers
+        // TODO: need to serialize each header
+        var headerParams = HttpHeaders()
+        headerParams[HttpHeader.accept] = "application/xml"
+        headerParams["x-ms-version"] = apiVersion
+        // if let requestId = requestId { headerParams["x-ms-client-request-id"] = requestId }
+
+        // Construct and send request
         let request = self.request(method: HttpMethod.GET,
-                                   urlTemplate: "/?comp=list",
-                                   queryParams: queryParams)
-        self.run(request: request, completion: { result, httpResponse in
+                                   url: url,
+                                   queryParams: queryParams,
+                                   headerParams: headerParams)
+        let allowedStatusCodes = [200]
+        self.run(request: request, allowedStatusCodes: allowedStatusCodes, completion: { result, httpResponse in
             switch result {
             case .success(let data):
-                var xmlString = ""
-                if let data = data {
-                    xmlString = String(data: data, encoding: .utf8) ?? ""
+                //        header_dict = {}
+                //        deserialized = None
+                //        if response.status_code == 200:
+                //            deserialized = self._deserialize('ListContainersSegmentResponse', response)
+                //            header_dict = {
+                //                'x-ms-client-request-id': self._deserialize('str', response.headers.get('x-ms-client-request-id')),
+                //                'x-ms-request-id': self._deserialize('str', response.headers.get('x-ms-request-id')),
+                //                'x-ms-version': self._deserialize('str', response.headers.get('x-ms-version')),
+                //                'x-ms-error-code': self._deserialize('str', response.headers.get('x-ms-error-code')),
+                //            }
+                //
+                //        if cls:
+                //            return cls(response, deserialized, header_dict)
+                //
+                //        return deserialized
+                guard let data = data else {
+                    let noDataError = HttpResponseError.decode("Response data expected but not found.")
+                    completion(.failure(noDataError), httpResponse)
+                    return
                 }
-                debugPrint(xmlString)
                 let codingKeys = PagedCodingKeys(items: "Containers", continuationToken: "NextMarker")
                 do {
-                    let paged = try PagedCollection<BlobContainer>(client: self, data: data, codingKeys: codingKeys)
+                    let paged = try PagedCollection<BlobContainer>(client: self, request: request, data: data,
+                                                                   codingKeys: codingKeys)
                     completion(.success(paged), httpResponse)
                 } catch {
                     completion(.failure(error), httpResponse)

@@ -8,16 +8,18 @@
 
 import AzureCore
 import Foundation
+import os.log
 
 public class AppConfigurationClient: PipelineClient {
+    
+    public let apiVersion: String!
 
-    private static let apiVersion = Contants.apiVersion
-
-    public init(connectionString: String) throws {
+    public init(connectionString: String, apiVersion: String? = nil) throws {
         guard let credential = try? AppConfigurationCredential(connectionString: connectionString) else {
             throw AzureError.general
         }
         let authPolicy = AppConfigurationAuthenticationPolicy(credential: credential, scopes: [credential.endpoint])
+        self.apiVersion = apiVersion ?? Constants.latestApiVersion
         super.init(baseUrl: credential.endpoint,
                    headersPolicy: HeadersPolicy(),
                    userAgentPolicy: UserAgentPolicy(),
@@ -28,23 +30,56 @@ public class AppConfigurationClient: PipelineClient {
 
     public func getConfigurationSettings(forKey key: String?, forLabel label: String?,
                                          completion: @escaping HttpResultHandler<PagedCollection<ConfigurationSetting>>) {
-        // TODO: Additional supported functionality
-        // $select query param
-        // Accept-Datetime header
-        let queryParams = [
-            "key": key ?? "*",
-            "label": label ?? "*",
-            "fields": ""
-        ]
+
+        // Python: error_map = kwargs.pop('error_map', None)
+        // let comp = "list"
+
+        // Construct URL
+        let urlTemplate = "{url}"
+        var pathFormatArgs = [String: String]()
+        pathFormatArgs["url"] = "/kv"
+        let url = self.format(urlTemplate: urlTemplate, withKwargs: pathFormatArgs)
+
+        var queryParams = [String: String]()
+        queryParams["key"] = key ?? "*"
+        queryParams["label"] = label ?? "*"
+        // if let fields = fields { queryParams["fields"] = fields }
+        // if let select = select { queryParams["$select"] = select }
+
+        // Construct headers
+        var headerParams = HttpHeaders()
+        headerParams["x-ms-version"] = apiVersion
+        // if let acceptDatetime = acceptDatetime { headerParams["Accept-Datetime"] = acceptDatetime }
+        // if let requestId = requestId { headerParams["x-ms-client-request-id"] = requestId }
+
+        // Construct and send request
         let request = self.request(method: HttpMethod.GET,
-                                   urlTemplate: "/kv",
-                                   queryParams: queryParams)
-        self.run(request: request, completion: { result, httpResponse in
+                                   url: url,
+                                   queryParams: queryParams,
+                                   headerParams: headerParams)
+        let allowedStatusCodes = [200]
+        self.run(request: request, allowedStatusCodes: allowedStatusCodes, completion: { result, httpResponse in
+            //        header_dict = {}
+            //        deserialized = None
+            //        if response.status_code == 200:
+            //            deserialized = self._deserialize('ListContainersSegmentResponse', response)
+            //            header_dict = {
+            //                'x-ms-client-request-id': self._deserialize('str', response.headers.get('x-ms-client-request-id')),
+            //                'x-ms-request-id': self._deserialize('str', response.headers.get('x-ms-request-id')),
+            //                'x-ms-version': self._deserialize('str', response.headers.get('x-ms-version')),
+            //                'x-ms-error-code': self._deserialize('str', response.headers.get('x-ms-error-code')),
+            //            }
+            //
+            //        if cls:
+            //            return cls(response, deserialized, header_dict)
+            //
+            //        return deserialized
             switch result {
             case .success(let data):
                 let codingKeys = PagedCodingKeys(continuationToken: "@nextLink")
                 do {
-                    let paged = try PagedCollection<ConfigurationSetting>(client: self, data: data, codingKeys: codingKeys)
+                    let paged = try PagedCollection<ConfigurationSetting>(client: self, request: request, data: data,
+                                                                          codingKeys: codingKeys)
                     completion(.success(paged), httpResponse)
                 } catch {
                     completion(.failure(error), httpResponse)

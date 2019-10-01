@@ -40,14 +40,27 @@ open class PipelineClient {
         self.pipeline = Pipeline(transport: transport, policies: policies)
     }
 
-    public func run(request: HttpRequest, completion: @escaping (Result<Data?, Error>, HttpResponse) -> Void) {
+    public func run(request: HttpRequest, allowedStatusCodes: [Int],
+                    completion: @escaping (Result<Data?, Error>, HttpResponse) -> Void) {
         var pipelineRequest = PipelineRequest(request: request)
         self.pipeline.run(request: &pipelineRequest, completion: { result, httpResponse in
+
+            // invalid status code is a failure
+            let statusCode = httpResponse.statusCode ?? -1
+            if !allowedStatusCodes.contains(httpResponse.statusCode ?? -1) {
+                let message = "Service returned invalid status code [\(statusCode)]."
+                let error = HttpResponseError.statusCode(statusCode, message)
+                completion(.failure(error), httpResponse)
+                return
+            }
+
             switch result {
             case .success(let pipelineResponse):
-                let deserialized = pipelineResponse.getValue(forKey: "deserializedData")
-                if let data = pipelineResponse.httpResponse?.data {
-                    completion(.success(data), httpResponse)
+                if let deserialized = pipelineResponse.getValue(forKey: "deserializedData") as? Data {
+                    completion(.success(deserialized), httpResponse)
+                } else {
+                    let error = HttpResponseError.decode("Deserialized data expected but not found.")
+                    completion(.failure(error), httpResponse)
                 }
             case .failure(let error):
                 completion(.failure(error), httpResponse)
@@ -55,30 +68,19 @@ open class PipelineClient {
         })
     }
 
-    public func request(method: HttpMethod, urlTemplate: String?, queryParams: [String: String]? = nil,
+    public func request(method: HttpMethod, url: String, queryParams: [String: String], headerParams: HttpHeaders,
                         content: Data? = nil, formContent: [String: AnyObject]? = nil,
                         streamContent: AnyObject? = nil) -> HttpRequest {
-        // TODO: Why isn't this part of the pipeline!?!
-        let request = HttpRequest(httpMethod: method, url: format(urlTemplate: urlTemplate))
-        if let queryParams = queryParams {
-            request.format(queryParams: queryParams)
-        }
+        let request = HttpRequest(httpMethod: method, url: url, headers: headerParams)
+        request.format(queryParams: queryParams)
         return request
     }
 
-    private func formatUrlSection(template: String) -> String {
-        // TODO: replace {these} with their values
-        // let components = template.components(separatedBy: "/")
-        return template
-    }
-
-    private func format(urlTemplate: String?) -> String {
-        var url: String
-        if let urlTemplate = urlTemplate {
-            url = formatUrlSection(template: "\(baseUrl)\(urlTemplate)")
-            // TODO: Some more URL parsing here...
-        } else {
-            url = baseUrl
+    public func format(urlTemplate: String?, withKwargs kwargs: [String: String] = [String: String]()) -> String {
+        let urlTemplate = baseUrl + (urlTemplate ?? "")
+        var url = urlTemplate
+        for (key, value) in kwargs {
+            url = url.replacingOccurrences(of: "{\(key)}", with: value)
         }
         return url
     }

@@ -8,6 +8,6 @@
 
 import Foundation
 
-struct Contants {
-    static let apiVersion = "2019-01-01"
+struct Constants {
+    static let latestApiVersion = "2019-01-01"
 }

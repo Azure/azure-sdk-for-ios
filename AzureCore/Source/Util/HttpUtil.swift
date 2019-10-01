@@ -10,7 +10,7 @@ import Foundation
 
 extension String {
     public func parseQueryString() -> [String: String]? {
-        guard var urlComps = URLComponents(string: self) else { return nil }
+        guard let urlComps = URLComponents(string: self) else { return nil }
         guard let queryString = urlComps.query else { return nil }
         var queryItems = [String: String]()
 
