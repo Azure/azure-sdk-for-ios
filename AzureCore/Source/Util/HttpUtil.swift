@@ -9,9 +9,11 @@
 import Foundation
 
 extension String {
+
+    /// Parses a query string into a dictionary of key-value pairs.
     public func parseQueryString() -> [String: String]? {
         guard let urlComps = URLComponents(string: self) else { return nil }
-        guard let queryString = urlComps.query else { return nil }
+        let queryString = urlComps.query ?? self
         var queryItems = [String: String]()
 
         for component in queryString.components(separatedBy: "&") {

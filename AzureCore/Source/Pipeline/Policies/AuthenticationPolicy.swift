@@ -19,8 +19,7 @@ public class AccessToken {
 }
 
 public protocol TokenCredential {
-    var scopes: [String] { get }
-    func getToken(scopes: [String]) -> AccessToken
+    func getToken(forScopes scopes: [String]) -> AccessToken?
 }
 
 public protocol AuthenticationProtocol: PipelineStageProtocol {
@@ -60,7 +59,7 @@ public class BearerTokenCredentialPolicy: AuthenticationProtocol {
 
     public func onRequest(_ request: inout PipelineRequest) {
         if self.needNewToken {
-            self.token = self.credential.getToken(scopes: self.scopes)
+            self.token = self.credential.getToken(forScopes: self.scopes)
         }
         self.authenticate(request: request)
     }

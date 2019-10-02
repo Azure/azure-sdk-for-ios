@@ -84,7 +84,7 @@ public class ContentDecodePolicy: NSObject, PipelineStageProtocol, XMLParserDele
         do {
             if let deserializedJson = try deserialize(from: httpResponse, contentType: contentType) {
                 let deserializedData = try JSONSerialization.data(withJSONObject: deserializedJson, options: [])
-                response.add(value: deserializedData as AnyObject, forKey: "deserializedData")
+                response.add(value: deserializedData as AnyObject, forKey: .deserializedData)
             }
         } catch {
             os_log("Deserialization error: %@", error.localizedDescription)

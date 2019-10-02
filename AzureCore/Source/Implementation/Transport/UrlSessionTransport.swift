@@ -68,6 +68,7 @@ public class UrlSessionTransport: HttpTransportable {
         // anyways.
         let httpRequest = request.httpRequest
         let responseContext = request.context
+        debugPrint(httpRequest.url)
         session.dataTask(with: urlRequest) { (data, response, error) in
             let rawResponse = response as? HTTPURLResponse
             let httpResponse = UrlHttpResponse(request: httpRequest, response: rawResponse)

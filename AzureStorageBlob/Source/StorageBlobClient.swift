@@ -13,10 +13,15 @@ public class StorageBlobClient: PipelineClient {
     
     private let apiVersion: String!
 
-    public init(baseUrl: String, apiVersion: String? = nil) throws {
-        let authPolicy = StorageAuthenticationPolicy()
+    public init(accountName: String, connectionString: String, apiVersion: String? = nil) throws {
+        let sasCredential = try StorageSASCredential(accountName: accountName, connectionString: connectionString)
+        guard let blobEndpoint = sasCredential.blobEndpoint else {
+            let message = "Invalid connection string. No blob endpoint specified."
+            throw HttpResponseError.clientAuthentication(message)
+        }
+        let authPolicy = StorageSASAuthenticationPolicy(credential: sasCredential)
         self.apiVersion = apiVersion ?? Constants.latestApiVersion
-        super.init(baseUrl: baseUrl,
+        super.init(baseUrl: blobEndpoint,
                    headersPolicy: HeadersPolicy(),
                    userAgentPolicy: UserAgentPolicy(),
                    authenticationPolicy: authPolicy,
@@ -30,10 +35,8 @@ public class StorageBlobClient: PipelineClient {
         let comp = "list"
 
         // Construct URL
-        let urlTemplate = "{url}"
-        var pathFormatArgs = [String: String]()
-        pathFormatArgs["url"] = "/"
-        let url = self.format(urlTemplate: urlTemplate, withKwargs: pathFormatArgs)
+        let urlTemplate = ""
+        let url = self.format(urlTemplate: urlTemplate)
 
         // Construct parameters
         var queryParams = [String: String]()

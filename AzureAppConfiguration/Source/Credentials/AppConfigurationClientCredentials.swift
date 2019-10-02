@@ -16,18 +16,19 @@ public class AppConfigurationCredential {
     internal let secret: String      // access key value
 
     public init(connectionString: String) throws {
-        let cs_comps = connectionString.components(separatedBy: ";")
-        guard cs_comps.count == 3 else {
-            throw HttpResponseError.clientAuthentication
+        let csComps = connectionString.components(separatedBy: ";")
+        guard csComps.count == 3 else {
+            let message = "Expected exactly 3 components. Found \(csComps.count)."
+            throw HttpResponseError.clientAuthentication(message)
         }
         var endpoint: String?
         var id: String?
         var secret: String?
 
         for component in connectionString.components(separatedBy: ";") {
-            let comp_splits = component.split(separator: "=", maxSplits: 1)
-            let key = String(comp_splits[0]).lowercased()
-            let value = String(comp_splits[1])
+            let compSplits = component.split(separator: "=", maxSplits: 1)
+            let key = String(compSplits[0]).lowercased()
+            let value = String(compSplits[1])
             switch key {
             case "endpoint":
                 endpoint = value
@@ -36,11 +37,13 @@ public class AppConfigurationCredential {
             case "secret":
                 secret = value
             default:
-                throw HttpResponseError.clientAuthentication
+                let message = "Unrecognized connection string component: \(key)"
+                throw HttpResponseError.clientAuthentication(message)
             }
         }
         guard endpoint != nil && id != nil && secret != nil else {
-            throw HttpResponseError.clientAuthentication
+            let message = "Invalid connection string: \(connectionString)"
+            throw HttpResponseError.clientAuthentication(message)
         }
         self.endpoint = endpoint!
         self.id = id!

@@ -8,6 +8,10 @@
 
 import Foundation
 
+public enum ContextKey: String {
+    case deserializedData
+}
+
 // MARK: - PipelineContextProtocol
 
 public protocol PipelineContextProtocol {
@@ -29,16 +33,32 @@ extension PipelineContextProtocol {
         }
     }
 
+    mutating public func add(value: AnyObject, forKey key: ContextKey) {
+        add(value: value, forKey: key.rawValue)
+    }
+
     public func getValue(forKey key: AnyHashable) -> AnyObject? {
-        return self.context?.getValue(forKey: key)
+        return context?.getValue(forKey: key)
+    }
+
+    public func getValue(forKey key: ContextKey) -> AnyObject? {
+        return getValue(forKey: key.rawValue)
     }
 }
 
-public class PipelineContext {
+public class PipelineContext: CustomDebugStringConvertible {
 
     private let parent: PipelineContext?
     private let key: AnyHashable
     private let value: AnyObject?
+
+    public var debugDescription: String {
+        var debugString = "\(key) "
+        if let parent = parent {
+            debugString += parent.debugDescription
+        }
+        return debugString
+    }
 
     convenience internal init(key: AnyHashable, value: AnyObject?) {
         self.init(parent: nil, key: key, value: value)

@@ -9,18 +9,18 @@
 import Foundation
 
 public enum AzureError: Error {
-    case general
-    case serviceRequest
-    case serviceResponse
+    case general(String)
+    case serviceRequest(String)
+    case serviceResponse(String)
 }
 
 public enum HttpResponseError: Error {
     case general(String)
     case decode(String)
-    case resourceExists
-    case resourceNotFound
-    case clientAuthentication
-    case resourceModified
-    case tooManyRedirects
-    case statusCode(Int, String)
+    case resourceExists(String)
+    case resourceNotFound(String)
+    case clientAuthentication(String)
+    case resourceModified(String)
+    case tooManyRedirects(String)
+    case statusCode(String)
 }

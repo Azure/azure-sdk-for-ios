@@ -46,7 +46,7 @@ class CSComputerVisionClient: NSObject {
         let baseUrl = "\(self.endpoint!)/vision/v2.0/ocr"
         let queryStringParams = [
             "language": lang,
-            "detectOrientation": detectOrientation.description
+            "detectOrientation": String(describing: detectOrientation)
         ]
         var urlComponent = URLComponents(string: baseUrl)!
         urlComponent.queryItems = queryStringParams.map {
@@ -77,7 +77,7 @@ class CSComputerVisionClient: NSObject {
         let baseUrl = "\(self.endpoint!)/vision/v2.0/ocr"
         let queryStringParams = [
             "language": lang,
-            "detectOrientation": detectOrientation.description
+            "detectOrientation": String(describing: detectOrientation)
         ]
         var urlComponent = URLComponents(string: baseUrl)!
         urlComponent.queryItems = queryStringParams.map {

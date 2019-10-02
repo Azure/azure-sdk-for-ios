@@ -24,6 +24,7 @@ open class PipelineClient {
                 authenticationPolicy: AuthenticationProtocol, contentDecodePolicy: ContentDecodePolicy,
                 transport: HttpTransportable) {
         self.baseUrl = baseUrl
+        if self.baseUrl.suffix(1) != "/" { self.baseUrl += "/" }
 
         self.headersPolicy = headersPolicy
         self.userAgentPolicy = userAgentPolicy
@@ -44,19 +45,24 @@ open class PipelineClient {
                     completion: @escaping (Result<Data?, Error>, HttpResponse) -> Void) {
         var pipelineRequest = PipelineRequest(request: request)
         self.pipeline.run(request: &pipelineRequest, completion: { result, httpResponse in
-
-            // invalid status code is a failure
-            let statusCode = httpResponse.statusCode ?? -1
-            if !allowedStatusCodes.contains(httpResponse.statusCode ?? -1) {
-                let message = "Service returned invalid status code [\(statusCode)]."
-                let error = HttpResponseError.statusCode(statusCode, message)
-                completion(.failure(error), httpResponse)
-                return
-            }
-
             switch result {
             case .success(let pipelineResponse):
-                if let deserialized = pipelineResponse.getValue(forKey: "deserializedData") as? Data {
+                let deserializedData = pipelineResponse.getValue(forKey: .deserializedData) as? Data
+
+                // invalid status code is a failure
+                let statusCode = httpResponse.statusCode ?? -1
+                if !allowedStatusCodes.contains(httpResponse.statusCode ?? -1) {
+                    var message = "Service returned invalid status code [\(statusCode)]."
+                    if let errorData = deserializedData,
+                       let errorJson = try? JSONSerialization.jsonObject(with: errorData) {
+                        message += " \(String(describing: errorJson))"
+                    }
+                    let error = HttpResponseError.statusCode(message)
+                    completion(.failure(error), httpResponse)
+                    return
+                }
+
+                if let deserialized = deserializedData {
                     completion(.success(deserialized), httpResponse)
                 } else {
                     let error = HttpResponseError.decode("Deserialized data expected but not found.")

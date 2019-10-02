@@ -15,9 +15,7 @@ public class AppConfigurationClient: PipelineClient {
     public let apiVersion: String!
 
     public init(connectionString: String, apiVersion: String? = nil) throws {
-        guard let credential = try? AppConfigurationCredential(connectionString: connectionString) else {
-            throw AzureError.general
-        }
+        let credential = try AppConfigurationCredential(connectionString: connectionString)
         let authPolicy = AppConfigurationAuthenticationPolicy(credential: credential, scopes: [credential.endpoint])
         self.apiVersion = apiVersion ?? Constants.latestApiVersion
         super.init(baseUrl: credential.endpoint,
@@ -35,10 +33,8 @@ public class AppConfigurationClient: PipelineClient {
         // let comp = "list"
 
         // Construct URL
-        let urlTemplate = "{url}"
-        var pathFormatArgs = [String: String]()
-        pathFormatArgs["url"] = "/kv"
-        let url = self.format(urlTemplate: urlTemplate, withKwargs: pathFormatArgs)
+        let urlTemplate = "kv"
+        let url = self.format(urlTemplate: urlTemplate)
 
         var queryParams = [String: String]()
         queryParams["key"] = key ?? "*"

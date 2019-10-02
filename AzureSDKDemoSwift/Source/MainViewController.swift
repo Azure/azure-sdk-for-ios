@@ -16,8 +16,13 @@ class MainViewController: UITableViewController {
 
     // MARK: Properties
 
-    private let connectionString = "Endpoint=https://tjpappconfig.azconfig.io;Id=2-l0-s0:zSvXZtO9L9bv9s3QVyD3;Secret=FzxmbflLwAt5+2TUbnSIsAuATyY00L+GFpuxuJZRmzI="
+    // read-only connection string
+    private let appConfigConnectionString = "Endpoint=https://tjpappconfig.azconfig.io;Id=2-l0-s0:zSvXZtO9L9bv9s3QVyD3;Secret=FzxmbflLwAt5+2TUbnSIsAuATyY00L+GFpuxuJZRmzI="
     private var settingsCollection: PagedCollection<ConfigurationSetting>?
+
+    // read-only blob connection string using a SAS token
+    private let storageAccountName = "tjpstorage1"
+    private let blobConnectionString = "BlobEndpoint=https://tjpstorage1.blob.core.windows.net/;QueueEndpoint=https://tjpstorage1.queue.core.windows.net/;FileEndpoint=https://tjpstorage1.file.core.windows.net/;TableEndpoint=https://tjpstorage1.table.core.windows.net/;SharedAccessSignature=sv=2018-03-28&ss=b&srt=sco&sp=rl&se=2020-10-03T03:44:43Z&st=2019-10-02T19:44:43Z&spr=https&sig=IBw8ZWArnIYZzEVWDos8wRWv8iFVMs0HGsWqU2nsu7M%3D"
 
     private let storageBaseUrl = "https://tjpstorage1.blob.core.windows.net"
 
@@ -31,8 +36,8 @@ class MainViewController: UITableViewController {
 
     /// Constructs the PagedCollection and retrieves the first page of results to initalize the table view.
     private func loadInitialSettings() {
-        guard let client = try? AppConfigurationClient(connectionString: connectionString) else { return }
-        client.getConfigurationSettings(forKey: nil, forLabel: "DemoApp", completion: { result, _ in
+        guard let client = try? AppConfigurationClient(connectionString: appConfigConnectionString) else { return }
+        client.getConfigurationSettings(forKey: nil, forLabel: nil, completion: { result, _ in
             switch result {
             case .failure(let error):
                 os_log("Error: %@", String(describing: error))
@@ -43,16 +48,17 @@ class MainViewController: UITableViewController {
             }
         })
 
-        if let blobClient = try? StorageBlobClient(baseUrl: storageBaseUrl) {
-            blobClient.listContainers { result, httpResponse in
-                switch result {
-                case .success(let containers):
-                    debugPrint(containers)
-                case .failure(let error):
-                    os_log("Error: %@", String(describing: error))
-                }
-            }
-        }
+//        if let blobClient = try? StorageBlobClient(accountName: storageAccountName,
+//                                                   connectionString: blobConnectionString) {
+//            blobClient.listContainers { result, httpResponse in
+//                switch result {
+//                case .success(let containers):
+//                    debugPrint(containers)
+//                case .failure(let error):
+//                    os_log("Error: %@", String(describing: error))
+//                }
+//            }
+//        }
     }
 
     /// For demo purposes only to illustrate usage of the "nextItem" method to retrieve all items.
