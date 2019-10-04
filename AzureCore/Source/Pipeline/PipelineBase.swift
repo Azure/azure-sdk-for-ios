@@ -16,7 +16,7 @@ public protocol PipelineStageProtocol {
 
     func onRequest(_ request: inout PipelineRequest)
     func onResponse(_ response: inout PipelineResponse)
-    func onError(request: PipelineRequest) -> Bool
+    func onError(_ error: Error) -> Bool
 
     func process(request: inout PipelineRequest, completion: @escaping PipelineStageResultHandler)
 }
@@ -24,7 +24,7 @@ public protocol PipelineStageProtocol {
 extension PipelineStageProtocol {
     public func onRequest(_ request: inout PipelineRequest) {}
     public func onResponse(_ response: inout PipelineResponse) {}
-    public func onError(request: PipelineRequest) -> Bool { return false }
+    public func onError(_ error: Error) -> Bool { return false }
 
     public func process(request: inout PipelineRequest, completion: @escaping PipelineStageResultHandler) {
         self.onRequest(&request)
@@ -34,7 +34,10 @@ extension PipelineStageProtocol {
                 self.onResponse(&pipelineResponse)
                 completion(.success(pipelineResponse), httpResponse)
             case .failure(let error):
-                completion(.failure(error), httpResponse)
+                let handled = self.onError(error, fromResponse: httpResponse)
+                if !handled {
+                    completion(.failure(error), httpResponse)
+                }
             }
         })
     }
