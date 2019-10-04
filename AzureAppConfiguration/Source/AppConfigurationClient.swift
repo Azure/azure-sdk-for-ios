@@ -26,7 +26,7 @@ public class AppConfigurationClient: PipelineClient {
                    transport: UrlSessionTransport())
     }
 
-    public func getConfigurationSettings(forKey key: String?, forLabel label: String?,
+    public func listConfigurationSettings(forKey key: String?, forLabel label: String?,
                                          completion: @escaping HttpResultHandler<PagedCollection<ConfigurationSetting>>) {
 
         // Python: error_map = kwargs.pop('error_map', None)

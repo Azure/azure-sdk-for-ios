@@ -89,10 +89,21 @@ public class StorageSASAuthenticationPolicy: AuthenticationProtocol {
     public init(credential: StorageSASCredential) {
         self.credential = credential
     }
-
+    
+    private func parse(sasToken: String) -> [String: String] {
+        var queryItems = [String: String]()
+        for component in sasToken.components(separatedBy: "&") {
+            let splitComponent = component.split(separator: "=", maxSplits: 1).map(String.init)
+            let name = splitComponent.first!
+            let value = splitComponent.count == 2 ? splitComponent.last : ""
+            queryItems[name] = value?.removingPercentEncoding
+        }
+        return queryItems
+    }
+    
     public func authenticate(request: PipelineRequest) {
-        let sasToken = self.credential.sasToken
-        let queryParams = sasToken.parseQueryString()
+        let queryParams = parse(sasToken: self.credential.sasToken)
         request.httpRequest.format(queryParams: queryParams)
+        request.httpRequest.headers["x-ms-date"] = Date().httpFormat
     }
 }

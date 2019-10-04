@@ -30,37 +30,20 @@ public class ContentDecodePolicy: NSObject, PipelineStageProtocol, XMLParserDele
         return string.replacingOccurrences(of: "Andapos;", with: "'")
     }
 
-    private func parse(xml data: Data) throws -> AnyObject? {
-        guard var xmlString = String(data: data, encoding: .utf8) else { return nil }
-        xmlString = replaceAnd(xmlString)
-        xmlString = replaceAposWithApos(xmlString)
-        guard let xmlData = xmlString.data(using: .utf8) else { return nil }
-        let parser = XMLParser(data: xmlData)
+    private func parse(xml data: Data) throws -> AnyObject {
+        let parser = XMLParser(data: data)
         parser.delegate = self
         _ = parser.parse()
-        for element in elements {
-            if jsonString.contains("\(element)@},\"\(element)\":") {
-                if !arrayElements.contains(element) {
-                    arrayElements.append(element)
-                }
-            }
-            jsonString = jsonString.replacingOccurrences(of: "\(element)@},\"\(element)\":", with: "},")
+        var jsonData: Data?
+        if let dictObj = root?.dictionary {
+            jsonData = try? JSONSerialization.data(withJSONObject: dictObj, options: [])
+        } else if let arrayObj = root?.array {
+            jsonData = try JSONSerialization.data(withJSONObject: arrayObj, options: [])
         }
-
-        for element in arrayElements {
-            jsonString = jsonString.replacingOccurrences(of: "\"\(element)\":", with: "\"\(element)\":[")
+        guard let finalJsonData = jsonData else {
+            throw HttpResponseError.decode("Failure decoding XML.")
         }
-
-        for element in elements {
-            jsonString = jsonString.replacingOccurrences(of: "\(element)@", with: "")
-        }
-
-        jsonString = replaceNewLines(jsonString)
-        jsonString = jsonString.replacingOccurrences(of: ":[//s]?\"[\\s]+?\"#", with: ":{",
-                                                     options: .regularExpression, range: nil)
-        jsonString = jsonString.replacingOccurrences(of: "\\", with: "").appending("}")
-        guard let jsonStringData = jsonString.data(using: .utf8) else { return nil }
-        return try JSONSerialization.jsonObject(with: jsonStringData, options: []) as AnyObject
+        return try JSONSerialization.jsonObject(with: finalJsonData, options: []) as AnyObject
     }
 
     private func deserialize(from httpResponse: HttpResponse, contentType: String) throws -> AnyObject? {
@@ -93,47 +76,126 @@ public class ContentDecodePolicy: NSObject, PipelineStageProtocol, XMLParserDele
 
     // MARK: - XML Parser Delegate
 
-    private var elements = [String]()
-    private var arrayElements = [String]()
-    private var jsonString = "{"
+    var root: XMLTreeNode?
+    var currNode: XMLTreeNode?
+
+    public func parserDidStartDocument(_ parser: XMLParser) {
+        root = XMLTreeNode(name: "_ROOT_", parent: nil)
+    }
 
     public func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?,
                        qualifiedName qName: String?, attributes attributeDict: [String: String] = [:]) {
-        if !elements.contains(elementName) {
-            elements.append(elementName)
-        }
-
-        if ["\"", "}"].contains(jsonString.last) {
-            jsonString += ","
-        }
-
-        jsonString += "\"\(elementName)\":{"
-
-        var attributeCount = attributeDict.count
+        let newNode = XMLTreeNode(name: elementName, parent: currNode ?? root)
+        // any XML attributes are promoted to private properties
         for (key, value) in attributeDict {
-            attributeCount -= 1
-            let comma = attributeCount > 0 ? "," : ""
-            jsonString += "\"_\(key)\":\"\(value)\"\(comma)" // Prepend XML attributes with underscore
+            let attr = XMLTreeNode(name: key, parent: newNode, type: .property, value: value)
+            newNode.properties[key] = attr
         }
+        currNode = newNode
     }
 
     public func parser(_ parser: XMLParser, foundCharacters string: String) {
-        if jsonString.last == "{" {
-            jsonString.removeLast()
-            jsonString += "\"\(string)\"#"  // insert pattern # to detect found characters
-        }
+        currNode?.value = string
+        currNode?.type = .property
     }
 
     public func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?,
                        qualifiedName qName: String?) {
-        if jsonString.last == "#" {
-            jsonString.removeLast()
-        } else {
-            jsonString += "\(elementName)@}"
+        guard let current = currNode else { return }
+        guard let parent = currNode?.parent else {
+            return
         }
+        switch current.type {
+        case .property:
+            parent.properties[current.name] = current
+        case .array, .object:
+            if parent.type == .array {
+                parent.collection[current.name]?.append(current)
+            } else if parent.properties.keys.contains(elementName) {
+                // TODO: This will fail to find collections if there is only
+                // one element in the XML array.
+
+                // existing item and current item should be
+                // added to the parent's items array
+                parent.type = .array
+                let existingItem = parent.properties[elementName]!
+                parent.properties.removeValue(forKey: elementName)
+                parent.collection[elementName] = [existingItem, current]
+            } else {
+                // simply add the object as a property to the parent
+                parent.properties[elementName] = current
+            }
+        }
+        currNode = parent
     }
 
     public func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {
         os_log("XML Parse Error: %@", parseError.localizedDescription)
+    }
+}
+
+internal class XMLTreeNode {
+
+    var dictionary: [String: Any]? {
+        guard self.type == .object else { return nil }
+        var propDict = [String: Any]()
+        for (key, value) in self.properties {
+            switch value.type {
+            case .property:
+                propDict[key] = value.value
+            case .object:
+                if let dictValue = value.dictionary {
+                    propDict[key] = dictValue
+                } else {
+                    fatalError("Failed to get dictionary version of object.")
+                }
+            case .array:
+                if let arrayValue = value.array {
+                    propDict[key] = arrayValue
+                } else {
+                    fatalError("Failed to get array version of object.")
+                }
+            }
+        }
+        return propDict
+    }
+
+    var array: [Any]? {
+        guard self.type == .array else { return nil }
+        guard self.collection.keys.count == 1 else { fatalError("Unexpectedly found nonhomogenous collection.") }
+        var array = [Any]()
+        for (_, items) in self.collection {
+            for item in items {
+                switch item.type {
+                case .object:
+                    if let itemDict = item.dictionary {
+                        array.append(itemDict)
+                    }
+                case .array:
+                    fatalError("Unexpectedly found array element in array.")
+                case .property:
+                    fatalError("Unexpectedly found property in array.")
+                }
+            }
+        }
+        return array
+    }
+
+    internal enum ElementType {
+        case property, object, array
+    }
+
+    var type: ElementType
+    var name: String
+    var value: String
+    var properties = [String: XMLTreeNode]()
+    var collection = [String: [XMLTreeNode]]()
+    var parent: XMLTreeNode?
+
+    init(name: String, parent: XMLTreeNode?, type: ElementType = .object, value: String = "") {
+        self.name = name
+        self.parent = parent
+        self.type = type
+        self.value = value
     }
 }

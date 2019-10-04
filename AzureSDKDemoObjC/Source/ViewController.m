@@ -28,7 +28,7 @@ NSString *connectionString = @"";
     NSError *error;
     AppConfigurationClient *client = [[AppConfigurationClient alloc] initWithConnectionString:connectionString error:&error];
     HttpResponse *raw = [[HttpResponse alloc] init];
-    AZCCollection *settings = [client getConfigurationSettingsForKey:nil forLabel:nil withResponse:raw error:&error];
+    AZCCollection *settings = [client listConfigurationSettingsForKey:nil forLabel:nil withResponse:raw error:&error];
     if (settings != nil) {
         [_textLabel setTextColor:UIColor.blackColor];
         NSString *text = [[NSString alloc] initWithFormat:@"%@", [[raw statusCode] description]];

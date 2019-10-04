@@ -20,6 +20,38 @@ public struct PagedCodingKeys {
         self.items = items
         self.continuationToken = continuationToken
     }
+
+    internal func items(fromJson json: [String: Any]) -> [Any]? {
+        var results: [Any]?
+        let components = items.components(separatedBy: ".")
+        var current = json
+        for component in components {
+            guard let temp = current[component] else { return nil }
+            if let tempArray = temp as? [Any] {
+                guard results == nil else { return nil }
+                results = tempArray
+            } else if let tempJson = temp as? [String: Any] {
+                current = tempJson
+            }
+        }
+        return results
+    }
+
+    internal func continuationToken(fromJson json: [String: Any]) -> String? {
+        var result: String?
+        let components = continuationToken.components(separatedBy: ".")
+        var current = json
+        for component in components {
+            guard let temp = current[component] else { return nil }
+            if let tempString = temp as? String {
+                guard result == nil else { return nil }
+                result = tempString
+            } else if let tempJson = temp as? [String: Any] {
+                current = tempJson
+            }
+        }
+        return result
+    }
 }
 
 /// A collection that fetches paged results in a lazy fashion.
@@ -56,6 +88,9 @@ public class PagedCollection<SingleElement: Codable>: Sequence, IteratorProtocol
     /// calls to retrieve additional pages.
     private let client: PipelineClient
 
+    /// The JSON decoder used to deserialze the JSON payload into the appropriate models.
+    private let decoder: JSONDecoder
+
     /// Key values needed to deserialize the service response into items and a continuation token.
     private let codingKeys: PagedCodingKeys
 
@@ -71,10 +106,9 @@ public class PagedCollection<SingleElement: Codable>: Sequence, IteratorProtocol
         guard let json = try JSONSerialization.jsonObject(with: data) as? [String: Any] else { throw noDataError }
         let codingKeys = self.codingKeys
         let notPagedError = HttpResponseError.decode("Paged response expected but not found.")
-        guard let itemJson = json[codingKeys.items] else { throw notPagedError }
-        self.continuationToken = json[codingKeys.continuationToken] as? String
+        guard let itemJson = codingKeys.items(fromJson: json) else { throw notPagedError }
+        self.continuationToken = codingKeys.continuationToken(fromJson: json)
 
-        let decoder = JSONDecoder()
         let itemData = try JSONSerialization.data(withJSONObject: itemJson)
         let newItems = try decoder.decode(Element.self, from: itemData)
         if let currentItems = self._items {
@@ -87,10 +121,12 @@ public class PagedCollection<SingleElement: Codable>: Sequence, IteratorProtocol
         }
     }
 
-    public init(client: PipelineClient, request: HttpRequest, data: Data?, codingKeys: PagedCodingKeys? = nil) throws {
+    public init(client: PipelineClient, request: HttpRequest, data: Data?, codingKeys: PagedCodingKeys? = nil,
+                decoder: JSONDecoder? = nil) throws {
         let noDataError = HttpResponseError.decode("Response data expected but not found.")
         guard let data = data else { throw noDataError }
         self.client = client
+        self.decoder = decoder ?? JSONDecoder()
         self.codingKeys = codingKeys ?? PagedCodingKeys()
         self.requestHeaders = request.headers
         try update(with: data)

@@ -83,8 +83,9 @@ open class PipelineClient {
     }
 
     public func format(urlTemplate: String?, withKwargs kwargs: [String: String] = [String: String]()) -> String {
-        let urlTemplate = baseUrl + (urlTemplate ?? "")
-        var url = urlTemplate
+        var template = urlTemplate ?? ""
+        if template.hasPrefix("/") { template = String(template.dropFirst()) }
+        var url = baseUrl + template
         for (key, value) in kwargs {
             url = url.replacingOccurrences(of: "{\(key)}", with: value)
         }
