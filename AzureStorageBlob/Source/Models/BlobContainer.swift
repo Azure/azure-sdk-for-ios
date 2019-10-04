@@ -24,93 +24,64 @@ public enum LeaseDuration: String, Codable {
 
 // MARK: - Model
 
-public final class BlobContainer: Codable {
+public final class BlobContainer {
 
     public let name: String
-    public var properties: BlobContainerProperties
-
-    public var lastModified: Date {
-        get { return properties.lastModified }
-        set { properties.lastModified = newValue }
-    }
-
-    public var eTag: String {
-        get { return properties.eTag }
-        set { properties.eTag = newValue }
-    }
-
-    public var leaseStatus: LeaseStatus {
-        get { return properties.leaseStatus }
-        set { properties.leaseStatus = newValue }
-    }
-
-    public var leaseState: LeaseState {
-        get { return properties.leaseState }
-        set { properties.leaseState = newValue }
-    }
-
-    public var leaseDuration: LeaseDuration? {
-        get { return properties.leaseDuration }
-        set { properties.leaseDuration = newValue }
-    }
-
-    public var hasImmutabilityPolicy: String {
-        get { return properties.hasImmutabilityPolicy }
-        set { properties.hasImmutabilityPolicy = newValue }
-    }
-
-    public var hasLegalHold: String {
-        get { return properties.hasLegalHold }
-        set { properties.hasLegalHold = newValue }
-    }
+    public let lastModified: Date
+    public let eTag: String
+    public let leaseStatus: LeaseStatus
+    public let leaseState: LeaseState
+    public let leaseDuration: LeaseDuration?
+    // TODO: Decodable refuses to convert strings to booleans
+    public let hasImmutabilityPolicy: Bool
+    public let hasLegalHold: Bool
 
     init(name: String, lastModified: Date, eTag: String, leaseStatus: LeaseStatus, leaseState: LeaseState,
-         leaseDuration: LeaseDuration, hasImmutabilityPolicy: Bool,
-         hasLegalHold: Bool) {
-        self.name = name
-        self.properties = BlobContainerProperties(lastModified: lastModified, eTag: eTag, leaseStatus: leaseStatus,
-                                                  leaseState: leaseState, leaseDuration: leaseDuration,
-                                                  hasImmutabilityPolicy: hasImmutabilityPolicy,
-                                                  hasLegalHold: hasLegalHold)
-    }
-
-    enum CodingKeys: String, CodingKey {
-        case name = "Name"
-        case properties = "Properties"
-    }
-}
-
-// MARK: - Model Properties
-
-public class BlobContainerProperties: Codable {
-    public var lastModified: Date
-    public var eTag: String
-    public var leaseStatus: LeaseStatus
-    public var leaseState: LeaseState
-    public var leaseDuration: LeaseDuration?
-    // TODO: Decodable refuses to convert strings to booleans
-    public var hasImmutabilityPolicy: String
-    public var hasLegalHold: String
-
-    enum CodingKeys: String, CodingKey {
-        case lastModified = "Last-Modified"
-        case eTag = "Etag"
-        case leaseStatus = "LeaseStatus"
-        case leaseState = "LeaseState"
-        case leaseDuration = "LeaseDuration"
-        case hasImmutabilityPolicy = "HasImmutabilityPolicy"
-        case hasLegalHold = "HasLegalHold"
-    }
-
-    init(lastModified: Date, eTag: String, leaseStatus: LeaseStatus, leaseState: LeaseState,
          leaseDuration: LeaseDuration?, hasImmutabilityPolicy: Bool,
          hasLegalHold: Bool) {
+        self.name = name
         self.lastModified = lastModified
         self.eTag = eTag
         self.leaseStatus = leaseStatus
         self.leaseState = leaseState
         self.leaseDuration = leaseDuration
-        self.hasImmutabilityPolicy = String(hasImmutabilityPolicy)
-        self.hasLegalHold = String(hasLegalHold)
+        self.hasImmutabilityPolicy = hasImmutabilityPolicy
+        self.hasLegalHold = hasLegalHold
+    }
+}
+
+extension BlobContainer: Codable {
+
+    enum CodingKeys: String, CodingKey {
+        case name = "Name"
+        case properties = "Properties"
+
+        enum PropertyKeys: String, CodingKey {
+            case lastModified = "Last-Modified"
+            case eTag = "Etag"
+            case leaseStatus = "LeaseStatus"
+            case leaseState = "LeaseState"
+            case leaseDuration = "LeaseDuration"
+            case hasImmutabilityPolicy = "HasImmutabilityPolicy"
+            case hasLegalHold = "HasLegalHold"
+        }
+    }
+
+    public convenience init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let name = try container.decode(String.self, forKey: .name)
+
+        let propertyContainer = try container.nestedContainer(keyedBy: CodingKeys.PropertyKeys.self, forKey: .properties)
+        let lastModified = try propertyContainer.decode(Date.self, forKey: .lastModified)
+        let eTag = try propertyContainer.decode(String.self, forKey: .eTag)
+        let leaseStatus = try propertyContainer.decode(LeaseStatus.self, forKey: .leaseStatus)
+        let leaseState = try propertyContainer.decode(LeaseState.self, forKey: .leaseState)
+        let leaseDuration = try propertyContainer.decode(Optional<LeaseDuration>.self, forKey: .leaseDuration)
+        let hasImmutabilityPolicy = try propertyContainer.decode(String.self, forKey: .hasImmutabilityPolicy)
+        let hasLegalHold = try propertyContainer.decode(String.self, forKey: .hasLegalHold)
+
+        self.init(name: name, lastModified: lastModified, eTag: eTag, leaseStatus: leaseStatus, leaseState: leaseState,
+                  leaseDuration: leaseDuration, hasImmutabilityPolicy: hasImmutabilityPolicy == "true",
+                  hasLegalHold: hasLegalHold == "true")
     }
 }
