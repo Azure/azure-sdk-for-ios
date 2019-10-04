@@ -48,7 +48,7 @@ public class ContentDecodePolicy: NSObject, PipelineStageProtocol, XMLParserDele
 
     private func deserialize(from httpResponse: HttpResponse, contentType: String) throws -> AnyObject? {
         guard let data = httpResponse.data else { return nil }
-        if jsonRegex.matches(contentType) {
+        if jsonRegex.hasMatch(in: contentType) {
             return try JSONSerialization.jsonObject(with: data, options: []) as AnyObject
         } else if contentType.contains("xml") {
             return try parse(xml: data)

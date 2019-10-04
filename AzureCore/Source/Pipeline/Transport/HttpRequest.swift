@@ -38,6 +38,11 @@ public class HttpRequest {
         self.data = data
     }
 
+    public func text(encoding: String.Encoding = .utf8) -> String? {
+        guard let data = self.data else { return "" }
+        return String(data: data, encoding: encoding)
+    }
+
     public func format(queryParams: [String: String]?) {
         guard var urlComps = URLComponents(string: self.url) else { return }
         var queryItems = self.url.parseQueryString() ?? [String: String]()
