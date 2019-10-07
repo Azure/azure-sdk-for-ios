@@ -16,28 +16,28 @@ public enum ClientLogLevel: Int {
 public protocol ClientLogger {
     var level: ClientLogLevel { get set }
 
-    func debug(_: String)
-    func info(_: String)
-    func warning(_: String)
-    func error(_: String)
+    func debug(_: @autoclosure @escaping () -> String?)
+    func info(_: @autoclosure @escaping () -> String?)
+    func warning(_: @autoclosure @escaping () -> String?)
+    func error(_: @autoclosure @escaping () -> String?)
 
-    func log(_: String, atLevel: ClientLogLevel)
+    func log(_: @escaping () -> String?, atLevel: ClientLogLevel)
 }
 
 extension ClientLogger {
-    public func debug(_ message: String) {
+    public func debug(_ message: @escaping () -> String?) {
         log(message, atLevel: .debug)
     }
 
-    public func info(_ message: String) {
+    public func info(_ message: @escaping () -> String?) {
         log(message, atLevel: .info)
     }
 
-    public func warning(_ message: String) {
+    public func warning(_ message: @escaping () -> String?) {
         log(message, atLevel: .warning)
     }
 
-    public func error(_ message: String) {
+    public func error(_ message: @escaping () -> String?) {
         log(message, atLevel: .error)
     }
 
@@ -53,11 +53,9 @@ extension ClientLogger {
 // MARK: - Implementations
 
 public class NullLogger: ClientLogger {
-    public var level: ClientLogLevel = .warning
+    public var level: ClientLogLevel = .debug
 
-    public init() { }
-
-    public func log(_ message: String, atLevel messageLevel: ClientLogLevel) { }
+    public func log(_ message: () -> String?, atLevel messageLevel: ClientLogLevel) { }
 }
 
 public class PrintLogger: ClientLogger {
@@ -67,10 +65,10 @@ public class PrintLogger: ClientLogger {
         self.level = level
     }
 
-    public func log(_ message: String, atLevel messageLevel: ClientLogLevel) {
-        if messageLevel.rawValue >= level.rawValue {
+    public func log(_ message: () -> String?, atLevel messageLevel: ClientLogLevel) {
+        if messageLevel.rawValue >= level.rawValue, let msg = message() {
             let tag = String(describing: messageLevel).uppercased()
-            print("\(tag): \(message)")
+            print("\(tag): \(msg)")
         }
     }
 }
@@ -82,17 +80,17 @@ public class NSLogger: ClientLogger {
         self.level = level
     }
 
-    public func log(_ message: String, atLevel messageLevel: ClientLogLevel) {
-        if messageLevel.rawValue >= level.rawValue {
+    public func log(_ message: () -> String?, atLevel messageLevel: ClientLogLevel) {
+        if messageLevel.rawValue >= level.rawValue, let msg = message() {
             let tag = String(describing: messageLevel).uppercased()
-            NSLog("%@: %@", tag, message)
+            NSLog("%@: %@", tag, msg)
         }
     }
 }
 
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
 public class OSLogAdapter: ClientLogger {
-    public var level: ClientLogLevel = .warning
+    public var level: ClientLogLevel = .debug
 
     private let osLogger: OSLog
 
@@ -104,8 +102,10 @@ public class OSLogAdapter: ClientLogger {
         self.init(withLogger: OSLog(subsystem: subsystem, category: category))
     }
 
-    public func log(_ message: String, atLevel messageLevel: ClientLogLevel) {
-        os_log("%@", log: osLogger, type: osLogTypeFor(messageLevel), message)
+    public func log(_ message: @escaping () -> String?, atLevel messageLevel: ClientLogLevel) {
+        if let msg = message() {
+            os_log("%@", log: osLogger, type: osLogTypeFor(messageLevel), msg)
+        }
     }
 
     private func osLogTypeFor(_ level: ClientLogLevel) -> OSLogType {
