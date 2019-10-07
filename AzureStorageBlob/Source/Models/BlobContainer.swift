@@ -8,20 +8,6 @@
 
 import Foundation
 
-// MARK: - Enumerations
-
-public enum LeaseStatus: String, Codable {
-    case locked, unlocked
-}
-
-public enum LeaseState: String, Codable {
-    case available, leased, expired, breaking, broken
-}
-
-public enum LeaseDuration: String, Codable {
-    case infinite, fixed
-}
-
 // MARK: - Model
 
 public final class BlobContainer {
@@ -32,13 +18,18 @@ public final class BlobContainer {
     public let leaseStatus: LeaseStatus
     public let leaseState: LeaseState
     public let leaseDuration: LeaseDuration?
-    // TODO: Decodable refuses to convert strings to booleans
-    public let hasImmutabilityPolicy: Bool
-    public let hasLegalHold: Bool
+    public let hasImmutabilityPolicy: Bool?
+    public let hasLegalHold: Bool?
 
-    init(name: String, lastModified: Date, eTag: String, leaseStatus: LeaseStatus, leaseState: LeaseState,
-         leaseDuration: LeaseDuration?, hasImmutabilityPolicy: Bool,
-         hasLegalHold: Bool) {
+    init(name: String,
+         lastModified: Date,
+         eTag: String,
+         leaseStatus: LeaseStatus,
+         leaseState: LeaseState,
+         leaseDuration: LeaseDuration? = nil,
+         hasImmutabilityPolicy: Bool? = nil,
+         hasLegalHold: Bool? = nil
+    ) {
         self.name = name
         self.lastModified = lastModified
         self.eTag = eTag
@@ -68,28 +59,24 @@ extension BlobContainer: Codable {
     }
 
     public convenience init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        let name = try container.decode(String.self, forKey: .name)
-
-        let propertyContainer = try container.nestedContainer(keyedBy: CodingKeys.PropertyKeys.self, forKey: .properties)
-        let lastModified = try propertyContainer.decode(Date.self, forKey: .lastModified)
-        let eTag = try propertyContainer.decode(String.self, forKey: .eTag)
-        let leaseStatus = try propertyContainer.decode(LeaseStatus.self, forKey: .leaseStatus)
-        let leaseState = try propertyContainer.decode(LeaseState.self, forKey: .leaseState)
-        let leaseDuration = try? propertyContainer.decode(LeaseDuration.self, forKey: .leaseDuration)
-        let hasImmutabilityPolicy = try propertyContainer.decode(String.self, forKey: .hasImmutabilityPolicy)
-        let hasLegalHold = try propertyContainer.decode(String.self, forKey: .hasLegalHold)
-
-        self.init(name: name, lastModified: lastModified, eTag: eTag, leaseStatus: leaseStatus, leaseState: leaseState,
-                  leaseDuration: leaseDuration, hasImmutabilityPolicy: hasImmutabilityPolicy == "true",
-                  hasLegalHold: hasLegalHold == "true")
+        let root = try decoder.container(keyedBy: CodingKeys.self)
+        let properties = try root.nestedContainer(keyedBy: CodingKeys.PropertyKeys.self, forKey: .properties)
+        self.init(name: try root.decode(String.self, forKey: .name),
+                  lastModified: try properties.decode(Date.self, forKey: .lastModified),
+                  eTag: try properties.decode(String.self, forKey: .eTag),
+                  leaseStatus: try properties.decode(LeaseStatus.self, forKey: .leaseStatus),
+                  leaseState: try properties.decode(LeaseState.self, forKey: .leaseState),
+                  leaseDuration: try? properties.decode(LeaseDuration.self, forKey: .leaseDuration),
+                  hasImmutabilityPolicy: Bool(try properties.decode(String.self, forKey: .hasImmutabilityPolicy)),
+                  hasLegalHold: Bool(try properties.decode(String.self, forKey: .hasLegalHold))
+        )
     }
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(name, forKey: .name)
+        var root = encoder.container(keyedBy: CodingKeys.self)
+        try root.encode(name, forKey: .name)
 
-        var properties = container.nestedContainer(keyedBy: CodingKeys.PropertyKeys.self, forKey: .properties)
+        var properties = root.nestedContainer(keyedBy: CodingKeys.PropertyKeys.self, forKey: .properties)
         try properties.encode(lastModified, forKey: .lastModified)
         try properties.encode(eTag, forKey: .eTag)
         try properties.encode(leaseStatus, forKey: .leaseStatus)

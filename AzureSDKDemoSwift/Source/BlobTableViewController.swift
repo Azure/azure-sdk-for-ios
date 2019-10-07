@@ -1,25 +1,22 @@
 //
-//  ViewController.swift
+//  BlobTableViewController.swift
 //  AzureSDKDemoSwift
 //
-//  Created by Travis Prescott on 8/27/19.
+//  Created by Travis Prescott on 10/7/19.
 //  Copyright © 2019 Azure SDK Team. All rights reserved.
 //
 
 import AzureCore
-import AzureAppConfiguration
 import AzureStorageBlob
 import os.log
 import UIKit
 
-class MainViewController: UITableViewController {
+class BlobTableViewController: UITableViewController {
 
-    // MARK: Properties
-
-    private var dataSource: PagedCollection<BlobContainer>?
+    internal var containerName: String?
+    internal var dataSource: PagedCollection<BlobProperties>?
 
     override func viewDidLoad() {
-        // If I try to call loadAllSettingsByItem here, the execution hangs...
         super.viewDidLoad()
         loadInitialSettings()
     }
@@ -29,12 +26,13 @@ class MainViewController: UITableViewController {
     /// Constructs the PagedCollection and retrieves the first page of results to initalize the table view.
     private func loadInitialSettings() {
 
+        guard let containerName = containerName else { return }
         let storageAccountName = AppConstants.storageAccountName
         let blobConnectionString = AppConstants.blobConnectionString
 
         if let blobClient = try? StorageBlobClient(accountName: storageAccountName,
                                                    connectionString: blobConnectionString) {
-            blobClient.listContainers { result, httpResponse in
+            blobClient.listBlobs(in: containerName) { result, httpResponse in
                 switch result {
                 case .success(let paged):
                     self.dataSource = paged
@@ -44,26 +42,6 @@ class MainViewController: UITableViewController {
                 }
             }
         }
-    }
-
-    /// For demo purposes only to illustrate usage of the "nextItem" method to retrieve all items.
-    /// Requires semaphore to force synchronous behavior, otherwise concurrency issues arise.
-    private func loadAllSettingsByItem() {
-        var newItem: BlobContainer?
-        let semaphore = DispatchSemaphore(value: 0)
-        repeat {
-            self.dataSource?.nextItem { result in
-                defer { semaphore.signal() }
-                switch result {
-                case .failure(let error):
-                    newItem = nil
-                    os_log("Error: %@", String(describing: error))
-                case .success(let item):
-                    newItem = item
-                }
-            }
-            _ = semaphore.wait(wallTimeout: .distantFuture)
-        } while(newItem != nil)
     }
 
     /// Uses asynchronous "nextPage" method to fetch the next page of results and update the table view.
@@ -96,6 +74,7 @@ class MainViewController: UITableViewController {
         return data.count
     }
 
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let data = dataSource?.items else {
             fatalError("No data found to construct cell.")
@@ -105,23 +84,17 @@ class MainViewController: UITableViewController {
             fatalError("The dequeued cell is not an instance of CustomTableViewCell")
         }
         // configure the cell
-        let container = data[indexPath.row]
-        cell.keyLabel.text = container.name
-        cell.valueLabel.text = ""
+        let blobProperties = data[indexPath.row]
+        cell.keyLabel.text = blobProperties.name
+        cell.valueLabel.text = "???"
+        if let blobType = blobProperties.blobType {
+            cell.valueLabel.text = blobType.rawValue
+        }
 
         // load next page if at the end of the current list
         if indexPath.row == data.count - 10 {
             self.loadMoreSettings()
         }
         return cell
-    }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "listContainerBlobs" {
-            guard let current = sender as? CustomTableViewCell else { fatalError("Unexpected sender.") }
-            if let next = segue.destination as? BlobTableViewController {
-                next.containerName = current.keyLabel.text
-            }
-        }
     }
 }

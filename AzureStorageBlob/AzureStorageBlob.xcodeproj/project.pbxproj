@@ -16,6 +16,8 @@
 		0A6864AF233E8620004B7E17 /* StorageCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6864AE233E8620004B7E17 /* StorageCredentials.swift */; };
 		0A6864B0233E8797004B7E17 /* AzureStorageBlob.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A68648C233E834D004B7E17 /* AzureStorageBlob.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0A6864B3233E89D9004B7E17 /* BlobContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6864B2233E89D9004B7E17 /* BlobContainer.swift */; };
+		0A71C5C7234BB33800604F2D /* BlobProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A71C5C6234BB33800604F2D /* BlobProperties.swift */; };
+		0A71C5C9234BBAA200604F2D /* Enumerations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A71C5C8234BBAA200604F2D /* Enumerations.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +56,8 @@
 		0A6864AB233E83F8004B7E17 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		0A6864AE233E8620004B7E17 /* StorageCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageCredentials.swift; sourceTree = "<group>"; };
 		0A6864B2233E89D9004B7E17 /* BlobContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlobContainer.swift; sourceTree = "<group>"; };
+		0A71C5C6234BB33800604F2D /* BlobProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlobProperties.swift; sourceTree = "<group>"; };
+		0A71C5C8234BBAA200604F2D /* Enumerations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enumerations.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,7 +148,9 @@
 		0A6864B1233E89BC004B7E17 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				0A71C5C8234BBAA200604F2D /* Enumerations.swift */,
 				0A6864B2233E89D9004B7E17 /* BlobContainer.swift */,
+				0A71C5C6234BB33800604F2D /* BlobProperties.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -262,8 +268,10 @@
 			files = (
 				0A6864B3233E89D9004B7E17 /* BlobContainer.swift in Sources */,
 				0A6864AA233E83B5004B7E17 /* StorageBlobClient.swift in Sources */,
+				0A71C5C7234BB33800604F2D /* BlobProperties.swift in Sources */,
 				0A6864AC233E83F8004B7E17 /* Constants.swift in Sources */,
 				0A6864AF233E8620004B7E17 /* StorageCredentials.swift in Sources */,
+				0A71C5C9234BBAA200604F2D /* Enumerations.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

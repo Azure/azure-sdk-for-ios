@@ -15,8 +15,10 @@
 		0A3A5E8F2315E70600473FDA /* AzureSDKDemoSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5E8E2315E70600473FDA /* AzureSDKDemoSwiftTests.swift */; };
 		0A3A5E9E2315E8C800473FDA /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3A5E9D2315E8C800473FDA /* AzureCore.framework */; };
 		0A4081B42333DE170071EAEE /* AzureAppConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A4081B32333DE170071EAEE /* AzureAppConfiguration.framework */; };
-		0A68647C233D33CD004B7E17 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A68647B233D33CD004B7E17 /* SettingTableViewCell.swift */; };
+		0A68647C233D33CD004B7E17 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A68647B233D33CD004B7E17 /* CustomTableViewCell.swift */; };
 		0A6864B5233E8C8E004B7E17 /* AzureStorageBlob.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A6864B4233E8C8E004B7E17 /* AzureStorageBlob.framework */; };
+		0A71C5CB234BE18200604F2D /* BlobTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A71C5CA234BE18200604F2D /* BlobTableViewController.swift */; };
+		0A71C5CD234BE85700604F2D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A71C5CC234BE85700604F2D /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,8 +45,10 @@
 		0A3A5E9B2315E8BE00473FDA /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A3A5E9D2315E8C800473FDA /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A4081B32333DE170071EAEE /* AzureAppConfiguration.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureAppConfiguration.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0A68647B233D33CD004B7E17 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
+		0A68647B233D33CD004B7E17 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		0A6864B4233E8C8E004B7E17 /* AzureStorageBlob.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureStorageBlob.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0A71C5CA234BE18200604F2D /* BlobTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlobTableViewController.swift; sourceTree = "<group>"; };
+		0A71C5CC234BE85700604F2D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,9 +95,11 @@
 		0A3A5E782315E70400473FDA /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				0A71C5CC234BE85700604F2D /* Constants.swift */,
 				0A3A5E792315E70400473FDA /* AppDelegate.swift */,
 				0A3A5E7B2315E70400473FDA /* MainViewController.swift */,
-				0A68647B233D33CD004B7E17 /* SettingTableViewCell.swift */,
+				0A71C5CA234BE18200604F2D /* BlobTableViewController.swift */,
+				0A68647B233D33CD004B7E17 /* CustomTableViewCell.swift */,
 				0A3A5E7D2315E70400473FDA /* Main.storyboard */,
 				0A3A5E802315E70500473FDA /* Assets.xcassets */,
 				0A3A5E822315E70500473FDA /* LaunchScreen.storyboard */,
@@ -230,8 +236,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A68647C233D33CD004B7E17 /* SettingTableViewCell.swift in Sources */,
+				0A71C5CD234BE85700604F2D /* Constants.swift in Sources */,
+				0A68647C233D33CD004B7E17 /* CustomTableViewCell.swift in Sources */,
 				0A3A5E7C2315E70400473FDA /* MainViewController.swift in Sources */,
+				0A71C5CB234BE18200604F2D /* BlobTableViewController.swift in Sources */,
 				0A3A5E7A2315E70400473FDA /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SettingTableViewCell: UITableViewCell {
+class CustomTableViewCell: UITableViewCell {
 
     // MARK: Properties
 

@@ -17,10 +17,13 @@ public class StorageOAuthCredential: TokenCredential {
         if let expiration = Calendar.current.date(byAdding: .minute, value: tokenLife, to: Date()) {
             // TODO: Token retrieval implementation
             let expirationInt = Int(expiration.timeIntervalSinceReferenceDate)
+            var token = ""
             URLSession.shared.dataTask(with: authUrl) { data, response, error in
-                let test = "best"
+                if error != nil {
+                    print(error as Any)
+                }
             }
-            return AccessToken(token: "banoodle", expiresOn: expirationInt)
+            return AccessToken(token: token, expiresOn: expirationInt)
         }
         return nil
     }
