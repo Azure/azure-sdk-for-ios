@@ -36,17 +36,17 @@ class MainViewController: UITableViewController {
 
     /// Constructs the PagedCollection and retrieves the first page of results to initalize the table view.
     private func loadInitialSettings() {
-//        guard let client = try? AppConfigurationClient(connectionString: appConfigConnectionString) else { return }
-//        client.listConfigurationSettings(forKey: nil, forLabel: nil, completion: { result, _ in
-//            switch result {
-//            case .failure(let error):
-//                os_log("Error: %@", String(describing: error))
-//            case .success(let pagedCollection):
-//                self.settingsCollection = pagedCollection
-//                // self.loadAllSettingsByItem()
-//                self.reloadTableView()
-//            }
-//        })
+        guard let client = try? AppConfigurationClient(connectionString: appConfigConnectionString) else { return }
+        client.listConfigurationSettings(forKey: nil, forLabel: nil, completion: { result, _ in
+            switch result {
+            case .failure(let error):
+                os_log("Error: %@", String(describing: error))
+            case .success(let pagedCollection):
+                self.settingsCollection = pagedCollection
+                // self.loadAllSettingsByItem()
+                self.reloadTableView()
+            }
+        })
         
         if let blobClient = try? StorageBlobClient(accountName: storageAccountName,
                                                    connectionString: blobConnectionString) {

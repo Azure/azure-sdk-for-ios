@@ -10,7 +10,31 @@ import AzureCore
 import Foundation
 
 public class StorageBlobClient: PipelineClient {
-    
+
+    class StorageJSONDecoder: JSONDecoder {
+        override init() {
+            super.init()
+            let formatter = DateFormatter()
+            formatter.dateFormat = "EEE, dd MMM yyyy hh:mm:ss zzzz"
+            formatter.calendar = Calendar(identifier: .iso8601)
+            formatter.timeZone = TimeZone(secondsFromGMT: 0)
+            formatter.locale = Locale(identifier: "en_US_POSIX")
+            self.dateDecodingStrategy = .formatted(formatter)
+        }
+    }
+
+    class StorageJSONEncoder: JSONEncoder {
+        override init() {
+            super.init()
+            let formatter = DateFormatter()
+            formatter.dateFormat = "EEE, dd MMM yyyy hh:mm:ss zzzz"
+            formatter.calendar = Calendar(identifier: .iso8601)
+            formatter.timeZone = TimeZone(secondsFromGMT: 0)
+            formatter.locale = Locale(identifier: "en_US_POSIX")
+            self.dateEncodingStrategy = .formatted(formatter)
+        }
+    }
+
     private let apiVersion: String!
 
     public init(accountName: String, connectionString: String, apiVersion: String? = nil) throws {
@@ -91,13 +115,7 @@ public class StorageBlobClient: PipelineClient {
                     continuationToken: "EnumerationResults.NextMarker"
                 )
                 do {
-                    let decoder = JSONDecoder()
-                    let formatter = DateFormatter()
-                    formatter.dateFormat = "EEE, dd MMM yyyy hh:mm:ss zzzz"
-                    formatter.calendar = Calendar(identifier: .iso8601)
-                    formatter.timeZone = TimeZone(secondsFromGMT: 0)
-                    formatter.locale = Locale(identifier: "en_US_POSIX")
-                    decoder.dateDecodingStrategy = .formatted(formatter)
+                    let decoder = StorageJSONDecoder()
                     let paged = try PagedCollection<BlobContainer>(client: self, request: request, data: data,
                                                                    codingKeys: codingKeys, decoder: decoder)
                     completion(.success(paged), httpResponse)

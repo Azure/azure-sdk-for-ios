@@ -76,12 +76,26 @@ extension BlobContainer: Codable {
         let eTag = try propertyContainer.decode(String.self, forKey: .eTag)
         let leaseStatus = try propertyContainer.decode(LeaseStatus.self, forKey: .leaseStatus)
         let leaseState = try propertyContainer.decode(LeaseState.self, forKey: .leaseState)
-        let leaseDuration = try propertyContainer.decode(Optional<LeaseDuration>.self, forKey: .leaseDuration)
+        let leaseDuration = try? propertyContainer.decode(LeaseDuration.self, forKey: .leaseDuration)
         let hasImmutabilityPolicy = try propertyContainer.decode(String.self, forKey: .hasImmutabilityPolicy)
         let hasLegalHold = try propertyContainer.decode(String.self, forKey: .hasLegalHold)
 
         self.init(name: name, lastModified: lastModified, eTag: eTag, leaseStatus: leaseStatus, leaseState: leaseState,
                   leaseDuration: leaseDuration, hasImmutabilityPolicy: hasImmutabilityPolicy == "true",
                   hasLegalHold: hasLegalHold == "true")
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(name, forKey: .name)
+
+        var properties = container.nestedContainer(keyedBy: CodingKeys.PropertyKeys.self, forKey: .properties)
+        try properties.encode(lastModified, forKey: .lastModified)
+        try properties.encode(eTag, forKey: .eTag)
+        try properties.encode(leaseStatus, forKey: .leaseStatus)
+        try properties.encode(leaseState, forKey: .leaseState)
+        try properties.encode(leaseDuration, forKey: .leaseDuration)
+        try properties.encode(hasImmutabilityPolicy, forKey: .hasImmutabilityPolicy)
+        try properties.encode(hasLegalHold, forKey: .hasLegalHold)
     }
 }
