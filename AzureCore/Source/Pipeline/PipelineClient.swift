@@ -11,39 +11,20 @@ import Foundation
 open class PipelineClient {
 
     internal var pipeline: Pipeline
-
+    internal var logger: ClientLogger
     internal var baseUrl: String
 
-    internal let headersPolicy: HeadersPolicy
-    internal let userAgentPolicy: UserAgentPolicy
-    internal let authenticationPolicy: PipelineStageProtocol
-    internal let contentDecodePolicy: ContentDecodePolicy
-    internal let transport: HttpTransportable
-
-    public init(baseUrl: String, headersPolicy: HeadersPolicy, userAgentPolicy: UserAgentPolicy,
-                authenticationPolicy: AuthenticationProtocol, contentDecodePolicy: ContentDecodePolicy,
-                transport: HttpTransportable) {
+    public init(baseUrl: String, transport: HttpTransportable, policies: [PipelineStageProtocol],
+                logger: ClientLogger) {
         self.baseUrl = baseUrl
         if self.baseUrl.suffix(1) != "/" { self.baseUrl += "/" }
-
-        self.headersPolicy = headersPolicy
-        self.userAgentPolicy = userAgentPolicy
-        self.authenticationPolicy = authenticationPolicy
-        self.contentDecodePolicy = contentDecodePolicy
-        self.transport = transport
-
-        let policies: [PipelineStageProtocol] = [
-            headersPolicy,
-            userAgentPolicy,
-            authenticationPolicy as PipelineStageProtocol,
-            contentDecodePolicy
-        ]
+        self.logger = logger
         self.pipeline = Pipeline(transport: transport, policies: policies)
     }
 
     public func run(request: HttpRequest, allowedStatusCodes: [Int],
                     completion: @escaping (Result<Data?, Error>, HttpResponse) -> Void) {
-        var pipelineRequest = PipelineRequest(request: request)
+        var pipelineRequest = PipelineRequest(request: request, logger: logger)
         self.pipeline.run(request: &pipelineRequest, completion: { result, httpResponse in
             switch result {
             case .success(let pipelineResponse):

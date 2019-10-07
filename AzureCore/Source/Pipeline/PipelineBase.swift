@@ -8,15 +8,16 @@
 
 import Foundation
 
-public typealias HttpResultHandler<T> = (Result<T, Error>, HttpResponse) -> Void
-public typealias PipelineStageResultHandler = HttpResultHandler<PipelineResponse>
+public typealias ResultHandler<TSuccess, TError: Error> = (Result<TSuccess, TError>, HttpResponse) -> Void
+public typealias HttpResultHandler<T> = ResultHandler<T, Error>
+public typealias PipelineStageResultHandler = ResultHandler<PipelineResponse, PipelineError>
 
 public protocol PipelineStageProtocol {
     var next: PipelineStageProtocol? { get set }
 
     func onRequest(_ request: inout PipelineRequest)
     func onResponse(_ response: inout PipelineResponse)
-    func onError(_ error: Error) -> Bool
+    func onError(_ error: PipelineError) -> Bool
 
     func process(request: inout PipelineRequest, completion: @escaping PipelineStageResultHandler)
 }
@@ -24,7 +25,7 @@ public protocol PipelineStageProtocol {
 extension PipelineStageProtocol {
     public func onRequest(_ request: inout PipelineRequest) {}
     public func onResponse(_ response: inout PipelineResponse) {}
-    public func onError(_ error: Error) -> Bool { return false }
+    public func onError(_ error: PipelineError) -> Bool { return false }
 
     public func process(request: inout PipelineRequest, completion: @escaping PipelineStageResultHandler) {
         self.onRequest(&request)
@@ -34,7 +35,7 @@ extension PipelineStageProtocol {
                 self.onResponse(&pipelineResponse)
                 completion(.success(pipelineResponse), httpResponse)
             case .failure(let error):
-                let handled = self.onError(error, fromResponse: httpResponse)
+                let handled = self.onError(error)
                 if !handled {
                     completion(.failure(error), httpResponse)
                 }

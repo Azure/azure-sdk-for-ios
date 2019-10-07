@@ -11,59 +11,69 @@ import Foundation
 public class DefaultLoggingPolicy: PipelineStageProtocol {
 
     public var next: PipelineStageProtocol?
-    private let log: PipelineLogger
     private lazy var attachmentRegex = NSRegularExpression("attachment; ?filename=([\"\\w.]+)",
                                                            options: .caseInsensitive)
 
-    public init(logger: PipelineLogger? = nil) {
-        if let logger = logger {
-            self.log = logger
-        } else if #available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *) {
-            self.log = PipelineOSLogAdapter()
-        } else {
-            self.log = PipelineNSLogger()
-        }
-    }
-
     public func onRequest(_ request: inout PipelineRequest) {
+        let logger = request.logger
         let req = request.httpRequest
-        log.debug("Request URL: \(req.url)")
-        log.debug("Request method: \(req.httpMethod.rawValue)")
-        log.debug("Request headers:")
+
+        logger.debug("Request URL: \(req.url)")
+        logger.debug("Request method: \(req.httpMethod.rawValue)")
+        logger.debug("Request headers:")
         for (header, value) in req.headers {
             if header == HttpHeader.authorization.rawValue {
-                log.debug("    \(header): *****")
+                logger.debug("    \(header): *****")
             } else {
-                log.debug("    \(header): \(value)")
+                logger.debug("    \(header): \(value)")
             }
         }
         if let bodyText = humanReadable(body: req.text(), headers: req.headers) {
-            log.debug("Request body:")
-            log.debug(bodyText)
+            logger.debug("Request body:")
+            logger.debug(bodyText)
         }
     }
 
     public func onResponse(_ response: inout PipelineResponse) {
+        let logger = response.logger
         guard let res = response.httpResponse else {
-            log.debug("Failed to log response")
+            logger.debug("Failed to log response")
             return
         }
 
         if let statusCode = res.statusCode {
-            log.debug("Response status: \(statusCode)")
+            logger.debug("Response status: \(statusCode)")
         }
-        log.debug("Response headers:")
+        logger.debug("Response headers:")
         for (header, value) in res.headers {
-            log.debug("    \(header): \(value)")
+            logger.debug("    \(header): \(value)")
         }
         if let bodyText = humanReadable(body: res.text(), headers: res.headers) {
-            log.debug("Response content:")
-            log.debug(bodyText)
+            logger.debug("Response content:")
+            logger.debug(bodyText)
         }
     }
 
-    public func onError(_ error: Error) -> Bool {
-        log.error(error.localizedDescription)
+    public func onError(_ error: PipelineError) -> Bool {
+        let logger = error.pipelineResponse.logger
+        let err = error.innerError
+        let request = error.pipelineResponse.httpRequest
+
+        logger.error("Error performing \(request.httpMethod.rawValue) to \(request.url)")
+        logger.error(err.localizedDescription)
+
+        guard let response = error.pipelineResponse.httpResponse else {
+            logger.info("No response data available")
+            return false
+        }
+
+        if let statusCode = response.statusCode {
+            logger.info("Response status: \(statusCode)")
+        }
+        if let bodyText = humanReadable(body: response.text(), headers: response.headers) {
+            logger.info("Response content:")
+            logger.info(bodyText)
+        }
         return false
     }
 
@@ -79,10 +89,10 @@ public class DefaultLoggingPolicy: PipelineStageProtocol {
                 return "Body contains image data."
             }
         }
-        return bodyText(.utf8) ?? "(empty)"
+        return bodyFunc()
     }
 
-    private func filenameFrom(header: String?) -> Substring? {
+    private func filename(fromHeader header: String?) -> Substring? {
         guard let header = header else { return nil }
         guard let match = attachmentRegex.firstMatch(in: header) else { return nil }
         let captures = match.capturedValues(from: header)
@@ -97,20 +107,11 @@ public class DefaultLoggingPolicy: PipelineStageProtocol {
 public class CurlFormattedRequestLoggingPolicy: PipelineStageProtocol {
 
     public var next: PipelineStageProtocol?
-    private let log: PipelineLogger
-
-    public init(logger: PipelineLogger? = nil) {
-        if let logger = logger {
-            self.log = logger
-        } else if #available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *) {
-            self.log = PipelineOSLogAdapter()
-        } else {
-            self.log = PipelineNSLogger()
-        }
-    }
 
     public func onRequest(_ request: inout PipelineRequest) {
+        let logger = request.logger
         let req = request.httpRequest
+
         var compressed = false
         var parts = ["curl"]
         parts += ["-X", req.httpMethod.rawValue]
@@ -134,8 +135,8 @@ public class CurlFormattedRequestLoggingPolicy: PipelineStageProtocol {
         }
         parts.append(req.url)
 
-        log.debug("╭--- cURL (\(req.url))")
-        log.debug(parts.joined(separator: " "))
-        log.debug("╰--- (copy and paste the above line to a terminal)")
+        logger.debug("╭--- cURL (\(req.url))")
+        logger.debug(parts.joined(separator: " "))
+        logger.debug("╰--- (copy and paste the above line to a terminal)")
     }
 }

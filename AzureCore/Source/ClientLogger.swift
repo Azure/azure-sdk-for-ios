@@ -1,5 +1,5 @@
 //
-//  PipelineLogger.swift
+//  ClientLogger.swift
 //  AzureCore
 //
 //  Created by Brandon Siegel on 10/3/19.
@@ -9,20 +9,22 @@
 import Foundation
 import os.log
 
-public enum PipelineLogLevel: Int {
+public enum ClientLogLevel: Int {
     case error, warning, info, debug
 }
 
-public protocol PipelineLogger {
+public protocol ClientLogger {
+    var level: ClientLogLevel { get set }
+
     func debug(_: String)
     func info(_: String)
     func warning(_: String)
     func error(_: String)
 
-    func log(_: String, atLevel: PipelineLogLevel)
+    func log(_: String, atLevel: ClientLogLevel)
 }
 
-extension PipelineLogger {
+extension ClientLogger {
     public func debug(_ message: String) {
         log(message, atLevel: .debug)
     }
@@ -38,34 +40,50 @@ extension PipelineLogger {
     public func error(_ message: String) {
         log(message, atLevel: .error)
     }
+
+    public static func `default`() -> ClientLogger {
+        if #available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *) {
+            return OSLogAdapter()
+        } else {
+            return NSLogger()
+        }
+    }
 }
 
 // MARK: - Implementations
 
-public class PipelinePrintLogger: PipelineLogger {
-    private let logLevel: PipelineLogLevel
+public class NullLogger: ClientLogger {
+    public var level: ClientLogLevel = .warning
 
-    public init(logLevel: PipelineLogLevel = .warning) {
-        self.logLevel = logLevel
+    public init() { }
+
+    public func log(_ message: String, atLevel messageLevel: ClientLogLevel) { }
+}
+
+public class PrintLogger: ClientLogger {
+    public var level: ClientLogLevel
+
+    public init(level: ClientLogLevel = .warning) {
+        self.level = level
     }
 
-    public func log(_ message: String, atLevel messageLevel: PipelineLogLevel) {
-        if messageLevel.rawValue >= logLevel.rawValue {
+    public func log(_ message: String, atLevel messageLevel: ClientLogLevel) {
+        if messageLevel.rawValue >= level.rawValue {
             let tag = String(describing: messageLevel).uppercased()
             print("\(tag): \(message)")
         }
     }
 }
 
-public class PipelineNSLogger: PipelineLogger {
-    private let logLevel: PipelineLogLevel
+public class NSLogger: ClientLogger {
+    public var level: ClientLogLevel
 
-    public init(logLevel: PipelineLogLevel = .warning) {
-        self.logLevel = logLevel
+    public init(level: ClientLogLevel = .warning) {
+        self.level = level
     }
 
-    public func log(_ message: String, atLevel messageLevel: PipelineLogLevel) {
-        if messageLevel.rawValue >= logLevel.rawValue {
+    public func log(_ message: String, atLevel messageLevel: ClientLogLevel) {
+        if messageLevel.rawValue >= level.rawValue {
             let tag = String(describing: messageLevel).uppercased()
             NSLog("%@: %@", tag, message)
         }
@@ -73,7 +91,9 @@ public class PipelineNSLogger: PipelineLogger {
 }
 
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
-public class PipelineOSLogAdapter: PipelineLogger {
+public class OSLogAdapter: ClientLogger {
+    public var level: ClientLogLevel = .warning
+
     private let osLogger: OSLog
 
     public init(withLogger osLogger: OSLog) {
@@ -84,11 +104,11 @@ public class PipelineOSLogAdapter: PipelineLogger {
         self.init(withLogger: OSLog(subsystem: subsystem, category: category))
     }
 
-    public func log(_ message: String, atLevel messageLevel: PipelineLogLevel) {
+    public func log(_ message: String, atLevel messageLevel: ClientLogLevel) {
         os_log("%@", log: osLogger, type: osLogTypeFor(messageLevel), message)
     }
 
-    private func osLogTypeFor(_ level: PipelineLogLevel) -> OSLogType {
+    private func osLogTypeFor(_ level: ClientLogLevel) -> OSLogType {
         switch level {
         case .error:
             return .error

@@ -68,19 +68,20 @@ public class UrlSessionTransport: HttpTransportable {
         // anyways.
         let httpRequest = request.httpRequest
         let responseContext = request.context
+        let logger = request.logger
 
         session.dataTask(with: urlRequest) { (data, response, error) in
             let rawResponse = response as? HTTPURLResponse
             let httpResponse = UrlHttpResponse(request: httpRequest, response: rawResponse)
             httpResponse.data = data
 
-            if let error = error {
-                completion(.failure(error), httpResponse)
-                return
-            }
             let pipelineResponse = PipelineResponse(request: httpRequest, response: httpResponse,
-                                                    context: responseContext)
-            completion(.success(pipelineResponse), httpResponse)
+                                                    logger: logger, context: responseContext)
+            if let error = error {
+                completion(.failure(PipelineError(fromError: error, pipelineResponse: pipelineResponse)), httpResponse)
+            } else {
+                completion(.success(pipelineResponse), httpResponse)
+            }
         }.resume()
     }
 }
