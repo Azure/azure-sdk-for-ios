@@ -57,7 +57,7 @@ public class UrlSessionTransport: HttpTransportable {
     public func process(request: inout PipelineRequest, completion: @escaping PipelineStageResultHandler) {
         self.open()
         guard let session = self.session else {
-            os_log("Invalid session.")
+            request.logger.error("Invalid session.")
             return
         }
         var urlRequest = URLRequest(url: URL(string: request.httpRequest.url)!)
