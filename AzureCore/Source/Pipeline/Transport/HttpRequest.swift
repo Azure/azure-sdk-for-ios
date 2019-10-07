@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class HttpRequest {
+public class HttpRequest: HttpMessage {
 
     public var httpMethod: HttpMethod
     public var url: String
@@ -20,15 +20,6 @@ public class HttpRequest {
         return comps
     }
 
-    public var body: Data? {
-        get {
-            return self.data
-        }
-        set(newValue) {
-            self.data = newValue
-        }
-    }
-
     public init(httpMethod: HttpMethod, url: String, headers: HttpHeaders, files: [String]? = nil,
                 data: Data? = nil) {
         self.httpMethod = httpMethod
@@ -36,11 +27,6 @@ public class HttpRequest {
         self.headers = headers
         self.files = files
         self.data = data
-    }
-
-    public func text(encoding: String.Encoding = .utf8) -> String? {
-        guard let data = self.data else { return "" }
-        return String(data: data, encoding: encoding)
     }
 
     public func format(queryParams: [String: String]?) {
