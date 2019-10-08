@@ -16,8 +16,9 @@ public class DefaultLoggingPolicy: PipelineStageProtocol {
 
     public func onRequest(_ request: inout PipelineRequest) {
         let logger = request.logger
-        let req = request.httpRequest
+        guard logger.level.rawValue >= ClientLogLevel.debug.rawValue else { return }
 
+        let req = request.httpRequest
         logger.debug("Request URL: \(req.url)")
         logger.debug("Request method: \(req.httpMethod.rawValue)")
         logger.debug("Request headers:")
@@ -36,6 +37,8 @@ public class DefaultLoggingPolicy: PipelineStageProtocol {
 
     public func onResponse(_ response: inout PipelineResponse) {
         let logger = response.logger
+        guard logger.level.rawValue >= ClientLogLevel.debug.rawValue else { return }
+
         guard let res = response.httpResponse else {
             logger.debug("Failed to log response")
             return
@@ -62,6 +65,7 @@ public class DefaultLoggingPolicy: PipelineStageProtocol {
         logger.error("Error performing \(request.httpMethod.rawValue) to \(request.url)")
         logger.error(err.localizedDescription)
 
+        guard logger.level.rawValue >= ClientLogLevel.info.rawValue else { return false }
         guard let response = error.pipelineResponse.httpResponse else {
             logger.info("No response data available")
             return false
@@ -110,8 +114,9 @@ public class CurlFormattedRequestLoggingPolicy: PipelineStageProtocol {
 
     public func onRequest(_ request: inout PipelineRequest) {
         let logger = request.logger
-        let req = request.httpRequest
+        guard logger.level.rawValue >= ClientLogLevel.debug.rawValue else { return }
 
+        let req = request.httpRequest
         var compressed = false
         var parts = ["curl"]
         parts += ["-X", req.httpMethod.rawValue]

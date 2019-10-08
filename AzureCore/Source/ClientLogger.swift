@@ -53,7 +53,11 @@ extension ClientLogger {
 // MARK: - Implementations
 
 public class NullLogger: ClientLogger {
-    public var level: ClientLogLevel = .debug
+    // Force the least verbose log level so consumers can check & avoid calling the logger entirely if desired
+    public var level: ClientLogLevel {
+        get { return .error }
+        set { _ = newValue }
+    }
 
     public func log(_ message: () -> String?, atLevel messageLevel: ClientLogLevel) { }
 }
@@ -90,7 +94,11 @@ public class NSLogger: ClientLogger {
 
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
 public class OSLogAdapter: ClientLogger {
-    public var level: ClientLogLevel = .debug
+    // Force the most verbose log level so that all messages are forwarded to the OSLog framework
+    public var level: ClientLogLevel {
+        get { return .debug }
+        set { _ = newValue }
+    }
 
     private let osLogger: OSLog
 
