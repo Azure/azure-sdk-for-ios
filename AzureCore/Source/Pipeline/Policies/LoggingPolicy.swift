@@ -16,11 +16,10 @@ public class DefaultLoggingPolicy: PipelineStageProtocol {
 
     public func onRequest(_ request: inout PipelineRequest) {
         let logger = request.logger
-        guard logger.level.rawValue >= ClientLogLevel.debug.rawValue else { return }
-
         let req = request.httpRequest
-        logger.debug("Request URL: \(req.url)")
-        logger.debug("Request method: \(req.httpMethod.rawValue)")
+        logger.info("Request: \(req.httpMethod.rawValue) \(req.url)")
+
+        guard logger.level.rawValue >= ClientLogLevel.debug.rawValue else { return }
         logger.debug("Request headers:")
         for (header, value) in req.headers {
             if header == HttpHeader.authorization.rawValue {
@@ -36,17 +35,29 @@ public class DefaultLoggingPolicy: PipelineStageProtocol {
     }
 
     public func onResponse(_ response: inout PipelineResponse) {
-        let logger = response.logger
-        guard logger.level.rawValue >= ClientLogLevel.debug.rawValue else { return }
+        logResponse(response.httpResponse, fromRequest: response.httpRequest, logger: response.logger)
+    }
 
-        guard let res = response.httpResponse else {
-            logger.debug("Failed to log response")
+    public func onError(_ error: PipelineError) -> Bool {
+        let logger = error.pipelineResponse.logger
+        let request = error.pipelineResponse.httpRequest
+
+        logger.error("Error performing \(request.httpMethod.rawValue) \(request.url)")
+        logger.error(error.innerError.localizedDescription)
+
+        logResponse(error.pipelineResponse.httpResponse, fromRequest: request, logger: logger)
+        return false
+    }
+
+    private func logResponse(_ res: HttpResponse?, fromRequest req: HttpRequest, logger: ClientLogger) {
+        guard let res = res, let statusCode = res.statusCode else {
+            logger.warning("No response data available from \(req.httpMethod.rawValue) \(req.url)")
             return
         }
 
-        if let statusCode = res.statusCode {
-            logger.debug("Response status: \(statusCode)")
-        }
+        logger.info("Response: \(statusCode) from \(req.httpMethod.rawValue) \(req.url)")
+
+        guard logger.level.rawValue >= ClientLogLevel.debug.rawValue else { return }
         logger.debug("Response headers:")
         for (header, value) in res.headers {
             logger.debug("    \(header): \(value)")
@@ -55,30 +66,6 @@ public class DefaultLoggingPolicy: PipelineStageProtocol {
             logger.debug("Response content:")
             logger.debug(bodyText)
         }
-    }
-
-    public func onError(_ error: PipelineError) -> Bool {
-        let logger = error.pipelineResponse.logger
-        let err = error.innerError
-        let request = error.pipelineResponse.httpRequest
-
-        logger.error("Error performing \(request.httpMethod.rawValue) to \(request.url)")
-        logger.error(err.localizedDescription)
-
-        guard logger.level.rawValue >= ClientLogLevel.info.rawValue else { return false }
-        guard let response = error.pipelineResponse.httpResponse else {
-            logger.info("No response data available")
-            return false
-        }
-
-        if let statusCode = response.statusCode {
-            logger.info("Response status: \(statusCode)")
-        }
-        if let bodyText = humanReadable(body: response.text(), headers: response.headers) {
-            logger.info("Response content:")
-            logger.info(bodyText)
-        }
-        return false
     }
 
     private func humanReadable(body bodyFunc: @autoclosure () -> String?, headers: HttpHeaders) -> String? {
