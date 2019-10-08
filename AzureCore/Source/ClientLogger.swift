@@ -40,14 +40,20 @@ extension ClientLogger {
     public func error(_ message: @escaping () -> String?) {
         log(message, atLevel: .error)
     }
+}
 
-    public static func `default`() -> ClientLogger {
+// MARK: - Constants
+
+public struct ClientLoggers {
+    public static let `default`: ClientLogger = {
         if #available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *) {
             return OSLogAdapter()
         } else {
             return NSLogger()
         }
-    }
+    }()
+
+    public static let none: ClientLogger = NullLogger()
 }
 
 // MARK: - Implementations
