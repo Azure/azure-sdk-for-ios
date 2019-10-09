@@ -71,12 +71,12 @@ public class NullLogger: ClientLogger {
 public class PrintLogger: ClientLogger {
     public var level: ClientLogLevel
 
-    public init(level: ClientLogLevel = .warning) {
+    public init(level: ClientLogLevel = .info) {
         self.level = level
     }
 
     public func log(_ message: () -> String?, atLevel messageLevel: ClientLogLevel) {
-        if messageLevel.rawValue >= level.rawValue, let msg = message() {
+        if messageLevel.rawValue <= level.rawValue, let msg = message() {
             let tag = String(describing: messageLevel).uppercased()
             print("\(tag): \(msg)")
         }
@@ -86,12 +86,12 @@ public class PrintLogger: ClientLogger {
 public class NSLogger: ClientLogger {
     public var level: ClientLogLevel
 
-    public init(level: ClientLogLevel = .warning) {
+    public init(level: ClientLogLevel = .info) {
         self.level = level
     }
 
     public func log(_ message: () -> String?, atLevel messageLevel: ClientLogLevel) {
-        if messageLevel.rawValue >= level.rawValue, let msg = message() {
+        if messageLevel.rawValue <= level.rawValue, let msg = message() {
             let tag = String(describing: messageLevel).uppercased()
             NSLog("%@: %@", tag, msg)
         }
