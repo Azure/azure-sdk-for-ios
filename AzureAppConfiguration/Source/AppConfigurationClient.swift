@@ -11,28 +11,31 @@ import Foundation
 import os.log
 
 public class AppConfigurationClient: PipelineClient {
-    
-    public let apiVersion: String!
+    public enum ApiVersion: String {
+        case latest = "2019-01-01"
+    }
 
-    public init(connectionString: String, apiVersion: String? = nil,
+    private let apiVersion: ApiVersion!
+
+    public init(connectionString: String, apiVersion: ApiVersion = .latest,
                 logger: ClientLogger = ClientLoggers.default()) throws {
         let credential = try AppConfigurationCredential(connectionString: connectionString)
         let authPolicy = AppConfigurationAuthenticationPolicy(credential: credential, scopes: [credential.endpoint])
-        self.apiVersion = apiVersion ?? Constants.latestApiVersion
-        super.init(baseUrl: credential.endpoint, transport: UrlSessionTransport(),
+        self.apiVersion = apiVersion
+        super.init(baseUrl: credential.endpoint,
+                   transport: UrlSessionTransport(),
                    policies: [HeadersPolicy(), UserAgentPolicy(), authPolicy, ContentDecodePolicy(), LoggingPolicy()],
                    logger: logger)
     }
 
     public func listConfigurationSettings(forKey key: String?, forLabel label: String?,
-                                         completion: @escaping HttpResultHandler<PagedCollection<ConfigurationSetting>>) {
-
+                                          completion: @escaping HttpResultHandler<PagedCollection<ConfigurationSetting>>) {
         // Python: error_map = kwargs.pop('error_map', None)
         // let comp = "list"
 
         // Construct URL
         let urlTemplate = "kv"
-        let url = self.format(urlTemplate: urlTemplate)
+        let url = format(urlTemplate: urlTemplate)
 
         var queryParams = [String: String]()
         queryParams["key"] = key ?? "*"
@@ -42,7 +45,7 @@ public class AppConfigurationClient: PipelineClient {
 
         // Construct headers
         var headerParams = HttpHeaders()
-        headerParams["x-ms-version"] = apiVersion
+        headerParams["x-ms-version"] = apiVersion.rawValue
         // if let acceptDatetime = acceptDatetime { headerParams["Accept-Datetime"] = acceptDatetime }
         // if let requestId = requestId { headerParams["x-ms-client-request-id"] = requestId }
 
@@ -51,8 +54,7 @@ public class AppConfigurationClient: PipelineClient {
                                    url: url,
                                    queryParams: queryParams,
                                    headerParams: headerParams)
-        let allowedStatusCodes = [200]
-        self.run(request: request, allowedStatusCodes: allowedStatusCodes, completion: { result, httpResponse in
+        run(request: request, context: nil, completion: { result, httpResponse in
             //        header_dict = {}
             //        deserialized = None
             //        if response.status_code == 200:
@@ -69,7 +71,7 @@ public class AppConfigurationClient: PipelineClient {
             //
             //        return deserialized
             switch result {
-            case .success(let data):
+            case let .success(data):
                 let codingKeys = PagedCodingKeys(continuationToken: "@nextLink")
                 do {
                     let paged = try PagedCollection<ConfigurationSetting>(client: self, request: request, data: data,
@@ -78,7 +80,7 @@ public class AppConfigurationClient: PipelineClient {
                 } catch {
                     completion(.failure(error), httpResponse)
                 }
-            case .failure(let error):
+            case let .failure(error):
                 completion(.failure(error), httpResponse)
             }
         })

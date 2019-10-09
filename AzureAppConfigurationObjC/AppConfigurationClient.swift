@@ -10,10 +10,7 @@ import AzureCore
 import Foundation
 
 @objc class AppConfigurationClient: PipelineClient {
-
     private static let apiVersion = "2019-01-01"
 
-    @objc public init(connectionString: String) throws {
-
-    }
+    @objc public init(connectionString _: String) throws {}
 }

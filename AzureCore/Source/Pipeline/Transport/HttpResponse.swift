@@ -8,7 +8,6 @@
 import Foundation
 
 public class HttpResponse: HttpMessage {
-
     public var httpRequest: HttpRequest?
     public var statusCode: Int?
     public var headers = HttpHeaders()
@@ -16,7 +15,7 @@ public class HttpResponse: HttpMessage {
     public var data: Data?
 
     public init(request: HttpRequest, statusCode: Int?, blockSize: Int = 4096) {
-        self.httpRequest = request
+        httpRequest = request
         self.blockSize = blockSize
         self.statusCode = statusCode
     }

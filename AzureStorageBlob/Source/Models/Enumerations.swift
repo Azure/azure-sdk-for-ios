@@ -33,4 +33,3 @@ public enum LeaseState: String, Codable {
 public enum LeaseStatus: String, Codable {
     case locked, unlocked
 }
-

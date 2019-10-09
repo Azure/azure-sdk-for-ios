@@ -9,11 +9,10 @@
 import Foundation
 
 public class LoggingPolicy: PipelineStageProtocol {
-
     public var next: PipelineStageProtocol?
     private lazy var attachmentRegex = NSRegularExpression("attachment; ?filename=([\"\\w.]+)",
                                                            options: .caseInsensitive)
-    public init() { }
+    public init() {}
 
     public func onRequest(_ request: inout PipelineRequest) {
         let logger = request.logger
@@ -97,10 +96,9 @@ public class LoggingPolicy: PipelineStageProtocol {
 }
 
 public class CurlFormattedRequestLoggingPolicy: PipelineStageProtocol {
-
     public var next: PipelineStageProtocol?
 
-    public init() { }
+    public init() {}
 
     public func onRequest(_ request: inout PipelineRequest) {
         let logger = request.logger
@@ -112,11 +110,11 @@ public class CurlFormattedRequestLoggingPolicy: PipelineStageProtocol {
         parts += ["-X", req.httpMethod.rawValue]
         for (header, value) in req.headers {
             var escapedValue = value
-            if value.first == "\"" && value.last == "\"" {
+            if value.first == "\"", value.last == "\"" {
                 escapedValue = "\\\"" + value.trimmingCharacters(in: ["\""]) + "\\\""
             }
 
-            if header == HttpHeader.acceptEncoding.rawValue && value.caseInsensitiveCompare("gzip") == .orderedSame {
+            if header == HttpHeader.acceptEncoding.rawValue, value.caseInsensitiveCompare("gzip") == .orderedSame {
                 compressed = true
             }
 

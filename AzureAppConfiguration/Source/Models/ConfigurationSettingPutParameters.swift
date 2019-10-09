@@ -9,14 +9,13 @@
 import Foundation
 
 public struct ConfigurationSettingPutParameters: Codable {
-
     let value: String
     let tags: [String: String]?
     let contentType: String
 
     public init(withConfigurationSetting setting: ConfigurationSetting) {
-        self.value = setting.value
-        self.tags = setting.tags
-        self.contentType = setting.contentType ?? ""
+        value = setting.value
+        tags = setting.tags
+        contentType = setting.contentType ?? ""
     }
 }

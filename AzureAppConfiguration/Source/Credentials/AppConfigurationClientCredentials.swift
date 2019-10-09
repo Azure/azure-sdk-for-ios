@@ -10,10 +10,9 @@ import AzureCore
 import Foundation
 
 public class AppConfigurationCredential {
-
-    internal let endpoint: String    // endpoint
-    internal let id: String          // access key id
-    internal let secret: String      // access key value
+    internal let endpoint: String // endpoint
+    internal let id: String // access key id
+    internal let secret: String // access key value
 
     public init(connectionString: String) throws {
         let csComps = connectionString.components(separatedBy: ";")
@@ -41,7 +40,7 @@ public class AppConfigurationCredential {
                 throw HttpResponseError.clientAuthentication(message)
             }
         }
-        guard endpoint != nil && id != nil && secret != nil else {
+        guard endpoint != nil, id != nil, secret != nil else {
             let message = "Invalid connection string: \(connectionString)"
             throw HttpResponseError.clientAuthentication(message)
         }
@@ -52,7 +51,6 @@ public class AppConfigurationCredential {
 }
 
 public class AppConfigurationAuthenticationPolicy: AuthenticationProtocol {
-
     public var next: PipelineStageProtocol?
     public let scopes: [String]
     public let credential: AppConfigurationCredential
@@ -91,7 +89,7 @@ public class AppConfigurationAuthenticationPolicy: AuthenticationProtocol {
             if let decodedSecret = self.credential.secret.decodeBase64 {
                 let stringToSign = "\(request.httpRequest.httpMethod.rawValue.uppercased(with: Locale(identifier: "en_US")))\n\(signingUrl)\n\(signedHeaderValues.joined(separator: ";"))"
                 let signature = stringToSign.hmac(algorithm: .sha256, key: decodedSecret)
-                request.httpRequest.headers[HttpHeader.authorization.rawValue] = "HMAC-SHA256 Credential=\(self.credential.id), SignedHeaders=\(signedHeaderKeys.joined(separator: ";")), Signature=\(signature.base64String)"
+                request.httpRequest.headers[HttpHeader.authorization.rawValue] = "HMAC-SHA256 Credential=\(credential.id), SignedHeaders=\(signedHeaderKeys.joined(separator: ";")), Signature=\(signature.base64String)"
             }
         }
     }

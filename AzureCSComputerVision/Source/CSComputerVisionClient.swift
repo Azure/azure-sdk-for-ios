@@ -15,7 +15,7 @@ class CSComputerVisionClient: NSObject {
     let endpoint: URL?
 
     @objc init(withEndpoint endpoint: String, withKey key: String, withRegion region: String?) throws {
-        self.credential = try CSComputerVisionClientCredentials.init(withEndpoint: endpoint, withKey: key, withRegion: region)
+        credential = try CSComputerVisionClientCredentials(withEndpoint: endpoint, withKey: key, withRegion: region)
         self.endpoint = URL(string: endpoint)
     }
 
@@ -40,31 +40,30 @@ class CSComputerVisionClient: NSObject {
     }
 
     @objc func recognizeText(fromUrl url: URL, withLanauage lang: String, shouldDetectOrientation detectOrientation: Bool, completion: @escaping ([String], NSError?) -> Void) {
+        guard endpoint != nil else { return }
 
-        guard self.endpoint != nil else { return }
-
-        let baseUrl = "\(self.endpoint!)/vision/v2.0/ocr"
+        let baseUrl = "\(endpoint!)/vision/v2.0/ocr"
         let queryStringParams = [
             "language": lang,
-            "detectOrientation": String(describing: detectOrientation)
+            "detectOrientation": String(describing: detectOrientation),
         ]
         var urlComponent = URLComponents(string: baseUrl)!
         urlComponent.queryItems = queryStringParams.map {
             URLQueryItem(name: $0.key, value: $0.value)
         }
         let headers = [
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         ]
         var request = URLRequest(url: urlComponent.url!)
         request.httpMethod = "POST"
         let jsonBody = try? JSONSerialization.data(withJSONObject: [
-            "url": url.absoluteString
+            "url": url.absoluteString,
         ])
         request.httpBody = jsonBody
         request.allHTTPHeaderFields = headers
-        self.credential.setAuthorizationheaders(forRequest: &request)
+        credential.setAuthorizationheaders(forRequest: &request)
 
-        //Now use this URLRequest with Alamofire to make request
+        // Now use this URLRequest with Alamofire to make request
         Alamofire.request(request).responseJSON { response in
             let result = self.extractText(fromResult: response.result.value)
             completion(result, nil)
@@ -72,27 +71,27 @@ class CSComputerVisionClient: NSObject {
     }
 
     @objc func recognizeText(fromImage image: UIImage, withLanguage lang: String, shouldDetectOrientation detectOrientation: Bool, completion: @escaping ([String], NSError?) -> Void) {
-        guard self.endpoint != nil else { return }
+        guard endpoint != nil else { return }
 
-        let baseUrl = "\(self.endpoint!)/vision/v2.0/ocr"
+        let baseUrl = "\(endpoint!)/vision/v2.0/ocr"
         let queryStringParams = [
             "language": lang,
-            "detectOrientation": String(describing: detectOrientation)
+            "detectOrientation": String(describing: detectOrientation),
         ]
         var urlComponent = URLComponents(string: baseUrl)!
         urlComponent.queryItems = queryStringParams.map {
             URLQueryItem(name: $0.key, value: $0.value)
         }
         let headers = [
-            "Content-Type": "application/octet-stream"
+            "Content-Type": "application/octet-stream",
         ]
         var request = URLRequest(url: urlComponent.url!)
         request.httpMethod = "POST"
         request.httpBody = image.pngData()
         request.allHTTPHeaderFields = headers
-        self.credential.setAuthorizationheaders(forRequest: &request)
+        credential.setAuthorizationheaders(forRequest: &request)
 
-        //Now use this URLRequest with Alamofire to make request
+        // Now use this URLRequest with Alamofire to make request
         Alamofire.request(request).responseJSON { response in
             let result = self.extractText(fromResult: response.result.value)
             completion(result, nil)

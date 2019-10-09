@@ -14,17 +14,16 @@ class TextAnalyticsClientCredentials: NSObject {
     let credentials: CredentialInformation
     let headerProvider: AuthorizationHeaderProvider
 
-    @objc init(withEndpoint endpoint: String, withKey key: String, withRegion region: String?) throws {
-        self.credentials = try CredentialInformation.init(withKey: key, withRegion: region)
-        self.headerProvider = AuthorizationHeaderProvider.init(withCredentials: self.credentials)
+    @objc init(withEndpoint _: String, withKey key: String, withRegion region: String?) throws {
+        credentials = try CredentialInformation(withKey: key, withRegion: region)
+        headerProvider = AuthorizationHeaderProvider(withCredentials: credentials)
     }
 
     func setAuthorizationheaders(forRequest request: inout URLRequest) {
-        self.headerProvider.setAuthenticationHeaders(forRequest: &request)
+        headerProvider.setAuthenticationHeaders(forRequest: &request)
     }
 
     class CredentialInformation {
-
         var key: String
         var region: String?
 
@@ -41,7 +40,7 @@ class TextAnalyticsClientCredentials: NSObject {
             self.credentials = credentials
         }
 
-        func setAuthenticationHeaders(forRequest request: inout URLRequest) {
+        func setAuthenticationHeaders(forRequest _: inout URLRequest) {
             // TODO: Update for AzureCore
             // request.addValue(self.credentials.key, forHTTPHeaderField: HttpHeader.ocpApimSubscriptionKey.rawValue)
         }

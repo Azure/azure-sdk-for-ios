@@ -12,19 +12,19 @@ import Foundation
 extension Array where Element == UInt8 {
     public var sha256: [UInt8] {
         var digest = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
-        _ = self.withUnsafeBytes {
+        _ = withUnsafeBytes {
             CC_SHA256($0.baseAddress, UInt32(self.count), &digest)
         }
         return digest
     }
 
     public var base64String: String {
-        let data = Data(bytes: self, count: self.count)
+        let data = Data(bytes: self, count: count)
         return data.base64EncodedString()
     }
 
     public var hexString: String {
-        return self.compactMap({ String(format: "%02x", $0) }).joined().uppercased()
+        return compactMap { String(format: "%02x", $0) }.joined().uppercased()
     }
 }
 
@@ -54,6 +54,7 @@ public enum HmacAlgorithm {
         }
         return CCHmacAlgorithm(alg)
     }
+
     public var digestLength: Int {
         var len: Int32 = 0
         switch self {
@@ -86,12 +87,12 @@ extension String {
     }
 
     public var base64String: String {
-        let data = Data(bytes: self, count: self.count)
+        let data = Data(bytes: self, count: count)
         return data.base64EncodedString()
     }
 
     public var decodeHex: Data? {
-        var data = Data(capacity: self.count / 2)
+        var data = Data(capacity: count / 2)
 
         if let regex = try? NSRegularExpression(pattern: "[0-9a-f]{1,2}", options: .caseInsensitive) {
             regex.enumerateMatches(in: self, range: NSRange(startIndex..., in: self)) { match, _, _ in

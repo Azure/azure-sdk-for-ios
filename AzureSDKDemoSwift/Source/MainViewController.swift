@@ -6,17 +6,17 @@
 //  Copyright © 2019 Azure SDK Team. All rights reserved.
 //
 
-import AzureCore
 import AzureAppConfiguration
+import AzureCore
 import AzureStorageBlob
 import os.log
 import UIKit
 
 class MainViewController: UITableViewController {
-
     // MARK: Properties
 
-    private var dataSource: PagedCollection<BlobContainer>?
+    private var dataSource: PagedCollection<ContainerItem>?
+    private var noMoreData = false
 
     override func viewDidLoad() {
         // If I try to call loadAllSettingsByItem here, the execution hangs...
@@ -28,20 +28,17 @@ class MainViewController: UITableViewController {
 
     /// Constructs the PagedCollection and retrieves the first page of results to initalize the table view.
     private func loadInitialSettings() {
-
-        let storageAccountName = AppConstants.storageAccountName
-        let blobConnectionString = AppConstants.blobConnectionString
-
-        if let blobClient = try? StorageBlobClient(accountName: storageAccountName,
-                                                   connectionString: blobConnectionString) {
-            blobClient.listContainers { result, httpResponse in
-                switch result {
-                case .success(let paged):
-                    self.dataSource = paged
-                    self.reloadTableView()
-                case .failure(let error):
-                    os_log("Error: %@", String(describing: error))
-                }
+        guard let blobClient = getBlobClient() else { return }
+        let options = ListContainersOptions()
+        options.maxResults = 20
+        blobClient.listContainers(withOptions: options) { result, _ in
+            switch result {
+            case let .success(paged):
+                self.dataSource = paged
+                self.reloadTableView()
+            case let .failure(error):
+                self.showAlert(error: String(describing: error))
+                self.noMoreData = true
             }
         }
     }
@@ -49,32 +46,47 @@ class MainViewController: UITableViewController {
     /// For demo purposes only to illustrate usage of the "nextItem" method to retrieve all items.
     /// Requires semaphore to force synchronous behavior, otherwise concurrency issues arise.
     private func loadAllSettingsByItem() {
-        var newItem: BlobContainer?
+        var newItem: ContainerItem?
         let semaphore = DispatchSemaphore(value: 0)
         repeat {
-            self.dataSource?.nextItem { result in
+            dataSource?.nextItem { result in
                 defer { semaphore.signal() }
                 switch result {
-                case .failure(let error):
+                case let .failure(error):
                     newItem = nil
                     os_log("Error: %@", String(describing: error))
-                case .success(let item):
+                case let .success(item):
                     newItem = item
                 }
             }
             _ = semaphore.wait(wallTimeout: .distantFuture)
-        } while(newItem != nil)
+        } while newItem != nil
     }
 
     /// Uses asynchronous "nextPage" method to fetch the next page of results and update the table view.
     private func loadMoreSettings() {
-        self.dataSource?.nextPage { result in
+        guard noMoreData == false else { return }
+        dataSource?.nextPage { result in
             switch result {
             case .success:
                 self.reloadTableView()
-            case .failure(let error):
-                os_log("Error: %@", String(describing: error))
+            case let .failure(error):
+                self.showAlert(error: String(describing: error))
+                self.noMoreData = true
             }
+        }
+    }
+
+    private func showAlert(error: String) {
+        DispatchQueue.main.async { [weak self] in
+            let alertController = UIAlertController(title: "Error!", message: error, preferredStyle: .alert)
+            let title = NSAttributedString(string: "Error!", attributes: [
+                NSAttributedString.Key.foregroundColor: UIColor.red,
+            ])
+            alertController.setValue(title, forKey: "attributedTitle")
+            let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alertController.addAction(defaultAction)
+            self?.present(alertController, animated: true)
         }
     }
 
@@ -87,11 +99,11 @@ class MainViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    override func numberOfSections(in _: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         guard let data = dataSource?.items else { return 0 }
         return data.count
     }
@@ -110,8 +122,8 @@ class MainViewController: UITableViewController {
         cell.valueLabel.text = ""
 
         // load next page if at the end of the current list
-        if indexPath.row == data.count - 10 {
-            self.loadMoreSettings()
+        if indexPath.row == data.count - 1, noMoreData == false {
+            loadMoreSettings()
         }
         return cell
     }

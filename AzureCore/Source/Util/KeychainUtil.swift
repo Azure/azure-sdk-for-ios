@@ -15,7 +15,6 @@ public enum KeychainUtilError: Error {
 }
 
 public class KeychainUtil {
-
     let keychainErrorDomain = "com.azure.core"
     let keychainSecurityService = "com.azure.core"
 
@@ -29,7 +28,7 @@ public class KeychainUtil {
         guard !string.isEmpty else {
             throw KeychainUtilError.invalidContent
         }
-        try self.store(secret: string.data(using: .utf8)!, forKey: key)
+        try store(secret: string.data(using: .utf8)!, forKey: key)
     }
 
     public func store(secret: Data, forKey key: String) throws {

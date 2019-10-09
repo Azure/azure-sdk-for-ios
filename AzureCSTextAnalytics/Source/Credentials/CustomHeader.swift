@@ -37,20 +37,20 @@ import Foundation
 
     public init?(rawValue: RawValue) {
         switch rawValue {
-            case "Authorization":
-                self = .authorization
-            case "Host":
-                self = .host
-            case "Date":
-                self = .date
-            case "x-ms-content-sha256":
-                self = .contentHash
-            case "Ocp-Apim-Subscription-Key":
-                self = .ocpApimSubscriptionKey
-            case "Ocp-Apim-Subscription-Region":
-                self = .ocpApimSubscriptionRegion
-            default:
-                return nil
+        case "Authorization":
+            self = .authorization
+        case "Host":
+            self = .host
+        case "Date":
+            self = .date
+        case "x-ms-content-sha256":
+            self = .contentHash
+        case "Ocp-Apim-Subscription-Key":
+            self = .ocpApimSubscriptionKey
+        case "Ocp-Apim-Subscription-Region":
+            self = .ocpApimSubscriptionRegion
+        default:
+            return nil
         }
     }
 }

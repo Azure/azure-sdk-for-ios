@@ -8,7 +8,6 @@
 import Foundation
 
 public class HttpRequest: HttpMessage {
-
     public var httpMethod: HttpMethod
     public var url: String
     public var headers: HttpHeaders
@@ -16,7 +15,7 @@ public class HttpRequest: HttpMessage {
     public var data: Data?
 
     public var query: [URLQueryItem]? {
-        let comps = URLComponents(string: self.url)?.queryItems
+        let comps = URLComponents(string: url)?.queryItems
         return comps
     }
 
@@ -31,7 +30,7 @@ public class HttpRequest: HttpMessage {
 
     public func format(queryParams: [String: String]?) {
         guard var urlComps = URLComponents(string: self.url) else { return }
-        var queryItems = self.url.parseQueryString() ?? [String: String]()
+        var queryItems = url.parseQueryString() ?? [String: String]()
 
         // add any query params from the queryParams dictionary
         if queryParams != nil {
@@ -40,6 +39,6 @@ public class HttpRequest: HttpMessage {
             }
         }
         urlComps.queryItems = queryItems.convertToQueryItems()
-        self.url = urlComps.url(relativeTo: nil)?.absoluteString ?? self.url
+        url = urlComps.url(relativeTo: nil)?.absoluteString ?? url
     }
 }

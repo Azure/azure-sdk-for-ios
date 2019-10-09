@@ -21,7 +21,7 @@ extension HttpHeaders {
     }
 
     public mutating func removeValue(forKey key: HttpHeader) -> String? {
-        return self.removeValue(forKey: key.rawValue)
+        return removeValue(forKey: key.rawValue)
     }
 }
 
@@ -33,8 +33,10 @@ public enum HttpHeader: String {
     case acceptRanges = "Accept-Ranges"
     case age = "Age"
     case allow = "Allow"
+    case apiVersion = "x-ms-version"
     case authorization = "Authorization"
     case cacheControl = "Cache-Control"
+    case clientRequestId = "x-ms-client-request-id"
     case connection = "Connection"
     case contentDisposition = "Content-Disposition"
     case contentEncoding = "Content-Encoding"

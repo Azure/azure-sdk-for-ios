@@ -9,7 +9,6 @@
 import Foundation
 
 extension NSRegularExpression {
-
     convenience init(_ pattern: String, options: NSRegularExpression.Options = []) {
         do {
             try self.init(pattern: pattern, options: options)
@@ -31,7 +30,7 @@ extension NSRegularExpression {
 extension NSTextCheckingResult {
     func capturedValues(from string: String) -> [Substring] {
         var captureList: [Substring] = []
-        for rangeNum in 0..<numberOfRanges {
+        for rangeNum in 0 ..< numberOfRanges {
             if let range = Range(range(at: rangeNum), in: string) {
                 captureList.append(string[range])
             }

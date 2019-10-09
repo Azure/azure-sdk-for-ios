@@ -6,22 +6,20 @@
 //  Copyright © 2019 Azure SDK Team. All rights reserved.
 //
 
+import AzureCore
 import Foundation
 
-public final class BlobProperties {
-
-    public let name: String
-    public let deleted: Bool?
-    public let snapshot: Date?
-    public let metadata: [String: String]?
+public final class BlobProperties: XMLModelProtocol {
     public let creationTime: Date?
     public let lastModified: Date?
     public let eTag: String?
     public let contentLength: Int?
     public let contentType: String?
+    public let contentDisposition: String?
     public let contentEncoding: String?
     public let contentLanguage: String?
     public let contentMD5: String?
+    public let contentCRC64: String?
     public let cacheControl: String?
     public let sequenceNumber: Int?
     public let blobType: BlobType?
@@ -42,18 +40,16 @@ public final class BlobProperties {
     public let deletedTime: Date?
     public let remainingRetentionDays: Int?
 
-    public init(name: String,
-                deleted: Bool? = nil,
-                snapshot: Date? = nil,
-                metadata: [String: String]? = nil,
-                creationTime: Date? = nil,
+    public init(creationTime: Date? = nil,
                 lastModified: Date? = nil,
                 eTag: String? = nil,
                 contentLength: Int? = nil,
                 contentType: String? = nil,
+                contentDisposition: String? = nil,
                 contentEncoding: String? = nil,
                 contentLanguage: String? = nil,
                 contentMD5: String? = nil,
+                contentCRC64: String? = nil,
                 cacheControl: String? = nil,
                 sequenceNumber: Int? = nil,
                 blobType: BlobType? = nil,
@@ -72,20 +68,17 @@ public final class BlobProperties {
                 accessTierInferred: Bool? = nil,
                 accessTierChangeTime: Date? = nil,
                 deletedTime: Date? = nil,
-                remainingRetentionDays: Int? = nil
-    ) {
-        self.name = name
-        self.deleted = deleted
-        self.snapshot = snapshot
-        self.metadata = metadata
+                remainingRetentionDays: Int? = nil) {
         self.creationTime = creationTime
         self.lastModified = lastModified
         self.eTag = eTag
         self.contentLength = contentLength
         self.contentType = contentType
+        self.contentDisposition = contentDisposition
         self.contentEncoding = contentEncoding
         self.contentLanguage = contentLanguage
         self.contentMD5 = contentMD5
+        self.contentCRC64 = contentCRC64
         self.cacheControl = cacheControl
         self.sequenceNumber = sequenceNumber
         self.blobType = blobType
@@ -106,119 +99,75 @@ public final class BlobProperties {
         self.deletedTime = deletedTime
         self.remainingRetentionDays = remainingRetentionDays
     }
+
+    public static func xmlMap() -> XMLMap {
+        return XMLMap([
+            "Creation-Time": XMLMetadata(jsonName: "creationTime"),
+            "Last-Modified": XMLMetadata(jsonName: "lastModified"),
+            "Etag": XMLMetadata(jsonName: "eTag"),
+            "Content-Length": XMLMetadata(jsonName: "contentLength"),
+            "Content-Type": XMLMetadata(jsonName: "contentType"),
+            "Content-Disposition": XMLMetadata(jsonName: "contentDisposition"),
+            "Content-Encoding": XMLMetadata(jsonName: "contentEncoding"),
+            "Content-Language": XMLMetadata(jsonName: "contentLanguage"),
+            "Content-MD5": XMLMetadata(jsonName: "contentMD5"),
+            "Content-CRC64": XMLMetadata(jsonName: "contentCRC64"),
+            "Cache-Control": XMLMetadata(jsonName: "cacheControl"),
+            "x-ms-blob-sequence-number": XMLMetadata(jsonName: "sequenceNumber"),
+            "BlobType": XMLMetadata(jsonName: "blobType"),
+            "AccessTier": XMLMetadata(jsonName: "accessTier"),
+            "LeaseStatus": XMLMetadata(jsonName: "leaseStatus"),
+            "LeaseState": XMLMetadata(jsonName: "leaseState"),
+            "LeaseDuration": XMLMetadata(jsonName: "leaseDuration"),
+            "CopyId": XMLMetadata(jsonName: "copyId"),
+            "CopyStatus": XMLMetadata(jsonName: "copyStatus"),
+            "CopySource": XMLMetadata(jsonName: "copySource"),
+            "CopyProgress": XMLMetadata(jsonName: "copyProgress"),
+            "CopyCompletionTime": XMLMetadata(jsonName: "copyCompletionTime"),
+            "CopyStatusDescription": XMLMetadata(jsonName: "copyStatusDescription"),
+            "ServerEncrypted": XMLMetadata(jsonName: "serverEncrypted"),
+            "IncrementalCopy": XMLMetadata(jsonName: "incrementalCopy"),
+            "AccessTierInferred": XMLMetadata(jsonName: "accessTierInferred"),
+            "AccessTierChangeTime": XMLMetadata(jsonName: "accessTierChangeTime"),
+            "DeletedTime": XMLMetadata(jsonName: "deletedTime"),
+            "RemainingRetentionDays": XMLMetadata(jsonName: "remainingRetentionDays"),
+        ])
+    }
 }
 
 extension BlobProperties: Codable {
-
-    enum CodingKeys: String, CodingKey {
-        case name = "Name"
-        case deleted = "Deleted"
-        case snapshot = "Snapshot"
-        case properties = "Properties"
-        case metadata = "Metadata"
-
-        enum PropertyKeys: String, CodingKey {
-            case creationTime = "Creation-Time"
-            case lastModified = "Last-Modified"
-            case eTag = "eTag"
-            case contentLength = "Content-Length"
-            case contentType = "Content-Type"
-            case contentEncoding = "Content-Encoding"
-            case contentLanguage = "Content-Language"
-            case contentMD5 = "Content-MD5"
-            case cacheControl = "Cache-Control"
-            case sequenceNumber = "x-ms-blob-sequence-number"
-            case blobType = "BlobType"
-            case accessTier = "AccessTier"
-            case leaseStatus = "LeaseStatus"
-            case leaseState = "LeaseState"
-            case leaseDuration = "LeaseDuration"
-            case copyId = "CopyId"
-            case copyStatus = "CopyStatus"
-            case copySource = "CopySource"
-            case copyProgress = "CopyProgress"
-            case copyCompletionTime = "CopyCompletionTime"
-            case copyStatusDescription = "CopyStatusDescription"
-            case serverEncrypted = "ServerEncrypted"
-            case incrementalCopy = "IncrementalCopy"
-            case accessTierInferred = "AccessTierInferred"
-            case accessTierChangeTime = "AccessTierChangeTime"
-            case deletedTime = "DeletedTime"
-            case remainingRetentionDays = "RemainingRetentionDays"
-        }
-    }
-
     public convenience init(from decoder: Decoder) throws {
         let root = try decoder.container(keyedBy: CodingKeys.self)
-        let properties = try root.nestedContainer(keyedBy: CodingKeys.PropertyKeys.self, forKey: .properties)
-
-        self.init(name: try root.decode(String.self, forKey: .name),
-                  deleted: try? root.decode(Bool.self, forKey: .deleted),
-                  snapshot: try? root.decode(Date.self, forKey: .snapshot),
-                  metadata: try? root.decode([String: String].self, forKey: .metadata),
-                  creationTime: try? properties.decode(Date.self, forKey: .creationTime),
-                  lastModified: try? properties.decode(Date.self, forKey: .lastModified),
-                  eTag: try? properties.decode(String.self, forKey: .eTag),
-                  contentLength: try? properties.decode(Int.self, forKey: .contentLength),
-                  contentType: try? properties.decode(String.self, forKey: .contentType),
-                  contentEncoding: try? properties.decode(String.self, forKey: .contentEncoding),
-                  contentLanguage: try? properties.decode(String.self, forKey: .contentLanguage),
-                  contentMD5: try? properties.decode(String.self, forKey: .contentMD5),
-                  cacheControl: try? properties.decode(String.self, forKey: .cacheControl),
-                  sequenceNumber: try? properties.decode(Int.self, forKey: .sequenceNumber),
-                  blobType: try? properties.decode(BlobType.self, forKey: .blobType),
-                  accessTier: try? properties.decode(AccessTier.self, forKey: .accessTier),
-                  leaseStatus: try? properties.decode(LeaseStatus.self, forKey: .leaseStatus),
-                  leaseState: try? properties.decode(LeaseState.self, forKey: .leaseState),
-                  leaseDuration: try? properties.decode(LeaseDuration.self, forKey: .leaseDuration),
-                  copyId: try? properties.decode(String.self, forKey: .copyId),
-                  copyStatus: try? properties.decode(CopyStatus.self, forKey: .copyStatus),
-                  copySource: try? properties.decode(URL.self, forKey: .copySource),
-                  copyProgress: try? properties.decode(String.self, forKey: .copyProgress),
-                  copyCompletionTime: try? properties.decode(Date.self, forKey: .copyCompletionTime),
-                  copyStatusDescription: try? properties.decode(String.self, forKey: .copyStatusDescription),
-                  serverEncrypted: try? properties.decode(Bool.self, forKey: .serverEncrypted),
-                  incrementalCopy: try? properties.decode(Bool.self, forKey: .incrementalCopy),
-                  accessTierInferred: try? properties.decode(Bool.self, forKey: .accessTierInferred),
-                  accessTierChangeTime: try? properties.decode(Date.self, forKey: .accessTierChangeTime),
-                  deletedTime: try? properties.decode(Date.self, forKey: .deletedTime),
-                  remainingRetentionDays: try? properties.decode(Int.self, forKey: .remainingRetentionDays))
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        var root = encoder.container(keyedBy: CodingKeys.self)
-        try root.encode(name, forKey: .name)
-        try root.encode(deleted, forKey: .deleted)
-        try root.encode(snapshot, forKey: .snapshot)
-        try root.encode(metadata, forKey: .metadata)
-
-        var properties = root.nestedContainer(keyedBy: CodingKeys.PropertyKeys.self, forKey: .properties)
-        try properties.encode(lastModified, forKey: .lastModified)
-        try properties.encode(eTag, forKey: .eTag)
-        try properties.encode(leaseStatus, forKey: .leaseStatus)
-        try properties.encode(leaseState, forKey: .leaseState)
-        try properties.encode(leaseDuration, forKey: .leaseDuration)
-        try properties.encode(creationTime, forKey: .creationTime)
-        try properties.encode(contentLength, forKey: .contentLength)
-        try properties.encode(contentType, forKey: .contentType)
-        try properties.encode(contentEncoding, forKey: .contentEncoding)
-        try properties.encode(contentLanguage, forKey: .contentLanguage)
-        try properties.encode(contentMD5, forKey: .contentMD5)
-        try properties.encode(cacheControl, forKey: .cacheControl)
-        try properties.encode(sequenceNumber, forKey: .sequenceNumber)
-        try properties.encode(blobType, forKey: .blobType)
-        try properties.encode(accessTier, forKey: .accessTier)
-        try properties.encode(copyId, forKey: .copyId)
-        try properties.encode(copyStatus, forKey: .copyStatus)
-        try properties.encode(copySource, forKey: .copySource)
-        try properties.encode(copyProgress, forKey: .copyProgress)
-        try properties.encode(copyCompletionTime, forKey: .copyCompletionTime)
-        try properties.encode(copyStatusDescription, forKey: .copyStatusDescription)
-        try properties.encode(serverEncrypted, forKey: .serverEncrypted)
-        try properties.encode(incrementalCopy, forKey: .incrementalCopy)
-        try properties.encode(accessTierInferred, forKey: .accessTierInferred)
-        try properties.encode(accessTierChangeTime, forKey: .accessTierChangeTime)
-        try properties.encode(deletedTime, forKey: .deletedTime)
-        try properties.encode(remainingRetentionDays, forKey: .remainingRetentionDays)
+        self.init(
+            creationTime: try root.decodeIfPresent(Date.self, forKey: .creationTime),
+            lastModified: try root.decodeIfPresent(Date.self, forKey: .lastModified),
+            eTag: try root.decodeIfPresent(String.self, forKey: .eTag),
+            contentLength: try root.decodeIntIfPresent(forKey: .contentLength),
+            contentType: try root.decodeIfPresent(String.self, forKey: .contentType),
+            contentDisposition: try root.decodeIfPresent(String.self, forKey: .contentDisposition),
+            contentEncoding: try root.decodeIfPresent(String.self, forKey: .contentEncoding),
+            contentLanguage: try root.decodeIfPresent(String.self, forKey: .contentLanguage),
+            contentMD5: try root.decodeIfPresent(String.self, forKey: .contentMD5),
+            contentCRC64: try root.decodeIfPresent(String.self, forKey: .contentCRC64),
+            cacheControl: try root.decodeIfPresent(String.self, forKey: .cacheControl),
+            sequenceNumber: try root.decodeIntIfPresent(forKey: .sequenceNumber),
+            blobType: try root.decodeIfPresent(BlobType.self, forKey: .blobType),
+            accessTier: try root.decodeIfPresent(AccessTier.self, forKey: .accessTier),
+            leaseStatus: try root.decodeIfPresent(LeaseStatus.self, forKey: .leaseStatus),
+            leaseState: try root.decodeIfPresent(LeaseState.self, forKey: .leaseState),
+            leaseDuration: try root.decodeIfPresent(LeaseDuration.self, forKey: .leaseDuration),
+            copyId: try root.decodeIfPresent(String.self, forKey: .copyId),
+            copyStatus: try root.decodeIfPresent(CopyStatus.self, forKey: .copyStatus),
+            copySource: try URL(string: root.decodeIfPresent(String.self, forKey: .copySource) ?? ""),
+            copyProgress: try root.decodeIfPresent(String.self, forKey: .copyProgress),
+            copyCompletionTime: try root.decodeIfPresent(Date.self, forKey: .copyCompletionTime),
+            copyStatusDescription: try root.decodeIfPresent(String.self, forKey: .copyStatusDescription),
+            serverEncrypted: try root.decodeBoolIfPresent(forKey: .serverEncrypted),
+            incrementalCopy: try root.decodeBoolIfPresent(forKey: .incrementalCopy),
+            accessTierInferred: try root.decodeBoolIfPresent(forKey: .accessTierInferred),
+            accessTierChangeTime: try root.decodeIfPresent(Date.self, forKey: .accessTierChangeTime),
+            deletedTime: try root.decodeIfPresent(Date.self, forKey: .deletedTime),
+            remainingRetentionDays: try root.decodeIntIfPresent(forKey: .remainingRetentionDays)
+        )
     }
 }

@@ -8,8 +8,7 @@
 
 import Foundation
 
-final public class PipelineError: Error {
-
+public final class PipelineError: Error {
     public var innerError: Error
     public var pipelineResponse: PipelineResponse
 

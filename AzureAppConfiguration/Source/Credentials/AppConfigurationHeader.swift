@@ -9,6 +9,6 @@
 import Foundation
 
 public enum AppConfigurationHeader: String {
-    case date =         "x-ms-date"
-    case contentHash =  "x-ms-content-sha256"
+    case date = "x-ms-date"
+    case contentHash = "x-ms-content-sha256"
 }

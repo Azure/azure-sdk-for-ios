@@ -28,19 +28,18 @@ public protocol AuthenticationProtocol: PipelineStageProtocol {
 
 extension AuthenticationProtocol {
     public func onRequest(_ request: inout PipelineRequest) {
-        self.authenticate(request: request)
+        authenticate(request: request)
     }
 }
 
 public class BearerTokenCredentialPolicy: AuthenticationProtocol {
-
     public var next: PipelineStageProtocol?
 
     public let scopes: [String]
     public let credential: TokenCredential
     public var needNewToken: Bool {
         // TODO: Also if token expires within 300... ms?
-        return (self.token == nil)
+        return (token == nil)
     }
 
     private var token: AccessToken?
@@ -48,7 +47,7 @@ public class BearerTokenCredentialPolicy: AuthenticationProtocol {
     public init(credential: TokenCredential, scopes: [String]) {
         self.scopes = scopes
         self.credential = credential
-        self.token = nil
+        token = nil
     }
 
     public func authenticate(request: PipelineRequest) {
@@ -58,9 +57,9 @@ public class BearerTokenCredentialPolicy: AuthenticationProtocol {
     }
 
     public func onRequest(_ request: inout PipelineRequest) {
-        if self.needNewToken {
-            self.token = self.credential.getToken(forScopes: self.scopes)
+        if needNewToken {
+            token = credential.getToken(forScopes: scopes)
         }
-        self.authenticate(request: request)
+        authenticate(request: request)
     }
 }

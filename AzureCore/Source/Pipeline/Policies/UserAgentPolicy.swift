@@ -9,14 +9,13 @@
 import Foundation
 
 public class UserAgentPolicy: PipelineStageProtocol {
-
     public var next: PipelineStageProtocol?
 
     private var _userAgent: String
 
     public let userAgentOverwrite: Bool
     public var userAgent: String {
-        return self._userAgent
+        return _userAgent
     }
 
     public init(baseUserAgent: String? = nil, userAgentOverwrite: Bool = false) {
@@ -30,25 +29,25 @@ public class UserAgentPolicy: PipelineStageProtocol {
             let swiftVersion = 5.0
             let platform = "iPhone"
             let azureCoreVersion = "0.1.0"
-            self._userAgent = "ios/\(swiftVersion) (\(platform)) AzureCore/\(azureCoreVersion)"
+            _userAgent = "ios/\(swiftVersion) (\(platform)) AzureCore/\(azureCoreVersion)"
         } else {
-            self._userAgent = baseUserAgent!
+            _userAgent = baseUserAgent!
         }
     }
 
     public func appendUserAgent(value: String) {
-        self._userAgent = "\(self._userAgent) \(value)"
+        _userAgent = "\(_userAgent) \(value)"
     }
 
     public func onRequest(_ request: inout PipelineRequest) {
-        if let contextUserAgent = request.context?.getValue(forKey: "userAgent") as? String {
-            if request.context?.getValue(forKey: "userAgentOverwrite") != nil {
+        if let contextUserAgent = request.context?.value(forKey: "userAgent") as? String {
+            if request.context?.value(forKey: "userAgentOverwrite") != nil {
                 request.httpRequest.headers[.userAgent] = contextUserAgent
             } else {
-                request.httpRequest.headers[.userAgent] = "\(self.userAgent) \(contextUserAgent)"
+                request.httpRequest.headers[.userAgent] = "\(userAgent) \(contextUserAgent)"
             }
-        } else if self.userAgentOverwrite || request.httpRequest.headers[HttpHeader.userAgent] == nil {
-            request.httpRequest.headers[.userAgent] = self.userAgent
+        } else if userAgentOverwrite || request.httpRequest.headers[HttpHeader.userAgent] == nil {
+            request.httpRequest.headers[.userAgent] = userAgent
         }
     }
 }

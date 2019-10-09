@@ -10,16 +10,16 @@ import Foundation
 
 extension NSDictionary {
     func value(forKey key: CodingKey) -> Any? {
-        return self.value(forKey: key.stringValue)
+        return value(forKey: key.stringValue)
     }
 
     func setValue(_ value: Any?, forKey key: CodingKey) {
-        self.setValue(value, forKey: key.stringValue)
+        setValue(value, forKey: key.stringValue)
     }
 
     subscript(key: CodingKey) -> Any? {
-        get { return self.value(forKey: key) }
-        set(newValue) { self.setValue(newValue, forKey: key) }
+        get { return value(forKey: key) }
+        set(newValue) { setValue(newValue, forKey: key) }
     }
 
     var swifty: [AnyHashable: Any] {

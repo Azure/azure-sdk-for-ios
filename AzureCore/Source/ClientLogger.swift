@@ -65,7 +65,7 @@ public class NullLogger: ClientLogger {
         set { _ = newValue }
     }
 
-    public func log(_ message: () -> String?, atLevel messageLevel: ClientLogLevel) { }
+    public func log(_: () -> String?, atLevel _: ClientLogLevel) {}
 }
 
 public class PrintLogger: ClientLogger {

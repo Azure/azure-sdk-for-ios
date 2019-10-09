@@ -9,27 +9,26 @@
 import Foundation
 
 public class HeadersPolicy: PipelineStageProtocol {
-
     public var next: PipelineStageProtocol?
 
     private var _headers: HttpHeaders
     public var headers: HttpHeaders {
-        return self._headers
+        return _headers
     }
 
     public init(baseHeaders: HttpHeaders? = nil) {
-        self._headers = baseHeaders ?? HttpHeaders()
+        _headers = baseHeaders ?? HttpHeaders()
     }
 
     public func add(header: HttpHeader, value: String) {
-        self._headers[header] = value
+        _headers[header] = value
     }
 
     public func onRequest(_ request: inout PipelineRequest) {
-        for (key, value) in self.headers {
+        for (key, value) in headers {
             request.httpRequest.headers[key] = value
         }
-        if let additionalHeaders = request.context?.getValue(forKey: "headers") as? HttpHeaders {
+        if let additionalHeaders = request.context?.value(forKey: "headers") as? HttpHeaders {
             for (key, value) in additionalHeaders {
                 request.httpRequest.headers[key] = value
             }

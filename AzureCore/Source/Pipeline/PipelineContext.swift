@@ -8,8 +8,12 @@
 
 import Foundation
 
+// MARK: - ContextKey enum
+
 public enum ContextKey: String {
+    case allowedStatusCodes
     case deserializedData
+    case xmlMap
 }
 
 // MARK: - PipelineContextProtocol
@@ -18,36 +22,34 @@ public protocol PipelineContextProtocol {
     var context: PipelineContext? { get set }
 
     mutating func add(value: AnyObject, forKey key: AnyHashable)
-    func getValue(forKey key: AnyHashable) -> AnyObject?
+    func value(forKey key: AnyHashable) -> AnyObject?
 }
 
 // MARK: - PipelineContextProtocol extension
 
 extension PipelineContextProtocol {
-
-    mutating public func add(value: AnyObject, forKey key: AnyHashable) {
+    public mutating func add(value: AnyObject, forKey key: AnyHashable) {
         if let context = self.context {
             self.context = context.add(value: value, forKey: key)
         } else {
-            self.context = PipelineContext(key: key, value: value)
+            context = PipelineContext(key: key, value: value)
         }
     }
 
-    mutating public func add(value: AnyObject, forKey key: ContextKey) {
+    public mutating func add(value: AnyObject, forKey key: ContextKey) {
         add(value: value, forKey: key.rawValue)
     }
 
-    public func getValue(forKey key: AnyHashable) -> AnyObject? {
-        return context?.getValue(forKey: key)
+    public func value(forKey key: AnyHashable) -> AnyObject? {
+        return context?.value(forKey: key)
     }
 
-    public func getValue(forKey key: ContextKey) -> AnyObject? {
-        return getValue(forKey: key.rawValue)
+    public func value(forKey key: ContextKey) -> AnyObject? {
+        return value(forKey: key.rawValue)
     }
 }
 
 public class PipelineContext: CustomDebugStringConvertible {
-
     private let parent: PipelineContext?
     private let key: AnyHashable
     private let value: AnyObject?
@@ -60,7 +62,7 @@ public class PipelineContext: CustomDebugStringConvertible {
         return debugString
     }
 
-    convenience internal init(key: AnyHashable, value: AnyObject?) {
+    internal convenience init(key: AnyHashable, value: AnyObject?) {
         self.init(parent: nil, key: key, value: value)
     }
 
@@ -85,7 +87,7 @@ public class PipelineContext: CustomDebugStringConvertible {
         return context!
     }
 
-    public func getValue(forKey key: AnyHashable) -> AnyObject? {
+    public func value(forKey key: AnyHashable) -> AnyObject? {
         var current: PipelineContext? = self
         repeat {
             if key == current?.key {

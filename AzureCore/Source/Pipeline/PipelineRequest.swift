@@ -8,8 +8,7 @@
 
 import Foundation
 
-final public class PipelineRequest: PipelineContextProtocol {
-
+public final class PipelineRequest: PipelineContextProtocol {
     public var httpRequest: HttpRequest
     public var logger: ClientLogger
 
@@ -20,7 +19,7 @@ final public class PipelineRequest: PipelineContextProtocol {
     }
 
     public init(request: HttpRequest, logger: ClientLogger, context: PipelineContext?) {
-        self.httpRequest = request
+        httpRequest = request
         self.logger = logger
         self.context = context
     }

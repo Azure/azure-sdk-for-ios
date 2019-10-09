@@ -10,15 +10,14 @@ import AzureCore
 import Foundation
 
 public class StorageOAuthCredential: TokenCredential {
-
-    public func getToken(forScopes scopes: [String]) -> AccessToken? {
+    public func getToken(forScopes _: [String]) -> AccessToken? {
         guard let authUrl = URL(string: "https://login.microsoftonline.com/{tenant}/oauth2/token") else { return nil }
         let tokenLife = 15 // in minutes
         if let expiration = Calendar.current.date(byAdding: .minute, value: tokenLife, to: Date()) {
             // TODO: Token retrieval implementation
             let expirationInt = Int(expiration.timeIntervalSinceReferenceDate)
             var token = ""
-            URLSession.shared.dataTask(with: authUrl) { data, response, error in
+            URLSession.shared.dataTask(with: authUrl) { _, _, error in
                 if error != nil {
                     print(error as Any)
                 }
@@ -30,7 +29,6 @@ public class StorageOAuthCredential: TokenCredential {
 }
 
 public class StorageSASCredential {
-
     internal let accountName: String
     internal let blobEndpoint: String?
     internal let queueEndpoint: String?
@@ -77,22 +75,21 @@ public class StorageSASCredential {
         let invalidCS = HttpResponseError.clientAuthentication("The connection string \(connectionString) is invalid.")
         guard let sasToken = sas else { throw invalidCS }
         self.sasToken = sasToken
-        self.blobEndpoint = blob
-        self.queueEndpoint = queue
-        self.fileEndpoint = file
-        self.tableEndpoint = table
+        blobEndpoint = blob
+        queueEndpoint = queue
+        fileEndpoint = file
+        tableEndpoint = table
     }
 }
 
 public class StorageSASAuthenticationPolicy: AuthenticationProtocol {
-
     public var next: PipelineStageProtocol?
     public let credential: StorageSASCredential
 
     public init(credential: StorageSASCredential) {
         self.credential = credential
     }
-    
+
     private func parse(sasToken: String) -> [String: String] {
         var queryItems = [String: String]()
         for component in sasToken.components(separatedBy: "&") {
@@ -103,9 +100,9 @@ public class StorageSASAuthenticationPolicy: AuthenticationProtocol {
         }
         return queryItems
     }
-    
+
     public func authenticate(request: PipelineRequest) {
-        let queryParams = parse(sasToken: self.credential.sasToken)
+        let queryParams = parse(sasToken: credential.sasToken)
         request.httpRequest.format(queryParams: queryParams)
         request.httpRequest.headers["x-ms-date"] = Date().httpFormat
     }

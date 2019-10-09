@@ -9,7 +9,6 @@
 import Foundation
 
 internal class Pipeline {
-
     private var policies: [PipelineStageProtocol]
     private let transport: HttpTransportable
 
@@ -32,9 +31,9 @@ internal class Pipeline {
         if let firstPolicy = policies.first {
             firstPolicy.process(request: &request, completion: { result, httpResponse in
                 switch result {
-                case .success(let pipelineResponse):
+                case let .success(pipelineResponse):
                     completion(.success(pipelineResponse), httpResponse)
-                case .failure(let error):
+                case let .failure(error):
                     completion(.failure(error), httpResponse)
                 }
             })

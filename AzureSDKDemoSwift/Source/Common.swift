@@ -1,11 +1,12 @@
 //
-//  Constants.swift
+//  Common.swift
 //  AzureSDKDemoSwift
 //
 //  Created by Travis Prescott on 10/7/19.
 //  Copyright © 2019 Azure SDK Team. All rights reserved.
 //
 
+import AzureStorageBlob
 import Foundation
 
 struct AppConstants {
@@ -16,4 +17,12 @@ struct AppConstants {
     static let blobConnectionString = "BlobEndpoint=https://tjpstorage1.blob.core.windows.net/;QueueEndpoint=https://tjpstorage1.queue.core.windows.net/;FileEndpoint=https://tjpstorage1.file.core.windows.net/;TableEndpoint=https://tjpstorage1.table.core.windows.net/;SharedAccessSignature=sv=2018-03-28&ss=b&srt=sco&sp=rl&se=2020-10-03T07:45:02Z&st=2019-10-02T23:45:02Z&spr=https&sig=L7zqOTStAd2o3Mp72MW59GXM1WbL9G2FhOSXHpgrBCE%3D"
     static let storageAccountName = "tjpstorage1"
     static let storageBaseUrl = "https://tjpstorage1.blob.core.windows.net"
+}
+
+func getBlobClient() -> StorageBlobClient? {
+    let storageAccountName = AppConstants.storageAccountName
+    let blobConnectionString = AppConstants.blobConnectionString
+
+    return try? StorageBlobClient(accountName: storageAccountName,
+                                  connectionString: blobConnectionString)
 }
