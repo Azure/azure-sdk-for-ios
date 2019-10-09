@@ -8,11 +8,12 @@
 
 import Foundation
 
-public class DefaultLoggingPolicy: PipelineStageProtocol {
+public class LoggingPolicy: PipelineStageProtocol {
 
     public var next: PipelineStageProtocol?
     private lazy var attachmentRegex = NSRegularExpression("attachment; ?filename=([\"\\w.]+)",
                                                            options: .caseInsensitive)
+    public init() { }
 
     public func onRequest(_ request: inout PipelineRequest) {
         let logger = request.logger
@@ -98,6 +99,8 @@ public class DefaultLoggingPolicy: PipelineStageProtocol {
 public class CurlFormattedRequestLoggingPolicy: PipelineStageProtocol {
 
     public var next: PipelineStageProtocol?
+
+    public init() { }
 
     public func onRequest(_ request: inout PipelineRequest) {
         let logger = request.logger

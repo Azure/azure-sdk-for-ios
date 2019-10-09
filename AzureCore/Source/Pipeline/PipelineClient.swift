@@ -10,8 +10,9 @@ import Foundation
 
 open class PipelineClient {
 
+    public var logger: ClientLogger
+
     internal var pipeline: Pipeline
-    internal var logger: ClientLogger
     internal var baseUrl: String
 
     public init(baseUrl: String, transport: HttpTransportable, policies: [PipelineStageProtocol],

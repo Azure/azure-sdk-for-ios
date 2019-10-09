@@ -37,7 +37,8 @@ public class StorageBlobClient: PipelineClient {
 
     private let apiVersion: String!
 
-    public init(accountName: String, connectionString: String, apiVersion: String? = nil) throws {
+    public init(accountName: String, connectionString: String, apiVersion: String? = nil,
+                logger: ClientLogger = ClientLoggers.default()) throws {
         let sasCredential = try StorageSASCredential(accountName: accountName, connectionString: connectionString)
         guard let blobEndpoint = sasCredential.blobEndpoint else {
             let message = "Invalid connection string. No blob endpoint specified."
@@ -45,12 +46,9 @@ public class StorageBlobClient: PipelineClient {
         }
         let authPolicy = StorageSASAuthenticationPolicy(credential: sasCredential)
         self.apiVersion = apiVersion ?? Constants.latestApiVersion
-        super.init(baseUrl: blobEndpoint,
-                   headersPolicy: HeadersPolicy(),
-                   userAgentPolicy: UserAgentPolicy(),
-                   authenticationPolicy: authPolicy,
-                   contentDecodePolicy: ContentDecodePolicy(),
-                   transport: UrlSessionTransport())
+        super.init(baseUrl: blobEndpoint, transport: UrlSessionTransport(),
+                   policies: [HeadersPolicy(), UserAgentPolicy(), authPolicy, ContentDecodePolicy(), LoggingPolicy()],
+                   logger: logger)
     }
 
     public func listContainers(withPrefix prefix: String? = nil, completion: @escaping HttpResultHandler<PagedCollection<BlobContainer>>) {

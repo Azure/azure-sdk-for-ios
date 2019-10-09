@@ -14,16 +14,14 @@ public class AppConfigurationClient: PipelineClient {
     
     public let apiVersion: String!
 
-    public init(connectionString: String, apiVersion: String? = nil) throws {
+    public init(connectionString: String, apiVersion: String? = nil,
+                logger: ClientLogger = ClientLoggers.default()) throws {
         let credential = try AppConfigurationCredential(connectionString: connectionString)
         let authPolicy = AppConfigurationAuthenticationPolicy(credential: credential, scopes: [credential.endpoint])
         self.apiVersion = apiVersion ?? Constants.latestApiVersion
-        super.init(baseUrl: credential.endpoint,
-                   headersPolicy: HeadersPolicy(),
-                   userAgentPolicy: UserAgentPolicy(),
-                   authenticationPolicy: authPolicy,
-                   contentDecodePolicy: ContentDecodePolicy(),
-                   transport: UrlSessionTransport())
+        super.init(baseUrl: credential.endpoint, transport: UrlSessionTransport(),
+                   policies: [HeadersPolicy(), UserAgentPolicy(), authPolicy, ContentDecodePolicy(), LoggingPolicy()],
+                   logger: logger)
     }
 
     public func listConfigurationSettings(forKey key: String?, forLabel label: String?,
