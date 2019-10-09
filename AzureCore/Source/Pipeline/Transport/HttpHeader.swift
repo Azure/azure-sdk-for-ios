@@ -36,6 +36,7 @@ public enum HttpHeader: String {
     case authorization = "Authorization"
     case cacheControl = "Cache-Control"
     case connection = "Connection"
+    case contentDisposition = "Content-Disposition"
     case contentEncoding = "Content-Encoding"
     case contentLanguage = "Content-Language"
     case contentLength = "Content-Length"

@@ -10,16 +10,32 @@ import Foundation
 
 extension NSRegularExpression {
 
-    convenience init(_ pattern: String) {
+    convenience init(_ pattern: String, options: NSRegularExpression.Options = []) {
         do {
-            try self.init(pattern: pattern)
+            try self.init(pattern: pattern, options: options)
         } catch {
             preconditionFailure("Illegal regular expression: \(pattern).")
         }
     }
 
-    func matches(_ string: String) -> Bool {
+    func firstMatch(in string: String) -> NSTextCheckingResult? {
         let range = NSRange(location: 0, length: string.utf16.count)
-        return firstMatch(in: string, options: [], range: range) != nil
+        return firstMatch(in: string, options: [], range: range)
+    }
+
+    func hasMatch(in string: String) -> Bool {
+        return firstMatch(in: string) != nil
+    }
+}
+
+extension NSTextCheckingResult {
+    func capturedValues(from string: String) -> [Substring] {
+        var captureList: [Substring] = []
+        for rangeNum in 0..<numberOfRanges {
+            if let range = Range(range(at: rangeNum), in: string) {
+                captureList.append(string[range])
+            }
+        }
+        return captureList
     }
 }

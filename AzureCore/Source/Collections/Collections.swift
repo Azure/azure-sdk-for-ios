@@ -138,7 +138,7 @@ public class PagedCollection<SingleElement: Codable>: Sequence, IteratorProtocol
             completion(.success(nil))
             return
         }
-        os_log("Fetching next page with: %@", continuationToken)
+        client.logger.info(String(format: "Fetching next page with: %@", continuationToken))
         let queryParams = [String: String]()
         let url = client.format(urlTemplate: continuationToken)
         let request = client.request(method: .GET,
@@ -212,13 +212,14 @@ public class PagedCollection<SingleElement: Codable>: Sequence, IteratorProtocol
         // of the protocol.
         let semaphore = DispatchSemaphore(value: 0)
         var newItems: Element?
+        let logger = client.logger
         nextPage { result in
             switch result {
             case .success(let newPage):
                 self.iteratorIndex = newPage?.count ?? 0
                 newItems = newPage
             case .failure(let error):
-                os_log("Error: %@", error.localizedDescription)
+                logger.error(String(format: "Error: %@", error.localizedDescription))
                 newItems = nil
             }
             semaphore.signal()

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class HttpRequest {
+public class HttpRequest: HttpMessage {
 
     public var httpMethod: HttpMethod
     public var url: String
@@ -18,15 +18,6 @@ public class HttpRequest {
     public var query: [URLQueryItem]? {
         let comps = URLComponents(string: self.url)?.queryItems
         return comps
-    }
-
-    public var body: Data? {
-        get {
-            return self.data
-        }
-        set(newValue) {
-            self.data = newValue
-        }
     }
 
     public init(httpMethod: HttpMethod, url: String, headers: HttpHeaders, files: [String]? = nil,

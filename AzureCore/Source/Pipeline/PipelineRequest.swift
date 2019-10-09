@@ -11,15 +11,17 @@ import Foundation
 final public class PipelineRequest: PipelineContextProtocol {
 
     public var httpRequest: HttpRequest
+    public var logger: ClientLogger
 
     public var context: PipelineContext?
 
-    public convenience init(request: HttpRequest) {
-        self.init(request: request, context: nil)
+    public convenience init(request: HttpRequest, logger: ClientLogger) {
+        self.init(request: request, logger: logger, context: nil)
     }
 
-    public init(request: HttpRequest, context: PipelineContext?) {
+    public init(request: HttpRequest, logger: ClientLogger, context: PipelineContext?) {
         self.httpRequest = request
+        self.logger = logger
         self.context = context
     }
 }

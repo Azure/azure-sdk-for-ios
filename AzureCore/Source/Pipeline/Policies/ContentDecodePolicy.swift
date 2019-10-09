@@ -12,7 +12,8 @@ import os.log
 public class ContentDecodePolicy: NSObject, PipelineStageProtocol, XMLParserDelegate {
 
     public var next: PipelineStageProtocol?
-    public let jsonRegex = NSRegularExpression("^(application|text)/([0-9a-z+.]+)?json$")
+    private lazy var jsonRegex = NSRegularExpression("^(application|text)/([0-9a-z+.]+)?json$")
+    private var logger: ClientLogger?
 
     private func removeAMPSemicolor(_ string: String) -> String {
         return string.replacingOccurrences(of: "amp;", with: "")
@@ -48,7 +49,7 @@ public class ContentDecodePolicy: NSObject, PipelineStageProtocol, XMLParserDele
 
     private func deserialize(from httpResponse: HttpResponse, contentType: String) throws -> AnyObject? {
         guard let data = httpResponse.data else { return nil }
-        if jsonRegex.matches(contentType) {
+        if jsonRegex.hasMatch(in: contentType) {
             return try JSONSerialization.jsonObject(with: data, options: []) as AnyObject
         } else if contentType.contains("xml") {
             return try parse(xml: data)
@@ -61,6 +62,9 @@ public class ContentDecodePolicy: NSObject, PipelineStageProtocol, XMLParserDele
         guard stream == false else { return }
         guard let httpResponse = response.httpResponse else { return }
 
+        // Store the logger so that the XML parser delegate functions can access it
+        logger = response.logger
+
         var contentType = (httpResponse.headers["Content-Type"]?.components(separatedBy: ";").first) ??
                           "application/json"
         contentType = contentType.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
@@ -70,7 +74,7 @@ public class ContentDecodePolicy: NSObject, PipelineStageProtocol, XMLParserDele
                 response.add(value: deserializedData as AnyObject, forKey: .deserializedData)
             }
         } catch {
-            os_log("Deserialization error: %@", error.localizedDescription)
+            response.logger.error(String(format: "Deserialization error: %@", error.localizedDescription))
         }
     }
 
@@ -130,7 +134,9 @@ public class ContentDecodePolicy: NSObject, PipelineStageProtocol, XMLParserDele
     }
 
     public func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {
-        os_log("XML Parse Error: %@", parseError.localizedDescription)
+        if let logger = logger {
+            logger.error(String(format: "XML Parse Error: %@", parseError.localizedDescription))
+        }
     }
 }
 

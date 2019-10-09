@@ -36,6 +36,10 @@
 		0A8A583B233A78D4009846C1 /* RequestHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8A583A233A78D4009846C1 /* RequestHistory.swift */; };
 		0AD2142923314416003A2E3E /* ObjectiveCBridgeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD2142823314416003A2E3E /* ObjectiveCBridgeable.swift */; };
 		0AE5C3A6231F150A0013CA85 /* KeychainUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE5C3A5231F150A0013CA85 /* KeychainUtil.swift */; };
+		7A16DC7B234BF55F002708BC /* PipelineError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A16DC7A234BF55F002708BC /* PipelineError.swift */; };
+		7A16DC7D234BFC84002708BC /* HttpMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A16DC7C234BFC84002708BC /* HttpMessage.swift */; };
+		7AFCF7662345714200592782 /* LoggingPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFCF7652345714200592782 /* LoggingPolicy.swift */; };
+		7AFCF7682346776E00592782 /* ClientLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFCF7672346776E00592782 /* ClientLogger.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +85,10 @@
 		0A8A583A233A78D4009846C1 /* RequestHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHistory.swift; sourceTree = "<group>"; };
 		0AD2142823314416003A2E3E /* ObjectiveCBridgeable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectiveCBridgeable.swift; sourceTree = "<group>"; };
 		0AE5C3A5231F150A0013CA85 /* KeychainUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainUtil.swift; sourceTree = "<group>"; };
+		7A16DC7A234BF55F002708BC /* PipelineError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineError.swift; sourceTree = "<group>"; };
+		7A16DC7C234BFC84002708BC /* HttpMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMessage.swift; sourceTree = "<group>"; };
+		7AFCF7652345714200592782 /* LoggingPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingPolicy.swift; sourceTree = "<group>"; };
+		7AFCF7672346776E00592782 /* ClientLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientLogger.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +136,7 @@
 				0A3A5F192316EADB00473FDA /* Pipeline */,
 				0A3A5DA52315CEBF00473FDA /* Util */,
 				0AF01856232AF2CC00A0C94D /* Collections */,
+				7AFCF7672346776E00592782 /* ClientLogger.swift */,
 				0A3A5F002316DF1B00473FDA /* Errors.swift */,
 				0A3A5DA92315CF0200473FDA /* Supporting Files */,
 			);
@@ -171,6 +180,7 @@
 				0A3A5F412319834500473FDA /* PipelineBase.swift */,
 				0A3A5F3F2318975900473FDA /* PipelineClient.swift */,
 				0A3A5F1F2316EF9400473FDA /* PipelineContext.swift */,
+				7A16DC7A234BF55F002708BC /* PipelineError.swift */,
 				0A3A5F392318903900473FDA /* PipelineRequest.swift */,
 				0A3A5F3B2318904F00473FDA /* PipelineResponse.swift */,
 				0A3A5F3D2318906100473FDA /* Pipeline.swift */,
@@ -184,6 +194,7 @@
 				0A3A5F31231720DE00473FDA /* AuthenticationPolicy.swift */,
 				0A6864B7233EAC76004B7E17 /* ContentDecodePolicy.swift */,
 				0A3A5F1B2316EBC600473FDA /* HeadersPolicy.swift */,
+				7AFCF7652345714200592782 /* LoggingPolicy.swift */,
 				0A8A583A233A78D4009846C1 /* RequestHistory.swift */,
 				0A3A5F212316FAF000473FDA /* UserAgentPolicy.swift */,
 			);
@@ -194,10 +205,11 @@
 			isa = PBXGroup;
 			children = (
 				0A3A5D932315CEB600473FDA /* HttpHeader.swift */,
-				0A3A5F372318686C00473FDA /* HttpTransportable.swift */,
+				7A16DC7C234BFC84002708BC /* HttpMessage.swift */,
+				0A3A5D922315CEB600473FDA /* HttpMethod.swift */,
 				0A3A5D902315CEB600473FDA /* HttpRequest.swift */,
 				0A3A5D912315CEB600473FDA /* HttpResponse.swift */,
-				0A3A5D922315CEB600473FDA /* HttpMethod.swift */,
+				0A3A5F372318686C00473FDA /* HttpTransportable.swift */,
 			);
 			path = Transport;
 			sourceTree = "<group>";
@@ -370,6 +382,7 @@
 				0A3A5F3A2318903900473FDA /* PipelineRequest.swift in Sources */,
 				0A29CC3E2322F3CD006CEFA7 /* DateUtil.swift in Sources */,
 				0A3A5F442319D49700473FDA /* UrlSessionTransport.swift in Sources */,
+				7AFCF7662345714200592782 /* LoggingPolicy.swift in Sources */,
 				0A3A5D9E2315CEB600473FDA /* HttpHeader.swift in Sources */,
 				0A3A5D9C2315CEB600473FDA /* HttpResponse.swift in Sources */,
 				0A3A5F202316EF9400473FDA /* PipelineContext.swift in Sources */,
@@ -378,8 +391,11 @@
 				0A3A5D9D2315CEB600473FDA /* HttpMethod.swift in Sources */,
 				0A3A5D9B2315CEB600473FDA /* HttpRequest.swift in Sources */,
 				0A4081B62333EB380071EAEE /* ObjectiveCHelpers.swift in Sources */,
+				7AFCF7682346776E00592782 /* ClientLogger.swift in Sources */,
 				0A3A5F3C2318904F00473FDA /* PipelineResponse.swift in Sources */,
+				7A16DC7B234BF55F002708BC /* PipelineError.swift in Sources */,
 				0AD2142923314416003A2E3E /* ObjectiveCBridgeable.swift in Sources */,
+				7A16DC7D234BFC84002708BC /* HttpMessage.swift in Sources */,
 				0A3A5F032316DF6600473FDA /* CryptoUtils.swift in Sources */,
 				0A3A5F1C2316EBC600473FDA /* HeadersPolicy.swift in Sources */,
 				0A3A5F382318686C00473FDA /* HttpTransportable.swift in Sources */,

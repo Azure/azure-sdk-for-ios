@@ -64,7 +64,7 @@ public class AppConfigurationAuthenticationPolicy: AuthenticationProtocol {
 
     public func authenticate(request: PipelineRequest) {
         let httpRequest = request.httpRequest
-        let contentHash = [UInt8](httpRequest.body ?? Data()).sha256.base64String
+        let contentHash = [UInt8](httpRequest.data ?? Data()).sha256.base64String
         if let url = URL(string: httpRequest.url) {
             request.httpRequest.headers[HttpHeader.host] = url.host ?? ""
         }
