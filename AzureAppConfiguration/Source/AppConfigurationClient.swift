@@ -1,38 +1,68 @@
+// --------------------------------------------------------------------------
 //
-//  AppConfigurationClient.swift
-//  AzureAppConfiguration
+// Copyright (c) Microsoft Corporation. All rights reserved.
 //
-//  Created by Travis Prescott on 9/23/19.
-//  Copyright © 2019 Azure SDK Team. All rights reserved.
+// The MIT License (MIT)
 //
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the ""Software""), to
+// deal in the Software without restriction, including without limitation the
+// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+// sell copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED *AS IS*, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+// IN THE SOFTWARE.
+//
+// --------------------------------------------------------------------------
 
 import AzureCore
 import Foundation
 import os.log
 
 public class AppConfigurationClient: PipelineClient {
-    
-    public let apiVersion: String!
-
-    public init(connectionString: String, apiVersion: String? = nil,
-                logger: ClientLogger = ClientLoggers.default()) throws {
-        let credential = try AppConfigurationCredential(connectionString: connectionString)
-        let authPolicy = AppConfigurationAuthenticationPolicy(credential: credential, scopes: [credential.endpoint])
-        self.apiVersion = apiVersion ?? Constants.latestApiVersion
-        super.init(baseUrl: credential.endpoint, transport: UrlSessionTransport(),
-                   policies: [HeadersPolicy(), UserAgentPolicy(), authPolicy, ContentDecodePolicy(), LoggingPolicy()],
-                   logger: logger)
+    public enum ApiVersion: String {
+        case latest = "2019-01-01"
     }
 
-    public func listConfigurationSettings(forKey key: String?, forLabel label: String?,
-                                         completion: @escaping HttpResultHandler<PagedCollection<ConfigurationSetting>>) {
+    // MARK: Initializers
 
+    public static func from(connectionString: String, withOptions options: AzureClientOptions? = nil) throws
+        -> AppConfigurationClient {
+            let clientOptions = options ?? AzureClientOptions(apiVersion: ApiVersion.latest.rawValue)
+            let credential = try AppConfigurationCredential(connectionString: connectionString)
+            let authPolicy = AppConfigurationAuthenticationPolicy(credential: credential, scopes: [credential.endpoint])
+            return AppConfigurationClient(
+                baseUrl: credential.endpoint,
+                transport: UrlSessionTransport(),
+                policies: [
+                    HeadersPolicy(),
+                    UserAgentPolicy(),
+                    authPolicy,
+                    ContentDecodePolicy(),
+                    LoggingPolicy()
+                ],
+                withOptions: clientOptions)
+    }
+
+    // MARK: API Calls
+
+    public func listConfigurationSettings(forKey key: String?, forLabel label: String?,
+                                          completion: @escaping HttpResultHandler<PagedCollection<ConfigurationSetting>>) {
         // Python: error_map = kwargs.pop('error_map', None)
         // let comp = "list"
 
         // Construct URL
         let urlTemplate = "kv"
-        let url = self.format(urlTemplate: urlTemplate)
+        let url = format(urlTemplate: urlTemplate)
 
         var queryParams = [String: String]()
         queryParams["key"] = key ?? "*"
@@ -42,7 +72,7 @@ public class AppConfigurationClient: PipelineClient {
 
         // Construct headers
         var headerParams = HttpHeaders()
-        headerParams["x-ms-version"] = apiVersion
+        headerParams["x-ms-version"] = self.options.apiVersion
         // if let acceptDatetime = acceptDatetime { headerParams["Accept-Datetime"] = acceptDatetime }
         // if let requestId = requestId { headerParams["x-ms-client-request-id"] = requestId }
 
@@ -51,8 +81,7 @@ public class AppConfigurationClient: PipelineClient {
                                    url: url,
                                    queryParams: queryParams,
                                    headerParams: headerParams)
-        let allowedStatusCodes = [200]
-        self.run(request: request, allowedStatusCodes: allowedStatusCodes, completion: { result, httpResponse in
+        run(request: request, context: nil, completion: { result, httpResponse in
             //        header_dict = {}
             //        deserialized = None
             //        if response.status_code == 200:
@@ -69,7 +98,7 @@ public class AppConfigurationClient: PipelineClient {
             //
             //        return deserialized
             switch result {
-            case .success(let data):
+            case let .success(data):
                 let codingKeys = PagedCodingKeys(continuationToken: "@nextLink")
                 do {
                     let paged = try PagedCollection<ConfigurationSetting>(client: self, request: request, data: data,
@@ -78,7 +107,7 @@ public class AppConfigurationClient: PipelineClient {
                 } catch {
                     completion(.failure(error), httpResponse)
                 }
-            case .failure(let error):
+            case let .failure(error):
                 completion(.failure(error), httpResponse)
             }
         })

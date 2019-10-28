@@ -1,20 +1,37 @@
+// --------------------------------------------------------------------------
 //
-//  UrlSessionTransport.swift
-//  AzureCore
+// Copyright (c) Microsoft Corporation. All rights reserved.
 //
-//  Created by Travis Prescott on 8/30/19.
-//  Copyright © 2019 Azure SDK Team. All rights reserved.
+// The MIT License (MIT)
 //
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the ""Software""), to
+// deal in the Software without restriction, including without limitation the
+// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+// sell copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED *AS IS*, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+// IN THE SOFTWARE.
+//
+// --------------------------------------------------------------------------
 
-import os
 import Foundation
+import os
 
 public enum UrlSessionTransportError: Error {
     case invalidSession
 }
 
 public class UrlSessionTransport: HttpTransportable {
-
     private var session: URLSession?
     private var config: URLSessionConfiguration
     private let operationQueue: OperationQueue
@@ -32,30 +49,30 @@ public class UrlSessionTransport: HttpTransportable {
     }
 
     public init() {
-        self.config = URLSessionConfiguration.default
-        self.operationQueue = OperationQueue()
-        self.operationQueue.name = "com.domain.AzureCore.networkQueue"
+        config = URLSessionConfiguration.default
+        operationQueue = OperationQueue()
+        operationQueue.name = "com.domain.AzureCore.networkQueue"
     }
 
     public func open() {
-        guard self.session == nil else { return }
-        self.session = URLSession(configuration: self.config, delegate: nil, delegateQueue: self.operationQueue)
+        guard session == nil else { return }
+        session = URLSession(configuration: config, delegate: nil, delegateQueue: operationQueue)
     }
 
     public func close() {
-        self.session = nil
+        session = nil
     }
 
     public func sleep(duration: Int) {
         Foundation.sleep(UInt32(duration))
     }
 
-    public func onRequest(_ request: inout PipelineRequest) {}
-    public func onResponse(_ response: inout PipelineResponse) {}
-    public func onError(request: PipelineRequest) -> Bool { return false }
+    public func onRequest(_: inout PipelineRequest) {}
+    public func onResponse(_: inout PipelineResponse) {}
+    public func onError(request _: PipelineRequest) -> Bool { return false }
 
     public func process(request: inout PipelineRequest, completion: @escaping PipelineStageResultHandler) {
-        self.open()
+        open()
         guard let session = self.session else {
             request.logger.error("Invalid session.")
             return
@@ -70,7 +87,7 @@ public class UrlSessionTransport: HttpTransportable {
         let responseContext = request.context
         let logger = request.logger
 
-        session.dataTask(with: urlRequest) { (data, response, error) in
+        session.dataTask(with: urlRequest) { data, response, error in
             let rawResponse = response as? HTTPURLResponse
             let httpResponse = UrlHttpResponse(request: httpRequest, response: rawResponse)
             httpResponse.data = data

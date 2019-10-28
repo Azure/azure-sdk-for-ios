@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CustomTableViewCell" id="4Yf-nh-4Li" customClass="CustomTableViewCell" customModule="AzureSDKDemoSwift" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CustomTableViewCell" rowHeight="43.5" id="4Yf-nh-4Li" customClass="CustomTableViewCell" customModule="AzureSDKDemoSwift" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="320" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="4Yf-nh-4Li" id="3g0-j9-TBY">
@@ -24,7 +24,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Key" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dqt-fZ-XVC">
-                                            <rect key="frame" x="26" y="11.5" width="29" height="21"/>
+                                            <rect key="frame" x="10" y="11.5" width="29" height="21"/>
                                             <accessibility key="accessibilityConfiguration">
                                                 <accessibilityTraits key="traits" none="YES"/>
                                             </accessibility>
@@ -33,17 +33,17 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QIq-kq-1VU">
-                                            <rect key="frame" x="272" y="11.5" width="42" height="21"/>
+                                            <rect key="frame" x="268" y="11.5" width="42" height="20.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="Dqt-fZ-XVC" firstAttribute="centerY" secondItem="3g0-j9-TBY" secondAttribute="centerY" id="0vR-4J-5E9"/>
-                                        <constraint firstItem="QIq-kq-1VU" firstAttribute="trailing" secondItem="3g0-j9-TBY" secondAttribute="trailingMargin" constant="10" id="6Ia-Cg-eu5"/>
-                                        <constraint firstItem="Dqt-fZ-XVC" firstAttribute="leading" secondItem="3g0-j9-TBY" secondAttribute="leadingMargin" constant="10" id="AZP-Bv-IQM"/>
-                                        <constraint firstItem="QIq-kq-1VU" firstAttribute="centerY" secondItem="3g0-j9-TBY" secondAttribute="centerY" id="Sci-3p-Iak"/>
+                                        <constraint firstItem="Dqt-fZ-XVC" firstAttribute="leading" secondItem="3g0-j9-TBY" secondAttribute="leading" constant="10" id="G0a-6D-Hnt"/>
+                                        <constraint firstItem="Dqt-fZ-XVC" firstAttribute="centerY" secondItem="3g0-j9-TBY" secondAttribute="centerY" id="O9I-7h-w2m"/>
+                                        <constraint firstItem="QIq-kq-1VU" firstAttribute="centerY" secondItem="Dqt-fZ-XVC" secondAttribute="centerY" id="dLy-Zz-hDR"/>
+                                        <constraint firstAttribute="trailing" secondItem="QIq-kq-1VU" secondAttribute="trailing" constant="10" id="iJP-7C-pBA"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -73,7 +73,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CustomTableViewCell" id="KJM-e4-5X5" customClass="CustomTableViewCell" customModule="AzureSDKDemoSwift" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CustomTableViewCell" rowHeight="43.5" id="KJM-e4-5X5" customClass="CustomTableViewCell" customModule="AzureSDKDemoSwift" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="320" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="KJM-e4-5X5" id="sJC-SA-mKc">
@@ -94,10 +94,10 @@
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="aqB-UW-Pzh" firstAttribute="centerY" secondItem="sJC-SA-mKc" secondAttribute="centerY" id="H7o-3t-osC"/>
-                                        <constraint firstItem="by0-3d-7fW" firstAttribute="leading" secondItem="sJC-SA-mKc" secondAttribute="leadingMargin" constant="10" id="KFn-Df-5tT"/>
-                                        <constraint firstItem="aqB-UW-Pzh" firstAttribute="trailing" secondItem="sJC-SA-mKc" secondAttribute="trailingMargin" constant="10" id="ovf-Du-jwp"/>
-                                        <constraint firstItem="by0-3d-7fW" firstAttribute="centerY" secondItem="sJC-SA-mKc" secondAttribute="centerY" id="yFT-KP-jzl"/>
+                                        <constraint firstItem="by0-3d-7fW" firstAttribute="leading" secondItem="sJC-SA-mKc" secondAttribute="leadingMargin" constant="10" id="aWf-J3-Gac"/>
+                                        <constraint firstItem="aqB-UW-Pzh" firstAttribute="trailing" secondItem="sJC-SA-mKc" secondAttribute="trailingMargin" constant="10" id="bwY-Bm-FNC"/>
+                                        <constraint firstItem="aqB-UW-Pzh" firstAttribute="centerY" secondItem="by0-3d-7fW" secondAttribute="centerY" id="m65-JK-lU0"/>
+                                        <constraint firstItem="by0-3d-7fW" firstAttribute="centerY" secondItem="sJC-SA-mKc" secondAttribute="centerY" id="nJo-rc-mBl"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -122,7 +122,7 @@
             <objects>
                 <navigationController id="obV-HT-tcp" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="lrI-d9-JBG">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>

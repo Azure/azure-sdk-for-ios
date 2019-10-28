@@ -1,44 +1,45 @@
+// --------------------------------------------------------------------------
 //
-//  ContentDecodePolicy.swift
-//  AzureCore
+// Copyright (c) Microsoft Corporation. All rights reserved.
 //
-//  Created by Travis Prescott on 9/27/19.
-//  Copyright © 2019 Azure SDK Team. All rights reserved.
+// The MIT License (MIT)
 //
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the ""Software""), to
+// deal in the Software without restriction, including without limitation the
+// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+// sell copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED *AS IS*, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+// IN THE SOFTWARE.
+//
+// --------------------------------------------------------------------------
 
 import Foundation
 import os.log
 
 public class ContentDecodePolicy: NSObject, PipelineStageProtocol, XMLParserDelegate {
-
     public var next: PipelineStageProtocol?
-    private lazy var jsonRegex = NSRegularExpression("^(application|text)/([0-9a-z+.]+)?json$")
-    private var logger: ClientLogger?
-
-    private func removeAMPSemicolor(_ string: String) -> String {
-        return string.replacingOccurrences(of: "amp;", with: "")
-    }
-
-    private func replaceAnd(_ string: String) -> String {
-        return string.replacingOccurrences(of: "&", with: "And")
-    }
-
-    private func replaceNewLines(_ string: String) -> String {
-        return string.replacingOccurrences(of: "\n", with: "; ")
-    }
-
-    private func replaceAposWithApos(_ string: String) -> String {
-        return string.replacingOccurrences(of: "Andapos;", with: "'")
-    }
+    public let jsonRegex = NSRegularExpression("^(application|text)/([0-9a-z+.]+)?json$")
+    public var logger: ClientLogger?
 
     private func parse(xml data: Data) throws -> AnyObject {
         let parser = XMLParser(data: data)
         parser.delegate = self
         _ = parser.parse()
         var jsonData: Data?
-        if let dictObj = root?.dictionary {
+        if let dictObj = xmlTree?.dictionary {
             jsonData = try? JSONSerialization.data(withJSONObject: dictObj, options: [])
-        } else if let arrayObj = root?.array {
+        } else if let arrayObj = xmlTree?.array {
             jsonData = try JSONSerialization.data(withJSONObject: arrayObj, options: [])
         }
         guard let finalJsonData = jsonData else {
@@ -58,15 +59,17 @@ public class ContentDecodePolicy: NSObject, PipelineStageProtocol, XMLParserDele
     }
 
     public func onResponse(_ response: inout PipelineResponse) {
-        let stream = response.getValue(forKey: "stream") as? Bool ?? false
+        let stream = response.value(forKey: "stream") as? Bool ?? false
         guard stream == false else { return }
         guard let httpResponse = response.httpResponse else { return }
+
+        xmlMap = response.value(forKey: .xmlMap) as? XMLMap
 
         // Store the logger so that the XML parser delegate functions can access it
         logger = response.logger
 
         var contentType = (httpResponse.headers["Content-Type"]?.components(separatedBy: ";").first) ??
-                          "application/json"
+            "application/json"
         contentType = contentType.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
         do {
             if let deserializedJson = try deserialize(from: httpResponse, contentType: contentType) {
@@ -80,128 +83,85 @@ public class ContentDecodePolicy: NSObject, PipelineStageProtocol, XMLParserDele
 
     // MARK: - XML Parser Delegate
 
-    var root: XMLTreeNode?
-    var currNode: XMLTreeNode?
+    internal var xmlMap: XMLMap?
+    internal var xmlTree: XMLTree?
+    internal var currNode: XMLTreeNode?
+    internal var elementPath = [String]()
 
-    public func parserDidStartDocument(_ parser: XMLParser) {
-        root = XMLTreeNode(name: "_ROOT_", parent: nil)
-    }
-
-    public func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?,
-                       qualifiedName qName: String?, attributes attributeDict: [String: String] = [:]) {
-        let newNode = XMLTreeNode(name: elementName, parent: currNode ?? root)
-        // any XML attributes are promoted to private properties
-        for (key, value) in attributeDict {
-            let attr = XMLTreeNode(name: key, parent: newNode, type: .property, value: value)
-            newNode.properties[key] = attr
+    public func parserDidStartDocument(_: XMLParser) {
+        if xmlMap == nil {
+            logger?.warning("No XML map found to parse XML content.")
         }
-        currNode = newNode
+        xmlTree = XMLTree()
     }
 
-    public func parser(_ parser: XMLParser, foundCharacters string: String) {
-        currNode?.value = string
-        currNode?.type = .property
-    }
-
-    public func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?,
-                       qualifiedName qName: String?) {
+    public func parserDidEndDocument(_: XMLParser) {
         guard let current = currNode else { return }
-        guard let parent = currNode?.parent else {
+        // ensure the XML tree root is updated
+        xmlTree?.root = current
+    }
+
+    public func parser(_: XMLParser, didStartElement elementName: String, namespaceURI _: String?,
+                       qualifiedName _: String?, attributes attributeDict: [String: String] = [:]) {
+        elementPath.append(elementName)
+        let elementKey = elementPath.joined(separator: ".")
+        let jsonName = xmlMap?[elementKey]?.jsonName
+        let newNode = XMLTreeNode(name: jsonName ?? elementName, type: .ignored, parent: currNode ?? xmlTree?.root)
+        defer { currNode = newNode }
+
+        let mapKey = elementPath.joined(separator: ".")
+        guard let mapData = xmlMap?[mapKey] else {
+            logger?.warning("No XML metadata found for \(elementName). Ignoring.")
             return
         }
-        switch current.type {
-        case .property:
-            parent.properties[current.name] = current
-        case .array, .object:
-            if parent.type == .array {
-                parent.collection[current.name]?.append(current)
-            } else if parent.properties.keys.contains(elementName) {
-                // TODO: This will fail to find collections if there is only
-                // one element in the XML array.
-
-                // existing item and current item should be
-                // added to the parent's items array
-                parent.type = .array
-                let existingItem = parent.properties[elementName]!
-                parent.properties.removeValue(forKey: elementName)
-                parent.collection[elementName] = [existingItem, current]
-            } else {
-                // simply add the object as a property to the parent
-                parent.properties[elementName] = current
+        switch mapData.attributeStrategy {
+        case .ignored:
+            return
+        case .underscoredProperties:
+            for (key, value) in attributeDict {
+                let attr = XMLTreeNode(name: key, type: .property, parent: newNode, value: value)
+                newNode.properties["_\(key)"] = attr
             }
         }
-        currNode = parent
     }
 
-    public func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {
+    public func parser(_: XMLParser, foundCharacters string: String) {
+        currNode?.type = .property
+        currNode?.value = string
+    }
+
+    public func parser(_: XMLParser, didEndElement _: String, namespaceURI _: String?,
+                       qualifiedName _: String?) {
+        defer {
+            _ = elementPath.popLast()
+            let nextNode = currNode?.parent
+            currNode?.parent = nil
+            currNode = nextNode
+        }
+        guard let current = currNode else { return }
+        guard let parent = currNode?.parent else { return }
+
+        let mapKey = elementPath.joined(separator: ".")
+        if let mapData = xmlMap?[mapKey] {
+            currNode?.type = mapData.jsonType
+            switch mapData.jsonType {
+            case .property:
+                parent.properties[current.name] = current
+            case .object, .array, .anyObject:
+                parent.properties[current.name] = current
+            case .arrayItem:
+                parent.collection.append(current)
+            case .ignored:
+                break
+            }
+        } else {
+            currNode?.type = .ignored
+        }
+    }
+
+    public func parser(_: XMLParser, parseErrorOccurred parseError: Error) {
         if let logger = logger {
             logger.error(String(format: "XML Parse Error: %@", parseError.localizedDescription))
         }
-    }
-}
-
-internal class XMLTreeNode {
-
-    var dictionary: [String: Any]? {
-        guard self.type == .object else { return nil }
-        var propDict = [String: Any]()
-        for (key, value) in self.properties {
-            switch value.type {
-            case .property:
-                propDict[key] = value.value
-            case .object:
-                if let dictValue = value.dictionary {
-                    propDict[key] = dictValue
-                } else {
-                    fatalError("Failed to get dictionary version of object.")
-                }
-            case .array:
-                if let arrayValue = value.array {
-                    propDict[key] = arrayValue
-                } else {
-                    fatalError("Failed to get array version of object.")
-                }
-            }
-        }
-        return propDict
-    }
-
-    var array: [Any]? {
-        guard self.type == .array else { return nil }
-        guard self.collection.keys.count == 1 else { fatalError("Unexpectedly found nonhomogenous collection.") }
-        var array = [Any]()
-        for (_, items) in self.collection {
-            for item in items {
-                switch item.type {
-                case .object:
-                    if let itemDict = item.dictionary {
-                        array.append(itemDict)
-                    }
-                case .array:
-                    fatalError("Unexpectedly found array element in array.")
-                case .property:
-                    fatalError("Unexpectedly found property in array.")
-                }
-            }
-        }
-        return array
-    }
-
-    internal enum ElementType {
-        case property, object, array
-    }
-
-    var type: ElementType
-    var name: String
-    var value: String
-    var properties = [String: XMLTreeNode]()
-    var collection = [String: [XMLTreeNode]]()
-    var parent: XMLTreeNode?
-
-    init(name: String, parent: XMLTreeNode?, type: ElementType = .object, value: String = "") {
-        self.name = name
-        self.parent = parent
-        self.type = type
-        self.value = value
     }
 }

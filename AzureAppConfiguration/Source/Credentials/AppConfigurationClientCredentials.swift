@@ -1,19 +1,36 @@
+// --------------------------------------------------------------------------
 //
-//  AppConfigurationClientCredentials.swift
-//  DemoAppObjC
+// Copyright (c) Microsoft Corporation. All rights reserved.
 //
-//  Created by Travis Prescott on 8/8/19.
-//  Copyright © 2019 Travis Prescott. All rights reserved.
+// The MIT License (MIT)
 //
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the ""Software""), to
+// deal in the Software without restriction, including without limitation the
+// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+// sell copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED *AS IS*, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+// IN THE SOFTWARE.
+//
+// --------------------------------------------------------------------------
 
 import AzureCore
 import Foundation
 
 public class AppConfigurationCredential {
-
-    internal let endpoint: String    // endpoint
-    internal let id: String          // access key id
-    internal let secret: String      // access key value
+    internal let endpoint: String // endpoint
+    internal let id: String // access key id
+    internal let secret: String // access key value
 
     public init(connectionString: String) throws {
         let csComps = connectionString.components(separatedBy: ";")
@@ -41,7 +58,7 @@ public class AppConfigurationCredential {
                 throw HttpResponseError.clientAuthentication(message)
             }
         }
-        guard endpoint != nil && id != nil && secret != nil else {
+        guard endpoint != nil, id != nil, secret != nil else {
             let message = "Invalid connection string: \(connectionString)"
             throw HttpResponseError.clientAuthentication(message)
         }
@@ -52,7 +69,6 @@ public class AppConfigurationCredential {
 }
 
 public class AppConfigurationAuthenticationPolicy: AuthenticationProtocol {
-
     public var next: PipelineStageProtocol?
     public let scopes: [String]
     public let credential: AppConfigurationCredential
@@ -91,7 +107,7 @@ public class AppConfigurationAuthenticationPolicy: AuthenticationProtocol {
             if let decodedSecret = self.credential.secret.decodeBase64 {
                 let stringToSign = "\(request.httpRequest.httpMethod.rawValue.uppercased(with: Locale(identifier: "en_US")))\n\(signingUrl)\n\(signedHeaderValues.joined(separator: ";"))"
                 let signature = stringToSign.hmac(algorithm: .sha256, key: decodedSecret)
-                request.httpRequest.headers[HttpHeader.authorization.rawValue] = "HMAC-SHA256 Credential=\(self.credential.id), SignedHeaders=\(signedHeaderKeys.joined(separator: ";")), Signature=\(signature.base64String)"
+                request.httpRequest.headers[HttpHeader.authorization.rawValue] = "HMAC-SHA256 Credential=\(credential.id), SignedHeaders=\(signedHeaderKeys.joined(separator: ";")), Signature=\(signature.base64String)"
             }
         }
     }

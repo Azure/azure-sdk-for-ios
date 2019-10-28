@@ -17,7 +17,7 @@
 		0A68647C233D33CD004B7E17 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A68647B233D33CD004B7E17 /* CustomTableViewCell.swift */; };
 		0A6864B5233E8C8E004B7E17 /* AzureStorageBlob.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A6864B4233E8C8E004B7E17 /* AzureStorageBlob.framework */; };
 		0A71C5CB234BE18200604F2D /* BlobTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A71C5CA234BE18200604F2D /* BlobTableViewController.swift */; };
-		0A71C5CD234BE85700604F2D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A71C5CC234BE85700604F2D /* Constants.swift */; };
+		0A71C5CD234BE85700604F2D /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A71C5CC234BE85700604F2D /* Common.swift */; };
 		7A77A97B234E569100BC1603 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3A5E9B2315E8BE00473FDA /* AzureCore.framework */; };
 /* End PBXBuildFile section */
 
@@ -47,7 +47,7 @@
 		0A68647B233D33CD004B7E17 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		0A6864B4233E8C8E004B7E17 /* AzureStorageBlob.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureStorageBlob.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A71C5CA234BE18200604F2D /* BlobTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlobTableViewController.swift; sourceTree = "<group>"; };
-		0A71C5CC234BE85700604F2D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		0A71C5CC234BE85700604F2D /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,7 +93,7 @@
 		0A3A5E782315E70400473FDA /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				0A71C5CC234BE85700604F2D /* Constants.swift */,
+				0A71C5CC234BE85700604F2D /* Common.swift */,
 				0A3A5E792315E70400473FDA /* AppDelegate.swift */,
 				0A3A5E7B2315E70400473FDA /* MainViewController.swift */,
 				0A71C5CA234BE18200604F2D /* BlobTableViewController.swift */,
@@ -234,7 +234,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A71C5CD234BE85700604F2D /* Constants.swift in Sources */,
+				0A71C5CD234BE85700604F2D /* Common.swift in Sources */,
 				0A68647C233D33CD004B7E17 /* CustomTableViewCell.swift in Sources */,
 				0A3A5E7C2315E70400473FDA /* MainViewController.swift in Sources */,
 				0A71C5CB234BE18200604F2D /* BlobTableViewController.swift in Sources */,

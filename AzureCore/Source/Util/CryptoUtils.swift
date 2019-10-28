@@ -1,10 +1,28 @@
+// --------------------------------------------------------------------------
 //
-//  CryptoUtils.swift
-//  DemoAppObjC
+// Copyright (c) Microsoft Corporation. All rights reserved.
 //
-//  Created by Travis Prescott on 8/9/19.
-//  Copyright © 2019 Travis Prescott. All rights reserved.
+// The MIT License (MIT)
 //
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the ""Software""), to
+// deal in the Software without restriction, including without limitation the
+// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+// sell copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED *AS IS*, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+// IN THE SOFTWARE.
+//
+// --------------------------------------------------------------------------
 
 import CommonCrypto
 import Foundation
@@ -12,19 +30,19 @@ import Foundation
 extension Array where Element == UInt8 {
     public var sha256: [UInt8] {
         var digest = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
-        _ = self.withUnsafeBytes {
+        _ = withUnsafeBytes {
             CC_SHA256($0.baseAddress, UInt32(self.count), &digest)
         }
         return digest
     }
 
     public var base64String: String {
-        let data = Data(bytes: self, count: self.count)
+        let data = Data(bytes: self, count: count)
         return data.base64EncodedString()
     }
 
     public var hexString: String {
-        return self.compactMap({ String(format: "%02x", $0) }).joined().uppercased()
+        return compactMap { String(format: "%02x", $0) }.joined().uppercased()
     }
 }
 
@@ -54,6 +72,7 @@ public enum HmacAlgorithm {
         }
         return CCHmacAlgorithm(alg)
     }
+
     public var digestLength: Int {
         var len: Int32 = 0
         switch self {
@@ -86,12 +105,12 @@ extension String {
     }
 
     public var base64String: String {
-        let data = Data(bytes: self, count: self.count)
+        let data = Data(bytes: self, count: count)
         return data.base64EncodedString()
     }
 
     public var decodeHex: Data? {
-        var data = Data(capacity: self.count / 2)
+        var data = Data(capacity: count / 2)
 
         if let regex = try? NSRegularExpression(pattern: "[0-9a-f]{1,2}", options: .caseInsensitive) {
             regex.enumerateMatches(in: self, range: NSRange(startIndex..., in: self)) { match, _, _ in

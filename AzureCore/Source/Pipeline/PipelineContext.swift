@@ -1,15 +1,37 @@
+// --------------------------------------------------------------------------
 //
-//  Base.swift
-//  AzureCore
+// Copyright (c) Microsoft Corporation. All rights reserved.
 //
-//  Created by Travis Prescott on 8/28/19.
-//  Copyright © 2019 Azure SDK Team. All rights reserved.
+// The MIT License (MIT)
 //
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the ""Software""), to
+// deal in the Software without restriction, including without limitation the
+// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+// sell copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED *AS IS*, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+// IN THE SOFTWARE.
+//
+// --------------------------------------------------------------------------
 
 import Foundation
 
+// MARK: - ContextKey enum
+
 public enum ContextKey: String {
+    case allowedStatusCodes
     case deserializedData
+    case xmlMap
 }
 
 // MARK: - PipelineContextProtocol
@@ -18,36 +40,34 @@ public protocol PipelineContextProtocol {
     var context: PipelineContext? { get set }
 
     mutating func add(value: AnyObject, forKey key: AnyHashable)
-    func getValue(forKey key: AnyHashable) -> AnyObject?
+    func value(forKey key: AnyHashable) -> AnyObject?
 }
 
 // MARK: - PipelineContextProtocol extension
 
 extension PipelineContextProtocol {
-
-    mutating public func add(value: AnyObject, forKey key: AnyHashable) {
+    public mutating func add(value: AnyObject, forKey key: AnyHashable) {
         if let context = self.context {
             self.context = context.add(value: value, forKey: key)
         } else {
-            self.context = PipelineContext(key: key, value: value)
+            context = PipelineContext(key: key, value: value)
         }
     }
 
-    mutating public func add(value: AnyObject, forKey key: ContextKey) {
+    public mutating func add(value: AnyObject, forKey key: ContextKey) {
         add(value: value, forKey: key.rawValue)
     }
 
-    public func getValue(forKey key: AnyHashable) -> AnyObject? {
-        return context?.getValue(forKey: key)
+    public func value(forKey key: AnyHashable) -> AnyObject? {
+        return context?.value(forKey: key)
     }
 
-    public func getValue(forKey key: ContextKey) -> AnyObject? {
-        return getValue(forKey: key.rawValue)
+    public func value(forKey key: ContextKey) -> AnyObject? {
+        return value(forKey: key.rawValue)
     }
 }
 
 public class PipelineContext: CustomDebugStringConvertible {
-
     private let parent: PipelineContext?
     private let key: AnyHashable
     private let value: AnyObject?
@@ -60,7 +80,7 @@ public class PipelineContext: CustomDebugStringConvertible {
         return debugString
     }
 
-    convenience internal init(key: AnyHashable, value: AnyObject?) {
+    internal convenience init(key: AnyHashable, value: AnyObject?) {
         self.init(parent: nil, key: key, value: value)
     }
 
@@ -85,7 +105,7 @@ public class PipelineContext: CustomDebugStringConvertible {
         return context!
     }
 
-    public func getValue(forKey key: AnyHashable) -> AnyObject? {
+    public func value(forKey key: AnyHashable) -> AnyObject? {
         var current: PipelineContext? = self
         repeat {
             if key == current?.key {

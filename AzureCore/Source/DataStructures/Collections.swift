@@ -1,24 +1,48 @@
+// --------------------------------------------------------------------------
 //
-//  PagedCollection.swift
-//  AzureCore
+// Copyright (c) Microsoft Corporation. All rights reserved.
 //
-//  Created by Travis Prescott on 9/19/19.
-//  Copyright © 2019 Azure SDK Team. All rights reserved.
+// The MIT License (MIT)
 //
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the ""Software""), to
+// deal in the Software without restriction, including without limitation the
+// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+// sell copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED *AS IS*, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+// IN THE SOFTWARE.
+//
+// --------------------------------------------------------------------------
 
 import Foundation
 import os.log
 
-// MARK: Paged Collection
+/// Protocol which allows clients to customize how they work with Paged Collections.
+public protocol PagedCollectionDelegate: AnyObject {
+    func continuationUrl(continuationToken: String, queryParams: inout [String: String], requestUrl: String) -> String
+}
 
 /// Defines the property keys used to conform to the Azure paging design.
 public struct PagedCodingKeys {
     public let items: String
+    public let xmlItemName: String?
     public let continuationToken: String
 
-    public init(items: String = "items", continuationToken: String = "continuationToken") {
+    public init(items: String = "items", continuationToken: String = "continuationToken",
+                xmlItemName xmlName: String? = nil) {
         self.items = items
         self.continuationToken = continuationToken
+        xmlItemName = xmlName
     }
 
     internal func items(fromJson json: [String: Any]) -> [Any]? {
@@ -55,11 +79,12 @@ public struct PagedCodingKeys {
 }
 
 /// A collection that fetches paged results in a lazy fashion.
-public class PagedCollection<SingleElement: Codable>: Sequence, IteratorProtocol {
-
+public class PagedCollection<SingleElement: Codable>: Sequence, IteratorProtocol, PagedCollectionDelegate {
     public typealias Element = [SingleElement]
 
     private var _items: Element?
+
+    private weak var delegate: PagedCollectionDelegate?
 
     /// Returns the current running list of items.
     public var items: Element? {
@@ -98,6 +123,14 @@ public class PagedCollection<SingleElement: Codable>: Sequence, IteratorProtocol
         return items?.count ?? 0
     }
 
+    /// The initial request URL
+    private var requestUrl: String
+
+    public func continuationUrl(continuationToken: String, queryParams _: inout [String: String],
+                                requestUrl _: String) -> String {
+        return client.format(urlTemplate: continuationToken)
+    }
+
     /// Deserializes the JSON payload to append the new items, update tracking of the "current page" of items
     /// and reset the per page iterator.
     private func update(with data: Data?) throws {
@@ -107,50 +140,60 @@ public class PagedCollection<SingleElement: Codable>: Sequence, IteratorProtocol
         let codingKeys = self.codingKeys
         let notPagedError = HttpResponseError.decode("Paged response expected but not found.")
         guard let itemJson = codingKeys.items(fromJson: json) else { throw notPagedError }
-        self.continuationToken = codingKeys.continuationToken(fromJson: json)
+        continuationToken = codingKeys.continuationToken(fromJson: json)
 
         let itemData = try JSONSerialization.data(withJSONObject: itemJson)
         let newItems = try decoder.decode(Element.self, from: itemData)
         if let currentItems = self._items {
             // append rather than throw away old items
-            self.pageRange = currentItems.count..<(currentItems.count + newItems.count)
-            self._items = currentItems + newItems
+            pageRange = currentItems.count ..< (currentItems.count + newItems.count)
+            _items = currentItems + newItems
         } else {
-            self._items = newItems
-            self.pageRange = 0..<newItems.count
+            _items = newItems
+            pageRange = 0 ..< newItems.count
         }
     }
 
     public init(client: PipelineClient, request: HttpRequest, data: Data?, codingKeys: PagedCodingKeys? = nil,
-                decoder: JSONDecoder? = nil) throws {
+                decoder: JSONDecoder? = nil, delegate: PagedCollectionDelegate? = nil) throws {
         let noDataError = HttpResponseError.decode("Response data expected but not found.")
         guard let data = data else { throw noDataError }
         self.client = client
         self.decoder = decoder ?? JSONDecoder()
         self.codingKeys = codingKeys ?? PagedCodingKeys()
-        self.requestHeaders = request.headers
+        requestHeaders = request.headers
+        requestUrl = request.url
+        self.delegate = delegate
         try update(with: data)
     }
 
     /// Retrieves the next page of results asynchronously.
     public func nextPage(then completion: @escaping (Result<Element?, Error>) -> Void) {
-        guard let continuationToken = continuationToken else {
-            completion(.success(nil))
-            return
-        }
+        // exit if there is no valid continuation token
+        guard let continuationToken = continuationToken else { completion(.success(nil)); return }
+        guard continuationToken != "" else { completion(.success(nil)); return }
+
+        let delegate = self.delegate ?? self
+
         client.logger.info(String(format: "Fetching next page with: %@", continuationToken))
-        let queryParams = [String: String]()
-        let url = client.format(urlTemplate: continuationToken)
+        var queryParams = [String: String]()
+        let url = delegate.continuationUrl(continuationToken: continuationToken, queryParams: &queryParams,
+                                           requestUrl: requestUrl)
         let request = client.request(method: .GET,
                                      url: url,
                                      queryParams: queryParams,
                                      headerParams: requestHeaders)
-        client.run(request: request, allowedStatusCodes: [200]) { result, _ in
+        var context = [String: AnyObject]()
+        if let xmlType = SingleElement.self as? XMLModelProtocol.Type {
+            let xmlMap = XMLMap(withPagedCodingKeys: codingKeys, innerType: xmlType)
+            context[ContextKey.xmlMap.rawValue] = xmlMap as AnyObject
+        }
+        client.run(request: request, context: context) { result, _ in
             var returnError: Error?
             switch result {
-            case .failure(let error):
+            case let .failure(error):
                 returnError = error
-            case .success(let data):
+            case let .success(data):
                 do {
                     try self.update(with: data)
                 } catch {
@@ -174,9 +217,9 @@ public class PagedCollection<SingleElement: Codable>: Sequence, IteratorProtocol
         if iteratorIndex >= pageItems.count {
             nextPage { result in
                 switch result {
-                case .failure(let error):
+                case let .failure(error):
                     completion(.failure(error))
-                case .success(let newPage):
+                case let .success(newPage):
                     if let newPage = newPage {
                         // since we return the first new item, the next iteration should start with the second item.
                         self.iteratorIndex = 1
@@ -215,10 +258,10 @@ public class PagedCollection<SingleElement: Codable>: Sequence, IteratorProtocol
         let logger = client.logger
         nextPage { result in
             switch result {
-            case .success(let newPage):
+            case let .success(newPage):
                 self.iteratorIndex = newPage?.count ?? 0
                 newItems = newPage
-            case .failure(let error):
+            case let .failure(error):
                 logger.error(String(format: "Error: %@", error.localizedDescription))
                 newItems = nil
             }

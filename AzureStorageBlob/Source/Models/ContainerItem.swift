@@ -24,14 +24,25 @@
 //
 // --------------------------------------------------------------------------
 
+import AzureCore
 import Foundation
 
-public final class PipelineError: Error {
-    public var innerError: Error
-    public var pipelineResponse: PipelineResponse
+// MARK: - Model
 
-    init(fromError innerError: Error, pipelineResponse: PipelineResponse) {
-        self.innerError = innerError
-        self.pipelineResponse = pipelineResponse
+public final class ContainerItem: Codable, XMLModelProtocol {
+    public let name: String
+    public let properties: ContainerProperties?
+
+    public init(name: String,
+                properties: ContainerProperties? = nil) {
+        self.name = name
+        self.properties = properties
+    }
+
+    public static func xmlMap() -> XMLMap {
+        return XMLMap([
+            "Name": XMLMetadata(jsonName: "name"),
+            "Properties": XMLMetadata(jsonName: "properties", jsonType: .object(ContainerProperties.self)),
+        ])
     }
 }

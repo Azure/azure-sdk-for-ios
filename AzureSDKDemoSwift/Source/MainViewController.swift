@@ -1,22 +1,40 @@
+// --------------------------------------------------------------------------
 //
-//  ViewController.swift
-//  AzureSDKDemoSwift
+// Copyright (c) Microsoft Corporation. All rights reserved.
 //
-//  Created by Travis Prescott on 8/27/19.
-//  Copyright © 2019 Azure SDK Team. All rights reserved.
+// The MIT License (MIT)
 //
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the ""Software""), to
+// deal in the Software without restriction, including without limitation the
+// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+// sell copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED *AS IS*, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+// IN THE SOFTWARE.
+//
+// --------------------------------------------------------------------------
 
-import AzureCore
 import AzureAppConfiguration
+import AzureCore
 import AzureStorageBlob
 import os.log
 import UIKit
 
 class MainViewController: UITableViewController {
-
     // MARK: Properties
 
-    private var dataSource: PagedCollection<BlobContainer>?
+    private var dataSource: PagedCollection<ContainerItem>?
+    private var noMoreData = false
 
     override func viewDidLoad() {
         // If I try to call loadAllSettingsByItem here, the execution hangs...
@@ -28,20 +46,17 @@ class MainViewController: UITableViewController {
 
     /// Constructs the PagedCollection and retrieves the first page of results to initalize the table view.
     private func loadInitialSettings() {
-
-        let storageAccountName = AppConstants.storageAccountName
-        let blobConnectionString = AppConstants.blobConnectionString
-
-        if let blobClient = try? StorageBlobClient(accountName: storageAccountName,
-                                                   connectionString: blobConnectionString) {
-            blobClient.listContainers { result, httpResponse in
-                switch result {
-                case .success(let paged):
-                    self.dataSource = paged
-                    self.reloadTableView()
-                case .failure(let error):
-                    os_log("Error: %@", String(describing: error))
-                }
+        guard let blobClient = getBlobClient() else { return }
+        let options = ListContainersOptions()
+        options.maxResults = 20
+        blobClient.listContainers(withOptions: options) { result, _ in
+            switch result {
+            case let .success(paged):
+                self.dataSource = paged
+                self.reloadTableView()
+            case let .failure(error):
+                self.showAlert(error: String(describing: error))
+                self.noMoreData = true
             }
         }
     }
@@ -49,31 +64,33 @@ class MainViewController: UITableViewController {
     /// For demo purposes only to illustrate usage of the "nextItem" method to retrieve all items.
     /// Requires semaphore to force synchronous behavior, otherwise concurrency issues arise.
     private func loadAllSettingsByItem() {
-        var newItem: BlobContainer?
+        var newItem: ContainerItem?
         let semaphore = DispatchSemaphore(value: 0)
         repeat {
-            self.dataSource?.nextItem { result in
+            dataSource?.nextItem { result in
                 defer { semaphore.signal() }
                 switch result {
-                case .failure(let error):
+                case let .failure(error):
                     newItem = nil
                     os_log("Error: %@", String(describing: error))
-                case .success(let item):
+                case let .success(item):
                     newItem = item
                 }
             }
             _ = semaphore.wait(wallTimeout: .distantFuture)
-        } while(newItem != nil)
+        } while newItem != nil
     }
 
     /// Uses asynchronous "nextPage" method to fetch the next page of results and update the table view.
     private func loadMoreSettings() {
-        self.dataSource?.nextPage { result in
+        guard noMoreData == false else { return }
+        dataSource?.nextPage { result in
             switch result {
             case .success:
                 self.reloadTableView()
-            case .failure(let error):
-                os_log("Error: %@", String(describing: error))
+            case let .failure(error):
+                self.showAlert(error: String(describing: error))
+                self.noMoreData = true
             }
         }
     }
@@ -87,11 +104,11 @@ class MainViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    override func numberOfSections(in _: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         guard let data = dataSource?.items else { return 0 }
         return data.count
     }
@@ -110,8 +127,8 @@ class MainViewController: UITableViewController {
         cell.valueLabel.text = ""
 
         // load next page if at the end of the current list
-        if indexPath.row == data.count - 10 {
-            self.loadMoreSettings()
+        if indexPath.row == data.count - 1, noMoreData == false {
+            loadMoreSettings()
         }
         return cell
     }

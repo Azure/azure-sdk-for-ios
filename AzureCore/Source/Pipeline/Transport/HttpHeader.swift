@@ -1,9 +1,28 @@
+// --------------------------------------------------------------------------
 //
-//  HttpHeader.swift
-//  AzureCore
+// Copyright (c) Microsoft Corporation. All rights reserved.
 //
-//  Created by Travis Prescott on 8/22/19.
+// The MIT License (MIT)
 //
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the ""Software""), to
+// deal in the Software without restriction, including without limitation the
+// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+// sell copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED *AS IS*, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+// IN THE SOFTWARE.
+//
+// --------------------------------------------------------------------------
 
 import Foundation
 
@@ -21,7 +40,7 @@ extension HttpHeaders {
     }
 
     public mutating func removeValue(forKey key: HttpHeader) -> String? {
-        return self.removeValue(forKey: key.rawValue)
+        return removeValue(forKey: key.rawValue)
     }
 }
 
@@ -33,8 +52,10 @@ public enum HttpHeader: String {
     case acceptRanges = "Accept-Ranges"
     case age = "Age"
     case allow = "Allow"
+    case apiVersion = "x-ms-version"
     case authorization = "Authorization"
     case cacheControl = "Cache-Control"
+    case clientRequestId = "x-ms-client-request-id"
     case connection = "Connection"
     case contentDisposition = "Content-Disposition"
     case contentEncoding = "Content-Encoding"
