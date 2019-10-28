@@ -80,42 +80,6 @@ class BlobTableViewController: UITableViewController {
         }
     }
 
-    private func showAlert(message: String) {
-        DispatchQueue.main.async { [weak self] in
-            let alertController = UIAlertController(title: "Blob Contents", message: message, preferredStyle: .alert)
-            let defaultAction = UIAlertAction(title: "Close", style: .default, handler: nil)
-            alertController.addAction(defaultAction)
-            self?.present(alertController, animated: true)
-        }
-    }
-
-    private func showAlert(image: UIImage) {
-        DispatchQueue.main.async { [weak self] in
-            let alertController = UIAlertController(title: "Blob Contents", message: "", preferredStyle: .alert)
-            let alertBounds = alertController.view.frame
-            let imageView = UIImageView(frame: CGRect(x: 10, y: 10, width: alertBounds.width - 20, height: 100))
-            imageView.contentMode = .scaleAspectFit
-            imageView.image = image
-            alertController.view.addSubview(imageView)
-            let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-            alertController.addAction(defaultAction)
-            self?.present(alertController, animated: true)
-        }
-    }
-
-    private func showAlert(error: String) {
-        DispatchQueue.main.async { [weak self] in
-            let alertController = UIAlertController(title: "Error!", message: error, preferredStyle: .alert)
-            let title = NSAttributedString(string: "Error!", attributes: [
-                NSAttributedString.Key.foregroundColor: UIColor.red,
-            ])
-            alertController.setValue(title, forKey: "attributedTitle")
-            let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-            alertController.addAction(defaultAction)
-            self?.present(alertController, animated: true)
-        }
-    }
-
     // MARK: - Table view data source
 
     override func numberOfSections(in _: UITableView) -> Int {

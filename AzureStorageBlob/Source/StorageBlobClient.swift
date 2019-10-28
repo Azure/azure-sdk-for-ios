@@ -32,8 +32,6 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         case latest = "2019-02-02"
     }
 
-    private let apiVersion: ApiVersion!
-
     internal class StorageJSONDecoder: JSONDecoder {
         override init() {
             super.init()
@@ -68,19 +66,49 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
 
     // MARK: Initializers
 
-    public init(accountName: String, connectionString: String, apiVersion: ApiVersion = .latest,
-                logger: ClientLogger = ClientLoggers.default()) throws {
-        let sasCredential = try StorageSASCredential(accountName: accountName, connectionString: connectionString)
-        guard let blobEndpoint = sasCredential.blobEndpoint else {
-            let message = "Invalid connection string. No blob endpoint specified."
-            throw HttpResponseError.clientAuthentication(message)
+    required public init(accountUrl: String, credential: Any, withOptions options: AzureClientOptions? = nil)
+        throws {
+        let clientOptions = options ?? AzureClientOptions(apiVersion: ApiVersion.latest.rawValue)
+        if let sasCredential = credential as? StorageSASCredential {
+            guard let blobEndpoint = sasCredential.blobEndpoint else {
+                let message = "Invalid connection string. No blob endpoint specified."
+                throw AzureError.general(message)
+            }
+            let authPolicy = StorageSASAuthenticationPolicy(credential: sasCredential)
+            super.init(
+                baseUrl: blobEndpoint,
+                transport: UrlSessionTransport(),
+                policies: [
+                    // Python: QueueMessagePolicy(),
+                    HeadersPolicy(),
+                    // Python: config.proxy_policy,
+                    UserAgentPolicy(),
+                    // Python: StorageContentValidation(),
+                    // Python: StorageRequestHook(**kwargs),
+                    authPolicy,
+                    ContentDecodePolicy(),
+                    // Python: RedirectPolicy(**kwargs),
+                    // Python: StorageHosts(hosts=self._hosts, **kwargs),
+                    // Python: config.retry_policy,
+                    LoggingPolicy()
+                    // Python: StorageResponseHook(**kwargs),
+                    // Python: DistributedTracingPolicy(**kwargs),
+                    // Python: HttpLoggingPolicy()
+                ],
+                withOptions: clientOptions)
+
+        } else {
+            throw AzureError.general("Invalid credential. \(type(of: credential))")
         }
-        let authPolicy = StorageSASAuthenticationPolicy(credential: sasCredential)
-        self.apiVersion = apiVersion
-        super.init(baseUrl: blobEndpoint,
-                   transport: UrlSessionTransport(),
-                   policies: [HeadersPolicy(), UserAgentPolicy(), authPolicy, ContentDecodePolicy(), LoggingPolicy()],
-                   logger: logger)
+    }
+
+    public static func from(connectionString: String, withOptions options: AzureClientOptions? = nil) throws
+        -> StorageBlobClient {
+            let sasCredential = try StorageSASCredential(connectionString: connectionString)
+            guard let blobEndpoint = sasCredential.blobEndpoint else {
+                throw AzureError.general("Invalid connection string.")
+            }
+            return try self.init(accountUrl: blobEndpoint, credential: sasCredential, withOptions: options)
     }
 
     // MARK: API Calls
@@ -100,7 +128,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         // Construct headers
         var headerParams = HttpHeaders()
         headerParams[HttpHeader.accept] = "application/xml"
-        headerParams[HttpHeader.apiVersion] = apiVersion.rawValue
+        headerParams[HttpHeader.apiVersion] = self.options.apiVersion
 
         // Process endpoint options
         if let options = options {
@@ -173,7 +201,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         var headerParams = HttpHeaders()
         headerParams[HttpHeader.accept] = "application/xml"
         headerParams[HttpHeader.transferEncoding] = "chunked"
-        headerParams[HttpHeader.apiVersion] = apiVersion.rawValue
+        headerParams[HttpHeader.apiVersion] = self.options.apiVersion
 
         // Process endpoint options
         if let options = options {
@@ -245,7 +273,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
 
         // Construct headers
         var headerParams = HttpHeaders()
-        headerParams[HttpHeader.apiVersion] = apiVersion.rawValue
+        headerParams[HttpHeader.apiVersion] = self.options.apiVersion
         headerParams["x-ms-range"] = "bytes=0-33554431"
         // if let requestId = requestId { headerParams["x-ms-client-request-id"] = requestId }
 

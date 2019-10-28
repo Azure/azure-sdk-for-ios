@@ -47,16 +47,13 @@ public class StorageOAuthCredential: TokenCredential {
 }
 
 public class StorageSASCredential {
-    internal let accountName: String
     internal let blobEndpoint: String?
     internal let queueEndpoint: String?
     internal let fileEndpoint: String?
     internal let tableEndpoint: String?
     internal let sasToken: String
 
-    public init(accountName: String, connectionString: String) throws {
-        self.accountName = accountName
-
+    public init(connectionString: String) throws {
         // temp variables
         var blob: String?
         var queue: String?

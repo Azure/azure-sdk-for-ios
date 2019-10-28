@@ -24,6 +24,7 @@
 //
 // --------------------------------------------------------------------------
 
+import AzureAppConfiguration
 import AzureStorageBlob
 import Foundation
 
@@ -33,14 +34,61 @@ struct AppConstants {
 
     // read-only blob connection string using a SAS token
     static let blobConnectionString = "BlobEndpoint=https://tjpstorage1.blob.core.windows.net/;QueueEndpoint=https://tjpstorage1.queue.core.windows.net/;FileEndpoint=https://tjpstorage1.file.core.windows.net/;TableEndpoint=https://tjpstorage1.table.core.windows.net/;SharedAccessSignature=sv=2018-03-28&ss=b&srt=sco&sp=rl&se=2020-10-03T07:45:02Z&st=2019-10-02T23:45:02Z&spr=https&sig=L7zqOTStAd2o3Mp72MW59GXM1WbL9G2FhOSXHpgrBCE%3D"
-    static let storageAccountName = "tjpstorage1"
-    static let storageBaseUrl = "https://tjpstorage1.blob.core.windows.net"
 }
 
-func getBlobClient() -> StorageBlobClient? {
-    let storageAccountName = AppConstants.storageAccountName
-    let blobConnectionString = AppConstants.blobConnectionString
+extension UIViewController {
 
-    return try? StorageBlobClient(accountName: storageAccountName,
-                                  connectionString: blobConnectionString)
+    internal func getBlobClient() -> StorageBlobClient? {
+        do {
+            return try StorageBlobClient.from(connectionString: AppConstants.blobConnectionString)
+        } catch {
+            self.showAlert(error: String(describing: error))
+            return nil
+        }
+    }
+
+    internal func getAppConfigClient() -> AppConfigurationClient? {
+        do {
+            return try AppConfigurationClient.from(connectionString: AppConstants.appConfigConnectionString)
+        } catch {
+            self.showAlert(error: String(describing: error))
+            return nil
+        }
+    }
+
+    internal func showAlert(error: String) {
+        DispatchQueue.main.async { [weak self] in
+            let alertController = UIAlertController(title: "Error!", message: error, preferredStyle: .alert)
+            let title = NSAttributedString(string: "Error!", attributes: [
+                NSAttributedString.Key.foregroundColor: UIColor.red,
+            ])
+            alertController.setValue(title, forKey: "attributedTitle")
+            let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alertController.addAction(defaultAction)
+            self?.present(alertController, animated: true)
+        }
+    }
+
+    internal func showAlert(message: String) {
+        DispatchQueue.main.async { [weak self] in
+            let alertController = UIAlertController(title: "Blob Contents", message: message, preferredStyle: .alert)
+            let defaultAction = UIAlertAction(title: "Close", style: .default, handler: nil)
+            alertController.addAction(defaultAction)
+            self?.present(alertController, animated: true)
+        }
+    }
+
+    internal func showAlert(image: UIImage) {
+        DispatchQueue.main.async { [weak self] in
+            let alertController = UIAlertController(title: "Blob Contents", message: "", preferredStyle: .alert)
+            let alertBounds = alertController.view.frame
+            let imageView = UIImageView(frame: CGRect(x: 10, y: 10, width: alertBounds.width - 20, height: 100))
+            imageView.contentMode = .scaleAspectFit
+            imageView.image = image
+            alertController.view.addSubview(imageView)
+            let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alertController.addAction(defaultAction)
+            self?.present(alertController, animated: true)
+        }
+    }
 }

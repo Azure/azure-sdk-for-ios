@@ -95,19 +95,6 @@ class MainViewController: UITableViewController {
         }
     }
 
-    private func showAlert(error: String) {
-        DispatchQueue.main.async { [weak self] in
-            let alertController = UIAlertController(title: "Error!", message: error, preferredStyle: .alert)
-            let title = NSAttributedString(string: "Error!", attributes: [
-                NSAttributedString.Key.foregroundColor: UIColor.red,
-            ])
-            alertController.setValue(title, forKey: "attributedTitle")
-            let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-            alertController.addAction(defaultAction)
-            self?.present(alertController, animated: true)
-        }
-    }
-
     /// Reload the table view on the UI thread.
     private func reloadTableView() {
         DispatchQueue.main.async { [weak self] in

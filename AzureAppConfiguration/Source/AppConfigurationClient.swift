@@ -33,18 +33,27 @@ public class AppConfigurationClient: PipelineClient {
         case latest = "2019-01-01"
     }
 
-    private let apiVersion: ApiVersion!
+    // MARK: Initializers
 
-    public init(connectionString: String, apiVersion: ApiVersion = .latest,
-                logger: ClientLogger = ClientLoggers.default()) throws {
-        let credential = try AppConfigurationCredential(connectionString: connectionString)
-        let authPolicy = AppConfigurationAuthenticationPolicy(credential: credential, scopes: [credential.endpoint])
-        self.apiVersion = apiVersion
-        super.init(baseUrl: credential.endpoint,
-                   transport: UrlSessionTransport(),
-                   policies: [HeadersPolicy(), UserAgentPolicy(), authPolicy, ContentDecodePolicy(), LoggingPolicy()],
-                   logger: logger)
+    public static func from(connectionString: String, withOptions options: AzureClientOptions? = nil) throws
+        -> AppConfigurationClient {
+            let clientOptions = options ?? AzureClientOptions(apiVersion: ApiVersion.latest.rawValue)
+            let credential = try AppConfigurationCredential(connectionString: connectionString)
+            let authPolicy = AppConfigurationAuthenticationPolicy(credential: credential, scopes: [credential.endpoint])
+            return AppConfigurationClient(
+                baseUrl: credential.endpoint,
+                transport: UrlSessionTransport(),
+                policies: [
+                    HeadersPolicy(),
+                    UserAgentPolicy(),
+                    authPolicy,
+                    ContentDecodePolicy(),
+                    LoggingPolicy()
+                ],
+                withOptions: clientOptions)
     }
+
+    // MARK: API Calls
 
     public func listConfigurationSettings(forKey key: String?, forLabel label: String?,
                                           completion: @escaping HttpResultHandler<PagedCollection<ConfigurationSetting>>) {
@@ -63,7 +72,7 @@ public class AppConfigurationClient: PipelineClient {
 
         // Construct headers
         var headerParams = HttpHeaders()
-        headerParams["x-ms-version"] = apiVersion.rawValue
+        headerParams["x-ms-version"] = self.options.apiVersion
         // if let acceptDatetime = acceptDatetime { headerParams["Accept-Datetime"] = acceptDatetime }
         // if let requestId = requestId { headerParams["x-ms-client-request-id"] = requestId }
 

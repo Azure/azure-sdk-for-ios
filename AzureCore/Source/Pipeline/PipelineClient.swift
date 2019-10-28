@@ -26,29 +26,54 @@
 
 import Foundation
 
+/// Base class containing baseline options for individual service clients.
+open class AzureClientOptions {
+    public let apiVersion: String
+    public var logger: ClientLogger
+
+    // MARK: Initializers
+
+    public init(apiVersion: String) {
+        self.apiVersion = apiVersion
+        self.logger = ClientLoggers.default()
+    }
+}
+
+/// Base class containing baseline options for individual client API calls.
 open class AzureOptions {
     /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
     /// Highly recommended for correlating client-side activites with requests received by the server.
     public var clientRequestId: String?
 
-    public init() {
-        clientRequestId = nil
+    // MARK: Initializers
+
+     public init() {
+        self.clientRequestId = nil
     }
 }
 
+/// Base class for all pipeline-based service clients.
 open class PipelineClient {
-    public var logger: ClientLogger
+    public var logger: ClientLogger {
+        return options.logger
+    }
 
     internal var pipeline: Pipeline
     internal var baseUrl: String
 
+    public var options: AzureClientOptions
+
+    // MARK: Initializers
+
     public init(baseUrl: String, transport: HttpTransportable, policies: [PipelineStageProtocol],
-                logger: ClientLogger) {
+                withOptions options: AzureClientOptions) {
         self.baseUrl = baseUrl
         if self.baseUrl.suffix(1) != "/" { self.baseUrl += "/" }
-        self.logger = logger
         pipeline = Pipeline(transport: transport, policies: policies)
+        self.options = options
     }
+
+    // MARK: Client API
 
     public func run(request: HttpRequest, context: [String: AnyObject]?,
                     completion: @escaping (Result<Data?, Error>, HttpResponse) -> Void) {
