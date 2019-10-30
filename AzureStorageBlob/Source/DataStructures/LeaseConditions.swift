@@ -26,32 +26,34 @@
 
 import Foundation
 
-public enum AccessTier: String, Codable {
-    case hot, cold
+public struct LeaseAccessConditions {
+    public var leaseId: String
 }
 
-public enum BlobType: String, Codable {
-    case block = "BlockBlob"
-    case page = "PageBlob"
-    case append = "AppendBlob"
+public struct ModifiedAccessConditions {
+    public var ifModifiedSince: Date?
+    public var ifUnmodifiedSince: Date?
+    public var ifMatch: String?
+    public var ifNoneMatch: String?
 }
 
-public enum CopyStatus: String, Codable {
-    case pending, success, aborted, failed
-}
+public struct RangeOptions {
 
-public enum LeaseDuration: String, Codable {
-    case infinite, fixed
-}
+    /// Start of byte range to use for downloading a section of the blob.
+    /// Must be set if length is provided.
+    public var offset = 0
 
-public enum LeaseState: String, Codable {
-    case available, leased, expired, breaking, broken
-}
+    /// Number of bytes to read from the stream. Should be specified
+    /// for optimal performance.
+    public var length: Int? = nil
 
-public enum LeaseStatus: String, Codable {
-    case locked, unlocked
-}
+    /// When set to true, the service returns the MD5 hash for the range
+    /// as long as the range is less than or equal to 4 MB in size.
+    public var calculateMD5: Bool? = nil
 
-public enum LocationMode: String, Codable {
-    case primary, secondary
+    /// When set to true, the service returns the CRC64 hash for the range
+    /// as long as the range is less than or equal to 4 MB in size.
+    public var calculateCRC64: Bool? = nil
+
+    public init() {}
 }

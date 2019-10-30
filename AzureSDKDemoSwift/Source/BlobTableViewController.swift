@@ -27,6 +27,9 @@
 import AzureCore
 import AzureStorageBlob
 import os.log
+
+import AVKit
+import AVFoundation
 import UIKit
 
 class BlobTableViewController: UITableViewController {
@@ -119,28 +122,47 @@ class BlobTableViewController: UITableViewController {
         guard let blobName = cell.keyLabel.text else { return }
         guard let containerName = containerName else { return }
         guard let blobClient = getBlobClient() else { return }
-        blobClient.download(blob: blobName, fromContainer: containerName) { result, _ in
-            switch result {
-            case let .success(data):
-                let options = [
-                    NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.rtf,
-                ]
-                if let attributedString = try? NSAttributedString(data: data, options: options,
-                                                                  documentAttributes: nil) {
-                    self.showAlert(message: attributedString.string)
-                } else if let rawString = String(data: data, encoding: .utf8) {
-                    self.showAlert(message: rawString)
-                } else if let image = UIImage(data: data) {
-                    self.showAlert(image: image)
-                } else {
-                    self.showAlert(error: "Unable to display the downloaded content.")
+        do {
+            let options = DownloadBlobOptions()
+            options.range = RangeOptions()
+            options.range?.offset = 0
+            try blobClient.download(blob: blobName, fromContainer: containerName, withOptions: options) { result, _ in
+                switch result {
+                case let .success(downloader):
+                    let options = [
+                        NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.rtf,
+                    ]
+                    do {
+                        let data = try downloader.readAll()
+                        if let attributedString = try? NSAttributedString(data: data, options: options,
+                                                                          documentAttributes: nil) {
+                            self.showAlert(message: attributedString.string)
+                        } else if let rawString = String(data: data, encoding: .utf8) {
+                            self.showAlert(message: rawString)
+                        } else if let image = UIImage(data: data) {
+                            self.showAlert(image: image)
+                        } else if downloader.blobProperties?.contentType == "video/mp4" {
+                            let player = AVPlayer(url: downloader.downloadDestination)
+                            let controller = AVPlayerViewController()
+                            controller.player = player
+                            self.present(controller, animated: true) {
+                                player.play()
+                            }
+                        } else {
+                            self.showAlert(error: "Unable to display the downloaded content.")
+                        }
+                    } catch {
+                        self.showAlert(error: String(describing: error))
+                    }
+                case let .failure(error):
+                    self.showAlert(error: String(describing: error))
                 }
-            case let .failure(error):
-                self.showAlert(error: String(describing: error))
+                DispatchQueue.main.async { [weak self] in
+                    self?.tableView.deselectRow(at: indexPath, animated: true)
+                }
             }
-            DispatchQueue.main.async { [weak self] in
-                self?.tableView.deselectRow(at: indexPath, animated: true)
-            }
+        } catch {
+            self.showAlert(error: String(describing: error))
         }
     }
 }

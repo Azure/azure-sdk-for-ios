@@ -26,32 +26,11 @@
 
 import Foundation
 
-public enum AccessTier: String, Codable {
-    case hot, cold
-}
-
-public enum BlobType: String, Codable {
-    case block = "BlockBlob"
-    case page = "PageBlob"
-    case append = "AppendBlob"
-}
-
-public enum CopyStatus: String, Codable {
-    case pending, success, aborted, failed
-}
-
-public enum LeaseDuration: String, Codable {
-    case infinite, fixed
-}
-
-public enum LeaseState: String, Codable {
-    case available, leased, expired, breaking, broken
-}
-
-public enum LeaseStatus: String, Codable {
-    case locked, unlocked
-}
-
-public enum LocationMode: String, Codable {
-    case primary, secondary
+/// An enum to describe match conditions.
+public enum MatchCondition: Int {
+    case unconditionally = 1
+    case ifNotModified = 2
+    case ifModified = 3
+    case ifPresent = 4
+    case ifMissing = 5
 }

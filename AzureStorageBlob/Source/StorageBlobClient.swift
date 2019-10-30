@@ -56,6 +56,8 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         }
     }
 
+    internal var options: StorageBlobClientOptions
+
     // MARK: Paged Collection Delegate
 
     public func continuationUrl(continuationToken: String, queryParams: inout [String: String],
@@ -66,43 +68,42 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
 
     // MARK: Initializers
 
-    required public init(accountUrl: String, credential: Any, withOptions options: AzureClientOptions? = nil)
+    required public init(accountUrl: String, credential: Any, withOptions options: StorageBlobClientOptions? = nil)
         throws {
-        let clientOptions = options ?? AzureClientOptions(apiVersion: ApiVersion.latest.rawValue)
-        if let sasCredential = credential as? StorageSASCredential {
-            guard let blobEndpoint = sasCredential.blobEndpoint else {
-                let message = "Invalid connection string. No blob endpoint specified."
-                throw AzureError.general(message)
-            }
-            let authPolicy = StorageSASAuthenticationPolicy(credential: sasCredential)
-            super.init(
-                baseUrl: blobEndpoint,
-                transport: UrlSessionTransport(),
-                policies: [
-                    // Python: QueueMessagePolicy(),
-                    HeadersPolicy(),
-                    // Python: config.proxy_policy,
-                    UserAgentPolicy(),
-                    // Python: StorageContentValidation(),
-                    // Python: StorageRequestHook(**kwargs),
-                    authPolicy,
-                    ContentDecodePolicy(),
-                    // Python: RedirectPolicy(**kwargs),
-                    // Python: StorageHosts(hosts=self._hosts, **kwargs),
-                    // Python: config.retry_policy,
-                    LoggingPolicy()
-                    // Python: StorageResponseHook(**kwargs),
-                    // Python: DistributedTracingPolicy(**kwargs),
-                    // Python: HttpLoggingPolicy()
-                ],
-                withOptions: clientOptions)
-
+            self.options = options ?? StorageBlobClientOptions(apiVersion: ApiVersion.latest.rawValue)
+            if let sasCredential = credential as? StorageSASCredential {
+                guard let blobEndpoint = sasCredential.blobEndpoint else {
+                    let message = "Invalid connection string. No blob endpoint specified."
+                    throw AzureError.general(message)
+                }
+                let authPolicy = StorageSASAuthenticationPolicy(credential: sasCredential)
+                super.init(
+                    baseUrl: blobEndpoint,
+                    transport: UrlSessionTransport(),
+                    policies: [
+                        // Python: QueueMessagePolicy(),
+                        HeadersPolicy(),
+                        // Python: config.proxy_policy,
+                        UserAgentPolicy(),
+                        // Python: StorageContentValidation(),
+                        // Python: StorageRequestHook(**kwargs),
+                        authPolicy,
+                        ContentDecodePolicy(),
+                        // Python: RedirectPolicy(**kwargs),
+                        // Python: StorageHosts(hosts=self._hosts, **kwargs),
+                        // Python: config.retry_policy,
+                        LoggingPolicy()
+                        // Python: StorageResponseHook(**kwargs),
+                        // Python: DistributedTracingPolicy(**kwargs),
+                        // Python: HttpLoggingPolicy()
+                    ],
+                    logger: self.options.logger)
         } else {
             throw AzureError.general("Invalid credential. \(type(of: credential))")
         }
     }
 
-    public static func from(connectionString: String, withOptions options: AzureClientOptions? = nil) throws
+    public static func from(connectionString: String, withOptions options: StorageBlobClientOptions? = nil) throws
         -> StorageBlobClient {
             let sasCredential = try StorageSASCredential(connectionString: connectionString)
             guard let blobEndpoint = sasCredential.blobEndpoint else {
@@ -187,10 +188,10 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
                           completion: @escaping HttpResultHandler<PagedCollection<BlobItem>>) {
         // Construct URL
         let urlTemplate = "{container}"
-        let templateKwargs = [
+        let pathParams = [
             "container": container,
         ]
-        let url = format(urlTemplate: urlTemplate, withKwargs: templateKwargs)
+        let url = format(urlTemplate: urlTemplate, withKwargs: pathParams)
 
         // Construct query
         var queryParams = [String: String]()
@@ -256,47 +257,16 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         })
     }
 
-    public func download(blob: String, fromContainer container: String,
-                         completion: @escaping HttpResultHandler<Data>) {
-        // Python: error_map = kwargs.pop('error_map', None)
-
-        // Construct URL
-        let urlTemplate = "/{container}/{blob}"
-        let templateKwargs = [
-            "container": container,
-            "blob": blob,
-        ]
-        let url = format(urlTemplate: urlTemplate, withKwargs: templateKwargs)
-
-        // Construct parameters
-        var queryParams = [String: String]()
-
-        // Construct headers
-        var headerParams = HttpHeaders()
-        headerParams[HttpHeader.apiVersion] = self.options.apiVersion
-        headerParams["x-ms-range"] = "bytes=0-33554431"
-        // if let requestId = requestId { headerParams["x-ms-client-request-id"] = requestId }
-
-        // Construct and send request
-        let request = self.request(method: HttpMethod.GET,
-                                   url: url,
-                                   queryParams: queryParams,
-                                   headerParams: headerParams)
-        let context: [String: AnyObject] = [
-            ContextKey.allowedStatusCodes.rawValue: [200, 206] as AnyObject,
-        ]
-        run(request: request, context: context, completion: { result, httpResponse in
+    public func download(blob: String, fromContainer container: String, withOptions options: DownloadBlobOptions? = nil,
+                         completion: @escaping HttpResultHandler<StorageStreamDownloader>) throws {
+        let downloader = try StorageStreamDownloader(client: self, name: blob, container: container, options: options)
+        downloader.initialRequest() { result, httpResponse in
             switch result {
-            case let .success(data):
-                guard let data = data else {
-                    let noDataError = HttpResponseError.decode("Response data expected but not found.")
-                    completion(.failure(noDataError), httpResponse)
-                    return
-                }
-                completion(.success(data), httpResponse)
+            case .success(_):
+                completion(.success(downloader), httpResponse)
             case let .failure(error):
                 completion(.failure(error), httpResponse)
             }
-        })
+        }
     }
 }

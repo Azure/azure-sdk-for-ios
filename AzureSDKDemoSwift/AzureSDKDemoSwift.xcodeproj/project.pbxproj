@@ -7,18 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A009813237B560C0015E9C9 /* AzureStorageBlob.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A6864B4233E8C8E004B7E17 /* AzureStorageBlob.framework */; };
+		0A009814237B560C0015E9C9 /* AzureStorageBlob.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0A6864B4233E8C8E004B7E17 /* AzureStorageBlob.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0A009816237B560E0015E9C9 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3A5E9B2315E8BE00473FDA /* AzureCore.framework */; };
+		0A009817237B560E0015E9C9 /* AzureCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3A5E9B2315E8BE00473FDA /* AzureCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0A009818237B560F0015E9C9 /* AzureAppConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A4081B32333DE170071EAEE /* AzureAppConfiguration.framework */; };
+		0A009819237B560F0015E9C9 /* AzureAppConfiguration.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0A4081B32333DE170071EAEE /* AzureAppConfiguration.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0A3A5E7A2315E70400473FDA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5E792315E70400473FDA /* AppDelegate.swift */; };
 		0A3A5E7C2315E70400473FDA /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5E7B2315E70400473FDA /* MainViewController.swift */; };
 		0A3A5E7F2315E70400473FDA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A3A5E7D2315E70400473FDA /* Main.storyboard */; };
 		0A3A5E812315E70500473FDA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A3A5E802315E70500473FDA /* Assets.xcassets */; };
 		0A3A5E842315E70500473FDA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A3A5E822315E70500473FDA /* LaunchScreen.storyboard */; };
 		0A3A5E8F2315E70600473FDA /* AzureSDKDemoSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5E8E2315E70600473FDA /* AzureSDKDemoSwiftTests.swift */; };
-		0A4081B42333DE170071EAEE /* AzureAppConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A4081B32333DE170071EAEE /* AzureAppConfiguration.framework */; };
 		0A68647C233D33CD004B7E17 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A68647B233D33CD004B7E17 /* CustomTableViewCell.swift */; };
-		0A6864B5233E8C8E004B7E17 /* AzureStorageBlob.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A6864B4233E8C8E004B7E17 /* AzureStorageBlob.framework */; };
 		0A71C5CB234BE18200604F2D /* BlobTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A71C5CA234BE18200604F2D /* BlobTableViewController.swift */; };
 		0A71C5CD234BE85700604F2D /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A71C5CC234BE85700604F2D /* Common.swift */; };
-		7A77A97B234E569100BC1603 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3A5E9B2315E8BE00473FDA /* AzureCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,6 +33,22 @@
 			remoteInfo = AzureSDKDemoSwift;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		0A009815237B560C0015E9C9 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				0A009814237B560C0015E9C9 /* AzureStorageBlob.framework in Embed Frameworks */,
+				0A009819237B560F0015E9C9 /* AzureAppConfiguration.framework in Embed Frameworks */,
+				0A009817237B560E0015E9C9 /* AzureCore.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0A3A5E762315E70400473FDA /* AzureSDKDemoSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AzureSDKDemoSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -55,9 +74,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A6864B5233E8C8E004B7E17 /* AzureStorageBlob.framework in Frameworks */,
-				7A77A97B234E569100BC1603 /* AzureCore.framework in Frameworks */,
-				0A4081B42333DE170071EAEE /* AzureAppConfiguration.framework in Frameworks */,
+				0A009813237B560C0015E9C9 /* AzureStorageBlob.framework in Frameworks */,
+				0A009818237B560F0015E9C9 /* AzureAppConfiguration.framework in Frameworks */,
+				0A009816237B560E0015E9C9 /* AzureCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -143,6 +162,7 @@
 				0A3A5E722315E70400473FDA /* Sources */,
 				0A3A5E732315E70400473FDA /* Frameworks */,
 				0A3A5E742315E70400473FDA /* Resources */,
+				0A009815237B560C0015E9C9 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -183,6 +203,7 @@
 				TargetAttributes = {
 					0A3A5E752315E70400473FDA = {
 						CreatedOnToolsVersion = 10.3;
+						LastSwiftMigration = 1110;
 					};
 					0A3A5E892315E70600473FDA = {
 						CreatedOnToolsVersion = 10.3;

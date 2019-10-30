@@ -26,32 +26,33 @@
 
 import Foundation
 
-public enum AccessTier: String, Codable {
-    case hot, cold
-}
+extension Optional where Wrapped == String {
 
-public enum BlobType: String, Codable {
-    case block = "BlockBlob"
-    case page = "PageBlob"
-    case append = "AppendBlob"
-}
+    public var asBool: Bool? {
+        if let value = self {
+            return Bool(value)
+        }
+        return nil
+    }
 
-public enum CopyStatus: String, Codable {
-    case pending, success, aborted, failed
-}
+    public var asInt: Int? {
+        if let value = self {
+            return Int(value)
+        }
+        return nil
+    }
 
-public enum LeaseDuration: String, Codable {
-    case infinite, fixed
-}
+    public var asDate: Date? {
+        if let value = self {
+            return value.rfc1123Date
+        }
+        return nil
+    }
 
-public enum LeaseState: String, Codable {
-    case available, leased, expired, breaking, broken
-}
-
-public enum LeaseStatus: String, Codable {
-    case locked, unlocked
-}
-
-public enum LocationMode: String, Codable {
-    case primary, secondary
+    public func asEnum<EnumType>(_ type: EnumType.Type) -> EnumType? where EnumType: RawRepresentable {
+        if let value = self as? EnumType.RawValue {
+            return EnumType.init(rawValue: value)
+        }
+        return nil
+    }
 }

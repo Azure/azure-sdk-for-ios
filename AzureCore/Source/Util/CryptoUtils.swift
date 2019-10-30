@@ -46,12 +46,6 @@ extension Array where Element == UInt8 {
     }
 }
 
-//    kCCHmacAlgSHA1,
-//    kCCHmacAlgMD5,
-//    kCCHmacAlgSHA256,
-//    kCCHmacAlgSHA384,
-//    kCCHmacAlgSHA512,
-//    kCCHmacAlgSHA224
 public enum HmacAlgorithm {
     case sha1, md5, sha256, sha384, sha512, sha224
     public var algorithm: CCHmacAlgorithm {

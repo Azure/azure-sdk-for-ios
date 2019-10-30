@@ -87,7 +87,7 @@ public class AppConfigurationAuthenticationPolicy: AuthenticationProtocol {
         request.httpRequest.headers[AppConfigurationHeader.contentHash.rawValue] = contentHash
         let dateValue = request.httpRequest.headers[HttpHeader.date] ?? request.httpRequest.headers[AppConfigurationHeader.date.rawValue]
         if dateValue == nil {
-            request.httpRequest.headers[AppConfigurationHeader.date.rawValue] = Date().httpFormat
+            request.httpRequest.headers[AppConfigurationHeader.date.rawValue] = Date().rfc1123Format
         }
         sign(request: request)
     }

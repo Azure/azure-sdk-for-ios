@@ -79,26 +79,34 @@ public struct PagedCodingKeys {
 }
 
 /// A collection that fetches paged results in a lazy fashion.
-public class PagedCollection<SingleElement: Codable>: Sequence, IteratorProtocol, PagedCollectionDelegate {
+public class PagedCollection<SingleElement: Codable>: PagedCollectionDelegate {
+
+    // MARK: Public Properties
+
     public typealias Element = [SingleElement]
-
-    private var _items: Element?
-
-    private weak var delegate: PagedCollectionDelegate?
 
     /// Returns the current running list of items.
     public var items: Element? {
         return _items
     }
-
-    private var pageRange: Range<Int>?
-
     /// Returns the subset of items that corresponds to the current page.
     public var pageItems: Element? {
         guard let range = pageRange else { return nil }
         guard let slice = _items?[range] else { return nil }
         return Array(slice)
     }
+
+    public var underestimatedCount: Int {
+        return items?.count ?? 0
+    }
+
+    // MARK: Private Properties
+
+    private var _items: Element?
+
+    private weak var delegate: PagedCollectionDelegate?
+
+    private var pageRange: Range<Int>?
 
     /// The continuation token used to fetch the next page of results.
     private var continuationToken: String?
@@ -119,40 +127,10 @@ public class PagedCollection<SingleElement: Codable>: Sequence, IteratorProtocol
     /// Key values needed to deserialize the service response into items and a continuation token.
     private let codingKeys: PagedCodingKeys
 
-    public var underestimatedCount: Int {
-        return items?.count ?? 0
-    }
-
     /// The initial request URL
     private var requestUrl: String
 
-    public func continuationUrl(continuationToken: String, queryParams _: inout [String: String],
-                                requestUrl _: String) -> String {
-        return client.format(urlTemplate: continuationToken)
-    }
-
-    /// Deserializes the JSON payload to append the new items, update tracking of the "current page" of items
-    /// and reset the per page iterator.
-    private func update(with data: Data?) throws {
-        let noDataError = HttpResponseError.decode("Response data expected but not found.")
-        guard let data = data else { throw noDataError }
-        guard let json = try JSONSerialization.jsonObject(with: data) as? [String: Any] else { throw noDataError }
-        let codingKeys = self.codingKeys
-        let notPagedError = HttpResponseError.decode("Paged response expected but not found.")
-        guard let itemJson = codingKeys.items(fromJson: json) else { throw notPagedError }
-        continuationToken = codingKeys.continuationToken(fromJson: json)
-
-        let itemData = try JSONSerialization.data(withJSONObject: itemJson)
-        let newItems = try decoder.decode(Element.self, from: itemData)
-        if let currentItems = self._items {
-            // append rather than throw away old items
-            pageRange = currentItems.count ..< (currentItems.count + newItems.count)
-            _items = currentItems + newItems
-        } else {
-            _items = newItems
-            pageRange = 0 ..< newItems.count
-        }
-    }
+    // MARK: Initializers
 
     public init(client: PipelineClient, request: HttpRequest, data: Data?, codingKeys: PagedCodingKeys? = nil,
                 decoder: JSONDecoder? = nil, delegate: PagedCollectionDelegate? = nil) throws {
@@ -166,6 +144,8 @@ public class PagedCollection<SingleElement: Codable>: Sequence, IteratorProtocol
         self.delegate = delegate
         try update(with: data)
     }
+
+    // MARK: Public Methods
 
     /// Retrieves the next page of results asynchronously.
     public func nextPage(then completion: @escaping (Result<Element?, Error>) -> Void) {
@@ -241,33 +221,34 @@ public class PagedCollection<SingleElement: Codable>: Sequence, IteratorProtocol
         }
     }
 
-    // MARK: Iterator Protocol
+    /// Format a URL for a paged response using a provided continuation token.
+    public func continuationUrl(continuationToken: String, queryParams _: inout [String: String],
+                                requestUrl _: String) -> String {
+        return client.format(urlTemplate: continuationToken)
+    }
 
-    /// Returns the next page of results. In order to conform with the protocol, this
-    /// usage must be synchronous.
-    public func next() -> Element? {
-        guard let items = items else { return nil }
-        if iteratorIndex < items.count {
-            iteratorIndex = items.count
-            return items
+    // MARK: Private Methods
+
+    /// Deserializes the JSON payload to append the new items, update tracking of the "current page" of items
+    /// and reset the per page iterator.
+    private func update(with data: Data?) throws {
+        let noDataError = HttpResponseError.decode("Response data expected but not found.")
+        guard let data = data else { throw noDataError }
+        guard let json = try JSONSerialization.jsonObject(with: data) as? [String: Any] else { throw noDataError }
+        let codingKeys = self.codingKeys
+        let notPagedError = HttpResponseError.decode("Paged response expected but not found.")
+        guard let itemJson = codingKeys.items(fromJson: json) else { throw notPagedError }
+        continuationToken = codingKeys.continuationToken(fromJson: json)
+
+        let itemData = try JSONSerialization.data(withJSONObject: itemJson)
+        let newItems = try decoder.decode(Element.self, from: itemData)
+        if let currentItems = self._items {
+            // append rather than throw away old items
+            pageRange = currentItems.count ..< (currentItems.count + newItems.count)
+            _items = currentItems + newItems
+        } else {
+            _items = newItems
+            pageRange = 0 ..< newItems.count
         }
-        // must force synchronous behavior due to the constraints
-        // of the protocol.
-        let semaphore = DispatchSemaphore(value: 0)
-        var newItems: Element?
-        let logger = client.logger
-        nextPage { result in
-            switch result {
-            case let .success(newPage):
-                self.iteratorIndex = newPage?.count ?? 0
-                newItems = newPage
-            case let .failure(error):
-                logger.error(String(format: "Error: %@", error.localizedDescription))
-                newItems = nil
-            }
-            semaphore.signal()
-        }
-        _ = semaphore.wait(wallTimeout: .distantFuture)
-        return newItems
     }
 }
