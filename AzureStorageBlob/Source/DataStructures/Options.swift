@@ -26,6 +26,52 @@
 
 import Foundation
 
+public struct LeaseAccessConditions {
+    public var leaseId: String
+}
+
+public struct ModifiedAccessConditions {
+    public var ifModifiedSince: Date?
+    public var ifUnmodifiedSince: Date?
+    public var ifMatch: String?
+    public var ifNoneMatch: String?
+}
+
+public struct RangeOptions {
+
+    /// Start of byte range to use for downloading a section of the blob.
+    /// Must be set if length is provided.
+    public var offset = 0
+
+    /// Number of bytes to read from the stream. Should be specified
+    /// for optimal performance.
+    public var length: Int? = nil
+
+    /// When set to true, the service returns the MD5 hash for the range
+    /// as long as the range is less than or equal to 4 MB in size.
+    public var calculateMD5: Bool? = nil
+
+    /// When set to true, the service returns the CRC64 hash for the range
+    /// as long as the range is less than or equal to 4 MB in size.
+    public var calculateCRC64: Bool? = nil
+
+    public init() {}
+}
+
+public struct DestinationOptions {
+    /// When set to true, files will be downloaded to the app's tmp
+    /// folder.
+    public var isTemporary = false
+
+    /// Override the default destination subfolder, which is the container name.
+    public var subfolder: String? = nil
+
+    /// Override the default destination filename, which is the blob name.
+    public var filename: String? = nil
+
+    public init() {}
+}
+
 public class EncryptionOptions {
 
     // MARK: Public Properties

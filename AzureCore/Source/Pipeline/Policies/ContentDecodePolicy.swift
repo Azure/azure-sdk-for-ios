@@ -87,10 +87,12 @@ public class ContentDecodePolicy: NSObject, PipelineStageProtocol, XMLParserDele
     internal var xmlTree: XMLTree?
     internal var currNode: XMLTreeNode?
     internal var elementPath = [String]()
+    internal var inferStructure = false
 
     public func parserDidStartDocument(_: XMLParser) {
-        if xmlMap == nil {
-            logger?.warning("No XML map found to parse XML content.")
+        inferStructure = xmlMap == nil
+        if inferStructure {
+            logger?.warning("No XML map found. Inferring structure of XML document.")
         }
         xmlTree = XMLTree()
     }
@@ -110,6 +112,7 @@ public class ContentDecodePolicy: NSObject, PipelineStageProtocol, XMLParserDele
         defer { currNode = newNode }
 
         let mapKey = elementPath.joined(separator: ".")
+        guard !inferStructure else { return }
         guard let mapData = xmlMap?[mapKey] else {
             logger?.warning("No XML metadata found for \(elementName). Ignoring.")
             return
@@ -130,7 +133,7 @@ public class ContentDecodePolicy: NSObject, PipelineStageProtocol, XMLParserDele
         currNode?.value = string
     }
 
-    public func parser(_: XMLParser, didEndElement _: String, namespaceURI _: String?,
+    public func parser(_: XMLParser, didEndElement elementName: String, namespaceURI _: String?,
                        qualifiedName _: String?) {
         defer {
             _ = elementPath.popLast()
@@ -140,6 +143,7 @@ public class ContentDecodePolicy: NSObject, PipelineStageProtocol, XMLParserDele
         }
         guard let current = currNode else { return }
         guard let parent = currNode?.parent else { return }
+        guard let xmlTree = xmlTree else { return }
 
         let mapKey = elementPath.joined(separator: ".")
         if let mapData = xmlMap?[mapKey] {
@@ -154,6 +158,11 @@ public class ContentDecodePolicy: NSObject, PipelineStageProtocol, XMLParserDele
             case .ignored:
                 break
             }
+        } else if inferStructure {
+            // When inferring structure, assume the element name is the key and the text
+            // is the value. No complex properties or collections are permitted.
+            current.type = parent === xmlTree.root ? .anyObject : .property
+            parent.properties[current.name] = current
         } else {
             currNode?.type = .ignored
         }

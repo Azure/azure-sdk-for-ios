@@ -125,7 +125,9 @@ class BlobTableViewController: UITableViewController {
         do {
             let options = DownloadBlobOptions()
             options.range = RangeOptions()
-            options.range?.offset = 0
+            options.destination = DestinationOptions()
+            options.range?.calculateMD5 = true
+            options.destination?.subfolder = "MySubfolder"
             try blobClient.download(blob: blobName, fromContainer: containerName, withOptions: options) { result, _ in
                 switch result {
                 case let .success(downloader):
@@ -155,7 +157,16 @@ class BlobTableViewController: UITableViewController {
                         self.showAlert(error: String(describing: error))
                     }
                 case let .failure(error):
-                    self.showAlert(error: String(describing: error))
+                    // TODO: Don't like this. Feels like the SDK should be responsible for handling errors rather
+                    // than dumping it on the client.
+                    switch error {
+                    case let HttpResponseError.statusCode(message):
+                        self.showAlert(error: message)
+                    case let AzureError.general(message):
+                        self.showAlert(error: message)
+                    default:
+                        self.showAlert(error: String(describing: error))
+                    }
                 }
                 DispatchQueue.main.async { [weak self] in
                     self?.tableView.deselectRow(at: indexPath, animated: true)

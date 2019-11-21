@@ -55,7 +55,7 @@ internal class ChunkDownloader {
     // MARK: Initializers
 
     public init(blob: String, container: String, client: StorageBlobClient, url: URL,
-                startRange: Int,endRange: Int, options: DownloadBlobOptions) {
+                startRange: Int, endRange: Int, options: DownloadBlobOptions) {
         self.blobName = blob
         self.containerName = container
         self.client = client
@@ -120,6 +120,23 @@ internal class ChunkDownloader {
                     completion(.failure(AzureError.general("Blob unexpectedly contained no data.")), httpResponse)
                     return
                 }
+                let headers = httpResponse.headers
+                if let contentMD5 = headers["Content-MD5"] {
+                    let dataHash = data.md5
+                    guard contentMD5 == dataHash else {
+                        let error = AzureError.general("Block MD5 \(dataHash) did not match \(contentMD5).")
+                        completion(.failure(error), httpResponse)
+                        return
+                    }
+                }
+                if let contentCRC64 = headers["Content-CRC64"] {
+                    let dataHash = data.crc64
+                    guard contentCRC64 == dataHash else {
+                        let error = AzureError.general("Block CRC64 \(dataHash) did not match \(contentCRC64).")
+                        completion(.failure(error), httpResponse)
+                        return
+                    }
+                }
                 let decryptedData = self.decrypt(data)
                 do {
                     let handle = try self.openFileForWriting()
@@ -144,26 +161,8 @@ internal class ChunkDownloader {
 
     private func decrypt(_ data: Data) -> Data {
         guard isEncrypted else { return data }
-        guard let encryption = options.encryptionOptions else { return data }
-        // TODO: Implement blob decryption
-        //        try:
-        //            content = b"".join(list(data))
-        //        except Exception as error:
-        //            raise HttpResponseError(message="Download stream interrupted.", response=data.response, error=error)
-
-        //            try:
-        //                return decrypt_blob(
-        //                    encryption.get("required"),
-        //                    encryption.get("key"),
-        //                    encryption.get("resolver"),
-        //                    content,
-        //                    start_offset,
-        //                    end_offset,
-        //                    data.response.headers,
-        //                )
-        //            except Exception as error:
-        //                raise HttpResponseError(message="Decryption failed.", response=data.response, error=error)
-        return data
+        // TODO: Implement client-side decryption.
+        fatalError("Client-side encryption is not currently supported!")
     }
 
     private func openFileForWriting() throws -> FileHandle {
@@ -184,9 +183,6 @@ public class StorageStreamDownloader {
 
     /// Location of the downloaded blob on the device
     public let downloadDestination: URL
-
-    /// Determine whether the download is to a temporary or permanent file.
-    public let isTemporary: Bool = false
 
     /// Name of the blob being downloaded
     public let blobName: String
@@ -228,18 +224,23 @@ public class StorageStreamDownloader {
 
     public init(client: StorageBlobClient, name: String, container: String, options: DownloadBlobOptions? = nil) throws {
 
-        // Determine the destination URL of the downloaded blob
-        if isTemporary {
-            guard let temporaryUrl = FileManager.default.urls(for: .itemReplacementDirectory, in: .userDomainMask).first else {
-                throw AzureError.general("Unable to find user temp directory.")
-            }
-            self.downloadDestination = temporaryUrl.appendingPathComponent(container).appendingPathComponent(name)
-        } else {
-            guard let documentsUrl = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first else {
-                throw AzureError.general("Unable to find user cache directory.")
-            }
-            self.downloadDestination = documentsUrl.appendingPathComponent(container).appendingPathComponent(name)
+        // determine which app folder is appropriate
+        let isTemporary = options?.destination?.isTemporary ?? false
+        let sandboxDir = isTemporary ? FileManager.SearchPathDirectory.itemReplacementDirectory : FileManager.SearchPathDirectory.cachesDirectory
+        guard let baseUrl = FileManager.default.urls(for: sandboxDir, in: .userDomainMask).first else {
+            throw AzureError.general("Unable to find user directory.")
         }
+
+        // attribute the "meta-folder" part of the blob name to the subfolder
+        guard let defaultUrl = URL(string: "\(container)/\(name)", relativeTo: baseUrl) else {
+            throw AzureError.general("Unable to determine URL.")
+        }
+        let defaultSubfolder = defaultUrl.deletingLastPathComponent().relativePath
+        let defaultFilename = defaultUrl.lastPathComponent
+        let customSubfolder = options?.destination?.subfolder
+        let customFilename = options?.destination?.filename
+
+        self.downloadDestination = baseUrl.appendingPathComponent(customSubfolder ?? defaultSubfolder).appendingPathComponent(customFilename ?? defaultFilename)
 
         self.client = client
         self.options = options ?? DownloadBlobOptions()
@@ -420,38 +421,9 @@ public class StorageStreamDownloader {
                     if recomputeBlockList, let contentLength = chunkSize {
                         self.blockList = self.computeBlockList(withOffset: contentLength)
                     }
-
-                    // Overwrite the content MD5 as it is the MD5 for the last range instead
-                    // of the stored MD5
-                    // TODO: Set to the stored MD5 when the service returns this
-                    // self.blobProperties?.contentMD5 = nil
                     completion(.success(data), httpResponse)
                 } catch {
                     completion(.failure(error), httpResponse)
-                }
-            case let .failure(error as HttpResponseError):
-                if httpResponse.statusCode == 416 {
-                    // Get range will fail on an empty file. If the user did not
-                    // request a range, do a regular get request in order to get
-                    // any properties.
-//                    do {
-//                        self.download(
-//                            range: nil,
-//                            rangeGetContentMD5: false
-//                            // TODO: Resolve
-//                            // dataStreamTotal: 0,
-//                            // downloadStreamCurrent: 0
-//                        ) { result, response in
-//                            let test = "best"
-//                        }
-//                    } catch let error as HttpResponseError {
-//                        self.process(storageError: error)
-//                    }
-//                    // Set the download size to empty
-//                    self.size = 0
-//                    self.fileSize = 0
-                } else {
-                    self.process(storageError: error)
                 }
             case let .failure(error):
                 completion(.failure(error), httpResponse)
@@ -465,7 +437,7 @@ public class StorageStreamDownloader {
         var blockList = [Range<Int>]()
         let alignForCrypto = isEncrypted
         let validateContent = options.range?.calculateMD5 == true || options.range?.calculateCRC64 == true
-        let chunkLength = alignForCrypto || validateContent ? client.options.maxChunkGetSize : client.options.maxSingleGetSize
+        let chunkLength = alignForCrypto || validateContent ? client.options.maxChunkGetSize - 1 : client.options.maxSingleGetSize
         let start = (options.range?.offset ?? 0) + offset
         let length = (requestedSize ?? options.range?.length ?? chunkLength) - start
         let end = start + length
@@ -516,71 +488,5 @@ public class StorageStreamDownloader {
         // Finally, convert to an Int: 65537
         guard let intVal = Int(String(lengthString)) else { throw error }
         return intVal
-    }
-
-    /// Process errors returned by the Azure Storage service.
-    private func process(storageError error: HttpResponseError) {
-        // TODO: Convert from Python...
-    //    raise_error = HttpResponseError
-    //    error_code = storage_error.response.headers.get('x-ms-error-code')
-    //    error_message = storage_error.message
-    //    additional_data = {}
-    //    try:
-    //        error_body = ContentDecodePolicy.deserialize_from_http_generics(storage_error.response)
-    //        if error_body:
-    //            for info in error_body.iter():
-    //                if info.tag.lower() == 'code':
-    //                    error_code = info.text
-    //                elif info.tag.lower() == 'message':
-    //                    error_message = info.text
-    //                else:
-    //                    additional_data[info.tag] = info.text
-    //    except DecodeError:
-    //        pass
-    //
-    //    try:
-    //        if error_code:
-    //            error_code = StorageErrorCode(error_code)
-    //            if error_code in [StorageErrorCode.condition_not_met,
-    //                              StorageErrorCode.blob_overwritten]:
-    //                raise_error = ResourceModifiedError
-    //            if error_code in [StorageErrorCode.invalid_authentication_info,
-    //                              StorageErrorCode.authentication_failed]:
-    //                raise_error = ClientAuthenticationError
-    //            if error_code in [StorageErrorCode.resource_not_found,
-    //                              StorageErrorCode.cannot_verify_copy_source,
-    //                              StorageErrorCode.blob_not_found,
-    //                              StorageErrorCode.queue_not_found,
-    //                              StorageErrorCode.container_not_found,
-    //                              StorageErrorCode.parent_not_found,
-    //                              StorageErrorCode.share_not_found]:
-    //                raise_error = ResourceNotFoundError
-    //            if error_code in [StorageErrorCode.account_already_exists,
-    //                              StorageErrorCode.account_being_created,
-    //                              StorageErrorCode.resource_already_exists,
-    //                              StorageErrorCode.resource_type_mismatch,
-    //                              StorageErrorCode.blob_already_exists,
-    //                              StorageErrorCode.queue_already_exists,
-    //                              StorageErrorCode.container_already_exists,
-    //                              StorageErrorCode.container_being_deleted,
-    //                              StorageErrorCode.queue_being_deleted,
-    //                              StorageErrorCode.share_already_exists,
-    //                              StorageErrorCode.share_being_deleted]:
-    //                raise_error = ResourceExistsError
-    //    except ValueError:
-    //        # Got an unknown error code
-    //        pass
-    //
-    //    try:
-    //        error_message += "\nErrorCode:{}".format(error_code.value)
-    //    except AttributeError:
-    //        error_message += "\nErrorCode:{}".format(error_code)
-    //    for name, info in additional_data.items():
-    //        error_message += "\n{}:{}".format(name, info)
-    //
-    //    error = raise_error(message=error_message, response=storage_error.response)
-    //    error.error_code = error_code
-    //    error.additional_info = additional_data
-    //    raise error
     }
 }

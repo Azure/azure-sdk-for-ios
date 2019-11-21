@@ -18,8 +18,7 @@
 		0A71C5C7234BB33800604F2D /* BlobProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A71C5C6234BB33800604F2D /* BlobProperties.swift */; };
 		0A71C5C9234BBAA200604F2D /* Enumerations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A71C5C8234BBAA200604F2D /* Enumerations.swift */; };
 		0A8FE76323677FEE00B96598 /* StorageStreamDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8FE76223677FEE00B96598 /* StorageStreamDownloader.swift */; };
-		0A8FE76623689CB100B96598 /* EncryptionOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8FE76523689CB100B96598 /* EncryptionOptions.swift */; };
-		0A9EF7E5236A4ABC00F8BD31 /* LeaseConditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9EF7E4236A4ABC00F8BD31 /* LeaseConditions.swift */; };
+		0A9EF7E5236A4ABC00F8BD31 /* Options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9EF7E4236A4ABC00F8BD31 /* Options.swift */; };
 		0AC0AA85234D31C300F05073 /* BlobItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC0AA84234D31C300F05073 /* BlobItem.swift */; };
 		0AC0AA87234D38B000F05073 /* ContainerProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC0AA86234D38B000F05073 /* ContainerProperties.swift */; };
 		0AC34915235633110094C576 /* StorageBlobClientOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC34914235633110094C576 /* StorageBlobClientOptions.swift */; };
@@ -63,8 +62,7 @@
 		0A71C5C6234BB33800604F2D /* BlobProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlobProperties.swift; sourceTree = "<group>"; };
 		0A71C5C8234BBAA200604F2D /* Enumerations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enumerations.swift; sourceTree = "<group>"; };
 		0A8FE76223677FEE00B96598 /* StorageStreamDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageStreamDownloader.swift; sourceTree = "<group>"; };
-		0A8FE76523689CB100B96598 /* EncryptionOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptionOptions.swift; sourceTree = "<group>"; };
-		0A9EF7E4236A4ABC00F8BD31 /* LeaseConditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaseConditions.swift; sourceTree = "<group>"; };
+		0A9EF7E4236A4ABC00F8BD31 /* Options.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Options.swift; sourceTree = "<group>"; };
 		0AC0AA84234D31C300F05073 /* BlobItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlobItem.swift; sourceTree = "<group>"; };
 		0AC0AA86234D38B000F05073 /* ContainerProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerProperties.swift; sourceTree = "<group>"; };
 		0AC34914235633110094C576 /* StorageBlobClientOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageBlobClientOptions.swift; sourceTree = "<group>"; };
@@ -172,8 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				0A8FE76223677FEE00B96598 /* StorageStreamDownloader.swift */,
-				0A8FE76523689CB100B96598 /* EncryptionOptions.swift */,
-				0A9EF7E4236A4ABC00F8BD31 /* LeaseConditions.swift */,
+				0A9EF7E4236A4ABC00F8BD31 /* Options.swift */,
 			);
 			path = DataStructures;
 			sourceTree = "<group>";
@@ -295,11 +292,10 @@
 				0A71C5C7234BB33800604F2D /* BlobProperties.swift in Sources */,
 				0A8FE76323677FEE00B96598 /* StorageStreamDownloader.swift in Sources */,
 				0AC0AA87234D38B000F05073 /* ContainerProperties.swift in Sources */,
-				0A9EF7E5236A4ABC00F8BD31 /* LeaseConditions.swift in Sources */,
+				0A9EF7E5236A4ABC00F8BD31 /* Options.swift in Sources */,
 				0AC0AA85234D31C300F05073 /* BlobItem.swift in Sources */,
 				0A6864AF233E8620004B7E17 /* StorageCredentials.swift in Sources */,
 				0A71C5C9234BBAA200604F2D /* Enumerations.swift in Sources */,
-				0A8FE76623689CB100B96598 /* EncryptionOptions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

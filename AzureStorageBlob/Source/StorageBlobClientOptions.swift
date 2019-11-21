@@ -96,6 +96,9 @@ public class ListBlobsOptions: AzureOptions {
 
 public class DownloadBlobOptions: AzureOptions {
 
+    /// Options for overriding the default download destination behavior.
+    public var destination: DestinationOptions? = nil
+
     /// Options for working on a subset of data for a blob.
     public var range: RangeOptions? = nil
 
