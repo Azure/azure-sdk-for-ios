@@ -65,8 +65,6 @@ public class AppConfigurationClient: PipelineClient {
 
     public func listConfigurationSettings(forKey key: String?, forLabel label: String?,
                                           completion: @escaping HttpResultHandler<PagedCollection<ConfigurationSetting>>) {
-        // Python: error_map = kwargs.pop('error_map', None)
-        // let comp = "list"
 
         // Construct URL
         let urlTemplate = "kv"

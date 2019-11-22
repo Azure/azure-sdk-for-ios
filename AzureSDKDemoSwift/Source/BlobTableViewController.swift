@@ -124,10 +124,14 @@ class BlobTableViewController: UITableViewController {
         guard let blobClient = getBlobClient() else { return }
         do {
             let options = DownloadBlobOptions()
+            options.progressCallback = { cumulative, total, data in
+                let percentDone = Double(cumulative) * 100.0 / Double(total)
+                blobClient.options.logger.info("Progress: %\(percentDone)")
+            }
             options.range = RangeOptions()
             options.destination = DestinationOptions()
+            options.destination?.isTemporary = true
             options.range?.calculateMD5 = true
-            options.destination?.subfolder = "MySubfolder"
             try blobClient.download(blob: blobName, fromContainer: containerName, withOptions: options) { result, _ in
                 switch result {
                 case let .success(downloader):
@@ -135,23 +139,45 @@ class BlobTableViewController: UITableViewController {
                         NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.rtf,
                     ]
                     do {
-                        let data = try downloader.readAll()
-                        if let attributedString = try? NSAttributedString(data: data, options: options,
-                                                                          documentAttributes: nil) {
-                            self.showAlert(message: attributedString.string)
-                        } else if let rawString = String(data: data, encoding: .utf8) {
-                            self.showAlert(message: rawString)
-                        } else if let image = UIImage(data: data) {
-                            self.showAlert(image: image)
-                        } else if downloader.blobProperties?.contentType == "video/mp4" {
-                            let player = AVPlayer(url: downloader.downloadDestination)
+                        let contentType = downloader.blobProperties?.contentType
+                        let url = downloader.downloadDestination
+
+                        if contentType == "video/mp4" {
+                            let player = AVPlayer(url: url)
                             let controller = AVPlayerViewController()
                             controller.player = player
                             self.present(controller, animated: true) {
-                                player.play()
+                                // begin playing first chunk
+                                player.playImmediately(atRate: 1.0)
+
+                                // load the rest of the video in the background
+                                DispatchQueue.main.async {
+                                    do {
+                                        _ = try downloader.complete()
+                                    } catch {
+                                        // Obviously don't really do this in a real app!
+                                        fatalError(String(describing: error))
+                                    }
+                                }
                             }
                         } else {
-                            self.showAlert(error: "Unable to display the downloaded content.")
+                            let group = DispatchGroup()
+                            try downloader.complete(inGroup: group)
+                            guard let data = try? downloader.contents() else {
+                                self.showAlert(error: "Downloaded data not found!")
+                                return
+                            }
+
+                            if let attributedString = try? NSAttributedString(data: data, options: options,
+                                                                              documentAttributes: nil) {
+                                self.showAlert(message: attributedString.string)
+                            } else if let rawString = String(data: data, encoding: .utf8) {
+                                self.showAlert(message: rawString)
+                            } else if let image = UIImage(data: data) {
+                                self.showAlert(image: image)
+                            } else {
+                                self.showAlert(error: "Unable to display the downloaded content.")
+                            }
                         }
                     } catch {
                         self.showAlert(error: String(describing: error))
