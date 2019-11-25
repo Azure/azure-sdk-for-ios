@@ -27,7 +27,12 @@
 import AzureCore
 import Foundation
 
+/**
+ Client object for the Storage blob service.
+ */
 public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
+
+    /// API version of the service to invoke. Defaults to the latest.
     public enum ApiVersion: String {
         case latest = "2019-02-02"
     }
@@ -56,7 +61,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         }
     }
 
-    internal var options: StorageBlobClientOptions
+    public var options: StorageBlobClientOptions
 
     // MARK: Paged Collection Delegate
 
@@ -68,6 +73,13 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
 
     // MARK: Initializers
 
+    /**
+     Create a Storage blob data client.
+     - Parameter accountUrl: Base URL for the storage account.
+     - Parameter credential: A credential object used to retrieve authentication tokens.
+     - Parameter withOptions: A `StorageBlobClientOptions` object to control the download.
+     - Returns: A `StorageBlobClient` object.
+     */
     required public init(accountUrl: String, credential: Any, withOptions options: StorageBlobClientOptions? = nil)
         throws {
             self.options = options ?? StorageBlobClientOptions(apiVersion: ApiVersion.latest.rawValue)
@@ -103,6 +115,13 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         }
     }
 
+    /**
+     Create a Storage blob data client.
+     - Parameter connectionString: Storage account connection string. **WARNING**: Connection strings
+     are inherently insecure in a mobile app. Any connection strings used should be read-only and not have write permissions.
+     - Parameter options: A `StorageBlobClientOptions` object to control the download.
+     - Returns: A `StorageBlobClient` object.
+     */
     public static func from(connectionString: String, withOptions options: StorageBlobClientOptions? = nil) throws
         -> StorageBlobClient {
             let sasCredential = try StorageSASCredential(connectionString: connectionString)
@@ -112,12 +131,31 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
             return try self.init(accountUrl: blobEndpoint, credential: sasCredential, withOptions: options)
     }
 
-    // MARK: API Calls
+    // MARK: Private Methods
 
+    private func parse(url: URL) throws -> (String, String, String) {
+        let pathComps = url.pathComponents
+        guard let host = url.host else {
+            throw AzureError.general("No host found for URL: \(url.absoluteString)")
+        }
+        guard let scheme = url.scheme else {
+            throw AzureError.general("No scheme found for URL: \(url.absoluteString)")
+        }
+        let container = pathComps[1]
+        let blobComps = pathComps[2..<pathComps.endIndex]
+        let blob = Array(blobComps).joined(separator: "/")
+        return ("\(scheme)://\(host)/", container, blob)
+    }
+
+    // MARK: Public Methods
+
+    /**
+     List storage containers in a storage account.
+     - Parameter options: A `ListContainerOptions` object to control the list operation.
+     - Parameter completion: An `HttpResultHandler` closure that returns a `PagedCollection<ContainerItem>` object on success.
+     */
     public func listContainers(withOptions options: ListContainersOptions? = nil,
-                               completion: @escaping HttpResultHandler<PagedCollection<ContainerItem>>) {
-        // Python: error_map = kwargs.pop('error_map', None)
-
+                               then completion: @escaping HttpResultHandler<PagedCollection<ContainerItem>>) {
         // Construct URL
         let urlTemplate = ""
         let url = format(urlTemplate: urlTemplate)
@@ -184,6 +222,11 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         })
     }
 
+    /**
+     List storage blobs within a storage container.
+     - Parameter options: A `ListBlobsOptions` object to control the list operation.
+     - Parameter completion: An `HttpResultHandler` closure that returns a `PagedCollection<BlobItem>` object on success.
+     */
     public func listBlobs(in container: String, withOptions options: ListBlobsOptions? = nil,
                           completion: @escaping HttpResultHandler<PagedCollection<BlobItem>>) {
         // Construct URL
@@ -257,8 +300,15 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         })
     }
 
+    /**
+     Download a blob from a specific container.
+     - Parameter blob: The name of the blob.
+     - Parameter fromContainer: The name of the container.
+     - Parameter withOptions: A `DownloadBlobOptions` object to control the download operation.
+     - Parameter then: An `HttpResultHandler` closure that returns a `StorageStreamDownloader` object on success.
+     */
     public func download(blob: String, fromContainer container: String, withOptions options: DownloadBlobOptions? = nil,
-                         completion: @escaping HttpResultHandler<StorageStreamDownloader>) throws {
+                         then completion: @escaping HttpResultHandler<StorageStreamDownloader>) throws {
         let downloader = try StorageStreamDownloader(client: self, name: blob, container: container, options: options)
         downloader.initialRequest() { result, httpResponse in
             switch result {
@@ -268,5 +318,34 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
                 completion(.failure(error), httpResponse)
             }
         }
+    }
+
+    /**
+     Download a blob from a specific container.
+     - Parameter url: A URL to a blob to download.
+     - Parameter options: A `DownloadBlobOptions` object to control the download operation.
+     - Parameter completion: An `HttpResultHandler` closure that returns a `StorageStreamDownloader` object on success.
+     */
+    public func download(url: URL, withOptions options: DownloadBlobOptions? = nil,
+                         then completion: @escaping HttpResultHandler<StorageStreamDownloader>) throws {
+        let (host, container, blob) = try parse(url: url)
+        // ensure that if the base URL is altered temporarily because of the URL that it is switched back.
+        let originalHost = baseUrl
+        defer { baseUrl = originalHost }
+        baseUrl = host
+        try download(blob: blob, fromContainer: container, withOptions: options, then: completion)
+    }
+
+    /**
+     Create a simple URL for a blob.
+     - Parameter blob: Name of the blob.
+     - Parameter container: Name of the container.
+     - Returns: The URL of the blob.
+     */
+    public func url(forBlob blob: String, inContainer container: String) -> URL? {
+        var urlString = baseUrl
+        urlString += urlString.hasSuffix("/") ? container : "/\(container)"
+        urlString += urlString.hasSuffix("/") ? blob : "/\(blob)"
+        return URL(string: urlString)
     }
 }

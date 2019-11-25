@@ -51,8 +51,8 @@ open class AzureOptions {
 open class PipelineClient {
 
     internal var pipeline: Pipeline
-    internal var baseUrl: String
-    internal var logger: ClientLogger
+    public var baseUrl: String
+    public var logger: ClientLogger
 
     // MARK: Initializers
 

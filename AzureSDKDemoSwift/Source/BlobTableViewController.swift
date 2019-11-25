@@ -132,7 +132,11 @@ class BlobTableViewController: UITableViewController {
             options.destination = DestinationOptions()
             options.destination?.isTemporary = true
             options.range?.calculateMD5 = true
-            try blobClient.download(blob: blobName, fromContainer: containerName, withOptions: options) { result, _ in
+            guard let url = blobClient.url(forBlob: blobName, inContainer: containerName) else {
+                self.showAlert(error: "Unable to create URL!")
+                return
+            }
+            try blobClient.download(url: url, withOptions: options) { result, _ in
                 switch result {
                 case let .success(downloader):
                     let options = [

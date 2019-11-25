@@ -226,9 +226,14 @@ public class StorageStreamDownloader {
 
         // determine which app folder is appropriate
         let isTemporary = options?.destination?.isTemporary ?? false
-        let sandboxDir = isTemporary ? FileManager.SearchPathDirectory.itemReplacementDirectory : FileManager.SearchPathDirectory.cachesDirectory
-        guard let baseUrl = FileManager.default.urls(for: sandboxDir, in: .userDomainMask).first else {
-            throw AzureError.general("Unable to find user directory.")
+        var baseUrl: URL
+        if isTemporary {
+            baseUrl = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+        } else {
+            guard let cacheDir = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first else {
+                throw AzureError.general("Unable to find cache directory.")
+            }
+            baseUrl = cacheDir
         }
 
         // attribute the "meta-folder" part of the blob name to the subfolder
@@ -241,6 +246,9 @@ public class StorageStreamDownloader {
         let customFilename = options?.destination?.filename
 
         self.downloadDestination = baseUrl.appendingPathComponent(customSubfolder ?? defaultSubfolder).appendingPathComponent(customFilename ?? defaultFilename)
+        if FileManager.default.fileExists(atPath: self.downloadDestination.path) {
+            try? FileManager.default.removeItem(at: self.downloadDestination)
+        }
 
         self.client = client
         self.options = options ?? DownloadBlobOptions()
@@ -257,103 +265,58 @@ public class StorageStreamDownloader {
      Read and return the content of the downloaded file.
      - Returns: Downloaded data.
      */
-    public func readContents() throws -> Data {
-        let handle = try FileHandle(forReadingFrom: downloadDestination)
-        return handle.readDataToEndOfFile()
-    }
-
-    /**
-     Download the entire blob in blocking fashion.
-     - Returns: Downloaded data.
-     */
-    public func readAll() throws -> Data {
-        if isComplete {
-            let handle = try FileHandle(forReadingFrom: downloadDestination)
-            defer { handle.closeFile() }
-            return handle.readDataToEndOfFile()
-        }
-
-        let group = DispatchGroup()
-        for range in blockList {
-            group.enter()
-            let downloader = ChunkDownloader(
-                blob: blobName,
-                container: containerName,
-                client: client,
-                url: downloadDestination,
-                startRange: range.startIndex,
-                endRange: range.endIndex,
-                options: options)
-            downloader.download() { result, httpResponse in
-                switch result {
-                case let .success(data):
-                    let responseHeaders = httpResponse.headers
-                    let contentRange = responseHeaders[.contentRange]
-                    let blobProperties = BlobProperties(from: responseHeaders)
-                    self.progress += blobProperties.contentLength ?? 0
-                case let .failure(error):
-                    let test = "best"
-                }
-                group.leave()
-            }
-        }
-        group.wait()
+    public func contents() throws -> Data {
         let handle = try FileHandle(forReadingFrom: downloadDestination)
         defer { handle.closeFile() }
         return handle.readDataToEndOfFile()
     }
 
     /**
+     Downloads the entire blob in a parallel fashion.
+     - Returns: Downloaded data.
+     */
+    public func complete(inGroup group: DispatchGroup? = nil) throws {
+        guard !isComplete else { return }
+        for _ in blockList {
+            group?.enter()
+            next(inGroup: group) { result, httpResponse in
+                // Nothing to do here.
+            }
+        }
+        group?.wait()
+    }
+
+    /**
      Download the contents of this file to a stream.
-     - Parameter stream: The stream to download to.
+     - Parameter into: The file handle to download into.
      - Returns: The number of bytes read.
     */
-//    public func read(into handle: FileHandle) -> Int {
-//        // The stream must be seekable if parallel download is required
-//        let maxConcurrency = options.maxConcurrency ?? 1
-//        let parallel = maxConcurrency > 1
-//
-//        // Write the content to the user stream
-//        guard let data = currentContent else { return 0 }
-//        handle.write(data)
-//        // if download is complete, we're done
-//        if isComplete {
-//            return size ?? 0
-//        }
-//        // otherwise, set up to download the next chunk
-//        var dataEnd = size ?? 0
-//        if let endRange = endRange {
-//            // Use the length unless it is over the end of the file
-//            dataEnd = min(size ?? 0, endRange + 1)
-//        }
-//        let test = "best"
-//        let downloader = ChunkDownloader(
-//            client: client,
-//            totalSize: size ?? 0,
-//            chunkSize: client.options.maxChunkGetSize,
-//            currentProgress: firstGetSize,
-//            startRange: (downloadRange.upper ?? 0) + 1,
-//            endRange: dataEnd,
-//            handle: handle,
-//            parallel: parallel
-//            //            non_empty_ranges=self._non_empty_ranges,
-//            //            use_location=self._location_mode,
-//            //            **self._request_options
-//        )
-//        if parallel {
-//            let test = "best"
-////            executor = concurrent.futures.ThreadPoolExecutor(self._max_concurrency)
-////            list(executor.map(
-////                    with_current_context(downloader.process_chunk),
-////                    downloader.get_chunk_offsets()
-////                ))
-//        } else {
-//            for offset in downloader.chunkOffsets {
-//                downloader.execute(fromOffset: offset)
-//            }
-//        }
-//        return size ?? 0
-//    }
+    public func next(inGroup group: DispatchGroup? = nil, then completion: (Result<Data, Error>, HttpResponse) -> ()) {
+        guard !isComplete else { return }
+        let range = blockList.removeFirst()
+        let downloader = ChunkDownloader(
+            blob: blobName,
+            container: containerName,
+            client: client,
+            url: downloadDestination,
+            startRange: range.startIndex,
+            endRange: range.endIndex,
+            options: options)
+        downloader.download() { result, httpResponse in
+            switch result {
+            case .success(_):
+                let responseHeaders = httpResponse.headers
+                let blobProperties = BlobProperties(from: responseHeaders)
+                let contentLength = blobProperties.contentLength ?? 0
+                let data = httpResponse.data ?? "".data(using: .utf8)!
+                self.progress += contentLength
+                self.options.progressCallback?(self.progress, self.requestedSize ?? -1, data)
+            case let .failure(error):
+                self.client.options.logger.debug(String(describing: error))
+            }
+            group?.leave()
+        }
+    }
 
     /**
         Make the initial request for blob data.
@@ -400,6 +363,7 @@ public class StorageStreamDownloader {
                     // based on the actual file size.
                     var recomputeBlockList = self.requestedSize == nil
                     self.requestedSize = (self.requestedSize ?? fileSize) - (self.options.range?.offset ?? 0)
+                    self.options.progressCallback?(self.progress, self.requestedSize ?? -1, data)
 
                     // If the file is small, the download is complete at this point.
                     // If file size is large, download the rest of the file in chunks.
@@ -443,28 +407,7 @@ public class StorageStreamDownloader {
         let end = start + length
 
         if alignForCrypto {
-            //                // Align the start of the range along a 16 byte block
-            //                offsetRange.lower = downloadRange.from! % 16
-            //                downloadRange.from! -= offsetRange.lower
-            //
-            //                    // Include an extra 16 bytes for the IV if necessary
-            //                    // Because of the previous offsetting, startRange will always
-            //                    // be a multiple of 16.
-            //                    if downloadRange.from! > 0 {
-            //                        offsetRange.lower += 16
-            //                        downloadRange.from! -= 16
-            //                    }
-            //                }
-            //                let length = downloadRange.to - downloadRange.from
-            //                if length != nil, downloadRange.upper != nil {
-            //                    // Align the end of the range along a 16 byte block
-            //                    downloadRange.upper = 15 - (downloadRange.upper! % 16)
-            //                    downloadRange.upper! += offsetRange.upper
-            //                }
-            for index in stride(from: start, to: end, by: chunkLength) {
-                let end = index + chunkLength
-                blockList.append(index..<end)
-            }
+            fatalError("Client-side encryption is not yet supported!")
         } else {
             for index in stride(from: start, to: end, by: chunkLength) {
                 var end = index + chunkLength

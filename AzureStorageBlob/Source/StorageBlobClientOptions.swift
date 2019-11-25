@@ -102,16 +102,6 @@ public class DownloadBlobOptions: AzureOptions {
     /// Options for working on a subset of data for a blob.
     public var range: RangeOptions? = nil
 
-    /// If true, calculates an MD5 hash for each chunk of the blob. The storage
-    /// service checks the hash of the content that has arrived with the hash
-    /// that was sent. This is primarily valuable for detecting bitflips on
-    /// the wire if using http instead of https, as https (the default), will
-    /// already validate. Note that this MD5 hash is not stored with the
-    /// blob. Also note that if enabled, the memory-efficient upload algorithm
-    /// will not be used because computing the MD5 hash requires buffering
-    /// entire blocks, and doing so defeats the purpose of the memory-efficient algorithm.
-    public var validateContent: Bool = false
-
     /// Required if the blob has an active lease. If specified, download only
     /// succeeds if the blob's lease is active and matches this ID. Value can be a
     /// BlobLeaseClient object or the lease ID as a string.
@@ -138,6 +128,16 @@ public class DownloadBlobOptions: AzureOptions {
 
     /// The number of parallel connections with which to download.
     public var maxConcurrency: Int? = nil
+
+    /**
+     A closure callback that will be called for each successful chunk download.
+
+     **Closure Parameters**
+     - cumulative: `Int` representing the cumulative number of bytes that have been downloaded.
+     - total: `Int` representing the total number of bytes requested.
+     - data: `Data` contents of the downloaded chunk.
+     */
+    public var progressCallback: ((Int, Int, Data) -> ())? = nil
 
     /// Encoding with which to decode the downloaded bytes. If nil, no decoding occurs.
     public var encoding: String? = nil
