@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name          = 'AzureCore'
-  s.version       = '0.5.0'
+  s.version       = '0.5.1'
   s.summary       = 'Microsoft Azure client SDKs for iOS.'
 
   s.description   = 'Microsoft Azure client SDKs for iOS, macOS, watchOS, tvOS.'
@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   s.source        = { :git => 'https://github.com/Azure/Azure.iOS.git', :tag => "v#{s.version}" }
 
   s.dependency 'Willow', '~> 5.2'
-  s.dependency 'KeychainAccess', '~> 3.2'
+  s.dependency 'KeychainAccess', '~> 4.1.0'
 
   s.swift_version = '5.0'
 
