@@ -27,45 +27,14 @@
 import CommonCrypto
 import Foundation
 
-extension Array where Element == UInt8 {
-    public var sha256: [UInt8] {
-        var digest = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
-        _ = withUnsafeBytes {
-            CC_SHA256($0.baseAddress, UInt32(self.count), &digest)
-        }
-        return digest
-    }
+// MARK: Enumerations
 
-    public var base64String: String {
-        let data = Data(bytes: self, count: count)
-        return data.base64EncodedString()
-    }
-
-    public var hexString: String {
-        return compactMap { String(format: "%02x", $0) }.joined().uppercased()
-    }
-}
-
-extension Data {
-    public var md5: String {
-        var digestData = Data(count: Int(CC_MD5_DIGEST_LENGTH))
-        _ = digestData.withUnsafeMutableBytes { digestBytes in
-            self.withUnsafeBytes { messageBytes in
-                CC_MD5(messageBytes, CC_LONG(self.count), digestBytes)
-            }
-        }
-        return digestData.base64EncodedString()
-    }
-
-    public var crc64: String {
-        // TODO: Implement. Currently no implementation of CRC64 in iOS libraries.
-        return ""
-    }
-}
-
-public enum HmacAlgorithm {
+/// Crypto HMAC algorithms and digest lengths
+public enum CryptoAlgorithm {
     case sha1, md5, sha256, sha384, sha512, sha224
-    public var algorithm: CCHmacAlgorithm {
+
+    /// Underlying CommonCrypto HMAC algorithm.
+    public var hmacAlgorithm: CCHmacAlgorithm {
         var alg = 0
         switch self {
         case .sha1:
@@ -84,6 +53,27 @@ public enum HmacAlgorithm {
         return CCHmacAlgorithm(alg)
     }
 
+    /// Compute a hash of the underlying data using the specfied algorithm.
+    public func hash(_ data: UnsafeRawPointer!, _ len: CC_LONG, _ message: UnsafeMutablePointer<UInt8>!) -> Data {
+        var result: UnsafeMutablePointer<UInt8>?
+        switch self {
+        case .md5:
+            result = CC_MD5(data, len, message)
+        case .sha1:
+            result = CC_SHA1(data, len, message)
+        case .sha224:
+            result = CC_SHA224(data, len, message)
+        case .sha256:
+            result = CC_SHA224(data, len, message)
+        case .sha384:
+            result = CC_SHA384(data, len, message)
+        case .sha512:
+            result = CC_SHA512(data, len, message)
+        }
+        return Data(bytes: result!, count: Int(len))
+    }
+
+    /// Digest length for the HMAC algorithm.
     public var digestLength: Int {
         var len: Int32 = 0
         switch self {
@@ -104,22 +94,49 @@ public enum HmacAlgorithm {
     }
 }
 
-extension String {
-    public func hmac(algorithm: HmacAlgorithm, key: Data) -> [UInt8] {
-        var digest = [UInt8](repeating: 0, count: algorithm.digestLength)
+// MARK: Extension - String
 
-        key.withUnsafeBytes { keyBytes in
-            CCHmac(algorithm.algorithm, keyBytes.baseAddress?.assumingMemoryBound(to: UInt8.self),
-                   key.count, String(self.utf8), self.count, &digest)
+extension String {
+
+    /**
+     Calculate the HMAC digest of a string.
+     - Parameter algorithm: The cryptographic algorithm to use.
+     - Parameter key: The key used to compute the HMAC, in `Data` format.
+     - Returns: The HMAC digest in `Data` format.
+     */
+    public func hmac(algorithm: CryptoAlgorithm, key: Data) throws -> Data {
+        let error = AzureError.general("Unable to compute HMAC.")
+        let strBytes = self.cString(using: .utf8)
+        let strLen = Int(self.lengthOfBytes(using: .utf8))
+        let digestLen = algorithm.digestLength
+        let result = UnsafeMutablePointer<UInt8>.allocate(capacity: digestLen)
+        defer { result.deallocate() }
+        _ = key.withUnsafeBytes { keyBytes in
+            CCHmac(algorithm.hmacAlgorithm, keyBytes, key.count, strBytes, strLen, result)
         }
+        let digest = Data(bytes: result, count: digestLen)
         return digest
     }
 
+    /**
+     Compute the hash function of a string.
+     - Parameter algorithm: The cryptographic algorithm to use.
+     - Returns: The hash digest in `Data` format. This can then be converted to a base64 or hex string using the
+        `base64String` or `hexString` extension methods.
+     */
+    public func hash(algorithm: CryptoAlgorithm) throws -> Data {
+        let error = AzureError.general("Unable to compute hash.")
+        guard let dataToHash = self.data(using: .utf8) else { throw error }
+        return try dataToHash.hash(algorithm: algorithm)
+    }
+
+    /// Returns the base64 representation of a string.
     public var base64String: String {
         let data = Data(bytes: self, count: count)
         return data.base64EncodedString()
     }
 
+    /// Returns the decoded `Data` of a hex string, or nil.
     public var decodeHex: Data? {
         var data = Data(capacity: count / 2)
 
@@ -134,7 +151,51 @@ extension String {
         return data
     }
 
+    /// Returns the decoded `Data` of a base64-encoded string, or nil.
     public var decodeBase64: Data? {
         return Data(base64Encoded: self)
+    }
+}
+
+// MARK: Extension - Data
+
+extension Data {
+
+    /**
+     Calculate the HMAC digest of data.
+     - Parameter algorithm: The HMAC algorithm to use.
+     - Parameter key: The key used to compute the HMAC, in `Data` format.
+     - Returns: The HMAC digest in `Data` format.
+     */
+    public func hmac(algorithm: CryptoAlgorithm, key: Data) throws -> Data {
+        let error = AzureError.general("Unable to compute HMAC.")
+        guard let dataString = String(data: self, encoding: .utf8) else { throw error }
+        return try dataString.hmac(algorithm: algorithm, key: key)
+    }
+
+    /**
+     Compute the hash function of a string.
+     - Parameter algorithm: The cryptographic algorithm to use.
+     - Returns: The hash digest in `Data` format. This can then be converted to a base64 or hex string using the `base64String` or `hexString`
+                extension methods.
+     */
+    public func hash(algorithm: CryptoAlgorithm) throws -> Data {
+        var digest = Data(count: Int(algorithm.digestLength))
+        _ = digest.withUnsafeMutableBytes { digestBytes in
+            self.withUnsafeBytes { messageBytes in
+                algorithm.hash(messageBytes, CC_LONG(self.count), digestBytes)
+            }
+        }
+        return digest
+    }
+
+    /// Returns the base64-encoded string representation of a `Data` object.
+    public var base64String: String {
+        return self.base64EncodedString()
+    }
+
+    /// Returns the hex string representation of a `Data` object.
+    public var hexString: String {
+        return compactMap { String(format: "%02x", $0) }.joined().uppercased()
     }
 }

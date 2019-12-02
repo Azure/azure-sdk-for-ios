@@ -27,6 +27,7 @@
 import AzureCore
 import Foundation
 
+/// User-configurable options for the Azure Storage blob client.
 public class StorageBlobClientOptions: AzureConfigurable {
 
     public let apiVersion: String
@@ -51,6 +52,7 @@ public class StorageBlobClientOptions: AzureConfigurable {
     }
 }
 
+/// User-configurable options for the listContainers operation.
 public class ListContainersOptions: AzureOptions {
     /// Datasets which may be included as part of the call response.
     public enum ListContainersInclude: String {
@@ -70,6 +72,7 @@ public class ListContainersOptions: AzureOptions {
     public var timeout: Int? = nil
 }
 
+/// User-configurable options for the listBlobs operation.
 public class ListBlobsOptions: AzureOptions {
     /// Datasets which may be included as part of the call response.
     public enum ListBlobsInclude: String {
@@ -94,6 +97,7 @@ public class ListBlobsOptions: AzureOptions {
     public var timeout: Int? = nil
 }
 
+/// User-configurable options for the blob download operations.
 public class DownloadBlobOptions: AzureOptions {
 
     /// Options for overriding the default download destination behavior.
@@ -147,3 +151,90 @@ public class DownloadBlobOptions: AzureOptions {
     /// each call individually.
     public var timeout: Int? = nil
 }
+
+/// User-configurable options for create blob SAS tokens.
+public class BlobSasOptions {
+
+    /// A blob snapshot ID.
+    public var snapshot: String? = nil
+
+    /**
+    The permissions associated with the shared access signature. The
+    user is restricted to operations allowed by the permissions.
+    Permissions must be ordered read, write, delete, list.
+    Required unless an id is given referencing a stored access policy
+    which contains this field. This field must be omitted if it has been
+    specified in an associated stored access policy.
+     */
+    public var permission: String? = nil
+
+    /**
+     The time at which the shared access signature becomes invalid.
+     Required unless an id is given referencing a stored access policy
+     which contains this field. This field must be omitted if it has
+     been specified in an associated stored access policy. Azure will always
+     convert values to UTC. If a date is passed in without timezone info, it
+     is assumed to be UTC.
+     */
+    public var expiry: String? = nil
+
+    /**
+     The time at which the shared access signature becomes valid. If
+     omitted, start time for this call is assumed to be the time when the
+     storage service receives the request. Azure will always convert values
+     to UTC. If a date is passed in without timezone info, it is assumed to
+     be UTC.
+     */
+    public var start: String? = nil
+
+    /**
+     A unique value up to 64 characters in length that correlates to a
+     stored access policy.
+     */
+    public var policyId: String? = nil
+
+    /**
+     Specifies an IP address or a range of IP addresses from which to accept requests.
+     If the IP address from which the request originates does not match the IP address
+     or address range specified on the SAS token, the request is not authenticated.
+     For example, specifying ip=168.1.5.65 or ip=168.1.5.60-168.1.5.70 on the SAS
+     restricts the request to those IP addresses.
+     */
+    public var ip: String? = nil
+
+    /**
+     Specifies the protocol permitted for a request made. The default value is https.
+     */
+    public var `protocol`: String? = "https"
+
+    /**
+     Response header value for Cache-Control when resource is accessed
+     using this shared access signature.
+     */
+    public var cacheControl: String? = nil
+
+    /**
+     Response header value for Content-Disposition when resource is accessed
+     using this shared access signature.
+     */
+    public var contentDisposition: String? = nil
+
+    /**
+     Response header value for Content-Encoding when resource is accessed
+     using this shared access signature.
+     */
+    public var contentEncoding: String? = nil
+
+    /**
+     Response header value for Content-Language when resource is accessed
+     using this shared access signature.
+     */
+    public var contentLanguage: String? = nil
+
+    /**
+     Response header value for Content-Type when resource is accessed
+     using this shared access signature.
+     */
+    public var contentType: String? = nil
+}
+

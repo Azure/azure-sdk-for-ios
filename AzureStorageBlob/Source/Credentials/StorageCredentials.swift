@@ -27,22 +27,58 @@
 import AzureCore
 import Foundation
 
+/// An OAuth credential object.
 public class StorageOAuthCredential: TokenCredential {
-    public func getToken(forScopes _: [String]) -> AccessToken? {
-        guard let authUrl = URL(string: "https://login.microsoftonline.com/{tenant}/oauth2/token") else { return nil }
+
+    internal let tenant: String
+
+    internal let clientId: String
+
+    // MARK: Initializers
+    /**
+     Create an OAuth credential.
+     - Parameter tenant: Tenant ID (a GUID) for the AAD instance.
+     - Parameter clientId: The service principal client or application ID (a GUID).
+     - Returns: A `StorageOAuthCredential` object.
+     */
+    public init(tenant: String, clientId: String) {
+        self.tenant = tenant
+        self.clientId = clientId
+    }
+
+    // MARK: Public Methods
+
+    /**
+     Retrieve a token for the provided scope.
+     - Parameter scopes: List of scopes for which to retrieve a token.
+     - Returns: A valid `AccessToken`, or nil.
+     */
+    public func token(forScopes scopes: [String]) -> AccessToken? {
         let tokenLife = 15 // in minutes
-        if let expiration = Calendar.current.date(byAdding: .minute, value: tokenLife, to: Date()) {
-            // TODO: Token retrieval implementation
-            let expirationInt = Int(expiration.timeIntervalSinceReferenceDate)
-            let token = ""
-            URLSession.shared.dataTask(with: authUrl) { _, _, error in
-                if error != nil {
-                    print(error as Any)
-                }
-            }
-            return AccessToken(token: token, expiresOn: expirationInt)
+        guard var authUrl = URLComponents(string: "https://login.microsoftonline.com/common/oauth2/authorize") else { return nil }
+        guard let expiration = Calendar.current.date(byAdding: .minute, value: tokenLife, to: Date()) else { return nil }
+        let expirationInt = Int(expiration.timeIntervalSinceReferenceDate)
+        var token = ""
+
+        authUrl.queryItems = [
+            "tenant": tenant,
+            "client_id": clientId,
+            "response_type": "code",
+            "resource": scopes.first!
+        ].convertToQueryItems()
+
+        guard let url = authUrl.url else { return nil}
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = HttpMethod.GET.rawValue
+
+        let group = DispatchGroup()
+        group.enter()
+        URLSession.shared.dataTask(with: urlRequest) { data, response, error in
+            let test = "best"
+            group.leave()
         }
-        return nil
+        group.wait()
+        return AccessToken(token: token, expiresOn: expirationInt)
     }
 }
 
@@ -53,6 +89,11 @@ public class StorageSASCredential {
     internal let tableEndpoint: String?
     internal let sasToken: String
 
+    /**
+     Create a shared access signature credential.
+     - Parameter connectionString: A valid storage connection string.
+     - Returns: A `StorageSASCredential` object.
+     */
     public init(connectionString: String) throws {
         // temp variables
         var blob: String?
@@ -97,13 +138,41 @@ public class StorageSASCredential {
     }
 }
 
+/**
+ A Storage authentication policy that relies on a shared access signature.
+ */
 public class StorageSASAuthenticationPolicy: AuthenticationProtocol {
+
+    /// The next stage in the HTTP pipeline.
     public var next: PipelineStageProtocol?
+
+    /// A shared access signature credential.
     public let credential: StorageSASCredential
 
+    // MARK: Initializers
+
+    /**
+     Create a Storage SAS-based authentication policy.
+     - Parameter credential: A `StorageSASCredential` object.
+     - Returns: A `StorageSASAuthenticationPolicy` object.
+     */
     public init(credential: StorageSASCredential) {
         self.credential = credential
     }
+
+    // MARK: Public Methods
+
+    /**
+     Authenticates an HTTP `PipelineRequest` by appending the SAS token as query parameters.
+     - Parameter request: A `PipelineRequest` object.
+     */
+    public func authenticate(request: PipelineRequest) {
+        let queryParams = parse(sasToken: credential.sasToken)
+        request.httpRequest.format(queryParams: queryParams)
+        request.httpRequest.headers["x-ms-date"] = Date().rfc1123Format
+    }
+
+    // MARK: Private Methods
 
     private func parse(sasToken: String) -> [String: String] {
         var queryItems = [String: String]()
@@ -115,10 +184,39 @@ public class StorageSASAuthenticationPolicy: AuthenticationProtocol {
         }
         return queryItems
     }
+}
 
+/**
+ A Storage authentication policy that uses OAuth tokens generated with AAD credentials.
+ */
+public class StorageOAuthAuthenticationPolicy: AuthenticationProtocol {
+
+    /// The next stage in the HTTP pipeline.
+    public var next: PipelineStageProtocol?
+
+    /// An OAuth credential.
+    public let credential: StorageOAuthCredential
+
+    // MARK: Initializers
+
+    /**
+     Create a Storage OAuth-based authentication policy.
+     - Parameter credential: A `StorageOAuthCredential` object.
+     - Returns: A `StorageOAuthAuthenticationPolicy` object.
+     */
+    public init(credential: StorageOAuthCredential) {
+        self.credential = credential
+    }
+
+    // MARK: Public Methods
+
+    /**
+     Authenticates an HTTP `PipelineRequest` by appending the SAS token as query parameters.
+     - Parameter request: A `PipelineRequest` object.
+     */
     public func authenticate(request: PipelineRequest) {
-        let queryParams = parse(sasToken: credential.sasToken)
-        request.httpRequest.format(queryParams: queryParams)
-        request.httpRequest.headers["x-ms-date"] = Date().rfc1123Format
+        let scope = "https://storage.azure.com/.default"
+        guard let token = credential.token(forScopes: [scope]) else { return }
+        request.httpRequest.headers[HttpHeader.authorization] = "Bearer \(token)"
     }
 }

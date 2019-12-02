@@ -80,7 +80,7 @@ public class AppConfigurationAuthenticationPolicy: AuthenticationProtocol {
 
     public func authenticate(request: PipelineRequest) {
         let httpRequest = request.httpRequest
-        let contentHash = [UInt8](httpRequest.data ?? Data()).sha256.base64String
+        let contentHash = try? (httpRequest.data ?? Data()).hash(algorithm: .sha256).base64String
         if let url = URL(string: httpRequest.url) {
             request.httpRequest.headers[HttpHeader.host] = url.host ?? ""
         }
@@ -106,8 +106,8 @@ public class AppConfigurationAuthenticationPolicy: AuthenticationProtocol {
             let signingUrl = String(request.httpRequest.url.dropFirst(stringToRemove.count))
             if let decodedSecret = self.credential.secret.decodeBase64 {
                 let stringToSign = "\(request.httpRequest.httpMethod.rawValue.uppercased(with: Locale(identifier: "en_US")))\n\(signingUrl)\n\(signedHeaderValues.joined(separator: ";"))"
-                let signature = stringToSign.hmac(algorithm: .sha256, key: decodedSecret)
-                request.httpRequest.headers[HttpHeader.authorization.rawValue] = "HMAC-SHA256 Credential=\(credential.id), SignedHeaders=\(signedHeaderKeys.joined(separator: ";")), Signature=\(signature.base64String)"
+                let signature = try? stringToSign.hmac(algorithm: .sha256, key: decodedSecret).base64String
+                request.httpRequest.headers[HttpHeader.authorization.rawValue] = "HMAC-SHA256 Credential=\(credential.id), SignedHeaders=\(signedHeaderKeys.joined(separator: ";")), Signature=\(signature ?? "ERROR")"
             }
         }
     }

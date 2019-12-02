@@ -83,36 +83,42 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
     required public init(accountUrl: String, credential: Any, withOptions options: StorageBlobClientOptions? = nil)
         throws {
             self.options = options ?? StorageBlobClientOptions(apiVersion: ApiVersion.latest.rawValue)
+            let authPolicy: AuthenticationProtocol
+            var baseUrl: String
             if let sasCredential = credential as? StorageSASCredential {
                 guard let blobEndpoint = sasCredential.blobEndpoint else {
                     let message = "Invalid connection string. No blob endpoint specified."
                     throw AzureError.general(message)
                 }
-                let authPolicy = StorageSASAuthenticationPolicy(credential: sasCredential)
-                super.init(
-                    baseUrl: blobEndpoint,
-                    transport: UrlSessionTransport(),
-                    policies: [
-                        // Python: QueueMessagePolicy(),
-                        HeadersPolicy(),
-                        // Python: config.proxy_policy,
-                        UserAgentPolicy(),
-                        // Python: StorageContentValidation(),
-                        // Python: StorageRequestHook(**kwargs),
-                        authPolicy,
-                        ContentDecodePolicy(),
-                        // Python: RedirectPolicy(**kwargs),
-                        // Python: StorageHosts(hosts=self._hosts, **kwargs),
-                        // Python: config.retry_policy,
-                        LoggingPolicy()
-                        // Python: StorageResponseHook(**kwargs),
-                        // Python: DistributedTracingPolicy(**kwargs),
-                        // Python: HttpLoggingPolicy()
-                    ],
-                    logger: self.options.logger)
-        } else {
-            throw AzureError.general("Invalid credential. \(type(of: credential))")
-        }
+                baseUrl = blobEndpoint
+                authPolicy = StorageSASAuthenticationPolicy(credential: sasCredential)
+            } else if let oauthCredential = credential as? StorageOAuthCredential {
+                authPolicy = StorageOAuthAuthenticationPolicy(credential: oauthCredential)
+                baseUrl = accountUrl
+            } else {
+                throw AzureError.general("Invalid credential. \(type(of: credential))")
+            }
+            super.init(
+                baseUrl: baseUrl,
+                transport: UrlSessionTransport(),
+                policies: [
+                    // Python: QueueMessagePolicy(),
+                    HeadersPolicy(),
+                    // Python: config.proxy_policy,
+                    UserAgentPolicy(),
+                    // Python: StorageContentValidation(),
+                    // Python: StorageRequestHook(**kwargs),
+                    authPolicy,
+                    ContentDecodePolicy(),
+                    // Python: RedirectPolicy(**kwargs),
+                    // Python: StorageHosts(hosts=self._hosts, **kwargs),
+                    // Python: config.retry_policy,
+                    LoggingPolicy()
+                    // Python: StorageResponseHook(**kwargs),
+                    // Python: DistributedTracingPolicy(**kwargs),
+                    // Python: HttpLoggingPolicy()
+                ],
+                logger: self.options.logger)
     }
 
     /**
@@ -228,7 +234,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
      - Parameter completion: An `HttpResultHandler` closure that returns a `PagedCollection<BlobItem>` object on success.
      */
     public func listBlobs(in container: String, withOptions options: ListBlobsOptions? = nil,
-                          completion: @escaping HttpResultHandler<PagedCollection<BlobItem>>) {
+                          then completion: @escaping HttpResultHandler<PagedCollection<BlobItem>>) {
         // Construct URL
         let urlTemplate = "{container}"
         let pathParams = [
@@ -305,11 +311,13 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
      - Parameter blob: The name of the blob.
      - Parameter fromContainer: The name of the container.
      - Parameter withOptions: A `DownloadBlobOptions` object to control the download operation.
-     - Parameter then: An `HttpResultHandler` closure that returns a `StorageStreamDownloader` object on success.
+     - Parameter then: An `HttpResultHandler` closure that returns a `BlobStreamDownloader` object on success.
      */
     public func download(blob: String, fromContainer container: String, withOptions options: DownloadBlobOptions? = nil,
-                         then completion: @escaping HttpResultHandler<StorageStreamDownloader>) throws {
-        let downloader = try StorageStreamDownloader(client: self, name: blob, container: container, options: options)
+                         then completion: @escaping HttpResultHandler<BlobStreamDownloader>) throws {
+        let sasObject = BlobSharedAccessSignature(account: baseUrl, accountKey: "YmxhcmdhbXVmZmlu")
+        let sasToken = try? sasObject.token(forBlob: blob, inContainer: container)
+        let downloader = try BlobStreamDownloader(client: self, name: blob, container: container, options: options)
         downloader.initialRequest() { result, httpResponse in
             switch result {
             case .success(_):
@@ -321,13 +329,13 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
     }
 
     /**
-     Download a blob from a specific container.
+     Download a blob from a given URL.
      - Parameter url: A URL to a blob to download.
      - Parameter options: A `DownloadBlobOptions` object to control the download operation.
-     - Parameter completion: An `HttpResultHandler` closure that returns a `StorageStreamDownloader` object on success.
+     - Parameter completion: An `HttpResultHandler` closure that returns a `BlobStreamDownloader` object on success.
      */
     public func download(url: URL, withOptions options: DownloadBlobOptions? = nil,
-                         then completion: @escaping HttpResultHandler<StorageStreamDownloader>) throws {
+                         then completion: @escaping HttpResultHandler<BlobStreamDownloader>) throws {
         let (host, container, blob) = try parse(url: url)
         // ensure that if the base URL is altered temporarily because of the URL that it is switched back.
         let originalHost = baseUrl

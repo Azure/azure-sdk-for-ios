@@ -122,15 +122,16 @@ internal class ChunkDownloader {
                 }
                 let headers = httpResponse.headers
                 if let contentMD5 = headers["Content-MD5"] {
-                    let dataHash = data.md5
+                    let dataHash = try? data.hash(algorithm: .md5).base64String
                     guard contentMD5 == dataHash else {
-                        let error = AzureError.general("Block MD5 \(dataHash) did not match \(contentMD5).")
+                        let error = AzureError.general("Block MD5 \(dataHash ?? "ERROR") did not match \(contentMD5).")
                         completion(.failure(error), httpResponse)
                         return
                     }
                 }
                 if let contentCRC64 = headers["Content-CRC64"] {
-                    let dataHash = data.crc64
+                    // TODO: Implement CRC64. Currently no iOS library supports this!
+                    let dataHash = ""
                     guard contentCRC64 == dataHash else {
                         let error = AzureError.general("Block CRC64 \(dataHash) did not match \(contentCRC64).")
                         completion(.failure(error), httpResponse)
@@ -177,7 +178,7 @@ internal class ChunkDownloader {
 }
 
 /// Class used to download streaming blobs.
-public class StorageStreamDownloader {
+public class BlobStreamDownloader {
 
     // MARK: Public Properties
 

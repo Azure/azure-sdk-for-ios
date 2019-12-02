@@ -22,6 +22,7 @@
 		0AC0AA85234D31C300F05073 /* BlobItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC0AA84234D31C300F05073 /* BlobItem.swift */; };
 		0AC0AA87234D38B000F05073 /* ContainerProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC0AA86234D38B000F05073 /* ContainerProperties.swift */; };
 		0AC34915235633110094C576 /* StorageBlobClientOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC34914235633110094C576 /* StorageBlobClientOptions.swift */; };
+		0AC9F2A6238C9494006FEEB9 /* BlobSharedAccessSignature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC9F2A5238C9494006FEEB9 /* BlobSharedAccessSignature.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,7 @@
 		0AC0AA84234D31C300F05073 /* BlobItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlobItem.swift; sourceTree = "<group>"; };
 		0AC0AA86234D38B000F05073 /* ContainerProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerProperties.swift; sourceTree = "<group>"; };
 		0AC34914235633110094C576 /* StorageBlobClientOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageBlobClientOptions.swift; sourceTree = "<group>"; };
+		0AC9F2A5238C9494006FEEB9 /* BlobSharedAccessSignature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlobSharedAccessSignature.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,6 +173,7 @@
 			children = (
 				0A8FE76223677FEE00B96598 /* StorageStreamDownloader.swift */,
 				0A9EF7E4236A4ABC00F8BD31 /* Options.swift */,
+				0AC9F2A5238C9494006FEEB9 /* BlobSharedAccessSignature.swift */,
 			);
 			path = DataStructures;
 			sourceTree = "<group>";
@@ -290,6 +293,7 @@
 				0A6864B3233E89D9004B7E17 /* ContainerItem.swift in Sources */,
 				0A6864AA233E83B5004B7E17 /* StorageBlobClient.swift in Sources */,
 				0A71C5C7234BB33800604F2D /* BlobProperties.swift in Sources */,
+				0AC9F2A6238C9494006FEEB9 /* BlobSharedAccessSignature.swift in Sources */,
 				0A8FE76323677FEE00B96598 /* StorageStreamDownloader.swift in Sources */,
 				0AC0AA87234D38B000F05073 /* ContainerProperties.swift in Sources */,
 				0A9EF7E5236A4ABC00F8BD31 /* Options.swift in Sources */,
