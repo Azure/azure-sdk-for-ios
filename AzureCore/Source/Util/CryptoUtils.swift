@@ -176,8 +176,8 @@ extension Data {
     /**
      Compute the hash function of a string.
      - Parameter algorithm: The cryptographic algorithm to use.
-     - Returns: The hash digest in `Data` format. This can then be converted to a base64 or hex string using the `base64String` or `hexString`
-                extension methods.
+     - Returns: The hash digest in `Data` format. This can then be converted to a base64 or hex
+                string using the `base64String` or `hexString` extension methods.
      */
     public func hash(algorithm: CryptoAlgorithm) throws -> Data {
         var digest = Data(count: Int(algorithm.digestLength))

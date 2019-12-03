@@ -203,7 +203,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         )
         let xmlMap = XMLMap(withPagedCodingKeys: codingKeys, innerType: ContainerItem.self)
         let context: [String: AnyObject] = [
-            ContextKey.xmlMap.rawValue: xmlMap as AnyObject,
+            ContextKey.xmlMap.rawValue: xmlMap as AnyObject
         ]
         run(request: request, context: context, completion: { result, httpResponse in
             switch result {
@@ -238,7 +238,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         // Construct URL
         let urlTemplate = "{container}"
         let pathParams = [
-            "container": container,
+            "container": container
         ]
         let url = format(urlTemplate: urlTemplate, withKwargs: pathParams)
 
@@ -282,7 +282,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         )
         let xmlMap = XMLMap(withPagedCodingKeys: codingKeys, innerType: BlobItem.self)
         let context: [String: AnyObject] = [
-            ContextKey.xmlMap.rawValue: xmlMap as AnyObject,
+            ContextKey.xmlMap.rawValue: xmlMap as AnyObject
         ]
         run(request: request, context: context, completion: { result, httpResponse in
             switch result {
@@ -318,9 +318,9 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         let sasObject = BlobSharedAccessSignature(account: baseUrl, accountKey: "YmxhcmdhbXVmZmlu")
         let sasToken = try? sasObject.token(forBlob: blob, inContainer: container)
         let downloader = try BlobStreamDownloader(client: self, name: blob, container: container, options: options)
-        downloader.initialRequest() { result, httpResponse in
+        downloader.initialRequest { result, httpResponse in
             switch result {
-            case .success(_):
+            case .success:
                 completion(.success(downloader), httpResponse)
             case let .failure(error):
                 completion(.failure(error), httpResponse)

@@ -45,15 +45,15 @@ public struct RangeOptions {
 
     /// Number of bytes to read from the stream. Should be specified
     /// for optimal performance.
-    public var length: Int? = nil
+    public var length: Int?
 
     /// When set to true, the service returns the MD5 hash for the range
     /// as long as the range is less than or equal to 4 MB in size.
-    public var calculateMD5: Bool? = nil
+    public var calculateMD5: Bool?
 
     /// When set to true, the service returns the CRC64 hash for the range
     /// as long as the range is less than or equal to 4 MB in size.
-    public var calculateCRC64: Bool? = nil
+    public var calculateCRC64: Bool?
 
     public init() {}
 }
@@ -64,10 +64,10 @@ public struct DestinationOptions {
     public var isTemporary = false
 
     /// Override the default destination subfolder, which is the container name.
-    public var subfolder: String? = nil
+    public var subfolder: String?
 
     /// Override the default destination filename, which is the blob name.
-    public var filename: String? = nil
+    public var filename: String?
 
     public init() {}
 }

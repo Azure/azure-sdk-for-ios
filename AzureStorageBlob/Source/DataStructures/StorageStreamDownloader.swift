@@ -72,7 +72,7 @@ internal class ChunkDownloader {
         let urlTemplate = "/{container}/{blob}"
         let pathParams = [
             "container": containerName,
-            "blob": blobName,
+            "blob": blobName
         ]
         let url = client.format(urlTemplate: urlTemplate, withKwargs: pathParams)
 
@@ -109,7 +109,7 @@ internal class ChunkDownloader {
                                    queryParams: queryParams,
                                    headerParams: headerParams)
         let context: [String: AnyObject] = [
-            ContextKey.allowedStatusCodes.rawValue: [200, 206] as AnyObject,
+            ContextKey.allowedStatusCodes.rawValue: [200, 206] as AnyObject
         ]
         client.run(request: request, context: context) { result, httpResponse in
             switch result {
@@ -280,7 +280,7 @@ public class BlobStreamDownloader {
         guard !isComplete else { return }
         for _ in blockList {
             group?.enter()
-            next(inGroup: group) { result, httpResponse in
+            next(inGroup: group) { _, _ in
                 // Nothing to do here.
             }
         }
@@ -292,7 +292,7 @@ public class BlobStreamDownloader {
      - Parameter into: The file handle to download into.
      - Returns: The number of bytes read.
     */
-    public func next(inGroup group: DispatchGroup? = nil, then completion: (Result<Data, Error>, HttpResponse) -> ()) {
+    public func next(inGroup group: DispatchGroup? = nil, then completion: (Result<Data, Error>, HttpResponse) -> Void) {
         guard !isComplete else { return }
         let range = blockList.removeFirst()
         let downloader = ChunkDownloader(
@@ -303,9 +303,9 @@ public class BlobStreamDownloader {
             startRange: range.startIndex,
             endRange: range.endIndex,
             options: options)
-        downloader.download() { result, httpResponse in
+        downloader.download { result, httpResponse in
             switch result {
-            case .success(_):
+            case .success:
                 let responseHeaders = httpResponse.headers
                 let blobProperties = BlobProperties(from: responseHeaders)
                 let contentLength = blobProperties.contentLength ?? 0
@@ -335,7 +335,7 @@ public class BlobStreamDownloader {
             endRange: firstRange.endIndex,
             options: options
         )
-        downloader.download() { result, httpResponse in
+        downloader.download { result, httpResponse in
             switch result {
             case let .success(data):
                 // Parse the total file size and adjust the download size if ranges

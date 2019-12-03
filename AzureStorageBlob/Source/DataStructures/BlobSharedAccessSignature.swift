@@ -179,7 +179,8 @@ public class BlobSharedAccessSignature {
         return signedHmacSha256.base64String
     }
 
-    private func sign(string: String, withUserDelegationKey: UserDelegationKey, isBase64: Bool = true) throws -> String {
+    private func sign(string: String, withUserDelegationKey: UserDelegationKey,
+                      isBase64: Bool = true) throws -> String {
         return ""
     }
 

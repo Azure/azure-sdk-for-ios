@@ -42,14 +42,14 @@ class TextAnalyticsClient: NSObject {
 
         let baseUrl = "\(endpoint!)/text/analytics/v2.1/sentiment"
         let queryStringParams = [
-            "showStats": String(showStats),
+            "showStats": String(showStats)
         ]
         var urlComponent = URLComponents(string: baseUrl)!
         urlComponent.queryItems = queryStringParams.map {
             URLQueryItem(name: $0.key, value: $0.value)
         }
         let headers = [
-            "Content-Type": "application/json",
+            "Content-Type": "application/json"
         ]
         var request = URLRequest(url: urlComponent.url!)
         request.httpMethod = "POST"
@@ -58,9 +58,9 @@ class TextAnalyticsClient: NSObject {
                 [
                     "language": "en",
                     "id": "1",
-                    "text": text,
-                ],
-            ],
+                    "text": text
+                ]
+            ]
         ]
         request.httpBody = try? JSONSerialization.data(withJSONObject: jsonDict)
         request.allHTTPHeaderFields = headers

@@ -142,6 +142,7 @@
 				0A3A5EB42316DB1E00473FDA /* Sources */,
 				0A3A5EB52316DB1E00473FDA /* Frameworks */,
 				0A3A5EB62316DB1E00473FDA /* Resources */,
+				0A4737AB239710D100DE8AC7 /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -224,6 +225,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0A4737AB239710D100DE8AC7 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/Users/travisprescott/repos/Azure.iOS/Scripts/swiftlint.sh\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0A3A5EB42316DB1E00473FDA /* Sources */ = {

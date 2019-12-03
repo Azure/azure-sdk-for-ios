@@ -60,7 +60,7 @@ public final class ContainerProperties: XMLModelProtocol {
             "LeaseState": XMLMetadata(jsonName: "leaseState"),
             "LeaseDuration": XMLMetadata(jsonName: "leaseDuration"),
             "HasImmutabilityPolicy": XMLMetadata(jsonName: "hasImmutabilityPolicy"),
-            "HasLegalHold": XMLMetadata(jsonName: "hasLegalHold"),
+            "HasLegalHold": XMLMetadata(jsonName: "hasLegalHold")
         ])
     }
 }

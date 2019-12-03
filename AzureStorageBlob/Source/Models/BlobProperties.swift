@@ -148,7 +148,7 @@ public final class BlobProperties: XMLModelProtocol {
             "AccessTierInferred": XMLMetadata(jsonName: "accessTierInferred"),
             "AccessTierChangeTime": XMLMetadata(jsonName: "accessTierChangeTime"),
             "DeletedTime": XMLMetadata(jsonName: "deletedTime"),
-            "RemainingRetentionDays": XMLMetadata(jsonName: "remainingRetentionDays"),
+            "RemainingRetentionDays": XMLMetadata(jsonName: "remainingRetentionDays")
         ])
     }
 

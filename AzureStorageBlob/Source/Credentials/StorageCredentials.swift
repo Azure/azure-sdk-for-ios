@@ -73,7 +73,7 @@ public class StorageOAuthCredential: TokenCredential {
 
         let group = DispatchGroup()
         group.enter()
-        URLSession.shared.dataTask(with: urlRequest) { data, response, error in
+        URLSession.shared.dataTask(with: urlRequest) { _, _, _ in
             let test = "best"
             group.leave()
         }

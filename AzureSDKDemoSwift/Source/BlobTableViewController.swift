@@ -140,7 +140,7 @@ class BlobTableViewController: UITableViewController {
                 switch result {
                 case let .success(downloader):
                     let options = [
-                        NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.rtf,
+                        NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.rtf
                     ]
                     do {
                         let contentType = downloader.blobProperties?.contentType

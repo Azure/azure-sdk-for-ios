@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0A001A5C2395AF6600D86D33 /* Cartfile in Sources */ = {isa = PBXBuildFile; fileRef = 0A001A5B2395AF6600D86D33 /* Cartfile */; };
 		0A009813237B560C0015E9C9 /* AzureStorageBlob.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A6864B4233E8C8E004B7E17 /* AzureStorageBlob.framework */; };
 		0A009814237B560C0015E9C9 /* AzureStorageBlob.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0A6864B4233E8C8E004B7E17 /* AzureStorageBlob.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0A009816237B560E0015E9C9 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3A5E9B2315E8BE00473FDA /* AzureCore.framework */; };
@@ -52,7 +51,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0A001A5B2395AF6600D86D33 /* Cartfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
 		0A3A5E762315E70400473FDA /* AzureSDKDemoSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AzureSDKDemoSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A3A5E792315E70400473FDA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0A3A5E7B2315E70400473FDA /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -140,7 +138,6 @@
 			isa = PBXGroup;
 			children = (
 				0A3A5E852315E70500473FDA /* Info.plist */,
-				0A001A5B2395AF6600D86D33 /* Cartfile */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -166,6 +163,7 @@
 				0A3A5E732315E70400473FDA /* Frameworks */,
 				0A3A5E742315E70400473FDA /* Resources */,
 				0A009815237B560C0015E9C9 /* Embed Frameworks */,
+				0A4737AE2397112800DE8AC7 /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -253,13 +251,33 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0A4737AE2397112800DE8AC7 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/Users/travisprescott/repos/Azure.iOS/Scripts/swiftlint.sh\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		0A3A5E722315E70400473FDA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				0A71C5CD234BE85700604F2D /* Common.swift in Sources */,
-				0A001A5C2395AF6600D86D33 /* Cartfile in Sources */,
 				0A68647C233D33CD004B7E17 /* CustomTableViewCell.swift in Sources */,
 				0A3A5E7C2315E70400473FDA /* MainViewController.swift in Sources */,
 				0A71C5CB234BE18200604F2D /* BlobTableViewController.swift in Sources */,

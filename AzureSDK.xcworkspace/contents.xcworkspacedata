@@ -17,6 +17,13 @@
       location = "group:AzureStorageBlob/AzureStorageBlob.xcodeproj">
    </FileRef>
    <Group
+      location = "group:Scripts"
+      name = "Scripts">
+      <FileRef
+         location = "group:swiftlint.sh">
+      </FileRef>
+   </Group>
+   <Group
       location = "container:"
       name = "Examples">
       <FileRef

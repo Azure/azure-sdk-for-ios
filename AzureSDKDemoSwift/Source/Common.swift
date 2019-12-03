@@ -67,7 +67,7 @@ extension UIViewController {
         DispatchQueue.main.async { [weak self] in
             let alertController = UIAlertController(title: "Error!", message: error, preferredStyle: .alert)
             let title = NSAttributedString(string: "Error!", attributes: [
-                NSAttributedString.Key.foregroundColor: UIColor.red,
+                NSAttributedString.Key.foregroundColor: UIColor.red
             ])
             alertController.setValue(title, forKey: "attributedTitle")
             let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)

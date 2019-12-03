@@ -63,19 +63,19 @@ class CSComputerVisionClient: NSObject {
         let baseUrl = "\(endpoint!)/vision/v2.0/ocr"
         let queryStringParams = [
             "language": lang,
-            "detectOrientation": String(describing: detectOrientation),
+            "detectOrientation": String(describing: detectOrientation)
         ]
         var urlComponent = URLComponents(string: baseUrl)!
         urlComponent.queryItems = queryStringParams.map {
             URLQueryItem(name: $0.key, value: $0.value)
         }
         let headers = [
-            "Content-Type": "application/json",
+            "Content-Type": "application/json"
         ]
         var request = URLRequest(url: urlComponent.url!)
         request.httpMethod = "POST"
         let jsonBody = try? JSONSerialization.data(withJSONObject: [
-            "url": url.absoluteString,
+            "url": url.absoluteString
         ])
         request.httpBody = jsonBody
         request.allHTTPHeaderFields = headers
@@ -94,14 +94,14 @@ class CSComputerVisionClient: NSObject {
         let baseUrl = "\(endpoint!)/vision/v2.0/ocr"
         let queryStringParams = [
             "language": lang,
-            "detectOrientation": String(describing: detectOrientation),
+            "detectOrientation": String(describing: detectOrientation)
         ]
         var urlComponent = URLComponents(string: baseUrl)!
         urlComponent.queryItems = queryStringParams.map {
             URLQueryItem(name: $0.key, value: $0.value)
         }
         let headers = [
-            "Content-Type": "application/octet-stream",
+            "Content-Type": "application/octet-stream"
         ]
         var request = URLRequest(url: urlComponent.url!)
         request.httpMethod = "POST"
