@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,9 @@
 		0A009817237B560E0015E9C9 /* AzureCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3A5E9B2315E8BE00473FDA /* AzureCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0A009818237B560F0015E9C9 /* AzureAppConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A4081B32333DE170071EAEE /* AzureAppConfiguration.framework */; };
 		0A009819237B560F0015E9C9 /* AzureAppConfiguration.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0A4081B32333DE170071EAEE /* AzureAppConfiguration.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0A25EA53239814410012DFE1 /* Pods_AzureSDKDemoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F31A5A26BA837DAEC8BD8E4 /* Pods_AzureSDKDemoSwift.framework */; };
+		0A25EA54239814410012DFE1 /* Pods_AzureSDKDemoSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F31A5A26BA837DAEC8BD8E4 /* Pods_AzureSDKDemoSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0A25EA57239821E30012DFE1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A25EA56239821E30012DFE1 /* LoginViewController.swift */; };
 		0A3A5E7A2315E70400473FDA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5E792315E70400473FDA /* AppDelegate.swift */; };
 		0A3A5E7C2315E70400473FDA /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5E7B2315E70400473FDA /* MainViewController.swift */; };
 		0A3A5E7F2315E70400473FDA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A3A5E7D2315E70400473FDA /* Main.storyboard */; };
@@ -22,6 +25,7 @@
 		0A68647C233D33CD004B7E17 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A68647B233D33CD004B7E17 /* CustomTableViewCell.swift */; };
 		0A71C5CB234BE18200604F2D /* BlobTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A71C5CA234BE18200604F2D /* BlobTableViewController.swift */; };
 		0A71C5CD234BE85700604F2D /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A71C5CC234BE85700604F2D /* Common.swift */; };
+		0A80BD54239EEF6000491345 /* AzureSDKDemoSwift.entitlements in Sources */ = {isa = PBXBuildFile; fileRef = 0A80BD53239EEF6000491345 /* AzureSDKDemoSwift.entitlements */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +45,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				0A25EA54239814410012DFE1 /* Pods_AzureSDKDemoSwift.framework in Embed Frameworks */,
 				0A009814237B560C0015E9C9 /* AzureStorageBlob.framework in Embed Frameworks */,
 				0A009819237B560F0015E9C9 /* AzureAppConfiguration.framework in Embed Frameworks */,
 				0A009817237B560E0015E9C9 /* AzureCore.framework in Embed Frameworks */,
@@ -51,6 +56,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0A25EA56239821E30012DFE1 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		0A3A5E762315E70400473FDA /* AzureSDKDemoSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AzureSDKDemoSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A3A5E792315E70400473FDA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0A3A5E7B2315E70400473FDA /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -67,6 +73,11 @@
 		0A6864B4233E8C8E004B7E17 /* AzureStorageBlob.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureStorageBlob.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A71C5CA234BE18200604F2D /* BlobTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlobTableViewController.swift; sourceTree = "<group>"; };
 		0A71C5CC234BE85700604F2D /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
+		0A80BD53239EEF6000491345 /* AzureSDKDemoSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AzureSDKDemoSwift.entitlements; sourceTree = "<group>"; };
+		0A80BD55239EEFD400491345 /* AzureSDKDemoSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AzureSDKDemoSwift.entitlements; sourceTree = "<group>"; };
+		1C261B405813394338B82960 /* Pods-AzureSDKDemoSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureSDKDemoSwift.release.xcconfig"; path = "Target Support Files/Pods-AzureSDKDemoSwift/Pods-AzureSDKDemoSwift.release.xcconfig"; sourceTree = "<group>"; };
+		9F31A5A26BA837DAEC8BD8E4 /* Pods_AzureSDKDemoSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureSDKDemoSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B0A776A40094923B6F31057B /* Pods-AzureSDKDemoSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureSDKDemoSwift.debug.xcconfig"; path = "Target Support Files/Pods-AzureSDKDemoSwift/Pods-AzureSDKDemoSwift.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +85,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A25EA53239814410012DFE1 /* Pods_AzureSDKDemoSwift.framework in Frameworks */,
 				0A009813237B560C0015E9C9 /* AzureStorageBlob.framework in Frameworks */,
 				0A009818237B560F0015E9C9 /* AzureAppConfiguration.framework in Frameworks */,
 				0A009816237B560E0015E9C9 /* AzureCore.framework in Frameworks */,
@@ -93,10 +105,12 @@
 		0A3A5E6D2315E70400473FDA = {
 			isa = PBXGroup;
 			children = (
+				0A80BD55239EEFD400491345 /* AzureSDKDemoSwift.entitlements */,
 				0A3A5E782315E70400473FDA /* Source */,
 				0A3A5E8D2315E70600473FDA /* Tests */,
 				0A3A5E772315E70400473FDA /* Products */,
 				0A3A5E9A2315E76A00473FDA /* Frameworks */,
+				4C375ED566D3549B21D90708 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -112,11 +126,13 @@
 		0A3A5E782315E70400473FDA /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				0A80BD53239EEF6000491345 /* AzureSDKDemoSwift.entitlements */,
 				0A71C5CC234BE85700604F2D /* Common.swift */,
 				0A3A5E792315E70400473FDA /* AppDelegate.swift */,
 				0A3A5E7B2315E70400473FDA /* MainViewController.swift */,
 				0A71C5CA234BE18200604F2D /* BlobTableViewController.swift */,
 				0A68647B233D33CD004B7E17 /* CustomTableViewCell.swift */,
+				0A25EA56239821E30012DFE1 /* LoginViewController.swift */,
 				0A3A5E7D2315E70400473FDA /* Main.storyboard */,
 				0A3A5E802315E70500473FDA /* Assets.xcassets */,
 				0A3A5E822315E70500473FDA /* LaunchScreen.storyboard */,
@@ -148,8 +164,19 @@
 				0A3A5E9B2315E8BE00473FDA /* AzureCore.framework */,
 				0A4081B32333DE170071EAEE /* AzureAppConfiguration.framework */,
 				0A6864B4233E8C8E004B7E17 /* AzureStorageBlob.framework */,
+				9F31A5A26BA837DAEC8BD8E4 /* Pods_AzureSDKDemoSwift.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4C375ED566D3549B21D90708 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B0A776A40094923B6F31057B /* Pods-AzureSDKDemoSwift.debug.xcconfig */,
+				1C261B405813394338B82960 /* Pods-AzureSDKDemoSwift.release.xcconfig */,
+			);
+			name = Pods;
+			path = ../Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -159,11 +186,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0A3A5E932315E70600473FDA /* Build configuration list for PBXNativeTarget "AzureSDKDemoSwift" */;
 			buildPhases = (
+				2E0DC9F96154FF4BF2F83C95 /* [CP] Check Pods Manifest.lock */,
 				0A3A5E722315E70400473FDA /* Sources */,
 				0A3A5E732315E70400473FDA /* Frameworks */,
 				0A3A5E742315E70400473FDA /* Resources */,
 				0A009815237B560C0015E9C9 /* Embed Frameworks */,
 				0A4737AE2397112800DE8AC7 /* SwiftLint */,
+				186FFF616450C53D8A7E3332 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -268,7 +297,46 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/Users/travisprescott/repos/Azure.iOS/Scripts/swiftlint.sh\n";
+			shellScript = "ROOT_PATH=$(pwd | rev | cut -d'/' -f2- | rev) \n$ROOT_PATH/Scripts/swiftlint.sh\n";
+		};
+		186FFF616450C53D8A7E3332 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AzureSDKDemoSwift/Pods-AzureSDKDemoSwift-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AzureSDKDemoSwift/Pods-AzureSDKDemoSwift-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AzureSDKDemoSwift/Pods-AzureSDKDemoSwift-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2E0DC9F96154FF4BF2F83C95 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AzureSDKDemoSwift-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -277,9 +345,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A25EA57239821E30012DFE1 /* LoginViewController.swift in Sources */,
 				0A71C5CD234BE85700604F2D /* Common.swift in Sources */,
 				0A68647C233D33CD004B7E17 /* CustomTableViewCell.swift in Sources */,
 				0A3A5E7C2315E70400473FDA /* MainViewController.swift in Sources */,
+				0A80BD54239EEF6000491345 /* AzureSDKDemoSwift.entitlements in Sources */,
 				0A71C5CB234BE18200604F2D /* BlobTableViewController.swift in Sources */,
 				0A3A5E7A2315E70400473FDA /* AppDelegate.swift in Sources */,
 			);
@@ -441,8 +511,10 @@
 		};
 		0A3A5E942315E70600473FDA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B0A776A40094923B6F31057B /* Pods-AzureSDKDemoSwift.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = AzureSDKDemoSwift.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Supporting Files/Info.plist";
@@ -451,7 +523,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.azure.demo.AzureSDKDemoSwift;
+				PRODUCT_BUNDLE_IDENTIFIER = com.azure.demo.AzureSDKDemoSwifty;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -460,8 +532,10 @@
 		};
 		0A3A5E952315E70600473FDA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1C261B405813394338B82960 /* Pods-AzureSDKDemoSwift.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = AzureSDKDemoSwift.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Supporting Files/Info.plist";
@@ -470,7 +544,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.azure.demo.AzureSDKDemoSwift;
+				PRODUCT_BUNDLE_IDENTIFIER = com.azure.demo.AzureSDKDemoSwifty;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

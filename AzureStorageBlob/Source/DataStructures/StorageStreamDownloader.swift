@@ -142,7 +142,7 @@ internal class ChunkDownloader {
                 do {
                     let handle = try self.openFileForWriting()
                     let fileOffset = UInt64(self.startRange)
-                    if #available(iOSApplicationExtension 13.0, *) {
+                    if #available(iOS 13.0, *) {
                         try handle.seek(toOffset: fileOffset)
                     } else {
                         // Fallback on earlier versions

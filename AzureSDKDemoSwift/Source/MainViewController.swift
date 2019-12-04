@@ -27,18 +27,22 @@
 import AzureAppConfiguration
 import AzureCore
 import AzureStorageBlob
+import MSAL
 import os.log
 import UIKit
 
 class MainViewController: UITableViewController {
+
     // MARK: Properties
 
     private var dataSource: PagedCollection<ContainerItem>?
     private var noMoreData = false
 
     override func viewDidLoad() {
-        // If I try to call loadAllSettingsByItem here, the execution hangs...
         super.viewDidLoad()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
         loadInitialSettings()
     }
 

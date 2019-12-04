@@ -315,8 +315,6 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
      */
     public func download(blob: String, fromContainer container: String, withOptions options: DownloadBlobOptions? = nil,
                          then completion: @escaping HttpResultHandler<BlobStreamDownloader>) throws {
-        let sasObject = BlobSharedAccessSignature(account: baseUrl, accountKey: "YmxhcmdhbXVmZmlu")
-        let sasToken = try? sasObject.token(forBlob: blob, inContainer: container)
         let downloader = try BlobStreamDownloader(client: self, name: blob, container: container, options: options)
         downloader.initialRequest { result, httpResponse in
             switch result {

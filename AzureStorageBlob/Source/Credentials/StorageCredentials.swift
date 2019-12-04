@@ -26,6 +26,7 @@
 
 import AzureCore
 import Foundation
+import MSAL
 
 /// An OAuth credential object.
 public class StorageOAuthCredential: TokenCredential {
@@ -34,16 +35,48 @@ public class StorageOAuthCredential: TokenCredential {
 
     internal let clientId: String
 
+    internal let application: MSALPublicClientApplication
+
+    internal let account: MSALAccount?
+
     // MARK: Initializers
+
     /**
      Create an OAuth credential.
      - Parameter tenant: Tenant ID (a GUID) for the AAD instance.
      - Parameter clientId: The service principal client or application ID (a GUID).
+     - Parameter authority: An authority URI for the application.
+     - Parameter redirectUri: An optional redirect URI for the application.
+     - Parameter token: An optional inital value for the token string.
      - Returns: A `StorageOAuthCredential` object.
      */
-    public init(tenant: String, clientId: String) {
+    public convenience init(tenant: String, clientId: String, authority: String, redirectUri: String? = nil,
+                            account: MSALAccount? = nil) throws {
+        let error = AzureError.general("Unable to create MSAL credential object.")
+        guard let authorityUrl = URL(string: authority) else {
+            throw error
+        }
+        let authority = try MSALAADAuthority(url: authorityUrl)
+        let config = MSALPublicClientApplicationConfig(clientId: clientId,
+                                                       redirectUri: redirectUri, authority: authority)
+        guard let application = try? MSALPublicClientApplication(configuration: config) else { throw error }
+        self.init(tenant: tenant, clientId: clientId, application: application, account: account)
+    }
+
+    /**
+     Create an OAuth credential.
+     - Parameter tenant: Tenant ID (a GUID) for the AAD instance.
+     - Parameter clientId: The service principal client or application ID (a GUID).
+     - Parameter application: An `MSALPublicClientApplication` object.
+     - Parameter token: An optional inital value for the token string.
+     - Returns: A `StorageOAuthCredential` object.
+     */
+    public init(tenant: String, clientId: String, application: MSALPublicClientApplication,
+                account: MSALAccount? = nil) {
         self.tenant = tenant
         self.clientId = clientId
+        self.application = application
+        self.account = account
     }
 
     // MARK: Public Methods
@@ -54,31 +87,87 @@ public class StorageOAuthCredential: TokenCredential {
      - Returns: A valid `AccessToken`, or nil.
      */
     public func token(forScopes scopes: [String]) -> AccessToken? {
-        let tokenLife = 15 // in minutes
-        guard var authUrl = URLComponents(string: "https://login.microsoftonline.com/common/oauth2/authorize") else { return nil }
-        guard let expiration = Calendar.current.date(byAdding: .minute, value: tokenLife, to: Date()) else { return nil }
-        let expirationInt = Int(expiration.timeIntervalSinceReferenceDate)
-        var token = ""
-
-        authUrl.queryItems = [
-            "tenant": tenant,
-            "client_id": clientId,
-            "response_type": "code",
-            "resource": scopes.first!
-        ].convertToQueryItems()
-
-        guard let url = authUrl.url else { return nil}
-        var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = HttpMethod.GET.rawValue
-
         let group = DispatchGroup()
+        var accessToken: AccessToken?
         group.enter()
-        URLSession.shared.dataTask(with: urlRequest) { _, _, _ in
-            let test = "best"
-            group.leave()
+        if let account = account {
+            acquireTokenSilently(forAccount: account, withScopes: scopes) { result, error in
+                if let error = error {
+                    print(error)
+                }
+                if let result = result {
+                    accessToken = AccessToken(
+                        token: result.accessToken,
+                        expiresOn: Int(result.expiresOn.timeIntervalSince1970)
+                    )
+                } else {
+                    accessToken = nil
+                }
+                group.leave()
+            }
+        } else {
+            acquireTokenInteractively(withScopes: scopes) { (result, error) in
+                if let error = error {
+                    print(error)
+                }
+                if let result = result {
+                    accessToken = AccessToken(
+                        token: result.accessToken,
+                        expiresOn: Int(result.expiresOn.timeIntervalSince1970)
+                    )
+                } else {
+                    accessToken = nil
+                }
+                group.leave()
+            }
         }
         group.wait()
-        return AccessToken(token: token, expiresOn: expirationInt)
+        return accessToken
+    }
+
+    // MARK: Internal Methods
+
+    internal func acquireTokenInteractively(withScopes scopes: [String],
+                                            then completion: @escaping (MSALResult?, Error?) -> Void) {
+        guard let rootView = UIApplication.shared.keyWindow?.rootViewController else { return }
+        let parent: UIViewController?
+        if let navController = rootView as? UINavigationController {
+            parent = navController.topViewController
+        } else if let tabController = rootView as? UITabBarController {
+            parent = tabController.selectedViewController
+        } else {
+            parent = rootView
+        }
+        guard parent != nil else { return }
+        let webViewParameters = MSALWebviewParameters(parentViewController: parent!)
+        let parameters = MSALInteractiveTokenParameters(scopes: scopes, webviewParameters: webViewParameters)
+        application.acquireToken(with: parameters) { result, error in
+            completion(result, error)
+        }
+    }
+
+    internal func acquireTokenSilently(forAccount account: MSALAccount, withScopes scopes: [String],
+                                       then completion: @escaping (MSALResult?, Error?) -> Void) {
+        let parameters = MSALSilentTokenParameters(scopes: scopes, account: account)
+        application.acquireTokenSilent(with: parameters) { result, error in
+            if let error = error {
+                let nsError = error as NSError
+
+                // interactionRequired means we need to ask the user to sign-in. This usually happens
+                // when the user's Refresh Token is expired or if the user has changed their password
+                // among other possible reasons.
+                if nsError.domain == MSALErrorDomain {
+                    if nsError.code == MSALError.interactionRequired.rawValue {
+                        self.acquireTokenInteractively(withScopes: scopes) { result, error in
+                            completion(result, error)
+                        }
+                        return
+                    }
+                }
+                return
+            }
+            completion(result, error)
+        }
     }
 }
 
@@ -217,6 +306,7 @@ public class StorageOAuthAuthenticationPolicy: AuthenticationProtocol {
     public func authenticate(request: PipelineRequest) {
         let scope = "https://storage.azure.com/.default"
         guard let token = credential.token(forScopes: [scope]) else { return }
-        request.httpRequest.headers[HttpHeader.authorization] = "Bearer \(token)"
+        request.httpRequest.headers[HttpHeader.authorization] = "Bearer \(token.token)"
+        let test = request.httpRequest.headers[HttpHeader.authorization]
     }
 }

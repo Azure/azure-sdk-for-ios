@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A25EA4B2398121A0012DFE1 /* Pods_AzureStorageBlob.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08067E9483A38F2478AE0456 /* Pods_AzureStorageBlob.framework */; };
+		0A25EA4C2398121A0012DFE1 /* Pods_AzureStorageBlob.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 08067E9483A38F2478AE0456 /* Pods_AzureStorageBlob.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0A686493233E834D004B7E17 /* AzureStorageBlob.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A686489233E834D004B7E17 /* AzureStorageBlob.framework */; };
 		0A686498233E834D004B7E17 /* AzureStorageBlobTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A686497233E834D004B7E17 /* AzureStorageBlobTests.swift */; };
 		0A6864A5233E8366004B7E17 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A6864A4233E8366004B7E17 /* AzureCore.framework */; };
@@ -43,6 +45,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				0A6864A6233E8366004B7E17 /* AzureCore.framework in Embed Frameworks */,
+				0A25EA4C2398121A0012DFE1 /* Pods_AzureStorageBlob.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -50,6 +53,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		08067E9483A38F2478AE0456 /* Pods_AzureStorageBlob.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureStorageBlob.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A686489233E834D004B7E17 /* AzureStorageBlob.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureStorageBlob.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A68648C233E834D004B7E17 /* AzureStorageBlob.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AzureStorageBlob.h; sourceTree = "<group>"; };
 		0A68648D233E834D004B7E17 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -68,6 +72,8 @@
 		0AC0AA86234D38B000F05073 /* ContainerProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerProperties.swift; sourceTree = "<group>"; };
 		0AC34914235633110094C576 /* StorageBlobClientOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageBlobClientOptions.swift; sourceTree = "<group>"; };
 		0AC9F2A5238C9494006FEEB9 /* BlobSharedAccessSignature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlobSharedAccessSignature.swift; sourceTree = "<group>"; };
+		22F0A0E7665395BE709C3790 /* Pods-AzureStorageBlob.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureStorageBlob.release.xcconfig"; path = "Target Support Files/Pods-AzureStorageBlob/Pods-AzureStorageBlob.release.xcconfig"; sourceTree = "<group>"; };
+		5A82EF46C73E63BDAD8D2ADD /* Pods-AzureStorageBlob.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureStorageBlob.debug.xcconfig"; path = "Target Support Files/Pods-AzureStorageBlob/Pods-AzureStorageBlob.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +82,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A6864A5233E8366004B7E17 /* AzureCore.framework in Frameworks */,
+				0A25EA4B2398121A0012DFE1 /* Pods_AzureStorageBlob.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,6 +104,7 @@
 				0A686496233E834D004B7E17 /* Tests */,
 				0A68648A233E834D004B7E17 /* Products */,
 				0A6864A3233E8366004B7E17 /* Frameworks */,
+				64358B97535AC3825F5A140E /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -131,6 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				0A6864A4233E8366004B7E17 /* AzureCore.framework */,
+				08067E9483A38F2478AE0456 /* Pods_AzureStorageBlob.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -178,6 +187,16 @@
 			path = DataStructures;
 			sourceTree = "<group>";
 		};
+		64358B97535AC3825F5A140E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5A82EF46C73E63BDAD8D2ADD /* Pods-AzureStorageBlob.debug.xcconfig */,
+				22F0A0E7665395BE709C3790 /* Pods-AzureStorageBlob.release.xcconfig */,
+			);
+			name = Pods;
+			path = ../Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -196,6 +215,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0A68649D233E834D004B7E17 /* Build configuration list for PBXNativeTarget "AzureStorageBlob" */;
 			buildPhases = (
+				DDDE797DFDE07F663CA564BE /* [CP] Check Pods Manifest.lock */,
 				0A686484233E834D004B7E17 /* Headers */,
 				0A686485233E834D004B7E17 /* Sources */,
 				0A686486233E834D004B7E17 /* Frameworks */,
@@ -302,7 +322,29 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/Users/travisprescott/repos/Azure.iOS/Scripts/swiftlint.sh\n\n";
+			shellScript = "ROOT_PATH=$(pwd | rev | cut -d'/' -f2- | rev) \n$ROOT_PATH/Scripts/swiftlint.sh\n";
+		};
+		DDDE797DFDE07F663CA564BE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AzureStorageBlob-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -466,8 +508,9 @@
 		};
 		0A68649E233E834D004B7E17 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5A82EF46C73E63BDAD8D2ADD /* Pods-AzureStorageBlob.debug.xcconfig */;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -494,8 +537,9 @@
 		};
 		0A68649F233E834D004B7E17 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 22F0A0E7665395BE709C3790 /* Pods-AzureStorageBlob.release.xcconfig */;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;

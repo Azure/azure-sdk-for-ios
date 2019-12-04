@@ -137,6 +137,7 @@
 				0A3A5D782315C89C00473FDA /* Source */,
 				0A3A5DDF2315D17F00473FDA /* Tests */,
 				0A3A5D772315C89C00473FDA /* Products */,
+				E4BF633BF023E92DD7174C5B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -273,6 +274,13 @@
 			path = DataStructures;
 			sourceTree = "<group>";
 		};
+		E4BF633BF023E92DD7174C5B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -397,7 +405,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/Users/travisprescott/repos/Azure.iOS/Scripts/swiftlint.sh\n";
+			shellScript = "ROOT_PATH=$(pwd | rev | cut -d'/' -f2- | rev) \n$ROOT_PATH/Scripts/swiftlint.sh\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

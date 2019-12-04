@@ -27,26 +27,41 @@
 import AzureAppConfiguration
 import AzureStorageBlob
 import Foundation
+import MSAL
 
 struct AppConstants {
     // read-only connection string
     static let appConfigConnectionString = "Endpoint=https://tjpappconfig.azconfig.io;Id=2-l0-s0:zSvXZtO9L9bv9s3QVyD3;Secret=FzxmbflLwAt5+2TUbnSIsAuATyY00L+GFpuxuJZRmzI="
 
-    static let storageAccountUrl = "https://tjpstorage1.blob.core.windows.net/"
+    static let storageAccountUrl = "https://iosdemostorage1.blob.core.windows.net/"
 
-    static let tenant = "72f988bf-86f1-41af-91ab-2d7cd011db47"
-    static let clientId = "b449abba-5b1f-41d9-88e1-8ebfab7b3de0"
+    static let tenant = "7e6c9611-413e-47e4-a054-a389854dd732"
 
-    // read-only blob connection string using a SAS token
-//    static let blobConnectionString = "BlobEndpoint=https://tjpstorage1.blob.core.windows.net/;QueueEndpoint=https://tjpstorage1.queue.core.windows.net/;FileEndpoint=https://tjpstorage1.file.core.windows.net/;TableEndpoint=https://tjpstorage1.table.core.windows.net/;SharedAccessSignature=sv=2018-03-28&ss=b&srt=sco&sp=rl&se=2020-10-03T07:45:02Z&st=2019-10-02T23:45:02Z&spr=https&sig=L7zqOTStAd2o3Mp72MW59GXM1WbL9G2FhOSXHpgrBCE%3D"
+    static let clientId = "6f2c62dd-d6b2-444a-8dff-c64380e7ac76"
+
+    static let redirectUri = "msauth.com.azure.demo.AzureSDKDemoSwifty://auth"
+
+    static let authority = "https://login.microsoftonline.com/7e6c9611-413e-47e4-a054-a389854dd732"
+}
+
+struct AppState {
+    static var application: MSALPublicClientApplication?
+
+    static var account: MSALAccount?
+
+    static let scopes = [
+        "https://storage.azure.com/.default"
+    ]
 }
 
 extension UIViewController {
 
     internal func getBlobClient() -> StorageBlobClient? {
+        guard let application = AppState.application else { return nil }
         do {
-            // return try StorageBlobClient.from(connectionString: AppConstants.blobConnectionString)
-            let credential = StorageOAuthCredential(tenant: AppConstants.tenant, clientId: AppConstants.clientId)
+            let credential = StorageOAuthCredential(
+                tenant: AppConstants.tenant, clientId: AppConstants.clientId, application: application,
+                account: AppState.account)
             return try StorageBlobClient(accountUrl: AppConstants.storageAccountUrl, credential: credential)
         } catch {
             self.showAlert(error: String(describing: error))
@@ -90,7 +105,9 @@ extension UIViewController {
             let alertController = UIAlertController(title: "Blob Contents", message: "", preferredStyle: .alert)
             let alertBounds = alertController.view.frame
             let padding = alertBounds.width * 0.01
-            let imageView = UIImageView(frame: CGRect(x: padding, y: padding, width: alertBounds.width - padding, height: 100))
+            let imageView = UIImageView(
+                frame: CGRect(x: padding, y: padding, width: alertBounds.width - padding, height: 100)
+            )
             imageView.contentMode = .scaleAspectFit
             imageView.image = image
             alertController.view.addSubview(imageView)
