@@ -37,7 +37,10 @@
       location = "container:"
       name = "Deployment">
       <FileRef
-         location = "group:AzureCore/AzureCore.podspec">
+         location = "group:Package.swift">
+      </FileRef>
+      <FileRef
+         location = "group:/Users/travisprescott/repos/Azure.iOS/AzureSDK.podspec">
       </FileRef>
    </Group>
 </Workspace>
