@@ -183,7 +183,7 @@ class LoginViewController: UIViewController {
         if let account = AppState.account {
             userLabel.text = account.username ?? "Unknown"
         } else {
-            userLabel.text = "None"
+            userLabel.text = "Please log in"
         }
     }
 }
