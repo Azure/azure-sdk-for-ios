@@ -45,7 +45,10 @@ public class AppConfigurationClient: PipelineClient {
 
     public static func from(connectionString: String, withOptions options: AppConfigurationClientOptions? = nil) throws
         -> AppConfigurationClient {
-            let clientOptions = options ?? AppConfigurationClientOptions(apiVersion: ApiVersion.latest.rawValue)
+            let clientOptions = options ?? AzureClientOptions(
+                apiVersion: ApiVersion.latest.rawValue,
+                tag: "AppConfigurationClient"
+            )
             let credential = try AppConfigurationCredential(connectionString: connectionString)
             let authPolicy = AppConfigurationAuthenticationPolicy(credential: credential, scopes: [credential.endpoint])
             return AppConfigurationClient(
