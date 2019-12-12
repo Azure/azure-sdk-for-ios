@@ -117,25 +117,26 @@ public class NSLogger: ClientLogger {
 }
 
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
-public class OSLogAdapter: ClientLogger {
-    // Force the most verbose log level so that all messages are forwarded to the OSLog framework
-    public var level: ClientLogLevel {
-        get { return .debug }
-        set { _ = newValue }
-    }
+public class OSLogger: ClientLogger {
+    public var level: ClientLogLevel
 
     private let osLogger: OSLog
 
-    public init(withLogger osLogger: OSLog) {
+    public init(withLogger osLogger: OSLog, level: ClientLogLevel = .info) {
+        self.level = level
         self.osLogger = osLogger
     }
 
-    public convenience init(subsystem: String = "com.azure", category: String = "Pipeline") {
-        self.init(withLogger: OSLog(subsystem: subsystem, category: category))
+    public convenience init(
+        subsystem: String = "com.azure",
+        category: String = "Pipeline",
+        level: ClientLogLevel = .info
+    ) {
+        self.init(withLogger: OSLog(subsystem: subsystem, category: category), level: level)
     }
 
-    public func log(_ message: @escaping () -> String?, atLevel messageLevel: ClientLogLevel) {
-        if let msg = message() {
+    public func log(_ message: () -> String?, atLevel messageLevel: ClientLogLevel) {
+        if messageLevel.rawValue <= level.rawValue, let msg = message() {
             os_log("%@", log: osLogger, type: osLogTypeFor(messageLevel), msg)
         }
     }
