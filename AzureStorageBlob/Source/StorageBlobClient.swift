@@ -68,7 +68,10 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
 
     required public init(accountUrl: String, credential: Any, withOptions options: AzureClientOptions? = nil)
         throws {
-        let clientOptions = options ?? AzureClientOptions(apiVersion: ApiVersion.latest.rawValue)
+        let clientOptions = options ?? AzureClientOptions(
+            apiVersion: ApiVersion.latest.rawValue,
+            tag: "StorageBlobClient"
+        )
         if let sasCredential = credential as? StorageSASCredential {
             guard let blobEndpoint = sasCredential.blobEndpoint else {
                 let message = "Invalid connection string. No blob endpoint specified."

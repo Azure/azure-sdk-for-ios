@@ -33,9 +33,9 @@ open class AzureClientOptions {
 
     // MARK: Initializers
 
-    public init(apiVersion: String) {
+    public init(apiVersion: String, tag: String) {
         self.apiVersion = apiVersion
-        self.logger = ClientLoggers.default()
+        self.logger = ClientLoggers.default(tag: tag)
     }
 }
 

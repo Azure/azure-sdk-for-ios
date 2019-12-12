@@ -63,11 +63,11 @@ extension ClientLogger {
 // MARK: - Constants
 
 public struct ClientLoggers {
-    public static func `default`() -> ClientLogger {
+    public static func `default`(tag: String) -> ClientLogger {
         if #available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *) {
-            return OSLogAdapter()
+            return OSLogger(category: tag)
         } else {
-            return NSLogger()
+            return NSLogger(tag: tag)
         }
     }
 
@@ -89,14 +89,17 @@ public class NullLogger: ClientLogger {
 public class PrintLogger: ClientLogger {
     public var level: ClientLogLevel
 
-    public init(level: ClientLogLevel = .info) {
+    private let tag: String
+
+    public init(tag: String, level: ClientLogLevel = .info) {
+        self.tag = tag
         self.level = level
     }
 
     public func log(_ message: () -> String?, atLevel messageLevel: ClientLogLevel) {
         if messageLevel.rawValue <= level.rawValue, let msg = message() {
-            let tag = String(describing: messageLevel).uppercased()
-            print("\(tag): \(msg)")
+            let levelString = String(describing: messageLevel).uppercased()
+            print("[\(levelString)] \(tag): \(msg)")
         }
     }
 }
@@ -104,14 +107,17 @@ public class PrintLogger: ClientLogger {
 public class NSLogger: ClientLogger {
     public var level: ClientLogLevel
 
-    public init(level: ClientLogLevel = .info) {
+    private let tag: String
+
+    public init(tag: String, level: ClientLogLevel = .info) {
+        self.tag = tag
         self.level = level
     }
 
     public func log(_ message: () -> String?, atLevel messageLevel: ClientLogLevel) {
         if messageLevel.rawValue <= level.rawValue, let msg = message() {
-            let tag = String(describing: messageLevel).uppercased()
-            NSLog("%@: %@", tag, msg)
+            let levelString = String(describing: messageLevel).uppercased()
+            NSLog("[%@] %@: %@", levelString, tag, msg)
         }
     }
 }
@@ -129,7 +135,7 @@ public class OSLogger: ClientLogger {
 
     public convenience init(
         subsystem: String = "com.azure",
-        category: String = "Pipeline",
+        category: String,
         level: ClientLogLevel = .info
     ) {
         self.init(withLogger: OSLog(subsystem: subsystem, category: category), level: level)
