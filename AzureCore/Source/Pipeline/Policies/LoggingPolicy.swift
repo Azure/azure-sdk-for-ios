@@ -127,19 +127,28 @@ public class CurlFormattedRequestLoggingPolicy: PipelineStageProtocol {
         var parts = ["curl"]
         parts += ["-X", req.httpMethod.rawValue]
         for (header, value) in req.headers {
-            var escapedValue = value
-            if value.first == "\"", value.last == "\"" {
-                escapedValue = "\\\"" + value.trimmingCharacters(in: ["\""]) + "\\\""
+            var escapedValue: String
+            if value.first == "\"" && value.last == "\"" {
+                // Escape the surrounding quote marks and literal backslashes
+                var innerValue = value.trimmingCharacters(in: ["\""])
+                innerValue = innerValue.replacingOccurrences(of: "\\", with: "\\\\")
+                escapedValue = "\\\"\(innerValue)\\\""
+            } else {
+                // Only escape literal backslashes
+                escapedValue = value.replacingOccurrences(of: "\\", with: "\\\\")
             }
 
-            if header == HttpHeader.acceptEncoding.rawValue, value.caseInsensitiveCompare("gzip") == .orderedSame {
+            if header == HttpHeader.acceptEncoding.rawValue {
                 compressed = true
             }
 
             parts += ["-H", "\"\(header): \(escapedValue)\""]
         }
-        if let bodyText = req.text() {
-            parts += ["--data", "$'\(bodyText.replacingOccurrences(of: "\n", with: "\\n"))'"]
+        if var bodyText = req.text() {
+            // Escape literal newlines and single quotes in the body
+            bodyText = bodyText.replacingOccurrences(of: "\n", with: "\\n")
+            bodyText = bodyText.replacingOccurrences(of: "'", with: "\\'")
+            parts += ["--data", "$'\(bodyText)'"]
         }
         if compressed {
             parts.append("--compressed")
