@@ -151,14 +151,15 @@
                         <viewLayoutGuide key="safeArea" id="wqc-uN-IZz"/>
                     </view>
                     <navigationItem key="navigationItem" id="z8F-US-uUt">
-                        <barButtonItem key="leftBarButtonItem" title="Log In" id="2yX-rf-1YD">
-                            <connections>
-                                <action selector="didSelectLogIn:" destination="aQV-nZ-QSi" id="daw-u0-ptZ"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Log Out" id="g8y-CR-3u9">
+                        <barButtonItem key="leftBarButtonItem" title="Log Out" id="g8y-CR-3u9">
                             <connections>
                                 <action selector="didSelectLogOut:" destination="aQV-nZ-QSi" id="sXu-oS-Mdg"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Containers" id="2yX-rf-1YD" userLabel="Containers Button">
+                            <connections>
+                                <action selector="didSelectLogIn:" destination="aQV-nZ-QSi" id="daw-u0-ptZ"/>
+                                <segue destination="Oen-R8-fXR" kind="show" id="21u-ya-gFs"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -166,7 +167,6 @@
                         <outlet property="logInButton" destination="2yX-rf-1YD" id="qoa-DM-80g"/>
                         <outlet property="logOutButton" destination="g8y-CR-3u9" id="yek-Za-jFQ"/>
                         <outlet property="userLabel" destination="ely-ko-moY" id="wRP-5S-Cyq"/>
-                        <segue destination="Oen-R8-fXR" kind="show" identifier="didSignIn" id="kff-Eq-6ak"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZQu-ch-z48" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -179,7 +179,7 @@
                 <navigationController id="obV-HT-tcp" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="PeG-z0-XPR"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="lrI-d9-JBG">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>

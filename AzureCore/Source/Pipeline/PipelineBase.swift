@@ -30,34 +30,64 @@ public typealias ResultHandler<TSuccess, TError: Error> = (Result<TSuccess, TErr
 public typealias HttpResultHandler<T> = ResultHandler<T, Error>
 public typealias PipelineStageResultHandler = ResultHandler<PipelineResponse, PipelineError>
 
+/// Protocol for implementing pipeline stages.
 public protocol PipelineStageProtocol {
     var next: PipelineStageProtocol? { get set }
 
-    func onRequest(_ request: inout PipelineRequest)
-    func onResponse(_ response: inout PipelineResponse)
-    func onError(_ error: PipelineError) -> Bool
+    /// Request modification hook.
+    /// - Parameters:
+    ///   - request: The `PipelineRequest` input.
+    ///   - completion: A completion handler which forwards the modified request.
+    func onRequest(_ request: PipelineRequest, then completion: @escaping (PipelineRequest) -> Void)
 
-    func process(request: inout PipelineRequest, completion: @escaping PipelineStageResultHandler)
+    /// Response modification hook.
+    /// - Parameters:
+    ///   - response: The `PipelineResponse` input.
+    ///   - completion: A completion handler which forwards the modified response.
+    func onResponse(_ response: PipelineResponse, then completion: @escaping (PipelineResponse) -> Void)
+
+    /// Response error hook.
+    /// - Parameters:
+    ///   - error: The `PipelineError` input.
+    ///   - completion: A completion handler which forwards the error along with a boolean
+    ///   that indicates whether the exception was handled or not.
+    func onError(_ error: PipelineError, then completion: @escaping (PipelineError, Bool) -> Void)
+
+    /// Executes the policy method.
+    /// - Parameters:
+    ///   - pipelineRequest: The `PipelineRequest` input.
+    ///   - completion: A `PipelineStageResultHandler` completion handler.
+    func process(request pipelineRequest: PipelineRequest, then completion: @escaping PipelineStageResultHandler)
 }
 
+/// Default implementations for `PipelineStageProtocol`.
 extension PipelineStageProtocol {
-    public func onRequest(_: inout PipelineRequest) {}
-    public func onResponse(_: inout PipelineResponse) {}
-    public func onError(_: PipelineError) -> Bool { return false }
-
-    public func process(request: inout PipelineRequest, completion: @escaping PipelineStageResultHandler) {
-        onRequest(&request)
-        next!.process(request: &request, completion: { result, httpResponse in
-            switch result {
-            case var .success(pipelineResponse):
-                self.onResponse(&pipelineResponse)
-                completion(.success(pipelineResponse), httpResponse)
-            case let .failure(error):
-                let handled = self.onError(error)
-                if !handled {
-                    completion(.failure(error), httpResponse)
+    public func onRequest(_ request: PipelineRequest, then completion: @escaping (PipelineRequest) -> Void) {
+        completion(request)
+    }
+    public func onResponse(_ response: PipelineResponse, then completion: @escaping (PipelineResponse) -> Void) {
+        completion(response)
+    }
+    public func onError(_ error: PipelineError, then completion: @escaping (PipelineError, Bool) -> Void) {
+        completion(error, false)
+    }
+    public func process(request pipelineRequest: PipelineRequest,
+                        then completion: @escaping PipelineStageResultHandler) {
+        onRequest(pipelineRequest) { request in
+            self.next!.process(request: request) { result, httpResponse in
+                switch result {
+                case let .success(pipelineResponse):
+                    self.onResponse(pipelineResponse) { response in
+                        completion(.success(response), httpResponse)
+                    }
+                case let .failure(pipelineError):
+                    self.onError(pipelineError) { error, handled in
+                        if !handled {
+                            completion(.failure(error), httpResponse)
+                        }
+                    }
                 }
             }
-        })
+        }
     }
 }

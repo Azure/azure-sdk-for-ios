@@ -52,6 +52,25 @@ struct AppState {
     static let scopes = [
         "https://storage.azure.com/.default"
     ]
+
+    static func currentAccount() -> MSALAccount? {
+        if let account = AppState.account {
+            return account
+        }
+        guard let application = AppState.application else { return nil }
+        // We retrieve our current account by getting the first account from cache
+        // In multi-account applications, account should be retrieved by home account identifier or username instead
+        do {
+            let cachedAccounts = try application.allAccounts()
+
+            if !cachedAccounts.isEmpty {
+                return cachedAccounts.first
+            }
+        } catch let error as NSError {
+            print("Didn't find any accounts in cache: \(error)")
+        }
+        return nil
+    }
 }
 
 extension UIViewController {
@@ -61,7 +80,7 @@ extension UIViewController {
         do {
             let credential = StorageOAuthCredential(
                 tenant: AppConstants.tenant, clientId: AppConstants.clientId, application: application,
-                account: AppState.account)
+                account: AppState.currentAccount())
             return try StorageBlobClient(accountUrl: AppConstants.storageAccountUrl, credential: credential)
         } catch {
             self.showAlert(error: String(describing: error))

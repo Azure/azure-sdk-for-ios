@@ -57,7 +57,7 @@ public class UserAgentPolicy: PipelineStageProtocol {
         _userAgent = "\(_userAgent) \(value)"
     }
 
-    public func onRequest(_ request: inout PipelineRequest) {
+    public func onRequest(_ request: PipelineRequest, then completion: @escaping (PipelineRequest) -> Void) {
         if let contextUserAgent = request.context?.value(forKey: "userAgent") as? String {
             if request.context?.value(forKey: "userAgentOverwrite") != nil {
                 request.httpRequest.headers[.userAgent] = contextUserAgent
@@ -67,5 +67,6 @@ public class UserAgentPolicy: PipelineStageProtocol {
         } else if userAgentOverwrite || request.httpRequest.headers[HttpHeader.userAgent] == nil {
             request.httpRequest.headers[.userAgent] = userAgent
         }
+        completion(request)
     }
 }

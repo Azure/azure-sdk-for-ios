@@ -32,9 +32,6 @@
       <FileRef
          location = "group:AzureSDKDemoSwift/AzureSDKDemoSwift.xcodeproj">
       </FileRef>
-      <FileRef
-         location = "group:AzureSDKDemoObjC/AzureSDKDemoObjC.xcodeproj">
-      </FileRef>
    </Group>
    <Group
       location = "container:"

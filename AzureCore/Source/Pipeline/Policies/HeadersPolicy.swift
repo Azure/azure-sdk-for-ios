@@ -42,7 +42,7 @@ public class HeadersPolicy: PipelineStageProtocol {
         _headers[header] = value
     }
 
-    public func onRequest(_ request: inout PipelineRequest) {
+    public func onRequest(_ request: PipelineRequest, then completion: @escaping (PipelineRequest) -> Void) {
         for (key, value) in headers {
             request.httpRequest.headers[key] = value
         }
@@ -51,5 +51,6 @@ public class HeadersPolicy: PipelineStageProtocol {
                 request.httpRequest.headers[key] = value
             }
         }
+        completion(request)
     }
 }

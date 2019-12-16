@@ -24,10 +24,12 @@
 //
 // --------------------------------------------------------------------------
 
+import AzureCore
+import AzureStorageBlob
 import MSAL
 import UIKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, MSALInteractiveDelegate {
 
     // MARK: Outlets
 
@@ -39,24 +41,9 @@ class LoginViewController: UIViewController {
 
     // MARK: Actions
 
-    @IBAction func didSelectLogIn(_ sender: Any) {
-        if let currentAccount = self.currentAccount() {
-            acquireTokenSilently(forAccount: currentAccount) { result, error in
-                self.tokenAcquisitionDidFinish(withResult: result, orError: error)
-            }
-
-        } else {
-            // We check to see if we have a current logged in account.
-            // If we don't, then we need to sign someone in.
-            acquireTokenInteractively { result, error in
-                self.tokenAcquisitionDidFinish(withResult: result, orError: error)
-            }
-        }
-    }
-
     @IBAction func didSelectLogOut(_ sender: Any) {
         guard let application = AppState.application else { return }
-        guard let account = AppState.account else { return }
+        guard let account = AppState.currentAccount() else { return }
         do {
             try application.remove(account)
             AppState.account = nil
@@ -74,98 +61,13 @@ class LoginViewController: UIViewController {
         let msalConfiguration = MSALPublicClientApplicationConfig(clientId: AppConstants.clientId, redirectUri: nil,
                                                                   authority: authority)
         AppState.application = try? MSALPublicClientApplication(configuration: msalConfiguration)
-        AppState.account = currentAccount()
-        updateLogOutButton(enabled: AppState.account != nil)
+        AppState.account = AppState.currentAccount()
+        updateLogOutButton(enabled: AppState.currentAccount() != nil)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        updateUserLabel()
-    }
-
-    internal func tokenAcquisitionDidFinish(withResult result: MSALResult?, orError error: Error?) {
-        if let error = error {
-            self.showAlert(error: String(describing: error))
-            return
-        }
-        AppState.account = result?.account
-        let loginView = self
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            loginView.performSegue(withIdentifier: "didSignIn", sender: loginView)
-        }
-        updateUserLabel()
-    }
-
-    internal func currentAccount() -> MSALAccount? {
-        if let account = AppState.account {
-            return account
-        }
-        guard let application = AppState.application else { return nil }
-
-        // We retrieve our current account by getting the first account from cache
-        // In multi-account applications, account should be retrieved by home account identifier or username instead
-        do {
-            let cachedAccounts = try application.allAccounts()
-
-            if !cachedAccounts.isEmpty {
-                return cachedAccounts.first
-            }
-        } catch let error as NSError {
-            self.showAlert(error: "Didn't find any accounts in cache: \(error)")
-        }
-        return nil
-    }
-
-    internal func acquireTokenInteractively(then completion: @escaping (MSALResult?, Error?) -> Void) {
-        guard let application = AppState.application else { return }
-        let webViewParameters = MSALWebviewParameters(parentViewController: self)
-
-        let parameters = MSALInteractiveTokenParameters(scopes: AppState.scopes, webviewParameters: webViewParameters)
-        application.acquireToken(with: parameters) { (result, error) in
-            if let error = error {
-                self.showAlert(error: String(describing: error))
-                return
-            }
-
-            guard let result = result else {
-                self.showAlert(error: "Could not acquire token: no result returned.")
-                return
-            }
-            AppState.account = result.account
-            self.updateLogOutButton(enabled: true)
-            completion(result, error)
-        }
-    }
-
-    internal func acquireTokenSilently(forAccount account: MSALAccount,
-                                       then completion: @escaping (MSALResult?, Error?) -> Void) {
-        guard let application = AppState.application else { return }
-        let parameters = MSALSilentTokenParameters(scopes: AppState.scopes, account: account)
-        application.acquireTokenSilent(with: parameters) { (result, error) in
-            if let error = error {
-                let nsError = error as NSError
-
-                // interactionRequired means we need to ask the user to sign-in. This usually happens
-                // when the user's Refresh Token is expired or if the user has changed their password
-                // among other possible reasons.
-                if nsError.domain == MSALErrorDomain {
-                    if nsError.code == MSALError.interactionRequired.rawValue {
-                        self.acquireTokenInteractively { result, error in
-                            self.tokenAcquisitionDidFinish(withResult: result, orError: error)
-                        }
-                        return
-                    }
-                }
-                self.showAlert(error: "Could not acquire token silently: \(error)")
-                return
-            }
-
-            guard let result = result else {
-                self.showAlert(error: "Could not acquire token: No result returned")
-                return
-            }
-            completion(result, error)
-        }
+        updateLogOutButton(enabled: AppState.currentAccount() != nil)
     }
 
     internal func updateLogOutButton(enabled: Bool) {
@@ -180,10 +82,16 @@ class LoginViewController: UIViewController {
     }
 
     internal func updateUserLabel() {
-        if let account = AppState.account {
+        if let account = AppState.currentAccount() {
             userLabel.text = account.username ?? "Unknown"
         } else {
             userLabel.text = "Please log in"
         }
+    }
+
+    // MARK: MSALInteractiveDelegate
+    func didCompleteMSALRequest(withResult result: MSALResult) {
+        AppState.account = result.account
+        updateLogOutButton(enabled: true)
     }
 }

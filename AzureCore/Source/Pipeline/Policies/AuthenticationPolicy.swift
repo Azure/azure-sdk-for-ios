@@ -44,7 +44,7 @@ public protocol AuthenticationProtocol: PipelineStageProtocol {
 }
 
 extension AuthenticationProtocol {
-    public func onRequest(_ request: inout PipelineRequest) {
+    public func onRequest(_ request: PipelineRequest) {
         authenticate(request: request)
     }
 }
@@ -73,7 +73,7 @@ public class BearerTokenCredentialPolicy: AuthenticationProtocol {
         }
     }
 
-    public func onRequest(_ request: inout PipelineRequest) {
+    public func onRequest(_ request: PipelineRequest) {
         if needNewToken {
             token = credential.token(forScopes: scopes)
         }

@@ -31,7 +31,7 @@ import MSAL
 import os.log
 import UIKit
 
-class MainViewController: UITableViewController {
+class MainViewController: UITableViewController, MSALInteractiveDelegate {
 
     // MARK: Properties
 
@@ -144,5 +144,11 @@ class MainViewController: UITableViewController {
                 next.containerName = current.keyLabel.text
             }
         }
+    }
+
+    // MARK: MSALInteractiveDelegate
+
+    func didCompleteMSALRequest(withResult result: MSALResult) {
+        AppState.account = result.account
     }
 }

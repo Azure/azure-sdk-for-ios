@@ -26,13 +26,14 @@
 
 import AzureCore
 import AzureStorageBlob
+import MSAL
 import os.log
 
 import AVKit
 import AVFoundation
 import UIKit
 
-class BlobTableViewController: UITableViewController {
+class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
     internal var containerName: String?
     private var dataSource: PagedCollection<BlobItem>?
     private var noMoreData = false
@@ -205,5 +206,11 @@ class BlobTableViewController: UITableViewController {
         } catch {
             self.showAlert(error: String(describing: error))
         }
+    }
+
+    // MARK: MSALInteractiveDelegate
+
+    func didCompleteMSALRequest(withResult result: MSALResult) {
+        AppState.account = result.account
     }
 }

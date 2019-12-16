@@ -28,6 +28,19 @@ import AzureCore
 import Foundation
 import MSAL
 
+public protocol MSALInteractiveDelegate: UIViewController {
+    func parentForWebView() -> UIViewController
+    func didCompleteMSALRequest(withResult result: MSALResult)
+}
+
+public extension MSALInteractiveDelegate {
+    func parentForWebView() -> UIViewController {
+        return self
+    }
+
+    func didCompleteMSALRequest(_: MSALResult) {}
+}
+
 /// An OAuth credential object.
 public class StorageOAuthCredential: TokenCredential {
 
@@ -39,17 +52,19 @@ public class StorageOAuthCredential: TokenCredential {
 
     internal let account: MSALAccount?
 
+    internal var delegate: MSALInteractiveDelegate? {
+        return ApplicationUtil.currentViewController(forParent: nil) as? MSALInteractiveDelegate
+    }
+
     // MARK: Initializers
 
-    /**
-     Create an OAuth credential.
-     - Parameter tenant: Tenant ID (a GUID) for the AAD instance.
-     - Parameter clientId: The service principal client or application ID (a GUID).
-     - Parameter authority: An authority URI for the application.
-     - Parameter redirectUri: An optional redirect URI for the application.
-     - Parameter token: An optional inital value for the token string.
-     - Returns: A `StorageOAuthCredential` object.
-     */
+    /// Create an OAuth credential.
+    /// - Parameters:
+    ///   - tenant: Tenant ID (a GUID) for the AAD instance.
+    ///   - clientId: The service principal client or application ID (a GUID).
+    ///   - authority: An authority URI for the application.
+    ///   - redirectUri: An optional redirect URI for the application.
+    ///   - account: Initial value of the `MSALAccount` object, if known.
     public convenience init(tenant: String, clientId: String, authority: String, redirectUri: String? = nil,
                             account: MSALAccount? = nil) throws {
         let error = AzureError.general("Unable to create MSAL credential object.")
@@ -63,14 +78,12 @@ public class StorageOAuthCredential: TokenCredential {
         self.init(tenant: tenant, clientId: clientId, application: application, account: account)
     }
 
-    /**
-     Create an OAuth credential.
-     - Parameter tenant: Tenant ID (a GUID) for the AAD instance.
-     - Parameter clientId: The service principal client or application ID (a GUID).
-     - Parameter application: An `MSALPublicClientApplication` object.
-     - Parameter token: An optional inital value for the token string.
-     - Returns: A `StorageOAuthCredential` object.
-     */
+    /// Create an OAuth credential.
+    /// - Parameters:
+    ///   - tenant: Tenant ID (a GUID) for the AAD instance.
+    ///   - clientId: The service principal client or application ID (a GUID).
+    ///   - application: An `MSALPublicClientApplication` object.
+    ///   - account: Initial value of the `MSALAccount` object, if known.
     public init(tenant: String, clientId: String, application: MSALPublicClientApplication,
                 account: MSALAccount? = nil) {
         self.tenant = tenant
@@ -80,6 +93,47 @@ public class StorageOAuthCredential: TokenCredential {
     }
 
     // MARK: Public Methods
+
+    public func token(forScopes scopes: [String], then completion: @escaping (AccessToken?) -> Void) {
+        let group = DispatchGroup()
+        var accessToken: AccessToken?
+        group.enter()
+        if let account = account {
+            acquireTokenSilently(forAccount: account, withScopes: scopes) { result, error in
+                if let error = error {
+                    print(error)
+                }
+                if let result = result {
+                    accessToken = AccessToken(
+                        token: result.accessToken,
+                        expiresOn: Int(result.expiresOn.timeIntervalSince1970)
+                    )
+                } else {
+                    accessToken = nil
+                }
+                group.leave()
+            }
+        } else {
+            acquireTokenInteractively(withScopes: scopes) { (result, error) in
+                if let error = error {
+                    print(error)
+                }
+                if let result = result {
+                    self.delegate?.didCompleteMSALRequest(withResult: result)
+                    accessToken = AccessToken(
+                        token: result.accessToken,
+                        expiresOn: Int(result.expiresOn.timeIntervalSince1970)
+                    )
+                } else {
+                    accessToken = nil
+                }
+                group.leave()
+            }
+        }
+        group.notify(queue: DispatchQueue.main) {
+            completion(accessToken)
+        }
+    }
 
     /**
      Retrieve a token for the provided scope.
@@ -129,19 +183,10 @@ public class StorageOAuthCredential: TokenCredential {
 
     internal func acquireTokenInteractively(withScopes scopes: [String],
                                             then completion: @escaping (MSALResult?, Error?) -> Void) {
-        guard let rootView = UIApplication.shared.keyWindow?.rootViewController else { return }
-        let parent: UIViewController?
-        if let navController = rootView as? UINavigationController {
-            parent = navController.topViewController
-        } else if let tabController = rootView as? UITabBarController {
-            parent = tabController.selectedViewController
-        } else {
-            parent = rootView
-        }
-        guard parent != nil else { return }
-        let webViewParameters = MSALWebviewParameters(parentViewController: parent!)
+        guard let parent = delegate?.parentForWebView() else { return }
+        let webViewParameters = MSALWebviewParameters(parentViewController: parent)
         let parameters = MSALInteractiveTokenParameters(scopes: scopes, webviewParameters: webViewParameters)
-        application.acquireToken(with: parameters) { result, error in
+        self.application.acquireToken(with: parameters) { result, error in
             completion(result, error)
         }
     }
@@ -307,6 +352,14 @@ public class StorageOAuthAuthenticationPolicy: AuthenticationProtocol {
         let scope = "https://storage.azure.com/.default"
         guard let token = credential.token(forScopes: [scope]) else { return }
         request.httpRequest.headers[HttpHeader.authorization] = "Bearer \(token.token)"
-        let test = request.httpRequest.headers[HttpHeader.authorization]
+    }
+
+    public func onRequest(_ request: PipelineRequest, then completion: @escaping (PipelineRequest) -> Void) {
+        let scope = "https://storage.azure.com/.default"
+        credential.token(forScopes: [scope]) { result in
+            guard let token = result else { return }
+            request.httpRequest.headers[HttpHeader.authorization] = "Bearer \(token.token)"
+            completion(request)
+        }
     }
 }

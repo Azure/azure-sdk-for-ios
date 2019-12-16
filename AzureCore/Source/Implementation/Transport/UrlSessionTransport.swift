@@ -67,25 +67,22 @@ public class UrlSessionTransport: HttpTransportable {
         Foundation.sleep(UInt32(duration))
     }
 
-    public func onRequest(_: inout PipelineRequest) {}
-    public func onResponse(_: inout PipelineResponse) {}
-    public func onError(request _: PipelineRequest) -> Bool { return false }
-
-    public func process(request: inout PipelineRequest, completion: @escaping PipelineStageResultHandler) {
+    public func process(request pipelineRequest: PipelineRequest,
+                        then completion: @escaping PipelineStageResultHandler) {
         open()
         guard let session = self.session else {
-            request.logger.error("Invalid session.")
+            pipelineRequest.logger.error("Invalid session.")
             return
         }
-        var urlRequest = URLRequest(url: URL(string: request.httpRequest.url)!)
-        urlRequest.httpMethod = request.httpRequest.httpMethod.rawValue
-        urlRequest.allHTTPHeaderFields = request.httpRequest.headers
+        var urlRequest = URLRequest(url: URL(string: pipelineRequest.httpRequest.url)!)
+        urlRequest.httpMethod = pipelineRequest.httpRequest.httpMethod.rawValue
+        urlRequest.allHTTPHeaderFields = pipelineRequest.httpRequest.headers
 
         // need immutable copies to pass into the closure. At this point, these can't change
         // anyways.
-        let httpRequest = request.httpRequest
-        let responseContext = request.context
-        let logger = request.logger
+        let httpRequest = pipelineRequest.httpRequest
+        let responseContext = pipelineRequest.context
+        let logger = pipelineRequest.logger
 
         session.dataTask(with: urlRequest) { data, response, error in
             let rawResponse = response as? HTTPURLResponse

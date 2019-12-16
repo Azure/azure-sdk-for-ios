@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A18D7B523A95FEC008959E6 /* Cloneable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A18D7B423A95FEC008959E6 /* Cloneable.swift */; };
 		0A29CC3E2322F3CD006CEFA7 /* DateUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A29CC3D2322F3CD006CEFA7 /* DateUtil.swift */; };
 		0A3A5D7B2315C89C00473FDA /* AzureCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A3A5D792315C89C00473FDA /* AzureCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0A3A5D9B2315CEB600473FDA /* HttpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D902315CEB600473FDA /* HttpRequest.swift */; };
@@ -29,6 +30,7 @@
 		0A3A5F442319D49700473FDA /* UrlSessionTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F432319D49700473FDA /* UrlSessionTransport.swift */; };
 		0A4081B62333EB380071EAEE /* ObjectiveCHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4081B52333EB380071EAEE /* ObjectiveCHelpers.swift */; };
 		0A4081BA233432C30071EAEE /* HttpUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4081B9233432C30071EAEE /* HttpUtil.swift */; };
+		0A45B1FB23A82A2E00C54363 /* ApplicationUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45B1FA23A82A2E00C54363 /* ApplicationUtil.swift */; };
 		0A6864B8233EAC76004B7E17 /* ContentDecodePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6864B7233EAC76004B7E17 /* ContentDecodePolicy.swift */; };
 		0A6A9B4F234293B50013FCAA /* RegexUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6A9B4E234293B50013FCAA /* RegexUtil.swift */; };
 		0A7F563A2321732B00E9765A /* UrlHttpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F56392321732B00E9765A /* UrlHttpResponse.swift */; };
@@ -70,6 +72,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0A18D7B423A95FEC008959E6 /* Cloneable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cloneable.swift; sourceTree = "<group>"; };
 		0A29CC3D2322F3CD006CEFA7 /* DateUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtil.swift; sourceTree = "<group>"; };
 		0A3A5D762315C89C00473FDA /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A3A5D792315C89C00473FDA /* AzureCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AzureCore.h; sourceTree = "<group>"; };
@@ -95,6 +98,7 @@
 		0A3A5F432319D49700473FDA /* UrlSessionTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlSessionTransport.swift; sourceTree = "<group>"; };
 		0A4081B52333EB380071EAEE /* ObjectiveCHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectiveCHelpers.swift; sourceTree = "<group>"; };
 		0A4081B9233432C30071EAEE /* HttpUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpUtil.swift; sourceTree = "<group>"; };
+		0A45B1FA23A82A2E00C54363 /* ApplicationUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationUtil.swift; sourceTree = "<group>"; };
 		0A6864B7233EAC76004B7E17 /* ContentDecodePolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentDecodePolicy.swift; sourceTree = "<group>"; };
 		0A6A9B4E234293B50013FCAA /* RegexUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegexUtil.swift; sourceTree = "<group>"; };
 		0A7F56392321732B00E9765A /* UrlHttpResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlHttpResponse.swift; sourceTree = "<group>"; };
@@ -168,6 +172,7 @@
 		0A3A5DA52315CEBF00473FDA /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				0A45B1FA23A82A2E00C54363 /* ApplicationUtil.swift */,
 				0AC0AA82234D017F00F05073 /* AzureCodable.swift */,
 				0A3A5F022316DF6600473FDA /* CryptoUtils.swift */,
 				0A29CC3D2322F3CD006CEFA7 /* DateUtil.swift */,
@@ -175,6 +180,7 @@
 				0A4081B9233432C30071EAEE /* HttpUtil.swift */,
 				0A6A9B4E234293B50013FCAA /* RegexUtil.swift */,
 				0AB5EAFC2375F25400361879 /* StringUtil.swift */,
+				0A18D7B423A95FEC008959E6 /* Cloneable.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -421,9 +427,11 @@
 				7AFCF7662345714200592782 /* LoggingPolicy.swift in Sources */,
 				0A3A5D9E2315CEB600473FDA /* HttpHeader.swift in Sources */,
 				0A3A5D9C2315CEB600473FDA /* HttpResponse.swift in Sources */,
+				0A18D7B523A95FEC008959E6 /* Cloneable.swift in Sources */,
 				0A3A5F202316EF9400473FDA /* PipelineContext.swift in Sources */,
 				0AE5C3A6231F150A0013CA85 /* KeychainUtil.swift in Sources */,
 				0A3A5F422319834500473FDA /* PipelineBase.swift in Sources */,
+				0A45B1FB23A82A2E00C54363 /* ApplicationUtil.swift in Sources */,
 				0A3A5D9D2315CEB600473FDA /* HttpMethod.swift in Sources */,
 				0A3A5D9B2315CEB600473FDA /* HttpRequest.swift in Sources */,
 				0AC0AA8C234F8ADD00F05073 /* Collections.swift in Sources */,
@@ -597,7 +605,7 @@
 		0A3A5D7F2315C89C00473FDA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
@@ -627,7 +635,7 @@
 		0A3A5D802315C89C00473FDA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
