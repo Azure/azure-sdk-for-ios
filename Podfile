@@ -28,9 +28,18 @@ use_frameworks!
 platform :ios, '12.0'
 workspace "AzureSDK"
 
+def azure_core_pods
+  pod 'MSAL', '~> 1.0.0'
+end
+
 target 'AzureCore' do
   project 'sdk/core/AzureCore/AzureCore'
-  pod 'MSAL', '~> 1.0.0'
+  azure_core_pods
+end
+
+target 'AzureCoreTests' do
+  project 'sdk/core/AzureCore/AzureCore'
+  azure_core_pods
 end
 
 #target 'AzureAppConfiguration' do

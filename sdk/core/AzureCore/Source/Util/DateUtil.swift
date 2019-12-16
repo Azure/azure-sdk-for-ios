@@ -29,7 +29,7 @@ import Foundation
 extension Date {
     public var rfc1123Format: String {
         let dateFormat = DateFormatter()
-        dateFormat.dateFormat = "MMM, dd yyyy HH:mm:ss z" // EEE for day
+        dateFormat.dateFormat = "MMM, dd yyyy HH:mm:ss z"
         dateFormat.timeZone = TimeZone(abbreviation: "UTC")
         return dateFormat.string(from: self)
     }

@@ -40,6 +40,7 @@ internal class Pipeline {
             }
             prevPolicy = policy
         }
+        // FIXME: Handle case where there are no policies
         var lastPolicy = self.policies.removeLast()
         lastPolicy.next = transport
         self.policies.append(lastPolicy)

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<things>
+    <items>
+        <item>
+          <id>1</id>
+          <name>Test1</name>
+        </item>
+        <item>
+          <id>2</id>
+          <name>Test2</name>
+          <value>SomeVal</value>
+        </item>
+        <item>
+          <id>3</id>
+          <name>Test3</name>
+        </item>
+    </items>
+    <next>token</next>
+</things>

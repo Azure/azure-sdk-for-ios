@@ -68,17 +68,19 @@ extension PipelineContextProtocol {
     }
 }
 
-public class PipelineContext: CustomDebugStringConvertible {
+public class PipelineContext {
     private let parent: PipelineContext?
     private let key: AnyHashable
     private let value: AnyObject?
 
-    public var debugDescription: String {
-        var debugString = "\(key) "
-        if let parent = parent {
-            debugString += parent.debugDescription
+    public var count: Int {
+        var count = 0
+        var current: PipelineContext? = self
+        while current != nil {
+            count += 1
+            current = current?.parent
         }
-        return debugString
+        return count
     }
 
     internal convenience init(key: AnyHashable, value: AnyObject?) {

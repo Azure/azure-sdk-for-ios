@@ -117,7 +117,7 @@ internal class ChunkDownloader {
         if let ifNoneMatch = modifiedAccessConditions?.ifNoneMatch { headerParams[.ifNoneMatch] = ifNoneMatch }
 
         // Construct and send request
-        let request = client.request(method: HttpMethod.GET,
+        let request = client.request(method: HttpMethod.get,
                                    url: url,
                                    queryParams: queryParams,
                                    headerParams: headerParams)

@@ -65,6 +65,7 @@ public class LoggingPolicy: PipelineStageProtocol {
 
     public func onRequest(_ request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
         var returnRequest = request.copy()
+        defer { completion(returnRequest) }
         let logger = request.logger
         let req = request.httpRequest
         let requestId = req.headers[.clientRequestId] ?? "(none)"
@@ -95,7 +96,6 @@ public class LoggingPolicy: PipelineStageProtocol {
         logger.info("--> [END \(requestId)]")
 
         returnRequest.add(value: DispatchTime.now() as AnyObject, forKey: .requestStartTime)
-        completion(returnRequest)
     }
 
     public func onResponse(_ response: PipelineResponse, then completion: @escaping OnResponseCompletionHandler) {

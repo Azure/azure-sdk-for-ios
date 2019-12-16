@@ -32,7 +32,7 @@ public class ContentDecodePolicy: NSObject, PipelineStageProtocol, XMLParserDele
     public let jsonRegex = NSRegularExpression("^(application|text)/([0-9a-z+.]+)?json$")
     public var logger: ClientLogger?
 
-    private func parse(xml data: Data) throws -> AnyObject {
+    internal func parse(xml data: Data) throws -> AnyObject {
         let parser = XMLParser(data: data)
         parser.delegate = self
         _ = parser.parse()
@@ -48,7 +48,7 @@ public class ContentDecodePolicy: NSObject, PipelineStageProtocol, XMLParserDele
         return try JSONSerialization.jsonObject(with: finalJsonData, options: []) as AnyObject
     }
 
-    private func deserialize(from httpResponse: HttpResponse, contentType: String) throws -> AnyObject? {
+    internal func deserialize(from httpResponse: HttpResponse, contentType: String) throws -> AnyObject? {
         guard let data = httpResponse.data else { return nil }
         if jsonRegex.hasMatch(in: contentType) {
             return try JSONSerialization.jsonObject(with: data, options: []) as AnyObject
@@ -89,6 +89,13 @@ public class ContentDecodePolicy: NSObject, PipelineStageProtocol, XMLParserDele
     internal var xmlTree: XMLTree?
     internal var currNode: XMLTreeNode?
     internal var elementPath = [String]()
+    internal var elementKey: String {
+        return elementPath.joined(separator: ".")
+    }
+    internal var mapPath = [String]()
+    internal var mapKey: String {
+        return mapPath.joined(separator: ".")
+    }
     internal var inferStructure = false
 
     public func parserDidStartDocument(_: XMLParser) {
@@ -108,24 +115,39 @@ public class ContentDecodePolicy: NSObject, PipelineStageProtocol, XMLParserDele
     public func parser(_: XMLParser, didStartElement elementName: String, namespaceURI _: String?,
                        qualifiedName _: String?, attributes attributeDict: [String: String] = [:]) {
         elementPath.append(elementName)
-        let elementKey = elementPath.joined(separator: ".")
-        let jsonName = xmlMap?[elementKey]?.jsonName
+
+        // resolve the map key
+        let elementMetadata = xmlMap?[elementKey]
+        switch elementMetadata?.jsonType {
+        case .flatten:
+            break
+        default:
+            mapPath.append(elementName)
+        }
+
+        // the rest of the method should use only the map key
+        let mapMetadata = xmlMap?[mapKey]
+        let jsonName = mapMetadata?.jsonName
         let newNode = XMLTreeNode(name: jsonName ?? elementName, type: .ignored, parent: currNode ?? xmlTree?.root)
         defer { currNode = newNode }
 
-        let mapKey = elementPath.joined(separator: ".")
-        guard !inferStructure else { return }
-        guard let mapData = xmlMap?[mapKey] else {
+        let metadata = mapMetadata ?? elementMetadata
+
+        if xmlMap != nil && metadata == nil {
             logger?.warning("No XML metadata found for \(elementName). Ignoring.")
             return
         }
-        switch mapData.attributeStrategy {
+
+        let attributeStrategy = metadata?.attributeStrategy ?? AttributeToJsonStrategy.underscoredProperties
+        switch attributeStrategy {
         case .ignored:
             return
         case .underscoredProperties:
             for (key, value) in attributeDict {
-                let attr = XMLTreeNode(name: key, type: .property, parent: newNode, value: value)
-                newNode.properties["_\(key)"] = attr
+                let defaultKey = "_\(key)"
+                let jsonKey = xmlMap?[defaultKey]?.jsonName ?? defaultKey
+                let attr = XMLTreeNode(name: jsonKey, type: .property, parent: newNode, value: value)
+                newNode.properties[jsonKey] = attr
             }
         }
     }
@@ -139,6 +161,9 @@ public class ContentDecodePolicy: NSObject, PipelineStageProtocol, XMLParserDele
                        qualifiedName _: String?) {
         defer {
             _ = elementPath.popLast()
+            if mapPath.last == elementName {
+                _ = mapPath.popLast()
+            }
             let nextNode = currNode?.parent
             currNode?.parent = nil
             currNode = nextNode
@@ -147,10 +172,9 @@ public class ContentDecodePolicy: NSObject, PipelineStageProtocol, XMLParserDele
         guard let parent = currNode?.parent else { return }
         guard let xmlTree = xmlTree else { return }
 
-        let mapKey = elementPath.joined(separator: ".")
-        if let mapData = xmlMap?[mapKey] {
-            currNode?.type = mapData.jsonType
-            switch mapData.jsonType {
+        if let data = xmlMap?[mapKey] ?? xmlMap?[elementKey] {
+            currNode?.type = data.jsonType
+            switch data.jsonType {
             case .property:
                 parent.properties[current.name] = current
             case .object, .array, .anyObject:
@@ -159,6 +183,8 @@ public class ContentDecodePolicy: NSObject, PipelineStageProtocol, XMLParserDele
                 parent.collection.append(current)
             case .ignored:
                 break
+            case .flatten:
+                parent.properties = current.properties
             }
         } else if inferStructure {
             // When inferring structure, assume the element name is the key and the text
@@ -171,8 +197,13 @@ public class ContentDecodePolicy: NSObject, PipelineStageProtocol, XMLParserDele
     }
 
     public func parser(_: XMLParser, parseErrorOccurred parseError: Error) {
-        if let logger = logger {
-            logger.error(String(format: "XML Parse Error: %@", parseError.localizedDescription))
+        var message = ""
+        switch parseError {
+        case let parseError as NSError:
+            message = "\(parseError.userInfo)"
+        default:
+            message = parseError.localizedDescription
         }
+        logger?.error(String(format: "XML Parse Error: %@", message))
     }
 }
