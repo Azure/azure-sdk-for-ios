@@ -20,6 +20,7 @@
 		0AC0AA85234D31C300F05073 /* BlobItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC0AA84234D31C300F05073 /* BlobItem.swift */; };
 		0AC0AA87234D38B000F05073 /* ContainerProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC0AA86234D38B000F05073 /* ContainerProperties.swift */; };
 		0AC34915235633110094C576 /* StorageBlobClientOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC34914235633110094C576 /* StorageBlobClientOptions.swift */; };
+		7A0EB50723A9A7A700498A51 /* BlobHeadersAndQueryParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A0EB50623A9A7A700498A51 /* BlobHeadersAndQueryParameters.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		0AC0AA84234D31C300F05073 /* BlobItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlobItem.swift; sourceTree = "<group>"; };
 		0AC0AA86234D38B000F05073 /* ContainerProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerProperties.swift; sourceTree = "<group>"; };
 		0AC34914235633110094C576 /* StorageBlobClientOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageBlobClientOptions.swift; sourceTree = "<group>"; };
+		7A0EB50623A9A7A700498A51 /* BlobHeadersAndQueryParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlobHeadersAndQueryParameters.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +136,7 @@
 			children = (
 				0A6864AD233E8601004B7E17 /* Credentials */,
 				0A6864B1233E89BC004B7E17 /* Models */,
+				7A0EB50523A9A7A700498A51 /* Util */,
 				0A6864A9233E83B5004B7E17 /* StorageBlobClient.swift */,
 				0AC34914235633110094C576 /* StorageBlobClientOptions.swift */,
 				0A68648B233E834D004B7E17 /* Supporting Files */,
@@ -159,6 +162,14 @@
 				0A71C5C6234BB33800604F2D /* BlobProperties.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		7A0EB50523A9A7A700498A51 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				7A0EB50623A9A7A700498A51 /* BlobHeadersAndQueryParameters.swift */,
+			);
+			path = Util;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -279,6 +290,7 @@
 				0AC0AA87234D38B000F05073 /* ContainerProperties.swift in Sources */,
 				0AC0AA85234D31C300F05073 /* BlobItem.swift in Sources */,
 				0A6864AF233E8620004B7E17 /* StorageCredentials.swift in Sources */,
+				7A0EB50723A9A7A700498A51 /* BlobHeadersAndQueryParameters.swift in Sources */,
 				0A71C5C9234BBAA200604F2D /* Enumerations.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

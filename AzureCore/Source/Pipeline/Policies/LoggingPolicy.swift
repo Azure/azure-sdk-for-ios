@@ -27,7 +27,7 @@
 import Foundation
 
 public class LoggingPolicy: PipelineStageProtocol {
-    private static let defaultAllowHeaders: [String] = [
+    public static let defaultAllowHeaders: [String] = [
         HttpHeader.traceparent.rawValue,
         HttpHeader.accept.rawValue,
         HttpHeader.cacheControl.rawValue,
@@ -54,12 +54,12 @@ public class LoggingPolicy: PipelineStageProtocol {
     private static let maxBodyLogSize = 1024 * 16
 
     public var next: PipelineStageProtocol?
-    private let allowHeaders: [String]
-    private let allowQueryParams: [String]
+    private let allowHeaders: Set<String>
+    private let allowQueryParams: Set<String>
 
-    public init(allowHeaders: [String]?, allowQueryParams: [String]?) {
-        self.allowHeaders = (allowHeaders ?? LoggingPolicy.defaultAllowHeaders).map{ $0.lowercased() }
-        self.allowQueryParams = (allowQueryParams ?? []).map{ $0.lowercased() }
+    public init(allowHeaders: [String] = LoggingPolicy.defaultAllowHeaders, allowQueryParams: [String] = []) {
+        self.allowHeaders = Set(allowHeaders.map { $0.lowercased() })
+        self.allowQueryParams = Set(allowQueryParams.map { $0.lowercased() })
     }
 
     public func onRequest(_ request: inout PipelineRequest) {
