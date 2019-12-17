@@ -19,6 +19,7 @@ trigger:
       - feature/*
       - hotfix/*
       - release/*
+      - dev # TEMPORARY!
   paths:
     include:
       - sdk/core/
@@ -30,6 +31,7 @@ pr:
       - feature/*
       - hotfix/*
       - release/*
+      - dev # TEMPORARY!
   paths:
     include:
       - sdk/core/
