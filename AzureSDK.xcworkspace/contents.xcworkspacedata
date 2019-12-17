@@ -1,21 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
-   <FileRef
-      location = "group:AzureCore/AzureCore.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:AzureAppConfiguration/AzureAppConfiguration.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:AzureCSComputerVision/AzureCSComputerVision.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:AzureCSTextAnalytics/AzureCSTextAnalytics.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:AzureStorageBlob/AzureStorageBlob.xcodeproj">
-   </FileRef>
+   <Group
+      location = "container:"
+      name = "sdk">
+      <Group
+         location = "container:"
+         name = "core">
+         <FileRef
+            location = "group:sdk/core/AzureCore/AzureCore.xcodeproj">
+         </FileRef>
+      </Group>
+      <Group
+         location = "container:"
+         name = "storage">
+         <FileRef
+            location = "group:sdk/storage/AzureStorageBlob/AzureStorageBlob.xcodeproj">
+         </FileRef>
+      </Group>
+      <Group
+         location = "container:"
+         name = "appconfiguration">
+         <FileRef
+            location = "group:sdk/appconfiguration/AzureAppConfiguration/AzureAppConfiguration.xcodeproj">
+         </FileRef>
+      </Group>
+      <Group
+         location = "container:"
+         name = "textanalytics">
+         <FileRef
+            location = "group:sdk/textanalytics/AzureCSTextAnalytics/AzureCSTextAnalytics.xcodeproj">
+         </FileRef>
+      </Group>
+      <Group
+         location = "container:"
+         name = "vision">
+         <FileRef
+            location = "group:sdk/vision/AzureCSComputerVision/AzureCSComputerVision.xcodeproj">
+         </FileRef>
+      </Group>
+   </Group>
    <Group
       location = "container:"
       name = "Examples">
