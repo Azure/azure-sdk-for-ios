@@ -27,30 +27,72 @@
 import Foundation
 
 public class LoggingPolicy: PipelineStageProtocol {
+    private static let defaultAllowHeaders: [String] = [
+        HttpHeader.traceparent.rawValue,
+        HttpHeader.accept.rawValue,
+        HttpHeader.cacheControl.rawValue,
+        HttpHeader.clientRequestId.rawValue,
+        HttpHeader.connection.rawValue,
+        HttpHeader.contentLength.rawValue,
+        HttpHeader.contentType.rawValue,
+        HttpHeader.date.rawValue,
+        HttpHeader.etag.rawValue,
+        HttpHeader.expires.rawValue,
+        HttpHeader.ifMatch.rawValue,
+        HttpHeader.ifModifiedSince.rawValue,
+        HttpHeader.ifNoneMatch.rawValue,
+        HttpHeader.ifUnmodifiedSince.rawValue,
+        HttpHeader.lastModified.rawValue,
+        HttpHeader.pragma.rawValue,
+        HttpHeader.requestId.rawValue,
+        HttpHeader.retryAfter.rawValue,
+        HttpHeader.returnClientRequestId.rawValue,
+        HttpHeader.server.rawValue,
+        HttpHeader.transferEncoding.rawValue,
+        HttpHeader.userAgent.rawValue
+    ]
+    private static let maxBodyLogSize = 1024 * 16
+
     public var next: PipelineStageProtocol?
-    private lazy var attachmentRegex = NSRegularExpression("attachment; ?filename=([\"\\w.]+)",
-                                                           options: .caseInsensitive)
-    public init() {}
+    private let allowHeaders: [String]
+    private let allowQueryParams: [String]
+
+    public init(allowHeaders: [String]?, allowQueryParams: [String]?) {
+        self.allowHeaders = (allowHeaders ?? LoggingPolicy.defaultAllowHeaders).map{ $0.lowercased() }
+        self.allowQueryParams = (allowQueryParams ?? []).map{ $0.lowercased() }
+    }
 
     public func onRequest(_ request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
         let logger = request.logger
         let req = request.httpRequest
-        logger.info("Request: \(req.httpMethod.rawValue) \(req.url)")
+        let requestId = req.headers[.clientRequestId] ?? "(none)"
+        guard
+            let safeUrl = self.redact(url: req.url),
+            let host = safeUrl.host
+        else {
+            logger.warning("Failed to parse URL for request \(requestId)")
+            return
+        }
 
-        guard logger.level.rawValue >= ClientLogLevel.debug.rawValue else { return }
-        logger.debug("Request headers:")
-        for (header, value) in req.headers {
-            if header == HttpHeader.authorization.rawValue {
-                logger.debug("    \(header): *****")
-            } else {
-                logger.debug("    \(header): \(value)")
-            }
+        var fullPath = safeUrl.path
+        if let query = safeUrl.query {
+            fullPath += "?\(query)"
         }
-        if let bodyText = humanReadable(body: req.text(), headers: req.headers) {
-            logger.debug("Request body:")
-            logger.debug(bodyText)
+        if let fragment = safeUrl.fragment {
+            fullPath += "#\(fragment)"
         }
-        completion(request)
+
+        logger.info("--> [\(requestId)]")
+        logger.info("\(req.httpMethod.rawValue) \(fullPath)")
+        logger.info("Host: \(host)")
+
+        if logger.level.rawValue >= ClientLogLevel.debug.rawValue {
+            logDebug(body: req.text(), headers: req.headers, logger: logger)
+        }
+
+        logger.info("--> [END \(requestId)]")
+
+        request.add(value: DispatchTime.now() as AnyObject, forKey: .requestStartTime)
     }
 
     public func onResponse(_ response: PipelineResponse, then completion: @escaping OnResponseCompletionHandler) {
@@ -69,49 +111,123 @@ public class LoggingPolicy: PipelineStageProtocol {
         completion(error, false)
     }
 
-    private func logResponse(_ res: HttpResponse?, fromRequest req: HttpRequest, logger: ClientLogger) {
-        guard let res = res, let statusCode = res.statusCode else {
-            logger.warning("No response data available from \(req.httpMethod.rawValue) \(req.url)")
+    private func logResponse(_ response: PipelineResponse, withError error: Error? = nil) {
+        let endTime = DispatchTime.now()
+        var durationMs: Double?
+        if let startTime = response.value(forKey: .requestStartTime) as? DispatchTime {
+            durationMs = Double(endTime.uptimeNanoseconds - startTime.uptimeNanoseconds) / 1_000_000
+        }
+
+        let logger = response.logger
+        let req = response.httpRequest
+        let requestId = req.headers[.clientRequestId] ?? "(none)"
+
+        if let durationMs = durationMs {
+            logger.info("<-- [\(requestId)] (\(durationMs)ms)")
+        } else {
+            logger.info("<-- [\(requestId)]")
+        }
+
+        if let error = error {
+            logger.warning(error.localizedDescription)
+        }
+
+        guard
+            let res = response.httpResponse,
+            let statusCode = res.statusCode
+        else {
+            logger.warning("No response data available")
+            logger.info("<-- [END \(requestId)]")
             return
         }
 
-        logger.info("Response: \(statusCode) from \(req.httpMethod.rawValue) \(req.url)")
+        let statusCodeString = HTTPURLResponse.localizedString(forStatusCode: statusCode)
+        if statusCode >= 400 {
+            logger.warning("\(statusCode) \(statusCodeString)")
+        } else {
+            logger.info("\(statusCode) \(statusCodeString)")
+        }
 
-        guard logger.level.rawValue >= ClientLogLevel.debug.rawValue else { return }
-        logger.debug("Response headers:")
-        for (header, value) in res.headers {
-            logger.debug("    \(header): \(value)")
+        if logger.level.rawValue >= ClientLogLevel.debug.rawValue {
+            logDebug(body: res.text(), headers: res.headers, logger: logger)
         }
-        if let bodyText = humanReadable(body: res.text(), headers: res.headers) {
-            logger.debug("Response content:")
-            logger.debug(bodyText)
-        }
+
+        logger.info("<-- [END \(requestId)]")
     }
 
-    private func humanReadable(body bodyFunc: @autoclosure () -> String?, headers: HttpHeaders) -> String? {
-        if let fileName = filename(fromHeader: headers[.contentDisposition]) {
-            return "File attachments: \(fileName)"
+    private func logDebug(body bodyFunc: @autoclosure () -> String?, headers: HttpHeaders, logger: ClientLogger) {
+        let safeHeaders = self.redact(headers: headers)
+        for (header, value) in safeHeaders {
+            logger.debug("\(header): \(value)")
         }
 
-        if let contentType = headers[.contentType] {
-            if contentType.lowercased().hasSuffix("octet-stream") {
-                return "Body contains binary data."
-            } else if contentType.lowercased().hasPrefix("image") {
-                return "Body contains image data."
+        let bodyText = self.humanReadable(body: bodyFunc, headers: headers)
+        logger.debug("\n\(bodyText)")
+    }
+
+    private func humanReadable(body bodyFunc: () -> String?, headers: HttpHeaders) -> String {
+        if
+            let encoding = headers[.contentEncoding],
+            encoding != "" && encoding.caseInsensitiveCompare("identity") != .orderedSame {
+            return "(encoded body omitted)"
+        }
+
+        if
+            let disposition = headers[.contentDisposition],
+            disposition != "" && disposition.caseInsensitiveCompare("inline") != .orderedSame {
+            return "(non-inline body omitted)"
+        }
+
+        if
+            let contentType = headers[.contentType],
+            contentType.lowercased().hasSuffix("octet-stream") || contentType.lowercased().hasPrefix("image") {
+            return "(binary body omitted)"
+        }
+
+        let length = contentLength(from: headers)
+        if length > LoggingPolicy.maxBodyLogSize {
+            return "(\(length)-byte body omitted)"
+        }
+
+        if length > 0 {
+            if let text = bodyFunc(), text != "" {
+                return text
             }
         }
-        return bodyFunc()
+        return "(empty body)"
     }
 
-    private func filename(fromHeader header: String?) -> Substring? {
-        guard let header = header else { return nil }
-        guard let match = attachmentRegex.firstMatch(in: header) else { return nil }
-        let captures = match.capturedValues(from: header)
-        if captures.count > 1 {
-            return captures[1]
-        } else {
-            return nil
+    private func redact(url: String) -> URLComponents? {
+        guard var urlComps = URLComponents(string: url) else { return nil }
+        guard let queryItems = urlComps.queryItems else { return urlComps }
+
+        var redactedQueryItems = [URLQueryItem]()
+        for query in queryItems {
+            if !self.allowQueryParams.contains(query.name.lowercased()) {
+                redactedQueryItems.append(URLQueryItem(name: query.name, value: "REDACTED"))
+            } else {
+                redactedQueryItems.append(query)
+            }
         }
+
+        urlComps.queryItems = redactedQueryItems
+        return urlComps
+    }
+
+    private func redact(headers: HttpHeaders) -> HttpHeaders {
+        var copy = headers
+        for header in copy.keys {
+            if !self.allowHeaders.contains(header.lowercased()) {
+                copy.updateValue("REDACTED", forKey: header)
+            }
+        }
+        return copy
+    }
+
+    private func contentLength(from headers: HttpHeaders) -> Int {
+        guard let length = headers[.contentLength] else { return 0 }
+        guard let parsed = Int(length) else { return 0 }
+        return parsed
     }
 }
 
