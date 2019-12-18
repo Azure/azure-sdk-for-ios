@@ -24,6 +24,7 @@
 //
 // --------------------------------------------------------------------------
 
+import AzureCore
 import AzureAppConfiguration
 import AzureStorageBlob
 import Foundation
@@ -78,7 +79,7 @@ extension UIViewController {
     internal func getBlobClient() -> StorageBlobClient? {
         guard let application = AppState.application else { return nil }
         do {
-            let credential = StorageOAuthCredential(
+            let credential = MSALCredential(
                 tenant: AppConstants.tenant, clientId: AppConstants.clientId, application: application,
                 account: AppState.currentAccount())
             return try StorageBlobClient(accountUrl: AppConstants.storageAccountUrl, credential: credential)
@@ -114,23 +115,6 @@ extension UIViewController {
         DispatchQueue.main.async { [weak self] in
             let alertController = UIAlertController(title: "Blob Contents", message: message, preferredStyle: .alert)
             let defaultAction = UIAlertAction(title: "Close", style: .default, handler: nil)
-            alertController.addAction(defaultAction)
-            self?.present(alertController, animated: true)
-        }
-    }
-
-    internal func showAlert(image: UIImage) {
-        DispatchQueue.main.async { [weak self] in
-            let alertController = UIAlertController(title: "Blob Contents", message: "", preferredStyle: .alert)
-            let alertBounds = alertController.view.frame
-            let padding = alertBounds.width * 0.01
-            let imageView = UIImageView(
-                frame: CGRect(x: padding, y: padding, width: alertBounds.width - padding, height: 100)
-            )
-            imageView.contentMode = .scaleAspectFit
-            imageView.image = image
-            alertController.view.addSubview(imageView)
-            let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
             alertController.addAction(defaultAction)
             self?.present(alertController, animated: true)
         }

@@ -148,17 +148,15 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
                         let url = downloader.downloadDestination
 
                         if contentType == "video/mp4" {
-                            let player = AVPlayer(url: url)
-                            let controller = AVPlayerViewController()
-                            controller.player = player
-                            self.present(controller, animated: true) {
-                                // begin playing first chunk
-                                player.playImmediately(atRate: 1.0)
-
-                                // load the rest of the video in the background
-                                DispatchQueue.main.async {
+                            DispatchQueue.main.async { [weak self] in
+                                let player = AVPlayer(url: url)
+                                let controller = AVPlayerViewController()
+                                controller.player = player
+                                self?.present(controller, animated: true) {
+                                    // begin playing first chunk
+                                    player.playImmediately(atRate: 1.0)
                                     do {
-                                        _ = try downloader.complete()
+                                        _ = try downloader.complete {}
                                     } catch {
                                         // Obviously don't really do this in a real app!
                                         fatalError(String(describing: error))
@@ -167,21 +165,20 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
                             }
                         } else {
                             let group = DispatchGroup()
-                            try downloader.complete(inGroup: group)
-                            guard let data = try? downloader.contents() else {
-                                self.showAlert(error: "Downloaded data not found!")
-                                return
-                            }
+                            try downloader.complete(inGroup: group) {
+                                guard let data = try? downloader.contents() else {
+                                    self.showAlert(error: "Downloaded data not found!")
+                                    return
+                                }
 
-                            if let attributedString = try? NSAttributedString(data: data, options: options,
-                                                                              documentAttributes: nil) {
-                                self.showAlert(message: attributedString.string)
-                            } else if let rawString = String(data: data, encoding: .utf8) {
-                                self.showAlert(message: rawString)
-                            } else if let image = UIImage(data: data) {
-                                self.showAlert(image: image)
-                            } else {
-                                self.showAlert(error: "Unable to display the downloaded content.")
+                                if let attributedString = try? NSAttributedString(data: data, options: options,
+                                                                                  documentAttributes: nil) {
+                                    self.showAlert(message: attributedString.string)
+                                } else if let rawString = String(data: data, encoding: .utf8) {
+                                    self.showAlert(message: rawString)
+                                } else {
+                                    self.showAlert(error: "Unable to display the downloaded content.")
+                                }
                             }
                         }
                     } catch {

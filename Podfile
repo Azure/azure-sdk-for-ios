@@ -28,9 +28,10 @@ use_frameworks!
 platform :ios, '12.0'
 workspace "AzureSDK"
 
-#target 'AzureCore' do
-#  project 'AzureCore/AzureCore'
-#end
+target 'AzureCore' do
+  project 'AzureCore/AzureCore'
+  pod 'MSAL', '~> 1.0.0'
+end
 
 #target 'AzureAppConfiguration' do
 #  project 'AzureAppConfiguration/AzureAppConfiguration'
@@ -44,10 +45,9 @@ workspace "AzureSDK"
 #  project 'AzureCSTextAnalytics/AzureCSTextAnalytics'
 #end
 
-target 'AzureStorageBlob' do
-  project 'AzureStorageBlob/AzureStorageBlob'
-  pod 'MSAL', '~> 1.0.0'
-end
+#target 'AzureStorageBlob' do
+#  project 'AzureStorageBlob/AzureStorageBlob'
+#end
 
 target 'AzureSDKDemoSwift' do
   project 'AzureSDKDemoSwift/AzureSDKDemoSwift'

@@ -78,7 +78,7 @@ public class AppConfigurationAuthenticationPolicy: AuthenticationProtocol {
         self.credential = credential
     }
 
-    public func authenticate(request: PipelineRequest) {
+    public func authenticate(request: PipelineRequest, then completion: @escaping (PipelineRequest) -> Void) {
         let httpRequest = request.httpRequest
         let contentHash = try? (httpRequest.data ?? Data()).hash(algorithm: .sha256).base64String
         if let url = URL(string: httpRequest.url) {
@@ -90,6 +90,7 @@ public class AppConfigurationAuthenticationPolicy: AuthenticationProtocol {
             request.httpRequest.headers[AppConfigurationHeader.date.rawValue] = Date().rfc1123Format
         }
         sign(request: request)
+        completion(request)
     }
 
     private func sign(request: PipelineRequest) {

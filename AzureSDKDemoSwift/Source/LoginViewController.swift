@@ -74,8 +74,8 @@ class LoginViewController: UIViewController, MSALInteractiveDelegate {
         if Thread.isMainThread {
             self.logOutButton.isEnabled = enabled
         } else {
-            DispatchQueue.main.async {
-                self.logOutButton.isEnabled = enabled
+            DispatchQueue.main.async { [weak self] in
+                self?.logOutButton.isEnabled = enabled
             }
         }
         updateUserLabel()

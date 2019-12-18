@@ -63,6 +63,10 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
 
     public var options: StorageBlobClientOptions
 
+    private let defaultScopes = [
+        "https://storage.azure.com/.default"
+    ]
+
     // MARK: Paged Collection Delegate
 
     public func continuationUrl(continuationToken: String, queryParams: inout [String: String],
@@ -92,8 +96,8 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
                 }
                 baseUrl = blobEndpoint
                 authPolicy = StorageSASAuthenticationPolicy(credential: sasCredential)
-            } else if let oauthCredential = credential as? StorageOAuthCredential {
-                authPolicy = StorageOAuthAuthenticationPolicy(credential: oauthCredential)
+            } else if let oauthCredential = credential as? MSALCredential {
+                authPolicy = BearerTokenCredentialPolicy(credential: oauthCredential, scopes: defaultScopes)
                 baseUrl = accountUrl
             } else {
                 throw AzureError.general("Invalid credential. \(type(of: credential))")

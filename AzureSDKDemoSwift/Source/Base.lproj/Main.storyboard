@@ -179,7 +179,7 @@
                 <navigationController id="obV-HT-tcp" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="PeG-z0-XPR"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="lrI-d9-JBG">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>

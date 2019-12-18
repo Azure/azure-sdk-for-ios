@@ -54,6 +54,15 @@ internal class ChunkDownloader {
 
     // MARK: Initializers
 
+    /// Creates a `ChunkDownloader` object.
+    /// - Parameters:
+    ///   - blob: The name of the blob.
+    ///   - container: The name of the stoarge container in which the blob is located is located.
+    ///   - client: The `StorageBlobClient` that initiated the request.
+    ///   - url: The URL to the blob object.
+    ///   - startRange: The start point, in bytes, of the download request.
+    ///   - endRange: The end point, in bytes, of the download request.
+    ///   - options: A `DownloadBlobOptions` object with which to control the download.
     public init(blob: String, container: String, client: StorageBlobClient, url: URL,
                 startRange: Int, endRange: Int, options: DownloadBlobOptions) {
         self.blobName = blob
@@ -67,6 +76,10 @@ internal class ChunkDownloader {
 
     // MARK: Public Methods
 
+    /// Begin the download process.
+    /// - Parameters:
+    ///   - requestId: Unique request ID (GUID) for the operation.
+    ///   - completion: A completion handler that forwards the downloaded data.
     public func download(requestId: String? = nil, completion: @escaping (Result<Data, Error>, HttpResponse) -> Void) {
         // Construct URL
         let urlTemplate = "/{container}/{blob}"
@@ -201,13 +214,16 @@ public class BlobStreamDownloader {
     /// The total bytes downloaded.
     public var progress = 0
 
+    /// The list of blocks for the blob download.
     public var blockList = [Range<Int>]()
 
+    /// Indicates if the download is complete.
     public var isComplete: Bool {
         guard let total = self.requestedSize else { return false }
         return progress == total
     }
 
+    /// Indicates if the download is encrypted.
     public var isEncrypted: Bool {
         return options.encryptionOptions?.key != nil || options.encryptionOptions?.keyResolver != nil
     }
@@ -223,6 +239,12 @@ public class BlobStreamDownloader {
 
     // MARK: Initializers
 
+    /// Create a `BlobStreamDownloader` object.
+    /// - Parameters:
+    ///   - client: A`StorageBlobClient` reference.
+    ///   - name: The name of the blob to download.
+    ///   - container: The name of the container the blob is contained in.
+    ///   - options: A `DownloadBlobOptions` object to control the download process.
     public init(client: StorageBlobClient, name: String, container: String, options: DownloadBlobOptions? = nil) throws {
 
         // determine which app folder is appropriate
@@ -262,36 +284,37 @@ public class BlobStreamDownloader {
 
     // MARK: Public Methods
 
-    /**
-     Read and return the content of the downloaded file.
-     - Returns: Downloaded data.
-     */
+    /// Read and return the content of the downloaded file.
     public func contents() throws -> Data {
         let handle = try FileHandle(forReadingFrom: downloadDestination)
         defer { handle.closeFile() }
         return handle.readDataToEndOfFile()
     }
 
-    /**
-     Downloads the entire blob in a parallel fashion.
-     - Returns: Downloaded data.
-     */
-    public func complete(inGroup group: DispatchGroup? = nil) throws {
-        guard !isComplete else { return }
+    /// Downloads the entire blob in a parallel fashion.
+    /// - Parameters:
+    ///   - group: An optional `DispatchGroup` to wait for the download to complete.
+    ///   - completion: A completion handler called when the download completes.
+    public func complete(inGroup group: DispatchGroup? = nil, then completion: @escaping () -> Void) throws {
+        guard !isComplete else {
+            completion()
+            return
+        }
         for _ in blockList {
             group?.enter()
             next(inGroup: group) { _, _ in
                 // Nothing to do here.
             }
         }
-        group?.wait()
+        group?.notify(queue: DispatchQueue.main) {
+            completion()
+        }
     }
 
-    /**
-     Download the contents of this file to a stream.
-     - Parameter into: The file handle to download into.
-     - Returns: The number of bytes read.
-    */
+    /// Download the contents of this file to a stream.
+    /// - Parameters:
+    ///   - group: An optional `DispatchGroup` to wait for the download to complete.
+    ///   - completion: A completion handler with which to process the downloaded chunk.
     public func next(inGroup group: DispatchGroup? = nil, then completion: (Result<Data, Error>, HttpResponse) -> Void) {
         guard !isComplete else { return }
         let range = blockList.removeFirst()
@@ -319,10 +342,8 @@ public class BlobStreamDownloader {
         }
     }
 
-    /**
-        Make the initial request for blob data.
-        - Parameter then: A completion handler.
-     */
+    /// Make the initial request for blob data.
+    /// - Parameter completion: A completion handler with which to process the downloaded chunk.
     public func initialRequest(then completion: @escaping (Result<Data, Error>, HttpResponse) -> Void) {
 
         let firstRange = blockList.remove(at: 0)
