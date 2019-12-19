@@ -50,7 +50,6 @@ extension Dictionary where Key == String, Value == String {
         for (key, value) in self {
             queryItems.append(
                 URLQueryItem(name: key, value: value.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))
-                // URLQueryItem(name: key, value: value)
             )
         }
         return queryItems

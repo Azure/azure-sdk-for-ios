@@ -27,18 +27,22 @@
 import AzureAppConfiguration
 import AzureCore
 import AzureStorageBlob
+import MSAL
 import os.log
 import UIKit
 
-class MainViewController: UITableViewController {
+class MainViewController: UITableViewController, MSALInteractiveDelegate {
+
     // MARK: Properties
 
     private var dataSource: PagedCollection<ContainerItem>?
     private var noMoreData = false
 
     override func viewDidLoad() {
-        // If I try to call loadAllSettingsByItem here, the execution hangs...
         super.viewDidLoad()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
         loadInitialSettings()
     }
 
@@ -140,5 +144,11 @@ class MainViewController: UITableViewController {
                 next.containerName = current.keyLabel.text
             }
         }
+    }
+
+    // MARK: MSALInteractiveDelegate
+
+    func didCompleteMSALRequest(withResult result: MSALResult) {
+        AppState.account = result.account
     }
 }

@@ -24,23 +24,65 @@
 //
 // --------------------------------------------------------------------------
 
+import AzureCore
 import AzureAppConfiguration
 import AzureStorageBlob
 import Foundation
+import MSAL
 
 struct AppConstants {
     // read-only connection string
     static let appConfigConnectionString = "Endpoint=https://tjpappconfig.azconfig.io;Id=2-l0-s0:zSvXZtO9L9bv9s3QVyD3;Secret=FzxmbflLwAt5+2TUbnSIsAuATyY00L+GFpuxuJZRmzI="
 
-    // read-only blob connection string using a SAS token
-    static let blobConnectionString = "BlobEndpoint=https://tjpstorage1.blob.core.windows.net/;QueueEndpoint=https://tjpstorage1.queue.core.windows.net/;FileEndpoint=https://tjpstorage1.file.core.windows.net/;TableEndpoint=https://tjpstorage1.table.core.windows.net/;SharedAccessSignature=sv=2018-03-28&ss=b&srt=sco&sp=rl&se=2020-10-03T07:45:02Z&st=2019-10-02T23:45:02Z&spr=https&sig=L7zqOTStAd2o3Mp72MW59GXM1WbL9G2FhOSXHpgrBCE%3D"
+    static let storageAccountUrl = "https://iosdemostorage1.blob.core.windows.net/"
+
+    static let tenant = "7e6c9611-413e-47e4-a054-a389854dd732"
+
+    static let clientId = "6f2c62dd-d6b2-444a-8dff-c64380e7ac76"
+
+    static let redirectUri = "msauth.com.azure.demo.AzureSDKDemoSwifty://auth"
+
+    static let authority = "https://login.microsoftonline.com/7e6c9611-413e-47e4-a054-a389854dd732"
+}
+
+struct AppState {
+    static var application: MSALPublicClientApplication?
+
+    static var account: MSALAccount?
+
+    static let scopes = [
+        "https://storage.azure.com/.default"
+    ]
+
+    static func currentAccount() -> MSALAccount? {
+        if let account = AppState.account {
+            return account
+        }
+        guard let application = AppState.application else { return nil }
+        // We retrieve our current account by getting the first account from cache
+        // In multi-account applications, account should be retrieved by home account identifier or username instead
+        do {
+            let cachedAccounts = try application.allAccounts()
+
+            if !cachedAccounts.isEmpty {
+                return cachedAccounts.first
+            }
+        } catch let error as NSError {
+            print("Didn't find any accounts in cache: \(error)")
+        }
+        return nil
+    }
 }
 
 extension UIViewController {
 
     internal func getBlobClient() -> StorageBlobClient? {
+        guard let application = AppState.application else { return nil }
         do {
-            return try StorageBlobClient.from(connectionString: AppConstants.blobConnectionString)
+            let credential = MSALCredential(
+                tenant: AppConstants.tenant, clientId: AppConstants.clientId, application: application,
+                account: AppState.currentAccount())
+            return try StorageBlobClient(accountUrl: AppConstants.storageAccountUrl, credential: credential)
         } catch {
             self.showAlert(error: String(describing: error))
             return nil
@@ -60,7 +102,7 @@ extension UIViewController {
         DispatchQueue.main.async { [weak self] in
             let alertController = UIAlertController(title: "Error!", message: error, preferredStyle: .alert)
             let title = NSAttributedString(string: "Error!", attributes: [
-                NSAttributedString.Key.foregroundColor: UIColor.red,
+                NSAttributedString.Key.foregroundColor: UIColor.red
             ])
             alertController.setValue(title, forKey: "attributedTitle")
             let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
@@ -73,21 +115,6 @@ extension UIViewController {
         DispatchQueue.main.async { [weak self] in
             let alertController = UIAlertController(title: "Blob Contents", message: message, preferredStyle: .alert)
             let defaultAction = UIAlertAction(title: "Close", style: .default, handler: nil)
-            alertController.addAction(defaultAction)
-            self?.present(alertController, animated: true)
-        }
-    }
-
-    internal func showAlert(image: UIImage) {
-        DispatchQueue.main.async { [weak self] in
-            let alertController = UIAlertController(title: "Blob Contents", message: "", preferredStyle: .alert)
-            let alertBounds = alertController.view.frame
-            let padding = alertBounds.width * 0.01
-            let imageView = UIImageView(frame: CGRect(x: padding, y: padding, width: alertBounds.width - padding, height: 100))
-            imageView.contentMode = .scaleAspectFit
-            imageView.image = image
-            alertController.view.addSubview(imageView)
-            let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
             alertController.addAction(defaultAction)
             self?.present(alertController, animated: true)
         }

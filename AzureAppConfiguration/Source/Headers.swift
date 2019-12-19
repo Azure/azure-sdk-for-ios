@@ -24,37 +24,25 @@
 //
 // --------------------------------------------------------------------------
 
+import AzureCore
 import Foundation
 
-internal class Pipeline {
-    private var policies: [PipelineStageProtocol]
-    private let transport: HttpTransportable
+public enum AppConfigurationHeader: String {
+    case contentHash = "x-ms-content-sha256"
+}
 
-    public init(transport: HttpTransportable, policies: [PipelineStageProtocol]) {
-        self.transport = transport
-        self.policies = policies
-        var prevPolicy: PipelineStageProtocol?
-        for policy in policies {
-            if prevPolicy != nil {
-                prevPolicy!.next = policy
-            }
-            prevPolicy = policy
+extension HttpHeaders {
+    public subscript(index: AppConfigurationHeader) -> String? {
+        get {
+            return self[index.rawValue]
         }
-        var lastPolicy = self.policies.removeLast()
-        lastPolicy.next = transport
-        self.policies.append(lastPolicy)
+
+        set(newValue) {
+            self[index.rawValue] = newValue
+        }
     }
 
-    public func run(request: PipelineRequest, completion: @escaping PipelineStageResultHandler) {
-        if let firstPolicy = policies.first {
-            firstPolicy.process(request: request) { result, httpResponse in
-                switch result {
-                case let .success(pipelineResponse):
-                    completion(.success(pipelineResponse), httpResponse)
-                case let .failure(error):
-                    completion(.failure(error), httpResponse)
-                }
-            }
-        }
+    public mutating func removeValue(forKey key: AppConfigurationHeader) -> String? {
+        return removeValue(forKey: key.rawValue)
     }
 }

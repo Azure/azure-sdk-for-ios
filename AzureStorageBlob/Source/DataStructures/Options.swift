@@ -45,15 +45,15 @@ public struct RangeOptions {
 
     /// Number of bytes to read from the stream. Should be specified
     /// for optimal performance.
-    public var length: Int? = nil
+    public var length: Int?
 
     /// When set to true, the service returns the MD5 hash for the range
     /// as long as the range is less than or equal to 4 MB in size.
-    public var calculateMD5: Bool? = nil
+    public var calculateMD5: Bool?
 
     /// When set to true, the service returns the CRC64 hash for the range
     /// as long as the range is less than or equal to 4 MB in size.
-    public var calculateCRC64: Bool? = nil
+    public var calculateCRC64: Bool?
 
     public init() {}
 }
@@ -64,10 +64,10 @@ public struct DestinationOptions {
     public var isTemporary = false
 
     /// Override the default destination subfolder, which is the container name.
-    public var subfolder: String? = nil
+    public var subfolder: String?
 
     /// Override the default destination filename, which is the blob name.
-    public var filename: String? = nil
+    public var filename: String?
 
     public init() {}
 }
@@ -105,18 +105,20 @@ public struct CpkInfo {
     public let algorithm: String
 }
 
-/// All data in Azure Storage is encrypted at-rest using an account-level encryption key.
-/// In versions 2018-06-17 and newer, you can manage the key used to encrypt blob contents
-/// and application metadata per-blob by providing an AES-256 encryption key in requests to the storage service.
-///
-/// When you use a customer-provided key, Azure Storage does not manage or persist your key.
-/// When writing data to a blob, the provided key is used to encrypt your data before writing it to disk.
-/// A SHA-256 hash of the encryption key is written alongside the blob contents,
-/// and is used to verify that all subsequent operations against the blob use the same encryption key.
-/// This hash cannot be used to retrieve the encryption key or decrypt the contents of the blob.
-/// When reading a blob, the provided key is used to decrypt your data after reading it from disk.
-/// In both cases, the provided encryption key is securely discarded
-/// as soon as the encryption or decryption process completes.
+/**
+ All data in Azure Storage is encrypted at-rest using an account-level encryption key.
+ In versions 2018-06-17 and newer, you can manage the key used to encrypt blob contents
+ and application metadata per-blob by providing an AES-256 encryption key in requests to the storage service.
+
+ When you use a customer-provided key, Azure Storage does not manage or persist your key.
+ When writing data to a blob, the provided key is used to encrypt your data before writing it to disk.
+ A SHA-256 hash of the encryption key is written alongside the blob contents,
+ and is used to verify that all subsequent operations against the blob use the same encryption key.
+ This hash cannot be used to retrieve the encryption key or decrypt the contents of the blob.
+ When reading a blob, the provided key is used to decrypt your data after reading it from disk.
+ In both cases, the provided encryption key is securely discarded
+ as soon as the encryption or decryption process completes.
+ */
 public class CustomerProvidedEncryptionKey {
 
     /// Base64-encoded AES-256 encryption key value.
@@ -133,5 +135,43 @@ public class CustomerProvidedEncryptionKey {
 
     public init(_ value: Data) {
         self.value = value.base64EncodedData()
+    }
+}
+
+/**
+ A user delegation key.
+ */
+public struct UserDelegationKey {
+
+    /// The Azure Active Directory object ID in GUID format.
+    public let signedOID: String
+
+    /// The Azure Active Directory tenant ID in GUID format.
+    public let signedTID: String
+
+    /// The date-time the key is active.
+    public let signedStart: String
+
+    /// The date-time the key expires.
+    public let signedExpiry: String
+
+    /// Abbreviation of the Azure Storage service that accepts the key.
+    public let signedService: String
+
+    /// The service version that created the key.
+    public let signedVersion: String
+
+    /// The key as a base64 string.
+    public let value: String
+
+    public init(signedOID: String, signedTID: String, signedStart: String, signedExpiry: String,
+                signedService: String, signedVersion: String, value: String) {
+        self.signedOID = signedOID
+        self.signedTID = signedTID
+        self.signedStart = signedStart
+        self.signedExpiry = signedExpiry
+        self.signedService = signedService
+        self.signedVersion = signedVersion
+        self.value = value
     }
 }

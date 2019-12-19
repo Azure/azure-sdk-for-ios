@@ -54,6 +54,15 @@ internal class ChunkDownloader {
 
     // MARK: Initializers
 
+    /// Creates a `ChunkDownloader` object.
+    /// - Parameters:
+    ///   - blob: The name of the blob.
+    ///   - container: The name of the stoarge container in which the blob is located is located.
+    ///   - client: The `StorageBlobClient` that initiated the request.
+    ///   - url: The URL to the blob object.
+    ///   - startRange: The start point, in bytes, of the download request.
+    ///   - endRange: The end point, in bytes, of the download request.
+    ///   - options: A `DownloadBlobOptions` object with which to control the download.
     public init(blob: String, container: String, client: StorageBlobClient, url: URL,
                 startRange: Int, endRange: Int, options: DownloadBlobOptions) {
         self.blobName = blob
@@ -67,12 +76,16 @@ internal class ChunkDownloader {
 
     // MARK: Public Methods
 
+    /// Begin the download process.
+    /// - Parameters:
+    ///   - requestId: Unique request ID (GUID) for the operation.
+    ///   - completion: A completion handler that forwards the downloaded data.
     public func download(requestId: String? = nil, completion: @escaping (Result<Data, Error>, HttpResponse) -> Void) {
         // Construct URL
         let urlTemplate = "/{container}/{blob}"
         let pathParams = [
             "container": containerName,
-            "blob": blobName,
+            "blob": blobName
         ]
         let url = client.format(urlTemplate: urlTemplate, withKwargs: pathParams)
 
@@ -109,7 +122,7 @@ internal class ChunkDownloader {
                                    queryParams: queryParams,
                                    headerParams: headerParams)
         let context: [String: AnyObject] = [
-            ContextKey.allowedStatusCodes.rawValue: [200, 206] as AnyObject,
+            ContextKey.allowedStatusCodes.rawValue: [200, 206] as AnyObject
         ]
         client.run(request: request, context: context) { result, httpResponse in
             switch result {
@@ -121,16 +134,17 @@ internal class ChunkDownloader {
                     return
                 }
                 let headers = httpResponse.headers
-                if let contentMD5 = headers["Content-MD5"] {
-                    let dataHash = data.md5
+                if let contentMD5 = headers[.contentMD5] {
+                    let dataHash = try? data.hash(algorithm: .md5).base64String
                     guard contentMD5 == dataHash else {
-                        let error = AzureError.general("Block MD5 \(dataHash) did not match \(contentMD5).")
+                        let error = AzureError.general("Block MD5 \(dataHash ?? "ERROR") did not match \(contentMD5).")
                         completion(.failure(error), httpResponse)
                         return
                     }
                 }
-                if let contentCRC64 = headers["Content-CRC64"] {
-                    let dataHash = data.crc64
+                if let contentCRC64 = headers[.contentCRC64] {
+                    // TODO: Implement CRC64. Currently no iOS library supports this!
+                    let dataHash = ""
                     guard contentCRC64 == dataHash else {
                         let error = AzureError.general("Block CRC64 \(dataHash) did not match \(contentCRC64).")
                         completion(.failure(error), httpResponse)
@@ -140,15 +154,15 @@ internal class ChunkDownloader {
                 let decryptedData = self.decrypt(data)
                 do {
                     let handle = try self.openFileForWriting()
+                    defer { handle.closeFile() }
                     let fileOffset = UInt64(self.startRange)
-                    if #available(iOSApplicationExtension 13.0, *) {
+                    if #available(iOS 13.0, *) {
                         try handle.seek(toOffset: fileOffset)
                     } else {
                         // Fallback on earlier versions
                         handle.seek(toFileOffset: fileOffset)
                     }
                     handle.write(decryptedData)
-                    handle.closeFile()
                     completion(.success(decryptedData), httpResponse)
                 } catch {
                     completion(.failure(error), httpResponse)
@@ -177,7 +191,7 @@ internal class ChunkDownloader {
 }
 
 /// Class used to download streaming blobs.
-public class StorageStreamDownloader {
+public class BlobStreamDownloader {
 
     // MARK: Public Properties
 
@@ -200,13 +214,16 @@ public class StorageStreamDownloader {
     /// The total bytes downloaded.
     public var progress = 0
 
+    /// The list of blocks for the blob download.
     public var blockList = [Range<Int>]()
 
+    /// Indicates if the download is complete.
     public var isComplete: Bool {
         guard let total = self.requestedSize else { return false }
         return progress == total
     }
 
+    /// Indicates if the download is encrypted.
     public var isEncrypted: Bool {
         return options.encryptionOptions?.key != nil || options.encryptionOptions?.keyResolver != nil
     }
@@ -222,6 +239,12 @@ public class StorageStreamDownloader {
 
     // MARK: Initializers
 
+    /// Create a `BlobStreamDownloader` object.
+    /// - Parameters:
+    ///   - client: A`StorageBlobClient` reference.
+    ///   - name: The name of the blob to download.
+    ///   - container: The name of the container the blob is contained in.
+    ///   - options: A `DownloadBlobOptions` object to control the download process.
     public init(client: StorageBlobClient, name: String, container: String, options: DownloadBlobOptions? = nil) throws {
 
         // determine which app folder is appropriate
@@ -261,37 +284,38 @@ public class StorageStreamDownloader {
 
     // MARK: Public Methods
 
-    /**
-     Read and return the content of the downloaded file.
-     - Returns: Downloaded data.
-     */
+    /// Read and return the content of the downloaded file.
     public func contents() throws -> Data {
         let handle = try FileHandle(forReadingFrom: downloadDestination)
         defer { handle.closeFile() }
         return handle.readDataToEndOfFile()
     }
 
-    /**
-     Downloads the entire blob in a parallel fashion.
-     - Returns: Downloaded data.
-     */
-    public func complete(inGroup group: DispatchGroup? = nil) throws {
-        guard !isComplete else { return }
+    /// Downloads the entire blob in a parallel fashion.
+    /// - Parameters:
+    ///   - group: An optional `DispatchGroup` to wait for the download to complete.
+    ///   - completion: A completion handler called when the download completes.
+    public func complete(inGroup group: DispatchGroup? = nil, then completion: @escaping () -> Void) throws {
+        guard !isComplete else {
+            completion()
+            return
+        }
         for _ in blockList {
             group?.enter()
-            next(inGroup: group) { result, httpResponse in
+            next(inGroup: group) { _, _ in
                 // Nothing to do here.
             }
         }
-        group?.wait()
+        group?.notify(queue: DispatchQueue.main) {
+            completion()
+        }
     }
 
-    /**
-     Download the contents of this file to a stream.
-     - Parameter into: The file handle to download into.
-     - Returns: The number of bytes read.
-    */
-    public func next(inGroup group: DispatchGroup? = nil, then completion: (Result<Data, Error>, HttpResponse) -> ()) {
+    /// Download the contents of this file to a stream.
+    /// - Parameters:
+    ///   - group: An optional `DispatchGroup` to wait for the download to complete.
+    ///   - completion: A completion handler with which to process the downloaded chunk.
+    public func next(inGroup group: DispatchGroup? = nil, then completion: (Result<Data, Error>, HttpResponse) -> Void) {
         guard !isComplete else { return }
         let range = blockList.removeFirst()
         let downloader = ChunkDownloader(
@@ -302,9 +326,9 @@ public class StorageStreamDownloader {
             startRange: range.startIndex,
             endRange: range.endIndex,
             options: options)
-        downloader.download() { result, httpResponse in
+        downloader.download { result, httpResponse in
             switch result {
-            case .success(_):
+            case .success:
                 let responseHeaders = httpResponse.headers
                 let blobProperties = BlobProperties(from: responseHeaders)
                 let contentLength = blobProperties.contentLength ?? 0
@@ -318,10 +342,8 @@ public class StorageStreamDownloader {
         }
     }
 
-    /**
-        Make the initial request for blob data.
-        - Parameter then: A completion handler.
-     */
+    /// Make the initial request for blob data.
+    /// - Parameter completion: A completion handler with which to process the downloaded chunk.
     public func initialRequest(then completion: @escaping (Result<Data, Error>, HttpResponse) -> Void) {
 
         let firstRange = blockList.remove(at: 0)
@@ -334,7 +356,7 @@ public class StorageStreamDownloader {
             endRange: firstRange.endIndex,
             options: options
         )
-        downloader.download() { result, httpResponse in
+        downloader.download { result, httpResponse in
             switch result {
             case let .success(data):
                 // Parse the total file size and adjust the download size if ranges

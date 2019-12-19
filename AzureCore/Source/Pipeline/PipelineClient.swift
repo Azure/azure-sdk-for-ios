@@ -74,7 +74,7 @@ open class PipelineClient {
                 pipelineRequest.add(value: value as AnyObject, forKey: key)
             }
         }
-        pipeline.run(request: &pipelineRequest, completion: { result, httpResponse in
+        pipeline.run(request: pipelineRequest, completion: { result, httpResponse in
             switch result {
             case let .success(pipelineResponse):
                 let deserializedData = pipelineResponse.value(forKey: .deserializedData) as? Data

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A18D7B523A95FEC008959E6 /* Copyable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A18D7B423A95FEC008959E6 /* Copyable.swift */; };
 		0A29CC3E2322F3CD006CEFA7 /* DateUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A29CC3D2322F3CD006CEFA7 /* DateUtil.swift */; };
 		0A3A5D7B2315C89C00473FDA /* AzureCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A3A5D792315C89C00473FDA /* AzureCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0A3A5D9B2315CEB600473FDA /* HttpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D902315CEB600473FDA /* HttpRequest.swift */; };
@@ -29,6 +30,7 @@
 		0A3A5F442319D49700473FDA /* UrlSessionTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F432319D49700473FDA /* UrlSessionTransport.swift */; };
 		0A4081B62333EB380071EAEE /* ObjectiveCHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4081B52333EB380071EAEE /* ObjectiveCHelpers.swift */; };
 		0A4081BA233432C30071EAEE /* HttpUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4081B9233432C30071EAEE /* HttpUtil.swift */; };
+		0A45B1FB23A82A2E00C54363 /* ApplicationUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45B1FA23A82A2E00C54363 /* ApplicationUtil.swift */; };
 		0A6864B8233EAC76004B7E17 /* ContentDecodePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6864B7233EAC76004B7E17 /* ContentDecodePolicy.swift */; };
 		0A6A9B4F234293B50013FCAA /* RegexUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6A9B4E234293B50013FCAA /* RegexUtil.swift */; };
 		0A7F563A2321732B00E9765A /* UrlHttpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F56392321732B00E9765A /* UrlHttpResponse.swift */; };
@@ -40,6 +42,9 @@
 		0AC0AA8F234FDB0800F05073 /* XMLModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC0AA8E234FDB0800F05073 /* XMLModel.swift */; };
 		0AD2142923314416003A2E3E /* ObjectiveCBridgeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD2142823314416003A2E3E /* ObjectiveCBridgeable.swift */; };
 		0AE5C3A6231F150A0013CA85 /* KeychainUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE5C3A5231F150A0013CA85 /* KeychainUtil.swift */; };
+		0AFDF16723AAC37F00816EB7 /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AFDF16623AAC37F00816EB7 /* MSAL.framework */; };
+		0AFDF16923AACAD600816EB7 /* Pods_AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B79B7DB4DFFFBAA628E4C29 /* Pods_AzureCore.framework */; };
+		0AFDF16A23AACAD600816EB7 /* Pods_AzureCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7B79B7DB4DFFFBAA628E4C29 /* Pods_AzureCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7A16DC7B234BF55F002708BC /* PipelineError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A16DC7A234BF55F002708BC /* PipelineError.swift */; };
 		7A16DC7D234BFC84002708BC /* HttpMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A16DC7C234BFC84002708BC /* HttpMessage.swift */; };
 		7AFCF7662345714200592782 /* LoggingPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFCF7652345714200592782 /* LoggingPolicy.swift */; };
@@ -56,7 +61,22 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		0A64D67C239729C50098326A /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				0AFDF16A23AACAD600816EB7 /* Pods_AzureCore.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		0A18D7B423A95FEC008959E6 /* Copyable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Copyable.swift; sourceTree = "<group>"; };
 		0A29CC3D2322F3CD006CEFA7 /* DateUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtil.swift; sourceTree = "<group>"; };
 		0A3A5D762315C89C00473FDA /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A3A5D792315C89C00473FDA /* AzureCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AzureCore.h; sourceTree = "<group>"; };
@@ -82,6 +102,7 @@
 		0A3A5F432319D49700473FDA /* UrlSessionTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlSessionTransport.swift; sourceTree = "<group>"; };
 		0A4081B52333EB380071EAEE /* ObjectiveCHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectiveCHelpers.swift; sourceTree = "<group>"; };
 		0A4081B9233432C30071EAEE /* HttpUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpUtil.swift; sourceTree = "<group>"; };
+		0A45B1FA23A82A2E00C54363 /* ApplicationUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationUtil.swift; sourceTree = "<group>"; };
 		0A6864B7233EAC76004B7E17 /* ContentDecodePolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentDecodePolicy.swift; sourceTree = "<group>"; };
 		0A6A9B4E234293B50013FCAA /* RegexUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegexUtil.swift; sourceTree = "<group>"; };
 		0A7F56392321732B00E9765A /* UrlHttpResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlHttpResponse.swift; sourceTree = "<group>"; };
@@ -93,10 +114,14 @@
 		0AC0AA8E234FDB0800F05073 /* XMLModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLModel.swift; sourceTree = "<group>"; };
 		0AD2142823314416003A2E3E /* ObjectiveCBridgeable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectiveCBridgeable.swift; sourceTree = "<group>"; };
 		0AE5C3A5231F150A0013CA85 /* KeychainUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainUtil.swift; sourceTree = "<group>"; };
+		0AFDF16623AAC37F00816EB7 /* MSAL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MSAL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5CBF50632171488DE1372EB1 /* Pods-AzureCore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCore.release.xcconfig"; path = "Target Support Files/Pods-AzureCore/Pods-AzureCore.release.xcconfig"; sourceTree = "<group>"; };
 		7A16DC7A234BF55F002708BC /* PipelineError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineError.swift; sourceTree = "<group>"; };
 		7A16DC7C234BFC84002708BC /* HttpMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMessage.swift; sourceTree = "<group>"; };
 		7AFCF7652345714200592782 /* LoggingPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingPolicy.swift; sourceTree = "<group>"; };
 		7AFCF7672346776E00592782 /* ClientLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientLogger.swift; sourceTree = "<group>"; };
+		7B79B7DB4DFFFBAA628E4C29 /* Pods_AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		997D1939CDC5E0A7A153F6DF /* Pods-AzureCore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCore.debug.xcconfig"; path = "Target Support Files/Pods-AzureCore/Pods-AzureCore.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +129,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AFDF16723AAC37F00816EB7 /* MSAL.framework in Frameworks */,
+				0AFDF16923AACAD600816EB7 /* Pods_AzureCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,6 +151,8 @@
 				0A3A5D782315C89C00473FDA /* Source */,
 				0A3A5DDF2315D17F00473FDA /* Tests */,
 				0A3A5D772315C89C00473FDA /* Products */,
+				E4BF633BF023E92DD7174C5B /* Frameworks */,
+				9AA68085B2B42F838D63F159 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -154,6 +183,7 @@
 		0A3A5DA52315CEBF00473FDA /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				0A45B1FA23A82A2E00C54363 /* ApplicationUtil.swift */,
 				0AC0AA82234D017F00F05073 /* AzureCodable.swift */,
 				0A3A5F022316DF6600473FDA /* CryptoUtils.swift */,
 				0A29CC3D2322F3CD006CEFA7 /* DateUtil.swift */,
@@ -161,6 +191,7 @@
 				0A4081B9233432C30071EAEE /* HttpUtil.swift */,
 				0A6A9B4E234293B50013FCAA /* RegexUtil.swift */,
 				0AB5EAFC2375F25400361879 /* StringUtil.swift */,
+				0A18D7B423A95FEC008959E6 /* Copyable.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -260,6 +291,25 @@
 			path = DataStructures;
 			sourceTree = "<group>";
 		};
+		9AA68085B2B42F838D63F159 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				997D1939CDC5E0A7A153F6DF /* Pods-AzureCore.debug.xcconfig */,
+				5CBF50632171488DE1372EB1 /* Pods-AzureCore.release.xcconfig */,
+			);
+			name = Pods;
+			path = ../Pods;
+			sourceTree = "<group>";
+		};
+		E4BF633BF023E92DD7174C5B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7B79B7DB4DFFFBAA628E4C29 /* Pods_AzureCore.framework */,
+				0AFDF16623AAC37F00816EB7 /* MSAL.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -278,11 +328,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0A3A5D7E2315C89C00473FDA /* Build configuration list for PBXNativeTarget "AzureCore" */;
 			buildPhases = (
+				2AB7D139AE96B78D3C320A6D /* [CP] Check Pods Manifest.lock */,
 				0A3A5D712315C89C00473FDA /* Headers */,
 				0A3A5D722315C89C00473FDA /* Sources */,
 				0A3A5D732315C89C00473FDA /* Frameworks */,
 				0A3A5D742315C89C00473FDA /* Resources */,
-				0AF4731723315A2000AC5571 /* ShellScript */,
+				0AF4731723315A2000AC5571 /* SwiftLint */,
+				0A64D67C239729C50098326A /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -367,7 +419,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0AF4731723315A2000AC5571 /* ShellScript */ = {
+		0AF4731723315A2000AC5571 /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -376,13 +428,36 @@
 			);
 			inputPaths = (
 			);
+			name = SwiftLint;
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed. Download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "ROOT_PATH=$(pwd | rev | cut -d'/' -f2- | rev) \n$ROOT_PATH/Scripts/swiftlint.sh\n";
+		};
+		2AB7D139AE96B78D3C320A6D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AzureCore-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -398,9 +473,11 @@
 				7AFCF7662345714200592782 /* LoggingPolicy.swift in Sources */,
 				0A3A5D9E2315CEB600473FDA /* HttpHeader.swift in Sources */,
 				0A3A5D9C2315CEB600473FDA /* HttpResponse.swift in Sources */,
+				0A18D7B523A95FEC008959E6 /* Copyable.swift in Sources */,
 				0A3A5F202316EF9400473FDA /* PipelineContext.swift in Sources */,
 				0AE5C3A6231F150A0013CA85 /* KeychainUtil.swift in Sources */,
 				0A3A5F422319834500473FDA /* PipelineBase.swift in Sources */,
+				0A45B1FB23A82A2E00C54363 /* ApplicationUtil.swift in Sources */,
 				0A3A5D9D2315CEB600473FDA /* HttpMethod.swift in Sources */,
 				0A3A5D9B2315CEB600473FDA /* HttpRequest.swift in Sources */,
 				0AC0AA8C234F8ADD00F05073 /* Collections.swift in Sources */,
@@ -573,8 +650,9 @@
 		};
 		0A3A5D7F2315C89C00473FDA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 997D1939CDC5E0A7A153F6DF /* Pods-AzureCore.debug.xcconfig */;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
@@ -603,8 +681,9 @@
 		};
 		0A3A5D802315C89C00473FDA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5CBF50632171488DE1372EB1 /* Pods-AzureCore.release.xcconfig */;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;

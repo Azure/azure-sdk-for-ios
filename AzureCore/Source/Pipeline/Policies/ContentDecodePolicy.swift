@@ -58,10 +58,11 @@ public class ContentDecodePolicy: NSObject, PipelineStageProtocol, XMLParserDele
         return nil
     }
 
-    public func onResponse(_ response: inout PipelineResponse) {
+    public func onResponse(_ response: PipelineResponse, then completion: @escaping OnResponseCompletionHandler) {
         let stream = response.value(forKey: "stream") as? Bool ?? false
         guard stream == false else { return }
         guard let httpResponse = response.httpResponse else { return }
+        var returnResponse = response.copy()
 
         xmlMap = response.value(forKey: .xmlMap) as? XMLMap
 
@@ -74,11 +75,12 @@ public class ContentDecodePolicy: NSObject, PipelineStageProtocol, XMLParserDele
         do {
             if let deserializedJson = try deserialize(from: httpResponse, contentType: contentType) {
                 let deserializedData = try JSONSerialization.data(withJSONObject: deserializedJson, options: [])
-                response.add(value: deserializedData as AnyObject, forKey: .deserializedData)
+                returnResponse.add(value: deserializedData as AnyObject, forKey: .deserializedData)
             }
         } catch {
             response.logger.error(String(format: "Deserialization error: %@", error.localizedDescription))
         }
+        completion(returnResponse)
     }
 
     // MARK: - XML Parser Delegate

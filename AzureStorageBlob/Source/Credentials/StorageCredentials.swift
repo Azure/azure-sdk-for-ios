@@ -26,26 +26,9 @@
 
 import AzureCore
 import Foundation
+import MSAL
 
-public class StorageOAuthCredential: TokenCredential {
-    public func getToken(forScopes _: [String]) -> AccessToken? {
-        guard let authUrl = URL(string: "https://login.microsoftonline.com/{tenant}/oauth2/token") else { return nil }
-        let tokenLife = 15 // in minutes
-        if let expiration = Calendar.current.date(byAdding: .minute, value: tokenLife, to: Date()) {
-            // TODO: Token retrieval implementation
-            let expirationInt = Int(expiration.timeIntervalSinceReferenceDate)
-            let token = ""
-            URLSession.shared.dataTask(with: authUrl) { _, _, error in
-                if error != nil {
-                    print(error as Any)
-                }
-            }
-            return AccessToken(token: token, expiresOn: expirationInt)
-        }
-        return nil
-    }
-}
-
+/// A Storage SAS credential object.
 public class StorageSASCredential {
     internal let blobEndpoint: String?
     internal let queueEndpoint: String?
@@ -53,6 +36,8 @@ public class StorageSASCredential {
     internal let tableEndpoint: String?
     internal let sasToken: String
 
+    /// Create a shared access signature credential.
+    /// - Parameter connectionString: A valid storage connection string.
     public init(connectionString: String) throws {
         // temp variables
         var blob: String?
@@ -97,13 +82,37 @@ public class StorageSASCredential {
     }
 }
 
+/// A Storage authentication policy that relies on a shared access signature.
 public class StorageSASAuthenticationPolicy: AuthenticationProtocol {
+
+    /// The next stage in the HTTP pipeline.
     public var next: PipelineStageProtocol?
+
+    /// A shared access signature credential.
     public let credential: StorageSASCredential
 
+    // MARK: Initializers
+
+    /// Create a Storage SAS-based authentication policy.
+    /// - Parameter credential: A `StorageSASCredential` object.
     public init(credential: StorageSASCredential) {
         self.credential = credential
     }
+
+    // MARK: Public Methods
+
+    /// Authenticates an HTTP `PipelineRequest` by appending the SAS token as query parameters.
+    /// - Parameters:
+    ///   - request: A `PipelineRequest` object.
+    ///   - completion: A completion handler that forwards the modified pipeline request.
+    public func authenticate(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
+        let queryParams = parse(sasToken: credential.sasToken)
+        request.httpRequest.format(queryParams: queryParams)
+        request.httpRequest.headers[.xmsDate] = Date().rfc1123Format
+        completion(request)
+    }
+
+    // MARK: Private Methods
 
     private func parse(sasToken: String) -> [String: String] {
         var queryItems = [String: String]()
@@ -114,11 +123,5 @@ public class StorageSASAuthenticationPolicy: AuthenticationProtocol {
             queryItems[name] = value?.removingPercentEncoding
         }
         return queryItems
-    }
-
-    public func authenticate(request: PipelineRequest) {
-        let queryParams = parse(sasToken: credential.sasToken)
-        request.httpRequest.format(queryParams: queryParams)
-        request.httpRequest.headers["x-ms-date"] = Date().rfc1123Format
     }
 }

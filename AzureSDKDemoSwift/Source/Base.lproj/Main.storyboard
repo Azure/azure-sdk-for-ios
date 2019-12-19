@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="obV-HT-tcp">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="obV-HT-tcp">
     <device id="retina3_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -62,7 +63,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dZU-yr-M8P" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-191" y="405"/>
+            <point key="canvasLocation" x="-34" y="440"/>
         </scene>
         <!--Blob Table View Controller-->
         <scene sceneID="6w0-yH-5rQ">
@@ -115,23 +116,82 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fmb-sm-DmB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="681" y="405"/>
+            <point key="canvasLocation" x="838" y="440"/>
+        </scene>
+        <!--Login View Controller-->
+        <scene sceneID="ApL-gZ-kek">
+            <objects>
+                <viewController id="aQV-nZ-QSi" customClass="LoginViewController" customModule="AzureSDKDemoSwift" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="DdL-ZX-Eza">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="lE4-4w-gqI">
+                                <rect key="frame" x="14.5" y="155" width="291" height="170"/>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="tA0-5A-wpj">
+                                <rect key="frame" x="112" y="341" width="96.5" height="20.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please log in" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ely-ko-moY">
+                                        <rect key="frame" x="0.0" y="0.0" width="96.5" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="tA0-5A-wpj" firstAttribute="top" secondItem="lE4-4w-gqI" secondAttribute="bottom" constant="16" id="AYh-Cu-qIc"/>
+                            <constraint firstItem="lE4-4w-gqI" firstAttribute="centerY" secondItem="DdL-ZX-Eza" secondAttribute="centerY" id="Lmx-cC-t26"/>
+                            <constraint firstItem="lE4-4w-gqI" firstAttribute="centerX" secondItem="DdL-ZX-Eza" secondAttribute="centerX" id="Qb6-CJ-GbI"/>
+                            <constraint firstItem="tA0-5A-wpj" firstAttribute="centerX" secondItem="DdL-ZX-Eza" secondAttribute="centerX" id="Thq-Xk-yco"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="wqc-uN-IZz"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="z8F-US-uUt">
+                        <barButtonItem key="leftBarButtonItem" title="Log Out" id="g8y-CR-3u9">
+                            <connections>
+                                <action selector="didSelectLogOut:" destination="aQV-nZ-QSi" id="sXu-oS-Mdg"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Containers" id="2yX-rf-1YD" userLabel="Containers Button">
+                            <connections>
+                                <action selector="didSelectLogIn:" destination="aQV-nZ-QSi" id="daw-u0-ptZ"/>
+                                <segue destination="Oen-R8-fXR" kind="show" id="21u-ya-gFs"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="logInButton" destination="2yX-rf-1YD" id="qoa-DM-80g"/>
+                        <outlet property="logOutButton" destination="g8y-CR-3u9" id="yek-Za-jFQ"/>
+                        <outlet property="userLabel" destination="ely-ko-moY" id="wRP-5S-Cyq"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZQu-ch-z48" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-999.375" y="440"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="e2t-Br-t8B">
             <objects>
                 <navigationController id="obV-HT-tcp" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="PeG-z0-XPR"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="lrI-d9-JBG">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="Oen-R8-fXR" kind="relationship" relationship="rootViewController" id="zXg-tA-K0j"/>
+                        <segue destination="aQV-nZ-QSi" kind="relationship" relationship="rootViewController" id="KMo-7u-s2H"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kXF-wq-fPh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-953" y="405"/>
+            <point key="canvasLocation" x="-1881" y="440"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="logo" width="291.33334350585938" height="170"/>
+    </resources>
 </document>

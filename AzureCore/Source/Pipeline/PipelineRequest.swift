@@ -26,11 +26,16 @@
 
 import Foundation
 
-public final class PipelineRequest: PipelineContextProtocol {
+public final class PipelineRequest: PipelineContextProtocol, Copyable {
+
+    // MARK: Properties
+
     public var httpRequest: HttpRequest
     public var logger: ClientLogger
 
     public var context: PipelineContext?
+
+    // MARK: Initializers
 
     public convenience init(request: HttpRequest, logger: ClientLogger) {
         self.init(request: request, logger: logger, context: nil)
@@ -40,5 +45,9 @@ public final class PipelineRequest: PipelineContextProtocol {
         httpRequest = request
         self.logger = logger
         self.context = context
+    }
+
+    public required convenience init(copy: PipelineRequest) {
+        self.init(request: copy.httpRequest, logger: copy.logger, context: copy.context)
     }
 }

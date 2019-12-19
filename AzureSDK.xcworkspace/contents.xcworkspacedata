@@ -17,20 +17,36 @@
       location = "group:AzureStorageBlob/AzureStorageBlob.xcodeproj">
    </FileRef>
    <Group
+      location = "group:Scripts"
+      name = "Scripts">
+      <FileRef
+         location = "group:swiftlint.sh">
+      </FileRef>
+   </Group>
+   <Group
       location = "container:"
       name = "Examples">
       <FileRef
          location = "group:AzureSDKDemoSwift/AzureSDKDemoSwift.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:AzureSDKDemoObjC/AzureSDKDemoObjC.xcodeproj">
       </FileRef>
    </Group>
    <Group
       location = "container:"
       name = "Deployment">
       <FileRef
-         location = "group:AzureCore/AzureCore.podspec">
+         location = "group:Package.swift">
+      </FileRef>
+      <FileRef
+         location = "group:AzureSDK.podspec">
+      </FileRef>
+      <FileRef
+         location = "group:Podfile">
+      </FileRef>
+      <FileRef
+         location = "group:Podfile.lock">
       </FileRef>
    </Group>
+   <FileRef
+      location = "group:Pods/Pods.xcodeproj">
+   </FileRef>
 </Workspace>

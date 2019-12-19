@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0A29CC4023230716006CEFA7 /* AppConfigurationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A29CC3F23230716006CEFA7 /* AppConfigurationHeader.swift */; };
+		0A29CC4023230716006CEFA7 /* Headers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A29CC3F23230716006CEFA7 /* Headers.swift */; };
 		0A3A5EEC2316DC4E00473FDA /* AzureAppConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3A5EE22316DC4E00473FDA /* AzureAppConfiguration.framework */; };
 		0A3A5EF12316DC4E00473FDA /* AzureAppConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5EF02316DC4E00473FDA /* AzureAppConfigurationTests.swift */; };
 		0A3A5EF32316DC4E00473FDA /* AzureAppConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A3A5EE52316DC4E00473FDA /* AzureAppConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -30,7 +30,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0A29CC3F23230716006CEFA7 /* AppConfigurationHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigurationHeader.swift; sourceTree = "<group>"; };
+		0A29CC3F23230716006CEFA7 /* Headers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Headers.swift; sourceTree = "<group>"; };
 		0A3A5EE22316DC4E00473FDA /* AzureAppConfiguration.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureAppConfiguration.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A3A5EE52316DC4E00473FDA /* AzureAppConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AzureAppConfiguration.h; sourceTree = "<group>"; };
 		0A3A5EE62316DC4E00473FDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -89,6 +89,7 @@
 			children = (
 				0AB883762339681F00B03111 /* AppConfigurationClient.swift */,
 				0A9EF7E0236A43D800F8BD31 /* AppConfigurationClientOptions.swift */,
+				0A29CC3F23230716006CEFA7 /* Headers.swift */,
 				0A3A5F092316DFC200473FDA /* Credentials */,
 				0A3A5F042316DFC200473FDA /* Models */,
 				0A3A5EFC2316DC5B00473FDA /* Supporting Files */,
@@ -135,7 +136,6 @@
 			isa = PBXGroup;
 			children = (
 				0A3A5F0A2316DFC200473FDA /* AppConfigurationClientCredentials.swift */,
-				0A29CC3F23230716006CEFA7 /* AppConfigurationHeader.swift */,
 			);
 			path = Credentials;
 			sourceTree = "<group>";
@@ -162,6 +162,7 @@
 				0A3A5EDE2316DC4E00473FDA /* Sources */,
 				0A3A5EDF2316DC4E00473FDA /* Frameworks */,
 				0A3A5EE02316DC4E00473FDA /* Resources */,
+				0A4737AA2397104300DE8AC7 /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -245,6 +246,27 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0A4737AA2397104300DE8AC7 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "ROOT_PATH=$(pwd | rev | cut -d'/' -f2- | rev) \n$ROOT_PATH/Scripts/swiftlint.sh\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		0A3A5EDE2316DC4E00473FDA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -253,7 +275,7 @@
 				0A3A5F0D2316DFC200473FDA /* ConfigurationSettingPutParameters.swift in Sources */,
 				0A3A5F0F2316DFC200473FDA /* AppConfigurationClientCredentials.swift in Sources */,
 				0A3A5F0C2316DFC200473FDA /* ConfigurationSetting.swift in Sources */,
-				0A29CC4023230716006CEFA7 /* AppConfigurationHeader.swift in Sources */,
+				0A29CC4023230716006CEFA7 /* Headers.swift in Sources */,
 				0A9EF7E1236A43D800F8BD31 /* AppConfigurationClientOptions.swift in Sources */,
 				0AB883772339681F00B03111 /* AppConfigurationClient.swift in Sources */,
 			);
@@ -403,7 +425,7 @@
 		0A3A5EF72316DC4E00473FDA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
@@ -432,7 +454,7 @@
 		0A3A5EF82316DC4E00473FDA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;

@@ -52,7 +52,7 @@ public final class BlobItem: XMLModelProtocol {
             "Deleted": XMLMetadata(jsonName: "deleted"),
             "Snapshot": XMLMetadata(jsonName: "snapshot"),
             "Metadata": XMLMetadata(jsonName: "metadata", jsonType: .anyObject),
-            "Properties": XMLMetadata(jsonName: "properties", jsonType: .object(BlobProperties.self)),
+            "Properties": XMLMetadata(jsonName: "properties", jsonType: .object(BlobProperties.self))
         ])
     }
 }
