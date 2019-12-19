@@ -41,5 +41,5 @@ stages:
     parameters:
       ServiceDirectory: core
       Artifacts:
-        - name: AzureAppConfiguration
-          safeName: azureappconfiguration
+        - name: AzureCore
+          safeName: azurecore
