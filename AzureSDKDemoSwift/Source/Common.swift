@@ -82,7 +82,8 @@ extension UIViewController {
         DispatchQueue.main.async { [weak self] in
             let alertController = UIAlertController(title: "Blob Contents", message: "", preferredStyle: .alert)
             let alertBounds = alertController.view.frame
-            let imageView = UIImageView(frame: CGRect(x: 10, y: 10, width: alertBounds.width - 20, height: 100))
+            let padding = alertBounds.width * 0.01
+            let imageView = UIImageView(frame: CGRect(x: padding, y: padding, width: alertBounds.width - padding, height: 100))
             imageView.contentMode = .scaleAspectFit
             imageView.image = image
             alertController.view.addSubview(imageView)

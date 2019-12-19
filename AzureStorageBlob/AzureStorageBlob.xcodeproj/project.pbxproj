@@ -17,6 +17,8 @@
 		0A6864B3233E89D9004B7E17 /* ContainerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6864B2233E89D9004B7E17 /* ContainerItem.swift */; };
 		0A71C5C7234BB33800604F2D /* BlobProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A71C5C6234BB33800604F2D /* BlobProperties.swift */; };
 		0A71C5C9234BBAA200604F2D /* Enumerations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A71C5C8234BBAA200604F2D /* Enumerations.swift */; };
+		0A8FE76323677FEE00B96598 /* StorageStreamDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8FE76223677FEE00B96598 /* StorageStreamDownloader.swift */; };
+		0A9EF7E5236A4ABC00F8BD31 /* Options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9EF7E4236A4ABC00F8BD31 /* Options.swift */; };
 		0AC0AA85234D31C300F05073 /* BlobItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC0AA84234D31C300F05073 /* BlobItem.swift */; };
 		0AC0AA87234D38B000F05073 /* ContainerProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC0AA86234D38B000F05073 /* ContainerProperties.swift */; };
 		0AC34915235633110094C576 /* StorageBlobClientOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC34914235633110094C576 /* StorageBlobClientOptions.swift */; };
@@ -59,6 +61,8 @@
 		0A6864B2233E89D9004B7E17 /* ContainerItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerItem.swift; sourceTree = "<group>"; };
 		0A71C5C6234BB33800604F2D /* BlobProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlobProperties.swift; sourceTree = "<group>"; };
 		0A71C5C8234BBAA200604F2D /* Enumerations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enumerations.swift; sourceTree = "<group>"; };
+		0A8FE76223677FEE00B96598 /* StorageStreamDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageStreamDownloader.swift; sourceTree = "<group>"; };
+		0A9EF7E4236A4ABC00F8BD31 /* Options.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Options.swift; sourceTree = "<group>"; };
 		0AC0AA84234D31C300F05073 /* BlobItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlobItem.swift; sourceTree = "<group>"; };
 		0AC0AA86234D38B000F05073 /* ContainerProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerProperties.swift; sourceTree = "<group>"; };
 		0AC34914235633110094C576 /* StorageBlobClientOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageBlobClientOptions.swift; sourceTree = "<group>"; };
@@ -133,6 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				0A6864AD233E8601004B7E17 /* Credentials */,
+				0A8FE76423689AD200B96598 /* DataStructures */,
 				0A6864B1233E89BC004B7E17 /* Models */,
 				0A6864A9233E83B5004B7E17 /* StorageBlobClient.swift */,
 				0AC34914235633110094C576 /* StorageBlobClientOptions.swift */,
@@ -159,6 +164,15 @@
 				0A71C5C6234BB33800604F2D /* BlobProperties.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		0A8FE76423689AD200B96598 /* DataStructures */ = {
+			isa = PBXGroup;
+			children = (
+				0A8FE76223677FEE00B96598 /* StorageStreamDownloader.swift */,
+				0A9EF7E4236A4ABC00F8BD31 /* Options.swift */,
+			);
+			path = DataStructures;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -224,7 +238,7 @@
 				TargetAttributes = {
 					0A686488233E834D004B7E17 = {
 						CreatedOnToolsVersion = 11.0;
-						LastSwiftMigration = 1100;
+						LastSwiftMigration = 1110;
 					};
 					0A686491233E834D004B7E17 = {
 						CreatedOnToolsVersion = 11.0;
@@ -276,7 +290,9 @@
 				0A6864B3233E89D9004B7E17 /* ContainerItem.swift in Sources */,
 				0A6864AA233E83B5004B7E17 /* StorageBlobClient.swift in Sources */,
 				0A71C5C7234BB33800604F2D /* BlobProperties.swift in Sources */,
+				0A8FE76323677FEE00B96598 /* StorageStreamDownloader.swift in Sources */,
 				0AC0AA87234D38B000F05073 /* ContainerProperties.swift in Sources */,
+				0A9EF7E5236A4ABC00F8BD31 /* Options.swift in Sources */,
 				0AC0AA85234D31C300F05073 /* BlobItem.swift in Sources */,
 				0A6864AF233E8620004B7E17 /* StorageCredentials.swift in Sources */,
 				0A71C5C9234BBAA200604F2D /* Enumerations.swift in Sources */,

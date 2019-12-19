@@ -27,6 +27,9 @@
 import AzureCore
 import AzureStorageBlob
 import os.log
+
+import AVKit
+import AVFoundation
 import UIKit
 
 class BlobTableViewController: UITableViewController {
@@ -119,28 +122,88 @@ class BlobTableViewController: UITableViewController {
         guard let blobName = cell.keyLabel.text else { return }
         guard let containerName = containerName else { return }
         guard let blobClient = getBlobClient() else { return }
-        blobClient.download(blob: blobName, fromContainer: containerName) { result, _ in
-            switch result {
-            case let .success(data):
-                let options = [
-                    NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.rtf,
-                ]
-                if let attributedString = try? NSAttributedString(data: data, options: options,
-                                                                  documentAttributes: nil) {
-                    self.showAlert(message: attributedString.string)
-                } else if let rawString = String(data: data, encoding: .utf8) {
-                    self.showAlert(message: rawString)
-                } else if let image = UIImage(data: data) {
-                    self.showAlert(image: image)
-                } else {
-                    self.showAlert(error: "Unable to display the downloaded content.")
+        do {
+            let options = DownloadBlobOptions()
+            options.progressCallback = { cumulative, total, data in
+                let percentDone = Double(cumulative) * 100.0 / Double(total)
+                blobClient.options.logger.info("Progress: %\(percentDone)")
+            }
+            options.range = RangeOptions()
+            options.destination = DestinationOptions()
+            options.destination?.isTemporary = true
+            options.range?.calculateMD5 = true
+            guard let url = blobClient.url(forBlob: blobName, inContainer: containerName) else {
+                self.showAlert(error: "Unable to create URL!")
+                return
+            }
+            try blobClient.download(url: url, withOptions: options) { result, _ in
+                switch result {
+                case let .success(downloader):
+                    let options = [
+                        NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.rtf,
+                    ]
+                    do {
+                        let contentType = downloader.blobProperties?.contentType
+                        let url = downloader.downloadDestination
+
+                        if contentType == "video/mp4" {
+                            let player = AVPlayer(url: url)
+                            let controller = AVPlayerViewController()
+                            controller.player = player
+                            self.present(controller, animated: true) {
+                                // begin playing first chunk
+                                player.playImmediately(atRate: 1.0)
+
+                                // load the rest of the video in the background
+                                DispatchQueue.main.async {
+                                    do {
+                                        _ = try downloader.complete()
+                                    } catch {
+                                        // Obviously don't really do this in a real app!
+                                        fatalError(String(describing: error))
+                                    }
+                                }
+                            }
+                        } else {
+                            let group = DispatchGroup()
+                            try downloader.complete(inGroup: group)
+                            guard let data = try? downloader.contents() else {
+                                self.showAlert(error: "Downloaded data not found!")
+                                return
+                            }
+
+                            if let attributedString = try? NSAttributedString(data: data, options: options,
+                                                                              documentAttributes: nil) {
+                                self.showAlert(message: attributedString.string)
+                            } else if let rawString = String(data: data, encoding: .utf8) {
+                                self.showAlert(message: rawString)
+                            } else if let image = UIImage(data: data) {
+                                self.showAlert(image: image)
+                            } else {
+                                self.showAlert(error: "Unable to display the downloaded content.")
+                            }
+                        }
+                    } catch {
+                        self.showAlert(error: String(describing: error))
+                    }
+                case let .failure(error):
+                    // TODO: Don't like this. Feels like the SDK should be responsible for handling errors rather
+                    // than dumping it on the client.
+                    switch error {
+                    case let HttpResponseError.statusCode(message):
+                        self.showAlert(error: message)
+                    case let AzureError.general(message):
+                        self.showAlert(error: message)
+                    default:
+                        self.showAlert(error: String(describing: error))
+                    }
                 }
-            case let .failure(error):
-                self.showAlert(error: String(describing: error))
+                DispatchQueue.main.async { [weak self] in
+                    self?.tableView.deselectRow(at: indexPath, animated: true)
+                }
             }
-            DispatchQueue.main.async { [weak self] in
-                self?.tableView.deselectRow(at: indexPath, animated: true)
-            }
+        } catch {
+            self.showAlert(error: String(describing: error))
         }
     }
 }

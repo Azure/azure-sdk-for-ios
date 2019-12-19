@@ -33,6 +33,8 @@
 		0A6A9B4F234293B50013FCAA /* RegexUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6A9B4E234293B50013FCAA /* RegexUtil.swift */; };
 		0A7F563A2321732B00E9765A /* UrlHttpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F56392321732B00E9765A /* UrlHttpResponse.swift */; };
 		0A8A583B233A78D4009846C1 /* RequestHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8A583A233A78D4009846C1 /* RequestHistory.swift */; };
+		0A8FE7682368A4FF00B96598 /* MatchCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8FE7672368A4FF00B96598 /* MatchCondition.swift */; };
+		0AB5EAFD2375F25400361879 /* StringUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB5EAFC2375F25400361879 /* StringUtil.swift */; };
 		0AC0AA83234D017F00F05073 /* AzureCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC0AA82234D017F00F05073 /* AzureCodable.swift */; };
 		0AC0AA8C234F8ADD00F05073 /* Collections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC0AA8A234F8ADD00F05073 /* Collections.swift */; };
 		0AC0AA8F234FDB0800F05073 /* XMLModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC0AA8E234FDB0800F05073 /* XMLModel.swift */; };
@@ -84,6 +86,8 @@
 		0A6A9B4E234293B50013FCAA /* RegexUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegexUtil.swift; sourceTree = "<group>"; };
 		0A7F56392321732B00E9765A /* UrlHttpResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlHttpResponse.swift; sourceTree = "<group>"; };
 		0A8A583A233A78D4009846C1 /* RequestHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHistory.swift; sourceTree = "<group>"; };
+		0A8FE7672368A4FF00B96598 /* MatchCondition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchCondition.swift; sourceTree = "<group>"; };
+		0AB5EAFC2375F25400361879 /* StringUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtil.swift; sourceTree = "<group>"; };
 		0AC0AA82234D017F00F05073 /* AzureCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzureCodable.swift; sourceTree = "<group>"; };
 		0AC0AA8A234F8ADD00F05073 /* Collections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Collections.swift; path = Source/DataStructures/Collections.swift; sourceTree = SOURCE_ROOT; };
 		0AC0AA8E234FDB0800F05073 /* XMLModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLModel.swift; sourceTree = "<group>"; };
@@ -156,6 +160,7 @@
 				0AE5C3A5231F150A0013CA85 /* KeychainUtil.swift */,
 				0A4081B9233432C30071EAEE /* HttpUtil.swift */,
 				0A6A9B4E234293B50013FCAA /* RegexUtil.swift */,
+				0AB5EAFC2375F25400361879 /* StringUtil.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -249,6 +254,7 @@
 			isa = PBXGroup;
 			children = (
 				0AC0AA8A234F8ADD00F05073 /* Collections.swift */,
+				0A8FE7672368A4FF00B96598 /* MatchCondition.swift */,
 				0AC0AA8E234FDB0800F05073 /* XMLModel.swift */,
 			);
 			path = DataStructures;
@@ -317,7 +323,7 @@
 				TargetAttributes = {
 					0A3A5D752315C89C00473FDA = {
 						CreatedOnToolsVersion = 10.3;
-						LastSwiftMigration = 1030;
+						LastSwiftMigration = 1110;
 					};
 					0A3A5DDD2315D17F00473FDA = {
 						CreatedOnToolsVersion = 10.3;
@@ -387,6 +393,7 @@
 			files = (
 				0A3A5F3A2318903900473FDA /* PipelineRequest.swift in Sources */,
 				0A29CC3E2322F3CD006CEFA7 /* DateUtil.swift in Sources */,
+				0AB5EAFD2375F25400361879 /* StringUtil.swift in Sources */,
 				0A3A5F442319D49700473FDA /* UrlSessionTransport.swift in Sources */,
 				7AFCF7662345714200592782 /* LoggingPolicy.swift in Sources */,
 				0A3A5D9E2315CEB600473FDA /* HttpHeader.swift in Sources */,
@@ -404,6 +411,7 @@
 				0AD2142923314416003A2E3E /* ObjectiveCBridgeable.swift in Sources */,
 				7A16DC7D234BFC84002708BC /* HttpMessage.swift in Sources */,
 				0A3A5F032316DF6600473FDA /* CryptoUtils.swift in Sources */,
+				0A8FE7682368A4FF00B96598 /* MatchCondition.swift in Sources */,
 				0AC0AA83234D017F00F05073 /* AzureCodable.swift in Sources */,
 				0A3A5F1C2316EBC600473FDA /* HeadersPolicy.swift in Sources */,
 				0A3A5F382318686C00473FDA /* HttpTransportable.swift in Sources */,

@@ -46,12 +46,23 @@ extension Array where Element == UInt8 {
     }
 }
 
-//    kCCHmacAlgSHA1,
-//    kCCHmacAlgMD5,
-//    kCCHmacAlgSHA256,
-//    kCCHmacAlgSHA384,
-//    kCCHmacAlgSHA512,
-//    kCCHmacAlgSHA224
+extension Data {
+    public var md5: String {
+        var digestData = Data(count: Int(CC_MD5_DIGEST_LENGTH))
+        _ = digestData.withUnsafeMutableBytes { digestBytes in
+            self.withUnsafeBytes { messageBytes in
+                CC_MD5(messageBytes, CC_LONG(self.count), digestBytes)
+            }
+        }
+        return digestData.base64EncodedString()
+    }
+
+    public var crc64: String {
+        // TODO: Implement. Currently no implementation of CRC64 in iOS libraries.
+        return ""
+    }
+}
+
 public enum HmacAlgorithm {
     case sha1, md5, sha256, sha384, sha512, sha224
     public var algorithm: CCHmacAlgorithm {

@@ -26,17 +26,12 @@
 
 import Foundation
 
-/// Base class containing baseline options for individual service clients.
-open class AzureClientOptions {
-    public let apiVersion: String
-    public var logger: ClientLogger
+/// Protocol for baseline options for individual service clients.
+public protocol AzureConfigurable {
 
-    // MARK: Initializers
+    var apiVersion: String { get }
 
-    public init(apiVersion: String) {
-        self.apiVersion = apiVersion
-        self.logger = ClientLoggers.default()
-    }
+    var logger: ClientLogger { get }
 }
 
 /// Base class containing baseline options for individual client API calls.
@@ -54,26 +49,22 @@ open class AzureOptions {
 
 /// Base class for all pipeline-based service clients.
 open class PipelineClient {
-    public var logger: ClientLogger {
-        return options.logger
-    }
 
     internal var pipeline: Pipeline
-    internal var baseUrl: String
-
-    public var options: AzureClientOptions
+    public var baseUrl: String
+    public var logger: ClientLogger
 
     // MARK: Initializers
 
     public init(baseUrl: String, transport: HttpTransportable, policies: [PipelineStageProtocol],
-                withOptions options: AzureClientOptions) {
+                logger: ClientLogger) {
         self.baseUrl = baseUrl
+        self.logger = logger
         if self.baseUrl.suffix(1) != "/" { self.baseUrl += "/" }
         pipeline = Pipeline(transport: transport, policies: policies)
-        self.options = options
     }
 
-    // MARK: Client API
+    // MARK: Public Methods}
 
     public func run(request: HttpRequest, context: [String: AnyObject]?,
                     completion: @escaping (Result<Data?, Error>, HttpResponse) -> Void) {
@@ -92,20 +83,15 @@ open class PipelineClient {
                 let statusCode = httpResponse.statusCode ?? -1
                 let allowedStatusCodes = pipelineResponse.value(forKey: .allowedStatusCodes) as? [Int] ?? [200]
                 if !allowedStatusCodes.contains(httpResponse.statusCode ?? -1) {
-                    var message = "Service returned invalid status code [\(statusCode)]."
-                    if let errorData = deserializedData,
-                        let errorJson = try? JSONSerialization.jsonObject(with: errorData) {
-                        message += " \(String(describing: errorJson))"
-                    }
-                    let error = HttpResponseError.statusCode(message)
+                    self.logError(withData: deserializedData)
+                    let error = HttpResponseError.statusCode("Service returned invalid status code [\(statusCode)].")
                     completion(.failure(error), httpResponse)
-                    return
-                }
-
-                if let deserialized = deserializedData {
-                    completion(.success(deserialized), httpResponse)
-                } else if let data = httpResponse.data {
-                    completion(.success(data), httpResponse)
+                } else {
+                    if let deserialized = deserializedData {
+                        completion(.success(deserialized), httpResponse)
+                    } else if let data = httpResponse.data {
+                        completion(.success(data), httpResponse)
+                    }
                 }
             case let .failure(error):
                 completion(.failure(error), httpResponse)
@@ -134,5 +120,20 @@ open class PipelineClient {
             url = url.replacingOccurrences(of: "{\(key)}", with: value)
         }
         return url
+    }
+
+    // MARK: Private Methods
+
+    private func logError(withData data: Data?) {
+        guard let data = data else { return }
+        guard let json = try? JSONSerialization.jsonObject(with: data) else { return }
+        guard let errorDict = json as? [String: Any] else { return }
+        self.logger.debug {
+            var errorStrings = [String]()
+            for (key, value) in errorDict {
+                errorStrings.append("\(key): \(value)")
+            }
+            return errorStrings.joined(separator: "\n")
+        }
     }
 }

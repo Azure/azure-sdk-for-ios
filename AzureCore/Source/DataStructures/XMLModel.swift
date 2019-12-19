@@ -164,11 +164,8 @@ public class XMLMap: Sequence, IteratorProtocol {
 // MARK: XML Tree
 
 internal class XMLTree {
-    internal var root: XMLTreeNode
 
-    public init() {
-        root = XMLTreeNode(name: "__ROOT__", type: .ignored, parent: nil)
-    }
+    internal var root = XMLTreeNode(name: "__ROOT__", type: .ignored, parent: nil)
 
     var dictionary: [String: Any]? {
         return root.dictionary

@@ -31,12 +31,12 @@ public final class BlobProperties: XMLModelProtocol {
     public let creationTime: Date?
     public let lastModified: Date?
     public let eTag: String?
-    public let contentLength: Int?
+    public var contentLength: Int?
     public let contentType: String?
     public let contentDisposition: String?
     public let contentEncoding: String?
     public let contentLanguage: String?
-    public let contentMD5: String?
+    public var contentMD5: String?
     public let contentCRC64: String?
     public let cacheControl: String?
     public let sequenceNumber: Int?
@@ -150,6 +150,48 @@ public final class BlobProperties: XMLModelProtocol {
             "DeletedTime": XMLMetadata(jsonName: "deletedTime"),
             "RemainingRetentionDays": XMLMetadata(jsonName: "remainingRetentionDays"),
         ])
+    }
+
+    internal init(from headers: HttpHeaders) {
+        self.creationTime = headers["x-ms-creation-time"].asDate
+        self.lastModified = headers["Last-Modified"].asDate
+        self.copyCompletionTime = headers["x-ms-copy-completion-time"].asDate
+
+        self.eTag = headers[.etag]
+        self.contentType = headers[.contentType]
+        self.contentDisposition = headers[.contentDisposition]
+        self.contentEncoding = headers[.contentEncoding]
+        self.contentLanguage = headers[.contentLanguage]
+        self.contentMD5 = headers["Content-MD5"]
+        self.contentCRC64 = headers["x-ms-content-crc64"]
+        self.cacheControl = headers[.cacheControl]
+        self.copyId = headers["x-ms-copy-id"]
+        self.copyProgress = headers["x-ms-copy-progress"]
+        self.copyStatusDescription = headers["x-ms-copy-status-description"]
+
+        self.contentLength = headers[.contentLength].asInt
+        self.sequenceNumber = headers["x-ms-blob-sequence-number"].asInt
+        self.serverEncrypted = headers["x-ms-server-encrypted"].asBool
+
+        self.blobType = headers["x-ms-blob-type"].asEnum(BlobType.self)
+        self.leaseStatus = headers["x-ms-lease-status"].asEnum(LeaseStatus.self)
+        self.leaseState = headers["x-ms-lease-state"].asEnum(LeaseState.self)
+        self.leaseDuration = headers["x-ms-lease-duration"].asEnum(LeaseDuration.self)
+        self.copyStatus = headers["x-ms-copy-status"].asEnum(CopyStatus.self)
+
+        if let copySource = headers["x-ms-copy-source"] {
+            self.copySource = URL(string: copySource)
+        } else {
+            self.copySource = nil
+        }
+
+        // Not documented as a valid response header
+        self.accessTier = nil
+        self.incrementalCopy = nil
+        self.accessTierInferred = nil
+        self.accessTierChangeTime = nil
+        self.deletedTime = nil
+        self.remainingRetentionDays = nil
     }
 }
 

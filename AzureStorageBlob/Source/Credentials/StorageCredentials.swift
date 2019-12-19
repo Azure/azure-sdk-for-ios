@@ -34,7 +34,7 @@ public class StorageOAuthCredential: TokenCredential {
         if let expiration = Calendar.current.date(byAdding: .minute, value: tokenLife, to: Date()) {
             // TODO: Token retrieval implementation
             let expirationInt = Int(expiration.timeIntervalSinceReferenceDate)
-            var token = ""
+            let token = ""
             URLSession.shared.dataTask(with: authUrl) { _, _, error in
                 if error != nil {
                     print(error as Any)
@@ -119,6 +119,6 @@ public class StorageSASAuthenticationPolicy: AuthenticationProtocol {
     public func authenticate(request: PipelineRequest) {
         let queryParams = parse(sasToken: credential.sasToken)
         request.httpRequest.format(queryParams: queryParams)
-        request.httpRequest.headers["x-ms-date"] = Date().httpFormat
+        request.httpRequest.headers["x-ms-date"] = Date().rfc1123Format
     }
 }
