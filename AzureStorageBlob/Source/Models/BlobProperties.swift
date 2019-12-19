@@ -153,33 +153,33 @@ public final class BlobProperties: XMLModelProtocol {
     }
 
     internal init(from headers: HttpHeaders) {
-        self.creationTime = headers["x-ms-creation-time"].asDate
-        self.lastModified = headers["Last-Modified"].asDate
-        self.copyCompletionTime = headers["x-ms-copy-completion-time"].asDate
+        self.creationTime = headers[.creationTime].asDate
+        self.lastModified = headers[.lastModified].asDate
+        self.copyCompletionTime = headers[.copyCompletionTime].asDate
 
         self.eTag = headers[.etag]
         self.contentType = headers[.contentType]
         self.contentDisposition = headers[.contentDisposition]
         self.contentEncoding = headers[.contentEncoding]
         self.contentLanguage = headers[.contentLanguage]
-        self.contentMD5 = headers["Content-MD5"]
-        self.contentCRC64 = headers["x-ms-content-crc64"]
+        self.contentMD5 = headers[.contentMD5]
+        self.contentCRC64 = headers[.contentCRC64]
         self.cacheControl = headers[.cacheControl]
-        self.copyId = headers["x-ms-copy-id"]
-        self.copyProgress = headers["x-ms-copy-progress"]
-        self.copyStatusDescription = headers["x-ms-copy-status-description"]
+        self.copyId = headers[.copyId]
+        self.copyProgress = headers[.copyProgress]
+        self.copyStatusDescription = headers[.copyStatusDescription]
 
         self.contentLength = headers[.contentLength].asInt
-        self.sequenceNumber = headers["x-ms-blob-sequence-number"].asInt
-        self.serverEncrypted = headers["x-ms-server-encrypted"].asBool
+        self.sequenceNumber = headers[.blobSequenceNumber].asInt
+        self.serverEncrypted = headers[.serverEncrypted].asBool
 
-        self.blobType = headers["x-ms-blob-type"].asEnum(BlobType.self)
-        self.leaseStatus = headers["x-ms-lease-status"].asEnum(LeaseStatus.self)
-        self.leaseState = headers["x-ms-lease-state"].asEnum(LeaseState.self)
-        self.leaseDuration = headers["x-ms-lease-duration"].asEnum(LeaseDuration.self)
-        self.copyStatus = headers["x-ms-copy-status"].asEnum(CopyStatus.self)
+        self.blobType = headers[.blobType].asEnum(BlobType.self)
+        self.leaseStatus = headers[.leaseStatus].asEnum(LeaseStatus.self)
+        self.leaseState = headers[.leaseState].asEnum(LeaseState.self)
+        self.leaseDuration = headers[.leaseDuration].asEnum(LeaseDuration.self)
+        self.copyStatus = headers[.copyStatus].asEnum(CopyStatus.self)
 
-        if let copySource = headers["x-ms-copy-source"] {
+        if let copySource = headers[.copySource] {
             self.copySource = URL(string: copySource)
         } else {
             self.copySource = nil

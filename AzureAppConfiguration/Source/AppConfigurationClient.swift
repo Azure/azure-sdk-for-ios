@@ -63,8 +63,9 @@ public class AppConfigurationClient: PipelineClient {
 
     // MARK: API Calls
 
-    public func listConfigurationSettings(forKey key: String?, forLabel label: String?,
-                                          completion: @escaping HttpResultHandler<PagedCollection<ConfigurationSetting>>) {
+    public func listConfigurationSettings(forKey key: String?,
+                                          forLabel label: String?,
+                                          then completion: @escaping HttpResultHandler<PagedCollection<ConfigurationSetting>>) {
 
         // Construct URL
         let urlTemplate = "kv"
@@ -78,7 +79,7 @@ public class AppConfigurationClient: PipelineClient {
 
         // Construct headers
         var headerParams = HttpHeaders()
-        headerParams["x-ms-version"] = self.options.apiVersion
+        headerParams[.apiVersion] = self.options.apiVersion
         // if let acceptDatetime = acceptDatetime { headerParams["Accept-Datetime"] = acceptDatetime }
         // if let requestId = requestId { headerParams["x-ms-client-request-id"] = requestId }
 

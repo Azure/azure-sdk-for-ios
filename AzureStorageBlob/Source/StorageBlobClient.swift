@@ -61,6 +61,8 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         }
     }
 
+    private let credential: Any
+
     public var options: StorageBlobClientOptions
 
     private let defaultScopes = [
@@ -86,6 +88,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
      */
     required public init(accountUrl: String, credential: Any, withOptions options: StorageBlobClientOptions? = nil)
         throws {
+            self.credential = credential
             self.options = options ?? StorageBlobClientOptions(apiVersion: ApiVersion.latest.rawValue)
             let authPolicy: AuthenticationProtocol
             var baseUrl: String
@@ -339,11 +342,15 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
     public func download(url: URL, withOptions options: DownloadBlobOptions? = nil,
                          then completion: @escaping HttpResultHandler<BlobStreamDownloader>) throws {
         let (host, container, blob) = try parse(url: url)
-        // ensure that if the base URL is altered temporarily because of the URL that it is switched back.
-        let originalHost = baseUrl
-        defer { baseUrl = originalHost }
-        baseUrl = host
-        try download(blob: blob, fromContainer: container, withOptions: options, then: completion)
+        if baseUrl == host {
+            try download(blob: blob, fromContainer: container, withOptions: options, then: completion)
+        } else {
+            // TODO: Test and reconsider this implemenation for the public URL scenario.
+            let client = try StorageBlobClient(accountUrl: host,
+                                               credential: credential,
+                                               withOptions: self.options)
+            try client.download(blob: blob, fromContainer: container, withOptions: options, then: completion)
+        }
     }
 
     /**
@@ -353,9 +360,9 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
      - Returns: The URL of the blob.
      */
     public func url(forBlob blob: String, inContainer container: String) -> URL? {
-        var urlString = baseUrl
-        urlString += urlString.hasSuffix("/") ? container : "/\(container)"
-        urlString += urlString.hasSuffix("/") ? blob : "/\(blob)"
-        return URL(string: urlString)
+        var url = URL(string: baseUrl)
+        url?.appendPathComponent(container)
+        url?.appendPathComponent(blob)
+        return url
     }
 }

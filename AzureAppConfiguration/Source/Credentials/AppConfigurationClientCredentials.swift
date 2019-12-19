@@ -84,10 +84,10 @@ public class AppConfigurationAuthenticationPolicy: AuthenticationProtocol {
         if let url = URL(string: httpRequest.url) {
             request.httpRequest.headers[HttpHeader.host] = url.host ?? ""
         }
-        request.httpRequest.headers[AppConfigurationHeader.contentHash.rawValue] = contentHash
-        let dateValue = request.httpRequest.headers[HttpHeader.date] ?? request.httpRequest.headers[AppConfigurationHeader.date.rawValue]
+        request.httpRequest.headers[.contentHash] = contentHash
+        let dateValue = request.httpRequest.headers[HttpHeader.date] ?? request.httpRequest.headers[.xmsDate]
         if dateValue == nil {
-            request.httpRequest.headers[AppConfigurationHeader.date.rawValue] = Date().rfc1123Format
+            request.httpRequest.headers[.xmsDate] = Date().rfc1123Format
         }
         sign(request: request)
         completion(request)
@@ -95,7 +95,7 @@ public class AppConfigurationAuthenticationPolicy: AuthenticationProtocol {
 
     private func sign(request: PipelineRequest) {
         let headers = request.httpRequest.headers
-        let signedHeaderKeys = [AppConfigurationHeader.date.rawValue, HttpHeader.host.rawValue, AppConfigurationHeader.contentHash.rawValue]
+        let signedHeaderKeys = [HttpHeader.xmsDate.rawValue, HttpHeader.host.rawValue, AppConfigurationHeader.contentHash.rawValue]
         var signedHeaderValues = [String]()
         for key in signedHeaderKeys {
             if let value = headers[key] {
@@ -108,7 +108,7 @@ public class AppConfigurationAuthenticationPolicy: AuthenticationProtocol {
             if let decodedSecret = self.credential.secret.decodeBase64 {
                 let stringToSign = "\(request.httpRequest.httpMethod.rawValue.uppercased(with: Locale(identifier: "en_US")))\n\(signingUrl)\n\(signedHeaderValues.joined(separator: ";"))"
                 let signature = try? stringToSign.hmac(algorithm: .sha256, key: decodedSecret).base64String
-                request.httpRequest.headers[HttpHeader.authorization.rawValue] = "HMAC-SHA256 Credential=\(credential.id), SignedHeaders=\(signedHeaderKeys.joined(separator: ";")), Signature=\(signature ?? "ERROR")"
+                request.httpRequest.headers[.authorization] = "HMAC-SHA256 Credential=\(credential.id), SignedHeaders=\(signedHeaderKeys.joined(separator: ";")), Signature=\(signature ?? "ERROR")"
             }
         }
     }

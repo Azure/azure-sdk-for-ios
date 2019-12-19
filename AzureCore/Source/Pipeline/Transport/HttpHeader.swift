@@ -28,22 +28,6 @@ import Foundation
 
 public typealias HttpHeaders = [String: String]
 
-extension HttpHeaders {
-    public subscript(index: HttpHeader) -> String? {
-        get {
-            return self[index.rawValue]
-        }
-
-        set(newValue) {
-            self[index.rawValue] = newValue
-        }
-    }
-
-    public mutating func removeValue(forKey key: HttpHeader) -> String? {
-        return removeValue(forKey: key.rawValue)
-    }
-}
-
 public enum HttpHeader: String {
     case accept = "Accept"
     case acceptCharset = "Accept-Charset"
@@ -65,6 +49,7 @@ public enum HttpHeader: String {
     case contentRange = "Content-Range"
     case contentType = "Content-Type"
     case date = "Date"
+    case xmsDate = "x-ms-date"
     case etag = "Etag"
     case expect = "Expect"
     case expires = "Expires"
@@ -89,4 +74,20 @@ public enum HttpHeader: String {
     case via = "Via"
     case warning = "Warning"
     case wwwAuthenticate = "WWW-Authenticate"
+}
+
+extension HttpHeaders {
+    public subscript(index: HttpHeader) -> String? {
+        get {
+            return self[index.rawValue]
+        }
+
+        set(newValue) {
+            self[index.rawValue] = newValue
+        }
+    }
+
+    public mutating func removeValue(forKey key: HttpHeader) -> String? {
+        return removeValue(forKey: key.rawValue)
+    }
 }

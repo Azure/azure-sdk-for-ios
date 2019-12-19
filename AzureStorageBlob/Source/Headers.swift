@@ -24,9 +24,40 @@
 //
 // --------------------------------------------------------------------------
 
+import AzureCore
 import Foundation
 
-public enum AppConfigurationHeader: String {
-    case date = "x-ms-date"
-    case contentHash = "x-ms-content-sha256"
+/// Storage service-specific HTTP headers.
+public enum StorageHttpHeader: String {
+    case blobSequenceNumber = "x-ms-blob-sequence-number"
+    case blobType = "x-ms-blob-type"
+    case contentCRC64 = "x-ms-content-crc64"
+    case contentMD5 = "Content-MD5"
+    case copyCompletionTime = "x-ms-copy-completion-time"
+    case copyId = "x-ms-copy-id"
+    case copyProgress = "x-ms-copy-progress"
+    case copySource = "x-ms-copy-source"
+    case copyStatus = "x-ms-copy-status"
+    case copyStatusDescription = "x-ms-copy-status-description"
+    case creationTime = "x-ms-creation-time"
+    case serverEncrypted = "x-ms-server-encrypted"
+    case leaseDuration = "x-ms-lease-duration"
+    case leaseState = "x-ms-lease-state"
+    case leaseStatus = "x-ms-lease-status"
+}
+
+extension HttpHeaders {
+    public subscript(index: StorageHttpHeader) -> String? {
+        get {
+            return self[index.rawValue]
+        }
+
+        set(newValue) {
+            self[index.rawValue] = newValue
+        }
+    }
+
+    public mutating func removeValue(forKey key: StorageHttpHeader) -> String? {
+        return removeValue(forKey: key.rawValue)
+    }
 }

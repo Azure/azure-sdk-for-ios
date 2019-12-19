@@ -134,7 +134,7 @@ internal class ChunkDownloader {
                     return
                 }
                 let headers = httpResponse.headers
-                if let contentMD5 = headers["Content-MD5"] {
+                if let contentMD5 = headers[.contentMD5] {
                     let dataHash = try? data.hash(algorithm: .md5).base64String
                     guard contentMD5 == dataHash else {
                         let error = AzureError.general("Block MD5 \(dataHash ?? "ERROR") did not match \(contentMD5).")
@@ -142,7 +142,7 @@ internal class ChunkDownloader {
                         return
                     }
                 }
-                if let contentCRC64 = headers["Content-CRC64"] {
+                if let contentCRC64 = headers[.contentCRC64] {
                     // TODO: Implement CRC64. Currently no iOS library supports this!
                     let dataHash = ""
                     guard contentCRC64 == dataHash else {
@@ -154,6 +154,7 @@ internal class ChunkDownloader {
                 let decryptedData = self.decrypt(data)
                 do {
                     let handle = try self.openFileForWriting()
+                    defer { handle.closeFile() }
                     let fileOffset = UInt64(self.startRange)
                     if #available(iOS 13.0, *) {
                         try handle.seek(toOffset: fileOffset)
@@ -162,7 +163,6 @@ internal class ChunkDownloader {
                         handle.seek(toFileOffset: fileOffset)
                     }
                     handle.write(decryptedData)
-                    handle.closeFile()
                     completion(.success(decryptedData), httpResponse)
                 } catch {
                     completion(.failure(error), httpResponse)
