@@ -120,7 +120,10 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
                     // Python: RedirectPolicy(**kwargs),
                     // Python: StorageHosts(hosts=self._hosts, **kwargs),
                     // Python: config.retry_policy,
-                    LoggingPolicy()
+                    LoggingPolicy(
+                        allowHeaders: BlobHeadersAndQueryParameters.headers,
+                        allowQueryParams: BlobHeadersAndQueryParameters.queryParameters
+                    )
                     // Python: StorageResponseHook(**kwargs),
                     // Python: DistributedTracingPolicy(**kwargs),
                     // Python: HttpLoggingPolicy()

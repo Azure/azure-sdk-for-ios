@@ -32,6 +32,7 @@ public class StorageBlobClientOptions: AzureConfigurable {
 
     public let apiVersion: String
     public let logger: ClientLogger
+    public let tag: String
 
     // Storage settings
     public let maxSinglePutSize = 64 * 1024 * 1024
@@ -46,9 +47,10 @@ public class StorageBlobClientOptions: AzureConfigurable {
     public let maxSingleGetSize = 32 * 1024 * 1024
     public let maxChunkGetSize = 4 * 1024 * 1024
 
-    public init(apiVersion: String, logger: ClientLogger = ClientLoggers.default()) {
+    public init(apiVersion: String, logger: ClientLogger? = nil, tag: String = "StorageBlobClient") {
         self.apiVersion = apiVersion
-        self.logger = logger
+        self.tag = tag
+        self.logger = logger ?? ClientLoggers.default(tag: tag)
     }
 }
 
