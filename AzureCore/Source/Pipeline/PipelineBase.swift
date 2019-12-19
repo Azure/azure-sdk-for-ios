@@ -29,6 +29,9 @@ import Foundation
 public typealias ResultHandler<TSuccess, TError: Error> = (Result<TSuccess, TError>, HttpResponse) -> Void
 public typealias HttpResultHandler<T> = ResultHandler<T, Error>
 public typealias PipelineStageResultHandler = ResultHandler<PipelineResponse, PipelineError>
+public typealias OnRequestCompletionHandler = (PipelineRequest) -> Void
+public typealias OnResponseCompletionHandler = (PipelineResponse) -> Void
+public typealias OnErrorCompletionHandler = (PipelineError, Bool) -> Void
 
 /// Protocol for implementing pipeline stages.
 public protocol PipelineStageProtocol {
@@ -38,20 +41,20 @@ public protocol PipelineStageProtocol {
     /// - Parameters:
     ///   - request: The `PipelineRequest` input.
     ///   - completion: A completion handler which forwards the modified request.
-    func onRequest(_ request: PipelineRequest, then completion: @escaping (PipelineRequest) -> Void)
+    func onRequest(_ request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler)
 
     /// Response modification hook.
     /// - Parameters:
     ///   - response: The `PipelineResponse` input.
     ///   - completion: A completion handler which forwards the modified response.
-    func onResponse(_ response: PipelineResponse, then completion: @escaping (PipelineResponse) -> Void)
+    func onResponse(_ response: PipelineResponse, then completion: @escaping OnResponseCompletionHandler)
 
     /// Response error hook.
     /// - Parameters:
     ///   - error: The `PipelineError` input.
     ///   - completion: A completion handler which forwards the error along with a boolean
     ///   that indicates whether the exception was handled or not.
-    func onError(_ error: PipelineError, then completion: @escaping (PipelineError, Bool) -> Void)
+    func onError(_ error: PipelineError, then completion: @escaping OnErrorCompletionHandler)
 
     /// Executes the policy method.
     /// - Parameters:
@@ -62,13 +65,13 @@ public protocol PipelineStageProtocol {
 
 /// Default implementations for `PipelineStageProtocol`.
 extension PipelineStageProtocol {
-    public func onRequest(_ request: PipelineRequest, then completion: @escaping (PipelineRequest) -> Void) {
+    public func onRequest(_ request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
         completion(request)
     }
-    public func onResponse(_ response: PipelineResponse, then completion: @escaping (PipelineResponse) -> Void) {
+    public func onResponse(_ response: PipelineResponse, then completion: @escaping OnResponseCompletionHandler) {
         completion(response)
     }
-    public func onError(_ error: PipelineError, then completion: @escaping (PipelineError, Bool) -> Void) {
+    public func onError(_ error: PipelineError, then completion: @escaping OnErrorCompletionHandler) {
         completion(error, false)
     }
     public func process(request pipelineRequest: PipelineRequest,

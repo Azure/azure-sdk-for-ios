@@ -105,7 +105,7 @@ public class StorageSASAuthenticationPolicy: AuthenticationProtocol {
     /// - Parameters:
     ///   - request: A `PipelineRequest` object.
     ///   - completion: A completion handler that forwards the modified pipeline request.
-    public func authenticate(request: PipelineRequest, then completion: @escaping (PipelineRequest) -> Void) {
+    public func authenticate(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
         let queryParams = parse(sasToken: credential.sasToken)
         request.httpRequest.format(queryParams: queryParams)
         request.httpRequest.headers[.xmsDate] = Date().rfc1123Format

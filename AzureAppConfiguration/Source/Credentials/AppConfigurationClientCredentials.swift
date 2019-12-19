@@ -78,7 +78,7 @@ public class AppConfigurationAuthenticationPolicy: AuthenticationProtocol {
         self.credential = credential
     }
 
-    public func authenticate(request: PipelineRequest, then completion: @escaping (PipelineRequest) -> Void) {
+    public func authenticate(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
         let httpRequest = request.httpRequest
         let contentHash = try? (httpRequest.data ?? Data()).hash(algorithm: .sha256).base64String
         if let url = URL(string: httpRequest.url) {

@@ -58,7 +58,7 @@ public class ContentDecodePolicy: NSObject, PipelineStageProtocol, XMLParserDele
         return nil
     }
 
-    public func onResponse(_ response: PipelineResponse, then completion: (PipelineResponse) -> Void) {
+    public func onResponse(_ response: PipelineResponse, then completion: @escaping OnResponseCompletionHandler) {
         let stream = response.value(forKey: "stream") as? Bool ?? false
         guard stream == false else { return }
         guard let httpResponse = response.httpResponse else { return }

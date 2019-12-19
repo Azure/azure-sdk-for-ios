@@ -32,7 +32,7 @@ public class LoggingPolicy: PipelineStageProtocol {
                                                            options: .caseInsensitive)
     public init() {}
 
-    public func onRequest(_ request: PipelineRequest, then completion: @escaping (PipelineRequest) -> Void) {
+    public func onRequest(_ request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
         let logger = request.logger
         let req = request.httpRequest
         logger.info("Request: \(req.httpMethod.rawValue) \(req.url)")
@@ -53,12 +53,12 @@ public class LoggingPolicy: PipelineStageProtocol {
         completion(request)
     }
 
-    public func onResponse(_ response: PipelineResponse, then completion: (PipelineResponse) -> Void) {
+    public func onResponse(_ response: PipelineResponse, then completion: @escaping OnResponseCompletionHandler) {
         logResponse(response.httpResponse, fromRequest: response.httpRequest, logger: response.logger)
         completion(response)
     }
 
-    public func onError(_ error: PipelineError, then completion: (PipelineError, Bool) -> Void) {
+    public func onError(_ error: PipelineError, then completion: @escaping OnErrorCompletionHandler) {
         let logger = error.pipelineResponse.logger
         let request = error.pipelineResponse.httpRequest
 
@@ -120,7 +120,7 @@ public class CurlFormattedRequestLoggingPolicy: PipelineStageProtocol {
 
     public init() {}
 
-    public func onRequest(_ request: PipelineRequest, then completion: @escaping (PipelineRequest) -> Void) {
+    public func onRequest(_ request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
         let logger = request.logger
         guard logger.level.rawValue >= ClientLogLevel.debug.rawValue else { return }
 

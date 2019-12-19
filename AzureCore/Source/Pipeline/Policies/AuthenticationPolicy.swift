@@ -41,11 +41,11 @@ public protocol TokenCredential {
 }
 
 public protocol AuthenticationProtocol: PipelineStageProtocol {
-    func authenticate(request: PipelineRequest, then completion: @escaping (PipelineRequest) -> Void)
+    func authenticate(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler)
 }
 
 extension AuthenticationProtocol {
-    public func onRequest(_ request: PipelineRequest, then completion: @escaping (PipelineRequest) -> Void) {
+    public func onRequest(_ request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
         authenticate(request: request, then: completion)
     }
 }
@@ -221,7 +221,7 @@ public class BearerTokenCredentialPolicy: AuthenticationProtocol {
     /// - Parameters:
     ///   - request: A `PipelineRequest` object.
     ///   - completion: A completion handler that forwards the modified pipeline request.
-    public func authenticate(request: PipelineRequest, then completion: @escaping (PipelineRequest) -> Void) {
+    public func authenticate(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
         guard let token = self.token?.token else { return }
         request.httpRequest.headers[.authorization] = "Bearer \(token)"
         completion(request)
@@ -231,7 +231,7 @@ public class BearerTokenCredentialPolicy: AuthenticationProtocol {
     /// - Parameters:
     ///   - request: A `PipelineRequest` object.
     ///   - completion: A completion handler that forwards the modified pipeline request.
-    public func onRequest(_ request: PipelineRequest, then completion: @escaping (PipelineRequest) -> Void) {
+    public func onRequest(_ request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
         credential.token(forScopes: scopes) { token in
             self.token = token
             self.authenticate(request: request, then: completion)

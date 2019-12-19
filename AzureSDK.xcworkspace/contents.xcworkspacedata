@@ -2,9 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/travisprescott/repos/azure-sdk-for-ios/Podfile">
-   </FileRef>
-   <FileRef
       location = "group:AzureCore/AzureCore.xcodeproj">
    </FileRef>
    <FileRef
@@ -40,7 +37,13 @@
          location = "group:Package.swift">
       </FileRef>
       <FileRef
-         location = "group:/Users/travisprescott/repos/Azure.iOS/AzureSDK.podspec">
+         location = "group:AzureSDK.podspec">
+      </FileRef>
+      <FileRef
+         location = "group:Podfile">
+      </FileRef>
+      <FileRef
+         location = "group:Podfile.lock">
       </FileRef>
    </Group>
    <FileRef
