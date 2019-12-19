@@ -30,8 +30,8 @@ import Foundation
 public protocol AzureConfigurable {
 
     var apiVersion: String { get }
-
     var logger: ClientLogger { get }
+    var tag: String { get }
 }
 
 /// Base class containing baseline options for individual client API calls.

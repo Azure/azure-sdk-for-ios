@@ -27,6 +27,7 @@
 import Foundation
 
 public class LoggingPolicy: PipelineStageProtocol {
+
     public static let defaultAllowHeaders: [String] = [
         HttpHeader.traceparent.rawValue,
         HttpHeader.accept.rawValue,
@@ -63,6 +64,7 @@ public class LoggingPolicy: PipelineStageProtocol {
     }
 
     public func onRequest(_ request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
+        var returnRequest = request.copy()
         let logger = request.logger
         let req = request.httpRequest
         let requestId = req.headers[.clientRequestId] ?? "(none)"
@@ -92,22 +94,17 @@ public class LoggingPolicy: PipelineStageProtocol {
 
         logger.info("--> [END \(requestId)]")
 
-        request.add(value: DispatchTime.now() as AnyObject, forKey: .requestStartTime)
+        returnRequest.add(value: DispatchTime.now() as AnyObject, forKey: .requestStartTime)
+        completion(returnRequest)
     }
 
     public func onResponse(_ response: PipelineResponse, then completion: @escaping OnResponseCompletionHandler) {
-        logResponse(response.httpResponse, fromRequest: response.httpRequest, logger: response.logger)
+        logResponse(response)
         completion(response)
     }
 
     public func onError(_ error: PipelineError, then completion: @escaping OnErrorCompletionHandler) {
-        let logger = error.pipelineResponse.logger
-        let request = error.pipelineResponse.httpRequest
-
-        logger.error("Error performing \(request.httpMethod.rawValue) \(request.url)")
-        logger.error(error.innerError.localizedDescription)
-
-        logResponse(error.pipelineResponse.httpResponse, fromRequest: request, logger: logger)
+        logResponse(error.pipelineResponse, withError: error.innerError)
         completion(error, false)
     }
 

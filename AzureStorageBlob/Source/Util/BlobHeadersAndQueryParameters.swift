@@ -27,6 +27,7 @@
 import AzureCore
 import Foundation
 
+// TODO: Revisit this naming and structure prior to Preview 1
 public class BlobHeadersAndQueryParameters {
     public static let headers: [String] = LoggingPolicy.defaultAllowHeaders + [
         "Access-Control-Allow-Origin", "Cache-Control", "Content-Length", "Content-Type", "Date", "Request-Id",
