@@ -2,19 +2,19 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:AzureCore/AzureCore.xcodeproj">
+      location = "group:sdk/core/AzureCore/AzureCore.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:AzureAppConfiguration/AzureAppConfiguration.xcodeproj">
+      location = "group:sdk/appconfiguration/AzureAppConfiguration/AzureAppConfiguration.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:AzureCSComputerVision/AzureCSComputerVision.xcodeproj">
+      location = "group:sdk/cognitiveservices/AzureCSComputerVision/AzureCSComputerVision.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:AzureCSTextAnalytics/AzureCSTextAnalytics.xcodeproj">
+      location = "group:sdk/textanalytics/AzureCSTextAnalytics/AzureCSTextAnalytics.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:AzureStorageBlob/AzureStorageBlob.xcodeproj">
+      location = "group:sdk/storage/AzureStorageBlob/AzureStorageBlob.xcodeproj">
    </FileRef>
    <Group
       location = "group:Scripts"
@@ -27,7 +27,7 @@
       location = "container:"
       name = "Examples">
       <FileRef
-         location = "group:AzureSDKDemoSwift/AzureSDKDemoSwift.xcodeproj">
+         location = "group:examples/AzureSDKDemoSwift/AzureSDKDemoSwift.xcodeproj">
       </FileRef>
    </Group>
    <Group
