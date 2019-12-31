@@ -45,33 +45,33 @@ Pod::Spec.new do |s|
 
   # AzureCore
   s.subspec 'AzureCore' do |sp|
-    sp.source_files = 'AzureCore/Source/**/*.{swift,h,m}'
+    sp.source_files = 'sdk/core/AzureCore/Source/**/*.{swift,h,m}'
   end
 
   # AzureAppConfiguration
   s.subspec 'AzureAppConfiguration' do |sp|
-    sp.source_files = 'AzureAppConfiguration/Source/**/*.{swift,h,m}'
+    sp.source_files = 'sdk/appconfiguration/AzureAppConfiguration/Source/**/*.{swift,h,m}'
   end
 
   # AzureCSComputerVision
   s.subspec 'AzureCSComputerVision' do |sp|
-    sp.source_files = 'AzureCSComputerVision/Source/**/*.{swift,h,m}'
+    sp.source_files = 'sdk/cognitiveservices/AzureCSComputerVision/Source/**/*.{swift,h,m}'
   end
 
   # AzureCSTextAnalytics
   s.subspec 'AzureCSTextAnalytics' do |sp|
-    sp.source_files = 'AzureCSTextAnalytics/Source/**/*.{swift,h,m}'
+    sp.source_files = 'sdk/textanalytics/AzureCSTextAnalytics/Source/**/*.{swift,h,m}'
   end
 
   # AzureStorageBlob
   s.subspec 'AzureStorageBlob' do |sp|
-    sp.source_files = 'AzureStorageBlob/Source/**/*.{swift,h,m}'
+    sp.source_files = 'sdk/storage/AzureStorageBlob/Source/**/*.{swift,h,m}'
     sp.dependency 'MSAL', '~> 1.0.0'
   end
 
   # AzureSDKDemoSwift
   s.subspec 'AzureSDKDemoSwift' do |sp|
-    sp.source_files = 'AzureSDKDemoSwift/Source/**/*.{swift,h,m}'
+    sp.source_files = 'examples/AzureSDKDemoSwift/Source/**/*.{swift,h,m}'
   end
 
 end

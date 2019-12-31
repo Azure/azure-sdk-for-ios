@@ -29,7 +29,7 @@ platform :ios, '12.0'
 workspace "AzureSDK"
 
 target 'AzureCore' do
-  project 'AzureCore/AzureCore'
+  project 'sdk/core/AzureCore/AzureCore'
   pod 'MSAL', '~> 1.0.0'
 end
 
@@ -50,6 +50,6 @@ end
 #end
 
 target 'AzureSDKDemoSwift' do
-  project 'AzureSDKDemoSwift/AzureSDKDemoSwift'
+  project 'examples/AzureSDKDemoSwift/AzureSDKDemoSwift'
   pod 'MSAL', '~> 1.0.0'
 end
