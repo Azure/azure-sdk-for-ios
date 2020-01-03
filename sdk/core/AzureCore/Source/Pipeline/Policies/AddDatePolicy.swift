@@ -26,25 +26,20 @@
 
 import Foundation
 
-struct DateUtil {
-    // per RFC 6265 '<rfc1123-date, defined in [RFC2616], Section 3.3.1>'
-    static var RFC1123Formatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss O"
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.timeZone = TimeZone(abbreviation: "GMT")
-        return formatter
-    }()
-}
+public class AddDatePolicy: PipelineStage {
 
-extension Date {
-    public var rfc1123Format: String {
-        return DateUtil.RFC1123Formatter.string(from: self)
-    }
-}
+    // MARK: Properties
 
-extension String {
-    public var rfc1123Date: Date? {
-        DateUtil.RFC1123Formatter.date(from: self)
+    public var next: PipelineStage?
+
+    // MARK: Initializers
+
+    public init() { }
+
+    // MARK: PipelineStage Methods
+
+    public func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
+        request.httpRequest.headers[.date] = Date().rfc1123Format
+        completion(request)
     }
 }
