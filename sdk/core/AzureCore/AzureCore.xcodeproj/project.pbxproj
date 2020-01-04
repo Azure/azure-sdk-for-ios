@@ -62,6 +62,10 @@
 		7A16DC7B234BF55F002708BC /* PipelineError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A16DC7A234BF55F002708BC /* PipelineError.swift */; };
 		7AA5366323BEC7EC00A65A96 /* AddDatePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA5366223BEC7EC00A65A96 /* AddDatePolicy.swift */; };
 		7AA5366523C0232A00A65A96 /* RequestIdPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA5366423C0232A00A65A96 /* RequestIdPolicy.swift */; };
+		7AA5366923C0340C00A65A96 /* BundleInfoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA5366823C0340C00A65A96 /* BundleInfoProvider.swift */; };
+		7AA5366B23C0341B00A65A96 /* PlatformInfoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA5366A23C0341B00A65A96 /* PlatformInfoProvider.swift */; };
+		7AA5366D23C0342600A65A96 /* LocaleInfoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA5366C23C0342600A65A96 /* LocaleInfoProvider.swift */; };
+		7AA5366F23C0409F00A65A96 /* DeviceProviders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA5366E23C0409F00A65A96 /* DeviceProviders.swift */; };
 		7AFCF7662345714200592782 /* LoggingPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFCF7652345714200592782 /* LoggingPolicy.swift */; };
 		FCDD52F2DC1A6AFC7542E3F5 /* Pods_AzureCoreTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8603CE3296542B2154101CAD /* Pods_AzureCoreTests.framework */; };
 /* End PBXBuildFile section */
@@ -150,6 +154,10 @@
 		7A16DC7A234BF55F002708BC /* PipelineError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineError.swift; sourceTree = "<group>"; };
 		7AA5366223BEC7EC00A65A96 /* AddDatePolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDatePolicy.swift; sourceTree = "<group>"; };
 		7AA5366423C0232A00A65A96 /* RequestIdPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestIdPolicy.swift; sourceTree = "<group>"; };
+		7AA5366823C0340C00A65A96 /* BundleInfoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleInfoProvider.swift; sourceTree = "<group>"; };
+		7AA5366A23C0341B00A65A96 /* PlatformInfoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformInfoProvider.swift; sourceTree = "<group>"; };
+		7AA5366C23C0342600A65A96 /* LocaleInfoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocaleInfoProvider.swift; sourceTree = "<group>"; };
+		7AA5366E23C0409F00A65A96 /* DeviceProviders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceProviders.swift; sourceTree = "<group>"; };
 		7AFCF7652345714200592782 /* LoggingPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingPolicy.swift; sourceTree = "<group>"; };
 		7B79B7DB4DFFFBAA628E4C29 /* Pods_AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8603CE3296542B2154101CAD /* Pods_AzureCoreTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCoreTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -204,6 +212,7 @@
 				0AD21427233143F8003A2E3E /* ObjectiveCCompatibility */,
 				0A7F56372321730200E9765A /* Implementation */,
 				0A3A5F192316EADB00473FDA /* Pipeline */,
+				7AA5366623C0336F00A65A96 /* Providers */,
 				0A3A5DA52315CEBF00473FDA /* Util */,
 				0AF01856232AF2CC00A0C94D /* DataStructures */,
 				0A3A5F002316DF1B00473FDA /* Errors.swift */,
@@ -344,6 +353,17 @@
 				0AFEC36A23C8FC590065D588 /* pagedthings.xml */,
 			);
 			path = "Data Files";
+			sourceTree = "<group>";
+		};
+		7AA5366623C0336F00A65A96 /* Providers */ = {
+			isa = PBXGroup;
+			children = (
+				7AA5366823C0340C00A65A96 /* BundleInfoProvider.swift */,
+				7AA5366E23C0409F00A65A96 /* DeviceProviders.swift */,
+				7AA5366A23C0341B00A65A96 /* PlatformInfoProvider.swift */,
+				7AA5366C23C0342600A65A96 /* LocaleInfoProvider.swift */,
+			);
+			path = Providers;
 			sourceTree = "<group>";
 		};
 		9AA68085B2B42F838D63F159 /* Pods */ = {
@@ -571,6 +591,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7AA5366D23C0342600A65A96 /* LocaleInfoProvider.swift in Sources */,
 				0A3A5F3A2318903900473FDA /* PipelineRequest.swift in Sources */,
 				0A29CC3E2322F3CD006CEFA7 /* DateUtil.swift in Sources */,
 				0AB5EAFD2375F25400361879 /* StringUtil.swift in Sources */,
@@ -588,6 +609,7 @@
 				0A45B1FB23A82A2E00C54363 /* ApplicationUtil.swift in Sources */,
 				0A3A5D9D2315CEB600473FDA /* HTTPMethod.swift in Sources */,
 				0A3A5D9B2315CEB600473FDA /* HTTPRequest.swift in Sources */,
+				7AA5366F23C0409F00A65A96 /* DeviceProviders.swift in Sources */,
 				7AA5366523C0232A00A65A96 /* RequestIdPolicy.swift in Sources */,
 				0AC0AA8C234F8ADD00F05073 /* Collections.swift in Sources */,
 				0A4081B62333EB380071EAEE /* ObjectiveCHelpers.swift in Sources */,
@@ -595,10 +617,12 @@
 				7A16DC7B234BF55F002708BC /* PipelineError.swift in Sources */,
 				0AD2142923314416003A2E3E /* ObjectiveCBridgeable.swift in Sources */,
 				0A3A5F032316DF6600473FDA /* CryptoUtils.swift in Sources */,
+				7AA5366923C0340C00A65A96 /* BundleInfoProvider.swift in Sources */,
 				0A8FE7682368A4FF00B96598 /* MatchCondition.swift in Sources */,
 				0AC0AA83234D017F00F05073 /* AzureCodable.swift in Sources */,
 				0A3A5F1C2316EBC600473FDA /* HeadersPolicy.swift in Sources */,
 				0A3A5F222316FAF000473FDA /* UserAgentPolicy.swift in Sources */,
+				7AA5366B23C0341B00A65A96 /* PlatformInfoProvider.swift in Sources */,
 				0A3A5F402318975900473FDA /* PipelineClient.swift in Sources */,
 				0A3A5F012316DF1B00473FDA /* Errors.swift in Sources */,
 				0A6864B8233EAC76004B7E17 /* ContentDecodePolicy.swift in Sources */,

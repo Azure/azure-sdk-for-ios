@@ -256,7 +256,7 @@ class XMLModelTests: XCTestCase {
             baseUrl: "http://www.microsoft.com",
             transport: URLSessionTransport(),
             policies: [
-                UserAgentPolicy()
+                UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0")
             ],
             logger: ClientLoggers.default())
         let request = HTTPRequest(method: .get,

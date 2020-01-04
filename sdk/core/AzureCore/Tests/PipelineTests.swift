@@ -35,7 +35,7 @@ class PipelineTests: XCTestCase {
             baseUrl: baseUrl,
             transport: URLSessionTransport(),
             policies: [
-                UserAgentPolicy(),
+                UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0"),
                 LoggingPolicy()
             ],
             logger: ClientLoggers.default()
