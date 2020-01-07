@@ -48,12 +48,20 @@ public class AppConfigurationClient: PipelineClient {
             let clientOptions = options ?? AppConfigurationClientOptions(apiVersion: ApiVersion.latest.rawValue)
             let credential = try AppConfigurationCredential(connectionString: connectionString)
             let authPolicy = AppConfigurationAuthenticationPolicy(credential: credential, scopes: [credential.endpoint])
+
+            var headers = HTTPHeaders()
+            headers[.returnClientRequestId] = "true"
+            headers[.contentType] = "application/json"
+            headers[.accept] = "application/vnd.microsoft.azconfig.kv+json"
+
             return AppConfigurationClient(
                 baseUrl: credential.endpoint,
                 transport: URLSessionTransport(),
                 policies: [
+                    UserAgentPolicy(for: AppConfigurationClient.self),
+                    RequestIdPolicy(),
                     HeadersPolicy(addingHeaders: headers),
-                    UserAgentPolicy(),
+                    AddDatePolicy(),
                     authPolicy,
                     ContentDecodePolicy(),
                     LoggingPolicy()

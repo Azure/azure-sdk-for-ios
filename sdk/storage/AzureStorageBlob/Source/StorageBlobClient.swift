@@ -109,23 +109,15 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
                 baseUrl: baseUrl,
                 transport: URLSessionTransport(),
                 policies: [
-                    // Python: QueueMessagePolicy(),
-                    // Python: config.proxy_policy,
-                    UserAgentPolicy(),
-                    // Python: StorageContentValidation(),
-                    // Python: StorageRequestHook(**kwargs),
+                    UserAgentPolicy(for: StorageBlobClient.self),
+                    RequestIdPolicy(),
+                    AddDatePolicy(),
                     authPolicy,
                     ContentDecodePolicy(),
-                    // Python: RedirectPolicy(**kwargs),
-                    // Python: StorageHosts(hosts=self._hosts, **kwargs),
-                    // Python: config.retry_policy,
                     LoggingPolicy(
                         allowHeaders: BlobHeadersAndQueryParameters.headers,
                         allowQueryParams: BlobHeadersAndQueryParameters.queryParameters
                     )
-                    // Python: StorageResponseHook(**kwargs),
-                    // Python: DistributedTracingPolicy(**kwargs),
-                    // Python: HttpLoggingPolicy()
                 ],
                 logger: self.options.logger)
     }
