@@ -44,3 +44,7 @@ jobs:
         # builds should be sufficient.
         condition: and(succeededOrFailed(), ne(variables['Build.Reason'], 'PullRequest'))
         displayName: 'Component Detection'
+
+      - script: |
+          xcodebuild -workspace AzureSDK.xcworkspace -scheme ${{parameters.ServiceDirectory}} -destination "platform=iOS Simulator,OS=13.3,name=iPhone 11 Pro Max" -configuration Release
+        displayName: Build framework
