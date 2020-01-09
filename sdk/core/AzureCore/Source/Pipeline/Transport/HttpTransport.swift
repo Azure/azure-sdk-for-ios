@@ -26,7 +26,10 @@
 
 import Foundation
 
-public protocol HttpTransportable: PipelineStageProtocol {
+public protocol HttpTransportProtocol: PipelineStageProtocol {
+
+    // MARK: Required Methods
+
     func open()
     func close()
     func sleep(duration: Int)

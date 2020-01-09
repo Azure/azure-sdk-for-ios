@@ -31,17 +31,17 @@ public final class PipelineRequest: PipelineContextProtocol, Copyable {
     // MARK: Properties
 
     public var httpRequest: HttpRequest
-    public var logger: ClientLogger
+    public var logger: ClientLoggerProtocol
 
     public var context: PipelineContext?
 
     // MARK: Initializers
 
-    public convenience init(request: HttpRequest, logger: ClientLogger) {
+    public convenience init(request: HttpRequest, logger: ClientLoggerProtocol) {
         self.init(request: request, logger: logger, context: nil)
     }
 
-    public init(request: HttpRequest, logger: ClientLogger, context: PipelineContext?) {
+    public init(request: HttpRequest, logger: ClientLoggerProtocol, context: PipelineContext?) {
         httpRequest = request
         self.logger = logger
         self.context = context

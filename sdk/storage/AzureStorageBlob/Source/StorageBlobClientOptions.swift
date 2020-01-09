@@ -31,7 +31,7 @@ import Foundation
 public class StorageBlobClientOptions: AzureConfigurable {
 
     public let apiVersion: String
-    public let logger: ClientLogger
+    public let logger: ClientLoggerProtocol
     public let tag: String
 
     // Storage settings
@@ -47,7 +47,7 @@ public class StorageBlobClientOptions: AzureConfigurable {
     public let maxSingleGetSize = 32 * 1024 * 1024
     public let maxChunkGetSize = 4 * 1024 * 1024
 
-    public init(apiVersion: String, logger: ClientLogger? = nil, tag: String = "StorageBlobClient") {
+    public init(apiVersion: String, logger: ClientLoggerProtocol? = nil, tag: String = "StorageBlobClient") {
         self.apiVersion = apiVersion
         self.tag = tag
         self.logger = logger ?? ClientLoggers.default(tag: tag)

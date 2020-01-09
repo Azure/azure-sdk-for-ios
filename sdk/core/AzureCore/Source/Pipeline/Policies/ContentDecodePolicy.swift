@@ -28,9 +28,14 @@ import Foundation
 import os.log
 
 public class ContentDecodePolicy: NSObject, PipelineStageProtocol, XMLParserDelegate {
+
+    // MARK: Properties
+
     public var next: PipelineStageProtocol?
     public let jsonRegex = NSRegularExpression("^(application|text)/([0-9a-z+.]+)?json$")
-    public var logger: ClientLogger?
+    public var logger: ClientLoggerProtocol?
+
+    // Internal Methods
 
     internal func parse(xml data: Data) throws -> AnyObject {
         let parser = XMLParser(data: data)
@@ -58,6 +63,8 @@ public class ContentDecodePolicy: NSObject, PipelineStageProtocol, XMLParserDele
         return nil
     }
 
+    // MARK: Public Methods
+
     public func onResponse(_ response: PipelineResponse, then completion: @escaping OnResponseCompletionHandler) {
         let stream = response.value(forKey: "stream") as? Bool ?? false
         guard stream == false else { return }
@@ -83,7 +90,7 @@ public class ContentDecodePolicy: NSObject, PipelineStageProtocol, XMLParserDele
         completion(returnResponse)
     }
 
-    // MARK: - XML Parser Delegate
+    // MARK: XML Parser Delegate
 
     internal var xmlMap: XMLMap?
     internal var xmlTree: XMLTree?
@@ -106,7 +113,7 @@ public class ContentDecodePolicy: NSObject, PipelineStageProtocol, XMLParserDele
         xmlTree = XMLTree()
     }
 
-    public func parserDidEndDocument(_: XMLParser) {
+    internal func parserDidEndDocument(_: XMLParser) {
         guard let current = currNode else { return }
         // ensure the XML tree root is updated
         xmlTree?.root = current

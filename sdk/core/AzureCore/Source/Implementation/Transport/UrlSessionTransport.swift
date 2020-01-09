@@ -31,7 +31,10 @@ public enum UrlSessionTransportError: Error {
     case invalidSession
 }
 
-public class UrlSessionTransport: HttpTransportable {
+public class UrlSessionTransport: HttpTransportProtocol {
+
+    // MARK: Properties
+
     private var session: URLSession?
     private var config: URLSessionConfiguration
     private let operationQueue: OperationQueue
@@ -48,11 +51,15 @@ public class UrlSessionTransport: HttpTransportable {
         }
     }
 
+    // MARK: Initializers
+
     public init() {
         config = URLSessionConfiguration.default
         operationQueue = OperationQueue()
         operationQueue.name = "com.domain.AzureCore.networkQueue"
     }
+
+    // MARK: HttpTransportable Methods
 
     public func open() {
         guard session == nil else { return }
@@ -66,6 +73,8 @@ public class UrlSessionTransport: HttpTransportable {
     public func sleep(duration: Int) {
         Foundation.sleep(UInt32(duration))
     }
+
+    // MARK: PipelineStageProtocol Methods
 
     public func process(request pipelineRequest: PipelineRequest,
                         then completion: @escaping PipelineStageResultHandler) {

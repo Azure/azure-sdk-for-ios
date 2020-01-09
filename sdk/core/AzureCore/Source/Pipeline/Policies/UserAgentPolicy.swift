@@ -27,6 +27,9 @@
 import Foundation
 
 public class UserAgentPolicy: PipelineStageProtocol {
+
+    // MARK: Properties
+
     public var next: PipelineStageProtocol?
 
     private var _userAgent: String
@@ -35,6 +38,8 @@ public class UserAgentPolicy: PipelineStageProtocol {
     public var userAgent: String {
         return _userAgent
     }
+
+    // MARK: Initializers
 
     public init(baseUserAgent: String? = nil, userAgentOverwrite: Bool = false) {
         // TODO: User-Agent format according to SDK guidelines
@@ -53,9 +58,13 @@ public class UserAgentPolicy: PipelineStageProtocol {
         }
     }
 
+    // MARK: Public Methods
+
     public func appendUserAgent(value: String) {
         _userAgent = "\(_userAgent) \(value)"
     }
+
+    // MARK: PipelineStageProtocol Methods
 
     public func onRequest(_ request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
         if let contextUserAgent = request.context?.value(forKey: "userAgent") as? String {

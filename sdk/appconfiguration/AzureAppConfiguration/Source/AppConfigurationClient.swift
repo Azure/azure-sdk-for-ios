@@ -37,7 +37,7 @@ public class AppConfigurationClient: PipelineClient {
 
     // MARK: Initializers
 
-    internal init(baseUrl: String, transport: HttpTransportable, policies: [PipelineStageProtocol],
+    internal init(baseUrl: String, transport: HttpTransportProtocol, policies: [PipelineStageProtocol],
                   withOptions options: AppConfigurationClientOptions) {
         self.options = options
         super.init(baseUrl: baseUrl, transport: transport, policies: policies, logger: self.options.logger)

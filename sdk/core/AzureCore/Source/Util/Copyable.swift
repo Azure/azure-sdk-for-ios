@@ -27,6 +27,9 @@
 import Foundation
 
 public protocol Copyable: class {
+
+    // MARK: Required Initializers
+
     init(copy: Self)
 }
 

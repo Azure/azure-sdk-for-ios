@@ -27,6 +27,8 @@
 import Foundation
 
 public class HeadersPolicy: PipelineStageProtocol {
+
+    // MARK: Properties
     public var next: PipelineStageProtocol?
 
     private var _headers: HttpHeaders
@@ -34,9 +36,13 @@ public class HeadersPolicy: PipelineStageProtocol {
         return _headers
     }
 
+    // MARK: Initializers
+
     public init(baseHeaders: HttpHeaders? = nil) {
         _headers = baseHeaders ?? HttpHeaders()
     }
+
+    // MARK: Public Methods
 
     public func add(header: HttpHeader, value: String) {
         _headers[header] = value

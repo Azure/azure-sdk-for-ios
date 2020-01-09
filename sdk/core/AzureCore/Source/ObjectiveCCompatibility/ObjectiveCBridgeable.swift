@@ -30,15 +30,22 @@ import Foundation
 /// type to a type that is representable in Objective-C
 /// as the type `ObjectiveCType` or one of its subclasses.
 public protocol ObjectiveCBridgeable {
+
+    // MARK: Required Properties
+
     /// The type corresponding to `Self` in Objective-C.
     associatedtype ObjectiveCType: AnyObject
 
-    /// Converts `self` to its corresponding
-    /// `ObjectiveCType`.
-    func bridgeToObjectiveC() -> ObjectiveCType
+    // MARK: Required Initializers
 
     /// Reconstructs a Swift value of type `Self`
     /// from its corresponding value of type
     /// `ObjectiveCType`.
     init(bridgedFromObjectiveC: ObjectiveCType)
+
+    // MARK: Required Methods
+
+    /// Converts `self` to its corresponding
+    /// `ObjectiveCType`.
+    func bridgeToObjectiveC() -> ObjectiveCType
 }

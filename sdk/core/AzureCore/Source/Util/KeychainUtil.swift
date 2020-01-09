@@ -33,14 +33,11 @@ public enum KeychainUtilError: Error {
 }
 
 public class KeychainUtil {
-    let keychainErrorDomain = "com.azure.core"
-    let keychainSecurityService = "com.azure.core"
 
-    private func setupQueryDictionary(forKey key: String) -> [String: Any] {
-        var queryDictionary: [String: Any] = [kSecClass as String: kSecClassGenericPassword]
-        queryDictionary[kSecAttrAccount as String] = key.data(using: .utf8)
-        return queryDictionary
-    }
+    internal let keychainErrorDomain = "com.azure.core"
+    internal let keychainSecurityService = "com.azure.core"
+
+    // MARK: Public Methods
 
     public func store(string: String, forKey key: String) throws {
         guard !string.isEmpty else {
@@ -107,5 +104,13 @@ public class KeychainUtil {
         guard status == errSecSuccess else {
             throw KeychainUtilError.failure
         }
+    }
+
+    // MARK: Private Methods
+
+    private func setupQueryDictionary(forKey key: String) -> [String: Any] {
+        var queryDictionary: [String: Any] = [kSecClass as String: kSecClassGenericPassword]
+        queryDictionary[kSecAttrAccount as String] = key.data(using: .utf8)
+        return queryDictionary
     }
 }

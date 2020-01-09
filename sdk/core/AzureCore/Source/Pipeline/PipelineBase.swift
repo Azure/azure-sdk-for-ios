@@ -35,7 +35,12 @@ public typealias OnErrorCompletionHandler = (PipelineError, Bool) -> Void
 
 /// Protocol for implementing pipeline stages.
 public protocol PipelineStageProtocol {
+
+    // MARK: Required Properties
+
     var next: PipelineStageProtocol? { get set }
+
+    // MARK: Required Methods
 
     /// Request modification hook.
     /// - Parameters:

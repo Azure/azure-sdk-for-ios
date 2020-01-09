@@ -29,13 +29,18 @@ import Foundation
 /// Protocol for baseline options for individual service clients.
 public protocol AzureConfigurable {
 
+    // MARK: Required Properties
+
     var apiVersion: String { get }
-    var logger: ClientLogger { get }
+    var logger: ClientLoggerProtocol { get }
     var tag: String { get }
 }
 
 /// Base class containing baseline options for individual client API calls.
 open class AzureOptions {
+
+    // MARK: Properties
+
     /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
     /// Highly recommended for correlating client-side activites with requests received by the server.
     public var clientRequestId: String?
@@ -50,14 +55,16 @@ open class AzureOptions {
 /// Base class for all pipeline-based service clients.
 open class PipelineClient {
 
+    // MARK: Properties
+
     internal var pipeline: Pipeline
     public var baseUrl: String
-    public var logger: ClientLogger
+    public var logger: ClientLoggerProtocol
 
     // MARK: Initializers
 
-    public init(baseUrl: String, transport: HttpTransportable, policies: [PipelineStageProtocol],
-                logger: ClientLogger) {
+    public init(baseUrl: String, transport: HttpTransportProtocol, policies: [PipelineStageProtocol],
+                logger: ClientLoggerProtocol) {
         self.baseUrl = baseUrl
         self.logger = logger
         if self.baseUrl.suffix(1) != "/" { self.baseUrl += "/" }

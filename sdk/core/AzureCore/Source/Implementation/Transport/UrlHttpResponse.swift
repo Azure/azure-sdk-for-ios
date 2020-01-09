@@ -27,7 +27,12 @@
 import Foundation
 
 public class UrlHttpResponse: HttpResponse {
+
+    // MARK: Properties
+
     private var internalResponse: HTTPURLResponse?
+
+    // MARK: Initializers
 
     public init(request: HttpRequest, response: HTTPURLResponse?, blockSize: Int = 4096) {
         internalResponse = response

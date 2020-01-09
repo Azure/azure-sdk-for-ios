@@ -29,6 +29,8 @@ import UIKit
 
 public class ApplicationUtil {
 
+    // MARK: Static Methods
+
     /// Boolean describing whether the application is executing within an app extension.
     public static var isExecutingInAppExtension: Bool {
         let mainBundlePath = Bundle.main.bundlePath

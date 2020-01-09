@@ -26,7 +26,10 @@
 
 import Foundation
 
-public class HttpRequest: HttpMessage {
+public class HttpRequest: HttpCommonProtocol {
+
+    // MARK: Properties
+
     public var httpMethod: HttpMethod
     public var url: String
     public var headers: HttpHeaders
@@ -38,6 +41,8 @@ public class HttpRequest: HttpMessage {
         return comps
     }
 
+    // MARK: Initializers
+
     public init(httpMethod: HttpMethod, url: String, headers: HttpHeaders, files: [String]? = nil,
                 data: Data? = nil) {
         self.httpMethod = httpMethod
@@ -46,6 +51,8 @@ public class HttpRequest: HttpMessage {
         self.files = files
         self.data = data
     }
+
+    // MARK: Public Methods
 
     public func format(queryParams: [String: String]?) {
         guard var urlComps = URLComponents(string: self.url) else { return }

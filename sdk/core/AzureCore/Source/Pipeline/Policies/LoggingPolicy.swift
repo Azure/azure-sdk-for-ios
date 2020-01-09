@@ -28,6 +28,8 @@ import Foundation
 
 public class LoggingPolicy: PipelineStageProtocol {
 
+    // MARK: Properties
+
     public static let defaultAllowHeaders: [String] = [
         HttpHeader.traceparent.rawValue,
         HttpHeader.accept.rawValue,
@@ -58,10 +60,14 @@ public class LoggingPolicy: PipelineStageProtocol {
     private let allowHeaders: Set<String>
     private let allowQueryParams: Set<String>
 
+    // MARK: Initializers
+
     public init(allowHeaders: [String] = LoggingPolicy.defaultAllowHeaders, allowQueryParams: [String] = []) {
         self.allowHeaders = Set(allowHeaders.map { $0.lowercased() })
         self.allowQueryParams = Set(allowQueryParams.map { $0.lowercased() })
     }
+
+    // MARK: Public Methods
 
     public func onRequest(_ request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
         var returnRequest = request.copy()
@@ -108,6 +114,8 @@ public class LoggingPolicy: PipelineStageProtocol {
         completion(error, false)
     }
 
+    // MARK: Private Methods
+
     private func logResponse(_ response: PipelineResponse, withError error: Error? = nil) {
         let endTime = DispatchTime.now()
         var durationMs: Double?
@@ -152,7 +160,7 @@ public class LoggingPolicy: PipelineStageProtocol {
         logger.info("<-- [END \(requestId)]")
     }
 
-    private func logDebug(body bodyFunc: @autoclosure () -> String?, headers: HttpHeaders, logger: ClientLogger) {
+    private func logDebug(body bodyFunc: @autoclosure () -> String?, headers: HttpHeaders, logger: ClientLoggerProtocol) {
         let safeHeaders = self.redact(headers: headers)
         for (header, value) in safeHeaders {
             logger.debug("\(header): \(value)")
@@ -229,9 +237,16 @@ public class LoggingPolicy: PipelineStageProtocol {
 }
 
 public class CurlFormattedRequestLoggingPolicy: PipelineStageProtocol {
+
+    // MARK: Properties
+
     public var next: PipelineStageProtocol?
 
+    // MARK: Initializers
+
     public init() {}
+
+    // MARK: Public Methods
 
     public func onRequest(_ request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
         let logger = request.logger

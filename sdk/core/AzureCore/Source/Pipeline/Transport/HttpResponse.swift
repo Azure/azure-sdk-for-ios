@@ -26,12 +26,17 @@
 
 import Foundation
 
-public class HttpResponse: HttpMessage {
+public class HttpResponse: HttpCommonProtocol {
+
+    // MARK: Properties
+
     public var httpRequest: HttpRequest?
     public var statusCode: Int?
     public var headers = HttpHeaders()
     public var blockSize: Int
     public var data: Data?
+
+    // MARK: Initializers
 
     public init(request: HttpRequest, statusCode: Int?, blockSize: Int = 4096) {
         httpRequest = request

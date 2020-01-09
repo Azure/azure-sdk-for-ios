@@ -27,8 +27,13 @@ import Foundation
 import MSAL
 
 public class AccessToken {
+
+    // MARK: Properties
+
     public let token: String
     public let expiresOn: Int
+
+    // MARK: Initializers
 
     public init(token: String, expiresOn: Int) {
         self.token = token
@@ -36,11 +41,17 @@ public class AccessToken {
     }
 }
 
-public protocol TokenCredential {
+public protocol TokenCredentialProtocol {
+
+    // MARK: Required Methods
+
     func token(forScopes scopes: [String], then completion: @escaping (AccessToken?) -> Void)
 }
 
 public protocol AuthenticationProtocol: PipelineStageProtocol {
+
+    // MARK: Required Methods
+
     func authenticate(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler)
 }
 
@@ -52,6 +63,9 @@ extension AuthenticationProtocol {
 
 /// Delegate protocol for view controllers to hook into the MSAL interactive flow.
 public protocol MSALInteractiveDelegate: UIViewController {
+
+    // MARK: Required Methods
+
     func parentForWebView() -> UIViewController
     func didCompleteMSALRequest(withResult result: MSALResult)
 }
@@ -61,18 +75,17 @@ public extension MSALInteractiveDelegate {
         return self
     }
 
-    func didCompleteMSALRequest(_: MSALResult) {}
+    func didCompleteMSALRequest(withResult _: MSALResult) {}
 }
 
 /// An MSAL credential object.
-public class MSALCredential: TokenCredential {
+public class MSALCredential: TokenCredentialProtocol {
+
+    // MARK: Properties
 
     private let tenant: String
-
     private let clientId: String
-
     private let application: MSALPublicClientApplication
-
     private let account: MSALAccount?
 
     private var delegate: MSALInteractiveDelegate? {
@@ -201,15 +214,17 @@ public class MSALCredential: TokenCredential {
 
 public class BearerTokenCredentialPolicy: AuthenticationProtocol {
 
+    // MARK: Properties
+
     public var next: PipelineStageProtocol?
 
     private let scopes: [String]
-    private let credential: TokenCredential
+    private let credential: TokenCredentialProtocol
     private var token: AccessToken?
 
     // MARK: Initializers
 
-    public init(credential: TokenCredential, scopes: [String]) {
+    public init(credential: TokenCredentialProtocol, scopes: [String]) {
         self.scopes = scopes
         self.credential = credential
         token = nil

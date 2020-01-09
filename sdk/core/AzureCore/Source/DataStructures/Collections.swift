@@ -29,14 +29,22 @@ import os.log
 
 /// Protocol which allows clients to customize how they work with Paged Collections.
 public protocol PagedCollectionDelegate: AnyObject {
+
+    // MARK: Required Methods
+
     func continuationUrl(continuationToken: String, queryParams: inout [String: String], requestUrl: String) -> String
 }
 
 /// Defines the property keys used to conform to the Azure paging design.
 public struct PagedCodingKeys {
+
+    // MARK: Properties
+
     public let items: String
     public let xmlItemName: String?
     public let continuationToken: String
+
+    // MARK: Initializers
 
     public init(items: String = "items", continuationToken: String = "continuationToken",
                 xmlItemName xmlName: String? = nil) {
@@ -44,6 +52,8 @@ public struct PagedCodingKeys {
         self.continuationToken = continuationToken
         xmlItemName = xmlName
     }
+
+    // MARK: Internal Methods
 
     internal func items(fromJson json: [String: Any]) -> [Any]? {
         var results: [Any]?
@@ -81,7 +91,7 @@ public struct PagedCodingKeys {
 /// A collection that fetches paged results in a lazy fashion.
 public class PagedCollection<SingleElement: Codable>: PagedCollectionDelegate {
 
-    // MARK: Public Properties
+    // MARK: Properties
 
     public typealias Element = [SingleElement]
 
@@ -99,8 +109,6 @@ public class PagedCollection<SingleElement: Codable>: PagedCollectionDelegate {
     public var underestimatedCount: Int {
         return items?.count ?? 0
     }
-
-    // MARK: Private Properties
 
     private var _items: Element?
 

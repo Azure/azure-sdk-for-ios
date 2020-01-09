@@ -26,12 +26,15 @@
 
 import Foundation
 
-public protocol HttpMessage {
+public protocol HttpCommonProtocol {
+
+    // MARK: Required Properties
+
     var headers: HttpHeaders { get set }
     var data: Data? { get set }
 }
 
-public extension HttpMessage {
+public extension HttpCommonProtocol {
     func text(encoding: String.Encoding = .utf8) -> String? {
         guard let data = self.data else { return nil }
         return String(data: data, encoding: encoding)

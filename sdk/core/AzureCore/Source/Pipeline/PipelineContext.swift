@@ -38,7 +38,12 @@ public enum ContextKey: String {
 // MARK: - PipelineContextProtocol
 
 public protocol PipelineContextProtocol {
+
+    // MARK: Required Properties
+
     var context: PipelineContext? { get set }
+
+    // MARK: Required Methods
 
     mutating func add(value: AnyObject, forKey key: AnyHashable)
     func value(forKey key: AnyHashable) -> AnyObject?
@@ -68,7 +73,14 @@ extension PipelineContextProtocol {
     }
 }
 
+<<<<<<< Updated upstream
+public class PipelineContext: CustomDebugStringConvertible {
+=======
 public class PipelineContext {
+
+    // MARK: Properties
+
+>>>>>>> Stashed changes
     private let parent: PipelineContext?
     private let key: AnyHashable
     private let value: AnyObject?
@@ -83,6 +95,8 @@ public class PipelineContext {
         return count
     }
 
+    // MARK: Initializers
+
     internal convenience init(key: AnyHashable, value: AnyObject?) {
         self.init(parent: nil, key: key, value: value)
     }
@@ -93,9 +107,7 @@ public class PipelineContext {
         self.value = value
     }
 
-    public func add(value: AnyObject, forKey key: AnyHashable) -> PipelineContext {
-        return PipelineContext(parent: self, key: key, value: value)
-    }
+    // MARK: Static Methods
 
     public static func of(keyValues: [AnyHashable: AnyObject]) -> PipelineContext {
         var context: PipelineContext?
@@ -106,6 +118,12 @@ public class PipelineContext {
             }
         }
         return context!
+    }
+
+    // MARK: Public Methods
+
+    public func add(value: AnyObject, forKey key: AnyHashable) -> PipelineContext {
+        return PipelineContext(parent: self, key: key, value: value)
     }
 
     public func value(forKey key: AnyHashable) -> AnyObject? {

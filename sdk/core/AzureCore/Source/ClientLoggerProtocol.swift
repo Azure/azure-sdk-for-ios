@@ -31,8 +31,13 @@ public enum ClientLogLevel: Int {
     case error, warning, info, debug
 }
 
-public protocol ClientLogger {
+public protocol ClientLoggerProtocol {
+
+    // MARK: Required Properties
+
     var level: ClientLogLevel { get set }
+
+    // MARK: Required Methods
 
     func debug(_: @autoclosure @escaping () -> String?)
     func info(_: @autoclosure @escaping () -> String?)
@@ -42,7 +47,7 @@ public protocol ClientLogger {
     func log(_: @escaping () -> String?, atLevel: ClientLogLevel)
 }
 
-extension ClientLogger {
+extension ClientLoggerProtocol {
     public func debug(_ message: @escaping () -> String?) {
         log(message, atLevel: .debug)
     }
@@ -63,38 +68,55 @@ extension ClientLogger {
 // MARK: - Constants
 
 public struct ClientLoggers {
-    public static func `default`(tag: String) -> ClientLogger {
+
+    // MARK: Properties
+
+    public static let none: ClientLoggerProtocol = NullLogger()
+
+    // MARK: Static Methods
+
+    public static func `default`(tag: String) -> ClientLoggerProtocol {
         if #available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *) {
             return OSLogger(category: tag)
         } else {
             return NSLogger(tag: tag)
         }
     }
-
-    public static let none: ClientLogger = NullLogger()
 }
 
 // MARK: - Implementations
 
-public class NullLogger: ClientLogger {
+public class NullLogger: ClientLoggerProtocol {
+
+    // MARK: Properties
+
     // Force the least verbose log level so consumers can check & avoid calling the logger entirely if desired
     public var level: ClientLogLevel {
         get { return .error }
         set { _ = newValue }
     }
 
+    // MARK: Public Methods
+
     public func log(_: () -> String?, atLevel _: ClientLogLevel) {}
 }
 
-public class PrintLogger: ClientLogger {
+public class PrintLogger: ClientLoggerProtocol {
+
+    // MARK: Properties
+
     public var level: ClientLogLevel
 
     private let tag: String
+
+    // MARK: Initializers
 
     public init(tag: String, level: ClientLogLevel = .info) {
         self.tag = tag
         self.level = level
     }
+
+    // MARK: Public Methods
 
     public func log(_ message: () -> String?, atLevel messageLevel: ClientLogLevel) {
         if messageLevel.rawValue <= level.rawValue, let msg = message() {
@@ -104,15 +126,22 @@ public class PrintLogger: ClientLogger {
     }
 }
 
-public class NSLogger: ClientLogger {
+public class NSLogger: ClientLoggerProtocol {
+
+    // MARK: Properties
+
     public var level: ClientLogLevel
 
     private let tag: String
+
+    // MARK: Initializers
 
     public init(tag: String, level: ClientLogLevel = .info) {
         self.tag = tag
         self.level = level
     }
+
+    // MARK: Public Methods
 
     public func log(_ message: () -> String?, atLevel messageLevel: ClientLogLevel) {
         if messageLevel.rawValue <= level.rawValue, let msg = message() {
@@ -123,10 +152,15 @@ public class NSLogger: ClientLogger {
 }
 
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
-public class OSLogger: ClientLogger {
+public class OSLogger: ClientLoggerProtocol {
+
+    // MARK: Properties
+
     public var level: ClientLogLevel
 
     private let osLogger: OSLog
+
+    // MARK: Initializers
 
     public init(withLogger osLogger: OSLog, level: ClientLogLevel = .info) {
         self.level = level
@@ -141,11 +175,15 @@ public class OSLogger: ClientLogger {
         self.init(withLogger: OSLog(subsystem: subsystem, category: category), level: level)
     }
 
+    // MARK: Public Methods
+
     public func log(_ message: () -> String?, atLevel messageLevel: ClientLogLevel) {
         if messageLevel.rawValue <= level.rawValue, let msg = message() {
             os_log("%@", log: osLogger, type: osLogTypeFor(messageLevel), msg)
         }
     }
+
+    // MARK: Private Methods
 
     private func osLogTypeFor(_ level: ClientLogLevel) -> OSLogType {
         switch level {
