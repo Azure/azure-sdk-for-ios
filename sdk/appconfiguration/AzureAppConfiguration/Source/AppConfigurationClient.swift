@@ -52,7 +52,7 @@ public class AppConfigurationClient: PipelineClient {
                 baseUrl: credential.endpoint,
                 transport: URLSessionTransport(),
                 policies: [
-                    HeadersPolicy(),
+                    HeadersPolicy(addingHeaders: headers),
                     UserAgentPolicy(),
                     authPolicy,
                     ContentDecodePolicy(),

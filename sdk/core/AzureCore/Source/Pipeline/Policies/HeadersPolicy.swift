@@ -29,33 +29,22 @@ import Foundation
 public class HeadersPolicy: PipelineStage {
 
     // MARK: Properties
+
     public var next: PipelineStage?
 
-    private var _headers: HTTPHeaders
-    public var headers: HTTPHeaders {
-        return _headers
-    }
+    private var headers: HTTPHeaders
 
     // MARK: Initializers
 
-    public init(baseHeaders: HTTPHeaders? = nil) {
-        _headers = baseHeaders ?? HTTPHeaders()
+    public init(addingHeaders headers: HTTPHeaders) {
+        self.headers = headers
     }
 
-    // MARK: Public Methods
-
-    public func add(header: HTTPHeader, value: String) {
-        _headers[header] = value
-    }
+    // MARK: PipelineStage Methods
 
     public func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
         for (key, value) in headers {
             request.httpRequest.headers[key] = value
-        }
-        if let additionalHeaders = request.context?.value(forKey: "headers") as? HTTPHeaders {
-            for (key, value) in additionalHeaders {
-                request.httpRequest.headers[key] = value
-            }
         }
         completion(request)
     }

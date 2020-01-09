@@ -110,7 +110,6 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
                 transport: URLSessionTransport(),
                 policies: [
                     // Python: QueueMessagePolicy(),
-                    HeadersPolicy(),
                     // Python: config.proxy_policy,
                     UserAgentPolicy(),
                     // Python: StorageContentValidation(),
