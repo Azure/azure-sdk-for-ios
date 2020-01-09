@@ -8,7 +8,7 @@ jobs:
       - template: ../variables/globals.yml
 
     pool:
-      vmImage: 'macOS-10.13'
+      vmImage: 'macOS-10.14'
 
     steps:
       - script: |
@@ -19,8 +19,12 @@ jobs:
       - template: tools/daily-dev-build-variable/daily-dev-build-variable.yml@azure-sdk-tools
 
       - script: |
+          xcode-select -switch /Applications/Xcode_11.3.app/Contents/Developer
+        displayName: Configure Xcode tools
+
+      - script: |
           xcodebuild -workspace AzureSDK.xcworkspace -scheme ${{parameters.ServiceDirectory}} -destination "platform=iOS Simulator,OS=13.3,name=iPhone 11 Pro Max" -configuration Release
-        displayName: Build framework
+        displayName: Build framework bundle
 
   - job: 'Analyze'
     condition: ne(variables['Skip.Analyze'], 'true')
@@ -48,4 +52,3 @@ jobs:
         # builds should be sufficient.
         condition: and(succeededOrFailed(), ne(variables['Build.Reason'], 'PullRequest'))
         displayName: 'Component Detection'
-        
