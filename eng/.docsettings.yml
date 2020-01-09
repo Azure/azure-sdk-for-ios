@@ -1,0 +1,18 @@
+omitted_paths:
+  - eng/*
+  - Scripts/*
+language: swift
+root_check_enabled: True
+required_readme_sections:
+  - "Azure .+ client library for iOS"
+  - ^Getting started$
+  - ^Key concepts$
+  - ^Examples$
+  - ^Troubleshooting$
+  - ^Next steps$
+  - ^Contributing$
+known_presence_issues:
+
+known_content_issues:
+
+package_indexing_exclusion_list:
