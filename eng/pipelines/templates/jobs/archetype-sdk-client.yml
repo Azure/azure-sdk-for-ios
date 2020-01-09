@@ -20,7 +20,7 @@ jobs:
 
       - script: |
           pod install
-          xcodebuild -workspace AzureSDK.xcworkspace -scheme ${{parameters.ServiceDirectory}} -destination "platform=iOS Simulator,OS=13.3,name=iPhone 11 Pro Max" -configuration Release -derivedDataPath $(Build.ArtifactStagingDirectory)
+          xcodebuild -workspace AzureSDK.xcworkspace -scheme ${{parameters.ServiceDirectory}} -destination "platform=iOS Simulator,OS=13.3,name=iPhone 11 Pro Max" -configuration Release -derivedDataPath $(Build.ArtifactStagingDirectory) build
         displayName: Build framework bundle
         env:
           DEVELOPER_DIR: /Applications/Xcode_11.3.app/Contents/Developer
