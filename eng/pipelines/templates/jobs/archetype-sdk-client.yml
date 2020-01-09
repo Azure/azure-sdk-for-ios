@@ -18,13 +18,16 @@ jobs:
 
       - template: tools/daily-dev-build-variable/daily-dev-build-variable.yml@azure-sdk-tools
 
+      - script: sudo xcode-select --switch /Applications/Xcode_11.3.app
+        displayName: 'Use Xcode 11.3'
+
+      - script: pod install
+        displayName: 'Install dependencies'
+
       - script: |
           set -o pipefail
-          pod install
           xcodebuild -workspace AzureSDK.xcworkspace -scheme ${{parameters.ServiceDirectory}} -destination "platform=iOS Simulator,OS=13.3,name=iPhone 11 Pro Max" -configuration Release -derivedDataPath $(Build.ArtifactStagingDirectory) build | xcpretty -c
-        displayName: Build framework bundle
-        env:
-          DEVELOPER_DIR: /Applications/Xcode_11.3.app/Contents/Developer
+        displayName: 'Build framework bundle'
 
       - upload: $(Build.ArtifactStagingDirectory)/Build/Products/Release-iphonesimulator
         artifact: bundles
@@ -36,19 +39,16 @@ jobs:
       - template: ../variables/globals.yml
 
     pool:
-      vmImage: 'ubuntu-16.04'
+      vmImage: 'macOS-10.14'
 
     steps:
-      - task: UsePythonVersion@0
-        displayName: 'Use Python 3.6'
-        inputs:
-          versionSpec: '3.6'
+      - script: sudo xcode-select --switch /Applications/Xcode_11.3.app
+        displayName: 'Use Xcode 11.3'
 
-      # - script: |
-      #     pip install setuptools wheel
-      #     pip install doc-warden
-      #     ward scan -d $(Build.SourcesDirectory) -c $(Build.SourcesDirectory)/eng/.docsettings.yml
-      #   displayName: 'Verify Readmes'
+      - script: |
+          brew install swiftlint
+          swiftlint lint --path sdk/${{parameters.ServiceDirectory}} --quiet --reporter emoji
+        displayName: 'Lint framework sources'
 
       - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
         # ComponentGovernance is currently unable to run on pull requests of public projects. Running on non-PR
