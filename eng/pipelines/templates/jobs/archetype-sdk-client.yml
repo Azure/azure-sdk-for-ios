@@ -18,6 +18,10 @@ jobs:
 
       - template: tools/daily-dev-build-variable/daily-dev-build-variable.yml@azure-sdk-tools
 
+      - script: |
+          xcodebuild -workspace AzureSDK.xcworkspace -scheme ${{parameters.ServiceDirectory}} -destination "platform=iOS Simulator,OS=13.3,name=iPhone 11 Pro Max" -configuration Release
+        displayName: Build framework
+
   - job: 'Analyze'
     condition: ne(variables['Skip.Analyze'], 'true')
 
@@ -44,7 +48,4 @@ jobs:
         # builds should be sufficient.
         condition: and(succeededOrFailed(), ne(variables['Build.Reason'], 'PullRequest'))
         displayName: 'Component Detection'
-
-      - script: |
-          xcodebuild -workspace AzureSDK.xcworkspace -scheme ${{parameters.ServiceDirectory}} -destination "platform=iOS Simulator,OS=13.3,name=iPhone 11 Pro Max" -configuration Release
-        displayName: Build framework
+        
