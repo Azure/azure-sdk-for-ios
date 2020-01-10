@@ -35,9 +35,10 @@ extension NSRegularExpression {
         }
     }
 
-    func firstMatch(in string: String) -> NSTextCheckingResult? {
+    func firstMatch(in string: String) -> String? {
         let range = NSRange(location: 0, length: string.utf16.count)
-        return firstMatch(in: string, options: [], range: range)
+        guard let substring = firstMatch(in: string, options: [], range: range)?.capturedValues(from: string).first else { return nil }
+        return String(substring)
     }
 
     func hasMatch(in string: String) -> Bool {

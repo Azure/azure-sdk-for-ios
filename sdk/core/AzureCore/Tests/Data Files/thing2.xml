@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<item id="id100">
+  <req_string>Test</req_string>
+  <reqDouble>10.99</reqDouble>
+  <reqInt>21</reqInt>
+  <reqBool>true</reqBool>
+</item>

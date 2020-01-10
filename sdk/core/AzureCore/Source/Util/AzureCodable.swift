@@ -33,7 +33,7 @@ extension KeyedDecodingContainer {
         } catch let DecodingError.typeMismatch(expectedType, context) {
             let mismatchError = DecodingError.typeMismatch(expectedType, context)
             guard let stringValue = try? self.decode(String.self, forKey: key) else { throw mismatchError }
-            guard let boolVal = Bool(stringValue) else { throw mismatchError }
+            guard let boolVal = Bool(stringValue.lowercased()) else { throw mismatchError }
             return boolVal
         }
     }
@@ -44,7 +44,7 @@ extension KeyedDecodingContainer {
         } catch let DecodingError.typeMismatch(expectedType, context) {
             let mismatchError = DecodingError.typeMismatch(expectedType, context)
             guard let stringValue = try? self.decode(String.self, forKey: key) else { throw mismatchError }
-            guard let boolVal = Bool(stringValue) else { throw mismatchError }
+            guard let boolVal = Bool(stringValue.lowercased()) else { throw mismatchError }
             return boolVal
         }
     }
@@ -68,6 +68,28 @@ extension KeyedDecodingContainer {
             guard let stringValue = try? self.decode(String.self, forKey: key) else { throw mismatchError }
             guard let intVal = Int(stringValue) else { throw mismatchError }
             return intVal
+        }
+    }
+
+    public func decodeDouble(forKey key: K) throws -> Double {
+        do {
+            return try decode(Double.self, forKey: key)
+        } catch let DecodingError.typeMismatch(expectedType, context) {
+            let mismatchError = DecodingError.typeMismatch(expectedType, context)
+            guard let stringValue = try? self.decode(String.self, forKey: key) else { throw mismatchError }
+            guard let doubleVal = Double(stringValue) else { throw mismatchError }
+            return doubleVal
+        }
+    }
+
+    public func decodeDoubleIfPresent(forKey key: K) throws -> Double? {
+        do {
+            return try decodeIfPresent(Double.self, forKey: key)
+        } catch let DecodingError.typeMismatch(expectedType, context) {
+            let mismatchError = DecodingError.typeMismatch(expectedType, context)
+            guard let stringValue = try? self.decode(String.self, forKey: key) else { throw mismatchError }
+            guard let doubleVal = Double(stringValue) else { throw mismatchError }
+            return doubleVal
         }
     }
 }

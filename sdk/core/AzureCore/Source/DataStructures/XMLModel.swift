@@ -43,6 +43,7 @@ public enum ElementToJsonStrategy {
     case array(XMLModelProtocol.Type)
     case arrayItem(XMLModelProtocol.Type)
     case ignored
+    case flatten
 }
 
 public enum AttributeToJsonStrategy {
@@ -87,7 +88,7 @@ public class XMLMap: Sequence, IteratorProtocol {
     }
 
     /// Generate XML map for single item types.
-    public init(withType typeVal: XMLModelProtocol.Type, prefix: String? = nil) {
+    internal init(withType typeVal: XMLModelProtocol.Type, prefix: String? = nil) {
         for (key, metadata) in typeVal.xmlMap() {
             let keyPrefix = prefix != nil ? "\(prefix!).\(key)" : key
             switch metadata.jsonType {
@@ -199,6 +200,12 @@ internal class XMLTreeNode {
                 }
             case .ignored:
                 break
+            case .flatten:
+                if let dictValue = metadata.dictionary {
+                    propDict = dictValue
+                } else {
+                    fatalError("Failed to get dictionary version of object.")
+                }
             }
         }
         return propDict

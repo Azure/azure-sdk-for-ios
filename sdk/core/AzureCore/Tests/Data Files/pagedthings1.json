@@ -1,0 +1,18 @@
+{
+    "items": [
+        {
+            "id": 1,
+            "name": "Test1"
+        },
+        {
+            "id": 2,
+            "name": "Test2",
+            "value": "SomeVal"
+        },
+        {
+            "id": 3,
+            "name": "Test3"
+        }
+    ],
+    "continuationToken": "token"
+}

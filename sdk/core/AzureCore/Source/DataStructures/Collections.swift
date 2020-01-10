@@ -109,7 +109,7 @@ public class PagedCollection<SingleElement: Codable>: PagedCollectionDelegate {
     private var pageRange: Range<Int>?
 
     /// The continuation token used to fetch the next page of results.
-    private var continuationToken: String?
+    internal var continuationToken: String?
 
     /// The headers that accompanied the orignal request. Used as the basis for subsequent paged requests.
     private var requestHeaders: HttpHeaders!
@@ -159,7 +159,7 @@ public class PagedCollection<SingleElement: Codable>: PagedCollectionDelegate {
         var queryParams = [String: String]()
         let url = delegate.continuationUrl(continuationToken: continuationToken, queryParams: &queryParams,
                                            requestUrl: requestUrl)
-        let request = client.request(method: .GET,
+        let request = client.request(method: .get,
                                      url: url,
                                      queryParams: queryParams,
                                      headerParams: requestHeaders)
@@ -182,6 +182,7 @@ public class PagedCollection<SingleElement: Codable>: PagedCollectionDelegate {
             }
             if let returnError = returnError {
                 completion(.failure(returnError))
+                return
             }
             self.iteratorIndex = 0
             completion(.success(self.pageItems))

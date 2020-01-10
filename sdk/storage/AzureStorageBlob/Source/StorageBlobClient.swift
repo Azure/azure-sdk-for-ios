@@ -202,7 +202,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         }
 
         // Construct and send request
-        let request = self.request(method: HttpMethod.GET,
+        let request = self.request(method: HttpMethod.get,
                                    url: url,
                                    queryParams: queryParams,
                                    headerParams: headerParams)
@@ -281,7 +281,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         }
 
         // Construct and send request
-        let request = self.request(method: HttpMethod.GET,
+        let request = self.request(method: HttpMethod.get,
                                    url: url,
                                    queryParams: queryParams,
                                    headerParams: headerParams)
