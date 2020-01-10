@@ -174,7 +174,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
                                then completion: @escaping HTTPResultHandler<PagedCollection<ContainerItem>>) {
         // Construct URL
         let urlTemplate = ""
-        let url = format(urlTemplate: urlTemplate)
+        let url = self.url(forTemplate: urlTemplate)
 
         // Construct query
         var queryParams = [String: String]()
@@ -202,20 +202,20 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         }
 
         // Construct and send request
-        let request = self.request(method: HTTPMethod.get,
-                                   url: url,
-                                   queryParams: queryParams,
-                                   headerParams: headerParams)
         let codingKeys = PagedCodingKeys(
             items: "EnumerationResults.Containers",
             continuationToken: "EnumerationResults.NextMarker",
             xmlItemName: "Container"
         )
         let xmlMap = XMLMap(withPagedCodingKeys: codingKeys, innerType: ContainerItem.self)
-        let context: [String: AnyObject] = [
+        let context = PipelineContext.of(keyValues: [
             ContextKey.xmlMap.rawValue: xmlMap as AnyObject
-        ]
-        run(request: request, context: context, completion: { result, httpResponse in
+        ])
+        let request = HTTPRequest(method: HTTPMethod.get,
+                                  url: url,
+                                  queryParams: queryParams,
+                                  headerParams: headerParams)
+        self.request(request, context: context) { result, httpResponse in
             switch result {
             case let .success(data):
                 guard let data = data else {
@@ -235,7 +235,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
             case let .failure(error):
                 completion(.failure(error), httpResponse)
             }
-        })
+        }
     }
 
     /**
@@ -250,7 +250,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         let pathParams = [
             "container": container
         ]
-        let url = format(urlTemplate: urlTemplate, withKwargs: pathParams)
+        let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams)
 
         // Construct query
         var queryParams = [String: String]()
@@ -281,20 +281,20 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         }
 
         // Construct and send request
-        let request = self.request(method: HTTPMethod.get,
-                                   url: url,
-                                   queryParams: queryParams,
-                                   headerParams: headerParams)
+        let request = HTTPRequest(method: HTTPMethod.get,
+                                  url: url,
+                                  queryParams: queryParams,
+                                  headerParams: headerParams)
         let codingKeys = PagedCodingKeys(
             items: "EnumerationResults.Blobs",
             continuationToken: "EnumerationResults.NextMarker",
             xmlItemName: "Blob"
         )
         let xmlMap = XMLMap(withPagedCodingKeys: codingKeys, innerType: BlobItem.self)
-        let context: [String: AnyObject] = [
+        let context = PipelineContext.of(keyValues: [
             ContextKey.xmlMap.rawValue: xmlMap as AnyObject
-        ]
-        run(request: request, context: context, completion: { result, httpResponse in
+        ])
+        self.request(request, context: context) { result, httpResponse in
             switch result {
             case let .success(data):
                 guard let data = data else {
@@ -313,7 +313,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
             case let .failure(error):
                 completion(.failure(error), httpResponse)
             }
-        })
+        }
     }
 
     /**

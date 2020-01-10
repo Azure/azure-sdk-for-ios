@@ -68,9 +68,7 @@ public class AppConfigurationClient: PipelineClient {
                                           then completion: @escaping HTTPResultHandler<PagedCollection<ConfigurationSetting>>) {
 
         // Construct URL
-        let urlTemplate = "kv"
-        let url = format(urlTemplate: urlTemplate)
-
+        let url = "kv"
         var queryParams = [String: String]()
         queryParams["key"] = key ?? "*"
         queryParams["label"] = label ?? "*"
@@ -84,11 +82,9 @@ public class AppConfigurationClient: PipelineClient {
         // if let requestId = requestId { headerParams["x-ms-client-request-id"] = requestId }
 
         // Construct and send request
-        let request = self.request(method: HTTPMethod.get,
-                                   url: url,
-                                   queryParams: queryParams,
-                                   headerParams: headerParams)
-        run(request: request, context: nil) { result, httpResponse in
+        let request = HTTPRequest(method: .get, url: url,
+                                  queryParams: queryParams, headerParams: headerParams)
+        self.request(request, context: nil) { result, httpResponse in
             //        header_dict = {}
             //        deserialized = None
             //        if response.status_code == 200:

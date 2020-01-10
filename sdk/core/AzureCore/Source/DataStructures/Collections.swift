@@ -167,16 +167,16 @@ public class PagedCollection<SingleElement: Codable>: PagedCollectionDelegate {
         var queryParams = [String: String]()
         let url = delegate.continuationUrl(continuationToken: continuationToken, queryParams: &queryParams,
                                            requestUrl: requestUrl)
-        let request = client.request(method: .get,
-                                     url: url,
-                                     queryParams: queryParams,
-                                     headerParams: requestHeaders)
-        var context = [String: AnyObject]()
+        var context: PipelineContext?
         if let xmlType = SingleElement.self as? XMLModelProtocol.Type {
             let xmlMap = XMLMap(withPagedCodingKeys: codingKeys, innerType: xmlType)
-            context[ContextKey.xmlMap.rawValue] = xmlMap as AnyObject
+            context = PipelineContext.of(keyValues: [
+                ContextKey.xmlMap.rawValue: xmlMap as AnyObject
+            ])
         }
-        client.run(request: request, context: context) { result, _ in
+        let request = HTTPRequest(method: .get, url: url,
+                                  queryParams: queryParams, headerParams: requestHeaders)
+        client.request(request, context: context) { result, _ in
             var returnError: Error?
             switch result {
             case let .failure(error):
@@ -233,7 +233,7 @@ public class PagedCollection<SingleElement: Codable>: PagedCollectionDelegate {
     /// Format a URL for a paged response using a provided continuation token.
     public func continuationUrl(continuationToken: String, queryParams _: inout [String: String],
                                 requestUrl _: String) -> String {
-        return client.format(urlTemplate: continuationToken)
+        return client.url(forTemplate: continuationToken)
     }
 
     // MARK: Private Methods

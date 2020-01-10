@@ -43,18 +43,20 @@ public class HTTPRequest: HTTPCommonProtocol {
 
     // MARK: Initializers
 
-    public init(httpMethod: HTTPMethod, url: String, headers: HTTPHeaders, files: [String]? = nil,
-                data: Data? = nil) {
-        self.httpMethod = httpMethod
+    public init(method: HTTPMethod, url: String,
+                queryParams: [String: String], headerParams: HTTPHeaders,
+                files: [String]? = nil, data: Data? = nil) {
+        self.httpMethod = method
         self.url = url
-        self.headers = headers
+        self.headers = headerParams
         self.files = files
         self.data = data
+        self.update(queryParams: queryParams)
     }
 
     // MARK: Public Methods
 
-    public func format(queryParams: [String: String]?) {
+    public func update(queryParams: [String: String]?) {
         guard var urlComps = URLComponents(string: self.url) else { return }
         var queryItems = url.parseQueryString() ?? [String: String]()
 

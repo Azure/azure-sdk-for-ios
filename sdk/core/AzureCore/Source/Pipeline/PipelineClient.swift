@@ -71,16 +71,28 @@ open class PipelineClient {
         pipeline = Pipeline(transport: transport, policies: policies)
     }
 
-    // MARK: Public Methods}
+    // MARK: Public Methods
 
-    public func run(request: HTTPRequest, context: [String: AnyObject]?,
-                    completion: @escaping (Result<Data?, Error>, HTTPResponse) -> Void) {
-        var pipelineRequest = PipelineRequest(request: request, logger: logger)
-        if let context = context {
-            for (key, value) in context {
-                pipelineRequest.add(value: value as AnyObject, forKey: key)
-            }
+    public func url(forTemplate templateIn: String, withKwargs kwargs: [String: String]? = nil) -> String {
+        var template = templateIn
+        if template.hasPrefix("/") { template = String(template.dropFirst()) }
+        var url: String
+        if template.starts(with: baseUrl) {
+            url = template
+        } else {
+            url = baseUrl + template
         }
+        guard let urlKwargs = kwargs else { return url }
+        for (key, value) in urlKwargs {
+            url = url.replacingOccurrences(of: "{\(key)}", with: value)
+        }
+        return url
+    }
+
+    public func request(_ request: HTTPRequest,
+                        context: PipelineContext?,
+                        then completion: @escaping (Result<Data?, Error>, HTTPResponse) -> Void) {
+        let pipelineRequest = PipelineRequest(request: request, logger: logger)
         pipeline.run(request: pipelineRequest) { result, httpResponse in
             switch result {
             case let .success(pipelineResponse):
@@ -106,30 +118,7 @@ open class PipelineClient {
         }
     }
 
-    // TODO: Make this internal, per architecture review meeting
-    public func format(urlTemplate: String?, withKwargs kwargs: [String: String] = [String: String]()) -> String {
-        var template = urlTemplate ?? ""
-        if template.hasPrefix("/") { template = String(template.dropFirst()) }
-        var url: String
-        if template.starts(with: baseUrl) {
-            url = template
-        } else {
-            url = baseUrl + template
-        }
-        for (key, value) in kwargs {
-            url = url.replacingOccurrences(of: "{\(key)}", with: value)
-        }
-        return url
-    }
-
-    // TODO: Make this internal, per architecture review meeting
-    public func request(method: HTTPMethod, url: String, queryParams: [String: String], headerParams: HTTPHeaders,
-                          content _: Data? = nil, formContent _: [String: AnyObject]? = nil,
-                          streamContent _: AnyObject? = nil) -> HTTPRequest {
-        let request = HTTPRequest(httpMethod: method, url: url, headers: headerParams)
-        request.format(queryParams: queryParams)
-        return request
-    }
+    // MARK: Internal Methods
 
     internal func logError(withData data: Data?) {
         guard let data = data else { return }
