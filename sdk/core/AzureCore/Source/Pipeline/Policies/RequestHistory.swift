@@ -30,14 +30,14 @@ public class RequestHistory {
 
     // MARK: Properties
 
-    internal let httpRequest: HttpRequest
-    internal let httpResponse: HttpResponse
+    internal let httpRequest: HTTPRequest
+    internal let httpResponse: HTTPResponse
     internal let error: Error?
     internal let context: PipelineContext?
 
     // MARK: Initializers
 
-    public init(request: HttpRequest, response: HttpResponse, context: PipelineContext?, error: Error?) {
+    public init(request: HTTPRequest, response: HTTPResponse, context: PipelineContext?, error: Error?) {
         // TODO: request should be a deep copy
         httpRequest = request
         httpResponse = response

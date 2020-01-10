@@ -120,7 +120,7 @@ public class PagedCollection<SingleElement: Codable>: PagedCollectionDelegate {
     internal var continuationToken: String?
 
     /// The headers that accompanied the orignal request. Used as the basis for subsequent paged requests.
-    private var requestHeaders: HttpHeaders!
+    private var requestHeaders: HTTPHeaders!
 
     /// An index which tracks the next item to be returned when using the nextItem method.
     private var iteratorIndex: Int = 0
@@ -140,9 +140,9 @@ public class PagedCollection<SingleElement: Codable>: PagedCollectionDelegate {
 
     // MARK: Initializers
 
-    public init(client: PipelineClient, request: HttpRequest, data: Data?, codingKeys: PagedCodingKeys? = nil,
+    public init(client: PipelineClient, request: HTTPRequest, data: Data?, codingKeys: PagedCodingKeys? = nil,
                 decoder: JSONDecoder? = nil, delegate: PagedCollectionDelegate? = nil) throws {
-        let noDataError = HttpResponseError.decode("Response data expected but not found.")
+        let noDataError = HTTPResponseError.decode("Response data expected but not found.")
         guard let data = data else { throw noDataError }
         self.client = client
         self.decoder = decoder ?? JSONDecoder()
@@ -241,11 +241,11 @@ public class PagedCollection<SingleElement: Codable>: PagedCollectionDelegate {
     /// Deserializes the JSON payload to append the new items, update tracking of the "current page" of items
     /// and reset the per page iterator.
     private func update(with data: Data?) throws {
-        let noDataError = HttpResponseError.decode("Response data expected but not found.")
+        let noDataError = HTTPResponseError.decode("Response data expected but not found.")
         guard let data = data else { throw noDataError }
         guard let json = try JSONSerialization.jsonObject(with: data) as? [String: Any] else { throw noDataError }
         let codingKeys = self.codingKeys
-        let notPagedError = HttpResponseError.decode("Paged response expected but not found.")
+        let notPagedError = HTTPResponseError.decode("Paged response expected but not found.")
         guard let itemJson = codingKeys.items(fromJson: json) else { throw notPagedError }
         continuationToken = codingKeys.continuationToken(fromJson: json)
 

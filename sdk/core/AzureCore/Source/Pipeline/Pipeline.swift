@@ -28,9 +28,9 @@ import Foundation
 
 internal class Pipeline {
     private var policies: [PipelineStageProtocol]
-    private let transport: HttpTransportProtocol
+    private let transport: HTTPTransportProtocol
 
-    public init(transport: HttpTransportProtocol, policies: [PipelineStageProtocol]) {
+    public init(transport: HTTPTransportProtocol, policies: [PipelineStageProtocol]) {
         self.transport = transport
         self.policies = policies
         var prevPolicy: PipelineStageProtocol?
@@ -46,7 +46,7 @@ internal class Pipeline {
         self.policies.append(lastPolicy)
     }
 
-    public func run(request: PipelineRequest, completion: @escaping PipelineStageResultHandler) {
+    public func run(request: PipelineRequest, then completion: @escaping PipelineStageResultHandler) {
         if let firstPolicy = policies.first {
             firstPolicy.process(request: request) { result, httpResponse in
                 switch result {

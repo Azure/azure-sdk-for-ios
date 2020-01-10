@@ -26,45 +26,17 @@
 
 import Foundation
 
-public class HttpRequest: HttpCommonProtocol {
+public protocol HTTPCommonProtocol {
 
-    // MARK: Properties
+    // MARK: Required Properties
 
-    public var httpMethod: HttpMethod
-    public var url: String
-    public var headers: HttpHeaders
-    public var files: [String]?
-    public var data: Data?
+    var headers: HTTPHeaders { get set }
+    var data: Data? { get set }
+}
 
-    public var query: [URLQueryItem]? {
-        let comps = URLComponents(string: url)?.queryItems
-        return comps
-    }
-
-    // MARK: Initializers
-
-    public init(httpMethod: HttpMethod, url: String, headers: HttpHeaders, files: [String]? = nil,
-                data: Data? = nil) {
-        self.httpMethod = httpMethod
-        self.url = url
-        self.headers = headers
-        self.files = files
-        self.data = data
-    }
-
-    // MARK: Public Methods
-
-    public func format(queryParams: [String: String]?) {
-        guard var urlComps = URLComponents(string: self.url) else { return }
-        var queryItems = url.parseQueryString() ?? [String: String]()
-
-        // add any query params from the queryParams dictionary
-        if queryParams != nil {
-            for (name, value) in queryParams! {
-                queryItems[name] = value
-            }
-        }
-        urlComps.queryItems = queryItems.convertToQueryItems()
-        url = urlComps.url(relativeTo: nil)?.absoluteString ?? url
+public extension HTTPCommonProtocol {
+    func text(encoding: String.Encoding = .utf8) -> String? {
+        guard let data = self.data else { return nil }
+        return String(data: data, encoding: encoding)
     }
 }

@@ -36,7 +36,7 @@ public class AppConfigurationCredential {
         let csComps = connectionString.components(separatedBy: ";")
         guard csComps.count == 3 else {
             let message = "Expected exactly 3 components. Found \(csComps.count)."
-            throw HttpResponseError.clientAuthentication(message)
+            throw HTTPResponseError.clientAuthentication(message)
         }
         var endpoint: String?
         var id: String?
@@ -55,12 +55,12 @@ public class AppConfigurationCredential {
                 secret = value
             default:
                 let message = "Unrecognized connection string component: \(key)"
-                throw HttpResponseError.clientAuthentication(message)
+                throw HTTPResponseError.clientAuthentication(message)
             }
         }
         guard endpoint != nil, id != nil, secret != nil else {
             let message = "Invalid connection string: \(connectionString)"
-            throw HttpResponseError.clientAuthentication(message)
+            throw HTTPResponseError.clientAuthentication(message)
         }
         self.endpoint = endpoint!
         self.id = id!
@@ -82,10 +82,10 @@ public class AppConfigurationAuthenticationPolicy: AuthenticationProtocol {
         let httpRequest = request.httpRequest
         let contentHash = try? (httpRequest.data ?? Data()).hash(algorithm: .sha256).base64String
         if let url = URL(string: httpRequest.url) {
-            request.httpRequest.headers[HttpHeader.host] = url.host ?? ""
+            request.httpRequest.headers[HTTPHeader.host] = url.host ?? ""
         }
         request.httpRequest.headers[.contentHash] = contentHash
-        let dateValue = request.httpRequest.headers[HttpHeader.date] ?? request.httpRequest.headers[.xmsDate]
+        let dateValue = request.httpRequest.headers[HTTPHeader.date] ?? request.httpRequest.headers[.xmsDate]
         if dateValue == nil {
             request.httpRequest.headers[.xmsDate] = Date().rfc1123Format
         }
@@ -95,7 +95,7 @@ public class AppConfigurationAuthenticationPolicy: AuthenticationProtocol {
 
     private func sign(request: PipelineRequest) {
         let headers = request.httpRequest.headers
-        let signedHeaderKeys = [HttpHeader.xmsDate.rawValue, HttpHeader.host.rawValue, AppConfigurationHeader.contentHash.rawValue]
+        let signedHeaderKeys = [HTTPHeader.xmsDate.rawValue, HTTPHeader.host.rawValue, AppConfigurationHeader.contentHash.rawValue]
         var signedHeaderValues = [String]()
         for key in signedHeaderKeys {
             if let value = headers[key] {

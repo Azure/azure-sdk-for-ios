@@ -26,22 +26,21 @@
 
 import Foundation
 
-public class UrlHttpResponse: HttpResponse {
+public class HTTPResponse: HTTPCommonProtocol {
 
     // MARK: Properties
 
-    private var internalResponse: HTTPURLResponse?
+    public var httpRequest: HTTPRequest?
+    public var statusCode: Int?
+    public var headers = HTTPHeaders()
+    public var blockSize: Int
+    public var data: Data?
 
     // MARK: Initializers
 
-    public init(request: HttpRequest, response: HTTPURLResponse?, blockSize: Int = 4096) {
-        internalResponse = response
-        let statusCode = response?.statusCode
-        super.init(request: request, statusCode: statusCode, blockSize: blockSize)
-        guard let internalHeaders = response?.allHeaderFields else { return }
-        for (key, value) in internalHeaders where key is String {
-            // swiftlint:disable:next force_cast
-            self.headers[key as! String] = value as? String
-        }
+    public init(request: HTTPRequest, statusCode: Int?, blockSize: Int = 4096) {
+        httpRequest = request
+        self.blockSize = blockSize
+        self.statusCode = statusCode
     }
 }

@@ -28,7 +28,7 @@ import AzureCore
 import Foundation
 
 /// Storage service-specific HTTP headers.
-public enum StorageHttpHeader: String {
+public enum StorageHTTPHeader: String {
     case blobSequenceNumber = "x-ms-blob-sequence-number"
     case blobType = "x-ms-blob-type"
     case contentCRC64 = "x-ms-content-crc64"
@@ -46,8 +46,8 @@ public enum StorageHttpHeader: String {
     case leaseStatus = "x-ms-lease-status"
 }
 
-extension HttpHeaders {
-    public subscript(index: StorageHttpHeader) -> String? {
+extension HTTPHeaders {
+    public subscript(index: StorageHTTPHeader) -> String? {
         get {
             return self[index.rawValue]
         }
@@ -57,7 +57,7 @@ extension HttpHeaders {
         }
     }
 
-    public mutating func removeValue(forKey key: StorageHttpHeader) -> String? {
+    public mutating func removeValue(forKey key: StorageHTTPHeader) -> String? {
         return removeValue(forKey: key.rawValue)
     }
 }

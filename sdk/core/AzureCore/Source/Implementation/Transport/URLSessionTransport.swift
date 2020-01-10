@@ -27,11 +27,11 @@
 import Foundation
 import os
 
-public enum UrlSessionTransportError: Error {
+public enum URLSessionTransportError: Error {
     case invalidSession
 }
 
-public class UrlSessionTransport: HttpTransportProtocol {
+public class URLSessionTransport: HTTPTransportProtocol {
 
     // MARK: Properties
 
@@ -59,7 +59,7 @@ public class UrlSessionTransport: HttpTransportProtocol {
         operationQueue.name = "com.domain.AzureCore.networkQueue"
     }
 
-    // MARK: HttpTransportable Methods
+    // MARK: HTTPTransportProtocol Methods
 
     public func open() {
         guard session == nil else { return }
@@ -95,7 +95,7 @@ public class UrlSessionTransport: HttpTransportProtocol {
 
         session.dataTask(with: urlRequest) { data, response, error in
             let rawResponse = response as? HTTPURLResponse
-            let httpResponse = UrlHttpResponse(request: httpRequest, response: rawResponse)
+            let httpResponse = URLHTTPResponse(request: httpRequest, response: rawResponse)
             httpResponse.data = data
 
             let pipelineResponse = PipelineResponse(request: httpRequest, response: httpResponse,

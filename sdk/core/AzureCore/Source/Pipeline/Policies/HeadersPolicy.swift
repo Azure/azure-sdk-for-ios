@@ -31,28 +31,28 @@ public class HeadersPolicy: PipelineStageProtocol {
     // MARK: Properties
     public var next: PipelineStageProtocol?
 
-    private var _headers: HttpHeaders
-    public var headers: HttpHeaders {
+    private var _headers: HTTPHeaders
+    public var headers: HTTPHeaders {
         return _headers
     }
 
     // MARK: Initializers
 
-    public init(baseHeaders: HttpHeaders? = nil) {
-        _headers = baseHeaders ?? HttpHeaders()
+    public init(baseHeaders: HTTPHeaders? = nil) {
+        _headers = baseHeaders ?? HTTPHeaders()
     }
 
     // MARK: Public Methods
 
-    public func add(header: HttpHeader, value: String) {
+    public func add(header: HTTPHeader, value: String) {
         _headers[header] = value
     }
 
-    public func onRequest(_ request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
+    public func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
         for (key, value) in headers {
             request.httpRequest.headers[key] = value
         }
-        if let additionalHeaders = request.context?.value(forKey: "headers") as? HttpHeaders {
+        if let additionalHeaders = request.context?.value(forKey: "headers") as? HTTPHeaders {
             for (key, value) in additionalHeaders {
                 request.httpRequest.headers[key] = value
             }

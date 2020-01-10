@@ -31,7 +31,7 @@ public enum AppConfigurationHeader: String {
     case contentHash = "x-ms-content-sha256"
 }
 
-extension HttpHeaders {
+extension HTTPHeaders {
     public subscript(index: AppConfigurationHeader) -> String? {
         get {
             return self[index.rawValue]

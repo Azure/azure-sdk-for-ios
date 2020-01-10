@@ -30,19 +30,19 @@ public final class PipelineResponse: PipelineContextProtocol, Copyable {
 
     // MARK: Properties
 
-    public var httpRequest: HttpRequest
-    public var httpResponse: HttpResponse?
+    public var httpRequest: HTTPRequest
+    public var httpResponse: HTTPResponse?
     public var logger: ClientLoggerProtocol
 
     public var context: PipelineContext?
 
     // MARK: Initializers
 
-    convenience init(request: HttpRequest, response: HttpResponse, logger: ClientLoggerProtocol) {
+    convenience init(request: HTTPRequest, response: HTTPResponse, logger: ClientLoggerProtocol) {
         self.init(request: request, response: response, logger: logger, context: nil)
     }
 
-    init(request: HttpRequest, response: HttpResponse?, logger: ClientLoggerProtocol, context: PipelineContext?) {
+    init(request: HTTPRequest, response: HTTPResponse?, logger: ClientLoggerProtocol, context: PipelineContext?) {
         httpRequest = request
         httpResponse = response
         self.logger = logger

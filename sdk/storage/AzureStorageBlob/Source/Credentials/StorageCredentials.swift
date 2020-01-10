@@ -67,12 +67,12 @@ public class StorageSASCredential {
                     Form of connection string with 'AccountKey' is not allowed. Provide a SAS-based
                     connection string.
                 """
-                throw HttpResponseError.clientAuthentication(message)
+                throw HTTPResponseError.clientAuthentication(message)
             default:
                 continue
             }
         }
-        let invalidCS = HttpResponseError.clientAuthentication("The connection string \(connectionString) is invalid.")
+        let invalidCS = HTTPResponseError.clientAuthentication("The connection string \(connectionString) is invalid.")
         guard let sasToken = sas else { throw invalidCS }
         self.sasToken = sasToken
         blobEndpoint = blob

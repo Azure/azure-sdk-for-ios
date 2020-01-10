@@ -152,7 +152,7 @@ public final class BlobProperties: XMLModelProtocol {
         ])
     }
 
-    internal init(from headers: HttpHeaders) {
+    internal init(from headers: HTTPHeaders) {
         self.creationTime = headers[.creationTime].asDate
         self.lastModified = headers[.lastModified].asDate
         self.copyCompletionTime = headers[.copyCompletionTime].asDate

@@ -26,7 +26,7 @@
 
 import Foundation
 
-public protocol HttpTransportProtocol: PipelineStageProtocol {
+public protocol HTTPTransportProtocol: PipelineStageProtocol {
 
     // MARK: Required Methods
 

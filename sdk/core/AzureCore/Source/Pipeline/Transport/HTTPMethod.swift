@@ -26,17 +26,14 @@
 
 import Foundation
 
-public protocol HttpCommonProtocol {
-
-    // MARK: Required Properties
-
-    var headers: HttpHeaders { get set }
-    var data: Data? { get set }
-}
-
-public extension HttpCommonProtocol {
-    func text(encoding: String.Encoding = .utf8) -> String? {
-        guard let data = self.data else { return nil }
-        return String(data: data, encoding: encoding)
-    }
+public enum HTTPMethod: String {
+    case get
+    case put
+    case post
+    case patch
+    case delete
+    case head
+    case options
+    case trace
+    case merge
 }

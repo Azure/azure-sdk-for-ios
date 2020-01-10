@@ -188,7 +188,7 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
                     // TODO: Don't like this. Feels like the SDK should be responsible for handling errors rather
                     // than dumping it on the client.
                     switch error {
-                    case let HttpResponseError.statusCode(message):
+                    case let HTTPResponseError.statusCode(message):
                         self.showAlert(error: message)
                     case let AzureError.general(message):
                         self.showAlert(error: message)

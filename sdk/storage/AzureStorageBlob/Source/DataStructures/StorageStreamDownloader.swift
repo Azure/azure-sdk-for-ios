@@ -80,7 +80,7 @@ internal class ChunkDownloader {
     /// - Parameters:
     ///   - requestId: Unique request ID (GUID) for the operation.
     ///   - completion: A completion handler that forwards the downloaded data.
-    public func download(requestId: String? = nil, completion: @escaping (Result<Data, Error>, HttpResponse) -> Void) {
+    public func download(requestId: String? = nil, completion: @escaping (Result<Data, Error>, HTTPResponse) -> Void) {
         // Construct URL
         let urlTemplate = "/{container}/{blob}"
         let pathParams = [
@@ -95,7 +95,7 @@ internal class ChunkDownloader {
         if let timeout = options.timeout { queryParams["timeout"] = String(timeout) }
 
         // Construct headers
-        var headerParams = HttpHeaders()
+        var headerParams = HTTPHeaders()
         headerParams[.apiVersion] = client.options.apiVersion
         headerParams[.accept] = "application/xml"
         let leaseAccessConditions = options.leaseAccessConditions
@@ -117,7 +117,7 @@ internal class ChunkDownloader {
         if let ifNoneMatch = modifiedAccessConditions?.ifNoneMatch { headerParams[.ifNoneMatch] = ifNoneMatch }
 
         // Construct and send request
-        let request = client.request(method: HttpMethod.get,
+        let request = client.request(method: HTTPMethod.get,
                                    url: url,
                                    queryParams: queryParams,
                                    headerParams: headerParams)
@@ -315,7 +315,7 @@ public class BlobStreamDownloader {
     /// - Parameters:
     ///   - group: An optional `DispatchGroup` to wait for the download to complete.
     ///   - completion: A completion handler with which to process the downloaded chunk.
-    public func next(inGroup group: DispatchGroup? = nil, then completion: (Result<Data, Error>, HttpResponse) -> Void) {
+    public func next(inGroup group: DispatchGroup? = nil, then completion: (Result<Data, Error>, HTTPResponse) -> Void) {
         guard !isComplete else { return }
         let range = blockList.removeFirst()
         let downloader = ChunkDownloader(
@@ -344,7 +344,7 @@ public class BlobStreamDownloader {
 
     /// Make the initial request for blob data.
     /// - Parameter completion: A completion handler with which to process the downloaded chunk.
-    public func initialRequest(then completion: @escaping (Result<Data, Error>, HttpResponse) -> Void) {
+    public func initialRequest(then completion: @escaping (Result<Data, Error>, HTTPResponse) -> Void) {
 
         let firstRange = blockList.remove(at: 0)
         let downloader = ChunkDownloader(

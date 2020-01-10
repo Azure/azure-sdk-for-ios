@@ -73,14 +73,10 @@ extension PipelineContextProtocol {
     }
 }
 
-<<<<<<< Updated upstream
-public class PipelineContext: CustomDebugStringConvertible {
-=======
 public class PipelineContext {
 
     // MARK: Properties
 
->>>>>>> Stashed changes
     private let parent: PipelineContext?
     private let key: AnyHashable
     private let value: AnyObject?

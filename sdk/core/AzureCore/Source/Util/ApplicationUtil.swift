@@ -27,7 +27,7 @@
 import Foundation
 import UIKit
 
-public class ApplicationUtil {
+public struct ApplicationUtil {
 
     // MARK: Static Methods
 
@@ -47,7 +47,8 @@ public class ApplicationUtil {
     }
 
     /// Returns the current `UIViewController` for a parent controller.
-    /// - Parameter parent: The parent `UIViewController`. If none provided, will attempt to discover the most relevant controller.
+    /// - Parameter parent: The parent `UIViewController`. If none provided, will attempt to discover the most
+    /// relevant controller.
     public static func currentViewController(forParent parent: UIViewController? = nil) -> UIViewController? {
         // return the current view controller of the parent
         if let parent = parent {
