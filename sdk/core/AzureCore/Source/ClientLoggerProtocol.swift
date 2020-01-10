@@ -65,6 +65,14 @@ extension ClientLoggerProtocol {
     }
 }
 
+extension ClientLoggerProtocol {
+    static func defaultTag() -> String {
+        let regex = NSRegularExpression("^\\d*\\s*([a-zA-Z]*)\\s")
+        let defaultTag = regex.firstMatch(in: Thread.callStackSymbols[1])
+        return defaultTag ?? "AzureCore"
+    }
+}
+
 // MARK: - Constants
 
 public struct ClientLoggers {
@@ -75,7 +83,7 @@ public struct ClientLoggers {
 
     // MARK: Static Methods
 
-    public static func `default`(tag: String) -> ClientLoggerProtocol {
+    public static func `default`(tag: String? = nil) -> ClientLoggerProtocol {
         if #available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *) {
             return OSLogger(category: tag)
         } else {
@@ -111,8 +119,8 @@ public class PrintLogger: ClientLoggerProtocol {
 
     // MARK: Initializers
 
-    public init(tag: String, level: ClientLogLevel = .info) {
-        self.tag = tag
+    public init(tag: String? = nil, level: ClientLogLevel = .info) {
+        self.tag = tag ?? Self.defaultTag()
         self.level = level
     }
 
@@ -136,8 +144,8 @@ public class NSLogger: ClientLoggerProtocol {
 
     // MARK: Initializers
 
-    public init(tag: String, level: ClientLogLevel = .info) {
-        self.tag = tag
+    public init(tag: String? = nil, level: ClientLogLevel = .info) {
+        self.tag = tag ?? Self.defaultTag()
         self.level = level
     }
 
@@ -158,7 +166,7 @@ public class OSLogger: ClientLoggerProtocol {
 
     public var level: ClientLogLevel
 
-    private let osLogger: OSLog
+    private let osLogger: OSLog!
 
     // MARK: Initializers
 
@@ -167,12 +175,13 @@ public class OSLogger: ClientLoggerProtocol {
         self.osLogger = osLogger
     }
 
-    public convenience init(
+    public init(
         subsystem: String = "com.azure",
-        category: String,
+        category: String? = nil,
         level: ClientLogLevel = .info
     ) {
-        self.init(withLogger: OSLog(subsystem: subsystem, category: category), level: level)
+        self.osLogger = OSLog(subsystem: subsystem, category: category ?? Self.defaultTag())
+        self.level = level
     }
 
     // MARK: Public Methods
