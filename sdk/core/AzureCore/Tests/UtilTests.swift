@@ -70,7 +70,7 @@ class RegexUtilTests: XCTestCase {
 
     func testStringUtil() {
         let dateString = "Jan, 02 2020 07:12:34 GMT"
-        let headers: HttpHeaders = [
+        let headers: HTTPHeaders = [
             "string": "test",
             "bool": "true",
             "int": "22",
@@ -88,8 +88,8 @@ class RegexUtilTests: XCTestCase {
         XCTAssertNil(headers["bool"].asInt)
 
         // test asEnum
-        XCTAssertEqual(headers["enum"].asEnum(HttpHeader.self), HttpHeader.accept)
-        XCTAssertNil(headers["int"].asEnum(HttpHeader.self))
+        XCTAssertEqual(headers["enum"].asEnum(HTTPHeader.self), HTTPHeader.accept)
+        XCTAssertNil(headers["int"].asEnum(HTTPHeader.self))
 
         // test asDate
         XCTAssertEqual(headers["date"].asDate, dateString.rfc1123Date)

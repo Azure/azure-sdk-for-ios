@@ -92,7 +92,7 @@ open class PipelineClient {
     public func request(_ request: HTTPRequest,
                         context: PipelineContext?,
                         then completion: @escaping (Result<Data?, Error>, HTTPResponse) -> Void) {
-        let pipelineRequest = PipelineRequest(request: request, logger: logger)
+        let pipelineRequest = PipelineRequest(request: request, logger: logger, context: context)
         pipeline.run(request: pipelineRequest) { result, httpResponse in
             switch result {
             case let .success(pipelineResponse):

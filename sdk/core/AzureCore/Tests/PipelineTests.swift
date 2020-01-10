@@ -33,23 +33,23 @@ class PipelineTests: XCTestCase {
         let baseUrl = "http://www.microsoft.com"
         let client = PipelineClient(
             baseUrl: baseUrl,
-            transport: UrlSessionTransport(),
+            transport: URLSessionTransport(),
             policies: [
                 UserAgentPolicy(),
                 LoggingPolicy()
             ],
-            logger: ClientLoggers.default(tag: "test")
+            logger: ClientLoggers.default()
         )
         return client
     }
 
     func testPipelineClientRequest() {
         let client = createPipelineClient()
-        let headers: HttpHeaders = [
+        let headers: HTTPHeaders = [
             "headerParam": "myHeaderParam"
         ]
-        let request = client.request(method: .get, url: "test",
-                                     queryParams: ["a": "1", "b": "2"], headerParams: headers)
+        let request = HTTPRequest(
+            method: .get, url: "test", queryParams: ["a": "1", "b": "2"], headerParams: headers)
         XCTAssertTrue(["test?a=1&b=2", "test?b=2&a=1"].contains(request.url))
         XCTAssertEqual(request.httpMethod, .get)
         XCTAssertEqual(request.headers, headers)
@@ -57,7 +57,7 @@ class PipelineTests: XCTestCase {
 
     func testPipelineClientFormat() {
         let client = createPipelineClient()
-        let url = client.format(urlTemplate: "{a}/{b}/test", withKwargs: [
+        let url = client.url(forTemplate: "{a}/{b}/test", withKwargs: [
             "a": "cat",
             "b": "hat"
         ])
@@ -66,9 +66,13 @@ class PipelineTests: XCTestCase {
 
     func testPipelineClientRun() {
         let client = createPipelineClient()
-        let request = client.request(method: .get, url: "", queryParams: [:], headerParams: [:])
+        let request = HTTPRequest(
+            method: .get, url: "", queryParams: [:], headerParams: [:])
         let didFinishRun = expectation(description: "run completion handler called.")
-        client.run(request: request, context: ["context": "value" as AnyObject]) { result, httpResponse in
+        let context = PipelineContext.of(keyValues: [
+            "context": "value" as AnyObject
+        ])
+        client.request(request, context: context) { result, httpResponse in
             didFinishRun.fulfill()
             switch result {
             case let .failure(error):

@@ -90,7 +90,7 @@ extension HTTPHeaders {
         }
     }
 
-    public mutating func removeValue(forKey key: HttpHeader) -> Value? {
+    public mutating func removeValue(forKey key: HTTPHeader) -> Value? {
         return removeValue(forKey: key.rawValue)
     }
 }

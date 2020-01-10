@@ -43,7 +43,7 @@
             parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0AD5116923BEA204004FE8E2"
+               BlueprintIdentifier = "0A3A5DDD2315D17F00473FDA"
                BuildableName = "AzureCoreTests.xctest"
                BlueprintName = "AzureCoreTests"
                ReferencedContainer = "container:AzureCore.xcodeproj">
