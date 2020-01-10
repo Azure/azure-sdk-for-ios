@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0A3A5EE12316DC4E00473FDA"
-               BuildableName = "AzureAppConfiguration.framework"
-               BlueprintName = "AzureAppConfiguration"
-               ReferencedContainer = "container:AzureAppConfiguration.xcodeproj">
+               BlueprintIdentifier = "0A686488233E834D004B7E17"
+               BuildableName = "AzureStorageBlob.framework"
+               BlueprintName = "AzureStorageBlob"
+               ReferencedContainer = "container:sdk/storage/AzureStorageBlob/AzureStorageBlob.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -50,10 +50,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0A3A5EE12316DC4E00473FDA"
-            BuildableName = "AzureAppConfiguration.framework"
-            BlueprintName = "AzureAppConfiguration"
-            ReferencedContainer = "container:AzureAppConfiguration.xcodeproj">
+            BlueprintIdentifier = "0A686488233E834D004B7E17"
+            BuildableName = "AzureStorageBlob.framework"
+            BlueprintName = "AzureStorageBlob"
+            ReferencedContainer = "container:sdk/storage/AzureStorageBlob/AzureStorageBlob.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
