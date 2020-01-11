@@ -1,21 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
-   <FileRef
-      location = "group:sdk/core/AzureCore/AzureCore.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:sdk/appconfiguration/AzureAppConfiguration/AzureAppConfiguration.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:sdk/cognitiveservices/AzureCSComputerVision/AzureCSComputerVision.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:sdk/textanalytics/AzureCSTextAnalytics/AzureCSTextAnalytics.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:sdk/storage/AzureStorageBlob/AzureStorageBlob.xcodeproj">
-   </FileRef>
+   <Group
+      location = "group:sdk"
+      name = "SDK">
+      <Group
+         location = "group:appconfiguration"
+         name = "appconfiguration">
+         <FileRef
+            location = "group:AzureAppConfiguration/AzureAppConfiguration.xcodeproj">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:cognitiveservices"
+         name = "cognitiveservices">
+         <FileRef
+            location = "group:AzureCSComputerVision/AzureCSComputerVision.xcodeproj">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:core"
+         name = "core">
+         <FileRef
+            location = "group:AzureCore/AzureCore.xcodeproj">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:storage"
+         name = "storage">
+         <FileRef
+            location = "group:AzureStorageBlob/AzureStorageBlob.xcodeproj">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:textanalytics"
+         name = "textanalytics">
+         <FileRef
+            location = "group:AzureCSTextAnalytics/AzureCSTextAnalytics.xcodeproj">
+         </FileRef>
+      </Group>
+   </Group>
    <Group
       location = "group:Scripts"
       name = "Scripts">
@@ -24,20 +48,20 @@
       </FileRef>
    </Group>
    <Group
-      location = "container:"
+      location = "group:examples"
       name = "Examples">
       <FileRef
-         location = "group:examples/AzureSDKDemoSwift/AzureSDKDemoSwift.xcodeproj">
+         location = "group:AzureSDKDemoSwift/AzureSDKDemoSwift.xcodeproj">
       </FileRef>
    </Group>
    <Group
-      location = "container:"
+      location = "group:"
       name = "Deployment">
       <FileRef
-         location = "group:Package.swift">
+         location = "group:AzureSDK.podspec">
       </FileRef>
       <FileRef
-         location = "group:AzureSDK.podspec">
+         location = "group:Package.swift">
       </FileRef>
       <FileRef
          location = "group:Podfile">
@@ -45,8 +69,21 @@
       <FileRef
          location = "group:Podfile.lock">
       </FileRef>
+      <FileRef
+         location = "group:Pods/Pods.xcodeproj">
+      </FileRef>
    </Group>
-   <FileRef
-      location = "group:Pods/Pods.xcodeproj">
-   </FileRef>
+   <Group
+      location = "group:"
+      name = "Docs">
+      <FileRef
+         location = "group:CONTRIBUTING.md">
+      </FileRef>
+      <FileRef
+         location = "group:LICENSE">
+      </FileRef>
+      <FileRef
+         location = "group:README.md">
+      </FileRef>
+   </Group>
 </Workspace>
