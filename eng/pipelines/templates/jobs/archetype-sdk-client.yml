@@ -42,6 +42,11 @@ jobs:
       vmImage: 'macOS-10.14'
 
     steps:
+      - task: UsePythonVersion@0
+        displayName: 'Use Python 3.6'
+        inputs:
+          versionSpec: '3.6'
+          
       - script: sudo xcode-select --switch /Applications/Xcode_11.3.app
         displayName: 'Use Xcode 11.3'
 
