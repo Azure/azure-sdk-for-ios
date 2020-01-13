@@ -44,11 +44,11 @@ public class HTTPRequest: HTTPCommonProtocol {
     // MARK: Initializers
 
     public init(method: HTTPMethod, url: String,
-                queryParams: [String: String], headerParams: HTTPHeaders,
+                queryParams: [String: String], headers: HTTPHeaders,
                 files: [String]? = nil, data: Data? = nil) {
         self.httpMethod = method
         self.url = url
-        self.headers = headerParams
+        self.headers = headers
         self.files = files
         self.data = data
         self.update(queryParams: queryParams)

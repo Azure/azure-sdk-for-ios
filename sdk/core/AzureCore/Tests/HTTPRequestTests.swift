@@ -32,7 +32,7 @@ class HttpRequestTests: XCTestCase {
     func testHttpRequest() {
         let headers = HTTPHeaders()
         let httpRequest = HTTPRequest(
-            method: .post, url: "https://www.test.com?a=1&b=2", queryParams: [:], headerParams: headers)
+            method: .post, url: "https://www.test.com?a=1&b=2", queryParams: [:], headers: headers)
         var query = httpRequest.query
         XCTAssertEqual(query?.count, 2, "Failure converting query string from URL into query items.")
 
@@ -53,7 +53,7 @@ class HttpRequestTests: XCTestCase {
         var headers = HTTPHeaders()
         headers[.accept] = "json"
         let httpRequest = HTTPRequest(
-            method: .post, url: "https://www.test.com?a=1&b=2", queryParams: [:], headerParams: headers)
+            method: .post, url: "https://www.test.com?a=1&b=2", queryParams: [:], headers: headers)
         XCTAssertEqual(httpRequest.headers.count, 1, "Failed to accept headers.")
         httpRequest.headers["Authorization"] = "token"
         XCTAssertEqual(httpRequest.headers.count, 2, "Failed to add new header.")

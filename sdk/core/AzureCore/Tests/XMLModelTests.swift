@@ -264,7 +264,7 @@ class XMLModelTests: XCTestCase {
         let request = HTTPRequest(method: .get,
                                   url: "",
                                   queryParams: [:],
-                                  headerParams: [:])
+                                  headers: [:])
 
         let decodePolicy = ContentDecodePolicy()
         let pagedKeys = PagedCodingKeys(items: "things.items", continuationToken: "things.next", xmlItemName: "item")

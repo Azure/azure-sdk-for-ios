@@ -175,7 +175,7 @@ public class PagedCollection<SingleElement: Codable>: PagedCollectionDelegate {
             ])
         }
         let request = HTTPRequest(method: .get, url: url,
-                                  queryParams: queryParams, headerParams: requestHeaders)
+                                  queryParams: queryParams, headers: requestHeaders)
         client.request(request, context: context) { result, _ in
             var returnError: Error?
             switch result {

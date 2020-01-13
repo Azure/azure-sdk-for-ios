@@ -95,32 +95,32 @@ internal class ChunkDownloader {
         if let timeout = options.timeout { queryParams["timeout"] = String(timeout) }
 
         // Construct headers
-        var headerParams = HTTPHeaders()
-        headerParams[.apiVersion] = client.options.apiVersion
-        headerParams[.accept] = "application/xml"
+        var headers = HTTPHeaders()
+        headers[.apiVersion] = client.options.apiVersion
+        headers[.accept] = "application/xml"
         let leaseAccessConditions = options.leaseAccessConditions
         let modifiedAccessConditions = options.modifiedAccessConditions
         let cpk = options.cpk
 
-        headerParams["x-ms-range"] = "bytes=\(startRange)-\(endRange)"
-        if let rangeGetContentMD5 = options.range?.calculateMD5 { headerParams["x-ms-range-get-content-md5"] = String(rangeGetContentMD5) }
-        if let rangeGetContentCRC64 = options.range?.calculateCRC64 { headerParams["x-ms-range-get-content-crc64"] = String(rangeGetContentCRC64) }
+        headers["x-ms-range"] = "bytes=\(startRange)-\(endRange)"
+        if let rangeGetContentMD5 = options.range?.calculateMD5 { headers["x-ms-range-get-content-md5"] = String(rangeGetContentMD5) }
+        if let rangeGetContentCRC64 = options.range?.calculateCRC64 { headers["x-ms-range-get-content-crc64"] = String(rangeGetContentCRC64) }
 
-        if let requestId = requestId { headerParams["x-ms-client-request-id"] = requestId }
-        if let leaseId = leaseAccessConditions?.leaseId { headerParams["x-ms-lease-id"] = leaseId }
-        if let encryptionKey = cpk?.value { headerParams["x-ms-encryption-key"] = String(data: encryptionKey, encoding: .utf8) }
-        if let encryptionKeySHA256 = cpk?.hash { headerParams["x-ms-encryption-key-sha256"] = encryptionKeySHA256 }
-        if let encryptionAlgorithm = cpk?.algorithm { headerParams["x-ms-encryption-algorithm"] = encryptionAlgorithm }
-        if let ifModifiedSince = modifiedAccessConditions?.ifModifiedSince { headerParams[.ifModifiedSince] = ifModifiedSince.rfc1123Format }
-        if let ifUnmodifiedSince = modifiedAccessConditions?.ifUnmodifiedSince { headerParams[.ifUnmodifiedSince] = ifUnmodifiedSince.rfc1123Format }
-        if let ifMatch = modifiedAccessConditions?.ifMatch { headerParams[.ifMatch] = ifMatch }
-        if let ifNoneMatch = modifiedAccessConditions?.ifNoneMatch { headerParams[.ifNoneMatch] = ifNoneMatch }
+        if let requestId = requestId { headers["x-ms-client-request-id"] = requestId }
+        if let leaseId = leaseAccessConditions?.leaseId { headers["x-ms-lease-id"] = leaseId }
+        if let encryptionKey = cpk?.value { headers["x-ms-encryption-key"] = String(data: encryptionKey, encoding: .utf8) }
+        if let encryptionKeySHA256 = cpk?.hash { headers["x-ms-encryption-key-sha256"] = encryptionKeySHA256 }
+        if let encryptionAlgorithm = cpk?.algorithm { headers["x-ms-encryption-algorithm"] = encryptionAlgorithm }
+        if let ifModifiedSince = modifiedAccessConditions?.ifModifiedSince { headers[.ifModifiedSince] = ifModifiedSince.rfc1123Format }
+        if let ifUnmodifiedSince = modifiedAccessConditions?.ifUnmodifiedSince { headers[.ifUnmodifiedSince] = ifUnmodifiedSince.rfc1123Format }
+        if let ifMatch = modifiedAccessConditions?.ifMatch { headers[.ifMatch] = ifMatch }
+        if let ifNoneMatch = modifiedAccessConditions?.ifNoneMatch { headers[.ifNoneMatch] = ifNoneMatch }
 
         // Construct and send request
         let request = HTTPRequest(method: .get,
                                   url: url,
                                   queryParams: queryParams,
-                                  headerParams: headerParams)
+                                  headers: headers)
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 206] as AnyObject
         ])

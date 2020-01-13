@@ -181,9 +181,9 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         queryParams["comp"] = "list"
 
         // Construct headers
-        var headerParams = HTTPHeaders()
-        headerParams[HTTPHeader.accept] = "application/xml"
-        headerParams[HTTPHeader.apiVersion] = self.options.apiVersion
+        var headers = HTTPHeaders()
+        headers[HTTPHeader.accept] = "application/xml"
+        headers[HTTPHeader.apiVersion] = self.options.apiVersion
 
         // Process endpoint options
         if let options = options {
@@ -197,7 +197,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
 
             // Header options
             if let clientRequestId = options.clientRequestId {
-                headerParams[HTTPHeader.clientRequestId] = clientRequestId
+                headers[HTTPHeader.clientRequestId] = clientRequestId
             }
         }
 
@@ -214,7 +214,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         let request = HTTPRequest(method: HTTPMethod.get,
                                   url: url,
                                   queryParams: queryParams,
-                                  headerParams: headerParams)
+                                  headers: headers)
         self.request(request, context: context) { result, httpResponse in
             switch result {
             case let .success(data):
@@ -258,10 +258,10 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         queryParams["resType"] = "container"
 
         // Construct headers
-        var headerParams = HTTPHeaders()
-        headerParams[HTTPHeader.accept] = "application/xml"
-        headerParams[HTTPHeader.transferEncoding] = "chunked"
-        headerParams[HTTPHeader.apiVersion] = self.options.apiVersion
+        var headers = HTTPHeaders()
+        headers[HTTPHeader.accept] = "application/xml"
+        headers[HTTPHeader.transferEncoding] = "chunked"
+        headers[HTTPHeader.apiVersion] = self.options.apiVersion
 
         // Process endpoint options
         if let options = options {
@@ -276,7 +276,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
 
             // Header options
             if let clientRequestId = options.clientRequestId {
-                headerParams[HTTPHeader.clientRequestId] = clientRequestId
+                headers[HTTPHeader.clientRequestId] = clientRequestId
             }
         }
 
@@ -284,7 +284,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         let request = HTTPRequest(method: HTTPMethod.get,
                                   url: url,
                                   queryParams: queryParams,
-                                  headerParams: headerParams)
+                                  headers: headers)
         let codingKeys = PagedCodingKeys(
             items: "EnumerationResults.Blobs",
             continuationToken: "EnumerationResults.NextMarker",

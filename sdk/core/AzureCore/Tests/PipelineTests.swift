@@ -49,7 +49,7 @@ class PipelineTests: XCTestCase {
             "headerParam": "myHeaderParam"
         ]
         let request = HTTPRequest(
-            method: .get, url: "test", queryParams: ["a": "1", "b": "2"], headerParams: headers)
+            method: .get, url: "test", queryParams: ["a": "1", "b": "2"], headers: headers)
         XCTAssertTrue(["test?a=1&b=2", "test?b=2&a=1"].contains(request.url))
         XCTAssertEqual(request.httpMethod, .get)
         XCTAssertEqual(request.headers, headers)
@@ -67,7 +67,7 @@ class PipelineTests: XCTestCase {
     func testPipelineClientRun() {
         let client = createPipelineClient()
         let request = HTTPRequest(
-            method: .get, url: "", queryParams: [:], headerParams: [:])
+            method: .get, url: "", queryParams: [:], headers: [:])
         let didFinishRun = expectation(description: "run completion handler called.")
         let context = PipelineContext.of(keyValues: [
             "context": "value" as AnyObject

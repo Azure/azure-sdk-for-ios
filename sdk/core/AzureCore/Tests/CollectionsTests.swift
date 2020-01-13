@@ -62,7 +62,7 @@ class CollectionsTests: XCTestCase {
         let request = HTTPRequest(method: .get,
                                   url: "",
                                   queryParams: [:],
-                                  headerParams: [:])
+                                  headers: [:])
 
         // simulate data received
         let data = load(resource: "pagedthings1", withExtension: "json")
@@ -99,7 +99,7 @@ class CollectionsTests: XCTestCase {
         let request = HTTPRequest(method: .get,
                                   url: "",
                                   queryParams: [:],
-                                  headerParams: [:])
+                                  headers: [:])
 
         // simulate data received
         let data = load(resource: "pagedthings2", withExtension: "json")
@@ -126,7 +126,7 @@ class CollectionsTests: XCTestCase {
         let request = HTTPRequest(method: .get,
                                   url: "",
                                   queryParams: [:],
-                                  headerParams: [:])
+                                  headers: [:])
         // simulate data received
         let data = load(resource: "pagedthings1", withExtension: "json")
         let jsonObject = try! JSONSerialization.jsonObject(with: data)

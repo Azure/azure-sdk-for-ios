@@ -31,7 +31,7 @@ class PipelineRequestTests: XCTestCase {
 
     func testPipelineRequestCopy() {
         let logger = ClientLoggers.default()
-        let httpRequest = HTTPRequest(method: .get, url: "https://www.contoso.com", queryParams: [:], headerParams: HTTPHeaders())
+        let httpRequest = HTTPRequest(method: .get, url: "https://www.contoso.com", queryParams: [:], headers: HTTPHeaders())
         let originalRequest = PipelineRequest(request: httpRequest, logger: logger)
         let copyRequest = originalRequest.copy()
         XCTAssertFalse(originalRequest === copyRequest)
@@ -42,7 +42,7 @@ class PipelineRequestTests: XCTestCase {
     func testPipelineContext() {
         let logger = ClientLoggers.default()
         let httpRequest = HTTPRequest(
-            method: .get, url: "https://www.contoso.com", queryParams: [:], headerParams: HTTPHeaders())
+            method: .get, url: "https://www.contoso.com", queryParams: [:], headers: HTTPHeaders())
         var pipelineRequest = PipelineRequest(request: httpRequest, logger: logger)
 
         // add context when one did not exist

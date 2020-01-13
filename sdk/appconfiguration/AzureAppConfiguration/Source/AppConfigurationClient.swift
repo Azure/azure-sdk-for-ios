@@ -76,14 +76,14 @@ public class AppConfigurationClient: PipelineClient {
         // if let select = select { queryParams["$select"] = select }
 
         // Construct headers
-        var headerParams = HTTPHeaders()
-        headerParams[.apiVersion] = self.options.apiVersion
-        // if let acceptDatetime = acceptDatetime { headerParams["Accept-Datetime"] = acceptDatetime }
-        // if let requestId = requestId { headerParams["x-ms-client-request-id"] = requestId }
+        var headers = HTTPHeaders()
+        headers[.apiVersion] = self.options.apiVersion
+        // if let acceptDatetime = acceptDatetime { headers["Accept-Datetime"] = acceptDatetime }
+        // if let requestId = requestId { headers["x-ms-client-request-id"] = requestId }
 
         // Construct and send request
         let request = HTTPRequest(method: .get, url: url,
-                                  queryParams: queryParams, headerParams: headerParams)
+                                  queryParams: queryParams, headers: headers)
         self.request(request, context: nil) { result, httpResponse in
             //        header_dict = {}
             //        deserialized = None
