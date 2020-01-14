@@ -28,6 +28,17 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0A3A5EC02316DB1E00473FDA"
+               BuildableName = "AzureCSComputerVisionTests.xctest"
+               BlueprintName = "AzureCSComputerVisionTests"
+               ReferencedContainer = "container:sdk/cognitiveservices/AzureCSComputerVision/AzureCSComputerVision.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
