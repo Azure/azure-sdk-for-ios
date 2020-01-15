@@ -29,7 +29,7 @@ import Foundation
 
 // MARK: - Model
 
-public final class ContainerItem: Codable, XMLModelProtocol {
+public final class ContainerItem: Codable, XMLModel {
     public let name: String
     public let properties: ContainerProperties?
 

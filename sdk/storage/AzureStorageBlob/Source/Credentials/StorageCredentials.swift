@@ -83,10 +83,10 @@ public class StorageSASCredential {
 }
 
 /// A Storage authentication policy that relies on a shared access signature.
-public class StorageSASAuthenticationPolicy: AuthenticationProtocol {
+public class StorageSASAuthenticationPolicy: Authenticating {
 
     /// The next stage in the HTTP pipeline.
-    public var next: PipelineStageProtocol?
+    public var next: PipelineStage?
 
     /// A shared access signature credential.
     public let credential: StorageSASCredential

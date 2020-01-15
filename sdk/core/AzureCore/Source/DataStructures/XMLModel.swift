@@ -26,11 +26,11 @@
 
 import Foundation
 
-// MARK: XML Model Protocol
+// MARK: XMLModel Protocol
 
 /// Protocol that ensures all XML models have  a method that returns metadata
 /// necessary to convert an XML payload to a JSON payload.
-public protocol XMLModelProtocol {
+public protocol XMLModel {
 
     // MARK: Required Methods
 
@@ -42,9 +42,9 @@ public protocol XMLModelProtocol {
 public enum ElementToJsonStrategy {
     case property
     case anyObject
-    case object(XMLModelProtocol.Type)
-    case array(XMLModelProtocol.Type)
-    case arrayItem(XMLModelProtocol.Type)
+    case object(XMLModel.Type)
+    case array(XMLModel.Type)
+    case arrayItem(XMLModel.Type)
     case ignored
     case flatten
 }
@@ -94,7 +94,7 @@ public class XMLMap: Sequence, IteratorProtocol {
     }
 
     /// Generate XML map for single item types.
-    internal init(withType typeVal: XMLModelProtocol.Type, prefix: String? = nil) {
+    internal init(withType typeVal: XMLModel.Type, prefix: String? = nil) {
         for (key, metadata) in typeVal.xmlMap() {
             let keyPrefix = prefix != nil ? "\(prefix!).\(key)" : key
             switch metadata.jsonType {
@@ -116,7 +116,7 @@ public class XMLMap: Sequence, IteratorProtocol {
     }
 
     /// Generate XML map for PagedCollection types.
-    public init(withPagedCodingKeys codingKeys: PagedCodingKeys, innerType: XMLModelProtocol.Type) {
+    public init(withPagedCodingKeys codingKeys: PagedCodingKeys, innerType: XMLModel.Type) {
         guard let xmlItemName = codingKeys.xmlItemName else {
             fatalError("Coding Keys for XML must specify the element name for collection items.")
         }

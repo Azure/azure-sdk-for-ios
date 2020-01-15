@@ -90,7 +90,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         throws {
             self.credential = credential
             self.options = options ?? StorageBlobClientOptions(apiVersion: ApiVersion.latest.rawValue)
-            let authPolicy: AuthenticationProtocol
+            let authPolicy: Authenticating
             var baseUrl: String
             if let sasCredential = credential as? StorageSASCredential {
                 guard let blobEndpoint = sasCredential.blobEndpoint else {

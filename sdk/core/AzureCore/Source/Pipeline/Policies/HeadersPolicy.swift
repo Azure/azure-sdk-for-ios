@@ -26,10 +26,10 @@
 
 import Foundation
 
-public class HeadersPolicy: PipelineStageProtocol {
+public class HeadersPolicy: PipelineStage {
 
     // MARK: Properties
-    public var next: PipelineStageProtocol?
+    public var next: PipelineStage?
 
     private var _headers: HTTPHeaders
     public var headers: HTTPHeaders {

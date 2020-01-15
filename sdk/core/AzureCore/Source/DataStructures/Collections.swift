@@ -168,7 +168,7 @@ public class PagedCollection<SingleElement: Codable>: PagedCollectionDelegate {
         let url = delegate.continuationUrl(continuationToken: continuationToken, queryParams: &queryParams,
                                            requestUrl: requestUrl)
         var context: PipelineContext?
-        if let xmlType = SingleElement.self as? XMLModelProtocol.Type {
+        if let xmlType = SingleElement.self as? XMLModel.Type {
             let xmlMap = XMLMap(withPagedCodingKeys: codingKeys, innerType: xmlType)
             context = PipelineContext.of(keyValues: [
                 ContextKey.xmlMap.rawValue: xmlMap as AnyObject

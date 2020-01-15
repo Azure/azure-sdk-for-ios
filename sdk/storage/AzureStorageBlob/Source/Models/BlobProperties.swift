@@ -27,7 +27,7 @@
 import AzureCore
 import Foundation
 
-public final class BlobProperties: XMLModelProtocol {
+public final class BlobProperties: XMLModel {
     public let creationTime: Date?
     public let lastModified: Date?
     public let eTag: String?

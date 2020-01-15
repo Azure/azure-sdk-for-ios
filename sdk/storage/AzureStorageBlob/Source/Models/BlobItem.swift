@@ -27,7 +27,7 @@
 import AzureCore
 import Foundation
 
-public final class BlobItem: XMLModelProtocol {
+public final class BlobItem: XMLModel {
     public let name: String
     public let deleted: Bool?
     public let snapshot: Date?

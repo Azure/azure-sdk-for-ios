@@ -26,7 +26,7 @@
 
 import Foundation
 
-public class LoggingPolicy: PipelineStageProtocol {
+public class LoggingPolicy: PipelineStage {
 
     // MARK: Properties
 
@@ -56,7 +56,7 @@ public class LoggingPolicy: PipelineStageProtocol {
     ]
     private static let maxBodyLogSize = 1024 * 16
 
-    public var next: PipelineStageProtocol?
+    public var next: PipelineStage?
     private let allowHeaders: Set<String>
     private let allowQueryParams: Set<String>
 
@@ -101,7 +101,7 @@ public class LoggingPolicy: PipelineStageProtocol {
 
         logger.info("--> [END \(requestId)]")
 
-        returnRequest.add(value: DispatchTime.now() as AnyObject, forKey: .requestStartTime)
+        returnRequest.context?.add(value: DispatchTime.now() as AnyObject, forKey: .requestStartTime)
     }
 
     public func on(response: PipelineResponse, then completion: @escaping OnResponseCompletionHandler) {
@@ -119,7 +119,7 @@ public class LoggingPolicy: PipelineStageProtocol {
     private func logResponse(_ response: PipelineResponse, withError error: Error? = nil) {
         let endTime = DispatchTime.now()
         var durationMs: Double?
-        if let startTime = response.value(forKey: .requestStartTime) as? DispatchTime {
+        if let startTime = response.context?.value(forKey: .requestStartTime) as? DispatchTime {
             durationMs = Double(endTime.uptimeNanoseconds - startTime.uptimeNanoseconds) / 1_000_000
         }
 
@@ -160,7 +160,7 @@ public class LoggingPolicy: PipelineStageProtocol {
         logger.info("<-- [END \(requestId)]")
     }
 
-    private func logDebug(body bodyFunc: @autoclosure () -> String?, headers: HTTPHeaders, logger: ClientLoggerProtocol) {
+    private func logDebug(body bodyFunc: @autoclosure () -> String?, headers: HTTPHeaders, logger: ClientLogger) {
         let safeHeaders = self.redact(headers: headers)
         for (header, value) in safeHeaders {
             logger.debug("\(header): \(value)")
@@ -236,11 +236,11 @@ public class LoggingPolicy: PipelineStageProtocol {
     }
 }
 
-public class CurlFormattedRequestLoggingPolicy: PipelineStageProtocol {
+public class CurlFormattedRequestLoggingPolicy: PipelineStage {
 
     // MARK: Properties
 
-    public var next: PipelineStageProtocol?
+    public var next: PipelineStage?
 
     // MARK: Initializers
 

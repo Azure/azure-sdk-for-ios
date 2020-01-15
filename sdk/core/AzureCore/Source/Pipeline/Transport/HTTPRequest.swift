@@ -26,7 +26,7 @@
 
 import Foundation
 
-public class HTTPRequest: HTTPCommonProtocol {
+public class HTTPRequest: DataStringConvertible {
 
     // MARK: Properties
 

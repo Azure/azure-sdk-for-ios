@@ -26,11 +26,11 @@
 
 import Foundation
 
-public class UserAgentPolicy: PipelineStageProtocol {
+public class UserAgentPolicy: PipelineStage {
 
     // MARK: Properties
 
-    public var next: PipelineStageProtocol?
+    public var next: PipelineStage?
 
     private var _userAgent: String
 
@@ -64,7 +64,7 @@ public class UserAgentPolicy: PipelineStageProtocol {
         _userAgent = "\(_userAgent) \(value)"
     }
 
-    // MARK: PipelineStageProtocol Methods
+    // MARK: PipelineStage Methods
 
     public func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
         if let contextUserAgent = request.context?.value(forKey: "userAgent") as? String {

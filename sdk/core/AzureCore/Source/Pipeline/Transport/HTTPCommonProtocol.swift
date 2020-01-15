@@ -26,15 +26,14 @@
 
 import Foundation
 
-public protocol HTTPCommonProtocol {
+public protocol DataStringConvertible {
 
     // MARK: Required Properties
 
-    var headers: HTTPHeaders { get set }
     var data: Data? { get set }
 }
 
-public extension HTTPCommonProtocol {
+public extension DataStringConvertible {
     func text(encoding: String.Encoding = .utf8) -> String? {
         guard let data = self.data else { return nil }
         return String(data: data, encoding: encoding)

@@ -68,8 +68,8 @@ public class AppConfigurationCredential {
     }
 }
 
-public class AppConfigurationAuthenticationPolicy: AuthenticationProtocol {
-    public var next: PipelineStageProtocol?
+public class AppConfigurationAuthenticationPolicy: Authenticating {
+    public var next: PipelineStage?
     public let scopes: [String]
     public let credential: AppConfigurationCredential
 

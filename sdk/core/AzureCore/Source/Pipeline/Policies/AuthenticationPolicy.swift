@@ -34,20 +34,20 @@ public struct AccessToken {
     public let expiresOn: Int
 }
 
-public protocol TokenCredentialProtocol {
+public protocol TokenCredential {
 
     // MARK: Required Methods
     func token(forScopes scopes: [String], then completion: @escaping (AccessToken?) -> Void)
 }
 
-public protocol AuthenticationProtocol: PipelineStageProtocol {
+public protocol Authenticating: PipelineStage {
 
     // MARK: Required Methods
 
     func authenticate(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler)
 }
 
-extension AuthenticationProtocol {
+extension Authenticating {
     public func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
         authenticate(request: request, then: completion)
     }
@@ -71,7 +71,7 @@ public extension MSALInteractiveDelegate where Self: UIViewController {
 }
 
 /// An MSAL credential object.
-public struct MSALCredential: TokenCredentialProtocol {
+public struct MSALCredential: TokenCredential {
 
     // MARK: Properties
 
@@ -204,19 +204,19 @@ public struct MSALCredential: TokenCredentialProtocol {
     }
 }
 
-public class BearerTokenCredentialPolicy: AuthenticationProtocol {
+public class BearerTokenCredentialPolicy: Authenticating {
 
     // MARK: Properties
 
-    public var next: PipelineStageProtocol?
+    public var next: PipelineStage?
 
     private let scopes: [String]
-    private let credential: TokenCredentialProtocol
+    private let credential: TokenCredential
     private var token: AccessToken?
 
     // MARK: Initializers
 
-    public init(credential: TokenCredentialProtocol, scopes: [String]) {
+    public init(credential: TokenCredential, scopes: [String]) {
         self.scopes = scopes
         self.credential = credential
         token = nil

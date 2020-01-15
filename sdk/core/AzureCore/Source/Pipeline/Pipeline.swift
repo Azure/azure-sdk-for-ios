@@ -27,13 +27,13 @@
 import Foundation
 
 internal class Pipeline {
-    private var policies: [PipelineStageProtocol]
-    private let transport: HTTPTransportProtocol
+    private var policies: [PipelineStage]
+    private let transport: HTTPTransportStage
 
-    public init(transport: HTTPTransportProtocol, policies: [PipelineStageProtocol]) {
+    public init(transport: HTTPTransportStage, policies: [PipelineStage]) {
         self.transport = transport
         self.policies = policies
-        var prevPolicy: PipelineStageProtocol?
+        var prevPolicy: PipelineStage?
         for policy in policies {
             if prevPolicy != nil {
                 prevPolicy!.next = policy

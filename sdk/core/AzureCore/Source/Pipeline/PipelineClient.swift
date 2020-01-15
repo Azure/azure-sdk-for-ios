@@ -32,7 +32,7 @@ public protocol AzureConfigurable {
     // MARK: Required Properties
 
     var apiVersion: String { get }
-    var logger: ClientLoggerProtocol { get }
+    var logger: ClientLogger { get }
     var tag: String { get }
 }
 
@@ -59,12 +59,12 @@ open class PipelineClient {
 
     internal var pipeline: Pipeline
     public var baseUrl: String
-    public var logger: ClientLoggerProtocol
+    public var logger: ClientLogger
 
     // MARK: Initializers
 
-    public init(baseUrl: String, transport: HTTPTransportProtocol, policies: [PipelineStageProtocol],
-                logger: ClientLoggerProtocol) {
+    public init(baseUrl: String, transport: HTTPTransportStage, policies: [PipelineStage],
+                logger: ClientLogger) {
         self.baseUrl = baseUrl
         self.logger = logger
         if self.baseUrl.suffix(1) != "/" { self.baseUrl += "/" }

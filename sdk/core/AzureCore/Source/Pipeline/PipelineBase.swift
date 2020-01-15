@@ -34,11 +34,11 @@ public typealias OnResponseCompletionHandler = (PipelineResponse) -> Void
 public typealias OnErrorCompletionHandler = (PipelineError, Bool) -> Void
 
 /// Protocol for implementing pipeline stages.
-public protocol PipelineStageProtocol {
+public protocol PipelineStage {
 
     // MARK: Required Properties
 
-    var next: PipelineStageProtocol? { get set }
+    var next: PipelineStage? { get set }
 
     // MARK: Required Methods
 
@@ -68,8 +68,8 @@ public protocol PipelineStageProtocol {
     func process(request pipelineRequest: PipelineRequest, then completion: @escaping PipelineStageResultHandler)
 }
 
-/// Default implementations for `PipelineStageProtocol`.
-extension PipelineStageProtocol {
+/// Default implementations for `PipelineStage`.
+extension PipelineStage {
     public func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
         completion(request)
     }

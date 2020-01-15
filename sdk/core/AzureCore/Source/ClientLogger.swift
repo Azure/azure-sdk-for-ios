@@ -31,7 +31,7 @@ public enum ClientLogLevel: Int {
     case error, warning, info, debug
 }
 
-public protocol ClientLoggerProtocol {
+public protocol ClientLogger {
 
     // MARK: Required Properties
 
@@ -47,7 +47,7 @@ public protocol ClientLoggerProtocol {
     func log(_: @escaping () -> String?, atLevel: ClientLogLevel)
 }
 
-extension ClientLoggerProtocol {
+extension ClientLogger {
     public func debug(_ message: @escaping () -> String?) {
         log(message, atLevel: .debug)
     }
@@ -65,7 +65,7 @@ extension ClientLoggerProtocol {
     }
 }
 
-extension ClientLoggerProtocol {
+extension ClientLogger {
     static func defaultTag() -> String {
         let regex = NSRegularExpression("^\\d*\\s*([a-zA-Z]*)\\s")
         let defaultTag = regex.firstMatch(in: Thread.callStackSymbols[1])
@@ -79,11 +79,11 @@ public struct ClientLoggers {
 
     // MARK: Properties
 
-    public static let none: ClientLoggerProtocol = NullLogger()
+    public static let none: ClientLogger = NullClientLogger()
 
     // MARK: Static Methods
 
-    public static func `default`(tag: String? = nil) -> ClientLoggerProtocol {
+    public static func `default`(tag: String? = nil) -> ClientLogger {
         if #available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *) {
             return OSLogger(category: tag)
         } else {
@@ -94,7 +94,7 @@ public struct ClientLoggers {
 
 // MARK: - Implementations
 
-public class NullLogger: ClientLoggerProtocol {
+public class NullClientLogger: ClientLogger {
 
     // MARK: Properties
 
@@ -109,7 +109,7 @@ public class NullLogger: ClientLoggerProtocol {
     public func log(_: () -> String?, atLevel _: ClientLogLevel) {}
 }
 
-public class PrintLogger: ClientLoggerProtocol {
+public class PrintLogger: ClientLogger {
 
     // MARK: Properties
 
@@ -134,7 +134,7 @@ public class PrintLogger: ClientLoggerProtocol {
     }
 }
 
-public class NSLogger: ClientLoggerProtocol {
+public class NSLogger: ClientLogger {
 
     // MARK: Properties
 
@@ -160,7 +160,7 @@ public class NSLogger: ClientLoggerProtocol {
 }
 
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
-public class OSLogger: ClientLoggerProtocol {
+public class OSLogger: ClientLogger {
 
     // MARK: Properties
 

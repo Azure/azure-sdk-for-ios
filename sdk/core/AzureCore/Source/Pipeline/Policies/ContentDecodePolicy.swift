@@ -43,11 +43,11 @@ internal class ContentDecodeXMLParser: NSObject, XMLParserDelegate {
         return mapPath.joined(separator: ".")
     }
     internal var inferStructure = false
-    internal var logger: ClientLoggerProtocol?
+    internal var logger: ClientLogger?
 
     // MARK: Initializers
 
-    public init(logger: ClientLoggerProtocol?) {
+    public init(logger: ClientLogger?) {
         super.init()
         self.logger = logger
     }
@@ -164,13 +164,13 @@ internal class ContentDecodeXMLParser: NSObject, XMLParserDelegate {
     }
 }
 
-public class ContentDecodePolicy: PipelineStageProtocol {
+public class ContentDecodePolicy: PipelineStage {
 
     // MARK: Properties
 
-    public var next: PipelineStageProtocol?
+    public var next: PipelineStage?
     public let jsonRegex = NSRegularExpression("^(application|text)/([0-9a-z+.]+)?json$")
-    public var logger: ClientLoggerProtocol?
+    public var logger: ClientLogger?
 
     internal var delegate: ContentDecodeXMLParser?
 

@@ -100,7 +100,7 @@ extension InferredThing: Codable {
 
 // MARK: MappedThing
 
-final class MappedThing: Thing, XMLModelProtocol {
+final class MappedThing: Thing, XMLModel {
     let attr: String
     let reqString: String
     let optString: String?
@@ -160,7 +160,7 @@ extension MappedThing: Codable {
 
 // MARK: PagedThing
 
-final class PagedThing: Codable, XMLModelProtocol {
+final class PagedThing: Codable, XMLModel {
 
     let id: Int
     let name: String
