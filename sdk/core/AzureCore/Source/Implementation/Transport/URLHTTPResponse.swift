@@ -26,10 +26,15 @@
 
 import Foundation
 
-public class UrlHttpResponse: HttpResponse {
+public class URLHTTPResponse: HTTPResponse {
+
+    // MARK: Properties
+
     private var internalResponse: HTTPURLResponse?
 
-    public init(request: HttpRequest, response: HTTPURLResponse?, blockSize: Int = 4096) {
+    // MARK: Initializers
+
+    public init(request: HTTPRequest, response: HTTPURLResponse?, blockSize: Int = 4096) {
         internalResponse = response
         let statusCode = response?.statusCode
         super.init(request: request, statusCode: statusCode, blockSize: blockSize)

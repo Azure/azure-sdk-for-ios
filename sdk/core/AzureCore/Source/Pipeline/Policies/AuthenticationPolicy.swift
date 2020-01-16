@@ -26,53 +26,58 @@
 import Foundation
 import MSAL
 
-public class AccessToken {
+public struct AccessToken {
+
+    // MARK: Properties
+
     public let token: String
     public let expiresOn: Int
-
-    public init(token: String, expiresOn: Int) {
-        self.token = token
-        self.expiresOn = expiresOn
-    }
 }
 
 public protocol TokenCredential {
+
+    // MARK: Required Methods
     func token(forScopes scopes: [String], then completion: @escaping (AccessToken?) -> Void)
 }
 
-public protocol AuthenticationProtocol: PipelineStageProtocol {
+public protocol Authenticating: PipelineStage {
+
+    // MARK: Required Methods
+
     func authenticate(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler)
 }
 
-extension AuthenticationProtocol {
-    public func onRequest(_ request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
+extension Authenticating {
+    public func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
         authenticate(request: request, then: completion)
     }
 }
 
 /// Delegate protocol for view controllers to hook into the MSAL interactive flow.
-public protocol MSALInteractiveDelegate: UIViewController {
+public protocol MSALInteractiveDelegate: class {
+
+    // MARK: Required Methods
+
     func parentForWebView() -> UIViewController
     func didCompleteMSALRequest(withResult result: MSALResult)
 }
 
-public extension MSALInteractiveDelegate {
+public extension MSALInteractiveDelegate where Self: UIViewController {
     func parentForWebView() -> UIViewController {
         return self
     }
 
-    func didCompleteMSALRequest(_: MSALResult) {}
+    func didCompleteMSALRequest(withResult _: MSALResult) {}
 }
 
 /// An MSAL credential object.
-public class MSALCredential: TokenCredential {
+public struct MSALCredential: TokenCredential {
+
+    // MARK: Properties
 
     private let tenant: String
-
     private let clientId: String
-
     private let application: MSALPublicClientApplication
-
     private let account: MSALAccount?
 
     private var delegate: MSALInteractiveDelegate? {
@@ -88,8 +93,8 @@ public class MSALCredential: TokenCredential {
     ///   - authority: An authority URI for the application.
     ///   - redirectUri: An optional redirect URI for the application.
     ///   - account: Initial value of the `MSALAccount` object, if known.
-    public convenience init(tenant: String, clientId: String, authority: String, redirectUri: String? = nil,
-                            account: MSALAccount? = nil) throws {
+    public init(tenant: String, clientId: String, authority: String, redirectUri: String? = nil,
+                account: MSALAccount? = nil) throws {
         let error = AzureError.general("Unable to create MSAL credential object.")
         guard let authorityUrl = URL(string: authority) else {
             throw error
@@ -199,9 +204,11 @@ public class MSALCredential: TokenCredential {
     }
 }
 
-public class BearerTokenCredentialPolicy: AuthenticationProtocol {
+public class BearerTokenCredentialPolicy: Authenticating {
 
-    public var next: PipelineStageProtocol?
+    // MARK: Properties
+
+    public var next: PipelineStage?
 
     private let scopes: [String]
     private let credential: TokenCredential
@@ -231,7 +238,7 @@ public class BearerTokenCredentialPolicy: AuthenticationProtocol {
     /// - Parameters:
     ///   - request: A `PipelineRequest` object.
     ///   - completion: A completion handler that forwards the modified pipeline request.
-    public func onRequest(_ request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
+    public func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
         credential.token(forScopes: scopes) { token in
             self.token = token
             self.authenticate(request: request, then: completion)

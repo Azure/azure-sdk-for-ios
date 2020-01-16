@@ -33,14 +33,15 @@ Pod::Spec.new do |s|
   DESC
 
   s.homepage = 'https://github.com/Azure/azure-sdk-for-ios'
-  s.license = { type: 'MIT', file: 'LICENSE' }
+  s.license = { :type => 'MIT',
+                :file => 'LICENSE' }
   s.authors = { 'Azure SDK Mobile Team' => 'azuresdkmobileteam@microsoft.com' }
 
   s.ios.deployment_target = '12.0'
 
-  s.swift_version = '4.2'
-  s.required_arc = true
-  s.source { git: 'https://github.com/Azure/azure-sdk-for-ios.git', tag: s.version.to_s }
+  s.swift_version = '5.0'
+  s.source = { :git => 'https://github.com/Azure/azure-sdk-for-ios.git',
+               :tag => s.version.to_s }
   s.source_files = '**/*.swift'
 
   # AzureCore
@@ -73,5 +74,4 @@ Pod::Spec.new do |s|
   s.subspec 'AzureSDKDemoSwift' do |sp|
     sp.source_files = 'examples/AzureSDKDemoSwift/Source/**/*.{swift,h,m}'
   end
-
 end

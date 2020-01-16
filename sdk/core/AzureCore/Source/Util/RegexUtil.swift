@@ -35,6 +35,13 @@ extension NSRegularExpression {
         }
     }
 
+    func matches(in string: String) -> [String]? {
+        let range = NSRange(location: 0, length: string.utf16.count)
+        let results = matches(in: string, options: [], range: range)
+        let substrings = results.flatMap { $0.capturedValues(from: string) }
+        return substrings.map { String($0) }
+    }
+
     func firstMatch(in string: String) -> String? {
         let range = NSRange(location: 0, length: string.utf16.count)
         guard let substring = firstMatch(in: string, options: [], range: range)?.capturedValues(from: string).first else { return nil }

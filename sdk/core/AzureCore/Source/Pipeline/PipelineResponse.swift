@@ -26,20 +26,23 @@
 
 import Foundation
 
-public final class PipelineResponse: PipelineContextProtocol, Copyable {
-    public var httpRequest: HttpRequest
-    public var httpResponse: HttpResponse?
+public final class PipelineResponse: Copyable, PipelineContextSupporting {
+
+    // MARK: Properties
+
+    public var httpRequest: HTTPRequest
+    public var httpResponse: HTTPResponse?
     public var logger: ClientLogger
 
     public var context: PipelineContext?
 
     // MARK: Initializers
 
-    convenience init(request: HttpRequest, response: HttpResponse, logger: ClientLogger) {
+    convenience init(request: HTTPRequest, response: HTTPResponse, logger: ClientLogger) {
         self.init(request: request, response: response, logger: logger, context: nil)
     }
 
-    init(request: HttpRequest, response: HttpResponse?, logger: ClientLogger, context: PipelineContext?) {
+    init(request: HTTPRequest, response: HTTPResponse?, logger: ClientLogger, context: PipelineContext?) {
         httpRequest = request
         httpResponse = response
         self.logger = logger

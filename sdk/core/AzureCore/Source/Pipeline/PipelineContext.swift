@@ -35,28 +35,38 @@ public enum ContextKey: String {
     case xmlMap
 }
 
-// MARK: - PipelineContextProtocol
+// MARK: PipelineContextSupporting Protocol
 
-public protocol PipelineContextProtocol {
+public protocol PipelineContextSupporting {
+
+    // MARK: Required Properties
+
     var context: PipelineContext? { get set }
 
+    // MARK: Required Methods
+
     mutating func add(value: AnyObject, forKey key: AnyHashable)
+    mutating func add(value: AnyObject, forKey key: ContextKey)
     func value(forKey key: AnyHashable) -> AnyObject?
+    func value(forKey key: ContextKey) -> AnyObject?
 }
 
-// MARK: - PipelineContextProtocol extension
+extension PipelineContextSupporting {
 
-extension PipelineContextProtocol {
     public mutating func add(value: AnyObject, forKey key: AnyHashable) {
         if let context = self.context {
-            self.context = context.add(value: value, forKey: key)
+            return context.add(value: value, forKey: key)
         } else {
-            context = PipelineContext(key: key, value: value)
+            self.context = PipelineContext.of(keyValues: [key: value])
         }
     }
 
     public mutating func add(value: AnyObject, forKey key: ContextKey) {
-        add(value: value, forKey: key.rawValue)
+        if let context = self.context {
+            return context.add(value: value, forKey: key)
+        } else {
+            self.context = PipelineContext.of(keyValues: [key.rawValue: value])
+        }
     }
 
     public func value(forKey key: AnyHashable) -> AnyObject? {
@@ -64,18 +74,21 @@ extension PipelineContextProtocol {
     }
 
     public func value(forKey key: ContextKey) -> AnyObject? {
-        return value(forKey: key.rawValue)
+        return context?.value(forKey: key)
     }
 }
 
-public class PipelineContext {
-    private let parent: PipelineContext?
-    private let key: AnyHashable
-    private let value: AnyObject?
+// MARK: PipelineContext
 
-    public var count: Int {
+public class PipelineContext {
+
+    // MARK: Properties
+
+    internal var node: PipelineContextNode?
+
+    internal var count: Int {
         var count = 0
-        var current: PipelineContext? = self
+        var current: PipelineContextNode? = node
         while current != nil {
             count += 1
             current = current?.parent
@@ -83,33 +96,67 @@ public class PipelineContext {
         return count
     }
 
+    // MARK: Static Methods
+
+    public static func of(keyValues: [AnyHashable: AnyObject]) -> PipelineContext {
+        let context = PipelineContext()
+        for (key, value) in keyValues {
+            context.add(value: value, forKey: key)
+        }
+        return context
+    }
+
+    // MARK: Public Methods
+
+    public func add(value: AnyObject, forKey key: AnyHashable) {
+        if let node = self.node {
+            self.node = node.add(value: value, forKey: key)
+        } else {
+            node = PipelineContextNode(key: key, value: value)
+        }
+    }
+
+    public func add(value: AnyObject, forKey key: ContextKey) {
+        add(value: value, forKey: key.rawValue)
+    }
+
+    public func value(forKey key: AnyHashable) -> AnyObject? {
+        return node?.value(forKey: key)
+    }
+
+    public func value(forKey key: ContextKey) -> AnyObject? {
+        return value(forKey: key.rawValue)
+    }
+}
+
+internal class PipelineContextNode {
+
+    // MARK: Properties
+
+    internal let parent: PipelineContextNode?
+    internal let key: AnyHashable
+    internal let value: AnyObject?
+
+    // MARK: Initializers
+
     internal convenience init(key: AnyHashable, value: AnyObject?) {
         self.init(parent: nil, key: key, value: value)
     }
 
-    internal init(parent: PipelineContext?, key: AnyHashable, value: AnyObject?) {
+    internal init(parent: PipelineContextNode?, key: AnyHashable, value: AnyObject?) {
         self.parent = parent
         self.key = key
         self.value = value
     }
 
-    public func add(value: AnyObject, forKey key: AnyHashable) -> PipelineContext {
-        return PipelineContext(parent: self, key: key, value: value)
+    // MARK: Internal Methods
+
+    internal func add(value: AnyObject, forKey key: AnyHashable) -> PipelineContextNode {
+        return PipelineContextNode(parent: self, key: key, value: value)
     }
 
-    public static func of(keyValues: [AnyHashable: AnyObject]) -> PipelineContext {
-        var context: PipelineContext?
-        for (key, value) in keyValues {
-            context = context?.add(value: value, forKey: key)
-            if context == nil {
-                context = PipelineContext(key: key, value: value)
-            }
-        }
-        return context!
-    }
-
-    public func value(forKey key: AnyHashable) -> AnyObject? {
-        var current: PipelineContext? = self
+    internal func value(forKey key: AnyHashable) -> AnyObject? {
+        var current: PipelineContextNode? = self
         repeat {
             if key == current?.key {
                 return current?.value

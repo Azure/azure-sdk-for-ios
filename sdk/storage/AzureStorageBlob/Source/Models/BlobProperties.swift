@@ -27,7 +27,7 @@
 import AzureCore
 import Foundation
 
-public final class BlobProperties: XMLModelProtocol {
+public final class BlobProperties: XMLModel {
     public let creationTime: Date?
     public let lastModified: Date?
     public let eTag: String?
@@ -152,7 +152,7 @@ public final class BlobProperties: XMLModelProtocol {
         ])
     }
 
-    internal init(from headers: HttpHeaders) {
+    internal init(from headers: HTTPHeaders) {
         self.creationTime = headers[.creationTime].asDate
         self.lastModified = headers[.lastModified].asDate
         self.copyCompletionTime = headers[.copyCompletionTime].asDate

@@ -80,14 +80,14 @@ internal class ChunkDownloader {
     /// - Parameters:
     ///   - requestId: Unique request ID (GUID) for the operation.
     ///   - completion: A completion handler that forwards the downloaded data.
-    public func download(requestId: String? = nil, completion: @escaping (Result<Data, Error>, HttpResponse) -> Void) {
+    public func download(requestId: String? = nil, completion: @escaping (Result<Data, Error>, HTTPResponse) -> Void) {
         // Construct URL
         let urlTemplate = "/{container}/{blob}"
         let pathParams = [
             "container": containerName,
             "blob": blobName
         ]
-        let url = client.format(urlTemplate: urlTemplate, withKwargs: pathParams)
+        let url = client.url(forTemplate: urlTemplate, withKwargs: pathParams)
 
         // Construct parameters
         var queryParams = [String: String]()
@@ -95,36 +95,36 @@ internal class ChunkDownloader {
         if let timeout = options.timeout { queryParams["timeout"] = String(timeout) }
 
         // Construct headers
-        var headerParams = HttpHeaders()
-        headerParams[.apiVersion] = client.options.apiVersion
-        headerParams[.accept] = "application/xml"
+        var headers = HTTPHeaders()
+        headers[.apiVersion] = client.options.apiVersion
+        headers[.accept] = "application/xml"
         let leaseAccessConditions = options.leaseAccessConditions
         let modifiedAccessConditions = options.modifiedAccessConditions
         let cpk = options.cpk
 
-        headerParams["x-ms-range"] = "bytes=\(startRange)-\(endRange)"
-        if let rangeGetContentMD5 = options.range?.calculateMD5 { headerParams["x-ms-range-get-content-md5"] = String(rangeGetContentMD5) }
-        if let rangeGetContentCRC64 = options.range?.calculateCRC64 { headerParams["x-ms-range-get-content-crc64"] = String(rangeGetContentCRC64) }
+        headers["x-ms-range"] = "bytes=\(startRange)-\(endRange)"
+        if let rangeGetContentMD5 = options.range?.calculateMD5 { headers["x-ms-range-get-content-md5"] = String(rangeGetContentMD5) }
+        if let rangeGetContentCRC64 = options.range?.calculateCRC64 { headers["x-ms-range-get-content-crc64"] = String(rangeGetContentCRC64) }
 
-        if let requestId = requestId { headerParams["x-ms-client-request-id"] = requestId }
-        if let leaseId = leaseAccessConditions?.leaseId { headerParams["x-ms-lease-id"] = leaseId }
-        if let encryptionKey = cpk?.value { headerParams["x-ms-encryption-key"] = String(data: encryptionKey, encoding: .utf8) }
-        if let encryptionKeySHA256 = cpk?.hash { headerParams["x-ms-encryption-key-sha256"] = encryptionKeySHA256 }
-        if let encryptionAlgorithm = cpk?.algorithm { headerParams["x-ms-encryption-algorithm"] = encryptionAlgorithm }
-        if let ifModifiedSince = modifiedAccessConditions?.ifModifiedSince { headerParams[.ifModifiedSince] = ifModifiedSince.rfc1123Format }
-        if let ifUnmodifiedSince = modifiedAccessConditions?.ifUnmodifiedSince { headerParams[.ifUnmodifiedSince] = ifUnmodifiedSince.rfc1123Format }
-        if let ifMatch = modifiedAccessConditions?.ifMatch { headerParams[.ifMatch] = ifMatch }
-        if let ifNoneMatch = modifiedAccessConditions?.ifNoneMatch { headerParams[.ifNoneMatch] = ifNoneMatch }
+        if let requestId = requestId { headers["x-ms-client-request-id"] = requestId }
+        if let leaseId = leaseAccessConditions?.leaseId { headers["x-ms-lease-id"] = leaseId }
+        if let encryptionKey = cpk?.value { headers["x-ms-encryption-key"] = String(data: encryptionKey, encoding: .utf8) }
+        if let encryptionKeySHA256 = cpk?.hash { headers["x-ms-encryption-key-sha256"] = encryptionKeySHA256 }
+        if let encryptionAlgorithm = cpk?.algorithm { headers["x-ms-encryption-algorithm"] = encryptionAlgorithm }
+        if let ifModifiedSince = modifiedAccessConditions?.ifModifiedSince { headers[.ifModifiedSince] = ifModifiedSince.rfc1123Format }
+        if let ifUnmodifiedSince = modifiedAccessConditions?.ifUnmodifiedSince { headers[.ifUnmodifiedSince] = ifUnmodifiedSince.rfc1123Format }
+        if let ifMatch = modifiedAccessConditions?.ifMatch { headers[.ifMatch] = ifMatch }
+        if let ifNoneMatch = modifiedAccessConditions?.ifNoneMatch { headers[.ifNoneMatch] = ifNoneMatch }
 
         // Construct and send request
-        let request = client.request(method: HttpMethod.get,
-                                   url: url,
-                                   queryParams: queryParams,
-                                   headerParams: headerParams)
-        let context: [String: AnyObject] = [
+        let request = HTTPRequest(method: .get,
+                                  url: url,
+                                  queryParams: queryParams,
+                                  headers: headers)
+        let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 206] as AnyObject
-        ]
-        client.run(request: request, context: context) { result, httpResponse in
+        ])
+        client.request(request, context: context) { result, httpResponse in
             switch result {
             case let .failure(error):
                 completion(.failure(error), httpResponse)
@@ -315,7 +315,7 @@ public class BlobStreamDownloader {
     /// - Parameters:
     ///   - group: An optional `DispatchGroup` to wait for the download to complete.
     ///   - completion: A completion handler with which to process the downloaded chunk.
-    public func next(inGroup group: DispatchGroup? = nil, then completion: (Result<Data, Error>, HttpResponse) -> Void) {
+    public func next(inGroup group: DispatchGroup? = nil, then completion: (Result<Data, Error>, HTTPResponse) -> Void) {
         guard !isComplete else { return }
         let range = blockList.removeFirst()
         let downloader = ChunkDownloader(
@@ -344,7 +344,7 @@ public class BlobStreamDownloader {
 
     /// Make the initial request for blob data.
     /// - Parameter completion: A completion handler with which to process the downloaded chunk.
-    public func initialRequest(then completion: @escaping (Result<Data, Error>, HttpResponse) -> Void) {
+    public func initialRequest(then completion: @escaping (Result<Data, Error>, HTTPResponse) -> Void) {
 
         let firstRange = blockList.remove(at: 0)
         let downloader = ChunkDownloader(

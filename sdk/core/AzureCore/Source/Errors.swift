@@ -32,7 +32,7 @@ public enum AzureError: Error {
     case serviceResponse(String)
 }
 
-public enum HttpResponseError: Error {
+public enum HTTPResponseError: Error {
     case general(String)
     case decode(String)
     case resourceExists(String)

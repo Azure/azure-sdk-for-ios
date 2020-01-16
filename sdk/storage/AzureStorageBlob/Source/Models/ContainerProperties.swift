@@ -27,7 +27,7 @@
 import AzureCore
 import Foundation
 
-public final class ContainerProperties: XMLModelProtocol {
+public final class ContainerProperties: XMLModel {
     public let lastModified: Date
     public let eTag: String
     public let leaseStatus: LeaseStatus

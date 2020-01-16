@@ -32,7 +32,12 @@ public enum ClientLogLevel: Int {
 }
 
 public protocol ClientLogger {
+
+    // MARK: Required Properties
+
     var level: ClientLogLevel { get set }
+
+    // MARK: Required Methods
 
     func debug(_: @autoclosure @escaping () -> String?)
     func info(_: @autoclosure @escaping () -> String?)
@@ -60,41 +65,66 @@ extension ClientLogger {
     }
 }
 
+extension ClientLogger {
+    static func defaultTag() -> String {
+        let regex = NSRegularExpression("^\\d*\\s*([a-zA-Z]*)\\s")
+        let defaultTag = regex.firstMatch(in: Thread.callStackSymbols[1])
+        return defaultTag ?? "AzureCore"
+    }
+}
+
 // MARK: - Constants
 
 public struct ClientLoggers {
-    public static func `default`(tag: String) -> ClientLogger {
+
+    // MARK: Properties
+
+    public static let none: ClientLogger = NullClientLogger()
+
+    // MARK: Static Methods
+
+    public static func `default`(tag: String? = nil) -> ClientLogger {
         if #available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *) {
             return OSLogger(category: tag)
         } else {
             return NSLogger(tag: tag)
         }
     }
-
-    public static let none: ClientLogger = NullLogger()
 }
 
 // MARK: - Implementations
 
-public class NullLogger: ClientLogger {
+public class NullClientLogger: ClientLogger {
+
+    // MARK: Properties
+
     // Force the least verbose log level so consumers can check & avoid calling the logger entirely if desired
     public var level: ClientLogLevel {
         get { return .error }
         set { _ = newValue }
     }
 
+    // MARK: Public Methods
+
     public func log(_: () -> String?, atLevel _: ClientLogLevel) {}
 }
 
 public class PrintLogger: ClientLogger {
+
+    // MARK: Properties
+
     public var level: ClientLogLevel
 
     private let tag: String
 
-    public init(tag: String, level: ClientLogLevel = .info) {
-        self.tag = tag
+    // MARK: Initializers
+
+    public init(tag: String? = nil, level: ClientLogLevel = .info) {
+        self.tag = tag ?? Self.defaultTag()
         self.level = level
     }
+
+    // MARK: Public Methods
 
     public func log(_ message: () -> String?, atLevel messageLevel: ClientLogLevel) {
         if messageLevel.rawValue <= level.rawValue, let msg = message() {
@@ -105,14 +135,21 @@ public class PrintLogger: ClientLogger {
 }
 
 public class NSLogger: ClientLogger {
+
+    // MARK: Properties
+
     public var level: ClientLogLevel
 
     private let tag: String
 
-    public init(tag: String, level: ClientLogLevel = .info) {
-        self.tag = tag
+    // MARK: Initializers
+
+    public init(tag: String? = nil, level: ClientLogLevel = .info) {
+        self.tag = tag ?? Self.defaultTag()
         self.level = level
     }
+
+    // MARK: Public Methods
 
     public func log(_ message: () -> String?, atLevel messageLevel: ClientLogLevel) {
         if messageLevel.rawValue <= level.rawValue, let msg = message() {
@@ -124,28 +161,38 @@ public class NSLogger: ClientLogger {
 
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
 public class OSLogger: ClientLogger {
+
+    // MARK: Properties
+
     public var level: ClientLogLevel
 
-    private let osLogger: OSLog
+    private let osLogger: OSLog!
+
+    // MARK: Initializers
 
     public init(withLogger osLogger: OSLog, level: ClientLogLevel = .info) {
         self.level = level
         self.osLogger = osLogger
     }
 
-    public convenience init(
+    public init(
         subsystem: String = "com.azure",
-        category: String,
+        category: String? = nil,
         level: ClientLogLevel = .info
     ) {
-        self.init(withLogger: OSLog(subsystem: subsystem, category: category), level: level)
+        self.osLogger = OSLog(subsystem: subsystem, category: category ?? Self.defaultTag())
+        self.level = level
     }
+
+    // MARK: Public Methods
 
     public func log(_ message: () -> String?, atLevel messageLevel: ClientLogLevel) {
         if messageLevel.rawValue <= level.rawValue, let msg = message() {
             os_log("%@", log: osLogger, type: osLogTypeFor(messageLevel), msg)
         }
     }
+
+    // MARK: Private Methods
 
     private func osLogTypeFor(_ level: ClientLogLevel) -> OSLogType {
         switch level {

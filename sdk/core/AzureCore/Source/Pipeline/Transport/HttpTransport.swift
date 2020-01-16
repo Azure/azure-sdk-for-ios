@@ -26,38 +26,11 @@
 
 import Foundation
 
-public class HttpRequest: HttpMessage {
-    public var httpMethod: HttpMethod
-    public var url: String
-    public var headers: HttpHeaders
-    public var files: [String]?
-    public var data: Data?
+public protocol HTTPTransportStage: PipelineStage {
 
-    public var query: [URLQueryItem]? {
-        let comps = URLComponents(string: url)?.queryItems
-        return comps
-    }
+    // MARK: Required Methods
 
-    public init(httpMethod: HttpMethod, url: String, headers: HttpHeaders, files: [String]? = nil,
-                data: Data? = nil) {
-        self.httpMethod = httpMethod
-        self.url = url
-        self.headers = headers
-        self.files = files
-        self.data = data
-    }
-
-    public func format(queryParams: [String: String]?) {
-        guard var urlComps = URLComponents(string: self.url) else { return }
-        var queryItems = url.parseQueryString() ?? [String: String]()
-
-        // add any query params from the queryParams dictionary
-        if queryParams != nil {
-            for (name, value) in queryParams! {
-                queryItems[name] = value
-            }
-        }
-        urlComps.queryItems = queryItems.convertToQueryItems()
-        url = urlComps.url(relativeTo: nil)?.absoluteString ?? url
-    }
+    func open()
+    func close()
+    func sleep(duration: Int)
 }

@@ -27,17 +27,20 @@
 import Foundation
 import os
 
-public enum UrlSessionTransportError: Error {
+public enum URLSessionTransportError: Error {
     case invalidSession
 }
 
-public class UrlSessionTransport: HttpTransportable {
+public class URLSessionTransport: HTTPTransportStage {
+
+    // MARK: Properties
+
     private var session: URLSession?
     private var config: URLSessionConfiguration
     private let operationQueue: OperationQueue
 
-    private var _next: PipelineStageProtocol?
-    public var next: PipelineStageProtocol? {
+    private var _next: PipelineStage?
+    public var next: PipelineStage? {
         get {
             return _next
         }
@@ -48,11 +51,15 @@ public class UrlSessionTransport: HttpTransportable {
         }
     }
 
+    // MARK: Initializers
+
     public init() {
         config = URLSessionConfiguration.default
         operationQueue = OperationQueue()
         operationQueue.name = "com.domain.AzureCore.networkQueue"
     }
+
+    // MARK: HTTPTransportStage Methods
 
     public func open() {
         guard session == nil else { return }
@@ -66,6 +73,8 @@ public class UrlSessionTransport: HttpTransportable {
     public func sleep(duration: Int) {
         Foundation.sleep(UInt32(duration))
     }
+
+    // MARK: PipelineStage Methods
 
     public func process(request pipelineRequest: PipelineRequest,
                         then completion: @escaping PipelineStageResultHandler) {
@@ -86,7 +95,7 @@ public class UrlSessionTransport: HttpTransportable {
 
         session.dataTask(with: urlRequest) { data, response, error in
             let rawResponse = response as? HTTPURLResponse
-            let httpResponse = UrlHttpResponse(request: httpRequest, response: rawResponse)
+            let httpResponse = URLHTTPResponse(request: httpRequest, response: rawResponse)
             httpResponse.data = data
 
             let pipelineResponse = PipelineResponse(request: httpRequest, response: httpResponse,

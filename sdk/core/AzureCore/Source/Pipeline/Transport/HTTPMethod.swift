@@ -26,7 +26,7 @@
 
 import Foundation
 
-public enum HttpMethod: String {
+public enum HTTPMethod: String {
     case get
     case put
     case post

@@ -100,7 +100,7 @@ extension InferredThing: Codable {
 
 // MARK: MappedThing
 
-final class MappedThing: Thing, XMLModelProtocol {
+final class MappedThing: Thing, XMLModel {
     let attr: String
     let reqString: String
     let optString: String?
@@ -160,7 +160,7 @@ extension MappedThing: Codable {
 
 // MARK: PagedThing
 
-final class PagedThing: Codable, XMLModelProtocol {
+final class PagedThing: Codable, XMLModel {
 
     let id: Int
     let name: String
@@ -223,7 +223,7 @@ class XMLModelTests: XCTestCase {
     func testXMLModelInferredStructure() {
         for name in ["thing1", "thing2"] {
             let decodePolicy = ContentDecodePolicy()
-            decodePolicy.logger = ClientLoggers.default(tag: "testXMLModelInferredStructure")
+            decodePolicy.logger = ClientLoggers.default()
 
             let xmlData = load(resource: name, withExtension: "xml")
             let jsonObject = try! decodePolicy.parse(xml: xmlData)
@@ -239,8 +239,8 @@ class XMLModelTests: XCTestCase {
     func testXMLModelMappedStructure() {
         for name in ["thing1", "thing2"] {
             let decodePolicy = ContentDecodePolicy()
-            decodePolicy.xmlMap = MappedThing.xmlMap()
-            decodePolicy.logger = ClientLoggers.default(tag: "testXMLModelMappedStructure")
+            decodePolicy.delegate?.xmlMap = MappedThing.xmlMap()
+            decodePolicy.logger = ClientLoggers.default()
 
             let xmlData = load(resource: name, withExtension: "xml")
             let jsonObject = try! decodePolicy.parse(xml: xmlData)
@@ -256,20 +256,20 @@ class XMLModelTests: XCTestCase {
     func testXMLModelPagedStructure() {
         let client = PipelineClient(
             baseUrl: "http://www.microsoft.com",
-            transport: UrlSessionTransport(),
+            transport: URLSessionTransport(),
             policies: [
                 UserAgentPolicy()
             ],
-            logger: ClientLoggers.default(tag: "test"))
-        let request = client.request(method: HttpMethod.get,
-                                     url: "",
-                                     queryParams: [:],
-                                     headerParams: [:])
+            logger: ClientLoggers.default())
+        let request = HTTPRequest(method: .get,
+                                  url: "",
+                                  queryParams: [:],
+                                  headers: [:])
 
         let decodePolicy = ContentDecodePolicy()
         let pagedKeys = PagedCodingKeys(items: "things.items", continuationToken: "things.next", xmlItemName: "item")
-        decodePolicy.xmlMap = XMLMap(withPagedCodingKeys: pagedKeys, innerType: PagedThing.self)
-        decodePolicy.logger = ClientLoggers.default(tag: "testXMLModelPagedStructure")
+        decodePolicy.delegate?.xmlMap = XMLMap(withPagedCodingKeys: pagedKeys, innerType: PagedThing.self)
+        decodePolicy.logger = ClientLoggers.default()
 
         let xmlData = load(resource: "pagedthings", withExtension: "xml")
         let jsonObject = try! decodePolicy.parse(xml: xmlData)

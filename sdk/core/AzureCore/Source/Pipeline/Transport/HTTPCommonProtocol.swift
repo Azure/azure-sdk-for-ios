@@ -26,12 +26,14 @@
 
 import Foundation
 
-public protocol HttpMessage {
-    var headers: HttpHeaders { get set }
+public protocol DataStringConvertible {
+
+    // MARK: Required Properties
+
     var data: Data? { get set }
 }
 
-public extension HttpMessage {
+public extension DataStringConvertible {
     func text(encoding: String.Encoding = .utf8) -> String? {
         guard let data = self.data else { return nil }
         return String(data: data, encoding: encoding)

@@ -29,26 +29,33 @@ import Foundation
 /// Protocol for baseline options for individual service clients.
 public protocol AzureConfigurable {
 
+    // MARK: Required Properties
+
     var apiVersion: String { get }
     var logger: ClientLogger { get }
     var tag: String { get }
 }
 
-/// Base class containing baseline options for individual client API calls.
+/// Class containing baseline options for individual client API calls.
 open class AzureOptions {
+
+    // MARK: Properties
+
     /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
     /// Highly recommended for correlating client-side activites with requests received by the server.
     public var clientRequestId: String?
 
     // MARK: Initializers
 
-     public init() {
-        self.clientRequestId = nil
+    public init() {
+        clientRequestId = nil
     }
 }
 
 /// Base class for all pipeline-based service clients.
 open class PipelineClient {
+
+    // MARK: Properties
 
     internal var pipeline: Pipeline
     public var baseUrl: String
@@ -56,7 +63,7 @@ open class PipelineClient {
 
     // MARK: Initializers
 
-    public init(baseUrl: String, transport: HttpTransportable, policies: [PipelineStageProtocol],
+    public init(baseUrl: String, transport: HTTPTransportStage, policies: [PipelineStage],
                 logger: ClientLogger) {
         self.baseUrl = baseUrl
         self.logger = logger
@@ -64,17 +71,29 @@ open class PipelineClient {
         pipeline = Pipeline(transport: transport, policies: policies)
     }
 
-    // MARK: Public Methods}
+    // MARK: Public Methods
 
-    public func run(request: HttpRequest, context: [String: AnyObject]?,
-                    completion: @escaping (Result<Data?, Error>, HttpResponse) -> Void) {
-        var pipelineRequest = PipelineRequest(request: request, logger: logger)
-        if let context = context {
-            for (key, value) in context {
-                pipelineRequest.add(value: value as AnyObject, forKey: key)
-            }
+    public func url(forTemplate templateIn: String, withKwargs kwargs: [String: String]? = nil) -> String {
+        var template = templateIn
+        if template.hasPrefix("/") { template = String(template.dropFirst()) }
+        var url: String
+        if template.starts(with: baseUrl) {
+            url = template
+        } else {
+            url = baseUrl + template
         }
-        pipeline.run(request: pipelineRequest, completion: { result, httpResponse in
+        guard let urlKwargs = kwargs else { return url }
+        for (key, value) in urlKwargs {
+            url = url.replacingOccurrences(of: "{\(key)}", with: value)
+        }
+        return url
+    }
+
+    public func request(_ request: HTTPRequest,
+                        context: PipelineContext?,
+                        then completion: @escaping (Result<Data?, Error>, HTTPResponse) -> Void) {
+        let pipelineRequest = PipelineRequest(request: request, logger: logger, context: context)
+        pipeline.run(request: pipelineRequest) { result, httpResponse in
             switch result {
             case let .success(pipelineResponse):
                 let deserializedData = pipelineResponse.value(forKey: .deserializedData) as? Data
@@ -84,7 +103,7 @@ open class PipelineClient {
                 let allowedStatusCodes = pipelineResponse.value(forKey: .allowedStatusCodes) as? [Int] ?? [200]
                 if !allowedStatusCodes.contains(httpResponse.statusCode ?? -1) {
                     self.logError(withData: deserializedData)
-                    let error = HttpResponseError.statusCode("Service returned invalid status code [\(statusCode)].")
+                    let error = HTTPResponseError.statusCode("Service returned invalid status code [\(statusCode)].")
                     completion(.failure(error), httpResponse)
                 } else {
                     if let deserialized = deserializedData {
@@ -96,35 +115,12 @@ open class PipelineClient {
             case let .failure(error):
                 completion(.failure(error), httpResponse)
             }
-        })
-    }
-
-    public func request(method: HttpMethod, url: String, queryParams: [String: String], headerParams: HttpHeaders,
-                        content _: Data? = nil, formContent _: [String: AnyObject]? = nil,
-                        streamContent _: AnyObject? = nil) -> HttpRequest {
-        let request = HttpRequest(httpMethod: method, url: url, headers: headerParams)
-        request.format(queryParams: queryParams)
-        return request
-    }
-
-    public func format(urlTemplate: String?, withKwargs kwargs: [String: String] = [String: String]()) -> String {
-        var template = urlTemplate ?? ""
-        if template.hasPrefix("/") { template = String(template.dropFirst()) }
-        var url: String
-        if template.starts(with: baseUrl) {
-            url = template
-        } else {
-            url = baseUrl + template
         }
-        for (key, value) in kwargs {
-            url = url.replacingOccurrences(of: "{\(key)}", with: value)
-        }
-        return url
     }
 
-    // MARK: Private Methods
+    // MARK: Internal Methods
 
-    private func logError(withData data: Data?) {
+    internal func logError(withData data: Data?) {
         guard let data = data else { return }
         guard let json = try? JSONSerialization.jsonObject(with: data) else { return }
         guard let errorDict = json as? [String: Any] else { return }

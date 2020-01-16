@@ -26,11 +26,14 @@
 
 import Foundation
 
-// MARK: XML Model Protocol
+// MARK: XMLModel Protocol
 
 /// Protocol that ensures all XML models have  a method that returns metadata
 /// necessary to convert an XML payload to a JSON payload.
-public protocol XMLModelProtocol {
+public protocol XMLModel {
+
+    // MARK: Required Methods
+
     static func xmlMap() -> XMLMap
 }
 
@@ -39,9 +42,9 @@ public protocol XMLModelProtocol {
 public enum ElementToJsonStrategy {
     case property
     case anyObject
-    case object(XMLModelProtocol.Type)
-    case array(XMLModelProtocol.Type)
-    case arrayItem(XMLModelProtocol.Type)
+    case object(XMLModel.Type)
+    case array(XMLModel.Type)
+    case arrayItem(XMLModel.Type)
     case ignored
     case flatten
 }
@@ -53,9 +56,14 @@ public enum AttributeToJsonStrategy {
 /// Class containing metadata needed to translate an XML payload into the desired
 /// JSON payload.
 public struct XMLMetadata {
+
+    // MARK: Properties
+
     public let jsonName: String
     public let jsonType: ElementToJsonStrategy
     public let attributeStrategy: AttributeToJsonStrategy
+
+    // MARK: Initializers
 
     public init(jsonName: String, jsonType: ElementToJsonStrategy = .property,
                 attributes: AttributeToJsonStrategy = .ignored) {
@@ -70,17 +78,15 @@ public struct XMLMetadata {
 /// A map of XML document path keys and metadata needed to convert an XML
 /// payload into a JSON payload.
 public class XMLMap: Sequence, IteratorProtocol {
+
+    // MARK: Properties
+
     public typealias Element = (String, XMLMetadata)
 
     internal var map = [String: XMLMetadata]()
     internal var mapIterator: Dictionary<String, XMLMetadata>.Iterator?
 
-    public func next() -> (String, XMLMetadata)? {
-        if mapIterator == nil {
-            mapIterator = map.makeIterator()
-        }
-        return mapIterator?.next()
-    }
+    // MARK: Initializers
 
     /// Initialize directly with paths and values
     public init(_ existingValues: [String: XMLMetadata]) {
@@ -88,7 +94,7 @@ public class XMLMap: Sequence, IteratorProtocol {
     }
 
     /// Generate XML map for single item types.
-    internal init(withType typeVal: XMLModelProtocol.Type, prefix: String? = nil) {
+    internal init(withType typeVal: XMLModel.Type, prefix: String? = nil) {
         for (key, metadata) in typeVal.xmlMap() {
             let keyPrefix = prefix != nil ? "\(prefix!).\(key)" : key
             switch metadata.jsonType {
@@ -110,7 +116,7 @@ public class XMLMap: Sequence, IteratorProtocol {
     }
 
     /// Generate XML map for PagedCollection types.
-    public init(withPagedCodingKeys codingKeys: PagedCodingKeys, innerType: XMLModelProtocol.Type) {
+    public init(withPagedCodingKeys codingKeys: PagedCodingKeys, innerType: XMLModel.Type) {
         guard let xmlItemName = codingKeys.xmlItemName else {
             fatalError("Coding Keys for XML must specify the element name for collection items.")
         }
@@ -147,6 +153,15 @@ public class XMLMap: Sequence, IteratorProtocol {
         // update the map with the map of the inner type
         let modelMap = XMLMap(withType: innerType, prefix: prefix)
         map = map.merging(modelMap) { _, new in new }
+    }
+
+    // MARK: Public Methods
+
+    public func next() -> (String, XMLMetadata)? {
+        if mapIterator == nil {
+            mapIterator = map.makeIterator()
+        }
+        return mapIterator?.next()
     }
 
     /// Accept a dot-separated path to get to XML properties. Returns nil if

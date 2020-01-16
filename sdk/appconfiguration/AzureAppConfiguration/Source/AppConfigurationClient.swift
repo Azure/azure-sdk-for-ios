@@ -37,7 +37,7 @@ public class AppConfigurationClient: PipelineClient {
 
     // MARK: Initializers
 
-    internal init(baseUrl: String, transport: HttpTransportable, policies: [PipelineStageProtocol],
+    internal init(baseUrl: String, transport: HTTPTransportStage, policies: [PipelineStage],
                   withOptions options: AppConfigurationClientOptions) {
         self.options = options
         super.init(baseUrl: baseUrl, transport: transport, policies: policies, logger: self.options.logger)
@@ -50,7 +50,7 @@ public class AppConfigurationClient: PipelineClient {
             let authPolicy = AppConfigurationAuthenticationPolicy(credential: credential, scopes: [credential.endpoint])
             return AppConfigurationClient(
                 baseUrl: credential.endpoint,
-                transport: UrlSessionTransport(),
+                transport: URLSessionTransport(),
                 policies: [
                     HeadersPolicy(),
                     UserAgentPolicy(),
@@ -65,12 +65,10 @@ public class AppConfigurationClient: PipelineClient {
 
     public func listConfigurationSettings(forKey key: String?,
                                           forLabel label: String?,
-                                          then completion: @escaping HttpResultHandler<PagedCollection<ConfigurationSetting>>) {
+                                          then completion: @escaping HTTPResultHandler<PagedCollection<ConfigurationSetting>>) {
 
         // Construct URL
-        let urlTemplate = "kv"
-        let url = format(urlTemplate: urlTemplate)
-
+        let url = "kv"
         var queryParams = [String: String]()
         queryParams["key"] = key ?? "*"
         queryParams["label"] = label ?? "*"
@@ -78,17 +76,15 @@ public class AppConfigurationClient: PipelineClient {
         // if let select = select { queryParams["$select"] = select }
 
         // Construct headers
-        var headerParams = HttpHeaders()
-        headerParams[.apiVersion] = self.options.apiVersion
-        // if let acceptDatetime = acceptDatetime { headerParams["Accept-Datetime"] = acceptDatetime }
-        // if let requestId = requestId { headerParams["x-ms-client-request-id"] = requestId }
+        var headers = HTTPHeaders()
+        headers[.apiVersion] = self.options.apiVersion
+        // if let acceptDatetime = acceptDatetime { headers["Accept-Datetime"] = acceptDatetime }
+        // if let requestId = requestId { headers["x-ms-client-request-id"] = requestId }
 
         // Construct and send request
-        let request = self.request(method: HttpMethod.get,
-                                   url: url,
-                                   queryParams: queryParams,
-                                   headerParams: headerParams)
-        run(request: request, context: nil, completion: { result, httpResponse in
+        let request = HTTPRequest(method: .get, url: url,
+                                  queryParams: queryParams, headers: headers)
+        self.request(request, context: nil) { result, httpResponse in
             //        header_dict = {}
             //        deserialized = None
             //        if response.status_code == 200:
@@ -117,6 +113,6 @@ public class AppConfigurationClient: PipelineClient {
             case let .failure(error):
                 completion(.failure(error), httpResponse)
             }
-        })
+        }
     }
 }

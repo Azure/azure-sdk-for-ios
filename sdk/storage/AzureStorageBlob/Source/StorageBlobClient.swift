@@ -90,7 +90,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         throws {
             self.credential = credential
             self.options = options ?? StorageBlobClientOptions(apiVersion: ApiVersion.latest.rawValue)
-            let authPolicy: AuthenticationProtocol
+            let authPolicy: Authenticating
             var baseUrl: String
             if let sasCredential = credential as? StorageSASCredential {
                 guard let blobEndpoint = sasCredential.blobEndpoint else {
@@ -107,7 +107,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
             }
             super.init(
                 baseUrl: baseUrl,
-                transport: UrlSessionTransport(),
+                transport: URLSessionTransport(),
                 policies: [
                     // Python: QueueMessagePolicy(),
                     HeadersPolicy(),
@@ -168,22 +168,22 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
     /**
      List storage containers in a storage account.
      - Parameter options: A `ListContainerOptions` object to control the list operation.
-     - Parameter completion: An `HttpResultHandler` closure that returns a `PagedCollection<ContainerItem>` object on success.
+     - Parameter completion: An `HTTPResultHandler` closure that returns a `PagedCollection<ContainerItem>` object on success.
      */
     public func listContainers(withOptions options: ListContainersOptions? = nil,
-                               then completion: @escaping HttpResultHandler<PagedCollection<ContainerItem>>) {
+                               then completion: @escaping HTTPResultHandler<PagedCollection<ContainerItem>>) {
         // Construct URL
         let urlTemplate = ""
-        let url = format(urlTemplate: urlTemplate)
+        let url = self.url(forTemplate: urlTemplate)
 
         // Construct query
         var queryParams = [String: String]()
         queryParams["comp"] = "list"
 
         // Construct headers
-        var headerParams = HttpHeaders()
-        headerParams[HttpHeader.accept] = "application/xml"
-        headerParams[HttpHeader.apiVersion] = self.options.apiVersion
+        var headers = HTTPHeaders()
+        headers[HTTPHeader.accept] = "application/xml"
+        headers[HTTPHeader.apiVersion] = self.options.apiVersion
 
         // Process endpoint options
         if let options = options {
@@ -197,29 +197,29 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
 
             // Header options
             if let clientRequestId = options.clientRequestId {
-                headerParams[HttpHeader.clientRequestId] = clientRequestId
+                headers[HTTPHeader.clientRequestId] = clientRequestId
             }
         }
 
         // Construct and send request
-        let request = self.request(method: HttpMethod.get,
-                                   url: url,
-                                   queryParams: queryParams,
-                                   headerParams: headerParams)
         let codingKeys = PagedCodingKeys(
             items: "EnumerationResults.Containers",
             continuationToken: "EnumerationResults.NextMarker",
             xmlItemName: "Container"
         )
         let xmlMap = XMLMap(withPagedCodingKeys: codingKeys, innerType: ContainerItem.self)
-        let context: [String: AnyObject] = [
+        let context = PipelineContext.of(keyValues: [
             ContextKey.xmlMap.rawValue: xmlMap as AnyObject
-        ]
-        run(request: request, context: context, completion: { result, httpResponse in
+        ])
+        let request = HTTPRequest(method: HTTPMethod.get,
+                                  url: url,
+                                  queryParams: queryParams,
+                                  headers: headers)
+        self.request(request, context: context) { result, httpResponse in
             switch result {
             case let .success(data):
                 guard let data = data else {
-                    let noDataError = HttpResponseError.decode("Response data expected but not found.")
+                    let noDataError = HTTPResponseError.decode("Response data expected but not found.")
                     completion(.failure(noDataError), httpResponse)
                     return
                 }
@@ -235,22 +235,22 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
             case let .failure(error):
                 completion(.failure(error), httpResponse)
             }
-        })
+        }
     }
 
     /**
      List storage blobs within a storage container.
      - Parameter options: A `ListBlobsOptions` object to control the list operation.
-     - Parameter completion: An `HttpResultHandler` closure that returns a `PagedCollection<BlobItem>` object on success.
+     - Parameter completion: An `HTTPResultHandler` closure that returns a `PagedCollection<BlobItem>` object on success.
      */
     public func listBlobs(in container: String, withOptions options: ListBlobsOptions? = nil,
-                          then completion: @escaping HttpResultHandler<PagedCollection<BlobItem>>) {
+                          then completion: @escaping HTTPResultHandler<PagedCollection<BlobItem>>) {
         // Construct URL
         let urlTemplate = "{container}"
         let pathParams = [
             "container": container
         ]
-        let url = format(urlTemplate: urlTemplate, withKwargs: pathParams)
+        let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams)
 
         // Construct query
         var queryParams = [String: String]()
@@ -258,10 +258,10 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         queryParams["resType"] = "container"
 
         // Construct headers
-        var headerParams = HttpHeaders()
-        headerParams[HttpHeader.accept] = "application/xml"
-        headerParams[HttpHeader.transferEncoding] = "chunked"
-        headerParams[HttpHeader.apiVersion] = self.options.apiVersion
+        var headers = HTTPHeaders()
+        headers[HTTPHeader.accept] = "application/xml"
+        headers[HTTPHeader.transferEncoding] = "chunked"
+        headers[HTTPHeader.apiVersion] = self.options.apiVersion
 
         // Process endpoint options
         if let options = options {
@@ -276,29 +276,29 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
 
             // Header options
             if let clientRequestId = options.clientRequestId {
-                headerParams[HttpHeader.clientRequestId] = clientRequestId
+                headers[HTTPHeader.clientRequestId] = clientRequestId
             }
         }
 
         // Construct and send request
-        let request = self.request(method: HttpMethod.get,
-                                   url: url,
-                                   queryParams: queryParams,
-                                   headerParams: headerParams)
+        let request = HTTPRequest(method: HTTPMethod.get,
+                                  url: url,
+                                  queryParams: queryParams,
+                                  headers: headers)
         let codingKeys = PagedCodingKeys(
             items: "EnumerationResults.Blobs",
             continuationToken: "EnumerationResults.NextMarker",
             xmlItemName: "Blob"
         )
         let xmlMap = XMLMap(withPagedCodingKeys: codingKeys, innerType: BlobItem.self)
-        let context: [String: AnyObject] = [
+        let context = PipelineContext.of(keyValues: [
             ContextKey.xmlMap.rawValue: xmlMap as AnyObject
-        ]
-        run(request: request, context: context, completion: { result, httpResponse in
+        ])
+        self.request(request, context: context) { result, httpResponse in
             switch result {
             case let .success(data):
                 guard let data = data else {
-                    let noDataError = HttpResponseError.decode("Response data expected but not found.")
+                    let noDataError = HTTPResponseError.decode("Response data expected but not found.")
                     completion(.failure(noDataError), httpResponse)
                     return
                 }
@@ -313,7 +313,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
             case let .failure(error):
                 completion(.failure(error), httpResponse)
             }
-        })
+        }
     }
 
     /**
@@ -321,10 +321,10 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
      - Parameter blob: The name of the blob.
      - Parameter fromContainer: The name of the container.
      - Parameter withOptions: A `DownloadBlobOptions` object to control the download operation.
-     - Parameter then: An `HttpResultHandler` closure that returns a `BlobStreamDownloader` object on success.
+     - Parameter then: An `HTTPResultHandler` closure that returns a `BlobStreamDownloader` object on success.
      */
     public func download(blob: String, fromContainer container: String, withOptions options: DownloadBlobOptions? = nil,
-                         then completion: @escaping HttpResultHandler<BlobStreamDownloader>) throws {
+                         then completion: @escaping HTTPResultHandler<BlobStreamDownloader>) throws {
         let downloader = try BlobStreamDownloader(client: self, name: blob, container: container, options: options)
         downloader.initialRequest { result, httpResponse in
             switch result {
@@ -340,10 +340,10 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
      Download a blob from a given URL.
      - Parameter url: A URL to a blob to download.
      - Parameter options: A `DownloadBlobOptions` object to control the download operation.
-     - Parameter completion: An `HttpResultHandler` closure that returns a `BlobStreamDownloader` object on success.
+     - Parameter completion: An `HTTPResultHandler` closure that returns a `BlobStreamDownloader` object on success.
      */
     public func download(url: URL, withOptions options: DownloadBlobOptions? = nil,
-                         then completion: @escaping HttpResultHandler<BlobStreamDownloader>) throws {
+                         then completion: @escaping HTTPResultHandler<BlobStreamDownloader>) throws {
         let (host, container, blob) = try parse(url: url)
         if baseUrl == host {
             try download(blob: blob, fromContainer: container, withOptions: options, then: completion)

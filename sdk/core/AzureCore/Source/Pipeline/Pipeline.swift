@@ -27,13 +27,13 @@
 import Foundation
 
 internal class Pipeline {
-    private var policies: [PipelineStageProtocol]
-    private let transport: HttpTransportable
+    private var policies: [PipelineStage]
+    private let transport: HTTPTransportStage
 
-    public init(transport: HttpTransportable, policies: [PipelineStageProtocol]) {
+    public init(transport: HTTPTransportStage, policies: [PipelineStage]) {
         self.transport = transport
         self.policies = policies
-        var prevPolicy: PipelineStageProtocol?
+        var prevPolicy: PipelineStage?
         for policy in policies {
             if prevPolicy != nil {
                 prevPolicy!.next = policy
@@ -46,15 +46,14 @@ internal class Pipeline {
         self.policies.append(lastPolicy)
     }
 
-    public func run(request: PipelineRequest, completion: @escaping PipelineStageResultHandler) {
-        if let firstPolicy = policies.first {
-            firstPolicy.process(request: request) { result, httpResponse in
-                switch result {
-                case let .success(pipelineResponse):
-                    completion(.success(pipelineResponse), httpResponse)
-                case let .failure(error):
-                    completion(.failure(error), httpResponse)
-                }
+    public func run(request: PipelineRequest, then completion: @escaping PipelineStageResultHandler) {
+        let firstPolicy = policies.first ?? transport
+        firstPolicy.process(request: request) { result, httpResponse in
+            switch result {
+            case let .success(pipelineResponse):
+                completion(.success(pipelineResponse), httpResponse)
+            case let .failure(error):
+                completion(.failure(error), httpResponse)
             }
         }
     }

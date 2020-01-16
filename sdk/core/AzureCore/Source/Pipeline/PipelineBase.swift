@@ -26,35 +26,40 @@
 
 import Foundation
 
-public typealias ResultHandler<TSuccess, TError: Error> = (Result<TSuccess, TError>, HttpResponse) -> Void
-public typealias HttpResultHandler<T> = ResultHandler<T, Error>
+public typealias ResultHandler<TSuccess, TError: Error> = (Result<TSuccess, TError>, HTTPResponse) -> Void
+public typealias HTTPResultHandler<T> = ResultHandler<T, Error>
 public typealias PipelineStageResultHandler = ResultHandler<PipelineResponse, PipelineError>
 public typealias OnRequestCompletionHandler = (PipelineRequest) -> Void
 public typealias OnResponseCompletionHandler = (PipelineResponse) -> Void
 public typealias OnErrorCompletionHandler = (PipelineError, Bool) -> Void
 
 /// Protocol for implementing pipeline stages.
-public protocol PipelineStageProtocol {
-    var next: PipelineStageProtocol? { get set }
+public protocol PipelineStage {
+
+    // MARK: Required Properties
+
+    var next: PipelineStage? { get set }
+
+    // MARK: Required Methods
 
     /// Request modification hook.
     /// - Parameters:
     ///   - request: The `PipelineRequest` input.
     ///   - completion: A completion handler which forwards the modified request.
-    func onRequest(_ request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler)
+    func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler)
 
     /// Response modification hook.
     /// - Parameters:
     ///   - response: The `PipelineResponse` input.
     ///   - completion: A completion handler which forwards the modified response.
-    func onResponse(_ response: PipelineResponse, then completion: @escaping OnResponseCompletionHandler)
+    func on(response: PipelineResponse, then completion: @escaping OnResponseCompletionHandler)
 
     /// Response error hook.
     /// - Parameters:
     ///   - error: The `PipelineError` input.
     ///   - completion: A completion handler which forwards the error along with a boolean
     ///   that indicates whether the exception was handled or not.
-    func onError(_ error: PipelineError, then completion: @escaping OnErrorCompletionHandler)
+    func on(error: PipelineError, then completion: @escaping OnErrorCompletionHandler)
 
     /// Executes the policy method.
     /// - Parameters:
@@ -63,28 +68,28 @@ public protocol PipelineStageProtocol {
     func process(request pipelineRequest: PipelineRequest, then completion: @escaping PipelineStageResultHandler)
 }
 
-/// Default implementations for `PipelineStageProtocol`.
-extension PipelineStageProtocol {
-    public func onRequest(_ request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
+/// Default implementations for `PipelineStage`.
+extension PipelineStage {
+    public func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
         completion(request)
     }
-    public func onResponse(_ response: PipelineResponse, then completion: @escaping OnResponseCompletionHandler) {
+    public func on(response: PipelineResponse, then completion: @escaping OnResponseCompletionHandler) {
         completion(response)
     }
-    public func onError(_ error: PipelineError, then completion: @escaping OnErrorCompletionHandler) {
+    public func on(error: PipelineError, then completion: @escaping OnErrorCompletionHandler) {
         completion(error, false)
     }
     public func process(request pipelineRequest: PipelineRequest,
                         then completion: @escaping PipelineStageResultHandler) {
-        onRequest(pipelineRequest) { request in
+        on(request: pipelineRequest) { request in
             self.next!.process(request: request) { result, httpResponse in
                 switch result {
                 case let .success(pipelineResponse):
-                    self.onResponse(pipelineResponse) { response in
+                    self.on(response: pipelineResponse) { response in
                         completion(.success(response), httpResponse)
                     }
                 case let .failure(pipelineError):
-                    self.onError(pipelineError) { error, handled in
+                    self.on(error: pipelineError) { error, handled in
                         if !handled {
                             completion(.failure(error), httpResponse)
                         }

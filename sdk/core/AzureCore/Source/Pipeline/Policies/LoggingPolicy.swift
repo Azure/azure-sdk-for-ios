@@ -26,44 +26,50 @@
 
 import Foundation
 
-public class LoggingPolicy: PipelineStageProtocol {
+public class LoggingPolicy: PipelineStage {
+
+    // MARK: Properties
 
     public static let defaultAllowHeaders: [String] = [
-        HttpHeader.traceparent.rawValue,
-        HttpHeader.accept.rawValue,
-        HttpHeader.cacheControl.rawValue,
-        HttpHeader.clientRequestId.rawValue,
-        HttpHeader.connection.rawValue,
-        HttpHeader.contentLength.rawValue,
-        HttpHeader.contentType.rawValue,
-        HttpHeader.date.rawValue,
-        HttpHeader.etag.rawValue,
-        HttpHeader.expires.rawValue,
-        HttpHeader.ifMatch.rawValue,
-        HttpHeader.ifModifiedSince.rawValue,
-        HttpHeader.ifNoneMatch.rawValue,
-        HttpHeader.ifUnmodifiedSince.rawValue,
-        HttpHeader.lastModified.rawValue,
-        HttpHeader.pragma.rawValue,
-        HttpHeader.requestId.rawValue,
-        HttpHeader.retryAfter.rawValue,
-        HttpHeader.returnClientRequestId.rawValue,
-        HttpHeader.server.rawValue,
-        HttpHeader.transferEncoding.rawValue,
-        HttpHeader.userAgent.rawValue
+        HTTPHeader.traceparent.rawValue,
+        HTTPHeader.accept.rawValue,
+        HTTPHeader.cacheControl.rawValue,
+        HTTPHeader.clientRequestId.rawValue,
+        HTTPHeader.connection.rawValue,
+        HTTPHeader.contentLength.rawValue,
+        HTTPHeader.contentType.rawValue,
+        HTTPHeader.date.rawValue,
+        HTTPHeader.etag.rawValue,
+        HTTPHeader.expires.rawValue,
+        HTTPHeader.ifMatch.rawValue,
+        HTTPHeader.ifModifiedSince.rawValue,
+        HTTPHeader.ifNoneMatch.rawValue,
+        HTTPHeader.ifUnmodifiedSince.rawValue,
+        HTTPHeader.lastModified.rawValue,
+        HTTPHeader.pragma.rawValue,
+        HTTPHeader.requestId.rawValue,
+        HTTPHeader.retryAfter.rawValue,
+        HTTPHeader.returnClientRequestId.rawValue,
+        HTTPHeader.server.rawValue,
+        HTTPHeader.transferEncoding.rawValue,
+        HTTPHeader.userAgent.rawValue
     ]
     private static let maxBodyLogSize = 1024 * 16
 
-    public var next: PipelineStageProtocol?
+    public var next: PipelineStage?
     private let allowHeaders: Set<String>
     private let allowQueryParams: Set<String>
+
+    // MARK: Initializers
 
     public init(allowHeaders: [String] = LoggingPolicy.defaultAllowHeaders, allowQueryParams: [String] = []) {
         self.allowHeaders = Set(allowHeaders.map { $0.lowercased() })
         self.allowQueryParams = Set(allowQueryParams.map { $0.lowercased() })
     }
 
-    public func onRequest(_ request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
+    // MARK: Public Methods
+
+    public func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
         var returnRequest = request.copy()
         defer { completion(returnRequest) }
         let logger = request.logger
@@ -95,23 +101,25 @@ public class LoggingPolicy: PipelineStageProtocol {
 
         logger.info("--> [END \(requestId)]")
 
-        returnRequest.add(value: DispatchTime.now() as AnyObject, forKey: .requestStartTime)
+        returnRequest.context?.add(value: DispatchTime.now() as AnyObject, forKey: .requestStartTime)
     }
 
-    public func onResponse(_ response: PipelineResponse, then completion: @escaping OnResponseCompletionHandler) {
+    public func on(response: PipelineResponse, then completion: @escaping OnResponseCompletionHandler) {
         logResponse(response)
         completion(response)
     }
 
-    public func onError(_ error: PipelineError, then completion: @escaping OnErrorCompletionHandler) {
+    public func on(error: PipelineError, then completion: @escaping OnErrorCompletionHandler) {
         logResponse(error.pipelineResponse, withError: error.innerError)
         completion(error, false)
     }
 
+    // MARK: Private Methods
+
     private func logResponse(_ response: PipelineResponse, withError error: Error? = nil) {
         let endTime = DispatchTime.now()
         var durationMs: Double?
-        if let startTime = response.value(forKey: .requestStartTime) as? DispatchTime {
+        if let startTime = response.context?.value(forKey: .requestStartTime) as? DispatchTime {
             durationMs = Double(endTime.uptimeNanoseconds - startTime.uptimeNanoseconds) / 1_000_000
         }
 
@@ -152,7 +160,7 @@ public class LoggingPolicy: PipelineStageProtocol {
         logger.info("<-- [END \(requestId)]")
     }
 
-    private func logDebug(body bodyFunc: @autoclosure () -> String?, headers: HttpHeaders, logger: ClientLogger) {
+    private func logDebug(body bodyFunc: @autoclosure () -> String?, headers: HTTPHeaders, logger: ClientLogger) {
         let safeHeaders = self.redact(headers: headers)
         for (header, value) in safeHeaders {
             logger.debug("\(header): \(value)")
@@ -162,7 +170,7 @@ public class LoggingPolicy: PipelineStageProtocol {
         logger.debug("\n\(bodyText)")
     }
 
-    private func humanReadable(body bodyFunc: () -> String?, headers: HttpHeaders) -> String {
+    private func humanReadable(body bodyFunc: () -> String?, headers: HTTPHeaders) -> String {
         if
             let encoding = headers[.contentEncoding],
             encoding != "" && encoding.caseInsensitiveCompare("identity") != .orderedSame {
@@ -211,7 +219,7 @@ public class LoggingPolicy: PipelineStageProtocol {
         return urlComps
     }
 
-    private func redact(headers: HttpHeaders) -> HttpHeaders {
+    private func redact(headers: HTTPHeaders) -> HTTPHeaders {
         var copy = headers
         for header in copy.keys {
             if !self.allowHeaders.contains(header.lowercased()) {
@@ -221,19 +229,26 @@ public class LoggingPolicy: PipelineStageProtocol {
         return copy
     }
 
-    private func contentLength(from headers: HttpHeaders) -> Int {
+    private func contentLength(from headers: HTTPHeaders) -> Int {
         guard let length = headers[.contentLength] else { return 0 }
         guard let parsed = Int(length) else { return 0 }
         return parsed
     }
 }
 
-public class CurlFormattedRequestLoggingPolicy: PipelineStageProtocol {
-    public var next: PipelineStageProtocol?
+public class CurlFormattedRequestLoggingPolicy: PipelineStage {
+
+    // MARK: Properties
+
+    public var next: PipelineStage?
+
+    // MARK: Initializers
 
     public init() {}
 
-    public func onRequest(_ request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
+    // MARK: Public Methods
+
+    public func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
         let logger = request.logger
         guard logger.level.rawValue >= ClientLogLevel.debug.rawValue else { return }
 
@@ -253,7 +268,7 @@ public class CurlFormattedRequestLoggingPolicy: PipelineStageProtocol {
                 escapedValue = value.replacingOccurrences(of: "\\", with: "\\\\")
             }
 
-            if header == HttpHeader.acceptEncoding.rawValue {
+            if header == HTTPHeader.acceptEncoding.rawValue {
                 compressed = true
             }
 

@@ -26,8 +26,21 @@
 
 import Foundation
 
-public protocol HttpTransportable: PipelineStageProtocol {
-    func open()
-    func close()
-    func sleep(duration: Int)
+public class HTTPResponse: DataStringConvertible {
+
+    // MARK: Properties
+
+    public var httpRequest: HTTPRequest?
+    public var statusCode: Int?
+    public var headers = HTTPHeaders()
+    public var blockSize: Int
+    public var data: Data?
+
+    // MARK: Initializers
+
+    public init(request: HTTPRequest, statusCode: Int?, blockSize: Int = 4096) {
+        httpRequest = request
+        self.blockSize = blockSize
+        self.statusCode = statusCode
+    }
 }

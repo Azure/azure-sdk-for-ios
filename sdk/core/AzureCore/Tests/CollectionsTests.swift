@@ -54,15 +54,15 @@ class CollectionsTests: XCTestCase {
     func testPagedCollectionDefaults() {
         let client = PipelineClient(
             baseUrl: "http://www.microsoft.com",
-            transport: UrlSessionTransport(),
+            transport: URLSessionTransport(),
             policies: [
                 UserAgentPolicy()
             ],
-            logger: ClientLoggers.default(tag: "test"))
-        let request = client.request(method: HttpMethod.get,
-                                     url: "",
-                                     queryParams: [:],
-                                     headerParams: [:])
+            logger: ClientLoggers.default())
+        let request = HTTPRequest(method: .get,
+                                  url: "",
+                                  queryParams: [:],
+                                  headers: [:])
 
         // simulate data received
         let data = load(resource: "pagedthings1", withExtension: "json")
@@ -91,15 +91,15 @@ class CollectionsTests: XCTestCase {
     func testPagedCollectionCustom() {
         let client = PipelineClient(
             baseUrl: "http://www.microsoft.com",
-            transport: UrlSessionTransport(),
+            transport: URLSessionTransport(),
             policies: [
                 UserAgentPolicy()
             ],
-            logger: ClientLoggers.default(tag: "test"))
-        let request = client.request(method: HttpMethod.get,
-                                     url: "",
-                                     queryParams: [:],
-                                     headerParams: [:])
+            logger: ClientLoggers.default())
+        let request = HTTPRequest(method: .get,
+                                  url: "",
+                                  queryParams: [:],
+                                  headers: [:])
 
         // simulate data received
         let data = load(resource: "pagedthings2", withExtension: "json")
@@ -118,15 +118,15 @@ class CollectionsTests: XCTestCase {
     func testPagedCollectionPerItemIteration() {
         let client = PipelineClient(
             baseUrl: "http://www.microsoft.com",
-            transport: UrlSessionTransport(),
+            transport: URLSessionTransport(),
             policies: [
                 UserAgentPolicy()
             ],
-            logger: ClientLoggers.default(tag: "test"))
-        let request = client.request(method: HttpMethod.get,
-                                     url: "",
-                                     queryParams: [:],
-                                     headerParams: [:])
+            logger: ClientLoggers.default())
+        let request = HTTPRequest(method: .get,
+                                  url: "",
+                                  queryParams: [:],
+                                  headers: [:])
         // simulate data received
         let data = load(resource: "pagedthings1", withExtension: "json")
         let jsonObject = try! JSONSerialization.jsonObject(with: data)

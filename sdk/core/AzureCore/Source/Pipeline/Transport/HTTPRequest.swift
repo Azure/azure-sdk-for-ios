@@ -26,16 +26,47 @@
 
 import Foundation
 
-public class HttpResponse: HttpMessage {
-    public var httpRequest: HttpRequest?
-    public var statusCode: Int?
-    public var headers = HttpHeaders()
-    public var blockSize: Int
+public class HTTPRequest: DataStringConvertible {
+
+    // MARK: Properties
+
+    public let httpMethod: HTTPMethod
+    public var url: String
+    public var headers: HTTPHeaders
+    public var files: [String]?
     public var data: Data?
 
-    public init(request: HttpRequest, statusCode: Int?, blockSize: Int = 4096) {
-        httpRequest = request
-        self.blockSize = blockSize
-        self.statusCode = statusCode
+    public var query: [URLQueryItem]? {
+        let comps = URLComponents(string: url)?.queryItems
+        return comps
+    }
+
+    // MARK: Initializers
+
+    public init(method: HTTPMethod, url: String,
+                queryParams: [String: String], headers: HTTPHeaders,
+                files: [String]? = nil, data: Data? = nil) {
+        self.httpMethod = method
+        self.url = url
+        self.headers = headers
+        self.files = files
+        self.data = data
+        self.update(queryParams: queryParams)
+    }
+
+    // MARK: Public Methods
+
+    public func update(queryParams: [String: String]?) {
+        guard var urlComps = URLComponents(string: self.url) else { return }
+        var queryItems = url.parseQueryString() ?? [String: String]()
+
+        // add any query params from the queryParams dictionary
+        if queryParams != nil {
+            for (name, value) in queryParams! {
+                queryItems[name] = value
+            }
+        }
+        urlComps.queryItems = queryItems.convertToQueryItems()
+        url = urlComps.url(relativeTo: nil)?.absoluteString ?? url
     }
 }

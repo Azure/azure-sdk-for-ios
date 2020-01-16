@@ -67,12 +67,12 @@ public class StorageSASCredential {
                     Form of connection string with 'AccountKey' is not allowed. Provide a SAS-based
                     connection string.
                 """
-                throw HttpResponseError.clientAuthentication(message)
+                throw HTTPResponseError.clientAuthentication(message)
             default:
                 continue
             }
         }
-        let invalidCS = HttpResponseError.clientAuthentication("The connection string \(connectionString) is invalid.")
+        let invalidCS = HTTPResponseError.clientAuthentication("The connection string \(connectionString) is invalid.")
         guard let sasToken = sas else { throw invalidCS }
         self.sasToken = sasToken
         blobEndpoint = blob
@@ -83,10 +83,10 @@ public class StorageSASCredential {
 }
 
 /// A Storage authentication policy that relies on a shared access signature.
-public class StorageSASAuthenticationPolicy: AuthenticationProtocol {
+public class StorageSASAuthenticationPolicy: Authenticating {
 
     /// The next stage in the HTTP pipeline.
-    public var next: PipelineStageProtocol?
+    public var next: PipelineStage?
 
     /// A shared access signature credential.
     public let credential: StorageSASCredential
@@ -107,7 +107,7 @@ public class StorageSASAuthenticationPolicy: AuthenticationProtocol {
     ///   - completion: A completion handler that forwards the modified pipeline request.
     public func authenticate(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
         let queryParams = parse(sasToken: credential.sasToken)
-        request.httpRequest.format(queryParams: queryParams)
+        request.httpRequest.update(queryParams: queryParams)
         request.httpRequest.headers[.xmsDate] = Date().rfc1123Format
         completion(request)
     }

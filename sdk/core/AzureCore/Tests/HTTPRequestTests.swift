@@ -30,13 +30,14 @@ import XCTest
 class HttpRequestTests: XCTestCase {
 
     func testHttpRequest() {
-        let headers = HttpHeaders()
-        let httpRequest = HttpRequest(httpMethod: .post, url: "https://www.test.com?a=1&b=2", headers: headers)
+        let headers = HTTPHeaders()
+        let httpRequest = HTTPRequest(
+            method: .post, url: "https://www.test.com?a=1&b=2", queryParams: [:], headers: headers)
         var query = httpRequest.query
         XCTAssertEqual(query?.count, 2, "Failure converting query string from URL into query items.")
 
         let queryParams = ["a": "0", "c": "3"]
-        httpRequest.format(queryParams: queryParams)
+        httpRequest.update(queryParams: queryParams)
         query = httpRequest.query
         XCTAssertEqual(query?.count, 3, "Failure merging query string with updates.")
         let queryItems = query?.reduce(into: [String: String]()) {
@@ -49,9 +50,10 @@ class HttpRequestTests: XCTestCase {
 
     func testHttpHeaders() {
         // ensure headers can be added by string or enum key
-        var headers = HttpHeaders()
+        var headers = HTTPHeaders()
         headers[.accept] = "json"
-        let httpRequest = HttpRequest(httpMethod: .post, url: "https://www.test.com?a=1&b=2", headers: headers)
+        let httpRequest = HTTPRequest(
+            method: .post, url: "https://www.test.com?a=1&b=2", queryParams: [:], headers: headers)
         XCTAssertEqual(httpRequest.headers.count, 1, "Failed to accept headers.")
         httpRequest.headers["Authorization"] = "token"
         XCTAssertEqual(httpRequest.headers.count, 2, "Failed to add new header.")
