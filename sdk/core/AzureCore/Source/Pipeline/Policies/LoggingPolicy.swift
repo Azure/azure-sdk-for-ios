@@ -28,7 +28,7 @@ import Foundation
 
 public class LoggingPolicy: PipelineStage {
 
-    // MARK: Properties
+    // MARK: Static Properties
 
     public static let defaultAllowHeaders: [String] = [
         HTTPHeader.traceparent.rawValue,
@@ -56,7 +56,10 @@ public class LoggingPolicy: PipelineStage {
     ]
     private static let maxBodyLogSize = 1024 * 16
 
+    // MARK: Properties
+
     public var next: PipelineStage?
+
     private let allowHeaders: Set<String>
     private let allowQueryParams: Set<String>
 
@@ -67,7 +70,7 @@ public class LoggingPolicy: PipelineStage {
         self.allowQueryParams = Set(allowQueryParams.map { $0.lowercased() })
     }
 
-    // MARK: Public Methods
+    // MARK: PipelineStage Methods
 
     public func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
         var returnRequest = request.copy()
@@ -246,7 +249,7 @@ public class CurlFormattedRequestLoggingPolicy: PipelineStage {
 
     public init() {}
 
-    // MARK: Public Methods
+    // MARK: PipelineStage Methods
 
     public func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
         let logger = request.logger

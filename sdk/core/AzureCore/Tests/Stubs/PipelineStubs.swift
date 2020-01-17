@@ -32,6 +32,7 @@ extension PipelineRequest {
         url: String = "http://www.example.com",
         headers: HTTPHeaders = HTTPHeaders(),
         body: String? = nil,
+        context: PipelineContext? = nil,
         logger: ClientLogger = ClientLoggers.none
     ) {
         let httpRequest = HTTPRequest(
@@ -41,28 +42,46 @@ extension PipelineRequest {
             headers: headers,
             data: body?.data(using: .utf8)
         )
-        self.init(request: httpRequest, logger: logger)
+        self.init(request: httpRequest, logger: logger, context: context)
     }
 }
 
 extension PipelineResponse {
     public convenience init(
-        httpRequest: HTTPRequest,
+        request: PipelineRequest,
         responseCode: Int = 200,
+        headers: HTTPHeaders = HTTPHeaders(),
+        body: String? = nil,
         logger: ClientLogger = ClientLoggers.none
     ) {
-        let httpResponse = HTTPResponse(request: httpRequest, statusCode: responseCode)
-        self.init(request: httpRequest, response: httpResponse, logger: logger)
+        let httpResponse = HTTPResponse(request: request.httpRequest, statusCode: responseCode)
+        httpResponse.headers = headers
+        httpResponse.data = body?.data(using: .utf8)
+        self.init(
+            request: request.httpRequest,
+            response: httpResponse,
+            logger: logger,
+            context: request.context
+        )
     }
 }
 
 class TestClientLogger: ClientLogger {
-    var level: ClientLogLevel = .info
-    var messages: [String] = []
+    struct Message {
+        var level: ClientLogLevel
+        var text: String
+    }
+
+    var level: ClientLogLevel
+    var messages: [Message] = []
+
+    public init(_ logLevel: ClientLogLevel = .info) {
+        self.level = logLevel
+    }
 
     public func log(_ message: () -> String?, atLevel messageLevel: ClientLogLevel) {
         if messageLevel.rawValue <= level.rawValue, let msg = message() {
-            messages.append(msg)
+            messages.append(Message(level: messageLevel, text: msg))
         }
     }
 }

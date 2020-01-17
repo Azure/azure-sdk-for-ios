@@ -44,7 +44,7 @@ public protocol ClientLogger {
     func warning(_: @autoclosure @escaping () -> String?)
     func error(_: @autoclosure @escaping () -> String?)
 
-    func log(_: @escaping () -> String?, atLevel: ClientLogLevel)
+    func log(_: () -> String?, atLevel: ClientLogLevel)
 }
 
 extension ClientLogger {
