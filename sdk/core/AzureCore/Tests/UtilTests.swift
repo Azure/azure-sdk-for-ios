@@ -29,22 +29,26 @@ import XCTest
 
 class RegexUtilTests: XCTestCase {
 
-    func testRegexUtil() {
+    func test_RegexUtil_HandlesMatchingString() {
         let regex = NSRegularExpression("^(application|text)/([0-9a-z+.]+)?json$")
         let goodString = "application/json"
-        let badString = "application/xml"
 
         // test a good string
         let result = regex.firstMatch(in: goodString)
         XCTAssertTrue(regex.hasMatch(in: goodString))
         XCTAssertEqual(result, goodString)
+    }
+
+    func test_RegexUtil_HandlesNonMatchingString() {
+        let regex = NSRegularExpression("^(application|text)/([0-9a-z+.]+)?json$")
+        let badString = "application/xml"
 
         // test a bad string
         XCTAssertFalse(regex.hasMatch(in: badString))
         XCTAssertNil(regex.firstMatch(in: badString))
     }
 
-    func testDateUtil() {
+    func test_DateUtil_SupportsRFC1123() {
         let rfc1123String = "Jan, 02 2020 07:12:34 GMT"
         let date = rfc1123String.rfc1123Date
 
@@ -68,30 +72,39 @@ class RegexUtilTests: XCTestCase {
         XCTAssertEqual(dateComponents.timeZone, TimeZone.init(abbreviation: "GMT"))
     }
 
-    func testStringUtil() {
-        let dateString = "Jan, 02 2020 07:12:34 GMT"
+    func test_StringUtil_AsBoolOutputsBoolOrNil() {
         let headers: HTTPHeaders = [
             "string": "test",
-            "bool": "true",
-            "int": "22",
-            "date": dateString,
-            "enum": "Accept"
+            "bool": "true"
         ]
-        XCTAssertEqual(headers["string"], "test")
-
-        // test asBool
         XCTAssertEqual(headers["bool"].asBool, true)
         XCTAssertNil(headers["string"].asBool)
+    }
 
-        // test asInt
+    func test_StringUtil_AsIntOutputsIntOrNil() {
+        let headers: HTTPHeaders = [
+            "bool": "true",
+            "int": "22"
+        ]
         XCTAssertEqual(headers["int"].asInt, 22)
         XCTAssertNil(headers["bool"].asInt)
+    }
 
-        // test asEnum
+    func test_StringUtil_AsEnumOutputsEnumOrNil() {
+        let headers: HTTPHeaders = [
+            "int": "22",
+            "enum": "Accept"
+        ]
         XCTAssertEqual(headers["enum"].asEnum(HTTPHeader.self), HTTPHeader.accept)
         XCTAssertNil(headers["int"].asEnum(HTTPHeader.self))
+    }
 
-        // test asDate
+    func test_StringUtil_AsDateOutputsDateOrNil() {
+        let dateString = "Jan, 02 2020 07:12:34 GMT"
+        let headers: HTTPHeaders = [
+            "bool": "true",
+            "date": dateString
+        ]
         XCTAssertEqual(headers["date"].asDate, dateString.rfc1123Date)
         XCTAssertNil(headers["bool"].asDate)
     }

@@ -43,7 +43,7 @@ class PipelineTests: XCTestCase {
         return client
     }
 
-    func testPipelineClientRequest() {
+    func test_HTTPRequest_CanBeCreated() {
         let client = createPipelineClient()
         let headers: HTTPHeaders = [
             "headerParam": "myHeaderParam"
@@ -55,7 +55,7 @@ class PipelineTests: XCTestCase {
         XCTAssertEqual(request.headers, headers)
     }
 
-    func testPipelineClientFormat() {
+    func test_PipelineClient_CanFormatUrl() {
         let client = createPipelineClient()
         let url = client.url(forTemplate: "{a}/{b}/test", withKwargs: [
             "a": "cat",
@@ -64,7 +64,7 @@ class PipelineTests: XCTestCase {
         XCTAssertEqual(url, "\(client.baseUrl)cat/hat/test")
     }
 
-    func testPipelineClientRun() {
+    func test_PipelineClient_CanRun() {
         let client = createPipelineClient()
         let request = HTTPRequest(
             method: .get, url: "", queryParams: [:], headers: [:])
@@ -84,7 +84,7 @@ class PipelineTests: XCTestCase {
         wait(for: [didFinishRun], timeout: 2.0, enforceOrder: true)
     }
 
-    func testPipelineClientLogError() {
+    func test_PipelineClient_CanLogError() {
         XCTFail("TODO: Implement test.")
     }
 }

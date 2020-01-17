@@ -29,7 +29,7 @@ import XCTest
 
 class HttpRequestTests: XCTestCase {
 
-    func testHttpRequest() {
+    func test_HttpRequest_UpdatesQueryString() {
         let headers = HTTPHeaders()
         let httpRequest = HTTPRequest(
             method: .post, url: "https://www.test.com?a=1&b=2", queryParams: [:], headers: headers)
@@ -48,7 +48,7 @@ class HttpRequestTests: XCTestCase {
         XCTAssertEqual(queryItems?["c"], "3", "Update failed to add new value.")
     }
 
-    func testHttpHeaders() {
+    func test_HttpHeaders_CanByModifiedByStringOrEnumKey() {
         // ensure headers can be added by string or enum key
         var headers = HTTPHeaders()
         headers[.accept] = "json"

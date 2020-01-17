@@ -29,7 +29,7 @@ import XCTest
 
 class PipelineRequestTests: XCTestCase {
 
-    func testPipelineRequestCopy() {
+    func test_PipelineRequest_CanBeCopied() {
         let logger = ClientLoggers.default()
         let httpRequest = HTTPRequest(method: .get, url: "https://www.contoso.com", queryParams: [:], headers: HTTPHeaders())
         let originalRequest = PipelineRequest(request: httpRequest, logger: logger)
@@ -39,7 +39,7 @@ class PipelineRequestTests: XCTestCase {
         XCTAssertFalse(originalRequest.httpRequest === copyRequest.httpRequest)
     }
 
-    func testPipelineContext() {
+    func test_PipelineContext_CanAddAndAccessValues() {
         let logger = ClientLoggers.default()
         let httpRequest = HTTPRequest(
             method: .get, url: "https://www.contoso.com", queryParams: [:], headers: HTTPHeaders())

@@ -220,7 +220,7 @@ class XMLModelTests: XCTestCase {
     }
 
     /// Test that an XML Model can be inferred from an object structure.
-    func testXMLModelInferredStructure() {
+    func test_XMLModel_CanInferStructure() {
         for name in ["thing1", "thing2"] {
             let decodePolicy = ContentDecodePolicy()
             decodePolicy.logger = ClientLoggers.default()
@@ -236,7 +236,7 @@ class XMLModelTests: XCTestCase {
     }
 
     /// Test that an XML Model can be created with a custom XML map.
-    func testXMLModelMappedStructure() {
+    func test_XMLModel_CanBuildMappedStructure() {
         for name in ["thing1", "thing2"] {
             let decodePolicy = ContentDecodePolicy()
             decodePolicy.delegate?.xmlMap = MappedThing.xmlMap()
@@ -253,7 +253,7 @@ class XMLModelTests: XCTestCase {
     }
 
     /// Test that an XML Model can be constructed that works with the PagedCollection type.
-    func testXMLModelPagedStructure() {
+    func test_XMLModel_CanBuildPagedStructure() {
         let client = PipelineClient(
             baseUrl: "http://www.microsoft.com",
             transport: URLSessionTransport(),
