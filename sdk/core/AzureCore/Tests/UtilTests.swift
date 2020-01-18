@@ -27,7 +27,7 @@
 import XCTest
 @testable import AzureCore
 
-class RegexUtilTests: XCTestCase {
+class UtilTests: XCTestCase {
 
     func test_RegexUtil_WithMatchingString_ReturnsMatch() {
         let regex = NSRegularExpression("^(application|text)/([0-9a-z+.]+)?json$")
@@ -49,7 +49,7 @@ class RegexUtilTests: XCTestCase {
     }
 
     func test_DateUtil_WithRFC1123String_ConvertsToDate() {
-        let rfc1123String = "Jan, 02 2020 07:12:34 GMT"
+        let rfc1123String = "Thu, 02 Jan 2020 07:12:34 GMT"
         let date = rfc1123String.rfc1123Date
 
         // ensure date string can be round-tripped
@@ -62,7 +62,7 @@ class RegexUtilTests: XCTestCase {
         calendar.timeZone = TimeZone(identifier: "GMT")!
 
         // verify parses to correct components
-        let dateComponents = Calendar.current.dateComponents(units, from: date!)
+        let dateComponents = calendar.dateComponents(units, from: date!)
         XCTAssertEqual(dateComponents.month, 1)
         XCTAssertEqual(dateComponents.day, 2)
         XCTAssertEqual(dateComponents.year, 2020)
@@ -120,8 +120,8 @@ class RegexUtilTests: XCTestCase {
         XCTAssertNil(headers["int"].asEnum(HTTPHeader.self))
     }
 
-    func test_StringUtil_WithDateString_OutputsDate() {
-        let dateString = "Jan, 02 2020 07:12:34 GMT"
+    func test_StringUtil_WithRFC1123DateString_OutputsDate() {
+        let dateString = "Thu, 02 Jan 2020 07:12:34 GMT"
         let headers: HTTPHeaders = [
             "bool": "true",
             "date": dateString
@@ -129,7 +129,7 @@ class RegexUtilTests: XCTestCase {
         XCTAssertEqual(headers["date"].asDate, dateString.rfc1123Date)
     }
 
-    func test_StringUtil_WithNonDateString_OutputsNil() {
+    func test_StringUtil_WithNonRFC1123DateString_OutputsNil() {
         let dateString = "Jan, 02 2020 07:12:34 GMT"
         let headers: HTTPHeaders = [
             "bool": "true",

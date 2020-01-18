@@ -70,6 +70,7 @@
 		7AA5366D23C0342600A65A96 /* LocaleInfoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA5366C23C0342600A65A96 /* LocaleInfoProvider.swift */; };
 		7AA5366F23C0409F00A65A96 /* DeviceProviders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA5366E23C0409F00A65A96 /* DeviceProviders.swift */; };
 		7AFA4D5E23D14864001A3BF4 /* HeadersPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFA4D5D23D14864001A3BF4 /* HeadersPolicyTests.swift */; };
+		7AFA4D6023D14BDB001A3BF4 /* AddDatePolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFA4D5F23D14BDB001A3BF4 /* AddDatePolicyTests.swift */; };
 		7AFCF7662345714200592782 /* LoggingPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFCF7652345714200592782 /* LoggingPolicy.swift */; };
 		FCDD52F2DC1A6AFC7542E3F5 /* Pods_AzureCoreTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8603CE3296542B2154101CAD /* Pods_AzureCoreTests.framework */; };
 /* End PBXBuildFile section */
@@ -166,6 +167,7 @@
 		7AA5366C23C0342600A65A96 /* LocaleInfoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocaleInfoProvider.swift; sourceTree = "<group>"; };
 		7AA5366E23C0409F00A65A96 /* DeviceProviders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceProviders.swift; sourceTree = "<group>"; };
 		7AFA4D5D23D14864001A3BF4 /* HeadersPolicyTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeadersPolicyTests.swift; sourceTree = "<group>"; };
+		7AFA4D5F23D14BDB001A3BF4 /* AddDatePolicyTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddDatePolicyTests.swift; sourceTree = "<group>"; };
 		7AFCF7652345714200592782 /* LoggingPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingPolicy.swift; sourceTree = "<group>"; };
 		7B79B7DB4DFFFBAA628E4C29 /* Pods_AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8603CE3296542B2154101CAD /* Pods_AzureCoreTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCoreTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -260,6 +262,7 @@
 			children = (
 				0AFEC36423C8FC590065D588 /* Data Files */,
 				7A1A916D23D13E4E00B0B3D2 /* Stubs */,
+				7AFA4D5F23D14BDB001A3BF4 /* AddDatePolicyTests.swift */,
 				0AFEC35523C8FC320065D588 /* CollectionsTests.swift */,
 				0AFEC35123C8FC320065D588 /* HTTPRequestTests.swift */,
 				0AFEC35423C8FC320065D588 /* PipelineRequestTests.swift */,
@@ -267,9 +270,9 @@
 				0AFEC35223C8FC320065D588 /* UserAgentPolicyTests.swift */,
 				0AFEC34F23C8FC310065D588 /* UtilTests.swift */,
 				0AFEC35323C8FC320065D588 /* XMLModelTests.swift */,
-				0A3A5DE22315D17F00473FDA /* Info.plist */,
 				7AFA4D5D23D14864001A3BF4 /* HeadersPolicyTests.swift */,
 				7A1A916B23D13D5700B0B3D2 /* RequestIdPolicyTests.swift */,
+				0A3A5DE22315D17F00473FDA /* Info.plist */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -661,6 +664,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A1A917123D13F0300B0B3D2 /* ProviderStubs.swift in Sources */,
+				7AFA4D6023D14BDB001A3BF4 /* AddDatePolicyTests.swift in Sources */,
 				7AFA4D5E23D14864001A3BF4 /* HeadersPolicyTests.swift in Sources */,
 				0AFEC35D23C8FC3A0065D588 /* CollectionsTests.swift in Sources */,
 				0AFEC36223C8FC490065D588 /* UtilTests.swift in Sources */,
