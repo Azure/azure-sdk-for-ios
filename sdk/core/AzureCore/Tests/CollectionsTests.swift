@@ -51,7 +51,7 @@ class CollectionsTests: XCTestCase {
     }
 
     /// Test that authors can simply use the default PagedCodingKeys if the service fits the Azure standard.
-    func testPagedCollectionDefaults() {
+    func test_PagedCollection_WithDefaultCodingKeys_Inits() {
         let client = PipelineClient(
             baseUrl: "http://www.microsoft.com",
             transport: URLSessionTransport(),
@@ -88,7 +88,7 @@ class CollectionsTests: XCTestCase {
     }
 
     /// Test that authors can customize the PagedCodingKeys provided they fit the standard structure.
-    func testPagedCollectionCustom() {
+    func test_PagedCollection_WithCustomCodingKeys_Inits() {
         let client = PipelineClient(
             baseUrl: "http://www.microsoft.com",
             transport: URLSessionTransport(),
@@ -115,7 +115,7 @@ class CollectionsTests: XCTestCase {
         XCTAssertEqual(paged.continuationToken, "token")
     }
 
-    func testPagedCollectionPerItemIteration() {
+    func test_PagedCollection_CanIteratePerItem() {
         let client = PipelineClient(
             baseUrl: "http://www.microsoft.com",
             transport: URLSessionTransport(),
