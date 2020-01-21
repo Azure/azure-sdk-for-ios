@@ -43,7 +43,7 @@ class PipelineTests: XCTestCase {
         return client
     }
 
-    func test_HTTPRequest_CanBeCreated() {
+    func test_HTTPRequest_Inits() {
         let client = createPipelineClient()
         let headers: HTTPHeaders = [
             "headerParam": "myHeaderParam"
