@@ -101,7 +101,7 @@
             parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0AD5116923BEA204004FE8E2"
+               BlueprintIdentifier = "0A3A5DDD2315D17F00473FDA"
                BuildableName = "AzureCoreTests.xctest"
                BlueprintName = "AzureCoreTests"
                ReferencedContainer = "container:sdk/core/AzureCore/AzureCore.xcodeproj">
@@ -124,8 +124,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0A3A5DBC2315D02F00473FDA"
-               BuildableName = "AzureCSTextAnalytics_Tests.xctest"
-               BlueprintName = "AzureCSTextAnalytics_Tests"
+               BuildableName = "AzureCSTextAnalyticsTests.xctest"
+               BlueprintName = "AzureCSTextAnalyticsTests"
                ReferencedContainer = "container:sdk/textanalytics/AzureCSTextAnalytics/AzureCSTextAnalytics.xcodeproj">
             </BuildableReference>
          </TestableReference>

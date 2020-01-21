@@ -35,8 +35,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0A3A5DBC2315D02F00473FDA"
-               BuildableName = "AzureCSTextAnalytics_Tests.xctest"
-               BlueprintName = "AzureCSTextAnalytics_Tests"
+               BuildableName = "AzureCSTextAnalyticsTests.xctest"
+               BlueprintName = "AzureCSTextAnalyticsTests"
                ReferencedContainer = "container:AzureCSTextAnalytics.xcodeproj">
             </BuildableReference>
          </TestableReference>
