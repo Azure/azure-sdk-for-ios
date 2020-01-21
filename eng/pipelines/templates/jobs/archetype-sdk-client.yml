@@ -14,7 +14,7 @@ jobs:
       - script: |
           echo "##vso[build.addbuildtag]Scheduled"
         displayName: 'Tag scheduled builds'
-        condition: and(eq(variables['Build.SourceBranchName'],'master'),eq(variables['Build.Reason'],'Schedule'))
+        condition: and(succeeded(), eq(variables['Build.SourceBranchName'],'master'),eq(variables['Build.Reason'],'Schedule'))
 
       - template: tools/daily-dev-build-variable/daily-dev-build-variable.yml@azure-sdk-tools
 
@@ -33,7 +33,7 @@ jobs:
         artifact: bundles
 
   - job: 'Analyze'
-    condition: ne(variables['Skip.Analyze'], 'true')
+    condition: and(succeeded(), ne(variables['Skip.Analyze'], 'true'))
 
     variables:
       - template: ../variables/globals.yml
