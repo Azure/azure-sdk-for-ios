@@ -20,14 +20,40 @@
                ReferencedContainer = "container:sdk/appconfiguration/AzureAppConfiguration/AzureAppConfiguration.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0A3A5EEA2316DC4E00473FDA"
+               BuildableName = "AzureAppConfigurationTests.xctest"
+               BlueprintName = "AzureAppConfigurationTests"
+               ReferencedContainer = "container:sdk/appconfiguration/AzureAppConfiguration/AzureAppConfiguration.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      codeCoverageEnabled = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0A3A5EEA2316DC4E00473FDA"
+               BuildableName = "AzureAppConfigurationTests.xctest"
+               BlueprintName = "AzureAppConfigurationTests"
+               ReferencedContainer = "container:sdk/appconfiguration/AzureAppConfiguration/AzureAppConfiguration.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

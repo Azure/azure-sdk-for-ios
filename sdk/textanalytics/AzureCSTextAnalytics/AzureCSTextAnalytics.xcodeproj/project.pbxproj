@@ -26,7 +26,7 @@
 
 /* Begin PBXFileReference section */
 		0A3A5DB42315D02F00473FDA /* AzureCSTextAnalytics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureCSTextAnalytics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0A3A5DBD2315D02F00473FDA /* AzureCSTextAnalytics_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AzureCSTextAnalytics_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0A3A5DBD2315D02F00473FDA /* AzureCSTextAnalyticsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AzureCSTextAnalyticsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A3A5DD22315D0DC00473FDA /* AzureCSTextAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AzureCSTextAnalytics.h; sourceTree = "<group>"; };
 		0A3A5DD32315D0DC00473FDA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A3A5DD72315D0E600473FDA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -69,7 +69,7 @@
 			isa = PBXGroup;
 			children = (
 				0A3A5DB42315D02F00473FDA /* AzureCSTextAnalytics.framework */,
-				0A3A5DBD2315D02F00473FDA /* AzureCSTextAnalytics_Tests.xctest */,
+				0A3A5DBD2315D02F00473FDA /* AzureCSTextAnalyticsTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -150,9 +150,9 @@
 			productReference = 0A3A5DB42315D02F00473FDA /* AzureCSTextAnalytics.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		0A3A5DBC2315D02F00473FDA /* AzureCSTextAnalytics_Tests */ = {
+		0A3A5DBC2315D02F00473FDA /* AzureCSTextAnalyticsTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0A3A5DCB2315D02F00473FDA /* Build configuration list for PBXNativeTarget "AzureCSTextAnalytics_Tests" */;
+			buildConfigurationList = 0A3A5DCB2315D02F00473FDA /* Build configuration list for PBXNativeTarget "AzureCSTextAnalyticsTests" */;
 			buildPhases = (
 				0A3A5DB92315D02F00473FDA /* Sources */,
 				0A3A5DBA2315D02F00473FDA /* Frameworks */,
@@ -163,9 +163,9 @@
 			dependencies = (
 				0A3A5DC02315D02F00473FDA /* PBXTargetDependency */,
 			);
-			name = AzureCSTextAnalytics_Tests;
+			name = AzureCSTextAnalyticsTests;
 			productName = AzureCSTextAnalyticsTests;
-			productReference = 0A3A5DBD2315D02F00473FDA /* AzureCSTextAnalytics_Tests.xctest */;
+			productReference = 0A3A5DBD2315D02F00473FDA /* AzureCSTextAnalyticsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -201,7 +201,7 @@
 			projectRoot = "";
 			targets = (
 				0A3A5DB32315D02F00473FDA /* AzureCSTextAnalytics */,
-				0A3A5DBC2315D02F00473FDA /* AzureCSTextAnalytics_Tests */,
+				0A3A5DBC2315D02F00473FDA /* AzureCSTextAnalyticsTests */,
 			);
 		};
 /* End PBXProject section */
@@ -459,7 +459,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UBF8T346G9;
-				INFOPLIST_FILE = AzureCSTextAnalyticsTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -478,7 +478,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UBF8T346G9;
-				INFOPLIST_FILE = AzureCSTextAnalyticsTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -512,7 +512,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0A3A5DCB2315D02F00473FDA /* Build configuration list for PBXNativeTarget "AzureCSTextAnalytics_Tests" */ = {
+		0A3A5DCB2315D02F00473FDA /* Build configuration list for PBXNativeTarget "AzureCSTextAnalyticsTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0A3A5DCC2315D02F00473FDA /* Debug */,

@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0A3A5EB72316DB1E00473FDA"
-               BuildableName = "AzureCSComputerVision.framework"
-               BlueprintName = "AzureCSComputerVision"
-               ReferencedContainer = "container:sdk/cognitiveservices/AzureCSComputerVision/AzureCSComputerVision.xcodeproj">
+               BlueprintIdentifier = "0A3A5E752315E70400473FDA"
+               BuildableName = "AzureSDKDemoSwift.app"
+               BlueprintName = "AzureSDKDemoSwift"
+               ReferencedContainer = "container:examples/AzureSDKDemoSwift/AzureSDKDemoSwift.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -34,10 +34,10 @@
             parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0A3A5EC02316DB1E00473FDA"
-               BuildableName = "AzureCSComputerVisionTests.xctest"
-               BlueprintName = "AzureCSComputerVisionTests"
-               ReferencedContainer = "container:sdk/cognitiveservices/AzureCSComputerVision/AzureCSComputerVision.xcodeproj">
+               BlueprintIdentifier = "0A3A5E892315E70600473FDA"
+               BuildableName = "AzureSDKDemoSwiftTests.xctest"
+               BlueprintName = "AzureSDKDemoSwiftTests"
+               ReferencedContainer = "container:examples/AzureSDKDemoSwift/AzureSDKDemoSwift.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -52,6 +52,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "0A3A5E752315E70400473FDA"
+            BuildableName = "AzureSDKDemoSwift.app"
+            BlueprintName = "AzureSDKDemoSwift"
+            ReferencedContainer = "container:examples/AzureSDKDemoSwift/AzureSDKDemoSwift.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -59,15 +69,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0A3A5EB72316DB1E00473FDA"
-            BuildableName = "AzureCSComputerVision.framework"
-            BlueprintName = "AzureCSComputerVision"
-            ReferencedContainer = "container:sdk/cognitiveservices/AzureCSComputerVision/AzureCSComputerVision.xcodeproj">
+            BlueprintIdentifier = "0A3A5E752315E70400473FDA"
+            BuildableName = "AzureSDKDemoSwift.app"
+            BlueprintName = "AzureSDKDemoSwift"
+            ReferencedContainer = "container:examples/AzureSDKDemoSwift/AzureSDKDemoSwift.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
