@@ -26,10 +26,10 @@
 
 import Foundation
 
-public typealias ResultHandler<TSuccess, TError: Error> = (Result<TSuccess, TError>, HTTPResponse) -> Void
+public typealias ResultHandler<TSuccess, TError: Error> = (Result<TSuccess, TError>, HTTPResponse?) -> Void
 public typealias HTTPResultHandler<T> = ResultHandler<T, Error>
 public typealias PipelineStageResultHandler = ResultHandler<PipelineResponse, PipelineError>
-public typealias OnRequestCompletionHandler = (PipelineRequest) -> Void
+public typealias OnRequestCompletionHandler = (PipelineRequest, Error?) -> Void
 public typealias OnResponseCompletionHandler = (PipelineResponse) -> Void
 public typealias OnErrorCompletionHandler = (PipelineError, Bool) -> Void
 
@@ -70,7 +70,7 @@ public protocol PipelineStage {
 /// Default implementations for `PipelineStage`.
 extension PipelineStage {
     public func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
-        completion(request)
+        completion(request, nil)
     }
 
     public func on(response: PipelineResponse, then completion: @escaping OnResponseCompletionHandler) {
@@ -85,7 +85,19 @@ extension PipelineStage {
         request pipelineRequest: PipelineRequest,
         then completion: @escaping PipelineStageResultHandler
     ) {
-        on(request: pipelineRequest) { request in
+        on(request: pipelineRequest) { request, error in
+            // if error occurs during the onRequest phase, back out and
+            // propagate immediately
+            if let error = error {
+                let pipelineResponse = PipelineResponse(
+                    request: request.httpRequest,
+                    response: nil,
+                    logger: request.logger,
+                    context: request.context
+                )
+                let pipelineError = PipelineError(fromError: error, pipelineResponse: pipelineResponse)
+                completion(.failure(pipelineError), nil)
+            }
             self.next!.process(request: request) { result, httpResponse in
                 switch result {
                 case let .success(pipelineResponse):

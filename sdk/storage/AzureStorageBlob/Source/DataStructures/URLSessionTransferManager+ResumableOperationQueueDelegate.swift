@@ -35,8 +35,8 @@ extension URLSessionTransferManager: ResumableOperationQueueDelegate {
             let blocks = blobTransfer.totalBlocks - blobTransfer.incompleteBlocks
             return BlobUploadProgress(bytes: Int(blocks), totalBytes: Int(blobTransfer.totalBlocks))
         case .download:
-            let blocks = blobTransfer.totalBlocks - blobTransfer.incompleteBlocks
-            return BlobDownloadProgress(bytes: Int(blocks), totalBytes: Int(blobTransfer.totalBlocks))
+            guard let downloader = blobTransfer.downloader else { return nil }
+            return BlobDownloadProgress(bytes: downloader.progress, totalBytes: downloader.fileSize)
         default:
             return nil
         }
@@ -44,10 +44,27 @@ extension URLSessionTransferManager: ResumableOperationQueueDelegate {
 
     public func operation(_ operation: ResumableOperation?, didChangeState state: TransferState) {
         if let transfer = (operation as? ResumableTransfer)?.transfer {
-            transfer.state = state
             saveContext()
             let progress = buildProgressInfo(forTransfer: transfer)
-            delegate?.transferManager(self, didUpdateTransfer: transfer, withState: state, andProgress: progress)
+            switch state {
+            case .failed:
+                // Block transfers should propagate up to their BlobTransfer and only notify that the
+                // entire Blob transfer failed.
+                if let transferError = (transfer as? BlobTransfer)?.error as? NSError {
+                    if [-1009, -1005].contains(transferError.code) {
+                        pause(transfer: transfer)
+                    } else {
+                        delegate?.transferManager(self, didFailTransfer: transfer, withError: transferError)
+                    }
+                } else {
+                    // ignore BlockTransfer failures
+                    return
+                }
+            case .complete:
+                delegate?.transferManager(self, didCompleteTransfer: transfer)
+            default:
+                delegate?.transferManager(self, didUpdateTransfer: transfer, withState: state, andProgress: progress)
+            }
         } else {
             saveContext()
             delegate?.transferManager(self, didUpdateWithState: state)
@@ -56,11 +73,6 @@ extension URLSessionTransferManager: ResumableOperationQueueDelegate {
 
     public func operations(_ operations: [ResumableOperation]?, didChangeState state: TransferState) {
         if let ops = operations {
-            // pull out the operations that have associated transfers and pass them to the TransferManager delegate
-            let transfers = ops.map { ($0 as? ResumableTransfer)?.transfer }.filter { $0 != nil }.map { $0! }
-            for transfer in transfers {
-                transfer.state = state
-            }
             saveContext()
             delegate?.transferManager(self, didUpdateTransfers: transfers, withState: state)
         } else {

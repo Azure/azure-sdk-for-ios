@@ -50,6 +50,24 @@ public enum TransferState: Int16 {
             return "Deleted"
         }
     }
+
+    public var pauseable: Bool {
+        switch self {
+        case .unknown, .pending, .inProgress, .failed:
+            return true
+        case .paused, .complete, .canceled, .deleted:
+            return false
+        }
+    }
+
+    public var resumable: Bool {
+        switch self {
+        case .paused, .failed:
+            return true
+        case .unknown, .pending, .inProgress, .complete, .canceled, .deleted:
+            return false
+        }
+    }
 }
 
 public enum TransferType: Int16 {

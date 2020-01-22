@@ -47,15 +47,10 @@ public final class URLSessionTransferManager: NSObject, TransferManager, URLSess
         var manager = ReachabilityManager()
         manager?.registerListener { status in
             switch status {
-            case .unknown, .notReachable:
-                for transfer in self.transfers {
-                    self.pause(transfer: transfer)
-                }
+            case .notReachable:
+                self.pauseAll()
             case .reachable(.ethernetOrWiFi), .reachable(.wwan):
-                let pausedTransfers = self.transfers.filter { $0.state == .paused }
-                for transfer in pausedTransfers {
-                    self.resume(transfer: transfer)
-                }
+                self.resumeAll()
             default:
                 break
             }
@@ -94,7 +89,7 @@ public final class URLSessionTransferManager: NSObject, TransferManager, URLSess
 
         super.init()
         operationQueue.delegate = self
-        operationQueue.maxConcurrentOperationCount = 2
+        operationQueue.maxConcurrentOperationCount = 4
     }
 
     // Static Singleton
@@ -108,6 +103,28 @@ public final class URLSessionTransferManager: NSObject, TransferManager, URLSess
     public subscript(index: Int) -> Transfer {
         // return the operation from the DataStore
         return transfers[index]
+    }
+
+    public func transfer(forName name: String, type: TransferType? = nil) -> Transfer? {
+        guard let encodedName = name.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return nil }
+        for transfer in transfers {
+            guard let blobTransfer = transfer as? BlobTransfer else { continue }
+            guard let source = blobTransfer.source?.absoluteString else { continue }
+            guard let dest = blobTransfer.destination?.absoluteString else { continue }
+            if let transferType = type {
+                guard blobTransfer.transferType == transferType else { continue }
+                if transferType == .download, source.hasSuffix(encodedName) {
+                    return blobTransfer
+                } else if transferType == .upload, dest.hasSuffix(encodedName) {
+                    return blobTransfer
+                }
+            } else {
+                if source.hasSuffix(encodedName) || dest.hasSuffix(encodedName) {
+                    return blobTransfer
+                }
+            }
+        }
+        return nil
     }
 
     // MARK: Add Operations
@@ -141,16 +158,25 @@ public final class URLSessionTransferManager: NSObject, TransferManager, URLSess
 
         switch transfer.transferType {
         case .download:
-            let finalOperation = BlobDownloadFinalOperation(withTransfer: transfer, queue: operationQueue)
-            operations.append(finalOperation)
             let pendingTransfers = transfer.transfers.filter { resumableOperations.contains($0.state) }
-            let initialOperation = BlobDownloadInitialOperation(withTransfer: transfer, queue: operationQueue)
-            operations.append(initialOperation)
-            for blockTransfer in pendingTransfers {
-                let blockOperation = BlockOperation(withTransfer: blockTransfer)
-                blockOperation.addDependency(initialOperation)
-                finalOperation.addDependency(blockOperation)
-                operations.append(blockOperation)
+            if transfer.initialCallComplete {
+                let finalOperation = BlobDownloadFinalOperation(withTransfer: transfer, queue: operationQueue)
+                operations.append(finalOperation)
+                for blockTransfer in pendingTransfers {
+                    let blockOperation = BlockOperation(withTransfer: blockTransfer)
+                    finalOperation.addDependency(blockOperation)
+                    operations.append(blockOperation)
+                }
+            } else {
+                guard let initialTransfer = pendingTransfers.first else {
+                    assertionFailure("Invalid assumption regarding pending transfers.")
+                    return
+                }
+                let initialOperation = BlobDownloadInitialOperation(
+                    withTransfer: initialTransfer,
+                    queue: operationQueue
+                )
+                operations.append(initialOperation)
             }
         case .upload:
             let finalOperation = BlobUploadFinalOperation(withTransfer: transfer, queue: operationQueue)
@@ -259,7 +285,7 @@ public final class URLSessionTransferManager: NSObject, TransferManager, URLSess
             fatalError("Unrecognized transfer type: \(transfer.self)")
         }
         transfer.state = .deleted
-        operation(transfer.operation, didChangeState: .deleted)
+        operation(transfer.operation, didChangeState: transfer.state)
     }
 
     internal func remove(transfer: BlockTransfer) {
@@ -302,49 +328,62 @@ public final class URLSessionTransferManager: NSObject, TransferManager, URLSess
 
     // MARK: Pause Operations
 
-    public func pause(transfer: Transfer) {
-        let allowed: [TransferState] = [.pending, .inProgress]
-        guard allowed.contains(transfer.state) else { return }
-
-        switch transfer {
-        case let transfer as BlockTransfer:
+    public func pauseAll() {
+        for transfer in transfers {
             pause(transfer: transfer)
-        case let transfer as BlobTransfer:
-            pause(transfer: transfer)
-        default:
-            fatalError("Unrecognized transfer type: \(transfer.self)")
         }
+    }
+
+    public func pause(transfer: Transfer) {
+        guard let blobTransfer = transfer as? BlobTransfer else {
+            assertionFailure("Unsupported transfer type: \(transfer.self)")
+            return
+        }
+        pause(transfer: blobTransfer)
+    }
+
+    internal func pause(transfer: BlobTransfer) {
+        guard transfer.state.pauseable else { return }
         transfer.state = .paused
+
+        // Cancel the operation
+        if let operation = transfer.operation {
+            operationQueue.remove(operation)
+        }
+
+        // Pause any pauseable blocks and cancel their operations
+        for block in transfer.transfers {
+            pause(transfer: block)
+        }
+
+        // notify delegate
         operation(transfer.operation, didChangeState: transfer.state)
     }
 
     internal func pause(transfer: BlockTransfer) {
-        assert(transfer.operation != nil, "Transfer operation unexpectedly nil.")
-        if let operation = transfer.operation {
-            operationQueue.pause(operation)
-        }
-    }
+        guard transfer.state.pauseable else { return }
+        transfer.state = .paused
 
-    internal func pause(transfer: BlobTransfer) {
-        // Cancel the operation and any associated block operations
+        // Cancel the operation
         if let operation = transfer.operation {
             operationQueue.remove(operation)
-            // transfer.state = .paused
-            for block in transfer.transfers {
-                block.state = .paused
-                if let blockOp = block.operation {
-                    operationQueue.remove(blockOp)
-                }
-            }
         }
+
+        // notify delegate
+        operation(transfer.operation, didChangeState: transfer.state)
     }
 
     // MARK: Resume Operations
 
+    public func resumeAll() {
+        for transfer in transfers {
+            resume(transfer: transfer)
+        }
+    }
+
     public func resume(transfer: Transfer) {
         guard reachability?.isReachable ?? false else { return }
-        let allowed: [TransferState] = [.paused]
-        guard allowed.contains(transfer.state) else { return }
+        guard transfer.state.resumable else { return }
         transfer.state = .pending
 
         switch transfer {
@@ -352,7 +391,7 @@ public final class URLSessionTransferManager: NSObject, TransferManager, URLSess
             operationQueue.add(BlockOperation(withTransfer: transfer))
         case let transfer as BlobTransfer:
             for blockTransfer in transfer.transfers {
-                if allowed.contains(blockTransfer.state) {
+                if blockTransfer.state.resumable {
                     blockTransfer.state = .pending
                 }
             }
@@ -384,6 +423,14 @@ public final class URLSessionTransferManager: NSObject, TransferManager, URLSess
         blobRequest.predicate = predicate
         if let results = try? context.fetch(blobRequest) {
             for transfer in results {
+                switch transfer.transferType {
+                case .upload:
+                    transfer.uploader = transfer.uploader ?? delegate?.uploader(for: transfer)
+                case .download:
+                    transfer.downloader = transfer.downloader ?? delegate?.downloader(for: transfer)
+                default:
+                    assertionFailure("Unrecognized transfer type \(transfer.transferType.label)")
+                }
                 add(transfer: transfer)
             }
         }

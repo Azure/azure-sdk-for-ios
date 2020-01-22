@@ -93,37 +93,17 @@ class ActivtyViewController: UIViewController {
 }
 
 extension UIViewController {
-    internal func getBlobClient() -> StorageBlobClient? {
-        guard let application = AppState.application else { return nil }
-        do {
-            let credential = MSALCredential(
-                tenant: AppConstants.tenant, clientId: AppConstants.clientId, application: application,
-                account: AppState.currentAccount()
-            )
-            let client = try StorageBlobClient(accountUrl: AppConstants.storageAccountUrl, credential: credential)
-            if let delegate = self as? TransferManagerDelegate {
-                client.options.transferDelegate = delegate
-            }
-            return client
-        } catch {
-            showAlert(error: String(describing: error))
-            return nil
-        }
-    }
-
-    internal func getAppConfigClient() -> AppConfigurationClient? {
-        do {
-            return try AppConfigurationClient.from(connectionString: AppConstants.appConfigConnectionString)
-        } catch {
-            showAlert(error: String(describing: error))
-            return nil
-        }
-    }
-
-    internal func showAlert(error: String) {
+    internal func showAlert(error: Error) {
         DispatchQueue.main.async { [weak self] in
+            guard self?.presentedViewController == nil else { return }
+            var errorString: String
+            if let pipelineError = error as? PipelineError {
+                errorString = pipelineError.innerError.localizedDescription
+            } else {
+                errorString = error.localizedDescription
+            }
             self?.hideActivitySpinner()
-            let alertController = UIAlertController(title: "Error!", message: error, preferredStyle: .alert)
+            let alertController = UIAlertController(title: "Error!", message: errorString, preferredStyle: .alert)
             let title = NSAttributedString(string: "Error!", attributes: [
                 NSAttributedString.Key.foregroundColor: UIColor.red
             ])
@@ -136,6 +116,7 @@ extension UIViewController {
 
     internal func showAlert(message: String) {
         DispatchQueue.main.async { [weak self] in
+            guard self?.presentedViewController == nil else { return }
             let alertController = UIAlertController(title: "Blob Contents", message: message, preferredStyle: .alert)
             let defaultAction = UIAlertAction(title: "Close", style: .default, handler: nil)
             alertController.addAction(defaultAction)

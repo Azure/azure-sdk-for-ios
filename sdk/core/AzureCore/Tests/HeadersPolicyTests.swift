@@ -34,7 +34,7 @@ class HeadersPolicyTests: XCTestCase {
         addedHeaders["TestHeader"] = "Testing"
         let policy = HeadersPolicy(addingHeaders: addedHeaders)
         let req = PipelineRequest()
-        policy.on(request: req) { _ in }
+        policy.on(request: req) { _, _ in }
         XCTAssertEqual(req.httpRequest.headers[.contentType], "test/test")
         XCTAssertEqual(req.httpRequest.headers["TestHeader"], "Testing")
     }
@@ -46,7 +46,7 @@ class HeadersPolicyTests: XCTestCase {
         let policy = HeadersPolicy(addingHeaders: addedHeaders)
         let headers = HTTPHeaders([.contentType: "application/json"])
         let req = PipelineRequest(headers: headers)
-        policy.on(request: req) { _ in }
+        policy.on(request: req) { _, _ in }
         XCTAssertEqual(req.httpRequest.headers[.contentType], "test/test")
         XCTAssertEqual(req.httpRequest.headers["TestHeader"], "Testing")
     }

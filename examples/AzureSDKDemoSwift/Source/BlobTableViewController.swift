@@ -34,13 +34,45 @@ import AVKit
 import UIKit
 
 class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
-    private var containerName: String! = "videos"
+    private let containerName: String! = "videos"
     private var dataSource: PagedCollection<BlobItem>?
     private var downloadMap = [IndexPath: Transfer]()
     private var noMoreData = false
     private var uploadAlert: UIAlertController?
+    private lazy var transferManager: URLSessionTransferManager = {
+        let manager = URLSessionTransferManager(delegate: self, logger: ClientLoggers.none)
+        return manager
+    }()
+
+    private var blobClient: StorageBlobClient? {
+        guard let application = AppState.application else { return nil }
+        do {
+            let credential = MSALCredential(
+                tenant: AppConstants.tenant, clientId: AppConstants.clientId, application: application,
+                account: AppState.currentAccount()
+            )
+            let options = StorageBlobClientOptions(
+                apiVersion: StorageBlobClient.ApiVersion.latest.rawValue,
+                logger: ClientLoggers.none,
+                delegate: self
+            )
+            let client = try StorageBlobClient(
+                accountUrl: AppConstants.storageAccountUrl,
+                credential: credential,
+                withOptions: options
+            )
+            client.options.transferManager = transferManager
+            return client
+        } catch {
+            showAlert(error: error)
+            return nil
+        }
+    }
+
     private lazy var imagePicker = UIImagePickerController()
     private lazy var player: AVPlayer = AVPlayer()
+
+    // MARK: Actions
 
     @IBAction func didSelectUpload(_: UIBarButtonItem) {
         imagePicker.sourceType = .savedPhotosAlbum
@@ -49,13 +81,21 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
         present(imagePicker, animated: true)
     }
 
+    // MARK: Internal Methods
+
     override func viewDidLoad() {
         super.viewDidLoad()
         let refreshControl = UIRefreshControl()
         refreshControl.attributedTitle = NSAttributedString(string: "Fetching Data ...", attributes: nil)
         refreshControl.addTarget(self, action: #selector(fetchData(_:)), for: .valueChanged)
         tableView.refreshControl = refreshControl
+        transferManager.loadContext()
         fetchData(self)
+    }
+
+    override func viewWillDisappear(_: Bool) {
+        transferManager.reachability?.stopListening()
+        transferManager.pauseAll()
     }
 
     // MARK: Private Methods
@@ -63,20 +103,20 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
     /// Constructs the PagedCollection and retrieves the first page of results to initalize the table view.
     @objc private func fetchData(_: Any) {
         guard let containerName = containerName else { return }
-        guard let blobClient = getBlobClient() else { return }
         let options = ListBlobsOptions()
         options.maxResults = 20
         if !(tableView.refreshControl?.isRefreshing ?? false) {
             showActivitySpinner()
         }
-        blobClient.listBlobs(in: containerName, withOptions: options) { result, _ in
+        blobClient?.listBlobs(in: containerName, withOptions: options) { result, _ in
             self.hideActivitySpinner()
             switch result {
             case let .success(paged):
                 self.dataSource = paged
+                self.transferManager.reachability?.startListening()
                 self.reloadTableView()
             case let .failure(error):
-                self.showAlert(error: String(describing: error))
+                self.showAlert(error: error)
                 self.noMoreData = true
             }
         }
@@ -90,7 +130,7 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
             case .success:
                 self.reloadTableView()
             case let .failure(error):
-                self.showAlert(error: String(describing: error))
+                self.showAlert(error: error)
                 self.noMoreData = true
             }
         }
@@ -126,10 +166,25 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
         }
         // configure the cell
         let blobItem = data[indexPath.row]
+        let blobName = blobItem.name
+
         cell.keyLabel.text = blobItem.name
         cell.valueLabel.text = "???"
         if let blobType = blobItem.properties.blobType {
             cell.valueLabel.text = blobType.rawValue
+        }
+        cell.backgroundColor = .white
+
+        // Match any blobs to existing transfers.
+        // Update download map and progress.
+        if let transfer = transferManager.transfer(forName: blobName, type: .download) as? BlobTransfer {
+            if transfer.state != .complete {
+                cell.backgroundColor = .yellow
+            } else {
+                cell.backgroundColor = .green
+            }
+            downloadMap[indexPath] = transfer
+            cell.progressBar.progress = transfer.progress
         }
 
         // load next page if at the end of the current list
@@ -139,11 +194,20 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
         return cell
     }
 
+    fileprivate func playVideo(_ indexPath: IndexPath, _ destination: URL) {
+        downloadMap.removeValue(forKey: indexPath)
+        player.replaceCurrentItem(with: AVPlayerItem(asset: AVAsset(url: destination)))
+        let controller = AVPlayerViewController()
+        controller.player = player
+        present(controller, animated: true) {
+            self.player.play()
+        }
+    }
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? CustomTableViewCell else { return }
         guard let blobName = cell.keyLabel.text else { return }
         guard let containerName = containerName else { return }
-        guard let blobClient = getBlobClient() else { return }
 
         do {
             let options = DownloadBlobOptions()
@@ -152,37 +216,40 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
             options.destination?.isTemporary = false
             // TODO: Diagnose issues with EXC_BAD_ACCESS and restore to true
             options.range?.calculateMD5 = false
-            guard let url = blobClient.url(forBlob: blobName, inContainer: containerName) else {
-                showAlert(error: "Unable to create URL!")
+            guard let url = blobClient?.url(forBlob: blobName, inContainer: containerName) else {
+                showAlert(error: AzureError.general("Unable to create URL."))
                 return
             }
-            guard let destination = try? blobClient.localUrl(remoteUrl: url, withOptions: options) else {
-                showAlert(error: "Unable to create destination URL!")
+            guard let destination = try? blobClient?.localUrl(remoteUrl: url, withOptions: options) else {
+                showAlert(error: AzureError.general("Unable to create destination URL."))
                 return
             }
 
-            // If file is fully downloaded, load it with AVPlayer
             let manager = FileManager.default
-            if manager.fileExists(atPath: destination.path) {
-                downloadMap.removeValue(forKey: indexPath)
-                player.replaceCurrentItem(with: AVPlayerItem(asset: AVAsset(url: destination)))
-                let controller = AVPlayerViewController()
-                controller.player = player
-                present(controller, animated: true) {
-                    self.player.play()
+            if let existingTransfer = downloadMap[indexPath] as? BlobTransfer {
+                // if transfer exists and is complete, open file, otherwise ignore
+                if manager.fileExists(atPath: destination.path), existingTransfer.incompleteBlocks == 0 {
+                    playVideo(indexPath, destination)
+                    return
                 }
                 return
+            } else {
+                // if no transfer exists but a file exists, play
+                if manager.fileExists(atPath: destination.path) {
+                    playVideo(indexPath, destination)
+                    return
+                }
             }
 
             // Otherwise, start the download with TransferManager.
-            if let transfer = try blobClient.download(url: url, withOptions: options) {
+            if let transfer = try blobClient?.download(url: url, withOptions: options) {
                 downloadMap[indexPath] = transfer
             }
             DispatchQueue.main.async { [weak self] in
                 self?.tableView.deselectRow(at: indexPath, animated: true)
             }
         } catch {
-            showAlert(error: String(describing: error))
+            showAlert(error: error)
         }
     }
 
@@ -204,9 +271,6 @@ extension BlobTableViewController: UIImagePickerControllerDelegate, UINavigation
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
         dismiss(animated: true) {
-            guard let blobClient = self.getBlobClient() else {
-                fatalError("Unable to create blob client.")
-            }
             guard let mediaType = info[UIImagePickerController.InfoKey.mediaType] as? String else {
                 fatalError("Unable to determine media type.")
             }
@@ -229,7 +293,7 @@ extension BlobTableViewController: UIImagePickerControllerDelegate, UINavigation
             let options = UploadBlobOptions()
 
             // Otherwise, start the upload with TransferManager.
-            if let transfer = try? blobClient.upload(
+            if let transfer = try? self.blobClient?.upload(
                 url: url,
                 toContainer: self.containerName,
                 asBlob: blobName,
@@ -254,7 +318,7 @@ extension BlobTableViewController: UIImagePickerControllerDelegate, UINavigation
             preferredStyle: .alert
         )
         alertView.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
-            URLSessionTransferManager.shared.cancel(transfer: transfer)
+            self.transferManager.cancel(transfer: transfer)
         }))
         let margin: CGFloat = 8.0
         let rect = CGRect(x: margin, y: 72.0, width: alertView.view.frame.width - margin * 2.0, height: 2.0)
@@ -268,29 +332,35 @@ extension BlobTableViewController: UIImagePickerControllerDelegate, UINavigation
     }
 
     internal func updateProgressBar(forTransfer transfer: Transfer, withProgress progress: TransferProgress) {
-        DispatchQueue.main.sync {
+        updateProgressBar(forTransfer: transfer, withProgress: progress.asFloat)
+    }
+
+    internal func updateProgressBar(forTransfer transfer: Transfer, withProgress progress: Float) {
+        DispatchQueue.main.async {
             let indexPath = self.downloadMap.filter { _, value in
                 value === transfer
             }
             guard let cellIndex = indexPath.first?.key else { return }
-            DispatchQueue.main.async {
-                guard let cell = self.tableView.cellForRow(at: cellIndex) as? CustomTableViewCell else { return }
-                cell.progressBar.progress = progress.asFloat
-            }
+            guard let cell = self.tableView.cellForRow(at: cellIndex) as? CustomTableViewCell else { return }
+            cell.progressBar.progress = progress
         }
     }
 
-    internal func updateUploadAlert(forTransfer _: BlobTransfer, withProgress progress: TransferProgress) {
-        guard let uploadAlert = uploadAlert else { return }
+    internal func updateUploadAlert(forTransfer transfer: BlobTransfer, withProgress progress: TransferProgress) {
+        updateUploadAlert(forTransfer: transfer, withProgress: progress.asFloat)
+    }
+
+    internal func updateUploadAlert(forTransfer _: BlobTransfer, withProgress progress: Float) {
         DispatchQueue.main.async {
-            if progress.asPercent == 100 {
+            guard let uploadAlert = self.uploadAlert else { return }
+            if progress == 1.0 {
                 uploadAlert.dismiss(animated: true) {
                     self.uploadAlert = nil
                 }
             } else {
                 let progressViews = uploadAlert.view.subviews.filter { $0 is UIProgressView }
                 if let progressView = progressViews.first as? UIProgressView {
-                    progressView.progress = progress.asFloat
+                    progressView.progress = progress
                 }
             }
         }
@@ -298,36 +368,85 @@ extension BlobTableViewController: UIImagePickerControllerDelegate, UINavigation
 }
 
 extension BlobTableViewController: TransferManagerDelegate {
+    func uploader(for transfer: BlobTransfer) -> BlobStreamUploader? {
+        guard let client = blobClient else { return nil }
+        guard let source = transfer.source else { return nil }
+
+        let blobName = source.lastPathComponent
+        let properties = BlobProperties(
+            contentType: "video/quicktime"
+        )
+        let options = UploadBlobOptions()
+        let uploader = try? BlobStreamUploader(
+            client: client,
+            delegate: nil,
+            source: source,
+            name: blobName,
+            container: containerName,
+            properties: properties,
+            options: options
+        )
+        return uploader
+    }
+
+    func downloader(for transfer: BlobTransfer) -> BlobStreamDownloader? {
+        guard let client = blobClient else { return nil }
+        guard let source = transfer.source else { return nil }
+
+        let options = DownloadBlobOptions()
+        options.range = RangeOptions()
+        options.destination = DestinationOptions()
+        options.destination?.isTemporary = false
+        options.range?.calculateMD5 = false
+
+        let blobName = source.lastPathComponent
+        let downloader = try? BlobStreamDownloader(
+            client: client,
+            delegate: nil,
+            name: blobName,
+            container: containerName,
+            options: options
+        )
+        return downloader
+    }
+
     func transferManager<T>(
         _: T,
         didUpdateTransfer transfer: Transfer,
         withState _: TransferState,
         andProgress progress: TransferProgress?
     ) where T: TransferManager {
-        guard let blobTransfer = transfer as? BlobTransfer else { return }
-        if let progress = progress {
+        if let blobTransfer = transfer as? BlobTransfer {
+            if let progress = progress {
+                switch blobTransfer.transferType {
+                case .download:
+                    updateProgressBar(forTransfer: transfer, withProgress: progress)
+                case .upload:
+                    updateUploadAlert(forTransfer: blobTransfer, withProgress: progress)
+                default:
+                    return
+                }
+            }
+            reloadTableView()
+        }
+    }
+
+    func transferManager<T>(_: T, didCompleteTransfer transfer: Transfer) where T: TransferManager {
+        if let blobTransfer = transfer as? BlobTransfer {
             switch blobTransfer.transferType {
             case .download:
-                updateProgressBar(forTransfer: transfer, withProgress: progress)
+                updateProgressBar(forTransfer: transfer, withProgress: 1.0)
             case .upload:
-                updateUploadAlert(forTransfer: blobTransfer, withProgress: progress)
+                updateUploadAlert(forTransfer: blobTransfer, withProgress: 1.0)
             default:
                 return
             }
+            reloadTableView()
         }
-        reloadTableView()
     }
 
-    func transferManager<T>(_: T, didUpdateTransfers _: [Transfer], withState _: TransferState)
-        where T: TransferManager {
-        reloadTableView()
-    }
-
-    func transferManager<T>(_: T, didCompleteTransfer _: Transfer) where T: TransferManager {
-        reloadTableView()
-    }
-
-    func transferManager<T>(_: T, didFailTransfer transfer: Transfer, withError _: Error) where T: TransferManager {
+    func transferManager<T>(_: T, didFailTransfer _: Transfer, withError error: Error) where T: TransferManager {
+        showAlert(error: error)
         reloadTableView()
     }
 

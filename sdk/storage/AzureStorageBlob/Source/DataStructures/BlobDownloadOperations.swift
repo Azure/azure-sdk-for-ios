@@ -31,7 +31,7 @@ import Foundation
 internal class BlobDownloadInitialOperation: ResumableTransfer {
     // MARK: Initializers
 
-    public convenience init(withTransfer transfer: BlobTransfer, queue: ResumableOperationQueue) {
+    public convenience init(withTransfer transfer: BlockTransfer, queue: ResumableOperationQueue) {
         self.init(state: transfer.state)
         self.transfer = transfer
         self.operationQueue = queue
@@ -42,11 +42,19 @@ internal class BlobDownloadInitialOperation: ResumableTransfer {
 
     internal func queueRemainingBlocks(forTransfer transfer: BlobTransfer) {
         guard transfer.transferType == .download else { return }
-        guard let operation = transfer.operation else { return }
+        guard let opQueue = operationQueue else { return }
+        guard let downloader = transfer.downloader else { return }
+        guard downloader.blockList.count > 0 else { return }
         guard let context = transfer.managedObjectContext else { return }
 
-        var operations = [BlockOperation]()
-        guard let downloader = transfer.downloader else { return }
+        // The intialDownloadOperation marks the transfer complete, so
+        // if blocks remain, we must reset the state to inProgress.
+        transfer.state = .inProgress
+
+        var operations = [ResumableOperation]()
+        let finalOperation = BlobDownloadFinalOperation(withTransfer: transfer, queue: opQueue)
+        operations.append(finalOperation)
+
         for block in downloader.blockList {
             let blockTransfer = BlockTransfer.with(
                 context: context,
@@ -56,44 +64,44 @@ internal class BlobDownloadInitialOperation: ResumableTransfer {
             )
             transfer.blocks?.adding(blockTransfer)
             let blockOperation = BlockOperation(withTransfer: blockTransfer)
-            operation.addDependency(blockOperation)
+            finalOperation.addDependency(blockOperation)
             operations.append(blockOperation)
         }
         operationQueue?.add(operations)
         transfer.totalBlocks = Int64(transfer.transfers.count)
+        transfer.operation = finalOperation
     }
 
     // MARK: Public Methods
 
     public override func main() {
-        guard let transfer = self.transfer as? BlobTransfer else { return }
-        guard transfer.transferType == .download else { return }
+        guard let transfer = self.transfer as? BlockTransfer else { return }
+        guard let parent = transfer.parent else { return }
+        guard parent.transferType == .download else { return }
         transfer.state = .inProgress
+        parent.state = .inProgress
         delegate?.operation(self, didChangeState: transfer.state)
         let group = DispatchGroup()
         group.enter()
-        if let downloader = transfer.downloader {
+        if let downloader = parent.downloader {
+            if isCancelled || isPaused { return }
             downloader.initialRequest { result, _ in
                 switch result {
                 case .success:
-                    self.delegate?.operation(self, didChangeState: .inProgress)
-                    self.queueRemainingBlocks(forTransfer: transfer)
-                    group.leave()
-                case .failure:
-                    self.transfer?.state = .failed
-                    // TODO: The failure needs to propagate to the entire operation...
-                    self.delegate?.operation(self, didChangeState: .failed)
-                    group.leave()
+                    transfer.state = .complete
+                    self.notifyDelegate(withTransfer: transfer)
+                    self.queueRemainingBlocks(forTransfer: parent)
+                case let .failure(error):
+                    transfer.state = .failed
+                    parent.state = .failed
+                    parent.error = error
+                    self.notifyDelegate(withTransfer: transfer)
                 }
+                group.leave()
             }
-        } else {
-            // TODO: Remove dummy workload when TM has sufficient testing
-            let delay = UInt32.random(in: 5 ... 10)
-            print("Simulating work with \(delay) second delay.")
-            sleep(delay)
-            group.leave()
         }
         group.wait()
+        parent.initialCallComplete = true
         super.main()
     }
 }

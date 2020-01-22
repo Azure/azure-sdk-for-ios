@@ -45,6 +45,10 @@ public class BlobTransfer: NSManagedObject, Transfer {
         return Int64(transfers.filter { $0.state != .complete }.count)
     }
 
+    public var progress: Float {
+        return Float(Int64(transfers.count) - incompleteBlocks) / Float(transfers.count)
+    }
+
     public var debugString: String {
         var string = "\tTransfer \(type(of: self)) \(hash): Status \(state.label)"
         for block in transfers {
@@ -71,6 +75,19 @@ public class BlobTransfer: NSManagedObject, Transfer {
         set {
             rawState = newValue.rawValue
         }
+    }
+
+    public var debugStates: String {
+        var dict = [String: String]()
+        for transfer in transfers {
+            dict[String(transfer.blockId.hash % 99)] = transfer.state.label
+        }
+        var sortedLines = [String]()
+        for key in dict.keys.sorted() {
+            guard let value = dict[key] else { continue }
+            sortedLines.append("\(key): \(value)")
+        }
+        return sortedLines.joined(separator: ", ")
     }
 
     public var transferType: TransferType {

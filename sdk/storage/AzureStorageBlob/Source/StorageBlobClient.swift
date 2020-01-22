@@ -52,10 +52,6 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         }
     }
 
-    private lazy var manager: URLSessionTransferManager = {
-        URLSessionTransferManager(delegate: options.transferDelegate, logger: options.logger)
-    }()
-
     private let credential: Any
 
     public var options: StorageBlobClientOptions
@@ -371,7 +367,8 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         fromContainer container: String,
         withOptions options: DownloadBlobOptions? = nil
     ) throws -> Transfer? {
-        guard let context = manager.persistentContainer?.viewContext else { return nil }
+        guard let transferManager = self.options.transferManager else { return nil }
+        guard let context = transferManager.persistentContainer?.viewContext else { return nil }
         let start = Int64(options?.range?.offset ?? 0)
         let end = Int64(options?.range?.length ?? 0)
         let downloader = try BlobStreamDownloader(
@@ -394,7 +391,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
             parent: nil
         )
         blobTransfer.downloader = downloader
-        manager.add(transfer: blobTransfer)
+        transferManager.add(transfer: blobTransfer)
         return blobTransfer
     }
 
@@ -419,7 +416,8 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         properties: BlobProperties? = nil,
         withOptions options: UploadBlobOptions? = nil
     ) throws -> Transfer? {
-        guard let context = manager.persistentContainer?.viewContext else { return nil }
+        guard let transferManager = self.options.transferManager else { return nil }
+        guard let context = transferManager.persistentContainer?.viewContext else { return nil }
         let uploader = try BlobStreamUploader(
             client: self,
             delegate: nil,
@@ -442,7 +440,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
             parent: nil
         )
         blobTransfer.uploader = uploader
-        manager.add(transfer: blobTransfer)
+        transferManager.add(transfer: blobTransfer)
         return blobTransfer
     }
 

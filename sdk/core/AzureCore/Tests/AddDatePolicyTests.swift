@@ -32,7 +32,7 @@ class AddDatePolicyTests: XCTestCase {
     func test_AddDatePolicy_AddsHeaderToRequest() {
         let policy = AddDatePolicy()
         let req = PipelineRequest()
-        policy.on(request: req) { _ in }
+        policy.on(request: req) { _, _ in }
         let value = req.httpRequest.headers[.date]
         XCTAssertTrue(value != nil && !value!.isEmpty)
     }
@@ -41,7 +41,7 @@ class AddDatePolicyTests: XCTestCase {
     func test_AddDatePolicy_HeaderValueIsDate() {
         let policy = AddDatePolicy()
         let req = PipelineRequest()
-        policy.on(request: req) { _ in }
+        policy.on(request: req) { _, _ in }
         let value = req.httpRequest.headers[.date]
         XCTAssertNotNil(Date(value!, format: .rfc1123))
     }
@@ -51,7 +51,7 @@ class AddDatePolicyTests: XCTestCase {
         let policy = AddDatePolicy()
         let headers = HTTPHeaders([.date: "ABCDEF"])
         let req = PipelineRequest(headers: headers)
-        policy.on(request: req) { _ in }
+        policy.on(request: req) { _, _ in }
         let value = req.httpRequest.headers[.date]
         XCTAssertNotEqual(value, "ABCDEF")
     }

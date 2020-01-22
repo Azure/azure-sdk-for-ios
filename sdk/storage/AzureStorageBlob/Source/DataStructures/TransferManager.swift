@@ -66,14 +66,11 @@ public protocol TransferManagerDelegate: AnyObject {
         withState state: TransferState,
         andProgress progress: TransferProgress?
     )
-    func transferManager<T: TransferManager>(
-        _ manager: T,
-        didUpdateTransfers transfers: [Transfer],
-        withState state: TransferState
-    )
     func transferManager<T: TransferManager>(_ manager: T, didCompleteTransfer transfer: Transfer)
     func transferManager<T: TransferManager>(_ manager: T, didFailTransfer transfer: Transfer, withError: Error)
     func transferManager<T: TransferManager>(_ manager: T, didUpdateWithState state: TransferState)
+    func uploader(for transfer: BlobTransfer) -> BlobStreamUploader?
+    func downloader(for transfer: BlobTransfer) -> BlobStreamDownloader?
 }
 
 // MARK: Extensions

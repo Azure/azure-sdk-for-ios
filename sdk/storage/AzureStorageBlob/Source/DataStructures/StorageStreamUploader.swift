@@ -121,7 +121,8 @@ internal class ChunkUploader {
             let tempData = fileHandle.readData(ofLength: chunkSize)
             buffer.append(tempData)
         } catch {
-            completion(.failure(error), HTTPResponse(request: nil, statusCode: nil))
+            let request = try? HTTPRequest(method: .put, url: url, headers: HTTPHeaders())
+            completion(.failure(error), HTTPResponse(request: request, statusCode: nil))
             return
         }
 
@@ -256,7 +257,7 @@ public class BlobStreamUploader {
     internal let options: UploadBlobOptions
 
     /// Size, in bytes, of the file to be uploaded.
-    internal var fileSize: Int!
+    internal var fileSize: Int
 
     // MARK: Initializers
 
@@ -447,7 +448,11 @@ public class BlobStreamUploader {
             case let .failure(error):
                 completion(.failure(error), httpResponse)
             case .success:
-                let responseHeaders = httpResponse.headers
+                guard let responseHeaders = httpResponse?.headers else {
+                    let error = HTTPResponseError.general("No response received.")
+                    completion(.failure(error), httpResponse)
+                    return
+                }
                 let blobProperties = BlobProperties(from: responseHeaders)
                 completion(.success(blobProperties), httpResponse)
             }
@@ -502,16 +507,16 @@ public class BlobStreamUploader {
         let alignForCrypto = isEncrypted
         let chunkLength = client.options.maxChunkSize
         let start = offset
-        guard let end = fileSize else {
-            fatalError("File size not found.")
-        }
+        let end = fileSize
 
         if alignForCrypto {
             fatalError("Client-side encryption is not yet supported!")
         } else {
             for index in stride(from: start, to: end, by: chunkLength) {
                 var end = index + chunkLength
-                if let fileSize = fileSize, end > fileSize {
+                if fileSize < 0 {
+                    end = chunkLength
+                } else if end > fileSize {
                     end = fileSize
                 }
                 let range = index ..< end

@@ -45,6 +45,6 @@ public class HeadersPolicy: PipelineStage {
         for (key, value) in headers {
             request.httpRequest.headers[key] = value
         }
-        completion(request)
+        completion(request, nil)
     }
 }

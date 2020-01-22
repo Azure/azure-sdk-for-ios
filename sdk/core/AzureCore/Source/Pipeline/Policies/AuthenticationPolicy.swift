@@ -36,7 +36,7 @@ public struct AccessToken {
 public protocol TokenCredential {
     // MARK: Required Methods
 
-    func token(forScopes scopes: [String], then completion: @escaping (AccessToken?) -> Void)
+    func token(forScopes scopes: [String], then completion: @escaping (AccessToken?, Error?) -> Void)
 }
 
 public protocol Authenticating: PipelineStage {
@@ -134,15 +134,14 @@ public struct MSALCredential: TokenCredential {
     /// - Parameters:
     ///   - scopes: A list of a scope strings for which to retrieve the token.
     ///   - completion: A completion handler which forwards the access token.
-    public func token(forScopes scopes: [String], then completion: @escaping (AccessToken?) -> Void) {
+    public func token(forScopes scopes: [String], then completion: @escaping (AccessToken?, Error?) -> Void) {
         let group = DispatchGroup()
         var accessToken: AccessToken?
+        var returnError: Error?
         group.enter()
         if let account = account {
             acquireTokenSilently(forAccount: account, withScopes: scopes) { result, error in
-                if let error = error {
-                    print(error)
-                }
+                returnError = error
                 if let result = result {
                     accessToken = AccessToken(
                         token: result.accessToken,
@@ -155,9 +154,7 @@ public struct MSALCredential: TokenCredential {
             }
         } else {
             acquireTokenInteractively(withScopes: scopes) { result, error in
-                if let error = error {
-                    print(error)
-                }
+                returnError = error
                 if let result = result {
                     self.delegate?.didCompleteMSALRequest(withResult: result)
                     accessToken = AccessToken(
@@ -171,7 +168,7 @@ public struct MSALCredential: TokenCredential {
             }
         }
         group.notify(queue: DispatchQueue.main) {
-            completion(accessToken)
+            completion(accessToken, returnError)
         }
     }
 
@@ -207,10 +204,8 @@ public struct MSALCredential: TokenCredential {
                         self.acquireTokenInteractively(withScopes: scopes) { result, error in
                             completion(result, error)
                         }
-                        return
                     }
                 }
-                return
             }
             completion(result, error)
         }
@@ -243,7 +238,7 @@ public class BearerTokenCredentialPolicy: Authenticating {
     public func authenticate(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
         guard let token = self.token?.token else { return }
         request.httpRequest.headers[.authorization] = "Bearer \(token)"
-        completion(request)
+        completion(request, nil)
     }
 
     /// Authenticates an HTTP `PipelineRequest` with an OAuth token.
@@ -251,7 +246,11 @@ public class BearerTokenCredentialPolicy: Authenticating {
     ///   - request: A `PipelineRequest` object.
     ///   - completion: A completion handler that forwards the modified pipeline request.
     public func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
-        credential.token(forScopes: scopes) { token in
+        credential.token(forScopes: scopes) { token, error in
+            if let error = error {
+                completion(request, error)
+                return
+            }
             self.token = token
             self.authenticate(request: request, then: completion)
         }

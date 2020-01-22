@@ -47,6 +47,7 @@ public class StorageBlobClientOptions: AzureConfigurable {
     public let maxChunkGetSize = 4 * 1024 * 1024
 
     // TransferManager configuration
+    public var transferManager: URLSessionTransferManager?
     public weak var transferDelegate: TransferManagerDelegate?
 
     public init(

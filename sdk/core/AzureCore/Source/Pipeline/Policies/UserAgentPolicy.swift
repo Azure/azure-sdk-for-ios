@@ -140,6 +140,6 @@ public class UserAgentPolicy: PipelineStage {
         } else {
             request.httpRequest.headers[.userAgent] = userAgent
         }
-        completion(request)
+        completion(request, nil)
     }
 }

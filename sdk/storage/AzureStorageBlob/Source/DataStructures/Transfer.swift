@@ -34,6 +34,33 @@ open class ResumableTransfer: ResumableOperation {
 
     public weak var transfer: Transfer?
     public weak var operationQueue: ResumableOperationQueue?
+
+    internal func notifyDelegate(withTransfer transfer: Transfer) {
+        switch transfer {
+        case let transfer as BlockTransfer:
+            if let parent = transfer.parent?.operation?.transfer {
+                notifyDelegate(withTransfer: parent)
+                return
+            }
+        case let transfer as BlobTransfer:
+            if let parent = transfer.parent?.operation?.transfer {
+                notifyDelegate(withTransfer: parent)
+                return
+            }
+        default:
+            break
+        }
+        delegate?.operation(self, didChangeState: transfer.state)
+    }
+
+    internal func notifyDelegate(withTransfer transfer: BlockTransfer) {
+        // Notify the delegate of the block change AND the parent change.
+        // This allows the developer to decide which events to respond to.
+        delegate?.operation(self, didChangeState: transfer.state)
+        if let parent = transfer.parent?.operation, let parentState = parent.transfer?.state {
+            delegate?.operation(parent, didChangeState: parentState)
+        }
+    }
 }
 
 // MARK: Protocols
