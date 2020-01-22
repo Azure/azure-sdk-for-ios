@@ -25,17 +25,34 @@
 // --------------------------------------------------------------------------
 
 import AzureCore
+import CoreData
 import Foundation
 
-public class AppConfigurationClientOptions: AzureConfigurable {
-    public let apiVersion: String
-    public let logger: ClientLogger
-    public let tag: String
+public class BlockOperation: ResumableTransfer {
+    // MARK: Initializers
 
-    public init(apiVersion: String, logger: ClientLogger? = nil, tag: String = "AppConfigurationClient") {
-        self.apiVersion = apiVersion
-        self.tag = tag
-        self.logger = logger ?? ClientLoggers.default(tag: tag)
-        self.logger.level = .debug
+    public convenience init(withTransfer transfer: BlockTransfer) {
+        self.init(state: transfer.state)
+        self.transfer = transfer
+        transfer.operation = self
+    }
+
+    // MARK: Public Methods
+
+    public override func main() {
+        guard let transfer = transfer as? BlockTransfer else { return }
+        if isCancelled || isPaused { return }
+        transfer.state = .inProgress
+        transfer.parent?.state = .inProgress
+        delegate?.operation(self, didChangeState: transfer.state)
+        let delay = UInt32.random(in: 5 ... 10)
+        print("Block \(transfer.hash): Simulating work with \(delay) second delay.")
+        sleep(delay)
+        if isCancelled || isPaused { return }
+        transfer.data = UUID().uuidString.data(using: .utf8)
+        print("Block \(transfer.hash): Completed!")
+        transfer.state = .complete
+        delegate?.operation(self, didChangeState: transfer.state)
+        super.main()
     }
 }

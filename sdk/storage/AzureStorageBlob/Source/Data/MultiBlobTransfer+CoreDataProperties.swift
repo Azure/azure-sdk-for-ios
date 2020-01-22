@@ -23,19 +23,33 @@
 // IN THE SOFTWARE.
 //
 // --------------------------------------------------------------------------
+//
 
-import AzureCore
+import CoreData
 import Foundation
 
-public class AppConfigurationClientOptions: AzureConfigurable {
-    public let apiVersion: String
-    public let logger: ClientLogger
-    public let tag: String
-
-    public init(apiVersion: String, logger: ClientLogger? = nil, tag: String = "AppConfigurationClient") {
-        self.apiVersion = apiVersion
-        self.tag = tag
-        self.logger = logger ?? ClientLoggers.default(tag: tag)
-        self.logger.level = .debug
+extension MultiBlobTransfer {
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<MultiBlobTransfer> {
+        return NSFetchRequest<MultiBlobTransfer>(entityName: "MultiBlobTransfer")
     }
+
+    @NSManaged public var rawState: Int16
+    @NSManaged public var totalBlobs: Int64
+    @NSManaged public var blobs: NSSet?
+}
+
+// MARK: Generated accessors for blobs
+
+extension MultiBlobTransfer {
+    @objc(addBlobsObject:)
+    @NSManaged public func addToBlobs(_ value: BlobTransfer)
+
+    @objc(removeBlobsObject:)
+    @NSManaged public func removeFromBlobs(_ value: BlobTransfer)
+
+    @objc(addBlobs:)
+    @NSManaged public func addToBlobs(_ values: NSSet)
+
+    @objc(removeBlobs:)
+    @NSManaged public func removeFromBlobs(_ values: NSSet)
 }

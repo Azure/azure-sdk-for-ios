@@ -74,4 +74,8 @@ Pod::Spec.new do |s|
   s.subspec 'AzureSDKDemoSwift' do |sp|
     sp.source_files = 'examples/AzureSDKDemoSwift/Source/**/*.{swift,h,m}'
   end
+
+# AzureSDKTransferManager
+s.subspec 'AzureSDKTransferManager' do |sp|
+  sp.source_files = 'examples/AzureSDKTransferManager/Source/**/*.{swift,h,m}'
 end

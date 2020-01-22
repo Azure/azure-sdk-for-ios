@@ -25,17 +25,24 @@
 // --------------------------------------------------------------------------
 
 import AzureCore
+import CoreData
 import Foundation
 
-public class AppConfigurationClientOptions: AzureConfigurable {
-    public let apiVersion: String
-    public let logger: ClientLogger
-    public let tag: String
+internal class BlobOperation: ResumableTransfer {
+    // MARK: Initializers
 
-    public init(apiVersion: String, logger: ClientLogger? = nil, tag: String = "AppConfigurationClient") {
-        self.apiVersion = apiVersion
-        self.tag = tag
-        self.logger = logger ?? ClientLoggers.default(tag: tag)
-        self.logger.level = .debug
+    public convenience init(withTransfer transfer: BlobTransfer) {
+        self.init(state: transfer.state)
+        self.transfer = transfer
+        transfer.operation = self
+    }
+
+    // MARK: Public Methods
+
+    public override func main() {
+        guard let transfer = self.transfer as? BlobTransfer else { return }
+        transfer.state = .complete
+        delegate?.operation(self, didChangeState: transfer.state)
+        super.main()
     }
 }

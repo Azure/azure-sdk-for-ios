@@ -25,17 +25,34 @@
 // --------------------------------------------------------------------------
 
 import AzureCore
+import CoreData
 import Foundation
 
-public class AppConfigurationClientOptions: AzureConfigurable {
-    public let apiVersion: String
-    public let logger: ClientLogger
-    public let tag: String
+internal class MultiBlobOperation: ResumableTransfer {
+    // MARK: Properties
 
-    public init(apiVersion: String, logger: ClientLogger? = nil, tag: String = "AppConfigurationClient") {
-        self.apiVersion = apiVersion
-        self.tag = tag
-        self.logger = logger ?? ClientLoggers.default(tag: tag)
-        self.logger.level = .debug
+    internal weak var parent: MultiBlobTransfer?
+
+    // MARK: Initializers
+
+    public init(withTransfer transfer: MultiBlobTransfer) {
+        self.parent = transfer
+    }
+
+    // MARK: Public Methods
+
+    public override func main() {
+        guard let transfer = self.transfer as? MultiBlobTransfer else { return }
+        transfer.state = .complete
+        delegate?.operation(self, didChangeState: transfer.state)
+        super.main()
+    }
+
+    public override func cancel() {
+        super.cancel()
+    }
+
+    public override func pause() {
+        super.pause()
     }
 }

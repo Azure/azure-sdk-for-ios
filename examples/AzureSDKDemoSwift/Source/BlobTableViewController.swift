@@ -152,6 +152,8 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
         guard let blobName = cell.keyLabel.text else { return }
         guard let containerName = containerName else { return }
         guard let blobClient = getBlobClient() else { return }
+        let transferManager = URLSessionTransferManager(withClient: blobClient)
+
         do {
             let options = DownloadBlobOptions()
             options.range = RangeOptions()
@@ -163,7 +165,7 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
                 return
             }
             showActivitySpinner()
-            try blobClient.download(url: url, withOptions: options) { result, _ in
+            try blobClient.rawDownload(url: url, withOptions: options) { result, _ in
                 switch result {
                 case let .success(downloader):
                     let options = [
@@ -225,6 +227,11 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
 
     func didCompleteMSALRequest(withResult result: MSALResult) {
         AppState.account = result.account
+    }
+
+    func parentForWebView() -> UIViewController {
+        hideActivitySpinner()
+        return self
     }
 }
 

@@ -23,19 +23,30 @@
 // IN THE SOFTWARE.
 //
 // --------------------------------------------------------------------------
+//
 
-import AzureCore
+import CoreData
 import Foundation
 
-public class AppConfigurationClientOptions: AzureConfigurable {
-    public let apiVersion: String
-    public let logger: ClientLogger
-    public let tag: String
+public class BlockTransfer: NSManagedObject, Transfer {
+    public var operation: ResumableTransfer?
 
-    public init(apiVersion: String, logger: ClientLogger? = nil, tag: String = "AppConfigurationClient") {
-        self.apiVersion = apiVersion
-        self.tag = tag
-        self.logger = logger ?? ClientLoggers.default(tag: tag)
-        self.logger.level = .debug
+    public var debugString: String {
+        return "\t\tTransfer \(type(of: self)) \(hash): Status \(state.string())"
+    }
+}
+
+extension BlockTransfer {
+    public convenience init(
+        withContext context: NSManagedObjectContext,
+        startRange: Int64,
+        endRange: Int64,
+        parent: BlobTransfer? = nil
+    ) {
+        self.init(context: context)
+        self.startRange = startRange
+        self.endRange = endRange
+        self.parent = parent
+        self.state = .pending
     }
 }

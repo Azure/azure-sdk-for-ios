@@ -23,19 +23,19 @@
 // IN THE SOFTWARE.
 //
 // --------------------------------------------------------------------------
+//
 
-import AzureCore
+import CoreData
 import Foundation
 
-public class AppConfigurationClientOptions: AzureConfigurable {
-    public let apiVersion: String
-    public let logger: ClientLogger
-    public let tag: String
-
-    public init(apiVersion: String, logger: ClientLogger? = nil, tag: String = "AppConfigurationClient") {
-        self.apiVersion = apiVersion
-        self.tag = tag
-        self.logger = logger ?? ClientLoggers.default(tag: tag)
-        self.logger.level = .debug
+extension BlockTransfer {
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<BlockTransfer> {
+        return NSFetchRequest<BlockTransfer>(entityName: "BlockTransfer")
     }
+
+    @NSManaged public var data: Data?
+    @NSManaged public var endRange: Int64
+    @NSManaged public var rawState: Int16
+    @NSManaged public var startRange: Int64
+    @NSManaged public var parent: BlobTransfer?
 }
