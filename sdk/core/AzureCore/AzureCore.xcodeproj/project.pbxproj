@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0A18D7B523A95FEC008959E6 /* Copyable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A18D7B423A95FEC008959E6 /* Copyable.swift */; };
+		0A28683D23F5CD140084CF15 /* ResumableOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A28683C23F5CD140084CF15 /* ResumableOperation.swift */; };
 		0A3A5D7B2315C89C00473FDA /* AzureCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A3A5D792315C89C00473FDA /* AzureCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0A3A5D9B2315CEB600473FDA /* HTTPRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D902315CEB600473FDA /* HTTPRequest.swift */; };
 		0A3A5D9C2315CEB600473FDA /* HTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D912315CEB600473FDA /* HTTPResponse.swift */; };
@@ -26,7 +27,6 @@
 		0A3A5F402318975900473FDA /* PipelineClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F3F2318975900473FDA /* PipelineClient.swift */; };
 		0A3A5F422319834500473FDA /* PipelineStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F412319834500473FDA /* PipelineStage.swift */; };
 		0A3A5F442319D49700473FDA /* URLSessionTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F432319D49700473FDA /* URLSessionTransport.swift */; };
-		0A4081B62333EB380071EAEE /* ObjectiveCHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4081B52333EB380071EAEE /* ObjectiveCHelpers.swift */; };
 		0A45B1FB23A82A2E00C54363 /* ApplicationUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45B1FA23A82A2E00C54363 /* ApplicationUtil.swift */; };
 		0A6864B8233EAC76004B7E17 /* ContentDecodePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6864B7233EAC76004B7E17 /* ContentDecodePolicy.swift */; };
 		0A6A9B4F234293B50013FCAA /* RegexUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6A9B4E234293B50013FCAA /* RegexUtil.swift */; };
@@ -39,8 +39,11 @@
 		0AC0AA83234D017F00F05073 /* AzureCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC0AA82234D017F00F05073 /* AzureCodable.swift */; };
 		0AC0AA8C234F8ADD00F05073 /* Collections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC0AA8A234F8ADD00F05073 /* Collections.swift */; };
 		0AC0AA8F234FDB0800F05073 /* XMLModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC0AA8E234FDB0800F05073 /* XMLModel.swift */; };
-		0AD2142923314416003A2E3E /* ObjectiveCBridgeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD2142823314416003A2E3E /* ObjectiveCBridgeable.swift */; };
+		0AD6351B23F46C18000D67F6 /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD6351A23F46C18000D67F6 /* ReachabilityManager.swift */; };
+		0AD6351D23F46C6D000D67F6 /* ReachabilityManagerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD6351C23F46C6D000D67F6 /* ReachabilityManagerType.swift */; };
+		0AD6351F23F46CC4000D67F6 /* ReachabilityManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD6351E23F46CC4000D67F6 /* ReachabilityManagerTests.swift */; };
 		0AE5C3A6231F150A0013CA85 /* KeychainUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE5C3A5231F150A0013CA85 /* KeychainUtil.swift */; };
+		0AFAAAF423EA3C0C00B26BC2 /* ResumableOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFAAAF323EA3C0C00B26BC2 /* ResumableOperationQueue.swift */; };
 		0AFDF16723AAC37F00816EB7 /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AFDF16623AAC37F00816EB7 /* MSAL.framework */; };
 		0AFDF16923AACAD600816EB7 /* Pods_AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B79B7DB4DFFFBAA628E4C29 /* Pods_AzureCore.framework */; };
 		0AFDF16A23AACAD600816EB7 /* Pods_AzureCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7B79B7DB4DFFFBAA628E4C29 /* Pods_AzureCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -101,6 +104,7 @@
 
 /* Begin PBXFileReference section */
 		0A18D7B423A95FEC008959E6 /* Copyable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Copyable.swift; sourceTree = "<group>"; };
+		0A28683C23F5CD140084CF15 /* ResumableOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumableOperation.swift; sourceTree = "<group>"; };
 		0A3A5D762315C89C00473FDA /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A3A5D792315C89C00473FDA /* AzureCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AzureCore.h; sourceTree = "<group>"; };
 		0A3A5D7A2315C89C00473FDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -122,7 +126,6 @@
 		0A3A5F3F2318975900473FDA /* PipelineClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineClient.swift; sourceTree = "<group>"; };
 		0A3A5F412319834500473FDA /* PipelineStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineStage.swift; sourceTree = "<group>"; };
 		0A3A5F432319D49700473FDA /* URLSessionTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionTransport.swift; sourceTree = "<group>"; };
-		0A4081B52333EB380071EAEE /* ObjectiveCHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectiveCHelpers.swift; sourceTree = "<group>"; };
 		0A45B1FA23A82A2E00C54363 /* ApplicationUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationUtil.swift; sourceTree = "<group>"; };
 		0A6864B7233EAC76004B7E17 /* ContentDecodePolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentDecodePolicy.swift; sourceTree = "<group>"; };
 		0A6A9B4E234293B50013FCAA /* RegexUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegexUtil.swift; sourceTree = "<group>"; };
@@ -135,8 +138,11 @@
 		0AC0AA82234D017F00F05073 /* AzureCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzureCodable.swift; sourceTree = "<group>"; };
 		0AC0AA8A234F8ADD00F05073 /* Collections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Collections.swift; path = Source/DataStructures/Collections.swift; sourceTree = SOURCE_ROOT; };
 		0AC0AA8E234FDB0800F05073 /* XMLModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLModel.swift; sourceTree = "<group>"; };
-		0AD2142823314416003A2E3E /* ObjectiveCBridgeable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectiveCBridgeable.swift; sourceTree = "<group>"; };
+		0AD6351A23F46C18000D67F6 /* ReachabilityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityManager.swift; sourceTree = "<group>"; };
+		0AD6351C23F46C6D000D67F6 /* ReachabilityManagerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityManagerType.swift; sourceTree = "<group>"; };
+		0AD6351E23F46CC4000D67F6 /* ReachabilityManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityManagerTests.swift; sourceTree = "<group>"; };
 		0AE5C3A5231F150A0013CA85 /* KeychainUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainUtil.swift; sourceTree = "<group>"; };
+		0AFAAAF323EA3C0C00B26BC2 /* ResumableOperationQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumableOperationQueue.swift; sourceTree = "<group>"; };
 		0AFDF16623AAC37F00816EB7 /* MSAL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MSAL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AFEC34F23C8FC310065D588 /* UtilTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilTests.swift; sourceTree = "<group>"; };
 		0AFEC35023C8FC310065D588 /* PipelineTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PipelineTests.swift; sourceTree = "<group>"; };
@@ -219,8 +225,6 @@
 		0A3A5D782315C89C00473FDA /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				0AD21427233143F8003A2E3E /* ObjectiveCCompatibility */,
-				0A7F56372321730200E9765A /* Implementation */,
 				0A3A5F192316EADB00473FDA /* Pipeline */,
 				7AA5366623C0336F00A65A96 /* Providers */,
 				0A3A5DA52315CEBF00473FDA /* Util */,
@@ -241,6 +245,8 @@
 				0A18D7B423A95FEC008959E6 /* Copyable.swift */,
 				0A3A5F022316DF6600473FDA /* CryptoUtil.swift */,
 				0AE5C3A5231F150A0013CA85 /* KeychainUtil.swift */,
+				0AD6351A23F46C18000D67F6 /* ReachabilityManager.swift */,
+				0AD6351C23F46C6D000D67F6 /* ReachabilityManagerType.swift */,
 				0A6A9B4E234293B50013FCAA /* RegexUtil.swift */,
 			);
 			path = Util;
@@ -267,6 +273,7 @@
 				7AFA4D6123D14F01001A3BF4 /* LoggingPolicyTests.swift */,
 				0AFEC35423C8FC320065D588 /* PipelineRequestTests.swift */,
 				0AFEC35023C8FC310065D588 /* PipelineTests.swift */,
+				0AD6351E23F46CC4000D67F6 /* ReachabilityManagerTests.swift */,
 				7A1A916B23D13D5700B0B3D2 /* RequestIdPolicyTests.swift */,
 				0AFEC35223C8FC320065D588 /* UserAgentPolicyTests.swift */,
 				0AFEC34F23C8FC310065D588 /* UtilTests.swift */,
@@ -315,34 +322,10 @@
 				0A3A5D902315CEB600473FDA /* HTTPRequest.swift */,
 				0A3A5D912315CEB600473FDA /* HTTPResponse.swift */,
 				0AB7412023C79E1400B579B3 /* HTTPTransportStage.swift */,
-			);
-			path = Transport;
-			sourceTree = "<group>";
-		};
-		0A7F56372321730200E9765A /* Implementation */ = {
-			isa = PBXGroup;
-			children = (
-				0A7F56382321730D00E9765A /* Transport */,
-			);
-			path = Implementation;
-			sourceTree = "<group>";
-		};
-		0A7F56382321730D00E9765A /* Transport */ = {
-			isa = PBXGroup;
-			children = (
 				0A7F56392321732B00E9765A /* URLHTTPResponse.swift */,
 				0A3A5F432319D49700473FDA /* URLSessionTransport.swift */,
 			);
 			path = Transport;
-			sourceTree = "<group>";
-		};
-		0AD21427233143F8003A2E3E /* ObjectiveCCompatibility */ = {
-			isa = PBXGroup;
-			children = (
-				0AD2142823314416003A2E3E /* ObjectiveCBridgeable.swift */,
-				0A4081B52333EB380071EAEE /* ObjectiveCHelpers.swift */,
-			);
-			path = ObjectiveCCompatibility;
 			sourceTree = "<group>";
 		};
 		0AF01856232AF2CC00A0C94D /* DataStructures */ = {
@@ -350,6 +333,8 @@
 			children = (
 				0AC0AA8A234F8ADD00F05073 /* Collections.swift */,
 				0A8FE7672368A4FF00B96598 /* MatchCondition.swift */,
+				0A28683C23F5CD140084CF15 /* ResumableOperation.swift */,
+				0AFAAAF323EA3C0C00B26BC2 /* ResumableOperationQueue.swift */,
 				0AC0AA8E234FDB0800F05073 /* XMLModel.swift */,
 			);
 			path = DataStructures;
@@ -621,6 +606,8 @@
 				7AFCF7662345714200592782 /* LoggingPolicy.swift in Sources */,
 				0A3A5D9E2315CEB600473FDA /* HTTPHeader.swift in Sources */,
 				0A3A5D9C2315CEB600473FDA /* HTTPResponse.swift in Sources */,
+				0AD6351D23F46C6D000D67F6 /* ReachabilityManagerType.swift in Sources */,
+				0AB7412223C79E1400B579B3 /* HTTPTransportStage.swift in Sources */,
 				0AB7412223C79E1400B579B3 /* HTTPTransportStage.swift in Sources */,
 				0A18D7B523A95FEC008959E6 /* Copyable.swift in Sources */,
 				0A3A5F202316EF9400473FDA /* PipelineContext.swift in Sources */,
@@ -630,14 +617,14 @@
 				0A3A5F422319834500473FDA /* PipelineStage.swift in Sources */,
 				0A45B1FB23A82A2E00C54363 /* ApplicationUtil.swift in Sources */,
 				0A3A5D9D2315CEB600473FDA /* HTTPMethod.swift in Sources */,
+				0A28683D23F5CD140084CF15 /* ResumableOperation.swift in Sources */,
 				0A3A5D9B2315CEB600473FDA /* HTTPRequest.swift in Sources */,
 				7AA5366F23C0409F00A65A96 /* DeviceProviders.swift in Sources */,
 				7AA5366523C0232A00A65A96 /* RequestIdPolicy.swift in Sources */,
 				0AC0AA8C234F8ADD00F05073 /* Collections.swift in Sources */,
-				0A4081B62333EB380071EAEE /* ObjectiveCHelpers.swift in Sources */,
+				0AFAAAF423EA3C0C00B26BC2 /* ResumableOperationQueue.swift in Sources */,
 				0A3A5F3C2318904F00473FDA /* PipelineResponse.swift in Sources */,
 				7A16DC7B234BF55F002708BC /* PipelineError.swift in Sources */,
-				0AD2142923314416003A2E3E /* ObjectiveCBridgeable.swift in Sources */,
 				0A3A5F032316DF6600473FDA /* CryptoUtil.swift in Sources */,
 				7AA5366923C0340C00A65A96 /* BundleInfoProvider.swift in Sources */,
 				0A8FE7682368A4FF00B96598 /* MatchCondition.swift in Sources */,
@@ -648,6 +635,7 @@
 				0A3A5F402318975900473FDA /* PipelineClient.swift in Sources */,
 				0A3A5F012316DF1B00473FDA /* Errors.swift in Sources */,
 				0A6864B8233EAC76004B7E17 /* ContentDecodePolicy.swift in Sources */,
+				0AD6351B23F46C18000D67F6 /* ReachabilityManager.swift in Sources */,
 				0AC0AA8F234FDB0800F05073 /* XMLModel.swift in Sources */,
 				0A7F563A2321732B00E9765A /* URLHTTPResponse.swift in Sources */,
 				0AB7412123C79E1400B579B3 /* DataStringConvertible.swift in Sources */,
@@ -674,6 +662,7 @@
 				7A1A916F23D13E5D00B0B3D2 /* PipelineStubs.swift in Sources */,
 				0AFEC36023C8FC430065D588 /* PipelineTests.swift in Sources */,
 				0AFEC36323C8FC4C0065D588 /* XMLModelTests.swift in Sources */,
+				0AD6351F23F46CC4000D67F6 /* ReachabilityManagerTests.swift in Sources */,
 				7A1A916C23D13D5700B0B3D2 /* RequestIdPolicyTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

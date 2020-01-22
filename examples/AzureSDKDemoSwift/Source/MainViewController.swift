@@ -64,26 +64,6 @@ class MainViewController: UITableViewController, MSALInteractiveDelegate {
         }
     }
 
-    /// For demo purposes only to illustrate usage of the "nextItem" method to retrieve all items.
-    /// Requires semaphore to force synchronous behavior, otherwise concurrency issues arise.
-    private func loadAllSettingsByItem() {
-        var newItem: ContainerItem?
-        let semaphore = DispatchSemaphore(value: 0)
-        repeat {
-            dataSource?.nextItem { result in
-                defer { semaphore.signal() }
-                switch result {
-                case let .failure(error):
-                    newItem = nil
-                    os_log("Error: %@", String(describing: error))
-                case let .success(item):
-                    newItem = item
-                }
-            }
-            _ = semaphore.wait(wallTimeout: .distantFuture)
-        } while newItem != nil
-    }
-
     /// Uses asynchronous "nextPage" method to fetch the next page of results and update the table view.
     private func loadMoreSettings() {
         guard noMoreData == false else { return }

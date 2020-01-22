@@ -100,7 +100,11 @@ extension UIViewController {
                 tenant: AppConstants.tenant, clientId: AppConstants.clientId, application: application,
                 account: AppState.currentAccount()
             )
-            return try StorageBlobClient(accountUrl: AppConstants.storageAccountUrl, credential: credential)
+            let client = try StorageBlobClient(accountUrl: AppConstants.storageAccountUrl, credential: credential)
+            if let delegate = self as? TransferManagerDelegate {
+                client.options.transferDelegate = delegate
+            }
+            return client
         } catch {
             showAlert(error: String(describing: error))
             return nil

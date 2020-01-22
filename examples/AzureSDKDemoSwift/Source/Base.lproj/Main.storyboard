@@ -74,35 +74,46 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CustomTableViewCell" rowHeight="43.5" id="KJM-e4-5X5" customClass="CustomTableViewCell" customModule="AzureSDKDemoSwift" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="320" height="43.5"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CustomTableViewCell" rowHeight="79" id="KJM-e4-5X5" customClass="CustomTableViewCell" customModule="AzureSDKDemoSwift" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="320" height="79"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="KJM-e4-5X5" id="sJC-SA-mKc">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="79"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Key" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="by0-3d-7fW">
-                                            <rect key="frame" x="26" y="11.5" width="29" height="21"/>
+                                            <rect key="frame" x="24" y="19" width="29" height="42"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Value" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aqB-UW-Pzh">
-                                            <rect key="frame" x="272" y="11.5" width="42" height="21"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Value" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aqB-UW-Pzh">
+                                            <rect key="frame" x="206" y="8" width="106" height="53"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VUM-XC-0xR">
+                                            <rect key="frame" x="8" y="69" width="304" height="2"/>
+                                        </progressView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="by0-3d-7fW" firstAttribute="leading" secondItem="sJC-SA-mKc" secondAttribute="leadingMargin" constant="10" id="aWf-J3-Gac"/>
-                                        <constraint firstItem="aqB-UW-Pzh" firstAttribute="trailing" secondItem="sJC-SA-mKc" secondAttribute="trailingMargin" constant="10" id="bwY-Bm-FNC"/>
-                                        <constraint firstItem="aqB-UW-Pzh" firstAttribute="centerY" secondItem="by0-3d-7fW" secondAttribute="centerY" id="m65-JK-lU0"/>
-                                        <constraint firstItem="by0-3d-7fW" firstAttribute="centerY" secondItem="sJC-SA-mKc" secondAttribute="centerY" id="nJo-rc-mBl"/>
+                                        <constraint firstItem="by0-3d-7fW" firstAttribute="leading" secondItem="sJC-SA-mKc" secondAttribute="leadingMargin" constant="8" id="84U-Ct-xUD"/>
+                                        <constraint firstItem="aqB-UW-Pzh" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="by0-3d-7fW" secondAttribute="trailing" constant="8" id="Gy4-ca-TIa"/>
+                                        <constraint firstAttribute="trailing" secondItem="VUM-XC-0xR" secondAttribute="trailing" constant="8" id="LbF-4F-IG9"/>
+                                        <constraint firstItem="aqB-UW-Pzh" firstAttribute="top" secondItem="sJC-SA-mKc" secondAttribute="top" constant="8" id="SjB-3W-kW1"/>
+                                        <constraint firstItem="by0-3d-7fW" firstAttribute="top" secondItem="sJC-SA-mKc" secondAttribute="topMargin" constant="8" id="chR-JF-K91"/>
+                                        <constraint firstAttribute="bottom" secondItem="VUM-XC-0xR" secondAttribute="bottom" constant="8" id="jlL-m8-rlY"/>
+                                        <constraint firstItem="VUM-XC-0xR" firstAttribute="top" secondItem="aqB-UW-Pzh" secondAttribute="bottom" constant="8" id="jmI-F3-cTY"/>
+                                        <constraint firstItem="VUM-XC-0xR" firstAttribute="leading" secondItem="sJC-SA-mKc" secondAttribute="leading" constant="8" id="nkA-eX-6gn"/>
+                                        <constraint firstAttribute="trailing" secondItem="aqB-UW-Pzh" secondAttribute="trailing" constant="8" id="oaD-5w-8ph"/>
+                                        <constraint firstItem="VUM-XC-0xR" firstAttribute="top" secondItem="by0-3d-7fW" secondAttribute="bottom" constant="8" id="ucS-M5-ZxS"/>
+                                        <constraint firstItem="VUM-XC-0xR" firstAttribute="top" secondItem="by0-3d-7fW" secondAttribute="bottom" constant="8" id="yqs-Is-4Og"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="keyLabel" destination="by0-3d-7fW" id="egM-1l-BJ7"/>
+                                    <outlet property="progressBar" destination="VUM-XC-0xR" id="p7D-DS-Opg"/>
                                     <outlet property="valueLabel" destination="aqB-UW-Pzh" id="loY-mR-2ME"/>
                                 </connections>
                             </tableViewCell>
@@ -122,7 +133,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fmb-sm-DmB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-92" y="440"/>
+            <point key="canvasLocation" x="-93.75" y="440"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="ApL-gZ-kek">

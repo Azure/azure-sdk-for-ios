@@ -33,17 +33,13 @@ import AVFoundation
 import AVKit
 import UIKit
 
-// swiftlint:disable function_body_length
-// swiftlint:disable cyclomatic_complexity
-
 class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
-    internal var containerName: String! = "videos"
+    private var containerName: String! = "videos"
     private var dataSource: PagedCollection<BlobItem>?
+    private var downloadMap = [IndexPath: Transfer]()
     private var noMoreData = false
     private lazy var imagePicker = UIImagePickerController()
     private lazy var player: AVPlayer = AVPlayer()
-    private var currentDownloader: BlobStreamDownloader?
-    private var downloaderBuffered = false
 
     @IBAction func didSelectUpload(_: UIBarButtonItem) {
         imagePicker.sourceType = .photoLibrary
@@ -62,8 +58,8 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        currentDownloader = nil
-        downloaderBuffered = false
+//        currentDownloader = nil
+//        downloaderBuffered = false
     }
 
     // MARK: Private Methods
@@ -152,69 +148,42 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
         guard let blobName = cell.keyLabel.text else { return }
         guard let containerName = containerName else { return }
         guard let blobClient = getBlobClient() else { return }
+
         do {
             let options = DownloadBlobOptions()
             options.range = RangeOptions()
             options.destination = DestinationOptions()
-            options.destination?.isTemporary = true
-            options.range?.calculateMD5 = true
+            options.destination?.isTemporary = false
+            // TODO: Diagnose issues with EXC_BAD_ACCESS and restore to true
+            options.range?.calculateMD5 = false
             guard let url = blobClient.url(forBlob: blobName, inContainer: containerName) else {
                 showAlert(error: "Unable to create URL!")
                 return
             }
-            showActivitySpinner()
-            try blobClient.download(url: url, withOptions: options) { result, _ in
-                switch result {
-                case let .success(downloader):
-                    let options = [
-                        NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.rtf
-                    ]
-                    do {
-                        let contentType = downloader.blobProperties?.contentType
+            guard let destination = try? blobClient.localUrl(remoteUrl: url, withOptions: options) else {
+                showAlert(error: "Unable to create destination URL!")
+                return
+            }
 
-                        if ["video/mp4", "application/octet-stream"].contains(contentType) {
-                            self.currentDownloader = downloader
-                            downloader.delegate = self
-                            try downloader.complete {}
-                        } else {
-                            try downloader.complete {
-                                self.hideActivitySpinner()
-                                guard let data = try? downloader.contents() else {
-                                    self.showAlert(error: "Downloaded data not found!")
-                                    return
-                                }
+            // If file is fully downloaded, load it with AVPlayer
+            let manager = FileManager.default
+            if manager.fileExists(atPath: destination.path) {
+                downloadMap.removeValue(forKey: indexPath)
+                player.replaceCurrentItem(with: AVPlayerItem(asset: AVAsset(url: destination)))
+                let controller = AVPlayerViewController()
+                controller.player = player
+                present(controller, animated: true) {
+                    self.player.play()
+                }
+                return
+            }
 
-                                if let attributedString = try? NSAttributedString(
-                                    data: data,
-                                    options: options,
-                                    documentAttributes: nil
-                                ) {
-                                    self.showAlert(message: attributedString.string)
-                                } else if let rawString = String(data: data, encoding: .utf8) {
-                                    self.showAlert(message: rawString)
-                                } else {
-                                    self.showAlert(error: "Unable to display the downloaded content.")
-                                }
-                            }
-                        }
-                    } catch {
-                        self.showAlert(error: String(describing: error))
-                    }
-                case let .failure(error):
-                    // TODO: Don't like this. Feels like the SDK should be responsible for handling errors rather
-                    // than dumping it on the client.
-                    switch error {
-                    case let HTTPResponseError.statusCode(message):
-                        self.showAlert(error: message)
-                    case let AzureError.general(message):
-                        self.showAlert(error: message)
-                    default:
-                        self.showAlert(error: String(describing: error))
-                    }
-                }
-                DispatchQueue.main.async { [weak self] in
-                    self?.tableView.deselectRow(at: indexPath, animated: true)
-                }
+            // Otherwise, start the download with TransferManager.
+            if let transfer = try blobClient.download(url: url, withOptions: options) {
+                downloadMap[indexPath] = transfer
+            }
+            DispatchQueue.main.async { [weak self] in
+                self?.tableView.deselectRow(at: indexPath, animated: true)
             }
         } catch {
             showAlert(error: String(describing: error))
@@ -225,6 +194,11 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
 
     func didCompleteMSALRequest(withResult result: MSALResult) {
         AppState.account = result.account
+    }
+
+    func parentForWebView() -> UIViewController {
+        hideActivitySpinner()
+        return self
     }
 }
 
@@ -242,32 +216,85 @@ extension BlobTableViewController: UIImagePickerControllerDelegate, UINavigation
     func imagePickerControllerDidCancel(_: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
-}
 
-extension BlobTableViewController: BlobDownloadDelegate {
-    func downloader(_ downloader: BlobStreamDownloader, didUpdateWithProgress progress: BlobDownloadProgress) {
-        guard let current = currentDownloader else { return }
-        guard downloader === current else { return }
-        print("Download: \(downloader.blobName) Progress: %\(progress.percentProgress)")
-        // blobClient.options.logger.info("Progress: %\(percentDone)")
-        if progress.percentProgress > 25, !downloaderBuffered {
-            downloaderBuffered = true
-            hideActivitySpinner()
+    // MARK: Internal Methods
+
+    internal func updateProgressBar(forTransfer transfer: Transfer, withProgress progress: TransferProgress) {
+        DispatchQueue.main.sync {
+            let indexPath = self.downloadMap.filter { _, value in
+                value === transfer
+            }
+            guard let cellIndex = indexPath.first?.key else { return }
             DispatchQueue.main.async {
-                let url = downloader.downloadDestination
-                self.player.replaceCurrentItem(with: AVPlayerItem(asset: AVAsset(url: url)))
-                let controller = AVPlayerViewController()
-                controller.player = self.player
-                self.present(controller, animated: true) {
-                    self.player.play()
-                }
+                guard let cell = self.tableView.cellForRow(at: cellIndex) as? CustomTableViewCell else { return }
+                cell.progressBar.progress = progress.asFloat
             }
         }
     }
+}
+
+extension BlobTableViewController: TransferManagerDelegate {
+    func transferManager<T>(
+        _: T,
+        didUpdateTransfer transfer: Transfer,
+        withState state: TransferState,
+        andProgress progress: TransferProgress?
+    ) where T: TransferManager {
+        if let progress = progress {
+            print("Transfer \(transfer.hash) update: \(state.string()) progress: \(progress.asPercent)%")
+            updateProgressBar(forTransfer: transfer, withProgress: progress)
+        } else {
+            print("Transfer \(transfer.hash) update: \(state.string())")
+        }
+        reloadTableView()
+    }
+
+    func transferManager<T>(_: T, didUpdateTransfers transfers: [Transfer], withState state: TransferState)
+        where T: TransferManager {
+        print("Transfers (\(transfers.count)) update: \(state.string())")
+        reloadTableView()
+    }
+
+    func transferManager<T>(_: T, didCompleteTransfer _: Transfer) where T: TransferManager {
+        reloadTableView()
+    }
+
+    func transferManager<T>(_: T, didFailTransfer _: Transfer, withError _: Error) where T: TransferManager {
+        reloadTableView()
+    }
+
+    func transferManager<T>(_: T, didUpdateWithState _: TransferState) where T: TransferManager {
+        reloadTableView()
+    }
+}
+
+extension BlobTableViewController: BlobDownloadDelegate {
+    func downloader(_: BlobStreamDownloader, didUpdateWithProgress _: BlobDownloadProgress) {
+//        guard let current = currentDownloader else { return }
+//        guard downloader === current else { return }
+//        let indexPath = downloadMap.filter { _, value in
+//            value === downloader
+//        }
+//        guard let cellIndex = indexPath.first?.key else { return }
+//        DispatchQueue.main.async {
+//            guard let cell = self.tableView.cellForRow(at: cellIndex) as? CustomTableViewCell else { return }
+//            cell.progressBar.progress = progress.asFloat
+//            if progress.asPercent >= 100, !self.downloaderBuffered {
+//                self.downloadMap.removeValue(forKey: cellIndex)
+//                self.downloaderBuffered = true
+//                self.hideActivitySpinner()
+//                let url = downloader.downloadDestination
+//                self.player.replaceCurrentItem(with: AVPlayerItem(asset: AVAsset(url: url)))
+//                let controller = AVPlayerViewController()
+//                controller.player = self.player
+//                self.present(controller, animated: true) {
+//                    self.player.play()
+//                }
+//            }
+//        }
+    }
 
     func downloader(_ downloader: BlobStreamDownloader, didFinishWithProgress _: BlobDownloadProgress) {
-        guard let current = currentDownloader else { return }
-        guard downloader === current else { return }
         // update playing with completed file
         DispatchQueue.main.async { [weak self] in
             guard let parent = self else { return }

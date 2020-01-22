@@ -31,6 +31,7 @@ class CustomTableViewCell: UITableViewCell {
 
     @IBOutlet var keyLabel: UILabel!
     @IBOutlet var valueLabel: UILabel!
+    @IBOutlet var progressBar: UIProgressView!
 
     override func awakeFromNib() {
         super.awakeFromNib()

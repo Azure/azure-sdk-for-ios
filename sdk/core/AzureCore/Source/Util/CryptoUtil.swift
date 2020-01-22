@@ -55,7 +55,7 @@ public enum CryptoAlgorithm {
 
     /// Compute a hash of the underlying data using the specfied algorithm.
     public func hash(_ data: UnsafeRawPointer!, _ len: CC_LONG, _ message: UnsafeMutablePointer<UInt8>!) -> Data {
-        var result: UnsafeMutablePointer<UInt8>?
+        var result: UnsafeMutablePointer<UInt8>
         switch self {
         case .md5:
             result = CC_MD5(data, len, message)
@@ -70,7 +70,7 @@ public enum CryptoAlgorithm {
         case .sha512:
             result = CC_SHA512(data, len, message)
         }
-        return Data(bytes: result!, count: Int(len))
+        return Data(bytes: result, count: Int(len))
     }
 
     /// Digest length for the HMAC algorithm.

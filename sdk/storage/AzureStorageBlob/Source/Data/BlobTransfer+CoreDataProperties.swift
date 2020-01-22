@@ -23,19 +23,40 @@
 // IN THE SOFTWARE.
 //
 // --------------------------------------------------------------------------
+//
 
-import AzureCore
+import CoreData
 import Foundation
 
-public class AppConfigurationClientOptions: AzureConfigurable {
-    public let apiVersion: String
-    public var logger: ClientLogger
-    public let tag: String
-
-    public init(apiVersion: String, logger: ClientLogger? = nil, tag: String = "AppConfigurationClient") {
-        self.apiVersion = apiVersion
-        self.tag = tag
-        self.logger = logger ?? ClientLoggers.default(tag: tag)
-        self.logger.level = .debug
+extension BlobTransfer {
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<BlobTransfer> {
+        return NSFetchRequest<BlobTransfer>(entityName: "BlobTransfer")
     }
+
+    @NSManaged public var baseUrl: String?
+    @NSManaged public var blobName: String?
+    @NSManaged public var containerName: String?
+    @NSManaged public var endRange: Int64
+    @NSManaged public var rawState: Int16
+    @NSManaged public var startRange: Int64
+    @NSManaged public var uri: URL?
+    @NSManaged public var totalBlocks: Int64
+    @NSManaged public var blocks: NSSet?
+    @NSManaged public var parent: MultiBlobTransfer?
+}
+
+// MARK: Generated accessors for blocks
+
+extension BlobTransfer {
+    @objc(addBlocksObject:)
+    @NSManaged public func addToBlocks(_ value: BlockTransfer)
+
+    @objc(removeBlocksObject:)
+    @NSManaged public func removeFromBlocks(_ value: BlockTransfer)
+
+    @objc(addBlocks:)
+    @NSManaged public func addToBlocks(_ values: NSSet)
+
+    @objc(removeBlocks:)
+    @NSManaged public func removeFromBlocks(_ values: NSSet)
 }
