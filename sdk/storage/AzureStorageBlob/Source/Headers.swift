@@ -29,6 +29,13 @@ import Foundation
 
 /// Storage service-specific HTTP headers.
 public enum StorageHTTPHeader: String {
+    case accessTier = "x-ms-access-tier"
+    case blobCacheControl = "x-ms-blob-cache-control"
+    case blobContentDisposition = "x-ms-blob-content-disposition"
+    case blobContentEncoding = "x-ms-blob-content-encoding"
+    case blobContentLanguage = "x-ms-blob-content-language"
+    case blobContentMD5 = "x-ms-blob-content-md5"
+    case blobContentType = "x-ms-blob-content-type"
     case blobSequenceNumber = "x-ms-blob-sequence-number"
     case blobType = "x-ms-blob-type"
     case contentCRC64 = "x-ms-content-crc64"
@@ -44,6 +51,7 @@ public enum StorageHTTPHeader: String {
     case leaseDuration = "x-ms-lease-duration"
     case leaseState = "x-ms-lease-state"
     case leaseStatus = "x-ms-lease-status"
+    case metadata = "x-ms-meta"
 }
 
 extension HTTPHeaders {

@@ -30,7 +30,7 @@ import Foundation
 public enum TransferState: Int16 {
     case unknown, pending, inProgress, paused, complete, failed, canceled, deleted
 
-    public func string() -> String {
+    public var label: String {
         switch self {
         case .unknown:
             return "Unknown"
@@ -48,6 +48,21 @@ public enum TransferState: Int16 {
             return "Canceled"
         case .deleted:
             return "Deleted"
+        }
+    }
+}
+
+public enum TransferType: Int16 {
+    case unknown, upload, download
+
+    public var label: String {
+        switch self {
+        case .upload:
+            return "upload"
+        case .download:
+            return "download"
+        case .unknown:
+            return "unknown"
         }
     }
 }
@@ -71,7 +86,7 @@ open class ResumableOperation: Operation {
     }
 
     public var debugString: String {
-        return "Operation \(type(of: self)) \(hash): Status \(internalState.string())"
+        return "Operation \(type(of: self)) \(hash): Status \(internalState.label)"
     }
 
     // MARK: Initializers

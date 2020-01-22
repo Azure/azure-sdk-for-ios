@@ -80,6 +80,34 @@ public class BlockOperation: ResumableTransfer {
                 }
                 group.leave()
             }
+        } else if let uploader = transfer.parent?.uploader {
+            let chunkUploader = ChunkUploader(
+                blob: uploader.blobName,
+                container: uploader.containerName,
+                blockId: transfer.blockId,
+                client: uploader.client,
+                url: uploader.uploadSource,
+                startRange: Int(transfer.startRange),
+                endRange: Int(transfer.endRange),
+                options: uploader.options
+            )
+            chunkUploader.upload { result, _ in
+                switch result {
+                case .success:
+                    // Add block ID to the completed list and lookup where its final
+                    // placement should be
+                    let blockId = chunkUploader.blockId
+                    if let parentUploader = transfer.parent?.uploader {
+                        parentUploader.completedBlockMap[blockId] = parentUploader.blockIdMap[blockId]
+                    }
+                    self.delegate?.operation(self, didChangeState: .inProgress)
+                case .failure:
+                    self.transfer?.state = .failed
+                    // TODO: The failure needs to propagate to the entire operation...
+                    self.delegate?.operation(self, didChangeState: .failed)
+                }
+                group.leave()
+            }
         } else {
             // TODO: Remove dummy workload when TM has sufficient testing
             let delay = UInt32.random(in: 5 ... 10)
@@ -88,7 +116,6 @@ public class BlockOperation: ResumableTransfer {
             group.leave()
         }
         group.wait()
-        print("Block \(transfer.hash): Completed!")
         transfer.state = .complete
         notifyDelegate(withTransfer: transfer)
         super.main()

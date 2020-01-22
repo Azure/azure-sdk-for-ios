@@ -46,6 +46,11 @@ public protocol Transfer: AnyObject {
     var hash: Int { get }
 }
 
+public protocol TransferProgress {
+    var asPercent: Int { get }
+    var asFloat: Float { get }
+}
+
 // MARK: Extensions
 
 extension Transfer {

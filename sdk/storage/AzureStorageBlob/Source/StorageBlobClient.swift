@@ -133,9 +133,12 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
             return try self.init(accountUrl: blobEndpoint, credential: sasCredential, withOptions: options)
         }
 
-    // MARK: Private Methods
+    public static func url(forHost host: String, container: String, blob: String) -> URL? {
+        let urlString = "\(host)/\(container)/\(blob)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        return URL(string: urlString)
+    }
 
-    private func parse(url: URL) throws -> (String, String, String) {
+    public static func parse(url: URL) throws -> (String, String, String) {
         let pathComps = url.pathComponents
         guard let host = url.host else {
             throw AzureError.general("No host found for URL: \(url.absoluteString)")
@@ -349,7 +352,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         withOptions options: DownloadBlobOptions? = nil,
         then completion: @escaping HTTPResultHandler<BlobStreamDownloader>
     ) throws {
-        let (host, container, blob) = try parse(url: url)
+        let (host, container, blob) = try StorageBlobClient.parse(url: url)
         if baseUrl == host {
             try rawDownload(blob: blob, fromContainer: container, withOptions: options, then: completion)
         } else {
@@ -378,12 +381,14 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
             container: container,
             options: options
         )
+        guard let sourceUrl = StorageBlobClient.url(forHost: baseUrl, container: container, blob: blob) else {
+            throw AzureError.general("Unable to resolve source URL.")
+        }
         let blobTransfer = BlobTransfer.with(
             context: context,
-            baseUrl: baseUrl,
-            blobName: blob,
-            containerName: container,
-            uri: downloader.downloadDestination,
+            source: sourceUrl,
+            destination: downloader.downloadDestination,
+            type: .download,
             startRange: start,
             endRange: end,
             parent: nil
@@ -394,7 +399,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
     }
 
     public func download(url: URL, withOptions options: DownloadBlobOptions? = nil) throws -> Transfer? {
-        let (host, container, blob) = try parse(url: url)
+        let (host, container, blob) = try StorageBlobClient.parse(url: url)
         if baseUrl == host {
             return try download(blob: blob, fromContainer: container, withOptions: options)
         } else {
@@ -404,6 +409,66 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
                 withOptions: self.options
             )
             return try client.download(blob: blob, fromContainer: container, withOptions: options)
+        }
+    }
+
+    public func upload(
+        url: URL,
+        toContainer container: String,
+        asBlob blob: String,
+        properties: BlobProperties? = nil,
+        withOptions options: UploadBlobOptions? = nil
+    ) throws -> Transfer? {
+        guard let context = manager.persistentContainer?.viewContext else { return nil }
+        let uploader = try BlobStreamUploader(
+            client: self,
+            delegate: nil,
+            source: url,
+            name: blob,
+            container: container,
+            properties: properties,
+            options: options
+        )
+        guard let destinationUrl = StorageBlobClient.url(forHost: baseUrl, container: container, blob: blob) else {
+            throw AzureError.general("Unable to resolve destination URL.")
+        }
+        let blobTransfer = BlobTransfer.with(
+            context: context,
+            source: uploader.uploadSource,
+            destination: destinationUrl,
+            type: .upload,
+            startRange: 0,
+            endRange: Int64(uploader.fileSize),
+            parent: nil
+        )
+        blobTransfer.uploader = uploader
+        manager.add(transfer: blobTransfer)
+        return blobTransfer
+    }
+
+    public func rawUpload(
+        url: URL,
+        toContainer container: String,
+        asBlob blob: String,
+        properties: BlobProperties? = nil,
+        withOptions options: UploadBlobOptions? = nil,
+        then completion: @escaping HTTPResultHandler<BlobStreamUploader>
+    ) throws {
+        let uploader = try BlobStreamUploader(
+            client: self,
+            source: url,
+            name: blob,
+            container: container,
+            properties: properties,
+            options: options
+        )
+        uploader.next { result, httpResponse in
+            switch result {
+            case .success:
+                completion(.success(uploader), httpResponse)
+            case let .failure(error):
+                completion(.failure(error), httpResponse)
+            }
         }
     }
 
@@ -434,7 +499,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
     }
 
     public func localUrl(remoteUrl url: URL, withOptions options: DownloadBlobOptions? = nil) throws -> URL? {
-        let (host, container, blob) = try parse(url: url)
+        let (host, container, blob) = try StorageBlobClient.parse(url: url)
         if baseUrl == host {
             return try localUrl(blob: blob, fromContainer: container, withOptions: options)
         } else {

@@ -28,7 +28,7 @@ import AzureCore
 import CoreData
 import Foundation
 
-internal class BlobOperation: ResumableTransfer {
+internal class BlobDownloadFinalOperation: ResumableTransfer {
     // MARK: Initializers
 
     public convenience init(withTransfer transfer: BlobTransfer, queue: ResumableOperationQueue) {
@@ -48,7 +48,42 @@ internal class BlobOperation: ResumableTransfer {
     }
 }
 
-internal class BlobInitialOperation: ResumableTransfer {
+internal class BlobUploadFinalOperation: ResumableTransfer {
+    // MARK: Initializers
+
+    public convenience init(withTransfer transfer: BlobTransfer, queue: ResumableOperationQueue) {
+        self.init(state: transfer.state)
+        self.transfer = transfer
+        self.operationQueue = queue
+        transfer.operation = self
+    }
+
+    // MARK: Public Methods
+
+    public override func main() {
+        guard let transfer = self.transfer as? BlobTransfer else { return }
+        guard let uploader = transfer.uploader else { return }
+        let group = DispatchGroup()
+        group.enter()
+        uploader.commit { result, _ in
+            switch result {
+            case .success:
+                transfer.state = .complete
+                self.delegate?.operation(self, didChangeState: transfer.state)
+                group.leave()
+            case .failure:
+                self.transfer?.state = .failed
+                // TODO: The failure needs to propagate to the entire operation...
+                self.delegate?.operation(self, didChangeState: .failed)
+                group.leave()
+            }
+        }
+        group.wait()
+        super.main()
+    }
+}
+
+internal class BlobDownloadInitialOperation: ResumableTransfer {
     // MARK: Initializers
 
     public convenience init(withTransfer transfer: BlobTransfer, queue: ResumableOperationQueue) {
@@ -60,12 +95,14 @@ internal class BlobInitialOperation: ResumableTransfer {
 
     // MARK: Internal Methods
 
-    internal func queueRemainingBlocks(forTransfer transfer: BlobTransfer, withBlockList blockList: [Range<Int>]) {
+    internal func queueRemainingBlocks(forTransfer transfer: BlobTransfer) {
+        guard transfer.transferType == .download else { return }
         guard let operation = transfer.operation else { return }
         guard let context = transfer.managedObjectContext else { return }
 
         var operations = [BlockOperation]()
-        for block in blockList {
+        guard let downloader = transfer.downloader else { return }
+        for block in downloader.blockList {
             let blockTransfer = BlockTransfer.with(
                 context: context,
                 startRange: Int64(block.startIndex),
@@ -85,6 +122,7 @@ internal class BlobInitialOperation: ResumableTransfer {
 
     public override func main() {
         guard let transfer = self.transfer as? BlobTransfer else { return }
+        guard transfer.transferType == .download else { return }
         transfer.state = .inProgress
         delegate?.operation(self, didChangeState: transfer.state)
         let group = DispatchGroup()
@@ -94,7 +132,7 @@ internal class BlobInitialOperation: ResumableTransfer {
                 switch result {
                 case .success:
                     self.delegate?.operation(self, didChangeState: .inProgress)
-                    self.queueRemainingBlocks(forTransfer: transfer, withBlockList: downloader.blockList)
+                    self.queueRemainingBlocks(forTransfer: transfer)
                     group.leave()
                 case .failure:
                     self.transfer?.state = .failed

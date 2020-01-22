@@ -92,6 +92,7 @@ public class URLSessionTransport: HTTPTransportStage {
         var urlRequest = URLRequest(url: encodedUrl)
         urlRequest.httpMethod = pipelineRequest.httpRequest.httpMethod.rawValue
         urlRequest.allHTTPHeaderFields = pipelineRequest.httpRequest.headers
+        urlRequest.httpBody = pipelineRequest.httpRequest.data
 
         // need immutable copies to pass into the closure. At this point, these can't change
         // anyways.

@@ -209,11 +209,6 @@ internal class ChunkDownloader {
     }
 }
 
-public protocol TransferProgress {
-    var asPercent: Int { get }
-    var asFloat: Float { get }
-}
-
 public struct BlobDownloadProgress: TransferProgress {
     public var bytes: Int
     public var totalBytes: Int
@@ -233,6 +228,7 @@ public protocol BlobDownloadDelegate: AnyObject {
         didUpdateWithProgress progress: BlobDownloadProgress
     )
     func downloader(_ downloader: BlobStreamDownloader, didFinishWithProgress progress: BlobDownloadProgress)
+    func downloader(_ downloader: BlobStreamDownloader, didFailWithError: Error)
 }
 
 /// Class used to download streaming blobs.
@@ -317,10 +313,6 @@ public class BlobStreamDownloader {
 
         self.downloadDestination = baseUrl.appendingPathComponent(customSubfolder ?? defaultSubfolder)
             .appendingPathComponent(customFilename ?? defaultFilename)
-        // TODO: Use this to simplify logic?
-//        if FileManager.default.fileExists(atPath: downloadDestination.path) {
-//            try? FileManager.default.removeItem(at: downloadDestination)
-//        }
 
         self.client = client
         self.delegate = delegate
@@ -359,10 +351,8 @@ public class BlobStreamDownloader {
         let dispatchGroup = group ?? defaultGroup
         for _ in blockList {
             dispatchGroup.enter()
-            next(inGroup: dispatchGroup) { result, response in
+            next(inGroup: dispatchGroup) { _, _ in
                 if let delegate = self.delegate {
-                    let test = "\(result) \(response)"
-
                     let progress = BlobDownloadProgress(bytes: self.progress, totalBytes: self.fileSize ?? 1)
                     delegate.downloader(self, didUpdateWithProgress: progress)
                 }
@@ -492,7 +482,7 @@ public class BlobStreamDownloader {
         let alignForCrypto = isEncrypted
         let validateContent = options.range?.calculateMD5 == true || options.range?.calculateCRC64 == true
         let chunkLength = alignForCrypto || validateContent
-            ? client.options.maxChunkGetSize - 1
+            ? client.options.maxChunkSize - 1
             : client.options.maxSingleGetSize
         let start = (options.range?.offset ?? 0) + offset
         let length = (requestedSize ?? options.range?.length ?? chunkLength) - start

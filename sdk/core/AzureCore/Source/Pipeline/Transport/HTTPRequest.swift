@@ -40,16 +40,14 @@ public class HTTPRequest: DataStringConvertible {
     public let httpMethod: HTTPMethod
     public var url: String
     public var headers: HTTPHeaders
-    public var files: [String]?
     public var data: Data?
 
     // MARK: Initializers
 
-    public init(method: HTTPMethod, url: String, headers: HTTPHeaders, files: [String]? = nil, data: Data? = nil) {
+    public init(method: HTTPMethod, url: String, headers: HTTPHeaders, data: Data? = nil) {
         self.httpMethod = method
         self.url = url
         self.headers = headers
-        self.files = files
         self.data = data
     }
 

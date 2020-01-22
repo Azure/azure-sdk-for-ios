@@ -8,63 +8,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Containers-->
-        <scene sceneID="Bti-s9-JbX">
-            <objects>
-                <tableViewController id="Oen-R8-fXR" customClass="MainViewController" customModule="AzureSDKDemoSwift" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="hdR-fh-h9Y">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CustomTableViewCell" rowHeight="43.5" id="4Yf-nh-4Li" customClass="CustomTableViewCell" customModule="AzureSDKDemoSwift" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="320" height="43.5"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="4Yf-nh-4Li" id="3g0-j9-TBY">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Key" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dqt-fZ-XVC">
-                                            <rect key="frame" x="10" y="11.5" width="29" height="21"/>
-                                            <accessibility key="accessibilityConfiguration">
-                                                <accessibilityTraits key="traits" none="YES"/>
-                                            </accessibility>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QIq-kq-1VU">
-                                            <rect key="frame" x="268" y="11.5" width="42" height="20.5"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstItem="Dqt-fZ-XVC" firstAttribute="leading" secondItem="3g0-j9-TBY" secondAttribute="leading" constant="10" id="G0a-6D-Hnt"/>
-                                        <constraint firstItem="Dqt-fZ-XVC" firstAttribute="centerY" secondItem="3g0-j9-TBY" secondAttribute="centerY" id="O9I-7h-w2m"/>
-                                        <constraint firstItem="QIq-kq-1VU" firstAttribute="centerY" secondItem="Dqt-fZ-XVC" secondAttribute="centerY" id="dLy-Zz-hDR"/>
-                                        <constraint firstAttribute="trailing" secondItem="QIq-kq-1VU" secondAttribute="trailing" constant="10" id="iJP-7C-pBA"/>
-                                    </constraints>
-                                </tableViewCellContentView>
-                                <connections>
-                                    <outlet property="keyLabel" destination="Dqt-fZ-XVC" id="fkQ-65-YB0"/>
-                                    <outlet property="valueLabel" destination="QIq-kq-1VU" id="BKd-XF-n1x"/>
-                                    <segue destination="cuo-1d-Q3T" kind="show" identifier="listContainerBlobs" id="QaL-60-CDh"/>
-                                </connections>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="Oen-R8-fXR" id="ey1-tu-dBi"/>
-                            <outlet property="delegate" destination="Oen-R8-fXR" id="K5j-96-C2S"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Containers" id="qT2-ar-ojc"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dZU-yr-M8P" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-94" y="-444"/>
-        </scene>
         <!--Blob Table View Controller-->
         <scene sceneID="6w0-yH-5rQ">
             <objects>
@@ -211,7 +154,4 @@
     <resources>
         <image name="logo" width="291.33334350585938" height="170"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="JI3-FM-MzZ"/>
-    </inferredMetricsTieBreakers>
 </document>

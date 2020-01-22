@@ -189,7 +189,8 @@ public class LoggingPolicy: PipelineStage {
     }
 
     private func redact(url: String) -> String? {
-        guard var urlComps = URLComponents(string: url) else { return nil }
+        guard let encodedUrl = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return nil }
+        guard var urlComps = URLComponents(string: encodedUrl) else { return nil }
         guard let queryItems = urlComps.queryItems else { return url }
 
         var redactedQueryItems = [URLQueryItem]()

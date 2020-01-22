@@ -73,10 +73,10 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
     @IBAction func didPressEnqueueMulti(_ sender: UIBarButtonItem) {
         guard let context = transferManager.persistentContainer?.viewContext else { return }
+        guard let dest = URL(string: "www.contoso.com") else { return }
+        guard let source = StorageBlobClient.url(forHost: "https://www.test.com", container: "test", blob: "Blob\(fileId)") else { return }
         fileId += 1
-        // TODO: This is artificial
-        let uri = URL(string: "www.contoso.com")
-        let transfer = BlobTransfer.with(context: context, baseUrl: "www.test.com", blobName: "Blob\(fileId)", containerName: "test", uri: uri, startRange: 0, endRange: 1)
+        let transfer = BlobTransfer.with(context: context, source: source, destination: dest, type: .download, startRange: 0, endRange: 1)
         transferManager.add(transfer: transfer)
     }
 
@@ -92,14 +92,14 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: QueueTableViewCell.identifier, for: indexPath) as! QueueTableViewCell
         let details = transferManager[indexPath.row]
-        cell.statusLabel?.text = details.state.string()
+        cell.statusLabel?.text = details.state.label
         switch details {
         case let details as BlockTransfer:
             cell.idLabel?.text = "\(indexPath.row)"
-            cell.contentLabel?.text = String(data: details.data ?? Data(), encoding: .utf8)
+            cell.contentLabel?.text = "Done"
             cell.backgroundColor = UIColor.white
         case let details as BlobTransfer:
-            cell.idLabel?.text = "Blob \(details.blobName ?? "Unknown")"
+            cell.idLabel?.text = "Blob \(String(details.hash))"
             let total = details.totalBlocks
             let complete = total - details.incompleteBlocks
             cell.contentLabel?.text = "Transfer: \(complete)/\(total)"
