@@ -153,9 +153,9 @@ public final class BlobProperties: XMLModel {
     }
 
     internal init(from headers: HTTPHeaders) {
-        self.creationTime = headers[.creationTime].asDate
-        self.lastModified = headers[.lastModified].asDate
-        self.copyCompletionTime = headers[.copyCompletionTime].asDate
+        self.creationTime = Date(headers[.creationTime], format: .rfc1123)
+        self.lastModified = Date(headers[.lastModified], format: .rfc1123)
+        self.copyCompletionTime = Date(headers[.copyCompletionTime], format: .rfc1123)
 
         self.eTag = headers[.etag]
         self.contentType = headers[.contentType]
@@ -169,21 +169,16 @@ public final class BlobProperties: XMLModel {
         self.copyProgress = headers[.copyProgress]
         self.copyStatusDescription = headers[.copyStatusDescription]
 
-        self.contentLength = headers[.contentLength].asInt
-        self.sequenceNumber = headers[.blobSequenceNumber].asInt
-        self.serverEncrypted = headers[.serverEncrypted].asBool
+        self.contentLength = Int(headers[.contentLength])
+        self.sequenceNumber = Int(headers[.blobSequenceNumber])
+        self.serverEncrypted = Bool(headers[.serverEncrypted])
 
-        self.blobType = headers[.blobType].asEnum(BlobType.self)
-        self.leaseStatus = headers[.leaseStatus].asEnum(LeaseStatus.self)
-        self.leaseState = headers[.leaseState].asEnum(LeaseState.self)
-        self.leaseDuration = headers[.leaseDuration].asEnum(LeaseDuration.self)
-        self.copyStatus = headers[.copyStatus].asEnum(CopyStatus.self)
-
-        if let copySource = headers[.copySource] {
-            self.copySource = URL(string: copySource)
-        } else {
-            self.copySource = nil
-        }
+        self.blobType = BlobType(rawValue: headers[.blobType])
+        self.leaseStatus = LeaseStatus(rawValue: headers[.leaseStatus])
+        self.leaseState = LeaseState(rawValue: headers[.leaseState])
+        self.leaseDuration = LeaseDuration(rawValue: headers[.leaseDuration])
+        self.copyStatus = CopyStatus(rawValue: headers[.copyStatus])
+        self.copySource = URL(string: headers[.copySource])
 
         // Not documented as a valid response header
         self.accessTier = nil

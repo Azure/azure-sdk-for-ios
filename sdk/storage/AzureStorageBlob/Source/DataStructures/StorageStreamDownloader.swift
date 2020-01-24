@@ -118,10 +118,10 @@ internal class ChunkDownloader {
         if let encryptionKeySHA256 = cpk?.hash { headers["x-ms-encryption-key-sha256"] = encryptionKeySHA256 }
         if let encryptionAlgorithm = cpk?.algorithm { headers["x-ms-encryption-algorithm"] = encryptionAlgorithm }
         if let ifModifiedSince = modifiedAccessConditions?.ifModifiedSince {
-            headers[.ifModifiedSince] = ifModifiedSince.rfc1123Format
+            headers[.ifModifiedSince] = String(describing: ifModifiedSince, format: .rfc1123)
         }
         if let ifUnmodifiedSince = modifiedAccessConditions?.ifUnmodifiedSince {
-            headers[.ifUnmodifiedSince] = ifUnmodifiedSince.rfc1123Format
+            headers[.ifUnmodifiedSince] = String(describing: ifUnmodifiedSince, format: .rfc1123)
         }
         if let ifMatch = modifiedAccessConditions?.ifMatch { headers[.ifMatch] = ifMatch }
         if let ifNoneMatch = modifiedAccessConditions?.ifNoneMatch { headers[.ifNoneMatch] = ifNoneMatch }

@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0A18D7B523A95FEC008959E6 /* Copyable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A18D7B423A95FEC008959E6 /* Copyable.swift */; };
-		0A29CC3E2322F3CD006CEFA7 /* DateUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A29CC3D2322F3CD006CEFA7 /* DateUtil.swift */; };
 		0A3A5D7B2315C89C00473FDA /* AzureCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A3A5D792315C89C00473FDA /* AzureCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0A3A5D9B2315CEB600473FDA /* HTTPRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D902315CEB600473FDA /* HTTPRequest.swift */; };
 		0A3A5D9C2315CEB600473FDA /* HTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D912315CEB600473FDA /* HTTPResponse.swift */; };
@@ -34,7 +33,7 @@
 		0A6A9B4F234293B50013FCAA /* RegexUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6A9B4E234293B50013FCAA /* RegexUtil.swift */; };
 		0A7F563A2321732B00E9765A /* URLHTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F56392321732B00E9765A /* URLHTTPResponse.swift */; };
 		0A8FE7682368A4FF00B96598 /* MatchCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8FE7672368A4FF00B96598 /* MatchCondition.swift */; };
-		0AB5EAFD2375F25400361879 /* StringUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB5EAFC2375F25400361879 /* StringUtil.swift */; };
+		0AB5EAFD2375F25400361879 /* ConvertingInitializers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB5EAFC2375F25400361879 /* ConvertingInitializers.swift */; };
 		0AB7412123C79E1400B579B3 /* HTTPCommonProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB7411F23C79E1400B579B3 /* HTTPCommonProtocol.swift */; };
 		0AB7412223C79E1400B579B3 /* HttpTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB7412023C79E1400B579B3 /* HttpTransport.swift */; };
 		0AB7412423C7A03400B579B3 /* ClientLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB7412323C7A03400B579B3 /* ClientLogger.swift */; };
@@ -102,7 +101,6 @@
 
 /* Begin PBXFileReference section */
 		0A18D7B423A95FEC008959E6 /* Copyable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Copyable.swift; sourceTree = "<group>"; };
-		0A29CC3D2322F3CD006CEFA7 /* DateUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtil.swift; sourceTree = "<group>"; };
 		0A3A5D762315C89C00473FDA /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A3A5D792315C89C00473FDA /* AzureCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AzureCore.h; sourceTree = "<group>"; };
 		0A3A5D7A2315C89C00473FDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -131,7 +129,7 @@
 		0A6A9B4E234293B50013FCAA /* RegexUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegexUtil.swift; sourceTree = "<group>"; };
 		0A7F56392321732B00E9765A /* URLHTTPResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLHTTPResponse.swift; sourceTree = "<group>"; };
 		0A8FE7672368A4FF00B96598 /* MatchCondition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchCondition.swift; sourceTree = "<group>"; };
-		0AB5EAFC2375F25400361879 /* StringUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtil.swift; sourceTree = "<group>"; };
+		0AB5EAFC2375F25400361879 /* ConvertingInitializers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertingInitializers.swift; sourceTree = "<group>"; };
 		0AB7411F23C79E1400B579B3 /* HTTPCommonProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPCommonProtocol.swift; sourceTree = "<group>"; };
 		0AB7412023C79E1400B579B3 /* HttpTransport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpTransport.swift; sourceTree = "<group>"; };
 		0AB7412323C7A03400B579B3 /* ClientLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientLogger.swift; sourceTree = "<group>"; };
@@ -239,13 +237,12 @@
 			children = (
 				0A45B1FA23A82A2E00C54363 /* ApplicationUtil.swift */,
 				0AC0AA82234D017F00F05073 /* AzureCodable.swift */,
+				0AB5EAFC2375F25400361879 /* ConvertingInitializers.swift */,
+				0A18D7B423A95FEC008959E6 /* Copyable.swift */,
 				0A3A5F022316DF6600473FDA /* CryptoUtils.swift */,
-				0A29CC3D2322F3CD006CEFA7 /* DateUtil.swift */,
 				0AE5C3A5231F150A0013CA85 /* KeychainUtil.swift */,
 				0A4081B9233432C30071EAEE /* HttpUtil.swift */,
 				0A6A9B4E234293B50013FCAA /* RegexUtil.swift */,
-				0AB5EAFC2375F25400361879 /* StringUtil.swift */,
-				0A18D7B423A95FEC008959E6 /* Copyable.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -359,15 +356,6 @@
 			path = DataStructures;
 			sourceTree = "<group>";
 		};
-		7A1A916D23D13E4E00B0B3D2 /* Stubs */ = {
-			isa = PBXGroup;
-			children = (
-				7A1A916E23D13E5D00B0B3D2 /* PipelineStubs.swift */,
-				7A1A917023D13F0300B0B3D2 /* ProviderStubs.swift */,
-			);
-			path = Stubs;
-			sourceTree = "<group>";
-		};
 		0AFEC36423C8FC590065D588 /* Data Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -379,6 +367,15 @@
 				0AFEC36A23C8FC590065D588 /* pagedthings.xml */,
 			);
 			path = "Data Files";
+			sourceTree = "<group>";
+		};
+		7A1A916D23D13E4E00B0B3D2 /* Stubs */ = {
+			isa = PBXGroup;
+			children = (
+				7A1A916E23D13E5D00B0B3D2 /* PipelineStubs.swift */,
+				7A1A917023D13F0300B0B3D2 /* ProviderStubs.swift */,
+			);
+			path = Stubs;
 			sourceTree = "<group>";
 		};
 		7AA5366623C0336F00A65A96 /* Providers */ = {
@@ -619,8 +616,7 @@
 			files = (
 				7AA5366D23C0342600A65A96 /* LocaleInfoProvider.swift in Sources */,
 				0A3A5F3A2318903900473FDA /* PipelineRequest.swift in Sources */,
-				0A29CC3E2322F3CD006CEFA7 /* DateUtil.swift in Sources */,
-				0AB5EAFD2375F25400361879 /* StringUtil.swift in Sources */,
+				0AB5EAFD2375F25400361879 /* ConvertingInitializers.swift in Sources */,
 				0A3A5F442319D49700473FDA /* URLSessionTransport.swift in Sources */,
 				7AFCF7662345714200592782 /* LoggingPolicy.swift in Sources */,
 				0A3A5D9E2315CEB600473FDA /* HTTPHeader.swift in Sources */,

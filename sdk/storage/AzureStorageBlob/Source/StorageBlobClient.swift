@@ -40,24 +40,14 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
     internal class StorageJSONDecoder: JSONDecoder {
         override init() {
             super.init()
-            let formatter = DateFormatter()
-            formatter.dateFormat = "EEE, dd MMM yyyy hh:mm:ss zzzz"
-            formatter.calendar = Calendar(identifier: .iso8601)
-            formatter.timeZone = TimeZone(secondsFromGMT: 0)
-            formatter.locale = Locale(identifier: "en_US_POSIX")
-            dateDecodingStrategy = .formatted(formatter)
+            dateDecodingStrategy = .formatted(Date.Format.rfc1123.formatter)
         }
     }
 
     internal class StorageJSONEncoder: JSONEncoder {
         override init() {
             super.init()
-            let formatter = DateFormatter()
-            formatter.dateFormat = "EEE, dd MMM yyyy hh:mm:ss zzzz"
-            formatter.calendar = Calendar(identifier: .iso8601)
-            formatter.timeZone = TimeZone(secondsFromGMT: 0)
-            formatter.locale = Locale(identifier: "en_US_POSIX")
-            dateEncodingStrategy = .formatted(formatter)
+            dateEncodingStrategy = .formatted(Date.Format.rfc1123.formatter)
         }
     }
 

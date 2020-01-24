@@ -44,6 +44,6 @@ class AddDatePolicyTests: XCTestCase {
         let req = PipelineRequest()
         policy.on(request: req) { _ in }
         let value = req.httpRequest.headers[.date]
-        XCTAssertNotNil(value!.rfc1123Date)
+        XCTAssertNotNil(Date(value!, format: .rfc1123))
     }
 }
