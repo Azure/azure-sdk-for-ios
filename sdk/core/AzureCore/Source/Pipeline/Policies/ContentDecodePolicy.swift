@@ -45,13 +45,6 @@ internal class ContentDecodeXMLParser: NSObject, XMLParserDelegate {
     internal var inferStructure = false
     internal var logger: ClientLogger?
 
-    // MARK: Initializers
-
-    public init(logger: ClientLogger?) {
-        super.init()
-        self.logger = logger
-    }
-
     // MARK: Methods
 
     public func parserDidStartDocument(_: XMLParser) {
@@ -178,8 +171,8 @@ public class ContentDecodePolicy: PipelineStage {
 
     // MARK: Initializers
 
-    public init(logger: ClientLogger?) {
-        self.xmlParser = ContentDecodeXMLParser(logger: logger)
+    public init() {
+        self.xmlParser = ContentDecodeXMLParser()
     }
 
     // MARK: Public Methods
@@ -194,6 +187,7 @@ public class ContentDecodePolicy: PipelineStage {
 
         // Store the logger so that the XML parser delegate functions can access it
         logger = response.logger
+        xmlParser?.logger = logger
 
         var contentType = (httpResponse.headers["Content-Type"]?.components(separatedBy: ";").first) ??
             "application/json"

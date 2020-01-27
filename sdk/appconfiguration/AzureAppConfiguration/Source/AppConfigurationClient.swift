@@ -55,7 +55,7 @@ public class AppConfigurationClient: PipelineClient {
                     HeadersPolicy(),
                     UserAgentPolicy(),
                     authPolicy,
-                    ContentDecodePolicy(logger: options?.logger),
+                    ContentDecodePolicy(),
                     LoggingPolicy()
                 ],
                 withOptions: clientOptions)

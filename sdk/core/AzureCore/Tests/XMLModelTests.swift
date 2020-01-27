@@ -222,7 +222,8 @@ class XMLModelTests: XCTestCase {
     /// Test that an XML Model can be inferred from an object structure.
     func test_XMLModel_WithoutXMLMap_CanBeCreated() {
         for name in ["thing1", "thing2"] {
-            let decodePolicy = ContentDecodePolicy(logger: ClientLoggers.default())
+            let decodePolicy = ContentDecodePolicy()
+            decodePolicy.logger = ClientLoggers.default()
 
             let xmlData = load(resource: name, withExtension: "xml")
             let jsonObject = try! decodePolicy.parse(xml: xmlData)
@@ -237,7 +238,7 @@ class XMLModelTests: XCTestCase {
     /// Test that an XML Model can be created with a custom XML map.
     func test_XMLModel_WithXMLMap_CanBeCreated() {
         for name in ["thing1", "thing2"] {
-            let decodePolicy = ContentDecodePolicy(logger: ClientLoggers.default())
+            let decodePolicy = ContentDecodePolicy()
             decodePolicy.xmlParser?.xmlMap = MappedThing.xmlMap()
             decodePolicy.logger = ClientLoggers.default()
 
@@ -265,7 +266,7 @@ class XMLModelTests: XCTestCase {
                                   queryParams: [:],
                                   headers: [:])
 
-        let decodePolicy = ContentDecodePolicy(logger: ClientLoggers.default())
+        let decodePolicy = ContentDecodePolicy()
         let pagedKeys = PagedCodingKeys(items: "things.items", continuationToken: "things.next", xmlItemName: "item")
         decodePolicy.xmlParser?.xmlMap = XMLMap(withPagedCodingKeys: pagedKeys, innerType: PagedThing.self)
         decodePolicy.logger = ClientLoggers.default()
