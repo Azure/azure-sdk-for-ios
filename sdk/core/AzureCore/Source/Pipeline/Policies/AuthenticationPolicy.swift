@@ -80,7 +80,7 @@ public struct MSALCredential: TokenCredential {
     private let application: MSALPublicClientApplication
     private let account: MSALAccount?
 
-    private var delegate: MSALInteractiveDelegate? {
+    weak private var delegate: MSALInteractiveDelegate? {
         return ApplicationUtil.currentViewController(forParent: nil) as? MSALInteractiveDelegate
     }
 

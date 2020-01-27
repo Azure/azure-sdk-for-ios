@@ -116,7 +116,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
                     // Python: StorageContentValidation(),
                     // Python: StorageRequestHook(**kwargs),
                     authPolicy,
-                    ContentDecodePolicy(),
+                    ContentDecodePolicy(logger: options?.logger),
                     // Python: RedirectPolicy(**kwargs),
                     // Python: StorageHosts(hosts=self._hosts, **kwargs),
                     // Python: config.retry_policy,

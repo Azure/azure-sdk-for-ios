@@ -102,17 +102,19 @@ internal class ContentDecodeXMLParser: NSObject, XMLParserDelegate {
             for (key, value) in attributeDict {
                 let defaultKey = "_\(key)"
                 let jsonKey = xmlMap?[defaultKey]?.jsonName ?? defaultKey
-                let attr = XMLTreeNode(name: jsonKey, type: .property, parent: newNode, value: value)
+                let attr = XMLTreeNode(name: jsonKey, type: .property, parent: nil, value: value)
                 newNode.properties[jsonKey] = attr
             }
         }
     }
 
     public func parser(_: XMLParser, foundCharacters string: String) {
+        guard string.trimmingCharacters(in: .whitespacesAndNewlines) != "" else { return }
         currNode?.type = .property
         currNode?.value = string
     }
 
+    // swiftlint:disable:next cyclomatic_complexity
     public func parser(_: XMLParser, didEndElement elementName: String, namespaceURI _: String?,
                        qualifiedName _: String?) {
         defer {
@@ -169,15 +171,15 @@ public class ContentDecodePolicy: PipelineStage {
     // MARK: Properties
 
     public var next: PipelineStage?
-    public let jsonRegex = NSRegularExpression("^(application|text)/([0-9a-z+.]+)?json$")
     public var logger: ClientLogger?
 
-    internal var delegate: ContentDecodeXMLParser?
+    internal let jsonRegex = NSRegularExpression("^(application|text)/([0-9a-z+.]+)?json$")
+    internal var xmlParser: ContentDecodeXMLParser?
 
     // MARK: Initializers
 
-    public init() {
-        delegate = ContentDecodeXMLParser(logger: logger)
+    public init(logger: ClientLogger?) {
+        self.xmlParser = ContentDecodeXMLParser(logger: logger)
     }
 
     // MARK: Public Methods
@@ -188,7 +190,7 @@ public class ContentDecodePolicy: PipelineStage {
         guard let httpResponse = response.httpResponse else { return }
         var returnResponse = response.copy()
 
-        delegate?.xmlMap = response.value(forKey: .xmlMap) as? XMLMap
+        xmlParser?.xmlMap = response.value(forKey: .xmlMap) as? XMLMap
 
         // Store the logger so that the XML parser delegate functions can access it
         logger = response.logger
@@ -211,12 +213,12 @@ public class ContentDecodePolicy: PipelineStage {
 
     internal func parse(xml data: Data) throws -> AnyObject {
         let parser = XMLParser(data: data)
-        parser.delegate = delegate
+        parser.delegate = xmlParser
         _ = parser.parse()
         var jsonData: Data?
-        if let dictObj = delegate?.xmlTree?.dictionary {
+        if let dictObj = xmlParser?.xmlTree?.dictionary {
             jsonData = try? JSONSerialization.data(withJSONObject: dictObj, options: [])
-        } else if let arrayObj = delegate?.xmlTree?.array {
+        } else if let arrayObj = xmlParser?.xmlTree?.array {
             jsonData = try JSONSerialization.data(withJSONObject: arrayObj, options: [])
         }
         guard let finalJsonData = jsonData else {
