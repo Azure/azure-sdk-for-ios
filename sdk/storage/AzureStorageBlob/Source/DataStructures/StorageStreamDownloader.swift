@@ -103,16 +103,26 @@ internal class ChunkDownloader {
         let cpk = options.cpk
 
         headers["x-ms-range"] = "bytes=\(startRange)-\(endRange)"
-        if let rangeGetContentMD5 = options.range?.calculateMD5 { headers["x-ms-range-get-content-md5"] = String(rangeGetContentMD5) }
-        if let rangeGetContentCRC64 = options.range?.calculateCRC64 { headers["x-ms-range-get-content-crc64"] = String(rangeGetContentCRC64) }
+        if let rangeGetContentMD5 = options.range?.calculateMD5 {
+            headers["x-ms-range-get-content-md5"] = String(rangeGetContentMD5)
+        }
+        if let rangeGetContentCRC64 = options.range?.calculateCRC64 {
+            headers["x-ms-range-get-content-crc64"] = String(rangeGetContentCRC64)
+        }
 
         if let requestId = requestId { headers["x-ms-client-request-id"] = requestId }
         if let leaseId = leaseAccessConditions?.leaseId { headers["x-ms-lease-id"] = leaseId }
-        if let encryptionKey = cpk?.value { headers["x-ms-encryption-key"] = String(data: encryptionKey, encoding: .utf8) }
+        if let encryptionKey = cpk?.value {
+            headers["x-ms-encryption-key"] = String(data: encryptionKey, encoding: .utf8)
+        }
         if let encryptionKeySHA256 = cpk?.hash { headers["x-ms-encryption-key-sha256"] = encryptionKeySHA256 }
         if let encryptionAlgorithm = cpk?.algorithm { headers["x-ms-encryption-algorithm"] = encryptionAlgorithm }
-        if let ifModifiedSince = modifiedAccessConditions?.ifModifiedSince { headers[.ifModifiedSince] = ifModifiedSince.rfc1123Format }
-        if let ifUnmodifiedSince = modifiedAccessConditions?.ifUnmodifiedSince { headers[.ifUnmodifiedSince] = ifUnmodifiedSince.rfc1123Format }
+        if let ifModifiedSince = modifiedAccessConditions?.ifModifiedSince {
+            headers[.ifModifiedSince] = ifModifiedSince.rfc1123Format
+        }
+        if let ifUnmodifiedSince = modifiedAccessConditions?.ifUnmodifiedSince {
+            headers[.ifUnmodifiedSince] = ifUnmodifiedSince.rfc1123Format
+        }
         if let ifMatch = modifiedAccessConditions?.ifMatch { headers[.ifMatch] = ifMatch }
         if let ifNoneMatch = modifiedAccessConditions?.ifNoneMatch { headers[.ifNoneMatch] = ifNoneMatch }
 

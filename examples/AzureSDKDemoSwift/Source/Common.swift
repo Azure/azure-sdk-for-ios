@@ -32,6 +32,7 @@ import MSAL
 
 struct AppConstants {
     // read-only connection string
+    // swiftlint:disable:next line_length
     static let appConfigConnectionString = "Endpoint=https://tjpappconfig.azconfig.io;Id=2-l0-s0:zSvXZtO9L9bv9s3QVyD3;Secret=FzxmbflLwAt5+2TUbnSIsAuATyY00L+GFpuxuJZRmzI="
 
     static let storageAccountUrl = "https://iosdemostorage1.blob.core.windows.net/"
