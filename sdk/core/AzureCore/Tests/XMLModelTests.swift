@@ -223,7 +223,6 @@ class XMLModelTests: XCTestCase {
     func test_XMLModel_WithoutXMLMap_CanBeCreated() {
         for name in ["thing1", "thing2"] {
             let decodePolicy = ContentDecodePolicy()
-            decodePolicy.logger = ClientLoggers.default()
 
             let xmlData = load(resource: name, withExtension: "xml")
             let jsonObject = try! decodePolicy.parse(xml: xmlData)
@@ -239,8 +238,7 @@ class XMLModelTests: XCTestCase {
     func test_XMLModel_WithXMLMap_CanBeCreated() {
         for name in ["thing1", "thing2"] {
             let decodePolicy = ContentDecodePolicy()
-            decodePolicy.delegate?.xmlMap = MappedThing.xmlMap()
-            decodePolicy.logger = ClientLoggers.default()
+            decodePolicy.xmlParser.xmlMap = MappedThing.xmlMap()
 
             let xmlData = load(resource: name, withExtension: "xml")
             let jsonObject = try! decodePolicy.parse(xml: xmlData)
@@ -268,8 +266,7 @@ class XMLModelTests: XCTestCase {
 
         let decodePolicy = ContentDecodePolicy()
         let pagedKeys = PagedCodingKeys(items: "things.items", continuationToken: "things.next", xmlItemName: "item")
-        decodePolicy.delegate?.xmlMap = XMLMap(withPagedCodingKeys: pagedKeys, innerType: PagedThing.self)
-        decodePolicy.logger = ClientLoggers.default()
+        decodePolicy.xmlParser.xmlMap = XMLMap(withPagedCodingKeys: pagedKeys, innerType: PagedThing.self)
 
         let xmlData = load(resource: "pagedthings", withExtension: "xml")
         let jsonObject = try! decodePolicy.parse(xml: xmlData)

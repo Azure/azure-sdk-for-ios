@@ -198,6 +198,7 @@ internal class XMLTreeNode {
     var dictionary: [String: Any]? {
         var propDict = [String: Any]()
         for (key, metadata) in properties {
+            assert(metadata.parent == nil, "Unexpectedly found a parent reference, which could leak to memory leaks.")
             switch metadata.type {
             case .property:
                 propDict[key] = metadata.value
