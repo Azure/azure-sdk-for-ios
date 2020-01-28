@@ -78,28 +78,16 @@ public class LoggingPolicy: PipelineStage {
         let logger = request.logger
         let req = request.httpRequest
         let requestId = req.headers[.clientRequestId] ?? "(none)"
-        guard
-            let safeUrl = self.redact(url: req.url),
-            let host = safeUrl.host
-        else {
+        guard let safeUrl = self.redact(url: req.url) else {
             logger.warning("Failed to parse URL for request \(requestId)")
             return
         }
 
-        var fullPath = safeUrl.path
-        if let query = safeUrl.query {
-            fullPath += "?\(query)"
-        }
-        if let fragment = safeUrl.fragment {
-            fullPath += "#\(fragment)"
-        }
-
         logger.info("--> [\(requestId)]")
-        logger.info("\(req.httpMethod.rawValue) \(fullPath)")
-        logger.info("Host: \(host)")
+        logger.info("\(req.httpMethod.rawValue) \(safeUrl)")
 
         if logger.level.rawValue >= ClientLogLevel.debug.rawValue {
-            logDebug(body: req.text(), headers: req.headers, logger: logger)
+            log(headers: req.headers, body: req.text(), withLogger: logger)
         }
 
         logger.info("--> [END \(requestId)]")
@@ -108,33 +96,35 @@ public class LoggingPolicy: PipelineStage {
     }
 
     public func on(response: PipelineResponse, then completion: @escaping OnResponseCompletionHandler) {
-        logResponse(response)
+        log(response: response)
         completion(response)
     }
 
     public func on(error: PipelineError, then completion: @escaping OnErrorCompletionHandler) {
-        logResponse(error.pipelineResponse, withError: error.innerError)
+        log(response: error.pipelineResponse, withError: error.innerError)
         completion(error, false)
     }
 
     // MARK: Private Methods
 
-    private func logResponse(_ response: PipelineResponse, withError error: Error? = nil) {
+    private func log(response: PipelineResponse, withError error: Error? = nil) {
         let endTime = DispatchTime.now()
-        var durationMs: Double?
+        var duration: String?
         if let startTime = response.context?.value(forKey: .requestStartTime) as? DispatchTime {
-            durationMs = Double(endTime.uptimeNanoseconds - startTime.uptimeNanoseconds) / 1_000_000
+            let durationMs = Double(endTime.uptimeNanoseconds - startTime.uptimeNanoseconds) / 1_000_000
+            duration = String(format: "%.2f", durationMs)
         }
 
         let logger = response.logger
         let req = response.httpRequest
         let requestId = req.headers[.clientRequestId] ?? "(none)"
 
-        if let durationMs = durationMs {
-            logger.info("<-- [\(requestId)] (\(durationMs)ms)")
+        if let duration = duration {
+            logger.info("<-- [\(requestId)] (\(duration)ms)")
         } else {
             logger.info("<-- [\(requestId)]")
         }
+        defer { logger.info("<-- [END \(requestId)]") }
 
         if let error = error {
             logger.warning(error.localizedDescription)
@@ -142,28 +132,22 @@ public class LoggingPolicy: PipelineStage {
 
         guard
             let res = response.httpResponse,
-            let statusCode = res.statusCode
-        else {
-            logger.warning("No response data available")
-            logger.info("<-- [END \(requestId)]")
-            return
-        }
+            let statusCode = res.statusCode,
+            let statusMessage = res.statusMessage
+        else { return }
 
-        let statusCodeString = HTTPURLResponse.localizedString(forStatusCode: statusCode)
         if statusCode >= 400 {
-            logger.warning("\(statusCode) \(statusCodeString)")
+            logger.warning("\(statusCode) \(statusMessage)")
         } else {
-            logger.info("\(statusCode) \(statusCodeString)")
+            logger.info("\(statusCode) \(statusMessage)")
         }
 
         if logger.level.rawValue >= ClientLogLevel.debug.rawValue {
-            logDebug(body: res.text(), headers: res.headers, logger: logger)
+            log(headers: res.headers, body: res.text(), withLogger: logger)
         }
-
-        logger.info("<-- [END \(requestId)]")
     }
 
-    private func logDebug(body bodyFunc: @autoclosure () -> String?, headers: HTTPHeaders, logger: ClientLogger) {
+    private func log(headers: HTTPHeaders, body bodyFunc: @autoclosure () -> String?, withLogger logger: ClientLogger) {
         let safeHeaders = self.redact(headers: headers)
         for (header, value) in safeHeaders {
             logger.debug("\(header): \(value)")
@@ -205,9 +189,9 @@ public class LoggingPolicy: PipelineStage {
         return "(empty body)"
     }
 
-    private func redact(url: String) -> URLComponents? {
+    private func redact(url: String) -> String? {
         guard var urlComps = URLComponents(string: url) else { return nil }
-        guard let queryItems = urlComps.queryItems else { return urlComps }
+        guard let queryItems = urlComps.queryItems else { return url }
 
         var redactedQueryItems = [URLQueryItem]()
         for query in queryItems {
@@ -219,7 +203,7 @@ public class LoggingPolicy: PipelineStage {
         }
 
         urlComps.queryItems = redactedQueryItems
-        return urlComps
+        return urlComps.string
     }
 
     private func redact(headers: HTTPHeaders) -> HTTPHeaders {
@@ -271,7 +255,8 @@ public class CurlFormattedRequestLoggingPolicy: PipelineStage {
                 escapedValue = value.replacingOccurrences(of: "\\", with: "\\\\")
             }
 
-            if header == HTTPHeader.acceptEncoding.rawValue {
+            if header == HTTPHeader.acceptEncoding.rawValue &&
+               value.caseInsensitiveCompare("identity") != .orderedSame {
                 compressed = true
             }
 

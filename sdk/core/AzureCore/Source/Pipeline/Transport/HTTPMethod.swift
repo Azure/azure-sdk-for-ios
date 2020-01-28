@@ -27,13 +27,13 @@
 import Foundation
 
 public enum HTTPMethod: String {
-    case get
-    case put
-    case post
-    case patch
-    case delete
-    case head
-    case options
-    case trace
-    case merge
+    case get = "GET"
+    case put = "PUT"
+    case post = "POST"
+    case patch = "PATCH"
+    case delete = "DELETE"
+    case head = "HEAD"
+    case options = "OPTIONS"
+    case trace = "TRACE"
+    case merge = "MERGE"
 }
