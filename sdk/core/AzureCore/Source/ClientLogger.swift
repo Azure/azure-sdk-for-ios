@@ -65,14 +65,6 @@ extension ClientLogger {
     }
 }
 
-extension ClientLogger {
-    static func defaultTag() -> String {
-        let regex = NSRegularExpression("^\\d*\\s*([a-zA-Z]*)\\s")
-        let defaultTag = regex.firstMatch(in: Thread.callStackSymbols[1])
-        return defaultTag ?? "AzureCore"
-    }
-}
-
 // MARK: - Constants
 
 public struct ClientLoggers {
@@ -83,7 +75,7 @@ public struct ClientLoggers {
 
     // MARK: Static Methods
 
-    public static func `default`(tag: String? = nil) -> ClientLogger {
+    public static func `default`(tag: String) -> ClientLogger {
         if #available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *) {
             return OSLogger(category: tag)
         } else {
@@ -119,8 +111,8 @@ public class PrintLogger: ClientLogger {
 
     // MARK: Initializers
 
-    public init(tag: String? = nil, level: ClientLogLevel = .info) {
-        self.tag = tag ?? Self.defaultTag()
+    public init(tag: String, level: ClientLogLevel = .info) {
+        self.tag = tag
         self.level = level
     }
 
@@ -144,8 +136,8 @@ public class NSLogger: ClientLogger {
 
     // MARK: Initializers
 
-    public init(tag: String? = nil, level: ClientLogLevel = .info) {
-        self.tag = tag ?? Self.defaultTag()
+    public init(tag: String, level: ClientLogLevel = .info) {
+        self.tag = tag
         self.level = level
     }
 
@@ -166,7 +158,7 @@ public class OSLogger: ClientLogger {
 
     public var level: ClientLogLevel
 
-    private let osLogger: OSLog!
+    private let osLogger: OSLog
 
     // MARK: Initializers
 
@@ -177,10 +169,10 @@ public class OSLogger: ClientLogger {
 
     public init(
         subsystem: String = "com.azure",
-        category: String? = nil,
+        category: String,
         level: ClientLogLevel = .info
     ) {
-        self.osLogger = OSLog(subsystem: subsystem, category: category ?? Self.defaultTag())
+        self.osLogger = OSLog(subsystem: subsystem, category: category)
         self.level = level
     }
 

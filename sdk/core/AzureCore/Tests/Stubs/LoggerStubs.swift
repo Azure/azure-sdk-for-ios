@@ -26,41 +26,34 @@
 
 @testable import AzureCore
 
-extension PipelineRequest {
-    public convenience init(
-        method: HTTPMethod = .get,
-        url: String = "http://www.example.com",
-        headers: HTTPHeaders = HTTPHeaders(),
-        body: String? = nil,
-        context: PipelineContext? = nil,
-        logger: ClientLogger = ClientLoggers.none
-    ) {
-        let httpRequest = HTTPRequest(
-            method: method,
-            url: url,
-            headers: headers,
-            data: body?.data(using: .utf8)
-        )
-        self.init(request: httpRequest, logger: logger, context: context)
+extension ClientLoggers {
+    public static func `default`() -> ClientLogger {
+        return ClientLoggers.default(tag: defaultTag())
+    }
+
+    static func defaultTag() -> String {
+        let regex = NSRegularExpression("^\\d*\\s*([a-zA-Z]*)\\s")
+        let defaultTag = regex.firstMatch(in: Thread.callStackSymbols[1])
+        return defaultTag ?? "AzureCore"
     }
 }
 
-extension PipelineResponse {
-    public convenience init(
-        request: PipelineRequest,
-        responseCode: Int = 200,
-        headers: HTTPHeaders = HTTPHeaders(),
-        body: String? = nil,
-        logger: ClientLogger = ClientLoggers.none
-    ) {
-        let httpResponse = HTTPResponse(request: request.httpRequest, statusCode: responseCode)
-        httpResponse.headers = headers
-        httpResponse.data = body?.data(using: .utf8)
-        self.init(
-            request: request.httpRequest,
-            response: httpResponse,
-            logger: logger,
-            context: request.context
-        )
+class TestClientLogger: ClientLogger {
+    struct Message {
+        var level: ClientLogLevel
+        var text: String
+    }
+
+    var level: ClientLogLevel
+    var messages: [Message] = []
+
+    public init(_ logLevel: ClientLogLevel = .info) {
+        self.level = logLevel
+    }
+
+    public func log(_ message: () -> String?, atLevel messageLevel: ClientLogLevel) {
+        if messageLevel.rawValue <= level.rawValue, let msg = message() {
+            messages.append(Message(level: messageLevel, text: msg))
+        }
     }
 }

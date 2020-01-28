@@ -15,7 +15,7 @@
 		0A3A5D9E2315CEB600473FDA /* HTTPHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D932315CEB600473FDA /* HTTPHeader.swift */; };
 		0A3A5DE32315D17F00473FDA /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3A5D762315C89C00473FDA /* AzureCore.framework */; };
 		0A3A5F012316DF1B00473FDA /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F002316DF1B00473FDA /* Errors.swift */; };
-		0A3A5F032316DF6600473FDA /* CryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F022316DF6600473FDA /* CryptoUtils.swift */; };
+		0A3A5F032316DF6600473FDA /* CryptoUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F022316DF6600473FDA /* CryptoUtil.swift */; };
 		0A3A5F1C2316EBC600473FDA /* HeadersPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F1B2316EBC600473FDA /* HeadersPolicy.swift */; };
 		0A3A5F202316EF9400473FDA /* PipelineContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F1F2316EF9400473FDA /* PipelineContext.swift */; };
 		0A3A5F222316FAF000473FDA /* UserAgentPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F212316FAF000473FDA /* UserAgentPolicy.swift */; };
@@ -24,7 +24,7 @@
 		0A3A5F3C2318904F00473FDA /* PipelineResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F3B2318904F00473FDA /* PipelineResponse.swift */; };
 		0A3A5F3E2318906100473FDA /* Pipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F3D2318906100473FDA /* Pipeline.swift */; };
 		0A3A5F402318975900473FDA /* PipelineClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F3F2318975900473FDA /* PipelineClient.swift */; };
-		0A3A5F422319834500473FDA /* PipelineBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F412319834500473FDA /* PipelineBase.swift */; };
+		0A3A5F422319834500473FDA /* PipelineStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F412319834500473FDA /* PipelineStage.swift */; };
 		0A3A5F442319D49700473FDA /* URLSessionTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5F432319D49700473FDA /* URLSessionTransport.swift */; };
 		0A4081B62333EB380071EAEE /* ObjectiveCHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4081B52333EB380071EAEE /* ObjectiveCHelpers.swift */; };
 		0A45B1FB23A82A2E00C54363 /* ApplicationUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45B1FA23A82A2E00C54363 /* ApplicationUtil.swift */; };
@@ -33,8 +33,8 @@
 		0A7F563A2321732B00E9765A /* URLHTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F56392321732B00E9765A /* URLHTTPResponse.swift */; };
 		0A8FE7682368A4FF00B96598 /* MatchCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8FE7672368A4FF00B96598 /* MatchCondition.swift */; };
 		0AB5EAFD2375F25400361879 /* ConvertingInitializers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB5EAFC2375F25400361879 /* ConvertingInitializers.swift */; };
-		0AB7412123C79E1400B579B3 /* HTTPCommonProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB7411F23C79E1400B579B3 /* HTTPCommonProtocol.swift */; };
-		0AB7412223C79E1400B579B3 /* HttpTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB7412023C79E1400B579B3 /* HttpTransport.swift */; };
+		0AB7412123C79E1400B579B3 /* DataStringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB7411F23C79E1400B579B3 /* DataStringConvertible.swift */; };
+		0AB7412223C79E1400B579B3 /* HTTPTransportStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB7412023C79E1400B579B3 /* HTTPTransportStage.swift */; };
 		0AB7412423C7A03400B579B3 /* ClientLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB7412323C7A03400B579B3 /* ClientLogger.swift */; };
 		0AC0AA83234D017F00F05073 /* AzureCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC0AA82234D017F00F05073 /* AzureCodable.swift */; };
 		0AC0AA8C234F8ADD00F05073 /* Collections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC0AA8A234F8ADD00F05073 /* Collections.swift */; };
@@ -61,6 +61,7 @@
 		7A1A916C23D13D5700B0B3D2 /* RequestIdPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1A916B23D13D5700B0B3D2 /* RequestIdPolicyTests.swift */; };
 		7A1A916F23D13E5D00B0B3D2 /* PipelineStubs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1A916E23D13E5D00B0B3D2 /* PipelineStubs.swift */; };
 		7A1A917123D13F0300B0B3D2 /* ProviderStubs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1A917023D13F0300B0B3D2 /* ProviderStubs.swift */; };
+		7A968D0323E0FC6400E0F054 /* LoggerStubs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A968D0223E0FC6400E0F054 /* LoggerStubs.swift */; };
 		7AA5366323BEC7EC00A65A96 /* AddDatePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA5366223BEC7EC00A65A96 /* AddDatePolicy.swift */; };
 		7AA5366523C0232A00A65A96 /* RequestIdPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA5366423C0232A00A65A96 /* RequestIdPolicy.swift */; };
 		7AA5366923C0340C00A65A96 /* BundleInfoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA5366823C0340C00A65A96 /* BundleInfoProvider.swift */; };
@@ -110,7 +111,7 @@
 		0A3A5DDE2315D17F00473FDA /* AzureCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AzureCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A3A5DE22315D17F00473FDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A3A5F002316DF1B00473FDA /* Errors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
-		0A3A5F022316DF6600473FDA /* CryptoUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoUtils.swift; sourceTree = "<group>"; };
+		0A3A5F022316DF6600473FDA /* CryptoUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoUtil.swift; sourceTree = "<group>"; };
 		0A3A5F1B2316EBC600473FDA /* HeadersPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadersPolicy.swift; sourceTree = "<group>"; };
 		0A3A5F1F2316EF9400473FDA /* PipelineContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineContext.swift; sourceTree = "<group>"; };
 		0A3A5F212316FAF000473FDA /* UserAgentPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAgentPolicy.swift; sourceTree = "<group>"; };
@@ -119,7 +120,7 @@
 		0A3A5F3B2318904F00473FDA /* PipelineResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineResponse.swift; sourceTree = "<group>"; };
 		0A3A5F3D2318906100473FDA /* Pipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pipeline.swift; sourceTree = "<group>"; };
 		0A3A5F3F2318975900473FDA /* PipelineClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineClient.swift; sourceTree = "<group>"; };
-		0A3A5F412319834500473FDA /* PipelineBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineBase.swift; sourceTree = "<group>"; };
+		0A3A5F412319834500473FDA /* PipelineStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineStage.swift; sourceTree = "<group>"; };
 		0A3A5F432319D49700473FDA /* URLSessionTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionTransport.swift; sourceTree = "<group>"; };
 		0A4081B52333EB380071EAEE /* ObjectiveCHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectiveCHelpers.swift; sourceTree = "<group>"; };
 		0A45B1FA23A82A2E00C54363 /* ApplicationUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationUtil.swift; sourceTree = "<group>"; };
@@ -128,8 +129,8 @@
 		0A7F56392321732B00E9765A /* URLHTTPResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLHTTPResponse.swift; sourceTree = "<group>"; };
 		0A8FE7672368A4FF00B96598 /* MatchCondition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchCondition.swift; sourceTree = "<group>"; };
 		0AB5EAFC2375F25400361879 /* ConvertingInitializers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertingInitializers.swift; sourceTree = "<group>"; };
-		0AB7411F23C79E1400B579B3 /* HTTPCommonProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPCommonProtocol.swift; sourceTree = "<group>"; };
-		0AB7412023C79E1400B579B3 /* HttpTransport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpTransport.swift; sourceTree = "<group>"; };
+		0AB7411F23C79E1400B579B3 /* DataStringConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStringConvertible.swift; sourceTree = "<group>"; };
+		0AB7412023C79E1400B579B3 /* HTTPTransportStage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPTransportStage.swift; sourceTree = "<group>"; };
 		0AB7412323C7A03400B579B3 /* ClientLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientLogger.swift; sourceTree = "<group>"; };
 		0AC0AA82234D017F00F05073 /* AzureCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzureCodable.swift; sourceTree = "<group>"; };
 		0AC0AA8A234F8ADD00F05073 /* Collections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Collections.swift; path = Source/DataStructures/Collections.swift; sourceTree = SOURCE_ROOT; };
@@ -157,6 +158,7 @@
 		7A1A916B23D13D5700B0B3D2 /* RequestIdPolicyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestIdPolicyTests.swift; sourceTree = "<group>"; };
 		7A1A916E23D13E5D00B0B3D2 /* PipelineStubs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineStubs.swift; sourceTree = "<group>"; };
 		7A1A917023D13F0300B0B3D2 /* ProviderStubs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProviderStubs.swift; sourceTree = "<group>"; };
+		7A968D0223E0FC6400E0F054 /* LoggerStubs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerStubs.swift; sourceTree = "<group>"; };
 		7AA5366223BEC7EC00A65A96 /* AddDatePolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDatePolicy.swift; sourceTree = "<group>"; };
 		7AA5366423C0232A00A65A96 /* RequestIdPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestIdPolicy.swift; sourceTree = "<group>"; };
 		7AA5366823C0340C00A65A96 /* BundleInfoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleInfoProvider.swift; sourceTree = "<group>"; };
@@ -237,7 +239,7 @@
 				0AC0AA82234D017F00F05073 /* AzureCodable.swift */,
 				0AB5EAFC2375F25400361879 /* ConvertingInitializers.swift */,
 				0A18D7B423A95FEC008959E6 /* Copyable.swift */,
-				0A3A5F022316DF6600473FDA /* CryptoUtils.swift */,
+				0A3A5F022316DF6600473FDA /* CryptoUtil.swift */,
 				0AE5C3A5231F150A0013CA85 /* KeychainUtil.swift */,
 				0A6A9B4E234293B50013FCAA /* RegexUtil.swift */,
 			);
@@ -260,15 +262,15 @@
 				7A1A916D23D13E4E00B0B3D2 /* Stubs */,
 				7AFA4D5F23D14BDB001A3BF4 /* AddDatePolicyTests.swift */,
 				0AFEC35523C8FC320065D588 /* CollectionsTests.swift */,
+				7AFA4D5D23D14864001A3BF4 /* HeadersPolicyTests.swift */,
 				0AFEC35123C8FC320065D588 /* HTTPRequestTests.swift */,
+				7AFA4D6123D14F01001A3BF4 /* LoggingPolicyTests.swift */,
 				0AFEC35423C8FC320065D588 /* PipelineRequestTests.swift */,
 				0AFEC35023C8FC310065D588 /* PipelineTests.swift */,
+				7A1A916B23D13D5700B0B3D2 /* RequestIdPolicyTests.swift */,
 				0AFEC35223C8FC320065D588 /* UserAgentPolicyTests.swift */,
 				0AFEC34F23C8FC310065D588 /* UtilTests.swift */,
 				0AFEC35323C8FC320065D588 /* XMLModelTests.swift */,
-				7AFA4D5D23D14864001A3BF4 /* HeadersPolicyTests.swift */,
-				7AFA4D6123D14F01001A3BF4 /* LoggingPolicyTests.swift */,
-				7A1A916B23D13D5700B0B3D2 /* RequestIdPolicyTests.swift */,
 				0A3A5DE22315D17F00473FDA /* Info.plist */,
 			);
 			path = Tests;
@@ -279,12 +281,12 @@
 			children = (
 				0A3A5F362318680900473FDA /* Transport */,
 				0A3A5F1A2316EAE500473FDA /* Policies */,
-				0A3A5F412319834500473FDA /* PipelineBase.swift */,
 				0A3A5F3F2318975900473FDA /* PipelineClient.swift */,
 				0A3A5F1F2316EF9400473FDA /* PipelineContext.swift */,
 				7A16DC7A234BF55F002708BC /* PipelineError.swift */,
 				0A3A5F392318903900473FDA /* PipelineRequest.swift */,
 				0A3A5F3B2318904F00473FDA /* PipelineResponse.swift */,
+				0A3A5F412319834500473FDA /* PipelineStage.swift */,
 				0A3A5F3D2318906100473FDA /* Pipeline.swift */,
 			);
 			path = Pipeline;
@@ -307,12 +309,12 @@
 		0A3A5F362318680900473FDA /* Transport */ = {
 			isa = PBXGroup;
 			children = (
-				0AB7411F23C79E1400B579B3 /* HTTPCommonProtocol.swift */,
-				0AB7412023C79E1400B579B3 /* HttpTransport.swift */,
+				0AB7411F23C79E1400B579B3 /* DataStringConvertible.swift */,
 				0A3A5D932315CEB600473FDA /* HTTPHeader.swift */,
 				0A3A5D922315CEB600473FDA /* HTTPMethod.swift */,
 				0A3A5D902315CEB600473FDA /* HTTPRequest.swift */,
 				0A3A5D912315CEB600473FDA /* HTTPResponse.swift */,
+				0AB7412023C79E1400B579B3 /* HTTPTransportStage.swift */,
 			);
 			path = Transport;
 			sourceTree = "<group>";
@@ -369,6 +371,7 @@
 		7A1A916D23D13E4E00B0B3D2 /* Stubs */ = {
 			isa = PBXGroup;
 			children = (
+				7A968D0223E0FC6400E0F054 /* LoggerStubs.swift */,
 				7A1A916E23D13E5D00B0B3D2 /* PipelineStubs.swift */,
 				7A1A917023D13F0300B0B3D2 /* ProviderStubs.swift */,
 			);
@@ -380,8 +383,8 @@
 			children = (
 				7AA5366823C0340C00A65A96 /* BundleInfoProvider.swift */,
 				7AA5366E23C0409F00A65A96 /* DeviceProviders.swift */,
-				7AA5366A23C0341B00A65A96 /* PlatformInfoProvider.swift */,
 				7AA5366C23C0342600A65A96 /* LocaleInfoProvider.swift */,
+				7AA5366A23C0341B00A65A96 /* PlatformInfoProvider.swift */,
 			);
 			path = Providers;
 			sourceTree = "<group>";
@@ -618,13 +621,13 @@
 				7AFCF7662345714200592782 /* LoggingPolicy.swift in Sources */,
 				0A3A5D9E2315CEB600473FDA /* HTTPHeader.swift in Sources */,
 				0A3A5D9C2315CEB600473FDA /* HTTPResponse.swift in Sources */,
-				0AB7412223C79E1400B579B3 /* HttpTransport.swift in Sources */,
+				0AB7412223C79E1400B579B3 /* HTTPTransportStage.swift in Sources */,
 				0A18D7B523A95FEC008959E6 /* Copyable.swift in Sources */,
 				0A3A5F202316EF9400473FDA /* PipelineContext.swift in Sources */,
 				0AB7412423C7A03400B579B3 /* ClientLogger.swift in Sources */,
 				7AA5366323BEC7EC00A65A96 /* AddDatePolicy.swift in Sources */,
 				0AE5C3A6231F150A0013CA85 /* KeychainUtil.swift in Sources */,
-				0A3A5F422319834500473FDA /* PipelineBase.swift in Sources */,
+				0A3A5F422319834500473FDA /* PipelineStage.swift in Sources */,
 				0A45B1FB23A82A2E00C54363 /* ApplicationUtil.swift in Sources */,
 				0A3A5D9D2315CEB600473FDA /* HTTPMethod.swift in Sources */,
 				0A3A5D9B2315CEB600473FDA /* HTTPRequest.swift in Sources */,
@@ -635,7 +638,7 @@
 				0A3A5F3C2318904F00473FDA /* PipelineResponse.swift in Sources */,
 				7A16DC7B234BF55F002708BC /* PipelineError.swift in Sources */,
 				0AD2142923314416003A2E3E /* ObjectiveCBridgeable.swift in Sources */,
-				0A3A5F032316DF6600473FDA /* CryptoUtils.swift in Sources */,
+				0A3A5F032316DF6600473FDA /* CryptoUtil.swift in Sources */,
 				7AA5366923C0340C00A65A96 /* BundleInfoProvider.swift in Sources */,
 				0A8FE7682368A4FF00B96598 /* MatchCondition.swift in Sources */,
 				0AC0AA83234D017F00F05073 /* AzureCodable.swift in Sources */,
@@ -647,7 +650,7 @@
 				0A6864B8233EAC76004B7E17 /* ContentDecodePolicy.swift in Sources */,
 				0AC0AA8F234FDB0800F05073 /* XMLModel.swift in Sources */,
 				0A7F563A2321732B00E9765A /* URLHTTPResponse.swift in Sources */,
-				0AB7412123C79E1400B579B3 /* HTTPCommonProtocol.swift in Sources */,
+				0AB7412123C79E1400B579B3 /* DataStringConvertible.swift in Sources */,
 				0A6A9B4F234293B50013FCAA /* RegexUtil.swift in Sources */,
 				0A3A5F32231720DE00473FDA /* AuthenticationPolicy.swift in Sources */,
 				0A3A5F3E2318906100473FDA /* Pipeline.swift in Sources */,
@@ -659,6 +662,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A1A917123D13F0300B0B3D2 /* ProviderStubs.swift in Sources */,
+				7A968D0323E0FC6400E0F054 /* LoggerStubs.swift in Sources */,
 				7AFA4D6023D14BDB001A3BF4 /* AddDatePolicyTests.swift in Sources */,
 				7AFA4D5E23D14864001A3BF4 /* HeadersPolicyTests.swift in Sources */,
 				7AFA4D6223D14F01001A3BF4 /* LoggingPolicyTests.swift in Sources */,
