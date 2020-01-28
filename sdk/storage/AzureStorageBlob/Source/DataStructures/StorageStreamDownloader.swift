@@ -95,9 +95,10 @@ internal class ChunkDownloader {
         if let timeout = options.timeout { queryParams.append("timeout", String(timeout)) }
 
         // Construct headers
-        var headers = HTTPHeaders()
-        headers[.apiVersion] = client.options.apiVersion
-        headers[.accept] = "application/xml"
+        var headers = HTTPHeaders([
+            .accept: "application/xml",
+            .apiVersion: client.options.apiVersion
+        ])
         let leaseAccessConditions = options.leaseAccessConditions
         let modifiedAccessConditions = options.modifiedAccessConditions
         let cpk = options.cpk

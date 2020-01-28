@@ -49,10 +49,11 @@ public class AppConfigurationClient: PipelineClient {
             let credential = try AppConfigurationCredential(connectionString: connectionString)
             let authPolicy = AppConfigurationAuthenticationPolicy(credential: credential, scopes: [credential.endpoint])
 
-            var headers = HTTPHeaders()
-            headers[.returnClientRequestId] = "true"
-            headers[.contentType] = "application/json"
-            headers[.accept] = "application/vnd.microsoft.azconfig.kv+json"
+            let headers = HTTPHeaders([
+                .returnClientRequestId: "true",
+                .contentType: "application/json",
+                .accept: "application/vnd.microsoft.azconfig.kv+json"
+            ])
 
             return AppConfigurationClient(
                 baseUrl: credential.endpoint,
@@ -85,8 +86,7 @@ public class AppConfigurationClient: PipelineClient {
         // if let select = select { queryParams["$select"] = select }
 
         // Construct headers
-        var headers = HTTPHeaders()
-        headers[.apiVersion] = self.options.apiVersion
+        let headers = HTTPHeaders([.apiVersion: self.options.apiVersion])
         // if let acceptDatetime = acceptDatetime { headers["Accept-Datetime"] = acceptDatetime }
         // if let requestId = requestId { headers["x-ms-client-request-id"] = requestId }
 

@@ -31,8 +31,7 @@ class HeadersPolicyTests: XCTestCase {
 
     /// Test that the headers policy adds headers to a request
     func test_HeadersPolicy_AddsHeadersToRequest() {
-        var addedHeaders = HTTPHeaders()
-        addedHeaders[.contentType] = "test/test"
+        var addedHeaders = HTTPHeaders([.contentType: "test/test"])
         addedHeaders["TestHeader"] = "Testing"
         let policy = HeadersPolicy(addingHeaders: addedHeaders)
         let req = PipelineRequest()
@@ -43,12 +42,10 @@ class HeadersPolicyTests: XCTestCase {
 
     /// Test that the headers policy overwrites the existing value of a header
     func test_HeadersPolicy_OverwritesPreviousHeaderValues() {
-        var addedHeaders = HTTPHeaders()
-        addedHeaders[.contentType] = "test/test"
+        var addedHeaders = HTTPHeaders([.contentType: "test/test"])
         addedHeaders["TestHeader"] = "Testing"
         let policy = HeadersPolicy(addingHeaders: addedHeaders)
-        var headers = HTTPHeaders()
-        headers[.contentType] = "application/json"
+        let headers = HTTPHeaders([.contentType: "application/json"])
         let req = PipelineRequest(headers: headers)
         policy.on(request: req) { _ in }
         XCTAssertEqual(req.httpRequest.headers[.contentType], "test/test")

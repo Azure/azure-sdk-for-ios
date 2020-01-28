@@ -44,9 +44,7 @@ class PipelineTests: XCTestCase {
     }
 
     func test_HTTPRequest_Inits() {
-        let headers: HTTPHeaders = [
-            "headerParam": "myHeaderParam"
-        ]
+        let headers: HTTPHeaders = ["headerParam": "myHeaderParam"]
         let request = HTTPRequest(method: .get, url: "test", headers: headers)
         request.add(queryParams: [("a", "1"), ("b", "2")])
         XCTAssertEqual(request.url, "test?a=1&b=2")

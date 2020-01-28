@@ -161,9 +161,10 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         var queryParams: [QueryParameter] = [("comp", "list")]
 
         // Construct headers
-        var headers = HTTPHeaders()
-        headers[HTTPHeader.accept] = "application/xml"
-        headers[HTTPHeader.apiVersion] = self.options.apiVersion
+        var headers = HTTPHeaders([
+            .accept: "application/xml",
+            .apiVersion: self.options.apiVersion
+        ])
 
         // Process endpoint options
         if let options = options {
@@ -238,10 +239,11 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         ]
 
         // Construct headers
-        var headers = HTTPHeaders()
-        headers[HTTPHeader.accept] = "application/xml"
-        headers[HTTPHeader.transferEncoding] = "chunked"
-        headers[HTTPHeader.apiVersion] = self.options.apiVersion
+        var headers = HTTPHeaders([
+            .accept: "application/xml",
+            .transferEncoding: "chunked",
+            .apiVersion: self.options.apiVersion
+        ])
 
         // Process endpoint options
         if let options = options {
@@ -256,7 +258,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
 
             // Header options
             if let clientRequestId = options.clientRequestId {
-                headers[HTTPHeader.clientRequestId] = clientRequestId
+                headers[.clientRequestId] = clientRequestId
             }
         }
 

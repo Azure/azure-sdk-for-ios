@@ -230,8 +230,7 @@ class UserAgentPolicyTests: XCTestCase {
             appBundleInfoProvider: nil,
             localeInfoProvider: nil
         )
-        var headers = HTTPHeaders()
-        headers[.userAgent] = "azsdk-ios-Garbage/0.0"
+        let headers = HTTPHeaders([.userAgent: "azsdk-ios-Garbage/0.0"])
         let req = PipelineRequest(headers: headers)
         policy.on(request: req) { _ in }
         XCTAssertEqual(req.httpRequest.headers[.userAgent], "azsdk-ios-Test/1.0")
@@ -246,8 +245,7 @@ class UserAgentPolicyTests: XCTestCase {
             appBundleInfoProvider: nil,
             localeInfoProvider: nil
         )
-        var headers = HTTPHeaders()
-        headers[.userAgent] = "CustomUserAgent/8.0"
+        let headers = HTTPHeaders([.userAgent: "CustomUserAgent/8.0"])
         let req = PipelineRequest(headers: headers)
         policy.on(request: req) { _ in }
         XCTAssertEqual(req.httpRequest.headers[.userAgent], "azsdk-ios-Test/1.0 CustomUserAgent/8.0")

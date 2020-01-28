@@ -49,8 +49,7 @@ class HttpRequestTests: XCTestCase {
 
     func test_HttpHeaders_WithEnumOrStringKey_CanBeModified() {
         // ensure headers can be added by string or enum key
-        var headers = HTTPHeaders()
-        headers[.accept] = "json"
+        let headers = HTTPHeaders([.accept: "json"])
         let httpRequest = HTTPRequest(method: .post, url: "https://www.test.com?a=1&b=2", headers: headers)
         XCTAssertEqual(httpRequest.headers.count, 1, "Failed to accept headers.")
         httpRequest.headers["Authorization"] = "token"
