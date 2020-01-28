@@ -164,36 +164,26 @@ public class ContentDecodePolicy: PipelineStage {
     // MARK: Properties
 
     public var next: PipelineStage?
-    public var logger: ClientLogger?
 
     internal let jsonRegex = NSRegularExpression("^(application|text)/([0-9a-z+.]+)?json$")
-    internal var xmlParser: ContentDecodeXMLParser?
+    internal lazy var xmlParser = ContentDecodeXMLParser()
 
     // MARK: Initializers
 
-    public init() {
-        self.xmlParser = ContentDecodeXMLParser()
-    }
+    public init() {}
 
     // MARK: Public Methods
 
     public func on(response: PipelineResponse, then completion: @escaping OnResponseCompletionHandler) {
         let stream = response.value(forKey: "stream") as? Bool ?? false
         guard stream == false else { return }
-        guard let httpResponse = response.httpResponse else { return }
         var returnResponse = response.copy()
 
-        xmlParser?.xmlMap = response.value(forKey: .xmlMap) as? XMLMap
-
-        // Store the logger so that the XML parser delegate functions can access it
-        logger = response.logger
-        xmlParser?.logger = logger
-
-        var contentType = (httpResponse.headers["Content-Type"]?.components(separatedBy: ";").first) ??
+        var contentType = (returnResponse.httpResponse?.headers["Content-Type"]?.components(separatedBy: ";").first) ??
             "application/json"
         contentType = contentType.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
         do {
-            if let deserializedJson = try deserialize(from: httpResponse, contentType: contentType) {
+            if let deserializedJson = try deserialize(from: returnResponse, contentType: contentType) {
                 let deserializedData = try JSONSerialization.data(withJSONObject: deserializedJson, options: [])
                 returnResponse.add(value: deserializedData as AnyObject, forKey: .deserializedData)
             }
@@ -210,9 +200,9 @@ public class ContentDecodePolicy: PipelineStage {
         parser.delegate = xmlParser
         _ = parser.parse()
         var jsonData: Data?
-        if let dictObj = xmlParser?.xmlTree?.dictionary {
+        if let dictObj = xmlParser.xmlTree?.dictionary {
             jsonData = try? JSONSerialization.data(withJSONObject: dictObj, options: [])
-        } else if let arrayObj = xmlParser?.xmlTree?.array {
+        } else if let arrayObj = xmlParser.xmlTree?.array {
             jsonData = try JSONSerialization.data(withJSONObject: arrayObj, options: [])
         }
         guard let finalJsonData = jsonData else {
@@ -221,11 +211,13 @@ public class ContentDecodePolicy: PipelineStage {
         return try JSONSerialization.jsonObject(with: finalJsonData, options: []) as AnyObject
     }
 
-    internal func deserialize(from httpResponse: HTTPResponse, contentType: String) throws -> AnyObject? {
-        guard let data = httpResponse.data else { return nil }
+    internal func deserialize(from response: PipelineResponse, contentType: String) throws -> AnyObject? {
+        guard let data = response.httpResponse?.data else { return nil }
         if jsonRegex.hasMatch(in: contentType) {
             return try JSONSerialization.jsonObject(with: data, options: []) as AnyObject
         } else if contentType.contains("xml") {
+            xmlParser.xmlMap = response.value(forKey: .xmlMap) as? XMLMap
+            xmlParser.logger = response.logger
             return try parse(xml: data)
         }
         return nil
