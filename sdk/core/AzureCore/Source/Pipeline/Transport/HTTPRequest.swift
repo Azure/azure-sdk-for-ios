@@ -26,6 +26,14 @@
 
 import Foundation
 
+public typealias QueryParameter = (String, String?)
+
+public extension Array where Element == QueryParameter {
+    mutating func append(_ name: String, _ value: String?) {
+        self.append((name, value))
+    }
+}
+
 public class HTTPRequest: DataStringConvertible {
 
     // MARK: Properties
@@ -36,37 +44,30 @@ public class HTTPRequest: DataStringConvertible {
     public var files: [String]?
     public var data: Data?
 
-    public var query: [URLQueryItem]? {
-        let comps = URLComponents(string: url)?.queryItems
-        return comps
-    }
-
     // MARK: Initializers
 
-    public init(method: HTTPMethod, url: String,
-                queryParams: [String: String], headers: HTTPHeaders,
-                files: [String]? = nil, data: Data? = nil) {
+    public init(method: HTTPMethod, url: String, headers: HTTPHeaders, files: [String]? = nil, data: Data? = nil) {
         self.httpMethod = method
         self.url = url
         self.headers = headers
         self.files = files
         self.data = data
-        self.update(queryParams: queryParams)
     }
 
     // MARK: Public Methods
 
-    public func update(queryParams: [String: String]?) {
+    public func add(queryParams addedParams: [QueryParameter]) {
+        guard !addedParams.isEmpty else { return }
         guard var urlComps = URLComponents(string: self.url) else { return }
-        var queryItems = url.parseQueryString() ?? [String: String]()
 
-        // add any query params from the queryParams dictionary
-        if queryParams != nil {
-            for (name, value) in queryParams! {
-                queryItems[name] = value
-            }
+        let addedQueryItems = addedParams.map { (name, value) in URLQueryItem(name: name, value: value)}
+        if var urlQueryItems = urlComps.queryItems, !urlQueryItems.isEmpty {
+            urlQueryItems.append(contentsOf: addedQueryItems)
+            urlComps.queryItems = urlQueryItems
+        } else {
+            urlComps.queryItems = addedQueryItems
         }
-        urlComps.queryItems = queryItems.convertToQueryItems()
-        url = urlComps.url(relativeTo: nil)?.absoluteString ?? url
+
+        url = urlComps.url?.absoluteString ?? url
     }
 }

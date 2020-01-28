@@ -90,9 +90,9 @@ internal class ChunkDownloader {
         let url = client.url(forTemplate: urlTemplate, withKwargs: pathParams)
 
         // Construct parameters
-        var queryParams = [String: String]()
-        if let snapshot = options.snapshot { queryParams["snapshot"] = snapshot }
-        if let timeout = options.timeout { queryParams["timeout"] = String(timeout) }
+        var queryParams = [QueryParameter]()
+        if let snapshot = options.snapshot { queryParams.append("snapshot", snapshot) }
+        if let timeout = options.timeout { queryParams.append("timeout", String(timeout)) }
 
         // Construct headers
         var headers = HTTPHeaders()
@@ -127,10 +127,8 @@ internal class ChunkDownloader {
         if let ifNoneMatch = modifiedAccessConditions?.ifNoneMatch { headers[.ifNoneMatch] = ifNoneMatch }
 
         // Construct and send request
-        let request = HTTPRequest(method: .get,
-                                  url: url,
-                                  queryParams: queryParams,
-                                  headers: headers)
+        let request = HTTPRequest(method: .get, url: url, headers: headers)
+        request.add(queryParams: queryParams)
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 206] as AnyObject
         ])

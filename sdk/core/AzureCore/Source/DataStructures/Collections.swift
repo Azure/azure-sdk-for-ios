@@ -32,7 +32,7 @@ public protocol PagedCollectionDelegate: AnyObject {
 
     // MARK: Required Methods
 
-    func continuationUrl(continuationToken: String, queryParams: inout [String: String], requestUrl: String) -> String
+    func continuationUrl(continuationToken: String, queryParams: inout [QueryParameter], requestUrl: String) -> String
 }
 
 /// Defines the property keys used to conform to the Azure paging design.
@@ -164,7 +164,7 @@ public class PagedCollection<SingleElement: Codable>: PagedCollectionDelegate {
         let delegate = self.delegate ?? self
 
         client.logger.info(String(format: "Fetching next page with: %@", continuationToken))
-        var queryParams = [String: String]()
+        var queryParams = [QueryParameter]()
         let url = delegate.continuationUrl(continuationToken: continuationToken, queryParams: &queryParams,
                                            requestUrl: requestUrl)
         var context: PipelineContext?
@@ -174,8 +174,8 @@ public class PagedCollection<SingleElement: Codable>: PagedCollectionDelegate {
                 ContextKey.xmlMap.rawValue: xmlMap as AnyObject
             ])
         }
-        let request = HTTPRequest(method: .get, url: url,
-                                  queryParams: queryParams, headers: requestHeaders)
+        let request = HTTPRequest(method: .get, url: url, headers: requestHeaders)
+        request.add(queryParams: queryParams)
         client.request(request, context: context) { result, _ in
             var returnError: Error?
             switch result {
@@ -231,7 +231,7 @@ public class PagedCollection<SingleElement: Codable>: PagedCollectionDelegate {
     }
 
     /// Format a URL for a paged response using a provided continuation token.
-    public func continuationUrl(continuationToken: String, queryParams _: inout [String: String],
+    public func continuationUrl(continuationToken: String, queryParams _: inout [QueryParameter],
                                 requestUrl _: String) -> String {
         return client.url(forTemplate: continuationToken)
     }

@@ -61,9 +61,9 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
 
     // MARK: Paged Collection Delegate
 
-    public func continuationUrl(continuationToken: String, queryParams: inout [String: String],
+    public func continuationUrl(continuationToken: String, queryParams: inout [QueryParameter],
                                 requestUrl: String) -> String {
-        queryParams["marker"] = continuationToken
+        queryParams.append("marker", continuationToken)
         return requestUrl
     }
 
@@ -158,8 +158,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         let url = self.url(forTemplate: urlTemplate)
 
         // Construct query
-        var queryParams = [String: String]()
-        queryParams["comp"] = "list"
+        var queryParams: [QueryParameter] = [("comp", "list")]
 
         // Construct headers
         var headers = HTTPHeaders()
@@ -169,12 +168,12 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         // Process endpoint options
         if let options = options {
             // Query options
-            if let prefix = options.prefix { queryParams["prefix"] = prefix }
+            if let prefix = options.prefix { queryParams.append("prefix", prefix) }
             if let include = options.include {
-                queryParams["include"] = (include.map { $0.rawValue }).joined(separator: ",")
+                queryParams.append("include", (include.map { $0.rawValue }).joined(separator: ","))
             }
-            if let maxResults = options.maxResults { queryParams["maxresults"] = String(maxResults) }
-            if let timeout = options.timeout { queryParams["timeout"] = String(timeout) }
+            if let maxResults = options.maxResults { queryParams.append("maxresults", String(maxResults)) }
+            if let timeout = options.timeout { queryParams.append("timeout", String(timeout)) }
 
             // Header options
             if let clientRequestId = options.clientRequestId {
@@ -192,10 +191,9 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         let context = PipelineContext.of(keyValues: [
             ContextKey.xmlMap.rawValue: xmlMap as AnyObject
         ])
-        let request = HTTPRequest(method: HTTPMethod.get,
-                                  url: url,
-                                  queryParams: queryParams,
-                                  headers: headers)
+        let request = HTTPRequest(method: .get, url: url, headers: headers)
+        request.add(queryParams: queryParams)
+
         self.request(request, context: context) { result, httpResponse in
             switch result {
             case let .success(data):
@@ -234,9 +232,10 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams)
 
         // Construct query
-        var queryParams = [String: String]()
-        queryParams["comp"] = "list"
-        queryParams["resType"] = "container"
+        var queryParams: [QueryParameter] = [
+            ("comp", "list"),
+            ("resType", "container")
+        ]
 
         // Construct headers
         var headers = HTTPHeaders()
@@ -247,13 +246,13 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         // Process endpoint options
         if let options = options {
             // Query options
-            if let prefix = options.prefix { queryParams["prefix"] = prefix }
-            if let delimiter = options.delimiter { queryParams["delimiter"] = delimiter }
+            if let prefix = options.prefix { queryParams.append("prefix", prefix) }
+            if let delimiter = options.delimiter { queryParams.append("delimiter", delimiter) }
             if let include = options.include {
-                queryParams["include"] = (include.map { $0.rawValue }).joined(separator: ",")
+                queryParams.append("include", (include.map { $0.rawValue }).joined(separator: ","))
             }
-            if let maxResults = options.maxResults { queryParams["maxresults"] = String(maxResults) }
-            if let timeout = options.timeout { queryParams["timeout"] = String(timeout) }
+            if let maxResults = options.maxResults { queryParams.append("maxresults", String(maxResults)) }
+            if let timeout = options.timeout { queryParams.append("timeout", String(timeout)) }
 
             // Header options
             if let clientRequestId = options.clientRequestId {
@@ -262,10 +261,8 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         }
 
         // Construct and send request
-        let request = HTTPRequest(method: HTTPMethod.get,
-                                  url: url,
-                                  queryParams: queryParams,
-                                  headers: headers)
+        let request = HTTPRequest(method: .get, url: url, headers: headers)
+        request.add(queryParams: queryParams)
         let codingKeys = PagedCodingKeys(
             items: "EnumerationResults.Blobs",
             continuationToken: "EnumerationResults.NextMarker",

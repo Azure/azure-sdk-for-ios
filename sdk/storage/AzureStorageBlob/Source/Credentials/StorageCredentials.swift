@@ -107,20 +107,20 @@ public class StorageSASAuthenticationPolicy: Authenticating {
     ///   - completion: A completion handler that forwards the modified pipeline request.
     public func authenticate(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
         let queryParams = parse(sasToken: credential.sasToken)
-        request.httpRequest.update(queryParams: queryParams)
+        request.httpRequest.add(queryParams: queryParams)
         request.httpRequest.headers[.xmsDate] = String(describing: Date(), format: .rfc1123)
         completion(request)
     }
 
     // MARK: Private Methods
 
-    private func parse(sasToken: String) -> [String: String] {
-        var queryItems = [String: String]()
+    private func parse(sasToken: String) -> [QueryParameter] {
+        var queryItems = [QueryParameter]()
         for component in sasToken.components(separatedBy: "&") {
             let splitComponent = component.split(separator: "=", maxSplits: 1).map(String.init)
             let name = splitComponent.first!
             let value = splitComponent.count == 2 ? splitComponent.last : ""
-            queryItems[name] = value?.removingPercentEncoding
+            queryItems.append(name, value?.removingPercentEncoding)
         }
         return queryItems
     }

@@ -77,9 +77,10 @@ public class AppConfigurationClient: PipelineClient {
 
         // Construct URL
         let url = "kv"
-        var queryParams = [String: String]()
-        queryParams["key"] = key ?? "*"
-        queryParams["label"] = label ?? "*"
+        let queryParams = [
+            ("key", key ?? "*"),
+            ("label", label ?? "*")
+        ]
         // if let fields = fields { queryParams["fields"] = fields }
         // if let select = select { queryParams["$select"] = select }
 
@@ -90,8 +91,8 @@ public class AppConfigurationClient: PipelineClient {
         // if let requestId = requestId { headers["x-ms-client-request-id"] = requestId }
 
         // Construct and send request
-        let request = HTTPRequest(method: .get, url: url,
-                                  queryParams: queryParams, headers: headers)
+        let request = HTTPRequest(method: .get, url: url, headers: headers)
+        request.add(queryParams: queryParams)
         self.request(request, context: nil) { result, httpResponse in
             //        header_dict = {}
             //        deserialized = None

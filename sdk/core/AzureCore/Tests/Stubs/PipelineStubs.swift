@@ -38,7 +38,6 @@ extension PipelineRequest {
         let httpRequest = HTTPRequest(
             method: method,
             url: url,
-            queryParams: [String: String](),
             headers: headers,
             data: body?.data(using: .utf8)
         )
