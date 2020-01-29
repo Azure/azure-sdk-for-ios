@@ -256,13 +256,10 @@ class XMLModelTests: XCTestCase {
             baseUrl: "http://www.microsoft.com",
             transport: URLSessionTransport(),
             policies: [
-                UserAgentPolicy()
+                UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0")
             ],
             logger: ClientLoggers.default())
-        let request = HTTPRequest(method: .get,
-                                  url: "",
-                                  queryParams: [:],
-                                  headers: [:])
+        let request = HTTPRequest(method: .get, url: "", headers: [:])
 
         let decodePolicy = ContentDecodePolicy()
         let pagedKeys = PagedCodingKeys(items: "things.items", continuationToken: "things.next", xmlItemName: "item")

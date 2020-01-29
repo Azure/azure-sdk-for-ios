@@ -24,16 +24,21 @@
 //
 // --------------------------------------------------------------------------
 
-import Foundation
+@testable import AzureCore
 
-public enum HTTPMethod: String {
-    case get = "GET"
-    case put = "PUT"
-    case post = "POST"
-    case patch = "PATCH"
-    case delete = "DELETE"
-    case head = "HEAD"
-    case options = "OPTIONS"
-    case trace = "TRACE"
-    case merge = "MERGE"
+struct TestBundleInfoProvider: BundleInfoProvider {
+    var identifier: String?
+    var name: String?
+    var version: String?
+    var minDeploymentTarget: String?
+}
+
+struct TestLocaleInfoProvider: LocaleInfoProvider {
+    var language: String?
+    var region: String?
+}
+
+struct TestPlatformInfoProvider: PlatformInfoProvider {
+    var deviceName: String?
+    var osVersion: String?
 }

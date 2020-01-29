@@ -93,4 +93,11 @@ extension HTTPHeaders {
     public mutating func removeValue(forKey key: HTTPHeader) -> Value? {
         return removeValue(forKey: key.rawValue)
     }
+
+    public init(_ values: [HTTPHeader: String]) {
+        self.init(minimumCapacity: values.underestimatedCount)
+        for (key, value) in values {
+            self[key] = value
+        }
+    }
 }

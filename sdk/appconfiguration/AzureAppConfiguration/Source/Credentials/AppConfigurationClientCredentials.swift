@@ -87,7 +87,7 @@ public class AppConfigurationAuthenticationPolicy: Authenticating {
         request.httpRequest.headers[.contentHash] = contentHash
         let dateValue = request.httpRequest.headers[HTTPHeader.date] ?? request.httpRequest.headers[.xmsDate]
         if dateValue == nil {
-            request.httpRequest.headers[.xmsDate] = Date().rfc1123Format
+            request.httpRequest.headers[.xmsDate] = String(describing: Date(), format: .rfc1123)
         }
         sign(request: request)
         completion(request)

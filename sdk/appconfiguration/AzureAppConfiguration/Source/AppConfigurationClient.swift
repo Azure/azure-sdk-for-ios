@@ -48,12 +48,21 @@ public class AppConfigurationClient: PipelineClient {
             let clientOptions = options ?? AppConfigurationClientOptions(apiVersion: ApiVersion.latest.rawValue)
             let credential = try AppConfigurationCredential(connectionString: connectionString)
             let authPolicy = AppConfigurationAuthenticationPolicy(credential: credential, scopes: [credential.endpoint])
+
+            let headers = HTTPHeaders([
+                .returnClientRequestId: "true",
+                .contentType: "application/json",
+                .accept: "application/vnd.microsoft.azconfig.kv+json"
+            ])
+
             return AppConfigurationClient(
                 baseUrl: credential.endpoint,
                 transport: URLSessionTransport(),
                 policies: [
-                    HeadersPolicy(),
-                    UserAgentPolicy(),
+                    UserAgentPolicy(for: AppConfigurationClient.self),
+                    RequestIdPolicy(),
+                    HeadersPolicy(addingHeaders: headers),
+                    AddDatePolicy(),
                     authPolicy,
                     ContentDecodePolicy(),
                     LoggingPolicy()
@@ -69,21 +78,21 @@ public class AppConfigurationClient: PipelineClient {
 
         // Construct URL
         let url = "kv"
-        var queryParams = [String: String]()
-        queryParams["key"] = key ?? "*"
-        queryParams["label"] = label ?? "*"
+        let queryParams = [
+            ("key", key ?? "*"),
+            ("label", label ?? "*")
+        ]
         // if let fields = fields { queryParams["fields"] = fields }
         // if let select = select { queryParams["$select"] = select }
 
         // Construct headers
-        var headers = HTTPHeaders()
-        headers[.apiVersion] = self.options.apiVersion
+        let headers = HTTPHeaders([.apiVersion: self.options.apiVersion])
         // if let acceptDatetime = acceptDatetime { headers["Accept-Datetime"] = acceptDatetime }
         // if let requestId = requestId { headers["x-ms-client-request-id"] = requestId }
 
         // Construct and send request
-        let request = HTTPRequest(method: .get, url: url,
-                                  queryParams: queryParams, headers: headers)
+        let request = HTTPRequest(method: .get, url: url, headers: headers)
+        request.add(queryParams: queryParams)
         self.request(request, context: nil) { result, httpResponse in
             //        header_dict = {}
             //        deserialized = None

@@ -26,14 +26,24 @@
 
 import Foundation
 
-public enum HTTPMethod: String {
-    case get = "GET"
-    case put = "PUT"
-    case post = "POST"
-    case patch = "PATCH"
-    case delete = "DELETE"
-    case head = "HEAD"
-    case options = "OPTIONS"
-    case trace = "TRACE"
-    case merge = "MERGE"
+// MARK: LocaleInfoProvider Protocol
+
+public protocol LocaleInfoProvider {
+    var language: String? { get }
+    var region: String? { get }
+}
+
+// MARK: DeviceLocaleInfoProvider
+
+internal struct DeviceLocaleInfoProvider: LocaleInfoProvider {
+
+    // MARK: Computed Properties
+
+    public var language: String? {
+        return Locale.current.languageCode
+    }
+
+    public var region: String? {
+        return Locale.current.regionCode
+    }
 }

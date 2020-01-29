@@ -26,14 +26,17 @@
 
 import Foundation
 
-public enum HTTPMethod: String {
-    case get = "GET"
-    case put = "PUT"
-    case post = "POST"
-    case patch = "PATCH"
-    case delete = "DELETE"
-    case head = "HEAD"
-    case options = "OPTIONS"
-    case trace = "TRACE"
-    case merge = "MERGE"
+public struct DeviceProviders {
+
+    // MARK: Static Properties
+
+    public static let appBundleInfo: BundleInfoProvider = DeviceBundleInfoProvider(for: Bundle.main)
+    public static let platformInfo: PlatformInfoProvider = DevicePlatformInfoProvider()
+    public static let localeInfo: LocaleInfoProvider = DeviceLocaleInfoProvider()
+
+    // MARK: Static Methods
+
+    public static func bundleInfo(for clazz: AnyClass) -> BundleInfoProvider? {
+        return DeviceBundleInfoProvider(for: Bundle(for: clazz))
+    }
 }

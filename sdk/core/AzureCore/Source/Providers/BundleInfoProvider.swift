@@ -26,26 +26,56 @@
 
 import Foundation
 
-public class HeadersPolicy: PipelineStage {
+// MARK: BundleInfoProvider Protocol
+
+public protocol BundleInfoProvider {
+    var identifier: String? { get }
+    var name: String? { get }
+    var version: String? { get }
+    var minDeploymentTarget: String? { get }
+}
+
+// MARK: DeviceBundleInfoProvider
+
+internal struct DeviceBundleInfoProvider: BundleInfoProvider {
 
     // MARK: Properties
 
-    public var next: PipelineStage?
-
-    private var headers: HTTPHeaders
+    private let bundle: Bundle
 
     // MARK: Initializers
 
-    public init(addingHeaders headers: HTTPHeaders) {
-        self.headers = headers
+    public init(for bundle: Bundle) {
+        self.bundle = bundle
     }
 
-    // MARK: PipelineStage Methods
+    // MARK: Computed Properties
 
-    public func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
-        for (key, value) in headers {
-            request.httpRequest.headers[key] = value
-        }
-        completion(request)
+    public var identifier: String? {
+        return bundle.bundleIdentifier
+    }
+
+    public var name: String? {
+        return bundle.infoDictionary?["CFBundleName"] as? String
+    }
+
+    public var version: String? {
+        return bundle.infoDictionary?["CFBundleShortVersionString"] as? String
+    }
+
+    public var minDeploymentTarget: String? {
+        #if os(iOS) || os(watchOS) || os(tvOS)
+            guard let version = bundle.infoDictionary?["MinimumOSVersion"] as? String else { return nil }
+            #if targetEnvironment(macCatalyst)
+                return "macOS - Catalyst \(version)"
+            #else
+                return "iOS \(version)"
+            #endif
+        #elseif os(macOS)
+            guard let version = Bundle.main.infoDictionary?["LSMinimumSystemVersion"] as? String else { return nil }
+            return "macOS \(version)"
+        #else
+            return nil
+        #endif
     }
 }

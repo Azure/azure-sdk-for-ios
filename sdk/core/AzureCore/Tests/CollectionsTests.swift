@@ -56,13 +56,10 @@ class CollectionsTests: XCTestCase {
             baseUrl: "http://www.microsoft.com",
             transport: URLSessionTransport(),
             policies: [
-                UserAgentPolicy()
+                UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0")
             ],
             logger: ClientLoggers.default())
-        let request = HTTPRequest(method: .get,
-                                  url: "",
-                                  queryParams: [:],
-                                  headers: [:])
+        let request = HTTPRequest(method: .get, url: "", headers: [:])
 
         // simulate data received
         let data = load(resource: "pagedthings1", withExtension: "json")
@@ -81,7 +78,7 @@ class CollectionsTests: XCTestCase {
         XCTAssertEqual(paged.pageItems?.count, 3)
 
         // test default continuationUrl. Note that queryParams and requestUrl are irrelevant in the default case.
-        var params = ["ref": "123"]
+        var params: [QueryParameter] = [("ref", "123")]
         let continuationUrl = paged.continuationUrl(
             continuationToken: "testToken", queryParams: &params, requestUrl: "requestUrl")
         XCTAssertEqual(continuationUrl, "\(client.baseUrl)testToken")
@@ -93,13 +90,10 @@ class CollectionsTests: XCTestCase {
             baseUrl: "http://www.microsoft.com",
             transport: URLSessionTransport(),
             policies: [
-                UserAgentPolicy()
+                UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0")
             ],
             logger: ClientLoggers.default())
-        let request = HTTPRequest(method: .get,
-                                  url: "",
-                                  queryParams: [:],
-                                  headers: [:])
+        let request = HTTPRequest(method: .get, url: "", headers: [:])
 
         // simulate data received
         let data = load(resource: "pagedthings2", withExtension: "json")
@@ -120,13 +114,10 @@ class CollectionsTests: XCTestCase {
             baseUrl: "http://www.microsoft.com",
             transport: URLSessionTransport(),
             policies: [
-                UserAgentPolicy()
+                UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0")
             ],
             logger: ClientLoggers.default())
-        let request = HTTPRequest(method: .get,
-                                  url: "",
-                                  queryParams: [:],
-                                  headers: [:])
+        let request = HTTPRequest(method: .get, url: "", headers: [:])
         // simulate data received
         let data = load(resource: "pagedthings1", withExtension: "json")
         let jsonObject = try! JSONSerialization.jsonObject(with: data)

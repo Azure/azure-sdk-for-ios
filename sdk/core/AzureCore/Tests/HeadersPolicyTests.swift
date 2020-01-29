@@ -24,16 +24,31 @@
 //
 // --------------------------------------------------------------------------
 
-import Foundation
+import XCTest
+@testable import AzureCore
 
-public enum HTTPMethod: String {
-    case get = "GET"
-    case put = "PUT"
-    case post = "POST"
-    case patch = "PATCH"
-    case delete = "DELETE"
-    case head = "HEAD"
-    case options = "OPTIONS"
-    case trace = "TRACE"
-    case merge = "MERGE"
+class HeadersPolicyTests: XCTestCase {
+
+    /// Test that the headers policy adds headers to a request
+    func test_HeadersPolicy_AddsHeadersToRequest() {
+        var addedHeaders = HTTPHeaders([.contentType: "test/test"])
+        addedHeaders["TestHeader"] = "Testing"
+        let policy = HeadersPolicy(addingHeaders: addedHeaders)
+        let req = PipelineRequest()
+        policy.on(request: req) { _ in }
+        XCTAssertEqual(req.httpRequest.headers[.contentType], "test/test")
+        XCTAssertEqual(req.httpRequest.headers["TestHeader"], "Testing")
+    }
+
+    /// Test that the headers policy overwrites the existing value of a header
+    func test_HeadersPolicy_OverwritesPreviousHeaderValues() {
+        var addedHeaders = HTTPHeaders([.contentType: "test/test"])
+        addedHeaders["TestHeader"] = "Testing"
+        let policy = HeadersPolicy(addingHeaders: addedHeaders)
+        let headers = HTTPHeaders([.contentType: "application/json"])
+        let req = PipelineRequest(headers: headers)
+        policy.on(request: req) { _ in }
+        XCTAssertEqual(req.httpRequest.headers[.contentType], "test/test")
+        XCTAssertEqual(req.httpRequest.headers["TestHeader"], "Testing")
+    }
 }

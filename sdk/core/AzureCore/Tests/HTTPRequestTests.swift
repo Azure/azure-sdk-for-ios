@@ -29,31 +29,28 @@ import XCTest
 
 class HttpRequestTests: XCTestCase {
 
-    func test_HttpRequest_WithQueryString_UpdatesQueryString() {
-        let headers = HTTPHeaders()
-        let httpRequest = HTTPRequest(
-            method: .post, url: "https://www.test.com?a=1&b=2", queryParams: [:], headers: headers)
-        var query = httpRequest.query
-        XCTAssertEqual(query?.count, 2, "Failure converting query string from URL into query items.")
+    func test_HttpRequest_WithQueryString_AppendsToQueryString() {
+        let httpRequest = HTTPRequest(method: .post, url: "https://www.test.com?a=1&b=2", headers: [:])
+        var query = URLComponents(string: httpRequest.url)!.queryItems!
+        XCTAssertEqual(query.count, 2, "Failure converting query string from URL into query items.")
 
-        let queryParams = ["a": "0", "c": "3"]
-        httpRequest.update(queryParams: queryParams)
-        query = httpRequest.query
-        XCTAssertEqual(query?.count, 3, "Failure merging query string with updates.")
-        let queryItems = query?.reduce(into: [String: String]()) {
-            $0[$1.name] = $1.value
+        httpRequest.add(queryParams: [("a", "0"), ("c", "3")])
+        query = URLComponents(string: httpRequest.url)!.queryItems!
+        XCTAssertEqual(query.count, 4, "Failure adding new query string parameters.")
+        let queryItems = query.reduce(into: [String: [String?]]()) { (acc, item) in
+            if acc[item.name] == nil { acc[item.name] = [] }
+            acc[item.name]!.append(item.value)
         }
-        XCTAssertEqual(queryItems?["a"], "0", "Failed to update query string value.")
-        XCTAssertEqual(queryItems?["b"], "2", "Update unexpectedly changed query string value.")
-        XCTAssertEqual(queryItems?["c"], "3", "Update failed to add new value.")
+        XCTAssert(queryItems["a"]!.contains("0"), "Failed to add duplicate query string value.")
+        XCTAssert(queryItems["a"]!.contains("1"), "Failed to retain original query string value.")
+        XCTAssert(queryItems["b"]!.contains("2"), "Add unexpectedly changed unrelated query string value.")
+        XCTAssert(queryItems["c"]!.contains("3"), "Failed to add new query string value.")
     }
 
     func test_HttpHeaders_WithEnumOrStringKey_CanBeModified() {
         // ensure headers can be added by string or enum key
-        var headers = HTTPHeaders()
-        headers[.accept] = "json"
-        let httpRequest = HTTPRequest(
-            method: .post, url: "https://www.test.com?a=1&b=2", queryParams: [:], headers: headers)
+        let headers = HTTPHeaders([.accept: "json"])
+        let httpRequest = HTTPRequest(method: .post, url: "https://www.test.com?a=1&b=2", headers: headers)
         XCTAssertEqual(httpRequest.headers.count, 1, "Failed to accept headers.")
         httpRequest.headers["Authorization"] = "token"
         XCTAssertEqual(httpRequest.headers.count, 2, "Failed to add new header.")

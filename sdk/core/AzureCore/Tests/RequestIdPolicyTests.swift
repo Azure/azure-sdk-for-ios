@@ -24,35 +24,26 @@
 //
 // --------------------------------------------------------------------------
 
-import Foundation
+import XCTest
+@testable import AzureCore
 
-extension Optional where Wrapped == String {
+class RequestIdPolicyTests: XCTestCase {
 
-    public var asBool: Bool? {
-        if let value = self {
-            return Bool(value)
-        }
-        return nil
+    /// Test that the request id policy adds a non-empty request ID header
+    func test_RequestIdPolicy_AddsHeaderToRequest() {
+        let policy = RequestIdPolicy()
+        let req = PipelineRequest()
+        policy.on(request: req) { _ in }
+        let value = req.httpRequest.headers[.clientRequestId]
+        XCTAssertTrue(value != nil && !value!.isEmpty)
     }
 
-    public var asInt: Int? {
-        if let value = self {
-            return Int(value)
-        }
-        return nil
-    }
-
-    public var asDate: Date? {
-        if let value = self {
-            return value.rfc1123Date
-        }
-        return nil
-    }
-
-    public func asEnum<EnumType>(_ type: EnumType.Type) -> EnumType? where EnumType: RawRepresentable {
-        if let value = self as? EnumType.RawValue {
-            return EnumType.init(rawValue: value)
-        }
-        return nil
+    /// Test that the request id policy adds a header whose value looks like a uuid
+    func test_RequestIdPolicy_HeaderValueIsUUID() {
+        let policy = RequestIdPolicy()
+        let req = PipelineRequest()
+        policy.on(request: req) { _ in }
+        let value = req.httpRequest.headers[.clientRequestId]
+        XCTAssertNotNil(UUID(uuidString: value!))
     }
 }

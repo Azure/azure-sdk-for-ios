@@ -27,7 +27,7 @@
 import XCTest
 @testable import AzureCore
 
-class RegexUtilTests: XCTestCase {
+class UtilTests: XCTestCase {
 
     func test_RegexUtil_WithMatchingString_ReturnsMatch() {
         let regex = NSRegularExpression("^(application|text)/([0-9a-z+.]+)?json$")
@@ -49,12 +49,12 @@ class RegexUtilTests: XCTestCase {
     }
 
     func test_DateUtil_WithRFC1123String_ConvertsToDate() {
-        let rfc1123String = "Jan, 02 2020 07:12:34 GMT"
-        let date = rfc1123String.rfc1123Date
+        let rfc1123String = "Thu, 02 Jan 2020 07:12:34 GMT"
+        let date = Date(rfc1123String, format: .rfc1123)
 
         // ensure date string can be round-tripped
         XCTAssertNotNil(date)
-        XCTAssertEqual(date?.rfc1123Format, rfc1123String)
+        XCTAssertEqual(String(describing: date!, format: .rfc1123), rfc1123String)
 
         // setup calendar
         let units = Set<Calendar.Component>([.day, .month, .year, .hour, .minute, .second, .timeZone])
@@ -62,7 +62,7 @@ class RegexUtilTests: XCTestCase {
         calendar.timeZone = TimeZone(identifier: "GMT")!
 
         // verify parses to correct components
-        let dateComponents = Calendar.current.dateComponents(units, from: date!)
+        let dateComponents = calendar.dateComponents(units, from: date!)
         XCTAssertEqual(dateComponents.month, 1)
         XCTAssertEqual(dateComponents.day, 2)
         XCTAssertEqual(dateComponents.year, 2020)
@@ -77,7 +77,7 @@ class RegexUtilTests: XCTestCase {
             "string": "test",
             "bool": "true"
         ]
-        XCTAssertEqual(headers["bool"].asBool, true)
+        XCTAssertEqual(Bool(headers["bool"]), true)
     }
 
     func test_StringUtil_WithNonBoolString_OutputsNil() {
@@ -85,7 +85,7 @@ class RegexUtilTests: XCTestCase {
             "string": "test",
             "bool": "true"
         ]
-        XCTAssertNil(headers["string"].asBool)
+        XCTAssertNil(Bool(headers["string"]))
     }
 
     func test_StringUtil_WithIntString_OutputsInt() {
@@ -93,7 +93,7 @@ class RegexUtilTests: XCTestCase {
             "bool": "true",
             "int": "22"
         ]
-        XCTAssertEqual(headers["int"].asInt, 22)
+        XCTAssertEqual(Int(headers["int"]), 22)
     }
 
     func test_StringUtil_WithNonIntString_OutputsNil() {
@@ -101,7 +101,7 @@ class RegexUtilTests: XCTestCase {
             "bool": "true",
             "int": "22"
         ]
-        XCTAssertNil(headers["bool"].asInt)
+        XCTAssertNil(Int(headers["bool"]))
     }
 
     func test_StringUtil_WithEnumString_OutputsEnum() {
@@ -109,7 +109,7 @@ class RegexUtilTests: XCTestCase {
             "int": "22",
             "enum": "Accept"
         ]
-        XCTAssertEqual(headers["enum"].asEnum(HTTPHeader.self), HTTPHeader.accept)
+        XCTAssertEqual(HTTPHeader(rawValue: headers["enum"]), HTTPHeader.accept)
     }
 
     func test_StringUtil_WithNonEnumString_OutputsNil() {
@@ -117,24 +117,31 @@ class RegexUtilTests: XCTestCase {
             "int": "22",
             "enum": "Accept"
         ]
-        XCTAssertNil(headers["int"].asEnum(HTTPHeader.self))
+        XCTAssertNil(HTTPHeader(rawValue: headers["int"]))
     }
 
-    func test_StringUtil_WithDateString_OutputsDate() {
+    func test_StringUtil_WithRFC1123DateString_OutputsCorrectDate() {
+        let dateString = "Thu, 02 Jan 2020 07:12:34 GMT"
+        let date = DateComponents(
+            calendar: Calendar(identifier: .iso8601),
+            timeZone: TimeZone(abbreviation: "GMT"),
+            year: 2020, month: 1, day: 2,
+            hour: 7, minute: 12, second: 34
+        ).date!
+
+        let headers: HTTPHeaders = [
+            "bool": "true",
+            "date": dateString
+        ]
+        XCTAssertEqual(Date(headers["date"], format: .rfc1123), date)
+    }
+
+    func test_StringUtil_WithNonRFC1123DateString_OutputsNil() {
         let dateString = "Jan, 02 2020 07:12:34 GMT"
         let headers: HTTPHeaders = [
             "bool": "true",
             "date": dateString
         ]
-        XCTAssertEqual(headers["date"].asDate, dateString.rfc1123Date)
-    }
-
-    func test_StringUtil_WithNonDateString_OutputsNil() {
-        let dateString = "Jan, 02 2020 07:12:34 GMT"
-        let headers: HTTPHeaders = [
-            "bool": "true",
-            "date": dateString
-        ]
-        XCTAssertNil(headers["bool"].asDate)
+        XCTAssertNil(Date(headers["bool"], format: .rfc1123))
     }
 }

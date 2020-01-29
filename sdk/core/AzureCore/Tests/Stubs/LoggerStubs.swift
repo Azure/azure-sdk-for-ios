@@ -24,22 +24,36 @@
 //
 // --------------------------------------------------------------------------
 
-import Foundation
+@testable import AzureCore
 
-extension Date {
-    public var rfc1123Format: String {
-        let dateFormat = DateFormatter()
-        dateFormat.dateFormat = "MMM, dd yyyy HH:mm:ss z"
-        dateFormat.timeZone = TimeZone(abbreviation: "UTC")
-        return dateFormat.string(from: self)
+extension ClientLoggers {
+    public static func `default`() -> ClientLogger {
+        return ClientLoggers.default(tag: defaultTag())
+    }
+
+    static func defaultTag() -> String {
+        let regex = NSRegularExpression("^\\d*\\s*([a-zA-Z]*)\\s")
+        let defaultTag = regex.firstMatch(in: Thread.callStackSymbols[1])
+        return defaultTag ?? "AzureCore"
     }
 }
 
-extension String {
-    public var rfc1123Date: Date? {
-        let dateFormat = DateFormatter()
-        dateFormat.dateFormat = "MMM, dd yyyy HH:mm:ss z"
-        dateFormat.timeZone = TimeZone(abbreviation: "UTC")
-        return dateFormat.date(from: self)
+class TestClientLogger: ClientLogger {
+    struct Message {
+        var level: ClientLogLevel
+        var text: String
+    }
+
+    var level: ClientLogLevel
+    var messages: [Message] = []
+
+    public init(_ logLevel: ClientLogLevel = .info) {
+        self.level = logLevel
+    }
+
+    public func log(_ message: () -> String?, atLevel messageLevel: ClientLogLevel) {
+        if messageLevel.rawValue <= level.rawValue, let msg = message() {
+            messages.append(Message(level: messageLevel, text: msg))
+        }
     }
 }

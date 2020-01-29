@@ -90,14 +90,15 @@ internal class ChunkDownloader {
         let url = client.url(forTemplate: urlTemplate, withKwargs: pathParams)
 
         // Construct parameters
-        var queryParams = [String: String]()
-        if let snapshot = options.snapshot { queryParams["snapshot"] = snapshot }
-        if let timeout = options.timeout { queryParams["timeout"] = String(timeout) }
+        var queryParams = [QueryParameter]()
+        if let snapshot = options.snapshot { queryParams.append("snapshot", snapshot) }
+        if let timeout = options.timeout { queryParams.append("timeout", String(timeout)) }
 
         // Construct headers
-        var headers = HTTPHeaders()
-        headers[.apiVersion] = client.options.apiVersion
-        headers[.accept] = "application/xml"
+        var headers = HTTPHeaders([
+            .accept: "application/xml",
+            .apiVersion: client.options.apiVersion
+        ])
         let leaseAccessConditions = options.leaseAccessConditions
         let modifiedAccessConditions = options.modifiedAccessConditions
         let cpk = options.cpk
@@ -118,19 +119,17 @@ internal class ChunkDownloader {
         if let encryptionKeySHA256 = cpk?.hash { headers["x-ms-encryption-key-sha256"] = encryptionKeySHA256 }
         if let encryptionAlgorithm = cpk?.algorithm { headers["x-ms-encryption-algorithm"] = encryptionAlgorithm }
         if let ifModifiedSince = modifiedAccessConditions?.ifModifiedSince {
-            headers[.ifModifiedSince] = ifModifiedSince.rfc1123Format
+            headers[.ifModifiedSince] = String(describing: ifModifiedSince, format: .rfc1123)
         }
         if let ifUnmodifiedSince = modifiedAccessConditions?.ifUnmodifiedSince {
-            headers[.ifUnmodifiedSince] = ifUnmodifiedSince.rfc1123Format
+            headers[.ifUnmodifiedSince] = String(describing: ifUnmodifiedSince, format: .rfc1123)
         }
         if let ifMatch = modifiedAccessConditions?.ifMatch { headers[.ifMatch] = ifMatch }
         if let ifNoneMatch = modifiedAccessConditions?.ifNoneMatch { headers[.ifNoneMatch] = ifNoneMatch }
 
         // Construct and send request
-        let request = HTTPRequest(method: .get,
-                                  url: url,
-                                  queryParams: queryParams,
-                                  headers: headers)
+        let request = HTTPRequest(method: .get, url: url, headers: headers)
+        request.add(queryParams: queryParams)
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 206] as AnyObject
         ])

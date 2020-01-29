@@ -26,14 +26,20 @@
 
 import Foundation
 
-public enum HTTPMethod: String {
-    case get = "GET"
-    case put = "PUT"
-    case post = "POST"
-    case patch = "PATCH"
-    case delete = "DELETE"
-    case head = "HEAD"
-    case options = "OPTIONS"
-    case trace = "TRACE"
-    case merge = "MERGE"
+public class AddDatePolicy: PipelineStage {
+
+    // MARK: Properties
+
+    public var next: PipelineStage?
+
+    // MARK: Initializers
+
+    public init() { }
+
+    // MARK: PipelineStage Methods
+
+    public func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
+        request.httpRequest.headers[.date] = String(describing: Date(), format: .rfc1123)
+        completion(request)
+    }
 }

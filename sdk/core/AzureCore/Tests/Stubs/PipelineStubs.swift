@@ -24,16 +24,43 @@
 //
 // --------------------------------------------------------------------------
 
-import Foundation
+@testable import AzureCore
 
-public enum HTTPMethod: String {
-    case get = "GET"
-    case put = "PUT"
-    case post = "POST"
-    case patch = "PATCH"
-    case delete = "DELETE"
-    case head = "HEAD"
-    case options = "OPTIONS"
-    case trace = "TRACE"
-    case merge = "MERGE"
+extension PipelineRequest {
+    public convenience init(
+        method: HTTPMethod = .get,
+        url: String = "http://www.example.com",
+        headers: HTTPHeaders = HTTPHeaders(),
+        body: String? = nil,
+        context: PipelineContext? = nil,
+        logger: ClientLogger = ClientLoggers.none
+    ) {
+        let httpRequest = HTTPRequest(
+            method: method,
+            url: url,
+            headers: headers,
+            data: body?.data(using: .utf8)
+        )
+        self.init(request: httpRequest, logger: logger, context: context)
+    }
+}
+
+extension PipelineResponse {
+    public convenience init(
+        request: PipelineRequest,
+        responseCode: Int = 200,
+        headers: HTTPHeaders = HTTPHeaders(),
+        body: String? = nil,
+        logger: ClientLogger = ClientLoggers.none
+    ) {
+        let httpResponse = HTTPResponse(request: request.httpRequest, statusCode: responseCode)
+        httpResponse.headers = headers
+        httpResponse.data = body?.data(using: .utf8)
+        self.init(
+            request: request.httpRequest,
+            response: httpResponse,
+            logger: logger,
+            context: request.context
+        )
+    }
 }

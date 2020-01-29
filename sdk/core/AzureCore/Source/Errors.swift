@@ -26,19 +26,59 @@
 
 import Foundation
 
-public enum AzureError: Error {
-    case general(String)
-    case serviceRequest(String)
-    case serviceResponse(String)
+protocol BaseError: LocalizedError {
+    var message: String { get }
+    var label: String { get }
 }
 
-public enum HTTPResponseError: Error {
-    case general(String)
-    case decode(String)
-    case resourceExists(String)
-    case resourceNotFound(String)
-    case clientAuthentication(String)
-    case resourceModified(String)
-    case tooManyRedirects(String)
-    case statusCode(String)
+extension BaseError {
+    var label: String {
+        let mirror = Mirror(reflecting: self)
+        let label = mirror.children.first?.label ?? String(describing: self)
+        return "\(String(reflecting: type(of: self))).\(label)"
+    }
+
+    public var errorDescription: String? {
+        return "\(message) (\(label))"
+    }
+}
+
+public enum AzureError: BaseError {
+    case general(_ message: String)
+    case serviceRequest(_ message: String)
+    case serviceResponse(_ message: String)
+
+    var message: String {
+        switch self {
+        case .general(let msg),
+             .serviceRequest(let msg),
+             .serviceResponse(let msg):
+            return msg
+        }
+    }
+}
+
+public enum HTTPResponseError: BaseError {
+    case general(_ message: String)
+    case decode(_ message: String)
+    case resourceExists(_ message: String)
+    case resourceNotFound(_ message: String)
+    case clientAuthentication(_ message: String)
+    case resourceModified(_ message: String)
+    case tooManyRedirects(_ message: String)
+    case statusCode(_ message: String)
+
+    public var message: String {
+        switch self {
+        case .general(let msg),
+             .decode(let msg),
+             .resourceExists(let msg),
+             .resourceNotFound(let msg),
+             .clientAuthentication(let msg),
+             .resourceModified(let msg),
+             .tooManyRedirects(let msg),
+             .statusCode(let msg):
+            return msg
+        }
+    }
 }

@@ -32,48 +32,113 @@ public class UserAgentPolicy: PipelineStage {
 
     public var next: PipelineStage?
 
-    private var _userAgent: String
+    private static let defaultUserAgent = "azsdk-ios"
 
-    public let userAgentOverwrite: Bool
-    public var userAgent: String {
-        return _userAgent
-    }
+    // From the design guidelines, the full user agent header format is:
+    // [<application_id>] azsdk-ios-<sdk_name>/<sdk_version> (<platform_info>; <application_info>; <user_locale_info>)
+    private static let userAgentFormat = defaultUserAgent + "-%@/%@"
+    private static let appIdPrefixFormat = "[%@] "
+    private static let infoSuffixFormat = " (%@)"
+    private static let infoSuffixSeparator = "; "
+
+    // From the design guidelines, the platform info user agent header format is:
+    // <device_name> - <os_version>
+    private static let platformInfoFormat = "%@ - %@"
+
+    // From the design guidelines, the application info user agent header format is:
+    // <bundle_name>:<bundle_version> -> <deployment_target>
+    private static let bundleInfoFormat = "%@:%@"
+    private static let deploymentTargetSeparator = " -> "
+
+    // From the design guidelines, the user locale info user agent header format is:
+    // <user_language>_<user_region>
+    private static let userLocaleInfoFormat = "%@_%@"
+
+    internal let userAgent: String
 
     // MARK: Initializers
 
-    public init(baseUserAgent: String? = nil, userAgentOverwrite: Bool = false) {
-        // TODO: User-Agent format according to SDK guidelines
-        // [<application_id> ]azsdk-<sdk_language>-<package_name>/<package_version> <platform_info>
-        // [Application/Version] azsdk-ios-AppConfiguration/0.1.0
-        //   (Swift BLAH; ObjC BLAH; Macintosh; Intel Max OS X 10_10; rv:33.0)
-        self.userAgentOverwrite = userAgentOverwrite
-        if baseUserAgent == nil {
-            // TODO: Distinguish between Swift and ObjC?
-            let swiftVersion = 5.0
-            let platform = "iPhone"
-            let azureCoreVersion = "0.1.0"
-            _userAgent = "ios/\(swiftVersion) (\(platform)) AzureCore/\(azureCoreVersion)"
-        } else {
-            _userAgent = baseUserAgent!
-        }
+     public convenience init(for clazz: AnyClass, applicationId: String? = nil) {
+        let libraryBundleInfo = DeviceProviders.bundleInfo(for: clazz)
+        let sdkName = libraryBundleInfo?.name ?? ""
+        let sdkVersion = libraryBundleInfo?.version ?? ""
+        self.init(sdkName: sdkName, sdkVersion: sdkVersion, applicationId: applicationId)
     }
 
-    // MARK: Public Methods
+    public init(
+        sdkName: String,
+        sdkVersion: String,
+        applicationId: String? = nil,
+        platformInfoProvider: PlatformInfoProvider? = DeviceProviders.platformInfo,
+        appBundleInfoProvider: BundleInfoProvider? = DeviceProviders.appBundleInfo,
+        localeInfoProvider: LocaleInfoProvider? = DeviceProviders.localeInfo
+    ) {
+        var userAgent = String(format: UserAgentPolicy.userAgentFormat, sdkName, sdkVersion)
 
-    public func appendUserAgent(value: String) {
-        _userAgent = "\(_userAgent) \(value)"
+        let applicationId = applicationId ?? appBundleInfoProvider?.identifier
+        if var applicationId = applicationId, !applicationId.isEmpty {
+            // From the design guidelines, applicationId must not contain a space
+            if applicationId.rangeOfCharacter(from: .whitespacesAndNewlines) != nil {
+                applicationId = applicationId.components(separatedBy: .whitespacesAndNewlines).joined()
+            }
+            // From the design guidelines, applicationId must not be more than 24 characters in length
+            if applicationId.count > 24 {
+                applicationId = String(applicationId.prefix(24))
+            }
+            // Don't use the applicationId if it's empty after applying the validations above
+            if !applicationId.isEmpty {
+                userAgent = String(format: UserAgentPolicy.appIdPrefixFormat, applicationId) + userAgent
+            }
+        }
+
+        if let infoSuffix = UserAgentPolicy.getInfoSuffix(
+            platform: platformInfoProvider,
+            bundle: appBundleInfoProvider,
+            locale: localeInfoProvider
+        ) {
+            userAgent += String(format: UserAgentPolicy.infoSuffixFormat, infoSuffix)
+        }
+        self.userAgent = userAgent
+    }
+
+    // MARK: Private Methods
+
+    private static func getInfoSuffix(
+        platform: PlatformInfoProvider? = nil,
+        bundle: BundleInfoProvider? = nil,
+        locale: LocaleInfoProvider? = nil
+    ) -> String? {
+        var infoParts: [String] = []
+
+        if let deviceName = platform?.deviceName, let osVersion = platform?.osVersion {
+            infoParts.append(String(format: UserAgentPolicy.platformInfoFormat, deviceName, osVersion))
+        }
+
+        if let bundleName = bundle?.name, let bundleVersion = bundle?.version {
+            var bundlePart = String(format: UserAgentPolicy.bundleInfoFormat, bundleName, bundleVersion)
+            if let minTarget = bundle?.minDeploymentTarget {
+                bundlePart += "\(UserAgentPolicy.deploymentTargetSeparator)\(minTarget)"
+            }
+            infoParts.append(bundlePart)
+        }
+
+        if let language = locale?.language, let region = locale?.region {
+            infoParts.append(String(format: UserAgentPolicy.userLocaleInfoFormat, language, region))
+        }
+
+        if infoParts.count > 0 {
+            return infoParts.joined(separator: UserAgentPolicy.infoSuffixSeparator)
+        }
+        return nil
     }
 
     // MARK: PipelineStage Methods
 
     public func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
-        if let contextUserAgent = request.context?.value(forKey: "userAgent") as? String {
-            if request.context?.value(forKey: "userAgentOverwrite") != nil {
-                request.httpRequest.headers[.userAgent] = contextUserAgent
-            } else {
-                request.httpRequest.headers[.userAgent] = "\(userAgent) \(contextUserAgent)"
-            }
-        } else if userAgentOverwrite || request.httpRequest.headers[HTTPHeader.userAgent] == nil {
+        if let currentUserAgent = request.httpRequest.headers[.userAgent],
+           !currentUserAgent.contains(UserAgentPolicy.defaultUserAgent) {
+            request.httpRequest.headers[.userAgent] = "\(userAgent) \(currentUserAgent)"
+        } else {
             request.httpRequest.headers[.userAgent] = userAgent
         }
         completion(request)

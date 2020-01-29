@@ -24,16 +24,26 @@
 //
 // --------------------------------------------------------------------------
 
-import Foundation
+import XCTest
+@testable import AzureCore
 
-public enum HTTPMethod: String {
-    case get = "GET"
-    case put = "PUT"
-    case post = "POST"
-    case patch = "PATCH"
-    case delete = "DELETE"
-    case head = "HEAD"
-    case options = "OPTIONS"
-    case trace = "TRACE"
-    case merge = "MERGE"
+class AddDatePolicyTests: XCTestCase {
+
+    /// Test that the add date policy adds a non-empty date header
+    func test_RequestIdPolicy_AddsHeaderToRequest() {
+        let policy = AddDatePolicy()
+        let req = PipelineRequest()
+        policy.on(request: req) { _ in }
+        let value = req.httpRequest.headers[.date]
+        XCTAssertTrue(value != nil && !value!.isEmpty)
+    }
+
+    /// Test that the add date policy adds a header whose value looks like an RFC1123 date
+    func test_RequestIdPolicy_HeaderValueIsUUID() {
+        let policy = AddDatePolicy()
+        let req = PipelineRequest()
+        policy.on(request: req) { _ in }
+        let value = req.httpRequest.headers[.date]
+        XCTAssertNotNil(Date(value!, format: .rfc1123))
+    }
 }
