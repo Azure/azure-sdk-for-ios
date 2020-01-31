@@ -294,7 +294,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "ROOT_PATH=$(pwd | rev | cut -d'/' -f3- | rev) \n$ROOT_PATH/Scripts/swiftlint.sh\n";
+			shellScript = "ROOT_PATH=$(pwd | rev | cut -d'/' -f3- | rev) \n$ROOT_PATH/Scripts/swiftlint.sh $ROOT_PATH\n";
 		};
 		186FFF616450C53D8A7E3332 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
