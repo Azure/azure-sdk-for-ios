@@ -48,7 +48,10 @@ public class HTTPRequest: DataStringConvertible {
 
     public init(method: HTTPMethod, url: String, headers: HTTPHeaders, files: [String]? = nil, data: Data? = nil) {
         self.httpMethod = method
-        self.url = url
+        guard let encodedUrl = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+            fatalError("Cannot encode URL.")
+        }
+        self.url = encodedUrl
         self.headers = headers
         self.files = files
         self.data = data

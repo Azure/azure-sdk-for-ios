@@ -140,9 +140,9 @@ class MainViewController: UITableViewController, MSALInteractiveDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "listContainerBlobs" {
             guard let current = sender as? CustomTableViewCell else { fatalError("Unexpected sender.") }
-            if let next = segue.destination as? BlobTableViewController {
-                next.containerName = current.keyLabel.text
-            }
+//            if let next = segue.destination as? BlobTableViewController {
+//                next.containerName = current.keyLabel.text
+//            }
         }
     }
 
