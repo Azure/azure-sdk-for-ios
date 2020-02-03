@@ -46,7 +46,7 @@ let package = Package(
         .target(name: "AzureAppConfiguration", dependencies: ["AzureCore"], path: "AzureAppConfiguration", sources: ["Source"]),
         .target(name: "AzureCSComputerVision", dependencies: ["AzureCore"], path: "AzureCSComputerVision", sources: ["Source"]),
         .target(name: "AzureCSTextAnalytics", dependencies: ["AzureCore"], path: "AzureCSTextAnalytics", sources: ["Source"]),
-        .target(name: "AzureStorageBlob", dependencies: ["AzureCore", "MSAL"], path: "AzureStorageBlob", sources: ["Source"]),
+        .target(name: "AzureStorageBlob", dependencies: ["AzureCore", "MSAL"], path: "AzureStorageBlob", sources: ["Source"])
     ],
     swiftLanguageVersions: [5]
 )

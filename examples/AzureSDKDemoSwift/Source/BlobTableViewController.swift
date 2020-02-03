@@ -34,19 +34,30 @@ import AVFoundation
 import UIKit
 
 class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
-    internal var containerName: String?
+    internal var containerName: String! = "videos"
     private var dataSource: PagedCollection<BlobItem>?
     private var noMoreData = false
+    private lazy var imagePicker = UIImagePickerController()
+
+    @IBAction func didSelectUpload(_ sender: UIBarButtonItem) {
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.delegate = self
+        present(imagePicker, animated: true, completion: nil)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadInitialSettings()
+        let refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "Fetching Data ...", attributes: nil)
+        refreshControl.addTarget(self, action: #selector(fetchData(_:)), for: .valueChanged)
+        self.tableView.refreshControl = refreshControl
+        fetchData(self)
     }
 
     // MARK: Private Methods
 
     /// Constructs the PagedCollection and retrieves the first page of results to initalize the table view.
-    private func loadInitialSettings() {
+    @objc private func fetchData(_ sender: Any) {
         guard let containerName = containerName else { return }
         guard let blobClient = getBlobClient() else { return }
         let options = ListBlobsOptions()
@@ -81,6 +92,7 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
     private func reloadTableView() {
         DispatchQueue.main.async { [weak self] in
             self?.tableView.reloadData()
+            self?.refreshControl?.endRefreshing()
         }
     }
 
@@ -209,5 +221,19 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
 
     func didCompleteMSALRequest(withResult result: MSALResult) {
         AppState.account = result.account
+    }
+}
+
+extension BlobTableViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+        // TODO: Upload the media to the storage container
+        dismiss(animated: true) {
+            self.showAlert(message: "Upload functionality coming soon!")
+        }
+    }
+
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
     }
 }

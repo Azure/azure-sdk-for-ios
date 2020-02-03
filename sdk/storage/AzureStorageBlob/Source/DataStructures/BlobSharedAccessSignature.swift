@@ -59,12 +59,8 @@ internal enum SASConstant: String {
 
 extension Dictionary where Key == SASConstant, Value == String {
     internal func convertToQueryItems() -> [URLQueryItem] {
-        var queryItems = [URLQueryItem]()
-        for (key, value) in self {
-            queryItems.append(
-                URLQueryItem(name: key.rawValue,
-                             value: value.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))
-            )
+        let queryItems = self.compactMap { key, value in
+            URLQueryItem(name: key.rawValue, value: value)
         }
         return queryItems
     }
