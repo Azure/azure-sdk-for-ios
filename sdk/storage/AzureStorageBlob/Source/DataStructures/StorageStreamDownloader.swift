@@ -269,11 +269,9 @@ public class BlobStreamDownloader {
         }
 
         // attribute the "meta-folder" part of the blob name to the subfolder
-        let urlError = AzureError.general("Unable to form URL.")
-        guard let encodedString = "\(container)/\(name)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { throw urlError }
-        guard let defaultUrl = URL(string: encodedString, relativeTo: baseUrl) else { throw urlError }
-        let defaultSubfolder = defaultUrl.deletingLastPathComponent().relativePath
-        let defaultFilename = defaultUrl.lastPathComponent
+        var defaultUrlComps = "\(container)/\(name)".split(separator: "/").compactMap { String($0) }
+        let defaultFilename = defaultUrlComps.popLast()!
+        let defaultSubfolder = defaultUrlComps.joined(separator: "/")
         let customSubfolder = options?.destination?.subfolder
         let customFilename = options?.destination?.filename
 

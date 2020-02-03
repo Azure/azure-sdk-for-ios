@@ -83,7 +83,11 @@ public class URLSessionTransport: HTTPTransportStage {
             pipelineRequest.logger.error("Invalid session.")
             return
         }
-        var urlRequest = URLRequest(url: URL(string: pipelineRequest.httpRequest.url)!)
+        guard let encodedUrl = URL(string: pipelineRequest.httpRequest.url.addingPercentEncoding(
+            withAllowedCharacters: .urlQueryAllowed)) else {
+                fatalError("Unable to create URL.")
+        }
+        var urlRequest = URLRequest(url: encodedUrl)
         urlRequest.httpMethod = pipelineRequest.httpRequest.httpMethod.rawValue
         urlRequest.allHTTPHeaderFields = pipelineRequest.httpRequest.headers
 
