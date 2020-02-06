@@ -1,0 +1,54 @@
+{
+  "warnings": [
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/build/communication-ui-library-ios/AzureCommunicationUI/sdk/AzureCommunicationUICalling/Sources/CallCompositeOptions/CallCompositeCallState.swift",
+      "line": 81,
+      "symbol": "CallState.requestString",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/build/communication-ui-library-ios/AzureCommunicationUI/sdk/AzureCommunicationUICalling/Sources/CallCompositeOptions/OrientationOptions.swift",
+      "line": 54,
+      "symbol": "OrientationOptions.requestString",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/build/communication-ui-library-ios/AzureCommunicationUI/sdk/AzureCommunicationUICalling/Sources/CallCompositeOptions/OrientationOptions.swift",
+      "line": 66,
+      "symbol": "OrientationOptions.portrait",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/build/communication-ui-library-ios/AzureCommunicationUI/sdk/AzureCommunicationUICalling/Sources/CallCompositeOptions/OrientationOptions.swift",
+      "line": 67,
+      "symbol": "OrientationOptions.landscape",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/build/communication-ui-library-ios/AzureCommunicationUI/sdk/AzureCommunicationUICalling/Sources/CallCompositeOptions/OrientationOptions.swift",
+      "line": 68,
+      "symbol": "OrientationOptions.landscapeRight",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/build/communication-ui-library-ios/AzureCommunicationUI/sdk/AzureCommunicationUICalling/Sources/CallCompositeOptions/OrientationOptions.swift",
+      "line": 69,
+      "symbol": "OrientationOptions.landscapeLeft",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/build/communication-ui-library-ios/AzureCommunicationUI/sdk/AzureCommunicationUICalling/Sources/CallCompositeOptions/OrientationOptions.swift",
+      "line": 70,
+      "symbol": "OrientationOptions.allButUpsideDown",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/travisprescott/repos/azure-sdk-for-ios"
+}

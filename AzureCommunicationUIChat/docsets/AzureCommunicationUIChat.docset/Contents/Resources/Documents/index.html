@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>AzureCommunicationUIChat  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+
+    <a title="AzureCommunicationUIChat  Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="index.html">
+          AzureCommunicationUIChat 1.0.0-beta.3 Docs
+        </a>
+         (100% documented)
+      </p>
+    
+      <div class="header-col--secondary">
+        <form role="search" action="search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </div>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/Azure/communication-ui-library-ios">
+            <img class="header-icon" src="img/gh.png" alt="GitHub"/>
+            View on GitHub
+          </a>
+        </p>
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="index.html">AzureCommunicationUIChat Reference</a>
+      <img class="carat" src="img/carat.png" alt=""/>
+      AzureCommunicationUIChat  Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/ChatAdapter.html">ChatAdapter</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/ChatAdapter/Events.html">– Events</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/ChatCompositeViewController.html">ChatCompositeViewController</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/ChatCompositeError.html">ChatCompositeError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/ChatCompositeErrorCode.html">ChatCompositeErrorCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/ChatCompositeView.html">ChatCompositeView</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content top-matter">
+            
+            <p><img src="https://github.com/Azure/communication-ui-library-ios/blob/main/docs/images/mobile-ui-library-chat-hero-image.png?raw=true" alt="A banner image that shows some use cases of the Chat UI library"></p>
+<h1 id='azure-communication-ui-mobile-library-for-ios-chat' class='heading'>Azure Communication UI Mobile Library for iOS - Chat</h1>
+
+<p><img src="https://img.shields.io/cocoapods/l/AzureCommunicationUIChat" alt="Cocoapods">
+<img src="https://img.shields.io/cocoapods/v/AzureCommunicationUIChat" alt="CocoaPods Compatible">
+<img src="https://img.shields.io/cocoapods/p/AzureCommunicationUIChat" alt="Cocoapods platforms"></p>
+<h2 id='latest-release' class='heading'>Latest Release</h2>
+
+<ul>
+<li>Public Preview: <a href="https://github.com/Azure/communication-ui-library-ios/releases/tag/AzureCommunicationUIChat_1.0.0-beta.3">1.0.0-beta.3</a></li>
+</ul>
+<h2 id='getting-started' class='heading'>Getting Started</h2>
+
+<p>Get started with Azure Communication Services by using the UI Library to integrate communication experiences into your applications. For detailed instructions to quickly integrate the UI Library functionalities visit the <a href="https://docs.microsoft.com/en-us/azure/communication-services/quickstarts/ui-library/get-started-chat-ui-library?tabs=kotlin&pivots=platform-ios">Quick-start Documentation</a>.</p>
+<h2 id='installation' class='heading'>Installation</h2>
+<h3 id='requirements' class='heading'>Requirements</h3>
+
+<ul>
+<li>iOS 14+</li>
+<li>Xcode 13+</li>
+<li>Swift 5.0+</li>
+</ul>
+<h3 id='using-cocoapods' class='heading'>Using CocoaPods</h3>
+
+<p>CocoaPods is a dependency manager. To set up with CocoaPods visit their <a href="https://guides.cocoapods.org/using/getting-started.html">Getting Started Guide</a>. To integrate UI Mobile Library into your Xcode project using CocoaPods, specify it in your <code>Podfile</code>:</p>
+<pre class="highlight ruby"><code><span class="n">pod</span> <span class="s1">'AzureCommunicationUIChat'</span><span class="p">,</span> <span class="s1">'1.0.0-beta.3'</span>
+</code></pre>
+<h2 id='quick-sample' class='heading'>Quick Sample</h2>
+
+<p>The Chat Composite requires two objects to work together, the adapter and the view.
+The <code><a href="Classes/ChatAdapter.html">ChatAdapter</a></code> requires a communication identifier, token credential, a thread id, end point url of the chat, and an optional display name.<br>
+The <code><a href="Structs/ChatCompositeView.html">ChatCompositeView</a></code> is a SwiftUI view object that developers use to add to their View. It is initialized with the above adapter that you created.</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">identifier</span> <span class="o">=</span> <span class="kt">UnknownIdentifier</span><span class="p">(</span><span class="o">&lt;</span><span class="kt">ACS_IDENTIFIER</span><span class="o">&gt;</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">communicationTokenCredential</span> <span class="o">=</span> <span class="k">try!</span> <span class="kt">CommunicationTokenCredential</span><span class="p">(</span><span class="nv">token</span><span class="p">:</span> <span class="o">&lt;</span><span class="kt">USER_ACCESS_TOKEN</span><span class="o">&gt;</span><span class="p">)</span>
+<span class="k">self</span><span class="o">.</span><span class="n">chatAdapter</span> <span class="o">=</span> <span class="kt">ChatAdapter</span><span class="p">(</span><span class="nv">endpoint</span><span class="p">:</span> <span class="o">&lt;</span><span class="kt">CHAT_ENDPOINT</span><span class="o">&gt;</span><span class="p">,</span>
+                                 <span class="nv">identifier</span><span class="p">:</span> <span class="n">identifier</span><span class="p">,</span>
+                                 <span class="nv">credential</span><span class="p">:</span> <span class="n">communicationTokenCredential</span><span class="p">,</span>
+                                 <span class="nv">threadId</span><span class="p">:</span> <span class="o">&lt;</span><span class="kt">CHAT_THREAD_ID</span><span class="o">&gt;</span><span class="p">,</span>
+                                 <span class="nv">displayName</span><span class="p">:</span> <span class="o">&lt;</span><span class="kt">DISPLAY_NAME</span><span class="o">&gt;</span><span class="p">)</span>
+<span class="k">self</span><span class="o">.</span><span class="n">chatAdapter</span><span class="o">.</span><span class="nf">connect</span><span class="p">()</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"Chat connect completionHandler called"</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="k">let</span> <span class="nv">chatView</span> <span class="o">=</span> <span class="kt">ChatCompositeView</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="n">chatAdapter</span><span class="p">)</span>
+</code></pre>
+
+<p>For more details on Mobile UI Library functionalities visit the <a href="https://azure.github.io/azure-sdk-for-ios/AzureCommunicationUIChat/index.html">API Reference Documentation</a> and <a href="https://learn.microsoft.com/en-us/azure/communication-services/quickstarts/ui-library/get-started-chat-ui-library">Quickstart</a></p>
+<h2 id='known-issues' class='heading'>Known Issues</h2>
+
+<p>Please refer to the <a href="https://github.com/Azure/communication-ui-library-ios/wiki/Known-Issues-Chat">wiki</a> for known issues related to chat.</p>
+
+          </div>
+        </section>
+
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>&copy; 2023 <a class="link" href="https://azure.github.io/azure-sdk/" target="_blank" rel="external noopener">Microsoft</a>. All rights reserved. (Last updated: 2023-04-12)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+    </section>
+  </body>
+</html>
