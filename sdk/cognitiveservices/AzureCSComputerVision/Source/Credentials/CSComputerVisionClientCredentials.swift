@@ -59,7 +59,7 @@ class CSComputerVisionClientCredentials: NSObject {
         }
 
         func setAuthenticationHeaders(forRequest request: inout URLRequest) {
-            request.addValue(credentials.key, forHTTPHeaderField: HTTPHeader.ocpApimSubscriptionKey.rawValue)
+//            request.addValue(credentials.key, forHTTPHeaderField: HTTPHeader.ocpApimSubscriptionKey.rawValue)
         }
     }
 }

@@ -82,10 +82,10 @@ class CSComputerVisionClient: NSObject {
         credential.setAuthorizationheaders(forRequest: &request)
 
         // Now use this URLRequest with Alamofire to make request
-        Alamofire.request(request).responseJSON { response in
-            let result = self.extractText(fromResult: response.result.value)
-            completion(result, nil)
-        }
+//        Alamofire.request(request).responseJSON { response in
+//            let result = self.extractText(fromResult: response.result.value)
+//            completion(result, nil)
+//        }
     }
 
     @objc func recognizeText(fromImage image: UIImage, withLanguage lang: String, shouldDetectOrientation detectOrientation: Bool, completion: @escaping ([String], NSError?) -> Void) {
@@ -110,9 +110,9 @@ class CSComputerVisionClient: NSObject {
         credential.setAuthorizationheaders(forRequest: &request)
 
         // Now use this URLRequest with Alamofire to make request
-        Alamofire.request(request).responseJSON { response in
-            let result = self.extractText(fromResult: response.result.value)
-            completion(result, nil)
-        }
+//        Alamofire.request(request).responseJSON { response in
+//            let result = self.extractText(fromResult: response.result.value)
+//            completion(result, nil)
+//        }
     }
 }
