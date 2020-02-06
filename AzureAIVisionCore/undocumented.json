@@ -1,0 +1,68 @@
+{
+  "warnings": [
+    {
+      "file": "build/XCFramework/Release/build/lib/AzureAIVisionCore.xcframework/ios-arm64_arm64e/AzureAIVisionCore.framework/Headers/AZRect2DInt.h",
+      "line": 8,
+      "symbol": "Rect2DInt",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "build/XCFramework/Release/build/lib/AzureAIVisionCore.xcframework/ios-arm64_arm64e/AzureAIVisionCore.framework/Headers/AZRect2DInt.h",
+      "line": 10,
+      "symbol": "Rect2DInt.left",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.field",
+      "warning": "undocumented"
+    },
+    {
+      "file": "build/XCFramework/Release/build/lib/AzureAIVisionCore.xcframework/ios-arm64_arm64e/AzureAIVisionCore.framework/Headers/AZRect2DInt.h",
+      "line": 11,
+      "symbol": "Rect2DInt.top",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.field",
+      "warning": "undocumented"
+    },
+    {
+      "file": "build/XCFramework/Release/build/lib/AzureAIVisionCore.xcframework/ios-arm64_arm64e/AzureAIVisionCore.framework/Headers/AZRect2DInt.h",
+      "line": 12,
+      "symbol": "Rect2DInt.width",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.field",
+      "warning": "undocumented"
+    },
+    {
+      "file": "build/XCFramework/Release/build/lib/AzureAIVisionCore.xcframework/ios-arm64_arm64e/AzureAIVisionCore.framework/Headers/AZRect2DInt.h",
+      "line": 13,
+      "symbol": "Rect2DInt.height",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.field",
+      "warning": "undocumented"
+    },
+    {
+      "file": "build/XCFramework/Release/build/lib/AzureAIVisionCore.xcframework/ios-arm64_arm64e/AzureAIVisionCore.framework/Headers/AZVisionCoreUtil.h",
+      "line": 21,
+      "symbol": "VisionCoreUtil",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "build/XCFramework/Release/build/lib/AzureAIVisionCore.xcframework/ios-arm64_arm64e/AzureAIVisionCore.framework/Headers/AZVisionCoreUtil.h",
+      "line": 31,
+      "symbol": "VisionCoreUtil.sendHttpRequest(_:client:)",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "build/XCFramework/Release/build/lib/AzureAIVisionCore.xcframework/ios-arm64_arm64e/AzureAIVisionCore.framework/Headers/AZVisionFrameSource.h",
+      "line": 12,
+      "symbol": "VisionFrameSourceCallbackHandler",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "warning": "undocumented"
+    },
+    {
+      "file": "build/XCFramework/Release/build/lib/AzureAIVisionCore.xcframework/ios-arm64_arm64e/AzureAIVisionCore.framework/Headers/AZVisionSourceOptions.h",
+      "line": 24,
+      "symbol": "VisionSourceOptions",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/runner/work/1/s"
+}
