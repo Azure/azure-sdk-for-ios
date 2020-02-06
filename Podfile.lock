@@ -1,0 +1,50 @@
+PODS:
+  - DVR (2.1.0)
+  - MSAL (1.1.15):
+    - MSAL/app-lib (= 1.1.15)
+  - MSAL/app-lib (1.1.15)
+  - OHHTTPStubs/Core (9.1.0)
+  - OHHTTPStubs/Default (9.1.0):
+    - OHHTTPStubs/Core
+    - OHHTTPStubs/JSON
+    - OHHTTPStubs/NSURLSession
+    - OHHTTPStubs/OHPathHelpers
+  - OHHTTPStubs/JSON (9.1.0):
+    - OHHTTPStubs/Core
+  - OHHTTPStubs/NSURLSession (9.1.0):
+    - OHHTTPStubs/Core
+  - OHHTTPStubs/OHPathHelpers (9.1.0)
+  - OHHTTPStubs/Swift (9.1.0):
+    - OHHTTPStubs/Default
+  - Trouter (0.2.0)
+
+DEPENDENCIES:
+  - DVR (from `https://github.com/tjprescott/DVR.git`)
+  - MSAL (= 1.1.15)
+  - OHHTTPStubs/Swift
+  - Trouter (= 0.2.0)
+
+SPEC REPOS:
+  trunk:
+    - MSAL
+    - OHHTTPStubs
+    - Trouter
+
+EXTERNAL SOURCES:
+  DVR:
+    :git: https://github.com/tjprescott/DVR.git
+
+CHECKOUT OPTIONS:
+  DVR:
+    :commit: 25a7fe16e519259db9f3b8017cec1a6e2d6ec26b
+    :git: https://github.com/tjprescott/DVR.git
+
+SPEC CHECKSUMS:
+  DVR: 504fa9ce118b0582ea385f2650f74d42eaedc12f
+  MSAL: 9b1f07e342ebe825ebe7ba77b5fdf2c46aa7ecff
+  OHHTTPStubs: 90eac6d8f2c18317baeca36698523dc67c513831
+  Trouter: 7eab36954ad740e32db3ff9f6025b0dff92193d7
+
+PODFILE CHECKSUM: b34499891a8d3ae423dfd840338810a4d40e6a39
+
+COCOAPODS: 1.15.2

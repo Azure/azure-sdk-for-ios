@@ -1,0 +1,2364 @@
+{
+  "warnings": [
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 30,
+      "symbol": "ClientLogLevel",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 31,
+      "symbol": "ClientLogLevel.debug",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 31,
+      "symbol": "ClientLogLevel.error",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 31,
+      "symbol": "ClientLogLevel.info",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 31,
+      "symbol": "ClientLogLevel.warning",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 34,
+      "symbol": "ClientLogger",
+      "symbol_kind": "source.lang.swift.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 37,
+      "symbol": "ClientLogger.level",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 41,
+      "symbol": "ClientLogger.debug(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 42,
+      "symbol": "ClientLogger.info(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 43,
+      "symbol": "ClientLogger.warning(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 44,
+      "symbol": "ClientLogger.error(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 46,
+      "symbol": "ClientLogger.log(_:atLevel:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 49,
+      "symbol": "ClientLogger",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 50,
+      "symbol": "ClientLogger.debug(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 54,
+      "symbol": "ClientLogger.info(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 58,
+      "symbol": "ClientLogger.warning(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 62,
+      "symbol": "ClientLogger.error(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 69,
+      "symbol": "ClientLoggers",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 72,
+      "symbol": "ClientLoggers.none",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 76,
+      "symbol": "ClientLoggers.default(tag:level:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 87,
+      "symbol": "NullClientLogger",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 91,
+      "symbol": "NullClientLogger.level",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 98,
+      "symbol": "NullClientLogger.log(_:atLevel:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 101,
+      "symbol": "PrintLogger",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 104,
+      "symbol": "PrintLogger.level",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 110,
+      "symbol": "PrintLogger.init(tag:level:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 117,
+      "symbol": "PrintLogger.log(_:atLevel:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 125,
+      "symbol": "NSLogger",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 128,
+      "symbol": "NSLogger.level",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 134,
+      "symbol": "NSLogger.init(tag:level:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 141,
+      "symbol": "NSLogger.log(_:atLevel:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 150,
+      "symbol": "OSLogger",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 153,
+      "symbol": "OSLogger.level",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 159,
+      "symbol": "OSLogger.init(withLogger:level:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 164,
+      "symbol": "OSLogger.init(subsystem:category:level:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/ClientLogger.swift",
+      "line": 175,
+      "symbol": "OSLogger.log(_:atLevel:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 29,
+      "symbol": "AzureDate",
+      "symbol_kind": "source.lang.swift.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 30,
+      "symbol": "AzureDate.dateFormat",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 32,
+      "symbol": "AzureDate.formatter",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 34,
+      "symbol": "AzureDate.value",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 36,
+      "symbol": "AzureDate.init(string:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 38,
+      "symbol": "AzureDate.init(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 43,
+      "symbol": "Iso8601Date.dateFormat",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 51,
+      "symbol": "Iso8601Date.formatter",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 55,
+      "symbol": "Iso8601Date.value",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 59,
+      "symbol": "Iso8601Date.requestString",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 65,
+      "symbol": "Iso8601Date.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 69,
+      "symbol": "Iso8601Date.init(string:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 81,
+      "symbol": "Iso8601Date.init(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 132,
+      "symbol": "Rfc1123Date.dateFormat",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 134,
+      "symbol": "Rfc1123Date.formatter",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 138,
+      "symbol": "Rfc1123Date.value",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 142,
+      "symbol": "Rfc1123Date.requestString",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 148,
+      "symbol": "Rfc1123Date.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 152,
+      "symbol": "Rfc1123Date.init(string:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 157,
+      "symbol": "Rfc1123Date.init(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 197,
+      "symbol": "SimpleDate.dateFormat",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 199,
+      "symbol": "SimpleDate.formatter",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 203,
+      "symbol": "SimpleDate.value",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 207,
+      "symbol": "SimpleDate.requestString",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 213,
+      "symbol": "SimpleDate.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 217,
+      "symbol": "SimpleDate.init(string:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 221,
+      "symbol": "SimpleDate.init(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 261,
+      "symbol": "UnixTime.value",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 265,
+      "symbol": "UnixTime.requestString",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 271,
+      "symbol": "UnixTime.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 275,
+      "symbol": "UnixTime.init(timeIntervalSince1970:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 279,
+      "symbol": "UnixTime.init(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 324,
+      "symbol": "SimpleTime.value",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 326,
+      "symbol": "SimpleTime.dateFormat",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 328,
+      "symbol": "SimpleTime.formatter",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 334,
+      "symbol": "SimpleTime.requestString",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 340,
+      "symbol": "SimpleTime.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 344,
+      "symbol": "SimpleTime.init(string:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 349,
+      "symbol": "SimpleTime.init(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/AzureDate.swift",
+      "line": 387,
+      "symbol": "AzureDateFormat",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/CancellationToken.swift",
+      "line": 29,
+      "symbol": "CancellationToken",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/CancellationToken.swift",
+      "line": 30,
+      "symbol": "CancellationToken.isCanceled",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/CancellationToken.swift",
+      "line": 32,
+      "symbol": "CancellationToken.isStarted",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/CancellationToken.swift",
+      "line": 34,
+      "symbol": "CancellationToken.timeout",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/CancellationToken.swift",
+      "line": 38,
+      "symbol": "CancellationToken.cancel()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/CancellationToken.swift",
+      "line": 42,
+      "symbol": "CancellationToken.init(timeout:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/Collections.swift",
+      "line": 30,
+      "symbol": "Continuation",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/Collections.swift",
+      "line": 36,
+      "symbol": "PageableClient.continuationUrl(forRequestUrl:withContinuationToken:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/Collections.swift",
+      "line": 43,
+      "symbol": "PagedCodingKeys.items",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/Collections.swift",
+      "line": 44,
+      "symbol": "PagedCodingKeys.xmlItemName",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/Collections.swift",
+      "line": 45,
+      "symbol": "PagedCodingKeys.continuationToken",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/Collections.swift",
+      "line": 49,
+      "symbol": "PagedCodingKeys.init(items:continuationToken:xmlItemName:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/Collections.swift",
+      "line": 98,
+      "symbol": "PagedCollection.Element",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/Collections.swift",
+      "line": 124,
+      "symbol": "PagedCollection.PagedItemSyncIterator",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/Collections.swift",
+      "line": 146,
+      "symbol": "PagedCollection.PagedItemSyncIterator.init(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/Collections.swift",
+      "line": 261,
+      "symbol": "PagedCollection.nextPage()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/Collections.swift",
+      "line": 295,
+      "symbol": "PagedCollection.nextItem()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/Collections.swift",
+      "line": 303,
+      "symbol": "PagedCollection.forEachPage(progressHandler:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/Collections.swift",
+      "line": 325,
+      "symbol": "PagedCollection.forEachItem(progressHandler:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/XMLMap.swift",
+      "line": 31,
+      "symbol": "ElementToJsonStrategy",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/XMLMap.swift",
+      "line": 44,
+      "symbol": "ElementToJsonStrategy.arrayItem(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/XMLMap.swift",
+      "line": 53,
+      "symbol": "AttributeToJsonStrategy",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/XMLMap.swift",
+      "line": 54,
+      "symbol": "AttributeToJsonStrategy.ignored",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/XMLMap.swift",
+      "line": 54,
+      "symbol": "AttributeToJsonStrategy.underscoredProperties",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/XMLMap.swift",
+      "line": 62,
+      "symbol": "XMLMetadata.jsonName",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/XMLMap.swift",
+      "line": 63,
+      "symbol": "XMLMetadata.jsonType",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/XMLMap.swift",
+      "line": 64,
+      "symbol": "XMLMetadata.attributeStrategy",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/XMLMap.swift",
+      "line": 68,
+      "symbol": "XMLMetadata.init(jsonName:jsonType:attributes:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/XMLModel.swift",
+      "line": 36,
+      "symbol": "XMLModel.xmlMap()",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/XMLModel.swift",
+      "line": 38,
+      "symbol": "XMLModel.asXmlString(encoding:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/DataStructures/XMLModel.swift",
+      "line": 42,
+      "symbol": "XMLModel.asXmlString(encoding:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Errors.swift",
+      "line": 46,
+      "symbol": "AzureError",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Errors.swift",
+      "line": 47,
+      "symbol": "AzureError.client(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Errors.swift",
+      "line": 48,
+      "symbol": "AzureError.service(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Errors.swift",
+      "line": 58,
+      "symbol": "AzureError.message",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Errors.swift",
+      "line": 67,
+      "symbol": "AzureError.innerError",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineClient.swift",
+      "line": 61,
+      "symbol": "PipelineClient.endpoint",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineClient.swift",
+      "line": 62,
+      "symbol": "PipelineClient.logger",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineClient.swift",
+      "line": 63,
+      "symbol": "PipelineClient.commonOptions",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineClient.swift",
+      "line": 67,
+      "symbol": "PipelineClient.init(endpoint:transport:policies:logger:options:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineClient.swift",
+      "line": 108,
+      "symbol": "PipelineClient.url(host:template:params:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineClient.swift",
+      "line": 116,
+      "symbol": "PipelineClient.request(_:context:completionHandler:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineContext.swift",
+      "line": 31,
+      "symbol": "ContextKey",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineContext.swift",
+      "line": 32,
+      "symbol": "ContextKey.allowedStatusCodes",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineContext.swift",
+      "line": 33,
+      "symbol": "ContextKey.allowedHeaders",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineContext.swift",
+      "line": 34,
+      "symbol": "ContextKey.cancellationToken",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineContext.swift",
+      "line": 35,
+      "symbol": "ContextKey.deserializedData",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineContext.swift",
+      "line": 36,
+      "symbol": "ContextKey.requestStartTime",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineContext.swift",
+      "line": 37,
+      "symbol": "ContextKey.xmlMap",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineContext.swift",
+      "line": 38,
+      "symbol": "ContextKey.xmlErrorMap",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineContext.swift",
+      "line": 43,
+      "symbol": "PipelineContextSupporting",
+      "symbol_kind": "source.lang.swift.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineContext.swift",
+      "line": 46,
+      "symbol": "PipelineContextSupporting.context",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineContext.swift",
+      "line": 50,
+      "symbol": "PipelineContextSupporting.add(value:forKey:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineContext.swift",
+      "line": 51,
+      "symbol": "PipelineContextSupporting.add(value:forKey:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineContext.swift",
+      "line": 52,
+      "symbol": "PipelineContextSupporting.value(forKey:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineContext.swift",
+      "line": 53,
+      "symbol": "PipelineContextSupporting.value(forKey:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineContext.swift",
+      "line": 56,
+      "symbol": "PipelineContextSupporting",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineContext.swift",
+      "line": 57,
+      "symbol": "PipelineContextSupporting.add(value:forKey:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineContext.swift",
+      "line": 65,
+      "symbol": "PipelineContextSupporting.add(value:forKey:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineContext.swift",
+      "line": 73,
+      "symbol": "PipelineContextSupporting.value(forKey:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineContext.swift",
+      "line": 77,
+      "symbol": "PipelineContextSupporting.value(forKey:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineContext.swift",
+      "line": 84,
+      "symbol": "PipelineContext",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineContext.swift",
+      "line": 186,
+      "symbol": "PipelineContext.merge(with:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineContext.swift",
+      "line": 201,
+      "symbol": "PipelineContext.PipelineContextIterator",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineContext.swift",
+      "line": 220,
+      "symbol": "PipelineContext",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineContext.swift",
+      "line": 227,
+      "symbol": "PipelineContextNode",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineRequest.swift",
+      "line": 29,
+      "symbol": "PipelineRequest",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineRequest.swift",
+      "line": 32,
+      "symbol": "PipelineRequest.httpRequest",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineRequest.swift",
+      "line": 33,
+      "symbol": "PipelineRequest.logger",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineRequest.swift",
+      "line": 35,
+      "symbol": "PipelineRequest.context",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineRequest.swift",
+      "line": 39,
+      "symbol": "PipelineRequest.init(request:logger:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineRequest.swift",
+      "line": 43,
+      "symbol": "PipelineRequest.init(request:logger:context:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineRequest.swift",
+      "line": 49,
+      "symbol": "PipelineRequest.copy(with:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineResponse.swift",
+      "line": 29,
+      "symbol": "PipelineResponse",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineResponse.swift",
+      "line": 32,
+      "symbol": "PipelineResponse.httpRequest",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineResponse.swift",
+      "line": 33,
+      "symbol": "PipelineResponse.httpResponse",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineResponse.swift",
+      "line": 34,
+      "symbol": "PipelineResponse.logger",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineResponse.swift",
+      "line": 36,
+      "symbol": "PipelineResponse.context",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineResponse.swift",
+      "line": 40,
+      "symbol": "PipelineResponse.init(request:response:logger:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineResponse.swift",
+      "line": 44,
+      "symbol": "PipelineResponse.init(request:response:logger:context:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineResponse.swift",
+      "line": 51,
+      "symbol": "PipelineResponse.init(copy:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineStage.swift",
+      "line": 29,
+      "symbol": "ResultHandler",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineStage.swift",
+      "line": 30,
+      "symbol": "HTTPResultHandler",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineStage.swift",
+      "line": 31,
+      "symbol": "PipelineStageResultHandler",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineStage.swift",
+      "line": 32,
+      "symbol": "OnRequestCompletionHandler",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineStage.swift",
+      "line": 33,
+      "symbol": "OnResponseCompletionHandler",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineStage.swift",
+      "line": 34,
+      "symbol": "OnErrorCompletionHandler",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/PipelineStage.swift",
+      "line": 40,
+      "symbol": "PipelineStage.next",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/AddDatePolicy.swift",
+      "line": 29,
+      "symbol": "AddDatePolicy",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/AddDatePolicy.swift",
+      "line": 32,
+      "symbol": "AddDatePolicy.next",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/AddDatePolicy.swift",
+      "line": 36,
+      "symbol": "AddDatePolicy.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/AuthenticationPolicy.swift",
+      "line": 28,
+      "symbol": "TokenCompletionHandler",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/AuthenticationPolicy.swift",
+      "line": 30,
+      "symbol": "AccessToken",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/AuthenticationPolicy.swift",
+      "line": 33,
+      "symbol": "AccessToken.token",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/AuthenticationPolicy.swift",
+      "line": 34,
+      "symbol": "AccessToken.expiresOn",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/AuthenticationPolicy.swift",
+      "line": 38,
+      "symbol": "AccessToken.init(token:expiresOn:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/AuthenticationPolicy.swift",
+      "line": 44,
+      "symbol": "Credential",
+      "symbol_kind": "source.lang.swift.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/AuthenticationPolicy.swift",
+      "line": 47,
+      "symbol": "Credential.validate()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/AuthenticationPolicy.swift",
+      "line": 50,
+      "symbol": "TokenCredential",
+      "symbol_kind": "source.lang.swift.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/AuthenticationPolicy.swift",
+      "line": 53,
+      "symbol": "TokenCredential.token(forScopes:completionHandler:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/AuthenticationPolicy.swift",
+      "line": 56,
+      "symbol": "Authenticating",
+      "symbol_kind": "source.lang.swift.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/AuthenticationPolicy.swift",
+      "line": 59,
+      "symbol": "Authenticating.authenticate(request:completionHandler:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/AuthenticationPolicy.swift",
+      "line": 62,
+      "symbol": "Authenticating",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/AuthenticationPolicy.swift",
+      "line": 68,
+      "symbol": "AnonymousAccessPolicy",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/AuthenticationPolicy.swift",
+      "line": 69,
+      "symbol": "AnonymousAccessPolicy.next",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/AuthenticationPolicy.swift",
+      "line": 71,
+      "symbol": "AnonymousAccessPolicy.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/AuthenticationPolicy.swift",
+      "line": 73,
+      "symbol": "AnonymousAccessPolicy.authenticate(request:completionHandler:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/AuthenticationPolicy.swift",
+      "line": 78,
+      "symbol": "BearerTokenCredentialPolicy",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/AuthenticationPolicy.swift",
+      "line": 81,
+      "symbol": "BearerTokenCredentialPolicy.next",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/AuthenticationPolicy.swift",
+      "line": 88,
+      "symbol": "BearerTokenCredentialPolicy.init(credential:scopes:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/ContentDecodePolicy.swift",
+      "line": 172,
+      "symbol": "ContentDecodePolicy",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/ContentDecodePolicy.swift",
+      "line": 175,
+      "symbol": "ContentDecodePolicy.next",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/ContentDecodePolicy.swift",
+      "line": 182,
+      "symbol": "ContentDecodePolicy.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/HeadersPolicy.swift",
+      "line": 29,
+      "symbol": "HeadersPolicy",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/HeadersPolicy.swift",
+      "line": 32,
+      "symbol": "HeadersPolicy.next",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/HeadersPolicy.swift",
+      "line": 38,
+      "symbol": "HeadersPolicy.init(addingHeaders:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/HeadersValidationPolicy.swift",
+      "line": 29,
+      "symbol": "HeadersValidationPolicy",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/HeadersValidationPolicy.swift",
+      "line": 32,
+      "symbol": "HeadersValidationPolicy.next",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/HeadersValidationPolicy.swift",
+      "line": 38,
+      "symbol": "HeadersValidationPolicy.init(validatingHeaders:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/LoggingPolicy.swift",
+      "line": 29,
+      "symbol": "LoggingPolicy",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/LoggingPolicy.swift",
+      "line": 57,
+      "symbol": "LoggingPolicy.defaultAllowHeaders",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/LoggingPolicy.swift",
+      "line": 68,
+      "symbol": "LoggingPolicy.next",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/LoggingPolicy.swift",
+      "line": 75,
+      "symbol": "LoggingPolicy.init(allowHeaders:allowQueryParams:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/LoggingPolicy.swift",
+      "line": 247,
+      "symbol": "CurlFormattedRequestLoggingPolicy",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/LoggingPolicy.swift",
+      "line": 250,
+      "symbol": "CurlFormattedRequestLoggingPolicy.next",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/LoggingPolicy.swift",
+      "line": 254,
+      "symbol": "CurlFormattedRequestLoggingPolicy.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/NormalizeETagPolicy.swift",
+      "line": 29,
+      "symbol": "NormalizeETagPolicy",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/NormalizeETagPolicy.swift",
+      "line": 32,
+      "symbol": "NormalizeETagPolicy.next",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/NormalizeETagPolicy.swift",
+      "line": 36,
+      "symbol": "NormalizeETagPolicy.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/RequestIdPolicy.swift",
+      "line": 29,
+      "symbol": "RequestIdPolicy",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/RequestIdPolicy.swift",
+      "line": 32,
+      "symbol": "RequestIdPolicy.next",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/RequestIdPolicy.swift",
+      "line": 36,
+      "symbol": "RequestIdPolicy.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/RetryPolicy.swift",
+      "line": 31,
+      "symbol": "RetryPolicy",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/RetryPolicy.swift",
+      "line": 34,
+      "symbol": "RetryPolicy.next",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/RetryPolicy.swift",
+      "line": 38,
+      "symbol": "RetryPolicy.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/UserAgentPolicy.swift",
+      "line": 29,
+      "symbol": "UserAgentPolicy",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/UserAgentPolicy.swift",
+      "line": 32,
+      "symbol": "UserAgentPolicy.next",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/UserAgentPolicy.swift",
+      "line": 60,
+      "symbol": "UserAgentPolicy.init(for:telemetryOptions:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Policies/UserAgentPolicy.swift",
+      "line": 67,
+      "symbol": "UserAgentPolicy.init(sdkName:sdkVersion:telemetryOptions:platformInfoProvider:appBundleInfoProvider:localeInfoProvider:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/DataStringConvertible.swift",
+      "line": 29,
+      "symbol": "DataStringConvertible",
+      "symbol_kind": "source.lang.swift.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/DataStringConvertible.swift",
+      "line": 32,
+      "symbol": "DataStringConvertible.data",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/DataStringConvertible.swift",
+      "line": 35,
+      "symbol": "DataStringConvertible",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/DataStringConvertible.swift",
+      "line": 36,
+      "symbol": "DataStringConvertible.text(encoding:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/HTTPHeader.swift",
+      "line": 140,
+      "symbol": "HTTPHeader.requestString",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/HTTPHeader.swift",
+      "line": 247,
+      "symbol": "HTTPHeader.init(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/HTTPMethod.swift",
+      "line": 29,
+      "symbol": "HTTPMethod",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/HTTPMethod.swift",
+      "line": 30,
+      "symbol": "HTTPMethod.get",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/HTTPMethod.swift",
+      "line": 31,
+      "symbol": "HTTPMethod.put",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/HTTPMethod.swift",
+      "line": 32,
+      "symbol": "HTTPMethod.post",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/HTTPMethod.swift",
+      "line": 33,
+      "symbol": "HTTPMethod.patch",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/HTTPMethod.swift",
+      "line": 34,
+      "symbol": "HTTPMethod.delete",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/HTTPMethod.swift",
+      "line": 35,
+      "symbol": "HTTPMethod.head",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/HTTPMethod.swift",
+      "line": 36,
+      "symbol": "HTTPMethod.options",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/HTTPMethod.swift",
+      "line": 37,
+      "symbol": "HTTPMethod.trace",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/HTTPMethod.swift",
+      "line": 38,
+      "symbol": "HTTPMethod.merge",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/HTTPRequest.swift",
+      "line": 29,
+      "symbol": "HTTPRequest",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/HTTPRequest.swift",
+      "line": 32,
+      "symbol": "HTTPRequest.httpMethod",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/HTTPRequest.swift",
+      "line": 33,
+      "symbol": "HTTPRequest.url",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/HTTPRequest.swift",
+      "line": 34,
+      "symbol": "HTTPRequest.headers",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/HTTPRequest.swift",
+      "line": 35,
+      "symbol": "HTTPRequest.data",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/HTTPRequest.swift",
+      "line": 39,
+      "symbol": "HTTPRequest.init(method:url:headers:data:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/HTTPRequest.swift",
+      "line": 51,
+      "symbol": "HTTPRequest.init(method:url:headers:data:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/HTTPResponse.swift",
+      "line": 29,
+      "symbol": "HTTPResponse",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/HTTPResponse.swift",
+      "line": 32,
+      "symbol": "HTTPResponse.httpRequest",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/HTTPResponse.swift",
+      "line": 33,
+      "symbol": "HTTPResponse.statusCode",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/HTTPResponse.swift",
+      "line": 34,
+      "symbol": "HTTPResponse.headers",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/HTTPResponse.swift",
+      "line": 35,
+      "symbol": "HTTPResponse.data",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/HTTPResponse.swift",
+      "line": 39,
+      "symbol": "HTTPResponse.statusMessage",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/HTTPResponse.swift",
+      "line": 171,
+      "symbol": "HTTPResponse.contentTypes",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/HTTPResponse.swift",
+      "line": 178,
+      "symbol": "HTTPResponse.init(request:statusCode:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/RequestParameters.swift",
+      "line": 29,
+      "symbol": "RequestParameter",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/RequestParameters.swift",
+      "line": 38,
+      "symbol": "RequestParameterLocation.host",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/RequestParameters.swift",
+      "line": 39,
+      "symbol": "RequestParameterLocation.path",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/RequestParameters.swift",
+      "line": 40,
+      "symbol": "RequestParameterLocation.query",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/RequestParameters.swift",
+      "line": 41,
+      "symbol": "RequestParameterLocation.header",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/RequestParameters.swift",
+      "line": 42,
+      "symbol": "RequestParameterLocation.body",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/RequestParameters.swift",
+      "line": 43,
+      "symbol": "RequestParameterLocation.uri",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/RequestParameters.swift",
+      "line": 46,
+      "symbol": "EncodingStrategy",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/RequestParameters.swift",
+      "line": 47,
+      "symbol": "EncodingStrategy.encode",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/RequestParameters.swift",
+      "line": 48,
+      "symbol": "EncodingStrategy.skipEncoding",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/RequestParameters.swift",
+      "line": 51,
+      "symbol": "RequestParameters",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/RequestParameters.swift",
+      "line": 56,
+      "symbol": "RequestParameters.count",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/RequestParameters.swift",
+      "line": 60,
+      "symbol": "RequestParameters.keys",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/RequestParameters.swift",
+      "line": 64,
+      "symbol": "RequestParameters.headers",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/RequestParameters.swift",
+      "line": 70,
+      "symbol": "RequestParameters.init(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/RequestParameters.swift",
+      "line": 90,
+      "symbol": "RequestParameters.add(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/TransportStage.swift",
+      "line": 29,
+      "symbol": "TransportStage",
+      "symbol_kind": "source.lang.swift.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/TransportStage.swift",
+      "line": 32,
+      "symbol": "TransportStage.open()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/TransportStage.swift",
+      "line": 33,
+      "symbol": "TransportStage.close()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/URLHTTPResponse.swift",
+      "line": 29,
+      "symbol": "URLHTTPResponse",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/URLHTTPResponse.swift",
+      "line": 36,
+      "symbol": "URLHTTPResponse.init(request:response:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/URLSessionTransport.swift",
+      "line": 30,
+      "symbol": "URLSessionTransport",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/URLSessionTransport.swift",
+      "line": 38,
+      "symbol": "URLSessionTransport.next",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/URLSessionTransport.swift",
+      "line": 51,
+      "symbol": "URLSessionTransport.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/URLSessionTransport.swift",
+      "line": 59,
+      "symbol": "URLSessionTransport.open()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Pipeline/Transport/URLSessionTransport.swift",
+      "line": 64,
+      "symbol": "URLSessionTransport.close()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Providers/BundleInfoProvider.swift",
+      "line": 31,
+      "symbol": "BundleInfoProvider",
+      "symbol_kind": "source.lang.swift.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Providers/BundleInfoProvider.swift",
+      "line": 32,
+      "symbol": "BundleInfoProvider.identifier",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Providers/BundleInfoProvider.swift",
+      "line": 33,
+      "symbol": "BundleInfoProvider.name",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Providers/BundleInfoProvider.swift",
+      "line": 34,
+      "symbol": "BundleInfoProvider.version",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Providers/BundleInfoProvider.swift",
+      "line": 35,
+      "symbol": "BundleInfoProvider.minDeploymentTarget",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Providers/DeviceProviders.swift",
+      "line": 29,
+      "symbol": "DeviceProviders",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Providers/DeviceProviders.swift",
+      "line": 32,
+      "symbol": "DeviceProviders.appBundleInfo",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Providers/DeviceProviders.swift",
+      "line": 33,
+      "symbol": "DeviceProviders.platformInfo",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Providers/DeviceProviders.swift",
+      "line": 34,
+      "symbol": "DeviceProviders.localeInfo",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Providers/DeviceProviders.swift",
+      "line": 38,
+      "symbol": "DeviceProviders.bundleInfo(for:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Providers/LocaleInfoProvider.swift",
+      "line": 31,
+      "symbol": "LocaleInfoProvider",
+      "symbol_kind": "source.lang.swift.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Providers/LocaleInfoProvider.swift",
+      "line": 32,
+      "symbol": "LocaleInfoProvider.language",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Providers/LocaleInfoProvider.swift",
+      "line": 33,
+      "symbol": "LocaleInfoProvider.region",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Providers/PlatformInfoProvider.swift",
+      "line": 31,
+      "symbol": "PlatformInfoProvider",
+      "symbol_kind": "source.lang.swift.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Providers/PlatformInfoProvider.swift",
+      "line": 32,
+      "symbol": "PlatformInfoProvider.deviceName",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Providers/PlatformInfoProvider.swift",
+      "line": 33,
+      "symbol": "PlatformInfoProvider.osVersion",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/ApplicationUtil.swift",
+      "line": 32,
+      "symbol": "ApplicationUtil",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/AzureCodable.swift",
+      "line": 30,
+      "symbol": "KeyedDecodingContainer.decodeBool(forKey:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/AzureCodable.swift",
+      "line": 41,
+      "symbol": "KeyedDecodingContainer.decodeBoolIfPresent(forKey:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/AzureCodable.swift",
+      "line": 52,
+      "symbol": "KeyedDecodingContainer.decodeInt(forKey:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/AzureCodable.swift",
+      "line": 63,
+      "symbol": "KeyedDecodingContainer.decodeIntIfPresent(forKey:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/AzureCodable.swift",
+      "line": 74,
+      "symbol": "KeyedDecodingContainer.decodeDouble(forKey:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/AzureCodable.swift",
+      "line": 85,
+      "symbol": "KeyedDecodingContainer.decodeDoubleIfPresent(forKey:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/ConvertingInitializers.swift",
+      "line": 30,
+      "symbol": "Bool.init(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/ConvertingInitializers.swift",
+      "line": 37,
+      "symbol": "Int.init(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/ConvertingInitializers.swift",
+      "line": 44,
+      "symbol": "URL.init(string:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/ConvertingInitializers.swift",
+      "line": 51,
+      "symbol": "String.init(data:encoding:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/ConvertingInitializers.swift",
+      "line": 65,
+      "symbol": "Data.init(hexString:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/Copyable.swift",
+      "line": 29,
+      "symbol": "Copyable",
+      "symbol_kind": "source.lang.swift.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/Copyable.swift",
+      "line": 32,
+      "symbol": "Copyable.init(copy:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/CryptoUtil.swift",
+      "line": 34,
+      "symbol": "CryptoAlgorithm.md5",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/CryptoUtil.swift",
+      "line": 34,
+      "symbol": "CryptoAlgorithm.sha1",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/CryptoUtil.swift",
+      "line": 34,
+      "symbol": "CryptoAlgorithm.sha224",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/CryptoUtil.swift",
+      "line": 34,
+      "symbol": "CryptoAlgorithm.sha256",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/CryptoUtil.swift",
+      "line": 34,
+      "symbol": "CryptoAlgorithm.sha384",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/CryptoUtil.swift",
+      "line": 34,
+      "symbol": "CryptoAlgorithm.sha512",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/KeychainUtil.swift",
+      "line": 30,
+      "symbol": "KeychainUtil",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/KeychainUtil.swift",
+      "line": 38,
+      "symbol": "KeychainUtil.store(string:forKey:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/KeychainUtil.swift",
+      "line": 45,
+      "symbol": "KeychainUtil.store(secret:forKey:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/KeychainUtil.swift",
+      "line": 62,
+      "symbol": "KeychainUtil.secret(forKey:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/KeychainUtil.swift",
+      "line": 81,
+      "symbol": "KeychainUtil.string(forKey:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/KeychainUtil.swift",
+      "line": 94,
+      "symbol": "KeychainUtil.deleteSecret(forKey:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/ReachabilityManager.swift",
+      "line": 33,
+      "symbol": "ReachabilityManager",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/ReachabilityManagerType.swift",
+      "line": 38,
+      "symbol": "ConnectionType.ethernetOrWiFi",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/ReachabilityManagerType.swift",
+      "line": 39,
+      "symbol": "ConnectionType.wwan",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/ReachabilityManagerType.swift",
+      "line": 48,
+      "symbol": "NetworkReachabilityStatus.unknown",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/ReachabilityManagerType.swift",
+      "line": 49,
+      "symbol": "NetworkReachabilityStatus.notReachable",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/ReachabilityManagerType.swift",
+      "line": 50,
+      "symbol": "NetworkReachabilityStatus.reachable(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/RequestString.swift",
+      "line": 31,
+      "symbol": "RequestStringConvertible.requestString",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/RequestString.swift",
+      "line": 35,
+      "symbol": "RequestStringConvertible.==(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/RequestString.swift",
+      "line": 41,
+      "symbol": "Int.requestString",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/RequestString.swift",
+      "line": 47,
+      "symbol": "Decimal.requestString",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/RequestString.swift",
+      "line": 59,
+      "symbol": "Int32.requestString",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/RequestString.swift",
+      "line": 65,
+      "symbol": "Int64.requestString",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/RequestString.swift",
+      "line": 71,
+      "symbol": "Float.requestString",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/RequestString.swift",
+      "line": 77,
+      "symbol": "Double.requestString",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/RequestString.swift",
+      "line": 83,
+      "symbol": "String.requestString",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/RequestString.swift",
+      "line": 89,
+      "symbol": "Bool.requestString",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/RequestString.swift",
+      "line": 95,
+      "symbol": "Data.requestString",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/RequestString.swift",
+      "line": 105,
+      "symbol": "Array.requestString",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/RequestString.swift",
+      "line": 119,
+      "symbol": "Dictionary.requestString",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/RequestString.swift",
+      "line": 133,
+      "symbol": "DateComponents.requestString",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/StringUtil.swift",
+      "line": 30,
+      "symbol": "String.replacing(prefix:with:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/URLUtil.swift",
+      "line": 30,
+      "symbol": "URL.appendingQueryParameters(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/core/AzureCore/Source/Util/URLUtil.swift",
+      "line": 47,
+      "symbol": "URL.deletingQueryParameters()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/travisprescott/repos/azure-sdk-for-ios"
+}

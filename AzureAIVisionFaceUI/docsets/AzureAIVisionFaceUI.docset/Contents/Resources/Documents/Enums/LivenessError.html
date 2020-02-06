@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>LivenessError Enumeration Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+    <a name="//apple_ref/swift/Enum/LivenessError" class="dashAnchor"></a>
+
+    <a title="LivenessError Enumeration Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="../index.html">
+          AzureAIVisionFaceUI 1.4.1 Docs
+        </a>
+         (100% documented)
+      </p>
+    
+      <div class="header-col--secondary">
+        <form role="search" action="../search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </div>
+    
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="../index.html">AzureAIVisionFaceUI</a>
+      <img class="carat" src="../img/carat.png" alt=""/>
+      <a class="breadcrumb" href="../Enums.html">Enumerations</a>
+      <img class="carat" src="../img/carat.png" alt=""/>
+      LivenessError Enumeration Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/LivenessError.html">LivenessError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/RecognitionError.html">RecognitionError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/FaceLivenessDetectorView.html">FaceLivenessDetectorView</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/LivenessDetectionError.html">LivenessDetectionError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/LivenessDetectionSuccess.html">LivenessDetectionSuccess</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:19AzureAIVisionFaceUI23LivenessDetectionResulta">LivenessDetectionResult</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content top-matter">
+            <h1>LivenessError</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">enum</span> <span class="kt">LivenessError</span> <span class="p">:</span> <span class="kt">UInt</span><span class="p">,</span> <span class="kd">@unchecked</span> <span class="kt">Sendable</span></code></pre>
+
+                </div>
+              </div>
+            <p>Reasons for failure of the liveness analysis.</p>
+
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-content">
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonNone"></a>
+                    <a name="//apple_ref/swift/Case/none" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonNone">none</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Indicates no failure.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="k">none</span> <span class="o">=</span> <span class="mi">0</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonFaceMouthRegionNotVisible"></a>
+                    <a name="//apple_ref/swift/Case/faceMouthRegionNotVisible" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonFaceMouthRegionNotVisible">faceMouthRegionNotVisible</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Indicates mouth region is not visible</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">faceMouthRegionNotVisible</span> <span class="o">=</span> <span class="mi">1</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonFaceEyeRegionNotVisible"></a>
+                    <a name="//apple_ref/swift/Case/faceEyeRegionNotVisible" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonFaceEyeRegionNotVisible">faceEyeRegionNotVisible</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Indicates eye region is not visible</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">faceEyeRegionNotVisible</span> <span class="o">=</span> <span class="mi">2</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonExcessiveImageBlurDetected"></a>
+                    <a name="//apple_ref/swift/Case/excessiveImageBlurDetected" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonExcessiveImageBlurDetected">excessiveImageBlurDetected</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Indicates image is too blurry</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">excessiveImageBlurDetected</span> <span class="o">=</span> <span class="mi">3</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonExcessiveFaceBrightness"></a>
+                    <a name="//apple_ref/swift/Case/excessiveFaceBrightness" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonExcessiveFaceBrightness">excessiveFaceBrightness</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Indicates image is too bright</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">excessiveFaceBrightness</span> <span class="o">=</span> <span class="mi">4</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonFaceWithMaskDetected"></a>
+                    <a name="//apple_ref/swift/Case/faceWithMaskDetected" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonFaceWithMaskDetected">faceWithMaskDetected</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Indicates a mask has been detected</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">faceWithMaskDetected</span> <span class="o">=</span> <span class="mi">5</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonTimedOut"></a>
+                    <a name="//apple_ref/swift/Case/timedOut" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonTimedOut">timedOut</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Indicates a timeout failure</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">timedOut</span> <span class="o">=</span> <span class="mi">6</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonEnvironmentNotSupported"></a>
+                    <a name="//apple_ref/swift/Case/environmentNotSupported" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonEnvironmentNotSupported">environmentNotSupported</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Indicates environment not supported failure</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">environmentNotSupported</span> <span class="o">=</span> <span class="mi">7</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonFaceTrackingFailed"></a>
+                    <a name="//apple_ref/swift/Case/faceTrackingFailed" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonFaceTrackingFailed">faceTrackingFailed</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Indicates face tracking failure</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">faceTrackingFailed</span> <span class="o">=</span> <span class="mi">8</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonUnexpectedClientError"></a>
+                    <a name="//apple_ref/swift/Case/unexpectedClientError" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonUnexpectedClientError">unexpectedClientError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Indicates service response code between 401 and 409 is returned</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">unexpectedClientError</span> <span class="o">=</span> <span class="mi">9</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonUnexpectedServerError"></a>
+                    <a name="//apple_ref/swift/Case/unexpectedServerError" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonUnexpectedServerError">unexpectedServerError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Indicates service response code equal to or greater than 500 is returned</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">unexpectedServerError</span> <span class="o">=</span> <span class="mi">10</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonUnexpected"></a>
+                    <a name="//apple_ref/swift/Case/unexpected" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonUnexpected">unexpected</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Indicates unexpected service response code is returned</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">unexpected</span> <span class="o">=</span> <span class="mi">11</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonCameraPermissionDenied"></a>
+                    <a name="//apple_ref/swift/Case/cameraPermissionDenied" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonCameraPermissionDenied">cameraPermissionDenied</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Indicates camera permission denied failure</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">cameraPermissionDenied</span> <span class="o">=</span> <span class="mi">12</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonCameraStartupFailure"></a>
+                    <a name="//apple_ref/swift/Case/cameraStartupFailure" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonCameraStartupFailure">cameraStartupFailure</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Indicates other camera startup failures</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">cameraStartupFailure</span> <span class="o">=</span> <span class="mi">13</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonSmileNotPerformed"></a>
+                    <a name="//apple_ref/swift/Case/smileNotPerformed" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonSmileNotPerformed">smileNotPerformed</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>smile not performed liveness failure reason.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">smileNotPerformed</span> <span class="o">=</span> <span class="mi">14</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonHeadTurnNotPerformed"></a>
+                    <a name="//apple_ref/swift/Case/headTurnNotPerformed" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonHeadTurnNotPerformed">headTurnNotPerformed</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>random pose not performed liveness failure reason.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">headTurnNotPerformed</span> <span class="o">=</span> <span class="mi">15</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonServerTimedOut"></a>
+                    <a name="//apple_ref/swift/Case/serverTimedOut" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonServerTimedOut">serverTimedOut</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Server request timed out liveness failure reason.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">serverTimedOut</span> <span class="o">=</span> <span class="mi">16</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonInvalidToken"></a>
+                    <a name="//apple_ref/swift/Case/invalidToken" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonInvalidToken">invalidToken</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Invalid token liveness failure reason.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">invalidToken</span> <span class="o">=</span> <span class="mi">17</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonNoFaceDetected"></a>
+                    <a name="//apple_ref/swift/Case/noFaceDetected" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonNoFaceDetected">noFaceDetected</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>No face detected liveness failure reason.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">noFaceDetected</span> <span class="o">=</span> <span class="mi">18</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonUserCanceledSession"></a>
+                    <a name="//apple_ref/swift/Case/userCanceledSession" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonUserCanceledSession">userCanceledSession</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>User canceled session liveness failure reason.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">userCanceledSession</span> <span class="o">=</span> <span class="mi">19</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonUserCanceledActiveMotion"></a>
+                    <a name="//apple_ref/swift/Case/userCanceledActiveMotion" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonUserCanceledActiveMotion">userCanceledActiveMotion</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>User canceled active motion liveness failure reason.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">userCanceledActiveMotion</span> <span class="o">=</span> <span class="mi">20</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonUserCanceledActiveMotionPrompt"></a>
+                    <a name="//apple_ref/swift/Case/userCanceledActiveMotionPrompt" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonUserCanceledActiveMotionPrompt">userCanceledActiveMotionPrompt</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>User canceled active motion prompt liveness failure reason.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">userCanceledActiveMotionPrompt</span> <span class="o">=</span> <span class="mi">21</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonClientVersionNotSupported"></a>
+                    <a name="//apple_ref/swift/Case/clientVersionNotSupported" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonClientVersionNotSupported">clientVersionNotSupported</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Client version not supported liveness failure reason.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">clientVersionNotSupported</span> <span class="o">=</span> <span class="mi">22</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonVerifyImageNotProvided"></a>
+                    <a name="//apple_ref/swift/Case/verifyImageNotProvided" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonVerifyImageNotProvided">verifyImageNotProvided</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Verification image not provided liveness failure reason.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">verifyImageNotProvided</span> <span class="o">=</span> <span class="mi">23</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonSetVerifyImageNotAllowed"></a>
+                    <a name="//apple_ref/swift/Case/setVerifyImageNotAllowed" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonSetVerifyImageNotAllowed">setVerifyImageNotAllowed</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Setting verification image not allowed liveness failure reason.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">setVerifyImageNotAllowed</span> <span class="o">=</span> <span class="mi">24</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonGenericFailure"></a>
+                    <a name="//apple_ref/swift/Case/genericFailure" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@E@AZFaceLivenessFailureReason@AZFaceLivenessFailureReasonGenericFailure">genericFailure</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Indicates internal failure</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">genericFailure</span> <span class="o">=</span> <span class="mi">25</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>&copy; 2025 <a class="link" href="" target="_blank" rel="external noopener"></a>. All rights reserved. (Last updated: 2025-08-14)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.15.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+    </section>
+  </body>
+</html>

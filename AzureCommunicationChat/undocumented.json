@@ -1,0 +1,355 @@
+{
+  "warnings": [
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/ChatClient.swift",
+      "line": 45,
+      "symbol": "ChatClient.pushNotificationKeyStorage",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/ChatThreadClient.swift",
+      "line": 33,
+      "symbol": "ChatThreadClient",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/ChatThreadClient.swift",
+      "line": 36,
+      "symbol": "ChatThreadClient.threadId",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Generated/Models/Enumerations.swift",
+      "line": 19,
+      "symbol": "CommunicationCloudEnvironmentModel.public",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Generated/Models/Enumerations.swift",
+      "line": 21,
+      "symbol": "CommunicationCloudEnvironmentModel.dod",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Generated/Models/Enumerations.swift",
+      "line": 23,
+      "symbol": "CommunicationCloudEnvironmentModel.gcch",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Generated/Models/Enumerations.swift",
+      "line": 25,
+      "symbol": "CommunicationCloudEnvironmentModel.requestString",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Generated/Models/Enumerations.swift",
+      "line": 38,
+      "symbol": "CommunicationCloudEnvironmentModel.init(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Generated/Models/Enumerations.swift",
+      "line": 70,
+      "symbol": "ChatMessageType.text",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Generated/Models/Enumerations.swift",
+      "line": 72,
+      "symbol": "ChatMessageType.html",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Generated/Models/Enumerations.swift",
+      "line": 74,
+      "symbol": "ChatMessageType.topicUpdated",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Generated/Models/Enumerations.swift",
+      "line": 76,
+      "symbol": "ChatMessageType.participantAdded",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Generated/Models/Enumerations.swift",
+      "line": 78,
+      "symbol": "ChatMessageType.participantRemoved",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Generated/Models/Enumerations.swift",
+      "line": 80,
+      "symbol": "ChatMessageType.requestString",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Generated/Models/Enumerations.swift",
+      "line": 97,
+      "symbol": "ChatMessageType.init(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Options/AzureCommunicationChatClientOptions.swift",
+      "line": 59,
+      "symbol": "AzureCommunicationChatClientOptions.ApiVersion.requestString",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Options/AzureCommunicationChatClientOptions.swift",
+      "line": 70,
+      "symbol": "AzureCommunicationChatClientOptions.ApiVersion.init(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/PushNotification/AppGroupPushNotificationKeyStorage.swift",
+      "line": 30,
+      "symbol": "AppGroupPushNotificationKeyStorage",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/PushNotification/AppGroupPushNotificationKeyStorage.swift",
+      "line": 34,
+      "symbol": "AppGroupPushNotificationKeyStorage.init(appGroupId:keyTag:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/PushNotification/PushNotificationChatEventType.swift",
+      "line": 31,
+      "symbol": "PushNotificationChatEventType.chatMessageReceived",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/PushNotification/PushNotificationEvent.swift",
+      "line": 31,
+      "symbol": "PushNotificationEvent.chatMessageReceivedEvent(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/PushNotification/PushNotificationKeyStorage.swift",
+      "line": 35,
+      "symbol": "PushNotificationKeyStorage",
+      "symbol_kind": "source.lang.swift.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/PushNotification/PushNotificationKeyStorage.swift",
+      "line": 47,
+      "symbol": "PushNotificationKeyStorage",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Signaling/CommunicationSignalingClient.swift",
+      "line": 34,
+      "symbol": "CommunicationSignalingError.failedToRefreshToken(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Signaling/Events/ChatEvent.swift",
+      "line": 410,
+      "symbol": "TypingIndicatorReceivedEvent.version",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Signaling/Events/ChatEvent.swift",
+      "line": 846,
+      "symbol": "ParticipantsRemovedEvent.participantsRemoved",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Signaling/Events/ChatEvent.swift",
+      "line": 923,
+      "symbol": "ChatEventId.realTimeNotificationConnected",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Signaling/Events/ChatEvent.swift",
+      "line": 924,
+      "symbol": "ChatEventId.realTimeNotificationDisconnected",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Signaling/Events/ChatEvent.swift",
+      "line": 925,
+      "symbol": "ChatEventId.chatMessageReceived",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Signaling/Events/ChatEvent.swift",
+      "line": 926,
+      "symbol": "ChatEventId.typingIndicatorReceived",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Signaling/Events/ChatEvent.swift",
+      "line": 927,
+      "symbol": "ChatEventId.readReceiptReceived",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Signaling/Events/ChatEvent.swift",
+      "line": 928,
+      "symbol": "ChatEventId.chatMessageEdited",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Signaling/Events/ChatEvent.swift",
+      "line": 929,
+      "symbol": "ChatEventId.chatMessageDeleted",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Signaling/Events/ChatEvent.swift",
+      "line": 930,
+      "symbol": "ChatEventId.chatThreadCreated",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Signaling/Events/ChatEvent.swift",
+      "line": 931,
+      "symbol": "ChatEventId.chatThreadPropertiesUpdated",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Signaling/Events/ChatEvent.swift",
+      "line": 932,
+      "symbol": "ChatEventId.chatThreadDeleted",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Signaling/Events/ChatEvent.swift",
+      "line": 933,
+      "symbol": "ChatEventId.participantsAdded",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Signaling/Events/ChatEvent.swift",
+      "line": 934,
+      "symbol": "ChatEventId.participantsRemoved",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Signaling/Events/TrouterEvent.swift",
+      "line": 36,
+      "symbol": "TrouterEvent.realTimeNotificationConnected",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Signaling/Events/TrouterEvent.swift",
+      "line": 37,
+      "symbol": "TrouterEvent.realTimeNotificationDisconnected",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Signaling/Events/TrouterEvent.swift",
+      "line": 38,
+      "symbol": "TrouterEvent.chatMessageReceivedEvent(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Signaling/Events/TrouterEvent.swift",
+      "line": 39,
+      "symbol": "TrouterEvent.typingIndicatorReceived(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Signaling/Events/TrouterEvent.swift",
+      "line": 40,
+      "symbol": "TrouterEvent.readReceiptReceived(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Signaling/Events/TrouterEvent.swift",
+      "line": 41,
+      "symbol": "TrouterEvent.chatMessageEdited(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Signaling/Events/TrouterEvent.swift",
+      "line": 42,
+      "symbol": "TrouterEvent.chatMessageDeleted(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Signaling/Events/TrouterEvent.swift",
+      "line": 43,
+      "symbol": "TrouterEvent.chatThreadCreated(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Signaling/Events/TrouterEvent.swift",
+      "line": 44,
+      "symbol": "TrouterEvent.chatThreadPropertiesUpdated(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Signaling/Events/TrouterEvent.swift",
+      "line": 45,
+      "symbol": "TrouterEvent.chatThreadDeleted(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Signaling/Events/TrouterEvent.swift",
+      "line": 46,
+      "symbol": "TrouterEvent.participantsAdded(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Source/Signaling/Events/TrouterEvent.swift",
+      "line": 47,
+      "symbol": "TrouterEvent.participantsRemoved(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/travisprescott/repos/azure-sdk-for-ios"
+}

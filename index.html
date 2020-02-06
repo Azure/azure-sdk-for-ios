@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Azure SDK for iOS Reference Documentation</title>
+  <link rel="stylesheet" type="text/css" href="AzureCore/css/jazzy.css" />
+  <meta charset="utf-8">
+  <style>
+    .hero {
+      text-align: center;
+      color: white;
+    }
+
+    .hero-icon {
+      height: 56px;
+    }
+
+    .hero-icon .svg-icon-large {
+      fill: white;
+    }
+
+    .hero-icon-container {
+      padding-top: 1.88235rem;
+      margin-bottom: 0.941175rem;
+    }
+
+    .hero-icon:not(:last-child) {
+      margin-right: 20px;
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      font-weight: 500;
+      line-height: 1.04167;
+    }
+
+    .hero p {
+      padding-bottom: 1.88235rem;
+      font-size: 22px;
+      font-weight: 300;
+    }
+
+    .svg-icon-large {
+      fill: #888888;
+    }
+
+    .content-wrapper {
+      margin-left: auto;
+      margin-right: auto;
+      width: 980px;
+      margin-top: 2.35294rem;
+      padding-bottom: 2.35294rem;
+    }
+
+    .category-title {
+      margin-top: 0;
+      font-size: 24px;
+      font-weight: 500;
+    }
+
+    .category-details {
+      width: 33.33333%;
+    }
+
+    .category-list-container {
+      width: 66.66667%;
+    }
+
+    .category-list {
+      column-count: 2;
+    }
+
+    .category-list-item {
+      list-style-type: none;
+      page-break-inside: avoid;
+      break-inside: avoid;
+      line-height: 1.4em;
+      padding-top: 0.75em;
+    }
+
+    .column {
+      float: left;
+    }
+  </style>
+</head>
+
+<body>
+
+  <a name="//apple_ref/swift/Class/AddDatePolicy" class="dashAnchor"></a>
+
+  <a title="Azure SDK for iOS Reference Documentation"></a>
+
+  <header class="header">
+    <p class="header-col header-col--primary">
+      <a class="header-link" href="index.html">
+        Azure SDK for iOS Docs
+      </a>
+    </p>
+
+    <p class="header-col header-col--secondary">
+      <a class="header-link" href="https://github.com/Azure/azure-sdk-for-ios">
+        <img class="header-icon" src="AzureCore/img/gh.png" /> View on GitHub
+      </a>
+    </p>
+  </header>
+  <header class="hero header">
+    <div class="hero-icon-container header-col header-col--primary"><svg xmlns="http://www.w3.org/2000/svg" height="42" viewBox="0 0 34 43"
+        class="svg-icon hero-icon" aria-hidden="true"><title>API Reference</title>
+        <g id="List" class="svg-icon-large">
+          <path id="Rectangle-12-Copy" fill-rule="nonzero" d="M2 41h30V2H2v39zM0 0h34v43H0V0z"></path>
+          <rect id="Rectangle-12-Copy-2" width="17" height="2" x="11" y="10"></rect>
+          <rect id="Rectangle-12-Copy-4" width="17" height="2" x="11" y="17"></rect>
+          <rect id="Rectangle-12-Copy-6" width="17" height="2" x="11" y="24"></rect>
+          <rect id="Rectangle-12-Copy-8" width="17" height="2" x="11" y="31"></rect>
+          <path id="Rectangle-12-Copy-3" fill-rule="nonzero" d="M6 12l2-2v2l-2-2h2l-2 2v-2l2 2H6zm0-2h2v2H6v-2zm0 0h2v2H6v-2z"></path>
+          <path id="Rectangle-12-Copy-5" fill-rule="nonzero" d="M6 19l2-2v2l-2-2h2l-2 2v-2l2 2H6zm0-2h2v2H6v-2zm0 0h2v2H6v-2z"></path>
+          <path id="Rectangle-12-Copy-7" fill-rule="nonzero" d="M6 26l2-2v2l-2-2h2l-2 2v-2l2 2H6zm0-2h2v2H6v-2zm0 0h2v2H6v-2z"></path>
+          <path id="Rectangle-12-Copy-9" fill-rule="nonzero" d="M6 33l2-2v2l-2-2h2l-2 2v-2l2 2H6zm0-2h2v2H6v-2zm0 0h2v2H6v-2z"></path>
+        </g></svg><svg xmlns="http://www.w3.org/2000/svg" height="42" viewBox="0 0 50 42" class="svg-icon hero-icon" aria-hidden="true"><title>Sample
+          Code</title>
+        <g id="Curly-Brackets" class="svg-icon-large" fill-rule="nonzero">
+          <path id="Rectangle-12" d="M9 15V6.994C9 4.234 11.235 2 14 2h5V0h-5c-3.87 0-7 3.13-7 6.994V15h2z"></path>
+          <path id="Rectangle-12-Copy-10" d="M7 7v8.006C7 17.766 4.765 20 2 20H0v2h2c3.87 0 7-3.13 7-6.994V7H7z"></path>
+          <path id="Rectangle-12" d="M7 27v8.006C7 38.87 10.13 42 14 42h5v-2h-5c-2.765 0-5-2.235-5-4.994V27H7z"></path>
+          <path id="Rectangle-12-Copy-10" d="M9 35v-8.006C9 23.13 5.87 20 2 20H0v2h2c2.765 0 5 2.235 5 4.994V35h2z"></path>
+          <path id="Rectangle-12" d="M43 15V6.994C43 3.13 39.87 0 36 0h-5v2h5c2.765 0 5 2.235 5 4.994V15h2z"></path>
+          <path id="Rectangle-12-Copy-10" d="M41 7v8.006C41 18.87 44.13 22 48 22h2v-2h-2c-2.765 0-5-2.235-5-4.994V7h-2z"></path>
+          <path id="Rectangle-12" d="M41 27v8.006C41 37.766 38.765 40 36 40h-5v2h5c3.87 0 7-3.13 7-6.994V27h-2z"></path>
+          <path id="Rectangle-12-Copy-10" d="M43 35v-8.006C43 24.234 45.235 22 48 22h2v-2h-2c-3.87 0-7 3.13-7 6.994V35h2z"></path>
+        </g></svg><svg xmlns="http://www.w3.org/2000/svg" height="34" viewBox="0 0 34 43" class="svg-icon hero-icon" aria-hidden="true"><title>Article</title>
+        <g
+          id="Doc-Single" class="svg-icon-large">
+          <rect id="Rectangle" width="2" height="15" x="19" y="1"></rect>
+          <rect id="Rectangle-Copy" width="14" height="2" x="19" y="14"></rect>
+          <path id="Rectangle-12-Copy" fill-rule="nonzero" d="M2 41h30V14.21L19.814 2H2v39zM0 0h20.643L34 13.38V43H0V0z"></path>
+        </g></svg></div>
+  </header>
+  <header class="hero header">
+    <h1 class="header-col header-col--primary">
+      Azure SDK for iOS<br />Reference Documentation
+    </h1>
+  </header>
+  <header class="hero header">
+    <p class="header-col header-col--primary">
+      Browse the API reference documentation for the included frameworks.
+    </p>
+  </header>
+
+  <div class="content-wrapper">
+    <div class="category-details column">
+      <svg xmlns="http://www.w3.org/2000/svg" height="33" viewBox="0 0 50 33" class="svg-icon" aria-hidden="true"><title>App
+          Framework</title>
+        <g id="Framework" class="svg-icon-large">
+          <path id="Rectangle-7" fill-rule="nonzero" d="M48 31V14.004C48 11.792 46.207 10 43.994 10H6.006C3.793 10 2 11.792 2 14.004V31h46zM0 14.004C0 10.688 2.688 8 6.006 8h37.988C47.31 8 50 10.687 50 14.004V33H0V14.004z"></path>
+          <path id="Rectangle-7-Copy" fill-rule="nonzero" d="M33 8V5c0-1.654-1.344-3-2.995-3h-10.01C18.34 2 17 3.343 17 5v3h16zM15 5c0-2.76 2.236-5 4.995-5h10.01C32.765 0 35 2.244 35 5v5H15V5z"></path>
+          <rect id="Rectangle-8" width="19" height="2" x="29" y="16"></rect>
+          <rect id="Rectangle-8-Copy-2" width="19" height="2" x="2" y="16"></rect>
+          <path id="Rectangle-8-Copy" fill-rule="nonzero" d="M23 15v4h4v-4h-4zm-2-2h8v8h-8v-8z"></path>
+        </g></svg>
+      <h2 class="category-title">App Frameworks</h2>
+    </div>
+    <div class="category-list-container column">
+      <ul class="category-list">
+
+        <li class="category-list-item">
+          <div class="category-list-item-elements">
+            <a href="AzureCommunicationChat/index.html" class="category-list-item-link">AzureCommunicationChat</a>
+          </div>
+        </li>
+
+        <li class="category-list-item">
+          <div class="category-list-item-elements">
+            <a href="AzureCommunicationCommon/index.html" class="category-list-item-link">AzureCommunicationCommon</a>
+          </div>
+        </li>
+
+        <li class="category-list-item">
+          <div class="category-list-item-elements">
+            <a href="AzureCommunicationUICalling/index.html" class="category-list-item-link">AzureCommunicationUICalling</a>
+          </div>
+        </li>
+
+        <li class="category-list-item">
+          <div class="category-list-item-elements">
+            <a href="AzureCommunicationUIChat/index.html" class="category-list-item-link">AzureCommunicationUIChat</a>
+          </div>
+        </li>
+
+        <li class="category-list-item">
+          <div class="category-list-item-elements">
+            <a href="AzureCore/index.html" class="category-list-item-link">AzureCore</a>
+          </div>
+        </li>
+
+        <li class="category-list-item">
+          <div class="category-list-item-elements">
+            <a href="AzureAIVisionFaceUI/index.html" class="category-list-item-link">AzureAIVisionFaceUI</a>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+  <section class="footer">
+    <p>&copy; 2022 <a class="link" href="https://azure.github.io/azure-sdk/" target="_blank" rel="external">Microsoft</a>.
+      All rights reserved. </p>
+  </section>
+</body>
+</div>
+
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>AzureAIVisionFaceUI  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+
+    <a title="AzureAIVisionFaceUI  Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="index.html">
+          AzureAIVisionFaceUI 1.4.1 Docs
+        </a>
+         (100% documented)
+      </p>
+    
+      <div class="header-col--secondary">
+        <form role="search" action="search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </div>
+    
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="index.html">AzureAIVisionFaceUI</a>
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/LivenessError.html">LivenessError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/RecognitionError.html">RecognitionError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/FaceLivenessDetectorView.html">FaceLivenessDetectorView</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/LivenessDetectionError.html">LivenessDetectionError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/LivenessDetectionSuccess.html">LivenessDetectionSuccess</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Typealiases.html#/s:19AzureAIVisionFaceUI23LivenessDetectionResulta">LivenessDetectionResult</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content top-matter">
+            
+            <h1 id='get-started-with-the-azure-ai-vision-face-ui-sdk-for-ios' class='heading'>Get started with the Azure AI Vision Face UI SDK for iOS</h1>
+
+<p>In this sample, you will learn how to build and run the face liveness detection application.</p>
+
+<blockquote>
+<p><strong>Contents</strong></p>
+
+<ul>
+<li><a href="#api-reference-documentation">API Reference Documentation</a></li>
+<li><a href="#prerequisites">Prerequisites</a></li>
+<li><a href="#step-1-set-up-the-environment">Step 1: Set up the environment</a></li>
+<li><a href="#step-2-build-and-run-sample-app">Step 2: Build and run sample app</a>
+
+<ul>
+<li><a href="#build-the-sample">Build the sample</a></li>
+<li><a href="#run-the-sample">Run the sample</a></li>
+<li><a href="#test-out-key-scenarios">Test out key scenarios</a></li>
+<li><a href="#liveness">Liveness</a></li>
+<li><a href="#livenesswithverify">LivenessWithVerify</a></li>
+</ul></li>
+</ul>
+</blockquote>
+<h2 id='api-reference-documentation' class='heading'>API Reference Documentation</h2>
+
+<ul>
+<li>Swift API reference: <a href="https://azure.github.io/azure-sdk-for-ios/AzureAIVisionFaceUI/index.html">AzureAIVisionFaceUI</a></li>
+</ul>
+<h2 id='prerequisites' class='heading'>Prerequisites</h2>
+
+<ol>
+<li>An Azure Face API resource subscription.</li>
+<li>A Mac (with iOS development environment, Xcode 13+), an iPhone (iOS 14+).</li>
+<li>An Apple developer account to install and run development apps on the iPhone.</li>
+</ol>
+<h2 id='step-1-set-up-the-environment' class='heading'>Step 1: Set up the environment</h2>
+
+<ol>
+<li><p><strong>Prepare Xcode environment</strong>: For the best experience, please do not open the sample project in Xcode yet before completing the environment setup.</p></li>
+<li><p><strong>Verify iOS development setup</strong>: If this is your first time using your Mac to develop, you should build a sample app from <a href="https://developer.apple.com/tutorials/sample-apps/aboutme">About Me &#x2014; Sample Apps Tutorials | Apple Developer Documentation</a> and run it on your phone before you attempt to build the App here. This will help ensure that your developer environment has been setup properly.</p></li>
+<li><p><strong>Get PAT access token</strong>: <a id="get-access-token"></a>Fetch the PAT access token required for downloading release artifacts, using the API: <a href="https://learn.microsoft.com/rest/api/face/liveness-session-operations/get-client-assets-access-token?view=rest-face-v1.3-preview">Get Client Assets Access Token</a></p></li>
+<li><p><strong>Install Git LFS</strong>: Prepare Git LFS</p>
+
+<ul>
+<li>If you have never installed Git LFS, refer to <a href="https://git-lfs.github.com/">Git LFS official site</a> for instructions.</li>
+<li>For example:</li>
+</ul>
+<pre class="highlight shell"><code>  <span class="c"># install with homebrew</span>
+  brew <span class="nb">install </span>git-lfs
+  <span class="c"># verify and initialize</span>
+  git lfs <span class="nt">--version</span>
+  git lfs <span class="nb">install</span>
+</code></pre></li>
+<li><p><strong>Configure Git authentication</strong>: The sample app project has been preconfigured to reference the SDK through Swift Package Manager (SPM). Configure the authorization of the git repository from which SPM will pull the package:</p></li>
+</ol>
+
+<p>5.1. Open your global git config file.</p>
+<pre class="highlight plaintext"><code>  ```sh
+  # path will be shown by the following command, then open it using editor
+  git config --global --show-origin --list | head -1
+  # alternatively default editor will be used if using the following command
+  git config --global --edit
+  ```
+</code></pre>
+
+<p>5.2. Get the PAT access token from <a href="#get-access-token">step 3</a> above, then add it to the config:</p>
+<pre class="highlight plaintext"><code>  ```config
+  [credential "https://msface.visualstudio.com"]
+          username = pat
+          helper =
+          helper = "!f() { test \"$1\" = get &amp;&amp; echo \"password=INSERT_PAT_HERE\"; }; f"
+
+          # get PAT from Get Client Assets Access Token REST API and paste ^^^^^^^^^^^^^^^ above, replacing "INSERT_PAT_HERE".
+          # username does not matter for PAT so long as it is not left blank.
+          # the first blank helper line is necessary to override existing helpers and not a typo.
+  ```
+</code></pre>
+
+<ul>
+<li>for other methods of dependency such as CocoaPods, or other methods of git authentication, please refer to the <a href="#faq">FAQ</a> section of this document.</li>
+</ul>
+
+<ol>
+<li><strong>Install Xcode Command Line Tools</strong>: If Xcode Command Line Tools is never installed on your machine, install it first <a href="https://developer.apple.com/library/archive/technotes/tn2339/_index.html">following instructions from Apple Developer website</a>.</li>
+</ol>
+<h2 id='step-2-build-and-run-sample-app' class='heading'>Step 2: Build and run sample app</h2>
+<h3 id='build-the-sample' class='heading'>Build the sample</h3>
+
+<ol>
+<li>Download the sample App folder, extract it but do not open it yet.</li>
+<li><p>Run the following command from Terminal, from the directory where your .xcodeproj is located, as appropriate for your project. It will resolve the package through your system Git. Your system Git should already have Git LFS configured, as mentioned in Prerequisites section.</p>
+<pre class="highlight shell"><code>xcodebuild <span class="nt">-scmProvider</span> system <span class="nt">-resolvePackageDependencies</span>
+</code></pre></li>
+<li><p>Open the .xcodeproj file.
+<br>
+<img src="img/sample_project_open.png" alt="Sample project opened"></p></li>
+<li><p>Verify the package dependency through Swift Package Manager or other methods as described above.</p></li>
+<li><p>In <strong>Xcode → Targets → Signing &amp; Capabilities</strong>, set the App bundle identifier and developer team.
+<br><br>
+<img src="img/sample_project_signing.png" alt="Signing &amp; Capabilities"></p></li>
+<li><p>Connect your iPhone to the Mac, then trust the Mac when prompted.
+<br><br>
+<img src="img/iphone_trust.png" alt="Trust This Computer"> <img src="img/iphone_trust_passcode.png" alt="Enter Passcode to Trust"></p></li>
+<li><p>Select your iPhone in the Xcode top bar.
+<br><br>
+<img src="img/iphone_select.png" alt="Select your iPhone"></p></li>
+<li><p>Build and run the app.</p></li>
+</ol>
+<h3 id='run-the-sample' class='heading'>Run the sample</h3>
+
+<ol>
+<li>Allow camera permission when prompted.<br></li>
+<li>This sample creates token on the client, so it needs the API configuration. In production scenario, this will not be necessary. For now, go to the settings page and configure:
+
+<ul>
+<li>API endpoint<br></li>
+<li>Subscription key</li>
+</ul></li>
+<li>Try one of the buttons (such as “Liveness”) to begin testing.</li>
+</ol>
+<h3 id='test-out-key-scenarios' class='heading'>Test out key scenarios</h3>
+<h4 id='liveness' class='heading'>Liveness</h4>
+
+<ol>
+<li>Tap &ldquo;Liveness&rdquo; then &ldquo;Start&rdquo; and show your face.</li>
+<li>The screen flashes for liveness analysis.</li>
+<li>Observe the Real/Spoof status.</li>
+</ol>
+<h4 id='livenesswithverify' class='heading'>LivenessWithVerify</h4>
+
+<ol>
+<li>Tap &ldquo;LivenessWithVerify&rdquo; then select a reference face image.</li>
+<li>Show your face to the camera.</li>
+<li>Observe the Real/Spoof status, verification status, and confidence score.</li>
+</ol>
+
+          </div>
+        </section>
+
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>&copy; 2025 <a class="link" href="" target="_blank" rel="external noopener"></a>. All rights reserved. (Last updated: 2025-08-14)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.15.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+    </section>
+  </body>
+</html>
