@@ -1,0 +1,54 @@
+{
+  "warnings": [
+    {
+      "file": "build/XCFramework/Release/build/lib/AzureAIVisionFace.xcframework/ios-arm64_arm64e/AzureAIVisionFace.framework/Headers/AZFaceAnalyzedDetails.h",
+      "line": 9,
+      "symbol": "FaceAnalyzedDetails",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "build/XCFramework/Release/build/lib/AzureAIVisionFace.xcframework/ios-arm64_arm64e/AzureAIVisionFace.framework/Headers/AZFaceAnalyzedDetails.h",
+      "line": 10,
+      "symbol": "FaceAnalyzedDetails.faceId",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "build/XCFramework/Release/build/lib/AzureAIVisionFace.xcframework/ios-arm64_arm64e/AzureAIVisionFace.framework/Headers/AZFaceAnalyzedDetails.h",
+      "line": 11,
+      "symbol": "FaceAnalyzedDetails.digest",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.property",
+      "warning": "undocumented"
+    },
+    {
+      "file": "build/XCFramework/Release/build/lib/AzureAIVisionFace.xcframework/ios-arm64_arm64e/AzureAIVisionFace.framework/Headers/AZFaceAnalyzer.h",
+      "line": 21,
+      "symbol": "FaceAnalyzingEventHandler",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "warning": "undocumented"
+    },
+    {
+      "file": "build/XCFramework/Release/build/lib/AzureAIVisionFace.xcframework/ios-arm64_arm64e/AzureAIVisionFace.framework/Headers/AZFaceAnalyzer.h",
+      "line": 26,
+      "symbol": "FaceAnalyzedEventHandler",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "warning": "undocumented"
+    },
+    {
+      "file": "build/XCFramework/Release/build/lib/AzureAIVisionFace.xcframework/ios-arm64_arm64e/AzureAIVisionFace.framework/Headers/AZFaceAnalyzer.h",
+      "line": 31,
+      "symbol": "FaceSessionStartedEventHandler",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "warning": "undocumented"
+    },
+    {
+      "file": "build/XCFramework/Release/build/lib/AzureAIVisionFace.xcframework/ios-arm64_arm64e/AzureAIVisionFace.framework/Headers/AZFaceAnalyzer.h",
+      "line": 35,
+      "symbol": "FaceSessionStoppedEventHandler",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/runner/work/1/s"
+}
