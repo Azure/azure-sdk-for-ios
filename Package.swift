@@ -42,11 +42,11 @@ let package = Package(
         .package(url: "https://github.com/AzureAD/microsoft-authentication-library-for-objc.git", from: "1.0.0")
     ],
     targets: [
-        .target(name: "AzureCore", dependencies: [], path: "AzureCore", sources: ["Source"]),
-        .target(name: "AzureAppConfiguration", dependencies: ["AzureCore"], path: "AzureAppConfiguration", sources: ["Source"]),
-        .target(name: "AzureCSComputerVision", dependencies: ["AzureCore"], path: "AzureCSComputerVision", sources: ["Source"]),
-        .target(name: "AzureCSTextAnalytics", dependencies: ["AzureCore"], path: "AzureCSTextAnalytics", sources: ["Source"]),
-        .target(name: "AzureStorageBlob", dependencies: ["AzureCore", "MSAL"], path: "AzureStorageBlob", sources: ["Source"])
+        .target(name: "AzureCore", dependencies: [], path: "sdk/core/AzureCore", sources: ["Source"]),
+        .target(name: "AzureAppConfiguration", dependencies: ["AzureCore"], path: "sdk/appconfiguration/AzureAppConfiguration", sources: ["Source"]),
+        .target(name: "AzureCSComputerVision", dependencies: ["AzureCore"], path: "sdk/cognitiveservices/AzureCSComputerVision", sources: ["Source"]),
+        .target(name: "AzureCSTextAnalytics", dependencies: ["AzureCore"], path: "sdk/textanalytics/AzureCSTextAnalytics", sources: ["Source"]),
+        .target(name: "AzureStorageBlob", dependencies: ["AzureCore", "MSAL"], path: "sdk/storage/AzureStorageBlob", sources: ["Source"])
     ],
     swiftLanguageVersions: [5]
 )

@@ -11,7 +11,6 @@
 		0A686493233E834D004B7E17 /* AzureStorageBlob.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A686489233E834D004B7E17 /* AzureStorageBlob.framework */; };
 		0A686498233E834D004B7E17 /* AzureStorageBlobTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A686497233E834D004B7E17 /* AzureStorageBlobTests.swift */; };
 		0A6864A5233E8366004B7E17 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A6864A4233E8366004B7E17 /* AzureCore.framework */; };
-		0A6864A6233E8366004B7E17 /* AzureCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0A6864A4233E8366004B7E17 /* AzureCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0A6864AA233E83B5004B7E17 /* StorageBlobClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6864A9233E83B5004B7E17 /* StorageBlobClient.swift */; };
 		0A6864AF233E8620004B7E17 /* StorageCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6864AE233E8620004B7E17 /* StorageCredentials.swift */; };
 		0A6864B0233E8797004B7E17 /* AzureStorageBlob.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A68648C233E834D004B7E17 /* AzureStorageBlob.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -45,7 +44,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0A6864A6233E8366004B7E17 /* AzureCore.framework in Embed Frameworks */,
 				0A25EA4C2398121A0012DFE1 /* (null) in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
