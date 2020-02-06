@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>ChatThreadClient Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+    <a name="//apple_ref/swift/Class/ChatThreadClient" class="dashAnchor"></a>
+
+    <a title="ChatThreadClient Class Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="../index.html">
+          AzureCommunicationChat 1.3.1 Docs
+        </a>
+         (88% documented)
+      </p>
+    
+      <div class="header-col--secondary">
+        <form role="search" action="../search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </div>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/Azure/azure-sdk-for-ios">
+            <img class="header-icon" src="../img/gh.png" alt="GitHub"/>
+            View on GitHub
+          </a>
+        </p>
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="../index.html">AzureCommunicationChat Reference</a>
+      <img class="carat" src="../img/carat.png" alt=""/>
+      ChatThreadClient Class Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/AppGroupPushNotificationKeyStorage.html">AppGroupPushNotificationKeyStorage</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/BaseChatEvent.html">BaseChatEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/BaseChatMessageEvent.html">BaseChatMessageEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/BaseChatThreadEvent.html">BaseChatThreadEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/ChatClient.html">ChatClient</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/ChatError.html">ChatError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/ChatMessageDeletedEvent.html">ChatMessageDeletedEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/ChatMessageEditedEvent.html">ChatMessageEditedEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/ChatMessageReceivedEvent.html">ChatMessageReceivedEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/ChatThreadClient.html">ChatThreadClient</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/ChatThreadCreatedEvent.html">ChatThreadCreatedEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/ChatThreadDeletedEvent.html">ChatThreadDeletedEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/ChatThreadPropertiesUpdatedEvent.html">ChatThreadPropertiesUpdatedEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/ParticipantsAddedEvent.html">ParticipantsAddedEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/ParticipantsRemovedEvent.html">ParticipantsRemovedEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/PushNotificationChatMessageEvent.html">PushNotificationChatMessageEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/PushNotificationChatMessageReceivedEvent.html">PushNotificationChatMessageReceivedEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/ReadReceiptReceivedEvent.html">ReadReceiptReceivedEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/TypingIndicatorReceivedEvent.html">TypingIndicatorReceivedEvent</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/ChatEventId.html">ChatEventId</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/ChatMessageType.html">ChatMessageType</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/CommunicationCloudEnvironmentModel.html">CommunicationCloudEnvironmentModel</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/CommunicationSignalingError.html">CommunicationSignalingError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/PushNotificationChatEventType.html">PushNotificationChatEventType</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/PushNotificationEvent.html">PushNotificationEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/TrouterEvent.html">TrouterEvent</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/PushNotificationKeyStorage.html">PushNotificationKeyStorage</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/AddChatParticipantsOptions.html">AddChatParticipantsOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/AddChatParticipantsResult.html">AddChatParticipantsResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/AzureCommunicationChatClientOptions.html">AzureCommunicationChatClientOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/AzureCommunicationChatClientOptions/ApiVersion.html">– ApiVersion</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ChatMessage.html">ChatMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ChatMessageContent.html">ChatMessageContent</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ChatMessageReadReceipt.html">ChatMessageReadReceipt</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ChatMessageReadReceiptsCollection.html">ChatMessageReadReceiptsCollection</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ChatMessagesCollection.html">ChatMessagesCollection</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ChatParticipant.html">ChatParticipant</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ChatParticipantsCollection.html">ChatParticipantsCollection</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ChatThreadItem.html">ChatThreadItem</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ChatThreadProperties.html">ChatThreadProperties</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ChatThreadsItemCollection.html">ChatThreadsItemCollection</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/CommunicationErrorResponse.html">CommunicationErrorResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/CommunicationUserIdentifierModel.html">CommunicationUserIdentifierModel</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/CreateChatThreadOptions.html">CreateChatThreadOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/CreateChatThreadRequest.html">CreateChatThreadRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/CreateChatThreadResult.html">CreateChatThreadResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/DeleteChatMessageOptions.html">DeleteChatMessageOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/DeleteChatThreadOptions.html">DeleteChatThreadOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/GetChatMessageOptions.html">GetChatMessageOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/GetChatThreadPropertiesOptions.html">GetChatThreadPropertiesOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ListChatMessagesOptions.html">ListChatMessagesOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ListChatParticipantsOptions.html">ListChatParticipantsOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ListChatReadReceiptsOptions.html">ListChatReadReceiptsOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ListChatThreadsOptions.html">ListChatThreadsOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/MicrosoftTeamsUserIdentifierModel.html">MicrosoftTeamsUserIdentifierModel</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/PhoneNumberIdentifierModel.html">PhoneNumberIdentifierModel</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/RemoveChatParticipantOptions.html">RemoveChatParticipantOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/SendChatMessageOptions.html">SendChatMessageOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/SendChatMessageRequest.html">SendChatMessageRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/SendChatMessageResult.html">SendChatMessageResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/SendChatReadReceiptOptions.html">SendChatReadReceiptOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/SendReadReceiptRequest.html">SendReadReceiptRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/SendTypingNotificationOptions.html">SendTypingNotificationOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/SendTypingNotificationRequest.html">SendTypingNotificationRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/SignalingChatParticipant.html">SignalingChatParticipant</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/SignalingChatThreadProperties.html">SignalingChatThreadProperties</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/UpdateChatMessageOptions.html">UpdateChatMessageOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/UpdateChatMessageRequest.html">UpdateChatMessageRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/UpdateChatThreadPropertiesOptions.html">UpdateChatThreadPropertiesOptions</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:22AzureCommunicationChat0B21SignalingErrorHandlera">CommunicationSignalingErrorHandler</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:22AzureCommunicationChat19TrouterEventHandlera">TrouterEventHandler</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content top-matter">
+            <h1>ChatThreadClient</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">ChatThreadClient</span></code></pre>
+
+                </div>
+              </div>
+            <p>Undocumented</p>
+
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-content">
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Properties"></a>
+                <a name="//apple_ref/swift/Section/Properties" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Properties"></a>
+                  <h3 class="section-name"><span>Properties</span>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:22AzureCommunicationChat0C12ThreadClientC8threadIdSSvp"></a>
+                    <a name="//apple_ref/swift/Property/threadId" class="dashAnchor"></a>
+                    <a class="token" href="#/s:22AzureCommunicationChat0C12ThreadClientC8threadIdSSvp">threadId</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">threadId</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Initializers"></a>
+                <a name="//apple_ref/swift/Section/Initializers" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Initializers"></a>
+                  <h3 class="section-name"><span>Initializers</span>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:22AzureCommunicationChat0C12ThreadClientC8endpoint10credential8threadId11withOptionsACSS_0aB6Common0B15TokenCredentialCSSAA0abceK0VtKcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(endpoint:credential:threadId:withOptions:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:22AzureCommunicationChat0C12ThreadClientC8endpoint10credential8threadId11withOptionsACSS_0aB6Common0B15TokenCredentialCSSAA0abceK0VtKcfc">init(endpoint:<wbr>credential:<wbr>threadId:<wbr>withOptions:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create a ChatThreadClient.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span>
+    <span class="nv">endpoint</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+    <span class="nv">credential</span><span class="p">:</span> <span class="kt">CommunicationTokenCredential</span><span class="p">,</span>
+    <span class="nv">threadId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+    <span class="n">withOptions</span> <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/AzureCommunicationChatClientOptions.html">AzureCommunicationChatClientOptions</a></span>
+<span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>endpoint</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The Communication Services endpoint.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>credential</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The user credential.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>threadId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The chat thread id.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Options used to configure the client.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Public%20Methods"></a>
+                <a name="//apple_ref/swift/Section/Public Methods" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Public%20Methods"></a>
+                  <h3 class="section-name"><span>Public Methods</span>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:22AzureCommunicationChat0C12ThreadClientC13getProperties11withOptions17completionHandleryAA03GetcdgI0VSg_ys6ResultOyAA0cdG0V0A4Core0A5ErrorOG_AN12HTTPResponseCSgtctF"></a>
+                    <a name="//apple_ref/swift/Method/getProperties(withOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:22AzureCommunicationChat0C12ThreadClientC13getProperties11withOptions17completionHandleryAA03GetcdgI0VSg_ys6ResultOyAA0cdG0V0A4Core0A5ErrorOG_AN12HTTPResponseCSgtctF">getProperties(withOptions:<wbr>completionHandler:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the ChatThreadProperties for the chat thread.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">getProperties</span><span class="p">(</span>
+    <span class="n">withOptions</span> <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/GetChatThreadPropertiesOptions.html">GetChatThreadPropertiesOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+    <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">HTTPResultHandler</span><span class="o">&lt;</span><span class="kt"><a href="../Structs/ChatThreadProperties.html">ChatThreadProperties</a></span><span class="o">&gt;</span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Get chat thread options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A completion handler that receives the chat thread properties on success.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:22AzureCommunicationChat0C12ThreadClientC6update5topic11withOptions17completionHandlerySS_AA06Updatecd10PropertiesI0VSgys6ResultOyyt0A4Core0A5ErrorOG_AM12HTTPResponseCSgtctF"></a>
+                    <a name="//apple_ref/swift/Method/update(topic:withOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:22AzureCommunicationChat0C12ThreadClientC6update5topic11withOptions17completionHandlerySS_AA06Updatecd10PropertiesI0VSgys6ResultOyyt0A4Core0A5ErrorOG_AM12HTTPResponseCSgtctF">update(topic:<wbr>withOptions:<wbr>completionHandler:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Updates the ChatThread&rsquo;s topic.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">update</span><span class="p">(</span>
+    <span class="nv">topic</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+    <span class="n">withOptions</span> <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/UpdateChatThreadPropertiesOptions.html">UpdateChatThreadPropertiesOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+    <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">HTTPResultHandler</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>topic</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The topic.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Update chat thread options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A completion handler that receives a status code on success.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:22AzureCommunicationChat0C12ThreadClientC15sendReadReceipt10forMessage11withOptions17completionHandlerySS_AA04SendcghL0VSgys6ResultOyyt0A4Core0A5ErrorOG_AM12HTTPResponseCSgtctF"></a>
+                    <a name="//apple_ref/swift/Method/sendReadReceipt(forMessage:withOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:22AzureCommunicationChat0C12ThreadClientC15sendReadReceipt10forMessage11withOptions17completionHandlerySS_AA04SendcghL0VSgys6ResultOyyt0A4Core0A5ErrorOG_AM12HTTPResponseCSgtctF">sendReadReceipt(forMessage:<wbr>withOptions:<wbr>completionHandler:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sends a read receipt.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">sendReadReceipt</span><span class="p">(</span>
+    <span class="n">forMessage</span> <span class="nv">messageId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+    <span class="n">withOptions</span> <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/SendChatReadReceiptOptions.html">SendChatReadReceiptOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+    <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">HTTPResultHandler</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>messageId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The id of the message to send a read receipt for.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Send read receipt options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A completion handler that receives a status code on success.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:22AzureCommunicationChat0C12ThreadClientC16listReadReceipts11withOptions17completionHandleryAA04ListcghJ0VSg_ys6ResultOy0A4Core15PagedCollectionCyAA0c7MessageG7ReceiptVGAL0A5ErrorOG_AL12HTTPResponseCSgtctF"></a>
+                    <a name="//apple_ref/swift/Method/listReadReceipts(withOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:22AzureCommunicationChat0C12ThreadClientC16listReadReceipts11withOptions17completionHandleryAA04ListcghJ0VSg_ys6ResultOy0A4Core15PagedCollectionCyAA0c7MessageG7ReceiptVGAL0A5ErrorOG_AL12HTTPResponseCSgtctF">listReadReceipts(withOptions:<wbr>completionHandler:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Lists read receipts for the ChatThread.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">listReadReceipts</span><span class="p">(</span>
+    <span class="n">withOptions</span> <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/ListChatReadReceiptsOptions.html">ListChatReadReceiptsOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+    <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">HTTPResultHandler</span><span class="o">&lt;</span><span class="kt">PagedCollection</span><span class="o">&lt;</span><span class="kt"><a href="../Structs/ChatMessageReadReceipt.html">ChatMessageReadReceipt</a></span><span class="o">&gt;&gt;</span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>List chat read receipts options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A completion handler that receives the list of read receipts on success.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:22AzureCommunicationChat0C12ThreadClientC22sendTypingNotification4from11withOptions17completionHandlerySSSg_AA04SendghK0VSgys6ResultOyyt0A4Core0A5ErrorOG_AN12HTTPResponseCSgtctF"></a>
+                    <a name="//apple_ref/swift/Method/sendTypingNotification(from:withOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:22AzureCommunicationChat0C12ThreadClientC22sendTypingNotification4from11withOptions17completionHandlerySSSg_AA04SendghK0VSgys6ResultOyyt0A4Core0A5ErrorOG_AN12HTTPResponseCSgtctF">sendTypingNotification(from:<wbr>withOptions:<wbr>completionHandler:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sends a typing notification.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">sendTypingNotification</span><span class="p">(</span>
+    <span class="n">from</span> <span class="nv">senderDisplayName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+    <span class="n">withOptions</span> <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/SendTypingNotificationOptions.html">SendTypingNotificationOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+    <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">HTTPResultHandler</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>senderDisplayName</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Display name for the typing notification.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Send typing notification options</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A completion handler that receives a status code on success.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:22AzureCommunicationChat0C12ThreadClientC4send7message11withOptions17completionHandleryAA04SendC14MessageRequestV_AA0lcmI0VSgys6ResultOyAA0lcmO0V0A4Core0A5ErrorOG_AQ12HTTPResponseCSgtctF"></a>
+                    <a name="//apple_ref/swift/Method/send(message:withOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:22AzureCommunicationChat0C12ThreadClientC4send7message11withOptions17completionHandleryAA04SendC14MessageRequestV_AA0lcmI0VSgys6ResultOyAA0lcmO0V0A4Core0A5ErrorOG_AQ12HTTPResponseCSgtctF">send(message:<wbr>withOptions:<wbr>completionHandler:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sends a message to a ChatThread.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">send</span><span class="p">(</span>
+    <span class="nv">message</span><span class="p">:</span> <span class="kt"><a href="../Structs/SendChatMessageRequest.html">SendChatMessageRequest</a></span><span class="p">,</span>
+    <span class="n">withOptions</span> <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/SendChatMessageOptions.html">SendChatMessageOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+    <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">HTTPResultHandler</span><span class="o">&lt;</span><span class="kt"><a href="../Structs/SendChatMessageResult.html">SendChatMessageResult</a></span><span class="o">&gt;</span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>message</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Request that contains the message properties.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A list of options for the operation.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A completion handler that receives a status code on success.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:22AzureCommunicationChat0C12ThreadClientC3get7message11withOptions17completionHandlerySS_AA03Getc7MessageI0VSgys6ResultOyAA0cM0V0A4Core0A5ErrorOG_AO12HTTPResponseCSgtctF"></a>
+                    <a name="//apple_ref/swift/Method/get(message:withOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:22AzureCommunicationChat0C12ThreadClientC3get7message11withOptions17completionHandlerySS_AA03Getc7MessageI0VSgys6ResultOyAA0cM0V0A4Core0A5ErrorOG_AO12HTTPResponseCSgtctF">get(message:<wbr>withOptions:<wbr>completionHandler:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Gets a message by id.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">get</span><span class="p">(</span>
+    <span class="n">message</span> <span class="nv">messageId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+    <span class="n">withOptions</span> <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/GetChatMessageOptions.html">GetChatMessageOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+    <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">HTTPResultHandler</span><span class="o">&lt;</span><span class="kt"><a href="../Structs/ChatMessage.html">ChatMessage</a></span><span class="o">&gt;</span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>messageId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The id of the message to get.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Get chat message options</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A completion handler that receives the chat message on success.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:22AzureCommunicationChat0C12ThreadClientC6update7message10parameters11withOptions17completionHandlerySS_AA06UpdateC14MessageRequestVAA0mcnJ0VSgys6ResultOyyt0A4Core0A5ErrorOG_AP12HTTPResponseCSgtctF"></a>
+                    <a name="//apple_ref/swift/Method/update(message:parameters:withOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:22AzureCommunicationChat0C12ThreadClientC6update7message10parameters11withOptions17completionHandlerySS_AA06UpdateC14MessageRequestVAA0mcnJ0VSgys6ResultOyyt0A4Core0A5ErrorOG_AP12HTTPResponseCSgtctF">update(message:<wbr>parameters:<wbr>withOptions:<wbr>completionHandler:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Updates a message.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">update</span><span class="p">(</span>
+    <span class="n">message</span> <span class="nv">messageId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+    <span class="nv">parameters</span><span class="p">:</span> <span class="kt"><a href="../Structs/UpdateChatMessageRequest.html">UpdateChatMessageRequest</a></span><span class="p">,</span>
+    <span class="n">withOptions</span> <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/UpdateChatMessageOptions.html">UpdateChatMessageOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+    <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">HTTPResultHandler</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>message</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The message id.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>parameters</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The UpdateChatMessageRequest.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Update chat message options</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A completion handler that receives a status code on success.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:22AzureCommunicationChat0C12ThreadClientC6delete7message7options17completionHandlerySS_AA06DeleteC14MessageOptionsVSgys6ResultOyyt0A4Core0A5ErrorOG_AM12HTTPResponseCSgtctF"></a>
+                    <a name="//apple_ref/swift/Method/delete(message:options:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:22AzureCommunicationChat0C12ThreadClientC6delete7message7options17completionHandlerySS_AA06DeleteC14MessageOptionsVSgys6ResultOyyt0A4Core0A5ErrorOG_AM12HTTPResponseCSgtctF">delete(message:<wbr>options:<wbr>completionHandler:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Deletes a message.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span>
+    <span class="n">message</span> <span class="nv">messageId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+    <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/DeleteChatMessageOptions.html">DeleteChatMessageOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+    <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">HTTPResultHandler</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>messageId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The message id.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Delete chat message options</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A completion handler that receives a status code on success.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:22AzureCommunicationChat0C12ThreadClientC12listMessages11withOptions17completionHandleryAA04ListcgI0VSg_ys6ResultOy0A4Core15PagedCollectionCyAA0C7MessageVGAL0A5ErrorOG_AL12HTTPResponseCSgtctF"></a>
+                    <a name="//apple_ref/swift/Method/listMessages(withOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:22AzureCommunicationChat0C12ThreadClientC12listMessages11withOptions17completionHandleryAA04ListcgI0VSg_ys6ResultOy0A4Core15PagedCollectionCyAA0C7MessageVGAL0A5ErrorOG_AL12HTTPResponseCSgtctF">listMessages(withOptions:<wbr>completionHandler:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Gets a list of messages from a ChatThread.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">listMessages</span><span class="p">(</span>
+    <span class="n">withOptions</span> <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/ListChatMessagesOptions.html">ListChatMessagesOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+    <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">HTTPResultHandler</span><span class="o">&lt;</span><span class="kt">PagedCollection</span><span class="o">&lt;</span><span class="kt"><a href="../Structs/ChatMessage.html">ChatMessage</a></span><span class="o">&gt;&gt;</span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>List messages options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A completion handler that receives the list of messages on success.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:22AzureCommunicationChat0C12ThreadClientC3add12participants11withOptions17completionHandlerySayAA0C11ParticipantVG_AA03Addc12ParticipantsI0VSgys6ResultOyAA0mcnO0V0A4Core0A5ErrorOG_AR12HTTPResponseCSgtctF"></a>
+                    <a name="//apple_ref/swift/Method/add(participants:withOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:22AzureCommunicationChat0C12ThreadClientC3add12participants11withOptions17completionHandlerySayAA0C11ParticipantVG_AA03Addc12ParticipantsI0VSgys6ResultOyAA0mcnO0V0A4Core0A5ErrorOG_AR12HTTPResponseCSgtctF">add(participants:<wbr>withOptions:<wbr>completionHandler:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Adds participants to a ChatThread. If the participants already exist, no change occurs.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">add</span><span class="p">(</span>
+    <span class="nv">participants</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Structs/ChatParticipant.html">ChatParticipant</a></span><span class="p">],</span>
+    <span class="n">withOptions</span> <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/AddChatParticipantsOptions.html">AddChatParticipantsOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+    <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">HTTPResultHandler</span><span class="o">&lt;</span><span class="kt"><a href="../Structs/AddChatParticipantsResult.html">AddChatParticipantsResult</a></span><span class="o">&gt;</span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>participants</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An array of chat participants to add.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Add chat participants options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A completion handler that receives a status code on success.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:22AzureCommunicationChat0C12ThreadClientC6remove11participant11withOptions17completionHandlery0aB6Common0B10Identifier_p_AA06Removec11ParticipantI0VSgys6ResultOyyt0A4Core0A5ErrorOG_AO12HTTPResponseCSgtctF"></a>
+                    <a name="//apple_ref/swift/Method/remove(participant:withOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:22AzureCommunicationChat0C12ThreadClientC6remove11participant11withOptions17completionHandlery0aB6Common0B10Identifier_p_AA06Removec11ParticipantI0VSgys6ResultOyyt0A4Core0A5ErrorOG_AO12HTTPResponseCSgtctF">remove(participant:<wbr>withOptions:<wbr>completionHandler:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Removes a participant from the thread.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">remove</span><span class="p">(</span>
+    <span class="n">participant</span> <span class="nv">participantIdentifier</span><span class="p">:</span> <span class="kt">CommunicationIdentifier</span><span class="p">,</span>
+    <span class="n">withOptions</span> <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/RemoveChatParticipantOptions.html">RemoveChatParticipantOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+    <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">HTTPResultHandler</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>participantIdentifier</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Identifier of the participant to remove.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Remove participant options</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A completion handler that receives a status code on success.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:22AzureCommunicationChat0C12ThreadClientC16listParticipants11withOptions17completionHandleryAA04ListcgI0VSg_ys6ResultOy0A4Core15PagedCollectionCyAA0C11ParticipantVGAL0A5ErrorOG_AL12HTTPResponseCSgtctF"></a>
+                    <a name="//apple_ref/swift/Method/listParticipants(withOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:22AzureCommunicationChat0C12ThreadClientC16listParticipants11withOptions17completionHandleryAA04ListcgI0VSg_ys6ResultOy0A4Core15PagedCollectionCyAA0C11ParticipantVGAL0A5ErrorOG_AL12HTTPResponseCSgtctF">listParticipants(withOptions:<wbr>completionHandler:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Gets the participants of the thread.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">listParticipants</span><span class="p">(</span>
+    <span class="n">withOptions</span> <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/ListChatParticipantsOptions.html">ListChatParticipantsOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+    <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">HTTPResultHandler</span><span class="o">&lt;</span><span class="kt">PagedCollection</span><span class="o">&lt;</span><span class="kt"><a href="../Structs/ChatParticipant.html">ChatParticipant</a></span><span class="o">&gt;&gt;</span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>List chat participants options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A completion handler that receives the list of members on success.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>&copy; 2023 <a class="link" href="https://azure.github.io/azure-sdk/" target="_blank" rel="external noopener">Microsoft</a>. All rights reserved. (Last updated: 2023-03-31)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+    </section>
+  </body>
+</html>
