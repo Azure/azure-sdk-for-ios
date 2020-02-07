@@ -27,6 +27,8 @@
 import AzureCore
 import Foundation
 
+// swiftlint:disable function_body_length
+
 internal enum SASConstant: String {
     case signedSignature = "sig"
     case signedPermission = "sp"
@@ -129,7 +131,7 @@ public class BlobSharedAccessSignature {
         queryDict.addQuery(key: SASConstant.signedStart, value: options.start)
         queryDict.addQuery(key: SASConstant.signedExpiry, value: options.expiry)
         queryDict.addQuery(key: SASConstant.signedPermission, value: options.permission)
-        queryDict.addQuery(key: SASConstant.signedIP, value: options.ip)
+        queryDict.addQuery(key: SASConstant.signedIP, value: options.ipAddress)
         queryDict.addQuery(key: SASConstant.signedProtocol, value: options.protocol)
         // TODO: This comes from the client.
         // queryDict.addQuery(key: SASConstant.signedVersion.rawValue, value: self.options.apiVersion)

@@ -27,6 +27,8 @@
 import AzureCore
 import Foundation
 
+// swiftlint:disable function_body_length
+
 /**
  Client object for the Storage blob service.
  */
@@ -117,8 +119,9 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
 
     /**
      Create a Storage blob data client.
-     - Parameter connectionString: Storage account connection string. **WARNING**: Connection strings
-     are inherently insecure in a mobile app. Any connection strings used should be read-only and not have write permissions.
+     - Parameter connectionString: Storage account connection string. **WARNING**: Connection strings are inherently
+                                   insecure in a mobile app. Any connection strings used should be read-only and not
+                                   have write permissions.
      - Parameter options: A `StorageBlobClientOptions` object to control the download.
      - Returns: A `StorageBlobClient` object.
      */
@@ -152,7 +155,8 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
     /**
      List storage containers in a storage account.
      - Parameter options: A `ListContainerOptions` object to control the list operation.
-     - Parameter completion: An `HTTPResultHandler` closure that returns a `PagedCollection<ContainerItem>` object on success.
+     - Parameter completion: An `HTTPResultHandler` closure that returns a `PagedCollection<ContainerItem>` object on
+                             success.
      */
     public func listContainers(
         withOptions options: ListContainersOptions? = nil,
@@ -231,7 +235,8 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
     /**
      List storage blobs within a storage container.
      - Parameter options: A `ListBlobsOptions` object to control the list operation.
-     - Parameter completion: An `HTTPResultHandler` closure that returns a `PagedCollection<BlobItem>` object on success.
+     - Parameter completion: An `HTTPResultHandler` closure that returns a `PagedCollection<BlobItem>` object on
+                             success.
      */
     public func listBlobs(
         in container: String,

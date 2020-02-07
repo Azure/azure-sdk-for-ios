@@ -100,21 +100,23 @@ public class AppConfigurationClient: PipelineClient {
         let request = HTTPRequest(method: .get, url: url, headers: headers)
         request.add(queryParams: queryParams)
         self.request(request, context: nil) { result, httpResponse in
-            //        header_dict = {}
-            //        deserialized = None
-            //        if response.status_code == 200:
-            //            deserialized = self._deserialize('ListContainersSegmentResponse', response)
-            //            header_dict = {
-            //                'x-ms-client-request-id': self._deserialize('str', response.headers.get('x-ms-client-request-id')),
-            //                'x-ms-request-id': self._deserialize('str', response.headers.get('x-ms-request-id')),
-            //                'x-ms-version': self._deserialize('str', response.headers.get('x-ms-version')),
-            //                'x-ms-error-code': self._deserialize('str', response.headers.get('x-ms-error-code')),
-            //            }
-            //
-            //        if cls:
-            //            return cls(response, deserialized, header_dict)
-            //
-            //        return deserialized
+            /*
+             header_dict = {}
+             deserialized = None
+             if response.status_code == 200:
+                 deserialized = self._deserialize('ListContainersSegmentResponse', response)
+                 header_dict = {
+                     'x-ms-client-request-id': self._deserialize('str', response.headers.get('x-ms-client-request-id')),
+                     'x-ms-request-id': self._deserialize('str', response.headers.get('x-ms-request-id')),
+                     'x-ms-version': self._deserialize('str', response.headers.get('x-ms-version')),
+                     'x-ms-error-code': self._deserialize('str', response.headers.get('x-ms-error-code')),
+                 }
+
+             if cls:
+                 return cls(response, deserialized, header_dict)
+
+             return deserialized
+             */
             switch result {
             case let .success(data):
                 let codingKeys = PagedCodingKeys(continuationToken: "@nextLink")

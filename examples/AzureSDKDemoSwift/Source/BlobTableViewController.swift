@@ -33,6 +33,9 @@ import AVKit
 import AVFoundation
 import UIKit
 
+// swiftlint:disable function_body_length
+// swiftlint:disable cyclomatic_complexity
+
 class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
     internal var containerName: String! = "videos"
     private var dataSource: PagedCollection<BlobItem>?
@@ -112,7 +115,8 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
             fatalError("No data found to construct cell.")
         }
         let cellIdentifier = "CustomTableViewCell"
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? CustomTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
+            as? CustomTableViewCell else {
             fatalError("The dequeued cell is not an instance of CustomTableViewCell")
         }
         // configure the cell

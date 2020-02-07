@@ -1,6 +1,2 @@
 disabled_rules: # rule identifiers to exclude from running
-  - line_length
-  - identifier_name
-  - todo
-  - function_body_length
-  - file_length
+  - large_tuple

@@ -27,6 +27,8 @@
 import Foundation
 import os.log
 
+public typealias Continuation<T> = (Result<T, Error>) -> Void
+
 /// Protocol which allows clients to customize how they work with Paged Collections.
 public protocol PagedCollectionDelegate: AnyObject {
     // MARK: Required Methods
@@ -163,7 +165,7 @@ public class PagedCollection<SingleElement: Codable>: PagedCollectionDelegate {
     // MARK: Public Methods
 
     /// Retrieves the next page of results asynchronously.
-    public func nextPage(then completion: @escaping (Result<Element?, Error>) -> Void) {
+    public func nextPage(then completion: @escaping Continuation<Element?>) {
         // exit if there is no valid continuation token
         guard let continuationToken = continuationToken else {
             completion(.success(nil))
@@ -214,7 +216,7 @@ public class PagedCollection<SingleElement: Codable>: PagedCollectionDelegate {
     }
 
     /// Retrieves the next item in the collection, automatically fetching new pages when needed.
-    public func nextItem(then completion: @escaping (Result<SingleElement?, Error>) -> Void) {
+    public func nextItem(then completion: @escaping Continuation<SingleElement?>) {
         guard let pageItems = pageItems else {
             completion(.success(nil))
             return

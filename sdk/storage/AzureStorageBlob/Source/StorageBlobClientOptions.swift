@@ -199,7 +199,7 @@ public class BlobSasOptions {
      For example, specifying ip=168.1.5.65 or ip=168.1.5.60-168.1.5.70 on the SAS
      restricts the request to those IP addresses.
      */
-    public var ip: String?
+    public var ipAddress: String?
 
     /**
      Specifies the protocol permitted for a request made. The default value is https.

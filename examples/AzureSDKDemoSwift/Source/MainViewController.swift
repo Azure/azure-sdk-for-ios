@@ -122,7 +122,8 @@ class MainViewController: UITableViewController, MSALInteractiveDelegate {
             fatalError("No data found to construct cell.")
         }
         let cellIdentifier = "CustomTableViewCell"
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? CustomTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
+            as? CustomTableViewCell else {
             fatalError("The dequeued cell is not an instance of CustomTableViewCell")
         }
         // configure the cell

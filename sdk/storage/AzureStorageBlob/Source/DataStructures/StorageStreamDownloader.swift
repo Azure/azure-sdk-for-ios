@@ -24,6 +24,10 @@
 //
 // --------------------------------------------------------------------------
 
+// swiftlint:disable file_length
+// swiftlint:disable function_body_length
+// swiftlint:disable cyclomatic_complexity
+
 import AzureCore
 import Foundation
 
@@ -86,7 +90,7 @@ internal class ChunkDownloader {
     /// - Parameters:
     ///   - requestId: Unique request ID (GUID) for the operation.
     ///   - completion: A completion handler that forwards the downloaded data.
-    public func download(requestId: String? = nil, completion: @escaping (Result<Data, Error>, HTTPResponse) -> Void) {
+    public func download(requestId: String? = nil, completion: @escaping HTTPResultHandler<Data>) {
         // Construct URL
         let urlTemplate = "/{container}/{blob}"
         let pathParams = [
@@ -332,7 +336,7 @@ public class BlobStreamDownloader {
     /// - Parameters:
     ///   - group: An optional `DispatchGroup` to wait for the download to complete.
     ///   - completion: A completion handler with which to process the downloaded chunk.
-    public func next(inGroup group: DispatchGroup? = nil, then _: (Result<Data, Error>, HTTPResponse) -> Void) {
+    public func next(inGroup group: DispatchGroup? = nil, then completion: HTTPResultHandler<Data>) {
         // TODO: Fix not calling completion handler
         guard !isComplete else { return }
         let range = blockList.removeFirst()
@@ -363,7 +367,7 @@ public class BlobStreamDownloader {
 
     /// Make the initial request for blob data.
     /// - Parameter completion: A completion handler with which to process the downloaded chunk.
-    public func initialRequest(then completion: @escaping (Result<Data, Error>, HTTPResponse) -> Void) {
+    public func initialRequest(then completion: @escaping HTTPResultHandler<Data>) {
         let firstRange = blockList.remove(at: 0)
         let downloader = ChunkDownloader(
             blob: blobName,

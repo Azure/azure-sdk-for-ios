@@ -58,7 +58,7 @@ class TextAnalyticsClientCredentials: NSObject {
             self.credentials = credentials
         }
 
-        func setAuthenticationHeaders(forRequest _: inout URLRequest) {
+        func setAuthenticationHeaders(forRequest request: inout URLRequest) {
             // TODO: Update for AzureCore
             // request.addValue(self.credentials.key, forHTTPHeaderField: HTTPHeader.ocpApimSubscriptionKey.rawValue)
         }
