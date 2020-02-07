@@ -133,16 +133,6 @@ public class DownloadBlobOptions: AzureOptions {
     /// The number of parallel connections with which to download.
     public var maxConcurrency: Int?
 
-    /**
-     A closure callback that will be called for each successful chunk download.
-
-     **Closure Parameters**
-     - cumulative: `Int` representing the cumulative number of bytes that have been downloaded.
-     - total: `Int` representing the total number of bytes requested.
-     - data: `Data` contents of the downloaded chunk.
-     */
-    public var progressCallback: ((Int, Int, Data) -> Void)?
-
     /// Encoding with which to decode the downloaded bytes. If nil, no decoding occurs.
     public var encoding: String?
 
