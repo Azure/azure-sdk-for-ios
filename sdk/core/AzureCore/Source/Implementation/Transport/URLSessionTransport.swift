@@ -32,7 +32,6 @@ public enum URLSessionTransportError: Error {
 }
 
 public class URLSessionTransport: HTTPTransportStage {
-
     // MARK: Properties
 
     private var session: URLSession?
@@ -54,8 +53,8 @@ public class URLSessionTransport: HTTPTransportStage {
     // MARK: Initializers
 
     public init() {
-        config = URLSessionConfiguration.default
-        operationQueue = OperationQueue()
+        self.config = URLSessionConfiguration.default
+        self.operationQueue = OperationQueue()
         operationQueue.name = "com.domain.AzureCore.networkQueue"
     }
 
@@ -76,16 +75,19 @@ public class URLSessionTransport: HTTPTransportStage {
 
     // MARK: PipelineStage Methods
 
-    public func process(request pipelineRequest: PipelineRequest,
-                        then completion: @escaping PipelineStageResultHandler) {
+    public func process(
+        request pipelineRequest: PipelineRequest,
+        then completion: @escaping PipelineStageResultHandler
+    ) {
         open()
         guard let session = self.session else {
             pipelineRequest.logger.error("Invalid session.")
             return
         }
-        guard let encodedUrl = URL(string: pipelineRequest.httpRequest.url.addingPercentEncoding(
-            withAllowedCharacters: .urlQueryAllowed)) else {
-                fatalError("Unable to create URL.")
+        guard let encodedUrl = URL(
+            string: pipelineRequest.httpRequest.url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        ) else {
+            fatalError("Unable to create URL.")
         }
         var urlRequest = URLRequest(url: encodedUrl)
         urlRequest.httpMethod = pipelineRequest.httpRequest.httpMethod.rawValue
@@ -102,8 +104,12 @@ public class URLSessionTransport: HTTPTransportStage {
             let httpResponse = URLHTTPResponse(request: httpRequest, response: rawResponse)
             httpResponse.data = data
 
-            let pipelineResponse = PipelineResponse(request: httpRequest, response: httpResponse,
-                                                    logger: logger, context: responseContext)
+            let pipelineResponse = PipelineResponse(
+                request: httpRequest,
+                response: httpResponse,
+                logger: logger,
+                context: responseContext
+            )
             if let error = error {
                 completion(.failure(PipelineError(fromError: error, pipelineResponse: pipelineResponse)), httpResponse)
             } else {

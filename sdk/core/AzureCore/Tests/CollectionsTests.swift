@@ -24,13 +24,12 @@
 //
 // --------------------------------------------------------------------------
 
-import XCTest
 @testable import AzureCore
+import XCTest
 
 // swiftlint:disable force_try identifier_name
 
 class CollectionsTests: XCTestCase {
-
     func load(resource name: String, withExtension ext: String) -> Data {
         let testBundle = Bundle(for: type(of: self))
         let url = testBundle.url(forResource: name, withExtension: ext)
@@ -38,7 +37,6 @@ class CollectionsTests: XCTestCase {
     }
 
     class JsonTestItem: Codable {
-
         let id: Int
         let name: String
         let value: String?
@@ -58,7 +56,8 @@ class CollectionsTests: XCTestCase {
             policies: [
                 UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0")
             ],
-            logger: ClientLoggers.default())
+            logger: ClientLoggers.default()
+        )
         let request = HTTPRequest(method: .get, url: "", headers: [:])
 
         // simulate data received
@@ -70,7 +69,8 @@ class CollectionsTests: XCTestCase {
             client: client,
             request: request,
             data: jsonData,
-            codingKeys: codingKeys)
+            codingKeys: codingKeys
+        )
         // test basics
         XCTAssertEqual(paged.items!.count, 3)
         XCTAssertGreaterThanOrEqual(paged.underestimatedCount, 3)
@@ -80,7 +80,8 @@ class CollectionsTests: XCTestCase {
         // test default continuationUrl. Note that queryParams and requestUrl are irrelevant in the default case.
         var params: [QueryParameter] = [("ref", "123")]
         let continuationUrl = paged.continuationUrl(
-            continuationToken: "testToken", queryParams: &params, requestUrl: "requestUrl")
+            continuationToken: "testToken", queryParams: &params, requestUrl: "requestUrl"
+        )
         XCTAssertEqual(continuationUrl, "\(client.baseUrl)testToken")
     }
 
@@ -92,7 +93,8 @@ class CollectionsTests: XCTestCase {
             policies: [
                 UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0")
             ],
-            logger: ClientLoggers.default())
+            logger: ClientLoggers.default()
+        )
         let request = HTTPRequest(method: .get, url: "", headers: [:])
 
         // simulate data received
@@ -104,7 +106,8 @@ class CollectionsTests: XCTestCase {
             client: client,
             request: request,
             data: jsonData,
-            codingKeys: codingKeys)
+            codingKeys: codingKeys
+        )
         XCTAssertEqual(paged.items!.count, 3)
         XCTAssertEqual(paged.continuationToken, "token")
     }
@@ -116,7 +119,8 @@ class CollectionsTests: XCTestCase {
             policies: [
                 UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0")
             ],
-            logger: ClientLoggers.default())
+            logger: ClientLoggers.default()
+        )
         let request = HTTPRequest(method: .get, url: "", headers: [:])
         // simulate data received
         let data = load(resource: "pagedthings1", withExtension: "json")
@@ -127,7 +131,8 @@ class CollectionsTests: XCTestCase {
             client: client,
             request: request,
             data: jsonData,
-            codingKeys: codingKeys)
+            codingKeys: codingKeys
+        )
 
         let newPageExpectation = expectation(description: "Attempt to retrieve new page.")
         let expectations = [
@@ -136,7 +141,7 @@ class CollectionsTests: XCTestCase {
             expectation(description: "Item 3 retrieved."),
             newPageExpectation
         ]
-        for index in 0..<3 {
+        for index in 0 ..< 3 {
             paged.nextItem { result in
                 switch result {
                 case let .success(item):

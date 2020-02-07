@@ -33,7 +33,11 @@ class CSComputerVisionClient: NSObject {
     let endpoint: URL?
 
     @objc init(withEndpoint endpoint: String, withKey key: String, withRegion region: String?) throws {
-        credential = try CSComputerVisionClientCredentials(withEndpoint: endpoint, withKey: key, withRegion: region)
+        self.credential = try CSComputerVisionClientCredentials(
+            withEndpoint: endpoint,
+            withKey: key,
+            withRegion: region
+        )
         self.endpoint = URL(string: endpoint)
     }
 
@@ -57,7 +61,12 @@ class CSComputerVisionClient: NSObject {
         return strings
     }
 
-    @objc func recognizeText(fromUrl url: URL, withLanauage lang: String, shouldDetectOrientation detectOrientation: Bool, completion: @escaping ([String], NSError?) -> Void) {
+    @objc func recognizeText(
+        fromUrl url: URL,
+        withLanauage lang: String,
+        shouldDetectOrientation detectOrientation: Bool,
+        completion _: @escaping ([String], NSError?) -> Void
+    ) {
         guard endpoint != nil else { return }
 
         let baseUrl = "\(endpoint!)/vision/v2.0/ocr"
@@ -88,7 +97,12 @@ class CSComputerVisionClient: NSObject {
 //        }
     }
 
-    @objc func recognizeText(fromImage image: UIImage, withLanguage lang: String, shouldDetectOrientation detectOrientation: Bool, completion: @escaping ([String], NSError?) -> Void) {
+    @objc func recognizeText(
+        fromImage image: UIImage,
+        withLanguage lang: String,
+        shouldDetectOrientation detectOrientation: Bool,
+        completion _: @escaping ([String], NSError?) -> Void
+    ) {
         guard endpoint != nil else { return }
 
         let baseUrl = "\(endpoint!)/vision/v2.0/ocr"

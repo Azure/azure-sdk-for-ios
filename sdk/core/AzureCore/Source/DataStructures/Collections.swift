@@ -29,7 +29,6 @@ import os.log
 
 /// Protocol which allows clients to customize how they work with Paged Collections.
 public protocol PagedCollectionDelegate: AnyObject {
-
     // MARK: Required Methods
 
     func continuationUrl(continuationToken: String, queryParams: inout [QueryParameter], requestUrl: String) -> String
@@ -37,7 +36,6 @@ public protocol PagedCollectionDelegate: AnyObject {
 
 /// Defines the property keys used to conform to the Azure paging design.
 public struct PagedCodingKeys {
-
     // MARK: Properties
 
     public let items: String
@@ -46,11 +44,14 @@ public struct PagedCodingKeys {
 
     // MARK: Initializers
 
-    public init(items: String = "items", continuationToken: String = "continuationToken",
-                xmlItemName xmlName: String? = nil) {
+    public init(
+        items: String = "items",
+        continuationToken: String = "continuationToken",
+        xmlItemName xmlName: String? = nil
+    ) {
         self.items = items
         self.continuationToken = continuationToken
-        xmlItemName = xmlName
+        self.xmlItemName = xmlName
     }
 
     // MARK: Internal Methods
@@ -90,7 +91,6 @@ public struct PagedCodingKeys {
 
 /// A collection that fetches paged results in a lazy fashion.
 public class PagedCollection<SingleElement: Codable>: PagedCollectionDelegate {
-
     // MARK: Properties
 
     public typealias Element = [SingleElement]
@@ -99,6 +99,7 @@ public class PagedCollection<SingleElement: Codable>: PagedCollectionDelegate {
     public var items: Element? {
         return _items
     }
+
     /// Returns the subset of items that corresponds to the current page.
     public var pageItems: Element? {
         guard let range = pageRange else { return nil }
@@ -140,15 +141,21 @@ public class PagedCollection<SingleElement: Codable>: PagedCollectionDelegate {
 
     // MARK: Initializers
 
-    public init(client: PipelineClient, request: HTTPRequest, data: Data?, codingKeys: PagedCodingKeys? = nil,
-                decoder: JSONDecoder? = nil, delegate: PagedCollectionDelegate? = nil) throws {
+    public init(
+        client: PipelineClient,
+        request: HTTPRequest,
+        data: Data?,
+        codingKeys: PagedCodingKeys? = nil,
+        decoder: JSONDecoder? = nil,
+        delegate: PagedCollectionDelegate? = nil
+    ) throws {
         let noDataError = HTTPResponseError.decode("Response data expected but not found.")
         guard let data = data else { throw noDataError }
         self.client = client
         self.decoder = decoder ?? JSONDecoder()
         self.codingKeys = codingKeys ?? PagedCodingKeys()
-        requestHeaders = request.headers
-        requestUrl = request.url
+        self.requestHeaders = request.headers
+        self.requestUrl = request.url
         self.delegate = delegate
         try update(with: data)
     }
@@ -158,15 +165,24 @@ public class PagedCollection<SingleElement: Codable>: PagedCollectionDelegate {
     /// Retrieves the next page of results asynchronously.
     public func nextPage(then completion: @escaping (Result<Element?, Error>) -> Void) {
         // exit if there is no valid continuation token
-        guard let continuationToken = continuationToken else { completion(.success(nil)); return }
-        guard continuationToken != "" else { completion(.success(nil)); return }
+        guard let continuationToken = continuationToken else {
+            completion(.success(nil))
+            return
+        }
+        guard continuationToken != "" else {
+            completion(.success(nil))
+            return
+        }
 
         let delegate = self.delegate ?? self
 
         client.logger.info(String(format: "Fetching next page with: %@", continuationToken))
         var queryParams = [QueryParameter]()
-        let url = delegate.continuationUrl(continuationToken: continuationToken, queryParams: &queryParams,
-                                           requestUrl: requestUrl)
+        let url = delegate.continuationUrl(
+            continuationToken: continuationToken,
+            queryParams: &queryParams,
+            requestUrl: requestUrl
+        )
         var context: PipelineContext?
         if let xmlType = SingleElement.self as? XMLModel.Type {
             let xmlMap = XMLMap(withPagedCodingKeys: codingKeys, innerType: xmlType)
@@ -231,8 +247,11 @@ public class PagedCollection<SingleElement: Codable>: PagedCollectionDelegate {
     }
 
     /// Format a URL for a paged response using a provided continuation token.
-    public func continuationUrl(continuationToken: String, queryParams _: inout [QueryParameter],
-                                requestUrl _: String) -> String {
+    public func continuationUrl(
+        continuationToken: String,
+        queryParams _: inout [QueryParameter],
+        requestUrl _: String
+    ) -> String {
         return client.url(forTemplate: continuationToken)
     }
 
@@ -251,7 +270,7 @@ public class PagedCollection<SingleElement: Codable>: PagedCollectionDelegate {
 
         let itemData = try JSONSerialization.data(withJSONObject: itemJson)
         let newItems = try decoder.decode(Element.self, from: itemData)
-        if let currentItems = self._items {
+        if let currentItems = _items {
             // append rather than throw away old items
             pageRange = currentItems.count ..< (currentItems.count + newItems.count)
             _items = currentItems + newItems

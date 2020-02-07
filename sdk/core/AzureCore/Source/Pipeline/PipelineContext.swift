@@ -38,7 +38,6 @@ public enum ContextKey: String {
 // MARK: PipelineContextSupporting Protocol
 
 public protocol PipelineContextSupporting {
-
     // MARK: Required Properties
 
     var context: PipelineContext? { get set }
@@ -52,12 +51,11 @@ public protocol PipelineContextSupporting {
 }
 
 extension PipelineContextSupporting {
-
     public mutating func add(value: AnyObject, forKey key: AnyHashable) {
         if let context = self.context {
             return context.add(value: value, forKey: key)
         } else {
-            self.context = PipelineContext.of(keyValues: [key: value])
+            context = PipelineContext.of(keyValues: [key: value])
         }
     }
 
@@ -65,7 +63,7 @@ extension PipelineContextSupporting {
         if let context = self.context {
             return context.add(value: value, forKey: key)
         } else {
-            self.context = PipelineContext.of(keyValues: [key.rawValue: value])
+            context = PipelineContext.of(keyValues: [key.rawValue: value])
         }
     }
 
@@ -81,7 +79,6 @@ extension PipelineContextSupporting {
 // MARK: PipelineContext
 
 public class PipelineContext {
-
     // MARK: Properties
 
     internal var node: PipelineContextNode?
@@ -130,7 +127,6 @@ public class PipelineContext {
 }
 
 internal class PipelineContextNode {
-
     // MARK: Properties
 
     internal let parent: PipelineContextNode?

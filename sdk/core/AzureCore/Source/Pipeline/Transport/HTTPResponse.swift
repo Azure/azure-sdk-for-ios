@@ -27,7 +27,6 @@
 import Foundation
 
 public class HTTPResponse: DataStringConvertible {
-
     // MARK: Properties
 
     public var httpRequest: HTTPRequest?
@@ -173,7 +172,7 @@ public class HTTPResponse: DataStringConvertible {
     // MARK: Initializers
 
     public init(request: HTTPRequest, statusCode: Int?, blockSize: Int = 4096) {
-        httpRequest = request
+        self.httpRequest = request
         self.blockSize = blockSize
         self.statusCode = statusCode
     }

@@ -26,8 +26,7 @@
 
 import Foundation
 
-public protocol Copyable: class {
-
+public protocol Copyable: AnyObject {
     // MARK: Required Initializers
 
     init(copy: Self)
@@ -35,6 +34,6 @@ public protocol Copyable: class {
 
 extension Copyable {
     func copy() -> Self {
-        return Self.init(copy: self)
+        return Self(copy: self)
     }
 }

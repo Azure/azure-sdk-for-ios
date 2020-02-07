@@ -35,7 +35,6 @@ public typealias OnErrorCompletionHandler = (PipelineError, Bool) -> Void
 
 /// Protocol for implementing pipeline stages.
 public protocol PipelineStage {
-
     // MARK: Required Properties
 
     var next: PipelineStage? { get set }
@@ -73,14 +72,19 @@ extension PipelineStage {
     public func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
         completion(request)
     }
+
     public func on(response: PipelineResponse, then completion: @escaping OnResponseCompletionHandler) {
         completion(response)
     }
+
     public func on(error: PipelineError, then completion: @escaping OnErrorCompletionHandler) {
         completion(error, false)
     }
-    public func process(request pipelineRequest: PipelineRequest,
-                        then completion: @escaping PipelineStageResultHandler) {
+
+    public func process(
+        request pipelineRequest: PipelineRequest,
+        then completion: @escaping PipelineStageResultHandler
+    ) {
         on(request: pipelineRequest) { request in
             self.next!.process(request: request) { result, httpResponse in
                 switch result {

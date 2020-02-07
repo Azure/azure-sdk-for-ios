@@ -24,11 +24,10 @@
 //
 // --------------------------------------------------------------------------
 
-import XCTest
 @testable import AzureCore
+import XCTest
 
 class HttpRequestTests: XCTestCase {
-
     func test_HttpRequest_WithQueryString_AppendsToQueryString() {
         let httpRequest = HTTPRequest(method: .post, url: "https://www.test.com?a=1&b=2", headers: [:])
         var query = URLComponents(string: httpRequest.url)!.queryItems!
@@ -37,7 +36,7 @@ class HttpRequestTests: XCTestCase {
         httpRequest.add(queryParams: [("a", "0"), ("c", "3")])
         query = URLComponents(string: httpRequest.url)!.queryItems!
         XCTAssertEqual(query.count, 4, "Failure adding new query string parameters.")
-        let queryItems = query.reduce(into: [String: [String?]]()) { (acc, item) in
+        let queryItems = query.reduce(into: [String: [String?]]()) { acc, item in
             if acc[item.name] == nil { acc[item.name] = [] }
             acc[item.name]!.append(item.value)
         }

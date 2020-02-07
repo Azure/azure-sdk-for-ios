@@ -28,7 +28,6 @@ import Foundation
 
 /// Protocol for baseline options for individual service clients.
 public protocol AzureConfigurable {
-
     // MARK: Required Properties
 
     var apiVersion: String { get }
@@ -38,7 +37,6 @@ public protocol AzureConfigurable {
 
 /// Class containing baseline options for individual client API calls.
 open class AzureOptions {
-
     // MARK: Properties
 
     /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
@@ -48,13 +46,12 @@ open class AzureOptions {
     // MARK: Initializers
 
     public init() {
-        clientRequestId = nil
+        self.clientRequestId = nil
     }
 }
 
 /// Base class for all pipeline-based service clients.
 open class PipelineClient {
-
     // MARK: Properties
 
     internal var pipeline: Pipeline
@@ -63,12 +60,16 @@ open class PipelineClient {
 
     // MARK: Initializers
 
-    public init(baseUrl: String, transport: HTTPTransportStage, policies: [PipelineStage],
-                logger: ClientLogger) {
+    public init(
+        baseUrl: String,
+        transport: HTTPTransportStage,
+        policies: [PipelineStage],
+        logger: ClientLogger
+    ) {
         self.baseUrl = baseUrl
         self.logger = logger
         if self.baseUrl.suffix(1) != "/" { self.baseUrl += "/" }
-        pipeline = Pipeline(transport: transport, policies: policies)
+        self.pipeline = Pipeline(transport: transport, policies: policies)
     }
 
     // MARK: Public Methods
@@ -89,9 +90,11 @@ open class PipelineClient {
         return url
     }
 
-    public func request(_ request: HTTPRequest,
-                        context: PipelineContext?,
-                        then completion: @escaping (Result<Data?, Error>, HTTPResponse) -> Void) {
+    public func request(
+        _ request: HTTPRequest,
+        context: PipelineContext?,
+        then completion: @escaping (Result<Data?, Error>, HTTPResponse) -> Void
+    ) {
         let pipelineRequest = PipelineRequest(request: request, logger: logger, context: context)
         pipeline.run(request: pipelineRequest) { result, httpResponse in
             switch result {
@@ -124,7 +127,7 @@ open class PipelineClient {
         guard let data = data else { return }
         guard let json = try? JSONSerialization.jsonObject(with: data) else { return }
         guard let errorDict = json as? [String: Any] else { return }
-        self.logger.debug {
+        logger.debug {
             var errorStrings = [String]()
             for (key, value) in errorDict {
                 errorStrings.append("\(key): \(value)")

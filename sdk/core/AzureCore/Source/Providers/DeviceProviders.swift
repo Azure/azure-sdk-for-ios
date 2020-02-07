@@ -27,7 +27,6 @@
 import Foundation
 
 public struct DeviceProviders {
-
     // MARK: Static Properties
 
     public static let appBundleInfo: BundleInfoProvider = DeviceBundleInfoProvider(for: Bundle.main)

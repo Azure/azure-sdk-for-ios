@@ -34,11 +34,13 @@ public final class BlobItem: XMLModel {
     public let metadata: [String: String]?
     public let properties: BlobProperties
 
-    public init(name: String,
-                deleted: Bool? = nil,
-                snapshot: Date? = nil,
-                metadata: [String: String]? = nil,
-                properties: BlobProperties? = nil) {
+    public init(
+        name: String,
+        deleted: Bool? = nil,
+        snapshot: Date? = nil,
+        metadata: [String: String]? = nil,
+        properties: BlobProperties? = nil
+    ) {
         self.name = name
         self.deleted = deleted
         self.snapshot = snapshot

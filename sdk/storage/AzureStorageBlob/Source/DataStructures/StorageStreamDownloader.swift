@@ -29,7 +29,6 @@ import Foundation
 
 /// Class used to download an individual data chunk.
 internal class ChunkDownloader {
-
     // MARK: Properties
 
     internal let blobName: String
@@ -63,8 +62,15 @@ internal class ChunkDownloader {
     ///   - startRange: The start point, in bytes, of the download request.
     ///   - endRange: The end point, in bytes, of the download request.
     ///   - options: A `DownloadBlobOptions` object with which to control the download.
-    public init(blob: String, container: String, client: StorageBlobClient, url: URL,
-                startRange: Int, endRange: Int, options: DownloadBlobOptions) {
+    public init(
+        blob: String,
+        container: String,
+        client: StorageBlobClient,
+        url: URL,
+        startRange: Int,
+        endRange: Int,
+        options: DownloadBlobOptions
+    ) {
         self.blobName = blob
         self.containerName = container
         self.client = client
@@ -201,7 +207,6 @@ internal class ChunkDownloader {
 
 /// Class used to download streaming blobs.
 public class BlobStreamDownloader {
-
     // MARK: Public Properties
 
     /// Location of the downloaded blob on the device
@@ -228,7 +233,7 @@ public class BlobStreamDownloader {
 
     /// Indicates if the download is complete.
     public var isComplete: Bool {
-        guard let total = self.requestedSize else { return false }
+        guard let total = requestedSize else { return false }
         return progress == total
     }
 
@@ -254,8 +259,12 @@ public class BlobStreamDownloader {
     ///   - name: The name of the blob to download.
     ///   - container: The name of the container the blob is contained in.
     ///   - options: A `DownloadBlobOptions` object to control the download process.
-    public init(client: StorageBlobClient, name: String, container: String, options: DownloadBlobOptions? = nil) throws {
-
+    public init(
+        client: StorageBlobClient,
+        name: String,
+        container: String,
+        options: DownloadBlobOptions? = nil
+    ) throws {
         // determine which app folder is appropriate
         let isTemporary = options?.destination?.isTemporary ?? false
         var baseUrl: URL
@@ -275,9 +284,10 @@ public class BlobStreamDownloader {
         let customSubfolder = options?.destination?.subfolder
         let customFilename = options?.destination?.filename
 
-        self.downloadDestination = baseUrl.appendingPathComponent(customSubfolder ?? defaultSubfolder).appendingPathComponent(customFilename ?? defaultFilename)
-        if FileManager.default.fileExists(atPath: self.downloadDestination.path) {
-            try? FileManager.default.removeItem(at: self.downloadDestination)
+        self.downloadDestination = baseUrl.appendingPathComponent(customSubfolder ?? defaultSubfolder)
+            .appendingPathComponent(customFilename ?? defaultFilename)
+        if FileManager.default.fileExists(atPath: downloadDestination.path) {
+            try? FileManager.default.removeItem(at: downloadDestination)
         }
 
         self.client = client
@@ -322,7 +332,8 @@ public class BlobStreamDownloader {
     /// - Parameters:
     ///   - group: An optional `DispatchGroup` to wait for the download to complete.
     ///   - completion: A completion handler with which to process the downloaded chunk.
-    public func next(inGroup group: DispatchGroup? = nil, then completion: (Result<Data, Error>, HTTPResponse) -> Void) {
+    public func next(inGroup group: DispatchGroup? = nil, then _: (Result<Data, Error>, HTTPResponse) -> Void) {
+        // TODO: Fix not calling completion handler
         guard !isComplete else { return }
         let range = blockList.removeFirst()
         let downloader = ChunkDownloader(
@@ -332,7 +343,8 @@ public class BlobStreamDownloader {
             url: downloadDestination,
             startRange: range.startIndex,
             endRange: range.endIndex,
-            options: options)
+            options: options
+        )
         downloader.download { result, httpResponse in
             switch result {
             case .success:
@@ -352,7 +364,6 @@ public class BlobStreamDownloader {
     /// Make the initial request for blob data.
     /// - Parameter completion: A completion handler with which to process the downloaded chunk.
     public func initialRequest(then completion: @escaping (Result<Data, Error>, HTTPResponse) -> Void) {
-
         let firstRange = blockList.remove(at: 0)
         let downloader = ChunkDownloader(
             blob: blobName,
@@ -399,7 +410,8 @@ public class BlobStreamDownloader {
                     if !self.isComplete {
                         // Lock on the etag. This can be overriden by the user by specifying '*'
                         let accessConditions = self.options.modifiedAccessConditions
-                        self.options.modifiedAccessConditions?.ifMatch = accessConditions?.ifMatch ?? blobProperties.eTag
+                        self.options.modifiedAccessConditions?.ifMatch = accessConditions?.ifMatch
+                            ?? blobProperties.eTag
                     } else {
                         // if the download is done, there's no need to recompute the block list, even if
                         // the file size was not initially known
@@ -430,7 +442,9 @@ public class BlobStreamDownloader {
         var blockList = [Range<Int>]()
         let alignForCrypto = isEncrypted
         let validateContent = options.range?.calculateMD5 == true || options.range?.calculateCRC64 == true
-        let chunkLength = alignForCrypto || validateContent ? client.options.maxChunkGetSize - 1 : client.options.maxSingleGetSize
+        let chunkLength = alignForCrypto || validateContent
+            ? client.options.maxChunkGetSize - 1
+            : client.options.maxSingleGetSize
         let start = (options.range?.offset ?? 0) + offset
         let length = (requestedSize ?? options.range?.length ?? chunkLength) - start
         let end = start + length
@@ -443,7 +457,7 @@ public class BlobStreamDownloader {
                 if let fileSize = fileSize, end > fileSize {
                     end = fileSize
                 }
-                blockList.append(index..<end)
+                blockList.append(index ..< end)
             }
         }
         return blockList

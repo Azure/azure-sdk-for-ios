@@ -50,9 +50,9 @@ public enum AzureError: BaseError {
 
     var message: String {
         switch self {
-        case .general(let msg),
-             .serviceRequest(let msg),
-             .serviceResponse(let msg):
+        case let .general(msg),
+             let .serviceRequest(msg),
+             let .serviceResponse(msg):
             return msg
         }
     }
@@ -70,14 +70,14 @@ public enum HTTPResponseError: BaseError {
 
     public var message: String {
         switch self {
-        case .general(let msg),
-             .decode(let msg),
-             .resourceExists(let msg),
-             .resourceNotFound(let msg),
-             .clientAuthentication(let msg),
-             .resourceModified(let msg),
-             .tooManyRedirects(let msg),
-             .statusCode(let msg):
+        case let .general(msg),
+             let .decode(msg),
+             let .resourceExists(msg),
+             let .resourceNotFound(msg),
+             let .clientAuthentication(msg),
+             let .resourceModified(msg),
+             let .tooManyRedirects(msg),
+             let .statusCode(msg):
             return msg
         }
     }

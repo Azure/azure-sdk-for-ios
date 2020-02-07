@@ -28,7 +28,6 @@ import Foundation
 import UIKit
 
 public struct ApplicationUtil {
-
     // MARK: Static Methods
 
     /// Boolean describing whether the application is executing within an app extension.

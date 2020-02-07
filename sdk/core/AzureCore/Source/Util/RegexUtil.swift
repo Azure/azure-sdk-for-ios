@@ -44,7 +44,8 @@ extension NSRegularExpression {
 
     func firstMatch(in string: String) -> String? {
         let range = NSRange(location: 0, length: string.utf16.count)
-        guard let substring = firstMatch(in: string, options: [], range: range)?.capturedValues(from: string).first else { return nil }
+        guard let substring = firstMatch(in: string, options: [], range: range)?.capturedValues(from: string).first
+        else { return nil }
         return String(substring)
     }
 

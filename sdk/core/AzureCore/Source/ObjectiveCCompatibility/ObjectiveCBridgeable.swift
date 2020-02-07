@@ -30,7 +30,6 @@ import Foundation
 /// type to a type that is representable in Objective-C
 /// as the type `ObjectiveCType` or one of its subclasses.
 public protocol ObjectiveCBridgeable {
-
     // MARK: Required Properties
 
     /// The type corresponding to `Self` in Objective-C.

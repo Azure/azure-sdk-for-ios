@@ -24,11 +24,10 @@
 //
 // --------------------------------------------------------------------------
 
-import XCTest
 @testable import AzureCore
+import XCTest
 
 class HeadersPolicyTests: XCTestCase {
-
     /// Test that the headers policy adds headers to a request
     func test_HeadersPolicy_AddsHeadersToRequest() {
         var addedHeaders = HTTPHeaders([.contentType: "test/test"])

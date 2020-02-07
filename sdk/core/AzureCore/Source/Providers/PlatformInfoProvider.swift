@@ -36,7 +36,6 @@ public protocol PlatformInfoProvider {
 // MARK: DevicePlatformInfoProvider
 
 internal struct DevicePlatformInfoProvider: PlatformInfoProvider {
-
     // MARK: Computed Properties
 
     /// e.g. "MacPro4,1" or "iPhone8,1"
@@ -58,7 +57,6 @@ internal struct DevicePlatformInfoProvider: PlatformInfoProvider {
 // MARK: Sysctl
 
 private struct Sysctl {
-
     // MARK: Static Methods
 
     /// Access the raw data for an array of sysctl identifiers.
@@ -81,7 +79,7 @@ private struct Sysctl {
             // Run the actual request with an appropriately sized array buffer
             let data = [Int8](repeating: 0, count: requiredSize)
             let result = data.withUnsafeBufferPointer { dataBuffer -> Int32 in
-                return Darwin.sysctl(
+                Darwin.sysctl(
                     UnsafeMutablePointer<Int32>(mutating: keysPointer.baseAddress),
                     UInt32(keys.count),
                     UnsafeMutableRawPointer(mutating: dataBuffer.baseAddress),
@@ -105,5 +103,4 @@ private struct Sysctl {
             dataPointer.baseAddress.flatMap { String(validatingUTF8: $0) }
         }
     }
-
 }

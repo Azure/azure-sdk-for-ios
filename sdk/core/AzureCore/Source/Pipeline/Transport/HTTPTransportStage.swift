@@ -27,7 +27,6 @@
 import Foundation
 
 public protocol HTTPTransportStage: PipelineStage {
-
     // MARK: Required Methods
 
     func open()

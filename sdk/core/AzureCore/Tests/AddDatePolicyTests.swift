@@ -24,11 +24,10 @@
 //
 // --------------------------------------------------------------------------
 
-import XCTest
 @testable import AzureCore
+import XCTest
 
 class AddDatePolicyTests: XCTestCase {
-
     /// Test that the add date policy adds a non-empty date header
     func test_RequestIdPolicy_AddsHeaderToRequest() {
         let policy = AddDatePolicy()

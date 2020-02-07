@@ -59,13 +59,13 @@ internal enum SASConstant: String {
 
 extension Dictionary where Key == SASConstant, Value == String {
     internal func convertToQueryItems() -> [URLQueryItem] {
-        let queryItems = self.compactMap { key, value in
+        let queryItems = compactMap { key, value in
             URLQueryItem(name: key.rawValue, value: value)
         }
         return queryItems
     }
 
-    mutating internal func addQuery(key: SASConstant, value: String?) {
+    internal mutating func addQuery(key: SASConstant, value: String?) {
         guard let val = value else { return }
         self[key] = val
     }
@@ -73,7 +73,6 @@ extension Dictionary where Key == SASConstant, Value == String {
 
 /// Class used to create Shared Access Signatures (SAS) for Blobs
 public class BlobSharedAccessSignature {
-
     internal let account: String
 
     internal let accountKey: String?
@@ -175,13 +174,15 @@ public class BlobSharedAccessSignature {
         return signedHmacSha256.base64String
     }
 
-    private func sign(string: String, withUserDelegationKey: UserDelegationKey,
-                      isBase64: Bool = true) throws -> String {
+    private func sign(
+        string _: String,
+        withUserDelegationKey _: UserDelegationKey,
+        isBase64 _: Bool = true
+    ) throws -> String {
         return ""
     }
 
     private func signResource(atPath path: String) throws {
-
         let modPath = path.hasPrefix("/") ? path : "/\(path)"
         let canonicalizedResource = "/blob/\(account)\(modPath)\n"
 
@@ -189,9 +190,9 @@ public class BlobSharedAccessSignature {
         // resource. The order of values is important.
         var stringToSign = (
             valueToSign(forKey: .signedPermission) +
-            valueToSign(forKey: .signedStart) +
-            valueToSign(forKey: .signedExpiry) +
-            canonicalizedResource
+                valueToSign(forKey: .signedStart) +
+                valueToSign(forKey: .signedExpiry) +
+                canonicalizedResource
         )
         if let key = userDelegationKey {
             queryDict.addQuery(key: .signedOID, value: key.signedOID)
@@ -201,11 +202,11 @@ public class BlobSharedAccessSignature {
             queryDict.addQuery(key: .signedKeyVersion, value: key.signedVersion)
             stringToSign += (
                 valueToSign(forKey: .signedOID) +
-                valueToSign(forKey: .signedTID) +
-                valueToSign(forKey: .signedKeyStart) +
-                valueToSign(forKey: .signedKeyExpiry) +
-                valueToSign(forKey: .signedKeyService) +
-                valueToSign(forKey: .signedKeyVersion)
+                    valueToSign(forKey: .signedTID) +
+                    valueToSign(forKey: .signedKeyStart) +
+                    valueToSign(forKey: .signedKeyExpiry) +
+                    valueToSign(forKey: .signedKeyService) +
+                    valueToSign(forKey: .signedKeyVersion)
             )
         } else {
             stringToSign += valueToSign(forKey: .signedIdentifier)
@@ -213,15 +214,15 @@ public class BlobSharedAccessSignature {
 
         stringToSign += (
             valueToSign(forKey: .signedIP) +
-            valueToSign(forKey: .signedProtocol) +
-            valueToSign(forKey: .signedVersion) +
-            valueToSign(forKey: .signedResource) +
-            valueToSign(forKey: .signedTimestamp) +
-            valueToSign(forKey: .signedCacheControl) +
-            valueToSign(forKey: .signedContentDisposition) +
-            valueToSign(forKey: .signedContentEncoding) +
-            valueToSign(forKey: .signedContentLanguage) +
-            valueToSign(forKey: .signedContentType)
+                valueToSign(forKey: .signedProtocol) +
+                valueToSign(forKey: .signedVersion) +
+                valueToSign(forKey: .signedResource) +
+                valueToSign(forKey: .signedTimestamp) +
+                valueToSign(forKey: .signedCacheControl) +
+                valueToSign(forKey: .signedContentDisposition) +
+                valueToSign(forKey: .signedContentEncoding) +
+                valueToSign(forKey: .signedContentLanguage) +
+                valueToSign(forKey: .signedContentType)
         )
 
         // remove the trailing newline

@@ -24,12 +24,11 @@
 //
 // --------------------------------------------------------------------------
 
-import XCTest
 @testable import AzureCore
+import XCTest
 
 // swiftlint:disable file_length type_body_length
 class LoggingPolicyTests: XCTestCase {
-
     // MARK: onRequest
 
     /// Test that the logging policy starts the request log with the request ID
@@ -785,9 +784,9 @@ class LoggingPolicyTests: XCTestCase {
         let policy = CurlFormattedRequestLoggingPolicy()
         let logger = TestClientLogger(.debug)
         let body = """
-            Testing
-            123
-            """
+        Testing
+        123
+        """
         let req = PipelineRequest(method: .get, url: "http://www.example.com", body: body, logger: logger)
         policy.on(request: req) { _ in }
         let msg = logger.messages[1]

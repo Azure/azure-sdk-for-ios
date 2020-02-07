@@ -37,8 +37,12 @@ public class AppConfigurationClient: PipelineClient {
 
     // MARK: Initializers
 
-    internal init(baseUrl: String, transport: HTTPTransportStage, policies: [PipelineStage],
-                  withOptions options: AppConfigurationClientOptions) {
+    internal init(
+        baseUrl: String,
+        transport: HTTPTransportStage,
+        policies: [PipelineStage],
+        withOptions options: AppConfigurationClientOptions
+    ) {
         self.options = options
         super.init(baseUrl: baseUrl, transport: transport, policies: policies, logger: self.options.logger)
     }
@@ -67,15 +71,17 @@ public class AppConfigurationClient: PipelineClient {
                     ContentDecodePolicy(),
                     LoggingPolicy()
                 ],
-                withOptions: clientOptions)
-    }
+                withOptions: clientOptions
+            )
+        }
 
     // MARK: API Calls
 
-    public func listConfigurationSettings(forKey key: String?,
-                                          forLabel label: String?,
-                                          then completion: @escaping HTTPResultHandler<PagedCollection<ConfigurationSetting>>) {
-
+    public func listConfigurationSettings(
+        forKey key: String?,
+        forLabel label: String?,
+        then completion: @escaping HTTPResultHandler<PagedCollection<ConfigurationSetting>>
+    ) {
         // Construct URL
         let url = "kv"
         let queryParams = [
@@ -86,7 +92,7 @@ public class AppConfigurationClient: PipelineClient {
         // if let select = select { queryParams["$select"] = select }
 
         // Construct headers
-        let headers = HTTPHeaders([.apiVersion: self.options.apiVersion])
+        let headers = HTTPHeaders([.apiVersion: options.apiVersion])
         // if let acceptDatetime = acceptDatetime { headers["Accept-Datetime"] = acceptDatetime }
         // if let requestId = requestId { headers["x-ms-client-request-id"] = requestId }
 
@@ -113,8 +119,12 @@ public class AppConfigurationClient: PipelineClient {
             case let .success(data):
                 let codingKeys = PagedCodingKeys(continuationToken: "@nextLink")
                 do {
-                    let paged = try PagedCollection<ConfigurationSetting>(client: self, request: request, data: data,
-                                                                          codingKeys: codingKeys)
+                    let paged = try PagedCollection<ConfigurationSetting>(
+                        client: self,
+                        request: request,
+                        data: data,
+                        codingKeys: codingKeys
+                    )
                     completion(.success(paged), httpResponse)
                 } catch {
                     completion(.failure(error), httpResponse)

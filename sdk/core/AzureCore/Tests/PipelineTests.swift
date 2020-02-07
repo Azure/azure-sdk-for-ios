@@ -24,11 +24,10 @@
 //
 // --------------------------------------------------------------------------
 
-import XCTest
 @testable import AzureCore
+import XCTest
 
 class PipelineTests: XCTestCase {
-
     func createPipelineClient() -> PipelineClient {
         let baseUrl = "http://www.microsoft.com"
         let client = PipelineClient(

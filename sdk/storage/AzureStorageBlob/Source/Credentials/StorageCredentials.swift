@@ -75,16 +75,15 @@ public class StorageSASCredential {
         let invalidCS = HTTPResponseError.clientAuthentication("The connection string \(connectionString) is invalid.")
         guard let sasToken = sas else { throw invalidCS }
         self.sasToken = sasToken
-        blobEndpoint = blob
-        queueEndpoint = queue
-        fileEndpoint = file
-        tableEndpoint = table
+        self.blobEndpoint = blob
+        self.queueEndpoint = queue
+        self.fileEndpoint = file
+        self.tableEndpoint = table
     }
 }
 
 /// A Storage authentication policy that relies on a shared access signature.
 public class StorageSASAuthenticationPolicy: Authenticating {
-
     /// The next stage in the HTTP pipeline.
     public var next: PipelineStage?
 

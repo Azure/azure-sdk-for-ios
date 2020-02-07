@@ -24,11 +24,10 @@
 //
 // --------------------------------------------------------------------------
 
-import XCTest
 @testable import AzureCore
+import XCTest
 
 class UserAgentPolicyTests: XCTestCase {
-
     /// Test that the user agent policy creates the correct user agent when all optional parts are omitted
     func test_UserAgentPolicy_WithRequiredPartsOnly() {
         let policy = UserAgentPolicy(

@@ -24,11 +24,10 @@
 //
 // --------------------------------------------------------------------------
 
-import XCTest
 @testable import AzureCore
+import XCTest
 
 class UtilTests: XCTestCase {
-
     func test_RegexUtil_WithMatchingString_ReturnsMatch() {
         let regex = NSRegularExpression("^(application|text)/([0-9a-z+.]+)?json$")
         let goodString = "application/json"
@@ -69,7 +68,7 @@ class UtilTests: XCTestCase {
         XCTAssertEqual(dateComponents.hour, 7)
         XCTAssertEqual(dateComponents.minute, 12)
         XCTAssertEqual(dateComponents.second, 34)
-        XCTAssertEqual(dateComponents.timeZone, TimeZone.init(abbreviation: "GMT"))
+        XCTAssertEqual(dateComponents.timeZone, TimeZone(abbreviation: "GMT"))
     }
 
     func test_StringUtil_WithBoolString_OutputsBool() {
