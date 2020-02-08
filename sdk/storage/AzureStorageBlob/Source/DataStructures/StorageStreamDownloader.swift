@@ -323,9 +323,7 @@ public class BlobStreamDownloader {
         }
         for _ in blockList {
             group?.enter()
-            next(inGroup: group) { _, _ in
-                // Nothing to do here.
-            }
+            next(inGroup: group)
         }
         group?.notify(queue: DispatchQueue.main) {
             completion()
@@ -335,9 +333,7 @@ public class BlobStreamDownloader {
     /// Download the contents of this file to a stream.
     /// - Parameters:
     ///   - group: An optional `DispatchGroup` to wait for the download to complete.
-    ///   - completion: A completion handler with which to process the downloaded chunk.
-    public func next(inGroup group: DispatchGroup? = nil, then completion: HTTPResultHandler<Data>) {
-        // TODO: Fix not calling completion handler
+    public func next(inGroup group: DispatchGroup? = nil) {
         guard !isComplete else { return }
         let range = blockList.removeFirst()
         let downloader = ChunkDownloader(
