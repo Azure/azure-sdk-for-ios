@@ -24,8 +24,8 @@
 //
 // --------------------------------------------------------------------------
 
-import XCTest
 @testable import AzureCore
+import XCTest
 
 // swiftlint:disable force_try identifier_name
 
@@ -54,8 +54,17 @@ final class InferredThing: Thing {
     let reqBool: Bool
     let optBool: Bool?
 
-    init(attr: String, reqString: String, reqDouble: Double, reqInt: Int, reqBool: Bool,
-         optString: String?, optDouble: Double?, optInt: Int?, optBool: Bool?) {
+    init(
+        attr: String,
+        reqString: String,
+        reqDouble: Double,
+        reqInt: Int,
+        reqBool: Bool,
+        optString: String?,
+        optDouble: Double?,
+        optInt: Int?,
+        optBool: Bool?
+    ) {
         self.attr = attr
         self.reqString = reqString
         self.optString = optString
@@ -69,7 +78,6 @@ final class InferredThing: Thing {
 }
 
 extension InferredThing: Codable {
-
     enum CodingKeys: String, CodingKey {
         case attr = "_id"
         case reqString = "req_string"
@@ -111,8 +119,17 @@ final class MappedThing: Thing, XMLModel {
     let reqBool: Bool
     let optBool: Bool?
 
-    init(attr: String, reqString: String, reqDouble: Double, reqInt: Int, reqBool: Bool,
-         optString: String?, optDouble: Double?, optInt: Int?, optBool: Bool?) {
+    init(
+        attr: String,
+        reqString: String,
+        reqDouble: Double,
+        reqInt: Int,
+        reqBool: Bool,
+        optString: String?,
+        optDouble: Double?,
+        optInt: Int?,
+        optBool: Bool?
+    ) {
         self.attr = attr
         self.reqString = reqString
         self.optString = optString
@@ -141,7 +158,6 @@ final class MappedThing: Thing, XMLModel {
 }
 
 extension MappedThing: Codable {
-
     convenience init(from decoder: Decoder) throws {
         let root = try decoder.container(keyedBy: CodingKeys.self)
         self.init(
@@ -161,7 +177,6 @@ extension MappedThing: Codable {
 // MARK: PagedThing
 
 final class PagedThing: Codable, XMLModel {
-
     let id: Int
     let name: String
     let value: String?
@@ -193,7 +208,6 @@ final class PagedThing: Codable, XMLModel {
 // MARK: - Test Methods
 
 class XMLModelTests: XCTestCase {
-
     func load(resource name: String, withExtension ext: String) -> Data {
         let testBundle = Bundle(for: type(of: self))
         let url = testBundle.url(forResource: name, withExtension: ext)
@@ -258,7 +272,8 @@ class XMLModelTests: XCTestCase {
             policies: [
                 UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0")
             ],
-            logger: ClientLoggers.default())
+            logger: ClientLoggers.default()
+        )
         let request = HTTPRequest(method: .get, url: "", headers: [:])
 
         let decodePolicy = ContentDecodePolicy()
@@ -268,8 +283,12 @@ class XMLModelTests: XCTestCase {
         let xmlData = load(resource: "pagedthings", withExtension: "xml")
         let jsonObject = try! decodePolicy.parse(xml: xmlData)
         let jsonData = try! JSONSerialization.data(withJSONObject: jsonObject)
-        let paged = try! PagedCollection<PagedThing>(client: client, request: request, data: jsonData,
-                                                     codingKeys: pagedKeys)
+        let paged = try! PagedCollection<PagedThing>(
+            client: client,
+            request: request,
+            data: jsonData,
+            codingKeys: pagedKeys
+        )
         XCTAssertGreaterThanOrEqual(paged.underestimatedCount, 3)
     }
 }

@@ -39,20 +39,22 @@ public struct ConfigurationSetting: Codable {
 
     public static let emptyLabel = "\0"
 
-    init(key: String,
-         value: String,
-         label: String? = nil,
-         tags: [String: String]? = nil,
-         contentType: String? = nil,
-         locked: Bool? = nil,
-         lastModified: Date? = nil,
-         eTag: String? = nil) {
+    init(
+        key: String,
+        value: String,
+        label: String? = nil,
+        tags: [String: String]? = nil,
+        contentType: String? = nil,
+        locked: Bool? = nil,
+        lastModified: Date? = nil,
+        eTag: String? = nil
+    ) {
         self.key = key
         self.value = value
         self.label = label
         self.tags = tags
         self.contentType = contentType
-        etag = eTag
+        self.etag = eTag
         self.lastModified = lastModified
         self.locked = locked
     }

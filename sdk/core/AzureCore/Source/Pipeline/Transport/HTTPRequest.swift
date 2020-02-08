@@ -30,12 +30,11 @@ public typealias QueryParameter = (String, String?)
 
 public extension Array where Element == QueryParameter {
     mutating func append(_ name: String, _ value: String?) {
-        self.append((name, value))
+        append((name, value))
     }
 }
 
 public class HTTPRequest: DataStringConvertible {
-
     // MARK: Properties
 
     public let httpMethod: HTTPMethod
@@ -58,9 +57,9 @@ public class HTTPRequest: DataStringConvertible {
 
     public func add(queryParams addedParams: [QueryParameter]) {
         guard !addedParams.isEmpty else { return }
-        guard var urlComps = URLComponents(string: self.url) else { return }
+        guard var urlComps = URLComponents(string: url) else { return }
 
-        let addedQueryItems = addedParams.map { (name, value) in URLQueryItem(name: name, value: value)}
+        let addedQueryItems = addedParams.map { name, value in URLQueryItem(name: name, value: value) }
         if var urlQueryItems = urlComps.queryItems, !urlQueryItems.isEmpty {
             urlQueryItems.append(contentsOf: addedQueryItems)
             urlComps.queryItems = urlQueryItems

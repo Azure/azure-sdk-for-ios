@@ -27,7 +27,6 @@
 import Foundation
 
 public final class PipelineResponse: Copyable, PipelineContextSupporting {
-
     // MARK: Properties
 
     public var httpRequest: HTTPRequest
@@ -43,8 +42,8 @@ public final class PipelineResponse: Copyable, PipelineContextSupporting {
     }
 
     init(request: HTTPRequest, response: HTTPResponse?, logger: ClientLogger, context: PipelineContext?) {
-        httpRequest = request
-        httpResponse = response
+        self.httpRequest = request
+        self.httpResponse = response
         self.logger = logger
         self.context = context
     }

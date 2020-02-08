@@ -97,7 +97,6 @@ public enum CryptoAlgorithm {
 // MARK: Extension - String
 
 extension String {
-
     /**
      Calculate the HMAC digest of a string.
      - Parameter algorithm: The cryptographic algorithm to use.
@@ -106,8 +105,8 @@ extension String {
      */
     public func hmac(algorithm: CryptoAlgorithm, key: Data) throws -> Data {
         let error = AzureError.general("Unable to compute HMAC.")
-        let strBytes = self.cString(using: .utf8)
-        let strLen = Int(self.lengthOfBytes(using: .utf8))
+        let strBytes = cString(using: .utf8)
+        let strLen = Int(lengthOfBytes(using: .utf8))
         let digestLen = algorithm.digestLength
         let result = UnsafeMutablePointer<UInt8>.allocate(capacity: digestLen)
         defer { result.deallocate() }
@@ -126,7 +125,7 @@ extension String {
      */
     public func hash(algorithm: CryptoAlgorithm) throws -> Data {
         let error = AzureError.general("Unable to compute hash.")
-        guard let dataToHash = self.data(using: .utf8) else { throw error }
+        guard let dataToHash = data(using: .utf8) else { throw error }
         return try dataToHash.hash(algorithm: algorithm)
     }
 
@@ -160,7 +159,6 @@ extension String {
 // MARK: Extension - Data
 
 extension Data {
-
     /**
      Calculate the HMAC digest of data.
      - Parameter algorithm: The HMAC algorithm to use.
@@ -191,7 +189,7 @@ extension Data {
 
     /// Returns the base64-encoded string representation of a `Data` object.
     public var base64String: String {
-        return self.base64EncodedString()
+        return base64EncodedString()
     }
 
     /// Returns the hex string representation of a `Data` object.

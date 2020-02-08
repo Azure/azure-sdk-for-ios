@@ -24,11 +24,10 @@
 //
 // --------------------------------------------------------------------------
 
-import XCTest
 @testable import AzureCore
+import XCTest
 
 class PipelineRequestTests: XCTestCase {
-
     func test_PipelineRequest_CanBeCopied() {
         let logger = ClientLoggers.default()
         let httpRequest = HTTPRequest(method: .get, url: "https://www.contoso.com", headers: [:])

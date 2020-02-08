@@ -24,11 +24,10 @@
 //
 // --------------------------------------------------------------------------
 
-import XCTest
 @testable import AzureCore
+import XCTest
 
 class RequestIdPolicyTests: XCTestCase {
-
     /// Test that the request id policy adds a non-empty request ID header
     func test_RequestIdPolicy_AddsHeaderToRequest() {
         let policy = RequestIdPolicy()

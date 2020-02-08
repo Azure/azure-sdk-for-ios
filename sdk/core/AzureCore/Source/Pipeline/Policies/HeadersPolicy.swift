@@ -27,7 +27,6 @@
 import Foundation
 
 public class HeadersPolicy: PipelineStage {
-
     // MARK: Properties
 
     public var next: PipelineStage?

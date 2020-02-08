@@ -29,7 +29,6 @@ import Foundation
 
 /// User-configurable options for the Azure Storage blob client.
 public class StorageBlobClientOptions: AzureConfigurable {
-
     public let apiVersion: String
     public let logger: ClientLogger
     public let tag: String
@@ -101,7 +100,6 @@ public class ListBlobsOptions: AzureOptions {
 
 /// User-configurable options for the blob download operations.
 public class DownloadBlobOptions: AzureOptions {
-
     /// Options for overriding the default download destination behavior.
     public var destination: DestinationOptions?
 
@@ -156,17 +154,16 @@ public class DownloadBlobOptions: AzureOptions {
 
 /// User-configurable options for create blob SAS tokens.
 public class BlobSasOptions {
-
     /// A blob snapshot ID.
     public var snapshot: String?
 
     /**
-    The permissions associated with the shared access signature. The
-    user is restricted to operations allowed by the permissions.
-    Permissions must be ordered read, write, delete, list.
-    Required unless an id is given referencing a stored access policy
-    which contains this field. This field must be omitted if it has been
-    specified in an associated stored access policy.
+     The permissions associated with the shared access signature. The
+     user is restricted to operations allowed by the permissions.
+     Permissions must be ordered read, write, delete, list.
+     Required unless an id is given referencing a stored access policy
+     which contains this field. This field must be omitted if it has been
+     specified in an associated stored access policy.
      */
     public var permission: String?
 
@@ -202,7 +199,7 @@ public class BlobSasOptions {
      For example, specifying ip=168.1.5.65 or ip=168.1.5.60-168.1.5.70 on the SAS
      restricts the request to those IP addresses.
      */
-    public var ip: String?
+    public var ipAddress: String?
 
     /**
      Specifies the protocol permitted for a request made. The default value is https.

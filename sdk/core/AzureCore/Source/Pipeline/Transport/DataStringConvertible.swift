@@ -27,7 +27,6 @@
 import Foundation
 
 public protocol DataStringConvertible {
-
     // MARK: Required Properties
 
     var data: Data? { get set }

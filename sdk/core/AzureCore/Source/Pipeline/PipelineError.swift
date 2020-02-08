@@ -27,7 +27,6 @@
 import Foundation
 
 public final class PipelineError: Error {
-
     // MARK: Properties
 
     public var innerError: Error

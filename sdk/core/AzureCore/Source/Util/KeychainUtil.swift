@@ -33,7 +33,6 @@ public enum KeychainUtilError: Error {
 }
 
 public class KeychainUtil {
-
     internal let keychainErrorDomain = "com.azure.core"
     internal let keychainSecurityService = "com.azure.core"
 

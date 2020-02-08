@@ -28,7 +28,6 @@ import Foundation
 import os.log
 
 internal class ContentDecodeXMLParser: NSObject, XMLParserDelegate {
-
     // MARK: Properties
 
     internal var xmlMap: XMLMap?
@@ -38,10 +37,12 @@ internal class ContentDecodeXMLParser: NSObject, XMLParserDelegate {
     internal var elementKey: String {
         return elementPath.joined(separator: ".")
     }
+
     internal var mapPath = [String]()
     internal var mapKey: String {
         return mapPath.joined(separator: ".")
     }
+
     internal var inferStructure = false
     internal var logger: ClientLogger?
 
@@ -61,8 +62,13 @@ internal class ContentDecodeXMLParser: NSObject, XMLParserDelegate {
         xmlTree?.root = current
     }
 
-    public func parser(_: XMLParser, didStartElement elementName: String, namespaceURI _: String?,
-                       qualifiedName _: String?, attributes attributeDict: [String: String] = [:]) {
+    public func parser(
+        _: XMLParser,
+        didStartElement elementName: String,
+        namespaceURI _: String?,
+        qualifiedName _: String?,
+        attributes attributeDict: [String: String] = [:]
+    ) {
         elementPath.append(elementName)
 
         // resolve the map key
@@ -82,7 +88,7 @@ internal class ContentDecodeXMLParser: NSObject, XMLParserDelegate {
 
         let metadata = mapMetadata ?? elementMetadata
 
-        if xmlMap != nil && metadata == nil {
+        if xmlMap != nil, metadata == nil {
             logger?.warning("No XML metadata found for \(elementName). Ignoring.")
             return
         }
@@ -108,8 +114,12 @@ internal class ContentDecodeXMLParser: NSObject, XMLParserDelegate {
     }
 
     // swiftlint:disable:next cyclomatic_complexity
-    public func parser(_: XMLParser, didEndElement elementName: String, namespaceURI _: String?,
-                       qualifiedName _: String?) {
+    public func parser(
+        _: XMLParser,
+        didEndElement elementName: String,
+        namespaceURI _: String?,
+        qualifiedName _: String?
+    ) {
         defer {
             _ = elementPath.popLast()
             if mapPath.last == elementName {
@@ -160,7 +170,6 @@ internal class ContentDecodeXMLParser: NSObject, XMLParserDelegate {
 }
 
 public class ContentDecodePolicy: PipelineStage {
-
     // MARK: Properties
 
     public var next: PipelineStage?

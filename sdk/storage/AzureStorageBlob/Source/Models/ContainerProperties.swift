@@ -36,13 +36,15 @@ public final class ContainerProperties: XMLModel {
     public let hasImmutabilityPolicy: Bool?
     public let hasLegalHold: Bool?
 
-    public init(lastModified: Date,
-                eTag: String,
-                leaseStatus: LeaseStatus,
-                leaseState: LeaseState,
-                leaseDuration: LeaseDuration? = nil,
-                hasImmutabilityPolicy: Bool? = nil,
-                hasLegalHold: Bool? = nil) {
+    public init(
+        lastModified: Date,
+        eTag: String,
+        leaseStatus: LeaseStatus,
+        leaseState: LeaseState,
+        leaseDuration: LeaseDuration? = nil,
+        hasImmutabilityPolicy: Bool? = nil,
+        hasLegalHold: Bool? = nil
+    ) {
         self.lastModified = lastModified
         self.eTag = eTag
         self.leaseStatus = leaseStatus

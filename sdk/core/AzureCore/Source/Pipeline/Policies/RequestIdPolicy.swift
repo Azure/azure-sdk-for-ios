@@ -27,14 +27,13 @@
 import Foundation
 
 public class RequestIdPolicy: PipelineStage {
-
     // MARK: Properties
 
     public var next: PipelineStage?
 
     // MARK: Initializers
 
-    public init() { }
+    public init() {}
 
     // MARK: PipelineStage Methods
 

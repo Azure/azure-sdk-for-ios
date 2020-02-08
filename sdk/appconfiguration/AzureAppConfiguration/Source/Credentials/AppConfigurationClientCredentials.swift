@@ -27,6 +27,8 @@
 import AzureCore
 import Foundation
 
+// swiftlint:disable identifier_name
+
 public class AppConfigurationCredential {
     internal let endpoint: String // endpoint
     internal let id: String // access key id
@@ -95,7 +97,11 @@ public class AppConfigurationAuthenticationPolicy: Authenticating {
 
     private func sign(request: PipelineRequest) {
         let headers = request.httpRequest.headers
-        let signedHeaderKeys = [HTTPHeader.xmsDate.rawValue, HTTPHeader.host.rawValue, AppConfigurationHeader.contentHash.rawValue]
+        let signedHeaderKeys = [
+            HTTPHeader.xmsDate.rawValue,
+            HTTPHeader.host.rawValue,
+            AppConfigurationHeader.contentHash.rawValue
+        ]
         var signedHeaderValues = [String]()
         for key in signedHeaderKeys {
             if let value = headers[key] {
@@ -105,10 +111,18 @@ public class AppConfigurationAuthenticationPolicy: Authenticating {
         if let urlComps = URLComponents(string: request.httpRequest.url) {
             let stringToRemove = "\(urlComps.scheme!)://\(urlComps.host!)"
             let signingUrl = String(request.httpRequest.url.dropFirst(stringToRemove.count))
-            if let decodedSecret = self.credential.secret.decodeBase64 {
-                let stringToSign = "\(request.httpRequest.httpMethod.rawValue.uppercased(with: Locale(identifier: "en_US")))\n\(signingUrl)\n\(signedHeaderValues.joined(separator: ";"))"
+            if let decodedSecret = credential.secret.decodeBase64 {
+                let stringToSign = [
+                    request.httpRequest.httpMethod.rawValue.uppercased(with: Locale(identifier: "en_US")),
+                    signingUrl,
+                    signedHeaderValues.joined(separator: ";")
+                ].joined(separator: "\n")
                 let signature = try? stringToSign.hmac(algorithm: .sha256, key: decodedSecret).base64String
-                request.httpRequest.headers[.authorization] = "HMAC-SHA256 Credential=\(credential.id), SignedHeaders=\(signedHeaderKeys.joined(separator: ";")), Signature=\(signature ?? "ERROR")"
+                request.httpRequest.headers[.authorization] = "HMAC-SHA25 " + [
+                    "Credential=\(credential.id)",
+                    "SignedHeaders=\(signedHeaderKeys.joined(separator: ";"))",
+                    "Signature=\(signature ?? "ERROR")"
+                ].joined(separator: ", ")
             }
         }
     }

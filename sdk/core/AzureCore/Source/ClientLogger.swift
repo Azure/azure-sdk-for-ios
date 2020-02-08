@@ -32,7 +32,6 @@ public enum ClientLogLevel: Int {
 }
 
 public protocol ClientLogger {
-
     // MARK: Required Properties
 
     var level: ClientLogLevel { get set }
@@ -68,7 +67,6 @@ extension ClientLogger {
 // MARK: - Constants
 
 public struct ClientLoggers {
-
     // MARK: Properties
 
     public static let none: ClientLogger = NullClientLogger()
@@ -87,7 +85,6 @@ public struct ClientLoggers {
 // MARK: - Implementations
 
 public class NullClientLogger: ClientLogger {
-
     // MARK: Properties
 
     // Force the least verbose log level so consumers can check & avoid calling the logger entirely if desired
@@ -102,7 +99,6 @@ public class NullClientLogger: ClientLogger {
 }
 
 public class PrintLogger: ClientLogger {
-
     // MARK: Properties
 
     public var level: ClientLogLevel
@@ -127,7 +123,6 @@ public class PrintLogger: ClientLogger {
 }
 
 public class NSLogger: ClientLogger {
-
     // MARK: Properties
 
     public var level: ClientLogLevel
@@ -153,7 +148,6 @@ public class NSLogger: ClientLogger {
 
 @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
 public class OSLogger: ClientLogger {
-
     // MARK: Properties
 
     public var level: ClientLogLevel

@@ -33,11 +33,16 @@ class TextAnalyticsClient: NSObject {
     let endpoint: URL?
 
     @objc init(withEndpoint endpoint: String, withKey key: String, withRegion region: String?) throws {
-        credential = try TextAnalyticsClientCredentials(withEndpoint: endpoint, withKey: key, withRegion: region)
+        self.credential = try TextAnalyticsClientCredentials(withEndpoint: endpoint, withKey: key, withRegion: region)
         self.endpoint = URL(string: endpoint)
     }
 
-    @objc func getSentiment(fromText text: String, withLanauage _: String?, showStats: Bool = false, completion _: @escaping (Float, NSError?) -> Void) {
+    @objc func getSentiment(
+        fromText text: String,
+        withLanguage _: String?,
+        showStats: Bool = false,
+        completion _: @escaping (Float, NSError?) -> Void
+    ) {
         guard endpoint != nil else { return }
 
         let baseUrl = "\(endpoint!)/text/analytics/v2.1/sentiment"
@@ -64,7 +69,7 @@ class TextAnalyticsClient: NSObject {
         ]
         request.httpBody = try? JSONSerialization.data(withJSONObject: jsonDict)
         request.allHTTPHeaderFields = headers
-        credential.setAuthorizationheaders(forRequest: &request)
+//        credential.setAuthorizationheaders(forRequest: &request)
 
         // Now use this URLRequest with Alamofire to make request
 //        Alamofire.request(request).responseJSON { response in

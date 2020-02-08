@@ -38,7 +38,6 @@ public struct ModifiedAccessConditions {
 }
 
 public struct RangeOptions {
-
     /// Start of byte range to use for downloading a section of the blob.
     /// Must be set if length is provided.
     public var offset = 0
@@ -73,7 +72,6 @@ public struct DestinationOptions {
 }
 
 public class EncryptionOptions {
-
     // MARK: Public Properties
 
     /// Actual key data in bytes.
@@ -120,7 +118,6 @@ public struct CpkInfo {
  as soon as the encryption or decryption process completes.
  */
 public class CustomerProvidedEncryptionKey {
-
     /// Base64-encoded AES-256 encryption key value.
     public let value: Data
 
@@ -142,7 +139,6 @@ public class CustomerProvidedEncryptionKey {
  A user delegation key.
  */
 public struct UserDelegationKey {
-
     /// The Azure Active Directory object ID in GUID format.
     public let signedOID: String
 
@@ -164,8 +160,15 @@ public struct UserDelegationKey {
     /// The key as a base64 string.
     public let value: String
 
-    public init(signedOID: String, signedTID: String, signedStart: String, signedExpiry: String,
-                signedService: String, signedVersion: String, value: String) {
+    public init(
+        signedOID: String,
+        signedTID: String,
+        signedStart: String,
+        signedExpiry: String,
+        signedService: String,
+        signedVersion: String,
+        value: String
+    ) {
         self.signedOID = signedOID
         self.signedTID = signedTID
         self.signedStart = signedStart

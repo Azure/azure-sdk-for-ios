@@ -33,8 +33,7 @@ public final class ContainerItem: Codable, XMLModel {
     public let name: String
     public let properties: ContainerProperties?
 
-    public init(name: String,
-                properties: ContainerProperties? = nil) {
+    public init(name: String, properties: ContainerProperties? = nil) {
         self.name = name
         self.properties = properties
     }

@@ -31,7 +31,6 @@ import Foundation
 /// Protocol that ensures all XML models have  a method that returns metadata
 /// necessary to convert an XML payload to a JSON payload.
 public protocol XMLModel {
-
     // MARK: Required Methods
 
     static func xmlMap() -> XMLMap
@@ -56,7 +55,6 @@ public enum AttributeToJsonStrategy {
 /// Class containing metadata needed to translate an XML payload into the desired
 /// JSON payload.
 public struct XMLMetadata {
-
     // MARK: Properties
 
     public let jsonName: String
@@ -65,11 +63,14 @@ public struct XMLMetadata {
 
     // MARK: Initializers
 
-    public init(jsonName: String, jsonType: ElementToJsonStrategy = .property,
-                attributes: AttributeToJsonStrategy = .ignored) {
+    public init(
+        jsonName: String,
+        jsonType: ElementToJsonStrategy = .property,
+        attributes: AttributeToJsonStrategy = .ignored
+    ) {
         self.jsonName = jsonName
         self.jsonType = jsonType
-        attributeStrategy = attributes
+        self.attributeStrategy = attributes
     }
 }
 
@@ -78,7 +79,6 @@ public struct XMLMetadata {
 /// A map of XML document path keys and metadata needed to convert an XML
 /// payload into a JSON payload.
 public class XMLMap: Sequence, IteratorProtocol {
-
     // MARK: Properties
 
     public typealias Element = (String, XMLMetadata)
@@ -90,7 +90,7 @@ public class XMLMap: Sequence, IteratorProtocol {
 
     /// Initialize directly with paths and values
     public init(_ existingValues: [String: XMLMetadata]) {
-        map = existingValues
+        self.map = existingValues
     }
 
     /// Generate XML map for single item types.
@@ -125,21 +125,30 @@ public class XMLMap: Sequence, IteratorProtocol {
         var path = [String]()
         for component in itemComponents {
             path.append(component)
-            let metadata = XMLMetadata(jsonName: component, jsonType: .anyObject,
-                                       attributes: .underscoredProperties)
+            let metadata = XMLMetadata(
+                jsonName: component,
+                jsonType: .anyObject,
+                attributes: .underscoredProperties
+            )
             map[path.joined(separator: ".")] = metadata
         }
         guard let itemsMetadata = map[codingKeys.items] else { return }
-        map[codingKeys.items] = XMLMetadata(jsonName: itemsMetadata.jsonName, jsonType: .array(innerType),
-                                            attributes: .underscoredProperties)
+        map[codingKeys.items] = XMLMetadata(
+            jsonName: itemsMetadata.jsonName,
+            jsonType: .array(innerType),
+            attributes: .underscoredProperties
+        )
 
         // ensure all parts of the token path exist
         let tokenComponents = codingKeys.continuationToken.components(separatedBy: ".")
         path = [String]()
         for component in tokenComponents {
             path.append(component)
-            let metadata = XMLMetadata(jsonName: component, jsonType: .anyObject,
-                                       attributes: .underscoredProperties)
+            let metadata = XMLMetadata(
+                jsonName: component,
+                jsonType: .anyObject,
+                attributes: .underscoredProperties
+            )
             map[path.joined(separator: ".")] = metadata
         }
         guard let tokenMetadata = map[codingKeys.continuationToken] else { return }
@@ -147,8 +156,11 @@ public class XMLMap: Sequence, IteratorProtocol {
 
         // ensure that the "item" element name is in the map even though it will disappear from the JSON
         let prefix = "\(codingKeys.items).\(xmlItemName)"
-        map[prefix] = XMLMetadata(jsonName: xmlItemName, jsonType: .arrayItem(innerType),
-                                  attributes: .underscoredProperties)
+        map[prefix] = XMLMetadata(
+            jsonName: xmlItemName,
+            jsonType: .arrayItem(innerType),
+            attributes: .underscoredProperties
+        )
 
         // update the map with the map of the inner type
         let modelMap = XMLMap(withType: innerType, prefix: prefix)
@@ -180,7 +192,6 @@ public class XMLMap: Sequence, IteratorProtocol {
 // MARK: XML Tree
 
 internal class XMLTree {
-
     internal var root = XMLTreeNode(name: "__ROOT__", type: .ignored, parent: nil)
 
     var dictionary: [String: Any]? {

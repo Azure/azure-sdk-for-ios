@@ -27,7 +27,6 @@
 import Foundation
 
 public class UserAgentPolicy: PipelineStage {
-
     // MARK: Properties
 
     public var next: PipelineStage?
@@ -58,7 +57,7 @@ public class UserAgentPolicy: PipelineStage {
 
     // MARK: Initializers
 
-     public convenience init(for clazz: AnyClass, applicationId: String? = nil) {
+    public convenience init(for clazz: AnyClass, applicationId: String? = nil) {
         let libraryBundleInfo = DeviceProviders.bundleInfo(for: clazz)
         let sdkName = libraryBundleInfo?.name ?? ""
         let sdkVersion = libraryBundleInfo?.version ?? ""
@@ -136,7 +135,7 @@ public class UserAgentPolicy: PipelineStage {
 
     public func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
         if let currentUserAgent = request.httpRequest.headers[.userAgent],
-           !currentUserAgent.contains(UserAgentPolicy.defaultUserAgent) {
+            !currentUserAgent.contains(UserAgentPolicy.defaultUserAgent) {
             request.httpRequest.headers[.userAgent] = "\(userAgent) \(currentUserAgent)"
         } else {
             request.httpRequest.headers[.userAgent] = userAgent

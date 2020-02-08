@@ -27,7 +27,6 @@
 import Foundation
 
 public class URLHTTPResponse: HTTPResponse {
-
     // MARK: Properties
 
     private var internalResponse: HTTPURLResponse?
@@ -35,7 +34,7 @@ public class URLHTTPResponse: HTTPResponse {
     // MARK: Initializers
 
     public init(request: HTTPRequest, response: HTTPURLResponse?, blockSize: Int = 4096) {
-        internalResponse = response
+        self.internalResponse = response
         let statusCode = response?.statusCode
         super.init(request: request, statusCode: statusCode, blockSize: blockSize)
         guard let internalHeaders = response?.allHeaderFields else { return }

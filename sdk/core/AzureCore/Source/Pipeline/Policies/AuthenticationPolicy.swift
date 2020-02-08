@@ -27,7 +27,6 @@ import Foundation
 import MSAL
 
 public struct AccessToken {
-
     // MARK: Properties
 
     public let token: String
@@ -35,13 +34,12 @@ public struct AccessToken {
 }
 
 public protocol TokenCredential {
-
     // MARK: Required Methods
+
     func token(forScopes scopes: [String], then completion: @escaping (AccessToken?) -> Void)
 }
 
 public protocol Authenticating: PipelineStage {
-
     // MARK: Required Methods
 
     func authenticate(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler)
@@ -54,8 +52,7 @@ extension Authenticating {
 }
 
 /// Delegate protocol for view controllers to hook into the MSAL interactive flow.
-public protocol MSALInteractiveDelegate: class {
-
+public protocol MSALInteractiveDelegate: AnyObject {
     // MARK: Required Methods
 
     func parentForWebView() -> UIViewController
@@ -72,7 +69,6 @@ public extension MSALInteractiveDelegate where Self: UIViewController {
 
 /// An MSAL credential object.
 public struct MSALCredential: TokenCredential {
-
     // MARK: Properties
 
     private let tenant: String
@@ -80,7 +76,7 @@ public struct MSALCredential: TokenCredential {
     private let application: MSALPublicClientApplication
     private let account: MSALAccount?
 
-    weak private var delegate: MSALInteractiveDelegate? {
+    private weak var delegate: MSALInteractiveDelegate? {
         return ApplicationUtil.currentViewController(forParent: nil) as? MSALInteractiveDelegate
     }
 
@@ -93,15 +89,23 @@ public struct MSALCredential: TokenCredential {
     ///   - authority: An authority URI for the application.
     ///   - redirectUri: An optional redirect URI for the application.
     ///   - account: Initial value of the `MSALAccount` object, if known.
-    public init(tenant: String, clientId: String, authority: String, redirectUri: String? = nil,
-                account: MSALAccount? = nil) throws {
+    public init(
+        tenant: String,
+        clientId: String,
+        authority: String,
+        redirectUri: String? = nil,
+        account: MSALAccount? = nil
+    ) throws {
         let error = AzureError.general("Unable to create MSAL credential object.")
         guard let authorityUrl = URL(string: authority) else {
             throw error
         }
         let authority = try MSALAADAuthority(url: authorityUrl)
-        let config = MSALPublicClientApplicationConfig(clientId: clientId,
-                                                       redirectUri: redirectUri, authority: authority)
+        let config = MSALPublicClientApplicationConfig(
+            clientId: clientId,
+            redirectUri: redirectUri,
+            authority: authority
+        )
         guard let application = try? MSALPublicClientApplication(configuration: config) else { throw error }
         self.init(tenant: tenant, clientId: clientId, application: application, account: account)
     }
@@ -112,8 +116,12 @@ public struct MSALCredential: TokenCredential {
     ///   - clientId: The service principal client or application ID (a GUID).
     ///   - application: An `MSALPublicClientApplication` object.
     ///   - account: Initial value of the `MSALAccount` object, if known.
-    public init(tenant: String, clientId: String, application: MSALPublicClientApplication,
-                account: MSALAccount? = nil) {
+    public init(
+        tenant: String,
+        clientId: String,
+        application: MSALPublicClientApplication,
+        account: MSALAccount? = nil
+    ) {
         self.tenant = tenant
         self.clientId = clientId
         self.application = application
@@ -146,7 +154,7 @@ public struct MSALCredential: TokenCredential {
                 group.leave()
             }
         } else {
-            acquireTokenInteractively(withScopes: scopes) { (result, error) in
+            acquireTokenInteractively(withScopes: scopes) { result, error in
                 if let error = error {
                     print(error)
                 }
@@ -169,18 +177,23 @@ public struct MSALCredential: TokenCredential {
 
     // MARK: Internal Methods
 
-    internal func acquireTokenInteractively(withScopes scopes: [String],
-                                            then completion: @escaping (MSALResult?, Error?) -> Void) {
+    internal func acquireTokenInteractively(
+        withScopes scopes: [String],
+        then completion: @escaping (MSALResult?, Error?) -> Void
+    ) {
         guard let parent = delegate?.parentForWebView() else { return }
         let webViewParameters = MSALWebviewParameters(parentViewController: parent)
         let parameters = MSALInteractiveTokenParameters(scopes: scopes, webviewParameters: webViewParameters)
-        self.application.acquireToken(with: parameters) { result, error in
+        application.acquireToken(with: parameters) { result, error in
             completion(result, error)
         }
     }
 
-    internal func acquireTokenSilently(forAccount account: MSALAccount, withScopes scopes: [String],
-                                       then completion: @escaping (MSALResult?, Error?) -> Void) {
+    internal func acquireTokenSilently(
+        forAccount account: MSALAccount,
+        withScopes scopes: [String],
+        then completion: @escaping (MSALResult?, Error?) -> Void
+    ) {
         let parameters = MSALSilentTokenParameters(scopes: scopes, account: account)
         application.acquireTokenSilent(with: parameters) { result, error in
             if let error = error {
@@ -205,7 +218,6 @@ public struct MSALCredential: TokenCredential {
 }
 
 public class BearerTokenCredentialPolicy: Authenticating {
-
     // MARK: Properties
 
     public var next: PipelineStage?
@@ -219,7 +231,7 @@ public class BearerTokenCredentialPolicy: Authenticating {
     public init(credential: TokenCredential, scopes: [String]) {
         self.scopes = scopes
         self.credential = credential
-        token = nil
+        self.token = nil
     }
 
     // MARK: Public Methods

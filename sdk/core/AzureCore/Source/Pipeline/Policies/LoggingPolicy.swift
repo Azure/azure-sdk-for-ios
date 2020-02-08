@@ -27,7 +27,6 @@
 import Foundation
 
 public class LoggingPolicy: PipelineStage {
-
     // MARK: Static Properties
 
     public static let defaultAllowHeaders: [String] = [
@@ -78,7 +77,7 @@ public class LoggingPolicy: PipelineStage {
         let logger = request.logger
         let req = request.httpRequest
         let requestId = req.headers[.clientRequestId] ?? "(none)"
-        guard let safeUrl = self.redact(url: req.url) else {
+        guard let safeUrl = redact(url: req.url) else {
             logger.warning("Failed to parse URL for request \(requestId)")
             return
         }
@@ -148,12 +147,12 @@ public class LoggingPolicy: PipelineStage {
     }
 
     private func log(headers: HTTPHeaders, body bodyFunc: @autoclosure () -> String?, withLogger logger: ClientLogger) {
-        let safeHeaders = self.redact(headers: headers)
+        let safeHeaders = redact(headers: headers)
         for (header, value) in safeHeaders {
             logger.debug("\(header): \(value)")
         }
 
-        let bodyText = self.humanReadable(body: bodyFunc, headers: headers)
+        let bodyText = humanReadable(body: bodyFunc, headers: headers)
         logger.debug("\n\(bodyText)")
     }
 
@@ -195,7 +194,7 @@ public class LoggingPolicy: PipelineStage {
 
         var redactedQueryItems = [URLQueryItem]()
         for query in queryItems {
-            if !self.allowQueryParams.contains(query.name.lowercased()) {
+            if !allowQueryParams.contains(query.name.lowercased()) {
                 redactedQueryItems.append(URLQueryItem(name: query.name, value: "REDACTED"))
             } else {
                 redactedQueryItems.append(query)
@@ -209,7 +208,7 @@ public class LoggingPolicy: PipelineStage {
     private func redact(headers: HTTPHeaders) -> HTTPHeaders {
         var copy = headers
         for header in copy.keys {
-            if !self.allowHeaders.contains(header.lowercased()) {
+            if !allowHeaders.contains(header.lowercased()) {
                 copy.updateValue("REDACTED", forKey: header)
             }
         }
@@ -224,7 +223,6 @@ public class LoggingPolicy: PipelineStage {
 }
 
 public class CurlFormattedRequestLoggingPolicy: PipelineStage {
-
     // MARK: Properties
 
     public var next: PipelineStage?
@@ -245,7 +243,7 @@ public class CurlFormattedRequestLoggingPolicy: PipelineStage {
         parts += ["-X", req.httpMethod.rawValue]
         for (header, value) in req.headers {
             var escapedValue: String
-            if value.first == "\"" && value.last == "\"" {
+            if value.first == "\"", value.last == "\"" {
                 // Escape the surrounding quote marks and literal backslashes
                 var innerValue = value.trimmingCharacters(in: ["\""])
                 innerValue = innerValue.replacingOccurrences(of: "\\", with: "\\\\")
@@ -255,8 +253,7 @@ public class CurlFormattedRequestLoggingPolicy: PipelineStage {
                 escapedValue = value.replacingOccurrences(of: "\\", with: "\\\\")
             }
 
-            if header == HTTPHeader.acceptEncoding.rawValue &&
-               value.caseInsensitiveCompare("identity") != .orderedSame {
+            if header == HTTPHeader.acceptEncoding.rawValue, value.caseInsensitiveCompare("identity") != .orderedSame {
                 compressed = true
             }
 
