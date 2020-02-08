@@ -29,8 +29,8 @@ import AzureStorageBlob
 import MSAL
 import os.log
 
-import AVKit
 import AVFoundation
+import AVKit
 import UIKit
 
 // swiftlint:disable function_body_length
@@ -42,7 +42,7 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
     private var noMoreData = false
     private lazy var imagePicker = UIImagePickerController()
 
-    @IBAction func didSelectUpload(_ sender: UIBarButtonItem) {
+    @IBAction func didSelectUpload(_: UIBarButtonItem) {
         imagePicker.sourceType = .photoLibrary
         imagePicker.delegate = self
         present(imagePicker, animated: true, completion: nil)
@@ -53,14 +53,14 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
         let refreshControl = UIRefreshControl()
         refreshControl.attributedTitle = NSAttributedString(string: "Fetching Data ...", attributes: nil)
         refreshControl.addTarget(self, action: #selector(fetchData(_:)), for: .valueChanged)
-        self.tableView.refreshControl = refreshControl
+        tableView.refreshControl = refreshControl
         fetchData(self)
     }
 
     // MARK: Private Methods
 
     /// Constructs the PagedCollection and retrieves the first page of results to initalize the table view.
-    @objc private func fetchData(_ sender: Any) {
+    @objc private func fetchData(_: Any) {
         guard let containerName = containerName else { return }
         guard let blobClient = getBlobClient() else { return }
         let options = ListBlobsOptions()
@@ -141,7 +141,7 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
         guard let blobClient = getBlobClient() else { return }
         do {
             let options = DownloadBlobOptions()
-            options.progressCallback = { cumulative, total, data in
+            options.progressCallback = { cumulative, total, _ in
                 let percentDone = Double(cumulative) * 100.0 / Double(total)
                 blobClient.options.logger.info("Progress: %\(percentDone)")
             }
@@ -150,7 +150,7 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
             options.destination?.isTemporary = true
             options.range?.calculateMD5 = true
             guard let url = blobClient.url(forBlob: blobName, inContainer: containerName) else {
-                self.showAlert(error: "Unable to create URL!")
+                showAlert(error: "Unable to create URL!")
                 return
             }
             try blobClient.download(url: url, withOptions: options) { result, _ in
@@ -187,8 +187,11 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
                                     return
                                 }
 
-                                if let attributedString = try? NSAttributedString(data: data, options: options,
-                                                                                  documentAttributes: nil) {
+                                if let attributedString = try? NSAttributedString(
+                                    data: data,
+                                    options: options,
+                                    documentAttributes: nil
+                                ) {
                                     self.showAlert(message: attributedString.string)
                                 } else if let rawString = String(data: data, encoding: .utf8) {
                                     self.showAlert(message: rawString)
@@ -217,7 +220,7 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
                 }
             }
         } catch {
-            self.showAlert(error: String(describing: error))
+            showAlert(error: String(describing: error))
         }
     }
 
@@ -229,15 +232,17 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
 }
 
 extension BlobTableViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController,
-                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+    func imagePickerController(
+        _: UIImagePickerController,
+        didFinishPickingMediaWithInfo _: [UIImagePickerController.InfoKey: Any]
+    ) {
         // TODO: Upload the media to the storage container
         dismiss(animated: true) {
             self.showAlert(message: "Upload functionality coming soon!")
         }
     }
 
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+    func imagePickerControllerDidCancel(_: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
 }

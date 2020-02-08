@@ -31,12 +31,14 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
-    func application(_: UIApplication,
-                     didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(
+        _: UIApplication,
+        didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?
+    ) -> Bool {
         // The MSAL Logger should be set as early as possible in the app launch sequence, before any MSAL
         // requests are made.
 
-        MSALGlobalConfig.loggerConfig.setLogCallback { (_, message, containsPII) in
+        MSALGlobalConfig.loggerConfig.setLogCallback { _, message, containsPII in
 
             // If PiiLoggingEnabled is set YES, this block will potentially contain sensitive information (Personally
             // Identifiable Information), but not all messages will contain it.
@@ -46,10 +48,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if let displayableMessage = message {
                 if !containsPII {
                     #if DEBUG
-                    // NB! This sample uses print just for testing purposes
-                    // You should only ever log to NSLog in debug mode to prevent leaking potentially
-                    // sensitive information
-                    print(displayableMessage)
+                        // NB! This sample uses print just for testing purposes
+                        // You should only ever log to NSLog in debug mode to prevent leaking potentially
+                        // sensitive information
+                        print(displayableMessage)
                     #endif
                 }
             }
@@ -87,9 +89,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // applicationDidEnterBackground:.
     }
 
-    func application(_ app: UIApplication, open url: URL,
-                     options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+    func application(
+        _: UIApplication,
+        open url: URL,
+        options: [UIApplication.OpenURLOptionsKey: Any] = [:]
+    ) -> Bool {
         return MSALPublicClientApplication.handleMSALResponse(
-            url, sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String)
+            url, sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String
+        )
     }
 }

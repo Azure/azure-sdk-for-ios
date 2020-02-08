@@ -30,18 +30,17 @@ import MSAL
 import UIKit
 
 class LoginViewController: UIViewController, MSALInteractiveDelegate {
-
     // MARK: Outlets
 
-    @IBOutlet weak var logInButton: UIBarButtonItem!
+    @IBOutlet var logInButton: UIBarButtonItem!
 
-    @IBOutlet weak var logOutButton: UIBarButtonItem!
+    @IBOutlet var logOutButton: UIBarButtonItem!
 
-    @IBOutlet weak var userLabel: UILabel!
+    @IBOutlet var userLabel: UILabel!
 
     // MARK: Actions
 
-    @IBAction func didSelectLogOut(_ sender: Any) {
+    @IBAction func didSelectLogOut(_: Any) {
         guard let application = AppState.application else { return }
         guard let account = AppState.currentAccount() else { return }
         do {
@@ -58,8 +57,11 @@ class LoginViewController: UIViewController, MSALInteractiveDelegate {
 
         guard let authorityURL = URL(string: AppConstants.authority) else { return }
         guard let authority = try? MSALAADAuthority(url: authorityURL) else { return }
-        let msalConfiguration = MSALPublicClientApplicationConfig(clientId: AppConstants.clientId, redirectUri: nil,
-                                                                  authority: authority)
+        let msalConfiguration = MSALPublicClientApplicationConfig(
+            clientId: AppConstants.clientId,
+            redirectUri: nil,
+            authority: authority
+        )
         AppState.application = try? MSALPublicClientApplication(configuration: msalConfiguration)
         AppState.account = AppState.currentAccount()
         updateLogOutButton(enabled: AppState.currentAccount() != nil)
@@ -72,7 +74,7 @@ class LoginViewController: UIViewController, MSALInteractiveDelegate {
 
     internal func updateLogOutButton(enabled: Bool) {
         if Thread.isMainThread {
-            self.logOutButton.isEnabled = enabled
+            logOutButton.isEnabled = enabled
         } else {
             DispatchQueue.main.async { [weak self] in
                 self?.logOutButton.isEnabled = enabled
@@ -90,6 +92,7 @@ class LoginViewController: UIViewController, MSALInteractiveDelegate {
     }
 
     // MARK: MSALInteractiveDelegate
+
     func didCompleteMSALRequest(withResult result: MSALResult) {
         AppState.account = result.account
         updateLogOutButton(enabled: true)

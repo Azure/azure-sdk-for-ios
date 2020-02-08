@@ -32,7 +32,6 @@ import os.log
 import UIKit
 
 class MainViewController: UITableViewController, MSALInteractiveDelegate {
-
     // MARK: Properties
 
     private var dataSource: PagedCollection<ContainerItem>?
@@ -42,7 +41,7 @@ class MainViewController: UITableViewController, MSALInteractiveDelegate {
         super.viewDidLoad()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewDidAppear(_: Bool) {
         loadInitialSettings()
     }
 
