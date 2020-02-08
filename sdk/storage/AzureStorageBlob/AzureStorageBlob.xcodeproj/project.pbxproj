@@ -215,7 +215,7 @@
 				0A686486233E834D004B7E17 /* Frameworks */,
 				0A686487233E834D004B7E17 /* Resources */,
 				0A6864A7233E8366004B7E17 /* Embed Frameworks */,
-				0A4737AD2397110500DE8AC7 /* SwiftLint */,
+				0A4737AD2397110500DE8AC7 /* Format And Lint */,
 			);
 			buildRules = (
 			);
@@ -300,7 +300,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0A4737AD2397110500DE8AC7 /* SwiftLint */ = {
+		0A4737AD2397110500DE8AC7 /* Format And Lint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -309,14 +309,14 @@
 			);
 			inputPaths = (
 			);
-			name = SwiftLint;
+			name = "Format And Lint";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "ROOT_PATH=$(pwd | rev | cut -d'/' -f4- | rev) \n$ROOT_PATH/Scripts/swiftlint.sh $ROOT_PATH\n";
+			shellScript = "BUILD_PATH=$(pwd)\nROOT_PATH=$(pwd | rev | cut -d'/' -f4- | rev) \n$ROOT_PATH/Scripts/swiftlint.sh $BUILD_PATH\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

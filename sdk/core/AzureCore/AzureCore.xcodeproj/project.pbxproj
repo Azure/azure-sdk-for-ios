@@ -434,7 +434,7 @@
 				0A3A5D722315C89C00473FDA /* Sources */,
 				0A3A5D732315C89C00473FDA /* Frameworks */,
 				0A3A5D742315C89C00473FDA /* Resources */,
-				0AF4731723315A2000AC5571 /* SwiftLint */,
+				0AF4731723315A2000AC5571 /* Format And Lint */,
 				0A64D67C239729C50098326A /* Embed Frameworks */,
 			);
 			buildRules = (
@@ -528,7 +528,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0AF4731723315A2000AC5571 /* SwiftLint */ = {
+		0AF4731723315A2000AC5571 /* Format And Lint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -537,14 +537,14 @@
 			);
 			inputPaths = (
 			);
-			name = SwiftLint;
+			name = "Format And Lint";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "ROOT_PATH=$(pwd | rev | cut -d'/' -f4- | rev) \n$ROOT_PATH/Scripts/swiftlint.sh $ROOT_PATH\n";
+			shellScript = "BUILD_PATH=$(pwd)\nROOT_PATH=$(pwd | rev | cut -d'/' -f4- | rev) \n$ROOT_PATH/Scripts/swiftlint.sh $BUILD_PATH\n";
 		};
 		12F4861743CB158094725008 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
