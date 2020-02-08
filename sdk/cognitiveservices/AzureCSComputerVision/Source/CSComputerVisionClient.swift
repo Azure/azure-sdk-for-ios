@@ -88,7 +88,7 @@ class CSComputerVisionClient: NSObject {
         ])
         request.httpBody = jsonBody
         request.allHTTPHeaderFields = headers
-        credential.setAuthorizationheaders(forRequest: &request)
+//        credential.setAuthorizationheaders(forRequest: &request)
 
         // Now use this URLRequest with Alamofire to make request
 //        Alamofire.request(request).responseJSON { response in
@@ -121,7 +121,7 @@ class CSComputerVisionClient: NSObject {
         request.httpMethod = "POST"
         request.httpBody = image.pngData()
         request.allHTTPHeaderFields = headers
-        credential.setAuthorizationheaders(forRequest: &request)
+//        credential.setAuthorizationheaders(forRequest: &request)
 
         // Now use this URLRequest with Alamofire to make request
 //        Alamofire.request(request).responseJSON { response in

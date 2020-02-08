@@ -69,7 +69,7 @@ class TextAnalyticsClient: NSObject {
         ]
         request.httpBody = try? JSONSerialization.data(withJSONObject: jsonDict)
         request.allHTTPHeaderFields = headers
-        credential.setAuthorizationheaders(forRequest: &request)
+//        credential.setAuthorizationheaders(forRequest: &request)
 
         // Now use this URLRequest with Alamofire to make request
 //        Alamofire.request(request).responseJSON { response in
