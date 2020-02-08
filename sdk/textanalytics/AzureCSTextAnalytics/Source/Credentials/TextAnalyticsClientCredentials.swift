@@ -37,9 +37,9 @@ class TextAnalyticsClientCredentials: NSObject {
         self.headerProvider = AuthorizationHeaderProvider(withCredentials: credentials)
     }
 
-    func setAuthorizationheaders(forRequest request: inout URLRequest) {
-        headerProvider.setAuthenticationHeaders(forRequest: &request)
-    }
+//    func setAuthorizationheaders(forRequest request: inout URLRequest) {
+//        headerProvider.setAuthenticationHeaders(forRequest: &request)
+//    }
 
     class CredentialInformation {
         var key: String
@@ -58,9 +58,9 @@ class TextAnalyticsClientCredentials: NSObject {
             self.credentials = credentials
         }
 
-        func setAuthenticationHeaders(forRequest request: inout URLRequest) {
-            // TODO: Update for AzureCore
-            // request.addValue(self.credentials.key, forHTTPHeaderField: HTTPHeader.ocpApimSubscriptionKey.rawValue)
-        }
+//        func setAuthenticationHeaders(forRequest request: inout URLRequest) {
+//            // TODO: Update for AzureCore
+//             request.addValue(self.credentials.key, forHTTPHeaderField: HTTPHeader.ocpApimSubscriptionKey.rawValue)
+//        }
     }
 }

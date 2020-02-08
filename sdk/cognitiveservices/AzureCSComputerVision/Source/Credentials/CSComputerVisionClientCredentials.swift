@@ -37,9 +37,9 @@ class CSComputerVisionClientCredentials: NSObject {
         self.headerProvider = AuthorizationHeaderProvider(withCredentials: credentials)
     }
 
-    func setAuthorizationheaders(forRequest request: inout URLRequest) {
-        headerProvider.setAuthenticationHeaders(forRequest: &request)
-    }
+//    func setAuthorizationheaders(forRequest request: inout URLRequest) {
+//        headerProvider.setAuthenticationHeaders(forRequest: &request)
+//    }
 
     class CredentialInformation {
         var key: String
@@ -58,8 +58,8 @@ class CSComputerVisionClientCredentials: NSObject {
             self.credentials = credentials
         }
 
-        func setAuthenticationHeaders(forRequest request: inout URLRequest) {
+//        func setAuthenticationHeaders(forRequest request: inout URLRequest) {
 //            request.addValue(credentials.key, forHTTPHeaderField: HTTPHeader.ocpApimSubscriptionKey.rawValue)
-        }
+//        }
     }
 }
