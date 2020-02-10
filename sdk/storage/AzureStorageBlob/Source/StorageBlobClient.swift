@@ -127,12 +127,12 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
      */
     public static func from(connectionString: String, withOptions options: StorageBlobClientOptions? = nil) throws
         -> StorageBlobClient {
-            let sasCredential = try StorageSASCredential(connectionString: connectionString)
-            guard let blobEndpoint = sasCredential.blobEndpoint else {
-                throw AzureError.general("Invalid connection string.")
-            }
-            return try self.init(accountUrl: blobEndpoint, credential: sasCredential, withOptions: options)
+        let sasCredential = try StorageSASCredential(connectionString: connectionString)
+        guard let blobEndpoint = sasCredential.blobEndpoint else {
+            throw AzureError.general("Invalid connection string.")
         }
+        return try self.init(accountUrl: blobEndpoint, credential: sasCredential, withOptions: options)
+    }
 
     // MARK: Private Methods
 

@@ -231,7 +231,7 @@ public class BearerTokenCredentialPolicy: Authenticating {
     public init(credential: TokenCredential, scopes: [String]) {
         self.scopes = scopes
         self.credential = credential
-        self.token = nil
+        token = nil
     }
 
     // MARK: Public Methods

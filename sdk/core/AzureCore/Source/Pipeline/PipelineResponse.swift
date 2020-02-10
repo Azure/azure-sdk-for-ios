@@ -42,8 +42,8 @@ public final class PipelineResponse: Copyable, PipelineContextSupporting {
     }
 
     init(request: HTTPRequest, response: HTTPResponse?, logger: ClientLogger, context: PipelineContext?) {
-        self.httpRequest = request
-        self.httpResponse = response
+        httpRequest = request
+        httpResponse = response
         self.logger = logger
         self.context = context
     }

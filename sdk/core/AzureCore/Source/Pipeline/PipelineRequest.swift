@@ -41,7 +41,7 @@ public final class PipelineRequest: Copyable, PipelineContextSupporting {
     }
 
     public init(request: HTTPRequest, logger: ClientLogger, context: PipelineContext?) {
-        self.httpRequest = request
+        httpRequest = request
         self.logger = logger
         self.context = context
     }

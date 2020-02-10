@@ -53,7 +53,7 @@ public struct PagedCodingKeys {
     ) {
         self.items = items
         self.continuationToken = continuationToken
-        self.xmlItemName = xmlName
+        xmlItemName = xmlName
     }
 
     // MARK: Internal Methods
@@ -156,8 +156,8 @@ public class PagedCollection<SingleElement: Codable>: PagedCollectionDelegate {
         self.client = client
         self.decoder = decoder ?? JSONDecoder()
         self.codingKeys = codingKeys ?? PagedCodingKeys()
-        self.requestHeaders = request.headers
-        self.requestUrl = request.url
+        requestHeaders = request.headers
+        requestUrl = request.url
         self.delegate = delegate
         try update(with: data)
     }

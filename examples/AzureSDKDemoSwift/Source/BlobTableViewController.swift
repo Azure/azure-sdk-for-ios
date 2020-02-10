@@ -160,7 +160,7 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
                 showAlert(error: "Unable to create URL!")
                 return
             }
-            self.showActivitySpinner()
+            showActivitySpinner()
             try blobClient.download(url: url, withOptions: options) { result, _ in
                 switch result {
                 case let .success(downloader):
@@ -248,7 +248,7 @@ extension BlobTableViewController: BlobDownloadDelegate {
         guard downloader === current else { return }
         print("Download: \(downloader.blobName) Progress: %\(progress.percentProgress)")
         // blobClient.options.logger.info("Progress: %\(percentDone)")
-        if progress.percentProgress > 25 && !downloaderBuffered {
+        if progress.percentProgress > 25, !downloaderBuffered {
             downloaderBuffered = true
             hideActivitySpinner()
             DispatchQueue.main.async {
@@ -263,7 +263,7 @@ extension BlobTableViewController: BlobDownloadDelegate {
         }
     }
 
-    func downloader(_ downloader: BlobStreamDownloader, didFinishWithProgress progress: BlobDownloadProgress) {
+    func downloader(_ downloader: BlobStreamDownloader, didFinishWithProgress _: BlobDownloadProgress) {
         guard let current = currentDownloader else { return }
         guard downloader === current else { return }
         // update playing with completed file

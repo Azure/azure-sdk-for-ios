@@ -69,7 +69,7 @@ public enum HTTPHeader: String {
     case returnClientRequestId = "x-ms-return-client-request-id"
     case server = "Server"
     case slug = "Slug"
-    case traceparent = "traceparent"
+    case traceparent
     case trailer = "Trailer"
     case transferEncoding = "Transfer-Encoding"
     case userAgent = "User-Agent"

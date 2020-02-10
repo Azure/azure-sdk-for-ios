@@ -96,9 +96,9 @@ public class BlobSharedAccessSignature {
     public init(account: String, accountKey: String, options: BlobSasOptions? = nil) {
         self.account = account
         self.accountKey = accountKey
-        self.userDelegationKey = nil
+        userDelegationKey = nil
         self.options = options ?? BlobSasOptions()
-        self.queryDict = [SASConstant: String]()
+        queryDict = [SASConstant: String]()
     }
 
     /**
@@ -110,10 +110,10 @@ public class BlobSharedAccessSignature {
      */
     public init(account: String, userDelegationKey: UserDelegationKey, options: BlobSasOptions? = nil) {
         self.account = account
-        self.accountKey = nil
+        accountKey = nil
         self.userDelegationKey = userDelegationKey
         self.options = options ?? BlobSasOptions()
-        self.queryDict = [SASConstant: String]()
+        queryDict = [SASConstant: String]()
     }
 
     // MARK: Public Methods

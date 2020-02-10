@@ -53,8 +53,8 @@ public class URLSessionTransport: HTTPTransportStage {
     // MARK: Initializers
 
     public init() {
-        self.config = URLSessionConfiguration.default
-        self.operationQueue = OperationQueue()
+        config = URLSessionConfiguration.default
+        operationQueue = OperationQueue()
         operationQueue.name = "com.domain.AzureCore.networkQueue"
     }
 

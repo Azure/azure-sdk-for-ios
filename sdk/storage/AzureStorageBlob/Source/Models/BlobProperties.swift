@@ -155,40 +155,40 @@ public final class BlobProperties: XMLModel {
     }
 
     internal init(from headers: HTTPHeaders) {
-        self.creationTime = Date(headers[.creationTime], format: .rfc1123)
-        self.lastModified = Date(headers[.lastModified], format: .rfc1123)
-        self.copyCompletionTime = Date(headers[.copyCompletionTime], format: .rfc1123)
+        creationTime = Date(headers[.creationTime], format: .rfc1123)
+        lastModified = Date(headers[.lastModified], format: .rfc1123)
+        copyCompletionTime = Date(headers[.copyCompletionTime], format: .rfc1123)
 
-        self.eTag = headers[.etag]
-        self.contentType = headers[.contentType]
-        self.contentDisposition = headers[.contentDisposition]
-        self.contentEncoding = headers[.contentEncoding]
-        self.contentLanguage = headers[.contentLanguage]
-        self.contentMD5 = headers[.contentMD5]
-        self.contentCRC64 = headers[.contentCRC64]
-        self.cacheControl = headers[.cacheControl]
-        self.copyId = headers[.copyId]
-        self.copyProgress = headers[.copyProgress]
-        self.copyStatusDescription = headers[.copyStatusDescription]
+        eTag = headers[.etag]
+        contentType = headers[.contentType]
+        contentDisposition = headers[.contentDisposition]
+        contentEncoding = headers[.contentEncoding]
+        contentLanguage = headers[.contentLanguage]
+        contentMD5 = headers[.contentMD5]
+        contentCRC64 = headers[.contentCRC64]
+        cacheControl = headers[.cacheControl]
+        copyId = headers[.copyId]
+        copyProgress = headers[.copyProgress]
+        copyStatusDescription = headers[.copyStatusDescription]
 
-        self.contentLength = Int(headers[.contentLength])
-        self.sequenceNumber = Int(headers[.blobSequenceNumber])
-        self.serverEncrypted = Bool(headers[.serverEncrypted])
+        contentLength = Int(headers[.contentLength])
+        sequenceNumber = Int(headers[.blobSequenceNumber])
+        serverEncrypted = Bool(headers[.serverEncrypted])
 
-        self.blobType = BlobType(rawValue: headers[.blobType])
-        self.leaseStatus = LeaseStatus(rawValue: headers[.leaseStatus])
-        self.leaseState = LeaseState(rawValue: headers[.leaseState])
-        self.leaseDuration = LeaseDuration(rawValue: headers[.leaseDuration])
-        self.copyStatus = CopyStatus(rawValue: headers[.copyStatus])
-        self.copySource = URL(string: headers[.copySource])
+        blobType = BlobType(rawValue: headers[.blobType])
+        leaseStatus = LeaseStatus(rawValue: headers[.leaseStatus])
+        leaseState = LeaseState(rawValue: headers[.leaseState])
+        leaseDuration = LeaseDuration(rawValue: headers[.leaseDuration])
+        copyStatus = CopyStatus(rawValue: headers[.copyStatus])
+        copySource = URL(string: headers[.copySource])
 
         // Not documented as a valid response header
-        self.accessTier = nil
-        self.incrementalCopy = nil
-        self.accessTierInferred = nil
-        self.accessTierChangeTime = nil
-        self.deletedTime = nil
-        self.remainingRetentionDays = nil
+        accessTier = nil
+        incrementalCopy = nil
+        accessTierInferred = nil
+        accessTierChangeTime = nil
+        deletedTime = nil
+        remainingRetentionDays = nil
     }
 }
 

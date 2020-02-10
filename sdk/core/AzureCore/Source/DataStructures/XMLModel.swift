@@ -70,7 +70,7 @@ public struct XMLMetadata {
     ) {
         self.jsonName = jsonName
         self.jsonType = jsonType
-        self.attributeStrategy = attributes
+        attributeStrategy = attributes
     }
 }
 
@@ -90,7 +90,7 @@ public class XMLMap: Sequence, IteratorProtocol {
 
     /// Initialize directly with paths and values
     public init(_ existingValues: [String: XMLMetadata]) {
-        self.map = existingValues
+        map = existingValues
     }
 
     /// Generate XML map for single item types.

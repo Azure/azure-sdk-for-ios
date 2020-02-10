@@ -75,10 +75,10 @@ public class StorageSASCredential {
         let invalidCS = HTTPResponseError.clientAuthentication("The connection string \(connectionString) is invalid.")
         guard let sasToken = sas else { throw invalidCS }
         self.sasToken = sasToken
-        self.blobEndpoint = blob
-        self.queueEndpoint = queue
-        self.fileEndpoint = file
-        self.tableEndpoint = table
+        blobEndpoint = blob
+        queueEndpoint = queue
+        fileEndpoint = file
+        tableEndpoint = table
     }
 }
 

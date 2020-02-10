@@ -54,7 +54,7 @@ public struct ConfigurationSetting: Codable {
         self.label = label
         self.tags = tags
         self.contentType = contentType
-        self.etag = eTag
+        etag = eTag
         self.lastModified = lastModified
         self.locked = locked
     }

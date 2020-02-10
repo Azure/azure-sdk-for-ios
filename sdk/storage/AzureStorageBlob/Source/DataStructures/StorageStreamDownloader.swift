@@ -75,11 +75,11 @@ internal class ChunkDownloader {
         endRange: Int,
         options: DownloadBlobOptions
     ) {
-        self.blobName = blob
-        self.containerName = container
+        blobName = blob
+        containerName = container
         self.client = client
         self.options = options
-        self.downloadDestination = url
+        downloadDestination = url
         self.startRange = startRange
         self.endRange = endRange
     }
@@ -224,7 +224,6 @@ public protocol BlobDownloadDelegate: class {
 
 /// Class used to download streaming blobs.
 public class BlobStreamDownloader {
-
     // MARK: Properties
 
     public weak var delegate: BlobDownloadDelegate?
@@ -278,7 +277,6 @@ public class BlobStreamDownloader {
     ///   - container: The name of the container the blob is contained in.
     ///   - options: A `DownloadBlobOptions` object to control the download process.
     public init(client: StorageBlobClient, delegate: BlobDownloadDelegate? = nil, name: String, container: String, options: DownloadBlobOptions? = nil) throws {
-
         // determine which app folder is appropriate
         let isTemporary = options?.destination?.isTemporary ?? false
         var baseUrl: URL
@@ -298,7 +296,7 @@ public class BlobStreamDownloader {
         let customSubfolder = options?.destination?.subfolder
         let customFilename = options?.destination?.filename
 
-        self.downloadDestination = baseUrl.appendingPathComponent(customSubfolder ?? defaultSubfolder)
+        downloadDestination = baseUrl.appendingPathComponent(customSubfolder ?? defaultSubfolder)
             .appendingPathComponent(customFilename ?? defaultFilename)
         if FileManager.default.fileExists(atPath: downloadDestination.path) {
             try? FileManager.default.removeItem(at: downloadDestination)
@@ -307,11 +305,11 @@ public class BlobStreamDownloader {
         self.client = client
         self.delegate = delegate
         self.options = options ?? DownloadBlobOptions()
-        self.blobName = name
-        self.containerName = container
-        self.requestedSize = self.options.range?.length
-        self.blobProperties = nil
-        self.blockList = computeBlockList()
+        blobName = name
+        containerName = container
+        requestedSize = self.options.range?.length
+        blobProperties = nil
+        blockList = computeBlockList()
     }
 
     // MARK: Public Methods
@@ -329,7 +327,7 @@ public class BlobStreamDownloader {
     ///   - completion: A completion handler called when the download completes.
     public func complete(inGroup group: DispatchGroup? = nil, then completion: @escaping () -> Void) throws {
         guard !isComplete else {
-            let progress = BlobDownloadProgress(bytes: self.progress, totalBytes: self.fileSize ?? 1)
+            let progress = BlobDownloadProgress(bytes: self.progress, totalBytes: fileSize ?? 1)
             if let delegate = self.delegate {
                 delegate.downloader(self, didFinishWithProgress: progress)
             } else {

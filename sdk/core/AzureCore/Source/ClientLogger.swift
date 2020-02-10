@@ -166,7 +166,7 @@ public class OSLogger: ClientLogger {
         category: String,
         level: ClientLogLevel = .info
     ) {
-        self.osLogger = OSLog(subsystem: subsystem, category: category)
+        osLogger = OSLog(subsystem: subsystem, category: category)
         self.level = level
     }
 
