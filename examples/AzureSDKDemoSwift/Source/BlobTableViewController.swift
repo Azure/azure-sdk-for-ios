@@ -74,7 +74,9 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
         guard let blobClient = getBlobClient() else { return }
         let options = ListBlobsOptions()
         options.maxResults = 20
-        showActivitySpinner()
+        if !(tableView.refreshControl?.isRefreshing ?? false) {
+            showActivitySpinner()
+        }
         blobClient.listBlobs(in: containerName, withOptions: options) { result, _ in
             self.hideActivitySpinner()
             switch result {

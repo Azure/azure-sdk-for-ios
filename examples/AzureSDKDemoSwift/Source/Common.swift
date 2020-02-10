@@ -154,11 +154,11 @@ extension UIViewController {
         DispatchQueue.main.async { [weak self] in
             guard let parent = self else { return }
             let filtered = parent.children.filter { $0 is ActivtyViewController }
-            assert(filtered.count < 2, "Unexpectedly found multiple activity view controllers.")
-            guard let child = filtered.first else { return }
-            child.willMove(toParent: nil)
-            child.view.removeFromSuperview()
-            child.removeFromParent()
+            for child in filtered {
+                child.willMove(toParent: nil)
+                child.view.removeFromSuperview()
+                child.removeFromParent()
+            }
         }
     }
 }
