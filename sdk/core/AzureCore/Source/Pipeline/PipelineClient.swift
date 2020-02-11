@@ -46,7 +46,7 @@ open class AzureOptions {
     // MARK: Initializers
 
     public init() {
-        clientRequestId = nil
+        self.clientRequestId = nil
     }
 }
 
@@ -69,7 +69,7 @@ open class PipelineClient {
         self.baseUrl = baseUrl
         self.logger = logger
         if self.baseUrl.suffix(1) != "/" { self.baseUrl += "/" }
-        pipeline = Pipeline(transport: transport, policies: policies)
+        self.pipeline = Pipeline(transport: transport, policies: policies)
     }
 
     // MARK: Public Methods

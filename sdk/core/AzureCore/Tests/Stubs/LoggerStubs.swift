@@ -48,7 +48,7 @@ class TestClientLogger: ClientLogger {
     var messages: [Message] = []
 
     public init(_ logLevel: ClientLogLevel = .info) {
-        level = logLevel
+        self.level = logLevel
     }
 
     public func log(_ message: () -> String?, atLevel messageLevel: ClientLogLevel) {

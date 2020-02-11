@@ -49,31 +49,31 @@ public class AppConfigurationClient: PipelineClient {
 
     public static func from(connectionString: String, withOptions options: AppConfigurationClientOptions? = nil) throws
         -> AppConfigurationClient {
-        let clientOptions = options ?? AppConfigurationClientOptions(apiVersion: ApiVersion.latest.rawValue)
-        let credential = try AppConfigurationCredential(connectionString: connectionString)
-        let authPolicy = AppConfigurationAuthenticationPolicy(credential: credential, scopes: [credential.endpoint])
+            let clientOptions = options ?? AppConfigurationClientOptions(apiVersion: ApiVersion.latest.rawValue)
+            let credential = try AppConfigurationCredential(connectionString: connectionString)
+            let authPolicy = AppConfigurationAuthenticationPolicy(credential: credential, scopes: [credential.endpoint])
 
-        let headers = HTTPHeaders([
-            .returnClientRequestId: "true",
-            .contentType: "application/json",
-            .accept: "application/vnd.microsoft.azconfig.kv+json"
-        ])
+            let headers = HTTPHeaders([
+                .returnClientRequestId: "true",
+                .contentType: "application/json",
+                .accept: "application/vnd.microsoft.azconfig.kv+json"
+            ])
 
-        return AppConfigurationClient(
-            baseUrl: credential.endpoint,
-            transport: URLSessionTransport(),
-            policies: [
-                UserAgentPolicy(for: AppConfigurationClient.self),
-                RequestIdPolicy(),
-                HeadersPolicy(addingHeaders: headers),
-                AddDatePolicy(),
-                authPolicy,
-                ContentDecodePolicy(),
-                LoggingPolicy()
-            ],
-            withOptions: clientOptions
-        )
-    }
+            return AppConfigurationClient(
+                baseUrl: credential.endpoint,
+                transport: URLSessionTransport(),
+                policies: [
+                    UserAgentPolicy(for: AppConfigurationClient.self),
+                    RequestIdPolicy(),
+                    HeadersPolicy(addingHeaders: headers),
+                    AddDatePolicy(),
+                    authPolicy,
+                    ContentDecodePolicy(),
+                    LoggingPolicy()
+                ],
+                withOptions: clientOptions
+            )
+        }
 
     // MARK: API Calls
 

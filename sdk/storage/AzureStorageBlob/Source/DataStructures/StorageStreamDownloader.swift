@@ -75,11 +75,11 @@ internal class ChunkDownloader {
         endRange: Int,
         options: DownloadBlobOptions
     ) {
-        blobName = blob
-        containerName = container
+        self.blobName = blob
+        self.containerName = container
         self.client = client
         self.options = options
-        downloadDestination = url
+        self.downloadDestination = url
         self.startRange = startRange
         self.endRange = endRange
     }
@@ -217,7 +217,7 @@ public struct BlobDownloadProgress {
     }
 }
 
-public protocol BlobDownloadDelegate: class {
+public protocol BlobDownloadDelegate: AnyObject {
     func downloader(_ downloader: BlobStreamDownloader, didUpdateWithProgress progress: BlobDownloadProgress)
     func downloader(_ downloader: BlobStreamDownloader, didFinishWithProgress progress: BlobDownloadProgress)
 }
@@ -276,7 +276,13 @@ public class BlobStreamDownloader {
     ///   - name: The name of the blob to download.
     ///   - container: The name of the container the blob is contained in.
     ///   - options: A `DownloadBlobOptions` object to control the download process.
-    public init(client: StorageBlobClient, delegate: BlobDownloadDelegate? = nil, name: String, container: String, options: DownloadBlobOptions? = nil) throws {
+    public init(
+        client: StorageBlobClient,
+        delegate: BlobDownloadDelegate? = nil,
+        name: String,
+        container: String,
+        options: DownloadBlobOptions? = nil
+    ) throws {
         // determine which app folder is appropriate
         let isTemporary = options?.destination?.isTemporary ?? false
         var baseUrl: URL
@@ -296,7 +302,7 @@ public class BlobStreamDownloader {
         let customSubfolder = options?.destination?.subfolder
         let customFilename = options?.destination?.filename
 
-        downloadDestination = baseUrl.appendingPathComponent(customSubfolder ?? defaultSubfolder)
+        self.downloadDestination = baseUrl.appendingPathComponent(customSubfolder ?? defaultSubfolder)
             .appendingPathComponent(customFilename ?? defaultFilename)
         if FileManager.default.fileExists(atPath: downloadDestination.path) {
             try? FileManager.default.removeItem(at: downloadDestination)
@@ -305,11 +311,11 @@ public class BlobStreamDownloader {
         self.client = client
         self.delegate = delegate
         self.options = options ?? DownloadBlobOptions()
-        blobName = name
-        containerName = container
-        requestedSize = self.options.range?.length
-        blobProperties = nil
-        blockList = computeBlockList()
+        self.blobName = name
+        self.containerName = container
+        self.requestedSize = self.options.range?.length
+        self.blobProperties = nil
+        self.blockList = computeBlockList()
     }
 
     // MARK: Public Methods
@@ -361,7 +367,7 @@ public class BlobStreamDownloader {
     /// - Parameters:
     ///   - group: An optional `DispatchGroup` to wait for the download to complete.
     ///   - completion: A completion handler with which to process the downloaded chunk.
-    public func next(inGroup group: DispatchGroup? = nil, then completion: @escaping (Result<Data, Error>, HTTPResponse) -> Void) {
+    public func next(inGroup group: DispatchGroup? = nil, then completion: @escaping HTTPResultHandler<Data>) {
         guard !isComplete else { return }
         let range = blockList.removeFirst()
         let downloader = ChunkDownloader(

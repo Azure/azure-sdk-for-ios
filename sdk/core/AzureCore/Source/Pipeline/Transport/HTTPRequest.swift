@@ -46,7 +46,7 @@ public class HTTPRequest: DataStringConvertible {
     // MARK: Initializers
 
     public init(method: HTTPMethod, url: String, headers: HTTPHeaders, files: [String]? = nil, data: Data? = nil) {
-        httpMethod = method
+        self.httpMethod = method
         self.url = url
         self.headers = headers
         self.files = files

@@ -32,8 +32,8 @@ public struct ConfigurationSettingPutParameters: Codable {
     let contentType: String
 
     public init(withConfigurationSetting setting: ConfigurationSetting) {
-        value = setting.value
-        tags = setting.tags
-        contentType = setting.contentType ?? ""
+        self.value = setting.value
+        self.tags = setting.tags
+        self.contentType = setting.contentType ?? ""
     }
 }
