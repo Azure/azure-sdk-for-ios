@@ -41,6 +41,9 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
     private var dataSource: PagedCollection<BlobItem>?
     private var noMoreData = false
     private lazy var imagePicker = UIImagePickerController()
+    private lazy var player: AVPlayer = AVPlayer()
+    private var currentDownloader: BlobStreamDownloader?
+    private var downloaderBuffered = false
 
     @IBAction func didSelectUpload(_: UIBarButtonItem) {
         imagePicker.sourceType = .photoLibrary
@@ -57,6 +60,12 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
         fetchData(self)
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        currentDownloader = nil
+        downloaderBuffered = false
+    }
+
     // MARK: Private Methods
 
     /// Constructs the PagedCollection and retrieves the first page of results to initalize the table view.
@@ -65,7 +74,11 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
         guard let blobClient = getBlobClient() else { return }
         let options = ListBlobsOptions()
         options.maxResults = 20
+        if !(tableView.refreshControl?.isRefreshing ?? false) {
+            showActivitySpinner()
+        }
         blobClient.listBlobs(in: containerName, withOptions: options) { result, _ in
+            self.hideActivitySpinner()
             switch result {
             case let .success(paged):
                 self.dataSource = paged
@@ -141,10 +154,6 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
         guard let blobClient = getBlobClient() else { return }
         do {
             let options = DownloadBlobOptions()
-            options.progressCallback = { cumulative, total, _ in
-                let percentDone = Double(cumulative) * 100.0 / Double(total)
-                blobClient.options.logger.info("Progress: %\(percentDone)")
-            }
             options.range = RangeOptions()
             options.destination = DestinationOptions()
             options.destination?.isTemporary = true
@@ -153,6 +162,7 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
                 showAlert(error: "Unable to create URL!")
                 return
             }
+            showActivitySpinner()
             try blobClient.download(url: url, withOptions: options) { result, _ in
                 switch result {
                 case let .success(downloader):
@@ -161,27 +171,14 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
                     ]
                     do {
                         let contentType = downloader.blobProperties?.contentType
-                        let url = downloader.downloadDestination
 
-                        if contentType == "video/mp4" {
-                            DispatchQueue.main.async { [weak self] in
-                                let player = AVPlayer(url: url)
-                                let controller = AVPlayerViewController()
-                                controller.player = player
-                                self?.present(controller, animated: true) {
-                                    // begin playing first chunk
-                                    player.playImmediately(atRate: 1.0)
-                                    do {
-                                        _ = try downloader.complete {}
-                                    } catch {
-                                        // Obviously don't really do this in a real app!
-                                        fatalError(String(describing: error))
-                                    }
-                                }
-                            }
+                        if ["video/mp4", "application/octet-stream"].contains(contentType) {
+                            self.currentDownloader = downloader
+                            downloader.delegate = self
+                            try downloader.complete {}
                         } else {
-                            let group = DispatchGroup()
-                            try downloader.complete(inGroup: group) {
+                            try downloader.complete {
+                                self.hideActivitySpinner()
                                 guard let data = try? downloader.contents() else {
                                     self.showAlert(error: "Downloaded data not found!")
                                     return
@@ -244,5 +241,42 @@ extension BlobTableViewController: UIImagePickerControllerDelegate, UINavigation
 
     func imagePickerControllerDidCancel(_: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
+    }
+}
+
+extension BlobTableViewController: BlobDownloadDelegate {
+    func downloader(_ downloader: BlobStreamDownloader, didUpdateWithProgress progress: BlobDownloadProgress) {
+        guard let current = currentDownloader else { return }
+        guard downloader === current else { return }
+        print("Download: \(downloader.blobName) Progress: %\(progress.percentProgress)")
+        // blobClient.options.logger.info("Progress: %\(percentDone)")
+        if progress.percentProgress > 25, !downloaderBuffered {
+            downloaderBuffered = true
+            hideActivitySpinner()
+            DispatchQueue.main.async {
+                let url = downloader.downloadDestination
+                self.player.replaceCurrentItem(with: AVPlayerItem(asset: AVAsset(url: url)))
+                let controller = AVPlayerViewController()
+                controller.player = self.player
+                self.present(controller, animated: true) {
+                    self.player.play()
+                }
+            }
+        }
+    }
+
+    func downloader(_ downloader: BlobStreamDownloader, didFinishWithProgress _: BlobDownloadProgress) {
+        guard let current = currentDownloader else { return }
+        guard downloader === current else { return }
+        // update playing with completed file
+        DispatchQueue.main.async { [weak self] in
+            guard let parent = self else { return }
+            let currentTime = parent.player.currentTime()
+            let asset = AVURLAsset(url: downloader.downloadDestination)
+            let item = AVPlayerItem(asset: asset)
+            parent.player.replaceCurrentItem(with: item)
+            parent.player.seek(to: currentTime)
+            parent.player.play()
+        }
     }
 }
