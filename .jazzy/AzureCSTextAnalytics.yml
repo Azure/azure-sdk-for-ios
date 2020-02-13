@@ -1,0 +1,22 @@
+author: Microsoft
+author_url: https://azure.github.io/azure-sdk/
+github_url: https://github.com/Azure/azure-sdk-for-ios
+module: AzureCSTextAnalytics
+module_version: 0.1
+readme: ../sdk/textanalytics/AzureCSTextAnalytics/README.md
+skip_undocumented: false
+hide_unlisted_documentation: false
+theme: fullwidth
+output: ../build/jazzy/AzureCSTextAnalytics
+clean: true
+sdk: iphonesimulator
+xcodebuild_arguments:
+  - "-workspace"
+  - "AzureSDK.xcworkspace"
+  - "-scheme"
+  - "AzureCSTextAnalytics"
+  - "-sdk"
+  - "iphonesimulator"
+exclude:
+  - "*/Source/ObjectiveCCompatibility/*"
+  - "*/Tests/*"
