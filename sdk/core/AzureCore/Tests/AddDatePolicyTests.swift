@@ -29,7 +29,7 @@ import XCTest
 
 class AddDatePolicyTests: XCTestCase {
     /// Test that the add date policy adds a non-empty date header
-    func test_RequestIdPolicy_AddsHeaderToRequest() {
+    func test_AddDatePolicy_AddsHeaderToRequest() {
         let policy = AddDatePolicy()
         let req = PipelineRequest()
         policy.on(request: req) { _ in }
@@ -38,11 +38,21 @@ class AddDatePolicyTests: XCTestCase {
     }
 
     /// Test that the add date policy adds a header whose value looks like an RFC1123 date
-    func test_RequestIdPolicy_HeaderValueIsUUID() {
+    func test_AddDatePolicy_HeaderValueIsDate() {
         let policy = AddDatePolicy()
         let req = PipelineRequest()
         policy.on(request: req) { _ in }
         let value = req.httpRequest.headers[.date]
         XCTAssertNotNil(Date(value!, format: .rfc1123))
+    }
+
+    /// Test that the add date policy overwrites any existing Date header
+    func test_AddDatePolicy_OverwritesExistingDateHeader() {
+        let policy = AddDatePolicy()
+        let headers = HTTPHeaders([.date: "ABCDEF"])
+        let req = PipelineRequest(headers: headers)
+        policy.on(request: req) { _ in }
+        let value = req.httpRequest.headers[.date]
+        XCTAssertNotEqual(value, "ABCDEF")
     }
 }
