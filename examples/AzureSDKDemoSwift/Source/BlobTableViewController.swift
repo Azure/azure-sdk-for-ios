@@ -152,7 +152,6 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
         guard let blobName = cell.keyLabel.text else { return }
         guard let containerName = containerName else { return }
         guard let blobClient = getBlobClient() else { return }
-        let transferManager = URLSessionTransferManager(withClient: blobClient)
 
         do {
             let options = DownloadBlobOptions()

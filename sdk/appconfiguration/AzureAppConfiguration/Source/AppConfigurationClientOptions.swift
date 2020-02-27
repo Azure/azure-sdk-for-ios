@@ -29,7 +29,7 @@ import Foundation
 
 public class AppConfigurationClientOptions: AzureConfigurable {
     public let apiVersion: String
-    public let logger: ClientLogger
+    public var logger: ClientLogger
     public let tag: String
 
     public init(apiVersion: String, logger: ClientLogger? = nil, tag: String = "AppConfigurationClient") {
