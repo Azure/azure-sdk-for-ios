@@ -37,21 +37,22 @@ public class BlockTransfer: NSManagedObject, Transfer {
 }
 
 extension BlockTransfer {
-    public convenience init(
-        withContext context: NSManagedObjectContext,
+    static func with(
+        context: NSManagedObjectContext,
         startRange: Int64,
         endRange: Int64,
         parent: BlobTransfer? = nil
-    ) {
-        self.init(context: parent?.managedObjectContext ?? context)
-        self.startRange = startRange
-        self.endRange = endRange
-//        if parent != nil {
-//            let expectedEntity = entity.relationshipsByName["parent"]!.destinationEntity!
-//            let actualEntity = parent!.entity
-//            assert(actualEntity === expectedEntity)
-//        }
-        self.parent = parent
-        self.state = .pending
+    ) -> BlockTransfer {
+        guard let transfer = NSEntityDescription.insertNewObject(
+            forEntityName: "BlockTransfer",
+            into: context
+        ) as? BlockTransfer else {
+            fatalError("Unable to create BlockTransfer object.")
+        }
+        transfer.startRange = startRange
+        transfer.endRange = endRange
+        transfer.parent = parent
+        transfer.state = .pending
+        return transfer
     }
 }

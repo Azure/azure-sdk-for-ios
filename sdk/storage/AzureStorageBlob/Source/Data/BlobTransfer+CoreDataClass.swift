@@ -74,8 +74,8 @@ public class BlobTransfer: NSManagedObject, Transfer {
 }
 
 extension BlobTransfer {
-    public convenience init(
-        withContext context: NSManagedObjectContext,
+    static func with(
+        context: NSManagedObjectContext,
         baseUrl: String,
         blobName: String,
         containerName: String,
@@ -83,15 +83,21 @@ extension BlobTransfer {
         startRange: Int64,
         endRange: Int64,
         parent: MultiBlobTransfer? = nil
-    ) {
-        self.init(context: context)
-        self.parent = parent
-        self.baseUrl = baseUrl
-        self.blobName = blobName
-        self.containerName = containerName
-        self.uri = uri
-        self.startRange = startRange
-        self.endRange = endRange
-        self.state = .pending
+    ) -> BlobTransfer {
+        guard let transfer = NSEntityDescription.insertNewObject(
+            forEntityName: "BlobTransfer",
+            into: context
+        ) as? BlobTransfer else {
+            fatalError("Unable to create BlobTransfer object.")
+        }
+        transfer.parent = parent
+        transfer.baseUrl = baseUrl
+        transfer.blobName = blobName
+        transfer.containerName = containerName
+        transfer.uri = uri
+        transfer.startRange = startRange
+        transfer.endRange = endRange
+        transfer.state = .pending
+        return transfer
     }
 }

@@ -63,3 +63,16 @@ public class MultiBlobTransfer: NSManagedObject, Transfer {
         }
     }
 }
+
+extension MultiBlobTransfer {
+    static func with(context: NSManagedObjectContext) -> MultiBlobTransfer {
+        guard let transfer = NSEntityDescription.insertNewObject(
+            forEntityName: "MultiBlobTransfer",
+            into: context
+        ) as? MultiBlobTransfer else {
+            fatalError("Unable to create MultiBlobTransfer object.")
+        }
+        transfer.state = .pending
+        return transfer
+    }
+}

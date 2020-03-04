@@ -378,8 +378,8 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
             container: container,
             options: options
         )
-        let blobTransfer = BlobTransfer(
-            withContext: context,
+        let blobTransfer = BlobTransfer.with(
+            context: context,
             baseUrl: baseUrl,
             blobName: blob,
             containerName: container,

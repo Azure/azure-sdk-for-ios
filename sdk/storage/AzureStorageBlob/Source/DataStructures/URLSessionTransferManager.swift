@@ -172,7 +172,7 @@ public final class URLSessionTransferManager: NSObject, TransferManager, URLSess
         transfers.append(transfer)
 
         if transfer.transfers.isEmpty, transfer.state == .pending {
-            let blockTransfer = BlockTransfer(withContext: context, startRange: 0, endRange: 1, parent: transfer)
+            let blockTransfer = BlockTransfer.with(context: context, startRange: 0, endRange: 1, parent: transfer)
             transfer.blocks?.adding(blockTransfer)
             transfer.totalBlocks = Int64(transfer.transfers.count)
         }

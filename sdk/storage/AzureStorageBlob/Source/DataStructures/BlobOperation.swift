@@ -66,8 +66,8 @@ internal class BlobInitialOperation: ResumableTransfer {
 
         var operations = [BlockOperation]()
         for block in blockList {
-            let blockTransfer = BlockTransfer(
-                withContext: context,
+            let blockTransfer = BlockTransfer.with(
+                context: context,
                 startRange: Int64(block.startIndex),
                 endRange: Int64(block.endIndex),
                 parent: transfer
