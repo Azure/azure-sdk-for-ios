@@ -65,7 +65,7 @@ public class MultiBlobTransfer: NSManagedObject, Transfer {
 }
 
 extension MultiBlobTransfer {
-    static func with(context: NSManagedObjectContext) -> MultiBlobTransfer {
+    public static func with(context: NSManagedObjectContext) -> MultiBlobTransfer {
         guard let transfer = NSEntityDescription.insertNewObject(
             forEntityName: "MultiBlobTransfer",
             into: context

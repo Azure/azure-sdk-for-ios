@@ -28,7 +28,6 @@ import Foundation
 
 #if !os(watchOS)
 
-    import Foundation
     import SystemConfiguration
 
     /// Defines the various connection types detected by reachability flags.

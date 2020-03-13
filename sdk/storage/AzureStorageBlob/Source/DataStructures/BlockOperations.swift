@@ -81,6 +81,7 @@ public class BlockOperation: ResumableTransfer {
                 group.leave()
             }
         } else {
+            // TODO: Remove dummy workload when TM has sufficient testing
             let delay = UInt32.random(in: 5 ... 10)
             print("Simulating work with \(delay) second delay.")
             sleep(delay)

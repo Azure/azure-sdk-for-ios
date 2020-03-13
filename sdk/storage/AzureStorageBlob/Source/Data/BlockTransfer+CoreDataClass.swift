@@ -37,7 +37,7 @@ public class BlockTransfer: NSManagedObject, Transfer {
 }
 
 extension BlockTransfer {
-    static func with(
+    public static func with(
         context: NSManagedObjectContext,
         startRange: Int64,
         endRange: Int64,

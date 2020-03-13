@@ -28,7 +28,6 @@ import Foundation
 
 #if !os(watchOS)
 
-    import Foundation
     import SystemConfiguration
 
     public class ReachabilityManager: ReachabilityManagerType {

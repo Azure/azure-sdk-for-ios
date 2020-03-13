@@ -42,6 +42,7 @@ internal class MultiBlobOperation: ResumableTransfer {
     // MARK: Public Methods
 
     public override func main() {
+        // TODO: Complete this implementation
         guard let transfer = self.transfer as? MultiBlobTransfer else { return }
         transfer.state = .complete
         delegate?.operation(self, didChangeState: transfer.state)

@@ -450,8 +450,7 @@ public class BlobStreamDownloader {
                     // if the requestedSize was not specfied, the block list will need to be recomputed
                     // based on the actual file size.
                     var recomputeBlockList = self.requestedSize == nil
-                    self.requestedSize = (self.requestedSize ?? fileSize) - (self.options.range?.offset ?? 0
-                    )
+                    self.requestedSize = (self.requestedSize ?? fileSize) - (self.options.range?.offset ?? 0)
                     let progress = BlobDownloadProgress(bytes: self.progress, totalBytes: self.fileSize ?? 1)
                     self.delegate?.downloader(self, didUpdateWithProgress: progress)
 

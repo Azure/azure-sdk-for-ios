@@ -76,14 +76,14 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         fileId += 1
         // TODO: This is artificial
         let uri = URL(string: "www.contoso.com")
-        let transfer = BlobTransfer(withContext: context, baseUrl: "www.test.com", blobName: "Blob\(fileId)", containerName: "test", uri: uri, startRange: 0, endRange: 1)
+        let transfer = BlobTransfer.with(context: context, baseUrl: "www.test.com", blobName: "Blob\(fileId)", containerName: "test", uri: uri, startRange: 0, endRange: 1)
         transferManager.add(transfer: transfer)
     }
 
     @IBAction func didPressEnqueue(_ sender: UIBarButtonItem) {
         guard let context = transferManager.persistentContainer?.viewContext else { return }
         fileId += 1
-        let transfer = BlockTransfer(withContext: context, startRange: 0, endRange: 1)
+        let transfer = BlockTransfer.with(context: context, startRange: 0, endRange: 1)
         transferManager.add(transfer: transfer)
     }
 

@@ -39,6 +39,7 @@ public protocol TransferManager: ResumableOperationQueueDelegate {
 
     // MARK: Storage Methods
 
+    // TODO: Uplevel the relelvant func signatures into TM protocol once reviewed
     // func upload(_ url: URL) -> Transferable
     // func download(_ url: URL) -> Transferable
     // func copy(from source: URL, to destination: URL) -> Transferable

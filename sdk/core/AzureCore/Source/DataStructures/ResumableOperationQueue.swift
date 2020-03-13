@@ -135,8 +135,8 @@ open class ResumableOperationQueue {
         removeFromDataStore(operation)
 
         // Cancel the operation.
-        if !(operation as Operation).isFinished {
-            (operation as Operation).cancel()
+        if !operation.isFinished {
+            operation.cancel()
         }
     }
 

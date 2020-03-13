@@ -74,7 +74,7 @@ public class BlobTransfer: NSManagedObject, Transfer {
 }
 
 extension BlobTransfer {
-    static func with(
+    public static func with(
         context: NSManagedObjectContext,
         baseUrl: String,
         blobName: String,
