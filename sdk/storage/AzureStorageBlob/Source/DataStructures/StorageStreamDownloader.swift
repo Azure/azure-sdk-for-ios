@@ -209,16 +209,29 @@ internal class ChunkDownloader {
     }
 }
 
-public struct BlobDownloadProgress {
+public protocol TransferProgress {
+    var asPercent: Int { get }
+    var asFloat: Float { get }
+}
+
+public struct BlobDownloadProgress: TransferProgress {
     public var bytes: Int
     public var totalBytes: Int
-    public var percentProgress: Float {
-        return Float(bytes) / Float(totalBytes) * 100.0
+
+    public var asPercent: Int {
+        return Int(asFloat * 100.0)
+    }
+
+    public var asFloat: Float {
+        return Float(bytes) / Float(totalBytes)
     }
 }
 
 public protocol BlobDownloadDelegate: AnyObject {
-    func downloader(_ downloader: BlobStreamDownloader, didUpdateWithProgress progress: BlobDownloadProgress)
+    func downloader(
+        _ downloader: BlobStreamDownloader,
+        didUpdateWithProgress progress: BlobDownloadProgress
+    )
     func downloader(_ downloader: BlobStreamDownloader, didFinishWithProgress progress: BlobDownloadProgress)
 }
 
@@ -304,9 +317,10 @@ public class BlobStreamDownloader {
 
         self.downloadDestination = baseUrl.appendingPathComponent(customSubfolder ?? defaultSubfolder)
             .appendingPathComponent(customFilename ?? defaultFilename)
-        if FileManager.default.fileExists(atPath: downloadDestination.path) {
-            try? FileManager.default.removeItem(at: downloadDestination)
-        }
+        // TODO: Use this to simplify logic?
+//        if FileManager.default.fileExists(atPath: downloadDestination.path) {
+//            try? FileManager.default.removeItem(at: downloadDestination)
+//        }
 
         self.client = client
         self.delegate = delegate
@@ -348,6 +362,7 @@ public class BlobStreamDownloader {
             next(inGroup: dispatchGroup) { result, response in
                 if let delegate = self.delegate {
                     let test = "\(result) \(response)"
+
                     let progress = BlobDownloadProgress(bytes: self.progress, totalBytes: self.fileSize ?? 1)
                     delegate.downloader(self, didUpdateWithProgress: progress)
                 }

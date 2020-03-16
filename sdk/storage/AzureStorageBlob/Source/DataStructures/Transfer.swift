@@ -27,15 +27,40 @@
 import AzureCore
 import Foundation
 
-public class AppConfigurationClientOptions: AzureConfigurable {
-    public let apiVersion: String
-    public var logger: ClientLogger
-    public let tag: String
+// MARK: Classes
 
-    public init(apiVersion: String, logger: ClientLogger? = nil, tag: String = "AppConfigurationClient") {
-        self.apiVersion = apiVersion
-        self.tag = tag
-        self.logger = logger ?? ClientLoggers.default(tag: tag)
-        self.logger.level = .debug
+open class ResumableTransfer: ResumableOperation {
+    // MARK: Properties
+
+    public weak var transfer: Transfer?
+    public weak var operationQueue: ResumableOperationQueue?
+}
+
+// MARK: Protocols
+
+public protocol Transfer: AnyObject {
+    var rawState: Int16 { get set }
+    var state: TransferState { get set }
+    var operation: ResumableTransfer? { get set }
+    var debugString: String { get }
+    var hash: Int { get }
+}
+
+// MARK: Extensions
+
+extension Transfer {
+    public var hash: Int {
+        return self.hash
+    }
+
+    public var state: TransferState {
+        get {
+            let state = TransferState(rawValue: rawState) ?? .unknown
+            return state
+        }
+
+        set {
+            rawState = newValue.rawValue
+        }
     }
 }

@@ -52,6 +52,10 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         }
     }
 
+    private lazy var manager: URLSessionTransferManager = {
+        URLSessionTransferManager(delegate: options.transferDelegate, logger: options.logger)
+    }()
+
     private let credential: Any
 
     public var options: StorageBlobClientOptions
@@ -73,13 +77,11 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
 
     // MARK: Initializers
 
-    /**
-     Create a Storage blob data client.
-     - Parameter accountUrl: Base URL for the storage account.
-     - Parameter credential: A credential object used to retrieve authentication tokens.
-     - Parameter withOptions: A `StorageBlobClientOptions` object to control the download.
-     - Returns: A `StorageBlobClient` object.
-     */
+    /// Create a Storage blob data client.
+    /// - Parameters:
+    ///   - accountUrl: Base URL for the storage account.
+    ///   - credential: A credential object used to retrieve authentication tokens.
+    ///   - options: A `StorageBlobClientOptions` object to control the download.
     public required init(accountUrl: String, credential: Any, withOptions options: StorageBlobClientOptions? = nil)
         throws {
         self.credential = credential
@@ -117,14 +119,11 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         )
     }
 
-    /**
-     Create a Storage blob data client.
-     - Parameter connectionString: Storage account connection string. **WARNING**: Connection strings are inherently
-                                   insecure in a mobile app. Any connection strings used should be read-only and not
-                                   have write permissions.
-     - Parameter options: A `StorageBlobClientOptions` object to control the download.
-     - Returns: A `StorageBlobClient` object.
-     */
+    /// Create a Storage blob data client.
+    /// - Parameters:
+    ///   - connectionString: Storage account connection string. **WARNING**: Connection strings
+    ///     are inherently insecure in a mobile app. Any connection strings used should be read-only and not have write permissions.
+    ///   - options: A `StorageBlobClientOptions` object to control the download.
     public static func from(connectionString: String, withOptions options: StorageBlobClientOptions? = nil) throws
         -> StorageBlobClient {
             let sasCredential = try StorageSASCredential(connectionString: connectionString)
@@ -152,12 +151,10 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
 
     // MARK: Public Methods
 
-    /**
-     List storage containers in a storage account.
-     - Parameter options: A `ListContainerOptions` object to control the list operation.
-     - Parameter completion: An `HTTPResultHandler` closure that returns a `PagedCollection<ContainerItem>` object on
-                             success.
-     */
+    /// List storage containers in a storage account.
+    /// - Parameters:
+    ///   - options: A `ListContainerOptions` object to control the list operation.
+    ///   - completion: An `HTTPResultHandler` closure that returns a `PagedCollection<ContainerItem>` object on success.
     public func listContainers(
         withOptions options: ListContainersOptions? = nil,
         then completion: @escaping HTTPResultHandler<PagedCollection<ContainerItem>>
@@ -232,12 +229,11 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         }
     }
 
-    /**
-     List storage blobs within a storage container.
-     - Parameter options: A `ListBlobsOptions` object to control the list operation.
-     - Parameter completion: An `HTTPResultHandler` closure that returns a `PagedCollection<BlobItem>` object on
-                             success.
-     */
+    /// List storage blobs within a storage container.
+    /// - Parameters:
+    ///   - container: The container name containing the blobs to list.
+    ///   - options: A `ListBlobsOptions` object to control the list operation.
+    ///   - completion: An `HTTPResultHandler` closure that returns a `PagedCollection<BlobItem>` object on success.
     public func listBlobs(
         in container: String,
         withOptions options: ListBlobsOptions? = nil,
@@ -320,14 +316,13 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         }
     }
 
-    /**
-     Download a blob from a specific container.
-     - Parameter blob: The name of the blob.
-     - Parameter fromContainer: The name of the container.
-     - Parameter withOptions: A `DownloadBlobOptions` object to control the download operation.
-     - Parameter then: An `HTTPResultHandler` closure that returns a `BlobStreamDownloader` object on success.
-     */
-    public func download(
+    /// Download a blob from a specific container.
+    /// - Parameters:
+    ///   - blob: The name of the blob.
+    ///   - container: The name of the container.
+    ///   - options: A `DownloadBlobOptions` object to control the download operation.
+    ///   - completion: An `HTTPResultHandler` closure that returns a `BlobStreamDownloader` object on success.
+    public func rawDownload(
         blob: String,
         fromContainer container: String,
         withOptions options: DownloadBlobOptions? = nil,
@@ -344,20 +339,19 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         }
     }
 
-    /**
-     Download a blob from a given URL.
-     - Parameter url: A URL to a blob to download.
-     - Parameter options: A `DownloadBlobOptions` object to control the download operation.
-     - Parameter completion: An `HTTPResultHandler` closure that returns a `BlobStreamDownloader` object on success.
-     */
-    public func download(
+    /// Download a blob from a given URL.
+    /// - Parameters:
+    ///   - url: A URL to a blob to download.
+    ///   - options: A `DownloadBlobOptions` object to control the download operation.
+    ///   - completion: An `HTTPResultHandler` closure that returns a `BlobStreamDownloader` object on success.
+    public func rawDownload(
         url: URL,
         withOptions options: DownloadBlobOptions? = nil,
         then completion: @escaping HTTPResultHandler<BlobStreamDownloader>
     ) throws {
         let (host, container, blob) = try parse(url: url)
         if baseUrl == host {
-            try download(blob: blob, fromContainer: container, withOptions: options, then: completion)
+            try rawDownload(blob: blob, fromContainer: container, withOptions: options, then: completion)
         } else {
             // TODO: Test and reconsider this implemenation for the public URL scenario.
             let client = try StorageBlobClient(
@@ -365,20 +359,91 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
                 credential: credential,
                 withOptions: self.options
             )
-            try client.download(blob: blob, fromContainer: container, withOptions: options, then: completion)
+            try client.rawDownload(blob: blob, fromContainer: container, withOptions: options, then: completion)
         }
     }
 
-    /**
-     Create a simple URL for a blob.
-     - Parameter blob: Name of the blob.
-     - Parameter container: Name of the container.
-     - Returns: The URL of the blob.
-     */
+    public func download(
+        blob: String,
+        fromContainer container: String,
+        withOptions options: DownloadBlobOptions? = nil
+    ) throws -> Transfer? {
+        guard let context = manager.persistentContainer?.viewContext else { return nil }
+        let start = Int64(options?.range?.offset ?? 0)
+        let end = Int64(options?.range?.length ?? 0)
+        let downloader = try BlobStreamDownloader(
+            client: self,
+            delegate: nil,
+            name: blob,
+            container: container,
+            options: options
+        )
+        let blobTransfer = BlobTransfer.with(
+            context: context,
+            baseUrl: baseUrl,
+            blobName: blob,
+            containerName: container,
+            uri: downloader.downloadDestination,
+            startRange: start,
+            endRange: end,
+            parent: nil
+        )
+        blobTransfer.downloader = downloader
+        manager.add(transfer: blobTransfer)
+        return blobTransfer
+    }
+
+    public func download(url: URL, withOptions options: DownloadBlobOptions? = nil) throws -> Transfer? {
+        let (host, container, blob) = try parse(url: url)
+        if baseUrl == host {
+            return try download(blob: blob, fromContainer: container, withOptions: options)
+        } else {
+            let client = try StorageBlobClient(
+                accountUrl: host,
+                credential: credential,
+                withOptions: self.options
+            )
+            return try client.download(blob: blob, fromContainer: container, withOptions: options)
+        }
+    }
+
+    /// Create a simple URL for a blob.
+    /// - Parameters:
+    ///   - blob: The name of the blob.
+    ///   - container: The name of the container.
     public func url(forBlob blob: String, inContainer container: String) -> URL? {
         var url = URL(string: baseUrl)
         url?.appendPathComponent(container)
         url?.appendPathComponent(blob)
         return url
+    }
+
+    public func localUrl(
+        blob: String,
+        fromContainer container: String,
+        withOptions options: DownloadBlobOptions? = nil
+    ) throws -> URL? {
+        let downloader = try BlobStreamDownloader(
+            client: self,
+            delegate: nil,
+            name: blob,
+            container: container,
+            options: options
+        )
+        return downloader.downloadDestination
+    }
+
+    public func localUrl(remoteUrl url: URL, withOptions options: DownloadBlobOptions? = nil) throws -> URL? {
+        let (host, container, blob) = try parse(url: url)
+        if baseUrl == host {
+            return try localUrl(blob: blob, fromContainer: container, withOptions: options)
+        } else {
+            let client = try StorageBlobClient(
+                accountUrl: host,
+                credential: credential,
+                withOptions: self.options
+            )
+            return try client.localUrl(blob: blob, fromContainer: container, withOptions: options)
+        }
     }
 }

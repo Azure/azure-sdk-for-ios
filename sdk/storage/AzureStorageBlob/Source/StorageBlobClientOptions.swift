@@ -46,10 +46,19 @@ public class StorageBlobClientOptions: AzureConfigurable {
     public let maxSingleGetSize = 32 * 1024 * 1024
     public let maxChunkGetSize = 4 * 1024 * 1024
 
-    public init(apiVersion: String, logger: ClientLogger? = nil, tag: String = "StorageBlobClient") {
+    // TransferManager configuration
+    public weak var transferDelegate: TransferManagerDelegate?
+
+    public init(
+        apiVersion: String,
+        logger: ClientLogger? = nil,
+        delegate: TransferManagerDelegate? = nil,
+        tag: String = "StorageBlobClient"
+    ) {
         self.apiVersion = apiVersion
         self.tag = tag
         self.logger = logger ?? ClientLoggers.default(tag: tag)
+        self.transferDelegate = delegate
     }
 }
 

@@ -24,27 +24,14 @@
 //
 // --------------------------------------------------------------------------
 
+import UIKit
 import Foundation
 
-/// This protocol is used internally to expose a Swift
-/// type to a type that is representable in Objective-C
-/// as the type `ObjectiveCType` or one of its subclasses.
-public protocol ObjectiveCBridgeable {
-    // MARK: Required Properties
+class QueueTableViewCell: UITableViewCell {
 
-    /// The type corresponding to `Self` in Objective-C.
-    associatedtype ObjectiveCType: AnyObject
+    public static let identifier = "QueueTableViewCell"
 
-    // MARK: Required Initializers
-
-    /// Reconstructs a Swift value of type `Self`
-    /// from its corresponding value of type
-    /// `ObjectiveCType`.
-    init(bridgedFromObjectiveC: ObjectiveCType)
-
-    // MARK: Required Methods
-
-    /// Converts `self` to its corresponding
-    /// `ObjectiveCType`.
-    func bridgeToObjectiveC() -> ObjectiveCType
+    @IBOutlet weak var idLabel: UILabel!
+    @IBOutlet weak var contentLabel: UILabel!
+    @IBOutlet weak var statusLabel: UILabel!
 }
