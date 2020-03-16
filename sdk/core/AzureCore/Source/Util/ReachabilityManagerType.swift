@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------
 //
-// Copyright (c) Microsoft Corporation. All rights reserved.
+//  Copyright (c) 2014-2018 Alamofire Software Foundation (http://alamofire.org/)
 //
 // The MIT License (MIT)
 //
