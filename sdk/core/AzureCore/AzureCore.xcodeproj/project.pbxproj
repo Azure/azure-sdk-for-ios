@@ -614,7 +614,6 @@
 				0A3A5D9C2315CEB600473FDA /* HTTPResponse.swift in Sources */,
 				0AD6351D23F46C6D000D67F6 /* ReachabilityManagerType.swift in Sources */,
 				0AB7412223C79E1400B579B3 /* HTTPTransportStage.swift in Sources */,
-				0AB7412223C79E1400B579B3 /* HTTPTransportStage.swift in Sources */,
 				0A18D7B523A95FEC008959E6 /* Copyable.swift in Sources */,
 				0A3A5F202316EF9400473FDA /* PipelineContext.swift in Sources */,
 				0AB7412423C7A03400B579B3 /* ClientLogger.swift in Sources */,
