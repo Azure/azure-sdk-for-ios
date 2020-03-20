@@ -97,7 +97,7 @@ internal class ChunkDownloader {
             "container": containerName,
             "blob": blobName
         ]
-        let url = client.url(forTemplate: urlTemplate, withKwargs: pathParams)
+        guard let url = client.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return }
 
         // Construct parameters
         var queryParams = [QueryParameter]()
@@ -138,7 +138,7 @@ internal class ChunkDownloader {
         if let ifNoneMatch = modifiedAccessConditions?.ifNoneMatch { headers[.ifNoneMatch] = ifNoneMatch }
 
         // Construct and send request
-        let request = HTTPRequest(method: .get, url: url, headers: headers)
+        guard let request = try? HTTPRequest(method: .get, url: url, headers: headers) else { return }
         request.add(queryParams: queryParams)
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 206] as AnyObject

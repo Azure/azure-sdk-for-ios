@@ -69,8 +69,8 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
     public func continuationUrl(
         continuationToken: String,
         queryParams: inout [QueryParameter],
-        requestUrl: String
-    ) -> String {
+        requestUrl: URL
+    ) -> URL? {
         queryParams.append("marker", continuationToken)
         return requestUrl
     }
@@ -164,7 +164,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
     ) {
         // Construct URL
         let urlTemplate = ""
-        let url = self.url(forTemplate: urlTemplate)
+        guard let url = self.url(forTemplate: urlTemplate) else { return }
 
         // Construct query
         var queryParams: [QueryParameter] = [("comp", "list")]
@@ -201,7 +201,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         let context = PipelineContext.of(keyValues: [
             ContextKey.xmlMap.rawValue: xmlMap as AnyObject
         ])
-        let request = HTTPRequest(method: .get, url: url, headers: headers)
+        guard let request = try? HTTPRequest(method: .get, url: url, headers: headers) else { return }
         request.add(queryParams: queryParams)
 
         self.request(request, context: context) { result, httpResponse in
@@ -247,7 +247,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         let pathParams = [
             "container": container
         ]
-        let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams)
+        guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return }
 
         // Construct query
         var queryParams: [QueryParameter] = [
@@ -280,7 +280,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         }
 
         // Construct and send request
-        let request = HTTPRequest(method: .get, url: url, headers: headers)
+        guard let request = try? HTTPRequest(method: .get, url: url, headers: headers) else { return }
         request.add(queryParams: queryParams)
         let codingKeys = PagedCodingKeys(
             items: "EnumerationResults.Blobs",

@@ -77,8 +77,8 @@ public class LoggingPolicy: PipelineStage {
         let logger = request.logger
         let req = request.httpRequest
         let requestId = req.headers[.clientRequestId] ?? "(none)"
-        let encodedUrl = req.url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-        guard let safeUrl = redact(url: encodedUrl) else {
+
+        guard let safeUrl = redact(url: req.url.absoluteString) else {
             logger.warning("Failed to parse URL for request \(requestId)")
             return
         }
@@ -269,7 +269,7 @@ public class CurlFormattedRequestLoggingPolicy: PipelineStage {
         if compressed {
             parts.append("--compressed")
         }
-        parts.append(req.url)
+        parts.append(req.url.absoluteString)
 
         logger.debug("╭--- cURL (\(req.url))")
         logger.debug(parts.joined(separator: " "))

@@ -107,7 +107,7 @@ internal class ChunkUploader {
             "container": containerName,
             "blob": blobName
         ]
-        let url = client.url(forTemplate: urlTemplate, withKwargs: pathParams)
+        guard let url = client.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return }
         let chunkSize = endRange - startRange
         var buffer = Data(capacity: chunkSize)
         do {
@@ -121,8 +121,7 @@ internal class ChunkUploader {
             let tempData = fileHandle.readData(ofLength: chunkSize)
             buffer.append(tempData)
         } catch {
-            let request = HTTPRequest(method: .put, url: url, headers: HTTPHeaders())
-            completion(.failure(error), HTTPResponse(request: request, statusCode: nil))
+            completion(.failure(error), HTTPResponse(request: nil, statusCode: nil))
             return
         }
 
@@ -164,7 +163,7 @@ internal class ChunkUploader {
         if let encryptionAlgorithm = cpk?.algorithm { headers[.encryptionKeyAlgorithm] = encryptionAlgorithm }
 
         // Construct and send request
-        let request = HTTPRequest(method: .put, url: url, headers: headers, data: buffer)
+        guard let request = try? HTTPRequest(method: .put, url: url, headers: headers, data: buffer) else { return }
         request.add(queryParams: queryParams)
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [201] as AnyObject
@@ -363,7 +362,7 @@ public class BlobStreamUploader {
             "container": containerName,
             "blob": blobName
         ]
-        let url = client.url(forTemplate: urlTemplate, withKwargs: pathParams)
+        guard let url = client.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return }
 
         // Construct parameters
         var queryParams = [
@@ -437,7 +436,7 @@ public class BlobStreamUploader {
             fatalError("Unable to serialize block list as XML string.")
         }
         let xmlData = xmlString.data(using: encoding)
-        let request = HTTPRequest(method: .put, url: url, headers: headers, data: xmlData)
+        guard let request = try? HTTPRequest(method: .put, url: url, headers: headers, data: xmlData) else { return }
         request.add(queryParams: queryParams)
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [201] as AnyObject

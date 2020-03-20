@@ -83,9 +83,7 @@ public class AppConfigurationAuthenticationPolicy: Authenticating {
     public func authenticate(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
         let httpRequest = request.httpRequest
         let contentHash = try? (httpRequest.data ?? Data()).hash(algorithm: .sha256).base64String
-        if let url = URL(string: httpRequest.url) {
-            request.httpRequest.headers[HTTPHeader.host] = url.host ?? ""
-        }
+        request.httpRequest.headers[HTTPHeader.host] = httpRequest.url.host ?? ""
         request.httpRequest.headers[.contentHash] = contentHash
         let dateValue = request.httpRequest.headers[HTTPHeader.date] ?? request.httpRequest.headers[.xmsDate]
         if dateValue == nil {
@@ -108,9 +106,9 @@ public class AppConfigurationAuthenticationPolicy: Authenticating {
                 signedHeaderValues.append(value)
             }
         }
-        if let urlComps = URLComponents(string: request.httpRequest.url) {
+        if let urlComps = URLComponents(url: request.httpRequest.url, resolvingAgainstBaseURL: true) {
             let stringToRemove = "\(urlComps.scheme!)://\(urlComps.host!)"
-            let signingUrl = String(request.httpRequest.url.dropFirst(stringToRemove.count))
+            let signingUrl = String(request.httpRequest.url.absoluteString.dropFirst(stringToRemove.count))
             if let decodedSecret = credential.secret.decodeBase64 {
                 let stringToSign = [
                     request.httpRequest.httpMethod.rawValue.uppercased(with: Locale(identifier: "en_US")),

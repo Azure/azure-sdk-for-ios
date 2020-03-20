@@ -38,13 +38,20 @@ public class HTTPRequest: DataStringConvertible {
     // MARK: Properties
 
     public let httpMethod: HTTPMethod
-    public var url: String
+    public var url: URL
     public var headers: HTTPHeaders
     public var data: Data?
 
     // MARK: Initializers
 
-    public init(method: HTTPMethod, url: String, headers: HTTPHeaders, data: Data? = nil) {
+    public convenience init(method: HTTPMethod, url: String, headers: HTTPHeaders, data: Data? = nil) throws {
+        guard let encodedUrl = URL(string: url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)) else {
+            throw AzureError.serviceRequest("Invalid URL.")
+        }
+        try self.init(method: method, url: encodedUrl, headers: headers, data: data)
+    }
+
+    public init(method: HTTPMethod, url: URL, headers: HTTPHeaders, data: Data? = nil) throws {
         self.httpMethod = method
         self.url = url
         self.headers = headers
@@ -55,7 +62,7 @@ public class HTTPRequest: DataStringConvertible {
 
     public func add(queryParams addedParams: [QueryParameter]) {
         guard !addedParams.isEmpty else { return }
-        guard var urlComps = URLComponents(string: url) else { return }
+        guard var urlComps = URLComponents(url: url, resolvingAgainstBaseURL: true) else { return }
 
         let addedQueryItems = addedParams.map { name, value in URLQueryItem(name: name, value: value) }
         if var urlQueryItems = urlComps.queryItems, !urlQueryItems.isEmpty {
@@ -64,7 +71,8 @@ public class HTTPRequest: DataStringConvertible {
         } else {
             urlComps.queryItems = addedQueryItems
         }
-
-        url = urlComps.url?.absoluteString ?? url
+        if let finalUrl = urlComps.url {
+            url = finalUrl
+        }
     }
 }
