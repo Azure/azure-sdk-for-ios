@@ -74,20 +74,21 @@ open class PipelineClient {
 
     // MARK: Public Methods
 
-    public func url(forTemplate templateIn: String, withKwargs kwargs: [String: String]? = nil) -> String {
+    public func url(forTemplate templateIn: String, withKwargs kwargs: [String: String]? = nil) -> URL? {
         var template = templateIn
         if template.hasPrefix("/") { template = String(template.dropFirst()) }
-        var url: String
+        var urlString: String
         if template.starts(with: baseUrl) {
-            url = template
+            urlString = template
         } else {
-            url = baseUrl + template
+            urlString = baseUrl + template
         }
-        guard let urlKwargs = kwargs else { return url }
-        for (key, value) in urlKwargs {
-            url = url.replacingOccurrences(of: "{\(key)}", with: value)
+        if let urlKwargs = kwargs {
+            for (key, value) in urlKwargs {
+                urlString = urlString.replacingOccurrences(of: "{\(key)}", with: value)
+            }
         }
-        return url
+        return URL(string: urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))
     }
 
     public func request(

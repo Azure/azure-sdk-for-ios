@@ -45,6 +45,7 @@ extension BaseError {
 
 public enum AzureError: BaseError {
     case general(_ message: String)
+    case fileSystem(_ message: String)
     case serviceRequest(_ message: String)
     case serviceResponse(_ message: String)
 
@@ -52,6 +53,7 @@ public enum AzureError: BaseError {
         switch self {
         case let .general(msg),
              let .serviceRequest(msg),
+             let .fileSystem(msg),
              let .serviceResponse(msg):
             return msg
         }

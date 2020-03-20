@@ -38,13 +38,15 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
     private var dataSource: PagedCollection<BlobItem>?
     private var downloadMap = [IndexPath: Transfer]()
     private var noMoreData = false
+    private var uploadAlert: UIAlertController?
     private lazy var imagePicker = UIImagePickerController()
     private lazy var player: AVPlayer = AVPlayer()
 
     @IBAction func didSelectUpload(_: UIBarButtonItem) {
-        imagePicker.sourceType = .photoLibrary
+        imagePicker.sourceType = .savedPhotosAlbum
+        imagePicker.mediaTypes = ["public.movie"]
         imagePicker.delegate = self
-        present(imagePicker, animated: true, completion: nil)
+        present(imagePicker, animated: true)
     }
 
     override func viewDidLoad() {
@@ -54,12 +56,6 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
         refreshControl.addTarget(self, action: #selector(fetchData(_:)), for: .valueChanged)
         tableView.refreshControl = refreshControl
         fetchData(self)
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-//        currentDownloader = nil
-//        downloaderBuffered = false
     }
 
     // MARK: Private Methods
@@ -205,11 +201,43 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
 extension BlobTableViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(
         _: UIImagePickerController,
-        didFinishPickingMediaWithInfo _: [UIImagePickerController.InfoKey: Any]
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
-        // TODO: Upload the media to the storage container
         dismiss(animated: true) {
-            self.showAlert(message: "Upload functionality coming soon!")
+            guard let blobClient = self.getBlobClient() else {
+                fatalError("Unable to create blob client.")
+            }
+            guard let mediaType = info[UIImagePickerController.InfoKey.mediaType] as? String else {
+                fatalError("Unable to determine media type.")
+            }
+            var mediaUrl: URL!
+            switch mediaType {
+            case "public.movie":
+                mediaUrl = info[.mediaURL] as? URL
+            default:
+                break
+            }
+            guard mediaUrl != nil else {
+                fatalError("Unable to find media URL.")
+            }
+
+            guard let url = mediaUrl else { return }
+            let blobName = url.lastPathComponent
+            let properties = BlobProperties(
+                contentType: "video/quicktime"
+            )
+            let options = UploadBlobOptions()
+
+            // Otherwise, start the upload with TransferManager.
+            if let transfer = try? blobClient.upload(
+                url: url,
+                toContainer: self.containerName,
+                asBlob: blobName,
+                properties: properties,
+                withOptions: options
+            ) as? BlobTransfer {
+                self.showUploadAlert(forTransfer: transfer)
+            }
         }
     }
 
@@ -218,6 +246,26 @@ extension BlobTableViewController: UIImagePickerControllerDelegate, UINavigation
     }
 
     // MARK: Internal Methods
+
+    internal func showUploadAlert(forTransfer transfer: BlobTransfer) {
+        let alertView = UIAlertController(
+            title: "Upload in Progress",
+            message: "Please wait...",
+            preferredStyle: .alert
+        )
+        alertView.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
+            URLSessionTransferManager.shared.cancel(transfer: transfer)
+        }))
+        let margin: CGFloat = 8.0
+        let rect = CGRect(x: margin, y: 72.0, width: alertView.view.frame.width - margin * 2.0, height: 2.0)
+        let progressView = UIProgressView(frame: rect)
+        progressView.progress = 0.0
+        progressView.tintColor = view.tintColor
+        alertView.view.addSubview(progressView)
+        uploadAlert = alertView
+
+        present(alertView, animated: true)
+    }
 
     internal func updateProgressBar(forTransfer transfer: Transfer, withProgress progress: TransferProgress) {
         DispatchQueue.main.sync {
@@ -231,27 +279,47 @@ extension BlobTableViewController: UIImagePickerControllerDelegate, UINavigation
             }
         }
     }
+
+    internal func updateUploadAlert(forTransfer _: BlobTransfer, withProgress progress: TransferProgress) {
+        guard let uploadAlert = uploadAlert else { return }
+        DispatchQueue.main.async {
+            if progress.asPercent == 100 {
+                uploadAlert.dismiss(animated: true) {
+                    self.uploadAlert = nil
+                }
+            } else {
+                let progressViews = uploadAlert.view.subviews.filter { $0 is UIProgressView }
+                if let progressView = progressViews.first as? UIProgressView {
+                    progressView.progress = progress.asFloat
+                }
+            }
+        }
+    }
 }
 
 extension BlobTableViewController: TransferManagerDelegate {
     func transferManager<T>(
         _: T,
         didUpdateTransfer transfer: Transfer,
-        withState state: TransferState,
+        withState _: TransferState,
         andProgress progress: TransferProgress?
     ) where T: TransferManager {
+        guard let blobTransfer = transfer as? BlobTransfer else { return }
         if let progress = progress {
-            print("Transfer \(transfer.hash) update: \(state.string()) progress: \(progress.asPercent)%")
-            updateProgressBar(forTransfer: transfer, withProgress: progress)
-        } else {
-            print("Transfer \(transfer.hash) update: \(state.string())")
+            switch blobTransfer.transferType {
+            case .download:
+                updateProgressBar(forTransfer: transfer, withProgress: progress)
+            case .upload:
+                updateUploadAlert(forTransfer: blobTransfer, withProgress: progress)
+            default:
+                return
+            }
         }
         reloadTableView()
     }
 
-    func transferManager<T>(_: T, didUpdateTransfers transfers: [Transfer], withState state: TransferState)
+    func transferManager<T>(_: T, didUpdateTransfers _: [Transfer], withState _: TransferState)
         where T: TransferManager {
-        print("Transfers (\(transfers.count)) update: \(state.string())")
         reloadTableView()
     }
 
@@ -259,51 +327,11 @@ extension BlobTableViewController: TransferManagerDelegate {
         reloadTableView()
     }
 
-    func transferManager<T>(_: T, didFailTransfer _: Transfer, withError _: Error) where T: TransferManager {
+    func transferManager<T>(_: T, didFailTransfer transfer: Transfer, withError _: Error) where T: TransferManager {
         reloadTableView()
     }
 
     func transferManager<T>(_: T, didUpdateWithState _: TransferState) where T: TransferManager {
         reloadTableView()
-    }
-}
-
-extension BlobTableViewController: BlobDownloadDelegate {
-    func downloader(_: BlobStreamDownloader, didUpdateWithProgress _: BlobDownloadProgress) {
-//        guard let current = currentDownloader else { return }
-//        guard downloader === current else { return }
-//        let indexPath = downloadMap.filter { _, value in
-//            value === downloader
-//        }
-//        guard let cellIndex = indexPath.first?.key else { return }
-//        DispatchQueue.main.async {
-//            guard let cell = self.tableView.cellForRow(at: cellIndex) as? CustomTableViewCell else { return }
-//            cell.progressBar.progress = progress.asFloat
-//            if progress.asPercent >= 100, !self.downloaderBuffered {
-//                self.downloadMap.removeValue(forKey: cellIndex)
-//                self.downloaderBuffered = true
-//                self.hideActivitySpinner()
-//                let url = downloader.downloadDestination
-//                self.player.replaceCurrentItem(with: AVPlayerItem(asset: AVAsset(url: url)))
-//                let controller = AVPlayerViewController()
-//                controller.player = self.player
-//                self.present(controller, animated: true) {
-//                    self.player.play()
-//                }
-//            }
-//        }
-    }
-
-    func downloader(_ downloader: BlobStreamDownloader, didFinishWithProgress _: BlobDownloadProgress) {
-        // update playing with completed file
-        DispatchQueue.main.async { [weak self] in
-            guard let parent = self else { return }
-            let currentTime = parent.player.currentTime()
-            let asset = AVURLAsset(url: downloader.downloadDestination)
-            let item = AVPlayerItem(asset: asset)
-            parent.player.replaceCurrentItem(with: item)
-            parent.player.seek(to: currentTime)
-            parent.player.play()
-        }
     }
 }

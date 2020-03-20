@@ -97,7 +97,7 @@ internal class ChunkDownloader {
             "container": containerName,
             "blob": blobName
         ]
-        let url = client.url(forTemplate: urlTemplate, withKwargs: pathParams)
+        guard let url = client.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return }
 
         // Construct parameters
         var queryParams = [QueryParameter]()
@@ -113,21 +113,21 @@ internal class ChunkDownloader {
         let modifiedAccessConditions = options.modifiedAccessConditions
         let cpk = options.cpk
 
-        headers["x-ms-range"] = "bytes=\(startRange)-\(endRange)"
+        headers[StorageHTTPHeader.range] = "bytes=\(startRange)-\(endRange)"
         if let rangeGetContentMD5 = options.range?.calculateMD5 {
-            headers["x-ms-range-get-content-md5"] = String(rangeGetContentMD5)
+            headers[.rangeGetContentMD5] = String(rangeGetContentMD5)
         }
         if let rangeGetContentCRC64 = options.range?.calculateCRC64 {
-            headers["x-ms-range-get-content-crc64"] = String(rangeGetContentCRC64)
+            headers[.rangeGetContentCRC64] = String(rangeGetContentCRC64)
         }
 
-        if let requestId = requestId { headers["x-ms-client-request-id"] = requestId }
-        if let leaseId = leaseAccessConditions?.leaseId { headers["x-ms-lease-id"] = leaseId }
+        if let requestId = requestId { headers[.clientRequestId] = requestId }
+        if let leaseId = leaseAccessConditions?.leaseId { headers[.leaseId] = leaseId }
         if let encryptionKey = cpk?.value {
-            headers["x-ms-encryption-key"] = String(data: encryptionKey, encoding: .utf8)
+            headers[.encryptionKey] = String(data: encryptionKey, encoding: .utf8)
         }
-        if let encryptionKeySHA256 = cpk?.hash { headers["x-ms-encryption-key-sha256"] = encryptionKeySHA256 }
-        if let encryptionAlgorithm = cpk?.algorithm { headers["x-ms-encryption-algorithm"] = encryptionAlgorithm }
+        if let encryptionKeySHA256 = cpk?.hash { headers[.encryptionKeySHA256] = encryptionKeySHA256 }
+        if let encryptionAlgorithm = cpk?.algorithm { headers[.encryptionKeyAlgorithm] = encryptionAlgorithm }
         if let ifModifiedSince = modifiedAccessConditions?.ifModifiedSince {
             headers[.ifModifiedSince] = String(describing: ifModifiedSince, format: .rfc1123)
         }
@@ -138,7 +138,7 @@ internal class ChunkDownloader {
         if let ifNoneMatch = modifiedAccessConditions?.ifNoneMatch { headers[.ifNoneMatch] = ifNoneMatch }
 
         // Construct and send request
-        let request = HTTPRequest(method: .get, url: url, headers: headers)
+        guard let request = try? HTTPRequest(method: .get, url: url, headers: headers) else { return }
         request.add(queryParams: queryParams)
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 206] as AnyObject
@@ -149,14 +149,15 @@ internal class ChunkDownloader {
                 completion(.failure(error), httpResponse)
             case let .success(data):
                 guard let data = data else {
-                    completion(.failure(AzureError.general("Blob unexpectedly contained no data.")), httpResponse)
+                    completion(.failure(HTTPResponseError.decode("Blob unexpectedly contained no data.")), httpResponse)
                     return
                 }
                 let headers = httpResponse.headers
                 if let contentMD5 = headers[.contentMD5] {
                     let dataHash = try? data.hash(algorithm: .md5).base64String
                     guard contentMD5 == dataHash else {
-                        let error = AzureError.general("Block MD5 \(dataHash ?? "ERROR") did not match \(contentMD5).")
+                        let error = HTTPResponseError
+                            .resourceModified("Block MD5 \(dataHash ?? "ERROR") did not match \(contentMD5).")
                         completion(.failure(error), httpResponse)
                         return
                     }
@@ -165,7 +166,8 @@ internal class ChunkDownloader {
                     // TODO: Implement CRC64. Currently no iOS library supports this!
                     let dataHash = ""
                     guard contentCRC64 == dataHash else {
-                        let error = AzureError.general("Block CRC64 \(dataHash) did not match \(contentCRC64).")
+                        let error = HTTPResponseError
+                            .resourceModified("Block CRC64 \(dataHash) did not match \(contentCRC64).")
                         completion(.failure(error), httpResponse)
                         return
                     }
@@ -209,11 +211,6 @@ internal class ChunkDownloader {
     }
 }
 
-public protocol TransferProgress {
-    var asPercent: Int { get }
-    var asFloat: Float { get }
-}
-
 public struct BlobDownloadProgress: TransferProgress {
     public var bytes: Int
     public var totalBytes: Int
@@ -233,6 +230,7 @@ public protocol BlobDownloadDelegate: AnyObject {
         didUpdateWithProgress progress: BlobDownloadProgress
     )
     func downloader(_ downloader: BlobStreamDownloader, didFinishWithProgress progress: BlobDownloadProgress)
+    func downloader(_ downloader: BlobStreamDownloader, didFailWithError: Error)
 }
 
 /// Class used to download streaming blobs.
@@ -303,7 +301,7 @@ public class BlobStreamDownloader {
             baseUrl = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
         } else {
             guard let cacheDir = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first else {
-                throw AzureError.general("Unable to find cache directory.")
+                throw AzureError.fileSystem("Unable to find cache directory.")
             }
             baseUrl = cacheDir
         }
@@ -317,10 +315,6 @@ public class BlobStreamDownloader {
 
         self.downloadDestination = baseUrl.appendingPathComponent(customSubfolder ?? defaultSubfolder)
             .appendingPathComponent(customFilename ?? defaultFilename)
-        // TODO: Use this to simplify logic?
-//        if FileManager.default.fileExists(atPath: downloadDestination.path) {
-//            try? FileManager.default.removeItem(at: downloadDestination)
-//        }
 
         self.client = client
         self.delegate = delegate
@@ -359,10 +353,8 @@ public class BlobStreamDownloader {
         let dispatchGroup = group ?? defaultGroup
         for _ in blockList {
             dispatchGroup.enter()
-            next(inGroup: dispatchGroup) { result, response in
+            next(inGroup: dispatchGroup) { _, _ in
                 if let delegate = self.delegate {
-                    let test = "\(result) \(response)"
-
                     let progress = BlobDownloadProgress(bytes: self.progress, totalBytes: self.fileSize ?? 1)
                     delegate.downloader(self, didUpdateWithProgress: progress)
                 }
@@ -492,7 +484,7 @@ public class BlobStreamDownloader {
         let alignForCrypto = isEncrypted
         let validateContent = options.range?.calculateMD5 == true || options.range?.calculateCRC64 == true
         let chunkLength = alignForCrypto || validateContent
-            ? client.options.maxChunkGetSize - 1
+            ? client.options.maxChunkSize - 1
             : client.options.maxSingleGetSize
         let start = (options.range?.offset ?? 0) + offset
         let length = (requestedSize ?? options.range?.length ?? chunkLength) - start
@@ -514,7 +506,7 @@ public class BlobStreamDownloader {
 
     /// Parses the blob length from the content range header: bytes 1-3/65537
     private func parseLength(fromContentRange contentRange: String?) throws -> Int {
-        let error = AzureError.general("Unable to parse content range: \(contentRange ?? "nil")")
+        let error = HTTPResponseError.decode("Unable to parse content range: \(contentRange ?? "nil")")
         guard let contentRange = contentRange else { throw error }
         // First, split in space and take the second half: "1-3/65537"
         guard let byteString = contentRange.split(separator: " ", maxSplits: 1).last else { throw error }

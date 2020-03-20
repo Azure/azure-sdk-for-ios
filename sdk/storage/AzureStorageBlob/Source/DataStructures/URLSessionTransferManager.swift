@@ -135,20 +135,35 @@ public final class URLSessionTransferManager: NSObject, TransferManager, URLSess
 
     internal func queueOperationsFor(blobTransfer transfer: BlobTransfer) {
         let disallowed: [TransferState] = [.complete, .canceled, .failed]
-        guard !disallowed.contains(transfer.state) else { return }
-
-        // Add to OperationQueue and notify delegate
-        let operation = BlobOperation(withTransfer: transfer, queue: operationQueue)
-        var operations: [ResumableTransfer] = [operation]
         let resumableOperations: [TransferState] = [.pending, .inProgress]
-        let pendingTransfers = transfer.transfers.filter { resumableOperations.contains($0.state) }
-        let initialOperation = BlobInitialOperation(withTransfer: transfer, queue: operationQueue)
-        operations.append(initialOperation)
-        for blockTransfer in pendingTransfers {
-            let blockOperation = BlockOperation(withTransfer: blockTransfer)
-            blockOperation.addDependency(initialOperation)
-            operation.addDependency(blockOperation)
-            operations.append(blockOperation)
+        guard !disallowed.contains(transfer.state) else { return }
+        var operations = [ResumableTransfer]()
+
+        switch transfer.transferType {
+        case .download:
+            let finalOperation = BlobDownloadFinalOperation(withTransfer: transfer, queue: operationQueue)
+            operations.append(finalOperation)
+            let pendingTransfers = transfer.transfers.filter { resumableOperations.contains($0.state) }
+            let initialOperation = BlobDownloadInitialOperation(withTransfer: transfer, queue: operationQueue)
+            operations.append(initialOperation)
+            for blockTransfer in pendingTransfers {
+                let blockOperation = BlockOperation(withTransfer: blockTransfer)
+                blockOperation.addDependency(initialOperation)
+                finalOperation.addDependency(blockOperation)
+                operations.append(blockOperation)
+            }
+        case .upload:
+            let finalOperation = BlobUploadFinalOperation(withTransfer: transfer, queue: operationQueue)
+            operations.append(finalOperation)
+            let pendingTransfers = transfer.transfers.filter { resumableOperations.contains($0.state) }
+            for blockTransfer in pendingTransfers {
+                let blockOperation = BlockOperation(withTransfer: blockTransfer)
+                finalOperation.addDependency(blockOperation)
+                operations.append(blockOperation)
+            }
+        case .unknown:
+            // Unknown transfers are invalid
+            remove(transfer: transfer)
         }
         operationQueue.add(operations)
         self.operations(operations, didChangeState: transfer.state)
@@ -161,8 +176,26 @@ public final class URLSessionTransferManager: NSObject, TransferManager, URLSess
         transfers.append(transfer)
 
         if transfer.transfers.isEmpty, transfer.state == .pending {
-            let blockTransfer = BlockTransfer.with(context: context, startRange: 0, endRange: 1, parent: transfer)
-            transfer.blocks?.adding(blockTransfer)
+            switch transfer.transferType {
+            case .download:
+                let blockTransfer = BlockTransfer.with(context: context, startRange: 0, endRange: 1, parent: transfer)
+                transfer.blocks?.adding(blockTransfer)
+            case .upload:
+                guard let uploader = transfer.uploader else { return }
+                for (range, blockId) in uploader.blockList {
+                    let blockTransfer = BlockTransfer
+                        .with(
+                            context: context,
+                            blockId: blockId,
+                            startRange: Int64(range.startIndex),
+                            endRange: Int64(range.endIndex),
+                            parent: transfer
+                        )
+                    transfer.blocks?.adding(blockTransfer)
+                }
+            case .unknown:
+                return
+            }
             transfer.totalBlocks = Int64(transfer.transfers.count)
         }
         queueOperationsFor(blobTransfer: transfer)
@@ -351,7 +384,6 @@ public final class URLSessionTransferManager: NSObject, TransferManager, URLSess
         blobRequest.predicate = predicate
         if let results = try? context.fetch(blobRequest) {
             for transfer in results {
-                print(transfer.debugString)
                 add(transfer: transfer)
             }
         }

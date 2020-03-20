@@ -94,10 +94,10 @@ public class AppConfigurationClient: PipelineClient {
         // Construct headers
         let headers = HTTPHeaders([.apiVersion: options.apiVersion])
         // if let acceptDatetime = acceptDatetime { headers["Accept-Datetime"] = acceptDatetime }
-        // if let requestId = requestId { headers["x-ms-client-request-id"] = requestId }
+        // if let requestId = requestId { headers[.clientRequestId] = requestId }
 
         // Construct and send request
-        let request = HTTPRequest(method: .get, url: url, headers: headers)
+        guard let request = try? HTTPRequest(method: .get, url: url, headers: headers) else { return }
         request.add(queryParams: queryParams)
         self.request(request, context: nil) { result, httpResponse in
             /*

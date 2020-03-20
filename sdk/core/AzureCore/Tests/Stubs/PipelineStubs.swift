@@ -26,6 +26,7 @@
 
 @testable import AzureCore
 
+// swiftlint:disable force_try
 extension PipelineRequest {
     public convenience init(
         method: HTTPMethod = .get,
@@ -35,7 +36,7 @@ extension PipelineRequest {
         context: PipelineContext? = nil,
         logger: ClientLogger = ClientLoggers.none
     ) {
-        let httpRequest = HTTPRequest(
+        let httpRequest = try! HTTPRequest(
             method: method,
             url: url,
             headers: headers,

@@ -27,6 +27,7 @@
 @testable import AzureCore
 import XCTest
 
+// swiftlint:disable force_try
 class PipelineTests: XCTestCase {
     func createPipelineClient() -> PipelineClient {
         let baseUrl = "http://www.microsoft.com"
@@ -44,9 +45,9 @@ class PipelineTests: XCTestCase {
 
     func test_HTTPRequest_Inits() {
         let headers: HTTPHeaders = ["headerParam": "myHeaderParam"]
-        let request = HTTPRequest(method: .get, url: "test", headers: headers)
+        let request = try! HTTPRequest(method: .get, url: "www.test.com", headers: headers)
         request.add(queryParams: [("a", "1"), ("b", "2")])
-        XCTAssertEqual(request.url, "test?a=1&b=2")
+        XCTAssertEqual(request.url.absoluteString, "www.test.com?a=1&b=2")
         XCTAssertEqual(request.httpMethod, .get)
         XCTAssertEqual(request.headers, headers)
     }
@@ -57,12 +58,12 @@ class PipelineTests: XCTestCase {
             "a": "cat",
             "b": "hat"
         ])
-        XCTAssertEqual(url, "\(client.baseUrl)cat/hat/test")
+        XCTAssertEqual(url?.absoluteString, "\(client.baseUrl)cat/hat/test")
     }
 
     func test_PipelineClient_CanRun() {
         let client = createPipelineClient()
-        let request = HTTPRequest(method: .get, url: "test", headers: [:])
+        let request = try! HTTPRequest(method: .get, url: "test", headers: [:])
         let didFinishRun = expectation(description: "run completion handler called.")
         let context = PipelineContext.of(keyValues: [
             "context": "value" as AnyObject

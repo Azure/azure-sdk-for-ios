@@ -33,14 +33,13 @@ extension BlobTransfer {
         return NSFetchRequest<BlobTransfer>(entityName: "BlobTransfer")
     }
 
-    @NSManaged public var baseUrl: String?
-    @NSManaged public var blobName: String?
-    @NSManaged public var containerName: String?
     @NSManaged public var endRange: Int64
     @NSManaged public var rawState: Int16
     @NSManaged public var startRange: Int64
-    @NSManaged public var uri: URL?
     @NSManaged public var totalBlocks: Int64
+    @NSManaged public var source: URL?
+    @NSManaged public var destination: URL?
+    @NSManaged public var rawType: Int16
     @NSManaged public var blocks: NSSet?
     @NSManaged public var parent: MultiBlobTransfer?
 }

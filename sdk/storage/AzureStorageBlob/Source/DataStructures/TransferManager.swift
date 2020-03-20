@@ -91,7 +91,7 @@ extension TransferManagerDelegate {
         _ manager: T,
         didUpdateTransfer _: Transfer,
         withState _: TransferState,
-        andPorgress _: TransferProgress?
+        andProgress _: TransferProgress?
     ) {}
     func transferManager<T: TransferManager>(
         _ manager: T,

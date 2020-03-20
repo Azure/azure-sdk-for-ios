@@ -58,7 +58,7 @@ class CollectionsTests: XCTestCase {
             ],
             logger: ClientLoggers.default()
         )
-        let request = HTTPRequest(method: .get, url: "", headers: [:])
+        let request = try! HTTPRequest(method: .get, url: "test", headers: [:])
 
         // simulate data received
         let data = load(resource: "pagedthings1", withExtension: "json")
@@ -79,10 +79,11 @@ class CollectionsTests: XCTestCase {
 
         // test default continuationUrl. Note that queryParams and requestUrl are irrelevant in the default case.
         var params: [QueryParameter] = [("ref", "123")]
+        let requestUrl = URL(string: "www.requestUrl.com")
         let continuationUrl = paged.continuationUrl(
-            continuationToken: "testToken", queryParams: &params, requestUrl: "requestUrl"
-        )
-        XCTAssertEqual(continuationUrl, "\(client.baseUrl)testToken")
+            continuationToken: "testToken", queryParams: &params, requestUrl: requestUrl!
+        )!
+        XCTAssertEqual(continuationUrl.absoluteString, "\(client.baseUrl)testToken")
     }
 
     /// Test that authors can customize the PagedCodingKeys provided they fit the standard structure.
@@ -95,7 +96,7 @@ class CollectionsTests: XCTestCase {
             ],
             logger: ClientLoggers.default()
         )
-        let request = HTTPRequest(method: .get, url: "", headers: [:])
+        let request = try! HTTPRequest(method: .get, url: "test", headers: [:])
 
         // simulate data received
         let data = load(resource: "pagedthings2", withExtension: "json")
@@ -121,7 +122,7 @@ class CollectionsTests: XCTestCase {
             ],
             logger: ClientLoggers.default()
         )
-        let request = HTTPRequest(method: .get, url: "", headers: [:])
+        let request = try! HTTPRequest(method: .get, url: "test", headers: [:])
         // simulate data received
         let data = load(resource: "pagedthings1", withExtension: "json")
         let jsonObject = try! JSONSerialization.jsonObject(with: data)

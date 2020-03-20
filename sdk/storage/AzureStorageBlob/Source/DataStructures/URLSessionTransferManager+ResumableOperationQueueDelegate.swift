@@ -30,9 +30,16 @@ import Foundation
 extension URLSessionTransferManager: ResumableOperationQueueDelegate {
     internal func buildProgressInfo(forTransfer transfer: Transfer) -> TransferProgress? {
         guard let blobTransfer = transfer as? BlobTransfer else { return nil }
-        let blocks = blobTransfer.totalBlocks - blobTransfer.incompleteBlocks
-        let progressInfo = BlobDownloadProgress(bytes: Int(blocks), totalBytes: Int(blobTransfer.totalBlocks))
-        return progressInfo
+        switch blobTransfer.transferType {
+        case .upload:
+            let blocks = blobTransfer.totalBlocks - blobTransfer.incompleteBlocks
+            return BlobUploadProgress(bytes: Int(blocks), totalBytes: Int(blobTransfer.totalBlocks))
+        case .download:
+            let blocks = blobTransfer.totalBlocks - blobTransfer.incompleteBlocks
+            return BlobDownloadProgress(bytes: Int(blocks), totalBytes: Int(blobTransfer.totalBlocks))
+        default:
+            return nil
+        }
     }
 
     public func operation(_ operation: ResumableOperation?, didChangeState state: TransferState) {

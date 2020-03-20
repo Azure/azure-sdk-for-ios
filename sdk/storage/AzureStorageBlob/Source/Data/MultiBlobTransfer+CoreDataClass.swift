@@ -40,7 +40,7 @@ public class MultiBlobTransfer: NSManagedObject, Transfer {
     }
 
     public var debugString: String {
-        var string = "Transfer \(type(of: self)) \(hash): Status \(state.string())"
+        var string = "Transfer \(type(of: self)) \(hash): Status \(state.label)"
         for blob in transfers {
             string += "\n\(blob.debugString)"
         }

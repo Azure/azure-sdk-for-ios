@@ -9,15 +9,14 @@
 /* Begin PBXBuildFile section */
 		0A25EA4C2398121A0012DFE1 /* (null) in Embed Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0A28684723F5D6700084CF15 /* AzureStorage.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0A28684523F5D6700084CF15 /* AzureStorage.xcdatamodeld */; };
-		0A28686D23F74EA00084CF15 /* BlobOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A28686C23F74EA00084CF15 /* BlobOperation.swift */; };
+		0A28686D23F74EA00084CF15 /* BlobDownloadOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A28686C23F74EA00084CF15 /* BlobDownloadOperations.swift */; };
 		0A28688123FCA6750084CF15 /* MultiBlobOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A28688023FCA6750084CF15 /* MultiBlobOperation.swift */; };
 		0A2868A723FDA95B0084CF15 /* URLSessionTransferManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2868A623FDA95B0084CF15 /* URLSessionTransferManager.swift */; };
 		0A2868AE23FDAD230084CF15 /* BlobTransfer+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2868A823FDAD220084CF15 /* BlobTransfer+CoreDataClass.swift */; };
 		0A2868B023FDAD230084CF15 /* BlockTransfer+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2868AA23FDAD220084CF15 /* BlockTransfer+CoreDataClass.swift */; };
 		0A2868B223FDAD230084CF15 /* MultiBlobTransfer+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2868AC23FDAD230084CF15 /* MultiBlobTransfer+CoreDataClass.swift */; };
-		0A2868B723FF38AB0084CF15 /* MultiBlobTransfer+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2868B423FF38AA0084CF15 /* MultiBlobTransfer+CoreDataProperties.swift */; };
-		0A2868B823FF38AB0084CF15 /* BlockTransfer+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2868B623FF38AA0084CF15 /* BlockTransfer+CoreDataProperties.swift */; };
-		0A2868B923FF38AB0084CF15 /* BlobTransfer+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2868B523FF38AA0084CF15 /* BlobTransfer+CoreDataProperties.swift */; };
+		0A5329692411FA4500486D81 /* StorageStreamUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5329682411FA4500486D81 /* StorageStreamUploader.swift */; };
+		0A532ACD2417D8CC00C4C8BA /* BlockLookupList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A532ACC2417D8CC00C4C8BA /* BlockLookupList.swift */; };
 		0A686493233E834D004B7E17 /* AzureStorageBlob.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A686489233E834D004B7E17 /* AzureStorageBlob.framework */; };
 		0A686498233E834D004B7E17 /* AzureStorageBlobTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A686497233E834D004B7E17 /* AzureStorageBlobTests.swift */; };
 		0A6864A5233E8366004B7E17 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A6864A4233E8366004B7E17 /* AzureCore.framework */; };
@@ -28,6 +27,10 @@
 		0A6F33F123ABEF730023064F /* Headers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6F33F023ABEF730023064F /* Headers.swift */; };
 		0A71C5C7234BB33800604F2D /* BlobProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A71C5C6234BB33800604F2D /* BlobProperties.swift */; };
 		0A71C5C9234BBAA200604F2D /* Enumerations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A71C5C8234BBAA200604F2D /* Enumerations.swift */; };
+		0A80DB1324251B0C00ED9F94 /* BlobUploadOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A80DB1224251B0C00ED9F94 /* BlobUploadOperations.swift */; };
+		0A80DB192425358B00ED9F94 /* BlockTransfer+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A80DB162425358A00ED9F94 /* BlockTransfer+CoreDataProperties.swift */; };
+		0A80DB1A2425358B00ED9F94 /* MultiBlobTransfer+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A80DB172425358A00ED9F94 /* MultiBlobTransfer+CoreDataProperties.swift */; };
+		0A80DB1B2425358B00ED9F94 /* BlobTransfer+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A80DB182425358A00ED9F94 /* BlobTransfer+CoreDataProperties.swift */; };
 		0A8D74C82409CCC600B3B577 /* URLSessionTransferManager+ResumableOperationQueueDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8D74C72409CCC600B3B577 /* URLSessionTransferManager+ResumableOperationQueueDelegate.swift */; };
 		0A8D74CA2409D1D400B3B577 /* Transfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8D74C92409D1D400B3B577 /* Transfer.swift */; };
 		0AA4FFCD23DF96C4003ADF59 /* TransferManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA4FFCC23DF96C4003ADF59 /* TransferManager.swift */; };
@@ -67,15 +70,14 @@
 
 /* Begin PBXFileReference section */
 		0A28684623F5D6700084CF15 /* AzureStorage.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AzureStorage.xcdatamodel; sourceTree = "<group>"; };
-		0A28686C23F74EA00084CF15 /* BlobOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlobOperation.swift; sourceTree = "<group>"; };
+		0A28686C23F74EA00084CF15 /* BlobDownloadOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlobDownloadOperations.swift; sourceTree = "<group>"; };
 		0A28688023FCA6750084CF15 /* MultiBlobOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiBlobOperation.swift; sourceTree = "<group>"; };
 		0A2868A623FDA95B0084CF15 /* URLSessionTransferManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionTransferManager.swift; sourceTree = "<group>"; };
 		0A2868A823FDAD220084CF15 /* BlobTransfer+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BlobTransfer+CoreDataClass.swift"; sourceTree = "<group>"; };
 		0A2868AA23FDAD220084CF15 /* BlockTransfer+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BlockTransfer+CoreDataClass.swift"; sourceTree = "<group>"; };
 		0A2868AC23FDAD230084CF15 /* MultiBlobTransfer+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MultiBlobTransfer+CoreDataClass.swift"; sourceTree = "<group>"; };
-		0A2868B423FF38AA0084CF15 /* MultiBlobTransfer+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "MultiBlobTransfer+CoreDataProperties.swift"; path = "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/storage/AzureStorageBlob/Source/Data/MultiBlobTransfer+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
-		0A2868B523FF38AA0084CF15 /* BlobTransfer+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "BlobTransfer+CoreDataProperties.swift"; path = "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/storage/AzureStorageBlob/Source/Data/BlobTransfer+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
-		0A2868B623FF38AA0084CF15 /* BlockTransfer+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "BlockTransfer+CoreDataProperties.swift"; path = "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/storage/AzureStorageBlob/Source/Data/BlockTransfer+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
+		0A5329682411FA4500486D81 /* StorageStreamUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageStreamUploader.swift; sourceTree = "<group>"; };
+		0A532ACC2417D8CC00C4C8BA /* BlockLookupList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockLookupList.swift; sourceTree = "<group>"; };
 		0A686489233E834D004B7E17 /* AzureStorageBlob.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureStorageBlob.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A68648C233E834D004B7E17 /* AzureStorageBlob.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AzureStorageBlob.h; sourceTree = "<group>"; };
 		0A68648D233E834D004B7E17 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -89,6 +91,10 @@
 		0A6F33F023ABEF730023064F /* Headers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Headers.swift; sourceTree = "<group>"; };
 		0A71C5C6234BB33800604F2D /* BlobProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlobProperties.swift; sourceTree = "<group>"; };
 		0A71C5C8234BBAA200604F2D /* Enumerations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enumerations.swift; sourceTree = "<group>"; };
+		0A80DB1224251B0C00ED9F94 /* BlobUploadOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlobUploadOperations.swift; sourceTree = "<group>"; };
+		0A80DB162425358A00ED9F94 /* BlockTransfer+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BlockTransfer+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		0A80DB172425358A00ED9F94 /* MultiBlobTransfer+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MultiBlobTransfer+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		0A80DB182425358A00ED9F94 /* BlobTransfer+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BlobTransfer+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		0A8D74C72409CCC600B3B577 /* URLSessionTransferManager+ResumableOperationQueueDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSessionTransferManager+ResumableOperationQueueDelegate.swift"; sourceTree = "<group>"; };
 		0A8D74C92409D1D400B3B577 /* Transfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transfer.swift; sourceTree = "<group>"; };
 		0AA4FFCC23DF96C4003ADF59 /* TransferManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferManager.swift; sourceTree = "<group>"; };
@@ -125,12 +131,12 @@
 		0A28683E23F5D4580084CF15 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				0A80DB182425358A00ED9F94 /* BlobTransfer+CoreDataProperties.swift */,
+				0A80DB162425358A00ED9F94 /* BlockTransfer+CoreDataProperties.swift */,
+				0A80DB172425358A00ED9F94 /* MultiBlobTransfer+CoreDataProperties.swift */,
 				0A2868AA23FDAD220084CF15 /* BlockTransfer+CoreDataClass.swift */,
 				0A2868A823FDAD220084CF15 /* BlobTransfer+CoreDataClass.swift */,
 				0A2868AC23FDAD230084CF15 /* MultiBlobTransfer+CoreDataClass.swift */,
-				0A2868B423FF38AA0084CF15 /* MultiBlobTransfer+CoreDataProperties.swift */,
-				0A2868B623FF38AA0084CF15 /* BlockTransfer+CoreDataProperties.swift */,
-				0A2868B523FF38AA0084CF15 /* BlobTransfer+CoreDataProperties.swift */,
 				0A28684523F5D6700084CF15 /* AzureStorage.xcdatamodeld */,
 			);
 			path = Data;
@@ -212,6 +218,7 @@
 				0A6864B2233E89D9004B7E17 /* ContainerItem.swift */,
 				0AC0AA86234D38B000F05073 /* ContainerProperties.swift */,
 				0AC0AA84234D31C300F05073 /* BlobItem.swift */,
+				0A532ACC2417D8CC00C4C8BA /* BlockLookupList.swift */,
 				0A71C5C6234BB33800604F2D /* BlobProperties.swift */,
 			);
 			path = Models;
@@ -221,11 +228,13 @@
 			isa = PBXGroup;
 			children = (
 				0AE8F02B23AC2A7C007B6975 /* BlobSharedAccessSignature.swift */,
-				0A28686C23F74EA00084CF15 /* BlobOperation.swift */,
+				0A28686C23F74EA00084CF15 /* BlobDownloadOperations.swift */,
+				0A80DB1224251B0C00ED9F94 /* BlobUploadOperations.swift */,
 				0AD6352A23F4C365000D67F6 /* BlockOperations.swift */,
 				0A28688023FCA6750084CF15 /* MultiBlobOperation.swift */,
 				0AE8F02923AC2A7C007B6975 /* Options.swift */,
 				0AE8F02A23AC2A7C007B6975 /* StorageStreamDownloader.swift */,
+				0A5329682411FA4500486D81 /* StorageStreamUploader.swift */,
 				0A8D74C92409D1D400B3B577 /* Transfer.swift */,
 				0AA4FFCC23DF96C4003ADF59 /* TransferManager.swift */,
 				0A2868A623FDA95B0084CF15 /* URLSessionTransferManager.swift */,
@@ -376,15 +385,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A2868A723FDA95B0084CF15 /* URLSessionTransferManager.swift in Sources */,
+				0A80DB1B2425358B00ED9F94 /* BlobTransfer+CoreDataProperties.swift in Sources */,
 				0AE8F02F23AC2AEB007B6975 /* Options.swift in Sources */,
 				0AC34915235633110094C576 /* StorageBlobClientOptions.swift in Sources */,
+				0A532ACD2417D8CC00C4C8BA /* BlockLookupList.swift in Sources */,
 				0A28684723F5D6700084CF15 /* AzureStorage.xcdatamodeld in Sources */,
-				0A2868B923FF38AB0084CF15 /* BlobTransfer+CoreDataProperties.swift in Sources */,
 				0A6864B3233E89D9004B7E17 /* ContainerItem.swift in Sources */,
-				0A28686D23F74EA00084CF15 /* BlobOperation.swift in Sources */,
-				0A2868B823FF38AB0084CF15 /* BlockTransfer+CoreDataProperties.swift in Sources */,
-				0A2868B723FF38AB0084CF15 /* MultiBlobTransfer+CoreDataProperties.swift in Sources */,
+				0A28686D23F74EA00084CF15 /* BlobDownloadOperations.swift in Sources */,
 				0A6864AA233E83B5004B7E17 /* StorageBlobClient.swift in Sources */,
+				0A80DB1324251B0C00ED9F94 /* BlobUploadOperations.swift in Sources */,
 				0AA4FFCD23DF96C4003ADF59 /* TransferManager.swift in Sources */,
 				0A2868B223FDAD230084CF15 /* MultiBlobTransfer+CoreDataClass.swift in Sources */,
 				0A71C5C7234BB33800604F2D /* BlobProperties.swift in Sources */,
@@ -396,12 +405,15 @@
 				0AC0AA85234D31C300F05073 /* BlobItem.swift in Sources */,
 				0A2868AE23FDAD230084CF15 /* BlobTransfer+CoreDataClass.swift in Sources */,
 				0A6864AF233E8620004B7E17 /* StorageCredentials.swift in Sources */,
+				0A80DB192425358B00ED9F94 /* BlockTransfer+CoreDataProperties.swift in Sources */,
 				0AE8F02723AC2A5C007B6975 /* BlobHeadersAndQueryParameters.swift in Sources */,
 				0AE8F02D23AC2A7C007B6975 /* StorageStreamDownloader.swift in Sources */,
 				0A71C5C9234BBAA200604F2D /* Enumerations.swift in Sources */,
 				0A8D74C82409CCC600B3B577 /* URLSessionTransferManager+ResumableOperationQueueDelegate.swift in Sources */,
+				0A80DB1A2425358B00ED9F94 /* MultiBlobTransfer+CoreDataProperties.swift in Sources */,
 				0A8D74CA2409D1D400B3B577 /* Transfer.swift in Sources */,
 				0AD6352B23F4C365000D67F6 /* BlockOperations.swift in Sources */,
+				0A5329692411FA4500486D81 /* StorageStreamUploader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

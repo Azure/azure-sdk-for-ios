@@ -274,7 +274,7 @@ class XMLModelTests: XCTestCase {
             ],
             logger: ClientLoggers.default()
         )
-        let request = HTTPRequest(method: .get, url: "", headers: [:])
+        let request = try! HTTPRequest(method: .get, url: "test", headers: [:])
 
         let decodePolicy = ContentDecodePolicy()
         let pagedKeys = PagedCodingKeys(items: "things.items", continuationToken: "things.next", xmlItemName: "item")

@@ -38,8 +38,8 @@ public class StorageBlobClientOptions: AzureConfigurable {
     public let copyPollingInterval = 15
 
     // Block blob uploads
-    public let maxBlockSize = 4 * 1024 * 1024
-    public let minLargeBlockUploadThreshold = 4 * 1024 * 1024 + 1
+    public let maxChunkSize = 4 * 1024 * 1024
+    public let minLargeChunkUploadThreshold = 4 * 1024 * 1024 + 1
     public let useByteBuffer = false
 
     // Blob downloads
@@ -144,6 +144,50 @@ public class DownloadBlobOptions: AzureOptions {
 
     /// Encoding with which to decode the downloaded bytes. If nil, no decoding occurs.
     public var encoding: String?
+
+    /// The timeout parameter is expressed in seconds. This method may make
+    /// multiple calls to the Azure service and the timeout will apply to
+    /// each call individually.
+    public var timeout: Int?
+}
+
+/// User-configurable options for the blob upload operations.
+public class UploadBlobOptions: AzureOptions {
+    /// Options for accessing a blob based on the condition of a lease.
+    public var leaseAccessConditions: LeaseAccessConditions?
+
+    /// Options to set modifications on access according to whether the blob has/has not changed
+    /// and based on the value of an eTag.
+    public var modifiedAccessConditions: ModifiedAccessConditions?
+
+    /// Blob encryption options.
+    public var encryptionOptions: EncryptionOptions?
+
+    /// Encrypts the data on the service-side with the given key.
+    /// Use of customer-provided keys must be done over HTTPS.
+    /// As the encryption key itself is provided in the request,
+    /// a secure connection must be established to transfer the key.
+    public var cpk: CustomerProvidedEncryptionKey?
+
+    public var cpkScopeInfo: String?
+
+    /// The number of parallel connections with which to upload.
+    public var maxConcurrency: Int?
+
+    /// Encoding with which to encode the uploaded bytes. If nil, no encoding occurs.
+    public var encoding: String?
+
+    public var stream: Stream?
+
+    public var length: Int?
+
+    public var overwrite: Bool?
+
+    public var headers: HTTPHeaders?
+
+    public var validateContent: Bool?
+
+    public var blobSettings: BlobProperties?
 
     /// The timeout parameter is expressed in seconds. This method may make
     /// multiple calls to the Azure service and the timeout will apply to

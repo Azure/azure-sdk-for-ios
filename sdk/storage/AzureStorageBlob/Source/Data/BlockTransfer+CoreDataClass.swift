@@ -32,13 +32,14 @@ public class BlockTransfer: NSManagedObject, Transfer {
     public var operation: ResumableTransfer?
 
     public var debugString: String {
-        return "\t\tTransfer \(type(of: self)) \(hash): Status \(state.string())"
+        return "\t\tTransfer \(type(of: self)) \(hash): Status \(state.label)"
     }
 }
 
 extension BlockTransfer {
     public static func with(
         context: NSManagedObjectContext,
+        blockId: String? = nil,
         startRange: Int64,
         endRange: Int64,
         parent: BlobTransfer? = nil
@@ -53,6 +54,7 @@ extension BlockTransfer {
         transfer.endRange = endRange
         transfer.parent = parent
         transfer.state = .pending
+        transfer.blockId = blockId ?? UUID().uuidString.base64String
         return transfer
     }
 }

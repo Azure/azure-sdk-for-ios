@@ -171,7 +171,7 @@ public class HTTPResponse: DataStringConvertible {
 
     // MARK: Initializers
 
-    public init(request: HTTPRequest, statusCode: Int?, blockSize: Int = 4096) {
+    public init(request: HTTPRequest?, statusCode: Int?, blockSize: Int = 4096) {
         self.httpRequest = request
         self.blockSize = blockSize
         self.statusCode = statusCode

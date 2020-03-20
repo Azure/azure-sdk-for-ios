@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15702" systemVersion="19D76" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="BlobTransfer" representedClassName=".BlobTransfer" syncable="YES">
-        <attribute name="baseUrl" attributeType="String"/>
-        <attribute name="blobName" attributeType="String"/>
-        <attribute name="containerName" attributeType="String"/>
+        <attribute name="destination" attributeType="URI"/>
         <attribute name="endRange" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="rawState" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="rawState" attributeType="Integer 16" usesScalarValueType="YES"/>
+        <attribute name="rawType" attributeType="Integer 16" usesScalarValueType="YES"/>
+        <attribute name="source" attributeType="URI"/>
         <attribute name="startRange" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="totalBlocks" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="uri" attributeType="URI"/>
         <relationship name="blocks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BlockTransfer" inverseName="parent" inverseEntity="BlockTransfer"/>
         <relationship name="parent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MultiBlobTransfer" inverseName="blobs" inverseEntity="MultiBlobTransfer"/>
     </entity>
     <entity name="BlockTransfer" representedClassName=".BlockTransfer" syncable="YES">
-        <attribute name="data" optional="YES" attributeType="Binary"/>
+        <attribute name="blockId" attributeType="String"/>
         <attribute name="endRange" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="rawState" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="startRange" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
@@ -25,8 +24,8 @@
         <relationship name="blobs" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BlobTransfer" inverseName="parent" inverseEntity="BlobTransfer"/>
     </entity>
     <elements>
-        <element name="BlobTransfer" positionX="-243.9609375" positionY="-100.93359375" width="128" height="193"/>
         <element name="BlockTransfer" positionX="-578.41796875" positionY="-61.546875" width="128" height="118"/>
         <element name="MultiBlobTransfer" positionX="9" positionY="108" width="128" height="88"/>
+        <element name="BlobTransfer" positionX="-369" positionY="-18" width="128" height="178"/>
     </elements>
 </model>

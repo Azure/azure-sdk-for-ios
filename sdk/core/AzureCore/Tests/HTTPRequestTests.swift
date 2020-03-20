@@ -27,14 +27,15 @@
 @testable import AzureCore
 import XCTest
 
+// swiftlint:disable force_try
 class HttpRequestTests: XCTestCase {
     func test_HttpRequest_WithQueryString_AppendsToQueryString() {
-        let httpRequest = HTTPRequest(method: .post, url: "https://www.test.com?a=1&b=2", headers: [:])
-        var query = URLComponents(string: httpRequest.url)!.queryItems!
+        let httpRequest = try! HTTPRequest(method: .post, url: "https://www.test.com?a=1&b=2", headers: [:])
+        var query = URLComponents(url: httpRequest.url, resolvingAgainstBaseURL: true)!.queryItems!
         XCTAssertEqual(query.count, 2, "Failure converting query string from URL into query items.")
 
         httpRequest.add(queryParams: [("a", "0"), ("c", "3")])
-        query = URLComponents(string: httpRequest.url)!.queryItems!
+        query = URLComponents(url: httpRequest.url, resolvingAgainstBaseURL: true)!.queryItems!
         XCTAssertEqual(query.count, 4, "Failure adding new query string parameters.")
         let queryItems = query.reduce(into: [String: [String?]]()) { acc, item in
             if acc[item.name] == nil { acc[item.name] = [] }
@@ -49,7 +50,7 @@ class HttpRequestTests: XCTestCase {
     func test_HttpHeaders_WithEnumOrStringKey_CanBeModified() {
         // ensure headers can be added by string or enum key
         let headers = HTTPHeaders([.accept: "json"])
-        let httpRequest = HTTPRequest(method: .post, url: "https://www.test.com?a=1&b=2", headers: headers)
+        let httpRequest = try! HTTPRequest(method: .post, url: "https://www.test.com?a=1&b=2", headers: headers)
         XCTAssertEqual(httpRequest.headers.count, 1, "Failed to accept headers.")
         httpRequest.headers["Authorization"] = "token"
         XCTAssertEqual(httpRequest.headers.count, 2, "Failed to add new header.")

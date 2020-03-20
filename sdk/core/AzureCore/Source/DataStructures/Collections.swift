@@ -33,7 +33,7 @@ public typealias Continuation<T> = (Result<T, Error>) -> Void
 public protocol PagedCollectionDelegate: AnyObject {
     // MARK: Required Methods
 
-    func continuationUrl(continuationToken: String, queryParams: inout [QueryParameter], requestUrl: String) -> String
+    func continuationUrl(continuationToken: String, queryParams: inout [QueryParameter], requestUrl: URL) -> URL?
 }
 
 /// Defines the property keys used to conform to the Azure paging design.
@@ -139,7 +139,7 @@ public class PagedCollection<SingleElement: Codable>: PagedCollectionDelegate {
     private let codingKeys: PagedCodingKeys
 
     /// The initial request URL
-    private var requestUrl: String
+    private var requestUrl: URL
 
     // MARK: Initializers
 
@@ -180,11 +180,11 @@ public class PagedCollection<SingleElement: Codable>: PagedCollectionDelegate {
 
         client.logger.info(String(format: "Fetching next page with: %@", continuationToken))
         var queryParams = [QueryParameter]()
-        let url = delegate.continuationUrl(
+        guard let url = delegate.continuationUrl(
             continuationToken: continuationToken,
             queryParams: &queryParams,
             requestUrl: requestUrl
-        )
+        ) else { return }
         var context: PipelineContext?
         if let xmlType = SingleElement.self as? XMLModel.Type {
             let xmlMap = XMLMap(withPagedCodingKeys: codingKeys, innerType: xmlType)
@@ -192,7 +192,7 @@ public class PagedCollection<SingleElement: Codable>: PagedCollectionDelegate {
                 ContextKey.xmlMap.rawValue: xmlMap as AnyObject
             ])
         }
-        let request = HTTPRequest(method: .get, url: url, headers: requestHeaders)
+        guard let request = try? HTTPRequest(method: .get, url: url, headers: requestHeaders) else { return }
         request.add(queryParams: queryParams)
         client.request(request, context: context) { result, _ in
             var returnError: Error?
@@ -252,8 +252,8 @@ public class PagedCollection<SingleElement: Codable>: PagedCollectionDelegate {
     public func continuationUrl(
         continuationToken: String,
         queryParams _: inout [QueryParameter],
-        requestUrl _: String
-    ) -> String {
+        requestUrl _: URL
+    ) -> URL? {
         return client.url(forTemplate: continuationToken)
     }
 

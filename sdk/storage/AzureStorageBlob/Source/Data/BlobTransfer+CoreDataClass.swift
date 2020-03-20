@@ -34,6 +34,7 @@ public class BlobTransfer: NSManagedObject, Transfer {
 
     public var operation: ResumableTransfer?
     public var downloader: BlobStreamDownloader?
+    public var uploader: BlobStreamUploader?
 
     public var transfers: [BlockTransfer] {
         guard let blockSet = blocks else { return [BlockTransfer]() }
@@ -45,7 +46,7 @@ public class BlobTransfer: NSManagedObject, Transfer {
     }
 
     public var debugString: String {
-        var string = "\tTransfer \(type(of: self)) \(hash): Status \(state.string())"
+        var string = "\tTransfer \(type(of: self)) \(hash): Status \(state.label)"
         for block in transfers {
             string += "\n\(block.debugString)"
         }
@@ -71,15 +72,24 @@ public class BlobTransfer: NSManagedObject, Transfer {
             rawState = newValue.rawValue
         }
     }
+
+    public var transferType: TransferType {
+        get {
+            return TransferType(rawValue: rawType) ?? .unknown
+        }
+
+        set {
+            rawType = newValue.rawValue
+        }
+    }
 }
 
 extension BlobTransfer {
     public static func with(
         context: NSManagedObjectContext,
-        baseUrl: String,
-        blobName: String,
-        containerName: String,
-        uri: URL?,
+        source: URL,
+        destination: URL,
+        type: TransferType,
         startRange: Int64,
         endRange: Int64,
         parent: MultiBlobTransfer? = nil
@@ -91,13 +101,12 @@ extension BlobTransfer {
             fatalError("Unable to create BlobTransfer object.")
         }
         transfer.parent = parent
-        transfer.baseUrl = baseUrl
-        transfer.blobName = blobName
-        transfer.containerName = containerName
-        transfer.uri = uri
+        transfer.source = source
+        transfer.destination = destination
         transfer.startRange = startRange
         transfer.endRange = endRange
         transfer.state = .pending
+        transfer.transferType = type
         return transfer
     }
 }

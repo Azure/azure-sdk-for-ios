@@ -27,10 +27,11 @@
 @testable import AzureCore
 import XCTest
 
+// swiftlint:disable force_try
 class PipelineRequestTests: XCTestCase {
     func test_PipelineRequest_CanBeCopied() {
         let logger = ClientLoggers.default()
-        let httpRequest = HTTPRequest(method: .get, url: "https://www.contoso.com", headers: [:])
+        let httpRequest = try! HTTPRequest(method: .get, url: "https://www.contoso.com", headers: [:])
         let originalRequest = PipelineRequest(request: httpRequest, logger: logger)
         let copyRequest = originalRequest.copy()
         XCTAssertFalse(originalRequest === copyRequest)
@@ -40,7 +41,7 @@ class PipelineRequestTests: XCTestCase {
 
     func test_PipelineContext_CanAddAndAccessValues() {
         let logger = ClientLoggers.default()
-        let httpRequest = HTTPRequest(method: .get, url: "https://www.contoso.com", headers: [:])
+        let httpRequest = try! HTTPRequest(method: .get, url: "https://www.contoso.com", headers: [:])
         var pipelineRequest = PipelineRequest(request: httpRequest, logger: logger)
 
         // add context when one did not exist

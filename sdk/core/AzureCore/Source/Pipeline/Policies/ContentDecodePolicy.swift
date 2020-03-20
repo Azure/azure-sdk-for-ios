@@ -187,9 +187,10 @@ public class ContentDecodePolicy: PipelineStage {
         let stream = response.value(forKey: "stream") as? Bool ?? false
         guard stream == false else { return }
         var returnResponse = response.copy()
+        defer { completion(returnResponse) }
 
-        var contentType = (returnResponse.httpResponse?.headers["Content-Type"]?.components(separatedBy: ";").first) ??
-            "application/json"
+        guard var contentType = (returnResponse.httpResponse?.headers["Content-Type"]?.components(separatedBy: ";")
+            .first) else { return }
         contentType = contentType.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
         do {
             if let deserializedJson = try deserialize(from: returnResponse, contentType: contentType) {
@@ -199,7 +200,6 @@ public class ContentDecodePolicy: PipelineStage {
         } catch {
             response.logger.error(String(format: "Deserialization error: %@", error.localizedDescription))
         }
-        completion(returnResponse)
     }
 
     // MARK: Internal Methods
