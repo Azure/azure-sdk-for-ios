@@ -77,7 +77,8 @@ public class LoggingPolicy: PipelineStage {
         let logger = request.logger
         let req = request.httpRequest
         let requestId = req.headers[.clientRequestId] ?? "(none)"
-        guard let safeUrl = redact(url: req.url) else {
+        let encodedUrl = req.url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        guard let safeUrl = redact(url: encodedUrl) else {
             logger.warning("Failed to parse URL for request \(requestId)")
             return
         }
@@ -188,9 +189,9 @@ public class LoggingPolicy: PipelineStage {
         return "(empty body)"
     }
 
-    private func redact(url: String) -> String? {
-        guard let encodedUrl = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return nil }
-        guard var urlComps = URLComponents(string: encodedUrl) else { return nil }
+    private func redact(url: String?) -> String? {
+        guard let url = url else { return nil }
+        guard var urlComps = URLComponents(string: url) else { return nil }
         guard let queryItems = urlComps.queryItems else { return url }
 
         var redactedQueryItems = [URLQueryItem]()
@@ -201,7 +202,6 @@ public class LoggingPolicy: PipelineStage {
                 redactedQueryItems.append(query)
             }
         }
-
         urlComps.queryItems = redactedQueryItems
         return urlComps.string
     }

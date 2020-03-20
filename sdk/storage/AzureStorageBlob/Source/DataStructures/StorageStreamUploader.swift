@@ -111,11 +111,9 @@ internal class ChunkUploader {
         let chunkSize = endRange - startRange
         var buffer = Data(capacity: chunkSize)
         do {
-            guard let fileHandle = try? FileHandle(forReadingFrom: uploadSource) else {
-                throw AzureError.general("Unable to open for reading: \(uploadSource)")
-            }
+            let fileHandle = try FileHandle(forReadingFrom: uploadSource)
             if #available(iOS 13.0, *) {
-                try fileHandle.seek(toOffset: UInt64(startRange))
+                try? fileHandle.seek(toOffset: UInt64(startRange))
             } else {
                 // Fallback on earlier versions
                 fileHandle.seek(toFileOffset: UInt64(startRange))
@@ -123,7 +121,8 @@ internal class ChunkUploader {
             let tempData = fileHandle.readData(ofLength: chunkSize)
             buffer.append(tempData)
         } catch {
-            // TODO: Handle error
+            let request = HTTPRequest(method: .put, url: url, headers: HTTPHeaders())
+            completion(.failure(error), HTTPResponse(request: request, statusCode: nil))
             return
         }
 
@@ -152,17 +151,17 @@ internal class ChunkUploader {
             headers[.contentCRC64] = String(data: transactionalContentCrc64, encoding: .utf8)
         }
 
-        if let requestId = requestId { headers["x-ms-client-request-id"] = requestId }
-        if let leaseId = leaseAccessConditions?.leaseId { headers["x-ms-lease-id"] = leaseId }
+        if let requestId = requestId { headers[.clientRequestId] = requestId }
+        if let leaseId = leaseAccessConditions?.leaseId { headers[.leaseId] = leaseId }
         if let encryptionKey = cpk?.value {
-            headers["x-ms-encryption-key"] = String(data: encryptionKey, encoding: .utf8)
+            headers[.encryptionKey] = String(data: encryptionKey, encoding: .utf8)
         }
         if let encryptionScope = options.cpkScopeInfo {
-            headers["x-ms-encryption-scope"] = encryptionScope
+            headers[.encryptionScope] = encryptionScope
         }
 
-        if let encryptionKeySHA256 = cpk?.hash { headers["x-ms-encryption-key-sha256"] = encryptionKeySHA256 }
-        if let encryptionAlgorithm = cpk?.algorithm { headers["x-ms-encryption-algorithm"] = encryptionAlgorithm }
+        if let encryptionKeySHA256 = cpk?.hash { headers[.encryptionKeySHA256] = encryptionKeySHA256 }
+        if let encryptionAlgorithm = cpk?.algorithm { headers[.encryptionKeyAlgorithm] = encryptionAlgorithm }
 
         // Construct and send request
         let request = HTTPRequest(method: .put, url: url, headers: headers, data: buffer)
@@ -279,11 +278,11 @@ public class BlobStreamUploader {
     ) throws {
         let manager = FileManager.default
         guard manager.fileExists(atPath: source.path) else {
-            throw AzureError.general("File not found: \(source.path)")
+            throw AzureError.fileSystem("File not found: \(source.path)")
         }
         let attributes = try manager.attributesOfItem(atPath: source.path)
         guard let fileSize = attributes[FileAttributeKey.size] as? Int else {
-            throw AzureError.general("Unable to determine file size: \(source.path)")
+            throw AzureError.fileSystem("Unable to determine file size: \(source.path)")
         }
         self.fileSize = fileSize
 
@@ -389,17 +388,17 @@ public class BlobStreamUploader {
             headers[.contentCRC64] = String(data: transactionalContentCrc64, encoding: .utf8)
         }
 
-        if let requestId = requestId { headers["x-ms-client-request-id"] = requestId }
-        if let leaseId = leaseAccessConditions?.leaseId { headers["x-ms-lease-id"] = leaseId }
+        if let requestId = requestId { headers[.clientRequestId] = requestId }
+        if let leaseId = leaseAccessConditions?.leaseId { headers[.leaseId] = leaseId }
         if let encryptionKey = cpk?.value {
-            headers["x-ms-encryption-key"] = String(data: encryptionKey, encoding: .utf8)
+            headers[.encryptionKey] = String(data: encryptionKey, encoding: .utf8)
         }
         if let encryptionScope = options.cpkScopeInfo {
-            headers["x-ms-encryption-scope"] = encryptionScope
+            headers[.encryptionScope] = encryptionScope
         }
 
-        if let encryptionKeySHA256 = cpk?.hash { headers["x-ms-encryption-key-sha256"] = encryptionKeySHA256 }
-        if let encryptionAlgorithm = cpk?.algorithm { headers["x-ms-encryption-algorithm"] = encryptionAlgorithm }
+        if let encryptionKeySHA256 = cpk?.hash { headers[.encryptionKeySHA256] = encryptionKeySHA256 }
+        if let encryptionAlgorithm = cpk?.algorithm { headers[.encryptionKeyAlgorithm] = encryptionAlgorithm }
         if let ifModifiedSince = modifiedAccessConditions?.ifModifiedSince {
             headers[.ifModifiedSince] = String(describing: ifModifiedSince, format: .rfc1123)
         }
@@ -527,12 +526,10 @@ public class BlobStreamUploader {
 
     /// Parses the blob length from the content range header: bytes 1-3/65537
     private func parseLength(fromContentRange contentRange: String?) throws -> Int {
-        let error = AzureError.general("Unable to parse content range: \(contentRange ?? "nil")")
+        let error = HTTPResponseError.decode("Unable to parse content range: \(contentRange ?? "nil")")
         guard let contentRange = contentRange else { throw error }
-        // First, split in space and take the second half: "1-3/65537"
-        guard let byteString = contentRange.split(separator: " ", maxSplits: 1).last else { throw error }
-        // Next, split on slash and take the second half: "65537"
-        guard let lengthString = String(byteString).split(separator: "/", maxSplits: 1).last else { throw error }
+        // split on slash and take the second half: "65537"
+        guard let lengthString = contentRange.split(separator: "/", maxSplits: 1).last else { throw error }
         // Finally, convert to an Int: 65537
         guard let intVal = Int(String(lengthString)) else { throw error }
         return intVal

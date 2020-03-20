@@ -91,7 +91,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         if let sasCredential = credential as? StorageSASCredential {
             guard let blobEndpoint = sasCredential.blobEndpoint else {
                 let message = "Invalid connection string. No blob endpoint specified."
-                throw AzureError.general(message)
+                throw AzureError.serviceRequest(message)
             }
             baseUrl = blobEndpoint
             authPolicy = StorageSASAuthenticationPolicy(credential: sasCredential)
@@ -99,7 +99,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
             authPolicy = BearerTokenCredentialPolicy(credential: oauthCredential, scopes: defaultScopes)
             baseUrl = accountUrl
         } else {
-            throw AzureError.general("Invalid credential. \(type(of: credential))")
+            throw AzureError.serviceRequest("Invalid credential. \(type(of: credential))")
         }
         super.init(
             baseUrl: baseUrl,
@@ -128,7 +128,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         -> StorageBlobClient {
             let sasCredential = try StorageSASCredential(connectionString: connectionString)
             guard let blobEndpoint = sasCredential.blobEndpoint else {
-                throw AzureError.general("Invalid connection string.")
+                throw AzureError.serviceRequest("Invalid connection string.")
             }
             return try self.init(accountUrl: blobEndpoint, credential: sasCredential, withOptions: options)
         }
@@ -141,10 +141,10 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
     public static func parse(url: URL) throws -> (String, String, String) {
         let pathComps = url.pathComponents
         guard let host = url.host else {
-            throw AzureError.general("No host found for URL: \(url.absoluteString)")
+            throw AzureError.serviceRequest("No host found for URL: \(url.absoluteString)")
         }
         guard let scheme = url.scheme else {
-            throw AzureError.general("No scheme found for URL: \(url.absoluteString)")
+            throw AzureError.serviceRequest("No scheme found for URL: \(url.absoluteString)")
         }
         let container = pathComps[1]
         let blobComps = pathComps[2 ..< pathComps.endIndex]
@@ -382,7 +382,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
             options: options
         )
         guard let sourceUrl = StorageBlobClient.url(forHost: baseUrl, container: container, blob: blob) else {
-            throw AzureError.general("Unable to resolve source URL.")
+            throw AzureError.fileSystem("Unable to resolve source URL.")
         }
         let blobTransfer = BlobTransfer.with(
             context: context,
@@ -430,7 +430,7 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
             options: options
         )
         guard let destinationUrl = StorageBlobClient.url(forHost: baseUrl, container: container, blob: blob) else {
-            throw AzureError.general("Unable to resolve destination URL.")
+            throw AzureError.fileSystem("Unable to resolve destination URL.")
         }
         let blobTransfer = BlobTransfer.with(
             context: context,

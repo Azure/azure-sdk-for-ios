@@ -28,61 +28,6 @@ import AzureCore
 import CoreData
 import Foundation
 
-internal class BlobDownloadFinalOperation: ResumableTransfer {
-    // MARK: Initializers
-
-    public convenience init(withTransfer transfer: BlobTransfer, queue: ResumableOperationQueue) {
-        self.init(state: transfer.state)
-        self.transfer = transfer
-        self.operationQueue = queue
-        transfer.operation = self
-    }
-
-    // MARK: Public Methods
-
-    public override func main() {
-        guard let transfer = self.transfer as? BlobTransfer else { return }
-        transfer.state = .complete
-        delegate?.operation(self, didChangeState: transfer.state)
-        super.main()
-    }
-}
-
-internal class BlobUploadFinalOperation: ResumableTransfer {
-    // MARK: Initializers
-
-    public convenience init(withTransfer transfer: BlobTransfer, queue: ResumableOperationQueue) {
-        self.init(state: transfer.state)
-        self.transfer = transfer
-        self.operationQueue = queue
-        transfer.operation = self
-    }
-
-    // MARK: Public Methods
-
-    public override func main() {
-        guard let transfer = self.transfer as? BlobTransfer else { return }
-        guard let uploader = transfer.uploader else { return }
-        let group = DispatchGroup()
-        group.enter()
-        uploader.commit { result, _ in
-            switch result {
-            case .success:
-                transfer.state = .complete
-                self.delegate?.operation(self, didChangeState: transfer.state)
-                group.leave()
-            case .failure:
-                self.transfer?.state = .failed
-                // TODO: The failure needs to propagate to the entire operation...
-                self.delegate?.operation(self, didChangeState: .failed)
-                group.leave()
-            }
-        }
-        group.wait()
-        super.main()
-    }
-}
-
 internal class BlobDownloadInitialOperation: ResumableTransfer {
     // MARK: Initializers
 
@@ -149,6 +94,26 @@ internal class BlobDownloadInitialOperation: ResumableTransfer {
             group.leave()
         }
         group.wait()
+        super.main()
+    }
+}
+
+internal class BlobDownloadFinalOperation: ResumableTransfer {
+    // MARK: Initializers
+
+    public convenience init(withTransfer transfer: BlobTransfer, queue: ResumableOperationQueue) {
+        self.init(state: transfer.state)
+        self.transfer = transfer
+        self.operationQueue = queue
+        transfer.operation = self
+    }
+
+    // MARK: Public Methods
+
+    public override func main() {
+        guard let transfer = self.transfer as? BlobTransfer else { return }
+        transfer.state = .complete
+        delegate?.operation(self, didChangeState: transfer.state)
         super.main()
     }
 }

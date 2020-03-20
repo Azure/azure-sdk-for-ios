@@ -47,11 +47,19 @@ public enum StorageHTTPHeader: String {
     case copyStatus = "x-ms-copy-status"
     case copyStatusDescription = "x-ms-copy-status-description"
     case creationTime = "x-ms-creation-time"
+    case encryptionKey = "x-ms-encryption-key"
+    case encryptionKeyAlgorithm = "x-ms-encryption-algorithm"
+    case encryptionKeySHA256 = "x-ms-encryption-key-sha256"
+    case encryptionScope = "x-ms-encryption-scope"
     case serverEncrypted = "x-ms-server-encrypted"
     case leaseDuration = "x-ms-lease-duration"
+    case leaseId = "x-ms-lease-id"
     case leaseState = "x-ms-lease-state"
     case leaseStatus = "x-ms-lease-status"
     case metadata = "x-ms-meta"
+    case range = "x-ms-range"
+    case rangeGetContentMD5 = "x-ms-range-get-content-md5"
+    case rangeGetContentCRC64 = "x-ms-range-get-content-crc64"
 }
 
 extension HTTPHeaders {
