@@ -55,12 +55,10 @@ public final class StorageBlobClient: PipelineClient, PagedCollectionDelegate, T
     /// The options provided to initialize this StorageBlobClient
     public let options: StorageBlobClientOptions
 
-    private let credential: Any
-
     /// The TransferDelegate to inform about transfer events
     public weak var transferDelegate: TransferDelegate?
 
-    private let defaultScopes = [
+    private static let defaultScopes = [
         "https://storage.azure.com/.default"
     ]
 
@@ -68,6 +66,7 @@ public final class StorageBlobClient: PipelineClient, PagedCollectionDelegate, T
 
     // MARK: Paged Collection Delegate
 
+    /// :nodoc:
     public func continuationUrl(
         continuationToken: String,
         queryParams: inout [QueryParameter],
@@ -107,28 +106,11 @@ public final class StorageBlobClient: PipelineClient, PagedCollectionDelegate, T
 
     /// Create a Storage blob data client.
     /// - Parameters:
-    ///   - accountUrl: Base URL for the storage account.
-    ///   - credential: A credential object used to retrieve authentication tokens.
-    ///   - options: A `StorageBlobClientOptions` object to control the download.
-    public required init(accountUrl: String, credential: Any, withOptions options: StorageBlobClientOptions? = nil)
-        throws {
-        self.credential = credential
+    ///   - baseUrl: Base URL for the storage account.
+    ///   - authPolicy: An authentication policy to use for authenticating client requests.
+    ///   - options: Options used to configure the client.
+    private init(baseUrl: String, authPolicy: Authenticating, withOptions options: StorageBlobClientOptions? = nil) {
         self.options = options ?? StorageBlobClientOptions(apiVersion: ApiVersion.latest.rawValue)
-        let authPolicy: Authenticating
-        var baseUrl: String
-        if let sasCredential = credential as? StorageSASCredential {
-            guard let blobEndpoint = sasCredential.blobEndpoint else {
-                let message = "Invalid connection string. No blob endpoint specified."
-                throw AzureError.serviceRequest(message)
-            }
-            baseUrl = blobEndpoint
-            authPolicy = StorageSASAuthenticationPolicy(credential: sasCredential)
-        } else if let oauthCredential = credential as? MSALCredential {
-            authPolicy = BearerTokenCredentialPolicy(credential: oauthCredential, scopes: defaultScopes)
-            baseUrl = accountUrl
-        } else {
-            throw AzureError.serviceRequest("Invalid credential. \(type(of: credential))")
-        }
         super.init(
             baseUrl: baseUrl,
             transport: URLSessionTransport(),
@@ -149,17 +131,43 @@ public final class StorageBlobClient: PipelineClient, PagedCollectionDelegate, T
 
     /// Create a Storage blob data client.
     /// - Parameters:
-    ///   - connectionString: Storage account connection string. **WARNING**: Connection strings
-    ///     are inherently insecure in a mobile app. Any connection strings used should be read-only and not have write permissions.
-    ///   - options: A `StorageBlobClientOptions` object to control the download.
-    public static func from(connectionString: String, withOptions options: StorageBlobClientOptions? = nil) throws
-        -> StorageBlobClient {
-            let sasCredential = try StorageSASCredential(connectionString: connectionString)
-            guard let blobEndpoint = sasCredential.blobEndpoint else {
-                throw AzureError.serviceRequest("Invalid connection string.")
-            }
-            return try self.init(accountUrl: blobEndpoint, credential: sasCredential, withOptions: options)
+    ///   - accountUrl: Base URL for the storage account.
+    ///   - credential: A MSAL credential object used to retrieve authentication tokens.
+    ///   - options: Options used to configure the client.
+    public convenience init(
+        accountUrl: String,
+        credential: MSALCredential,
+        withOptions options: StorageBlobClientOptions? = nil
+    ) {
+        let authPolicy = BearerTokenCredentialPolicy(credential: credential, scopes: StorageBlobClient.defaultScopes)
+        self.init(baseUrl: accountUrl, authPolicy: authPolicy, withOptions: options)
+    }
+
+    /// Create a Storage blob data client.
+    /// - Parameters:
+    ///   - credential: A SAS credential object used to retrieve the base URL and authentication tokens.
+    ///   - options: Options used to configure the client.
+    public convenience init(
+        credential: StorageSASCredential,
+        withOptions options: StorageBlobClientOptions? = nil
+    ) throws {
+        guard let blobEndpoint = credential.blobEndpoint else {
+            let message = "Invalid connection string. No blob endpoint specified."
+            throw AzureError.serviceRequest(message)
         }
+        let authPolicy = StorageSASAuthenticationPolicy(credential: credential)
+        self.init(baseUrl: blobEndpoint, authPolicy: authPolicy, withOptions: options)
+    }
+
+    /// Create a Storage blob data client.
+    /// - Parameters:
+    ///   - connectionString: Storage account connection string. **WARNING**: Connection strings are inherently insecure
+    ///     in a mobile app. Any connection strings used should be read-only and not have write permissions.
+    ///   - options: Options used to configure the client.
+    public convenience init(connectionString: String, withOptions options: StorageBlobClientOptions? = nil) throws {
+        let credential = try StorageSASCredential(connectionString: connectionString)
+        try self.init(credential: credential, withOptions: options)
+    }
 
     public static func url(forHost host: String, container: String, blob: String) -> URL? {
         let urlString = "\(host)/\(container)/\(blob)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
