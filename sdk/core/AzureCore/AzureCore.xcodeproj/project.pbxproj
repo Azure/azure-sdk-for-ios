@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0A18D7B523A95FEC008959E6 /* Copyable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A18D7B423A95FEC008959E6 /* Copyable.swift */; };
-		0A28683D23F5CD140084CF15 /* ResumableOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A28683C23F5CD140084CF15 /* ResumableOperation.swift */; };
 		0A3A5D7B2315C89C00473FDA /* AzureCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A3A5D792315C89C00473FDA /* AzureCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0A3A5D9B2315CEB600473FDA /* HTTPRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D902315CEB600473FDA /* HTTPRequest.swift */; };
 		0A3A5D9C2315CEB600473FDA /* HTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D912315CEB600473FDA /* HTTPResponse.swift */; };
@@ -45,7 +44,6 @@
 		0AD6351D23F46C6D000D67F6 /* ReachabilityManagerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD6351C23F46C6D000D67F6 /* ReachabilityManagerType.swift */; };
 		0AD6351F23F46CC4000D67F6 /* ReachabilityManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD6351E23F46CC4000D67F6 /* ReachabilityManagerTests.swift */; };
 		0AE5C3A6231F150A0013CA85 /* KeychainUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE5C3A5231F150A0013CA85 /* KeychainUtil.swift */; };
-		0AFAAAF423EA3C0C00B26BC2 /* ResumableOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFAAAF323EA3C0C00B26BC2 /* ResumableOperationQueue.swift */; };
 		0AFDF16723AAC37F00816EB7 /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AFDF16623AAC37F00816EB7 /* MSAL.framework */; };
 		0AFDF16923AACAD600816EB7 /* Pods_AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B79B7DB4DFFFBAA628E4C29 /* Pods_AzureCore.framework */; };
 		0AFDF16A23AACAD600816EB7 /* Pods_AzureCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7B79B7DB4DFFFBAA628E4C29 /* Pods_AzureCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -106,7 +104,6 @@
 
 /* Begin PBXFileReference section */
 		0A18D7B423A95FEC008959E6 /* Copyable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Copyable.swift; sourceTree = "<group>"; };
-		0A28683C23F5CD140084CF15 /* ResumableOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumableOperation.swift; sourceTree = "<group>"; };
 		0A3A5D762315C89C00473FDA /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A3A5D792315C89C00473FDA /* AzureCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AzureCore.h; sourceTree = "<group>"; };
 		0A3A5D7A2315C89C00473FDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -146,7 +143,6 @@
 		0AD6351C23F46C6D000D67F6 /* ReachabilityManagerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityManagerType.swift; sourceTree = "<group>"; };
 		0AD6351E23F46CC4000D67F6 /* ReachabilityManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityManagerTests.swift; sourceTree = "<group>"; };
 		0AE5C3A5231F150A0013CA85 /* KeychainUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainUtil.swift; sourceTree = "<group>"; };
-		0AFAAAF323EA3C0C00B26BC2 /* ResumableOperationQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumableOperationQueue.swift; sourceTree = "<group>"; };
 		0AFDF16623AAC37F00816EB7 /* MSAL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MSAL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AFEC34F23C8FC310065D588 /* UtilTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilTests.swift; sourceTree = "<group>"; };
 		0AFEC35023C8FC310065D588 /* PipelineTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PipelineTests.swift; sourceTree = "<group>"; };
@@ -337,8 +333,6 @@
 			children = (
 				0AC0AA8A234F8ADD00F05073 /* Collections.swift */,
 				0A8FE7672368A4FF00B96598 /* MatchCondition.swift */,
-				0A28683C23F5CD140084CF15 /* ResumableOperation.swift */,
-				0AFAAAF323EA3C0C00B26BC2 /* ResumableOperationQueue.swift */,
 				0A532ACE2417E71100C4C8BA /* XMLMap.swift */,
 				0AC0AA8E234FDB0800F05073 /* XMLModel.swift */,
 				0A532AD02417E73C00C4C8BA /* XMLTree.swift */,
@@ -622,12 +616,10 @@
 				0A3A5F422319834500473FDA /* PipelineStage.swift in Sources */,
 				0A45B1FB23A82A2E00C54363 /* ApplicationUtil.swift in Sources */,
 				0A3A5D9D2315CEB600473FDA /* HTTPMethod.swift in Sources */,
-				0A28683D23F5CD140084CF15 /* ResumableOperation.swift in Sources */,
 				0A3A5D9B2315CEB600473FDA /* HTTPRequest.swift in Sources */,
 				7AA5366F23C0409F00A65A96 /* DeviceProviders.swift in Sources */,
 				7AA5366523C0232A00A65A96 /* RequestIdPolicy.swift in Sources */,
 				0AC0AA8C234F8ADD00F05073 /* Collections.swift in Sources */,
-				0AFAAAF423EA3C0C00B26BC2 /* ResumableOperationQueue.swift in Sources */,
 				0A3A5F3C2318904F00473FDA /* PipelineResponse.swift in Sources */,
 				0A532AD12417E73C00C4C8BA /* XMLTree.swift in Sources */,
 				7A16DC7B234BF55F002708BC /* PipelineError.swift in Sources */,

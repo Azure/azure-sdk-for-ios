@@ -42,6 +42,8 @@
 		0AE8F02D23AC2A7C007B6975 /* StorageStreamDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE8F02A23AC2A7C007B6975 /* StorageStreamDownloader.swift */; };
 		0AE8F02E23AC2A7C007B6975 /* BlobSharedAccessSignature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE8F02B23AC2A7C007B6975 /* BlobSharedAccessSignature.swift */; };
 		0AE8F02F23AC2AEB007B6975 /* Options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE8F02923AC2A7C007B6975 /* Options.swift */; };
+		7ACAADA1242C241A00A049B7 /* ResumableOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACAADA0242C241900A049B7 /* ResumableOperationQueue.swift */; };
+		7ACAADA2242C241A00A049B7 /* ResumableOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACAAD9F242C241900A049B7 /* ResumableOperation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +108,8 @@
 		0AE8F02923AC2A7C007B6975 /* Options.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Options.swift; sourceTree = "<group>"; };
 		0AE8F02A23AC2A7C007B6975 /* StorageStreamDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageStreamDownloader.swift; sourceTree = "<group>"; };
 		0AE8F02B23AC2A7C007B6975 /* BlobSharedAccessSignature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlobSharedAccessSignature.swift; sourceTree = "<group>"; };
+		7ACAAD9F242C241900A049B7 /* ResumableOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumableOperation.swift; sourceTree = "<group>"; };
+		7ACAADA0242C241900A049B7 /* ResumableOperationQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumableOperationQueue.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -233,6 +237,8 @@
 				0AD6352A23F4C365000D67F6 /* BlockOperations.swift */,
 				0A28688023FCA6750084CF15 /* MultiBlobOperation.swift */,
 				0AE8F02923AC2A7C007B6975 /* Options.swift */,
+				7ACAAD9F242C241900A049B7 /* ResumableOperation.swift */,
+				7ACAADA0242C241900A049B7 /* ResumableOperationQueue.swift */,
 				0AE8F02A23AC2A7C007B6975 /* StorageStreamDownloader.swift */,
 				0A5329682411FA4500486D81 /* StorageStreamUploader.swift */,
 				0A8D74C92409D1D400B3B577 /* Transfer.swift */,
@@ -388,10 +394,12 @@
 				0A80DB1B2425358B00ED9F94 /* BlobTransfer+CoreDataProperties.swift in Sources */,
 				0AE8F02F23AC2AEB007B6975 /* Options.swift in Sources */,
 				0AC34915235633110094C576 /* StorageBlobClientOptions.swift in Sources */,
+				7ACAADA2242C241A00A049B7 /* ResumableOperation.swift in Sources */,
 				0A532ACD2417D8CC00C4C8BA /* BlockLookupList.swift in Sources */,
 				0A28684723F5D6700084CF15 /* AzureStorage.xcdatamodeld in Sources */,
 				0A6864B3233E89D9004B7E17 /* ContainerItem.swift in Sources */,
 				0A28686D23F74EA00084CF15 /* BlobDownloadOperations.swift in Sources */,
+				7ACAADA1242C241A00A049B7 /* ResumableOperationQueue.swift in Sources */,
 				0A6864AA233E83B5004B7E17 /* StorageBlobClient.swift in Sources */,
 				0A80DB1324251B0C00ED9F94 /* BlobUploadOperations.swift in Sources */,
 				0AA4FFCD23DF96C4003ADF59 /* TransferManager.swift in Sources */,
