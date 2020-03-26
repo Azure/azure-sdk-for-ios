@@ -40,11 +40,14 @@ internal class BlobDownloadInitialOperation: ResumableOperation {
     // MARK: Internal Methods
 
     internal func queueRemainingBlocks(forTransfer transfer: BlobTransfer) {
-        guard transfer.transferType == .download else { return }
-        guard let opQueue = queue else { return }
-        guard let downloader = transfer.downloader else { return }
-        guard downloader.blockList.count > 0 else { return }
-        guard let context = transfer.managedObjectContext else { return }
+        guard transfer.transferType == .download,
+            let opQueue = queue,
+            let downloader = transfer.downloader,
+            downloader.blockList.count > 0,
+            let context = transfer.managedObjectContext else {
+            assertionFailure("Preconditions failed for queueRemainingBlocks")
+            return
+        }
 
         // The intialDownloadOperation marks the transfer complete, so
         // if blocks remain, we must reset the state to inProgress.
@@ -74,30 +77,34 @@ internal class BlobDownloadInitialOperation: ResumableOperation {
     // MARK: Public Methods
 
     public override func main() {
-        guard let transfer = self.transfer as? BlockTransfer else { return }
-        guard let parent = transfer.parent else { return }
-        guard parent.transferType == .download else { return }
+        if isCancelled || isPaused { return }
+        guard let transfer = self.transfer as? BlockTransfer,
+            let parent = transfer.parent,
+            parent.transferType == .download,
+            let downloader = parent.downloader else {
+            assertionFailure("Preconditions failed for BlobDownloadInitialOperation")
+            return
+        }
+
         transfer.state = .inProgress
         parent.state = .inProgress
         delegate?.operation(self, didChangeState: transfer.state)
+
         let group = DispatchGroup()
         group.enter()
-        if let downloader = parent.downloader {
-            if isCancelled || isPaused { return }
-            downloader.initialRequest { result, _ in
-                switch result {
-                case .success:
-                    transfer.state = .complete
-                    self.notifyDelegate(withTransfer: transfer)
-                    self.queueRemainingBlocks(forTransfer: parent)
-                case let .failure(error):
-                    transfer.state = .failed
-                    parent.state = .failed
-                    parent.error = error
-                    self.notifyDelegate(withTransfer: transfer)
-                }
-                group.leave()
+        downloader.initialRequest { result, _ in
+            switch result {
+            case .success:
+                transfer.state = .complete
+                self.notifyDelegate(withTransfer: transfer)
+                self.queueRemainingBlocks(forTransfer: parent)
+            case let .failure(error):
+                transfer.state = .failed
+                parent.state = .failed
+                parent.error = error
+                self.notifyDelegate(withTransfer: transfer)
             }
+            group.leave()
         }
         group.wait()
         parent.initialCallComplete = true

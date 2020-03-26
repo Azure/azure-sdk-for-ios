@@ -51,9 +51,6 @@
       location = "group:examples"
       name = "Examples">
       <FileRef
-         location = "group:AzureSDKTransferManager/AzureSDKTransferManager.xcodeproj">
-      </FileRef>
-      <FileRef
          location = "group:AzureSDKDemoSwift/AzureSDKDemoSwift.xcodeproj">
       </FileRef>
    </Group>

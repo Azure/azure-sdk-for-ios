@@ -38,11 +38,17 @@ class MainViewController: UITableViewController, MSALInteractiveDelegate {
     private var noMoreData = false
     private lazy var blobClient: StorageBlobClient? = {
         guard let application = AppState.application else { return nil }
-        let credential = MSALCredential(
-            tenant: AppConstants.tenant, clientId: AppConstants.clientId, application: application,
-            account: AppState.currentAccount()
-        )
-        return StorageBlobClient(accountUrl: AppConstants.storageAccountUrl, credential: credential)
+        do {
+            let credential = MSALCredential(
+                tenant: AppConstants.tenant, clientId: AppConstants.clientId, application: application,
+                account: AppState.currentAccount
+            )
+            let client = try StorageBlobClient(accountUrl: AppConstants.storageAccountUrl, credential: credential)
+            return client
+        } catch {
+            showAlert(error: error)
+            return nil
+        }
     }()
 
     override func viewDidLoad() {

@@ -551,7 +551,7 @@ extension StorageBlobClient: TransferDelegate {
     public func transfer(
         _ transfer: Transfer,
         didUpdateWithState state: TransferState,
-        andProgress progress: TransferProgress?
+        andProgress progress: Float?
     ) {
         transferDelegate?.transfer(transfer, didUpdateWithState: state, andProgress: progress)
     }

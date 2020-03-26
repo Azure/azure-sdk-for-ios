@@ -25,13 +25,23 @@
 // --------------------------------------------------------------------------
 
 import UIKit
-import Foundation
 
-class QueueTableViewCell: UITableViewCell {
+class CustomTabBarController: UITabBarController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        if let blobClient = try? AppState.blobClient() {
+            blobClient.startManaging()
+        }
+    }
 
-    public static let identifier = "QueueTableViewCell"
+    override func viewDidAppear(_: Bool) {
+        // FIXME: Separate startManaging
+//        AppState.transferManager.reachability?.startListening()
+    }
 
-    @IBOutlet weak var idLabel: UILabel!
-    @IBOutlet weak var contentLabel: UILabel!
-    @IBOutlet weak var statusLabel: UILabel!
+    override func viewDidDisappear(_: Bool) {
+        // FIXME: Separate startManaging
+//        AppState.transferManager.reachability?.stopListening()
+//        AppState.transferManager.pauseAll()
+    }
 }

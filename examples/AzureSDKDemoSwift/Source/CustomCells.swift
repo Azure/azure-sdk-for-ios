@@ -44,3 +44,14 @@ class CustomTableViewCell: UITableViewCell {
         }
     }
 }
+
+class CustomCollectionViewCell: UICollectionViewCell {
+    // MARK: Properties
+
+    @IBOutlet var image: UIImageView!
+    @IBOutlet var progressBar: UIProgressView!
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
+}

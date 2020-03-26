@@ -37,7 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     ) -> Bool {
         // The MSAL Logger should be set as early as possible in the app launch sequence, before any MSAL
         // requests are made.
-
+        MSALGlobalConfig.loggerConfig.logLevel = .nothing
         MSALGlobalConfig.loggerConfig.setLogCallback { _, message, containsPII in
 
             // If PiiLoggingEnabled is set YES, this block will potentially contain sensitive information (Personally

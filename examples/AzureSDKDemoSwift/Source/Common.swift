@@ -45,6 +45,10 @@ struct AppConstants {
     static let redirectUri = "msauth.com.azure.examples.AzureSDKDemoSwifty://auth"
 
     static let authority = "https://login.microsoftonline.com/7e6c9611-413e-47e4-a054-a389854dd732"
+
+    static let uploadContainer: String! = "uploads"
+
+    static let videoContainer: String! = "videos"
 }
 
 struct AppState {
@@ -56,7 +60,7 @@ struct AppState {
         "https://storage.azure.com/.default"
     ]
 
-    static func currentAccount() -> MSALAccount? {
+    static var currentAccount: MSALAccount? {
         if let account = AppState.account {
             return account
         }
@@ -74,6 +78,95 @@ struct AppState {
         }
         return nil
     }
+
+    static var uploadOptions: UploadBlobOptions {
+        return UploadBlobOptions()
+    }
+
+    static var downloadOptions: DownloadBlobOptions {
+        // TODO: Diagnose issues with EXC_BAD_ACCESS and restore to true
+        let options = DownloadBlobOptions(
+            destination: DestinationOptions(isTemporary: false),
+            range: RangeOptions(calculateMD5: false)
+        )
+        return options
+    }
+
+    private static var internalBlobClient: StorageBlobClient?
+    static func blobClient(withDelegate delegate: TransferDelegate? = nil) throws -> StorageBlobClient {
+        let client: StorageBlobClient
+        if AppState.internalBlobClient == nil {
+            guard let application = AppState.application else {
+                let error = AzureError.general("Application is not initialized. Unable to create Blob Storage Client.")
+                throw error
+            }
+            let credential = MSALCredential(
+                tenant: AppConstants.tenant, clientId: AppConstants.clientId, application: application,
+                account: AppState.currentAccount
+            )
+            let options = StorageBlobClientOptions(
+                apiVersion: StorageBlobClient.ApiVersion.latest.rawValue,
+                logger: ClientLoggers.none
+            )
+            client = StorageBlobClient(
+                accountUrl: AppConstants.storageAccountUrl,
+                credential: credential,
+                withOptions: options
+            )
+        } else {
+            client = AppState.internalBlobClient!
+        }
+        client.transferDelegate = delegate
+        return client
+    }
+
+//    static func downloader(
+//        for transfer: BlobTransfer,
+//        withDelegate delegate: TransferManagerDelegate? = nil
+//    ) -> BlobStreamDownloader? {
+//        guard let client = try? AppState.blobClient(withDelegate: delegate) else { return nil }
+//        guard let source = transfer.source else { return nil }
+//
+//        let options = DownloadBlobOptions()
+//        options.range = RangeOptions()
+//        options.destination = DestinationOptions()
+//        options.destination?.isTemporary = false
+//        options.range?.calculateMD5 = false
+//
+//        let blobName = source.lastPathComponent
+//        let downloader = try? BlobStreamDownloader(
+//            client: client,
+//            delegate: nil,
+//            name: blobName,
+//            container: AppConstants.videoContainer,
+//            options: options
+//        )
+//        return downloader
+//    }
+//
+//    static func uploader(
+//        for transfer: BlobTransfer,
+//        withDelegate delegate: TransferManagerDelegate? = nil
+//    ) -> BlobStreamUploader? {
+//        guard let client = try? AppState.blobClient(withDelegate: delegate) else { return nil }
+//        guard let source = transfer.source else { return nil }
+//
+//        let blobName = source.lastPathComponent
+//        let properties = BlobProperties(
+//            contentType: "video/quicktime"
+//        )
+//        let options = UploadBlobOptions()
+//        let uploader = try? BlobStreamUploader(
+//            client: client,
+//            delegate: nil,
+//            source: source,
+//            name: blobName,
+//            container: AppConstants.uploadContainer,
+//            properties: properties,
+//            options: options
+//        )
+//        return uploader
+//    }
 }
 
 class ActivtyViewController: UIViewController {
@@ -144,6 +237,27 @@ extension UIViewController {
                 child.view.removeFromSuperview()
                 child.removeFromParent()
             }
+        }
+    }
+}
+
+extension TransferState {
+    public var color: UIColor {
+        switch self {
+        case .pending:
+            return UIColor(red: 222.0 / 255.0, green: 222.0 / 255.0, blue: 222.0 / 255.0, alpha: 1.0)
+        case .inProgress:
+            return UIColor(red: 128.0 / 255.0, green: 230.0 / 255.0, blue: 255.0 / 255.0, alpha: 1.0)
+        case .paused:
+            return UIColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 128.0 / 255.0, alpha: 1.0)
+        case .complete:
+            return UIColor(red: 128.0 / 255.0, green: 255.0 / 255.0, blue: 128.0 / 255.0, alpha: 1.0)
+        case .failed:
+            return .systemRed
+        case .canceled:
+            return .systemRed
+        case .deleted:
+            return .systemRed
         }
     }
 }

@@ -50,6 +50,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
             case .notReachable:
                 self.pauseAll()
             case .reachable(.ethernetOrWiFi), .reachable(.wwan):
+                self.operationQueue.clear()
                 self.resumeAll()
             default:
                 break
@@ -121,6 +122,14 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         return nil
     }
 
+    public func transfers(ofType transferType: TransferType? = nil) -> [BlobTransfer] {
+        let blobTransfers = transfers.compactMap { $0 as? BlobTransfer }
+        if transferType == nil {
+            return blobTransfers
+        }
+        return blobTransfers.filter { $0.transferType == transferType }
+    }
+
     // MARK: Add Operations
 
     public func add(transfer: Transfer) {
@@ -144,11 +153,13 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         self.operation(operation, didChangeState: transfer.state)
     }
 
-    internal func queueOperationsFor(blobTransfer transfer: BlobTransfer) {
+    internal func queueOperations(for transfer: BlobTransfer) {
         let disallowed: [TransferState] = [.complete, .canceled, .failed]
         let resumableOperations: [TransferState] = [.pending, .inProgress]
         guard !disallowed.contains(transfer.state) else { return }
         var operations = [ResumableOperation]()
+
+        print(transfer.debugString)
 
         switch transfer.transferType {
         case .download:
@@ -182,6 +193,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
                 operations.append(blockOperation)
             }
         }
+        print("QUEUEING \(operations.count) OPERATIONS FOR BLOB \(transfer.hash)")
         operationQueue.add(operations)
         self.operations(operations, didChangeState: transfer.state)
     }
@@ -213,7 +225,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
             }
             transfer.totalBlocks = Int64(transfer.transfers.count)
         }
-        queueOperationsFor(blobTransfer: transfer)
+        queueOperations(for: transfer)
     }
 
     // MARK: Cancel Operations
@@ -378,26 +390,76 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         }
     }
 
+    internal func reconnectClient(for transfer: BlobTransfer) {
+        // early out if a client is already connected
+        switch transfer.transferType {
+        case .upload:
+            guard transfer.uploader == nil else { return }
+        case .download:
+            guard transfer.downloader == nil else { return }
+        default:
+            assertionFailure("Unrecognized transfer type: \(transfer.transferType.label)")
+            return
+        }
+
+        // must create one
+        guard let client = delegate?.client(forRestorationId: transfer.clientRestorationId) as? StorageBlobClient
+        else { return }
+        guard let options = delegate?.options(forRestorationId: transfer.clientRestorationId) else { return }
+        switch transfer.transferType {
+        case .upload:
+            guard let uploadOptions = options as? UploadBlobOptions else { return }
+            guard let sourceUrl = transfer.source else { return }
+            guard let destUrl = transfer.destination else { return }
+            // FIXME: Fix blobProperties!
+            let blobProperties = BlobProperties(contentType: "image/jpg")
+            transfer.uploader = try? BlobStreamUploader(
+                client: client,
+                delegate: nil,
+                source: sourceUrl,
+                name: "BANOODLE",
+                container: "BANOODLE",
+                properties: blobProperties,
+                options: uploadOptions
+            )
+        case .download:
+            guard let downloadOptions = options as? DownloadBlobOptions else { return }
+            guard let sourceUrl = transfer.source else { return }
+            guard let destUrl = transfer.destination else { return }
+            transfer.downloader = try? BlobStreamDownloader(
+                client: client,
+                delegate: nil,
+                name: "BANOODLE",
+                container: "BANOODLE",
+                options: downloadOptions
+            )
+        default:
+            assertionFailure("Unrecognized transfer type: \(transfer.transferType.label)")
+            return
+        }
+    }
+
+    internal func ensureUploader(for transfer: BlobTransfer) {
+        guard transfer.transferType == .upload else { return }
+    }
+
     public func resume(transfer: Transfer) {
         guard let transfer = transfer as? TransferImpl else { return }
 
         guard reachability?.isReachable ?? false else { return }
         guard transfer.state.resumable else { return }
         transfer.state = .pending
-
         switch transfer {
         case let transfer as BlockTransfer:
             operationQueue.add(BlockOperation(withTransfer: transfer))
         case let transfer as BlobTransfer:
-            for blockTransfer in transfer.transfers {
-                if blockTransfer.state.resumable {
-                    blockTransfer.state = .pending
-                }
+            for blockTransfer in transfer.transfers where blockTransfer.state.resumable {
+                blockTransfer.state = .pending
             }
             reconnectClient(for: transfer)
-            queueOperationsFor(blobTransfer: transfer)
+            queueOperations(for: transfer)
         default:
-            fatalError("Unrecognized transfer type: \(transfer.self)")
+            assertionFailure("Unrecognized transfer type: \(transfer.self)")
         }
         operation(transfer.operation, didChangeState: transfer.state)
     }
@@ -459,28 +521,33 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         blockRequest.predicate = predicate
         if let results = try? context.fetch(blockRequest) {
             for transfer in results {
-                add(transfer: transfer)
+                transfers.append(transfer)
             }
         }
         let blobRequest: NSFetchRequest<BlobTransfer> = BlobTransfer.fetchRequest()
         blobRequest.predicate = predicate
         if let results = try? context.fetch(blobRequest) {
             for transfer in results {
-                add(transfer: transfer)
+                transfers.append(transfer)
             }
         }
     }
 
     public func saveContext() {
         DispatchQueue.main.async { [weak self] in
-            guard let context = self?.persistentContainer?.viewContext else { return }
+            guard let context = self?.persistentContainer?.viewContext else {
+                assert(self?.persistentContainer?.viewContext != nil, "Failed to obtain context.")
+                return
+            }
             if context.hasChanges {
                 do {
+                    print("SAVING")
                     try context.save()
                 } catch {
                     let nserror = error as NSError
                     let message = nserror.localizedDescription
-                    fatalError("Unresolved error \(nserror.code): \(message)")
+                    let errorMessage = "Unresolved error \(nserror.code): \(message)"
+                    assertionFailure(errorMessage)
                 }
             }
         }

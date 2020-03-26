@@ -62,8 +62,3 @@ target 'AzureSDKDemoSwift' do
   project 'examples/AzureSDKDemoSwift/AzureSDKDemoSwift'
   pod 'MSAL', '~> 1.0.0'
 end
-
-target 'AzureSDKTransferManager' do
-  project 'examples/AzureSDKTransferManager/AzureSDKTransferManager'
-  pod 'MSAL', '~> 1.0.0'
-end

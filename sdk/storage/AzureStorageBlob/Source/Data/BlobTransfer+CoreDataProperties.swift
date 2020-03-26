@@ -53,6 +53,7 @@ extension BlobTransfer {
     @NSManaged internal var totalBlocks: Int64
     @NSManaged internal var blocks: NSSet?
     @NSManaged internal var parent: MultiBlobTransfer?
+    @NSManaged public var clientRestorationId: String
 }
 
 // MARK: Generated accessors for blocks

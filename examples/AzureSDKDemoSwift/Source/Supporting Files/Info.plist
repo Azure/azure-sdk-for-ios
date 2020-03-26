@@ -43,7 +43,9 @@
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
-	</array>
+	</array>    
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Requires photo library access for upload.</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

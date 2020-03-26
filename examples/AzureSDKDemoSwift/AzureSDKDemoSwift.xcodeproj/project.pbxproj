@@ -13,7 +13,8 @@
 		0A009817237B560E0015E9C9 /* AzureCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3A5E9B2315E8BE00473FDA /* AzureCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0A009818237B560F0015E9C9 /* AzureAppConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A4081B32333DE170071EAEE /* AzureAppConfiguration.framework */; };
 		0A009819237B560F0015E9C9 /* AzureAppConfiguration.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0A4081B32333DE170071EAEE /* AzureAppConfiguration.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		0A138BA7241C0B21004F3FB2 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A138BA6241C0B21004F3FB2 /* CustomTableViewCell.swift */; };
+		0A138BA7241C0B21004F3FB2 /* CustomCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A138BA6241C0B21004F3FB2 /* CustomCells.swift */; };
+		0A215831242C314E0060BFA0 /* BlobUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A215830242C314E0060BFA0 /* BlobUploadViewController.swift */; };
 		0A25EA53239814410012DFE1 /* Pods_AzureSDKDemoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F31A5A26BA837DAEC8BD8E4 /* Pods_AzureSDKDemoSwift.framework */; };
 		0A25EA54239814410012DFE1 /* Pods_AzureSDKDemoSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F31A5A26BA837DAEC8BD8E4 /* Pods_AzureSDKDemoSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0A25EA57239821E30012DFE1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A25EA56239821E30012DFE1 /* LoginViewController.swift */; };
@@ -23,8 +24,9 @@
 		0A3A5E812315E70500473FDA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A3A5E802315E70500473FDA /* Assets.xcassets */; };
 		0A3A5E842315E70500473FDA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A3A5E822315E70500473FDA /* LaunchScreen.storyboard */; };
 		0A3A5E8F2315E70600473FDA /* AzureSDKDemoSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5E8E2315E70600473FDA /* AzureSDKDemoSwiftTests.swift */; };
-		0A71C5CB234BE18200604F2D /* BlobTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A71C5CA234BE18200604F2D /* BlobTableViewController.swift */; };
+		0A71C5CB234BE18200604F2D /* BlobDownloadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A71C5CA234BE18200604F2D /* BlobDownloadViewController.swift */; };
 		0A71C5CD234BE85700604F2D /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A71C5CC234BE85700604F2D /* Common.swift */; };
+		0AF03F1C2433EE80002E65F8 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF03F1B2433EE80002E65F8 /* CustomTabBarController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,7 +57,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0A138BA6241C0B21004F3FB2 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
+		0A138BA6241C0B21004F3FB2 /* CustomCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCells.swift; sourceTree = "<group>"; };
+		0A215830242C314E0060BFA0 /* BlobUploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlobUploadViewController.swift; sourceTree = "<group>"; };
 		0A25EA56239821E30012DFE1 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		0A3A5E762315E70400473FDA /* AzureSDKDemoSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AzureSDKDemoSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A3A5E792315E70400473FDA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -70,9 +73,10 @@
 		0A3A5E9B2315E8BE00473FDA /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A4081B32333DE170071EAEE /* AzureAppConfiguration.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureAppConfiguration.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A6864B4233E8C8E004B7E17 /* AzureStorageBlob.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureStorageBlob.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0A71C5CA234BE18200604F2D /* BlobTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlobTableViewController.swift; sourceTree = "<group>"; };
+		0A71C5CA234BE18200604F2D /* BlobDownloadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlobDownloadViewController.swift; sourceTree = "<group>"; };
 		0A71C5CC234BE85700604F2D /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		0A80BD55239EEFD400491345 /* AzureSDKDemoSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AzureSDKDemoSwift.entitlements; sourceTree = "<group>"; };
+		0AF03F1B2433EE80002E65F8 /* CustomTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
 		1C261B405813394338B82960 /* Pods-AzureSDKDemoSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureSDKDemoSwift.release.xcconfig"; path = "../../Pods/Target Support Files/Pods-AzureSDKDemoSwift/Pods-AzureSDKDemoSwift.release.xcconfig"; sourceTree = "<group>"; };
 		9F31A5A26BA837DAEC8BD8E4 /* Pods_AzureSDKDemoSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureSDKDemoSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0A776A40094923B6F31057B /* Pods-AzureSDKDemoSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureSDKDemoSwift.debug.xcconfig"; path = "../../Pods/Target Support Files/Pods-AzureSDKDemoSwift/Pods-AzureSDKDemoSwift.debug.xcconfig"; sourceTree = "<group>"; };
@@ -126,8 +130,10 @@
 			children = (
 				0A71C5CC234BE85700604F2D /* Common.swift */,
 				0A3A5E792315E70400473FDA /* AppDelegate.swift */,
-				0A138BA6241C0B21004F3FB2 /* CustomTableViewCell.swift */,
-				0A71C5CA234BE18200604F2D /* BlobTableViewController.swift */,
+				0A138BA6241C0B21004F3FB2 /* CustomCells.swift */,
+				0AF03F1B2433EE80002E65F8 /* CustomTabBarController.swift */,
+				0A71C5CA234BE18200604F2D /* BlobDownloadViewController.swift */,
+				0A215830242C314E0060BFA0 /* BlobUploadViewController.swift */,
 				0A3A5E7B2315E70400473FDA /* MainViewController.swift */,
 				0A25EA56239821E30012DFE1 /* LoginViewController.swift */,
 				0A3A5E7D2315E70400473FDA /* Main.storyboard */,
@@ -343,10 +349,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A25EA57239821E30012DFE1 /* LoginViewController.swift in Sources */,
+				0A215831242C314E0060BFA0 /* BlobUploadViewController.swift in Sources */,
+				0AF03F1C2433EE80002E65F8 /* CustomTabBarController.swift in Sources */,
 				0A71C5CD234BE85700604F2D /* Common.swift in Sources */,
-				0A138BA7241C0B21004F3FB2 /* CustomTableViewCell.swift in Sources */,
+				0A138BA7241C0B21004F3FB2 /* CustomCells.swift in Sources */,
 				0A3A5E7C2315E70400473FDA /* MainViewController.swift in Sources */,
-				0A71C5CB234BE18200604F2D /* BlobTableViewController.swift in Sources */,
+				0A71C5CB234BE18200604F2D /* BlobDownloadViewController.swift in Sources */,
 				0A3A5E7A2315E70400473FDA /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -513,6 +521,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = AzureSDKDemoSwift.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Supporting Files/Info.plist";
@@ -523,6 +532,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.azure.examples.AzureSDKDemoSwifty;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -534,6 +544,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = AzureSDKDemoSwift.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Supporting Files/Info.plist";
@@ -544,6 +555,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.azure.examples.AzureSDKDemoSwifty;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
