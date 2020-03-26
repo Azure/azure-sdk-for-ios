@@ -28,8 +28,8 @@ import AzureCore
 import Foundation
 
 // TODO: Revisit this naming and structure prior to Preview 1
-public class BlobHeadersAndQueryParameters {
-    public static let headers: [String] = LoggingPolicy.defaultAllowHeaders + [
+internal class BlobHeadersAndQueryParameters {
+    internal static let headers: [String] = LoggingPolicy.defaultAllowHeaders + [
         "Access-Control-Allow-Origin", "Cache-Control", "Content-Length", "Content-Type", "Date", "Request-Id",
         "traceparent", "Transfer-Encoding", "User-Agent", "x-ms-client-request-id", "x-ms-date", "x-ms-error-code",
         "x-ms-request-id", "x-ms-return-client-request-id", "x-ms-version", "Accept-Ranges", "Content-Disposition",
@@ -55,7 +55,7 @@ public class BlobHeadersAndQueryParameters {
         "x-ms-encryption-key-sha256"
     ]
 
-    public static let queryParameters: [String] = [
+    internal static let queryParameters: [String] = [
         "comp", "maxresults", "rscc", "rscd", "rsce", "rscl", "rsct", "se", "si", "sip", "sp", "spr", "sr", "srt",
         "ss", "st", "sv", "include", "marker", "prefix", "copyid", "restype", "blockid", "blocklisttype",
         "delimiter", "prevsnapshot", "ske", "skoid", "sks", "skt", "sktid", "skv", "snapshot"

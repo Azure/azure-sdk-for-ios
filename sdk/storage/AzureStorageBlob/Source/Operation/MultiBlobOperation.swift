@@ -24,41 +24,35 @@
 //
 // --------------------------------------------------------------------------
 
-import AzureCore
 import CoreData
 import Foundation
 
-internal class BlobUploadFinalOperation: ResumableOperation {
+internal class MultiBlobOperation: ResumableOperation {
+    // MARK: Properties
+
+    internal weak var parent: MultiBlobTransfer?
+
     // MARK: Initializers
 
-    public convenience init(withTransfer transfer: BlobTransfer, queue: ResumableOperationQueue) {
-        self.init(state: transfer.state)
-        self.transfer = transfer
-        self.queue = queue
-        transfer.operation = self
+    public init(withTransfer transfer: MultiBlobTransfer) {
+        self.parent = transfer
     }
 
     // MARK: Public Methods
 
     public override func main() {
-        guard let transfer = self.transfer as? BlobTransfer else { return }
-        guard let uploader = transfer.uploader else { return }
-        let group = DispatchGroup()
-        group.enter()
-        uploader.commit { result, _ in
-            switch result {
-            case .success:
-                transfer.state = .complete
-                self.notifyDelegate(withTransfer: transfer)
-            case let .failure(error):
-                transfer.state = .failed
-                transfer.error = error
-                transfer.parent?.state = .failed
-                self.notifyDelegate(withTransfer: transfer)
-            }
-            group.leave()
-        }
-        group.wait()
+        // TODO: Complete this implementation
+        guard let transfer = self.transfer as? MultiBlobTransfer else { return }
+        transfer.state = .complete
+        delegate?.operation(self, didChangeState: transfer.state)
         super.main()
+    }
+
+    public override func cancel() {
+        super.cancel()
+    }
+
+    public override func pause() {
+        super.pause()
     }
 }

@@ -27,7 +27,7 @@
 import AzureCore
 import Foundation
 
-public final class BlobLookupList: XMLModel {
+internal final class BlobLookupList: XMLModel {
     public var committed: [String]?
     public var uncommitted: [String]?
     public var latest: [String]?

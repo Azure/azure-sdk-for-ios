@@ -52,6 +52,56 @@ public enum LeaseStatus: String, Codable {
     case locked, unlocked
 }
 
-public enum LocationMode: String, Codable {
-    case primary, secondary
+public enum TransferState: Int16 {
+    case pending, inProgress, paused, complete, failed, canceled, deleted
+
+    public var label: String {
+        switch self {
+        case .pending:
+            return "Pending"
+        case .inProgress:
+            return "In Progress"
+        case .paused:
+            return "Paused"
+        case .complete:
+            return "Complete"
+        case .failed:
+            return "Failed"
+        case .canceled:
+            return "Canceled"
+        case .deleted:
+            return "Deleted"
+        }
+    }
+
+    public var pauseable: Bool {
+        switch self {
+        case .pending, .inProgress:
+            return true
+        case .paused, .complete, .canceled, .deleted, .failed:
+            return false
+        }
+    }
+
+    public var resumable: Bool {
+        switch self {
+        case .paused, .failed:
+            return true
+        case .pending, .inProgress, .complete, .canceled, .deleted:
+            return false
+        }
+    }
+}
+
+public enum TransferType: Int16 {
+    case upload, download
+
+    public var label: String {
+        switch self {
+        case .upload:
+            return "upload"
+        case .download:
+            return "download"
+        }
+    }
 }

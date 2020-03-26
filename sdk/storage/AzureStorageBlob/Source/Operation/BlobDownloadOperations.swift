@@ -24,7 +24,6 @@
 //
 // --------------------------------------------------------------------------
 
-import AzureCore
 import CoreData
 import Foundation
 

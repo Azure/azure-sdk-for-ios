@@ -26,12 +26,12 @@
 
 import Foundation
 
-public protocol ResumableOperationQueueDelegate: ResumableOperationDelegate {
+internal protocol ResumableOperationQueueDelegate: ResumableOperationDelegate {
     func operation(_ operation: ResumableOperation?, didChangeState state: TransferState)
     func operations(_ operations: [ResumableOperation]?, didChangeState state: TransferState)
 }
 
-open class ResumableOperationQueue {
+internal class ResumableOperationQueue {
     // MARK: Properties
 
     internal lazy var operations: [ResumableOperation] = []

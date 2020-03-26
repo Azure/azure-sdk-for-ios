@@ -25,35 +25,36 @@
 // --------------------------------------------------------------------------
 
 import AzureCore
-import CoreData
 import Foundation
 
-internal class MultiBlobOperation: ResumableOperation {
-    // MARK: Properties
+// MARK: Protocols
 
-    internal weak var parent: MultiBlobTransfer?
+public protocol Transfer: AnyObject {
+    var id: UUID { get }
+    var state: TransferState { get set }
+    var debugString: String { get }
+    var rawState: Int16 { get set }
+}
 
-    // MARK: Initializers
+internal protocol TransferImpl: Transfer {
+    var operation: ResumableOperation? { get set }
+}
 
-    public init(withTransfer transfer: MultiBlobTransfer) {
-        self.parent = transfer
-    }
+public protocol TransferProgress {
+    var asPercent: Int { get }
+    var asFloat: Float { get }
+}
 
-    // MARK: Public Methods
+// MARK: Extensions
 
-    public override func main() {
-        // TODO: Complete this implementation
-        guard let transfer = self.transfer as? MultiBlobTransfer else { return }
-        transfer.state = .complete
-        delegate?.operation(self, didChangeState: transfer.state)
-        super.main()
-    }
+extension Transfer {
+    public var state: TransferState {
+        get {
+            return TransferState(rawValue: rawState)!
+        }
 
-    public override func cancel() {
-        super.cancel()
-    }
-
-    public override func pause() {
-        super.pause()
+        set {
+            rawState = newValue.rawValue
+        }
     }
 }

@@ -92,17 +92,6 @@ public class EncryptionOptions {
     }
 }
 
-public struct CpkInfo {
-    public let key: Data
-
-    public var hash: String {
-        // TODO: Needs implementation.
-        return ""
-    }
-
-    public let algorithm: String
-}
-
 /**
  All data in Azure Storage is encrypted at-rest using an account-level encryption key.
  In versions 2018-06-17 and newer, you can manage the key used to encrypt blob contents
@@ -132,49 +121,5 @@ public class CustomerProvidedEncryptionKey {
 
     public init(_ value: Data) {
         self.value = value.base64EncodedData()
-    }
-}
-
-/**
- A user delegation key.
- */
-public struct UserDelegationKey {
-    /// The Azure Active Directory object ID in GUID format.
-    public let signedOID: String
-
-    /// The Azure Active Directory tenant ID in GUID format.
-    public let signedTID: String
-
-    /// The date-time the key is active.
-    public let signedStart: String
-
-    /// The date-time the key expires.
-    public let signedExpiry: String
-
-    /// Abbreviation of the Azure Storage service that accepts the key.
-    public let signedService: String
-
-    /// The service version that created the key.
-    public let signedVersion: String
-
-    /// The key as a base64 string.
-    public let value: String
-
-    public init(
-        signedOID: String,
-        signedTID: String,
-        signedStart: String,
-        signedExpiry: String,
-        signedService: String,
-        signedVersion: String,
-        value: String
-    ) {
-        self.signedOID = signedOID
-        self.signedTID = signedTID
-        self.signedStart = signedStart
-        self.signedExpiry = signedExpiry
-        self.signedService = signedService
-        self.signedVersion = signedVersion
-        self.value = value
     }
 }

@@ -24,7 +24,6 @@
 //
 // --------------------------------------------------------------------------
 
-import AzureCore
 import Foundation
 
 extension URLSessionTransferManager: ResumableOperationQueueDelegate {

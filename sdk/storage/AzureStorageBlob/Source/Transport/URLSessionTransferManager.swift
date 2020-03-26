@@ -27,7 +27,7 @@
 import AzureCore
 import CoreData
 
-final class URLSessionTransferManager: NSObject, TransferManager, URLSessionTaskDelegate {
+internal final class URLSessionTransferManager: NSObject, TransferManager, URLSessionTaskDelegate {
     // MARK: Type Aliase
 
     public typealias TransferManagerType = URLSessionTransferManager
@@ -60,7 +60,7 @@ final class URLSessionTransferManager: NSObject, TransferManager, URLSessionTask
 
     internal var operationQueue: ResumableOperationQueue
 
-    public var transfers: [Transfer]
+    internal var transfers: [Transfer]
 
     public var count: Int {
         return transfers.count
@@ -225,6 +225,7 @@ final class URLSessionTransferManager: NSObject, TransferManager, URLSessionTask
     }
 
     public func cancel(transfer: Transfer) {
+        guard let transfer = transfer as? TransferImpl else { return }
         transfer.state = .canceled
         assert(transfer.operation != nil, "Transfer operation unexpectedly nil.")
         if let operation = transfer.operation {
@@ -271,6 +272,7 @@ final class URLSessionTransferManager: NSObject, TransferManager, URLSessionTask
     }
 
     public func remove(transfer: Transfer) {
+        guard let transfer = transfer as? TransferImpl else { return }
         switch transfer {
         case let transfer as BlockTransfer:
             remove(transfer: transfer)
@@ -377,6 +379,8 @@ final class URLSessionTransferManager: NSObject, TransferManager, URLSessionTask
     }
 
     public func resume(transfer: Transfer) {
+        guard let transfer = transfer as? TransferImpl else { return }
+
         guard reachability?.isReachable ?? false else { return }
         guard transfer.state.resumable else { return }
         transfer.state = .pending

@@ -26,7 +26,6 @@
 
 import AzureCore
 import Foundation
-import MSAL
 
 /// A Storage SAS credential object.
 public class StorageSASCredential {

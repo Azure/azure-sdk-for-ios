@@ -29,7 +29,7 @@ import AzureCore
 import CoreData
 import Foundation
 
-public class MultiBlobTransfer: NSManagedObject, Transfer {
+internal class MultiBlobTransfer: NSManagedObject, TransferImpl {
     // MARK: Properties
 
     public var operation: ResumableOperation?

@@ -69,8 +69,8 @@ public protocol TransferDelegate: AnyObject {
     func transfer(_: Transfer, didUpdateWithState: TransferState)
     func transfer(_: Transfer, didFailWithError: Error)
     func transferDidComplete(_: Transfer)
-    func uploader(for transfer: BlobTransfer) -> BlobStreamUploader?
-    func downloader(for transfer: BlobTransfer) -> BlobStreamDownloader?
+    func uploader(for transfer: Transfer) -> BlobStreamUploader?
+    func downloader(for transfer: Transfer) -> BlobStreamDownloader?
 }
 
 // MARK: Extensions

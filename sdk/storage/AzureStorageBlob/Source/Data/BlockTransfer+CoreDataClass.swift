@@ -28,7 +28,7 @@
 import CoreData
 import Foundation
 
-public class BlockTransfer: NSManagedObject, Transfer {
+internal class BlockTransfer: NSManagedObject, TransferImpl {
     public var operation: ResumableOperation?
 
     public var debugString: String {

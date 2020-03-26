@@ -24,34 +24,40 @@
 //
 // --------------------------------------------------------------------------
 
-import AzureCore
+import CoreData
 import Foundation
 
-// MARK: Protocols
+internal class BlobUploadFinalOperation: ResumableOperation {
+    // MARK: Initializers
 
-public protocol Transfer: AnyObject {
-    var rawState: Int16 { get set }
-    var state: TransferState { get set }
-    var operation: ResumableOperation? { get set }
-    var debugString: String { get }
-    var id: UUID { get }
-}
+    public convenience init(withTransfer transfer: BlobTransfer, queue: ResumableOperationQueue) {
+        self.init(state: transfer.state)
+        self.transfer = transfer
+        self.queue = queue
+        transfer.operation = self
+    }
 
-public protocol TransferProgress {
-    var asPercent: Int { get }
-    var asFloat: Float { get }
-}
+    // MARK: Public Methods
 
-// MARK: Extensions
-
-extension Transfer {
-    public var state: TransferState {
-        get {
-            return TransferState(rawValue: rawState)!
+    public override func main() {
+        guard let transfer = self.transfer as? BlobTransfer else { return }
+        guard let uploader = transfer.uploader else { return }
+        let group = DispatchGroup()
+        group.enter()
+        uploader.commit { result, _ in
+            switch result {
+            case .success:
+                transfer.state = .complete
+                self.notifyDelegate(withTransfer: transfer)
+            case let .failure(error):
+                transfer.state = .failed
+                transfer.error = error
+                transfer.parent?.state = .failed
+                self.notifyDelegate(withTransfer: transfer)
+            }
+            group.leave()
         }
-
-        set {
-            rawState = newValue.rawValue
-        }
+        group.wait()
+        super.main()
     }
 }

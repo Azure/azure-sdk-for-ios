@@ -28,7 +28,7 @@ import AzureCore
 import CoreData
 import Foundation
 
-public class BlockOperation: ResumableOperation {
+internal class BlockOperation: ResumableOperation {
     // MARK: Initializers
 
     public convenience init(withTransfer transfer: BlockTransfer) {
