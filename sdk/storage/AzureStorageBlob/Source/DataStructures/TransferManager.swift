@@ -34,8 +34,8 @@ public protocol TransferManager: ResumableOperationQueueDelegate {
 
     var reachability: ReachabilityManager? { get }
     var persistentContainer: NSPersistentContainer? { get }
-    static var shared: Self { get }
     var logger: ClientLogger { get set }
+    var delegate: TransferDelegate? { get set }
 
     // MARK: Storage Methods
 
@@ -59,43 +59,19 @@ public protocol TransferManager: ResumableOperationQueueDelegate {
     func saveContext()
 }
 
-public protocol TransferManagerDelegate: AnyObject {
-    func transferManager<T: TransferManager>(
-        _ manager: T,
-        didUpdateTransfer transfer: Transfer,
-        withState state: TransferState,
-        andProgress progress: TransferProgress?
-    )
-    func transferManager<T: TransferManager>(_ manager: T, didCompleteTransfer transfer: Transfer)
-    func transferManager<T: TransferManager>(_ manager: T, didFailTransfer transfer: Transfer, withError: Error)
-    func transferManager<T: TransferManager>(_ manager: T, didUpdateWithState state: TransferState)
+public protocol TransferDelegate: AnyObject {
+    func transfer(_: Transfer, didUpdateWithState: TransferState, andProgress: TransferProgress?)
+    func transfer(_: Transfer, didUpdateWithState: TransferState)
+    func transfer(_: Transfer, didFailWithError: Error)
+    func transferDidComplete(_: Transfer)
     func uploader(for transfer: BlobTransfer) -> BlobStreamUploader?
     func downloader(for transfer: BlobTransfer) -> BlobStreamDownloader?
 }
 
 // MARK: Extensions
 
-extension TransferManagerDelegate {
-    func transferManager<T: TransferManager>(
-        _ manager: T,
-        didUpdateTransfer transfer: Transfer,
-        withState state: TransferState
-    ) {
-        transferManager(manager, didUpdateTransfer: transfer, withState: state, andProgress: nil)
+public extension TransferDelegate {
+    func transfer(_ transferParam: Transfer, didUpdateWithState state: TransferState) {
+        transfer(transferParam, didUpdateWithState: state, andProgress: nil)
     }
-
-    func transferManager<T: TransferManager>(
-        _ manager: T,
-        didUpdateTransfer _: Transfer,
-        withState _: TransferState,
-        andProgress _: TransferProgress?
-    ) {}
-    func transferManager<T: TransferManager>(
-        _ manager: T,
-        didUpdateTransfers _: [Transfer],
-        withState _: TransferState
-    ) {}
-    func transferManager<T: TransferManager>(_ manager: T, didCompleteTransfer _: Transfer) {}
-    func transferManager<T: TransferManager>(_ manager: T, didFailTransfer _: Transfer, withError _: Error) {}
-    func transferManager<T: TransferManager>(_ manager: T, didUpdateWithState _: TransferState) {}
 }

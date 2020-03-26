@@ -48,12 +48,12 @@ public class StorageBlobClientOptions: AzureConfigurable {
 
     // TransferManager configuration
     public var transferManager: URLSessionTransferManager?
-    public weak var transferDelegate: TransferManagerDelegate?
+    public weak var transferDelegate: TransferDelegate?
 
     public init(
         apiVersion: String,
         logger: ClientLogger? = nil,
-        delegate: TransferManagerDelegate? = nil,
+        delegate: TransferDelegate? = nil,
         tag: String = "StorageBlobClient"
     ) {
         self.apiVersion = apiVersion

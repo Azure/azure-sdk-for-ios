@@ -34,7 +34,7 @@ public final class URLSessionTransferManager: NSObject, TransferManager, URLSess
 
     // MARK: Properties
 
-    public weak var delegate: TransferManagerDelegate?
+    public weak var delegate: TransferDelegate?
 
     public var logger: ClientLogger
 
@@ -81,7 +81,7 @@ public final class URLSessionTransferManager: NSObject, TransferManager, URLSess
 
     // MARK: Initializers
 
-    public init(delegate: TransferManagerDelegate? = nil, logger: ClientLogger? = nil) {
+    public init(delegate: TransferDelegate? = nil, logger: ClientLogger? = nil) {
         self.delegate = delegate
         self.logger = logger ?? PrintLogger(tag: "StorageTransferManager", level: .debug)
         self.operationQueue = ResumableOperationQueue(name: "TransferQueue", delegate: nil, removeOnCompletion: true)
@@ -91,12 +91,6 @@ public final class URLSessionTransferManager: NSObject, TransferManager, URLSess
         operationQueue.delegate = self
         operationQueue.maxConcurrentOperationCount = 4
     }
-
-    // Static Singleton
-    public static var shared: URLSessionTransferManager = {
-        let shared = URLSessionTransferManager(delegate: nil)
-        return shared
-    }()
 
     // MARK: TransferManager Methods
 
