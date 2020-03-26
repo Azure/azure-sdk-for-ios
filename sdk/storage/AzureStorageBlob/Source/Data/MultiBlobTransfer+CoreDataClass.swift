@@ -49,7 +49,7 @@ public class MultiBlobTransfer: NSManagedObject, Transfer {
 
     public var state: TransferState {
         get {
-            let currState = TransferState(rawValue: rawState) ?? .unknown
+            let currState = TransferState(rawValue: rawState)!
             var state = currState
             let inProgressTransfers = transfers.filter { $0.state == .inProgress }
             if inProgressTransfers.count > 0 {

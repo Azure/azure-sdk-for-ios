@@ -59,7 +59,7 @@ public class BlobTransfer: NSManagedObject, Transfer {
 
     public var state: TransferState {
         get {
-            let currState = TransferState(rawValue: rawState) ?? .unknown
+            let currState = TransferState(rawValue: rawState)!
             var state = currState
             for item in transfers {
                 switch item.state {
@@ -92,7 +92,7 @@ public class BlobTransfer: NSManagedObject, Transfer {
 
     public var transferType: TransferType {
         get {
-            return TransferType(rawValue: rawType) ?? .unknown
+            return TransferType(rawValue: rawType)!
         }
 
         set {

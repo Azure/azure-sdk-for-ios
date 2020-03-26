@@ -88,7 +88,7 @@ open class ResumableOperationQueue {
         let states = operations.map { $0.state.rawValue }
         for state in Set(states) {
             let filteredOps = operations.filter { $0.state.rawValue == state }
-            var transferState = TransferState(rawValue: state) ?? .unknown
+            var transferState = TransferState(rawValue: state)!
             let allowed: [TransferState] = [.pending, .inProgress]
             if allowed.contains(transferState) {
                 // reset inProgress back to pending since they may be scheduled differently

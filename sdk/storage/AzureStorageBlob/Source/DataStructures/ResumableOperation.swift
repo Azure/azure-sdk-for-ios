@@ -28,12 +28,10 @@ import CoreData
 import Foundation
 
 public enum TransferState: Int16 {
-    case unknown, pending, inProgress, paused, complete, failed, canceled, deleted
+    case pending, inProgress, paused, complete, failed, canceled, deleted
 
     public var label: String {
         switch self {
-        case .unknown:
-            return "Unknown"
         case .pending:
             return "Pending"
         case .inProgress:
@@ -53,7 +51,7 @@ public enum TransferState: Int16 {
 
     public var pauseable: Bool {
         switch self {
-        case .unknown, .pending, .inProgress:
+        case .pending, .inProgress:
             return true
         case .paused, .complete, .canceled, .deleted, .failed:
             return false
@@ -64,14 +62,14 @@ public enum TransferState: Int16 {
         switch self {
         case .paused, .failed:
             return true
-        case .unknown, .pending, .inProgress, .complete, .canceled, .deleted:
+        case .pending, .inProgress, .complete, .canceled, .deleted:
             return false
         }
     }
 }
 
 public enum TransferType: Int16 {
-    case unknown, upload, download
+    case upload, download
 
     public var label: String {
         switch self {
@@ -79,8 +77,6 @@ public enum TransferType: Int16 {
             return "upload"
         case .download:
             return "download"
-        case .unknown:
-            return "unknown"
         }
     }
 }

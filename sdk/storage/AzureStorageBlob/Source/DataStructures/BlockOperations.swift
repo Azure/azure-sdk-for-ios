@@ -122,8 +122,6 @@ public class BlockOperation: ResumableOperation {
                 }
                 group.leave()
             }
-        default:
-            assertionFailure("Unrecognized transfer type: \(parent.transferType.label)")
         }
         group.wait()
         super.main()

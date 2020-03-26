@@ -181,9 +181,6 @@ public final class URLSessionTransferManager: NSObject, TransferManager, URLSess
                 finalOperation.addDependency(blockOperation)
                 operations.append(blockOperation)
             }
-        case .unknown:
-            // Unknown transfers are invalid
-            remove(transfer: transfer)
         }
         operationQueue.add(operations)
         self.operations(operations, didChangeState: transfer.state)
@@ -213,8 +210,6 @@ public final class URLSessionTransferManager: NSObject, TransferManager, URLSess
                         )
                     transfer.blocks?.adding(blockTransfer)
                 }
-            case .unknown:
-                return
             }
             transfer.totalBlocks = Int64(transfer.transfers.count)
         }
@@ -422,8 +417,6 @@ public final class URLSessionTransferManager: NSObject, TransferManager, URLSess
                     transfer.uploader = transfer.uploader ?? delegate?.uploader(for: transfer)
                 case .download:
                     transfer.downloader = transfer.downloader ?? delegate?.downloader(for: transfer)
-                default:
-                    assertionFailure("Unrecognized transfer type \(transfer.transferType.label)")
                 }
                 add(transfer: transfer)
             }

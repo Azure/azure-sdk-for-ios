@@ -37,8 +37,6 @@ extension URLSessionTransferManager: ResumableOperationQueueDelegate {
         case .download:
             guard let downloader = blobTransfer.downloader else { return nil }
             return BlobDownloadProgress(bytes: downloader.progress, totalBytes: downloader.fileSize)
-        default:
-            return nil
         }
     }
 

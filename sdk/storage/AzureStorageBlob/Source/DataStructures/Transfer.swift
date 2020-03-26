@@ -47,8 +47,7 @@ public protocol TransferProgress {
 extension Transfer {
     public var state: TransferState {
         get {
-            let state = TransferState(rawValue: rawState) ?? .unknown
-            return state
+            return TransferState(rawValue: rawState)!
         }
 
         set {
