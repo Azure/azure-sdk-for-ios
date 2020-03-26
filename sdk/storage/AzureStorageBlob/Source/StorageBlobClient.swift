@@ -32,7 +32,7 @@ import Foundation
 /**
  Client object for the Storage blob service.
  */
-public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
+public final class StorageBlobClient: PipelineClient, PagedCollectionDelegate, TransferDelegate {
     /// API version of the service to invoke. Defaults to the latest.
     public enum ApiVersion: String {
         case latest = "2019-02-02"
@@ -52,13 +52,19 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         }
     }
 
+    /// The options provided to initialize this StorageBlobClient
+    public let options: StorageBlobClientOptions
+
     private let credential: Any
 
-    public var options: StorageBlobClientOptions
+    /// The TransferDelegate to inform about transfer events
+    public weak var transferDelegate: TransferDelegate?
 
     private let defaultScopes = [
         "https://storage.azure.com/.default"
     ]
+
+    private lazy var manager: TransferManager = URLSessionTransferManager(delegate: self, logger: self.logger)
 
     // MARK: Paged Collection Delegate
 
@@ -69,6 +75,32 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
     ) -> URL? {
         queryParams.append("marker", continuationToken)
         return requestUrl
+    }
+
+    // MARK: Transfer Delegate
+
+    public func transfer(
+        _ transfer: Transfer,
+        didUpdateWithState state: TransferState,
+        andProgress progress: TransferProgress?
+    ) {
+        transferDelegate?.transfer(transfer, didUpdateWithState: state, andProgress: progress)
+    }
+
+    public func transfer(_ transfer: Transfer, didFailWithError error: Error) {
+        transferDelegate?.transfer(transfer, didFailWithError: error)
+    }
+
+    public func transferDidComplete(_ transfer: Transfer) {
+        transferDelegate?.transferDidComplete(transfer)
+    }
+
+    public func uploader(for transfer: BlobTransfer) -> BlobStreamUploader? {
+        transferDelegate?.uploader(for: transfer)
+    }
+
+    public func downloader(for transfer: BlobTransfer) -> BlobStreamDownloader? {
+        transferDelegate?.downloader(for: transfer)
     }
 
     // MARK: Initializers
