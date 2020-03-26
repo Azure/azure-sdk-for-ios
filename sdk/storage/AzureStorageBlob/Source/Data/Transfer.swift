@@ -27,34 +27,54 @@
 import AzureCore
 import Foundation
 
+// MARK: Data Structures
+
+/// Data structure representing the progress of a blob transfer.
+public struct TransferProgress {
+    /// Completed bytes.
+    public let bytes: Int
+    /// Total bytes to transfer.
+    public let totalBytes: Int
+    /// Percentage of the transfer that is complete, as an Int between 0 and 100.
+    public var asPercent: Int {
+        return Int(asFloat * 100.0)
+    }
+
+    /// Percentage of the transfer that is complete, as a Float between 0 and 1.
+    public var asFloat: Float {
+        return Float(bytes) / Float(totalBytes)
+    }
+}
+
 // MARK: Protocols
 
+/// Object that contains information about a transfer operation.
 public protocol Transfer: AnyObject {
+    /// The unique identifier for this transfer operation.
     var id: UUID { get }
-    var state: TransferState { get set }
+    /// The current state of the transfer.
+    var state: TransferState { get }
+    /// A debug representation of the transfer.
     var debugString: String { get }
-    var rawState: Int16 { get set }
+    /// :nodoc: Internal representation of the state.
+    var rawState: Int16 { get }
 }
 
 internal protocol TransferImpl: Transfer {
     var operation: ResumableOperation? { get set }
-}
-
-public protocol TransferProgress {
-    var asPercent: Int { get }
-    var asFloat: Float { get }
+    var state: TransferState { get set }
+    var rawState: Int16 { get set }
 }
 
 // MARK: Extensions
 
-extension Transfer {
-    public var state: TransferState {
-        get {
-            return TransferState(rawValue: rawState)!
-        }
+public extension Transfer {
+    var state: TransferState { return TransferState(rawValue: rawState)! }
+}
 
-        set {
-            rawState = newValue.rawValue
-        }
+internal extension TransferImpl {
+    var state: TransferState {
+        get { return TransferState(rawValue: rawState)! }
+        set { rawState = newValue.rawValue }
     }
 }

@@ -27,33 +27,26 @@
 import AzureCore
 import Foundation
 
-public final class ContainerProperties: XMLModel {
+/// Structure containing properties of a blob container.
+public struct ContainerProperties: XMLModel {
+    /// The date the container was last modified.
     public let lastModified: Date
+    /// The entity tag for the container.
     public let eTag: String
+    /// The lease status of the container.
     public let leaseStatus: LeaseStatus
+    /// The lease state of the container.
     public let leaseState: LeaseState
+    /// Specifies whether the lease on a container is of infinite or fixed duration.
     public let leaseDuration: LeaseDuration?
+    /// Indicates whether the container has an immutability policy set on it.
     public let hasImmutabilityPolicy: Bool?
+    /// Indicates whether the container has a legal hold.
     public let hasLegalHold: Bool?
 
-    public init(
-        lastModified: Date,
-        eTag: String,
-        leaseStatus: LeaseStatus,
-        leaseState: LeaseState,
-        leaseDuration: LeaseDuration? = nil,
-        hasImmutabilityPolicy: Bool? = nil,
-        hasLegalHold: Bool? = nil
-    ) {
-        self.lastModified = lastModified
-        self.eTag = eTag
-        self.leaseStatus = leaseStatus
-        self.leaseState = leaseState
-        self.leaseDuration = leaseDuration
-        self.hasImmutabilityPolicy = hasImmutabilityPolicy
-        self.hasLegalHold = hasLegalHold
-    }
+    // MARK: XMLModel Delegate
 
+    /// :nodoc:
     public static func xmlMap() -> XMLMap {
         return XMLMap([
             "Last-Modified": XMLMetadata(jsonName: "lastModified"),
@@ -67,8 +60,11 @@ public final class ContainerProperties: XMLModel {
     }
 }
 
+// MARK: Codable Delegate
+
 extension ContainerProperties: Codable {
-    public convenience init(from decoder: Decoder) throws {
+    /// :nodoc:
+    public init(from decoder: Decoder) throws {
         let root = try decoder.container(keyedBy: CodingKeys.self)
         self.init(
             lastModified: try root.decode(Date.self, forKey: .lastModified),

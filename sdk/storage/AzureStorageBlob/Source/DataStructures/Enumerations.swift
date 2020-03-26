@@ -26,35 +26,84 @@
 
 import Foundation
 
+/// The access tier of a blob.
 public enum AccessTier: String, Codable {
-    case hot, cold
+    /// Hot access tier.
+    case hot
+    /// Cold access tier.
+    case cold
 }
 
+/// The type of a blob.
 public enum BlobType: String, Codable {
+    /// Block blob.
     case block = "BlockBlob"
+    /// Page blob.
     case page = "PageBlob"
+    /// Append blob.
     case append = "AppendBlob"
 }
 
+/// Status of a blob copy operation.
 public enum CopyStatus: String, Codable {
-    case pending, success, aborted, failed
+    /// Copy is in progress.
+    case pending
+    /// Copy completed successfully.
+    case success
+    /// Copy was ended by Abort Copy Blob.
+    case aborted
+    /// Copy failed.
+    case failed
 }
 
+/// The duration of a lease on a blob or container.
 public enum LeaseDuration: String, Codable {
-    case infinite, fixed
+    /// The lease is of infinite duration.
+    case infinite
+    /// The lease is of fixed duration.
+    case fixed
 }
 
+/// The state of a lease on a blob or container.
 public enum LeaseState: String, Codable {
-    case available, leased, expired, breaking, broken
+    /// The lease is unlocked and can be acquired.
+    case available
+    /// The lease is locked.
+    case leased
+    /// The lease duration has expired.
+    case expired
+    /// The lease has been broken, but will continue to be locked until the break period has expired.
+    case breaking
+    /// The lease has been broken, and the break period has expired.
+    case broken
 }
 
+/// The status of a lease on a blob or container.
 public enum LeaseStatus: String, Codable {
-    case locked, unlocked
+    /// The lease is locked.
+    case locked
+    /// The lease is unlocked.
+    case unlocked
 }
 
+/// The state of a transfer.
 public enum TransferState: Int16 {
-    case pending, inProgress, paused, complete, failed, canceled, deleted
+    /// The transfer has not been started by the transfer management engine.
+    case pending
+    /// The transfer is currently in progress.
+    case inProgress
+    /// The transfer is paused.
+    case paused
+    /// The transfer completed successfully.
+    case complete
+    /// The transfer failed. This failure may or may not be retryable.
+    case failed
+    /// The transfer was explicitly canceled.
+    case canceled
+    /// The record of the transfer no longer exists.
+    case deleted
 
+    /// A string representation of the transfer state.
     public var label: String {
         switch self {
         case .pending:
@@ -74,6 +123,7 @@ public enum TransferState: Int16 {
         }
     }
 
+    /// Indicates whether the transfer is currently in a state that can be paused.
     public var pauseable: Bool {
         switch self {
         case .pending, .inProgress:
@@ -83,6 +133,7 @@ public enum TransferState: Int16 {
         }
     }
 
+    /// Indicates whether the transfer is currently in a state that can be resumed.
     public var resumable: Bool {
         switch self {
         case .paused, .failed:
@@ -91,11 +142,26 @@ public enum TransferState: Int16 {
             return false
         }
     }
+
+    /// Indicates whether the transfer is currently in an active state.
+    public var active: Bool {
+        switch self {
+        case .pending, .inProgress:
+            return true
+        case .paused, .failed, .complete, .canceled, .deleted:
+            return false
+        }
+    }
 }
 
+/// The type of a transfer.
 public enum TransferType: Int16 {
-    case upload, download
+    /// A blob upload.
+    case upload
+    /// A blob download.
+    case download
 
+    /// A string representation of the transfer type.
     public var label: String {
         switch self {
         case .upload:

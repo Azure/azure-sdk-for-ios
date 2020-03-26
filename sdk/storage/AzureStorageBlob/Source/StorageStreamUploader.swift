@@ -141,7 +141,7 @@ internal class ChunkUploader {
         ])
         let leaseAccessConditions = options.leaseAccessConditions
         let modifiedAccessConditions = options.modifiedAccessConditions
-        let cpk = options.cpk
+        let cpk = options.customerProvidedEncryptionKey
 
         if let transactionalContentMd5 = transactionalContentMd5 {
             headers[.contentMD5] = String(data: transactionalContentMd5, encoding: .utf8)
@@ -153,10 +153,10 @@ internal class ChunkUploader {
 
         if let requestId = requestId { headers[.clientRequestId] = requestId }
         if let leaseId = leaseAccessConditions?.leaseId { headers[.leaseId] = leaseId }
-        if let encryptionKey = cpk?.value {
+        if let encryptionKey = cpk?.keyData {
             headers[.encryptionKey] = String(data: encryptionKey, encoding: .utf8)
         }
-        if let encryptionScope = options.cpkScopeInfo {
+        if let encryptionScope = options.customerProvidedEncryptionScope {
             headers[.encryptionScope] = encryptionScope
         }
 
@@ -190,64 +190,85 @@ internal class ChunkUploader {
     }
 }
 
-public struct BlobUploadProgress: TransferProgress {
-    public var bytes: Int
-    public var totalBytes: Int
-
-    public var asPercent: Int {
-        return Int(asFloat * 100.0)
-    }
-
-    public var asFloat: Float {
-        return Float(bytes) / Float(totalBytes)
-    }
+/// A delegate to receive notifications about state changes from `BlobUploader` objects.
+public protocol BlobUploadDelegate: AnyObject {
+    /// An upload's progress has updated.
+    func uploader(_: BlobUploader, didUpdateWithProgress: TransferProgress)
+    /// An upload has failed.
+    func uploader(_: BlobUploader, didFailWithError: Error)
+    /// An upload has completed.
+    func uploaderDidComplete(_: BlobUploader)
 }
 
-public protocol BlobUploadDelegate: AnyObject {
-    func uploader(
-        _ uploader: BlobStreamUploader,
-        didUpdateWithProgress progress: BlobUploadProgress
-    )
-    func uploader(_ uploader: BlobStreamUploader, didFinishWithProgress progress: BlobUploadProgress)
-    func uploader(_ uploader: BlobStreamUploader, didFailWithError error: Error)
+/// An object that contains details about an upload operation.
+public protocol BlobUploader {
+    /// The `BlobUploadDelegate` to inform about upload events.
+    var delegate: BlobUploadDelegate? { get set }
+
+    /// Location on the device of the file being uploaded.
+    var uploadSource: URL { get }
+
+    /// Name of the destination blob.
+    var blobName: String { get }
+
+    /// Name of the container containing the destination blob.
+    var containerName: String { get }
+
+    /// Properties applied to the destination blob.
+    var blobProperties: BlobProperties? { get }
+
+    /// Size, in bytes, of the file being uploaded.
+    var fileSize: Int { get }
+
+    /// The total bytes uploaded.
+    var progress: Int { get }
+
+    /// Indicates if the upload is complete.
+    var isComplete: Bool { get }
+
+    /// Indicates if the upload is encrypted.
+    var isEncrypted: Bool { get }
 }
 
 /// Class used to upload block blobs.
-public class BlobStreamUploader {
+internal class BlobStreamUploader: BlobUploader {
     // MARK: Properties
 
     public weak var delegate: BlobUploadDelegate?
 
-    /// Location of the blob to be uploaded on the device
+    /// Location on the device of the file being uploaded.
     public let uploadSource: URL
 
-    /// Name of the blob being uploaded
+    /// Name of the destination blob.
     public let blobName: String
 
-    /// Name of the container containing the blob
+    /// Name of the container containing the destination blob.
     public let containerName: String
 
-    /// Properties of the blob being uploaded.
+    /// Properties applied to the destination blob.
     public var blobProperties: BlobProperties?
+
+    /// Size, in bytes, of the file being uploaded.
+    public let fileSize: Int
 
     /// The total bytes uploaded.
     public var progress = 0
 
     /// The list of blocks for the blob upload.
-    public var blockList = [(range: Range<Int>, blockId: UUID)]()
+    internal var blockList = [(range: Range<Int>, blockId: UUID)]()
 
-    /// Internal list that maps the order of block IDs
+    /// Internal list that maps the order of block IDs.
     internal var blockIdMap = [UUID: Int]()
 
-    /// Logs completed block IDs and the order they *should* be in
+    /// Logs completed block IDs and the order they *should* be in.
     internal var completedBlockMap = [UUID: Int]()
 
-    /// Indicates if the upload  is complete.
+    /// Indicates if the upload is complete.
     public var isComplete: Bool {
         return progress == fileSize
     }
 
-    /// Indicates if the upload  is encrypted.
+    /// Indicates if the upload is encrypted.
     public var isEncrypted: Bool {
         return options.encryptionOptions?.key != nil || options.encryptionOptions?.keyResolver != nil
     }
@@ -255,9 +276,6 @@ public class BlobStreamUploader {
     internal let client: StorageBlobClient
 
     internal let options: UploadBlobOptions
-
-    /// Size, in bytes, of the file to be uploaded.
-    internal var fileSize: Int
 
     // MARK: Initializers
 
@@ -311,9 +329,8 @@ public class BlobStreamUploader {
     ///   - completion: A completion handler called when the download completes.
     public func complete(inGroup group: DispatchGroup? = nil, then completion: @escaping () -> Void) throws {
         guard !isComplete else {
-            let progress = BlobUploadProgress(bytes: self.progress, totalBytes: fileSize)
             if let delegate = self.delegate {
-                delegate.uploader(self, didFinishWithProgress: progress)
+                delegate.uploaderDidComplete(self)
             } else {
                 completion()
             }
@@ -325,7 +342,7 @@ public class BlobStreamUploader {
             dispatchGroup.enter()
             next(inGroup: dispatchGroup) { _, _ in
                 if let delegate = self.delegate {
-                    let progress = BlobUploadProgress(bytes: self.progress, totalBytes: self.fileSize)
+                    let progress = TransferProgress(bytes: self.progress, totalBytes: self.fileSize)
                     delegate.uploader(self, didUpdateWithProgress: progress)
                 }
             }
@@ -335,9 +352,8 @@ public class BlobStreamUploader {
             self.commit { result, _ in
                 switch result {
                 case let .success(data):
-                    let progress = BlobUploadProgress(bytes: self.progress, totalBytes: self.fileSize)
                     if let delegate = self.delegate {
-                        delegate.uploader(self, didFinishWithProgress: progress)
+                        delegate.uploaderDidComplete(self)
                     } else {
                         completion()
                     }
@@ -378,7 +394,7 @@ public class BlobStreamUploader {
         ])
         let leaseAccessConditions = options.leaseAccessConditions
         let modifiedAccessConditions = options.modifiedAccessConditions
-        let cpk = options.cpk
+        let cpk = options.customerProvidedEncryptionKey
 
         if let transactionalContentMd5 = transactionalContentMd5 {
             headers[.contentMD5] = String(data: transactionalContentMd5, encoding: .utf8)
@@ -390,10 +406,10 @@ public class BlobStreamUploader {
 
         if let requestId = requestId { headers[.clientRequestId] = requestId }
         if let leaseId = leaseAccessConditions?.leaseId { headers[.leaseId] = leaseId }
-        if let encryptionKey = cpk?.value {
+        if let encryptionKey = cpk?.keyData {
             headers[.encryptionKey] = String(data: encryptionKey, encoding: .utf8)
         }
-        if let encryptionScope = options.cpkScopeInfo {
+        if let encryptionScope = options.customerProvidedEncryptionScope {
             headers[.encryptionScope] = encryptionScope
         }
 
@@ -506,20 +522,19 @@ public class BlobStreamUploader {
         var blockList = [(Range<Int>, UUID)]()
         let alignForCrypto = isEncrypted
         let chunkLength = client.options.maxChunkSize
-        let start = offset
-        let end = fileSize
 
         if alignForCrypto {
             fatalError("Client-side encryption is not yet supported!")
         } else {
-            for index in stride(from: start, to: end, by: chunkLength) {
-                var end = index + chunkLength
+            for index in stride(from: offset, to: fileSize, by: chunkLength) {
+                var blockEnd = index + chunkLength
                 if fileSize < 0 {
-                    end = chunkLength
-                } else if end > fileSize {
-                    end = fileSize
+                    blockEnd = chunkLength
                 }
-                let range = index ..< end
+                if blockEnd > fileSize {
+                    blockEnd = fileSize
+                }
+                let range = index ..< blockEnd
                 let blockId = UUID()
                 blockList.append((range: range, blockId: blockId))
                 blockIdMap[blockId] = blockList.count - 1

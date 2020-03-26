@@ -64,13 +64,20 @@ internal protocol TransferManager: ResumableOperationQueueDelegate {
     func saveContext()
 }
 
+/// A delegate to receive notifications about state changes for all transfers managed by a `StorageBlobClient`.
 public protocol TransferDelegate: AnyObject {
+    /// A transfer's state has changed, and progress is being reported.
     func transfer(_: Transfer, didUpdateWithState: TransferState, andProgress: TransferProgress?)
+    /// A transfer's state has changed, no progress informating is available.
     func transfer(_: Transfer, didUpdateWithState: TransferState)
+    /// A transfer has failed.
     func transfer(_: Transfer, didFailWithError: Error)
+    /// A transfer has completed.
     func transferDidComplete(_: Transfer)
-    func uploader(for transfer: Transfer) -> BlobStreamUploader?
-    func downloader(for transfer: Transfer) -> BlobStreamDownloader?
+    /// Method to return a `BlobStreamUploader` that can be used to complete a transfer.
+    func uploader(for transfer: Transfer) -> BlobUploader?
+    /// Method to return a `BlobStreamDownloader` that can be used to complete a transfer.
+    func downloader(for transfer: Transfer) -> BlobDownloader?
 }
 
 // MARK: Extensions

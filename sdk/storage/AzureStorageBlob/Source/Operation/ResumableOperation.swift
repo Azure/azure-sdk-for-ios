@@ -39,7 +39,7 @@ internal class ResumableOperation: Operation {
         return internalState
     }
 
-    public weak var transfer: Transfer?
+    public weak var transfer: TransferImpl?
     public weak var delegate: ResumableOperationDelegate?
     public weak var queue: ResumableOperationQueue?
 

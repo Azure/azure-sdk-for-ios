@@ -27,99 +27,73 @@
 import AzureCore
 import Foundation
 
-public final class BlobProperties: XMLModel {
+/// Structure containing properties of a blob or blob snapshot.
+public struct BlobProperties: XMLModel {
+    /// The date that the blob was created.
     public let creationTime: Date?
+    /// The date that the blob was last modified.
     public let lastModified: Date?
+    /// The entity tag for the blob.
     public let eTag: String?
-    public var contentLength: Int?
+    /// The size of the blob in bytes.
+    public internal(set) var contentLength: Int?
+    /// The content type specified for the blob.
     public let contentType: String?
+    /// The value of the blob's Content-Disposition request header, if previously set.
     public let contentDisposition: String?
+    /// The value of the blob's Content-Encoding request header, if previously set.
     public let contentEncoding: String?
+    /// The value of the blob's Content-Language request header, if previously set.
     public let contentLanguage: String?
-    public var contentMD5: String?
+    /// The value of the blob's Content-MD5 request header, if previously set.
+    public let contentMD5: String?
+    /// The value of the blob's x-ms-content-crc64 request header, if previously set.
     public let contentCRC64: String?
+    /// The value of the blob's Cache-Control request header, if previously set.
     public let cacheControl: String?
+    /// The current sequence number for a page blob. This value is nil for block or append blobs.
     public let sequenceNumber: Int?
+    /// The type of the blob.
     public let blobType: BlobType?
+    /// The access tier of the blob.
     public let accessTier: AccessTier?
+    /// The lease status of the blob.
     public let leaseStatus: LeaseStatus?
+    /// The lease state of the blob.
     public let leaseState: LeaseState?
+    /// Specifies whether the lease on a blob is of infinite or fixed duration.
     public let leaseDuration: LeaseDuration?
+    /// String identifier for the last attempted Copy Blob operation where this blob was the destination blob.
     public let copyId: String?
+    /// Status of the copy operation identified by `copyId`.
     public let copyStatus: CopyStatus?
+    /// The URL of the source blob used in the copy operation identified by `copyId`.
     public let copySource: URL?
+    /// Contains the number of bytes copied and the total bytes in the source blob, for the copy operation identified by
+    /// `copyId`.
     public let copyProgress: String?
+    /// Completion time of the copy operation identified by `copyId`.
     public let copyCompletionTime: Date?
+    /// Describes the cause of a fatal or non-fatal copy operation failure encounted in the copy operation identified by
+    /// `copyId`.
     public let copyStatusDescription: String?
+    /// Indicates whether the blob data and application metadata are completely encrypted.
     public let serverEncrypted: Bool?
+    /// Indicates whether the blob is an incremental copy blob.
     public let incrementalCopy: Bool?
+    /// If the access tier is not explicitly set on the blob, indicates whether the access tier is inferred based on the
+    /// blob's content length.
     public let accessTierInferred: Bool?
+    /// The date that the access tier was last changed on the blob.
     public let accessTierChangeTime: Date?
+    /// The date that the blob was soft-deleted.
     public let deletedTime: Date?
+    /// The number of days remaining in the blob's time-based retention policy.
     public let remainingRetentionDays: Int?
 
-    public init(
-        creationTime: Date? = nil,
-        lastModified: Date? = nil,
-        eTag: String? = nil,
-        contentLength: Int? = nil,
-        contentType: String? = nil,
-        contentDisposition: String? = nil,
-        contentEncoding: String? = nil,
-        contentLanguage: String? = nil,
-        contentMD5: String? = nil,
-        contentCRC64: String? = nil,
-        cacheControl: String? = nil,
-        sequenceNumber: Int? = nil,
-        blobType: BlobType? = nil,
-        accessTier: AccessTier? = nil,
-        leaseStatus: LeaseStatus? = nil,
-        leaseState: LeaseState? = nil,
-        leaseDuration: LeaseDuration? = nil,
-        copyId: String? = nil,
-        copyStatus: CopyStatus? = nil,
-        copySource: URL? = nil,
-        copyProgress: String? = nil,
-        copyCompletionTime: Date? = nil,
-        copyStatusDescription: String? = nil,
-        serverEncrypted: Bool? = nil,
-        incrementalCopy: Bool? = nil,
-        accessTierInferred: Bool? = nil,
-        accessTierChangeTime: Date? = nil,
-        deletedTime: Date? = nil,
-        remainingRetentionDays: Int? = nil
-    ) {
-        self.creationTime = creationTime
-        self.lastModified = lastModified
-        self.eTag = eTag
-        self.contentLength = contentLength
-        self.contentType = contentType
-        self.contentDisposition = contentDisposition
-        self.contentEncoding = contentEncoding
-        self.contentLanguage = contentLanguage
-        self.contentMD5 = contentMD5
-        self.contentCRC64 = contentCRC64
-        self.cacheControl = cacheControl
-        self.sequenceNumber = sequenceNumber
-        self.blobType = blobType
-        self.accessTier = accessTier
-        self.leaseStatus = leaseStatus
-        self.leaseState = leaseState
-        self.leaseDuration = leaseDuration
-        self.copyId = copyId
-        self.copyStatus = copyStatus
-        self.copySource = copySource
-        self.copyProgress = copyProgress
-        self.copyCompletionTime = copyCompletionTime
-        self.copyStatusDescription = copyStatusDescription
-        self.serverEncrypted = serverEncrypted
-        self.incrementalCopy = incrementalCopy
-        self.accessTierInferred = accessTierInferred
-        self.accessTierChangeTime = accessTierChangeTime
-        self.deletedTime = deletedTime
-        self.remainingRetentionDays = remainingRetentionDays
-    }
+    // MARK: XMLModel Delegate
 
+    /// :nodoc:
     public static func xmlMap() -> XMLMap {
         return XMLMap([
             "Creation-Time": XMLMetadata(jsonName: "creationTime"),
@@ -153,7 +127,9 @@ public final class BlobProperties: XMLModel {
             "RemainingRetentionDays": XMLMetadata(jsonName: "remainingRetentionDays")
         ])
     }
+}
 
+extension BlobProperties {
     internal init(from headers: HTTPHeaders) {
         self.creationTime = Date(headers[.creationTime], format: .rfc1123)
         self.lastModified = Date(headers[.lastModified], format: .rfc1123)
@@ -192,8 +168,11 @@ public final class BlobProperties: XMLModel {
     }
 }
 
+// MARK: Codable Delegate
+
 extension BlobProperties: Codable {
-    public convenience init(from decoder: Decoder) throws {
+    /// :nodoc:
+    public init(from decoder: Decoder) throws {
         let root = try decoder.container(keyedBy: CodingKeys.self)
         self.init(
             creationTime: try root.decodeIfPresent(Date.self, forKey: .creationTime),

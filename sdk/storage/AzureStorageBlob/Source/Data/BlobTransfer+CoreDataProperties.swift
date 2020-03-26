@@ -29,36 +29,36 @@ import CoreData
 import Foundation
 
 extension BlobTransfer {
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<BlobTransfer> {
+    @nonobjc internal class func fetchRequest() -> NSFetchRequest<BlobTransfer> {
         return NSFetchRequest<BlobTransfer>(entityName: "BlobTransfer")
     }
 
-    @NSManaged public var destination: URL?
-    @NSManaged public var endRange: Int64
-    @NSManaged public var error: Error?
-    @NSManaged public var id: UUID
-    @NSManaged public var initialCallComplete: Bool
-    @NSManaged public var rawState: Int16
-    @NSManaged public var rawType: Int16
-    @NSManaged public var source: URL?
-    @NSManaged public var startRange: Int64
-    @NSManaged public var totalBlocks: Int64
-    @NSManaged public var blocks: NSSet?
-    @NSManaged public var parent: MultiBlobTransfer?
+    @NSManaged internal var destination: URL?
+    @NSManaged internal var endRange: Int64
+    @NSManaged internal var error: Error?
+    @NSManaged internal var id: UUID
+    @NSManaged internal var initialCallComplete: Bool
+    @NSManaged internal var rawState: Int16
+    @NSManaged internal var rawType: Int16
+    @NSManaged internal var source: URL?
+    @NSManaged internal var startRange: Int64
+    @NSManaged internal var totalBlocks: Int64
+    @NSManaged internal var blocks: NSSet?
+    @NSManaged internal var parent: MultiBlobTransfer?
 }
 
 // MARK: Generated accessors for blocks
 
 extension BlobTransfer {
     @objc(addBlocksObject:)
-    @NSManaged public func addToBlocks(_ value: BlockTransfer)
+    @NSManaged internal func addToBlocks(_ value: BlockTransfer)
 
     @objc(removeBlocksObject:)
-    @NSManaged public func removeFromBlocks(_ value: BlockTransfer)
+    @NSManaged internal func removeFromBlocks(_ value: BlockTransfer)
 
     @objc(addBlocks:)
-    @NSManaged public func addToBlocks(_ values: NSSet)
+    @NSManaged internal func addToBlocks(_ values: NSSet)
 
     @objc(removeBlocks:)
-    @NSManaged public func removeFromBlocks(_ values: NSSet)
+    @NSManaged internal func removeFromBlocks(_ values: NSSet)
 }

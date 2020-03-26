@@ -102,7 +102,7 @@ internal class BlobTransfer: NSManagedObject, TransferImpl {
 }
 
 extension BlobTransfer {
-    public static func with(
+    internal static func with(
         context: NSManagedObjectContext,
         source: URL,
         destination: URL,

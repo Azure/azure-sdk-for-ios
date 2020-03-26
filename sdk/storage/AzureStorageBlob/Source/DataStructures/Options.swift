@@ -26,65 +26,118 @@
 
 import Foundation
 
+/// Options for accessing a blob based on the condition of a lease. If specified, the operation will be performed only
+/// if both of the following conditions are met:
+/// - The blob's lease is currently active.
+/// - The specified lease ID matches that of the blob.
 public struct LeaseAccessConditions {
-    public var leaseId: String
+    /// The lease ID which must match that of the blob.
+    public let leaseId: String
+
+    /// Initialize a `LeaseAccessConditions` structure.
+    /// - Parameter leaseId: The lease ID which must match that of the blob.
+    public init(leaseId: String) {
+        self.leaseId = leaseId
+    }
 }
 
+/// Options for accessing a blob based on its modification date and/or eTag. If specified, the operation will be
+/// performed only if all the specified conditions are met.
 public struct ModifiedAccessConditions {
-    public var ifModifiedSince: Date?
-    public var ifUnmodifiedSince: Date?
-    public var ifMatch: String?
-    public var ifNoneMatch: String?
+    /// Perform the operation only if the blob has been modified since the specified date.
+    public let ifModifiedSince: Date?
+    /// Perform the operation only if the blob has not been modified since the specified date.
+    public let ifUnmodifiedSince: Date?
+    /// Perform the operation only if the blob's `eTag` matches the value specified.
+    public internal(set) var ifMatch: String?
+    /// Perform the operation only if the blob's `eTag` does not match the value specified.
+    public let ifNoneMatch: String?
+
+    /// Initialize a `ModifiedAccessConditions` structure.
+    /// - Parameters:
+    ///   - ifModifiedSince: Perform the operation only if the blob has been modified since the specified date.
+    ///   - ifUnmodifiedSince: Perform the operation only if the blob has not been modified since the specified date.
+    ///   - ifMatch: Perform the operation only if the blob's `eTag` matches the value specified.
+    ///   - ifNoneMatch: Perform the operation only if the blob's `eTag` does not match the value specified.
+    public init(
+        ifModifiedSince: Date? = nil,
+        ifUnmodifiedSince: Date? = nil,
+        ifMatch: String? = nil,
+        ifNoneMatch: String? = nil
+    ) {
+        self.ifModifiedSince = ifModifiedSince
+        self.ifUnmodifiedSince = ifUnmodifiedSince
+        self.ifMatch = ifMatch
+        self.ifNoneMatch = ifNoneMatch
+    }
 }
 
+/// Options for working on a subset of data for a blob.
 public struct RangeOptions {
     /// Start of byte range to use for downloading a section of the blob.
     /// Must be set if length is provided.
-    public var offset = 0
-
+    public let offset: Int
     /// Number of bytes to read from the stream. Should be specified
     /// for optimal performance.
-    public var length: Int?
-
+    public let length: Int?
     /// When set to true, the service returns the MD5 hash for the range
     /// as long as the range is less than or equal to 4 MB in size.
-    public var calculateMD5: Bool?
-
+    public let calculateMD5: Bool?
     /// When set to true, the service returns the CRC64 hash for the range
     /// as long as the range is less than or equal to 4 MB in size.
-    public var calculateCRC64: Bool?
+    public let calculateCRC64: Bool?
 
-    public init() {}
+    /// Initialize a `RangeOptions` structure.
+    /// - Parameters:
+    ///   - offset: Start of byte range to use for downloading a section of the blob. Must be set if length is provided.
+    ///   - length: Number of bytes to read from the stream. Should be specified for optimal performance.
+    ///   - calculateMD5: When set to true, the service returns the MD5 hash for the range as long as the range is less
+    ///     than or equal to 4 MB in size.
+    ///   - calculateCRC64: When set to true, the service returns the CRC64 hash for the range as long as the range is
+    ///     less than or equal to 4 MB in size.
+    public init(offset: Int = 0, length: Int? = nil, calculateMD5: Bool? = nil, calculateCRC64: Bool? = nil) {
+        self.offset = offset
+        self.length = length
+        self.calculateMD5 = calculateMD5
+        self.calculateCRC64 = calculateCRC64
+    }
 }
 
+/// Options for overriding the default download destination behavior.
 public struct DestinationOptions {
-    /// When set to true, files will be downloaded to the app's tmp
-    /// folder.
-    public var isTemporary = false
-
+    /// Indicates whether files will be downloaded to the app's temp folder.
+    public let isTemporary: Bool
     /// Override the default destination subfolder, which is the container name.
-    public var subfolder: String?
-
+    public let subfolder: String?
     /// Override the default destination filename, which is the blob name.
-    public var filename: String?
+    public let filename: String?
 
-    public init() {}
+    /// Initialize a `DestinationOptions` structure.
+    /// - Parameters:
+    ///   - isTemporary: Indicates whether files will be downloaded to the app's temp folder.
+    ///   - subfolder: Override the default destination subfolder, which is the container name.
+    ///   - filename: Override the default destination filename, which is the blob name.
+    public init(isTemporary: Bool = false, subfolder: String? = nil, filename: String? = nil) {
+        self.isTemporary = isTemporary
+        self.subfolder = subfolder
+        self.filename = filename
+    }
 }
 
-public class EncryptionOptions {
-    // MARK: Public Properties
-
+/// Blob encryption options.
+public struct EncryptionOptions {
     /// Actual key data in bytes.
     public let key: Data?
-
     /// Dictionary mapping resources to keys.
     public let keyResolver: [String: Data]?
-
     /// Specify whether encryption is required.
-    public var required: Bool
+    public let required: Bool
 
-    // MARK: Initializers
-
+    /// Initialize an `EncryptionOptions` structure.
+    /// - Parameters:
+    ///   - key: Actual key data in bytes.
+    ///   - keyResolver: Dictionary mapping resources to keys.
+    ///   - required: Specify whether encryption is required.
     public init(key: Data? = nil, keyResolver: [String: Data]? = nil, required: Bool = false) {
         self.key = key
         self.keyResolver = keyResolver
@@ -106,10 +159,9 @@ public class EncryptionOptions {
  In both cases, the provided encryption key is securely discarded
  as soon as the encryption or decryption process completes.
  */
-public class CustomerProvidedEncryptionKey {
-    /// Base64-encoded AES-256 encryption key value.
-    public let value: Data
-
+public struct CustomerProvidedEncryptionKey {
+    /// Base64-encoded AES-256 encryption key.
+    public let keyData: Data
     /// Base64-encoded SHA256 of the encryption key.
     public var hash: String {
         // TODO: Needs implementation.
@@ -119,7 +171,9 @@ public class CustomerProvidedEncryptionKey {
     /// Specifies the algorithm to use when encrypting data using the given key. Must be AES256.
     public let algorithm = "AES256"
 
-    public init(_ value: Data) {
-        self.value = value.base64EncodedData()
+    /// Initialize a `CustomerProvidedEncryptionKey` structure.
+    /// - Parameter keyData: The binary AES-256 encryption key.
+    public init(keyData: Data) {
+        self.keyData = keyData.base64EncodedData()
     }
 }

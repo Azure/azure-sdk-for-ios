@@ -111,7 +111,7 @@ internal class ChunkDownloader {
         ])
         let leaseAccessConditions = options.leaseAccessConditions
         let modifiedAccessConditions = options.modifiedAccessConditions
-        let cpk = options.cpk
+        let cpk = options.customerProvidedEncryptionKey
 
         headers[StorageHTTPHeader.range] = "bytes=\(startRange)-\(endRange)"
         if let rangeGetContentMD5 = options.range?.calculateMD5 {
@@ -123,7 +123,7 @@ internal class ChunkDownloader {
 
         if let requestId = requestId { headers[.clientRequestId] = requestId }
         if let leaseId = leaseAccessConditions?.leaseId { headers[.leaseId] = leaseId }
-        if let encryptionKey = cpk?.value {
+        if let encryptionKey = cpk?.keyData {
             headers[.encryptionKey] = String(data: encryptionKey, encoding: .utf8)
         }
         if let encryptionKeySHA256 = cpk?.hash { headers[.encryptionKeySHA256] = encryptionKeySHA256 }
@@ -215,49 +215,74 @@ internal class ChunkDownloader {
     }
 }
 
-public struct BlobDownloadProgress: TransferProgress {
-    public var bytes: Int
-    public var totalBytes: Int
-
-    public var asPercent: Int {
-        return Int(asFloat * 100.0)
-    }
-
-    public var asFloat: Float {
-        return Float(bytes) / Float(totalBytes)
-    }
+/// A delegate to receive notifications about state changes from `BlobDownloader` objects.
+public protocol BlobDownloadDelegate: AnyObject {
+    /// A download's progress has updated.
+    func downloader(_: BlobDownloader, didUpdateWithProgress: TransferProgress)
+    /// A download has failed.
+    func downloader(_: BlobDownloader, didFailWithError: Error)
+    /// A download has completed.
+    func downloaderDidComplete(_: BlobDownloader)
 }
 
-public protocol BlobDownloadDelegate: AnyObject {
-    func downloader(
-        _ downloader: BlobStreamDownloader,
-        didUpdateWithProgress progress: BlobDownloadProgress
-    )
-    func downloader(_ downloader: BlobStreamDownloader, didFinishWithProgress progress: BlobDownloadProgress)
-    func downloader(_ downloader: BlobStreamDownloader, didFailWithError: Error)
+/// An object that contains details about a download operation.
+public protocol BlobDownloader {
+    /// The `BlobDownloadDelegate` to inform about download events.
+    var delegate: BlobDownloadDelegate? { get set }
+
+    /// Location on the device of the file being downloaded.
+    var downloadDestination: URL { get }
+
+    /// Name of the source blob.
+    var blobName: String { get }
+
+    /// Name of the container containing the source blob.
+    var containerName: String { get }
+
+    /// Properties applied to the source blob.
+    var blobProperties: BlobProperties? { get }
+
+    /// Size, in bytes, of the portion of the source blob being downloaded. If the `DownloadBlobOptions.range` option
+    /// was not used, this will be the same as the total size of the blob.
+    var requestedSize: Int? { get }
+
+    /// Total size, in bytes, of the source blob.
+    var totalSize: Int { get }
+
+    /// The total bytes downloaded.
+    var progress: Int { get }
+
+    /// Indicates if the download is complete.
+    var isComplete: Bool { get }
+
+    /// Indicates if the download is encrypted.
+    var isEncrypted: Bool { get }
 }
 
 /// Class used to download streaming blobs.
-public class BlobStreamDownloader {
+internal class BlobStreamDownloader: BlobDownloader {
     // MARK: Properties
 
     public weak var delegate: BlobDownloadDelegate?
 
-    /// Location of the downloaded blob on the device
+    /// Location on the device of the file being downloaded.
     public let downloadDestination: URL
 
-    /// Name of the blob being downloaded
+    /// Name of the source blob.
     public let blobName: String
 
-    /// Name of the container containing the blob
+    /// Name of the container containing the source blob.
     public let containerName: String
 
-    /// Properties of the blob being downloaded.
+    /// Properties applied to the source blob.
     public var blobProperties: BlobProperties?
 
-    /// The size of the total data in the stream. This will be the byte range, if specified,
-    /// or the total size of the blob.
+    /// Size, in bytes, of the portion of the source blob being downloaded. If the `DownloadBlobOptions.range` option
+    /// was not used, this will be the same as the total size of the blob.
     public var requestedSize: Int?
+
+    /// Total size, in bytes, of the source blob.
+    public var totalSize: Int
 
     /// The total bytes downloaded.
     public var progress = 0
@@ -267,8 +292,8 @@ public class BlobStreamDownloader {
 
     /// Indicates if the download is complete.
     public var isComplete: Bool {
-        guard let total = requestedSize else { return false }
-        return progress == total
+        guard let requested = requestedSize else { return false }
+        return progress == requested
     }
 
     /// Indicates if the download is encrypted.
@@ -278,10 +303,7 @@ public class BlobStreamDownloader {
 
     internal let client: StorageBlobClient
 
-    internal let options: DownloadBlobOptions
-
-    /// Size, in bytes, of the file to be downloaded.
-    internal var fileSize: Int
+    internal var options: DownloadBlobOptions
 
     // MARK: Initializers
 
@@ -327,7 +349,7 @@ public class BlobStreamDownloader {
         self.containerName = container
         self.requestedSize = self.options.range?.length
         self.blobProperties = nil
-        self.fileSize = -1
+        self.totalSize = -1
         self.blockList = computeBlockList()
     }
 
@@ -346,9 +368,8 @@ public class BlobStreamDownloader {
     ///   - completion: A completion handler called when the download completes.
     public func complete(inGroup group: DispatchGroup? = nil, then completion: @escaping () -> Void) throws {
         guard !isComplete else {
-            let progress = BlobDownloadProgress(bytes: self.progress, totalBytes: fileSize ?? 1)
             if let delegate = self.delegate {
-                delegate.downloader(self, didFinishWithProgress: progress)
+                delegate.downloaderDidComplete(self)
             } else {
                 completion()
             }
@@ -360,15 +381,14 @@ public class BlobStreamDownloader {
             dispatchGroup.enter()
             next(inGroup: dispatchGroup) { _, _ in
                 if let delegate = self.delegate {
-                    let progress = BlobDownloadProgress(bytes: self.progress, totalBytes: self.fileSize ?? 1)
+                    let progress = TransferProgress(bytes: self.progress, totalBytes: self.requestedSize!)
                     delegate.downloader(self, didUpdateWithProgress: progress)
                 }
             }
         }
         dispatchGroup.notify(queue: DispatchQueue.main) {
-            let progress = BlobDownloadProgress(bytes: self.progress, totalBytes: self.fileSize ?? 1)
             if let delegate = self.delegate {
-                delegate.downloader(self, didFinishWithProgress: progress)
+                delegate.downloaderDidComplete(self)
             } else {
                 completion()
             }
@@ -445,15 +465,15 @@ public class BlobStreamDownloader {
                 do {
                     // extract the file size from the content range. If a specific size request was
                     // not made, then the request is for the entire file.
-                    let fileSize = try self.parseLength(fromContentRange: contentRange)
-                    self.fileSize = fileSize
+                    let blobSize = try self.parseLength(fromContentRange: contentRange)
+                    self.totalSize = blobSize
                     self.progress += blobProperties.contentLength ?? 0
                     self.blobProperties = blobProperties
 
                     // if the requestedSize was not specfied, the block list will need to be recomputed
                     // based on the actual file size.
                     var recomputeBlockList = self.requestedSize == nil
-                    self.requestedSize = (self.requestedSize ?? fileSize) - (self.options.range?.offset ?? 0)
+                    self.requestedSize = (self.requestedSize ?? blobSize) - (self.options.range?.offset ?? 0)
 
                     // If the file is small, the download is complete at this point.
                     // If file size is large, download the rest of the file in chunks.
@@ -491,10 +511,7 @@ public class BlobStreamDownloader {
     private func computeBlockList(withOffset offset: Int = 0) -> [Range<Int>] {
         var blockList = [Range<Int>]()
         let alignForCrypto = isEncrypted
-        let validateContent = options.range?.calculateMD5 == true || options.range?.calculateCRC64 == true
-        let chunkLength = alignForCrypto || validateContent
-            ? client.options.maxChunkSize - 1
-            : client.options.maxSingleGetSize
+        let chunkLength = client.options.maxChunkSize
         let start = (options.range?.offset ?? 0) + offset
         let length = (requestedSize ?? options.range?.length ?? chunkLength) - start
         let end = start + length
@@ -503,13 +520,14 @@ public class BlobStreamDownloader {
             fatalError("Client-side encryption is not yet supported!")
         } else {
             for index in stride(from: start, to: end, by: chunkLength) {
-                var end = index + chunkLength
-                if fileSize < 0 {
-                    end = chunkLength
-                } else if end > fileSize {
-                    end = fileSize
+                var blockEnd = index + chunkLength
+                if totalSize < 0 {
+                    blockEnd = chunkLength
                 }
-                blockList.append(index ..< end)
+                if blockEnd > totalSize {
+                    blockEnd = totalSize
+                }
+                blockList.append(index ..< blockEnd)
             }
         }
         return blockList

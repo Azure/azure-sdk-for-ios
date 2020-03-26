@@ -28,7 +28,7 @@ import AzureCore
 import CoreData
 
 internal final class URLSessionTransferManager: NSObject, TransferManager, URLSessionTaskDelegate {
-    // MARK: Type Aliase
+    // MARK: Type Alias
 
     public typealias TransferManagerType = URLSessionTransferManager
 
@@ -424,9 +424,10 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
             for transfer in results {
                 switch transfer.transferType {
                 case .upload:
-                    transfer.uploader = transfer.uploader ?? delegate?.uploader(for: transfer)
+                    transfer.uploader = transfer.uploader ?? (delegate?.uploader(for: transfer) as! BlobStreamUploader)
                 case .download:
-                    transfer.downloader = transfer.downloader ?? delegate?.downloader(for: transfer)
+                    transfer.downloader = transfer
+                        .downloader ?? (delegate?.downloader(for: transfer) as! BlobStreamDownloader)
                 }
                 add(transfer: transfer)
             }

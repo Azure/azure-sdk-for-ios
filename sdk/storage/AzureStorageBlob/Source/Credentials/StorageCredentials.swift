@@ -27,8 +27,8 @@
 import AzureCore
 import Foundation
 
-/// A Storage SAS credential object.
-public class StorageSASCredential {
+/// A Storage shared access signature credential object.
+public struct StorageSASCredential {
     internal let blobEndpoint: String?
     internal let queueEndpoint: String?
     internal let fileEndpoint: String?
@@ -82,7 +82,7 @@ public class StorageSASCredential {
 }
 
 /// A Storage authentication policy that relies on a shared access signature.
-public class StorageSASAuthenticationPolicy: Authenticating {
+internal class StorageSASAuthenticationPolicy: Authenticating {
     /// The next stage in the HTTP pipeline.
     public var next: PipelineStage?
 

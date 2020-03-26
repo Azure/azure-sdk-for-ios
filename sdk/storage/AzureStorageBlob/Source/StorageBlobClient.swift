@@ -29,12 +29,12 @@ import Foundation
 
 // swiftlint:disable function_body_length type_body_length file_length cyclomatic_complexity identifier_name
 
-/**
- Client object for the Storage blob service.
- */
+/// A StorageBlobClient represents a Client to the Azure Storage Blob service allowing you to manipulate blobs within
+/// storage containers.
 public final class StorageBlobClient: PipelineClient {
-    /// API version of the service to invoke. Defaults to the latest.
+    /// API version of the Azure Storage Blob service to invoke. Defaults to the latest.
     public enum ApiVersion: String {
+        /// The most recent API version of the Azure Storabe Blob service
         case latest = "2019-02-02"
     }
 
@@ -52,10 +52,10 @@ public final class StorageBlobClient: PipelineClient {
         }
     }
 
-    /// The options provided to initialize this StorageBlobClient
+    /// Options provided to configure this `StorageBlobClient`.
     public let options: StorageBlobClientOptions
 
-    /// The TransferDelegate to inform about transfer events
+    /// The `TransferDelegate` to inform about transfer events.
     public weak var transferDelegate: TransferDelegate?
 
     private static let defaultScopes = [
@@ -74,7 +74,7 @@ public final class StorageBlobClient: PipelineClient {
     /// Create a Storage blob data client.
     /// - Parameters:
     ///   - baseUrl: Base URL for the storage account.
-    ///   - authPolicy: An authentication policy to use for authenticating client requests.
+    ///   - authPolicy: An `Authenticating` policy to use for authenticating client requests.
     ///   - options: Options used to configure the client.
     private init(baseUrl: String, authPolicy: Authenticating, withOptions options: StorageBlobClientOptions? = nil) {
         self.options = options ?? StorageBlobClientOptions(apiVersion: ApiVersion.latest.rawValue)
@@ -99,7 +99,7 @@ public final class StorageBlobClient: PipelineClient {
     /// Create a Storage blob data client.
     /// - Parameters:
     ///   - accountUrl: Base URL for the storage account.
-    ///   - credential: A MSAL credential object used to retrieve authentication tokens.
+    ///   - credential: A `MSALCredential` object used to retrieve authentication tokens.
     ///   - options: Options used to configure the client.
     public convenience init(
         accountUrl: String,
@@ -112,7 +112,7 @@ public final class StorageBlobClient: PipelineClient {
 
     /// Create a Storage blob data client.
     /// - Parameters:
-    ///   - credential: A SAS credential object used to retrieve the base URL and authentication tokens.
+    ///   - credential: A `StorageSASCredential` object used to retrieve the base URL and authentication tokens.
     ///   - options: Options used to configure the client.
     public convenience init(
         credential: StorageSASCredential,
@@ -140,8 +140,8 @@ public final class StorageBlobClient: PipelineClient {
 
     /// List storage containers in a storage account.
     /// - Parameters:
-    ///   - options: A `ListContainerOptions` object to control the list operation.
-    ///   - completion: A completion handler that receives a `PagedCollection<ContainerItem>` object on success.
+    ///   - options: A `ListContainersOptions` object to control the list operation.
+    ///   - completion: A completion handler that receives a `PagedCollection` of `ContainerItem` objects on success.
     public func listContainers(
         withOptions options: ListContainersOptions? = nil,
         then completion: @escaping HTTPResultHandler<PagedCollection<ContainerItem>>
@@ -216,11 +216,11 @@ public final class StorageBlobClient: PipelineClient {
         }
     }
 
-    /// List storage blobs within a storage container.
+    /// List blobs within a storage container.
     /// - Parameters:
     ///   - container: The container name containing the blobs to list.
     ///   - options: A `ListBlobsOptions` object to control the list operation.
-    ///   - completion: A completion handler that receives a `PagedCollection<BlobItem>` object on success.
+    ///   - completion: A completion handler that receives a `PagedCollection` of `BlobItem` objects on success.
     public func listBlobs(
         in container: String,
         withOptions options: ListBlobsOptions? = nil,
@@ -303,21 +303,21 @@ public final class StorageBlobClient: PipelineClient {
         }
     }
 
-    /// Download a blob from a specified container.
+    /// Download a blob from a storage container.
     ///
-    /// This method will execute a raw HTTP GET in order to download a single blob to the destination. It is STRONGLY
-    /// recommended that you use the download() method instead - this method will manage the transfer in the face of
-    /// changing network conditions, and is able to transfer multiple blocks in parallel.
+    /// This method will execute a raw HTTP GET in order to download a single blob to the destination. It is
+    /// **STRONGLY** recommended that you use the `download()` method instead - that method will manage the transfer in
+    /// the face of changing network conditions, and is able to transfer multiple blocks in parallel.
     /// - Parameters:
     ///   - blob: The name of the blob.
     ///   - container: The name of the container.
     ///   - options: A `DownloadBlobOptions` object to control the download operation.
-    ///   - completion: A completion handler that receives a `BlobStreamDownloader` object on success.
+    ///   - completion: A completion handler that receives a `BlobDownloader` object on success.
     public func rawDownload(
         blob: String,
         fromContainer container: String,
         withOptions options: DownloadBlobOptions? = nil,
-        then completion: @escaping HTTPResultHandler<BlobStreamDownloader>
+        then completion: @escaping HTTPResultHandler<BlobDownloader>
     ) throws {
         let downloader = try BlobStreamDownloader(client: self, name: blob, container: container, options: options)
         downloader.initialRequest { result, httpResponse in
@@ -330,10 +330,10 @@ public final class StorageBlobClient: PipelineClient {
         }
     }
 
-    /// Upload a blob to a specified container.
+    /// Upload a blob to a storage container.
     ///
-    /// This method will execute a raw HTTP PUT in order to upload a single file to the destination. It is STRONGLY
-    /// recommended that you use the upload() method instead - this method will manage the transfer in the face of
+    /// This method will execute a raw HTTP PUT in order to upload a single file to the destination. It is **STRONGLY**
+    /// recommended that you use the `upload()` method instead - that method will manage the transfer in the face of
     /// changing network conditions, and is able to transfer multiple blocks in parallel.
     /// - Parameters:
     ///   - url: The URL to a file on this device
@@ -341,14 +341,14 @@ public final class StorageBlobClient: PipelineClient {
     ///   - blob: The name of the blob.
     ///   - properties: Properties to set on the resulting blob.
     ///   - options: An `UploadBlobOptions` object to control the upload operation.
-    ///   - completion: A completion handler that receives a `BlobStreamUploader` object on success.
+    ///   - completion: A completion handler that receives a `BlobUploader` object on success.
     public func rawUpload(
         url: URL,
         toContainer container: String,
         asBlob blob: String,
         properties: BlobProperties? = nil,
         withOptions options: UploadBlobOptions? = nil,
-        then completion: @escaping HTTPResultHandler<BlobStreamUploader>
+        then completion: @escaping HTTPResultHandler<BlobUploader>
     ) throws {
         let uploader = try BlobStreamUploader(
             client: self,
@@ -368,13 +368,11 @@ public final class StorageBlobClient: PipelineClient {
         }
     }
 
-    /// Download a blob from a specified container.
+    /// Reliably download a blob from a storage container.
     ///
     /// This method will reliably manage the transfer of the blob from the cloud service to this device. When called,
-    /// a transfer will be queued and the returned Transfer object provides a handle to the transfer. The
-    /// TransferDelegate provided in the StorageBlobClientOptions object will be notified about state changes for all
-    /// transfers managed by this StorageBlobClient.
-    ///
+    /// a transfer will be queued and a `Transfer` object will be returned that provides a handle to the transfer. This
+    /// client's `transferDelegate` will be notified about state changes for all transfers managed by the client.
     /// - Parameters:
     ///   - blob: The name of the blob.
     ///   - container: The name of the container.
@@ -412,15 +410,13 @@ public final class StorageBlobClient: PipelineClient {
         return blobTransfer
     }
 
-    /// Upload a blob to a specified container.
+    /// Relioably upload a blob to a storage container.
     ///
     /// This method will reliably manage the transfer of the blob from this device to the cloud service. When called,
-    /// a transfer will be queued and the returned Transfer object provides a handle to the transfer. The
-    /// TransferDelegate provided in the StorageBlobClientOptions object will be notified about state changes for all
-    /// transfers managed by this StorageBlobClient.
-    ///
+    /// a transfer will be queued and a `Transfer` object will be returned that provides a handle to the transfer. This
+    /// client's `transferDelegate` will be notified about state changes for all transfers managed by the client.
     /// - Parameters:
-    ///   - url: The URL to a file on this device
+    ///   - url: The URL to a file on this device.
     ///   - container: The name of the container.
     ///   - blob: The name of the blob.
     ///   - properties: Properties to set on the resulting blob.
@@ -511,12 +507,12 @@ extension StorageBlobClient: TransferDelegate {
     }
 
     /// :nodoc:
-    public func uploader(for transfer: Transfer) -> BlobStreamUploader? {
+    public func uploader(for transfer: Transfer) -> BlobUploader? {
         transferDelegate?.uploader(for: transfer)
     }
 
     /// :nodoc:
-    public func downloader(for transfer: Transfer) -> BlobStreamDownloader? {
+    public func downloader(for transfer: Transfer) -> BlobDownloader? {
         transferDelegate?.downloader(for: transfer)
     }
 }
@@ -530,13 +526,13 @@ extension StorageBlobClient {
     /// transfers. This method **MUST** be called by your application in order for any managed transfers to occur.
     /// It's recommended to call this method from a background thread, at an opportune time after your app has started.
     ///
-    /// Note that depending on the type of credential used by this StorageBlobClient, resuming transfers may cause a
+    /// Note that depending on the type of credential used by this `StorageBlobClient`, resuming transfers may cause a
     /// login UI to be displayed if the token for a paused transfer has expired. Because of this, it's not recommended
-    /// to call this method from your AppDelegate. If you're using such a credential (e.g. the MSALCredential) you
+    /// to call this method from your `AppDelegate`. If you're using such a credential (e.g. `MSALCredential`) you
     /// should first inspect the list of transfers to determine if any are pending. If so, you should assume that
     /// calling this method may display a login UI, and call it in a user-appropriate context (e.g. display a "pending
     /// transfers" message and wait for explicit user confirmation to start the management engine). If you're not using
-    /// such a credential, or there are no paused transfers, it is safe to call this method from your AppDelegate.
+    /// such a credential, or there are no paused transfers, it is safe to call this method from your `AppDelegate`.
     public func startManaging() {
         if managing { return }
 
@@ -549,8 +545,8 @@ extension StorageBlobClient {
     /// Stop the transfer management engine.
     ///
     /// Pauses all incomplete transfers, stops listening for network connectivity events, and stores transfer state to
-    /// disk. This method **SHOULD** be called by your application, either from your AppDelegate or from within a
-    /// ViewController's lifecycle methods.
+    /// disk. This method **SHOULD** be called by your application, either from your `AppDelegate` or from within a
+    /// `ViewController`'s lifecycle methods.
     public func stopManaging() {
         guard managing else { return }
 
@@ -564,7 +560,7 @@ extension StorageBlobClient {
     /// Cancel a currently active transfer.
     ///
     /// - Parameters:
-    ///   - transfer: The transfer to cancel
+    ///   - transfer: The transfer to cancel.
     public func cancel(transfer: Transfer) {
         manager.cancel(transfer: transfer)
     }
@@ -577,7 +573,7 @@ extension StorageBlobClient {
     /// Remove a transfer from the database. If the transfer is currently active it will be cancelled.
     ///
     /// - Parameters:
-    ///   - transfer: The transfer to remove
+    ///   - transfer: The transfer to remove.
     public func remove(transfer: Transfer) {
         manager.remove(transfer: transfer)
     }
@@ -590,7 +586,7 @@ extension StorageBlobClient {
     /// Pause a currently active transfer.
     ///
     /// - Parameters:
-    ///   - transfer: The transfer to pause
+    ///   - transfer: The transfer to pause.
     public func pause(transfer: Transfer) {
         manager.pause(transfer: transfer)
     }
@@ -603,7 +599,7 @@ extension StorageBlobClient {
     /// Resume a currently paused transfer.
     ///
     /// - Parameters:
-    ///   - transfer: The transfer to resume
+    ///   - transfer: The transfer to resume.
     public func resume(transfer: Transfer) {
         manager.resume(transfer: transfer)
     }
@@ -616,7 +612,7 @@ extension StorageBlobClient {
     /// Retrieve a single Transfer object by its id.
     ///
     /// - Parameters:
-    ///   - id: The id of the transfer to retrieve
+    ///   - id: The id of the transfer to retrieve.
     public func transfer(withId id: UUID) -> Transfer? {
         return manager.transfer(withId: id)
     }

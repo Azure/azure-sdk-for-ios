@@ -37,7 +37,7 @@ internal class BlockTransfer: NSManagedObject, TransferImpl {
 }
 
 extension BlockTransfer {
-    public static func with(
+    internal static func with(
         context: NSManagedObjectContext,
         id: UUID? = nil,
         startRange: Int64,
