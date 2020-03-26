@@ -27,48 +27,12 @@
 import AzureCore
 import Foundation
 
-// MARK: Classes
-
-open class ResumableTransfer: ResumableOperation {
-    // MARK: Properties
-
-    public weak var transfer: Transfer?
-    public weak var operationQueue: ResumableOperationQueue?
-
-    internal func notifyDelegate(withTransfer transfer: Transfer) {
-        switch transfer {
-        case let transfer as BlockTransfer:
-            if let parent = transfer.parent?.operation?.transfer {
-                notifyDelegate(withTransfer: parent)
-                return
-            }
-        case let transfer as BlobTransfer:
-            if let parent = transfer.parent?.operation?.transfer {
-                notifyDelegate(withTransfer: parent)
-                return
-            }
-        default:
-            break
-        }
-        delegate?.operation(self, didChangeState: transfer.state)
-    }
-
-    internal func notifyDelegate(withTransfer transfer: BlockTransfer) {
-        // Notify the delegate of the block change AND the parent change.
-        // This allows the developer to decide which events to respond to.
-        delegate?.operation(self, didChangeState: transfer.state)
-        if let parent = transfer.parent?.operation, let parentState = parent.transfer?.state {
-            delegate?.operation(parent, didChangeState: parentState)
-        }
-    }
-}
-
 // MARK: Protocols
 
 public protocol Transfer: AnyObject {
     var rawState: Int16 { get set }
     var state: TransferState { get set }
-    var operation: ResumableTransfer? { get set }
+    var operation: ResumableOperation? { get set }
     var debugString: String { get }
     var hash: Int { get }
 }

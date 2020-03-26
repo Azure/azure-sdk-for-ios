@@ -154,7 +154,7 @@ public final class URLSessionTransferManager: NSObject, TransferManager, URLSess
         let disallowed: [TransferState] = [.complete, .canceled, .failed]
         let resumableOperations: [TransferState] = [.pending, .inProgress]
         guard !disallowed.contains(transfer.state) else { return }
-        var operations = [ResumableTransfer]()
+        var operations = [ResumableOperation]()
 
         switch transfer.transferType {
         case .download:

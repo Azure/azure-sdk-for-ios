@@ -29,7 +29,7 @@ import CoreData
 import Foundation
 
 public class BlockTransfer: NSManagedObject, Transfer {
-    public var operation: ResumableTransfer?
+    public var operation: ResumableOperation?
 
     public var debugString: String {
         return "\t\tTransfer \(type(of: self)) \(hash): Status \(state.label)"

@@ -43,7 +43,7 @@ extension URLSessionTransferManager: ResumableOperationQueueDelegate {
     }
 
     public func operation(_ operation: ResumableOperation?, didChangeState state: TransferState) {
-        if let transfer = (operation as? ResumableTransfer)?.transfer {
+        if let transfer = operation?.transfer {
             saveContext()
             let progress = buildProgressInfo(forTransfer: transfer)
             switch state {

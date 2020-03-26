@@ -32,7 +32,7 @@ import Foundation
 public class MultiBlobTransfer: NSManagedObject, Transfer {
     // MARK: Properties
 
-    public var operation: ResumableTransfer?
+    public var operation: ResumableOperation?
 
     public var transfers: [BlobTransfer] {
         guard let blobSet = blobs else { return [BlobTransfer]() }
