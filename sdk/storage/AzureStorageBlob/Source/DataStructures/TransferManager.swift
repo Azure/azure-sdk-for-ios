@@ -29,7 +29,7 @@ import CoreData
 
 // MARK: Protocols
 
-public protocol TransferManager: ResumableOperationQueueDelegate {
+internal protocol TransferManager: ResumableOperationQueueDelegate {
     // MARK: Properties
 
     var reachability: ReachabilityManager? { get }
@@ -72,7 +72,7 @@ public protocol TransferDelegate: AnyObject {
 
 // MARK: Extensions
 
-public extension TransferManager {
+internal extension TransferManager {
     func transfer(withId id: UUID) -> Transfer? {
         return transfers.first { $0.id == id }
     }

@@ -27,7 +27,7 @@
 import AzureCore
 import CoreData
 
-public final class URLSessionTransferManager: NSObject, TransferManager, URLSessionTaskDelegate {
+final class URLSessionTransferManager: NSObject, TransferManager, URLSessionTaskDelegate {
     // MARK: Type Aliase
 
     public typealias TransferManagerType = URLSessionTransferManager
