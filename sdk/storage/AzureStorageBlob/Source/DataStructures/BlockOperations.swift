@@ -91,7 +91,7 @@ public class BlockOperation: ResumableOperation {
             let chunkUploader = ChunkUploader(
                 blob: uploader.blobName,
                 container: uploader.containerName,
-                blockId: transfer.blockId,
+                blockId: transfer.id,
                 client: uploader.client,
                 url: uploader.uploadSource,
                 startRange: Int(transfer.startRange),

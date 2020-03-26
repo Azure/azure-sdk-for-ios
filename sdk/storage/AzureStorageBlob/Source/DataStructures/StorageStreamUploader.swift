@@ -35,7 +35,7 @@ import Foundation
 internal class ChunkUploader {
     // MARK: Properties
 
-    internal let blockId: String
+    internal let blockId: UUID
 
     internal let blobName: String
 
@@ -72,7 +72,7 @@ internal class ChunkUploader {
     public init(
         blob: String,
         container: String,
-        blockId: String,
+        blockId: UUID,
         client: StorageBlobClient,
         url: URL,
         startRange: Int,
@@ -129,7 +129,7 @@ internal class ChunkUploader {
         // Construct parameters
         var queryParams = [
             ("comp", "block"),
-            ("blockid", blockId)
+            ("blockid", blockId.uuidString.base64String)
         ]
         if let timeout = options.timeout { queryParams.append(("timeout", String(timeout))) }
 
@@ -234,13 +234,13 @@ public class BlobStreamUploader {
     public var progress = 0
 
     /// The list of blocks for the blob upload.
-    public var blockList = [(range: Range<Int>, blockId: String)]()
+    public var blockList = [(range: Range<Int>, blockId: UUID)]()
 
     /// Internal list that maps the order of block IDs
-    internal var blockIdMap = [String: Int]()
+    internal var blockIdMap = [UUID: Int]()
 
     /// Logs completed block IDs and the order they *should* be in
-    internal var completedBlockMap = [String: Int]()
+    internal var completedBlockMap = [UUID: Int]()
 
     /// Indicates if the upload  is complete.
     public var isComplete: Bool {
@@ -498,12 +498,12 @@ public class BlobStreamUploader {
 
     private func buildLookupList() -> BlobLookupList {
         let sortedIds = completedBlockMap.sorted(by: { $0.value < $1.value })
-        let lookupList = BlobLookupList(latest: sortedIds.compactMap { $0.key })
+        let lookupList = BlobLookupList(latest: sortedIds.compactMap { $0.key.uuidString.base64String })
         return lookupList
     }
 
-    private func computeBlockList(withOffset offset: Int = 0) -> [(Range<Int>, String)] {
-        var blockList = [(Range<Int>, String)]()
+    private func computeBlockList(withOffset offset: Int = 0) -> [(Range<Int>, UUID)] {
+        var blockList = [(Range<Int>, UUID)]()
         let alignForCrypto = isEncrypted
         let chunkLength = client.options.maxChunkSize
         let start = offset
@@ -520,7 +520,7 @@ public class BlobStreamUploader {
                     end = fileSize
                 }
                 let range = index ..< end
-                let blockId = UUID().uuidString.base64String
+                let blockId = UUID()
                 blockList.append((range: range, blockId: blockId))
                 blockIdMap[blockId] = blockList.count - 1
             }

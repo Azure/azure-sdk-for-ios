@@ -39,7 +39,7 @@ public class BlockTransfer: NSManagedObject, Transfer {
 extension BlockTransfer {
     public static func with(
         context: NSManagedObjectContext,
-        blockId: String? = nil,
+        id: UUID? = nil,
         startRange: Int64,
         endRange: Int64,
         parent: BlobTransfer? = nil
@@ -54,7 +54,7 @@ extension BlockTransfer {
         transfer.endRange = endRange
         transfer.parent = parent
         transfer.state = .pending
-        transfer.blockId = blockId ?? UUID().uuidString.base64String
+        transfer.id = id ?? UUID()
         return transfer
     }
 }

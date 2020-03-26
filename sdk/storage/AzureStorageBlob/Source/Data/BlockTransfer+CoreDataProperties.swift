@@ -33,9 +33,9 @@ extension BlockTransfer {
         return NSFetchRequest<BlockTransfer>(entityName: "BlockTransfer")
     }
 
+    @NSManaged public var id: UUID
     @NSManaged public var endRange: Int64
     @NSManaged public var rawState: Int16
     @NSManaged public var startRange: Int64
-    @NSManaged public var blockId: String
     @NSManaged public var parent: BlobTransfer?
 }

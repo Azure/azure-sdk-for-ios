@@ -48,6 +48,8 @@ public protocol TransferManager: ResumableOperationQueueDelegate {
 
     var count: Int { get }
     subscript(_: Int) -> Transfer { get }
+    var transfers: [Transfer] { get }
+    func transfer(withId: UUID) -> Transfer?
 
     func add(transfer: Transfer)
     func cancel(transfer: Transfer)
@@ -69,6 +71,12 @@ public protocol TransferDelegate: AnyObject {
 }
 
 // MARK: Extensions
+
+public extension TransferManager {
+    func transfer(withId id: UUID) -> Transfer? {
+        return transfers.first { $0.id == id }
+    }
+}
 
 public extension TransferDelegate {
     func transfer(_ transferParam: Transfer, didUpdateWithState state: TransferState) {

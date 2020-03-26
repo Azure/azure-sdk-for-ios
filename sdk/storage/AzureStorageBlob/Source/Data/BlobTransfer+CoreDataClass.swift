@@ -80,7 +80,7 @@ public class BlobTransfer: NSManagedObject, Transfer {
     public var debugStates: String {
         var dict = [String: String]()
         for transfer in transfers {
-            dict[String(transfer.blockId.hash % 99)] = transfer.state.label
+            dict[String(transfer.id.hashValue % 99)] = transfer.state.label
         }
         var sortedLines = [String]()
         for key in dict.keys.sorted() {
@@ -124,6 +124,7 @@ extension BlobTransfer {
         transfer.endRange = endRange
         transfer.state = .pending
         transfer.transferType = type
+        transfer.id = UUID()
         return transfer
     }
 }

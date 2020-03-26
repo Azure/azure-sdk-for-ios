@@ -36,6 +36,7 @@ extension BlobTransfer {
     @NSManaged public var destination: URL?
     @NSManaged public var endRange: Int64
     @NSManaged public var error: Error?
+    @NSManaged public var id: UUID
     @NSManaged public var initialCallComplete: Bool
     @NSManaged public var rawState: Int16
     @NSManaged public var rawType: Int16

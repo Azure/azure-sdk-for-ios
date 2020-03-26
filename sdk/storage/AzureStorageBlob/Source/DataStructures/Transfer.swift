@@ -34,7 +34,7 @@ public protocol Transfer: AnyObject {
     var state: TransferState { get set }
     var operation: ResumableOperation? { get set }
     var debugString: String { get }
-    var hash: Int { get }
+    var id: UUID { get }
 }
 
 public protocol TransferProgress {
@@ -45,10 +45,6 @@ public protocol TransferProgress {
 // MARK: Extensions
 
 extension Transfer {
-    public var hash: Int {
-        return self.hash
-    }
-
     public var state: TransferState {
         get {
             let state = TransferState(rawValue: rawState) ?? .unknown

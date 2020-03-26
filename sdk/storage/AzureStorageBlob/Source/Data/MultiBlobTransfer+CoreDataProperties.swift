@@ -33,6 +33,7 @@ extension MultiBlobTransfer {
         return NSFetchRequest<MultiBlobTransfer>(entityName: "MultiBlobTransfer")
     }
 
+    @NSManaged public var id: UUID
     @NSManaged public var rawState: Int16
     @NSManaged public var totalBlobs: Int64
     @NSManaged public var blobs: NSSet?

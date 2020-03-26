@@ -73,6 +73,7 @@ extension MultiBlobTransfer {
             fatalError("Unable to create MultiBlobTransfer object.")
         }
         transfer.state = .pending
+        transfer.id = UUID()
         return transfer
     }
 }

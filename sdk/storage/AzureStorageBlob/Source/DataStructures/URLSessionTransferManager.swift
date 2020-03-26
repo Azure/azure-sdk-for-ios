@@ -60,7 +60,7 @@ public final class URLSessionTransferManager: NSObject, TransferManager, URLSess
 
     internal var operationQueue: ResumableOperationQueue
 
-    internal var transfers: [Transfer]
+    public var transfers: [Transfer]
 
     public var count: Int {
         return transfers.count
@@ -206,7 +206,7 @@ public final class URLSessionTransferManager: NSObject, TransferManager, URLSess
                     let blockTransfer = BlockTransfer
                         .with(
                             context: context,
-                            blockId: blockId,
+                            id: blockId,
                             startRange: Int64(range.startIndex),
                             endRange: Int64(range.endIndex),
                             parent: transfer
