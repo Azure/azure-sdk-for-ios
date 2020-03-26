@@ -27,12 +27,12 @@
 import AzureCore
 import Foundation
 
-// swiftlint:disable function_body_length
+// swiftlint:disable function_body_length type_body_length file_length cyclomatic_complexity identifier_name
 
 /**
  Client object for the Storage blob service.
  */
-public final class StorageBlobClient: PipelineClient, PagedCollectionDelegate, TransferDelegate {
+public final class StorageBlobClient: PipelineClient {
     /// API version of the service to invoke. Defaults to the latest.
     public enum ApiVersion: String {
         case latest = "2019-02-02"
@@ -62,45 +62,12 @@ public final class StorageBlobClient: PipelineClient, PagedCollectionDelegate, T
         "https://storage.azure.com/.default"
     ]
 
-    private lazy var manager: TransferManager = URLSessionTransferManager(delegate: self, logger: self.logger)
-
-    // MARK: Paged Collection Delegate
-
-    /// :nodoc:
-    public func continuationUrl(
-        continuationToken: String,
-        queryParams: inout [QueryParameter],
-        requestUrl: URL
-    ) -> URL? {
-        queryParams.append("marker", continuationToken)
-        return requestUrl
-    }
-
-    // MARK: Transfer Delegate
-
-    public func transfer(
-        _ transfer: Transfer,
-        didUpdateWithState state: TransferState,
-        andProgress progress: TransferProgress?
-    ) {
-        transferDelegate?.transfer(transfer, didUpdateWithState: state, andProgress: progress)
-    }
-
-    public func transfer(_ transfer: Transfer, didFailWithError error: Error) {
-        transferDelegate?.transfer(transfer, didFailWithError: error)
-    }
-
-    public func transferDidComplete(_ transfer: Transfer) {
-        transferDelegate?.transferDidComplete(transfer)
-    }
-
-    public func uploader(for transfer: BlobTransfer) -> BlobStreamUploader? {
-        transferDelegate?.uploader(for: transfer)
-    }
-
-    public func downloader(for transfer: BlobTransfer) -> BlobStreamDownloader? {
-        transferDelegate?.downloader(for: transfer)
-    }
+    fileprivate var managing = false
+    fileprivate lazy var manager: TransferManager = {
+        let instance = URLSessionTransferManager(delegate: self, logger: self.logger)
+        instance.loadContext()
+        return instance
+    }()
 
     // MARK: Initializers
 
@@ -169,31 +136,12 @@ public final class StorageBlobClient: PipelineClient, PagedCollectionDelegate, T
         try self.init(credential: credential, withOptions: options)
     }
 
-    public static func url(forHost host: String, container: String, blob: String) -> URL? {
-        let urlString = "\(host)/\(container)/\(blob)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-        return URL(string: urlString)
-    }
-
-    public static func parse(url: URL) throws -> (String, String, String) {
-        let pathComps = url.pathComponents
-        guard let host = url.host else {
-            throw AzureError.serviceRequest("No host found for URL: \(url.absoluteString)")
-        }
-        guard let scheme = url.scheme else {
-            throw AzureError.serviceRequest("No scheme found for URL: \(url.absoluteString)")
-        }
-        let container = pathComps[1]
-        let blobComps = pathComps[2 ..< pathComps.endIndex]
-        let blob = Array(blobComps).joined(separator: "/")
-        return ("\(scheme)://\(host)/", container, blob)
-    }
-
-    // MARK: Public Methods
+    // MARK: Public Client Methods
 
     /// List storage containers in a storage account.
     /// - Parameters:
     ///   - options: A `ListContainerOptions` object to control the list operation.
-    ///   - completion: An `HTTPResultHandler` closure that returns a `PagedCollection<ContainerItem>` object on success.
+    ///   - completion: A completion handler that receives a `PagedCollection<ContainerItem>` object on success.
     public func listContainers(
         withOptions options: ListContainersOptions? = nil,
         then completion: @escaping HTTPResultHandler<PagedCollection<ContainerItem>>
@@ -272,7 +220,7 @@ public final class StorageBlobClient: PipelineClient, PagedCollectionDelegate, T
     /// - Parameters:
     ///   - container: The container name containing the blobs to list.
     ///   - options: A `ListBlobsOptions` object to control the list operation.
-    ///   - completion: An `HTTPResultHandler` closure that returns a `PagedCollection<BlobItem>` object on success.
+    ///   - completion: A completion handler that receives a `PagedCollection<BlobItem>` object on success.
     public func listBlobs(
         in container: String,
         withOptions options: ListBlobsOptions? = nil,
@@ -364,7 +312,7 @@ public final class StorageBlobClient: PipelineClient, PagedCollectionDelegate, T
     ///   - blob: The name of the blob.
     ///   - container: The name of the container.
     ///   - options: A `DownloadBlobOptions` object to control the download operation.
-    ///   - completion: An `HTTPResultHandler` closure that returns a `BlobStreamDownloader` object on success.
+    ///   - completion: A completion handler that receives a `BlobStreamDownloader` object on success.
     public func rawDownload(
         blob: String,
         fromContainer container: String,
@@ -393,7 +341,7 @@ public final class StorageBlobClient: PipelineClient, PagedCollectionDelegate, T
     ///   - blob: The name of the blob.
     ///   - properties: Properties to set on the resulting blob.
     ///   - options: An `UploadBlobOptions` object to control the upload operation.
-    ///   - completion: An `HTTPResultHandler` closure that returns a `BlobStreamUploader` object on success.
+    ///   - completion: A completion handler that receives a `BlobStreamUploader` object on success.
     public func rawUpload(
         url: URL,
         toContainer container: String,
@@ -419,8 +367,6 @@ public final class StorageBlobClient: PipelineClient, PagedCollectionDelegate, T
             }
         }
     }
-
-    // MARK: Transfer Manager Methods
 
     /// Download a blob from a specified container.
     ///
@@ -525,5 +471,158 @@ public final class StorageBlobClient: PipelineClient, PagedCollectionDelegate, T
         url?.appendPathComponent(container)
         url?.appendPathComponent(blob)
         return url
+    }
+}
+
+// MARK: Paged Collection Delegate
+
+extension StorageBlobClient: PagedCollectionDelegate {
+    /// :nodoc:
+    public func continuationUrl(
+        continuationToken: String,
+        queryParams: inout [QueryParameter],
+        requestUrl: URL
+    ) -> URL? {
+        queryParams.append("marker", continuationToken)
+        return requestUrl
+    }
+}
+
+// MARK: Transfer Delegate
+
+extension StorageBlobClient: TransferDelegate {
+    /// :nodoc:
+    public func transfer(
+        _ transfer: Transfer,
+        didUpdateWithState state: TransferState,
+        andProgress progress: TransferProgress?
+    ) {
+        transferDelegate?.transfer(transfer, didUpdateWithState: state, andProgress: progress)
+    }
+
+    /// :nodoc:
+    public func transfer(_ transfer: Transfer, didFailWithError error: Error) {
+        transferDelegate?.transfer(transfer, didFailWithError: error)
+    }
+
+    /// :nodoc:
+    public func transferDidComplete(_ transfer: Transfer) {
+        transferDelegate?.transferDidComplete(transfer)
+    }
+
+    /// :nodoc:
+    public func uploader(for transfer: BlobTransfer) -> BlobStreamUploader? {
+        transferDelegate?.uploader(for: transfer)
+    }
+
+    /// :nodoc:
+    public func downloader(for transfer: BlobTransfer) -> BlobStreamDownloader? {
+        transferDelegate?.downloader(for: transfer)
+    }
+}
+
+// MARK: Transfer Manager Methods
+
+extension StorageBlobClient {
+    /// Start the transfer management engine.
+    ///
+    /// Loads transfer state from disk, begins listening for network connectivity events, and resumes any incomplete
+    /// transfers. This method **MUST** be called by your application in order for any managed transfers to occur.
+    /// It's recommended to call this method from a background thread, at an opportune time after your app has started.
+    ///
+    /// Note that depending on the type of credential used by this StorageBlobClient, resuming transfers may cause a
+    /// login UI to be displayed if the token for a paused transfer has expired. Because of this, it's not recommended
+    /// to call this method from your AppDelegate. If you're using such a credential (e.g. the MSALCredential) you
+    /// should first inspect the list of transfers to determine if any are pending. If so, you should assume that
+    /// calling this method may display a login UI, and call it in a user-appropriate context (e.g. display a "pending
+    /// transfers" message and wait for explicit user confirmation to start the management engine). If you're not using
+    /// such a credential, or there are no paused transfers, it is safe to call this method from your AppDelegate.
+    public func startManaging() {
+        if managing { return }
+
+        manager.reachability?.startListening()
+        resumeAllTransfers()
+
+        managing = true
+    }
+
+    /// Stop the transfer management engine.
+    ///
+    /// Pauses all incomplete transfers, stops listening for network connectivity events, and stores transfer state to
+    /// disk. This method **SHOULD** be called by your application, either from your AppDelegate or from within a
+    /// ViewController's lifecycle methods.
+    public func stopManaging() {
+        guard managing else { return }
+
+        pauseAllTransfers()
+        manager.reachability?.stopListening()
+        manager.saveContext()
+
+        managing = false
+    }
+
+    /// Cancel a currently active transfer.
+    ///
+    /// - Parameters:
+    ///   - transfer: The transfer to cancel
+    public func cancel(transfer: Transfer) {
+        manager.cancel(transfer: transfer)
+    }
+
+    /// Cancel all currently active transfers.
+    public func cancelAllTransfers() {
+        manager.cancelAll()
+    }
+
+    /// Remove a transfer from the database. If the transfer is currently active it will be cancelled.
+    ///
+    /// - Parameters:
+    ///   - transfer: The transfer to remove
+    public func remove(transfer: Transfer) {
+        manager.remove(transfer: transfer)
+    }
+
+    /// Remove all transfers from the database. All currently active transfers will be cancelled.
+    public func removeAllTransfers() {
+        manager.removeAll()
+    }
+
+    /// Pause a currently active transfer.
+    ///
+    /// - Parameters:
+    ///   - transfer: The transfer to pause
+    public func pause(transfer: Transfer) {
+        manager.pause(transfer: transfer)
+    }
+
+    /// Pause all currently active transfers.
+    public func pauseAllTransfers() {
+        manager.pauseAll()
+    }
+
+    /// Resume a currently paused transfer.
+    ///
+    /// - Parameters:
+    ///   - transfer: The transfer to resume
+    public func resume(transfer: Transfer) {
+        manager.resume(transfer: transfer)
+    }
+
+    /// Resume all currently paused transfers.
+    public func resumeAllTransfers() {
+        manager.resumeAll()
+    }
+
+    /// Retrieve a single Transfer object by its id.
+    ///
+    /// - Parameters:
+    ///   - id: The id of the transfer to retrieve
+    public func transfer(withId id: UUID) -> Transfer? {
+        return manager.transfer(withId: id)
+    }
+
+    /// Retrieve the list of all currently managed transfers.
+    public var transfers: [Transfer] {
+        return manager.transfers
     }
 }

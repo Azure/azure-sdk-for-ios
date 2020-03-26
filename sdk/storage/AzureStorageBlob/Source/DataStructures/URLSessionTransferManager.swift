@@ -218,6 +218,12 @@ final class URLSessionTransferManager: NSObject, TransferManager, URLSessionTask
 
     // MARK: Cancel Operations
 
+    public func cancelAll() {
+        for transfer in transfers {
+            cancel(transfer: transfer)
+        }
+    }
+
     public func cancel(transfer: Transfer) {
         transfer.state = .canceled
         assert(transfer.operation != nil, "Transfer operation unexpectedly nil.")

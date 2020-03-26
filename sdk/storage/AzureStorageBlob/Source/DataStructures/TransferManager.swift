@@ -53,10 +53,13 @@ internal protocol TransferManager: ResumableOperationQueueDelegate {
 
     func add(transfer: Transfer)
     func cancel(transfer: Transfer)
+    func cancelAll()
     func pause(transfer: Transfer)
+    func pauseAll()
     func remove(transfer: Transfer)
     func removeAll()
     func resume(transfer: Transfer)
+    func resumeAll()
     func loadContext()
     func saveContext()
 }
