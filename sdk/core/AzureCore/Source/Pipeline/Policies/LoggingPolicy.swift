@@ -73,12 +73,12 @@ public class LoggingPolicy: PipelineStage {
 
     public func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
         var returnRequest = request.copy()
-        defer { completion(returnRequest) }
+        var returnError: Error?
+        defer { completion(returnRequest, returnError) }
         let logger = request.logger
         let req = request.httpRequest
         let requestId = req.headers[.clientRequestId] ?? "(none)"
-
-        guard let safeUrl = redact(url: req.url.absoluteString) else {
+        guard let safeUrl = redact(url: req.url) else {
             logger.warning("Failed to parse URL for request \(requestId)")
             return
         }
@@ -189,10 +189,10 @@ public class LoggingPolicy: PipelineStage {
         return "(empty body)"
     }
 
-    private func redact(url: String?) -> String? {
+    private func redact(url: URL?) -> String? {
         guard let url = url else { return nil }
-        guard var urlComps = URLComponents(string: url) else { return nil }
-        guard let queryItems = urlComps.queryItems else { return url }
+        guard var urlComps = URLComponents(url: url, resolvingAgainstBaseURL: true) else { return nil }
+        guard let queryItems = urlComps.queryItems else { return url.absoluteString }
 
         var redactedQueryItems = [URLQueryItem]()
         for query in queryItems {
@@ -274,6 +274,6 @@ public class CurlFormattedRequestLoggingPolicy: PipelineStage {
         logger.debug("╭--- cURL (\(req.url))")
         logger.debug(parts.joined(separator: " "))
         logger.debug("╰--- (copy and paste the above line to a terminal)")
-        completion(request)
+        completion(request, nil)
     }
 }

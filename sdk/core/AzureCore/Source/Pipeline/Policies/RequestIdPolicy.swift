@@ -39,6 +39,6 @@ public class RequestIdPolicy: PipelineStage {
 
     public func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
         request.httpRequest.headers[.clientRequestId] = UUID().uuidString
-        completion(request)
+        completion(request, nil)
     }
 }

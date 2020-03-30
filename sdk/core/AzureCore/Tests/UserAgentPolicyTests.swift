@@ -216,7 +216,7 @@ class UserAgentPolicyTests: XCTestCase {
             localeInfoProvider: nil
         )
         let req = PipelineRequest()
-        policy.on(request: req) { _ in }
+        policy.on(request: req) { _, _ in }
         XCTAssertEqual(req.httpRequest.headers[.userAgent], "azsdk-ios-Test/1.0")
     }
 
@@ -231,7 +231,7 @@ class UserAgentPolicyTests: XCTestCase {
         )
         let headers = HTTPHeaders([.userAgent: "azsdk-ios-Garbage/0.0"])
         let req = PipelineRequest(headers: headers)
-        policy.on(request: req) { _ in }
+        policy.on(request: req) { _, _ in }
         XCTAssertEqual(req.httpRequest.headers[.userAgent], "azsdk-ios-Test/1.0")
     }
 
@@ -246,7 +246,7 @@ class UserAgentPolicyTests: XCTestCase {
         )
         let headers = HTTPHeaders([.userAgent: "CustomUserAgent/8.0"])
         let req = PipelineRequest(headers: headers)
-        policy.on(request: req) { _ in }
+        policy.on(request: req) { _, _ in }
         XCTAssertEqual(req.httpRequest.headers[.userAgent], "azsdk-ios-Test/1.0 CustomUserAgent/8.0")
     }
 }

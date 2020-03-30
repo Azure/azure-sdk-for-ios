@@ -37,29 +37,21 @@ public class BlockOperation: ResumableTransfer {
         transfer.operation = self
     }
 
-    // MARK: Internal Methods
-
-    internal func notifyDelegate(withTransfer transfer: BlockTransfer) {
-        if let parent = transfer.parent?.operation {
-            // Notify blob transfer instead of block.
-            delegate?.operation(parent, didChangeState: transfer.state)
-        } else {
-            delegate?.operation(self, didChangeState: transfer.state)
-        }
-    }
-
     // MARK: Public Methods
 
     public override func main() {
         guard let transfer = transfer as? BlockTransfer else { return }
+        guard let parent = transfer.parent else { return }
         if isCancelled || isPaused { return }
         transfer.state = .inProgress
-        transfer.parent?.state = .inProgress
+        parent.state = .inProgress
         notifyDelegate(withTransfer: transfer)
         if isCancelled || isPaused { return }
         let group = DispatchGroup()
         group.enter()
-        if let downloader = transfer.parent?.downloader {
+        switch parent.transferType {
+        case .download:
+            guard let downloader = parent.downloader else { return }
             let chunkDownloader = ChunkDownloader(
                 blob: downloader.blobName,
                 container: downloader.containerName,
@@ -69,18 +61,33 @@ public class BlockOperation: ResumableTransfer {
                 endRange: Int(transfer.endRange),
                 options: downloader.options
             )
-            chunkDownloader.download { result, _ in
+            chunkDownloader.download { result, httpResponse in
+                if self.isCancelled || self.isPaused { return }
                 switch result {
                 case .success:
-                    self.delegate?.operation(self, didChangeState: .inProgress)
-                case .failure:
-                    self.transfer?.state = .failed
-                    // TODO: The failure needs to propagate to the entire operation...
-                    self.delegate?.operation(self, didChangeState: .failed)
+                    guard let responseHeaders = httpResponse?.headers else {
+                        assertionFailure("Response headers not found.")
+                        return
+                    }
+                    let blobProperties = BlobProperties(from: responseHeaders)
+                    let contentLength = blobProperties.contentLength ?? 0
+                    downloader.progress += contentLength
+                    transfer.state = .complete
+                    self.notifyDelegate(withTransfer: transfer)
+                case let .failure(error):
+                    var err = error
+                    if let pipelineError = error as? PipelineError {
+                        err = pipelineError.innerError
+                    }
+                    transfer.state = .failed
+                    parent.state = .failed
+                    parent.error = err
+                    self.notifyDelegate(withTransfer: transfer)
                 }
                 group.leave()
             }
-        } else if let uploader = transfer.parent?.uploader {
+        case .upload:
+            guard let uploader = parent.uploader else { return }
             let chunkUploader = ChunkUploader(
                 blob: uploader.blobName,
                 container: uploader.containerName,
@@ -92,32 +99,33 @@ public class BlockOperation: ResumableTransfer {
                 options: uploader.options
             )
             chunkUploader.upload { result, _ in
+                if self.isCancelled || self.isPaused { return }
                 switch result {
                 case .success:
                     // Add block ID to the completed list and lookup where its final
                     // placement should be
                     let blockId = chunkUploader.blockId
-                    if let parentUploader = transfer.parent?.uploader {
+                    if let parentUploader = parent.uploader {
                         parentUploader.completedBlockMap[blockId] = parentUploader.blockIdMap[blockId]
                     }
-                    self.delegate?.operation(self, didChangeState: .inProgress)
-                case .failure:
-                    self.transfer?.state = .failed
-                    // TODO: The failure needs to propagate to the entire operation...
-                    self.delegate?.operation(self, didChangeState: .failed)
+                    transfer.state = .complete
+                    self.notifyDelegate(withTransfer: transfer)
+                case let .failure(error):
+                    var err = error
+                    if let pipelineError = error as? PipelineError {
+                        err = pipelineError.innerError
+                    }
+                    transfer.state = .failed
+                    parent.state = .failed
+                    parent.error = err
+                    self.notifyDelegate(withTransfer: transfer)
                 }
                 group.leave()
             }
-        } else {
-            // TODO: Remove dummy workload when TM has sufficient testing
-            let delay = UInt32.random(in: 5 ... 10)
-            print("Simulating work with \(delay) second delay.")
-            sleep(delay)
-            group.leave()
+        default:
+            assertionFailure("Unrecognized transfer type: \(parent.transferType.label)")
         }
         group.wait()
-        transfer.state = .complete
-        notifyDelegate(withTransfer: transfer)
         super.main()
     }
 }

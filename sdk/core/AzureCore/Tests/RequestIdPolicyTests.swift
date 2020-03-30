@@ -32,7 +32,7 @@ class RequestIdPolicyTests: XCTestCase {
     func test_RequestIdPolicy_AddsHeaderToRequest() {
         let policy = RequestIdPolicy()
         let req = PipelineRequest()
-        policy.on(request: req) { _ in }
+        policy.on(request: req) { _, _ in }
         let value = req.httpRequest.headers[.clientRequestId]
         XCTAssertTrue(value != nil && !value!.isEmpty)
     }
@@ -41,7 +41,7 @@ class RequestIdPolicyTests: XCTestCase {
     func test_RequestIdPolicy_HeaderValueIsUUID() {
         let policy = RequestIdPolicy()
         let req = PipelineRequest()
-        policy.on(request: req) { _ in }
+        policy.on(request: req) { _, _ in }
         let value = req.httpRequest.headers[.clientRequestId]
         XCTAssertNotNil(UUID(uuidString: value!))
     }

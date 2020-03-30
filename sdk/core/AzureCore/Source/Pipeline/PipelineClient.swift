@@ -103,16 +103,16 @@ open class PipelineClient {
                 let deserializedData = pipelineResponse.value(forKey: .deserializedData) as? Data
 
                 // invalid status code is a failure
-                let statusCode = httpResponse.statusCode ?? -1
+                let statusCode = httpResponse?.statusCode ?? -1
                 let allowedStatusCodes = pipelineResponse.value(forKey: .allowedStatusCodes) as? [Int] ?? [200]
-                if !allowedStatusCodes.contains(httpResponse.statusCode ?? -1) {
+                if !allowedStatusCodes.contains(httpResponse?.statusCode ?? -1) {
                     self.logError(withData: deserializedData)
                     let error = HTTPResponseError.statusCode("Service returned invalid status code [\(statusCode)].")
                     completion(.failure(error), httpResponse)
                 } else {
                     if let deserialized = deserializedData {
                         completion(.success(deserialized), httpResponse)
-                    } else if let data = httpResponse.data {
+                    } else if let data = httpResponse?.data {
                         completion(.success(data), httpResponse)
                     }
                 }

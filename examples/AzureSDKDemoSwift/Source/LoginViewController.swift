@@ -47,8 +47,8 @@ class LoginViewController: UIViewController, MSALInteractiveDelegate {
             try application.remove(account)
             AppState.account = nil
             updateLogOutButton(enabled: false)
-        } catch let error as NSError {
-            showAlert(error: "Error signing out: \(error)")
+        } catch {
+            showAlert(error: error)
         }
     }
 

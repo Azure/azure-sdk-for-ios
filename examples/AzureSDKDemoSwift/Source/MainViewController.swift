@@ -36,6 +36,20 @@ class MainViewController: UITableViewController, MSALInteractiveDelegate {
 
     private var dataSource: PagedCollection<ContainerItem>?
     private var noMoreData = false
+    private lazy var blobClient: StorageBlobClient? = {
+        guard let application = AppState.application else { return nil }
+        do {
+            let credential = MSALCredential(
+                tenant: AppConstants.tenant, clientId: AppConstants.clientId, application: application,
+                account: AppState.currentAccount()
+            )
+            let client = try StorageBlobClient(accountUrl: AppConstants.storageAccountUrl, credential: credential)
+            return client
+        } catch {
+            showAlert(error: error)
+            return nil
+        }
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,16 +63,15 @@ class MainViewController: UITableViewController, MSALInteractiveDelegate {
 
     /// Constructs the PagedCollection and retrieves the first page of results to initalize the table view.
     private func loadInitialSettings() {
-        guard let blobClient = getBlobClient() else { return }
         let options = ListContainersOptions()
         options.maxResults = 20
-        blobClient.listContainers(withOptions: options) { result, _ in
+        blobClient?.listContainers(withOptions: options) { result, _ in
             switch result {
             case let .success(paged):
                 self.dataSource = paged
                 self.reloadTableView()
             case let .failure(error):
-                self.showAlert(error: String(describing: error))
+                self.showAlert(error: error)
                 self.noMoreData = true
             }
         }
@@ -72,7 +85,7 @@ class MainViewController: UITableViewController, MSALInteractiveDelegate {
             case .success:
                 self.reloadTableView()
             case let .failure(error):
-                self.showAlert(error: String(describing: error))
+                self.showAlert(error: error)
                 self.noMoreData = true
             }
         }

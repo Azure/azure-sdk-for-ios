@@ -108,7 +108,7 @@ public class StorageSASAuthenticationPolicy: Authenticating {
         let queryParams = parse(sasToken: credential.sasToken)
         request.httpRequest.add(queryParams: queryParams)
         request.httpRequest.headers[.xmsDate] = String(describing: Date(), format: .rfc1123)
-        completion(request)
+        completion(request, nil)
     }
 
     // MARK: Private Methods

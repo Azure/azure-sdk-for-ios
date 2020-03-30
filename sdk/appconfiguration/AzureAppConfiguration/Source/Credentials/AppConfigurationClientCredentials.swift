@@ -90,7 +90,7 @@ public class AppConfigurationAuthenticationPolicy: Authenticating {
             request.httpRequest.headers[.xmsDate] = String(describing: Date(), format: .rfc1123)
         }
         sign(request: request)
-        completion(request)
+        completion(request, nil)
     }
 
     private func sign(request: PipelineRequest) {

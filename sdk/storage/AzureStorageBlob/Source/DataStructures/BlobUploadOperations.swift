@@ -49,14 +49,14 @@ internal class BlobUploadFinalOperation: ResumableTransfer {
             switch result {
             case .success:
                 transfer.state = .complete
-                self.delegate?.operation(self, didChangeState: transfer.state)
-                group.leave()
-            case .failure:
-                self.transfer?.state = .failed
-                // TODO: The failure needs to propagate to the entire operation...
-                self.delegate?.operation(self, didChangeState: .failed)
-                group.leave()
+                self.notifyDelegate(withTransfer: transfer)
+            case let .failure(error):
+                transfer.state = .failed
+                transfer.error = error
+                transfer.parent?.state = .failed
+                self.notifyDelegate(withTransfer: transfer)
             }
+            group.leave()
         }
         group.wait()
         super.main()

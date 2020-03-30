@@ -152,7 +152,10 @@ internal class ChunkDownloader {
                     completion(.failure(HTTPResponseError.decode("Blob unexpectedly contained no data.")), httpResponse)
                     return
                 }
-                let headers = httpResponse.headers
+                guard let headers = httpResponse?.headers else {
+                    completion(.failure(HTTPResponseError.general("No response headers found.")), httpResponse)
+                    return
+                }
                 if let contentMD5 = headers[.contentMD5] {
                     let dataHash = try? data.hash(algorithm: .md5).base64String
                     guard contentMD5 == dataHash else {
@@ -184,6 +187,7 @@ internal class ChunkDownloader {
                         handle.seek(toFileOffset: fileOffset)
                     }
                     handle.write(decryptedData)
+
                     completion(.success(decryptedData), httpResponse)
                 } catch {
                     completion(.failure(error), httpResponse)
@@ -277,7 +281,7 @@ public class BlobStreamDownloader {
     internal let options: DownloadBlobOptions
 
     /// Size, in bytes, of the file to be downloaded.
-    internal var fileSize: Int?
+    internal var fileSize: Int
 
     // MARK: Initializers
 
@@ -323,6 +327,7 @@ public class BlobStreamDownloader {
         self.containerName = container
         self.requestedSize = self.options.range?.length
         self.blobProperties = nil
+        self.fileSize = -1
         self.blockList = computeBlockList()
     }
 
@@ -389,7 +394,10 @@ public class BlobStreamDownloader {
         downloader.download { result, httpResponse in
             switch result {
             case .success:
-                let responseHeaders = httpResponse.headers
+                guard let responseHeaders = httpResponse?.headers else {
+                    completion(.failure(HTTPResponseError.general("No response headers found.")), httpResponse)
+                    return
+                }
                 let blobProperties = BlobProperties(from: responseHeaders)
                 let contentLength = blobProperties.contentLength ?? 0
                 self.progress += contentLength
@@ -419,7 +427,10 @@ public class BlobStreamDownloader {
             case let .success(data):
                 // Parse the total file size and adjust the download size if ranges
                 // were specified
-                let responseHeaders = httpResponse.headers
+                guard let responseHeaders = httpResponse?.headers else {
+                    completion(.failure(HTTPResponseError.general("No response headers found.")), httpResponse)
+                    return
+                }
                 let contentRange = responseHeaders[.contentRange]
                 let blobProperties = BlobProperties(from: responseHeaders)
 
@@ -443,8 +454,6 @@ public class BlobStreamDownloader {
                     // based on the actual file size.
                     var recomputeBlockList = self.requestedSize == nil
                     self.requestedSize = (self.requestedSize ?? fileSize) - (self.options.range?.offset ?? 0)
-                    let progress = BlobDownloadProgress(bytes: self.progress, totalBytes: self.fileSize ?? 1)
-                    self.delegate?.downloader(self, didUpdateWithProgress: progress)
 
                     // If the file is small, the download is complete at this point.
                     // If file size is large, download the rest of the file in chunks.
@@ -495,7 +504,9 @@ public class BlobStreamDownloader {
         } else {
             for index in stride(from: start, to: end, by: chunkLength) {
                 var end = index + chunkLength
-                if let fileSize = fileSize, end > fileSize {
+                if fileSize < 0 {
+                    end = chunkLength
+                } else if end > fileSize {
                     end = fileSize
                 }
                 blockList.append(index ..< end)
