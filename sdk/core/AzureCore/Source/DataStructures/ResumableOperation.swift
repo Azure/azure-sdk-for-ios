@@ -53,9 +53,9 @@ public enum TransferState: Int16 {
 
     public var pauseable: Bool {
         switch self {
-        case .unknown, .pending, .inProgress, .failed:
+        case .unknown, .pending, .inProgress:
             return true
-        case .paused, .complete, .canceled, .deleted:
+        case .paused, .complete, .canceled, .deleted, .failed:
             return false
         }
     }

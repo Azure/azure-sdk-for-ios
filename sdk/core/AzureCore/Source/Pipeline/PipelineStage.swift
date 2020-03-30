@@ -96,7 +96,12 @@ extension PipelineStage {
                     context: request.context
                 )
                 let pipelineError = PipelineError(fromError: error, pipelineResponse: pipelineResponse)
-                completion(.failure(pipelineError), nil)
+                self.on(error: pipelineError) { _, handled in
+                    if !handled {
+                        completion(.failure(pipelineError), nil)
+                        return
+                    }
+                }
             }
             self.next!.process(request: request) { result, httpResponse in
                 switch result {
@@ -108,6 +113,7 @@ extension PipelineStage {
                     self.on(error: pipelineError) { error, handled in
                         if !handled {
                             completion(.failure(error), httpResponse)
+                            return
                         }
                     }
                 }
