@@ -93,8 +93,10 @@ public enum StorageHTTPHeader: String {
     case rangeGetContentCRC64 = "x-ms-range-get-content-crc64"
 }
 
-/// :nodoc:
 extension HTTPHeaders {
+    /// Access the value of a `StorageHTTPHeader` within a collection of `HTTPHeaders`.
+    /// - Parameters:
+    ///   - index: The `StorageHTTPHeader` value to access.
     public subscript(index: StorageHTTPHeader) -> String? {
         get {
             return self[index.rawValue]
@@ -105,6 +107,9 @@ extension HTTPHeaders {
         }
     }
 
+    /// Remove a `StorageHTTPHeader` value from a collection of `HTTPHeaders`.
+    /// - Parameters:
+    ///   - index: The `StorageHTTPHeader` value to remove.
     public mutating func removeValue(forKey key: StorageHTTPHeader) -> String? {
         return removeValue(forKey: key.rawValue)
     }
