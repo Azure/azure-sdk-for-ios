@@ -88,8 +88,8 @@ public final class StorageBlobClient: PipelineClient {
                 authPolicy,
                 ContentDecodePolicy(),
                 LoggingPolicy(
-                    allowHeaders: BlobHeadersAndQueryParameters.headers,
-                    allowQueryParams: BlobHeadersAndQueryParameters.queryParameters
+                    allowHeaders: StorageBlobClient.allowHeaders,
+                    allowQueryParams: StorageBlobClient.allowQueryParams
                 )
             ],
             logger: self.options.logger

@@ -160,7 +160,7 @@ internal class ChunkUploader {
         }
 
         if let encryptionKeySHA256 = cpk?.hash { headers[.encryptionKeySHA256] = encryptionKeySHA256 }
-        if let encryptionAlgorithm = cpk?.algorithm { headers[.encryptionKeyAlgorithm] = encryptionAlgorithm }
+        if let encryptionAlgorithm = cpk?.algorithm { headers[.encryptionAlgorithm] = encryptionAlgorithm }
 
         // Construct and send request
         guard let request = try? HTTPRequest(method: .put, url: url, headers: headers, data: buffer) else { return }
@@ -413,7 +413,7 @@ internal class BlobStreamUploader: BlobUploader {
         }
 
         if let encryptionKeySHA256 = cpk?.hash { headers[.encryptionKeySHA256] = encryptionKeySHA256 }
-        if let encryptionAlgorithm = cpk?.algorithm { headers[.encryptionKeyAlgorithm] = encryptionAlgorithm }
+        if let encryptionAlgorithm = cpk?.algorithm { headers[.encryptionAlgorithm] = encryptionAlgorithm }
         if let ifModifiedSince = modifiedAccessConditions?.ifModifiedSince {
             headers[.ifModifiedSince] = String(describing: ifModifiedSince, format: .rfc1123)
         }

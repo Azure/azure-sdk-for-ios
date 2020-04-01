@@ -127,7 +127,7 @@ internal class ChunkDownloader {
             headers[.encryptionKey] = String(data: encryptionKey, encoding: .utf8)
         }
         if let encryptionKeySHA256 = cpk?.hash { headers[.encryptionKeySHA256] = encryptionKeySHA256 }
-        if let encryptionAlgorithm = cpk?.algorithm { headers[.encryptionKeyAlgorithm] = encryptionAlgorithm }
+        if let encryptionAlgorithm = cpk?.algorithm { headers[.encryptionAlgorithm] = encryptionAlgorithm }
         if let ifModifiedSince = modifiedAccessConditions?.ifModifiedSince {
             headers[.ifModifiedSince] = String(describing: ifModifiedSince, format: .rfc1123)
         }
