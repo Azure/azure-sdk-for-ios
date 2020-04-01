@@ -36,9 +36,11 @@ extension BlobTransfer {
     @NSManaged internal var destination: URL?
     @NSManaged internal var endRange: Int64
     @NSManaged internal var error: Error?
-    @NSManaged internal var id: UUID
+    /// The unique identifier for this transfer operation.
+    @NSManaged public var id: UUID
     @NSManaged internal var initialCallComplete: Bool
-    @NSManaged internal var rawState: Int16
+    /// :nodoc: Internal representation of the state.
+    @NSManaged public var rawState: Int16
     @NSManaged internal var rawType: Int16
     @NSManaged internal var source: URL?
     @NSManaged internal var startRange: Int64

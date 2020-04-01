@@ -29,26 +29,29 @@ import AzureCore
 import CoreData
 import Foundation
 
-internal class BlobTransfer: NSManagedObject, TransferImpl {
+public class BlobTransfer: NSManagedObject, TransferImpl {
     // MARK: Properties
 
-    public var operation: ResumableOperation?
-    public var downloader: BlobStreamDownloader?
-    public var uploader: BlobStreamUploader?
+    internal var operation: ResumableOperation?
+    internal var downloader: BlobStreamDownloader?
+    internal var uploader: BlobStreamUploader?
 
-    public var transfers: [BlockTransfer] {
+    internal var transfers: [BlockTransfer] {
         guard let blockSet = blocks else { return [BlockTransfer]() }
         return blockSet.map { $0 as? BlockTransfer }.filter { $0 != nil }.map { $0! }
     }
 
-    public var incompleteBlocks: Int64 {
+    internal var incompleteBlocks: Int64 {
         return Int64(transfers.filter { $0.state != .complete }.count)
     }
 
+    /// The current progress of the transfer, calculated as the number of completed blocks divided by the total number
+    /// of blocks that comprise the blob transfer.
     public var progress: Float {
         return Float(Int64(transfers.count) - incompleteBlocks) / Float(transfers.count)
     }
 
+    /// A debug representation of the transfer.
     public var debugString: String {
         var string = "\tTransfer \(type(of: self)) \(hash): Status \(state.label)"
         for block in transfers {
@@ -57,6 +60,7 @@ internal class BlobTransfer: NSManagedObject, TransferImpl {
         return string
     }
 
+    /// The current state of the transfer.
     public var state: TransferState {
         get {
             let currState = TransferState(rawValue: rawState)!
@@ -77,7 +81,7 @@ internal class BlobTransfer: NSManagedObject, TransferImpl {
         }
     }
 
-    public var debugStates: String {
+    internal var debugStates: String {
         var dict = [String: String]()
         for transfer in transfers {
             dict[String(transfer.id.hashValue % 99)] = transfer.state.label
@@ -90,6 +94,7 @@ internal class BlobTransfer: NSManagedObject, TransferImpl {
         return sortedLines.joined(separator: ", ")
     }
 
+    /// The type of the transfer.
     public var transferType: TransferType {
         get {
             return TransferType(rawValue: rawType)!
