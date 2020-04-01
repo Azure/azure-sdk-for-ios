@@ -27,8 +27,6 @@
 import AzureCore
 import Foundation
 
-// swiftlint:disable function_body_length type_body_length file_length cyclomatic_complexity identifier_name
-
 /// A StorageBlobClient represents a Client to the Azure Storage Blob service allowing you to manipulate blobs within
 /// storage containers.
 public final class StorageBlobClient: PipelineClient {

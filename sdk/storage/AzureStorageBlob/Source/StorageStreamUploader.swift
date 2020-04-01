@@ -24,10 +24,6 @@
 //
 // --------------------------------------------------------------------------
 
-// swiftlint:disable file_length
-// swiftlint:disable function_body_length
-// swiftlint:disable cyclomatic_complexity
-
 import AzureCore
 import Foundation
 
@@ -380,70 +376,15 @@ internal class BlobStreamUploader: BlobUploader {
         ]
         guard let url = client.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return }
 
-        // Construct parameters
-        var queryParams = [
-            ("comp", "blocklist")
-        ]
-        if let timeout = options.timeout { queryParams.append(("timeout", String(timeout))) }
+        // Construct parameters & headers
+        var queryParams: [QueryParameter] = [("comp", "blocklist")]
+        if let timeout = options.timeout { queryParams.append("timeout", String(timeout)) }
 
-        // Construct headers
-        var headers = HTTPHeaders([
-            .contentType: "application/xml; charset=utf-8",
-            .apiVersion: client.options.apiVersion
-        ])
-        let leaseAccessConditions = options.leaseAccessConditions
-        let modifiedAccessConditions = options.modifiedAccessConditions
-        let cpk = options.customerProvidedEncryptionKey
-
-        if let transactionalContentMd5 = transactionalContentMd5 {
-            headers[.contentMD5] = String(data: transactionalContentMd5, encoding: .utf8)
-        }
-
-        if let transactionalContentCrc64 = transactionalContentCrc64 {
-            headers[.contentCRC64] = String(data: transactionalContentCrc64, encoding: .utf8)
-        }
-
-        if let requestId = requestId { headers[.clientRequestId] = requestId }
-        if let leaseId = leaseAccessConditions?.leaseId { headers[.leaseId] = leaseId }
-        if let encryptionKey = cpk?.keyData {
-            headers[.encryptionKey] = String(data: encryptionKey, encoding: .utf8)
-        }
-        if let encryptionScope = options.customerProvidedEncryptionScope {
-            headers[.encryptionScope] = encryptionScope
-        }
-
-        if let encryptionKeySHA256 = cpk?.hash { headers[.encryptionKeySHA256] = encryptionKeySHA256 }
-        if let encryptionAlgorithm = cpk?.algorithm { headers[.encryptionAlgorithm] = encryptionAlgorithm }
-        if let ifModifiedSince = modifiedAccessConditions?.ifModifiedSince {
-            headers[.ifModifiedSince] = String(describing: ifModifiedSince, format: .rfc1123)
-        }
-        if let ifUnmodifiedSince = modifiedAccessConditions?.ifUnmodifiedSince {
-            headers[.ifUnmodifiedSince] = String(describing: ifUnmodifiedSince, format: .rfc1123)
-        }
-        if let ifMatch = modifiedAccessConditions?.ifMatch { headers[.ifMatch] = ifMatch }
-        if let ifNoneMatch = modifiedAccessConditions?.ifNoneMatch { headers[.ifNoneMatch] = ifNoneMatch }
-
-        if let accessTier = blobProperties?.accessTier {
-            headers[.accessTier] = accessTier.rawValue
-        }
-        if let cacheControl = blobProperties?.cacheControl {
-            headers[.blobCacheControl] = cacheControl
-        }
-        if let contentType = blobProperties?.contentType {
-            headers[.blobContentType] = contentType
-        }
-        if let contentEncoding = blobProperties?.contentEncoding {
-            headers[.blobContentEncoding] = contentEncoding
-        }
-        if let contentLanguage = blobProperties?.contentLanguage {
-            headers[.blobContentLanguage] = contentLanguage
-        }
-        if let contentMD5 = blobProperties?.contentMD5 {
-            headers[.blobContentMD5] = contentMD5
-        }
-        if let contentDisposition = blobProperties?.contentDisposition {
-            headers[.blobContentDisposition] = contentDisposition
-        }
+        let headers = commitHeadersForRequest(
+            withId: requestId,
+            withContentMD5: transactionalContentMd5,
+            withContentCRC64: transactionalContentCrc64
+        )
 
         // Construct and send request
         let lookupList = buildLookupList()
@@ -510,6 +451,74 @@ internal class BlobStreamUploader: BlobUploader {
     }
 
     // MARK: Private Methods
+
+    // swiftlint:disable:next cyclomatic_complexity
+    private func commitHeadersForRequest(
+        withId requestId: String?,
+        withContentMD5 md5: Data?,
+        withContentCRC64 crc64: Data?
+    ) -> HTTPHeaders {
+        // Construct headers
+        var headers = HTTPHeaders([
+            .contentType: "application/xml; charset=utf-8",
+            .apiVersion: client.options.apiVersion
+        ])
+        let leaseAccessConditions = options.leaseAccessConditions
+        let modifiedAccessConditions = options.modifiedAccessConditions
+        let cpk = options.customerProvidedEncryptionKey
+
+        if let transactionalContentMd5 = md5 {
+            headers[.contentMD5] = String(data: transactionalContentMd5, encoding: .utf8)
+        }
+
+        if let transactionalContentCrc64 = crc64 {
+            headers[.contentCRC64] = String(data: transactionalContentCrc64, encoding: .utf8)
+        }
+
+        if let requestId = requestId { headers[.clientRequestId] = requestId }
+        if let leaseId = leaseAccessConditions?.leaseId { headers[.leaseId] = leaseId }
+        if let encryptionKey = cpk?.keyData {
+            headers[.encryptionKey] = String(data: encryptionKey, encoding: .utf8)
+        }
+        if let encryptionScope = options.customerProvidedEncryptionScope {
+            headers[.encryptionScope] = encryptionScope
+        }
+
+        if let encryptionKeySHA256 = cpk?.hash { headers[.encryptionKeySHA256] = encryptionKeySHA256 }
+        if let encryptionAlgorithm = cpk?.algorithm { headers[.encryptionAlgorithm] = encryptionAlgorithm }
+        if let ifModifiedSince = modifiedAccessConditions?.ifModifiedSince {
+            headers[.ifModifiedSince] = String(describing: ifModifiedSince, format: .rfc1123)
+        }
+        if let ifUnmodifiedSince = modifiedAccessConditions?.ifUnmodifiedSince {
+            headers[.ifUnmodifiedSince] = String(describing: ifUnmodifiedSince, format: .rfc1123)
+        }
+        if let ifMatch = modifiedAccessConditions?.ifMatch { headers[.ifMatch] = ifMatch }
+        if let ifNoneMatch = modifiedAccessConditions?.ifNoneMatch { headers[.ifNoneMatch] = ifNoneMatch }
+
+        if let accessTier = blobProperties?.accessTier {
+            headers[.accessTier] = accessTier.rawValue
+        }
+        if let cacheControl = blobProperties?.cacheControl {
+            headers[.blobCacheControl] = cacheControl
+        }
+        if let contentType = blobProperties?.contentType {
+            headers[.blobContentType] = contentType
+        }
+        if let contentEncoding = blobProperties?.contentEncoding {
+            headers[.blobContentEncoding] = contentEncoding
+        }
+        if let contentLanguage = blobProperties?.contentLanguage {
+            headers[.blobContentLanguage] = contentLanguage
+        }
+        if let contentMD5 = blobProperties?.contentMD5 {
+            headers[.blobContentMD5] = contentMD5
+        }
+        if let contentDisposition = blobProperties?.contentDisposition {
+            headers[.blobContentDisposition] = contentDisposition
+        }
+
+        return headers
+    }
 
     private func buildLookupList() -> BlobLookupList {
         let sortedIds = completedBlockMap.sorted(by: { $0.value < $1.value })

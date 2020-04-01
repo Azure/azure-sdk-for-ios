@@ -424,10 +424,13 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
             for transfer in results {
                 switch transfer.transferType {
                 case .upload:
-                    transfer.uploader = transfer.uploader ?? (delegate?.uploader(for: transfer) as! BlobStreamUploader)
+                    if transfer.uploader == nil {
+                        transfer.uploader = delegate?.uploader(for: transfer) as? BlobStreamUploader
+                    }
                 case .download:
-                    transfer.downloader = transfer
-                        .downloader ?? (delegate?.downloader(for: transfer) as! BlobStreamDownloader)
+                    if transfer.downloader == nil {
+                        transfer.downloader = delegate?.downloader(for: transfer) as? BlobStreamDownloader
+                    }
                 }
                 add(transfer: transfer)
             }

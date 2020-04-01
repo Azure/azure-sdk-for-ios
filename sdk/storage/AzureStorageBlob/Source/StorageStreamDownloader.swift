@@ -24,10 +24,6 @@
 //
 // --------------------------------------------------------------------------
 
-// swiftlint:disable file_length
-// swiftlint:disable function_body_length
-// swiftlint:disable cyclomatic_complexity
-
 import AzureCore
 import Foundation
 
@@ -99,43 +95,12 @@ internal class ChunkDownloader {
         ]
         guard let url = client.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return }
 
-        // Construct parameters
+        // Construct parameters & headers
         var queryParams = [QueryParameter]()
         if let snapshot = options.snapshot { queryParams.append("snapshot", snapshot) }
         if let timeout = options.timeout { queryParams.append("timeout", String(timeout)) }
 
-        // Construct headers
-        var headers = HTTPHeaders([
-            .accept: "application/xml",
-            .apiVersion: client.options.apiVersion
-        ])
-        let leaseAccessConditions = options.leaseAccessConditions
-        let modifiedAccessConditions = options.modifiedAccessConditions
-        let cpk = options.customerProvidedEncryptionKey
-
-        headers[StorageHTTPHeader.range] = "bytes=\(startRange)-\(endRange)"
-        if let rangeGetContentMD5 = options.range?.calculateMD5 {
-            headers[.rangeGetContentMD5] = String(rangeGetContentMD5)
-        }
-        if let rangeGetContentCRC64 = options.range?.calculateCRC64 {
-            headers[.rangeGetContentCRC64] = String(rangeGetContentCRC64)
-        }
-
-        if let requestId = requestId { headers[.clientRequestId] = requestId }
-        if let leaseId = leaseAccessConditions?.leaseId { headers[.leaseId] = leaseId }
-        if let encryptionKey = cpk?.keyData {
-            headers[.encryptionKey] = String(data: encryptionKey, encoding: .utf8)
-        }
-        if let encryptionKeySHA256 = cpk?.hash { headers[.encryptionKeySHA256] = encryptionKeySHA256 }
-        if let encryptionAlgorithm = cpk?.algorithm { headers[.encryptionAlgorithm] = encryptionAlgorithm }
-        if let ifModifiedSince = modifiedAccessConditions?.ifModifiedSince {
-            headers[.ifModifiedSince] = String(describing: ifModifiedSince, format: .rfc1123)
-        }
-        if let ifUnmodifiedSince = modifiedAccessConditions?.ifUnmodifiedSince {
-            headers[.ifUnmodifiedSince] = String(describing: ifUnmodifiedSince, format: .rfc1123)
-        }
-        if let ifMatch = modifiedAccessConditions?.ifMatch { headers[.ifMatch] = ifMatch }
-        if let ifNoneMatch = modifiedAccessConditions?.ifNoneMatch { headers[.ifNoneMatch] = ifNoneMatch }
+        let headers = downloadHeadersForRequest(withId: requestId)
 
         // Construct and send request
         guard let request = try? HTTPRequest(method: .get, url: url, headers: headers) else { return }
@@ -197,6 +162,43 @@ internal class ChunkDownloader {
     }
 
     // MARK: Private Methods
+
+    // swiftlint:disable:next cyclomatic_complexity
+    private func downloadHeadersForRequest(withId requestId: String?) -> HTTPHeaders {
+        var headers = HTTPHeaders([
+            .accept: "application/xml",
+            .apiVersion: client.options.apiVersion
+        ])
+        let leaseAccessConditions = options.leaseAccessConditions
+        let modifiedAccessConditions = options.modifiedAccessConditions
+        let cpk = options.customerProvidedEncryptionKey
+
+        headers[StorageHTTPHeader.range] = "bytes=\(startRange)-\(endRange)"
+        if let rangeGetContentMD5 = options.range?.calculateMD5 {
+            headers[.rangeGetContentMD5] = String(rangeGetContentMD5)
+        }
+        if let rangeGetContentCRC64 = options.range?.calculateCRC64 {
+            headers[.rangeGetContentCRC64] = String(rangeGetContentCRC64)
+        }
+
+        if let requestId = requestId { headers[.clientRequestId] = requestId }
+        if let leaseId = leaseAccessConditions?.leaseId { headers[.leaseId] = leaseId }
+        if let encryptionKey = cpk?.keyData {
+            headers[.encryptionKey] = String(data: encryptionKey, encoding: .utf8)
+        }
+        if let encryptionKeySHA256 = cpk?.hash { headers[.encryptionKeySHA256] = encryptionKeySHA256 }
+        if let encryptionAlgorithm = cpk?.algorithm { headers[.encryptionAlgorithm] = encryptionAlgorithm }
+        if let ifModifiedSince = modifiedAccessConditions?.ifModifiedSince {
+            headers[.ifModifiedSince] = String(describing: ifModifiedSince, format: .rfc1123)
+        }
+        if let ifUnmodifiedSince = modifiedAccessConditions?.ifUnmodifiedSince {
+            headers[.ifUnmodifiedSince] = String(describing: ifUnmodifiedSince, format: .rfc1123)
+        }
+        if let ifMatch = modifiedAccessConditions?.ifMatch { headers[.ifMatch] = ifMatch }
+        if let ifNoneMatch = modifiedAccessConditions?.ifNoneMatch { headers[.ifNoneMatch] = ifNoneMatch }
+
+        return headers
+    }
 
     private func decrypt(_ data: Data) -> Data {
         guard isEncrypted else { return data }
