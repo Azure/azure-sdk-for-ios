@@ -140,7 +140,6 @@ internal class ChunkUploader {
             .apiVersion: client.options.apiVersion
         ])
         let leaseAccessConditions = options.leaseAccessConditions
-        let modifiedAccessConditions = options.modifiedAccessConditions
         let cpk = options.customerProvidedEncryptionKey
 
         if let transactionalContentMd5 = transactionalContentMd5 {
@@ -351,7 +350,7 @@ internal class BlobStreamUploader: BlobUploader {
             // Once all blocks are done, commit block list
             self.commit { result, _ in
                 switch result {
-                case let .success(data):
+                case .success:
                     if let delegate = self.delegate {
                         delegate.uploaderDidComplete(self)
                     } else {
