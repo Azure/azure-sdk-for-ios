@@ -103,27 +103,6 @@ public struct RangeOptions {
     }
 }
 
-/// Options for overriding the default download destination behavior.
-public struct DestinationOptions {
-    /// Indicates whether files will be downloaded to the app's temp folder.
-    public let isTemporary: Bool
-    /// Override the default destination subfolder, which is the container name.
-    public let subfolder: String?
-    /// Override the default destination filename, which is the blob name.
-    public let filename: String?
-
-    /// Initialize a `DestinationOptions` structure.
-    /// - Parameters:
-    ///   - isTemporary: Indicates whether files will be downloaded to the app's temp folder.
-    ///   - subfolder: Override the default destination subfolder, which is the container name.
-    ///   - filename: Override the default destination filename, which is the blob name.
-    public init(isTemporary: Bool = false, subfolder: String? = nil, filename: String? = nil) {
-        self.isTemporary = isTemporary
-        self.subfolder = subfolder
-        self.filename = filename
-    }
-}
-
 /// Blob encryption options.
 public struct EncryptionOptions {
     /// Actual key data in bytes.

@@ -320,35 +320,15 @@ internal class BlobStreamDownloader: BlobDownloader {
         delegate: BlobDownloadDelegate? = nil,
         name: String,
         container: String,
+        destination: URL,
         options: DownloadBlobOptions? = nil
     ) throws {
-        // determine which app folder is appropriate
-        let isTemporary = options?.destination?.isTemporary ?? false
-        var baseUrl: URL
-        if isTemporary {
-            baseUrl = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-        } else {
-            guard let cacheDir = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first else {
-                throw AzureError.fileSystem("Unable to find cache directory.")
-            }
-            baseUrl = cacheDir
-        }
-
-        // attribute the "meta-folder" part of the blob name to the subfolder
-        var defaultUrlComps = "\(container)/\(name)".split(separator: "/").compactMap { String($0) }
-        let defaultFilename = defaultUrlComps.popLast()!
-        let defaultSubfolder = defaultUrlComps.joined(separator: "/")
-        let customSubfolder = options?.destination?.subfolder
-        let customFilename = options?.destination?.filename
-
-        self.downloadDestination = baseUrl.appendingPathComponent(customSubfolder ?? defaultSubfolder)
-            .appendingPathComponent(customFilename ?? defaultFilename)
-
         self.client = client
         self.delegate = delegate
         self.options = options ?? DownloadBlobOptions()
         self.blobName = name
         self.containerName = container
+        self.downloadDestination = destination
         self.requestedSize = self.options.range?.length
         self.blobProperties = nil
         self.totalSize = -1

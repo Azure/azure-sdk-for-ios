@@ -311,15 +311,23 @@ public final class StorageBlobClient: PipelineClient {
     /// - Parameters:
     ///   - blob: The name of the blob.
     ///   - container: The name of the container.
+    ///   - destinationURL: The URL to a file path on this device.
     ///   - options: A `DownloadBlobOptions` object to control the download operation.
     ///   - completion: A completion handler that receives a `BlobDownloader` object on success.
     public func rawDownload(
         blob: String,
         fromContainer container: String,
+        to destinationURL: URL,
         withOptions options: DownloadBlobOptions? = nil,
         then completion: @escaping HTTPResultHandler<BlobDownloader>
     ) throws {
-        let downloader = try BlobStreamDownloader(client: self, name: blob, container: container, options: options)
+        let downloader = try BlobStreamDownloader(
+            client: self,
+            name: blob,
+            container: container,
+            destination: destinationURL,
+            options: options
+        )
         downloader.initialRequest { result, httpResponse in
             switch result {
             case .success:
@@ -336,14 +344,14 @@ public final class StorageBlobClient: PipelineClient {
     /// recommended that you use the `upload()` method instead - that method will manage the transfer in the face of
     /// changing network conditions, and is able to transfer multiple blocks in parallel.
     /// - Parameters:
-    ///   - url: The URL to a file on this device
+    ///   - sourceURL: The URL to a file on this device
     ///   - container: The name of the container.
     ///   - blob: The name of the blob.
     ///   - properties: Properties to set on the resulting blob.
     ///   - options: An `UploadBlobOptions` object to control the upload operation.
     ///   - completion: A completion handler that receives a `BlobUploader` object on success.
     public func rawUpload(
-        url: URL,
+        _ sourceURL: URL,
         toContainer container: String,
         asBlob blob: String,
         properties: BlobProperties? = nil,
@@ -352,7 +360,7 @@ public final class StorageBlobClient: PipelineClient {
     ) throws {
         let uploader = try BlobStreamUploader(
             client: self,
-            source: url,
+            source: sourceURL,
             name: blob,
             container: container,
             properties: properties,
@@ -376,10 +384,12 @@ public final class StorageBlobClient: PipelineClient {
     /// - Parameters:
     ///   - blob: The name of the blob.
     ///   - container: The name of the container.
+    ///   - destinationURL: The URL to a file path on this device.
     ///   - options: A `DownloadBlobOptions` object to control the download operation.
     public func download(
         blob: String,
         fromContainer container: String,
+        to destinationURL: URL,
         withOptions options: DownloadBlobOptions? = nil
     ) throws -> Transfer? {
         guard let transferManager = self.options.transferManager else { return nil }
@@ -388,14 +398,13 @@ public final class StorageBlobClient: PipelineClient {
         let end = Int64(options?.range?.length ?? 0)
         let downloader = try BlobStreamDownloader(
             client: self,
-            delegate: nil,
             name: blob,
             container: container,
+            destination: destinationURL,
             options: options
         )
-        guard let sourceUrl = url(forBlob: blob, inContainer: container) else {
-            throw AzureError.fileSystem("Unable to resolve source URL.")
-        }
+
+        let sourceUrl = url(forBlob: blob, inContainer: container)
         let blobTransfer = BlobTransfer.with(
             context: context,
             source: sourceUrl,
@@ -410,19 +419,19 @@ public final class StorageBlobClient: PipelineClient {
         return blobTransfer
     }
 
-    /// Relioably upload a blob to a storage container.
+    /// Reliably upload a blob to a storage container.
     ///
     /// This method will reliably manage the transfer of the blob from this device to the cloud service. When called,
     /// a transfer will be queued and a `Transfer` object will be returned that provides a handle to the transfer. This
     /// client's `transferDelegate` will be notified about state changes for all transfers managed by the client.
     /// - Parameters:
-    ///   - url: The URL to a file on this device.
+    ///   - sourceURL: The URL to a file on this device.
     ///   - container: The name of the container.
     ///   - blob: The name of the blob.
     ///   - properties: Properties to set on the resulting blob.
     ///   - options: An `UploadBlobOptions` object to control the upload operation.
     public func upload(
-        url sourceUrl: URL,
+        _ sourceURL: URL,
         toContainer container: String,
         asBlob blob: String,
         properties: BlobProperties? = nil,
@@ -432,16 +441,13 @@ public final class StorageBlobClient: PipelineClient {
         guard let context = transferManager.persistentContainer?.viewContext else { return nil }
         let uploader = try BlobStreamUploader(
             client: self,
-            delegate: nil,
-            source: sourceUrl,
+            source: sourceURL,
             name: blob,
             container: container,
             properties: properties,
             options: options
         )
-        guard let destinationUrl = url(forBlob: blob, inContainer: container) else {
-            throw AzureError.fileSystem("Unable to resolve destination URL.")
-        }
+        let destinationUrl = url(forBlob: blob, inContainer: container)
         let blobTransfer = BlobTransfer.with(
             context: context,
             source: uploader.uploadSource,

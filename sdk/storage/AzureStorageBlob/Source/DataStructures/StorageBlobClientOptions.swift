@@ -173,9 +173,6 @@ public struct DownloadBlobOptions: AzureOptions {
     /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
     public let clientRequestId: String?
 
-    /// Options for overriding the default download destination behavior.
-    public let destination: DestinationOptions?
-
     /// Options for working on a subset of data for a blob.
     public let range: RangeOptions?
 
@@ -241,7 +238,6 @@ public struct DownloadBlobOptions: AzureOptions {
     ///     service and the timeout will apply to each call individually.
     public init(
         clientRequestId: String? = nil,
-        destination: DestinationOptions? = nil,
         range: RangeOptions? = nil,
         leaseId: String? = nil,
         snapshot: String? = nil,
@@ -254,7 +250,6 @@ public struct DownloadBlobOptions: AzureOptions {
         timeout: Int? = nil
     ) {
         self.clientRequestId = clientRequestId
-        self.destination = destination
         self.range = range
         self.leaseId = leaseId
         self.snapshot = snapshot
