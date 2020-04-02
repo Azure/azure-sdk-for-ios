@@ -29,13 +29,13 @@ import CoreData
 
 // MARK: Protocols
 
-public protocol TransferManager: ResumableOperationQueueDelegate {
+internal protocol TransferManager: ResumableOperationQueueDelegate {
     // MARK: Properties
 
     var reachability: ReachabilityManager? { get }
     var persistentContainer: NSPersistentContainer? { get }
-    static var shared: Self { get }
     var logger: ClientLogger { get set }
+    var delegate: TransferDelegate? { get set }
 
     // MARK: Storage Methods
 
@@ -48,54 +48,48 @@ public protocol TransferManager: ResumableOperationQueueDelegate {
 
     var count: Int { get }
     subscript(_: Int) -> Transfer { get }
+    var transfers: [Transfer] { get }
+    func transfer(withId: UUID) -> Transfer?
 
     func add(transfer: Transfer)
     func cancel(transfer: Transfer)
+    func cancelAll()
     func pause(transfer: Transfer)
+    func pauseAll()
     func remove(transfer: Transfer)
     func removeAll()
     func resume(transfer: Transfer)
+    func resumeAll()
     func loadContext()
     func saveContext()
 }
 
-public protocol TransferManagerDelegate: AnyObject {
-    func transferManager<T: TransferManager>(
-        _ manager: T,
-        didUpdateTransfer transfer: Transfer,
-        withState state: TransferState,
-        andProgress progress: TransferProgress?
-    )
-    func transferManager<T: TransferManager>(_ manager: T, didCompleteTransfer transfer: Transfer)
-    func transferManager<T: TransferManager>(_ manager: T, didFailTransfer transfer: Transfer, withError: Error)
-    func transferManager<T: TransferManager>(_ manager: T, didUpdateWithState state: TransferState)
-    func uploader(for transfer: BlobTransfer) -> BlobStreamUploader?
-    func downloader(for transfer: BlobTransfer) -> BlobStreamDownloader?
+/// A delegate to receive notifications about state changes for all transfers managed by a `StorageBlobClient`.
+public protocol TransferDelegate: AnyObject {
+    /// A transfer's state has changed, and progress is being reported.
+    func transfer(_: Transfer, didUpdateWithState: TransferState, andProgress: TransferProgress?)
+    /// A transfer's state has changed, no progress informating is available.
+    func transfer(_: Transfer, didUpdateWithState: TransferState)
+    /// A transfer has failed.
+    func transfer(_: Transfer, didFailWithError: Error)
+    /// A transfer has completed.
+    func transferDidComplete(_: Transfer)
+    /// Method to return a `BlobStreamUploader` that can be used to complete a transfer.
+    func uploader(for transfer: BlobTransfer) -> BlobUploader?
+    /// Method to return a `BlobStreamDownloader` that can be used to complete a transfer.
+    func downloader(for transfer: BlobTransfer) -> BlobDownloader?
 }
 
 // MARK: Extensions
 
-extension TransferManagerDelegate {
-    func transferManager<T: TransferManager>(
-        _ manager: T,
-        didUpdateTransfer transfer: Transfer,
-        withState state: TransferState
-    ) {
-        transferManager(manager, didUpdateTransfer: transfer, withState: state, andProgress: nil)
+internal extension TransferManager {
+    func transfer(withId id: UUID) -> Transfer? {
+        return transfers.first { $0.id == id }
     }
+}
 
-    func transferManager<T: TransferManager>(
-        _ manager: T,
-        didUpdateTransfer _: Transfer,
-        withState _: TransferState,
-        andProgress _: TransferProgress?
-    ) {}
-    func transferManager<T: TransferManager>(
-        _ manager: T,
-        didUpdateTransfers _: [Transfer],
-        withState _: TransferState
-    ) {}
-    func transferManager<T: TransferManager>(_ manager: T, didCompleteTransfer _: Transfer) {}
-    func transferManager<T: TransferManager>(_ manager: T, didFailTransfer _: Transfer, withError _: Error) {}
-    func transferManager<T: TransferManager>(_ manager: T, didUpdateWithState _: TransferState) {}
+public extension TransferDelegate {
+    func transfer(_ transferParam: Transfer, didUpdateWithState state: TransferState) {
+        transfer(transferParam, didUpdateWithState: state, andProgress: nil)
+    }
 }

@@ -28,26 +28,17 @@ import Foundation
 
 /// Protocol for baseline options for individual service clients.
 public protocol AzureConfigurable {
-    // MARK: Required Properties
-
+    /// The API version of the service to invoke.
     var apiVersion: String { get }
+    /// The `ClientLogger` to be used by the service client.
     var logger: ClientLogger { get }
-    var tag: String { get }
 }
 
-/// Class containing baseline options for individual client API calls.
-open class AzureOptions {
-    // MARK: Properties
-
+/// Protocol for baseline options for individual client API calls.
+public protocol AzureOptions {
     /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
     /// Highly recommended for correlating client-side activites with requests received by the server.
-    public var clientRequestId: String?
-
-    // MARK: Initializers
-
-    public init() {
-        self.clientRequestId = nil
-    }
+    var clientRequestId: String? { get }
 }
 
 /// Base class for all pipeline-based service clients.

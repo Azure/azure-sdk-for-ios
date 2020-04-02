@@ -159,24 +159,16 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) { return }
 }
 
-extension QueueViewController: TransferManagerDelegate {
-    func transferManager<T>(_ manager: T, didUpdateTransfer transfer: Transfer, withState state: TransferState, andProgress progress: TransferProgress?) where T : TransferManager {
+extension QueueViewController: TransferDelegate {
+    func transfer(_ transfer: Transfer, didUpdateWithState state: TransferState, andProgress progress: TransferProgress?) {
         reloadTableView()
     }
 
-    func transferManager<T>(_ manager: T, didUpdateTransfers transfers: [Transfer], withState state: TransferState) where T : TransferManager {
+    func transfer(_ transfer: Transfer, didFailWithError error: Error) {
         reloadTableView()
     }
 
-    func transferManager<T>(_ manager: T, didCompleteTransfer transfer: Transfer) where T : TransferManager {
-        reloadTableView()
-    }
-
-    func transferManager<T>(_ manager: T, didFailTransfer transfer: Transfer, withError: Error) where T : TransferManager {
-        reloadTableView()
-    }
-
-    func transferManager<T>(_ manager: T, didUpdateWithState state: TransferState) where T : TransferManager {
+    func transferDidComplete(_ transfer: Transfer) {
         reloadTableView()
     }
 }

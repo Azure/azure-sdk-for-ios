@@ -24,16 +24,65 @@
 //
 // --------------------------------------------------------------------------
 
-import AzureCore
+import CoreData
 import Foundation
 
-// MARK: Classes
+internal protocol ResumableOperationDelegate: AnyObject {
+    func operation(_ operation: ResumableOperation?, didChangeState state: TransferState)
+}
 
-open class ResumableTransfer: ResumableOperation {
+internal class ResumableOperation: Operation {
     // MARK: Properties
 
-    public weak var transfer: Transfer?
-    public weak var operationQueue: ResumableOperationQueue?
+    internal var internalState: TransferState
+    public var state: TransferState {
+        return internalState
+    }
+
+    public weak var transfer: TransferImpl?
+    public weak var delegate: ResumableOperationDelegate?
+    public weak var queue: ResumableOperationQueue?
+
+    open var isPaused: Bool {
+        return internalState == .paused
+    }
+
+    public var debugString: String {
+        return "Operation \(type(of: self)) \(hash): Status \(internalState.label)"
+    }
+
+    // MARK: Initializers
+
+    public init(state: TransferState = .pending, delegate: ResumableOperationDelegate? = nil) {
+        self.internalState = state
+        self.delegate = delegate
+    }
+
+    // MARK: Public Methods
+
+    open override func main() {
+        if isCancelled || isPaused { return }
+        internalState = .complete
+    }
+
+    open override func start() {
+        if internalState == .pending {
+            internalState = .inProgress
+        }
+        super.start()
+    }
+
+    open override func cancel() {
+        internalState = .canceled
+        super.cancel()
+    }
+
+    open func pause() {
+        internalState = .paused
+        super.cancel()
+    }
+
+    // MARK: Internal Methods
 
     internal func notifyDelegate(withTransfer transfer: Transfer) {
         switch transfer {
@@ -59,40 +108,6 @@ open class ResumableTransfer: ResumableOperation {
         delegate?.operation(self, didChangeState: transfer.state)
         if let parent = transfer.parent?.operation, let parentState = parent.transfer?.state {
             delegate?.operation(parent, didChangeState: parentState)
-        }
-    }
-}
-
-// MARK: Protocols
-
-public protocol Transfer: AnyObject {
-    var rawState: Int16 { get set }
-    var state: TransferState { get set }
-    var operation: ResumableTransfer? { get set }
-    var debugString: String { get }
-    var hash: Int { get }
-}
-
-public protocol TransferProgress {
-    var asPercent: Int { get }
-    var asFloat: Float { get }
-}
-
-// MARK: Extensions
-
-extension Transfer {
-    public var hash: Int {
-        return self.hash
-    }
-
-    public var state: TransferState {
-        get {
-            let state = TransferState(rawValue: rawState) ?? .unknown
-            return state
-        }
-
-        set {
-            rawState = newValue.rawValue
         }
     }
 }

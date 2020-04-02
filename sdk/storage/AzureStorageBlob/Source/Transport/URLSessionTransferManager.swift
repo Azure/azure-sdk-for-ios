@@ -27,14 +27,14 @@
 import AzureCore
 import CoreData
 
-public final class URLSessionTransferManager: NSObject, TransferManager, URLSessionTaskDelegate {
-    // MARK: Type Aliase
+internal final class URLSessionTransferManager: NSObject, TransferManager, URLSessionTaskDelegate {
+    // MARK: Type Alias
 
     public typealias TransferManagerType = URLSessionTransferManager
 
     // MARK: Properties
 
-    public weak var delegate: TransferManagerDelegate?
+    public weak var delegate: TransferDelegate?
 
     public var logger: ClientLogger
 
@@ -81,7 +81,7 @@ public final class URLSessionTransferManager: NSObject, TransferManager, URLSess
 
     // MARK: Initializers
 
-    public init(delegate: TransferManagerDelegate? = nil, logger: ClientLogger? = nil) {
+    public init(delegate: TransferDelegate? = nil, logger: ClientLogger? = nil) {
         self.delegate = delegate
         self.logger = logger ?? PrintLogger(tag: "StorageTransferManager", level: .debug)
         self.operationQueue = ResumableOperationQueue(name: "TransferQueue", delegate: nil, removeOnCompletion: true)
@@ -91,12 +91,6 @@ public final class URLSessionTransferManager: NSObject, TransferManager, URLSess
         operationQueue.delegate = self
         operationQueue.maxConcurrentOperationCount = 4
     }
-
-    // Static Singleton
-    public static var shared: URLSessionTransferManager = {
-        let shared = URLSessionTransferManager(delegate: nil)
-        return shared
-    }()
 
     // MARK: TransferManager Methods
 
@@ -154,7 +148,7 @@ public final class URLSessionTransferManager: NSObject, TransferManager, URLSess
         let disallowed: [TransferState] = [.complete, .canceled, .failed]
         let resumableOperations: [TransferState] = [.pending, .inProgress]
         guard !disallowed.contains(transfer.state) else { return }
-        var operations = [ResumableTransfer]()
+        var operations = [ResumableOperation]()
 
         switch transfer.transferType {
         case .download:
@@ -187,9 +181,6 @@ public final class URLSessionTransferManager: NSObject, TransferManager, URLSess
                 finalOperation.addDependency(blockOperation)
                 operations.append(blockOperation)
             }
-        case .unknown:
-            // Unknown transfers are invalid
-            remove(transfer: transfer)
         }
         operationQueue.add(operations)
         self.operations(operations, didChangeState: transfer.state)
@@ -212,15 +203,13 @@ public final class URLSessionTransferManager: NSObject, TransferManager, URLSess
                     let blockTransfer = BlockTransfer
                         .with(
                             context: context,
-                            blockId: blockId,
+                            id: blockId,
                             startRange: Int64(range.startIndex),
                             endRange: Int64(range.endIndex),
                             parent: transfer
                         )
                     transfer.blocks?.adding(blockTransfer)
                 }
-            case .unknown:
-                return
             }
             transfer.totalBlocks = Int64(transfer.transfers.count)
         }
@@ -229,7 +218,14 @@ public final class URLSessionTransferManager: NSObject, TransferManager, URLSess
 
     // MARK: Cancel Operations
 
+    public func cancelAll() {
+        for transfer in transfers {
+            cancel(transfer: transfer)
+        }
+    }
+
     public func cancel(transfer: Transfer) {
+        guard let transfer = transfer as? TransferImpl else { return }
         transfer.state = .canceled
         assert(transfer.operation != nil, "Transfer operation unexpectedly nil.")
         if let operation = transfer.operation {
@@ -276,6 +272,7 @@ public final class URLSessionTransferManager: NSObject, TransferManager, URLSess
     }
 
     public func remove(transfer: Transfer) {
+        guard let transfer = transfer as? TransferImpl else { return }
         switch transfer {
         case let transfer as BlockTransfer:
             remove(transfer: transfer)
@@ -382,6 +379,8 @@ public final class URLSessionTransferManager: NSObject, TransferManager, URLSess
     }
 
     public func resume(transfer: Transfer) {
+        guard let transfer = transfer as? TransferImpl else { return }
+
         guard reachability?.isReachable ?? false else { return }
         guard transfer.state.resumable else { return }
         transfer.state = .pending
@@ -425,11 +424,13 @@ public final class URLSessionTransferManager: NSObject, TransferManager, URLSess
             for transfer in results {
                 switch transfer.transferType {
                 case .upload:
-                    transfer.uploader = transfer.uploader ?? delegate?.uploader(for: transfer)
+                    if transfer.uploader == nil {
+                        transfer.uploader = delegate?.uploader(for: transfer) as? BlobStreamUploader
+                    }
                 case .download:
-                    transfer.downloader = transfer.downloader ?? delegate?.downloader(for: transfer)
-                default:
-                    assertionFailure("Unrecognized transfer type \(transfer.transferType.label)")
+                    if transfer.downloader == nil {
+                        transfer.downloader = delegate?.downloader(for: transfer) as? BlobStreamDownloader
+                    }
                 }
                 add(transfer: transfer)
             }

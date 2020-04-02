@@ -28,8 +28,8 @@
 import CoreData
 import Foundation
 
-public class BlockTransfer: NSManagedObject, Transfer {
-    public var operation: ResumableTransfer?
+internal class BlockTransfer: NSManagedObject, TransferImpl {
+    public var operation: ResumableOperation?
 
     public var debugString: String {
         return "\t\tTransfer \(type(of: self)) \(hash): Status \(state.label)"
@@ -37,9 +37,9 @@ public class BlockTransfer: NSManagedObject, Transfer {
 }
 
 extension BlockTransfer {
-    public static func with(
+    internal static func with(
         context: NSManagedObjectContext,
-        blockId: String? = nil,
+        id: UUID? = nil,
         startRange: Int64,
         endRange: Int64,
         parent: BlobTransfer? = nil
@@ -54,7 +54,7 @@ extension BlockTransfer {
         transfer.endRange = endRange
         transfer.parent = parent
         transfer.state = .pending
-        transfer.blockId = blockId ?? UUID().uuidString.base64String
+        transfer.id = id ?? UUID()
         return transfer
     }
 }

@@ -24,17 +24,16 @@
 //
 // --------------------------------------------------------------------------
 
-import AzureCore
 import CoreData
 import Foundation
 
-internal class BlobDownloadInitialOperation: ResumableTransfer {
+internal class BlobDownloadInitialOperation: ResumableOperation {
     // MARK: Initializers
 
     public convenience init(withTransfer transfer: BlockTransfer, queue: ResumableOperationQueue) {
         self.init(state: transfer.state)
         self.transfer = transfer
-        self.operationQueue = queue
+        self.queue = queue
         transfer.operation = self
     }
 
@@ -42,7 +41,7 @@ internal class BlobDownloadInitialOperation: ResumableTransfer {
 
     internal func queueRemainingBlocks(forTransfer transfer: BlobTransfer) {
         guard transfer.transferType == .download else { return }
-        guard let opQueue = operationQueue else { return }
+        guard let opQueue = queue else { return }
         guard let downloader = transfer.downloader else { return }
         guard downloader.blockList.count > 0 else { return }
         guard let context = transfer.managedObjectContext else { return }
@@ -67,7 +66,7 @@ internal class BlobDownloadInitialOperation: ResumableTransfer {
             finalOperation.addDependency(blockOperation)
             operations.append(blockOperation)
         }
-        operationQueue?.add(operations)
+        queue?.add(operations)
         transfer.totalBlocks = Int64(transfer.transfers.count)
         transfer.operation = finalOperation
     }
@@ -106,13 +105,13 @@ internal class BlobDownloadInitialOperation: ResumableTransfer {
     }
 }
 
-internal class BlobDownloadFinalOperation: ResumableTransfer {
+internal class BlobDownloadFinalOperation: ResumableOperation {
     // MARK: Initializers
 
     public convenience init(withTransfer transfer: BlobTransfer, queue: ResumableOperationQueue) {
         self.init(state: transfer.state)
         self.transfer = transfer
-        self.operationQueue = queue
+        self.queue = queue
         transfer.operation = self
     }
 

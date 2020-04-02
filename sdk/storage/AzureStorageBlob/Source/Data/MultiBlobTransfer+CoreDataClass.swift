@@ -29,10 +29,10 @@ import AzureCore
 import CoreData
 import Foundation
 
-public class MultiBlobTransfer: NSManagedObject, Transfer {
+internal class MultiBlobTransfer: NSManagedObject, TransferImpl {
     // MARK: Properties
 
-    public var operation: ResumableTransfer?
+    public var operation: ResumableOperation?
 
     public var transfers: [BlobTransfer] {
         guard let blobSet = blobs else { return [BlobTransfer]() }
@@ -49,7 +49,7 @@ public class MultiBlobTransfer: NSManagedObject, Transfer {
 
     public var state: TransferState {
         get {
-            let currState = TransferState(rawValue: rawState) ?? .unknown
+            let currState = TransferState(rawValue: rawState)!
             var state = currState
             let inProgressTransfers = transfers.filter { $0.state == .inProgress }
             if inProgressTransfers.count > 0 {
@@ -65,7 +65,7 @@ public class MultiBlobTransfer: NSManagedObject, Transfer {
 }
 
 extension MultiBlobTransfer {
-    public static func with(context: NSManagedObjectContext) -> MultiBlobTransfer {
+    internal static func with(context: NSManagedObjectContext) -> MultiBlobTransfer {
         guard let transfer = NSEntityDescription.insertNewObject(
             forEntityName: "MultiBlobTransfer",
             into: context
@@ -73,6 +73,7 @@ extension MultiBlobTransfer {
             fatalError("Unable to create MultiBlobTransfer object.")
         }
         transfer.state = .pending
+        transfer.id = UUID()
         return transfer
     }
 }

@@ -27,20 +27,12 @@
 import AzureCore
 import Foundation
 
-public final class BlobLookupList: XMLModel {
+internal struct BlobLookupList: XMLModel {
     public var committed: [String]?
     public var uncommitted: [String]?
     public var latest: [String]?
 
-    public init(
-        committed: [String]? = nil,
-        uncommitted: [String]? = nil,
-        latest: [String]? = nil
-    ) {
-        self.committed = committed
-        self.uncommitted = uncommitted
-        self.latest = latest
-    }
+    // MARK: XMLModel Delegate
 
     public static func xmlMap() -> XMLMap {
         return XMLMap([
@@ -66,8 +58,10 @@ public final class BlobLookupList: XMLModel {
     }
 }
 
+// MARK: Codable Delegate
+
 extension BlobLookupList: Codable {
-    public convenience init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let root = try decoder.container(keyedBy: CodingKeys.self)
         self.init(
             committed: try root.decodeIfPresent([String].self, forKey: .committed),

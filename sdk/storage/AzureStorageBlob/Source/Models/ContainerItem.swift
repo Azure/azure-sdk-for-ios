@@ -27,17 +27,16 @@
 import AzureCore
 import Foundation
 
-// MARK: - Model
-
-public final class ContainerItem: Codable, XMLModel {
+/// Structure containing data about a blob container.
+public struct ContainerItem: Codable, XMLModel {
+    /// The blob container's name.
     public let name: String
+    /// Properties applied to the blob container.
     public let properties: ContainerProperties?
 
-    public init(name: String, properties: ContainerProperties? = nil) {
-        self.name = name
-        self.properties = properties
-    }
+    // MARK: XMLModel Delegate
 
+    /// :nodoc:
     public static func xmlMap() -> XMLMap {
         return XMLMap([
             "Name": XMLMetadata(jsonName: "name"),

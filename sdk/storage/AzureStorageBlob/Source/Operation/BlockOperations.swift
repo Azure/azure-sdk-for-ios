@@ -28,7 +28,7 @@ import AzureCore
 import CoreData
 import Foundation
 
-public class BlockOperation: ResumableTransfer {
+internal class BlockOperation: ResumableOperation {
     // MARK: Initializers
 
     public convenience init(withTransfer transfer: BlockTransfer) {
@@ -91,7 +91,7 @@ public class BlockOperation: ResumableTransfer {
             let chunkUploader = ChunkUploader(
                 blob: uploader.blobName,
                 container: uploader.containerName,
-                blockId: transfer.blockId,
+                blockId: transfer.id,
                 client: uploader.client,
                 url: uploader.uploadSource,
                 startRange: Int(transfer.startRange),
@@ -122,8 +122,6 @@ public class BlockOperation: ResumableTransfer {
                 }
                 group.leave()
             }
-        default:
-            assertionFailure("Unrecognized transfer type: \(parent.transferType.label)")
         }
         group.wait()
         super.main()

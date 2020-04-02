@@ -24,34 +24,40 @@
 //
 // --------------------------------------------------------------------------
 
+import CoreData
 import Foundation
 
-public enum AccessTier: String, Codable {
-    case hot, cold
-}
+internal class BlobUploadFinalOperation: ResumableOperation {
+    // MARK: Initializers
 
-public enum BlobType: String, Codable {
-    case block = "BlockBlob"
-    case page = "PageBlob"
-    case append = "AppendBlob"
-}
+    public convenience init(withTransfer transfer: BlobTransfer, queue: ResumableOperationQueue) {
+        self.init(state: transfer.state)
+        self.transfer = transfer
+        self.queue = queue
+        transfer.operation = self
+    }
 
-public enum CopyStatus: String, Codable {
-    case pending, success, aborted, failed
-}
+    // MARK: Public Methods
 
-public enum LeaseDuration: String, Codable {
-    case infinite, fixed
-}
-
-public enum LeaseState: String, Codable {
-    case available, leased, expired, breaking, broken
-}
-
-public enum LeaseStatus: String, Codable {
-    case locked, unlocked
-}
-
-public enum LocationMode: String, Codable {
-    case primary, secondary
+    public override func main() {
+        guard let transfer = self.transfer as? BlobTransfer else { return }
+        guard let uploader = transfer.uploader else { return }
+        let group = DispatchGroup()
+        group.enter()
+        uploader.commit { result, _ in
+            switch result {
+            case .success:
+                transfer.state = .complete
+                self.notifyDelegate(withTransfer: transfer)
+            case let .failure(error):
+                transfer.state = .failed
+                transfer.error = error
+                transfer.parent?.state = .failed
+                self.notifyDelegate(withTransfer: transfer)
+            }
+            group.leave()
+        }
+        group.wait()
+        super.main()
+    }
 }

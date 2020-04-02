@@ -24,10 +24,6 @@
 //
 // --------------------------------------------------------------------------
 
-// swiftlint:disable file_length
-// swiftlint:disable function_body_length
-// swiftlint:disable cyclomatic_complexity
-
 import AzureCore
 import Foundation
 
@@ -35,7 +31,7 @@ import Foundation
 internal class ChunkUploader {
     // MARK: Properties
 
-    internal let blockId: String
+    internal let blockId: UUID
 
     internal let blobName: String
 
@@ -72,7 +68,7 @@ internal class ChunkUploader {
     public init(
         blob: String,
         container: String,
-        blockId: String,
+        blockId: UUID,
         client: StorageBlobClient,
         url: URL,
         startRange: Int,
@@ -129,7 +125,7 @@ internal class ChunkUploader {
         // Construct parameters
         var queryParams = [
             ("comp", "block"),
-            ("blockid", blockId)
+            ("blockid", blockId.uuidString.base64String)
         ]
         if let timeout = options.timeout { queryParams.append(("timeout", String(timeout))) }
 
@@ -140,8 +136,7 @@ internal class ChunkUploader {
             .apiVersion: client.options.apiVersion
         ])
         let leaseAccessConditions = options.leaseAccessConditions
-        let modifiedAccessConditions = options.modifiedAccessConditions
-        let cpk = options.cpk
+        let cpk = options.customerProvidedEncryptionKey
 
         if let transactionalContentMd5 = transactionalContentMd5 {
             headers[.contentMD5] = String(data: transactionalContentMd5, encoding: .utf8)
@@ -153,15 +148,15 @@ internal class ChunkUploader {
 
         if let requestId = requestId { headers[.clientRequestId] = requestId }
         if let leaseId = leaseAccessConditions?.leaseId { headers[.leaseId] = leaseId }
-        if let encryptionKey = cpk?.value {
+        if let encryptionKey = cpk?.keyData {
             headers[.encryptionKey] = String(data: encryptionKey, encoding: .utf8)
         }
-        if let encryptionScope = options.cpkScopeInfo {
+        if let encryptionScope = options.customerProvidedEncryptionScope {
             headers[.encryptionScope] = encryptionScope
         }
 
         if let encryptionKeySHA256 = cpk?.hash { headers[.encryptionKeySHA256] = encryptionKeySHA256 }
-        if let encryptionAlgorithm = cpk?.algorithm { headers[.encryptionKeyAlgorithm] = encryptionAlgorithm }
+        if let encryptionAlgorithm = cpk?.algorithm { headers[.encryptionAlgorithm] = encryptionAlgorithm }
 
         // Construct and send request
         guard let request = try? HTTPRequest(method: .put, url: url, headers: headers, data: buffer) else { return }
@@ -190,64 +185,85 @@ internal class ChunkUploader {
     }
 }
 
-public struct BlobUploadProgress: TransferProgress {
-    public var bytes: Int
-    public var totalBytes: Int
-
-    public var asPercent: Int {
-        return Int(asFloat * 100.0)
-    }
-
-    public var asFloat: Float {
-        return Float(bytes) / Float(totalBytes)
-    }
+/// A delegate to receive notifications about state changes from `BlobUploader` objects.
+public protocol BlobUploadDelegate: AnyObject {
+    /// An upload's progress has updated.
+    func uploader(_: BlobUploader, didUpdateWithProgress: TransferProgress)
+    /// An upload has failed.
+    func uploader(_: BlobUploader, didFailWithError: Error)
+    /// An upload has completed.
+    func uploaderDidComplete(_: BlobUploader)
 }
 
-public protocol BlobUploadDelegate: AnyObject {
-    func uploader(
-        _ uploader: BlobStreamUploader,
-        didUpdateWithProgress progress: BlobUploadProgress
-    )
-    func uploader(_ uploader: BlobStreamUploader, didFinishWithProgress progress: BlobUploadProgress)
-    func uploader(_ uploader: BlobStreamUploader, didFailWithError error: Error)
+/// An object that contains details about an upload operation.
+public protocol BlobUploader {
+    /// The `BlobUploadDelegate` to inform about upload events.
+    var delegate: BlobUploadDelegate? { get set }
+
+    /// Location on the device of the file being uploaded.
+    var uploadSource: URL { get }
+
+    /// Name of the destination blob.
+    var blobName: String { get }
+
+    /// Name of the container containing the destination blob.
+    var containerName: String { get }
+
+    /// Properties applied to the destination blob.
+    var blobProperties: BlobProperties? { get }
+
+    /// Size, in bytes, of the file being uploaded.
+    var fileSize: Int { get }
+
+    /// The total bytes uploaded.
+    var progress: Int { get }
+
+    /// Indicates if the upload is complete.
+    var isComplete: Bool { get }
+
+    /// Indicates if the upload is encrypted.
+    var isEncrypted: Bool { get }
 }
 
 /// Class used to upload block blobs.
-public class BlobStreamUploader {
+internal class BlobStreamUploader: BlobUploader {
     // MARK: Properties
 
     public weak var delegate: BlobUploadDelegate?
 
-    /// Location of the blob to be uploaded on the device
+    /// Location on the device of the file being uploaded.
     public let uploadSource: URL
 
-    /// Name of the blob being uploaded
+    /// Name of the destination blob.
     public let blobName: String
 
-    /// Name of the container containing the blob
+    /// Name of the container containing the destination blob.
     public let containerName: String
 
-    /// Properties of the blob being uploaded.
+    /// Properties applied to the destination blob.
     public var blobProperties: BlobProperties?
+
+    /// Size, in bytes, of the file being uploaded.
+    public let fileSize: Int
 
     /// The total bytes uploaded.
     public var progress = 0
 
     /// The list of blocks for the blob upload.
-    public var blockList = [(range: Range<Int>, blockId: String)]()
+    internal var blockList = [(range: Range<Int>, blockId: UUID)]()
 
-    /// Internal list that maps the order of block IDs
-    internal var blockIdMap = [String: Int]()
+    /// Internal list that maps the order of block IDs.
+    internal var blockIdMap = [UUID: Int]()
 
-    /// Logs completed block IDs and the order they *should* be in
-    internal var completedBlockMap = [String: Int]()
+    /// Logs completed block IDs and the order they *should* be in.
+    internal var completedBlockMap = [UUID: Int]()
 
-    /// Indicates if the upload  is complete.
+    /// Indicates if the upload is complete.
     public var isComplete: Bool {
         return progress == fileSize
     }
 
-    /// Indicates if the upload  is encrypted.
+    /// Indicates if the upload is encrypted.
     public var isEncrypted: Bool {
         return options.encryptionOptions?.key != nil || options.encryptionOptions?.keyResolver != nil
     }
@@ -255,9 +271,6 @@ public class BlobStreamUploader {
     internal let client: StorageBlobClient
 
     internal let options: UploadBlobOptions
-
-    /// Size, in bytes, of the file to be uploaded.
-    internal var fileSize: Int
 
     // MARK: Initializers
 
@@ -311,9 +324,8 @@ public class BlobStreamUploader {
     ///   - completion: A completion handler called when the download completes.
     public func complete(inGroup group: DispatchGroup? = nil, then completion: @escaping () -> Void) throws {
         guard !isComplete else {
-            let progress = BlobUploadProgress(bytes: self.progress, totalBytes: fileSize)
             if let delegate = self.delegate {
-                delegate.uploader(self, didFinishWithProgress: progress)
+                delegate.uploaderDidComplete(self)
             } else {
                 completion()
             }
@@ -325,7 +337,7 @@ public class BlobStreamUploader {
             dispatchGroup.enter()
             next(inGroup: dispatchGroup) { _, _ in
                 if let delegate = self.delegate {
-                    let progress = BlobUploadProgress(bytes: self.progress, totalBytes: self.fileSize)
+                    let progress = TransferProgress(bytes: self.progress, totalBytes: self.fileSize)
                     delegate.uploader(self, didUpdateWithProgress: progress)
                 }
             }
@@ -334,10 +346,9 @@ public class BlobStreamUploader {
             // Once all blocks are done, commit block list
             self.commit { result, _ in
                 switch result {
-                case let .success(data):
-                    let progress = BlobUploadProgress(bytes: self.progress, totalBytes: self.fileSize)
+                case .success:
                     if let delegate = self.delegate {
-                        delegate.uploader(self, didFinishWithProgress: progress)
+                        delegate.uploaderDidComplete(self)
                     } else {
                         completion()
                     }
@@ -365,70 +376,15 @@ public class BlobStreamUploader {
         ]
         guard let url = client.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return }
 
-        // Construct parameters
-        var queryParams = [
-            ("comp", "blocklist")
-        ]
-        if let timeout = options.timeout { queryParams.append(("timeout", String(timeout))) }
+        // Construct parameters & headers
+        var queryParams: [QueryParameter] = [("comp", "blocklist")]
+        if let timeout = options.timeout { queryParams.append("timeout", String(timeout)) }
 
-        // Construct headers
-        var headers = HTTPHeaders([
-            .contentType: "application/xml; charset=utf-8",
-            .apiVersion: client.options.apiVersion
-        ])
-        let leaseAccessConditions = options.leaseAccessConditions
-        let modifiedAccessConditions = options.modifiedAccessConditions
-        let cpk = options.cpk
-
-        if let transactionalContentMd5 = transactionalContentMd5 {
-            headers[.contentMD5] = String(data: transactionalContentMd5, encoding: .utf8)
-        }
-
-        if let transactionalContentCrc64 = transactionalContentCrc64 {
-            headers[.contentCRC64] = String(data: transactionalContentCrc64, encoding: .utf8)
-        }
-
-        if let requestId = requestId { headers[.clientRequestId] = requestId }
-        if let leaseId = leaseAccessConditions?.leaseId { headers[.leaseId] = leaseId }
-        if let encryptionKey = cpk?.value {
-            headers[.encryptionKey] = String(data: encryptionKey, encoding: .utf8)
-        }
-        if let encryptionScope = options.cpkScopeInfo {
-            headers[.encryptionScope] = encryptionScope
-        }
-
-        if let encryptionKeySHA256 = cpk?.hash { headers[.encryptionKeySHA256] = encryptionKeySHA256 }
-        if let encryptionAlgorithm = cpk?.algorithm { headers[.encryptionKeyAlgorithm] = encryptionAlgorithm }
-        if let ifModifiedSince = modifiedAccessConditions?.ifModifiedSince {
-            headers[.ifModifiedSince] = String(describing: ifModifiedSince, format: .rfc1123)
-        }
-        if let ifUnmodifiedSince = modifiedAccessConditions?.ifUnmodifiedSince {
-            headers[.ifUnmodifiedSince] = String(describing: ifUnmodifiedSince, format: .rfc1123)
-        }
-        if let ifMatch = modifiedAccessConditions?.ifMatch { headers[.ifMatch] = ifMatch }
-        if let ifNoneMatch = modifiedAccessConditions?.ifNoneMatch { headers[.ifNoneMatch] = ifNoneMatch }
-
-        if let accessTier = blobProperties?.accessTier {
-            headers[.accessTier] = accessTier.rawValue
-        }
-        if let cacheControl = blobProperties?.cacheControl {
-            headers[.blobCacheControl] = cacheControl
-        }
-        if let contentType = blobProperties?.contentType {
-            headers[.blobContentType] = contentType
-        }
-        if let contentEncoding = blobProperties?.contentEncoding {
-            headers[.blobContentEncoding] = contentEncoding
-        }
-        if let contentLanguage = blobProperties?.contentLanguage {
-            headers[.blobContentLanguage] = contentLanguage
-        }
-        if let contentMD5 = blobProperties?.contentMD5 {
-            headers[.blobContentMD5] = contentMD5
-        }
-        if let contentDisposition = blobProperties?.contentDisposition {
-            headers[.blobContentDisposition] = contentDisposition
-        }
+        let headers = commitHeadersForRequest(
+            withId: requestId,
+            withContentMD5: transactionalContentMd5,
+            withContentCRC64: transactionalContentCrc64
+        )
 
         // Construct and send request
         let lookupList = buildLookupList()
@@ -496,31 +452,98 @@ public class BlobStreamUploader {
 
     // MARK: Private Methods
 
+    // swiftlint:disable:next cyclomatic_complexity
+    private func commitHeadersForRequest(
+        withId requestId: String?,
+        withContentMD5 md5: Data?,
+        withContentCRC64 crc64: Data?
+    ) -> HTTPHeaders {
+        // Construct headers
+        var headers = HTTPHeaders([
+            .contentType: "application/xml; charset=utf-8",
+            .apiVersion: client.options.apiVersion
+        ])
+        let leaseAccessConditions = options.leaseAccessConditions
+        let modifiedAccessConditions = options.modifiedAccessConditions
+        let cpk = options.customerProvidedEncryptionKey
+
+        if let transactionalContentMd5 = md5 {
+            headers[.contentMD5] = String(data: transactionalContentMd5, encoding: .utf8)
+        }
+
+        if let transactionalContentCrc64 = crc64 {
+            headers[.contentCRC64] = String(data: transactionalContentCrc64, encoding: .utf8)
+        }
+
+        if let requestId = requestId { headers[.clientRequestId] = requestId }
+        if let leaseId = leaseAccessConditions?.leaseId { headers[.leaseId] = leaseId }
+        if let encryptionKey = cpk?.keyData {
+            headers[.encryptionKey] = String(data: encryptionKey, encoding: .utf8)
+        }
+        if let encryptionScope = options.customerProvidedEncryptionScope {
+            headers[.encryptionScope] = encryptionScope
+        }
+
+        if let encryptionKeySHA256 = cpk?.hash { headers[.encryptionKeySHA256] = encryptionKeySHA256 }
+        if let encryptionAlgorithm = cpk?.algorithm { headers[.encryptionAlgorithm] = encryptionAlgorithm }
+        if let ifModifiedSince = modifiedAccessConditions?.ifModifiedSince {
+            headers[.ifModifiedSince] = String(describing: ifModifiedSince, format: .rfc1123)
+        }
+        if let ifUnmodifiedSince = modifiedAccessConditions?.ifUnmodifiedSince {
+            headers[.ifUnmodifiedSince] = String(describing: ifUnmodifiedSince, format: .rfc1123)
+        }
+        if let ifMatch = modifiedAccessConditions?.ifMatch { headers[.ifMatch] = ifMatch }
+        if let ifNoneMatch = modifiedAccessConditions?.ifNoneMatch { headers[.ifNoneMatch] = ifNoneMatch }
+
+        if let accessTier = blobProperties?.accessTier {
+            headers[.accessTier] = accessTier.rawValue
+        }
+        if let cacheControl = blobProperties?.cacheControl {
+            headers[.blobCacheControl] = cacheControl
+        }
+        if let contentType = blobProperties?.contentType {
+            headers[.blobContentType] = contentType
+        }
+        if let contentEncoding = blobProperties?.contentEncoding {
+            headers[.blobContentEncoding] = contentEncoding
+        }
+        if let contentLanguage = blobProperties?.contentLanguage {
+            headers[.blobContentLanguage] = contentLanguage
+        }
+        if let contentMD5 = blobProperties?.contentMD5 {
+            headers[.blobContentMD5] = contentMD5
+        }
+        if let contentDisposition = blobProperties?.contentDisposition {
+            headers[.blobContentDisposition] = contentDisposition
+        }
+
+        return headers
+    }
+
     private func buildLookupList() -> BlobLookupList {
         let sortedIds = completedBlockMap.sorted(by: { $0.value < $1.value })
-        let lookupList = BlobLookupList(latest: sortedIds.compactMap { $0.key })
+        let lookupList = BlobLookupList(latest: sortedIds.compactMap { $0.key.uuidString.base64String })
         return lookupList
     }
 
-    private func computeBlockList(withOffset offset: Int = 0) -> [(Range<Int>, String)] {
-        var blockList = [(Range<Int>, String)]()
+    private func computeBlockList(withOffset offset: Int = 0) -> [(Range<Int>, UUID)] {
+        var blockList = [(Range<Int>, UUID)]()
         let alignForCrypto = isEncrypted
         let chunkLength = client.options.maxChunkSize
-        let start = offset
-        let end = fileSize
 
         if alignForCrypto {
             fatalError("Client-side encryption is not yet supported!")
         } else {
-            for index in stride(from: start, to: end, by: chunkLength) {
-                var end = index + chunkLength
+            for index in stride(from: offset, to: fileSize, by: chunkLength) {
+                var blockEnd = index + chunkLength
                 if fileSize < 0 {
-                    end = chunkLength
-                } else if end > fileSize {
-                    end = fileSize
+                    blockEnd = chunkLength
                 }
-                let range = index ..< end
-                let blockId = UUID().uuidString.base64String
+                if blockEnd > fileSize {
+                    blockEnd = fileSize
+                }
+                let range = index ..< blockEnd
+                let blockId = UUID()
                 blockList.append((range: range, blockId: blockId))
                 blockIdMap[blockId] = blockList.count - 1
             }

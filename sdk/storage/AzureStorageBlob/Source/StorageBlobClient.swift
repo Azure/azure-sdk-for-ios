@@ -27,14 +27,12 @@
 import AzureCore
 import Foundation
 
-// swiftlint:disable function_body_length
-
-/**
- Client object for the Storage blob service.
- */
-public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
-    /// API version of the service to invoke. Defaults to the latest.
+/// A StorageBlobClient represents a Client to the Azure Storage Blob service allowing you to manipulate blobs within
+/// storage containers.
+public final class StorageBlobClient: PipelineClient {
+    /// API version of the Azure Storage Blob service to invoke. Defaults to the latest.
     public enum ApiVersion: String {
+        /// The most recent API version of the Azure Storabe Blob service
         case latest = "2019-02-02"
     }
 
@@ -52,51 +50,32 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         }
     }
 
-    private let credential: Any
+    /// Options provided to configure this `StorageBlobClient`.
+    public let options: StorageBlobClientOptions
 
-    public var options: StorageBlobClientOptions
+    /// The `TransferDelegate` to inform about transfer events.
+    public weak var transferDelegate: TransferDelegate?
 
-    private let defaultScopes = [
+    private static let defaultScopes = [
         "https://storage.azure.com/.default"
     ]
 
-    // MARK: Paged Collection Delegate
-
-    public func continuationUrl(
-        continuationToken: String,
-        queryParams: inout [QueryParameter],
-        requestUrl: URL
-    ) -> URL? {
-        queryParams.append("marker", continuationToken)
-        return requestUrl
-    }
+    fileprivate var managing = false
+    fileprivate lazy var manager: TransferManager = {
+        let instance = URLSessionTransferManager(delegate: self, logger: self.logger)
+        instance.loadContext()
+        return instance
+    }()
 
     // MARK: Initializers
 
     /// Create a Storage blob data client.
     /// - Parameters:
-    ///   - accountUrl: Base URL for the storage account.
-    ///   - credential: A credential object used to retrieve authentication tokens.
-    ///   - options: A `StorageBlobClientOptions` object to control the download.
-    public required init(accountUrl: String, credential: Any, withOptions options: StorageBlobClientOptions? = nil)
-        throws {
-        self.credential = credential
+    ///   - baseUrl: Base URL for the storage account.
+    ///   - authPolicy: An `Authenticating` policy to use for authenticating client requests.
+    ///   - options: Options used to configure the client.
+    private init(baseUrl: String, authPolicy: Authenticating, withOptions options: StorageBlobClientOptions? = nil) {
         self.options = options ?? StorageBlobClientOptions(apiVersion: ApiVersion.latest.rawValue)
-        let authPolicy: Authenticating
-        var baseUrl: String
-        if let sasCredential = credential as? StorageSASCredential {
-            guard let blobEndpoint = sasCredential.blobEndpoint else {
-                let message = "Invalid connection string. No blob endpoint specified."
-                throw AzureError.serviceRequest(message)
-            }
-            baseUrl = blobEndpoint
-            authPolicy = StorageSASAuthenticationPolicy(credential: sasCredential)
-        } else if let oauthCredential = credential as? MSALCredential {
-            authPolicy = BearerTokenCredentialPolicy(credential: oauthCredential, scopes: defaultScopes)
-            baseUrl = accountUrl
-        } else {
-            throw AzureError.serviceRequest("Invalid credential. \(type(of: credential))")
-        }
         super.init(
             baseUrl: baseUrl,
             transport: URLSessionTransport(),
@@ -107,8 +86,8 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
                 authPolicy,
                 ContentDecodePolicy(),
                 LoggingPolicy(
-                    allowHeaders: BlobHeadersAndQueryParameters.headers,
-                    allowQueryParams: BlobHeadersAndQueryParameters.queryParameters
+                    allowHeaders: StorageBlobClient.allowHeaders,
+                    allowQueryParams: StorageBlobClient.allowQueryParams
                 )
             ],
             logger: self.options.logger
@@ -117,43 +96,50 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
 
     /// Create a Storage blob data client.
     /// - Parameters:
-    ///   - connectionString: Storage account connection string. **WARNING**: Connection strings
-    ///     are inherently insecure in a mobile app. Any connection strings used should be read-only and not have write permissions.
-    ///   - options: A `StorageBlobClientOptions` object to control the download.
-    public static func from(connectionString: String, withOptions options: StorageBlobClientOptions? = nil) throws
-        -> StorageBlobClient {
-            let sasCredential = try StorageSASCredential(connectionString: connectionString)
-            guard let blobEndpoint = sasCredential.blobEndpoint else {
-                throw AzureError.serviceRequest("Invalid connection string.")
-            }
-            return try self.init(accountUrl: blobEndpoint, credential: sasCredential, withOptions: options)
-        }
-
-    public static func url(forHost host: String, container: String, blob: String) -> URL? {
-        let urlString = "\(host)/\(container)/\(blob)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-        return URL(string: urlString)
+    ///   - accountUrl: Base URL for the storage account.
+    ///   - credential: A `MSALCredential` object used to retrieve authentication tokens.
+    ///   - options: Options used to configure the client.
+    public convenience init(
+        accountUrl: String,
+        credential: MSALCredential,
+        withOptions options: StorageBlobClientOptions? = nil
+    ) {
+        let authPolicy = BearerTokenCredentialPolicy(credential: credential, scopes: StorageBlobClient.defaultScopes)
+        self.init(baseUrl: accountUrl, authPolicy: authPolicy, withOptions: options)
     }
 
-    public static func parse(url: URL) throws -> (String, String, String) {
-        let pathComps = url.pathComponents
-        guard let host = url.host else {
-            throw AzureError.serviceRequest("No host found for URL: \(url.absoluteString)")
+    /// Create a Storage blob data client.
+    /// - Parameters:
+    ///   - credential: A `StorageSASCredential` object used to retrieve the base URL and authentication tokens.
+    ///   - options: Options used to configure the client.
+    public convenience init(
+        credential: StorageSASCredential,
+        withOptions options: StorageBlobClientOptions? = nil
+    ) throws {
+        guard let blobEndpoint = credential.blobEndpoint else {
+            let message = "Invalid connection string. No blob endpoint specified."
+            throw AzureError.serviceRequest(message)
         }
-        guard let scheme = url.scheme else {
-            throw AzureError.serviceRequest("No scheme found for URL: \(url.absoluteString)")
-        }
-        let container = pathComps[1]
-        let blobComps = pathComps[2 ..< pathComps.endIndex]
-        let blob = Array(blobComps).joined(separator: "/")
-        return ("\(scheme)://\(host)/", container, blob)
+        let authPolicy = StorageSASAuthenticationPolicy(credential: credential)
+        self.init(baseUrl: blobEndpoint, authPolicy: authPolicy, withOptions: options)
     }
 
-    // MARK: Public Methods
+    /// Create a Storage blob data client.
+    /// - Parameters:
+    ///   - connectionString: Storage account connection string. **WARNING**: Connection strings are inherently insecure
+    ///     in a mobile app. Any connection strings used should be read-only and not have write permissions.
+    ///   - options: Options used to configure the client.
+    public convenience init(connectionString: String, withOptions options: StorageBlobClientOptions? = nil) throws {
+        let credential = try StorageSASCredential(connectionString: connectionString)
+        try self.init(credential: credential, withOptions: options)
+    }
+
+    // MARK: Public Client Methods
 
     /// List storage containers in a storage account.
     /// - Parameters:
-    ///   - options: A `ListContainerOptions` object to control the list operation.
-    ///   - completion: An `HTTPResultHandler` closure that returns a `PagedCollection<ContainerItem>` object on success.
+    ///   - options: A `ListContainersOptions` object to control the list operation.
+    ///   - completion: A completion handler that receives a `PagedCollection` of `ContainerItem` objects on success.
     public func listContainers(
         withOptions options: ListContainersOptions? = nil,
         then completion: @escaping HTTPResultHandler<PagedCollection<ContainerItem>>
@@ -228,11 +214,11 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         }
     }
 
-    /// List storage blobs within a storage container.
+    /// List blobs within a storage container.
     /// - Parameters:
     ///   - container: The container name containing the blobs to list.
     ///   - options: A `ListBlobsOptions` object to control the list operation.
-    ///   - completion: An `HTTPResultHandler` closure that returns a `PagedCollection<BlobItem>` object on success.
+    ///   - completion: A completion handler that receives a `PagedCollection` of `BlobItem` objects on success.
     public func listBlobs(
         in container: String,
         withOptions options: ListBlobsOptions? = nil,
@@ -315,17 +301,21 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         }
     }
 
-    /// Download a blob from a specific container.
+    /// Download a blob from a storage container.
+    ///
+    /// This method will execute a raw HTTP GET in order to download a single blob to the destination. It is
+    /// **STRONGLY** recommended that you use the `download()` method instead - that method will manage the transfer in
+    /// the face of changing network conditions, and is able to transfer multiple blocks in parallel.
     /// - Parameters:
     ///   - blob: The name of the blob.
     ///   - container: The name of the container.
     ///   - options: A `DownloadBlobOptions` object to control the download operation.
-    ///   - completion: An `HTTPResultHandler` closure that returns a `BlobStreamDownloader` object on success.
+    ///   - completion: A completion handler that receives a `BlobDownloader` object on success.
     public func rawDownload(
         blob: String,
         fromContainer container: String,
         withOptions options: DownloadBlobOptions? = nil,
-        then completion: @escaping HTTPResultHandler<BlobStreamDownloader>
+        then completion: @escaping HTTPResultHandler<BlobDownloader>
     ) throws {
         let downloader = try BlobStreamDownloader(client: self, name: blob, container: container, options: options)
         downloader.initialRequest { result, httpResponse in
@@ -338,119 +328,25 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         }
     }
 
-    /// Download a blob from a given URL.
+    /// Upload a blob to a storage container.
+    ///
+    /// This method will execute a raw HTTP PUT in order to upload a single file to the destination. It is **STRONGLY**
+    /// recommended that you use the `upload()` method instead - that method will manage the transfer in the face of
+    /// changing network conditions, and is able to transfer multiple blocks in parallel.
     /// - Parameters:
-    ///   - url: A URL to a blob to download.
-    ///   - options: A `DownloadBlobOptions` object to control the download operation.
-    ///   - completion: An `HTTPResultHandler` closure that returns a `BlobStreamDownloader` object on success.
-    public func rawDownload(
-        url: URL,
-        withOptions options: DownloadBlobOptions? = nil,
-        then completion: @escaping HTTPResultHandler<BlobStreamDownloader>
-    ) throws {
-        let (host, container, blob) = try StorageBlobClient.parse(url: url)
-        if baseUrl == host {
-            try rawDownload(blob: blob, fromContainer: container, withOptions: options, then: completion)
-        } else {
-            // TODO: Test and reconsider this implemenation for the public URL scenario.
-            let client = try StorageBlobClient(
-                accountUrl: host,
-                credential: credential,
-                withOptions: self.options
-            )
-            try client.rawDownload(blob: blob, fromContainer: container, withOptions: options, then: completion)
-        }
-    }
-
-    public func download(
-        blob: String,
-        fromContainer container: String,
-        withOptions options: DownloadBlobOptions? = nil
-    ) throws -> Transfer? {
-        guard let transferManager = self.options.transferManager else { return nil }
-        guard let context = transferManager.persistentContainer?.viewContext else { return nil }
-        let start = Int64(options?.range?.offset ?? 0)
-        let end = Int64(options?.range?.length ?? 0)
-        let downloader = try BlobStreamDownloader(
-            client: self,
-            delegate: nil,
-            name: blob,
-            container: container,
-            options: options
-        )
-        guard let sourceUrl = StorageBlobClient.url(forHost: baseUrl, container: container, blob: blob) else {
-            throw AzureError.fileSystem("Unable to resolve source URL.")
-        }
-        let blobTransfer = BlobTransfer.with(
-            context: context,
-            source: sourceUrl,
-            destination: downloader.downloadDestination,
-            type: .download,
-            startRange: start,
-            endRange: end,
-            parent: nil
-        )
-        blobTransfer.downloader = downloader
-        transferManager.add(transfer: blobTransfer)
-        return blobTransfer
-    }
-
-    public func download(url: URL, withOptions options: DownloadBlobOptions? = nil) throws -> Transfer? {
-        let (host, container, blob) = try StorageBlobClient.parse(url: url)
-        if baseUrl == host {
-            return try download(blob: blob, fromContainer: container, withOptions: options)
-        } else {
-            let client = try StorageBlobClient(
-                accountUrl: host,
-                credential: credential,
-                withOptions: self.options
-            )
-            return try client.download(blob: blob, fromContainer: container, withOptions: options)
-        }
-    }
-
-    public func upload(
-        url: URL,
-        toContainer container: String,
-        asBlob blob: String,
-        properties: BlobProperties? = nil,
-        withOptions options: UploadBlobOptions? = nil
-    ) throws -> Transfer? {
-        guard let transferManager = self.options.transferManager else { return nil }
-        guard let context = transferManager.persistentContainer?.viewContext else { return nil }
-        let uploader = try BlobStreamUploader(
-            client: self,
-            delegate: nil,
-            source: url,
-            name: blob,
-            container: container,
-            properties: properties,
-            options: options
-        )
-        guard let destinationUrl = StorageBlobClient.url(forHost: baseUrl, container: container, blob: blob) else {
-            throw AzureError.fileSystem("Unable to resolve destination URL.")
-        }
-        let blobTransfer = BlobTransfer.with(
-            context: context,
-            source: uploader.uploadSource,
-            destination: destinationUrl,
-            type: .upload,
-            startRange: 0,
-            endRange: Int64(uploader.fileSize),
-            parent: nil
-        )
-        blobTransfer.uploader = uploader
-        transferManager.add(transfer: blobTransfer)
-        return blobTransfer
-    }
-
+    ///   - url: The URL to a file on this device
+    ///   - container: The name of the container.
+    ///   - blob: The name of the blob.
+    ///   - properties: Properties to set on the resulting blob.
+    ///   - options: An `UploadBlobOptions` object to control the upload operation.
+    ///   - completion: A completion handler that receives a `BlobUploader` object on success.
     public func rawUpload(
         url: URL,
         toContainer container: String,
         asBlob blob: String,
         properties: BlobProperties? = nil,
         withOptions options: UploadBlobOptions? = nil,
-        then completion: @escaping HTTPResultHandler<BlobStreamUploader>
+        then completion: @escaping HTTPResultHandler<BlobUploader>
     ) throws {
         let uploader = try BlobStreamUploader(
             client: self,
@@ -470,22 +366,24 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
         }
     }
 
-    /// Create a simple URL for a blob.
+    /// Reliably download a blob from a storage container.
+    ///
+    /// This method will reliably manage the transfer of the blob from the cloud service to this device. When called,
+    /// a transfer will be queued and a `Transfer` object will be returned that provides a handle to the transfer. This
+    /// client's `transferDelegate` will be notified about state changes for all transfers managed by the client.
     /// - Parameters:
     ///   - blob: The name of the blob.
     ///   - container: The name of the container.
-    public func url(forBlob blob: String, inContainer container: String) -> URL? {
-        var url = URL(string: baseUrl)
-        url?.appendPathComponent(container)
-        url?.appendPathComponent(blob)
-        return url
-    }
-
-    public func localUrl(
+    ///   - options: A `DownloadBlobOptions` object to control the download operation.
+    public func download(
         blob: String,
         fromContainer container: String,
         withOptions options: DownloadBlobOptions? = nil
-    ) throws -> URL? {
+    ) throws -> Transfer? {
+        guard let transferManager = self.options.transferManager else { return nil }
+        guard let context = transferManager.persistentContainer?.viewContext else { return nil }
+        let start = Int64(options?.range?.offset ?? 0)
+        let end = Int64(options?.range?.length ?? 0)
         let downloader = try BlobStreamDownloader(
             client: self,
             delegate: nil,
@@ -493,20 +391,232 @@ public class StorageBlobClient: PipelineClient, PagedCollectionDelegate {
             container: container,
             options: options
         )
-        return downloader.downloadDestination
+        guard let sourceUrl = url(forBlob: blob, inContainer: container) else {
+            throw AzureError.fileSystem("Unable to resolve source URL.")
+        }
+        let blobTransfer = BlobTransfer.with(
+            context: context,
+            source: sourceUrl,
+            destination: downloader.downloadDestination,
+            type: .download,
+            startRange: start,
+            endRange: end,
+            parent: nil
+        )
+        blobTransfer.downloader = downloader
+        transferManager.add(transfer: blobTransfer)
+        return blobTransfer
     }
 
-    public func localUrl(remoteUrl url: URL, withOptions options: DownloadBlobOptions? = nil) throws -> URL? {
-        let (host, container, blob) = try StorageBlobClient.parse(url: url)
-        if baseUrl == host {
-            return try localUrl(blob: blob, fromContainer: container, withOptions: options)
-        } else {
-            let client = try StorageBlobClient(
-                accountUrl: host,
-                credential: credential,
-                withOptions: self.options
-            )
-            return try client.localUrl(blob: blob, fromContainer: container, withOptions: options)
+    /// Relioably upload a blob to a storage container.
+    ///
+    /// This method will reliably manage the transfer of the blob from this device to the cloud service. When called,
+    /// a transfer will be queued and a `Transfer` object will be returned that provides a handle to the transfer. This
+    /// client's `transferDelegate` will be notified about state changes for all transfers managed by the client.
+    /// - Parameters:
+    ///   - url: The URL to a file on this device.
+    ///   - container: The name of the container.
+    ///   - blob: The name of the blob.
+    ///   - properties: Properties to set on the resulting blob.
+    ///   - options: An `UploadBlobOptions` object to control the upload operation.
+    public func upload(
+        url sourceUrl: URL,
+        toContainer container: String,
+        asBlob blob: String,
+        properties: BlobProperties? = nil,
+        withOptions options: UploadBlobOptions? = nil
+    ) throws -> Transfer? {
+        guard let transferManager = self.options.transferManager else { return nil }
+        guard let context = transferManager.persistentContainer?.viewContext else { return nil }
+        let uploader = try BlobStreamUploader(
+            client: self,
+            delegate: nil,
+            source: sourceUrl,
+            name: blob,
+            container: container,
+            properties: properties,
+            options: options
+        )
+        guard let destinationUrl = url(forBlob: blob, inContainer: container) else {
+            throw AzureError.fileSystem("Unable to resolve destination URL.")
         }
+        let blobTransfer = BlobTransfer.with(
+            context: context,
+            source: uploader.uploadSource,
+            destination: destinationUrl,
+            type: .upload,
+            startRange: 0,
+            endRange: Int64(uploader.fileSize),
+            parent: nil
+        )
+        blobTransfer.uploader = uploader
+        transferManager.add(transfer: blobTransfer)
+        return blobTransfer
+    }
+
+    // MARK: Private Methods
+
+    /// Create a simple URL for a blob.
+    /// - Parameters:
+    ///   - blob: The name of the blob.
+    ///   - container: The name of the container.
+    private func url(forBlob blob: String, inContainer container: String) -> URL? {
+        var url = URL(string: baseUrl)
+        url?.appendPathComponent(container)
+        url?.appendPathComponent(blob)
+        return url
+    }
+}
+
+// MARK: Paged Collection Delegate
+
+extension StorageBlobClient: PagedCollectionDelegate {
+    /// :nodoc:
+    public func continuationUrl(
+        continuationToken: String,
+        queryParams: inout [QueryParameter],
+        requestUrl: URL
+    ) -> URL? {
+        queryParams.append("marker", continuationToken)
+        return requestUrl
+    }
+}
+
+// MARK: Transfer Delegate
+
+extension StorageBlobClient: TransferDelegate {
+    /// :nodoc:
+    public func transfer(
+        _ transfer: Transfer,
+        didUpdateWithState state: TransferState,
+        andProgress progress: TransferProgress?
+    ) {
+        transferDelegate?.transfer(transfer, didUpdateWithState: state, andProgress: progress)
+    }
+
+    /// :nodoc:
+    public func transfer(_ transfer: Transfer, didFailWithError error: Error) {
+        transferDelegate?.transfer(transfer, didFailWithError: error)
+    }
+
+    /// :nodoc:
+    public func transferDidComplete(_ transfer: Transfer) {
+        transferDelegate?.transferDidComplete(transfer)
+    }
+
+    /// :nodoc:
+    public func uploader(for transfer: BlobTransfer) -> BlobUploader? {
+        transferDelegate?.uploader(for: transfer)
+    }
+
+    /// :nodoc:
+    public func downloader(for transfer: BlobTransfer) -> BlobDownloader? {
+        transferDelegate?.downloader(for: transfer)
+    }
+}
+
+// MARK: Transfer Manager Methods
+
+extension StorageBlobClient {
+    /// Start the transfer management engine.
+    ///
+    /// Loads transfer state from disk, begins listening for network connectivity events, and resumes any incomplete
+    /// transfers. This method **MUST** be called by your application in order for any managed transfers to occur.
+    /// It's recommended to call this method from a background thread, at an opportune time after your app has started.
+    ///
+    /// Note that depending on the type of credential used by this `StorageBlobClient`, resuming transfers may cause a
+    /// login UI to be displayed if the token for a paused transfer has expired. Because of this, it's not recommended
+    /// to call this method from your `AppDelegate`. If you're using such a credential (e.g. `MSALCredential`) you
+    /// should first inspect the list of transfers to determine if any are pending. If so, you should assume that
+    /// calling this method may display a login UI, and call it in a user-appropriate context (e.g. display a "pending
+    /// transfers" message and wait for explicit user confirmation to start the management engine). If you're not using
+    /// such a credential, or there are no paused transfers, it is safe to call this method from your `AppDelegate`.
+    public func startManaging() {
+        if managing { return }
+
+        manager.reachability?.startListening()
+        resumeAllTransfers()
+
+        managing = true
+    }
+
+    /// Stop the transfer management engine.
+    ///
+    /// Pauses all incomplete transfers, stops listening for network connectivity events, and stores transfer state to
+    /// disk. This method **SHOULD** be called by your application, either from your `AppDelegate` or from within a
+    /// `ViewController`'s lifecycle methods.
+    public func stopManaging() {
+        guard managing else { return }
+
+        pauseAllTransfers()
+        manager.reachability?.stopListening()
+        manager.saveContext()
+
+        managing = false
+    }
+
+    /// Cancel a currently active transfer.
+    ///
+    /// - Parameters:
+    ///   - transfer: The transfer to cancel.
+    public func cancel(transfer: Transfer) {
+        manager.cancel(transfer: transfer)
+    }
+
+    /// Cancel all currently active transfers.
+    public func cancelAllTransfers() {
+        manager.cancelAll()
+    }
+
+    /// Remove a transfer from the database. If the transfer is currently active it will be cancelled.
+    ///
+    /// - Parameters:
+    ///   - transfer: The transfer to remove.
+    public func remove(transfer: Transfer) {
+        manager.remove(transfer: transfer)
+    }
+
+    /// Remove all transfers from the database. All currently active transfers will be cancelled.
+    public func removeAllTransfers() {
+        manager.removeAll()
+    }
+
+    /// Pause a currently active transfer.
+    ///
+    /// - Parameters:
+    ///   - transfer: The transfer to pause.
+    public func pause(transfer: Transfer) {
+        manager.pause(transfer: transfer)
+    }
+
+    /// Pause all currently active transfers.
+    public func pauseAllTransfers() {
+        manager.pauseAll()
+    }
+
+    /// Resume a currently paused transfer.
+    ///
+    /// - Parameters:
+    ///   - transfer: The transfer to resume.
+    public func resume(transfer: Transfer) {
+        manager.resume(transfer: transfer)
+    }
+
+    /// Resume all currently paused transfers.
+    public func resumeAllTransfers() {
+        manager.resumeAll()
+    }
+
+    /// Retrieve a single Transfer object by its id.
+    ///
+    /// - Parameters:
+    ///   - id: The id of the transfer to retrieve.
+    public func transfer(withId id: UUID) -> Transfer? {
+        return manager.transfer(withId: id)
+    }
+
+    /// Retrieve the list of all currently managed transfers.
+    public var transfers: [Transfer] {
+        return manager.transfers
     }
 }

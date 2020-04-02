@@ -27,27 +27,22 @@
 import AzureCore
 import Foundation
 
-public final class BlobItem: XMLModel {
+/// Structure containing data about a blob or blob snapshot.
+public struct BlobItem: XMLModel {
+    /// The name of the blob or snapshot.
     public let name: String
+    /// Indicates if the blob or snapshot is soft-deleted.
     public let deleted: Bool?
+    /// The date this snapshot was created.
     public let snapshot: Date?
+    /// The blob or snapshot's associated metadata.
     public let metadata: [String: String]?
-    public let properties: BlobProperties
+    /// Properties applied to the blob or snapshot.
+    public let properties: BlobProperties?
 
-    public init(
-        name: String,
-        deleted: Bool? = nil,
-        snapshot: Date? = nil,
-        metadata: [String: String]? = nil,
-        properties: BlobProperties? = nil
-    ) {
-        self.name = name
-        self.deleted = deleted
-        self.snapshot = snapshot
-        self.metadata = metadata
-        self.properties = properties ?? BlobProperties()
-    }
+    // MARK: XMLModel Delegate
 
+    /// :nodoc:
     public static func xmlMap() -> XMLMap {
         return XMLMap([
             "Name": XMLMetadata(jsonName: "name"),
@@ -59,8 +54,11 @@ public final class BlobItem: XMLModel {
     }
 }
 
+// MARK: Codable Delegate
+
 extension BlobItem: Codable {
-    public convenience init(from decoder: Decoder) throws {
+    /// :nodoc:
+    public init(from decoder: Decoder) throws {
         let root = try decoder.container(keyedBy: CodingKeys.self)
         self.init(
             name: try root.decode(String.self, forKey: .name),

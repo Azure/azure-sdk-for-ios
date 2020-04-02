@@ -30,7 +30,6 @@ public class LoggingPolicy: PipelineStage {
     // MARK: Static Properties
 
     public static let defaultAllowHeaders: [String] = [
-        HTTPHeader.traceparent.rawValue,
         HTTPHeader.accept.rawValue,
         HTTPHeader.cacheControl.rawValue,
         HTTPHeader.clientRequestId.rawValue,
@@ -50,6 +49,7 @@ public class LoggingPolicy: PipelineStage {
         HTTPHeader.retryAfter.rawValue,
         HTTPHeader.returnClientRequestId.rawValue,
         HTTPHeader.server.rawValue,
+        HTTPHeader.traceparent.rawValue,
         HTTPHeader.transferEncoding.rawValue,
         HTTPHeader.userAgent.rawValue
     ]

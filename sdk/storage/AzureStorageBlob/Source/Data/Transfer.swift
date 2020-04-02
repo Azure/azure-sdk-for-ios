@@ -23,44 +23,58 @@
 // IN THE SOFTWARE.
 //
 // --------------------------------------------------------------------------
-//
 
-import CoreData
+import AzureCore
 import Foundation
 
-extension BlobTransfer {
-    @nonobjc internal class func fetchRequest() -> NSFetchRequest<BlobTransfer> {
-        return NSFetchRequest<BlobTransfer>(entityName: "BlobTransfer")
+// MARK: Data Structures
+
+/// Data structure representing the progress of a blob transfer.
+public struct TransferProgress {
+    /// Completed bytes.
+    public let bytes: Int
+    /// Total bytes to transfer.
+    public let totalBytes: Int
+    /// Percentage of the transfer that is complete, as an Int between 0 and 100.
+    public var asPercent: Int {
+        return Int(asFloat * 100.0)
     }
 
-    @NSManaged public internal(set) var destination: URL?
-    @NSManaged internal var endRange: Int64
-    @NSManaged public internal(set) var error: Error?
-    /// The unique identifier for this transfer operation.
-    @NSManaged public internal(set) var id: UUID
-    @NSManaged internal var initialCallComplete: Bool
-    /// :nodoc: Internal representation of the state.
-    @NSManaged public internal(set) var rawState: Int16
-    @NSManaged internal var rawType: Int16
-    @NSManaged public internal(set) var source: URL?
-    @NSManaged internal var startRange: Int64
-    @NSManaged internal var totalBlocks: Int64
-    @NSManaged internal var blocks: NSSet?
-    @NSManaged internal var parent: MultiBlobTransfer?
+    /// Percentage of the transfer that is complete, as a Float between 0 and 1.
+    public var asFloat: Float {
+        return Float(bytes) / Float(totalBytes)
+    }
 }
 
-// MARK: Generated accessors for blocks
+// MARK: Protocols
 
-extension BlobTransfer {
-    @objc(addBlocksObject:)
-    @NSManaged internal func addToBlocks(_ value: BlockTransfer)
+/// Object that contains information about a transfer operation.
+public protocol Transfer: AnyObject {
+    /// The unique identifier for this transfer operation.
+    var id: UUID { get }
+    /// The current state of the transfer.
+    var state: TransferState { get }
+    /// A debug representation of the transfer.
+    var debugString: String { get }
+    /// :nodoc: Internal representation of the state.
+    var rawState: Int16 { get }
+}
 
-    @objc(removeBlocksObject:)
-    @NSManaged internal func removeFromBlocks(_ value: BlockTransfer)
+internal protocol TransferImpl: Transfer {
+    var operation: ResumableOperation? { get set }
+    var state: TransferState { get set }
+    var rawState: Int16 { get set }
+}
 
-    @objc(addBlocks:)
-    @NSManaged internal func addToBlocks(_ values: NSSet)
+// MARK: Extensions
 
-    @objc(removeBlocks:)
-    @NSManaged internal func removeFromBlocks(_ values: NSSet)
+public extension Transfer {
+    var state: TransferState { return TransferState(rawValue: rawState)! }
+}
+
+internal extension TransferImpl {
+    var state: TransferState {
+        get { return TransferState(rawValue: rawState)! }
+        set { rawState = newValue.rawValue }
+    }
 }

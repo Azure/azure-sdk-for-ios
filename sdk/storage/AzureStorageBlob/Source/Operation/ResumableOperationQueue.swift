@@ -26,12 +26,12 @@
 
 import Foundation
 
-public protocol ResumableOperationQueueDelegate: ResumableOperationDelegate {
+internal protocol ResumableOperationQueueDelegate: ResumableOperationDelegate {
     func operation(_ operation: ResumableOperation?, didChangeState state: TransferState)
     func operations(_ operations: [ResumableOperation]?, didChangeState state: TransferState)
 }
 
-open class ResumableOperationQueue {
+internal class ResumableOperationQueue {
     // MARK: Properties
 
     internal lazy var operations: [ResumableOperation] = []
@@ -88,7 +88,7 @@ open class ResumableOperationQueue {
         let states = operations.map { $0.state.rawValue }
         for state in Set(states) {
             let filteredOps = operations.filter { $0.state.rawValue == state }
-            var transferState = TransferState(rawValue: state) ?? .unknown
+            var transferState = TransferState(rawValue: state)!
             let allowed: [TransferState] = [.pending, .inProgress]
             if allowed.contains(transferState) {
                 // reset inProgress back to pending since they may be scheduled differently

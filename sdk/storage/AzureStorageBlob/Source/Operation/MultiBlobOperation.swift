@@ -24,11 +24,10 @@
 //
 // --------------------------------------------------------------------------
 
-import AzureCore
 import CoreData
 import Foundation
 
-internal class MultiBlobOperation: ResumableTransfer {
+internal class MultiBlobOperation: ResumableOperation {
     // MARK: Properties
 
     internal weak var parent: MultiBlobTransfer?

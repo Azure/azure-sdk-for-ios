@@ -29,26 +29,30 @@ import AzureCore
 import CoreData
 import Foundation
 
-public class BlobTransfer: NSManagedObject, Transfer {
+public class BlobTransfer: NSManagedObject, TransferImpl {
     // MARK: Properties
 
-    public var operation: ResumableTransfer?
-    public var downloader: BlobStreamDownloader?
-    public var uploader: BlobStreamUploader?
+    internal var operation: ResumableOperation?
+    internal var downloader: BlobStreamDownloader?
+    internal var uploader: BlobStreamUploader?
 
-    public var transfers: [BlockTransfer] {
+    internal var transfers: [BlockTransfer] {
         guard let blockSet = blocks else { return [BlockTransfer]() }
         return blockSet.map { $0 as? BlockTransfer }.filter { $0 != nil }.map { $0! }
     }
 
+    /// The number of blocks remaining to be transfered.
     public var incompleteBlocks: Int64 {
         return Int64(transfers.filter { $0.state != .complete }.count)
     }
 
+    /// The current progress of the transfer, calculated as the number of completed blocks divided by the total number
+    /// of blocks that comprise the blob transfer.
     public var progress: Float {
         return Float(Int64(transfers.count) - incompleteBlocks) / Float(transfers.count)
     }
 
+    /// A debug representation of the transfer.
     public var debugString: String {
         var string = "\tTransfer \(type(of: self)) \(hash): Status \(state.label)"
         for block in transfers {
@@ -57,9 +61,10 @@ public class BlobTransfer: NSManagedObject, Transfer {
         return string
     }
 
-    public var state: TransferState {
+    /// The current state of the transfer.
+    public internal(set) var state: TransferState {
         get {
-            let currState = TransferState(rawValue: rawState) ?? .unknown
+            let currState = TransferState(rawValue: rawState)!
             var state = currState
             for item in transfers {
                 switch item.state {
@@ -77,10 +82,10 @@ public class BlobTransfer: NSManagedObject, Transfer {
         }
     }
 
-    public var debugStates: String {
+    internal var debugStates: String {
         var dict = [String: String]()
         for transfer in transfers {
-            dict[String(transfer.blockId.hash % 99)] = transfer.state.label
+            dict[String(transfer.id.hashValue % 99)] = transfer.state.label
         }
         var sortedLines = [String]()
         for key in dict.keys.sorted() {
@@ -90,9 +95,10 @@ public class BlobTransfer: NSManagedObject, Transfer {
         return sortedLines.joined(separator: ", ")
     }
 
-    public var transferType: TransferType {
+    /// The type of the transfer.
+    public internal(set) var transferType: TransferType {
         get {
-            return TransferType(rawValue: rawType) ?? .unknown
+            return TransferType(rawValue: rawType)!
         }
 
         set {
@@ -102,7 +108,7 @@ public class BlobTransfer: NSManagedObject, Transfer {
 }
 
 extension BlobTransfer {
-    public static func with(
+    internal static func with(
         context: NSManagedObjectContext,
         source: URL,
         destination: URL,
@@ -124,6 +130,7 @@ extension BlobTransfer {
         transfer.endRange = endRange
         transfer.state = .pending
         transfer.transferType = type
+        transfer.id = UUID()
         return transfer
     }
 }
