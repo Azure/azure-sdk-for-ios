@@ -67,7 +67,7 @@ internal protocol TransferManager: ResumableOperationQueueDelegate {
 public protocol TransferDelegate: AnyObject {
     /// A transfer's state has changed, and progress is being reported.
     func transfer(_: Transfer, didUpdateWithState: TransferState, andProgress: TransferProgress?)
-    /// A transfer's state has changed, no progress informating is available.
+    /// A transfer's state has changed, no progress information is available.
     func transfer(_: Transfer, didUpdateWithState: TransferState)
     /// A transfer has failed.
     func transfer(_: Transfer, didFailWithError: Error)
@@ -147,6 +147,7 @@ public extension Array where Element == Transfer {
 }
 
 public extension TransferDelegate {
+    /// A transfer's state has changed, no progress information is available.
     func transfer(_ transferParam: Transfer, didUpdateWithState state: TransferState) {
         transfer(transferParam, didUpdateWithState: state, andProgress: nil)
     }

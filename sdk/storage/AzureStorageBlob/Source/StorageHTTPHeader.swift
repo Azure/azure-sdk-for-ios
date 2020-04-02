@@ -173,6 +173,7 @@ public enum StorageHTTPHeader: String {
     case tagCount = "x-ms-tag-count"
 }
 
+/// Extensions to work with `StorageHTTPHeader` values within a collection of `HTTPHeaders`.
 extension HTTPHeaders {
     /// Access the value of a `StorageHTTPHeader` within a collection of `HTTPHeaders`.
     /// - Parameters:

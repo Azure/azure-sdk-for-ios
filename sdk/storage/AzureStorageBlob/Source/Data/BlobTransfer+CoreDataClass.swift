@@ -29,6 +29,7 @@ import AzureCore
 import CoreData
 import Foundation
 
+/// A blob transfer operation.
 public class BlobTransfer: NSManagedObject, TransferImpl {
     // MARK: Properties
 
