@@ -36,7 +36,7 @@ struct AppConstants {
         // swiftlint:disable:next line_length
         "Endpoint=https://tjpappconfig.azconfig.io;Id=2-l0-s0:zSvXZtO9L9bv9s3QVyD3;Secret=FzxmbflLwAt5+2TUbnSIsAuATyY00L+GFpuxuJZRmzI="
 
-    static let storageAccountUrl = "https://iosdemostorage1.blob.core.windows.net/"
+    static let storageAccountUrl = URL(string: "https://iosdemostorage1.blob.core.windows.net/")!
 
     static let tenant = "7e6c9611-413e-47e4-a054-a389854dd732"
 

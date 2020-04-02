@@ -38,13 +38,13 @@ public class AppConfigurationClient: PipelineClient {
     // MARK: Initializers
 
     internal init(
-        baseUrl: String,
+        baseURL: URL,
         transport: HTTPTransportStage,
         policies: [PipelineStage],
         withOptions options: AppConfigurationClientOptions
     ) {
         self.options = options
-        super.init(baseUrl: baseUrl, transport: transport, policies: policies, logger: self.options.logger)
+        super.init(baseURL: baseURL, transport: transport, policies: policies, logger: self.options.logger)
     }
 
     public static func from(connectionString: String, withOptions options: AppConfigurationClientOptions? = nil) throws
@@ -59,8 +59,12 @@ public class AppConfigurationClient: PipelineClient {
                 .accept: "application/vnd.microsoft.azconfig.kv+json"
             ])
 
+            guard let baseURL = URL(string: credential.endpoint) else {
+                throw AzureError.fileSystem("Unable to resolve base URL.")
+            }
+
             return AppConfigurationClient(
-                baseUrl: credential.endpoint,
+                baseURL: baseURL,
                 transport: URLSessionTransport(),
                 policies: [
                     UserAgentPolicy(for: AppConfigurationClient.self),

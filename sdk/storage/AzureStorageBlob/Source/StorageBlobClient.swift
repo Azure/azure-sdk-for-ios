@@ -71,13 +71,13 @@ public final class StorageBlobClient: PipelineClient {
 
     /// Create a Storage blob data client.
     /// - Parameters:
-    ///   - baseUrl: Base URL for the storage account.
+    ///   - baseURL: Base URL for the storage account.
     ///   - authPolicy: An `Authenticating` policy to use for authenticating client requests.
     ///   - options: Options used to configure the client.
-    private init(baseUrl: String, authPolicy: Authenticating, withOptions options: StorageBlobClientOptions? = nil) {
+    private init(baseURL: URL, authPolicy: Authenticating, withOptions options: StorageBlobClientOptions? = nil) {
         self.options = options ?? StorageBlobClientOptions(apiVersion: ApiVersion.latest.rawValue)
         super.init(
-            baseUrl: baseUrl,
+            baseURL: baseURL,
             transport: URLSessionTransport(),
             policies: [
                 UserAgentPolicy(for: StorageBlobClient.self),
@@ -96,16 +96,16 @@ public final class StorageBlobClient: PipelineClient {
 
     /// Create a Storage blob data client.
     /// - Parameters:
-    ///   - accountUrl: Base URL for the storage account.
+    ///   - accountURL: Base URL for the storage account.
     ///   - credential: A `MSALCredential` object used to retrieve authentication tokens.
     ///   - options: Options used to configure the client.
     public convenience init(
-        accountUrl: String,
+        accountURL: URL,
         credential: MSALCredential,
         withOptions options: StorageBlobClientOptions? = nil
     ) {
         let authPolicy = BearerTokenCredentialPolicy(credential: credential, scopes: StorageBlobClient.defaultScopes)
-        self.init(baseUrl: accountUrl, authPolicy: authPolicy, withOptions: options)
+        self.init(baseURL: accountURL, authPolicy: authPolicy, withOptions: options)
     }
 
     /// Create a Storage blob data client.
@@ -117,11 +117,13 @@ public final class StorageBlobClient: PipelineClient {
         withOptions options: StorageBlobClientOptions? = nil
     ) throws {
         guard let blobEndpoint = credential.blobEndpoint else {
-            let message = "Invalid connection string. No blob endpoint specified."
-            throw AzureError.serviceRequest(message)
+            throw AzureError.serviceRequest("Invalid connection string. No blob endpoint specified.")
+        }
+        guard let baseURL = URL(string: blobEndpoint) else {
+            throw AzureError.fileSystem("Unable to resolve account URL from credential.")
         }
         let authPolicy = StorageSASAuthenticationPolicy(credential: credential)
-        self.init(baseUrl: blobEndpoint, authPolicy: authPolicy, withOptions: options)
+        self.init(baseURL: baseURL, authPolicy: authPolicy, withOptions: options)
     }
 
     /// Create a Storage blob data client.
@@ -456,15 +458,12 @@ public final class StorageBlobClient: PipelineClient {
 
     // MARK: Private Methods
 
-    /// Create a simple URL for a blob.
+    /// Create a simple URL for a blob in the storage account this client uses.
     /// - Parameters:
     ///   - blob: The name of the blob.
     ///   - container: The name of the container.
-    private func url(forBlob blob: String, inContainer container: String) -> URL? {
-        var url = URL(string: baseUrl)
-        url?.appendPathComponent(container)
-        url?.appendPathComponent(blob)
-        return url
+    private func url(forBlob blob: String, inContainer container: String) -> URL {
+        return baseURL.appendingPathComponent(container).appendingPathComponent(blob)
     }
 }
 
