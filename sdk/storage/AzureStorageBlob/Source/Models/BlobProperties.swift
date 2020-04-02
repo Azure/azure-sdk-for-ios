@@ -130,6 +130,57 @@ public struct BlobProperties: XMLModel {
 }
 
 extension BlobProperties {
+    /// Initialize a `BlobProperties` structure.
+    /// - Parameters:
+    ///   - contentType: The content type specified for the blob.
+    ///   - contentDisposition: The value of the blob's Content-Disposition request header.
+    ///   - contentEncoding: The value of the blob's Content-Encoding request header.
+    ///   - contentLanguage: The value of the blob's Content-Language request header.
+    ///   - contentMD5: The value of the blob's Content-MD5 request header.
+    ///   - contentCRC64: The value of the blob's x-ms-content-crc64 request header.
+    ///   - cacheControl: The value of the blob's Cache-Control request header.
+    ///   - accessTier: The access tier of the blob.
+    public init(
+        contentType: String? = nil,
+        contentDisposition: String? = nil,
+        contentEncoding: String? = nil,
+        contentLanguage: String? = nil,
+        contentMD5: String? = nil,
+        contentCRC64: String? = nil,
+        cacheControl: String? = nil,
+        accessTier: AccessTier? = nil
+    ) {
+        self.creationTime = nil
+        self.lastModified = nil
+        self.eTag = nil
+        self.contentLength = nil
+        self.contentType = contentType
+        self.contentDisposition = contentDisposition
+        self.contentEncoding = contentEncoding
+        self.contentLanguage = contentLanguage
+        self.contentMD5 = contentMD5
+        self.contentCRC64 = contentCRC64
+        self.cacheControl = cacheControl
+        self.sequenceNumber = nil
+        self.blobType = nil
+        self.accessTier = accessTier
+        self.leaseStatus = nil
+        self.leaseState = nil
+        self.leaseDuration = nil
+        self.copyId = nil
+        self.copyStatus = nil
+        self.copySource = nil
+        self.copyProgress = nil
+        self.copyCompletionTime = nil
+        self.copyStatusDescription = nil
+        self.serverEncrypted = nil
+        self.incrementalCopy = nil
+        self.accessTierInferred = nil
+        self.accessTierChangeTime = nil
+        self.deletedTime = nil
+        self.remainingRetentionDays = nil
+    }
+
     internal init(from headers: HTTPHeaders) {
         self.creationTime = Date(headers[.creationTime], format: .rfc1123)
         self.lastModified = Date(headers[.lastModified], format: .rfc1123)

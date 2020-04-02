@@ -41,7 +41,8 @@ public class BlobTransfer: NSManagedObject, TransferImpl {
         return blockSet.map { $0 as? BlockTransfer }.filter { $0 != nil }.map { $0! }
     }
 
-    internal var incompleteBlocks: Int64 {
+    /// The number of blocks remaining to be transfered.
+    public var incompleteBlocks: Int64 {
         return Int64(transfers.filter { $0.state != .complete }.count)
     }
 
@@ -61,7 +62,7 @@ public class BlobTransfer: NSManagedObject, TransferImpl {
     }
 
     /// The current state of the transfer.
-    public var state: TransferState {
+    public internal(set) var state: TransferState {
         get {
             let currState = TransferState(rawValue: rawState)!
             var state = currState
@@ -95,7 +96,7 @@ public class BlobTransfer: NSManagedObject, TransferImpl {
     }
 
     /// The type of the transfer.
-    public var transferType: TransferType {
+    public internal(set) var transferType: TransferType {
         get {
             return TransferType(rawValue: rawType)!
         }

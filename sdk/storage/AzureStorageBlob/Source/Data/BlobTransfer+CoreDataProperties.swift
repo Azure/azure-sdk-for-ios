@@ -33,16 +33,16 @@ extension BlobTransfer {
         return NSFetchRequest<BlobTransfer>(entityName: "BlobTransfer")
     }
 
-    @NSManaged internal var destination: URL?
+    @NSManaged public internal(set) var destination: URL?
     @NSManaged internal var endRange: Int64
-    @NSManaged internal var error: Error?
+    @NSManaged public internal(set) var error: Error?
     /// The unique identifier for this transfer operation.
-    @NSManaged public var id: UUID
+    @NSManaged public internal(set) var id: UUID
     @NSManaged internal var initialCallComplete: Bool
     /// :nodoc: Internal representation of the state.
-    @NSManaged public var rawState: Int16
+    @NSManaged public internal(set) var rawState: Int16
     @NSManaged internal var rawType: Int16
-    @NSManaged internal var source: URL?
+    @NSManaged public internal(set) var source: URL?
     @NSManaged internal var startRange: Int64
     @NSManaged internal var totalBlocks: Int64
     @NSManaged internal var blocks: NSSet?

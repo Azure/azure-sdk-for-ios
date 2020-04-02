@@ -75,9 +75,9 @@ public protocol TransferDelegate: AnyObject {
     /// A transfer has completed.
     func transferDidComplete(_: Transfer)
     /// Method to return a `BlobStreamUploader` that can be used to complete a transfer.
-    func uploader(for transfer: Transfer) -> BlobUploader?
+    func uploader(for transfer: BlobTransfer) -> BlobUploader?
     /// Method to return a `BlobStreamDownloader` that can be used to complete a transfer.
-    func downloader(for transfer: Transfer) -> BlobDownloader?
+    func downloader(for transfer: BlobTransfer) -> BlobDownloader?
 }
 
 // MARK: Extensions

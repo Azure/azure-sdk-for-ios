@@ -505,12 +505,12 @@ extension StorageBlobClient: TransferDelegate {
     }
 
     /// :nodoc:
-    public func uploader(for transfer: Transfer) -> BlobUploader? {
+    public func uploader(for transfer: BlobTransfer) -> BlobUploader? {
         transferDelegate?.uploader(for: transfer)
     }
 
     /// :nodoc:
-    public func downloader(for transfer: Transfer) -> BlobDownloader? {
+    public func downloader(for transfer: BlobTransfer) -> BlobDownloader? {
         transferDelegate?.downloader(for: transfer)
     }
 }
