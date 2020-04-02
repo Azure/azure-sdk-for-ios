@@ -29,7 +29,7 @@ import CoreData
 import Foundation
 
 extension BlobTransfer {
-    @nonobjc internal class func fetchRequest() -> NSFetchRequest<BlobTransfer> {
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<BlobTransfer> {
         return NSFetchRequest<BlobTransfer>(entityName: "BlobTransfer")
     }
 
@@ -52,8 +52,8 @@ extension BlobTransfer {
     @NSManaged internal var startRange: Int64
     @NSManaged internal var totalBlocks: Int64
     @NSManaged internal var blocks: NSSet?
+    @NSManaged internal var currentProgress: Float
     @NSManaged internal var parent: MultiBlobTransfer?
-    @NSManaged public var clientRestorationId: String
 }
 
 // MARK: Generated accessors for blocks
@@ -66,8 +66,8 @@ extension BlobTransfer {
     @NSManaged internal func removeFromBlocks(_ value: BlockTransfer)
 
     @objc(addBlocks:)
-    @NSManaged internal func addToBlocks(_ values: NSSet)
+    @NSManaged public func addToBlocks(_ values: NSSet)
 
     @objc(removeBlocks:)
-    @NSManaged internal func removeFromBlocks(_ values: NSSet)
+    @NSManaged public func removeFromBlocks(_ values: NSSet)
 }

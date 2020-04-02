@@ -66,7 +66,7 @@ internal protocol TransferManager: ResumableOperationQueueDelegate {
 /// A delegate to receive notifications about state changes for all transfers managed by a `StorageBlobClient`.
 public protocol TransferDelegate: AnyObject {
     /// A transfer's state has changed, and progress is being reported.
-    func transfer(_: Transfer, didUpdateWithState: TransferState, andProgress: TransferProgress?)
+    func transfer(_: Transfer, didUpdateWithState: TransferState, andProgress: Float?)
     /// A transfer's state has changed, no progress information is available.
     func transfer(_: Transfer, didUpdateWithState: TransferState)
     /// A transfer has failed.

@@ -29,7 +29,7 @@ import AzureStorageBlob
 import MSAL
 import UIKit
 
-class LoginViewController: UIViewController, MSALInteractiveDelegate {
+class LoginViewController: UIViewController {
     // MARK: Outlets
 
     @IBOutlet var logInButton: UIBarButtonItem!
@@ -89,12 +89,5 @@ class LoginViewController: UIViewController, MSALInteractiveDelegate {
         } else {
             userLabel.text = "Please log in"
         }
-    }
-
-    // MARK: MSALInteractiveDelegate
-
-    func didCompleteMSALRequest(withResult result: MSALResult) {
-        AppState.account = result.account
-        updateLogOutButton(enabled: true)
     }
 }

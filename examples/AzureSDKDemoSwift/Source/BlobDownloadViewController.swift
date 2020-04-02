@@ -35,28 +35,29 @@ import UIKit
 
 class BlobDownloadViewController: UIViewController, MSALInteractiveDelegate {
     private var dataSource: PagedCollection<BlobItem>?
-    private var downloadMap = [IndexPath: Transfer]()
+    private var downloadMap = [IndexPath: BlobTransfer]()
     private var noMoreData = false
 
     @IBOutlet var tableView: UITableView!
 
     private lazy var player: AVPlayer = AVPlayer()
+    private var blobClient: StorageBlobClient?
 
     // MARK: Internal Methods
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // FIXME: Fix
-        // AppState.transferManager.delegate = self
-    }
-
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        blobClient = try? AppState.blobClient(withDelegate: self)
         let refreshControl = UIRefreshControl()
         refreshControl.attributedTitle = NSAttributedString(string: "Fetching Data ...", attributes: nil)
         refreshControl.addTarget(self, action: #selector(fetchData(_:)), for: .valueChanged)
         tableView.refreshControl = refreshControl
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         fetchData(self)
+        blobClient?.startManaging()
     }
 
     // MARK: Private Methods
@@ -64,12 +65,12 @@ class BlobDownloadViewController: UIViewController, MSALInteractiveDelegate {
     /// Constructs the PagedCollection and retrieves the first page of results to initalize the table view.
     @objc private func fetchData(_: Any) {
         guard let containerName = AppConstants.videoContainer else { return }
-        guard let blobClient = try? AppState.blobClient(withDelegate: self) else { return }
+        guard let blobClient = blobClient else { return }
         let options = ListBlobsOptions(maxResults: 20)
         if !(tableView.refreshControl?.isRefreshing ?? false) {
             showActivitySpinner()
         }
-        blobClient.listBlobs(in: containerName, withOptions: options) { result, _ in
+        blobClient.listBlobs(inContainer: containerName, withOptions: options) { result, _ in
             self.hideActivitySpinner()
             switch result {
             case let .success(paged):
@@ -151,7 +152,7 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
 
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = "CustomTableViewCell"
-        guard let blobClient = try? AppState.blobClient(withDelegate: self),
+        guard let blobClient = blobClient,
             let data = dataSource?.items,
             let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
             as? CustomTableViewCell else {
@@ -170,12 +171,12 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
 
         // Match any blobs to existing transfers.
         // Update download map and progress.
-        // FIXME: Fix this
-//        if let transfer = blobClient.transfer(withId: blobItem.id) as? BlobTransfer, transfer.transferType = .download {
-//            cell.backgroundColor = transfer.state.color
-//            downloadMap[indexPath] = transfer
-//            cell.progressBar.progress = transfer.progress
-//        }
+        if let transfer = blobClient.transfers.downloadedFrom(container: AppConstants.videoContainer, blob: blobName)
+            .first {
+            cell.backgroundColor = transfer.state.color
+            downloadMap[indexPath] = transfer
+            cell.progressBar.progress = transfer.progress
+        }
 
         // load next page if at the end of the current list
         if indexPath.row == data.count - 1, noMoreData == false {
@@ -188,16 +189,12 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
         guard let cell = tableView.cellForRow(at: indexPath) as? CustomTableViewCell else { return }
         guard let blobName = cell.keyLabel.text else { return }
         guard let containerName = AppConstants.videoContainer else { return }
-        guard let blobClient = try? AppState.blobClient(withDelegate: self) else { return }
-        // FIXME: Fix this missing logic
-        guard let destination = URL(string: "www.test2.com") else { return }
-//        guard let destination = try? blobClient.localUrl(remoteUrl: url, withOptions: options) else {
-//            showAlert(error: AzureError.general("Unable to create destination URL."))
-//            return
-//        }
+        guard let blobClient = blobClient else { return }
+        let destination = StorageBlobClient.PathHelper
+            .localUrl(inDirectory: StorageBlobClient.PathHelper.cacheDir, forBlob: blobName, inContainer: containerName)
 
         let manager = FileManager.default
-        if let existingTransfer = downloadMap[indexPath] as? BlobTransfer {
+        if let existingTransfer = downloadMap[indexPath] {
             // if transfer exists and is complete, open file, otherwise ignore
             if manager.fileExists(atPath: destination.path), existingTransfer.incompleteBlocks == 0 {
                 playVideo(indexPath, destination)
@@ -218,9 +215,10 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
             if let transfer = try blobClient.download(
                 blob: blobName,
                 fromContainer: containerName,
+                toFile: destination,
                 withRestorationId: "download",
                 withOptions: options
-            ) {
+            ) as? BlobTransfer {
                 downloadMap[indexPath] = transfer
             }
         } catch {
@@ -235,7 +233,7 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
 extension BlobDownloadViewController: TransferDelegate {
     func client(forRestorationId restorationId: String) -> PipelineClient? {
         guard restorationId == "download" else { return nil }
-        return try? AppState.blobClient(withDelegate: self)
+        return blobClient
     }
 
     func options(forRestorationId restorationId: String) -> AzureOptions? {
@@ -249,7 +247,7 @@ extension BlobDownloadViewController: TransferDelegate {
         andProgress progress: Float?
     ) {
         if let blobTransfer = transfer as? BlobTransfer {
-            print("BLOB UPLOAD \(blobTransfer.hash) DID UPDATE WITH PROGRESS %\((progress ?? -0.01) * 100)")
+            print("BLOB DOWNLOAD \(blobTransfer.hash) DID UPDATE WITH PROGRESS %\((progress ?? -0.01) * 100)")
             reloadTableView()
         }
     }
@@ -262,10 +260,6 @@ extension BlobDownloadViewController: TransferDelegate {
 
     func transfer(_: Transfer, didFailWithError error: Error) {
         showAlert(error: error)
-        reloadTableView()
-    }
-
-    func transfer(_: Transfer, didUpdateWithState _: TransferState) {
         reloadTableView()
     }
 }

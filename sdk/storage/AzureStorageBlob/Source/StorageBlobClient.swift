@@ -597,7 +597,6 @@ extension StorageBlobClient {
         if managing { return }
 
         manager.reachability?.startListening()
-        resumeAllTransfers()
 
         managing = true
     }
@@ -610,8 +609,8 @@ extension StorageBlobClient {
     public func stopManaging() {
         guard managing else { return }
 
-        pauseAllTransfers()
         manager.reachability?.stopListening()
+        pauseAllTransfers()
         manager.saveContext()
 
         managing = false

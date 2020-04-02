@@ -47,8 +47,15 @@ extension URLSessionTransferManager: ResumableOperationQueueDelegate {
         case .complete:
             delegate?.transferDidComplete(transfer)
         default:
-            let progress = (transfer as? BlobTransfer)?.progress
-            delegate?.transfer(transfer, didUpdateWithState: state, andProgress: progress)
+            if let blobTransfer = transfer as? BlobTransfer {
+                let progress = blobTransfer.progress
+                if blobTransfer.currentProgress < progress {
+                    blobTransfer.currentProgress = progress
+                    delegate?.transfer(transfer, didUpdateWithState: state, andProgress: progress)
+                }
+            } else {
+                delegate?.transfer(transfer, didUpdateWithState: state)
+            }
         }
     }
 

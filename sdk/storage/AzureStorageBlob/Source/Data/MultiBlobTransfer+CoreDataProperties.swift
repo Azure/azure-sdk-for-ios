@@ -29,28 +29,28 @@ import CoreData
 import Foundation
 
 extension MultiBlobTransfer {
-    @nonobjc internal class func fetchRequest() -> NSFetchRequest<MultiBlobTransfer> {
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<MultiBlobTransfer> {
         return NSFetchRequest<MultiBlobTransfer>(entityName: "MultiBlobTransfer")
     }
 
-    @NSManaged internal var id: UUID
-    @NSManaged internal var rawState: Int16
-    @NSManaged internal var totalBlobs: Int64
-    @NSManaged internal var blobs: NSSet?
+    @NSManaged public var id: UUID
+    @NSManaged public var rawState: Int16
+    @NSManaged public var totalBlobs: Int64
+    @NSManaged public var blobs: NSSet?
 }
 
 // MARK: Generated accessors for blobs
 
 extension MultiBlobTransfer {
     @objc(addBlobsObject:)
-    @NSManaged internal func addToBlobs(_ value: BlobTransfer)
+    @NSManaged public func addToBlobs(_ value: BlobTransfer)
 
     @objc(removeBlobsObject:)
-    @NSManaged internal func removeFromBlobs(_ value: BlobTransfer)
+    @NSManaged public func removeFromBlobs(_ value: BlobTransfer)
 
     @objc(addBlobs:)
-    @NSManaged internal func addToBlobs(_ values: NSSet)
+    @NSManaged public func addToBlobs(_ values: NSSet)
 
     @objc(removeBlobs:)
-    @NSManaged internal func removeFromBlobs(_ values: NSSet)
+    @NSManaged public func removeFromBlobs(_ values: NSSet)
 }

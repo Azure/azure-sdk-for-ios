@@ -29,13 +29,13 @@ import CoreData
 import Foundation
 
 extension BlockTransfer {
-    @nonobjc internal class func fetchRequest() -> NSFetchRequest<BlockTransfer> {
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<BlockTransfer> {
         return NSFetchRequest<BlockTransfer>(entityName: "BlockTransfer")
     }
 
-    @NSManaged internal var id: UUID
-    @NSManaged internal var endRange: Int64
-    @NSManaged internal var rawState: Int16
-    @NSManaged internal var startRange: Int64
-    @NSManaged internal var parent: BlobTransfer?
+    @NSManaged public var endRange: Int64
+    @NSManaged public var id: UUID
+    @NSManaged public var rawState: Int16
+    @NSManaged public var startRange: Int64
+    @NSManaged public var parent: BlobTransfer?
 }

@@ -34,16 +34,16 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     // MARK: Properties
 
-    public weak var delegate: TransferDelegate?
+    weak var delegate: TransferDelegate?
 
-    public var logger: ClientLogger
+    var logger: ClientLogger
 
-    internal lazy var session: URLSession = {
+    lazy var session: URLSession = {
         let config = URLSessionConfiguration.background(withIdentifier: "com.azuresdk.transfermanager")
         return URLSession(configuration: config, delegate: self, delegateQueue: nil)
     }()
 
-    public lazy var reachability: ReachabilityManager? = {
+    lazy var reachability: ReachabilityManager? = {
         var manager = ReachabilityManager()
         manager?.registerListener { status in
             switch status {
@@ -59,15 +59,15 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         return manager
     }()
 
-    internal var operationQueue: ResumableOperationQueue
+    var operationQueue: ResumableOperationQueue
 
-    internal var transfers: [Transfer]
+    var transfers: [Transfer]
 
-    public var count: Int {
+    var count: Int {
         return transfers.count
     }
 
-    public var persistentContainer: NSPersistentContainer? = {
+    var persistentContainer: NSPersistentContainer? = {
         guard let bundle = Bundle(identifier: "com.azure.storage.AzureStorageBlob") else { return nil }
         guard let url = bundle.url(forResource: "AzureStorage", withExtension: "momd") else { return nil }
         guard let model = NSManagedObjectModel(contentsOf: url) else { return nil }
@@ -82,7 +82,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     // MARK: Initializers
 
-    public init(delegate: TransferDelegate? = nil, logger: ClientLogger? = nil) {
+    init(delegate: TransferDelegate? = nil, logger: ClientLogger? = nil) {
         self.delegate = delegate
         self.logger = logger ?? PrintLogger(tag: "StorageTransferManager", level: .debug)
         self.operationQueue = ResumableOperationQueue(name: "TransferQueue", delegate: nil, removeOnCompletion: true)
@@ -95,44 +95,14 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     // MARK: TransferManager Methods
 
-    public subscript(index: Int) -> Transfer {
+    subscript(index: Int) -> Transfer {
         // return the operation from the DataStore
         return transfers[index]
     }
 
-    public func transfer(forName name: String, type: TransferType? = nil) -> Transfer? {
-        guard let encodedName = name.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return nil }
-        for transfer in transfers {
-            guard let blobTransfer = transfer as? BlobTransfer else { continue }
-            guard let source = blobTransfer.source?.absoluteString else { continue }
-            guard let dest = blobTransfer.destination?.absoluteString else { continue }
-            if let transferType = type {
-                guard blobTransfer.transferType == transferType else { continue }
-                if transferType == .download, source.hasSuffix(encodedName) {
-                    return blobTransfer
-                } else if transferType == .upload, dest.hasSuffix(encodedName) {
-                    return blobTransfer
-                }
-            } else {
-                if source.hasSuffix(encodedName) || dest.hasSuffix(encodedName) {
-                    return blobTransfer
-                }
-            }
-        }
-        return nil
-    }
-
-    public func transfers(ofType transferType: TransferType? = nil) -> [BlobTransfer] {
-        let blobTransfers = transfers.compactMap { $0 as? BlobTransfer }
-        if transferType == nil {
-            return blobTransfers
-        }
-        return blobTransfers.filter { $0.transferType == transferType }
-    }
-
     // MARK: Add Operations
 
-    public func add(transfer: Transfer) {
+    func add(transfer: Transfer) {
         switch transfer {
         case let transfer as BlockTransfer:
             add(transfer: transfer)
@@ -143,7 +113,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         }
     }
 
-    internal func add(transfer: BlockTransfer) {
+    func add(transfer: BlockTransfer) {
         // Add to DataStore
         transfers.append(transfer)
 
@@ -153,13 +123,11 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         self.operation(operation, didChangeState: transfer.state)
     }
 
-    internal func queueOperations(for transfer: BlobTransfer) {
+    func queueOperations(for transfer: BlobTransfer) {
         let disallowed: [TransferState] = [.complete, .canceled, .failed]
         let resumableOperations: [TransferState] = [.pending, .inProgress]
         guard !disallowed.contains(transfer.state) else { return }
         var operations = [ResumableOperation]()
-
-        print(transfer.debugString)
 
         switch transfer.transferType {
         case .download:
@@ -193,12 +161,12 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
                 operations.append(blockOperation)
             }
         }
-        print("QUEUEING \(operations.count) OPERATIONS FOR BLOB \(transfer.hash)")
+        print("QUEUEING \(operations.count) OPERATIONS FOR BLOB \(transfer.hash).")
         operationQueue.add(operations)
         self.operations(operations, didChangeState: transfer.state)
     }
 
-    internal func add(transfer: BlobTransfer) {
+    func add(transfer: BlobTransfer) {
         guard let context = persistentContainer?.viewContext else { return }
 
         // Add to DataStore
@@ -230,13 +198,13 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     // MARK: Cancel Operations
 
-    public func cancelAll() {
+    func cancelAll() {
         for transfer in transfers {
             cancel(transfer: transfer)
         }
     }
 
-    public func cancel(transfer: Transfer) {
+    func cancel(transfer: Transfer) {
         guard let transfer = transfer as? TransferImpl else { return }
         transfer.state = .canceled
         assert(transfer.operation != nil, "Transfer operation unexpectedly nil.")
@@ -253,7 +221,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     // MARK: Remove Operations
 
-    public func removeAll() {
+    func removeAll() {
         // Wipe the DataStore
         transfers.removeAll()
 
@@ -283,7 +251,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         operations(nil, didChangeState: .deleted)
     }
 
-    public func remove(transfer: Transfer) {
+    func remove(transfer: Transfer) {
         guard let transfer = transfer as? TransferImpl else { return }
         switch transfer {
         case let transfer as BlockTransfer:
@@ -297,7 +265,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         operation(transfer.operation, didChangeState: transfer.state)
     }
 
-    internal func remove(transfer: BlockTransfer) {
+    func remove(transfer: BlockTransfer) {
         if let operation = transfer.operation {
             operationQueue.remove(operation)
         }
@@ -337,13 +305,13 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     // MARK: Pause Operations
 
-    public func pauseAll() {
+    func pauseAll() {
         for transfer in transfers {
             pause(transfer: transfer)
         }
     }
 
-    public func pause(transfer: Transfer) {
+    func pause(transfer: Transfer) {
         guard let blobTransfer = transfer as? BlobTransfer else {
             assertionFailure("Unsupported transfer type: \(transfer.self)")
             return
@@ -351,7 +319,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         pause(transfer: blobTransfer)
     }
 
-    internal func pause(transfer: BlobTransfer) {
+    func pause(transfer: BlobTransfer) {
         guard transfer.state.pauseable else { return }
         transfer.state = .paused
 
@@ -369,7 +337,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         operation(transfer.operation, didChangeState: transfer.state)
     }
 
-    internal func pause(transfer: BlockTransfer) {
+    func pause(transfer: BlockTransfer) {
         guard transfer.state.pauseable else { return }
         transfer.state = .paused
 
@@ -384,66 +352,17 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     // MARK: Resume Operations
 
-    public func resumeAll() {
+    func resumeAll() {
         for transfer in transfers {
             resume(transfer: transfer)
         }
     }
 
-    internal func reconnectClient(for transfer: BlobTransfer) {
-        // early out if a client is already connected
-        switch transfer.transferType {
-        case .upload:
-            guard transfer.uploader == nil else { return }
-        case .download:
-            guard transfer.downloader == nil else { return }
-        default:
-            assertionFailure("Unrecognized transfer type: \(transfer.transferType.label)")
-            return
-        }
-
-        // must create one
-        guard let client = delegate?.client(forRestorationId: transfer.clientRestorationId) as? StorageBlobClient
-        else { return }
-        guard let options = delegate?.options(forRestorationId: transfer.clientRestorationId) else { return }
-        switch transfer.transferType {
-        case .upload:
-            guard let uploadOptions = options as? UploadBlobOptions else { return }
-            guard let sourceUrl = transfer.source else { return }
-            guard let destUrl = transfer.destination else { return }
-            // FIXME: Fix blobProperties!
-            let blobProperties = BlobProperties(contentType: "image/jpg")
-            transfer.uploader = try? BlobStreamUploader(
-                client: client,
-                delegate: nil,
-                source: sourceUrl,
-                name: "BANOODLE",
-                container: "BANOODLE",
-                properties: blobProperties,
-                options: uploadOptions
-            )
-        case .download:
-            guard let downloadOptions = options as? DownloadBlobOptions else { return }
-            guard let sourceUrl = transfer.source else { return }
-            guard let destUrl = transfer.destination else { return }
-            transfer.downloader = try? BlobStreamDownloader(
-                client: client,
-                delegate: nil,
-                name: "BANOODLE",
-                container: "BANOODLE",
-                options: downloadOptions
-            )
-        default:
-            assertionFailure("Unrecognized transfer type: \(transfer.transferType.label)")
-            return
-        }
-    }
-
-    internal func ensureUploader(for transfer: BlobTransfer) {
+    func ensureUploader(for transfer: BlobTransfer) {
         guard transfer.transferType == .upload else { return }
     }
 
-    public func resume(transfer: Transfer) {
+    func resume(transfer: Transfer) {
         guard let transfer = transfer as? TransferImpl else { return }
 
         guard reachability?.isReachable ?? false else { return }
@@ -509,7 +428,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     // MARK: Core Data Operations
 
-    public func loadContext() {
+    func loadContext() {
         // Hydrate operationQueue from CoreData
         guard let context = persistentContainer?.viewContext else {
             fatalError("Unable to load persistent container.")
@@ -533,7 +452,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         }
     }
 
-    public func saveContext() {
+    func saveContext() {
         DispatchQueue.main.async { [weak self] in
             guard let context = self?.persistentContainer?.viewContext else {
                 assert(self?.persistentContainer?.viewContext != nil, "Failed to obtain context.")
@@ -541,7 +460,6 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
             }
             if context.hasChanges {
                 do {
-                    print("SAVING")
                     try context.save()
                 } catch {
                     let nserror = error as NSError

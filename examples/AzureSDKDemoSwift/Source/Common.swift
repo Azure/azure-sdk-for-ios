@@ -36,7 +36,7 @@ struct AppConstants {
         // swiftlint:disable:next line_length
         "Endpoint=https://tjpappconfig.azconfig.io;Id=2-l0-s0:zSvXZtO9L9bv9s3QVyD3;Secret=FzxmbflLwAt5+2TUbnSIsAuATyY00L+GFpuxuJZRmzI="
 
-    static let storageAccountUrl = "https://iosdemostorage1.blob.core.windows.net/"
+    static let storageAccountUrl = URL(string: "https://iosdemostorage1.blob.core.windows.net/")!
 
     static let tenant = "7e6c9611-413e-47e4-a054-a389854dd732"
 
@@ -86,7 +86,6 @@ struct AppState {
     static var downloadOptions: DownloadBlobOptions {
         // TODO: Diagnose issues with EXC_BAD_ACCESS and restore to true
         let options = DownloadBlobOptions(
-            destination: DestinationOptions(isTemporary: false),
             range: RangeOptions(calculateMD5: false)
         )
         return options
@@ -113,60 +112,13 @@ struct AppState {
                 credential: credential,
                 withOptions: options
             )
+            AppState.internalBlobClient = client
         } else {
             client = AppState.internalBlobClient!
         }
         client.transferDelegate = delegate
         return client
     }
-
-//    static func downloader(
-//        for transfer: BlobTransfer,
-//        withDelegate delegate: TransferManagerDelegate? = nil
-//    ) -> BlobStreamDownloader? {
-//        guard let client = try? AppState.blobClient(withDelegate: delegate) else { return nil }
-//        guard let source = transfer.source else { return nil }
-//
-//        let options = DownloadBlobOptions()
-//        options.range = RangeOptions()
-//        options.destination = DestinationOptions()
-//        options.destination?.isTemporary = false
-//        options.range?.calculateMD5 = false
-//
-//        let blobName = source.lastPathComponent
-//        let downloader = try? BlobStreamDownloader(
-//            client: client,
-//            delegate: nil,
-//            name: blobName,
-//            container: AppConstants.videoContainer,
-//            options: options
-//        )
-//        return downloader
-//    }
-//
-//    static func uploader(
-//        for transfer: BlobTransfer,
-//        withDelegate delegate: TransferManagerDelegate? = nil
-//    ) -> BlobStreamUploader? {
-//        guard let client = try? AppState.blobClient(withDelegate: delegate) else { return nil }
-//        guard let source = transfer.source else { return nil }
-//
-//        let blobName = source.lastPathComponent
-//        let properties = BlobProperties(
-//            contentType: "video/quicktime"
-//        )
-//        let options = UploadBlobOptions()
-//        let uploader = try? BlobStreamUploader(
-//            client: client,
-//            delegate: nil,
-//            source: source,
-//            name: blobName,
-//            container: AppConstants.uploadContainer,
-//            properties: properties,
-//            options: options
-//        )
-//        return uploader
-//    }
 }
 
 class ActivtyViewController: UIViewController {

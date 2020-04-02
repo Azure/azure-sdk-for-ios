@@ -52,6 +52,7 @@ internal struct UploadData {
 class BlobUploadViewController: UIViewController, MSALInteractiveDelegate {
     private var dataSource = [UploadData]()
     private var uploadMap = [IndexPath: UploadData]()
+    private var blobClient: StorageBlobClient?
 
     private var sizeForCell: CGSize {
         let itemsPerRow: CGFloat = 3.0
@@ -72,13 +73,13 @@ class BlobUploadViewController: UIViewController, MSALInteractiveDelegate {
 
     // MARK: Internal Methods
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // FIXME: This
-        // AppState.transferManager.delegate = self
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        blobClient = try? AppState.blobClient(withDelegate: self)
     }
 
-    override func viewWillAppear(_: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         let status = PHPhotoLibrary.authorizationStatus()
         if status == .notDetermined {
             PHPhotoLibrary.requestAuthorization { newStatus in
@@ -138,6 +139,7 @@ class BlobUploadViewController: UIViewController, MSALInteractiveDelegate {
             }
         }
         group.notify(queue: .main) {
+            self.blobClient?.startManaging()
             self.reloadCollectionView()
         }
     }
@@ -177,7 +179,7 @@ extension BlobUploadViewController: UICollectionViewDelegate, UICollectionViewDa
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
         let cellIdentifier = "CustomCollectionViewCell"
-        guard let blobClient = try? AppState.blobClient(withDelegate: self),
+        guard let blobClient = blobClient,
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath)
             as? CustomCollectionViewCell else {
             fatalError("Preconditions not met to create CustomCollectionViewCell")
@@ -188,15 +190,15 @@ extension BlobUploadViewController: UICollectionViewDelegate, UICollectionViewDa
         cell.image.image = image(for: data.asset, withSize: sizeForCell)
         cell.progressBar.progress = 0
 
-        // FIXME: Fix
-//        if let transfer = blobClient.transfer(withId: data.id) as? BlobTransfer, transfer.transferType = .upload {
-//            // Match any blobs to existing transfers.
-//            // Update upload map and progress.
-//            data.transfer = transfer
-//            uploadMap[indexPath] = data
-//            cell.backgroundColor = transfer.state.color
-//            cell.progressBar.progress = transfer.progress
-//        }
+        if let transfer = blobClient.transfers.uploadedTo(container: AppConstants.uploadContainer, blob: data.blobName)
+            .first {
+            // Match any blobs to existing transfers.
+            // Update upload map and progress.
+            data.transfer = transfer
+            uploadMap[indexPath] = data
+            cell.backgroundColor = transfer.state.color
+            cell.progressBar.progress = transfer.progress
+        }
         return cell
     }
 
@@ -207,7 +209,7 @@ extension BlobUploadViewController: UICollectionViewDelegate, UICollectionViewDa
             }
         }
         guard let containerName = AppConstants.uploadContainer else { return }
-        guard let blobClient = try? AppState.blobClient(withDelegate: self) else { return }
+        guard let blobClient = blobClient else { return }
 
         // don't start a transfer if one has already started
         if uploadMap[indexPath]?.transfer != nil { return }
@@ -221,7 +223,7 @@ extension BlobUploadViewController: UICollectionViewDelegate, UICollectionViewDa
         let options = AppState.uploadOptions
         do {
             if let transfer = try blobClient.upload(
-                url: sourceUrl,
+                file: sourceUrl,
                 toContainer: containerName,
                 asBlob: blobName,
                 properties: properties,
@@ -266,7 +268,7 @@ extension BlobUploadViewController: UICollectionViewDelegateFlowLayout {
 extension BlobUploadViewController: TransferDelegate {
     func client(forRestorationId restorationId: String) -> PipelineClient? {
         guard restorationId == "upload" else { return nil }
-        return try? AppState.blobClient(withDelegate: self)
+        return blobClient
     }
 
     func options(forRestorationId restorationId: String) -> AzureOptions? {
@@ -295,8 +297,4 @@ extension BlobUploadViewController: TransferDelegate {
         showAlert(error: error)
         reloadCollectionView()
     }
-
-//    func transfer(_: Transfer, didUpdateWithState _: TransferState) {
-//        reloadCollectionView()
-//    }
 }

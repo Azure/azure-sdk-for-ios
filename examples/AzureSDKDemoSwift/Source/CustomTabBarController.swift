@@ -27,21 +27,12 @@
 import UIKit
 
 class CustomTabBarController: UITabBarController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        if let blobClient = try? AppState.blobClient() {
-            blobClient.startManaging()
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        do {
+            try AppState.blobClient().stopManaging()
+        } catch {
+            showAlert(error: error)
         }
-    }
-
-    override func viewDidAppear(_: Bool) {
-        // FIXME: Separate startManaging
-//        AppState.transferManager.reachability?.startListening()
-    }
-
-    override func viewDidDisappear(_: Bool) {
-        // FIXME: Separate startManaging
-//        AppState.transferManager.reachability?.stopListening()
-//        AppState.transferManager.pauseAll()
     }
 }
