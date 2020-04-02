@@ -612,14 +612,6 @@ extension StorageBlobClient {
         manager.resumeAll()
     }
 
-    /// Retrieve a single Transfer object by its id.
-    ///
-    /// - Parameters:
-    ///   - id: The id of the transfer to retrieve.
-    public func transfer(withId id: UUID) -> Transfer? {
-        return manager.transfer(withId: id)
-    }
-
     /// Retrieve the list of all currently managed transfers.
     public var transfers: [Transfer] {
         return manager.transfers

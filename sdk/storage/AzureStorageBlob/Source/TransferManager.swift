@@ -49,7 +49,6 @@ internal protocol TransferManager: ResumableOperationQueueDelegate {
     var count: Int { get }
     subscript(_: Int) -> Transfer { get }
     var transfers: [Transfer] { get }
-    func transfer(withId: UUID) -> Transfer?
 
     func add(transfer: Transfer)
     func cancel(transfer: Transfer)
@@ -82,9 +81,68 @@ public protocol TransferDelegate: AnyObject {
 
 // MARK: Extensions
 
-internal extension TransferManager {
-    func transfer(withId id: UUID) -> Transfer? {
-        return transfers.first { $0.id == id }
+public extension Array where Element == Transfer {
+    /// Retrieve all upload transfers where the source matches the provided source URL.
+    /// - Parameters:
+    ///   - sourceURL: The URL to a file on this device.
+    func from(_ sourceURL: URL) -> [Transfer] {
+        return filter { transfer in
+            guard let transfer = transfer as? BlobTransfer else { return false }
+            return transfer.transferType == .upload && transfer.source == sourceURL
+        }
+    }
+
+    /// Retrieve all download transfers where the source container and blob match the provided parameters.
+    /// - Parameters:
+    ///   - container: The name of the container.
+    ///   - blob: The name of the blob.
+    func from(container: String, blob: String) -> [Transfer] {
+        let pathSuffix = "\(container)/\(blob)"
+        return filter { transfer in
+            guard let transfer = transfer as? BlobTransfer, let source = transfer.source else { return false }
+            return transfer.transferType == .download && source.path.hasSuffix(pathSuffix)
+        }
+    }
+
+    /// Retrieve all download transfers where the destination matches the provided destination URL.
+    /// - Parameters:
+    ///   - destinationURL: The URL to a file path on this device.
+    func to(_ destinationURL: URL) -> [Transfer] {
+        return filter { transfer in
+            guard let transfer = transfer as? BlobTransfer else { return false }
+            return transfer.transferType == .download && transfer.destination == destinationURL
+        }
+    }
+
+    /// Retrieve all upload transfers where the destination container and blob match the provided parameters.
+    /// - Parameters:
+    ///   - container: The name of the container.
+    ///   - blob: The name of the blob.
+    func to(container: String, blob: String) -> [Transfer] {
+        let pathSuffix = "\(container)/\(blob)"
+        return filter { transfer in
+            guard let transfer = transfer as? BlobTransfer, let destination = transfer.destination else { return false }
+            return transfer.transferType == .upload && destination.path.hasSuffix(pathSuffix)
+        }
+    }
+
+    /// Retrieve all transfers of the provided type.
+    ///
+    /// - Parameters:
+    ///   - type: The type of transfers to retrieve.
+    func of(type transferType: TransferType) -> [Transfer] {
+        return filter { transfer in
+            guard let transfer = transfer as? BlobTransfer else { return false }
+            return transfer.transferType == transferType
+        }
+    }
+
+    /// Retrieve a single Transfer object by its id.
+    ///
+    /// - Parameters:
+    ///   - id: The id of the transfer to retrieve.
+    func firstWith(id: UUID) -> Transfer? {
+        return first { $0.id == id }
     }
 }
 
