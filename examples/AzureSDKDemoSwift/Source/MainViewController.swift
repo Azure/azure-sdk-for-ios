@@ -38,17 +38,11 @@ class MainViewController: UITableViewController, MSALInteractiveDelegate {
     private var noMoreData = false
     private lazy var blobClient: StorageBlobClient? = {
         guard let application = AppState.application else { return nil }
-        do {
-            let credential = MSALCredential(
-                tenant: AppConstants.tenant, clientId: AppConstants.clientId, application: application,
-                account: AppState.currentAccount()
-            )
-            let client = try StorageBlobClient(accountUrl: AppConstants.storageAccountUrl, credential: credential)
-            return client
-        } catch {
-            showAlert(error: error)
-            return nil
-        }
+        let credential = MSALCredential(
+            tenant: AppConstants.tenant, clientId: AppConstants.clientId, application: application,
+            account: AppState.currentAccount()
+        )
+        return StorageBlobClient(accountUrl: AppConstants.storageAccountUrl, credential: credential)
     }()
 
     override func viewDidLoad() {
@@ -63,8 +57,7 @@ class MainViewController: UITableViewController, MSALInteractiveDelegate {
 
     /// Constructs the PagedCollection and retrieves the first page of results to initalize the table view.
     private func loadInitialSettings() {
-        let options = ListContainersOptions()
-        options.maxResults = 20
+        let options = ListContainersOptions(maxResults: 20)
         blobClient?.listContainers(withOptions: options) { result, _ in
             switch result {
             case let .success(paged):
