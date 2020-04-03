@@ -31,13 +31,11 @@ import Foundation
 internal class ChunkDownloader {
     // MARK: Properties
 
-    internal let blobName: String
-
-    internal let containerName: String
-
     internal let client: StorageBlobClient
 
     internal let options: DownloadBlobOptions
+
+    internal let downloadSource: URL
 
     internal let downloadDestination: URL
 
@@ -55,27 +53,24 @@ internal class ChunkDownloader {
 
     /// Creates a `ChunkDownloader` object.
     /// - Parameters:
-    ///   - blob: The name of the blob.
-    ///   - container: The name of the stoarge container in which the blob is located is located.
     ///   - client: The `StorageBlobClient` that initiated the request.
-    ///   - url: The URL to the blob object.
+    ///   - source: The location in Blob Storage of the file to download.
+    ///   - destination: The location on the device of the file being downloaded.
     ///   - startRange: The start point, in bytes, of the download request.
     ///   - endRange: The end point, in bytes, of the download request.
     ///   - options: A `DownloadBlobOptions` object with which to control the download.
     public init(
-        blob: String,
-        container: String,
         client: StorageBlobClient,
-        url: URL,
+        source: URL,
+        destination: URL,
         startRange: Int,
         endRange: Int,
         options: DownloadBlobOptions
     ) {
-        self.blobName = blob
-        self.containerName = container
         self.client = client
         self.options = options
-        self.downloadDestination = url
+        self.downloadSource = source
+        self.downloadDestination = destination
         self.startRange = startRange
         self.endRange = endRange
     }
@@ -87,14 +82,6 @@ internal class ChunkDownloader {
     ///   - requestId: Unique request ID (GUID) for the operation.
     ///   - completion: A completion handler that forwards the downloaded data.
     public func download(requestId: String? = nil, completion: @escaping HTTPResultHandler<Data>) {
-        // Construct URL
-        let urlTemplate = "/{container}/{blob}"
-        let pathParams = [
-            "container": containerName,
-            "blob": blobName
-        ]
-        guard let url = client.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return }
-
         // Construct parameters & headers
         var queryParams = [QueryParameter]()
         if let snapshot = options.snapshot { queryParams.append("snapshot", snapshot) }
@@ -103,7 +90,7 @@ internal class ChunkDownloader {
         let headers = downloadHeadersForRequest(withId: requestId)
 
         // Construct and send request
-        guard let request = try? HTTPRequest(method: .get, url: url, headers: headers) else { return }
+        guard let request = try? HTTPRequest(method: .get, url: downloadSource, headers: headers) else { return }
         request.add(queryParams: queryParams)
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 206] as AnyObject
@@ -232,14 +219,11 @@ public protocol BlobDownloader {
     /// The `BlobDownloadDelegate` to inform about download events.
     var delegate: BlobDownloadDelegate? { get set }
 
+    /// Location in Blob Storage of the file to download.
+    var downloadSource: URL { get }
+
     /// Location on the device of the file being downloaded.
     var downloadDestination: URL { get }
-
-    /// Name of the source blob.
-    var blobName: String { get }
-
-    /// Name of the container containing the source blob.
-    var containerName: String { get }
 
     /// Properties applied to the source blob.
     var blobProperties: BlobProperties? { get }
@@ -267,14 +251,11 @@ internal class BlobStreamDownloader: BlobDownloader {
 
     public weak var delegate: BlobDownloadDelegate?
 
+    /// Location in Blob Storage of the file to download.
+    public let downloadSource: URL
+
     /// Location on the device of the file being downloaded.
     public let downloadDestination: URL
-
-    /// Name of the source blob.
-    public let blobName: String
-
-    /// Name of the container containing the source blob.
-    public let containerName: String
 
     /// Properties applied to the source blob.
     public var blobProperties: BlobProperties?
@@ -312,43 +293,22 @@ internal class BlobStreamDownloader: BlobDownloader {
     /// Create a `BlobStreamDownloader` object.
     /// - Parameters:
     ///   - client: A`StorageBlobClient` reference.
-    ///   - name: The name of the blob to download.
-    ///   - container: The name of the container the blob is contained in.
+    ///   - delegate: A `BlobDownloadDelegate` to notify about the progress of the download.
+    ///   - source: The location in Blob Storage of the file to download.
+    ///   - destination: The location on the device of the file being downloaded.
     ///   - options: A `DownloadBlobOptions` object to control the download process.
     public init(
         client: StorageBlobClient,
         delegate: BlobDownloadDelegate? = nil,
-        name: String,
-        container: String,
+        source: URL,
+        destination: URL,
         options: DownloadBlobOptions? = nil
     ) throws {
-        // determine which app folder is appropriate
-        let isTemporary = options?.destination?.isTemporary ?? false
-        var baseUrl: URL
-        if isTemporary {
-            baseUrl = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-        } else {
-            guard let cacheDir = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first else {
-                throw AzureError.fileSystem("Unable to find cache directory.")
-            }
-            baseUrl = cacheDir
-        }
-
-        // attribute the "meta-folder" part of the blob name to the subfolder
-        var defaultUrlComps = "\(container)/\(name)".split(separator: "/").compactMap { String($0) }
-        let defaultFilename = defaultUrlComps.popLast()!
-        let defaultSubfolder = defaultUrlComps.joined(separator: "/")
-        let customSubfolder = options?.destination?.subfolder
-        let customFilename = options?.destination?.filename
-
-        self.downloadDestination = baseUrl.appendingPathComponent(customSubfolder ?? defaultSubfolder)
-            .appendingPathComponent(customFilename ?? defaultFilename)
-
         self.client = client
         self.delegate = delegate
         self.options = options ?? DownloadBlobOptions()
-        self.blobName = name
-        self.containerName = container
+        self.downloadSource = source
+        self.downloadDestination = destination
         self.requestedSize = self.options.range?.length
         self.blobProperties = nil
         self.totalSize = -1
@@ -405,10 +365,9 @@ internal class BlobStreamDownloader: BlobDownloader {
         guard !isComplete else { return }
         let range = blockList.removeFirst()
         let downloader = ChunkDownloader(
-            blob: blobName,
-            container: containerName,
             client: client,
-            url: downloadDestination,
+            source: downloadSource,
+            destination: downloadDestination,
             startRange: range.startIndex,
             endRange: range.endIndex,
             options: options
@@ -436,10 +395,9 @@ internal class BlobStreamDownloader: BlobDownloader {
     public func initialRequest(then completion: @escaping HTTPResultHandler<Data>) {
         let firstRange = blockList.remove(at: 0)
         let downloader = ChunkDownloader(
-            blob: blobName,
-            container: containerName,
             client: client,
-            url: downloadDestination,
+            source: downloadSource,
+            destination: downloadDestination,
             startRange: firstRange.startIndex,
             endRange: firstRange.endIndex,
             options: options

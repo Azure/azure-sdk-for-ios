@@ -33,8 +33,12 @@ extension BlobTransfer {
         return NSFetchRequest<BlobTransfer>(entityName: "BlobTransfer")
     }
 
+    @NSManaged internal var clientRestorationId: String
+    /// The destionation of the transfer. For uploads, this is the blob URL where the file is being uploaded. For
+    /// downloads, this is the local path on the device to which the blob is being downloaded.
     @NSManaged public internal(set) var destination: URL?
     @NSManaged internal var endRange: Int64
+    /// The error that was encountered during the transfer, if any.
     @NSManaged public internal(set) var error: Error?
     /// The unique identifier for this transfer operation.
     @NSManaged public internal(set) var id: UUID
@@ -42,6 +46,8 @@ extension BlobTransfer {
     /// :nodoc: Internal representation of the state.
     @NSManaged public internal(set) var rawState: Int16
     @NSManaged internal var rawType: Int16
+    /// The source of the transfer. For uploads, this is the local path on the device of the file being uploaded. For
+    /// downloads, this is the URL of the blob being downloaded.
     @NSManaged public internal(set) var source: URL?
     @NSManaged internal var startRange: Int64
     @NSManaged internal var totalBlocks: Int64

@@ -28,6 +28,7 @@ import AzureCore
 import Foundation
 
 extension StorageBlobClient {
+    /// Header values that are permitted to be logged from StorageBlobClient API calls.
     public static let allowHeaders: [String] = LoggingPolicy.defaultAllowHeaders + [
         HTTPHeader.acceptRanges.rawValue,
         HTTPHeader.accessControlAllowOrigin.rawValue,
@@ -108,6 +109,7 @@ extension StorageBlobClient {
         StorageHTTPHeader.tagCount.rawValue
     ]
 
+    /// Query string parameter values that are permitted to be logged from StorageBlobClient API calls.
     public static let allowQueryParams: [String] = [
         "blockid",
         "blocklisttype",

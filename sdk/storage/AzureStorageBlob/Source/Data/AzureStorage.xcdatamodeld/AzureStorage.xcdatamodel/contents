@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19E266" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="BlobTransfer" representedClassName=".BlobTransfer" syncable="YES">
+        <attribute name="clientRestorationId" attributeType="String"/>
         <attribute name="destination" attributeType="URI"/>
         <attribute name="endRange" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="error" optional="YES" attributeType="Transformable" customClassName="Error"/>

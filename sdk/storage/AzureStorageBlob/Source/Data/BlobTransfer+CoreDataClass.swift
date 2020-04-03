@@ -29,6 +29,7 @@ import AzureCore
 import CoreData
 import Foundation
 
+/// A blob transfer operation.
 public class BlobTransfer: NSManagedObject, TransferImpl {
     // MARK: Properties
 
@@ -110,6 +111,7 @@ public class BlobTransfer: NSManagedObject, TransferImpl {
 extension BlobTransfer {
     internal static func with(
         context: NSManagedObjectContext,
+        clientRestorationId: String,
         source: URL,
         destination: URL,
         type: TransferType,
@@ -131,6 +133,7 @@ extension BlobTransfer {
         transfer.state = .pending
         transfer.transferType = type
         transfer.id = UUID()
+        transfer.clientRestorationId = clientRestorationId
         return transfer
     }
 }

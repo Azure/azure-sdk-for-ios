@@ -49,7 +49,6 @@ internal protocol TransferManager: ResumableOperationQueueDelegate {
     var count: Int { get }
     subscript(_: Int) -> Transfer { get }
     var transfers: [Transfer] { get }
-    func transfer(withId: UUID) -> Transfer?
 
     func add(transfer: Transfer)
     func cancel(transfer: Transfer)
@@ -68,27 +67,75 @@ internal protocol TransferManager: ResumableOperationQueueDelegate {
 public protocol TransferDelegate: AnyObject {
     /// A transfer's state has changed, and progress is being reported.
     func transfer(_: Transfer, didUpdateWithState: TransferState, andProgress: TransferProgress?)
-    /// A transfer's state has changed, no progress informating is available.
+    /// A transfer's state has changed, no progress information is available.
     func transfer(_: Transfer, didUpdateWithState: TransferState)
     /// A transfer has failed.
     func transfer(_: Transfer, didFailWithError: Error)
     /// A transfer has completed.
     func transferDidComplete(_: Transfer)
-    /// Method to return a `BlobStreamUploader` that can be used to complete a transfer.
-    func uploader(for transfer: BlobTransfer) -> BlobUploader?
-    /// Method to return a `BlobStreamDownloader` that can be used to complete a transfer.
-    func downloader(for transfer: BlobTransfer) -> BlobDownloader?
+    /// Method to return a `PipelineClient` that can be used to restart a transfer.
+    func client(forRestorationId restorationId: String) -> PipelineClient?
+    /// Method to return an `AzureOptions` object that can be used to restart a transfer.
+    func options(forRestorationId restorationId: String) -> AzureOptions?
 }
 
 // MARK: Extensions
 
-internal extension TransferManager {
-    func transfer(withId id: UUID) -> Transfer? {
-        return transfers.first { $0.id == id }
+public extension Array where Element == Transfer {
+    /// Retrieve a single Transfer object by its id.
+    /// - Parameters:
+    ///   - id: The id of the transfer to retrieve.
+    func element(withId id: UUID) -> Transfer? {
+        return first { $0.id == id }
+    }
+
+    /// Retrieve all download transfers where the source container and blob match the provided parameters.
+    /// - Parameters:
+    ///   - container: The name of the download's source container.
+    ///   - blob: The name of the download's source blob.
+    func downloadedFrom(container: String, blob: String) -> [BlobTransfer] {
+        let pathSuffix = "\(container)/\(blob)"
+        return compactMap { transfer in
+            guard let transfer = transfer as? BlobTransfer, let source = transfer.source else { return nil }
+            return transfer.transferType == .download && source.path.hasSuffix(pathSuffix) ? transfer : nil
+        }
+    }
+
+    /// Retrieve all download transfers where the destination matches the provided destination URL.
+    /// - Parameters:
+    ///   - destinationUrl: The URL to a file path on this device which is the destination of the download.
+    func downloadedTo(file destinationUrl: URL) -> [BlobTransfer] {
+        return compactMap { transfer in
+            guard let transfer = transfer as? BlobTransfer else { return nil }
+            return transfer.transferType == .download && transfer.destination == destinationUrl ? transfer : nil
+        }
+    }
+
+    /// Retrieve all upload transfers where the source matches the provided source URL.
+    /// - Parameters:
+    ///   - sourceUrl: The URL to a file on this device which is the source of the upload.
+    func uploadedFrom(file sourceUrl: URL) -> [BlobTransfer] {
+        return compactMap { transfer in
+            guard let transfer = transfer as? BlobTransfer else { return nil }
+            return transfer.transferType == .upload && transfer.source == sourceUrl ? transfer : nil
+        }
+    }
+
+    /// Retrieve all upload transfers where the destination container and blob match the provided parameters.
+    /// - Parameters:
+    ///   - container: The name of the upload's destination container.
+    ///   - blob: The name of the upload's destination blob.
+    func uploadedTo(container: String, blob: String) -> [BlobTransfer] {
+        let pathSuffix = "\(container)/\(blob)"
+        return compactMap { transfer in
+            guard let transfer = transfer as? BlobTransfer, let destination = transfer.destination else { return nil }
+            return transfer.transferType == .upload && destination.path.hasSuffix(pathSuffix) ? transfer : nil
+        }
     }
 }
 
 public extension TransferDelegate {
+    /// A transfer's state has changed, no progress information is available.
     func transfer(_ transferParam: Transfer, didUpdateWithState state: TransferState) {
         transfer(transferParam, didUpdateWithState: state, andProgress: nil)
     }
