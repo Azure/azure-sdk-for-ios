@@ -169,7 +169,7 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
 
         // Match any blobs to existing transfers.
         // Update download map and progress.
-        if let transfer = blobClient?.transfers.from(container: containerName, blob: blobName).first as? BlobTransfer {
+        if let transfer = blobClient?.transfers.downloadedFrom(container: containerName, blob: blobName).first {
             if transfer.state != .complete {
                 cell.backgroundColor = .yellow
             } else {
