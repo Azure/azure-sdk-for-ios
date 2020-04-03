@@ -222,7 +222,7 @@ public final class StorageBlobClient: PipelineClient {
     ///   - options: A `ListBlobsOptions` object to control the list operation.
     ///   - completion: A completion handler that receives a `PagedCollection` of `BlobItem` objects on success.
     public func listBlobs(
-        in container: String,
+        inContainer container: String,
         withOptions options: ListBlobsOptions? = nil,
         then completion: @escaping HTTPResultHandler<PagedCollection<BlobItem>>
     ) {
@@ -317,7 +317,7 @@ public final class StorageBlobClient: PipelineClient {
     public func rawDownload(
         blob: String,
         fromContainer container: String,
-        to destinationUrl: URL,
+        toFile destinationUrl: URL,
         withOptions options: DownloadBlobOptions? = nil,
         then completion: @escaping HTTPResultHandler<BlobDownloader>
     ) throws {
@@ -358,7 +358,7 @@ public final class StorageBlobClient: PipelineClient {
     ///   - options: An `UploadBlobOptions` object to control the upload operation.
     ///   - completion: A completion handler that receives a `BlobUploader` object on success.
     public func rawUpload(
-        _ sourceUrl: URL,
+        file sourceUrl: URL,
         toContainer container: String,
         asBlob blob: String,
         properties: BlobProperties? = nil,
@@ -404,7 +404,7 @@ public final class StorageBlobClient: PipelineClient {
     public func download(
         blob: String,
         fromContainer container: String,
-        to destinationUrl: URL,
+        toFile destinationUrl: URL,
         withRestorationId restorationId: String,
         withOptions options: DownloadBlobOptions? = nil
     ) throws -> Transfer? {
@@ -452,7 +452,7 @@ public final class StorageBlobClient: PipelineClient {
     ///   - restorationId: An identifier that it is used to recreate the client and resume an operation.
     ///   - options: An `UploadBlobOptions` object to control the upload operation.
     public func upload(
-        _ sourceUrl: URL,
+        file sourceUrl: URL,
         toContainer container: String,
         asBlob blob: String,
         properties: BlobProperties? = nil,

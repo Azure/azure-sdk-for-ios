@@ -101,7 +101,7 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
         if !(tableView.refreshControl?.isRefreshing ?? false) {
             showActivitySpinner()
         }
-        blobClient?.listBlobs(in: containerName, withOptions: options) { result, _ in
+        blobClient?.listBlobs(inContainer: containerName, withOptions: options) { result, _ in
             self.hideActivitySpinner()
             switch result {
             case let .success(paged):
@@ -223,7 +223,7 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
             if let transfer = try blobClient?.download(
                 blob: blobName,
                 fromContainer: containerName,
-                to: destination,
+                toFile: destination,
                 withRestorationId: "download",
                 withOptions: downloadOptions
             ) {
@@ -277,7 +277,7 @@ extension BlobTableViewController: UIImagePickerControllerDelegate, UINavigation
 
             // Otherwise, start the upload with TransferManager.
             if let transfer = try? self.blobClient?.upload(
-                url,
+                file: url,
                 toContainer: self.containerName,
                 asBlob: blobName,
                 properties: properties,
