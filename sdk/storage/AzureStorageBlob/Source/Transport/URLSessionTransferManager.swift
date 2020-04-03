@@ -394,11 +394,55 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
                     blockTransfer.state = .pending
                 }
             }
+            reconnectClient(for: transfer)
             queueOperationsFor(blobTransfer: transfer)
         default:
             fatalError("Unrecognized transfer type: \(transfer.self)")
         }
         operation(transfer.operation, didChangeState: transfer.state)
+    }
+
+    func reconnectClient(for transfer: BlobTransfer) {
+        // early out if a client is already connected
+        switch transfer.transferType {
+        case .upload:
+            guard transfer.uploader == nil else { return }
+        case .download:
+            guard transfer.downloader == nil else { return }
+        }
+
+        // must create one
+        guard let client = delegate?.client(forRestorationId: transfer.clientRestorationId) as? StorageBlobClient,
+            let options = delegate?.options(forRestorationId: transfer.clientRestorationId) else {
+            fatalError("Cannot recreate uploader/downloader!")
+        }
+        switch transfer.transferType {
+        case .upload:
+            guard let uploadOptions = options as? UploadBlobOptions else { return }
+            guard let sourceUrl = transfer.source else { return }
+            guard let destUrl = transfer.destination else { return }
+            // FIXME: Fix blobProperties!
+            let blobProperties = BlobProperties(contentType: "image/jpg")
+            transfer.uploader = try? BlobStreamUploader(
+                client: client,
+                delegate: nil,
+                source: sourceUrl,
+                destination: destUrl,
+                properties: blobProperties,
+                options: uploadOptions
+            )
+        case .download:
+            guard let downloadOptions = options as? DownloadBlobOptions else { return }
+            guard let sourceUrl = transfer.source else { return }
+            guard let destUrl = transfer.destination else { return }
+            transfer.downloader = try? BlobStreamDownloader(
+                client: client,
+                delegate: nil,
+                source: sourceUrl,
+                destination: destUrl,
+                options: downloadOptions
+            )
+        }
     }
 
     // MARK: Core Data Operations
@@ -422,16 +466,6 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         blobRequest.predicate = predicate
         if let results = try? context.fetch(blobRequest) {
             for transfer in results {
-                switch transfer.transferType {
-                case .upload:
-                    if transfer.uploader == nil {
-                        transfer.uploader = delegate?.uploader(for: transfer) as? BlobStreamUploader
-                    }
-                case .download:
-                    if transfer.downloader == nil {
-                        transfer.downloader = delegate?.downloader(for: transfer) as? BlobStreamDownloader
-                    }
-                }
                 add(transfer: transfer)
             }
         }

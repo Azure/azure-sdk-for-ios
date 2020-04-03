@@ -385,11 +385,13 @@ public final class StorageBlobClient: PipelineClient {
     ///   - blob: The name of the blob.
     ///   - container: The name of the container.
     ///   - destinationURL: The URL to a file path on this device.
+    ///   - restorationId: An identifier that it is used to recreate the client and resume an operation.
     ///   - options: A `DownloadBlobOptions` object to control the download operation.
     public func download(
         blob: String,
         fromContainer container: String,
         to destinationURL: URL,
+        withRestorationId restorationId: String,
         withOptions options: DownloadBlobOptions? = nil
     ) throws -> Transfer? {
         guard let context = manager.persistentContainer?.viewContext else { return nil }
@@ -406,6 +408,7 @@ public final class StorageBlobClient: PipelineClient {
         let sourceUrl = url(forBlob: blob, inContainer: container)
         let blobTransfer = BlobTransfer.with(
             context: context,
+            clientRestorationId: restorationId,
             source: sourceUrl,
             destination: destinationURL,
             type: .download,
@@ -428,12 +431,14 @@ public final class StorageBlobClient: PipelineClient {
     ///   - container: The name of the container.
     ///   - blob: The name of the blob.
     ///   - properties: Properties to set on the resulting blob.
+    ///   - restorationId: An identifier that it is used to recreate the client and resume an operation.
     ///   - options: An `UploadBlobOptions` object to control the upload operation.
     public func upload(
         _ sourceURL: URL,
         toContainer container: String,
         asBlob blob: String,
         properties: BlobProperties? = nil,
+        withRestorationId restorationId: String,
         withOptions options: UploadBlobOptions? = nil
     ) throws -> Transfer? {
         guard let context = manager.persistentContainer?.viewContext else { return nil }
@@ -448,6 +453,7 @@ public final class StorageBlobClient: PipelineClient {
         let destinationUrl = url(forBlob: blob, inContainer: container)
         let blobTransfer = BlobTransfer.with(
             context: context,
+            clientRestorationId: restorationId,
             source: sourceURL,
             destination: destinationUrl,
             type: .upload,
@@ -508,13 +514,13 @@ extension StorageBlobClient: TransferDelegate {
     }
 
     /// :nodoc:
-    public func uploader(for transfer: BlobTransfer) -> BlobUploader? {
-        transferDelegate?.uploader(for: transfer)
+    public func client(forRestorationId restorationId: String) -> PipelineClient? {
+        transferDelegate?.client(forRestorationId: restorationId)
     }
 
     /// :nodoc:
-    public func downloader(for transfer: BlobTransfer) -> BlobDownloader? {
-        transferDelegate?.downloader(for: transfer)
+    public func options(forRestorationId restorationId: String) -> AzureOptions? {
+        transferDelegate?.options(forRestorationId: restorationId)
     }
 }
 

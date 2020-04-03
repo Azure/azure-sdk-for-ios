@@ -33,6 +33,7 @@ extension BlobTransfer {
         return NSFetchRequest<BlobTransfer>(entityName: "BlobTransfer")
     }
 
+    @NSManaged internal var clientRestorationId: String
     /// The destionation of the transfer. For uploads, this is the blob URL where the file is being uploaded. For
     /// downloads, this is the local path on the device to which the blob is being downloaded.
     @NSManaged public internal(set) var destination: URL?

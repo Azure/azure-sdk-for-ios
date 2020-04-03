@@ -73,10 +73,10 @@ public protocol TransferDelegate: AnyObject {
     func transfer(_: Transfer, didFailWithError: Error)
     /// A transfer has completed.
     func transferDidComplete(_: Transfer)
-    /// Method to return a `BlobStreamUploader` that can be used to complete a transfer.
-    func uploader(for transfer: BlobTransfer) -> BlobUploader?
-    /// Method to return a `BlobStreamDownloader` that can be used to complete a transfer.
-    func downloader(for transfer: BlobTransfer) -> BlobDownloader?
+    /// Method to return a `PipelineClient` that can be used to restart a transfer.
+    func client(forRestorationId restorationId: String) -> PipelineClient?
+    /// Method to return an `AzureOptions` object that can be used to restart a transfer.
+    func options(forRestorationId restorationId: String) -> AzureOptions?
 }
 
 // MARK: Extensions
