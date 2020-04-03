@@ -40,12 +40,6 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
     private var noMoreData = false
     private var uploadAlert: UIAlertController?
 
-    private let downloadOptions = DownloadBlobOptions(
-        range: RangeOptions(
-            calculateMD5: false // TODO: Diagnose issues with EXC_BAD_ACCESS and restore to true
-        )
-    )
-
     private lazy var blobClient: StorageBlobClient? = {
         guard let application = AppState.application else { return nil }
         let credential = MSALCredential(
@@ -101,7 +95,7 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
         if !(tableView.refreshControl?.isRefreshing ?? false) {
             showActivitySpinner()
         }
-        blobClient?.listBlobs(inContainer: containerName, withOptions: options) { result, _ in
+        blobClient?.listBlobs(in: containerName, withOptions: options) { result, _ in
             self.hideActivitySpinner()
             switch result {
             case let .success(paged):
@@ -169,7 +163,8 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
 
         // Match any blobs to existing transfers.
         // Update download map and progress.
-        if let transfer = blobClient?.transfers.downloadedFrom(container: containerName, blob: blobName).first {
+        blobClient?.transfer(withId: <#T##UUID#>)
+        if let transfer = transferManager.transfer(forName: blobName, type: .download) as? BlobTransfer {
             if transfer.state != .complete {
                 cell.backgroundColor = .yellow
             } else {
@@ -200,33 +195,42 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
         guard let cell = tableView.cellForRow(at: indexPath) as? CustomTableViewCell else { return }
         guard let blobName = cell.keyLabel.text else { return }
         guard let containerName = containerName else { return }
-        let destination = StorageBlobClient.PathHelper.localUrl(forBlob: blobName, inContainer: containerName)
 
-        let manager = FileManager.default
-        if let existingTransfer = downloadMap[indexPath] as? BlobTransfer {
-            // if transfer exists and is complete, open file, otherwise ignore
-            if manager.fileExists(atPath: destination.path), existingTransfer.incompleteBlocks == 0 {
-                playVideo(indexPath, destination)
-                return
-            }
-            return
-        } else {
-            // if no transfer exists but a file exists, play
-            if manager.fileExists(atPath: destination.path) {
-                playVideo(indexPath, destination)
-                return
-            }
-        }
-
-        // Otherwise, start the download with TransferManager.
         do {
-            if let transfer = try blobClient?.download(
-                blob: blobName,
-                fromContainer: containerName,
-                toFile: destination,
-                withRestorationId: "download",
-                withOptions: downloadOptions
-            ) {
+            let options = DownloadBlobOptions(
+                destination: DestinationOptions(isTemporary: false),
+                range: RangeOptions(
+                    calculateMD5: false // TODO: Diagnose issues with EXC_BAD_ACCESS and restore to true
+                )
+            )
+
+            guard let url = blobClient?.url(forBlob: blobName, inContainer: containerName) else {
+                showAlert(error: AzureError.general("Unable to create URL."))
+                return
+            }
+            guard let destination = try? blobClient?.localUrl(remoteUrl: url, withOptions: options) else {
+                showAlert(error: AzureError.general("Unable to create destination URL."))
+                return
+            }
+
+            let manager = FileManager.default
+            if let existingTransfer = downloadMap[indexPath] as? BlobTransfer {
+                // if transfer exists and is complete, open file, otherwise ignore
+                if manager.fileExists(atPath: destination.path), existingTransfer.incompleteBlocks == 0 {
+                    playVideo(indexPath, destination)
+                    return
+                }
+                return
+            } else {
+                // if no transfer exists but a file exists, play
+                if manager.fileExists(atPath: destination.path) {
+                    playVideo(indexPath, destination)
+                    return
+                }
+            }
+
+            // Otherwise, start the download with TransferManager.
+            if let transfer = try blobClient?.download(url: url, withOptions: options) {
                 downloadMap[indexPath] = transfer
             }
             DispatchQueue.main.async { [weak self] in
@@ -277,11 +281,10 @@ extension BlobTableViewController: UIImagePickerControllerDelegate, UINavigation
 
             // Otherwise, start the upload with TransferManager.
             if let transfer = try? self.blobClient?.upload(
-                file: url,
+                url: url,
                 toContainer: self.containerName,
                 asBlob: blobName,
-                properties: properties,
-                withRestorationId: "upload"
+                properties: properties
             ) as? BlobTransfer {
                 self.showUploadAlert(forTransfer: transfer)
             }
@@ -351,13 +354,47 @@ extension BlobTableViewController: UIImagePickerControllerDelegate, UINavigation
 }
 
 extension BlobTableViewController: TransferDelegate {
-    func client(forRestorationId _: String) -> PipelineClient? {
-        return blobClient
+    func uploader(for transfer: BlobTransfer) -> BlobUploader? {
+        guard let client = blobClient else { return nil }
+        guard let source = transfer.source else { return nil }
+
+        let blobName = source.lastPathComponent
+        let properties = BlobProperties(
+            contentType: "video/quicktime"
+        )
+        let options = UploadBlobOptions()
+        let uploader = try? BlobStreamUploader(
+            client: client,
+            delegate: nil,
+            source: source,
+            name: blobName,
+            container: containerName,
+            properties: properties,
+            options: options
+        )
+        return uploader
     }
 
-    func options(forRestorationId restorationId: String) -> AzureOptions? {
-        if restorationId == "download" { return downloadOptions }
-        return nil
+    func downloader(for transfer: BlobTransfer) -> BlobDownloader? {
+        guard let client = blobClient else { return nil }
+        guard let source = transfer.source else { return nil }
+
+        let options = DownloadBlobOptions(
+            destination: DestinationOptions(isTemporary: false),
+            range: RangeOptions(
+                calculateMD5: false // TODO: Diagnose issues with EXC_BAD_ACCESS and restore to true
+            )
+        )
+
+        let blobName = source.lastPathComponent
+        let downloader = try? BlobStreamDownloader(
+            client: client,
+            delegate: nil,
+            name: blobName,
+            container: containerName,
+            options: options
+        )
+        return downloader
     }
 
     func transfer(
