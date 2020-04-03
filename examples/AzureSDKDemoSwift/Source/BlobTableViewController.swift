@@ -40,6 +40,12 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
     private var noMoreData = false
     private var uploadAlert: UIAlertController?
 
+    private let downloadOptions = DownloadBlobOptions(
+        range: RangeOptions(
+            calculateMD5: false // TODO: Diagnose issues with EXC_BAD_ACCESS and restore to true
+        )
+    )
+
     private lazy var blobClient: StorageBlobClient? = {
         guard let application = AppState.application else { return nil }
         let credential = MSALCredential(
@@ -213,18 +219,14 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
         }
 
         // Otherwise, start the download with TransferManager.
-        let options = DownloadBlobOptions(
-            range: RangeOptions(
-                calculateMD5: false // TODO: Diagnose issues with EXC_BAD_ACCESS and restore to true
-            )
-        )
         do {
             if let transfer = try blobClient?.download(
                 blob: blobName,
                 fromContainer: containerName,
                 to: destination,
-                withOptions: options)
-            {
+                withRestorationId: "download",
+                withOptions: downloadOptions
+            ) {
                 downloadMap[indexPath] = transfer
             }
             DispatchQueue.main.async { [weak self] in
@@ -278,7 +280,8 @@ extension BlobTableViewController: UIImagePickerControllerDelegate, UINavigation
                 url,
                 toContainer: self.containerName,
                 asBlob: blobName,
-                properties: properties
+                properties: properties,
+                withRestorationId: "upload"
             ) as? BlobTransfer {
                 self.showUploadAlert(forTransfer: transfer)
             }
@@ -348,47 +351,13 @@ extension BlobTableViewController: UIImagePickerControllerDelegate, UINavigation
 }
 
 extension BlobTableViewController: TransferDelegate {
-    func uploader(for transfer: BlobTransfer) -> BlobUploader? {
-        guard let client = blobClient else { return nil }
-        guard let source = transfer.source else { return nil }
-
-        let blobName = source.lastPathComponent
-        let properties = BlobProperties(
-            contentType: "video/quicktime"
-        )
-        let options = UploadBlobOptions()
-        let uploader = try? BlobStreamUploader(
-            client: client,
-            delegate: nil,
-            source: source,
-            name: blobName,
-            container: containerName,
-            properties: properties,
-            options: options
-        )
-        return uploader
+    func client(forRestorationId _: String) -> PipelineClient? {
+        return blobClient
     }
 
-    func downloader(for transfer: BlobTransfer) -> BlobDownloader? {
-        guard let client = blobClient else { return nil }
-        guard let source = transfer.source else { return nil }
-        let blobName = source.lastPathComponent
-        let destination = LocalPathHelper.url(forBlob: blobName, inContainer: containerName)
-        let options = DownloadBlobOptions(
-            range: RangeOptions(
-                calculateMD5: false // TODO: Diagnose issues with EXC_BAD_ACCESS and restore to true
-            )
-        )
-
-        let downloader = try? BlobStreamDownloader(
-            client: client,
-            delegate: nil,
-            name: blobName,
-            container: containerName,
-            destination: destination,
-            options: options
-        )
-        return downloader
+    func options(forRestorationId restorationId: String) -> AzureOptions? {
+        if restorationId == "download" { return downloadOptions }
+        return nil
     }
 
     func transfer(
