@@ -33,15 +33,13 @@ internal class ChunkUploader {
 
     internal let blockId: UUID
 
-    internal let blobName: String
-
-    internal let containerName: String
-
     internal let client: StorageBlobClient
 
     internal let options: UploadBlobOptions
 
     internal let uploadSource: URL
+
+    internal let uploadDestination: URL
 
     internal var streamStart: UInt64?
 
@@ -57,30 +55,27 @@ internal class ChunkUploader {
 
     /// Creates a `ChunkUploader` object.
     /// - Parameters:
-    ///   - blob: The name of the blob.
-    ///   - container: The name of the stoarge container in which to upload the blob.
-    ///   - client: The `StorageBlobClient` that initiated the request.
-    ///   - url: The source URL of the blob object.
     ///   - blockId: A unique block identifer.
+    ///   - client: The `StorageBlobClient` that initiated the request.
+    ///   - source: The location on the device of the file being uploaded.
+    ///   - destination: The location in Blob Storage to upload the file to.
     ///   - startRange: The start point, in bytes, of the upload request.
     ///   - endRange: The end point, in bytes, of the upload request.
     ///   - options: An `UploadBlobOptions` object with which to control the upload.
     public init(
-        blob: String,
-        container: String,
         blockId: UUID,
         client: StorageBlobClient,
-        url: URL,
+        source: URL,
+        destination: URL,
         startRange: Int,
         endRange: Int,
         options: UploadBlobOptions
     ) {
         self.blockId = blockId
-        self.blobName = blob
-        self.containerName = container
         self.client = client
         self.options = options
-        self.uploadSource = url
+        self.uploadSource = source
+        self.uploadDestination = destination
         self.startRange = startRange
         self.endRange = endRange
     }
@@ -97,13 +92,6 @@ internal class ChunkUploader {
         transactionalContentCrc64: Data? = nil,
         then completion: @escaping HTTPResultHandler<Data>
     ) {
-        // Construct URL
-        let urlTemplate = "/{container}/{blob}"
-        let pathParams = [
-            "container": containerName,
-            "blob": blobName
-        ]
-        guard let url = client.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return }
         let chunkSize = endRange - startRange
         var buffer = Data(capacity: chunkSize)
         do {
@@ -117,7 +105,7 @@ internal class ChunkUploader {
             let tempData = fileHandle.readData(ofLength: chunkSize)
             buffer.append(tempData)
         } catch {
-            let request = try? HTTPRequest(method: .put, url: url, headers: HTTPHeaders())
+            let request = try? HTTPRequest(method: .put, url: uploadDestination, headers: HTTPHeaders())
             completion(.failure(error), HTTPResponse(request: request, statusCode: nil))
             return
         }
@@ -159,7 +147,8 @@ internal class ChunkUploader {
         if let encryptionAlgorithm = cpk?.algorithm { headers[.encryptionAlgorithm] = encryptionAlgorithm }
 
         // Construct and send request
-        guard let request = try? HTTPRequest(method: .put, url: url, headers: headers, data: buffer) else { return }
+        guard let request = try? HTTPRequest(method: .put, url: uploadDestination, headers: headers, data: buffer)
+        else { return }
         request.add(queryParams: queryParams)
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [201] as AnyObject
@@ -203,11 +192,8 @@ public protocol BlobUploader {
     /// Location on the device of the file being uploaded.
     var uploadSource: URL { get }
 
-    /// Name of the destination blob.
-    var blobName: String { get }
-
-    /// Name of the container containing the destination blob.
-    var containerName: String { get }
+    /// Location in Blob Storage to upload the file to.
+    var uploadDestination: URL { get }
 
     /// Properties applied to the destination blob.
     var blobProperties: BlobProperties? { get }
@@ -234,11 +220,8 @@ internal class BlobStreamUploader: BlobUploader {
     /// Location on the device of the file being uploaded.
     public let uploadSource: URL
 
-    /// Name of the destination blob.
-    public let blobName: String
-
-    /// Name of the container containing the destination blob.
-    public let containerName: String
+    /// Location in Blob Storage to upload the file to.
+    public let uploadDestination: URL
 
     /// Properties applied to the destination blob.
     public var blobProperties: BlobProperties?
@@ -277,15 +260,16 @@ internal class BlobStreamUploader: BlobUploader {
     /// Create a `BlobStreamUploader` object.
     /// - Parameters:
     ///   - client: A`StorageBlobClient` reference.
-    ///   - name: The name of the blob to upload.
-    ///   - container: The name of the container the blob is contained in.
+    ///   - delegate: A `BlobUploadDelegate` to notify about the progress of the upload.
+    ///   - source: The location on the device of the file being uploaded.
+    ///   - destination: The location in Blob Storage to upload the file to.
+    ///   - properties: Properties to set on the resulting blob.
     ///   - options: An `UploadBlobOptions` object to control the upload process.
     public init(
         client: StorageBlobClient,
         delegate: BlobUploadDelegate? = nil,
         source: URL,
-        name: String,
-        container: String,
+        destination: URL,
         properties: BlobProperties? = nil,
         options: UploadBlobOptions? = nil
     ) throws {
@@ -302,9 +286,8 @@ internal class BlobStreamUploader: BlobUploader {
         self.client = client
         self.delegate = delegate
         self.options = options ?? UploadBlobOptions()
-        self.blobName = name
-        self.containerName = container
         self.uploadSource = source
+        self.uploadDestination = destination
         self.blobProperties = properties
         self.blockList = computeBlockList()
     }
@@ -368,14 +351,6 @@ internal class BlobStreamUploader: BlobUploader {
         inGroup _: DispatchGroup? = nil,
         then completion: @escaping HTTPResultHandler<BlobProperties>
     ) {
-        // Construct URL
-        let urlTemplate = "/{container}/{blob}"
-        let pathParams = [
-            "container": containerName,
-            "blob": blobName
-        ]
-        guard let url = client.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return }
-
         // Construct parameters & headers
         var queryParams: [QueryParameter] = [("comp", "blocklist")]
         if let timeout = options.timeout { queryParams.append("timeout", String(timeout)) }
@@ -393,7 +368,8 @@ internal class BlobStreamUploader: BlobUploader {
             fatalError("Unable to serialize block list as XML string.")
         }
         let xmlData = xmlString.data(using: encoding)
-        guard let request = try? HTTPRequest(method: .put, url: url, headers: headers, data: xmlData) else { return }
+        guard let request = try? HTTPRequest(method: .put, url: uploadDestination, headers: headers, data: xmlData)
+        else { return }
         request.add(queryParams: queryParams)
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [201] as AnyObject
@@ -425,11 +401,10 @@ internal class BlobStreamUploader: BlobUploader {
         let range = metadata.range
         let blockId = metadata.blockId
         let uploader = ChunkUploader(
-            blob: blobName,
-            container: containerName,
             blockId: blockId,
             client: client,
-            url: uploadSource,
+            source: uploadSource,
+            destination: uploadDestination,
             startRange: range.startIndex,
             endRange: range.endIndex,
             options: options

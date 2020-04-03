@@ -53,10 +53,9 @@ internal class BlockOperation: ResumableOperation {
         case .download:
             guard let downloader = parent.downloader else { return }
             let chunkDownloader = ChunkDownloader(
-                blob: downloader.blobName,
-                container: downloader.containerName,
                 client: downloader.client,
-                url: downloader.downloadDestination,
+                source: downloader.downloadSource,
+                destination: downloader.downloadDestination,
                 startRange: Int(transfer.startRange),
                 endRange: Int(transfer.endRange),
                 options: downloader.options
@@ -89,11 +88,10 @@ internal class BlockOperation: ResumableOperation {
         case .upload:
             guard let uploader = parent.uploader else { return }
             let chunkUploader = ChunkUploader(
-                blob: uploader.blobName,
-                container: uploader.containerName,
                 blockId: transfer.id,
                 client: uploader.client,
-                url: uploader.uploadSource,
+                source: uploader.uploadSource,
+                destination: uploader.uploadDestination,
                 startRange: Int(transfer.startRange),
                 endRange: Int(transfer.endRange),
                 options: uploader.options

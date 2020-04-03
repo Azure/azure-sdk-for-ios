@@ -321,10 +321,10 @@ public final class StorageBlobClient: PipelineClient {
         withOptions options: DownloadBlobOptions? = nil,
         then completion: @escaping HTTPResultHandler<BlobDownloader>
     ) throws {
+        let sourceURL = url(forBlob: blob, inContainer: container)
         let downloader = try BlobStreamDownloader(
             client: self,
-            name: blob,
-            container: container,
+            source: sourceURL,
             destination: destinationURL,
             options: options
         )
@@ -358,11 +358,11 @@ public final class StorageBlobClient: PipelineClient {
         withOptions options: UploadBlobOptions? = nil,
         then completion: @escaping HTTPResultHandler<BlobUploader>
     ) throws {
+        let destinationURL = url(forBlob: blob, inContainer: container)
         let uploader = try BlobStreamUploader(
             client: self,
             source: sourceURL,
-            name: blob,
-            container: container,
+            destination: destinationURL,
             properties: properties,
             options: options
         )
@@ -395,10 +395,10 @@ public final class StorageBlobClient: PipelineClient {
         guard let context = manager.persistentContainer?.viewContext else { return nil }
         let start = Int64(options?.range?.offset ?? 0)
         let end = Int64(options?.range?.length ?? 0)
+        let sourceURL = url(forBlob: blob, inContainer: container)
         let downloader = try BlobStreamDownloader(
             client: self,
-            name: blob,
-            container: container,
+            source: sourceURL,
             destination: destinationURL,
             options: options
         )
@@ -407,7 +407,7 @@ public final class StorageBlobClient: PipelineClient {
         let blobTransfer = BlobTransfer.with(
             context: context,
             source: sourceUrl,
-            destination: downloader.downloadDestination,
+            destination: destinationURL,
             type: .download,
             startRange: start,
             endRange: end,
@@ -437,18 +437,18 @@ public final class StorageBlobClient: PipelineClient {
         withOptions options: UploadBlobOptions? = nil
     ) throws -> Transfer? {
         guard let context = manager.persistentContainer?.viewContext else { return nil }
+        let destinationURL = url(forBlob: blob, inContainer: container)
         let uploader = try BlobStreamUploader(
             client: self,
             source: sourceURL,
-            name: blob,
-            container: container,
+            destination: destinationURL,
             properties: properties,
             options: options
         )
         let destinationUrl = url(forBlob: blob, inContainer: container)
         let blobTransfer = BlobTransfer.with(
             context: context,
-            source: uploader.uploadSource,
+            source: sourceURL,
             destination: destinationUrl,
             type: .upload,
             startRange: 0,
