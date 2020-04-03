@@ -321,10 +321,17 @@ public final class StorageBlobClient: PipelineClient {
         withOptions options: DownloadBlobOptions? = nil,
         then completion: @escaping HTTPResultHandler<BlobDownloader>
     ) throws {
-        let sourceUrl = url(forBlob: blob, inContainer: container)
+        // Construct URL
+        let urlTemplate = "/{container}/{blob}"
+        let pathParams = [
+            "container": container,
+            "blob": blob
+        ]
+        guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return }
+
         let downloader = try BlobStreamDownloader(
             client: self,
-            source: sourceUrl,
+            source: url,
             destination: destinationUrl,
             options: options
         )
@@ -358,11 +365,18 @@ public final class StorageBlobClient: PipelineClient {
         withOptions options: UploadBlobOptions? = nil,
         then completion: @escaping HTTPResultHandler<BlobUploader>
     ) throws {
-        let destinationUrl = url(forBlob: blob, inContainer: container)
+        // Construct URL
+        let urlTemplate = "/{container}/{blob}"
+        let pathParams = [
+            "container": container,
+            "blob": blob
+        ]
+        guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return }
+
         let uploader = try BlobStreamUploader(
             client: self,
             source: sourceUrl,
-            destination: destinationUrl,
+            destination: url,
             properties: properties,
             options: options
         )
@@ -394,20 +408,26 @@ public final class StorageBlobClient: PipelineClient {
         withRestorationId restorationId: String,
         withOptions options: DownloadBlobOptions? = nil
     ) throws -> Transfer? {
+        // Construct URL
+        let urlTemplate = "/{container}/{blob}"
+        let pathParams = [
+            "container": container,
+            "blob": blob
+        ]
+        guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return nil }
         guard let context = manager.persistentContainer?.viewContext else { return nil }
         let start = Int64(options?.range?.offset ?? 0)
         let end = Int64(options?.range?.length ?? 0)
-        let sourceUrl = url(forBlob: blob, inContainer: container)
         let downloader = try BlobStreamDownloader(
             client: self,
-            source: sourceUrl,
+            source: url,
             destination: destinationUrl,
             options: options
         )
         let blobTransfer = BlobTransfer.with(
             context: context,
             clientRestorationId: restorationId,
-            source: sourceUrl,
+            source: url,
             destination: destinationUrl,
             type: .download,
             startRange: start,
@@ -439,12 +459,18 @@ public final class StorageBlobClient: PipelineClient {
         withRestorationId restorationId: String,
         withOptions options: UploadBlobOptions? = nil
     ) throws -> Transfer? {
+        // Construct URL
+        let urlTemplate = "/{container}/{blob}"
+        let pathParams = [
+            "container": container,
+            "blob": blob
+        ]
+        guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return nil }
         guard let context = manager.persistentContainer?.viewContext else { return nil }
-        let destinationUrl = url(forBlob: blob, inContainer: container)
         let uploader = try BlobStreamUploader(
             client: self,
             source: sourceUrl,
-            destination: destinationUrl,
+            destination: url,
             properties: properties,
             options: options
         )
@@ -452,7 +478,7 @@ public final class StorageBlobClient: PipelineClient {
             context: context,
             clientRestorationId: restorationId,
             source: sourceUrl,
-            destination: destinationUrl,
+            destination: url,
             type: .upload,
             startRange: 0,
             endRange: Int64(uploader.fileSize),
@@ -461,16 +487,6 @@ public final class StorageBlobClient: PipelineClient {
         blobTransfer.uploader = uploader
         manager.add(transfer: blobTransfer)
         return blobTransfer
-    }
-
-    // MARK: Private Methods
-
-    /// Create a simple URL for a blob in the storage account this client uses.
-    /// - Parameters:
-    ///   - blob: The name of the blob.
-    ///   - container: The name of the container.
-    private func url(forBlob blob: String, inContainer container: String) -> URL {
-        return baseUrl.appendingPathComponent(container).appendingPathComponent(blob)
     }
 }
 
