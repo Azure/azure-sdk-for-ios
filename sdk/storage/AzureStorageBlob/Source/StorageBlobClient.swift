@@ -71,13 +71,13 @@ public final class StorageBlobClient: PipelineClient {
 
     /// Create a Storage blob data client.
     /// - Parameters:
-    ///   - baseURL: Base URL for the storage account.
+    ///   - baseUrl: Base URL for the storage account.
     ///   - authPolicy: An `Authenticating` policy to use for authenticating client requests.
     ///   - options: Options used to configure the client.
-    private init(baseURL: URL, authPolicy: Authenticating, withOptions options: StorageBlobClientOptions? = nil) {
+    private init(baseUrl: URL, authPolicy: Authenticating, withOptions options: StorageBlobClientOptions? = nil) {
         self.options = options ?? StorageBlobClientOptions(apiVersion: ApiVersion.latest.rawValue)
         super.init(
-            baseURL: baseURL,
+            baseUrl: baseUrl,
             transport: URLSessionTransport(),
             policies: [
                 UserAgentPolicy(for: StorageBlobClient.self),
@@ -96,16 +96,16 @@ public final class StorageBlobClient: PipelineClient {
 
     /// Create a Storage blob data client.
     /// - Parameters:
-    ///   - accountURL: Base URL for the storage account.
+    ///   - accountUrl: Base URL for the storage account.
     ///   - credential: A `MSALCredential` object used to retrieve authentication tokens.
     ///   - options: Options used to configure the client.
     public convenience init(
-        accountURL: URL,
+        accountUrl: URL,
         credential: MSALCredential,
         withOptions options: StorageBlobClientOptions? = nil
     ) {
         let authPolicy = BearerTokenCredentialPolicy(credential: credential, scopes: StorageBlobClient.defaultScopes)
-        self.init(baseURL: accountURL, authPolicy: authPolicy, withOptions: options)
+        self.init(baseUrl: accountUrl, authPolicy: authPolicy, withOptions: options)
     }
 
     /// Create a Storage blob data client.
@@ -119,11 +119,11 @@ public final class StorageBlobClient: PipelineClient {
         guard let blobEndpoint = credential.blobEndpoint else {
             throw AzureError.serviceRequest("Invalid connection string. No blob endpoint specified.")
         }
-        guard let baseURL = URL(string: blobEndpoint) else {
+        guard let baseUrl = URL(string: blobEndpoint) else {
             throw AzureError.fileSystem("Unable to resolve account URL from credential.")
         }
         let authPolicy = StorageSASAuthenticationPolicy(credential: credential)
-        self.init(baseURL: baseURL, authPolicy: authPolicy, withOptions: options)
+        self.init(baseUrl: baseUrl, authPolicy: authPolicy, withOptions: options)
     }
 
     /// Create a Storage blob data client.
@@ -311,21 +311,21 @@ public final class StorageBlobClient: PipelineClient {
     /// - Parameters:
     ///   - blob: The name of the blob.
     ///   - container: The name of the container.
-    ///   - destinationURL: The URL to a file path on this device.
+    ///   - destinationUrl: The URL to a file path on this device.
     ///   - options: A `DownloadBlobOptions` object to control the download operation.
     ///   - completion: A completion handler that receives a `BlobDownloader` object on success.
     public func rawDownload(
         blob: String,
         fromContainer container: String,
-        to destinationURL: URL,
+        to destinationUrl: URL,
         withOptions options: DownloadBlobOptions? = nil,
         then completion: @escaping HTTPResultHandler<BlobDownloader>
     ) throws {
-        let sourceURL = url(forBlob: blob, inContainer: container)
+        let sourceUrl = url(forBlob: blob, inContainer: container)
         let downloader = try BlobStreamDownloader(
             client: self,
-            source: sourceURL,
-            destination: destinationURL,
+            source: sourceUrl,
+            destination: destinationUrl,
             options: options
         )
         downloader.initialRequest { result, httpResponse in
@@ -344,25 +344,25 @@ public final class StorageBlobClient: PipelineClient {
     /// recommended that you use the `upload()` method instead - that method will manage the transfer in the face of
     /// changing network conditions, and is able to transfer multiple blocks in parallel.
     /// - Parameters:
-    ///   - sourceURL: The URL to a file on this device
+    ///   - sourceUrl: The URL to a file on this device
     ///   - container: The name of the container.
     ///   - blob: The name of the blob.
     ///   - properties: Properties to set on the resulting blob.
     ///   - options: An `UploadBlobOptions` object to control the upload operation.
     ///   - completion: A completion handler that receives a `BlobUploader` object on success.
     public func rawUpload(
-        _ sourceURL: URL,
+        _ sourceUrl: URL,
         toContainer container: String,
         asBlob blob: String,
         properties: BlobProperties? = nil,
         withOptions options: UploadBlobOptions? = nil,
         then completion: @escaping HTTPResultHandler<BlobUploader>
     ) throws {
-        let destinationURL = url(forBlob: blob, inContainer: container)
+        let destinationUrl = url(forBlob: blob, inContainer: container)
         let uploader = try BlobStreamUploader(
             client: self,
-            source: sourceURL,
-            destination: destinationURL,
+            source: sourceUrl,
+            destination: destinationUrl,
             properties: properties,
             options: options
         )
@@ -384,33 +384,31 @@ public final class StorageBlobClient: PipelineClient {
     /// - Parameters:
     ///   - blob: The name of the blob.
     ///   - container: The name of the container.
-    ///   - destinationURL: The URL to a file path on this device.
+    ///   - destinationUrl: The URL to a file path on this device.
     ///   - restorationId: An identifier that it is used to recreate the client and resume an operation.
     ///   - options: A `DownloadBlobOptions` object to control the download operation.
     public func download(
         blob: String,
         fromContainer container: String,
-        to destinationURL: URL,
+        to destinationUrl: URL,
         withRestorationId restorationId: String,
         withOptions options: DownloadBlobOptions? = nil
     ) throws -> Transfer? {
         guard let context = manager.persistentContainer?.viewContext else { return nil }
         let start = Int64(options?.range?.offset ?? 0)
         let end = Int64(options?.range?.length ?? 0)
-        let sourceURL = url(forBlob: blob, inContainer: container)
+        let sourceUrl = url(forBlob: blob, inContainer: container)
         let downloader = try BlobStreamDownloader(
             client: self,
-            source: sourceURL,
-            destination: destinationURL,
+            source: sourceUrl,
+            destination: destinationUrl,
             options: options
         )
-
-        let sourceUrl = url(forBlob: blob, inContainer: container)
         let blobTransfer = BlobTransfer.with(
             context: context,
             clientRestorationId: restorationId,
             source: sourceUrl,
-            destination: destinationURL,
+            destination: destinationUrl,
             type: .download,
             startRange: start,
             endRange: end,
@@ -427,14 +425,14 @@ public final class StorageBlobClient: PipelineClient {
     /// a transfer will be queued and a `Transfer` object will be returned that provides a handle to the transfer. This
     /// client's `transferDelegate` will be notified about state changes for all transfers managed by the client.
     /// - Parameters:
-    ///   - sourceURL: The URL to a file on this device.
+    ///   - sourceUrl: The URL to a file on this device.
     ///   - container: The name of the container.
     ///   - blob: The name of the blob.
     ///   - properties: Properties to set on the resulting blob.
     ///   - restorationId: An identifier that it is used to recreate the client and resume an operation.
     ///   - options: An `UploadBlobOptions` object to control the upload operation.
     public func upload(
-        _ sourceURL: URL,
+        _ sourceUrl: URL,
         toContainer container: String,
         asBlob blob: String,
         properties: BlobProperties? = nil,
@@ -442,19 +440,18 @@ public final class StorageBlobClient: PipelineClient {
         withOptions options: UploadBlobOptions? = nil
     ) throws -> Transfer? {
         guard let context = manager.persistentContainer?.viewContext else { return nil }
-        let destinationURL = url(forBlob: blob, inContainer: container)
+        let destinationUrl = url(forBlob: blob, inContainer: container)
         let uploader = try BlobStreamUploader(
             client: self,
-            source: sourceURL,
-            destination: destinationURL,
+            source: sourceUrl,
+            destination: destinationUrl,
             properties: properties,
             options: options
         )
-        let destinationUrl = url(forBlob: blob, inContainer: container)
         let blobTransfer = BlobTransfer.with(
             context: context,
             clientRestorationId: restorationId,
-            source: sourceURL,
+            source: sourceUrl,
             destination: destinationUrl,
             type: .upload,
             startRange: 0,
@@ -473,7 +470,7 @@ public final class StorageBlobClient: PipelineClient {
     ///   - blob: The name of the blob.
     ///   - container: The name of the container.
     private func url(forBlob blob: String, inContainer container: String) -> URL {
-        return baseURL.appendingPathComponent(container).appendingPathComponent(blob)
+        return baseUrl.appendingPathComponent(container).appendingPathComponent(blob)
     }
 }
 

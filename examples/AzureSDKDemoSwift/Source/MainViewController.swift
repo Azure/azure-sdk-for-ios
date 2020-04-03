@@ -42,7 +42,7 @@ class MainViewController: UITableViewController, MSALInteractiveDelegate {
             tenant: AppConstants.tenant, clientId: AppConstants.clientId, application: application,
             account: AppState.currentAccount()
         )
-        return StorageBlobClient(accountURL: AppConstants.storageAccountUrl, credential: credential)
+        return StorageBlobClient(accountUrl: AppConstants.storageAccountUrl, credential: credential)
     }()
 
     override func viewDidLoad() {

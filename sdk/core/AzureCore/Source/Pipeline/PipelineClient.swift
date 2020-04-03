@@ -46,18 +46,18 @@ open class PipelineClient {
     // MARK: Properties
 
     internal var pipeline: Pipeline
-    public var baseURL: URL
+    public var baseUrl: URL
     public var logger: ClientLogger
 
     // MARK: Initializers
 
     public init(
-        baseURL: URL,
+        baseUrl: URL,
         transport: HTTPTransportStage,
         policies: [PipelineStage],
         logger: ClientLogger
     ) {
-        self.baseURL = baseURL.hasDirectoryPath ? baseURL : baseURL.appendingPathComponent("/")
+        self.baseUrl = baseUrl.hasDirectoryPath ? baseUrl : baseUrl.appendingPathComponent("/")
         self.logger = logger
         self.pipeline = Pipeline(transport: transport, policies: policies)
     }
@@ -67,7 +67,7 @@ open class PipelineClient {
     public func url(forTemplate templateIn: String, withKwargs kwargs: [String: String]? = nil) -> URL? {
         var template = templateIn
         if template.hasPrefix("/") { template = String(template.dropFirst()) }
-        var urlString = baseURL.absoluteString
+        var urlString = baseUrl.absoluteString
         if template.starts(with: urlString) {
             urlString = template
         } else {

@@ -37,17 +37,17 @@ public struct LocalPathHelper {
 
     /// Retrieve a URL for a location on the local device in which to store a blob downloaded from a container.
     /// - Parameters:
-    ///   - directoryURL: The base directory to construct the path within. The default is the application's cache
+    ///   - directoryUrl: The base directory to construct the path within. The default is the application's cache
     ///     directory.
     ///   - name: The name of the blob.
     ///   - container: The name of the container.
     public static func url(
-        inDirectory directoryURL: URL = cacheDir,
+        inDirectory directoryUrl: URL = cacheDir,
         forBlob name: String,
         inContainer container: String
     ) -> URL {
         let (dirName, fileName) = pathComponents(forBlob: name, inContainer: container)
-        return directoryURL.appendingPathComponent(dirName).appendingPathComponent(fileName)
+        return directoryUrl.appendingPathComponent(dirName).appendingPathComponent(fileName)
     }
 
     /// Retrieve the directory and filename components for a blob within a container. Returns a tuple of (`dirName`,

@@ -84,11 +84,11 @@ public protocol TransferDelegate: AnyObject {
 public extension Array where Element == Transfer {
     /// Retrieve all upload transfers where the source matches the provided source URL.
     /// - Parameters:
-    ///   - sourceURL: The URL to a file on this device.
-    func from(_ sourceURL: URL) -> [Transfer] {
+    ///   - sourceUrl: The URL to a file on this device.
+    func from(_ sourceUrl: URL) -> [Transfer] {
         return filter { transfer in
             guard let transfer = transfer as? BlobTransfer else { return false }
-            return transfer.transferType == .upload && transfer.source == sourceURL
+            return transfer.transferType == .upload && transfer.source == sourceUrl
         }
     }
 
@@ -106,11 +106,11 @@ public extension Array where Element == Transfer {
 
     /// Retrieve all download transfers where the destination matches the provided destination URL.
     /// - Parameters:
-    ///   - destinationURL: The URL to a file path on this device.
-    func to(_ destinationURL: URL) -> [Transfer] {
+    ///   - destinationUrl: The URL to a file path on this device.
+    func to(_ destinationUrl: URL) -> [Transfer] {
         return filter { transfer in
             guard let transfer = transfer as? BlobTransfer else { return false }
-            return transfer.transferType == .download && transfer.destination == destinationURL
+            return transfer.transferType == .download && transfer.destination == destinationUrl
         }
     }
 

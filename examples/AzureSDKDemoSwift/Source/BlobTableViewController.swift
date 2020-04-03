@@ -56,7 +56,7 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
             logger: ClientLoggers.none
         )
         let client = StorageBlobClient(
-            accountURL: AppConstants.storageAccountUrl,
+            accountUrl: AppConstants.storageAccountUrl,
             credential: credential,
             withOptions: options
         )
