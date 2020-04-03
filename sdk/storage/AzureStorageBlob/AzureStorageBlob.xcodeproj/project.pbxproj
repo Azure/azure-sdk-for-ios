@@ -41,7 +41,6 @@
 		0AE8F02723AC2A5C007B6975 /* StorageBlobClient+AllowLoggingValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE8F02623AC2A5C007B6975 /* StorageBlobClient+AllowLoggingValues.swift */; };
 		0AE8F02D23AC2A7C007B6975 /* StorageStreamDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE8F02A23AC2A7C007B6975 /* StorageStreamDownloader.swift */; };
 		0AE8F02F23AC2AEB007B6975 /* Options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE8F02923AC2A7C007B6975 /* Options.swift */; };
-		7A4EA6B12436835500945B6E /* StoragePathHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4EA6B02436835500945B6E /* StoragePathHelper.swift */; };
 		7ACAADA1242C241A00A049B7 /* ResumableOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACAADA0242C241900A049B7 /* ResumableOperationQueue.swift */; };
 		7ACAADA2242C241A00A049B7 /* ResumableOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACAAD9F242C241900A049B7 /* ResumableOperation.swift */; };
 /* End PBXBuildFile section */
@@ -107,7 +106,6 @@
 		0AE8F02623AC2A5C007B6975 /* StorageBlobClient+AllowLoggingValues.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StorageBlobClient+AllowLoggingValues.swift"; sourceTree = "<group>"; };
 		0AE8F02923AC2A7C007B6975 /* Options.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Options.swift; sourceTree = "<group>"; };
 		0AE8F02A23AC2A7C007B6975 /* StorageStreamDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageStreamDownloader.swift; sourceTree = "<group>"; };
-		7A4EA6B02436835500945B6E /* StoragePathHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoragePathHelper.swift; sourceTree = "<group>"; };
 		7ACAAD9F242C241900A049B7 /* ResumableOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumableOperation.swift; sourceTree = "<group>"; };
 		7ACAADA0242C241900A049B7 /* ResumableOperationQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumableOperationQueue.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -246,7 +244,6 @@
 			isa = PBXGroup;
 			children = (
 				0AE8F02623AC2A5C007B6975 /* StorageBlobClient+AllowLoggingValues.swift */,
-				7A4EA6B02436835500945B6E /* StoragePathHelper.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -437,7 +434,6 @@
 				0A8D74CA2409D1D400B3B577 /* Transfer.swift in Sources */,
 				0AD6352B23F4C365000D67F6 /* BlockOperations.swift in Sources */,
 				0A5329692411FA4500486D81 /* StorageStreamUploader.swift in Sources */,
-				7A4EA6B12436835500945B6E /* StoragePathHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

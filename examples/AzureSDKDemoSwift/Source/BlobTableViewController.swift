@@ -200,7 +200,7 @@ class BlobTableViewController: UITableViewController, MSALInteractiveDelegate {
         guard let cell = tableView.cellForRow(at: indexPath) as? CustomTableViewCell else { return }
         guard let blobName = cell.keyLabel.text else { return }
         guard let containerName = containerName else { return }
-        let destination = LocalPathHelper.url(forBlob: blobName, inContainer: containerName)
+        let destination = StorageBlobClient.PathHelper.localUrl(forBlob: blobName, inContainer: containerName)
 
         let manager = FileManager.default
         if let existingTransfer = downloadMap[indexPath] as? BlobTransfer {

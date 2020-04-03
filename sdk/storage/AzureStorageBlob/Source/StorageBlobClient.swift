@@ -488,6 +488,46 @@ public final class StorageBlobClient: PipelineClient {
         manager.add(transfer: blobTransfer)
         return blobTransfer
     }
+
+    // MARK: PathHelper
+
+    /// Helper containing properties and values to aid in constructing local paths for working with blobs.
+    public struct PathHelper {
+        /// The application's temporary directory.
+        public static let tempDir = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+
+        /// The application's cache directory.
+        public static let cacheDir = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
+
+        /// Retrieve a URL for a location on the local device in which to store a blob downloaded from a container.
+        /// - Parameters:
+        ///   - directoryUrl: The base directory to construct the path within. The default is the application's cache
+        ///     directory.
+        ///   - name: The name of the blob.
+        ///   - container: The name of the container.
+        public static func localUrl(
+            inDirectory directoryUrl: URL = cacheDir,
+            forBlob name: String,
+            inContainer container: String
+        ) -> URL {
+            let (dirName, fileName) = pathComponents(forBlob: name, inContainer: container)
+            return directoryUrl.appendingPathComponent(dirName).appendingPathComponent(fileName)
+        }
+
+        /// Retrieve the directory and filename components for a blob within a container. Returns a tuple of (`dirName`,
+        /// `fileName`), where `dirName` is the string up to, but not including, the final '/', and `fileName` is the
+        /// component following the final '/'.
+        /// - Parameters:
+        ///   - name: The name of the blob.
+        ///   - container: The name of the container
+        /// - Returns: A tuple of (`dirName`, `fileName`)
+        public static func pathComponents(forBlob name: String, inContainer container: String) -> (String, String) {
+            var defaultUrlComps = "\(container)/\(name)".split(separator: "/").compactMap { String($0) }
+            let baseName = defaultUrlComps.popLast()!
+            let dirName = defaultUrlComps.joined(separator: "/")
+            return (dirName, baseName)
+        }
+    }
 }
 
 // MARK: Paged Collection Delegate
