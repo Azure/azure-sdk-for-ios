@@ -39,9 +39,6 @@ public struct StorageBlobClientOptions: AzureConfigurable {
     /// The maximum size of a single chunk in a blob upload or download.
     public let maxChunkSize: Int
 
-    // TransferManager configuration
-    internal var transferManager: TransferManager?
-
     /// Initialize a `StorageBlobClientOptions` structure.
     /// - Parameters:
     ///   - apiVersion: The API version of the Azure Storage Blob service to invoke.
