@@ -104,16 +104,6 @@ class BlobDownloadViewController: UIViewController, MSALInteractiveDelegate {
         }
     }
 
-    private func reloadTableView(forTransfer transfer: BlobTransfer) {
-        DispatchQueue.main.async { [weak self] in
-            guard let filtered = self?.downloadMap.filter({ _, data in
-                data === transfer
-            }) else { return }
-            let indexes = Array(filtered.keys)
-            self?.tableView.reloadRows(at: indexes, with: .fade)
-        }
-    }
-
     // MARK: Internal Methods
 
     internal func playVideo(_ indexPath: IndexPath, _ destination: URL) {
@@ -246,8 +236,7 @@ extension BlobDownloadViewController: TransferDelegate {
         didUpdateWithState _: TransferState,
         andProgress progress: Float?
     ) {
-        if let blobTransfer = transfer as? BlobTransfer {
-            print("BLOB DOWNLOAD \(blobTransfer.hash) DID UPDATE WITH PROGRESS %\((progress ?? -0.01) * 100)")
+        if transfer is BlobTransfer {
             reloadTableView()
         }
     }

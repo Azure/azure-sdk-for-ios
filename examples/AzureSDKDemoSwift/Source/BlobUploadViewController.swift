@@ -281,8 +281,7 @@ extension BlobUploadViewController: TransferDelegate {
         didUpdateWithState _: TransferState,
         andProgress progress: Float?
     ) {
-        if let blobTransfer = transfer as? BlobTransfer {
-            print("BLOB UPLOAD \(blobTransfer.hash) DID UPDATE WITH PROGRESS %\((progress ?? -0.01) * 100)")
+        if transfer is BlobTransfer {
             reloadCollectionView()
         }
     }

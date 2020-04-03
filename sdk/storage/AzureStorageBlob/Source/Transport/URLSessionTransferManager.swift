@@ -161,7 +161,6 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
                 operations.append(blockOperation)
             }
         }
-        print("QUEUEING \(operations.count) OPERATIONS FOR BLOB \(transfer.hash).")
         operationQueue.add(operations)
         self.operations(operations, didChangeState: transfer.state)
     }
