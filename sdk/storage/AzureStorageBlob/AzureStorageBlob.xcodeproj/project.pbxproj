@@ -98,6 +98,7 @@
 		0A80DB182425358A00ED9F94 /* BlobTransfer+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BlobTransfer+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		0A8D74C72409CCC600B3B577 /* URLSessionTransferManager+ResumableOperationQueueDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSessionTransferManager+ResumableOperationQueueDelegate.swift"; sourceTree = "<group>"; };
 		0A8D74C92409D1D400B3B577 /* Transfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transfer.swift; sourceTree = "<group>"; };
+		0A9A83612437B510007AA2ED /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		0AA4FFCC23DF96C4003ADF59 /* TransferManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferManager.swift; sourceTree = "<group>"; };
 		0AC0AA84234D31C300F05073 /* BlobItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlobItem.swift; sourceTree = "<group>"; };
 		0AC0AA86234D38B000F05073 /* ContainerProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerProperties.swift; sourceTree = "<group>"; };
@@ -169,6 +170,7 @@
 			children = (
 				0A68648C233E834D004B7E17 /* AzureStorageBlob.h */,
 				0A68648D233E834D004B7E17 /* Info.plist */,
+				0A9A83612437B510007AA2ED /* README.md */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
