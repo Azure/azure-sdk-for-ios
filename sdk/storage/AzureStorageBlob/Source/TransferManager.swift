@@ -75,8 +75,6 @@ public protocol TransferDelegate: AnyObject {
     func transferDidComplete(_: Transfer)
     /// Method to return a `PipelineClient` that can be used to restart a transfer.
     func client(forRestorationId restorationId: String) -> PipelineClient?
-    /// Method to return an `AzureOptions` object that can be used to restart a transfer.
-    func options(forRestorationId restorationId: String) -> AzureOptions?
 }
 
 // MARK: Extensions

@@ -69,8 +69,8 @@ import Foundation
 
         /// Creates a `Reachability` instance that monitors the address 0.0.0.0.
         ///
-        /// ReachabilityManager treats the 0.0.0.0 address as a special token that causes it to monitor the general routing
-        /// status of the device, both IPv4 and IPv6.
+        /// ReachabilityManager treats the 0.0.0.0 address as a special token that causes it to monitor the
+        /// general routing status of the device, both IPv4 and IPv6.
         ///
         /// - returns: The new `Reachability` instance.
         public convenience init?() {

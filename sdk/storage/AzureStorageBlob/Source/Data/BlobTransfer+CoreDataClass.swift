@@ -83,6 +83,58 @@ public class BlobTransfer: NSManagedObject, TransferImpl {
         }
     }
 
+    // FIXME: The fact that BlobProperties is a struct causes serious problems here. It will always return nil if
+    // allowed to be optional.
+    internal var properties: BlobProperties {
+        get {
+            guard let propertiesString = rawProperties,
+                let jsonData = propertiesString.data(using: .utf8) else { return BlobProperties() }
+            do {
+                return try StorageJSONDecoder().decode(BlobProperties.self, from: jsonData)
+            } catch {
+                return BlobProperties()
+            }
+        }
+
+        set {
+            if let newJson = try? StorageJSONEncoder().encode(newValue) {
+                rawProperties = String(data: newJson, encoding: .utf8)
+            }
+        }
+    }
+
+    internal var uploadOptions: UploadBlobOptions? {
+        get {
+            guard transferType == .upload,
+                let options = rawOptions,
+                let jsonData = options.data(using: .utf8) else { return nil }
+            return try? StorageJSONDecoder().decode(UploadBlobOptions.self, from: jsonData)
+        }
+
+        set {
+            guard transferType == .upload else { return }
+            if let newJson = try? StorageJSONEncoder().encode(newValue) {
+                rawOptions = String(data: newJson, encoding: .utf8)
+            }
+        }
+    }
+
+    internal var downloadOptions: DownloadBlobOptions? {
+        get {
+            guard transferType == .download,
+                let options = rawOptions,
+                let jsonData = options.data(using: .utf8) else { return nil }
+            return try? StorageJSONDecoder().decode(DownloadBlobOptions.self, from: jsonData)
+        }
+
+        set {
+            guard transferType == .download else { return }
+            if let newJson = try? StorageJSONEncoder().encode(newValue) {
+                rawOptions = String(data: newJson, encoding: .utf8)
+            }
+        }
+    }
+
     internal var debugStates: String {
         var dict = [String: String]()
         for transfer in transfers {

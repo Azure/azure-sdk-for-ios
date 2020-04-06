@@ -40,10 +40,13 @@ internal class Pipeline {
             }
             prevPolicy = policy
         }
-        // FIXME: Handle case where there are no policies
-        var lastPolicy = self.policies.removeLast()
-        lastPolicy.next = transport
-        self.policies.append(lastPolicy)
+        if self.policies.count > 0 {
+            var lastPolicy = self.policies.removeLast()
+            lastPolicy.next = transport
+            self.policies.append(lastPolicy)
+        } else {
+            self.policies.append(transport)
+        }
     }
 
     public func run(request: PipelineRequest, then completion: @escaping PipelineStageResultHandler) {

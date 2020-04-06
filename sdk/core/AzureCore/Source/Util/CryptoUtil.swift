@@ -104,7 +104,6 @@ extension String {
      - Returns: The HMAC digest in `Data` format.
      */
     public func hmac(algorithm: CryptoAlgorithm, key: Data) throws -> Data {
-        let error = AzureError.general("Unable to compute HMAC.")
         let strBytes = cString(using: .utf8)
         let strLen = Int(lengthOfBytes(using: .utf8))
         let digestLen = algorithm.digestLength

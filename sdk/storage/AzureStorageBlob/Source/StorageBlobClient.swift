@@ -27,6 +27,20 @@
 import AzureCore
 import Foundation
 
+internal class StorageJSONDecoder: JSONDecoder {
+    override init() {
+        super.init()
+        dateDecodingStrategy = .formatted(Date.Format.rfc1123.formatter)
+    }
+}
+
+internal class StorageJSONEncoder: JSONEncoder {
+    override init() {
+        super.init()
+        dateEncodingStrategy = .formatted(Date.Format.rfc1123.formatter)
+    }
+}
+
 /// A StorageBlobClient represents a Client to the Azure Storage Blob service allowing you to manipulate blobs within
 /// storage containers.
 public final class StorageBlobClient: PipelineClient {
@@ -34,20 +48,6 @@ public final class StorageBlobClient: PipelineClient {
     public enum ApiVersion: String {
         /// The most recent API version of the Azure Storabe Blob service
         case latest = "2019-02-02"
-    }
-
-    internal class StorageJSONDecoder: JSONDecoder {
-        override init() {
-            super.init()
-            dateDecodingStrategy = .formatted(Date.Format.rfc1123.formatter)
-        }
-    }
-
-    internal class StorageJSONEncoder: JSONEncoder {
-        override init() {
-            super.init()
-            dateEncodingStrategy = .formatted(Date.Format.rfc1123.formatter)
-        }
     }
 
     /// Options provided to configure this `StorageBlobClient`.
@@ -62,9 +62,10 @@ public final class StorageBlobClient: PipelineClient {
 
     fileprivate var managing = false
     fileprivate lazy var manager: TransferManager = {
-        let instance = URLSessionTransferManager(delegate: self, logger: self.logger)
-        instance.loadContext()
-        return instance
+        var manager = URLSessionTransferManager.shared
+        manager.delegate = self
+        manager.logger = self.logger
+        return manager
     }()
 
     // MARK: Initializers
@@ -435,6 +436,7 @@ public final class StorageBlobClient: PipelineClient {
             parent: nil
         )
         blobTransfer.downloader = downloader
+        blobTransfer.downloadOptions = options
         manager.add(transfer: blobTransfer)
         return blobTransfer
     }
@@ -455,7 +457,7 @@ public final class StorageBlobClient: PipelineClient {
         file sourceUrl: URL,
         toContainer container: String,
         asBlob blob: String,
-        properties: BlobProperties? = nil,
+        properties: BlobProperties,
         withRestorationId restorationId: String,
         withOptions options: UploadBlobOptions? = nil
     ) throws -> Transfer? {
@@ -485,6 +487,8 @@ public final class StorageBlobClient: PipelineClient {
             parent: nil
         )
         blobTransfer.uploader = uploader
+        blobTransfer.uploadOptions = options
+        blobTransfer.properties = properties
         manager.add(transfer: blobTransfer)
         return blobTransfer
     }
@@ -569,11 +573,6 @@ extension StorageBlobClient: TransferDelegate {
     /// :nodoc:
     public func client(forRestorationId restorationId: String) -> PipelineClient? {
         transferDelegate?.client(forRestorationId: restorationId)
-    }
-
-    /// :nodoc:
-    public func options(forRestorationId restorationId: String) -> AzureOptions? {
-        transferDelegate?.options(forRestorationId: restorationId)
     }
 }
 

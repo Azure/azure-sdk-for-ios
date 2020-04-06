@@ -266,14 +266,8 @@ extension BlobUploadViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension BlobUploadViewController: TransferDelegate {
-    func client(forRestorationId restorationId: String) -> PipelineClient? {
-        guard restorationId == "upload" else { return nil }
+    func client(forRestorationId _: String) -> PipelineClient? {
         return blobClient
-    }
-
-    func options(forRestorationId restorationId: String) -> AzureOptions? {
-        guard restorationId == "upload" else { return nil }
-        return AppState.uploadOptions
     }
 
     func transfer(
@@ -281,13 +275,13 @@ extension BlobUploadViewController: TransferDelegate {
         didUpdateWithState _: TransferState,
         andProgress progress: Float?
     ) {
-        if transfer is BlobTransfer {
+        if let blobTransfer = transfer as? BlobTransfer, blobTransfer.transferType == .upload {
             reloadCollectionView()
         }
     }
 
     func transferDidComplete(_ transfer: Transfer) {
-        if transfer is BlobTransfer {
+        if let blobTransfer = transfer as? BlobTransfer, blobTransfer.transferType == .upload {
             reloadCollectionView()
         }
     }

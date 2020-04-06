@@ -210,6 +210,8 @@ extension TransferState {
             return .systemRed
         case .deleted:
             return .systemRed
+        @unknown default:
+            return .white
         }
     }
 }

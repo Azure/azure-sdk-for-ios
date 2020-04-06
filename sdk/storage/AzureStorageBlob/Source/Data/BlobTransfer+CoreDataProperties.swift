@@ -54,6 +54,8 @@ extension BlobTransfer {
     @NSManaged internal var blocks: NSSet?
     @NSManaged internal var currentProgress: Float
     @NSManaged internal var parent: MultiBlobTransfer?
+    @NSManaged internal var rawOptions: String?
+    @NSManaged internal var rawProperties: String?
 }
 
 // MARK: Generated accessors for blocks

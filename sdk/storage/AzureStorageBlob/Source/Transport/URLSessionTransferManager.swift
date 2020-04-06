@@ -82,16 +82,21 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     // MARK: Initializers
 
-    init(delegate: TransferDelegate? = nil, logger: ClientLogger? = nil) {
-        self.delegate = delegate
-        self.logger = logger ?? PrintLogger(tag: "StorageTransferManager", level: .debug)
+    private override init() {
         self.operationQueue = ResumableOperationQueue(name: "TransferQueue", delegate: nil, removeOnCompletion: true)
         self.transfers = [Transfer]()
+        self.logger = ClientLoggers.none
 
         super.init()
         operationQueue.delegate = self
         operationQueue.maxConcurrentOperationCount = 4
     }
+
+    public static var shared: URLSessionTransferManager = {
+        let manager = URLSessionTransferManager()
+        manager.loadContext()
+        return manager
+    }()
 
     // MARK: TransferManager Methods
 
@@ -131,6 +136,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
         switch transfer.transferType {
         case .download:
+            let totalTransfers = transfer.transfers.count
             let pendingTransfers = transfer.transfers.filter { resumableOperations.contains($0.state) }
             if transfer.initialCallComplete {
                 let finalOperation = BlobDownloadFinalOperation(withTransfer: transfer, queue: operationQueue)
@@ -305,6 +311,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
     // MARK: Pause Operations
 
     func pauseAll() {
+        operationQueue.clear()
         for transfer in transfers {
             pause(transfer: transfer)
         }
@@ -375,6 +382,10 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
                 blockTransfer.state = .pending
             }
             reconnectClient(for: transfer)
+            if transfer.state == .failed {
+                // TODO: Fix the issue that this error is not bubbling up to the client
+                operation(transfer.operation, didChangeState: transfer.state)
+            }
             queueOperations(for: transfer)
         default:
             assertionFailure("Unrecognized transfer type: \(transfer.self)")
@@ -392,36 +403,44 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         }
 
         // must create one
-        guard let client = delegate?.client(forRestorationId: transfer.clientRestorationId) as? StorageBlobClient,
-            let options = delegate?.options(forRestorationId: transfer.clientRestorationId) else {
-            fatalError("Cannot recreate uploader/downloader!")
+        guard let client = delegate?.client(forRestorationId: transfer.clientRestorationId) as? StorageBlobClient else {
+            transfer.error = AzureError.general("Unable to restore client.")
+            logger.error(transfer.error?.localizedDescription)
+            transfer.state = .failed
+            return
         }
-        switch transfer.transferType {
-        case .upload:
-            guard let uploadOptions = options as? UploadBlobOptions else { return }
-            guard let sourceUrl = transfer.source else { return }
-            guard let destUrl = transfer.destination else { return }
-            // FIXME: Fix blobProperties!
-            let blobProperties = BlobProperties(contentType: "image/jpg")
-            transfer.uploader = try? BlobStreamUploader(
-                client: client,
-                delegate: nil,
-                source: sourceUrl,
-                destination: destUrl,
-                properties: blobProperties,
-                options: uploadOptions
-            )
-        case .download:
-            guard let downloadOptions = options as? DownloadBlobOptions else { return }
-            guard let sourceUrl = transfer.source else { return }
-            guard let destUrl = transfer.destination else { return }
-            transfer.downloader = try? BlobStreamDownloader(
-                client: client,
-                delegate: nil,
-                source: sourceUrl,
-                destination: destUrl,
-                options: downloadOptions
-            )
+        do {
+            switch transfer.transferType {
+            case .upload:
+                guard let sourceUrl = transfer.source else { return }
+                guard let destUrl = transfer.destination else { return }
+                let blobProperties = transfer.properties
+                let uploadOptions = transfer.uploadOptions
+                transfer.uploader = try BlobStreamUploader(
+                    client: client,
+                    delegate: nil,
+                    source: sourceUrl,
+                    destination: destUrl,
+                    properties: blobProperties,
+                    options: uploadOptions
+                )
+            case .download:
+                guard let downloadOptions = transfer.downloadOptions else { return }
+                guard let sourceUrl = transfer.source else { return }
+                guard let destUrl = transfer.destination else { return }
+                transfer.downloader = try BlobStreamDownloader(
+                    client: client,
+                    delegate: nil,
+                    source: sourceUrl,
+                    destination: destUrl,
+                    options: downloadOptions
+                )
+            }
+        } catch {
+            logger.error(error.localizedDescription)
+            transfer.error = error
+            transfer.state = .failed
+            return
         }
     }
 

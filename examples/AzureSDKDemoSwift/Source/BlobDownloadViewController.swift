@@ -180,8 +180,8 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
         guard let blobName = cell.keyLabel.text else { return }
         guard let containerName = AppConstants.videoContainer else { return }
         guard let blobClient = blobClient else { return }
-        let destination = StorageBlobClient.PathHelper
-            .localUrl(inDirectory: StorageBlobClient.PathHelper.cacheDir, forBlob: blobName, inContainer: containerName)
+        // FIXME: Major bug--cannot rehydrate transfers due to hard coding of local paths
+        let destination = StorageBlobClient.PathHelper.localUrl(forBlob: blobName, inContainer: containerName)
 
         let manager = FileManager.default
         if let existingTransfer = downloadMap[indexPath] {
@@ -221,14 +221,8 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
 }
 
 extension BlobDownloadViewController: TransferDelegate {
-    func client(forRestorationId restorationId: String) -> PipelineClient? {
-        guard restorationId == "download" else { return nil }
+    func client(forRestorationId _: String) -> PipelineClient? {
         return blobClient
-    }
-
-    func options(forRestorationId restorationId: String) -> AzureOptions? {
-        guard restorationId == "download" else { return nil }
-        return AppState.downloadOptions
     }
 
     func transfer(
@@ -236,13 +230,13 @@ extension BlobDownloadViewController: TransferDelegate {
         didUpdateWithState _: TransferState,
         andProgress progress: Float?
     ) {
-        if transfer is BlobTransfer {
+        if let blobTransfer = transfer as? BlobTransfer, blobTransfer.transferType == .download {
             reloadTableView()
         }
     }
 
     func transferDidComplete(_ transfer: Transfer) {
-        if transfer is BlobTransfer {
+        if let blobTransfer = transfer as? BlobTransfer, blobTransfer.transferType == .download {
             reloadTableView()
         }
     }
