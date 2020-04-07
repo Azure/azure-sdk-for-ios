@@ -136,7 +136,6 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
         switch transfer.transferType {
         case .download:
-            let totalTransfers = transfer.transfers.count
             let pendingTransfers = transfer.transfers.filter { resumableOperations.contains($0.state) }
             if transfer.initialCallComplete {
                 let finalOperation = BlobDownloadFinalOperation(withTransfer: transfer, queue: operationQueue)
@@ -421,7 +420,6 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
                     options: uploadOptions
                 )
             case .download:
-                guard let downloadOptions = transfer.downloadOptions else { return }
                 guard let sourceUrl = transfer.source else { return }
                 guard let destUrl = transfer.destination else { return }
                 transfer.downloader = try BlobStreamDownloader(
@@ -429,7 +427,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
                     delegate: nil,
                     source: sourceUrl,
                     destination: destUrl,
-                    options: downloadOptions
+                    options: transfer.downloadOptions
                 )
             }
         } catch {

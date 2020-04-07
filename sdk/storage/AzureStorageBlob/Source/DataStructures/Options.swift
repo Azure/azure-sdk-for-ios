@@ -30,7 +30,7 @@ import Foundation
 /// if both of the following conditions are met:
 /// - The blob's lease is currently active.
 /// - The specified lease ID matches that of the blob.
-public struct LeaseAccessConditions: Codable {
+public struct LeaseAccessConditions: Codable, Equatable {
     /// The lease ID which must match that of the blob.
     public let leaseId: String
 
@@ -43,7 +43,7 @@ public struct LeaseAccessConditions: Codable {
 
 /// Options for accessing a blob based on its modification date and/or eTag. If specified, the operation will be
 /// performed only if all the specified conditions are met.
-public struct ModifiedAccessConditions: Codable {
+public struct ModifiedAccessConditions: Codable, Equatable {
     /// Perform the operation only if the blob has been modified since the specified date.
     public let ifModifiedSince: Date?
     /// Perform the operation only if the blob has not been modified since the specified date.
@@ -73,7 +73,7 @@ public struct ModifiedAccessConditions: Codable {
 }
 
 /// Options for working on a subset of data for a blob.
-public struct RangeOptions: Codable {
+public struct RangeOptions: Codable, Equatable {
     /// Start of byte range to use for downloading a section of the blob.
     /// Must be set if length is provided.
     public let offset: Int
@@ -104,7 +104,7 @@ public struct RangeOptions: Codable {
 }
 
 /// Blob encryption options.
-public struct EncryptionOptions: Codable {
+public struct EncryptionOptions: Codable, Equatable {
     /// Actual key data in bytes.
     public let key: Data?
     /// Dictionary mapping resources to keys.
@@ -138,7 +138,7 @@ public struct EncryptionOptions: Codable {
  In both cases, the provided encryption key is securely discarded
  as soon as the encryption or decryption process completes.
  */
-public struct CustomerProvidedEncryptionKey: Codable {
+public struct CustomerProvidedEncryptionKey: Codable, Equatable {
     /// Base64-encoded AES-256 encryption key.
     public let keyData: Data
     /// Base64-encoded SHA256 of the encryption key.

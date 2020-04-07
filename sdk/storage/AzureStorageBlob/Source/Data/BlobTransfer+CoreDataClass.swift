@@ -84,27 +84,27 @@ public class BlobTransfer: NSManagedObject, TransferImpl {
         }
     }
 
-    // FIXME: The fact that BlobProperties is a struct causes serious problems here. It will always return nil if
-    // allowed to be optional.
+    // FIXME: The fact that BlobProperties, DownloadBlobOptions, and UploadBlobOptions are structs causes serious
+    // problems here. It will always return nil if allowed to be optional.
     private var cachedProperties: BlobProperties?
     internal var properties: BlobProperties {
         get {
-            defer { return cachedProperties! }
-            guard cachedProperties == nil else { return }
+            guard cachedProperties == nil else { return cachedProperties! }
             guard let propertiesString = rawProperties,
                 let jsonData = propertiesString.data(using: .utf8) else {
-                    cachedProperties = BlobProperties()
-                    return
+                cachedProperties = BlobProperties()
+                return cachedProperties!
             }
             do {
                 cachedProperties = try StorageJSONDecoder().decode(BlobProperties.self, from: jsonData)
             } catch {
                 cachedProperties = BlobProperties()
             }
+            return cachedProperties!
         }
 
         set {
-            guard newValue != cacheProperties else { return }
+            guard newValue != cachedProperties else { return }
             if let newJson = try? StorageJSONEncoder().encode(newValue) {
                 rawProperties = String(data: newJson, encoding: .utf8)
                 cachedProperties = newValue
@@ -112,19 +112,22 @@ public class BlobTransfer: NSManagedObject, TransferImpl {
         }
     }
 
-    private var cachedUploadOptions?
-    internal var uploadOptions: UploadBlobOptions? {
+    private var cachedUploadOptions: UploadBlobOptions?
+    internal var uploadOptions: UploadBlobOptions {
         get {
-            defer { return cachedUploadOptions! }
-            guard cachedUploadOptions == nil else { return }
+            guard cachedUploadOptions == nil else { return cachedUploadOptions! }
             guard transferType == .upload,
                 let options = rawOptions,
-                let jsonData = options.data(using: .utf8) else { return nil }
+                let jsonData = options.data(using: .utf8) else {
+                cachedUploadOptions = UploadBlobOptions()
+                return cachedUploadOptions!
+            }
             do {
                 cachedUploadOptions = try StorageJSONDecoder().decode(UploadBlobOptions.self, from: jsonData)
             } catch {
                 cachedUploadOptions = UploadBlobOptions()
             }
+            return cachedUploadOptions!
         }
 
         set {
@@ -137,19 +140,22 @@ public class BlobTransfer: NSManagedObject, TransferImpl {
         }
     }
 
-    private var cachedDownloadOptions?
-    internal var downloadOptions: DownloadBlobOptions? {
+    private var cachedDownloadOptions: DownloadBlobOptions?
+    internal var downloadOptions: DownloadBlobOptions {
         get {
-            defer { return cachedDownloadOptions! }
-            guard cachedDownloadOptions == nil else { return }
+            guard cachedDownloadOptions == nil else { return cachedDownloadOptions! }
             guard transferType == .download,
                 let options = rawOptions,
-                let jsonData = options.data(using: .utf8) else { return nil }
+                let jsonData = options.data(using: .utf8) else {
+                cachedDownloadOptions = DownloadBlobOptions()
+                return cachedDownloadOptions!
+            }
             do {
                 cachedDownloadOptions = try StorageJSONDecoder().decode(DownloadBlobOptions.self, from: jsonData)
             } catch {
                 cachedDownloadOptions = DownloadBlobOptions()
             }
+            return cachedDownloadOptions!
         }
 
         set {

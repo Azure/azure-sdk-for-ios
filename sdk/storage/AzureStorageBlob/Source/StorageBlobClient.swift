@@ -422,7 +422,7 @@ public final class StorageBlobClient: PipelineClient {
             parent: nil
         )
         blobTransfer.downloader = downloader
-        blobTransfer.downloadOptions = options
+        blobTransfer.downloadOptions = options ?? DownloadBlobOptions()
         manager.add(transfer: blobTransfer)
         return blobTransfer
     }
@@ -473,7 +473,7 @@ public final class StorageBlobClient: PipelineClient {
             parent: nil
         )
         blobTransfer.uploader = uploader
-        blobTransfer.uploadOptions = options
+        blobTransfer.uploadOptions = options ?? UploadBlobOptions()
         blobTransfer.properties = properties
         manager.add(transfer: blobTransfer)
         return blobTransfer

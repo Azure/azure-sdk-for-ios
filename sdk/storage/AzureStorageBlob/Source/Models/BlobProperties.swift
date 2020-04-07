@@ -28,7 +28,7 @@ import AzureCore
 import Foundation
 
 /// Structure containing properties of a blob or blob snapshot.
-public struct BlobProperties: XMLModel, Codable {
+public struct BlobProperties: XMLModel, Codable, Equatable {
     /// The date that the blob was created.
     public let creationTime: Date?
     /// The date that the blob was last modified.
