@@ -47,6 +47,7 @@ public class BlobTransfer: NSManagedObject, TransferImpl {
         return Int64(transfers.filter { $0.state != .complete }.count)
     }
 
+    // TODO: Convert this to return a TransferProgress object
     /// The current progress of the transfer, calculated as the number of completed blocks divided by the total number
     /// of blocks that comprise the blob transfer.
     public var progress: Float {
@@ -85,52 +86,78 @@ public class BlobTransfer: NSManagedObject, TransferImpl {
 
     // FIXME: The fact that BlobProperties is a struct causes serious problems here. It will always return nil if
     // allowed to be optional.
+    private var cachedProperties: BlobProperties?
     internal var properties: BlobProperties {
         get {
+            defer { return cachedProperties! }
+            guard cachedProperties == nil else { return }
             guard let propertiesString = rawProperties,
-                let jsonData = propertiesString.data(using: .utf8) else { return BlobProperties() }
+                let jsonData = propertiesString.data(using: .utf8) else {
+                    cachedProperties = BlobProperties()
+                    return
+            }
             do {
-                return try StorageJSONDecoder().decode(BlobProperties.self, from: jsonData)
+                cachedProperties = try StorageJSONDecoder().decode(BlobProperties.self, from: jsonData)
             } catch {
-                return BlobProperties()
+                cachedProperties = BlobProperties()
             }
         }
 
         set {
+            guard newValue != cacheProperties else { return }
             if let newJson = try? StorageJSONEncoder().encode(newValue) {
                 rawProperties = String(data: newJson, encoding: .utf8)
+                cachedProperties = newValue
             }
         }
     }
 
+    private var cachedUploadOptions?
     internal var uploadOptions: UploadBlobOptions? {
         get {
+            defer { return cachedUploadOptions! }
+            guard cachedUploadOptions == nil else { return }
             guard transferType == .upload,
                 let options = rawOptions,
                 let jsonData = options.data(using: .utf8) else { return nil }
-            return try? StorageJSONDecoder().decode(UploadBlobOptions.self, from: jsonData)
+            do {
+                cachedUploadOptions = try StorageJSONDecoder().decode(UploadBlobOptions.self, from: jsonData)
+            } catch {
+                cachedUploadOptions = UploadBlobOptions()
+            }
         }
 
         set {
             guard transferType == .upload else { return }
+            guard newValue != cachedUploadOptions else { return }
             if let newJson = try? StorageJSONEncoder().encode(newValue) {
                 rawOptions = String(data: newJson, encoding: .utf8)
+                cachedUploadOptions = newValue
             }
         }
     }
 
+    private var cachedDownloadOptions?
     internal var downloadOptions: DownloadBlobOptions? {
         get {
+            defer { return cachedDownloadOptions! }
+            guard cachedDownloadOptions == nil else { return }
             guard transferType == .download,
                 let options = rawOptions,
                 let jsonData = options.data(using: .utf8) else { return nil }
-            return try? StorageJSONDecoder().decode(DownloadBlobOptions.self, from: jsonData)
+            do {
+                cachedDownloadOptions = try StorageJSONDecoder().decode(DownloadBlobOptions.self, from: jsonData)
+            } catch {
+                cachedDownloadOptions = DownloadBlobOptions()
+            }
         }
 
         set {
             guard transferType == .download else { return }
+            guard newValue != cachedDownloadOptions else { return }
             if let newJson = try? StorageJSONEncoder().encode(newValue) {
                 rawOptions = String(data: newJson, encoding: .utf8)
+                cachedDownloadOptions = newValue
             }
         }
     }

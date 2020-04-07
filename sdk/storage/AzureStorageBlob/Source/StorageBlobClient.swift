@@ -27,20 +27,6 @@
 import AzureCore
 import Foundation
 
-internal class StorageJSONDecoder: JSONDecoder {
-    override init() {
-        super.init()
-        dateDecodingStrategy = .formatted(Date.Format.rfc1123.formatter)
-    }
-}
-
-internal class StorageJSONEncoder: JSONEncoder {
-    override init() {
-        super.init()
-        dateEncodingStrategy = .formatted(Date.Format.rfc1123.formatter)
-    }
-}
-
 /// A StorageBlobClient represents a Client to the Azure Storage Blob service allowing you to manipulate blobs within
 /// storage containers.
 public final class StorageBlobClient: PipelineClient {

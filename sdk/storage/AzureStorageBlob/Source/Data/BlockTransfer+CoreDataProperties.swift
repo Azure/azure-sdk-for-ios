@@ -29,7 +29,7 @@ import CoreData
 import Foundation
 
 extension BlockTransfer {
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<BlockTransfer> {
+    @nonobjc internal class func fetchRequest() -> NSFetchRequest<BlockTransfer> {
         return NSFetchRequest<BlockTransfer>(entityName: "BlockTransfer")
     }
 

@@ -29,7 +29,7 @@ import CoreData
 import Foundation
 
 extension BlobTransfer {
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<BlobTransfer> {
+    @nonobjc internal class func fetchRequest() -> NSFetchRequest<BlobTransfer> {
         return NSFetchRequest<BlobTransfer>(entityName: "BlobTransfer")
     }
 

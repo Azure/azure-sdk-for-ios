@@ -364,10 +364,6 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         }
     }
 
-    func ensureUploader(for transfer: BlobTransfer) {
-        guard transfer.transferType == .upload else { return }
-    }
-
     func resume(transfer: Transfer) {
         guard let transfer = transfer as? TransferImpl else { return }
 
