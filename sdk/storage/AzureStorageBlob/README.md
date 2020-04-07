@@ -20,11 +20,49 @@ Blob storage is ideal for:
 [Azure storage account](https://docs.microsoft.com/azure/storage/common/storage-account-overview) to use this package.
 
 ### Install the package
-Install the Azure Storage Blobs client library for iOS with [some method](...):
+Install the Azure Storage Blobs client library for iOS via [CocoaPods](https://cocoapods.org/),
+[Carthage](https://github.com/Carthage/Carthage), or download the latest
+[release](https://github.com/Azure/azure-sdk-for-ios/releases) and integrate it into your project manually:
 
-```bash
-// whatever the final package install will be
+#### CocoaPods
+
+To integrate this library into your project using CocoaPods, specify it in your
+[Podfile](https://guides.cocoapods.org/using/the-podfile.html):
+
+```ruby
+pod 'AzureStorageBlob', '~> 0.1'
 ```
+
+#### Carthage
+
+To integrate this library into your project using Carthage, specify the release feed in your
+[Cartfile](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile):
+
+```ruby
+binary "https://github.com/Azure/azure-sdk-for-ios/raw/master/releases/AzureStorageBlob.json" ~> 0.1
+```
+
+> Note: To obtain a build with debug symbols included, use the `AzureStorageBlob-symbols.json` feed instead.
+
+#### Manually integrate the library into your project
+
+To manually integrate this library into your project, first download the latest releases of the following libraries from
+the repository's [Releases](https://github.com/Azure/azure-sdk-for-ios/releases) page:
+
+* `AzureCore.framework`
+* `AzureStorageBlob.framework`
+
+Extract the .frameworks to your project's "Frameworks" folder. Select your project in Xcode's Project navigator, and
+then select the desired target in the Targets list. Drag & drop the .frameworks from your project's "Frameworks" folder
+into the "Frameworks, Libraries, and Embedded Content" section.
+
+> Note: To include debug symbols for these frameworks in your project, download the corresponding `dSYM` archives,
+> extract them to a location within your project directory, and add a Build Phase to your project that will copy them to
+> your Products Directory when installing.
+
+If you plan to use the [Microsoft Authentication Library (MSAL) for iOS](http://aka.ms/aadv2) in your project, add it by
+following the library's
+[installation instructions](https://github.com/AzureAD/microsoft-authentication-library-for-objc#installation).
 
 ### Create a storage account
 If you wish to create a new storage account, you can use the

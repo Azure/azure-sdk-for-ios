@@ -9,7 +9,16 @@ library as an example of how to use the shared AzureCore components in your clie
 
 ## Getting started
 
-### CocoaPods
+### Prerequisites
+* The client library is written in modern Swift 5. Due to this, Xcode 10.2 or higher is required to use this library.
+* You must have an [Azure subscription](https://azure.microsoft.com/free/) to use this package.
+
+### Install the package
+Install the Azure core client library for iOS via [CocoaPods](https://cocoapods.org/),
+[Carthage](https://github.com/Carthage/Carthage), or download the latest
+[release](https://github.com/Azure/azure-sdk-for-ios/releases) and integrate it into your project manually:
+
+#### CocoaPods
 
 To integrate this library into your project using CocoaPods, specify it in your
 [Podfile](https://guides.cocoapods.org/using/the-podfile.html):
@@ -18,7 +27,7 @@ To integrate this library into your project using CocoaPods, specify it in your
 pod 'AzureCore', '~> 0.1'
 ```
 
-### Carthage
+#### Carthage
 
 To integrate this library into your project using Carthage, specify the release feed in your
 [Cartfile](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile):
@@ -28,6 +37,25 @@ binary "https://github.com/Azure/azure-sdk-for-ios/raw/master/releases/AzureCore
 ```
 
 > Note: To obtain a build with debug symbols included, use the `AzureCore-symbols.json` feed instead.
+
+#### Manually integrate the library into your project
+
+To manually integrate this library into your project, first download the latest releases of the following libraries from
+the repository's [Releases](https://github.com/Azure/azure-sdk-for-ios/releases) page:
+
+* `AzureCore.framework`
+
+Extract the .frameworks to your project's "Frameworks" folder. Select your project in Xcode's Project navigator, and
+then select the desired target in the Targets list. Drag & drop the .frameworks from your project's "Frameworks" folder
+into the "Frameworks, Libraries, and Embedded Content" section.
+
+> Note: To include debug symbols for these frameworks in your project, download the corresponding `dSYM` archives,
+> extract them to a location within your project directory, and add a Build Phase to your project that will copy them to
+> your Products Directory when installing.
+
+If you plan to use the [Microsoft Authentication Library (MSAL) for iOS](http://aka.ms/aadv2) in your project, add it by
+following the library's
+[installation instructions](https://github.com/AzureAD/microsoft-authentication-library-for-objc#installation).
 
 ## Key concepts
 
