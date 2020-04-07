@@ -92,6 +92,8 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         operationQueue.maxConcurrentOperationCount = 4
     }
 
+    // TODO: This will interfere with trying to use multiple BlobClients simultaneously. Find an alternate
+    // solution such that the minimal set (the NSPersistentContainer) is shared.
     public static var shared: URLSessionTransferManager = {
         let manager = URLSessionTransferManager()
         manager.loadContext()
