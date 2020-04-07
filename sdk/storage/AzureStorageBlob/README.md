@@ -145,12 +145,12 @@ The following components make up the Azure Blob Service:
 The Azure Storage Blobs client library for iOS allows you to interact with some of these components through the `AzureStorageBlob` client.
 
 ### Client
-A single client is provided to to interact with the various components of the Blob Service:
+A single client is provided to interact with the various components of the Blob Service:
 1. [StorageBlobClient](https://github.com/Azure/azure-sdk-for-ios/blob/dev/sdk/storage/AzureStorageBlob/Source/StorageBlobClient.swift) -
     this client represents interaction with a specific blob container. It provides operations to upload, download and list blobs.
 
 ### Blob Types
-The StorageBlobClient only works with block blobs:
+The `StorageBlobClient` only works with block blobs:
 * [Block blobs](https://docs.microsoft.com/rest/api/storageservices/understanding-block-blobs--append-blobs--and-page-blobs#about-block-blobs)
   store text and binary data, up to approximately 4.75 TiB. Block blobs are made up of blocks of data that can be
   managed individually
@@ -172,7 +172,7 @@ az storage container create --account-name <my_account> --name <my_container>
 ```
 
 ### Enumerating blobs
-List the blobs asychronously in your container
+List the blobs asynchronously in your container
 
 ```swift
 import AzureStorageBlob
