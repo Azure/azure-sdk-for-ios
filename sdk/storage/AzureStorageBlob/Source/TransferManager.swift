@@ -66,7 +66,7 @@ internal protocol TransferManager: ResumableOperationQueueDelegate {
 /// A delegate to receive notifications about state changes for all transfers managed by a `StorageBlobClient`.
 public protocol TransferDelegate: AnyObject {
     /// A transfer's state has changed, and progress is being reported.
-    func transfer(_: Transfer, didUpdateWithState: TransferState, andProgress: TransferProgress?)
+    func transfer(_: Transfer, didUpdateWithState: TransferState, andProgress: Float?)
     /// A transfer's state has changed, no progress information is available.
     func transfer(_: Transfer, didUpdateWithState: TransferState)
     /// A transfer has failed.
@@ -75,8 +75,6 @@ public protocol TransferDelegate: AnyObject {
     func transferDidComplete(_: Transfer)
     /// Method to return a `PipelineClient` that can be used to restart a transfer.
     func client(forRestorationId restorationId: String) -> PipelineClient?
-    /// Method to return an `AzureOptions` object that can be used to restart a transfer.
-    func options(forRestorationId restorationId: String) -> AzureOptions?
 }
 
 // MARK: Extensions

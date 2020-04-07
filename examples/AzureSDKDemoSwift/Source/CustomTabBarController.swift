@@ -25,13 +25,14 @@
 // --------------------------------------------------------------------------
 
 import UIKit
-import Foundation
 
-class QueueTableViewCell: UITableViewCell {
-
-    public static let identifier = "QueueTableViewCell"
-
-    @IBOutlet weak var idLabel: UILabel!
-    @IBOutlet weak var contentLabel: UILabel!
-    @IBOutlet weak var statusLabel: UILabel!
+class CustomTabBarController: UITabBarController {
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        do {
+            try AppState.blobClient().stopManaging()
+        } catch {
+            showAlert(error: error)
+        }
+    }
 }

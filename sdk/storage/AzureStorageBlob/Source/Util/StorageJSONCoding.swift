@@ -25,22 +25,17 @@
 // --------------------------------------------------------------------------
 
 import Foundation
-import UIKit
 
-class CustomTableViewCell: UITableViewCell {
-    // MARK: Properties
-
-    @IBOutlet var keyLabel: UILabel!
-    @IBOutlet var valueLabel: UILabel!
-    @IBOutlet var progressBar: UIProgressView!
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
+internal class StorageJSONDecoder: JSONDecoder {
+    override init() {
+        super.init()
+        dateDecodingStrategy = .formatted(Date.Format.rfc1123.formatter)
     }
+}
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        DispatchQueue.main.async {
-            super.setSelected(selected, animated: animated)
-        }
+internal class StorageJSONEncoder: JSONEncoder {
+    override init() {
+        super.init()
+        dateEncodingStrategy = .formatted(Date.Format.rfc1123.formatter)
     }
 }

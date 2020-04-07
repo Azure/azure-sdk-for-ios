@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19E266" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19D76" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="BlobTransfer" representedClassName=".BlobTransfer" syncable="YES">
         <attribute name="clientRestorationId" attributeType="String"/>
+        <attribute name="currentProgress" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="destination" attributeType="URI"/>
         <attribute name="endRange" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="error" optional="YES" attributeType="Transformable" customClassName="Error"/>
+        <attribute name="error" optional="YES" attributeType="Transformable" valueTransformerName="" customClassName="Error"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="initialCallComplete" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="rawOptions" optional="YES" attributeType="String"/>
+        <attribute name="rawProperties" optional="YES" attributeType="String" customClassName="BlobProperties"/>
         <attribute name="rawState" attributeType="Integer 16" usesScalarValueType="YES"/>
         <attribute name="rawType" attributeType="Integer 16" usesScalarValueType="YES"/>
         <attribute name="source" attributeType="URI"/>
@@ -29,8 +32,8 @@
         <relationship name="blobs" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BlobTransfer" inverseName="parent" inverseEntity="BlobTransfer"/>
     </entity>
     <elements>
-        <element name="BlobTransfer" positionX="-369" positionY="-18" width="128" height="223"/>
-        <element name="BlockTransfer" positionX="-578.41796875" positionY="-61.546875" width="128" height="118"/>
+        <element name="BlobTransfer" positionX="-369" positionY="-72" width="128" height="283"/>
+        <element name="BlockTransfer" positionX="-634.12890625" positionY="78.31640625" width="128" height="118"/>
         <element name="MultiBlobTransfer" positionX="9" positionY="108" width="128" height="103"/>
     </elements>
 </model>

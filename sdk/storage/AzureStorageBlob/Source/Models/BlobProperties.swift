@@ -28,7 +28,7 @@ import AzureCore
 import Foundation
 
 /// Structure containing properties of a blob or blob snapshot.
-public struct BlobProperties: XMLModel {
+public struct BlobProperties: XMLModel, Codable, Equatable {
     /// The date that the blob was created.
     public let creationTime: Date?
     /// The date that the blob was last modified.
@@ -217,11 +217,7 @@ extension BlobProperties {
         self.deletedTime = nil
         self.remainingRetentionDays = nil
     }
-}
 
-// MARK: Codable Delegate
-
-extension BlobProperties: Codable {
     /// :nodoc:
     public init(from decoder: Decoder) throws {
         let root = try decoder.container(keyedBy: CodingKeys.self)

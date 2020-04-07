@@ -166,7 +166,7 @@ public struct ListBlobsOptions: AzureOptions {
 }
 
 /// User-configurable options for the blob download operations.
-public struct DownloadBlobOptions: AzureOptions {
+public struct DownloadBlobOptions: AzureOptions, Codable, Equatable {
     /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
     public let clientRequestId: String?
 
@@ -261,7 +261,7 @@ public struct DownloadBlobOptions: AzureOptions {
 }
 
 /// User-configurable options for the blob upload operations.
-public struct UploadBlobOptions: AzureOptions {
+public struct UploadBlobOptions: AzureOptions, Codable, Equatable {
     /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
     public let clientRequestId: String?
 

@@ -54,12 +54,12 @@ import Foundation
     /// network reachability status.
     public typealias ReachabilityStatusListener = (NetworkReachabilityStatus) -> Void
 
-    /// The `ReachabilityManagerType` describes entities that listen for reachability changes of hosts and addresses for both WWAN and
-    /// WiFi network interfaces.
+    /// The `ReachabilityManagerType` describes entities that listen for reachability changes of hosts
+    /// and addresses for both WWAN and WiFi network interfaces.
     ///
     /// They can be used to determine background information about why a network operation failed, or to retry
-    /// network requests when a connection is established. It should not be used to prevent a user from initiating a network
-    /// request, as it's possible that an initial request may be required to establish reachability.
+    /// network requests when a connection is established. It should not be used to prevent a user from initiating
+    /// a network request, as it's possible that an initial request may be required to establish reachability.
     public protocol ReachabilityManagerType {
         /// The current network reachability status.
         var networkReachabilityStatus: NetworkReachabilityStatus { get }

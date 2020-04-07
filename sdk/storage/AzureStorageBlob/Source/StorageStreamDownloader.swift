@@ -483,8 +483,7 @@ internal class BlobStreamDownloader: BlobDownloader {
                 var blockEnd = index + chunkLength
                 if totalSize < 0 {
                     blockEnd = chunkLength
-                }
-                if blockEnd > totalSize {
+                } else if blockEnd > totalSize {
                     blockEnd = totalSize
                 }
                 blockList.append(index ..< blockEnd)

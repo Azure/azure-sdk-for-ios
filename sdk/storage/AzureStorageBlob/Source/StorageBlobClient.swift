@@ -36,20 +36,6 @@ public final class StorageBlobClient: PipelineClient {
         case latest = "2019-02-02"
     }
 
-    internal class StorageJSONDecoder: JSONDecoder {
-        override init() {
-            super.init()
-            dateDecodingStrategy = .formatted(Date.Format.rfc1123.formatter)
-        }
-    }
-
-    internal class StorageJSONEncoder: JSONEncoder {
-        override init() {
-            super.init()
-            dateEncodingStrategy = .formatted(Date.Format.rfc1123.formatter)
-        }
-    }
-
     /// Options provided to configure this `StorageBlobClient`.
     public let options: StorageBlobClientOptions
 
@@ -62,9 +48,10 @@ public final class StorageBlobClient: PipelineClient {
 
     fileprivate var managing = false
     fileprivate lazy var manager: TransferManager = {
-        let instance = URLSessionTransferManager(delegate: self, logger: self.logger)
-        instance.loadContext()
-        return instance
+        var manager = URLSessionTransferManager.shared
+        manager.delegate = self
+        manager.logger = self.logger
+        return manager
     }()
 
     // MARK: Initializers
@@ -435,6 +422,7 @@ public final class StorageBlobClient: PipelineClient {
             parent: nil
         )
         blobTransfer.downloader = downloader
+        blobTransfer.downloadOptions = options ?? DownloadBlobOptions()
         manager.add(transfer: blobTransfer)
         return blobTransfer
     }
@@ -455,7 +443,7 @@ public final class StorageBlobClient: PipelineClient {
         file sourceUrl: URL,
         toContainer container: String,
         asBlob blob: String,
-        properties: BlobProperties? = nil,
+        properties: BlobProperties,
         withRestorationId restorationId: String,
         withOptions options: UploadBlobOptions? = nil
     ) throws -> Transfer? {
@@ -485,6 +473,8 @@ public final class StorageBlobClient: PipelineClient {
             parent: nil
         )
         blobTransfer.uploader = uploader
+        blobTransfer.uploadOptions = options ?? UploadBlobOptions()
+        blobTransfer.properties = properties
         manager.add(transfer: blobTransfer)
         return blobTransfer
     }
@@ -551,7 +541,7 @@ extension StorageBlobClient: TransferDelegate {
     public func transfer(
         _ transfer: Transfer,
         didUpdateWithState state: TransferState,
-        andProgress progress: TransferProgress?
+        andProgress progress: Float?
     ) {
         transferDelegate?.transfer(transfer, didUpdateWithState: state, andProgress: progress)
     }
@@ -569,11 +559,6 @@ extension StorageBlobClient: TransferDelegate {
     /// :nodoc:
     public func client(forRestorationId restorationId: String) -> PipelineClient? {
         transferDelegate?.client(forRestorationId: restorationId)
-    }
-
-    /// :nodoc:
-    public func options(forRestorationId restorationId: String) -> AzureOptions? {
-        transferDelegate?.options(forRestorationId: restorationId)
     }
 }
 
@@ -597,7 +582,6 @@ extension StorageBlobClient {
         if managing { return }
 
         manager.reachability?.startListening()
-        resumeAllTransfers()
 
         managing = true
     }
@@ -610,8 +594,8 @@ extension StorageBlobClient {
     public func stopManaging() {
         guard managing else { return }
 
-        pauseAllTransfers()
         manager.reachability?.stopListening()
+        pauseAllTransfers()
         manager.saveContext()
 
         managing = false

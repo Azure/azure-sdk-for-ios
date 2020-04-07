@@ -40,8 +40,11 @@ internal class BlockOperation: ResumableOperation {
     // MARK: Public Methods
 
     public override func main() {
-        guard let transfer = transfer as? BlockTransfer else { return }
-        guard let parent = transfer.parent else { return }
+        guard let transfer = transfer as? BlockTransfer,
+            let parent = transfer.parent else {
+            assertionFailure("Precondition failed for BlockOperation.")
+            return
+        }
         if isCancelled || isPaused { return }
         transfer.state = .inProgress
         parent.state = .inProgress
@@ -51,7 +54,10 @@ internal class BlockOperation: ResumableOperation {
         group.enter()
         switch parent.transferType {
         case .download:
-            guard let downloader = parent.downloader else { return }
+            guard let downloader = parent.downloader else {
+                assertionFailure("Downloader not found for BlobOperation.")
+                return
+            }
             let chunkDownloader = ChunkDownloader(
                 client: downloader.client,
                 source: downloader.downloadSource,
@@ -86,7 +92,10 @@ internal class BlockOperation: ResumableOperation {
                 group.leave()
             }
         case .upload:
-            guard let uploader = parent.uploader else { return }
+            guard let uploader = parent.uploader else {
+                assertionFailure("Uploader not found for BlobOperation.")
+                return
+            }
             let chunkUploader = ChunkUploader(
                 blockId: transfer.id,
                 client: uploader.client,

@@ -29,7 +29,7 @@ import AzureStorageBlob
 import MSAL
 import UIKit
 
-class LoginViewController: UIViewController, MSALInteractiveDelegate {
+class LoginViewController: UIViewController {
     // MARK: Outlets
 
     @IBOutlet var logInButton: UIBarButtonItem!
@@ -42,7 +42,7 @@ class LoginViewController: UIViewController, MSALInteractiveDelegate {
 
     @IBAction func didSelectLogOut(_: Any) {
         guard let application = AppState.application else { return }
-        guard let account = AppState.currentAccount() else { return }
+        guard let account = AppState.currentAccount else { return }
         do {
             try application.remove(account)
             AppState.account = nil
@@ -63,13 +63,13 @@ class LoginViewController: UIViewController, MSALInteractiveDelegate {
             authority: authority
         )
         AppState.application = try? MSALPublicClientApplication(configuration: msalConfiguration)
-        AppState.account = AppState.currentAccount()
-        updateLogOutButton(enabled: AppState.currentAccount() != nil)
+        AppState.account = AppState.currentAccount
+        updateLogOutButton(enabled: AppState.currentAccount != nil)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        updateLogOutButton(enabled: AppState.currentAccount() != nil)
+        updateLogOutButton(enabled: AppState.currentAccount != nil)
     }
 
     internal func updateLogOutButton(enabled: Bool) {
@@ -84,17 +84,10 @@ class LoginViewController: UIViewController, MSALInteractiveDelegate {
     }
 
     internal func updateUserLabel() {
-        if let account = AppState.currentAccount() {
+        if let account = AppState.currentAccount {
             userLabel.text = account.username ?? "Unknown"
         } else {
             userLabel.text = "Please log in"
         }
-    }
-
-    // MARK: MSALInteractiveDelegate
-
-    func didCompleteMSALRequest(withResult result: MSALResult) {
-        AppState.account = result.account
-        updateLogOutButton(enabled: true)
     }
 }

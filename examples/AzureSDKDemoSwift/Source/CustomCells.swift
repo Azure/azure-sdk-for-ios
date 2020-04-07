@@ -25,39 +25,33 @@
 // --------------------------------------------------------------------------
 
 import Foundation
+import UIKit
 
-internal class Pipeline {
-    private var policies: [PipelineStage]
-    private let transport: HTTPTransportStage
+class CustomTableViewCell: UITableViewCell {
+    // MARK: Properties
 
-    public init(transport: HTTPTransportStage, policies: [PipelineStage]) {
-        self.transport = transport
-        self.policies = policies
-        var prevPolicy: PipelineStage?
-        for policy in policies {
-            if prevPolicy != nil {
-                prevPolicy!.next = policy
-            }
-            prevPolicy = policy
-        }
-        if self.policies.count > 0 {
-            var lastPolicy = self.policies.removeLast()
-            lastPolicy.next = transport
-            self.policies.append(lastPolicy)
-        } else {
-            self.policies.append(transport)
-        }
+    @IBOutlet var keyLabel: UILabel!
+    @IBOutlet var valueLabel: UILabel!
+    @IBOutlet var progressBar: UIProgressView!
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
     }
 
-    public func run(request: PipelineRequest, then completion: @escaping PipelineStageResultHandler) {
-        let firstPolicy = policies.first ?? transport
-        firstPolicy.process(request: request) { result, httpResponse in
-            switch result {
-            case let .success(pipelineResponse):
-                completion(.success(pipelineResponse), httpResponse)
-            case let .failure(error):
-                completion(.failure(error), httpResponse)
-            }
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        DispatchQueue.main.async {
+            super.setSelected(selected, animated: animated)
         }
+    }
+}
+
+class CustomCollectionViewCell: UICollectionViewCell {
+    // MARK: Properties
+
+    @IBOutlet var image: UIImageView!
+    @IBOutlet var progressBar: UIProgressView!
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
     }
 }
