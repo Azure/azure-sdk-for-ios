@@ -64,16 +64,16 @@ extension BlobTransfer {
 
 // MARK: Generated accessors for blocks
 
-extension BlobTransfer {
+internal extension BlobTransfer {
     @objc(addBlocksObject:)
-    @NSManaged internal func addToBlocks(_ value: BlockTransfer)
+    @NSManaged func addToBlocks(_ value: BlockTransfer)
 
     @objc(removeBlocksObject:)
-    @NSManaged internal func removeFromBlocks(_ value: BlockTransfer)
+    @NSManaged func removeFromBlocks(_ value: BlockTransfer)
 
     @objc(addBlocks:)
-    @NSManaged public func addToBlocks(_ values: NSSet)
+    @NSManaged func addToBlocks(_ values: NSSet)
 
     @objc(removeBlocks:)
-    @NSManaged public func removeFromBlocks(_ values: NSSet)
+    @NSManaged func removeFromBlocks(_ values: NSSet)
 }

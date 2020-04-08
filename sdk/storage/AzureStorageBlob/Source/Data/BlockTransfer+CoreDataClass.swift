@@ -29,19 +29,19 @@ import CoreData
 import Foundation
 
 internal class BlockTransfer: NSManagedObject, TransferImpl {
-    public var operation: ResumableOperation?
+    internal var operation: ResumableOperation?
 
     public var debugString: String {
         return "\t\tTransfer \(type(of: self)) \(hash): Status \(state.label)"
     }
 
-    public var clientRestorationId: String {
+    internal var clientRestorationId: String {
         return parent.clientRestorationId
     }
 }
 
-extension BlockTransfer {
-    internal static func with(
+internal extension BlockTransfer {
+    static func with(
         context: NSManagedObjectContext,
         id: UUID? = nil,
         startRange: Int64,

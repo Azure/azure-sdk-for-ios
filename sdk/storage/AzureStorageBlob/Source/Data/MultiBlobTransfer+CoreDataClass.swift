@@ -32,9 +32,9 @@ import Foundation
 internal class MultiBlobTransfer: NSManagedObject, TransferImpl {
     // MARK: Properties
 
-    public var operation: ResumableOperation?
+    internal var operation: ResumableOperation?
 
-    public var transfers: [BlobTransfer] {
+    internal var transfers: [BlobTransfer] {
         guard let blobSet = blobs else { return [BlobTransfer]() }
         return blobSet.map { $0 as? BlobTransfer }.filter { $0 != nil }.map { $0! }
     }
@@ -47,7 +47,7 @@ internal class MultiBlobTransfer: NSManagedObject, TransferImpl {
         return string
     }
 
-    public var clientRestorationId: String {
+    internal var clientRestorationId: String {
         guard let restorationId = transfers.first?.clientRestorationId else {
             // Return a string that will never match a client. This transfer will transition to the 'failed' state.
             assertionFailure("Unable to retrieve clientRestorationId, MultiBlobTransfer object has no children.")
@@ -56,7 +56,7 @@ internal class MultiBlobTransfer: NSManagedObject, TransferImpl {
         return restorationId
     }
 
-    public var state: TransferState {
+    public internal(set) var state: TransferState {
         get {
             let currState = TransferState(rawValue: rawState)!
             var state = currState
@@ -73,8 +73,8 @@ internal class MultiBlobTransfer: NSManagedObject, TransferImpl {
     }
 }
 
-extension MultiBlobTransfer {
-    internal static func with(context: NSManagedObjectContext) -> MultiBlobTransfer {
+internal extension MultiBlobTransfer {
+    static func with(context: NSManagedObjectContext) -> MultiBlobTransfer {
         guard let transfer = NSEntityDescription.insertNewObject(
             forEntityName: "MultiBlobTransfer",
             into: context
