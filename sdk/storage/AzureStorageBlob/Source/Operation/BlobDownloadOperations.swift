@@ -79,13 +79,13 @@ internal class BlobDownloadInitialOperation: ResumableOperation {
     public override func main() {
         if isCancelled || isPaused { return }
         guard let transfer = self.transfer as? BlockTransfer,
-            let parent = transfer.parent,
-            parent.transferType == .download,
-            let downloader = parent.downloader else {
+            transfer.parent.transferType == .download,
+            let downloader = transfer.parent.downloader else {
             assertionFailure("Preconditions failed for BlobDownloadInitialOperation")
             return
         }
 
+        let parent = transfer.parent
         transfer.state = .inProgress
         parent.state = .inProgress
         delegate?.operation(self, didChangeState: transfer.state)

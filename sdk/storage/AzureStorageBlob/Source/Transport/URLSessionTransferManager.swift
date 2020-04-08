@@ -34,9 +34,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     // MARK: Properties
 
-    weak var delegate: TransferDelegate?
-
-    var logger: ClientLogger
+    var clients = NSMapTable<NSString, StorageBlobClient>.strongToWeakObjects()
 
     lazy var session: URLSession = {
         let config = URLSessionConfiguration.background(withIdentifier: "com.azuresdk.transfermanager")
@@ -85,7 +83,6 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
     private override init() {
         self.operationQueue = ResumableOperationQueue(name: "TransferQueue", delegate: nil, removeOnCompletion: true)
         self.transfers = [Transfer]()
-        self.logger = ClientLoggers.none
 
         super.init()
         operationQueue.delegate = self
@@ -105,6 +102,14 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
     subscript(index: Int) -> Transfer {
         // return the operation from the DataStore
         return transfers[index]
+    }
+
+    func register(client: StorageBlobClient?, forRestorationId restorationId: String) {
+        clients.setObject(client, forKey: restorationId as NSString)
+    }
+
+    func client(forRestorationId restorationId: String) -> StorageBlobClient? {
+        return clients.object(forKey: restorationId as NSString)
     }
 
     // MARK: Add Operations
@@ -181,7 +186,12 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         if transfer.transfers.isEmpty, transfer.state == .pending {
             switch transfer.transferType {
             case .download:
-                let blockTransfer = BlockTransfer.with(context: context, startRange: 0, endRange: 1, parent: transfer)
+                let blockTransfer = BlockTransfer.with(
+                    context: context,
+                    startRange: 0,
+                    endRange: 1,
+                    parent: transfer
+                )
                 transfer.blocks?.adding(blockTransfer)
             case .upload:
                 guard let uploader = transfer.uploader else { return }
@@ -399,10 +409,9 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
             guard transfer.downloader == nil else { return }
         }
 
-        // must create one
-        guard let client = delegate?.client(forRestorationId: transfer.clientRestorationId) as? StorageBlobClient else {
+        // attempt to attach one
+        guard let client = client(forRestorationId: transfer.clientRestorationId) else {
             transfer.error = AzureError.general("Unable to restore client.")
-            logger.error(transfer.error?.localizedDescription)
             transfer.state = .failed
             return
         }
@@ -433,7 +442,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
                 )
             }
         } catch {
-            logger.error(error.localizedDescription)
+            client.logger.error(error.localizedDescription)
             transfer.error = error
             transfer.state = .failed
             return

@@ -34,8 +34,8 @@ internal protocol TransferManager: ResumableOperationQueueDelegate {
 
     var reachability: ReachabilityManager? { get }
     var persistentContainer: NSPersistentContainer? { get }
-    var logger: ClientLogger { get set }
-    var delegate: TransferDelegate? { get set }
+
+    func register(client: StorageBlobClient?, forRestorationId: String)
 
     // MARK: Storage Methods
 

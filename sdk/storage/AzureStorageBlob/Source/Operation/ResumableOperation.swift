@@ -87,7 +87,7 @@ internal class ResumableOperation: Operation {
     internal func notifyDelegate(withTransfer transfer: Transfer) {
         switch transfer {
         case let transfer as BlockTransfer:
-            if let parent = transfer.parent?.operation?.transfer {
+            if let parent = transfer.parent.operation?.transfer {
                 notifyDelegate(withTransfer: parent)
                 return
             }
@@ -106,7 +106,7 @@ internal class ResumableOperation: Operation {
         // Notify the delegate of the block change AND the parent change.
         // This allows the developer to decide which events to respond to.
         delegate?.operation(self, didChangeState: transfer.state)
-        if let parent = transfer.parent?.operation, let parentState = parent.transfer?.state {
+        if let parent = transfer.parent.operation, let parentState = parent.transfer?.state {
             delegate?.operation(parent, didChangeState: parentState)
         }
     }

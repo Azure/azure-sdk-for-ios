@@ -37,5 +37,5 @@ extension BlockTransfer {
     @NSManaged public var id: UUID
     @NSManaged public var rawState: Int16
     @NSManaged public var startRange: Int64
-    @NSManaged public var parent: BlobTransfer?
+    @NSManaged public var parent: BlobTransfer
 }

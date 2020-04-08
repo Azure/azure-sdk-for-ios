@@ -47,6 +47,15 @@ internal class MultiBlobTransfer: NSManagedObject, TransferImpl {
         return string
     }
 
+    public var clientRestorationId: String {
+        guard let restorationId = transfers.first?.clientRestorationId else {
+            // Return a string that will never match a client. This transfer will transition to the 'failed' state.
+            assertionFailure("Unable to retrieve clientRestorationId, MultiBlobTransfer object has no children.")
+            return "x-ms-failed"
+        }
+        return restorationId
+    }
+
     public var state: TransferState {
         get {
             let currState = TransferState(rawValue: rawState)!

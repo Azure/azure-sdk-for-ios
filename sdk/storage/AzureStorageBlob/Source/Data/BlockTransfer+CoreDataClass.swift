@@ -34,6 +34,10 @@ internal class BlockTransfer: NSManagedObject, TransferImpl {
     public var debugString: String {
         return "\t\tTransfer \(type(of: self)) \(hash): Status \(state.label)"
     }
+
+    public var clientRestorationId: String {
+        return parent.clientRestorationId
+    }
 }
 
 extension BlockTransfer {
@@ -42,7 +46,7 @@ extension BlockTransfer {
         id: UUID? = nil,
         startRange: Int64,
         endRange: Int64,
-        parent: BlobTransfer? = nil
+        parent: BlobTransfer
     ) -> BlockTransfer {
         guard let transfer = NSEntityDescription.insertNewObject(
             forEntityName: "BlockTransfer",

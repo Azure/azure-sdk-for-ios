@@ -40,11 +40,11 @@ internal class BlockOperation: ResumableOperation {
     // MARK: Public Methods
 
     public override func main() {
-        guard let transfer = transfer as? BlockTransfer,
-            let parent = transfer.parent else {
+        guard let transfer = transfer as? BlockTransfer else {
             assertionFailure("Precondition failed for BlockOperation.")
             return
         }
+        let parent = transfer.parent
         if isCancelled || isPaused { return }
         transfer.state = .inProgress
         parent.state = .inProgress
