@@ -2,7 +2,7 @@
 
 This repository is for active development of the Azure SDK for iOS. For consumers of the SDK we recommend visiting our versioned [developer docs](https://azure.github.io/azure-sdk-for-ios).
 
-> Note: The Azure SDK for iOS replaces a previous offering, known as Azure.iOS. Source code and documentation for Azure.iOS is available in the [Azure.iOS](https://github.com/Azure/azure-sdk-for-ios/tree/Azure.iOS) branch.
+> Note: The Azure SDK for iOS replaces a previous offering, known as Azure.iOS. Source code and documentation for Azure.iOS is available in the [legacy](https://github.com/Azure/azure-sdk-for-ios/tree/legacy) branch.
 
 ## Getting started
 

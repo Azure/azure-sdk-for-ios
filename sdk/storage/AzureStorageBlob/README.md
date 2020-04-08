@@ -9,7 +9,7 @@ Blob storage is ideal for:
 * Storing data for backup and restore, disaster recovery, and archiving
 * Storing data for analysis by an on-premises or Azure-hosted service
 
-[Source code](https://github.com/Azure/azure-sdk-for-ios/tree/dev/sdk/storage/AzureStorageBlob) | [API reference documentation](...) | [Product documentation](https://docs.microsoft.com/azure/storage/) | [Samples](https://github.com/Azure/azure-sdk-for-ios/tree/dev/examples/AzureSDKDemoSwift)
+[Source code](https://github.com/Azure/azure-sdk-for-ios/tree/master/sdk/storage/AzureStorageBlob) | [API reference documentation](...) | [Product documentation](https://docs.microsoft.com/azure/storage/) | [Samples](https://github.com/Azure/azure-sdk-for-ios/tree/master/examples/AzureSDKDemoSwift)
 
 
 ## Getting started
@@ -81,7 +81,7 @@ az storage account create -n my-storage-account-name -g my-resource-group
 
 ### Create the client
 The Azure Storage Blobs client library for iOS allows you to interact with blob storage containers and blobs.
-Interaction with these resources starts with an instance of a [client](#clients). To create a client object, you will
+Interaction with these resources starts with an instance of a [client](#client). To create a client object, you will
 need the storage account's blob service account URL and a credential that allows you to access the storage account:
 
 ```swift
@@ -280,11 +280,11 @@ let client = StorageBlobClient.from(connectionString: connectionString, withOpti
 
 ### More sample code
 
-Get started with our [examples](https://github.com/Azure/azure-sdk-for-ios/tree/dev/examples/).
+Get started with our [examples](https://github.com/Azure/azure-sdk-for-ios/tree/master/examples/).
 
 Storage Blobs Swift SDK samples are available to you in the SDK's GitHub repository. These samples provide example code for additional scenarios commonly encountered while working with Storage Blobs:
 
-* [AzureSDKSwiftDemo](https://github.com/Azure/azure-sdk-for-ios/tree/dev/examples/AzureSDKDemoSwift) - Example for common Storage Blob tasks:
+* [AzureSDKSwiftDemo](https://github.com/Azure/azure-sdk-for-ios/tree/master/examples/AzureSDKDemoSwift) - Example for common Storage Blob tasks:
     * List blobs in a container
     * Upload blobs
     * Download blobs
@@ -298,3 +298,5 @@ This project welcomes contributions and suggestions.  Most contributions require
 When you submit a pull request, a CLA-bot will automatically determine whether you need to provide a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions provided by the bot. You will only need to do this once across all repos using our CLA.
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-ios%2Fsdk%2Fstorage%2FAzureStorageBlob%2FREADME.png)
