@@ -33,7 +33,11 @@ extension BlobTransfer {
         return NSFetchRequest<BlobTransfer>(entityName: "BlobTransfer")
     }
 
-    @NSManaged internal var clientRestorationId: String
+    /// An identifier used to associate this transfer with the client that created it. When a transfer is reloaded from
+    /// disk (e.g. after an application crash), it can only be resumed once a client with the same `restorationId` has
+    /// been initialized. Attempting to resume it without previously initializing such a client will cause the transfer
+    /// to transition to the `failed` state.
+    @NSManaged public var clientRestorationId: String
     /// The destionation of the transfer. For uploads, this is the blob URL where the file is being uploaded. For
     /// downloads, this is the local path on the device to which the blob is being downloaded.
     @NSManaged public internal(set) var destination: URL?
@@ -60,16 +64,16 @@ extension BlobTransfer {
 
 // MARK: Generated accessors for blocks
 
-extension BlobTransfer {
+internal extension BlobTransfer {
     @objc(addBlocksObject:)
-    @NSManaged internal func addToBlocks(_ value: BlockTransfer)
+    @NSManaged func addToBlocks(_ value: BlockTransfer)
 
     @objc(removeBlocksObject:)
-    @NSManaged internal func removeFromBlocks(_ value: BlockTransfer)
+    @NSManaged func removeFromBlocks(_ value: BlockTransfer)
 
     @objc(addBlocks:)
-    @NSManaged public func addToBlocks(_ values: NSSet)
+    @NSManaged func addToBlocks(_ values: NSSet)
 
     @objc(removeBlocks:)
-    @NSManaged public func removeFromBlocks(_ values: NSSet)
+    @NSManaged func removeFromBlocks(_ values: NSSet)
 }

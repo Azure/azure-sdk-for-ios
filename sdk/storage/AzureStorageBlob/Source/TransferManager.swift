@@ -32,33 +32,29 @@ import CoreData
 internal protocol TransferManager: ResumableOperationQueueDelegate {
     // MARK: Properties
 
-    var reachability: ReachabilityManager? { get }
     var persistentContainer: NSPersistentContainer? { get }
-    var logger: ClientLogger { get set }
-    var delegate: TransferDelegate? { get set }
 
-    // MARK: Storage Methods
+    // MARK: Lifecycle Methods
 
-    // TODO: Uplevel the relelvant func signatures into TM protocol once reviewed
-    // func upload(_ url: URL) -> Transferable
-    // func download(_ url: URL) -> Transferable
-    // func copy(from source: URL, to destination: URL) -> Transferable
+    func register(client: StorageBlobClient?, forRestorationId: String)
+    func startManaging()
+    func stopManaging()
 
     // MARK: Queue Operations
 
-    var count: Int { get }
-    subscript(_: Int) -> Transfer { get }
-    var transfers: [Transfer] { get }
+    subscript(_: Int) -> TransferImpl { get }
+    var transfers: [TransferImpl] { get }
 
-    func add(transfer: Transfer)
-    func cancel(transfer: Transfer)
-    func cancelAll()
-    func pause(transfer: Transfer)
-    func pauseAll()
-    func remove(transfer: Transfer)
-    func removeAll()
-    func resume(transfer: Transfer)
-    func resumeAll()
+    func add(transfer: TransferImpl)
+    func cancel(transfer: TransferImpl)
+    func cancelAll(withRestorationId: String?)
+    func pause(transfer: TransferImpl)
+    func pauseAll(withRestorationId: String?)
+    func remove(transfer: TransferImpl)
+    func removeAll(withRestorationId: String?)
+    func resume(transfer: TransferImpl)
+    func resumeAll(withRestorationId: String?)
+
     func loadContext()
     func saveContext()
 }

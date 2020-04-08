@@ -34,9 +34,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     // MARK: Properties
 
-    weak var delegate: TransferDelegate?
-
-    var logger: ClientLogger
+    var clients = NSMapTable<NSString, StorageBlobClient>.strongToWeakObjects()
 
     lazy var session: URLSession = {
         let config = URLSessionConfiguration.background(withIdentifier: "com.azuresdk.transfermanager")
@@ -59,9 +57,11 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         return manager
     }()
 
+    private var managing = false
+
     var operationQueue: ResumableOperationQueue
 
-    var transfers: [Transfer]
+    var transfers: [TransferImpl]
 
     var count: Int {
         return transfers.count
@@ -84,8 +84,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     private override init() {
         self.operationQueue = ResumableOperationQueue(name: "TransferQueue", delegate: nil, removeOnCompletion: true)
-        self.transfers = [Transfer]()
-        self.logger = ClientLoggers.none
+        self.transfers = [TransferImpl]()
 
         super.init()
         operationQueue.delegate = self
@@ -102,14 +101,44 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     // MARK: TransferManager Methods
 
-    subscript(index: Int) -> Transfer {
+    subscript(index: Int) -> TransferImpl {
         // return the operation from the DataStore
         return transfers[index]
     }
 
+    func register(client: StorageBlobClient?, forRestorationId restorationId: String) {
+        clients.setObject(client, forKey: restorationId as NSString)
+    }
+
+    func client(forRestorationId restorationId: String) -> StorageBlobClient? {
+        return clients.object(forKey: restorationId as NSString)
+    }
+
+    /// Start the transfer management engine.
+    ///
+    /// Loads transfer state from disk, begins listening for network connectivity events, and resumes any incomplete
+    /// transfers. This method **MUST** be called in order for any managed transfers to occur.
+    func startManaging() {
+        if managing { return }
+        reachability?.startListening()
+        managing = true
+    }
+
+    /// Stop the transfer management engine.
+    ///
+    /// Pauses all incomplete transfers, stops listening for network connectivity events, and stores transfer state to
+    /// disk.
+    func stopManaging() {
+        guard managing else { return }
+        reachability?.stopListening()
+        pauseAll()
+        saveContext()
+        managing = false
+    }
+
     // MARK: Add Operations
 
-    func add(transfer: Transfer) {
+    func add(transfer: TransferImpl) {
         switch transfer {
         case let transfer as BlockTransfer:
             add(transfer: transfer)
@@ -181,7 +210,12 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         if transfer.transfers.isEmpty, transfer.state == .pending {
             switch transfer.transferType {
             case .download:
-                let blockTransfer = BlockTransfer.with(context: context, startRange: 0, endRange: 1, parent: transfer)
+                let blockTransfer = BlockTransfer.with(
+                    context: context,
+                    startRange: 0,
+                    endRange: 1,
+                    parent: transfer
+                )
                 transfer.blocks?.adding(blockTransfer)
             case .upload:
                 guard let uploader = transfer.uploader else { return }
@@ -204,14 +238,14 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     // MARK: Cancel Operations
 
-    func cancelAll() {
-        for transfer in transfers {
+    func cancelAll(withRestorationId restorationId: String? = nil) {
+        let toCancel = restorationId == nil ? transfers : transfers.filter { $0.clientRestorationId == restorationId }
+        for transfer in toCancel {
             cancel(transfer: transfer)
         }
     }
 
-    func cancel(transfer: Transfer) {
-        guard let transfer = transfer as? TransferImpl else { return }
+    func cancel(transfer: TransferImpl) {
         transfer.state = .canceled
         assert(transfer.operation != nil, "Transfer operation unexpectedly nil.")
         if let operation = transfer.operation {
@@ -227,7 +261,16 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     // MARK: Remove Operations
 
-    func removeAll() {
+    func removeAll(withRestorationId restorationId: String? = nil) {
+        let toRemove = restorationId == nil ? transfers : transfers.filter { $0.clientRestorationId == restorationId }
+        guard toRemove.count == transfers.count else {
+            // Handle a partial removeAll
+            for transfer in toRemove {
+                remove(transfer: transfer)
+            }
+            return
+        }
+
         // Wipe the DataStore
         transfers.removeAll()
 
@@ -257,8 +300,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         operations(nil, didChangeState: .deleted)
     }
 
-    func remove(transfer: Transfer) {
-        guard let transfer = transfer as? TransferImpl else { return }
+    func remove(transfer: TransferImpl) {
         switch transfer {
         case let transfer as BlockTransfer:
             remove(transfer: transfer)
@@ -311,14 +353,17 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     // MARK: Pause Operations
 
-    func pauseAll() {
-        operationQueue.clear()
-        for transfer in transfers {
+    func pauseAll(withRestorationId restorationId: String? = nil) {
+        let toPause = restorationId == nil ? transfers : transfers.filter { $0.clientRestorationId == restorationId }
+        if toPause.count == transfers.count {
+            operationQueue.clear()
+        }
+        for transfer in toPause {
             pause(transfer: transfer)
         }
     }
 
-    func pause(transfer: Transfer) {
+    func pause(transfer: TransferImpl) {
         guard let blobTransfer = transfer as? BlobTransfer else {
             assertionFailure("Unsupported transfer type: \(transfer.self)")
             return
@@ -359,15 +404,14 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     // MARK: Resume Operations
 
-    func resumeAll() {
-        for transfer in transfers {
+    func resumeAll(withRestorationId restorationId: String? = nil) {
+        let toResume = restorationId == nil ? transfers : transfers.filter { $0.clientRestorationId == restorationId }
+        for transfer in toResume {
             resume(transfer: transfer)
         }
     }
 
-    func resume(transfer: Transfer) {
-        guard let transfer = transfer as? TransferImpl else { return }
-
+    func resume(transfer: TransferImpl) {
         guard reachability?.isReachable ?? false else { return }
         guard transfer.state.resumable else { return }
         transfer.state = .pending
@@ -399,10 +443,15 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
             guard transfer.downloader == nil else { return }
         }
 
-        // must create one
-        guard let client = delegate?.client(forRestorationId: transfer.clientRestorationId) as? StorageBlobClient else {
-            transfer.error = AzureError.general("Unable to restore client.")
-            logger.error(transfer.error?.localizedDescription)
+        // attempt to attach one
+        guard let client = client(forRestorationId: transfer.clientRestorationId) else {
+            let errorMessage = """
+            Attempted to resume this transfer, but no client with restorationId "\(transfer.clientRestorationId)" has \
+            been initialized.
+            """
+            assertionFailure(errorMessage)
+
+            transfer.error = AzureError.general(errorMessage)
             transfer.state = .failed
             return
         }
@@ -433,7 +482,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
                 )
             }
         } catch {
-            logger.error(error.localizedDescription)
+            client.logger.error(error.localizedDescription)
             transfer.error = error
             transfer.state = .failed
             return

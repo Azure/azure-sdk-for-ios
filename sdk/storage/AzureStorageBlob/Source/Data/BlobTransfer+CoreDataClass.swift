@@ -193,8 +193,8 @@ public class BlobTransfer: NSManagedObject, TransferImpl {
     }
 }
 
-extension BlobTransfer {
-    internal static func with(
+internal extension BlobTransfer {
+    static func with(
         context: NSManagedObjectContext,
         clientRestorationId: String,
         source: URL,

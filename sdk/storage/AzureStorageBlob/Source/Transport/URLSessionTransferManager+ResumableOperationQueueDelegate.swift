@@ -30,6 +30,7 @@ extension URLSessionTransferManager: ResumableOperationQueueDelegate {
     internal func operation(_ operation: ResumableOperation?, didChangeState state: TransferState) {
         saveContext()
         guard let transfer = operation?.transfer else { return }
+        let delegate = client(forRestorationId: transfer.clientRestorationId)
         switch state {
         case .failed:
             // Block transfers should propagate up to their BlobTransfer and only notify that the
