@@ -47,18 +47,19 @@ internal protocol TransferManager: ResumableOperationQueueDelegate {
     // MARK: Queue Operations
 
     var count: Int { get }
-    subscript(_: Int) -> Transfer { get }
-    var transfers: [Transfer] { get }
+    subscript(_: Int) -> TransferImpl { get }
+    var transfers: [TransferImpl] { get }
 
-    func add(transfer: Transfer)
-    func cancel(transfer: Transfer)
-    func cancelAll()
-    func pause(transfer: Transfer)
-    func pauseAll()
-    func remove(transfer: Transfer)
-    func removeAll()
-    func resume(transfer: Transfer)
-    func resumeAll()
+    func add(transfer: TransferImpl)
+    func cancel(transfer: TransferImpl)
+    func cancelAll(withRestorationId: String?)
+    func pause(transfer: TransferImpl)
+    func pauseAll(withRestorationId: String?)
+    func remove(transfer: TransferImpl)
+    func removeAll(withRestorationId: String?)
+    func resume(transfer: TransferImpl)
+    func resumeAll(withRestorationId: String?)
+
     func loadContext()
     func saveContext()
 }

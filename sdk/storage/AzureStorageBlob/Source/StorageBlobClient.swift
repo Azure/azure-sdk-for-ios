@@ -638,12 +638,16 @@ extension StorageBlobClient {
     /// - Parameters:
     ///   - transfer: The transfer to cancel.
     public func cancel(transfer: Transfer) {
+        guard let transfer = transfer as? TransferImpl else { return }
+        if transfer.clientRestorationId != restorationId {
+            assertionFailure("Canceling transfer not created by this StorageBlobClient")
+        }
         manager.cancel(transfer: transfer)
     }
 
-    /// Cancel all currently active transfers.
+    /// Cancel all currently active transfers having this client's `restorationId`.
     public func cancelAllTransfers() {
-        manager.cancelAll()
+        manager.cancelAll(withRestorationId: restorationId)
     }
 
     /// Remove a transfer from the database. If the transfer is currently active it will be cancelled.
@@ -651,12 +655,17 @@ extension StorageBlobClient {
     /// - Parameters:
     ///   - transfer: The transfer to remove.
     public func remove(transfer: Transfer) {
+        guard let transfer = transfer as? TransferImpl else { return }
+        if transfer.clientRestorationId != restorationId {
+            assertionFailure("Removing transfer not created by this StorageBlobClient")
+        }
         manager.remove(transfer: transfer)
     }
 
-    /// Remove all transfers from the database. All currently active transfers will be cancelled.
+    /// Remove all transfers having this client's `restorationId` from the database. All currently active transfers will
+    /// be cancelled.
     public func removeAllTransfers() {
-        manager.removeAll()
+        manager.removeAll(withRestorationId: restorationId)
     }
 
     /// Pause a currently active transfer.
@@ -664,12 +673,16 @@ extension StorageBlobClient {
     /// - Parameters:
     ///   - transfer: The transfer to pause.
     public func pause(transfer: Transfer) {
+        guard let transfer = transfer as? TransferImpl else { return }
+        if transfer.clientRestorationId != restorationId {
+            assertionFailure("Pausing transfer not created by this StorageBlobClient")
+        }
         manager.pause(transfer: transfer)
     }
 
-    /// Pause all currently active transfers.
+    /// Pause all currently active transfers having this client's `restorationId`.
     public func pauseAllTransfers() {
-        manager.pauseAll()
+        manager.pauseAll(withRestorationId: restorationId)
     }
 
     /// Resume a currently paused transfer.
@@ -677,16 +690,20 @@ extension StorageBlobClient {
     /// - Parameters:
     ///   - transfer: The transfer to resume.
     public func resume(transfer: Transfer) {
+        guard let transfer = transfer as? TransferImpl else { return }
+        if transfer.clientRestorationId != restorationId {
+            assertionFailure("Resuming transfer not created by this StorageBlobClient")
+        }
         manager.resume(transfer: transfer)
     }
 
-    /// Resume all currently paused transfers.
+    /// Resume all currently paused transfers having this client's `restorationId`.
     public func resumeAllTransfers() {
-        manager.resumeAll()
+        manager.resumeAll(withRestorationId: restorationId)
     }
 
-    /// Retrieve the list of all currently managed transfers.
+    /// Retrieve the list of all managed transfers having this client's `restorationId`.
     public var transfers: [Transfer] {
-        return manager.transfers
+        return manager.transfers.filter { $0.clientRestorationId == restorationId }
     }
 }

@@ -59,7 +59,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     var operationQueue: ResumableOperationQueue
 
-    var transfers: [Transfer]
+    var transfers: [TransferImpl]
 
     var count: Int {
         return transfers.count
@@ -82,7 +82,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     private override init() {
         self.operationQueue = ResumableOperationQueue(name: "TransferQueue", delegate: nil, removeOnCompletion: true)
-        self.transfers = [Transfer]()
+        self.transfers = [TransferImpl]()
 
         super.init()
         operationQueue.delegate = self
@@ -99,7 +99,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     // MARK: TransferManager Methods
 
-    subscript(index: Int) -> Transfer {
+    subscript(index: Int) -> TransferImpl {
         // return the operation from the DataStore
         return transfers[index]
     }
@@ -114,7 +114,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     // MARK: Add Operations
 
-    func add(transfer: Transfer) {
+    func add(transfer: TransferImpl) {
         switch transfer {
         case let transfer as BlockTransfer:
             add(transfer: transfer)
@@ -214,14 +214,14 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     // MARK: Cancel Operations
 
-    func cancelAll() {
-        for transfer in transfers {
+    func cancelAll(withRestorationId restorationId: String? = nil) {
+        let toCancel = restorationId == nil ? transfers : transfers.filter { $0.clientRestorationId == restorationId }
+        for transfer in toCancel {
             cancel(transfer: transfer)
         }
     }
 
-    func cancel(transfer: Transfer) {
-        guard let transfer = transfer as? TransferImpl else { return }
+    func cancel(transfer: TransferImpl) {
         transfer.state = .canceled
         assert(transfer.operation != nil, "Transfer operation unexpectedly nil.")
         if let operation = transfer.operation {
@@ -237,7 +237,16 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     // MARK: Remove Operations
 
-    func removeAll() {
+    func removeAll(withRestorationId restorationId: String? = nil) {
+        let toRemove = restorationId == nil ? transfers : transfers.filter { $0.clientRestorationId == restorationId }
+        guard toRemove.count == transfers.count else {
+            // Handle a partial removeAll
+            for transfer in toRemove {
+                remove(transfer: transfer)
+            }
+            return
+        }
+
         // Wipe the DataStore
         transfers.removeAll()
 
@@ -267,8 +276,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         operations(nil, didChangeState: .deleted)
     }
 
-    func remove(transfer: Transfer) {
-        guard let transfer = transfer as? TransferImpl else { return }
+    func remove(transfer: TransferImpl) {
         switch transfer {
         case let transfer as BlockTransfer:
             remove(transfer: transfer)
@@ -321,14 +329,17 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     // MARK: Pause Operations
 
-    func pauseAll() {
-        operationQueue.clear()
-        for transfer in transfers {
+    func pauseAll(withRestorationId restorationId: String? = nil) {
+        let toPause = restorationId == nil ? transfers : transfers.filter { $0.clientRestorationId == restorationId }
+        if toPause.count == transfers.count {
+            operationQueue.clear()
+        }
+        for transfer in toPause {
             pause(transfer: transfer)
         }
     }
 
-    func pause(transfer: Transfer) {
+    func pause(transfer: TransferImpl) {
         guard let blobTransfer = transfer as? BlobTransfer else {
             assertionFailure("Unsupported transfer type: \(transfer.self)")
             return
@@ -369,15 +380,14 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     // MARK: Resume Operations
 
-    func resumeAll() {
-        for transfer in transfers {
+    func resumeAll(withRestorationId restorationId: String? = nil) {
+        let toResume = restorationId == nil ? transfers : transfers.filter { $0.clientRestorationId == restorationId }
+        for transfer in toResume {
             resume(transfer: transfer)
         }
     }
 
-    func resume(transfer: Transfer) {
-        guard let transfer = transfer as? TransferImpl else { return }
-
+    func resume(transfer: TransferImpl) {
         guard reachability?.isReachable ?? false else { return }
         guard transfer.state.resumable else { return }
         transfer.state = .pending
