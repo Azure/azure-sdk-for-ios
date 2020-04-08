@@ -57,6 +57,8 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         return manager
     }()
 
+    private var managing = false
+
     var operationQueue: ResumableOperationQueue
 
     var transfers: [TransferImpl]
@@ -110,6 +112,28 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     func client(forRestorationId restorationId: String) -> StorageBlobClient? {
         return clients.object(forKey: restorationId as NSString)
+    }
+
+    /// Start the transfer management engine.
+    ///
+    /// Loads transfer state from disk, begins listening for network connectivity events, and resumes any incomplete
+    /// transfers. This method **MUST** be called in order for any managed transfers to occur.
+    func startManaging() {
+        if managing { return }
+        reachability?.startListening()
+        managing = true
+    }
+
+    /// Stop the transfer management engine.
+    ///
+    /// Pauses all incomplete transfers, stops listening for network connectivity events, and stores transfer state to
+    /// disk.
+    func stopManaging() {
+        guard managing else { return }
+        reachability?.stopListening()
+        pauseAll()
+        saveContext()
+        managing = false
     }
 
     // MARK: Add Operations

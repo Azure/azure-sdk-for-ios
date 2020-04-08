@@ -46,7 +46,6 @@ public final class StorageBlobClient: PipelineClient {
         "https://storage.azure.com/.default"
     ]
 
-    private var managing = false
     private let manager: TransferManager = URLSessionTransferManager.shared
     private let restorationId: String
 
@@ -611,11 +610,7 @@ extension StorageBlobClient {
     /// transfers" message and wait for explicit user confirmation to start the management engine). If you're not using
     /// such a credential, or there are no paused transfers, it is safe to call this method from your `AppDelegate`.
     public func startManaging() {
-        if managing { return }
-
-        manager.reachability?.startListening()
-
-        managing = true
+        manager.startManaging()
     }
 
     /// Stop the transfer management engine.
@@ -624,13 +619,7 @@ extension StorageBlobClient {
     /// disk. This method **SHOULD** be called by your application, either from your `AppDelegate` or from within a
     /// `ViewController`'s lifecycle methods.
     public func stopManaging() {
-        guard managing else { return }
-
-        manager.reachability?.stopListening()
-        pauseAllTransfers()
-        manager.saveContext()
-
-        managing = false
+        manager.stopManaging()
     }
 
     /// Cancel a currently active transfer.
