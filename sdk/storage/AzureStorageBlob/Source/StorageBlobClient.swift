@@ -540,7 +540,10 @@ public final class StorageBlobClient: PipelineClient {
         ///   - name: The name of the blob.
         ///   - container: The name of the container
         /// - Returns: A tuple of (`dirName`, `fileName`)
-        public static func pathComponents(forBlob name: String, inContainer container: String) -> (String, String) {
+        public static func pathComponents(
+            forBlob name: String,
+            inContainer container: String
+        ) -> (dirName: String, fileName: String) {
             var defaultUrlComps = "\(container)/\(name)".split(separator: "/").compactMap { String($0) }
             let baseName = defaultUrlComps.popLast()!
             let dirName = defaultUrlComps.joined(separator: "/")
