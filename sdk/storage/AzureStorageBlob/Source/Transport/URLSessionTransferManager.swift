@@ -445,7 +445,13 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
         // attempt to attach one
         guard let client = client(forRestorationId: transfer.clientRestorationId) else {
-            transfer.error = AzureError.general("Unable to restore client.")
+            let errorMessage = """
+            Attempted to resume this transfer, but no client with restorationId "\(transfer.clientRestorationId)" has \
+            been initialized.
+            """
+            assertionFailure(errorMessage)
+
+            transfer.error = AzureError.general(errorMessage)
             transfer.state = .failed
             return
         }
