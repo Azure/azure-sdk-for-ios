@@ -17,9 +17,13 @@ Blob storage is ideal for:
 ### Prerequisites
 * The client library is written in modern Swift 5. Due to this, Xcode 10.2 or higher is required to use this library.
 * You must have an [Azure subscription](https://azure.microsoft.com/free/) and an
-[Azure storage account](https://docs.microsoft.com/azure/storage/common/storage-account-overview) to use this package.
+[Azure storage account](https://docs.microsoft.com/azure/storage/common/storage-account-overview) to use this library.
 
-### Install the package
+### Install the library
+At the present time, to install the Azure Storage Blobs client library for iOS you must download the latest
+[release](https://github.com/Azure/azure-sdk-for-ios/releases) and integrate it into your project manually:
+
+<!---
 Install the Azure Storage Blobs client library for iOS via [CocoaPods](https://cocoapods.org/),
 [Carthage](https://github.com/Carthage/Carthage), or download the latest
 [release](https://github.com/Azure/azure-sdk-for-ios/releases) and integrate it into your project manually:
@@ -44,6 +48,7 @@ binary "https://github.com/Azure/azure-sdk-for-ios/raw/master/releases/AzureStor
 
 > Note: To obtain a build with debug symbols included, use the `AzureStorageBlob-symbols.json` feed instead.
 
+-->
 #### Manually integrate the library into your project
 
 To manually integrate this library into your project, first download the latest releases of the following libraries from
