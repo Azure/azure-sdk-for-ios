@@ -227,7 +227,6 @@ extension BlobUploadViewController: UICollectionViewDelegate, UICollectionViewDa
                 toContainer: containerName,
                 asBlob: blobName,
                 properties: properties,
-                withRestorationId: "upload",
                 withOptions: options
             ) {
                 data.transfer = transfer as? BlobTransfer

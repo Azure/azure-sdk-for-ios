@@ -110,6 +110,7 @@ struct AppState {
             client = StorageBlobClient(
                 accountUrl: AppConstants.storageAccountUrl,
                 credential: credential,
+                withRestorationId: "AzureSDKDemoSwift",
                 withOptions: options
             )
             AppState.internalBlobClient = client

@@ -206,7 +206,6 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
                 blob: blobName,
                 fromContainer: containerName,
                 toFile: destination,
-                withRestorationId: "download",
                 withOptions: options
             ) as? BlobTransfer {
                 downloadMap[indexPath] = transfer
