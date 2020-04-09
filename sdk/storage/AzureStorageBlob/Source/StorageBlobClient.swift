@@ -535,9 +535,11 @@ public final class StorageBlobClient: PipelineClient {
             } else if urlString.starts(with: tempDirPrefix) {
                 urlString = urlString.replacing(prefix: tempDirPrefix, with: realTempDir.absoluteString)
                 return URL(string: urlString)!
-            } else {
-                return url
+            } else if urlString.starts(with: documentsDirPrefix) {
+                urlString = urlString.replacing(prefix: documentsDirPrefix, with: realDocumentsDir.absoluteString)
+                return URL(string: urlString)!
             }
+            return url
         }
 
         /// Retrieve a URL for a location on the local device in which to store a blob downloaded from a container.
