@@ -33,9 +33,6 @@ let package = Package(
     name: "AzureSDK",
     products: [
         .library(name: "AzureCore", targets: ["AzureCore"]),
-        .library(name: "AzureAppConfiguration", targets: ["AzureAppConfiguration"]),
-        .library(name: "AzureCSComputerVision", targets: ["AzureCSComputerVision"]),
-        .library(name: "AzureCSTextAnalytics", targets: ["AzureCSTextAnalytics"]),
         .library(name: "AzureStorageBlob", targets: ["AzureStorageBlob"])
     ],
     dependencies: [
@@ -46,24 +43,6 @@ let package = Package(
             name: "AzureCore",
             dependencies: [],
             path: "sdk/core/AzureCore",
-            sources: ["Source"]
-        ),
-        .target(
-            name: "AzureAppConfiguration",
-            dependencies: ["AzureCore"],
-            path: "sdk/appconfiguration/AzureAppConfiguration",
-            sources: ["Source"]
-        ),
-        .target(
-            name: "AzureCSComputerVision",
-            dependencies: ["AzureCore"],
-            path: "sdk/cognitiveservices/AzureCSComputerVision",
-            sources: ["Source"]
-        ),
-        .target(
-            name: "AzureCSTextAnalytics",
-            dependencies: ["AzureCore"],
-            path: "sdk/textanalytics/AzureCSTextAnalytics",
             sources: ["Source"]
         ),
         .target(
