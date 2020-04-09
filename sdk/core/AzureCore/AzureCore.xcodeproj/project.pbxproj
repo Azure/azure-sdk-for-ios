@@ -75,7 +75,6 @@
 		7AFA4D6023D14BDB001A3BF4 /* AddDatePolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFA4D5F23D14BDB001A3BF4 /* AddDatePolicyTests.swift */; };
 		7AFA4D6223D14F01001A3BF4 /* LoggingPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFA4D6123D14F01001A3BF4 /* LoggingPolicyTests.swift */; };
 		7AFCF7662345714200592782 /* LoggingPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFCF7652345714200592782 /* LoggingPolicy.swift */; };
-		FCDD52F2DC1A6AFC7542E3F5 /* Pods_AzureCoreTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8603CE3296542B2154101CAD /* Pods_AzureCoreTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -158,8 +157,6 @@
 		0AFEC36923C8FC590065D588 /* thing2.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = thing2.xml; sourceTree = "<group>"; };
 		0AFEC36A23C8FC590065D588 /* pagedthings.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = pagedthings.xml; sourceTree = "<group>"; };
 		5CBF50632171488DE1372EB1 /* Pods-AzureCore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCore.release.xcconfig"; path = "../../../Pods/Target Support Files/Pods-AzureCore/Pods-AzureCore.release.xcconfig"; sourceTree = "<group>"; };
-		5EFB9EB539A76F5FBD14E6A8 /* Pods-AzureCoreTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCoreTests.release.xcconfig"; path = "../../../Pods/Target Support Files/Pods-AzureCoreTests/Pods-AzureCoreTests.release.xcconfig"; sourceTree = "<group>"; };
-		6533FBBE418452A3DF037EEB /* Pods-AzureCoreTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCoreTests.debug.xcconfig"; path = "../../../Pods/Target Support Files/Pods-AzureCoreTests/Pods-AzureCoreTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7A16DC7A234BF55F002708BC /* PipelineError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineError.swift; sourceTree = "<group>"; };
 		7A1A916B23D13D5700B0B3D2 /* RequestIdPolicyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestIdPolicyTests.swift; sourceTree = "<group>"; };
 		7A1A916E23D13E5D00B0B3D2 /* PipelineStubs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineStubs.swift; sourceTree = "<group>"; };
@@ -176,7 +173,6 @@
 		7AFA4D6123D14F01001A3BF4 /* LoggingPolicyTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggingPolicyTests.swift; sourceTree = "<group>"; };
 		7AFCF7652345714200592782 /* LoggingPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingPolicy.swift; sourceTree = "<group>"; };
 		7B79B7DB4DFFFBAA628E4C29 /* Pods_AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8603CE3296542B2154101CAD /* Pods_AzureCoreTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCoreTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		997D1939CDC5E0A7A153F6DF /* Pods-AzureCore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCore.debug.xcconfig"; path = "../../../Pods/Target Support Files/Pods-AzureCore/Pods-AzureCore.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -195,7 +191,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A3A5DE32315D17F00473FDA /* AzureCore.framework in Frameworks */,
-				FCDD52F2DC1A6AFC7542E3F5 /* Pods_AzureCoreTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -379,8 +374,6 @@
 			children = (
 				997D1939CDC5E0A7A153F6DF /* Pods-AzureCore.debug.xcconfig */,
 				5CBF50632171488DE1372EB1 /* Pods-AzureCore.release.xcconfig */,
-				6533FBBE418452A3DF037EEB /* Pods-AzureCoreTests.debug.xcconfig */,
-				5EFB9EB539A76F5FBD14E6A8 /* Pods-AzureCoreTests.release.xcconfig */,
 			);
 			name = Pods;
 			path = ../Pods;
@@ -391,7 +384,6 @@
 			children = (
 				7B79B7DB4DFFFBAA628E4C29 /* Pods_AzureCore.framework */,
 				0AFDF16623AAC37F00816EB7 /* MSAL.framework */,
-				8603CE3296542B2154101CAD /* Pods_AzureCoreTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -435,11 +427,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0A3A5DE62315D17F00473FDA /* Build configuration list for PBXNativeTarget "AzureCoreTests" */;
 			buildPhases = (
-				C445FEBF17FE4B8F6D826791 /* [CP] Check Pods Manifest.lock */,
 				0A3A5DDA2315D17F00473FDA /* Sources */,
 				0A3A5DDB2315D17F00473FDA /* Frameworks */,
 				0A3A5DDC2315D17F00473FDA /* Resources */,
-				12F4861743CB158094725008 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -531,23 +521,6 @@
 			shellPath = /bin/sh;
 			shellScript = "BUILD_PATH=$(pwd)\nROOT_PATH=$(pwd | rev | cut -d'/' -f4- | rev) \n$ROOT_PATH/Scripts/swiftlint.sh $BUILD_PATH\n";
 		};
-		12F4861743CB158094725008 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AzureCoreTests/Pods-AzureCoreTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AzureCoreTests/Pods-AzureCoreTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AzureCoreTests/Pods-AzureCoreTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		2AB7D139AE96B78D3C320A6D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -564,28 +537,6 @@
 			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-AzureCore-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C445FEBF17FE4B8F6D826791 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-AzureCoreTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -870,7 +821,6 @@
 		};
 		0A3A5DE72315D17F00473FDA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6533FBBE418452A3DF037EEB /* Pods-AzureCoreTests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UBF8T346G9;
@@ -889,7 +839,6 @@
 		};
 		0A3A5DE82315D17F00473FDA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5EFB9EB539A76F5FBD14E6A8 /* Pods-AzureCoreTests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UBF8T346G9;

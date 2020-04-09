@@ -17,32 +17,11 @@ Blob storage is ideal for:
 ### Prerequisites
 * The client library is written in modern Swift 5. Due to this, Xcode 10.2 or higher is required to use this library.
 * You must have an [Azure subscription](https://azure.microsoft.com/free/) and an
-[Azure storage account](https://docs.microsoft.com/azure/storage/common/storage-account-overview) to use this package.
+[Azure storage account](https://docs.microsoft.com/azure/storage/common/storage-account-overview) to use this library.
 
-### Install the package
-Install the Azure Storage Blobs client library for iOS via [CocoaPods](https://cocoapods.org/),
-[Carthage](https://github.com/Carthage/Carthage), or download the latest
+### Install the library
+At the present time, to install the Azure Storage Blobs client library for iOS you must download the latest
 [release](https://github.com/Azure/azure-sdk-for-ios/releases) and integrate it into your project manually:
-
-#### CocoaPods
-
-To integrate this library into your project using CocoaPods, specify it in your
-[Podfile](https://guides.cocoapods.org/using/the-podfile.html):
-
-```ruby
-pod 'AzureStorageBlob', '~> 0.1'
-```
-
-#### Carthage
-
-To integrate this library into your project using Carthage, specify the release feed in your
-[Cartfile](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile):
-
-```ruby
-binary "https://github.com/Azure/azure-sdk-for-ios/raw/master/releases/AzureStorageBlob.json" ~> 0.1
-```
-
-> Note: To obtain a build with debug symbols included, use the `AzureStorageBlob-symbols.json` feed instead.
 
 #### Manually integrate the library into your project
 
@@ -147,7 +126,7 @@ The Azure Storage Blobs client library for iOS allows you to interact with some 
 ### Client
 A single client is provided to interact with the various components of the Blob Service:
 1. [StorageBlobClient](https://github.com/Azure/azure-sdk-for-ios/blob/dev/sdk/storage/AzureStorageBlob/Source/StorageBlobClient.swift) -
-    this client represents interaction with a specific blob container. It provides operations to upload, download and list blobs.
+   this client represents interaction with a specific blob container. It provides operations to upload, download and list blobs.
 
 ### Blob Types
 The `StorageBlobClient` only works with block blobs:
@@ -202,7 +181,7 @@ let containerName = "<my_container>"
 let connectionString = "DefaultEndpointsProtocol=https;AccountName=xxxx;AccountKey=xxxx;EndpointSuffix=core.windows.net"
 let client = StorageBlobClient(connectionString: connectionString)
 
-let blobName = "<my_blob>""
+let blobName = "<my_blob>"
 let sourceUrl = URL(string: "<path_to_file>")
 let properties = BlobProperties(
     contentType: "image/jpg"
@@ -226,7 +205,7 @@ let containerName = "<my_container>"
 let connectionString = "DefaultEndpointsProtocol=https;AccountName=xxxx;AccountKey=xxxx;EndpointSuffix=core.windows.net"
 let client = StorageBlobClient(connectionString: connectionString)
 
-let blobName = "<my_blob>""
+let blobName = "<my_blob>"
 let destinationUrl = URL(string: "<path_on_disk>")
 let transfer = try? client.download(
     blob: blobName,

@@ -5,20 +5,6 @@
       location = "group:sdk"
       name = "SDK">
       <Group
-         location = "group:appconfiguration"
-         name = "appconfiguration">
-         <FileRef
-            location = "group:AzureAppConfiguration/AzureAppConfiguration.xcodeproj">
-         </FileRef>
-      </Group>
-      <Group
-         location = "group:cognitiveservices"
-         name = "cognitiveservices">
-         <FileRef
-            location = "group:AzureCSComputerVision/AzureCSComputerVision.xcodeproj">
-         </FileRef>
-      </Group>
-      <Group
          location = "group:core"
          name = "core">
          <FileRef
@@ -32,17 +18,13 @@
             location = "group:AzureStorageBlob/AzureStorageBlob.xcodeproj">
          </FileRef>
       </Group>
-      <Group
-         location = "group:textanalytics"
-         name = "textanalytics">
-         <FileRef
-            location = "group:AzureCSTextAnalytics/AzureCSTextAnalytics.xcodeproj">
-         </FileRef>
-      </Group>
    </Group>
    <Group
       location = "group:Scripts"
       name = "Scripts">
+      <FileRef
+         location = "group:build_api_docs.sh">
+      </FileRef>
       <FileRef
          location = "group:swiftlint.sh">
       </FileRef>

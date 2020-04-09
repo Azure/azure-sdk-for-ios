@@ -10,9 +10,10 @@ For your convenience, each service has a separate set of libraries that you can 
 
 ### Prerequisites
 
-The client libraries are written in modern Swift 5. Due to this, Xcode 10.2 or higher is required to use these libraries.
+* The client libraries are written in modern Swift 5. Due to this, Xcode 10.2 or higher is required to use these libraries.
+* You must have an [Azure subscription](https://azure.microsoft.com/free/) to use these libraries.
 
-## Packages available
+### Libraries available
 
 Currently, the client libraries are in **preview**. These libraries follow the [Azure SDK Design Guidelines for iOS](https://azure.github.io/azure-sdk/ios_introduction.html) and share a number of core features such as HTTP retries, logging, transport protocols, authentication protocols, etc., so that once you learn how to use these features in one client library, you will know how to use them in other client libraries. You can learn about these shared features in [AzureCore](sdk/core/AzureCore/README.md).
 
@@ -21,61 +22,27 @@ The following libraries are currently in **preview**:
 
 > Note: The SDK is currently in **preview**. The API surface and feature sets are subject to change at any time before **GA**. We do not currently recommend them for production use.
 
-## Installation
+### Install the libraries
+At the present time, to install the Azure client libraries for iOS you must download the latest
+[releases](https://github.com/Azure/azure-sdk-for-ios/releases) and integrate them into your project manually:
 
-### CocoaPods
+#### Manually integrate a client library into your project
 
-[CocoaPods](https://cocoapods.org) is a dependency manager for Cocoa projects. You can install it with the following command:
+To manually integrate a client library into your project, first download the latest release of the library and any of
+its dependencies from the repository's [Releases](https://github.com/Azure/azure-sdk-for-ios/releases) page. Each client
+library's **README.md** file will instruct you as to which libraries you will need to download.
 
-```bash
-[sudo] gem install cocoapods
-```
+Extract the .frameworks to your project's "Frameworks" folder. Select your project in Xcode's Project navigator, and
+then select the desired target in the Targets list. Drag & drop the .frameworks from your project's "Frameworks" folder
+into the "Frameworks, Libraries, and Embedded Content" section.
 
-> CocoaPods 1.3+ is required.
+> Note: To include debug symbols for these frameworks in your project, download the corresponding `dSYM` archives,
+> extract them to a location within your project directory, and add a Build Phase to your project that will copy them to
+> your Products Directory when installing.
 
-To integrate an SDK library into your project using CocoaPods, specify it in your [Podfile](https://guides.cocoapods.org/using/the-podfile.html):
-
-```ruby
-source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '13.0'
-use_frameworks!
-
-pod 'AzureStorageBlob', '~> 0.1'
-```
-
-Then, run the following command:
-
-```bash
-$ pod install
-```
-
-### Carthage
-
-[Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.
-
-You can install Carthage with [Homebrew](https://brew.sh/) using the following command:
-
-```bash
-$ brew update
-$ brew install carthage
-```
-
-To integrate an SDK library into your project using Carthage, specify the release feed for the library in your [Cartfile](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile):
-
-```ruby
-binary "https://github.com/Azure/azure-sdk-for-ios/raw/master/releases/AzureStorageBlob.json" ~> 0.1
-```
-
-> Note: Debug symbols are also available. To obtain builds with debug symbols, append `-symbols` to the library name in the feed URL. e.g. `AzureStorageBlob-symbols.json`
-
-Next, run `carthage update` and drag the resulting frameworks from the `Carthage/Build/iOS` folder into the *Linked Frameworks and Libraries* section of your Xcode project.
-
-Finally, add the frameworks' paths to the *Input Files* list for the *Run Script* build phase that runs the `carthage copy-frameworks` command:
-
-```
-$(SRCROOT)/Carthage/Build/iOS/AzureCore.framework
-$(SRCROOT)/Carthage/Build/iOS/AzureStorageBlob.framework
-```
+If you plan to use the [Microsoft Authentication Library (MSAL) for iOS](http://aka.ms/aadv2) in your project, add it by
+following the library's
+[installation instructions](https://github.com/AzureAD/microsoft-authentication-library-for-objc#installation).
 
 ## Need help?
 

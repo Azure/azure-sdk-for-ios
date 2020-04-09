@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0A25EA4C2398121A0012DFE1 /* (null) in Embed Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0A25EA4C2398121A0012DFE1 /* BuildFile in Embed Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0A28684723F5D6700084CF15 /* AzureStorage.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0A28684523F5D6700084CF15 /* AzureStorage.xcdatamodeld */; };
 		0A28686D23F74EA00084CF15 /* BlobDownloadOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A28686C23F74EA00084CF15 /* BlobDownloadOperations.swift */; };
 		0A28688123FCA6750084CF15 /* MultiBlobOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A28688023FCA6750084CF15 /* MultiBlobOperation.swift */; };
@@ -42,6 +42,7 @@
 		0AE8F02723AC2A5C007B6975 /* StorageBlobClient+AllowLoggingValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE8F02623AC2A5C007B6975 /* StorageBlobClient+AllowLoggingValues.swift */; };
 		0AE8F02D23AC2A7C007B6975 /* StorageStreamDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE8F02A23AC2A7C007B6975 /* StorageStreamDownloader.swift */; };
 		0AE8F02F23AC2AEB007B6975 /* Options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE8F02923AC2A7C007B6975 /* Options.swift */; };
+		6749A4682951673A4EF1741D /* Pods_AzureStorageBlob.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE3538D9B59B54E936B091ED /* Pods_AzureStorageBlob.framework */; };
 		7ACAADA1242C241A00A049B7 /* ResumableOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACAADA0242C241900A049B7 /* ResumableOperationQueue.swift */; };
 		7ACAADA2242C241A00A049B7 /* ResumableOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACAAD9F242C241900A049B7 /* ResumableOperation.swift */; };
 /* End PBXBuildFile section */
@@ -63,7 +64,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0A25EA4C2398121A0012DFE1 /* (null) in Embed Frameworks */,
+				0A25EA4C2398121A0012DFE1 /* BuildFile in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -108,9 +109,12 @@
 		0AE8F02623AC2A5C007B6975 /* StorageBlobClient+AllowLoggingValues.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StorageBlobClient+AllowLoggingValues.swift"; sourceTree = "<group>"; };
 		0AE8F02923AC2A7C007B6975 /* Options.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Options.swift; sourceTree = "<group>"; };
 		0AE8F02A23AC2A7C007B6975 /* StorageStreamDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageStreamDownloader.swift; sourceTree = "<group>"; };
+		2DDE79651353834EEDB4844D /* Pods-AzureStorageBlob.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureStorageBlob.release.xcconfig"; path = "Target Support Files/Pods-AzureStorageBlob/Pods-AzureStorageBlob.release.xcconfig"; sourceTree = "<group>"; };
 		7ABC0A58243D2C4A0080968E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7ACAAD9F242C241900A049B7 /* ResumableOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumableOperation.swift; sourceTree = "<group>"; };
 		7ACAADA0242C241900A049B7 /* ResumableOperationQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumableOperationQueue.swift; sourceTree = "<group>"; };
+		D3923D2D9E19E49D0B5649C6 /* Pods-AzureStorageBlob.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureStorageBlob.debug.xcconfig"; path = "Target Support Files/Pods-AzureStorageBlob/Pods-AzureStorageBlob.debug.xcconfig"; sourceTree = "<group>"; };
+		DE3538D9B59B54E936B091ED /* Pods_AzureStorageBlob.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureStorageBlob.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +123,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A6864A5233E8366004B7E17 /* AzureCore.framework in Frameworks */,
+				6749A4682951673A4EF1741D /* Pods_AzureStorageBlob.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -156,6 +161,7 @@
 				0A68648A233E834D004B7E17 /* Products */,
 				0A6864A3233E8366004B7E17 /* Frameworks */,
 				7ABC0A58243D2C4A0080968E /* README.md */,
+				A4BB4F4EF910037CED7000A2 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -190,6 +196,7 @@
 			isa = PBXGroup;
 			children = (
 				0A6864A4233E8366004B7E17 /* AzureCore.framework */,
+				DE3538D9B59B54E936B091ED /* Pods_AzureStorageBlob.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -275,6 +282,16 @@
 			path = Transport;
 			sourceTree = "<group>";
 		};
+		A4BB4F4EF910037CED7000A2 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D3923D2D9E19E49D0B5649C6 /* Pods-AzureStorageBlob.debug.xcconfig */,
+				2DDE79651353834EEDB4844D /* Pods-AzureStorageBlob.release.xcconfig */,
+			);
+			name = Pods;
+			path = ../../../Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -293,6 +310,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0A68649D233E834D004B7E17 /* Build configuration list for PBXNativeTarget "AzureStorageBlob" */;
 			buildPhases = (
+				BDA78A94173B98DBF126D25F /* [CP] Check Pods Manifest.lock */,
 				0A686484233E834D004B7E17 /* Headers */,
 				0A686485233E834D004B7E17 /* Sources */,
 				0A686486233E834D004B7E17 /* Frameworks */,
@@ -400,6 +418,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "BUILD_PATH=$(pwd)\nROOT_PATH=$(pwd | rev | cut -d'/' -f4- | rev) \n$ROOT_PATH/Scripts/swiftlint.sh $BUILD_PATH\n";
+		};
+		BDA78A94173B98DBF126D25F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AzureStorageBlob-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -586,6 +626,7 @@
 		};
 		0A68649E233E834D004B7E17 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D3923D2D9E19E49D0B5649C6 /* Pods-AzureStorageBlob.debug.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
@@ -615,6 +656,7 @@
 		};
 		0A68649F233E834D004B7E17 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2DDE79651353834EEDB4844D /* Pods-AzureStorageBlob.release.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;

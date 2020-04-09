@@ -11,8 +11,6 @@
 		0A009814237B560C0015E9C9 /* AzureStorageBlob.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0A6864B4233E8C8E004B7E17 /* AzureStorageBlob.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0A009816237B560E0015E9C9 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3A5E9B2315E8BE00473FDA /* AzureCore.framework */; };
 		0A009817237B560E0015E9C9 /* AzureCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3A5E9B2315E8BE00473FDA /* AzureCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		0A009818237B560F0015E9C9 /* AzureAppConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A4081B32333DE170071EAEE /* AzureAppConfiguration.framework */; };
-		0A009819237B560F0015E9C9 /* AzureAppConfiguration.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0A4081B32333DE170071EAEE /* AzureAppConfiguration.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0A138BA7241C0B21004F3FB2 /* CustomCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A138BA6241C0B21004F3FB2 /* CustomCells.swift */; };
 		0A215831242C314E0060BFA0 /* BlobUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A215830242C314E0060BFA0 /* BlobUploadViewController.swift */; };
 		0A25EA53239814410012DFE1 /* Pods_AzureSDKDemoSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F31A5A26BA837DAEC8BD8E4 /* Pods_AzureSDKDemoSwift.framework */; };
@@ -47,7 +45,6 @@
 			files = (
 				0A25EA54239814410012DFE1 /* Pods_AzureSDKDemoSwift.framework in Embed Frameworks */,
 				0A009814237B560C0015E9C9 /* AzureStorageBlob.framework in Embed Frameworks */,
-				0A009819237B560F0015E9C9 /* AzureAppConfiguration.framework in Embed Frameworks */,
 				0A009817237B560E0015E9C9 /* AzureCore.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -69,7 +66,6 @@
 		0A3A5E8E2315E70600473FDA /* AzureSDKDemoSwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzureSDKDemoSwiftTests.swift; sourceTree = "<group>"; };
 		0A3A5E902315E70600473FDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A3A5E9B2315E8BE00473FDA /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0A4081B32333DE170071EAEE /* AzureAppConfiguration.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureAppConfiguration.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A6864B4233E8C8E004B7E17 /* AzureStorageBlob.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureStorageBlob.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A71C5CA234BE18200604F2D /* BlobDownloadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlobDownloadViewController.swift; sourceTree = "<group>"; };
 		0A71C5CC234BE85700604F2D /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
@@ -87,7 +83,6 @@
 			files = (
 				0A25EA53239814410012DFE1 /* Pods_AzureSDKDemoSwift.framework in Frameworks */,
 				0A009813237B560C0015E9C9 /* AzureStorageBlob.framework in Frameworks */,
-				0A009818237B560F0015E9C9 /* AzureAppConfiguration.framework in Frameworks */,
 				0A009816237B560E0015E9C9 /* AzureCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -162,7 +157,6 @@
 			isa = PBXGroup;
 			children = (
 				0A3A5E9B2315E8BE00473FDA /* AzureCore.framework */,
-				0A4081B32333DE170071EAEE /* AzureAppConfiguration.framework */,
 				0A6864B4233E8C8E004B7E17 /* AzureStorageBlob.framework */,
 				9F31A5A26BA837DAEC8BD8E4 /* Pods_AzureSDKDemoSwift.framework */,
 			);

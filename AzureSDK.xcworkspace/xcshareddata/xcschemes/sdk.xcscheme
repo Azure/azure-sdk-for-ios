@@ -14,10 +14,24 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0A3A5EB72316DB1E00473FDA"
-               BuildableName = "AzureCSComputerVision.framework"
-               BlueprintName = "AzureCSComputerVision"
-               ReferencedContainer = "container:sdk/cognitiveservices/AzureCSComputerVision/AzureCSComputerVision.xcodeproj">
+               BlueprintIdentifier = "0A3A5D752315C89C00473FDA"
+               BuildableName = "AzureCore.framework"
+               BlueprintName = "AzureCore"
+               ReferencedContainer = "container:sdk/core/AzureCore/AzureCore.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0A686488233E834D004B7E17"
+               BuildableName = "AzureStorageBlob.framework"
+               BlueprintName = "AzureStorageBlob"
+               ReferencedContainer = "container:sdk/storage/AzureStorageBlob/AzureStorageBlob.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -34,10 +48,21 @@
             parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0A3A5EC02316DB1E00473FDA"
-               BuildableName = "AzureCSComputerVisionTests.xctest"
-               BlueprintName = "AzureCSComputerVisionTests"
-               ReferencedContainer = "container:sdk/cognitiveservices/AzureCSComputerVision/AzureCSComputerVision.xcodeproj">
+               BlueprintIdentifier = "0A3A5DDD2315D17F00473FDA"
+               BuildableName = "AzureCoreTests.xctest"
+               BlueprintName = "AzureCoreTests"
+               ReferencedContainer = "container:sdk/core/AzureCore/AzureCore.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0A686491233E834D004B7E17"
+               BuildableName = "AzureStorageBlobTests.xctest"
+               BlueprintName = "AzureStorageBlobTests"
+               ReferencedContainer = "container:sdk/storage/AzureStorageBlob/AzureStorageBlob.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -62,10 +87,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0A3A5EB72316DB1E00473FDA"
-            BuildableName = "AzureCSComputerVision.framework"
-            BlueprintName = "AzureCSComputerVision"
-            ReferencedContainer = "container:sdk/cognitiveservices/AzureCSComputerVision/AzureCSComputerVision.xcodeproj">
+            BlueprintIdentifier = "0A3A5D752315C89C00473FDA"
+            BuildableName = "AzureCore.framework"
+            BlueprintName = "AzureCore"
+            ReferencedContainer = "container:sdk/core/AzureCore/AzureCore.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
