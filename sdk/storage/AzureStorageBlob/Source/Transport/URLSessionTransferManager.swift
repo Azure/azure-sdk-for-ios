@@ -34,6 +34,16 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     // MARK: Properties
 
+    public var maxConcurrentOperationCount: Int {
+        get {
+            return operationQueue.operationQueue.maxConcurrentOperationCount
+        }
+
+        set {
+            operationQueue.operationQueue.maxConcurrentOperationCount = newValue
+        }
+    }
+
     var clients = NSMapTable<NSString, StorageBlobClient>.strongToWeakObjects()
 
     lazy var session: URLSession = {
@@ -88,7 +98,6 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
         super.init()
         operationQueue.delegate = self
-        operationQueue.maxConcurrentOperationCount = 4
     }
 
     // TODO: This will interfere with trying to use multiple BlobClients simultaneously. Find an alternate

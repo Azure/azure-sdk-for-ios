@@ -43,6 +43,7 @@ internal protocol TransferManager: ResumableOperationQueueDelegate {
     // MARK: Queue Operations
 
     subscript(_: Int) -> TransferImpl { get }
+    var maxConcurrentOperationCount: Int { get set }
     var transfers: [TransferImpl] { get }
 
     func add(transfer: TransferImpl)

@@ -50,16 +50,6 @@ internal class ResumableOperationQueue {
         }
     }
 
-    public var maxConcurrentOperationCount: Int {
-        get {
-            return operationQueue.maxConcurrentOperationCount
-        }
-
-        set {
-            operationQueue.maxConcurrentOperationCount = newValue
-        }
-    }
-
     public var count: Int {
         return operations.count
     }

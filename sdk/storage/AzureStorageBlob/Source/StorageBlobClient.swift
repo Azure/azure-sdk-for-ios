@@ -87,6 +87,9 @@ public final class StorageBlobClient: PipelineClient {
             logger: self.options.logger
         )
         manager.register(client: self, forRestorationId: restorationId)
+        if let maxConcurrency = options?.maxConcurrency {
+            manager.maxConcurrentOperationCount = maxConcurrency
+        }
     }
 
     /// Create a Storage blob data client.

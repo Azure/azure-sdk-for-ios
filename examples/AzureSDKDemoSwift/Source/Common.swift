@@ -99,7 +99,8 @@ struct AppState {
             )
             let options = StorageBlobClientOptions(
                 apiVersion: StorageBlobClient.ApiVersion.latest.rawValue,
-                logger: ClientLoggers.none
+                logger: ClientLoggers.none,
+                maxConcurrency: 2
             )
             client = StorageBlobClient(
                 accountUrl: AppConstants.storageAccountUrl,
