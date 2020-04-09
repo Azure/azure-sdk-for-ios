@@ -28,52 +28,38 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0A3A5EE12316DC4E00473FDA"
-               BuildableName = "AzureAppConfiguration.framework"
-               BlueprintName = "AzureAppConfiguration"
-               ReferencedContainer = "container:sdk/appconfiguration/AzureAppConfiguration/AzureAppConfiguration.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0A3A5EB72316DB1E00473FDA"
-               BuildableName = "AzureCSComputerVision.framework"
-               BlueprintName = "AzureCSComputerVision"
-               ReferencedContainer = "container:sdk/cognitiveservices/AzureCSComputerVision/AzureCSComputerVision.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0A3A5DB32315D02F00473FDA"
-               BuildableName = "AzureCSTextAnalytics.framework"
-               BlueprintName = "AzureCSTextAnalytics"
-               ReferencedContainer = "container:sdk/textanalytics/AzureCSTextAnalytics/AzureCSTextAnalytics.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "0A686488233E834D004B7E17"
                BuildableName = "AzureStorageBlob.framework"
                BlueprintName = "AzureStorageBlob"
                ReferencedContainer = "container:sdk/storage/AzureStorageBlob/AzureStorageBlob.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0A3A5E752315E70400473FDA"
+               BuildableName = "AzureSDKDemoSwift.app"
+               BlueprintName = "AzureSDKDemoSwift"
+               ReferencedContainer = "container:examples/AzureSDKDemoSwift/AzureSDKDemoSwift.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0A3A5E892315E70600473FDA"
+               BuildableName = "AzureSDKDemoSwiftTests.xctest"
+               BlueprintName = "AzureSDKDemoSwiftTests"
+               ReferencedContainer = "container:examples/AzureSDKDemoSwift/AzureSDKDemoSwift.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -90,17 +76,6 @@
             parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0A3A5EEA2316DC4E00473FDA"
-               BuildableName = "AzureAppConfigurationTests.xctest"
-               BlueprintName = "AzureAppConfigurationTests"
-               ReferencedContainer = "container:sdk/appconfiguration/AzureAppConfiguration/AzureAppConfiguration.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "0A3A5DDD2315D17F00473FDA"
                BuildableName = "AzureCoreTests.xctest"
                BlueprintName = "AzureCoreTests"
@@ -112,32 +87,21 @@
             parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0A3A5EC02316DB1E00473FDA"
-               BuildableName = "AzureCSComputerVisionTests.xctest"
-               BlueprintName = "AzureCSComputerVisionTests"
-               ReferencedContainer = "container:sdk/cognitiveservices/AzureCSComputerVision/AzureCSComputerVision.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0A3A5DBC2315D02F00473FDA"
-               BuildableName = "AzureCSTextAnalyticsTests.xctest"
-               BlueprintName = "AzureCSTextAnalyticsTests"
-               ReferencedContainer = "container:sdk/textanalytics/AzureCSTextAnalytics/AzureCSTextAnalytics.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "0A686491233E834D004B7E17"
                BuildableName = "AzureStorageBlobTests.xctest"
                BlueprintName = "AzureStorageBlobTests"
                ReferencedContainer = "container:sdk/storage/AzureStorageBlob/AzureStorageBlob.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0A3A5E892315E70600473FDA"
+               BuildableName = "AzureSDKDemoSwiftTests.xctest"
+               BlueprintName = "AzureSDKDemoSwiftTests"
+               ReferencedContainer = "container:examples/AzureSDKDemoSwift/AzureSDKDemoSwift.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
