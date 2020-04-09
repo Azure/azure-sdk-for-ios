@@ -35,8 +35,9 @@ public struct StorageSASCredential {
     internal let tableEndpoint: String?
     internal let sasToken: String
 
-    /// Create a shared access signature credential.
-    /// - Parameter connectionString: A valid storage connection string.
+    /// Create a shared access signature credential from an account-level shared access signature.
+    /// - Parameters:
+    ///   - connectionString: An account-level shared access signature connection string.
     public init(connectionString: String) throws {
         // temp variables
         var blob: String?
@@ -78,6 +79,23 @@ public struct StorageSASCredential {
         self.queueEndpoint = queue
         self.fileEndpoint = file
         self.tableEndpoint = table
+    }
+
+    /// Create a shared access signature credential from a container- or blob-level shared access signature.
+    /// - Parameters:
+    ///   - blobSasUri: A container- or blob-level shared access signature URI.
+    public init(blobSasUri: String) throws {
+        let invalidUri = HTTPResponseError.clientAuthentication("The URI \(blobSasUri) is invalid.")
+        guard let sasUri = URL(string: blobSasUri) else { throw invalidUri }
+        guard let sasToken = sasUri.query else { throw invalidUri }
+        guard let scheme = sasUri.scheme else { throw invalidUri }
+        guard let host = sasUri.host else { throw invalidUri }
+
+        self.sasToken = sasToken
+        self.blobEndpoint = "\(scheme)://\(host)/"
+        self.queueEndpoint = nil
+        self.fileEndpoint = nil
+        self.tableEndpoint = nil
     }
 }
 
