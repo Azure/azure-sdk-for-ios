@@ -126,7 +126,7 @@ The Azure Storage Blobs client library for iOS allows you to interact with some 
 ### Client
 A single client is provided to interact with the various components of the Blob Service:
 1. [StorageBlobClient](https://github.com/Azure/azure-sdk-for-ios/blob/dev/sdk/storage/AzureStorageBlob/Source/StorageBlobClient.swift) -
-    this client represents interaction with a specific blob container. It provides operations to upload, download and list blobs.
+   this client represents interaction with a specific blob container. It provides operations to upload, download and list blobs.
 
 ### Blob Types
 The `StorageBlobClient` only works with block blobs:
@@ -181,7 +181,7 @@ let containerName = "<my_container>"
 let connectionString = "DefaultEndpointsProtocol=https;AccountName=xxxx;AccountKey=xxxx;EndpointSuffix=core.windows.net"
 let client = StorageBlobClient(connectionString: connectionString)
 
-let blobName = "<my_blob>""
+let blobName = "<my_blob>"
 let sourceUrl = URL(string: "<path_to_file>")
 let properties = BlobProperties(
     contentType: "image/jpg"
@@ -205,7 +205,7 @@ let containerName = "<my_container>"
 let connectionString = "DefaultEndpointsProtocol=https;AccountName=xxxx;AccountKey=xxxx;EndpointSuffix=core.windows.net"
 let client = StorageBlobClient(connectionString: connectionString)
 
-let blobName = "<my_blob>""
+let blobName = "<my_blob>"
 let destinationUrl = URL(string: "<path_on_disk>")
 let transfer = try? client.download(
     blob: blobName,
