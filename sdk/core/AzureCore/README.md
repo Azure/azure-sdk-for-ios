@@ -17,32 +17,6 @@ library as an example of how to use the shared AzureCore components in your clie
 At the present time, to install the Azure core client library for iOS you must download the latest
 [release](https://github.com/Azure/azure-sdk-for-ios/releases) and integrate it into your project manually:
 
-<!---
-Install the Azure core client library for iOS via [CocoaPods](https://cocoapods.org/),
-[Carthage](https://github.com/Carthage/Carthage), or download the latest
-[release](https://github.com/Azure/azure-sdk-for-ios/releases) and integrate it into your project manually:
-
-#### CocoaPods
-
-To integrate this library into your project using CocoaPods, specify it in your
-[Podfile](https://guides.cocoapods.org/using/the-podfile.html):
-
-```ruby
-pod 'AzureCore', '~> 0.1'
-```
-
-#### Carthage
-
-To integrate this library into your project using Carthage, specify the release feed in your
-[Cartfile](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile):
-
-```ruby
-binary "https://github.com/Azure/azure-sdk-for-ios/raw/master/releases/AzureCore.json" ~> 0.1
-```
-
-> Note: To obtain a build with debug symbols included, use the `AzureCore-symbols.json` feed instead.
-
--->
 #### Manually integrate the library into your project
 
 To manually integrate this library into your project, first download the latest releases of the following libraries from

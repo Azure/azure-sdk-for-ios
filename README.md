@@ -26,66 +26,6 @@ The following libraries are currently in **preview**:
 At the present time, to install the Azure client libraries for iOS you must download the latest
 [releases](https://github.com/Azure/azure-sdk-for-ios/releases) and integrate them into your project manually:
 
-<!---
-Install the Azure client libraries for iOS via [CocoaPods](https://cocoapods.org/),
-[Carthage](https://github.com/Carthage/Carthage), or download the latest
-[releases](https://github.com/Azure/azure-sdk-for-ios/releases) and integrate them into your project manually:
-
-#### CocoaPods
-
-[CocoaPods](https://cocoapods.org) is a dependency manager for Cocoa projects. You can install it with the following command:
-
-```bash
-[sudo] gem install cocoapods
-```
-
-> CocoaPods 1.3+ is required.
-
-To integrate a client library into your project using CocoaPods, specify it in your [Podfile](https://guides.cocoapods.org/using/the-podfile.html):
-
-```ruby
-source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '13.0'
-use_frameworks!
-
-pod 'AzureStorageBlob', '~> 0.1'
-```
-
-Then, run the following command:
-
-```bash
-$ pod install
-```
-
-#### Carthage
-
-[Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.
-
-You can install Carthage with [Homebrew](https://brew.sh/) using the following command:
-
-```bash
-$ brew update
-$ brew install carthage
-```
-
-To integrate a client library into your project using Carthage, specify the release feed for the library in your [Cartfile](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile):
-
-```ruby
-binary "https://github.com/Azure/azure-sdk-for-ios/raw/master/releases/AzureStorageBlob.json" ~> 0.1
-```
-
-> Note: Debug symbols are also available. To obtain builds with debug symbols, append `-symbols` to the library name in the feed URL. e.g. `AzureStorageBlob-symbols.json`
-
-Next, run `carthage update` and drag the resulting frameworks from the `Carthage/Build/iOS` folder into the *Linked Frameworks and Libraries* section of your Xcode project.
-
-Finally, add the frameworks' paths to the *Input Files* list for the *Run Script* build phase that runs the `carthage copy-frameworks` command:
-
-```
-$(SRCROOT)/Carthage/Build/iOS/AzureCore.framework
-$(SRCROOT)/Carthage/Build/iOS/AzureStorageBlob.framework
-```
-
--->
 #### Manually integrate a client library into your project
 
 To manually integrate a client library into your project, first download the latest release of the library and any of
