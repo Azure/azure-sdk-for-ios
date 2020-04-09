@@ -512,10 +512,33 @@ public final class StorageBlobClient: PipelineClient {
     /// Helper containing properties and values to aid in constructing local paths for working with blobs.
     public struct PathHelper {
         /// The application's temporary directory.
-        public static let tempDir = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+        public static let tempDir = URL(string: tempDirPrefix)!
+        private static let tempDirPrefix = "tempDir:/"
+        private static let realTempDir = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
 
         /// The application's cache directory.
-        public static let cacheDir = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
+        public static let cacheDir = URL(string: cacheDirPrefix)!
+        private static let cacheDirPrefix = "cacheDir:/"
+        private static let realCacheDir = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
+
+        /// The application's documents directory.
+        public static let documentsDir = URL(string: documentsDirPrefix)!
+        private static let documentsDirPrefix = "documentsDir:/"
+        private static let realDocumentsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+            .first!
+
+        internal static func absoluteUrl(forStorageRelativeUrl url: URL) -> URL {
+            var urlString = url.absoluteString
+            if urlString.starts(with: cacheDirPrefix) {
+                urlString = urlString.replacing(prefix: cacheDirPrefix, with: realCacheDir.absoluteString)
+                return URL(string: urlString)!
+            } else if urlString.starts(with: tempDirPrefix) {
+                urlString = urlString.replacing(prefix: tempDirPrefix, with: realTempDir.absoluteString)
+                return URL(string: urlString)!
+            } else {
+                return url
+            }
+        }
 
         /// Retrieve a URL for a location on the local device in which to store a blob downloaded from a container.
         /// - Parameters:

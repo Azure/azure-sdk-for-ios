@@ -308,7 +308,7 @@ internal class BlobStreamDownloader: BlobDownloader {
         self.delegate = delegate
         self.options = options ?? DownloadBlobOptions()
         self.downloadSource = source
-        self.downloadDestination = destination
+        self.downloadDestination = StorageBlobClient.PathHelper.absoluteUrl(forStorageRelativeUrl: destination)
         self.requestedSize = self.options.range?.length
         self.blobProperties = nil
         self.totalSize = -1

@@ -283,7 +283,7 @@ internal class BlobStreamUploader: BlobUploader {
         self.client = client
         self.delegate = delegate
         self.options = options ?? UploadBlobOptions()
-        self.uploadSource = source
+        self.uploadSource = StorageBlobClient.PathHelper.absoluteUrl(forStorageRelativeUrl: source)
         self.uploadDestination = destination
         self.blobProperties = properties
         self.blockList = computeBlockList()
