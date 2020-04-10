@@ -527,17 +527,17 @@ public final class StorageBlobClient: PipelineClient {
         private static let realDocumentsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
             .first!
 
-        internal static func absoluteUrl(forStorageRelativeUrl url: URL) -> URL {
+        internal static func absoluteUrl(forStorageRelativeUrl url: URL) -> URL? {
             var urlString = url.absoluteString
             if urlString.starts(with: cacheDirPrefix) {
                 urlString = urlString.replacing(prefix: cacheDirPrefix, with: realCacheDir.absoluteString)
-                return URL(string: urlString)!
+                return URL(string: urlString)
             } else if urlString.starts(with: tempDirPrefix) {
                 urlString = urlString.replacing(prefix: tempDirPrefix, with: realTempDir.absoluteString)
-                return URL(string: urlString)!
+                return URL(string: urlString)
             } else if urlString.starts(with: documentsDirPrefix) {
                 urlString = urlString.replacing(prefix: documentsDirPrefix, with: realDocumentsDir.absoluteString)
-                return URL(string: urlString)!
+                return URL(string: urlString)
             }
             return url
         }
