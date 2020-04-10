@@ -61,34 +61,46 @@ az storage account create -n my-storage-account-name -g my-resource-group
 ### Create the client
 The Azure Storage Blobs client library for iOS allows you to interact with blob storage containers and blobs.
 Interaction with these resources starts with an instance of a [client](#client). To create a client object, you will
-need a credential that allows you to access the storage account:
+need a [credential](#types-of-credentials) that allows you to access the storage account:
 
 ```swift
 import AzureStorageBlob
 
 let credential = ...
-let client = StorageBlobClient(credential: credential)
+let client = StorageBlobClient(credential: credential, ...)
 ```
 
-Certain types of credentials may also require you to provide the storage account's blob service account URL:
+Certain types of credentials may also require you to provide the storage account's blob service
+[account URL](#looking-up-the-account-url):
 
 ```swift
 import AzureStorageBlob
 
 let accountUrl = "https://<my-storage-account-name>.blob.core.windows.net/"
 let credential = ...
-let client = StorageBlobClient(accountUrl: accountUrl, credential: credential)
+let client = StorageBlobClient(accountUrl: accountUrl, credential: credential, ...)
 ```
 
-#### Looking up the account URL
-You can find the storage account's blob service URL using the 
-[Azure Portal](https://docs.microsoft.com/azure/storage/common/storage-account-overview#storage-account-endpoints),
-[Azure PowerShell](https://docs.microsoft.com/powershell/module/az.storage/get-azstorageaccount),
-or [Azure CLI](https://docs.microsoft.com/cli/azure/storage/account?view=azure-cli-latest#az-storage-account-show):
+Regardless of the type of credential you use, you will also need to provide a
+[restoration ID](#choosing-a-restoration-id) - a user-provided string identifier that the library will use to associate
+this client instance with transfers that it creates:
 
-```bash
-# Get the blob service account url for the storage account
-az storage account show -n my-storage-account-name -g my-resource-group --query "primaryEndpoints.blob"
+```swift
+import AzureStorageBlob
+
+let credential = ...
+let client = StorageBlobClient(credential: credential, withRestorationId: "MyPhotosClient", ...)
+```
+
+Finally, a [StorageBlobClientOptions](#customizing-the-client) object can be provided to customize the behavior
+of the client:
+
+```swift
+import AzureStorageBlob
+
+let credential = ...
+let options = StorageBlobClientOptions(...)
+let client = StorageBlobClient(credential: credential, withOptions: options, ...)
 ```
 
 #### Types of credentials
@@ -110,7 +122,7 @@ import AzureStorageBlob
 
 let sasConnectionString = "SharedAccessSignature=xxxx;BlobEndpoint=https://xxxx.blob.core.windows.net/;"
 let sasCredential = StorageSASCredential(connectionString: sasConnectionString)
-let client = StorageBlobClient(credential: credential)
+let client = StorageBlobClient(credential: credential, ...)
 ```
 
 When you create a Shared Access Signature that is scoped to a storage container or blob, it will be generated as a
@@ -123,7 +135,7 @@ import AzureStorageBlob
 
 let sasUri = "https://xxxx.blob.core.windows.net/container/path/to/blob?xxxx"
 let sasCredential = StorageSASCredential(blobSasUri: sasUri)
-let client = StorageBlobClient(credential: credential)
+let client = StorageBlobClient(credential: credential, ...)
 ```
 
 ##### Microsoft Authentication Library (MSAL) for iOS
@@ -154,7 +166,7 @@ let msalCredential = MSALCredential(
     application: msalApplication,
     account: msalAccount
 )
-let client = StorageBlobClient(accountUrl: accountUrl, credential: credential)
+let client = StorageBlobClient(accountUrl: accountUrl, credential: credential, ...)
 ```
 
 ##### Storage account connection string
@@ -171,7 +183,7 @@ To initialize a client instance with a storage connection string, provide the co
 import AzureStorageBlob
 
 let connectionString = "DefaultEndpointsProtocol=https;AccountName=xxxx;AccountKey=xxxx;EndpointSuffix=core.windows.net"
-let client = StorageBlobClient(connectionString: connectionString)
+let client = StorageBlobClient(connectionString: connectionString, ...)
 ```
 
 The connection string to your storage account can be found in the Azure Portal under the "Access Keys" section or by
@@ -180,6 +192,51 @@ running the following CLI command:
 ```bash
 az storage account show-connection-string -g MyResourceGroup -n MyStorageAccount
 ```
+
+#### Looking up the account URL
+You can find the storage account's blob service URL using the
+[Azure Portal](https://docs.microsoft.com/azure/storage/common/storage-account-overview#storage-account-endpoints),
+[Azure PowerShell](https://docs.microsoft.com/powershell/module/az.storage/get-azstorageaccount),
+or [Azure CLI](https://docs.microsoft.com/cli/azure/storage/account?view=azure-cli-latest#az-storage-account-show):
+
+```bash
+# Get the blob service account url for the storage account
+az storage account show -n my-storage-account-name -g my-resource-group --query "primaryEndpoints.blob"
+```
+
+#### Choosing a Restoration ID
+When creating a client, you must provide a restoration ID. The restoration ID is a string identifier used to associate a
+client instance with transfers it creates. To understand why the restoration ID is required, it is necessary to consider
+how the client executes a blob upload or download.
+
+When you call the client's [upload](#downloading-a-blob) or [download](#downloading-a-blob) methods, the client will
+create and enqueue the transfer within its transfer management engine, returning a `Transfer` object. This engine will
+reliably manage the transfer of the blob between Azure Blob Service and the device, automatically pausing the transfer
+when network connectivity is lost and resuming it when connectivity is restored. Additionally, you may explicitly
+control the transfer by calling the `Transfer` object's `pause()`, `resume()`, `cancel()`, and `remove()` methods.
+
+When your application exits with uncompleted transfers in the queue, the transfer management engine will serialize them
+to disk and restore them the next time your application launches and creates a client. However, because your application
+could contain multiple client instances with different credentials and configurations, it's necessary to provide each
+client with a restoration ID so that when transfers are restored, they can be re-associated with the correct client
+instance.
+
+If your application only ever creates a single client, it's sufficient to simply choose a value unique to your
+application (e.g. "MyApplication") as your restoration ID. Using a value unique to your application will ensure that the
+transfer management engine can correctly re-associate transfers even if your application happens to include a
+third-party dependency that also uses the AzureStorageBlob library. If your application creates multiple clients with
+different configurations, use a value unique to both your application and the configuration (e.g.
+"MyApplication.photosClient" or "MyApplication.backupClient"). Each client instance in your application needs to use a
+unique restoration ID. If you attempt to create more than one client with the same restoration ID, an error will be
+thrown.
+
+#### Customizing the client
+When creating a client, you may choose to provide an optional
+[StorageBlobClientOptions](https://github.com/Azure/azure-sdk-for-ios/blob/master/sdk/storage/AzureStorageBlob/Source/DataStructures/StorageBlobClientOptions.swift)
+object in order to configure the client as desired. You may instruct the client to use a specific API version of the
+Azure Storage Blob service, change when and how log messages are emitted from the client, and control the chunk size
+usde when uploading and downloading blobs - the maximum size of each piece when the client breaks an upload or download
+operation into multiple pieces to execute in parallel.
 
 ## Key concepts
 The following components make up the Azure Blob Service:
