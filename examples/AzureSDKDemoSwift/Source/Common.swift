@@ -87,7 +87,6 @@ struct AppState {
 
     private static var internalBlobClient: StorageBlobClient?
     static func blobClient(withDelegate delegate: TransferDelegate? = nil) throws -> StorageBlobClient {
-        let client: StorageBlobClient
         if AppState.internalBlobClient == nil {
             guard let application = AppState.application else {
                 let error = AzureError.general("Application is not initialized. Unable to create Blob Storage Client.")
@@ -101,16 +100,15 @@ struct AppState {
                 apiVersion: StorageBlobClient.ApiVersion.latest.rawValue,
                 logger: ClientLoggers.none
             )
-            client = StorageBlobClient(
+            AppState.internalBlobClient = try? StorageBlobClient(
                 accountUrl: AppConstants.storageAccountUrl,
                 credential: credential,
                 withRestorationId: "AzureSDKDemoSwift",
                 withOptions: options
             )
-            AppState.internalBlobClient = client
-        } else {
-            client = AppState.internalBlobClient!
         }
+
+        let client = AppState.internalBlobClient!
         client.transferDelegate = delegate
         return client
     }

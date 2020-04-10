@@ -83,7 +83,7 @@ public final class StorageBlobClient: PipelineClient {
         authPolicy: Authenticating,
         withRestorationId restorationId: String,
         withOptions options: StorageBlobClientOptions? = nil
-    ) {
+    ) throws {
         self.options = options ?? StorageBlobClientOptions(apiVersion: ApiVersion.latest.rawValue)
         self.restorationId = restorationId
         super.init(
@@ -102,7 +102,7 @@ public final class StorageBlobClient: PipelineClient {
             ],
             logger: self.options.logger
         )
-        StorageBlobClient.manager.register(client: self, forRestorationId: restorationId)
+        try StorageBlobClient.manager.register(client: self, forRestorationId: restorationId)
     }
 
     /// Create a Storage blob data client.
@@ -121,9 +121,10 @@ public final class StorageBlobClient: PipelineClient {
         credential: MSALCredential,
         withRestorationId restorationId: String,
         withOptions options: StorageBlobClientOptions? = nil
-    ) {
+    ) throws {
         let authPolicy = BearerTokenCredentialPolicy(credential: credential, scopes: StorageBlobClient.defaultScopes)
-        self.init(baseUrl: accountUrl, authPolicy: authPolicy, withRestorationId: restorationId, withOptions: options)
+        try self
+            .init(baseUrl: accountUrl, authPolicy: authPolicy, withRestorationId: restorationId, withOptions: options)
     }
 
     /// Create a Storage blob data client.
@@ -148,7 +149,7 @@ public final class StorageBlobClient: PipelineClient {
             throw AzureError.fileSystem("Unable to resolve account URL from credential.")
         }
         let authPolicy = StorageSASAuthenticationPolicy(credential: credential)
-        self.init(baseUrl: baseUrl, authPolicy: authPolicy, withRestorationId: restorationId, withOptions: options)
+        try self.init(baseUrl: baseUrl, authPolicy: authPolicy, withRestorationId: restorationId, withOptions: options)
     }
 
     /// Create a Storage blob data client.
