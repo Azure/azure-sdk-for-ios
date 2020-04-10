@@ -123,16 +123,6 @@ public enum TransferState: Int16 {
         }
     }
 
-    /// Indicates whether the transfer is currently in a state that can be paused.
-    public var pauseable: Bool {
-        switch self {
-        case .pending, .inProgress:
-            return true
-        case .paused, .complete, .canceled, .deleted, .failed:
-            return false
-        }
-    }
-
     /// Indicates whether the transfer is currently in a state that can be resumed.
     public var resumable: Bool {
         switch self {
