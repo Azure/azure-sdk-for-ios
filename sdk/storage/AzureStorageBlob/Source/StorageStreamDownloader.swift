@@ -301,11 +301,12 @@ internal class BlobStreamDownloader: BlobDownloader {
         client: StorageBlobClient,
         delegate: BlobDownloadDelegate? = nil,
         source: URL,
-        destination: URL,
+        destination: LocalURL,
         options: DownloadBlobOptions? = nil
     ) throws {
-        guard let downloadDestination = StorageBlobClient.PathHelper.absoluteUrl(forStorageRelativeUrl: destination)
-        else { throw AzureError.fileSystem("Unable to determine download destination: \(destination)") }
+        guard let downloadDestination = destination.resolvedUrl else {
+            throw AzureError.fileSystem("Unable to determine download destination: \(destination)")
+        }
 
         self.downloadDestination = downloadDestination
         self.client = client

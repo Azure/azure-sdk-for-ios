@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0A25EA4C2398121A0012DFE1 /* BuildFile in Embed Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0A25EA4C2398121A0012DFE1 /* (null) in Embed Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0A28684723F5D6700084CF15 /* AzureStorage.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0A28684523F5D6700084CF15 /* AzureStorage.xcdatamodeld */; };
 		0A28686D23F74EA00084CF15 /* BlobDownloadOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A28686C23F74EA00084CF15 /* BlobDownloadOperations.swift */; };
 		0A28688123FCA6750084CF15 /* MultiBlobOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A28688023FCA6750084CF15 /* MultiBlobOperation.swift */; };
@@ -43,6 +43,7 @@
 		0AE8F02D23AC2A7C007B6975 /* StorageStreamDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE8F02A23AC2A7C007B6975 /* StorageStreamDownloader.swift */; };
 		0AE8F02F23AC2AEB007B6975 /* Options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE8F02923AC2A7C007B6975 /* Options.swift */; };
 		6749A4682951673A4EF1741D /* Pods_AzureStorageBlob.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE3538D9B59B54E936B091ED /* Pods_AzureStorageBlob.framework */; };
+		7A5C97A324410BD1006E7B5F /* LocalURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5C97A224410BD1006E7B5F /* LocalURL.swift */; };
 		7ACAADA1242C241A00A049B7 /* ResumableOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACAADA0242C241900A049B7 /* ResumableOperationQueue.swift */; };
 		7ACAADA2242C241A00A049B7 /* ResumableOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACAAD9F242C241900A049B7 /* ResumableOperation.swift */; };
 /* End PBXBuildFile section */
@@ -64,7 +65,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0A25EA4C2398121A0012DFE1 /* BuildFile in Embed Frameworks */,
+				0A25EA4C2398121A0012DFE1 /* (null) in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -110,6 +111,7 @@
 		0AE8F02923AC2A7C007B6975 /* Options.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Options.swift; sourceTree = "<group>"; };
 		0AE8F02A23AC2A7C007B6975 /* StorageStreamDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageStreamDownloader.swift; sourceTree = "<group>"; };
 		2DDE79651353834EEDB4844D /* Pods-AzureStorageBlob.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureStorageBlob.release.xcconfig"; path = "Target Support Files/Pods-AzureStorageBlob/Pods-AzureStorageBlob.release.xcconfig"; sourceTree = "<group>"; };
+		7A5C97A224410BD1006E7B5F /* LocalURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalURL.swift; sourceTree = "<group>"; };
 		7ABC0A58243D2C4A0080968E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7ACAAD9F242C241900A049B7 /* ResumableOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumableOperation.swift; sourceTree = "<group>"; };
 		7ACAADA0242C241900A049B7 /* ResumableOperationQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumableOperationQueue.swift; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 			isa = PBXGroup;
 			children = (
 				0A71C5C8234BBAA200604F2D /* Enumerations.swift */,
+				7A5C97A224410BD1006E7B5F /* LocalURL.swift */,
 				0AE8F02923AC2A7C007B6975 /* Options.swift */,
 				0AC34914235633110094C576 /* StorageBlobClientOptions.swift */,
 			);
@@ -476,6 +479,7 @@
 				0A71C5C9234BBAA200604F2D /* Enumerations.swift in Sources */,
 				0A8D74C82409CCC600B3B577 /* URLSessionTransferManager+ResumableOperationQueueDelegate.swift in Sources */,
 				0AB24709243CDA4200E62844 /* StorageJSONCoding.swift in Sources */,
+				7A5C97A324410BD1006E7B5F /* LocalURL.swift in Sources */,
 				0A80DB1A2425358B00ED9F94 /* MultiBlobTransfer+CoreDataProperties.swift in Sources */,
 				0A8D74CA2409D1D400B3B577 /* Transfer.swift in Sources */,
 				0AD6352B23F4C365000D67F6 /* BlockOperations.swift in Sources */,

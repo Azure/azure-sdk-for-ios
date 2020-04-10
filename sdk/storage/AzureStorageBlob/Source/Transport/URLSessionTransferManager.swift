@@ -472,12 +472,13 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
             case .upload:
                 guard let sourceUrl = transfer.source else { return }
                 guard let destUrl = transfer.destination else { return }
+                let source = LocalURL(fromAbsoluteUrl: sourceUrl)
                 let blobProperties = transfer.properties
                 let uploadOptions = transfer.uploadOptions
                 transfer.uploader = try BlobStreamUploader(
                     client: client,
                     delegate: nil,
-                    source: sourceUrl,
+                    source: source,
                     destination: destUrl,
                     properties: blobProperties,
                     options: uploadOptions
@@ -485,11 +486,12 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
             case .download:
                 guard let sourceUrl = transfer.source else { return }
                 guard let destUrl = transfer.destination else { return }
+                let destination = LocalURL(fromAbsoluteUrl: destUrl)
                 transfer.downloader = try BlobStreamDownloader(
                     client: client,
                     delegate: nil,
                     source: sourceUrl,
-                    destination: destUrl,
+                    destination: destination,
                     options: transfer.downloadOptions
                 )
             }

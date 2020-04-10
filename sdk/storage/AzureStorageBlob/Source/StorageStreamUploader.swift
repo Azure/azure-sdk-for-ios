@@ -268,12 +268,12 @@ internal class BlobStreamUploader: BlobUploader {
     public init(
         client: StorageBlobClient,
         delegate: BlobUploadDelegate? = nil,
-        source: URL,
+        source: LocalURL,
         destination: URL,
         properties: BlobProperties? = nil,
         options: UploadBlobOptions? = nil
     ) throws {
-        guard let uploadSource = StorageBlobClient.PathHelper.absoluteUrl(forStorageRelativeUrl: source) else {
+        guard let uploadSource = source.resolvedUrl else {
             throw AzureError.fileSystem("Unable to determine upload source: \(source)")
         }
 

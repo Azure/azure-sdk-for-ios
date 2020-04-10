@@ -217,7 +217,7 @@ extension BlobUploadViewController: UICollectionViewDelegate, UICollectionViewDa
 
         var data = dataSource[indexPath.row]
         let blobName = data.blobName
-        let sourceUrl = data.url
+        let sourceUrl = LocalURL(fromAbsoluteUrl: data.url)
         let properties = BlobProperties(
             contentType: "image/jpg"
         )
