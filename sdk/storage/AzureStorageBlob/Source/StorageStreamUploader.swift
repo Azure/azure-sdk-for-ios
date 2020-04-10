@@ -274,9 +274,6 @@ internal class BlobStreamUploader: BlobUploader {
         options: UploadBlobOptions? = nil
     ) throws {
         let manager = FileManager.default
-        guard manager.fileExists(atPath: source.path) else {
-            throw AzureError.fileSystem("File not found: \(source.path)")
-        }
         let attributes = try manager.attributesOfItem(atPath: source.path)
         guard let fileSize = attributes[FileAttributeKey.size] as? Int else {
             throw AzureError.fileSystem("Unable to determine file size: \(source.path)")
@@ -286,7 +283,7 @@ internal class BlobStreamUploader: BlobUploader {
         self.client = client
         self.delegate = delegate
         self.options = options ?? UploadBlobOptions()
-        self.uploadSource = source
+        self.uploadSource = StorageBlobClient.PathHelper.absoluteUrl(forStorageRelativeUrl: source)
         self.uploadDestination = destination
         self.blobProperties = properties
         self.blockList = computeBlockList()

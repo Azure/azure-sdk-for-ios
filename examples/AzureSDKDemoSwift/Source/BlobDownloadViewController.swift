@@ -28,6 +28,7 @@ import AzureCore
 import AzureStorageBlob
 import MSAL
 import os.log
+import Photos
 
 import AVFoundation
 import AVKit
@@ -56,6 +57,7 @@ class BlobDownloadViewController: UIViewController, MSALInteractiveDelegate {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        PHPhotoLibrary.authorizationStatus()
         fetchData(self)
         blobClient?.startManaging()
     }
