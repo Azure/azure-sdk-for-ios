@@ -304,11 +304,14 @@ internal class BlobStreamDownloader: BlobDownloader {
         destination: URL,
         options: DownloadBlobOptions? = nil
     ) throws {
+        guard let downloadDestination = StorageBlobClient.PathHelper.absoluteUrl(forStorageRelativeUrl: destination)
+        else { throw AzureError.fileSystem("Unable to determine download destination: \(destination)") }
+
+        self.downloadDestination = downloadDestination
         self.client = client
         self.delegate = delegate
         self.options = options ?? DownloadBlobOptions()
         self.downloadSource = source
-        self.downloadDestination = StorageBlobClient.PathHelper.absoluteUrl(forStorageRelativeUrl: destination)
         self.requestedSize = self.options.range?.length
         self.blobProperties = nil
         self.totalSize = -1
