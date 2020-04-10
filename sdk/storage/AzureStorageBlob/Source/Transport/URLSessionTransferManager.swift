@@ -61,6 +61,11 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     var operationQueue: ResumableOperationQueue
 
+    var maxConcurrency: Int {
+        get { return operationQueue.maxConcurrentOperationCount }
+        set { operationQueue.maxConcurrentOperationCount = newValue }
+    }
+
     var transfers: [TransferImpl]
 
     var count: Int {
@@ -88,7 +93,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
         super.init()
         operationQueue.delegate = self
-        operationQueue.maxConcurrentOperationCount = 4
+        operationQueue.maxConcurrentOperationCount = StorageBlobClient.maxConcurrentTransfersDefaultValue
     }
 
     // TODO: This will interfere with trying to use multiple BlobClients simultaneously. Find an alternate

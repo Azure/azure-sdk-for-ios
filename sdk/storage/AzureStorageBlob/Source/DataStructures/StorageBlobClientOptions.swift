@@ -199,9 +199,6 @@ public struct DownloadBlobOptions: AzureOptions, Codable, Equatable {
     /// a secure connection must be established to transfer the key.
     public let customerProvidedEncryptionKey: CustomerProvidedEncryptionKey?
 
-    /// The number of parallel connections with which to download.
-    public let maxConcurrency: Int?
-
     /// Encoding with which to decode the downloaded bytes. If nil, no decoding occurs.
     public let encoding: String?
 
@@ -229,7 +226,6 @@ public struct DownloadBlobOptions: AzureOptions, Codable, Equatable {
     ///   - customerProvidedEncryptionKey: Encrypts the data on the service-side with the given key. Use of
     ///     customer-provided keys must be done over HTTPS. As the encryption key itself is provided in the request, a
     ///     secure connection must be established to transfer the key.
-    ///   - maxConcurrency: The number of parallel connections with which to download.
     ///   - encoding: Encoding with which to decode the downloaded bytes. If nil, no decoding occurs.
     ///   - timeout: The timeout parameter is expressed in seconds. This method may make multiple calls to the Azure
     ///     service and the timeout will apply to each call individually.
@@ -242,7 +238,6 @@ public struct DownloadBlobOptions: AzureOptions, Codable, Equatable {
         modifiedAccessConditions: ModifiedAccessConditions? = nil,
         encryptionOptions: EncryptionOptions? = nil,
         customerProvidedEncryptionKey: CustomerProvidedEncryptionKey? = nil,
-        maxConcurrency: Int? = nil,
         encoding: String? = nil,
         timeout: Int? = nil
     ) {
@@ -254,7 +249,6 @@ public struct DownloadBlobOptions: AzureOptions, Codable, Equatable {
         self.modifiedAccessConditions = modifiedAccessConditions
         self.encryptionOptions = encryptionOptions
         self.customerProvidedEncryptionKey = customerProvidedEncryptionKey
-        self.maxConcurrency = maxConcurrency
         self.encoding = encoding
         self.timeout = timeout
     }
@@ -288,9 +282,6 @@ public struct UploadBlobOptions: AzureOptions, Codable, Equatable {
     /// this value implies use of the default account encryption scope.
     public let customerProvidedEncryptionScope: String?
 
-    /// The number of parallel connections with which to upload.
-    public let maxConcurrency: Int?
-
     /// Encoding with which to encode the uploaded bytes. If nil, no encoding occurs.
     public let encoding: String?
 
@@ -315,7 +306,6 @@ public struct UploadBlobOptions: AzureOptions, Codable, Equatable {
     ///     secure connection must be established to transfer the key.
     ///   - customerProvidedEncryptionScope: The name of the predefined encryption scope used to encrypt the blob
     ///   contents and metadata. Note that omitting this value implies use of the default account encryption scope.
-    ///   - maxConcurrency: The number of parallel connections with which to upload.
     ///   - encoding: Encoding with which to decode the downloaded bytes. If nil, no decoding occurs.
     ///   - timeout: The timeout parameter is expressed in seconds. This method may make multiple calls to the Azure
     ///     service and the timeout will apply to each call individually.
@@ -326,7 +316,6 @@ public struct UploadBlobOptions: AzureOptions, Codable, Equatable {
         encryptionOptions: EncryptionOptions? = nil,
         customerProvidedEncryptionKey: CustomerProvidedEncryptionKey? = nil,
         customerProvidedEncryptionScope: String? = nil,
-        maxConcurrency: Int? = nil,
         encoding: String? = nil,
         timeout: Int? = nil
     ) {
@@ -336,7 +325,6 @@ public struct UploadBlobOptions: AzureOptions, Codable, Equatable {
         self.encryptionOptions = encryptionOptions
         self.customerProvidedEncryptionKey = customerProvidedEncryptionKey
         self.customerProvidedEncryptionScope = customerProvidedEncryptionScope
-        self.maxConcurrency = maxConcurrency
         self.encoding = encoding
         self.timeout = timeout
     }

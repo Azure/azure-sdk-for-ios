@@ -32,6 +32,7 @@ import CoreData
 internal protocol TransferManager: ResumableOperationQueueDelegate {
     // MARK: Properties
 
+    var maxConcurrency: Int { get set }
     var persistentContainer: NSPersistentContainer? { get }
 
     // MARK: Lifecycle Methods

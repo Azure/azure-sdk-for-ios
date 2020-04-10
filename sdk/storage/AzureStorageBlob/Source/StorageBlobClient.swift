@@ -36,6 +36,21 @@ public final class StorageBlobClient: PipelineClient {
         case latest = "2019-02-02"
     }
 
+    /// The global maximum number of managed transfers that will be executed concurrently by all `StorageBlobClient`
+    /// instances. The default value is `maxConcurrentTransfersDefaultValue`. To allow this value to be determined
+    /// dynamically based on current system conditions, set it to `maxConcurrentTransfersDynamicValue`.
+    public static var maxConcurrentTransfers: Int {
+        get { return manager.maxConcurrency }
+        set { manager.maxConcurrency = newValue }
+    }
+
+    /// The default value of `maxConcurrentTransfers`.
+    public static let maxConcurrentTransfersDefaultValue = 4
+
+    /// Set `maxConcurrentTransfers` equal to this value to allow the maximum number of managed transfers to be
+    /// determined dynamically based on current system conditions.
+    public static let maxConcurrentTransfersDynamicValue = OperationQueue.defaultMaxConcurrentOperationCount
+
     /// Options provided to configure this `StorageBlobClient`.
     public let options: StorageBlobClientOptions
 
@@ -46,7 +61,8 @@ public final class StorageBlobClient: PipelineClient {
         "https://storage.azure.com/.default"
     ]
 
-    private let manager: TransferManager = URLSessionTransferManager.shared
+    private static let manager: TransferManager = URLSessionTransferManager.shared
+
     private let restorationId: String
 
     // MARK: Initializers
@@ -86,7 +102,7 @@ public final class StorageBlobClient: PipelineClient {
             ],
             logger: self.options.logger
         )
-        manager.register(client: self, forRestorationId: restorationId)
+        StorageBlobClient.manager.register(client: self, forRestorationId: restorationId)
     }
 
     /// Create a Storage blob data client.
@@ -432,7 +448,7 @@ public final class StorageBlobClient: PipelineClient {
             "blob": blob
         ]
         guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return nil }
-        guard let context = manager.persistentContainer?.viewContext else { return nil }
+        guard let context = StorageBlobClient.manager.persistentContainer?.viewContext else { return nil }
         let start = Int64(options?.range?.offset ?? 0)
         let end = Int64(options?.range?.length ?? 0)
         let downloader = try BlobStreamDownloader(
@@ -453,7 +469,7 @@ public final class StorageBlobClient: PipelineClient {
         )
         blobTransfer.downloader = downloader
         blobTransfer.downloadOptions = options ?? DownloadBlobOptions()
-        manager.add(transfer: blobTransfer)
+        StorageBlobClient.manager.add(transfer: blobTransfer)
         return blobTransfer
     }
 
@@ -482,7 +498,7 @@ public final class StorageBlobClient: PipelineClient {
             "blob": blob
         ]
         guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return nil }
-        guard let context = manager.persistentContainer?.viewContext else { return nil }
+        guard let context = StorageBlobClient.manager.persistentContainer?.viewContext else { return nil }
         let uploader = try BlobStreamUploader(
             client: self,
             source: sourceUrl,
@@ -503,7 +519,7 @@ public final class StorageBlobClient: PipelineClient {
         blobTransfer.uploader = uploader
         blobTransfer.uploadOptions = options ?? UploadBlobOptions()
         blobTransfer.properties = properties
-        manager.add(transfer: blobTransfer)
+        StorageBlobClient.manager.add(transfer: blobTransfer)
         return blobTransfer
     }
 
@@ -635,7 +651,7 @@ extension StorageBlobClient {
     /// transfers" message and wait for explicit user confirmation to start the management engine). If you're not using
     /// such a credential, or there are no paused transfers, it is safe to call this method from your `AppDelegate`.
     public func startManaging() {
-        manager.startManaging()
+        StorageBlobClient.manager.startManaging()
     }
 
     /// Stop the transfer management engine.
@@ -644,7 +660,7 @@ extension StorageBlobClient {
     /// disk. This method **SHOULD** be called by your application, either from your `AppDelegate` or from within a
     /// `ViewController`'s lifecycle methods.
     public func stopManaging() {
-        manager.stopManaging()
+        StorageBlobClient.manager.stopManaging()
     }
 
     /// Cancel a currently active transfer.
@@ -656,12 +672,12 @@ extension StorageBlobClient {
         if transfer.clientRestorationId != restorationId {
             assertionFailure("Canceling transfer not created by this StorageBlobClient")
         }
-        manager.cancel(transfer: transfer)
+        StorageBlobClient.manager.cancel(transfer: transfer)
     }
 
     /// Cancel all currently active transfers having this client's `restorationId`.
     public func cancelAllTransfers() {
-        manager.cancelAll(withRestorationId: restorationId)
+        StorageBlobClient.manager.cancelAll(withRestorationId: restorationId)
     }
 
     /// Remove a transfer from the database. If the transfer is currently active it will be cancelled.
@@ -673,13 +689,13 @@ extension StorageBlobClient {
         if transfer.clientRestorationId != restorationId {
             assertionFailure("Removing transfer not created by this StorageBlobClient")
         }
-        manager.remove(transfer: transfer)
+        StorageBlobClient.manager.remove(transfer: transfer)
     }
 
     /// Remove all transfers having this client's `restorationId` from the database. All currently active transfers will
     /// be cancelled.
     public func removeAllTransfers() {
-        manager.removeAll(withRestorationId: restorationId)
+        StorageBlobClient.manager.removeAll(withRestorationId: restorationId)
     }
 
     /// Pause a currently active transfer.
@@ -691,12 +707,12 @@ extension StorageBlobClient {
         if transfer.clientRestorationId != restorationId {
             assertionFailure("Pausing transfer not created by this StorageBlobClient")
         }
-        manager.pause(transfer: transfer)
+        StorageBlobClient.manager.pause(transfer: transfer)
     }
 
     /// Pause all currently active transfers having this client's `restorationId`.
     public func pauseAllTransfers() {
-        manager.pauseAll(withRestorationId: restorationId)
+        StorageBlobClient.manager.pauseAll(withRestorationId: restorationId)
     }
 
     /// Resume a currently paused transfer.
@@ -708,16 +724,16 @@ extension StorageBlobClient {
         if transfer.clientRestorationId != restorationId {
             assertionFailure("Resuming transfer not created by this StorageBlobClient")
         }
-        manager.resume(transfer: transfer)
+        StorageBlobClient.manager.resume(transfer: transfer)
     }
 
     /// Resume all currently paused transfers having this client's `restorationId`.
     public func resumeAllTransfers() {
-        manager.resumeAll(withRestorationId: restorationId)
+        StorageBlobClient.manager.resumeAll(withRestorationId: restorationId)
     }
 
     /// Retrieve the list of all managed transfers having this client's `restorationId`.
     public var transfers: [Transfer] {
-        return manager.transfers.filter { $0.clientRestorationId == restorationId }
+        return StorageBlobClient.manager.transfers.filter { $0.clientRestorationId == restorationId }
     }
 }
