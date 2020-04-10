@@ -528,33 +528,46 @@ public final class StorageBlobClient: PipelineClient {
 
     /// Helper containing properties and values to aid in constructing local paths for working with blobs.
     public struct PathHelper {
-        /// The application's temporary directory.
-        public static let tempDir = URL(string: tempDirPrefix)!
-        private static let tempDirPrefix = "tempDir:/"
-        private static let realTempDir = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+        /// Well-known directories that are not part of the existing `FileManager.SearchPathDirectory` enum.
+        public enum KnownDirectory: String {
+            /// The application's temporary directory.
+            case tempDirectory = "tempDir:/"
 
-        /// The application's cache directory.
-        public static let cacheDir = URL(string: cacheDirPrefix)!
-        private static let cacheDirPrefix = "cacheDir:/"
-        private static let realCacheDir = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
+            fileprivate var realDirectory: URL {
+                switch self {
+                case .tempDirectory:
+                    return URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+                }
+            }
+        }
 
-        /// The application's documents directory.
-        public static let documentsDir = URL(string: documentsDirPrefix)!
-        private static let documentsDirPrefix = "documentsDir:/"
-        private static let realDocumentsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-            .first!
+        /// Get the base URL for a file within a well-known directory.
+        /// - Parameter directory: The well-known directory.
+        public static func url(for directory: KnownDirectory) -> URL {
+            return URL(string: directory.rawValue)!
+        }
+
+        /// Get the base URL for a file within a well-known directory.
+        /// - Parameter directory: The well-known directory.
+        public static func url(for directory: FileManager.SearchPathDirectory) -> URL {
+            return URL(string: "\(searchPathDirectorySchemePrefix)\(directory.rawValue):/")!
+        }
+
+        private static let searchPathDirectorySchemePrefix = "SearchPathDirectory."
 
         internal static func absoluteUrl(forStorageRelativeUrl url: URL) -> URL? {
-            var urlString = url.absoluteString
-            if urlString.starts(with: cacheDirPrefix) {
-                urlString = urlString.replacing(prefix: cacheDirPrefix, with: realCacheDir.absoluteString)
-                return URL(string: urlString)
-            } else if urlString.starts(with: tempDirPrefix) {
-                urlString = urlString.replacing(prefix: tempDirPrefix, with: realTempDir.absoluteString)
-                return URL(string: urlString)
-            } else if urlString.starts(with: documentsDirPrefix) {
-                urlString = urlString.replacing(prefix: documentsDirPrefix, with: realDocumentsDir.absoluteString)
-                return URL(string: urlString)
+            let components = url.absoluteString.components(separatedBy: ":/")
+            let scheme = components[0]
+            let path = components[1]
+
+            if let knownDir = KnownDirectory(rawValue: components[0] + ":/") {
+                return URL(string: knownDir.realDirectory.absoluteString + path)
+            } else if scheme.starts(with: searchPathDirectorySchemePrefix) {
+                guard let rawValue = UInt(scheme.dropFirst(searchPathDirectorySchemePrefix.count)) else { return nil }
+                guard let directory = FileManager.SearchPathDirectory(rawValue: rawValue) else { return nil }
+                guard let realDir = FileManager.default.urls(for: directory, in: .userDomainMask).first
+                else { return nil }
+                return URL(string: realDir.absoluteString + path)
             }
             return url
         }
@@ -566,7 +579,7 @@ public final class StorageBlobClient: PipelineClient {
         ///   - name: The name of the blob.
         ///   - container: The name of the container.
         public static func localUrl(
-            inDirectory directoryUrl: URL = cacheDir,
+            inDirectory directoryUrl: URL = url(for: .cachesDirectory),
             forBlob name: String,
             inContainer container: String
         ) -> URL {
