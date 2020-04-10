@@ -37,7 +37,7 @@ internal protocol TransferManager: ResumableOperationQueueDelegate {
 
     // MARK: Lifecycle Methods
 
-    func register(client: StorageBlobClient?, forRestorationId: String)
+    func register(client: StorageBlobClient?, forRestorationId: String) throws
     func startManaging()
     func stopManaging()
 

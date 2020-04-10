@@ -111,7 +111,14 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         return transfers[index]
     }
 
-    func register(client: StorageBlobClient?, forRestorationId restorationId: String) {
+    func register(client: StorageBlobClient?, forRestorationId restorationId: String) throws {
+        guard self.client(forRestorationId: restorationId) == nil else {
+            throw AzureError.general("""
+                A client with restoration ID \(restorationId) already exists. Please ensure that each client has a \
+                unique restoration ID.
+            """
+            )
+        }
         clients.setObject(client, forKey: restorationId as NSString)
     }
 
@@ -377,7 +384,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
     }
 
     func pause(transfer: BlobTransfer) {
-        guard transfer.state.pauseable else { return }
+        guard transfer.state.active else { return }
         transfer.state = .paused
 
         // Cancel the operation
@@ -395,7 +402,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
     }
 
     func pause(transfer: BlockTransfer) {
-        guard transfer.state.pauseable else { return }
+        guard transfer.state.active else { return }
         transfer.state = .paused
 
         // Cancel the operation
@@ -451,8 +458,8 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         // attempt to attach one
         guard let client = client(forRestorationId: transfer.clientRestorationId) else {
             let errorMessage = """
-            Attempted to resume this transfer, but no client with restorationId "\(transfer.clientRestorationId)" has \
-            been initialized.
+                Attempted to resume this transfer, but no client with restorationId "\(transfer.clientRestorationId)" \
+                has been initialized.
             """
             assertionFailure(errorMessage)
 

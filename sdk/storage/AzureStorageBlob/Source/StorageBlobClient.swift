@@ -83,7 +83,7 @@ public final class StorageBlobClient: PipelineClient {
         authPolicy: Authenticating,
         withRestorationId restorationId: String,
         withOptions options: StorageBlobClientOptions? = nil
-    ) {
+    ) throws {
         self.options = options ?? StorageBlobClientOptions(apiVersion: ApiVersion.latest.rawValue)
         self.restorationId = restorationId
         super.init(
@@ -102,7 +102,7 @@ public final class StorageBlobClient: PipelineClient {
             ],
             logger: self.options.logger
         )
-        StorageBlobClient.manager.register(client: self, forRestorationId: restorationId)
+        try StorageBlobClient.manager.register(client: self, forRestorationId: restorationId)
     }
 
     /// Create a Storage blob data client.
@@ -121,9 +121,10 @@ public final class StorageBlobClient: PipelineClient {
         credential: MSALCredential,
         withRestorationId restorationId: String,
         withOptions options: StorageBlobClientOptions? = nil
-    ) {
+    ) throws {
         let authPolicy = BearerTokenCredentialPolicy(credential: credential, scopes: StorageBlobClient.defaultScopes)
-        self.init(baseUrl: accountUrl, authPolicy: authPolicy, withRestorationId: restorationId, withOptions: options)
+        try self
+            .init(baseUrl: accountUrl, authPolicy: authPolicy, withRestorationId: restorationId, withOptions: options)
     }
 
     /// Create a Storage blob data client.
@@ -148,7 +149,7 @@ public final class StorageBlobClient: PipelineClient {
             throw AzureError.fileSystem("Unable to resolve account URL from credential.")
         }
         let authPolicy = StorageSASAuthenticationPolicy(credential: credential)
-        self.init(baseUrl: baseUrl, authPolicy: authPolicy, withRestorationId: restorationId, withOptions: options)
+        try self.init(baseUrl: baseUrl, authPolicy: authPolicy, withRestorationId: restorationId, withOptions: options)
     }
 
     /// Create a Storage blob data client.
@@ -663,33 +664,9 @@ extension StorageBlobClient {
         StorageBlobClient.manager.stopManaging()
     }
 
-    /// Cancel a currently active transfer.
-    ///
-    /// - Parameters:
-    ///   - transfer: The transfer to cancel.
-    public func cancel(transfer: Transfer) {
-        guard let transfer = transfer as? TransferImpl else { return }
-        if transfer.clientRestorationId != restorationId {
-            assertionFailure("Canceling transfer not created by this StorageBlobClient")
-        }
-        StorageBlobClient.manager.cancel(transfer: transfer)
-    }
-
     /// Cancel all currently active transfers having this client's `restorationId`.
     public func cancelAllTransfers() {
         StorageBlobClient.manager.cancelAll(withRestorationId: restorationId)
-    }
-
-    /// Remove a transfer from the database. If the transfer is currently active it will be cancelled.
-    ///
-    /// - Parameters:
-    ///   - transfer: The transfer to remove.
-    public func remove(transfer: Transfer) {
-        guard let transfer = transfer as? TransferImpl else { return }
-        if transfer.clientRestorationId != restorationId {
-            assertionFailure("Removing transfer not created by this StorageBlobClient")
-        }
-        StorageBlobClient.manager.remove(transfer: transfer)
     }
 
     /// Remove all transfers having this client's `restorationId` from the database. All currently active transfers will
@@ -698,33 +675,9 @@ extension StorageBlobClient {
         StorageBlobClient.manager.removeAll(withRestorationId: restorationId)
     }
 
-    /// Pause a currently active transfer.
-    ///
-    /// - Parameters:
-    ///   - transfer: The transfer to pause.
-    public func pause(transfer: Transfer) {
-        guard let transfer = transfer as? TransferImpl else { return }
-        if transfer.clientRestorationId != restorationId {
-            assertionFailure("Pausing transfer not created by this StorageBlobClient")
-        }
-        StorageBlobClient.manager.pause(transfer: transfer)
-    }
-
     /// Pause all currently active transfers having this client's `restorationId`.
     public func pauseAllTransfers() {
         StorageBlobClient.manager.pauseAll(withRestorationId: restorationId)
-    }
-
-    /// Resume a currently paused transfer.
-    ///
-    /// - Parameters:
-    ///   - transfer: The transfer to resume.
-    public func resume(transfer: Transfer) {
-        guard let transfer = transfer as? TransferImpl else { return }
-        if transfer.clientRestorationId != restorationId {
-            assertionFailure("Resuming transfer not created by this StorageBlobClient")
-        }
-        StorageBlobClient.manager.resume(transfer: transfer)
     }
 
     /// Resume all currently paused transfers having this client's `restorationId`.

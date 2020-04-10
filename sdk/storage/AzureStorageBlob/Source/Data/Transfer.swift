@@ -58,6 +58,15 @@ public protocol Transfer: AnyObject {
     var debugString: String { get }
     /// :nodoc: Internal representation of the state.
     var rawState: Int16 { get }
+
+    /// Cancel this transfer.
+    func cancel()
+    /// Remove this transfer from the database. If it is currently active it will be cancelled.
+    func remove()
+    /// Pause this transfer if it is currently active.
+    func pause()
+    /// Resume this transfer if it is currently paused, or retry this transfer if it has failed.
+    func resume()
 }
 
 internal protocol TransferImpl: Transfer {
@@ -71,6 +80,26 @@ internal protocol TransferImpl: Transfer {
 
 public extension Transfer {
     var state: TransferState { return TransferState(rawValue: rawState)! }
+
+    func cancel() {
+        guard let transfer = self as? TransferImpl else { return }
+        URLSessionTransferManager.shared.cancel(transfer: transfer)
+    }
+
+    func remove() {
+        guard let transfer = self as? TransferImpl else { return }
+        URLSessionTransferManager.shared.remove(transfer: transfer)
+    }
+
+    func pause() {
+        guard let transfer = self as? TransferImpl else { return }
+        URLSessionTransferManager.shared.pause(transfer: transfer)
+    }
+
+    func resume() {
+        guard let transfer = self as? TransferImpl else { return }
+        URLSessionTransferManager.shared.resume(transfer: transfer)
+    }
 }
 
 internal extension TransferImpl {
