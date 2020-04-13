@@ -75,16 +75,26 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         return transfers.count
     }
 
-    var persistentContainer: NSPersistentContainer? = {
-        guard let bundle = Bundle(identifier: "com.azure.storage.AzureStorageBlob") else { return nil }
-        guard let url = bundle.url(forResource: "AzureStorage", withExtension: "momd") else { return nil }
-        guard let model = NSManagedObjectModel(contentsOf: url) else { return nil }
+    var persistentContainer: NSPersistentContainer {
+        return URLSessionTransferManager.sharedPersistentContainer
+    }
+
+    static var sharedPersistentContainer: NSPersistentContainer = {
+        guard let bundle = Bundle(identifier: "com.azure.storage.AzureStorageBlob"),
+            let url = bundle.url(forResource: "AzureStorage", withExtension: "momd"),
+            let model = NSManagedObjectModel(contentsOf: url) else {
+            fatalError("Unable to load AzureStorageBlob managed object model.")
+        }
         let container = NSPersistentContainer(name: "AzureSDKTransferManager", managedObjectModel: model)
         container.loadPersistentStores(completionHandler: { _, error in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
+        container.viewContext.automaticallyMergesChangesFromParent = true
+        container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        container.viewContext.shouldDeleteInaccessibleFaults = true
+
         return container
     }()
 
@@ -143,7 +153,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         guard managing else { return }
         reachability?.stopListening()
         pauseAll()
-        saveContext()
+        save(context: persistentContainer.viewContext)
         managing = false
     }
 
@@ -218,7 +228,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
     }
 
     func add(transfer: BlobTransfer) {
-        guard let context = persistentContainer?.viewContext else { return }
+        guard let context = transfer.managedObjectContext else { return }
 
         // Add to DataStore
         transfers.append(transfer)
@@ -293,7 +303,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         operationQueue.cancelAllOperations()
 
         // Delete all transfers in CoreData
-        guard let context = persistentContainer?.viewContext else { return }
+        let context = persistentContainer.viewContext
         let multiBlobRequest: NSFetchRequest<MultiBlobTransfer> = MultiBlobTransfer.fetchRequest()
         if let transfers = try? context.fetch(multiBlobRequest) {
             for transfer in transfers {
@@ -337,7 +347,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         }
 
         // remove the object from CoreData
-        if let context = persistentContainer?.viewContext {
+        if let context = transfer.managedObjectContext {
             context.delete(transfer)
         }
     }
@@ -360,7 +370,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         }
 
         // remove the object from CoreData which should cascade and delete any outstanding block transfers
-        if let context = persistentContainer?.viewContext {
+        if let context = transfer.managedObjectContext {
             context.delete(transfer)
         }
     }
@@ -509,19 +519,16 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     func loadContext() {
         // Hydrate operationQueue from CoreData
-        guard let context = persistentContainer?.viewContext else {
-            fatalError("Unable to load persistent container.")
-        }
-        context.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
+        let context = persistentContainer.viewContext
 
+        // All BlockTransfers must have a parent, so this is an error condition
         let predicate = NSPredicate(format: "parent = nil")
         let blockRequest: NSFetchRequest<BlockTransfer> = BlockTransfer.fetchRequest()
         blockRequest.predicate = predicate
         if let results = try? context.fetch(blockRequest) {
-            for transfer in results {
-                transfers.append(transfer)
-            }
+            assert(results.count == 0, "Unexpectedly found \(results.count) orphan BlockTransfers.")
         }
+
         let blobRequest: NSFetchRequest<BlobTransfer> = BlobTransfer.fetchRequest()
         blobRequest.predicate = predicate
         if let results = try? context.fetch(blobRequest) {
@@ -531,12 +538,8 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         }
     }
 
-    func saveContext() {
-        DispatchQueue.main.async { [weak self] in
-            guard let context = self?.persistentContainer?.viewContext else {
-                assert(self?.persistentContainer?.viewContext != nil, "Failed to obtain context.")
-                return
-            }
+    func save(context: NSManagedObjectContext) {
+        context.perform {
             if context.hasChanges {
                 do {
                     try context.save()

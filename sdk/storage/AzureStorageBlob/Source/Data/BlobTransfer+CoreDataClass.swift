@@ -220,6 +220,7 @@ internal extension BlobTransfer {
         transfer.parent = parent
         transfer.startRange = startRange
         transfer.endRange = endRange
+        transfer.currentProgress = 0
         transfer.state = .pending
         transfer.transferType = type
         transfer.id = UUID()

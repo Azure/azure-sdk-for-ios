@@ -109,6 +109,7 @@ struct AppState {
 
         let client = AppState.internalBlobClient!
         client.transferDelegate = delegate
+        StorageBlobClient.maxConcurrentTransfers = 10
         return client
     }
 }
@@ -140,7 +141,6 @@ extension UIViewController {
                 let errorInfo = (error as NSError).userInfo
                 errorString = errorInfo[NSDebugDescriptionErrorKey] as? String ?? error.localizedDescription
             }
-            self?.hideActivitySpinner()
             let alertController = UIAlertController(title: "Error!", message: errorString, preferredStyle: .alert)
             let title = NSAttributedString(string: "Error!", attributes: [
                 NSAttributedString.Key.foregroundColor: UIColor.red
@@ -159,29 +159,6 @@ extension UIViewController {
             let defaultAction = UIAlertAction(title: "Close", style: .default, handler: nil)
             alertController.addAction(defaultAction)
             self?.present(alertController, animated: true)
-        }
-    }
-
-    internal func showActivitySpinner() {
-        let child = ActivtyViewController()
-        DispatchQueue.main.async { [weak self] in
-            guard let parent = self else { return }
-            parent.addChild(child)
-            child.view.frame = parent.view.frame
-            parent.view.addSubview(child.view)
-            child.didMove(toParent: parent)
-        }
-    }
-
-    internal func hideActivitySpinner() {
-        DispatchQueue.main.async { [weak self] in
-            guard let parent = self else { return }
-            let filtered = parent.children.filter { $0 is ActivtyViewController }
-            for child in filtered {
-                child.willMove(toParent: nil)
-                child.view.removeFromSuperview()
-                child.removeFromParent()
-            }
         }
     }
 }

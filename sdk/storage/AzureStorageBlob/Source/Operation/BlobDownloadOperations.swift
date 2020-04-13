@@ -92,7 +92,7 @@ internal class BlobDownloadInitialOperation: TransferOperation {
         let parent = transfer.parent
         transfer.state = .inProgress
         parent.state = .inProgress
-        delegate?.transfer(transfer, didUpdateWithState: transfer.state)
+        notifyDelegate(withTransfer: parent)
 
         let group = DispatchGroup()
         group.enter()
@@ -101,13 +101,13 @@ internal class BlobDownloadInitialOperation: TransferOperation {
             case .success:
                 parent.totalBytesToTransfer = Int64(downloader.totalSize)
                 transfer.state = .complete
-                self.notifyDelegate(withTransfer: transfer)
                 self.queueRemainingBlocks(forTransfer: parent)
+                self.notifyDelegate(withTransfer: parent)
             case let .failure(error):
                 transfer.state = .failed
                 parent.state = .failed
                 parent.error = error
-                self.notifyDelegate(withTransfer: transfer)
+                self.notifyDelegate(withTransfer: parent)
             }
             group.leave()
         }
@@ -136,7 +136,7 @@ internal class BlobDownloadFinalOperation: TransferOperation {
     public override func main() {
         guard let transfer = self.transfer as? BlobTransfer else { return }
         transfer.state = .complete
-        delegate?.transfer(transfer, didUpdateWithState: transfer.state)
+        notifyDelegate(withTransfer: transfer)
         super.main()
     }
 }
