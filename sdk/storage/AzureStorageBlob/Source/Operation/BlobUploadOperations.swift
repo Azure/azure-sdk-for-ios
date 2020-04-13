@@ -31,8 +31,7 @@ internal class BlobUploadFinalOperation: ResumableOperation {
     // MARK: Initializers
 
     public convenience init(withTransfer transfer: BlobTransfer, queue: ResumableOperationQueue) {
-        self.init(state: transfer.state)
-        self.transfer = transfer
+        self.init(transfer: transfer, state: transfer.state)
         self.queue = queue
         transfer.operation = self
     }

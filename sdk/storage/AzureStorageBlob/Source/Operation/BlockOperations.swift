@@ -32,7 +32,7 @@ internal class BlockOperation: ResumableOperation {
     // MARK: Initializers
 
     public convenience init(withTransfer transfer: BlockTransfer) {
-        self.init(state: transfer.state)
+        self.init(transfer: transfer, state: transfer.state)
         self.transfer = transfer
         transfer.operation = self
     }
@@ -45,17 +45,18 @@ internal class BlockOperation: ResumableOperation {
             return
         }
         let parent = transfer.parent
-        if isCancelled || isPaused { return }
+        if !transfer.isActive { return }
         transfer.state = .inProgress
         parent.state = .inProgress
         notifyDelegate(withTransfer: transfer)
-        if isCancelled || isPaused { return }
+        if !transfer.isActive { return }
         let group = DispatchGroup()
         group.enter()
         switch parent.transferType {
         case .download:
             guard let downloader = parent.downloader else {
                 assertionFailure("Downloader not found for BlobOperation.")
+                group.leave()
                 return
             }
             let chunkDownloader = ChunkDownloader(
@@ -67,11 +68,15 @@ internal class BlockOperation: ResumableOperation {
                 options: downloader.options
             )
             chunkDownloader.download { result, httpResponse in
-                if self.isCancelled || self.isPaused { return }
+                if !transfer.isActive {
+                    group.leave()
+                    return
+                }
                 switch result {
                 case .success:
                     guard let responseHeaders = httpResponse?.headers else {
                         assertionFailure("Response headers not found.")
+                        group.leave()
                         return
                     }
                     let blobProperties = BlobProperties(from: responseHeaders)
@@ -94,6 +99,7 @@ internal class BlockOperation: ResumableOperation {
         case .upload:
             guard let uploader = parent.uploader else {
                 assertionFailure("Uploader not found for BlobOperation.")
+                group.leave()
                 return
             }
             let chunkUploader = ChunkUploader(
@@ -106,7 +112,10 @@ internal class BlockOperation: ResumableOperation {
                 options: uploader.options
             )
             chunkUploader.upload { result, _ in
-                if self.isCancelled || self.isPaused { return }
+                if !transfer.isActive {
+                    group.leave()
+                    return
+                }
                 switch result {
                 case .success:
                     // Add block ID to the completed list and lookup where its final

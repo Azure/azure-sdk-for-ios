@@ -34,13 +34,11 @@ internal protocol ResumableOperationQueueDelegate: ResumableOperationDelegate {
 internal class ResumableOperationQueue {
     // MARK: Properties
 
-    internal lazy var operations: [ResumableOperation] = []
+    lazy var operationQueue: OperationQueue = OperationQueue()
 
-    internal lazy var operationQueue: OperationQueue = OperationQueue()
+    weak var delegate: ResumableOperationQueueDelegate?
 
-    public weak var delegate: ResumableOperationQueueDelegate?
-
-    public var name: String? {
+    var name: String? {
         get {
             return operationQueue.name
         }
@@ -50,7 +48,7 @@ internal class ResumableOperationQueue {
         }
     }
 
-    public var maxConcurrentOperationCount: Int {
+    var maxConcurrentOperationCount: Int {
         get {
             return operationQueue.maxConcurrentOperationCount
         }
@@ -61,18 +59,14 @@ internal class ResumableOperationQueue {
     }
 
     public var count: Int {
-        return operations.count
-    }
-
-    public var queueCount: Int {
         return operationQueue.operationCount
     }
 
-    public let removeOnCompletion: Bool
+    let removeOnCompletion: Bool
 
     // MARK: Initializers
 
-    public init(name: String, delegate: ResumableOperationQueueDelegate? = nil, removeOnCompletion: Bool = false) {
+    init(name: String, delegate: ResumableOperationQueueDelegate? = nil, removeOnCompletion: Bool = false) {
         self.removeOnCompletion = removeOnCompletion
         self.name = name
         self.delegate = delegate
@@ -80,11 +74,11 @@ internal class ResumableOperationQueue {
 
     // MARK: Public Methods
 
-    public func add(_ operation: ResumableOperation) {
+    func add(_ operation: ResumableOperation) {
         add([operation])
     }
 
-    public func add(_ operations: [ResumableOperation]) {
+    func add(_ operations: [ResumableOperation]) {
         let states = operations.map { $0.state.rawValue }
         for state in Set(states) {
             let filteredOps = operations.filter { $0.state.rawValue == state }
@@ -105,44 +99,21 @@ internal class ResumableOperationQueue {
                         }
                         operation.internalState = .complete
                     }
-                    self.operations.append(operation)
                 }
                 operationQueue.addOperations(filteredOps, waitUntilFinished: false)
             }
         }
     }
 
-    public func cancel(_ operation: ResumableOperation) {
+    func cancel(_ operation: ResumableOperation) {
         operation.cancel()
     }
 
-    public func clear() {
+    func clear() {
         operationQueue.cancelAllOperations()
-        operations.removeAll()
     }
 
-    internal func removeFromDataStore(_ operation: ResumableOperation) {
-        guard let index = operations.firstIndex(of: operation) else { return }
-        operations.remove(at: index)
-    }
-
-    public func pause(_ operation: ResumableOperation) {
+    func pause(_ operation: ResumableOperation) {
         operation.pause()
-        removeFromDataStore(operation)
-    }
-
-    public func remove(_ operation: ResumableOperation) {
-        removeFromDataStore(operation)
-
-        // Cancel the operation.
-        if !operation.isFinished {
-            operation.cancel()
-        }
-    }
-
-    public func replace(old oldOperation: ResumableOperation, withNew newOperation: ResumableOperation) {
-        guard let index = operations.firstIndex(of: oldOperation) else { fatalError("Index error.") }
-        operations[index] = newOperation
-        operationQueue.addOperation(newOperation)
     }
 }
