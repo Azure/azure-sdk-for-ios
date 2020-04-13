@@ -182,21 +182,21 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
         guard let blobName = cell.keyLabel.text else { return }
         guard let containerName = AppConstants.videoContainer else { return }
         guard let blobClient = blobClient else { return }
-        // FIXME: Major bug--cannot rehydrate transfers due to hard coding of local paths
-        let destination = StorageBlobClient.PathHelper.localUrl(forBlob: blobName, inContainer: containerName)
+        let destination = LocalURL(inDirectory: .cachesDirectory, forBlob: blobName, inContainer: containerName)
+        guard let destinationUrl = destination.resolvedUrl else { return }
 
         let manager = FileManager.default
         if let existingTransfer = downloadMap[indexPath] {
             // if transfer exists and is complete, open file, otherwise ignore
-            if manager.fileExists(atPath: destination.path), existingTransfer.incompleteBlocks == 0 {
-                playVideo(indexPath, destination)
+            if manager.fileExists(atPath: destinationUrl.path), existingTransfer.incompleteBlocks == 0 {
+                playVideo(indexPath, destinationUrl)
                 return
             }
             return
         } else {
             // if no transfer exists but a file exists, play
-            if manager.fileExists(atPath: destination.path) {
-                playVideo(indexPath, destination)
+            if manager.fileExists(atPath: destinationUrl.path) {
+                playVideo(indexPath, destinationUrl)
                 return
             }
         }

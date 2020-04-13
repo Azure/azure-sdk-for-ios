@@ -197,8 +197,8 @@ internal extension BlobTransfer {
     static func with(
         context: NSManagedObjectContext,
         clientRestorationId: String,
-        source: URL,
-        destination: URL,
+        localUrl: LocalURL,
+        remoteUrl: URL,
         type: TransferType,
         startRange: Int64,
         endRange: Int64,
@@ -210,9 +210,16 @@ internal extension BlobTransfer {
         ) as? BlobTransfer else {
             fatalError("Unable to create BlobTransfer object.")
         }
+
+        switch type {
+        case .download:
+            transfer.source = remoteUrl
+            transfer.destination = localUrl.rawUrl
+        case .upload:
+            transfer.source = localUrl.rawUrl
+            transfer.destination = remoteUrl
+        }
         transfer.parent = parent
-        transfer.source = source
-        transfer.destination = destination
         transfer.startRange = startRange
         transfer.endRange = endRange
         transfer.state = .pending

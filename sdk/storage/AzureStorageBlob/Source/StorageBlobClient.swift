@@ -353,7 +353,7 @@ public final class StorageBlobClient: PipelineClient {
     public func rawDownload(
         blob: String,
         fromContainer container: String,
-        toFile destinationUrl: URL,
+        toFile destinationUrl: LocalURL,
         withOptions options: DownloadBlobOptions? = nil,
         then completion: @escaping HTTPResultHandler<BlobDownloader>
     ) throws {
@@ -394,7 +394,7 @@ public final class StorageBlobClient: PipelineClient {
     ///   - options: An `UploadBlobOptions` object to control the upload operation.
     ///   - completion: A completion handler that receives a `BlobUploader` object on success.
     public func rawUpload(
-        file sourceUrl: URL,
+        file sourceUrl: LocalURL,
         toContainer container: String,
         asBlob blob: String,
         properties: BlobProperties? = nil,
@@ -439,7 +439,7 @@ public final class StorageBlobClient: PipelineClient {
     public func download(
         blob: String,
         fromContainer container: String,
-        toFile destinationUrl: URL,
+        toFile destinationUrl: LocalURL,
         withOptions options: DownloadBlobOptions? = nil
     ) throws -> Transfer? {
         // Construct URL
@@ -461,8 +461,8 @@ public final class StorageBlobClient: PipelineClient {
         let blobTransfer = BlobTransfer.with(
             context: context,
             clientRestorationId: restorationId,
-            source: url,
-            destination: destinationUrl,
+            localUrl: destinationUrl,
+            remoteUrl: url,
             type: .download,
             startRange: start,
             endRange: end,
@@ -486,7 +486,7 @@ public final class StorageBlobClient: PipelineClient {
     ///   - properties: Properties to set on the resulting blob.
     ///   - options: An `UploadBlobOptions` object to control the upload operation.
     public func upload(
-        file sourceUrl: URL,
+        file sourceUrl: LocalURL,
         toContainer container: String,
         asBlob blob: String,
         properties: BlobProperties,
@@ -510,8 +510,8 @@ public final class StorageBlobClient: PipelineClient {
         let blobTransfer = BlobTransfer.with(
             context: context,
             clientRestorationId: restorationId,
-            source: sourceUrl,
-            destination: url,
+            localUrl: sourceUrl,
+            remoteUrl: url,
             type: .upload,
             startRange: 0,
             endRange: Int64(uploader.fileSize),
@@ -522,74 +522,6 @@ public final class StorageBlobClient: PipelineClient {
         blobTransfer.properties = properties
         StorageBlobClient.manager.add(transfer: blobTransfer)
         return blobTransfer
-    }
-
-    // MARK: PathHelper
-
-    /// Helper containing properties and values to aid in constructing local paths for working with blobs.
-    public struct PathHelper {
-        /// The application's temporary directory.
-        public static let tempDir = URL(string: tempDirPrefix)!
-        private static let tempDirPrefix = "tempDir:/"
-        private static let realTempDir = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-
-        /// The application's cache directory.
-        public static let cacheDir = URL(string: cacheDirPrefix)!
-        private static let cacheDirPrefix = "cacheDir:/"
-        private static let realCacheDir = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
-
-        /// The application's documents directory.
-        public static let documentsDir = URL(string: documentsDirPrefix)!
-        private static let documentsDirPrefix = "documentsDir:/"
-        private static let realDocumentsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-            .first!
-
-        internal static func absoluteUrl(forStorageRelativeUrl url: URL) -> URL? {
-            var urlString = url.absoluteString
-            if urlString.starts(with: cacheDirPrefix) {
-                urlString = urlString.replacing(prefix: cacheDirPrefix, with: realCacheDir.absoluteString)
-                return URL(string: urlString)
-            } else if urlString.starts(with: tempDirPrefix) {
-                urlString = urlString.replacing(prefix: tempDirPrefix, with: realTempDir.absoluteString)
-                return URL(string: urlString)
-            } else if urlString.starts(with: documentsDirPrefix) {
-                urlString = urlString.replacing(prefix: documentsDirPrefix, with: realDocumentsDir.absoluteString)
-                return URL(string: urlString)
-            }
-            return url
-        }
-
-        /// Retrieve a URL for a location on the local device in which to store a blob downloaded from a container.
-        /// - Parameters:
-        ///   - directoryUrl: The base directory to construct the path within. The default is the application's cache
-        ///     directory.
-        ///   - name: The name of the blob.
-        ///   - container: The name of the container.
-        public static func localUrl(
-            inDirectory directoryUrl: URL = cacheDir,
-            forBlob name: String,
-            inContainer container: String
-        ) -> URL {
-            let (dirName, fileName) = pathComponents(forBlob: name, inContainer: container)
-            return directoryUrl.appendingPathComponent(dirName).appendingPathComponent(fileName)
-        }
-
-        /// Retrieve the directory and filename components for a blob within a container. Returns a tuple of (`dirName`,
-        /// `fileName`), where `dirName` is the string up to, but not including, the final '/', and `fileName` is the
-        /// component following the final '/'.
-        /// - Parameters:
-        ///   - name: The name of the blob.
-        ///   - container: The name of the container
-        /// - Returns: A tuple of (`dirName`, `fileName`)
-        public static func pathComponents(
-            forBlob name: String,
-            inContainer container: String
-        ) -> (dirName: String, fileName: String) {
-            var defaultUrlComps = "\(container)/\(name)".split(separator: "/").compactMap { String($0) }
-            let baseName = defaultUrlComps.popLast()!
-            let dirName = defaultUrlComps.joined(separator: "/")
-            return (dirName, baseName)
-        }
     }
 }
 
