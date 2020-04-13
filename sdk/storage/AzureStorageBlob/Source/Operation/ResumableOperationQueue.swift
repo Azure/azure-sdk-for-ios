@@ -26,62 +26,17 @@
 
 import Foundation
 
-internal protocol ResumableOperationQueueDelegate: ResumableOperationDelegate {
-    func operation(_ operation: ResumableOperation?, didChangeState state: TransferState)
-    func operations(_ operations: [ResumableOperation]?, didChangeState state: TransferState)
-}
+internal class TransferOperationQueue: OperationQueue {
+    // MARK: Internal Methods
 
-internal class ResumableOperationQueue {
-    // MARK: Properties
-
-    lazy var operationQueue: OperationQueue = OperationQueue()
-
-    weak var delegate: ResumableOperationQueueDelegate?
-
-    var name: String? {
-        get {
-            return operationQueue.name
-        }
-
-        set {
-            operationQueue.name = newValue
-        }
-    }
-
-    var maxConcurrentOperationCount: Int {
-        get {
-            return operationQueue.maxConcurrentOperationCount
-        }
-
-        set {
-            operationQueue.maxConcurrentOperationCount = newValue
-        }
-    }
-
-    public var count: Int {
-        return operationQueue.operationCount
-    }
-
-    let removeOnCompletion: Bool
-
-    // MARK: Initializers
-
-    init(name: String, delegate: ResumableOperationQueueDelegate? = nil, removeOnCompletion: Bool = false) {
-        self.removeOnCompletion = removeOnCompletion
-        self.name = name
-        self.delegate = delegate
-    }
-
-    // MARK: Public Methods
-
-    func add(_ operation: ResumableOperation) {
+    func add(_ operation: TransferOperation) {
         add([operation])
     }
 
-    func add(_ operations: [ResumableOperation]) {
-        let states = operations.map { $0.state.rawValue }
+    func add(_ operations: [TransferOperation]) {
+        let states = operations.map { $0.transfer.state.rawValue }
         for state in Set(states) {
-            let filteredOps = operations.filter { $0.state.rawValue == state }
+            let filteredOps = operations.filter { $0.transfer.state.rawValue == state }
             var transferState = TransferState(rawValue: state)!
             let allowed: [TransferState] = [.pending, .inProgress]
             if allowed.contains(transferState) {
@@ -90,30 +45,16 @@ internal class ResumableOperationQueue {
 
                 // For Pending or InProgress operations, need to requeue the operations
                 for operation in filteredOps {
-                    operation.delegate = operation.delegate ?? delegate
                     let operationClosure = operation.completionBlock
                     operation.completionBlock = {
                         operationClosure?()
-                        if operation.isCancelled {
+                        if !operation.transfer.isActive {
                             return
                         }
-                        operation.internalState = .complete
                     }
                 }
-                operationQueue.addOperations(filteredOps, waitUntilFinished: false)
+                addOperations(filteredOps, waitUntilFinished: false)
             }
         }
-    }
-
-    func cancel(_ operation: ResumableOperation) {
-        operation.cancel()
-    }
-
-    func clear() {
-        operationQueue.cancelAllOperations()
-    }
-
-    func pause(_ operation: ResumableOperation) {
-        operation.pause()
     }
 }

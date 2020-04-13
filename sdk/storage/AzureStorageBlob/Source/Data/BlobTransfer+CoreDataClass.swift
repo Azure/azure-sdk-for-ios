@@ -33,7 +33,7 @@ import Foundation
 public class BlobTransfer: NSManagedObject, TransferImpl {
     // MARK: Properties
 
-    internal var operation: ResumableOperation?
+    internal var operation: TransferOperation?
     internal var downloader: BlobStreamDownloader?
     internal var uploader: BlobStreamUploader?
 

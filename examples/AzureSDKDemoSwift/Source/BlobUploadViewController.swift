@@ -280,6 +280,10 @@ extension BlobUploadViewController: TransferDelegate {
         }
     }
 
+    func transfersDidUpdate(_: [Transfer]) {
+        reloadCollectionView()
+    }
+
     func transferDidComplete(_ transfer: Transfer) {
         if let blobTransfer = transfer as? BlobTransfer, blobTransfer.transferType == .upload {
             reloadCollectionView()

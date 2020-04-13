@@ -32,7 +32,7 @@ import Foundation
 internal class MultiBlobTransfer: NSManagedObject, TransferImpl {
     // MARK: Properties
 
-    internal var operation: ResumableOperation?
+    internal var operation: TransferOperation?
 
     internal var transfers: [BlobTransfer] {
         guard let blobSet = blobs else { return [BlobTransfer]() }

@@ -61,7 +61,7 @@ public final class StorageBlobClient: PipelineClient {
         "https://storage.azure.com/.default"
     ]
 
-    private static let manager: TransferManager = URLSessionTransferManager.shared
+    private static var manager: TransferManager = URLSessionTransferManager.shared
 
     private let restorationId: String
 
@@ -549,6 +549,11 @@ extension StorageBlobClient: TransferDelegate {
         andProgress progress: Float?
     ) {
         transferDelegate?.transfer(transfer, didUpdateWithState: state, andProgress: progress)
+    }
+
+    /// :nodoc:
+    public func transfersDidUpdate(_ transfers: [Transfer]) {
+        transferDelegate?.transfersDidUpdate(transfers)
     }
 
     /// :nodoc:

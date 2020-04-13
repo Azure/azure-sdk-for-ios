@@ -27,34 +27,16 @@
 import CoreData
 import Foundation
 
-internal protocol ResumableOperationDelegate: AnyObject {
-    func operation(_ operation: ResumableOperation?, didChangeState state: TransferState)
-}
-
-internal class ResumableOperation: Operation {
+internal class TransferOperation: Operation {
     // MARK: Properties
 
-    internal var internalState: TransferState
-    public var state: TransferState {
-        return internalState
-    }
-
     public var transfer: TransferImpl
-    public weak var delegate: ResumableOperationDelegate?
-    public weak var queue: ResumableOperationQueue?
-
-    open var isPaused: Bool {
-        return internalState == .paused
-    }
-
-    public var debugString: String {
-        return "Operation \(type(of: self)) \(hash): Status \(internalState.label)"
-    }
+    public weak var delegate: TransferDelegate?
+    public weak var queue: TransferOperationQueue?
 
     // MARK: Initializers
 
-    public init(transfer: TransferImpl, state: TransferState = .pending, delegate: ResumableOperationDelegate? = nil) {
-        self.internalState = state
+    public init(transfer: TransferImpl, delegate: TransferDelegate?) {
         self.transfer = transfer
         self.delegate = delegate
     }
@@ -62,26 +44,8 @@ internal class ResumableOperation: Operation {
     // MARK: Public Methods
 
     open override func main() {
-        if isCancelled || isPaused { return }
-        internalState = .complete
+        if !transfer.isActive { return }
         super.main()
-    }
-
-    open override func start() {
-        if internalState == .pending {
-            internalState = .inProgress
-        }
-        super.start()
-    }
-
-    open override func cancel() {
-        internalState = .canceled
-        super.cancel()
-    }
-
-    open func pause() {
-        internalState = .paused
-        super.cancel()
     }
 
     // MARK: Internal Methods
@@ -89,27 +53,24 @@ internal class ResumableOperation: Operation {
     internal func notifyDelegate(withTransfer transfer: Transfer) {
         switch transfer {
         case let transfer as BlockTransfer:
-            if let parent = transfer.parent.operation?.transfer {
-                notifyDelegate(withTransfer: parent)
-                return
-            }
+            notifyDelegate(withTransfer: transfer.parent)
+            return
         case let transfer as BlobTransfer:
-            if let parent = transfer.parent?.operation?.transfer {
+            if let parent = transfer.parent {
                 notifyDelegate(withTransfer: parent)
                 return
             }
         default:
             break
         }
-        delegate?.operation(self, didChangeState: transfer.state)
+        delegate?.transfer(transfer, didUpdateWithState: transfer.state)
     }
 
     internal func notifyDelegate(withTransfer transfer: BlockTransfer) {
         // Notify the delegate of the block change AND the parent change.
         // This allows the developer to decide which events to respond to.
-        delegate?.operation(self, didChangeState: transfer.state)
-        if let parent = transfer.parent.operation {
-            delegate?.operation(parent, didChangeState: parent.transfer.state)
-        }
+        delegate?.transfer(transfer, didUpdateWithState: transfer.state)
+        let parent = transfer.parent
+        delegate?.transfer(parent, didUpdateWithState: parent.state)
     }
 }

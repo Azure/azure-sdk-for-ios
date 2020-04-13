@@ -27,11 +27,15 @@
 import CoreData
 import Foundation
 
-internal class BlobDownloadInitialOperation: ResumableOperation {
+internal class BlobDownloadInitialOperation: TransferOperation {
     // MARK: Initializers
 
-    public convenience init(withTransfer transfer: BlockTransfer, queue: ResumableOperationQueue) {
-        self.init(transfer: transfer, state: transfer.state)
+    public convenience init(
+        withTransfer transfer: BlockTransfer,
+        queue: TransferOperationQueue,
+        delegate: TransferDelegate?
+    ) {
+        self.init(transfer: transfer, delegate: delegate)
         self.transfer = transfer
         self.queue = queue
         transfer.operation = self
@@ -55,8 +59,8 @@ internal class BlobDownloadInitialOperation: ResumableOperation {
         // if blocks remain, we must reset the state to inProgress.
         transfer.state = .inProgress
 
-        var operations = [ResumableOperation]()
-        let finalOperation = BlobDownloadFinalOperation(withTransfer: transfer, queue: opQueue)
+        var operations = [TransferOperation]()
+        let finalOperation = BlobDownloadFinalOperation(withTransfer: transfer, queue: opQueue, delegate: delegate)
         operations.append(finalOperation)
 
         for block in downloader.blockList {
@@ -67,7 +71,7 @@ internal class BlobDownloadInitialOperation: ResumableOperation {
                 parent: transfer
             )
             transfer.blocks?.adding(blockTransfer)
-            let blockOperation = BlockOperation(withTransfer: blockTransfer)
+            let blockOperation = BlockOperation(withTransfer: blockTransfer, delegate: delegate)
             finalOperation.addDependency(blockOperation)
             operations.append(blockOperation)
         }
@@ -89,7 +93,7 @@ internal class BlobDownloadInitialOperation: ResumableOperation {
         let parent = transfer.parent
         transfer.state = .inProgress
         parent.state = .inProgress
-        delegate?.operation(self, didChangeState: transfer.state)
+        delegate?.transfer(transfer, didUpdateWithState: transfer.state)
 
         let group = DispatchGroup()
         group.enter()
@@ -113,11 +117,15 @@ internal class BlobDownloadInitialOperation: ResumableOperation {
     }
 }
 
-internal class BlobDownloadFinalOperation: ResumableOperation {
+internal class BlobDownloadFinalOperation: TransferOperation {
     // MARK: Initializers
 
-    public convenience init(withTransfer transfer: BlobTransfer, queue: ResumableOperationQueue) {
-        self.init(transfer: transfer, state: transfer.state)
+    public convenience init(
+        withTransfer transfer: BlobTransfer,
+        queue: TransferOperationQueue,
+        delegate: TransferDelegate?
+    ) {
+        self.init(transfer: transfer, delegate: delegate)
         self.transfer = transfer
         self.queue = queue
         transfer.operation = self
@@ -128,7 +136,7 @@ internal class BlobDownloadFinalOperation: ResumableOperation {
     public override func main() {
         guard let transfer = self.transfer as? BlobTransfer else { return }
         transfer.state = .complete
-        delegate?.operation(self, didChangeState: transfer.state)
+        delegate?.transfer(transfer, didUpdateWithState: transfer.state)
         super.main()
     }
 }

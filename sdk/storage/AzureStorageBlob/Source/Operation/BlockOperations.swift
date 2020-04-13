@@ -28,11 +28,11 @@ import AzureCore
 import CoreData
 import Foundation
 
-internal class BlockOperation: ResumableOperation {
+internal class BlockOperation: TransferOperation {
     // MARK: Initializers
 
-    public convenience init(withTransfer transfer: BlockTransfer) {
-        self.init(transfer: transfer, state: transfer.state)
+    public convenience init(withTransfer transfer: BlockTransfer, delegate: TransferDelegate?) {
+        self.init(transfer: transfer, delegate: delegate)
         self.transfer = transfer
         transfer.operation = self
     }
@@ -74,6 +74,7 @@ internal class BlockOperation: ResumableOperation {
                 case .success:
                     guard let responseHeaders = httpResponse?.headers else {
                         assertionFailure("Response headers not found.")
+                        group.leave()
                         return
                     }
                     let blobProperties = BlobProperties(from: responseHeaders)

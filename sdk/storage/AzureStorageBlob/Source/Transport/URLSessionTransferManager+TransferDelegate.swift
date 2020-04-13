@@ -24,20 +24,20 @@
 //
 // --------------------------------------------------------------------------
 
+import AzureCore
 import Foundation
 
-extension URLSessionTransferManager: ResumableOperationQueueDelegate {
-    internal func operation(_ operation: ResumableOperation?, didChangeState state: TransferState) {
-        saveContext()
-        guard let transfer = operation?.transfer else { return }
-        let delegate = client(forRestorationId: transfer.clientRestorationId)
+extension URLSessionTransferManager: TransferDelegate {
+    func transfer(_ transfer: Transfer, didUpdateWithState state: TransferState, andProgress progress: Float?) {
+        guard let restorationId = (transfer as? TransferImpl)?.clientRestorationId else { return }
+        let delegate = client(forRestorationId: restorationId) as? TransferDelegate
         switch state {
         case .failed:
             // Block transfers should propagate up to their BlobTransfer and only notify that the
             // entire Blob transfer failed.
             if let transferError = (transfer as? BlobTransfer)?.error as NSError? {
                 if [-1009, -1005].contains(transferError.code) {
-                    pause(transfer: transfer)
+                    transfer.pause()
                 } else {
                     delegate?.transfer(transfer, didFailWithError: transferError)
                 }
@@ -50,17 +50,43 @@ extension URLSessionTransferManager: ResumableOperationQueueDelegate {
         default:
             if let blobTransfer = transfer as? BlobTransfer {
                 let progress = blobTransfer.progress
+
+                // avoid saving the context or sending multiple messages when the progress has not actually changed
                 if blobTransfer.currentProgress < progress {
                     blobTransfer.currentProgress = progress
                     delegate?.transfer(transfer, didUpdateWithState: state, andProgress: progress)
+                } else {
+                    return
                 }
             } else {
                 delegate?.transfer(transfer, didUpdateWithState: state)
             }
         }
+        saveContext()
     }
 
-    internal func operations(_: [ResumableOperation]?, didChangeState _: TransferState) {
+    func transfersDidUpdate(_ transfers: [Transfer]) {
+        guard let restorationId = (transfers.first as? TransferImpl)?.clientRestorationId else { return }
+        guard let delegate = client(forRestorationId: restorationId) as? TransferDelegate else { return }
+        delegate.transfersDidUpdate(transfers)
         saveContext()
+    }
+
+    func transferDidComplete(_ transfer: Transfer) {
+        guard let restorationId = (transfer as? TransferImpl)?.clientRestorationId else { return }
+        guard let delegate = client(forRestorationId: restorationId) as? TransferDelegate else { return }
+        delegate.transferDidComplete(transfer)
+        saveContext()
+    }
+
+    func transfer(_ transfer: Transfer, didFailWithError error: Error) {
+        guard let restorationId = (transfer as? TransferImpl)?.clientRestorationId else { return }
+        guard let delegate = client(forRestorationId: restorationId) as? TransferDelegate else { return }
+        delegate.transfer(transfer, didFailWithError: error)
+        saveContext()
+    }
+
+    func client(forRestorationId restorationId: String) -> PipelineClient? {
+        return clients.object(forKey: restorationId as NSString)
     }
 }
