@@ -171,14 +171,12 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
     }
 
     func queueOperations(for transfer: BlobTransfer) {
-        let disallowed: [TransferState] = [.complete, .canceled, .failed]
-        let resumableOperations: [TransferState] = [.pending, .inProgress]
-        guard !disallowed.contains(transfer.state) else { return }
+        guard transfer.isActive else { return }
         var operations = [TransferOperation]()
         var pendingTransfers: [Transfer]
         switch transfer.transferType {
         case .download:
-            pendingTransfers = transfer.transfers.filter { resumableOperations.contains($0.state) }
+            pendingTransfers = transfer.transfers.filter { $0.isActive }
             if transfer.initialCallComplete {
                 let finalOperation = BlobDownloadFinalOperation(
                     withTransfer: transfer,
@@ -207,7 +205,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         case .upload:
             let finalOperation = BlobUploadFinalOperation(withTransfer: transfer, queue: operationQueue, delegate: self)
             operations.append(finalOperation)
-            pendingTransfers = transfer.transfers.filter { resumableOperations.contains($0.state) }
+            pendingTransfers = transfer.transfers.filter { $0.isActive }
             for transfer in pendingTransfers {
                 guard let blockTransfer = transfer as? BlockTransfer else { continue }
                 let blockOperation = BlockOperation(withTransfer: blockTransfer, delegate: self)
@@ -461,7 +459,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         }
 
         // attempt to attach one
-        guard let client = client(forRestorationId: transfer.clientRestorationId) as? StorageBlobClient else {
+        guard let client = blobClient(forRestorationId: transfer.clientRestorationId) else {
             let errorMessage = """
                 Attempted to resume this transfer, but no client with restorationId "\(transfer.clientRestorationId)" \
                 has been initialized.

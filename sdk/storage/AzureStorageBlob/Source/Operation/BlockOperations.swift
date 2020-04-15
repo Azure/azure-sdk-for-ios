@@ -74,7 +74,6 @@ internal class BlockOperation: TransferOperation {
                 case .success:
                     guard let responseHeaders = httpResponse?.headers else {
                         assertionFailure("Response headers not found.")
-                        group.leave()
                         return
                     }
                     let blobProperties = BlobProperties(from: responseHeaders)

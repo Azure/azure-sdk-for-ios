@@ -66,9 +66,12 @@ extension URLSessionTransferManager: TransferDelegate {
     }
 
     func transfersDidUpdate(_ transfers: [Transfer]) {
-        guard let restorationId = (transfers.first as? TransferImpl)?.clientRestorationId else { return }
-        guard let delegate = client(forRestorationId: restorationId) as? TransferDelegate else { return }
-        delegate.transfersDidUpdate(transfers)
+        let restorationIds = transfers.compactMap { ($0 as? TransferImpl)?.clientRestorationId }
+        for restorationId in Set(restorationIds) {
+            guard let delegate = client(forRestorationId: restorationId) as? TransferDelegate else { continue }
+            let transfersForId = transfers.filter { ($0 as? TransferImpl)?.clientRestorationId == restorationId }
+            delegate.transfersDidUpdate(transfersForId)
+        }
         saveContext()
     }
 

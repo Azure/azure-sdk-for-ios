@@ -44,7 +44,7 @@
 		0AE8F02F23AC2AEB007B6975 /* Options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE8F02923AC2A7C007B6975 /* Options.swift */; };
 		6749A4682951673A4EF1741D /* Pods_AzureStorageBlob.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE3538D9B59B54E936B091ED /* Pods_AzureStorageBlob.framework */; };
 		7A5C97A324410BD1006E7B5F /* LocalURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5C97A224410BD1006E7B5F /* LocalURL.swift */; };
-		7ACAADA1242C241A00A049B7 /* ResumableOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACAADA0242C241900A049B7 /* ResumableOperationQueue.swift */; };
+		7ACAADA1242C241A00A049B7 /* TransferOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACAADA0242C241900A049B7 /* TransferOperationQueue.swift */; };
 		7ACAADA2242C241A00A049B7 /* TransferOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACAAD9F242C241900A049B7 /* TransferOperation.swift */; };
 /* End PBXBuildFile section */
 
@@ -114,7 +114,7 @@
 		7A5C97A224410BD1006E7B5F /* LocalURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalURL.swift; sourceTree = "<group>"; };
 		7ABC0A58243D2C4A0080968E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7ACAAD9F242C241900A049B7 /* TransferOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferOperation.swift; sourceTree = "<group>"; };
-		7ACAADA0242C241900A049B7 /* ResumableOperationQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumableOperationQueue.swift; sourceTree = "<group>"; };
+		7ACAADA0242C241900A049B7 /* TransferOperationQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferOperationQueue.swift; sourceTree = "<group>"; };
 		D3923D2D9E19E49D0B5649C6 /* Pods-AzureStorageBlob.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureStorageBlob.debug.xcconfig"; path = "Target Support Files/Pods-AzureStorageBlob/Pods-AzureStorageBlob.debug.xcconfig"; sourceTree = "<group>"; };
 		DE3538D9B59B54E936B091ED /* Pods_AzureStorageBlob.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureStorageBlob.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -271,7 +271,7 @@
 				0AD6352A23F4C365000D67F6 /* BlockOperations.swift */,
 				0A28688023FCA6750084CF15 /* MultiBlobOperation.swift */,
 				7ACAAD9F242C241900A049B7 /* TransferOperation.swift */,
-				7ACAADA0242C241900A049B7 /* ResumableOperationQueue.swift */,
+				7ACAADA0242C241900A049B7 /* TransferOperationQueue.swift */,
 			);
 			path = Operation;
 			sourceTree = "<group>";
@@ -460,7 +460,7 @@
 				0A28684723F5D6700084CF15 /* AzureStorage.xcdatamodeld in Sources */,
 				0A6864B3233E89D9004B7E17 /* ContainerItem.swift in Sources */,
 				0A28686D23F74EA00084CF15 /* BlobDownloadOperations.swift in Sources */,
-				7ACAADA1242C241A00A049B7 /* ResumableOperationQueue.swift in Sources */,
+				7ACAADA1242C241A00A049B7 /* TransferOperationQueue.swift in Sources */,
 				0A6864AA233E83B5004B7E17 /* StorageBlobClient.swift in Sources */,
 				0A80DB1324251B0C00ED9F94 /* BlobUploadOperations.swift in Sources */,
 				0AA4FFCD23DF96C4003ADF59 /* TransferManager.swift in Sources */,

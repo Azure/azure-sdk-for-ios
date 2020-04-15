@@ -39,9 +39,13 @@ public final class StorageBlobClient: PipelineClient {
     /// The global maximum number of managed transfers that will be executed concurrently by all `StorageBlobClient`
     /// instances. The default value is `maxConcurrentTransfersDefaultValue`. To allow this value to be determined
     /// dynamically based on current system conditions, set it to `maxConcurrentTransfersDynamicValue`.
-    public static var maxConcurrentTransfers: Int {
-        get { return manager.maxConcurrency }
-        set { manager.maxConcurrency = newValue }
+    public static var maxConcurrentTransfers: Int? {
+        get { return (manager as? URLSessionTransferManager)?.operationQueue.maxConcurrentOperationCount }
+        set {
+            if let transferManager = manager as? URLSessionTransferManager, newValue != nil {
+                transferManager.operationQueue.maxConcurrentOperationCount = newValue!
+            }
+        }
     }
 
     /// The default value of `maxConcurrentTransfers`.
@@ -61,7 +65,7 @@ public final class StorageBlobClient: PipelineClient {
         "https://storage.azure.com/.default"
     ]
 
-    private static var manager: TransferManager = URLSessionTransferManager.shared
+    private static let manager: TransferManager = URLSessionTransferManager.shared
 
     private let restorationId: String
 
