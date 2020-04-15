@@ -74,6 +74,7 @@ internal protocol TransferImpl: Transfer {
     var operation: ResumableOperation? { get set }
     var state: TransferState { get set }
     var rawState: Int16 { get set }
+    var isActive: Bool { get }
 }
 
 // MARK: Extensions
@@ -99,6 +100,10 @@ public extension Transfer {
     func resume() {
         guard let transfer = self as? TransferImpl else { return }
         URLSessionTransferManager.shared.resume(transfer: transfer)
+    }
+
+    var isActive: Bool {
+        return state.active
     }
 }
 

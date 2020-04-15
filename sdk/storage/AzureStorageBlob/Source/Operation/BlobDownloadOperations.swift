@@ -31,7 +31,7 @@ internal class BlobDownloadInitialOperation: ResumableOperation {
     // MARK: Initializers
 
     public convenience init(withTransfer transfer: BlockTransfer, queue: ResumableOperationQueue) {
-        self.init(state: transfer.state)
+        self.init(transfer: transfer, state: transfer.state)
         self.transfer = transfer
         self.queue = queue
         transfer.operation = self
@@ -43,11 +43,13 @@ internal class BlobDownloadInitialOperation: ResumableOperation {
         guard transfer.transferType == .download,
             let opQueue = queue,
             let downloader = transfer.downloader,
-            downloader.blockList.count > 0,
             let context = transfer.managedObjectContext else {
             assertionFailure("Preconditions failed for queueRemainingBlocks")
             return
         }
+
+        // early out if no more blocks are necesasry
+        guard downloader.blockList.count > 0 else { return }
 
         // The intialDownloadOperation marks the transfer complete, so
         // if blocks remain, we must reset the state to inProgress.
@@ -77,14 +79,13 @@ internal class BlobDownloadInitialOperation: ResumableOperation {
     // MARK: Public Methods
 
     public override func main() {
-        if isCancelled || isPaused { return }
         guard let transfer = self.transfer as? BlockTransfer,
             transfer.parent.transferType == .download,
             let downloader = transfer.parent.downloader else {
             assertionFailure("Preconditions failed for BlobDownloadInitialOperation")
             return
         }
-
+        if !transfer.isActive { return }
         let parent = transfer.parent
         transfer.state = .inProgress
         parent.state = .inProgress
@@ -116,7 +117,7 @@ internal class BlobDownloadFinalOperation: ResumableOperation {
     // MARK: Initializers
 
     public convenience init(withTransfer transfer: BlobTransfer, queue: ResumableOperationQueue) {
-        self.init(state: transfer.state)
+        self.init(transfer: transfer, state: transfer.state)
         self.transfer = transfer
         self.queue = queue
         transfer.operation = self

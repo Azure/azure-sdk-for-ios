@@ -35,6 +35,7 @@ internal class MultiBlobOperation: ResumableOperation {
     // MARK: Initializers
 
     public init(withTransfer transfer: MultiBlobTransfer) {
+        super.init(transfer: transfer)
         self.parent = transfer
     }
 
@@ -46,13 +47,5 @@ internal class MultiBlobOperation: ResumableOperation {
         transfer.state = .complete
         delegate?.operation(self, didChangeState: transfer.state)
         super.main()
-    }
-
-    public override func cancel() {
-        super.cancel()
-    }
-
-    public override func pause() {
-        super.pause()
     }
 }

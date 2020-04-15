@@ -261,7 +261,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         transfer.state = .canceled
         assert(transfer.operation != nil, "Transfer operation unexpectedly nil.")
         if let operation = transfer.operation {
-            operationQueue.remove(operation)
+            operationQueue.cancel(operation)
         }
         if let blob = transfer as? BlobTransfer {
             for block in blob.transfers {
@@ -327,7 +327,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     func remove(transfer: BlockTransfer) {
         if let operation = transfer.operation {
-            operationQueue.remove(operation)
+            operationQueue.cancel(operation)
         }
 
         if let index = transfers.firstIndex(where: { $0 === transfer }) {
@@ -343,11 +343,11 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
     internal func remove(transfer: BlobTransfer) {
         // Cancel the operation and any associated block operations
         if let operation = transfer.operation {
-            operationQueue.remove(operation)
+            operationQueue.cancel(operation)
             for block in transfer.transfers {
                 block.state = .deleted
                 if let blockOp = block.operation {
-                    operationQueue.remove(blockOp)
+                    operationQueue.cancel(blockOp)
                 }
             }
         }
@@ -389,7 +389,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
         // Cancel the operation
         if let operation = transfer.operation {
-            operationQueue.remove(operation)
+            operationQueue.cancel(operation)
         }
 
         // Pause any pauseable blocks and cancel their operations
@@ -407,7 +407,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
         // Cancel the operation
         if let operation = transfer.operation {
-            operationQueue.remove(operation)
+            operationQueue.cancel(operation)
         }
 
         // notify delegate

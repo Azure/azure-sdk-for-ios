@@ -39,7 +39,7 @@ internal class ResumableOperation: Operation {
         return internalState
     }
 
-    public weak var transfer: TransferImpl?
+    public var transfer: TransferImpl
     public weak var delegate: ResumableOperationDelegate?
     public weak var queue: ResumableOperationQueue?
 
@@ -53,8 +53,9 @@ internal class ResumableOperation: Operation {
 
     // MARK: Initializers
 
-    public init(state: TransferState = .pending, delegate: ResumableOperationDelegate? = nil) {
+    public init(transfer: TransferImpl, state: TransferState = .pending, delegate: ResumableOperationDelegate? = nil) {
         self.internalState = state
+        self.transfer = transfer
         self.delegate = delegate
     }
 
@@ -63,6 +64,7 @@ internal class ResumableOperation: Operation {
     open override func main() {
         if isCancelled || isPaused { return }
         internalState = .complete
+        super.main()
     }
 
     open override func start() {
@@ -106,8 +108,8 @@ internal class ResumableOperation: Operation {
         // Notify the delegate of the block change AND the parent change.
         // This allows the developer to decide which events to respond to.
         delegate?.operation(self, didChangeState: transfer.state)
-        if let parent = transfer.parent.operation, let parentState = parent.transfer?.state {
-            delegate?.operation(parent, didChangeState: parentState)
+        if let parent = transfer.parent.operation {
+            delegate?.operation(parent, didChangeState: parent.transfer.state)
         }
     }
 }

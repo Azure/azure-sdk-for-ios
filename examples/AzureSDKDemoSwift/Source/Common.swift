@@ -138,7 +138,8 @@ extension UIViewController {
             if let pipelineError = error as? PipelineError {
                 errorString = pipelineError.innerError.localizedDescription
             } else {
-                errorString = error.localizedDescription
+                let errorInfo = (error as NSError).userInfo
+                errorString = errorInfo[NSDebugDescriptionErrorKey] as? String ?? error.localizedDescription
             }
             self?.hideActivitySpinner()
             let alertController = UIAlertController(title: "Error!", message: errorString, preferredStyle: .alert)
