@@ -29,9 +29,9 @@ import Foundation
 /// The access tier of a blob.
 public enum AccessTier: String, Codable {
     /// Hot access tier.
-    case hot
-    /// Cold access tier.
-    case cold
+    case hot = "Hot"
+    /// Cool access tier.
+    case cool = "Cool"
 }
 
 /// The type of a blob.
