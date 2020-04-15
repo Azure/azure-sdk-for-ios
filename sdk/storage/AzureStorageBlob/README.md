@@ -108,7 +108,7 @@ accounts that permit anonymous read access:
 import AzureStorageBlob
 
 let endpointUrl = StorageBlobClient.endpoint(forAccount: "<my-storage-account-name>")
-let client = StorageBlobClient(blobStorageEndpoint: endpointUrl, withRestorationId: "MyAppClient")
+let client = StorageBlobClient(endpoint: endpointUrl, withRestorationId: "MyAppClient")
 ```
 
 #### Authenticated clients
@@ -185,11 +185,7 @@ let msalCredential = MSALCredential(
     application: msalApplication,
     account: msalAccount
 )
-let client = StorageBlobClient(
-    blobStorageEndpoint: endpointUrl,
-    credential: msalCredential,
-    withRestorationId: "MyAppClient"
-)
+let client = StorageBlobClient(endpoint: endpointUrl, credential: msalCredential, withRestorationId: "MyAppClient")
 ```
 
 ##### Storage account shared access key

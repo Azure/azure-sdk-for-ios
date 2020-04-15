@@ -212,6 +212,16 @@ public struct MSALCredential: TokenCredential {
     }
 }
 
+public class AnonymousAccessPolicy: Authenticating {
+    public var next: PipelineStage?
+
+    public init() {}
+
+    public func authenticate(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
+        completion(request, nil)
+    }
+}
+
 public class BearerTokenCredentialPolicy: Authenticating {
     // MARK: Properties
 
