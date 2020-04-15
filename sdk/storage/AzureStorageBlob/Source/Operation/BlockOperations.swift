@@ -68,15 +68,12 @@ internal class BlockOperation: ResumableOperation {
                 options: downloader.options
             )
             chunkDownloader.download { result, httpResponse in
-                if !transfer.isActive {
-                    group.leave()
-                    return
-                }
+                defer { group.leave() }
+                if !transfer.isActive { return }
                 switch result {
                 case .success:
                     guard let responseHeaders = httpResponse?.headers else {
                         assertionFailure("Response headers not found.")
-                        group.leave()
                         return
                     }
                     let blobProperties = BlobProperties(from: responseHeaders)
@@ -94,7 +91,6 @@ internal class BlockOperation: ResumableOperation {
                     parent.error = err
                     self.notifyDelegate(withTransfer: transfer)
                 }
-                group.leave()
             }
         case .upload:
             guard let uploader = parent.uploader else {
@@ -112,10 +108,8 @@ internal class BlockOperation: ResumableOperation {
                 options: uploader.options
             )
             chunkUploader.upload { result, _ in
-                if !transfer.isActive {
-                    group.leave()
-                    return
-                }
+                defer { group.leave() }
+                if !transfer.isActive { return }
                 switch result {
                 case .success:
                     // Add block ID to the completed list and lookup where its final
@@ -136,7 +130,6 @@ internal class BlockOperation: ResumableOperation {
                     parent.error = err
                     self.notifyDelegate(withTransfer: transfer)
                 }
-                group.leave()
             }
         }
         group.wait()
