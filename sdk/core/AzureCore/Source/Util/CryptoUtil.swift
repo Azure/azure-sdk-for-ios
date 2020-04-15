@@ -129,29 +129,9 @@ extension String {
     }
 
     /// Returns the base64 representation of a string.
-    public var base64String: String {
+    public func base64EncodedString() -> String {
         let data = Data(bytes: self, count: count)
         return data.base64EncodedString()
-    }
-
-    /// Returns the decoded `Data` of a hex string, or nil.
-    public var decodeHex: Data? {
-        var data = Data(capacity: count / 2)
-
-        if let regex = try? NSRegularExpression(pattern: "[0-9a-f]{1,2}", options: .caseInsensitive) {
-            regex.enumerateMatches(in: self, range: NSRange(startIndex..., in: self)) { match, _, _ in
-                let byteString = (self as NSString).substring(with: match!.range)
-                let num = UInt8(byteString, radix: 16)!
-                data.append(num)
-            }
-        }
-        guard data.count > 0 else { return nil }
-        return data
-    }
-
-    /// Returns the decoded `Data` of a base64-encoded string, or nil.
-    public var decodeBase64: Data? {
-        return Data(base64Encoded: self)
     }
 }
 
@@ -184,15 +164,5 @@ extension Data {
             }
         }
         return digest
-    }
-
-    /// Returns the base64-encoded string representation of a `Data` object.
-    public var base64String: String {
-        return base64EncodedString()
-    }
-
-    /// Returns the hex string representation of a `Data` object.
-    public var hexString: String {
-        return compactMap { String(format: "%02x", $0) }.joined().uppercased()
     }
 }

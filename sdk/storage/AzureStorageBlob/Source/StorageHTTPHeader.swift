@@ -138,7 +138,7 @@ public enum StorageHTTPHeader: String {
     /// x-ms-proposed-lease-id
     case proposedLeaseId = "x-ms-proposed-lease-id"
     /// x-ms-range
-    case range = "x-ms-range"
+    case xmsRange = "x-ms-range"
     /// x-ms-range-get-content-md5
     case rangeGetContentMD5 = "x-ms-range-get-content-md5"
     /// x-ms-range-get-content-crc64
