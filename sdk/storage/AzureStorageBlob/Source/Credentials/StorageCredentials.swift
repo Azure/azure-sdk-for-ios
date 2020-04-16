@@ -272,7 +272,7 @@ internal class StorageSharedKeyAuthenticationPolicy: Authenticating {
     // MARK: Private Methods
 
     /// Generate the string to sign for Blob, Queue, and File Services.
-    private func stringToSign(forRequest request: HTTPRequest) throws -> String {
+    internal func stringToSign(forRequest request: HTTPRequest) throws -> String {
         let headers = request.headers
         var stringToSign = request.httpMethod.rawValue + "\n"
         stringToSign += (headers[.contentEncoding] ?? "") + "\n"

@@ -154,7 +154,7 @@ public class LoggingPolicy: PipelineStage {
         }
 
         let bodyText = humanReadable(body: bodyFunc, headers: headers)
-        logger.debug("\n\(bodyText)")
+        logger.debug("\(bodyText)")
     }
 
     private func humanReadable(body bodyFunc: () -> String?, headers: HTTPHeaders) -> String {

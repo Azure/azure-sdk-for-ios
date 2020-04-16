@@ -18,7 +18,7 @@
 		0A5329692411FA4500486D81 /* StorageStreamUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5329682411FA4500486D81 /* StorageStreamUploader.swift */; };
 		0A532ACD2417D8CC00C4C8BA /* BlobLookupList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A532ACC2417D8CC00C4C8BA /* BlobLookupList.swift */; };
 		0A686493233E834D004B7E17 /* AzureStorageBlob.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A686489233E834D004B7E17 /* AzureStorageBlob.framework */; };
-		0A686498233E834D004B7E17 /* AzureStorageBlobTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A686497233E834D004B7E17 /* AzureStorageBlobTests.swift */; };
+		0A686498233E834D004B7E17 /* StorageSharedKeyAuthenticationPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A686497233E834D004B7E17 /* StorageSharedKeyAuthenticationPolicyTests.swift */; };
 		0A6864A5233E8366004B7E17 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A6864A4233E8366004B7E17 /* AzureCore.framework */; };
 		0A6864AA233E83B5004B7E17 /* StorageBlobClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6864A9233E83B5004B7E17 /* StorageBlobClient.swift */; };
 		0A6864AF233E8620004B7E17 /* StorageCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6864AE233E8620004B7E17 /* StorageCredentials.swift */; };
@@ -87,7 +87,7 @@
 		0A68648C233E834D004B7E17 /* AzureStorageBlob.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AzureStorageBlob.h; sourceTree = "<group>"; };
 		0A68648D233E834D004B7E17 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A686492233E834D004B7E17 /* AzureStorageBlobTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AzureStorageBlobTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		0A686497233E834D004B7E17 /* AzureStorageBlobTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzureStorageBlobTests.swift; sourceTree = "<group>"; };
+		0A686497233E834D004B7E17 /* StorageSharedKeyAuthenticationPolicyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageSharedKeyAuthenticationPolicyTests.swift; sourceTree = "<group>"; };
 		0A686499233E834D004B7E17 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A6864A4233E8366004B7E17 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A6864A9233E83B5004B7E17 /* StorageBlobClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageBlobClient.swift; sourceTree = "<group>"; };
@@ -193,7 +193,7 @@
 		0A686496233E834D004B7E17 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				0A686497233E834D004B7E17 /* AzureStorageBlobTests.swift */,
+				0A686497233E834D004B7E17 /* StorageSharedKeyAuthenticationPolicyTests.swift */,
 				0A686499233E834D004B7E17 /* Info.plist */,
 			);
 			path = Tests;
@@ -540,7 +540,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A686498233E834D004B7E17 /* AzureStorageBlobTests.swift in Sources */,
+				0A686498233E834D004B7E17 /* StorageSharedKeyAuthenticationPolicyTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
