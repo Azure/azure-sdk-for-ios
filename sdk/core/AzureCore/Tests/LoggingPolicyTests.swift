@@ -179,17 +179,6 @@ class LoggingPolicyTests: XCTestCase {
         XCTAssertEqual(msg?.text, "GET http://www.example.com?id=123&test=REDACTED")
     }
 
-    /// Test that the logging policy logs internal failures at the correct level
-    func test_LoggingPolicy_OnRequestWithInvalidUrl_LogsFailureAtWarningLevel() {
-        let policy = LoggingPolicy()
-        let logger = TestClientLogger(.info)
-        let req = PipelineRequest(method: .get, url: "http:\\\\example:example.com", logger: logger)
-        policy.on(request: req) { _, _ in }
-        let msg = logger.messages.first { $0.text.starts(with: "Failed to parse URL") }
-        XCTAssertNotNil(msg)
-        XCTAssertEqual(msg?.level, .warning)
-    }
-
     /// Test that the logging policy logs the request line in the correct format at the correct level
     func test_LoggingPolicy_OnRequest_LogsRFC2616FormattedRequestLineAtInfoLevel() {
         let policy = LoggingPolicy()

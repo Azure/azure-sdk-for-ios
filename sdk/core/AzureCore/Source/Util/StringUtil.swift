@@ -26,8 +26,6 @@
 
 import Foundation
 
-import Foundation
-
 extension String {
     public func replacing(prefix: String, with newPrefix: String) -> String {
         var mutatedString = prefix
