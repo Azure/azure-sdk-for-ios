@@ -31,7 +31,7 @@
 		0A80DB192425358B00ED9F94 /* BlockTransfer+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A80DB162425358A00ED9F94 /* BlockTransfer+CoreDataProperties.swift */; };
 		0A80DB1A2425358B00ED9F94 /* MultiBlobTransfer+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A80DB172425358A00ED9F94 /* MultiBlobTransfer+CoreDataProperties.swift */; };
 		0A80DB1B2425358B00ED9F94 /* BlobTransfer+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A80DB182425358A00ED9F94 /* BlobTransfer+CoreDataProperties.swift */; };
-		0A8D74C82409CCC600B3B577 /* URLSessionTransferManager+ResumableOperationQueueDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8D74C72409CCC600B3B577 /* URLSessionTransferManager+ResumableOperationQueueDelegate.swift */; };
+		0A8D74C82409CCC600B3B577 /* URLSessionTransferManager+TransferDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8D74C72409CCC600B3B577 /* URLSessionTransferManager+TransferDelegate.swift */; };
 		0A8D74CA2409D1D400B3B577 /* Transfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8D74C92409D1D400B3B577 /* Transfer.swift */; };
 		0AA4FFCD23DF96C4003ADF59 /* TransferManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA4FFCC23DF96C4003ADF59 /* TransferManager.swift */; };
 		0AB24709243CDA4200E62844 /* StorageJSONCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB24708243CDA4200E62844 /* StorageJSONCoding.swift */; };
@@ -44,8 +44,8 @@
 		0AE8F02F23AC2AEB007B6975 /* Options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE8F02923AC2A7C007B6975 /* Options.swift */; };
 		6749A4682951673A4EF1741D /* Pods_AzureStorageBlob.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE3538D9B59B54E936B091ED /* Pods_AzureStorageBlob.framework */; };
 		7A5C97A324410BD1006E7B5F /* LocalURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5C97A224410BD1006E7B5F /* LocalURL.swift */; };
-		7ACAADA1242C241A00A049B7 /* ResumableOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACAADA0242C241900A049B7 /* ResumableOperationQueue.swift */; };
-		7ACAADA2242C241A00A049B7 /* ResumableOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACAAD9F242C241900A049B7 /* ResumableOperation.swift */; };
+		7ACAADA1242C241A00A049B7 /* TransferOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACAADA0242C241900A049B7 /* TransferOperationQueue.swift */; };
+		7ACAADA2242C241A00A049B7 /* TransferOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACAAD9F242C241900A049B7 /* TransferOperation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,7 +99,7 @@
 		0A80DB162425358A00ED9F94 /* BlockTransfer+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BlockTransfer+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		0A80DB172425358A00ED9F94 /* MultiBlobTransfer+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MultiBlobTransfer+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		0A80DB182425358A00ED9F94 /* BlobTransfer+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BlobTransfer+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		0A8D74C72409CCC600B3B577 /* URLSessionTransferManager+ResumableOperationQueueDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSessionTransferManager+ResumableOperationQueueDelegate.swift"; sourceTree = "<group>"; };
+		0A8D74C72409CCC600B3B577 /* URLSessionTransferManager+TransferDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSessionTransferManager+TransferDelegate.swift"; sourceTree = "<group>"; };
 		0A8D74C92409D1D400B3B577 /* Transfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transfer.swift; sourceTree = "<group>"; };
 		0AA4FFCC23DF96C4003ADF59 /* TransferManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferManager.swift; sourceTree = "<group>"; };
 		0AB24708243CDA4200E62844 /* StorageJSONCoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageJSONCoding.swift; sourceTree = "<group>"; };
@@ -113,8 +113,8 @@
 		2DDE79651353834EEDB4844D /* Pods-AzureStorageBlob.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureStorageBlob.release.xcconfig"; path = "Target Support Files/Pods-AzureStorageBlob/Pods-AzureStorageBlob.release.xcconfig"; sourceTree = "<group>"; };
 		7A5C97A224410BD1006E7B5F /* LocalURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalURL.swift; sourceTree = "<group>"; };
 		7ABC0A58243D2C4A0080968E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		7ACAAD9F242C241900A049B7 /* ResumableOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumableOperation.swift; sourceTree = "<group>"; };
-		7ACAADA0242C241900A049B7 /* ResumableOperationQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumableOperationQueue.swift; sourceTree = "<group>"; };
+		7ACAAD9F242C241900A049B7 /* TransferOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferOperation.swift; sourceTree = "<group>"; };
+		7ACAADA0242C241900A049B7 /* TransferOperationQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferOperationQueue.swift; sourceTree = "<group>"; };
 		D3923D2D9E19E49D0B5649C6 /* Pods-AzureStorageBlob.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureStorageBlob.debug.xcconfig"; path = "Target Support Files/Pods-AzureStorageBlob/Pods-AzureStorageBlob.debug.xcconfig"; sourceTree = "<group>"; };
 		DE3538D9B59B54E936B091ED /* Pods_AzureStorageBlob.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureStorageBlob.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -270,8 +270,8 @@
 				0A80DB1224251B0C00ED9F94 /* BlobUploadOperations.swift */,
 				0AD6352A23F4C365000D67F6 /* BlockOperations.swift */,
 				0A28688023FCA6750084CF15 /* MultiBlobOperation.swift */,
-				7ACAAD9F242C241900A049B7 /* ResumableOperation.swift */,
-				7ACAADA0242C241900A049B7 /* ResumableOperationQueue.swift */,
+				7ACAAD9F242C241900A049B7 /* TransferOperation.swift */,
+				7ACAADA0242C241900A049B7 /* TransferOperationQueue.swift */,
 			);
 			path = Operation;
 			sourceTree = "<group>";
@@ -280,7 +280,7 @@
 			isa = PBXGroup;
 			children = (
 				0A2868A623FDA95B0084CF15 /* URLSessionTransferManager.swift */,
-				0A8D74C72409CCC600B3B577 /* URLSessionTransferManager+ResumableOperationQueueDelegate.swift */,
+				0A8D74C72409CCC600B3B577 /* URLSessionTransferManager+TransferDelegate.swift */,
 			);
 			path = Transport;
 			sourceTree = "<group>";
@@ -455,12 +455,12 @@
 				0A80DB1B2425358B00ED9F94 /* BlobTransfer+CoreDataProperties.swift in Sources */,
 				0AE8F02F23AC2AEB007B6975 /* Options.swift in Sources */,
 				0AC34915235633110094C576 /* StorageBlobClientOptions.swift in Sources */,
-				7ACAADA2242C241A00A049B7 /* ResumableOperation.swift in Sources */,
+				7ACAADA2242C241A00A049B7 /* TransferOperation.swift in Sources */,
 				0A532ACD2417D8CC00C4C8BA /* BlobLookupList.swift in Sources */,
 				0A28684723F5D6700084CF15 /* AzureStorage.xcdatamodeld in Sources */,
 				0A6864B3233E89D9004B7E17 /* ContainerItem.swift in Sources */,
 				0A28686D23F74EA00084CF15 /* BlobDownloadOperations.swift in Sources */,
-				7ACAADA1242C241A00A049B7 /* ResumableOperationQueue.swift in Sources */,
+				7ACAADA1242C241A00A049B7 /* TransferOperationQueue.swift in Sources */,
 				0A6864AA233E83B5004B7E17 /* StorageBlobClient.swift in Sources */,
 				0A80DB1324251B0C00ED9F94 /* BlobUploadOperations.swift in Sources */,
 				0AA4FFCD23DF96C4003ADF59 /* TransferManager.swift in Sources */,
@@ -477,7 +477,7 @@
 				0AE8F02723AC2A5C007B6975 /* StorageBlobClient+AllowLoggingValues.swift in Sources */,
 				0AE8F02D23AC2A7C007B6975 /* StorageStreamDownloader.swift in Sources */,
 				0A71C5C9234BBAA200604F2D /* Enumerations.swift in Sources */,
-				0A8D74C82409CCC600B3B577 /* URLSessionTransferManager+ResumableOperationQueueDelegate.swift in Sources */,
+				0A8D74C82409CCC600B3B577 /* URLSessionTransferManager+TransferDelegate.swift in Sources */,
 				0AB24709243CDA4200E62844 /* StorageJSONCoding.swift in Sources */,
 				7A5C97A324410BD1006E7B5F /* LocalURL.swift in Sources */,
 				0A80DB1A2425358B00ED9F94 /* MultiBlobTransfer+CoreDataProperties.swift in Sources */,

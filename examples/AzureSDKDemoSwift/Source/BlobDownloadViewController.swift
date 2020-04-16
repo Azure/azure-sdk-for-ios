@@ -236,6 +236,10 @@ extension BlobDownloadViewController: TransferDelegate {
         }
     }
 
+    func transfersDidUpdate(_: [Transfer]) {
+        reloadTableView()
+    }
+
     func transferDidComplete(_ transfer: Transfer) {
         if let blobTransfer = transfer as? BlobTransfer, blobTransfer.transferType == .download {
             reloadTableView()

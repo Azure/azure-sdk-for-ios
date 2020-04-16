@@ -27,11 +27,15 @@
 import CoreData
 import Foundation
 
-internal class BlobUploadFinalOperation: ResumableOperation {
+internal class BlobUploadFinalOperation: TransferOperation {
     // MARK: Initializers
 
-    public convenience init(withTransfer transfer: BlobTransfer, queue: ResumableOperationQueue) {
-        self.init(transfer: transfer, state: transfer.state)
+    public convenience init(
+        withTransfer transfer: BlobTransfer,
+        queue: TransferOperationQueue,
+        delegate: TransferDelegate?
+    ) {
+        self.init(transfer: transfer, delegate: delegate)
         self.queue = queue
         transfer.operation = self
     }

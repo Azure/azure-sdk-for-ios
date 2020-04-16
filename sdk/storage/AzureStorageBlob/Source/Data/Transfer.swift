@@ -71,7 +71,7 @@ public protocol Transfer: AnyObject {
 
 internal protocol TransferImpl: Transfer {
     var clientRestorationId: String { get }
-    var operation: ResumableOperation? { get set }
+    var operation: TransferOperation? { get set }
     var state: TransferState { get set }
     var rawState: Int16 { get set }
     var isActive: Bool { get }

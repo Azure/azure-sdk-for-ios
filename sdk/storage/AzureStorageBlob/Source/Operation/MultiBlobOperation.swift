@@ -27,15 +27,15 @@
 import CoreData
 import Foundation
 
-internal class MultiBlobOperation: ResumableOperation {
+internal class MultiBlobOperation: TransferOperation {
     // MARK: Properties
 
     internal weak var parent: MultiBlobTransfer?
 
     // MARK: Initializers
 
-    public init(withTransfer transfer: MultiBlobTransfer) {
-        super.init(transfer: transfer)
+    public init(withTransfer transfer: MultiBlobTransfer, delegate: TransferDelegate?) {
+        super.init(transfer: transfer, delegate: delegate)
         self.parent = transfer
     }
 
@@ -45,7 +45,7 @@ internal class MultiBlobOperation: ResumableOperation {
         // TODO: Complete this implementation
         guard let transfer = self.transfer as? MultiBlobTransfer else { return }
         transfer.state = .complete
-        delegate?.operation(self, didChangeState: transfer.state)
+        delegate?.transfer(transfer, didUpdateWithState: transfer.state)
         super.main()
     }
 }

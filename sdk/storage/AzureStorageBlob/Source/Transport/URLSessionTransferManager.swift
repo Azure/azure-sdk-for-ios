@@ -48,7 +48,6 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
             case .notReachable:
                 self.pauseAll()
             case .reachable(.ethernetOrWiFi), .reachable(.wwan):
-                self.operationQueue.clear()
                 self.resumeAll()
             default:
                 break
@@ -59,7 +58,11 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     private var managing = false
 
-    var operationQueue: ResumableOperationQueue
+    lazy var operationQueue: TransferOperationQueue = {
+        let operationQueue = TransferOperationQueue()
+        operationQueue.maxConcurrentOperationCount = StorageBlobClient.maxConcurrentTransfersDefaultValue
+        return operationQueue
+    }()
 
     var maxConcurrency: Int {
         get { return operationQueue.maxConcurrentOperationCount }
@@ -88,12 +91,8 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
     // MARK: Initializers
 
     private override init() {
-        self.operationQueue = ResumableOperationQueue(name: "TransferQueue", delegate: nil, removeOnCompletion: true)
         self.transfers = [TransferImpl]()
-
         super.init()
-        operationQueue.delegate = self
-        operationQueue.maxConcurrentOperationCount = StorageBlobClient.maxConcurrentTransfersDefaultValue
     }
 
     // TODO: This will interfere with trying to use multiple BlobClients simultaneously. Find an alternate
@@ -112,7 +111,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
     }
 
     func register(client: StorageBlobClient?, forRestorationId restorationId: String) throws {
-        guard self.client(forRestorationId: restorationId) == nil else {
+        guard blobClient(forRestorationId: restorationId) == nil else {
             throw AzureError.general("""
                 A client with restoration ID \(restorationId) already exists. Please ensure that each client has a \
                 unique restoration ID.
@@ -122,8 +121,8 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         clients.setObject(client, forKey: restorationId as NSString)
     }
 
-    func client(forRestorationId restorationId: String) -> StorageBlobClient? {
-        return clients.object(forKey: restorationId as NSString)
+    func blobClient(forRestorationId restorationId: String) -> StorageBlobClient? {
+        return client(forRestorationId: restorationId) as? StorageBlobClient
     }
 
     /// Start the transfer management engine.
@@ -166,51 +165,56 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         transfers.append(transfer)
 
         // Add to OperationQueue and notify delegate
-        let operation = BlockOperation(withTransfer: transfer)
+        let operation = BlockOperation(withTransfer: transfer, delegate: self)
         operationQueue.add(operation)
-        self.operation(operation, didChangeState: transfer.state)
+        self.transfer(transfer, didUpdateWithState: transfer.state)
     }
 
     func queueOperations(for transfer: BlobTransfer) {
-        let disallowed: [TransferState] = [.complete, .canceled, .failed]
-        let resumableOperations: [TransferState] = [.pending, .inProgress]
-        guard !disallowed.contains(transfer.state) else { return }
-        var operations = [ResumableOperation]()
-
+        guard transfer.isActive else { return }
+        var operations = [TransferOperation]()
+        var pendingTransfers: [Transfer]
         switch transfer.transferType {
         case .download:
-            let pendingTransfers = transfer.transfers.filter { resumableOperations.contains($0.state) }
+            pendingTransfers = transfer.transfers.filter { $0.isActive }
             if transfer.initialCallComplete {
-                let finalOperation = BlobDownloadFinalOperation(withTransfer: transfer, queue: operationQueue)
+                let finalOperation = BlobDownloadFinalOperation(
+                    withTransfer: transfer,
+                    queue: operationQueue,
+                    delegate: self
+                )
                 operations.append(finalOperation)
-                for blockTransfer in pendingTransfers {
-                    let blockOperation = BlockOperation(withTransfer: blockTransfer)
+                for transfer in pendingTransfers {
+                    guard let blockTransfer = transfer as? BlockTransfer else { continue }
+                    let blockOperation = BlockOperation(withTransfer: blockTransfer, delegate: self)
                     finalOperation.addDependency(blockOperation)
                     operations.append(blockOperation)
                 }
             } else {
-                guard let initialTransfer = pendingTransfers.first else {
+                guard let initialTransfer = pendingTransfers.first as? BlockTransfer else {
                     assertionFailure("Invalid assumption regarding pending transfers.")
                     return
                 }
                 let initialOperation = BlobDownloadInitialOperation(
                     withTransfer: initialTransfer,
-                    queue: operationQueue
+                    queue: operationQueue,
+                    delegate: self
                 )
                 operations.append(initialOperation)
             }
         case .upload:
-            let finalOperation = BlobUploadFinalOperation(withTransfer: transfer, queue: operationQueue)
+            let finalOperation = BlobUploadFinalOperation(withTransfer: transfer, queue: operationQueue, delegate: self)
             operations.append(finalOperation)
-            let pendingTransfers = transfer.transfers.filter { resumableOperations.contains($0.state) }
-            for blockTransfer in pendingTransfers {
-                let blockOperation = BlockOperation(withTransfer: blockTransfer)
+            pendingTransfers = transfer.transfers.filter { $0.isActive }
+            for transfer in pendingTransfers {
+                guard let blockTransfer = transfer as? BlockTransfer else { continue }
+                let blockOperation = BlockOperation(withTransfer: blockTransfer, delegate: self)
                 finalOperation.addDependency(blockOperation)
                 operations.append(blockOperation)
             }
         }
         operationQueue.add(operations)
-        self.operations(operations, didChangeState: transfer.state)
+        transfersDidUpdate(pendingTransfers)
     }
 
     func add(transfer: BlobTransfer) {
@@ -261,14 +265,14 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         transfer.state = .canceled
         assert(transfer.operation != nil, "Transfer operation unexpectedly nil.")
         if let operation = transfer.operation {
-            operationQueue.cancel(operation)
+            operation.cancel()
         }
         if let blob = transfer as? BlobTransfer {
             for block in blob.transfers {
                 cancel(transfer: block)
             }
         }
-        operation(transfer.operation, didChangeState: transfer.state)
+        self.transfer(transfer, didUpdateWithState: transfer.state)
     }
 
     // MARK: Remove Operations
@@ -287,7 +291,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         transfers.removeAll()
 
         // Clear the OperationQueue
-        operationQueue.clear()
+        operationQueue.cancelAllOperations()
 
         // Delete all transfers in CoreData
         guard let context = persistentContainer?.viewContext else { return }
@@ -309,7 +313,6 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
                 context.delete(transfer)
             }
         }
-        operations(nil, didChangeState: .deleted)
     }
 
     func remove(transfer: TransferImpl) {
@@ -322,12 +325,12 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
             fatalError("Unrecognized transfer type: \(transfer.self)")
         }
         transfer.state = .deleted
-        operation(transfer.operation, didChangeState: transfer.state)
+        self.transfer(transfer, didUpdateWithState: transfer.state)
     }
 
     func remove(transfer: BlockTransfer) {
         if let operation = transfer.operation {
-            operationQueue.cancel(operation)
+            operation.cancel()
         }
 
         if let index = transfers.firstIndex(where: { $0 === transfer }) {
@@ -343,11 +346,11 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
     internal func remove(transfer: BlobTransfer) {
         // Cancel the operation and any associated block operations
         if let operation = transfer.operation {
-            operationQueue.cancel(operation)
+            operation.cancel()
             for block in transfer.transfers {
                 block.state = .deleted
                 if let blockOp = block.operation {
-                    operationQueue.cancel(blockOp)
+                    blockOp.cancel()
                 }
             }
         }
@@ -368,7 +371,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
     func pauseAll(withRestorationId restorationId: String? = nil) {
         let toPause = restorationId == nil ? transfers : transfers.filter { $0.clientRestorationId == restorationId }
         if toPause.count == transfers.count {
-            operationQueue.clear()
+            operationQueue.cancelAllOperations()
         }
         for transfer in toPause {
             pause(transfer: transfer)
@@ -389,7 +392,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
         // Cancel the operation
         if let operation = transfer.operation {
-            operationQueue.cancel(operation)
+            operation.cancel()
         }
 
         // Pause any pauseable blocks and cancel their operations
@@ -398,7 +401,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         }
 
         // notify delegate
-        operation(transfer.operation, didChangeState: transfer.state)
+        self.transfer(transfer, didUpdateWithState: transfer.state)
     }
 
     func pause(transfer: BlockTransfer) {
@@ -407,11 +410,11 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
         // Cancel the operation
         if let operation = transfer.operation {
-            operationQueue.cancel(operation)
+            operation.cancel()
         }
 
         // notify delegate
-        operation(transfer.operation, didChangeState: transfer.state)
+        self.transfer(transfer, didUpdateWithState: transfer.state)
     }
 
     // MARK: Resume Operations
@@ -429,7 +432,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         transfer.state = .pending
         switch transfer {
         case let transfer as BlockTransfer:
-            operationQueue.add(BlockOperation(withTransfer: transfer))
+            operationQueue.add(BlockOperation(withTransfer: transfer, delegate: self))
         case let transfer as BlobTransfer:
             for blockTransfer in transfer.transfers where blockTransfer.state.resumable {
                 blockTransfer.state = .pending
@@ -437,13 +440,13 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
             reconnectClient(for: transfer)
             if transfer.state == .failed {
                 // TODO: Fix the issue that this error is not bubbling up to the client
-                operation(transfer.operation, didChangeState: transfer.state)
+                self.transfer(transfer, didUpdateWithState: transfer.state)
             }
             queueOperations(for: transfer)
         default:
             assertionFailure("Unrecognized transfer type: \(transfer.self)")
         }
-        operation(transfer.operation, didChangeState: transfer.state)
+        self.transfer(transfer, didUpdateWithState: transfer.state)
     }
 
     func reconnectClient(for transfer: BlobTransfer) {
@@ -456,7 +459,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         }
 
         // attempt to attach one
-        guard let client = client(forRestorationId: transfer.clientRestorationId) else {
+        guard let client = blobClient(forRestorationId: transfer.clientRestorationId) else {
             let errorMessage = """
                 Attempted to resume this transfer, but no client with restorationId "\(transfer.clientRestorationId)" \
                 has been initialized.
