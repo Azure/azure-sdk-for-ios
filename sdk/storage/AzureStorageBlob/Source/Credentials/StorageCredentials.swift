@@ -391,7 +391,7 @@ internal class StorageSharedKeyAuthenticationPolicy: Authenticating {
         guard let keyData = Data(base64Encoded: accessKey) else {
             throw AzureError.general("Unable to decode access key.")
         }
-        let hmac = try signingString.hmac(algorithm: .sha256, key: keyData)
+        let hmac = signingString.hmac(algorithm: .sha256, key: keyData)
         return hmac.base64EncodedString()
     }
 }

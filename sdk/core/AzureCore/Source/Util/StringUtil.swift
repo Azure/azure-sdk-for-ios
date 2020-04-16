@@ -33,4 +33,17 @@ extension String {
         mutatedString = String(dropFirst(prefix.count))
         return newPrefix + mutatedString
     }
+
+    /// Returns the base64 representation of a string.
+    public func base64EncodedString() -> String {
+        let data = Data(bytes: self, count: count)
+        return data.base64EncodedString()
+    }
+}
+
+extension Data {
+    /// Returns the hexadecimal string representation of the data.
+    public func hexadecimalString() -> String {
+        return map { String(format: "%02hhx", $0) }.joined()
+    }
 }

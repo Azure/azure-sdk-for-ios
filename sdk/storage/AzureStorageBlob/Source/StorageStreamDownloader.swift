@@ -109,10 +109,10 @@ internal class ChunkDownloader {
                     return
                 }
                 if let contentMD5 = headers[.contentMD5] {
-                    let dataHash = try? data.hash(algorithm: .md5).base64String
+                    let dataHash = data.hash(algorithm: .md5).base64EncodedString()
                     guard contentMD5 == dataHash else {
                         let error = HTTPResponseError
-                            .resourceModified("Block MD5 \(dataHash ?? "ERROR") did not match \(contentMD5).")
+                            .resourceModified("Block MD5 \(dataHash) did not match \(contentMD5).")
                         completion(.failure(error), httpResponse)
                         return
                     }
