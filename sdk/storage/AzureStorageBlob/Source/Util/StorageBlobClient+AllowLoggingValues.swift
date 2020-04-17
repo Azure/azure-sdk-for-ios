@@ -91,7 +91,7 @@ extension StorageBlobClient {
         StorageHTTPHeader.leaseTime.rawValue,
         StorageHTTPHeader.pageWrite.rawValue,
         StorageHTTPHeader.proposedLeaseId.rawValue,
-        StorageHTTPHeader.range.rawValue,
+        StorageHTTPHeader.xmsRange.rawValue,
         StorageHTTPHeader.rangeGetContentMD5.rawValue,
         StorageHTTPHeader.rehydratePriority.rawValue,
         StorageHTTPHeader.requestId.rawValue,

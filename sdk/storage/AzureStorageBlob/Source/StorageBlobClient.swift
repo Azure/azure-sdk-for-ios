@@ -69,7 +69,7 @@ public final class StorageBlobClient: PipelineClient {
 
     /// Create a Storage blob data client.
     /// - Parameters:
-    ///   - baseUrl: Base URL for the storage account.
+    ///   - baseUrl: Base URL for the storage account's blob service.
     ///   - authPolicy: An `Authenticating` policy to use for authenticating client requests.
     ///   - restorationId: An identifier used to associate this client with transfers it creates. When a transfer is
     ///     reloaded from disk (e.g. after an application crash), it can only be resumed once a client with the same
@@ -107,7 +107,7 @@ public final class StorageBlobClient: PipelineClient {
 
     /// Create a Storage blob data client.
     /// - Parameters:
-    ///   - accountUrl: Base URL for the storage account.
+    ///   - endpoint: The URL for the storage account's blob storage endpoint.
     ///   - credential: A `MSALCredential` object used to retrieve authentication tokens.
     ///   - restorationId: An identifier used to associate this client with transfers it creates. When a transfer is
     ///     reloaded from disk (e.g. after an application crash), it can only be resumed once a client with the same
@@ -117,19 +117,19 @@ public final class StorageBlobClient: PipelineClient {
     ///     configuration (e.g. "MyApplication.userClient").
     ///   - options: Options used to configure the client.
     public convenience init(
-        accountUrl: URL,
+        endpoint: URL,
         credential: MSALCredential,
         withRestorationId restorationId: String,
         withOptions options: StorageBlobClientOptions? = nil
     ) throws {
         let authPolicy = BearerTokenCredentialPolicy(credential: credential, scopes: StorageBlobClient.defaultScopes)
-        try self
-            .init(baseUrl: accountUrl, authPolicy: authPolicy, withRestorationId: restorationId, withOptions: options)
+        try self.init(baseUrl: endpoint, authPolicy: authPolicy, withRestorationId: restorationId, withOptions: options)
     }
 
     /// Create a Storage blob data client.
     /// - Parameters:
-    ///   - credential: A `StorageSASCredential` object used to retrieve the base URL and authentication tokens.
+    ///   - credential: A `StorageSASCredential` object used to retrieve the account's blob storage endpoint and
+    ///     authentication tokens.
     ///   - restorationId: An identifier used to associate this client with transfers it creates. When a transfer is
     ///     reloaded from disk (e.g. after an application crash), it can only be resumed once a client with the same
     ///     `restorationId` has been initialized. If your application only uses a single `StorageBlobClient`, it is
@@ -154,8 +154,11 @@ public final class StorageBlobClient: PipelineClient {
 
     /// Create a Storage blob data client.
     /// - Parameters:
-    ///   - connectionString: Storage account connection string. **WARNING**: Connection strings are inherently insecure
-    ///     in a mobile app. Any connection strings used should be read-only and not have write permissions.
+    ///   - credential: A `StorageSharedKeyCredential` object used to retrieve the account's blob storage endpoint and
+    ///     access key. **WARNING**: Shared keys are inherently insecure in end-user facing applications such as mobile
+    ///     and desktop apps. Shared keys provide full access to an entire storage account and should not be shared with
+    ///     end users. Since mobile and desktop apps are inherently end-user facing, it's highly recommended that
+    ///     storage account shared key credentials not be used in production for such applications.
     ///   - restorationId: An identifier used to associate this client with transfers it creates. When a transfer is
     ///     reloaded from disk (e.g. after an application crash), it can only be resumed once a client with the same
     ///     `restorationId` has been initialized. If your application only uses a single `StorageBlobClient`, it is
@@ -164,15 +167,54 @@ public final class StorageBlobClient: PipelineClient {
     ///     configuration (e.g. "MyApplication.userClient").
     ///   - options: Options used to configure the client.
     public convenience init(
-        connectionString: String,
+        credential: StorageSharedKeyCredential,
         withRestorationId restorationId: String,
         withOptions options: StorageBlobClientOptions? = nil
     ) throws {
-        let credential = try StorageSASCredential(connectionString: connectionString)
-        try self.init(credential: credential, withRestorationId: restorationId, withOptions: options)
+        guard let baseUrl = URL(string: credential.blobEndpoint) else {
+            throw AzureError.fileSystem("Unable to resolve account URL from credential.")
+        }
+        let authPolicy = StorageSharedKeyAuthenticationPolicy(credential: credential)
+        try self.init(baseUrl: baseUrl, authPolicy: authPolicy, withRestorationId: restorationId, withOptions: options)
+    }
+
+    /// Create an anonymous Storage blob data client.
+    /// - Parameters:
+    ///   - endpoint: The URL for the storage account's blob storage endpoint.
+    ///   - restorationId: An identifier used to associate this client with transfers it creates. When a transfer is
+    ///     reloaded from disk (e.g. after an application crash), it can only be resumed once a client with the same
+    ///     `restorationId` has been initialized. If your application only uses a single `StorageBlobClient`, it is
+    ///     recommended to use a value unique to your application (e.g. "MyApplication"). If your application uses
+    ///     multiple clients with different configurations, use a value unique to both your application and the
+    ///     configuration (e.g. "MyApplication.userClient").
+    ///   - options: Options used to configure the client.
+    public convenience init(
+        endpoint: URL,
+        withRestorationId restorationId: String,
+        withOptions options: StorageBlobClientOptions? = nil
+    ) throws {
+        try self.init(
+            baseUrl: endpoint,
+            authPolicy: AnonymousAccessPolicy(),
+            withRestorationId: restorationId,
+            withOptions: options
+        )
     }
 
     // MARK: Public Client Methods
+
+    /// Construct a URL for a storage account's blob storage endpoint from its account name.
+    /// - Parameters:
+    ///   - accountName: The storage account name.
+    ///   - endpointProtocol: The storage account endpoint protocol.
+    ///   - endpointSuffix: The storage account endpoint suffix.
+    public static func endpoint(
+        forAccount accountName: String,
+        withProtocol endpointProtocol: String = "https",
+        withSuffix endpointSuffix: String = "core.windows.net"
+    ) -> String {
+        return "\(endpointProtocol)://\(accountName).blob.\(endpointSuffix)/"
+    }
 
     /// List storage containers in a storage account.
     /// - Parameters:

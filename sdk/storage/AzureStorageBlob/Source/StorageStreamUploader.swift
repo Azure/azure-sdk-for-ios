@@ -113,7 +113,7 @@ internal class ChunkUploader {
         // Construct parameters
         var queryParams = [
             ("comp", "block"),
-            ("blockid", blockId.uuidString.base64String)
+            ("blockid", blockId.uuidString.base64EncodedString())
         ]
         if let timeout = options.timeout { queryParams.append(("timeout", String(timeout))) }
 
@@ -497,7 +497,7 @@ internal class BlobStreamUploader: BlobUploader {
 
     private func buildLookupList() -> BlobLookupList {
         let sortedIds = completedBlockMap.sorted(by: { $0.value < $1.value })
-        let lookupList = BlobLookupList(latest: sortedIds.compactMap { $0.key.uuidString.base64String })
+        let lookupList = BlobLookupList(latest: sortedIds.compactMap { $0.key.uuidString.base64EncodedString() })
         return lookupList
     }
 

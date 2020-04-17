@@ -30,7 +30,7 @@ import XCTest
 // swiftlint:disable force_try
 class PipelineTests: XCTestCase {
     func createPipelineClient() -> PipelineClient {
-        let baseUrl = "http://www.microsoft.com"
+        let baseUrl = URL(string: "http://www.microsoft.com")!
         let client = PipelineClient(
             baseUrl: baseUrl,
             transport: URLSessionTransport(),
@@ -72,7 +72,7 @@ class PipelineTests: XCTestCase {
             didFinishRun.fulfill()
             switch result {
             case let .failure(error):
-                XCTFail("Network call failed. \(error) - \(httpResponse)")
+                XCTFail("Network call failed. \(error) - \(String(describing: httpResponse))")
             default:
                 break
             }

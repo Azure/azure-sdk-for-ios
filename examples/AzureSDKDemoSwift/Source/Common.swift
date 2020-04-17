@@ -101,7 +101,7 @@ struct AppState {
                 logger: ClientLoggers.none
             )
             AppState.internalBlobClient = try? StorageBlobClient(
-                accountUrl: AppConstants.storageAccountUrl,
+                endpoint: AppConstants.storageAccountUrl,
                 credential: credential,
                 withRestorationId: "AzureSDKDemoSwift",
                 withOptions: options

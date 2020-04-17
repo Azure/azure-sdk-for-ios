@@ -109,10 +109,10 @@ internal class ChunkDownloader {
                     return
                 }
                 if let contentMD5 = headers[.contentMD5] {
-                    let dataHash = try? data.hash(algorithm: .md5).base64String
+                    let dataHash = data.hash(algorithm: .md5).base64EncodedString()
                     guard contentMD5 == dataHash else {
                         let error = HTTPResponseError
-                            .resourceModified("Block MD5 \(dataHash ?? "ERROR") did not match \(contentMD5).")
+                            .resourceModified("Block MD5 \(dataHash) did not match \(contentMD5).")
                         completion(.failure(error), httpResponse)
                         return
                     }
@@ -160,7 +160,7 @@ internal class ChunkDownloader {
         let modifiedAccessConditions = options.modifiedAccessConditions
         let cpk = options.customerProvidedEncryptionKey
 
-        headers[StorageHTTPHeader.range] = "bytes=\(startRange)-\(endRange)"
+        headers[.xmsRange] = "bytes=\(startRange)-\(endRange)"
         if let rangeGetContentMD5 = options.range?.calculateMD5 {
             headers[.rangeGetContentMD5] = String(rangeGetContentMD5)
         }
