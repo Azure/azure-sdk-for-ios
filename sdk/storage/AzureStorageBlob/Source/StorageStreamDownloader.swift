@@ -160,9 +160,7 @@ internal class ChunkDownloader {
         let modifiedAccessConditions = options.modifiedAccessConditions
         let cpk = options.customerProvidedEncryptionKey
 
-        let rangeString = "bytes=\(startRange)-\(endRange)"
-        headers[.range] = rangeString
-        headers[.xmsRange] = rangeString
+        headers[.range] = "bytes=\(startRange)-\(endRange)"
         if let rangeGetContentMD5 = options.range?.calculateMD5 {
             headers[.rangeGetContentMD5] = String(rangeGetContentMD5)
         }
