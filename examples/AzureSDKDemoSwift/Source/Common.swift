@@ -78,9 +78,8 @@ struct AppState {
     }
 
     static var downloadOptions: DownloadBlobOptions {
-        // TODO: Diagnose issues with EXC_BAD_ACCESS and restore to true
         let options = DownloadBlobOptions(
-            range: RangeOptions(calculateMD5: false)
+            range: RangeOptions(calculateMD5: true)
         )
         return options
     }

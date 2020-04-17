@@ -160,12 +160,16 @@ internal class ChunkDownloader {
         let modifiedAccessConditions = options.modifiedAccessConditions
         let cpk = options.customerProvidedEncryptionKey
 
-        headers[.xmsRange] = "bytes=\(startRange)-\(endRange)"
         if let rangeGetContentMD5 = options.range?.calculateMD5 {
             headers[.rangeGetContentMD5] = String(rangeGetContentMD5)
+            headers[.range] = "bytes=\(startRange)-\(endRange)"
         }
         if let rangeGetContentCRC64 = options.range?.calculateCRC64 {
             headers[.rangeGetContentCRC64] = String(rangeGetContentCRC64)
+            headers[.range] = "bytes=\(startRange)-\(endRange)"
+        }
+        if headers[.range] == nil {
+            headers[.xmsRange] = "bytes=\(startRange)-\(endRange)"
         }
 
         if let requestId = requestId { headers[.clientRequestId] = requestId }

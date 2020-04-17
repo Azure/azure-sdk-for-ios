@@ -47,7 +47,7 @@ public struct StorageBlobClientOptions: AzureConfigurable {
     public init(
         apiVersion: String = StorageBlobClient.ApiVersion.latest.rawValue,
         logger: ClientLogger = ClientLoggers.default(tag: "StorageBlobClient"),
-        maxChunkSize: Int = 4 * 1024 * 1024
+        maxChunkSize: Int = 4 * 1024 * 1024 - 1
     ) {
         self.apiVersion = apiVersion
         self.logger = logger
