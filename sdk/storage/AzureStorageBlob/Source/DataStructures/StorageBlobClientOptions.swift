@@ -44,10 +44,11 @@ public struct StorageBlobClientOptions: AzureConfigurable {
     ///   - apiVersion: The API version of the Azure Storage Blob service to invoke.
     ///   - logger: The `ClientLogger` to be used by this `StorageBlobClient`.
     ///   - maxChunkSize: The maximum size of a single chunk in a blob upload or download.
+    ///     Must be less than 4MB if enabling MD5 or CRC64 hashing.
     public init(
         apiVersion: String = StorageBlobClient.ApiVersion.latest.rawValue,
         logger: ClientLogger = ClientLoggers.default(tag: "StorageBlobClient"),
-        maxChunkSize: Int = 4 * 1024 * 1024
+        maxChunkSize: Int = 4 * 1024 * 1024 - 1
     ) {
         self.apiVersion = apiVersion
         self.logger = logger
