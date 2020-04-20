@@ -105,8 +105,6 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         super.init()
     }
 
-    // TODO: This will interfere with trying to use multiple BlobClients simultaneously. Find an alternate
-    // solution such that the minimal set (the NSPersistentContainer) is shared.
     public static var shared: URLSessionTransferManager = {
         let manager = URLSessionTransferManager()
         manager.loadContext()
@@ -396,7 +394,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
     }
 
     func pause(transfer: BlobTransfer) {
-        guard transfer.state.active else { return }
+        guard transfer.state.resumable else { return }
         transfer.state = .paused
 
         // Cancel the operation
@@ -414,7 +412,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
     }
 
     func pause(transfer: BlockTransfer) {
-        guard transfer.state.active else { return }
+        guard transfer.state.resumable else { return }
         transfer.state = .paused
 
         // Cancel the operation

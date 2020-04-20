@@ -109,7 +109,7 @@ struct AppState {
 
         let client = AppState.internalBlobClient!
         client.transferDelegate = delegate
-        StorageBlobClient.maxConcurrentTransfers = 10
+        StorageBlobClient.maxConcurrentTransfers = 4
         return client
     }
 }

@@ -64,11 +64,7 @@ public final class StorageBlobClient: PipelineClient {
 
     private static let manager = URLSessionTransferManager.shared
 
-    private static let viewContext: NSManagedObjectContext = manager.persistentContainer.viewContext
-
-    private static func newBackgroundContext() -> NSManagedObjectContext {
-        return manager.persistentContainer.newBackgroundContext()
-    }
+    internal static let viewContext: NSManagedObjectContext = manager.persistentContainer.viewContext
 
     private let restorationId: String
 

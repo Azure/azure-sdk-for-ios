@@ -34,27 +34,15 @@ internal class TransferOperationQueue: OperationQueue {
     }
 
     func add(_ operations: [TransferOperation]) {
-        let states = operations.map { $0.transfer.state.rawValue }
-        for state in Set(states) {
-            let filteredOps = operations.filter { $0.transfer.state.rawValue == state }
-            var transferState = TransferState(rawValue: state)!
-            let allowed: [TransferState] = [.pending, .inProgress]
-            if allowed.contains(transferState) {
-                // reset inProgress back to pending since they may be scheduled differently
-                transferState = .pending
-
-                // For Pending or InProgress operations, need to requeue the operations
-                for operation in filteredOps {
-                    let operationClosure = operation.completionBlock
-                    operation.completionBlock = {
-                        operationClosure?()
-                        if !operation.transfer.isActive {
-                            return
-                        }
-                    }
-                }
-                addOperations(filteredOps, waitUntilFinished: false)
+        let filteredOps = operations.filter { $0.transfer.state.active }
+        for operation in filteredOps {
+            operation.transfer.state = .pending
+            let operationClosure = operation.completionBlock
+            operation.completionBlock = {
+                operationClosure?()
+                if !operation.transfer.isActive { return }
             }
         }
+        addOperations(filteredOps, waitUntilFinished: false)
     }
 }

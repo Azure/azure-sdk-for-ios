@@ -52,6 +52,8 @@ extension URLSessionTransferManager: TransferDelegate {
             }
         case .complete:
             delegate?.transferDidComplete(transfer)
+        case .paused:
+            delegate?.transfer(transfer, didUpdateWithState: state, andProgress: nil)
         default:
             if let blobTransfer = transfer as? BlobTransfer {
                 let progress = blobTransfer.progress
@@ -73,14 +75,17 @@ extension URLSessionTransferManager: TransferDelegate {
     }
 
     func transfersDidUpdate(_ transfers: [Transfer]) {
-        guard let restorationId = (transfers.first as? TransferImpl)?.clientRestorationId else { return }
-        guard let delegate = client(forRestorationId: restorationId) as? TransferDelegate else { return }
-        delegate.transfersDidUpdate(transfers)
+        let restorationIds = transfers.compactMap { ($0 as? TransferImpl)?.clientRestorationId }
+        for restorationId in Set(restorationIds) {
+            guard let delegate = client(forRestorationId: restorationId) as? TransferDelegate else { continue }
+            let transfersForId = transfers.filter { ($0 as? TransferImpl)?.clientRestorationId == restorationId }
+            delegate.transfersDidUpdate(transfersForId)
 
-        // get the minimal set of unique MOCs and save them
-        let contexts = transfers.compactMap { ($0 as? NSManagedObject)?.managedObjectContext }
-        for context in Set(contexts) {
-            save(context: context)
+            // get the minimal set of unique MOCs and save them
+            let contexts = transfersForId.compactMap { ($0 as? NSManagedObject)?.managedObjectContext }
+            for context in Set(contexts) {
+                save(context: context)
+            }
         }
     }
 

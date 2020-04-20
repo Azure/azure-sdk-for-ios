@@ -106,7 +106,6 @@ class BlobDownloadViewController: UIViewController, MSALInteractiveDelegate {
     /// Reload the table view on the UI thread.
     private func reloadTableView() {
         DispatchQueue.main.async { [weak self] in
-            print("RELOAD TABLE")
             self?.tableView.reloadData()
         }
     }
@@ -236,19 +235,16 @@ extension BlobDownloadViewController: TransferDelegate {
         andProgress _: TransferProgress?
     ) {
         if let blobTransfer = transfer as? BlobTransfer, blobTransfer.transferType == .download {
-            print("Transfer \(blobTransfer.hash) didUpdateWithState: \(state) andProgress: \(progress ?? -1)")
             reloadTableView()
         }
     }
 
-    func transfersDidUpdate(_ transfers: [Transfer]) {
-        print("\(transfers.count) didUpdate")
+    func transfersDidUpdate(_: [Transfer]) {
         reloadTableView()
     }
 
     func transferDidComplete(_ transfer: Transfer) {
         if let blobTransfer = transfer as? BlobTransfer, blobTransfer.transferType == .download {
-            print("Transfer \(blobTransfer.hash) didComplete")
             reloadTableView()
         }
     }
