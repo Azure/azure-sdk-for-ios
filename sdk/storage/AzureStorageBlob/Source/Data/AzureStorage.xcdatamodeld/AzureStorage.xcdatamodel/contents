@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19D76" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="BlobTransfer" representedClassName=".BlobTransfer" syncable="YES">
+        <attribute name="bytesTransferred" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="clientRestorationId" attributeType="String"/>
         <attribute name="currentProgress" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="destination" attributeType="URI"/>
@@ -14,7 +15,7 @@
         <attribute name="rawType" attributeType="Integer 16" usesScalarValueType="YES"/>
         <attribute name="source" attributeType="URI"/>
         <attribute name="startRange" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="totalBlocks" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="totalBytesToTransfer" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="blocks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BlockTransfer" inverseName="parent" inverseEntity="BlockTransfer"/>
         <relationship name="parent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MultiBlobTransfer" inverseName="blobs" inverseEntity="MultiBlobTransfer"/>
     </entity>
@@ -32,7 +33,7 @@
         <relationship name="blobs" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BlobTransfer" inverseName="parent" inverseEntity="BlobTransfer"/>
     </entity>
     <elements>
-        <element name="BlobTransfer" positionX="-369" positionY="-72" width="128" height="283"/>
+        <element name="BlobTransfer" positionX="-369" positionY="-72" width="128" height="298"/>
         <element name="BlockTransfer" positionX="-634.12890625" positionY="78.31640625" width="128" height="118"/>
         <element name="MultiBlobTransfer" positionX="9" positionY="108" width="128" height="103"/>
     </elements>

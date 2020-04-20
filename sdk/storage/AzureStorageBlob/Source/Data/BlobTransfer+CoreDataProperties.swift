@@ -54,10 +54,11 @@ extension BlobTransfer {
     /// downloads, this is the URL of the blob being downloaded.
     @NSManaged public internal(set) var source: URL?
     @NSManaged internal var startRange: Int64
-    @NSManaged internal var totalBlocks: Int64
     @NSManaged internal var blocks: NSSet?
     @NSManaged internal var currentProgress: Float
     @NSManaged internal var parent: MultiBlobTransfer?
+    @NSManaged internal var bytesTransferred: Int64
+    @NSManaged internal var totalBytesToTransfer: Int64
     @NSManaged internal var rawOptions: String?
     @NSManaged internal var rawProperties: String?
 }

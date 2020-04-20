@@ -77,8 +77,9 @@ internal class BlockOperation: TransferOperation {
                         return
                     }
                     let blobProperties = BlobProperties(from: responseHeaders)
-                    let contentLength = blobProperties.contentLength ?? 0
-                    downloader.progress += contentLength
+                    let bytesTransferred = blobProperties.contentLength ?? 0
+                    downloader.progress += bytesTransferred
+                    parent.bytesTransferred += Int64(bytesTransferred)
                     transfer.state = .complete
                     self.notifyDelegate(withTransfer: transfer)
                 case let .failure(error):
@@ -114,10 +115,13 @@ internal class BlockOperation: TransferOperation {
                 case .success:
                     // Add block ID to the completed list and lookup where its final
                     // placement should be
+                    let bytesTransferred = chunkUploader.endRange - chunkUploader.startRange
                     let blockId = chunkUploader.blockId
                     if let parentUploader = parent.uploader {
                         parentUploader.completedBlockMap[blockId] = parentUploader.blockIdMap[blockId]
+                        parentUploader.progress += bytesTransferred
                     }
+                    parent.bytesTransferred += Int64(bytesTransferred)
                     transfer.state = .complete
                     self.notifyDelegate(withTransfer: transfer)
                 case let .failure(error):

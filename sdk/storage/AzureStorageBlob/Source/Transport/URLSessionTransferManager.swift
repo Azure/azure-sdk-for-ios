@@ -247,7 +247,6 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
                     transfer.blocks?.adding(blockTransfer)
                 }
             }
-            transfer.totalBlocks = Int64(transfer.transfers.count)
         }
         queueOperations(for: transfer)
     }

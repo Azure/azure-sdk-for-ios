@@ -76,7 +76,6 @@ internal class BlobDownloadInitialOperation: TransferOperation {
             operations.append(blockOperation)
         }
         queue?.add(operations)
-        transfer.totalBlocks = Int64(transfer.transfers.count)
         transfer.operation = finalOperation
     }
 
@@ -100,6 +99,7 @@ internal class BlobDownloadInitialOperation: TransferOperation {
         downloader.initialRequest { result, _ in
             switch result {
             case .success:
+                parent.totalBytesToTransfer = Int64(downloader.totalSize)
                 transfer.state = .complete
                 self.notifyDelegate(withTransfer: transfer)
                 self.queueRemainingBlocks(forTransfer: parent)

@@ -42,6 +42,9 @@ public struct TransferProgress {
 
     /// Percentage of the transfer that is complete, as a Float between 0 and 1.
     public var asFloat: Float {
+        // Returning NaN sometimes results in progress appearing as 100% when it shouldn't.
+        // This ensures progress will report 0%.
+        if totalBytes <= 0 { return 0 }
         return Float(bytes) / Float(totalBytes)
     }
 }
