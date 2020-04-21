@@ -73,11 +73,11 @@ public struct ClientLoggers {
 
     // MARK: Static Methods
 
-    public static func `default`(tag: String) -> ClientLogger {
+    public static func `default`(tag: String, level: ClientLogLevel = .info) -> ClientLogger {
         if #available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *) {
-            return OSLogger(category: tag)
+            return OSLogger(category: tag, level: level)
         } else {
-            return NSLogger(tag: tag)
+            return NSLogger(tag: tag, level: level)
         }
     }
 }
