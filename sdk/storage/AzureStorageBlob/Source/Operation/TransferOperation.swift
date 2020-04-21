@@ -50,27 +50,7 @@ internal class TransferOperation: Operation {
 
     // MARK: Internal Methods
 
-    internal func notifyDelegate(withTransfer transfer: Transfer) {
-        switch transfer {
-        case let transfer as BlockTransfer:
-            notifyDelegate(withTransfer: transfer.parent)
-            return
-        case let transfer as BlobTransfer:
-            if let parent = transfer.parent {
-                notifyDelegate(withTransfer: parent)
-                return
-            }
-        default:
-            break
-        }
-        delegate?.transfer(transfer, didUpdateWithState: transfer.state)
-    }
-
-    internal func notifyDelegate(withTransfer transfer: BlockTransfer) {
-        // Notify the delegate of the block change AND the parent change.
-        // This allows the developer to decide which events to respond to.
-        delegate?.transfer(transfer, didUpdateWithState: transfer.state)
-        let parent = transfer.parent
-        delegate?.transfer(parent, didUpdateWithState: parent.state)
+    internal func notifyDelegate(withTransfer transfer: BlobTransfer) {
+        delegate?.transfer(transfer, didUpdateWithState: transfer.state, andProgress: transfer.progress)
     }
 }

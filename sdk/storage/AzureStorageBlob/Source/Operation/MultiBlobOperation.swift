@@ -45,7 +45,7 @@ internal class MultiBlobOperation: TransferOperation {
         // TODO: Complete this implementation
         guard let transfer = self.transfer as? MultiBlobTransfer else { return }
         transfer.state = .complete
-        delegate?.transfer(transfer, didUpdateWithState: transfer.state)
+        delegate?.transfer(transfer, didUpdateWithState: transfer.state, andProgress: nil)
         super.main()
     }
 }

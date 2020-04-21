@@ -25,6 +25,7 @@
 // --------------------------------------------------------------------------
 
 import AzureCore
+import CoreData
 import Foundation
 
 extension URLSessionTransferManager: TransferDelegate {
@@ -51,6 +52,8 @@ extension URLSessionTransferManager: TransferDelegate {
             }
         case .complete:
             delegate?.transferDidComplete(transfer)
+        case .paused:
+            delegate?.transfer(transfer, didUpdateWithState: state, andProgress: nil)
         default:
             if let blobTransfer = transfer as? BlobTransfer {
                 let progress = blobTransfer.progress
@@ -63,10 +66,12 @@ extension URLSessionTransferManager: TransferDelegate {
                     return
                 }
             } else {
-                delegate?.transfer(transfer, didUpdateWithState: state)
+                delegate?.transfer(transfer, didUpdateWithState: state, andProgress: nil)
             }
         }
-        saveContext()
+        if let context = (transfer as? NSManagedObject)?.managedObjectContext {
+            save(context: context)
+        }
     }
 
     func transfersDidUpdate(_ transfers: [Transfer]) {
@@ -75,22 +80,31 @@ extension URLSessionTransferManager: TransferDelegate {
             guard let delegate = client(forRestorationId: restorationId) as? TransferDelegate else { continue }
             let transfersForId = transfers.filter { ($0 as? TransferImpl)?.clientRestorationId == restorationId }
             delegate.transfersDidUpdate(transfersForId)
+
+            // get the minimal set of unique MOCs and save them
+            let contexts = transfersForId.compactMap { ($0 as? NSManagedObject)?.managedObjectContext }
+            for context in Set(contexts) {
+                save(context: context)
+            }
         }
-        saveContext()
     }
 
     func transferDidComplete(_ transfer: Transfer) {
         guard let restorationId = (transfer as? TransferImpl)?.clientRestorationId else { return }
         guard let delegate = client(forRestorationId: restorationId) as? TransferDelegate else { return }
         delegate.transferDidComplete(transfer)
-        saveContext()
+        if let context = (transfer as? NSManagedObject)?.managedObjectContext {
+            save(context: context)
+        }
     }
 
     func transfer(_ transfer: Transfer, didFailWithError error: Error) {
         guard let restorationId = (transfer as? TransferImpl)?.clientRestorationId else { return }
         guard let delegate = client(forRestorationId: restorationId) as? TransferDelegate else { return }
         delegate.transfer(transfer, didFailWithError: error)
-        saveContext()
+        if let context = (transfer as? NSManagedObject)?.managedObjectContext {
+            save(context: context)
+        }
     }
 
     func client(forRestorationId restorationId: String) -> PipelineClient? {

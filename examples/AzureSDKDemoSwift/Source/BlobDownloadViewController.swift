@@ -70,10 +70,10 @@ class BlobDownloadViewController: UIViewController, MSALInteractiveDelegate {
         guard let blobClient = blobClient else { return }
         let options = ListBlobsOptions(maxResults: 20)
         if !(tableView.refreshControl?.isRefreshing ?? false) {
-            showActivitySpinner()
+            tableView.refreshControl?.beginRefreshing()
         }
         blobClient.listBlobs(inContainer: containerName, withOptions: options) { result, _ in
-            self.hideActivitySpinner()
+            DispatchQueue.main.async { self.tableView.refreshControl?.endRefreshing() }
             switch result {
             case let .success(paged):
                 self.dataSource = paged
@@ -90,8 +90,12 @@ class BlobDownloadViewController: UIViewController, MSALInteractiveDelegate {
         guard noMoreData == false else { return }
         dataSource?.nextPage { result in
             switch result {
-            case .success:
-                self.reloadTableView()
+            case let .success(data):
+                if data != nil {
+                    self.reloadTableView()
+                } else {
+                    self.noMoreData = true
+                }
             case let .failure(error):
                 self.showAlert(error: error)
                 self.noMoreData = true
@@ -125,7 +129,6 @@ class BlobDownloadViewController: UIViewController, MSALInteractiveDelegate {
     }
 
     func parentForWebView() -> UIViewController {
-        hideActivitySpinner()
         return self
     }
 }

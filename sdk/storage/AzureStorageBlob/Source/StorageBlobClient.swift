@@ -25,6 +25,7 @@
 // --------------------------------------------------------------------------
 
 import AzureCore
+import CoreData
 import Foundation
 
 /// A StorageBlobClient represents a Client to the Azure Storage Blob service allowing you to manipulate blobs within
@@ -62,6 +63,8 @@ public final class StorageBlobClient: PipelineClient {
     ]
 
     private static let manager = URLSessionTransferManager.shared
+
+    internal static let viewContext: NSManagedObjectContext = manager.persistentContainer.viewContext
 
     private let restorationId: String
 
@@ -491,7 +494,7 @@ public final class StorageBlobClient: PipelineClient {
             "blob": blob
         ]
         guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return nil }
-        guard let context = StorageBlobClient.manager.persistentContainer?.viewContext else { return nil }
+        let context = StorageBlobClient.viewContext
         let start = Int64(options?.range?.offset ?? 0)
         let end = Int64(options?.range?.length ?? 0)
         let downloader = try BlobStreamDownloader(
@@ -541,7 +544,7 @@ public final class StorageBlobClient: PipelineClient {
             "blob": blob
         ]
         guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return nil }
-        guard let context = StorageBlobClient.manager.persistentContainer?.viewContext else { return nil }
+        let context = StorageBlobClient.viewContext
         let uploader = try BlobStreamUploader(
             client: self,
             source: sourceUrl,

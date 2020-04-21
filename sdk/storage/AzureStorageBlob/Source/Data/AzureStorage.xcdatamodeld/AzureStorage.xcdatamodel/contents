@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19D76" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19E287" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="BlobTransfer" representedClassName=".BlobTransfer" syncable="YES">
         <attribute name="bytesTransferred" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="clientRestorationId" attributeType="String"/>
@@ -24,7 +24,7 @@
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="rawState" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="startRange" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="parent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BlobTransfer" inverseName="blocks" inverseEntity="BlobTransfer"/>
+        <relationship name="parent" maxCount="1" deletionRule="Nullify" destinationEntity="BlobTransfer" inverseName="blocks" inverseEntity="BlobTransfer"/>
     </entity>
     <entity name="MultiBlobTransfer" representedClassName=".MultiBlobTransfer" syncable="YES">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>

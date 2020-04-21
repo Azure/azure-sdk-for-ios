@@ -48,7 +48,7 @@ internal class BlockOperation: TransferOperation {
         if !transfer.isActive { return }
         transfer.state = .inProgress
         parent.state = .inProgress
-        notifyDelegate(withTransfer: transfer)
+        notifyDelegate(withTransfer: parent)
         if !transfer.isActive { return }
         let group = DispatchGroup()
         group.enter()
@@ -81,7 +81,7 @@ internal class BlockOperation: TransferOperation {
                     downloader.progress += bytesTransferred
                     parent.bytesTransferred += Int64(bytesTransferred)
                     transfer.state = .complete
-                    self.notifyDelegate(withTransfer: transfer)
+                    self.notifyDelegate(withTransfer: parent)
                 case let .failure(error):
                     var err = error
                     if let pipelineError = error as? PipelineError {
@@ -90,7 +90,7 @@ internal class BlockOperation: TransferOperation {
                     transfer.state = .failed
                     parent.state = .failed
                     parent.error = err
-                    self.notifyDelegate(withTransfer: transfer)
+                    self.notifyDelegate(withTransfer: parent)
                 }
             }
         case .upload:
@@ -123,7 +123,7 @@ internal class BlockOperation: TransferOperation {
                     }
                     parent.bytesTransferred += Int64(bytesTransferred)
                     transfer.state = .complete
-                    self.notifyDelegate(withTransfer: transfer)
+                    self.notifyDelegate(withTransfer: parent)
                 case let .failure(error):
                     var err = error
                     if let pipelineError = error as? PipelineError {
@@ -132,7 +132,7 @@ internal class BlockOperation: TransferOperation {
                     transfer.state = .failed
                     parent.state = .failed
                     parent.error = err
-                    self.notifyDelegate(withTransfer: transfer)
+                    self.notifyDelegate(withTransfer: parent)
                 }
             }
         }

@@ -161,7 +161,6 @@ class BlobUploadViewController: UIViewController, MSALInteractiveDelegate {
     }
 
     func parentForWebView() -> UIViewController {
-        hideActivitySpinner()
         return self
     }
 }

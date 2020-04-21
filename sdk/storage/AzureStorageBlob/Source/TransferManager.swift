@@ -33,7 +33,7 @@ internal protocol TransferManager {
     // MARK: Properties
 
     var maxConcurrency: Int { get set }
-    var persistentContainer: NSPersistentContainer? { get }
+    var persistentContainer: NSPersistentContainer { get }
 
     // MARK: Lifecycle Methods
 
@@ -57,7 +57,7 @@ internal protocol TransferManager {
     func resumeAll(withRestorationId: String?)
 
     func loadContext()
-    func saveContext()
+    func save(context: NSManagedObjectContext)
 }
 
 /// A delegate to receive notifications about state changes for all transfers managed by a `StorageBlobClient`.
@@ -126,12 +126,5 @@ public extension Array where Element == Transfer {
             guard let transfer = transfer as? BlobTransfer, let destination = transfer.destination else { return nil }
             return transfer.transferType == .upload && destination.path.hasSuffix(pathSuffix) ? transfer : nil
         }
-    }
-}
-
-public extension TransferDelegate {
-    /// A transfer's state has changed, no progress information is available.
-    func transfer(_ transferParam: Transfer, didUpdateWithState state: TransferState) {
-        transfer(transferParam, didUpdateWithState: state, andProgress: nil)
     }
 }

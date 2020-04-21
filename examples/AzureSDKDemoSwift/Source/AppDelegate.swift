@@ -24,6 +24,7 @@
 //
 // --------------------------------------------------------------------------
 
+import AzureStorageBlob
 import MSAL
 import UIKit
 
@@ -87,6 +88,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also
         // applicationDidEnterBackground:.
+        try? AppState.blobClient().stopManaging()
     }
 
     func application(
