@@ -53,7 +53,11 @@ public class LoggingPolicy: PipelineStage {
         HTTPHeader.transferEncoding.rawValue,
         HTTPHeader.userAgent.rawValue
     ]
+
     private static let maxBodyLogSize = 1024 * 16
+
+    /// A serial queue used to execute logging, targeting a global queue in order to minimizing excess thread creation.
+    fileprivate static let queue = DispatchQueue(label: "AzureSDKLogging", target: DispatchQueue.global())
 
     // MARK: Properties
 
@@ -72,9 +76,24 @@ public class LoggingPolicy: PipelineStage {
     // MARK: PipelineStage Methods
 
     public func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
-        var returnRequest = request.copy()
-        var returnError: Error?
-        defer { completion(returnRequest, returnError) }
+        request.context?.add(value: DispatchTime.now() as AnyObject, forKey: .requestStartTime)
+        LoggingPolicy.queue.async { self.log(request: request) }
+        completion(request, nil)
+    }
+
+    public func on(response: PipelineResponse, then completion: @escaping OnResponseCompletionHandler) {
+        LoggingPolicy.queue.async { self.log(response: response) }
+        completion(response)
+    }
+
+    public func on(error: PipelineError, then completion: @escaping OnErrorCompletionHandler) {
+        LoggingPolicy.queue.async { self.log(response: error.pipelineResponse, withError: error.innerError) }
+        completion(error, false)
+    }
+
+    // MARK: Private Methods
+
+    private func log(request: PipelineRequest) {
         let logger = request.logger
         let req = request.httpRequest
         let requestId = req.headers[.clientRequestId] ?? "(none)"
@@ -91,21 +110,7 @@ public class LoggingPolicy: PipelineStage {
         }
 
         logger.info("--> [END \(requestId)]")
-
-        returnRequest.context?.add(value: DispatchTime.now() as AnyObject, forKey: .requestStartTime)
     }
-
-    public func on(response: PipelineResponse, then completion: @escaping OnResponseCompletionHandler) {
-        log(response: response)
-        completion(response)
-    }
-
-    public func on(error: PipelineError, then completion: @escaping OnErrorCompletionHandler) {
-        log(response: error.pipelineResponse, withError: error.innerError)
-        completion(error, false)
-    }
-
-    // MARK: Private Methods
 
     private func log(response: PipelineResponse, withError error: Error? = nil) {
         let endTime = DispatchTime.now()
@@ -235,6 +240,11 @@ public class CurlFormattedRequestLoggingPolicy: PipelineStage {
     // MARK: PipelineStage Methods
 
     public func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
+        LoggingPolicy.queue.async { self.logAsCurlCommand(request: request) }
+        completion(request, nil)
+    }
+
+    private func logAsCurlCommand(request: PipelineRequest) {
         let logger = request.logger
         guard logger.level.rawValue >= ClientLogLevel.debug.rawValue else { return }
 
@@ -274,6 +284,5 @@ public class CurlFormattedRequestLoggingPolicy: PipelineStage {
         logger.debug("╭--- cURL (\(req.url))")
         logger.debug(parts.joined(separator: " "))
         logger.debug("╰--- (copy and paste the above line to a terminal)")
-        completion(request, nil)
     }
 }
