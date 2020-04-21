@@ -167,7 +167,7 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
             .first {
             cell.backgroundColor = transfer.state.color
             downloadMap[indexPath] = transfer
-            cell.progressBar.progress = transfer.progress
+            cell.progressBar.progress = transfer.progress.asFloat
         }
 
         // load next page if at the end of the current list
@@ -229,7 +229,7 @@ extension BlobDownloadViewController: TransferDelegate {
     func transfer(
         _ transfer: Transfer,
         didUpdateWithState _: TransferState,
-        andProgress progress: Float?
+        andProgress _: TransferProgress?
     ) {
         if let blobTransfer = transfer as? BlobTransfer, blobTransfer.transferType == .download {
             reloadTableView()

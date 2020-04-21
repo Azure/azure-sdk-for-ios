@@ -560,6 +560,7 @@ public final class StorageBlobClient: PipelineClient {
             parent: nil
         )
         blobTransfer.uploader = uploader
+        blobTransfer.totalBytesToTransfer = Int64(uploader.fileSize)
         blobTransfer.uploadOptions = options ?? UploadBlobOptions()
         blobTransfer.properties = properties
         StorageBlobClient.manager.add(transfer: blobTransfer)
@@ -588,7 +589,7 @@ extension StorageBlobClient: TransferDelegate {
     public func transfer(
         _ transfer: Transfer,
         didUpdateWithState state: TransferState,
-        andProgress progress: Float?
+        andProgress progress: TransferProgress?
     ) {
         transferDelegate?.transfer(transfer, didUpdateWithState: state, andProgress: progress)
     }

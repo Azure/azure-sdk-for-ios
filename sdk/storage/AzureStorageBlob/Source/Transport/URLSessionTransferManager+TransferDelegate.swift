@@ -28,7 +28,11 @@ import AzureCore
 import Foundation
 
 extension URLSessionTransferManager: TransferDelegate {
-    func transfer(_ transfer: Transfer, didUpdateWithState state: TransferState, andProgress progress: Float?) {
+    func transfer(
+        _ transfer: Transfer,
+        didUpdateWithState state: TransferState,
+        andProgress progress: TransferProgress? = nil
+    ) {
         guard let restorationId = (transfer as? TransferImpl)?.clientRestorationId else { return }
         let delegate = client(forRestorationId: restorationId) as? TransferDelegate
         switch state {
@@ -52,8 +56,8 @@ extension URLSessionTransferManager: TransferDelegate {
                 let progress = blobTransfer.progress
 
                 // avoid saving the context or sending multiple messages when the progress has not actually changed
-                if blobTransfer.currentProgress < progress {
-                    blobTransfer.currentProgress = progress
+                if blobTransfer.currentProgress < progress.asFloat {
+                    blobTransfer.currentProgress = progress.asFloat
                     delegate?.transfer(transfer, didUpdateWithState: state, andProgress: progress)
                 } else {
                     return
