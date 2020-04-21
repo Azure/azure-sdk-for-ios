@@ -39,6 +39,7 @@ extension StorageBlobClient {
         HTTPHeader.contentLanguage.rawValue,
         HTTPHeader.contentMD5.rawValue,
         HTTPHeader.contentRange.rawValue,
+        HTTPHeader.range.rawValue,
         HTTPHeader.returnClientRequestId.rawValue,
         HTTPHeader.vary.rawValue,
         HTTPHeader.xmsDate.rawValue,
