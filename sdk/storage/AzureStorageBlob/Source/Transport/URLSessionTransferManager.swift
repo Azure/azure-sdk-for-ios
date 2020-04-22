@@ -446,7 +446,6 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
             }
             reconnectClient(for: transfer)
             if transfer.state == .failed {
-                // TODO: Fix the issue that this error is not bubbling up to the client
                 self.transfer(transfer, didUpdateWithState: transfer.state)
             }
             queueOperations(for: transfer)
