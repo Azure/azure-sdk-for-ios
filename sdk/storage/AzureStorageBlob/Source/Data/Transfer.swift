@@ -61,6 +61,11 @@ public protocol Transfer: AnyObject {
     var state: TransferState { get }
     /// A debug representation of the transfer.
     var debugString: String { get }
+    /// An identifier used to associate this transfer with the client that created it. When a transfer is reloaded from
+    /// disk (e.g. after an application crash), it can only be resumed once a client with the same `restorationId` has
+    /// been initialized. Attempting to resume it without previously initializing such a client will cause the transfer
+    /// to transition to the `failed` state.
+    var clientRestorationId: String { get }
     /// :nodoc: Internal representation of the state.
     var rawState: Int16 { get }
 
@@ -75,7 +80,6 @@ public protocol Transfer: AnyObject {
 }
 
 internal protocol TransferImpl: Transfer {
-    var clientRestorationId: String { get }
     var operation: TransferOperation? { get set }
     var state: TransferState { get set }
     var rawState: Int16 { get set }
@@ -106,15 +110,15 @@ public extension Transfer {
         guard let transfer = self as? TransferImpl else { return }
         URLSessionTransferManager.shared.resume(transfer: transfer)
     }
-
-    var isActive: Bool {
-        return state.active
-    }
 }
 
 internal extension TransferImpl {
     var state: TransferState {
         get { return TransferState(rawValue: rawState)! }
         set { rawState = newValue.rawValue }
+    }
+
+    var isActive: Bool {
+        return state.active
     }
 }

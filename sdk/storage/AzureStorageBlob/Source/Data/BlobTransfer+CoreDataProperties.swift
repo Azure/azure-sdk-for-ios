@@ -37,8 +37,8 @@ extension BlobTransfer {
     /// disk (e.g. after an application crash), it can only be resumed once a client with the same `restorationId` has
     /// been initialized. Attempting to resume it without previously initializing such a client will cause the transfer
     /// to transition to the `failed` state.
-    @NSManaged public var clientRestorationId: String
-    /// The destionation of the transfer. For uploads, this is the blob URL where the file is being uploaded. For
+    @NSManaged public internal(set) var clientRestorationId: String
+    /// The destination of the transfer. For uploads, this is the blob URL where the file is being uploaded. For
     /// downloads, this is the local path on the device to which the blob is being downloaded.
     @NSManaged public internal(set) var destination: URL?
     @NSManaged internal var endRange: Int64

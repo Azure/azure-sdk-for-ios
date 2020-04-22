@@ -106,8 +106,4 @@ extension URLSessionTransferManager: TransferDelegate {
             save(context: context)
         }
     }
-
-    func client(forRestorationId restorationId: String) -> PipelineClient? {
-        return clients.object(forKey: restorationId as NSString)
-    }
 }
