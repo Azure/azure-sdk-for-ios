@@ -70,8 +70,6 @@ public protocol TransferDelegate: AnyObject {
     func transfer(_: Transfer, didFailWithError: Error)
     /// A transfer has completed.
     func transferDidComplete(_: Transfer)
-    /// Method to return a `PipelineClient` that can be used to restart a transfer.
-    func client(forRestorationId restorationId: String) -> PipelineClient?
 }
 
 // MARK: Extensions

@@ -611,11 +611,6 @@ extension StorageBlobClient: TransferDelegate {
     public func transferDidComplete(_ transfer: Transfer) {
         transferDelegate?.transferDidComplete(transfer)
     }
-
-    /// :nodoc:
-    public func client(forRestorationId restorationId: String) -> PipelineClient? {
-        transferDelegate?.client(forRestorationId: restorationId)
-    }
 }
 
 // MARK: Transfer Manager Methods
