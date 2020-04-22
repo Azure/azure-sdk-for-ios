@@ -29,7 +29,11 @@ import CoreData
 import Foundation
 
 extension URLSessionTransferManager: TransferDelegate {
-    func transfer(_ transfer: Transfer, didUpdateWithState state: TransferState, andProgress progress: Float?) {
+    func transfer(
+        _ transfer: Transfer,
+        didUpdateWithState state: TransferState,
+        andProgress progress: TransferProgress?
+    ) {
         DispatchQueue.main.async {
             guard let restorationId = (transfer as? TransferImpl)?.clientRestorationId else { return }
             switch state {

@@ -100,9 +100,16 @@ internal class BlobDownloadInitialOperation: TransferOperation {
 
         let group = DispatchGroup()
         group.enter()
-        downloader.initialRequest { result, _ in
+        downloader.initialRequest { result, httpResponse in
             switch result {
             case .success:
+                guard let responseHeaders = httpResponse?.headers else {
+                    assertionFailure("Response headers not found.")
+                    return
+                }
+                let blobProperties = BlobProperties(from: responseHeaders)
+                parent.totalBytesToTransfer = Int64(downloader.totalSize)
+                parent.bytesTransferred += Int64(blobProperties.contentLength ?? 0)
                 transfer.state = .complete
                 self.queueRemainingBlocks(forTransfer: parent)
                 self.notifyDelegate(withTransfer: parent)

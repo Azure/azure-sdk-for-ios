@@ -182,7 +182,7 @@ extension BlobUploadViewController: UICollectionViewDelegate, UICollectionViewDa
             // Match any blobs to existing transfers.
             // Update upload map and progress.
             cell.backgroundColor = transfer.state.color
-            cell.progressBar.progress = transfer.progress
+            cell.progressBar.progress = transfer.progress.asFloat
         }
         return cell
     }
