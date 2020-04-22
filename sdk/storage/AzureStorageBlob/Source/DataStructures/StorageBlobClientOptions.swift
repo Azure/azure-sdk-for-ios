@@ -27,7 +27,7 @@
 import AzureCore
 import Foundation
 
-/// User-configurable options for the Azure Storage blob client.
+/// User-configurable options for the `StorageBlobClient`.
 public struct StorageBlobClientOptions: AzureConfigurable {
     /// The API version of the Azure Storage Blob service to invoke.
     public let apiVersion: String
@@ -56,7 +56,7 @@ public struct StorageBlobClientOptions: AzureConfigurable {
     }
 }
 
-/// User-configurable options for the listContainers operation.
+/// User-configurable options for the `StorageBlobClient.listContainers` operation.
 public struct ListContainersOptions: AzureOptions {
     /// Datasets which may be included as part of the call response.
     public enum ListContainersInclude: String {
@@ -102,7 +102,7 @@ public struct ListContainersOptions: AzureOptions {
     }
 }
 
-/// User-configurable options for the listBlobs operation.
+/// User-configurable options for the `StorageBlobClient.listBlobs` operation.
 public struct ListBlobsOptions: AzureOptions {
     /// Datasets which may be included as part of the call response.
     public enum ListBlobsInclude: String {
@@ -166,7 +166,7 @@ public struct ListBlobsOptions: AzureOptions {
     }
 }
 
-/// User-configurable options for the blob download operations.
+/// User-configurable options for the `StorageBlobClient.download` and `StorageBlobClient.rawDownload` operations.
 public struct DownloadBlobOptions: AzureOptions, Codable, Equatable {
     /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
     public let clientRequestId: String?
@@ -255,7 +255,7 @@ public struct DownloadBlobOptions: AzureOptions, Codable, Equatable {
     }
 }
 
-/// User-configurable options for the blob upload operations.
+/// User-configurable options for the `StorageBlobClient.upload` and `StorageBlobClient.rawUpload` operations.
 public struct UploadBlobOptions: AzureOptions, Codable, Equatable {
     /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
     public let clientRequestId: String?

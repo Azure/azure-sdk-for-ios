@@ -129,6 +129,10 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         clients.setObject(client, forKey: restorationId as NSString)
     }
 
+    func client(forRestorationId restorationId: String) -> PipelineClient? {
+        return clients.object(forKey: restorationId as NSString)
+    }
+
     func blobClient(forRestorationId restorationId: String) -> StorageBlobClient? {
         return client(forRestorationId: restorationId) as? StorageBlobClient
     }

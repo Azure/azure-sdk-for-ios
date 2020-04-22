@@ -573,6 +573,7 @@ public final class StorageBlobClient: PipelineClient {
 
 // MARK: Paged Collection Delegate
 
+/// :nodoc:
 extension StorageBlobClient: PagedCollectionDelegate {
     /// :nodoc:
     public func continuationUrl(
@@ -587,6 +588,7 @@ extension StorageBlobClient: PagedCollectionDelegate {
 
 // MARK: Transfer Delegate
 
+/// :nodoc:
 extension StorageBlobClient: TransferDelegate {
     /// :nodoc:
     public func transfer(

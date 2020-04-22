@@ -68,6 +68,9 @@ public struct LocalURL {
 
     internal var rawUrl: URL
 
+    /// The absolute URL resolved from this `LocalURL` instance. Resolution is performed by replacing the well-known
+    /// directory placeholder (if present) with the current, resolved path to the well-known directory, and then
+    /// appending the path components.
     public var resolvedUrl: URL? {
         let components = rawUrl.absoluteString.components(separatedBy: ":/")
         let scheme = components[0]
