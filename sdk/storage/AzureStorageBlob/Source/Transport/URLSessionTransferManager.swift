@@ -496,6 +496,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
                     properties: blobProperties,
                     options: uploadOptions
                 )
+                transfer.uploader?.progress = Int(transfer.bytesTransferred)
             case .download:
                 guard let sourceUrl = transfer.source else { return }
                 guard let destUrl = transfer.destination else { return }
@@ -507,6 +508,8 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
                     destination: destination,
                     options: transfer.downloadOptions
                 )
+                transfer.downloader?.progress = Int(transfer.bytesTransferred)
+                transfer.downloader?.totalSize = Int(transfer.totalBytesToTransfer)
             }
         } catch {
             client.logger.error(error.localizedDescription)
