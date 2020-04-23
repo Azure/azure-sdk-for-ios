@@ -179,7 +179,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         // Add to OperationQueue and notify delegate
         let operation = BlockOperation(withTransfer: transfer, delegate: self)
         operationQueue.add(operation)
-        self.transfer(transfer, didUpdateWithState: transfer.state)
+        self.transfer(transfer, didUpdateWithState: transfer.state, andProgress: transfer.parent.progress)
     }
 
     func queueOperations(for transfer: BlobTransfer) {
@@ -284,7 +284,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
                 cancel(transfer: block)
             }
         }
-        self.transfer(transfer, didUpdateWithState: transfer.state)
+        self.transfer(transfer, didUpdateWithState: transfer.state, andProgress: nil)
     }
 
     // MARK: Remove Operations
@@ -337,7 +337,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
             fatalError("Unrecognized transfer type: \(transfer.self)")
         }
         transfer.state = .deleted
-        self.transfer(transfer, didUpdateWithState: transfer.state)
+        self.transfer(transfer, didUpdateWithState: transfer.state, andProgress: nil)
     }
 
     func remove(transfer: BlockTransfer) {
@@ -413,7 +413,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         }
 
         // notify delegate
-        self.transfer(transfer, didUpdateWithState: transfer.state)
+        self.transfer(transfer, didUpdateWithState: transfer.state, andProgress: transfer.progress)
     }
 
     func pause(transfer: BlockTransfer) {
@@ -426,7 +426,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         }
 
         // notify delegate
-        self.transfer(transfer, didUpdateWithState: transfer.state)
+        self.transfer(transfer, didUpdateWithState: transfer.state, andProgress: transfer.parent.progress)
     }
 
     // MARK: Resume Operations
@@ -451,13 +451,13 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
             }
             reconnectClient(for: transfer)
             if transfer.state == .failed {
-                self.transfer(transfer, didUpdateWithState: transfer.state)
+                self.transfer(transfer, didUpdateWithState: transfer.state, andProgress: nil)
             }
             queueOperations(for: transfer)
         default:
             assertionFailure("Unrecognized transfer type: \(transfer.self)")
         }
-        self.transfer(transfer, didUpdateWithState: transfer.state)
+        self.transfer(transfer, didUpdateWithState: transfer.state, andProgress: nil)
     }
 
     func reconnectClient(for transfer: BlobTransfer) {
