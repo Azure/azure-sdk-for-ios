@@ -47,9 +47,11 @@ public class BlobTransfer: NSManagedObject, Transfer {
         return Int64(transfers.filter { $0.state != .complete }.count)
     }
 
-    /// The current progress of the transfer, based on bytes transferred.
-    public var progress: TransferProgress {
-        return TransferProgress(bytes: Int(bytesTransferred), totalBytes: Int(totalBytesToTransfer))
+    // TODO: Convert this to return a TransferProgress object
+    /// The current progress of the transfer, calculated as the number of completed blocks divided by the total number
+    /// of blocks that comprise the blob transfer.
+    public var progress: Float {
+        return Float(Int64(transfers.count) - incompleteBlocks) / Float(transfers.count)
     }
 
     /// A debug representation of the transfer.
