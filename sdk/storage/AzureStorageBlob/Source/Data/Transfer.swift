@@ -44,7 +44,10 @@ public struct TransferProgress {
     public var asFloat: Float {
         // Returning NaN sometimes results in progress appearing as 100% when it shouldn't.
         // This ensures progress will report 0%.
+        // TODO: Debug concurrency instabilitites triggering this
+        // assert(bytes <= totalBytes, "Transferred bytes unexpectedly > than total bytes.")
         if totalBytes <= 0 { return 0 }
+        if bytes == totalBytes { return 1.0 }
         return Float(bytes) / Float(totalBytes)
     }
 }

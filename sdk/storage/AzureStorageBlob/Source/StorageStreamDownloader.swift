@@ -430,7 +430,7 @@ internal class BlobStreamDownloader: BlobDownloader {
                     // extract the file size from the content range. If a specific size request was
                     // not made, then the request is for the entire file.
                     let blobSize = try self.parseLength(fromContentRange: contentRange)
-                    self.totalSize = blobSize
+                    self.totalSize = blobSize - 1
                     self.progress += blobProperties.contentLength ?? 0
                     self.blobProperties = blobProperties
 
