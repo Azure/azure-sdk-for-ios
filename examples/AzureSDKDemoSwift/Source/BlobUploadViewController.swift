@@ -197,7 +197,7 @@ extension BlobUploadViewController: UICollectionViewDelegate, UICollectionViewDa
             data.transfer = transfer
             uploadMap[indexPath] = data
             cell.backgroundColor = transfer.state.color
-            cell.progressBar.progress = transfer.progress.asFloat
+            cell.progressBar.progress = transfer.progress
         }
         return cell
     }
@@ -272,7 +272,7 @@ extension BlobUploadViewController: TransferDelegate {
     func transfer(
         _ transfer: Transfer,
         didUpdateWithState _: TransferState,
-        andProgress progress: TransferProgress?
+        andProgress progress: Float?
     ) {
         if let blobTransfer = transfer as? BlobTransfer, blobTransfer.transferType == .upload {
             reloadCollectionView()
