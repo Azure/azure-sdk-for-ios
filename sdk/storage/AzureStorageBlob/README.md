@@ -64,41 +64,29 @@ Interaction with these resources starts with an instance of a [client](#client).
 
 To create a client object you will call the `StorageBlobClient` initializer, providing one or more of the following
 parameters:
+* A [credential](#authenticated-clients) that allows the client to access the storage account. You will need to provide
+  a credential unless you're creating an [anonymous](#anonymous-clients) client.
 * The [blob storage endpoint](#looking-up-the-endpoint-url) URL for the storage account. You will need to provide the
   endpoint URL if you're creating an [anonymous](#anonymous-clients) client or a client that uses the
   [Microsoft Authentication Library (MSAL) for iOS](#microsoft-authentication-library-msal-for-ios).
-* A [credential](#authenticated-clients) that allows the client to access the storage account. You will need to provide
-  a credential unless you're creating an [anonymous](#anonymous-clients) client.
 * A [restoration ID](#choosing-a-restoration-id) that associates the client instance with transfers that it creates. A
   restoration ID must always be provided.
 * A [client options](#customizing-the-client) object to customize the behavior of the client. The client options object
   is always optional.
 
-#### Looking up the endpoint URL
-You can find the storage account's blob service endpoint URL using the
-[Azure Portal](https://docs.microsoft.com/azure/storage/common/storage-account-overview#storage-account-endpoints),
-[Azure PowerShell](https://docs.microsoft.com/powershell/module/az.storage/get-azstorageaccount),
-or [Azure CLI](https://docs.microsoft.com/cli/azure/storage/account?view=azure-cli-latest#az-storage-account-show):
+#### Types of clients
+To interact with a storage account that permits anonymous read access, you can create an
+[anonymous client](#anonymous-clients) that requires no credential.
 
-```bash
-# Get the blob service account url for the storage account
-az storage account show -n my-storage-account-name -g my-resource-group --query "primaryEndpoints.blob"
-```
+When interacting with a storage account that doesn't permit anonymous read access, or to perform any write operations,
+you'll need to create a client that is authenticated by one of the following credentials, depending on the type of
+[authorization](https://docs.microsoft.com/azure/storage/common/storage-auth) you wish to use:
 
-You can also easily create a blob storage endpoint URL from a given storage account name by using the static
-`StorageBlobClient.endpoint(forAccount:)` method:
+* [Shared Access Signature](#shared-access-signature)
+* [Microsoft Authentication Library (MSAL) for iOS)](#microsoft-authentication-library-msal-for-ios)
+* [Storage account shared access key](#storage-account-shared-access-key)
 
-```swift
-import AzureStorageBlob
-
-let endpointUrl = StorageBlobClient.endpoint(forAccount: "<my-storage-account-name>")
-```
-
-The `endpoint(forAccount:)` method accepts additional parameters if you need to construct a blob storage endpoint URL
-that uses a different endpoint suffix or protocol, but most users should be able to omit these parameters and use the
-defaults provided.
-
-#### Anonymous clients
+##### Anonymous clients
 You can create an anonymous client by calling the `StorageBlobClient` initializer without providing a credential,
 passing only the [blob storage endpoint](#looking-up-the-endpoint-url) for the storage account you wish to connect to
 and a [restoration ID](#choosing-a-restoration-id). Anonymous clients can perform read-only operations on storage
@@ -108,13 +96,8 @@ accounts that permit anonymous read access:
 import AzureStorageBlob
 
 let endpointUrl = StorageBlobClient.endpoint(forAccount: "<my-storage-account-name>")
-let client = StorageBlobClient(endpoint: endpointUrl, withRestorationId: "MyAppClient")
+let client = try StorageBlobClient(endpoint: endpointUrl, withRestorationId: "MyAppClient")
 ```
-
-#### Authenticated clients
-When interacting with a storage account that doesn't permit anonymous read access, or to perform any write operations,
-you'll need to create a client that is authenticated by one of the following credentials, depending on the type of
-[authorization](https://docs.microsoft.com/azure/storage/common/storage-auth) you wish to use.
 
 ##### Shared Access Signature
 To use a [shared access signature (SAS) token](https://docs.microsoft.com/azure/storage/common/storage-sas-overview),
@@ -138,8 +121,8 @@ Shared Access Signature Connection String, and provide that credential and a
 import AzureStorageBlob
 
 let sasConnectionString = "SharedAccessSignature=xxxx;BlobEndpoint=https://xxxx.blob.core.windows.net/;"
-let sasCredential = StorageSASCredential(connectionString: sasConnectionString)
-let client = StorageBlobClient(credential: sasCredential, withRestorationId: "MyAppClient")
+let sasCredential = try StorageSASCredential(connectionString: sasConnectionString)
+let client = try StorageBlobClient(credential: sasCredential, withRestorationId: "MyAppClient")
 ```
 
 When you create a Shared Access Signature that is scoped to a storage container or blob, it will be generated as a
@@ -151,8 +134,8 @@ that credential and a [restoration ID](#choosing-a-restoration-id) when initiali
 import AzureStorageBlob
 
 let sasUri = "https://xxxx.blob.core.windows.net/container/path/to/blob?xxxx"
-let sasCredential = StorageSASCredential(blobSasUri: sasUri)
-let client = StorageBlobClient(credential: sasCredential, withRestorationId: "MyAppClient")
+let sasCredential = try StorageSASCredential(blobSasUri: sasUri)
+let client = try StorageBlobClient(credential: sasCredential, withRestorationId: "MyAppClient")
 ```
 
 ##### Microsoft Authentication Library (MSAL) for iOS
@@ -185,7 +168,7 @@ let msalCredential = MSALCredential(
     application: msalApplication,
     account: msalAccount
 )
-let client = StorageBlobClient(endpoint: endpointUrl, credential: msalCredential, withRestorationId: "MyAppClient")
+let client = try StorageBlobClient(endpoint: endpointUrl, credential: msalCredential, withRestorationId: "MyAppClient")
 ```
 
 ##### Storage account shared access key
@@ -210,8 +193,8 @@ To initialize a client instance with a storage account connection string, create
 import AzureStorageBlob
 
 let connectionString = "DefaultEndpointsProtocol=https;AccountName=xxxx;AccountKey=xxxx;EndpointSuffix=core.windows.net"
-let sharedKeyCredential = StorageSharedKeyCredential(connectionString: sasConnectionString)
-let client = StorageBlobClient(credential: sharedKeyCredential, withRestorationId: "MyAppClient")
+let sharedKeyCredential = try StorageSharedKeyCredential(connectionString: sasConnectionString)
+let client = try StorageBlobClient(credential: sharedKeyCredential, withRestorationId: "MyAppClient")
 ```
 
 To initialize a client instance with a storage account name and access key, create an instance of
@@ -223,13 +206,39 @@ import AzureStorageBlob
 
 let accountName = "<my-storage-account-name>"
 let accessKey = "xxxx"
-let sharedKeyCredential = StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
-let client = StorageBlobClient(credential: sharedKeyCredential, withRestorationId: "MyAppClient")
+let sharedKeyCredential = try StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
+let client = try StorageBlobClient(credential: sharedKeyCredential, withRestorationId: "MyAppClient")
 ```
 
 The `StorageSharedKeyCredential(accountName:accountKey:)` initializer accepts additional parameters if you need to
 construct a shared access key credential that uses a different endpoint suffix or protocol, but most users should be
 able to omit these parameters and use the defaults provided.
+
+#### Looking up the endpoint URL
+If you're creating an [anonymous client](#anonymous-clients) or a client that uses the
+[Microsoft Authentication Library (MSAL) for iOS](#microsoft-authentication-library-msal-for-ios), you'll need to
+provide the storage account's blob storage endpoint URL. You can find the blob storage endpoint URL using the
+[Azure Portal](https://docs.microsoft.com/azure/storage/common/storage-account-overview#storage-account-endpoints),
+[Azure PowerShell](https://docs.microsoft.com/powershell/module/az.storage/get-azstorageaccount),
+or [Azure CLI](https://docs.microsoft.com/cli/azure/storage/account?view=azure-cli-latest#az-storage-account-show):
+
+```bash
+# Get the blob service account url for the storage account
+az storage account show -n my-storage-account-name -g my-resource-group --query "primaryEndpoints.blob"
+```
+
+You can also easily create a blob storage endpoint URL from a given storage account name by using the static
+`StorageBlobClient.endpoint(forAccount:)` method:
+
+```swift
+import AzureStorageBlob
+
+let endpointUrl = StorageBlobClient.endpoint(forAccount: "<my-storage-account-name>")
+```
+
+The `endpoint(forAccount:)` method accepts additional parameters if you need to construct a blob storage endpoint URL
+that uses a different endpoint suffix or protocol, but most users should be able to omit these parameters and use the
+defaults provided.
 
 #### Choosing a Restoration ID
 When creating a client, you must provide a restoration ID. The restoration ID is a string identifier used to associate a
@@ -307,8 +316,8 @@ List the blobs asynchronously in your container:
 import AzureStorageBlob
 
 let sasConnectionString = "SharedAccessSignature=xxxx;BlobEndpoint=https://xxxx.blob.core.windows.net/;"
-let sasCredential = StorageSASCredential(connectionString: sasConnectionString)
-let client = StorageBlobClient(credential: sasCredential, withRestorationId: "MyAppClient")
+let sasCredential = try StorageSASCredential(connectionString: sasConnectionString)
+let client = try StorageBlobClient(credential: sasCredential, withRestorationId: "MyAppClient")
 
 let containerName = "<my_container>"
 let options = ListBlobsOptions(maxResults: 20)
@@ -329,8 +338,8 @@ Upload a blob asynchronously from the app's documents directory to your containe
 import AzureStorageBlob
 
 let sasConnectionString = "SharedAccessSignature=xxxx;BlobEndpoint=https://xxxx.blob.core.windows.net/;"
-let sasCredential = StorageSASCredential(connectionString: sasConnectionString)
-let client = StorageBlobClient(credential: sasCredential, withRestorationId: "MyAppClient")
+let sasCredential = try StorageSASCredential(connectionString: sasConnectionString)
+let client = try StorageBlobClient(credential: sasCredential, withRestorationId: "MyAppClient")
 
 let containerName = "<my_container>"
 let blobName = "<my_blob>"
@@ -338,7 +347,7 @@ let sourceUrl = LocalURL(fromDirectory: .documentDirectory).appendingPathCompone
 let properties = BlobProperties(
     contentType: "image/jpg"
 )
-let transfer = try? client.upload(
+let transfer = try client.upload(
     file: sourceUrl,
     toContainer: containerName,
     asBlob: blobName,
@@ -354,13 +363,13 @@ the container and the path portion of the blob name:
 import AzureStorageBlob
 
 let sasConnectionString = "SharedAccessSignature=xxxx;BlobEndpoint=https://xxxx.blob.core.windows.net/;"
-let sasCredential = StorageSASCredential(connectionString: sasConnectionString)
-let client = StorageBlobClient(credential: sasCredential, withRestorationId: "MyAppClient")
+let sasCredential = try StorageSASCredential(connectionString: sasConnectionString)
+let client = try StorageBlobClient(credential: sasCredential, withRestorationId: "MyAppClient")
 
 let containerName = "<my_container>"
 let blobName = "<my_blob>"
 let destinationUrl = LocalURL(inDirectory: .cachesDirectory, forBlob: blobName, inContainer: containerName)
-let transfer = try? client.download(
+let transfer = try client.download(
     blob: blobName,
     fromContainer: containerName,
     toFile: destinationUrl
@@ -382,12 +391,12 @@ import AzureCore
 import AzureStorageBlob
 
 let sasConnectionString = "SharedAccessSignature=xxxx;BlobEndpoint=https://xxxx.blob.core.windows.net/;"
-let sasCredential = StorageSASCredential(connectionString: sasConnectionString)
+let sasCredential = try StorageSASCredential(connectionString: sasConnectionString)
 
 let logger = NSLogger(tag: "MyAppClient", level: .debug)
 
 let clientOptions = StorageBlobClientOptions(logger: logger)
-let client = StorageBlobClient(credential: sasCredential, withRestorationId: "MyAppClient", withOptions: clientOptions)
+let client = try StorageBlobClient(credential: sasCredential, withRestorationId: "MyAppClient", withOptions: clientOptions)
 ```
 
 The following loggers are provided, but custom loggers can be created by implementing the `ClientLogger` protocol:
@@ -404,13 +413,13 @@ import AzureCore
 import AzureStorageBlob
 
 let sasConnectionString = "SharedAccessSignature=xxxx;BlobEndpoint=https://xxxx.blob.core.windows.net/;"
-let sasCredential = StorageSASCredential(connectionString: sasConnectionString)
+let sasCredential = try StorageSASCredential(connectionString: sasConnectionString)
 
 // Returns an `NSLogger` for iOS version < 10.2 and an `OSLogger` for 10.2 and above.
 let logger = ClientLoggers.default(tag: "MyAppClient")
 
 let clientOptions = StorageBlobClientOptions(logger: logger)
-let client = StorageBlobClient(credential: sasCredential, withRestorationId: "MyAppClient", withOptions: clientOptions)
+let client = try StorageBlobClient(credential: sasCredential, withRestorationId: "MyAppClient", withOptions: clientOptions)
 ```
 
 You can adjust the log level of a logger after creating it. Changes to the log level are immediate:
@@ -420,13 +429,13 @@ import AzureCore
 import AzureStorageBlob
 
 let sasConnectionString = "SharedAccessSignature=xxxx;BlobEndpoint=https://xxxx.blob.core.windows.net/;"
-let sasCredential = StorageSASCredential(connectionString: sasConnectionString)
+let sasCredential = try StorageSASCredential(connectionString: sasConnectionString)
 
 // The default log level is `info`.
 let logger = ClientLoggers.default(tag: "MyAppClient")
 
 let clientOptions = StorageBlobClientOptions(logger: logger)
-let client = StorageBlobClient(credential: sasCredential, withRestorationId: "MyAppClient", withOptions: clientOptions)
+let client = try StorageBlobClient(credential: sasCredential, withRestorationId: "MyAppClient", withOptions: clientOptions)
 
 // The operation runs with logging at `info` level.
 client.listBlobs(...)
