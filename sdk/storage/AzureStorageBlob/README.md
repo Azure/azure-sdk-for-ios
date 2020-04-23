@@ -64,41 +64,29 @@ Interaction with these resources starts with an instance of a [client](#client).
 
 To create a client object you will call the `StorageBlobClient` initializer, providing one or more of the following
 parameters:
+* A [credential](#authenticated-clients) that allows the client to access the storage account. You will need to provide
+  a credential unless you're creating an [anonymous](#anonymous-clients) client.
 * The [blob storage endpoint](#looking-up-the-endpoint-url) URL for the storage account. You will need to provide the
   endpoint URL if you're creating an [anonymous](#anonymous-clients) client or a client that uses the
   [Microsoft Authentication Library (MSAL) for iOS](#microsoft-authentication-library-msal-for-ios).
-* A [credential](#authenticated-clients) that allows the client to access the storage account. You will need to provide
-  a credential unless you're creating an [anonymous](#anonymous-clients) client.
 * A [restoration ID](#choosing-a-restoration-id) that associates the client instance with transfers that it creates. A
   restoration ID must always be provided.
 * A [client options](#customizing-the-client) object to customize the behavior of the client. The client options object
   is always optional.
 
-#### Looking up the endpoint URL
-You can find the storage account's blob service endpoint URL using the
-[Azure Portal](https://docs.microsoft.com/azure/storage/common/storage-account-overview#storage-account-endpoints),
-[Azure PowerShell](https://docs.microsoft.com/powershell/module/az.storage/get-azstorageaccount),
-or [Azure CLI](https://docs.microsoft.com/cli/azure/storage/account?view=azure-cli-latest#az-storage-account-show):
+#### Types of clients
+To interact with a storage account that permits anonymous read access, you can create an
+[anonymous client](#anonymous-clients) that requires no credential.
 
-```bash
-# Get the blob service account url for the storage account
-az storage account show -n my-storage-account-name -g my-resource-group --query "primaryEndpoints.blob"
-```
+When interacting with a storage account that doesn't permit anonymous read access, or to perform any write operations,
+you'll need to create a client that is authenticated by one of the following credentials, depending on the type of
+[authorization](https://docs.microsoft.com/azure/storage/common/storage-auth) you wish to use:
 
-You can also easily create a blob storage endpoint URL from a given storage account name by using the static
-`StorageBlobClient.endpoint(forAccount:)` method:
+* [Shared Access Signature](#shared-access-signature)
+* [Microsoft Authentication Library (MSAL) for iOS)](#microsoft-authentication-library-msal-for-ios)
+* [Storage account shared access key](#storage-account-shared-access-key)
 
-```swift
-import AzureStorageBlob
-
-let endpointUrl = StorageBlobClient.endpoint(forAccount: "<my-storage-account-name>")
-```
-
-The `endpoint(forAccount:)` method accepts additional parameters if you need to construct a blob storage endpoint URL
-that uses a different endpoint suffix or protocol, but most users should be able to omit these parameters and use the
-defaults provided.
-
-#### Anonymous clients
+##### Anonymous clients
 You can create an anonymous client by calling the `StorageBlobClient` initializer without providing a credential,
 passing only the [blob storage endpoint](#looking-up-the-endpoint-url) for the storage account you wish to connect to
 and a [restoration ID](#choosing-a-restoration-id). Anonymous clients can perform read-only operations on storage
@@ -110,11 +98,6 @@ import AzureStorageBlob
 let endpointUrl = StorageBlobClient.endpoint(forAccount: "<my-storage-account-name>")
 let client = try StorageBlobClient(endpoint: endpointUrl, withRestorationId: "MyAppClient")
 ```
-
-#### Authenticated clients
-When interacting with a storage account that doesn't permit anonymous read access, or to perform any write operations,
-you'll need to create a client that is authenticated by one of the following credentials, depending on the type of
-[authorization](https://docs.microsoft.com/azure/storage/common/storage-auth) you wish to use.
 
 ##### Shared Access Signature
 To use a [shared access signature (SAS) token](https://docs.microsoft.com/azure/storage/common/storage-sas-overview),
@@ -230,6 +213,32 @@ let client = try StorageBlobClient(credential: sharedKeyCredential, withRestorat
 The `StorageSharedKeyCredential(accountName:accountKey:)` initializer accepts additional parameters if you need to
 construct a shared access key credential that uses a different endpoint suffix or protocol, but most users should be
 able to omit these parameters and use the defaults provided.
+
+#### Looking up the endpoint URL
+If you're creating an [anonymous client](#anonymous-clients) or a client that uses the
+[Microsoft Authentication Library (MSAL) for iOS](#microsoft-authentication-library-msal-for-ios), you'll need to
+provide the storage account's blob storage endpoint URL. You can find the blob storage endpoint URL using the
+[Azure Portal](https://docs.microsoft.com/azure/storage/common/storage-account-overview#storage-account-endpoints),
+[Azure PowerShell](https://docs.microsoft.com/powershell/module/az.storage/get-azstorageaccount),
+or [Azure CLI](https://docs.microsoft.com/cli/azure/storage/account?view=azure-cli-latest#az-storage-account-show):
+
+```bash
+# Get the blob service account url for the storage account
+az storage account show -n my-storage-account-name -g my-resource-group --query "primaryEndpoints.blob"
+```
+
+You can also easily create a blob storage endpoint URL from a given storage account name by using the static
+`StorageBlobClient.endpoint(forAccount:)` method:
+
+```swift
+import AzureStorageBlob
+
+let endpointUrl = StorageBlobClient.endpoint(forAccount: "<my-storage-account-name>")
+```
+
+The `endpoint(forAccount:)` method accepts additional parameters if you need to construct a blob storage endpoint URL
+that uses a different endpoint suffix or protocol, but most users should be able to omit these parameters and use the
+defaults provided.
 
 #### Choosing a Restoration ID
 When creating a client, you must provide a restoration ID. The restoration ID is a string identifier used to associate a
