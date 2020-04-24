@@ -53,7 +53,10 @@ internal class BlobDownloadInitialOperation: TransferOperation {
         }
 
         // early out if no more blocks are necesasry
-        guard downloader.blockList.count > 0 else { return }
+        guard downloader.blockList.count > 0 else {
+            transfer.state = .complete
+            return
+        }
 
         // The intialDownloadOperation marks the transfer complete, so
         // if blocks remain, we must reset the state to inProgress.
