@@ -24,13 +24,14 @@
 //
 // --------------------------------------------------------------------------
 
+import AzureStorageBlob
 import UIKit
 
 class CustomTabBarController: UITabBarController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         do {
-            try AppState.blobClient().stopManaging()
+            try StorageBlobClient.stopManaging()
         } catch {
             showAlert(error: error)
         }

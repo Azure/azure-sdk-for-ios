@@ -59,7 +59,7 @@ class BlobDownloadViewController: UIViewController, MSALInteractiveDelegate {
         super.viewDidAppear(animated)
         PHPhotoLibrary.authorizationStatus()
         fetchData(self)
-        blobClient?.startManaging()
+        StorageBlobClient.startManaging()
     }
 
     // MARK: Private Methods
