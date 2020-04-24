@@ -630,7 +630,7 @@ extension StorageBlobClient {
     /// calling this method may display a login UI, and call it in a user-appropriate context (e.g. display a "pending
     /// transfers" message and wait for explicit user confirmation to start the management engine). If you're not using
     /// such a credential, or there are no paused transfers, it is safe to call this method from your `AppDelegate`.
-    public func startManaging() {
+    public static func startManaging() {
         StorageBlobClient.manager.startManaging()
     }
 
@@ -639,7 +639,7 @@ extension StorageBlobClient {
     /// Pauses all incomplete transfers, stops listening for network connectivity events, and stores transfer state to
     /// disk. This method **SHOULD** be called by your application, either from your `AppDelegate` or from within a
     /// `ViewController`'s lifecycle methods.
-    public func stopManaging() {
+    public static func stopManaging() {
         StorageBlobClient.manager.stopManaging()
     }
 

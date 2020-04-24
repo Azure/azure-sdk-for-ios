@@ -288,9 +288,9 @@ application launch.
 #### Starting managed transfers
 When your application first launches, the library's transfer management engine is stopped. Calling `download` or
 `upload` from a client will queue those transfers, but they won't begin until the management engine is started by
-calling the client's `startManaging()` method. When you start the transfer management engine, the state of transfers is
-loaded from disk, the management engine begins listening for network connectivity events, and any incomplete transfers
-are resumed.
+calling the `StorageBlobClient.startManaging()` method. When you start the transfer management engine, the state of
+transfers is loaded from disk, the management engine begins listening for network connectivity events, and any
+incomplete transfers are resumed.
 
 It's recommended to call the `startManaging()` method from a background thread, at an opportune time after your app has
 started. In many applications, calling this method in the `AppDelegate` or from within a `ViewController`'s lifecycle
@@ -306,35 +306,28 @@ import AzureStorageBlob
 import UIKit
 
 class MyViewController: UIViewController {
-    private var client: StorageBlobClient
-
-    ...
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.client.startManaging()
+        StorageBlobClient.startManaging()
     }
 }
 ```
 
-Similarly, the client's `stopManaging()` method exists to safely stop the transfer management engine when the app is
-shutting down or when a `ViewController` is going away. When you stop the transfer management engine, any incomplete
-transfers are paused, the management engine stops listening for network connectivity events, and the state of transfers
-is stored to disk. Most applications should call this method in the `AppDelegate` or from within a `ViewController`'s
-lifecycle methods.
+As transfers progress, the client will periodically snapshot their state to disk. However, to ensure that all progress
+is saved and resources are released when your app shuts down or when your `ViewController` goes away, the
+`StorageBlobClient.stopManaging()` method exists to safely stop the transfer management engine. When you stop the
+transfer management engine, any incomplete transfers are paused, the management engine stops listening for network
+connectivity events, and the state of transfers is stored to disk. Most applications should call this method in the
+`AppDelegate` or from within a `ViewController`'s lifecycle methods.
 
 ```swift
 import AzureStorageBlob
 import UIKit
 
-class MyViewController: UIViewController {
-    private var client: StorageBlobClient
-
-    ...
-
-    override func viewWillDisappear() {
-        self.client.stopManaging()
-        super.viewWillDisappear()
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+    func applicationWillTerminate(_: UIApplication) {
+        StorageBlobClient.stopManaging()
     }
 }
 ```
