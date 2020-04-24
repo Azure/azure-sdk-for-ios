@@ -274,7 +274,9 @@ public final class StorageBlobClient: PipelineClient {
             case let .success(data):
                 guard let data = data else {
                     let noDataError = HTTPResponseError.decode("Response data expected but not found.")
-                    completion(.failure(noDataError), httpResponse)
+                    DispatchQueue.main.async {
+                        completion(.failure(noDataError), httpResponse)
+                    }
                     return
                 }
                 do {
@@ -287,12 +289,18 @@ public final class StorageBlobClient: PipelineClient {
                         decoder: decoder,
                         delegate: self
                     )
-                    completion(.success(paged), httpResponse)
+                    DispatchQueue.main.async {
+                        completion(.success(paged), httpResponse)
+                    }
                 } catch {
-                    completion(.failure(error), httpResponse)
+                    DispatchQueue.main.async {
+                        completion(.failure(error), httpResponse)
+                    }
                 }
             case let .failure(error):
-                completion(.failure(error), httpResponse)
+                DispatchQueue.main.async {
+                    completion(.failure(error), httpResponse)
+                }
             }
         }
     }
@@ -361,7 +369,10 @@ public final class StorageBlobClient: PipelineClient {
             case let .success(data):
                 guard let data = data else {
                     let noDataError = HTTPResponseError.decode("Response data expected but not found.")
-                    completion(.failure(noDataError), httpResponse)
+
+                    DispatchQueue.main.async {
+                        completion(.failure(noDataError), httpResponse)
+                    }
                     return
                 }
                 do {
@@ -374,12 +385,18 @@ public final class StorageBlobClient: PipelineClient {
                         decoder: decoder,
                         delegate: self
                     )
-                    completion(.success(paged), httpResponse)
+                    DispatchQueue.main.async {
+                        completion(.success(paged), httpResponse)
+                    }
                 } catch {
-                    completion(.failure(error), httpResponse)
+                    DispatchQueue.main.async {
+                        completion(.failure(error), httpResponse)
+                    }
                 }
             case let .failure(error):
-                completion(.failure(error), httpResponse)
+                DispatchQueue.main.async {
+                    completion(.failure(error), httpResponse)
+                }
             }
         }
     }
@@ -419,9 +436,13 @@ public final class StorageBlobClient: PipelineClient {
         downloader.initialRequest { result, httpResponse in
             switch result {
             case .success:
-                completion(.success(downloader), httpResponse)
+                DispatchQueue.main.async {
+                    completion(.success(downloader), httpResponse)
+                }
             case let .failure(error):
-                completion(.failure(error), httpResponse)
+                DispatchQueue.main.async {
+                    completion(.failure(error), httpResponse)
+                }
             }
         }
     }
@@ -464,9 +485,13 @@ public final class StorageBlobClient: PipelineClient {
         uploader.next { result, httpResponse in
             switch result {
             case .success:
-                completion(.success(uploader), httpResponse)
+                DispatchQueue.main.async {
+                    completion(.success(uploader), httpResponse)
+                }
             case let .failure(error):
-                completion(.failure(error), httpResponse)
+                DispatchQueue.main.async {
+                    completion(.failure(error), httpResponse)
+                }
             }
         }
     }
@@ -595,22 +620,34 @@ extension StorageBlobClient: TransferDelegate {
         didUpdateWithState state: TransferState,
         andProgress progress: Float?
     ) {
-        transferDelegate?.transfer(transfer, didUpdateWithState: state, andProgress: progress)
+        guard let delegate = transferDelegate else { return }
+        DispatchQueue.main.async {
+            delegate.transfer(transfer, didUpdateWithState: state, andProgress: progress)
+        }
     }
 
     /// :nodoc:
     public func transfersDidUpdate(_ transfers: [Transfer]) {
-        transferDelegate?.transfersDidUpdate(transfers)
+        guard let delegate = transferDelegate else { return }
+        DispatchQueue.main.async {
+            delegate.transfersDidUpdate(transfers)
+        }
     }
 
     /// :nodoc:
     public func transfer(_ transfer: Transfer, didFailWithError error: Error) {
-        transferDelegate?.transfer(transfer, didFailWithError: error)
+        guard let delegate = transferDelegate else { return }
+        DispatchQueue.main.async {
+            delegate.transfer(transfer, didFailWithError: error)
+        }
     }
 
     /// :nodoc:
     public func transferDidComplete(_ transfer: Transfer) {
-        transferDelegate?.transferDidComplete(transfer)
+        guard let delegate = transferDelegate else { return }
+        DispatchQueue.main.async {
+            delegate.transferDidComplete(transfer)
+        }
     }
 }
 
