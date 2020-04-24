@@ -36,7 +36,6 @@ import UIKit
 
 class BlobDownloadViewController: UIViewController, MSALInteractiveDelegate {
     private var dataSource: PagedCollection<BlobItem>?
-    private var downloadMap = [IndexPath: BlobTransfer]()
     private var noMoreData = false
 
     @IBOutlet var tableView: UITableView!
@@ -105,8 +104,7 @@ class BlobDownloadViewController: UIViewController, MSALInteractiveDelegate {
 
     // MARK: Internal Methods
 
-    internal func playVideo(_ indexPath: IndexPath, _ destination: URL) {
-        downloadMap.removeValue(forKey: indexPath)
+    internal func playVideo(_ destination: URL) {
         player.replaceCurrentItem(with: AVPlayerItem(asset: AVAsset(url: destination)))
         let controller = AVPlayerViewController()
         controller.player = player
@@ -158,11 +156,10 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
         cell.backgroundColor = .white
 
         // Match any blobs to existing transfers.
-        // Update download map and progress.
+        // Update background color and progress.
         if let transfer = blobClient.transfers.downloadedFrom(container: AppConstants.videoContainer, blob: blobName)
             .first {
             cell.backgroundColor = transfer.state.color
-            downloadMap[indexPath] = transfer
             cell.progressBar.progress = transfer.progress
         }
 
@@ -179,35 +176,35 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
         guard let containerName = AppConstants.videoContainer else { return }
         guard let blobClient = blobClient else { return }
         let destination = LocalURL(inDirectory: .cachesDirectory, forBlob: blobName, inContainer: containerName)
-        guard let destinationUrl = destination.resolvedUrl else { return }
 
         let manager = FileManager.default
-        if let existingTransfer = downloadMap[indexPath] {
+
+        if let existingTransfer = blobClient.transfers.downloadedFrom(
+            container: AppConstants.videoContainer,
+            blob: blobName
+        ).first {
             // if transfer exists and is complete, open file, otherwise ignore
-            if manager.fileExists(atPath: destinationUrl.path), existingTransfer.incompleteBlocks == 0 {
-                playVideo(indexPath, destinationUrl)
-                return
+            if let destinationUrl = existingTransfer.destinationUrl,
+                manager.fileExists(atPath: destinationUrl.path),
+                existingTransfer.incompleteBlocks == 0 {
+                playVideo(destinationUrl)
             }
             return
-        } else {
+        } else if let destinationUrl = destination.resolvedUrl, manager.fileExists(atPath: destinationUrl.path) {
             // if no transfer exists but a file exists, play
-            if manager.fileExists(atPath: destinationUrl.path) {
-                playVideo(indexPath, destinationUrl)
-                return
-            }
+            playVideo(destinationUrl)
+            return
         }
 
         // Otherwise, start the download with TransferManager.
         let options = AppState.downloadOptions
         do {
-            if let transfer = try blobClient.download(
+            _ = try blobClient.download(
                 blob: blobName,
                 fromContainer: containerName,
                 toFile: destination,
                 withOptions: options
-            ) as? BlobTransfer {
-                downloadMap[indexPath] = transfer
-            }
+            )
         } catch {
             showAlert(error: error)
         }
