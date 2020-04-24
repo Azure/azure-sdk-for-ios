@@ -13,11 +13,32 @@ Blob storage is ideal for:
 
 
 ## Getting started
+The basic outline of tasks needed to use the client library is as follows:
+1. Ensure you've met the [prerequisites](#prerequisites).
+2. [Install the library](#install-the-library) into your project.
+3. Create an instance of the [client](#create-the-client).
+4. If you'll be uploading or downloading blobs, start the [management engine](#managed-transfers).
+5. Call the appropriate [client methods](#examples) to list containers, and list, download, and upload blobs.
 
 ### Prerequisites
 * The client library is written in modern Swift 5. Due to this, Xcode 10.2 or higher is required to use this library.
 * You must have an [Azure subscription](https://azure.microsoft.com/free/) and an
 [Azure storage account](https://docs.microsoft.com/azure/storage/common/storage-account-overview) to use this library.
+
+#### Create a storage account
+If you wish to create a new storage account, you can use the
+[Azure Portal](https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-portal),
+[Azure PowerShell](https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-powershell),
+or [Azure CLI](https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-cli):
+
+```bash
+# Create a new resource group to hold the storage account -
+# if using an existing resource group, skip this step
+az group create --name my-resource-group --location westus2
+
+# Create the storage account
+az storage account create -n my-storage-account-name -g my-resource-group
+```
 
 ### Install the library
 At the present time, to install the Azure Storage Blobs client library for iOS you must download the latest
@@ -42,21 +63,6 @@ into the "Frameworks, Libraries, and Embedded Content" section.
 If you plan to use the [Microsoft Authentication Library (MSAL) for iOS](http://aka.ms/aadv2) in your project, add it by
 following the library's
 [installation instructions](https://github.com/AzureAD/microsoft-authentication-library-for-objc#installation).
-
-### Create a storage account
-If you wish to create a new storage account, you can use the
-[Azure Portal](https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-portal),
-[Azure PowerShell](https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-powershell),
-or [Azure CLI](https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-cli):
-
-```bash
-# Create a new resource group to hold the storage account -
-# if using an existing resource group, skip this step
-az group create --name my-resource-group --location westus2
-
-# Create the storage account
-az storage account create -n my-storage-account-name -g my-resource-group
-```
 
 ### Create the client
 The Azure Storage Blobs client library for iOS allows you to interact with blob storage containers and blobs.
@@ -246,16 +252,12 @@ client instance with transfers it creates. To understand why the restoration ID 
 how the client executes a blob upload or download.
 
 When you call the client's [upload](#downloading-a-blob) or [download](#downloading-a-blob) methods, the client will
-create and enqueue the transfer within its transfer management engine, returning a `Transfer` object. This engine will
-reliably manage the transfer of the blob between Azure Blob Service and the device, automatically pausing the transfer
-when network connectivity is lost and resuming it when connectivity is restored. Additionally, you may explicitly
-control the transfer by calling the `Transfer` object's `pause()`, `resume()`, `cancel()`, and `remove()` methods.
-
-When your application exits with uncompleted transfers in the queue, the transfer management engine will serialize them
-to disk and restore them the next time your application launches and creates a client. However, because your application
-could contain multiple client instances with different credentials and configurations, it's necessary to provide each
-client with a restoration ID so that when transfers are restored, they can be re-associated with the correct client
-instance.
+create and enqueue the transfer within its [transfer management engine](#managed-transfers), returning a `Transfer`
+object. When your application exits with uncompleted transfers in the queue, the transfer management engine will
+serialize them to disk and restore them the next time your application launches and starts the management engine.
+However, because your application could contain multiple client instances with different credentials and configurations,
+it's necessary to provide each client with a restoration ID so that when transfers are restored, they can be
+re-associated with the correct client instance.
 
 If your application only ever creates a single client, it's sufficient to simply choose a value unique to your
 application (e.g. "MyApplication") as your restoration ID. Using a value unique to your application will ensure that the
@@ -271,8 +273,130 @@ When creating a client, you may choose to provide an optional
 [StorageBlobClientOptions](https://github.com/Azure/azure-sdk-for-ios/blob/master/sdk/storage/AzureStorageBlob/Source/DataStructures/StorageBlobClientOptions.swift)
 object in order to configure the client as desired. You may instruct the client to use a specific API version of the
 Azure Storage Blob service, change when and how log messages are emitted from the client, and control the chunk size
-usde when uploading and downloading blobs - the maximum size of each piece when the client breaks an upload or download
-operation into multiple pieces to execute in parallel.
+used when uploading and downloading blobs - the maximum size of each piece when the client breaks an upload or download
+operation into multiple pieces.
+
+### Managed transfers
+When you use a client's [upload](#downloading-a-blob) or [download](#downloading-a-blob) methods to transfer a blob to
+or from the device, the client will perform the operation as a *managed transfer*. During a managed transfer, the
+library's transfer management engine will ensure that the transfer is performed reliably in the face of changing network
+conditions, pausing transfers when network connectivity is lost and resuming them when connectivity is restored. Managed
+transfers can also be paused, resumed, or canceled by the developer at any time. Any managed transfers which have not
+been completed when the hosting application terminates are persisted to disk and can be restarted on a subsequent
+application launch.
+
+#### Starting managed transfers
+When your application first launches, the library's transfer management engine is stopped. Calling `download` or
+`upload` from a client will queue those transfers, but they won't begin until the management engine is started by
+calling the client's `startManaging()` method. When you start the transfer management engine, the state of transfers is
+loaded from disk, the management engine begins listening for network connectivity events, and any incomplete transfers
+are resumed.
+
+It's recommended to call the `startManaging()` method from a background thread, at an opportune time after your app has
+started. In many applications, calling this method in the `AppDelegate` or from within a `ViewController`'s lifecycle
+methods is sufficient. However, depending on the type of credential used to authenticate the client, resuming a transfer
+could cause a login UI to be displayed if the access token for the transfer has expired. If you're using such a
+credential (e.g. `MSALCredential`) you should instead first inspect the list of transfers to determine if any are
+pending. If so, you should assume that calling `startManaging()` method may display a login UI, and call it in a
+user-appropriate context (e.g. display a "pending transfers" message and wait for explicit user confirmation to start
+the management engine).
+
+```swift
+import AzureStorageBlob
+import UIKit
+
+class MyViewController: UIViewController {
+    private var client: StorageBlobClient
+
+    ...
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.client.startManaging()
+    }
+}
+```
+
+Similarly, the client's `stopManaging()` method exists to safely stop the transfer management engine when the app is
+shutting down or when a `ViewController` is going away. When you stop the transfer management engine, any incomplete
+transfers are paused, the management engine stops listening for network connectivity events, and the state of transfers
+is stored to disk. Most applications should call this method in the `AppDelegate` or from within a `ViewController`'s
+lifecycle methods.
+
+```swift
+import AzureStorageBlob
+import UIKit
+
+class MyViewController: UIViewController {
+    private var client: StorageBlobClient
+
+    ...
+
+    override func viewWillDisappear() {
+        self.client.stopManaging()
+        super.viewWillDisappear()
+    }
+}
+```
+
+#### Tracking progress of managed transfers
+Managed transfers emit events as they are executed by the transfer management engine. You can use these events to
+understand when transfers start, make progress, and complete or fail. The transfer management engine routes relevant
+events through to the client instance that initiated the transfer. To be informed about events from transfers created by
+your client, attach a `TransferDelegate` to it.
+
+```swift
+import AzureStorageBlob
+import UIKit
+
+class MyViewController: UIViewController {
+    private var client: StorageBlobClient
+
+    ...
+
+    client.transferDelegate = self
+}
+
+extension MyViewController: TransferDelegate {
+    public func transfer(_ transfer: Transfer, didUpdateWithState state: TransferState, andProgress progress: Float?) {
+        ...
+    }
+
+    public func transfersDidUpdate(_ transfers: [Transfer]) {
+        ...
+    }
+
+    public func transfer(_ transfer: Transfer, didFailWithError error: Error) {
+        ...
+    }
+
+    public func transferDidComplete(_ transfer: Transfer) {
+        ...
+    }
+}
+```
+
+#### Parallel execution of transfers
+The transfer management engine breaks each transfer into a sequence of chunks and transfers multiple chunks in parallel
+in order to make more efficient use of available network bandwidth. The chunk size is configurable for each client by
+specifying the desired chunk size in the [client options object](#customizing-the-client). The degree of parallelism is
+a global value and can also be configured by the developer:
+
+```swift
+import AzureStorageBlob
+
+// Only execute one transfer at a time, effectively disabling parallelism
+StorageBlobClient.maxConcurrentTransfers = 1
+
+// Execute 4 transfers in parallel
+StorageBlobClient.maxConcurrentTransfers = 4
+
+// Allow the maximum number of parallel transfers to be determined dynamically based on current system conditions.
+StorageBlobClient.maxConcurrentTransfers = StorageBlobClient.maxConcurrentTransfersDynamicValue
+
+// Restore the default value
+StorageBlobClient.maxConcurrentTransfers = StorageBlobClient.maxConcurrentTransfersDefaultValue
+```
 
 ## Key concepts
 The following components make up the Azure Blob Service:
