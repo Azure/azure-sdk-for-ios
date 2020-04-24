@@ -140,7 +140,7 @@ class BlobUploadViewController: UIViewController, MSALInteractiveDelegate {
         }
         group.notify(queue: .main) {
             PHPhotoLibrary.authorizationStatus()
-            self.blobClient?.startManaging()
+            StorageBlobClient.startManaging()
             self.reloadCollectionView()
         }
     }
