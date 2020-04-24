@@ -73,11 +73,11 @@ class BlobDownloadViewController: UIViewController, MSALInteractiveDelegate {
             tableView.refreshControl?.beginRefreshing()
         }
         blobClient.listBlobs(inContainer: containerName, withOptions: options) { result, _ in
-            DispatchQueue.main.async { self.tableView.refreshControl?.endRefreshing() }
+            self.tableView.refreshControl?.endRefreshing()
             switch result {
             case let .success(paged):
                 self.dataSource = paged
-                self.reloadTableView()
+                self.tableView.reloadData()
             case let .failure(error):
                 self.showAlert(error: error)
                 self.noMoreData = true
@@ -92,7 +92,7 @@ class BlobDownloadViewController: UIViewController, MSALInteractiveDelegate {
             switch result {
             case let .success(data):
                 if data != nil {
-                    self.reloadTableView()
+                    self.tableView.reloadData()
                 } else {
                     self.noMoreData = true
                 }
@@ -100,13 +100,6 @@ class BlobDownloadViewController: UIViewController, MSALInteractiveDelegate {
                 self.showAlert(error: error)
                 self.noMoreData = true
             }
-        }
-    }
-
-    /// Reload the table view on the UI thread.
-    private func reloadTableView() {
-        DispatchQueue.main.async { [weak self] in
-            self?.tableView.reloadData()
         }
     }
 
@@ -218,9 +211,7 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
         } catch {
             showAlert(error: error)
         }
-        DispatchQueue.main.async { [weak self] in
-            self?.tableView.deselectRow(at: indexPath, animated: true)
-        }
+        self.tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
@@ -235,22 +226,22 @@ extension BlobDownloadViewController: TransferDelegate {
         andProgress progress: Float?
     ) {
         if let blobTransfer = transfer as? BlobTransfer, blobTransfer.transferType == .download {
-            reloadTableView()
+            tableView.reloadData()
         }
     }
 
     func transfersDidUpdate(_: [Transfer]) {
-        reloadTableView()
+        tableView.reloadData()
     }
 
     func transferDidComplete(_ transfer: Transfer) {
         if let blobTransfer = transfer as? BlobTransfer, blobTransfer.transferType == .download {
-            reloadTableView()
+            tableView.reloadData()
         }
     }
 
     func transfer(_: Transfer, didFailWithError error: Error) {
         showAlert(error: error)
-        reloadTableView()
+        tableView.reloadData()
     }
 }

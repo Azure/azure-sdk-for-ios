@@ -73,14 +73,10 @@ class LoginViewController: UIViewController {
     }
 
     internal func updateLogOutButton(enabled: Bool) {
-        if Thread.isMainThread {
-            logOutButton.isEnabled = enabled
-        } else {
-            DispatchQueue.main.async { [weak self] in
-                self?.logOutButton.isEnabled = enabled
-            }
+        DispatchQueue.main.async { [weak self] in
+            self?.logOutButton.isEnabled = enabled
+            self?.updateUserLabel()
         }
-        updateUserLabel()
     }
 
     internal func updateUserLabel() {
