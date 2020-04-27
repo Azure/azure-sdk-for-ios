@@ -88,7 +88,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also
         // applicationDidEnterBackground:.
-        try? StorageBlobClient.stopManaging()
+        StorageBlobClient.stopManaging()
     }
 
     func application(

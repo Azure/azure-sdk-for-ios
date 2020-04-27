@@ -30,57 +30,61 @@ import Foundation
 
 extension URLSessionTransferManager: TransferDelegate {
     func transfer(_ transfer: Transfer, didUpdateWithState state: TransferState, andProgress progress: Float?) {
-        guard let restorationId = (transfer as? TransferImpl)?.clientRestorationId else { return }
-        let delegate = client(forRestorationId: restorationId) as? TransferDelegate
-        switch state {
-        case .failed:
-            // Block transfers should propagate up to their BlobTransfer and only notify that the
-            // entire Blob transfer failed.
-            if let transferError = (transfer as? BlobTransfer)?.error as NSError? {
-                if [-1009, -1005].contains(transferError.code) {
-                    transfer.pause()
+        DispatchQueue.main.async {
+            guard let restorationId = (transfer as? TransferImpl)?.clientRestorationId else { return }
+            let delegate = self.client(forRestorationId: restorationId) as? TransferDelegate
+            switch state {
+            case .failed:
+                // Block transfers should propagate up to their BlobTransfer and only notify that the
+                // entire Blob transfer failed.
+                if let transferError = (transfer as? BlobTransfer)?.error as NSError? {
+                    if [-1009, -1005].contains(transferError.code) {
+                        transfer.pause()
+                    } else {
+                        delegate?.transfer(transfer, didFailWithError: transferError)
+                    }
                 } else {
-                    delegate?.transfer(transfer, didFailWithError: transferError)
-                }
-            } else {
-                // ignore BlockTransfer failures
-                return
-            }
-        case .complete:
-            delegate?.transferDidComplete(transfer)
-        case .paused:
-            delegate?.transfer(transfer, didUpdateWithState: state, andProgress: nil)
-        default:
-            if let blobTransfer = transfer as? BlobTransfer {
-                let progress = blobTransfer.progress
-
-                // avoid saving the context or sending multiple messages when the progress has not actually changed
-                if blobTransfer.currentProgress < progress {
-                    blobTransfer.currentProgress = progress
-                    delegate?.transfer(transfer, didUpdateWithState: state, andProgress: progress)
-                } else {
+                    // ignore BlockTransfer failures
                     return
                 }
-            } else {
+            case .complete:
+                delegate?.transferDidComplete(transfer)
+            case .paused:
                 delegate?.transfer(transfer, didUpdateWithState: state, andProgress: nil)
+            default:
+                if let blobTransfer = transfer as? BlobTransfer {
+                    let progress = blobTransfer.progress
+
+                    // avoid saving the context or sending multiple messages when the progress has not actually changed
+                    if blobTransfer.currentProgress < progress {
+                        blobTransfer.currentProgress = progress
+                        delegate?.transfer(transfer, didUpdateWithState: state, andProgress: progress)
+                    } else {
+                        return
+                    }
+                } else {
+                    delegate?.transfer(transfer, didUpdateWithState: state, andProgress: nil)
+                }
             }
-        }
-        if let context = (transfer as? NSManagedObject)?.managedObjectContext {
-            save(context: context)
+            if let context = (transfer as? NSManagedObject)?.managedObjectContext {
+                self.save(context: context)
+            }
         }
     }
 
     func transfersDidUpdate(_ transfers: [Transfer]) {
-        let restorationIds = transfers.compactMap { ($0 as? TransferImpl)?.clientRestorationId }
-        for restorationId in Set(restorationIds) {
-            guard let delegate = client(forRestorationId: restorationId) as? TransferDelegate else { continue }
-            let transfersForId = transfers.filter { ($0 as? TransferImpl)?.clientRestorationId == restorationId }
-            delegate.transfersDidUpdate(transfersForId)
+        DispatchQueue.main.async {
+            let restorationIds = transfers.compactMap { ($0 as? TransferImpl)?.clientRestorationId }
+            for restorationId in Set(restorationIds) {
+                guard let delegate = self.client(forRestorationId: restorationId) as? TransferDelegate else { continue }
+                let transfersForId = transfers.filter { ($0 as? TransferImpl)?.clientRestorationId == restorationId }
+                delegate.transfersDidUpdate(transfersForId)
 
-            // get the minimal set of unique MOCs and save them
-            let contexts = transfersForId.compactMap { ($0 as? NSManagedObject)?.managedObjectContext }
-            for context in Set(contexts) {
-                save(context: context)
+                // get the minimal set of unique MOCs and save them
+                let contexts = transfersForId.compactMap { ($0 as? NSManagedObject)?.managedObjectContext }
+                for context in Set(contexts) {
+                    self.save(context: context)
+                }
             }
         }
     }
@@ -88,18 +92,22 @@ extension URLSessionTransferManager: TransferDelegate {
     func transferDidComplete(_ transfer: Transfer) {
         guard let restorationId = (transfer as? TransferImpl)?.clientRestorationId else { return }
         guard let delegate = client(forRestorationId: restorationId) as? TransferDelegate else { return }
-        delegate.transferDidComplete(transfer)
-        if let context = (transfer as? NSManagedObject)?.managedObjectContext {
-            save(context: context)
+        DispatchQueue.main.async {
+            delegate.transferDidComplete(transfer)
+            if let context = (transfer as? NSManagedObject)?.managedObjectContext {
+                self.save(context: context)
+            }
         }
     }
 
     func transfer(_ transfer: Transfer, didFailWithError error: Error) {
         guard let restorationId = (transfer as? TransferImpl)?.clientRestorationId else { return }
         guard let delegate = client(forRestorationId: restorationId) as? TransferDelegate else { return }
-        delegate.transfer(transfer, didFailWithError: error)
-        if let context = (transfer as? NSManagedObject)?.managedObjectContext {
-            save(context: context)
+        DispatchQueue.main.async {
+            delegate.transfer(transfer, didFailWithError: error)
+            if let context = (transfer as? NSManagedObject)?.managedObjectContext {
+                self.save(context: context)
+            }
         }
     }
 }

@@ -141,16 +141,7 @@ class BlobUploadViewController: UIViewController, MSALInteractiveDelegate {
         group.notify(queue: .main) {
             PHPhotoLibrary.authorizationStatus()
             StorageBlobClient.startManaging()
-            self.reloadCollectionView()
-        }
-    }
-
-    // MARK: Private Methods
-
-    /// Reload the table view on the UI thread.
-    private func reloadCollectionView() {
-        DispatchQueue.main.async { [weak self] in
-            self?.collectionView.reloadData()
+            self.collectionView.reloadData()
         }
     }
 
@@ -204,9 +195,7 @@ extension BlobUploadViewController: UICollectionViewDelegate, UICollectionViewDa
 
     func collectionView(_: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         defer {
-            DispatchQueue.main.async { [weak self] in
-                self?.collectionView.deselectItem(at: indexPath, animated: true)
-            }
+            self.collectionView.deselectItem(at: indexPath, animated: true)
         }
         guard let containerName = AppConstants.uploadContainer else { return }
         guard let blobClient = blobClient else { return }
@@ -275,22 +264,22 @@ extension BlobUploadViewController: TransferDelegate {
         andProgress progress: Float?
     ) {
         if let blobTransfer = transfer as? BlobTransfer, blobTransfer.transferType == .upload {
-            reloadCollectionView()
+            collectionView.reloadData()
         }
     }
 
     func transfersDidUpdate(_: [Transfer]) {
-        reloadCollectionView()
+        collectionView.reloadData()
     }
 
     func transferDidComplete(_ transfer: Transfer) {
         if let blobTransfer = transfer as? BlobTransfer, blobTransfer.transferType == .upload {
-            reloadCollectionView()
+            collectionView.reloadData()
         }
     }
 
     func transfer(_: Transfer, didFailWithError error: Error) {
         showAlert(error: error)
-        reloadCollectionView()
+        collectionView.reloadData()
     }
 }

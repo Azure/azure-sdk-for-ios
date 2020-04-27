@@ -132,34 +132,30 @@ class ActivtyViewController: UIViewController {
 
 extension UIViewController {
     internal func showAlert(error: Error) {
-        DispatchQueue.main.async { [weak self] in
-            guard self?.presentedViewController == nil else { return }
-            var errorString: String
-            if let pipelineError = error as? PipelineError {
-                errorString = pipelineError.innerError.localizedDescription
-            } else {
-                let errorInfo = (error as NSError).userInfo
-                errorString = errorInfo[NSDebugDescriptionErrorKey] as? String ?? error.localizedDescription
-            }
-            let alertController = UIAlertController(title: "Error!", message: errorString, preferredStyle: .alert)
-            let title = NSAttributedString(string: "Error!", attributes: [
-                NSAttributedString.Key.foregroundColor: UIColor.red
-            ])
-            alertController.setValue(title, forKey: "attributedTitle")
-            let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-            alertController.addAction(defaultAction)
-            self?.present(alertController, animated: true)
+        guard presentedViewController == nil else { return }
+        var errorString: String
+        if let pipelineError = error as? PipelineError {
+            errorString = pipelineError.innerError.localizedDescription
+        } else {
+            let errorInfo = (error as NSError).userInfo
+            errorString = errorInfo[NSDebugDescriptionErrorKey] as? String ?? error.localizedDescription
         }
+        let alertController = UIAlertController(title: "Error!", message: errorString, preferredStyle: .alert)
+        let title = NSAttributedString(string: "Error!", attributes: [
+            NSAttributedString.Key.foregroundColor: UIColor.red
+        ])
+        alertController.setValue(title, forKey: "attributedTitle")
+        let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(defaultAction)
+        present(alertController, animated: true)
     }
 
     internal func showAlert(message: String) {
-        DispatchQueue.main.async { [weak self] in
-            guard self?.presentedViewController == nil else { return }
-            let alertController = UIAlertController(title: "Blob Contents", message: message, preferredStyle: .alert)
-            let defaultAction = UIAlertAction(title: "Close", style: .default, handler: nil)
-            alertController.addAction(defaultAction)
-            self?.present(alertController, animated: true)
-        }
+        guard presentedViewController == nil else { return }
+        let alertController = UIAlertController(title: "Blob Contents", message: message, preferredStyle: .alert)
+        let defaultAction = UIAlertAction(title: "Close", style: .default, handler: nil)
+        alertController.addAction(defaultAction)
+        present(alertController, animated: true)
     }
 }
 
