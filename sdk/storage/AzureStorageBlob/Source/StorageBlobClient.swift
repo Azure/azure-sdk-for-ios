@@ -620,22 +620,22 @@ extension StorageBlobClient: TransferDelegate {
         didUpdateWithState state: TransferState,
         andProgress progress: Float?
     ) {
-        delegate.transfer(transfer, didUpdateWithState: state, andProgress: progress)
+        transferDelegate?.transfer(transfer, didUpdateWithState: state, andProgress: progress)
     }
 
     /// :nodoc:
     public func transfersDidUpdate(_ transfers: [Transfer]) {
-        delegate.transfersDidUpdate(transfers)
+        transferDelegate?.transfersDidUpdate(transfers)
     }
 
     /// :nodoc:
     public func transfer(_ transfer: Transfer, didFailWithError error: Error) {
-        delegate.transfer(transfer, didFailWithError: error)
+        transferDelegate?.transfer(transfer, didFailWithError: error)
     }
 
     /// :nodoc:
     public func transferDidComplete(_ transfer: Transfer) {
-        delegate.transferDidComplete(transfer)
+        transferDelegate?.transferDidComplete(transfer)
     }
 }
 

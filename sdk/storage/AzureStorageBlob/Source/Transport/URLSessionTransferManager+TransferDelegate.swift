@@ -32,7 +32,7 @@ extension URLSessionTransferManager: TransferDelegate {
     func transfer(_ transfer: Transfer, didUpdateWithState state: TransferState, andProgress progress: Float?) {
         DispatchQueue.main.async {
             guard let restorationId = (transfer as? TransferImpl)?.clientRestorationId else { return }
-            let delegate = client(forRestorationId: restorationId) as? TransferDelegate
+            let delegate = self.client(forRestorationId: restorationId) as? TransferDelegate
             switch state {
             case .failed:
                 // Block transfers should propagate up to their BlobTransfer and only notify that the
@@ -67,7 +67,7 @@ extension URLSessionTransferManager: TransferDelegate {
                 }
             }
             if let context = (transfer as? NSManagedObject)?.managedObjectContext {
-                save(context: context)
+                self.save(context: context)
             }
         }
     }
@@ -76,14 +76,14 @@ extension URLSessionTransferManager: TransferDelegate {
         DispatchQueue.main.async {
             let restorationIds = transfers.compactMap { ($0 as? TransferImpl)?.clientRestorationId }
             for restorationId in Set(restorationIds) {
-                guard let delegate = client(forRestorationId: restorationId) as? TransferDelegate else { continue }
+                guard let delegate = self.client(forRestorationId: restorationId) as? TransferDelegate else { continue }
                 let transfersForId = transfers.filter { ($0 as? TransferImpl)?.clientRestorationId == restorationId }
                 delegate.transfersDidUpdate(transfersForId)
 
                 // get the minimal set of unique MOCs and save them
                 let contexts = transfersForId.compactMap { ($0 as? NSManagedObject)?.managedObjectContext }
                 for context in Set(contexts) {
-                    save(context: context)
+                    self.save(context: context)
                 }
             }
         }
@@ -95,7 +95,7 @@ extension URLSessionTransferManager: TransferDelegate {
         DispatchQueue.main.async {
             delegate.transferDidComplete(transfer)
             if let context = (transfer as? NSManagedObject)?.managedObjectContext {
-                save(context: context)
+                self.save(context: context)
             }
         }
     }
@@ -106,7 +106,7 @@ extension URLSessionTransferManager: TransferDelegate {
         DispatchQueue.main.async {
             delegate.transfer(transfer, didFailWithError: error)
             if let context = (transfer as? NSManagedObject)?.managedObjectContext {
-                save(context: context)
+                self.save(context: context)
             }
         }
     }
