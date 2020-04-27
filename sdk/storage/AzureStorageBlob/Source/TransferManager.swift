@@ -63,13 +63,13 @@ internal protocol TransferManager {
 /// A delegate to receive notifications about state changes for all transfers managed by a `StorageBlobClient`.
 public protocol TransferDelegate: AnyObject {
     /// A transfer's state has changed, and progress may be reported.
-    func transfer(_: Transfer, didUpdateWithState: TransferState, andProgress: Float?)
+    func transfer(_ transfer: Transfer, didUpdateWithState state: TransferState, andProgress progress: Float?)
     /// A batch of transfers have changed.
-    func transfersDidUpdate(_: [Transfer])
+    func transfersDidUpdate(_ tranfers: [Transfer])
     /// A transfer has failed.
-    func transfer(_: Transfer, didFailWithError: Error)
+    func transfer(_ transfer: Transfer, didFailWithError error: Error)
     /// A transfer has completed.
-    func transferDidComplete(_: Transfer)
+    func transferDidComplete(_ transfer: Transfer)
 }
 
 // MARK: Extensions
