@@ -84,6 +84,20 @@ public class BlobTransfer: NSManagedObject, Transfer {
         }
     }
 
+    /// The source of the transfer. For uploads, this is the absolute local path on the device of the file being
+    /// uploaded. For downloads, this is the URL of the blob being downloaded.
+    public var sourceUrl: URL? {
+        guard let url = source else { return nil }
+        return transferType == .upload ? LocalURL(fromAbsoluteUrl: url).resolvedUrl : url
+    }
+
+    /// The destination of the transfer. For uploads, this is the blob URL where the file is being uploaded. For
+    /// downloads, this is the absolute local path on the device to which the blob is being downloaded.
+    public var destinationUrl: URL? {
+        guard let url = destination else { return nil }
+        return transferType == .download ? LocalURL(fromAbsoluteUrl: url).resolvedUrl : url
+    }
+
     // FIXME: The fact that BlobProperties, DownloadBlobOptions, and UploadBlobOptions are structs causes serious
     // problems here. It will always return nil if allowed to be optional.
     private var cachedProperties: BlobProperties?

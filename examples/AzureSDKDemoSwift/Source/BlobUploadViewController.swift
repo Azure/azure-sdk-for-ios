@@ -45,13 +45,10 @@ internal struct UploadData {
         }
         return ""
     }
-
-    var transfer: BlobTransfer?
 }
 
 class BlobUploadViewController: UIViewController, MSALInteractiveDelegate {
     private var dataSource = [UploadData]()
-    private var uploadMap = [IndexPath: UploadData]()
     private var blobClient: StorageBlobClient?
 
     private var sizeForCell: CGSize {
@@ -176,7 +173,7 @@ extension BlobUploadViewController: UICollectionViewDelegate, UICollectionViewDa
             fatalError("Preconditions not met to create CustomCollectionViewCell")
         }
 
-        var data = dataSource[indexPath.row]
+        let data = dataSource[indexPath.row]
         cell.backgroundColor = .white
         cell.image.image = image(for: data.asset, withSize: sizeForCell)
         cell.progressBar.progress = 0
@@ -185,8 +182,6 @@ extension BlobUploadViewController: UICollectionViewDelegate, UICollectionViewDa
             .first {
             // Match any blobs to existing transfers.
             // Update upload map and progress.
-            data.transfer = transfer
-            uploadMap[indexPath] = data
             cell.backgroundColor = transfer.state.color
             cell.progressBar.progress = transfer.progress
         }
@@ -199,28 +194,26 @@ extension BlobUploadViewController: UICollectionViewDelegate, UICollectionViewDa
         }
         guard let containerName = AppConstants.uploadContainer else { return }
         guard let blobClient = blobClient else { return }
+        let data = dataSource[indexPath.row]
+        let blobName = data.blobName
 
         // don't start a transfer if one has already started
-        if uploadMap[indexPath]?.transfer != nil { return }
+        guard blobClient.transfers.uploadedTo(container: AppConstants.uploadContainer, blob: blobName).first == nil
+        else { return }
 
-        var data = dataSource[indexPath.row]
-        let blobName = data.blobName
         let sourceUrl = LocalURL(fromAbsoluteUrl: data.url)
         let properties = BlobProperties(
             contentType: "image/jpg"
         )
         let options = AppState.uploadOptions
         do {
-            if let transfer = try blobClient.upload(
+            _ = try blobClient.upload(
                 file: sourceUrl,
                 toContainer: containerName,
                 asBlob: blobName,
                 properties: properties,
                 withOptions: options
-            ) {
-                data.transfer = transfer as? BlobTransfer
-                uploadMap[indexPath] = data
-            }
+            )
         } catch {
             showAlert(error: error)
         }
