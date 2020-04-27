@@ -30,10 +30,6 @@ import UIKit
 class CustomTabBarController: UITabBarController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        do {
-            try StorageBlobClient.stopManaging()
-        } catch {
-            showAlert(error: error)
-        }
+        StorageBlobClient.stopManaging()
     }
 }
