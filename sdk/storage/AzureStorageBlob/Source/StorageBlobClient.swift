@@ -506,7 +506,7 @@ public final class StorageBlobClient: PipelineClient {
     ///   - container: The name of the container.
     ///   - destinationUrl: The URL to a file path on this device.
     ///   - options: A `DownloadBlobOptions` object to control the download operation.
-    public func download(
+    @discardableResult public func download(
         blob: String,
         fromContainer container: String,
         toFile destinationUrl: LocalURL,
@@ -555,7 +555,7 @@ public final class StorageBlobClient: PipelineClient {
     ///   - blob: The name of the blob.
     ///   - properties: Properties to set on the resulting blob.
     ///   - options: An `UploadBlobOptions` object to control the upload operation.
-    public func upload(
+    @discardableResult public func upload(
         file sourceUrl: LocalURL,
         toContainer container: String,
         asBlob blob: String,
