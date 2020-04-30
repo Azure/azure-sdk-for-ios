@@ -199,7 +199,7 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
         // Otherwise, start the download with TransferManager.
         let options = AppState.downloadOptions
         do {
-            _ = try blobClient.download(
+            try blobClient.download(
                 blob: blobName,
                 fromContainer: containerName,
                 toFile: destination,

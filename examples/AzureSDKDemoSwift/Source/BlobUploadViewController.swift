@@ -207,7 +207,7 @@ extension BlobUploadViewController: UICollectionViewDelegate, UICollectionViewDa
         )
         let options = AppState.uploadOptions
         do {
-            _ = try blobClient.upload(
+            try blobClient.upload(
                 file: sourceUrl,
                 toContainer: containerName,
                 asBlob: blobName,
