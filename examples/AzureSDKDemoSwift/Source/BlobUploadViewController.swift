@@ -178,8 +178,7 @@ extension BlobUploadViewController: UICollectionViewDelegate, UICollectionViewDa
         cell.image.image = image(for: data.asset, withSize: sizeForCell)
         cell.progressBar.progress = 0
 
-        if let transfer = blobClient.transfers.uploadedTo(container: AppConstants.uploadContainer, blob: data.blobName)
-            .first {
+        if let transfer = blobClient.uploads.firstWith(blobName: data.blobName) {
             // Match any blobs to existing transfers.
             // Update upload map and progress.
             cell.backgroundColor = transfer.state.color
@@ -198,8 +197,7 @@ extension BlobUploadViewController: UICollectionViewDelegate, UICollectionViewDa
         let blobName = data.blobName
 
         // don't start a transfer if one has already started
-        guard blobClient.transfers.uploadedTo(container: AppConstants.uploadContainer, blob: blobName).first == nil
-        else { return }
+        guard blobClient.uploads.firstWith(blobName: blobName) == nil else { return }
 
         let sourceUrl = LocalURL(fromAbsoluteUrl: data.url)
         let properties = BlobProperties(
