@@ -157,8 +157,7 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
 
         // Match any blobs to existing transfers.
         // Update background color and progress.
-        if let transfer = blobClient.transfers.downloadedFrom(container: AppConstants.videoContainer, blob: blobName)
-            .first {
+        if let transfer = blobClient.downloads.firstWith(blobName: blobName) {
             cell.backgroundColor = transfer.state.color
             cell.progressBar.progress = transfer.progress
         }
@@ -179,10 +178,7 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
 
         let manager = FileManager.default
 
-        if let existingTransfer = blobClient.transfers.downloadedFrom(
-            container: AppConstants.videoContainer,
-            blob: blobName
-        ).first {
+        if let existingTransfer = blobClient.downloads.firstWith(blobName: blobName) {
             // if transfer exists and is complete, open file, otherwise ignore
             if let destinationUrl = existingTransfer.destinationUrl,
                 manager.fileExists(atPath: destinationUrl.path),
