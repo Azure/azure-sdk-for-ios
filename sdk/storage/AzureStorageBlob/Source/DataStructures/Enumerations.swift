@@ -90,6 +90,8 @@ public enum LeaseStatus: String, Codable {
 public enum TransferState: Int16 {
     /// The transfer has not been started by the transfer management engine.
     case pending
+    /// The transfer requires interactive authentication before it can begin.
+    case authenticationRequired
     /// The transfer is currently in progress.
     case inProgress
     /// The transfer is paused.
@@ -108,6 +110,8 @@ public enum TransferState: Int16 {
         switch self {
         case .pending:
             return "Pending"
+        case .authenticationRequired:
+            return "Authentication Required"
         case .inProgress:
             return "In Progress"
         case .paused:
@@ -126,7 +130,7 @@ public enum TransferState: Int16 {
     /// Indicates whether the transfer is currently in a state that can be resumed.
     public var resumable: Bool {
         switch self {
-        case .paused, .failed, .pending, .inProgress:
+        case .paused, .failed, .pending, .inProgress, .authenticationRequired:
             return true
         case .complete, .canceled, .deleted:
             return false
@@ -136,7 +140,7 @@ public enum TransferState: Int16 {
     /// Indicates whether the transfer is currently in an active state.
     public var active: Bool {
         switch self {
-        case .pending, .inProgress:
+        case .pending, .inProgress, .authenticationRequired:
             return true
         case .paused, .failed, .complete, .canceled, .deleted:
             return false
