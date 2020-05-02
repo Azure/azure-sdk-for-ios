@@ -36,6 +36,8 @@ public struct AccessToken {
 public protocol TokenCredential {
     // MARK: Required Methods
 
+    var requiresInteractiveAuthentication: Bool { get }
+
     func token(forScopes scopes: [String], then completion: @escaping (AccessToken?, Error?) -> Void)
 }
 
@@ -172,6 +174,10 @@ public struct MSALCredential: TokenCredential {
         }
     }
 
+    public var requiresInteractiveAuthentication: Bool {
+        return account == nil
+    }
+
     // MARK: Internal Methods
 
     internal func acquireTokenInteractively(
@@ -256,6 +262,12 @@ public class BearerTokenCredentialPolicy: Authenticating {
     ///   - request: A `PipelineRequest` object.
     ///   - completion: A completion handler that forwards the modified pipeline request.
     public func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
+        if credential.requiresInteractiveAuthentication,
+            request.value(forKey: .interactiveAuthPermitted) == nil {
+            completion(request, AuthenticationError.interactiveRequired)
+            return
+        }
+
         credential.token(forScopes: scopes) { token, error in
             if let error = error {
                 completion(request, error)

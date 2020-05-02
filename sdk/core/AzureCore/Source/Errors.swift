@@ -43,6 +43,17 @@ extension BaseError {
     }
 }
 
+public enum AuthenticationError: BaseError {
+    case interactiveRequired
+
+    var message: String {
+        switch self {
+        case .interactiveRequired:
+            return "Interactive authentication required"
+        }
+    }
+}
+
 public enum AzureError: BaseError {
     case general(_ message: String)
     case fileSystem(_ message: String)
