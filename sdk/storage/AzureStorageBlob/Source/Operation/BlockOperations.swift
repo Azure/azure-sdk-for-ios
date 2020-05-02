@@ -83,13 +83,18 @@ internal class BlockOperation: TransferOperation {
                     transfer.state = .complete
                     self.notifyDelegate(withTransfer: parent)
                 case let .failure(error):
-                    var err = error
-                    if let pipelineError = error as? PipelineError {
-                        err = pipelineError.innerError
+                    if error as? AuthenticationError == AuthenticationError.interactiveRequired {
+                        transfer.state = .authenticationRequired
+                        parent.state = .authenticationRequired
+                    } else {
+                        var err = error
+                        if let pipelineError = error as? PipelineError {
+                            err = pipelineError.innerError
+                        }
+                        transfer.state = .failed
+                        parent.state = .failed
+                        parent.error = err
                     }
-                    transfer.state = .failed
-                    parent.state = .failed
-                    parent.error = err
                     self.notifyDelegate(withTransfer: parent)
                 }
             }
@@ -123,13 +128,18 @@ internal class BlockOperation: TransferOperation {
                     transfer.state = .complete
                     self.notifyDelegate(withTransfer: parent)
                 case let .failure(error):
-                    var err = error
-                    if let pipelineError = error as? PipelineError {
-                        err = pipelineError.innerError
+                    if error as? AuthenticationError == AuthenticationError.interactiveRequired {
+                        transfer.state = .authenticationRequired
+                        parent.state = .authenticationRequired
+                    } else {
+                        var err = error
+                        if let pipelineError = error as? PipelineError {
+                            err = pipelineError.innerError
+                        }
+                        transfer.state = .failed
+                        parent.state = .failed
+                        parent.error = err
                     }
-                    transfer.state = .failed
-                    parent.state = .failed
-                    parent.error = err
                     self.notifyDelegate(withTransfer: parent)
                 }
             }

@@ -24,6 +24,7 @@
 //
 // --------------------------------------------------------------------------
 
+import AzureCore
 import CoreData
 import Foundation
 
@@ -53,9 +54,14 @@ internal class BlobUploadFinalOperation: TransferOperation {
                 transfer.state = .complete
                 self.notifyDelegate(withTransfer: transfer)
             case let .failure(error):
-                transfer.state = .failed
-                transfer.error = error
-                transfer.parent?.state = .failed
+                if error as? AuthenticationError == AuthenticationError.interactiveRequired {
+                    transfer.state = .authenticationRequired
+                    transfer.parent?.state = .authenticationRequired
+                } else {
+                    transfer.state = .failed
+                    transfer.error = error
+                    transfer.parent?.state = .failed
+                }
                 self.notifyDelegate(withTransfer: transfer)
             }
             group.leave()

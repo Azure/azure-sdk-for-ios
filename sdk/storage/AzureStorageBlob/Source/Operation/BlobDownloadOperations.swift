@@ -24,6 +24,7 @@
 //
 // --------------------------------------------------------------------------
 
+import AzureCore
 import CoreData
 import Foundation
 
@@ -107,9 +108,14 @@ internal class BlobDownloadInitialOperation: TransferOperation {
                 self.queueRemainingBlocks(forTransfer: parent)
                 self.notifyDelegate(withTransfer: parent)
             case let .failure(error):
-                transfer.state = .failed
-                parent.state = .failed
-                parent.error = error
+                if error as? AuthenticationError == AuthenticationError.interactiveRequired {
+                    transfer.state = .authenticationRequired
+                    parent.state = .authenticationRequired
+                } else {
+                    transfer.state = .failed
+                    parent.state = .failed
+                    parent.error = error
+                }
                 self.notifyDelegate(withTransfer: parent)
             }
             group.leave()
