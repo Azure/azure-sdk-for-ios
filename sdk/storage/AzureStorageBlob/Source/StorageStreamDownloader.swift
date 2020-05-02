@@ -45,6 +45,8 @@ internal class ChunkDownloader {
 
     internal var endRange: Int
 
+    internal var interactiveAuthPermitted: Bool
+
     internal var isEncrypted: Bool {
         return options.encryptionOptions?.key != nil || options.encryptionOptions?.keyResolver != nil
     }
@@ -65,7 +67,8 @@ internal class ChunkDownloader {
         destination: URL,
         startRange: Int,
         endRange: Int,
-        options: DownloadBlobOptions
+        options: DownloadBlobOptions,
+        interactiveAuthPermitted: Bool
     ) {
         self.client = client
         self.options = options
@@ -73,6 +76,7 @@ internal class ChunkDownloader {
         self.downloadDestination = destination
         self.startRange = startRange
         self.endRange = endRange
+        self.interactiveAuthPermitted = interactiveAuthPermitted
     }
 
     // MARK: Public Methods
@@ -95,6 +99,9 @@ internal class ChunkDownloader {
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 206] as AnyObject
         ])
+        if interactiveAuthPermitted {
+            context.add(value: 1 as NSNumber, forKey: .interactiveAuthPermitted)
+        }
         client.request(request, context: context) { result, httpResponse in
             switch result {
             case let .failure(error):
@@ -288,6 +295,8 @@ internal class BlobStreamDownloader: BlobDownloader {
 
     internal var options: DownloadBlobOptions
 
+    internal var interactiveAuthPermitted: Bool
+
     // MARK: Initializers
 
     /// Create a `BlobStreamDownloader` object.
@@ -302,7 +311,8 @@ internal class BlobStreamDownloader: BlobDownloader {
         delegate: BlobDownloadDelegate? = nil,
         source: URL,
         destination: LocalURL,
-        options: DownloadBlobOptions? = nil
+        options: DownloadBlobOptions? = nil,
+        interactiveAuthPermitted: Bool = true
     ) throws {
         guard let downloadDestination = destination.resolvedUrl else {
             throw AzureError.fileSystem("Unable to determine download destination: \(destination)")
@@ -316,6 +326,7 @@ internal class BlobStreamDownloader: BlobDownloader {
         self.requestedSize = self.options.range?.length
         self.blobProperties = nil
         self.totalSize = -1
+        self.interactiveAuthPermitted = interactiveAuthPermitted
         self.blockList = computeBlockList()
     }
 
@@ -374,7 +385,8 @@ internal class BlobStreamDownloader: BlobDownloader {
             destination: downloadDestination,
             startRange: range.startIndex,
             endRange: range.endIndex,
-            options: options
+            options: options,
+            interactiveAuthPermitted: interactiveAuthPermitted
         )
         downloader.download { result, httpResponse in
             switch result {
@@ -404,7 +416,8 @@ internal class BlobStreamDownloader: BlobDownloader {
             destination: downloadDestination,
             startRange: firstRange.startIndex,
             endRange: firstRange.endIndex,
-            options: options
+            options: options,
+            interactiveAuthPermitted: interactiveAuthPermitted
         )
         downloader.download { result, httpResponse in
             switch result {

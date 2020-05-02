@@ -47,6 +47,8 @@ internal class ChunkUploader {
 
     internal var endRange: Int
 
+    internal var interactiveAuthPermitted: Bool
+
     internal var isEncrypted: Bool {
         return options.encryptionOptions?.key != nil || options.encryptionOptions?.keyResolver != nil
     }
@@ -69,7 +71,8 @@ internal class ChunkUploader {
         destination: URL,
         startRange: Int,
         endRange: Int,
-        options: UploadBlobOptions
+        options: UploadBlobOptions,
+        interactiveAuthPermitted: Bool
     ) {
         self.blockId = blockId
         self.client = client
@@ -78,6 +81,7 @@ internal class ChunkUploader {
         self.uploadDestination = destination
         self.startRange = startRange
         self.endRange = endRange
+        self.interactiveAuthPermitted = interactiveAuthPermitted
     }
 
     // MARK: Public Methods
@@ -153,6 +157,9 @@ internal class ChunkUploader {
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [201] as AnyObject
         ])
+        if interactiveAuthPermitted {
+            context.add(value: 1 as NSNumber, forKey: .interactiveAuthPermitted)
+        }
 
         client.request(request, context: context) { result, httpResponse in
             switch result {
@@ -255,6 +262,8 @@ internal class BlobStreamUploader: BlobUploader {
 
     internal let options: UploadBlobOptions
 
+    internal var interactiveAuthPermitted: Bool
+
     // MARK: Initializers
 
     /// Create a `BlobStreamUploader` object.
@@ -271,7 +280,8 @@ internal class BlobStreamUploader: BlobUploader {
         source: LocalURL,
         destination: URL,
         properties: BlobProperties? = nil,
-        options: UploadBlobOptions? = nil
+        options: UploadBlobOptions? = nil,
+        interactiveAuthPermitted: Bool = true
     ) throws {
         guard let uploadSource = source.resolvedUrl else {
             throw AzureError.fileSystem("Unable to determine upload source: \(source)")
@@ -289,6 +299,7 @@ internal class BlobStreamUploader: BlobUploader {
         self.options = options ?? UploadBlobOptions()
         self.uploadDestination = destination
         self.blobProperties = properties
+        self.interactiveAuthPermitted = interactiveAuthPermitted
         self.blockList = computeBlockList()
     }
 
@@ -407,7 +418,8 @@ internal class BlobStreamUploader: BlobUploader {
             destination: uploadDestination,
             startRange: range.startIndex,
             endRange: range.endIndex,
-            options: options
+            options: options,
+            interactiveAuthPermitted: interactiveAuthPermitted
         )
         uploader.upload { result, httpResponse in
             switch result {

@@ -65,7 +65,8 @@ internal class BlockOperation: TransferOperation {
                 destination: downloader.downloadDestination,
                 startRange: Int(transfer.startRange),
                 endRange: Int(transfer.endRange),
-                options: downloader.options
+                options: downloader.options,
+                interactiveAuthPermitted: downloader.interactiveAuthPermitted
             )
             chunkDownloader.download { result, httpResponse in
                 defer { group.leave() }
@@ -105,7 +106,8 @@ internal class BlockOperation: TransferOperation {
                 destination: uploader.uploadDestination,
                 startRange: Int(transfer.startRange),
                 endRange: Int(transfer.endRange),
-                options: uploader.options
+                options: uploader.options,
+                interactiveAuthPermitted: uploader.interactiveAuthPermitted
             )
             chunkUploader.upload { result, _ in
                 defer { group.leave() }

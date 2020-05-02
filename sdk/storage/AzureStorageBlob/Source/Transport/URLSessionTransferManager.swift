@@ -444,9 +444,15 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         // early out if a client is already connected
         switch transfer.transferType {
         case .upload:
-            guard transfer.uploader == nil else { return }
+            guard transfer.uploader == nil else {
+                transfer.uploader?.interactiveAuthPermitted = true
+                return
+            }
         case .download:
-            guard transfer.downloader == nil else { return }
+            guard transfer.downloader == nil else {
+                transfer.downloader?.interactiveAuthPermitted = true
+                return
+            }
         }
 
         // attempt to attach one
@@ -475,7 +481,8 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
                     source: source,
                     destination: destUrl,
                     properties: blobProperties,
-                    options: uploadOptions
+                    options: uploadOptions,
+                    interactiveAuthPermitted: false
                 )
             case .download:
                 guard let sourceUrl = transfer.source else { return }
@@ -486,7 +493,8 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
                     delegate: nil,
                     source: sourceUrl,
                     destination: destination,
-                    options: transfer.downloadOptions
+                    options: transfer.downloadOptions,
+                    interactiveAuthPermitted: false
                 )
             }
         } catch {
