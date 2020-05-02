@@ -106,6 +106,7 @@ public final class StorageBlobClient: PipelineClient {
             logger: self.options.logger
         )
         try StorageBlobClient.manager.register(client: self, forRestorationId: restorationId)
+        StorageBlobClient.manager.startManaging()
     }
 
     /// Create a Storage blob data client.
