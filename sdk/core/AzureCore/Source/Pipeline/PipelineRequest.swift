@@ -26,7 +26,7 @@
 
 import Foundation
 
-public final class PipelineRequest: Copyable, PipelineContextSupporting {
+public final class PipelineRequest: PipelineContextSupporting {
     // MARK: Properties
 
     public var httpRequest: HTTPRequest
@@ -44,9 +44,5 @@ public final class PipelineRequest: Copyable, PipelineContextSupporting {
         self.httpRequest = request
         self.logger = logger
         self.context = context
-    }
-
-    public required convenience init(copy: PipelineRequest) {
-        self.init(request: copy.httpRequest, logger: copy.logger, context: copy.context)
     }
 }
