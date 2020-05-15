@@ -33,7 +33,13 @@ public struct AccessToken {
     public let expiresOn: Int
 }
 
-public protocol TokenCredential {
+public protocol AzureCredential {
+    // MARK: Required Methods
+
+    func validate() throws
+}
+
+public protocol TokenCredential: AzureCredential {
     // MARK: Required Methods
 
     func token(forScopes scopes: [String], then completion: @escaping (AccessToken?, Error?) -> Void)
@@ -71,10 +77,11 @@ public extension MSALInteractiveDelegate where Self: UIViewController {
 public struct MSALCredential: TokenCredential {
     // MARK: Properties
 
-    private let tenant: String
-    private let clientId: String
-    private let application: MSALPublicClientApplication
+    private let tenant: String?
+    private let clientId: String?
+    private let application: MSALPublicClientApplication?
     private let account: MSALAccount?
+    private let error: Error?
 
     private weak var delegate: MSALInteractiveDelegate? {
         return ApplicationUtil.currentViewController(forParent: nil) as? MSALInteractiveDelegate
@@ -92,22 +99,29 @@ public struct MSALCredential: TokenCredential {
     public init(
         tenant: String,
         clientId: String,
-        authority: String,
+        authority: URL,
         redirectUri: String? = nil,
         account: MSALAccount? = nil
-    ) throws {
-        let error = AzureError.general("Unable to create MSAL credential object.")
-        guard let authorityUrl = URL(string: authority) else {
-            throw error
+    ) {
+        var application: MSALPublicClientApplication?
+        var validationError: Error?
+        do {
+            let aadAuthority = try MSALAADAuthority(url: authority)
+            let config = MSALPublicClientApplicationConfig(
+                clientId: clientId,
+                redirectUri: redirectUri,
+                authority: aadAuthority
+            )
+            application = try MSALPublicClientApplication(configuration: config)
+        } catch {
+            validationError = error
         }
-        let authority = try MSALAADAuthority(url: authorityUrl)
-        let config = MSALPublicClientApplicationConfig(
-            clientId: clientId,
-            redirectUri: redirectUri,
-            authority: authority
-        )
-        guard let application = try? MSALPublicClientApplication(configuration: config) else { throw error }
-        self.init(tenant: tenant, clientId: clientId, application: application, account: account)
+
+        self.tenant = tenant
+        self.clientId = clientId
+        self.application = application
+        self.account = account
+        self.error = validationError
     }
 
     /// Create an OAuth credential.
@@ -126,9 +140,16 @@ public struct MSALCredential: TokenCredential {
         self.clientId = clientId
         self.application = application
         self.account = account
+        self.error = nil
     }
 
     // MARK: Public Methods
+
+    public func validate() throws {
+        if let error = error {
+            throw error
+        }
+    }
 
     /// Retrieve a token for the provided scope.
     /// - Parameters:
@@ -178,7 +199,7 @@ public struct MSALCredential: TokenCredential {
         withScopes scopes: [String],
         then completion: @escaping (MSALResult?, Error?) -> Void
     ) {
-        guard let parent = delegate?.parentForWebView() else { return }
+        guard let parent = delegate?.parentForWebView(), let application = application else { return }
         let webViewParameters = MSALWebviewParameters(parentViewController: parent)
         let parameters = MSALInteractiveTokenParameters(scopes: scopes, webviewParameters: webViewParameters)
         application.acquireToken(with: parameters) { result, error in
@@ -191,6 +212,7 @@ public struct MSALCredential: TokenCredential {
         withScopes scopes: [String],
         then completion: @escaping (MSALResult?, Error?) -> Void
     ) {
+        guard let application = application else { return }
         let parameters = MSALSilentTokenParameters(scopes: scopes, account: account)
         application.acquireTokenSilent(with: parameters) { result, error in
             if let error = error {

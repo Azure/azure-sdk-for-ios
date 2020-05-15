@@ -127,6 +127,7 @@ public final class StorageBlobClient: PipelineClient {
         withRestorationId restorationId: String,
         withOptions options: StorageBlobClientOptions? = nil
     ) throws {
+        try credential.validate()
         let authPolicy = BearerTokenCredentialPolicy(credential: credential, scopes: StorageBlobClient.defaultScopes)
         try self.init(baseUrl: endpoint, authPolicy: authPolicy, withRestorationId: restorationId, withOptions: options)
     }
@@ -147,6 +148,7 @@ public final class StorageBlobClient: PipelineClient {
         withRestorationId restorationId: String,
         withOptions options: StorageBlobClientOptions? = nil
     ) throws {
+        try credential.validate()
         guard let blobEndpoint = credential.blobEndpoint else {
             throw AzureError.serviceRequest("Invalid connection string. No blob endpoint specified.")
         }
@@ -176,6 +178,7 @@ public final class StorageBlobClient: PipelineClient {
         withRestorationId restorationId: String,
         withOptions options: StorageBlobClientOptions? = nil
     ) throws {
+        try credential.validate()
         guard let baseUrl = URL(string: credential.blobEndpoint) else {
             throw AzureError.fileSystem("Unable to resolve account URL from credential.")
         }
@@ -184,6 +187,49 @@ public final class StorageBlobClient: PipelineClient {
     }
 
     /// Create an anonymous Storage blob data client.
+    /// - Parameters:
+    ///   - connectionString: A Storage SAS or Shared Key connection string used to retrieve the account's blob storage
+    ///     endpoint and authentication tokens. **WARNING**: Connection strings are inherently insecure in end-user
+    ///     facing applications such as mobile and desktop apps. Connection strings should be treated as secrets and
+    ///     should not be shared with end users, and cannot be rotated once compiled into an application. Since mobile
+    ///     and desktop apps are inherently end-user facing, it's highly recommended that connection strings not be used
+    ///     in production for such applications.
+    ///   - restorationId: An identifier used to associate this client with transfers it creates. When a transfer is
+    ///     reloaded from disk (e.g. after an application crash), it can only be resumed once a client with the same
+    ///     `restorationId` has been initialized. If your application only uses a single `StorageBlobClient`, it is
+    ///     recommended to use a value unique to your application (e.g. "MyApplication"). If your application uses
+    ///     multiple clients with different configurations, use a value unique to both your application and the
+    ///     configuration (e.g. "MyApplication.userClient").
+    ///   - options: Options used to configure the client.
+    public convenience init(
+        connectionString: String,
+        withRestorationId restorationId: String,
+        withOptions options: StorageBlobClientOptions? = nil
+    ) throws {
+        let sasCredential = StorageSASCredential(connectionString: connectionString)
+        if sasCredential.error == nil {
+            try self.init(
+                credential: sasCredential,
+                withRestorationId: restorationId,
+                withOptions: options
+            )
+            return
+        }
+
+        let sharedKeyCredential = StorageSharedKeyCredential(connectionString: connectionString)
+        if sharedKeyCredential.error == nil {
+            try self.init(
+                credential: sharedKeyCredential,
+                withRestorationId: restorationId,
+                withOptions: options
+            )
+            return
+        }
+
+        throw HTTPResponseError.clientAuthentication("The connection string \(connectionString) is invalid.")
+    }
+
+    /// Create a Storage blob data client.
     /// - Parameters:
     ///   - endpoint: The URL for the storage account's blob storage endpoint.
     ///   - restorationId: An identifier used to associate this client with transfers it creates. When a transfer is
