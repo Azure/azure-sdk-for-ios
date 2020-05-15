@@ -35,8 +35,13 @@ import Foundation
 public final class StorageBlobClient: PipelineClient {
     /// API version of the Azure Storage Blob service to invoke. Defaults to the latest.
     public enum ApiVersion: String {
-        /// The most recent API version of the Azure Storabe Blob service
-        case latest = "2019-02-02"
+        /// API version "2019-02-02"
+        case v20190202 = "2019-02-02"
+
+        /// The most recent API version of the Azure Storage Blob service
+        public static var latest: ApiVersion {
+            return .v20190202
+        }
     }
 
     /// The global maximum number of managed transfers that will be executed concurrently by all `StorageBlobClient`
@@ -89,7 +94,7 @@ public final class StorageBlobClient: PipelineClient {
         withRestorationId restorationId: String,
         withOptions options: StorageBlobClientOptions? = nil
     ) throws {
-        self.options = options ?? StorageBlobClientOptions(apiVersion: ApiVersion.latest.rawValue)
+        self.options = options ?? StorageBlobClientOptions()
         self.restorationId = restorationId
         super.init(
             baseUrl: baseUrl,

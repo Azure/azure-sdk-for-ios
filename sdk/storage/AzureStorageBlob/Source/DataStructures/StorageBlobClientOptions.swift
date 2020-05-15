@@ -46,11 +46,11 @@ public struct StorageBlobClientOptions: AzureConfigurable {
     ///   - maxChunkSize: The maximum size of a single chunk in a blob upload or download.
     ///     Must be less than 4MB if enabling MD5 or CRC64 hashing.
     public init(
-        apiVersion: String = StorageBlobClient.ApiVersion.latest.rawValue,
+        apiVersion: StorageBlobClient.ApiVersion = .latest,
         logger: ClientLogger = ClientLoggers.default(tag: "StorageBlobClient"),
         maxChunkSize: Int = 4 * 1024 * 1024 - 1
     ) {
-        self.apiVersion = apiVersion
+        self.apiVersion = apiVersion.rawValue
         self.logger = logger
         self.maxChunkSize = maxChunkSize
     }
