@@ -420,8 +420,7 @@ internal class BlobStreamDownloader: BlobDownloader {
 
                 // Only block blobs are currently supported
                 guard blobProperties.blobType == BlobType.block else {
-                    let error = AzureError.general(
-                        "Page and Append blobs are not currently supported by this library.")
+                    let error = AzureError.general("Page and Append blobs are not currently supported by this library.")
                     completion(.failure(error), httpResponse)
                     return
                 }

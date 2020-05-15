@@ -189,8 +189,8 @@ public class ContentDecodePolicy: PipelineStage {
         var returnResponse = response.copy()
         defer { completion(returnResponse) }
 
-        guard var contentType = (returnResponse.httpResponse?.headers["Content-Type"]?.components(separatedBy: ";")
-            .first) else { return }
+        guard var contentType = returnResponse.httpResponse?.headers["Content-Type"]?.components(separatedBy: ";").first
+        else { return }
         contentType = contentType.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
         do {
             if let deserializedJson = try deserialize(from: returnResponse, contentType: contentType) {
