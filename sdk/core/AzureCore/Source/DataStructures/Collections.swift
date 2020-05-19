@@ -109,8 +109,15 @@ public class PagedCollection<SingleElement: Codable>: PagedCollectionDelegate {
         return Array(slice)
     }
 
+    /// Returns the count of items that have been retrieved so far. There may
+    /// be additional results, not yet fetched.
     public var underestimatedCount: Int {
         return items?.count ?? 0
+    }
+
+    /// Returns true if there are no more results to fetch.
+    public var isExhausted: Bool {
+        return continuationToken == nil
     }
 
     private var _items: Element?
@@ -167,12 +174,9 @@ public class PagedCollection<SingleElement: Codable>: PagedCollectionDelegate {
     /// Retrieves the next page of results asynchronously.
     public func nextPage(then completion: @escaping Continuation<Element?>) {
         // exit if there is no valid continuation token
-        guard let continuationToken = continuationToken else {
-            completion(.success(nil))
-            return
-        }
-        guard continuationToken != "" else {
-            completion(.success(nil))
+        guard let continuationToken = continuationToken,
+            continuationToken != "" else {
+            // don't call the completion block at all if the paged collection is exhausted
             return
         }
 
@@ -207,43 +211,47 @@ public class PagedCollection<SingleElement: Codable>: PagedCollectionDelegate {
                 }
             }
             if let returnError = returnError {
-                completion(.failure(returnError))
+                DispatchQueue.main.async {
+                    completion(.failure(returnError))
+                }
                 return
             }
             self.iteratorIndex = 0
-            completion(.success(self.pageItems))
+            DispatchQueue.main.async {
+                completion(.success(self.pageItems))
+            }
         }
     }
 
     /// Retrieves the next item in the collection, automatically fetching new pages when needed.
     public func nextItem(then completion: @escaping Continuation<SingleElement?>) {
         guard let pageItems = pageItems else {
-            completion(.success(nil))
+            // do not call the completion handler if there is no data
             return
         }
         if iteratorIndex >= pageItems.count {
             nextPage { result in
                 switch result {
                 case let .failure(error):
-                    completion(.failure(error))
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
                 case let .success(newPage):
                     if let newPage = newPage {
                         // since we return the first new item, the next iteration should start with the second item.
                         self.iteratorIndex = 1
-                        completion(.success(newPage[0]))
-                    } else {
-                        self.iteratorIndex = 0
-                        completion(.success(nil))
+                        DispatchQueue.main.async {
+                            completion(.success(newPage[0]))
+                        }
                     }
                 }
             }
         } else {
             if let item = self.pageItems?[iteratorIndex] {
                 iteratorIndex += 1
-                completion(.success(item))
-            } else {
-                iteratorIndex = 0
-                completion(.success(nil))
+                DispatchQueue.main.async {
+                    completion(.success(item))
+                }
             }
         }
     }
