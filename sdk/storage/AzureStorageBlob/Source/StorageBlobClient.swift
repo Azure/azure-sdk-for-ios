@@ -319,8 +319,8 @@ public final class StorageBlobClient: PipelineClient {
         let context = PipelineContext.of(keyValues: [
             ContextKey.xmlMap.rawValue: xmlMap as AnyObject
         ])
-        guard let request = try? HTTPRequest(method: .get, url: url, headers: headers) else { return }
-        request.add(queryParams: queryParams)
+        guard let requestUrl = url.appendingQueryParameters(queryParams) else { return }
+        guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: headers) else { return }
 
         self.request(request, context: context) { result, httpResponse in
             switch result {
@@ -406,8 +406,8 @@ public final class StorageBlobClient: PipelineClient {
         }
 
         // Construct and send request
-        guard let request = try? HTTPRequest(method: .get, url: url, headers: headers) else { return }
-        request.add(queryParams: queryParams)
+        guard let requestUrl = url.appendingQueryParameters(queryParams) else { return }
+        guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: headers) else { return }
         let codingKeys = PagedCodingKeys(
             items: "EnumerationResults.Blobs",
             continuationToken: "EnumerationResults.NextMarker",
@@ -502,8 +502,8 @@ public final class StorageBlobClient: PipelineClient {
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [202] as AnyObject
         ])
-        guard let request = try? HTTPRequest(method: .delete, url: url, headers: headers) else { return }
-        request.add(queryParams: queryParams)
+        guard let requestUrl = url.appendingQueryParameters(queryParams) else { return }
+        guard let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: headers) else { return }
         self.request(request, context: context) { result, httpResponse in
             switch result {
             case .success:

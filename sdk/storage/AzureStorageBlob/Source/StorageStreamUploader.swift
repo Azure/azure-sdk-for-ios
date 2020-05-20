@@ -147,9 +147,9 @@ internal class ChunkUploader {
         if let encryptionAlgorithm = cpk?.algorithm { headers[.encryptionAlgorithm] = encryptionAlgorithm }
 
         // Construct and send request
-        guard let request = try? HTTPRequest(method: .put, url: uploadDestination, headers: headers, data: buffer)
+        guard let requestUrl = uploadDestination.appendingQueryParameters(queryParams) else { return }
+        guard let request = try? HTTPRequest(method: .put, url: requestUrl, headers: headers, data: buffer)
         else { return }
-        request.add(queryParams: queryParams)
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [201] as AnyObject
         ])
@@ -368,9 +368,10 @@ internal class BlobStreamUploader: BlobUploader {
             fatalError("Unable to serialize block list as XML string.")
         }
         let xmlData = xmlString.data(using: encoding)
-        guard let request = try? HTTPRequest(method: .put, url: uploadDestination, headers: headers, data: xmlData)
+
+        guard let requestUrl = uploadDestination.appendingQueryParameters(queryParams) else { return }
+        guard let request = try? HTTPRequest(method: .put, url: requestUrl, headers: headers, data: xmlData)
         else { return }
-        request.add(queryParams: queryParams)
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [201] as AnyObject
         ])

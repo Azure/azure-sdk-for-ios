@@ -26,27 +26,27 @@
 
 import Foundation
 
-public class HTTPRequest: DataStringConvertible {
-    // MARK: Properties
+public typealias QueryParameter = (String, String?)
 
-    public let httpMethod: HTTPMethod
-    public var url: URL
-    public var headers: HTTPHeaders
-    public var data: Data?
-
-    // MARK: Initializers
-
-    public convenience init(method: HTTPMethod, url: String, headers: HTTPHeaders, data: Data? = nil) throws {
-        guard let encodedUrl = URL(string: url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)) else {
-            throw AzureError.serviceRequest("Invalid URL.")
-        }
-        try self.init(method: method, url: encodedUrl, headers: headers, data: data)
+public extension Array where Element == QueryParameter {
+    mutating func append(_ name: String, _ value: String?) {
+        append((name, value))
     }
+}
 
-    public init(method: HTTPMethod, url: URL, headers: HTTPHeaders, data: Data? = nil) throws {
-        self.httpMethod = method
-        self.url = url
-        self.headers = headers
-        self.data = data
+extension URL {
+    public func appendingQueryParameters(_ addedParams: [QueryParameter]) -> URL? {
+        guard !addedParams.isEmpty else { return self }
+        guard var urlComps = URLComponents(url: self, resolvingAgainstBaseURL: true) else { return nil }
+
+        let addedQueryItems = addedParams.map { name, value in URLQueryItem(name: name, value: value) }
+        if var urlQueryItems = urlComps.queryItems, !urlQueryItems.isEmpty {
+            urlQueryItems.append(contentsOf: addedQueryItems)
+            urlComps.queryItems = urlQueryItems
+        } else {
+            urlComps.queryItems = addedQueryItems
+        }
+
+        return urlComps.url
     }
 }
