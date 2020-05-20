@@ -339,8 +339,7 @@ public final class StorageBlobClient: PipelineClient {
                         request: request,
                         data: data,
                         codingKeys: codingKeys,
-                        decoder: decoder,
-                        delegate: self
+                        decoder: decoder
                     )
                     DispatchQueue.main.async {
                         completion(.success(paged), httpResponse)
@@ -435,8 +434,7 @@ public final class StorageBlobClient: PipelineClient {
                         request: request,
                         data: data,
                         codingKeys: codingKeys,
-                        decoder: decoder,
-                        delegate: self
+                        decoder: decoder
                     )
                     DispatchQueue.main.async {
                         completion(.success(paged), httpResponse)
@@ -714,18 +712,13 @@ public final class StorageBlobClient: PipelineClient {
     }
 }
 
-// MARK: Paged Collection Delegate
+// MARK: PageableClient
 
 /// :nodoc:
-extension StorageBlobClient: PagedCollectionDelegate {
+extension StorageBlobClient: PageableClient {
     /// :nodoc:
-    public func continuationUrl(
-        continuationToken: String,
-        queryParams: inout [QueryParameter],
-        requestUrl: URL
-    ) -> URL? {
-        queryParams.append("marker", continuationToken)
-        return requestUrl
+    public func continuationUrl(forRequestUrl requestUrl: URL, withContinuationToken token: String) -> URL? {
+        return requestUrl.appendingQueryParameters([("marker", token)])
     }
 }
 
