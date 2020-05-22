@@ -627,8 +627,10 @@ public final class StorageBlobClient: PipelineClient {
         blob: String,
         fromContainer container: String,
         toFile destinationUrl: LocalURL,
-        withOptions options: DownloadBlobOptions? = nil
-    ) throws -> BlobTransfer? {
+        withOptions options: DownloadBlobOptions? = nil,
+        progressHandler: ((BlobTransfer) -> Void)? = nil,
+        completionHandler: ((BlobTransfer) -> Void)? = nil
+    ) throws -> Transfer? {
         // Construct URL
         let urlTemplate = "/{container}/{blob}"
         let pathParams = [
@@ -653,7 +655,9 @@ public final class StorageBlobClient: PipelineClient {
             type: .download,
             startRange: start,
             endRange: end,
-            parent: nil
+            parent: nil,
+            progressHandler: progressHandler,
+            completionHandler: completionHandler
         )
         blobTransfer.downloader = downloader
         blobTransfer.downloadOptions = options ?? DownloadBlobOptions()

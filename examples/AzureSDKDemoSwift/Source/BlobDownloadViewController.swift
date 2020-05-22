@@ -197,8 +197,17 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
                 blob: blobName,
                 fromContainer: containerName,
                 toFile: destination,
-                withOptions: options
-            )
+                withOptions: options,
+                progressHandler: { transfer in
+                    if transfer.transferType == .download {
+                        tableView.reloadData()
+                    }
+                }
+            ) { transfer in
+                if transfer.transferType == .download {
+                    tableView.reloadData()
+                }
+            }
         } catch {
             showAlert(error: error)
         }
@@ -240,19 +249,19 @@ extension BlobDownloadViewController: TransferDelegate {
         didUpdateWithState _: TransferState,
         andProgress _: Float?
     ) {
-        if let blobTransfer = transfer as? BlobTransfer, blobTransfer.transferType == .download {
-            tableView.reloadData()
-        }
+//        if let blobTransfer = transfer as? BlobTransfer, blobTransfer.transferType == .download {
+//            tableView.reloadData()
+//        }
     }
 
     func transfersDidUpdate(_: [Transfer]) {
         tableView.reloadData()
     }
 
-    func transferDidComplete(_ transfer: Transfer) {
-        if let blobTransfer = transfer as? BlobTransfer, blobTransfer.transferType == .download {
-            tableView.reloadData()
-        }
+    func transferDidComplete(_: Transfer) {
+//        if let blobTransfer = transfer as? BlobTransfer, blobTransfer.transferType == .download {
+//            tableView.reloadData()
+//        }
     }
 
     func transfer(_: Transfer, didFailWithError error: Error) {

@@ -36,6 +36,8 @@ public class BlobTransfer: NSManagedObject, Transfer {
     internal var operation: TransferOperation?
     internal var downloader: BlobStreamDownloader?
     internal var uploader: BlobStreamUploader?
+    internal var progressHandler: ((BlobTransfer) -> Void)?
+    internal var completionHandler: ((BlobTransfer) -> Void)?
 
     internal var transfers: [BlockTransfer] {
         guard let blockSet = blocks else { return [BlockTransfer]() }
@@ -216,7 +218,9 @@ internal extension BlobTransfer {
         type: TransferType,
         startRange: Int64,
         endRange: Int64,
-        parent: MultiBlobTransfer? = nil
+        parent: MultiBlobTransfer? = nil,
+        progressHandler: ((BlobTransfer) -> Void)? = nil,
+        completionHandler: ((BlobTransfer) -> Void)? = nil
     ) -> BlobTransfer {
         guard let transfer = NSEntityDescription.insertNewObject(
             forEntityName: "BlobTransfer",
@@ -241,6 +245,8 @@ internal extension BlobTransfer {
         transfer.transferType = type
         transfer.id = UUID()
         transfer.clientRestorationId = clientRestorationId
+        transfer.progressHandler = progressHandler
+        transfer.completionHandler = completionHandler
         return transfer
     }
 }
