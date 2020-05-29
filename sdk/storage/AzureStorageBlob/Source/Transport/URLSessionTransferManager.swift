@@ -47,7 +47,9 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
             switch status {
             case .notReachable:
                 self.pauseAll()
-            case .reachable(.ethernetOrWiFi), .reachable(.wwan):
+            case .reachable(.ethernetOrWiFi):
+                self.resumeAll()
+            case .reachable(.wwan):
                 self.resumeAll()
             default:
                 break
@@ -414,13 +416,14 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     // MARK: Resume Operations
 
-    func resumeAll() {
-        for transfer in transfers {
+    func resumeAll(withRestorationId restorationId: String? = nil, progressHandler _: ((AnyObject) -> Void)? = nil) {
+        let toResume = restorationId == nil ? transfers : transfers.filter { $0.clientRestorationId == restorationId }
+        for transfer in toResume {
             resume(transfer: transfer)
         }
     }
 
-    func resume(transfer: TransferImpl) {
+    func resume(transfer: TransferImpl, progressHandler _: ((AnyObject) -> Void)? = nil) {
         guard reachability?.isReachable ?? false else { return }
         guard transfer.state.resumable else { return }
         transfer.state = .pending

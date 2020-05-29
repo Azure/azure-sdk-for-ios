@@ -164,6 +164,12 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
         return cell
     }
 
+    func downloadProgress(transfer: BlobTransfer) {
+        if transfer.transferType == .download {
+            tableView.reloadData()
+        }
+    }
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? CustomTableViewCell else { return }
         guard let blobName = cell.keyLabel.text else { return }
@@ -198,16 +204,8 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
                 fromContainer: containerName,
                 toFile: destination,
                 withOptions: options,
-                progressHandler: { transfer in
-                    if transfer.transferType == .download {
-                        tableView.reloadData()
-                    }
-                }
-            ) { transfer in
-                if transfer.transferType == .download {
-                    tableView.reloadData()
-                }
-            }
+                progressHandler: downloadProgress
+            )
         } catch {
             showAlert(error: error)
         }

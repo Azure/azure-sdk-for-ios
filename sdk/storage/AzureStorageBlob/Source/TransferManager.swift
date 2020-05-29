@@ -50,7 +50,9 @@ internal protocol TransferManager {
     func cancel(transfer: TransferImpl)
     func pause(transfer: TransferImpl)
     func remove(transfer: TransferImpl)
-    func resume(transfer: TransferImpl)
+    func removeAll(withRestorationId: String?)
+    func resume(transfer: TransferImpl, progressHandler: ((AnyObject) -> Void)?)
+    func resumeAll(withRestorationId: String?, progressHandler: ((AnyObject) -> Void)?)
 
     func loadContext()
     func save(context: NSManagedObjectContext)

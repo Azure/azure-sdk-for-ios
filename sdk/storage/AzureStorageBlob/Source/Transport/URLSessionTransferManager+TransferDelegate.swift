@@ -93,11 +93,11 @@ extension URLSessionTransferManager: TransferDelegate {
     func transferDidComplete(_ transfer: Transfer) {
         guard let restorationId = (transfer as? TransferImpl)?.clientRestorationId else { return }
         let delegate = client(forRestorationId: restorationId) as? TransferDelegate
-        guard delegate != nil || (transfer as? BlobTransfer)?.completionHandler != nil else { return }
+        guard delegate != nil || (transfer as? BlobTransfer)?.progressHandler != nil else { return }
         DispatchQueue.main.async {
             delegate?.transferDidComplete(transfer)
             if let blobTransfer = transfer as? BlobTransfer {
-                blobTransfer.completionHandler?(blobTransfer)
+                blobTransfer.progressHandler?(blobTransfer)
             }
             if let context = (transfer as? NSManagedObject)?.managedObjectContext {
                 self.save(context: context)
