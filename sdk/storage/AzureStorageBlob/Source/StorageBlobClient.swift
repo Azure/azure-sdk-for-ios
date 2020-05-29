@@ -496,11 +496,12 @@ public final class StorageBlobClient: PipelineClient {
         }
     }
 
-    /// Reliably download a blob from a storage container.
+    /// Create a managed download to reliably download a blob from a storage container.
     ///
-    /// This method will reliably manage the transfer of the blob from the cloud service to this device. When called,
-    /// a transfer will be queued and a `Transfer` object will be returned that provides a handle to the transfer. This
-    /// client's `transferDelegate` will be notified about state changes for all transfers managed by the client.
+    /// This method performs a managed download, during which the client will reliably manage the transfer of the blob
+    /// from the cloud service to this device. When called, the download will be queued and a `BlobTransfer` object will
+    /// be returned that allows you to control the download. This client's `transferDelegate` will be notified about
+    /// state changes for all managed uploads and downloads the client creates.
     /// - Parameters:
     ///   - blob: The name of the blob.
     ///   - container: The name of the container.
@@ -511,7 +512,7 @@ public final class StorageBlobClient: PipelineClient {
         fromContainer container: String,
         toFile destinationUrl: LocalURL,
         withOptions options: DownloadBlobOptions? = nil
-    ) throws -> Transfer? {
+    ) throws -> BlobTransfer? {
         // Construct URL
         let urlTemplate = "/{container}/{blob}"
         let pathParams = [
@@ -544,11 +545,12 @@ public final class StorageBlobClient: PipelineClient {
         return blobTransfer
     }
 
-    /// Reliably upload a blob to a storage container.
+    /// Create a managed upload to reliably upload a file to a storage container.
     ///
-    /// This method will reliably manage the transfer of the blob from this device to the cloud service. When called,
-    /// a transfer will be queued and a `Transfer` object will be returned that provides a handle to the transfer. This
-    /// client's `transferDelegate` will be notified about state changes for all transfers managed by the client.
+    /// This method performs a managed upload, during which the client will reliably manage the transfer of the blob
+    /// from this device to the cloud service. When called, the upload will be queued and a `BlobTransfer` object will
+    /// be returned that allows you to control the upload. This client's `transferDelegate` will be notified about state
+    /// changes for all managed uploads and downloads the client creates.
     /// - Parameters:
     ///   - sourceUrl: The URL to a file on this device.
     ///   - container: The name of the container.
@@ -561,7 +563,7 @@ public final class StorageBlobClient: PipelineClient {
         asBlob blob: String,
         properties: BlobProperties,
         withOptions options: UploadBlobOptions? = nil
-    ) throws -> Transfer? {
+    ) throws -> BlobTransfer? {
         // Construct URL
         let urlTemplate = "/{container}/{blob}"
         let pathParams = [
@@ -639,7 +641,7 @@ extension StorageBlobClient: TransferDelegate {
     }
 }
 
-// MARK: Transfer Manager Methods
+// MARK: Transfer Management
 
 extension StorageBlobClient {
     /// Start the transfer management engine.
@@ -668,29 +670,30 @@ extension StorageBlobClient {
         StorageBlobClient.manager.stopManaging()
     }
 
-    /// Cancel all currently active transfers having this client's `restorationId`.
-    public func cancelAllTransfers() {
-        StorageBlobClient.manager.cancelAll(withRestorationId: restorationId)
+    /// Retrieve all managed transfers created by this client.
+    public var transfers: TransferCollection {
+        let matching: [BlobTransfer] = StorageBlobClient.manager.transfers.compactMap { transfer in
+            guard let transfer = transfer as? BlobTransfer else { return nil }
+            return transfer.clientRestorationId == restorationId ? transfer : nil
+        }
+        return TransferCollection(matching)
     }
 
-    /// Remove all transfers having this client's `restorationId` from the database. All currently active transfers will
-    /// be cancelled.
-    public func removeAllTransfers() {
-        StorageBlobClient.manager.removeAll(withRestorationId: restorationId)
+    /// Retrieve all managed downloads created by this client.
+    public var downloads: TransferCollection {
+        let matching: [BlobTransfer] = StorageBlobClient.manager.transfers.compactMap { transfer in
+            guard let transfer = transfer as? BlobTransfer else { return nil }
+            return transfer.clientRestorationId == restorationId && transfer.transferType == .download ? transfer : nil
+        }
+        return TransferCollection(matching)
     }
 
-    /// Pause all currently active transfers having this client's `restorationId`.
-    public func pauseAllTransfers() {
-        StorageBlobClient.manager.pauseAll(withRestorationId: restorationId)
-    }
-
-    /// Resume all currently paused transfers having this client's `restorationId`.
-    public func resumeAllTransfers() {
-        StorageBlobClient.manager.resumeAll(withRestorationId: restorationId)
-    }
-
-    /// Retrieve the list of all managed transfers having this client's `restorationId`.
-    public var transfers: [Transfer] {
-        return StorageBlobClient.manager.transfers.filter { $0.clientRestorationId == restorationId }
+    /// Retrieve all managed uploads created by this client.
+    public var uploads: TransferCollection {
+        let matching: [BlobTransfer] = StorageBlobClient.manager.transfers.compactMap { transfer in
+            guard let transfer = transfer as? BlobTransfer else { return nil }
+            return transfer.clientRestorationId == restorationId && transfer.transferType == .upload ? transfer : nil
+        }
+        return TransferCollection(matching)
     }
 }

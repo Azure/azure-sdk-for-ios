@@ -266,13 +266,6 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     // MARK: Cancel Operations
 
-    func cancelAll(withRestorationId restorationId: String? = nil) {
-        let toCancel = restorationId == nil ? transfers : transfers.filter { $0.clientRestorationId == restorationId }
-        for transfer in toCancel {
-            cancel(transfer: transfer)
-        }
-    }
-
     func cancel(transfer: TransferImpl) {
         transfer.state = .canceled
         assert(transfer.operation != nil, "Transfer operation unexpectedly nil.")
@@ -289,16 +282,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     // MARK: Remove Operations
 
-    func removeAll(withRestorationId restorationId: String? = nil) {
-        let toRemove = restorationId == nil ? transfers : transfers.filter { $0.clientRestorationId == restorationId }
-        guard toRemove.count == transfers.count else {
-            // Handle a partial removeAll
-            for transfer in toRemove {
-                remove(transfer: transfer)
-            }
-            return
-        }
-
+    func removeAll() {
         // Wipe the DataStore
         transfers.removeAll()
 
@@ -380,12 +364,9 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     // MARK: Pause Operations
 
-    func pauseAll(withRestorationId restorationId: String? = nil) {
-        let toPause = restorationId == nil ? transfers : transfers.filter { $0.clientRestorationId == restorationId }
-        if toPause.count == transfers.count {
-            operationQueue.cancelAllOperations()
-        }
-        for transfer in toPause {
+    func pauseAll() {
+        operationQueue.cancelAllOperations()
+        for transfer in transfers {
             pause(transfer: transfer)
         }
     }
@@ -431,9 +412,8 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     // MARK: Resume Operations
 
-    func resumeAll(withRestorationId restorationId: String? = nil) {
-        let toResume = restorationId == nil ? transfers : transfers.filter { $0.clientRestorationId == restorationId }
-        for transfer in toResume {
+    func resumeAll() {
+        for transfer in transfers {
             resume(transfer: transfer)
         }
     }

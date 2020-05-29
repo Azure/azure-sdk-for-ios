@@ -369,6 +369,43 @@ extension MyViewController: TransferDelegate {
 }
 ```
 
+#### Looking up and manipulating transfers
+All managed transfers created by a client are stored within a `TransferCollection` object held by the client that
+created them. You can access this collection using the client's `transfers` property. The client also provides
+convenient `downloads` and `uploads` properties which expose pre-filtered subsets of `transfers`.
+
+A `TransferCollection` allows you to easily select one or more transfers that match supplied criteria pertaining to the
+transfer using the `firstWith` and `filterWhere` methods. A single transfer within the `TransferCollection` can be
+accessed by its `id` using subscript syntax, whereas the contents of the `TransferCollection` can be accessed as a Swift
+`Collection` via the `items` property, allowing you to use all of the operations that the `Collection` protocol declares
+and implements. 
+
+A `TransferCollection` also contains methods that allow you to easily manipulate all transfers it contains. You can
+pause, resume, or cancel all transfers within a `TransferCollection` by calling the `pauseAll`, `resumeAll`, or
+`cancelAll` methods.
+
+```swift
+import AzureStorageBlob
+
+let client = try StorageBlobClient(...)
+try client.download(...)
+
+// Cancel a download by its ID if it exists
+client.downloads["00112233-4455-6677-8899-aabbccddeeff"]?.cancel()
+
+// Pause all downloads from a given container
+client.downloads
+      .filterWhere(containerName: "<my_container>")
+      .pauseAll()
+
+// Resume a specific download if it exists
+client.downloads
+      .firstWith(containerName: "<my_container>", blobName: "<my_blob>")?
+      .resume()
+
+client.downloads.items.filter()
+```
+
 #### Parallel execution of transfers
 The transfer management engine breaks each transfer into a sequence of chunks and transfers multiple chunks in parallel
 in order to make more efficient use of available network bandwidth. The chunk size is configurable for each client by
