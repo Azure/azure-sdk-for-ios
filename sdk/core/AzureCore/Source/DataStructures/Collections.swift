@@ -172,7 +172,7 @@ public class PagedCollection<SingleElement: Codable>: PagedCollectionDelegate {
     // MARK: Public Methods
 
     /// Retrieves the next page of results asynchronously.
-    public func nextPage(then completion: @escaping Continuation<Element?>) {
+    public func nextPage(then completion: @escaping Continuation<Element>) {
         // exit if there is no valid continuation token
         guard let continuationToken = continuationToken,
             continuationToken != "" else {
@@ -217,14 +217,16 @@ public class PagedCollection<SingleElement: Codable>: PagedCollectionDelegate {
                 return
             }
             self.iteratorIndex = 0
-            DispatchQueue.main.async {
-                completion(.success(self.pageItems))
+            if let pageItems = self.pageItems {
+                DispatchQueue.main.async {
+                    completion(.success(pageItems))
+                }
             }
         }
     }
 
     /// Retrieves the next item in the collection, automatically fetching new pages when needed.
-    public func nextItem(then completion: @escaping Continuation<SingleElement?>) {
+    public func nextItem(then completion: @escaping Continuation<SingleElement>) {
         guard let pageItems = pageItems else {
             // do not call the completion handler if there is no data
             return
@@ -237,12 +239,10 @@ public class PagedCollection<SingleElement: Codable>: PagedCollectionDelegate {
                         completion(.failure(error))
                     }
                 case let .success(newPage):
-                    if let newPage = newPage {
-                        // since we return the first new item, the next iteration should start with the second item.
-                        self.iteratorIndex = 1
-                        DispatchQueue.main.async {
-                            completion(.success(newPage[0]))
-                        }
+                    // since we return the first new item, the next iteration should start with the second item.
+                    self.iteratorIndex = 1
+                    DispatchQueue.main.async {
+                        completion(.success(newPage[0]))
                     }
                 }
             }

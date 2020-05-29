@@ -86,10 +86,8 @@ class BlobDownloadViewController: UIViewController, MSALInteractiveDelegate {
     private func loadMoreSettings() {
         dataSource?.nextPage { result in
             switch result {
-            case let .success(data):
-                if data != nil {
-                    self.tableView.reloadData()
-                }
+            case .success:
+                self.tableView.reloadData()
             case let .failure(error):
                 self.showAlert(error: error)
             }
