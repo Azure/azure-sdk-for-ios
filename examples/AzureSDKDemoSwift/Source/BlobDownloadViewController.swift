@@ -173,7 +173,10 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
 
         let manager = FileManager.default
 
-        if let existingTransfer = blobClient.downloads.firstWith(blobName: blobName) {
+        if let existingTransfer = blobClient.downloads.firstWith(
+            containerName: AppConstants.videoContainer,
+            blobName: blobName
+        ) {
             // if transfer exists and is complete, open file, otherwise ignore
             if let destinationUrl = existingTransfer.destinationUrl,
                 manager.fileExists(atPath: destinationUrl.path),
