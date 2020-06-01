@@ -78,12 +78,14 @@ public struct TransferCollection {
     ///   uploads this is the source.
     ///   - state: The current state of the transfer.
     public func filterWhere(
-        containerName _: String? = nil,
-        blobName _: String? = nil,
-        localUrl _: LocalURL? = nil,
-        state _: TransferState? = nil
+        containerName: String? = nil,
+        blobName: String? = nil,
+        localUrl: LocalURL? = nil,
+        state: TransferState? = nil
     ) -> TransferCollection {
-        return TransferCollection(items.filter { match($0) })
+        return TransferCollection(items.filter { transfer in
+            match(transfer, containerName: containerName, blobName: blobName, localUrl: localUrl, state: state)
+        })
     }
 
     /// Get the first transfer in this `TransferCollection` that matches all of the provided filter values.
@@ -96,12 +98,14 @@ public struct TransferCollection {
     ///   uploads this is the source.
     ///   - state: The current state of the transfer.
     public func firstWith(
-        containerName _: String? = nil,
-        blobName _: String? = nil,
-        localUrl _: LocalURL? = nil,
-        state _: TransferState? = nil
+        containerName: String? = nil,
+        blobName: String? = nil,
+        localUrl: LocalURL? = nil,
+        state: TransferState? = nil
     ) -> BlobTransfer? {
-        return items.first { match($0) }
+        return items.first { transfer in
+            match(transfer, containerName: containerName, blobName: blobName, localUrl: localUrl, state: state)
+        }
     }
 
     private func match(
@@ -125,11 +129,11 @@ public struct TransferCollection {
                 url.path.hasSuffix(blobName) else { return false }
         }
 
-        if let containerName = containerName {
+        if var containerName = containerName {
+            containerName = containerName.hasPrefix("/") ? containerName : "/\(containerName)"
             guard let url = transfer.transferType == .download ? transfer.source : transfer.destination,
                 url.path.hasPrefix(containerName) else { return false }
         }
-
         return true
     }
 }

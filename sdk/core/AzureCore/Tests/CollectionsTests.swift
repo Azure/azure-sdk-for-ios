@@ -146,7 +146,7 @@ class CollectionsTests: XCTestCase {
             paged.nextItem { result in
                 switch result {
                 case let .success(item):
-                    XCTAssertEqual(item?.id, index + 1)
+                    XCTAssertEqual(item.id, index + 1)
                 case let .failure(error):
                     XCTFail(error.localizedDescription)
                 }

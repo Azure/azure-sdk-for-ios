@@ -36,7 +36,6 @@ import UIKit
 
 class BlobDownloadViewController: UIViewController, MSALInteractiveDelegate {
     private var dataSource: PagedCollection<BlobItem>?
-    private var noMoreData = false
 
     @IBOutlet var tableView: UITableView!
 
@@ -79,25 +78,18 @@ class BlobDownloadViewController: UIViewController, MSALInteractiveDelegate {
                 self.tableView.reloadData()
             case let .failure(error):
                 self.showAlert(error: error)
-                self.noMoreData = true
             }
         }
     }
 
     /// Uses asynchronous "nextPage" method to fetch the next page of results and update the table view.
     private func loadMoreSettings() {
-        guard noMoreData == false else { return }
         dataSource?.nextPage { result in
             switch result {
-            case let .success(data):
-                if data != nil {
-                    self.tableView.reloadData()
-                } else {
-                    self.noMoreData = true
-                }
+            case .success:
+                self.tableView.reloadData()
             case let .failure(error):
                 self.showAlert(error: error)
-                self.noMoreData = true
             }
         }
     }
@@ -166,7 +158,7 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
         }
 
         // load next page if at the end of the current list
-        if indexPath.row == data.count - 1, noMoreData == false {
+        if indexPath.row == data.count - 1 {
             loadMoreSettings()
         }
         return cell
@@ -181,7 +173,10 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
 
         let manager = FileManager.default
 
-        if let existingTransfer = blobClient.downloads.firstWith(blobName: blobName) {
+        if let existingTransfer = blobClient.downloads.firstWith(
+            containerName: AppConstants.videoContainer,
+            blobName: blobName
+        ) {
             // if transfer exists and is complete, open file, otherwise ignore
             if let destinationUrl = existingTransfer.destinationUrl,
                 manager.fileExists(atPath: destinationUrl.path),
