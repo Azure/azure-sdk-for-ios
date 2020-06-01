@@ -166,6 +166,51 @@ public struct ListBlobsOptions: AzureOptions {
     }
 }
 
+/// User-configurable options for the `StorageBlobClient.delete` operation.
+public struct DeleteBlobOptions: AzureOptions {
+    /// This header should be specified only for a request against the base blob resource.
+    /// If this header is specified on a request to delete an individual snapshot, the Blob
+    /// service returns status code 400 (Bad Request).
+    /// If this header is not specified on the request and the blob has associated snapshots,
+    /// the Blob service returns status code 409 (Conflict).
+    public enum DeleteBlobSnapshot: String {
+        /// Delete the base blob and all of its snapshots.
+        case include
+        /// Delete only the blob's snapshots and not the blob itself.
+        case only
+    }
+
+    /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
+    public let clientRequestId: String?
+
+    /// Specify how blob snapshots should be handled. Required if the blob has associated snapshots.
+    public let deleteSnapshots: DeleteBlobSnapshot?
+
+    /// A `Date` specifying the snapshot you wish to delete.
+    public let snapshot: Date?
+
+    /// Request timeout in seconds.
+    public let timeout: Int?
+
+    /// Initialize a DeleteBlobOptions` structure.
+    /// - Parameters:
+    ///   - clientRequestId: A client-generated, opaque value with 1KB character limit that is recorded in analytics
+    ///     logs.
+    ///   - deleteSnapshots: `DeleteBlobSnapshot` value to specify how snapshots should be handled.
+    ///   - timeout: Request timeout in seconds.
+    public init(
+        clientRequestId: String? = nil,
+        deleteSnapshots: DeleteBlobSnapshot? = nil,
+        snapshot: Date? = nil,
+        timeout: Int? = nil
+    ) {
+        self.clientRequestId = clientRequestId
+        self.deleteSnapshots = deleteSnapshots
+        self.snapshot = snapshot
+        self.timeout = timeout
+    }
+}
+
 /// User-configurable options for the `StorageBlobClient.download` and `StorageBlobClient.rawDownload` operations.
 public struct DownloadBlobOptions: AzureOptions, Codable, Equatable {
     /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
