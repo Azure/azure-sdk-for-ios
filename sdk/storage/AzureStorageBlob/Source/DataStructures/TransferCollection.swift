@@ -62,9 +62,9 @@ public struct TransferCollection {
     }
 
     /// Resume all currently paused transfers in this `TransferCollection`.
-    public func resumeAll() {
+    public func resumeAll(progressHandler: ((BlobTransfer) -> Void)? = nil) {
         for transfer in items {
-            URLSessionTransferManager.shared.resume(transfer: transfer)
+            URLSessionTransferManager.shared.resume(transfer: transfer, progressHandler: progressHandler)
         }
     }
 

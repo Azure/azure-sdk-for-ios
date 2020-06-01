@@ -58,6 +58,8 @@ class BlobDownloadViewController: UIViewController, MSALInteractiveDelegate {
         PHPhotoLibrary.authorizationStatus()
         fetchData(self)
         StorageBlobClient.startManaging()
+        guard let blobClient = blobClient else { return }
+        blobClient.downloads.resumeAll(progressHandler: downloadProgress)
     }
 
     // MARK: Private Methods

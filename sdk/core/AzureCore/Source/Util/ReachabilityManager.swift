@@ -42,6 +42,7 @@ import Foundation
         private var listenerQueue: DispatchQueue = DispatchQueue.main
 
         internal var listener: ReachabilityStatusListener?
+        internal var initialized = false
 
         private let reachability: SCNetworkReachability
         private var previousFlags: SCNetworkReachabilityFlags
@@ -99,7 +100,15 @@ import Foundation
         // MARK: - Listening
 
         public func registerListener(_ listener: @escaping ReachabilityStatusListener) {
-            self.listener = listener
+            self.listener = { status in
+                // no nothing on the initial status update to force the developer to resume transfers
+                // TODO: Maybe this should be set in a more thoughtful manner
+                guard self.initialized else {
+                    self.initialized = true
+                    return
+                }
+                listener(status)
+            }
         }
 
         @discardableResult

@@ -416,14 +416,14 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     // MARK: Resume Operations
 
-    func resumeAll(withRestorationId restorationId: String? = nil, progressHandler _: ((AnyObject) -> Void)? = nil) {
+    func resumeAll(withRestorationId restorationId: String? = nil, progressHandler: ((BlobTransfer) -> Void)? = nil) {
         let toResume = restorationId == nil ? transfers : transfers.filter { $0.clientRestorationId == restorationId }
         for transfer in toResume {
-            resume(transfer: transfer)
+            resume(transfer: transfer, progressHandler: progressHandler)
         }
     }
 
-    func resume(transfer: TransferImpl, progressHandler _: ((AnyObject) -> Void)? = nil) {
+    func resume(transfer: TransferImpl, progressHandler: ((BlobTransfer) -> Void)? = nil) {
         guard reachability?.isReachable ?? false else { return }
         guard transfer.state.resumable else { return }
         transfer.state = .pending
@@ -431,6 +431,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         case let transfer as BlockTransfer:
             operationQueue.add(BlockOperation(withTransfer: transfer, delegate: self))
         case let transfer as BlobTransfer:
+            transfer.progressHandler = progressHandler
             for blockTransfer in transfer.transfers where blockTransfer.state.resumable {
                 blockTransfer.state = .pending
             }
