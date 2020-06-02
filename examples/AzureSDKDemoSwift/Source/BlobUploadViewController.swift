@@ -244,32 +244,29 @@ extension BlobUploadViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension BlobUploadViewController: TransferDelegate {
-    func client(forRestorationId _: String) -> PipelineClient? {
-        return blobClient
-    }
-
-    func transfer(
-        _ transfer: Transfer,
-        didUpdateWithState _: TransferState,
-        andProgress _: Float?
+extension BlobUploadViewController: StorageBlobClientDelegate {
+    func blobClient(
+        _: StorageBlobClient,
+        didUpdateTransfer transfer: BlobTransfer,
+        withState _: TransferState,
+        andProgresss _: Float?
     ) {
-        if let blobTransfer = transfer as? BlobTransfer, blobTransfer.transferType == .upload {
+        if transfer.transferType == .upload {
             collectionView.reloadData()
         }
     }
 
-    func transfersDidUpdate(_: [Transfer]) {
+    func blobClient(_: StorageBlobClient, didUpdateTransfers _: [BlobTransfer]) {
         collectionView.reloadData()
     }
 
-    func transferDidComplete(_ transfer: Transfer) {
-        if let blobTransfer = transfer as? BlobTransfer, blobTransfer.transferType == .upload {
+    func blobClient(_: StorageBlobClient, didCompleteTransfer transfer: BlobTransfer) {
+        if transfer.transferType == .upload {
             collectionView.reloadData()
         }
     }
 
-    func transfer(_: Transfer, didFailWithError error: Error) {
+    func blobClient(_: StorageBlobClient, didFailTransfer _: BlobTransfer, withError error: Error) {
         showAlert(error: error)
         collectionView.reloadData()
     }

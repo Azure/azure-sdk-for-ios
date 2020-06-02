@@ -3,11 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0A25EA4C2398121A0012DFE1 /* BuildFile in Embed Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0A25EA4C2398121A0012DFE1 /* (null) in Embed Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0A28684723F5D6700084CF15 /* AzureStorage.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0A28684523F5D6700084CF15 /* AzureStorage.xcdatamodeld */; };
 		0A28686D23F74EA00084CF15 /* BlobDownloadOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A28686C23F74EA00084CF15 /* BlobDownloadOperations.swift */; };
 		0A28688123FCA6750084CF15 /* MultiBlobOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A28688023FCA6750084CF15 /* MultiBlobOperation.swift */; };
@@ -39,6 +39,8 @@
 		0AC0AA87234D38B000F05073 /* ContainerProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC0AA86234D38B000F05073 /* ContainerProperties.swift */; };
 		0AC34915235633110094C576 /* StorageBlobClientOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC34914235633110094C576 /* StorageBlobClientOptions.swift */; };
 		0AD6352B23F4C365000D67F6 /* BlockOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD6352A23F4C365000D67F6 /* BlockOperations.swift */; };
+		0ADCB0152486CDA800CEA28D /* StorageBlobClientDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADCB0142486CDA800CEA28D /* StorageBlobClientDelegate.swift */; };
+		0ADCB0172486CDBE00CEA28D /* StorageBlobClient+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADCB0162486CDBE00CEA28D /* StorageBlobClient+Extensions.swift */; };
 		0AE8F02723AC2A5C007B6975 /* StorageBlobClient+AllowLoggingValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE8F02623AC2A5C007B6975 /* StorageBlobClient+AllowLoggingValues.swift */; };
 		0AE8F02D23AC2A7C007B6975 /* StorageStreamDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE8F02A23AC2A7C007B6975 /* StorageStreamDownloader.swift */; };
 		0AE8F02F23AC2AEB007B6975 /* Options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE8F02923AC2A7C007B6975 /* Options.swift */; };
@@ -67,7 +69,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0A25EA4C2398121A0012DFE1 /* BuildFile in Embed Frameworks */,
+				0A25EA4C2398121A0012DFE1 /* (null) in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -109,6 +111,8 @@
 		0AC0AA86234D38B000F05073 /* ContainerProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerProperties.swift; sourceTree = "<group>"; };
 		0AC34914235633110094C576 /* StorageBlobClientOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageBlobClientOptions.swift; sourceTree = "<group>"; };
 		0AD6352A23F4C365000D67F6 /* BlockOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockOperations.swift; sourceTree = "<group>"; };
+		0ADCB0142486CDA800CEA28D /* StorageBlobClientDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageBlobClientDelegate.swift; sourceTree = "<group>"; };
+		0ADCB0162486CDBE00CEA28D /* StorageBlobClient+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StorageBlobClient+Extensions.swift"; sourceTree = "<group>"; };
 		0AE8F02623AC2A5C007B6975 /* StorageBlobClient+AllowLoggingValues.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StorageBlobClient+AllowLoggingValues.swift"; sourceTree = "<group>"; };
 		0AE8F02923AC2A7C007B6975 /* Options.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Options.swift; sourceTree = "<group>"; };
 		0AE8F02A23AC2A7C007B6975 /* StorageStreamDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageStreamDownloader.swift; sourceTree = "<group>"; };
@@ -222,6 +226,8 @@
 				7ACAADA7242C790600A049B7 /* Transport */,
 				7A0EB50523A9A7A700498A51 /* Util */,
 				0A6864A9233E83B5004B7E17 /* StorageBlobClient.swift */,
+				0ADCB0162486CDBE00CEA28D /* StorageBlobClient+Extensions.swift */,
+				0ADCB0142486CDA800CEA28D /* StorageBlobClientDelegate.swift */,
 				0A6F33F023ABEF730023064F /* StorageHTTPHeader.swift */,
 				0AE8F02A23AC2A7C007B6975 /* StorageStreamDownloader.swift */,
 				0A5329682411FA4500486D81 /* StorageStreamUploader.swift */,
@@ -518,6 +524,7 @@
 				0A80DB1324251B0C00ED9F94 /* BlobUploadOperations.swift in Sources */,
 				0AA4FFCD23DF96C4003ADF59 /* TransferManager.swift in Sources */,
 				0A2868B223FDAD230084CF15 /* MultiBlobTransfer+CoreDataClass.swift in Sources */,
+				0ADCB0172486CDBE00CEA28D /* StorageBlobClient+Extensions.swift in Sources */,
 				0A71C5C7234BB33800604F2D /* BlobProperties.swift in Sources */,
 				0A2868B023FDAD230084CF15 /* BlockTransfer+CoreDataClass.swift in Sources */,
 				0AC0AA87234D38B000F05073 /* ContainerProperties.swift in Sources */,
@@ -534,6 +541,7 @@
 				0AB24709243CDA4200E62844 /* StorageJSONCoding.swift in Sources */,
 				7A5C97A324410BD1006E7B5F /* LocalURL.swift in Sources */,
 				0A80DB1A2425358B00ED9F94 /* MultiBlobTransfer+CoreDataProperties.swift in Sources */,
+				0ADCB0152486CDA800CEA28D /* StorageBlobClientDelegate.swift in Sources */,
 				0A8D74CA2409D1D400B3B577 /* Transfer.swift in Sources */,
 				0AD6352B23F4C365000D67F6 /* BlockOperations.swift in Sources */,
 				0A5329692411FA4500486D81 /* StorageStreamUploader.swift in Sources */,

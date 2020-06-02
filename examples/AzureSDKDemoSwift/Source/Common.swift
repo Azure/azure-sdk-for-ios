@@ -85,7 +85,7 @@ struct AppState {
     }
 
     private static var internalBlobClient: StorageBlobClient?
-    static func blobClient(withDelegate delegate: TransferDelegate? = nil) throws -> StorageBlobClient {
+    static func blobClient(withDelegate delegate: StorageBlobClientDelegate? = nil) throws -> StorageBlobClient {
         if AppState.internalBlobClient == nil {
             guard let application = AppState.application else {
                 let error = AzureError.general("Application is not initialized. Unable to create Blob Storage Client.")
@@ -105,7 +105,7 @@ struct AppState {
         }
 
         let client = AppState.internalBlobClient!
-        client.transferDelegate = delegate
+        client.delegate = delegate
         StorageBlobClient.maxConcurrentTransfers = 4
         return client
     }

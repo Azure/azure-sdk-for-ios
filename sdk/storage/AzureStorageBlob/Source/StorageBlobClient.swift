@@ -62,8 +62,8 @@ public final class StorageBlobClient: PipelineClient {
     /// Options provided to configure this `StorageBlobClient`.
     public let options: StorageBlobClientOptions
 
-    /// The `TransferDelegate` to inform about events from transfers created by this `StorageBlobClient`.
-    public weak var transferDelegate: TransferDelegate?
+    /// The `StorageBlobClientDelegate` to inform about events from transfers created by this `StorageBlobClient`.
+    public weak var delegate: StorageBlobClientDelegate?
 
     /// The identifier used to associate this client with transfers it creates.
     public let restorationId: String
@@ -72,7 +72,7 @@ public final class StorageBlobClient: PipelineClient {
         "https://storage.azure.com/.default"
     ]
 
-    private static let manager = URLSessionTransferManager.shared
+    internal static let manager = URLSessionTransferManager.shared
 
     internal static let viewContext: NSManagedObjectContext = manager.persistentContainer.viewContext
 
@@ -680,7 +680,8 @@ public final class StorageBlobClient: PipelineClient {
         toContainer container: String,
         asBlob blob: String,
         properties: BlobProperties,
-        withOptions options: UploadBlobOptions? = nil
+        withOptions options: UploadBlobOptions? = nil,
+        progressHandler: ((BlobTransfer) -> Void)? = nil
     ) throws -> BlobTransfer? {
         // Construct URL
         let urlTemplate = "/{container}/{blob}"
@@ -705,7 +706,8 @@ public final class StorageBlobClient: PipelineClient {
             type: .upload,
             startRange: 0,
             endRange: Int64(uploader.fileSize),
-            parent: nil
+            parent: nil,
+            progressHandler: progressHandler
         )
         blobTransfer.uploader = uploader
         blobTransfer.uploadOptions = options ?? UploadBlobOptions()

@@ -239,32 +239,12 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
     }
 }
 
-extension BlobDownloadViewController: TransferDelegate {
-    func client(forRestorationId _: String) -> PipelineClient? {
-        return blobClient
-    }
-
-    func transfer(
-        _ transfer: Transfer,
-        didUpdateWithState _: TransferState,
-        andProgress _: Float?
-    ) {
-//        if let blobTransfer = transfer as? BlobTransfer, blobTransfer.transferType == .download {
-//            tableView.reloadData()
-//        }
-    }
-
-    func transfersDidUpdate(_: [Transfer]) {
+extension BlobDownloadViewController: StorageBlobClientDelegate {
+    func blobClient(_: StorageBlobClient, didUpdateTransfers _: [BlobTransfer]) {
         tableView.reloadData()
     }
 
-    func transferDidComplete(_: Transfer) {
-//        if let blobTransfer = transfer as? BlobTransfer, blobTransfer.transferType == .download {
-//            tableView.reloadData()
-//        }
-    }
-
-    func transfer(_: Transfer, didFailWithError error: Error) {
+    func blobClient(_: StorageBlobClient, didFailTransfer _: BlobTransfer, withError error: Error) {
         showAlert(error: error)
         tableView.reloadData()
     }
