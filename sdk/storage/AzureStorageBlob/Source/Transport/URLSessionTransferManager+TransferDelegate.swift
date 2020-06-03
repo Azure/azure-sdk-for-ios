@@ -79,7 +79,10 @@ extension URLSessionTransferManager: TransferDelegate {
             for restorationId in Set(restorationIds) {
                 guard let delegate = self.client(forRestorationId: restorationId) as? TransferDelegate else { continue }
                 let transfersForId = transfers.filter { ($0 as? TransferImpl)?.clientRestorationId == restorationId }
-                delegate.transfersDidUpdate(transfersForId)
+                for transfer in transfersForId {
+                    let progress = (transfer as? BlobTransfer)?.progress
+                    delegate.transfer(transfer, didUpdateWithState: transfer.state, andProgress: progress)
+                }
 
                 // get the minimal set of unique MOCs and save them
                 let contexts = transfersForId.compactMap { ($0 as? NSManagedObject)?.managedObjectContext }

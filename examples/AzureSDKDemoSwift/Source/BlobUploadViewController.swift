@@ -256,10 +256,6 @@ extension BlobUploadViewController: StorageBlobClientDelegate {
         }
     }
 
-    func blobClient(_: StorageBlobClient, didUpdateTransfers _: [BlobTransfer]) {
-        collectionView.reloadData()
-    }
-
     func blobClient(_: StorageBlobClient, didCompleteTransfer transfer: BlobTransfer) {
         if transfer.transferType == .upload {
             collectionView.reloadData()

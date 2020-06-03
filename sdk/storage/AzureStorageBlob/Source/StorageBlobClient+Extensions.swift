@@ -58,14 +58,6 @@ extension StorageBlobClient: TransferDelegate {
     }
 
     /// :nodoc:
-    public func transfersDidUpdate(_ transfers: [Transfer]) {
-        let blobTransfers = transfers.compactMap { $0 as? BlobTransfer }
-        if blobTransfers.count > 0 {
-            delegate?.blobClient(self, didUpdateTransfers: blobTransfers)
-        }
-    }
-
-    /// :nodoc:
     public func transfer(_ transfer: Transfer, didFailWithError error: Error) {
         if let blobTransfer = transfer as? BlobTransfer {
             delegate?.blobClient(self, didFailTransfer: blobTransfer, withError: error)

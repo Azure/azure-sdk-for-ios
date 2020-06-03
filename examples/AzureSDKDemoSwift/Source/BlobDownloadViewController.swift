@@ -167,6 +167,13 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
     }
 
     func downloadProgress(transfer: BlobTransfer) {
+
+        guard transfer.state != .failed else {
+            showAlert(error: transfer.error)
+            tableView.reloadData()
+            return
+        }
+
         if transfer.transferType == .download {
             tableView.reloadData()
         }
@@ -236,16 +243,5 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
             }
         }
         return [deleteAction]
-    }
-}
-
-extension BlobDownloadViewController: StorageBlobClientDelegate {
-    func blobClient(_: StorageBlobClient, didUpdateTransfers _: [BlobTransfer]) {
-        tableView.reloadData()
-    }
-
-    func blobClient(_: StorageBlobClient, didFailTransfer _: BlobTransfer, withError error: Error) {
-        showAlert(error: error)
-        tableView.reloadData()
     }
 }

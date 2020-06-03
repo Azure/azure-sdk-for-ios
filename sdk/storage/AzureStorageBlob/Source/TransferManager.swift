@@ -61,8 +61,6 @@ internal protocol TransferManager {
 public protocol TransferDelegate: AnyObject {
     /// A transfer's state has changed, and progress may be reported.
     func transfer(_ transfer: Transfer, didUpdateWithState state: TransferState, andProgress progress: Float?)
-    /// A batch of transfers have changed.
-    func transfersDidUpdate(_ tranfers: [Transfer])
     /// A transfer has failed.
     func transfer(_ transfer: Transfer, didFailWithError error: Error)
     /// A transfer has completed.
