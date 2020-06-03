@@ -58,9 +58,9 @@ class BlobDownloadViewController: UIViewController, MSALInteractiveDelegate {
         super.viewDidAppear(animated)
         PHPhotoLibrary.authorizationStatus()
         fetchData(self)
-        StorageBlobClient.startManaging()
         guard let blobClient = blobClient else { return }
         blobClient.downloads.resumeAll(progressHandler: downloadProgress)
+        StorageBlobClient.startManaging()
     }
 
     // MARK: Private Methods
@@ -193,13 +193,19 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
             containerName: AppConstants.videoContainer,
             blobName: blobName
         ) {
-            // if transfer exists and is complete, open file, otherwise ignore
-            if let destinationUrl = existingTransfer.destinationUrl,
-                manager.fileExists(atPath: destinationUrl.path),
-                existingTransfer.incompleteBlocks == 0 {
+            guard let destinationUrl = existingTransfer.destinationUrl else { return }
+
+            switch existingTransfer.state {
+            case .complete:
+                guard manager.fileExists(atPath: destinationUrl.path) else { return }
                 playVideo(destinationUrl)
+            case .paused, .failed:
+                existingTransfer.resume()
+            case .inProgress, .pending:
+                existingTransfer.pause()
+            default:
+                break
             }
-            return
         } else if let destinationUrl = destination.resolvedUrl, manager.fileExists(atPath: destinationUrl.path) {
             // if no transfer exists but a file exists, play
             playVideo(destinationUrl)

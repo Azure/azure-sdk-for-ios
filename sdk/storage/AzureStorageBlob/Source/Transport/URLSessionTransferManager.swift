@@ -27,6 +27,7 @@
 import AzureCore
 import CoreData
 
+// swiftlint:disable:next type_body_length
 internal final class URLSessionTransferManager: NSObject, TransferManager, URLSessionTaskDelegate {
     // MARK: Type Alias
 
@@ -46,17 +47,23 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         manager?.registerListener { status in
             switch status {
             case .notReachable:
+                self.networkStatus = .disconnected
+                // No reason not to automatically pause--the alternative is everything failing
                 self.pauseAll()
             case .reachable(.ethernetOrWiFi):
-                self.resumeAll()
+                self.networkStatus = .wifiOrEthernet
+                self.handleNetworkTransition()
             case .reachable(.wwan):
-                self.resumeAll()
+                self.networkStatus = .cellular
+                self.handleNetworkTransition()
             default:
-                break
+                self.networkStatus = .unknown
             }
         }
         return manager
     }()
+
+    internal var networkStatus: NetworkType = .unknown
 
     private var managing = false
 
@@ -99,6 +106,30 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
         return container
     }()
+
+    /// Retrieve all managed transfers created by the transfer manager.
+    internal var transferCollection: TransferCollection {
+        let matching = transfers.compactMap { $0 as? BlobTransfer }
+        return TransferCollection(matching)
+    }
+
+    /// Retrieve all managed downloads created by the transfer manager.
+    internal var downloadCollection: TransferCollection {
+        let matching: [BlobTransfer] = transfers.compactMap { transfer in
+            guard let transfer = transfer as? BlobTransfer else { return nil }
+            return transfer.transferType == .download ? transfer : nil
+        }
+        return TransferCollection(matching)
+    }
+
+    /// Retrieve all managed uploads created by the transfer manager.
+    internal var uploadCollection: TransferCollection {
+        let matching: [BlobTransfer] = transfers.compactMap { transfer in
+            guard let transfer = transfer as? BlobTransfer else { return nil }
+            return transfer.transferType == .upload ? transfer : nil
+        }
+        return TransferCollection(matching)
+    }
 
     // MARK: Initializers
 
@@ -265,6 +296,21 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
             }
             transfer.totalBlocks = Int64(transfer.transfers.count)
         }
+
+        // if transfer should not occur on specific network type, it should immediately pause
+        let blobClient = client(forRestorationId: transfer.clientRestorationId) as? StorageBlobClient
+        switch transfer.transferType {
+        case .upload:
+            if !(blobClient?.options.uploadNetworkPolicy.shouldTransfer(withStatus: networkStatus) ?? true) {
+                transfer.pause()
+                return
+            }
+        case .download:
+            if !(blobClient?.options.uploadNetworkPolicy.shouldTransfer(withStatus: networkStatus) ?? true) {
+                transfer.pause()
+                return
+            }
+        }
         queueOperations(for: transfer)
     }
 
@@ -416,22 +462,41 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     // MARK: Resume Operations
 
+    func shouldAllow(transfer: Transfer) -> Bool {
+        guard let blobTransfer = transfer as? BlobTransfer else { return true }
+        let blobClient = client(forRestorationId: transfer.clientRestorationId) as? StorageBlobClient
+        switch blobTransfer.transferType {
+        case .download:
+            return blobClient?.options.downloadNetworkPolicy.shouldTransfer(withStatus: networkStatus) ?? true
+        case .upload:
+            return blobClient?.options.uploadNetworkPolicy.shouldTransfer(withStatus: networkStatus) ?? true
+        }
+    }
+
     func resumeAll(withRestorationId restorationId: String? = nil, progressHandler: ((BlobTransfer) -> Void)? = nil) {
         let toResume = restorationId == nil ? transfers : transfers.filter { $0.clientRestorationId == restorationId }
         for transfer in toResume {
+            if let blobTransfer = transfer as? BlobTransfer { print(blobTransfer.hash) }
+
             resume(transfer: transfer, progressHandler: progressHandler)
         }
     }
 
     func resume(transfer: TransferImpl, progressHandler: ((BlobTransfer) -> Void)? = nil) {
+        // reconnect blobTransfer with progress handler, regardless of network status.
+        // do not overwrite progress handler if it already is attached
+        if let blobTransfer = transfer as? BlobTransfer {
+            blobTransfer.progressHandler = progressHandler ?? blobTransfer.progressHandler
+        }
+
         guard transfer.state.resumable else { return }
+        guard shouldAllow(transfer: transfer) else { return }
+
         transfer.state = .pending
         switch transfer {
         case let transfer as BlockTransfer:
             operationQueue.add(BlockOperation(withTransfer: transfer, delegate: self))
         case let transfer as BlobTransfer:
-            // if progress handler not provided, do not overwrite with nil
-            transfer.progressHandler = progressHandler ?? transfer.progressHandler
             for blockTransfer in transfer.transfers where blockTransfer.state.resumable {
                 blockTransfer.state = .pending
             }
@@ -444,6 +509,30 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
             assertionFailure("Unrecognized transfer type: \(transfer.self)")
         }
         self.transfer(transfer, didUpdateWithState: transfer.state, andProgress: nil)
+    }
+
+    // MARK: Misc Methods
+
+    func handleNetworkTransition() {
+        let status = networkStatus
+
+        let clientEnumerator = clients.objectEnumerator()
+        while let client: StorageBlobClient = clientEnumerator?.nextObject() as? StorageBlobClient {
+            let downloadPolicy = client.options.downloadNetworkPolicy
+            if downloadPolicy.transferOver.contains(status) {
+                if downloadPolicy.enableAutoResume {
+                    client.downloads.resumeAll()
+                }
+            } else {
+                client.downloads.pauseAll()
+            }
+            let uploadPolicy = client.options.uploadNetworkPolicy
+            if uploadPolicy.transferOver.contains(status), uploadPolicy.enableAutoResume {
+                client.uploads.resumeAll()
+            } else {
+                client.uploads.pauseAll()
+            }
+        }
     }
 
     func reconnectClient(for transfer: BlobTransfer) {

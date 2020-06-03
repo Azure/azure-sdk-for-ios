@@ -102,8 +102,7 @@ import Foundation
         public func registerListener(_ listener: @escaping ReachabilityStatusListener) {
             self.listener = { status in
                 defer { self.previousStatus = status }
-                guard self.previousStatus != .unknown,
-                    self.previousStatus != status else { return }
+                guard self.previousStatus != status else { return }
                 listener(status)
             }
         }

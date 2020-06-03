@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A25EA4C2398121A0012DFE1 /* BuildFile in Embed Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0A1D0775248833F7001A4016 /* NetworkingPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1D0774248833F7001A4016 /* NetworkingPolicy.swift */; };
 		0A25EA4C2398121A0012DFE1 /* (null) in Embed Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0A28684723F5D6700084CF15 /* AzureStorage.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0A28684523F5D6700084CF15 /* AzureStorage.xcdatamodeld */; };
 		0A28686D23F74EA00084CF15 /* BlobDownloadOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A28686C23F74EA00084CF15 /* BlobDownloadOperations.swift */; };
@@ -77,6 +79,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0A1D0774248833F7001A4016 /* NetworkingPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingPolicy.swift; sourceTree = "<group>"; };
 		0A28684623F5D6700084CF15 /* AzureStorage.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AzureStorage.xcdatamodel; sourceTree = "<group>"; };
 		0A28686C23F74EA00084CF15 /* BlobDownloadOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlobDownloadOperations.swift; sourceTree = "<group>"; };
 		0A28688023FCA6750084CF15 /* MultiBlobOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiBlobOperation.swift; sourceTree = "<group>"; };
@@ -233,6 +236,7 @@
 				0AE8F02A23AC2A7C007B6975 /* StorageStreamDownloader.swift */,
 				0A5329682411FA4500486D81 /* StorageStreamUploader.swift */,
 				0AA4FFCC23DF96C4003ADF59 /* TransferManager.swift */,
+				0A1D0774248833F7001A4016 /* NetworkingPolicy.swift */,
 				0A68648B233E834D004B7E17 /* Supporting Files */,
 			);
 			path = Source;
@@ -517,6 +521,7 @@
 				0A532ACD2417D8CC00C4C8BA /* BlobLookupList.swift in Sources */,
 				0A28684723F5D6700084CF15 /* AzureStorage.xcdatamodeld in Sources */,
 				0A6864B3233E89D9004B7E17 /* ContainerItem.swift in Sources */,
+				0A1D0775248833F7001A4016 /* NetworkingPolicy.swift in Sources */,
 				0A28686D23F74EA00084CF15 /* BlobDownloadOperations.swift in Sources */,
 				7ACAADA1242C241A00A049B7 /* TransferOperationQueue.swift in Sources */,
 				7A0DF007245A3FFF002EC98F /* TransferCollection.swift in Sources */,

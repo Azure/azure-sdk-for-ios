@@ -103,28 +103,19 @@ extension StorageBlobClient {
 
     /// Retrieve all managed transfers created by this client.
     public var transfers: TransferCollection {
-        let matching: [BlobTransfer] = StorageBlobClient.manager.transfers.compactMap { transfer in
-            guard let transfer = transfer as? BlobTransfer else { return nil }
-            return transfer.clientRestorationId == restorationId ? transfer : nil
-        }
-        return TransferCollection(matching)
+        let collection = StorageBlobClient.manager.transferCollection.items
+        return TransferCollection(collection.filter { $0.clientRestorationId == restorationId })
     }
 
     /// Retrieve all managed downloads created by this client.
     public var downloads: TransferCollection {
-        let matching: [BlobTransfer] = StorageBlobClient.manager.transfers.compactMap { transfer in
-            guard let transfer = transfer as? BlobTransfer else { return nil }
-            return transfer.clientRestorationId == restorationId && transfer.transferType == .download ? transfer : nil
-        }
-        return TransferCollection(matching)
+        let collection = StorageBlobClient.manager.downloadCollection.items
+        return TransferCollection(collection.filter { $0.clientRestorationId == restorationId })
     }
 
     /// Retrieve all managed uploads created by this client.
     public var uploads: TransferCollection {
-        let matching: [BlobTransfer] = StorageBlobClient.manager.transfers.compactMap { transfer in
-            guard let transfer = transfer as? BlobTransfer else { return nil }
-            return transfer.clientRestorationId == restorationId && transfer.transferType == .upload ? transfer : nil
-        }
-        return TransferCollection(matching)
+        let collection = StorageBlobClient.manager.uploadCollection.items
+        return TransferCollection(collection.filter { $0.clientRestorationId == restorationId })
     }
 }

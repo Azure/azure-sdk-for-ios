@@ -34,6 +34,10 @@ public struct StorageBlobClientOptions: AzureConfigurable {
     /// The `ClientLogger` to be used by this `StorageBlobClient`.
     public let logger: ClientLogger
 
+    internal let downloadNetworkPolicy: TransferNetworkPolicy
+
+    internal let uploadNetworkPolicy: TransferNetworkPolicy
+
     // Blob operations
 
     /// The maximum size of a single chunk in a blob upload or download.
@@ -48,11 +52,21 @@ public struct StorageBlobClientOptions: AzureConfigurable {
     public init(
         apiVersion: StorageBlobClient.ApiVersion = .latest,
         logger: ClientLogger = ClientLoggers.default(tag: "StorageBlobClient"),
-        maxChunkSizeInBytes: Int = 4 * 1024 * 1024 - 1
+        maxChunkSizeInBytes: Int = 4 * 1024 * 1024 - 1,
+        downloadNetworkPolicy: TransferNetworkPolicy? = nil,
+        uploadNetworkPolicy: TransferNetworkPolicy? = nil
     ) {
         self.apiVersion = apiVersion.rawValue
         self.logger = logger
         self.maxChunkSizeInBytes = maxChunkSizeInBytes
+        self.downloadNetworkPolicy = downloadNetworkPolicy ?? TransferNetworkPolicy(
+            transferOver: [.wifiOrEthernet, .cellular],
+            enableAutoResume: true
+        )
+        self.uploadNetworkPolicy = uploadNetworkPolicy ?? TransferNetworkPolicy(
+            transferOver: [.wifiOrEthernet, .cellular],
+            enableAutoResume: true
+        )
     }
 }
 
