@@ -411,7 +411,7 @@ public final class StorageBlobClient: PipelineClient {
         blob: String,
         inContainer container: String,
         withOptions options: DeleteBlobOptions? = nil,
-        then completion: @escaping HTTPResultHandler<Data?>
+        completionHandler: @escaping HTTPResultHandler<Data?>
     ) {
         // Construct URL
         let urlTemplate = "{container}/{blob}"
@@ -426,7 +426,7 @@ public final class StorageBlobClient: PipelineClient {
 
         // Construct headers
         var headers = HTTPHeaders([
-            HTTPHeader.apiVersion.rawValue: self.options.apiVersion
+            .apiVersion: self.options.apiVersion
         ])
         if let deleteSnapshots = options?.deleteSnapshots {
             headers[.deleteSnapshots] = deleteSnapshots.rawValue
@@ -455,11 +455,11 @@ public final class StorageBlobClient: PipelineClient {
             switch result {
             case .success:
                 DispatchQueue.main.async {
-                    completion(.success(nil), httpResponse)
+                    completionHandler(.success(nil), httpResponse)
                 }
             case let .failure(error):
                 DispatchQueue.main.async {
-                    completion(.failure(error), httpResponse)
+                    completionHandler(.failure(error), httpResponse)
                 }
             }
         }
