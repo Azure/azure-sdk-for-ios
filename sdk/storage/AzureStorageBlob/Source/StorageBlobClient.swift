@@ -401,6 +401,70 @@ public final class StorageBlobClient: PipelineClient {
         }
     }
 
+    /// Delete a blob within a storage container.
+    /// - Parameters:
+    ///   - blob: The blob name to delete.
+    ///   - container: The container name containing the blob to delete.
+    ///   - options: A `DeleteBlobOptions` object to control the delete operation.
+    ///   - completion: A completion handler that receives a `PagedCollection` of `BlobItem` objects on success.
+    public func delete(
+        blob: String,
+        inContainer container: String,
+        withOptions options: DeleteBlobOptions? = nil,
+        completionHandler: @escaping HTTPResultHandler<Data?>
+    ) {
+        // Construct URL
+        let urlTemplate = "{container}/{blob}"
+        let pathParams = [
+            "container": container,
+            "blob": blob
+        ]
+        guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return }
+
+        // Construct query
+        var queryParams: [QueryParameter] = []
+
+        // Construct headers
+        var headers = HTTPHeaders([
+            .apiVersion: self.options.apiVersion
+        ])
+        if let deleteSnapshots = options?.deleteSnapshots {
+            headers[.deleteSnapshots] = deleteSnapshots.rawValue
+        }
+
+        // Process endpoint options
+        if let options = options {
+            // Query options
+            if let snapshot = options
+                .snapshot { queryParams.append("snapshot", String(describing: snapshot, format: .rfc1123)) }
+            if let timeout = options.timeout { queryParams.append("timeout", String(timeout)) }
+
+            // Header options
+            if let clientRequestId = options.clientRequestId {
+                headers[.clientRequestId] = clientRequestId
+            }
+        }
+
+        // Construct and send request
+        let context = PipelineContext.of(keyValues: [
+            ContextKey.allowedStatusCodes.rawValue: [202] as AnyObject
+        ])
+        guard let request = try? HTTPRequest(method: .delete, url: url, headers: headers) else { return }
+        request.add(queryParams: queryParams)
+        self.request(request, context: context) { result, httpResponse in
+            switch result {
+            case .success:
+                DispatchQueue.main.async {
+                    completionHandler(.success(nil), httpResponse)
+                }
+            case let .failure(error):
+                DispatchQueue.main.async {
+                    completionHandler(.failure(error), httpResponse)
+                }
+            }
+        }
+    }
+
     /// Download a blob from a storage container.
     ///
     /// This method will execute a raw HTTP GET in order to download a single blob to the destination. It is

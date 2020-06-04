@@ -204,6 +204,30 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
         }
         self.tableView.deselectRow(at: indexPath, animated: true)
     }
+
+    func tableView(_: UITableView, canEditRowAt _: IndexPath) -> Bool {
+        true
+    }
+
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { _, indexPath in
+            guard let cell = tableView.cellForRow(at: indexPath) as? CustomTableViewCell else { return }
+            guard let blobName = cell.keyLabel.text else { return }
+            guard let containerName = AppConstants.videoContainer else { return }
+            guard let blobClient = self.blobClient else { return }
+
+            blobClient.delete(blob: blobName, inContainer: containerName) { result, _ in
+                switch result {
+                case .success:
+                    self.showAlert(message: "\(blobName) successfully deleted.")
+                    self.fetchData(self)
+                case let .failure(error):
+                    self.showAlert(error: error)
+                }
+            }
+        }
+        return [deleteAction]
+    }
 }
 
 extension BlobDownloadViewController: TransferDelegate {
