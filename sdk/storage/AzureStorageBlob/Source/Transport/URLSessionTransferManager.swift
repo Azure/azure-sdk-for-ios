@@ -102,7 +102,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     // MARK: Initializers
 
-    private override init() {
+    override private init() {
         self.transfers = [TransferImpl]()
         super.init()
     }
