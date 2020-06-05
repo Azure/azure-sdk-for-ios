@@ -49,7 +49,7 @@ public struct TransferProgress {
 // MARK: Protocols
 
 /// Object that contains information about a transfer operation.
-public protocol Transfer: AnyObject {
+public protocol Transfer: AzureTask, AnyObject {
     /// The unique identifier for this transfer operation.
     var id: UUID { get }
     /// The current state of the transfer.

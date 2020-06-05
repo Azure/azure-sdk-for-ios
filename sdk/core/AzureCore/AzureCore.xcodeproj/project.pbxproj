@@ -65,6 +65,7 @@
 		7A1A916C23D13D5700B0B3D2 /* RequestIdPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1A916B23D13D5700B0B3D2 /* RequestIdPolicyTests.swift */; };
 		7A1A916F23D13E5D00B0B3D2 /* PipelineStubs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1A916E23D13E5D00B0B3D2 /* PipelineStubs.swift */; };
 		7A1A917123D13F0300B0B3D2 /* ProviderStubs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1A917023D13F0300B0B3D2 /* ProviderStubs.swift */; };
+		7A1DC6C32489E8550006FCB7 /* AzureTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1DC6C22489E8550006FCB7 /* AzureTask.swift */; };
 		7A5E79EE2474A921000757F6 /* URLUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5E79ED2474A921000757F6 /* URLUtil.swift */; };
 		7A968D0323E0FC6400E0F054 /* LoggerStubs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A968D0223E0FC6400E0F054 /* LoggerStubs.swift */; };
 		7AA5366323BEC7EC00A65A96 /* AddDatePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA5366223BEC7EC00A65A96 /* AddDatePolicy.swift */; };
@@ -166,6 +167,7 @@
 		7A1A916B23D13D5700B0B3D2 /* RequestIdPolicyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestIdPolicyTests.swift; sourceTree = "<group>"; };
 		7A1A916E23D13E5D00B0B3D2 /* PipelineStubs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineStubs.swift; sourceTree = "<group>"; };
 		7A1A917023D13F0300B0B3D2 /* ProviderStubs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProviderStubs.swift; sourceTree = "<group>"; };
+		7A1DC6C22489E8550006FCB7 /* AzureTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzureTask.swift; sourceTree = "<group>"; };
 		7A5E79ED2474A921000757F6 /* URLUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLUtil.swift; sourceTree = "<group>"; };
 		7A968D0223E0FC6400E0F054 /* LoggerStubs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerStubs.swift; sourceTree = "<group>"; };
 		7AA5366223BEC7EC00A65A96 /* AddDatePolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDatePolicy.swift; sourceTree = "<group>"; };
@@ -235,6 +237,7 @@
 				7AA5366623C0336F00A65A96 /* Providers */,
 				0A3A5DA52315CEBF00473FDA /* Util */,
 				0AF01856232AF2CC00A0C94D /* DataStructures */,
+				7A1DC6C22489E8550006FCB7 /* AzureTask.swift */,
 				0A3A5F002316DF1B00473FDA /* Errors.swift */,
 				0AB7412323C7A03400B579B3 /* ClientLogger.swift */,
 				0A3A5DA92315CF0200473FDA /* Supporting Files */,
@@ -648,6 +651,7 @@
 				0AC0AA8F234FDB0800F05073 /* XMLModel.swift in Sources */,
 				0A532ACF2417E71100C4C8BA /* XMLMap.swift in Sources */,
 				0A7F563A2321732B00E9765A /* URLHTTPResponse.swift in Sources */,
+				7A1DC6C32489E8550006FCB7 /* AzureTask.swift in Sources */,
 				0AB7412123C79E1400B579B3 /* DataStringConvertible.swift in Sources */,
 				0A6A9B4F234293B50013FCAA /* RegexUtil.swift in Sources */,
 				0A3A5F32231720DE00473FDA /* AuthenticationPolicy.swift in Sources */,
