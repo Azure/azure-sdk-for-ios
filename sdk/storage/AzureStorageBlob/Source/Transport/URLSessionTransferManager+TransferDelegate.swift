@@ -49,7 +49,11 @@ extension URLSessionTransferManager: TransferDelegate {
             case .complete:
                 self.transferDidComplete(transfer)
             case .paused:
-                self.transfer(transfer, didUpdateWithState: state, andProgress: nil)
+                let delegate = self.client(forRestorationId: restorationId) as? TransferDelegate
+                delegate?.transfer(transfer, didUpdateWithState: state, andProgress: nil)
+                if let blobTransfer = transfer as? BlobTransfer {
+                    blobTransfer.progressHandler?(blobTransfer)
+                }
             default:
                 let delegate = self.client(forRestorationId: restorationId) as? TransferDelegate
                 if let blobTransfer = transfer as? BlobTransfer {

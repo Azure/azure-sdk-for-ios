@@ -424,7 +424,6 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
     }
 
     func resume(transfer: TransferImpl, progressHandler: ((BlobTransfer) -> Void)? = nil) {
-        guard reachability?.isReachable ?? false else { return }
         guard transfer.state.resumable else { return }
         transfer.state = .pending
         switch transfer {
