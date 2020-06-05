@@ -249,7 +249,7 @@ extension BlobUploadViewController: StorageBlobClientDelegate {
         _: StorageBlobClient,
         didUpdateTransfer transfer: BlobTransfer,
         withState _: TransferState,
-        andProgress _: Float?
+        andProgress _: TransferProgress?
     ) {
         if transfer.transferType == .upload {
             collectionView.reloadData()

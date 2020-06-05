@@ -533,7 +533,6 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         context.perform {
             if context.hasChanges {
                 do {
-                    print("SAVE CHANGES!")
                     try context.save()
                 } catch {
                     let nserror = error as NSError
@@ -541,8 +540,6 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
                     let errorMessage = "Unresolved error \(nserror.code): \(message)"
                     assertionFailure(errorMessage)
                 }
-            } else {
-                print("NO CHANGES")
             }
         }
     }

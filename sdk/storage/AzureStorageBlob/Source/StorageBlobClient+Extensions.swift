@@ -45,7 +45,7 @@ extension StorageBlobClient: TransferDelegate {
     public func transfer(
         _ transfer: Transfer,
         didUpdateWithState state: TransferState,
-        andProgress progress: Float?
+        andProgress progress: TransferProgress?
     ) {
         if let blobTransfer = transfer as? BlobTransfer {
             delegate?.blobClient(self, didUpdateTransfer: blobTransfer, withState: state, andProgress: progress)

@@ -31,7 +31,7 @@ public protocol StorageBlobClientDelegate: AnyObject {
         _ client: StorageBlobClient,
         didUpdateTransfer transfer: BlobTransfer,
         withState state: TransferState,
-        andProgress progress: Float?
+        andProgress progress: TransferProgress?
     )
     func blobClient(_ client: StorageBlobClient, didCompleteTransfer transfer: BlobTransfer)
     func blobClient(_ client: StorageBlobClient, didFailTransfer transfer: BlobTransfer, withError error: Error)
@@ -43,7 +43,7 @@ extension StorageBlobClientDelegate {
         _: StorageBlobClient,
         didUpdateTransfer _: BlobTransfer,
         withState _: TransferState,
-        andProgress _: Float?
+        andProgress _: TransferProgress?
     ) {}
     public func blobClient(_: StorageBlobClient, didCompleteTransfer _: BlobTransfer) {}
     public func blobClient(_: StorageBlobClient, didFailTransfer _: BlobTransfer, withError _: Error) {}
