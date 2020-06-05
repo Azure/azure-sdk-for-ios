@@ -26,6 +26,9 @@
 import Foundation
 import MSAL
 
+public typealias TokenCompletionHandler = (AccessToken?, Error?) -> Void
+public typealias MSALResultCompletionHandler = (MSALResult?, Error?) -> Void
+
 public struct AccessToken {
     // MARK: Properties
 
@@ -42,18 +45,18 @@ public protocol AzureCredential {
 public protocol TokenCredential: AzureCredential {
     // MARK: Required Methods
 
-    func token(forScopes scopes: [String], then completion: @escaping (AccessToken?, Error?) -> Void)
+    func token(forScopes scopes: [String], completionHandler: @escaping TokenCompletionHandler)
 }
 
 public protocol Authenticating: PipelineStage {
     // MARK: Required Methods
 
-    func authenticate(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler)
+    func authenticate(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler)
 }
 
 extension Authenticating {
-    public func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
-        authenticate(request: request, then: completion)
+    public func on(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
+        authenticate(request: request, completionHandler: completionHandler)
     }
 }
 
@@ -154,8 +157,8 @@ public struct MSALCredential: TokenCredential {
     /// Retrieve a token for the provided scope.
     /// - Parameters:
     ///   - scopes: A list of a scope strings for which to retrieve the token.
-    ///   - completion: A completion handler which forwards the access token.
-    public func token(forScopes scopes: [String], then completion: @escaping (AccessToken?, Error?) -> Void) {
+    ///   - completionHandler: A completion handler which forwards the access token.
+    public func token(forScopes scopes: [String], completionHandler: @escaping TokenCompletionHandler) {
         let group = DispatchGroup()
         var accessToken: AccessToken?
         var returnError: Error?
@@ -189,7 +192,7 @@ public struct MSALCredential: TokenCredential {
             }
         }
         group.notify(queue: DispatchQueue.main) {
-            completion(accessToken, returnError)
+            completionHandler(accessToken, returnError)
         }
     }
 
@@ -197,20 +200,20 @@ public struct MSALCredential: TokenCredential {
 
     internal func acquireTokenInteractively(
         withScopes scopes: [String],
-        then completion: @escaping (MSALResult?, Error?) -> Void
+        completionHandler: @escaping MSALResultCompletionHandler
     ) {
         guard let parent = delegate?.parentForWebView(), let application = application else { return }
         let webViewParameters = MSALWebviewParameters(parentViewController: parent)
         let parameters = MSALInteractiveTokenParameters(scopes: scopes, webviewParameters: webViewParameters)
         application.acquireToken(with: parameters) { result, error in
-            completion(result, error)
+            completionHandler(result, error)
         }
     }
 
     internal func acquireTokenSilently(
         forAccount account: MSALAccount,
         withScopes scopes: [String],
-        then completion: @escaping (MSALResult?, Error?) -> Void
+        completionHandler: @escaping MSALResultCompletionHandler
     ) {
         guard let application = application else { return }
         let parameters = MSALSilentTokenParameters(scopes: scopes, account: account)
@@ -224,12 +227,12 @@ public struct MSALCredential: TokenCredential {
                 if nsError.domain == MSALErrorDomain {
                     if nsError.code == MSALError.interactionRequired.rawValue {
                         self.acquireTokenInteractively(withScopes: scopes) { result, error in
-                            completion(result, error)
+                            completionHandler(result, error)
                         }
                     }
                 }
             }
-            completion(result, error)
+            completionHandler(result, error)
         }
     }
 }
@@ -239,8 +242,8 @@ public class AnonymousAccessPolicy: Authenticating {
 
     public init() {}
 
-    public func authenticate(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
-        completion(request, nil)
+    public func authenticate(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
+        completionHandler(request, nil)
     }
 }
 
@@ -266,25 +269,25 @@ public class BearerTokenCredentialPolicy: Authenticating {
     /// Authenticates an HTTP `PipelineRequest` with an OAuth token.
     /// - Parameters:
     ///   - request: A `PipelineRequest` object.
-    ///   - completion: A completion handler that forwards the modified pipeline request.
-    public func authenticate(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
+    ///   - completionHandler: A completion handler that forwards the modified pipeline request.
+    public func authenticate(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
         guard let token = self.token?.token else { return }
         request.httpRequest.headers[.authorization] = "Bearer \(token)"
-        completion(request, nil)
+        completionHandler(request, nil)
     }
 
     /// Authenticates an HTTP `PipelineRequest` with an OAuth token.
     /// - Parameters:
     ///   - request: A `PipelineRequest` object.
-    ///   - completion: A completion handler that forwards the modified pipeline request.
-    public func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
+    ///   - completionHandler: A completion handler that forwards the modified pipeline request.
+    public func on(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
         credential.token(forScopes: scopes) { token, error in
             if let error = error {
-                completion(request, error)
+                completionHandler(request, error)
                 return
             }
             self.token = token
-            self.authenticate(request: request, then: completion)
+            self.authenticate(request: request, completionHandler: completionHandler)
         }
     }
 }

@@ -183,11 +183,11 @@ public class ContentDecodePolicy: PipelineStage {
 
     // MARK: Public Methods
 
-    public func on(response: PipelineResponse, then completion: @escaping OnResponseCompletionHandler) {
+    public func on(response: PipelineResponse, completionHandler: @escaping OnResponseCompletionHandler) {
         let stream = response.value(forKey: "stream") as? Bool ?? false
         guard stream == false else { return }
         var returnResponse = response.copy()
-        defer { completion(returnResponse) }
+        defer { completionHandler(returnResponse) }
 
         guard var contentType = returnResponse.httpResponse?.headers["Content-Type"]?.components(separatedBy: ";").first
         else { return }

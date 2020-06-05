@@ -37,8 +37,8 @@ public class RequestIdPolicy: PipelineStage {
 
     // MARK: PipelineStage Methods
 
-    public func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
+    public func on(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
         request.httpRequest.headers[.clientRequestId] = UUID().uuidString
-        completion(request, nil)
+        completionHandler(request, nil)
     }
 }

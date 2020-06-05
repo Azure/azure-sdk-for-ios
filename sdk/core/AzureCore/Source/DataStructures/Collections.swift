@@ -168,7 +168,7 @@ public class PagedCollection<SingleElement: Codable> {
     // MARK: Public Methods
 
     /// Retrieves the next page of results asynchronously.
-    public func nextPage(then completion: @escaping Continuation<Element>) {
+    public func nextPage(completionHandler: @escaping Continuation<Element>) {
         // exit if there is no valid continuation token
         guard let continuationToken = continuationToken,
             continuationToken != "" else {
@@ -201,21 +201,21 @@ public class PagedCollection<SingleElement: Codable> {
             }
             if let returnError = returnError {
                 DispatchQueue.main.async {
-                    completion(.failure(returnError))
+                    completionHandler(.failure(returnError))
                 }
                 return
             }
             self.iteratorIndex = 0
             if let pageItems = self.pageItems {
                 DispatchQueue.main.async {
-                    completion(.success(pageItems))
+                    completionHandler(.success(pageItems))
                 }
             }
         }
     }
 
     /// Retrieves the next item in the collection, automatically fetching new pages when needed.
-    public func nextItem(then completion: @escaping Continuation<SingleElement>) {
+    public func nextItem(completionHandler: @escaping Continuation<SingleElement>) {
         guard let pageItems = pageItems else {
             // do not call the completion handler if there is no data
             return
@@ -225,13 +225,13 @@ public class PagedCollection<SingleElement: Codable> {
                 switch result {
                 case let .failure(error):
                     DispatchQueue.main.async {
-                        completion(.failure(error))
+                        completionHandler(.failure(error))
                     }
                 case let .success(newPage):
                     // since we return the first new item, the next iteration should start with the second item.
                     self.iteratorIndex = 1
                     DispatchQueue.main.async {
-                        completion(.success(newPage[0]))
+                        completionHandler(.success(newPage[0]))
                     }
                 }
             }
@@ -239,7 +239,7 @@ public class PagedCollection<SingleElement: Codable> {
             if let item = self.pageItems?[iteratorIndex] {
                 iteratorIndex += 1
                 DispatchQueue.main.async {
-                    completion(.success(item))
+                    completionHandler(.success(item))
                 }
             }
         }

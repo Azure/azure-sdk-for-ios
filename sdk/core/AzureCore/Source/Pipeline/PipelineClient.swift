@@ -84,7 +84,7 @@ open class PipelineClient {
     public func request(
         _ request: HTTPRequest,
         context: PipelineContext?,
-        then completion: @escaping HTTPResultHandler<Data?>
+        completionHandler: @escaping HTTPResultHandler<Data?>
     ) {
         let pipelineRequest = PipelineRequest(request: request, logger: logger, context: context)
         pipeline.run(request: pipelineRequest) { result, httpResponse in
@@ -98,16 +98,16 @@ open class PipelineClient {
                 if !allowedStatusCodes.contains(httpResponse?.statusCode ?? -1) {
                     self.logError(withData: deserializedData)
                     let error = HTTPResponseError.statusCode("Service returned invalid status code [\(statusCode)].")
-                    completion(.failure(error), httpResponse)
+                    completionHandler(.failure(error), httpResponse)
                 } else {
                     if let deserialized = deserializedData {
-                        completion(.success(deserialized), httpResponse)
+                        completionHandler(.success(deserialized), httpResponse)
                     } else if let data = httpResponse?.data {
-                        completion(.success(data), httpResponse)
+                        completionHandler(.success(data), httpResponse)
                     }
                 }
             case let .failure(error):
-                completion(.failure(error), httpResponse)
+                completionHandler(.failure(error), httpResponse)
             }
         }
     }

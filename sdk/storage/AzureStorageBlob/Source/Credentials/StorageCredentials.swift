@@ -282,14 +282,14 @@ internal class StorageSASAuthenticationPolicy: Authenticating {
     /// Authenticates an HTTP `PipelineRequest` by appending the SAS token as query parameters.
     /// - Parameters:
     ///   - request: A `PipelineRequest` object.
-    ///   - completion: A completion handler that forwards the modified pipeline request.
-    public func authenticate(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
+    ///   - completionHandler: A completion handler that forwards the modified pipeline request.
+    public func authenticate(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
         let queryParams = parse(sasToken: credential.sasToken ?? "")
         if let requestUrl = request.httpRequest.url.appendingQueryParameters(queryParams) {
             request.httpRequest.url = requestUrl
         }
         request.httpRequest.headers[.xmsDate] = String(describing: Date(), format: .rfc1123)
-        completion(request, nil)
+        completionHandler(request, nil)
     }
 
     // MARK: Private Methods
@@ -327,8 +327,8 @@ internal class StorageSharedKeyAuthenticationPolicy: Authenticating {
     /// Authenticates an HTTP `PipelineRequest` with a shared key.
     /// - Parameters:
     ///   - request: A `PipelineRequest` object.
-    ///   - completion: A completion handler that forwards the modified pipeline request.
-    public func authenticate(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
+    ///   - completionHandler: A completion handler that forwards the modified pipeline request.
+    public func authenticate(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
         let httpRequest = request.httpRequest
         guard let accountName = credential.accountName else { return }
         guard let accessKey = credential.accessKey else { return }
@@ -336,7 +336,7 @@ internal class StorageSharedKeyAuthenticationPolicy: Authenticating {
         guard let signatureValue = try? signature(forString: signingString, withKey: accessKey) else { return }
 
         request.httpRequest.headers[.authorization] = "SharedKey \(accountName):\(signatureValue)"
-        completion(request, nil)
+        completionHandler(request, nil)
     }
 
     // MARK: Private Methods

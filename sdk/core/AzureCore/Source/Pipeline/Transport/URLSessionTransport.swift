@@ -77,7 +77,7 @@ public class URLSessionTransport: HTTPTransportStage {
 
     public func process(
         request pipelineRequest: PipelineRequest,
-        then completion: @escaping PipelineStageResultHandler
+        completionHandler: @escaping PipelineStageResultHandler
     ) {
         open()
         guard let session = self.session else {
@@ -107,9 +107,12 @@ public class URLSessionTransport: HTTPTransportStage {
                 context: responseContext
             )
             if let error = error {
-                completion(.failure(PipelineError(fromError: error, pipelineResponse: pipelineResponse)), httpResponse)
+                completionHandler(
+                    .failure(PipelineError(fromError: error, pipelineResponse: pipelineResponse)),
+                    httpResponse
+                )
             } else {
-                completion(.success(pipelineResponse), httpResponse)
+                completionHandler(.success(pipelineResponse), httpResponse)
             }
         }.resume()
     }

@@ -276,10 +276,10 @@ public final class StorageBlobClient: PipelineClient {
     /// List storage containers in a storage account.
     /// - Parameters:
     ///   - options: A `ListContainersOptions` object to control the list operation.
-    ///   - completion: A completion handler that receives a `PagedCollection` of `ContainerItem` objects on success.
+    ///   - completionHandler: A completion handler that receives a `PagedCollection` of `ContainerItem` objects on success.
     public func listContainers(
         withOptions options: ListContainersOptions? = nil,
-        then completion: @escaping HTTPResultHandler<PagedCollection<ContainerItem>>
+        completionHandler: @escaping HTTPResultHandler<PagedCollection<ContainerItem>>
     ) {
         // Construct URL
         let urlTemplate = ""
@@ -329,7 +329,7 @@ public final class StorageBlobClient: PipelineClient {
                 guard let data = data else {
                     let noDataError = HTTPResponseError.decode("Response data expected but not found.")
                     DispatchQueue.main.async {
-                        completion(.failure(noDataError), httpResponse)
+                        completionHandler(.failure(noDataError), httpResponse)
                     }
                     return
                 }
@@ -343,16 +343,16 @@ public final class StorageBlobClient: PipelineClient {
                         decoder: decoder
                     )
                     DispatchQueue.main.async {
-                        completion(.success(paged), httpResponse)
+                        completionHandler(.success(paged), httpResponse)
                     }
                 } catch {
                     DispatchQueue.main.async {
-                        completion(.failure(error), httpResponse)
+                        completionHandler(.failure(error), httpResponse)
                     }
                 }
             case let .failure(error):
                 DispatchQueue.main.async {
-                    completion(.failure(error), httpResponse)
+                    completionHandler(.failure(error), httpResponse)
                 }
             }
         }
@@ -362,11 +362,11 @@ public final class StorageBlobClient: PipelineClient {
     /// - Parameters:
     ///   - container: The container name containing the blobs to list.
     ///   - options: A `ListBlobsOptions` object to control the list operation.
-    ///   - completion: A completion handler that receives a `PagedCollection` of `BlobItem` objects on success.
+    ///   - completionHandler: A completion handler that receives a `PagedCollection` of `BlobItem` objects on success.
     public func listBlobs(
         inContainer container: String,
         withOptions options: ListBlobsOptions? = nil,
-        then completion: @escaping HTTPResultHandler<PagedCollection<BlobItem>>
+        completionHandler: @escaping HTTPResultHandler<PagedCollection<BlobItem>>
     ) {
         // Construct URL
         let urlTemplate = "{container}"
@@ -424,7 +424,7 @@ public final class StorageBlobClient: PipelineClient {
                     let noDataError = HTTPResponseError.decode("Response data expected but not found.")
 
                     DispatchQueue.main.async {
-                        completion(.failure(noDataError), httpResponse)
+                        completionHandler(.failure(noDataError), httpResponse)
                     }
                     return
                 }
@@ -438,16 +438,16 @@ public final class StorageBlobClient: PipelineClient {
                         decoder: decoder
                     )
                     DispatchQueue.main.async {
-                        completion(.success(paged), httpResponse)
+                        completionHandler(.success(paged), httpResponse)
                     }
                 } catch {
                     DispatchQueue.main.async {
-                        completion(.failure(error), httpResponse)
+                        completionHandler(.failure(error), httpResponse)
                     }
                 }
             case let .failure(error):
                 DispatchQueue.main.async {
-                    completion(.failure(error), httpResponse)
+                    completionHandler(.failure(error), httpResponse)
                 }
             }
         }
@@ -458,12 +458,12 @@ public final class StorageBlobClient: PipelineClient {
     ///   - blob: The blob name to delete.
     ///   - container: The container name containing the blob to delete.
     ///   - options: A `DeleteBlobOptions` object to control the delete operation.
-    ///   - completion: A completion handler that receives a `PagedCollection` of `BlobItem` objects on success.
+    ///   - completionHandler: A completion handler to notify about success or failure.
     public func delete(
         blob: String,
         inContainer container: String,
         withOptions options: DeleteBlobOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<Data?>
+        completionHandler: @escaping HTTPResultHandler<Void>
     ) {
         // Construct URL
         let urlTemplate = "{container}/{blob}"
@@ -507,7 +507,7 @@ public final class StorageBlobClient: PipelineClient {
             switch result {
             case .success:
                 DispatchQueue.main.async {
-                    completionHandler(.success(nil), httpResponse)
+                    completionHandler(.success(()), httpResponse)
                 }
             case let .failure(error):
                 DispatchQueue.main.async {
@@ -527,13 +527,13 @@ public final class StorageBlobClient: PipelineClient {
     ///   - container: The name of the container.
     ///   - destinationUrl: The URL to a file path on this device.
     ///   - options: A `DownloadBlobOptions` object to control the download operation.
-    ///   - completion: A completion handler that receives a `BlobDownloader` object on success.
+    ///   - completionHandler: A completion handler that receives a `BlobDownloader` object on success.
     public func rawDownload(
         blob: String,
         fromContainer container: String,
         toFile destinationUrl: LocalURL,
         withOptions options: DownloadBlobOptions? = nil,
-        then completion: @escaping HTTPResultHandler<BlobDownloader>
+        completionHandler: @escaping HTTPResultHandler<BlobDownloader>
     ) throws {
         // Construct URL
         let urlTemplate = "/{container}/{blob}"
@@ -553,11 +553,11 @@ public final class StorageBlobClient: PipelineClient {
             switch result {
             case .success:
                 DispatchQueue.main.async {
-                    completion(.success(downloader), httpResponse)
+                    completionHandler(.success(downloader), httpResponse)
                 }
             case let .failure(error):
                 DispatchQueue.main.async {
-                    completion(.failure(error), httpResponse)
+                    completionHandler(.failure(error), httpResponse)
                 }
             }
         }
@@ -574,14 +574,14 @@ public final class StorageBlobClient: PipelineClient {
     ///   - blob: The name of the blob.
     ///   - properties: Properties to set on the resulting blob.
     ///   - options: An `UploadBlobOptions` object to control the upload operation.
-    ///   - completion: A completion handler that receives a `BlobUploader` object on success.
+    ///   - completionHandler: A completion handler that receives a `BlobUploader` object on success.
     public func rawUpload(
         file sourceUrl: LocalURL,
         toContainer container: String,
         asBlob blob: String,
         properties: BlobProperties? = nil,
         withOptions options: UploadBlobOptions? = nil,
-        then completion: @escaping HTTPResultHandler<BlobUploader>
+        completionHandler: @escaping HTTPResultHandler<BlobUploader>
     ) throws {
         // Construct URL
         let urlTemplate = "/{container}/{blob}"
@@ -602,11 +602,11 @@ public final class StorageBlobClient: PipelineClient {
             switch result {
             case .success:
                 DispatchQueue.main.async {
-                    completion(.success(uploader), httpResponse)
+                    completionHandler(.success(uploader), httpResponse)
                 }
             case let .failure(error):
                 DispatchQueue.main.async {
-                    completion(.failure(error), httpResponse)
+                    completionHandler(.failure(error), httpResponse)
                 }
             }
         }
