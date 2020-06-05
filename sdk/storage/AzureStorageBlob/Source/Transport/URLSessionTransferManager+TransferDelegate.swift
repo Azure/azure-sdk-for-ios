@@ -82,6 +82,9 @@ extension URLSessionTransferManager: TransferDelegate {
                 for transfer in transfersForId {
                     let progress = (transfer as? BlobTransfer)?.progress
                     delegate.transfer(transfer, didUpdateWithState: transfer.state, andProgress: progress)
+                    if let blobTransfer = transfer as? BlobTransfer {
+                        blobTransfer.progressHandler?(blobTransfer)
+                    }
                 }
 
                 // get the minimal set of unique MOCs and save them
@@ -113,6 +116,9 @@ extension URLSessionTransferManager: TransferDelegate {
         guard let delegate = client(forRestorationId: restorationId) as? TransferDelegate else { return }
         DispatchQueue.main.async {
             delegate.transfer(transfer, didFailWithError: error)
+            if let blobTransfer = transfer as? BlobTransfer {
+                blobTransfer.progressHandler?(blobTransfer)
+            }
             if let context = (transfer as? NSManagedObject)?.managedObjectContext {
                 self.save(context: context)
             }

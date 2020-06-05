@@ -46,7 +46,7 @@ class BlobDownloadViewController: UIViewController, MSALInteractiveDelegate {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        blobClient = try? AppState.blobClient(withDelegate: self)
+        blobClient = try? AppState.blobClient()
         let refreshControl = UIRefreshControl()
         refreshControl.attributedTitle = NSAttributedString(string: "Fetching Data ...", attributes: nil)
         refreshControl.addTarget(self, action: #selector(fetchData(_:)), for: .valueChanged)
@@ -167,9 +167,9 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
     }
 
     func downloadProgress(transfer: BlobTransfer) {
-
         guard transfer.state != .failed else {
-            showAlert(error: transfer.error)
+            let error = transfer.error ?? AzureError.general("An error occurred.")
+            showAlert(error: error)
             tableView.reloadData()
             return
         }
