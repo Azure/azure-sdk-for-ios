@@ -42,7 +42,7 @@ internal class BlobUploadFinalOperation: TransferOperation {
 
     // MARK: Public Methods
 
-    override public func main() {
+    public override func main() {
         guard let transfer = self.transfer as? BlobTransfer else { return }
         guard let uploader = transfer.uploader else { return }
         let group = DispatchGroup()

@@ -39,7 +39,7 @@ internal class BlockOperation: TransferOperation {
 
     // MARK: Public Methods
 
-    override public func main() {
+    public override func main() {
         guard let transfer = transfer as? BlockTransfer else {
             assertionFailure("Precondition failed for BlockOperation.")
             return

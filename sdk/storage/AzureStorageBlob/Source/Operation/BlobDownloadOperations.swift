@@ -85,7 +85,7 @@ internal class BlobDownloadInitialOperation: TransferOperation {
 
     // MARK: Public Methods
 
-    override public func main() {
+    public override func main() {
         guard let transfer = self.transfer as? BlockTransfer,
             transfer.parent.transferType == .download,
             let downloader = transfer.parent.downloader else {
@@ -136,7 +136,7 @@ internal class BlobDownloadFinalOperation: TransferOperation {
 
     // MARK: Public Methods
 
-    override public func main() {
+    public override func main() {
         guard let transfer = self.transfer as? BlobTransfer else { return }
         transfer.state = .complete
         notifyDelegate(withTransfer: transfer)

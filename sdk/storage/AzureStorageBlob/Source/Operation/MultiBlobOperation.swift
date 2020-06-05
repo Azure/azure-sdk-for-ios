@@ -41,7 +41,7 @@ internal class MultiBlobOperation: TransferOperation {
 
     // MARK: Public Methods
 
-    override public func main() {
+    public override func main() {
         // TODO: Complete this implementation
         guard let transfer = self.transfer as? MultiBlobTransfer else { return }
         transfer.state = .complete

@@ -59,14 +59,19 @@ extension URLSessionTransferManager: TransferDelegate {
                 if let blobTransfer = transfer as? BlobTransfer {
                     let progress = blobTransfer.progress
 
-                    // avoid saving the context or sending multiple messages when the progress has not actually changed
+                    // avoid saving the context or sending multiple messages when the progress and/or state have not
+                    // actually changed.
                     if blobTransfer.currentProgress < progress {
                         blobTransfer.currentProgress = progress
+                        delegate?.transfer(transfer, didUpdateWithState: state, andProgress: progress)
+                        blobTransfer.progressHandler?(blobTransfer)
+                    } else if blobTransfer.previousState != state {
                         delegate?.transfer(transfer, didUpdateWithState: state, andProgress: progress)
                         blobTransfer.progressHandler?(blobTransfer)
                     } else {
                         return
                     }
+                    blobTransfer.previousState = state
                 } else {
                     delegate?.transfer(transfer, didUpdateWithState: state, andProgress: nil)
                 }

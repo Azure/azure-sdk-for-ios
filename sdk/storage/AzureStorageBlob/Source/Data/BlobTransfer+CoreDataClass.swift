@@ -85,6 +85,8 @@ public class BlobTransfer: NSManagedObject, Transfer {
         }
     }
 
+    internal var previousState: TransferState?
+
     /// The source of the transfer. For uploads, this is the absolute local path on the device of the file being
     /// uploaded. For downloads, this is the URL of the blob being downloaded.
     public var sourceUrl: URL? {

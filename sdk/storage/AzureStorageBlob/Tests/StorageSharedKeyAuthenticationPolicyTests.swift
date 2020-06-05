@@ -344,7 +344,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
     }
 
     func test_StorageSharedKeyAuthenticationPolicy_StringToSign_WithCanonicalizedHeadersContainingLeadingSpaces_IsCorrect(
-        ) {
+    ) {
         let stringToSign = """
         GET
 
@@ -389,7 +389,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
     }
 
     func test_StorageSharedKeyAuthenticationPolicy_StringToSign_WithCanonicalizedHeadersAndQueryParamNamesContainingUppercase_IsCorrect(
-        ) {
+    ) {
         let stringToSign = """
         GET
 
@@ -551,7 +551,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
     }
 
     func test_StorageSharedKeyAuthenticationPolicy_AuthorizationHeader_WithAccountNameInURLNotMatchingCredential_IsCorrect(
-        ) {
+    ) {
         let header = "SharedKey sampleaccount:uuFTijPHK46ctAbZ8q/6wLeoDE2o3kl7y1g6VkVptIU="
         let accountName = "sampleaccount"
         let accessKey = "aGVsbG8gd29ybGQ=" // "hello world"

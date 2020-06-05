@@ -102,7 +102,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     // MARK: Initializers
 
-    override private init() {
+    private override init() {
         self.transfers = [TransferImpl]()
         super.init()
     }
@@ -430,7 +430,8 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         case let transfer as BlockTransfer:
             operationQueue.add(BlockOperation(withTransfer: transfer, delegate: self))
         case let transfer as BlobTransfer:
-            transfer.progressHandler = progressHandler
+            // if progress handler not provided, do not overwrite with nil
+            transfer.progressHandler = progressHandler ?? transfer.progressHandler
             for blockTransfer in transfer.transfers where blockTransfer.state.resumable {
                 blockTransfer.state = .pending
             }

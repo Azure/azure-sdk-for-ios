@@ -43,7 +43,7 @@ internal class TransferOperation: Operation {
 
     // MARK: Public Methods
 
-    override open func main() {
+    open override func main() {
         if !transfer.isActive { return }
         super.main()
     }
