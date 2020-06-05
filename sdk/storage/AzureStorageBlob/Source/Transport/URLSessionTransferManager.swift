@@ -118,7 +118,8 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         return transfers[index]
     }
 
-    func register(client: StorageBlobClient?, forRestorationId restorationId: String) throws {
+    func register(client: StorageBlobClient) throws {
+        let restorationId = client.restorationId
         guard blobClient(forRestorationId: restorationId) == nil else {
             throw AzureError.general(
                 """

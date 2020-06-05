@@ -65,6 +65,9 @@ public final class StorageBlobClient: PipelineClient {
     /// The `TransferDelegate` to inform about events from transfers created by this `StorageBlobClient`.
     public weak var transferDelegate: TransferDelegate?
 
+    /// The identifier used to associate this client with transfers it creates.
+    public let restorationId: String
+
     private static let defaultScopes = [
         "https://storage.azure.com/.default"
     ]
@@ -72,8 +75,6 @@ public final class StorageBlobClient: PipelineClient {
     private static let manager = URLSessionTransferManager.shared
 
     internal static let viewContext: NSManagedObjectContext = manager.persistentContainer.viewContext
-
-    private let restorationId: String
 
     // MARK: Initializers
 
@@ -91,11 +92,11 @@ public final class StorageBlobClient: PipelineClient {
     private init(
         baseUrl: URL,
         authPolicy: Authenticating,
-        withRestorationId restorationId: String,
+        withRestorationId restorationId: String? = nil,
         withOptions options: StorageBlobClientOptions? = nil
     ) throws {
         self.options = options ?? StorageBlobClientOptions()
-        self.restorationId = restorationId
+        self.restorationId = restorationId ?? DeviceProviders.appBundleInfo.identifier ?? "AzureStorageBlob"
         super.init(
             baseUrl: baseUrl,
             transport: URLSessionTransport(),
@@ -112,7 +113,7 @@ public final class StorageBlobClient: PipelineClient {
             ],
             logger: self.options.logger
         )
-        try StorageBlobClient.manager.register(client: self, forRestorationId: restorationId)
+        try StorageBlobClient.manager.register(client: self)
     }
 
     /// Create a Storage blob data client.
@@ -129,7 +130,7 @@ public final class StorageBlobClient: PipelineClient {
     public convenience init(
         credential: MSALCredential,
         endpoint: URL,
-        withRestorationId restorationId: String,
+        withRestorationId restorationId: String? = nil,
         withOptions options: StorageBlobClientOptions? = nil
     ) throws {
         try credential.validate()
@@ -150,7 +151,7 @@ public final class StorageBlobClient: PipelineClient {
     ///   - options: Options used to configure the client.
     public convenience init(
         credential: StorageSASCredential,
-        withRestorationId restorationId: String,
+        withRestorationId restorationId: String? = nil,
         withOptions options: StorageBlobClientOptions? = nil
     ) throws {
         try credential.validate()
@@ -180,7 +181,7 @@ public final class StorageBlobClient: PipelineClient {
     ///   - options: Options used to configure the client.
     public convenience init(
         credential: StorageSharedKeyCredential,
-        withRestorationId restorationId: String,
+        withRestorationId restorationId: String? = nil,
         withOptions options: StorageBlobClientOptions? = nil
     ) throws {
         try credential.validate()
