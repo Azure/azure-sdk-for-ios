@@ -115,7 +115,7 @@ internal class ChunkUploader {
             ("comp", "block"),
             ("blockid", blockId.uuidString.base64EncodedString())
         ]
-        if let timeout = options.timeout { queryParams.append(("timeout", String(timeout))) }
+        if let timeout = options.timeoutInSeconds { queryParams.append(("timeout", String(timeout))) }
 
         // Construct headers
         var headers = HTTPHeaders([
@@ -353,7 +353,7 @@ internal class BlobStreamUploader: BlobUploader {
     ) {
         // Construct parameters & headers
         var queryParams: [QueryParameter] = [("comp", "blocklist")]
-        if let timeout = options.timeout { queryParams.append("timeout", String(timeout)) }
+        if let timeout = options.timeoutInSeconds { queryParams.append("timeout", String(timeout)) }
 
         let headers = commitHeadersForRequest(
             withId: requestId,
@@ -505,7 +505,7 @@ internal class BlobStreamUploader: BlobUploader {
     private func computeBlockList(withOffset offset: Int = 0) -> [(Range<Int>, UUID)] {
         var blockList = [(Range<Int>, UUID)]()
         let alignForCrypto = isEncrypted
-        let chunkLength = client.options.maxChunkSize
+        let chunkLength = client.options.maxChunkSizeInBytes
 
         if alignForCrypto {
             fatalError("Client-side encryption is not yet supported!")

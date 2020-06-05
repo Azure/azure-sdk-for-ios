@@ -76,10 +76,10 @@ public struct ModifiedAccessConditions: Codable, Equatable {
 public struct RangeOptions: Codable, Equatable {
     /// Start of byte range to use for downloading a section of the blob.
     /// Must be set if length is provided.
-    public let offset: Int
+    public let offsetBytes: Int
     /// Number of bytes to read from the stream. Should be specified
     /// for optimal performance.
-    public let length: Int?
+    public let lengthInBytes: Int?
     /// When set to true, the service returns the MD5 hash for the range
     /// as long as the range is less than or equal to 4 MB in size.
     public let calculateMD5: Bool?
@@ -89,15 +89,20 @@ public struct RangeOptions: Codable, Equatable {
 
     /// Initialize a `RangeOptions` structure.
     /// - Parameters:
-    ///   - offset: Start of byte range to use for downloading a section of the blob. Must be set if length is provided.
-    ///   - length: Number of bytes to read from the stream. Should be specified for optimal performance.
+    ///   - offsetBytes: Start of byte range to use for downloading a section of the blob. Must be set if length is provided.
+    ///   - lengthInBytes: Number of bytes to read from the stream. Should be specified for optimal performance.
     ///   - calculateMD5: When set to true, the service returns the MD5 hash for the range as long as the range is less
     ///     than or equal to 4 MB in size.
     ///   - calculateCRC64: When set to true, the service returns the CRC64 hash for the range as long as the range is
     ///     less than or equal to 4 MB in size.
-    public init(offset: Int = 0, length: Int? = nil, calculateMD5: Bool? = nil, calculateCRC64: Bool? = nil) {
-        self.offset = offset
-        self.length = length
+    public init(
+        offsetBytes: Int = 0,
+        lengthInBytes: Int? = nil,
+        calculateMD5: Bool? = nil,
+        calculateCRC64: Bool? = nil
+    ) {
+        self.offsetBytes = offsetBytes
+        self.lengthInBytes = lengthInBytes
         self.calculateMD5 = calculateMD5
         self.calculateCRC64 = calculateCRC64
     }

@@ -37,22 +37,22 @@ public struct StorageBlobClientOptions: AzureConfigurable {
     // Blob operations
 
     /// The maximum size of a single chunk in a blob upload or download.
-    public let maxChunkSize: Int
+    public let maxChunkSizeInBytes: Int
 
     /// Initialize a `StorageBlobClientOptions` structure.
     /// - Parameters:
     ///   - apiVersion: The API version of the Azure Storage Blob service to invoke.
     ///   - logger: The `ClientLogger` to be used by this `StorageBlobClient`.
-    ///   - maxChunkSize: The maximum size of a single chunk in a blob upload or download.
+    ///   - maxChunkSizeInBytes: The maximum size of a single chunk in a blob upload or download.
     ///     Must be less than 4MB if enabling MD5 or CRC64 hashing.
     public init(
         apiVersion: StorageBlobClient.ApiVersion = .latest,
         logger: ClientLogger = ClientLoggers.default(tag: "StorageBlobClient"),
-        maxChunkSize: Int = 4 * 1024 * 1024 - 1
+        maxChunkSizeInBytes: Int = 4 * 1024 * 1024 - 1
     ) {
         self.apiVersion = apiVersion.rawValue
         self.logger = logger
-        self.maxChunkSize = maxChunkSize
+        self.maxChunkSizeInBytes = maxChunkSizeInBytes
     }
 }
 
@@ -77,7 +77,7 @@ public struct ListContainersOptions: AzureOptions {
     public let maxResults: Int?
 
     /// Request timeout in seconds.
-    public let timeout: Int?
+    public let timeoutInSeconds: Int?
 
     /// Initialize a `ListContainersOptions` structure.
     /// - Parameters:
@@ -86,19 +86,19 @@ public struct ListContainersOptions: AzureOptions {
     ///   - prefix: Return only containers whose names begin with the specified prefix.
     ///   - include: One or more datasets to include in the response.
     ///   - maxResults: Maximum number of containers to return, up to 5000.
-    ///   - timeout: equest timeout in seconds.
+    ///   - timeoutInSeconds: Request timeout in seconds.
     public init(
         clientRequestId: String? = nil,
         prefix: String? = nil,
         include: [ListContainersInclude]? = nil,
         maxResults: Int? = nil,
-        timeout: Int? = nil
+        timeoutInSeconds: Int? = nil
     ) {
         self.clientRequestId = clientRequestId
         self.prefix = prefix
         self.include = include
         self.maxResults = maxResults
-        self.timeout = timeout
+        self.timeoutInSeconds = timeoutInSeconds
     }
 }
 
@@ -136,7 +136,7 @@ public struct ListBlobsOptions: AzureOptions {
     public let include: [ListBlobsInclude]?
 
     /// Request timeout in seconds.
-    public let timeout: Int?
+    public let timeoutInSeconds: Int?
 
     /// Initialize a `ListBlobsOptions` structure.
     /// - Parameters:
@@ -148,21 +148,21 @@ public struct ListBlobsOptions: AzureOptions {
     ///     delimiter may be a single charcter or a string.
     ///   - maxResults: Maximum number of containers to return, up to 5000.
     ///   - include: One or more datasets to include in the response.
-    ///   - timeout: Request timeout in seconds.
+    ///   - timeoutInSeconds: Request timeout in seconds.
     public init(
         clientRequestId: String? = nil,
         prefix: String? = nil,
         delimiter: String? = nil,
         maxResults: Int? = nil,
         include: [ListBlobsInclude]? = nil,
-        timeout: Int? = nil
+        timeoutInSeconds: Int? = nil
     ) {
         self.clientRequestId = clientRequestId
         self.prefix = prefix
         self.delimiter = delimiter
         self.maxResults = maxResults
         self.include = include
-        self.timeout = timeout
+        self.timeoutInSeconds = timeoutInSeconds
     }
 }
 
@@ -190,24 +190,24 @@ public struct DeleteBlobOptions: AzureOptions {
     public let snapshot: Date?
 
     /// Request timeout in seconds.
-    public let timeout: Int?
+    public let timeoutInSeconds: Int?
 
     /// Initialize a DeleteBlobOptions` structure.
     /// - Parameters:
     ///   - clientRequestId: A client-generated, opaque value with 1KB character limit that is recorded in analytics
     ///     logs.
     ///   - deleteSnapshots: `DeleteBlobSnapshot` value to specify how snapshots should be handled.
-    ///   - timeout: Request timeout in seconds.
+    ///   - timeoutInSeconds: Request timeout in seconds.
     public init(
         clientRequestId: String? = nil,
         deleteSnapshots: DeleteBlobSnapshot? = nil,
         snapshot: Date? = nil,
-        timeout: Int? = nil
+        timeoutInSeconds: Int? = nil
     ) {
         self.clientRequestId = clientRequestId
         self.deleteSnapshots = deleteSnapshots
         self.snapshot = snapshot
-        self.timeout = timeout
+        self.timeoutInSeconds = timeoutInSeconds
     }
 }
 
@@ -251,7 +251,7 @@ public struct DownloadBlobOptions: AzureOptions, Codable, Equatable {
     /// The timeout parameter is expressed in seconds. This method may make
     /// multiple calls to the Azure service and the timeout will apply to
     /// each call individually.
-    public let timeout: Int?
+    public let timeoutInSeconds: Int?
 
     /// Initialize a `DownloadBlobOptions` structure.
     /// - Parameters:
@@ -273,7 +273,7 @@ public struct DownloadBlobOptions: AzureOptions, Codable, Equatable {
     ///     customer-provided keys must be done over HTTPS. As the encryption key itself is provided in the request, a
     ///     secure connection must be established to transfer the key.
     ///   - encoding: Encoding with which to decode the downloaded bytes. If nil, no decoding occurs.
-    ///   - timeout: The timeout parameter is expressed in seconds. This method may make multiple calls to the Azure
+    ///   - timeoutInSeconds: The timeout parameter is expressed in seconds. This method may make multiple calls to the Azure
     ///     service and the timeout will apply to each call individually.
     public init(
         clientRequestId: String? = nil,
@@ -285,7 +285,7 @@ public struct DownloadBlobOptions: AzureOptions, Codable, Equatable {
         encryptionOptions: EncryptionOptions? = nil,
         customerProvidedEncryptionKey: CustomerProvidedEncryptionKey? = nil,
         encoding: String? = nil,
-        timeout: Int? = nil
+        timeoutInSeconds: Int? = nil
     ) {
         self.clientRequestId = clientRequestId
         self.range = range
@@ -296,7 +296,7 @@ public struct DownloadBlobOptions: AzureOptions, Codable, Equatable {
         self.encryptionOptions = encryptionOptions
         self.customerProvidedEncryptionKey = customerProvidedEncryptionKey
         self.encoding = encoding
-        self.timeout = timeout
+        self.timeoutInSeconds = timeoutInSeconds
     }
 }
 
@@ -334,7 +334,7 @@ public struct UploadBlobOptions: AzureOptions, Codable, Equatable {
     /// The timeout parameter is expressed in seconds. This method may make
     /// multiple calls to the Azure service and the timeout will apply to
     /// each call individually.
-    public let timeout: Int?
+    public let timeoutInSeconds: Int?
 
     /// Initialize an `UploadBlobOptions` structure.
     /// - Parameters:
@@ -353,7 +353,7 @@ public struct UploadBlobOptions: AzureOptions, Codable, Equatable {
     ///   - customerProvidedEncryptionScope: The name of the predefined encryption scope used to encrypt the blob
     ///   contents and metadata. Note that omitting this value implies use of the default account encryption scope.
     ///   - encoding: Encoding with which to decode the downloaded bytes. If nil, no decoding occurs.
-    ///   - timeout: The timeout parameter is expressed in seconds. This method may make multiple calls to the Azure
+    ///   - timeoutInSeconds: The timeout parameter is expressed in seconds. This method may make multiple calls to the Azure
     ///     service and the timeout will apply to each call individually.
     public init(
         clientRequestId: String? = nil,
@@ -363,7 +363,7 @@ public struct UploadBlobOptions: AzureOptions, Codable, Equatable {
         customerProvidedEncryptionKey: CustomerProvidedEncryptionKey? = nil,
         customerProvidedEncryptionScope: String? = nil,
         encoding: String? = nil,
-        timeout: Int? = nil
+        timeoutInSeconds: Int? = nil
     ) {
         self.clientRequestId = clientRequestId
         self.leaseAccessConditions = leaseAccessConditions
@@ -372,6 +372,6 @@ public struct UploadBlobOptions: AzureOptions, Codable, Equatable {
         self.customerProvidedEncryptionKey = customerProvidedEncryptionKey
         self.customerProvidedEncryptionScope = customerProvidedEncryptionScope
         self.encoding = encoding
-        self.timeout = timeout
+        self.timeoutInSeconds = timeoutInSeconds
     }
 }

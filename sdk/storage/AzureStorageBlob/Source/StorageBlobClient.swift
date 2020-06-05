@@ -302,7 +302,7 @@ public final class StorageBlobClient: PipelineClient {
                 queryParams.append("include", (include.map { $0.rawValue }).joined(separator: ","))
             }
             if let maxResults = options.maxResults { queryParams.append("maxresults", String(maxResults)) }
-            if let timeout = options.timeout { queryParams.append("timeout", String(timeout)) }
+            if let timeout = options.timeoutInSeconds { queryParams.append("timeout", String(timeout)) }
 
             // Header options
             if let clientRequestId = options.clientRequestId {
@@ -397,7 +397,7 @@ public final class StorageBlobClient: PipelineClient {
                 queryParams.append("include", (include.map { $0.rawValue }).joined(separator: ","))
             }
             if let maxResults = options.maxResults { queryParams.append("maxresults", String(maxResults)) }
-            if let timeout = options.timeout { queryParams.append("timeout", String(timeout)) }
+            if let timeout = options.timeoutInSeconds { queryParams.append("timeout", String(timeout)) }
 
             // Header options
             if let clientRequestId = options.clientRequestId {
@@ -489,7 +489,7 @@ public final class StorageBlobClient: PipelineClient {
             // Query options
             if let snapshot = options
                 .snapshot { queryParams.append("snapshot", String(describing: snapshot, format: .rfc1123)) }
-            if let timeout = options.timeout { queryParams.append("timeout", String(timeout)) }
+            if let timeout = options.timeoutInSeconds { queryParams.append("timeout", String(timeout)) }
 
             // Header options
             if let clientRequestId = options.clientRequestId {
@@ -637,8 +637,8 @@ public final class StorageBlobClient: PipelineClient {
         ]
         guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return nil }
         let context = StorageBlobClient.viewContext
-        let start = Int64(options?.range?.offset ?? 0)
-        let end = Int64(options?.range?.length ?? 0)
+        let start = Int64(options?.range?.offsetBytes ?? 0)
+        let end = Int64(options?.range?.lengthInBytes ?? 0)
         let downloader = try BlobStreamDownloader(
             client: self,
             source: url,

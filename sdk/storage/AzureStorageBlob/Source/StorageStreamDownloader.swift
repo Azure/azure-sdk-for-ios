@@ -85,7 +85,7 @@ internal class ChunkDownloader {
         // Construct parameters & headers
         var queryParams = [QueryParameter]()
         if let snapshot = options.snapshot { queryParams.append("snapshot", snapshot) }
-        if let timeout = options.timeout { queryParams.append("timeout", String(timeout)) }
+        if let timeout = options.timeoutInSeconds { queryParams.append("timeout", String(timeout)) }
 
         let headers = downloadHeadersForRequest(withId: requestId)
 
@@ -313,7 +313,7 @@ internal class BlobStreamDownloader: BlobDownloader {
         self.delegate = delegate
         self.options = options ?? DownloadBlobOptions()
         self.downloadSource = source
-        self.requestedSize = self.options.range?.length
+        self.requestedSize = self.options.range?.lengthInBytes
         self.blobProperties = nil
         self.totalSize = -1
         self.blockList = computeBlockList()
@@ -436,7 +436,7 @@ internal class BlobStreamDownloader: BlobDownloader {
                     // if the requestedSize was not specfied, the block list will need to be recomputed
                     // based on the actual file size.
                     var recomputeBlockList = self.requestedSize == nil
-                    self.requestedSize = (self.requestedSize ?? blobSize) - (self.options.range?.offset ?? 0)
+                    self.requestedSize = (self.requestedSize ?? blobSize) - (self.options.range?.offsetBytes ?? 0)
 
                     // If the file is small, the download is complete at this point.
                     // If file size is large, download the rest of the file in chunks.
@@ -474,9 +474,9 @@ internal class BlobStreamDownloader: BlobDownloader {
     private func computeBlockList(withOffset offset: Int = 0) -> [Range<Int>] {
         var blockList = [Range<Int>]()
         let alignForCrypto = isEncrypted
-        let chunkLength = client.options.maxChunkSize
-        let start = (options.range?.offset ?? 0) + offset
-        let length = (requestedSize ?? options.range?.length ?? chunkLength) - start
+        let chunkLength = client.options.maxChunkSizeInBytes
+        let start = (options.range?.offsetBytes ?? 0) + offset
+        let length = (requestedSize ?? options.range?.lengthInBytes ?? chunkLength) - start
         let end = start + length
 
         if alignForCrypto {
