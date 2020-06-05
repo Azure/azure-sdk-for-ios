@@ -36,6 +36,7 @@ public class BlobTransfer: NSManagedObject, Transfer {
     internal var operation: TransferOperation?
     internal var downloader: BlobStreamDownloader?
     internal var uploader: BlobStreamUploader?
+    internal var progressHandler: ((BlobTransfer) -> Void)?
 
     internal var transfers: [BlockTransfer] {
         guard let blockSet = blocks else { return [BlockTransfer]() }
@@ -83,6 +84,8 @@ public class BlobTransfer: NSManagedObject, Transfer {
             rawState = newValue.rawValue
         }
     }
+
+    internal var previousState: TransferState?
 
     /// The source of the transfer. For uploads, this is the absolute local path on the device of the file being
     /// uploaded. For downloads, this is the URL of the blob being downloaded.
@@ -216,7 +219,8 @@ internal extension BlobTransfer {
         type: TransferType,
         startRange: Int64,
         endRange: Int64,
-        parent: MultiBlobTransfer? = nil
+        parent: MultiBlobTransfer? = nil,
+        progressHandler: ((BlobTransfer) -> Void)? = nil
     ) -> BlobTransfer {
         guard let transfer = NSEntityDescription.insertNewObject(
             forEntityName: "BlobTransfer",
@@ -241,6 +245,7 @@ internal extension BlobTransfer {
         transfer.transferType = type
         transfer.id = UUID()
         transfer.clientRestorationId = clientRestorationId
+        transfer.progressHandler = progressHandler
         return transfer
     }
 }

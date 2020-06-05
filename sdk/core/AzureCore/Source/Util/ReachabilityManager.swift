@@ -42,6 +42,7 @@ import Foundation
         private var listenerQueue: DispatchQueue = DispatchQueue.main
 
         internal var listener: ReachabilityStatusListener?
+        internal var previousStatus = NetworkReachabilityStatus.unknown
 
         private let reachability: SCNetworkReachability
         private var previousFlags: SCNetworkReachabilityFlags
@@ -99,7 +100,12 @@ import Foundation
         // MARK: - Listening
 
         public func registerListener(_ listener: @escaping ReachabilityStatusListener) {
-            self.listener = listener
+            self.listener = { status in
+                defer { self.previousStatus = status }
+                guard self.previousStatus != .unknown,
+                    self.previousStatus != status else { return }
+                listener(status)
+            }
         }
 
         @discardableResult

@@ -62,8 +62,8 @@ public final class StorageBlobClient: PipelineClient {
     /// Options provided to configure this `StorageBlobClient`.
     public let options: StorageBlobClientOptions
 
-    /// The `TransferDelegate` to inform about events from transfers created by this `StorageBlobClient`.
-    public weak var transferDelegate: TransferDelegate?
+    /// The `StorageBlobClientDelegate` to inform about events from transfers created by this `StorageBlobClient`.
+    public weak var delegate: StorageBlobClientDelegate?
 
     /// The identifier used to associate this client with transfers it creates.
     public let restorationId: String
@@ -72,7 +72,7 @@ public final class StorageBlobClient: PipelineClient {
         "https://storage.azure.com/.default"
     ]
 
-    private static let manager = URLSessionTransferManager.shared
+    internal static let manager = URLSessionTransferManager.shared
 
     internal static let viewContext: NSManagedObjectContext = manager.persistentContainer.viewContext
 
@@ -627,8 +627,9 @@ public final class StorageBlobClient: PipelineClient {
         blob: String,
         fromContainer container: String,
         toFile destinationUrl: LocalURL,
-        withOptions options: DownloadBlobOptions? = nil
-    ) throws -> BlobTransfer? {
+        withOptions options: DownloadBlobOptions? = nil,
+        progressHandler: ((BlobTransfer) -> Void)? = nil
+    ) throws -> Transfer? {
         // Construct URL
         let urlTemplate = "/{container}/{blob}"
         let pathParams = [
@@ -653,7 +654,8 @@ public final class StorageBlobClient: PipelineClient {
             type: .download,
             startRange: start,
             endRange: end,
-            parent: nil
+            parent: nil,
+            progressHandler: progressHandler
         )
         blobTransfer.downloader = downloader
         blobTransfer.downloadOptions = options ?? DownloadBlobOptions()
@@ -678,7 +680,8 @@ public final class StorageBlobClient: PipelineClient {
         toContainer container: String,
         asBlob blob: String,
         properties: BlobProperties,
-        withOptions options: UploadBlobOptions? = nil
+        withOptions options: UploadBlobOptions? = nil,
+        progressHandler: ((BlobTransfer) -> Void)? = nil
     ) throws -> BlobTransfer? {
         // Construct URL
         let urlTemplate = "/{container}/{blob}"
@@ -703,108 +706,13 @@ public final class StorageBlobClient: PipelineClient {
             type: .upload,
             startRange: 0,
             endRange: Int64(uploader.fileSize),
-            parent: nil
+            parent: nil,
+            progressHandler: progressHandler
         )
         blobTransfer.uploader = uploader
         blobTransfer.uploadOptions = options ?? UploadBlobOptions()
         blobTransfer.properties = properties
         StorageBlobClient.manager.add(transfer: blobTransfer)
         return blobTransfer
-    }
-}
-
-// MARK: PageableClient
-
-/// :nodoc:
-extension StorageBlobClient: PageableClient {
-    /// :nodoc:
-    public func continuationUrl(forRequestUrl requestUrl: URL, withContinuationToken token: String) -> URL? {
-        return requestUrl.appendingQueryParameters([("marker", token)])
-    }
-}
-
-// MARK: Transfer Delegate
-
-/// :nodoc:
-extension StorageBlobClient: TransferDelegate {
-    /// :nodoc:
-    public func transfer(
-        _ transfer: Transfer,
-        didUpdateWithState state: TransferState,
-        andProgress progress: Float?
-    ) {
-        transferDelegate?.transfer(transfer, didUpdateWithState: state, andProgress: progress)
-    }
-
-    /// :nodoc:
-    public func transfersDidUpdate(_ transfers: [Transfer]) {
-        transferDelegate?.transfersDidUpdate(transfers)
-    }
-
-    /// :nodoc:
-    public func transfer(_ transfer: Transfer, didFailWithError error: Error) {
-        transferDelegate?.transfer(transfer, didFailWithError: error)
-    }
-
-    /// :nodoc:
-    public func transferDidComplete(_ transfer: Transfer) {
-        transferDelegate?.transferDidComplete(transfer)
-    }
-}
-
-// MARK: Transfer Management
-
-extension StorageBlobClient {
-    /// Start the transfer management engine.
-    ///
-    /// Loads transfer state from disk, begins listening for network connectivity events, and resumes any incomplete
-    /// transfers. This method **MUST** be called by your application in order for any managed transfers to occur.
-    /// It's recommended to call this method from a background thread, at an opportune time after your app has started.
-    ///
-    /// Note that depending on the type of credential used by this `StorageBlobClient`, resuming transfers may cause a
-    /// login UI to be displayed if the token for a paused transfer has expired. Because of this, it's not recommended
-    /// to call this method from your `AppDelegate`. If you're using such a credential (e.g. `MSALCredential`) you
-    /// should first inspect the list of transfers to determine if any are pending. If so, you should assume that
-    /// calling this method may display a login UI, and call it in a user-appropriate context (e.g. display a "pending
-    /// transfers" message and wait for explicit user confirmation to start the management engine). If you're not using
-    /// such a credential, or there are no paused transfers, it is safe to call this method from your `AppDelegate`.
-    public static func startManaging() {
-        StorageBlobClient.manager.startManaging()
-    }
-
-    /// Stop the transfer management engine.
-    ///
-    /// Pauses all incomplete transfers, stops listening for network connectivity events, and stores transfer state to
-    /// disk. This method **SHOULD** be called by your application, either from your `AppDelegate` or from within a
-    /// `ViewController`'s lifecycle methods.
-    public static func stopManaging() {
-        StorageBlobClient.manager.stopManaging()
-    }
-
-    /// Retrieve all managed transfers created by this client.
-    public var transfers: TransferCollection {
-        let matching: [BlobTransfer] = StorageBlobClient.manager.transfers.compactMap { transfer in
-            guard let transfer = transfer as? BlobTransfer else { return nil }
-            return transfer.clientRestorationId == restorationId ? transfer : nil
-        }
-        return TransferCollection(matching)
-    }
-
-    /// Retrieve all managed downloads created by this client.
-    public var downloads: TransferCollection {
-        let matching: [BlobTransfer] = StorageBlobClient.manager.transfers.compactMap { transfer in
-            guard let transfer = transfer as? BlobTransfer else { return nil }
-            return transfer.clientRestorationId == restorationId && transfer.transferType == .download ? transfer : nil
-        }
-        return TransferCollection(matching)
-    }
-
-    /// Retrieve all managed uploads created by this client.
-    public var uploads: TransferCollection {
-        let matching: [BlobTransfer] = StorageBlobClient.manager.transfers.compactMap { transfer in
-            guard let transfer = transfer as? BlobTransfer else { return nil }
-            return transfer.clientRestorationId == restorationId && transfer.transferType == .upload ? transfer : nil
-        }
-        return TransferCollection(matching)
     }
 }

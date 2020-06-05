@@ -46,7 +46,7 @@ class BlobDownloadViewController: UIViewController, MSALInteractiveDelegate {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        blobClient = try? AppState.blobClient(withDelegate: self)
+        blobClient = try? AppState.blobClient()
         let refreshControl = UIRefreshControl()
         refreshControl.attributedTitle = NSAttributedString(string: "Fetching Data ...", attributes: nil)
         refreshControl.addTarget(self, action: #selector(fetchData(_:)), for: .valueChanged)
@@ -58,6 +58,8 @@ class BlobDownloadViewController: UIViewController, MSALInteractiveDelegate {
         PHPhotoLibrary.authorizationStatus()
         fetchData(self)
         StorageBlobClient.startManaging()
+        guard let blobClient = blobClient else { return }
+        blobClient.downloads.resumeAll(progressHandler: downloadProgress)
     }
 
     // MARK: Private Methods
@@ -164,6 +166,19 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
         return cell
     }
 
+    func downloadProgress(transfer: BlobTransfer) {
+        guard transfer.state != .failed else {
+            let error = transfer.error ?? AzureError.general("An error occurred.")
+            showAlert(error: error)
+            tableView.reloadData()
+            return
+        }
+
+        if transfer.transferType == .download {
+            tableView.reloadData()
+        }
+    }
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? CustomTableViewCell else { return }
         guard let blobName = cell.keyLabel.text else { return }
@@ -197,7 +212,8 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
                 blob: blobName,
                 fromContainer: containerName,
                 toFile: destination,
-                withOptions: options
+                withOptions: options,
+                progressHandler: downloadProgress
             )
         } catch {
             showAlert(error: error)
@@ -227,36 +243,5 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
             }
         }
         return [deleteAction]
-    }
-}
-
-extension BlobDownloadViewController: TransferDelegate {
-    func client(forRestorationId _: String) -> PipelineClient? {
-        return blobClient
-    }
-
-    func transfer(
-        _ transfer: Transfer,
-        didUpdateWithState _: TransferState,
-        andProgress _: Float?
-    ) {
-        if let blobTransfer = transfer as? BlobTransfer, blobTransfer.transferType == .download {
-            tableView.reloadData()
-        }
-    }
-
-    func transfersDidUpdate(_: [Transfer]) {
-        tableView.reloadData()
-    }
-
-    func transferDidComplete(_ transfer: Transfer) {
-        if let blobTransfer = transfer as? BlobTransfer, blobTransfer.transferType == .download {
-            tableView.reloadData()
-        }
-    }
-
-    func transfer(_: Transfer, didFailWithError error: Error) {
-        showAlert(error: error)
-        tableView.reloadData()
     }
 }

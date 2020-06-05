@@ -32,7 +32,6 @@ extension URLSessionTransferManager: TransferDelegate {
     func transfer(_ transfer: Transfer, didUpdateWithState state: TransferState, andProgress progress: Float?) {
         DispatchQueue.main.async {
             guard let restorationId = (transfer as? TransferImpl)?.clientRestorationId else { return }
-            let delegate = self.client(forRestorationId: restorationId) as? TransferDelegate
             switch state {
             case .failed:
                 // Block transfers should propagate up to their BlobTransfer and only notify that the
@@ -41,27 +40,38 @@ extension URLSessionTransferManager: TransferDelegate {
                     if [-1009, -1005].contains(transferError.code) {
                         transfer.pause()
                     } else {
-                        delegate?.transfer(transfer, didFailWithError: transferError)
+                        self.transfer(transfer, didFailWithError: transferError)
                     }
                 } else {
                     // ignore BlockTransfer failures
                     return
                 }
             case .complete:
-                delegate?.transferDidComplete(transfer)
+                self.transferDidComplete(transfer)
             case .paused:
+                let delegate = self.client(forRestorationId: restorationId) as? TransferDelegate
                 delegate?.transfer(transfer, didUpdateWithState: state, andProgress: nil)
+                if let blobTransfer = transfer as? BlobTransfer {
+                    blobTransfer.progressHandler?(blobTransfer)
+                }
             default:
+                let delegate = self.client(forRestorationId: restorationId) as? TransferDelegate
                 if let blobTransfer = transfer as? BlobTransfer {
                     let progress = blobTransfer.progress
 
-                    // avoid saving the context or sending multiple messages when the progress has not actually changed
+                    // avoid saving the context or sending multiple messages when the progress and/or state have not
+                    // actually changed.
                     if blobTransfer.currentProgress < progress {
                         blobTransfer.currentProgress = progress
                         delegate?.transfer(transfer, didUpdateWithState: state, andProgress: progress)
+                        blobTransfer.progressHandler?(blobTransfer)
+                    } else if blobTransfer.previousState != state {
+                        delegate?.transfer(transfer, didUpdateWithState: state, andProgress: progress)
+                        blobTransfer.progressHandler?(blobTransfer)
                     } else {
                         return
                     }
+                    blobTransfer.previousState = state
                 } else {
                     delegate?.transfer(transfer, didUpdateWithState: state, andProgress: nil)
                 }
@@ -78,7 +88,13 @@ extension URLSessionTransferManager: TransferDelegate {
             for restorationId in Set(restorationIds) {
                 guard let delegate = self.client(forRestorationId: restorationId) as? TransferDelegate else { continue }
                 let transfersForId = transfers.filter { ($0 as? TransferImpl)?.clientRestorationId == restorationId }
-                delegate.transfersDidUpdate(transfersForId)
+                for transfer in transfersForId {
+                    let progress = (transfer as? BlobTransfer)?.progress
+                    delegate.transfer(transfer, didUpdateWithState: transfer.state, andProgress: progress)
+                    if let blobTransfer = transfer as? BlobTransfer {
+                        blobTransfer.progressHandler?(blobTransfer)
+                    }
+                }
 
                 // get the minimal set of unique MOCs and save them
                 let contexts = transfersForId.compactMap { ($0 as? NSManagedObject)?.managedObjectContext }
@@ -91,9 +107,13 @@ extension URLSessionTransferManager: TransferDelegate {
 
     func transferDidComplete(_ transfer: Transfer) {
         guard let restorationId = (transfer as? TransferImpl)?.clientRestorationId else { return }
-        guard let delegate = client(forRestorationId: restorationId) as? TransferDelegate else { return }
+        let delegate = client(forRestorationId: restorationId) as? TransferDelegate
+        guard delegate != nil || (transfer as? BlobTransfer)?.progressHandler != nil else { return }
         DispatchQueue.main.async {
-            delegate.transferDidComplete(transfer)
+            delegate?.transferDidComplete(transfer)
+            if let blobTransfer = transfer as? BlobTransfer {
+                blobTransfer.progressHandler?(blobTransfer)
+            }
             if let context = (transfer as? NSManagedObject)?.managedObjectContext {
                 self.save(context: context)
             }
@@ -105,6 +125,9 @@ extension URLSessionTransferManager: TransferDelegate {
         guard let delegate = client(forRestorationId: restorationId) as? TransferDelegate else { return }
         DispatchQueue.main.async {
             delegate.transfer(transfer, didFailWithError: error)
+            if let blobTransfer = transfer as? BlobTransfer {
+                blobTransfer.progressHandler?(blobTransfer)
+            }
             if let context = (transfer as? NSManagedObject)?.managedObjectContext {
                 self.save(context: context)
             }
