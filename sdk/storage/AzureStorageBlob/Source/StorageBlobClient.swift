@@ -117,8 +117,8 @@ public final class StorageBlobClient: PipelineClient {
 
     /// Create a Storage blob data client.
     /// - Parameters:
-    ///   - endpoint: The URL for the storage account's blob storage endpoint.
     ///   - credential: A `MSALCredential` object used to retrieve authentication tokens.
+    ///   - endpoint: The URL for the storage account's blob storage endpoint.
     ///   - restorationId: An identifier used to associate this client with transfers it creates. When a transfer is
     ///     reloaded from disk (e.g. after an application crash), it can only be resumed once a client with the same
     ///     `restorationId` has been initialized. If your application only uses a single `StorageBlobClient`, it is
@@ -127,8 +127,8 @@ public final class StorageBlobClient: PipelineClient {
     ///     configuration (e.g. "MyApplication.userClient").
     ///   - options: Options used to configure the client.
     public convenience init(
-        endpoint: URL,
         credential: MSALCredential,
+        endpoint: URL,
         withRestorationId restorationId: String,
         withOptions options: StorageBlobClientOptions? = nil
     ) throws {
