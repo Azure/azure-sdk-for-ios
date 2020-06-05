@@ -80,32 +80,35 @@ internal class ChunkDownloader {
     /// Begin the download process.
     /// - Parameters:
     ///   - requestId: Unique request ID (GUID) for the operation.
-    ///   - completion: A completion handler that forwards the downloaded data.
-    public func download(requestId: String? = nil, completion: @escaping HTTPResultHandler<Data>) {
+    ///   - completionHandler: A completion handler that forwards the downloaded data.
+    public func download(requestId: String? = nil, completionHandler: @escaping HTTPResultHandler<Data>) {
         // Construct parameters & headers
         var queryParams = [QueryParameter]()
         if let snapshot = options.snapshot { queryParams.append("snapshot", snapshot) }
-        if let timeout = options.timeout { queryParams.append("timeout", String(timeout)) }
+        if let timeout = options.timeoutInSeconds { queryParams.append("timeout", String(timeout)) }
 
         let headers = downloadHeadersForRequest(withId: requestId)
 
         // Construct and send request
-        guard let request = try? HTTPRequest(method: .get, url: downloadSource, headers: headers) else { return }
-        request.add(queryParams: queryParams)
+        guard let requestUrl = downloadSource.appendingQueryParameters(queryParams) else { return }
+        guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: headers) else { return }
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 206] as AnyObject
         ])
         client.request(request, context: context) { result, httpResponse in
             switch result {
             case let .failure(error):
-                completion(.failure(error), httpResponse)
+                completionHandler(.failure(error), httpResponse)
             case let .success(data):
                 guard let data = data else {
-                    completion(.failure(HTTPResponseError.decode("Blob unexpectedly contained no data.")), httpResponse)
+                    completionHandler(
+                        .failure(HTTPResponseError.decode("Blob unexpectedly contained no data.")),
+                        httpResponse
+                    )
                     return
                 }
                 guard let headers = httpResponse?.headers else {
-                    completion(.failure(HTTPResponseError.general("No response headers found.")), httpResponse)
+                    completionHandler(.failure(HTTPResponseError.general("No response headers found.")), httpResponse)
                     return
                 }
                 if let contentMD5 = headers[.contentMD5] {
@@ -113,7 +116,7 @@ internal class ChunkDownloader {
                     guard contentMD5 == dataHash else {
                         let error = HTTPResponseError
                             .resourceModified("Block MD5 \(dataHash) did not match \(contentMD5).")
-                        completion(.failure(error), httpResponse)
+                        completionHandler(.failure(error), httpResponse)
                         return
                     }
                 }
@@ -123,7 +126,7 @@ internal class ChunkDownloader {
                     guard contentCRC64 == dataHash else {
                         let error = HTTPResponseError
                             .resourceModified("Block CRC64 \(dataHash) did not match \(contentCRC64).")
-                        completion(.failure(error), httpResponse)
+                        completionHandler(.failure(error), httpResponse)
                         return
                     }
                 }
@@ -140,9 +143,9 @@ internal class ChunkDownloader {
                     }
                     handle.write(decryptedData)
 
-                    completion(.success(decryptedData), httpResponse)
+                    completionHandler(.success(decryptedData), httpResponse)
                 } catch {
-                    completion(.failure(error), httpResponse)
+                    completionHandler(.failure(error), httpResponse)
                 }
             }
         }
@@ -313,7 +316,7 @@ internal class BlobStreamDownloader: BlobDownloader {
         self.delegate = delegate
         self.options = options ?? DownloadBlobOptions()
         self.downloadSource = source
-        self.requestedSize = self.options.range?.length
+        self.requestedSize = self.options.range?.lengthInBytes
         self.blobProperties = nil
         self.totalSize = -1
         self.blockList = computeBlockList()
@@ -331,13 +334,13 @@ internal class BlobStreamDownloader: BlobDownloader {
     /// Downloads the entire blob in a parallel fashion.
     /// - Parameters:
     ///   - group: An optional `DispatchGroup` to wait for the download to complete.
-    ///   - completion: A completion handler called when the download completes.
-    public func complete(inGroup group: DispatchGroup? = nil, then completion: @escaping () -> Void) throws {
+    ///   - completionHandler: A completion handler called when the download completes.
+    public func complete(inGroup group: DispatchGroup? = nil, completionHandler: @escaping () -> Void) throws {
         guard !isComplete else {
             if let delegate = self.delegate {
                 delegate.downloaderDidComplete(self)
             } else {
-                completion()
+                completionHandler()
             }
             return
         }
@@ -356,7 +359,7 @@ internal class BlobStreamDownloader: BlobDownloader {
             if let delegate = self.delegate {
                 delegate.downloaderDidComplete(self)
             } else {
-                completion()
+                completionHandler()
             }
         }
     }
@@ -364,8 +367,8 @@ internal class BlobStreamDownloader: BlobDownloader {
     /// Download the contents of this file to a stream.
     /// - Parameters:
     ///   - group: An optional `DispatchGroup` to wait for the download to complete.
-    ///   - completion: A completion handler with which to process the downloaded chunk.
-    public func next(inGroup group: DispatchGroup? = nil, then completion: @escaping HTTPResultHandler<Data>) {
+    ///   - completionHandler: A completion handler with which to process the downloaded chunk.
+    public func next(inGroup group: DispatchGroup? = nil, completionHandler: @escaping HTTPResultHandler<Data>) {
         guard !isComplete else { return }
         let range = blockList.removeFirst()
         let downloader = ChunkDownloader(
@@ -380,7 +383,7 @@ internal class BlobStreamDownloader: BlobDownloader {
             switch result {
             case .success:
                 guard let responseHeaders = httpResponse?.headers else {
-                    completion(.failure(HTTPResponseError.general("No response headers found.")), httpResponse)
+                    completionHandler(.failure(HTTPResponseError.general("No response headers found.")), httpResponse)
                     return
                 }
                 let blobProperties = BlobProperties(from: responseHeaders)
@@ -389,14 +392,14 @@ internal class BlobStreamDownloader: BlobDownloader {
             case let .failure(error):
                 self.client.options.logger.debug(String(describing: error))
             }
-            completion(result, httpResponse)
+            completionHandler(result, httpResponse)
             group?.leave()
         }
     }
 
     /// Make the initial request for blob data.
-    /// - Parameter completion: A completion handler with which to process the downloaded chunk.
-    public func initialRequest(then completion: @escaping HTTPResultHandler<Data>) {
+    /// - Parameter completionHandler: A completion handler with which to process the downloaded chunk.
+    public func initialRequest(completionHandler: @escaping HTTPResultHandler<Data>) {
         let firstRange = blockList.remove(at: 0)
         let downloader = ChunkDownloader(
             client: client,
@@ -412,7 +415,7 @@ internal class BlobStreamDownloader: BlobDownloader {
                 // Parse the total file size and adjust the download size if ranges
                 // were specified
                 guard let responseHeaders = httpResponse?.headers else {
-                    completion(.failure(HTTPResponseError.general("No response headers found.")), httpResponse)
+                    completionHandler(.failure(HTTPResponseError.general("No response headers found.")), httpResponse)
                     return
                 }
                 let contentRange = responseHeaders[.contentRange]
@@ -420,9 +423,8 @@ internal class BlobStreamDownloader: BlobDownloader {
 
                 // Only block blobs are currently supported
                 guard blobProperties.blobType == BlobType.block else {
-                    let error = AzureError.general(
-                        "Page and Append blobs are not currently supported by this library.")
-                    completion(.failure(error), httpResponse)
+                    let error = AzureError.general("Page and Append blobs are not currently supported by this library.")
+                    completionHandler(.failure(error), httpResponse)
                     return
                 }
 
@@ -437,7 +439,7 @@ internal class BlobStreamDownloader: BlobDownloader {
                     // if the requestedSize was not specfied, the block list will need to be recomputed
                     // based on the actual file size.
                     var recomputeBlockList = self.requestedSize == nil
-                    self.requestedSize = (self.requestedSize ?? blobSize) - (self.options.range?.offset ?? 0)
+                    self.requestedSize = (self.requestedSize ?? blobSize) - (self.options.range?.offsetBytes ?? 0)
 
                     // If the file is small, the download is complete at this point.
                     // If file size is large, download the rest of the file in chunks.
@@ -460,12 +462,12 @@ internal class BlobStreamDownloader: BlobDownloader {
                     if recomputeBlockList, let contentLength = chunkSize {
                         self.blockList = self.computeBlockList(withOffset: contentLength)
                     }
-                    completion(.success(data), httpResponse)
+                    completionHandler(.success(data), httpResponse)
                 } catch {
-                    completion(.failure(error), httpResponse)
+                    completionHandler(.failure(error), httpResponse)
                 }
             case let .failure(error):
-                completion(.failure(error), httpResponse)
+                completionHandler(.failure(error), httpResponse)
             }
         }
     }
@@ -475,9 +477,9 @@ internal class BlobStreamDownloader: BlobDownloader {
     private func computeBlockList(withOffset offset: Int = 0) -> [Range<Int>] {
         var blockList = [Range<Int>]()
         let alignForCrypto = isEncrypted
-        let chunkLength = client.options.maxChunkSize
-        let start = (options.range?.offset ?? 0) + offset
-        let length = (requestedSize ?? options.range?.length ?? chunkLength) - start
+        let chunkLength = client.options.maxChunkSizeInBytes
+        let start = (options.range?.offsetBytes ?? 0) + offset
+        let length = (requestedSize ?? options.range?.lengthInBytes ?? chunkLength) - start
         let end = start + length
 
         if alignForCrypto {

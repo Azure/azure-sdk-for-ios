@@ -28,13 +28,20 @@ import AzureCore
 import CoreData
 import Foundation
 
+// swiftlint:disable type_body_length
+
 /// A StorageBlobClient represents a Client to the Azure Storage Blob service allowing you to manipulate blobs within
 /// storage containers.
 public final class StorageBlobClient: PipelineClient {
     /// API version of the Azure Storage Blob service to invoke. Defaults to the latest.
     public enum ApiVersion: String {
-        /// The most recent API version of the Azure Storabe Blob service
-        case latest = "2019-02-02"
+        /// API version "2019-02-02"
+        case v20190202 = "2019-02-02"
+
+        /// The most recent API version of the Azure Storage Blob service
+        public static var latest: ApiVersion {
+            return .v20190202
+        }
     }
 
     /// The global maximum number of managed transfers that will be executed concurrently by all `StorageBlobClient`
@@ -58,6 +65,9 @@ public final class StorageBlobClient: PipelineClient {
     /// The `TransferDelegate` to inform about events from transfers created by this `StorageBlobClient`.
     public weak var transferDelegate: TransferDelegate?
 
+    /// The identifier used to associate this client with transfers it creates.
+    public let restorationId: String
+
     private static let defaultScopes = [
         "https://storage.azure.com/.default"
     ]
@@ -65,8 +75,6 @@ public final class StorageBlobClient: PipelineClient {
     private static let manager = URLSessionTransferManager.shared
 
     internal static let viewContext: NSManagedObjectContext = manager.persistentContainer.viewContext
-
-    private let restorationId: String
 
     // MARK: Initializers
 
@@ -84,11 +92,11 @@ public final class StorageBlobClient: PipelineClient {
     private init(
         baseUrl: URL,
         authPolicy: Authenticating,
-        withRestorationId restorationId: String,
+        withRestorationId restorationId: String? = nil,
         withOptions options: StorageBlobClientOptions? = nil
     ) throws {
-        self.options = options ?? StorageBlobClientOptions(apiVersion: ApiVersion.latest.rawValue)
-        self.restorationId = restorationId
+        self.options = options ?? StorageBlobClientOptions()
+        self.restorationId = restorationId ?? DeviceProviders.appBundleInfo.identifier ?? "AzureStorageBlob"
         super.init(
             baseUrl: baseUrl,
             transport: URLSessionTransport(),
@@ -105,13 +113,13 @@ public final class StorageBlobClient: PipelineClient {
             ],
             logger: self.options.logger
         )
-        try StorageBlobClient.manager.register(client: self, forRestorationId: restorationId)
+        try StorageBlobClient.manager.register(client: self)
     }
 
     /// Create a Storage blob data client.
     /// - Parameters:
-    ///   - endpoint: The URL for the storage account's blob storage endpoint.
     ///   - credential: A `MSALCredential` object used to retrieve authentication tokens.
+    ///   - endpoint: The URL for the storage account's blob storage endpoint.
     ///   - restorationId: An identifier used to associate this client with transfers it creates. When a transfer is
     ///     reloaded from disk (e.g. after an application crash), it can only be resumed once a client with the same
     ///     `restorationId` has been initialized. If your application only uses a single `StorageBlobClient`, it is
@@ -120,11 +128,12 @@ public final class StorageBlobClient: PipelineClient {
     ///     configuration (e.g. "MyApplication.userClient").
     ///   - options: Options used to configure the client.
     public convenience init(
-        endpoint: URL,
         credential: MSALCredential,
-        withRestorationId restorationId: String,
+        endpoint: URL,
+        withRestorationId restorationId: String? = nil,
         withOptions options: StorageBlobClientOptions? = nil
     ) throws {
+        try credential.validate()
         let authPolicy = BearerTokenCredentialPolicy(credential: credential, scopes: StorageBlobClient.defaultScopes)
         try self.init(baseUrl: endpoint, authPolicy: authPolicy, withRestorationId: restorationId, withOptions: options)
     }
@@ -142,9 +151,10 @@ public final class StorageBlobClient: PipelineClient {
     ///   - options: Options used to configure the client.
     public convenience init(
         credential: StorageSASCredential,
-        withRestorationId restorationId: String,
+        withRestorationId restorationId: String? = nil,
         withOptions options: StorageBlobClientOptions? = nil
     ) throws {
+        try credential.validate()
         guard let blobEndpoint = credential.blobEndpoint else {
             throw AzureError.serviceRequest("Invalid connection string. No blob endpoint specified.")
         }
@@ -171,9 +181,10 @@ public final class StorageBlobClient: PipelineClient {
     ///   - options: Options used to configure the client.
     public convenience init(
         credential: StorageSharedKeyCredential,
-        withRestorationId restorationId: String,
+        withRestorationId restorationId: String? = nil,
         withOptions options: StorageBlobClientOptions? = nil
     ) throws {
+        try credential.validate()
         guard let baseUrl = URL(string: credential.blobEndpoint) else {
             throw AzureError.fileSystem("Unable to resolve account URL from credential.")
         }
@@ -182,6 +193,49 @@ public final class StorageBlobClient: PipelineClient {
     }
 
     /// Create an anonymous Storage blob data client.
+    /// - Parameters:
+    ///   - connectionString: A Storage SAS or Shared Key connection string used to retrieve the account's blob storage
+    ///     endpoint and authentication tokens. **WARNING**: Connection strings are inherently insecure in end-user
+    ///     facing applications such as mobile and desktop apps. Connection strings should be treated as secrets and
+    ///     should not be shared with end users, and cannot be rotated once compiled into an application. Since mobile
+    ///     and desktop apps are inherently end-user facing, it's highly recommended that connection strings not be used
+    ///     in production for such applications.
+    ///   - restorationId: An identifier used to associate this client with transfers it creates. When a transfer is
+    ///     reloaded from disk (e.g. after an application crash), it can only be resumed once a client with the same
+    ///     `restorationId` has been initialized. If your application only uses a single `StorageBlobClient`, it is
+    ///     recommended to use a value unique to your application (e.g. "MyApplication"). If your application uses
+    ///     multiple clients with different configurations, use a value unique to both your application and the
+    ///     configuration (e.g. "MyApplication.userClient").
+    ///   - options: Options used to configure the client.
+    public convenience init(
+        connectionString: String,
+        withRestorationId restorationId: String,
+        withOptions options: StorageBlobClientOptions? = nil
+    ) throws {
+        let sasCredential = StorageSASCredential(connectionString: connectionString)
+        if sasCredential.error == nil {
+            try self.init(
+                credential: sasCredential,
+                withRestorationId: restorationId,
+                withOptions: options
+            )
+            return
+        }
+
+        let sharedKeyCredential = StorageSharedKeyCredential(connectionString: connectionString)
+        if sharedKeyCredential.error == nil {
+            try self.init(
+                credential: sharedKeyCredential,
+                withRestorationId: restorationId,
+                withOptions: options
+            )
+            return
+        }
+
+        throw HTTPResponseError.clientAuthentication("The connection string \(connectionString) is invalid.")
+    }
+
+    /// Create a Storage blob data client.
     /// - Parameters:
     ///   - endpoint: The URL for the storage account's blob storage endpoint.
     ///   - restorationId: An identifier used to associate this client with transfers it creates. When a transfer is
@@ -222,10 +276,10 @@ public final class StorageBlobClient: PipelineClient {
     /// List storage containers in a storage account.
     /// - Parameters:
     ///   - options: A `ListContainersOptions` object to control the list operation.
-    ///   - completion: A completion handler that receives a `PagedCollection` of `ContainerItem` objects on success.
+    ///   - completionHandler: A completion handler that receives a `PagedCollection` of `ContainerItem` objects on success.
     public func listContainers(
         withOptions options: ListContainersOptions? = nil,
-        then completion: @escaping HTTPResultHandler<PagedCollection<ContainerItem>>
+        completionHandler: @escaping HTTPResultHandler<PagedCollection<ContainerItem>>
     ) {
         // Construct URL
         let urlTemplate = ""
@@ -248,7 +302,7 @@ public final class StorageBlobClient: PipelineClient {
                 queryParams.append("include", (include.map { $0.rawValue }).joined(separator: ","))
             }
             if let maxResults = options.maxResults { queryParams.append("maxresults", String(maxResults)) }
-            if let timeout = options.timeout { queryParams.append("timeout", String(timeout)) }
+            if let timeout = options.timeoutInSeconds { queryParams.append("timeout", String(timeout)) }
 
             // Header options
             if let clientRequestId = options.clientRequestId {
@@ -266,8 +320,8 @@ public final class StorageBlobClient: PipelineClient {
         let context = PipelineContext.of(keyValues: [
             ContextKey.xmlMap.rawValue: xmlMap as AnyObject
         ])
-        guard let request = try? HTTPRequest(method: .get, url: url, headers: headers) else { return }
-        request.add(queryParams: queryParams)
+        guard let requestUrl = url.appendingQueryParameters(queryParams) else { return }
+        guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: headers) else { return }
 
         self.request(request, context: context) { result, httpResponse in
             switch result {
@@ -275,7 +329,7 @@ public final class StorageBlobClient: PipelineClient {
                 guard let data = data else {
                     let noDataError = HTTPResponseError.decode("Response data expected but not found.")
                     DispatchQueue.main.async {
-                        completion(.failure(noDataError), httpResponse)
+                        completionHandler(.failure(noDataError), httpResponse)
                     }
                     return
                 }
@@ -286,20 +340,19 @@ public final class StorageBlobClient: PipelineClient {
                         request: request,
                         data: data,
                         codingKeys: codingKeys,
-                        decoder: decoder,
-                        delegate: self
+                        decoder: decoder
                     )
                     DispatchQueue.main.async {
-                        completion(.success(paged), httpResponse)
+                        completionHandler(.success(paged), httpResponse)
                     }
                 } catch {
                     DispatchQueue.main.async {
-                        completion(.failure(error), httpResponse)
+                        completionHandler(.failure(error), httpResponse)
                     }
                 }
             case let .failure(error):
                 DispatchQueue.main.async {
-                    completion(.failure(error), httpResponse)
+                    completionHandler(.failure(error), httpResponse)
                 }
             }
         }
@@ -309,11 +362,11 @@ public final class StorageBlobClient: PipelineClient {
     /// - Parameters:
     ///   - container: The container name containing the blobs to list.
     ///   - options: A `ListBlobsOptions` object to control the list operation.
-    ///   - completion: A completion handler that receives a `PagedCollection` of `BlobItem` objects on success.
+    ///   - completionHandler: A completion handler that receives a `PagedCollection` of `BlobItem` objects on success.
     public func listBlobs(
         inContainer container: String,
         withOptions options: ListBlobsOptions? = nil,
-        then completion: @escaping HTTPResultHandler<PagedCollection<BlobItem>>
+        completionHandler: @escaping HTTPResultHandler<PagedCollection<BlobItem>>
     ) {
         // Construct URL
         let urlTemplate = "{container}"
@@ -344,7 +397,7 @@ public final class StorageBlobClient: PipelineClient {
                 queryParams.append("include", (include.map { $0.rawValue }).joined(separator: ","))
             }
             if let maxResults = options.maxResults { queryParams.append("maxresults", String(maxResults)) }
-            if let timeout = options.timeout { queryParams.append("timeout", String(timeout)) }
+            if let timeout = options.timeoutInSeconds { queryParams.append("timeout", String(timeout)) }
 
             // Header options
             if let clientRequestId = options.clientRequestId {
@@ -353,8 +406,8 @@ public final class StorageBlobClient: PipelineClient {
         }
 
         // Construct and send request
-        guard let request = try? HTTPRequest(method: .get, url: url, headers: headers) else { return }
-        request.add(queryParams: queryParams)
+        guard let requestUrl = url.appendingQueryParameters(queryParams) else { return }
+        guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: headers) else { return }
         let codingKeys = PagedCodingKeys(
             items: "EnumerationResults.Blobs",
             continuationToken: "EnumerationResults.NextMarker",
@@ -371,7 +424,7 @@ public final class StorageBlobClient: PipelineClient {
                     let noDataError = HTTPResponseError.decode("Response data expected but not found.")
 
                     DispatchQueue.main.async {
-                        completion(.failure(noDataError), httpResponse)
+                        completionHandler(.failure(noDataError), httpResponse)
                     }
                     return
                 }
@@ -382,20 +435,19 @@ public final class StorageBlobClient: PipelineClient {
                         request: request,
                         data: data,
                         codingKeys: codingKeys,
-                        decoder: decoder,
-                        delegate: self
+                        decoder: decoder
                     )
                     DispatchQueue.main.async {
-                        completion(.success(paged), httpResponse)
+                        completionHandler(.success(paged), httpResponse)
                     }
                 } catch {
                     DispatchQueue.main.async {
-                        completion(.failure(error), httpResponse)
+                        completionHandler(.failure(error), httpResponse)
                     }
                 }
             case let .failure(error):
                 DispatchQueue.main.async {
-                    completion(.failure(error), httpResponse)
+                    completionHandler(.failure(error), httpResponse)
                 }
             }
         }
@@ -406,12 +458,12 @@ public final class StorageBlobClient: PipelineClient {
     ///   - blob: The blob name to delete.
     ///   - container: The container name containing the blob to delete.
     ///   - options: A `DeleteBlobOptions` object to control the delete operation.
-    ///   - completion: A completion handler that receives a `PagedCollection` of `BlobItem` objects on success.
+    ///   - completionHandler: A completion handler to notify about success or failure.
     public func delete(
         blob: String,
         inContainer container: String,
         withOptions options: DeleteBlobOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<Data?>
+        completionHandler: @escaping HTTPResultHandler<Void>
     ) {
         // Construct URL
         let urlTemplate = "{container}/{blob}"
@@ -437,7 +489,7 @@ public final class StorageBlobClient: PipelineClient {
             // Query options
             if let snapshot = options
                 .snapshot { queryParams.append("snapshot", String(describing: snapshot, format: .rfc1123)) }
-            if let timeout = options.timeout { queryParams.append("timeout", String(timeout)) }
+            if let timeout = options.timeoutInSeconds { queryParams.append("timeout", String(timeout)) }
 
             // Header options
             if let clientRequestId = options.clientRequestId {
@@ -449,13 +501,13 @@ public final class StorageBlobClient: PipelineClient {
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [202] as AnyObject
         ])
-        guard let request = try? HTTPRequest(method: .delete, url: url, headers: headers) else { return }
-        request.add(queryParams: queryParams)
+        guard let requestUrl = url.appendingQueryParameters(queryParams) else { return }
+        guard let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: headers) else { return }
         self.request(request, context: context) { result, httpResponse in
             switch result {
             case .success:
                 DispatchQueue.main.async {
-                    completionHandler(.success(nil), httpResponse)
+                    completionHandler(.success(()), httpResponse)
                 }
             case let .failure(error):
                 DispatchQueue.main.async {
@@ -475,13 +527,13 @@ public final class StorageBlobClient: PipelineClient {
     ///   - container: The name of the container.
     ///   - destinationUrl: The URL to a file path on this device.
     ///   - options: A `DownloadBlobOptions` object to control the download operation.
-    ///   - completion: A completion handler that receives a `BlobDownloader` object on success.
+    ///   - completionHandler: A completion handler that receives a `BlobDownloader` object on success.
     public func rawDownload(
         blob: String,
         fromContainer container: String,
         toFile destinationUrl: LocalURL,
         withOptions options: DownloadBlobOptions? = nil,
-        then completion: @escaping HTTPResultHandler<BlobDownloader>
+        completionHandler: @escaping HTTPResultHandler<BlobDownloader>
     ) throws {
         // Construct URL
         let urlTemplate = "/{container}/{blob}"
@@ -501,11 +553,11 @@ public final class StorageBlobClient: PipelineClient {
             switch result {
             case .success:
                 DispatchQueue.main.async {
-                    completion(.success(downloader), httpResponse)
+                    completionHandler(.success(downloader), httpResponse)
                 }
             case let .failure(error):
                 DispatchQueue.main.async {
-                    completion(.failure(error), httpResponse)
+                    completionHandler(.failure(error), httpResponse)
                 }
             }
         }
@@ -522,14 +574,14 @@ public final class StorageBlobClient: PipelineClient {
     ///   - blob: The name of the blob.
     ///   - properties: Properties to set on the resulting blob.
     ///   - options: An `UploadBlobOptions` object to control the upload operation.
-    ///   - completion: A completion handler that receives a `BlobUploader` object on success.
+    ///   - completionHandler: A completion handler that receives a `BlobUploader` object on success.
     public func rawUpload(
         file sourceUrl: LocalURL,
         toContainer container: String,
         asBlob blob: String,
         properties: BlobProperties? = nil,
         withOptions options: UploadBlobOptions? = nil,
-        then completion: @escaping HTTPResultHandler<BlobUploader>
+        completionHandler: @escaping HTTPResultHandler<BlobUploader>
     ) throws {
         // Construct URL
         let urlTemplate = "/{container}/{blob}"
@@ -550,11 +602,11 @@ public final class StorageBlobClient: PipelineClient {
             switch result {
             case .success:
                 DispatchQueue.main.async {
-                    completion(.success(uploader), httpResponse)
+                    completionHandler(.success(uploader), httpResponse)
                 }
             case let .failure(error):
                 DispatchQueue.main.async {
-                    completion(.failure(error), httpResponse)
+                    completionHandler(.failure(error), httpResponse)
                 }
             }
         }
@@ -585,8 +637,8 @@ public final class StorageBlobClient: PipelineClient {
         ]
         guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return nil }
         let context = StorageBlobClient.viewContext
-        let start = Int64(options?.range?.offset ?? 0)
-        let end = Int64(options?.range?.length ?? 0)
+        let start = Int64(options?.range?.offsetBytes ?? 0)
+        let end = Int64(options?.range?.lengthInBytes ?? 0)
         let downloader = try BlobStreamDownloader(
             client: self,
             source: url,
@@ -661,18 +713,13 @@ public final class StorageBlobClient: PipelineClient {
     }
 }
 
-// MARK: Paged Collection Delegate
+// MARK: PageableClient
 
 /// :nodoc:
-extension StorageBlobClient: PagedCollectionDelegate {
+extension StorageBlobClient: PageableClient {
     /// :nodoc:
-    public func continuationUrl(
-        continuationToken: String,
-        queryParams: inout [QueryParameter],
-        requestUrl: URL
-    ) -> URL? {
-        queryParams.append("marker", continuationToken)
-        return requestUrl
+    public func continuationUrl(forRequestUrl requestUrl: URL, withContinuationToken token: String) -> URL? {
+        return requestUrl.appendingQueryParameters([("marker", token)])
     }
 }
 

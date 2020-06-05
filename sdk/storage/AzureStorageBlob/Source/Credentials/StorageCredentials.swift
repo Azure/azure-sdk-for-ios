@@ -28,23 +28,24 @@ import AzureCore
 import Foundation
 
 /// A Storage shared access signature credential object.
-public struct StorageSASCredential {
+public struct StorageSASCredential: AzureCredential {
     internal let blobEndpoint: String?
     internal let queueEndpoint: String?
     internal let fileEndpoint: String?
     internal let tableEndpoint: String?
-    internal let sasToken: String
+    internal let sasToken: String?
+    internal let error: Error?
 
     /// Create a shared access signature credential from an account-level shared access signature.
     /// - Parameters:
     ///   - connectionString: An account-level shared access signature connection string.
-    public init(connectionString: String) throws {
-        // temp variables
+    public init(connectionString: String) {
         var blob: String?
         var queue: String?
         var file: String?
         var table: String?
         var sas: String?
+        var error: Error?
 
         for component in connectionString.components(separatedBy: ";") {
             let compSplits = component.split(separator: "=", maxSplits: 1)
@@ -67,36 +68,54 @@ public struct StorageSASCredential {
                     Form of connection string with 'SharedAccessSignature' is expected - 'AccountKey' is not allowed.
                     You must provide a Shared Access Signature connection string.
                 """
-                throw HTTPResponseError.clientAuthentication(message)
+                error = HTTPResponseError.clientAuthentication(message)
             default:
                 continue
             }
         }
-        guard let sasToken = sas else {
-            throw HTTPResponseError.clientAuthentication("The connection string \(connectionString) is invalid.")
+
+        if sas == nil, error == nil {
+            error = HTTPResponseError.clientAuthentication("The connection string \(connectionString) is invalid.")
         }
-        self.sasToken = sasToken
+
+        self.sasToken = sas
         self.blobEndpoint = blob
         self.queueEndpoint = queue
         self.fileEndpoint = file
         self.tableEndpoint = table
+        self.error = error
     }
 
     /// Create a shared access signature credential from a container- or blob-level shared access signature.
     /// - Parameters:
     ///   - blobSasUri: A container- or blob-level shared access signature URI.
-    public init(blobSasUri: String) throws {
-        let invalidUri = HTTPResponseError.clientAuthentication("The URI \(blobSasUri) is invalid.")
-        guard let sasUri = URL(string: blobSasUri) else { throw invalidUri }
-        guard let sasToken = sasUri.query else { throw invalidUri }
-        guard let scheme = sasUri.scheme else { throw invalidUri }
-        guard let host = sasUri.host else { throw invalidUri }
+    public init(blobSasUri: String) {
+        var blob: String?
+        var sas: String?
+        var error: Error?
 
-        self.sasToken = sasToken
-        self.blobEndpoint = "\(scheme)://\(host)/"
+        if let sasUri = URL(string: blobSasUri), let sasToken = sasUri.query, let scheme = sasUri.scheme,
+            let host = sasUri.host {
+            sas = sasToken
+            blob = "\(scheme)://\(host)/"
+        } else {
+            error = HTTPResponseError.clientAuthentication("The URI \(blobSasUri) is invalid.")
+        }
+
+        self.sasToken = sas
+        self.blobEndpoint = blob
         self.queueEndpoint = nil
         self.fileEndpoint = nil
         self.tableEndpoint = nil
+        self.error = error
+    }
+
+    // MARK: Public Methods
+
+    public func validate() throws {
+        if let error = error {
+            throw error
+        }
     }
 }
 
@@ -106,13 +125,14 @@ public struct StorageSASCredential {
 /// Shared keys provide full access to an entire storage account and should not be shared with end users. Since mobile
 /// and desktop apps are inherently end-user facing, it's highly recommended that storage account shared key credentials
 /// not be used in production for such applications.
-public struct StorageSharedKeyCredential {
+public struct StorageSharedKeyCredential: AzureCredential {
     internal let accessKey: String?
     internal let accountName: String?
     internal let blobEndpoint: String?
     internal let queueEndpoint: String?
     internal let fileEndpoint: String?
     internal let tableEndpoint: String?
+    internal let error: Error?
 
     /// Create a shared key credential from a storage account connection string.
     ///
@@ -122,12 +142,12 @@ public struct StorageSharedKeyCredential {
     /// shared key credentials not be used in production for such applications.
     /// - Parameters:
     ///   - connectionString: The storage account connection string.
-    public init(connectionString: String) throws {
-        // temp variables
+    public init(connectionString: String) {
+        var account: String?
         var accountKey: String?
-        var accountName: String?
-        var suffix = "core.windows.net"
         var scheme = "https"
+        var suffix = "core.windows.net"
+        var error: Error?
 
         for component in connectionString.components(separatedBy: ";") {
             let compSplits = component.split(separator: "=", maxSplits: 1)
@@ -138,7 +158,7 @@ public struct StorageSharedKeyCredential {
             case "defaultendpointsprotocol":
                 scheme = value
             case "accountname":
-                accountName = value
+                account = value
             case "accountkey":
                 accountKey = value
             case "endpointsuffix":
@@ -148,15 +168,42 @@ public struct StorageSharedKeyCredential {
                     Form of connection string with 'AccountKey' is expected - 'SharedAccessSignature' is not allowed.
                     You must provide a storage account connection string with a shared key.
                 """
-                throw HTTPResponseError.clientAuthentication(message)
+                error = HTTPResponseError.clientAuthentication(message)
             default:
                 continue
             }
         }
-        guard let key = accountKey, let name = accountName else {
-            throw HTTPResponseError.clientAuthentication("The connection string \(connectionString) is invalid.")
+
+        var blob: String?
+        var queue: String?
+        var file: String?
+        var table: String?
+
+        if accountKey == nil, error == nil {
+            error = HTTPResponseError.clientAuthentication("The connection string \(connectionString) is invalid.")
         }
-        try self.init(accountName: name, accessKey: key, endpointProtocol: scheme, endpointSuffix: suffix)
+
+        if let account = account {
+            let blobEndpoint = StorageBlobClient.endpoint(
+                forAccount: account,
+                withProtocol: scheme,
+                withSuffix: suffix
+            )
+            blob = blobEndpoint
+            queue = blobEndpoint.replacingOccurrences(of: "blob.\(suffix)", with: "queue.\(suffix)")
+            file = blobEndpoint.replacingOccurrences(of: "blob.\(suffix)", with: "file.\(suffix)")
+            table = blobEndpoint.replacingOccurrences(of: "blob.\(suffix)", with: "table.\(suffix)")
+        } else if error == nil {
+            error = HTTPResponseError.clientAuthentication("The connection string \(connectionString) is invalid.")
+        }
+
+        self.accountName = account
+        self.accessKey = accountKey
+        self.blobEndpoint = blob
+        self.queueEndpoint = queue
+        self.fileEndpoint = file
+        self.tableEndpoint = table
+        self.error = error
     }
 
     /// Create a shared key credential from a storage account name and access key.
@@ -175,21 +222,42 @@ public struct StorageSharedKeyCredential {
         accessKey: String,
         endpointProtocol: String = "https",
         endpointSuffix: String = "core.windows.net"
-    ) throws {
-        guard accessKey != "", accountName != "", endpointProtocol != "", endpointSuffix != "" else {
-            throw HTTPResponseError.clientAuthentication("The provided parameters are invalid.")
+    ) {
+        var blob: String?
+        var queue: String?
+        var file: String?
+        var table: String?
+        var error: Error?
+
+        if accessKey != "", accountName != "", endpointProtocol != "", endpointSuffix != "" {
+            let blobEndpoint = StorageBlobClient.endpoint(
+                forAccount: accountName,
+                withProtocol: endpointProtocol,
+                withSuffix: endpointSuffix
+            )
+            blob = blobEndpoint
+            queue = blobEndpoint.replacingOccurrences(of: "blob.\(endpointSuffix)", with: "queue.\(endpointSuffix)")
+            file = blobEndpoint.replacingOccurrences(of: "blob.\(endpointSuffix)", with: "file.\(endpointSuffix)")
+            table = blobEndpoint.replacingOccurrences(of: "blob.\(endpointSuffix)", with: "table.\(endpointSuffix)")
+        } else {
+            error = HTTPResponseError.clientAuthentication("The provided parameters are invalid.")
         }
-        let blob = StorageBlobClient.endpoint(
-            forAccount: accountName,
-            withProtocol: endpointProtocol,
-            withSuffix: endpointSuffix
-        )
-        self.accessKey = accessKey
+
         self.accountName = accountName
+        self.accessKey = accessKey
         self.blobEndpoint = blob
-        self.queueEndpoint = blob.replacingOccurrences(of: "blob.\(endpointSuffix)", with: "queue.\(endpointSuffix)")
-        self.fileEndpoint = blob.replacingOccurrences(of: "blob.\(endpointSuffix)", with: "file.\(endpointSuffix)")
-        self.tableEndpoint = blob.replacingOccurrences(of: "blob.\(endpointSuffix)", with: "table.\(endpointSuffix)")
+        self.queueEndpoint = queue
+        self.fileEndpoint = file
+        self.tableEndpoint = table
+        self.error = error
+    }
+
+    // MARK: Public Methods
+
+    public func validate() throws {
+        if let error = error {
+            throw error
+        }
     }
 }
 
@@ -214,12 +282,14 @@ internal class StorageSASAuthenticationPolicy: Authenticating {
     /// Authenticates an HTTP `PipelineRequest` by appending the SAS token as query parameters.
     /// - Parameters:
     ///   - request: A `PipelineRequest` object.
-    ///   - completion: A completion handler that forwards the modified pipeline request.
-    public func authenticate(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
-        let queryParams = parse(sasToken: credential.sasToken)
-        request.httpRequest.add(queryParams: queryParams)
+    ///   - completionHandler: A completion handler that forwards the modified pipeline request.
+    public func authenticate(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
+        let queryParams = parse(sasToken: credential.sasToken ?? "")
+        if let requestUrl = request.httpRequest.url.appendingQueryParameters(queryParams) {
+            request.httpRequest.url = requestUrl
+        }
         request.httpRequest.headers[.xmsDate] = String(describing: Date(), format: .rfc1123)
-        completion(request, nil)
+        completionHandler(request, nil)
     }
 
     // MARK: Private Methods
@@ -257,8 +327,8 @@ internal class StorageSharedKeyAuthenticationPolicy: Authenticating {
     /// Authenticates an HTTP `PipelineRequest` with a shared key.
     /// - Parameters:
     ///   - request: A `PipelineRequest` object.
-    ///   - completion: A completion handler that forwards the modified pipeline request.
-    public func authenticate(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
+    ///   - completionHandler: A completion handler that forwards the modified pipeline request.
+    public func authenticate(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
         let httpRequest = request.httpRequest
         guard let accountName = credential.accountName else { return }
         guard let accessKey = credential.accessKey else { return }
@@ -266,7 +336,7 @@ internal class StorageSharedKeyAuthenticationPolicy: Authenticating {
         guard let signatureValue = try? signature(forString: signingString, withKey: accessKey) else { return }
 
         request.httpRequest.headers[.authorization] = "SharedKey \(accountName):\(signatureValue)"
-        completion(request, nil)
+        completionHandler(request, nil)
     }
 
     // MARK: Private Methods

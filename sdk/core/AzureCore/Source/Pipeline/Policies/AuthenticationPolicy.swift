@@ -26,6 +26,9 @@
 import Foundation
 import MSAL
 
+public typealias TokenCompletionHandler = (AccessToken?, Error?) -> Void
+public typealias MSALResultCompletionHandler = (MSALResult?, Error?) -> Void
+
 public struct AccessToken {
     // MARK: Properties
 
@@ -33,21 +36,27 @@ public struct AccessToken {
     public let expiresOn: Int
 }
 
-public protocol TokenCredential {
+public protocol AzureCredential {
     // MARK: Required Methods
 
-    func token(forScopes scopes: [String], then completion: @escaping (AccessToken?, Error?) -> Void)
+    func validate() throws
+}
+
+public protocol TokenCredential: AzureCredential {
+    // MARK: Required Methods
+
+    func token(forScopes scopes: [String], completionHandler: @escaping TokenCompletionHandler)
 }
 
 public protocol Authenticating: PipelineStage {
     // MARK: Required Methods
 
-    func authenticate(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler)
+    func authenticate(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler)
 }
 
 extension Authenticating {
-    public func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
-        authenticate(request: request, then: completion)
+    public func on(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
+        authenticate(request: request, completionHandler: completionHandler)
     }
 }
 
@@ -71,10 +80,11 @@ public extension MSALInteractiveDelegate where Self: UIViewController {
 public struct MSALCredential: TokenCredential {
     // MARK: Properties
 
-    private let tenant: String
-    private let clientId: String
-    private let application: MSALPublicClientApplication
+    private let tenant: String?
+    private let clientId: String?
+    private let application: MSALPublicClientApplication?
     private let account: MSALAccount?
+    private let error: Error?
 
     private weak var delegate: MSALInteractiveDelegate? {
         return ApplicationUtil.currentViewController(forParent: nil) as? MSALInteractiveDelegate
@@ -92,22 +102,29 @@ public struct MSALCredential: TokenCredential {
     public init(
         tenant: String,
         clientId: String,
-        authority: String,
+        authority: URL,
         redirectUri: String? = nil,
         account: MSALAccount? = nil
-    ) throws {
-        let error = AzureError.general("Unable to create MSAL credential object.")
-        guard let authorityUrl = URL(string: authority) else {
-            throw error
+    ) {
+        var application: MSALPublicClientApplication?
+        var validationError: Error?
+        do {
+            let aadAuthority = try MSALAADAuthority(url: authority)
+            let config = MSALPublicClientApplicationConfig(
+                clientId: clientId,
+                redirectUri: redirectUri,
+                authority: aadAuthority
+            )
+            application = try MSALPublicClientApplication(configuration: config)
+        } catch {
+            validationError = error
         }
-        let authority = try MSALAADAuthority(url: authorityUrl)
-        let config = MSALPublicClientApplicationConfig(
-            clientId: clientId,
-            redirectUri: redirectUri,
-            authority: authority
-        )
-        guard let application = try? MSALPublicClientApplication(configuration: config) else { throw error }
-        self.init(tenant: tenant, clientId: clientId, application: application, account: account)
+
+        self.tenant = tenant
+        self.clientId = clientId
+        self.application = application
+        self.account = account
+        self.error = validationError
     }
 
     /// Create an OAuth credential.
@@ -126,15 +143,22 @@ public struct MSALCredential: TokenCredential {
         self.clientId = clientId
         self.application = application
         self.account = account
+        self.error = nil
     }
 
     // MARK: Public Methods
 
+    public func validate() throws {
+        if let error = error {
+            throw error
+        }
+    }
+
     /// Retrieve a token for the provided scope.
     /// - Parameters:
     ///   - scopes: A list of a scope strings for which to retrieve the token.
-    ///   - completion: A completion handler which forwards the access token.
-    public func token(forScopes scopes: [String], then completion: @escaping (AccessToken?, Error?) -> Void) {
+    ///   - completionHandler: A completion handler which forwards the access token.
+    public func token(forScopes scopes: [String], completionHandler: @escaping TokenCompletionHandler) {
         let group = DispatchGroup()
         var accessToken: AccessToken?
         var returnError: Error?
@@ -168,7 +192,7 @@ public struct MSALCredential: TokenCredential {
             }
         }
         group.notify(queue: DispatchQueue.main) {
-            completion(accessToken, returnError)
+            completionHandler(accessToken, returnError)
         }
     }
 
@@ -176,21 +200,22 @@ public struct MSALCredential: TokenCredential {
 
     internal func acquireTokenInteractively(
         withScopes scopes: [String],
-        then completion: @escaping (MSALResult?, Error?) -> Void
+        completionHandler: @escaping MSALResultCompletionHandler
     ) {
-        guard let parent = delegate?.parentForWebView() else { return }
+        guard let parent = delegate?.parentForWebView(), let application = application else { return }
         let webViewParameters = MSALWebviewParameters(parentViewController: parent)
         let parameters = MSALInteractiveTokenParameters(scopes: scopes, webviewParameters: webViewParameters)
         application.acquireToken(with: parameters) { result, error in
-            completion(result, error)
+            completionHandler(result, error)
         }
     }
 
     internal func acquireTokenSilently(
         forAccount account: MSALAccount,
         withScopes scopes: [String],
-        then completion: @escaping (MSALResult?, Error?) -> Void
+        completionHandler: @escaping MSALResultCompletionHandler
     ) {
+        guard let application = application else { return }
         let parameters = MSALSilentTokenParameters(scopes: scopes, account: account)
         application.acquireTokenSilent(with: parameters) { result, error in
             if let error = error {
@@ -202,12 +227,12 @@ public struct MSALCredential: TokenCredential {
                 if nsError.domain == MSALErrorDomain {
                     if nsError.code == MSALError.interactionRequired.rawValue {
                         self.acquireTokenInteractively(withScopes: scopes) { result, error in
-                            completion(result, error)
+                            completionHandler(result, error)
                         }
                     }
                 }
             }
-            completion(result, error)
+            completionHandler(result, error)
         }
     }
 }
@@ -217,8 +242,8 @@ public class AnonymousAccessPolicy: Authenticating {
 
     public init() {}
 
-    public func authenticate(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
-        completion(request, nil)
+    public func authenticate(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
+        completionHandler(request, nil)
     }
 }
 
@@ -244,25 +269,25 @@ public class BearerTokenCredentialPolicy: Authenticating {
     /// Authenticates an HTTP `PipelineRequest` with an OAuth token.
     /// - Parameters:
     ///   - request: A `PipelineRequest` object.
-    ///   - completion: A completion handler that forwards the modified pipeline request.
-    public func authenticate(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
+    ///   - completionHandler: A completion handler that forwards the modified pipeline request.
+    public func authenticate(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
         guard let token = self.token?.token else { return }
         request.httpRequest.headers[.authorization] = "Bearer \(token)"
-        completion(request, nil)
+        completionHandler(request, nil)
     }
 
     /// Authenticates an HTTP `PipelineRequest` with an OAuth token.
     /// - Parameters:
     ///   - request: A `PipelineRequest` object.
-    ///   - completion: A completion handler that forwards the modified pipeline request.
-    public func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
+    ///   - completionHandler: A completion handler that forwards the modified pipeline request.
+    public func on(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
         credential.token(forScopes: scopes) { token, error in
             if let error = error {
-                completion(request, error)
+                completionHandler(request, error)
                 return
             }
             self.token = token
-            self.authenticate(request: request, then: completion)
+            self.authenticate(request: request, completionHandler: completionHandler)
         }
     }
 }

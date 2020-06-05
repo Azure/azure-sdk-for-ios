@@ -41,10 +41,10 @@ public class HeadersPolicy: PipelineStage {
 
     // MARK: PipelineStage Methods
 
-    public func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
+    public func on(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
         for (key, value) in headers {
             request.httpRequest.headers[key] = value
         }
-        completion(request, nil)
+        completionHandler(request, nil)
     }
 }

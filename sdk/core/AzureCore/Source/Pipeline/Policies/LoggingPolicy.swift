@@ -75,20 +75,20 @@ public class LoggingPolicy: PipelineStage {
 
     // MARK: PipelineStage Methods
 
-    public func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
+    public func on(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
         request.context?.add(value: DispatchTime.now() as AnyObject, forKey: .requestStartTime)
         LoggingPolicy.queue.async { self.log(request: request) }
-        completion(request, nil)
+        completionHandler(request, nil)
     }
 
-    public func on(response: PipelineResponse, then completion: @escaping OnResponseCompletionHandler) {
+    public func on(response: PipelineResponse, completionHandler: @escaping OnResponseCompletionHandler) {
         LoggingPolicy.queue.async { self.log(response: response) }
-        completion(response)
+        completionHandler(response)
     }
 
-    public func on(error: PipelineError, then completion: @escaping OnErrorCompletionHandler) {
+    public func on(error: PipelineError, completionHandler: @escaping OnErrorCompletionHandler) {
         LoggingPolicy.queue.async { self.log(response: error.pipelineResponse, withError: error.innerError) }
-        completion(error, false)
+        completionHandler(error, false)
     }
 
     // MARK: Private Methods
@@ -239,9 +239,9 @@ public class CurlFormattedRequestLoggingPolicy: PipelineStage {
 
     // MARK: PipelineStage Methods
 
-    public func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
+    public func on(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
         LoggingPolicy.queue.async { self.logAsCurlCommand(request: request) }
-        completion(request, nil)
+        completionHandler(request, nil)
     }
 
     private func logAsCurlCommand(request: PipelineRequest) {

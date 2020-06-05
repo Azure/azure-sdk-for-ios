@@ -37,7 +37,7 @@ internal protocol TransferManager {
 
     // MARK: Lifecycle Methods
 
-    func register(client: StorageBlobClient?, forRestorationId: String) throws
+    func register(client: StorageBlobClient) throws
     func startManaging()
     func stopManaging()
 

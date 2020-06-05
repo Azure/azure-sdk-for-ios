@@ -24,43 +24,29 @@
 //
 // --------------------------------------------------------------------------
 
-import CoreData
 import Foundation
 
-internal class BlobUploadFinalOperation: TransferOperation {
-    // MARK: Initializers
+public typealias QueryParameter = (String, String?)
 
-    public convenience init(
-        withTransfer transfer: BlobTransfer,
-        queue: TransferOperationQueue,
-        delegate: TransferDelegate?
-    ) {
-        self.init(transfer: transfer, delegate: delegate)
-        self.queue = queue
-        transfer.operation = self
+public extension Array where Element == QueryParameter {
+    mutating func append(_ name: String, _ value: String?) {
+        append((name, value))
     }
+}
 
-    // MARK: Public Methods
+extension URL {
+    public func appendingQueryParameters(_ addedParams: [QueryParameter]) -> URL? {
+        guard !addedParams.isEmpty else { return self }
+        guard var urlComps = URLComponents(url: self, resolvingAgainstBaseURL: true) else { return nil }
 
-    override public func main() {
-        guard let transfer = self.transfer as? BlobTransfer else { return }
-        guard let uploader = transfer.uploader else { return }
-        let group = DispatchGroup()
-        group.enter()
-        uploader.commit { result, _ in
-            switch result {
-            case .success:
-                transfer.state = .complete
-                self.notifyDelegate(withTransfer: transfer)
-            case let .failure(error):
-                transfer.state = .failed
-                transfer.error = error
-                transfer.parent?.state = .failed
-                self.notifyDelegate(withTransfer: transfer)
-            }
-            group.leave()
+        let addedQueryItems = addedParams.map { name, value in URLQueryItem(name: name, value: value) }
+        if var urlQueryItems = urlComps.queryItems, !urlQueryItems.isEmpty {
+            urlQueryItems.append(contentsOf: addedQueryItems)
+            urlComps.queryItems = urlQueryItems
+        } else {
+            urlComps.queryItems = addedQueryItems
         }
-        group.wait()
-        super.main()
+
+        return urlComps.url
     }
 }

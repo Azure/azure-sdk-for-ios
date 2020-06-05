@@ -100,7 +100,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     // MARK: Initializers
 
-    private override init() {
+    override private init() {
         self.transfers = [TransferImpl]()
         super.init()
     }
@@ -118,12 +118,14 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         return transfers[index]
     }
 
-    func register(client: StorageBlobClient?, forRestorationId restorationId: String) throws {
+    func register(client: StorageBlobClient) throws {
+        let restorationId = client.restorationId
         guard blobClient(forRestorationId: restorationId) == nil else {
-            throw AzureError.general("""
-                A client with restoration ID \(restorationId) already exists. Please ensure that each client has a \
-                unique restoration ID.
-            """
+            throw AzureError.general(
+                """
+                    A client with restoration ID \(restorationId) already exists. Please ensure that each client has a \
+                    unique restoration ID.
+                """
             )
         }
         clients.setObject(client, forKey: restorationId as NSString)

@@ -91,14 +91,14 @@ class BlobUploadViewController: UIViewController, MSALInteractiveDelegate {
 
     // MARK: Internal Methods
 
-    internal func url(for asset: PHAsset, then completion: @escaping (URL?) -> Void) {
+    internal func url(for asset: PHAsset, completionHandler: @escaping (URL?) -> Void) {
         asset.requestContentEditingInput(with: nil) { contentEditingInput, _ in
             if asset.mediaType == .image {
                 let url = contentEditingInput?.fullSizeImageURL?.absoluteURL
-                completion(url)
+                completionHandler(url)
             } else {
                 let url = (contentEditingInput?.audiovisualAsset as? AVURLAsset)?.url.absoluteURL
-                completion(url)
+                completionHandler(url)
             }
         }
     }
@@ -252,7 +252,7 @@ extension BlobUploadViewController: TransferDelegate {
     func transfer(
         _ transfer: Transfer,
         didUpdateWithState _: TransferState,
-        andProgress progress: Float?
+        andProgress _: Float?
     ) {
         if let blobTransfer = transfer as? BlobTransfer, blobTransfer.transferType == .upload {
             collectionView.reloadData()

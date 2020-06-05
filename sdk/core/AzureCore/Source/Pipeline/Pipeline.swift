@@ -49,14 +49,14 @@ internal class Pipeline {
         }
     }
 
-    public func run(request: PipelineRequest, then completion: @escaping PipelineStageResultHandler) {
+    public func run(request: PipelineRequest, completionHandler: @escaping PipelineStageResultHandler) {
         let firstPolicy = policies.first ?? transport
         firstPolicy.process(request: request) { result, httpResponse in
             switch result {
             case let .success(pipelineResponse):
-                completion(.success(pipelineResponse), httpResponse)
+                completionHandler(.success(pipelineResponse), httpResponse)
             case let .failure(error):
-                completion(.failure(error), httpResponse)
+                completionHandler(.failure(error), httpResponse)
             }
         }
     }

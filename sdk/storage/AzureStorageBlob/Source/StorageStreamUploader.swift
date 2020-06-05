@@ -85,12 +85,12 @@ internal class ChunkUploader {
     /// Begin the upload process.
     /// - Parameters:
     ///   - requestId: Unique request ID (GUID) for the operation.
-    ///   - completion: A completion handler that forwards the downloaded data.
+    ///   - completionHandler: A completion handler that forwards the downloaded data.
     public func upload(
         requestId: String? = nil,
         transactionalContentMd5: Data? = nil,
         transactionalContentCrc64: Data? = nil,
-        then completion: @escaping HTTPResultHandler<Data>
+        completionHandler: @escaping HTTPResultHandler<Data>
     ) {
         let chunkSize = endRange - startRange
         var buffer = Data(capacity: chunkSize)
@@ -106,7 +106,7 @@ internal class ChunkUploader {
             buffer.append(tempData)
         } catch {
             let request = try? HTTPRequest(method: .put, url: uploadDestination, headers: HTTPHeaders())
-            completion(.failure(error), HTTPResponse(request: request, statusCode: nil))
+            completionHandler(.failure(error), HTTPResponse(request: request, statusCode: nil))
             return
         }
 
@@ -115,7 +115,7 @@ internal class ChunkUploader {
             ("comp", "block"),
             ("blockid", blockId.uuidString.base64EncodedString())
         ]
-        if let timeout = options.timeout { queryParams.append(("timeout", String(timeout))) }
+        if let timeout = options.timeoutInSeconds { queryParams.append(("timeout", String(timeout))) }
 
         // Construct headers
         var headers = HTTPHeaders([
@@ -147,9 +147,9 @@ internal class ChunkUploader {
         if let encryptionAlgorithm = cpk?.algorithm { headers[.encryptionAlgorithm] = encryptionAlgorithm }
 
         // Construct and send request
-        guard let request = try? HTTPRequest(method: .put, url: uploadDestination, headers: headers, data: buffer)
+        guard let requestUrl = uploadDestination.appendingQueryParameters(queryParams) else { return }
+        guard let request = try? HTTPRequest(method: .put, url: requestUrl, headers: headers, data: buffer)
         else { return }
-        request.add(queryParams: queryParams)
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [201] as AnyObject
         ])
@@ -157,10 +157,10 @@ internal class ChunkUploader {
         client.request(request, context: context) { result, httpResponse in
             switch result {
             case let .failure(error):
-                completion(.failure(error), httpResponse)
+                completionHandler(.failure(error), httpResponse)
             case let .success(data):
                 let data = data ?? Data()
-                completion(.success(data), httpResponse)
+                completionHandler(.success(data), httpResponse)
             }
         }
     }
@@ -304,13 +304,13 @@ internal class BlobStreamUploader: BlobUploader {
     /// Uploads the entire blob in a parallel fashion.
     /// - Parameters:
     ///   - group: An optional `DispatchGroup` to wait for the download to complete.
-    ///   - completion: A completion handler called when the download completes.
-    public func complete(inGroup group: DispatchGroup? = nil, then completion: @escaping () -> Void) throws {
+    ///   - completionHandler: A completion handler called when the download completes.
+    public func complete(inGroup group: DispatchGroup? = nil, completionHandler: @escaping () -> Void) throws {
         guard !isComplete else {
             if let delegate = self.delegate {
                 delegate.uploaderDidComplete(self)
             } else {
-                completion()
+                completionHandler()
             }
             return
         }
@@ -333,7 +333,7 @@ internal class BlobStreamUploader: BlobUploader {
                     if let delegate = self.delegate {
                         delegate.uploaderDidComplete(self)
                     } else {
-                        completion()
+                        completionHandler()
                     }
                 case let .failure(error):
                     if let delegate = self.delegate {
@@ -349,11 +349,11 @@ internal class BlobStreamUploader: BlobUploader {
         transactionalContentMd5: Data? = nil,
         transactionalContentCrc64: Data? = nil,
         inGroup _: DispatchGroup? = nil,
-        then completion: @escaping HTTPResultHandler<BlobProperties>
+        completionHandler: @escaping HTTPResultHandler<BlobProperties>
     ) {
         // Construct parameters & headers
         var queryParams: [QueryParameter] = [("comp", "blocklist")]
-        if let timeout = options.timeout { queryParams.append("timeout", String(timeout)) }
+        if let timeout = options.timeoutInSeconds { queryParams.append("timeout", String(timeout)) }
 
         let headers = commitHeadersForRequest(
             withId: requestId,
@@ -368,9 +368,10 @@ internal class BlobStreamUploader: BlobUploader {
             fatalError("Unable to serialize block list as XML string.")
         }
         let xmlData = xmlString.data(using: encoding)
-        guard let request = try? HTTPRequest(method: .put, url: uploadDestination, headers: headers, data: xmlData)
+
+        guard let requestUrl = uploadDestination.appendingQueryParameters(queryParams) else { return }
+        guard let request = try? HTTPRequest(method: .put, url: requestUrl, headers: headers, data: xmlData)
         else { return }
-        request.add(queryParams: queryParams)
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [201] as AnyObject
         ])
@@ -378,15 +379,15 @@ internal class BlobStreamUploader: BlobUploader {
         client.request(request, context: context) { result, httpResponse in
             switch result {
             case let .failure(error):
-                completion(.failure(error), httpResponse)
+                completionHandler(.failure(error), httpResponse)
             case .success:
                 guard let responseHeaders = httpResponse?.headers else {
                     let error = HTTPResponseError.general("No response received.")
-                    completion(.failure(error), httpResponse)
+                    completionHandler(.failure(error), httpResponse)
                     return
                 }
                 let blobProperties = BlobProperties(from: responseHeaders)
-                completion(.success(blobProperties), httpResponse)
+                completionHandler(.success(blobProperties), httpResponse)
             }
         }
     }
@@ -394,8 +395,8 @@ internal class BlobStreamUploader: BlobUploader {
     /// Download the contents of this file to a stream.
     /// - Parameters:
     ///   - group: An optional `DispatchGroup` to wait for the download to complete.
-    ///   - completion: A completion handler with which to process the downloaded chunk.
-    public func next(inGroup group: DispatchGroup? = nil, then completion: @escaping HTTPResultHandler<Data>) {
+    ///   - completionHandler: A completion handler with which to process the downloaded chunk.
+    public func next(inGroup group: DispatchGroup? = nil, completionHandler: @escaping HTTPResultHandler<Data>) {
         guard !isComplete else { return }
         let metadata = blockList.removeFirst()
         let range = metadata.range
@@ -420,7 +421,7 @@ internal class BlobStreamUploader: BlobUploader {
             case let .failure(error):
                 self.client.options.logger.debug(String(describing: error))
             }
-            completion(result, httpResponse)
+            completionHandler(result, httpResponse)
             group?.leave()
         }
     }
@@ -504,7 +505,7 @@ internal class BlobStreamUploader: BlobUploader {
     private func computeBlockList(withOffset offset: Int = 0) -> [(Range<Int>, UUID)] {
         var blockList = [(Range<Int>, UUID)]()
         let alignForCrypto = isEncrypted
-        let chunkLength = client.options.maxChunkSize
+        let chunkLength = client.options.maxChunkSizeInBytes
 
         if alignForCrypto {
             fatalError("Client-side encryption is not yet supported!")

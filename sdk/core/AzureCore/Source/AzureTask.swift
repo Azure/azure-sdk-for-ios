@@ -24,43 +24,10 @@
 //
 // --------------------------------------------------------------------------
 
-import CoreData
 import Foundation
 
-internal class BlobUploadFinalOperation: TransferOperation {
-    // MARK: Initializers
-
-    public convenience init(
-        withTransfer transfer: BlobTransfer,
-        queue: TransferOperationQueue,
-        delegate: TransferDelegate?
-    ) {
-        self.init(transfer: transfer, delegate: delegate)
-        self.queue = queue
-        transfer.operation = self
-    }
-
-    // MARK: Public Methods
-
-    override public func main() {
-        guard let transfer = self.transfer as? BlobTransfer else { return }
-        guard let uploader = transfer.uploader else { return }
-        let group = DispatchGroup()
-        group.enter()
-        uploader.commit { result, _ in
-            switch result {
-            case .success:
-                transfer.state = .complete
-                self.notifyDelegate(withTransfer: transfer)
-            case let .failure(error):
-                transfer.state = .failed
-                transfer.error = error
-                transfer.parent?.state = .failed
-                self.notifyDelegate(withTransfer: transfer)
-            }
-            group.leave()
-        }
-        group.wait()
-        super.main()
-    }
+/// A handle for an asynchronous operation that can be canceled.
+public protocol AzureTask {
+    /// Cancel this operation.
+    func cancel()
 }

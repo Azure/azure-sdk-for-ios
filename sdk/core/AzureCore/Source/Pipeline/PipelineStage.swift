@@ -44,46 +44,46 @@ public protocol PipelineStage {
     /// Request modification hook.
     /// - Parameters:
     ///   - request: The `PipelineRequest` input.
-    ///   - completion: A completion handler which forwards the modified request.
-    func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler)
+    ///   - completionHandler: A completion handler which forwards the modified request.
+    func on(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler)
 
     /// Response modification hook.
     /// - Parameters:
     ///   - response: The `PipelineResponse` input.
-    ///   - completion: A completion handler which forwards the modified response.
-    func on(response: PipelineResponse, then completion: @escaping OnResponseCompletionHandler)
+    ///   - completionHandler: A completion handler which forwards the modified response.
+    func on(response: PipelineResponse, completionHandler: @escaping OnResponseCompletionHandler)
 
     /// Response error hook.
     /// - Parameters:
     ///   - error: The `PipelineError` input.
-    ///   - completion: A completion handler which forwards the error along with a boolean
+    ///   - completionHandler: A completion handler which forwards the error along with a boolean
     ///   that indicates whether the exception was handled or not.
-    func on(error: PipelineError, then completion: @escaping OnErrorCompletionHandler)
+    func on(error: PipelineError, completionHandler: @escaping OnErrorCompletionHandler)
 
     /// Executes the policy method.
     /// - Parameters:
     ///   - pipelineRequest: The `PipelineRequest` input.
-    ///   - completion: A `PipelineStageResultHandler` completion handler.
-    func process(request pipelineRequest: PipelineRequest, then completion: @escaping PipelineStageResultHandler)
+    ///   - completionHandler: A `PipelineStageResultHandler` completion handler.
+    func process(request pipelineRequest: PipelineRequest, completionHandler: @escaping PipelineStageResultHandler)
 }
 
 /// Default implementations for `PipelineStage`.
 extension PipelineStage {
-    public func on(request: PipelineRequest, then completion: @escaping OnRequestCompletionHandler) {
-        completion(request, nil)
+    public func on(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
+        completionHandler(request, nil)
     }
 
-    public func on(response: PipelineResponse, then completion: @escaping OnResponseCompletionHandler) {
-        completion(response)
+    public func on(response: PipelineResponse, completionHandler: @escaping OnResponseCompletionHandler) {
+        completionHandler(response)
     }
 
-    public func on(error: PipelineError, then completion: @escaping OnErrorCompletionHandler) {
-        completion(error, false)
+    public func on(error: PipelineError, completionHandler: @escaping OnErrorCompletionHandler) {
+        completionHandler(error, false)
     }
 
     public func process(
         request pipelineRequest: PipelineRequest,
-        then completion: @escaping PipelineStageResultHandler
+        completionHandler: @escaping PipelineStageResultHandler
     ) {
         on(request: pipelineRequest) { request, error in
             // if error occurs during the onRequest phase, back out and
@@ -98,7 +98,7 @@ extension PipelineStage {
                 let pipelineError = PipelineError(fromError: error, pipelineResponse: pipelineResponse)
                 self.on(error: pipelineError) { _, handled in
                     if !handled {
-                        completion(.failure(pipelineError), nil)
+                        completionHandler(.failure(pipelineError), nil)
                         return
                     }
                 }
@@ -107,12 +107,12 @@ extension PipelineStage {
                 switch result {
                 case let .success(pipelineResponse):
                     self.on(response: pipelineResponse) { response in
-                        completion(.success(response), httpResponse)
+                        completionHandler(.success(response), httpResponse)
                     }
                 case let .failure(pipelineError):
                     self.on(error: pipelineError) { error, handled in
                         if !handled {
-                            completion(.failure(error), httpResponse)
+                            completionHandler(.failure(error), httpResponse)
                             return
                         }
                     }

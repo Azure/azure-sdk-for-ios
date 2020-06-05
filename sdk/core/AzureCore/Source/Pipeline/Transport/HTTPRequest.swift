@@ -26,14 +26,6 @@
 
 import Foundation
 
-public typealias QueryParameter = (String, String?)
-
-public extension Array where Element == QueryParameter {
-    mutating func append(_ name: String, _ value: String?) {
-        append((name, value))
-    }
-}
-
 public class HTTPRequest: DataStringConvertible {
     // MARK: Properties
 
@@ -56,23 +48,5 @@ public class HTTPRequest: DataStringConvertible {
         self.url = url
         self.headers = headers
         self.data = data
-    }
-
-    // MARK: Public Methods
-
-    public func add(queryParams addedParams: [QueryParameter]) {
-        guard !addedParams.isEmpty else { return }
-        guard var urlComps = URLComponents(url: url, resolvingAgainstBaseURL: true) else { return }
-
-        let addedQueryItems = addedParams.map { name, value in URLQueryItem(name: name, value: value) }
-        if var urlQueryItems = urlComps.queryItems, !urlQueryItems.isEmpty {
-            urlQueryItems.append(contentsOf: addedQueryItems)
-            urlComps.queryItems = urlQueryItems
-        } else {
-            urlComps.queryItems = addedQueryItems
-        }
-        if let finalUrl = urlComps.url {
-            url = finalUrl
-        }
     }
 }
