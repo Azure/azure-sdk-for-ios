@@ -27,13 +27,30 @@
 import Foundation
 
 public protocol StorageBlobClientDelegate: AnyObject {
+    /// A blob transfer's state and/or progress have changed.
+    /// - Parameters:
+    ///   - client: The `BlobStorageClient` associated with the transfer.
+    ///   - transfer: The `BlobTransfer` that has changed.
+    ///   - state: The `TransferState` of the blob transfer.
+    ///   - progress: The `TransferProgress` of the blob transfer, if relevant.
     func blobClient(
         _ client: StorageBlobClient,
         didUpdateTransfer transfer: BlobTransfer,
         withState state: TransferState,
         andProgress progress: TransferProgress?
     )
+
+    /// A blob transfer has finished.
+    /// - Parameters:
+    ///   - client: The `BlobStorageClient` associated with the transfer.
+    ///   - transfer: The `BlobTransfer` that has completed.
     func blobClient(_ client: StorageBlobClient, didCompleteTransfer transfer: BlobTransfer)
+
+    /// A blob transfer has failed.
+    /// - Parameters:
+    ///   - client: The `BlobStorageClient` associated with the transfer.
+    ///   - transfer: The `BlobTransfer` that failed.
+    ///   - error: The `Error` associated with the failure.
     func blobClient(_ client: StorageBlobClient, didFailTransfer transfer: BlobTransfer, withError error: Error)
 }
 
