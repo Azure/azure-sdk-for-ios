@@ -57,7 +57,7 @@ internal protocol TransferManager {
 }
 
 /// A delegate to receive notifications about state changes for all transfers managed by a `StorageBlobClient`.
-public protocol TransferDelegate: AnyObject {
+internal protocol TransferDelegate: AnyObject {
     /// A transfer's state and/or progress have changed.
     /// - Parameters:
     ///   - transfer: The `Transfer` object that updated.
