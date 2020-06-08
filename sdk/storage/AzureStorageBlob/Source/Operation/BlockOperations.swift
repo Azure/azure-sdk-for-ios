@@ -77,8 +77,9 @@ internal class BlockOperation: TransferOperation {
                         return
                     }
                     let blobProperties = BlobProperties(from: responseHeaders)
-                    let contentLength = blobProperties.contentLength ?? 0
-                    downloader.progress += contentLength
+                    let bytesTransferred = (blobProperties.contentLength ?? 1) - 1
+                    downloader.progress += bytesTransferred
+                    parent.bytesTransferred += Int64(bytesTransferred)
                     transfer.state = .complete
                     self.notifyDelegate(withTransfer: parent)
                 case let .failure(error):

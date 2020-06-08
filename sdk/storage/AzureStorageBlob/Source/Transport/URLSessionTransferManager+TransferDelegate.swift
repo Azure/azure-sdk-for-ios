@@ -29,7 +29,11 @@ import CoreData
 import Foundation
 
 extension URLSessionTransferManager: TransferDelegate {
-    func transfer(_ transfer: Transfer, didUpdateWithState state: TransferState, andProgress progress: Float?) {
+    func transfer(
+        _ transfer: Transfer,
+        didUpdateWithState state: TransferState,
+        andProgress progress: TransferProgress?
+    ) {
         DispatchQueue.main.async {
             guard let restorationId = (transfer as? TransferImpl)?.clientRestorationId else { return }
             switch state {
@@ -61,8 +65,8 @@ extension URLSessionTransferManager: TransferDelegate {
 
                     // avoid saving the context or sending multiple messages when the progress and/or state have not
                     // actually changed.
-                    if blobTransfer.currentProgress < progress {
-                        blobTransfer.currentProgress = progress
+                    if blobTransfer.currentProgress < progress.asFloat {
+                        blobTransfer.currentProgress = progress.asFloat
                         delegate?.transfer(transfer, didUpdateWithState: state, andProgress: progress)
                         blobTransfer.progressHandler?(blobTransfer)
                     } else if blobTransfer.previousState != state {

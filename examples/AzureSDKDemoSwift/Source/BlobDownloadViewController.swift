@@ -156,7 +156,7 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
             blobName: blobName
         ) {
             cell.backgroundColor = transfer.state.color
-            cell.progressBar.progress = transfer.progress
+            cell.progressBar.progress = transfer.progress.asFloat
         }
 
         // load next page if at the end of the current list

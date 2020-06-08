@@ -50,7 +50,6 @@ internal protocol TransferManager {
     func cancel(transfer: TransferImpl)
     func pause(transfer: TransferImpl)
     func remove(transfer: TransferImpl)
-    // TODO: Resolve issue where handler can't be downcast
     func resume(transfer: TransferImpl, progressHandler: ((BlobTransfer) -> Void)?)
 
     func loadContext()
@@ -58,11 +57,25 @@ internal protocol TransferManager {
 }
 
 /// A delegate to receive notifications about state changes for all transfers managed by a `StorageBlobClient`.
-public protocol TransferDelegate: AnyObject {
-    /// A transfer's state has changed, and progress may be reported.
-    func transfer(_ transfer: Transfer, didUpdateWithState state: TransferState, andProgress progress: Float?)
+internal protocol TransferDelegate: AnyObject {
+    /// A transfer's state and/or progress have changed.
+    /// - Parameters:
+    ///   - transfer: The `Transfer` object that updated.
+    ///   - state: The `TransferState` of the updated transfer.
+    ///   - progress: The `TransferProgress` of the updated transfer.
+    func transfer(
+        _ transfer: Transfer,
+        didUpdateWithState state: TransferState,
+        andProgress progress: TransferProgress?
+    )
+
     /// A transfer has failed.
+    /// - Parameters:
+    ///   - transfer: The `Transfer` object that failed.
+    ///   - error: The `Error` associated with the failure.
     func transfer(_ transfer: Transfer, didFailWithError error: Error)
-    /// A transfer has completed.
+
+    /// A transfer has finished.
+    /// - Parameter transfer: The `Transfer` object that finished.
     func transferDidComplete(_ transfer: Transfer)
 }

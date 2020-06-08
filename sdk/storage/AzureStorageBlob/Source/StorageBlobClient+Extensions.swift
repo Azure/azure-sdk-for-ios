@@ -45,10 +45,15 @@ extension StorageBlobClient: TransferDelegate {
     public func transfer(
         _ transfer: Transfer,
         didUpdateWithState state: TransferState,
-        andProgress progress: Float?
+        andProgress _: TransferProgress?
     ) {
         if let blobTransfer = transfer as? BlobTransfer {
-            delegate?.blobClient(self, didUpdateTransfer: blobTransfer, withState: state, andProgress: progress)
+            delegate?.blobClient(
+                self,
+                didUpdateTransfer: blobTransfer,
+                withState: state,
+                andProgress: blobTransfer.progress
+            )
         }
     }
 

@@ -103,6 +103,8 @@ internal class BlobDownloadInitialOperation: TransferOperation {
         downloader.initialRequest { result, _ in
             switch result {
             case .success:
+                parent.totalBytesToTransfer = Int64(downloader.totalSize)
+                parent.bytesTransferred = Int64(downloader.progress)
                 transfer.state = .complete
                 self.queueRemainingBlocks(forTransfer: parent)
                 self.notifyDelegate(withTransfer: parent)

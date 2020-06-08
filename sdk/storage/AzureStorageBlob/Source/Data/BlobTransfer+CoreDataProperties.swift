@@ -53,6 +53,8 @@ extension BlobTransfer {
     @NSManaged internal var totalBlocks: Int64
     @NSManaged internal var blocks: NSSet?
     @NSManaged internal var currentProgress: Float
+    @NSManaged internal var bytesTransferred: Int64
+    @NSManaged internal var totalBytesToTransfer: Int64
     @NSManaged internal var parent: MultiBlobTransfer?
     @NSManaged internal var rawOptions: String?
     @NSManaged internal var rawProperties: String?
