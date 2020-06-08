@@ -1,4 +1,4 @@
-// swift-tools-version:4.0
+// swift-tools-version:5.1
 //  The swift-tools-version declares the minimum version of Swift required to build this package.
 //
 // --------------------------------------------------------------------------
@@ -31,14 +31,15 @@ import PackageDescription
 
 let package = Package(
     name: "AzureSDK",
+    platforms: [
+        .macOS(.v10_15), .iOS(.v12), .tvOS(.v12)
+    ],
     products: [
         .library(name: "AzureCore", targets: ["AzureCore"]),
         .library(name: "AzureIdentity", targets: ["AzureIdentity"]),
         .library(name: "AzureStorageBlob", targets: ["AzureStorageBlob"])
     ],
-    dependencies: [
-        //.package(url: "https://github.com/AzureAD/microsoft-authentication-library-for-objc.git", from: "1.0.0")
-    ],
+    dependencies: [],
     targets: [
         // Build targets
         .target(
@@ -49,9 +50,12 @@ let package = Package(
         ),
         .target(
             name: "AzureIdentity",
-            dependencies: ["AzureCore"], //, "MSAL"],
+            dependencies: ["AzureCore"],
             path: "sdk/identity/AzureIdentity",
-            sources: ["Source"]
+            sources: ["Source"],
+            linkerSettings: [
+                .linkedFramework("MSAL")
+            ]
         ),
         .target(
             name: "AzureStorageBlob",
@@ -79,5 +83,5 @@ let package = Package(
             sources: ["Tests"]
         )
     ],
-    swiftLanguageVersions: [5]
+    swiftLanguageVersions: [.v5]
 )
