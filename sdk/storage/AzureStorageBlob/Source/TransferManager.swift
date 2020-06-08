@@ -62,7 +62,7 @@ internal protocol TransferDelegate: AnyObject {
     /// - Parameters:
     ///   - transfer: The `Transfer` object that updated.
     ///   - state: The `TransferState` of the updated transfer.
-    ///   - progress: The `TransferProgress` of the updated transfer, if relevant.
+    ///   - progress: The `TransferProgress` of the updated transfer.
     func transfer(
         _ transfer: Transfer,
         didUpdateWithState state: TransferState,

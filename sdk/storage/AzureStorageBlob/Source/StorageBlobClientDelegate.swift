@@ -32,7 +32,7 @@ public protocol StorageBlobClientDelegate: AnyObject {
     ///   - client: The `StorageBlobClient` associated with the transfer.
     ///   - transfer: The `BlobTransfer` that has changed.
     ///   - state: The `TransferState` of the blob transfer.
-    ///   - progress: The `TransferProgress` of the blob transfer, if relevant.
+    ///   - progress: The `TransferProgress` of the blob transfer.
     func blobClient(
         _ client: StorageBlobClient,
         didUpdateTransfer transfer: BlobTransfer,
