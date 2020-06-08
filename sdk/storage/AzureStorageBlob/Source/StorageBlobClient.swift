@@ -25,6 +25,7 @@
 // --------------------------------------------------------------------------
 
 import AzureCore
+import AzureIdentity
 import CoreData
 import Foundation
 

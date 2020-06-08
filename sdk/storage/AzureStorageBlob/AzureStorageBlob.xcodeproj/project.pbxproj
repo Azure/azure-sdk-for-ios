@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -171,8 +171,8 @@
 				0A686496233E834D004B7E17 /* Tests */,
 				0A68648A233E834D004B7E17 /* Products */,
 				0A6864A3233E8366004B7E17 /* Frameworks */,
-				7ABC0A58243D2C4A0080968E /* README.md */,
 				A4BB4F4EF910037CED7000A2 /* Pods */,
+				7ABC0A58243D2C4A0080968E /* README.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -351,7 +351,6 @@
 				0A68648E233E834D004B7E17 /* Sources */,
 				0A68648F233E834D004B7E17 /* Frameworks */,
 				0A686490233E834D004B7E17 /* Resources */,
-				8828E044AC1241DB30888F92 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -458,23 +457,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "BUILD_PATH=$(pwd)\nROOT_PATH=$(pwd | rev | cut -d'/' -f4- | rev) \n$ROOT_PATH/Scripts/swiftlint.sh $BUILD_PATH\n";
-		};
-		8828E044AC1241DB30888F92 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AzureStorageBlobTests/Pods-AzureStorageBlobTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AzureStorageBlobTests/Pods-AzureStorageBlobTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AzureStorageBlobTests/Pods-AzureStorageBlobTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		BDA78A94173B98DBF126D25F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

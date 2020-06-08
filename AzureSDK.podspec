@@ -47,7 +47,11 @@ Pod::Spec.new do |s|
   # AzureCore
   s.subspec 'AzureCore' do |sp|
     sp.source_files = 'sdk/core/AzureCore/Source/**/*.{swift,h,m}'
-    sp.dependency 'MSAL', '~> 1.0.0'
+  end
+
+  # AzureIdentity
+  s.subspec 'AzureIdentity' do |sp|
+    sp.source_files = 'sdk/identity/AzureIdentity/Source/**/*.{swift,h,m}'
   end
 
   # AzureStorageBlob

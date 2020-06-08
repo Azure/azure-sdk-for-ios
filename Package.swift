@@ -33,12 +33,14 @@ let package = Package(
     name: "AzureSDK",
     products: [
         .library(name: "AzureCore", targets: ["AzureCore"]),
+        .library(name: "AzureIdentity", targets: ["AzureIdentity"]),
         .library(name: "AzureStorageBlob", targets: ["AzureStorageBlob"])
     ],
     dependencies: [
-        .package(url: "https://github.com/AzureAD/microsoft-authentication-library-for-objc.git", from: "1.0.0")
+        //.package(url: "https://github.com/AzureAD/microsoft-authentication-library-for-objc.git", from: "1.0.0")
     ],
     targets: [
+        // Build targets
         .target(
             name: "AzureCore",
             dependencies: [],
@@ -46,10 +48,35 @@ let package = Package(
             sources: ["Source"]
         ),
         .target(
+            name: "AzureIdentity",
+            dependencies: ["AzureCore"], //, "MSAL"],
+            path: "sdk/identity/AzureIdentity",
+            sources: ["Source"]
+        ),
+        .target(
             name: "AzureStorageBlob",
-            dependencies: ["AzureCore", "MSAL"],
+            dependencies: ["AzureCore"],
             path: "sdk/storage/AzureStorageBlob",
             sources: ["Source"]
+        ),
+        // Test targets
+        .testTarget(
+            name: "AzureCoreTests",
+            dependencies: ["AzureCore"],
+            path: "sdk/core/AzureCore",
+            sources: ["Tests"]
+        ),
+        .target(
+            name: "AzureIdentityTests",
+            dependencies: ["AzureIdentity"],
+            path: "sdk/identity/AzureIdentity",
+            sources: ["Tests"]
+        ),
+        .target(
+            name: "AzureStorageBlobTests",
+            dependencies: ["AzureStorageBlob"],
+            path: "sdk/storage/AzureStorageBlob",
+            sources: ["Tests"]
         )
     ],
     swiftLanguageVersions: [5]

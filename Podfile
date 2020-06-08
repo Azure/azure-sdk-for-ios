@@ -30,9 +30,17 @@ workspace "AzureSDK"
 
 target 'AzureCore' do
   project 'sdk/core/AzureCore/AzureCore'
-  pod 'MSAL', '~> 1.0.0'
 
   target 'AzureCoreTests' do
+    inherit! :search_paths
+  end
+end
+
+target 'AzureIdentity' do
+  project 'sdk/identity/AzureIdentity/AzureIdentity'
+  pod 'MSAL', '~> 1.0.0'
+
+  target 'AzureIdentityTests' do
     inherit! :search_paths
     pod 'MSAL', '~> 1.0.0'
   end
@@ -43,7 +51,6 @@ target 'AzureStorageBlob' do
 
   target 'AzureStorageBlobTests' do
     inherit! :search_paths
-    pod 'MSAL', '~> 1.0.0'
   end
 end
 
