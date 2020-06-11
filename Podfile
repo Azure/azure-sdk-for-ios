@@ -26,7 +26,7 @@
 
 use_frameworks!
 platform :ios, '12.0'
-workspace "AzureSDK"
+workspace 'AzureSDK'
 
 target 'AzureCore' do
   project 'sdk/core/AzureCore/AzureCore'

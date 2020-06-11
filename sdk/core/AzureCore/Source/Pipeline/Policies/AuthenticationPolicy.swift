@@ -31,11 +31,11 @@ public struct AccessToken {
     // MARK: Properties
 
     public let token: String
-    public let expiresOn: Int
+    public let expiresOn: Date
 
     // MARK: Initializers
 
-    public init(token: String, expiresOn: Int) {
+    public init(token: String, expiresOn: Date) {
         self.token = token
         self.expiresOn = expiresOn
     }

@@ -23,8 +23,8 @@
 // IN THE SOFTWARE.
 //
 // --------------------------------------------------------------------------
-import Foundation
 import AzureCore
+import Foundation
 #if canImport(MSAL)
     import MSAL
 #endif
@@ -141,7 +141,7 @@ import AzureCore
                     if let result = result {
                         accessToken = AccessToken(
                             token: result.accessToken,
-                            expiresOn: Int(result.expiresOn.timeIntervalSince1970)
+                            expiresOn: result.expiresOn
                         )
                     } else {
                         accessToken = nil
@@ -155,7 +155,7 @@ import AzureCore
                         self.delegate?.didCompleteMSALRequest(withResult: result)
                         accessToken = AccessToken(
                             token: result.accessToken,
-                            expiresOn: Int(result.expiresOn.timeIntervalSince1970)
+                            expiresOn: result.expiresOn
                         )
                     } else {
                         accessToken = nil
