@@ -25,6 +25,7 @@
 // --------------------------------------------------------------------------
 
 import AzureCore
+import AzureIdentity
 import AzureStorageBlob
 import MSAL
 import os.log

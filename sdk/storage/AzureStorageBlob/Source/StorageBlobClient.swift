@@ -25,6 +25,9 @@
 // --------------------------------------------------------------------------
 
 import AzureCore
+#if canImport(AzureIdentity) && canImport(MSAL)
+    import AzureIdentity
+#endif
 import CoreData
 import Foundation
 
@@ -116,27 +119,37 @@ public final class StorageBlobClient: PipelineClient {
         try StorageBlobClient.manager.register(client: self)
     }
 
-    /// Create a Storage blob data client.
-    /// - Parameters:
-    ///   - credential: A `MSALCredential` object used to retrieve authentication tokens.
-    ///   - endpoint: The URL for the storage account's blob storage endpoint.
-    ///   - restorationId: An identifier used to associate this client with transfers it creates. When a transfer is
-    ///     reloaded from disk (e.g. after an application crash), it can only be resumed once a client with the same
-    ///     `restorationId` has been initialized. If your application only uses a single `StorageBlobClient`, it is
-    ///     recommended to use a value unique to your application (e.g. "MyApplication"). If your application uses
-    ///     multiple clients with different configurations, use a value unique to both your application and the
-    ///     configuration (e.g. "MyApplication.userClient").
-    ///   - options: Options used to configure the client.
-    public convenience init(
-        credential: MSALCredential,
-        endpoint: URL,
-        withRestorationId restorationId: String? = nil,
-        withOptions options: StorageBlobClientOptions? = nil
-    ) throws {
-        try credential.validate()
-        let authPolicy = BearerTokenCredentialPolicy(credential: credential, scopes: StorageBlobClient.defaultScopes)
-        try self.init(baseUrl: endpoint, authPolicy: authPolicy, withRestorationId: restorationId, withOptions: options)
-    }
+    #if canImport(AzureIdentity) && canImport(MSAL)
+        /// Create a Storage blob data client.
+        /// - Parameters:
+        ///   - credential: A `MSALCredential` object used to retrieve authentication tokens.
+        ///   - endpoint: The URL for the storage account's blob storage endpoint.
+        ///   - restorationId: An identifier used to associate this client with transfers it creates. When a transfer is
+        ///     reloaded from disk (e.g. after an application crash), it can only be resumed once a client with the same
+        ///     `restorationId` has been initialized. If your application only uses a single `StorageBlobClient`, it is
+        ///     recommended to use a value unique to your application (e.g. "MyApplication"). If your application uses
+        ///     multiple clients with different configurations, use a value unique to both your application and the
+        ///     configuration (e.g. "MyApplication.userClient").
+        ///   - options: Options used to configure the client.
+        public convenience init(
+            credential: MSALCredential,
+            endpoint: URL,
+            withRestorationId restorationId: String? = nil,
+            withOptions options: StorageBlobClientOptions? = nil
+        ) throws {
+            try credential.validate()
+            let authPolicy = BearerTokenCredentialPolicy(
+                credential: credential,
+                scopes: StorageBlobClient.defaultScopes
+            )
+            try self.init(
+                baseUrl: endpoint,
+                authPolicy: authPolicy,
+                withRestorationId: restorationId,
+                withOptions: options
+            )
+        }
+    #endif
 
     /// Create a Storage blob data client.
     /// - Parameters:

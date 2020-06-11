@@ -26,10 +26,10 @@
 
 Pod::Spec.new do |s|
   s.name = 'AzureSDK'
-  s.version = '0.1.0'
-  s.summary = 'Azure SDK for iOS.'
+  s.version = '1.0.0-beta.1'
+  s.summary = 'Azure SDK for iOS'
   s.description = <<-DESC
-  Azure SDK for iOS.
+  Azure SDK for iOS
   DESC
 
   s.homepage = 'https://github.com/Azure/azure-sdk-for-ios'
@@ -47,7 +47,11 @@ Pod::Spec.new do |s|
   # AzureCore
   s.subspec 'AzureCore' do |sp|
     sp.source_files = 'sdk/core/AzureCore/Source/**/*.{swift,h,m}'
-    sp.dependency 'MSAL', '~> 1.0.0'
+  end
+
+  # AzureIdentity
+  s.subspec 'AzureIdentity' do |sp|
+    sp.source_files = 'sdk/identity/AzureIdentity/Source/**/*.{swift,h,m}'
   end
 
   # AzureStorageBlob

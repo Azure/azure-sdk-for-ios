@@ -12,6 +12,13 @@
          </FileRef>
       </Group>
       <Group
+         location = "group:identity"
+         name = "identity">
+         <FileRef
+            location = "group:AzureIdentity/AzureIdentity.xcodeproj">
+         </FileRef>
+      </Group>
+      <Group
          location = "group:storage"
          name = "storage">
          <FileRef
