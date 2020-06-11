@@ -3,11 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0A25EA4C2398121A0012DFE1 /* (null) in Embed Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0A25EA4C2398121A0012DFE1 /* BuildFile in Embed Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0A28684723F5D6700084CF15 /* AzureStorage.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0A28684523F5D6700084CF15 /* AzureStorage.xcdatamodeld */; };
 		0A28686D23F74EA00084CF15 /* BlobDownloadOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A28686C23F74EA00084CF15 /* BlobDownloadOperations.swift */; };
 		0A28688123FCA6750084CF15 /* MultiBlobOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A28688023FCA6750084CF15 /* MultiBlobOperation.swift */; };
@@ -47,6 +47,7 @@
 		6749A4682951673A4EF1741D /* Pods_AzureStorageBlob.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE3538D9B59B54E936B091ED /* Pods_AzureStorageBlob.framework */; };
 		7A0DF007245A3FFF002EC98F /* TransferCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A0DF006245A3FFF002EC98F /* TransferCollection.swift */; };
 		7A5C97A324410BD1006E7B5F /* LocalURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5C97A224410BD1006E7B5F /* LocalURL.swift */; };
+		7A87222D2491B8F500778E99 /* AzureIdentity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A87222C2491B8F500778E99 /* AzureIdentity.framework */; };
 		7ACAADA1242C241A00A049B7 /* TransferOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACAADA0242C241900A049B7 /* TransferOperationQueue.swift */; };
 		7ACAADA2242C241A00A049B7 /* TransferOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACAAD9F242C241900A049B7 /* TransferOperation.swift */; };
 /* End PBXBuildFile section */
@@ -68,7 +69,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0A25EA4C2398121A0012DFE1 /* (null) in Embed Frameworks */,
+				0A25EA4C2398121A0012DFE1 /* BuildFile in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -118,6 +119,7 @@
 		4C5B2392BB2D8261EBC8542D /* Pods-AzureStorageBlobTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureStorageBlobTests.debug.xcconfig"; path = "Target Support Files/Pods-AzureStorageBlobTests/Pods-AzureStorageBlobTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7A0DF006245A3FFF002EC98F /* TransferCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferCollection.swift; sourceTree = "<group>"; };
 		7A5C97A224410BD1006E7B5F /* LocalURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalURL.swift; sourceTree = "<group>"; };
+		7A87222C2491B8F500778E99 /* AzureIdentity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureIdentity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ABC0A58243D2C4A0080968E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7ACAAD9F242C241900A049B7 /* TransferOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferOperation.swift; sourceTree = "<group>"; };
 		7ACAADA0242C241900A049B7 /* TransferOperationQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferOperationQueue.swift; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A87222D2491B8F500778E99 /* AzureIdentity.framework in Frameworks */,
 				0A6864A5233E8366004B7E17 /* AzureCore.framework in Frameworks */,
 				6749A4682951673A4EF1741D /* Pods_AzureStorageBlob.framework in Frameworks */,
 			);
@@ -205,6 +208,7 @@
 		0A6864A3233E8366004B7E17 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7A87222C2491B8F500778E99 /* AzureIdentity.framework */,
 				0A6864A4233E8366004B7E17 /* AzureCore.framework */,
 				DE3538D9B59B54E936B091ED /* Pods_AzureStorageBlob.framework */,
 				B8B42B53938CF002712DE7AD /* Pods_AzureStorageBlobTests.framework */,
@@ -351,6 +355,7 @@
 				0A68648E233E834D004B7E17 /* Sources */,
 				0A68648F233E834D004B7E17 /* Frameworks */,
 				0A686490233E834D004B7E17 /* Resources */,
+				31B613E63C2DB23807B55405 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -457,6 +462,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "BUILD_PATH=$(pwd)\nROOT_PATH=$(pwd | rev | cut -d'/' -f4- | rev) \n$ROOT_PATH/Scripts/swiftlint.sh $BUILD_PATH\n";
+		};
+		31B613E63C2DB23807B55405 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AzureStorageBlobTests/Pods-AzureStorageBlobTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AzureStorageBlobTests/Pods-AzureStorageBlobTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AzureStorageBlobTests/Pods-AzureStorageBlobTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		BDA78A94173B98DBF126D25F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

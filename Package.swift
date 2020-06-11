@@ -52,10 +52,7 @@ let package = Package(
             name: "AzureIdentity",
             dependencies: ["AzureCore"],
             path: "sdk/identity/AzureIdentity",
-            sources: ["Source"],
-            linkerSettings: [
-                .linkedFramework("MSAL")
-            ]
+            sources: ["Source"]
         ),
         .target(
             name: "AzureStorageBlob",

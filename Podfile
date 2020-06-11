@@ -48,9 +48,11 @@ end
 
 target 'AzureStorageBlob' do
   project 'sdk/storage/AzureStorageBlob/AzureStorageBlob'
+  pod 'MSAL', '~> 1.0.0'
 
   target 'AzureStorageBlobTests' do
     inherit! :search_paths
+    pod 'MSAL', '~> 1.0.0'
   end
 end
 
