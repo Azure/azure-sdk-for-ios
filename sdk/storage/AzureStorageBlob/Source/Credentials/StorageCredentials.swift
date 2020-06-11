@@ -29,23 +29,81 @@ import Foundation
 
 /// A Storage shared access signature credential object.
 public struct StorageSASCredential: AzureCredential {
-    internal let blobEndpoint: String?
-    internal let queueEndpoint: String?
-    internal let fileEndpoint: String?
-    internal let tableEndpoint: String?
-    internal let sasToken: String?
-    internal let error: Error?
+    internal let blobSasUriProvider: (() -> String)?
+    internal let connectionStringProvider: (() -> String)?
+    internal var blobEndpoint: String?
+    internal var queueEndpoint: String?
+    internal var fileEndpoint: String?
+    internal var tableEndpoint: String?
+    internal var sasToken: String?
+    internal var error: Error?
+
+    // MARK: Initializers
 
     /// Create a shared access signature credential from an account-level shared access signature.
     /// - Parameters:
-    ///   - connectionString: An account-level shared access signature connection string.
-    public init(connectionString: String) {
+    ///   - connectionStringProvider: A closure that returns an account-level shared access signature connection string.
+    public init(connectionStringProvider: @escaping () -> String) {
+        self.blobSasUriProvider = nil
+        self.connectionStringProvider = connectionStringProvider
+        clear()
+    }
+
+    /// Create a shared access signature credential from a container- or blob-level shared access signature.
+    /// - Parameters:
+    ///   - blobSasUriProvider: A closure that returns a container- or blob-level shared access signature URI.
+    public init(blobSasUriProvider: @escaping () -> String) {
+        self.blobSasUriProvider = blobSasUriProvider
+        self.connectionStringProvider = nil
+        clear()
+    }
+
+    /// Create a shared access signature credential from an account-level shared access signature.
+    /// - Parameters:
+    ///   - connectionString: The initial account-level shared access signature connection string.
+    ///   - connectionStringProvider: A closure that returns an account-level shared access signature connection string.
+    public init(connectionString: String, connectionStringProvider: (() -> String)? = nil) {
+        self.blobSasUriProvider = nil
+        self.connectionStringProvider = connectionStringProvider
+        self.error = configureFrom(connectionString: connectionString)
+    }
+
+    /// Create a shared access signature credential from a container- or blob-level shared access signature.
+    /// - Parameters:
+    ///   - blobSasUri: The initial container- or blob-level shared access signature URI.
+    ///   - blobSasUriProvider: A closure that returns a container- or blob-level shared access signature URI.
+    public init(blobSasUri: String, blobSasUriProvider: (() -> String)? = nil) {
+        self.blobSasUriProvider = blobSasUriProvider
+        self.connectionStringProvider = nil
+        self.error = configureFrom(blobSasUri: blobSasUri)
+    }
+
+    // MARK: Public Methods
+
+    public func validate() throws {
+        if let error = error {
+            throw error
+        }
+    }
+
+    internal mutating func refresh() throws {
+        clear()
+        if let provider = connectionStringProvider {
+            error = configureFrom(connectionString: provider())
+        } else if let provider = blobSasUriProvider {
+            error = configureFrom(blobSasUri: provider())
+        }
+        try validate()
+    }
+
+    // MARK: Private methods
+
+    private mutating func configureFrom(connectionString: String) -> Error? {
         var blob: String?
         var queue: String?
         var file: String?
         var table: String?
         var sas: String?
-        var error: Error?
 
         for component in connectionString.components(separatedBy: ";") {
             let compSplits = component.split(separator: "=", maxSplits: 1)
@@ -68,54 +126,51 @@ public struct StorageSASCredential: AzureCredential {
                     Form of connection string with 'SharedAccessSignature' is expected - 'AccountKey' is not allowed.
                     You must provide a Shared Access Signature connection string.
                 """
-                error = HTTPResponseError.clientAuthentication(message)
+                return HTTPResponseError.clientAuthentication(message)
             default:
                 continue
             }
         }
 
-        if sas == nil, error == nil {
-            error = HTTPResponseError.clientAuthentication("The connection string \(connectionString) is invalid.")
+        if sas == nil {
+            return HTTPResponseError.clientAuthentication("The connection string \(connectionString) is invalid.")
         }
 
-        self.sasToken = sas
-        self.blobEndpoint = blob
-        self.queueEndpoint = queue
-        self.fileEndpoint = file
-        self.tableEndpoint = table
-        self.error = error
+        sasToken = sas
+        blobEndpoint = blob
+        queueEndpoint = queue
+        fileEndpoint = file
+        tableEndpoint = table
+        return nil
     }
 
-    /// Create a shared access signature credential from a container- or blob-level shared access signature.
-    /// - Parameters:
-    ///   - blobSasUri: A container- or blob-level shared access signature URI.
-    public init(blobSasUri: String) {
+    private mutating func configureFrom(blobSasUri: String) -> Error? {
         var blob: String?
         var sas: String?
-        var error: Error?
 
         if let sasUri = URL(string: blobSasUri), let sasToken = sasUri.query, let scheme = sasUri.scheme,
             let host = sasUri.host {
             sas = sasToken
             blob = "\(scheme)://\(host)/"
         } else {
-            error = HTTPResponseError.clientAuthentication("The URI \(blobSasUri) is invalid.")
+            return HTTPResponseError.clientAuthentication("The URI \(blobSasUri) is invalid.")
         }
 
-        self.sasToken = sas
-        self.blobEndpoint = blob
-        self.queueEndpoint = nil
-        self.fileEndpoint = nil
-        self.tableEndpoint = nil
-        self.error = error
+        sasToken = sas
+        blobEndpoint = blob
+        queueEndpoint = nil
+        fileEndpoint = nil
+        tableEndpoint = nil
+        return nil
     }
 
-    // MARK: Public Methods
-
-    public func validate() throws {
-        if let error = error {
-            throw error
-        }
+    private mutating func clear() {
+        sasToken = nil
+        blobEndpoint = nil
+        queueEndpoint = nil
+        fileEndpoint = nil
+        tableEndpoint = nil
+        error = nil
     }
 }
 
