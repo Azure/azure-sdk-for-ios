@@ -35,8 +35,29 @@ public struct StorageSASCredential: AzureCredential {
     internal var queueEndpoint: String?
     internal var fileEndpoint: String?
     internal var tableEndpoint: String?
-    internal var sasToken: String?
     internal var error: Error?
+    internal var sasToken: String? {
+        didSet { expirationDate = StorageSASCredential.expiration(forToken: sasToken) }
+    }
+
+
+    // Treat tokens that expire in <= 2 minutes as expired
+    private static let expirationOffset: TimeInterval = 2 * 60
+
+    public var expirationDate: Date?
+    public var expired: Bool {
+        guard let expirationDate = expirationDate else { return true }
+        return (expirationDate - StorageSASCredential.expirationOffset) >= Date()
+    }
+
+    // MARK: Static methods
+
+    private static func expiration(forToken sasToken: String?) -> Date? {
+        guard let token = sasToken else { return nil }
+        guard let comps = URLComponents(string: "?\(token)") else { return nil }
+        guard let expiration = comps.queryItems?.filter({ $0.name == "se" }).first?.value else { return nil }
+        return Date(expiration, format: .iso8601)
+    }
 
     // MARK: Initializers
 
@@ -166,6 +187,7 @@ public struct StorageSASCredential: AzureCredential {
 
     private mutating func clear() {
         sasToken = nil
+        expirationDate = nil
         blobEndpoint = nil
         queueEndpoint = nil
         fileEndpoint = nil
@@ -322,7 +344,7 @@ internal class StorageSASAuthenticationPolicy: Authenticating {
     public var next: PipelineStage?
 
     /// A shared access signature credential.
-    public let credential: StorageSASCredential
+    public internal(set) var credential: StorageSASCredential
 
     // MARK: Initializers
 
@@ -339,6 +361,15 @@ internal class StorageSASAuthenticationPolicy: Authenticating {
     ///   - request: A `PipelineRequest` object.
     ///   - completionHandler: A completion handler that forwards the modified pipeline request.
     public func authenticate(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
+        if credential.expired {
+            do {
+                try credential.refresh()
+            } catch {
+                completionHandler(request, error)
+                return
+            }
+        }
+
         let queryParams = parse(sasToken: credential.sasToken ?? "")
         if let requestUrl = request.httpRequest.url.appendingQueryParameters(queryParams) {
             request.httpRequest.url = requestUrl
