@@ -82,14 +82,12 @@ public class BearerTokenCredentialPolicy: Authenticating {
 
     private let scopes: [String]
     private let credential: TokenCredential
-    private var token: AccessToken?
 
     // MARK: Initializers
 
     public init(credential: TokenCredential, scopes: [String]) {
         self.scopes = scopes
         self.credential = credential
-        self.token = nil
     }
 
     // MARK: Public Methods
@@ -99,23 +97,17 @@ public class BearerTokenCredentialPolicy: Authenticating {
     ///   - request: A `PipelineRequest` object.
     ///   - completionHandler: A completion handler that forwards the modified pipeline request.
     public func authenticate(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
-        guard let token = self.token?.token else { return }
-        request.httpRequest.headers[.authorization] = "Bearer \(token)"
-        completionHandler(request, nil)
-    }
-
-    /// Authenticates an HTTP `PipelineRequest` with an OAuth token.
-    /// - Parameters:
-    ///   - request: A `PipelineRequest` object.
-    ///   - completionHandler: A completion handler that forwards the modified pipeline request.
-    public func on(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
         credential.token(forScopes: scopes) { token, error in
             if let error = error {
                 completionHandler(request, error)
                 return
             }
-            self.token = token
-            self.authenticate(request: request, completionHandler: completionHandler)
+            guard let token = token?.token else {
+                completionHandler(request, HTTPResponseError.clientAuthentication("Token cannot be empty"))
+                return
+            }
+            request.httpRequest.headers[.authorization] = "Bearer \(token)"
+            completionHandler(request, nil)
         }
     }
 }
