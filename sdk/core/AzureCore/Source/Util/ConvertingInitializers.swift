@@ -57,15 +57,31 @@ extension Date {
             formatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss z"
             return formatter
         }()
+
+        static var iso8601: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.calendar = Calendar(identifier: .iso8601)
+            formatter.locale = Locale(identifier: "en_US_POSIX")
+            formatter.timeZone = TimeZone(abbreviation: "GMT")
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+            return formatter
+        }()
     }
 
     public enum Format {
+        /// Format the `Date` as an RFC 1123-formatted string.
         case rfc1123
 
+        /// Format the `Date` as an ISO-8601-formatted string (in RFC 3339 format).
+        case iso8601
+
+        /// Retrieve a `DateFormatter` for the given date format.
         public var formatter: DateFormatter {
             switch self {
             case .rfc1123:
                 return Formatters.rfc1123
+            case .iso8601:
+                return Formatters.iso8601
             }
         }
     }
