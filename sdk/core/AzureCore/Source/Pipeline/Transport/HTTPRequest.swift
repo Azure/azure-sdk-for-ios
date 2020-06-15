@@ -38,7 +38,7 @@ public class HTTPRequest: DataStringConvertible {
 
     public convenience init(method: HTTPMethod, url: String, headers: HTTPHeaders, data: Data? = nil) throws {
         guard let encodedUrl = URL(string: url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)) else {
-            throw AzureError.serviceRequest("Invalid URL.")
+            throw AzureError.sdk("Invalid URL.")
         }
         try self.init(method: method, url: encodedUrl, headers: headers, data: data)
     }

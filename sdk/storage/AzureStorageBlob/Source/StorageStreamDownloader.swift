@@ -102,20 +102,20 @@ internal class ChunkDownloader {
             case let .success(data):
                 guard let data = data else {
                     completionHandler(
-                        .failure(HTTPResponseError.decode("Blob unexpectedly contained no data.")),
+                        .failure(AzureError.sdk("Blob unexpectedly contained no data.")),
                         httpResponse
                     )
                     return
                 }
                 guard let headers = httpResponse?.headers else {
-                    completionHandler(.failure(HTTPResponseError.general("No response headers found.")), httpResponse)
+                    completionHandler(.failure(AzureError.sdk("No response headers found.")), httpResponse)
                     return
                 }
                 if let contentMD5 = headers[.contentMD5] {
                     let dataHash = data.hash(algorithm: .md5).base64EncodedString()
                     guard contentMD5 == dataHash else {
-                        let error = HTTPResponseError
-                            .resourceModified("Block MD5 \(dataHash) did not match \(contentMD5).")
+                        let error = AzureError
+                            .sdk("Block MD5 \(dataHash) did not match \(contentMD5).")
                         completionHandler(.failure(error), httpResponse)
                         return
                     }
@@ -124,8 +124,8 @@ internal class ChunkDownloader {
                     // TODO: Implement CRC64. Currently no iOS library supports this!
                     let dataHash = ""
                     guard contentCRC64 == dataHash else {
-                        let error = HTTPResponseError
-                            .resourceModified("Block CRC64 \(dataHash) did not match \(contentCRC64).")
+                        let error = AzureError
+                            .sdk("Block CRC64 \(dataHash) did not match \(contentCRC64).")
                         completionHandler(.failure(error), httpResponse)
                         return
                     }
@@ -145,7 +145,7 @@ internal class ChunkDownloader {
 
                     completionHandler(.success(decryptedData), httpResponse)
                 } catch {
-                    completionHandler(.failure(error), httpResponse)
+                    completionHandler(.failure(error.toAzureError), httpResponse)
                 }
             }
         }
@@ -308,7 +308,7 @@ internal class BlobStreamDownloader: BlobDownloader {
         options: DownloadBlobOptions? = nil
     ) throws {
         guard let downloadDestination = destination.resolvedUrl else {
-            throw AzureError.fileSystem("Unable to determine download destination: \(destination)")
+            throw AzureError.sdk("Unable to determine download destination: \(destination)")
         }
 
         self.downloadDestination = downloadDestination
@@ -383,7 +383,7 @@ internal class BlobStreamDownloader: BlobDownloader {
             switch result {
             case .success:
                 guard let responseHeaders = httpResponse?.headers else {
-                    completionHandler(.failure(HTTPResponseError.general("No response headers found.")), httpResponse)
+                    completionHandler(.failure(AzureError.sdk("No response headers found.")), httpResponse)
                     return
                 }
                 let blobProperties = BlobProperties(from: responseHeaders)
@@ -415,7 +415,7 @@ internal class BlobStreamDownloader: BlobDownloader {
                 // Parse the total file size and adjust the download size if ranges
                 // were specified
                 guard let responseHeaders = httpResponse?.headers else {
-                    completionHandler(.failure(HTTPResponseError.general("No response headers found.")), httpResponse)
+                    completionHandler(.failure(AzureError.sdk("No response headers found.")), httpResponse)
                     return
                 }
                 let contentRange = responseHeaders[.contentRange]
@@ -423,7 +423,7 @@ internal class BlobStreamDownloader: BlobDownloader {
 
                 // Only block blobs are currently supported
                 guard blobProperties.blobType == BlobType.block else {
-                    let error = AzureError.general("Page and Append blobs are not currently supported by this library.")
+                    let error = AzureError.sdk("Page and Append blobs are not currently supported by this library.")
                     completionHandler(.failure(error), httpResponse)
                     return
                 }
@@ -464,7 +464,7 @@ internal class BlobStreamDownloader: BlobDownloader {
                     }
                     completionHandler(.success(data), httpResponse)
                 } catch {
-                    completionHandler(.failure(error), httpResponse)
+                    completionHandler(.failure(error.toAzureError), httpResponse)
                 }
             case let .failure(error):
                 completionHandler(.failure(error), httpResponse)
@@ -500,7 +500,7 @@ internal class BlobStreamDownloader: BlobDownloader {
 
     /// Parses the blob length from the content range header: bytes 1-3/65537
     private func parseLength(fromContentRange contentRange: String?) throws -> Int {
-        let error = HTTPResponseError.decode("Unable to parse content range: \(contentRange ?? "nil")")
+        let error = AzureError.sdk("Unable to parse content range: \(contentRange ?? "nil")")
         guard let contentRange = contentRange else { throw error }
         // First, split in space and take the second half: "1-3/65537"
         guard let byteString = contentRange.split(separator: " ", maxSplits: 1).last else { throw error }

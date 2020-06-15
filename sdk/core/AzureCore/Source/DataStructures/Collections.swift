@@ -27,7 +27,7 @@
 import Foundation
 import os.log
 
-public typealias Continuation<T> = (Result<T, Error>) -> Void
+public typealias Continuation<T> = (Result<T, AzureError>) -> Void
 
 /// Protocol which allows clients to customize how they work with Paged Collections.
 public protocol PageableClient: PipelineClient {
@@ -188,7 +188,7 @@ public class PagedCollection<SingleElement: Codable> {
         codingKeys: PagedCodingKeys? = nil,
         decoder: JSONDecoder? = nil
     ) throws {
-        let noDataError = HTTPResponseError.decode("Response data expected but not found.")
+        let noDataError = AzureError.sdk("Response data expected but not found.")
         guard let data = data else { throw noDataError }
         self.client = client
         self.decoder = decoder ?? JSONDecoder()
@@ -221,7 +221,7 @@ public class PagedCollection<SingleElement: Codable> {
         }
         guard let request = try? HTTPRequest(method: .get, url: url, headers: requestHeaders) else { return }
         client.request(request, context: context) { result, _ in
-            var returnError: Error?
+            var returnError: AzureError?
             switch result {
             case let .failure(error):
                 returnError = error
@@ -229,7 +229,7 @@ public class PagedCollection<SingleElement: Codable> {
                 do {
                     try self.update(with: data)
                 } catch {
-                    returnError = error
+                    returnError = error.toAzureError
                 }
             }
             if let returnError = returnError {
@@ -327,11 +327,11 @@ public class PagedCollection<SingleElement: Codable> {
     /// Deserializes the JSON payload to append the new items, update tracking of the "current page" of items
     /// and reset the per page iterator.
     private func update(with data: Data?) throws {
-        let noDataError = HTTPResponseError.decode("Response data expected but not found.")
+        let noDataError = AzureError.sdk("Response data expected but not found.")
         guard let data = data else { throw noDataError }
         guard let json = try JSONSerialization.jsonObject(with: data) as? [String: Any] else { throw noDataError }
         let codingKeys = self.codingKeys
-        let notPagedError = HTTPResponseError.decode("Paged response expected but not found.")
+        let notPagedError = AzureError.sdk("Paged response expected but not found.")
         guard let itemJson = codingKeys.items(fromJson: json) else { throw notPagedError }
         continuationToken = codingKeys.continuationToken(fromJson: json)
 

@@ -151,7 +151,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
     func register(client: StorageBlobClient) throws {
         let restorationId = client.restorationId
         guard blobClient(forRestorationId: restorationId) == nil else {
-            throw AzureError.general(
+            throw AzureError.sdk(
                 """
                     A client with restoration ID \(restorationId) already exists. Please ensure that each client has a \
                     unique restoration ID.
@@ -537,7 +537,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
             """
             assertionFailure(errorMessage)
 
-            transfer.error = AzureError.general(errorMessage)
+            transfer.error = AzureError.sdk(errorMessage)
             transfer.state = .failed
             return
         }

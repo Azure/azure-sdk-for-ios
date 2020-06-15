@@ -218,7 +218,7 @@ public class ContentDecodePolicy: PipelineStage {
             jsonData = try JSONSerialization.data(withJSONObject: arrayObj, options: [])
         }
         guard let finalJsonData = jsonData else {
-            throw HTTPResponseError.decode("Failure decoding XML.")
+            throw AzureError.sdk("Failure decoding XML.")
         }
         return try JSONSerialization.jsonObject(with: finalJsonData, options: []) as AnyObject
     }

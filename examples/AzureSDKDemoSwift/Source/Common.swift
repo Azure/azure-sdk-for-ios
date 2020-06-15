@@ -89,7 +89,7 @@ struct AppState {
     static func blobClient(withDelegate delegate: StorageBlobClientDelegate? = nil) throws -> StorageBlobClient {
         if AppState.internalBlobClient == nil {
             guard let application = AppState.application else {
-                let error = AzureError.general("Application is not initialized. Unable to create Blob Storage Client.")
+                let error = AzureError.sdk("Application is not initialized. Unable to create Blob Storage Client.")
                 throw error
             }
             let credential = MSALCredential(

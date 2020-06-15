@@ -44,43 +44,26 @@ extension BaseError {
 }
 
 public enum AzureError: BaseError {
-    case general(_ message: String)
-    case fileSystem(_ message: String)
-    case serviceRequest(_ message: String)
-    case serviceResponse(_ message: String)
+    case sdk(_ message: String)
+    case service(_ message: String)
+    case system(_ message: String)
 
     var message: String {
         switch self {
-        case let .general(msg),
-             let .serviceRequest(msg),
-             let .fileSystem(msg),
-             let .serviceResponse(msg):
+        case let .sdk(msg),
+             let .service(msg),
+             let .system(msg):
             return msg
         }
     }
 }
 
-public enum HTTPResponseError: BaseError {
-    case general(_ message: String)
-    case decode(_ message: String)
-    case resourceExists(_ message: String)
-    case resourceNotFound(_ message: String)
-    case clientAuthentication(_ message: String)
-    case resourceModified(_ message: String)
-    case tooManyRedirects(_ message: String)
-    case statusCode(_ message: String)
-
-    public var message: String {
-        switch self {
-        case let .general(msg),
-             let .decode(msg),
-             let .resourceExists(msg),
-             let .resourceNotFound(msg),
-             let .clientAuthentication(msg),
-             let .resourceModified(msg),
-             let .tooManyRedirects(msg),
-             let .statusCode(msg):
-            return msg
+extension Error {
+    public var toAzureError: AzureError {
+        if self is AzureError {
+            // swiftlint:disable force_cast
+            return self as! AzureError
         }
+        return AzureError.system(localizedDescription)
     }
 }

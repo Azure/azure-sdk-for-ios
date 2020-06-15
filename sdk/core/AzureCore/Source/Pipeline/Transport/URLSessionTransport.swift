@@ -27,10 +27,6 @@
 import Foundation
 import os
 
-public enum URLSessionTransportError: Error {
-    case invalidSession
-}
-
 public class URLSessionTransport: HTTPTransportStage {
     // MARK: Properties
 

@@ -27,7 +27,7 @@
 import Foundation
 
 public typealias ResultHandler<TSuccess, TError: Error> = (Result<TSuccess, TError>, HTTPResponse?) -> Void
-public typealias HTTPResultHandler<T> = ResultHandler<T, Error>
+public typealias HTTPResultHandler<T> = ResultHandler<T, AzureError>
 public typealias PipelineStageResultHandler = ResultHandler<PipelineResponse, PipelineError>
 public typealias OnRequestCompletionHandler = (PipelineRequest, Error?) -> Void
 public typealias OnResponseCompletionHandler = (PipelineResponse, Error?) -> Void
@@ -78,7 +78,7 @@ extension PipelineStage {
     }
 
     public func on(error: PipelineError, completionHandler: @escaping OnErrorCompletionHandler) {
-        completionHandler(error, false)
+        completionHandler(error.innerError, false)
     }
 
     public func process(
@@ -119,9 +119,9 @@ extension PipelineStage {
                         completionHandler(.success(response), httpResponse)
                     }
                 case let .failure(pipelineError):
-                    self.on(error: pipelineError) { error, handled in
+                    self.on(error: pipelineError) { _, handled in
                         if !handled {
-                            completionHandler(.failure(error), httpResponse)
+                            completionHandler(.failure(pipelineError), nil)
                             return
                         }
                     }

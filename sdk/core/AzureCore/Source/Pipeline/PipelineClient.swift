@@ -97,7 +97,7 @@ open class PipelineClient {
                 let allowedStatusCodes = pipelineResponse.value(forKey: .allowedStatusCodes) as? [Int] ?? [200]
                 if !allowedStatusCodes.contains(httpResponse?.statusCode ?? -1) {
                     self.logError(withData: deserializedData)
-                    let error = HTTPResponseError.statusCode("Service returned invalid status code [\(statusCode)].")
+                    let error = AzureError.sdk("Service returned invalid status code [\(statusCode)].")
                     completionHandler(.failure(error), httpResponse)
                 } else {
                     if let deserialized = deserializedData {
@@ -107,7 +107,7 @@ open class PipelineClient {
                     }
                 }
             case let .failure(error):
-                completionHandler(.failure(error), httpResponse)
+                completionHandler(.failure(error.innerError), httpResponse)
             }
         }
     }

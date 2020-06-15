@@ -25,7 +25,7 @@
 // --------------------------------------------------------------------------
 import Foundation
 
-public typealias TokenCompletionHandler = (AccessToken?, Error?) -> Void
+public typealias TokenCompletionHandler = (AccessToken?, AzureError?) -> Void
 
 public struct AccessToken {
     // MARK: Properties
