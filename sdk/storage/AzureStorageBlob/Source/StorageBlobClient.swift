@@ -107,6 +107,11 @@ public final class StorageBlobClient: PipelineClient {
                 UserAgentPolicy(for: StorageBlobClient.self),
                 RequestIdPolicy(),
                 AddDatePolicy(),
+                NormalizeETagPolicy(),
+                HeadersValidationPolicy(validatingHeaders: [
+                    HTTPHeader.clientRequestId.rawValue,
+                    StorageHTTPHeader.encryptionKeySHA256.rawValue
+                ]),
                 authPolicy,
                 ContentDecodePolicy(),
                 LoggingPolicy(

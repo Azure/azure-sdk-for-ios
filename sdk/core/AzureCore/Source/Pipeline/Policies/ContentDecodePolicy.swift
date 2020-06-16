@@ -183,7 +183,7 @@ public class ContentDecodePolicy: PipelineStage {
 
     // MARK: Public Methods
 
-    public func on(response: PipelineResponse, completionHandler: @escaping OnResponseCompletionHandler) {
+    public func on(response: PipelineResponse, completionHandler: @escaping OnResponseCompletionHandler) throws {
         let stream = response.value(forKey: "stream") as? Bool ?? false
         guard stream == false else { return }
         var returnResponse = response.copy()
@@ -198,7 +198,10 @@ public class ContentDecodePolicy: PipelineStage {
                 returnResponse.add(value: deserializedData as AnyObject, forKey: .deserializedData)
             }
         } catch {
-            response.logger.error(String(format: "Deserialization error: %@", error.localizedDescription))
+            let errorMessage = String(format: "Deserialization error: %@", error.localizedDescription)
+            response.logger.error(errorMessage)
+            let error = AzureError.general(errorMessage)
+            throw error
         }
     }
 

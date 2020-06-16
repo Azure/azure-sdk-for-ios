@@ -51,7 +51,7 @@ public protocol PipelineStage {
     /// - Parameters:
     ///   - response: The `PipelineResponse` input.
     ///   - completionHandler: A completion handler which forwards the modified response.
-    func on(response: PipelineResponse, completionHandler: @escaping OnResponseCompletionHandler)
+    func on(response: PipelineResponse, completionHandler: @escaping OnResponseCompletionHandler) throws
 
     /// Response error hook.
     /// - Parameters:
@@ -73,7 +73,7 @@ extension PipelineStage {
         completionHandler(request, nil)
     }
 
-    public func on(response: PipelineResponse, completionHandler: @escaping OnResponseCompletionHandler) {
+    public func on(response: PipelineResponse, completionHandler: @escaping OnResponseCompletionHandler) throws {
         completionHandler(response)
     }
 
@@ -106,8 +106,18 @@ extension PipelineStage {
             self.next!.process(request: request) { result, httpResponse in
                 switch result {
                 case let .success(pipelineResponse):
-                    self.on(response: pipelineResponse) { response in
-                        completionHandler(.success(response), httpResponse)
+                    do {
+                        try self.on(response: pipelineResponse) { response in
+                            completionHandler(.success(response), httpResponse)
+                        }
+                    } catch {
+                        let pipelineError = PipelineError(fromError: error, pipelineResponse: pipelineResponse)
+                        self.on(error: pipelineError) { error, handled in
+                            if !handled {
+                                completionHandler(.failure(error), httpResponse)
+                                return
+                            }
+                        }
                     }
                 case let .failure(pipelineError):
                     self.on(error: pipelineError) { error, handled in

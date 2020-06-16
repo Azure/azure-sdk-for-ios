@@ -24,27 +24,41 @@
 //
 // --------------------------------------------------------------------------
 
-@testable import AzureIdentity
-import XCTest
+import Foundation
 
-class AzureIdentityTests: XCTestCase {
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+public class HeadersValidationPolicy: PipelineStage {
+    // MARK: Properties
+
+    public var next: PipelineStage?
+
+    private var headers: [String]
+
+    // MARK: Initializers
+
+    public init(validatingHeaders headers: [String]) {
+        self.headers = headers
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
+    // MARK: PipelineStage Methods
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
+    public func on(
+        response pipelineResponse: PipelineResponse,
+        completionHandler: @escaping OnResponseCompletionHandler
+    ) throws {
+        let request = pipelineResponse.httpRequest
+        let response = pipelineResponse.httpResponse!
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        measure {
-            // Put the code you want to measure the time of here.
+        for key in headers {
+            let requestValue = request.headers[key] ?? "NIL"
+            let responseValue = response.headers[key] ?? "NIL"
+            guard requestValue == responseValue else {
+                let error = AzureError
+                    .general(
+                        "Value for header '\(key)' did not match. Expected: \(requestValue) Actual: \(responseValue)"
+                    )
+                throw error
+            }
         }
+        completionHandler(pipelineResponse)
     }
 }
