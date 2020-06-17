@@ -26,21 +26,29 @@
 
 import Foundation
 
-public class NormalizeETagPolicy: PipelineStage {
-    // MARK: Properties
+@testable import AzureCore
+import XCTest
 
-    public var next: PipelineStage?
+// swiftlint:disable force_try
+class NormalizeETagPolicyTests: XCTestCase {
+    /// Test that the headers validation policy passes when headers match.
+    func test_NormalizeETagPolicy_NormalizesETag() {
+        let policy = NormalizeETagPolicy()
+        let req = PipelineRequest()
+        let res = PipelineResponse(request: req)
+        let exp = expectation(description: "Etag normalized.")
+        var scrubbedEtag = ""
 
-    // MARK: Initializers
-
-    public init() {}
-
-    // MARK: PipelineStage Methods
-
-    public func on(response: PipelineResponse, completionHandler: @escaping OnResponseCompletionHandler) throws {
-        if let etag = response.httpResponse?.headers[HTTPHeader.etag] {
-            response.httpResponse?.headers[HTTPHeader.etag] = etag.replacingOccurrences(of: "\"", with: "")
+        res.httpResponse?.headers[.etag] = "\"etag\""
+        try! policy.on(response: res) { response in
+            scrubbedEtag = response.httpResponse!.headers[.etag]!
+            exp.fulfill()
         }
-        completionHandler(response)
+        waitForExpectations(timeout: 10) { error in
+            if let error = error {
+                XCTFail("waitForExpectationsWithTimeout errored: \(error)")
+            }
+            XCTAssertEqual(scrubbedEtag, "etag")
+        }
     }
 }

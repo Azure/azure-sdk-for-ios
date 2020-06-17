@@ -24,37 +24,42 @@
 //
 // --------------------------------------------------------------------------
 
-@testable import AzureCore
 import Foundation
 
-extension ClientLoggers {
-    public static func `default`() -> ClientLogger {
-        return ClientLoggers.default(tag: defaultTag())
+@testable import AzureCore
+import XCTest
+
+class HeadersValidationPolicyTests: XCTestCase {
+    /// Test that the headers validation policy passes when headers match.
+    func test_HeadersValidationPolicy_PassesWhenHeadersMatch() {
+        let validateHeaders = [HTTPHeader.requestId.rawValue]
+        let policy = HeadersValidationPolicy(validatingHeaders: validateHeaders)
+        let req = PipelineRequest()
+        let res = PipelineResponse(request: req)
+        req.httpRequest.headers[.requestId] = "test"
+        res.httpResponse?.headers[.requestId] = "test"
+        do {
+            // success
+            try policy.on(response: res) { _ in }
+        } catch {
+            XCTFail("Exception thrown.")
+        }
     }
 
-    static func defaultTag() -> String {
-        let regex = NSRegularExpression("^\\d*\\s*([a-zA-Z]*)\\s")
-        let defaultTag = regex.firstMatch(in: Thread.callStackSymbols[1])
-        return defaultTag ?? "AzureCore"
-    }
-}
-
-class TestClientLogger: ClientLogger {
-    struct Message {
-        var level: ClientLogLevel
-        var text: String
-    }
-
-    var level: ClientLogLevel
-    var messages: [Message] = []
-
-    public init(_ logLevel: ClientLogLevel = .info) {
-        self.level = logLevel
-    }
-
-    public func log(_ message: () -> String?, atLevel messageLevel: ClientLogLevel) {
-        if messageLevel.rawValue <= level.rawValue, let msg = message() {
-            messages.append(Message(level: messageLevel, text: msg))
+    /// Test that the headers validation policy passes when headers match.
+    func test_HeadersValidationPolicy_FailsWhenHeadersDontMatch() {
+        let validateHeaders = [HTTPHeader.requestId.rawValue]
+        let policy = HeadersValidationPolicy(validatingHeaders: validateHeaders)
+        let req = PipelineRequest()
+        let res = PipelineResponse(request: req)
+        req.httpRequest.headers[.requestId] = "test"
+        res.httpResponse?.headers[.requestId] = "fail"
+        do {
+            try policy.on(response: res) { _ in }
+            XCTFail("Exception thrown.")
+        } catch {
+            // success
+            return
         }
     }
 }

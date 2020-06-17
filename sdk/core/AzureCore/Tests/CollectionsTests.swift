@@ -29,6 +29,12 @@ import XCTest
 
 // swiftlint:disable force_try identifier_name
 
+class TestPageableClient: PipelineClient, PageableClient {
+    internal func continuationUrl(forRequestUrl requestUrl: URL, withContinuationToken token: String) -> URL? {
+        return requestUrl.appendingQueryParameters([("marker", token)])
+    }
+}
+
 class CollectionsTests: XCTestCase {
     func load(resource name: String, withExtension ext: String) -> Data {
         let testBundle = Bundle(for: type(of: self))
@@ -50,7 +56,7 @@ class CollectionsTests: XCTestCase {
 
     /// Test that authors can simply use the default PagedCodingKeys if the service fits the Azure standard.
     func test_PagedCollection_WithDefaultCodingKeys_Inits() {
-        let client = PipelineClient(
+        let client = TestPageableClient(
             baseUrl: URL(string: "http://www.microsoft.com")!,
             transport: URLSessionTransport(),
             policies: [
@@ -78,17 +84,14 @@ class CollectionsTests: XCTestCase {
         XCTAssertEqual(paged.pageItems?.count, 3)
 
         // test default continuationUrl. Note that queryParams and requestUrl are irrelevant in the default case.
-        var params: [QueryParameter] = [("ref", "123")]
-        let requestUrl = URL(string: "www.requestUrl.com")
-        let continuationUrl = paged.continuationUrl(
-            continuationToken: "testToken", queryParams: &params, requestUrl: requestUrl!
-        )!
+        let requestUrl = URL(string: "www.requestUrl.com")?.appendingQueryParameters([("ref", "123")])!
+        let continuationUrl = client.continuationUrl(forRequestUrl: requestUrl!, withContinuationToken: "testToken")!
         XCTAssertEqual(continuationUrl.absoluteString, "\(client.baseUrl)testToken")
     }
 
     /// Test that authors can customize the PagedCodingKeys provided they fit the standard structure.
     func test_PagedCollection_WithCustomCodingKeys_Inits() {
-        let client = PipelineClient(
+        let client = TestPageableClient(
             baseUrl: URL(string: "http://www.microsoft.com")!,
             transport: URLSessionTransport(),
             policies: [
@@ -114,7 +117,7 @@ class CollectionsTests: XCTestCase {
     }
 
     func test_PagedCollection_CanIteratePerItem() {
-        let client = PipelineClient(
+        let client = TestPageableClient(
             baseUrl: URL(string: "http://www.microsoft.com")!,
             transport: URLSessionTransport(),
             policies: [

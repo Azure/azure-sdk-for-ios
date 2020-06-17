@@ -266,7 +266,7 @@ class XMLModelTests: XCTestCase {
 
     /// Test that an XML Model can be constructed that works with the PagedCollection type.
     func test_XMLModel_WithPagedCollectionAndXMLMap_CanBeCreated() {
-        let client = PipelineClient(
+        let client = TestPageableClient(
             baseUrl: URL(string: "http://www.microsoft.com")!,
             transport: URLSessionTransport(),
             policies: [

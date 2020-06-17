@@ -45,6 +45,8 @@
 		0AD6351F23F46CC4000D67F6 /* ReachabilityManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD6351E23F46CC4000D67F6 /* ReachabilityManagerTests.swift */; };
 		0AE326352499605700C85EAA /* HeadersValidationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE326342499605700C85EAA /* HeadersValidationPolicy.swift */; };
 		0AE326372499616900C85EAA /* NormalizeETagPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE326362499616900C85EAA /* NormalizeETagPolicy.swift */; };
+		0AE3263C249A7F9000C85EAA /* HeadersValidationPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE32638249A7F3200C85EAA /* HeadersValidationPolicyTests.swift */; };
+		0AE3263D249A7F9A00C85EAA /* NormalizeETagPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE3263A249A7F4900C85EAA /* NormalizeETagPolicyTests.swift */; };
 		0AE5C3A6231F150A0013CA85 /* KeychainUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE5C3A5231F150A0013CA85 /* KeychainUtil.swift */; };
 		0AFDF16A23AACAD600816EB7 /* (null) in Embed Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0AFEC35D23C8FC3A0065D588 /* CollectionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEC35523C8FC320065D588 /* CollectionsTests.swift */; };
@@ -149,6 +151,8 @@
 		0AD6351E23F46CC4000D67F6 /* ReachabilityManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityManagerTests.swift; sourceTree = "<group>"; };
 		0AE326342499605700C85EAA /* HeadersValidationPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadersValidationPolicy.swift; sourceTree = "<group>"; };
 		0AE326362499616900C85EAA /* NormalizeETagPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalizeETagPolicy.swift; sourceTree = "<group>"; };
+		0AE32638249A7F3200C85EAA /* HeadersValidationPolicyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadersValidationPolicyTests.swift; sourceTree = "<group>"; };
+		0AE3263A249A7F4900C85EAA /* NormalizeETagPolicyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalizeETagPolicyTests.swift; sourceTree = "<group>"; };
 		0AE5C3A5231F150A0013CA85 /* KeychainUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainUtil.swift; sourceTree = "<group>"; };
 		0AFEC34F23C8FC310065D588 /* UtilTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilTests.swift; sourceTree = "<group>"; };
 		0AFEC35023C8FC310065D588 /* PipelineTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PipelineTests.swift; sourceTree = "<group>"; };
@@ -281,8 +285,10 @@
 				0AFEC35523C8FC320065D588 /* CollectionsTests.swift */,
 				7AE1886E2447C3950051628A /* CryptoUtilTests.swift */,
 				7AFA4D5D23D14864001A3BF4 /* HeadersPolicyTests.swift */,
+				0AE32638249A7F3200C85EAA /* HeadersValidationPolicyTests.swift */,
 				0AFEC35123C8FC320065D588 /* HTTPRequestTests.swift */,
 				7AFA4D6123D14F01001A3BF4 /* LoggingPolicyTests.swift */,
+				0AE3263A249A7F4900C85EAA /* NormalizeETagPolicyTests.swift */,
 				0AFEC35423C8FC320065D588 /* PipelineRequestTests.swift */,
 				0AFEC35023C8FC310065D588 /* PipelineTests.swift */,
 				0AD6351E23F46CC4000D67F6 /* ReachabilityManagerTests.swift */,
@@ -647,9 +653,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AE3263D249A7F9A00C85EAA /* NormalizeETagPolicyTests.swift in Sources */,
 				7A1A917123D13F0300B0B3D2 /* ProviderStubs.swift in Sources */,
 				7A968D0323E0FC6400E0F054 /* LoggerStubs.swift in Sources */,
 				7AE1886F2447C3950051628A /* CryptoUtilTests.swift in Sources */,
+				0AE3263C249A7F9000C85EAA /* HeadersValidationPolicyTests.swift in Sources */,
 				7AFA4D6023D14BDB001A3BF4 /* AddDatePolicyTests.swift in Sources */,
 				7AFA4D5E23D14864001A3BF4 /* HeadersPolicyTests.swift in Sources */,
 				7AFA4D6223D14F01001A3BF4 /* LoggingPolicyTests.swift in Sources */,
