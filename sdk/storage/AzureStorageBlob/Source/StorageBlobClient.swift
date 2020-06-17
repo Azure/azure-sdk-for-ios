@@ -294,15 +294,15 @@ public final class StorageBlobClient: PipelineClient {
     /// List storage containers in a storage account.
     /// - Parameters:
     ///   - options: A `ListContainersOptions` object to control the list operation.
-    ///   - completionHandler: A completion handler that receives a `PagedCollection` of `ContainerItem` objects on
-    ///     success.
+    ///   - completionHandler: A completion handler that receives a `PagedCollection` of `ContainerItem` objects on success.
+    @discardableResult
     public func listContainers(
         withOptions options: ListContainersOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ContainerItem>>
-    ) {
+    ) -> AzureTask {
         // Construct URL
         let urlTemplate = ""
-        guard let url = self.url(forTemplate: urlTemplate) else { return }
+        guard let url = self.url(forTemplate: urlTemplate) else { return AzureTask.for(error: "Precondition failure") }
 
         // Construct query
         var queryParams: [QueryParameter] = [("comp", "list")]
@@ -339,8 +339,10 @@ public final class StorageBlobClient: PipelineClient {
         let context = PipelineContext.of(keyValues: [
             ContextKey.xmlMap.rawValue: xmlMap as AnyObject
         ])
-        guard let requestUrl = url.appendingQueryParameters(queryParams) else { return }
-        guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: headers) else { return }
+        guard let requestUrl = url.appendingQueryParameters(queryParams)
+        else { return AzureTask.for(error: "Precondition failure") }
+        guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: headers)
+        else { return AzureTask.for(error: "Precondition failure") }
 
         self.request(request, context: context) { result, httpResponse in
             switch result {
@@ -375,6 +377,7 @@ public final class StorageBlobClient: PipelineClient {
                 }
             }
         }
+        return AzureTask.for(request: request)
     }
 
     /// List blobs within a storage container.
@@ -382,17 +385,19 @@ public final class StorageBlobClient: PipelineClient {
     ///   - container: The container name containing the blobs to list.
     ///   - options: A `ListBlobsOptions` object to control the list operation.
     ///   - completionHandler: A completion handler that receives a `PagedCollection` of `BlobItem` objects on success.
+    @discardableResult
     public func listBlobs(
         inContainer container: String,
         withOptions options: ListBlobsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<BlobItem>>
-    ) {
+    ) -> AzureTask {
         // Construct URL
         let urlTemplate = "{container}"
         let pathParams = [
             "container": container
         ]
-        guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return }
+        guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams)
+        else { return AzureTask.for(error: "Precondition failure") }
 
         // Construct query
         var queryParams: [QueryParameter] = [
@@ -425,8 +430,10 @@ public final class StorageBlobClient: PipelineClient {
         }
 
         // Construct and send request
-        guard let requestUrl = url.appendingQueryParameters(queryParams) else { return }
-        guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: headers) else { return }
+        guard let requestUrl = url.appendingQueryParameters(queryParams)
+        else { return AzureTask.for(error: "Precondition failure") }
+        guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: headers)
+        else { return AzureTask.for(error: "Precondition failure") }
         let codingKeys = PagedCodingKeys(
             items: "EnumerationResults.Blobs",
             continuationToken: "EnumerationResults.NextMarker",
@@ -470,6 +477,7 @@ public final class StorageBlobClient: PipelineClient {
                 }
             }
         }
+        return AzureTask.for(request: request)
     }
 
     /// Delete a blob within a storage container.
@@ -478,19 +486,21 @@ public final class StorageBlobClient: PipelineClient {
     ///   - container: The container name containing the blob to delete.
     ///   - options: A `DeleteBlobOptions` object to control the delete operation.
     ///   - completionHandler: A completion handler to notify about success or failure.
+    @discardableResult
     public func delete(
         blob: String,
         inContainer container: String,
         withOptions options: DeleteBlobOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
-    ) {
+    ) -> AzureTask {
         // Construct URL
         let urlTemplate = "{container}/{blob}"
         let pathParams = [
             "container": container,
             "blob": blob
         ]
-        guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return }
+        guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams)
+        else { return AzureTask.for(error: "Precondition failure") }
 
         // Construct query
         var queryParams: [QueryParameter] = []
@@ -520,8 +530,10 @@ public final class StorageBlobClient: PipelineClient {
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [202] as AnyObject
         ])
-        guard let requestUrl = url.appendingQueryParameters(queryParams) else { return }
-        guard let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: headers) else { return }
+        guard let requestUrl = url.appendingQueryParameters(queryParams)
+        else { return AzureTask.for(error: "Precondition failure") }
+        guard let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: headers)
+        else { return AzureTask.for(error: "Precondition failure") }
         self.request(request, context: context) { result, httpResponse in
             switch result {
             case .success:
@@ -534,6 +546,7 @@ public final class StorageBlobClient: PipelineClient {
                 }
             }
         }
+        return AzureTask.for(request: request)
     }
 
     /// Download a blob from a storage container.
@@ -642,7 +655,8 @@ public final class StorageBlobClient: PipelineClient {
     ///   - container: The name of the container.
     ///   - destinationUrl: The URL to a file path on this device.
     ///   - options: A `DownloadBlobOptions` object to control the download operation.
-    @discardableResult public func download(
+    @discardableResult
+    public func download(
         blob: String,
         fromContainer container: String,
         toFile destinationUrl: LocalURL,
@@ -694,7 +708,8 @@ public final class StorageBlobClient: PipelineClient {
     ///   - blob: The name of the blob.
     ///   - properties: Properties to set on the resulting blob.
     ///   - options: An `UploadBlobOptions` object to control the upload operation.
-    @discardableResult public func upload(
+    @discardableResult
+    public func upload(
         file sourceUrl: LocalURL,
         toContainer container: String,
         asBlob blob: String,

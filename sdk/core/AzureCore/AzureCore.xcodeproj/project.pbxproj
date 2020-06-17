@@ -47,6 +47,7 @@
 		0AE326372499616900C85EAA /* NormalizeETagPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE326362499616900C85EAA /* NormalizeETagPolicy.swift */; };
 		0AE3263C249A7F9000C85EAA /* HeadersValidationPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE32638249A7F3200C85EAA /* HeadersValidationPolicyTests.swift */; };
 		0AE3263D249A7F9A00C85EAA /* NormalizeETagPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE3263A249A7F4900C85EAA /* NormalizeETagPolicyTests.swift */; };
+		0AE3263F24A154D000C85EAA /* AzureTaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE3263E24A154D000C85EAA /* AzureTaskManager.swift */; };
 		0AE5C3A6231F150A0013CA85 /* KeychainUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE5C3A5231F150A0013CA85 /* KeychainUtil.swift */; };
 		0AFDF16A23AACAD600816EB7 /* (null) in Embed Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0AFEC35D23C8FC3A0065D588 /* CollectionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFEC35523C8FC320065D588 /* CollectionsTests.swift */; };
@@ -153,6 +154,7 @@
 		0AE326362499616900C85EAA /* NormalizeETagPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalizeETagPolicy.swift; sourceTree = "<group>"; };
 		0AE32638249A7F3200C85EAA /* HeadersValidationPolicyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadersValidationPolicyTests.swift; sourceTree = "<group>"; };
 		0AE3263A249A7F4900C85EAA /* NormalizeETagPolicyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalizeETagPolicyTests.swift; sourceTree = "<group>"; };
+		0AE3263E24A154D000C85EAA /* AzureTaskManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzureTaskManager.swift; sourceTree = "<group>"; };
 		0AE5C3A5231F150A0013CA85 /* KeychainUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainUtil.swift; sourceTree = "<group>"; };
 		0AFEC34F23C8FC310065D588 /* UtilTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilTests.swift; sourceTree = "<group>"; };
 		0AFEC35023C8FC310065D588 /* PipelineTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PipelineTests.swift; sourceTree = "<group>"; };
@@ -243,6 +245,8 @@
 				7AA5366623C0336F00A65A96 /* Providers */,
 				0A3A5DA52315CEBF00473FDA /* Util */,
 				7A1DC6C22489E8550006FCB7 /* AzureTask.swift */,
+				0AF01856232AF2CC00A0C94D /* DataStructures */,
+				0A3A5F002316DF1B00473FDA /* Errors.swift */,
 				0AB7412323C7A03400B579B3 /* ClientLogger.swift */,
 				0A3A5F002316DF1B00473FDA /* Errors.swift */,
 				0A3A5DA92315CF0200473FDA /* Supporting Files */,
@@ -307,6 +311,9 @@
 				0A3A5F1A2316EAE500473FDA /* Policies */,
 				0A3A5F362318680900473FDA /* Transport */,
 				0A3A5F3D2318906100473FDA /* Pipeline.swift */,
+				0A3A5F1A2316EAE500473FDA /* Policies */,
+				7A1DC6C22489E8550006FCB7 /* AzureTask.swift */,
+				0AE3263E24A154D000C85EAA /* AzureTaskManager.swift */,
 				0A3A5F3F2318975900473FDA /* PipelineClient.swift */,
 				0A3A5F1F2316EF9400473FDA /* PipelineContext.swift */,
 				7A16DC7A234BF55F002708BC /* PipelineError.swift */,
@@ -632,6 +639,7 @@
 				0AC0AA83234D017F00F05073 /* AzureCodable.swift in Sources */,
 				0A3A5F1C2316EBC600473FDA /* HeadersPolicy.swift in Sources */,
 				0A3A5F222316FAF000473FDA /* UserAgentPolicy.swift in Sources */,
+				0AE3263F24A154D000C85EAA /* AzureTaskManager.swift in Sources */,
 				7AA5366B23C0341B00A65A96 /* PlatformInfoProvider.swift in Sources */,
 				0A3A5F402318975900473FDA /* PipelineClient.swift in Sources */,
 				0AE326372499616900C85EAA /* NormalizeETagPolicy.swift in Sources */,

@@ -26,8 +26,31 @@
 
 import Foundation
 
-/// A handle for an asynchronous operation that can be canceled.
-public protocol AzureTask {
-    /// Cancel this operation.
-    func cancel()
+internal final class AzureTaskManager {
+    var tasks: [AzureTask]
+
+    // MARK: Initializers
+
+    private init() {
+        self.tasks = [AzureTask]()
+    }
+
+    public static var shared: AzureTaskManager = {
+        AzureTaskManager()
+    }()
+
+    // MARK: Methods
+
+    public subscript(index: UUID) -> AzureTask? {
+        get {
+            return tasks.filter { $0.id == index }.first
+        }
+
+        set(newValue) {
+            tasks.removeAll(where: { $0.id == index })
+            if let newValue = newValue {
+                tasks.append(newValue)
+            }
+        }
+    }
 }

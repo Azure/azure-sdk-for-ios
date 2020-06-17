@@ -72,7 +72,7 @@ class BlobDownloadViewController: UIViewController, MSALInteractiveDelegate {
         if !(tableView.refreshControl?.isRefreshing ?? false) {
             tableView.refreshControl?.beginRefreshing()
         }
-        blobClient.listBlobs(inContainer: containerName, withOptions: options) { result, _ in
+        let task = blobClient.listBlobs(inContainer: containerName, withOptions: options) { result, _ in
             self.tableView.refreshControl?.endRefreshing()
             switch result {
             case let .success(paged):
@@ -82,6 +82,7 @@ class BlobDownloadViewController: UIViewController, MSALInteractiveDelegate {
                 self.showAlert(error: error)
             }
         }
+        task.cancel()
     }
 
     /// Uses asynchronous "nextPage" method to fetch the next page of results and update the table view.

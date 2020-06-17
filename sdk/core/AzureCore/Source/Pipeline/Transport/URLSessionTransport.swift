@@ -84,6 +84,28 @@ public class URLSessionTransport: HTTPTransportStage {
             pipelineRequest.logger.error("Invalid session.")
             return
         }
+        guard let clientRequestIdHeader = pipelineRequest.httpRequest.headers[.clientRequestId],
+            let clientRequestId = UUID(uuidString: clientRequestIdHeader) else {
+            pipelineRequest.logger.error("No client request ID found.")
+            return
+        }
+
+        // Check if clientRequestId is canceled and back out if it is.
+        let task = AzureTaskManager.shared[clientRequestId]
+        if task?.state == .canceled {
+            let error = AzureError.general("Request canceled.")
+            let pipelineResponse = PipelineResponse(
+                request: pipelineRequest.httpRequest,
+                response: nil,
+                logger: pipelineRequest.logger,
+                context: pipelineRequest.context
+            )
+            completionHandler(
+                .failure(PipelineError(fromError: error, pipelineResponse: pipelineResponse)), nil
+            )
+            return
+        }
+
         var urlRequest = URLRequest(url: pipelineRequest.httpRequest.url)
         urlRequest.httpMethod = pipelineRequest.httpRequest.httpMethod.rawValue
         urlRequest.allHTTPHeaderFields = pipelineRequest.httpRequest.headers
@@ -106,6 +128,14 @@ public class URLSessionTransport: HTTPTransportStage {
                 logger: logger,
                 context: responseContext
             )
+            // Check if clientRequestId is canceled and back out if it is.
+            if task?.state == .canceled {
+                let error = AzureError.general("Request canceled.")
+                completionHandler(
+                    .failure(PipelineError(fromError: error, pipelineResponse: pipelineResponse)), nil
+                )
+            }
+
             if let error = error {
                 completionHandler(
                     .failure(PipelineError(fromError: error, pipelineResponse: pipelineResponse)),
