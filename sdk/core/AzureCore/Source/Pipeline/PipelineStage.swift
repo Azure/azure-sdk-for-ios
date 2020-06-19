@@ -28,10 +28,10 @@ import Foundation
 
 public typealias ResultHandler<TSuccess, TError: Error> = (Result<TSuccess, TError>, HTTPResponse?) -> Void
 public typealias HTTPResultHandler<T> = ResultHandler<T, AzureError>
-public typealias PipelineStageResultHandler = ResultHandler<PipelineResponse, PipelineError>
-public typealias OnRequestCompletionHandler = (PipelineRequest, Error?) -> Void
-public typealias OnResponseCompletionHandler = (PipelineResponse, Error?) -> Void
-public typealias OnErrorCompletionHandler = (PipelineError, Bool) -> Void
+public typealias PipelineStageResultHandler = ResultHandler<PipelineResponse, AzureError>
+public typealias OnRequestCompletionHandler = (PipelineRequest, AzureError?) -> Void
+public typealias OnResponseCompletionHandler = (PipelineResponse, AzureError?) -> Void
+public typealias OnErrorCompletionHandler = (AzureError, Bool) -> Void
 
 /// Protocol for implementing pipeline stages.
 public protocol PipelineStage {
@@ -58,7 +58,7 @@ public protocol PipelineStage {
     ///   - error: The `PipelineError` input.
     ///   - completionHandler: A completion handler which forwards the error along with a boolean
     ///   that indicates whether the exception was handled or not.
-    func on(error: PipelineError, completionHandler: @escaping OnErrorCompletionHandler)
+    func on(error: AzureError, completionHandler: @escaping OnErrorCompletionHandler)
 
     /// Executes the policy method.
     /// - Parameters:
@@ -77,7 +77,7 @@ extension PipelineStage {
         completionHandler(response, nil)
     }
 
-    public func on(error: PipelineError, completionHandler: @escaping OnErrorCompletionHandler) {
+    public func on(error: AzureError, completionHandler: @escaping OnErrorCompletionHandler) {
         completionHandler(error.innerError, false)
     }
 

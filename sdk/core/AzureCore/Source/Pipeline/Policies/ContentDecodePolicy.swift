@@ -201,7 +201,7 @@ public class ContentDecodePolicy: PipelineStage {
         } catch {
             let errorMessage = String(format: "Deserialization error: %@", error.localizedDescription)
             response.logger.error(errorMessage)
-            returnError = AzureError.general(errorMessage)
+            returnError = AzureSdkError(errorMessage)
         }
     }
 
@@ -218,7 +218,7 @@ public class ContentDecodePolicy: PipelineStage {
             jsonData = try JSONSerialization.data(withJSONObject: arrayObj, options: [])
         }
         guard let finalJsonData = jsonData else {
-            throw AzureError.sdk("Failure decoding XML.")
+            throw AzureSdkError("Failure decoding XML.")
         }
         return try JSONSerialization.jsonObject(with: finalJsonData, options: []) as AnyObject
     }

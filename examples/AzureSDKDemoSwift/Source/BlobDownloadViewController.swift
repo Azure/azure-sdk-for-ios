@@ -168,7 +168,7 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
 
     func downloadProgress(transfer: BlobTransfer) {
         guard transfer.state != .failed else {
-            let error = transfer.error ?? AzureError.sdk("An error occurred.")
+            let error = transfer.error ?? AzureSdkError("An error occurred.")
             showAlert(error: error)
             tableView.reloadData()
             return

@@ -104,7 +104,7 @@ public class URLSessionTransport: HTTPTransportStage {
             )
             if let error = error {
                 completionHandler(
-                    .failure(PipelineError(fromError: error, pipelineResponse: pipelineResponse)),
+                    .failure(AzureError(fromError: error, pipelineResponse: pipelineResponse)),
                     httpResponse
                 )
             } else {

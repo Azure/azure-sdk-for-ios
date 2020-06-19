@@ -87,7 +87,7 @@ public class LoggingPolicy: PipelineStage {
         completionHandler(response, nil)
     }
 
-    public func on(error: PipelineError, completionHandler: @escaping OnErrorCompletionHandler) {
+    public func on(error: AzureError, completionHandler: @escaping OnErrorCompletionHandler) {
         LoggingPolicy.queue.async { self.log(response: error.pipelineResponse, withError: error.innerError) }
         completionHandler(error.innerError, false)
     }

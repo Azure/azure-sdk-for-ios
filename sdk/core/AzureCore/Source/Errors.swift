@@ -26,44 +26,44 @@
 
 import Foundation
 
-protocol BaseError: LocalizedError {
+public protocol AzureError: LocalizedError {
     var message: String { get }
-    var label: String { get }
 }
 
-extension BaseError {
-    var label: String {
-        let mirror = Mirror(reflecting: self)
-        let label = mirror.children.first?.label ?? String(describing: self)
-        return "\(String(reflecting: type(of: self))).\(label)"
-    }
+public protocol ServiceError { }
 
+extension AzureError {
     public var errorDescription: String? {
-        return "\(message) (\(label))"
+        return "\(message) (\(String(reflecting: type(of: self))))"
     }
 }
 
-public enum AzureError: BaseError {
-    case sdk(_ message: String)
-    case service(_ message: String)
-    case system(_ message: String)
+public struct AzureSdkError: AzureError {
+    public var message: String
+    public var innerError: Error?
 
-    var message: String {
-        switch self {
-        case let .sdk(msg),
-             let .service(msg),
-             let .system(msg):
-            return msg
-        }
+    public init(_ message: String, innerError: Error? = nil) {
+        self.message = message
+        self.innerError = innerError
+    }
+
+    public init(innerError: Error) {
+        self.message = innerError.localizedDescription
+        self.innerError = innerError
     }
 }
 
-extension Error {
-    public var toAzureError: AzureError {
-        if self is AzureError {
-            // swiftlint:disable force_cast
-            return self as! AzureError
-        }
-        return AzureError.system(localizedDescription)
+public struct AzureServiceError<T: ServiceError>: AzureError {
+    public var message: String
+    public var serviceError: T
+
+    public init(_ message: String, _ serviceError: T) {
+        self.message = message
+        self.serviceError = serviceError
+    }
+
+    public init(_ serviceError: T) {
+        self.message = "A service error occurred."
+        self.serviceError = serviceError
     }
 }

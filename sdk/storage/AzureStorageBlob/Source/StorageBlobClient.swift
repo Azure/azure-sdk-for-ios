@@ -174,10 +174,10 @@ public final class StorageBlobClient: PipelineClient {
     ) throws {
         try credential.validate()
         guard let blobEndpoint = credential.blobEndpoint else {
-            throw AzureError.sdk("Invalid connection string. No blob endpoint specified.")
+            throw AzureSdkError("Invalid connection string. No blob endpoint specified.")
         }
         guard let baseUrl = URL(string: blobEndpoint) else {
-            throw AzureError.sdk("Unable to resolve account URL from credential.")
+            throw AzureSdkError("Unable to resolve account URL from credential.")
         }
         let authPolicy = StorageSASAuthenticationPolicy(credential: credential)
         try self.init(baseUrl: baseUrl, authPolicy: authPolicy, withRestorationId: restorationId, withOptions: options)
@@ -204,7 +204,7 @@ public final class StorageBlobClient: PipelineClient {
     ) throws {
         try credential.validate()
         guard let baseUrl = URL(string: credential.blobEndpoint) else {
-            throw AzureError.sdk("Unable to resolve account URL from credential.")
+            throw AzureSdkError("Unable to resolve account URL from credential.")
         }
         let authPolicy = StorageSharedKeyAuthenticationPolicy(credential: credential)
         try self.init(baseUrl: baseUrl, authPolicy: authPolicy, withRestorationId: restorationId, withOptions: options)
@@ -250,7 +250,7 @@ public final class StorageBlobClient: PipelineClient {
             return
         }
 
-        throw AzureError.sdk("The connection string \(connectionString) is invalid.")
+        throw AzureSdkError("The connection string \(connectionString) is invalid.")
     }
 
     /// Create a Storage blob data client.
@@ -346,7 +346,7 @@ public final class StorageBlobClient: PipelineClient {
             switch result {
             case let .success(data):
                 guard let data = data else {
-                    let noDataError = AzureError.sdk("Response data expected but not found.")
+                    let noDataError = AzureSdkError("Response data expected but not found.")
                     DispatchQueue.main.async {
                         completionHandler(.failure(noDataError), httpResponse)
                     }
@@ -440,7 +440,7 @@ public final class StorageBlobClient: PipelineClient {
             switch result {
             case let .success(data):
                 guard let data = data else {
-                    let noDataError = AzureError.sdk("Response data expected but not found.")
+                    let noDataError = AzureSdkError("Response data expected but not found.")
 
                     DispatchQueue.main.async {
                         completionHandler(.failure(noDataError), httpResponse)
