@@ -183,11 +183,12 @@ public class ContentDecodePolicy: PipelineStage {
 
     // MARK: Public Methods
 
-    public func on(response: PipelineResponse, completionHandler: @escaping OnResponseCompletionHandler) throws {
+    public func on(response: PipelineResponse, completionHandler: @escaping OnResponseCompletionHandler) {
         let stream = response.value(forKey: "stream") as? Bool ?? false
         guard stream == false else { return }
         var returnResponse = response.copy()
-        defer { completionHandler(returnResponse) }
+        var returnError: AzureError?
+        defer { completionHandler(returnResponse, returnError) }
 
         guard var contentType = returnResponse.httpResponse?.headers["Content-Type"]?.components(separatedBy: ";").first
         else { return }
@@ -200,8 +201,7 @@ public class ContentDecodePolicy: PipelineStage {
         } catch {
             let errorMessage = String(format: "Deserialization error: %@", error.localizedDescription)
             response.logger.error(errorMessage)
-            let error = AzureError.general(errorMessage)
-            throw error
+            returnError = AzureError.general(errorMessage)
         }
     }
 

@@ -44,21 +44,21 @@ public class HeadersValidationPolicy: PipelineStage {
     public func on(
         response pipelineResponse: PipelineResponse,
         completionHandler: @escaping OnResponseCompletionHandler
-    ) throws {
+    ) {
         let request = pipelineResponse.httpRequest
         let response = pipelineResponse.httpResponse!
+        var error: AzureError?
 
         for key in headers {
             let requestValue = request.headers[key] ?? "NIL"
             let responseValue = response.headers[key] ?? "NIL"
-            guard requestValue == responseValue else {
-                let error = AzureError
+            if requestValue != responseValue {
+                error = AzureError
                     .general(
                         "Value for header '\(key)' did not match. Expected: \(requestValue) Actual: \(responseValue)"
                     )
-                throw error
             }
         }
-        completionHandler(pipelineResponse)
+        completionHandler(pipelineResponse, error)
     }
 }

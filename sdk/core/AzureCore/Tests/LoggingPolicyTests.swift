@@ -415,7 +415,7 @@ class LoggingPolicyTests: XCTestCase {
         headers["MyCustomHeader"] = "SecretValue"
         let req = PipelineRequest(method: .get, url: "http://www.example.com")
         let res = PipelineResponse(request: req, responseCode: 404, headers: headers, logger: logger)
-        try! policy.on(response: res) { _ in }
+        try! policy.on(response: res) { _, _ in }
         XCTAssertEqual(
             logger.messages.first { $0.text.starts(with: HTTPHeader.contentType.rawValue) }?.text,
             "Content-Type: REDACTED"
@@ -434,7 +434,7 @@ class LoggingPolicyTests: XCTestCase {
         headers["MyCustomHeader"] = "SecretValue"
         let req = PipelineRequest(method: .get, url: "http://www.example.com")
         let res = PipelineResponse(request: req, responseCode: 404, headers: headers, logger: logger)
-        try! policy.on(response: res) { _ in }
+        try! policy.on(response: res) { _, _ in }
         XCTAssertEqual(
             logger.messages.first { $0.text.starts(with: HTTPHeader.contentType.rawValue) }?.text,
             "Content-Type: application/json"
@@ -453,7 +453,7 @@ class LoggingPolicyTests: XCTestCase {
         headers["MyCustomHeader"] = "SecretValue"
         let req = PipelineRequest(method: .get, url: "http://www.example.com")
         let res = PipelineResponse(request: req, responseCode: 404, headers: headers, logger: logger)
-        try! policy.on(response: res) { _ in }
+        try! policy.on(response: res) { _, _ in }
         XCTAssertEqual(
             logger.messages.first { $0.text.starts(with: HTTPHeader.contentType.rawValue) }?.text,
             "Content-Type: REDACTED"
@@ -471,7 +471,7 @@ class LoggingPolicyTests: XCTestCase {
         let headers = HTTPHeaders([.clientRequestId: "123"])
         let req = PipelineRequest(method: .get, url: "http://www.example.com", headers: headers)
         let res = PipelineResponse(request: req, logger: logger)
-        try! policy.on(response: res) { _ in }
+        try! policy.on(response: res) { _, _ in }
         let msg = logger.messages.first
         XCTAssertEqual(msg?.level, .info)
         XCTAssertEqual(msg?.text, "<-- [123]")
@@ -484,7 +484,7 @@ class LoggingPolicyTests: XCTestCase {
         let headers = HTTPHeaders([.clientRequestId: "123"])
         let req = PipelineRequest(method: .get, url: "http://www.example.com", headers: headers)
         let res = PipelineResponse(request: req, logger: logger)
-        try! policy.on(response: res) { _ in }
+        try! policy.on(response: res) { _, _ in }
         let msg = logger.messages.last
         XCTAssertEqual(msg?.level, .info)
         XCTAssertEqual(msg?.text, "<-- [END 123]")
@@ -498,7 +498,7 @@ class LoggingPolicyTests: XCTestCase {
         let req = PipelineRequest(method: .get, url: "http://www.example.com", context: context)
         policy.on(request: req) { afterRequest, _ in
             let res = PipelineResponse(request: afterRequest, logger: logger)
-            try! policy.on(response: res) { _ in }
+            try! policy.on(response: res) { _, _ in }
             XCTAssert(logger.messages.first!.text.contains("ms)"))
         }
     }
@@ -510,7 +510,7 @@ class LoggingPolicyTests: XCTestCase {
         let logger = TestClientLogger(.info)
         let req = PipelineRequest(method: .get, url: "http://www.example.com")
         let res = PipelineResponse(request: req, responseCode: 304, logger: logger)
-        try! policy.on(response: res) { _ in }
+        try! policy.on(response: res) { _, _ in }
         let msg = logger.messages.first { $0.text == "304 Not Modified" }
         XCTAssertNotNil(msg)
         XCTAssertEqual(msg?.level, .info)
@@ -523,7 +523,7 @@ class LoggingPolicyTests: XCTestCase {
         let logger = TestClientLogger(.info)
         let req = PipelineRequest(method: .get, url: "http://www.example.com")
         let res = PipelineResponse(request: req, responseCode: 404, logger: logger)
-        try! policy.on(response: res) { _ in }
+        try! policy.on(response: res) { _, _ in }
         let msg = logger.messages.first { $0.text == "404 Not Found" }
         XCTAssertNotNil(msg)
         XCTAssertEqual(msg?.level, .warning)
@@ -536,7 +536,7 @@ class LoggingPolicyTests: XCTestCase {
         let headers = HTTPHeaders([.etag: "123"])
         let req = PipelineRequest(method: .get, url: "http://www.example.com")
         let res = PipelineResponse(request: req, headers: headers, logger: logger)
-        try! policy.on(response: res) { _ in }
+        try! policy.on(response: res) { _, _ in }
         XCTAssertEqual(logger.messages.count, 3)
         XCTAssertNil(logger.messages.first { $0.text.contains("123") })
     }
@@ -548,7 +548,7 @@ class LoggingPolicyTests: XCTestCase {
         let headers = HTTPHeaders([.contentLength: "7"])
         let req = PipelineRequest(method: .get, url: "http://www.example.com")
         let res = PipelineResponse(request: req, headers: headers, body: "Testing", logger: logger)
-        try! policy.on(response: res) { _ in }
+        try! policy.on(response: res) { _, _ in }
         XCTAssertEqual(logger.messages.count, 3)
         XCTAssertNil(logger.messages.first { $0.text.contains("Testing") })
     }
@@ -560,7 +560,7 @@ class LoggingPolicyTests: XCTestCase {
         let headers = HTTPHeaders([.contentEncoding: "gzip", .contentLength: "7"])
         let req = PipelineRequest(method: .get, url: "http://www.example.com")
         let res = PipelineResponse(request: req, headers: headers, body: "Testing", logger: logger)
-        try! policy.on(response: res) { _ in }
+        try! policy.on(response: res) { _, _ in }
         XCTAssertNotNil(logger.messages.first { $0.text.contains("(encoded body omitted)") })
         XCTAssertNil(logger.messages.first { $0.text.contains("Testing") })
     }
@@ -572,7 +572,7 @@ class LoggingPolicyTests: XCTestCase {
         let headers = HTTPHeaders([.contentEncoding: "identity", .contentLength: "7"])
         let req = PipelineRequest(method: .get, url: "http://www.example.com")
         let res = PipelineResponse(request: req, headers: headers, body: "Testing", logger: logger)
-        try! policy.on(response: res) { _ in }
+        try! policy.on(response: res) { _, _ in }
         XCTAssertNil(logger.messages.first { $0.text.contains("(encoded body omitted)") })
         XCTAssertNotNil(logger.messages.first { $0.text.contains("Testing") })
     }
@@ -584,7 +584,7 @@ class LoggingPolicyTests: XCTestCase {
         let headers = HTTPHeaders([.contentDisposition: "attached", .contentLength: "7"])
         let req = PipelineRequest(method: .get, url: "http://www.example.com")
         let res = PipelineResponse(request: req, headers: headers, body: "Testing", logger: logger)
-        try! policy.on(response: res) { _ in }
+        try! policy.on(response: res) { _, _ in }
         XCTAssertNotNil(logger.messages.first { $0.text.contains("(non-inline body omitted)") })
         XCTAssertNil(logger.messages.first { $0.text.contains("Testing") })
     }
@@ -596,7 +596,7 @@ class LoggingPolicyTests: XCTestCase {
         let headers = HTTPHeaders([.contentDisposition: "inline", .contentLength: "7"])
         let req = PipelineRequest(method: .get, url: "http://www.example.com")
         let res = PipelineResponse(request: req, headers: headers, body: "Testing", logger: logger)
-        try! policy.on(response: res) { _ in }
+        try! policy.on(response: res) { _, _ in }
         XCTAssertNil(logger.messages.first { $0.text.contains("(non-inline body omitted)") })
         XCTAssertNotNil(logger.messages.first { $0.text.contains("Testing") })
     }
@@ -608,7 +608,7 @@ class LoggingPolicyTests: XCTestCase {
         let headers = HTTPHeaders([.contentType: "application/octet-stream", .contentLength: "7"])
         let req = PipelineRequest(method: .get, url: "http://www.example.com")
         let res = PipelineResponse(request: req, headers: headers, body: "Testing", logger: logger)
-        try! policy.on(response: res) { _ in }
+        try! policy.on(response: res) { _, _ in }
         XCTAssertNotNil(logger.messages.first { $0.text.contains("(binary body omitted)") })
         XCTAssertNil(logger.messages.first { $0.text.contains("Testing") })
     }
@@ -620,7 +620,7 @@ class LoggingPolicyTests: XCTestCase {
         let headers = HTTPHeaders([.contentType: "text/plain", .contentLength: "7"])
         let req = PipelineRequest(method: .get, url: "http://www.example.com")
         let res = PipelineResponse(request: req, headers: headers, body: "Testing", logger: logger)
-        try! policy.on(response: res) { _ in }
+        try! policy.on(response: res) { _, _ in }
         XCTAssertNil(logger.messages.first { $0.text.contains("(binary body omitted)") })
         XCTAssertNotNil(logger.messages.first { $0.text.contains("Testing") })
     }
@@ -633,7 +633,7 @@ class LoggingPolicyTests: XCTestCase {
         let headers = HTTPHeaders([.contentLength: String(length)])
         let req = PipelineRequest(method: .get, url: "http://www.example.com")
         let res = PipelineResponse(request: req, headers: headers, body: "Testing", logger: logger)
-        try! policy.on(response: res) { _ in }
+        try! policy.on(response: res) { _, _ in }
         XCTAssertNotNil(logger.messages.first { $0.text.contains("(\(length)-byte body omitted)") })
         XCTAssertNil(logger.messages.first { $0.text.contains("Testing") })
     }
@@ -645,7 +645,7 @@ class LoggingPolicyTests: XCTestCase {
         let headers = HTTPHeaders([.contentLength: "7"])
         let req = PipelineRequest(method: .get, url: "http://www.example.com")
         let res = PipelineResponse(request: req, headers: headers, body: "", logger: logger)
-        try! policy.on(response: res) { _ in }
+        try! policy.on(response: res) { _, _ in }
         XCTAssertNotNil(logger.messages.first { $0.text.contains("(empty body)") })
     }
 
@@ -656,7 +656,7 @@ class LoggingPolicyTests: XCTestCase {
         let headers = HTTPHeaders()
         let req = PipelineRequest(method: .get, url: "http://www.example.com")
         let res = PipelineResponse(request: req, headers: headers, body: "Testing", logger: logger)
-        try! policy.on(response: res) { _ in }
+        try! policy.on(response: res) { _, _ in }
         XCTAssertNotNil(logger.messages.first { $0.text.contains("(empty body)") })
         XCTAssertNil(logger.messages.first { $0.text.contains("Testing") })
     }
@@ -668,7 +668,7 @@ class LoggingPolicyTests: XCTestCase {
         let headers = HTTPHeaders([.contentLength: "0"])
         let req = PipelineRequest(method: .get, url: "http://www.example.com")
         let res = PipelineResponse(request: req, headers: headers, body: "Testing", logger: logger)
-        try! policy.on(response: res) { _ in }
+        try! policy.on(response: res) { _, _ in }
         XCTAssertNotNil(logger.messages.first { $0.text.contains("(empty body)") })
         XCTAssertNil(logger.messages.first { $0.text.contains("Testing") })
     }
@@ -680,7 +680,7 @@ class LoggingPolicyTests: XCTestCase {
         let headers = HTTPHeaders([.contentLength: ""])
         let req = PipelineRequest(method: .get, url: "http://www.example.com")
         let res = PipelineResponse(request: req, headers: headers, body: "Testing", logger: logger)
-        try! policy.on(response: res) { _ in }
+        try! policy.on(response: res) { _, _ in }
         XCTAssertNotNil(logger.messages.first { $0.text.contains("(empty body)") })
         XCTAssertNil(logger.messages.first { $0.text.contains("Testing") })
     }

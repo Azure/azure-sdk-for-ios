@@ -40,7 +40,7 @@ class NormalizeETagPolicyTests: XCTestCase {
         var scrubbedEtag = ""
 
         res.httpResponse?.headers[.etag] = "\"etag\""
-        try! policy.on(response: res) { response in
+        try! policy.on(response: res) { response, _ in
             scrubbedEtag = response.httpResponse!.headers[.etag]!
             exp.fulfill()
         }

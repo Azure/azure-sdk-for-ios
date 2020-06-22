@@ -81,9 +81,9 @@ public class LoggingPolicy: PipelineStage {
         completionHandler(request, nil)
     }
 
-    public func on(response: PipelineResponse, completionHandler: @escaping OnResponseCompletionHandler) throws {
+    public func on(response: PipelineResponse, completionHandler: @escaping OnResponseCompletionHandler) {
         LoggingPolicy.queue.async { self.log(response: response) }
-        completionHandler(response)
+        completionHandler(response, nil)
     }
 
     public func on(error: PipelineError, completionHandler: @escaping OnErrorCompletionHandler) {

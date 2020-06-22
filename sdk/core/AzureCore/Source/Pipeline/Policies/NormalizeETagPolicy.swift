@@ -37,10 +37,10 @@ public class NormalizeETagPolicy: PipelineStage {
 
     // MARK: PipelineStage Methods
 
-    public func on(response: PipelineResponse, completionHandler: @escaping OnResponseCompletionHandler) throws {
+    public func on(response: PipelineResponse, completionHandler: @escaping OnResponseCompletionHandler) {
         if let etag = response.httpResponse?.headers[HTTPHeader.etag] {
             response.httpResponse?.headers[HTTPHeader.etag] = etag.replacingOccurrences(of: "\"", with: "")
         }
-        completionHandler(response)
+        completionHandler(response, nil)
     }
 }

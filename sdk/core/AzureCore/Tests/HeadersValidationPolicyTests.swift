@@ -38,11 +38,9 @@ class HeadersValidationPolicyTests: XCTestCase {
         let res = PipelineResponse(request: req)
         req.httpRequest.headers[.requestId] = "test"
         res.httpResponse?.headers[.requestId] = "test"
-        do {
-            // success
-            try policy.on(response: res) { _ in }
-        } catch {
-            XCTFail("Exception thrown.")
+        // success
+        policy.on(response: res) { _, error in
+            XCTAssertNil(error)
         }
     }
 
@@ -54,12 +52,8 @@ class HeadersValidationPolicyTests: XCTestCase {
         let res = PipelineResponse(request: req)
         req.httpRequest.headers[.requestId] = "test"
         res.httpResponse?.headers[.requestId] = "fail"
-        do {
-            try policy.on(response: res) { _ in }
-            XCTFail("Exception thrown.")
-        } catch {
-            // success
-            return
+        policy.on(response: res) { _, error in
+            XCTAssertNotNil(error)
         }
     }
 }
