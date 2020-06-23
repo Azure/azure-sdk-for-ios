@@ -29,10 +29,26 @@ import Foundation
 
 /// Describes the type of network connection
 public enum NetworkType {
+    case wifiOrEthernet
+    case cellular
+}
+
+internal enum NetworkTypeInternal {
     case unknown
     case disconnected
     case wifiOrEthernet
     case cellular
+
+    public var publicValue: NetworkType? {
+        switch self {
+        case .cellular:
+            return .cellular
+        case .wifiOrEthernet:
+            return .wifiOrEthernet
+        default:
+            return nil
+        }
+    }
 }
 
 /// Describes the network state
@@ -47,8 +63,9 @@ public struct TransferNetworkPolicy {
     public let enableAutoResume: Bool
 
     /// Method to determine whether a transfer should proceed
-    public func shouldTransfer(withStatus status: NetworkType) -> Bool {
-        return transferOver.contains(status)
+    public func shouldTransfer(withStatus status: NetworkType?) -> Bool {
+        guard let networkStatus = status else { return false }
+        return transferOver.contains(networkStatus)
     }
 
     public init(transferOver: [NetworkType], enableAutoResume: Bool) {

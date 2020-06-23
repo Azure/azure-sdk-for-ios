@@ -63,7 +63,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         return manager
     }()
 
-    internal var networkStatus: NetworkType = .unknown
+    internal var networkStatus: NetworkTypeInternal = .unknown
 
     private var managing = false
 
@@ -297,19 +297,24 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
             transfer.totalBlocks = Int64(transfer.transfers.count)
         }
 
+        func shouldAllow(transfer: Transfer) -> Bool {
+            guard let blobTransfer = transfer as? BlobTransfer else { return true }
+            guard let blobClient = client(forRestorationId: blobTransfer.clientRestorationId) as? StorageBlobClient
+            else { return true }
+            guard let status = networkStatus.publicValue else { return false }
+
+            switch blobTransfer.transferType {
+            case .download:
+                return blobClient.options.downloadNetworkPolicy.shouldTransfer(withStatus: status)
+            case .upload:
+                return blobClient.options.uploadNetworkPolicy.shouldTransfer(withStatus: status)
+            }
+        }
+
         // if transfer should not occur on specific network type, it should immediately pause
-        let blobClient = client(forRestorationId: transfer.clientRestorationId) as? StorageBlobClient
-        switch transfer.transferType {
-        case .upload:
-            if !(blobClient?.options.uploadNetworkPolicy.shouldTransfer(withStatus: networkStatus) ?? true) {
-                transfer.pause()
-                return
-            }
-        case .download:
-            if !(blobClient?.options.uploadNetworkPolicy.shouldTransfer(withStatus: networkStatus) ?? true) {
-                transfer.pause()
-                return
-            }
+        if !shouldAllow(transfer: transfer) {
+            transfer.pause()
+            return
         }
         queueOperations(for: transfer)
     }
@@ -465,19 +470,18 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
     func shouldAllow(transfer: Transfer) -> Bool {
         guard let blobTransfer = transfer as? BlobTransfer else { return true }
         let blobClient = client(forRestorationId: transfer.clientRestorationId) as? StorageBlobClient
+        guard let status = networkStatus.publicValue else { return false }
         switch blobTransfer.transferType {
         case .download:
-            return blobClient?.options.downloadNetworkPolicy.shouldTransfer(withStatus: networkStatus) ?? true
+            return blobClient?.options.downloadNetworkPolicy.shouldTransfer(withStatus: status) ?? true
         case .upload:
-            return blobClient?.options.uploadNetworkPolicy.shouldTransfer(withStatus: networkStatus) ?? true
+            return blobClient?.options.uploadNetworkPolicy.shouldTransfer(withStatus: status) ?? true
         }
     }
 
     func resumeAll(withRestorationId restorationId: String? = nil, progressHandler: ((BlobTransfer) -> Void)? = nil) {
         let toResume = restorationId == nil ? transfers : transfers.filter { $0.clientRestorationId == restorationId }
         for transfer in toResume {
-            if let blobTransfer = transfer as? BlobTransfer { print(blobTransfer.hash) }
-
             resume(transfer: transfer, progressHandler: progressHandler)
         }
     }
@@ -514,12 +518,12 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
     // MARK: Misc Methods
 
     func handleNetworkTransition() {
-        let status = networkStatus
+        let status = networkStatus.publicValue
 
         let clientEnumerator = clients.objectEnumerator()
         while let client: StorageBlobClient = clientEnumerator?.nextObject() as? StorageBlobClient {
             let downloadPolicy = client.options.downloadNetworkPolicy
-            if downloadPolicy.transferOver.contains(status) {
+            if downloadPolicy.shouldTransfer(withStatus: status) {
                 if downloadPolicy.enableAutoResume {
                     client.downloads.resumeAll()
                 }
@@ -527,7 +531,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
                 client.downloads.pauseAll()
             }
             let uploadPolicy = client.options.uploadNetworkPolicy
-            if uploadPolicy.transferOver.contains(status), uploadPolicy.enableAutoResume {
+            if uploadPolicy.shouldTransfer(withStatus: status), uploadPolicy.enableAutoResume {
                 client.uploads.resumeAll()
             } else {
                 client.uploads.pauseAll()
