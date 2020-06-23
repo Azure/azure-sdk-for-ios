@@ -30,6 +30,7 @@ import Foundation
 
 public enum ContextKey: String {
     case allowedStatusCodes
+    case allowedHeaders
     case deserializedData
     case requestStartTime
     case xmlMap

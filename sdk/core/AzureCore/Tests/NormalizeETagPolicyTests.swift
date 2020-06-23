@@ -29,7 +29,7 @@ import Foundation
 @testable import AzureCore
 import XCTest
 
-// swiftlint:disable force_try
+// swiftlint:disable
 class NormalizeETagPolicyTests: XCTestCase {
     /// Test that the headers validation policy passes when headers match.
     func test_NormalizeETagPolicy_NormalizesETag() {
@@ -40,7 +40,7 @@ class NormalizeETagPolicyTests: XCTestCase {
         var scrubbedEtag = ""
 
         res.httpResponse?.headers[.etag] = "\"etag\""
-        try! policy.on(response: res) { response, _ in
+        policy.on(response: res) { response, _ in
             scrubbedEtag = response.httpResponse!.headers[.etag]!
             exp.fulfill()
         }

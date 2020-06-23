@@ -48,11 +48,28 @@ public class HeadersValidationPolicy: PipelineStage {
         let request = pipelineResponse.httpRequest
         let response = pipelineResponse.httpResponse!
         var error: AzureError?
+        let allowedHeaders = pipelineResponse.context?.value(forKey: .allowedHeaders) as? Set<String>
 
         for key in headers {
-            let requestValue = request.headers[key] ?? "NIL"
-            let responseValue = response.headers[key] ?? "NIL"
+            guard let requestValue = request.headers[key] else {
+                error = AzureError.general("Request header not found for '\(key)'")
+                completionHandler(pipelineResponse, error)
+                return
+            }
+            // automatically succeed when the response does not contain the header
+            guard let responseValue = response.headers[key] else {
+                completionHandler(pipelineResponse, nil)
+                return
+            }
             if requestValue != responseValue {
+                var requestHeaders = request.headers
+                var responseHeaders = response.headers
+                if let allowHeaders = allowedHeaders {
+                    requestHeaders = redact(headers: requestHeaders, withAllowedHeaders: Array(allowHeaders))
+                    responseHeaders = redact(headers: responseHeaders, withAllowedHeaders: Array(allowHeaders))
+                }
+                let requestValue = requestHeaders[key] ?? "NIL"
+                let responseValue = responseHeaders[key] ?? "NIL"
                 error = AzureError
                     .general(
                         "Value for header '\(key)' did not match. Expected: \(requestValue) Actual: \(responseValue)"
@@ -60,5 +77,18 @@ public class HeadersValidationPolicy: PipelineStage {
             }
         }
         completionHandler(pipelineResponse, error)
+    }
+
+    // MARK: Methods
+
+    private func redact(headers: HTTPHeaders, withAllowedHeaders allowedHeaders: [String]?) -> HTTPHeaders {
+        guard let allowHeaders = allowedHeaders else { return headers }
+        var copy = headers
+        for header in copy.keys {
+            if !allowHeaders.contains(header.lowercased()) {
+                copy.updateValue("REDACTED", forKey: header)
+            }
+        }
+        return copy
     }
 }

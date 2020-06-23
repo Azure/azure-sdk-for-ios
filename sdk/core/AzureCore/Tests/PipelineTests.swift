@@ -79,8 +79,4 @@ class PipelineTests: XCTestCase {
         }
         wait(for: [didFinishRun], timeout: 2.0, enforceOrder: true)
     }
-
-    func test_PipelineClient_CanLogError() {
-        XCTFail("TODO: Implement test.")
-    }
 }

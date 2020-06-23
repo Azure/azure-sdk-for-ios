@@ -70,7 +70,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
             headers: headers,
             data: nil
         )
-        let calculatedString = try! policy.stringToSign(forRequest: httpRequest)
+        let calculatedString = policy.stringToSign(forRequest: httpRequest)
         XCTAssertEqual(calculatedString, stringToSign)
     }
 
@@ -114,7 +114,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
             headers: headers,
             data: nil
         )
-        let calculatedString = try! policy.stringToSign(forRequest: httpRequest)
+        let calculatedString = policy.stringToSign(forRequest: httpRequest)
         XCTAssertEqual(calculatedString, stringToSign)
     }
 
@@ -158,7 +158,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
             headers: headers,
             data: nil
         )
-        let calculatedString = try! policy.stringToSign(forRequest: httpRequest)
+        let calculatedString = policy.stringToSign(forRequest: httpRequest)
         XCTAssertEqual(calculatedString, stringToSign)
     }
 
@@ -203,7 +203,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
             headers: headers,
             data: nil
         )
-        let calculatedString = try! policy.stringToSign(forRequest: httpRequest)
+        let calculatedString = policy.stringToSign(forRequest: httpRequest)
         XCTAssertEqual(calculatedString, stringToSign)
     }
 
@@ -249,7 +249,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
             headers: headers,
             data: nil
         )
-        let calculatedString = try! policy.stringToSign(forRequest: httpRequest)
+        let calculatedString = policy.stringToSign(forRequest: httpRequest)
         XCTAssertEqual(calculatedString, stringToSign)
     }
 
@@ -294,7 +294,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
             headers: headers,
             data: nil
         )
-        let calculatedString = try! policy.stringToSign(forRequest: httpRequest)
+        let calculatedString = policy.stringToSign(forRequest: httpRequest)
         XCTAssertEqual(calculatedString, stringToSign)
     }
 
@@ -339,7 +339,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
             headers: headers,
             data: nil
         )
-        let calculatedString = try! policy.stringToSign(forRequest: httpRequest)
+        let calculatedString = policy.stringToSign(forRequest: httpRequest)
         XCTAssertEqual(calculatedString, stringToSign)
     }
 
@@ -384,7 +384,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
             headers: headers,
             data: nil
         )
-        let calculatedString = try! policy.stringToSign(forRequest: httpRequest)
+        let calculatedString = policy.stringToSign(forRequest: httpRequest)
         XCTAssertEqual(calculatedString, stringToSign)
     }
 
@@ -431,7 +431,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
             headers: headers,
             data: nil
         )
-        let calculatedString = try! policy.stringToSign(forRequest: httpRequest)
+        let calculatedString = policy.stringToSign(forRequest: httpRequest)
         XCTAssertEqual(calculatedString, stringToSign)
     }
 
@@ -475,7 +475,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
             headers: headers,
             data: nil
         )
-        let calculatedString = try! policy.stringToSign(forRequest: httpRequest)
+        let calculatedString = policy.stringToSign(forRequest: httpRequest)
         XCTAssertEqual(calculatedString, stringToSign)
     }
 
@@ -519,7 +519,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
             headers: headers,
             data: nil
         )
-        let calculatedString = try! policy.stringToSign(forRequest: httpRequest)
+        let calculatedString = policy.stringToSign(forRequest: httpRequest)
         XCTAssertEqual(calculatedString, stringToSign)
     }
 

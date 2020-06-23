@@ -77,6 +77,7 @@ public class LoggingPolicy: PipelineStage {
 
     public func on(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
         request.context?.add(value: DispatchTime.now() as AnyObject, forKey: .requestStartTime)
+        request.context?.add(value: allowHeaders as AnyObject, forKey: .allowedHeaders)
         LoggingPolicy.queue.async { self.log(request: request) }
         completionHandler(request, nil)
     }
