@@ -52,10 +52,18 @@ class HeadersValidationPolicyTests: XCTestCase {
         let req = PipelineRequest()
         let res = PipelineResponse(request: req)
 
+        // set up context where request ID is allowed
+        let context = PipelineContext()
+        let allowHeaders: Set = [HTTPHeader.requestId.rawValue.lowercased()]
+        context.add(value: allowHeaders as AnyObject, forKey: .allowedHeaders)
+        req.context = context
+        res.context = context
+
         req.httpRequest.headers[.requestId] = "test"
         res.httpResponse?.headers[.requestId] = "fail"
         policy.on(response: res) { _, error in
             XCTAssertNotNil(error)
+            XCTAssertTrue(error!.localizedDescription.contains("Expected: test Actual: fail"))
         }
     }
 
@@ -68,7 +76,7 @@ class HeadersValidationPolicyTests: XCTestCase {
 
         // set up context where request ID is not allowed
         let context = PipelineContext()
-        let allowHeaders = Set([HTTPHeader.accept].map { $0.rawValue.lowercased() })
+        let allowHeaders: Set = [HTTPHeader.contentType.rawValue.lowercased()]
         context.add(value: allowHeaders as AnyObject, forKey: .allowedHeaders)
         req.context = context
         res.context = context
@@ -81,8 +89,23 @@ class HeadersValidationPolicyTests: XCTestCase {
         }
     }
 
+    /// Test that the headers validation policy redacts all values when no allowHeaders are provided in the context.
+    func test_HeadersValidationPolicy_RedactsAllHeadersOnFailWhenNoAllowHeadersProvided() {
+        let validateHeaders = [HTTPHeader.requestId.rawValue]
+        let policy = HeadersValidationPolicy(validatingHeaders: validateHeaders)
+        let req = PipelineRequest()
+        let res = PipelineResponse(request: req)
+
+        req.httpRequest.headers[.requestId] = "test"
+        res.httpResponse?.headers[.requestId] = "fail"
+        policy.on(response: res) { _, error in
+            XCTAssertNotNil(error)
+            XCTAssertTrue(error!.localizedDescription.contains("Expected: REDACTED Actual: REDACTED"))
+        }
+    }
+
     /// Test that the headers validation policy passes when response does not include header.
-    func test_HeadersValidationPolicy_PassesWhenResponseDoesntContainerHeader() {
+    func test_HeadersValidationPolicy_PassesWhenResponseDoesntContainHeader() {
         let validateHeaders = [HTTPHeader.requestId.rawValue]
         let policy = HeadersValidationPolicy(validatingHeaders: validateHeaders)
         let req = PipelineRequest()
@@ -91,6 +114,27 @@ class HeadersValidationPolicyTests: XCTestCase {
         req.httpRequest.headers[.requestId] = "test"
         policy.on(response: res) { _, error in
             XCTAssertNil(error)
+        }
+    }
+
+    /// Test that the headers validation policy fails when response includes header but request doesn't.
+    func test_HeadersValidationPolicy_FailsWhenResponseContainsHeaderAndRequestDoesnt() {
+        let validateHeaders = [HTTPHeader.requestId.rawValue]
+        let policy = HeadersValidationPolicy(validatingHeaders: validateHeaders)
+        let req = PipelineRequest()
+        let res = PipelineResponse(request: req)
+
+        // set up context where request ID is allowed
+        let context = PipelineContext()
+        let allowHeaders: Set = [HTTPHeader.requestId.rawValue.lowercased()]
+        context.add(value: allowHeaders as AnyObject, forKey: .allowedHeaders)
+        req.context = context
+        res.context = context
+
+        res.httpResponse?.headers[.requestId] = "test"
+        policy.on(response: res) { _, error in
+            XCTAssertNotNil(error)
+            XCTAssertTrue(error!.localizedDescription.contains("Expected: nil Actual: test"))
         }
     }
 }
