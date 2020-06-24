@@ -60,7 +60,6 @@ class BlobDownloadViewController: UIViewController, MSALInteractiveDelegate {
         fetchData(self)
         guard let blobClient = blobClient else { return }
         blobClient.downloads.resumeAll(progressHandler: downloadProgress)
-        StorageBlobClient.startManaging()
     }
 
     // MARK: Private Methods
