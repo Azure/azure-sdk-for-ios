@@ -30,7 +30,7 @@ public typealias ResultHandler<TSuccess, TError: Error> = (Result<TSuccess, TErr
 public typealias HTTPResultHandler<T> = ResultHandler<T, Error>
 public typealias PipelineStageResultHandler = ResultHandler<PipelineResponse, PipelineError>
 public typealias OnRequestCompletionHandler = (PipelineRequest, Error?) -> Void
-public typealias OnResponseCompletionHandler = (PipelineResponse) -> Void
+public typealias OnResponseCompletionHandler = (PipelineResponse, Error?) -> Void
 public typealias OnErrorCompletionHandler = (PipelineError, Bool) -> Void
 
 /// Protocol for implementing pipeline stages.
@@ -74,7 +74,7 @@ extension PipelineStage {
     }
 
     public func on(response: PipelineResponse, completionHandler: @escaping OnResponseCompletionHandler) {
-        completionHandler(response)
+        completionHandler(response, nil)
     }
 
     public func on(error: PipelineError, completionHandler: @escaping OnErrorCompletionHandler) {
@@ -106,7 +106,16 @@ extension PipelineStage {
             self.next!.process(request: request) { result, httpResponse in
                 switch result {
                 case let .success(pipelineResponse):
-                    self.on(response: pipelineResponse) { response in
+                    self.on(response: pipelineResponse) { response, error in
+                        if let error = error {
+                            let pipelineError = PipelineError(fromError: error, pipelineResponse: response)
+                            self.on(error: pipelineError) { _, handled in
+                                if !handled {
+                                    completionHandler(.failure(pipelineError), httpResponse)
+                                    return
+                                }
+                            }
+                        }
                         completionHandler(.success(response), httpResponse)
                     }
                 case let .failure(pipelineError):

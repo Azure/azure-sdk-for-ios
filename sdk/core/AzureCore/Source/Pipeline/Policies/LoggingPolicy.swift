@@ -77,13 +77,14 @@ public class LoggingPolicy: PipelineStage {
 
     public func on(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
         request.context?.add(value: DispatchTime.now() as AnyObject, forKey: .requestStartTime)
+        request.context?.add(value: allowHeaders as AnyObject, forKey: .allowedHeaders)
         LoggingPolicy.queue.async { self.log(request: request) }
         completionHandler(request, nil)
     }
 
     public func on(response: PipelineResponse, completionHandler: @escaping OnResponseCompletionHandler) {
         LoggingPolicy.queue.async { self.log(response: response) }
-        completionHandler(response)
+        completionHandler(response, nil)
     }
 
     public func on(error: PipelineError, completionHandler: @escaping OnErrorCompletionHandler) {

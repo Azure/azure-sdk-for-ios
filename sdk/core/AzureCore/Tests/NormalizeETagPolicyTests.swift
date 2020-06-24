@@ -24,37 +24,31 @@
 //
 // --------------------------------------------------------------------------
 
-@testable import AzureCore
 import Foundation
 
-extension ClientLoggers {
-    public static func `default`() -> ClientLogger {
-        return ClientLoggers.default(tag: defaultTag())
-    }
+@testable import AzureCore
+import XCTest
 
-    static func defaultTag() -> String {
-        let regex = NSRegularExpression("^\\d*\\s*([a-zA-Z]*)\\s")
-        let defaultTag = regex.firstMatch(in: Thread.callStackSymbols[1])
-        return defaultTag ?? "AzureCore"
-    }
-}
+// swiftlint:disable
+class NormalizeETagPolicyTests: XCTestCase {
+    /// Test that the headers validation policy passes when headers match.
+    func test_NormalizeETagPolicy_NormalizesETag() {
+        let policy = NormalizeETagPolicy()
+        let req = PipelineRequest()
+        let res = PipelineResponse(request: req)
+        let exp = expectation(description: "Etag normalized.")
+        var scrubbedEtag = ""
 
-class TestClientLogger: ClientLogger {
-    struct Message {
-        var level: ClientLogLevel
-        var text: String
-    }
-
-    var level: ClientLogLevel
-    var messages: [Message] = []
-
-    public init(_ logLevel: ClientLogLevel = .info) {
-        self.level = logLevel
-    }
-
-    public func log(_ message: () -> String?, atLevel messageLevel: ClientLogLevel) {
-        if messageLevel.rawValue <= level.rawValue, let msg = message() {
-            messages.append(Message(level: messageLevel, text: msg))
+        res.httpResponse?.headers[.etag] = "\"etag\""
+        policy.on(response: res) { response, _ in
+            scrubbedEtag = response.httpResponse!.headers[.etag]!
+            exp.fulfill()
+        }
+        waitForExpectations(timeout: 10) { error in
+            if let error = error {
+                XCTFail("waitForExpectationsWithTimeout errored: \(error)")
+            }
+            XCTAssertEqual(scrubbedEtag, "etag")
         }
     }
 }

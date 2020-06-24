@@ -109,10 +109,15 @@ public final class StorageBlobClient: PipelineClient {
                 AddDatePolicy(),
                 authPolicy,
                 ContentDecodePolicy(),
+                HeadersValidationPolicy(validatingHeaders: [
+                    HTTPHeader.clientRequestId.rawValue,
+                    StorageHTTPHeader.encryptionKeySHA256.rawValue
+                ]),
                 LoggingPolicy(
                     allowHeaders: StorageBlobClient.allowHeaders,
                     allowQueryParams: StorageBlobClient.allowQueryParams
-                )
+                ),
+                NormalizeETagPolicy()
             ],
             logger: self.options.logger
         )

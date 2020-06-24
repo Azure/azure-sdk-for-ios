@@ -24,37 +24,23 @@
 //
 // --------------------------------------------------------------------------
 
-@testable import AzureCore
 import Foundation
 
-extension ClientLoggers {
-    public static func `default`() -> ClientLogger {
-        return ClientLoggers.default(tag: defaultTag())
-    }
+public class NormalizeETagPolicy: PipelineStage {
+    // MARK: Properties
 
-    static func defaultTag() -> String {
-        let regex = NSRegularExpression("^\\d*\\s*([a-zA-Z]*)\\s")
-        let defaultTag = regex.firstMatch(in: Thread.callStackSymbols[1])
-        return defaultTag ?? "AzureCore"
-    }
-}
+    public var next: PipelineStage?
 
-class TestClientLogger: ClientLogger {
-    struct Message {
-        var level: ClientLogLevel
-        var text: String
-    }
+    // MARK: Initializers
 
-    var level: ClientLogLevel
-    var messages: [Message] = []
+    public init() {}
 
-    public init(_ logLevel: ClientLogLevel = .info) {
-        self.level = logLevel
-    }
+    // MARK: PipelineStage Methods
 
-    public func log(_ message: () -> String?, atLevel messageLevel: ClientLogLevel) {
-        if messageLevel.rawValue <= level.rawValue, let msg = message() {
-            messages.append(Message(level: messageLevel, text: msg))
+    public func on(response: PipelineResponse, completionHandler: @escaping OnResponseCompletionHandler) {
+        if let etag = response.httpResponse?.headers[HTTPHeader.etag] {
+            response.httpResponse?.headers[HTTPHeader.etag] = etag.replacingOccurrences(of: "\"", with: "")
         }
+        completionHandler(response, nil)
     }
 }

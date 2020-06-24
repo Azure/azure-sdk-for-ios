@@ -187,7 +187,8 @@ public class ContentDecodePolicy: PipelineStage {
         let stream = response.value(forKey: "stream") as? Bool ?? false
         guard stream == false else { return }
         var returnResponse = response.copy()
-        defer { completionHandler(returnResponse) }
+        var returnError: AzureError?
+        defer { completionHandler(returnResponse, returnError) }
 
         guard var contentType = returnResponse.httpResponse?.headers["Content-Type"]?.components(separatedBy: ";").first
         else { return }
@@ -198,7 +199,9 @@ public class ContentDecodePolicy: PipelineStage {
                 returnResponse.add(value: deserializedData as AnyObject, forKey: .deserializedData)
             }
         } catch {
-            response.logger.error(String(format: "Deserialization error: %@", error.localizedDescription))
+            let errorMessage = String(format: "Deserialization error: %@", error.localizedDescription)
+            response.logger.error(errorMessage)
+            returnError = AzureError.general(errorMessage)
         }
     }
 
