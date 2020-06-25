@@ -445,7 +445,6 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
     func shouldAllow(transfer: Transfer) -> Bool {
         guard let blobTransfer = transfer as? BlobTransfer else { return true }
         let blobClient = client(forRestorationId: transfer.clientRestorationId) as? StorageBlobClient
-        // TODO: Fix issue where transfers auto-resume when they shoudn't
         guard let status = networkStatus.publicValue else {
             return false
         }
@@ -502,7 +501,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
         while let client: StorageBlobClient = clientEnumerator?.nextObject() as? StorageBlobClient {
             let downloadPolicy = client.options.downloadNetworkPolicy
             if downloadPolicy.shouldTransfer(withStatus: status) {
-                if downloadPolicy.enableAutoResume {
+                if downloadPolicy.enableAutoResume.contains(status!) {
                     client.downloads.resumeAll()
                 }
             } else {
@@ -510,7 +509,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
             }
             let uploadPolicy = client.options.uploadNetworkPolicy
             if uploadPolicy.shouldTransfer(withStatus: status) {
-                if uploadPolicy.enableAutoResume {
+                if uploadPolicy.enableAutoResume.contains(status!) {
                     client.uploads.resumeAll()
                 }
             } else {

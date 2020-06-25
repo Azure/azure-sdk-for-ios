@@ -28,16 +28,28 @@ import AzureCore
 import Foundation
 
 /// Describes the type of network connection
-public enum NetworkType {
-    case wifiOrEthernet
-    case cellular
+public struct NetworkType: OptionSet {
+    public typealias RawValue = Int
+    public let rawValue: Int
+
+    public static let wifiOrEthernet = NetworkType(rawValue: 1 << 0)
+    public static let cellular = NetworkType(rawValue: 1 << 1)
+
+    // MARK: Initializers
+
+    public init(rawValue: Self.RawValue) {
+        self.rawValue = rawValue
+    }
 }
 
-internal enum NetworkTypeInternal {
-    case unknown
-    case disconnected
-    case wifiOrEthernet
-    case cellular
+internal struct NetworkTypeInternal: OptionSet {
+    public typealias RawValue = Int
+    public let rawValue: Int
+
+    static let wifiOrEthernet = NetworkTypeInternal(rawValue: 1 << 0)
+    static let cellular = NetworkTypeInternal(rawValue: 1 << 1)
+    static let unknown = NetworkTypeInternal(rawValue: 1 << 2)
+    static let disconnected = NetworkTypeInternal(rawValue: 1 << 3)
 
     public var publicValue: NetworkType? {
         switch self {
@@ -49,6 +61,12 @@ internal enum NetworkTypeInternal {
             return nil
         }
     }
+
+    // MARK: Initializers
+
+    public init(rawValue: Self.RawValue) {
+        self.rawValue = rawValue
+    }
 }
 
 /// Describes the network state
@@ -58,9 +76,10 @@ public struct NetworkState {
 
 public struct TransferNetworkPolicy {
     /// Permit transfers only on permitted values of `NetworkType`.
-    public let transferOver: [NetworkType]
+    public let transferOver: NetworkType
 
-    public let enableAutoResume: Bool
+    /// Auto-resume transfers only on listed values of `NetworkType`.
+    public let enableAutoResume: NetworkType
 
     /// Method to determine whether a transfer should proceed
     public func shouldTransfer(withStatus status: NetworkType?) -> Bool {
@@ -68,8 +87,9 @@ public struct TransferNetworkPolicy {
         return transferOver.contains(networkStatus)
     }
 
-    public init(transferOver: [NetworkType], enableAutoResume: Bool) {
+    public init(transferOver: NetworkType, enableAutoResume: NetworkType) {
         self.transferOver = transferOver
         self.enableAutoResume = enableAutoResume
+        assert(enableAutoResume.isSubset(of: transferOver))
     }
 }

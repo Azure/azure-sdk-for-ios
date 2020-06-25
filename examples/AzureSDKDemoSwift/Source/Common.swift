@@ -96,8 +96,11 @@ struct AppState {
                 tenant: AppConstants.tenant, clientId: AppConstants.clientId, application: application,
                 account: AppState.currentAccount
             )
-            let downloadPolicy = TransferNetworkPolicy(transferOver: [.wifiOrEthernet], enableAutoResume: false)
-            let uploadPolicy = TransferNetworkPolicy(transferOver: [.wifiOrEthernet, .cellular], enableAutoResume: true)
+            let downloadPolicy = TransferNetworkPolicy(transferOver: [.wifiOrEthernet], enableAutoResume: [])
+            let uploadPolicy = TransferNetworkPolicy(
+                transferOver: [.wifiOrEthernet, .cellular],
+                enableAutoResume: [.wifiOrEthernet, .cellular]
+            )
             let options = StorageBlobClientOptions(
                 logger: ClientLoggers.none,
                 downloadNetworkPolicy: downloadPolicy,
