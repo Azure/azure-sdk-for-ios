@@ -647,7 +647,7 @@ public final class StorageBlobClient: PipelineClient {
         toFile destinationUrl: LocalURL,
         withOptions options: DownloadBlobOptions? = nil,
         progressHandler: ((BlobTransfer) -> Void)? = nil
-    ) throws -> Transfer? {
+    ) throws -> BlobTransfer? {
         // Construct URL
         let urlTemplate = "/{container}/{blob}"
         let pathParams = [

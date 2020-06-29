@@ -117,7 +117,40 @@ public class PagedCollection<SingleElement: Codable> {
 
     /// Returns true if there are no more results to fetch.
     public var isExhausted: Bool {
-        return continuationToken == nil
+        return continuationToken == nil || continuationToken == ""
+    }
+
+    // Synchronous iterator for retrieving paged items.
+    public struct PagedItemSyncIterator: Sequence, IteratorProtocol {
+        let pagedCollection: PagedCollection
+
+        public mutating func next() -> SingleElement? {
+            guard !Thread.isMainThread else {
+                return nil
+            }
+            var item: SingleElement?
+            let semaphore = DispatchSemaphore(value: 0)
+            pagedCollection.nextItem { result in
+                switch result {
+                case let .success(retrievedItem):
+                    item = retrievedItem
+                default:
+                    item = nil
+                }
+                semaphore.signal()
+            }
+            semaphore.wait()
+            return item
+        }
+
+        public init(_ pagedCollection: PagedCollection) {
+            self.pagedCollection = pagedCollection
+        }
+    }
+
+    /// Returns a iterator to retrieve paged items one at a time.
+    public var syncIterator: PagedItemSyncIterator {
+        return PagedItemSyncIterator(self)
     }
 
     private var _items: Element?
@@ -170,9 +203,9 @@ public class PagedCollection<SingleElement: Codable> {
     /// Retrieves the next page of results asynchronously.
     public func nextPage(completionHandler: @escaping Continuation<Element>) {
         // exit if there is no valid continuation token
-        guard let continuationToken = continuationToken,
-            continuationToken != "" else {
-            // don't call the completion block at all if the paged collection is exhausted
+        guard let continuationToken = continuationToken, !self.isExhausted else {
+            let error = AzureError.general("Paged collection exhausted.")
+            completionHandler(.failure(error))
             return
         }
 
@@ -240,6 +273,50 @@ public class PagedCollection<SingleElement: Codable> {
                 iteratorIndex += 1
                 DispatchQueue.main.async {
                     completionHandler(.success(item))
+                }
+            }
+        }
+    }
+
+    public func forEachPage(progressHandler: @escaping (Element) -> Bool) {
+        let queue = DispatchQueue(label: "ForEachPage", qos: .utility)
+        let semaphore = DispatchSemaphore(value: 1)
+        let group = DispatchGroup()
+        queue.async(group: group) { [weak self] in
+            while !(self?.isExhausted ?? true) {
+                group.enter()
+                semaphore.wait()
+                self?.nextPage { result in
+                    group.leave()
+                    semaphore.signal()
+                    switch result {
+                    case let .success(paged):
+                        guard progressHandler(paged) else { return }
+                    case .failure:
+                        return
+                    }
+                }
+            }
+        }
+    }
+
+    public func forEachItem(progressHandler: @escaping (SingleElement) -> Bool) {
+        let queue = DispatchQueue(label: "ForEachItem", qos: .utility)
+        let semaphore = DispatchSemaphore(value: 1)
+        let group = DispatchGroup()
+        queue.async(group: group) { [weak self] in
+            while !(self?.isExhausted ?? true) {
+                group.enter()
+                semaphore.wait()
+                self?.nextItem { result in
+                    group.leave()
+                    semaphore.signal()
+                    switch result {
+                    case let .success(item):
+                        guard progressHandler(item) else { return }
+                    case .failure:
+                        return
+                    }
                 }
             }
         }
