@@ -195,7 +195,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
     func queueOperations(for transfer: BlobTransfer) {
         guard transfer.isActive else { return }
         var operations = [TransferOperation]()
-        var pendingTransfers: [Transfer]
+        var pendingTransfers: [TransferTask]
         switch transfer.transferType {
         case .download:
             pendingTransfers = transfer.transfers.filter { $0.isActive }
@@ -272,7 +272,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
             transfer.totalBlocks = Int64(transfer.transfers.count)
         }
 
-        func shouldAllow(transfer: Transfer) -> Bool {
+        func shouldAllow(transfer: TransferTask) -> Bool {
             guard let blobTransfer = transfer as? BlobTransfer else { return true }
             guard let blobClient = client(forRestorationId: blobTransfer.clientRestorationId) as? StorageBlobClient
             else { return true }
@@ -442,7 +442,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     // MARK: Resume Operations
 
-    func shouldAllow(transfer: Transfer) -> Bool {
+    func shouldAllow(transfer: TransferTask) -> Bool {
         guard let blobTransfer = transfer as? BlobTransfer else { return true }
         let blobClient = client(forRestorationId: transfer.clientRestorationId) as? StorageBlobClient
         guard let status = networkStatus.publicValue else {

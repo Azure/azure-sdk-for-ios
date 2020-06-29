@@ -43,7 +43,7 @@ extension StorageBlobClient: PageableClient {
 extension StorageBlobClient: TransferDelegate {
     /// :nodoc:
     public func transfer(
-        _ transfer: Transfer,
+        _ transfer: TransferTask,
         didUpdateWithState state: TransferState,
         andProgress _: TransferProgress?
     ) {
@@ -58,14 +58,14 @@ extension StorageBlobClient: TransferDelegate {
     }
 
     /// :nodoc:
-    public func transfer(_ transfer: Transfer, didFailWithError error: Error) {
+    public func transfer(_ transfer: TransferTask, didFailWithError error: Error) {
         if let blobTransfer = transfer as? BlobTransfer {
             delegate?.blobClient(self, didFailTransfer: blobTransfer, withError: error)
         }
     }
 
     /// :nodoc:
-    public func transferDidComplete(_ transfer: Transfer) {
+    public func transferDidComplete(_ transfer: TransferTask) {
         if let blobTransfer = transfer as? BlobTransfer {
             delegate?.blobClient(self, didCompleteTransfer: blobTransfer)
         }

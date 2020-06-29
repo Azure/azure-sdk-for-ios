@@ -30,7 +30,7 @@ import Foundation
 
 extension URLSessionTransferManager: TransferDelegate {
     func transfer(
-        _ transfer: Transfer,
+        _ transfer: TransferTask,
         didUpdateWithState state: TransferState,
         andProgress progress: TransferProgress?
     ) {
@@ -89,7 +89,7 @@ extension URLSessionTransferManager: TransferDelegate {
         }
     }
 
-    func transfersDidUpdate(_ transfers: [Transfer]) {
+    func transfersDidUpdate(_ transfers: [TransferTask]) {
         DispatchQueue.main.async {
             let restorationIds = transfers.compactMap { ($0 as? TransferImpl)?.clientRestorationId }
             for restorationId in Set(restorationIds) {
@@ -112,7 +112,7 @@ extension URLSessionTransferManager: TransferDelegate {
         }
     }
 
-    func transferDidComplete(_ transfer: Transfer) {
+    func transferDidComplete(_ transfer: TransferTask) {
         guard let restorationId = (transfer as? TransferImpl)?.clientRestorationId else { return }
         let delegate = client(forRestorationId: restorationId) as? TransferDelegate
         guard delegate != nil || (transfer as? BlobTransfer)?.progressHandler != nil else { return }
@@ -127,7 +127,7 @@ extension URLSessionTransferManager: TransferDelegate {
         }
     }
 
-    func transfer(_ transfer: Transfer, didFailWithError error: Error) {
+    func transfer(_ transfer: TransferTask, didFailWithError error: Error) {
         guard let restorationId = (transfer as? TransferImpl)?.clientRestorationId else { return }
         guard let delegate = client(forRestorationId: restorationId) as? TransferDelegate else { return }
         DispatchQueue.main.async {

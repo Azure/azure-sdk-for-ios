@@ -33,13 +33,13 @@ public protocol Cancellable {
 }
 
 public enum TaskState {
-    /// The transfer is currently in progress.
+    /// The task is currently in progress.
     case inProgress
-    /// The transfer completed successfully.
+    /// The task completed successfully.
     case complete
-    /// The transfer failed. This failure may or may not be retryable.
+    /// The task failed. This failure may or may not be retryable.
     case failed
-    /// The transfer was explicitly canceled.
+    /// The task was explicitly canceled.
     case canceled
 
     /// A string representation of the task state.
@@ -65,7 +65,7 @@ public class AzureTask: Cancellable {
     public internal(set) var error: Error?
 
     public func cancel() {
-        // TODO: Should this cancel if it is already failed?
+        guard state == .inProgress else { return }
         AzureTaskManager.shared[id]?.state = .canceled
     }
 

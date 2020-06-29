@@ -131,7 +131,7 @@ public struct TransferProgress {
 // MARK: Protocols
 
 /// Object that contains information about a transfer operation.
-public protocol Transfer: Cancellable, AnyObject {
+public protocol TransferTask: Cancellable, AnyObject {
     /// The unique identifier for this transfer operation.
     var id: UUID { get }
     /// The current state of the transfer.
@@ -156,7 +156,7 @@ public protocol Transfer: Cancellable, AnyObject {
     func resume()
 }
 
-internal protocol TransferImpl: Transfer {
+internal protocol TransferImpl: TransferTask {
     var operation: TransferOperation? { get set }
     var state: TransferState { get set }
     var rawState: Int16 { get set }
@@ -165,7 +165,7 @@ internal protocol TransferImpl: Transfer {
 
 // MARK: Extensions
 
-public extension Transfer {
+public extension TransferTask {
     var state: TransferState { return TransferState(rawValue: rawState)! }
 
     func cancel() {

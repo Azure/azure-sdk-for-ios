@@ -30,7 +30,7 @@ import CoreData
 import Foundation
 
 /// A blob transfer operation.
-public class BlobTransfer: NSManagedObject, Transfer {
+public class BlobTransfer: NSManagedObject, TransferTask {
     // MARK: Properties
 
     internal var operation: TransferOperation?

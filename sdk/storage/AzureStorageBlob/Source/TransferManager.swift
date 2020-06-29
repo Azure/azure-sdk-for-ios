@@ -62,7 +62,7 @@ internal protocol TransferDelegate: AnyObject {
     ///   - state: The `TransferState` of the updated transfer.
     ///   - progress: The `TransferProgress` of the updated transfer.
     func transfer(
-        _ transfer: Transfer,
+        _ transfer: TransferTask,
         didUpdateWithState state: TransferState,
         andProgress progress: TransferProgress?
     )
@@ -71,9 +71,9 @@ internal protocol TransferDelegate: AnyObject {
     /// - Parameters:
     ///   - transfer: The `Transfer` object that failed.
     ///   - error: The `Error` associated with the failure.
-    func transfer(_ transfer: Transfer, didFailWithError error: Error)
+    func transfer(_ transfer: TransferTask, didFailWithError error: Error)
 
     /// A transfer has finished.
     /// - Parameter transfer: The `Transfer` object that finished.
-    func transferDidComplete(_ transfer: Transfer)
+    func transferDidComplete(_ transfer: TransferTask)
 }
