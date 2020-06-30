@@ -61,14 +61,8 @@ public struct StorageBlobClientOptions: AzureConfigurable {
         self.maxChunkSizeInBytes = maxChunkSizeInBytes
 
         // apply default `TransferNetworkPolicy` if none supplied
-        self.downloadNetworkPolicy = downloadNetworkPolicy ?? TransferNetworkPolicy(
-            transferOver: [.wifiOrEthernet, .cellular],
-            enableAutoResume: [.wifiOrEthernet, .cellular]
-        )
-        self.uploadNetworkPolicy = uploadNetworkPolicy ?? TransferNetworkPolicy(
-            transferOver: [.wifiOrEthernet, .cellular],
-            enableAutoResume: [.wifiOrEthernet, .cellular]
-        )
+        self.downloadNetworkPolicy = downloadNetworkPolicy ?? TransferNetworkPolicy.default
+        self.uploadNetworkPolicy = uploadNetworkPolicy ?? TransferNetworkPolicy.default
     }
 }
 

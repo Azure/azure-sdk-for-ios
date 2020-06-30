@@ -42,14 +42,11 @@ public struct NetworkType: OptionSet {
     }
 }
 
-internal struct NetworkTypeInternal: OptionSet {
-    public typealias RawValue = Int
-    public let rawValue: Int
-
-    static let wifiOrEthernet = NetworkTypeInternal(rawValue: 1 << 0)
-    static let cellular = NetworkTypeInternal(rawValue: 1 << 1)
-    static let unknown = NetworkTypeInternal(rawValue: 1 << 2)
-    static let disconnected = NetworkTypeInternal(rawValue: 1 << 3)
+internal enum NetworkState {
+    case wifiOrEthernet
+    case cellular
+    case unknown
+    case disconnected
 
     public var publicValue: NetworkType? {
         switch self {
@@ -61,35 +58,38 @@ internal struct NetworkTypeInternal: OptionSet {
             return nil
         }
     }
-
-    // MARK: Initializers
-
-    public init(rawValue: Self.RawValue) {
-        self.rawValue = rawValue
-    }
 }
 
-/// Describes the network state
-public struct NetworkState {
+/// Describes the known properties of the network
+public struct NetworkProperties {
     var type: NetworkType
 }
 
+/// Describes the network conditions required for certain transfer behavior.
 public struct TransferNetworkPolicy {
+    // MARK: Properties
+
+    internal static var `default` = TransferNetworkPolicy(
+        transferOn: [.wifiOrEthernet, .cellular],
+        autoResumeOn: [.wifiOrEthernet, .cellular]
+    )
+
     /// Permit transfers only on permitted values of `NetworkType`.
-    public let transferOver: NetworkType
+    public let transferOn: NetworkType
 
     /// Auto-resume transfers only on listed values of `NetworkType`.
-    public let enableAutoResume: NetworkType
+    public let autoResumeOn: NetworkType
 
     /// Method to determine whether a transfer should proceed
-    public func shouldTransfer(withStatus status: NetworkType?) -> Bool {
-        guard let networkStatus = status else { return false }
-        return transferOver.contains(networkStatus)
+    public func shouldTransfer(withStatus status: NetworkType) -> Bool {
+        return transferOn.contains(status)
     }
 
-    public init(transferOver: NetworkType, enableAutoResume: NetworkType) {
-        self.transferOver = transferOver
-        self.enableAutoResume = enableAutoResume
-        assert(enableAutoResume.isSubset(of: transferOver))
+    // MARK: Initializers
+
+    public init(transferOn: NetworkType, autoResumeOn: NetworkType) {
+        self.transferOn = transferOn
+        self.autoResumeOn = autoResumeOn
+        assert(autoResumeOn.isSubset(of: transferOn))
     }
 }

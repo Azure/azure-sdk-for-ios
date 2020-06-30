@@ -44,7 +44,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
 
     var reachability: ReachabilityManager?
 
-    internal var networkStatus: NetworkTypeInternal = .unknown
+    internal var networkStatus: NetworkState = .unknown
 
     lazy var operationQueue: TransferOperationQueue = {
         let operationQueue = TransferOperationQueue()
@@ -495,13 +495,15 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
     // MARK: Misc Methods
 
     func handleNetworkTransition() {
-        let status = networkStatus.publicValue
-
         let clientEnumerator = clients.objectEnumerator()
         while let client: StorageBlobClient = clientEnumerator?.nextObject() as? StorageBlobClient {
+            guard let status = networkStatus.publicValue else {
+                client.transfers.pauseAll()
+                continue
+            }
             let downloadPolicy = client.options.downloadNetworkPolicy
             if downloadPolicy.shouldTransfer(withStatus: status) {
-                if downloadPolicy.enableAutoResume.contains(status!) {
+                if downloadPolicy.autoResumeOn.contains(status) {
                     client.downloads.resumeAll()
                 }
             } else {
@@ -509,7 +511,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
             }
             let uploadPolicy = client.options.uploadNetworkPolicy
             if uploadPolicy.shouldTransfer(withStatus: status) {
-                if uploadPolicy.enableAutoResume.contains(status!) {
+                if uploadPolicy.autoResumeOn.contains(status) {
                     client.uploads.resumeAll()
                 }
             } else {
