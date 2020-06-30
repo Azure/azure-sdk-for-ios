@@ -45,6 +45,9 @@ extension URLSessionTransferManager: TransferDelegate {
                         transfer.pause()
                     } else {
                         self.transfer(transfer, didFailWithError: transferError)
+                        if let blobTransfer = transfer as? BlobTransfer {
+                            blobTransfer.progressHandler?(blobTransfer)
+                        }
                     }
                 } else {
                     // ignore BlockTransfer failures

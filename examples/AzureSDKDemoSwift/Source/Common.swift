@@ -96,7 +96,9 @@ struct AppState {
                 tenant: AppConstants.tenant, clientId: AppConstants.clientId, application: application,
                 account: AppState.currentAccount
             )
-            let options = StorageBlobClientOptions(logger: ClientLoggers.none)
+            let options = StorageBlobClientOptions(
+                logger: ClientLoggers.none
+            )
             AppState.internalBlobClient = try? StorageBlobClient(
                 credential: credential,
                 endpoint: AppConstants.storageAccountUrl,

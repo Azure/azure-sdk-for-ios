@@ -138,7 +138,6 @@ class BlobUploadViewController: UIViewController, MSALInteractiveDelegate {
         }
         group.notify(queue: .main) {
             PHPhotoLibrary.authorizationStatus()
-            StorageBlobClient.startManaging()
             self.collectionView.reloadData()
         }
     }
@@ -250,7 +249,7 @@ extension BlobUploadViewController: StorageBlobClientDelegate {
         _: StorageBlobClient,
         didUpdateTransfer transfer: BlobTransfer,
         withState _: TransferState,
-        andProgress _: TransferProgress?
+        andProgress _: TransferProgress
     ) {
         if transfer.transferType == .upload {
             collectionView.reloadData()

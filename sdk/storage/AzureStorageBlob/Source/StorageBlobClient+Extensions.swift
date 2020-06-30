@@ -75,56 +75,21 @@ extension StorageBlobClient: TransferDelegate {
 // MARK: Transfer Management
 
 extension StorageBlobClient {
-    /// Start the transfer management engine.
-    ///
-    /// Loads transfer state from disk, begins listening for network connectivity events, and resumes any incomplete
-    /// transfers. This method **MUST** be called by your application in order for any managed transfers to occur.
-    /// It's recommended to call this method from a background thread, at an opportune time after your app has started.
-    ///
-    /// Note that depending on the type of credential used by this `StorageBlobClient`, resuming transfers may cause a
-    /// login UI to be displayed if the token for a paused transfer has expired. Because of this, it's not recommended
-    /// to call this method from your `AppDelegate`. If you're using such a credential (e.g. `MSALCredential`) you
-    /// should first inspect the list of transfers to determine if any are pending. If so, you should assume that
-    /// calling this method may display a login UI, and call it in a user-appropriate context (e.g. display a "pending
-    /// transfers" message and wait for explicit user confirmation to start the management engine). If you're not using
-    /// such a credential, or there are no paused transfers, it is safe to call this method from your `AppDelegate`.
-    public static func startManaging() {
-        StorageBlobClient.manager.startManaging()
-    }
-
-    /// Stop the transfer management engine.
-    ///
-    /// Pauses all incomplete transfers, stops listening for network connectivity events, and stores transfer state to
-    /// disk. This method **SHOULD** be called by your application, either from your `AppDelegate` or from within a
-    /// `ViewController`'s lifecycle methods.
-    public static func stopManaging() {
-        StorageBlobClient.manager.stopManaging()
-    }
-
     /// Retrieve all managed transfers created by this client.
     public var transfers: TransferCollection {
-        let matching: [BlobTransfer] = StorageBlobClient.manager.transfers.compactMap { transfer in
-            guard let transfer = transfer as? BlobTransfer else { return nil }
-            return transfer.clientRestorationId == restorationId ? transfer : nil
-        }
-        return TransferCollection(matching)
+        let collection = StorageBlobClient.manager.transferCollection.items
+        return TransferCollection(collection.filter { $0.clientRestorationId == restorationId })
     }
 
     /// Retrieve all managed downloads created by this client.
     public var downloads: TransferCollection {
-        let matching: [BlobTransfer] = StorageBlobClient.manager.transfers.compactMap { transfer in
-            guard let transfer = transfer as? BlobTransfer else { return nil }
-            return transfer.clientRestorationId == restorationId && transfer.transferType == .download ? transfer : nil
-        }
-        return TransferCollection(matching)
+        let collection = StorageBlobClient.manager.downloadCollection.items
+        return TransferCollection(collection.filter { $0.clientRestorationId == restorationId })
     }
 
     /// Retrieve all managed uploads created by this client.
     public var uploads: TransferCollection {
-        let matching: [BlobTransfer] = StorageBlobClient.manager.transfers.compactMap { transfer in
-            guard let transfer = transfer as? BlobTransfer else { return nil }
-            return transfer.clientRestorationId == restorationId && transfer.transferType == .upload ? transfer : nil
-        }
-        return TransferCollection(matching)
+        let collection = StorageBlobClient.manager.uploadCollection.items
+        return TransferCollection(collection.filter { $0.clientRestorationId == restorationId })
     }
 }

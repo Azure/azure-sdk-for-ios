@@ -38,8 +38,6 @@ internal protocol TransferManager {
     // MARK: Lifecycle Methods
 
     func register(client: StorageBlobClient) throws
-    func startManaging()
-    func stopManaging()
 
     // MARK: Queue Operations
 
