@@ -83,10 +83,10 @@ class CollectionsTests: XCTestCase {
         XCTAssertEqual(paged.continuationToken, "token")
         XCTAssertEqual(paged.pageItems?.count, 3)
 
-        // test default continuationUrl. Note that queryParams and requestUrl are irrelevant in the default case.
+        // test default continuationUrl
         let requestUrl = URL(string: "www.requestUrl.com")?.appendingQueryParameters([("ref", "123")])!
         let continuationUrl = client.continuationUrl(forRequestUrl: requestUrl!, withContinuationToken: "testToken")!
-        XCTAssertEqual(continuationUrl.absoluteString, "\(client.baseUrl)testToken")
+        XCTAssertEqual(continuationUrl.absoluteString, "\(requestUrl!.absoluteString)&marker=testToken")
     }
 
     /// Test that authors can customize the PagedCodingKeys provided they fit the standard structure.
