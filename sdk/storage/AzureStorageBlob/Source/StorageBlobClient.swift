@@ -294,7 +294,8 @@ public final class StorageBlobClient: PipelineClient {
     /// List storage containers in a storage account.
     /// - Parameters:
     ///   - options: A `ListContainersOptions` object to control the list operation.
-    ///   - completionHandler: A completion handler that receives a `PagedCollection` of `ContainerItem` objects on success.
+    ///   - completionHandler: A completion handler that receives a `PagedCollection` of `ContainerItem` objects on
+    ///     success.
     public func listContainers(
         withOptions options: ListContainersOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ContainerItem>>

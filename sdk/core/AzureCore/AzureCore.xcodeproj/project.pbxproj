@@ -238,13 +238,13 @@
 		0A3A5D782315C89C00473FDA /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				0AF01856232AF2CC00A0C94D /* DataStructures */,
 				0A3A5F192316EADB00473FDA /* Pipeline */,
 				7AA5366623C0336F00A65A96 /* Providers */,
 				0A3A5DA52315CEBF00473FDA /* Util */,
-				0AF01856232AF2CC00A0C94D /* DataStructures */,
 				7A1DC6C22489E8550006FCB7 /* AzureTask.swift */,
-				0A3A5F002316DF1B00473FDA /* Errors.swift */,
 				0AB7412323C7A03400B579B3 /* ClientLogger.swift */,
+				0A3A5F002316DF1B00473FDA /* Errors.swift */,
 				0A3A5DA92315CF0200473FDA /* Supporting Files */,
 			);
 			path = Source;
@@ -304,15 +304,15 @@
 		0A3A5F192316EADB00473FDA /* Pipeline */ = {
 			isa = PBXGroup;
 			children = (
-				0A3A5F362318680900473FDA /* Transport */,
 				0A3A5F1A2316EAE500473FDA /* Policies */,
+				0A3A5F362318680900473FDA /* Transport */,
+				0A3A5F3D2318906100473FDA /* Pipeline.swift */,
 				0A3A5F3F2318975900473FDA /* PipelineClient.swift */,
 				0A3A5F1F2316EF9400473FDA /* PipelineContext.swift */,
 				7A16DC7A234BF55F002708BC /* PipelineError.swift */,
 				0A3A5F392318903900473FDA /* PipelineRequest.swift */,
 				0A3A5F3B2318904F00473FDA /* PipelineResponse.swift */,
 				0A3A5F412319834500473FDA /* PipelineStage.swift */,
-				0A3A5F3D2318906100473FDA /* Pipeline.swift */,
 			);
 			path = Pipeline;
 			sourceTree = "<group>";

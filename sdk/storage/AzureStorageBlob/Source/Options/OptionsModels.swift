@@ -89,7 +89,8 @@ public struct RangeOptions: Codable, Equatable {
 
     /// Initialize a `RangeOptions` structure.
     /// - Parameters:
-    ///   - offsetBytes: Start of byte range to use for downloading a section of the blob. Must be set if length is provided.
+    ///   - offsetBytes: Start of byte range to use for downloading a section of the blob. Must be set if length is
+    ///     provided.
     ///   - lengthInBytes: Number of bytes to read from the stream. Should be specified for optimal performance.
     ///   - calculateMD5: When set to true, the service returns the MD5 hash for the range as long as the range is less
     ///     than or equal to 4 MB in size.

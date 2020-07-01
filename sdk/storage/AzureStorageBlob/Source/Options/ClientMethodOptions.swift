@@ -27,45 +27,6 @@
 import AzureCore
 import Foundation
 
-/// User-configurable options for the `StorageBlobClient`.
-public struct StorageBlobClientOptions: AzureConfigurable {
-    /// The API version of the Azure Storage Blob service to invoke.
-    public let apiVersion: String
-    /// The `ClientLogger` to be used by this `StorageBlobClient`.
-    public let logger: ClientLogger
-
-    internal let downloadNetworkPolicy: TransferNetworkPolicy
-
-    internal let uploadNetworkPolicy: TransferNetworkPolicy
-
-    // Blob operations
-
-    /// The maximum size of a single chunk in a blob upload or download.
-    public let maxChunkSizeInBytes: Int
-
-    /// Initialize a `StorageBlobClientOptions` structure.
-    /// - Parameters:
-    ///   - apiVersion: The API version of the Azure Storage Blob service to invoke.
-    ///   - logger: The `ClientLogger` to be used by this `StorageBlobClient`.
-    ///   - maxChunkSizeInBytes: The maximum size of a single chunk in a blob upload or download.
-    ///     Must be less than 4MB if enabling MD5 or CRC64 hashing.
-    public init(
-        apiVersion: StorageBlobClient.ApiVersion = .latest,
-        logger: ClientLogger = ClientLoggers.default(tag: "StorageBlobClient"),
-        maxChunkSizeInBytes: Int = 4 * 1024 * 1024 - 1,
-        downloadNetworkPolicy: TransferNetworkPolicy? = nil,
-        uploadNetworkPolicy: TransferNetworkPolicy? = nil
-    ) {
-        self.apiVersion = apiVersion.rawValue
-        self.logger = logger
-        self.maxChunkSizeInBytes = maxChunkSizeInBytes
-
-        // apply default `TransferNetworkPolicy` if none supplied
-        self.downloadNetworkPolicy = downloadNetworkPolicy ?? TransferNetworkPolicy.default
-        self.uploadNetworkPolicy = uploadNetworkPolicy ?? TransferNetworkPolicy.default
-    }
-}
-
 /// User-configurable options for the `StorageBlobClient.listContainers` operation.
 public struct ListContainersOptions: AzureOptions {
     /// Datasets which may be included as part of the call response.
@@ -283,8 +244,8 @@ public struct DownloadBlobOptions: AzureOptions, Codable, Equatable {
     ///     customer-provided keys must be done over HTTPS. As the encryption key itself is provided in the request, a
     ///     secure connection must be established to transfer the key.
     ///   - encoding: Encoding with which to decode the downloaded bytes. If nil, no decoding occurs.
-    ///   - timeoutInSeconds: The timeout parameter is expressed in seconds. This method may make multiple calls to the Azure
-    ///     service and the timeout will apply to each call individually.
+    ///   - timeoutInSeconds: The timeout parameter is expressed in seconds. This method may make multiple calls to the
+    ///     Azure service and the timeout will apply to each call individually.
     public init(
         clientRequestId: String? = nil,
         range: RangeOptions? = nil,
@@ -363,8 +324,8 @@ public struct UploadBlobOptions: AzureOptions, Codable, Equatable {
     ///   - customerProvidedEncryptionScope: The name of the predefined encryption scope used to encrypt the blob
     ///   contents and metadata. Note that omitting this value implies use of the default account encryption scope.
     ///   - encoding: Encoding with which to decode the downloaded bytes. If nil, no decoding occurs.
-    ///   - timeoutInSeconds: The timeout parameter is expressed in seconds. This method may make multiple calls to the Azure
-    ///     service and the timeout will apply to each call individually.
+    ///   - timeoutInSeconds: The timeout parameter is expressed in seconds. This method may make multiple calls to the
+    ///     Azure service and the timeout will apply to each call individually.
     public init(
         clientRequestId: String? = nil,
         leaseAccessConditions: LeaseAccessConditions? = nil,
