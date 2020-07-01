@@ -4,7 +4,6 @@ trigger:
     - master
     - hotfix/*
     - release/*
-    - dev
   paths:
     include:
     - sdk/core/
@@ -15,7 +14,6 @@ pr:
     - feature/*
     - hotfix/*
     - release/*
-    - dev
   paths:
     include:
     - sdk/core/
