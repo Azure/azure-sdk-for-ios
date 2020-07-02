@@ -54,7 +54,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
 
         let accountName = "sampleaccount"
         let accessKey = "aGVsbG8gd29ybGQ=" // "hello world"
-        let credential = try! StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
+        let credential = StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
         let policy = StorageSharedKeyAuthenticationPolicy(credential: credential)
         let headers = HTTPHeaders([
             .transferEncoding: "chunked",
@@ -70,7 +70,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
             headers: headers,
             data: nil
         )
-        let calculatedString = policy.stringToSign(forRequest: httpRequest)
+        let calculatedString = try? policy.stringToSign(forRequest: httpRequest)
         XCTAssertEqual(calculatedString, stringToSign)
     }
 
@@ -98,7 +98,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
 
         let accountName = "sampleaccount"
         let accessKey = "aGVsbG8gd29ybGQ=" // "hello world"
-        let credential = try! StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
+        let credential = StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
         let policy = StorageSharedKeyAuthenticationPolicy(credential: credential)
         let headers = HTTPHeaders([
             .transferEncoding: "chunked",
@@ -114,7 +114,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
             headers: headers,
             data: nil
         )
-        let calculatedString = policy.stringToSign(forRequest: httpRequest)
+        let calculatedString = try? policy.stringToSign(forRequest: httpRequest)
         XCTAssertEqual(calculatedString, stringToSign)
     }
 
@@ -142,7 +142,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
 
         let accountName = "sampleaccount"
         let accessKey = "aGVsbG8gd29ybGQ=" // "hello world"
-        let credential = try! StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
+        let credential = StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
         let policy = StorageSharedKeyAuthenticationPolicy(credential: credential)
         let headers = HTTPHeaders([
             .transferEncoding: "chunked",
@@ -158,7 +158,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
             headers: headers,
             data: nil
         )
-        let calculatedString = policy.stringToSign(forRequest: httpRequest)
+        let calculatedString = try? policy.stringToSign(forRequest: httpRequest)
         XCTAssertEqual(calculatedString, stringToSign)
     }
 
@@ -187,7 +187,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
 
         let accountName = "sampleaccount"
         let accessKey = "aGVsbG8gd29ybGQ=" // "hello world"
-        let credential = try! StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
+        let credential = StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
         let policy = StorageSharedKeyAuthenticationPolicy(credential: credential)
         let headers = HTTPHeaders([
             .transferEncoding: "chunked",
@@ -203,7 +203,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
             headers: headers,
             data: nil
         )
-        let calculatedString = policy.stringToSign(forRequest: httpRequest)
+        let calculatedString = try? policy.stringToSign(forRequest: httpRequest)
         XCTAssertEqual(calculatedString, stringToSign)
     }
 
@@ -232,7 +232,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
 
         let accountName = "sampleaccount"
         let accessKey = "aGVsbG8gd29ybGQ=" // "hello world"
-        let credential = try! StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
+        let credential = StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
         let policy = StorageSharedKeyAuthenticationPolicy(credential: credential)
         let headers = HTTPHeaders([
             .transferEncoding: "chunked",
@@ -249,7 +249,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
             headers: headers,
             data: nil
         )
-        let calculatedString = policy.stringToSign(forRequest: httpRequest)
+        let calculatedString = try? policy.stringToSign(forRequest: httpRequest)
         XCTAssertEqual(calculatedString, stringToSign)
     }
 
@@ -277,7 +277,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
 
         let accountName = "sampleaccount"
         let accessKey = "aGVsbG8gd29ybGQ=" // "hello world"
-        let credential = try! StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
+        let credential = StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
         let policy = StorageSharedKeyAuthenticationPolicy(credential: credential)
         let headers = HTTPHeaders([
             .transferEncoding: "chunked",
@@ -294,7 +294,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
             headers: headers,
             data: nil
         )
-        let calculatedString = policy.stringToSign(forRequest: httpRequest)
+        let calculatedString = try? policy.stringToSign(forRequest: httpRequest)
         XCTAssertEqual(calculatedString, stringToSign)
     }
 
@@ -322,7 +322,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
 
         let accountName = "sampleaccount"
         let accessKey = "aGVsbG8gd29ybGQ=" // "hello world"
-        let credential = try! StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
+        let credential = StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
         let policy = StorageSharedKeyAuthenticationPolicy(credential: credential)
         let headers = HTTPHeaders([
             .transferEncoding: "chunked",
@@ -339,7 +339,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
             headers: headers,
             data: nil
         )
-        let calculatedString = policy.stringToSign(forRequest: httpRequest)
+        let calculatedString = try? policy.stringToSign(forRequest: httpRequest)
         XCTAssertEqual(calculatedString, stringToSign)
     }
 
@@ -368,7 +368,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
 
         let accountName = "sampleaccount"
         let accessKey = "aGVsbG8gd29ybGQ=" // "hello world"
-        let credential = try! StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
+        let credential = StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
         let policy = StorageSharedKeyAuthenticationPolicy(credential: credential)
         let headers = HTTPHeaders([
             .transferEncoding: "chunked",
@@ -384,7 +384,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
             headers: headers,
             data: nil
         )
-        let calculatedString = policy.stringToSign(forRequest: httpRequest)
+        let calculatedString = try? policy.stringToSign(forRequest: httpRequest)
         XCTAssertEqual(calculatedString, stringToSign)
     }
 
@@ -414,7 +414,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
 
         let accountName = "sampleaccount"
         let accessKey = "aGVsbG8gd29ybGQ=" // "hello world"
-        let credential = try! StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
+        let credential = StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
         let policy = StorageSharedKeyAuthenticationPolicy(credential: credential)
         var headers = HTTPHeaders([
             .transferEncoding: "chunked",
@@ -431,7 +431,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
             headers: headers,
             data: nil
         )
-        let calculatedString = policy.stringToSign(forRequest: httpRequest)
+        let calculatedString = try? policy.stringToSign(forRequest: httpRequest)
         XCTAssertEqual(calculatedString, stringToSign)
     }
 
@@ -459,7 +459,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
 
         let accountName = "sampleaccount"
         let accessKey = "aGVsbG8gd29ybGQ=" // "hello world"
-        let credential = try! StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
+        let credential = StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
         let policy = StorageSharedKeyAuthenticationPolicy(credential: credential)
         let headers = HTTPHeaders([
             .transferEncoding: "chunked",
@@ -475,7 +475,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
             headers: headers,
             data: nil
         )
-        let calculatedString = policy.stringToSign(forRequest: httpRequest)
+        let calculatedString = try? policy.stringToSign(forRequest: httpRequest)
         XCTAssertEqual(calculatedString, stringToSign)
     }
 
@@ -503,7 +503,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
 
         let accountName = "sampleaccount"
         let accessKey = "aGVsbG8gd29ybGQ=" // "hello world"
-        let credential = try! StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
+        let credential = StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
         let policy = StorageSharedKeyAuthenticationPolicy(credential: credential)
         let headers = HTTPHeaders([
             .transferEncoding: "chunked",
@@ -519,7 +519,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
             headers: headers,
             data: nil
         )
-        let calculatedString = policy.stringToSign(forRequest: httpRequest)
+        let calculatedString = try? policy.stringToSign(forRequest: httpRequest)
         XCTAssertEqual(calculatedString, stringToSign)
     }
 
@@ -527,7 +527,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
         let header = "SharedKey sampleaccount:iCEpAbPT9EwH6KBW5Ki25WLQtxiFOv879HOkGTLy+uo="
         let accountName = "sampleaccount"
         let accessKey = "aGVsbG8gd29ybGQ=" // "hello world"
-        let credential = try! StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
+        let credential = StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
         let policy = StorageSharedKeyAuthenticationPolicy(credential: credential)
         let headers = HTTPHeaders([
             .transferEncoding: "chunked",
@@ -555,7 +555,7 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
         let header = "SharedKey sampleaccount:uuFTijPHK46ctAbZ8q/6wLeoDE2o3kl7y1g6VkVptIU="
         let accountName = "sampleaccount"
         let accessKey = "aGVsbG8gd29ybGQ=" // "hello world"
-        let credential = try! StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
+        let credential = StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
         let policy = StorageSharedKeyAuthenticationPolicy(credential: credential)
         let headers = HTTPHeaders([
             .transferEncoding: "chunked",

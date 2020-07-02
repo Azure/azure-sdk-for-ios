@@ -28,10 +28,38 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7AE9D566248EF6400029003C"
+               BuildableName = "AzureIdentity.framework"
+               BlueprintName = "AzureIdentity"
+               ReferencedContainer = "container:sdk/identity/AzureIdentity/AzureIdentity.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "0A686488233E834D004B7E17"
                BuildableName = "AzureStorageBlob.framework"
                BlueprintName = "AzureStorageBlob"
                ReferencedContainer = "container:sdk/storage/AzureStorageBlob/AzureStorageBlob.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7AE9D56F248EF6400029003C"
+               BuildableName = "AzureIdentityTests.xctest"
+               BlueprintName = "AzureIdentityTests"
+               ReferencedContainer = "container:sdk/identity/AzureIdentity/AzureIdentity.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -52,6 +80,17 @@
                BuildableName = "AzureCoreTests.xctest"
                BlueprintName = "AzureCoreTests"
                ReferencedContainer = "container:sdk/core/AzureCore/AzureCore.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7AE9D56F248EF6400029003C"
+               BuildableName = "AzureIdentityTests.xctest"
+               BlueprintName = "AzureIdentityTests"
+               ReferencedContainer = "container:sdk/identity/AzureIdentity/AzureIdentity.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference

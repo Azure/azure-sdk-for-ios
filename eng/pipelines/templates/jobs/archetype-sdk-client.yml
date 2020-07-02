@@ -8,7 +8,7 @@ jobs:
       - template: ../variables/globals.yml
 
     pool:
-      vmImage: 'macOS-10.14'
+      vmImage: '$(OSVmImage)'
 
     steps:
       - script: |
@@ -18,19 +18,25 @@ jobs:
 
       - template: tools/daily-dev-build-variable/daily-dev-build-variable.yml@azure-sdk-tools
 
-      - script: sudo xcode-select --switch /Applications/Xcode_11.3.app
-        displayName: 'Use Xcode 11.3'
+      - script: sudo xcode-select --switch /Applications/Xcode_$(XcodeVersion).app
+        displayName: 'Use Xcode $(XcodeVersion)'
 
       - script: pod install
         displayName: 'Install dependencies'
 
       - script: |
           set -o pipefail
-          xcodebuild -workspace AzureSDK.xcworkspace -scheme ${{parameters.ServiceDirectory}} -destination "platform=iOS Simulator,OS=13.3,name=iPhone 11 Pro Max" -configuration Release -derivedDataPath $(Build.ArtifactStagingDirectory) build | xcpretty -c
-        displayName: 'Build framework bundle'
+          xcodebuild -workspace AzureSDK.xcworkspace \
+                     -scheme ${{parameters.ServiceDirectory}} \
+                     -destination "platform=iOS Simulator,OS=$(SimulatorVersion),name=$(SimulatorDevice)" \
+                     -configuration Release \
+                     -derivedDataPath $(Build.ArtifactStagingDirectory) \
+                     build | xcpretty -c
+        displayName: 'Build libraries for release'
 
-      - upload: $(Build.ArtifactStagingDirectory)/Build/Products/Release-iphonesimulator
-        artifact: bundles
+      - publish: $(Build.ArtifactStagingDirectory)/Build/Products/Release-iphonesimulator
+        displayName: 'Publish Release Artifacts [iphonesimulator]'
+        artifact: 'bundles-release-iphonesimulator'
 
   - job: 'Analyze'
     condition: and(succeeded(), ne(variables['Skip.Analyze'], 'true'))
@@ -39,16 +45,16 @@ jobs:
       - template: ../variables/globals.yml
 
     pool:
-      vmImage: 'macOS-10.14'
+      vmImage: '$(OSVmImage)'
 
     steps:
       - task: UsePythonVersion@0
         displayName: 'Use Python 3.6'
         inputs:
           versionSpec: '3.6'
-          
-      - script: sudo xcode-select --switch /Applications/Xcode_11.3.app
-        displayName: 'Use Xcode 11.3'
+
+      - script: sudo xcode-select --switch /Applications/Xcode_$(XcodeVersion).app
+        displayName: 'Use Xcode $(XcodeVersion)'
 
       - script: |
           brew install swiftlint
@@ -66,3 +72,70 @@ jobs:
         # builds should be sufficient.
         condition: and(succeededOrFailed(), ne(variables['Build.Reason'], 'PullRequest'))
         displayName: 'Component Detection'
+
+  - job: 'UnitTest'
+
+    variables:
+      - template: ../variables/globals.yml
+
+    pool:
+      vmImage: '$(OSVmImage)'
+
+    steps:
+      - script: sudo xcode-select --switch /Applications/Xcode_$(XcodeVersion).app
+        displayName: 'Use Xcode $(XcodeVersion)'
+
+      - script: gem install trainer slather
+        displayName: 'Install build tools'
+
+      - script: pod install
+        displayName: 'Install dependencies'
+
+      - script: |
+          set -o pipefail
+          xcodebuild -workspace AzureSDK.xcworkspace \
+                     -scheme ${{parameters.ServiceDirectory}} \
+                     -destination "platform=iOS Simulator,OS=$(SimulatorVersion),name=$(SimulatorDevice)" \
+                     -configuration Debug \
+                     -derivedDataPath $(Build.ArtifactStagingDirectory) \
+                     -enableCodeCoverage YES \
+                     test | xcpretty -c
+        displayName: 'Build and test libraries'
+
+      - script: trainer --path $(Build.ArtifactStagingDirectory) --fail_build false
+        displayName: 'Convert unit test results'
+
+      - task: PublishTestResults@2
+        inputs:
+          searchFolder: '$(Build.ArtifactStagingDirectory)/Logs/Test'
+          testResultsFiles: '*.xml'
+          testRunTitle: 'Unit Tests - [Xcode $(XcodeVersion), iOS $(SimulatorVersion)]'
+        displayName: 'Publish unit test results'
+
+      - script: |
+          echo "Getting list of projects in scheme ${{parameters.ServiceDirectory}}"
+          xcodebuild -showBuildSettings \
+                     -workspace AzureSDK.xcworkspace \
+                     -scheme ${{parameters.ServiceDirectory}} \
+                     -configuration Debug \
+          | grep PROJECT_FILE_PATH \
+          | awk -F ' = ' '{print $NF}' \
+          | while read PROJECT_PATH; do
+              PROJECT_NAME=$(echo $PROJECT_PATH | awk -F/ '{print $NF}' | sed 's/.xcodeproj//')
+              echo "Generating reports for $PROJECT_NAME"
+              slather coverage -x \
+                              --workspace AzureSDK.xcworkspace \
+                              --scheme ${{parameters.ServiceDirectory}} \
+                              --configuration Debug \
+                              --binary-basename $PROJECT_NAME \
+                              --build-directory $(Build.ArtifactStagingDirectory) \
+                              --output-directory $(Build.ArtifactStagingDirectory)/reports/$PROJECT_NAME \
+                              $PROJECT_PATH
+            done
+        displayName: 'Generate code coverage reports'
+
+      - task: PublishCodeCoverageResults@1
+        inputs:
+          codeCoverageTool: 'Cobertura'
+          summaryFileLocation: '$(Build.ArtifactStagingDirectory)/reports/*/*.xml'
+        displayName: 'Publish code coverage'

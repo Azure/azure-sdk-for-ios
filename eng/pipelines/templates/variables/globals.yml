@@ -1,2 +1,6 @@
 variables:
+  OSVmImage: 'macOS-10.15'
   DocWardenVersion: '0.5.0'
+  XcodeVersion: '11.5'
+  SimulatorVersion: '13.5'
+  SimulatorDevice: 'iPhone 11 Pro Max'

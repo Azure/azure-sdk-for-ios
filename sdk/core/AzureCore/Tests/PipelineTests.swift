@@ -63,11 +63,12 @@ class PipelineTests: XCTestCase {
 
     func test_PipelineClient_CanRun() {
         let client = createPipelineClient()
-        let request = try! HTTPRequest(method: .get, url: "test", headers: [:])
+        let request = try! HTTPRequest(method: .get, url: "http://www.microsoft.com", headers: [:])
         let didFinishRun = expectation(description: "run completion handler called.")
         let context = PipelineContext.of(keyValues: [
             "context": "value" as AnyObject
         ])
+        var requestCompleted = false
         client.request(request, context: context) { result, httpResponse in
             didFinishRun.fulfill()
             switch result {
@@ -76,7 +77,9 @@ class PipelineTests: XCTestCase {
             default:
                 break
             }
+            requestCompleted = true
         }
-        wait(for: [didFinishRun], timeout: 2.0, enforceOrder: true)
+        wait(for: [didFinishRun], timeout: 10.0, enforceOrder: true)
+        XCTAssertTrue(requestCompleted) // Ensure the request callback runs before the test finishes
     }
 }
