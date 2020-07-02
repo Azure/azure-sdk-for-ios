@@ -31,6 +31,7 @@ import Foundation
 public enum ContextKey: String {
     case allowedStatusCodes
     case allowedHeaders
+    case cancellationToken
     case deserializedData
     case requestStartTime
     case xmlMap
@@ -124,6 +125,17 @@ public class PipelineContext {
 
     public func value(forKey key: ContextKey) -> AnyObject? {
         return value(forKey: key.rawValue)
+    }
+
+    public func toDict() -> [AnyHashable: AnyObject?] {
+        var dict = [AnyHashable: AnyObject]()
+        var current = node
+        while current != nil {
+            guard let currNode = current else { break }
+            dict[currNode.key] = currNode.value
+            current = currNode.parent
+        }
+        return dict
     }
 }
 

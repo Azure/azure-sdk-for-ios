@@ -26,9 +26,36 @@
 
 import Foundation
 
-public protocol HTTPTransportStage: PipelineStage {
-    // MARK: Required Methods
+public final class CancellationToken: Codable, Equatable {
+    public internal(set) var isCanceled: Bool
 
-    func open()
-    func close()
+    internal var timeout: Double?
+    internal var timeoutRunning: Bool
+
+    public func cancel() {
+        isCanceled = true
+    }
+
+    public init(timeout: Double? = nil) {
+        self.timeout = timeout
+        self.timeoutRunning = false
+        self.isCanceled = false
+    }
+
+    // MARK: Equatable Protocol
+
+    public static func == (lhs: CancellationToken, rhs: CancellationToken) -> Bool {
+        return lhs.timeout == rhs.timeout && lhs.isCanceled == rhs.isCanceled
+    }
+
+    // MARK: Methods
+
+    public func start() {
+        guard timeoutRunning == false,
+            let timeout = self.timeout else { return }
+        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + timeout) {
+            self.isCanceled = true
+        }
+        timeoutRunning = true
+    }
 }

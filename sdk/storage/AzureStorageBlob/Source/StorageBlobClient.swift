@@ -275,6 +275,9 @@ public final class StorageBlobClient: PipelineClient {
         let context = PipelineContext.of(keyValues: [
             ContextKey.xmlMap.rawValue: xmlMap as AnyObject
         ])
+        if let cancellationToken = options?.cancellationToken {
+            context.add(value: cancellationToken as AnyObject, forKey: .cancellationToken)
+        }
         guard let requestUrl = url.appendingQueryParameters(queryParams) else { return }
         guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: headers) else { return }
 
@@ -372,6 +375,9 @@ public final class StorageBlobClient: PipelineClient {
         let context = PipelineContext.of(keyValues: [
             ContextKey.xmlMap.rawValue: xmlMap as AnyObject
         ])
+        if let cancellationToken = options?.cancellationToken {
+            context.add(value: cancellationToken as AnyObject, forKey: .cancellationToken)
+        }
         self.request(request, context: context) { result, httpResponse in
             switch result {
             case let .success(data):
@@ -456,6 +462,9 @@ public final class StorageBlobClient: PipelineClient {
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [202] as AnyObject
         ])
+        if let cancellationToken = options?.cancellationToken {
+            context.add(value: cancellationToken as AnyObject, forKey: .cancellationToken)
+        }
         guard let requestUrl = url.appendingQueryParameters(queryParams) else { return }
         guard let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: headers) else { return }
         self.request(request, context: context) { result, httpResponse in

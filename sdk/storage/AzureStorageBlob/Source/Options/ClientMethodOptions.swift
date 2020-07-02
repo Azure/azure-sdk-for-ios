@@ -38,6 +38,9 @@ public struct ListContainersOptions: AzureOptions {
     /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
     public let clientRequestId: String?
 
+    /// A token used to make a best-effort attempt at cancelling a request.
+    public var cancellationToken: CancellationToken?
+
     /// Return only containers whose names begin with the specified prefix.
     public let prefix: String?
 
@@ -92,6 +95,9 @@ public struct ListBlobsOptions: AzureOptions {
     /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
     public let clientRequestId: String?
 
+    /// A token used to make a best-effort attempt at cancelling a request.
+    public var cancellationToken: CancellationToken?
+
     /// Return only blobs whose names begin with the specified prefix.
     public let prefix: String?
 
@@ -122,6 +128,7 @@ public struct ListBlobsOptions: AzureOptions {
     ///   - timeoutInSeconds: Request timeout in seconds.
     public init(
         clientRequestId: String? = nil,
+        cancellationToken: CancellationToken? = nil,
         prefix: String? = nil,
         delimiter: String? = nil,
         maxResults: Int? = nil,
@@ -129,6 +136,7 @@ public struct ListBlobsOptions: AzureOptions {
         timeoutInSeconds: Int? = nil
     ) {
         self.clientRequestId = clientRequestId
+        self.cancellationToken = cancellationToken
         self.prefix = prefix
         self.delimiter = delimiter
         self.maxResults = maxResults
@@ -153,6 +161,9 @@ public struct DeleteBlobOptions: AzureOptions {
 
     /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
     public let clientRequestId: String?
+
+    /// A token used to make a best-effort attempt at cancelling a request.
+    public var cancellationToken: CancellationToken?
 
     /// Specify how blob snapshots should be handled. Required if the blob has associated snapshots.
     public let deleteSnapshots: DeleteBlobSnapshot?
@@ -186,6 +197,9 @@ public struct DeleteBlobOptions: AzureOptions {
 public struct DownloadBlobOptions: AzureOptions, Codable, Equatable {
     /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
     public let clientRequestId: String?
+
+    /// A token used to make a best-effort attempt at cancelling a request.
+    public var cancellationToken: CancellationToken?
 
     /// Options for working on a subset of data for a blob.
     public let range: RangeOptions?
@@ -275,6 +289,9 @@ public struct DownloadBlobOptions: AzureOptions, Codable, Equatable {
 public struct UploadBlobOptions: AzureOptions, Codable, Equatable {
     /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
     public let clientRequestId: String?
+
+    /// A token used to make a best-effort attempt at cancelling a request.
+    public var cancellationToken: CancellationToken?
 
     /// Options for accessing a blob based on the condition of a lease. If specified, the operation will be performed
     /// only if both of the following conditions are met:
