@@ -85,7 +85,7 @@ jobs:
       - script: sudo xcode-select --switch /Applications/Xcode_$(XcodeVersion).app
         displayName: 'Use Xcode $(XcodeVersion)'
 
-      - script: gem install trainer
+      - script: gem install trainer slather
         displayName: 'Install build tools'
 
       - script: pod install
@@ -98,6 +98,7 @@ jobs:
                      -destination "platform=iOS Simulator,OS=$(SimulatorVersion),name=$(SimulatorDevice)" \
                      -configuration Debug \
                      -derivedDataPath $(Build.ArtifactStagingDirectory) \
+                     -enableCodeCoverage YES \
                      test | xcpretty -c
         displayName: 'Build and test libraries'
 
@@ -110,3 +111,31 @@ jobs:
           testResultsFiles: '*.xml'
           testRunTitle: 'Unit Tests - [Xcode $(XcodeVersion), iOS $(SimulatorVersion)]'
         displayName: 'Publish unit test results'
+
+      - script: |
+          echo "Getting list of projects in scheme ${{parameters.ServiceDirectory}}"
+          xcodebuild -showBuildSettings \
+                     -workspace AzureSDK.xcworkspace \
+                     -scheme ${{parameters.ServiceDirectory}} \
+                     -configuration Debug \
+          | grep PROJECT_FILE_PATH \
+          | awk -F ' = ' '{print $NF}' \
+          | while read PROJECT_PATH; do
+              PROJECT_NAME=$(echo $PROJECT_PATH | awk -F/ '{print $NF}' | sed 's/.xcodeproj//')
+              echo "Generating reports for $PROJECT_NAME"
+              slather coverage -x \
+                              --workspace AzureSDK.xcworkspace \
+                              --scheme ${{parameters.ServiceDirectory}} \
+                              --configuration Debug \
+                              --binary-basename $PROJECT_NAME \
+                              --build-directory $(Build.ArtifactStagingDirectory) \
+                              --output-directory $(Build.ArtifactStagingDirectory)/reports/$PROJECT_NAME \
+                              $PROJECT_PATH
+            done
+        displayName: 'Generate code coverage reports'
+
+      - task: PublishCodeCoverageResults@1
+        inputs:
+          codeCoverageTool: 'Cobertura'
+          summaryFileLocation: '$(Build.ArtifactStagingDirectory)/reports/*/*.xml'
+        displayName: 'Publish code coverage'
