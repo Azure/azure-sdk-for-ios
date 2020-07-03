@@ -67,13 +67,13 @@ let package = Package(
             path: "sdk/core/AzureCore",
             sources: ["Tests"]
         ),
-        .target(
+        .testTarget(
             name: "AzureIdentityTests",
             dependencies: ["AzureIdentity"],
             path: "sdk/identity/AzureIdentity",
             sources: ["Tests"]
         ),
-        .target(
+        .testTarget(
             name: "AzureStorageBlobTests",
             dependencies: ["AzureStorageBlob"],
             path: "sdk/storage/AzureStorageBlob",

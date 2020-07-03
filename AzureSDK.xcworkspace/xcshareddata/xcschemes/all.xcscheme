@@ -56,6 +56,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7AE9D566248EF6400029003C"
+               BuildableName = "AzureIdentity.framework"
+               BlueprintName = "AzureIdentity"
+               ReferencedContainer = "container:sdk/identity/AzureIdentity/AzureIdentity.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "0A3A5E752315E70400473FDA"
                BuildableName = "AzureSDKDemoSwift.app"
                BlueprintName = "AzureSDKDemoSwift"

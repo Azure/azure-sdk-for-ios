@@ -47,19 +47,7 @@
       location = "group:"
       name = "Deployment">
       <FileRef
-         location = "group:AzureSDK.podspec">
-      </FileRef>
-      <FileRef
          location = "group:Package.swift">
-      </FileRef>
-      <FileRef
-         location = "group:Podfile">
-      </FileRef>
-      <FileRef
-         location = "group:Podfile.lock">
-      </FileRef>
-      <FileRef
-         location = "group:Pods/Pods.xcodeproj">
       </FileRef>
    </Group>
    <Group

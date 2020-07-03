@@ -3,16 +3,18 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		51C27D5F24AF4FDE00530218 /* AzureCore.framework in Sources */ = {isa = PBXBuildFile; fileRef = 51C27D5E24AF4FDE00530218 /* AzureCore.framework */; };
+		51C27D7F24AF522500530218 /* MSAL.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51C27D6E24AF50F600530218 /* MSAL.xcframework */; };
+		51C27D8024AF522500530218 /* MSAL.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 51C27D6E24AF50F600530218 /* MSAL.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		51C27DA124AF575400530218 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51C27DA024AF575400530218 /* AzureCore.framework */; };
+		51C27DA224AF575400530218 /* AzureCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 51C27DA024AF575400530218 /* AzureCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7ACBF09E248EFB630077C5BA /* AzureIdentityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE9D582248EF8BB0029003C /* AzureIdentityTests.swift */; };
 		7ACBF0A0248EFC7D0077C5BA /* MSALCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACBF09F248EFC7D0077C5BA /* MSALCredential.swift */; };
-		7ACBF0A2248EFE800077C5BA /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ACBF0A1248EFE800077C5BA /* AzureCore.framework */; };
 		7AE9D571248EF6400029003C /* AzureIdentity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7AE9D567248EF6400029003C /* AzureIdentity.framework */; };
-		A5E54BE7ABB535E09BD42602 /* Pods_AzureIdentityTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B40801EEC06DE731AB20DE82 /* Pods_AzureIdentityTests.framework */; };
-		D255B1D5EFE8916E3727E266 /* Pods_AzureIdentity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7C5E14351160B28498D1C96 /* Pods_AzureIdentity.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -25,21 +27,32 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		51C27D8124AF522500530218 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				51C27D8024AF522500530218 /* MSAL.xcframework in Embed Frameworks */,
+				51C27DA224AF575400530218 /* AzureCore.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		3BF5995DFF8F69A74F38709A /* Pods-AzureIdentity.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureIdentity.debug.xcconfig"; path = "Target Support Files/Pods-AzureIdentity/Pods-AzureIdentity.debug.xcconfig"; sourceTree = "<group>"; };
-		7300B24BBD30372EE41FF661 /* Pods-AzureIdentityTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureIdentityTests.debug.xcconfig"; path = "Target Support Files/Pods-AzureIdentityTests/Pods-AzureIdentityTests.debug.xcconfig"; sourceTree = "<group>"; };
+		51C27D5E24AF4FDE00530218 /* AzureCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AzureCore.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/AzureSDK-gzsdsuvnhodfkqfrwlspqljrwtgg/Build/Products/Debug-iphonesimulator/AzureCore.framework"; sourceTree = "<group>"; };
+		51C27D6E24AF50F600530218 /* MSAL.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = MSAL.xcframework; path = "../../../../microsoft-authentication-library-for-objc/build/MSAL.xcframework"; sourceTree = "<group>"; };
+		51C27DA024AF575400530218 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ACBF09F248EFC7D0077C5BA /* MSALCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSALCredential.swift; sourceTree = "<group>"; };
-		7ACBF0A1248EFE800077C5BA /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ACBF0A5248EFF070077C5BA /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		7AE9D567248EF6400029003C /* AzureIdentity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureIdentity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7AE9D570248EF6400029003C /* AzureIdentityTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AzureIdentityTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7AE9D582248EF8BB0029003C /* AzureIdentityTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AzureIdentityTests.swift; sourceTree = "<group>"; };
 		7AE9D583248EF8BB0029003C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7AE9D586248EF8BB0029003C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8BFD4CEA66557731BA9782D3 /* Pods-AzureIdentityTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureIdentityTests.release.xcconfig"; path = "Target Support Files/Pods-AzureIdentityTests/Pods-AzureIdentityTests.release.xcconfig"; sourceTree = "<group>"; };
-		B40801EEC06DE731AB20DE82 /* Pods_AzureIdentityTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureIdentityTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C26595BD1EF61F8953340A4A /* Pods-AzureIdentity.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureIdentity.release.xcconfig"; path = "Target Support Files/Pods-AzureIdentity/Pods-AzureIdentity.release.xcconfig"; sourceTree = "<group>"; };
-		C7C5E14351160B28498D1C96 /* Pods_AzureIdentity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureIdentity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,8 +60,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D255B1D5EFE8916E3727E266 /* Pods_AzureIdentity.framework in Frameworks */,
-				7ACBF0A2248EFE800077C5BA /* AzureCore.framework in Frameworks */,
+				51C27D7F24AF522500530218 /* MSAL.xcframework in Frameworks */,
+				51C27DA124AF575400530218 /* AzureCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -57,34 +70,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				7AE9D571248EF6400029003C /* AzureIdentity.framework in Frameworks */,
-				A5E54BE7ABB535E09BD42602 /* Pods_AzureIdentityTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6F1F8C3362629E0B8D58CD7E /* Pods */ = {
+		51C27D6D24AF50F600530218 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3BF5995DFF8F69A74F38709A /* Pods-AzureIdentity.debug.xcconfig */,
-				C26595BD1EF61F8953340A4A /* Pods-AzureIdentity.release.xcconfig */,
-				7300B24BBD30372EE41FF661 /* Pods-AzureIdentityTests.debug.xcconfig */,
-				8BFD4CEA66557731BA9782D3 /* Pods-AzureIdentityTests.release.xcconfig */,
+				51C27D6E24AF50F600530218 /* MSAL.xcframework */,
+				51C27DA024AF575400530218 /* AzureCore.framework */,
 			);
-			name = Pods;
-			path = ../../../Pods;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		7AE9D55D248EF6400029003C = {
 			isa = PBXGroup;
 			children = (
+				51C27D5E24AF4FDE00530218 /* AzureCore.framework */,
 				7AE9D584248EF8BB0029003C /* Source */,
 				7AE9D581248EF8BB0029003C /* Tests */,
 				7AE9D568248EF6400029003C /* Products */,
-				FAFD88ED41DF3AED1F476C9A /* Frameworks */,
-				6F1F8C3362629E0B8D58CD7E /* Pods */,
 				7ACBF0A5248EFF070077C5BA /* README.md */,
+				51C27D6D24AF50F600530218 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -123,16 +132,6 @@
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		FAFD88ED41DF3AED1F476C9A /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				7ACBF0A1248EFE800077C5BA /* AzureCore.framework */,
-				C7C5E14351160B28498D1C96 /* Pods_AzureIdentity.framework */,
-				B40801EEC06DE731AB20DE82 /* Pods_AzureIdentityTests.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -150,12 +149,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7AE9D57B248EF6400029003C /* Build configuration list for PBXNativeTarget "AzureIdentity" */;
 			buildPhases = (
-				A9C17DEEC107AFBFE260C47D /* [CP] Check Pods Manifest.lock */,
 				7AE9D562248EF6400029003C /* Headers */,
 				7AE9D563248EF6400029003C /* Sources */,
 				7AE9D564248EF6400029003C /* Frameworks */,
 				7AE9D565248EF6400029003C /* Resources */,
 				7ACBF0AC248F140E0077C5BA /* Format And Lint */,
+				51C27D8124AF522500530218 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -170,11 +169,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7AE9D57E248EF6400029003C /* Build configuration list for PBXNativeTarget "AzureIdentityTests" */;
 			buildPhases = (
-				DE8384CAD1166B986FD36F94 /* [CP] Check Pods Manifest.lock */,
 				7AE9D56C248EF6400029003C /* Sources */,
 				7AE9D56D248EF6400029003C /* Frameworks */,
 				7AE9D56E248EF6400029003C /* Resources */,
-				54F5DE67A25118D36A18CC01 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -242,23 +239,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		54F5DE67A25118D36A18CC01 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AzureIdentityTests/Pods-AzureIdentityTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AzureIdentityTests/Pods-AzureIdentityTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AzureIdentityTests/Pods-AzureIdentityTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		7ACBF0AC248F140E0077C5BA /* Format And Lint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -277,50 +257,6 @@
 			shellPath = /bin/sh;
 			shellScript = "BUILD_PATH=$(pwd)\nROOT_PATH=$(pwd | rev | cut -d'/' -f4- | rev) \n$ROOT_PATH/Scripts/swiftlint.sh $BUILD_PATH\n";
 		};
-		A9C17DEEC107AFBFE260C47D /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-AzureIdentity-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DE8384CAD1166B986FD36F94 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-AzureIdentityTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -329,6 +265,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7ACBF0A0248EFC7D0077C5BA /* MSALCredential.swift in Sources */,
+				51C27D5F24AF4FDE00530218 /* AzureCore.framework in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -477,7 +414,6 @@
 		};
 		7AE9D57C248EF6400029003C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3BF5995DFF8F69A74F38709A /* Pods-AzureIdentity.debug.xcconfig */;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_ENABLE_MODULES = YES;
@@ -510,7 +446,6 @@
 		};
 		7AE9D57D248EF6400029003C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C26595BD1EF61F8953340A4A /* Pods-AzureIdentity.release.xcconfig */;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_ENABLE_MODULES = YES;
@@ -542,7 +477,6 @@
 		};
 		7AE9D57F248EF6400029003C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7300B24BBD30372EE41FF661 /* Pods-AzureIdentityTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -562,7 +496,6 @@
 		};
 		7AE9D580248EF6400029003C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8BFD4CEA66557731BA9782D3 /* Pods-AzureIdentityTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
