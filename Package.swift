@@ -41,7 +41,8 @@ let package = Package(
     ],
     dependencies: [
         .package(
-            url: "https://github.com/mitchdenny/microsoft-authentication-library-for-obj",.branch("feature/swift-pm-via-binary-framework")
+            url: "https://github.com/mitchdenny/microsoft-authentication-library-for-obj",
+            .branch("swift-pm-via-binary-framework")
         )
     ],
     targets: [
