@@ -48,19 +48,19 @@ let package = Package(
         // Build targets
         .target(
             name: "AzureCore",
-            dependencies: [],
+            dependencies: ["microsoft-authentication-library-for-objc"],
             path: "sdk/core/AzureCore",
             sources: ["Source"]
         ),
         .target(
             name: "AzureIdentity",
-            dependencies: ["AzureCore"],
+            dependencies: ["AzureCore", "microsoft-authentication-library-for-objc"],
             path: "sdk/identity/AzureIdentity",
             sources: ["Source"]
         ),
         .target(
             name: "AzureStorageBlob",
-            dependencies: ["AzureCore"],
+            dependencies: ["AzureCore", "microsoft-authentication-library-for-objc"],
             path: "sdk/storage/AzureStorageBlob",
             sources: ["Source"]
         ),
