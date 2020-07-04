@@ -39,7 +39,11 @@ let package = Package(
         .library(name: "AzureIdentity", targets: ["AzureIdentity"]),
         .library(name: "AzureStorageBlob", targets: ["AzureStorageBlob"])
     ],
-    dependencies: [],
+    dependencies: [
+        .package(
+            url: "https://github.com/mitchdenny/microsoft-authentication-library-for-obj",.branch("feature/swift-pm-via-binary-framework")
+        )
+    ],
     targets: [
         // Build targets
         .target(

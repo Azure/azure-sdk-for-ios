@@ -40,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // requests are made.
         MSALGlobalConfig.loggerConfig.logLevel = .nothing
         MSALGlobalConfig.loggerConfig.setLogCallback { _, message, containsPII in
-
+            
             // If PiiLoggingEnabled is set YES, this block will potentially contain sensitive information (Personally
             // Identifiable Information), but not all messages will contain it.
             // containsPII == YES indicates if a particular message contains PII.

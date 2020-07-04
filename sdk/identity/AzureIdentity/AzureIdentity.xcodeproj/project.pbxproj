@@ -7,9 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5188CF4B24B09B1300D003A5 /* microsoft-authentication-library-for-objc in Frameworks */ = {isa = PBXBuildFile; productRef = 5188CF4A24B09B1300D003A5 /* microsoft-authentication-library-for-objc */; };
 		51C27D5F24AF4FDE00530218 /* AzureCore.framework in Sources */ = {isa = PBXBuildFile; fileRef = 51C27D5E24AF4FDE00530218 /* AzureCore.framework */; };
-		51C27D7F24AF522500530218 /* MSAL.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51C27D6E24AF50F600530218 /* MSAL.xcframework */; };
-		51C27D8024AF522500530218 /* MSAL.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 51C27D6E24AF50F600530218 /* MSAL.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		51C27DA124AF575400530218 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51C27DA024AF575400530218 /* AzureCore.framework */; };
 		51C27DA224AF575400530218 /* AzureCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 51C27DA024AF575400530218 /* AzureCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7ACBF09E248EFB630077C5BA /* AzureIdentityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE9D582248EF8BB0029003C /* AzureIdentityTests.swift */; };
@@ -34,7 +33,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				51C27D8024AF522500530218 /* MSAL.xcframework in Embed Frameworks */,
 				51C27DA224AF575400530218 /* AzureCore.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -44,7 +42,6 @@
 
 /* Begin PBXFileReference section */
 		51C27D5E24AF4FDE00530218 /* AzureCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AzureCore.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/AzureSDK-gzsdsuvnhodfkqfrwlspqljrwtgg/Build/Products/Debug-iphonesimulator/AzureCore.framework"; sourceTree = "<group>"; };
-		51C27D6E24AF50F600530218 /* MSAL.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = MSAL.xcframework; path = "../../../../microsoft-authentication-library-for-objc/build/MSAL.xcframework"; sourceTree = "<group>"; };
 		51C27DA024AF575400530218 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ACBF09F248EFC7D0077C5BA /* MSALCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSALCredential.swift; sourceTree = "<group>"; };
 		7ACBF0A5248EFF070077C5BA /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
@@ -60,8 +57,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				51C27D7F24AF522500530218 /* MSAL.xcframework in Frameworks */,
 				51C27DA124AF575400530218 /* AzureCore.framework in Frameworks */,
+				5188CF4B24B09B1300D003A5 /* microsoft-authentication-library-for-objc in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,7 +76,6 @@
 		51C27D6D24AF50F600530218 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				51C27D6E24AF50F600530218 /* MSAL.xcframework */,
 				51C27DA024AF575400530218 /* AzureCore.framework */,
 			);
 			name = Frameworks;
@@ -161,6 +157,9 @@
 			dependencies = (
 			);
 			name = AzureIdentity;
+			packageProductDependencies = (
+				5188CF4A24B09B1300D003A5 /* microsoft-authentication-library-for-objc */,
+			);
 			productName = AzureIdentity;
 			productReference = 7AE9D567248EF6400029003C /* AzureIdentity.framework */;
 			productType = "com.apple.product-type.framework";
@@ -211,6 +210,9 @@
 				Base,
 			);
 			mainGroup = 7AE9D55D248EF6400029003C;
+			packageReferences = (
+				5188CF4924B09B1300D003A5 /* XCRemoteSwiftPackageReference "microsoft-authentication-library-for-objc" */,
+			);
 			productRefGroup = 7AE9D568248EF6400029003C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -544,6 +546,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5188CF4924B09B1300D003A5 /* XCRemoteSwiftPackageReference "microsoft-authentication-library-for-objc" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mitchdenny/microsoft-authentication-library-for-objc";
+			requirement = {
+				branch = "swift-pm-via-binary-framework";
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5188CF4A24B09B1300D003A5 /* microsoft-authentication-library-for-objc */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5188CF4924B09B1300D003A5 /* XCRemoteSwiftPackageReference "microsoft-authentication-library-for-objc" */;
+			productName = "microsoft-authentication-library-for-objc";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7AE9D55E248EF6400029003C /* Project object */;
 }

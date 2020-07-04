@@ -25,11 +25,9 @@
 // --------------------------------------------------------------------------
 import AzureCore
 import Foundation
-#if canImport(MSAL)
-    import MSAL
-#endif
+import MSAL
 
-#if canImport(MSAL)
+
     public typealias MSALResultCompletionHandler = (MSALResult?, Error?) -> Void
 
     /// Delegate protocol for view controllers to hook into the MSAL interactive flow.
@@ -208,4 +206,4 @@ import Foundation
             }
         }
     }
-#endif
+

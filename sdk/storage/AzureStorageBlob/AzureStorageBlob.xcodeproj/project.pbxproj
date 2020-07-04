@@ -41,12 +41,11 @@
 		0ADCB0172486CDBE00CEA28D /* StorageBlobClient+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADCB0162486CDBE00CEA28D /* StorageBlobClient+Extensions.swift */; };
 		0AE8F02723AC2A5C007B6975 /* StorageBlobClient+AllowLoggingValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE8F02623AC2A5C007B6975 /* StorageBlobClient+AllowLoggingValues.swift */; };
 		0AE8F02D23AC2A7C007B6975 /* StorageStreamDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE8F02A23AC2A7C007B6975 /* StorageStreamDownloader.swift */; };
+		5188CF4E24B09B9700D003A5 /* microsoft-authentication-library-for-objc in Frameworks */ = {isa = PBXBuildFile; productRef = 5188CF4D24B09B9700D003A5 /* microsoft-authentication-library-for-objc */; };
 		51C27D8524AF529B00530218 /* AzureIdentity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51C27D8424AF529B00530218 /* AzureIdentity.framework */; };
 		51C27D8624AF529B00530218 /* AzureIdentity.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 51C27D8424AF529B00530218 /* AzureIdentity.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		51C27D8724AF529E00530218 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51C27D5C24AF4FB000530218 /* AzureCore.framework */; };
 		51C27D8824AF529E00530218 /* AzureCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 51C27D5C24AF4FB000530218 /* AzureCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		51C27D8924AF52A200530218 /* MSAL.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51C27D7524AF513C00530218 /* MSAL.xcframework */; };
-		51C27D8A24AF52A200530218 /* MSAL.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 51C27D7524AF513C00530218 /* MSAL.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		7A0DF007245A3FFF002EC98F /* TransferCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A0DF006245A3FFF002EC98F /* TransferCollection.swift */; };
 		7A5C97A324410BD1006E7B5F /* LocalURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5C97A224410BD1006E7B5F /* LocalURL.swift */; };
 		7ACAADA1242C241A00A049B7 /* TransferOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACAADA0242C241900A049B7 /* TransferOperationQueue.swift */; };
@@ -73,7 +72,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				51C27D8A24AF52A200530218 /* MSAL.xcframework in Embed Frameworks */,
 				51C27D8624AF529B00530218 /* AzureIdentity.framework in Embed Frameworks */,
 				51C27D8824AF529E00530218 /* AzureCore.framework in Embed Frameworks */,
 				0A25EA4C2398121A0012DFE1 /* (null) in Embed Frameworks */,
@@ -121,7 +119,6 @@
 		0AE8F02623AC2A5C007B6975 /* StorageBlobClient+AllowLoggingValues.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StorageBlobClient+AllowLoggingValues.swift"; sourceTree = "<group>"; };
 		0AE8F02A23AC2A7C007B6975 /* StorageStreamDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageStreamDownloader.swift; sourceTree = "<group>"; };
 		51C27D5C24AF4FB000530218 /* AzureCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AzureCore.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/AzureSDK-gzsdsuvnhodfkqfrwlspqljrwtgg/Build/Products/Debug-iphonesimulator/AzureCore.framework"; sourceTree = "<group>"; };
-		51C27D7524AF513C00530218 /* MSAL.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = MSAL.xcframework; path = "../../../../microsoft-authentication-library-for-objc/build/MSAL.xcframework"; sourceTree = "<group>"; };
 		51C27D8424AF529B00530218 /* AzureIdentity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureIdentity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A0DF006245A3FFF002EC98F /* TransferCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferCollection.swift; sourceTree = "<group>"; };
 		7A5C97A224410BD1006E7B5F /* LocalURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalURL.swift; sourceTree = "<group>"; };
@@ -138,7 +135,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				51C27D8924AF52A200530218 /* MSAL.xcframework in Frameworks */,
+				5188CF4E24B09B9700D003A5 /* microsoft-authentication-library-for-objc in Frameworks */,
 				51C27D8524AF529B00530218 /* AzureIdentity.framework in Frameworks */,
 				51C27D8724AF529E00530218 /* AzureCore.framework in Frameworks */,
 			);
@@ -265,7 +262,6 @@
 			isa = PBXGroup;
 			children = (
 				51C27D8424AF529B00530218 /* AzureIdentity.framework */,
-				51C27D7524AF513C00530218 /* MSAL.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -341,6 +337,9 @@
 			dependencies = (
 			);
 			name = AzureStorageBlob;
+			packageProductDependencies = (
+				5188CF4D24B09B9700D003A5 /* microsoft-authentication-library-for-objc */,
+			);
 			productName = AzureStorageBlob;
 			productReference = 0A686489233E834D004B7E17 /* AzureStorageBlob.framework */;
 			productType = "com.apple.product-type.framework";
@@ -391,6 +390,9 @@
 				Base,
 			);
 			mainGroup = 0A68647F233E834D004B7E17;
+			packageReferences = (
+				5188CF4C24B09B9700D003A5 /* XCRemoteSwiftPackageReference "microsoft-authentication-library-for-objc" */,
+			);
 			productRefGroup = 0A68648A233E834D004B7E17 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -754,6 +756,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5188CF4C24B09B9700D003A5 /* XCRemoteSwiftPackageReference "microsoft-authentication-library-for-objc" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mitchdenny/microsoft-authentication-library-for-objc";
+			requirement = {
+				branch = "swift-pm-via-binary-framework";
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5188CF4D24B09B9700D003A5 /* microsoft-authentication-library-for-objc */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5188CF4C24B09B9700D003A5 /* XCRemoteSwiftPackageReference "microsoft-authentication-library-for-objc" */;
+			productName = "microsoft-authentication-library-for-objc";
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		0A28684523F5D6700084CF15 /* AzureStorage.xcdatamodeld */ = {
