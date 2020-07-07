@@ -44,16 +44,17 @@ extension BaseError {
 }
 
 public enum AzureError: BaseError {
-    case sdk(_ message: String)
-    case service(_ message: String)
-    case system(_ message: String)
+    case sdk(String)
+    case service(String)
+    case wrapped(Error, PipelineResponse)
 
     var message: String {
         switch self {
         case let .sdk(msg),
-             let .service(msg),
-             let .system(msg):
+             let .service(msg):
             return msg
+        case let .wrapped(error, _):
+            return error.localizedDescription
         }
     }
 }
@@ -64,6 +65,6 @@ extension Error {
             // swiftlint:disable force_cast
             return self as! AzureError
         }
-        return AzureError.system(localizedDescription)
+        return AzureError.sdk(localizedDescription)
     }
 }

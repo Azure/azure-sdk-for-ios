@@ -107,7 +107,7 @@ open class PipelineClient {
                     }
                 }
             case let .failure(error):
-                completionHandler(.failure(error.innerError), httpResponse)
+                completionHandler(.failure(error), httpResponse)
             }
         }
     }

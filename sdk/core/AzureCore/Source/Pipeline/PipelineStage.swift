@@ -28,10 +28,10 @@ import Foundation
 
 public typealias ResultHandler<TSuccess, TError: Error> = (Result<TSuccess, TError>, HTTPResponse?) -> Void
 public typealias HTTPResultHandler<T> = ResultHandler<T, AzureError>
-public typealias PipelineStageResultHandler = ResultHandler<PipelineResponse, PipelineError>
+public typealias PipelineStageResultHandler = ResultHandler<PipelineResponse, AzureError>
 public typealias OnRequestCompletionHandler = (PipelineRequest, Error?) -> Void
 public typealias OnResponseCompletionHandler = (PipelineResponse, Error?) -> Void
-public typealias OnErrorCompletionHandler = (PipelineError, Bool) -> Void
+public typealias OnErrorCompletionHandler = (AzureError, Bool) -> Void
 
 /// Protocol for implementing pipeline stages.
 public protocol PipelineStage {
@@ -58,7 +58,7 @@ public protocol PipelineStage {
     ///   - error: The `PipelineError` input.
     ///   - completionHandler: A completion handler which forwards the error along with a boolean
     ///   that indicates whether the exception was handled or not.
-    func on(error: PipelineError, completionHandler: @escaping OnErrorCompletionHandler)
+    func on(error: AzureError, completionHandler: @escaping OnErrorCompletionHandler)
 
     /// Executes the policy method.
     /// - Parameters:
@@ -77,8 +77,8 @@ extension PipelineStage {
         completionHandler(response, nil)
     }
 
-    public func on(error: PipelineError, completionHandler: @escaping OnErrorCompletionHandler) {
-        completionHandler(error.innerError, false)
+    public func on(error: AzureError, completionHandler: @escaping OnErrorCompletionHandler) {
+        completionHandler(error, false)
     }
 
     public func process(
@@ -95,7 +95,7 @@ extension PipelineStage {
                     logger: request.logger,
                     context: request.context
                 )
-                let pipelineError = PipelineError(fromError: error, pipelineResponse: pipelineResponse)
+                let pipelineError = AzureError.wrapped(error, pipelineResponse)
                 self.on(error: pipelineError) { _, handled in
                     if !handled {
                         completionHandler(.failure(pipelineError), nil)
@@ -108,7 +108,7 @@ extension PipelineStage {
                 case let .success(pipelineResponse):
                     self.on(response: pipelineResponse) { response, error in
                         if let error = error {
-                            let pipelineError = PipelineError(fromError: error, pipelineResponse: response)
+                            let pipelineError = AzureError.wrapped(error, response)
                             self.on(error: pipelineError) { _, handled in
                                 if !handled {
                                     completionHandler(.failure(pipelineError), httpResponse)

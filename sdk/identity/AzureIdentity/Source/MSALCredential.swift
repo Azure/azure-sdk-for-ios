@@ -138,7 +138,7 @@ import Foundation
             if let account = account {
                 acquireTokenSilently(forAccount: account, withScopes: scopes) { result, error in
                     if let errorMessage = error?.localizedDescription {
-                        returnError = AzureError.system(errorMessage)
+                        returnError = AzureError.sdk(errorMessage)
                     }
                     if let result = result {
                         accessToken = AccessToken(
@@ -153,7 +153,7 @@ import Foundation
             } else {
                 acquireTokenInteractively(withScopes: scopes) { result, error in
                     if let errorMessage = error?.localizedDescription {
-                        returnError = AzureError.system(errorMessage)
+                        returnError = AzureError.sdk(errorMessage)
                     }
                     if let result = result {
                         self.delegate?.didCompleteMSALRequest(withResult: result)

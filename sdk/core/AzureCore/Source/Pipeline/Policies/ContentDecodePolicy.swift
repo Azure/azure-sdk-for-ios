@@ -201,7 +201,7 @@ public class ContentDecodePolicy: PipelineStage {
         } catch {
             let errorMessage = String(format: "Deserialization error: %@", error.localizedDescription)
             response.logger.error(errorMessage)
-            returnError = AzureError.general(errorMessage)
+            returnError = AzureError.sdk(errorMessage)
         }
     }
 

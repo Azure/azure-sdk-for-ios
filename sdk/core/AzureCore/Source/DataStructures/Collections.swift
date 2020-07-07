@@ -204,7 +204,7 @@ public class PagedCollection<SingleElement: Codable> {
     public func nextPage(completionHandler: @escaping Continuation<Element>) {
         // exit if there is no valid continuation token
         guard let continuationToken = continuationToken, !self.isExhausted else {
-            let error = AzureError.general("Paged collection exhausted.")
+            let error = AzureError.sdk("Paged collection exhausted.")
             completionHandler(.failure(error))
             return
         }

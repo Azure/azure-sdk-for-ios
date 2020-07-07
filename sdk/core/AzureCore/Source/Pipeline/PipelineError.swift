@@ -26,16 +26,16 @@
 
 import Foundation
 
-public final class PipelineError: Error {
-    // MARK: Properties
-
-    public var innerError: AzureError
-    public var pipelineResponse: PipelineResponse
-
-    // MARK: Initializers
-
-    init(fromError innerError: Error, pipelineResponse: PipelineResponse) {
-        self.innerError = innerError.toAzureError
-        self.pipelineResponse = pipelineResponse
-    }
-}
+// public final class PipelineError: Error {
+//    // MARK: Properties
+//
+//    public var innerError: AzureError
+//    public var pipelineResponse: PipelineResponse
+//
+//    // MARK: Initializers
+//
+//    init(fromError innerError: Error, pipelineResponse: PipelineResponse) {
+//        self.innerError = innerError.toAzureError
+//        self.pipelineResponse = pipelineResponse
+//    }
+// }

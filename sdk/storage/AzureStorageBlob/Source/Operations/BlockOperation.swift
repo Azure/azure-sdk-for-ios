@@ -84,8 +84,10 @@ internal class BlockOperation: TransferOperation {
                     self.notifyDelegate(withTransfer: parent)
                 case let .failure(error):
                     var err = error
-                    if let pipelineError = error as? PipelineError {
-                        err = pipelineError.innerError
+                    switch error {
+                    case let .wrapped(innerError, _):
+                        err = AzureError.service(innerError.localizedDescription)
+                    default: break
                     }
                     transfer.state = .failed
                     parent.state = .failed
@@ -123,8 +125,10 @@ internal class BlockOperation: TransferOperation {
                     self.notifyDelegate(withTransfer: parent)
                 case let .failure(error):
                     var err = error
-                    if let pipelineError = error as? PipelineError {
-                        err = pipelineError.innerError
+                    switch error {
+                    case let .wrapped(innerError, _):
+                        err = AzureError.service(innerError.localizedDescription)
+                    default: break
                     }
                     transfer.state = .failed
                     parent.state = .failed

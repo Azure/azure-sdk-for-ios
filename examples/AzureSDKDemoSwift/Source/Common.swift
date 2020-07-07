@@ -37,7 +37,7 @@ struct AppConstants {
 
     static let clientId = "6f2c62dd-d6b2-444a-8dff-c64380e7ac76"
 
-    static let redirectUri = "msauth.com.azure.examples.AzureSDKDemoSwifty://auth"
+    static let redirectUri = "msauth.com.azure.examples.AzureSDKDemoSwift://auth"
 
     static let authority = "https://login.microsoftonline.com/7e6c9611-413e-47e4-a054-a389854dd732"
 
@@ -134,9 +134,10 @@ extension UIViewController {
     internal func showAlert(error: Error) {
         guard presentedViewController == nil else { return }
         var errorString: String
-        if let pipelineError = error as? PipelineError {
-            errorString = pipelineError.innerError.localizedDescription
-        } else {
+        switch error {
+        case let AzureError.wrapped(innerError, _):
+            errorString = innerError.localizedDescription
+        default:
             let errorInfo = (error as NSError).userInfo
             errorString = errorInfo[NSDebugDescriptionErrorKey] as? String ?? error.localizedDescription
         }
