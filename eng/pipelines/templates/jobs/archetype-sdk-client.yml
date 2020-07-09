@@ -16,7 +16,7 @@ jobs:
         displayName: 'Tag scheduled builds'
         condition: and(succeeded(), eq(variables['Build.SourceBranchName'],'master'),eq(variables['Build.Reason'],'Schedule'))
 
-      - template: tools/daily-dev-build-variable/daily-dev-build-variable.yml@azure-sdk-tools
+      - template: /eng/common/pipelines/templates/steps/daily-dev-build-variable.yml
 
       - script: sudo xcode-select --switch /Applications/Xcode_$(XcodeVersion).app
         displayName: 'Use Xcode $(XcodeVersion)'
