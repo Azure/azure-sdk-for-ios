@@ -86,6 +86,7 @@ class BlobDownloadViewController: UIViewController, MSALInteractiveDelegate {
 
     /// Uses asynchronous "nextPage" method to fetch the next page of results and update the table view.
     private func loadMoreSettings() {
+        guard !(dataSource?.isExhausted ?? true) else { return }
         dataSource?.nextPage { result in
             switch result {
             case .success:
@@ -168,8 +169,7 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
 
     func downloadProgress(transfer: BlobTransfer) {
         guard transfer.state != .failed else {
-            let error = transfer.error ?? AzureError.sdk("An error occurred.")
-            showAlert(error: error)
+            showAlert(error: transfer.error)
             tableView.reloadData()
             return
         }
