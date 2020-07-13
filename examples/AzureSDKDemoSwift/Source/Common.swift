@@ -135,8 +135,8 @@ extension UIViewController {
         guard presentedViewController == nil else { return }
         var errorString: String
         switch error {
-        case let AzureError.wrapped(innerError, _):
-            errorString = innerError.localizedDescription
+        case let azureError as AzureError:
+            errorString = azureError.message
         default:
             let errorInfo = (error as NSError).userInfo
             errorString = errorInfo[NSDebugDescriptionErrorKey] as? String ?? error.localizedDescription

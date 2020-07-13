@@ -199,9 +199,10 @@ public class ContentDecodePolicy: PipelineStage {
                 returnResponse.add(value: deserializedData as AnyObject, forKey: .deserializedData)
             }
         } catch {
-            let errorMessage = String(format: "Deserialization error: %@", error.localizedDescription)
-            response.logger.error(errorMessage)
-            returnError = AzureError.sdk(errorMessage)
+            returnError = AzureError.sdk("Deserialization error.", error)
+            if let err = returnError {
+                response.logger.error(err.message)
+            }
         }
     }
 

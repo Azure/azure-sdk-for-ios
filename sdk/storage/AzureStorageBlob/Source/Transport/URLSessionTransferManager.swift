@@ -537,7 +537,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
             """
             assertionFailure(errorMessage)
 
-            transfer.error = AzureError.sdk(errorMessage)
+            transfer.error = AzureError.sdk(errorMessage, nil)
             transfer.state = .failed
             return
         }

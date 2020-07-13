@@ -44,27 +44,23 @@ extension BaseError {
 }
 
 public enum AzureError: BaseError {
-    case sdk(String)
-    case service(String)
-    case wrapped(Error, PipelineResponse)
+    case sdk(String, Error? = nil)
+    case service(String, PipelineResponse, Error? = nil)
 
-    var message: String {
-        switch self {
-        case let .sdk(msg),
-             let .service(msg):
-            return msg
-        case let .wrapped(error, _):
-            return error.localizedDescription
+    private func message(_ msg: String, withInnerError innerError: Error?) -> String {
+        var message = msg
+        if let wrapped = innerError {
+            message = "\(message): (\(wrapped.localizedDescription))"
         }
+        return message
     }
-}
 
-extension Error {
-    public var toAzureError: AzureError {
-        if self is AzureError {
-            // swiftlint:disable force_cast
-            return self as! AzureError
+    public var message: String {
+        switch self {
+        case let .sdk(msg, innerError):
+            return message(msg, withInnerError: innerError)
+        case let .service(msg, _, innerError):
+            return message(msg, withInnerError: innerError)
         }
-        return AzureError.sdk(localizedDescription)
     }
 }

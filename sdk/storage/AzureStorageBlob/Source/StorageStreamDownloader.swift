@@ -145,7 +145,7 @@ internal class ChunkDownloader {
 
                     completionHandler(.success(decryptedData), httpResponse)
                 } catch {
-                    completionHandler(.failure(error.toAzureError), httpResponse)
+                    completionHandler(.failure(AzureError.sdk("File error.", error)), httpResponse)
                 }
             }
         }
@@ -464,7 +464,7 @@ internal class BlobStreamDownloader: BlobDownloader {
                     }
                     completionHandler(.success(data), httpResponse)
                 } catch {
-                    completionHandler(.failure(error.toAzureError), httpResponse)
+                    completionHandler(.failure(AzureError.sdk("Parse error.", error)), httpResponse)
                 }
             case let .failure(error):
                 completionHandler(.failure(error), httpResponse)

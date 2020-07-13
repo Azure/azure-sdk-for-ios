@@ -103,7 +103,7 @@ public class URLSessionTransport: HTTPTransportStage {
                 context: responseContext
             )
             if let error = error {
-                completionHandler(.failure(AzureError.wrapped(error, pipelineResponse)), httpResponse)
+                completionHandler(.failure(AzureError.service("Service error.", pipelineResponse, error)), httpResponse)
             } else {
                 completionHandler(.success(pipelineResponse), httpResponse)
             }

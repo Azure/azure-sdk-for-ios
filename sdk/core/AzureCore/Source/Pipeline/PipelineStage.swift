@@ -95,7 +95,7 @@ extension PipelineStage {
                     logger: request.logger,
                     context: request.context
                 )
-                let pipelineError = AzureError.wrapped(error, pipelineResponse)
+                let pipelineError = AzureError.service("Service error.", pipelineResponse, error)
                 self.on(error: pipelineError) { _, handled in
                     if !handled {
                         completionHandler(.failure(pipelineError), nil)
@@ -108,7 +108,7 @@ extension PipelineStage {
                 case let .success(pipelineResponse):
                     self.on(response: pipelineResponse) { response, error in
                         if let error = error {
-                            let pipelineError = AzureError.wrapped(error, response)
+                            let pipelineError = AzureError.service("Service error.", response, error)
                             self.on(error: pipelineError) { _, handled in
                                 if !handled {
                                     completionHandler(.failure(pipelineError), httpResponse)

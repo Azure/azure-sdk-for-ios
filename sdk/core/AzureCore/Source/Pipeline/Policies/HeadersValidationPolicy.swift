@@ -63,7 +63,8 @@ public class HeadersValidationPolicy: PipelineStage {
                     responseValue = "REDACTED"
                 }
                 error = AzureError.sdk(
-                    "Value for header '\(key)' did not match. Expected: \(requestValue ?? "nil") Actual: \(responseValue)"
+                    "Value for header '\(key)' did not match. Expected: \(requestValue ?? "nil") Actual: \(responseValue)",
+                    nil
                 )
             }
         }

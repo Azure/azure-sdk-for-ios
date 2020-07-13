@@ -366,7 +366,7 @@ public final class StorageBlobClient: PipelineClient {
                     }
                 } catch {
                     DispatchQueue.main.async {
-                        completionHandler(.failure(error.toAzureError), httpResponse)
+                        completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
                     }
                 }
             case let .failure(error):
@@ -461,7 +461,7 @@ public final class StorageBlobClient: PipelineClient {
                     }
                 } catch {
                     DispatchQueue.main.async {
-                        completionHandler(.failure(error.toAzureError), httpResponse)
+                        completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
                     }
                 }
             case let .failure(error):

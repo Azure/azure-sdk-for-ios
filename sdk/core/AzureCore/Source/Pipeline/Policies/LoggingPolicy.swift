@@ -89,8 +89,8 @@ public class LoggingPolicy: PipelineStage {
 
     public func on(error: AzureError, completionHandler: @escaping OnErrorCompletionHandler) {
         switch error {
-        case let .wrapped(_, pipelineResponse):
-            LoggingPolicy.queue.async { self.log(response: pipelineResponse, withError: error) }
+        case let .service(_, pipelineResponse, _):
+            log(response: pipelineResponse, withError: error)
             completionHandler(error, false)
         default:
             fatalError("Unexpected error type: \(self)")
@@ -138,7 +138,7 @@ public class LoggingPolicy: PipelineStage {
         defer { logger.info("<-- [END \(requestId)]") }
 
         if let error = error {
-            logger.warning(error.localizedDescription)
+            logger.warning(error.message)
         }
 
         guard

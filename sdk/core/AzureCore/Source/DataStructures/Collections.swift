@@ -229,7 +229,7 @@ public class PagedCollection<SingleElement: Codable> {
                 do {
                     try self.update(with: data)
                 } catch {
-                    returnError = error.toAzureError
+                    returnError = AzureError.sdk("Error updating page.", error)
                 }
             }
             if let returnError = returnError {

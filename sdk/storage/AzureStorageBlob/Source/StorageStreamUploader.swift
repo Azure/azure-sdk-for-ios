@@ -106,7 +106,10 @@ internal class ChunkUploader {
             buffer.append(tempData)
         } catch {
             let request = try? HTTPRequest(method: .put, url: uploadDestination, headers: HTTPHeaders())
-            completionHandler(.failure(error.toAzureError), HTTPResponse(request: request, statusCode: nil))
+            completionHandler(
+                .failure(AzureError.sdk("File error.", error)),
+                HTTPResponse(request: request, statusCode: nil)
+            )
             return
         }
 
