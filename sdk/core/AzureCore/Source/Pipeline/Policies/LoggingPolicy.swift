@@ -87,14 +87,13 @@ public class LoggingPolicy: PipelineStage {
         completionHandler(response, nil)
     }
 
-    public func on(error: AzureError, completionHandler: @escaping OnErrorCompletionHandler) {
-        switch error {
-        case let .service(_, pipelineResponse, _):
-            log(response: pipelineResponse, withError: error)
-            completionHandler(error, false)
-        default:
-            fatalError("Unexpected error type: \(self)")
-        }
+    public func on(
+        error: AzureError,
+        pipelineResponse: PipelineResponse,
+        completionHandler: @escaping OnErrorCompletionHandler
+    ) {
+        log(response: pipelineResponse, withError: error)
+        completionHandler(error, false)
     }
 
     // MARK: Private Methods

@@ -45,7 +45,7 @@ extension BaseError {
 
 public enum AzureError: BaseError {
     case sdk(String, Error? = nil)
-    case service(String, PipelineResponse, Error? = nil)
+    case service(String, Error? = nil)
 
     private func message(_ msg: String, withInnerError innerError: Error?) -> String {
         var message = msg
@@ -59,7 +59,7 @@ public enum AzureError: BaseError {
         switch self {
         case let .sdk(msg, innerError):
             return message(msg, withInnerError: innerError)
-        case let .service(msg, _, innerError):
+        case let .service(msg, innerError):
             return message(msg, withInnerError: innerError)
         }
     }

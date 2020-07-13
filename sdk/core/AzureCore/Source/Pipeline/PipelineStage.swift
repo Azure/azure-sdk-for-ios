@@ -56,9 +56,14 @@ public protocol PipelineStage {
     /// Response error hook.
     /// - Parameters:
     ///   - error: The `PipelineError` input.
+    ///   - pipelineResponse: The `PipelineResponse` object.
     ///   - completionHandler: A completion handler which forwards the error along with a boolean
     ///   that indicates whether the exception was handled or not.
-    func on(error: AzureError, completionHandler: @escaping OnErrorCompletionHandler)
+    func on(
+        error: AzureError,
+        pipelineResponse: PipelineResponse,
+        completionHandler: @escaping OnErrorCompletionHandler
+    )
 
     /// Executes the policy method.
     /// - Parameters:
@@ -77,7 +82,11 @@ extension PipelineStage {
         completionHandler(response, nil)
     }
 
-    public func on(error: AzureError, completionHandler: @escaping OnErrorCompletionHandler) {
+    public func on(
+        error: AzureError,
+        pipelineResponse _: PipelineResponse,
+        completionHandler: @escaping OnErrorCompletionHandler
+    ) {
         completionHandler(error, false)
     }
 
@@ -95,10 +104,10 @@ extension PipelineStage {
                     logger: request.logger,
                     context: request.context
                 )
-                let pipelineError = AzureError.service("Service error.", pipelineResponse, error)
-                self.on(error: pipelineError) { _, handled in
+                let error = AzureError.service("Service error.", error)
+                self.on(error: error, pipelineResponse: pipelineResponse) { _, handled in
                     if !handled {
-                        completionHandler(.failure(pipelineError), nil)
+                        completionHandler(.failure(error), nil)
                         return
                     }
                 }
@@ -108,8 +117,8 @@ extension PipelineStage {
                 case let .success(pipelineResponse):
                     self.on(response: pipelineResponse) { response, error in
                         if let error = error {
-                            let pipelineError = AzureError.service("Service error.", response, error)
-                            self.on(error: pipelineError) { _, handled in
+                            let pipelineError = AzureError.service("Service error.", error)
+                            self.on(error: pipelineError, pipelineResponse: pipelineResponse) { _, handled in
                                 if !handled {
                                     completionHandler(.failure(pipelineError), httpResponse)
                                     return
@@ -119,7 +128,13 @@ extension PipelineStage {
                         completionHandler(.success(response), httpResponse)
                     }
                 case let .failure(pipelineError):
-                    self.on(error: pipelineError) { _, handled in
+                    let pipelineResponse = PipelineResponse(
+                        request: request.httpRequest,
+                        response: httpResponse,
+                        logger: request.logger,
+                        context: request.context
+                    )
+                    self.on(error: pipelineError, pipelineResponse: pipelineResponse) { _, handled in
                         if !handled {
                             completionHandler(.failure(pipelineError), nil)
                             return
