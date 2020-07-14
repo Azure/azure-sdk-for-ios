@@ -123,6 +123,7 @@ public final class StorageBlobClient: PipelineClient {
     }
 
 
+    #if canImport(MSAL)
         /// Create a Storage blob data client.
         /// - Parameters:
         ///   - credential: A `MSALCredential` object used to retrieve authentication tokens.
@@ -134,7 +135,7 @@ public final class StorageBlobClient: PipelineClient {
         ///     multiple clients with different configurations, use a value unique to both your application and the
         ///     configuration (e.g. "MyApplication.userClient").
         ///   - options: Options used to configure the client.
-        public convenience init(
+    public convenience init(
             credential: MSALCredential,
             endpoint: URL,
             withRestorationId restorationId: String? = nil,
@@ -152,6 +153,7 @@ public final class StorageBlobClient: PipelineClient {
                 withOptions: options
             )
         }
+    #endif
 
 
     /// Create a Storage blob data client.

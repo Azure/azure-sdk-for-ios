@@ -21,7 +21,7 @@ jobs:
       - script: |
           set -o pipefail
           xcodebuild -workspace AzureSDK.xcworkspace \
-                     -scheme ci \
+                     -scheme all \
                      -destination "platform=iOS Simulator,OS=$(SimulatorVersion),name=$(SimulatorDevice)" \
                      -configuration Release \
                      -derivedDataPath $(Build.ArtifactStagingDirectory) \
@@ -88,7 +88,7 @@ jobs:
       - script: |
           set -o pipefail
           xcodebuild -workspace AzureSDK.xcworkspace \
-                     -scheme ci \
+                     -scheme all \
                      -destination "platform=iOS Simulator,OS=$(SimulatorVersion),name=$(SimulatorDevice)" \
                      -configuration Debug \
                      -derivedDataPath $(Build.ArtifactStagingDirectory) \
@@ -110,7 +110,7 @@ jobs:
           echo "Getting list of projects in scheme 'ci'"
           xcodebuild -showBuildSettings \
                      -workspace AzureSDK.xcworkspace \
-                     -scheme ci \
+                     -scheme all \
                      -configuration Debug \
           | grep PROJECT_FILE_PATH \
           | awk -F ' = ' '{print $NF}' \
@@ -119,7 +119,7 @@ jobs:
               echo "Generating reports for $PROJECT_NAME"
               slather coverage -x \
                               --workspace AzureSDK.xcworkspace \
-                              --scheme ci \
+                              --scheme all \
                               --configuration Debug \
                               --binary-basename $PROJECT_NAME \
                               --build-directory $(Build.ArtifactStagingDirectory) \
