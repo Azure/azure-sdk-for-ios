@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		51C27D5F24AF4FDE00530218 /* AzureCore.framework in Sources */ = {isa = PBXBuildFile; fileRef = 51C27D5E24AF4FDE00530218 /* AzureCore.framework */; };
 		51C27DA124AF575400530218 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51C27DA024AF575400530218 /* AzureCore.framework */; };
 		51C27DA224AF575400530218 /* AzureCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 51C27DA024AF575400530218 /* AzureCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7ACBF09E248EFB630077C5BA /* AzureIdentityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE9D582248EF8BB0029003C /* AzureIdentityTests.swift */; };
@@ -40,7 +39,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		51C27D5E24AF4FDE00530218 /* AzureCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AzureCore.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/AzureSDK-gzsdsuvnhodfkqfrwlspqljrwtgg/Build/Products/Debug-iphonesimulator/AzureCore.framework"; sourceTree = "<group>"; };
 		51C27DA024AF575400530218 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ACBF09F248EFC7D0077C5BA /* MSALCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSALCredential.swift; sourceTree = "<group>"; };
 		7ACBF0A5248EFF070077C5BA /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
@@ -82,7 +80,6 @@
 		7AE9D55D248EF6400029003C = {
 			isa = PBXGroup;
 			children = (
-				51C27D5E24AF4FDE00530218 /* AzureCore.framework */,
 				7AE9D584248EF8BB0029003C /* Source */,
 				7AE9D581248EF8BB0029003C /* Tests */,
 				7AE9D568248EF6400029003C /* Products */,
@@ -263,7 +260,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7ACBF0A0248EFC7D0077C5BA /* MSALCredential.swift in Sources */,
-				51C27D5F24AF4FDE00530218 /* AzureCore.framework in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

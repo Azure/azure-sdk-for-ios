@@ -41,10 +41,10 @@
 		0ADCB0172486CDBE00CEA28D /* StorageBlobClient+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADCB0162486CDBE00CEA28D /* StorageBlobClient+Extensions.swift */; };
 		0AE8F02723AC2A5C007B6975 /* StorageBlobClient+AllowLoggingValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE8F02623AC2A5C007B6975 /* StorageBlobClient+AllowLoggingValues.swift */; };
 		0AE8F02D23AC2A7C007B6975 /* StorageStreamDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE8F02A23AC2A7C007B6975 /* StorageStreamDownloader.swift */; };
+		51410ED424BD6F4600273AEA /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51410ED324BD6F4600273AEA /* AzureCore.framework */; };
+		51410ED524BD6F4600273AEA /* AzureCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 51410ED324BD6F4600273AEA /* AzureCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		51C27D8524AF529B00530218 /* AzureIdentity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51C27D8424AF529B00530218 /* AzureIdentity.framework */; };
 		51C27D8624AF529B00530218 /* AzureIdentity.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 51C27D8424AF529B00530218 /* AzureIdentity.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		51C27D8724AF529E00530218 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51C27D5C24AF4FB000530218 /* AzureCore.framework */; };
-		51C27D8824AF529E00530218 /* AzureCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 51C27D5C24AF4FB000530218 /* AzureCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7A0DF007245A3FFF002EC98F /* TransferCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A0DF006245A3FFF002EC98F /* TransferCollection.swift */; };
 		7A5C97A324410BD1006E7B5F /* LocalURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5C97A224410BD1006E7B5F /* LocalURL.swift */; };
 		7ACAADA1242C241A00A049B7 /* TransferOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACAADA0242C241900A049B7 /* TransferOperationQueue.swift */; };
@@ -72,7 +72,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				51C27D8624AF529B00530218 /* AzureIdentity.framework in Embed Frameworks */,
-				51C27D8824AF529E00530218 /* AzureCore.framework in Embed Frameworks */,
+				51410ED524BD6F4600273AEA /* AzureCore.framework in Embed Frameworks */,
 				0A25EA4C2398121A0012DFE1 /* (null) in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -117,7 +117,7 @@
 		0ADCB0162486CDBE00CEA28D /* StorageBlobClient+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StorageBlobClient+Extensions.swift"; sourceTree = "<group>"; };
 		0AE8F02623AC2A5C007B6975 /* StorageBlobClient+AllowLoggingValues.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StorageBlobClient+AllowLoggingValues.swift"; sourceTree = "<group>"; };
 		0AE8F02A23AC2A7C007B6975 /* StorageStreamDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageStreamDownloader.swift; sourceTree = "<group>"; };
-		51C27D5C24AF4FB000530218 /* AzureCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AzureCore.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/AzureSDK-gzsdsuvnhodfkqfrwlspqljrwtgg/Build/Products/Debug-iphonesimulator/AzureCore.framework"; sourceTree = "<group>"; };
+		51410ED324BD6F4600273AEA /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		51C27D8424AF529B00530218 /* AzureIdentity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureIdentity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A0DF006245A3FFF002EC98F /* TransferCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferCollection.swift; sourceTree = "<group>"; };
 		7A5C97A224410BD1006E7B5F /* LocalURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalURL.swift; sourceTree = "<group>"; };
@@ -135,7 +135,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				51C27D8524AF529B00530218 /* AzureIdentity.framework in Frameworks */,
-				51C27D8724AF529E00530218 /* AzureCore.framework in Frameworks */,
+				51410ED424BD6F4600273AEA /* AzureCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -167,7 +167,6 @@
 		0A68647F233E834D004B7E17 = {
 			isa = PBXGroup;
 			children = (
-				51C27D5C24AF4FB000530218 /* AzureCore.framework */,
 				0A6864A8233E8388004B7E17 /* Source */,
 				0A686496233E834D004B7E17 /* Tests */,
 				0A68648A233E834D004B7E17 /* Products */,
@@ -259,6 +258,7 @@
 		51C27D7224AF512E00530218 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				51410ED324BD6F4600273AEA /* AzureCore.framework */,
 				51C27D8424AF529B00530218 /* AzureIdentity.framework */,
 			);
 			name = Frameworks;
