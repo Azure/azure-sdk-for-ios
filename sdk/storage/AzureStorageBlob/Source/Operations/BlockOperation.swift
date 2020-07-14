@@ -83,15 +83,9 @@ internal class BlockOperation: TransferOperation {
                     transfer.state = .complete
                     self.notifyDelegate(withTransfer: parent)
                 case let .failure(error):
-                    var err = error
-                    switch error {
-                    case let .sdk(msg, innerError):
-                        err = AzureError.sdk(msg, innerError)
-                    default: break
-                    }
                     transfer.state = .failed
                     parent.state = .failed
-                    parent.error = err
+                    parent.error = error
                     self.notifyDelegate(withTransfer: parent)
                 }
             }

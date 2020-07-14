@@ -29,8 +29,8 @@ import Foundation
 public typealias ResultHandler<TSuccess, TError: Error> = (Result<TSuccess, TError>, HTTPResponse?) -> Void
 public typealias HTTPResultHandler<T> = ResultHandler<T, AzureError>
 public typealias PipelineStageResultHandler = ResultHandler<PipelineResponse, AzureError>
-public typealias OnRequestCompletionHandler = (PipelineRequest, Error?) -> Void
-public typealias OnResponseCompletionHandler = (PipelineResponse, Error?) -> Void
+public typealias OnRequestCompletionHandler = (PipelineRequest, AzureError?) -> Void
+public typealias OnResponseCompletionHandler = (PipelineResponse, AzureError?) -> Void
 public typealias OnErrorCompletionHandler = (AzureError, Bool) -> Void
 
 /// Protocol for implementing pipeline stages.
@@ -104,7 +104,6 @@ extension PipelineStage {
                     logger: request.logger,
                     context: request.context
                 )
-                let error = AzureError.service("Service error.", error)
                 self.on(error: error, pipelineResponse: pipelineResponse) { _, handled in
                     if !handled {
                         completionHandler(.failure(error), nil)
@@ -117,26 +116,25 @@ extension PipelineStage {
                 case let .success(pipelineResponse):
                     self.on(response: pipelineResponse) { response, error in
                         if let error = error {
-                            let pipelineError = AzureError.service("Service error.", error)
-                            self.on(error: pipelineError, pipelineResponse: pipelineResponse) { _, handled in
+                            self.on(error: error, pipelineResponse: pipelineResponse) { _, handled in
                                 if !handled {
-                                    completionHandler(.failure(pipelineError), httpResponse)
+                                    completionHandler(.failure(error), httpResponse)
                                     return
                                 }
                             }
                         }
                         completionHandler(.success(response), httpResponse)
                     }
-                case let .failure(pipelineError):
+                case let .failure(error):
                     let pipelineResponse = PipelineResponse(
                         request: request.httpRequest,
                         response: httpResponse,
                         logger: request.logger,
                         context: request.context
                     )
-                    self.on(error: pipelineError, pipelineResponse: pipelineResponse) { _, handled in
+                    self.on(error: error, pipelineResponse: pipelineResponse) { _, handled in
                         if !handled {
-                            completionHandler(.failure(pipelineError), nil)
+                            completionHandler(.failure(error), httpResponse)
                             return
                         }
                     }

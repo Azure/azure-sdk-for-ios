@@ -199,7 +199,11 @@ public class ContentDecodePolicy: PipelineStage {
                 returnResponse.add(value: deserializedData as AnyObject, forKey: .deserializedData)
             }
         } catch {
-            returnError = AzureError.sdk("Deserialization error.", error)
+            if let azureError = error as? AzureError {
+                returnError = azureError
+            } else {
+                returnError = AzureError.sdk("Deserialization error.", error)
+            }
             if let err = returnError {
                 response.logger.error(err.message)
             }
@@ -214,14 +218,14 @@ public class ContentDecodePolicy: PipelineStage {
         _ = parser.parse()
         var jsonData: Data?
         if let dictObj = xmlParser.xmlTree?.dictionary {
-            jsonData = try? JSONSerialization.data(withJSONObject: dictObj, options: [])
+            jsonData = try JSONSerialization.data(withJSONObject: dictObj, options: [])
         } else if let arrayObj = xmlParser.xmlTree?.array {
             jsonData = try JSONSerialization.data(withJSONObject: arrayObj, options: [])
         }
-        guard let finalJsonData = jsonData else {
-            throw AzureError.sdk("Failure decoding XML.")
+        guard let finalJson = jsonData else {
+            throw AzureError.sdk("Unable to convert XML to JSON", nil)
         }
-        return try JSONSerialization.jsonObject(with: finalJsonData, options: []) as AnyObject
+        return try JSONSerialization.jsonObject(with: finalJson, options: []) as AnyObject
     }
 
     internal func deserialize(from response: PipelineResponse, contentType: String) throws -> AnyObject? {
