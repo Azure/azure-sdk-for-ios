@@ -29,8 +29,7 @@ import Foundation
 
 /// A Storage shared access signature credential object.
 public struct StorageSASCredential: AzureCredential {
-    internal let blobSasUriProvider: (() -> String)?
-    internal let connectionStringProvider: (() -> String)?
+    internal let credentialProvider: () throws -> String
     internal var blobEndpoint: String?
     internal var queueEndpoint: String?
     internal var fileEndpoint: String?
@@ -39,7 +38,6 @@ public struct StorageSASCredential: AzureCredential {
     internal var sasToken: String? {
         didSet { expirationDate = StorageSASCredential.expiration(forToken: sasToken) }
     }
-
 
     // Treat tokens that expire in <= 2 minutes as expired
     private static let expirationOffset: TimeInterval = 2 * 60
@@ -61,42 +59,14 @@ public struct StorageSASCredential: AzureCredential {
 
     // MARK: Initializers
 
-    /// Create a shared access signature credential from an account-level shared access signature.
+    /// Create a shared access signature credential from an account-level shared access signature connection string, or
+    /// a container- or blob-level shared access signature URI.
     /// - Parameters:
-    ///   - connectionStringProvider: A closure that returns an account-level shared access signature connection string.
-    public init(connectionStringProvider: @escaping () -> String) {
-        self.blobSasUriProvider = nil
-        self.connectionStringProvider = connectionStringProvider
+    ///   - credentialProvider: A closure that returns an account-level shared access signature connection string, or a
+    ///   container- or blob-level shared access signature URI.
+    public init(credentialProvider: @escaping () throws -> String) {
+        self.credentialProvider = credentialProvider
         clear()
-    }
-
-    /// Create a shared access signature credential from a container- or blob-level shared access signature.
-    /// - Parameters:
-    ///   - blobSasUriProvider: A closure that returns a container- or blob-level shared access signature URI.
-    public init(blobSasUriProvider: @escaping () -> String) {
-        self.blobSasUriProvider = blobSasUriProvider
-        self.connectionStringProvider = nil
-        clear()
-    }
-
-    /// Create a shared access signature credential from an account-level shared access signature.
-    /// - Parameters:
-    ///   - connectionString: The initial account-level shared access signature connection string.
-    ///   - connectionStringProvider: A closure that returns an account-level shared access signature connection string.
-    public init(connectionString: String, connectionStringProvider: (() -> String)? = nil) {
-        self.blobSasUriProvider = nil
-        self.connectionStringProvider = connectionStringProvider
-        self.error = configureFrom(connectionString: connectionString)
-    }
-
-    /// Create a shared access signature credential from a container- or blob-level shared access signature.
-    /// - Parameters:
-    ///   - blobSasUri: The initial container- or blob-level shared access signature URI.
-    ///   - blobSasUriProvider: A closure that returns a container- or blob-level shared access signature URI.
-    public init(blobSasUri: String, blobSasUriProvider: (() -> String)? = nil) {
-        self.blobSasUriProvider = blobSasUriProvider
-        self.connectionStringProvider = nil
-        self.error = configureFrom(blobSasUri: blobSasUri)
     }
 
     // MARK: Public Methods
@@ -107,19 +77,21 @@ public struct StorageSASCredential: AzureCredential {
         }
     }
 
-    internal mutating func refresh() throws {
+    internal mutating func refresh() {
         clear()
-        if let provider = connectionStringProvider {
-            error = configureFrom(connectionString: provider())
-        } else if let provider = blobSasUriProvider {
-            error = configureFrom(blobSasUri: provider())
+        do {
+            let newCredential = try credentialProvider()
+            if !(try configureFrom(connectionString: newCredential)), !configureFrom(blobSasUri: newCredential) {
+                error = HTTPResponseError.clientAuthentication("The credential \(newCredential) is invalid.")
+            }
+        } catch {
+            self.error = error
         }
-        try validate()
     }
 
     // MARK: Private methods
 
-    private mutating func configureFrom(connectionString: String) -> Error? {
+    private mutating func configureFrom(connectionString: String) throws -> Bool {
         var blob: String?
         var queue: String?
         var file: String?
@@ -147,25 +119,23 @@ public struct StorageSASCredential: AzureCredential {
                     Form of connection string with 'SharedAccessSignature' is expected - 'AccountKey' is not allowed.
                     You must provide a Shared Access Signature connection string.
                 """
-                return HTTPResponseError.clientAuthentication(message)
+                throw HTTPResponseError.clientAuthentication(message)
             default:
                 continue
             }
         }
 
-        if sas == nil {
-            return HTTPResponseError.clientAuthentication("The connection string \(connectionString) is invalid.")
-        }
+        if sas == nil { return false }
 
         sasToken = sas
         blobEndpoint = blob
         queueEndpoint = queue
         fileEndpoint = file
         tableEndpoint = table
-        return nil
+        return true
     }
 
-    private mutating func configureFrom(blobSasUri: String) -> Error? {
+    private mutating func configureFrom(blobSasUri: String) -> Bool {
         var blob: String?
         var sas: String?
 
@@ -174,7 +144,7 @@ public struct StorageSASCredential: AzureCredential {
             sas = sasToken
             blob = "\(scheme)://\(host)/"
         } else {
-            return HTTPResponseError.clientAuthentication("The URI \(blobSasUri) is invalid.")
+            return false
         }
 
         sasToken = sas
@@ -182,7 +152,7 @@ public struct StorageSASCredential: AzureCredential {
         queueEndpoint = nil
         fileEndpoint = nil
         tableEndpoint = nil
-        return nil
+        return true
     }
 
     private mutating func clear() {
@@ -362,12 +332,14 @@ internal class StorageSASAuthenticationPolicy: Authenticating {
     ///   - completionHandler: A completion handler that forwards the modified pipeline request.
     public func authenticate(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
         if credential.expired {
-            do {
-                try credential.refresh()
-            } catch {
-                completionHandler(request, error)
-                return
-            }
+            credential.refresh()
+        }
+
+        do {
+            try credential.validate()
+        } catch {
+            completionHandler(request, error)
+            return
         }
 
         let queryParams = parse(sasToken: credential.sasToken ?? "")
@@ -415,6 +387,13 @@ internal class StorageSharedKeyAuthenticationPolicy: Authenticating {
     ///   - request: A `PipelineRequest` object.
     ///   - completionHandler: A completion handler that forwards the modified pipeline request.
     public func authenticate(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
+        do {
+            try credential.validate()
+        } catch {
+            completionHandler(request, error)
+            return
+        }
+
         let httpRequest = request.httpRequest
         guard let accountName = credential.accountName else { return }
         guard let accessKey = credential.accessKey else { return }
