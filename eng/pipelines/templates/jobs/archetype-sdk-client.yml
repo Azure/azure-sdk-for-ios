@@ -1,6 +1,3 @@
-parameters:
-  ServiceDirectory: not-specified # Set a default that breaks in obvious ways.
-
 jobs:
   - job: 'Build'
 
@@ -21,13 +18,10 @@ jobs:
       - script: sudo xcode-select --switch /Applications/Xcode_$(XcodeVersion).app
         displayName: 'Use Xcode $(XcodeVersion)'
 
-      - script: pod install
-        displayName: 'Install dependencies'
-
       - script: |
           set -o pipefail
           xcodebuild -workspace AzureSDK.xcworkspace \
-                     -scheme ${{parameters.ServiceDirectory}} \
+                     -scheme all \
                      -destination "platform=iOS Simulator,OS=$(SimulatorVersion),name=$(SimulatorDevice)" \
                      -configuration Release \
                      -derivedDataPath $(Build.ArtifactStagingDirectory) \
@@ -58,7 +52,7 @@ jobs:
 
       - script: |
           brew install swiftlint
-          swiftlint lint --path sdk/${{parameters.ServiceDirectory}} --quiet --reporter emoji
+          swiftlint lint --quiet --reporter emoji
         displayName: 'Lint framework sources'
 
       - script: |
@@ -94,7 +88,7 @@ jobs:
       - script: |
           set -o pipefail
           xcodebuild -workspace AzureSDK.xcworkspace \
-                     -scheme ${{parameters.ServiceDirectory}} \
+                     -scheme all \
                      -destination "platform=iOS Simulator,OS=$(SimulatorVersion),name=$(SimulatorDevice)" \
                      -configuration Debug \
                      -derivedDataPath $(Build.ArtifactStagingDirectory) \
@@ -113,10 +107,10 @@ jobs:
         displayName: 'Publish unit test results'
 
       - script: |
-          echo "Getting list of projects in scheme ${{parameters.ServiceDirectory}}"
+          echo "Getting list of projects in scheme 'ci'"
           xcodebuild -showBuildSettings \
                      -workspace AzureSDK.xcworkspace \
-                     -scheme ${{parameters.ServiceDirectory}} \
+                     -scheme all \
                      -configuration Debug \
           | grep PROJECT_FILE_PATH \
           | awk -F ' = ' '{print $NF}' \
@@ -125,7 +119,7 @@ jobs:
               echo "Generating reports for $PROJECT_NAME"
               slather coverage -x \
                               --workspace AzureSDK.xcworkspace \
-                              --scheme ${{parameters.ServiceDirectory}} \
+                              --scheme all \
                               --configuration Debug \
                               --binary-basename $PROJECT_NAME \
                               --build-directory $(Build.ArtifactStagingDirectory) \

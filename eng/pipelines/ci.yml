@@ -1,0 +1,17 @@
+trigger:
+  branches:
+    include:
+    - master
+    - hotfix/*
+    - release/*
+    
+pr:
+  branches:
+    include:
+    - master
+    - feature/*
+    - hotfix/*
+    - release/*
+
+extends:
+  template: templates/stages/archetype-sdk-client.yml
