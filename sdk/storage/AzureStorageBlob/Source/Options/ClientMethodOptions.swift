@@ -38,7 +38,7 @@ public struct ListContainersOptions: AzureOptions {
     /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
     public let clientRequestId: String?
 
-    /// A token used to make a best-effort attempt at cancelling a request.
+    /// A token used to make a best-effort attempt at canceling a request.
     public var cancellationToken: CancellationToken?
 
     /// Return only containers whose names begin with the specified prefix.
@@ -95,7 +95,7 @@ public struct ListBlobsOptions: AzureOptions {
     /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
     public let clientRequestId: String?
 
-    /// A token used to make a best-effort attempt at cancelling a request.
+    /// A token used to make a best-effort attempt at canceling a request.
     public var cancellationToken: CancellationToken?
 
     /// Return only blobs whose names begin with the specified prefix.
@@ -162,7 +162,7 @@ public struct DeleteBlobOptions: AzureOptions {
     /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
     public let clientRequestId: String?
 
-    /// A token used to make a best-effort attempt at cancelling a request.
+    /// A token used to make a best-effort attempt at canceling a request.
     public var cancellationToken: CancellationToken?
 
     /// Specify how blob snapshots should be handled. Required if the blob has associated snapshots.
@@ -198,7 +198,7 @@ public struct DownloadBlobOptions: AzureOptions, Codable, Equatable {
     /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
     public let clientRequestId: String?
 
-    /// A token used to make a best-effort attempt at cancelling a request.
+    /// A token used to make a best-effort attempt at canceling a request.
     public var cancellationToken: CancellationToken?
 
     /// Options for working on a subset of data for a blob.
@@ -290,7 +290,7 @@ public struct UploadBlobOptions: AzureOptions, Codable, Equatable {
     /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
     public let clientRequestId: String?
 
-    /// A token used to make a best-effort attempt at cancelling a request.
+    /// A token used to make a best-effort attempt at canceling a request.
     public var cancellationToken: CancellationToken?
 
     /// Options for accessing a blob based on the condition of a lease. If specified, the operation will be performed

@@ -29,15 +29,15 @@ import Foundation
 public final class CancellationToken: Codable, Equatable {
     public internal(set) var isCanceled: Bool
 
-    internal var timeout: Double?
+    internal var timeoutInSeconds: Double?
     internal var timeoutRunning: Bool
 
     public func cancel() {
         isCanceled = true
     }
 
-    public init(timeout: Double? = nil) {
-        self.timeout = timeout
+    public init(timeoutInSeconds: Double? = nil) {
+        self.timeoutInSeconds = timeoutInSeconds
         self.timeoutRunning = false
         self.isCanceled = false
     }
@@ -45,14 +45,14 @@ public final class CancellationToken: Codable, Equatable {
     // MARK: Equatable Protocol
 
     public static func == (lhs: CancellationToken, rhs: CancellationToken) -> Bool {
-        return lhs.timeout == rhs.timeout && lhs.isCanceled == rhs.isCanceled
+        return lhs.timeoutInSeconds == rhs.timeoutInSeconds && lhs.isCanceled == rhs.isCanceled
     }
 
     // MARK: Methods
 
     public func start() {
         guard timeoutRunning == false,
-            let timeout = self.timeout else { return }
+            let timeout = self.timeoutInSeconds else { return }
         DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + timeout) {
             self.isCanceled = true
         }
