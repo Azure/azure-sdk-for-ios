@@ -39,29 +39,24 @@ let package = Package(
         .library(name: "AzureIdentity", targets: ["AzureIdentity"]),
         .library(name: "AzureStorageBlob", targets: ["AzureStorageBlob"])
     ],
-    dependencies: [
-        .package(
-            url: "https://github.com/mitchdenny/microsoft-authentication-library-for-objc",
-            .branch("swift-pm-via-binary-framework")
-        )
-    ],
+    dependencies: [],
     targets: [
         // Build targets
         .target(
             name: "AzureCore",
-            dependencies: ["microsoft-authentication-library-for-objc"],
+            dependencies: [],
             path: "sdk/core/AzureCore",
             sources: ["Source"]
         ),
         .target(
             name: "AzureIdentity",
-            dependencies: ["AzureCore", "microsoft-authentication-library-for-objc"],
+            dependencies: ["AzureCore"],
             path: "sdk/identity/AzureIdentity",
             sources: ["Source"]
         ),
         .target(
             name: "AzureStorageBlob",
-            dependencies: ["AzureCore", "microsoft-authentication-library-for-objc"],
+            dependencies: ["AzureCore"],
             path: "sdk/storage/AzureStorageBlob",
             sources: ["Source"]
         ),
