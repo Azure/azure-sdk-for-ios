@@ -86,6 +86,7 @@ class BlobDownloadViewController: UIViewController, MSALInteractiveDelegate {
 
     /// Uses asynchronous "nextPage" method to fetch the next page of results and update the table view.
     private func loadMoreSettings() {
+        guard !(dataSource?.isExhausted ?? true) else { return }
         dataSource?.nextPage { result in
             switch result {
             case .success:
