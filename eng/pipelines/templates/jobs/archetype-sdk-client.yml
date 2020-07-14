@@ -18,6 +18,9 @@ jobs:
       - script: sudo xcode-select --switch /Applications/Xcode_$(XcodeVersion).app
         displayName: 'Use Xcode $(XcodeVersion)'
 
+      - script: pod install
+        displayName: 'Install dependencies'
+        
       - script: |
           set -o pipefail
           xcodebuild -workspace AzureSDK.xcworkspace \
