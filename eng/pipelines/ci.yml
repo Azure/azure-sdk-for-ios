@@ -15,8 +15,3 @@ pr:
 
 extends:
   template: templates/stages/archetype-sdk-client.yml
-  parameters:
-    ServiceDirectory: core
-    Artifacts:
-    - name: AzureCore
-      safeName: azurecore
