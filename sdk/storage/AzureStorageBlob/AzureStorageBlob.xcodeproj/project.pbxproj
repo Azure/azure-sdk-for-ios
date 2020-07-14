@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -41,7 +41,6 @@
 		0ADCB0172486CDBE00CEA28D /* StorageBlobClient+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADCB0162486CDBE00CEA28D /* StorageBlobClient+Extensions.swift */; };
 		0AE8F02723AC2A5C007B6975 /* StorageBlobClient+AllowLoggingValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE8F02623AC2A5C007B6975 /* StorageBlobClient+AllowLoggingValues.swift */; };
 		0AE8F02D23AC2A7C007B6975 /* StorageStreamDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE8F02A23AC2A7C007B6975 /* StorageStreamDownloader.swift */; };
-		5188CF4E24B09B9700D003A5 /* microsoft-authentication-library-for-objc in Frameworks */ = {isa = PBXBuildFile; productRef = 5188CF4D24B09B9700D003A5 /* microsoft-authentication-library-for-objc */; };
 		51C27D8524AF529B00530218 /* AzureIdentity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51C27D8424AF529B00530218 /* AzureIdentity.framework */; };
 		51C27D8624AF529B00530218 /* AzureIdentity.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 51C27D8424AF529B00530218 /* AzureIdentity.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		51C27D8724AF529E00530218 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51C27D5C24AF4FB000530218 /* AzureCore.framework */; };
@@ -135,7 +134,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5188CF4E24B09B9700D003A5 /* microsoft-authentication-library-for-objc in Frameworks */,
 				51C27D8524AF529B00530218 /* AzureIdentity.framework in Frameworks */,
 				51C27D8724AF529E00530218 /* AzureCore.framework in Frameworks */,
 			);
@@ -338,7 +336,6 @@
 			);
 			name = AzureStorageBlob;
 			packageProductDependencies = (
-				5188CF4D24B09B9700D003A5 /* microsoft-authentication-library-for-objc */,
 			);
 			productName = AzureStorageBlob;
 			productReference = 0A686489233E834D004B7E17 /* AzureStorageBlob.framework */;
@@ -391,7 +388,6 @@
 			);
 			mainGroup = 0A68647F233E834D004B7E17;
 			packageReferences = (
-				5188CF4C24B09B9700D003A5 /* XCRemoteSwiftPackageReference "microsoft-authentication-library-for-objc" */,
 			);
 			productRefGroup = 0A68648A233E834D004B7E17 /* Products */;
 			projectDirPath = "";
@@ -756,25 +752,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		5188CF4C24B09B9700D003A5 /* XCRemoteSwiftPackageReference "microsoft-authentication-library-for-objc" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/mitchdenny/microsoft-authentication-library-for-objc";
-			requirement = {
-				branch = "swift-pm-via-binary-framework";
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		5188CF4D24B09B9700D003A5 /* microsoft-authentication-library-for-objc */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 5188CF4C24B09B9700D003A5 /* XCRemoteSwiftPackageReference "microsoft-authentication-library-for-objc" */;
-			productName = "microsoft-authentication-library-for-objc";
-		};
-/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		0A28684523F5D6700084CF15 /* AzureStorage.xcdatamodeld */ = {
