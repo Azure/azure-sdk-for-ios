@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -18,7 +18,6 @@
 		0A71C5CB234BE18200604F2D /* BlobDownloadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A71C5CA234BE18200604F2D /* BlobDownloadViewController.swift */; };
 		0A71C5CD234BE85700604F2D /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A71C5CC234BE85700604F2D /* Common.swift */; };
 		0AF03F1C2433EE80002E65F8 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF03F1B2433EE80002E65F8 /* CustomTabBarController.swift */; };
-		5105EBED24B09C75008B7619 /* microsoft-authentication-library-for-objc in Frameworks */ = {isa = PBXBuildFile; productRef = 5105EBEC24B09C75008B7619 /* microsoft-authentication-library-for-objc */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,7 +67,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5105EBED24B09C75008B7619 /* microsoft-authentication-library-for-objc in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,7 +161,6 @@
 			);
 			name = AzureSDKDemoSwift;
 			packageProductDependencies = (
-				5105EBEC24B09C75008B7619 /* microsoft-authentication-library-for-objc */,
 			);
 			productName = AzureSDKDemoSwift;
 			productReference = 0A3A5E762315E70400473FDA /* AzureSDKDemoSwift.app */;
@@ -217,7 +214,6 @@
 			);
 			mainGroup = 0A3A5E6D2315E70400473FDA;
 			packageReferences = (
-				5105EBEB24B09C75008B7619 /* XCRemoteSwiftPackageReference "microsoft-authentication-library-for-objc" */,
 			);
 			productRefGroup = 0A3A5E772315E70400473FDA /* Products */;
 			projectDirPath = "";
@@ -560,25 +556,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		5105EBEB24B09C75008B7619 /* XCRemoteSwiftPackageReference "microsoft-authentication-library-for-objc" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/mitchdenny/microsoft-authentication-library-for-objc";
-			requirement = {
-				branch = "swift-pm-via-binary-framework";
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		5105EBEC24B09C75008B7619 /* microsoft-authentication-library-for-objc */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 5105EBEB24B09C75008B7619 /* XCRemoteSwiftPackageReference "microsoft-authentication-library-for-objc" */;
-			productName = "microsoft-authentication-library-for-objc";
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0A3A5E6E2315E70400473FDA /* Project object */;
 }
