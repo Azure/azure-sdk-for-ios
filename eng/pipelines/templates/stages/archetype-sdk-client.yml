@@ -1,18 +1,11 @@
 resources:
   repositories:
-  - repository: azure-sdk-build-tools
-    type: git
-    name: internal/azure-sdk-build-tools
-    ref: refs/heads/feature/engsys-ios-barebones
+  - repository: azure-sdk-tools
+    type: github
+    name: Azure/azure-sdk-tools
+    endpoint: azure
+    ref: refs/tags/azure-sdk-tools_20200618.1
 
-parameters:
-- name: Artifacts
-  type: object
-  default: []
-- name: ServiceDirectory
-  type: string
-  default: not-specified
-  
 stages:
   - stage: Build
     jobs:
@@ -20,11 +13,3 @@ stages:
       parameters:
         ServiceDirectory: ${{parameters.ServiceDirectory}}
         Artifacts: ${{parameters.Artifacts}}
-
-  # The Prerelease and Release stages are conditioned on whether we are building a pull request and the branch.
-  - ${{if and(ne(variables['Build.Reason'], 'PullRequest'), eq(variables['System.TeamProject'], 'internal'))}}:
-    - template: pipelines/stages/archetype-ios-release.yml@azure-sdk-build-tools
-      parameters:
-        DependsOn: Build
-        Artifacts: ${{parameters.Artifacts}}
-        ArtifactName: packages
