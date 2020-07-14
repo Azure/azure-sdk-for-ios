@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scheme
+   LastUpgradeVersion = "1130"
+   version = "1.3">
+   <BuildAction
+      parallelizeBuildables = "YES"
+      buildImplicitDependencies = "YES">
+      <BuildActionEntries>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0A3A5D752315C89C00473FDA"
+               BuildableName = "AzureCore.framework"
+               BlueprintName = "AzureCore"
+               ReferencedContainer = "container:sdk/core/AzureCore/AzureCore.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7AE9D566248EF6400029003C"
+               BuildableName = "AzureIdentity.framework"
+               BlueprintName = "AzureIdentity"
+               ReferencedContainer = "container:sdk/identity/AzureIdentity/AzureIdentity.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0A686488233E834D004B7E17"
+               BuildableName = "AzureStorageBlob.framework"
+               BlueprintName = "AzureStorageBlob"
+               ReferencedContainer = "container:sdk/storage/AzureStorageBlob/AzureStorageBlob.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7AE9D566248EF6400029003C"
+               BuildableName = "AzureIdentity.framework"
+               BlueprintName = "AzureIdentity"
+               ReferencedContainer = "container:sdk/identity/AzureIdentity/AzureIdentity.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "NO"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0A3A5E752315E70400473FDA"
+               BuildableName = "AzureSDKDemoSwift.app"
+               BlueprintName = "AzureSDKDemoSwift"
+               ReferencedContainer = "container:examples/AzureSDKDemoSwift/AzureSDKDemoSwift.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0A3A5DDD2315D17F00473FDA"
+               BuildableName = "AzureCoreTests.xctest"
+               BlueprintName = "AzureCoreTests"
+               ReferencedContainer = "container:sdk/core/AzureCore/AzureCore.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7AE9D56F248EF6400029003C"
+               BuildableName = "AzureIdentityTests.xctest"
+               BlueprintName = "AzureIdentityTests"
+               ReferencedContainer = "container:sdk/identity/AzureIdentity/AzureIdentity.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "NO"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0A3A5E892315E70600473FDA"
+               BuildableName = "AzureSDKDemoSwiftTests.xctest"
+               BlueprintName = "AzureSDKDemoSwiftTests"
+               ReferencedContainer = "container:examples/AzureSDKDemoSwift/AzureSDKDemoSwift.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+      </BuildActionEntries>
+   </BuildAction>
+   <TestAction
+      buildConfiguration = "Debug"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      codeCoverageEnabled = "YES">
+      <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0A3A5DDD2315D17F00473FDA"
+               BuildableName = "AzureCoreTests.xctest"
+               BlueprintName = "AzureCoreTests"
+               ReferencedContainer = "container:sdk/core/AzureCore/AzureCore.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7AE9D56F248EF6400029003C"
+               BuildableName = "AzureIdentityTests.xctest"
+               BlueprintName = "AzureIdentityTests"
+               ReferencedContainer = "container:sdk/identity/AzureIdentity/AzureIdentity.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0A686491233E834D004B7E17"
+               BuildableName = "AzureStorageBlobTests.xctest"
+               BlueprintName = "AzureStorageBlobTests"
+               ReferencedContainer = "container:sdk/storage/AzureStorageBlob/AzureStorageBlob.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+      </Testables>
+   </TestAction>
+   <LaunchAction
+      buildConfiguration = "Debug"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      launchStyle = "0"
+      useCustomWorkingDirectory = "NO"
+      ignoresPersistentStateOnLaunch = "NO"
+      debugDocumentVersioning = "YES"
+      debugServiceExtension = "internal"
+      allowLocationSimulation = "YES">
+   </LaunchAction>
+   <ProfileAction
+      buildConfiguration = "Release"
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      savedToolIdentifier = ""
+      useCustomWorkingDirectory = "NO"
+      debugDocumentVersioning = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "0A3A5D752315C89C00473FDA"
+            BuildableName = "AzureCore.framework"
+            BlueprintName = "AzureCore"
+            ReferencedContainer = "container:sdk/core/AzureCore/AzureCore.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
+   </ProfileAction>
+   <AnalyzeAction
+      buildConfiguration = "Debug">
+   </AnalyzeAction>
+   <ArchiveAction
+      buildConfiguration = "Release"
+      revealArchiveInOrganizer = "YES">
+   </ArchiveAction>
+</Scheme>
