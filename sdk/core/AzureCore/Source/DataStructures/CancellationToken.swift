@@ -44,7 +44,9 @@ public final class CancellationToken: Codable, Equatable {
     // MARK: Equatable Protocol
 
     public static func == (lhs: CancellationToken, rhs: CancellationToken) -> Bool {
-        return lhs.timeoutInSeconds == rhs.timeoutInSeconds && lhs.isCanceled == rhs.isCanceled
+        return lhs.timeoutInSeconds == rhs.timeoutInSeconds
+            && lhs.isStarted == rhs.isStarted
+            && lhs.isCanceled == rhs.isCanceled
     }
 
     // MARK: Methods
