@@ -230,7 +230,7 @@ public final class StorageBlobClient: PipelineClient {
         withRestorationId restorationId: String,
         withOptions options: StorageBlobClientOptions? = nil
     ) throws {
-        let sasCredential = StorageSASCredential(connectionString: connectionString)
+        let sasCredential = StorageSASCredential { connectionString }
         if sasCredential.error == nil {
             try self.init(
                 credential: sasCredential,
