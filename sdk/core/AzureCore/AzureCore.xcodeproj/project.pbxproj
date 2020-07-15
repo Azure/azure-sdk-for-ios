@@ -63,7 +63,6 @@
 		0AFEC37523C8FC630065D588 /* thing2.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0AFEC36923C8FC590065D588 /* thing2.xml */; };
 		0AFEC37623C8FC630065D588 /* pagedthings.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0AFEC36A23C8FC590065D588 /* pagedthings.xml */; };
 		3DD2BD632812BD4E5AEA48DD /* Pods_AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C60F095469BF6BE907D2145 /* Pods_AzureCore.framework */; };
-		7A16DC7B234BF55F002708BC /* PipelineError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A16DC7A234BF55F002708BC /* PipelineError.swift */; };
 		7A1A916C23D13D5700B0B3D2 /* RequestIdPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1A916B23D13D5700B0B3D2 /* RequestIdPolicyTests.swift */; };
 		7A1A916F23D13E5D00B0B3D2 /* PipelineStubs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1A916E23D13E5D00B0B3D2 /* PipelineStubs.swift */; };
 		7A1A917123D13F0300B0B3D2 /* ProviderStubs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1A917023D13F0300B0B3D2 /* ProviderStubs.swift */; };
@@ -169,7 +168,6 @@
 		0AFEC36A23C8FC590065D588 /* pagedthings.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = pagedthings.xml; sourceTree = "<group>"; };
 		5C60F095469BF6BE907D2145 /* Pods_AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D344FB2DAF4D22248D4FF45 /* Pods-AzureCoreTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCoreTests.release.xcconfig"; path = "Target Support Files/Pods-AzureCoreTests/Pods-AzureCoreTests.release.xcconfig"; sourceTree = "<group>"; };
-		7A16DC7A234BF55F002708BC /* PipelineError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineError.swift; sourceTree = "<group>"; };
 		7A1A916B23D13D5700B0B3D2 /* RequestIdPolicyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestIdPolicyTests.swift; sourceTree = "<group>"; };
 		7A1A916E23D13E5D00B0B3D2 /* PipelineStubs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineStubs.swift; sourceTree = "<group>"; };
 		7A1A917023D13F0300B0B3D2 /* ProviderStubs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProviderStubs.swift; sourceTree = "<group>"; };
@@ -309,7 +307,6 @@
 				0A3A5F3D2318906100473FDA /* Pipeline.swift */,
 				0A3A5F3F2318975900473FDA /* PipelineClient.swift */,
 				0A3A5F1F2316EF9400473FDA /* PipelineContext.swift */,
-				7A16DC7A234BF55F002708BC /* PipelineError.swift */,
 				0A3A5F392318903900473FDA /* PipelineRequest.swift */,
 				0A3A5F3B2318904F00473FDA /* PipelineResponse.swift */,
 				0A3A5F412319834500473FDA /* PipelineStage.swift */,
@@ -625,7 +622,6 @@
 				0A73AB77243F969700C6DC34 /* StringUtil.swift in Sources */,
 				0A3A5F3C2318904F00473FDA /* PipelineResponse.swift in Sources */,
 				0A532AD12417E73C00C4C8BA /* XMLTree.swift in Sources */,
-				7A16DC7B234BF55F002708BC /* PipelineError.swift in Sources */,
 				0A3A5F032316DF6600473FDA /* CryptoUtil.swift in Sources */,
 				7AA5366923C0340C00A65A96 /* BundleInfoProvider.swift in Sources */,
 				0A8FE7682368A4FF00B96598 /* MatchCondition.swift in Sources */,

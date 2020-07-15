@@ -106,7 +106,10 @@ internal class ChunkUploader {
             buffer.append(tempData)
         } catch {
             let request = try? HTTPRequest(method: .put, url: uploadDestination, headers: HTTPHeaders())
-            completionHandler(.failure(error), HTTPResponse(request: request, statusCode: nil))
+            completionHandler(
+                .failure(AzureError.sdk("File error.", error)),
+                HTTPResponse(request: request, statusCode: nil)
+            )
             return
         }
 
@@ -274,12 +277,12 @@ internal class BlobStreamUploader: BlobUploader {
         options: UploadBlobOptions? = nil
     ) throws {
         guard let uploadSource = source.resolvedUrl else {
-            throw AzureError.fileSystem("Unable to determine upload source: \(source)")
+            throw AzureError.sdk("Unable to determine upload source: \(source)")
         }
 
         let attributes = try FileManager.default.attributesOfItem(atPath: uploadSource.path)
         guard let fileSize = attributes[FileAttributeKey.size] as? Int else {
-            throw AzureError.fileSystem("Unable to determine file size: \(uploadSource.path)")
+            throw AzureError.sdk("Unable to determine file size: \(uploadSource.path)")
         }
 
         self.uploadSource = uploadSource
@@ -382,7 +385,7 @@ internal class BlobStreamUploader: BlobUploader {
                 completionHandler(.failure(error), httpResponse)
             case .success:
                 guard let responseHeaders = httpResponse?.headers else {
-                    let error = HTTPResponseError.general("No response received.")
+                    let error = AzureError.sdk("No response received.")
                     completionHandler(.failure(error), httpResponse)
                     return
                 }
@@ -529,7 +532,7 @@ internal class BlobStreamUploader: BlobUploader {
 
     /// Parses the blob length from the content range header: bytes 1-3/65537
     private func parseLength(fromContentRange contentRange: String?) throws -> Int {
-        let error = HTTPResponseError.decode("Unable to parse content range: \(contentRange ?? "nil")")
+        let error = AzureError.sdk("Unable to parse content range: \(contentRange ?? "nil")")
         guard let contentRange = contentRange else { throw error }
         // split on slash and take the second half: "65537"
         guard let lengthString = contentRange.split(separator: "/", maxSplits: 1).last else { throw error }

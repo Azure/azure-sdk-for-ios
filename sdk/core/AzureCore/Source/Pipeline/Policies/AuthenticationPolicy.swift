@@ -25,7 +25,7 @@
 // --------------------------------------------------------------------------
 import Foundation
 
-public typealias TokenCompletionHandler = (AccessToken?, Error?) -> Void
+public typealias TokenCompletionHandler = (AccessToken?, AzureError?) -> Void
 
 public struct AccessToken {
     // MARK: Properties
@@ -103,7 +103,7 @@ public class BearerTokenCredentialPolicy: Authenticating {
                 return
             }
             guard let token = token?.token else {
-                completionHandler(request, HTTPResponseError.clientAuthentication("Token cannot be empty"))
+                completionHandler(request, AzureError.sdk("Token cannot be empty"))
                 return
             }
             request.httpRequest.headers[.authorization] = "Bearer \(token)"

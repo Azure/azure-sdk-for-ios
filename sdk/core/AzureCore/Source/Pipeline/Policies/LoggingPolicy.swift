@@ -87,8 +87,12 @@ public class LoggingPolicy: PipelineStage {
         completionHandler(response, nil)
     }
 
-    public func on(error: PipelineError, completionHandler: @escaping OnErrorCompletionHandler) {
-        LoggingPolicy.queue.async { self.log(response: error.pipelineResponse, withError: error.innerError) }
+    public func on(
+        error: AzureError,
+        pipelineResponse: PipelineResponse,
+        completionHandler: @escaping OnErrorCompletionHandler
+    ) {
+        log(response: pipelineResponse, withError: error)
         completionHandler(error, false)
     }
 
@@ -113,7 +117,7 @@ public class LoggingPolicy: PipelineStage {
         logger.info("--> [END \(requestId)]")
     }
 
-    private func log(response: PipelineResponse, withError error: Error? = nil) {
+    private func log(response: PipelineResponse, withError error: AzureError? = nil) {
         let endTime = DispatchTime.now()
         var duration: String?
         if let startTime = response.context?.value(forKey: .requestStartTime) as? DispatchTime {
@@ -133,7 +137,7 @@ public class LoggingPolicy: PipelineStage {
         defer { logger.info("<-- [END \(requestId)]") }
 
         if let error = error {
-            logger.warning(error.localizedDescription)
+            logger.warning(error.message)
         }
 
         guard

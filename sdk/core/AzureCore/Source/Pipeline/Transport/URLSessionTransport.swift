@@ -27,10 +27,6 @@
 import Foundation
 import os
 
-public enum URLSessionTransportError: Error {
-    case invalidSession
-}
-
 public class URLSessionTransport: HTTPTransportStage {
     // MARK: Properties
 
@@ -107,10 +103,7 @@ public class URLSessionTransport: HTTPTransportStage {
                 context: responseContext
             )
             if let error = error {
-                completionHandler(
-                    .failure(PipelineError(fromError: error, pipelineResponse: pipelineResponse)),
-                    httpResponse
-                )
+                completionHandler(.failure(AzureError.service("Service error.", error)), httpResponse)
             } else {
                 completionHandler(.success(pipelineResponse), httpResponse)
             }
