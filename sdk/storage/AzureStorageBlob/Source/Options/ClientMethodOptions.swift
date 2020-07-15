@@ -39,7 +39,7 @@ public struct ListContainersOptions: AzureOptions {
     public let clientRequestId: String?
 
     /// A token used to make a best-effort attempt at canceling a request.
-    public var cancellationToken: CancellationToken?
+    public let cancellationToken: CancellationToken?
 
     /// Return only containers whose names begin with the specified prefix.
     public let prefix: String?
@@ -57,18 +57,21 @@ public struct ListContainersOptions: AzureOptions {
     /// - Parameters:
     ///   - clientRequestId: A client-generated, opaque value with 1KB character limit that is recorded in analytics
     ///     logs.
+    ///   - cancellationToken: A token used to make a best-effort attempt at canceling a request.
     ///   - prefix: Return only containers whose names begin with the specified prefix.
     ///   - include: One or more datasets to include in the response.
     ///   - maxResults: Maximum number of containers to return, up to 5000.
     ///   - timeoutInSeconds: Request timeout in seconds.
     public init(
         clientRequestId: String? = nil,
+        cancellationToken: CancellationToken? = nil,
         prefix: String? = nil,
         include: [ListContainersInclude]? = nil,
         maxResults: Int? = nil,
         timeoutInSeconds: Int? = nil
     ) {
         self.clientRequestId = clientRequestId
+        self.cancellationToken = cancellationToken
         self.prefix = prefix
         self.include = include
         self.maxResults = maxResults
@@ -96,7 +99,7 @@ public struct ListBlobsOptions: AzureOptions {
     public let clientRequestId: String?
 
     /// A token used to make a best-effort attempt at canceling a request.
-    public var cancellationToken: CancellationToken?
+    public let cancellationToken: CancellationToken?
 
     /// Return only blobs whose names begin with the specified prefix.
     public let prefix: String?
@@ -119,6 +122,7 @@ public struct ListBlobsOptions: AzureOptions {
     /// - Parameters:
     ///   - clientRequestId: A client-generated, opaque value with 1KB character limit that is recorded in analytics
     ///     logs.
+    ///   - cancellationToken: A token used to make a best-effort attempt at canceling a request.
     ///   - prefix: Return only blobs whose names begin with the specified prefix.
     ///   - delimiter: Operation returns a BlobPrefix element in the response body that acts as a placeholder for all
     ///     blobs whose names begin with the same substring up to the appearance of the delimiter character. The
@@ -163,7 +167,7 @@ public struct DeleteBlobOptions: AzureOptions {
     public let clientRequestId: String?
 
     /// A token used to make a best-effort attempt at canceling a request.
-    public var cancellationToken: CancellationToken?
+    public let cancellationToken: CancellationToken?
 
     /// Specify how blob snapshots should be handled. Required if the blob has associated snapshots.
     public let deleteSnapshots: DeleteBlobSnapshot?
@@ -178,15 +182,18 @@ public struct DeleteBlobOptions: AzureOptions {
     /// - Parameters:
     ///   - clientRequestId: A client-generated, opaque value with 1KB character limit that is recorded in analytics
     ///     logs.
+    ///   - cancellationToken: A token used to make a best-effort attempt at canceling a request.
     ///   - deleteSnapshots: `DeleteBlobSnapshot` value to specify how snapshots should be handled.
     ///   - timeoutInSeconds: Request timeout in seconds.
     public init(
         clientRequestId: String? = nil,
+        cancellationToken: CancellationToken? = nil,
         deleteSnapshots: DeleteBlobSnapshot? = nil,
         snapshot: Date? = nil,
         timeoutInSeconds: Int? = nil
     ) {
         self.clientRequestId = clientRequestId
+        self.cancellationToken = cancellationToken
         self.deleteSnapshots = deleteSnapshots
         self.snapshot = snapshot
         self.timeoutInSeconds = timeoutInSeconds
@@ -199,7 +206,7 @@ public struct DownloadBlobOptions: AzureOptions, Codable, Equatable {
     public let clientRequestId: String?
 
     /// A token used to make a best-effort attempt at canceling a request.
-    public var cancellationToken: CancellationToken?
+    public let cancellationToken: CancellationToken?
 
     /// Options for working on a subset of data for a blob.
     public let range: RangeOptions?
@@ -242,7 +249,7 @@ public struct DownloadBlobOptions: AzureOptions, Codable, Equatable {
     /// - Parameters:
     ///   - clientRequestId: A client-generated, opaque value with 1KB character limit that is recorded in analytics
     ///     logs.
-    ///   - destination: Options for overriding the default download destination behavior.
+    ///   - cancellationToken: A token used to make a best-effort attempt at canceling a request.
     ///   - range: Options for working on a subset of data for a blob.
     ///   - leaseId: Required if the blob has an active lease. If specified, download only succeeds if the blob's lease
     ///     is active and matches this ID.
@@ -262,6 +269,7 @@ public struct DownloadBlobOptions: AzureOptions, Codable, Equatable {
     ///     Azure service and the timeout will apply to each call individually.
     public init(
         clientRequestId: String? = nil,
+        cancellationToken: CancellationToken? = nil,
         range: RangeOptions? = nil,
         leaseId: String? = nil,
         snapshot: String? = nil,
@@ -273,6 +281,7 @@ public struct DownloadBlobOptions: AzureOptions, Codable, Equatable {
         timeoutInSeconds: Int? = nil
     ) {
         self.clientRequestId = clientRequestId
+        self.cancellationToken = cancellationToken
         self.range = range
         self.leaseId = leaseId
         self.snapshot = snapshot
@@ -291,7 +300,7 @@ public struct UploadBlobOptions: AzureOptions, Codable, Equatable {
     public let clientRequestId: String?
 
     /// A token used to make a best-effort attempt at canceling a request.
-    public var cancellationToken: CancellationToken?
+    public let cancellationToken: CancellationToken?
 
     /// Options for accessing a blob based on the condition of a lease. If specified, the operation will be performed
     /// only if both of the following conditions are met:
@@ -328,6 +337,7 @@ public struct UploadBlobOptions: AzureOptions, Codable, Equatable {
     /// - Parameters:
     ///   - clientRequestId: A client-generated, opaque value with 1KB character limit that is recorded in analytics
     ///     logs.
+    ///   - cancellationToken: A token used to make a best-effort attempt at canceling a request.
     ///   - leaseAccessConditions: Options for accessing a blob based on the condition of a lease. If specified, the
     ///     operation will be performed only if both of the following conditions are met:
     ///     - The blob's lease is currently active.
@@ -345,6 +355,7 @@ public struct UploadBlobOptions: AzureOptions, Codable, Equatable {
     ///     Azure service and the timeout will apply to each call individually.
     public init(
         clientRequestId: String? = nil,
+        cancellationToken: CancellationToken? = nil,
         leaseAccessConditions: LeaseAccessConditions? = nil,
         modifiedAccessConditions: ModifiedAccessConditions? = nil,
         encryptionOptions: EncryptionOptions? = nil,
@@ -354,6 +365,7 @@ public struct UploadBlobOptions: AzureOptions, Codable, Equatable {
         timeoutInSeconds: Int? = nil
     ) {
         self.clientRequestId = clientRequestId
+        self.cancellationToken = cancellationToken
         self.leaseAccessConditions = leaseAccessConditions
         self.modifiedAccessConditions = modifiedAccessConditions
         self.encryptionOptions = encryptionOptions

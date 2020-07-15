@@ -60,7 +60,8 @@ public protocol AzureOptions {
     /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
     /// Highly recommended for correlating client-side activites with requests received by the server.
     var clientRequestId: String? { get }
-    var cancellationToken: CancellationToken? { get set }
+    /// A token used to make a best-effort attempt at canceling a request.
+    var cancellationToken: CancellationToken? { get }
 }
 
 /// Base class for all pipeline-based service clients.
