@@ -33,12 +33,16 @@ public struct StorageBlobClientOptions: AzureConfigurable {
     public let apiVersion: String
     /// The `ClientLogger` to be used by this `StorageBlobClient`.
     public let logger: ClientLogger
-
-    internal let downloadNetworkPolicy: TransferNetworkPolicy
-
-    internal let uploadNetworkPolicy: TransferNetworkPolicy
+    /// Options for configuring telemetry sent by this `StorageBlobClient`.
+    public let telemetryOptions: TelemetryOptions
 
     // Blob operations
+
+    /// The `TransferNetworkPolicy` to use for managed downloads.
+    public let downloadNetworkPolicy: TransferNetworkPolicy
+
+    /// The `TransferNetworkPolicy` to use for managed uploads.
+    public let uploadNetworkPolicy: TransferNetworkPolicy
 
     /// The maximum size of a single chunk in a blob upload or download.
     public let maxChunkSizeInBytes: Int
@@ -47,20 +51,23 @@ public struct StorageBlobClientOptions: AzureConfigurable {
     /// - Parameters:
     ///   - apiVersion: The API version of the Azure Storage Blob service to invoke.
     ///   - logger: The `ClientLogger` to be used by this `StorageBlobClient`.
+    ///   - telemetryOptions: Options for configuring telemetry sent by this `StorageBlobClient`.
     ///   - maxChunkSizeInBytes: The maximum size of a single chunk in a blob upload or download.
     ///     Must be less than 4MB if enabling MD5 or CRC64 hashing.
+    ///   - downloadNetworkPolicy: The `TransferNetworkPolicy` to use for managed downloads.
+    ///   - uploadNetworkPolicy: The `TransferNetworkPolicy` to use for managed uploads.
     public init(
         apiVersion: StorageBlobClient.ApiVersion = .latest,
         logger: ClientLogger = ClientLoggers.default(tag: "StorageBlobClient"),
+        telemetryOptions: TelemetryOptions = TelemetryOptions(),
         maxChunkSizeInBytes: Int = 4 * 1024 * 1024 - 1,
         downloadNetworkPolicy: TransferNetworkPolicy? = nil,
         uploadNetworkPolicy: TransferNetworkPolicy? = nil
     ) {
         self.apiVersion = apiVersion.rawValue
         self.logger = logger
+        self.telemetryOptions = telemetryOptions
         self.maxChunkSizeInBytes = maxChunkSizeInBytes
-
-        // apply default `TransferNetworkPolicy` if none supplied
         self.downloadNetworkPolicy = downloadNetworkPolicy ?? TransferNetworkPolicy.default
         self.uploadNetworkPolicy = uploadNetworkPolicy ?? TransferNetworkPolicy.default
     }
