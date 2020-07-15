@@ -305,7 +305,7 @@ internal class BlobStreamDownloader: BlobDownloader {
         delegate: BlobDownloadDelegate? = nil,
         source: URL,
         destination: LocalURL,
-        options: DownloadBlobOptions? = nil
+        options: DownloadBlobOptions
     ) throws {
         guard let downloadDestination = destination.resolvedUrl else {
             throw AzureError.sdk("Unable to determine download destination: \(destination)")
@@ -314,7 +314,7 @@ internal class BlobStreamDownloader: BlobDownloader {
         self.downloadDestination = downloadDestination
         self.client = client
         self.delegate = delegate
-        self.options = options ?? DownloadBlobOptions()
+        self.options = options
         self.downloadSource = source
         self.requestedSize = self.options.range?.lengthInBytes
         self.blobProperties = nil

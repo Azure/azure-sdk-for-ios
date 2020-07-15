@@ -76,6 +76,7 @@ public struct StorageBlobClientOptions: AzureConfigurable {
         telemetryOptions: TelemetryOptions = TelemetryOptions(),
         restorationId: String = DeviceProviders.appBundleInfo.identifier ?? "AzureStorageBlob",
         maxChunkSizeInBytes: Int = 4 * 1024 * 1024 - 1,
+        transportOptions: TransportOptions = TransportOptions(),
         downloadNetworkPolicy: TransferNetworkPolicy? = nil,
         uploadNetworkPolicy: TransferNetworkPolicy? = nil
     ) {

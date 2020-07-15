@@ -27,10 +27,9 @@
 import Foundation
 
 public final class CancellationToken: Codable, Equatable {
-    public internal(set) var isCanceled: Bool
-
-    internal var timeoutInSeconds: Double?
-    internal var timeoutRunning: Bool
+    public private(set) var isCanceled: Bool
+    public private(set) var isStarted: Bool
+    public private(set) var timeoutInSeconds: Double?
 
     public func cancel() {
         isCanceled = true
@@ -38,7 +37,7 @@ public final class CancellationToken: Codable, Equatable {
 
     public init(timeoutInSeconds: Double? = nil) {
         self.timeoutInSeconds = timeoutInSeconds
-        self.timeoutRunning = false
+        self.isStarted = false
         self.isCanceled = false
     }
 
@@ -50,12 +49,16 @@ public final class CancellationToken: Codable, Equatable {
 
     // MARK: Methods
 
+    public func addTimeout(from transportOptions: TransportOptions) {
+        guard !isStarted, timeoutInSeconds == nil, let newTimeout = transportOptions.timeoutInSeconds else { return }
+        timeoutInSeconds = newTimeout
+    }
+
     public func start() {
-        guard timeoutRunning == false,
-            let timeout = self.timeoutInSeconds else { return }
+        guard !isStarted, let timeout = timeoutInSeconds else { return }
         DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + timeout) {
             self.isCanceled = true
         }
-        timeoutRunning = true
+        isStarted = true
     }
 }

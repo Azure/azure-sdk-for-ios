@@ -276,6 +276,7 @@ public final class StorageBlobClient: PipelineClient {
             ContextKey.xmlMap.rawValue: xmlMap as AnyObject
         ])
         if let cancellationToken = options?.cancellationToken {
+            cancellationToken.addTimeout(from: self.options.transportOptions)
             context.add(value: cancellationToken as AnyObject, forKey: .cancellationToken)
         }
         guard let requestUrl = url.appendingQueryParameters(queryParams) else { return }
@@ -376,6 +377,7 @@ public final class StorageBlobClient: PipelineClient {
             ContextKey.xmlMap.rawValue: xmlMap as AnyObject
         ])
         if let cancellationToken = options?.cancellationToken {
+            cancellationToken.addTimeout(from: self.options.transportOptions)
             context.add(value: cancellationToken as AnyObject, forKey: .cancellationToken)
         }
         self.request(request, context: context) { result, httpResponse in
@@ -463,6 +465,7 @@ public final class StorageBlobClient: PipelineClient {
             ContextKey.allowedStatusCodes.rawValue: [202] as AnyObject
         ])
         if let cancellationToken = options?.cancellationToken {
+            cancellationToken.addTimeout(from: self.options.transportOptions)
             context.add(value: cancellationToken as AnyObject, forKey: .cancellationToken)
         }
         guard let requestUrl = url.appendingQueryParameters(queryParams) else { return }
@@ -496,7 +499,7 @@ public final class StorageBlobClient: PipelineClient {
         blob: String,
         fromContainer container: String,
         toFile destinationUrl: LocalURL,
-        withOptions options: DownloadBlobOptions? = nil,
+        withOptions options: DownloadBlobOptions = DownloadBlobOptions(),
         completionHandler: @escaping HTTPResultHandler<BlobDownloader>
     ) throws {
         // Construct URL
@@ -506,6 +509,8 @@ public final class StorageBlobClient: PipelineClient {
             "blob": blob
         ]
         guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return }
+
+        options.cancellationToken?.addTimeout(from: self.options.transportOptions)
 
         let downloader = try BlobStreamDownloader(
             client: self,
@@ -544,7 +549,7 @@ public final class StorageBlobClient: PipelineClient {
         toContainer container: String,
         asBlob blob: String,
         properties: BlobProperties? = nil,
-        withOptions options: UploadBlobOptions? = nil,
+        withOptions options: UploadBlobOptions = UploadBlobOptions(),
         completionHandler: @escaping HTTPResultHandler<BlobUploader>
     ) throws {
         // Construct URL
@@ -554,6 +559,8 @@ public final class StorageBlobClient: PipelineClient {
             "blob": blob
         ]
         guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return }
+
+        options.cancellationToken?.addTimeout(from: self.options.transportOptions)
 
         let uploader = try BlobStreamUploader(
             client: self,
@@ -591,7 +598,7 @@ public final class StorageBlobClient: PipelineClient {
         blob: String,
         fromContainer container: String,
         toFile destinationUrl: LocalURL,
-        withOptions options: DownloadBlobOptions? = nil,
+        withOptions options: DownloadBlobOptions = DownloadBlobOptions(),
         progressHandler: ((BlobTransfer) -> Void)? = nil
     ) throws -> BlobTransfer? {
         // Construct URL
@@ -601,9 +608,12 @@ public final class StorageBlobClient: PipelineClient {
             "blob": blob
         ]
         guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return nil }
+
+        options.cancellationToken?.addTimeout(from: self.options.transportOptions)
+
         let context = StorageBlobClient.viewContext
-        let start = Int64(options?.range?.offsetBytes ?? 0)
-        let end = Int64(options?.range?.lengthInBytes ?? 0)
+        let start = Int64(options.range?.offsetBytes ?? 0)
+        let end = Int64(options.range?.lengthInBytes ?? 0)
         let downloader = try BlobStreamDownloader(
             client: self,
             source: url,
@@ -622,7 +632,7 @@ public final class StorageBlobClient: PipelineClient {
             progressHandler: progressHandler
         )
         blobTransfer.downloader = downloader
-        blobTransfer.downloadOptions = options ?? DownloadBlobOptions()
+        blobTransfer.downloadOptions = options
         StorageBlobClient.manager.add(transfer: blobTransfer)
         return blobTransfer
     }
@@ -644,7 +654,7 @@ public final class StorageBlobClient: PipelineClient {
         toContainer container: String,
         asBlob blob: String,
         properties: BlobProperties,
-        withOptions options: UploadBlobOptions? = nil,
+        withOptions options: UploadBlobOptions = UploadBlobOptions(),
         progressHandler: ((BlobTransfer) -> Void)? = nil
     ) throws -> BlobTransfer? {
         // Construct URL
@@ -654,6 +664,9 @@ public final class StorageBlobClient: PipelineClient {
             "blob": blob
         ]
         guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return nil }
+
+        options.cancellationToken?.addTimeout(from: self.options.transportOptions)
+
         let context = StorageBlobClient.viewContext
         let uploader = try BlobStreamUploader(
             client: self,
@@ -674,7 +687,7 @@ public final class StorageBlobClient: PipelineClient {
             progressHandler: progressHandler
         )
         blobTransfer.uploader = uploader
-        blobTransfer.uploadOptions = options ?? UploadBlobOptions()
+        blobTransfer.uploadOptions = options
         blobTransfer.properties = properties
         StorageBlobClient.manager.add(transfer: blobTransfer)
         return blobTransfer
