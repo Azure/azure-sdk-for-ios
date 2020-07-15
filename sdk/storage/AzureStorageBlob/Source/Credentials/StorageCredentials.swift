@@ -82,7 +82,7 @@ public struct StorageSASCredential: AzureCredential {
         do {
             let newCredential = try credentialProvider()
             if !(try configureFrom(connectionString: newCredential)), !configureFrom(blobSasUri: newCredential) {
-                error = HTTPResponseError.clientAuthentication("The credential \(newCredential) is invalid.")
+                error = AzureError.sdk("The credential \(newCredential) is invalid.")
             }
         } catch {
             self.error = error
@@ -338,7 +338,7 @@ internal class StorageSASAuthenticationPolicy: Authenticating {
         do {
             try credential.validate()
         } catch {
-            completionHandler(request, error)
+            completionHandler(request, AzureError.sdk("Authentication error.", error))
             return
         }
 
@@ -390,7 +390,7 @@ internal class StorageSharedKeyAuthenticationPolicy: Authenticating {
         do {
             try credential.validate()
         } catch {
-            completionHandler(request, error)
+            completionHandler(request, AzureError.sdk("Authentication error.", error))
             return
         }
 
