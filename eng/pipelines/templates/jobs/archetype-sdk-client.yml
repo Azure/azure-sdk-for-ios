@@ -85,7 +85,7 @@ jobs:
       - script: sudo xcode-select --switch /Applications/Xcode_$(XcodeVersion).app
         displayName: 'Use Xcode $(XcodeVersion)'
 
-      - script: gem install trainer slather
+      - script: gem install -N trainer slather -- --use-system-libraries
         displayName: 'Install build tools'
 
       - script: pod install
@@ -103,6 +103,8 @@ jobs:
         displayName: 'Build and test libraries'
 
       - script: trainer --path $(Build.ArtifactStagingDirectory) --fail_build false
+        env:
+          FASTLANE_OPT_OUT_USAGE: true
         displayName: 'Convert unit test results'
 
       - task: PublishTestResults@2
