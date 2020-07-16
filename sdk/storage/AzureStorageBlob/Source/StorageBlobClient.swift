@@ -187,7 +187,7 @@ public final class StorageBlobClient: PipelineClient {
         connectionString: String,
         withOptions options: StorageBlobClientOptions = StorageBlobClientOptions()
     ) throws {
-        let sasCredential = StorageSASCredential { connectionString }
+        let sasCredential = StorageSASCredential { _, _ in connectionString }
         if sasCredential.error == nil {
             try self.init(credential: sasCredential, withOptions: options)
             return

@@ -27,71 +27,66 @@
 import AzureCore
 import Foundation
 
+/// A closure that returns an account-level shared access signature connection string, or a container- or blob-level
+/// shared access signature URI. The closure is called with the container name and blob path to authenticate, if
+/// applicable to the operation requesting the token.
+public typealias SASTokenProvider = (String?, String?) throws -> String
+
+fileprivate struct SASToken {
+    let sasToken: String
+    let blobEndpoint: String?
+    let queueEndpoint: String?
+    let fileEndpoint: String?
+    let tableEndpoint: String?
+}
+
 /// A Storage shared access signature credential object.
 public struct StorageSASCredential: AzureCredential {
-    internal let credentialProvider: () throws -> String
-    internal var blobEndpoint: String?
-    internal var queueEndpoint: String?
-    internal var fileEndpoint: String?
-    internal var tableEndpoint: String?
-    internal var error: Error?
-    internal var sasToken: String? {
-        didSet { expirationDate = StorageSASCredential.expiration(forToken: sasToken) }
-    }
-
-    // Treat tokens that expire in <= 2 minutes as expired
-    private static let expirationOffset: TimeInterval = 2 * 60
-
-    public var expirationDate: Date?
-    public var expired: Bool {
-        guard let expirationDate = expirationDate else { return true }
-        return (expirationDate - StorageSASCredential.expirationOffset) >= Date()
-    }
-
-    // MARK: Static methods
-
-    private static func expiration(forToken sasToken: String?) -> Date? {
-        guard let token = sasToken else { return nil }
-        guard let comps = URLComponents(string: "?\(token)") else { return nil }
-        guard let expiration = comps.queryItems?.filter({ $0.name == "se" }).first?.value else { return nil }
-        return Date(expiration, format: .iso8601)
-    }
+    internal let tokenProvider: SASTokenProvider
 
     // MARK: Initializers
 
-    /// Create a shared access signature credential from an account-level shared access signature connection string, or
-    /// a container- or blob-level shared access signature URI.
+    /// Create a shared access signature credential from an closure that returns an account-level shared access
+    /// signature connection string, or a container- or blob-level shared access signature URI.
     /// - Parameters:
-    ///   - credentialProvider: A closure that returns an account-level shared access signature connection string, or a
-    ///   container- or blob-level shared access signature URI.
-    public init(credentialProvider: @escaping () throws -> String) {
-        self.credentialProvider = credentialProvider
-        clear()
+    ///   - tokenProvider: A closure that returns an account-level shared access signature connection string, or a
+    ///   container- or blob-level shared access signature URI. The closure is called with the container name and blob
+    //    path to authenticate, if applicable to the operation requesting the token.
+    public init(tokenProvider: @escaping SASTokenProvider) {
+        self.tokenProvider = tokenProvider
     }
 
     // MARK: Public Methods
 
     public func validate() throws {
-        if let error = error {
-            throw error
-        }
+        // Since the token is provided dynamically by the tokenProvider, this credential is always valid
     }
 
-    internal mutating func refresh() {
-        clear()
-        do {
-            let newCredential = try credentialProvider()
-            if !(try configureFrom(connectionString: newCredential)), !configureFrom(blobSasUri: newCredential) {
-                error = AzureError.sdk("The credential \(newCredential) is invalid.")
-            }
-        } catch {
-            self.error = error
-        }
+    // MARK: Internal Methods
+
+    fileprivate func token(forUrl url: URL) throws -> SASToken {
+        let (container, blob) = containerAndBlob(fromUrl: url)
+        let newCredential = try tokenProvider(container, blob)
+        if let token = try token(fromConnectionString: newCredential) { return token }
+        if let token = token(fromBlobSasUri: newCredential) { return token }
+        throw AzureError.sdk("The credential \(newCredential) is invalid.")
     }
 
     // MARK: Private methods
 
-    private mutating func configureFrom(connectionString: String) throws -> Bool {
+    private func containerAndBlob(fromUrl url: URL) -> (String?, String?) {
+        let pathParts = url.path.split(separator: "/", maxSplits: 1)
+        switch pathParts.count {
+        case 0:
+            return (nil, nil)
+        case 1:
+            return (String(pathParts[0]), nil)
+        default:
+            return (String(pathParts[0]), String(pathParts[1]))
+        }
+    }
+
+    private func token(fromConnectionString connectionString: String) throws -> SASToken? {
         var blob: String?
         var queue: String?
         var file: String?
@@ -119,50 +114,36 @@ public struct StorageSASCredential: AzureCredential {
                     Form of connection string with 'SharedAccessSignature' is expected - 'AccountKey' is not allowed.
                     You must provide a Shared Access Signature connection string.
                 """
-                error = AzureError.sdk(message)
+                throw AzureError.sdk(message)
             default:
                 continue
             }
         }
 
-        if sas == nil { return false }
+        guard let sasToken = sas else { return nil }
 
-        sasToken = sas
-        blobEndpoint = blob
-        queueEndpoint = queue
-        fileEndpoint = file
-        tableEndpoint = table
-        return true
+        return SASToken(
+            sasToken: sasToken,
+            blobEndpoint: blob,
+            queueEndpoint: queue,
+            fileEndpoint: file,
+            tableEndpoint: table
+        )
     }
 
-    private mutating func configureFrom(blobSasUri: String) -> Bool {
-        var blob: String?
-        var sas: String?
-
+    private func token(fromBlobSasUri blobSasUri: String) -> SASToken? {
         if let sasUri = URL(string: blobSasUri), let sasToken = sasUri.query, let scheme = sasUri.scheme,
             let host = sasUri.host {
-            sas = sasToken
-            blob = "\(scheme)://\(host)/"
+            return SASToken(
+                sasToken: sasToken,
+                blobEndpoint: "\(scheme)://\(host)/",
+                queueEndpoint: nil,
+                fileEndpoint: nil,
+                tableEndpoint: nil
+            )
         } else {
-            return false
+            return nil
         }
-
-        sasToken = sas
-        blobEndpoint = blob
-        queueEndpoint = nil
-        fileEndpoint = nil
-        tableEndpoint = nil
-        return true
-    }
-
-    private mutating func clear() {
-        sasToken = nil
-        expirationDate = nil
-        blobEndpoint = nil
-        queueEndpoint = nil
-        fileEndpoint = nil
-        tableEndpoint = nil
-        error = nil
     }
 }
 
@@ -331,23 +312,18 @@ internal class StorageSASAuthenticationPolicy: Authenticating {
     ///   - request: A `PipelineRequest` object.
     ///   - completionHandler: A completion handler that forwards the modified pipeline request.
     public func authenticate(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
-        if credential.expired {
-            credential.refresh()
-        }
-
         do {
-            try credential.validate()
+            let token = try credential.token(forUrl: request.httpRequest.url)
+            let queryParams = parse(sasToken: token.sasToken)
+            if let requestUrl = request.httpRequest.url.appendingQueryParameters(queryParams) {
+                request.httpRequest.url = requestUrl
+            }
+            request.httpRequest.headers[.xmsDate] = String(describing: Date(), format: .rfc1123)
+            completionHandler(request, nil)
         } catch {
             completionHandler(request, AzureError.sdk("Authentication error.", error))
             return
         }
-
-        let queryParams = parse(sasToken: credential.sasToken ?? "")
-        if let requestUrl = request.httpRequest.url.appendingQueryParameters(queryParams) {
-            request.httpRequest.url = requestUrl
-        }
-        request.httpRequest.headers[.xmsDate] = String(describing: Date(), format: .rfc1123)
-        completionHandler(request, nil)
     }
 
     // MARK: Private Methods
