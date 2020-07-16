@@ -27,12 +27,17 @@
 import AzureCore
 import Foundation
 
-/// A closure that returns an account-level shared access signature connection string, or a container- or blob-level
-/// shared access signature URI. The closure is called with the container name and blob path to authenticate, if
-/// applicable to the operation requesting the token.
-public typealias SASTokenProvider = (String?, String?) throws -> String
+/// A result handler to call when you have completed the process of acquiring a SAS token. Call the handler with an
+/// account-level shared access signature connection string, or a container- or blob-level shared access signature URI.
+/// If the process failed, call the handler with the error instead.
+public typealias SASTokenResultHandler = (Result<String, Error>) -> Void
 
-fileprivate struct SASToken {
+/// A closure that is called when a SAS token is needed to authenticate a request. The closure is called with the
+/// URL of the request requiring authentication, and a `SASTokenResultHandler` which you must call to provide the SAS
+/// token that will be used to authenticate the request, or an error if the token cannot be provided.
+public typealias SASTokenProvider = (URL, SASTokenResultHandler) -> Void
+
+internal struct SASToken {
     let sasToken: String
     let blobEndpoint: String?
     let queueEndpoint: String?
@@ -62,31 +67,32 @@ public struct StorageSASCredential: AzureCredential {
         // Since the token is provided dynamically by the tokenProvider, this credential is always valid
     }
 
-    // MARK: Internal Methods
-
-    fileprivate func token(forUrl url: URL) throws -> SASToken {
-        let (container, blob) = containerAndBlob(fromUrl: url)
-        let newCredential = try tokenProvider(container, blob)
-        if let token = try token(fromConnectionString: newCredential) { return token }
-        if let token = token(fromBlobSasUri: newCredential) { return token }
-        throw AzureError.sdk("The credential \(newCredential) is invalid.")
-    }
-
     // MARK: Private methods
 
-    private func containerAndBlob(fromUrl url: URL) -> (String?, String?) {
-        let pathParts = url.path.split(separator: "/", maxSplits: 1)
-        switch pathParts.count {
-        case 0:
-            return (nil, nil)
-        case 1:
-            return (String(pathParts[0]), nil)
-        default:
-            return (String(pathParts[0]), String(pathParts[1]))
+    fileprivate func token(forUrl url: URL, completionHandler: (Result<SASToken, Error>) -> Void) {
+        tokenProvider(url) { result in
+            do {
+                switch result {
+                case let .success(newCredential):
+                    if let token = try StorageSASCredential.token(fromConnectionString: newCredential) {
+                        completionHandler(.success(token))
+                        return
+                    } else if let token = StorageSASCredential.token(fromBlobSasUri: newCredential) {
+                        completionHandler(.success(token))
+                        return
+                    } else {
+                        throw AzureError.sdk("The credential \(newCredential) is invalid.")
+                    }
+                case let .failure(error):
+                    throw error
+                }
+            } catch {
+                completionHandler(.failure(error))
+            }
         }
     }
 
-    private func token(fromConnectionString connectionString: String) throws -> SASToken? {
+    internal static func token(fromConnectionString connectionString: String) throws -> SASToken? {
         var blob: String?
         var queue: String?
         var file: String?
@@ -131,7 +137,7 @@ public struct StorageSASCredential: AzureCredential {
         )
     }
 
-    private func token(fromBlobSasUri blobSasUri: String) -> SASToken? {
+    internal static func token(fromBlobSasUri blobSasUri: String) -> SASToken? {
         if let sasUri = URL(string: blobSasUri), let sasToken = sasUri.query, let scheme = sasUri.scheme,
             let host = sasUri.host {
             return SASToken(
@@ -312,17 +318,18 @@ internal class StorageSASAuthenticationPolicy: Authenticating {
     ///   - request: A `PipelineRequest` object.
     ///   - completionHandler: A completion handler that forwards the modified pipeline request.
     public func authenticate(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
-        do {
-            let token = try credential.token(forUrl: request.httpRequest.url)
-            let queryParams = parse(sasToken: token.sasToken)
-            if let requestUrl = request.httpRequest.url.appendingQueryParameters(queryParams) {
-                request.httpRequest.url = requestUrl
+        credential.token(forUrl: request.httpRequest.url) { result in
+            switch result {
+            case let .success(token):
+                let queryParams = parse(sasToken: token.sasToken)
+                if let requestUrl = request.httpRequest.url.appendingQueryParameters(queryParams) {
+                    request.httpRequest.url = requestUrl
+                }
+                request.httpRequest.headers[.xmsDate] = String(describing: Date(), format: .rfc1123)
+                completionHandler(request, nil)
+            case let .failure(error):
+                completionHandler(request, AzureError.sdk("Authentication error.", error))
             }
-            request.httpRequest.headers[.xmsDate] = String(describing: Date(), format: .rfc1123)
-            completionHandler(request, nil)
-        } catch {
-            completionHandler(request, AzureError.sdk("Authentication error.", error))
-            return
         }
     }
 

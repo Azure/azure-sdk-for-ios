@@ -150,9 +150,11 @@ Copy the complete **Invoke URL** shown in the output of the publish command.
 
 In your application, create an instance of `StorageSASCredential`. In the
 configuration closure, make a GET request to the function's Invoke URL, passing
-in a unique Client ID, container name, and requested file path in the query
-string. Finally, provide that credential when initializing a
-`StorageBlobClient`:
+in a unique Client ID, container name, and requested blob path in the query
+string. When the request completes, extract the SAS token from the response and
+call the `SASTokenResultHandler` with the token, or with the error if the
+process failed. Finally, provide that credential and your storage account's
+blob storage endpoint when initializing a `StorageBlobClient`:
 
 ```swift
 import AzureStorageBlob
@@ -164,23 +166,42 @@ struct GetSasTokenResponse: Codable {
     var validTo: Date
 }
 
+enum ExampleError: Error {
+    case general(String)
+}
+
 ...
 
 let clientId = "123456"
+let functionAccessCode = "VG9vIGVhc3ksIG5pY2UgdHJ5IQ=="
+let blobEndpoint = URL(string: "https://mystorageaccount.blob.core.windows.net/")!
 
-let sasCredential = StorageSASCredential { (container, path) in
-  let url = URL(string: "https://exampleapp.azurewebsites.net/api/GetSasToken?code=<function-access-code>&client_id=\(clientId)&container=\(container)&path=\(filename)")!
-  let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-    guard let data = data else { return nil }
-    let decoder = JSONDecoder()
-    decoder.dateDecodingStrategy = .iso8601
-    guard let response = try? decoder.decode(GetSasTokenResponse.self, from: data) else { return nil }
-    return response.token
-  }
-  return task.resume()
+let sasCredential = StorageSASCredential { requestUrl, resultHandler in
+    let pathParts = requestUrl.path.split(separator: "/", maxSplits: 1)
+    let container = pathParts[0], blob = pathParts[1]
+    let getTokenUrl = URL(string: "https://exampleapp.azurewebsites.net/api/GetSasToken?code=\(functionAccessCode)&client_id=\(clientId)&container=\(container)&path=\(blob)")!
+    let task = URLSession.shared.dataTask(with: getTokenUrl) { data, _, error in
+        if let error = error {
+            resultHandler(.failure(error))
+            return
+        }
+        guard let data = data else {
+            resultHandler(.failure(ExampleError.general("Failed to receive data from the Azure Function.")))
+            return
+        }
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        do {
+            let tokenResponse = try decoder.decode(GetSasTokenResponse.self, from: data)
+            resultHandler(.success(tokenResponse.token))
+        } catch {
+            resultHandler(.failure(error))
+        }
+    }
+    task.resume()
 }
 
-let client = try StorageBlobClient(credential: sasCredential)
+let client = try StorageBlobClient(credential: sasCredential, endpoint: blobEndpoint)
 ```
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-ios%2Fexamples%2FAzureFunctionSASTokenVendor%2FREADME.png)
