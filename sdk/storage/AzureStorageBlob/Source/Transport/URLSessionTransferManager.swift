@@ -149,7 +149,7 @@ internal final class URLSessionTransferManager: NSObject, TransferManager, URLSe
     }
 
     func register(client: StorageBlobClient) throws {
-        let restorationId = client.restorationId
+        let restorationId = client.options.restorationId
         guard blobClient(forRestorationId: restorationId) == nil else {
             throw AzureError.sdk(
                 """

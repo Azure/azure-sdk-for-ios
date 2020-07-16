@@ -96,12 +96,12 @@ struct AppState {
                 account: AppState.currentAccount
             )
             let options = StorageBlobClientOptions(
-                logger: ClientLoggers.none
+                logger: ClientLoggers.none,
+                restorationId: "AzureSDKDemoSwift"
             )
             AppState.internalBlobClient = try? StorageBlobClient(
                 credential: credential,
                 endpoint: AppConstants.storageAccountUrl,
-                withRestorationId: "AzureSDKDemoSwift",
                 withOptions: options
             )
         }
