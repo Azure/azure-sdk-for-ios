@@ -36,7 +36,6 @@ let package = Package(
     ],
     products: [
         .library(name: "AzureCore", targets: ["AzureCore"]),
-        .library(name: "AzureIdentity", targets: ["AzureIdentity"]),
         .library(name: "AzureStorageBlob", targets: ["AzureStorageBlob"])
     ],
     dependencies: [],
@@ -46,12 +45,6 @@ let package = Package(
             name: "AzureCore",
             dependencies: [],
             path: "sdk/core/AzureCore",
-            sources: ["Source"]
-        ),
-        .target(
-            name: "AzureIdentity",
-            dependencies: ["AzureCore"],
-            path: "sdk/identity/AzureIdentity",
             sources: ["Source"]
         ),
         .target(
@@ -65,12 +58,6 @@ let package = Package(
             name: "AzureCoreTests",
             dependencies: ["AzureCore"],
             path: "sdk/core/AzureCore",
-            sources: ["Tests"]
-        ),
-        .testTarget(
-            name: "AzureIdentityTests",
-            dependencies: ["AzureIdentity"],
-            path: "sdk/identity/AzureIdentity",
             sources: ["Tests"]
         ),
         .testTarget(
