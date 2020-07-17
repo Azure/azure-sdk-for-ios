@@ -44,43 +44,23 @@ extension BaseError {
 }
 
 public enum AzureError: BaseError {
-    case general(_ message: String)
-    case fileSystem(_ message: String)
-    case serviceRequest(_ message: String)
-    case serviceResponse(_ message: String)
+    case sdk(String, Error? = nil)
+    case service(String, Error? = nil)
 
-    var message: String {
-        switch self {
-        case let .general(msg),
-             let .serviceRequest(msg),
-             let .fileSystem(msg),
-             let .serviceResponse(msg):
-            return msg
+    private func message(_ msg: String, withInnerError innerError: Error?) -> String {
+        var message = msg
+        if let wrapped = innerError {
+            message = "\(message): (\(wrapped.localizedDescription))"
         }
+        return message
     }
-}
-
-public enum HTTPResponseError: BaseError {
-    case general(_ message: String)
-    case decode(_ message: String)
-    case resourceExists(_ message: String)
-    case resourceNotFound(_ message: String)
-    case clientAuthentication(_ message: String)
-    case resourceModified(_ message: String)
-    case tooManyRedirects(_ message: String)
-    case statusCode(_ message: String)
 
     public var message: String {
         switch self {
-        case let .general(msg),
-             let .decode(msg),
-             let .resourceExists(msg),
-             let .resourceNotFound(msg),
-             let .clientAuthentication(msg),
-             let .resourceModified(msg),
-             let .tooManyRedirects(msg),
-             let .statusCode(msg):
-            return msg
+        case let .sdk(msg, innerError):
+            return message(msg, withInnerError: innerError)
+        case let .service(msg, innerError):
+            return message(msg, withInnerError: innerError)
         }
     }
 }

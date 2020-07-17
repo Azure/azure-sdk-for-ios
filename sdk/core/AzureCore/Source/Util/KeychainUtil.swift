@@ -27,27 +27,24 @@
 import Foundation
 import Security
 
-public enum KeychainUtilError: Error {
-    case invalidContent
-    case failure
-}
-
 public class KeychainUtil {
     internal let keychainErrorDomain = "com.azure.core"
     internal let keychainSecurityService = "com.azure.core"
+
+    private let contentError = AzureError.sdk("Invalid keychain content.")
 
     // MARK: Public Methods
 
     public func store(string: String, forKey key: String) throws {
         guard !string.isEmpty else {
-            throw KeychainUtilError.invalidContent
+            throw contentError
         }
         try store(secret: string.data(using: .utf8)!, forKey: key)
     }
 
     public func store(secret: Data, forKey key: String) throws {
         guard !key.isEmpty else {
-            throw KeychainUtilError.invalidContent
+            throw contentError
         }
         do {
             try deleteSecret(forKey: key)
@@ -58,13 +55,13 @@ public class KeychainUtil {
         queryDictionary[kSecValueData as String] = secret
         let status = SecItemAdd(queryDictionary as CFDictionary, nil)
         guard status == errSecSuccess else {
-            throw KeychainUtilError.failure
+            throw AzureError.sdk("Failure storing keychain content.")
         }
     }
 
     public func secret(forKey key: String) throws -> Data {
         guard !key.isEmpty else {
-            throw KeychainUtilError.invalidContent
+            throw contentError
         }
         var queryDictionary = setupQueryDictionary(forKey: key)
         queryDictionary[kSecReturnData as String] = kCFBooleanTrue
@@ -72,12 +69,12 @@ public class KeychainUtil {
         var data: AnyObject?
         let status = SecItemCopyMatching(queryDictionary as CFDictionary, &data)
         guard status == errSecSuccess else {
-            throw KeychainUtilError.failure
+            throw AzureError.sdk("Failure retrieving keychain secret.")
         }
         if let result = data as? Data {
             return result
         } else {
-            throw KeychainUtilError.invalidContent
+            throw contentError
         }
     }
 
@@ -87,7 +84,7 @@ public class KeychainUtil {
             if let result = String(data: data, encoding: .utf8) {
                 return result
             } else {
-                throw KeychainUtilError.invalidContent
+                throw contentError
             }
         } catch {
             throw error
@@ -96,12 +93,12 @@ public class KeychainUtil {
 
     public func deleteSecret(forKey key: String) throws {
         guard !key.isEmpty else {
-            throw KeychainUtilError.invalidContent
+            throw contentError
         }
         let queryDictionary = setupQueryDictionary(forKey: key)
         let status = SecItemDelete(queryDictionary as CFDictionary)
         guard status == errSecSuccess else {
-            throw KeychainUtilError.failure
+            throw AzureError.sdk("Failure deleting keychain secret.")
         }
     }
 

@@ -46,7 +46,7 @@ class UserAgentPolicyTests: XCTestCase {
         let policy = UserAgentPolicy(
             sdkName: "Test",
             sdkVersion: "1.0",
-            applicationId: "MyApplication",
+            telemetryOptions: TelemetryOptions(applicationId: "MyApplication"),
             platformInfoProvider: nil,
             appBundleInfoProvider: nil,
             localeInfoProvider: nil
@@ -60,7 +60,7 @@ class UserAgentPolicyTests: XCTestCase {
         let policy = UserAgentPolicy(
             sdkName: "Test",
             sdkVersion: "1.0",
-            applicationId: "MyExtremelyLongApplication",
+            telemetryOptions: TelemetryOptions(applicationId: "MyExtremelyLongApplication"),
             platformInfoProvider: nil,
             appBundleInfoProvider: nil,
             localeInfoProvider: nil
@@ -74,7 +74,9 @@ class UserAgentPolicyTests: XCTestCase {
         let policy = UserAgentPolicy(
             sdkName: "Test",
             sdkVersion: "1.0",
-            applicationId: "\u{3000}My\u{2003}Long\u{000d}\u{000a}App\u{0009}  Na\u{200b}me\u{00a0} ",
+            telemetryOptions: TelemetryOptions(
+                applicationId: "\u{3000}My\u{2003}Long\u{000d}\u{000a}App\u{0009}  Na\u{200b}me\u{00a0} "
+            ),
             platformInfoProvider: nil,
             appBundleInfoProvider: nil,
             localeInfoProvider: nil
@@ -88,7 +90,7 @@ class UserAgentPolicyTests: XCTestCase {
         let policy = UserAgentPolicy(
             sdkName: "Test",
             sdkVersion: "1.0",
-            applicationId: " My Very Long Application ",
+            telemetryOptions: TelemetryOptions(applicationId: " My Very Long Application "),
             platformInfoProvider: nil,
             appBundleInfoProvider: nil,
             localeInfoProvider: nil
@@ -102,9 +104,41 @@ class UserAgentPolicyTests: XCTestCase {
         let policy = UserAgentPolicy(
             sdkName: "Test",
             sdkVersion: "1.0",
-            applicationId: "\u{3000}\u{2003}\u{000d}\u{000a}\u{0009}  \u{200b}\u{00a0} ",
+            telemetryOptions: TelemetryOptions(
+                applicationId: "\u{3000}\u{2003}\u{000d}\u{000a}\u{0009}  \u{200b}\u{00a0} "
+            ),
             platformInfoProvider: nil,
             appBundleInfoProvider: nil,
+            localeInfoProvider: nil
+        )
+        let userAgent = policy.userAgent
+        XCTAssertEqual(userAgent, "azsdk-ios-Test/1.0")
+    }
+
+    /// Test that the user agent policy creates the correct user agent when the applicationId is explicitly provided
+    /// and is also available from the bundleInfoProvider
+    func test_UserAgentPolicy_WithBundleInfoAndAppId_UsesAppId() {
+        let policy = UserAgentPolicy(
+            sdkName: "Test",
+            sdkVersion: "1.0",
+            telemetryOptions: TelemetryOptions(applicationId: "MyApplication"),
+            platformInfoProvider: nil,
+            appBundleInfoProvider: TestBundleInfoProvider(identifier: "BundleApplicationId"),
+            localeInfoProvider: nil
+        )
+        let userAgent = policy.userAgent
+        XCTAssertEqual(userAgent, "[MyApplication] azsdk-ios-Test/1.0")
+    }
+
+    /// Test that the user agent policy omits the applicationId when the applicationId is explicitly provided as an
+    /// empty string and is also available from the bundleInfoProvider
+    func test_UserAgentPolicy_WithBundleInfoAndEmptyAppId_OmitsAppId() {
+        let policy = UserAgentPolicy(
+            sdkName: "Test",
+            sdkVersion: "1.0",
+            telemetryOptions: TelemetryOptions(applicationId: ""),
+            platformInfoProvider: nil,
+            appBundleInfoProvider: TestBundleInfoProvider(identifier: "BundleApplicationId"),
             localeInfoProvider: nil
         )
         let userAgent = policy.userAgent
@@ -130,7 +164,7 @@ class UserAgentPolicyTests: XCTestCase {
         let policy = UserAgentPolicy(
             sdkName: "Test",
             sdkVersion: "1.0",
-            applicationId: "MyApplication",
+            telemetryOptions: TelemetryOptions(applicationId: "MyApplication"),
             platformInfoProvider: nil,
             appBundleInfoProvider: TestBundleInfoProvider(
                 name: "MyBundle",
@@ -148,7 +182,7 @@ class UserAgentPolicyTests: XCTestCase {
         let policy = UserAgentPolicy(
             sdkName: "Test",
             sdkVersion: "1.0",
-            applicationId: "MyApplication",
+            telemetryOptions: TelemetryOptions(applicationId: "MyApplication"),
             platformInfoProvider: nil,
             appBundleInfoProvider: TestBundleInfoProvider(name: "MyBundle", version: "2.0"),
             localeInfoProvider: nil
@@ -162,7 +196,7 @@ class UserAgentPolicyTests: XCTestCase {
         let policy = UserAgentPolicy(
             sdkName: "Test",
             sdkVersion: "1.0",
-            applicationId: "MyApplication",
+            telemetryOptions: TelemetryOptions(applicationId: "MyApplication"),
             platformInfoProvider: TestPlatformInfoProvider(deviceName: "iPhone6,2", osVersion: "13.2"),
             appBundleInfoProvider: nil,
             localeInfoProvider: nil
@@ -176,7 +210,7 @@ class UserAgentPolicyTests: XCTestCase {
         let policy = UserAgentPolicy(
             sdkName: "Test",
             sdkVersion: "1.0",
-            applicationId: "MyApplication",
+            telemetryOptions: TelemetryOptions(applicationId: "MyApplication"),
             platformInfoProvider: nil,
             appBundleInfoProvider: nil,
             localeInfoProvider: TestLocaleInfoProvider(language: "en", region: "US")
@@ -190,7 +224,7 @@ class UserAgentPolicyTests: XCTestCase {
         let policy = UserAgentPolicy(
             sdkName: "Test",
             sdkVersion: "1.0",
-            applicationId: "MyApplication",
+            telemetryOptions: TelemetryOptions(applicationId: "MyApplication"),
             platformInfoProvider: TestPlatformInfoProvider(deviceName: "iPhone6,2", osVersion: "13.2"),
             appBundleInfoProvider: TestBundleInfoProvider(
                 name: "MyBundle",
@@ -204,6 +238,24 @@ class UserAgentPolicyTests: XCTestCase {
             userAgent,
             "[MyApplication] azsdk-ios-Test/1.0 (iPhone6,2 - 13.2; MyBundle:2.0 -> iOS 9.0; en_US)"
         )
+    }
+
+    /// Test that the user agent policy correctly omits the info sufix when telemetry is disabled
+    func test_UserAgentPolicy_WithTelemetryDisabled_OmitsInfoSuffix() {
+        let policy = UserAgentPolicy(
+            sdkName: "Test",
+            sdkVersion: "1.0",
+            telemetryOptions: TelemetryOptions(telemetryDisabled: true),
+            platformInfoProvider: TestPlatformInfoProvider(deviceName: "iPhone6,2", osVersion: "13.2"),
+            appBundleInfoProvider: TestBundleInfoProvider(
+                name: "MyBundle",
+                version: "2.0",
+                minDeploymentTarget: "iOS 9.0"
+            ),
+            localeInfoProvider: TestLocaleInfoProvider(language: "en", region: "US")
+        )
+        let userAgent = policy.userAgent
+        XCTAssertEqual(userAgent, "azsdk-ios-Test/1.0")
     }
 
     /// Test that the user agent policy adds the user agent header to the request when none exists
@@ -248,5 +300,24 @@ class UserAgentPolicyTests: XCTestCase {
         let req = PipelineRequest(headers: headers)
         policy.on(request: req) { _, _ in }
         XCTAssertEqual(req.httpRequest.headers[.userAgent], "azsdk-ios-Test/1.0 CustomUserAgent/8.0")
+    }
+}
+
+extension UserAgentPolicy {
+    public convenience init(
+        sdkName: String,
+        sdkVersion: String,
+        platformInfoProvider: PlatformInfoProvider? = DeviceProviders.platformInfo,
+        appBundleInfoProvider: BundleInfoProvider? = DeviceProviders.appBundleInfo,
+        localeInfoProvider: LocaleInfoProvider? = DeviceProviders.localeInfo
+    ) {
+        self.init(
+            sdkName: sdkName,
+            sdkVersion: sdkVersion,
+            telemetryOptions: TelemetryOptions(),
+            platformInfoProvider: platformInfoProvider,
+            appBundleInfoProvider: appBundleInfoProvider,
+            localeInfoProvider: localeInfoProvider
+        )
     }
 }

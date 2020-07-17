@@ -23,7 +23,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>msauth.com.azure.examples.AzureSDKDemoSwifty</string>
+				<string>msauth.com.azure.examples.AzureSDKDemoSwift</string>
 			</array>
 		</dict>
 	</array>
@@ -43,7 +43,7 @@
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
-	</array>    
+	</array>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Requires photo library access for upload.</string>
 	<key>UISupportedInterfaceOrientations</key>

@@ -57,24 +57,24 @@ public class UserAgentPolicy: PipelineStage {
 
     // MARK: Initializers
 
-    public convenience init(for clazz: AnyClass, applicationId: String? = nil) {
+    public convenience init(for clazz: AnyClass, telemetryOptions: TelemetryOptions) {
         let libraryBundleInfo = DeviceProviders.bundleInfo(for: clazz)
         let sdkName = libraryBundleInfo?.name ?? ""
         let sdkVersion = libraryBundleInfo?.version ?? ""
-        self.init(sdkName: sdkName, sdkVersion: sdkVersion, applicationId: applicationId)
+        self.init(sdkName: sdkName, sdkVersion: sdkVersion, telemetryOptions: telemetryOptions)
     }
 
     public init(
         sdkName: String,
         sdkVersion: String,
-        applicationId: String? = nil,
+        telemetryOptions: TelemetryOptions,
         platformInfoProvider: PlatformInfoProvider? = DeviceProviders.platformInfo,
         appBundleInfoProvider: BundleInfoProvider? = DeviceProviders.appBundleInfo,
         localeInfoProvider: LocaleInfoProvider? = DeviceProviders.localeInfo
     ) {
         var userAgent = String(format: UserAgentPolicy.userAgentFormat, sdkName, sdkVersion)
 
-        let applicationId = applicationId ?? appBundleInfoProvider?.identifier
+        let applicationId = telemetryOptions.applicationId ?? appBundleInfoProvider?.identifier
         if var applicationId = applicationId, !applicationId.isEmpty {
             // From the design guidelines, applicationId must not contain a space
             if applicationId.rangeOfCharacter(from: .whitespacesAndNewlines) != nil {
@@ -90,7 +90,7 @@ public class UserAgentPolicy: PipelineStage {
             }
         }
 
-        if let infoSuffix = UserAgentPolicy.getInfoSuffix(
+        if !telemetryOptions.telemetryDisabled, let infoSuffix = UserAgentPolicy.getInfoSuffix(
             platform: platformInfoProvider,
             bundle: appBundleInfoProvider,
             locale: localeInfoProvider

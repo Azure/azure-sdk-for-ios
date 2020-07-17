@@ -83,13 +83,9 @@ internal class BlockOperation: TransferOperation {
                     transfer.state = .complete
                     self.notifyDelegate(withTransfer: parent)
                 case let .failure(error):
-                    var err = error
-                    if let pipelineError = error as? PipelineError {
-                        err = pipelineError.innerError
-                    }
                     transfer.state = .failed
                     parent.state = .failed
-                    parent.error = err
+                    parent.error = error
                     self.notifyDelegate(withTransfer: parent)
                 }
             }
@@ -122,13 +118,9 @@ internal class BlockOperation: TransferOperation {
                     transfer.state = .complete
                     self.notifyDelegate(withTransfer: parent)
                 case let .failure(error):
-                    var err = error
-                    if let pipelineError = error as? PipelineError {
-                        err = pipelineError.innerError
-                    }
                     transfer.state = .failed
                     parent.state = .failed
-                    parent.error = err
+                    parent.error = error
                     self.notifyDelegate(withTransfer: parent)
                 }
             }

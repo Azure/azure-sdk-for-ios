@@ -133,11 +133,13 @@ import Foundation
         public func token(forScopes scopes: [String], completionHandler: @escaping TokenCompletionHandler) {
             let group = DispatchGroup()
             var accessToken: AccessToken?
-            var returnError: Error?
+            var returnError: AzureError?
             group.enter()
             if let account = account {
                 acquireTokenSilently(forAccount: account, withScopes: scopes) { result, error in
-                    returnError = error
+                    if let error = error {
+                        returnError = AzureError.sdk("MSAL error.", error)
+                    }
                     if let result = result {
                         accessToken = AccessToken(
                             token: result.accessToken,
@@ -150,7 +152,9 @@ import Foundation
                 }
             } else {
                 acquireTokenInteractively(withScopes: scopes) { result, error in
-                    returnError = error
+                    if let err = error {
+                        returnError = AzureError.sdk("MSAL failure.", err)
+                    }
                     if let result = result {
                         self.delegate?.didCompleteMSALRequest(withResult: result)
                         accessToken = AccessToken(

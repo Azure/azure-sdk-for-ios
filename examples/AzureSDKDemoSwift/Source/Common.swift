@@ -37,7 +37,7 @@ struct AppConstants {
 
     static let clientId = "6f2c62dd-d6b2-444a-8dff-c64380e7ac76"
 
-    static let redirectUri = "msauth.com.azure.examples.AzureSDKDemoSwifty://auth"
+    static let redirectUri = "msauth.com.azure.examples.AzureSDKDemoSwift://auth"
 
     static let authority = "https://login.microsoftonline.com/7e6c9611-413e-47e4-a054-a389854dd732"
 
@@ -89,20 +89,19 @@ struct AppState {
     static func blobClient(withDelegate delegate: StorageBlobClientDelegate? = nil) throws -> StorageBlobClient {
         if AppState.internalBlobClient == nil {
             guard let application = AppState.application else {
-                let error = AzureError.general("Application is not initialized. Unable to create Blob Storage Client.")
-                throw error
+                fatalError("Application is not initialized. Unable to create Blob Storage Client.")
             }
             let credential = MSALCredential(
                 tenant: AppConstants.tenant, clientId: AppConstants.clientId, application: application,
                 account: AppState.currentAccount
             )
             let options = StorageBlobClientOptions(
-                logger: ClientLoggers.none
+                logger: ClientLoggers.none,
+                restorationId: "AzureSDKDemoSwift"
             )
             AppState.internalBlobClient = try? StorageBlobClient(
                 credential: credential,
                 endpoint: AppConstants.storageAccountUrl,
-                withRestorationId: "AzureSDKDemoSwift",
                 withOptions: options
             )
         }
@@ -131,14 +130,19 @@ class ActivtyViewController: UIViewController {
 }
 
 extension UIViewController {
-    internal func showAlert(error: Error) {
+    internal func showAlert(error: Error?) {
         guard presentedViewController == nil else { return }
         var errorString: String
-        if let pipelineError = error as? PipelineError {
-            errorString = pipelineError.innerError.localizedDescription
+        if let err = error {
+            switch error {
+            case let azureError as AzureError:
+                errorString = azureError.message
+            default:
+                let errorInfo = (err as NSError).userInfo
+                errorString = errorInfo[NSDebugDescriptionErrorKey] as? String ?? err.localizedDescription
+            }
         } else {
-            let errorInfo = (error as NSError).userInfo
-            errorString = errorInfo[NSDebugDescriptionErrorKey] as? String ?? error.localizedDescription
+            errorString = "An error occurred."
         }
         let alertController = UIAlertController(title: "Error!", message: errorString, preferredStyle: .alert)
         let title = NSAttributedString(string: "Error!", attributes: [

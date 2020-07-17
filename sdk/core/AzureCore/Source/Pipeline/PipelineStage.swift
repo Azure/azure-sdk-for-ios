@@ -27,11 +27,11 @@
 import Foundation
 
 public typealias ResultHandler<TSuccess, TError: Error> = (Result<TSuccess, TError>, HTTPResponse?) -> Void
-public typealias HTTPResultHandler<T> = ResultHandler<T, Error>
-public typealias PipelineStageResultHandler = ResultHandler<PipelineResponse, PipelineError>
-public typealias OnRequestCompletionHandler = (PipelineRequest, Error?) -> Void
-public typealias OnResponseCompletionHandler = (PipelineResponse, Error?) -> Void
-public typealias OnErrorCompletionHandler = (PipelineError, Bool) -> Void
+public typealias HTTPResultHandler<T> = ResultHandler<T, AzureError>
+public typealias PipelineStageResultHandler = ResultHandler<PipelineResponse, AzureError>
+public typealias OnRequestCompletionHandler = (PipelineRequest, AzureError?) -> Void
+public typealias OnResponseCompletionHandler = (PipelineResponse, AzureError?) -> Void
+public typealias OnErrorCompletionHandler = (AzureError, Bool) -> Void
 
 /// Protocol for implementing pipeline stages.
 public protocol PipelineStage {
@@ -56,9 +56,14 @@ public protocol PipelineStage {
     /// Response error hook.
     /// - Parameters:
     ///   - error: The `PipelineError` input.
+    ///   - pipelineResponse: The `PipelineResponse` object.
     ///   - completionHandler: A completion handler which forwards the error along with a boolean
     ///   that indicates whether the exception was handled or not.
-    func on(error: PipelineError, completionHandler: @escaping OnErrorCompletionHandler)
+    func on(
+        error: AzureError,
+        pipelineResponse: PipelineResponse,
+        completionHandler: @escaping OnErrorCompletionHandler
+    )
 
     /// Executes the policy method.
     /// - Parameters:
@@ -77,7 +82,11 @@ extension PipelineStage {
         completionHandler(response, nil)
     }
 
-    public func on(error: PipelineError, completionHandler: @escaping OnErrorCompletionHandler) {
+    public func on(
+        error: AzureError,
+        pipelineResponse _: PipelineResponse,
+        completionHandler: @escaping OnErrorCompletionHandler
+    ) {
         completionHandler(error, false)
     }
 
@@ -95,10 +104,9 @@ extension PipelineStage {
                     logger: request.logger,
                     context: request.context
                 )
-                let pipelineError = PipelineError(fromError: error, pipelineResponse: pipelineResponse)
-                self.on(error: pipelineError) { _, handled in
+                self.on(error: error, pipelineResponse: pipelineResponse) { _, handled in
                     if !handled {
-                        completionHandler(.failure(pipelineError), nil)
+                        completionHandler(.failure(error), nil)
                         return
                     }
                 }
@@ -108,18 +116,23 @@ extension PipelineStage {
                 case let .success(pipelineResponse):
                     self.on(response: pipelineResponse) { response, error in
                         if let error = error {
-                            let pipelineError = PipelineError(fromError: error, pipelineResponse: response)
-                            self.on(error: pipelineError) { _, handled in
+                            self.on(error: error, pipelineResponse: pipelineResponse) { _, handled in
                                 if !handled {
-                                    completionHandler(.failure(pipelineError), httpResponse)
+                                    completionHandler(.failure(error), httpResponse)
                                     return
                                 }
                             }
                         }
                         completionHandler(.success(response), httpResponse)
                     }
-                case let .failure(pipelineError):
-                    self.on(error: pipelineError) { error, handled in
+                case let .failure(error):
+                    let pipelineResponse = PipelineResponse(
+                        request: request.httpRequest,
+                        response: httpResponse,
+                        logger: request.logger,
+                        context: request.context
+                    )
+                    self.on(error: error, pipelineResponse: pipelineResponse) { _, handled in
                         if !handled {
                             completionHandler(.failure(error), httpResponse)
                             return
