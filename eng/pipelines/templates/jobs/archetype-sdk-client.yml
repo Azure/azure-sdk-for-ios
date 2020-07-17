@@ -1,3 +1,6 @@
+parameters:
+  BuildScheme: all # Build all projects by default
+
 jobs:
   - job: 'Build'
 
@@ -20,11 +23,11 @@ jobs:
 
       - script: pod install
         displayName: 'Install dependencies'
-        
+
       - script: |
           set -o pipefail
           xcodebuild -workspace AzureSDK.xcworkspace \
-                     -scheme all \
+                     -scheme ${{parameters.BuildScheme}} \
                      -destination "platform=iOS Simulator,OS=$(SimulatorVersion),name=$(SimulatorDevice)" \
                      -configuration Release \
                      -derivedDataPath $(Build.ArtifactStagingDirectory) \
@@ -32,7 +35,7 @@ jobs:
         displayName: 'Build libraries for release'
 
       - publish: $(Build.ArtifactStagingDirectory)/Build/Products/Release-iphonesimulator
-        displayName: 'Publish Release Artifacts [iphonesimulator]'
+        displayName: 'Publish release artifacts [iphonesimulator]'
         artifact: 'bundles-release-iphonesimulator'
 
   - job: 'Analyze'
@@ -55,20 +58,30 @@ jobs:
 
       - script: |
           brew install swiftlint
-          swiftlint lint --quiet --reporter emoji
-        displayName: 'Lint framework sources'
+          case "${{parameters.BuildScheme}}" in
+            all)
+              swiftlint lint --path . --quiet --reporter emoji
+              ;;
+            sdk|examples)
+              swiftlint lint --path ${{parameters.BuildScheme}} --quiet --reporter emoji
+              ;;
+            *)
+              swiftlint lint --path sdk/${{parameters.BuildScheme}} --quiet --reporter emoji
+              ;;
+          esac
+        displayName: 'Lint sources'
 
       - script: |
           pip install setuptools wheel
           pip install doc-warden==$(DocWardenVersion)
           ward scan -d $(Build.SourcesDirectory) -c $(Build.SourcesDirectory)/eng/.docsettings.yml
-        displayName: 'Verify Readmes'
+        displayName: 'Verify readmes'
 
       - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
         # ComponentGovernance is currently unable to run on pull requests of public projects. Running on non-PR
         # builds should be sufficient.
         condition: and(succeededOrFailed(), ne(variables['Build.Reason'], 'PullRequest'))
-        displayName: 'Component Detection'
+        displayName: 'Component detection'
 
   - job: 'UnitTest'
 
@@ -91,7 +104,7 @@ jobs:
       - script: |
           set -o pipefail
           xcodebuild -workspace AzureSDK.xcworkspace \
-                     -scheme all \
+                     -scheme ${{parameters.BuildScheme}} \
                      -destination "platform=iOS Simulator,OS=$(SimulatorVersion),name=$(SimulatorDevice)" \
                      -configuration Debug \
                      -derivedDataPath $(Build.ArtifactStagingDirectory) \
@@ -112,10 +125,10 @@ jobs:
         displayName: 'Publish unit test results'
 
       - script: |
-          echo "Getting list of projects in scheme 'ci'"
+          echo "Getting list of projects in scheme ${{parameters.BuildScheme}}"
           xcodebuild -showBuildSettings \
                      -workspace AzureSDK.xcworkspace \
-                     -scheme all \
+                     -scheme ${{parameters.BuildScheme}} \
                      -configuration Debug \
           | grep PROJECT_FILE_PATH \
           | awk -F ' = ' '{print $NF}' \
@@ -124,7 +137,7 @@ jobs:
               echo "Generating reports for $PROJECT_NAME"
               slather coverage -x \
                               --workspace AzureSDK.xcworkspace \
-                              --scheme all \
+                              --scheme ${{parameters.BuildScheme}} \
                               --configuration Debug \
                               --binary-basename $PROJECT_NAME \
                               --build-directory $(Build.ArtifactStagingDirectory) \
