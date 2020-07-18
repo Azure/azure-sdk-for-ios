@@ -25,7 +25,7 @@
 // --------------------------------------------------------------------------
 
 import AzureCore
-#if canImport(AzureIdentity) && canImport(MSAL)
+#if canImport(AzureIdentity)
     import AzureIdentity
 #endif
 import CoreData
@@ -113,7 +113,7 @@ public final class StorageBlobClient: PipelineClient {
         try StorageBlobClient.manager.register(client: self)
     }
 
-    #if canImport(AzureIdentity) && canImport(MSAL)
+    #if canImport(AzureIdentity)
         /// Create a Storage blob data client.
         /// - Parameters:
         ///   - credential: A `MSALCredential` object used to retrieve authentication tokens.
