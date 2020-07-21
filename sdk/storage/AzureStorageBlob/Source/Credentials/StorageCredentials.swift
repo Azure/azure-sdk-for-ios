@@ -43,11 +43,38 @@ internal struct SASToken {
     let queueEndpoint: String?
     let fileEndpoint: String?
     let tableEndpoint: String?
+    let validAt: Date?
+    let expiredAt: Date?
+
+    init(
+        sasToken: String,
+        blobEndpoint: String? = nil,
+        queueEndpoint: String? = nil,
+        fileEndpoint: String? = nil,
+        tableEndpoint: String? = nil
+    ) {
+        self.sasToken = sasToken
+        self.blobEndpoint = blobEndpoint
+        self.queueEndpoint = queueEndpoint
+        self.fileEndpoint = fileEndpoint
+        self.tableEndpoint = tableEndpoint
+
+        let comps = URLComponents(string: "?\(sasToken)")
+        self.validAt = Date(comps?.queryItems?.filter { $0.name == "st" }.first?.value, format: .iso8601)
+        self.expiredAt = Date(comps?.queryItems?.filter { $0.name == "se" }.first?.value, format: .iso8601)
+    }
+
+    var valid: Bool {
+        guard let validAt = validAt, let expiredAt = expiredAt else { return false }
+        let now = Date()
+        return now >= validAt && now < expiredAt
+    }
 }
 
 /// A Storage shared access signature credential object.
-public struct StorageSASCredential: AzureCredential {
+public class StorageSASCredential: AzureCredential {
     internal let tokenProvider: SASTokenProvider
+    internal var tokenCache: [URL: SASToken] = [:]
 
     // MARK: Initializers
 
@@ -55,8 +82,8 @@ public struct StorageSASCredential: AzureCredential {
     /// signature connection string, or a container- or blob-level shared access signature URI.
     /// - Parameters:
     ///   - tokenProvider: A closure that returns an account-level shared access signature connection string, or a
-    ///   container- or blob-level shared access signature URI. The closure is called with the container name and blob
-    //    path to authenticate, if applicable to the operation requesting the token.
+    ///   container- or blob-level shared access signature URI. The closure is called with the Blob Service URL to
+    ///   authenticate. The returned SAS token will be cached for that URL until it expires.
     public init(tokenProvider: @escaping SASTokenProvider) {
         self.tokenProvider = tokenProvider
     }
@@ -67,17 +94,38 @@ public struct StorageSASCredential: AzureCredential {
         // Since the token is provided dynamically by the tokenProvider, this credential is always valid
     }
 
+    /// Remove all SAS tokens currently in the token cache.
+    public func removeCachedTokens() {
+        tokenCache.removeAll()
+    }
+
     // MARK: Private methods
 
     fileprivate func token(forUrl url: URL, completionHandler: (Result<SASToken, Error>) -> Void) {
+        guard let urlToAuthorize = url.deletingQueryParameters() else {
+            completionHandler(.failure(AzureError.sdk("The request could not be authenticated.")))
+            return
+        }
+
+        if let token = tokenCache[urlToAuthorize] {
+            if token.valid {
+                completionHandler(.success(token))
+                return
+            } else {
+                tokenCache.removeValue(forKey: urlToAuthorize)
+            }
+        }
+
         tokenProvider(url) { result in
             do {
                 switch result {
                 case let .success(newCredential):
                     if let token = try StorageSASCredential.token(fromConnectionString: newCredential) {
+                        tokenCache.updateValue(token, forKey: urlToAuthorize)
                         completionHandler(.success(token))
                         return
                     } else if let token = StorageSASCredential.token(fromBlobSasUri: newCredential) {
+                        tokenCache.updateValue(token, forKey: urlToAuthorize)
                         completionHandler(.success(token))
                         return
                     } else {
@@ -140,13 +188,7 @@ public struct StorageSASCredential: AzureCredential {
     internal static func token(fromBlobSasUri blobSasUri: String) -> SASToken? {
         if let sasUri = URL(string: blobSasUri), let sasToken = sasUri.query, let scheme = sasUri.scheme,
             let host = sasUri.host {
-            return SASToken(
-                sasToken: sasToken,
-                blobEndpoint: "\(scheme)://\(host)/",
-                queueEndpoint: nil,
-                fileEndpoint: nil,
-                tableEndpoint: nil
-            )
+            return SASToken(sasToken: sasToken, blobEndpoint: "\(scheme)://\(host)/")
         } else {
             return nil
         }
