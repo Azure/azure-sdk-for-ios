@@ -184,9 +184,7 @@ public final class StorageBlobClient: PipelineClient {
     ) throws {
         if let sasToken = try? StorageSASCredential.token(fromConnectionString: connectionString),
             let endpoint = URL(string: sasToken.blobEndpoint) {
-            let sasCredential = StorageSASCredential { _, resultHandler in
-                resultHandler(.success(connectionString))
-            }
+            let sasCredential = StorageSASCredential(staticCredential: connectionString)
             try self.init(credential: sasCredential, endpoint: endpoint, withOptions: options)
             return
         }

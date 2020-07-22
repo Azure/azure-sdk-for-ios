@@ -176,7 +176,7 @@ let clientId = "123456"
 let functionAccessCode = "VG9vIGVhc3ksIG5pY2UgdHJ5IQ=="
 let blobEndpoint = URL(string: "https://mystorageaccount.blob.core.windows.net/")!
 
-let sasCredential = StorageSASCredential { requestUrl, resultHandler in
+let sasCredential = StorageSASCredential { requestUrl, _, resultHandler in
     let pathParts = requestUrl.path.split(separator: "/", maxSplits: 1)
     let container = pathParts[0], blob = pathParts[1]
     let getTokenUrl = URL(string: "https://exampleapp.azurewebsites.net/api/GetSasToken?code=\(functionAccessCode)&client_id=\(clientId)&container=\(container)&path=\(blob)")!

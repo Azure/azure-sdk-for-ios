@@ -46,6 +46,8 @@
 		6749A4682951673A4EF1741D /* Pods_AzureStorageBlob.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE3538D9B59B54E936B091ED /* Pods_AzureStorageBlob.framework */; };
 		7A0DF007245A3FFF002EC98F /* TransferCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A0DF006245A3FFF002EC98F /* TransferCollection.swift */; };
 		7A5C97A324410BD1006E7B5F /* LocalURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5C97A224410BD1006E7B5F /* LocalURL.swift */; };
+		7A5FE16024C8E9D900B90153 /* SASToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5FE15F24C8E9D900B90153 /* SASToken.swift */; };
+		7A5FE16224C8EF9100B90153 /* TokenCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5FE16124C8EF9100B90153 /* TokenCache.swift */; };
 		7A87222D2491B8F500778E99 /* AzureIdentity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A87222C2491B8F500778E99 /* AzureIdentity.framework */; };
 		7ACAADA1242C241A00A049B7 /* TransferOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACAADA0242C241900A049B7 /* TransferOperationQueue.swift */; };
 		7ACAADA2242C241A00A049B7 /* TransferOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACAAD9F242C241900A049B7 /* TransferOperation.swift */; };
@@ -120,6 +122,8 @@
 		4C5B2392BB2D8261EBC8542D /* Pods-AzureStorageBlobTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureStorageBlobTests.debug.xcconfig"; path = "Target Support Files/Pods-AzureStorageBlobTests/Pods-AzureStorageBlobTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7A0DF006245A3FFF002EC98F /* TransferCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferCollection.swift; sourceTree = "<group>"; };
 		7A5C97A224410BD1006E7B5F /* LocalURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalURL.swift; sourceTree = "<group>"; };
+		7A5FE15F24C8E9D900B90153 /* SASToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SASToken.swift; sourceTree = "<group>"; };
+		7A5FE16124C8EF9100B90153 /* TokenCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenCache.swift; sourceTree = "<group>"; };
 		7A87222C2491B8F500778E99 /* AzureIdentity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureIdentity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ABC0A58243D2C4A0080968E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7ACAAD9F242C241900A049B7 /* TransferOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferOperation.swift; sourceTree = "<group>"; };
@@ -245,7 +249,9 @@
 		0A6864AD233E8601004B7E17 /* Credentials */ = {
 			isa = PBXGroup;
 			children = (
+				7A5FE15F24C8E9D900B90153 /* SASToken.swift */,
 				0A6864AE233E8620004B7E17 /* StorageCredentials.swift */,
+				7A5FE16124C8EF9100B90153 /* TokenCache.swift */,
 			);
 			path = Credentials;
 			sourceTree = "<group>";
@@ -527,6 +533,7 @@
 				0A80DB1B2425358B00ED9F94 /* BlobTransfer+CoreDataProperties.swift in Sources */,
 				0AC34915235633110094C576 /* ClientOptions.swift in Sources */,
 				7ACAADA2242C241A00A049B7 /* TransferOperation.swift in Sources */,
+				7A5FE16024C8E9D900B90153 /* SASToken.swift in Sources */,
 				0A532ACD2417D8CC00C4C8BA /* BlobLookupList.swift in Sources */,
 				0A28684723F5D6700084CF15 /* AzureStorage.xcdatamodeld in Sources */,
 				0A6864B3233E89D9004B7E17 /* ContainerItem.swift in Sources */,
@@ -554,6 +561,7 @@
 				0AE8F02D23AC2A7C007B6975 /* StorageStreamDownloader.swift in Sources */,
 				0A8D74C82409CCC600B3B577 /* URLSessionTransferManager+TransferDelegate.swift in Sources */,
 				0AB24709243CDA4200E62844 /* StorageJSONCoding.swift in Sources */,
+				7A5FE16224C8EF9100B90153 /* TokenCache.swift in Sources */,
 				7A5C97A324410BD1006E7B5F /* LocalURL.swift in Sources */,
 				0A80DB1A2425358B00ED9F94 /* MultiBlobTransfer+CoreDataProperties.swift in Sources */,
 				7AED8C7B24AC0E2200B2CB93 /* OptionsModels.swift in Sources */,
