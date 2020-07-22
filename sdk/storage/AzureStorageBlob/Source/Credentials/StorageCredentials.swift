@@ -74,7 +74,7 @@ internal struct SASToken {
 /// A Storage shared access signature credential object.
 public class StorageSASCredential: AzureCredential {
     internal let tokenProvider: SASTokenProvider
-    internal var tokenCache: [URL: SASToken] = [:]
+    private var tokenCache: [URL: SASToken] = [:]
 
     // MARK: Initializers
 
@@ -101,31 +101,27 @@ public class StorageSASCredential: AzureCredential {
 
     // MARK: Private methods
 
+    fileprivate func cachedToken(forUrl url: URL) -> SASToken? {
+        return tokenCache[url]
+    }
+
+    fileprivate func setCachedToken(_ token: SASToken, forUrl url: URL) {
+        tokenCache.updateValue(token, forKey: url)
+    }
+
+    fileprivate func removeCachedToken(forUrl url: URL) {
+        tokenCache.removeValue(forKey: url)
+    }
+
     fileprivate func token(forUrl url: URL, completionHandler: (Result<SASToken, Error>) -> Void) {
-        guard let urlToAuthorize = url.deletingQueryParameters() else {
-            completionHandler(.failure(AzureError.sdk("The request could not be authenticated.")))
-            return
-        }
-
-        if let token = tokenCache[urlToAuthorize] {
-            if token.valid {
-                completionHandler(.success(token))
-                return
-            } else {
-                tokenCache.removeValue(forKey: urlToAuthorize)
-            }
-        }
-
         tokenProvider(url) { result in
             do {
                 switch result {
                 case let .success(newCredential):
                     if let token = try StorageSASCredential.token(fromConnectionString: newCredential) {
-                        tokenCache.updateValue(token, forKey: urlToAuthorize)
                         completionHandler(.success(token))
                         return
                     } else if let token = StorageSASCredential.token(fromBlobSasUri: newCredential) {
-                        tokenCache.updateValue(token, forKey: urlToAuthorize)
                         completionHandler(.success(token))
                         return
                     } else {
@@ -360,14 +356,26 @@ internal class StorageSASAuthenticationPolicy: Authenticating {
     ///   - request: A `PipelineRequest` object.
     ///   - completionHandler: A completion handler that forwards the modified pipeline request.
     public func authenticate(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
+        guard let urlToAuthorize = request.httpRequest.url.deletingQueryParameters() else {
+            completionHandler(request, AzureError.sdk("The request could not be authenticated."))
+            return
+        }
+
+        if let token = credential.cachedToken(forUrl: urlToAuthorize) {
+            if token.valid {
+                apply(sasToken: token, toRequest: request)
+                completionHandler(request, nil)
+                return
+            } else {
+                credential.removeCachedToken(forUrl: urlToAuthorize)
+            }
+        }
+
         credential.token(forUrl: request.httpRequest.url) { result in
             switch result {
             case let .success(token):
-                let queryParams = parse(sasToken: token.sasToken)
-                if let requestUrl = request.httpRequest.url.appendingQueryParameters(queryParams) {
-                    request.httpRequest.url = requestUrl
-                }
-                request.httpRequest.headers[.xmsDate] = String(describing: Date(), format: .rfc1123)
+                apply(sasToken: token, toRequest: request)
+                request.context?.add(value: token as AnyObject, forKey: .sasToken)
                 completionHandler(request, nil)
             case let .failure(error):
                 completionHandler(request, AzureError.sdk("Authentication error.", error))
@@ -375,7 +383,35 @@ internal class StorageSASAuthenticationPolicy: Authenticating {
         }
     }
 
+    public func on(response: PipelineResponse, completionHandler: @escaping OnResponseCompletionHandler) {
+        if let sasToken = response.context?.value(forKey: .sasToken) as? SASToken,
+            let urlToAuthorize = response.httpRequest.url.deletingQueryParameters() {
+            credential.setCachedToken(sasToken, forUrl: urlToAuthorize)
+        }
+        completionHandler(response, nil)
+    }
+
+    public func on(
+        error: AzureError,
+        pipelineResponse: PipelineResponse,
+        completionHandler: @escaping OnErrorCompletionHandler
+    ) {
+        if let statusCode = pipelineResponse.httpResponse?.statusCode, statusCode >= 400, statusCode < 500,
+            let urlToAuthorize = pipelineResponse.httpRequest.url.deletingQueryParameters() {
+            credential.removeCachedToken(forUrl: urlToAuthorize)
+        }
+        completionHandler(error, false)
+    }
+
     // MARK: Private Methods
+
+    private func apply(sasToken: SASToken, toRequest request: PipelineRequest) {
+        let queryParams = parse(sasToken: sasToken.sasToken)
+        if let requestUrl = request.httpRequest.url.appendingQueryParameters(queryParams) {
+            request.httpRequest.url = requestUrl
+        }
+        request.httpRequest.headers[.xmsDate] = String(describing: Date(), format: .rfc1123)
+    }
 
     private func parse(sasToken: String) -> [QueryParameter] {
         var queryItems = [QueryParameter]()
