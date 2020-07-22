@@ -74,7 +74,7 @@ internal struct SASToken {
 /// A Storage shared access signature credential object.
 public class StorageSASCredential: AzureCredential {
     internal let tokenProvider: SASTokenProvider
-    private var tokenCache: [URL: SASToken] = [:]
+    private var tokenCache: [URL: SASToken]?
 
     // MARK: Initializers
 
@@ -83,9 +83,15 @@ public class StorageSASCredential: AzureCredential {
     /// - Parameters:
     ///   - tokenProvider: A closure that returns an account-level shared access signature connection string, or a
     ///   container- or blob-level shared access signature URI. The closure is called with the Blob Service URL to
-    ///   authenticate. The returned SAS token will be cached for that URL until it expires.
-    public init(tokenProvider: @escaping SASTokenProvider) {
+    ///   authenticate. The returned SAS token will be cached for that URL until it expires if the `cacheTokens`
+    ///   parameter is set to `true`.
+    ///   - cacheTokens: A boolean indicating whether this `StorageSASCredential` should cache tokens that are returned
+    ///   from the `tokenProvider`.
+    public init(tokenProvider: @escaping SASTokenProvider, cacheTokens: Bool = true) {
         self.tokenProvider = tokenProvider
+        if cacheTokens {
+            self.tokenCache = [:]
+        }
     }
 
     // MARK: Public Methods
@@ -96,21 +102,22 @@ public class StorageSASCredential: AzureCredential {
 
     /// Remove all SAS tokens currently in the token cache.
     public func removeCachedTokens() {
-        tokenCache.removeAll()
+        tokenCache?.removeAll()
     }
 
     // MARK: Private methods
 
     fileprivate func cachedToken(forUrl url: URL) -> SASToken? {
-        return tokenCache[url]
+        guard let cache = tokenCache else { return nil }
+        return cache[url]
     }
 
     fileprivate func setCachedToken(_ token: SASToken, forUrl url: URL) {
-        tokenCache.updateValue(token, forKey: url)
+        tokenCache?.updateValue(token, forKey: url)
     }
 
     fileprivate func removeCachedToken(forUrl url: URL) {
-        tokenCache.removeValue(forKey: url)
+        tokenCache?.removeValue(forKey: url)
     }
 
     fileprivate func token(forUrl url: URL, completionHandler: (Result<SASToken, Error>) -> Void) {
