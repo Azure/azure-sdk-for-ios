@@ -6,7 +6,14 @@ resources:
     endpoint: azure
     ref: refs/tags/azure-sdk-tools_20200618.1
 
+parameters:
+- name: BuildScheme
+  type: string
+  default: all
+  
 stages:
   - stage: Build
     jobs:
     - template: ../jobs/archetype-sdk-client.yml
+      parameters:
+        BuildScheme: ${{parameters.BuildScheme}}
