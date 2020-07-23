@@ -49,6 +49,7 @@
 		7A5FE16024C8E9D900B90153 /* StorageSASToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5FE15F24C8E9D900B90153 /* StorageSASToken.swift */; };
 		7A5FE16224C8EF9100B90153 /* StorageSASTokenCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5FE16124C8EF9100B90153 /* StorageSASTokenCache.swift */; };
 		7A87222D2491B8F500778E99 /* AzureIdentity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A87222C2491B8F500778E99 /* AzureIdentity.framework */; };
+		7AA0E77B24CA0D8F0033E05A /* StorageSharedKeyCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA0E77A24CA0D8F0033E05A /* StorageSharedKeyCredential.swift */; };
 		7ACAADA1242C241A00A049B7 /* TransferOperationQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACAADA0242C241900A049B7 /* TransferOperationQueue.swift */; };
 		7ACAADA2242C241A00A049B7 /* TransferOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACAAD9F242C241900A049B7 /* TransferOperation.swift */; };
 		7AED8C7624AC093A00B2CB93 /* Enumerations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AED8C7524AC093A00B2CB93 /* Enumerations.swift */; };
@@ -125,6 +126,7 @@
 		7A5FE15F24C8E9D900B90153 /* StorageSASToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageSASToken.swift; sourceTree = "<group>"; };
 		7A5FE16124C8EF9100B90153 /* StorageSASTokenCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageSASTokenCache.swift; sourceTree = "<group>"; };
 		7A87222C2491B8F500778E99 /* AzureIdentity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureIdentity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7AA0E77A24CA0D8F0033E05A /* StorageSharedKeyCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageSharedKeyCredential.swift; sourceTree = "<group>"; };
 		7ABC0A58243D2C4A0080968E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7ACAAD9F242C241900A049B7 /* TransferOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferOperation.swift; sourceTree = "<group>"; };
 		7ACAADA0242C241900A049B7 /* TransferOperationQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferOperationQueue.swift; sourceTree = "<group>"; };
@@ -252,6 +254,7 @@
 				0A6864AE233E8620004B7E17 /* StorageSASCredential.swift */,
 				7A5FE15F24C8E9D900B90153 /* StorageSASToken.swift */,
 				7A5FE16124C8EF9100B90153 /* StorageSASTokenCache.swift */,
+				7AA0E77A24CA0D8F0033E05A /* StorageSharedKeyCredential.swift */,
 			);
 			path = Credentials;
 			sourceTree = "<group>";
@@ -543,6 +546,7 @@
 				7A0DF007245A3FFF002EC98F /* TransferCollection.swift in Sources */,
 				0A6864AA233E83B5004B7E17 /* StorageBlobClient.swift in Sources */,
 				0A80DB1324251B0C00ED9F94 /* BlobUploadOperations.swift in Sources */,
+				7AA0E77B24CA0D8F0033E05A /* StorageSharedKeyCredential.swift in Sources */,
 				0AA4FFCD23DF96C4003ADF59 /* TransferManager.swift in Sources */,
 				0A2868B223FDAD230084CF15 /* MultiBlobTransfer+CoreDataClass.swift in Sources */,
 				0ADCB0172486CDBE00CEA28D /* StorageBlobClient+Extensions.swift in Sources */,
