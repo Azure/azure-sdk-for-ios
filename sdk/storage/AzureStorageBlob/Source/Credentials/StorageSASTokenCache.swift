@@ -27,18 +27,18 @@
 import Foundation
 
 /// A cache that a `StorageSASCredential` can use to cache tokens that are returned from its `tokenProvider`.
-public protocol TokenCache {
+public protocol StorageSASTokenCache {
     /// Get a token from the cache for a given URL, granting the given permissions.
     /// - Parameters:
     ///   - forUrl: The URL the token must grant access to.
     ///   - withPermissions: The permissions the returned token must contain, at minimum.
-    func getToken(forUrl: URL, withPermissions: SASTokenPermissions) -> SASToken?
+    func getToken(forUrl: URL, withPermissions: StorageSASTokenPermissions) -> StorageSASToken?
 
     /// Add a token to the cache which grants access to the given URL.
     /// - Parameters:
     ///   - token: The token to cache.
     ///   - forUrl: The URL the token grants access to.
-    func add(token: SASToken, forUrl: URL)
+    func add(token: StorageSASToken, forUrl: URL)
 
     /// Remove the token granting access to the given URL from the cache.
     /// - Parameters:
@@ -51,8 +51,8 @@ public protocol TokenCache {
 
 /// A `TokenCache` that stores tokens in a simple in-memory dictionary and which stores only a single token for a given
 /// URL, regardless of the permissions associated with the token.
-public class DefaultTokenCache: TokenCache {
-    private var tokenCache: [URL: SASToken] = [:]
+public class DefaultStorageSASTokenCache: StorageSASTokenCache {
+    private var tokenCache: [URL: StorageSASToken] = [:]
 
     /// Initialize a `DefaultTokenCache`.
     public init() {}
@@ -61,7 +61,7 @@ public class DefaultTokenCache: TokenCache {
     /// - Parameters:
     ///   - forUrl: The URL the token must grant access to.
     ///   - withPermissions: The permissions the returned token must contain, at minimum.
-    public func getToken(forUrl url: URL, withPermissions _: SASTokenPermissions) -> SASToken? {
+    public func getToken(forUrl url: URL, withPermissions _: StorageSASTokenPermissions) -> StorageSASToken? {
         return tokenCache[url]
     }
 
@@ -69,7 +69,7 @@ public class DefaultTokenCache: TokenCache {
     /// - Parameters:
     ///   - token: The token to cache.
     ///   - forUrl: The URL the token grants access to.
-    public func add(token: SASToken, forUrl url: URL) {
+    public func add(token: StorageSASToken, forUrl url: URL) {
         tokenCache.updateValue(token, forKey: url)
     }
 

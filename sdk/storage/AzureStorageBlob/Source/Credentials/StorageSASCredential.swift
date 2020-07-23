@@ -30,18 +30,19 @@ import Foundation
 /// A result handler to call when you have completed the process of acquiring a SAS token. Call the handler with an
 /// account-level shared access signature connection string, or a container- or blob-level shared access signature URI.
 /// If the process failed, call the handler with the error instead.
-public typealias SASTokenResultHandler = (Result<String, Error>) -> Void
+public typealias StorageSASTokenResultHandler = (Result<String, Error>) -> Void
 
 /// A closure that is called when a SAS token is needed to authenticate a request. The closure is called with the
 /// URL of the request requiring authentication, the permissions needed to complete the operation, and a
-/// `SASTokenResultHandler` which you must call to provide the SAS token that will be used to authenticate the request,
-/// or an error if the token cannot be provided.
-public typealias SASTokenProvider = (URL, SASTokenPermissions, @escaping SASTokenResultHandler) -> Void
+/// `StorageSASTokenResultHandler` which you must call to provide the SAS token that will be used to authenticate the
+/// request, or an error if the token cannot be provided.
+public typealias StorageSASTokenProvider = (URL, StorageSASTokenPermissions, @escaping StorageSASTokenResultHandler)
+    -> Void
 
 /// A Storage shared access signature credential object.
 public class StorageSASCredential: AzureCredential {
-    internal let tokenProvider: SASTokenProvider
-    public let tokenCache: TokenCache?
+    internal let tokenProvider: StorageSASTokenProvider
+    public let tokenCache: StorageSASTokenCache?
 
     // MARK: Initializers
 
@@ -54,7 +55,10 @@ public class StorageSASCredential: AzureCredential {
     ///     provided.
     ///   - tokenCache: A `TokenCache` object that this `StorageSASCredential` will use to cache tokens that are
     ///     returned from the `tokenProvider`.
-    public init(tokenProvider: @escaping SASTokenProvider, tokenCache: TokenCache? = DefaultTokenCache()) {
+    public init(
+        tokenProvider: @escaping StorageSASTokenProvider,
+        tokenCache: StorageSASTokenCache? = DefaultStorageSASTokenCache()
+    ) {
         self.tokenProvider = tokenProvider
         self.tokenCache = tokenCache
     }
@@ -86,8 +90,8 @@ public class StorageSASCredential: AzureCredential {
 
     fileprivate func token(
         forUrl url: URL,
-        withPermissions permissions: SASTokenPermissions,
-        completionHandler: @escaping (Result<SASToken, Error>) -> Void
+        withPermissions permissions: StorageSASTokenPermissions,
+        completionHandler: @escaping (Result<StorageSASToken, Error>) -> Void
     ) {
         tokenProvider(url, permissions) { result in
             do {
@@ -111,7 +115,7 @@ public class StorageSASCredential: AzureCredential {
         }
     }
 
-    internal static func token(fromConnectionString connectionString: String) throws -> SASToken? {
+    internal static func token(fromConnectionString connectionString: String) throws -> StorageSASToken? {
         var blob: String?
         var queue: String?
         var file: String?
@@ -147,7 +151,7 @@ public class StorageSASCredential: AzureCredential {
 
         guard let sasToken = sas else { return nil }
 
-        return SASToken(
+        return StorageSASToken(
             sasToken: sasToken,
             blobEndpoint: blob,
             queueEndpoint: queue,
@@ -156,10 +160,10 @@ public class StorageSASCredential: AzureCredential {
         )
     }
 
-    internal static func token(fromBlobSasUri blobSasUri: String) -> SASToken? {
+    internal static func token(fromBlobSasUri blobSasUri: String) -> StorageSASToken? {
         if let sasUri = URL(string: blobSasUri), let sasToken = sasUri.query, let scheme = sasUri.scheme,
             let host = sasUri.host {
-            return SASToken(sasToken: sasToken, blobEndpoint: "\(scheme)://\(host)/")
+            return StorageSASToken(sasToken: sasToken, blobEndpoint: "\(scheme)://\(host)/")
         } else {
             return nil
         }
@@ -339,7 +343,7 @@ internal class StorageSASAuthenticationPolicy: Authenticating {
 
         if let cache = credential.tokenCache, let token = cache.getToken(
             forUrl: urlToAuthorize,
-            withPermissions: SASTokenPermissions.all
+            withPermissions: StorageSASTokenPermissions.all
         ) {
             if token.valid {
                 apply(sasToken: token, toRequest: request)
@@ -350,7 +354,7 @@ internal class StorageSASAuthenticationPolicy: Authenticating {
             }
         }
 
-        credential.token(forUrl: request.httpRequest.url, withPermissions: SASTokenPermissions.all) { result in
+        credential.token(forUrl: request.httpRequest.url, withPermissions: StorageSASTokenPermissions.all) { result in
             switch result {
             case let .success(token):
                 self.apply(sasToken: token, toRequest: request)
@@ -365,7 +369,8 @@ internal class StorageSASAuthenticationPolicy: Authenticating {
     }
 
     public func on(response: PipelineResponse, completionHandler: @escaping OnResponseCompletionHandler) {
-        if let sasToken = response.context?.value(forKey: .sasToken) as? SASToken, let cache = credential.tokenCache,
+        if let sasToken = response.context?.value(forKey: .sasToken) as? StorageSASToken,
+            let cache = credential.tokenCache,
             let urlToAuthorize = response.httpRequest.url.deletingQueryParameters() {
             cache.add(token: sasToken, forUrl: urlToAuthorize)
         }
@@ -387,7 +392,7 @@ internal class StorageSASAuthenticationPolicy: Authenticating {
 
     // MARK: Private Methods
 
-    private func apply(sasToken: SASToken, toRequest request: PipelineRequest) {
+    private func apply(sasToken: StorageSASToken, toRequest request: PipelineRequest) {
         let queryParams = parse(sasToken: sasToken.sasToken)
         if let requestUrl = request.httpRequest.url.appendingQueryParameters(queryParams) {
             request.httpRequest.url = requestUrl

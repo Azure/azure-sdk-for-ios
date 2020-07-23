@@ -27,7 +27,7 @@
 import Foundation
 
 /// A structure representing a Storage shared access signature token.
-public struct SASToken {
+public struct StorageSASToken {
     /// The SAS token string.
     public let sasToken: String
     /// The blob endpoint this token applies to.
@@ -43,7 +43,7 @@ public struct SASToken {
     /// The date at which this token expires.
     public let expiredAt: Date?
     /// Permissions granted by this token.
-    public let permissions: SASTokenPermissions
+    public let permissions: StorageSASTokenPermissions
 
     /// Whether this token is currently valid.
     public var valid: Bool {
@@ -77,20 +77,20 @@ public struct SASToken {
         let comps = URLComponents(string: "?\(sasToken)")
         self.validAt = Date(comps?.queryItems?.filter { $0.name == "st" }.first?.value, format: .iso8601)
         self.expiredAt = Date(comps?.queryItems?.filter { $0.name == "se" }.first?.value, format: .iso8601)
-        self.permissions = SASToken.parsePermissions(fromQueryItems: comps?.queryItems)
+        self.permissions = StorageSASToken.parsePermissions(fromQueryItems: comps?.queryItems)
     }
 
     // MARK: Private methods
 
-    private static func parsePermissions(fromQueryItems queryItems: [URLQueryItem]?) -> SASTokenPermissions {
-        var containerPerms: Set<SASTokenContainerPermissions> = []
-        var blobPerms: Set<SASTokenBlobPermissions> = []
+    private static func parsePermissions(fromQueryItems queryItems: [URLQueryItem]?) -> StorageSASTokenPermissions {
+        var containerPerms: Set<StorageSASTokenContainerPermissions> = []
+        var blobPerms: Set<StorageSASTokenBlobPermissions> = []
         var forContainer = false
         var forBlob = false
 
         guard let queryItems = queryItems,
             let perms = (queryItems.filter { $0.name == "sp" }.first?.value)
-        else { return SASTokenPermissions(blob: blobPerms, container: containerPerms) }
+        else { return StorageSASTokenPermissions(blob: blobPerms, container: containerPerms) }
 
         if let context = (queryItems.filter { $0.name == "srt" }.first?.value) {
             // Account level
@@ -106,20 +106,20 @@ public struct SASToken {
         }
 
         for permCharacter in perms {
-            if forContainer, let permission = SASTokenContainerPermissions(rawValue: permCharacter) {
+            if forContainer, let permission = StorageSASTokenContainerPermissions(rawValue: permCharacter) {
                 containerPerms.insert(permission)
             }
-            if forBlob, let permission = SASTokenBlobPermissions(rawValue: permCharacter) {
+            if forBlob, let permission = StorageSASTokenBlobPermissions(rawValue: permCharacter) {
                 blobPerms.insert(permission)
             }
         }
 
-        return SASTokenPermissions(blob: blobPerms, container: containerPerms)
+        return StorageSASTokenPermissions(blob: blobPerms, container: containerPerms)
     }
 }
 
 /// Permissions that apply to blob-level operations.
-public enum SASTokenBlobPermissions: Character {
+public enum StorageSASTokenBlobPermissions: Character {
     case read = "r"
     case add = "a"
     case create = "c"
@@ -133,7 +133,7 @@ public enum SASTokenBlobPermissions: Character {
 }
 
 /// Permissions that apply to container-level operations.
-public enum SASTokenContainerPermissions: Character {
+public enum StorageSASTokenContainerPermissions: Character {
     case read = "r"
     case add = "a"
     case create = "c"
@@ -147,22 +147,22 @@ public enum SASTokenContainerPermissions: Character {
 }
 
 /// Permissions granted by a Storage shared access signature token.
-public struct SASTokenPermissions {
+public struct StorageSASTokenPermissions {
     /// Permissions that apply to blob-level operations.
-    public let blob: Set<SASTokenBlobPermissions>
+    public let blob: Set<StorageSASTokenBlobPermissions>
     /// Permissions that apply to container-level operations.
-    public let container: Set<SASTokenContainerPermissions>
+    public let container: Set<StorageSASTokenContainerPermissions>
 
     /// A `SASTokenPermissions` object containing all blob- and container-level permissions.
-    public static let all: SASTokenPermissions = SASTokenPermissions(
-        blob: SASTokenBlobPermissions.all,
-        container: SASTokenContainerPermissions.all
+    public static let all: Self = StorageSASTokenPermissions(
+        blob: StorageSASTokenBlobPermissions.all,
+        container: StorageSASTokenContainerPermissions.all
     )
 
     /// Whether this `SASTokenPermissions`'s permissions are a superset of another.
     /// - Parameters:
     ///   - other: The other `SASTokenPermissions` to compare.
-    public func permits(other: SASTokenPermissions) -> Bool {
+    public func permits(other: Self) -> Bool {
         return other.blob.isSubset(of: blob) && other.container.isSubset(of: container)
     }
 }
