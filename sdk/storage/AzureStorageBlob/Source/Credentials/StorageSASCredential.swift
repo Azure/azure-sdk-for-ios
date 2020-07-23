@@ -49,10 +49,10 @@ public class StorageSASCredential: AzureCredential {
     /// Create a shared access signature credential from an closure that returns an account-level shared access
     /// signature connection string, or a container- or blob-level shared access signature URI.
     /// - Parameters:
-    ///   - tokenProvider: A closure that returns an account-level shared access signature connection string, or a
+    ///   - tokenProvider: A closure that generates an account-level shared access signature connection string, or a
     ///     container- or blob-level shared access signature URI. The closure is called with the Blob Service URL to
-    ///     authenticate. The returned SAS token will be cached for that URL until it expires if a `tokenCache` is
-    ///     provided.
+    ///     authenticate, the permissions required for the operation, and a result handler that you must call to provide
+    ///     the generated SAS token. The SAS token will be cached until it expires if a `tokenCache` is provided.
     ///   - tokenCache: A `TokenCache` object that this `StorageSASCredential` will use to cache tokens that are
     ///     returned from the `tokenProvider`.
     public init(
@@ -68,9 +68,9 @@ public class StorageSASCredential: AzureCredential {
     /// - Parameters:
     ///   - staticCredential: An account-level shared access signature connection string, or a container- or blob-level
     ///     shared access signature URI. **WARNING**: Static credentials are inherently insecure in end-user facing
-    ///     applications such as mobile and desktop apps. Connection strings should be treated as secrets and should not
+    ///     applications such as mobile and desktop apps. Static credentials should be treated as secrets and should not
     ///     be shared with end users, and cannot be rotated once compiled into an application. Since mobile and desktop
-    ///     apps are inherently end-user facing, it's highly recommended that connection strings not be used in
+    ///     apps are inherently end-user facing, it's highly recommended that static credentials not be used in
     ///     production for such applications.
     public init(staticCredential: String) {
         self.tokenProvider = { _, _, resultHandler in

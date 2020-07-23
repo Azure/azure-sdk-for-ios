@@ -107,9 +107,8 @@ let client = try StorageBlobClient(endpoint: endpointUrl, withRestorationId: "My
 
 ##### Shared Access Signature
 To use a [shared access signature (SAS) token](https://docs.microsoft.com/azure/storage/common/storage-sas-overview),
-you'll create a `StorageSASCredential` providing the token as a string. SAS tokens can scoped to provide access to an
-entire storage account, a single blob container, or even an individual blob, and contain an explicit grant of
-permissions and validity period.
+you'll create a `StorageSASCredential`. SAS tokens can be scoped to provide access to an entire storage account, a
+single blob container, or even an individual blob, and contain an explicit grant of permissions and validity period.
 
 You can generate a SAS token from the Azure Portal under "Settings" > "Shared access
 signature" (account-scoped) or by right-clicking a blob within a container and selecting "Generate SAS" (blob-scoped).
@@ -119,28 +118,62 @@ the desired resource and selecting "Get Shared Access Signature...", or using th
 [container](https://docs.microsoft.com/en-us/cli/azure/storage/container?view=azure-cli-latest#az-storage-container-generate-sas),
 [blob](https://docs.microsoft.com/en-us/cli/azure/storage/blob?view=azure-cli-latest#az-storage-blob-generate-sas)).
 
-To initialize a client instance with an account-scoped SAS token, create an instance of `StorageSASCredential` with the
-Shared Access Signature Connection String, and provide that credential and a
+Because SAS tokens can be limited in scope and permissions, `StorageSASCredential` is unique in that it is initialized
+with a closure that will be called each time its `StorageBlobClient` needs a new token to authenticate a request. Within
+the closure, you can inspect the URL that the client will be accessing, as well as the permissions requested for that
+URL, and you must call the provided result handler with a valid token containing the necessary permissions to
+authenticate the request.
+
+To initialize a client instance that uses Shared Access Signature authentication, create an instance of
+`StorageSASCredential` and provide a closure that will generate an appropriate SAS token for the URL and permissions
+provided as parameters to the closure, and call the result handler with that token. Provide that credential and a
+[restoration ID](#choosing-a-restoration-id) when initializing your `StorageBlobClient`:
+
+```swift
+import AzureStorageBlob
+
+let sasCredential = StorageSASCredential { requestUrl, requiredPermissions, resultHandler in
+    // Perform operations needed to generate a SAS token that can authenticate `requestUrl` and contains
+    // `requiredPermissions`.
+    let sasToken = ...
+
+    // Call the result handler with the token if it was successfully generated, or an error otherwise.
+    resultHandler(.success(sasToken))
+}
+let client = try StorageBlobClient(credential: sasCredential, withRestorationId: "MyAppClient")
+```
+
+If your authentication scenario is simple, a single static token may be sufficient to authenticate all requests that
+your application may make. In this case, you can initialize a `StorageSASCredential` with the static token as a string
+instead.
+
+> **WARNING**: Static credentials are inherently insecure in end-user facing applications such as mobile and desktop
+> apps. Static credentials should be treated as secrets and should not be shared with end users, and cannot be rotated
+> once compiled into an application. Since mobile and desktop apps are inherently end-user facing, it's highly
+> recommended that static credentials not be used in production for such applications.
+
+To initialize a client instance with a static account-scoped SAS token, create an instance of `StorageSASCredential`
+with the Shared Access Signature Connection String, and provide that credential and a
 [restoration ID](#choosing-a-restoration-id) when initializing your `StorageBlobClient`:
 
 ```swift
 import AzureStorageBlob
 
 let sasConnectionString = "SharedAccessSignature=xxxx;BlobEndpoint=https://xxxx.blob.core.windows.net/;"
-let sasCredential = try StorageSASCredential(connectionString: sasConnectionString)
+let sasCredential = StorageSASCredential(staticCredential: sasConnectionString)
 let client = try StorageBlobClient(credential: sasCredential, withRestorationId: "MyAppClient")
 ```
 
 When you create a Shared Access Signature that is scoped to a storage container or blob, it will be generated as a
-Shared Access Signature URI, rather than a connection string. To initialize a client instance with a container- or
-blob-scoped SAS token, create an instance of `StorageSASCredential` with the Shared Access Signature URI, and provide
+Shared Access Signature URI, rather than a connection string. To initialize a client instance with a static container-
+or blob-scoped SAS token, create an instance of `StorageSASCredential` with the Shared Access Signature URI, and provide
 that credential and a [restoration ID](#choosing-a-restoration-id) when initializing your `StorageBlobClient`:
 
 ```swift
 import AzureStorageBlob
 
 let sasUri = "https://xxxx.blob.core.windows.net/container/path/to/blob?xxxx"
-let sasCredential = try StorageSASCredential(blobSasUri: sasUri)
+let sasCredential = StorageSASCredential(staticCredential: sasUri)
 let client = try StorageBlobClient(credential: sasCredential, withRestorationId: "MyAppClient")
 ```
 
