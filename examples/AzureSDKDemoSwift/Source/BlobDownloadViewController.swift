@@ -68,8 +68,7 @@ class BlobDownloadViewController: UIViewController, MSALInteractiveDelegate {
     @objc private func fetchData(_: Any) {
         guard let containerName = AppConstants.videoContainer else { return }
         guard let blobClient = blobClient else { return }
-        let cancellationToken = CancellationToken(timeoutInSeconds: 0.5)
-        let options = ListBlobsOptions(cancellationToken: cancellationToken, maxResults: 20)
+        let options = ListBlobsOptions(maxResults: 20)
         if !(tableView.refreshControl?.isRefreshing ?? false) {
             tableView.refreshControl?.beginRefreshing()
         }

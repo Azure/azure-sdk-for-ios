@@ -211,7 +211,7 @@ public class BlobTransfer: NSManagedObject, Transfer {
 
 internal extension BlobTransfer {
     static func with(
-        context: NSManagedObjectContext,
+        viewContext: NSManagedObjectContext,
         clientRestorationId: String,
         localUrl: LocalURL,
         remoteUrl: URL,
@@ -223,7 +223,7 @@ internal extension BlobTransfer {
     ) -> BlobTransfer {
         guard let transfer = NSEntityDescription.insertNewObject(
             forEntityName: "BlobTransfer",
-            into: context
+            into: viewContext
         ) as? BlobTransfer else {
             fatalError("Unable to create BlobTransfer object.")
         }

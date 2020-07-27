@@ -62,7 +62,8 @@ class CollectionsTests: XCTestCase {
             policies: [
                 UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0")
             ],
-            logger: ClientLoggers.default()
+            logger: ClientLoggers.default(),
+            options: TestClientOptions()
         )
         let request = try! HTTPRequest(method: .get, url: "test", headers: [:])
 
@@ -74,6 +75,7 @@ class CollectionsTests: XCTestCase {
         let paged = try! PagedCollection<JsonTestItem>(
             client: client,
             request: request,
+            context: PipelineContext(),
             data: jsonData,
             codingKeys: codingKeys
         )
@@ -97,7 +99,8 @@ class CollectionsTests: XCTestCase {
             policies: [
                 UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0")
             ],
-            logger: ClientLoggers.default()
+            logger: ClientLoggers.default(),
+            options: TestClientOptions()
         )
         let request = try! HTTPRequest(method: .get, url: "test", headers: [:])
 
@@ -109,6 +112,7 @@ class CollectionsTests: XCTestCase {
         let paged = try! PagedCollection<JsonTestItem>(
             client: client,
             request: request,
+            context: PipelineContext(),
             data: jsonData,
             codingKeys: codingKeys
         )
@@ -123,7 +127,8 @@ class CollectionsTests: XCTestCase {
             policies: [
                 UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0")
             ],
-            logger: ClientLoggers.default()
+            logger: ClientLoggers.default(),
+            options: TestClientOptions()
         )
         let request = try! HTTPRequest(method: .get, url: "test", headers: [:])
         // simulate data received
@@ -134,6 +139,7 @@ class CollectionsTests: XCTestCase {
         let paged = try! PagedCollection<JsonTestItem>(
             client: client,
             request: request,
+            context: PipelineContext(),
             data: jsonData,
             codingKeys: codingKeys
         )

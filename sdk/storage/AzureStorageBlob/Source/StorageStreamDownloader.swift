@@ -95,6 +95,8 @@ internal class ChunkDownloader {
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 206] as AnyObject
         ])
+        client.addCancellationToken(to: context, from: options)
+
         client.request(request, context: context) { result, httpResponse in
             switch result {
             case let .failure(error):

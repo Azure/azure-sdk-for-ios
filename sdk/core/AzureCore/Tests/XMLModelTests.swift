@@ -272,7 +272,8 @@ class XMLModelTests: XCTestCase {
             policies: [
                 UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0")
             ],
-            logger: ClientLoggers.default()
+            logger: ClientLoggers.default(),
+            options: TestClientOptions()
         )
         let request = try! HTTPRequest(method: .get, url: "test", headers: [:])
 
@@ -286,6 +287,7 @@ class XMLModelTests: XCTestCase {
         let paged = try! PagedCollection<PagedThing>(
             client: client,
             request: request,
+            context: PipelineContext(),
             data: jsonData,
             codingKeys: pagedKeys
         )

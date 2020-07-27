@@ -378,6 +378,7 @@ internal class BlobStreamUploader: BlobUploader {
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [201] as AnyObject
         ])
+        client.addCancellationToken(to: context, from: options)
 
         client.request(request, context: context) { result, httpResponse in
             switch result {

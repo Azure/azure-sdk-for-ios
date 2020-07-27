@@ -108,7 +108,8 @@ public final class StorageBlobClient: PipelineClient {
                 ),
                 NormalizeETagPolicy()
             ],
-            logger: self.options.logger
+            logger: self.options.logger,
+            options: options
         )
         try StorageBlobClient.manager.register(client: self)
     }
@@ -275,10 +276,7 @@ public final class StorageBlobClient: PipelineClient {
         let context = PipelineContext.of(keyValues: [
             ContextKey.xmlMap.rawValue: xmlMap as AnyObject
         ])
-        if let cancellationToken = options?.cancellationToken {
-            cancellationToken.addTimeout(from: self.options.transportOptions)
-            context.add(value: cancellationToken as AnyObject, forKey: .cancellationToken)
-        }
+        addCancellationToken(to: context, from: options)
         guard let requestUrl = url.appendingQueryParameters(queryParams) else { return }
         guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: headers) else { return }
 
@@ -297,6 +295,7 @@ public final class StorageBlobClient: PipelineClient {
                     let paged = try PagedCollection<ContainerItem>(
                         client: self,
                         request: request,
+                        context: context,
                         data: data,
                         codingKeys: codingKeys,
                         decoder: decoder
@@ -376,10 +375,7 @@ public final class StorageBlobClient: PipelineClient {
         let context = PipelineContext.of(keyValues: [
             ContextKey.xmlMap.rawValue: xmlMap as AnyObject
         ])
-        if let cancellationToken = options?.cancellationToken {
-            cancellationToken.addTimeout(from: self.options.transportOptions)
-            context.add(value: cancellationToken as AnyObject, forKey: .cancellationToken)
-        }
+        addCancellationToken(to: context, from: options)
         self.request(request, context: context) { result, httpResponse in
             switch result {
             case let .success(data):
@@ -396,6 +392,7 @@ public final class StorageBlobClient: PipelineClient {
                     let paged = try PagedCollection<BlobItem>(
                         client: self,
                         request: request,
+                        context: context,
                         data: data,
                         codingKeys: codingKeys,
                         decoder: decoder
@@ -464,10 +461,7 @@ public final class StorageBlobClient: PipelineClient {
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [202] as AnyObject
         ])
-        if let cancellationToken = options?.cancellationToken {
-            cancellationToken.addTimeout(from: self.options.transportOptions)
-            context.add(value: cancellationToken as AnyObject, forKey: .cancellationToken)
-        }
+        addCancellationToken(to: context, from: options)
         guard let requestUrl = url.appendingQueryParameters(queryParams) else { return }
         guard let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: headers) else { return }
         self.request(request, context: context) { result, httpResponse in
@@ -508,9 +502,11 @@ public final class StorageBlobClient: PipelineClient {
             "container": container,
             "blob": blob
         ]
+        // Construct and send request
         guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return }
 
-        options.cancellationToken?.addTimeout(from: self.options.transportOptions)
+        let context = PipelineContext()
+        addCancellationToken(to: context, from: options)
 
         let downloader = try BlobStreamDownloader(
             client: self,
@@ -560,7 +556,8 @@ public final class StorageBlobClient: PipelineClient {
         ]
         guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return }
 
-        options.cancellationToken?.addTimeout(from: self.options.transportOptions)
+        let context = PipelineContext()
+        addCancellationToken(to: context, from: options)
 
         let uploader = try BlobStreamUploader(
             client: self,
@@ -609,9 +606,9 @@ public final class StorageBlobClient: PipelineClient {
         ]
         guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return nil }
 
-        options.cancellationToken?.addTimeout(from: self.options.transportOptions)
+        let context = PipelineContext()
+        addCancellationToken(to: context, from: options)
 
-        let context = StorageBlobClient.viewContext
         let start = Int64(options.range?.offsetBytes ?? 0)
         let end = Int64(options.range?.lengthInBytes ?? 0)
         let downloader = try BlobStreamDownloader(
@@ -621,7 +618,7 @@ public final class StorageBlobClient: PipelineClient {
             options: options
         )
         let blobTransfer = BlobTransfer.with(
-            context: context,
+            viewContext: StorageBlobClient.viewContext,
             clientRestorationId: self.options.restorationId,
             localUrl: destinationUrl,
             remoteUrl: url,
@@ -665,9 +662,9 @@ public final class StorageBlobClient: PipelineClient {
         ]
         guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return nil }
 
-        options.cancellationToken?.addTimeout(from: self.options.transportOptions)
+        let context = PipelineContext()
+        addCancellationToken(to: context, from: options)
 
-        let context = StorageBlobClient.viewContext
         let uploader = try BlobStreamUploader(
             client: self,
             source: sourceUrl,
@@ -676,7 +673,7 @@ public final class StorageBlobClient: PipelineClient {
             options: options
         )
         let blobTransfer = BlobTransfer.with(
-            context: context,
+            viewContext: StorageBlobClient.viewContext,
             clientRestorationId: self.options.restorationId,
             localUrl: sourceUrl,
             remoteUrl: url,
@@ -691,5 +688,18 @@ public final class StorageBlobClient: PipelineClient {
         blobTransfer.properties = properties
         StorageBlobClient.manager.add(transfer: blobTransfer)
         return blobTransfer
+    }
+
+    // MARK: Internal Methods
+
+    internal func addCancellationToken(to context: PipelineContext, from options: AzureOptions?) {
+        if let cancellationToken = options?.cancellationToken {
+            context.add(value: cancellationToken as AnyObject, forKey: .cancellationToken)
+        } else if let globalTimeout = self.options.transportOptions.timeoutInSeconds {
+            context.add(
+                value: CancellationToken(timeoutInSeconds: globalTimeout) as AnyObject,
+                forKey: .cancellationToken
+            )
+        }
     }
 }

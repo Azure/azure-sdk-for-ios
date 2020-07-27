@@ -105,6 +105,8 @@ public class PipelineContext {
         return context
     }
 
+    public init() {}
+
     // MARK: Public Methods
 
     public func add(value: AnyObject, forKey key: AnyHashable) {

@@ -51,13 +51,10 @@ public final class CancellationToken: Codable, Equatable {
 
     // MARK: Methods
 
-    public func addTimeout(from transportOptions: TransportOptions) {
-        guard !isStarted, timeoutInSeconds == nil, let newTimeout = transportOptions.timeoutInSeconds else { return }
-        timeoutInSeconds = newTimeout
-    }
-
+    /// Start the cancellation token countdown. If the countdown is already running, this return immediately.
     public func start() {
         guard !isStarted, let timeout = timeoutInSeconds else { return }
+        print("STARTING \(timeout) SECOND TIMEOUT!")
         DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + timeout) {
             self.isCanceled = true
         }

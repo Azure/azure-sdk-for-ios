@@ -26,11 +26,21 @@
 
 import Foundation
 
-public struct TransportOptions: Codable {
-    /// Default timeout on any network call
-    public let timeoutInSeconds: Double?
+/// Options for configuring telemetry sent by the service client.
+public struct TelemetryOptions {
+    /// Whether platform information will be omitted from the user agent string sent by the service client.
+    public let telemetryDisabled: Bool
+    /// An optional user-specified application ID included in the user agent string sent by the service client.
+    public let applicationId: String?
 
-    public init(timeoutInSeconds: Double? = nil) {
-        self.timeoutInSeconds = timeoutInSeconds
+    /// Initialize a `TelemetryOptions` structure.
+    /// - Parameters:
+    ///   - telemetryDisabled: Whether platform information will be omitted from the user agent string sent by the
+    ///   service client.
+    ///   - applicationId: An optional user-specified application ID included in the user agent string sent by the
+    ///   service client.
+    public init(telemetryDisabled: Bool = false, applicationId: String? = nil) {
+        self.telemetryDisabled = telemetryDisabled
+        self.applicationId = applicationId
     }
 }

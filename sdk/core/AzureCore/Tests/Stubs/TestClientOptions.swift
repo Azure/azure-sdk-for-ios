@@ -26,11 +26,12 @@
 
 import Foundation
 
-public struct TransportOptions: Codable {
-    /// Default timeout on any network call
-    public let timeoutInSeconds: Double?
+struct TestClientOptions: AzureClientOptions {
+    var apiVersion = "TestAPI"
 
-    public init(timeoutInSeconds: Double? = nil) {
-        self.timeoutInSeconds = timeoutInSeconds
-    }
+    var logger = ClientLoggers.default(tag: "AzureTest")
+
+    var telemetryOptions = TelemetryOptions()
+
+    var transportOptions = TransportOptions()
 }
