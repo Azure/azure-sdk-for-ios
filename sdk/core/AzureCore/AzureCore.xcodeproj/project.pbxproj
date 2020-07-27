@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0A0DD9AF24AE7D5800D2E884 /* CancellationToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0DD9AE24AE7D5800D2E884 /* CancellationToken.swift */; };
 		0A18D7B523A95FEC008959E6 /* Copyable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A18D7B423A95FEC008959E6 /* Copyable.swift */; };
+		0A22B09024CF490C00EC018E /* TransportOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A22B08F24CF490C00EC018E /* TransportOptions.swift */; };
 		0A3A5D9B2315CEB600473FDA /* HTTPRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D902315CEB600473FDA /* HTTPRequest.swift */; };
 		0A3A5D9C2315CEB600473FDA /* HTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D912315CEB600473FDA /* HTTPResponse.swift */; };
 		0A3A5D9D2315CEB600473FDA /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D922315CEB600473FDA /* HTTPMethod.swift */; };
@@ -112,6 +113,7 @@
 		05AC340FD3A45F007FCB0F95 /* Pods-AzureCoreTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCoreTests.debug.xcconfig"; path = "Target Support Files/Pods-AzureCoreTests/Pods-AzureCoreTests.debug.xcconfig"; sourceTree = "<group>"; };
 		0A0DD9AE24AE7D5800D2E884 /* CancellationToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancellationToken.swift; sourceTree = "<group>"; };
 		0A18D7B423A95FEC008959E6 /* Copyable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Copyable.swift; sourceTree = "<group>"; };
+		0A22B08F24CF490C00EC018E /* TransportOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportOptions.swift; sourceTree = "<group>"; };
 		0A3A5D762315C89C00473FDA /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A3A5D7A2315C89C00473FDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A3A5D902315CEB600473FDA /* HTTPRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPRequest.swift; sourceTree = "<group>"; };
@@ -343,6 +345,7 @@
 				0AB7412023C79E1400B579B3 /* HTTPTransportStage.swift */,
 				0A7F56392321732B00E9765A /* URLHTTPResponse.swift */,
 				0A3A5F432319D49700473FDA /* URLSessionTransport.swift */,
+				0A22B08F24CF490C00EC018E /* TransportOptions.swift */,
 			);
 			path = Transport;
 			sourceTree = "<group>";
@@ -625,6 +628,7 @@
 				0A73AB77243F969700C6DC34 /* StringUtil.swift in Sources */,
 				0A3A5F3C2318904F00473FDA /* PipelineResponse.swift in Sources */,
 				0A532AD12417E73C00C4C8BA /* XMLTree.swift in Sources */,
+				0A22B09024CF490C00EC018E /* TransportOptions.swift in Sources */,
 				0A3A5F032316DF6600473FDA /* CryptoUtil.swift in Sources */,
 				7AA5366923C0340C00A65A96 /* BundleInfoProvider.swift in Sources */,
 				0A8FE7682368A4FF00B96598 /* MatchCondition.swift in Sources */,

@@ -96,10 +96,7 @@ public class URLSessionTransport: HTTPTransportStage {
                     logger: logger,
                     context: pipelineRequest.context
                 )
-                let error = AzureError.general("Request canceled.")
-                completionHandler(
-                    .failure(PipelineError(fromError: error, pipelineResponse: pipelineResponse)), nil
-                )
+                completionHandler(.failure(AzureError.sdk("Request canceled.")), nil)
                 return
             }
         }
@@ -108,16 +105,7 @@ public class URLSessionTransport: HTTPTransportStage {
             if let cancellationToken = pipelineRequest.context?
                 .value(forKey: .cancellationToken) as? CancellationToken {
                 if cancellationToken.isCanceled {
-                    let pipelineResponse = PipelineResponse(
-                        request: httpRequest,
-                        response: nil,
-                        logger: logger,
-                        context: pipelineRequest.context
-                    )
-                    let error = AzureError.general("Request canceled.")
-                    completionHandler(
-                        .failure(PipelineError(fromError: error, pipelineResponse: pipelineResponse)), nil
-                    )
+                    completionHandler(.failure(AzureError.sdk("Request canceled.")), nil)
                     return
                 }
             }

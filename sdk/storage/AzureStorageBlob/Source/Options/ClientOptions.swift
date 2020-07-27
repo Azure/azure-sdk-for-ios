@@ -35,6 +35,8 @@ public struct StorageBlobClientOptions: AzureConfigurable {
     public let logger: ClientLogger
     /// Options for configuring telemetry sent by this `StorageBlobClient`.
     public let telemetryOptions: TelemetryOptions
+    /// Global transport options
+    public let transportOptions: TransportOptions
 
     // Blob operations
 
@@ -76,7 +78,7 @@ public struct StorageBlobClientOptions: AzureConfigurable {
         telemetryOptions: TelemetryOptions = TelemetryOptions(),
         restorationId: String = DeviceProviders.appBundleInfo.identifier ?? "AzureStorageBlob",
         maxChunkSizeInBytes: Int = 4 * 1024 * 1024 - 1,
-        transportOptions: TransportOptions = TransportOptions(),
+        transportOptions: TransportOptions? = nil,
         downloadNetworkPolicy: TransferNetworkPolicy? = nil,
         uploadNetworkPolicy: TransferNetworkPolicy? = nil
     ) {
@@ -87,5 +89,6 @@ public struct StorageBlobClientOptions: AzureConfigurable {
         self.restorationId = restorationId
         self.downloadNetworkPolicy = downloadNetworkPolicy ?? TransferNetworkPolicy.default
         self.uploadNetworkPolicy = uploadNetworkPolicy ?? TransferNetworkPolicy.default
+        self.transportOptions = transportOptions ?? TransportOptions()
     }
 }

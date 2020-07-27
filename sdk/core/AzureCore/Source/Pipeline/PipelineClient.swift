@@ -34,6 +34,8 @@ public protocol AzureConfigurable {
     var logger: ClientLogger { get }
     /// Options for configuring telemetry sent by the service client.
     var telemetryOptions: TelemetryOptions { get }
+    /// Global transport options
+    var transportOptions: TransportOptions { get }
 }
 
 /// Options for configuring telemetry sent by the service client.
