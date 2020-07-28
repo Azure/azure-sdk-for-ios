@@ -35,7 +35,6 @@ public enum ContextKey: String {
     case deserializedData
     case requestStartTime
     case xmlMap
-    case sasToken
 }
 
 // MARK: PipelineContextSupporting Protocol

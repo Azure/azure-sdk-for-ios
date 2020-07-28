@@ -216,7 +216,7 @@ internal class StorageSASAuthenticationPolicy: Authenticating {
             case let .success(token):
                 self.apply(sasToken: token, toRequest: request)
                 if self.credential.tokenCache != nil {
-                    request.context?.add(value: token as AnyObject, forKey: .sasToken)
+                    request.context?.add(value: token as AnyObject, forKey: "sasToken")
                 }
                 completionHandler(request, nil)
             case let .failure(error):
@@ -226,7 +226,7 @@ internal class StorageSASAuthenticationPolicy: Authenticating {
     }
 
     public func on(response: PipelineResponse, completionHandler: @escaping OnResponseCompletionHandler) {
-        if let sasToken = response.context?.value(forKey: .sasToken) as? StorageSASToken,
+        if let sasToken = response.context?.value(forKey: "sasToken") as? StorageSASToken,
             let cache = credential.tokenCache,
             let urlToAuthorize = response.httpRequest.url.deletingQueryParameters() {
             cache.add(token: sasToken, forUrl: urlToAuthorize)
