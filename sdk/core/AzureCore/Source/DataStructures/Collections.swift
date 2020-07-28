@@ -227,11 +227,9 @@ public class PagedCollection<SingleElement: Codable> {
         guard let url = client.continuationUrl(forRequestUrl: requestUrl, withContinuationToken: continuationToken)
         else { return }
 
-        // Create a new cancellation token per page request from the old one, or the global default, if set
-        let cancellationToken = CancellationToken()
-        if let previousToken = context.value(forKey: .cancellationToken) as? CancellationToken {
-            cancellationToken.timeoutInSeconds = previousToken.timeoutInSeconds
-        }
+        // Reset the cancellation token for the new page request
+        let cancellationToken = context.value(forKey: .cancellationToken) as? CancellationToken
+        cancellationToken?.reset()
         context.add(cancellationToken: cancellationToken, applying: client.commonOptions)
 
         guard let request = try? HTTPRequest(method: .get, url: url, headers: requestHeaders) else { return }

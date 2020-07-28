@@ -27,9 +27,13 @@
 import Foundation
 
 public final class CancellationToken: Codable, Equatable {
-    public private(set) var isCanceled: Bool
-    public private(set) var isStarted: Bool
-    public var timeoutInSeconds: Double?
+    public internal(set) var isCanceled: Bool
+
+    public internal(set) var isStarted: Bool
+
+    public internal(set) var timeoutInSeconds: Double?
+
+    private var runId: Int
 
     public func cancel() {
         isCanceled = true
@@ -39,6 +43,7 @@ public final class CancellationToken: Codable, Equatable {
         self.timeoutInSeconds = timeoutInSeconds
         self.isStarted = false
         self.isCanceled = false
+        self.runId = Int.random(in: Int.min ... Int.max)
     }
 
     // MARK: Equatable Protocol
@@ -54,9 +59,20 @@ public final class CancellationToken: Codable, Equatable {
     /// Start the cancellation token countdown. If the countdown is already running, this return immediately.
     public func start() {
         guard !isStarted, let timeout = timeoutInSeconds else { return }
+        let expectedRunId = runId
         DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + timeout) {
+            // invalidate the timer if reset has been called
+            guard self.runId == expectedRunId else { return }
             self.isCanceled = true
         }
         isStarted = true
+    }
+
+    /// Reset the cancellation token and allow it to be restarted.
+    internal func reset() {
+        guard timeoutInSeconds != nil else { return }
+        isStarted = false
+        isCanceled = false
+        runId = Int.random(in: Int.min ... Int.max)
     }
 }
