@@ -276,7 +276,7 @@ public final class StorageBlobClient: PipelineClient {
         let context = PipelineContext.of(keyValues: [
             ContextKey.xmlMap.rawValue: xmlMap as AnyObject
         ])
-        addCancellationToken(to: context, from: options)
+        context.add(cancellationToken: options?.cancellationToken, applying: self.options)
         guard let requestUrl = url.appendingQueryParameters(queryParams) else { return }
         guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: headers) else { return }
 
@@ -375,7 +375,7 @@ public final class StorageBlobClient: PipelineClient {
         let context = PipelineContext.of(keyValues: [
             ContextKey.xmlMap.rawValue: xmlMap as AnyObject
         ])
-        addCancellationToken(to: context, from: options)
+        context.add(cancellationToken: options?.cancellationToken, applying: self.options)
         self.request(request, context: context) { result, httpResponse in
             switch result {
             case let .success(data):
@@ -461,7 +461,7 @@ public final class StorageBlobClient: PipelineClient {
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [202] as AnyObject
         ])
-        addCancellationToken(to: context, from: options)
+        context.add(cancellationToken: options?.cancellationToken, applying: self.options)
         guard let requestUrl = url.appendingQueryParameters(queryParams) else { return }
         guard let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: headers) else { return }
         self.request(request, context: context) { result, httpResponse in
@@ -506,7 +506,7 @@ public final class StorageBlobClient: PipelineClient {
         guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return }
 
         let context = PipelineContext()
-        addCancellationToken(to: context, from: options)
+        context.add(cancellationToken: options.cancellationToken, applying: self.options)
 
         let downloader = try BlobStreamDownloader(
             client: self,
@@ -557,7 +557,7 @@ public final class StorageBlobClient: PipelineClient {
         guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return }
 
         let context = PipelineContext()
-        addCancellationToken(to: context, from: options)
+        context.add(cancellationToken: options.cancellationToken, applying: self.options)
 
         let uploader = try BlobStreamUploader(
             client: self,
@@ -607,7 +607,7 @@ public final class StorageBlobClient: PipelineClient {
         guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return nil }
 
         let context = PipelineContext()
-        addCancellationToken(to: context, from: options)
+        context.add(cancellationToken: options.cancellationToken, applying: self.options)
 
         let start = Int64(options.range?.offsetBytes ?? 0)
         let end = Int64(options.range?.lengthInBytes ?? 0)
@@ -663,7 +663,7 @@ public final class StorageBlobClient: PipelineClient {
         guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return nil }
 
         let context = PipelineContext()
-        addCancellationToken(to: context, from: options)
+        context.add(cancellationToken: options.cancellationToken, applying: self.options)
 
         let uploader = try BlobStreamUploader(
             client: self,
@@ -688,18 +688,5 @@ public final class StorageBlobClient: PipelineClient {
         blobTransfer.properties = properties
         StorageBlobClient.manager.add(transfer: blobTransfer)
         return blobTransfer
-    }
-
-    // MARK: Internal Methods
-
-    internal func addCancellationToken(to context: PipelineContext, from options: AzureOptions?) {
-        if let cancellationToken = options?.cancellationToken {
-            context.add(value: cancellationToken as AnyObject, forKey: .cancellationToken)
-        } else if let globalTimeout = self.options.transportOptions.timeoutInSeconds {
-            context.add(
-                value: CancellationToken(timeoutInSeconds: globalTimeout) as AnyObject,
-                forKey: .cancellationToken
-            )
-        }
     }
 }

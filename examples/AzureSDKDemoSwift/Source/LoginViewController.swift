@@ -62,11 +62,7 @@ class LoginViewController: UIViewController {
             redirectUri: nil,
             authority: authority
         )
-        do {
-            AppState.application = try MSALPublicClientApplication(configuration: msalConfiguration)
-        } catch {
-            print(error)
-        }
+        AppState.application = try? MSALPublicClientApplication(configuration: msalConfiguration)
         AppState.account = AppState.currentAccount
         updateLogOutButton(enabled: AppState.currentAccount != nil)
     }

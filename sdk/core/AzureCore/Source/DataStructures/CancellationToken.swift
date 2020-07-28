@@ -29,7 +29,7 @@ import Foundation
 public final class CancellationToken: Codable, Equatable {
     public private(set) var isCanceled: Bool
     public private(set) var isStarted: Bool
-    public private(set) var timeoutInSeconds: Double?
+    public var timeoutInSeconds: Double?
 
     public func cancel() {
         isCanceled = true
@@ -54,7 +54,6 @@ public final class CancellationToken: Codable, Equatable {
     /// Start the cancellation token countdown. If the countdown is already running, this return immediately.
     public func start() {
         guard !isStarted, let timeout = timeoutInSeconds else { return }
-        print("STARTING \(timeout) SECOND TIMEOUT!")
         DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + timeout) {
             self.isCanceled = true
         }

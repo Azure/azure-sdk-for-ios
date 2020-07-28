@@ -228,18 +228,11 @@ public class PagedCollection<SingleElement: Codable> {
         else { return }
 
         // Create a new cancellation token per page request from the old one, or the global default, if set
-        if let cancellationTimeout = (context.value(forKey: .cancellationToken) as? CancellationToken)?
-            .timeoutInSeconds {
-            context.add(
-                value: CancellationToken(timeoutInSeconds: cancellationTimeout) as AnyObject,
-                forKey: .cancellationToken
-            )
-        } else if let globalTimeout = client.commonOptions.transportOptions.timeoutInSeconds {
-            context.add(
-                value: CancellationToken(timeoutInSeconds: globalTimeout) as AnyObject,
-                forKey: .cancellationToken
-            )
+        let cancellationToken = CancellationToken()
+        if let previousToken = context.value(forKey: .cancellationToken) as? CancellationToken {
+            cancellationToken.timeoutInSeconds = previousToken.timeoutInSeconds
         }
+        context.add(cancellationToken: cancellationToken, applying: client.commonOptions)
 
         guard let request = try? HTTPRequest(method: .get, url: url, headers: requestHeaders) else { return }
         client.request(request, context: context) { result, _ in
