@@ -169,7 +169,8 @@ extension BlobUploadViewController: UICollectionViewDelegate, UICollectionViewDa
         let cellIdentifier = "CustomCollectionViewCell"
         guard let blobClient = blobClient,
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath)
-            as? CustomCollectionViewCell else {
+            as? CustomCollectionViewCell
+        else {
             fatalError("Preconditions not met to create CustomCollectionViewCell")
         }
 

@@ -26,9 +26,11 @@
 
 import Foundation
 
-public protocol HTTPTransportStage: PipelineStage {
-    // MARK: Required Methods
+public struct TransportOptions: Codable {
+    /// Default timeout on any network call
+    public let timeoutInSeconds: Double?
 
-    func open()
-    func close()
+    public init(timeoutInSeconds: Double? = nil) {
+        self.timeoutInSeconds = timeoutInSeconds
+    }
 }

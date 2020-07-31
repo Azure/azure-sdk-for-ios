@@ -38,7 +38,8 @@ class PipelineTests: XCTestCase {
                 UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0"),
                 LoggingPolicy()
             ],
-            logger: ClientLoggers.default()
+            logger: ClientLoggers.default(),
+            options: TestClientOptions()
         )
         return client
     }

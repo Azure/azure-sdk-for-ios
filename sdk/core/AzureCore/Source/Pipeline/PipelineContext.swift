@@ -31,6 +31,7 @@ import Foundation
 public enum ContextKey: String {
     case allowedStatusCodes
     case allowedHeaders
+    case cancellationToken
     case deserializedData
     case requestStartTime
     case xmlMap
@@ -96,6 +97,9 @@ public class PipelineContext {
 
     // MARK: Static Methods
 
+    /// Create a `PipelineContext` from a simple dictionary of key-value pairs.
+    /// - Parameter keyValues: `Dictionary` of key-value pairs. Value must be cast to `AnyObject`.
+    /// - Returns: `PipelineContext` representing the provided dictionary.
     public static func of(keyValues: [AnyHashable: AnyObject]) -> PipelineContext {
         let context = PipelineContext()
         for (key, value) in keyValues {
@@ -104,8 +108,15 @@ public class PipelineContext {
         return context
     }
 
+    /// Create an empty `PipelineContext`.
+    public init() {}
+
     // MARK: Public Methods
 
+    /// Adds a value to the `PipelineContext`.
+    /// - Parameters:
+    ///   - value: Object to be added, as `AnyObject`.
+    ///   - key: String key with which to store the object.
     public func add(value: AnyObject, forKey key: AnyHashable) {
         if let node = self.node {
             self.node = node.add(value: value, forKey: key)
@@ -114,16 +125,59 @@ public class PipelineContext {
         }
     }
 
+    /// Adds a value to the `PipelineContext`.
+    /// - Parameters:
+    ///   - value: Object to be added, as `AnyObject`.
+    ///   - key: `ContextKey` with which to store the object.
     public func add(value: AnyObject, forKey key: ContextKey) {
         add(value: value, forKey: key.rawValue)
     }
 
+    /// Retrieves a keyed value from the `PipelineContext`.
+    /// - Parameter key: Raw string key to retrieve.
+    /// - Returns: Value for the given property key, if found, as `AnyObject`.
     public func value(forKey key: AnyHashable) -> AnyObject? {
         return node?.value(forKey: key)
     }
 
+    /// Retrieves a keyed value from the `PipelineContext`.
+    /// - Parameter key: `ContextKey` to retrieve.
+    /// - Returns: Value for the given property key, if found, as `AnyObject`.
     public func value(forKey key: ContextKey) -> AnyObject? {
         return value(forKey: key.rawValue)
+    }
+
+    /// Convert the `PipelineContext` linked list into a simple dictionary.
+    /// - Returns: `Dictionary` representation of the `PipelineContext`.
+    public func toDict() -> [AnyHashable: AnyObject?] {
+        var dict = [AnyHashable: AnyObject]()
+        var current = node
+        while current != nil {
+            guard let currNode = current else { break }
+            dict[currNode.key] = currNode.value
+            current = currNode.parent
+        }
+        return dict
+    }
+
+    /// Add a `CancellationToken` while applying smart defaulting logic. If the client transport options
+    /// specify a timeout, this will be used to automatically create `CancellationToken`s for each call,
+    /// even when a token is not specified. If the client call options contain a `CancellationToken` with
+    /// no timeout the default timeout will be applied, if specified in `AzureClientOptions`.
+    /// - Parameters:
+    ///   - cancellationToken: Optional `CancellationToken` object.
+    ///   - clientOptions: `AzureClientOptions` for the client generating the request.
+    public func add(cancellationToken: CancellationToken?, applying clientOptions: AzureClientOptions) {
+        let defaultTimeout = clientOptions.transportOptions.timeoutInSeconds
+        if let token = cancellationToken {
+            token.timeoutInSeconds = token.timeoutInSeconds ?? defaultTimeout
+            add(value: token as AnyObject, forKey: .cancellationToken)
+        } else if let timeout = defaultTimeout {
+            add(
+                value: CancellationToken(timeoutInSeconds: timeout) as AnyObject,
+                forKey: .cancellationToken
+            )
+        }
     }
 }
 

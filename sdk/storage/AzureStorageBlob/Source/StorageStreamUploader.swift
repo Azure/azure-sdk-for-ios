@@ -274,7 +274,7 @@ internal class BlobStreamUploader: BlobUploader {
         source: LocalURL,
         destination: URL,
         properties: BlobProperties? = nil,
-        options: UploadBlobOptions? = nil
+        options: UploadBlobOptions
     ) throws {
         guard let uploadSource = source.resolvedUrl else {
             throw AzureError.sdk("Unable to determine upload source: \(source)")
@@ -289,7 +289,7 @@ internal class BlobStreamUploader: BlobUploader {
         self.fileSize = fileSize
         self.client = client
         self.delegate = delegate
-        self.options = options ?? UploadBlobOptions()
+        self.options = options
         self.uploadDestination = destination
         self.blobProperties = properties
         self.blockList = computeBlockList()
@@ -378,6 +378,7 @@ internal class BlobStreamUploader: BlobUploader {
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [201] as AnyObject
         ])
+        context.add(cancellationToken: options.cancellationToken, applying: client.options)
 
         client.request(request, context: context) { result, httpResponse in
             switch result {

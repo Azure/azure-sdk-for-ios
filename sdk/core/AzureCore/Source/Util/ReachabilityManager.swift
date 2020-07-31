@@ -83,7 +83,7 @@ import Foundation
                 pointer.withMemoryRebound(to: sockaddr.self, capacity: MemoryLayout<sockaddr>.size) {
                     SCNetworkReachabilityCreateWithAddress(nil, $0)
                 }
-        }) else { return nil }
+            }) else { return nil }
 
             self.init(reachability: reachability)
         }

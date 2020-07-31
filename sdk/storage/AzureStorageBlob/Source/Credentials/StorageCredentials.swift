@@ -474,7 +474,8 @@ internal class StorageSharedKeyAuthenticationPolicy: Authenticating {
     /// Generate the canonicalized resource string in Shared Key format for 2009-09-19 and later
     private func canonicalized(resource: URL) throws -> String {
         guard let comps = URLComponents(url: resource, resolvingAgainstBaseURL: true),
-            let accountName = comps.host?.split(separator: ".", maxSplits: 1).first else {
+            let accountName = comps.host?.split(separator: ".", maxSplits: 1).first
+        else {
             throw AzureError.sdk("Resource URL could not be parsed.")
         }
 

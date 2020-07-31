@@ -28,13 +28,15 @@ import AzureCore
 import Foundation
 
 /// User-configurable options for the `StorageBlobClient`.
-public struct StorageBlobClientOptions: AzureConfigurable {
+public struct StorageBlobClientOptions: AzureClientOptions {
     /// The API version of the Azure Storage Blob service to invoke.
     public let apiVersion: String
     /// The `ClientLogger` to be used by this `StorageBlobClient`.
     public let logger: ClientLogger
     /// Options for configuring telemetry sent by this `StorageBlobClient`.
     public let telemetryOptions: TelemetryOptions
+    /// Global transport options
+    public let transportOptions: TransportOptions
 
     // Blob operations
 
@@ -76,6 +78,7 @@ public struct StorageBlobClientOptions: AzureConfigurable {
         telemetryOptions: TelemetryOptions = TelemetryOptions(),
         restorationId: String = DeviceProviders.appBundleInfo.identifier ?? "AzureStorageBlob",
         maxChunkSizeInBytes: Int = 4 * 1024 * 1024 - 1,
+        transportOptions: TransportOptions? = nil,
         downloadNetworkPolicy: TransferNetworkPolicy? = nil,
         uploadNetworkPolicy: TransferNetworkPolicy? = nil
     ) {
@@ -86,5 +89,6 @@ public struct StorageBlobClientOptions: AzureConfigurable {
         self.restorationId = restorationId
         self.downloadNetworkPolicy = downloadNetworkPolicy ?? TransferNetworkPolicy.default
         self.uploadNetworkPolicy = uploadNetworkPolicy ?? TransferNetworkPolicy.default
+        self.transportOptions = transportOptions ?? TransportOptions()
     }
 }

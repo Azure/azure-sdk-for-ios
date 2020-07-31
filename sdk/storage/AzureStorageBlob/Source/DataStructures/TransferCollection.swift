@@ -47,7 +47,7 @@ public struct TransferCollection {
     }
 
     /// Remove all transfers in this `TransferCollection` from the database. All currently active transfers will be
-    /// cancelled.
+    /// canceled.
     public func removeAll() {
         for transfer in items {
             URLSessionTransferManager.shared.remove(transfer: transfer)

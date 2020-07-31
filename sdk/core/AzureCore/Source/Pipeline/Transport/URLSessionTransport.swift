@@ -65,10 +65,6 @@ public class URLSessionTransport: HTTPTransportStage {
         session = nil
     }
 
-    public func sleep(duration: Int) {
-        Foundation.sleep(UInt32(duration))
-    }
-
     // MARK: PipelineStage Methods
 
     public func process(
@@ -91,7 +87,23 @@ public class URLSessionTransport: HTTPTransportStage {
         let responseContext = pipelineRequest.context
         let logger = pipelineRequest.logger
 
+        if let cancellationToken = pipelineRequest.context?.value(forKey: .cancellationToken) as? CancellationToken {
+            cancellationToken.start()
+            if cancellationToken.isCanceled {
+                completionHandler(.failure(AzureError.sdk("Request canceled.")), nil)
+                return
+            }
+        }
+
         session.dataTask(with: urlRequest) { data, response, error in
+            if let cancellationToken = pipelineRequest.context?
+                .value(forKey: .cancellationToken) as? CancellationToken {
+                if cancellationToken.isCanceled {
+                    completionHandler(.failure(AzureError.sdk("Request canceled.")), nil)
+                    return
+                }
+            }
+
             let rawResponse = response as? HTTPURLResponse
             let httpResponse = URLHTTPResponse(request: httpRequest, response: rawResponse)
             httpResponse.data = data

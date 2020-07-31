@@ -148,7 +148,7 @@ public protocol Transfer: AzureTask, AnyObject {
 
     /// Cancel this transfer.
     func cancel()
-    /// Remove this transfer from the database. If it is currently active it will be cancelled.
+    /// Remove this transfer from the database. If it is currently active it will be canceled.
     func remove()
     /// Pause this transfer if it is currently active.
     func pause()

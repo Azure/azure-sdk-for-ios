@@ -27,32 +27,15 @@
 import Foundation
 
 /// Protocol for baseline options for individual service clients.
-public protocol AzureConfigurable {
+public protocol AzureClientOptions {
     /// The API version of the service to invoke.
     var apiVersion: String { get }
     /// The `ClientLogger` to be used by the service client.
     var logger: ClientLogger { get }
     /// Options for configuring telemetry sent by the service client.
     var telemetryOptions: TelemetryOptions { get }
-}
-
-/// Options for configuring telemetry sent by the service client.
-public struct TelemetryOptions {
-    /// Whether platform information will be omitted from the user agent string sent by the service client.
-    public let telemetryDisabled: Bool
-    /// An optional user-specified application ID included in the user agent string sent by the service client.
-    public let applicationId: String?
-
-    /// Initialize a `TelemetryOptions` structure.
-    /// - Parameters:
-    ///   - telemetryDisabled: Whether platform information will be omitted from the user agent string sent by the
-    ///   service client.
-    ///   - applicationId: An optional user-specified application ID included in the user agent string sent by the
-    ///   service client.
-    public init(telemetryDisabled: Bool = false, applicationId: String? = nil) {
-        self.telemetryDisabled = telemetryDisabled
-        self.applicationId = applicationId
-    }
+    /// Global transport options
+    var transportOptions: TransportOptions { get }
 }
 
 /// Protocol for baseline options for individual client API calls.
@@ -60,6 +43,8 @@ public protocol AzureOptions {
     /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
     /// Highly recommended for correlating client-side activites with requests received by the server.
     var clientRequestId: String? { get }
+    /// A token used to make a best-effort attempt at canceling a request.
+    var cancellationToken: CancellationToken? { get }
 }
 
 /// Base class for all pipeline-based service clients.
@@ -69,6 +54,7 @@ open class PipelineClient {
     internal var pipeline: Pipeline
     public var baseUrl: URL
     public var logger: ClientLogger
+    public var commonOptions: AzureClientOptions
 
     // MARK: Initializers
 
@@ -76,11 +62,13 @@ open class PipelineClient {
         baseUrl: URL,
         transport: HTTPTransportStage,
         policies: [PipelineStage],
-        logger: ClientLogger
+        logger: ClientLogger,
+        options: AzureClientOptions
     ) {
         self.baseUrl = baseUrl.hasDirectoryPath ? baseUrl : baseUrl.appendingPathComponent("/")
         self.logger = logger
         self.pipeline = Pipeline(transport: transport, policies: policies)
+        self.commonOptions = options
     }
 
     // MARK: Public Methods

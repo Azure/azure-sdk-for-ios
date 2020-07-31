@@ -95,6 +95,8 @@ internal class ChunkDownloader {
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 206] as AnyObject
         ])
+        context.add(cancellationToken: options.cancellationToken, applying: client.options)
+
         client.request(request, context: context) { result, httpResponse in
             switch result {
             case let .failure(error):
@@ -305,7 +307,7 @@ internal class BlobStreamDownloader: BlobDownloader {
         delegate: BlobDownloadDelegate? = nil,
         source: URL,
         destination: LocalURL,
-        options: DownloadBlobOptions? = nil
+        options: DownloadBlobOptions
     ) throws {
         guard let downloadDestination = destination.resolvedUrl else {
             throw AzureError.sdk("Unable to determine download destination: \(destination)")
@@ -314,7 +316,7 @@ internal class BlobStreamDownloader: BlobDownloader {
         self.downloadDestination = downloadDestination
         self.client = client
         self.delegate = delegate
-        self.options = options ?? DownloadBlobOptions()
+        self.options = options
         self.downloadSource = source
         self.requestedSize = self.options.range?.lengthInBytes
         self.blobProperties = nil

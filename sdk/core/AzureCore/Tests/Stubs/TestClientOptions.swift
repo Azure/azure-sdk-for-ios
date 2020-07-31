@@ -26,9 +26,12 @@
 
 import Foundation
 
-public protocol HTTPTransportStage: PipelineStage {
-    // MARK: Required Methods
+struct TestClientOptions: AzureClientOptions {
+    var apiVersion = "TestAPI"
 
-    func open()
-    func close()
+    var logger = ClientLoggers.default(tag: "AzureTest")
+
+    var telemetryOptions = TelemetryOptions()
+
+    var transportOptions = TransportOptions()
 }

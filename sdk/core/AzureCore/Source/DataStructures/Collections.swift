@@ -170,6 +170,9 @@ public class PagedCollection<SingleElement: Codable> {
     /// calls to retrieve additional pages.
     private let client: PageableClient
 
+    /// The `PipelineContext` that will be reused for subsequent paging calls.
+    private let context: PipelineContext
+
     /// The JSON decoder used to deserialze the JSON payload into the appropriate models.
     private let decoder: JSONDecoder
 
@@ -181,9 +184,19 @@ public class PagedCollection<SingleElement: Codable> {
 
     // MARK: Initializers
 
+    /// <#Description#>
+    /// - Parameters:
+    ///   - client: The `PageableClient` used to make calls for follow-up pages.
+    ///   - request: The original `HTTPRequest` used to make the call.
+    ///   - context: A `PipelineContext` object that will be used for follow-up page requests.
+    ///   - data: The `Data` corresponding to the first page results.
+    ///   - codingKeys: An optional set of `PagedCodingKeys` used to decode the paged results.
+    ///   - decoder: An optional `JSONDecoder` for decoding special types.
+    /// - Throws: `AzureErrors.sdk` thrown if no data is returned from the server.
     public init(
         client: PageableClient,
         request: HTTPRequest,
+        context: PipelineContext,
         data: Data?,
         codingKeys: PagedCodingKeys? = nil,
         decoder: JSONDecoder? = nil
@@ -191,6 +204,7 @@ public class PagedCollection<SingleElement: Codable> {
         let noDataError = AzureError.sdk("Response data expected but not found.")
         guard let data = data else { throw noDataError }
         self.client = client
+        self.context = context
         self.decoder = decoder ?? JSONDecoder()
         self.codingKeys = codingKeys ?? PagedCodingKeys()
         self.requestHeaders = request.headers
@@ -212,13 +226,12 @@ public class PagedCollection<SingleElement: Codable> {
         client.logger.info(String(format: "Fetching next page with: %@", continuationToken))
         guard let url = client.continuationUrl(forRequestUrl: requestUrl, withContinuationToken: continuationToken)
         else { return }
-        var context: PipelineContext?
-        if let xmlType = SingleElement.self as? XMLModel.Type {
-            let xmlMap = XMLMap(withPagedCodingKeys: codingKeys, innerType: xmlType)
-            context = PipelineContext.of(keyValues: [
-                ContextKey.xmlMap.rawValue: xmlMap as AnyObject
-            ])
-        }
+
+        // Reset the cancellation token for the new page request
+        let cancellationToken = context.value(forKey: .cancellationToken) as? CancellationToken
+        cancellationToken?.reset()
+        context.add(cancellationToken: cancellationToken, applying: client.commonOptions)
+
         guard let request = try? HTTPRequest(method: .get, url: url, headers: requestHeaders) else { return }
         client.request(request, context: context) { result, _ in
             var returnError: AzureError?
