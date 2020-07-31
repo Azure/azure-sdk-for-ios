@@ -26,7 +26,7 @@
 
 import Foundation
 
-private enum PatchOpType: String, Codable {
+public enum PatchOpType: String, Codable {
     case add
     case remove
     case replace
@@ -35,44 +35,48 @@ private enum PatchOpType: String, Codable {
     case test
 }
 
-private struct PatchOperation: Codable {
+public struct PatchOperation: Encodable {
     let operation: PatchOpType
     let from: String?
     let path: String
-    let value: AnyCodable?
+    let value: Encodable?
 }
 
 /// Helper class for creating PatchObjects
-class PatchObject: Codable {
+public final class PatchObject: Encodable {
     fileprivate var operations: [PatchOperation]
 
+    public init() {
+        self.operations = [PatchOperation]()
+    }
+
     /// Inserts a new value at an array index or adds a new property.
-    func add(atPath path: String, withValue value: AnyCodable) {
+    public func add(atPath path: String, withValue value: Encodable) {
         operations.append(PatchOperation(operation: .add, from: nil, path: path, value: value))
     }
 
     /// Remove the property or entry at an array index. Property must exist.
-    func remove(atPath path: String) {
+    public func remove(atPath path: String) {
         operations.append(PatchOperation(operation: .remove, from: nil, path: path, value: nil))
     }
 
     /// Replaces the value at the target location with a new value. Existing value must exist.
-    func replace(atPath path: String, withValue value: AnyCodable) {
+    public func replace(atPath path: String, withValue value: Encodable) {
         operations.append(PatchOperation(operation: .replace, from: nil, path: path, value: value))
     }
 
     /// Remove the value at a specified location and adds it to the target location.
-    func move(fromPath src: String, toPath dest: String) {
+    public func move(fromPath src: String, toPath dest: String) {
         operations.append(PatchOperation(operation: .move, from: src, path: dest, value: nil))
     }
 
     /// Copies the value at a specified location and adds it to the target location.
-    func copy(fromPath src: String, toPath dest: String) {
+    public func copy(fromPath src: String, toPath dest: String) {
         operations.append(PatchOperation(operation: .copy, from: src, path: dest, value: nil))
     }
 
     /// Tests that a value at the target location is equal to a specified value.
-    func test(atPath path: String, equalsValue value: AnyCodable) {
+    public func test(atPath path: String, equalsValue value: AnyCodable) {
         operations.append(PatchOperation(operation: .test, from: nil, path: path, value: value))
     }
 }

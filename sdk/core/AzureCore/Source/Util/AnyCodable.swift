@@ -26,11 +26,11 @@
 
 import Foundation
 
-protocol ExtensionStringDecodeKeys {
+public protocol ExtensionStringDecodeKeys {
     var stringDecodedKeys: [String] { get }
 }
 
-struct AnyCodable: Decodable {
+public struct AnyCodable: Decodable {
     var value: Any
 
     struct CodingKeys: CodingKey {
