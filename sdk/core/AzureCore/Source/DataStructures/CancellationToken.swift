@@ -33,7 +33,7 @@ public final class CancellationToken: Codable, Equatable {
 
     public internal(set) var timeoutInSeconds: Double?
 
-    private var runId: Int
+    private var runId: UUID
 
     public func cancel() {
         isCanceled = true
@@ -43,15 +43,13 @@ public final class CancellationToken: Codable, Equatable {
         self.timeoutInSeconds = timeoutInSeconds
         self.isStarted = false
         self.isCanceled = false
-        self.runId = Int.random(in: Int.min ... Int.max)
+        self.runId = UUID()
     }
 
     // MARK: Equatable Protocol
 
     public static func == (lhs: CancellationToken, rhs: CancellationToken) -> Bool {
-        return lhs.timeoutInSeconds == rhs.timeoutInSeconds
-            && lhs.isStarted == rhs.isStarted
-            && lhs.isCanceled == rhs.isCanceled
+        return lhs.runId == rhs.runId
     }
 
     // MARK: Methods
@@ -73,6 +71,6 @@ public final class CancellationToken: Codable, Equatable {
         guard timeoutInSeconds != nil else { return }
         isStarted = false
         isCanceled = false
-        runId = Int.random(in: Int.min ... Int.max)
+        runId = UUID()
     }
 }
