@@ -35,6 +35,11 @@ enum JSONPatchOpType: String, Codable {
     case test
 }
 
+/// Serves as a sentinel value for JSON Patch operations to nullify a property
+public struct JSONPatch {
+    public static let null = "__NULL__"
+}
+
 struct JSONPatchOperation: Encodable {
     let operation: JSONPatchOpType
     let from: String?
@@ -78,7 +83,7 @@ public final class JSONPatchObject: Encodable {
     public func replace(atPath path: String, withValue value: String?) {
         // swiftlint:disable force_try
         // janky way of setting null
-        if let string = value, string == "null" {
+        if let string = value, string == JSONPatch.null {
             // nullify property if sentinel value used
             operations.append(JSONPatchOperation(operation: .replace, from: nil, path: path, value: nil))
         } else {

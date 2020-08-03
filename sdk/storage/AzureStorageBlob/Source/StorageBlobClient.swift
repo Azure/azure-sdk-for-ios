@@ -689,39 +689,4 @@ public final class StorageBlobClient: PipelineClient {
         StorageBlobClient.manager.add(transfer: blobTransfer)
         return blobTransfer
     }
-
-    public func update(container: String, withProperties cont: ContainerProperties) {
-        // Construct URL
-        let urlTemplate = "/{container}"
-        let pathParams = [
-            "container": container
-        ]
-        guard let url = self.url(forTemplate: urlTemplate) else { return }
-
-        // Construct headers
-        var headers = HTTPHeaders([
-            .apiVersion: options.apiVersion
-        ])
-
-        let patch = PatchObject()
-        patch.replace(atPath: "lastModified", withValue: cont.lastModified as? AnyCodable)
-        patch.replace(atPath: "leaseStatus", withValue: cont.leaseStatus as? AnyCodable)
-        patch.replace(atPath: "leaseState", withValue: cont.leaseState as? AnyCodable)
-        patch.replace(atPath: "leaseDuration", withValue: cont.leaseDuration as? AnyCodable)
-        patch.replace(atPath: "hasImmutabilityPolicy", withValue: cont.hasImmutabilityPolicy as? AnyCodable)
-        patch.replace(atPath: "hasLegalHold", withValue: cont.hasLegalHold as? AnyCodable)
-        let serialized = try? JSONEncoder().encode(patch)
-
-        let context = PipelineContext()
-        guard let request = try? HTTPRequest(method: .patch, url: url, headers: headers) else { return }
-
-        self.request(request, context: context) { result, _ in
-            switch result {
-            case let .success(data):
-                print(data)
-            case let .failure(error):
-                print(error)
-            }
-        }
-    }
 }

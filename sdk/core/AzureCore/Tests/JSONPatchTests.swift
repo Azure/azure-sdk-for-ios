@@ -38,25 +38,40 @@ class JSONPatchTests: XCTestCase {
             patch.replace(atPath: "value/", withValue: val)
         }
         let encoder = JSONEncoder()
-        encoder.outputFormatting = [.sortedKeys, .prettyPrinted]
         let encoded = try! encoder.encode(patch)
         return String(data: encoded, encoding: .utf8)
     }
 
-    func test_JSONPatch_NullValues() {
-        let patch1 = testMethod(value: "test_value")
-        let patch2 = testMethod(value: nil)
-        let patch3 = testMethod()
-        // test janky way of setting null
-        let patch4 = testMethod(value: "null")
-        print(patch1!)
-        print(patch2!)
-        print(patch3!)
-        print(patch4!)
-        XCTAssertNotNil(patch1)
-        XCTAssertNotNil(patch2)
-        XCTAssertNotNil(patch3)
-        XCTAssertNotNil(patch4)
-        XCTFail("Test implementation not complete.")
+    func test_JSONPatch_RegularValue() {
+        let patch = testMethod(value: "test_value")
+        let expected =
+            "{\"operations\":[{\"path\":\"value\\/\",\"operation\":\"replace\",\"value\":\"\\\"test_value\\\"\",\"from\":null}]}"
+        XCTAssertEqual(patch!, expected)
+    }
+
+    func test_JSONPatch_ExplicitNilsIgnored() {
+        let patch = testMethod(value: nil)
+        let expected = "{\"operations\":[]}"
+        XCTAssertEqual(patch!, expected)
+    }
+
+    func test_JSONPatch_DefaultNilsIgnored() {
+        let patch = testMethod()
+        let expected = "{\"operations\":[]}"
+        XCTAssertEqual(patch!, expected)
+    }
+
+    func test_JSONPatch_SentinelValueNullifies() {
+        let patch = testMethod(value: JSONPatch.null)
+        let expected =
+            "{\"operations\":[{\"path\":\"value\\/\",\"operation\":\"replace\",\"value\":null,\"from\":null}]}"
+        XCTAssertEqual(patch!, expected)
+    }
+
+    func test_JSONPatch_EscapedSentinelValueWorks() {
+        let patch = testMethod(value: "__NULL__")
+        let expected =
+            "{\"operations\":[{\"path\":\"value\\/\",\"operation\":\"replace\",\"value\":\"\\\"__NULL__\\\"\",\"from\":null}]}"
+        XCTAssertEqual(patch!, expected)
     }
 }
