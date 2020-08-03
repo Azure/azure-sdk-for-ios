@@ -704,13 +704,13 @@ public final class StorageBlobClient: PipelineClient {
         ])
 
         let patch = PatchObject()
-        patch.replace(atPath: "lastModified", withValue: cont.lastModified)
-        patch.replace(atPath: "leaseStatus", withValue: cont.leaseStatus)
-        patch.replace(atPath: "leaseState", withValue: cont.leaseState)
-        patch.replace(atPath: "leaseDuration", withValue: cont.leaseDuration)
-        patch.replace(atPath: "hasImmutabilityPolicy", withValue: cont.hasImmutabilityPolicy)
-        patch.replace(atPath: "hasLegalHold", withValue: cont.hasLegalHold)
-        let serialized = try! JSONEncoder().encode(patch)
+        patch.replace(atPath: "lastModified", withValue: cont.lastModified as? AnyCodable)
+        patch.replace(atPath: "leaseStatus", withValue: cont.leaseStatus as? AnyCodable)
+        patch.replace(atPath: "leaseState", withValue: cont.leaseState as? AnyCodable)
+        patch.replace(atPath: "leaseDuration", withValue: cont.leaseDuration as? AnyCodable)
+        patch.replace(atPath: "hasImmutabilityPolicy", withValue: cont.hasImmutabilityPolicy as? AnyCodable)
+        patch.replace(atPath: "hasLegalHold", withValue: cont.hasLegalHold as? AnyCodable)
+        let serialized = try? JSONEncoder().encode(patch)
 
         let context = PipelineContext()
         guard let request = try? HTTPRequest(method: .patch, url: url, headers: headers) else { return }

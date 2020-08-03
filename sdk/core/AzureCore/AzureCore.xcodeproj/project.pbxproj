@@ -13,7 +13,8 @@
 		0A22B09224CF611F00EC018E /* TelemetryOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A22B09124CF611F00EC018E /* TelemetryOptions.swift */; };
 		0A22B09424CF84F300EC018E /* TestClientOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A22B09324CF84F300EC018E /* TestClientOptions.swift */; };
 		0A22B17424D4927900EC018E /* AnyCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A22B17324D4927900EC018E /* AnyCodable.swift */; };
-		0A22B17624D4928200EC018E /* PatchUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A22B17524D4928200EC018E /* PatchUtil.swift */; };
+		0A22B17624D4928200EC018E /* JSONPatchUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A22B17524D4928200EC018E /* JSONPatchUtil.swift */; };
+		0A22B17924D8967200EC018E /* JSONPatchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A22B17724D893CF00EC018E /* JSONPatchTests.swift */; };
 		0A3A5D9B2315CEB600473FDA /* HTTPRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D902315CEB600473FDA /* HTTPRequest.swift */; };
 		0A3A5D9C2315CEB600473FDA /* HTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D912315CEB600473FDA /* HTTPResponse.swift */; };
 		0A3A5D9D2315CEB600473FDA /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D922315CEB600473FDA /* HTTPMethod.swift */; };
@@ -121,7 +122,8 @@
 		0A22B09124CF611F00EC018E /* TelemetryOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelemetryOptions.swift; sourceTree = "<group>"; };
 		0A22B09324CF84F300EC018E /* TestClientOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestClientOptions.swift; sourceTree = "<group>"; };
 		0A22B17324D4927900EC018E /* AnyCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyCodable.swift; sourceTree = "<group>"; };
-		0A22B17524D4928200EC018E /* PatchUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchUtil.swift; sourceTree = "<group>"; };
+		0A22B17524D4928200EC018E /* JSONPatchUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONPatchUtil.swift; sourceTree = "<group>"; };
+		0A22B17724D893CF00EC018E /* JSONPatchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONPatchTests.swift; sourceTree = "<group>"; };
 		0A3A5D762315C89C00473FDA /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A3A5D7A2315C89C00473FDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A3A5D902315CEB600473FDA /* HTTPRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPRequest.swift; sourceTree = "<group>"; };
@@ -275,7 +277,7 @@
 				0A73AB76243F969700C6DC34 /* StringUtil.swift */,
 				7A5E79ED2474A921000757F6 /* URLUtil.swift */,
 				0A22B17324D4927900EC018E /* AnyCodable.swift */,
-				0A22B17524D4928200EC018E /* PatchUtil.swift */,
+				0A22B17524D4928200EC018E /* JSONPatchUtil.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -308,6 +310,7 @@
 				0AFEC35223C8FC320065D588 /* UserAgentPolicyTests.swift */,
 				0AFEC34F23C8FC310065D588 /* UtilTests.swift */,
 				0AFEC35323C8FC320065D588 /* XMLModelTests.swift */,
+				0A22B17724D893CF00EC018E /* JSONPatchTests.swift */,
 				0A3A5DE22315D17F00473FDA /* Info.plist */,
 			);
 			path = Tests;
@@ -646,7 +649,7 @@
 				0A3A5F032316DF6600473FDA /* CryptoUtil.swift in Sources */,
 				7AA5366923C0340C00A65A96 /* BundleInfoProvider.swift in Sources */,
 				0A8FE7682368A4FF00B96598 /* MatchCondition.swift in Sources */,
-				0A22B17624D4928200EC018E /* PatchUtil.swift in Sources */,
+				0A22B17624D4928200EC018E /* JSONPatchUtil.swift in Sources */,
 				0AC0AA83234D017F00F05073 /* AzureCodable.swift in Sources */,
 				0A3A5F1C2316EBC600473FDA /* HeadersPolicy.swift in Sources */,
 				0A0DD9AF24AE7D5800D2E884 /* CancellationToken.swift in Sources */,
@@ -689,6 +692,7 @@
 				7A1A916F23D13E5D00B0B3D2 /* PipelineStubs.swift in Sources */,
 				0AFEC36023C8FC430065D588 /* PipelineTests.swift in Sources */,
 				0AFEC36323C8FC4C0065D588 /* XMLModelTests.swift in Sources */,
+				0A22B17924D8967200EC018E /* JSONPatchTests.swift in Sources */,
 				0AD6351F23F46CC4000D67F6 /* ReachabilityManagerTests.swift in Sources */,
 				7A1A916C23D13D5700B0B3D2 /* RequestIdPolicyTests.swift in Sources */,
 			);
