@@ -5,6 +5,13 @@
       location = "group:sdk"
       name = "SDK">
       <Group
+         location = "group:communication"
+         name = "communication">
+         <FileRef
+            location = "group:AzureCommunication/AzureCommunication.xcodeproj">
+         </FileRef>
+      </Group>
+      <Group
          location = "group:core"
          name = "core">
          <FileRef

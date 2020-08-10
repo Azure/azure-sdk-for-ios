@@ -42,11 +42,17 @@ Pod::Spec.new do |s|
   s.swift_version = '5.0'
 
   # TODO: Change this to a tag reference when we are ready.
-  s.source = { :git => 'https://github.com/mitchdenny/azure-sdk-for-ios.git',
+  s.source = { :git => 'https://github.com/Azure/azure-sdk-for-ios.git',
                :branch => 'master' }
 
   # AzureCore
-  s.subspec 'AzureCore' do |azurecore|
-    azurecore.source_files = 'sdk/core/AzureCore/Source/**/*.{swift,h,m}'
+  s.subspec 'AzureCore' do |sp|
+    sp.source_files = 'sdk/core/AzureCore/Source/**/*.{swift,h,m}'
+  end
+
+  # AzureCommunication
+  s.subspec 'AzureCommunication' do |sp|
+    sp.source_files = 'sdk/communication/AzureCommunication/Source/**/*.{swift,h,m}'
+    sp.dependency 'AzureSDK/AzureCore'
   end
 end

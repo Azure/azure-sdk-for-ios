@@ -1,20 +1,17 @@
-# Azure core client library for iOS
+# Azure Communication Service client library for iOS
 
-This is the core framework for the Azure SDK for iOS, containing the HTTP pipeline, as well as a shared set of
-components that are used across all client libraries, including pipeline policies, error types, type aliases, an XML
-Codable implementation, and a logging system. As an end user, you don't need to manually install AzureCore because it
-will be installed automatically when you install other SDK libraries. If you are a client library developer, please
-reference the [AzureStorageBlob](https://github.com/Azure/azure-sdk-for-ios/tree/master/sdk/storage/AzureStorageBlob)
-library as an example of how to use the shared AzureCore components in your client library.
+This package contains common code for Azure Communication Services libraries.
 
-[Source code](https://github.com/Azure/azure-sdk-for-ios/tree/master/sdk/core/AzureCore)
-| [API reference documentation](https://azure.github.io/azure-sdk-for-ios/AzureCore/index.html)
+[Source code]<!--(https://github.com/Azure/azure-sdk-for-ios/tree/master/sdk/communication/AzureCommunication)-->
+| [API reference documentation]<!--(https://azure.github.io/azure-sdk-for-ios/AzureCommunication/index.html)-->
+| [Product documentation]<!--(https://review.docs.microsoft.com/azure/project-spool/overview?branch=pr-en-us-104477)-->
 
 ## Getting started
 
 ### Prerequisites
 * The client library is written in modern Swift 5. Due to this, Xcode 10.2 or higher is required to use this library.
-* You must have an [Azure subscription](https://azure.microsoft.com/free/) to use this library.
+* You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
+[Communication Services resource]<!--(https://review.docs.microsoft.com/azure/project-spool/quickstarts/create-communication-resource?branch=pr-en-us-104477)--> to use this library.
 
 ### Versions available
 The current version of this library is **1.0.0-beta.1**.
@@ -68,7 +65,7 @@ Next, for each target that needs to use the library, add it to the target's arra
         ...
         .target(
             name: "MyTarget",
-            dependencies: ["AzureCore", ...])
+            dependencies: ["AzureCommunication", ...])
     ]
 )
 ```
@@ -93,7 +90,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '12.0'
 use_frameworks!
 
-pod 'AzureSDK/AzureCore', '~> 1.0.0-beta.1'
+pod 'AzureSDK/AzureCommunication', '~> 1.0.0-beta.1'
 ...
 ```
 
@@ -105,17 +102,71 @@ $ pod install
 
 ## Key concepts
 
-The main shared concepts of AzureCore (and thus, Azure SDK libraries using AzureCore) include:
-
-- Configuring service clients, e.g. policies, logging (`HeadersPolicy` et al., `ClientLogger`).
-- Accessing HTTP response details (`HTTPResponse`, `HTTPResultHandler<T>`).
-- Paging and asynchronous streams (`PagedCollection<T>`).
-- Exceptions for reporting errors from service requests in a consistent fashion. (`AzureError`, `HTTPResponseError`).
-- Abstractions for representing Azure SDK credentials. (`AccessToken`).
+### CommunicationUserCredential
+A `CommunicationUserCredential` authenticates a user with Communication Services, such as Chat or Calling. It optionally
+provides an auto-refresh mechanism to ensure a continuously stable authentication state during communications. User
+tokens are created by the application developer using the Communication Administration SDK - once created, they are
+provided to the various Communication Services client libraries by way of a `CommunicationUserCredential` object.
 
 ## Examples
+The following sections provide several code snippets showing different ways to use a `CommunicationUserCredential`:
 
-See [AzureSDKDemoSwift](https://github.com/Azure/azure-sdk-for-ios/tree/master/examples/AzureSDKDemoSwift) for an example of using this library.
+* [Creating a credential with a static token](#creating-a-credential-with-a-static-token)
+* [Creating a credential that refreshes synchronously](#creating-a-credential-that-refreshes-synchronously)
+* [Creating a credential that refreshes asynchronously](#creating-a-credential-that-refreshes-asynchronously)
+
+### Creating a credential with a static token
+```swift
+let sampleToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjMyNTAzNjgwMDAwfQ.9i7FNNHHJT8cOzo-yrAUJyBSfJ-tPPk2emcHavOEpWc"
+let userCredential = try CommunicationUserCredential(token: sampleToken)
+```
+
+### Creating a credential that refreshes synchronously
+```swift
+let sampleToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjMyNTAzNjgwMDAwfQ.9i7FNNHHJT8cOzo-yrAUJyBSfJ-tPPk2emcHavOEpWc"
+let sampleExpiredToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjEwMH0.1h_scYkNp-G98-O4cW6KvfJZwiz54uJMyeDACE4nypg"
+
+func fetchTokenSync(completionHandler: TokenRefreshOnCompletion) {
+    let newToken = sampleToken
+    completionHandler(newToken, nil)
+}
+
+let userCredential = try CommunicationUserCredential(initialToken: sampleExpiredToken, 
+    refreshProactively: false, 
+    tokenRefresher: fetchTokenSync)
+    
+DispatchQueue.global(qos: .utility).async {
+      userCredential.token { (accessToken: AccessToken?, error: Error?) in
+        ...
+      }
+}
+```
+
+### Creating a credential that refreshes asynchronously
+```swift
+let sampleToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjMyNTAzNjgwMDAwfQ.9i7FNNHHJT8cOzo-yrAUJyBSfJ-tPPk2emcHavOEpWc"
+let sampleExpiredToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjEwMH0.1h_scYkNp-G98-O4cW6KvfJZwiz54uJMyeDACE4nypg"
+
+func fetchTokenAsync(completionHandler: @escaping TokenRefreshOnCompletion) {
+     func getTokenFromServer(completionHandler: @escaping (String) -> Void) {
+          completionHandler(self.sampleToken)   
+     }
+
+     getTokenFromServer { newToken in
+         completionHandler(newToken, nil)
+     }
+}
+
+let userCredential = try CommunicationUserCredential(initialToken: sampleExpiredToken, 
+    refreshProactively: false, 
+    tokenRefresher: fetchTokenAsync)
+    
+DispatchQueue.global(qos: .utility).async {
+      userCredential.token { (accessToken: AccessToken?, error: Error?) in
+        ...
+      }
+}
+```
 
 ## Troubleshooting
 
@@ -124,8 +175,7 @@ If you run into issues while using this library, please feel free to
 
 ## Next steps
 
-Explore and install
-[available Azure SDK libraries](https://github.com/Azure/azure-sdk-for-ios/blob/master/README.md#libraries-available).
+* Read more about Communication [user access tokens]<!--(https://review.docs.microsoft.com/azure/project-spool/concepts/authentication?branch=pr-en-us-104477)-->.
 
 ## Contributing
 
@@ -141,4 +191,4 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact
 [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-ios%2Fsdk%2Fcore%2FAzureCore%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-ios%2Fsdk%communication%2FAzureCommunication%2FREADME.png)
