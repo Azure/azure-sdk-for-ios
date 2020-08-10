@@ -9,7 +9,7 @@ Blob storage is ideal for:
 * Storing data for backup and restore, disaster recovery, and archiving
 * Storing data for analysis by an on-premises or Azure-hosted service
 
-[Source code](https://github.com/Azure/azure-sdk-for-ios/tree/master/sdk/storage/AzureStorageBlob) | [API reference documentation](not-valid-link) | [Product documentation](https://docs.microsoft.com/azure/storage/) | [Samples](https://github.com/Azure/azure-sdk-for-ios/tree/master/examples/AzureSDKDemoSwift)
+[Source code](https://github.com/Azure/azure-sdk-for-ios/tree/master/sdk/storage/AzureStorageBlob) | [API reference documentation](https://azure.github.io/azure-sdk-for-ios/AzureStorageBlob/index.html) | [Product documentation](https://docs.microsoft.com/azure/storage/) | [Samples](https://github.com/Azure/azure-sdk-for-ios/tree/master/examples/AzureSDKDemoSwift)
 
 
 ## Getting started
