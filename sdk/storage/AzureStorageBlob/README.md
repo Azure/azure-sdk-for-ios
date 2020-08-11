@@ -9,7 +9,7 @@ Blob storage is ideal for:
 * Storing data for backup and restore, disaster recovery, and archiving
 * Storing data for analysis by an on-premises or Azure-hosted service
 
-[Source code](https://github.com/Azure/azure-sdk-for-ios/tree/master/sdk/storage/AzureStorageBlob) | [API reference documentation](...) | [Product documentation](https://docs.microsoft.com/azure/storage/) | [Samples](https://github.com/Azure/azure-sdk-for-ios/tree/master/examples/AzureSDKDemoSwift)
+[Source code](https://github.com/Azure/azure-sdk-for-ios/tree/master/sdk/storage/AzureStorageBlob) | [API reference documentation](https://azure.github.io/azure-sdk-for-ios/AzureStorageBlob/index.html) | [Product documentation](https://docs.microsoft.com/azure/storage/) | [Samples](https://github.com/Azure/azure-sdk-for-ios/tree/master/examples/AzureSDKDemoSwift)
 
 
 ## Getting started
@@ -270,7 +270,7 @@ thrown.
 
 #### Customizing the client
 When creating a client, you may choose to provide an optional
-[StorageBlobClientOptions](https://github.com/Azure/azure-sdk-for-ios/blob/master/sdk/storage/AzureStorageBlob/Source/DataStructures/StorageBlobClientOptions.swift)
+[StorageBlobClientOptions](https://github.com/Azure/azure-sdk-for-ios/blob/master/sdk/storage/AzureStorageBlob/Source/Options/ClientOptions.swift)
 object in order to configure the client as desired. You may instruct the client to use a specific API version of the
 Azure Storage Blob service, change when and how log messages are emitted from the client, and control the chunk size
 used when uploading and downloading blobs - the maximum size of each piece when the client breaks an upload or download
@@ -438,7 +438,7 @@ The Azure Storage Blobs client library for iOS allows you to interact with some 
 
 ### Client
 A single client is provided to interact with the various components of the Blob Service:
-1. [StorageBlobClient](https://github.com/Azure/azure-sdk-for-ios/blob/dev/sdk/storage/AzureStorageBlob/Source/StorageBlobClient.swift) -
+1. [StorageBlobClient](https://github.com/Azure/azure-sdk-for-ios/blob/master/sdk/storage/AzureStorageBlob/Source/StorageBlobClient.swift) -
    this client represents interaction with a specific blob container. It provides operations to upload, download and list blobs.
 
 ### Blob Types
@@ -533,11 +533,11 @@ let transfer = try client.download(
 ## Troubleshooting
 ### General
 Storage Blob clients raise exceptions defined in
-[Azure Core](https://github.com/Azure/azure-sdk-for-ios/blob/dev/sdk/core/AzureCore/Source/Errors.swift).
+[Azure Core](https://github.com/Azure/azure-sdk-for-ios/blob/master/sdk/core/AzureCore/Source/Errors.swift).
 
 ### Logging
 This library uses the
-[ClientLogger](https://github.com/Azure/azure-sdk-for-ios/blob/dev/sdk/core/AzureCore/Source/ClientLogger.swift)
+[ClientLogger](https://github.com/Azure/azure-sdk-for-ios/blob/master/sdk/core/AzureCore/Source/ClientLogger.swift)
 protocol for logging. The desired style of logger can be set when initializing the client:
 
 ```swift

@@ -7,6 +7,8 @@ will be installed automatically when you install other SDK libraries. If you are
 reference the [AzureStorageBlob](https://github.com/Azure/azure-sdk-for-ios/tree/master/sdk/storage/AzureStorageBlob)
 library as an example of how to use the shared AzureCore components in your client library.
 
+[Source code](https://github.com/Azure/azure-sdk-for-ios/tree/master/sdk/core/AzureCore) | [API reference documentation](https://azure.github.io/azure-sdk-for-ios/AzureCore/index.html)
+
 ## Getting started
 
 ### Prerequisites
