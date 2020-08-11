@@ -58,7 +58,7 @@ jobs:
 
       - template: ../../../common/pipelines/templates/steps/verify-links.yml
         parameters:
-          Directory: sdk/${{ parameters.ServiceDirectory }}
+          Directory: ""
           
       - script: |
           brew install swiftlint
