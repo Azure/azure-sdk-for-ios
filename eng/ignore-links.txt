@@ -1,2 +1,1 @@
-#Place holder for the temporary links
-not-valid-link
+# Placeholder file for links that need exceptions from link checking
