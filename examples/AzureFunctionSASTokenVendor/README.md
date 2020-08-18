@@ -191,9 +191,11 @@ let sasCredential = StorageSASCredential { requestUrl, _, resultHandler in
         }
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
         do {
             let tokenResponse = try decoder.decode(GetSasTokenResponse.self, from: data)
-            resultHandler(.success(tokenResponse.token))
+            let sasUri = "\(tokenResponse.destination)?\(tokenResponse.token)"
+            resultHandler(.success(sasUri))
         } catch {
             resultHandler(.failure(error))
         }
