@@ -16,7 +16,7 @@ This project provides examples for the following scenarios:
 * Using the
   [Azure Storage Blobs client library for iOS](https://github.com/Azure/azure-sdk-for-ios/tree/master/sdk/storage/AzureStorageBlob)
   to access Azure Blob Storage with a
-  [StorageSASCredential](https://github.com/Azure/azure-sdk-for-ios/blob/master/sdk/storage/AzureStorageBlob/Source/Credentials/StorageCredentials.swift).
+  [StorageSASCredential](https://github.com/Azure/azure-sdk-for-ios/blob/master/sdk/storage/AzureStorageBlob/Source/Credentials/StorageSASCredential.swift).
 
 ## Getting started
 
