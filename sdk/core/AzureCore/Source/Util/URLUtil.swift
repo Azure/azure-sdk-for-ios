@@ -49,4 +49,10 @@ extension URL {
 
         return urlComps.url
     }
+
+    public func deletingQueryParameters() -> URL? {
+        guard var urlComps = URLComponents(url: self, resolvingAgainstBaseURL: true) else { return nil }
+        urlComps.query = nil
+        return urlComps.url
+    }
 }

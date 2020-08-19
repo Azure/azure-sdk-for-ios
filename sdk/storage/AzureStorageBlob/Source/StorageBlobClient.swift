@@ -136,22 +136,17 @@ public final class StorageBlobClient: PipelineClient {
 
     /// Create a Storage blob data client.
     /// - Parameters:
-    ///   - credential: A `StorageSASCredential` object used to retrieve the account's blob storage endpoint and
-    ///     authentication tokens.
+    ///   - credential: A `StorageSASCredential` object used to retrieve authentication tokens.
+    ///   - endpoint: The URL for the storage account's blob storage endpoint.
     ///   - options: Options used to configure the client.
     public convenience init(
         credential: StorageSASCredential,
+        endpoint: URL,
         withOptions options: StorageBlobClientOptions = StorageBlobClientOptions()
     ) throws {
         try credential.validate()
-        guard let blobEndpoint = credential.blobEndpoint else {
-            throw AzureError.sdk("Invalid connection string. No blob endpoint specified.")
-        }
-        guard let baseUrl = URL(string: blobEndpoint) else {
-            throw AzureError.sdk("Unable to resolve account URL from credential.")
-        }
         let authPolicy = StorageSASAuthenticationPolicy(credential: credential)
-        try self.init(baseUrl: baseUrl, authPolicy: authPolicy, withOptions: options)
+        try self.init(baseUrl: endpoint, authPolicy: authPolicy, withOptions: options)
     }
 
     /// Create a Storage blob data client.
@@ -187,9 +182,10 @@ public final class StorageBlobClient: PipelineClient {
         connectionString: String,
         withOptions options: StorageBlobClientOptions = StorageBlobClientOptions()
     ) throws {
-        let sasCredential = StorageSASCredential { connectionString }
-        if sasCredential.error == nil {
-            try self.init(credential: sasCredential, withOptions: options)
+        if let sasToken = try? StorageSASCredential.token(fromConnectionString: connectionString),
+            let endpoint = URL(string: sasToken.blobEndpoint) {
+            let sasCredential = StorageSASCredential(staticCredential: connectionString)
+            try self.init(credential: sasCredential, endpoint: endpoint, withOptions: options)
             return
         }
 
