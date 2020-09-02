@@ -98,7 +98,7 @@ struct AppState {
             let options = StorageBlobClientOptions(
                 logger: ClientLoggers.none,
                 restorationId: "AzureSDKDemoSwift",
-                transportOptions: TransportOptions(timeoutInSeconds: 1.0)
+                transportOptions: TransportOptions(timeoutInSeconds: 5.0)
             )
             AppState.internalBlobClient = try? StorageBlobClient(
                 credential: credential,

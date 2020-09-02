@@ -37,6 +37,8 @@ public struct StorageBlobClientOptions: AzureClientOptions {
     public let telemetryOptions: TelemetryOptions
     /// Global transport options
     public let transportOptions: TransportOptions
+    /// A dispatch queue on which to call all completion handlers. Defaults to `DispatchQueue.main`.
+    public let dispatchQueue: DispatchQueue?
 
     // Blob operations
 
@@ -79,6 +81,7 @@ public struct StorageBlobClientOptions: AzureClientOptions {
         restorationId: String = DeviceProviders.appBundleInfo.identifier ?? "AzureStorageBlob",
         maxChunkSizeInBytes: Int = 4 * 1024 * 1024 - 1,
         transportOptions: TransportOptions? = nil,
+        dispatchQueue: DispatchQueue? = nil,
         downloadNetworkPolicy: TransferNetworkPolicy? = nil,
         uploadNetworkPolicy: TransferNetworkPolicy? = nil
     ) {
@@ -90,5 +93,6 @@ public struct StorageBlobClientOptions: AzureClientOptions {
         self.downloadNetworkPolicy = downloadNetworkPolicy ?? TransferNetworkPolicy.default
         self.uploadNetworkPolicy = uploadNetworkPolicy ?? TransferNetworkPolicy.default
         self.transportOptions = transportOptions ?? TransportOptions()
+        self.dispatchQueue = dispatchQueue
     }
 }

@@ -36,6 +36,8 @@ public protocol AzureClientOptions {
     var telemetryOptions: TelemetryOptions { get }
     /// Global transport options
     var transportOptions: TransportOptions { get }
+    /// The default dispatch queue on which to call all completion handlers. Defaults to `DispatchQueue.main`.
+    var dispatchQueue: DispatchQueue? { get }
 }
 
 /// Protocol for baseline options for individual client API calls.
@@ -45,6 +47,8 @@ public protocol AzureOptions {
     var clientRequestId: String? { get }
     /// A token used to make a best-effort attempt at canceling a request.
     var cancellationToken: CancellationToken? { get }
+    /// A dispatch queue on which to call the completion handler. Defaults to `DispatchQueue.main`.
+    var dispatchQueue: DispatchQueue? { get }
 }
 
 /// Base class for all pipeline-based service clients.
