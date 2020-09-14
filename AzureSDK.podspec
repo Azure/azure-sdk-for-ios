@@ -46,7 +46,7 @@ Pod::Spec.new do |s|
                :branch => 'setup-podspec' }
 
   # AzureCore
-  s.subspec 'AzureCore' do |sp|
-    sp.source_files = 'sdk/core/AzureCore/Source/**/*.{swift,h,m}'
+  s.subspec 'AzureCore' do |azurecore|
+    azurecore.source_files = 'sdk/core/AzureCore/Source/**/*.{swift,h,m}'
   end
 end
