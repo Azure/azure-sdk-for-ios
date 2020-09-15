@@ -246,16 +246,12 @@ public class PagedCollection<SingleElement: Codable> {
                 }
             }
             if let returnError = returnError {
-                DispatchQueue.main.async {
-                    completionHandler(.failure(returnError))
-                }
+                completionHandler(.failure(returnError))
                 return
             }
             self.iteratorIndex = 0
             if let pageItems = self.pageItems {
-                DispatchQueue.main.async {
-                    completionHandler(.success(pageItems))
-                }
+                completionHandler(.success(pageItems))
             }
         }
     }
@@ -270,32 +266,26 @@ public class PagedCollection<SingleElement: Codable> {
             nextPage { result in
                 switch result {
                 case let .failure(error):
-                    DispatchQueue.main.async {
-                        completionHandler(.failure(error))
-                    }
+                    completionHandler(.failure(error))
                 case let .success(newPage):
                     // since we return the first new item, the next iteration should start with the second item.
                     self.iteratorIndex = 1
-                    DispatchQueue.main.async {
-                        completionHandler(.success(newPage[0]))
-                    }
+                    completionHandler(.success(newPage[0]))
                 }
             }
         } else {
             if let item = self.pageItems?[iteratorIndex] {
                 iteratorIndex += 1
-                DispatchQueue.main.async {
-                    completionHandler(.success(item))
-                }
+                completionHandler(.success(item))
             }
         }
     }
 
     public func forEachPage(progressHandler: @escaping (Element) -> Bool) {
-        let queue = DispatchQueue(label: "ForEachPage", qos: .utility)
+        let dispatchQueue = client.commonOptions.dispatchQueue ?? DispatchQueue(label: "ForEachPage", qos: .utility)
         let semaphore = DispatchSemaphore(value: 1)
         let group = DispatchGroup()
-        queue.async(group: group) { [weak self] in
+        dispatchQueue.async(group: group) { [weak self] in
             while !(self?.isExhausted ?? true) {
                 group.enter()
                 semaphore.wait()
@@ -314,10 +304,10 @@ public class PagedCollection<SingleElement: Codable> {
     }
 
     public func forEachItem(progressHandler: @escaping (SingleElement) -> Bool) {
-        let queue = DispatchQueue(label: "ForEachItem", qos: .utility)
+        let dispatchQueue = client.commonOptions.dispatchQueue ?? DispatchQueue(label: "ForEachItem", qos: .utility)
         let semaphore = DispatchSemaphore(value: 1)
         let group = DispatchGroup()
-        queue.async(group: group) { [weak self] in
+        dispatchQueue.async(group: group) { [weak self] in
             while !(self?.isExhausted ?? true) {
                 group.enter()
                 semaphore.wait()

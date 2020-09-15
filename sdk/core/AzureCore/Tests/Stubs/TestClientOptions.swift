@@ -34,4 +34,6 @@ struct TestClientOptions: AzureClientOptions {
     var telemetryOptions = TelemetryOptions()
 
     var transportOptions = TransportOptions()
+
+    var dispatchQueue: DispatchQueue?
 }

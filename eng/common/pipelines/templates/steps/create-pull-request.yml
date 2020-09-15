@@ -86,3 +86,21 @@ steps:
       -GitHubUsers "$(${{ parameters.GHReviewersVariable }})"
       -GitHubTeams "$(${{ parameters.GHTeamReviewersVariable }})"
       -PRNumber "$(Submitted.PullRequest.Number)"
+
+- task: PowerShell@2
+  displayName: Add Assignee to Pull Request
+  condition: and(succeeded(), eq(variables['HasChanges'], 'true'))
+  continueOnError: true
+  inputs:
+    pwsh: true
+    workingDirectory: ${{ parameters.WorkingDirectory }}
+    filePath: ${{ parameters.ScriptDirectory }}/add-issue-assignees.ps1
+    arguments: >
+      -RepoOwner "${{ parameters.RepoOwner }}"
+      -RepoName "${{ parameters.RepoName }}"
+      -AuthToken "$(azuresdk-github-pat)"
+      -GitHubUsers "$(${{ parameters.GHReviewersVariable }})"
+      -IssueNumber "$(Submitted.PullRequest.Number)"
+
+
+
