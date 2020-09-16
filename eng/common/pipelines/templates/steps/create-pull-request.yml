@@ -7,7 +7,7 @@ parameters:
   PROwner: azure-sdk
   CommitMsg: not-specified
   RepoOwner: Azure
-  RepoName: not-specified
+  RepoName: $(Build.Repository.Name)
   PushArgs:
   WorkingDirectory: $(System.DefaultWorkingDirectory)
   PRTitle: not-specified
@@ -36,6 +36,11 @@ steps:
       echo "No changes so skipping code push"
     }
 
+    # Remove the repo owner from the front of the repo name if it exists there
+    $repoName = "${{ parameters.RepoName }}" -replace "^${{ parameters.RepoOwner }}/", ""
+    echo "##vso[task.setvariable variable=RepoNameWithoutOwner]$repoName"
+    echo "RepoName = $repName"
+
   displayName: Check for changes
   workingDirectory: ${{ parameters.WorkingDirectory }}
   ignoreLASTEXITCODE: true
@@ -50,7 +55,7 @@ steps:
     arguments: >
       -PRBranchName "${{ parameters.PRBranchName }}"
       -CommitMsg "${{ parameters.CommitMsg }}"
-      -GitUrl "https://$(azuresdk-github-pat)@github.com/${{ parameters.PROwner }}/${{ parameters.RepoName }}.git"
+      -GitUrl "https://$(azuresdk-github-pat)@github.com/${{ parameters.PROwner }}/$(RepoNameWithoutOwner).git"
       -PushArgs "${{ parameters.PushArgs }}"
 
 - task: PowerShell@2
@@ -62,7 +67,7 @@ steps:
     filePath: ${{ parameters.ScriptDirectory }}/Submit-PullRequest.ps1
     arguments: >
       -RepoOwner "${{ parameters.RepoOwner }}"
-      -RepoName "${{ parameters.RepoName }}"
+      -RepoName "$(RepoNameWithoutOwner)"
       -BaseBranch "${{ parameters.BaseBranchName }}"
       -PROwner "${{ parameters.PROwner }}"
       -PRBranch "${{ parameters.PRBranchName }}"
@@ -81,26 +86,8 @@ steps:
     filePath: ${{ parameters.ScriptDirectory }}/add-pullrequest-reviewers.ps1
     arguments: >
       -RepoOwner "${{ parameters.RepoOwner }}"
-      -RepoName "${{ parameters.RepoName }}"
+      -RepoName "$(RepoNameWithoutOwner)"
       -AuthToken "$(azuresdk-github-pat)"
       -GitHubUsers "$(${{ parameters.GHReviewersVariable }})"
       -GitHubTeams "$(${{ parameters.GHTeamReviewersVariable }})"
       -PRNumber "$(Submitted.PullRequest.Number)"
-
-- task: PowerShell@2
-  displayName: Add Assignee to Pull Request
-  condition: and(succeeded(), eq(variables['HasChanges'], 'true'))
-  continueOnError: true
-  inputs:
-    pwsh: true
-    workingDirectory: ${{ parameters.WorkingDirectory }}
-    filePath: ${{ parameters.ScriptDirectory }}/add-issue-assignees.ps1
-    arguments: >
-      -RepoOwner "${{ parameters.RepoOwner }}"
-      -RepoName "${{ parameters.RepoName }}"
-      -AuthToken "$(azuresdk-github-pat)"
-      -GitHubUsers "$(${{ parameters.GHReviewersVariable }})"
-      -IssueNumber "$(Submitted.PullRequest.Number)"
-
-
-
