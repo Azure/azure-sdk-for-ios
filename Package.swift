@@ -35,8 +35,7 @@ let package = Package(
         .macOS(.v10_15), .iOS(.v12), .tvOS(.v12)
     ],
     products: [
-        .library(name: "AzureCore", targets: ["AzureCore"]),
-        .library(name: "AzureStorageBlob", targets: ["AzureStorageBlob"])
+        .library(name: "AzureCore", targets: ["AzureCore"])
     ],
     dependencies: [],
     targets: [
@@ -47,23 +46,11 @@ let package = Package(
             path: "sdk/core/AzureCore",
             sources: ["Source"]
         ),
-        .target(
-            name: "AzureStorageBlob",
-            dependencies: ["AzureCore"],
-            path: "sdk/storage/AzureStorageBlob",
-            sources: ["Source"]
-        ),
         // Test targets
         .testTarget(
             name: "AzureCoreTests",
             dependencies: ["AzureCore"],
             path: "sdk/core/AzureCore",
-            sources: ["Tests"]
-        ),
-        .testTarget(
-            name: "AzureStorageBlobTests",
-            dependencies: ["AzureStorageBlob"],
-            path: "sdk/storage/AzureStorageBlob",
             sources: ["Tests"]
         )
     ],
