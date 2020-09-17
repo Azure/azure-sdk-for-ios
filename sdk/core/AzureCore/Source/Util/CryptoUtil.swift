@@ -75,7 +75,7 @@ public enum CryptoAlgorithm {
         let result = UnsafeMutablePointer<UInt8>.allocate(capacity: digestLen)
         defer { result.deallocate() }
 
-        _ = key.withUnsafeBytes { keyBytes in
+        key.withUnsafeBytes { keyBytes in
             CCHmac(self.hmacAlgorithm, keyBytes.baseAddress, key.count, data, dataLength, result)
         }
 

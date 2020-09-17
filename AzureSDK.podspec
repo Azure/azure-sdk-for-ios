@@ -29,7 +29,7 @@ Pod::Spec.new do |s|
   s.version = '1.0.0-beta.1'
   s.summary = 'Azure SDK for iOS'
   s.description = <<-DESC
-  Azure SDK for iOS
+  Azure SDK for iOS client libraries
   DESC
 
   s.homepage = 'https://github.com/Azure/azure-sdk-for-ios'
@@ -43,7 +43,7 @@ Pod::Spec.new do |s|
 
   # TODO: Change this to a tag reference when we are ready.
   s.source = { :git => 'https://github.com/mitchdenny/azure-sdk-for-ios.git',
-               :branch => 'setup-podspec' }
+               :branch => 'master' }
 
   # AzureCore
   s.subspec 'AzureCore' do |azurecore|
