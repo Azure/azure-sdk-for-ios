@@ -9,7 +9,7 @@ a per-client path prefix within a Storage Container.
 This project provides examples for the following scenarios:
 
 * Using the
-  [Azure Functions Python Runtime](https://docs.microsoft.com/en-us/azure/azure-functions/functions-create-first-azure-function-azure-cli?pivots=programming-language-python)
+  [Azure Functions Python Runtime](https://docs.microsoft.com/azure/azure-functions/functions-create-first-azure-function-azure-cli?pivots=programming-language-python)
   to host an API endpoint which generates scoped Blob Storage SAS tokens for
   client applications.
 
@@ -22,22 +22,22 @@ This project provides examples for the following scenarios:
 
 ### Prerequisites
 * You must have the
-  [Azure Functions Core Tools version 3.x](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local#v2) installed to run this example. 
+  [Azure Functions Core Tools version 3.x](https://docs.microsoft.com/azure/azure-functions/functions-run-local#v2) installed to run this example. 
 * This example is written in Python. Because version 3.x of the Azure Functions
   Core Runtime supports Python 3.8+ only, you must have
   [Python 3.8](https://www.python.org/downloads/) or higher installed to run
   this example.
 * You must have an [Azure subscription](https://azure.microsoft.com/free/),
   an active
-  [storage account](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-create),
-  and a [blob container](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal#create-a-container)
+  [storage account](https://docs.microsoft.com/azure/storage/common/storage-account-create),
+  and a [blob container](https://docs.microsoft.com/azure/storage/blobs/storage-quickstart-blobs-portal#create-a-container)
   within that storage account to run this example.
 
 ### Installation
 
 1. If you don't already have it,
    [install Python](https://www.python.org/downloads/) and the
-   [Azure Functions Core Tools](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local#v2).
+   [Azure Functions Core Tools](https://docs.microsoft.com/azure/azure-functions/functions-run-local#v2).
    This example is compatible with Python 3.8 and higher and Azure Functions
    Core Tools 3.x.
 
@@ -65,9 +65,9 @@ This project provides examples for the following scenarios:
    python3 -m pip install -r requirements.txt
    ```
 
-3. Edit the [`local.settings.json`](local.settings.json) file to include your
+3. Edit the [`https://github.com/Azure/azure-sdk-for-ios/blob/master/examples/AzureFunctionSASTokenVendor/local.settings.json`](https://github.com/Azure/azure-sdk-for-ios/blob/master/examples/AzureFunctionSASTokenVendor/local.settings.json) file to include your
    storage account name,
-   [storage account access key](https://docs.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage#view-account-access-keys),
+   [storage account access key](https://docs.microsoft.com/azure/storage/common/storage-account-keys-manage#view-account-access-keys),
    and blob container name:
    ```json
    {
@@ -125,7 +125,7 @@ authenticate a PUT request (upload) to that path:
 ### Authenticating a StorageBlobClient with a StorageSASCredential
 
 Deploy the example function to Azure following the
-[Quickstart guide](https://docs.microsoft.com/en-us/azure/azure-functions/functions-create-first-azure-function-azure-cli?pivots=programming-language-python#create-supporting-azure-resources-for-your-function).
+[Quickstart guide](https://docs.microsoft.com/azure/azure-functions/functions-create-first-azure-function-azure-cli?pivots=programming-language-python#create-supporting-azure-resources-for-your-function).
 
 The publish command shows results similar to the following output (truncated for simplicity):
 ```
