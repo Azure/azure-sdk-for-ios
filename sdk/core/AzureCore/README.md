@@ -116,7 +116,7 @@ The main shared concepts of AzureCore (and thus, Azure SDK libraries using Azure
 
 ## Examples
 
-See [AzureSDKDemoSwift](../../../examples/AzureSDKDemoSwift) for an example of using this library.
+See [AzureSDKDemoSwift](https://github.com/Azure/azure-sdk-for-ios/tree/master/examples/AzureSDKDemoSwift) for an example of using this library.
 
 ## Troubleshooting
 

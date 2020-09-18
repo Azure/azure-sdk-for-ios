@@ -114,9 +114,9 @@ You can generate a SAS token from the Azure Portal under "Settings" > "Shared ac
 signature" (account-scoped) or by right-clicking a blob within a container and selecting "Generate SAS" (blob-scoped).
 You can also generate account-, container-, and blob-scoped SAS tokens using Azure Storage Explorer by right-clicking
 the desired resource and selecting "Get Shared Access Signature...", or using the Azure CLI
-([account](https://docs.microsoft.com/en-us/cli/azure/storage/account?view=azure-cli-latest#az-storage-account-generate-sas),
-[container](https://docs.microsoft.com/en-us/cli/azure/storage/container?view=azure-cli-latest#az-storage-container-generate-sas),
-[blob](https://docs.microsoft.com/en-us/cli/azure/storage/blob?view=azure-cli-latest#az-storage-blob-generate-sas)).
+([account](https://docs.microsoft.com/cli/azure/storage/account?view=azure-cli-latest#az-storage-account-generate-sas),
+[container](https://docs.microsoft.com/cli/azure/storage/container?view=azure-cli-latest#az-storage-container-generate-sas),
+[blob](https://docs.microsoft.com/cli/azure/storage/blob?view=azure-cli-latest#az-storage-blob-generate-sas)).
 
 Because SAS tokens can be limited in scope and permissions, `StorageSASCredential` is unique in that it is initialized
 with a closure that will be called each time its `StorageBlobClient` needs a new token to authenticate a request. Within
@@ -211,13 +211,13 @@ let client = try StorageBlobClient(endpoint: endpointUrl, credential: msalCreden
 ```
 
 ##### Storage account shared access key
-To use a [shared access key](https://docs.microsoft.com/en-us/rest/api/storageservices/authorize-with-shared-key),
+To use a [shared access key](https://docs.microsoft.com/rest/api/storageservices/authorize-with-shared-key),
 you'll create a `StorageSharedKeyCredential` using the storage account connection string, or a combination of the
 account name and access key. You can find the connection string and access keys for your storage account in the Azure
 Portal under "Settings" > "Access keys", in Azure Storage Explorer located in the storage account's "Properties" pane,
 or using the Azure CLI
-([connection string](https://docs.microsoft.com/en-us/cli/azure/storage/account?view=azure-cli-latest#az-storage-account-show-connection-string),
-[access keys](https://docs.microsoft.com/en-us/cli/azure/storage/account/keys?view=azure-cli-latest#az-storage-account-keys-list)).
+([connection string](https://docs.microsoft.com/cli/azure/storage/account?view=azure-cli-latest#az-storage-account-show-connection-string),
+[access keys](https://docs.microsoft.com/cli/azure/storage/account/keys?view=azure-cli-latest#az-storage-account-keys-list)).
 
 > **WARNING**: Shared keys are inherently insecure in end-user facing applications such as mobile and desktop apps.
 > Shared keys provide full access to an entire storage account and should not be shared with end users. Since mobile and
