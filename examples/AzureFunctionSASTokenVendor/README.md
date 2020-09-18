@@ -65,7 +65,7 @@ This project provides examples for the following scenarios:
    python3 -m pip install -r requirements.txt
    ```
 
-3. Edit the [`https://github.com/Azure/azure-sdk-for-ios/blob/master/examples/AzureFunctionSASTokenVendor/local.settings.json`](https://github.com/Azure/azure-sdk-for-ios/blob/master/examples/AzureFunctionSASTokenVendor/local.settings.json) file to include your
+3. Edit the [`local.settings.json`](https://github.com/Azure/azure-sdk-for-ios/blob/master/examples/AzureFunctionSASTokenVendor/local.settings.json) file to include your
    storage account name,
    [storage account access key](https://docs.microsoft.com/azure/storage/common/storage-account-keys-manage#view-account-access-keys),
    and blob container name:
