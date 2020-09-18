@@ -15,28 +15,94 @@ library as an example of how to use the shared AzureCore components in your clie
 * The client library is written in modern Swift 5. Due to this, Xcode 10.2 or higher is required to use this library.
 * You must have an [Azure subscription](https://azure.microsoft.com/free/) to use this library.
 
+### Versions available
+
+The current version of this library is **1.0.0-beta.1**.
+
+> Note: The SDK is currently in **beta**. The API surface and feature sets are subject to change at any time before **GA**. We do not currently recommend them for production use.
+
+
 ### Install the library
-At the present time, to install the Azure core client library for iOS you must download the latest
-[release](https://github.com/Azure/azure-sdk-for-ios/releases) and integrate it into your project manually:
+To install the Azure client libraries for iOS, we recommend you use
+[Swift Package Manager](#add-a-package-dependency-with-swift-package-manager).
+As an alternative, you may also integrate the libraries using
+[CocoaPods](#integrate-the-client-libraries-with-cocoapods).
 
-#### Manually integrate the library into your project
+#### Add a package dependency with Swift Package Manager
 
-To manually integrate this library into your project, first download the latest releases of the following libraries from
-the repository's [Releases](https://github.com/Azure/azure-sdk-for-ios/releases) page:
+The [Swift Package Manager](https://swift.org/package-manager/) is a tool for managing the distribution of Swift code.
+It’s integrated with the Swift build system to automate the process of downloading, compiling, and linking dependencies.
 
-* `AzureCore.framework`
+Xcode comes with built-in support for Swift Package Manager and source control accounts and makes it easy to leverage
+available Swift packages. Use Xcode to manage the versions of package dependencies and make sure your project has the
+most up-to-date code changes.
 
-Extract the .frameworks to your project's "Frameworks" folder. Select your project in Xcode's Project navigator, and
-then select the desired target in the Targets list. Drag & drop the .frameworks from your project's "Frameworks" folder
-into the "Frameworks, Libraries, and Embedded Content" section.
+##### Xcode
 
-> Note: To include debug symbols for these frameworks in your project, download the corresponding `dSYM` archives,
-> extract them to a location within your project directory, and add a Build Phase to your project that will copy them to
-> your Products Directory when installing.
+To add the library to your application, follow the instructions in
+[Adding Package Dependencies to Your App](https://developer.apple.com/documentation/xcode/adding_package_dependencies_to_your_app):
 
-If you plan to use the [Microsoft Authentication Library (MSAL) for iOS](http://aka.ms/aadv2) in your project, add it by
-following the library's
-[installation instructions](https://github.com/AzureAD/microsoft-authentication-library-for-objc#installation).
+With your project open in Xcode 11 or later, select **File > Swift Packages > Add Package Dependency...** Enter the
+clone URL of this repository: *https://github.com/Azure/azure-sdk-for-ios.git* and click **Next**. For the version rule,
+specify the exact version or version range you wish to use with your application and click **Next**. Finally, place a
+checkmark next to the library, ensure your application target is selected in the **Add to target** dropdown, and click
+**Finish**.
+
+##### Swift CLI
+
+To add the library to your application, follow the example in
+[Importing Dependencies](https://swift.org/package-manager/#importing-dependencies):
+
+Open your project's `Package.swift` file and add a new package dependency to your project's `dependencies` section,
+specifying the clone URL of this repository and the version specifier you wish to use:
+
+```swift
+    dependencies: [
+        ...
+        .package(url: "https://github.com/Azure/azure-sdk-for-ios.git", from: "1.0.0-beta.1")
+    ],
+```
+
+Next, for each target that needs to use the library, add it to the target's array of `dependencies`:
+```swift
+    targets: [
+        ...
+        .target(
+            name: "MyTarget",
+            dependencies: ["AzureCore", ...])
+    ]
+)
+```
+
+#### Integrate the client libraries with CocoaPods
+
+[CocoaPods](https://cocoapods.org) is a dependency manager for Objective C and Swift projects. You can install it with
+the following command:
+
+```bash
+$ [sudo] gem install cocoapods
+```
+
+> CocoaPods 1.3+ is required.
+
+To integrate the library into your project using CocoaPods, specify it in your
+[Podfile](https://guides.cocoapods.org/using/the-podfile.html) with the prefix `AzureSDK/`, providing the version
+specifier you wish to use:
+
+```ruby
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '12.0'
+use_frameworks!
+
+pod 'AzureSDK/AzureCore', '~> 1.0.0-beta.1'
+...
+```
+
+Then, run the following command:
+
+```bash
+$ pod install
+```
 
 ## Key concepts
 
@@ -50,7 +116,7 @@ The main shared concepts of AzureCore (and thus, Azure SDK libraries using Azure
 
 ## Examples
 
-TODO
+See [AzureSDKDemoSwift](https://github.com/Azure/azure-sdk-for-ios/tree/master/examples/AzureSDKDemoSwift) for an example of using this library.
 
 ## Troubleshooting
 
