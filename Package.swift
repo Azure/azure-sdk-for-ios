@@ -37,8 +37,6 @@ let package = Package(
     products: [
         .library(name: "AzureCore", targets: ["AzureCore"]),
         .library(name: "AzureCommunication", type: .dynamic, targets: ["AzureCommunication"]),
-        .library(name: "AzureCommunicationDynamic", type: .dynamic, targets: ["AzureCommunication"]),
-        .library(name: "AzureCoreDynamic", type: .dynamic, targets: ["AzureCore"])
     ],
     dependencies: [],
     targets: [
