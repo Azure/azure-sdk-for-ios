@@ -18,7 +18,7 @@ For your convenience, each service has a separate set of libraries that you can 
 Currently, the client libraries are in **beta**. These libraries follow the [Azure SDK Design Guidelines for iOS](https://azure.github.io/azure-sdk/ios_introduction.html) and share a number of core features such as HTTP retries, logging, transport protocols, authentication protocols, etc., so that once you learn how to use these features in one client library, you will know how to use them in other client libraries. You can learn about these shared features in [AzureCore](https://github.com/Azure/azure-sdk-for-ios/blob/master/sdk/core/AzureCore/README.md).
 
 The following libraries are currently in **beta**:
-- [AzureCommunication]<!--(https://github.com/Azure/azure-sdk-for-ios/blob/master/sdk/communication/AzureCommunication/)-->: 1.0.0-beta.1
+- [AzureCommunication](https://github.com/Azure/azure-sdk-for-ios/blob/master/sdk/communication/AzureCommunication/): 1.0.0-beta.1
 - [AzureCore](https://github.com/Azure/azure-sdk-for-ios/blob/master/sdk/core/AzureCore/): 1.0.0-beta.1
 
 > Note: The SDK is currently in **beta**. The API surface and feature sets are subject to change at any time before **GA**. We do not currently recommend them for production use.
