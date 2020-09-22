@@ -2,16 +2,16 @@
 
 This package contains common code for Azure Communication Services libraries.
 
-[Source code]<!--(https://github.com/Azure/azure-sdk-for-ios/tree/master/sdk/communication/AzureCommunication)-->
-| [API reference documentation]<!--(https://azure.github.io/azure-sdk-for-ios/AzureCommunication/index.html)-->
-| [Product documentation]<!--(https://review.docs.microsoft.com/azure/project-spool/overview?branch=pr-en-us-104477)-->
+[Source code](https://github.com/Azure/azure-sdk-for-ios/tree/master/sdk/communication/AzureCommunication)
+| [API reference documentation](https://azure.github.io/azure-sdk-for-ios/AzureCommunication/index.html)
+| [Product documentation](https://docs.microsoft.com/azure/communication-services/overview)
 
 ## Getting started
 
 ### Prerequisites
 * The client library is written in modern Swift 5. Due to this, Xcode 10.2 or higher is required to use this library.
 * You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
-[Communication Services resource]<!--(https://review.docs.microsoft.com/azure/project-spool/quickstarts/create-communication-resource?branch=pr-en-us-104477)--> to use this library.
+[Communication Services resource](https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource) to use this library.
 
 ### Versions available
 The current version of this library is **1.0.0-beta.1**.
@@ -175,7 +175,7 @@ If you run into issues while using this library, please feel free to
 
 ## Next steps
 
-* Read more about Communication [user access tokens]<!--(https://review.docs.microsoft.com/azure/project-spool/concepts/authentication?branch=pr-en-us-104477)-->.
+* Read more about Communication [user access tokens](https://docs.microsoft.com/azure/communication-services/concepts/authentication).
 
 ## Contributing
 
