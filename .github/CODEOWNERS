@@ -12,6 +12,9 @@
 /sdk/core/                                          @bsiegel @tjprescott
 /sdk/storage/                                       @bsiegel @tjprescott
 
+# PRLabel: %Communication
+/sdk/communication/                                 @RezaJooyandeh @sacheu
+
 ###########
 # Eng Sys
 ###########
