@@ -231,7 +231,7 @@ public class ContentDecodePolicy: PipelineStage {
     internal func deserialize(from response: PipelineResponse, contentType: String) throws -> AnyObject? {
         guard let data = response.httpResponse?.data else { return nil }
         if jsonRegex.hasMatch(in: contentType) {
-            return try JSONSerialization.jsonObject(with: data, options: []) as AnyObject
+            return data as AnyObject
         } else if contentType.contains("xml") {
             xmlParser.xmlMap = response.value(forKey: .xmlMap) as? XMLMap
             xmlParser.logger = response.logger
