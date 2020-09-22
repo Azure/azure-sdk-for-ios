@@ -35,7 +35,10 @@ let package = Package(
         .macOS(.v10_15), .iOS(.v12), .tvOS(.v12)
     ],
     products: [
-        .library(name: "AzureCore", targets: ["AzureCore"])
+        .library(name: "AzureCore", targets: ["AzureCore"]),
+        .library(name: "AzureCommunication", type: .dynamic, targets: ["AzureCommunication"]),
+        .library(name: "AzureCommunicationDynamic", type: .dynamic, targets: ["AzureCommunication"]),
+        .library(name: "AzureCoreDynamic", type: .dynamic, targets: ["AzureCore"])
     ],
     dependencies: [],
     targets: [
@@ -46,11 +49,23 @@ let package = Package(
             path: "sdk/core/AzureCore",
             sources: ["Source"]
         ),
+        .target(
+            name: "AzureCommunication",
+            dependencies: ["AzureCore"],
+            path: "sdk/communication/AzureCommunication",
+            sources: ["Source"]
+        ),
         // Test targets
         .testTarget(
             name: "AzureCoreTests",
             dependencies: ["AzureCore"],
             path: "sdk/core/AzureCore",
+            sources: ["Tests"]
+        ),
+        .testTarget(
+            name: "AzureCommunicationTests",
+            dependencies: ["AzureCommunication"],
+            path: "sdk/communication/AzureCommunication",
             sources: ["Tests"]
         )
     ],

@@ -56,6 +56,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0A3A5EB72316DB1E00473FDA"
+               BuildableName = "AzureCommunication.framework"
+               BlueprintName = "AzureCommunication"
+               ReferencedContainer = "container:sdk/communication/AzureCommunication/AzureCommunication.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "0A3A5E752315E70400473FDA"
                BuildableName = "AzureSDKDemoSwift.app"
                BlueprintName = "AzureSDKDemoSwift"
@@ -102,6 +116,20 @@
                BuildableName = "AzureSDKDemoSwiftTests.xctest"
                BlueprintName = "AzureSDKDemoSwiftTests"
                ReferencedContainer = "container:examples/AzureSDKDemoSwift/AzureSDKDemoSwift.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0A3A5EC02316DB1E00473FDA"
+               BuildableName = "AzureCommunicationTests.xctest"
+               BlueprintName = "AzureCommunicationTests"
+               ReferencedContainer = "container:sdk/communication/AzureCommunication/AzureCommunication.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -155,6 +183,17 @@
                BuildableName = "AzureSDKDemoSwiftTests.xctest"
                BlueprintName = "AzureSDKDemoSwiftTests"
                ReferencedContainer = "container:examples/AzureSDKDemoSwift/AzureSDKDemoSwift.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0A3A5EC02316DB1E00473FDA"
+               BuildableName = "AzureCommunicationTests.xctest"
+               BlueprintName = "AzureCommunicationTests"
+               ReferencedContainer = "container:sdk/communication/AzureCommunication/AzureCommunication.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
