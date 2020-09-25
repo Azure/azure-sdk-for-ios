@@ -1,0 +1,717 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.3 (swiftlang-1200.0.29.2 clang-1200.0.30.1)
+// swift-module-flags: -target x86_64-apple-ios12.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name AzureStorageBlob
+import AzureCore
+import AzureIdentity
+import CoreData
+import Foundation
+import Swift
+extension BlobTransfer {
+  @objc @NSManaged dynamic public var clientRestorationId: Swift.String {
+    @objc get
+  }
+  @objc @NSManaged dynamic public var error: Swift.Error? {
+    @objc get
+  }
+  @objc @NSManaged dynamic public var id: Foundation.UUID {
+    @objc get
+  }
+  @objc @NSManaged dynamic public var rawState: Swift.Int16 {
+    @objc get
+  }
+}
+public struct StorageBlobClientOptions : AzureCore.AzureClientOptions {
+  public let apiVersion: Swift.String
+  public let logger: AzureCore.ClientLogger
+  public let telemetryOptions: AzureCore.TelemetryOptions
+  public let transportOptions: AzureCore.TransportOptions
+  public let dispatchQueue: Dispatch.DispatchQueue?
+  public let restorationId: Swift.String
+  public let maxChunkSizeInBytes: Swift.Int
+  public let downloadNetworkPolicy: AzureStorageBlob.TransferNetworkPolicy
+  public let uploadNetworkPolicy: AzureStorageBlob.TransferNetworkPolicy
+  public init(apiVersion: AzureStorageBlob.StorageBlobClient.ApiVersion = .latest, logger: AzureCore.ClientLogger = ClientLoggers.default(tag: "StorageBlobClient"), telemetryOptions: AzureCore.TelemetryOptions = TelemetryOptions(), restorationId: Swift.String = DeviceProviders.appBundleInfo.identifier ?? "AzureStorageBlob", maxChunkSizeInBytes: Swift.Int = 4 * 1024 * 1024 - 1, transportOptions: AzureCore.TransportOptions? = nil, dispatchQueue: Dispatch.DispatchQueue? = nil, downloadNetworkPolicy: AzureStorageBlob.TransferNetworkPolicy? = nil, uploadNetworkPolicy: AzureStorageBlob.TransferNetworkPolicy? = nil)
+}
+public struct StorageSASToken {
+  public let sasToken: Swift.String
+  public let blobEndpoint: Swift.String?
+  public let queueEndpoint: Swift.String?
+  public let fileEndpoint: Swift.String?
+  public let tableEndpoint: Swift.String?
+  public let validAt: Foundation.Date?
+  public let expiredAt: Foundation.Date?
+  public let permissions: AzureStorageBlob.StorageSASTokenPermissions
+  public var valid: Swift.Bool {
+    get
+  }
+  public init(sasToken: Swift.String, blobEndpoint: Swift.String? = nil, queueEndpoint: Swift.String? = nil, fileEndpoint: Swift.String? = nil, tableEndpoint: Swift.String? = nil)
+}
+public enum StorageSASTokenBlobPermissions : Swift.Character {
+  case read
+  case add
+  case create
+  case write
+  case tags
+  case delete
+  case deleteVersion
+  public static var all: Swift.Set<AzureStorageBlob.StorageSASTokenBlobPermissions>
+  public typealias RawValue = Swift.Character
+  public init?(rawValue: Swift.Character)
+  public var rawValue: Swift.Character {
+    get
+  }
+}
+public enum StorageSASTokenContainerPermissions : Swift.Character {
+  case read
+  case add
+  case create
+  case write
+  case tags
+  case delete
+  case list
+  public static var all: Swift.Set<AzureStorageBlob.StorageSASTokenContainerPermissions>
+  public typealias RawValue = Swift.Character
+  public init?(rawValue: Swift.Character)
+  public var rawValue: Swift.Character {
+    get
+  }
+}
+public struct StorageSASTokenPermissions {
+  public let blob: Swift.Set<AzureStorageBlob.StorageSASTokenBlobPermissions>
+  public let container: Swift.Set<AzureStorageBlob.StorageSASTokenContainerPermissions>
+  public static var all: AzureStorageBlob.StorageSASTokenPermissions
+  public func permits(other: AzureStorageBlob.StorageSASTokenPermissions) -> Swift.Bool
+}
+public struct ContainerItem : Swift.Codable, AzureCore.XMLModel {
+  public let name: Swift.String
+  public let properties: AzureStorageBlob.ContainerProperties?
+  public static func xmlMap() -> AzureCore.XMLMap
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct NetworkType : Swift.OptionSet {
+  public typealias RawValue = Swift.Int
+  public let rawValue: Swift.Int
+  public static var wifiOrEthernet: AzureStorageBlob.NetworkType
+  public static var cellular: AzureStorageBlob.NetworkType
+  public init(rawValue: AzureStorageBlob.NetworkType.RawValue)
+  public typealias Element = AzureStorageBlob.NetworkType
+  public typealias ArrayLiteralElement = AzureStorageBlob.NetworkType
+}
+public struct NetworkProperties {
+}
+public struct TransferNetworkPolicy {
+  public let transferOn: AzureStorageBlob.NetworkType
+  public let autoResumeOn: AzureStorageBlob.NetworkType
+  public func shouldTransfer(withStatus status: AzureStorageBlob.NetworkType) -> Swift.Bool
+  public init(transferOn: AzureStorageBlob.NetworkType, autoResumeOn: AzureStorageBlob.NetworkType)
+}
+public struct TransferCollection {
+  public let items: [AzureStorageBlob.BlobTransfer]
+  public subscript(transferId: Foundation.UUID) -> AzureStorageBlob.BlobTransfer? {
+    get
+  }
+  public func cancelAll()
+  public func removeAll()
+  public func pauseAll()
+  public func resumeAll(progressHandler: ((AzureStorageBlob.BlobTransfer) -> Swift.Void)? = nil)
+  public func filterWhere(containerName: Swift.String? = nil, blobName: Swift.String? = nil, localUrl: AzureStorageBlob.LocalURL? = nil, state: AzureStorageBlob.TransferState? = nil) -> AzureStorageBlob.TransferCollection
+  public func firstWith(containerName: Swift.String? = nil, blobName: Swift.String? = nil, localUrl: AzureStorageBlob.LocalURL? = nil, state: AzureStorageBlob.TransferState? = nil) -> AzureStorageBlob.BlobTransfer?
+}
+@_hasMissingDesignatedInitializers final public class StorageBlobClient : AzureCore.PipelineClient {
+  public enum ApiVersion : Swift.String {
+    case v20190202
+    public static var latest: AzureStorageBlob.StorageBlobClient.ApiVersion {
+      get
+    }
+    public typealias RawValue = Swift.String
+    public init?(rawValue: Swift.String)
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public static var maxConcurrentTransfers: Swift.Int {
+    get
+    set(newValue)
+  }
+  public static var maxConcurrentTransfersDefaultValue: Swift.Int
+  public static var maxConcurrentTransfersDynamicValue: Swift.Int
+  final public let options: AzureStorageBlob.StorageBlobClientOptions
+  weak final public var delegate: AzureStorageBlob.StorageBlobClientDelegate?
+  public convenience init(credential: AzureIdentity.MSALCredential, endpoint: Foundation.URL, withOptions options: AzureStorageBlob.StorageBlobClientOptions = StorageBlobClientOptions()) throws
+  public convenience init(credential: AzureStorageBlob.StorageSASCredential, endpoint: Foundation.URL, withOptions options: AzureStorageBlob.StorageBlobClientOptions = StorageBlobClientOptions()) throws
+  public convenience init(credential: AzureStorageBlob.StorageSharedKeyCredential, withOptions options: AzureStorageBlob.StorageBlobClientOptions = StorageBlobClientOptions()) throws
+  public convenience init(connectionString: Swift.String, withOptions options: AzureStorageBlob.StorageBlobClientOptions = StorageBlobClientOptions()) throws
+  public convenience init(endpoint: Foundation.URL, withOptions options: AzureStorageBlob.StorageBlobClientOptions = StorageBlobClientOptions()) throws
+  public static func endpoint(forAccount accountName: Swift.String, withProtocol endpointProtocol: Swift.String = "https", withSuffix endpointSuffix: Swift.String = "core.windows.net") -> Swift.String
+  final public func listContainers(withOptions options: AzureStorageBlob.ListContainersOptions? = nil, completionHandler: @escaping AzureCore.HTTPResultHandler<AzureCore.PagedCollection<AzureStorageBlob.ContainerItem>>)
+  final public func listBlobs(inContainer container: Swift.String, withOptions options: AzureStorageBlob.ListBlobsOptions? = nil, completionHandler: @escaping AzureCore.HTTPResultHandler<AzureCore.PagedCollection<AzureStorageBlob.BlobItem>>)
+  final public func delete(blob: Swift.String, inContainer container: Swift.String, withOptions options: AzureStorageBlob.DeleteBlobOptions? = nil, completionHandler: @escaping AzureCore.HTTPResultHandler<Swift.Void>)
+  final public func rawDownload(blob: Swift.String, fromContainer container: Swift.String, toFile destinationUrl: AzureStorageBlob.LocalURL, withOptions options: AzureStorageBlob.DownloadBlobOptions = DownloadBlobOptions(), completionHandler: @escaping AzureCore.HTTPResultHandler<AzureStorageBlob.BlobDownloader>) throws
+  final public func rawUpload(file sourceUrl: AzureStorageBlob.LocalURL, toContainer container: Swift.String, asBlob blob: Swift.String, properties: AzureStorageBlob.BlobProperties? = nil, withOptions options: AzureStorageBlob.UploadBlobOptions = UploadBlobOptions(), completionHandler: @escaping AzureCore.HTTPResultHandler<AzureStorageBlob.BlobUploader>) throws
+  @discardableResult
+  final public func download(blob: Swift.String, fromContainer container: Swift.String, toFile destinationUrl: AzureStorageBlob.LocalURL, withOptions options: AzureStorageBlob.DownloadBlobOptions = DownloadBlobOptions(), progressHandler: ((AzureStorageBlob.BlobTransfer) -> Swift.Void)? = nil) throws -> AzureStorageBlob.BlobTransfer?
+  @discardableResult
+  final public func upload(file sourceUrl: AzureStorageBlob.LocalURL, toContainer container: Swift.String, asBlob blob: Swift.String, properties: AzureStorageBlob.BlobProperties, withOptions options: AzureStorageBlob.UploadBlobOptions = UploadBlobOptions(), progressHandler: ((AzureStorageBlob.BlobTransfer) -> Swift.Void)? = nil) throws -> AzureStorageBlob.BlobTransfer?
+  @objc deinit
+  override public init(baseUrl: Foundation.URL, transport: AzureCore.HTTPTransportStage, policies: [AzureCore.PipelineStage], logger: AzureCore.ClientLogger, options: AzureCore.AzureClientOptions)
+}
+public struct StorageSharedKeyCredential : AzureCore.AzureCredential {
+  public init(connectionString: Swift.String)
+  public init(accountName: Swift.String, accessKey: Swift.String, endpointProtocol: Swift.String = "https", endpointSuffix: Swift.String = "core.windows.net")
+  public func validate() throws
+}
+extension StorageBlobClient : AzureCore.PageableClient {
+  final public func continuationUrl(forRequestUrl requestUrl: Foundation.URL, withContinuationToken token: Swift.String) -> Foundation.URL?
+}
+extension StorageBlobClient {
+  final public func transfer(_ transfer: AzureStorageBlob.Transfer, didUpdateWithState state: AzureStorageBlob.TransferState, andProgress _: AzureStorageBlob.TransferProgress?)
+  final public func transfer(_ transfer: AzureStorageBlob.Transfer, didFailWithError error: Swift.Error)
+  final public func transferDidComplete(_ transfer: AzureStorageBlob.Transfer)
+}
+extension StorageBlobClient {
+  final public var transfers: AzureStorageBlob.TransferCollection {
+    get
+  }
+  final public var downloads: AzureStorageBlob.TransferCollection {
+    get
+  }
+  final public var uploads: AzureStorageBlob.TransferCollection {
+    get
+  }
+}
+public struct BlobProperties : AzureCore.XMLModel, Swift.Codable, Swift.Equatable {
+  public let creationTime: Foundation.Date?
+  public let lastModified: Foundation.Date?
+  public let eTag: Swift.String?
+  public var contentLength: Swift.Int? {
+    get
+  }
+  public let contentType: Swift.String?
+  public let contentDisposition: Swift.String?
+  public let contentEncoding: Swift.String?
+  public let contentLanguage: Swift.String?
+  public let contentMD5: Swift.String?
+  public let contentCRC64: Swift.String?
+  public let cacheControl: Swift.String?
+  public let sequenceNumber: Swift.Int?
+  public let blobType: AzureStorageBlob.BlobType?
+  public let accessTier: AzureStorageBlob.AccessTier?
+  public let leaseStatus: AzureStorageBlob.LeaseStatus?
+  public let leaseState: AzureStorageBlob.LeaseState?
+  public let leaseDuration: AzureStorageBlob.LeaseDuration?
+  public let copyId: Swift.String?
+  public let copyStatus: AzureStorageBlob.CopyStatus?
+  public let copySource: Foundation.URL?
+  public let copyProgress: Swift.String?
+  public let copyCompletionTime: Foundation.Date?
+  public let copyStatusDescription: Swift.String?
+  public let serverEncrypted: Swift.Bool?
+  public let incrementalCopy: Swift.Bool?
+  public let accessTierInferred: Swift.Bool?
+  public let accessTierChangeTime: Foundation.Date?
+  public let deletedTime: Foundation.Date?
+  public let remainingRetentionDays: Swift.Int?
+  public static func xmlMap() -> AzureCore.XMLMap
+  public func encode(to encoder: Swift.Encoder) throws
+  public static func == (a: AzureStorageBlob.BlobProperties, b: AzureStorageBlob.BlobProperties) -> Swift.Bool
+}
+extension BlobProperties {
+  public init(contentType: Swift.String? = nil, contentDisposition: Swift.String? = nil, contentEncoding: Swift.String? = nil, contentLanguage: Swift.String? = nil, contentMD5: Swift.String? = nil, contentCRC64: Swift.String? = nil, cacheControl: Swift.String? = nil, accessTier: AzureStorageBlob.AccessTier? = nil)
+  public init(from decoder: Swift.Decoder) throws
+}
+public struct ContainerProperties : AzureCore.XMLModel {
+  public let lastModified: Foundation.Date
+  public let eTag: Swift.String
+  public let leaseStatus: AzureStorageBlob.LeaseStatus
+  public let leaseState: AzureStorageBlob.LeaseState
+  public let leaseDuration: AzureStorageBlob.LeaseDuration?
+  public let hasImmutabilityPolicy: Swift.Bool?
+  public let hasLegalHold: Swift.Bool?
+  public static func xmlMap() -> AzureCore.XMLMap
+}
+extension ContainerProperties : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public enum StorageHTTPHeader : Swift.String {
+  case accessTier
+  case accessTierChangeTime
+  case accessTierInferred
+  case accountKind
+  case archiveStatus
+  case blobAppendOffset
+  case blobCacheControl
+  case blobCommittedBlockCount
+  case blobConditionAppendpos
+  case blobConditionMaxsize
+  case blobContentDisposition
+  case blobContentEncoding
+  case blobContentLanguage
+  case blobContentLength
+  case blobContentMD5
+  case blobContentType
+  case blobPublicAccess
+  case blobSequenceNumber
+  case blobType
+  case contentCRC64
+  case copyAction
+  case copyCompletionTime
+  case copyDestinationSnapshot
+  case copyId
+  case copyProgress
+  case copySource
+  case copyStatus
+  case copyStatusDescription
+  case creationTime
+  case defaultEncryptionScope
+  case deleteSnapshots
+  case deleteTypePermanent
+  case denyEncryptionScopeOverride
+  case encryptionAlgorithm
+  case encryptionKey
+  case encryptionKeySHA256
+  case encryptionScope
+  case errorCode
+  case hasImmutabilityPolicy
+  case hasLegalHold
+  case ifSequenceNumberEq
+  case ifSequenceNumberLe
+  case ifSequenceNumberLt
+  case incrementalCopy
+  case leaseAction
+  case leaseBreakPeriod
+  case leaseDuration
+  case leaseId
+  case leaseState
+  case leaseStatus
+  case leaseTime
+  case meta
+  case pageWrite
+  case proposedLeaseId
+  case xmsRange
+  case rangeGetContentMD5
+  case rangeGetContentCRC64
+  case rehydratePriority
+  case requestId
+  case requestServerEncrypted
+  case sequenceNumberAction
+  case serverEncrypted
+  case skuName
+  case snapshot
+  case sourceContentMd5
+  case sourceIfMatch
+  case sourceIfModifiedSince
+  case sourceIfNoneMatch
+  case sourceIfUnmodifiedSince
+  case sourceRange
+  case tagCount
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+extension Dictionary where Key == Swift.String, Value == Swift.String {
+  public subscript(index: AzureStorageBlob.StorageHTTPHeader) -> Swift.String? {
+    get
+    set(newValue)
+  }
+  public mutating func removeValue(forKey key: AzureStorageBlob.StorageHTTPHeader) -> Swift.String?
+}
+public struct BlobItem : AzureCore.XMLModel {
+  public let name: Swift.String
+  public let deleted: Swift.Bool?
+  public let snapshot: Foundation.Date?
+  public let metadata: [Swift.String : Swift.String]?
+  public let properties: AzureStorageBlob.BlobProperties?
+  public static func xmlMap() -> AzureCore.XMLMap
+}
+extension BlobItem : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public enum AccessTier : Swift.String, Swift.Codable {
+  case hot
+  case cool
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum BlobType : Swift.String, Swift.Codable {
+  case block
+  case page
+  case append
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum CopyStatus : Swift.String, Swift.Codable {
+  case pending
+  case success
+  case aborted
+  case failed
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum LeaseDuration : Swift.String, Swift.Codable {
+  case infinite
+  case fixed
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum LeaseState : Swift.String, Swift.Codable {
+  case available
+  case leased
+  case expired
+  case breaking
+  case broken
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum LeaseStatus : Swift.String, Swift.Codable {
+  case locked
+  case unlocked
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@objc @_inheritsConvenienceInitializers public class BlobTransfer : CoreData.NSManagedObject, AzureStorageBlob.Transfer {
+  public var incompleteBlocks: Swift.Int64 {
+    get
+  }
+  public var progress: AzureStorageBlob.TransferProgress {
+    get
+  }
+  public var debugString: Swift.String {
+    get
+  }
+  public var state: AzureStorageBlob.TransferState {
+    get
+  }
+  public var sourceUrl: Foundation.URL? {
+    get
+  }
+  public var destinationUrl: Foundation.URL? {
+    get
+  }
+  public var transferType: AzureStorageBlob.TransferType {
+    get
+  }
+  @objc deinit
+  @objc override dynamic public init(entity: CoreData.NSEntityDescription, insertInto context: CoreData.NSManagedObjectContext?)
+}
+public struct ListContainersOptions : AzureCore.AzureOptions {
+  public enum ListContainersInclude : Swift.String {
+    case metadata
+    public typealias RawValue = Swift.String
+    public init?(rawValue: Swift.String)
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public let clientRequestId: Swift.String?
+  public let cancellationToken: AzureCore.CancellationToken?
+  public let dispatchQueue: Dispatch.DispatchQueue?
+  public let prefix: Swift.String?
+  public let include: [AzureStorageBlob.ListContainersOptions.ListContainersInclude]?
+  public let maxResults: Swift.Int?
+  public let timeoutInSeconds: Swift.Int?
+  public init(clientRequestId: Swift.String? = nil, cancellationToken: AzureCore.CancellationToken? = nil, dispatchQueue: Dispatch.DispatchQueue? = nil, prefix: Swift.String? = nil, include: [AzureStorageBlob.ListContainersOptions.ListContainersInclude]? = nil, maxResults: Swift.Int? = nil, timeoutInSeconds: Swift.Int? = nil)
+}
+public struct ListBlobsOptions : AzureCore.AzureOptions {
+  public enum ListBlobsInclude : Swift.String {
+    case snapshots
+    case metadata
+    case uncommittedblobs
+    case copy
+    case deleted
+    public typealias RawValue = Swift.String
+    public init?(rawValue: Swift.String)
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public let clientRequestId: Swift.String?
+  public let cancellationToken: AzureCore.CancellationToken?
+  public let dispatchQueue: Dispatch.DispatchQueue?
+  public let prefix: Swift.String?
+  public let delimiter: Swift.String?
+  public let maxResults: Swift.Int?
+  public let include: [AzureStorageBlob.ListBlobsOptions.ListBlobsInclude]?
+  public let timeoutInSeconds: Swift.Int?
+  public init(clientRequestId: Swift.String? = nil, cancellationToken: AzureCore.CancellationToken? = nil, dispatchQueue: Dispatch.DispatchQueue? = nil, prefix: Swift.String? = nil, delimiter: Swift.String? = nil, maxResults: Swift.Int? = nil, include: [AzureStorageBlob.ListBlobsOptions.ListBlobsInclude]? = nil, timeoutInSeconds: Swift.Int? = nil)
+}
+public struct DeleteBlobOptions : AzureCore.AzureOptions {
+  public enum DeleteBlobSnapshot : Swift.String {
+    case include
+    case only
+    public typealias RawValue = Swift.String
+    public init?(rawValue: Swift.String)
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public let clientRequestId: Swift.String?
+  public let cancellationToken: AzureCore.CancellationToken?
+  public let dispatchQueue: Dispatch.DispatchQueue?
+  public let deleteSnapshots: AzureStorageBlob.DeleteBlobOptions.DeleteBlobSnapshot?
+  public let snapshot: Foundation.Date?
+  public let timeoutInSeconds: Swift.Int?
+  public init(clientRequestId: Swift.String? = nil, cancellationToken: AzureCore.CancellationToken? = nil, dispatchQueue: Dispatch.DispatchQueue? = nil, deleteSnapshots: AzureStorageBlob.DeleteBlobOptions.DeleteBlobSnapshot? = nil, snapshot: Foundation.Date? = nil, timeoutInSeconds: Swift.Int? = nil)
+}
+public struct DownloadBlobOptions : AzureCore.AzureOptions, Swift.Codable, Swift.Equatable {
+  public let clientRequestId: Swift.String?
+  public let cancellationToken: AzureCore.CancellationToken?
+  public var dispatchQueue: Dispatch.DispatchQueue?
+  public let range: AzureStorageBlob.RangeOptions?
+  public let leaseId: Swift.String?
+  public let snapshot: Swift.String?
+  public let leaseAccessConditions: AzureStorageBlob.LeaseAccessConditions?
+  public var modifiedAccessConditions: AzureStorageBlob.ModifiedAccessConditions? {
+    get
+  }
+  public let encryptionOptions: AzureStorageBlob.EncryptionOptions?
+  public let customerProvidedEncryptionKey: AzureStorageBlob.CustomerProvidedEncryptionKey?
+  public let encoding: Swift.String?
+  public let timeoutInSeconds: Swift.Int?
+  public init(clientRequestId: Swift.String? = nil, cancellationToken: AzureCore.CancellationToken? = nil, dispatchQueue: Dispatch.DispatchQueue? = nil, range: AzureStorageBlob.RangeOptions? = nil, leaseId: Swift.String? = nil, snapshot: Swift.String? = nil, leaseAccessConditions: AzureStorageBlob.LeaseAccessConditions? = nil, modifiedAccessConditions: AzureStorageBlob.ModifiedAccessConditions? = nil, encryptionOptions: AzureStorageBlob.EncryptionOptions? = nil, customerProvidedEncryptionKey: AzureStorageBlob.CustomerProvidedEncryptionKey? = nil, encoding: Swift.String? = nil, timeoutInSeconds: Swift.Int? = nil)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+  public static func == (a: AzureStorageBlob.DownloadBlobOptions, b: AzureStorageBlob.DownloadBlobOptions) -> Swift.Bool
+}
+public struct UploadBlobOptions : AzureCore.AzureOptions, Swift.Codable, Swift.Equatable {
+  public let clientRequestId: Swift.String?
+  public let cancellationToken: AzureCore.CancellationToken?
+  public var dispatchQueue: Dispatch.DispatchQueue?
+  public let leaseAccessConditions: AzureStorageBlob.LeaseAccessConditions?
+  public let modifiedAccessConditions: AzureStorageBlob.ModifiedAccessConditions?
+  public let encryptionOptions: AzureStorageBlob.EncryptionOptions?
+  public let customerProvidedEncryptionKey: AzureStorageBlob.CustomerProvidedEncryptionKey?
+  public let customerProvidedEncryptionScope: Swift.String?
+  public let encoding: Swift.String?
+  public let timeoutInSeconds: Swift.Int?
+  public init(clientRequestId: Swift.String? = nil, cancellationToken: AzureCore.CancellationToken? = nil, dispatchQueue: Dispatch.DispatchQueue? = nil, leaseAccessConditions: AzureStorageBlob.LeaseAccessConditions? = nil, modifiedAccessConditions: AzureStorageBlob.ModifiedAccessConditions? = nil, encryptionOptions: AzureStorageBlob.EncryptionOptions? = nil, customerProvidedEncryptionKey: AzureStorageBlob.CustomerProvidedEncryptionKey? = nil, customerProvidedEncryptionScope: Swift.String? = nil, encoding: Swift.String? = nil, timeoutInSeconds: Swift.Int? = nil)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+  public static func == (a: AzureStorageBlob.UploadBlobOptions, b: AzureStorageBlob.UploadBlobOptions) -> Swift.Bool
+}
+public typealias StorageSASTokenResultHandler = (Swift.Result<Swift.String, Swift.Error>) -> Swift.Void
+public typealias StorageSASTokenProvider = (Foundation.URL, AzureStorageBlob.StorageSASTokenPermissions, @escaping AzureStorageBlob.StorageSASTokenResultHandler) -> Swift.Void
+public class StorageSASCredential : AzureCore.AzureCredential {
+  final public let tokenCache: AzureStorageBlob.StorageSASTokenCache?
+  public init(tokenProvider: @escaping AzureStorageBlob.StorageSASTokenProvider, tokenCache: AzureStorageBlob.StorageSASTokenCache? = DefaultStorageSASTokenCache())
+  public init(staticCredential: Swift.String)
+  public func validate() throws
+  @objc deinit
+}
+extension StorageBlobClient {
+  public static var allowHeaders: [Swift.String]
+  public static var allowQueryParams: [Swift.String]
+}
+public protocol BlobDownloadDelegate : AnyObject {
+  func downloader(_: AzureStorageBlob.BlobDownloader, didUpdateWithProgress: AzureStorageBlob.TransferProgress)
+  func downloader(_: AzureStorageBlob.BlobDownloader, didFailWithError: Swift.Error)
+  func downloaderDidComplete(_: AzureStorageBlob.BlobDownloader)
+}
+public protocol BlobDownloader {
+  var delegate: AzureStorageBlob.BlobDownloadDelegate? { get set }
+  var downloadSource: Foundation.URL { get }
+  var downloadDestination: Foundation.URL { get }
+  var blobProperties: AzureStorageBlob.BlobProperties? { get }
+  var requestedSize: Swift.Int? { get }
+  var totalSize: Swift.Int { get }
+  var progress: Swift.Int { get }
+  var isComplete: Swift.Bool { get }
+  var isEncrypted: Swift.Bool { get }
+}
+public protocol StorageSASTokenCache {
+  func getToken(forUrl: Foundation.URL, withPermissions: AzureStorageBlob.StorageSASTokenPermissions) -> AzureStorageBlob.StorageSASToken?
+  func add(token: AzureStorageBlob.StorageSASToken, forUrl: Foundation.URL)
+  func removeToken(forUrl: Foundation.URL)
+  func removeAll()
+}
+public class DefaultStorageSASTokenCache : AzureStorageBlob.StorageSASTokenCache {
+  public init()
+  public func getToken(forUrl url: Foundation.URL, withPermissions _: AzureStorageBlob.StorageSASTokenPermissions) -> AzureStorageBlob.StorageSASToken?
+  public func add(token: AzureStorageBlob.StorageSASToken, forUrl url: Foundation.URL)
+  public func removeToken(forUrl url: Foundation.URL)
+  public func removeAll()
+  @objc deinit
+}
+public struct LocalURL {
+  public enum KnownDirectory : Swift.String {
+    case tempDirectory
+    public typealias RawValue = Swift.String
+    public init?(rawValue: Swift.String)
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public static func pathComponents(forBlob name: Swift.String, inContainer container: Swift.String) -> (dirName: Swift.String, fileName: Swift.String)
+  public var resolvedUrl: Foundation.URL? {
+    get
+  }
+  public init(fromAbsoluteUrl absoluteUrl: Foundation.URL)
+  public init(fromDirectory directory: AzureStorageBlob.LocalURL.KnownDirectory)
+  public init(fromDirectory directory: Foundation.FileManager.SearchPathDirectory)
+  public init(basedOn baseUrl: Foundation.URL, forBlob name: Swift.String, inContainer container: Swift.String)
+  public init(inDirectory directory: AzureStorageBlob.LocalURL.KnownDirectory, forBlob name: Swift.String, inContainer container: Swift.String)
+  public init(inDirectory directory: Foundation.FileManager.SearchPathDirectory, forBlob name: Swift.String, inContainer container: Swift.String)
+  public mutating func appendPathComponent(_ pathComponent: Swift.String)
+  public mutating func appendPathComponents(forBlob name: Swift.String, inContainer container: Swift.String)
+}
+public struct LeaseAccessConditions : Swift.Codable, Swift.Equatable {
+  public let leaseId: Swift.String
+  public init(leaseId: Swift.String)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+  public static func == (a: AzureStorageBlob.LeaseAccessConditions, b: AzureStorageBlob.LeaseAccessConditions) -> Swift.Bool
+}
+public struct ModifiedAccessConditions : Swift.Codable, Swift.Equatable {
+  public let ifModifiedSince: Foundation.Date?
+  public let ifUnmodifiedSince: Foundation.Date?
+  public var ifMatch: Swift.String? {
+    get
+  }
+  public let ifNoneMatch: Swift.String?
+  public init(ifModifiedSince: Foundation.Date? = nil, ifUnmodifiedSince: Foundation.Date? = nil, ifMatch: Swift.String? = nil, ifNoneMatch: Swift.String? = nil)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+  public static func == (a: AzureStorageBlob.ModifiedAccessConditions, b: AzureStorageBlob.ModifiedAccessConditions) -> Swift.Bool
+}
+public struct RangeOptions : Swift.Codable, Swift.Equatable {
+  public let offsetBytes: Swift.Int
+  public let lengthInBytes: Swift.Int?
+  public let calculateMD5: Swift.Bool?
+  public let calculateCRC64: Swift.Bool?
+  public init(offsetBytes: Swift.Int = 0, lengthInBytes: Swift.Int? = nil, calculateMD5: Swift.Bool? = nil, calculateCRC64: Swift.Bool? = nil)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+  public static func == (a: AzureStorageBlob.RangeOptions, b: AzureStorageBlob.RangeOptions) -> Swift.Bool
+}
+public struct EncryptionOptions : Swift.Codable, Swift.Equatable {
+  public let key: Foundation.Data?
+  public let keyResolver: [Swift.String : Foundation.Data]?
+  public let required: Swift.Bool
+  public init(key: Foundation.Data? = nil, keyResolver: [Swift.String : Foundation.Data]? = nil, required: Swift.Bool = false)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+  public static func == (a: AzureStorageBlob.EncryptionOptions, b: AzureStorageBlob.EncryptionOptions) -> Swift.Bool
+}
+public struct CustomerProvidedEncryptionKey : Swift.Codable, Swift.Equatable {
+  public let keyData: Foundation.Data
+  public var hash: Swift.String {
+    get
+  }
+  public let algorithm: Swift.String
+  public init(keyData: Foundation.Data)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+  public static func == (a: AzureStorageBlob.CustomerProvidedEncryptionKey, b: AzureStorageBlob.CustomerProvidedEncryptionKey) -> Swift.Bool
+}
+public protocol StorageBlobClientDelegate : AnyObject {
+  func blobClient(_ client: AzureStorageBlob.StorageBlobClient, didUpdateTransfer transfer: AzureStorageBlob.BlobTransfer, withState state: AzureStorageBlob.TransferState, andProgress progress: AzureStorageBlob.TransferProgress)
+  func blobClient(_ client: AzureStorageBlob.StorageBlobClient, didCompleteTransfer transfer: AzureStorageBlob.BlobTransfer)
+  func blobClient(_ client: AzureStorageBlob.StorageBlobClient, didFailTransfer transfer: AzureStorageBlob.BlobTransfer, withError error: Swift.Error)
+}
+extension StorageBlobClientDelegate {
+  public func blobClient(_: AzureStorageBlob.StorageBlobClient, didUpdateTransfer _: AzureStorageBlob.BlobTransfer, withState _: AzureStorageBlob.TransferState, andProgress _: AzureStorageBlob.TransferProgress)
+  public func blobClient(_: AzureStorageBlob.StorageBlobClient, didCompleteTransfer _: AzureStorageBlob.BlobTransfer)
+  public func blobClient(_: AzureStorageBlob.StorageBlobClient, didFailTransfer _: AzureStorageBlob.BlobTransfer, withError _: Swift.Error)
+}
+public enum TransferState : Swift.Int16 {
+  case pending
+  case inProgress
+  case paused
+  case complete
+  case failed
+  case canceled
+  case deleted
+  public var label: Swift.String {
+    get
+  }
+  public var resumable: Swift.Bool {
+    get
+  }
+  public var active: Swift.Bool {
+    get
+  }
+  public typealias RawValue = Swift.Int16
+  public init?(rawValue: Swift.Int16)
+  public var rawValue: Swift.Int16 {
+    get
+  }
+}
+public enum TransferType : Swift.Int16 {
+  case upload
+  case download
+  public var label: Swift.String {
+    get
+  }
+  public typealias RawValue = Swift.Int16
+  public init?(rawValue: Swift.Int16)
+  public var rawValue: Swift.Int16 {
+    get
+  }
+}
+public struct TransferProgress {
+  public let bytes: Swift.Int
+  public let totalBytes: Swift.Int
+  public var asPercent: Swift.Int {
+    get
+  }
+  public var asFloat: Swift.Float {
+    get
+  }
+}
+public protocol Transfer : AnyObject, AzureCore.AzureTask {
+  var id: Foundation.UUID { get }
+  var state: AzureStorageBlob.TransferState { get }
+  var debugString: Swift.String { get }
+  var clientRestorationId: Swift.String { get }
+  var rawState: Swift.Int16 { get }
+  override func cancel()
+  func remove()
+  func pause()
+  func resume()
+}
+extension Transfer {
+  public var state: AzureStorageBlob.TransferState {
+    get
+  }
+  public func cancel()
+  public func remove()
+  public func pause()
+  public func resume()
+}
+public protocol BlobUploadDelegate : AnyObject {
+  func uploader(_: AzureStorageBlob.BlobUploader, didUpdateWithProgress: AzureStorageBlob.TransferProgress)
+  func uploader(_: AzureStorageBlob.BlobUploader, didFailWithError: Swift.Error)
+  func uploaderDidComplete(_: AzureStorageBlob.BlobUploader)
+}
+public protocol BlobUploader {
+  var delegate: AzureStorageBlob.BlobUploadDelegate? { get set }
+  var uploadSource: Foundation.URL { get }
+  var uploadDestination: Foundation.URL { get }
+  var blobProperties: AzureStorageBlob.BlobProperties? { get }
+  var fileSize: Swift.Int { get }
+  var progress: Swift.Int { get }
+  var isComplete: Swift.Bool { get }
+  var isEncrypted: Swift.Bool { get }
+}
