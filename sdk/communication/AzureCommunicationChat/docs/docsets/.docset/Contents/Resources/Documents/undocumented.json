@@ -1,0 +1,124 @@
+{
+  "warnings": [
+    {
+      "file": "/Users/travisprescott/Documents/generated/sdk/AzureCommunicationChat/Source/AzureCommunicationChatClient.swift",
+      "line": 19,
+      "symbol": "AzureCommunicationChatClient",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/Documents/generated/sdk/AzureCommunicationChat/Source/AzureCommunicationChatClient.swift",
+      "line": 20,
+      "symbol": "AzureCommunicationChatClient.continuationUrl(forRequestUrl:withContinuationToken:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/Documents/generated/sdk/AzureCommunicationChat/Source/Models/ChatMessage.swift",
+      "line": 18,
+      "symbol": "ChatMessage",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/Documents/generated/sdk/AzureCommunicationChat/Source/Models/ChatThread.swift",
+      "line": 18,
+      "symbol": "ChatThread",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/Documents/generated/sdk/AzureCommunicationChat/Source/Models/ChatThreadInfo.swift",
+      "line": 18,
+      "symbol": "ChatThreadInfo",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/Documents/generated/sdk/AzureCommunicationChat/Source/Models/Enumerations.swift",
+      "line": 16,
+      "symbol": "ChatMessagePriority.Normal",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/Documents/generated/sdk/AzureCommunicationChat/Source/Models/Enumerations.swift",
+      "line": 18,
+      "symbol": "ChatMessagePriority.High",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/Documents/generated/sdk/AzureCommunicationChat/Source/Models/ErrorType.swift",
+      "line": 18,
+      "symbol": "ErrorType",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/Documents/generated/sdk/AzureCommunicationChat/Source/Models/ErrorType.swift",
+      "line": 19,
+      "symbol": "ErrorType.code",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/Documents/generated/sdk/AzureCommunicationChat/Source/Models/ErrorType.swift",
+      "line": 21,
+      "symbol": "ErrorType.message",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/Documents/generated/sdk/AzureCommunicationChat/Source/Models/ErrorType.swift",
+      "line": 23,
+      "symbol": "ErrorType.target",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/Documents/generated/sdk/AzureCommunicationChat/Source/Models/ErrorType.swift",
+      "line": 25,
+      "symbol": "ErrorType.innerErrors",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/Documents/generated/sdk/AzureCommunicationChat/Source/Models/IndividualStatusResponse.swift",
+      "line": 18,
+      "symbol": "IndividualStatusResponse",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/Documents/generated/sdk/AzureCommunicationChat/Source/Models/MultiStatusResponse.swift",
+      "line": 18,
+      "symbol": "MultiStatusResponse",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/Documents/generated/sdk/AzureCommunicationChat/Source/Models/ReadReceiptsCollection.swift",
+      "line": 18,
+      "symbol": "ReadReceiptsCollection",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/Documents/generated/sdk/AzureCommunicationChat/Source/Models/UpdateChatMessageRequest.swift",
+      "line": 18,
+      "symbol": "UpdateChatMessageRequest",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travisprescott/Documents/generated/sdk/AzureCommunicationChat/Source/Models/UpdateChatThreadRequest.swift",
+      "line": 18,
+      "symbol": "UpdateChatThreadRequest",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/travisprescott/Documents/generated/sdk/AzureCommunicationChat"
+}

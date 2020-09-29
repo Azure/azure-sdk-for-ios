@@ -1,635 +1,1660 @@
 // !$*UTF8*$!
 {
-	archiveVersion = 1;
-	classes = {
-	};
-	objectVersion = 46;
-	objects = {
-
-/* Begin PBXBuildFile section */
-		0A74765C2522918900819FC9 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A74765B2522918900819FC9 /* AzureCore.framework */; };
-		OBJ_121 /* AzureCommunicationChatClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_8 /* AzureCommunicationChatClient.swift */; };
-		OBJ_122 /* AddChatThreadMembersRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* AddChatThreadMembersRequest.swift */; };
-		OBJ_123 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* ChatMessage.swift */; };
-		OBJ_124 /* ChatMessagesCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* ChatMessagesCollection.swift */; };
-		OBJ_125 /* ChatThread.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* ChatThread.swift */; };
-		OBJ_126 /* ChatThreadInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* ChatThreadInfo.swift */; };
-		OBJ_127 /* ChatThreadMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* ChatThreadMember.swift */; };
-		OBJ_128 /* ChatThreadMembersCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* ChatThreadMembersCollection.swift */; };
-		OBJ_129 /* ChatThreadsInfoCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* ChatThreadsInfoCollection.swift */; };
-		OBJ_130 /* CreateChatThreadRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_18 /* CreateChatThreadRequest.swift */; };
-		OBJ_131 /* Enumerations.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_19 /* Enumerations.swift */; };
-		OBJ_132 /* ErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_20 /* ErrorType.swift */; };
-		OBJ_133 /* IndividualStatusResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_21 /* IndividualStatusResponse.swift */; };
-		OBJ_134 /* MultiStatusResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_22 /* MultiStatusResponse.swift */; };
-		OBJ_135 /* ReadReceipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_23 /* ReadReceipt.swift */; };
-		OBJ_136 /* ReadReceiptsCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_24 /* ReadReceiptsCollection.swift */; };
-		OBJ_137 /* SendChatMessageRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* SendChatMessageRequest.swift */; };
-		OBJ_138 /* SendChatMessageResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_26 /* SendChatMessageResult.swift */; };
-		OBJ_139 /* SendReadReceiptRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_27 /* SendReadReceiptRequest.swift */; };
-		OBJ_140 /* UpdateChatMessageRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_28 /* UpdateChatMessageRequest.swift */; };
-		OBJ_141 /* UpdateChatThreadRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_29 /* UpdateChatThreadRequest.swift */; };
-		OBJ_142 /* AddChatThreadMembersOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_31 /* AddChatThreadMembersOptions.swift */; };
-		OBJ_143 /* AzureCommunicationChatClientOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_32 /* AzureCommunicationChatClientOptions.swift */; };
-		OBJ_144 /* CreateChatThreadOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_33 /* CreateChatThreadOptions.swift */; };
-		OBJ_145 /* DeleteChatMessageOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_34 /* DeleteChatMessageOptions.swift */; };
-		OBJ_146 /* DeleteChatThreadOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_35 /* DeleteChatThreadOptions.swift */; };
-		OBJ_147 /* GetChatMessageOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_36 /* GetChatMessageOptions.swift */; };
-		OBJ_148 /* GetChatThreadOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_37 /* GetChatThreadOptions.swift */; };
-		OBJ_149 /* ListChatMessagesOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_38 /* ListChatMessagesOptions.swift */; };
-		OBJ_150 /* ListChatReadReceiptsOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_39 /* ListChatReadReceiptsOptions.swift */; };
-		OBJ_151 /* ListChatThreadMembersOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_40 /* ListChatThreadMembersOptions.swift */; };
-		OBJ_152 /* ListChatThreadsOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_41 /* ListChatThreadsOptions.swift */; };
-		OBJ_153 /* RemoveChatThreadMemberOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_42 /* RemoveChatThreadMemberOptions.swift */; };
-		OBJ_154 /* SendChatMessageOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_43 /* SendChatMessageOptions.swift */; };
-		OBJ_155 /* SendChatReadReceiptOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_44 /* SendChatReadReceiptOptions.swift */; };
-		OBJ_156 /* SendTypingNotificationOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_45 /* SendTypingNotificationOptions.swift */; };
-		OBJ_157 /* UpdateChatMessageOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_46 /* UpdateChatMessageOptions.swift */; };
-		OBJ_158 /* UpdateChatThreadOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_47 /* UpdateChatThreadOptions.swift */; };
-		OBJ_159 /* PatchUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_49 /* PatchUtil.swift */; };
-		OBJ_160 /* Primitives+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_50 /* Primitives+Extension.swift */; };
-/* End PBXBuildFile section */
-
-/* Begin PBXFileReference section */
-		0A74765B2522918900819FC9 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"AzureCommunicationChat::AzureCommunicationChat::Product" /* AzureCommunicationChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCommunicationChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		OBJ_10 /* AddChatThreadMembersRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChatThreadMembersRequest.swift; sourceTree = "<group>"; };
-		OBJ_101 /* ApplicationUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationUtil.swift; sourceTree = "<group>"; };
-		OBJ_102 /* AzureCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzureCodable.swift; sourceTree = "<group>"; };
-		OBJ_103 /* ConvertingInitializers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertingInitializers.swift; sourceTree = "<group>"; };
-		OBJ_104 /* Copyable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Copyable.swift; sourceTree = "<group>"; };
-		OBJ_105 /* CryptoUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoUtil.swift; sourceTree = "<group>"; };
-		OBJ_106 /* KeychainUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainUtil.swift; sourceTree = "<group>"; };
-		OBJ_107 /* ReachabilityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityManager.swift; sourceTree = "<group>"; };
-		OBJ_108 /* ReachabilityManagerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityManagerType.swift; sourceTree = "<group>"; };
-		OBJ_109 /* RegexUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegexUtil.swift; sourceTree = "<group>"; };
-		OBJ_11 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
-		OBJ_110 /* StringUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtil.swift; sourceTree = "<group>"; };
-		OBJ_111 /* URLUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLUtil.swift; sourceTree = "<group>"; };
-		OBJ_112 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/travisprescott/Documents/generated/sdk/AzureCommunicationChat/.build/checkouts/azure-sdk-for-ios/Package.swift"; sourceTree = "<group>"; };
-		OBJ_12 /* ChatMessagesCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessagesCollection.swift; sourceTree = "<group>"; };
-		OBJ_13 /* ChatThread.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatThread.swift; sourceTree = "<group>"; };
-		OBJ_14 /* ChatThreadInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatThreadInfo.swift; sourceTree = "<group>"; };
-		OBJ_15 /* ChatThreadMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatThreadMember.swift; sourceTree = "<group>"; };
-		OBJ_16 /* ChatThreadMembersCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatThreadMembersCollection.swift; sourceTree = "<group>"; };
-		OBJ_17 /* ChatThreadsInfoCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatThreadsInfoCollection.swift; sourceTree = "<group>"; };
-		OBJ_18 /* CreateChatThreadRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChatThreadRequest.swift; sourceTree = "<group>"; };
-		OBJ_19 /* Enumerations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enumerations.swift; sourceTree = "<group>"; };
-		OBJ_20 /* ErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorType.swift; sourceTree = "<group>"; };
-		OBJ_21 /* IndividualStatusResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualStatusResponse.swift; sourceTree = "<group>"; };
-		OBJ_22 /* MultiStatusResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiStatusResponse.swift; sourceTree = "<group>"; };
-		OBJ_23 /* ReadReceipt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadReceipt.swift; sourceTree = "<group>"; };
-		OBJ_24 /* ReadReceiptsCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadReceiptsCollection.swift; sourceTree = "<group>"; };
-		OBJ_25 /* SendChatMessageRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendChatMessageRequest.swift; sourceTree = "<group>"; };
-		OBJ_26 /* SendChatMessageResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendChatMessageResult.swift; sourceTree = "<group>"; };
-		OBJ_27 /* SendReadReceiptRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendReadReceiptRequest.swift; sourceTree = "<group>"; };
-		OBJ_28 /* UpdateChatMessageRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateChatMessageRequest.swift; sourceTree = "<group>"; };
-		OBJ_29 /* UpdateChatThreadRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateChatThreadRequest.swift; sourceTree = "<group>"; };
-		OBJ_31 /* AddChatThreadMembersOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChatThreadMembersOptions.swift; sourceTree = "<group>"; };
-		OBJ_32 /* AzureCommunicationChatClientOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzureCommunicationChatClientOptions.swift; sourceTree = "<group>"; };
-		OBJ_33 /* CreateChatThreadOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChatThreadOptions.swift; sourceTree = "<group>"; };
-		OBJ_34 /* DeleteChatMessageOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteChatMessageOptions.swift; sourceTree = "<group>"; };
-		OBJ_35 /* DeleteChatThreadOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteChatThreadOptions.swift; sourceTree = "<group>"; };
-		OBJ_36 /* GetChatMessageOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetChatMessageOptions.swift; sourceTree = "<group>"; };
-		OBJ_37 /* GetChatThreadOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetChatThreadOptions.swift; sourceTree = "<group>"; };
-		OBJ_38 /* ListChatMessagesOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListChatMessagesOptions.swift; sourceTree = "<group>"; };
-		OBJ_39 /* ListChatReadReceiptsOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListChatReadReceiptsOptions.swift; sourceTree = "<group>"; };
-		OBJ_40 /* ListChatThreadMembersOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListChatThreadMembersOptions.swift; sourceTree = "<group>"; };
-		OBJ_41 /* ListChatThreadsOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListChatThreadsOptions.swift; sourceTree = "<group>"; };
-		OBJ_42 /* RemoveChatThreadMemberOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveChatThreadMemberOptions.swift; sourceTree = "<group>"; };
-		OBJ_43 /* SendChatMessageOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendChatMessageOptions.swift; sourceTree = "<group>"; };
-		OBJ_44 /* SendChatReadReceiptOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendChatReadReceiptOptions.swift; sourceTree = "<group>"; };
-		OBJ_45 /* SendTypingNotificationOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendTypingNotificationOptions.swift; sourceTree = "<group>"; };
-		OBJ_46 /* UpdateChatMessageOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateChatMessageOptions.swift; sourceTree = "<group>"; };
-		OBJ_47 /* UpdateChatThreadOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateChatThreadOptions.swift; sourceTree = "<group>"; };
-		OBJ_49 /* PatchUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchUtil.swift; sourceTree = "<group>"; };
-		OBJ_50 /* Primitives+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Primitives+Extension.swift"; sourceTree = "<group>"; };
-		OBJ_57 /* AzureTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzureTask.swift; sourceTree = "<group>"; };
-		OBJ_58 /* ClientLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientLogger.swift; sourceTree = "<group>"; };
-		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
-		OBJ_60 /* CancellationToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancellationToken.swift; sourceTree = "<group>"; };
-		OBJ_61 /* Collections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collections.swift; sourceTree = "<group>"; };
-		OBJ_62 /* MatchCondition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchCondition.swift; sourceTree = "<group>"; };
-		OBJ_63 /* XMLMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLMap.swift; sourceTree = "<group>"; };
-		OBJ_64 /* XMLModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLModel.swift; sourceTree = "<group>"; };
-		OBJ_65 /* XMLTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLTree.swift; sourceTree = "<group>"; };
-		OBJ_66 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
-		OBJ_68 /* Pipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pipeline.swift; sourceTree = "<group>"; };
-		OBJ_69 /* PipelineClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineClient.swift; sourceTree = "<group>"; };
-		OBJ_70 /* PipelineContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineContext.swift; sourceTree = "<group>"; };
-		OBJ_71 /* PipelineRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineRequest.swift; sourceTree = "<group>"; };
-		OBJ_72 /* PipelineResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineResponse.swift; sourceTree = "<group>"; };
-		OBJ_73 /* PipelineStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineStage.swift; sourceTree = "<group>"; };
-		OBJ_75 /* AddDatePolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDatePolicy.swift; sourceTree = "<group>"; };
-		OBJ_76 /* AuthenticationPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationPolicy.swift; sourceTree = "<group>"; };
-		OBJ_77 /* ContentDecodePolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentDecodePolicy.swift; sourceTree = "<group>"; };
-		OBJ_78 /* HeadersPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadersPolicy.swift; sourceTree = "<group>"; };
-		OBJ_79 /* HeadersValidationPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadersValidationPolicy.swift; sourceTree = "<group>"; };
-		OBJ_8 /* AzureCommunicationChatClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzureCommunicationChatClient.swift; sourceTree = "<group>"; };
-		OBJ_80 /* LoggingPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingPolicy.swift; sourceTree = "<group>"; };
-		OBJ_81 /* NormalizeETagPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalizeETagPolicy.swift; sourceTree = "<group>"; };
-		OBJ_82 /* RequestIdPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestIdPolicy.swift; sourceTree = "<group>"; };
-		OBJ_83 /* UserAgentPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAgentPolicy.swift; sourceTree = "<group>"; };
-		OBJ_85 /* DataStringConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStringConvertible.swift; sourceTree = "<group>"; };
-		OBJ_86 /* HTTPHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPHeader.swift; sourceTree = "<group>"; };
-		OBJ_87 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
-		OBJ_88 /* HTTPRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPRequest.swift; sourceTree = "<group>"; };
-		OBJ_89 /* HTTPResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPResponse.swift; sourceTree = "<group>"; };
-		OBJ_90 /* HTTPTransportStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPTransportStage.swift; sourceTree = "<group>"; };
-		OBJ_91 /* TelemetryOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelemetryOptions.swift; sourceTree = "<group>"; };
-		OBJ_92 /* TransportOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportOptions.swift; sourceTree = "<group>"; };
-		OBJ_93 /* URLHTTPResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLHTTPResponse.swift; sourceTree = "<group>"; };
-		OBJ_94 /* URLSessionTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionTransport.swift; sourceTree = "<group>"; };
-		OBJ_96 /* BundleInfoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleInfoProvider.swift; sourceTree = "<group>"; };
-		OBJ_97 /* DeviceProviders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceProviders.swift; sourceTree = "<group>"; };
-		OBJ_98 /* LocaleInfoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocaleInfoProvider.swift; sourceTree = "<group>"; };
-		OBJ_99 /* PlatformInfoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformInfoProvider.swift; sourceTree = "<group>"; };
-/* End PBXFileReference section */
-
-/* Begin PBXFrameworksBuildPhase section */
-		OBJ_161 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 0;
-			files = (
-				0A74765C2522918900819FC9 /* AzureCore.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXFrameworksBuildPhase section */
-
-/* Begin PBXGroup section */
-		0A74765A2522918800819FC9 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				0A74765B2522918900819FC9 /* AzureCore.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		OBJ_100 /* Util */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_101 /* ApplicationUtil.swift */,
-				OBJ_102 /* AzureCodable.swift */,
-				OBJ_103 /* ConvertingInitializers.swift */,
-				OBJ_104 /* Copyable.swift */,
-				OBJ_105 /* CryptoUtil.swift */,
-				OBJ_106 /* KeychainUtil.swift */,
-				OBJ_107 /* ReachabilityManager.swift */,
-				OBJ_108 /* ReachabilityManagerType.swift */,
-				OBJ_109 /* RegexUtil.swift */,
-				OBJ_110 /* StringUtil.swift */,
-				OBJ_111 /* URLUtil.swift */,
-			);
-			path = Util;
-			sourceTree = "<group>";
-		};
-		OBJ_113 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				"AzureCommunicationChat::AzureCommunicationChat::Product" /* AzureCommunicationChat.framework */,
-			);
-			name = Products;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		OBJ_30 /* Options */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_31 /* AddChatThreadMembersOptions.swift */,
-				OBJ_32 /* AzureCommunicationChatClientOptions.swift */,
-				OBJ_33 /* CreateChatThreadOptions.swift */,
-				OBJ_34 /* DeleteChatMessageOptions.swift */,
-				OBJ_35 /* DeleteChatThreadOptions.swift */,
-				OBJ_36 /* GetChatMessageOptions.swift */,
-				OBJ_37 /* GetChatThreadOptions.swift */,
-				OBJ_38 /* ListChatMessagesOptions.swift */,
-				OBJ_39 /* ListChatReadReceiptsOptions.swift */,
-				OBJ_40 /* ListChatThreadMembersOptions.swift */,
-				OBJ_41 /* ListChatThreadsOptions.swift */,
-				OBJ_42 /* RemoveChatThreadMemberOptions.swift */,
-				OBJ_43 /* SendChatMessageOptions.swift */,
-				OBJ_44 /* SendChatReadReceiptOptions.swift */,
-				OBJ_45 /* SendTypingNotificationOptions.swift */,
-				OBJ_46 /* UpdateChatMessageOptions.swift */,
-				OBJ_47 /* UpdateChatThreadOptions.swift */,
-			);
-			path = Options;
-			sourceTree = "<group>";
-		};
-		OBJ_48 /* Util */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_49 /* PatchUtil.swift */,
-				OBJ_50 /* Primitives+Extension.swift */,
-			);
-			path = Util;
-			sourceTree = "<group>";
-		};
-		OBJ_5 /*  */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_6 /* Package.swift */,
-				OBJ_7 /* Sources */,
-				OBJ_51 /* Tests */,
-				OBJ_52 /* Dependencies */,
-				OBJ_113 /* Products */,
-				0A74765A2522918800819FC9 /* Frameworks */,
-			);
-			name = "";
-			sourceTree = "<group>";
-		};
-		OBJ_51 /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Tests;
-			sourceTree = SOURCE_ROOT;
-		};
-		OBJ_52 /* Dependencies */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_53 /* AzureSDK */,
-			);
-			name = Dependencies;
-			sourceTree = "<group>";
-		};
-		OBJ_53 /* AzureSDK */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_54 /* AzureCommunication */,
-				OBJ_55 /* AzureCore */,
-				OBJ_112 /* Package.swift */,
-			);
-			name = AzureSDK;
-			sourceTree = SOURCE_ROOT;
-		};
-		OBJ_54 /* AzureCommunication */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = AzureCommunication;
-			path = ".build/checkouts/azure-sdk-for-ios/sdk/communication/AzureCommunication";
-			sourceTree = SOURCE_ROOT;
-		};
-		OBJ_55 /* AzureCore */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_56 /* Source */,
-			);
-			name = AzureCore;
-			path = ".build/checkouts/azure-sdk-for-ios/sdk/core/AzureCore";
-			sourceTree = SOURCE_ROOT;
-		};
-		OBJ_56 /* Source */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_57 /* AzureTask.swift */,
-				OBJ_58 /* ClientLogger.swift */,
-				OBJ_59 /* DataStructures */,
-				OBJ_66 /* Errors.swift */,
-				OBJ_67 /* Pipeline */,
-				OBJ_95 /* Providers */,
-				OBJ_100 /* Util */,
-			);
-			path = Source;
-			sourceTree = "<group>";
-		};
-		OBJ_59 /* DataStructures */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_60 /* CancellationToken.swift */,
-				OBJ_61 /* Collections.swift */,
-				OBJ_62 /* MatchCondition.swift */,
-				OBJ_63 /* XMLMap.swift */,
-				OBJ_64 /* XMLModel.swift */,
-				OBJ_65 /* XMLTree.swift */,
-			);
-			path = DataStructures;
-			sourceTree = "<group>";
-		};
-		OBJ_67 /* Pipeline */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_68 /* Pipeline.swift */,
-				OBJ_69 /* PipelineClient.swift */,
-				OBJ_70 /* PipelineContext.swift */,
-				OBJ_71 /* PipelineRequest.swift */,
-				OBJ_72 /* PipelineResponse.swift */,
-				OBJ_73 /* PipelineStage.swift */,
-				OBJ_74 /* Policies */,
-				OBJ_84 /* Transport */,
-			);
-			path = Pipeline;
-			sourceTree = "<group>";
-		};
-		OBJ_7 /* Sources */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_8 /* AzureCommunicationChatClient.swift */,
-				OBJ_9 /* Models */,
-				OBJ_30 /* Options */,
-				OBJ_48 /* Util */,
-			);
-			name = Sources;
-			path = Source;
-			sourceTree = SOURCE_ROOT;
-		};
-		OBJ_74 /* Policies */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_75 /* AddDatePolicy.swift */,
-				OBJ_76 /* AuthenticationPolicy.swift */,
-				OBJ_77 /* ContentDecodePolicy.swift */,
-				OBJ_78 /* HeadersPolicy.swift */,
-				OBJ_79 /* HeadersValidationPolicy.swift */,
-				OBJ_80 /* LoggingPolicy.swift */,
-				OBJ_81 /* NormalizeETagPolicy.swift */,
-				OBJ_82 /* RequestIdPolicy.swift */,
-				OBJ_83 /* UserAgentPolicy.swift */,
-			);
-			path = Policies;
-			sourceTree = "<group>";
-		};
-		OBJ_84 /* Transport */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_85 /* DataStringConvertible.swift */,
-				OBJ_86 /* HTTPHeader.swift */,
-				OBJ_87 /* HTTPMethod.swift */,
-				OBJ_88 /* HTTPRequest.swift */,
-				OBJ_89 /* HTTPResponse.swift */,
-				OBJ_90 /* HTTPTransportStage.swift */,
-				OBJ_91 /* TelemetryOptions.swift */,
-				OBJ_92 /* TransportOptions.swift */,
-				OBJ_93 /* URLHTTPResponse.swift */,
-				OBJ_94 /* URLSessionTransport.swift */,
-			);
-			path = Transport;
-			sourceTree = "<group>";
-		};
-		OBJ_9 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_10 /* AddChatThreadMembersRequest.swift */,
-				OBJ_11 /* ChatMessage.swift */,
-				OBJ_12 /* ChatMessagesCollection.swift */,
-				OBJ_13 /* ChatThread.swift */,
-				OBJ_14 /* ChatThreadInfo.swift */,
-				OBJ_15 /* ChatThreadMember.swift */,
-				OBJ_16 /* ChatThreadMembersCollection.swift */,
-				OBJ_17 /* ChatThreadsInfoCollection.swift */,
-				OBJ_18 /* CreateChatThreadRequest.swift */,
-				OBJ_19 /* Enumerations.swift */,
-				OBJ_20 /* ErrorType.swift */,
-				OBJ_21 /* IndividualStatusResponse.swift */,
-				OBJ_22 /* MultiStatusResponse.swift */,
-				OBJ_23 /* ReadReceipt.swift */,
-				OBJ_24 /* ReadReceiptsCollection.swift */,
-				OBJ_25 /* SendChatMessageRequest.swift */,
-				OBJ_26 /* SendChatMessageResult.swift */,
-				OBJ_27 /* SendReadReceiptRequest.swift */,
-				OBJ_28 /* UpdateChatMessageRequest.swift */,
-				OBJ_29 /* UpdateChatThreadRequest.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		OBJ_95 /* Providers */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_96 /* BundleInfoProvider.swift */,
-				OBJ_97 /* DeviceProviders.swift */,
-				OBJ_98 /* LocaleInfoProvider.swift */,
-				OBJ_99 /* PlatformInfoProvider.swift */,
-			);
-			path = Providers;
-			sourceTree = "<group>";
-		};
-/* End PBXGroup section */
-
-/* Begin PBXNativeTarget section */
-		"AzureCommunicationChat::AzureCommunicationChat" /* AzureCommunicationChat */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_117 /* Build configuration list for PBXNativeTarget "AzureCommunicationChat" */;
-			buildPhases = (
-				OBJ_120 /* Sources */,
-				OBJ_161 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = AzureCommunicationChat;
-			productName = AzureCommunicationChat;
-			productReference = "AzureCommunicationChat::AzureCommunicationChat::Product" /* AzureCommunicationChat.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-/* End PBXNativeTarget section */
-
-/* Begin PBXProject section */
-		OBJ_1 /* Project object */ = {
-			isa = PBXProject;
-			attributes = {
-				LastSwiftMigration = 9999;
-				LastUpgradeCheck = 9999;
-			};
-			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "AzureCommunicationChat" */;
-			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = en;
-			hasScannedForEncodings = 0;
-			knownRegions = (
-				en,
-			);
-			mainGroup = OBJ_5 /*  */;
-			productRefGroup = OBJ_113 /* Products */;
-			projectDirPath = "";
-			projectRoot = "";
-			targets = (
-				"AzureCommunicationChat::AzureCommunicationChat" /* AzureCommunicationChat */,
-			);
-		};
-/* End PBXProject section */
-
-/* Begin PBXSourcesBuildPhase section */
-		OBJ_120 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 0;
-			files = (
-				OBJ_121 /* AzureCommunicationChatClient.swift in Sources */,
-				OBJ_122 /* AddChatThreadMembersRequest.swift in Sources */,
-				OBJ_123 /* ChatMessage.swift in Sources */,
-				OBJ_124 /* ChatMessagesCollection.swift in Sources */,
-				OBJ_125 /* ChatThread.swift in Sources */,
-				OBJ_126 /* ChatThreadInfo.swift in Sources */,
-				OBJ_127 /* ChatThreadMember.swift in Sources */,
-				OBJ_128 /* ChatThreadMembersCollection.swift in Sources */,
-				OBJ_129 /* ChatThreadsInfoCollection.swift in Sources */,
-				OBJ_130 /* CreateChatThreadRequest.swift in Sources */,
-				OBJ_131 /* Enumerations.swift in Sources */,
-				OBJ_132 /* ErrorType.swift in Sources */,
-				OBJ_133 /* IndividualStatusResponse.swift in Sources */,
-				OBJ_134 /* MultiStatusResponse.swift in Sources */,
-				OBJ_135 /* ReadReceipt.swift in Sources */,
-				OBJ_136 /* ReadReceiptsCollection.swift in Sources */,
-				OBJ_137 /* SendChatMessageRequest.swift in Sources */,
-				OBJ_138 /* SendChatMessageResult.swift in Sources */,
-				OBJ_139 /* SendReadReceiptRequest.swift in Sources */,
-				OBJ_140 /* UpdateChatMessageRequest.swift in Sources */,
-				OBJ_141 /* UpdateChatThreadRequest.swift in Sources */,
-				OBJ_142 /* AddChatThreadMembersOptions.swift in Sources */,
-				OBJ_143 /* AzureCommunicationChatClientOptions.swift in Sources */,
-				OBJ_144 /* CreateChatThreadOptions.swift in Sources */,
-				OBJ_145 /* DeleteChatMessageOptions.swift in Sources */,
-				OBJ_146 /* DeleteChatThreadOptions.swift in Sources */,
-				OBJ_147 /* GetChatMessageOptions.swift in Sources */,
-				OBJ_148 /* GetChatThreadOptions.swift in Sources */,
-				OBJ_149 /* ListChatMessagesOptions.swift in Sources */,
-				OBJ_150 /* ListChatReadReceiptsOptions.swift in Sources */,
-				OBJ_151 /* ListChatThreadMembersOptions.swift in Sources */,
-				OBJ_152 /* ListChatThreadsOptions.swift in Sources */,
-				OBJ_153 /* RemoveChatThreadMemberOptions.swift in Sources */,
-				OBJ_154 /* SendChatMessageOptions.swift in Sources */,
-				OBJ_155 /* SendChatReadReceiptOptions.swift in Sources */,
-				OBJ_156 /* SendTypingNotificationOptions.swift in Sources */,
-				OBJ_157 /* UpdateChatMessageOptions.swift in Sources */,
-				OBJ_158 /* UpdateChatThreadOptions.swift in Sources */,
-				OBJ_159 /* PatchUtil.swift in Sources */,
-				OBJ_160 /* Primitives+Extension.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXSourcesBuildPhase section */
-
-/* Begin XCBuildConfiguration section */
-		OBJ_118 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = AzureCommunicationChat.xcodeproj/AzureCommunicationChat_Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = AzureCommunicationChat;
-				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 5.0;
-				TARGET_NAME = AzureCommunicationChat;
-				TVOS_DEPLOYMENT_TARGET = 12.0;
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
-			};
-			name = Debug;
-		};
-		OBJ_119 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = AzureCommunicationChat.xcodeproj/AzureCommunicationChat_Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = AzureCommunicationChat;
-				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 5.0;
-				TARGET_NAME = AzureCommunicationChat;
-				TVOS_DEPLOYMENT_TARGET = 12.0;
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
-			};
-			name = Release;
-		};
-		OBJ_3 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_NS_ASSERTIONS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"SWIFT_PACKAGE=1",
-					"DEBUG=1",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				ONLY_ACTIVE_ARCH = YES;
-				OTHER_SWIFT_FLAGS = "$(inherited) -DXcode";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE DEBUG";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				USE_HEADERMAP = NO;
-			};
-			name = Debug;
-		};
-		OBJ_4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_OPTIMIZATION_LEVEL = s;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"SWIFT_PACKAGE=1",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OTHER_SWIFT_FLAGS = "$(inherited) -DXcode";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				USE_HEADERMAP = NO;
-			};
-			name = Release;
-		};
-/* End XCBuildConfiguration section */
-
-/* Begin XCConfigurationList section */
-		OBJ_117 /* Build configuration list for PBXNativeTarget "AzureCommunicationChat" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				OBJ_118 /* Debug */,
-				OBJ_119 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		OBJ_2 /* Build configuration list for PBXProject "AzureCommunicationChat" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				OBJ_3 /* Debug */,
-				OBJ_4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-/* End XCConfigurationList section */
-	};
-	rootObject = OBJ_1 /* Project object */;
+   archiveVersion = "1";
+   objectVersion = "46";
+   objects = {
+      "AzureCommunicationChat::AzureCommunicationChat" = {
+         isa = "PBXNativeTarget";
+         buildConfigurationList = "OBJ_117";
+         buildPhases = (
+            "OBJ_120",
+            "OBJ_161"
+         );
+         dependencies = (
+            "OBJ_163"
+         );
+         name = "AzureCommunicationChat";
+         productName = "AzureCommunicationChat";
+         productReference = "AzureCommunicationChat::AzureCommunicationChat::Product";
+         productType = "com.apple.product-type.framework";
+      };
+      "AzureCommunicationChat::AzureCommunicationChat::Product" = {
+         isa = "PBXFileReference";
+         path = "AzureCommunicationChat.framework";
+         sourceTree = "BUILT_PRODUCTS_DIR";
+      };
+      "AzureCommunicationChat::SwiftPMPackageDescription" = {
+         isa = "PBXNativeTarget";
+         buildConfigurationList = "OBJ_166";
+         buildPhases = (
+            "OBJ_169"
+         );
+         dependencies = (
+         );
+         name = "AzureCommunicationChatPackageDescription";
+         productName = "AzureCommunicationChatPackageDescription";
+         productType = "com.apple.product-type.framework";
+      };
+      "AzureSDK::AzureCore" = {
+         isa = "PBXNativeTarget";
+         buildConfigurationList = "OBJ_171";
+         buildPhases = (
+            "OBJ_174",
+            "OBJ_224"
+         );
+         dependencies = (
+         );
+         name = "AzureCore";
+         productName = "AzureCore";
+         productReference = "AzureSDK::AzureCore::Product";
+         productType = "com.apple.product-type.framework";
+      };
+      "AzureSDK::AzureCore::Product" = {
+         isa = "PBXFileReference";
+         path = "AzureCore.framework";
+         sourceTree = "BUILT_PRODUCTS_DIR";
+      };
+      "AzureSDK::SwiftPMPackageDescription" = {
+         isa = "PBXNativeTarget";
+         buildConfigurationList = "OBJ_226";
+         buildPhases = (
+            "OBJ_229"
+         );
+         dependencies = (
+         );
+         name = "AzureSDKPackageDescription";
+         productName = "AzureSDKPackageDescription";
+         productType = "com.apple.product-type.framework";
+      };
+      "OBJ_1" = {
+         isa = "PBXProject";
+         attributes = {
+            LastSwiftMigration = "9999";
+            LastUpgradeCheck = "9999";
+         };
+         buildConfigurationList = "OBJ_2";
+         compatibilityVersion = "Xcode 3.2";
+         developmentRegion = "en";
+         hasScannedForEncodings = "0";
+         knownRegions = (
+            "en"
+         );
+         mainGroup = "OBJ_5";
+         productRefGroup = "OBJ_113";
+         projectDirPath = ".";
+         targets = (
+            "AzureCommunicationChat::AzureCommunicationChat",
+            "AzureCommunicationChat::SwiftPMPackageDescription",
+            "AzureSDK::AzureCore",
+            "AzureSDK::SwiftPMPackageDescription"
+         );
+      };
+      "OBJ_10" = {
+         isa = "PBXFileReference";
+         path = "AddChatThreadMembersRequest.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_100" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_101",
+            "OBJ_102",
+            "OBJ_103",
+            "OBJ_104",
+            "OBJ_105",
+            "OBJ_106",
+            "OBJ_107",
+            "OBJ_108",
+            "OBJ_109",
+            "OBJ_110",
+            "OBJ_111"
+         );
+         name = "Util";
+         path = "Util";
+         sourceTree = "<group>";
+      };
+      "OBJ_101" = {
+         isa = "PBXFileReference";
+         path = "ApplicationUtil.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_102" = {
+         isa = "PBXFileReference";
+         path = "AzureCodable.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_103" = {
+         isa = "PBXFileReference";
+         path = "ConvertingInitializers.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_104" = {
+         isa = "PBXFileReference";
+         path = "Copyable.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_105" = {
+         isa = "PBXFileReference";
+         path = "CryptoUtil.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_106" = {
+         isa = "PBXFileReference";
+         path = "KeychainUtil.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_107" = {
+         isa = "PBXFileReference";
+         path = "ReachabilityManager.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_108" = {
+         isa = "PBXFileReference";
+         path = "ReachabilityManagerType.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_109" = {
+         isa = "PBXFileReference";
+         path = "RegexUtil.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_11" = {
+         isa = "PBXFileReference";
+         path = "ChatMessage.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_110" = {
+         isa = "PBXFileReference";
+         path = "StringUtil.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_111" = {
+         isa = "PBXFileReference";
+         path = "URLUtil.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_112" = {
+         isa = "PBXFileReference";
+         explicitFileType = "sourcecode.swift";
+         name = "Package.swift";
+         path = "/Users/travisprescott/Documents/generated/sdk/AzureCommunicationChat/.build/checkouts/azure-sdk-for-ios/Package.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_113" = {
+         isa = "PBXGroup";
+         children = (
+            "AzureCommunicationChat::AzureCommunicationChat::Product",
+            "AzureSDK::AzureCore::Product"
+         );
+         name = "Products";
+         path = "";
+         sourceTree = "BUILT_PRODUCTS_DIR";
+      };
+      "OBJ_117" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_118",
+            "OBJ_119"
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_118" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            ENABLE_TESTABILITY = "YES";
+            FRAMEWORK_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(PLATFORM_DIR)/Developer/Library/Frameworks"
+            );
+            HEADER_SEARCH_PATHS = (
+               "$(inherited)"
+            );
+            INFOPLIST_FILE = "AzureCommunicationChat.xcodeproj/AzureCommunicationChat_Info.plist";
+            IPHONEOS_DEPLOYMENT_TARGET = "12.0";
+            LD_RUNPATH_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx"
+            );
+            MACOSX_DEPLOYMENT_TARGET = "10.15";
+            OTHER_CFLAGS = (
+               "$(inherited)"
+            );
+            OTHER_LDFLAGS = (
+               "$(inherited)"
+            );
+            OTHER_SWIFT_FLAGS = (
+               "$(inherited)"
+            );
+            PRODUCT_BUNDLE_IDENTIFIER = "AzureCommunicationChat";
+            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+               "$(inherited)"
+            );
+            SWIFT_VERSION = "5.0";
+            TARGET_NAME = "AzureCommunicationChat";
+            TVOS_DEPLOYMENT_TARGET = "12.0";
+            WATCHOS_DEPLOYMENT_TARGET = "2.0";
+         };
+         name = "Debug";
+      };
+      "OBJ_119" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            ENABLE_TESTABILITY = "YES";
+            FRAMEWORK_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(PLATFORM_DIR)/Developer/Library/Frameworks"
+            );
+            HEADER_SEARCH_PATHS = (
+               "$(inherited)"
+            );
+            INFOPLIST_FILE = "AzureCommunicationChat.xcodeproj/AzureCommunicationChat_Info.plist";
+            IPHONEOS_DEPLOYMENT_TARGET = "12.0";
+            LD_RUNPATH_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx"
+            );
+            MACOSX_DEPLOYMENT_TARGET = "10.15";
+            OTHER_CFLAGS = (
+               "$(inherited)"
+            );
+            OTHER_LDFLAGS = (
+               "$(inherited)"
+            );
+            OTHER_SWIFT_FLAGS = (
+               "$(inherited)"
+            );
+            PRODUCT_BUNDLE_IDENTIFIER = "AzureCommunicationChat";
+            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+               "$(inherited)"
+            );
+            SWIFT_VERSION = "5.0";
+            TARGET_NAME = "AzureCommunicationChat";
+            TVOS_DEPLOYMENT_TARGET = "12.0";
+            WATCHOS_DEPLOYMENT_TARGET = "2.0";
+         };
+         name = "Release";
+      };
+      "OBJ_12" = {
+         isa = "PBXFileReference";
+         path = "ChatMessagesCollection.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_120" = {
+         isa = "PBXSourcesBuildPhase";
+         files = (
+            "OBJ_121",
+            "OBJ_122",
+            "OBJ_123",
+            "OBJ_124",
+            "OBJ_125",
+            "OBJ_126",
+            "OBJ_127",
+            "OBJ_128",
+            "OBJ_129",
+            "OBJ_130",
+            "OBJ_131",
+            "OBJ_132",
+            "OBJ_133",
+            "OBJ_134",
+            "OBJ_135",
+            "OBJ_136",
+            "OBJ_137",
+            "OBJ_138",
+            "OBJ_139",
+            "OBJ_140",
+            "OBJ_141",
+            "OBJ_142",
+            "OBJ_143",
+            "OBJ_144",
+            "OBJ_145",
+            "OBJ_146",
+            "OBJ_147",
+            "OBJ_148",
+            "OBJ_149",
+            "OBJ_150",
+            "OBJ_151",
+            "OBJ_152",
+            "OBJ_153",
+            "OBJ_154",
+            "OBJ_155",
+            "OBJ_156",
+            "OBJ_157",
+            "OBJ_158",
+            "OBJ_159",
+            "OBJ_160"
+         );
+      };
+      "OBJ_121" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_8";
+      };
+      "OBJ_122" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_10";
+      };
+      "OBJ_123" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_11";
+      };
+      "OBJ_124" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_12";
+      };
+      "OBJ_125" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_13";
+      };
+      "OBJ_126" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_14";
+      };
+      "OBJ_127" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_15";
+      };
+      "OBJ_128" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_16";
+      };
+      "OBJ_129" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_17";
+      };
+      "OBJ_13" = {
+         isa = "PBXFileReference";
+         path = "ChatThread.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_130" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_18";
+      };
+      "OBJ_131" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_19";
+      };
+      "OBJ_132" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_20";
+      };
+      "OBJ_133" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_21";
+      };
+      "OBJ_134" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_22";
+      };
+      "OBJ_135" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_23";
+      };
+      "OBJ_136" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_24";
+      };
+      "OBJ_137" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_25";
+      };
+      "OBJ_138" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_26";
+      };
+      "OBJ_139" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_27";
+      };
+      "OBJ_14" = {
+         isa = "PBXFileReference";
+         path = "ChatThreadInfo.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_140" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_28";
+      };
+      "OBJ_141" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_29";
+      };
+      "OBJ_142" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_31";
+      };
+      "OBJ_143" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_32";
+      };
+      "OBJ_144" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_33";
+      };
+      "OBJ_145" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_34";
+      };
+      "OBJ_146" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_35";
+      };
+      "OBJ_147" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_36";
+      };
+      "OBJ_148" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_37";
+      };
+      "OBJ_149" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_38";
+      };
+      "OBJ_15" = {
+         isa = "PBXFileReference";
+         path = "ChatThreadMember.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_150" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_39";
+      };
+      "OBJ_151" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_40";
+      };
+      "OBJ_152" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_41";
+      };
+      "OBJ_153" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_42";
+      };
+      "OBJ_154" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_43";
+      };
+      "OBJ_155" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_44";
+      };
+      "OBJ_156" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_45";
+      };
+      "OBJ_157" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_46";
+      };
+      "OBJ_158" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_47";
+      };
+      "OBJ_159" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_49";
+      };
+      "OBJ_16" = {
+         isa = "PBXFileReference";
+         path = "ChatThreadMembersCollection.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_160" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_50";
+      };
+      "OBJ_161" = {
+         isa = "PBXFrameworksBuildPhase";
+         files = (
+            "OBJ_162"
+         );
+      };
+      "OBJ_162" = {
+         isa = "PBXBuildFile";
+         fileRef = "AzureSDK::AzureCore::Product";
+      };
+      "OBJ_163" = {
+         isa = "PBXTargetDependency";
+         target = "AzureSDK::AzureCore";
+      };
+      "OBJ_166" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_167",
+            "OBJ_168"
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_167" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            LD = "/usr/bin/true";
+            OTHER_SWIFT_FLAGS = (
+               "-swift-version",
+               "5",
+               "-I",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2",
+               "-sdk",
+               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk",
+               "-package-description-version",
+               "5.1.0"
+            );
+            SWIFT_VERSION = "5.0";
+         };
+         name = "Debug";
+      };
+      "OBJ_168" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            LD = "/usr/bin/true";
+            OTHER_SWIFT_FLAGS = (
+               "-swift-version",
+               "5",
+               "-I",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2",
+               "-sdk",
+               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk",
+               "-package-description-version",
+               "5.1.0"
+            );
+            SWIFT_VERSION = "5.0";
+         };
+         name = "Release";
+      };
+      "OBJ_169" = {
+         isa = "PBXSourcesBuildPhase";
+         files = (
+            "OBJ_170"
+         );
+      };
+      "OBJ_17" = {
+         isa = "PBXFileReference";
+         path = "ChatThreadsInfoCollection.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_170" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_6";
+      };
+      "OBJ_171" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_172",
+            "OBJ_173"
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_172" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            ENABLE_TESTABILITY = "YES";
+            FRAMEWORK_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(PLATFORM_DIR)/Developer/Library/Frameworks"
+            );
+            HEADER_SEARCH_PATHS = (
+               "$(inherited)"
+            );
+            INFOPLIST_FILE = "AzureCommunicationChat.xcodeproj/AzureCore_Info.plist";
+            IPHONEOS_DEPLOYMENT_TARGET = "12.0";
+            LD_RUNPATH_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx"
+            );
+            MACOSX_DEPLOYMENT_TARGET = "10.15";
+            OTHER_CFLAGS = (
+               "$(inherited)"
+            );
+            OTHER_LDFLAGS = (
+               "$(inherited)"
+            );
+            OTHER_SWIFT_FLAGS = (
+               "$(inherited)"
+            );
+            PRODUCT_BUNDLE_IDENTIFIER = "AzureCore";
+            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+               "$(inherited)"
+            );
+            SWIFT_VERSION = "5.0";
+            TARGET_NAME = "AzureCore";
+            TVOS_DEPLOYMENT_TARGET = "12.0";
+            WATCHOS_DEPLOYMENT_TARGET = "2.0";
+         };
+         name = "Debug";
+      };
+      "OBJ_173" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            ENABLE_TESTABILITY = "YES";
+            FRAMEWORK_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(PLATFORM_DIR)/Developer/Library/Frameworks"
+            );
+            HEADER_SEARCH_PATHS = (
+               "$(inherited)"
+            );
+            INFOPLIST_FILE = "AzureCommunicationChat.xcodeproj/AzureCore_Info.plist";
+            IPHONEOS_DEPLOYMENT_TARGET = "12.0";
+            LD_RUNPATH_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx"
+            );
+            MACOSX_DEPLOYMENT_TARGET = "10.15";
+            OTHER_CFLAGS = (
+               "$(inherited)"
+            );
+            OTHER_LDFLAGS = (
+               "$(inherited)"
+            );
+            OTHER_SWIFT_FLAGS = (
+               "$(inherited)"
+            );
+            PRODUCT_BUNDLE_IDENTIFIER = "AzureCore";
+            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+               "$(inherited)"
+            );
+            SWIFT_VERSION = "5.0";
+            TARGET_NAME = "AzureCore";
+            TVOS_DEPLOYMENT_TARGET = "12.0";
+            WATCHOS_DEPLOYMENT_TARGET = "2.0";
+         };
+         name = "Release";
+      };
+      "OBJ_174" = {
+         isa = "PBXSourcesBuildPhase";
+         files = (
+            "OBJ_175",
+            "OBJ_176",
+            "OBJ_177",
+            "OBJ_178",
+            "OBJ_179",
+            "OBJ_180",
+            "OBJ_181",
+            "OBJ_182",
+            "OBJ_183",
+            "OBJ_184",
+            "OBJ_185",
+            "OBJ_186",
+            "OBJ_187",
+            "OBJ_188",
+            "OBJ_189",
+            "OBJ_190",
+            "OBJ_191",
+            "OBJ_192",
+            "OBJ_193",
+            "OBJ_194",
+            "OBJ_195",
+            "OBJ_196",
+            "OBJ_197",
+            "OBJ_198",
+            "OBJ_199",
+            "OBJ_200",
+            "OBJ_201",
+            "OBJ_202",
+            "OBJ_203",
+            "OBJ_204",
+            "OBJ_205",
+            "OBJ_206",
+            "OBJ_207",
+            "OBJ_208",
+            "OBJ_209",
+            "OBJ_210",
+            "OBJ_211",
+            "OBJ_212",
+            "OBJ_213",
+            "OBJ_214",
+            "OBJ_215",
+            "OBJ_216",
+            "OBJ_217",
+            "OBJ_218",
+            "OBJ_219",
+            "OBJ_220",
+            "OBJ_221",
+            "OBJ_222",
+            "OBJ_223"
+         );
+      };
+      "OBJ_175" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_57";
+      };
+      "OBJ_176" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_58";
+      };
+      "OBJ_177" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_60";
+      };
+      "OBJ_178" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_61";
+      };
+      "OBJ_179" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_62";
+      };
+      "OBJ_18" = {
+         isa = "PBXFileReference";
+         path = "CreateChatThreadRequest.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_180" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_63";
+      };
+      "OBJ_181" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_64";
+      };
+      "OBJ_182" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_65";
+      };
+      "OBJ_183" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_66";
+      };
+      "OBJ_184" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_68";
+      };
+      "OBJ_185" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_69";
+      };
+      "OBJ_186" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_70";
+      };
+      "OBJ_187" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_71";
+      };
+      "OBJ_188" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_72";
+      };
+      "OBJ_189" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_73";
+      };
+      "OBJ_19" = {
+         isa = "PBXFileReference";
+         path = "Enumerations.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_190" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_75";
+      };
+      "OBJ_191" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_76";
+      };
+      "OBJ_192" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_77";
+      };
+      "OBJ_193" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_78";
+      };
+      "OBJ_194" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_79";
+      };
+      "OBJ_195" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_80";
+      };
+      "OBJ_196" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_81";
+      };
+      "OBJ_197" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_82";
+      };
+      "OBJ_198" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_83";
+      };
+      "OBJ_199" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_85";
+      };
+      "OBJ_2" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_3",
+            "OBJ_4"
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_20" = {
+         isa = "PBXFileReference";
+         path = "ErrorType.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_200" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_86";
+      };
+      "OBJ_201" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_87";
+      };
+      "OBJ_202" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_88";
+      };
+      "OBJ_203" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_89";
+      };
+      "OBJ_204" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_90";
+      };
+      "OBJ_205" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_91";
+      };
+      "OBJ_206" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_92";
+      };
+      "OBJ_207" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_93";
+      };
+      "OBJ_208" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_94";
+      };
+      "OBJ_209" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_96";
+      };
+      "OBJ_21" = {
+         isa = "PBXFileReference";
+         path = "IndividualStatusResponse.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_210" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_97";
+      };
+      "OBJ_211" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_98";
+      };
+      "OBJ_212" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_99";
+      };
+      "OBJ_213" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_101";
+      };
+      "OBJ_214" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_102";
+      };
+      "OBJ_215" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_103";
+      };
+      "OBJ_216" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_104";
+      };
+      "OBJ_217" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_105";
+      };
+      "OBJ_218" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_106";
+      };
+      "OBJ_219" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_107";
+      };
+      "OBJ_22" = {
+         isa = "PBXFileReference";
+         path = "MultiStatusResponse.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_220" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_108";
+      };
+      "OBJ_221" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_109";
+      };
+      "OBJ_222" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_110";
+      };
+      "OBJ_223" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_111";
+      };
+      "OBJ_224" = {
+         isa = "PBXFrameworksBuildPhase";
+         files = (
+         );
+      };
+      "OBJ_226" = {
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_227",
+            "OBJ_228"
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
+      };
+      "OBJ_227" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            LD = "/usr/bin/true";
+            OTHER_SWIFT_FLAGS = (
+               "-swift-version",
+               "5",
+               "-I",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2",
+               "-sdk",
+               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk",
+               "-package-description-version",
+               "5.1.0"
+            );
+            SWIFT_VERSION = "5.0";
+         };
+         name = "Debug";
+      };
+      "OBJ_228" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            LD = "/usr/bin/true";
+            OTHER_SWIFT_FLAGS = (
+               "-swift-version",
+               "5",
+               "-I",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2",
+               "-sdk",
+               "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk",
+               "-package-description-version",
+               "5.1.0"
+            );
+            SWIFT_VERSION = "5.0";
+         };
+         name = "Release";
+      };
+      "OBJ_229" = {
+         isa = "PBXSourcesBuildPhase";
+         files = (
+            "OBJ_230"
+         );
+      };
+      "OBJ_23" = {
+         isa = "PBXFileReference";
+         path = "ReadReceipt.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_230" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_112";
+      };
+      "OBJ_24" = {
+         isa = "PBXFileReference";
+         path = "ReadReceiptsCollection.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_25" = {
+         isa = "PBXFileReference";
+         path = "SendChatMessageRequest.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_26" = {
+         isa = "PBXFileReference";
+         path = "SendChatMessageResult.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_27" = {
+         isa = "PBXFileReference";
+         path = "SendReadReceiptRequest.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_28" = {
+         isa = "PBXFileReference";
+         path = "UpdateChatMessageRequest.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_29" = {
+         isa = "PBXFileReference";
+         path = "UpdateChatThreadRequest.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_3" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            CLANG_ENABLE_OBJC_ARC = "YES";
+            COMBINE_HIDPI_IMAGES = "YES";
+            COPY_PHASE_STRIP = "NO";
+            DEBUG_INFORMATION_FORMAT = "dwarf";
+            DYLIB_INSTALL_NAME_BASE = "@rpath";
+            ENABLE_NS_ASSERTIONS = "YES";
+            GCC_OPTIMIZATION_LEVEL = "0";
+            GCC_PREPROCESSOR_DEFINITIONS = (
+               "$(inherited)",
+               "SWIFT_PACKAGE=1",
+               "DEBUG=1"
+            );
+            MACOSX_DEPLOYMENT_TARGET = "10.10";
+            ONLY_ACTIVE_ARCH = "YES";
+            OTHER_SWIFT_FLAGS = (
+               "$(inherited)",
+               "-DXcode"
+            );
+            PRODUCT_NAME = "$(TARGET_NAME)";
+            SDKROOT = "macosx";
+            SUPPORTED_PLATFORMS = (
+               "macosx",
+               "iphoneos",
+               "iphonesimulator",
+               "appletvos",
+               "appletvsimulator",
+               "watchos",
+               "watchsimulator"
+            );
+            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+               "$(inherited)",
+               "SWIFT_PACKAGE",
+               "DEBUG"
+            );
+            SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+            USE_HEADERMAP = "NO";
+         };
+         name = "Debug";
+      };
+      "OBJ_30" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_31",
+            "OBJ_32",
+            "OBJ_33",
+            "OBJ_34",
+            "OBJ_35",
+            "OBJ_36",
+            "OBJ_37",
+            "OBJ_38",
+            "OBJ_39",
+            "OBJ_40",
+            "OBJ_41",
+            "OBJ_42",
+            "OBJ_43",
+            "OBJ_44",
+            "OBJ_45",
+            "OBJ_46",
+            "OBJ_47"
+         );
+         name = "Options";
+         path = "Options";
+         sourceTree = "<group>";
+      };
+      "OBJ_31" = {
+         isa = "PBXFileReference";
+         path = "AddChatThreadMembersOptions.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_32" = {
+         isa = "PBXFileReference";
+         path = "AzureCommunicationChatClientOptions.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_33" = {
+         isa = "PBXFileReference";
+         path = "CreateChatThreadOptions.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_34" = {
+         isa = "PBXFileReference";
+         path = "DeleteChatMessageOptions.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_35" = {
+         isa = "PBXFileReference";
+         path = "DeleteChatThreadOptions.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_36" = {
+         isa = "PBXFileReference";
+         path = "GetChatMessageOptions.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_37" = {
+         isa = "PBXFileReference";
+         path = "GetChatThreadOptions.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_38" = {
+         isa = "PBXFileReference";
+         path = "ListChatMessagesOptions.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_39" = {
+         isa = "PBXFileReference";
+         path = "ListChatReadReceiptsOptions.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_4" = {
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            CLANG_ENABLE_OBJC_ARC = "YES";
+            COMBINE_HIDPI_IMAGES = "YES";
+            COPY_PHASE_STRIP = "YES";
+            DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+            DYLIB_INSTALL_NAME_BASE = "@rpath";
+            GCC_OPTIMIZATION_LEVEL = "s";
+            GCC_PREPROCESSOR_DEFINITIONS = (
+               "$(inherited)",
+               "SWIFT_PACKAGE=1"
+            );
+            MACOSX_DEPLOYMENT_TARGET = "10.10";
+            OTHER_SWIFT_FLAGS = (
+               "$(inherited)",
+               "-DXcode"
+            );
+            PRODUCT_NAME = "$(TARGET_NAME)";
+            SDKROOT = "macosx";
+            SUPPORTED_PLATFORMS = (
+               "macosx",
+               "iphoneos",
+               "iphonesimulator",
+               "appletvos",
+               "appletvsimulator",
+               "watchos",
+               "watchsimulator"
+            );
+            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+               "$(inherited)",
+               "SWIFT_PACKAGE"
+            );
+            SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+            USE_HEADERMAP = "NO";
+         };
+         name = "Release";
+      };
+      "OBJ_40" = {
+         isa = "PBXFileReference";
+         path = "ListChatThreadMembersOptions.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_41" = {
+         isa = "PBXFileReference";
+         path = "ListChatThreadsOptions.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_42" = {
+         isa = "PBXFileReference";
+         path = "RemoveChatThreadMemberOptions.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_43" = {
+         isa = "PBXFileReference";
+         path = "SendChatMessageOptions.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_44" = {
+         isa = "PBXFileReference";
+         path = "SendChatReadReceiptOptions.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_45" = {
+         isa = "PBXFileReference";
+         path = "SendTypingNotificationOptions.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_46" = {
+         isa = "PBXFileReference";
+         path = "UpdateChatMessageOptions.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_47" = {
+         isa = "PBXFileReference";
+         path = "UpdateChatThreadOptions.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_48" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_49",
+            "OBJ_50"
+         );
+         name = "Util";
+         path = "Util";
+         sourceTree = "<group>";
+      };
+      "OBJ_49" = {
+         isa = "PBXFileReference";
+         path = "PatchUtil.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_5" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_6",
+            "OBJ_7",
+            "OBJ_51",
+            "OBJ_52",
+            "OBJ_113"
+         );
+         path = "";
+         sourceTree = "<group>";
+      };
+      "OBJ_50" = {
+         isa = "PBXFileReference";
+         path = "Primitives+Extension.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_51" = {
+         isa = "PBXGroup";
+         children = (
+         );
+         name = "Tests";
+         path = "";
+         sourceTree = "SOURCE_ROOT";
+      };
+      "OBJ_52" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_53"
+         );
+         name = "Dependencies";
+         path = "";
+         sourceTree = "<group>";
+      };
+      "OBJ_53" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_54",
+            "OBJ_55",
+            "OBJ_112"
+         );
+         name = "AzureSDK";
+         path = "";
+         sourceTree = "SOURCE_ROOT";
+      };
+      "OBJ_54" = {
+         isa = "PBXGroup";
+         children = (
+         );
+         name = "AzureCommunication";
+         path = ".build/checkouts/azure-sdk-for-ios/sdk/communication/AzureCommunication";
+         sourceTree = "SOURCE_ROOT";
+      };
+      "OBJ_55" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_56"
+         );
+         name = "AzureCore";
+         path = ".build/checkouts/azure-sdk-for-ios/sdk/core/AzureCore";
+         sourceTree = "SOURCE_ROOT";
+      };
+      "OBJ_56" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_57",
+            "OBJ_58",
+            "OBJ_59",
+            "OBJ_66",
+            "OBJ_67",
+            "OBJ_95",
+            "OBJ_100"
+         );
+         name = "Source";
+         path = "Source";
+         sourceTree = "<group>";
+      };
+      "OBJ_57" = {
+         isa = "PBXFileReference";
+         path = "AzureTask.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_58" = {
+         isa = "PBXFileReference";
+         path = "ClientLogger.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_59" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_60",
+            "OBJ_61",
+            "OBJ_62",
+            "OBJ_63",
+            "OBJ_64",
+            "OBJ_65"
+         );
+         name = "DataStructures";
+         path = "DataStructures";
+         sourceTree = "<group>";
+      };
+      "OBJ_6" = {
+         isa = "PBXFileReference";
+         explicitFileType = "sourcecode.swift";
+         path = "Package.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_60" = {
+         isa = "PBXFileReference";
+         path = "CancellationToken.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_61" = {
+         isa = "PBXFileReference";
+         path = "Collections.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_62" = {
+         isa = "PBXFileReference";
+         path = "MatchCondition.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_63" = {
+         isa = "PBXFileReference";
+         path = "XMLMap.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_64" = {
+         isa = "PBXFileReference";
+         path = "XMLModel.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_65" = {
+         isa = "PBXFileReference";
+         path = "XMLTree.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_66" = {
+         isa = "PBXFileReference";
+         path = "Errors.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_67" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_68",
+            "OBJ_69",
+            "OBJ_70",
+            "OBJ_71",
+            "OBJ_72",
+            "OBJ_73",
+            "OBJ_74",
+            "OBJ_84"
+         );
+         name = "Pipeline";
+         path = "Pipeline";
+         sourceTree = "<group>";
+      };
+      "OBJ_68" = {
+         isa = "PBXFileReference";
+         path = "Pipeline.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_69" = {
+         isa = "PBXFileReference";
+         path = "PipelineClient.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_7" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_8",
+            "OBJ_9",
+            "OBJ_30",
+            "OBJ_48"
+         );
+         name = "Sources";
+         path = "Source";
+         sourceTree = "SOURCE_ROOT";
+      };
+      "OBJ_70" = {
+         isa = "PBXFileReference";
+         path = "PipelineContext.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_71" = {
+         isa = "PBXFileReference";
+         path = "PipelineRequest.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_72" = {
+         isa = "PBXFileReference";
+         path = "PipelineResponse.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_73" = {
+         isa = "PBXFileReference";
+         path = "PipelineStage.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_74" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_75",
+            "OBJ_76",
+            "OBJ_77",
+            "OBJ_78",
+            "OBJ_79",
+            "OBJ_80",
+            "OBJ_81",
+            "OBJ_82",
+            "OBJ_83"
+         );
+         name = "Policies";
+         path = "Policies";
+         sourceTree = "<group>";
+      };
+      "OBJ_75" = {
+         isa = "PBXFileReference";
+         path = "AddDatePolicy.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_76" = {
+         isa = "PBXFileReference";
+         path = "AuthenticationPolicy.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_77" = {
+         isa = "PBXFileReference";
+         path = "ContentDecodePolicy.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_78" = {
+         isa = "PBXFileReference";
+         path = "HeadersPolicy.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_79" = {
+         isa = "PBXFileReference";
+         path = "HeadersValidationPolicy.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_8" = {
+         isa = "PBXFileReference";
+         path = "AzureCommunicationChatClient.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_80" = {
+         isa = "PBXFileReference";
+         path = "LoggingPolicy.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_81" = {
+         isa = "PBXFileReference";
+         path = "NormalizeETagPolicy.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_82" = {
+         isa = "PBXFileReference";
+         path = "RequestIdPolicy.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_83" = {
+         isa = "PBXFileReference";
+         path = "UserAgentPolicy.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_84" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_85",
+            "OBJ_86",
+            "OBJ_87",
+            "OBJ_88",
+            "OBJ_89",
+            "OBJ_90",
+            "OBJ_91",
+            "OBJ_92",
+            "OBJ_93",
+            "OBJ_94"
+         );
+         name = "Transport";
+         path = "Transport";
+         sourceTree = "<group>";
+      };
+      "OBJ_85" = {
+         isa = "PBXFileReference";
+         path = "DataStringConvertible.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_86" = {
+         isa = "PBXFileReference";
+         path = "HTTPHeader.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_87" = {
+         isa = "PBXFileReference";
+         path = "HTTPMethod.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_88" = {
+         isa = "PBXFileReference";
+         path = "HTTPRequest.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_89" = {
+         isa = "PBXFileReference";
+         path = "HTTPResponse.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_9" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_10",
+            "OBJ_11",
+            "OBJ_12",
+            "OBJ_13",
+            "OBJ_14",
+            "OBJ_15",
+            "OBJ_16",
+            "OBJ_17",
+            "OBJ_18",
+            "OBJ_19",
+            "OBJ_20",
+            "OBJ_21",
+            "OBJ_22",
+            "OBJ_23",
+            "OBJ_24",
+            "OBJ_25",
+            "OBJ_26",
+            "OBJ_27",
+            "OBJ_28",
+            "OBJ_29"
+         );
+         name = "Models";
+         path = "Models";
+         sourceTree = "<group>";
+      };
+      "OBJ_90" = {
+         isa = "PBXFileReference";
+         path = "HTTPTransportStage.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_91" = {
+         isa = "PBXFileReference";
+         path = "TelemetryOptions.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_92" = {
+         isa = "PBXFileReference";
+         path = "TransportOptions.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_93" = {
+         isa = "PBXFileReference";
+         path = "URLHTTPResponse.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_94" = {
+         isa = "PBXFileReference";
+         path = "URLSessionTransport.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_95" = {
+         isa = "PBXGroup";
+         children = (
+            "OBJ_96",
+            "OBJ_97",
+            "OBJ_98",
+            "OBJ_99"
+         );
+         name = "Providers";
+         path = "Providers";
+         sourceTree = "<group>";
+      };
+      "OBJ_96" = {
+         isa = "PBXFileReference";
+         path = "BundleInfoProvider.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_97" = {
+         isa = "PBXFileReference";
+         path = "DeviceProviders.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_98" = {
+         isa = "PBXFileReference";
+         path = "LocaleInfoProvider.swift";
+         sourceTree = "<group>";
+      };
+      "OBJ_99" = {
+         isa = "PBXFileReference";
+         path = "PlatformInfoProvider.swift";
+         sourceTree = "<group>";
+      };
+   };
+   rootObject = "OBJ_1";
 }

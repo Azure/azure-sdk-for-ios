@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>ChatMessage Structure Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Struct/ChatMessage" class="dashAnchor"></a>
+    <a title="ChatMessage Structure Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html"> Docs</a> (93% documented)</p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html"> Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        ChatMessage Structure Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/AzureCommunicationChatClient.html">AzureCommunicationChatClient</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/AzureCommunicationChatClient/ApiVersion.html">– ApiVersion</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/ChatMessagePriority.html">ChatMessagePriority</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/Int.html">Int</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Int32.html">Int32</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Int64.html">Int64</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/String.html">String</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/AddChatThreadMembersOptions.html">AddChatThreadMembersOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/AddChatThreadMembersRequest.html">AddChatThreadMembersRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/AzureCommunicationChatClientOptions.html">AzureCommunicationChatClientOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ChatMessage.html">ChatMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ChatMessagesCollection.html">ChatMessagesCollection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ChatThread.html">ChatThread</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ChatThreadInfo.html">ChatThreadInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ChatThreadMember.html">ChatThreadMember</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ChatThreadMembersCollection.html">ChatThreadMembersCollection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ChatThreadsInfoCollection.html">ChatThreadsInfoCollection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CreateChatThreadOptions.html">CreateChatThreadOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CreateChatThreadRequest.html">CreateChatThreadRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/DeleteChatMessageOptions.html">DeleteChatMessageOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/DeleteChatThreadOptions.html">DeleteChatThreadOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ErrorType.html">ErrorType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetChatMessageOptions.html">GetChatMessageOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/GetChatThreadOptions.html">GetChatThreadOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/IndividualStatusResponse.html">IndividualStatusResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ListChatMessagesOptions.html">ListChatMessagesOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ListChatReadReceiptsOptions.html">ListChatReadReceiptsOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ListChatThreadMembersOptions.html">ListChatThreadMembersOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ListChatThreadsOptions.html">ListChatThreadsOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/MultiStatusResponse.html">MultiStatusResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ReadReceipt.html">ReadReceipt</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ReadReceiptsCollection.html">ReadReceiptsCollection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/RemoveChatThreadMemberOptions.html">RemoveChatThreadMemberOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SendChatMessageOptions.html">SendChatMessageOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SendChatMessageRequest.html">SendChatMessageRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SendChatMessageResult.html">SendChatMessageResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SendChatReadReceiptOptions.html">SendChatReadReceiptOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SendReadReceiptRequest.html">SendReadReceiptRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SendTypingNotificationOptions.html">SendTypingNotificationOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/UpdateChatMessageOptions.html">UpdateChatMessageOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/UpdateChatMessageRequest.html">UpdateChatMessageRequest</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/UpdateChatThreadOptions.html">UpdateChatThreadOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/UpdateChatThreadRequest.html">UpdateChatThreadRequest</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>ChatMessage</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ChatMessage</span> <span class="p">:</span> <span class="kt">Codable</span></code></pre>
+
+                </div>
+              </div>
+            <p>Undocumented</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:22AzureCommunicationChat0C7MessageV2idSSSgvp"></a>
+                    <a name="//apple_ref/swift/Property/id" class="dashAnchor"></a>
+                    <a class="token" href="#/s:22AzureCommunicationChat0C7MessageV2idSSSgvp">id</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The id of the chat message. This id is server generated.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">id</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:22AzureCommunicationChat0C7MessageV4typeSSSgvp"></a>
+                    <a name="//apple_ref/swift/Property/type" class="dashAnchor"></a>
+                    <a class="token" href="#/s:22AzureCommunicationChat0C7MessageV4typeSSSgvp">type</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Type of the chat message.</p>
+
+<p>Possible values:
+    - Text
+    - ThreadActivity/TopicUpdate
+    - ThreadActivity/AddMember
+    - ThreadActivity/DeleteMember</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:22AzureCommunicationChat0C7MessageV8priorityAA0cD8PriorityOSgvp"></a>
+                    <a name="//apple_ref/swift/Property/priority" class="dashAnchor"></a>
+                    <a class="token" href="#/s:22AzureCommunicationChat0C7MessageV8priorityAA0cD8PriorityOSgvp">priority</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The chat message priority.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">priority</span><span class="p">:</span> <span class="kt"><a href="../Enums/ChatMessagePriority.html">ChatMessagePriority</a></span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:22AzureCommunicationChat0C7MessageV7versionSSSgvp"></a>
+                    <a name="//apple_ref/swift/Property/version" class="dashAnchor"></a>
+                    <a class="token" href="#/s:22AzureCommunicationChat0C7MessageV7versionSSSgvp">version</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Version of the chat message.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">version</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:22AzureCommunicationChat0C7MessageV7contentSSSgvp"></a>
+                    <a name="//apple_ref/swift/Property/content" class="dashAnchor"></a>
+                    <a class="token" href="#/s:22AzureCommunicationChat0C7MessageV7contentSSSgvp">content</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Content of the chat message.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">content</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:22AzureCommunicationChat0C7MessageV17senderDisplayNameSSSgvp"></a>
+                    <a name="//apple_ref/swift/Property/senderDisplayName" class="dashAnchor"></a>
+                    <a class="token" href="#/s:22AzureCommunicationChat0C7MessageV17senderDisplayNameSSSgvp">senderDisplayName</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The display name of the chat message sender. This property is used to populate sender name for push notifications.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">senderDisplayName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:22AzureCommunicationChat0C7MessageV9createdOn10Foundation4DateVSgvp"></a>
+                    <a name="//apple_ref/swift/Property/createdOn" class="dashAnchor"></a>
+                    <a class="token" href="#/s:22AzureCommunicationChat0C7MessageV9createdOn10Foundation4DateVSgvp">createdOn</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The timestamp when the chat message arrived at the server. The timestamp is in ISO8601 format: <code>yyyy-MM-ddTHH:mm:ssZ</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">createdOn</span><span class="p">:</span> <span class="kt">Date</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:22AzureCommunicationChat0C7MessageV8senderIdSSSgvp"></a>
+                    <a name="//apple_ref/swift/Property/senderId" class="dashAnchor"></a>
+                    <a class="token" href="#/s:22AzureCommunicationChat0C7MessageV8senderIdSSSgvp">senderId</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The id of the chat message sender.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">senderId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:22AzureCommunicationChat0C7MessageV9deletedOn10Foundation4DateVSgvp"></a>
+                    <a name="//apple_ref/swift/Property/deletedOn" class="dashAnchor"></a>
+                    <a class="token" href="#/s:22AzureCommunicationChat0C7MessageV9deletedOn10Foundation4DateVSgvp">deletedOn</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The timestamp when the chat message was deleted. The timestamp is in ISO8601 format: <code>yyyy-MM-ddTHH:mm:ssZ</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">deletedOn</span><span class="p">:</span> <span class="kt">Date</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:22AzureCommunicationChat0C7MessageV8editedOn10Foundation4DateVSgvp"></a>
+                    <a name="//apple_ref/swift/Property/editedOn" class="dashAnchor"></a>
+                    <a class="token" href="#/s:22AzureCommunicationChat0C7MessageV8editedOn10Foundation4DateVSgvp">editedOn</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The timestamp when the chat message was edited. The timestamp is in ISO8601 format: <code>yyyy-MM-ddTHH:mm:ssZ</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">editedOn</span><span class="p">:</span> <span class="kt">Date</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:22AzureCommunicationChat0C7MessageV2id4type8priority7version7content17senderDisplayName9createdOn0J2Id07deletedN006editedN0ACSSSg_AnA0cD8PriorityOSgA3N10Foundation4DateVSgAn2Utcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(id:type:priority:version:content:senderDisplayName:createdOn:senderId:deletedOn:editedOn:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:22AzureCommunicationChat0C7MessageV2id4type8priority7version7content17senderDisplayName9createdOn0J2Id07deletedN006editedN0ACSSSg_AnA0cD8PriorityOSgA3N10Foundation4DateVSgAn2Utcfc">init(id:<wbr>type:<wbr>priority:<wbr>version:<wbr>content:<wbr>senderDisplayName:<wbr>createdOn:<wbr>senderId:<wbr>deletedOn:<wbr>editedOn:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initialize a <code>ChatMessage</code> structure.</p>
+
+<p>Possible values:
+    - Text
+    - ThreadActivity/TopicUpdate
+    - ThreadActivity/AddMember
+    - ThreadActivity/DeleteMember</p>
+
+<ul>
+<li>priority: The chat message priority.</li>
+</ul><div class="aside aside-version">
+    <p class="aside-title">Version</p>
+    Version of the chat message.
+
+</div><ul>
+<li>content: Content of the chat message.</li>
+<li>senderDisplayName: The display name of the chat message sender. This property is used to populate sender name for push notifications.</li>
+<li>createdOn: The timestamp when the chat message arrived at the server. The timestamp is in ISO8601 format: <code>yyyy-MM-ddTHH:mm:ssZ</code>.</li>
+<li>senderId: The id of the chat message sender.</li>
+<li>deletedOn: The timestamp when the chat message was deleted. The timestamp is in ISO8601 format: <code>yyyy-MM-ddTHH:mm:ssZ</code>.</li>
+<li>editedOn: The timestamp when the chat message was edited. The timestamp is in ISO8601 format: <code>yyyy-MM-ddTHH:mm:ssZ</code>.</li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span>
+    <span class="nv">id</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">priority</span><span class="p">:</span> <span class="kt"><a href="../Enums/ChatMessagePriority.html">ChatMessagePriority</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">version</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+    <span class="nv">content</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">senderDisplayName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">createdOn</span><span class="p">:</span> <span class="kt">Date</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">senderId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+    <span class="nv">deletedOn</span><span class="p">:</span> <span class="kt">Date</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">editedOn</span><span class="p">:</span> <span class="kt">Date</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>id</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The id of the chat message. This id is server generated.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Type of the chat message.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:22AzureCommunicationChat0C7MessageV4fromACs7Decoder_p_tKcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(from:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:22AzureCommunicationChat0C7MessageV4fromACs7Decoder_p_tKcfc">init(from:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initialize a <code>ChatMessage</code> structure from decoder</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n">from</span> <span class="nv">decoder</span><span class="p">:</span> <span class="kt">Decoder</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:22AzureCommunicationChat0C7MessageV6encode2toys7Encoder_p_tKF"></a>
+                    <a name="//apple_ref/swift/Method/encode(to:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:22AzureCommunicationChat0C7MessageV6encode2toys7Encoder_p_tKF">encode(to:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Encode a <code>ChatMessage</code> structure</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">encode</span><span class="p">(</span><span class="n">to</span> <span class="nv">encoder</span><span class="p">:</span> <span class="kt">Encoder</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2020-09-29)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
