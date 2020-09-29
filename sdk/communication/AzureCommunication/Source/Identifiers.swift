@@ -26,16 +26,10 @@
 
 import Foundation
 
-@objc public protocol CommunicationIdentifier: NSObjectProtocol {
-    func getId() -> String
-}
+@objc public protocol CommunicationIdentifier: NSObjectProtocol {  }
 
 @objcMembers public class CommunicationUser: NSObject, CommunicationIdentifier {
     public let identifier: String
-
-    public func getId() -> String {
-        return self.identifier
-    }
 
     public init(identifier: String) {
         self.identifier = identifier
@@ -45,10 +39,6 @@ import Foundation
 @objcMembers public class CallingApplication: NSObject, CommunicationIdentifier {
     public let identifier: String
 
-    public func getId() -> String {
-        return self.identifier
-    }
-
     public init(identifier: String) {
         self.identifier = identifier
     }
@@ -57,10 +47,6 @@ import Foundation
 @objcMembers public class UnknownIdentifier: NSObject, CommunicationIdentifier {
     public let identifier: String
 
-    public func getId() -> String {
-        return self.identifier
-    }
-
     public init(identifier: String) {
         self.identifier = identifier
     }
@@ -68,10 +54,6 @@ import Foundation
 
 @objcMembers public class PhoneNumber: NSObject, CommunicationIdentifier {
     public let value: String
-
-    public func getId() -> String {
-        return self.value
-    }
 
     public init(phoneNumber: String) {
         self.value = phoneNumber
