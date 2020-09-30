@@ -32,13 +32,35 @@ import Foundation
 public typealias AccessTokenRefreshOnCompletion = (AccessToken?, Error?) -> Void
 public typealias TokenRefreshOnCompletion = (String?, Error?) -> Void
 
+/**
+ The Azure Communication Services User token credential. This class is used to cache/refresh the access token required by Azure Communication Services.
+*/
 @objcMembers public class CommunicationUserCredential: NSObject {
     private let userTokenCredential: CommunicationTokenCredential
-
+    
+    /**
+     Creates a CommunicationUserCredential object from the provided token string.
+        
+     - Parameter token: token string for initialization
+     
+     - Throws: `AzureError` Token is not formatted correctly if it does not confrom to JWT standards
+     */
     public init(token: String) throws {
         self.userTokenCredential = try StaticUserCredential(token: token)
     }
-
+    /**
+     Creates a CommunicationUserCredential that automatically refreshes the token.
+     The cached token is updated if `token(completionHandler: )` is called and if the difference between the current time and token expiry time is less than 120s.
+     If `refreshProactively` parameter  is `true`:
+        - The cached token will be updated in the background when the difference between the current time and token expiry time is less than 600s.
+        - The cached token will be updated immediately when the constructor is invoked and `initialToken` is expired
+        
+     - Parameters:
+        - initialToken: token string for initialization
+        - refreshProactively: indicates if token should be refreshed in the background
+        - tokenRefresher: Closure to supply fresh token string
+     - Throws: `AzureError` Token is not formatted correctly if it does not confrom to JWT standards
+     */
     public init(
         initialToken: String? = nil,
         refreshProactively: Bool = false,
@@ -51,6 +73,10 @@ public typealias TokenRefreshOnCompletion = (String?, Error?) -> Void
         )
     }
 
+    /**
+     Get Azure core access token from credential.
+     - Parameter completionHandler:Closure that has an optional `AccessToken` or optional `Error` as parameters. `AccessToken` returns  a token and an expiry date if applicable. `Error` returns `nil` if the current token can be returned.
+     */
     public func token(completionHandler: @escaping AccessTokenRefreshOnCompletion) {
         userTokenCredential.token(completionHandler: completionHandler)
     }
