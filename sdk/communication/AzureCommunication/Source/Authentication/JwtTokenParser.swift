@@ -32,13 +32,30 @@ import Foundation
 struct JwtPayload: Decodable {
     var exp: UInt64
 }
-
+/**
+ Utility for Handling Access Tokens.
+*/
 struct JwtTokenParser {
+    /**
+     Create `AccessToken` object from token string
+        
+     - Parameter token: Token string
+     
+     - Returns: A new `AccessToken` instance
+     */
     static func createAccessToken(_ token: String) throws -> AccessToken {
         let payload = try decodeJwtPayload(token)
         return AccessToken(token: token, expiresOn: Date(timeIntervalSince1970: TimeInterval(payload.exp)))
     }
-
+    
+    /**
+     Helper function that converts base 64 url  to  `Data` object
+     - Parameter base64Url: Url string to convert
+        
+     - Throws: `AzureError` if we can't convert base64Data to base64String or if we can't convert  base64String to Data.
+     
+     - Returns: Data representation of url
+     */
     static func convertFromBase64Url(_ base64Url: String) throws -> Data {
         let base64Url = base64Url.replacingOccurrences(of: "-", with: "+").replacingOccurrences(of: "_", with: "-")
             .appending(String(repeating: "=", count: (4 - (base64Url.count % 4)) % 4))
@@ -56,6 +73,15 @@ struct JwtTokenParser {
         return result
     }
 
+    /**
+     Helper function validates the token and retuns a `JwtPayload`
+     
+     - Parameter token: Token string
+     
+     - Throws: `AzureError` if the token does not follow JWT standards
+     
+     - Returns: `JwtPayload`
+     */
     static func decodeJwtPayload(_ token: String) throws -> JwtPayload {
         let tokenParts = token.components(separatedBy: ".")
 
