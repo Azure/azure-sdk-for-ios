@@ -6,13 +6,8 @@ Read more about Azure Communication Services [here](https://docs.microsoft.com/a
 
 ## Prerequisites
 
-- An Azure Communication Resource, learn how to create one from [Create an Azure Communication Resource](https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource?tabs=windows&pivots=platform-azp)
+- An Azure Communication Resource, learn how to create one from [Create an Azure Communication Resource](https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource)
 
-## Install the package
-
-Install the Azure Communication Service Chat SDK.
-
-(TODO: sample code)
 
 ## User and User Access Tokens
 
