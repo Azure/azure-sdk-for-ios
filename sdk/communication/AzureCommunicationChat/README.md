@@ -13,7 +13,7 @@ Read more about Azure Communication Services [here](https://docs.microsoft.com/a
 
 User access tokens enable you to build client applications that directly authenticate to Azure Communication Services. Refer [here](https://docs.microsoft.com/azure/communication-services/quickstarts/access-tokens) to learn how to create a user and issue an User Access Token
 
-The user id `CommunicationUser.identifier`  created above will be used later, because that user should be added as a member of new chat thread when you creating
+The user id `CommunicationUser.identifier` created above will be used later, because that user should be added as a member of new chat thread when you creating
 it with this token. It is because the initiator of the create request must be in the list of the members of the chat thread.
 
 ## Create the AzureCommunicationChatClient
@@ -40,7 +40,7 @@ let client = AzureCommunicationChatClient(baseUrl: baseUrl, authPolicy: authPoli
 
 A chat conversation is represented by a chat thread. Each user in the thread is called a thread member. Thread members can chat with one another privately in a 1:1 chat or huddle up in a 1:N group chat. Users also get near real-time updates for when others are typing and when they have read the messages.
 
-Once you initialized a `AzureCommunicationChatClient` class, you can do the following chat operations:
+Once you initialized an `AzureCommunicationChatClient` class, you can do the following chat operations:
 
 ## Create, get, update, list, and delete threads
 
@@ -90,19 +90,18 @@ client.listChatReadReceipts(chatThreadId: threadId)
 
 ### Create a thread
 
-Use the `create` method to create a chat thread client object.
+Use the `create` method to create a chat thread.
 
-- `CreateChatThreadRequest` is the model to pass to this method
-- Use `topic` to give a thread topic;
-- Use `members` to list the `ChatThreadMember` to be added to the thread;
-- `id`, required, it is the `CommunicationUser.identifier` you created before, refer to [User and User Access Tokens](#User-and-User-Access-Tokens)
+- `CreateChatThreadRequest` is the model to pass to this method.
+- `topic` is used to provide a topic for the thread.
+- `members` is used to list the `ChatThreadMember` to be added to the thread.
+- `id`, required, is the `CommunicationUser.identifier` you created before. Refer to [User and User Access Tokens](#User-and-User-Access-Tokens).
 - `displayName`, optional, is the display name for the thread member.
-- `shareHistoryTime`, optional, time from which the chat history is shared with the member.
+- `shareHistoryTime`, optional, is the time from which the chat history is shared with the member.
 
-`MultiStatusResponse` is the result returned from creating a thread, it has 'multipleStatus' which is a list of `IndividualStatusResponse`
+`MultiStatusResponse` is the result returned from creating a thread, it has 'multipleStatus' which is a list of `IndividualStatusResponse`.
 
 ```swift
-
 let thread = CreateChatThreadRequest(
     topic: "General",
     members: [ChatThreadMember(
@@ -136,7 +135,8 @@ client.create(chatThread: thread) { result, _ in
 
 ### Get a thread
 
-The `getChatThread` method retrieves a thread from the service.
+Use the The `getChatThread` method retrieves a thread from the service.
+
 `chatThreadId` is the unique ID of the thread.
 
 ```swift
@@ -157,13 +157,14 @@ client.getChatThread(chatThreadId: threadId) { result, _ in
 ```
 
 ### List chat threads
-The `listChatThreads` method retrieves the list of created chat threads
 
-- `ListChatThreadsOptions` is the options to pass
-- `maxPageSize`, optional, The maximum number of messages to be returned per page.
-- `startTime`, optional, The start time where the range query.
+Use the `listChatThreads` method to retrieve a list of chat threads.
 
-`PagedCollection<ChatThreadInfo>` is the response returned from listing threads
+- `ListChatThreadsOptions` is the object representing the options to pass.
+- `maxPageSize`, optional, is the maximum number of messages to be returned per page.
+- `startTime`, optional, is the thread start time to consider in the query.
+
+`PagedCollection<ChatThreadInfo>` is the response returned from listing threads.
 
 ```swift
 import AzureCore
@@ -186,12 +187,11 @@ client.listChatThreads(withOptions: options) { result, _ in
 
 ### Update a thread
 
-Use `update` method to update a thread's properties
-`threadId` is the unique ID of the thread.
-`UpdateChatThreadRequest` is the model to pass
-`topic` is used to describe the change of the thread topic
+Use the `update` method to update a thread's properties.
 
-- Use `topic` to give thread a new topic;
+- `UpdateChatThreadRequest` is the model to pass to this method.
+- `topic` is used to give a thread a new topic.
+- `chatThreadId` is the unique ID of the thread.
 
 ```swift
  let thread = UpdateChatThreadRequest(
@@ -213,7 +213,8 @@ client.update(chatThread: thread, chatThreadId: threadId) { result, _ in
 ### Delete a thread
 
 Use `deleteChatThread` method to delete a thread
-`threadId` is the unique ID of the thread.
+
+- `chatThreadId` is the unique ID of the thread.
 
 ```swift
 client.deleteChatThread(chatThreadId: threadId) { result, httpResponse in
@@ -232,13 +233,13 @@ client.deleteChatThread(chatThreadId: threadId) { result, httpResponse in
 
 ### Send a message
 
-Use `send` method to sends a message to a thread identified by threadId.
+Use the `send` method to send a message to a thread identified by threadId.
 
-`threadId` is the unique ID of the thread.
-`SendChatMessageRequest` is the model to pass
-- Use `content` to provide the chat message content, it is required
-- Use `priority` to specify the message priority level, such as 'Normal' or 'High', if not specified, 'Normal' will be set
-- Use `senderDisplayName` to specify the display name of the sender, if not specified, empty name will be set
+- `SendChatMessageRequest` is the model to pass to this method.
+- `priority` is used to specify the message priority level, such as 'Normal' or 'High', if not specified, 'Normal' will be set.
+- `content`, required, is used to provide the chat message content.
+- `senderDisplayName` is used to specify the display name of the sender, if not specified, an empty name will be set.
+- `chatThreadId` is the unique ID of the thread.
 
 `SendChatMessageResult` is the response returned from sending a message, it contains an id, which is the unique ID of the message.
 
@@ -263,8 +264,10 @@ getClient().send(chatMessage: message, chatThreadId: threadId) { result, _ in
 
 ### Get a message
 
-The `getChatMessage` method retrieves a message from the service.
-`chatMessageId` is the unique ID of the message.
+Use the `getChatMessage` method to retrieve a message from the service.
+
+- `chatThreadId` is the unique ID of the thread.
+- `chatMessageId` is the unique ID of the message.
 
 `ChatMessage` is the response returned from getting a message.
 
@@ -287,11 +290,12 @@ client.getChatMessage(chatThreadId: threadId, chatMessageId: messageId) { result
 
 ### Get messages
 
-The `listChatMessages` method retrieves messages from the service.
+Use the `listChatMessages` method to retrieve messages from the service.
 
-`ListChatMessagesOptions` is the options to pass
-- `maxPageSize`, optional, The maximum number of messages to be returned per page.
-- `startTime`, optional, The start time where the range query.
+- `ListChatMessagesOptions` is the object representing the options to pass.
+- `maxPageSize`, optional, is the maximum number of messages to be returned per page.
+- `startTime`, optional, is the thread start time to consider in the query.
+- `chatThreadId` is the unique ID of the thread.
 
 `<PagedCollection<ChatMessage>` is the response returned from listing messages
 
@@ -329,10 +333,13 @@ client.listChatMessages(chatThreadId: threadId, withOptions: options) { result, 
 
 ### Update a message
 
-Use `update` to update a message identified by threadId and messageId.
-`UpdateChatMessageRequest` is the passed request model
-`priority` is the chat message priority `ChatMessagePriority`, such as 'Normal' or 'High', if not specified, 'Normal' will be set
-`content` is the message content to be updated.
+Use the `update` method to update a message identified by threadId and messageId.
+
+- `UpdateChatMessageRequest` is the model to pass to this method.
+- `priority` is the chat message priority `ChatMessagePriority`, such as 'Normal' or 'High', if not specified, 'Normal' will be set.
+- `content` is the message content to be updated.
+- `chatThreadId` is the unique ID of the thread.
+- `chatMessageId` is the unique ID of the message.
 
 ```swift
 let message = UpdateChatMessageRequest(
@@ -353,8 +360,10 @@ getClient().update(chatMessage: message, chatThreadId: threadId, chatMessageId: 
 
 ### Delete a message
 
-Use `deleteChatMessage` to delete a message.
-`chatMessageId` is the unique ID of the message.
+Use the `deleteChatMessage` method to delete a message.
+
+- `chatThreadId` is the unique ID of the thread.
+- `chatMessageId` is the unique ID of the message.
 
 ```swift
 getClient().deleteChatMessage(chatThreadId: threadId, chatMessageId: messageId) { result, _ in
@@ -373,9 +382,11 @@ getClient().deleteChatMessage(chatThreadId: threadId, chatMessageId: messageId) 
 
 ### Get thread members
 
-Use `listChatThreadMembers` to retrieve the members of the thread.
+Use the `listChatThreadMembers` method to retrieve the members of the thread.
 
-`PagedCollection<ChatThreadMember>` is the response returned from listing members
+- `chatThreadId` is the unique ID of the thread.
+
+`PagedCollection<ChatThreadMember>` is the response returned from listing members.
 
 ```swift
 client.listChatThreadMembers(chatThreadId: threadId) { result, _ in
@@ -397,12 +408,13 @@ client.listChatThreadMembers(chatThreadId: threadId) { result, _ in
 
 ### Add thread members
 
-Use `add` method to add thread members to the thread.
+Use the `add` method to add members to the thread.
 
-- Use `AddChatThreadMembersRequest` to list the `ChatThreadMember` to be added to the thread;
-- `id`, required, it is the `CommunicationUser.identifier` you created before, refer to [User and User Access Tokens](#User-and-User-Access-Tokens)
+- `AddChatThreadMembersRequest` is used to list the `ChatThreadMember`s to be added to the thread.
+- `id`, required, is the `CommunicationUser.identifier` you created before. Refer to [User and User Access Tokens](#User-and-User-Access-Tokens).
 - `displayName`, optional, is the display name for the thread member.
-- `shareHistoryTime`, optional, time from which the chat history is shared with the member.
+- `shareHistoryTime`, optional, is the time from which the chat history is shared with the member.
+- `chatThreadId` is the unique ID of the thread.
 
 ```swift
 let threadMembers = AddChatThreadMembersRequest(
@@ -425,8 +437,10 @@ client.add(chatThreadMembers: threadMembers, chatThreadId: threadId) { result, _
 
 ### Remove thread member
 
-Use `removeChatThreadMember` method to remove thread member from the thread identified by threadId.
-`chatMemberId` is the user id that in this chat thread members list.
+Use the `removeChatThreadMember` method to remove a thread member from the thread identified by `threadId`.
+
+- `chatThreadId` is the unique ID of the thread.
+- `chatMemberId` is the user ID in the chat thread's member list.
 
 ```swift
 client.removeChatThreadMember(chatThreadId: threadId, chatMemberId: memberId) { result, _ in
@@ -445,7 +459,7 @@ client.removeChatThreadMember(chatThreadId: threadId, chatMemberId: memberId) { 
 
 ### Send typing notification
 
-Use `sendTypingNotification` method to post a typing notification event to a thread, on behalf of a user.
+Use the `sendTypingNotification` method to post a typing notification event to a thread, on behalf of a user.
 
 ```swift
 client.sendTypingNotification(chatThreadId: threadId) { result, _ in
@@ -462,7 +476,11 @@ client.sendTypingNotification(chatThreadId: threadId) { result, _ in
 
 ### Send read receipt
 
-Use `send` method to post a read receipt event to a thread, on behalf of a user.
+Use the `send` method to post a read receipt event to a thread, on behalf of a user.
+
+- `SendReadReceiptRequest` is the model to be passed to this method.
+- `chatMessageId` is the unique ID of the message.
+- `chatThreadId` is the unique ID of the thread.
 
 ```swift
 let readReceipt = SendReadReceiptRequest(chatMessageId: messageId)
@@ -481,9 +499,11 @@ client.send(chatReadReceipt: readReceipt, chatThreadId: threadId) { result, _ in
 
 ### Get read receipts
 
-use `listChatReadReceipts` method retrieves read receipts for a thread.
+Use the `listChatReadReceipts` method to retrieve read receipts for a thread.
 
-`PagedCollection<ReadReceipt>` is the response returned from listing read receipts
+- `chatThreadId` is the unique ID of the thread.
+
+`PagedCollection<ReadReceipt>` is the response returned from listing read receipts.
 
 ```swift
 client.listChatReadReceipts(chatThreadId: threadId) { result, _ in
