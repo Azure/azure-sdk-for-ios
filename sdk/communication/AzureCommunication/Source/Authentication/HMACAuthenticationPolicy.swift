@@ -40,10 +40,22 @@ import Security
     public func process(request pipelineRequest: PipelineRequest, completionHandler: @escaping PipelineStageResultHandler) {
         
     }
+     
     
     private func createContentHash(request pipelineRequest: PipelineRequest) -> String {
+        return ""
+    }
+    
+    private func getAuthorizationHeader(
+        method pipelineRequest: PipelineRequest,
+        url: URL,
+        contentHash: String,
+        date: String) -> String {
         
         return ""
-        
+    }
+    
+    private func computeHMAC(for value: String) -> String {
+        return ""
     }
 }
