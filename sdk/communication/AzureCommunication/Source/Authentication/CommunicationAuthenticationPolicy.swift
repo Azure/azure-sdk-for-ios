@@ -29,7 +29,7 @@ import AzureCore
 #endif
 import Foundation
 /**
- The Azure Communication Services authentication policy. Conforms to Azure Cores Authenticating protocol.
+ The Azure Communication Services authentication policy.
  */
 public class CommunicationUserCredentialPolicy: Authenticating {
     public var next: PipelineStage?
@@ -37,9 +37,9 @@ public class CommunicationUserCredentialPolicy: Authenticating {
     private let credential: CommunicationUserCredential
 
     /**
-     Creates a CommunicationUserCredentialPolicy object from the provided user credential
+     Creates a credential policy that authenticates requests using the provided `CommunicationUserCredential`.
      
-     - Parameter credential: Users `CommunicationUserCredential` they want to authenticate with
+     - Parameter credential: The `CommunicationUserCredential` that will be used to authenticate requests.
      
      - SeeAlso: `CommunicationUserCredential.init(...)`
      */
@@ -48,10 +48,10 @@ public class CommunicationUserCredentialPolicy: Authenticating {
     }
 
     /**
-     Authenticate method for authenticating client requests. The errors and token is validated before the closure is called.
+     Authenticates an HTTP `PipelineRequest` with a token retrieved from the credential.
      - Parameters:
-        - request:`PipelineRequest` making the request
-        - completionHandler: Closure returning  the `PipelineRequest` including the authorization token and an optional `AzureError`if applicable
+        - request:A `PipelineRequest` object.
+        - completionHandler: A completion handler that forwards the modified pipeline request.
      */
     public func authenticate(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
         credential.token { token, error in

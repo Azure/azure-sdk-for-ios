@@ -29,12 +29,12 @@ import AzureCore
 #endif
 import Foundation
 /**
- Protocol that token credentials should conform to
+ Protocol defining the shape of credentials used with Azure Communication Services.
  */
 public protocol CommunicationTokenCredential {
     /**
-     Get Azure core access token from credential.
-     - Parameter completionHandler:Closure that has an optional `AccessToken` or optional `Error` as parameters. `AccessToken` returns  a token and an expiry date if applicable. `Error` returns `nil` if the current token can be returned.
+     Retrieve an access token from the credential.
+     - Parameter completionHandler: Closure that accepts an optional `AccessToken` or optional `Error` as parameters. `AccessToken` returns a token and an expiry date if applicable. `Error` returns `nil` if the current token can be returned.
      */
     func token(completionHandler: @escaping AccessTokenRefreshOnCompletion)
 }

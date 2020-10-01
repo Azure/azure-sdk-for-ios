@@ -35,11 +35,11 @@ internal class StaticUserCredential: CommunicationTokenCredential {
     private let accessToken: AccessToken
 
     /**
-     Creates a StaticUserCredential object from the provided token string.
+     Creates a static `CommunicationUserCredential` object from the provided token.
         
-     - Parameter token: token string for initialization
+     - Parameter token: The static token to use for authenticating all requests.
      
-     - Throws: `AzureError` Token is not formatted correctly if it does not confrom to JWT standards
+     - Throws: `AzureError` if the provided token is not a valid JWT token.
      
      - SeeAlso: ` CommunicationUserCredential.init(...)`
      */
@@ -48,9 +48,9 @@ internal class StaticUserCredential: CommunicationTokenCredential {
     }
 
     /**
-     Get Azure core access token from credential.
+     Retrieve an access token from the credential.
      
-     - Parameter completionHandler:Closure that has an optional `AccessToken` or optional `Error` as parameters. `AccessToken` returns  a token and an expiry date if applicable. `Error` returns `nil` if the current token can be returned.
+     - Parameter completionHandler: Closure that accepts an optional `AccessToken` or optional `Error` as parameters. `AccessToken` returns a token and an expiry date if applicable. `Error` returns `nil` if the current token can be returned.
 
      */
     public func token(completionHandler: AccessTokenRefreshOnCompletion) {

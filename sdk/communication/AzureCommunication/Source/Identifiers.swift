@@ -26,7 +26,7 @@
 
 import Foundation
 /**
- Common Communication Identifier protocol  for Communication Services. All Communication Identifier conform to this protocol.
+ Common Communication Identifier protocol for all Azure Communication Services. All Communication Identifiers conform to this protocol.
  */
 @objc public protocol CommunicationIdentifier: NSObjectProtocol {  }
 /**
@@ -69,7 +69,7 @@ import Foundation
     }
 }
 /**
- Communication identifier for Communication Services representing a PhoneNumber
+ Communication identifier for Communication Services representing a Phone Number
  */
 @objcMembers public class PhoneNumber: NSObject, CommunicationIdentifier {
     public let value: String

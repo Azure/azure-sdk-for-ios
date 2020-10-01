@@ -35,7 +35,7 @@ internal class AutoRefreshUserCredential: CommunicationTokenCredential {
     private let accessTokenCache: ThreadSafeRefreshableAccessTokenCache
 
     /**
-     Creates a User Credential that automatically refreshes the token.
+     Creates a `CommunicationTokenCredential` that automatically refreshes the token using the provided `tokenRefresher`.
      - SeeAlso: `CommunicationUserCredential.init(...)`
      */
     public init(
@@ -59,9 +59,9 @@ internal class AutoRefreshUserCredential: CommunicationTokenCredential {
         }
     }
     /**
-     Get Azure core access token from credential.
+     Retrieve an access token from the cache, or from the `tokenRefresher` if the token is not in the cache or is expired.
      
-     - Parameter completionHandler:Closure that has an optional `AccessToken` or optional `Error` as parameters. `AccessToken` returns  a token and an expiry date if applicable. `Error` returns `nil` if the current token can be returned.
+     - Parameter completionHandler: Closure that accepts an optional `AccessToken` or optional `Error` as parameters. `AccessToken` returns  a token and an expiry date if applicable. `Error` returns `nil` if the current token can be returned.
 
      */
     public func token(completionHandler: @escaping AccessTokenRefreshOnCompletion) {

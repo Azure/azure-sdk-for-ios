@@ -39,11 +39,11 @@ public typealias TokenRefreshOnCompletion = (String?, Error?) -> Void
     private let userTokenCredential: CommunicationTokenCredential
     
     /**
-     Creates a CommunicationUserCredential object from the provided token string.
+     Creates a static `CommunicationUserCredential` object from the provided token.
         
-     - Parameter token: token string for initialization
+     - Parameter token: The static token to use for authenticating all requests.
      
-     - Throws: `AzureError` Token is not formatted correctly if it does not confrom to JWT standards
+     - Throws: `AzureError` if the provided token is not a valid JWT token.
      */
     public init(token: String) throws {
         self.userTokenCredential = try StaticUserCredential(token: token)
@@ -56,10 +56,10 @@ public typealias TokenRefreshOnCompletion = (String?, Error?) -> Void
         - The cached token will be updated immediately when the constructor is invoked and `initialToken` is expired
         
      - Parameters:
-        - initialToken: token string for initialization
-        - refreshProactively: indicates if token should be refreshed in the background
-        - tokenRefresher: Closure to supply fresh token string
-     - Throws: `AzureError` Token is not formatted correctly if it does not confrom to JWT standards
+        - initialToken: The initial value of the token.
+        - refreshProactively: Whether the token should be proactively refreshed in the background.
+        - tokenRefresher: Closure to call when a new token value is needed.
+     - Throws: `AzureError` if the provided token is not a valid JWT token.
      */
     public init(
         initialToken: String? = nil,
@@ -74,8 +74,8 @@ public typealias TokenRefreshOnCompletion = (String?, Error?) -> Void
     }
 
     /**
-     Get Azure core access token from credential.
-     - Parameter completionHandler:Closure that has an optional `AccessToken` or optional `Error` as parameters. `AccessToken` returns  a token and an expiry date if applicable. `Error` returns `nil` if the current token can be returned.
+     Retrieve an access token from the credential.
+     - Parameter completionHandler: Closure that acepts an optional `AccessToken` or optional `Error` as parameters. `AccessToken` returns  a token and an expiry date if applicable. `Error` returns `nil` if the current token can be returned.
      */
     public func token(completionHandler: @escaping AccessTokenRefreshOnCompletion) {
         userTokenCredential.token(completionHandler: completionHandler)

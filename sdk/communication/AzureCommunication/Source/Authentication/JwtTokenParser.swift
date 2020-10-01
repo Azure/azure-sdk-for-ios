@@ -49,10 +49,10 @@ struct JwtTokenParser {
     }
     
     /**
-     Helper function that converts base 64 url  to  `Data` object
+     Helper function that converts base64 url to `Data` object
      - Parameter base64Url: Url string to convert
         
-     - Throws: `AzureError` if we can't convert base64Data to base64String or if we can't convert  base64String to Data.
+     - Throws: `AzureError` if we can't convert base64Data to base64String or if we can't convert base64String to Data.
      
      - Returns: Data representation of url
      */
@@ -74,7 +74,7 @@ struct JwtTokenParser {
     }
 
     /**
-     Helper function validates the token and retuns a `JwtPayload`
+     Helper function validates the token and returns a `JwtPayload`
      
      - Parameter token: Token string
      
