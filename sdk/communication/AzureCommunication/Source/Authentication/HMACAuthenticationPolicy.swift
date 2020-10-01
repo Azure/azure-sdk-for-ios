@@ -26,11 +26,24 @@
 
 import AzureCore
 import Foundation
+import Security
 
-@objcMembers public class HMACAuthenticationPolicy: NSObject {
+@objcMembers public class HMACAuthenticationPolicy: PipelineStage {
+    public var next: PipelineStage?
+    
     private(set) var secret: [UInt8] = [];
     
     public init(accessKey: String) {
         secret = Array(accessKey.utf8)
+    }
+    
+    public func process(request pipelineRequest: PipelineRequest, completionHandler: @escaping PipelineStageResultHandler) {
+        
+    }
+    
+    private func createContentHash(request pipelineRequest: PipelineRequest) -> String {
+        
+        return ""
+        
     }
 }
