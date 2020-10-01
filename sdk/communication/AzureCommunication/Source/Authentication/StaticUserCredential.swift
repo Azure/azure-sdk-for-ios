@@ -28,14 +28,31 @@
 import AzureCore
 #endif
 import Foundation
-
+/**
+ The Azure Communication Services User token credential. 
+ */
 internal class StaticUserCredential: CommunicationTokenCredential {
     private let accessToken: AccessToken
 
+    /**
+     Creates a StaticUserCredential object from the provided token string.
+        
+     - Parameter token: token string for initialization
+     
+     - Throws: `AzureError` Token is not formatted correctly if it does not confrom to JWT standards
+     
+     - SeeAlso: ` CommunicationUserCredential.init(...)`
+     */
     public init(token: String) throws {
         self.accessToken = try JwtTokenParser.createAccessToken(token)
     }
 
+    /**
+     Get Azure core access token from credential.
+     
+     - Parameter completionHandler:Closure that has an optional `AccessToken` or optional `Error` as parameters. `AccessToken` returns  a token and an expiry date if applicable. `Error` returns `nil` if the current token can be returned.
+
+     */
     public func token(completionHandler: AccessTokenRefreshOnCompletion) {
         completionHandler(accessToken, nil)
     }
