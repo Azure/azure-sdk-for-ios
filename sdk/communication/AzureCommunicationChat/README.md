@@ -90,7 +90,7 @@ client.listChatReadReceipts(chatThreadId: threadId)
 
 ### Create a thread
 
-Use the `create` method to create a chat thread.
+Use the `create` method to create a thread.
 
 - `CreateChatThreadRequest` is the model to pass to this method.
 - `topic` is used to provide a topic for the thread.
@@ -99,7 +99,7 @@ Use the `create` method to create a chat thread.
 - `displayName`, optional, is the display name for the thread member.
 - `shareHistoryTime`, optional, is the time from which the chat history is shared with the member.
 
-`MultiStatusResponse` is the result returned from creating a thread, it has 'multipleStatus' which is a list of `IndividualStatusResponse`.
+`MultiStatusResponse` is the result returned from creating a thread. It has a 'multipleStatus' property which represents a list of `IndividualStatusResponse`.
 
 ```swift
 let thread = CreateChatThreadRequest(
@@ -135,9 +135,9 @@ client.create(chatThread: thread) { result, _ in
 
 ### Get a thread
 
-Use the The `getChatThread` method retrieves a thread from the service.
+Use the `getChatThread` method to retrieve a thread.
 
-`chatThreadId` is the unique ID of the thread.
+- `chatThreadId` is the unique ID of the thread.
 
 ```swift
 client.getChatThread(chatThreadId: threadId) { result, _ in
@@ -156,9 +156,9 @@ client.getChatThread(chatThreadId: threadId) { result, _ in
 }
 ```
 
-### List chat threads
+### List threads
 
-Use the `listChatThreads` method to retrieve a list of chat threads.
+Use the `listChatThreads` method to retrieve a list of threads.
 
 - `ListChatThreadsOptions` is the object representing the options to pass.
 - `maxPageSize`, optional, is the maximum number of messages to be returned per page.
@@ -212,7 +212,7 @@ client.update(chatThread: thread, chatThreadId: threadId) { result, _ in
 
 ### Delete a thread
 
-Use `deleteChatThread` method to delete a thread
+Use `deleteChatThread` method to delete a thread.
 
 - `chatThreadId` is the unique ID of the thread.
 
@@ -233,7 +233,7 @@ client.deleteChatThread(chatThreadId: threadId) { result, httpResponse in
 
 ### Send a message
 
-Use the `send` method to send a message to a thread identified by threadId.
+Use the `send` method to send a message to a thread.
 
 - `SendChatMessageRequest` is the model to pass to this method.
 - `priority` is used to specify the message priority level, such as 'Normal' or 'High', if not specified, 'Normal' will be set.
@@ -264,7 +264,7 @@ getClient().send(chatMessage: message, chatThreadId: threadId) { result, _ in
 
 ### Get a message
 
-Use the `getChatMessage` method to retrieve a message from the service.
+Use the `getChatMessage` method to retrieve a message in a thread.
 
 - `chatThreadId` is the unique ID of the thread.
 - `chatMessageId` is the unique ID of the message.
@@ -290,7 +290,7 @@ client.getChatMessage(chatThreadId: threadId, chatMessageId: messageId) { result
 
 ### Get messages
 
-Use the `listChatMessages` method to retrieve messages from the service.
+Use the `listChatMessages` method to retrieve messages in a thread.
 
 - `ListChatMessagesOptions` is the object representing the options to pass.
 - `maxPageSize`, optional, is the maximum number of messages to be returned per page.
@@ -333,7 +333,7 @@ client.listChatMessages(chatThreadId: threadId, withOptions: options) { result, 
 
 ### Update a message
 
-Use the `update` method to update a message identified by threadId and messageId.
+Use the `update` method to update a message in a thread.
 
 - `UpdateChatMessageRequest` is the model to pass to this method.
 - `priority` is the chat message priority `ChatMessagePriority`, such as 'Normal' or 'High', if not specified, 'Normal' will be set.
@@ -360,7 +360,7 @@ getClient().update(chatMessage: message, chatThreadId: threadId, chatMessageId: 
 
 ### Delete a message
 
-Use the `deleteChatMessage` method to delete a message.
+Use the `deleteChatMessage` method to delete a message in a thread.
 
 - `chatThreadId` is the unique ID of the thread.
 - `chatMessageId` is the unique ID of the message.
@@ -382,7 +382,7 @@ getClient().deleteChatMessage(chatThreadId: threadId, chatMessageId: messageId) 
 
 ### Get thread members
 
-Use the `listChatThreadMembers` method to retrieve the members of the thread.
+Use the `listChatThreadMembers` method to retrieve the members of a thread.
 
 - `chatThreadId` is the unique ID of the thread.
 
@@ -408,7 +408,7 @@ client.listChatThreadMembers(chatThreadId: threadId) { result, _ in
 
 ### Add thread members
 
-Use the `add` method to add members to the thread.
+Use the `add` method to add members to a thread.
 
 - `AddChatThreadMembersRequest` is used to list the `ChatThreadMember`s to be added to the thread.
 - `id`, required, is the `CommunicationUser.identifier` you created before. Refer to [User and User Access Tokens](#User-and-User-Access-Tokens).
@@ -435,9 +435,9 @@ client.add(chatThreadMembers: threadMembers, chatThreadId: threadId) { result, _
 }
 ```
 
-### Remove thread member
+### Remove a thread member
 
-Use the `removeChatThreadMember` method to remove a thread member from the thread identified by `threadId`.
+Use the `removeChatThreadMember` method to remove a thread member from a thread.
 
 - `chatThreadId` is the unique ID of the thread.
 - `chatMemberId` is the user ID in the chat thread's member list.
@@ -457,7 +457,7 @@ client.removeChatThreadMember(chatThreadId: threadId, chatMemberId: memberId) { 
 
 ## Events Operations
 
-### Send typing notification
+### Send a typing notification
 
 Use the `sendTypingNotification` method to post a typing notification event to a thread, on behalf of a user.
 
@@ -476,7 +476,7 @@ client.sendTypingNotification(chatThreadId: threadId) { result, _ in
 
 ### Send read receipt
 
-Use the `send` method to post a read receipt event to a thread, on behalf of a user.
+Use the `send` method to post a read receipt event to a thread identified by `chatThreadId`, on behalf of a user.
 
 - `SendReadReceiptRequest` is the model to be passed to this method.
 - `chatMessageId` is the unique ID of the message.
