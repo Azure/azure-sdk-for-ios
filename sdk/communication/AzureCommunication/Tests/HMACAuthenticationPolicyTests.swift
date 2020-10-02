@@ -24,44 +24,24 @@
 //
 // --------------------------------------------------------------------------
 
-import AzureCore
-import Foundation
-import CommonCrypto.CommonHMAC
+import XCTest
 
-@objcMembers public class HMACAuthenticationPolicy: Authenticating {
-    public var next: PipelineStage?
-    private let accessKey: String
+#if canImport(AzureCommunication)
+@testable import AzureCommunication
+#endif
+#if canImport(AzureCore)
+@testable import AzureCore
+#endif
+
+class HMACAuthenticationPolicyTests: XCTestCase {
+    let secret_key = "68810419818922fb0263dd6ee4b9c56537dbad914aa7324a119fce26778a286e"
     
-    public init(accessKey: String) {
-        self.accessKey = accessKey
-    }
-
-    public func authenticate(
-        request: PipelineRequest,
-        completionHandler: @escaping OnRequestCompletionHandler) {
-        var contents = request.httpRequest.data ?? Data()
-        
-        guard request.httpRequest.url.scheme?.contains("https") == true else {
-            completionHandler(
-                request,
-                AzureError.sdk("HMACAuthenticationPolicy requires a URL using the HTTPS protocol scheme"))
-            return
-        }
-        
-        request.httpRequest.headers[.authorization] = ""
-    }
     
-    private func appendAuthorizationHeaders(url: URL, httpMethod: String, contents: Data) {
+    func testHashingWithSecret() throws {
+        let message = "TestMessage"
+        let expectedHash = "567604ea3ac4de6ce263fffc795ede7724e045f28c888d075e8327b7219b44aa"
         
-    }
-}
-
-extension String {
-    func generateSHA256(using secret: String) -> String {
-        var digest = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
-        CCHmac(CCHmacAlgorithm(kCCHmacAlgSHA256), secret, secret.count, self, self.count, &digest)
-        let data = Data(digest)
-        return data.map { String(format: "%02hhx", $0) }.joined()
-        
+        let hashed = message.generateSHA256(using: secret_key)
+        XCTAssertEqual(hashed, expectedHash)
     }
 }
