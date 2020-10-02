@@ -21,7 +21,7 @@ import AzureCommunication
 import AzureCommunicationChat
 
 guard let baseUrl = URL(string: "https://<resource>.communication.azure.com") else {
-    fatalError("Unable to form base URL")
+    //TODO: Display error message
 }
 
 let authPolicy = try CommunicationUserCredentialPolicy(
@@ -105,11 +105,10 @@ client.create(chatThread: thread) { result, _ in
                 threadId = response.id
             }
         }
-        guard let thread = threadId else { fatalError("ThreadId not found.") }
         //TODO: Take further action
 
     case let .failure(error):
-        fatalError(error.message)
+        //TODO: Display error message
     }
 }
 ```
@@ -127,7 +126,7 @@ client.getChatThread(chatThreadId: threadId) { result, _ in
         //TODO: Take further action
 
     case let .failure(error):
-        fatalError(error.message)
+        //TODO: Display error message
     }
 }
 ```
@@ -154,7 +153,7 @@ client.listChatThreads(withOptions: options) { result, _ in
         }
 
     case let .failure(error):
-        fatalError(error.message)
+        //TODO: Display error message
     }
 }
 ```
@@ -178,7 +177,7 @@ client.update(chatThread: thread, chatThreadId: threadId) { result, _ in
         //TODO: Take further action
 
     case let .failure(error):
-        fatalError(error.message)
+        //TODO: Display error message
     }
 }
 ```
@@ -196,7 +195,7 @@ client.deleteChatThread(chatThreadId: threadId) { result, httpResponse in
         //TODO: Take further action
 
     case let .failure(error):
-        fatalError(error.message)
+        //TODO: Display error message
     }
 }
 ```
@@ -228,7 +227,7 @@ getClient().send(chatMessage: message, chatThreadId: threadId) { result, _ in
         //TODO: Take further action
 
     case let .failure(error):
-        fatalError(error.message)
+        //TODO: Display error message
     }
 }
 ```
@@ -249,7 +248,7 @@ client.getChatMessage(chatThreadId: threadId, chatMessageId: messageId) { result
         //TODO: Take further action
 
     case let .failure(error):
-        fatalError(error.message)
+        //TODO: Display error message
     }
 }
 ```
@@ -285,7 +284,7 @@ client.listChatMessages(chatThreadId: threadId, withOptions: options) { result, 
         }
 
     case let .failure(error):
-        fatalError(error.message)
+        //TODO: Display error message
     }
 }
 ```
@@ -311,7 +310,7 @@ getClient().update(chatMessage: message, chatThreadId: threadId, chatMessageId: 
         //TODO: Take further action
 
     case let .failure(error):
-        fatalError(error.message)
+        //TODO: Display error message
     }
 }
 ```
@@ -330,7 +329,7 @@ getClient().deleteChatMessage(chatThreadId: threadId, chatMessageId: messageId) 
         //TODO: Take further action
 
     case let .failure(error):
-        fatalError(error.message)
+        //TODO: Display error message
     }
 }
 ```
@@ -355,7 +354,7 @@ client.listChatThreadMembers(chatThreadId: threadId) { result, _ in
         }
 
     case let .failure(error):
-        fatalError(error.message)
+        //TODO: Display error message
     }
 }
 ```
@@ -383,7 +382,7 @@ client.add(chatThreadMembers: threadMembers, chatThreadId: threadId) { result, _
         //TODO: Take further action
 
     case let .failure(error):
-        fatalError(error.message)
+        //TODO: Display error message
     }
 }
 ```
@@ -402,7 +401,7 @@ client.removeChatThreadMember(chatThreadId: threadId, chatMemberId: memberId) { 
         //TODO: Take further action
 
     case let .failure(error):
-        fatalError(error.message)
+        //TODO: Display error message
     }
 }
 ```
@@ -420,7 +419,7 @@ client.sendTypingNotification(chatThreadId: threadId) { result, _ in
         //TODO: Take further action
 
     case let .failure(error):
-        fatalError(error.message)
+        //TODO: Display error message
     }
 }
 ```
@@ -442,7 +441,7 @@ client.send(chatReadReceipt: readReceipt, chatThreadId: threadId) { result, _ in
         //TODO: Take further action
 
     case let .failure(error):
-        fatalError(error.message)
+        //TODO: Display error message
     }
 }
 ```
@@ -465,7 +464,7 @@ client.listChatReadReceipts(chatThreadId: threadId) { result, _ in
         }
 
     case let .failure(error):
-        fatalError(error.message)
+        //TODO: Display error message
     }
 }
 ```
@@ -480,7 +479,7 @@ The client raises AzureError defined in AzureCore
 client.create(chatThread: thread) { result, _ in
     switch result {
     case let .failure(error):
-        fatalError(error.message)
+        //TODO: Display error message
     }
 }
 ```
