@@ -382,7 +382,7 @@ getClient().deleteChatMessage(chatThreadId: threadId, chatMessageId: messageId) 
 
 ### Get thread members
 
-Use the `listChatThreadMembers` method to retrieve the members of a thread.
+Use the `listChatThreadMembers` method to retrieve the members participating in a thread.
 
 - `chatThreadId` is the unique ID of the thread.
 
@@ -437,7 +437,7 @@ client.add(chatThreadMembers: threadMembers, chatThreadId: threadId) { result, _
 
 ### Remove a thread member
 
-Use the `removeChatThreadMember` method to remove a thread member from a thread.
+Use the `removeChatThreadMember` method to remove a member from a thread.
 
 - `chatThreadId` is the unique ID of the thread.
 - `chatMemberId` is the user ID in the chat thread's member list.
@@ -476,7 +476,7 @@ client.sendTypingNotification(chatThreadId: threadId) { result, _ in
 
 ### Send read receipt
 
-Use the `send` method to post a read receipt event to a thread identified by `chatThreadId`, on behalf of a user.
+Use the `send` method to post a read receipt event to a thread, on behalf of a user.
 
 - `SendReadReceiptRequest` is the model to be passed to this method.
 - `chatMessageId` is the unique ID of the message.
