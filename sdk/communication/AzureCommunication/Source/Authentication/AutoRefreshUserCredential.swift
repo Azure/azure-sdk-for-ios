@@ -28,10 +28,16 @@
 import AzureCore
 #endif
 import Foundation
-
+/**
+ The Azure Communication Services User token credential. This class is used to cache/refresh the access token required by Azure Communication Services.
+*/
 internal class AutoRefreshUserCredential: CommunicationTokenCredential {
     private let accessTokenCache: ThreadSafeRefreshableAccessTokenCache
 
+    /**
+     Creates a `CommunicationTokenCredential` that automatically refreshes the token using the provided `tokenRefresher`.
+     - SeeAlso: `CommunicationUserCredential.init(...)`
+     */
     public init(
         tokenRefresher: @escaping (@escaping TokenRefreshOnCompletion) -> Void,
         refreshProactively: Bool,
@@ -52,7 +58,13 @@ internal class AutoRefreshUserCredential: CommunicationTokenCredential {
             )
         }
     }
+    /**
+     Retrieve an access token from the cache, or from the `tokenRefresher` if the token is not in the cache or is expired.
+     
+     - Parameter completionHandler: Closure that accepts an optional `AccessToken` or optional `Error` as parameters.
+     `AccessToken` returns  a token and an expiry date if applicable. `Error` returns `nil` if the current token can be returned.
 
+     */
     public func token(completionHandler: @escaping AccessTokenRefreshOnCompletion) {
         accessTokenCache.getValue { newAccessToken, error in
             completionHandler(newAccessToken, error)

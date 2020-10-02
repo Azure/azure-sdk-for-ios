@@ -26,35 +26,58 @@
 
 import Foundation
 
+/**
+ Common Communication Identifier protocol for all Azure Communication Services. All Communication Identifiers conform to this protocol.
+ */
 @objc public protocol CommunicationIdentifier: NSObjectProtocol {  }
-
+/**
+ Communication identifier for Communication Services Users
+ */
 @objcMembers public class CommunicationUser: NSObject, CommunicationIdentifier {
     public let identifier: String
-
+    /**
+     Creates a CommunicationUser object
+     - Parameter identifier: identifier representing the object identity
+     */
     public init(identifier: String) {
         self.identifier = identifier
     }
 }
-
+/**
+ Communication identifier for Communication Services Applications
+ */
 @objcMembers public class CallingApplication: NSObject, CommunicationIdentifier {
     public let identifier: String
-
+    /**
+     Creates a CallingApplication object
+     - Parameter identifier: identifier representing the object identity
+     */
     public init(identifier: String) {
         self.identifier = identifier
     }
 }
-
+/**
+ Catch-all for all other Communication identifiers for Communication Services
+ */
 @objcMembers public class UnknownIdentifier: NSObject, CommunicationIdentifier {
     public let identifier: String
-
+    /**
+     Creates a CallingApplication object
+     - Parameter identifier: identifier representing the object identity
+     */
     public init(identifier: String) {
         self.identifier = identifier
     }
 }
-
+/**
+ Communication identifier for Communication Services representing a Phone Number
+ */
 @objcMembers public class PhoneNumber: NSObject, CommunicationIdentifier {
     public let value: String
-
+    /**
+     Creates a Phone Number object
+     - Parameter phoneNumber: phone number to create the object, different from identifier
+     */
     public init(phoneNumber: String) {
         self.value = phoneNumber
     }
