@@ -13,7 +13,7 @@ import Foundation
 
 /// The chat message priority.
 public enum ChatMessagePriority: String, Codable {
-    case Normal = "Normal"
+    case normal = "Normal"
 
-    case High = "High"
+    case high = "High"
 }
