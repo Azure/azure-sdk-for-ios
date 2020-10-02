@@ -26,7 +26,6 @@
 
 import AzureCore
 import Foundation
-import Security
 
 @objcMembers public class HMACAuthenticationPolicy: PipelineStage {
     public var next: PipelineStage?
@@ -51,8 +50,18 @@ import Security
         url: URL,
         contentHash: String,
         date: String) -> String {
+        let signedHeaders = "date;host;x-ms-constent-sha256"
         
-        return ""
+        guard let host = url.host,
+              let query = url.query else {
+            return ""
+        }
+        
+        let pathAndQuery = "\(url.path)\(query)"
+        let stringToSign = "\n\(pathAndQuery)\n\(date);\(host);\(contentHash)"
+        let signature = computeHMAC(for: stringToSign)
+        
+        return "HMAC-SHA256 SignedHeaders=\(signedHeaders)&Signature=\(signature)"
     }
     
     private func computeHMAC(for value: String) -> String {
