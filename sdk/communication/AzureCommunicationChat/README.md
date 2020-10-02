@@ -461,7 +461,7 @@ client.sendTypingNotification(chatThreadId: threadId) { result, _ in
 
 ### Send read receipt
 
-Use the `send` method to post a read receipt event to a thread identified by `chatThreadId`, on behalf of a user.
+Use the `send` method to post a read receipt event to a thread, on behalf of a user.
 
 - `SendReadReceiptRequest` is the model to be passed to this method.
 - `chatMessageId` is the unique ID of the message.
