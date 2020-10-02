@@ -1,6 +1,6 @@
 # Azure Communication Chat Service client library for iOS
-This package contains a iOS SDK for Azure Communication Services for Chat.
-Read more about Azure Communication Services [here](https://docs.microsoft.com/azure/communication-services/overview)
+This package contains the iOS SDK for Azure Communication Services for Chat.
+Read more about Azure Communication Services [here](https://docs.microsoft.com/azure/communication-services/overview).
 
 # Getting started
 
@@ -11,10 +11,9 @@ Read more about Azure Communication Services [here](https://docs.microsoft.com/a
 
 ## User and User Access Tokens
 
-User access tokens enable you to build client applications that directly authenticate to Azure Communication Services. Refer [here](https://docs.microsoft.com/azure/communication-services/quickstarts/access-tokens) to learn how to create a user and issue an User Access Token
+User access tokens enable you to build client applications that directly authenticate to Azure Communication Services. Refer [here](https://docs.microsoft.com/azure/communication-services/quickstarts/access-tokens) to learn how to create a user and issue a User Access Token.
 
-The user id `CommunicationUser.identifier` created above will be used later, because that user should be added as a member of new chat thread when you creating
-it with this token. It is because the initiator of the create request must be in the list of the members of the chat thread.
+The id for the user created above will be necessary later to add said user as a member of a new chat thread. The initiator of the create request must be in the list of members of the chat thread.
 
 ## Create the AzureCommunicationChatClient
 
@@ -40,49 +39,35 @@ let client = AzureCommunicationChatClient(baseUrl: baseUrl, authPolicy: authPoli
 
 A chat conversation is represented by a chat thread. Each user in the thread is called a thread member. Thread members can chat with one another privately in a 1:1 chat or huddle up in a 1:N group chat. Users also get near real-time updates for when others are typing and when they have read the messages.
 
-Once you initialized an `AzureCommunicationChatClient` class, you can do the following chat operations:
+Once you initialize an `AzureCommunicationChatClient` class, you can perform the following chat operations:
 
-## Create, get, update, list, and delete threads
+## Thread Operations
 
-```swift
-client.create(chatThread: thread)
-client.getChatThread(chatThreadId: threadId)
-client.update(chatThread: thread, chatThreadId: threadId)
-client.listChatThreads(withOptions: options)
-client.deleteChatThread(chatThreadId: threadId)
-```
+- [Create a thread](#create-a-thread)
+- [Get a thread](#get-a-thread)
+- [List threads](#list-threads)
+- [Update a thread](#update-a-thread)
+- [Delete a thread](#delete-a-thread)
 
-## Send, get, update, and delete messages
+## Message Operations
 
-```swift
-client.send(chatMessage: message, chatThreadId: threadId)
-client.getChatMessage(chatThreadId: threadId, chatMessageId: messageId)
-client.update(chatMessage: message, chatThreadId: threadId, chatMessageId: messageId)
-client.deleteChatMessage(chatThreadId: threadId, chatMessageId: messageId)
-```
+- [Send a message](#send-a-message)
+- [Get a message](#get-a-message)
+- [List messages](#list-messages)
+- [Update a message](#update-a-message)
+- [Delete a message](#delete-a-message)
 
-## list, add, and remove members
+## Thread member operations
 
-```swift
-client.listChatThreadMembers(chatThreadId: threadId)
-client.add(chatThreadMembers: threadMembers, chatThreadId: threadId)
-client.removeChatThreadMember(chatThreadId: threadId, chatMemberId: memberId)
-```
+- [Get thread members](#get-thread-members)
+- [Add thread members](#add-thread-members)
+- [Remove a thread member](#remove-a-thread-member)
 
-## Send typing notification
+## Events operations
 
-```swift
-client.sendTypingNotification(chatThreadId: threadId)
-```
-
-## Send and get read receipt
-
-Notify the service that a message is read and get list of read messages.
-
-```swift
-client.send(chatReadReceipt: readReceipt, chatThreadId: threadId)
-client.listChatReadReceipts(chatThreadId: threadId)
-```
+- [Send a typing notification](#send-a-typing-notification)
+- [Send read receipt](#send-read-receipt)
+- [Get read receipts](#get-read-receipts)
 
 # Examples
 
@@ -288,7 +273,7 @@ client.getChatMessage(chatThreadId: threadId, chatMessageId: messageId) { result
 }
 ```
 
-### Get messages
+### List messages
 
 Use the `listChatMessages` method to retrieve messages in a thread.
 
@@ -526,7 +511,19 @@ client.listChatReadReceipts(chatThreadId: threadId) { result, _ in
 
 # Troubleshooting
 
-Running into issues? This section should contain details as to what to do there.
+## General
+
+The client raises AzureError defined in AzureCore
+
+```swift
+client.create(chatThread: thread) { result, _ in
+    switch result {
+    case let .failure(error):
+        print("!! FAIL! in createThread.")
+        print(error.message)
+    }
+}
+```
 
 # Next steps
 
@@ -540,4 +537,3 @@ When you submit a pull request, a CLA-bot will automatically determine whether y
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
 ![Impressions](TODO: Find impressions URL)
-
