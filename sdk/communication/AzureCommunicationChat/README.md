@@ -100,8 +100,6 @@ client.create(chatThread: thread) { result, _ in
     case let .success(createThreadResponse):
         var threadId: String? = nil
         for response in createThreadResponse.multipleStatus ?? [] {
-            assert(response.id != nil, "Thread id should not be nil")
-
             if response.id?.hasSuffix("@thread.v2") ?? false,
                 response.type ?? "" == "Thread" {
                 threadId = response.id
