@@ -1,0 +1,21 @@
+author: Microsoft
+author_url: https://azure.github.io/azure-sdk/
+github_url: https://github.com/Azure/azure-sdk-for-ios
+module: AzureCommunicationChat
+module_version: 0.1
+readme: ../sdk/secret/AzureCommunicationChat/README.md
+skip_undocumented: false
+theme: fullwidth
+output: ../build/jazzy/AzureCommunicationChat
+swift_build_tool: spm
+clean: true
+sdk: iphonesimulator
+swift_build_tool: spm
+build_tool_arguments:
+  - "-Xswiftc"
+  - "-swift-version"
+  - "-Xswiftc"
+  - "5"
+exclude:
+  - "*/Source/ObjectiveCCompatibility/*"
+  - "*/Tests/*"
