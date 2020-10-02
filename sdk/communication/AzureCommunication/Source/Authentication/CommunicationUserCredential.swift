@@ -50,9 +50,11 @@ public typealias TokenRefreshOnCompletion = (String?, Error?) -> Void
     }
     /**
      Creates a CommunicationUserCredential that automatically refreshes the token.
-     The cached token is updated if `token(completionHandler: )` is called and if the difference between the current time and token expiry time is less than 120s.
+     The cached token is updated if `token(completionHandler: )` is called and if the difference between the current time
+     and token expiry time is less than 120s.
      If `refreshProactively` parameter  is `true`:
-        - The cached token will be updated in the background when the difference between the current time and token expiry time is less than 600s.
+        - The cached token will be updated in the background when the difference between the current time
+            and token expiry time is less than 600s.
         - The cached token will be updated immediately when the constructor is invoked and `initialToken` is expired
         
      - Parameters:
@@ -75,7 +77,8 @@ public typealias TokenRefreshOnCompletion = (String?, Error?) -> Void
 
     /**
      Retrieve an access token from the credential.
-     - Parameter completionHandler: Closure that acepts an optional `AccessToken` or optional `Error` as parameters. `AccessToken` returns  a token and an expiry date if applicable. `Error` returns `nil` if the current token can be returned.
+     - Parameter completionHandler: Closure that acepts an optional `AccessToken` or optional `Error` as parameters.
+     `AccessToken` returns  a token and an expiry date if applicable. `Error` returns `nil` if the current token can be returned.
      */
     public func token(completionHandler: @escaping AccessTokenRefreshOnCompletion) {
         userTokenCredential.token(completionHandler: completionHandler)
