@@ -57,13 +57,13 @@ Once you initialize an `AzureCommunicationChatClient` class, you can perform the
 - [Update a message](#update-a-message)
 - [Delete a message](#delete-a-message)
 
-## Thread member operations
+## Thread Member Operations
 
 - [Get thread members](#get-thread-members)
 - [Add thread members](#add-thread-members)
 - [Remove a thread member](#remove-a-thread-member)
 
-## Events operations
+## Events Operations
 
 - [Send a typing notification](#send-a-typing-notification)
 - [Send read receipt](#send-read-receipt)
