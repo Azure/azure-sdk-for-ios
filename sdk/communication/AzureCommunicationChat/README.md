@@ -8,7 +8,6 @@ Read more about Azure Communication Services [here](https://docs.microsoft.com/a
 
 - An Azure Communication Resource, learn how to create one from [Create an Azure Communication Resource](https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource)
 
-
 ## User and User Access Tokens
 
 User access tokens enable you to build client applications that directly authenticate to Azure Communication Services. Refer [here](https://docs.microsoft.com/azure/communication-services/quickstarts/access-tokens) to learn how to create a user and issue a User Access Token.
@@ -29,7 +28,7 @@ let authPolicy = try CommunicationUserCredentialPolicy(
     credential: credential ?? CommunicationUserCredential(token: <user_access_token>)
 )
 let options = AzureCommunicationChatClientOptions(
-    logger: ClientLoggers.none,
+    logger: ClientLoggers.default,
     dispatchQueue: self.queue
 )
 let client = AzureCommunicationChatClient(baseUrl: baseUrl, authPolicy: authPolicy, withOptions: options)
@@ -109,10 +108,9 @@ client.create(chatThread: thread) { result, _ in
             }
         }
         guard let thread = threadId else { fatalError("ThreadId not found.") }
-        print("<- SUCCESS! in createThread. Thread id= \(thread)")
+        //TODO: Take further action
 
     case let .failure(error):
-        print("!! FAIL! in createThread.")
         fatalError(error.message)
     }
 }
@@ -128,14 +126,9 @@ Use the `getChatThread` method to retrieve a thread.
 client.getChatThread(chatThreadId: threadId) { result, _ in
     switch result {
     case let .success(thread):
-        print("<- SUCCESS! in getThread. response createdBy= \(thread.createdBy ?? "Not found")")
-
-        for threadMember in thread.members ?? [] {
-            print("\t Thread Member name=\(threadMember.displayName ?? "Not found")")
-        }
+        //TODO: Take further action
 
     case let .failure(error):
-        print("!! FAIL! ")
         fatalError(error.message)
     }
 }
@@ -159,12 +152,10 @@ client.listChatThreads(withOptions: options) { result, _ in
     case let .success(listThreadsResponse):
         var iterator = listThreadsResponse.syncIterator
         while let threadInfo = iterator.next() {
-            print("\t \(threadInfo.id)")
+            //TODO: Take further action
         }
-        print("<- SUCCESS! .")
 
     case let .failure(error):
-        print("!! FAIL! .")
         fatalError(error.message)
     }
 }
@@ -186,10 +177,9 @@ Use the `update` method to update a thread's properties.
 client.update(chatThread: thread, chatThreadId: threadId) { result, _ in
     switch result {
     case .success:
-        print("<- SUCCESS! in updateThread.")
+        //TODO: Take further action
 
     case let .failure(error):
-        print("!! FAIL! in updateThread.")
         fatalError(error.message)
     }
 }
@@ -205,10 +195,9 @@ Use `deleteChatThread` method to delete a thread.
 client.deleteChatThread(chatThreadId: threadId) { result, httpResponse in
     switch result {
     case .success:
-        print("<- SUCCESS! in deleteThread.")
+        //TODO: Take further action
 
     case let .failure(error):
-        print("!! FAIL! in deleteThread.")
         fatalError(error.message)
     }
 }
@@ -221,7 +210,7 @@ client.deleteChatThread(chatThreadId: threadId) { result, httpResponse in
 Use the `send` method to send a message to a thread.
 
 - `SendChatMessageRequest` is the model to pass to this method.
-- `priority` is used to specify the message priority level, such as 'Normal' or 'High', if not specified, 'Normal' will be set.
+- `priority` is used to specify the message priority level, such as 'normal' or 'high', if not specified, 'normal' will be set.
 - `content`, required, is used to provide the chat message content.
 - `senderDisplayName` is used to specify the display name of the sender, if not specified, an empty name will be set.
 - `chatThreadId` is the unique ID of the thread.
@@ -230,7 +219,7 @@ Use the `send` method to send a message to a thread.
 
 ```swift
 let message = SendChatMessageRequest(
-    priority: ChatMessagePriority.High,
+    priority: ChatMessagePriority.high,
     content: "Test message 1",
     senderDisplayName: "An Important person"
 )
@@ -238,11 +227,10 @@ let message = SendChatMessageRequest(
 getClient().send(chatMessage: message, chatThreadId: threadId) { result, _ in
     switch result {
     case let .success(createMessageResponse):
-        print("<- SUCCESS! in sendMessage. Message id= \(createMessageResponse.id ?? "Not found")")
+        //TODO: Take further action
 
     case let .failure(error):
-        print("!! FAIL! in sendMessage.")
-        print(error)
+        fatalError(error.message)
     }
 }
 ```
@@ -260,14 +248,9 @@ Use the `getChatMessage` method to retrieve a message in a thread.
 client.getChatMessage(chatThreadId: threadId, chatMessageId: messageId) { result, _ in
     switch result {
     case let .success(message):
-        if let timeData = message.createdOn {
-            print("<- SUCCESS! in getMessage. response createdOn= \(timeData)")
-        } else {
-            print("<- FAILED!! in finding createdOn in response")
-        }
+        //TODO: Take further action
 
     case let .failure(error):
-        print("!! FAIL! in getMessage.")
         fatalError(error.message)
     }
 }
@@ -298,19 +281,12 @@ if let date = dateFormatter.date(from: "2020-08-27T17:55:50Z") {
 client.listChatMessages(chatThreadId: threadId, withOptions: options) { result, _ in
     switch result {
     case let .success(listMessagesResponse):
-        print("<- SUCCESS! in ListMessages.")
         var iterator = listMessagesResponse.syncIterator
         while let message = iterator.next() {
-            print("\tMessage content=\(message.content ?? "Not found") ")
-            if let timeData = message.createdOn {
-                print("\tcreatedOn in response= \(timeData)")
-            } else {
-                print("-> FAILED!! in finding createdOn in response")
-            }
+            //TODO: Take further action
         }
 
     case let .failure(error):
-        print("!! FAIL! in listMessages")
         fatalError(error.message)
     }
 }
@@ -334,10 +310,9 @@ let message = UpdateChatMessageRequest(
 getClient().update(chatMessage: message, chatThreadId: threadId, chatMessageId: messageId) { result, _ in
     switch result {
     case .success(_):
-        print("<- SUCCESS! in updateMessage.")
+        //TODO: Take further action
 
     case let .failure(error):
-        print("!! FAIL! in updateMessage.")
         fatalError(error.message)
     }
 }
@@ -354,10 +329,9 @@ Use the `deleteChatMessage` method to delete a message in a thread.
 getClient().deleteChatMessage(chatThreadId: threadId, chatMessageId: messageId) { result, _ in
     switch result {
     case .success:
-        print("<- SUCCESS! in deleteMessage.")
+        //TODO: Take further action
 
     case let .failure(error):
-        print("!! FAIL! in deleteMessage.")
         fatalError(error.message)
     }
 }
@@ -377,15 +351,12 @@ Use the `listChatThreadMembers` method to retrieve the members participating in 
 client.listChatThreadMembers(chatThreadId: threadId) { result, _ in
     switch result {
     case let .success(threadmembers):
-        print("<- SUCCESS! in listThreadMembers.")
-
         var iterator = threadmembers.syncIterator
         while let threadMember = iterator.next() {
-            print("\tThread Member name=\(threadMember.displayName ?? "Not found")")
+            //TODO: Take further action
         }
 
     case let .failure(error):
-        print("!! FAIL! in listThreadMembers.")
         fatalError(error.message)
     }
 }
@@ -411,10 +382,9 @@ let threadMembers = AddChatThreadMembersRequest(
 client.add(chatThreadMembers: threadMembers, chatThreadId: threadId) { result, _ in
     switch result {
     case .success:
-        print("<- SUCCESS! in addThreadMembers.")
+        //TODO: Take further action
 
     case let .failure(error):
-        print("!! FAIL! in addThreadMembers.")
         fatalError(error.message)
     }
 }
@@ -431,10 +401,9 @@ Use the `removeChatThreadMember` method to remove a member from a thread.
 client.removeChatThreadMember(chatThreadId: threadId, chatMemberId: memberId) { result, _ in
     switch result {
     case .success:
-        print("<- SUCCESS! in removeThreadMember.")
+        //TODO: Take further action
 
     case let .failure(error):
-        print("!! FAIL! in removeThreadMember.")
         fatalError(error.message)
     }
 }
@@ -450,10 +419,9 @@ Use the `sendTypingNotification` method to post a typing notification event to a
 client.sendTypingNotification(chatThreadId: threadId) { result, _ in
     switch result {
     case .success:
-        print("<- SUCCESS! in notifyUserTyping.")
+        //TODO: Take further action
 
     case let .failure(error):
-        print("!! FAIL! in notifyUserTyping.")
         fatalError(error.message)
     }
 }
@@ -473,10 +441,9 @@ let readReceipt = SendReadReceiptRequest(chatMessageId: messageId)
 client.send(chatReadReceipt: readReceipt, chatThreadId: threadId) { result, _ in
     switch result {
     case .success:
-        print("<- SUCCESS! in sendReadReceipt.")
+        //TODO: Take further action
 
     case let .failure(error):
-        print("!! FAIL! in sendReadReceipt.")
         fatalError(error.message)
     }
 }
@@ -494,16 +461,12 @@ Use the `listChatReadReceipts` method to retrieve read receipts for a thread.
 client.listChatReadReceipts(chatThreadId: threadId) { result, _ in
     switch result {
     case let .success(readReceipts):
-        print("<- SUCCESS! in listReadReceipts.")
-
         var iterator = readReceipts.syncIterator
         while let readReceipt = iterator.next() {
-            print("\tchatMessageId content=\(readReceipt.chatMessageId ?? "Not found") ")
-            print("\tsenderId content=\(readReceipt.senderId ?? "Not found") ")
+            //TODO: Take further action
         }
 
     case let .failure(error):
-        print("!! FAIL! in listReadReceipts.")
         fatalError(error.message)
     }
 }
@@ -519,8 +482,7 @@ The client raises AzureError defined in AzureCore
 client.create(chatThread: thread) { result, _ in
     switch result {
     case let .failure(error):
-        print("!! FAIL! in createThread.")
-        print(error.message)
+        fatalError(error.message)
     }
 }
 ```
