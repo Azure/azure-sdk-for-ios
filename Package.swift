@@ -37,6 +37,7 @@ let package = Package(
     products: [
         .library(name: "AzureCore", targets: ["AzureCore"]),
         .library(name: "AzureCommunication", targets: ["AzureCommunication"]),
+        .library(name: "AzureCommunicationChat", targets: ["AzureCommunicationChat"]),
     ],
     dependencies: [],
     targets: [
@@ -51,6 +52,12 @@ let package = Package(
             name: "AzureCommunication",
             dependencies: ["AzureCore"],
             path: "sdk/communication/AzureCommunication",
+            sources: ["Source"]
+        ),
+        .target(
+            name: "AzureCommunicationChat",
+            dependencies: ["AzureCore"],
+            path: "sdk/communication/AzureCommunicationChat",
             sources: ["Source"]
         ),
         // Test targets
