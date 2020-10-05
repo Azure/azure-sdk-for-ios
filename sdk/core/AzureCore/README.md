@@ -24,8 +24,6 @@ The latest version of the SDK is [1.0.0-beta.2](https://github.com/Azure/azure-s
 ### Install the library
 To install the Azure client libraries for iOS, we recommend you use
 [Swift Package Manager](#add-a-package-dependency-with-swift-package-manager).
-As an alternative, you may also integrate the libraries using
-[CocoaPods](#integrate-the-client-libraries-with-cocoapods).
 
 #### Add a package dependency with Swift Package Manager
 
@@ -71,36 +69,6 @@ Next, for each target that needs to use the library, add it to the target's arra
             dependencies: ["AzureCore", ...])
     ]
 )
-```
-
-#### Integrate the client libraries with CocoaPods
-
-[CocoaPods](https://cocoapods.org) is a dependency manager for Objective C and Swift projects. You can install it with
-the following command:
-
-```bash
-$ [sudo] gem install cocoapods
-```
-
-> CocoaPods 1.3+ is required.
-
-To integrate the library into your project using CocoaPods, specify it in your
-[Podfile](https://guides.cocoapods.org/using/the-podfile.html) with the prefix `AzureSDK/`, providing the version
-specifier you wish to use:
-
-```ruby
-source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '12.0'
-use_frameworks!
-
-pod 'AzureSDK/AzureCore', '~> 1.0.0-beta.1'
-...
-```
-
-Then, run the following command:
-
-```bash
-$ pod install
 ```
 
 ## Key concepts
