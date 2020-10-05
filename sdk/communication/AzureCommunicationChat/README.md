@@ -1,31 +1,88 @@
 # Azure Communication Chat Service client library for iOS
-This package contains the iOS SDK for Azure Communication Services for Chat.
-Read more about Azure Communication Services [here](https://docs.microsoft.com/azure/communication-services/overview).
 
-# Getting started
+This package contains the Chat client library for Azure Communication Services.
 
-## Prerequisites
+[Source code](https://github.com/Azure/azure-sdk-for-ios/tree/master/sdk/communication/AzureCommunicationChat)
+| [API reference documentation](https://azure.github.io/azure-sdk-for-ios/AzureCommunicationChat/index.html)
+| [Product documentation](https://docs.microsoft.com/azure/communication-services/overview)
 
-- An Azure Communication Resource, learn how to create one from [Create an Azure Communication Resource](https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource)
+## Getting started
 
-## User and User Access Tokens
+### Prerequisites
+* The client library is written in modern Swift 5. Due to this, Xcode 10.2 or higher is required to use this library.
+* You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
+[Communication Services resource](https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource) to use this library.
 
-User access tokens enable you to build client applications that directly authenticate to Azure Communication Services. Refer [here](https://docs.microsoft.com/azure/communication-services/quickstarts/access-tokens) to learn how to create a user and issue a User Access Token.
+### Versions available
+The latest version of the SDK is [1.0.0-beta.2](https://github.com/Azure/azure-sdk-for-ios/releases/tag/1.0.0-beta.2). Older [releases](https://github.com/Azure/azure-sdk-for-ios/releases) are also available.
 
-The id for the user created above will be necessary later to add said user as a member of a new chat thread. The initiator of the create request must be in the list of members of the chat thread.
+> Note: The SDK is currently in **beta**. The API surface and feature sets are subject to change at any time before they become generally available. We do not currently recommend them for production use.
 
-## Create the AzureCommunicationChatClient
+### Install the library
+To install the Azure client libraries for iOS, we recommend you use
+[Swift Package Manager](#add-a-package-dependency-with-swift-package-manager).
+
+#### Add a package dependency with Swift Package Manager
+
+The [Swift Package Manager](https://swift.org/package-manager/) is a tool for managing the distribution of Swift code.
+It’s integrated with the Swift build system to automate the process of downloading, compiling, and linking dependencies.
+
+Xcode comes with built-in support for Swift Package Manager and source control accounts and makes it easy to leverage
+available Swift packages. Use Xcode to manage the versions of package dependencies and make sure your project has the
+most up-to-date code changes.
+
+##### Xcode
+
+To add the library to your application, follow the instructions in
+[Adding Package Dependencies to Your App](https://developer.apple.com/documentation/xcode/adding_package_dependencies_to_your_app):
+
+With your project open in Xcode 11 or later, select **File > Swift Packages > Add Package Dependency...** Enter the
+clone URL of this repository: *https://github.com/Azure/azure-sdk-for-ios.git* and click **Next**. For the version rule,
+specify the exact version or version range you wish to use with your application and click **Next**. Finally, place a
+checkmark next to the library, ensure your application target is selected in the **Add to target** dropdown, and click
+**Finish**.
+
+##### Swift CLI
+
+To add the library to your application, follow the example in
+[Importing Dependencies](https://swift.org/package-manager/#importing-dependencies):
+
+Open your project's `Package.swift` file and add a new package dependency to your project's `dependencies` section,
+specifying the clone URL of this repository and the version specifier you wish to use:
+
+```swift
+    dependencies: [
+        ...
+        .package(url: "https://github.com/Azure/azure-sdk-for-ios.git", from: "1.0.0-beta.2")
+    ],
+```
+
+Next, for each target that needs to use the library, add it to the target's array of `dependencies`:
+```swift
+    targets: [
+        ...
+        .target(
+            name: "MyTarget",
+            dependencies: ["AzureCommunicationChat", ...])
+    ]
+)
+```
+
+### Create the AzureCommunicationChatClient
+
+Create an instance of `AzureCommunicationChatClient` by providing the base URL of the service, the authentication policy to use, and the set of options to use for the client.
 
 ```swift
 import AzureCommunication
 import AzureCommunicationChat
+import AzureCore
 
 guard let baseUrl = URL(string: "https://<resource>.communication.azure.com") else {
-    //TODO: Display error message
+    // Display error message
 }
 
 let authPolicy = try CommunicationUserCredentialPolicy(
-    credential: credential ?? CommunicationUserCredential(token: <user_access_token>)
+    credential: credential ?? CommunicationUserCredential(token: "<user_access_token>")
 )
 let options = AzureCommunicationChatClientOptions(
     logger: ClientLoggers.default,
@@ -34,15 +91,23 @@ let options = AzureCommunicationChatClientOptions(
 let client = AzureCommunicationChatClient(baseUrl: baseUrl, authPolicy: authPolicy, withOptions: options)
 ```
 
-# Key concepts
+## Key concepts
+
+### User and User Access Tokens
+
+User access tokens enable you to build client applications that directly authenticate to Azure Communication Services. Refer [here](https://docs.microsoft.com/azure/communication-services/quickstarts/access-tokens) to learn how to create a user and issue a User Access Token.
+
+The id for the user created above will be necessary later to add said user as a member of a new chat thread. The initiator of the create request must be in the list of members of the chat thread.
+
+### Chat Thread
 
 A chat conversation is represented by a chat thread. Each user in the thread is called a thread member. Thread members can chat with one another privately in a 1:1 chat or huddle up in a 1:N group chat.
 
 Using the APIs, users can also send typing indicators when typing a message and read receipts for the messages they have read in a chat thread. To learn more, read about chat concepts [here](https://docs.microsoft.com/azure/communication-services/concepts/chat/concepts).
 
-Once you initialize an `AzureCommunicationChatClient` class, you can perform the following chat operations:
+### Chat Operations
 
-## Thread Operations
+Once you initialize an `AzureCommunicationChatClient` class, you can perform the following chat operations:
 
 - [Create a thread](#create-a-thread)
 - [Get a thread](#get-a-thread)
@@ -70,11 +135,11 @@ Once you initialize an `AzureCommunicationChatClient` class, you can perform the
 - [Send read receipt](#send-read-receipt)
 - [Get read receipts](#get-read-receipts)
 
-# Examples
+## Examples
 
-## Thread Operations
+### Thread Operations
 
-### Create a thread
+#### Create a thread
 
 Use the `create` method to create a thread.
 
@@ -107,15 +172,15 @@ client.create(chatThread: thread) { result, _ in
                 threadId = response.id
             }
         }
-        //TODO: Take further action
+        // Take further action
 
     case let .failure(error):
-        //TODO: Display error message
+        // Display error message
     }
 }
 ```
 
-### Get a thread
+#### Get a thread
 
 Use the `getChatThread` method to retrieve a thread.
 
@@ -125,15 +190,15 @@ Use the `getChatThread` method to retrieve a thread.
 client.getChatThread(chatThreadId: threadId) { result, _ in
     switch result {
     case let .success(thread):
-        //TODO: Take further action
+        // Take further action
 
     case let .failure(error):
-        //TODO: Display error message
+        // Display error message
     }
 }
 ```
 
-### List threads
+#### List threads
 
 Use the `listChatThreads` method to retrieve a list of threads.
 
@@ -151,16 +216,16 @@ client.listChatThreads(withOptions: options) { result, _ in
     case let .success(listThreadsResponse):
         var iterator = listThreadsResponse.syncIterator
         while let threadInfo = iterator.next() {
-            //TODO: Take further action
+            // Take further action
         }
 
     case let .failure(error):
-        //TODO: Display error message
+        // Display error message
     }
 }
 ```
 
-### Update a thread
+#### Update a thread
 
 Use the `update` method to update a thread's properties.
 
@@ -176,15 +241,15 @@ Use the `update` method to update a thread's properties.
 client.update(chatThread: thread, chatThreadId: threadId) { result, _ in
     switch result {
     case .success:
-        //TODO: Take further action
+        // Take further action
 
     case let .failure(error):
-        //TODO: Display error message
+        // Display error message
     }
 }
 ```
 
-### Delete a thread
+#### Delete a thread
 
 Use `deleteChatThread` method to delete a thread.
 
@@ -194,17 +259,17 @@ Use `deleteChatThread` method to delete a thread.
 client.deleteChatThread(chatThreadId: threadId) { result, httpResponse in
     switch result {
     case .success:
-        //TODO: Take further action
+        // Take further action
 
     case let .failure(error):
-        //TODO: Display error message
+        // Display error message
     }
 }
 ```
 
-## Message Operations
+### Message Operations
 
-### Send a message
+#### Send a message
 
 Use the `send` method to send a message to a thread.
 
@@ -226,15 +291,15 @@ let message = SendChatMessageRequest(
 getClient().send(chatMessage: message, chatThreadId: threadId) { result, _ in
     switch result {
     case let .success(createMessageResponse):
-        //TODO: Take further action
+        // Take further action
 
     case let .failure(error):
-        //TODO: Display error message
+        // Display error message
     }
 }
 ```
 
-### Get a message
+#### Get a message
 
 Use the `getChatMessage` method to retrieve a message in a thread.
 
@@ -247,15 +312,15 @@ Use the `getChatMessage` method to retrieve a message in a thread.
 client.getChatMessage(chatThreadId: threadId, chatMessageId: messageId) { result, _ in
     switch result {
     case let .success(message):
-        //TODO: Take further action
+        // Take further action
 
     case let .failure(error):
-        //TODO: Display error message
+        // Display error message
     }
 }
 ```
 
-### List messages
+#### List messages
 
 Use the `listChatMessages` method to retrieve messages in a thread.
 
@@ -282,16 +347,16 @@ client.listChatMessages(chatThreadId: threadId, withOptions: options) { result, 
     case let .success(listMessagesResponse):
         var iterator = listMessagesResponse.syncIterator
         while let message = iterator.next() {
-            //TODO: Take further action
+            // Take further action
         }
 
     case let .failure(error):
-        //TODO: Display error message
+        // Display error message
     }
 }
 ```
 
-### Update a message
+#### Update a message
 
 Use the `update` method to update a message in a thread.
 
@@ -309,15 +374,15 @@ let message = UpdateChatMessageRequest(
 getClient().update(chatMessage: message, chatThreadId: threadId, chatMessageId: messageId) { result, _ in
     switch result {
     case .success(_):
-        //TODO: Take further action
+        // Take further action
 
     case let .failure(error):
-        //TODO: Display error message
+        // Display error message
     }
 }
 ```
 
-### Delete a message
+#### Delete a message
 
 Use the `deleteChatMessage` method to delete a message in a thread.
 
@@ -328,17 +393,17 @@ Use the `deleteChatMessage` method to delete a message in a thread.
 getClient().deleteChatMessage(chatThreadId: threadId, chatMessageId: messageId) { result, _ in
     switch result {
     case .success:
-        //TODO: Take further action
+        // Take further action
 
     case let .failure(error):
-        //TODO: Display error message
+        // Display error message
     }
 }
 ```
 
-## Thread Member Operations
+### Thread Member Operations
 
-### Get thread members
+#### Get thread members
 
 Use the `listChatThreadMembers` method to retrieve the members participating in a thread.
 
@@ -352,16 +417,16 @@ client.listChatThreadMembers(chatThreadId: threadId) { result, _ in
     case let .success(threadmembers):
         var iterator = threadmembers.syncIterator
         while let threadMember = iterator.next() {
-            //TODO: Take further action
+            // Take further action
         }
 
     case let .failure(error):
-        //TODO: Display error message
+        // Display error message
     }
 }
 ```
 
-### Add thread members
+#### Add thread members
 
 Use the `add` method to add members to a thread.
 
@@ -381,15 +446,15 @@ let threadMembers = AddChatThreadMembersRequest(
 client.add(chatThreadMembers: threadMembers, chatThreadId: threadId) { result, _ in
     switch result {
     case .success:
-        //TODO: Take further action
+        // Take further action
 
     case let .failure(error):
-        //TODO: Display error message
+        // Display error message
     }
 }
 ```
 
-### Remove a thread member
+#### Remove a thread member
 
 Use the `removeChatThreadMember` method to remove a member from a thread.
 
@@ -400,17 +465,17 @@ Use the `removeChatThreadMember` method to remove a member from a thread.
 client.removeChatThreadMember(chatThreadId: threadId, chatMemberId: memberId) { result, _ in
     switch result {
     case .success:
-        //TODO: Take further action
+        // Take further action
 
     case let .failure(error):
-        //TODO: Display error message
+        // Display error message
     }
 }
 ```
 
-## Events Operations
+### Events Operations
 
-### Send a typing notification
+#### Send a typing notification
 
 Use the `sendTypingNotification` method to post a typing notification event to a thread, on behalf of a user.
 
@@ -418,15 +483,15 @@ Use the `sendTypingNotification` method to post a typing notification event to a
 client.sendTypingNotification(chatThreadId: threadId) { result, _ in
     switch result {
     case .success:
-        //TODO: Take further action
+        // Take further action
 
     case let .failure(error):
-        //TODO: Display error message
+        // Display error message
     }
 }
 ```
 
-### Send read receipt
+#### Send read receipt
 
 Use the `send` method to post a read receipt event to a thread, on behalf of a user.
 
@@ -440,15 +505,15 @@ let readReceipt = SendReadReceiptRequest(chatMessageId: messageId)
 client.send(chatReadReceipt: readReceipt, chatThreadId: threadId) { result, _ in
     switch result {
     case .success:
-        //TODO: Take further action
+        // Take further action
 
     case let .failure(error):
-        //TODO: Display error message
+        // Display error message
     }
 }
 ```
 
-### Get read receipts
+#### Get read receipts
 
 Use the `listChatReadReceipts` method to retrieve read receipts for a thread.
 
@@ -462,39 +527,44 @@ client.listChatReadReceipts(chatThreadId: threadId) { result, _ in
     case let .success(readReceipts):
         var iterator = readReceipts.syncIterator
         while let readReceipt = iterator.next() {
-            //TODO: Take further action
+            // Take further action
         }
 
     case let .failure(error):
-        //TODO: Display error message
+        // Display error message
     }
 }
 ```
 
-# Troubleshooting
+## Troubleshooting
 
-## General
-
-The client raises AzureError defined in AzureCore
+When an error occurs, the client calls the callback, passing in a `failure` result. You can use the provided error to act upon the failure.
 
 ```swift
 client.create(chatThread: thread) { result, _ in
     switch result {
     case let .failure(error):
-        //TODO: Display error message
+        // Display error message
     }
 }
 ```
 
-# Next steps
+## Next steps
 
 More sample code should go here, along with links out to the appropriate example tests.
 
-# Contributing
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your contribution. For details, visit https://cla.microsoft.com.
+## Contributing
 
-When you submit a pull request, a CLA-bot will automatically determine whether you need to provide a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions provided by the bot. You will only need to do this once across all repos using our CLA.
+This project welcomes contributions and suggestions. Most contributions require you to agree to a Contributor License
+Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your contribution. For
+details, visit https://cla.microsoft.com.
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+When you submit a pull request, a CLA-bot will automatically determine whether you need to provide a CLA and decorate
+the PR appropriately (e.g., label, comment). Simply follow the instructions provided by the bot. You will only need to
+do this once across all repositories using our CLA.
 
-![Impressions](TODO: Find impressions URL)
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
+For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact
+[opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-ios%2Fsdk%communication%2FAzureCommunicationChat%2FREADME.png)

@@ -39,7 +39,7 @@ import Foundation
         }
 
         /// The dispatch queue to execute the `listener` closure on.
-        private var listenerQueue: DispatchQueue = DispatchQueue.main
+        private var listenerQueue = DispatchQueue.main
 
         internal var listener: ReachabilityStatusListener?
         internal var previousStatus = NetworkReachabilityStatus.unknown

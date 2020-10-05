@@ -26,7 +26,7 @@
 
 Pod::Spec.new do |s|
   s.name = 'AzureSDK'
-  s.version = '1.0.0-beta.1'
+  s.version = '1.0.0-beta.2'
   s.summary = 'Azure SDK for iOS'
   s.description = <<-DESC
   Azure SDK for iOS client libraries
@@ -53,6 +53,12 @@ Pod::Spec.new do |s|
   # AzureCommunication
   s.subspec 'AzureCommunication' do |sp|
     sp.source_files = 'sdk/communication/AzureCommunication/Source/**/*.{swift,h,m}'
+    sp.dependency 'AzureSDK/AzureCore'
+  end
+
+  # AzureCommunicationChat
+  s.subspec 'AzureCommunicationChat' do |sp|
+    sp.source_files = 'sdk/communication/AzureCommunicationChat/Source/**/*.{swift,h,m}'
     sp.dependency 'AzureSDK/AzureCore'
   end
 end

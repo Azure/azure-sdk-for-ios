@@ -14,15 +14,13 @@ This package contains common code for Azure Communication Services libraries.
 [Communication Services resource](https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource) to use this library.
 
 ### Versions available
-The current version of this library is **1.0.0-beta.1**.
+The latest version of the SDK is [1.0.0-beta.2](https://github.com/Azure/azure-sdk-for-ios/releases/tag/1.0.0-beta.2). Older [releases](https://github.com/Azure/azure-sdk-for-ios/releases) are also available.
 
-> Note: The SDK is currently in **beta**. The API surface and feature sets are subject to change at any time before **GA**. We do not currently recommend them for production use.
+> Note: The SDK is currently in **beta**. The API surface and feature sets are subject to change at any time before they become generally available. We do not currently recommend them for production use.
 
 ### Install the library
 To install the Azure client libraries for iOS, we recommend you use
 [Swift Package Manager](#add-a-package-dependency-with-swift-package-manager).
-As an alternative, you may also integrate the libraries using
-[CocoaPods](#integrate-the-client-libraries-with-cocoapods).
 
 #### Add a package dependency with Swift Package Manager
 
@@ -55,7 +53,7 @@ specifying the clone URL of this repository and the version specifier you wish t
 ```swift
     dependencies: [
         ...
-        .package(url: "https://github.com/Azure/azure-sdk-for-ios.git", from: "1.0.0-beta.1")
+        .package(url: "https://github.com/Azure/azure-sdk-for-ios.git", from: "1.0.0-beta.2")
     ],
 ```
 
@@ -68,36 +66,6 @@ Next, for each target that needs to use the library, add it to the target's arra
             dependencies: ["AzureCommunication", ...])
     ]
 )
-```
-
-#### Integrate the client libraries with CocoaPods
-
-[CocoaPods](https://cocoapods.org) is a dependency manager for Objective C and Swift projects. You can install it with
-the following command:
-
-```bash
-$ [sudo] gem install cocoapods
-```
-
-> CocoaPods 1.3+ is required.
-
-To integrate the library into your project using CocoaPods, specify it in your
-[Podfile](https://guides.cocoapods.org/using/the-podfile.html) with the prefix `AzureSDK/`, providing the version
-specifier you wish to use:
-
-```ruby
-source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '12.0'
-use_frameworks!
-
-pod 'AzureSDK/AzureCommunication', '~> 1.0.0-beta.1'
-...
-```
-
-Then, run the following command:
-
-```bash
-$ pod install
 ```
 
 ## Key concepts
