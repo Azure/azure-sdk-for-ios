@@ -32,6 +32,10 @@ import CommonCrypto.CommonHMAC
     public var next: PipelineStage?
     private let accessKey: String
     
+    private let dateHeader = "date";
+    private let hostHeader  = "host";
+    private let contentHashHeader = "x-ms-content-sha256";
+    
     public init(accessKey: String) {
         self.accessKey = accessKey
     }
@@ -39,7 +43,7 @@ import CommonCrypto.CommonHMAC
     public func authenticate(
         request: PipelineRequest,
         completionHandler: @escaping OnRequestCompletionHandler) {
-        var contents = request.httpRequest.data ?? Data()
+        let contents = request.httpRequest.data ?? Data()
         
         guard request.httpRequest.url.scheme?.contains("https") == true else {
             completionHandler(
@@ -48,11 +52,62 @@ import CommonCrypto.CommonHMAC
             return
         }
         
-        request.httpRequest.headers[.authorization] = ""
+        request.httpRequest.headers[.authorization] = appendAuthorizationHeaders(
+            url: request.httpRequest.url,
+            httpMethod: request.httpRequest.httpMethod.rawValue,
+            contents: contents)
+        
+        completionHandler(request, nil)
     }
     
-    private func appendAuthorizationHeaders(url: URL, httpMethod: String, contents: Data) {
+    private func appendAuthorizationHeaders(
+        url: URL,
+        httpMethod: String,
+        contents: Data) -> String {
         
+        
+        
+        
+        return ""
+    }
+    
+    private func addAuthenticationHeaders(
+        url: URL,
+        httpMethod: String,
+        contents: Data) -> HTTPHeaders {
+        var headers: HTTPHeaders = [:]
+        let contentHashHeader = "x-ms-content-sha256"
+        // How do we set the hash header here?
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "E, dd MMM YYYY HH:mm:ss 'GMT'" // Is this the right date format?
+        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+        
+        let date = Date()
+        let utcNow = dateFormatter.string(from: date)
+        headers[dateHeader] = utcNow
+        headers[hostHeader] = url.host
+        headers.merge(addSignatureHeader(url: url, httpMethod: httpMethod)) { (_, new) in new }
+        
+        return headers
+    }
+    
+    private func addSignatureHeader(
+        url: URL,
+        httpMethod: String) -> HTTPHeaders {
+        // Order of the headers are important here for generating correct signature
+        let signedHeaderNames = "\(hostHeader);\(dateHeader);\(contentHashHeader)"
+        let signedHeaderValues = "" // What is this suppose to be?
+        
+        var pathAndQuery = url.path
+        if let query = url.query {
+            pathAndQuery += "?\(query)"
+        }
+        
+        let stringToSign = "\(httpMethod.uppercased())\n\(pathAndQuery)\n\(signedHeaderValues)"
+        let signature = stringToSign.generateSHA256(using: accessKey) // Is this right?
+        let hmacSHA256Format = "HMAC-SHA256 SignedHeaders=\(signedHeaderNames)&Signature=\(signature)"
+        return ["Authorization": hmacSHA256Format]
     }
 }
 
