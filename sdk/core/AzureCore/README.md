@@ -4,7 +4,7 @@ This is the core framework for the Azure SDK for iOS, containing the HTTP pipeli
 components that are used across all client libraries, including pipeline policies, error types, type aliases, an XML
 Codable implementation, and a logging system. As an end user, you don't need to manually install AzureCore because it
 will be installed automatically when you install other SDK libraries. If you are a client library developer, please
-reference the [AzureStorageBlob](https://github.com/Azure/azure-sdk-for-ios/tree/master/sdk/storage/AzureStorageBlob)
+reference the [AzureCommunicationChat](https://github.com/Azure/azure-sdk-for-ios/blob/master/sdk/communication/AzureCommunicationChat/)
 library as an example of how to use the shared AzureCore components in your client library.
 
 [Source code](https://github.com/Azure/azure-sdk-for-ios/tree/master/sdk/core/AzureCore)

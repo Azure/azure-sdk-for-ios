@@ -55,4 +55,10 @@ Pod::Spec.new do |s|
     sp.source_files = 'sdk/communication/AzureCommunication/Source/**/*.{swift,h,m}'
     sp.dependency 'AzureSDK/AzureCore'
   end
+
+  # AzureCommunicationChat
+  s.subspec 'AzureCommunicationChat' do |sp|
+    sp.source_files = 'sdk/communication/AzureCommunicationChat/Source/**/*.{swift,h,m}'
+    sp.dependency 'AzureSDK/AzureCore'
+  end
 end
