@@ -109,13 +109,15 @@ Using the APIs, users can also send typing indicators when typing a message and 
 
 Once you initialize an `AzureCommunicationChatClient` class, you can perform the following chat operations:
 
+#### Thread Operations
+
 - [Create a thread](#create-a-thread)
 - [Get a thread](#get-a-thread)
 - [List threads](#list-threads)
 - [Update a thread](#update-a-thread)
 - [Delete a thread](#delete-a-thread)
 
-## Message Operations
+#### Message Operations
 
 - [Send a message](#send-a-message)
 - [Get a message](#get-a-message)
@@ -123,13 +125,13 @@ Once you initialize an `AzureCommunicationChatClient` class, you can perform the
 - [Update a message](#update-a-message)
 - [Delete a message](#delete-a-message)
 
-## Thread Member Operations
+#### Thread Member Operations
 
 - [Get thread members](#get-thread-members)
 - [Add thread members](#add-thread-members)
 - [Remove a thread member](#remove-a-thread-member)
 
-## Events Operations
+#### Events Operations
 
 - [Send a typing notification](#send-a-typing-notification)
 - [Send read receipt](#send-read-receipt)
