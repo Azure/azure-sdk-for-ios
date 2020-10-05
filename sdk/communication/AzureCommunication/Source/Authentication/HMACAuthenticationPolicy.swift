@@ -43,7 +43,7 @@ import CommonCrypto.CommonHMAC
     public func authenticate(
         request: PipelineRequest,
         completionHandler: @escaping OnRequestCompletionHandler) {
-        let contents = request.httpRequest.data ?? Data()
+        let contents = request.httpRequest.data ?? Data() // Is this the body of the request?
         
         guard request.httpRequest.url.scheme?.contains("https") == true else {
             completionHandler(
@@ -52,32 +52,21 @@ import CommonCrypto.CommonHMAC
             return
         }
         
-        request.httpRequest.headers[.authorization] = appendAuthorizationHeaders(
+        request.httpRequest.headers = addAuthenticationHeaders(
             url: request.httpRequest.url,
             httpMethod: request.httpRequest.httpMethod.rawValue,
             contents: contents)
         
         completionHandler(request, nil)
     }
-    
-    private func appendAuthorizationHeaders(
-        url: URL,
-        httpMethod: String,
-        contents: Data) -> String {
         
-        
-        
-        
-        return ""
-    }
-    
     private func addAuthenticationHeaders(
         url: URL,
         httpMethod: String,
         contents: Data) -> HTTPHeaders {
         var headers: HTTPHeaders = [:]
-        let contentHashHeader = "x-ms-content-sha256"
-        // How do we set the hash header here?
+        // How do we set the content hash header here?
+        headers[contentHashHeader] = sha256Policy(using: contents)
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "E, dd MMM YYYY HH:mm:ss 'GMT'" // Is this the right date format?
@@ -108,6 +97,43 @@ import CommonCrypto.CommonHMAC
         let signature = stringToSign.generateSHA256(using: accessKey) // Is this right?
         let hmacSHA256Format = "HMAC-SHA256 SignedHeaders=\(signedHeaderNames)&Signature=\(signature)"
         return ["Authorization": hmacSHA256Format]
+    }
+}
+
+extension HMACAuthenticationPolicy {
+    func sha256(using string: String) -> String {
+        if let stringData = string.data(using: .utf8) {
+            return hexString(from: digest(input: stringData))
+        }
+
+        return ""
+    }
+    
+    func sha256Policy(using data: Data) -> String {
+        return hexString(from: digest(input: data))
+    }
+    
+    private func digest(input: Data) -> Data {
+        var hash = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
+        CC_SHA256(input.bytes, UInt32(input.count), &hash)
+        return Data(bytes: hash, count: Int(CC_SHA256_DIGEST_LENGTH))
+    }
+    
+    private func hexString(from data: Data) -> String {
+        let bytes = data.bytes
+        
+        var hexString = ""
+        for byte in bytes {
+            hexString += String(format: "%02hhx", UInt8(byte))
+        }
+        
+        return hexString
+    }
+}
+
+extension Data {
+    var bytes: [UInt8] {
+        return [UInt8](self)
     }
 }
 

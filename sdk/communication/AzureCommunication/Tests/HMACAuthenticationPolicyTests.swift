@@ -44,4 +44,12 @@ class HMACAuthenticationPolicyTests: XCTestCase {
         let hashed = message.generateSHA256(using: secret_key)
         XCTAssertEqual(hashed, expectedHash)
     }
+    
+    func testhashingWithSecretUsingSha() {
+        let message = "TestMessage"
+        let expectedHash = "567604ea3ac4de6ce263fffc795ede7724e045f28c888d075e8327b7219b44aa"
+        
+        let sha = HMACAuthenticationPolicy(accessKey: secret_key).sha256(using: message)
+        XCTAssertEqual(sha, expectedHash)
+    }
 }
