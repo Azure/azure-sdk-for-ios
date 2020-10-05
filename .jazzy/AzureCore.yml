@@ -2,7 +2,7 @@ author: Microsoft
 author_url: https://azure.github.io/azure-sdk/
 github_url: https://github.com/Azure/azure-sdk-for-ios
 module: AzureCore
-module_version: 1.0.0-beta.1
+module_version: 1.0.0-beta.2
 readme: ../sdk/core/AzureCore/README.md
 skip_undocumented: false
 hide_unlisted_documentation: false
@@ -17,6 +17,8 @@ xcodebuild_arguments:
   - "AzureCore"
   - "-sdk"
   - "iphonesimulator"
+  - "-arch"
+  - "x86_64"
 exclude:
   - "*/Source/ObjectiveCCompatibility/*"
   - "*/Tests/*"

@@ -26,7 +26,7 @@
 
 Pod::Spec.new do |s|
   s.name = 'AzureSDK'
-  s.version = '1.0.0-beta.1'
+  s.version = '1.0.0-beta.2'
   s.summary = 'Azure SDK for iOS'
   s.description = <<-DESC
   Azure SDK for iOS client libraries
