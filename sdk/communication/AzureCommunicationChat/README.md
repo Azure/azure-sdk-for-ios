@@ -36,7 +36,9 @@ let client = AzureCommunicationChatClient(baseUrl: baseUrl, authPolicy: authPoli
 
 # Key concepts
 
-A chat conversation is represented by a chat thread. Each user in the thread is called a thread member. Thread members can chat with one another privately in a 1:1 chat or huddle up in a 1:N group chat. Users also get near real-time updates for when others are typing and when they have read the messages.
+A chat conversation is represented by a chat thread. Each user in the thread is called a thread member. Thread members can chat with one another privately in a 1:1 chat or huddle up in a 1:N group chat.
+
+Using the APIs, users can also send typing indicators when typing a message and read receipts for the messages they have read in a chat thread. To learn more, read about chat concepts [here](https://docs.microsoft.com/azure/communication-services/concepts/chat/concepts).
 
 Once you initialize an `AzureCommunicationChatClient` class, you can perform the following chat operations:
 
