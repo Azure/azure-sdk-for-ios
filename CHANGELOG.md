@@ -4,7 +4,7 @@
 
 ## 1.0.0-beta.2 (2020-10-05)
 
-Version 1.0.0-beta.1 adds the Azure Communication Services Chat to the SDK.
+Version 1.0.0-beta.2 adds the Azure Communication Services Chat to the SDK.
 
 ### Added Libraries
 
