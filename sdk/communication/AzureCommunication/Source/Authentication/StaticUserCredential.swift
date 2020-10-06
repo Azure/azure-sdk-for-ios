@@ -39,7 +39,7 @@ internal class StaticUserCredential: CommunicationTokenCredential {
         
      - Parameter token: The static token to use for authenticating all requests.
      
-     - Throws: `AzureError` if the provided token is not a valid JWT token.
+     - Throws: `AzureError` if the provided token is not a valid token.
      
      - SeeAlso: ` CommunicationUserCredential.init(...)`
      */

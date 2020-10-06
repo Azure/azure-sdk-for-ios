@@ -43,7 +43,7 @@ public typealias TokenRefreshOnCompletion = (String?, Error?) -> Void
         
      - Parameter token: The static token to use for authenticating all requests.
      
-     - Throws: `AzureError` if the provided token is not a valid JWT token.
+     - Throws: `AzureError` if the provided token is not a valid user token.
      */
     public init(token: String) throws {
         self.userTokenCredential = try StaticUserCredential(token: token)
@@ -61,7 +61,7 @@ public typealias TokenRefreshOnCompletion = (String?, Error?) -> Void
         - initialToken: The initial value of the token.
         - refreshProactively: Whether the token should be proactively refreshed in the background.
         - tokenRefresher: Closure to call when a new token value is needed.
-     - Throws: `AzureError` if the provided token is not a valid JWT token.
+     - Throws: `AzureError` if the provided token is not a valid user token.
      */
     public init(
         initialToken: String? = nil,
