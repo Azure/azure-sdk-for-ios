@@ -194,8 +194,7 @@ public class ContentDecodePolicy: PipelineStage {
         else { return }
         contentType = contentType.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
         do {
-            if let deserializedJson = try deserialize(from: returnResponse, contentType: contentType) {
-                let deserializedData = try JSONSerialization.data(withJSONObject: deserializedJson, options: [])
+            if let deserializedData = try deserialize(from: returnResponse, contentType: contentType) {
                 returnResponse.add(value: deserializedData as AnyObject, forKey: .deserializedData)
             }
         } catch {
@@ -235,7 +234,8 @@ public class ContentDecodePolicy: PipelineStage {
         } else if contentType.contains("xml") {
             xmlParser.xmlMap = response.value(forKey: .xmlMap) as? XMLMap
             xmlParser.logger = response.logger
-            return try parse(xml: data)
+            let jsonData = try parse(xml: data)
+            return try JSONSerialization.data(withJSONObject: jsonData, options: []) as AnyObject
         }
         return nil
     }
