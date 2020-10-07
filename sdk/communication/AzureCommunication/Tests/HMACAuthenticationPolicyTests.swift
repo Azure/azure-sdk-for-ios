@@ -41,11 +41,24 @@ class HMACAuthenticationPolicyTests: XCTestCase {
         policy = HMACAuthenticationPolicy(accessKey: secret_key)
     }
         
-    func testhashingWithSecretUsingSha() {
-        let message = "TestMessage"
-        let expectedHash = "567604ea3ac4de6ce263fffc795ede7724e045f28c888d075e8327b7219b44aa"
-        
+    func testAddAuthenticationHeaders() {
+        //         HttpRequest request = new HttpRequest(HttpMethod.POST, new URL("https://localhost?id=b93a5ef4-f622-44d8-a80b-ff983122554e"));
+//        request.setBody("{\"propName\":\"name\", \"propValue\": \"value\"}");
+
         let sha = HMACAuthenticationPolicy(accessKey: secret_key)
+        let mockUrl = URL(string: "https://localhost?id=b93a5ef4-f622-44d8-a80b-ff983122554e")
+        let mockHttpMethod: HTTPMethod = .post
+        let mockBody = ["propName": "name",
+                        "propValue": "value"]
+        let dataExample = try? NSKeyedArchiver.archivedData(
+            withRootObject: mockBody,
+            requiringSecureCoding: false)
         
+        let headers = sha.addAuthenticationHeaders(
+            url: mockUrl!,
+            httpMethod: mockHttpMethod.rawValue,
+            contents: dataExample ?? Data())
+        
+        dump(headers)
     }
 }

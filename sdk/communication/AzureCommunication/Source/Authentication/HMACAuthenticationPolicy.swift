@@ -59,13 +59,14 @@ import CommonCrypto.CommonHMAC
         
         completionHandler(request, nil)
     }
-        
-    private func addAuthenticationHeaders(
+    
+    public func addAuthenticationHeaders(
         url: URL,
         httpMethod: String,
         contents: Data) -> HTTPHeaders {
         var headers: HTTPHeaders = [:]
         // How do we set the content hash header here?
+        // example content hash: "YjVxGFu++f6tLM9YEVQVRmchZiYyxQ+8Bi3PXTJz2C4="
         headers[contentHashHeader] = sha256Policy(using: contents)
         
         let dateFormatter = DateFormatter()
@@ -76,8 +77,24 @@ import CommonCrypto.CommonHMAC
         let utcNow = dateFormatter.string(from: date)
         headers[dateHeader] = utcNow
         headers[hostHeader] = url.host
-        headers.merge(addSignatureHeader(url: url, httpMethod: httpMethod)) { (_, new) in new }
         
+        /**
+        Example of headers
+         HashMap@56 size=3
+         0:HashMap$Node@115 "date":"Wed, 07 Oct 2020 17:00:39 GMT"
+         1:HashMap$Node@116 "x-ms-content-sha256":"YjVxGFu++f6tLM9YEVQVRmchZiYyxQ+8Bi3PXTJz2C4="
+         2:HashMap$Node@117 "host":"localhost"
+         */
+        
+        headers.merge(addSignatureHeader(url: url, httpMethod: httpMethod)) { (_, new) in new }
+        /**
+         After signature
+         HashMap@56 size=4
+         0:HashMap$Node@115 "date":"Wed, 07 Oct 2020 17:00:39 GMT"
+         1:HashMap$Node@136 "Authorization":"HMAC-SHA256 SignedHeaders=date;host;x-ms-content-sha256&Signature=BRv4OuRokaPmjN+HSUOdRS0mWKxEPxw15oHE5MVgm20="
+         2:HashMap$Node@116 "x-ms-content-sha256":"YjVxGFu++f6tLM9YEVQVRmchZiYyxQ+8Bi3PXTJz2C4="
+         3:HashMap$Node@117 "host":"localhost"
+         */
         return headers
     }
     
@@ -85,17 +102,24 @@ import CommonCrypto.CommonHMAC
         url: URL,
         httpMethod: String) -> HTTPHeaders {
         // Order of the headers are important here for generating correct signature
-        let signedHeaderNames = "\(hostHeader);\(dateHeader);\(contentHashHeader)"
+        let signedHeaderNames = "\(dateHeader);\(hostHeader);\(contentHashHeader)"
         let signedHeaderValues = "" // What is this suppose to be?
         
         var pathAndQuery = url.path
         if let query = url.query {
             pathAndQuery += "?\(query)"
         }
-        
+        /**
+         Example of what string to sign should be:
+         "POST
+         ?id=b93a5ef4-f622-44d8-a80b-ff983122554e
+         Wed, 07 Oct 2020 16:46:04 GMT;localhost;YjVxGFu++f6tLM9YEVQVRmchZiYyxQ+8Bi3PXTJz2C4="
+         */
         let stringToSign = "\(httpMethod.uppercased())\n\(pathAndQuery)\n\(signedHeaderValues)"
+        // Example signature: "PrmeTIq2Ebqwc33tmViNtHuzzN+V+86mXzg5jzg1HTY="
         let signature = stringToSign.generateSHA256(using: accessKey) // Is this right?
         let hmacSHA256Format = "HMAC-SHA256 SignedHeaders=\(signedHeaderNames)&Signature=\(signature)"
+        // Example of header: "Authorization":"HMAC-SHA256 SignedHeaders=date;host;x-ms-content-sha256&Signature=PrmeTIq2Ebqwc33tmViNtHuzzN+V+86mXzg5jzg1HTY="
         return ["Authorization": hmacSHA256Format]
     }
 }
