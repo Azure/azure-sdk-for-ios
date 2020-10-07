@@ -143,6 +143,5 @@ extension String {
         CCHmac(CCHmacAlgorithm(kCCHmacAlgSHA256), secret, secret.count, self, self.count, &digest)
         let data = Data(digest)
         return data.map { String(format: "%02hhx", $0) }.joined()
-        
     }
 }
