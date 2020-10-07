@@ -59,6 +59,7 @@ open class PipelineClient {
     public var baseUrl: URL
     public var logger: ClientLogger
     public var commonOptions: AzureClientOptions
+    public var skipUrlEncoding: Bool
 
     // MARK: Initializers
 
@@ -67,12 +68,14 @@ open class PipelineClient {
         transport: HTTPTransportStage,
         policies: [PipelineStage],
         logger: ClientLogger,
-        options: AzureClientOptions
+        options: AzureClientOptions,
+        skipUrlEncoding: Bool = false
     ) {
         self.baseUrl = baseUrl.hasDirectoryPath ? baseUrl : baseUrl.appendingPathComponent("/")
         self.logger = logger
         self.pipeline = Pipeline(transport: transport, policies: policies)
         self.commonOptions = options
+         self.skipUrlEncoding = skipUrlEncoding
     }
 
     // MARK: Public Methods
@@ -91,7 +94,8 @@ open class PipelineClient {
                 urlString = urlString.replacingOccurrences(of: "{\(key)}", with: value)
             }
         }
-        return URL(string: urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))
+         return skipUrlEncoding ? URL(string: urlString) : URL(string: urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))
+
     }
 
     public func request(
