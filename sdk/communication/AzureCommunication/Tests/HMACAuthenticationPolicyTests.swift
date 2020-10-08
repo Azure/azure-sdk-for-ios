@@ -66,13 +66,13 @@ class HMACAuthenticationPolicyTests: XCTestCase {
     }
     
     func testAddAuthenticationHeaderForGet() {
-        let mockUrl = URL(string: "https://localhost?id=b93a5ef4-f622-44d8-a80b-ff983122554e")
-        let mockHttpMethod: HTTPMethod = .get
-        
         guard let policy = policy else {
             XCTFail("HMACAuthenticationPolicy was not init properly")
             return
         }
+        
+        let mockUrl = URL(string: "https://localhost?id=b93a5ef4-f622-44d8-a80b-ff983122554e:9000")
+        let mockHttpMethod: HTTPMethod = .get
         
         let contents = Data()
         let url = mockUrl
@@ -90,6 +90,10 @@ class HMACAuthenticationPolicyTests: XCTestCase {
         let hashedContent = headers[HMACAuthenticationPolicy.contentHashHeader]
         let expectedHash = "47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU="
         XCTAssertEqual(hashedContent, expectedHash)
+        
+        let hostHeader = headers[HMACAuthenticationPolicy.hostHeader]
+        let expectedHost = "localhost"
+        XCTAssertEqual(hostHeader, expectedHost)
     }
     
     func testAddAuthenticationHeadersForPostWithBody() {
@@ -97,7 +101,8 @@ class HMACAuthenticationPolicyTests: XCTestCase {
             XCTFail("HMACAuthenticationPolicy was not init properly")
             return
         }
-        let mockUrl = URL(string: "https://localhost?id=b93a5ef4-f622-44d8-a80b-ff983122554e")
+        
+        let mockUrl = URL(string: "https://localhost?id=b93a5ef4-f622-44d8-a80b-ff983122554e:8080")
         let mockHttpMethod: HTTPMethod = .post
         let mockBody = "{\"propName\":\"name\", \"propValue\": \"value\"}"
 
@@ -117,6 +122,10 @@ class HMACAuthenticationPolicyTests: XCTestCase {
         let hashedContent = headers[HMACAuthenticationPolicy.contentHashHeader]
         let expectedHashContent = "YjVxGFu++f6tLM9YEVQVRmchZiYyxQ+8Bi3PXTJz2C4="
         XCTAssertEqual(hashedContent, expectedHashContent)
+        
+        let hostHeader = headers[HMACAuthenticationPolicy.hostHeader]
+        let expectedHost = "localhost"
+        XCTAssertEqual(hostHeader, expectedHost)
     }
     
     func testAddAuthenticationHeadersForPostUsingStaticDate() {
@@ -145,7 +154,18 @@ class HMACAuthenticationPolicyTests: XCTestCase {
         let authHeader = headers["Authorization"]
         let expectedSignature = "Signature=KZD9UN4LsktsEX2e9cRp+LS2opjAtEVKqt+OzFCHh9o="
         XCTAssertTrue(authHeader?.contains(expectedSignature) ?? false)
+       
+        let hashedContent = headers[HMACAuthenticationPolicy.contentHashHeader]
+        let expectedHashContent = "YjVxGFu++f6tLM9YEVQVRmchZiYyxQ+8Bi3PXTJz2C4="
+        XCTAssertEqual(hashedContent, expectedHashContent)
         
+        let hostHeader = headers[HMACAuthenticationPolicy.hostHeader]
+        let expectedHost = "localhost"
+        XCTAssertEqual(hostHeader, expectedHost)
+        
+        let dateHeader = headers[HMACAuthenticationPolicy.dateHeader]
+        let expectedDate = "Wed, 07 Oct 2020 18:16:02 GMT"
+        XCTAssertEqual(dateHeader, expectedDate)
         /**
          After signature
          HashMap@56 size=4
@@ -155,6 +175,4 @@ class HMACAuthenticationPolicyTests: XCTestCase {
          3:HashMap$Node@116 "host":"localhost"
          */
     }
-
-    
 }
