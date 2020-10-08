@@ -24,9 +24,13 @@
 //
 // --------------------------------------------------------------------------
 
+#if canImport(AzureCore)
 import AzureCore
+#endif
+
 import Foundation
-import CommonCrypto.CommonHMAC
+import CommonCrypto
+import CryptoKit
 
 @objcMembers public class HMACAuthenticationPolicy: Authenticating {
     public var next: PipelineStage?
@@ -67,10 +71,10 @@ import CommonCrypto.CommonHMAC
         var headers: HTTPHeaders = [:]
         // How do we set the content hash header here?
         // example content hash: "YjVxGFu++f6tLM9YEVQVRmchZiYyxQ+8Bi3PXTJz2C4="
-        headers[contentHashHeader] = sha256Policy(using: contents)
+        headers[contentHashHeader] = contents.sha256
         
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "E, dd MMM YYYY HH:mm:ss 'GMT'" // Is this the right date format?
+        dateFormatter.dateFormat = "E, dd MMM YYYY HH:mm:ss 'GMT'" // Is this the right date format? Try ISO8601DateFormatter
         dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
         
         let date = Date()
@@ -90,10 +94,10 @@ import CommonCrypto.CommonHMAC
         /**
          After signature
          HashMap@56 size=4
-         0:HashMap$Node@115 "date":"Wed, 07 Oct 2020 17:00:39 GMT"
-         1:HashMap$Node@136 "Authorization":"HMAC-SHA256 SignedHeaders=date;host;x-ms-content-sha256&Signature=BRv4OuRokaPmjN+HSUOdRS0mWKxEPxw15oHE5MVgm20="
-         2:HashMap$Node@116 "x-ms-content-sha256":"YjVxGFu++f6tLM9YEVQVRmchZiYyxQ+8Bi3PXTJz2C4="
-         3:HashMap$Node@117 "host":"localhost"
+         0:HashMap$Node@113 "date":"Wed, 07 Oct 2020 18:16:02 GMT"
+         1:HashMap$Node@114 "Authorization":"HMAC-SHA256 SignedHeaders=date;host;x-ms-content-sha256&Signature=KZD9UN4LsktsEX2e9cRp+LS2opjAtEVKqt+OzFCHh9o="
+         2:HashMap$Node@115 "x-ms-content-sha256":"YjVxGFu++f6tLM9YEVQVRmchZiYyxQ+8Bi3PXTJz2C4="
+         3:HashMap$Node@116 "host":"localhost"
          */
         return headers
     }
@@ -103,8 +107,10 @@ import CommonCrypto.CommonHMAC
         httpMethod: String) -> HTTPHeaders {
         // Order of the headers are important here for generating correct signature
         let signedHeaderNames = "\(dateHeader);\(hostHeader);\(contentHashHeader)"
-        let signedHeaderValues = "" // What is this suppose to be?
+        let signedHeaderValues = "" // What is this suppose to be? // content hash
         
+        // Add unit test for different ports
+        // 1 with port 1 without port
         var pathAndQuery = url.path
         if let query = url.query {
             pathAndQuery += "?\(query)"
@@ -117,55 +123,55 @@ import CommonCrypto.CommonHMAC
          */
         let stringToSign = "\(httpMethod.uppercased())\n\(pathAndQuery)\n\(signedHeaderValues)"
         // Example signature: "PrmeTIq2Ebqwc33tmViNtHuzzN+V+86mXzg5jzg1HTY="
-        let signature = stringToSign.generateSHA256(using: accessKey) // Is this right?
+        let signature = stringToSign.generateHmac(using: accessKey) // Is this right?
         let hmacSHA256Format = "HMAC-SHA256 SignedHeaders=\(signedHeaderNames)&Signature=\(signature)"
         // Example of header: "Authorization":"HMAC-SHA256 SignedHeaders=date;host;x-ms-content-sha256&Signature=PrmeTIq2Ebqwc33tmViNtHuzzN+V+86mXzg5jzg1HTY="
         return ["Authorization": hmacSHA256Format]
     }
 }
 
-extension HMACAuthenticationPolicy {
-    func sha256(using string: String) -> String {
-        if let stringData = string.data(using: .utf8) {
-            return hexString(from: digest(input: stringData))
-        }
-
-        return ""
-    }
-    
-    func sha256Policy(using data: Data) -> String {
-        return hexString(from: digest(input: data))
-    }
-    
-    private func digest(input: Data) -> Data {
-        var hash = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
-        CC_SHA256(input.bytes, UInt32(input.count), &hash)
-        return Data(bytes: hash, count: Int(CC_SHA256_DIGEST_LENGTH))
-    }
-    
-    private func hexString(from data: Data) -> String {
-        let bytes = data.bytes
-        
-        var hexString = ""
-        for byte in bytes {
-            hexString += String(format: "%02hhx", UInt8(byte))
-        }
-        
-        return hexString
-    }
-}
-
 extension Data {
-    var bytes: [UInt8] {
-        return [UInt8](self)
+    public var sha256: String {
+        if #available(iOS 13.0, *) {
+            let hashed = SHA256.hash(data: self)
+            return Data(hashed).base64EncodedString()
+        } else {
+            var digest = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
+            self.withUnsafeBytes { bytes in
+                _ = CC_SHA256(bytes.baseAddress, CC_LONG(self.count), &digest)
+            }
+        return Data(digest.makeIterator()).base64EncodedString()
+        }
     }
+
 }
 
 extension String {
-    func generateSHA256(using secret: String) -> String {
-        var digest = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
-        CCHmac(CCHmacAlgorithm(kCCHmacAlgSHA256), secret, secret.count, self, self.count, &digest)
-        let data = Data(digest)
-        return data.map { String(format: "%02hhx", $0) }.joined()
+    func generateHmac(using secret: String) -> String {
+//        if #available(iOS 13.0, *) {
+//            let sKey = SymmetricKey(data: Data(base64Encoded: secret)!)
+//            let auth = HMAC<SHA256>.authenticationCode(for: self.data(using: .utf8)!, using: sKey)
+//            return Data(auth).base64EncodedString()
+//        } else {
+//            var digest = [UInt16](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
+//        let rawData = Data(base64Encoded: secret)!
+//        let str = String(decoding: rawData.uint16, as: UTF16.self)
+//            CCHmac(CCHmacAlgorithm(kCCHmacAlgSHA256), str, str.count, self, self.count, &digest)
+//
+//            return Data(digest).base64EncodedString()
+//        }
+        
+        
+            var digest = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
+//            let rawData = Data(base64Encoded: secret)!
+//            let str = String(decoding: rawData, as: UTF8.self)
+        CCHmac(CCHmacAlgorithm(kCCHmacAlgSHA256), secret.base64EncodedString(), secret.base64EncodedString().count, self, self.count, &digest)
+        
+            return Data(digest).base64EncodedString()
+//        var digest = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
+//        CCHmac(CCHmacAlgorithm(kCCHmacAlgSHA256), secret, secret.count, self, self.count, &digest)
+//        let data = Data(digest)
+//        return data.base64EncodedString()
     }
 }
+

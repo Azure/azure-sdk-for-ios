@@ -42,23 +42,45 @@ class HMACAuthenticationPolicyTests: XCTestCase {
     }
         
     func testAddAuthenticationHeaders() {
-        //         HttpRequest request = new HttpRequest(HttpMethod.POST, new URL("https://localhost?id=b93a5ef4-f622-44d8-a80b-ff983122554e"));
-//        request.setBody("{\"propName\":\"name\", \"propValue\": \"value\"}");
-
         let sha = HMACAuthenticationPolicy(accessKey: secret_key)
         let mockUrl = URL(string: "https://localhost?id=b93a5ef4-f622-44d8-a80b-ff983122554e")
         let mockHttpMethod: HTTPMethod = .post
-        let mockBody = ["propName": "name",
-                        "propValue": "value"]
-        let dataExample = try? NSKeyedArchiver.archivedData(
-            withRootObject: mockBody,
-            requiringSecureCoding: false)
+        let mockBody = "{\"propName\": \"name\", \"propValue\": \"value\"}"
         
         let headers = sha.addAuthenticationHeaders(
             url: mockUrl!,
             httpMethod: mockHttpMethod.rawValue,
-            contents: dataExample ?? Data())
-        
+            contents: mockBody.data(using: .utf8) ?? Data())
+        // YjVxGFu++f6tLM9YEVQVRmchZiYyxQ+8Bi3PXTJz2C4=
         dump(headers)
+    }
+    
+    func testSha() {
+        //    const hash = await shaHash("banana");
+//        assert.equal(hash, "tJPUg2Sv5E0RwBZc9HCkFk0eJgmRHvmYvoaNRq3j3k4=");
+        let string = "banana"
+        let result = "tJPUg2Sv5E0RwBZc9HCkFk0eJgmRHvmYvoaNRq3j3k4="
+        XCTAssertEqual(string.data(using: .utf8)?.sha256, result)
+    }
+    
+    func testEmoji() {
+//        const hash = await shaHash("😀");
+//        assert.equal(hash, "8EQ6NCxe9UeDoRG1G6Vsk45HTDIyTZDDpgycjjo34tk=");
+        let emoji = "😀"
+        let result = "8EQ6NCxe9UeDoRG1G6Vsk45HTDIyTZDDpgycjjo34tk="
+        XCTAssertEqual(emoji.data(using: .utf8)?.sha256, result)
+    }
+    
+    func testhmacsha() {
+        let string = "banana".generateHmac(using: "pw==")
+        let result = "88EC05aAS9iXnaimtNO78JLjiPtfWryQB/5QYEzEsu8="
+        XCTAssertEqual(string, result)
+
+    }
+
+    func testhmacemoji() {
+        let string = "😀".generateHmac(using: "pw==")
+        let result = "1rudJKjn2Zi+3hRrBG29wIF6pD6YyAeQR1ZcFtXoKAU="
+        XCTAssertEqual(string, result)
     }
 }
