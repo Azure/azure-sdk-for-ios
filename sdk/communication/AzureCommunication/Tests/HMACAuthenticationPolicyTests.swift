@@ -41,46 +41,66 @@ class HMACAuthenticationPolicyTests: XCTestCase {
         policy = HMACAuthenticationPolicy(accessKey: secret_key)
     }
         
-    func testAddAuthenticationHeaders() {
-        let sha = HMACAuthenticationPolicy(accessKey: secret_key)
-        let mockUrl = URL(string: "https://localhost?id=b93a5ef4-f622-44d8-a80b-ff983122554e")
-        let mockHttpMethod: HTTPMethod = .post
-        let mockBody = "{\"propName\": \"name\", \"propValue\": \"value\"}"
-        
-        let headers = sha.addAuthenticationHeaders(
-            url: mockUrl!,
-            httpMethod: mockHttpMethod.rawValue,
-            contents: mockBody.data(using: .utf8) ?? Data())
-        // YjVxGFu++f6tLM9YEVQVRmchZiYyxQ+8Bi3PXTJz2C4=
-        dump(headers)
-    }
-    
-    func testSha() {
-        //    const hash = await shaHash("banana");
-//        assert.equal(hash, "tJPUg2Sv5E0RwBZc9HCkFk0eJgmRHvmYvoaNRq3j3k4=");
+    func testShaEncyptionOnString() {
         let string = "banana"
         let result = "tJPUg2Sv5E0RwBZc9HCkFk0eJgmRHvmYvoaNRq3j3k4="
         XCTAssertEqual(string.data(using: .utf8)?.sha256, result)
     }
     
-    func testEmoji() {
-//        const hash = await shaHash("😀");
-//        assert.equal(hash, "8EQ6NCxe9UeDoRG1G6Vsk45HTDIyTZDDpgycjjo34tk=");
+    func testShaEncyptionOnEmoji() {
         let emoji = "😀"
         let result = "8EQ6NCxe9UeDoRG1G6Vsk45HTDIyTZDDpgycjjo34tk="
         XCTAssertEqual(emoji.data(using: .utf8)?.sha256, result)
     }
     
-    func testhmacsha() {
+    func testHMACEncyptionOnString() {
         let string = "banana".generateHmac(using: "pw==")
         let result = "88EC05aAS9iXnaimtNO78JLjiPtfWryQB/5QYEzEsu8="
         XCTAssertEqual(string, result)
-
     }
 
-    func testhmacemoji() {
+    func testHMACEncyptionOnEmoji() {
         let string = "😀".generateHmac(using: "pw==")
         let result = "1rudJKjn2Zi+3hRrBG29wIF6pD6YyAeQR1ZcFtXoKAU="
         XCTAssertEqual(string, result)
+    }
+    
+    func testAddAuthenticationHeaderForGet() {
+        let mockUrl = URL(string: "https://localhost?id=b93a5ef4-f622-44d8-a80b-ff983122554e")
+        let mockHttpMethod: HTTPMethod = .get
+        
+        guard let policy = policy else {
+            XCTFail("HMACAuthenticationPolicy was not init properly")
+            return
+        }
+        
+        let headers = policy.addAuthenticationHeaders(
+            url: mockUrl!,
+            httpMethod: mockHttpMethod.rawValue,
+            contents: Data())
+        
+        let hashedContent = headers[HMACAuthenticationPolicy.contentHashHeader]
+        let expectedHash = "47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU="
+        XCTAssertEqual(hashedContent, expectedHash)
+    }
+    
+    func testAddAuthenticationHeadersForPostWithBody() {
+        let mockUrl = URL(string: "https://localhost?id=b93a5ef4-f622-44d8-a80b-ff983122554e")
+        let mockHttpMethod: HTTPMethod = .post
+        let mockBody = "{\"propName\":\"name\", \"propValue\": \"value\"}"
+        
+        guard let policy = policy else {
+            XCTFail("HMACAuthenticationPolicy was not init properly")
+            return
+        }
+        
+        let headers = policy.addAuthenticationHeaders(
+            url: mockUrl!,
+            httpMethod: mockHttpMethod.rawValue,
+            contents: mockBody.data(using: .utf8) ?? Data())
+        
+        let hashedContent = headers[HMACAuthenticationPolicy.contentHashHeader]
+        let expectedHashContent = "YjVxGFu++f6tLM9YEVQVRmchZiYyxQ+8Bi3PXTJz2C4="
+        XCTAssertEqual(hashedContent, expectedHashContent)
     }
 }
