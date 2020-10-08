@@ -74,33 +74,87 @@ class HMACAuthenticationPolicyTests: XCTestCase {
             return
         }
         
-        let headers = policy.addAuthenticationHeaders(
-            url: mockUrl!,
-            httpMethod: mockHttpMethod.rawValue,
-            contents: Data())
+        let contents = Data()
+        let url = mockUrl
+        let httpMethod = mockHttpMethod
+        let date = Date()
         
+        let properties = HMACAuthenticationPolicy.HMACAuthenticationProperties(
+            url: url!,
+            httpMethod: httpMethod,
+            contents: contents,
+            date: date)
+        
+        let headers = policy.addAuthenticationHeaders(with: properties)
+
         let hashedContent = headers[HMACAuthenticationPolicy.contentHashHeader]
         let expectedHash = "47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU="
         XCTAssertEqual(hashedContent, expectedHash)
     }
     
     func testAddAuthenticationHeadersForPostWithBody() {
-        let mockUrl = URL(string: "https://localhost?id=b93a5ef4-f622-44d8-a80b-ff983122554e")
-        let mockHttpMethod: HTTPMethod = .post
-        let mockBody = "{\"propName\":\"name\", \"propValue\": \"value\"}"
-        
         guard let policy = policy else {
             XCTFail("HMACAuthenticationPolicy was not init properly")
             return
         }
+        let mockUrl = URL(string: "https://localhost?id=b93a5ef4-f622-44d8-a80b-ff983122554e")
+        let mockHttpMethod: HTTPMethod = .post
+        let mockBody = "{\"propName\":\"name\", \"propValue\": \"value\"}"
+
+        let contents = mockBody.data(using: .utf8) ?? Data()
+        let url = mockUrl
+        let httpMethod = mockHttpMethod
+        let date = Date()
         
-        let headers = policy.addAuthenticationHeaders(
-            url: mockUrl!,
-            httpMethod: mockHttpMethod.rawValue,
-            contents: mockBody.data(using: .utf8) ?? Data())
+        let properties = HMACAuthenticationPolicy.HMACAuthenticationProperties(
+            url: url!,
+            httpMethod: httpMethod,
+            contents: contents,
+            date: date)
+        
+        let headers = policy.addAuthenticationHeaders(with: properties)
         
         let hashedContent = headers[HMACAuthenticationPolicy.contentHashHeader]
         let expectedHashContent = "YjVxGFu++f6tLM9YEVQVRmchZiYyxQ+8Bi3PXTJz2C4="
         XCTAssertEqual(hashedContent, expectedHashContent)
     }
+    
+    func testAddAuthenticationHeadersForPostUsingStaticDate() {
+        guard let policy = policy else {
+            XCTFail("HMACAuthenticationPolicy was not init properly")
+            return
+        }
+        let mockUrl = URL(string: "https://localhost?id=b93a5ef4-f622-44d8-a80b-ff983122554e")
+        let mockHttpMethod: HTTPMethod = .post
+        let mockBody = "{\"propName\":\"name\", \"propValue\": \"value\"}"
+
+        let contents = mockBody.data(using: .utf8) ?? Data()
+        let url = mockUrl
+        let httpMethod = mockHttpMethod
+        let dateString = "Wed, 07 Oct 2020 18:16:02 GMT"
+        let date = Date(dateString, format: .rfc1123)
+        
+        let properties = HMACAuthenticationPolicy.HMACAuthenticationProperties(
+            url: url!,
+            httpMethod: httpMethod,
+            contents: contents,
+            date: date!)
+        
+        let headers = policy.addAuthenticationHeaders(with: properties)
+        
+        let authHeader = headers["Authorization"]
+        let expectedSignature = "Signature=KZD9UN4LsktsEX2e9cRp+LS2opjAtEVKqt+OzFCHh9o="
+        XCTAssertTrue(authHeader?.contains(expectedSignature) ?? false)
+        
+        /**
+         After signature
+         HashMap@56 size=4
+         0:HashMap$Node@113 "date":"Wed, 07 Oct 2020 18:16:02 GMT"
+         1:HashMap$Node@114 "Authorization":"HMAC-SHA256 SignedHeaders=date;host;x-ms-content-sha256&Signature=KZD9UN4LsktsEX2e9cRp+LS2opjAtEVKqt+OzFCHh9o="
+         2:HashMap$Node@115 "x-ms-content-sha256":"YjVxGFu++f6tLM9YEVQVRmchZiYyxQ+8Bi3PXTJz2C4="
+         3:HashMap$Node@116 "host":"localhost"
+         */
+    }
+
+    
 }

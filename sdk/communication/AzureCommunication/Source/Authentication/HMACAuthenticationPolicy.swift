@@ -29,16 +29,23 @@ import AzureCore
 #endif
 
 import Foundation
-import CommonCrypto
 import CryptoKit
 
-@objcMembers public class HMACAuthenticationPolicy: Authenticating {
+public class HMACAuthenticationPolicy: Authenticating {
     public var next: PipelineStage?
     private let accessKey: String
     
     static let dateHeader = "date"
     static let hostHeader  = "host"
     static let contentHashHeader = "x-ms-content-sha256"
+
+    struct HMACAuthenticationProperties {
+        let url: URL
+        let httpMethod: HTTPMethod
+        let contents: Data
+        let date: Date
+    }
+
     
     public init(accessKey: String) {
         self.accessKey = accessKey
@@ -47,55 +54,45 @@ import CryptoKit
     public func authenticate(
         request: PipelineRequest,
         completionHandler: @escaping OnRequestCompletionHandler) {
-        let contents = request.httpRequest.data ?? Data() // Is this the body of the request?
-        
         guard request.httpRequest.url.scheme?.contains("https") == true else {
             completionHandler(
                 request,
                 AzureError.sdk("HMACAuthenticationPolicy requires a URL using the HTTPS protocol scheme"))
             return
         }
+
+        let contents = request.httpRequest.data ?? Data()
+        let url = request.httpRequest.url
+        let httpMethod = request.httpRequest.httpMethod
+        let date = Date()
         
-        request.httpRequest.headers = addAuthenticationHeaders(
-            url: request.httpRequest.url,
-            httpMethod: request.httpRequest.httpMethod.rawValue,
-            contents: contents)
+        let properties = HMACAuthenticationProperties(
+            url: url,
+            httpMethod: httpMethod,
+            contents: contents,
+            date: date)
         
+        request.httpRequest.headers = addAuthenticationHeaders(with: properties)
         completionHandler(request, nil)
     }
     
-    public func addAuthenticationHeaders(
-        url: URL,
-        httpMethod: String,
-        contents: Data) -> HTTPHeaders {
+    func addAuthenticationHeaders(with
+                                    properties: HMACAuthenticationProperties) -> HTTPHeaders {
         var headers: HTTPHeaders = [:]
-        headers[HMACAuthenticationPolicy.contentHashHeader] = contents.sha256
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "E, dd MMM YYYY HH:mm:ss 'GMT'" // Is this the right date format? Try ISO8601DateFormatter
-        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
-        
-        let date = Date()
-        let utcNow = dateFormatter.string(from: date)
+        headers[HMACAuthenticationPolicy.contentHashHeader] = properties.contents.sha256
+                
+        let utcNow = String(describing: properties.date, format: .rfc1123)
         headers[HMACAuthenticationPolicy.dateHeader] = utcNow
-        headers[HMACAuthenticationPolicy.hostHeader] = url.host
+        headers[HMACAuthenticationPolicy.hostHeader] = properties.url.host
                 
         headers.merge(addSignatureHeader(
-                        url: url,
-                        httpMethod: httpMethod,
+                        url: properties.url,
+                        httpMethod: properties.httpMethod.rawValue,
                         date: utcNow,
-                        contentHashed: contents.sha256)) { (_, new) in new }
-        /**
-         After signature
-         HashMap@56 size=4
-         0:HashMap$Node@113 "date":"Wed, 07 Oct 2020 18:16:02 GMT"
-         1:HashMap$Node@114 "Authorization":"HMAC-SHA256 SignedHeaders=date;host;x-ms-content-sha256&Signature=KZD9UN4LsktsEX2e9cRp+LS2opjAtEVKqt+OzFCHh9o="
-         2:HashMap$Node@115 "x-ms-content-sha256":"YjVxGFu++f6tLM9YEVQVRmchZiYyxQ+8Bi3PXTJz2C4="
-         3:HashMap$Node@116 "host":"localhost"
-         */
+                        contentHashed: properties.contents.sha256)) { (_, new) in new }
         return headers
     }
-    
+        
     private func addSignatureHeader(
         url: URL,
         httpMethod: String,
@@ -103,7 +100,7 @@ import CryptoKit
         contentHashed: String) -> HTTPHeaders {
         // Order of the headers are important here for generating correct signature
         let signedHeaderNames = "\(HMACAuthenticationPolicy.dateHeader);\(HMACAuthenticationPolicy.hostHeader);\(HMACAuthenticationPolicy.contentHashHeader)"
-        let signedHeaderValues =  "\(date);\(url.host ?? "");\(contentHashed)" // date;urlhost;content hash
+        let signedHeaderValues =  "\(date);\(url.host ?? "");\(contentHashed)"
         
         // Add unit test for different ports
         // 1 with port 1 without port
@@ -113,7 +110,7 @@ import CryptoKit
         }
 
         let stringToSign = "\(httpMethod.uppercased())\n\(pathAndQuery)\n\(signedHeaderValues)"
-        let signature = stringToSign.generateHmac(using: accessKey) // Is this right?
+        let signature = stringToSign.generateHmac(using: accessKey)
         let hmacSHA256Format = "HMAC-SHA256 SignedHeaders=\(signedHeaderNames)&Signature=\(signature)"
         return ["Authorization": hmacSHA256Format]
     }
