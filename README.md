@@ -1,3 +1,4 @@
+TEST
 # Azure SDK for iOS
 
 This repository is for active development of the Azure SDK for iOS. For consumers of the SDK we recommend visiting our versioned [developer docs](https://azure.github.io/azure-sdk-for-ios).
