@@ -56,10 +56,12 @@ jobs:
       - script: sudo xcode-select --switch /Applications/Xcode_$(XcodeVersion).app
         displayName: 'Use Xcode $(XcodeVersion)'
 
-      - template: ../../../common/pipelines/templates/steps/verify-links.yml
-        parameters:
-          Directory: ""
-          CheckLinkGuidance: $true
+      - ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
+        - template: /eng/common/pipelines/templates/steps/verify-links.yml
+          parameters:
+            Directory: ''
+            Urls: (git diff origin/${env:SYSTEM_PULLREQUEST_TARGETBRANCH} HEAD --name-only -- *.md)
+            CheckLinkGuidance: $true
           
       - script: |
           brew install swiftlint
