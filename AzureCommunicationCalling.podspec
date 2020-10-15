@@ -25,15 +25,15 @@
 # --------------------------------------------------------------------------
 
 Pod::Spec.new do |s|
-    s.name = 'AzureCore'
-    s.version = '1.0.0-beta.2'
-    s.summary = 'Azure Core package for iOS'
+    s.name = 'AzureCommunicationCalling'
+    s.version = '1.0.0-beta.4'
+    s.summary = 'Azure Communication Calling SDK for iOS'
     s.description = <<-DESC
-    Azure Core package for iOS
+    Azure Communication Calling SDK for iOS
     DESC
   
     s.homepage = 'https://github.com/Azure/azure-sdk-for-ios'
-    s.license = { :type => 'MIT',
+    s.license = { :type => 'Commercial',
                   :file => 'LICENSE' }
     s.authors = { 'Azure SDK Mobile Team' => 'azuresdkmobileteam@microsoft.com' }
   
@@ -42,9 +42,12 @@ Pod::Spec.new do |s|
     s.swift_version = '5.0'
   
     # TODO: Change this to a tag reference when we are ready.
-    s.source = { :git => 'https://github.com/Azure/azure-sdk-for-ios.git',
-                 :tag => '1.0.0-beta.2' }
-    s.source_files = 'sdk/core/AzureCore/Source/**/*.{swift,h,m}'
+    s.source = { :http => 'https://github.com/Azure/Communication/releases/download/v1.0.0-beta.4/azurecommunicationcalling.framework-1.0.0-beta.4.zip' }
+
+    s.source_files = 'Headers/*.h'
+    s.public_header_files = "Headers/*.h"
+    s.dependency 'AzureCore'
+    s.dependency 'AzureCommunication'
 
   end
   

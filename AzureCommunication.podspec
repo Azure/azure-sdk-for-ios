@@ -27,7 +27,7 @@
 Pod::Spec.new do |s|
     s.name = 'AzureCommunication'
     s.version = '1.0.0-beta.2'
-    s.summary = 'Azure Communication for iOS'
+    s.summary = 'Azure Communication package for iOS'
     s.description = <<-DESC
     Azure Communication package for iOS
     DESC
@@ -47,15 +47,5 @@ Pod::Spec.new do |s|
     s.source_files = 'sdk/communication/AzureCommunication/Source/**/*.{swift,h,m}'
     s.dependency 'AzureCore'
 
-    # AzureCore
-    #s.subspec 'AzureCore' do |sp|
-    #  sp.source_files = 'sdk/core/AzureCore/Source/**/*.{swift,h,m}'
-    #end
-  
-    # AzureCommunication
-    #s.subspec 'AzureCommunication' do |sp|
-    #  sp.source_files = 'sdk/communication/AzureCommunication/Source/**/*.{swift,h,m}'
-    #  sp.dependency 'AzureSDK/AzureCore'
-    #end
   end
   
