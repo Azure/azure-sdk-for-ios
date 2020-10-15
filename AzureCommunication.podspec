@@ -45,7 +45,7 @@ Pod::Spec.new do |s|
     s.source = { :git => 'https://github.com/Azure/azure-sdk-for-ios.git',
                  :tag => '1.0.0-beta.2' }
     s.source_files = 'sdk/communication/AzureCommunication/Source/**/*.{swift,h,m}'
-    s.dependency 'AzureCore', :path => '~/sdk/core/AzureCore'
+    s.dependency 'AzureCore'
 
     # AzureCore
     #s.subspec 'AzureCore' do |sp|
