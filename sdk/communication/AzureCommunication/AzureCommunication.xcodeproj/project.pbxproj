@@ -14,6 +14,7 @@
 		1DE4DB7724C0FE8300631921 /* AutoRefreshUserCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE4DB7624C0FE8300631921 /* AutoRefreshUserCredential.swift */; };
 		1DE4DB7924C1063E00631921 /* ThreadSafeRefreshableAccessTokenCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE4DB7824C1063E00631921 /* ThreadSafeRefreshableAccessTokenCache.swift */; };
 		7AAE2D17251444B600C9F897 /* CommunicationAuthenticationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AAE2D16251444B600C9F897 /* CommunicationAuthenticationPolicy.swift */; };
+		8856CEAC253A376D00044559 /* CommunicationAccessToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8856CEAB253A376D00044559 /* CommunicationAccessToken.swift */; };
 		F11E5CC824B77F8900AA3A58 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3A5ED62316DB8F00473FDA /* AzureCore.framework */; };
 		F183A5EB24AF9D9000F0E0D5 /* CommunicationTokenCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = F183A5EA24AF9D9000F0E0D5 /* CommunicationTokenCredential.swift */; };
 		F183A5FA24AFB37900F0E0D5 /* StaticUserCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = F183A5F924AFB37900F0E0D5 /* StaticUserCredential.swift */; };
@@ -63,6 +64,7 @@
 		1DE4DB7624C0FE8300631921 /* AutoRefreshUserCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoRefreshUserCredential.swift; sourceTree = "<group>"; };
 		1DE4DB7824C1063E00631921 /* ThreadSafeRefreshableAccessTokenCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadSafeRefreshableAccessTokenCache.swift; sourceTree = "<group>"; };
 		7AAE2D16251444B600C9F897 /* CommunicationAuthenticationPolicy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunicationAuthenticationPolicy.swift; sourceTree = "<group>"; };
+		8856CEAB253A376D00044559 /* CommunicationAccessToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationAccessToken.swift; sourceTree = "<group>"; };
 		F183A5EA24AF9D9000F0E0D5 /* CommunicationTokenCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationTokenCredential.swift; sourceTree = "<group>"; };
 		F183A5F924AFB37900F0E0D5 /* StaticUserCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticUserCredential.swift; sourceTree = "<group>"; };
 		F183A5FB24AFEF1400F0E0D5 /* CommunicationUserCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationUserCredential.swift; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 		1D2E7F6E24E4536500447964 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
+				8856CEAB253A376D00044559 /* CommunicationAccessToken.swift */,
 				F183A5EA24AF9D9000F0E0D5 /* CommunicationTokenCredential.swift */,
 				F183A5F924AFB37900F0E0D5 /* StaticUserCredential.swift */,
 				F183A5FB24AFEF1400F0E0D5 /* CommunicationUserCredential.swift */,
@@ -287,6 +290,7 @@
 			files = (
 				F183A5EB24AF9D9000F0E0D5 /* CommunicationTokenCredential.swift in Sources */,
 				1D2E7F7024E4589100447964 /* Identifiers.swift in Sources */,
+				8856CEAC253A376D00044559 /* CommunicationAccessToken.swift in Sources */,
 				1DE4DB7924C1063E00631921 /* ThreadSafeRefreshableAccessTokenCache.swift in Sources */,
 				1DE4DB7724C0FE8300631921 /* AutoRefreshUserCredential.swift in Sources */,
 				F183A5FC24AFEF1400F0E0D5 /* CommunicationUserCredential.swift in Sources */,

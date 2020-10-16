@@ -30,7 +30,7 @@ import AzureCore
 import Foundation
 
 internal class ThreadSafeRefreshableAccessTokenCache {
-    private var currentToken: AccessToken {
+    private var currentToken: CommunicationAccessToken {
         didSet {
             maybeScheduleRefresh()
         }
@@ -51,14 +51,14 @@ internal class ThreadSafeRefreshableAccessTokenCache {
     public convenience init(refreshProactively: Bool, tokenRefresher: @escaping TokenRefreshAction) {
         self.init(
             refreshProactively: refreshProactively,
-            initialValue: AccessToken(token: "", expiresOn: Date()),
+            initialValue: CommunicationAccessToken(token: "", expiresOn: Date()),
             tokenRefresher: tokenRefresher
         )
     }
 
     public init(
         refreshProactively: Bool,
-        initialValue: AccessToken,
+        initialValue: CommunicationAccessToken,
         tokenRefresher: @escaping TokenRefreshAction
     ) {
         self.scheduleProactivelyRefreshing = refreshProactively

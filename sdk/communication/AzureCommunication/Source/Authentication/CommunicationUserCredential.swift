@@ -29,7 +29,7 @@ import AzureCore
 #endif
 import Foundation
 
-public typealias AccessTokenRefreshOnCompletion = (AccessToken?, Error?) -> Void
+public typealias AccessTokenRefreshOnCompletion = (CommunicationAccessToken?, Error?) -> Void
 public typealias TokenRefreshOnCompletion = (String?, Error?) -> Void
 
 /**

@@ -83,7 +83,7 @@ class CommunicationUserCredentialTests: XCTestCase {
 
     func test_DecodesToken() throws {
         let userCredential = try CommunicationUserCredential(token: sampleToken)
-        userCredential.token { (accessToken: AccessToken?, error: Error?) in
+        userCredential.token { (accessToken: CommunicationAccessToken?, error: Error?) in
             XCTAssertNil(error)
             XCTAssertEqual(accessToken?.token, self.sampleToken)
             XCTAssertEqual(accessToken?.expiresOn.timeIntervalSince1970, self.sampleTokenExpiry)
@@ -108,7 +108,7 @@ class CommunicationUserCredentialTests: XCTestCase {
         )
 
         DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 1) {
-            userCredential.token { (accessToken: AccessToken?, error: Error?) in
+            userCredential.token { (accessToken: CommunicationAccessToken?, error: Error?) in
                 XCTAssertNotNil(accessToken)
                 XCTAssertNil(error)
                 XCTAssertEqual(accessToken?.token, self.sampleToken)
@@ -131,7 +131,7 @@ class CommunicationUserCredentialTests: XCTestCase {
         )
 
         DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 1) {
-            userCredential.token { (accessToken: AccessToken?, error: Error?) in
+            userCredential.token { (accessToken: CommunicationAccessToken?, error: Error?) in
                 XCTAssertNotNil(error)
                 XCTAssertEqual(error.debugDescription.contains("Error while fetching token"), true)
                 XCTAssertNil(accessToken)
@@ -163,11 +163,11 @@ class CommunicationUserCredentialTests: XCTestCase {
             )
 
             DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 1) {
-                userCredential.token { (accessToken: AccessToken?, _: Error?) in
+                userCredential.token { (accessToken: CommunicationAccessToken?, _: Error?) in
                     XCTAssertNotNil(accessToken)
                     XCTAssertEqual(accessToken?.token, self.sampleToken)
 
-                    userCredential.token { (accessToken: AccessToken?, _: Error?) in
+                    userCredential.token { (accessToken: CommunicationAccessToken?, _: Error?) in
                         XCTAssertNotNil(accessToken)
                         XCTAssertEqual(accessToken?.token, self.sampleToken)
                         XCTAssertEqual(self.fetchTokenCallCount, 1)
@@ -198,7 +198,7 @@ class CommunicationUserCredentialTests: XCTestCase {
         )
 
         DispatchQueue.global(qos: .utility).async {
-            userCredential.token { (accessToken: AccessToken?, error: Error?) in
+            userCredential.token { (accessToken: CommunicationAccessToken?, error: Error?) in
                 XCTAssertNotNil(accessToken)
                 XCTAssertNil(error)
                 XCTAssertEqual(accessToken?.token, expectedToken)
@@ -224,7 +224,7 @@ class CommunicationUserCredentialTests: XCTestCase {
         )
 
         DispatchQueue.global(qos: .utility).async {
-            userCredential.token { (accessToken: AccessToken?, error: Error?) in
+            userCredential.token { (accessToken: CommunicationAccessToken?, error: Error?) in
                 XCTAssertNotNil(accessToken)
                 XCTAssertNil(error)
                 XCTAssertEqual(accessToken?.token, expectedToken)
