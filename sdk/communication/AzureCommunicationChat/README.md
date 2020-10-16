@@ -148,7 +148,7 @@ Use the `create` method to create a thread.
 - `CreateChatThreadRequest` is the model to pass to this method.
 - `topic` is used to provide a topic for the thread.
 - `members` is used to list the `ChatThreadMember` to be added to the thread.
-- `id`, required, is the `CommunicationUser.identifier` you created before. Refer to [User and User Access Tokens](#User-and-User-Access-Tokens).
+- `id`, required, is the `CommunicationUser.identifier` you created before. Refer to [User and User Access Tokens](#user-and-user-access-tokens).
 - `displayName`, optional, is the display name for the thread member.
 - `shareHistoryTime`, optional, is the time from which the chat history is shared with the member.
 
@@ -433,7 +433,7 @@ client.listChatThreadMembers(chatThreadId: threadId) { result, _ in
 Use the `add` method to add members to a thread.
 
 - `AddChatThreadMembersRequest` is used to list the `ChatThreadMember`s to be added to the thread.
-- `id`, required, is the `CommunicationUser.identifier` you created before. Refer to [User and User Access Tokens](#User-and-User-Access-Tokens).
+- `id`, required, is the `CommunicationUser.identifier` you created before. Refer to [User and User Access Tokens](#user-and-user-access-tokens).
 - `displayName`, optional, is the display name for the thread member.
 - `shareHistoryTime`, optional, is the time from which the chat history is shared with the member.
 - `chatThreadId` is the unique ID of the thread.
