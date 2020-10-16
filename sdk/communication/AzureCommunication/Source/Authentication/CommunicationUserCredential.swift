@@ -35,7 +35,7 @@ public typealias TokenRefreshOnCompletion = (String?, Error?) -> Void
 /**
  The Azure Communication Services User token credential. This class is used to cache/refresh the access token required by Azure Communication Services.
 */
-@objcMembers public class CommunicationUserCredential: NSObject {
+public class CommunicationUserCredential: NSObject {
     private let userTokenCredential: CommunicationTokenCredential
     
     /**
