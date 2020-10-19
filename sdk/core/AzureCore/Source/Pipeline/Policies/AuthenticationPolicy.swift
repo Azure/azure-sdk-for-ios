@@ -27,7 +27,7 @@ import Foundation
 
 public typealias TokenCompletionHandler = (AccessToken?, AzureError?) -> Void
 
-@objcMembers public class AccessToken: NSObject {
+public struct AccessToken {
     // MARK: Properties
 
     public let token: String

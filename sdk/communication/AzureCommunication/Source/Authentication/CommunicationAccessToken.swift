@@ -25,8 +25,13 @@
 // --------------------------------------------------------------------------
 
 import Foundation
-
-public struct CommunicationAccessToken {
+// This is class
+@objcMembers public class CommunicationAccessToken: NSObject {
     let token: String
     let expiresOn: Date
+    
+    public init(token: String, expiresOn: Date) {
+        self.token = token
+        self.expiresOn = expiresOn
+    }
 }
