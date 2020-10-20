@@ -25,7 +25,7 @@
 // --------------------------------------------------------------------------
 
 import Foundation
-// This is class
+
 @objcMembers public class CommunicationAccessToken: NSObject {
     let token: String
     let expiresOn: Date
