@@ -28,14 +28,14 @@
 #import <AzureCommunication/AzureCommunication-Swift.h>
 #import <AzureCore/AzureCore-Swift.h>
 
-@interface CommunciationUserCredentialTests : XCTestCase
+@interface ObjCCommunciationUserCredentialTests : XCTestCase
 @property (nonatomic, strong) NSString *sampleToken;
 @property (nonatomic, strong) NSString *sampleExpiredToken;
 @property (nonatomic) double sampleTokenExpiry;
 @property (nonatomic) int fetchTokenCallCount;
 @end
 
-@implementation CommunciationUserCredentialTests
+@implementation ObjCCommunciationUserCredentialTests
 
 - (void)setUp {
     [super setUp];
@@ -72,7 +72,7 @@
 - (void)test_ObjCRefreshTokenProactively_TokenAlreadyExpired {
     XCTestExpectation *expectation = [self expectationWithDescription:
                                       @"RefreshTokenProactively_TokenAlreadyExpired"];
-    __weak CommunciationUserCredentialTests *weakSelf = self;
+    __weak ObjCCommunciationUserCredentialTests *weakSelf = self;
     
     CommunicationUserCredential *credential = [[CommunicationUserCredential alloc]
                                                initWithInitialToken:self.sampleExpiredToken
@@ -98,10 +98,10 @@
     [self waitForExpectations:@[expectation] timeout:2.0];
 }
 
-- (void)xtest_ObjCRefreshTokenProactively_FetchTokenReturnsError {
+- (void)test_ObjCRefreshTokenProactively_FetchTokenReturnsError {
     XCTestExpectation *expectation = [self expectationWithDescription:
                                       @"RefreshTokenProactively_FetchTokenReturnsError"];
-    __weak CommunciationUserCredentialTests *weakSelf = self;
+    __weak ObjCCommunciationUserCredentialTests *weakSelf = self;
     NSString *errorDesc = @"Error while fetching token";
     CommunicationUserCredential *credential = [[CommunicationUserCredential alloc]
                                                initWithInitialToken:self.sampleExpiredToken
@@ -134,7 +134,7 @@
 - (void)test_ObjCRefreshTokenProactively_TokenExpiringInOneMin {
     XCTestExpectation *expectation = [self expectationWithDescription:
                                       @"RefreshTokenProactively_TokenExpiringInOneMin"];
-    __weak CommunciationUserCredentialTests *weakSelf = self;
+    __weak ObjCCommunciationUserCredentialTests *weakSelf = self;
     
     NSString *token = [self generateTokenValidForMinutes: 1];
     CommunicationUserCredential *credential = [[CommunicationUserCredential alloc]
@@ -166,7 +166,7 @@
 - (void)test_ObjCRefreshTokenProactively_TokenExpiringInNineMin {
     XCTestExpectation *expectation = [self expectationWithDescription:
                                       @"RefreshTokenProactively_TokenExpiringInNineMin"];
-    __weak CommunciationUserCredentialTests *weakSelf = self;
+    __weak ObjCCommunciationUserCredentialTests *weakSelf = self;
     
     NSString *token = [self generateTokenValidForMinutes: 9];
     CommunicationUserCredential *credential = [[CommunicationUserCredential alloc]
@@ -195,11 +195,10 @@
     [self waitForExpectations:@[expectation] timeout:2.0];
 }
 
-
 - (void)test_ObjCRefreshTokenOnDemand_AsyncRefresh {
     XCTestExpectation *expectation = [self expectationWithDescription:
                                       @"RefreshTokenOnDemand_AsyncRefresh"];
-    __weak CommunciationUserCredentialTests *weakSelf = self;
+    __weak ObjCCommunciationUserCredentialTests *weakSelf = self;
     
     CommunicationUserCredential *credential = [[CommunicationUserCredential alloc]
                                                initWithInitialToken:self.sampleExpiredToken
