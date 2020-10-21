@@ -29,7 +29,7 @@ import Foundation
 public class HTTPRequest: DataStringConvertible {
     // MARK: Properties
 
-    public let httpMethod: HTTPMethod
+    public var httpMethod: HTTPMethod
     public var url: URL
     public var headers: HTTPHeaders
     public var data: Data?
