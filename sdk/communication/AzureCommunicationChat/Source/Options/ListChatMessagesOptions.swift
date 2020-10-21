@@ -16,7 +16,7 @@ import Foundation
 // swiftlint:disable line_length
 
 /// User-configurable options for the `AzureCommunicationChatService.ListChatMessages` operation.
-public struct ListChatMessagesOptions: AzureOptions {
+public struct ListChatMessagesOptions: RequestOptions {
     /// The maximum number of messages to be returned per page.
     public let maxPageSize: Int32?
     /// The earliest point in time to get messages up to. The timestamp should be in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.

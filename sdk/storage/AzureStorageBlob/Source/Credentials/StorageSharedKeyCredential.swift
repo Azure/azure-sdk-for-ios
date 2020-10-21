@@ -33,7 +33,7 @@ import Foundation
 /// Shared keys provide full access to an entire storage account and should not be shared with end users. Since mobile
 /// and desktop apps are inherently end-user facing, it's highly recommended that storage account shared key credentials
 /// not be used in production for such applications.
-public struct StorageSharedKeyCredential: AzureCredential {
+public struct StorageSharedKeyCredential: Credential {
     internal let accessKey: String?
     internal let accountName: String?
     internal let blobEndpoint: String?

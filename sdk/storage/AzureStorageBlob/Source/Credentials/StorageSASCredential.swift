@@ -40,7 +40,7 @@ public typealias StorageSASTokenProvider = (URL, StorageSASTokenPermissions, @es
     -> Void
 
 /// A Storage shared access signature credential object.
-public class StorageSASCredential: AzureCredential {
+public class StorageSASCredential: Credential {
     internal let tokenProvider: StorageSASTokenProvider
     public let tokenCache: StorageSASTokenCache?
 

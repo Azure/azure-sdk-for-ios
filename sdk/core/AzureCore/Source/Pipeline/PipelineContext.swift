@@ -167,7 +167,7 @@ public class PipelineContext {
     /// - Parameters:
     ///   - cancellationToken: Optional `CancellationToken` object.
     ///   - clientOptions: `AzureClientOptions` for the client generating the request.
-    public func add(cancellationToken: CancellationToken?, applying clientOptions: AzureClientOptions) {
+    public func add(cancellationToken: CancellationToken?, applying clientOptions: ClientOptions) {
         let defaultTimeout = clientOptions.transportOptions.timeoutInSeconds
         if let token = cancellationToken {
             token.timeoutInSeconds = token.timeoutInSeconds ?? defaultTimeout

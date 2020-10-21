@@ -27,7 +27,7 @@
 import Foundation
 
 /// Protocol for baseline options for individual service clients.
-public protocol AzureClientOptions {
+public protocol ClientOptions {
     /// The API version of the service to invoke.
     var apiVersion: String { get }
     /// The `ClientLogger` to be used by the service client.
@@ -41,7 +41,7 @@ public protocol AzureClientOptions {
 }
 
 /// Protocol for baseline options for individual client API calls.
-public protocol AzureOptions {
+public protocol RequestOptions {
     /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
     /// Highly recommended for correlating client-side activites with requests received by the server.
     var clientRequestId: String? { get }
@@ -58,7 +58,7 @@ open class PipelineClient {
     internal var pipeline: Pipeline
     public var baseUrl: URL
     public var logger: ClientLogger
-    public var commonOptions: AzureClientOptions
+    public var commonOptions: ClientOptions
 
     // MARK: Initializers
 
@@ -67,7 +67,7 @@ open class PipelineClient {
         transport: HTTPTransportStage,
         policies: [PipelineStage],
         logger: ClientLogger,
-        options: AzureClientOptions
+        options: ClientOptions
     ) {
         self.baseUrl = baseUrl.hasDirectoryPath ? baseUrl : baseUrl.appendingPathComponent("/")
         self.logger = logger

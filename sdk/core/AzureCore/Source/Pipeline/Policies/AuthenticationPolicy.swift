@@ -41,13 +41,13 @@ public struct AccessToken {
     }
 }
 
-public protocol AzureCredential {
+public protocol Credential {
     // MARK: Required Methods
 
     func validate() throws
 }
 
-public protocol TokenCredential: AzureCredential {
+public protocol TokenCredential: Credential {
     // MARK: Required Methods
 
     func token(forScopes scopes: [String], completionHandler: @escaping TokenCompletionHandler)
