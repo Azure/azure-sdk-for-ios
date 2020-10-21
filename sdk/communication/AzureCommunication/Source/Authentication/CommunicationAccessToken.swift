@@ -24,37 +24,14 @@
 //
 // --------------------------------------------------------------------------
 
-#if canImport(AzureCore)
-import AzureCore
-#endif
 import Foundation
-/**
- The Azure Communication Services User token credential. 
- */
-internal class StaticUserCredential: CommunicationTokenCredential {
-    private let accessToken: CommunicationAccessToken
 
-    /**
-     Creates a static `CommunicationUserCredential` object from the provided token.
-        
-     - Parameter token: The static token to use for authenticating all requests.
-     
-     - Throws: `AzureError` if the provided token is not a valid token.
-     
-     - SeeAlso: ` CommunicationUserCredential.init(...)`
-     */
-    public init(token: String) throws {
-        self.accessToken = try JwtTokenParser.createAccessToken(token)
-    }
-
-    /**
-     Retrieve an access token from the credential.
-     
-     - Parameter completionHandler: Closure that accepts an optional `AccessToken` or optional `Error` as parameters.
-     `AccessToken` returns a token and an expiry date if applicable. `Error` returns `nil` if the current token can be returned.
-
-     */
-    public func token(completionHandler: AccessTokenRefreshOnCompletion) {
-        completionHandler(accessToken, nil)
+@objcMembers public class CommunicationAccessToken: NSObject {
+    let token: String
+    let expiresOn: Date
+    
+    public init(token: String, expiresOn: Date) {
+        self.token = token
+        self.expiresOn = expiresOn
     }
 }

@@ -43,9 +43,9 @@ struct JwtTokenParser {
      
      - Returns: A new `AccessToken` instance
      */
-    static func createAccessToken(_ token: String) throws -> AccessToken {
+    static func createAccessToken(_ token: String) throws -> CommunicationAccessToken {
         let payload = try decodeJwtPayload(token)
-        return AccessToken(token: token, expiresOn: Date(timeIntervalSince1970: TimeInterval(payload.exp)))
+        return CommunicationAccessToken(token: token, expiresOn: Date(timeIntervalSince1970: TimeInterval(payload.exp)))
     }
     
     /**
