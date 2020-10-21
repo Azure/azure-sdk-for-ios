@@ -46,7 +46,7 @@
     self.fetchTokenCallCount = 0;
 }
 
-- (void)test_DecodeToken {
+- (void)test_ObjCDecodeToken {
     CommunicationUserCredential *userCredential = [[CommunicationUserCredential alloc] initWithToken: self.sampleToken
                                                                                                error: nil];
     
@@ -57,7 +57,7 @@
     }];
 }
 
-- (void)test_ThrowsIfInvalidToken {
+- (void)test_ObjCThrowsIfInvalidToken {
     NSArray<NSString *> *invalidTokens = @[@"foo",
                                            @"foo.bar",
                                            @"foo.bar.foobar"];
@@ -69,7 +69,7 @@
     }
 }
 
-- (void)test_RefreshTokenProactively_TokenAlreadyExpired {
+- (void)test_ObjCRefreshTokenProactively_TokenAlreadyExpired {
     XCTestExpectation *expectation = [self expectationWithDescription:
                                       @"RefreshTokenProactively_TokenAlreadyExpired"];
     __weak CommunciationUserCredentialTests *weakSelf = self;
@@ -98,7 +98,7 @@
     [self waitForExpectations:@[expectation] timeout:2.0];
 }
 
-- (void)test_RefreshTokenProactively_FetchTokenReturnsError {
+- (void)test_ObjCRefreshTokenProactively_FetchTokenReturnsError {
     XCTestExpectation *expectation = [self expectationWithDescription:
                                       @"RefreshTokenProactively_FetchTokenReturnsError"];
     __weak CommunciationUserCredentialTests *weakSelf = self;
@@ -131,7 +131,7 @@
     [self waitForExpectations:@[expectation] timeout:2.0];
 }
 
-- (void)test_RefreshTokenProactively_TokenExpiringSoon {
+- (void)test_ObjCRefreshTokenProactively_TokenExpiringSoon {
     NSArray<NSNumber *> *testCases = @[@1, @9];
     XCTestExpectation *expectation = [self expectationWithDescription:
                                       @"RefreshTokenProactively_TokenExpiringSoon"];
@@ -168,7 +168,7 @@
     [self waitForExpectations:@[expectation] timeout:2.0];
 }
 
-- (void)test_RefreshTokenOnDemand_AsyncRefresh {
+- (void)test_ObjCRefreshTokenOnDemand_AsyncRefresh {
     XCTestExpectation *expectation = [self expectationWithDescription:
                                       @"RefreshTokenOnDemand_AsyncRefresh"];
     __weak CommunciationUserCredentialTests *weakSelf = self;
