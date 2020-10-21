@@ -41,7 +41,6 @@ Pod::Spec.new do |s|
   
     s.swift_version = '5.0'
   
-    # TODO: Change this to a tag reference when we are ready.
     s.source = { :git => 'https://github.com/Azure/azure-sdk-for-ios',
                  :tag => '1.0.0-beta.2' }
     s.source_files = 'sdk/core/AzureCore/Source/**/*.{swift,h,m}'
