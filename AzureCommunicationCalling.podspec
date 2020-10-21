@@ -34,7 +34,7 @@ Pod::Spec.new do |s|
   
     s.homepage = 'https://github.com/Azure/azure-sdk-for-ios'
     s.license = { :type => 'Commercial',
-                  :file => 'LICENSE' }
+                  :file => 'LICENSE' } # TODO: Update with commercial license
     s.authors = { 'Azure SDK Mobile Team' => 'azuresdkmobileteam@microsoft.com' }
   
     s.ios.deployment_target = '12.0'
@@ -44,9 +44,9 @@ Pod::Spec.new do |s|
   
     # TODO: Change this to a tag reference when we are ready.
     s.source = { :http => 'https://github.com/Azure/Communication/releases/download/v1.0.0-beta.4/azurecommunicationcalling.framework-1.0.0-beta.4.zip' }
-    #s.source_files = 'Headers/*.h'
-    #s.public_header_files = "Headers/*.h"
-    s.dependency 'AzureCore'
-    s.dependency 'AzureCommunication'
+    s.source_files = 'Headers/*.h'
+    s.public_header_files = "Headers/*.h"
+    s.dependency 'AzureCore', '~> 1.0.0-beta.2'
+    s.dependency 'AzureCommunication', '~> 1.0.0-beta.2'
 
   end
