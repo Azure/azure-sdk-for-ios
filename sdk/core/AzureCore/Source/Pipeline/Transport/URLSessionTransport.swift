@@ -90,7 +90,7 @@ public class URLSessionTransport: HTTPTransportStage {
         if let cancellationToken = pipelineRequest.context?.value(forKey: .cancellationToken) as? CancellationToken {
             cancellationToken.start()
             if cancellationToken.isCanceled {
-                completionHandler(.failure(AzureError.sdk("Request canceled.")), nil)
+                completionHandler(.failure(AzureError.client("Request canceled.")), nil)
                 return
             }
         }
@@ -99,7 +99,7 @@ public class URLSessionTransport: HTTPTransportStage {
             if let cancellationToken = pipelineRequest.context?
                 .value(forKey: .cancellationToken) as? CancellationToken {
                 if cancellationToken.isCanceled {
-                    completionHandler(.failure(AzureError.sdk("Request canceled.")), nil)
+                    completionHandler(.failure(AzureError.client("Request canceled.")), nil)
                     return
                 }
             }

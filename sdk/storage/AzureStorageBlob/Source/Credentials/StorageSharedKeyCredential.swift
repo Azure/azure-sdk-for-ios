@@ -76,7 +76,7 @@ public struct StorageSharedKeyCredential: Credential {
                     Form of connection string with 'AccountKey' is expected - 'SharedAccessSignature' is not allowed.
                     You must provide a storage account connection string with a shared key.
                 """
-                error = AzureError.sdk(message)
+                error = AzureError.client(message)
             default:
                 continue
             }
@@ -88,7 +88,7 @@ public struct StorageSharedKeyCredential: Credential {
         var table: String?
 
         if accountKey == nil, error == nil {
-            error = AzureError.sdk("The connection string \(connectionString) is invalid.")
+            error = AzureError.client("The connection string \(connectionString) is invalid.")
         }
 
         if let account = account {
@@ -102,7 +102,7 @@ public struct StorageSharedKeyCredential: Credential {
             file = blobEndpoint.replacingOccurrences(of: "blob.\(suffix)", with: "file.\(suffix)")
             table = blobEndpoint.replacingOccurrences(of: "blob.\(suffix)", with: "table.\(suffix)")
         } else if error == nil {
-            error = AzureError.sdk("The connection string \(connectionString) is invalid.")
+            error = AzureError.client("The connection string \(connectionString) is invalid.")
         }
 
         self.accountName = account
@@ -148,7 +148,7 @@ public struct StorageSharedKeyCredential: Credential {
             file = blobEndpoint.replacingOccurrences(of: "blob.\(endpointSuffix)", with: "file.\(endpointSuffix)")
             table = blobEndpoint.replacingOccurrences(of: "blob.\(endpointSuffix)", with: "table.\(endpointSuffix)")
         } else {
-            error = AzureError.sdk("The provided parameters are invalid.")
+            error = AzureError.client("The provided parameters are invalid.")
         }
 
         self.accountName = accountName
@@ -196,7 +196,7 @@ internal class StorageSharedKeyAuthenticationPolicy: Authenticating {
         do {
             try credential.validate()
         } catch {
-            completionHandler(request, AzureError.sdk("Authentication error.", error))
+            completionHandler(request, AzureError.client("Authentication error.", error))
             return
         }
 
@@ -282,7 +282,7 @@ internal class StorageSharedKeyAuthenticationPolicy: Authenticating {
         guard let comps = URLComponents(url: resource, resolvingAgainstBaseURL: true),
             let accountName = comps.host?.split(separator: ".", maxSplits: 1).first
         else {
-            throw AzureError.sdk("Resource URL could not be parsed.")
+            throw AzureError.client("Resource URL could not be parsed.")
         }
 
         // 1. Beginning with an empty string (""), append a forward slash (/), followed by the name of the account that
@@ -308,12 +308,12 @@ internal class StorageSharedKeyAuthenticationPolicy: Authenticating {
         for name in paramNames {
             // 6. URL-decode each query parameter name and value.
             guard let decodedName = name.removingPercentEncoding else {
-                throw AzureError.sdk("Parameter name \(name) contains an invalid percent-encoding sequence.")
+                throw AzureError.client("Parameter name \(name) contains an invalid percent-encoding sequence.")
             }
 
             let decodedValues: [String] = try params[name]!.map { value in
                 guard let decoded = value.removingPercentEncoding else {
-                    throw AzureError.sdk("Parameter value \(value) contains an invalid percent-encoding sequence.")
+                    throw AzureError.client("Parameter value \(value) contains an invalid percent-encoding sequence.")
                 }
                 return decoded
             }
@@ -331,7 +331,7 @@ internal class StorageSharedKeyAuthenticationPolicy: Authenticating {
     // Generate the signature for the string to sign.
     private func signature(forString signingString: String, withKey accessKey: String) throws -> String {
         guard let keyData = Data(base64Encoded: accessKey) else {
-            throw AzureError.sdk("Unable to decode access key.")
+            throw AzureError.client("Unable to decode access key.")
         }
         let hmac = signingString.hmac(algorithm: .sha256, key: keyData)
         return hmac.base64EncodedString()

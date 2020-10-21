@@ -103,7 +103,7 @@ public class BearerTokenCredentialPolicy: Authenticating {
                 return
             }
             guard let token = token?.token else {
-                completionHandler(request, AzureError.sdk("Token cannot be empty"))
+                completionHandler(request, AzureError.client("Token cannot be empty"))
                 return
             }
             request.httpRequest.headers[.authorization] = "Bearer \(token)"

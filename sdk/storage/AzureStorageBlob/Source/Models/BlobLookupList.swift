@@ -44,7 +44,7 @@ internal struct BlobLookupList: XMLModel {
 
     public func asXmlString(encoding: String.Encoding = .utf8) throws -> String {
         guard encoding == .utf8 else {
-            throw AzureError.sdk("Unsupported encoding: \(encoding.description)")
+            throw AzureError.client("Unsupported encoding: \(encoding.description)")
         }
         var lines = ["<?xml version=\"1.0\" encoding=\"utf-8\"?>", "<BlockList>"]
         // This will only serialize the "latest" list. This is a carryover from Python

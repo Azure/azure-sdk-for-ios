@@ -740,12 +740,12 @@ class LoggingPolicyTests: XCTestCase {
         let headers = HTTPHeaders([.clientRequestId: "123"])
         let req = PipelineRequest(method: .get, url: "http://www.example.com", headers: headers)
         let res = PipelineResponse(request: req, logger: logger)
-        let innerError = AzureError.sdk("Inner Error", nil)
-        let error = AzureError.sdk("Test Error", innerError)
+        let innerError = AzureError.client("Inner Error", nil)
+        let error = AzureError.client("Test Error", innerError)
         policy.on(error: error, pipelineResponse: res) { _, _ in }
         LoggingPolicy.queue.sync {}
         let msg = logger.messages
-            .first { $0.text == "Test Error: (Inner Error (AzureCore.AzureError.sdk))" }
+            .first { $0.text == "Test Error: (Inner Error (AzureCore.AzureError.client))" }
         XCTAssertNotNil(msg)
         XCTAssertEqual(msg?.level, .warning)
     }

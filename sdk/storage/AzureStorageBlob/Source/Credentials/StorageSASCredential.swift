@@ -104,7 +104,7 @@ public class StorageSASCredential: Credential {
                         completionHandler(.success(token))
                         return
                     } else {
-                        throw AzureError.sdk("The credential \(newCredential) is invalid.")
+                        throw AzureError.client("The credential \(newCredential) is invalid.")
                     }
                 case let .failure(error):
                     throw error
@@ -143,7 +143,7 @@ public class StorageSASCredential: Credential {
                     Form of connection string with 'SharedAccessSignature' is expected - 'AccountKey' is not allowed.
                     You must provide a Shared Access Signature connection string.
                 """
-                throw AzureError.sdk(message)
+                throw AzureError.client(message)
             default:
                 continue
             }
@@ -194,7 +194,7 @@ internal class StorageSASAuthenticationPolicy: Authenticating {
     ///   - completionHandler: A completion handler that forwards the modified pipeline request.
     public func authenticate(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
         guard let urlToAuthorize = request.httpRequest.url.deletingQueryParameters() else {
-            completionHandler(request, AzureError.sdk("The request could not be authenticated."))
+            completionHandler(request, AzureError.client("The request could not be authenticated."))
             return
         }
 
@@ -220,7 +220,7 @@ internal class StorageSASAuthenticationPolicy: Authenticating {
                 }
                 completionHandler(request, nil)
             case let .failure(error):
-                completionHandler(request, AzureError.sdk("Authentication error.", error))
+                completionHandler(request, AzureError.client("Authentication error.", error))
             }
         }
     }

@@ -63,11 +63,11 @@ struct JwtTokenParser {
         let base64Data = Data(base64Encoded: base64Url)!
 
         guard let base64AsString = String(data: base64Data, encoding: .utf8) else {
-            throw AzureError.sdk("Can't convert base64Data to base64AsString.")
+            throw AzureError.client("Can't convert base64Data to base64AsString.")
         }
 
         guard let result = base64AsString.data(using: .utf8) else {
-            throw AzureError.sdk("Can't convert base64AsString to Data")
+            throw AzureError.client("Can't convert base64AsString to Data")
         }
 
         return result
@@ -86,7 +86,7 @@ struct JwtTokenParser {
         let tokenParts = token.components(separatedBy: ".")
 
         guard tokenParts.count >= 2 else {
-            throw AzureError.sdk("Token is not formatted correctly.")
+            throw AzureError.client("Token is not formatted correctly.")
         }
 
         let jsonData = try convertFromBase64Url(tokenParts[1])
