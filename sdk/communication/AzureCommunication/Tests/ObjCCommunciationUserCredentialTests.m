@@ -149,16 +149,14 @@
         block(weakSelf.sampleToken, nil);
     }];
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        [credential tokenWithCompletionHandler:^(CommunicationAccessToken * _Nullable accessToken,
-                                                 NSError * _Nullable error) {
-            XCTAssertNotNil(accessToken);
-            XCTAssertEqual(accessToken.token, weakSelf.sampleToken);
-            XCTAssertEqual(weakSelf.fetchTokenCallCount, 1);
-            
-            [expectation fulfill];
-        }];
-    });
+    [credential tokenWithCompletionHandler:^(CommunicationAccessToken * _Nullable accessToken,
+                                             NSError * _Nullable error) {
+        XCTAssertNotNil(accessToken);
+        XCTAssertEqual(accessToken.token, weakSelf.sampleToken);
+        XCTAssertEqual(weakSelf.fetchTokenCallCount, 1);
+        
+        [expectation fulfill];
+    }];
 
     [self waitForExpectations:@[expectation] timeout:2.0];
 }
@@ -181,16 +179,14 @@
         block(weakSelf.sampleToken, nil);
     }];
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        [credential tokenWithCompletionHandler:^(CommunicationAccessToken * _Nullable accessToken,
-                                                 NSError * _Nullable error) {
-            XCTAssertNotNil(accessToken);
-            XCTAssertEqual(accessToken.token, weakSelf.sampleToken);
-            XCTAssertEqual(weakSelf.fetchTokenCallCount, 1);
-            
-            [expectation fulfill];
-        }];
-    });
+    [credential tokenWithCompletionHandler:^(CommunicationAccessToken * _Nullable accessToken,
+                                             NSError * _Nullable error) {
+        XCTAssertNotNil(accessToken);
+        XCTAssertEqual(accessToken.token, weakSelf.sampleToken);
+        XCTAssertEqual(weakSelf.fetchTokenCallCount, 1);
+        
+        [expectation fulfill];
+    }];
 
     [self waitForExpectations:@[expectation] timeout:2.0];
 }
@@ -208,10 +204,8 @@
                                                ^(void (^ _Nonnull block)
                                                  (NSString * _Nullable token,
                                                   NSError * _Nullable error)) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
             weakSelf.fetchTokenCallCount += 1;
             block(weakSelf.sampleToken, nil);
-        });
     }];
     
     [credential tokenWithCompletionHandler:^(CommunicationAccessToken * _Nullable accessToken,
