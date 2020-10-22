@@ -27,8 +27,8 @@
 import Foundation
 
 @objcMembers public class CommunicationAccessToken: NSObject {
-    let token: String
-    let expiresOn: Date
+    public let token: String
+    public let expiresOn: Date
     
     public init(token: String, expiresOn: Date) {
         self.token = token

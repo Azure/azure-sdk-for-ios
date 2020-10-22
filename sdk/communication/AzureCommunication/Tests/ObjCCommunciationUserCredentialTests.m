@@ -50,7 +50,7 @@
     CommunicationUserCredential *userCredential = [[CommunicationUserCredential alloc] initWithToken: self.sampleToken
                                                                                                error: nil];
     
-    [userCredential tokenWithCompletionHandler:^(AccessToken *accessToken, NSError * error) {
+    [userCredential tokenWithCompletionHandler:^(CommunicationAccessToken *accessToken, NSError * error) {
         XCTAssertNil(error);
         XCTAssertEqual(accessToken.token, self.sampleToken);
         XCTAssertEqual(accessToken.expiresOn.timeIntervalSince1970, self.sampleTokenExpiry);
@@ -85,7 +85,7 @@
         block(weakSelf.sampleToken, nil);
     }];
     
-    [credential tokenWithCompletionHandler:^(AccessToken * _Nullable accessToken,
+    [credential tokenWithCompletionHandler:^(CommunicationAccessToken * _Nullable accessToken,
                                              NSError * _Nullable error) {
         XCTAssertNotNil(accessToken);
         XCTAssertNil(error);
@@ -118,7 +118,7 @@
         block(nil, error);
     }];
     
-    [credential tokenWithCompletionHandler:^(AccessToken * _Nullable accessToken,
+    [credential tokenWithCompletionHandler:^(CommunicationAccessToken * _Nullable accessToken,
                                              NSError * _Nullable error) {
         XCTAssertNotNil(error);
         XCTAssertEqual([error.localizedDescription containsString: errorDesc], YES);
@@ -150,7 +150,7 @@
     }];
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        [credential tokenWithCompletionHandler:^(AccessToken * _Nullable accessToken,
+        [credential tokenWithCompletionHandler:^(CommunicationAccessToken * _Nullable accessToken,
                                                  NSError * _Nullable error) {
             XCTAssertNotNil(accessToken);
             XCTAssertEqual(accessToken.token, weakSelf.sampleToken);
@@ -182,7 +182,7 @@
     }];
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        [credential tokenWithCompletionHandler:^(AccessToken * _Nullable accessToken,
+        [credential tokenWithCompletionHandler:^(CommunicationAccessToken * _Nullable accessToken,
                                                  NSError * _Nullable error) {
             XCTAssertNotNil(accessToken);
             XCTAssertEqual(accessToken.token, weakSelf.sampleToken);
@@ -214,7 +214,7 @@
         });
     }];
     
-    [credential tokenWithCompletionHandler:^(AccessToken * _Nullable accessToken,
+    [credential tokenWithCompletionHandler:^(CommunicationAccessToken * _Nullable accessToken,
                                              NSError * _Nullable error) {
         XCTAssertNotNil(accessToken);
         XCTAssertNil(error);
