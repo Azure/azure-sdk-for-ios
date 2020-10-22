@@ -45,7 +45,5 @@ Pod::Spec.new do |s|
     s.source = { :http => 'https://github.com/Azure/Communication/releases/download/v1.0.0-beta.4/azurecommunicationcalling.framework-1.0.0-beta.4.zip' }
     s.source_files = 'Headers/*.h'
     s.public_header_files = "Headers/*.h"
-    s.dependency 'AzureCore', '~> 1.0.0-beta.2'
     s.dependency 'AzureCommunication', '~> 1.0.0-beta.2'
-
   end
