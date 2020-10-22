@@ -34,7 +34,7 @@ Pod::Spec.new do |s|
   
     s.homepage = 'https://github.com/Azure/azure-sdk-for-ios'
     s.license = { :type => 'Commercial',
-                  :file => 'EULA.txt' }
+                  :file => 'sdk/communication/AzureCommunicationCalling/EULA.txt' }
     s.authors = { 'Azure SDK Mobile Team' => 'azuresdkmobileteam@microsoft.com' }
   
     s.ios.deployment_target = '12.0'
