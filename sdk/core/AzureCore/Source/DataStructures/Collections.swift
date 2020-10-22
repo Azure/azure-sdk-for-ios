@@ -161,7 +161,7 @@ public class PagedCollection<SingleElement: Codable> {
     internal var continuationToken: String?
 
     /// The headers that accompanied the orignal request. Used as the basis for subsequent paged requests.
-    private var requestHeaders: HTTPHeaders!
+    private var requestHeaders: HeaderParameters!
 
     /// An index which tracks the next item to be returned when using the nextItem method.
     private var iteratorIndex: Int = 0

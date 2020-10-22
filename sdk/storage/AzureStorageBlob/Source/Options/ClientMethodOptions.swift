@@ -30,9 +30,13 @@ import Foundation
 /// User-configurable options for the `StorageBlobClient.listContainers` operation.
 public struct ListContainersOptions: RequestOptions {
     /// Datasets which may be included as part of the call response.
-    public enum ListContainersInclude: String {
+    public enum ListContainersInclude: String, CustomStringConvertible {
         /// Include the containers' metadata in the response.
         case metadata
+
+        public var description: String {
+            return rawValue
+        }
     }
 
     /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
@@ -174,11 +178,15 @@ public struct DeleteBlobOptions: RequestOptions {
     /// service returns status code 400 (Bad Request).
     /// If this header is not specified on the request and the blob has associated snapshots,
     /// the Blob service returns status code 409 (Conflict).
-    public enum DeleteBlobSnapshot: String {
+    public enum DeleteBlobSnapshot: String, RequestStringConvertible {
         /// Delete the base blob and all of its snapshots.
         case include
         /// Delete only the blob's snapshots and not the blob itself.
         case only
+
+        public var requestString: String {
+            return rawValue
+        }
     }
 
     /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
@@ -197,7 +205,7 @@ public struct DeleteBlobOptions: RequestOptions {
     public let deleteSnapshots: DeleteBlobSnapshot?
 
     /// A `Date` specifying the snapshot you wish to delete.
-    public let snapshot: Date?
+    public let snapshot: Rfc1123Date?
 
     /// Request timeout in seconds.
     public let timeoutInSeconds: Int?
@@ -222,7 +230,7 @@ public struct DeleteBlobOptions: RequestOptions {
         self.cancellationToken = cancellationToken
         self.dispatchQueue = dispatchQueue
         self.deleteSnapshots = deleteSnapshots
-        self.snapshot = snapshot
+        self.snapshot = Rfc1123Date(snapshot)
         self.timeoutInSeconds = timeoutInSeconds
     }
 }

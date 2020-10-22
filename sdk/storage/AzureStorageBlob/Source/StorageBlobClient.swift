@@ -99,8 +99,8 @@ public final class StorageBlobClient: PipelineClient {
                 authPolicy,
                 ContentDecodePolicy(),
                 HeadersValidationPolicy(validatingHeaders: [
-                    HTTPHeader.clientRequestId.rawValue,
-                    StorageHTTPHeader.encryptionKeySHA256.rawValue
+                    HTTPHeader.clientRequestId.requestString,
+                    StorageHTTPHeader.encryptionKeySHA256.requestString
                 ]),
                 LoggingPolicy(
                     allowHeaders: StorageBlobClient.allowHeaders,
@@ -238,29 +238,20 @@ public final class StorageBlobClient: PipelineClient {
         guard let url = self.url(forTemplate: urlTemplate) else { return }
 
         // Construct query
-        var queryParams: [QueryParameter] = [("comp", "list")]
+        let queryParams = QueryParameters(
+            ("comp", "list"),
+            ("prefix", options?.prefix),
+            ("include", options?.include),
+            ("maxResults", options?.maxResults),
+            ("timeout", options?.timeoutInSeconds)
+        )
 
         // Construct headers
-        var headers = HTTPHeaders([
-            .accept: "application/xml",
-            .apiVersion: self.options.apiVersion
-        ])
-
-        // Process endpoint options
-        if let options = options {
-            // Query options
-            if let prefix = options.prefix { queryParams.append("prefix", prefix) }
-            if let include = options.include {
-                queryParams.append("include", (include.map { $0.rawValue }).joined(separator: ","))
-            }
-            if let maxResults = options.maxResults { queryParams.append("maxresults", String(maxResults)) }
-            if let timeout = options.timeoutInSeconds { queryParams.append("timeout", String(timeout)) }
-
-            // Header options
-            if let clientRequestId = options.clientRequestId {
-                headers[HTTPHeader.clientRequestId] = clientRequestId
-            }
-        }
+        let headers = HeaderParameters(
+            (HTTPHeader.accept, "application/xml"),
+            (HTTPHeader.apiVersion, self.options.apiVersion),
+            (HTTPHeader.clientRequestId, options?.clientRequestId)
+        )
 
         // Construct and send request
         let codingKeys = PagedCodingKeys(
@@ -274,7 +265,7 @@ public final class StorageBlobClient: PipelineClient {
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
         context.merge(with: options?.context)
-        guard let requestUrl = url.appendingQueryParameters(queryParams) else { return }
+        guard let requestUrl = url.appending(queryParameters: queryParams) else { return }
         guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: headers) else { return }
 
         self.request(request, context: context) { result, httpResponse in
@@ -331,37 +322,30 @@ public final class StorageBlobClient: PipelineClient {
         guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return }
 
         // Construct query
-        var queryParams: [QueryParameter] = [
+        let queryParams = QueryParameters(
             ("comp", "list"),
-            ("resType", "container")
-        ]
+            ("resType", "container"),
+            ("prefix", options?.prefix),
+            ("delimiter", options?.delimiter),
+            ("include", options?.include),
+            ("maxResults", options?.maxResults),
+            ("timeout", options?.timeoutInSeconds)
+        )
 
         // Construct headers
-        var headers = HTTPHeaders([
-            .accept: "application/xml",
-            .transferEncoding: "chunked",
-            .apiVersion: self.options.apiVersion
-        ])
+        var headers = HeaderParameters(
+            (HTTPHeader.accept, "application/xml"),
+            (HTTPHeader.transferEncoding, "chunked"),
+            (HTTPHeader.apiVersion, self.options.apiVersion)
+        )
 
-        // Process endpoint options
-        if let options = options {
-            // Query options
-            if let prefix = options.prefix { queryParams.append("prefix", prefix) }
-            if let delimiter = options.delimiter { queryParams.append("delimiter", delimiter) }
-            if let include = options.include {
-                queryParams.append("include", (include.map { $0.rawValue }).joined(separator: ","))
-            }
-            if let maxResults = options.maxResults { queryParams.append("maxresults", String(maxResults)) }
-            if let timeout = options.timeoutInSeconds { queryParams.append("timeout", String(timeout)) }
-
-            // Header options
-            if let clientRequestId = options.clientRequestId {
-                headers[.clientRequestId] = clientRequestId
-            }
+        // Header options
+        if let clientRequestId = options?.clientRequestId {
+            headers[.clientRequestId] = clientRequestId
         }
 
         // Construct and send request
-        guard let requestUrl = url.appendingQueryParameters(queryParams) else { return }
+        guard let requestUrl = url.appending(queryParameters: queryParams) else { return }
         guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: headers) else { return }
         let codingKeys = PagedCodingKeys(
             items: "EnumerationResults.Blobs",
@@ -425,35 +409,24 @@ public final class StorageBlobClient: PipelineClient {
     ) {
         // Construct URL
         let urlTemplate = "{container}/{blob}"
-        let pathParams = [
-            "container": container,
-            "blob": blob
-        ]
-        guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return }
+        let pathParams = RequestParameters(
+            ("container", container),
+            ("blob", blob)
+        )
+        guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams.toDict()) else { return }
 
         // Construct query
-        var queryParams: [QueryParameter] = []
+        let queryParams = QueryParameters(
+            ("snapshot", options?.snapshot),
+            ("timeout", options?.timeoutInSeconds)
+        )
 
         // Construct headers
-        var headers = HTTPHeaders([
-            .apiVersion: self.options.apiVersion
-        ])
-        if let deleteSnapshots = options?.deleteSnapshots {
-            headers[.deleteSnapshots] = deleteSnapshots.rawValue
-        }
-
-        // Process endpoint options
-        if let options = options {
-            // Query options
-            if let snapshot = options
-                .snapshot { queryParams.append("snapshot", String(describing: snapshot, format: .rfc1123)) }
-            if let timeout = options.timeoutInSeconds { queryParams.append("timeout", String(timeout)) }
-
-            // Header options
-            if let clientRequestId = options.clientRequestId {
-                headers[.clientRequestId] = clientRequestId
-            }
-        }
+        let headers = HeaderParameters(
+            (HTTPHeader.apiVersion, self.options.apiVersion),
+            (StorageHTTPHeader.deleteSnapshots, options?.deleteSnapshots),
+            (HTTPHeader.clientRequestId, options?.clientRequestId)
+        )
 
         // Construct and send request
         let context = PipelineContext.of(keyValues: [
@@ -461,7 +434,7 @@ public final class StorageBlobClient: PipelineClient {
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
         context.merge(with: options?.context)
-        guard let requestUrl = url.appendingQueryParameters(queryParams) else { return }
+        guard let requestUrl = url.appending(queryParameters: queryParams) else { return }
         guard let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: headers) else { return }
         self.request(request, context: context) { result, httpResponse in
             switch result {

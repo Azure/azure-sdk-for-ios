@@ -31,11 +31,11 @@ public class HeadersPolicy: PipelineStage {
 
     public var next: PipelineStage?
 
-    private var headers: HTTPHeaders
+    private var headers: HeaderParameters
 
     // MARK: Initializers
 
-    public init(addingHeaders headers: HTTPHeaders) {
+    public init(addingHeaders headers: HeaderParameters) {
         self.headers = headers
     }
 

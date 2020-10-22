@@ -31,7 +31,7 @@ public class HTTPResponse: DataStringConvertible {
 
     public var httpRequest: HTTPRequest?
     public var statusCode: Int?
-    public var headers = HTTPHeaders()
+    public var headers = HeaderParameters()
     public var data: Data?
 
     // Pulled from the IANA HTTP Status Code Registry on 28 Jan 2020
