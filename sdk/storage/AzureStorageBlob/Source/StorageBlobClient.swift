@@ -91,9 +91,9 @@ public final class StorageBlobClient: PipelineClient {
         self.options = options
         super.init(
             endpoint: endpoint,
-            transport: URLSessionTransport(),
-            policies: [
-                UserAgentPolicy(for: StorageBlobClient.self, telemetryOptions: self.options.telemetryOptions),
+            transport: options.transport ?? URLSessionTransport(),
+            policies: options.pipeline ?? [
+                UserAgentPolicy(for: StorageBlobClient.self, telemetryOptions: options.telemetryOptions),
                 RequestIdPolicy(),
                 AddDatePolicy(),
                 authPolicy,

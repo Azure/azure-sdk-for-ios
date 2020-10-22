@@ -39,6 +39,10 @@ public struct StorageBlobClientOptions: ClientOptions {
     public let transportOptions: TransportOptions
     /// A dispatch queue on which to call all completion handlers. Defaults to `DispatchQueue.main`.
     public let dispatchQueue: DispatchQueue?
+    /// An array of `PipelineStage` policies to use in lieu of the default ones.
+    public let pipeline: [PipelineStage]?
+    /// An `HTTPTransportStage` policy to use in lieu of the default.
+    public let transport: HTTPTransportStage?
 
     // Blob operations
 
@@ -64,6 +68,10 @@ public struct StorageBlobClientOptions: ClientOptions {
     ///   - apiVersion: The API version of the Azure Storage Blob service to invoke.
     ///   - logger: The `ClientLogger` to be used by this `StorageBlobClient`.
     ///   - telemetryOptions: Options for configuring telemetry sent by this `StorageBlobClient`.
+    ///   - transportOptions: Global transport options
+    ///   - dispatchQueue: A dispatch queue on which to call all completion handlers. Defaults to `DispatchQueue.main`.
+    ///   - pipeline: An array of `PipelineStage` policies to use in lieu of the default ones.
+    ///   - transport: An `HTTPTransportStage` policy to use in lieu of the default.
     ///   - restorationId: An identifier used to associate this client with transfers it creates. When a transfer is
     ///     reloaded from disk (e.g. after an application crash), it can only be resumed once a client with the same
     ///     `restorationId` has been initialized. If your application only uses a single `StorageBlobClient`, it is
@@ -78,21 +86,25 @@ public struct StorageBlobClientOptions: ClientOptions {
         apiVersion: StorageBlobClient.ApiVersion = .latest,
         logger: ClientLogger = ClientLoggers.default(tag: "StorageBlobClient"),
         telemetryOptions: TelemetryOptions = TelemetryOptions(),
-        restorationId: String = DeviceProviders.appBundleInfo.identifier ?? "AzureStorageBlob",
-        maxChunkSizeInBytes: Int = 4 * 1024 * 1024 - 1,
         transportOptions: TransportOptions? = nil,
         dispatchQueue: DispatchQueue? = nil,
+        pipeline: [PipelineStage]? = nil,
+        transport: HTTPTransportStage? = nil,
+        restorationId: String = DeviceProviders.appBundleInfo.identifier ?? "AzureStorageBlob",
+        maxChunkSizeInBytes: Int = 4 * 1024 * 1024 - 1,
         downloadNetworkPolicy: TransferNetworkPolicy? = nil,
         uploadNetworkPolicy: TransferNetworkPolicy? = nil
     ) {
         self.apiVersion = apiVersion.rawValue
         self.logger = logger
         self.telemetryOptions = telemetryOptions
+        self.transportOptions = transportOptions ?? TransportOptions()
+        self.dispatchQueue = dispatchQueue
+        self.pipeline = pipeline
+        self.transport = transport
         self.maxChunkSizeInBytes = maxChunkSizeInBytes
         self.restorationId = restorationId
         self.downloadNetworkPolicy = downloadNetworkPolicy ?? TransferNetworkPolicy.default
         self.uploadNetworkPolicy = uploadNetworkPolicy ?? TransferNetworkPolicy.default
-        self.transportOptions = transportOptions ?? TransportOptions()
-        self.dispatchQueue = dispatchQueue
     }
 }

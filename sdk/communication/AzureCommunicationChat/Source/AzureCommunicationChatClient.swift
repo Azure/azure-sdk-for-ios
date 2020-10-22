@@ -50,8 +50,8 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         self.options = options
         super.init(
             baseUrl: baseUrl,
-            transport: URLSessionTransport(),
-            policies: [
+            transport: options?.transport ?? URLSessionTransport(),
+            policies: options?.pipeline ?? [
                 UserAgentPolicy(for: AzureCommunicationChatClient.self, telemetryOptions: options.telemetryOptions),
                 RequestIdPolicy(),
                 AddDatePolicy(),

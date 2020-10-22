@@ -38,6 +38,10 @@ public protocol ClientOptions {
     var transportOptions: TransportOptions { get }
     /// The default dispatch queue on which to call all completion handlers. Defaults to `DispatchQueue.main`.
     var dispatchQueue: DispatchQueue? { get }
+    /// An array of `PipelineStage` policies to use in lieu of the default ones.
+    var pipeline: [PipelineStage]? { get }
+    /// An `HTTPTransportStage` policy to use in lieu of the default.
+    var transport: HTTPTransportStage? { get }
 }
 
 /// Protocol for baseline options for individual client API calls.

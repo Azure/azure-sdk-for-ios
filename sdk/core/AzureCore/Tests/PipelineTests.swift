@@ -32,7 +32,7 @@ class PipelineTests: XCTestCase {
     func createPipelineClient() -> PipelineClient {
         let baseUrl = URL(string: "http://www.microsoft.com")!
         let client = PipelineClient(
-            baseUrl: baseUrl,
+            endpoint: baseUrl,
             transport: URLSessionTransport(),
             policies: [
                 UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0"),
@@ -66,7 +66,7 @@ class PipelineTests: XCTestCase {
         let client = createPipelineClient()
         let request = try! HTTPRequest(method: .get, url: "http://www.microsoft.com", headers: [:])
         let didFinishRun = expectation(description: "run completion handler called.")
-        let context = options?.context ?? PipelineContext.of(keyValues: [
+        let context = PipelineContext.of(keyValues: [
             "context": "value" as AnyObject
         ])
         var requestCompleted = false
