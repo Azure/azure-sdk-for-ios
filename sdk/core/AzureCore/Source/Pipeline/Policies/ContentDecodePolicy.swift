@@ -194,8 +194,8 @@ public class ContentDecodePolicy: PipelineStage {
         else { return }
         contentType = contentType.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
         do {
-            if let deserializedData = try deserialize(from: returnResponse, contentType: contentType) {
-                returnResponse.add(value: deserializedData as AnyObject, forKey: .deserializedData)
+            if let deserializedData = try deserialize(from: returnResponse, contentType: contentType) as? AnyObject {
+                returnResponse.add(value: deserializedData, forKey: .deserializedData)
             }
         } catch {
             if let azureError = error as? AzureError {

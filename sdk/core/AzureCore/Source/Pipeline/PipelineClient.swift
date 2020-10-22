@@ -49,6 +49,8 @@ public protocol RequestOptions {
     var cancellationToken: CancellationToken? { get }
     /// A dispatch queue on which to call the completion handler. Defaults to `DispatchQueue.main`.
     var dispatchQueue: DispatchQueue? { get }
+    /// A `PipelineContext` object to associate with the request.
+    var context: PipelineContext? { get set }
 }
 
 /// Base class for all pipeline-based service clients.

@@ -109,7 +109,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         }
 
         // Send request
-        let context = PipelineContext.of(keyValues: [
+        let context = options?.context ?? PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
@@ -274,7 +274,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         }
 
         // Send request
-        let context = PipelineContext.of(keyValues: [
+        let context = options?.context ?? PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [201, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
@@ -422,7 +422,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         }
 
         // Send request
-        let context = PipelineContext.of(keyValues: [
+        let context = options?.context ?? PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [201, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
@@ -580,7 +580,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         }
 
         // Send request
-        let context = PipelineContext.of(keyValues: [
+        let context = options?.context ?? PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
@@ -741,7 +741,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         }
 
         // Send request
-        let context = PipelineContext.of(keyValues: [
+        let context = options?.context ?? PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
@@ -898,7 +898,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         }
 
         // Send request
-        let context = PipelineContext.of(keyValues: [
+        let context = options?.context ?? PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
@@ -1042,7 +1042,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         }
 
         // Send request
-        let context = PipelineContext.of(keyValues: [
+        let context = options?.context ?? PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [204, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
@@ -1183,7 +1183,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         }
 
         // Send request
-        let context = PipelineContext.of(keyValues: [
+        let context = options?.context ?? PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
@@ -1324,7 +1324,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         }
 
         // Send request
-        let context = PipelineContext.of(keyValues: [
+        let context = options?.context ?? PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
@@ -1489,7 +1489,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         }
 
         // Send request
-        let context = PipelineContext.of(keyValues: [
+        let context = options?.context ?? PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [207, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
@@ -1633,7 +1633,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         }
 
         // Send request
-        let context = PipelineContext.of(keyValues: [
+        let context = options?.context ?? PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [204, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
@@ -1779,7 +1779,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         }
 
         // Send request
-        let context = PipelineContext.of(keyValues: [
+        let context = options?.context ?? PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [207, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
@@ -1936,7 +1936,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         }
 
         // Send request
-        let context = PipelineContext.of(keyValues: [
+        let context = options?.context ?? PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
@@ -2102,7 +2102,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         }
 
         // Send request
-        let context = PipelineContext.of(keyValues: [
+        let context = options?.context ?? PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
@@ -2243,7 +2243,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         }
 
         // Send request
-        let context = PipelineContext.of(keyValues: [
+        let context = options?.context ?? PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
@@ -2389,7 +2389,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         }
 
         // Send request
-        let context = PipelineContext.of(keyValues: [
+        let context = options?.context ?? PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [204, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)

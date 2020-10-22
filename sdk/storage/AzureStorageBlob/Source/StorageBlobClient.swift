@@ -269,7 +269,7 @@ public final class StorageBlobClient: PipelineClient {
             xmlItemName: "Container"
         )
         let xmlMap = XMLMap(withPagedCodingKeys: codingKeys, innerType: ContainerItem.self)
-        let context = PipelineContext.of(keyValues: [
+        let context = options?.context ?? PipelineContext.of(keyValues: [
             ContextKey.xmlMap.rawValue: xmlMap as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
@@ -368,7 +368,7 @@ public final class StorageBlobClient: PipelineClient {
             xmlItemName: "Blob"
         )
         let xmlMap = XMLMap(withPagedCodingKeys: codingKeys, innerType: BlobItem.self)
-        let context = PipelineContext.of(keyValues: [
+        let context = options?.context ?? PipelineContext.of(keyValues: [
             ContextKey.xmlMap.rawValue: xmlMap as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
@@ -454,7 +454,7 @@ public final class StorageBlobClient: PipelineClient {
         }
 
         // Construct and send request
-        let context = PipelineContext.of(keyValues: [
+        let context = options?.context ?? PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [202] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)

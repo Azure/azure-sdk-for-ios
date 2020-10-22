@@ -66,7 +66,7 @@ class PipelineTests: XCTestCase {
         let client = createPipelineClient()
         let request = try! HTTPRequest(method: .get, url: "http://www.microsoft.com", headers: [:])
         let didFinishRun = expectation(description: "run completion handler called.")
-        let context = PipelineContext.of(keyValues: [
+        let context = options?.context ?? PipelineContext.of(keyValues: [
             "context": "value" as AnyObject
         ])
         var requestCompleted = false

@@ -181,6 +181,13 @@ public class PipelineContext {
     }
 }
 
+extension PipelineContext: Equatable {
+    public static func == (lhs: PipelineContext, rhs: PipelineContext) -> Bool {
+        // FIXME: This is likely too restrictive for Equatable
+        return lhs === rhs
+    }
+}
+
 internal class PipelineContextNode {
     // MARK: Properties
 

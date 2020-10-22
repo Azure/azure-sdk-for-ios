@@ -101,8 +101,8 @@ struct AppState {
                 transportOptions: TransportOptions(timeoutInSeconds: 5.0)
             )
             AppState.internalBlobClient = try? StorageBlobClient(
-                credential: credential,
                 endpoint: AppConstants.storageAccountUrl,
+                credential: credential,
                 withOptions: options
             )
         }
