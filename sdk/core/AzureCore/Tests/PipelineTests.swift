@@ -59,7 +59,7 @@ class PipelineTests: XCTestCase {
             "a": "cat",
             "b": "hat"
         ])
-        XCTAssertEqual(url?.absoluteString, "\(client.baseUrl)cat/hat/test")
+        XCTAssertEqual(url?.absoluteString, "\(client.endpoint)cat/hat/test")
     }
 
     func test_PipelineClient_CanRun() {

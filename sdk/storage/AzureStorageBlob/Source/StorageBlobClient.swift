@@ -84,13 +84,13 @@ public final class StorageBlobClient: PipelineClient {
     ///   - authPolicy: An `Authenticating` policy to use for authenticating client requests.
     ///   - options: Options used to configure the client.
     private init(
-        baseUrl: URL,
+        endpoint: URL,
         authPolicy: Authenticating,
         withOptions options: StorageBlobClientOptions
     ) throws {
         self.options = options
         super.init(
-            baseUrl: baseUrl,
+            endpoint: endpoint,
             transport: URLSessionTransport(),
             policies: [
                 UserAgentPolicy(for: StorageBlobClient.self, telemetryOptions: self.options.telemetryOptions),
@@ -121,8 +121,8 @@ public final class StorageBlobClient: PipelineClient {
         ///   - endpoint: The URL for the storage account's blob storage endpoint.
         ///   - options: Options used to configure the client.
         public convenience init(
-            credential: MSALCredential,
             endpoint: URL,
+            credential: MSALCredential,
             withOptions options: StorageBlobClientOptions = StorageBlobClientOptions()
         ) throws {
             try credential.validate()
@@ -130,7 +130,7 @@ public final class StorageBlobClient: PipelineClient {
                 credential: credential,
                 scopes: StorageBlobClient.defaultScopes
             )
-            try self.init(baseUrl: endpoint, authPolicy: authPolicy, withOptions: options)
+            try self.init(endpoint: endpoint, authPolicy: authPolicy, withOptions: options)
         }
     #endif
 
@@ -140,13 +140,13 @@ public final class StorageBlobClient: PipelineClient {
     ///   - endpoint: The URL for the storage account's blob storage endpoint.
     ///   - options: Options used to configure the client.
     public convenience init(
-        credential: StorageSASCredential,
         endpoint: URL,
+        credential: StorageSASCredential,
         withOptions options: StorageBlobClientOptions = StorageBlobClientOptions()
     ) throws {
         try credential.validate()
         let authPolicy = StorageSASAuthenticationPolicy(credential: credential)
-        try self.init(baseUrl: endpoint, authPolicy: authPolicy, withOptions: options)
+        try self.init(endpoint: endpoint, authPolicy: authPolicy, withOptions: options)
     }
 
     /// Create a Storage blob data client.
@@ -166,7 +166,7 @@ public final class StorageBlobClient: PipelineClient {
             throw AzureError.client("Unable to resolve account URL from credential.")
         }
         let authPolicy = StorageSharedKeyAuthenticationPolicy(credential: credential)
-        try self.init(baseUrl: baseUrl, authPolicy: authPolicy, withOptions: options)
+        try self.init(endpoint: baseUrl, authPolicy: authPolicy, withOptions: options)
     }
 
     /// Create an anonymous Storage blob data client.
@@ -185,7 +185,7 @@ public final class StorageBlobClient: PipelineClient {
         if let sasToken = try? StorageSASCredential.token(fromConnectionString: connectionString),
             let endpoint = URL(string: sasToken.blobEndpoint) {
             let sasCredential = StorageSASCredential(staticCredential: connectionString)
-            try self.init(credential: sasCredential, endpoint: endpoint, withOptions: options)
+            try self.init(endpoint: endpoint, credential: sasCredential, withOptions: options)
             return
         }
 
@@ -206,7 +206,7 @@ public final class StorageBlobClient: PipelineClient {
         endpoint: URL,
         withOptions options: StorageBlobClientOptions = StorageBlobClientOptions()
     ) throws {
-        try self.init(baseUrl: endpoint, authPolicy: AnonymousAccessPolicy(), withOptions: options)
+        try self.init(endpoint: endpoint, authPolicy: AnonymousAccessPolicy(), withOptions: options)
     }
 
     // MARK: Public Client Methods
