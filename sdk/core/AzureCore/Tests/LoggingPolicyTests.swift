@@ -35,7 +35,7 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnRequestWithRequestId_LogsRequestIdFirstAtInfoLevel() {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.info)
-        let headers = HTTPHeaders([.clientRequestId: "123"])
+        let headers = HeaderParameters((HTTPHeader.clientRequestId, "123"))
         let req = PipelineRequest(method: .get, url: "http://www.example.com", headers: headers, logger: logger)
         policy.on(request: req) { _, _ in }
         LoggingPolicy.queue.sync {}
@@ -48,7 +48,7 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnRequestWithRequestId_LogsRequestIdLastAtInfoLevel() {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.info)
-        let headers = HTTPHeaders([.clientRequestId: "123"])
+        let headers = HeaderParameters((HTTPHeader.clientRequestId, "123"))
         let req = PipelineRequest(method: .get, url: "http://www.example.com", headers: headers, logger: logger)
         policy.on(request: req) { _, _ in }
         LoggingPolicy.queue.sync {}
@@ -61,13 +61,13 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnRequestWithNoAllowedHeaders_RedactsAllHeaders() {
         let policy = LoggingPolicy(allowHeaders: [])
         let logger = TestClientLogger(.debug)
-        var headers = HTTPHeaders([.accept: "application/json"])
+        var headers = HeaderParameters((HTTPHeader.accept, "application/json"))
         headers["MyCustomHeader"] = "SecretValue"
         let req = PipelineRequest(method: .get, url: "http://www.example.com", headers: headers, logger: logger)
         policy.on(request: req) { _, _ in }
         LoggingPolicy.queue.sync {}
         XCTAssertEqual(
-            logger.messages.first { $0.text.starts(with: HTTPHeader.accept.rawValue) }?.text,
+            logger.messages.first { $0.text.starts(with: HTTPHeader.accept.requestString) }?.text,
             "Accept: REDACTED"
         )
         XCTAssertEqual(
@@ -80,13 +80,13 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnRequestWithDefaultAllowedHeaders_RedactsHeaders() {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.debug)
-        var headers = HTTPHeaders([.accept: "application/json"])
+        var headers = HeaderParameters((HTTPHeader.accept, "application/json"))
         headers["MyCustomHeader"] = "SecretValue"
         let req = PipelineRequest(method: .get, url: "http://www.example.com", headers: headers, logger: logger)
         policy.on(request: req) { _, _ in }
         LoggingPolicy.queue.sync {}
         XCTAssertEqual(
-            logger.messages.first { $0.text.starts(with: HTTPHeader.accept.rawValue) }?.text,
+            logger.messages.first { $0.text.starts(with: HTTPHeader.accept.requestString) }?.text,
             "Accept: application/json"
         )
         XCTAssertEqual(
@@ -99,13 +99,13 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnRequestWithCustomAllowedHeaders_RedactsHeaders() {
         let policy = LoggingPolicy(allowHeaders: ["MyCustomHeader"])
         let logger = TestClientLogger(.debug)
-        var headers = HTTPHeaders([.accept: "application/json"])
+        var headers = HeaderParameters((HTTPHeader.accept, "application/json"))
         headers["MyCustomHeader"] = "SecretValue"
         let req = PipelineRequest(method: .get, url: "http://www.example.com", headers: headers, logger: logger)
         policy.on(request: req) { _, _ in }
         LoggingPolicy.queue.sync {}
         XCTAssertEqual(
-            logger.messages.first { $0.text.starts(with: HTTPHeader.accept.rawValue) }?.text,
+            logger.messages.first { $0.text.starts(with: HTTPHeader.accept.requestString) }?.text,
             "Accept: REDACTED"
         )
         XCTAssertEqual(
@@ -144,7 +144,8 @@ class LoggingPolicyTests: XCTestCase {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.debug)
         let req = PipelineRequest(method: .get, url: "http://www.example.com", logger: logger)
-        req.httpRequest.url = req.httpRequest.url.appendingQueryParameters([("id", "123"), ("test", "secret")])!
+        req.httpRequest.url = req.httpRequest.url
+            .appending(queryParameters: RequestParameters(("id", "123"), ("test", "secret")))!
         policy.on(request: req) { _, _ in }
         LoggingPolicy.queue.sync {}
         let msg = logger.messages.first { $0.text.starts(with: "GET http://www.example.com") }
@@ -157,7 +158,8 @@ class LoggingPolicyTests: XCTestCase {
         let policy = LoggingPolicy(allowQueryParams: ["id"])
         let logger = TestClientLogger(.debug)
         let req = PipelineRequest(method: .get, url: "http://www.example.com", logger: logger)
-        req.httpRequest.url = req.httpRequest.url.appendingQueryParameters([("id", "123"), ("test", "secret")])!
+        req.httpRequest.url = req.httpRequest.url
+            .appending(queryParameters: QueryParameters(("id", "123"), ("test", "secret")))!
         policy.on(request: req) { _, _ in }
         LoggingPolicy.queue.sync {}
         let msg = logger.messages.first { $0.text.starts(with: "GET http://www.example.com") }
@@ -170,7 +172,7 @@ class LoggingPolicyTests: XCTestCase {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.debug)
         let req = PipelineRequest(method: .get, url: "http://www.example.com?id=123", logger: logger)
-        req.httpRequest.url = req.httpRequest.url.appendingQueryParameters([("test", "secret")])!
+        req.httpRequest.url = req.httpRequest.url.appending(queryParameters: QueryParameters(("test", "secret")))!
         policy.on(request: req) { _, _ in }
         LoggingPolicy.queue.sync {}
         let msg = logger.messages.first { $0.text.starts(with: "GET http://www.example.com") }
@@ -183,7 +185,7 @@ class LoggingPolicyTests: XCTestCase {
         let policy = LoggingPolicy(allowQueryParams: ["id"])
         let logger = TestClientLogger(.debug)
         let req = PipelineRequest(method: .get, url: "http://www.example.com?id=123", logger: logger)
-        req.httpRequest.url = req.httpRequest.url.appendingQueryParameters([("test", "secret")])!
+        req.httpRequest.url = req.httpRequest.url.appending(queryParameters: QueryParameters(("test", "secret")))!
         policy.on(request: req) { _, _ in }
         LoggingPolicy.queue.sync {}
         let msg = logger.messages.first { $0.text.starts(with: "GET http://www.example.com") }
@@ -206,7 +208,7 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnRequest_LogsNoHeadersAtInfoLevel() {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.info)
-        let headers = HTTPHeaders([.accept: "application/json"])
+        let headers = HeaderParameters((HTTPHeader.accept, "application/json"))
         let req = PipelineRequest(method: .get, url: "http://www.example.com", headers: headers, logger: logger)
         policy.on(request: req) { _, _ in }
         LoggingPolicy.queue.sync {}
@@ -218,7 +220,7 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnRequest_LogsNoBodyAtInfoLevel() {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.info)
-        let headers = HTTPHeaders([.contentLength: "7"])
+        let headers = HeaderParameters((HTTPHeader.contentLength, "7"))
         let req = PipelineRequest(
             method: .get,
             url: "http://www.example.com",
@@ -236,7 +238,7 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnRequestWithEncodedBody_LogsOmittedMessageAtDebugLevel() {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.debug)
-        let headers = HTTPHeaders([.contentEncoding: "gzip", .contentLength: "7"])
+        let headers = HeaderParameters((HTTPHeader.contentEncoding, "gzip"), (HTTPHeader.contentLength, "7"))
         let req = PipelineRequest(
             method: .get,
             url: "http://www.example.com",
@@ -254,7 +256,7 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnRequestWithIdentityEncodedBody_LogsBodyTextAtDebugLevel() {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.debug)
-        let headers = HTTPHeaders([.contentEncoding: "identity", .contentLength: "7"])
+        let headers = HeaderParameters((HTTPHeader.contentEncoding, "identity"), (HTTPHeader.contentLength, "7"))
         let req = PipelineRequest(
             method: .get,
             url: "http://www.example.com",
@@ -272,7 +274,7 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnRequestWithAttachedBody_LogsOmittedMessageAtDebugLevel() {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.debug)
-        let headers = HTTPHeaders([.contentDisposition: "attached", .contentLength: "7"])
+        let headers = HeaderParameters((HTTPHeader.contentDisposition, "attached"), (HTTPHeader.contentLength, "7"))
         let req = PipelineRequest(
             method: .get,
             url: "http://www.example.com",
@@ -290,7 +292,7 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnRequestWithInlineBody_LogsBodyTextAtDebugLevel() {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.debug)
-        let headers = HTTPHeaders([.contentDisposition: "inline", .contentLength: "7"])
+        let headers = HeaderParameters((HTTPHeader.contentDisposition, "inline"), (HTTPHeader.contentLength, "7"))
         let req = PipelineRequest(
             method: .get,
             url: "http://www.example.com",
@@ -308,7 +310,10 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnRequestWithBinaryBody_LogsOmittedMessageAtDebugLevel() {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.debug)
-        let headers = HTTPHeaders([.contentType: "application/octet-stream", .contentLength: "7"])
+        let headers = HeaderParameters(
+            (HTTPHeader.contentType, "application/octet-stream"),
+            (HTTPHeader.contentLength, "7")
+        )
         let req = PipelineRequest(
             method: .get,
             url: "http://www.example.com",
@@ -326,7 +331,7 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnRequestWithTextBody_LogsBodyTextAtDebugLevel() {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.debug)
-        let headers = HTTPHeaders([.contentType: "text/plain", .contentLength: "7"])
+        let headers = HeaderParameters((HTTPHeader.contentType, "text/plain"), (HTTPHeader.contentLength, "7"))
         let req = PipelineRequest(
             method: .get,
             url: "http://www.example.com",
@@ -345,7 +350,7 @@ class LoggingPolicyTests: XCTestCase {
         let length = (1024 * 16) + 1
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.debug)
-        let headers = HTTPHeaders([.contentLength: String(length)])
+        let headers = HeaderParameters((HTTPHeader.contentLength, String(length)))
         let req = PipelineRequest(
             method: .get,
             url: "http://www.example.com",
@@ -363,7 +368,7 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnRequestWithContentLengthAndEmptyBody_LogsEmptyBodyMessageAtDebugLevel() {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.debug)
-        let headers = HTTPHeaders([.contentLength: "7"])
+        let headers = HeaderParameters((HTTPHeader.contentLength, "7"))
         let req = PipelineRequest(
             method: .get,
             url: "http://www.example.com",
@@ -380,7 +385,7 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnRequestWithNoContentLength_LogsEmptyBodyMessageAtDebugLevel() {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.debug)
-        let headers = HTTPHeaders()
+        let headers = HeaderParameters()
         let req = PipelineRequest(
             method: .get,
             url: "http://www.example.com",
@@ -398,7 +403,7 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnRequestWithZeroContentLength_LogsEmptyBodyMessageAtDebugLevel() {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.debug)
-        let headers = HTTPHeaders([.contentLength: "0"])
+        let headers = HeaderParameters((HTTPHeader.contentLength, "0"))
         let req = PipelineRequest(
             method: .get,
             url: "http://www.example.com",
@@ -416,7 +421,7 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnRequest_AddsStartTimeToContext() {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.info)
-        let headers = HTTPHeaders()
+        let headers = HeaderParameters()
         let context = PipelineContext()
         let req = PipelineRequest(
             method: .get,
@@ -436,14 +441,14 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnResponseWithNoAllowedHeaders_RedactsAllHeaders() {
         let policy = LoggingPolicy(allowHeaders: [])
         let logger = TestClientLogger(.debug)
-        var headers = HTTPHeaders([.contentType: "application/json"])
+        var headers = HeaderParameters((HTTPHeader.contentType, "application/json"))
         headers["MyCustomHeader"] = "SecretValue"
         let req = PipelineRequest(method: .get, url: "http://www.example.com")
         let res = PipelineResponse(request: req, responseCode: 404, headers: headers, logger: logger)
         policy.on(response: res) { _, _ in }
         LoggingPolicy.queue.sync {}
         XCTAssertEqual(
-            logger.messages.first { $0.text.starts(with: HTTPHeader.contentType.rawValue) }?.text,
+            logger.messages.first { $0.text.starts(with: HTTPHeader.contentType.requestString) }?.text,
             "Content-Type: REDACTED"
         )
         XCTAssertEqual(
@@ -456,14 +461,14 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnResponseWithDefaultAllowedHeaders_RedactsHeaders() {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.debug)
-        var headers = HTTPHeaders([.contentType: "application/json"])
+        var headers = HeaderParameters((HTTPHeader.contentType, "application/json"))
         headers["MyCustomHeader"] = "SecretValue"
         let req = PipelineRequest(method: .get, url: "http://www.example.com")
         let res = PipelineResponse(request: req, responseCode: 404, headers: headers, logger: logger)
         policy.on(response: res) { _, _ in }
         LoggingPolicy.queue.sync {}
         XCTAssertEqual(
-            logger.messages.first { $0.text.starts(with: HTTPHeader.contentType.rawValue) }?.text,
+            logger.messages.first { $0.text.starts(with: HTTPHeader.contentType.requestString) }?.text,
             "Content-Type: application/json"
         )
         XCTAssertEqual(
@@ -476,14 +481,14 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnResponseWithCustomAllowedHeaders_RedactsHeaders() {
         let policy = LoggingPolicy(allowHeaders: ["MyCustomHeader"])
         let logger = TestClientLogger(.debug)
-        var headers = HTTPHeaders([.contentType: "application/json"])
+        var headers = HeaderParameters((HTTPHeader.contentType, "application/json"))
         headers["MyCustomHeader"] = "SecretValue"
         let req = PipelineRequest(method: .get, url: "http://www.example.com")
         let res = PipelineResponse(request: req, responseCode: 404, headers: headers, logger: logger)
         policy.on(response: res) { _, _ in }
         LoggingPolicy.queue.sync {}
         XCTAssertEqual(
-            logger.messages.first { $0.text.starts(with: HTTPHeader.contentType.rawValue) }?.text,
+            logger.messages.first { $0.text.starts(with: HTTPHeader.contentType.requestString) }?.text,
             "Content-Type: REDACTED"
         )
         XCTAssertEqual(
@@ -496,7 +501,7 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnResponseWithRequestId_LogsRequestIdFirstAtInfoLevel() {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.info)
-        let headers = HTTPHeaders([.clientRequestId: "123"])
+        let headers = HeaderParameters((HTTPHeader.clientRequestId, "123"))
         let req = PipelineRequest(method: .get, url: "http://www.example.com", headers: headers)
         let res = PipelineResponse(request: req, logger: logger)
         policy.on(response: res) { _, _ in }
@@ -510,7 +515,7 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnResponseWithRequestId_LogsRequestIdLast() {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.info)
-        let headers = HTTPHeaders([.clientRequestId: "123"])
+        let headers = HeaderParameters((HTTPHeader.clientRequestId, "123"))
         let req = PipelineRequest(method: .get, url: "http://www.example.com", headers: headers)
         let res = PipelineResponse(request: req, logger: logger)
         policy.on(response: res) { _, _ in }
@@ -566,7 +571,7 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnResponse_LogsNoHeadersAtInfoLevel() {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.info)
-        let headers = HTTPHeaders([.etag: "123"])
+        let headers = HeaderParameters((HTTPHeader.etag, "123"))
         let req = PipelineRequest(method: .get, url: "http://www.example.com")
         let res = PipelineResponse(request: req, headers: headers, logger: logger)
         policy.on(response: res) { _, _ in }
@@ -579,7 +584,7 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnResponse_LogsNoBodyAtInfoLevel() {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.info)
-        let headers = HTTPHeaders([.contentLength: "7"])
+        let headers = HeaderParameters((HTTPHeader.contentLength, "7"))
         let req = PipelineRequest(method: .get, url: "http://www.example.com")
         let res = PipelineResponse(request: req, headers: headers, body: "Testing", logger: logger)
         policy.on(response: res) { _, _ in }
@@ -592,7 +597,7 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnResponseWithEncodedBody_LogsOmittedMessageAtDebugLevel() {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.debug)
-        let headers = HTTPHeaders([.contentEncoding: "gzip", .contentLength: "7"])
+        let headers = HeaderParameters((HTTPHeader.contentEncoding, "gzip"), (HTTPHeader.contentLength, "7"))
         let req = PipelineRequest(method: .get, url: "http://www.example.com")
         let res = PipelineResponse(request: req, headers: headers, body: "Testing", logger: logger)
         policy.on(response: res) { _, _ in }
@@ -605,7 +610,7 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnResponseWithIdentityEncodedBody_LogsBodyTextAtDebugLevel() {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.debug)
-        let headers = HTTPHeaders([.contentEncoding: "identity", .contentLength: "7"])
+        let headers = HeaderParameters((HTTPHeader.contentEncoding, "identity"), (HTTPHeader.contentLength, "7"))
         let req = PipelineRequest(method: .get, url: "http://www.example.com")
         let res = PipelineResponse(request: req, headers: headers, body: "Testing", logger: logger)
         policy.on(response: res) { _, _ in }
@@ -618,7 +623,7 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnResponseWithAttachedBody_LogsOmittedMessageAtDebugLevel() {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.debug)
-        let headers = HTTPHeaders([.contentDisposition: "attached", .contentLength: "7"])
+        let headers = HeaderParameters((HTTPHeader.contentDisposition, "attached"), (HTTPHeader.contentLength, "7"))
         let req = PipelineRequest(method: .get, url: "http://www.example.com")
         let res = PipelineResponse(request: req, headers: headers, body: "Testing", logger: logger)
         policy.on(response: res) { _, _ in }
@@ -631,7 +636,7 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnResponseWithInlineBody_LogsBodyTextAtDebugLevel() {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.debug)
-        let headers = HTTPHeaders([.contentDisposition: "inline", .contentLength: "7"])
+        let headers = HeaderParameters((HTTPHeader.contentDisposition, "inline"), (HTTPHeader.contentLength, "7"))
         let req = PipelineRequest(method: .get, url: "http://www.example.com")
         let res = PipelineResponse(request: req, headers: headers, body: "Testing", logger: logger)
         policy.on(response: res) { _, _ in }
@@ -644,7 +649,10 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnResponseWithBinaryBody_LogsOmittedMessageAtDebugLevel() {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.debug)
-        let headers = HTTPHeaders([.contentType: "application/octet-stream", .contentLength: "7"])
+        let headers = HeaderParameters(
+            (HTTPHeader.contentType, "application/octet-stream"),
+            (HTTPHeader.contentLength, "7")
+        )
         let req = PipelineRequest(method: .get, url: "http://www.example.com")
         let res = PipelineResponse(request: req, headers: headers, body: "Testing", logger: logger)
         policy.on(response: res) { _, _ in }
@@ -657,7 +665,7 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnResponseWithTextBody_LogsBodyTextAtDebugLevel() {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.debug)
-        let headers = HTTPHeaders([.contentType: "text/plain", .contentLength: "7"])
+        let headers = HeaderParameters((HTTPHeader.contentType, "text/plain"), (HTTPHeader.contentLength, "7"))
         let req = PipelineRequest(method: .get, url: "http://www.example.com")
         let res = PipelineResponse(request: req, headers: headers, body: "Testing", logger: logger)
         policy.on(response: res) { _, _ in }
@@ -671,7 +679,7 @@ class LoggingPolicyTests: XCTestCase {
         let length = (1024 * 16) + 1
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.debug)
-        let headers = HTTPHeaders([.contentLength: String(length)])
+        let headers = HeaderParameters((HTTPHeader.contentLength, String(length)))
         let req = PipelineRequest(method: .get, url: "http://www.example.com")
         let res = PipelineResponse(request: req, headers: headers, body: "Testing", logger: logger)
         policy.on(response: res) { _, _ in }
@@ -684,7 +692,7 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnResponseWithContentLengthAndEmptyBody_LogsEmptyBodyMessageAtDebugLevel() {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.debug)
-        let headers = HTTPHeaders([.contentLength: "7"])
+        let headers = HeaderParameters((HTTPHeader.contentLength, "7"))
         let req = PipelineRequest(method: .get, url: "http://www.example.com")
         let res = PipelineResponse(request: req, headers: headers, body: "", logger: logger)
         policy.on(response: res) { _, _ in }
@@ -696,7 +704,7 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnResponseWithNoContentLength_LogsEmptyBodyMessageAtDebugLevel() {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.debug)
-        let headers = HTTPHeaders()
+        let headers = HeaderParameters()
         let req = PipelineRequest(method: .get, url: "http://www.example.com")
         let res = PipelineResponse(request: req, headers: headers, body: "Testing", logger: logger)
         policy.on(response: res) { _, _ in }
@@ -709,7 +717,7 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnResponseWithZeroContentLength_LogsEmptyBodyMessageAtDebugLevel() {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.debug)
-        let headers = HTTPHeaders([.contentLength: "0"])
+        let headers = HeaderParameters((HTTPHeader.contentLength, "0"))
         let req = PipelineRequest(method: .get, url: "http://www.example.com")
         let res = PipelineResponse(request: req, headers: headers, body: "Testing", logger: logger)
         policy.on(response: res) { _, _ in }
@@ -722,7 +730,7 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnResponseWithEmptyContentLength_LogsEmptyBodyMessageAtDebugLevel() {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.debug)
-        let headers = HTTPHeaders([.contentLength: ""])
+        let headers = HeaderParameters((HTTPHeader.contentLength, ""))
         let req = PipelineRequest(method: .get, url: "http://www.example.com")
         let res = PipelineResponse(request: req, headers: headers, body: "Testing", logger: logger)
         policy.on(response: res) { _, _ in }
@@ -737,7 +745,7 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnError_LogsErrorDescriptionAtWarningLevel() {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.info)
-        let headers = HTTPHeaders([.clientRequestId: "123"])
+        let headers = HeaderParameters((HTTPHeader.clientRequestId, "123"))
         let req = PipelineRequest(method: .get, url: "http://www.example.com", headers: headers)
         let res = PipelineResponse(request: req, logger: logger)
         let innerError = AzureError.client("Inner Error", nil)
@@ -766,7 +774,7 @@ class LoggingPolicyTests: XCTestCase {
     func test_CurlFormattedRequestLoggingPolicy_OnRequest_LogsAllHeadersAndQueryStringParams() {
         let policy = CurlFormattedRequestLoggingPolicy()
         let logger = TestClientLogger(.debug)
-        let headers = ["TestHeader": "123"]
+        let headers = HeaderParameters((HTTPHeader("TestHeader"), "123"))
         let req = PipelineRequest(method: .get, url: "http://www.example.com?foo=bar", headers: headers, logger: logger)
         policy.on(request: req) { _, _ in }
         LoggingPolicy.queue.sync {}
@@ -790,7 +798,7 @@ class LoggingPolicyTests: XCTestCase {
     func test_CurlFormattedRequestLoggingPolicy_OnRequest_EscapesQuoteMarksInHeaderValues() {
         let policy = CurlFormattedRequestLoggingPolicy()
         let logger = TestClientLogger(.debug)
-        let headers = ["TestHeader": "\"123\""]
+        let headers = HeaderParameters((HTTPHeader("TestHeader"), "\"123\""))
         let req = PipelineRequest(method: .get, url: "http://www.example.com", headers: headers, logger: logger)
         policy.on(request: req) { _, _ in }
         LoggingPolicy.queue.sync {}
@@ -802,7 +810,7 @@ class LoggingPolicyTests: XCTestCase {
     func test_CurlFormattedRequestLoggingPolicy_OnRequest_EscapesBackslashesInHeaderValues() {
         let policy = CurlFormattedRequestLoggingPolicy()
         let logger = TestClientLogger(.debug)
-        let headers = ["TestHeader": "C:\\Windows"]
+        let headers = HeaderParameters((HTTPHeader("TestHeader"), "C:\\Windows"))
         let req = PipelineRequest(method: .get, url: "http://www.example.com", headers: headers, logger: logger)
         policy.on(request: req) { _, _ in }
         LoggingPolicy.queue.sync {}
@@ -841,7 +849,7 @@ class LoggingPolicyTests: XCTestCase {
     func test_CurlFormattedRequestLoggingPolicy_OnRequestWithAcceptEncoding_AddsCompressedFlag() {
         let policy = CurlFormattedRequestLoggingPolicy()
         let logger = TestClientLogger(.debug)
-        let headers = HTTPHeaders([.acceptEncoding: "gzip"])
+        let headers = HeaderParameters((HTTPHeader.acceptEncoding, "gzip"))
         let req = PipelineRequest(method: .get, url: "http://www.example.com", headers: headers, logger: logger)
         policy.on(request: req) { _, _ in }
         LoggingPolicy.queue.sync {}
@@ -854,7 +862,7 @@ class LoggingPolicyTests: XCTestCase {
     func test_CurlFormattedRequestLoggingPolicy_OnRequestWithIdentityAcceptEncoding_OmitsCompressedFlag() {
         let policy = CurlFormattedRequestLoggingPolicy()
         let logger = TestClientLogger(.debug)
-        let headers = HTTPHeaders([.acceptEncoding: "identity"])
+        let headers = HeaderParameters((HTTPHeader.acceptEncoding, "identity"))
         let req = PipelineRequest(method: .get, url: "http://www.example.com", headers: headers, logger: logger)
         policy.on(request: req) { _, _ in }
         LoggingPolicy.queue.sync {}

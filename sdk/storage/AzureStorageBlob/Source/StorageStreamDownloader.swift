@@ -83,14 +83,15 @@ internal class ChunkDownloader {
     ///   - completionHandler: A completion handler that forwards the downloaded data.
     public func download(requestId: String? = nil, completionHandler: @escaping HTTPResultHandler<Data>) {
         // Construct parameters & headers
-        var queryParams = [QueryParameter]()
-        if let snapshot = options.snapshot { queryParams.append("snapshot", snapshot) }
-        if let timeout = options.timeoutInSeconds { queryParams.append("timeout", String(timeout)) }
+        let queryParams = QueryParameters(
+            ("snapshot", options.snapshot),
+            ("timeout", options.timeoutInSeconds)
+        )
 
         let headers = downloadHeadersForRequest(withId: requestId)
 
         // Construct and send request
-        guard let requestUrl = downloadSource.appendingQueryParameters(queryParams) else { return }
+        guard let requestUrl = downloadSource.appending(queryParameters: queryParams) else { return }
         guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: headers) else { return }
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 206] as AnyObject
@@ -156,39 +157,27 @@ internal class ChunkDownloader {
     // MARK: Private Methods
 
     // swiftlint:disable:next cyclomatic_complexity
-    private func downloadHeadersForRequest(withId requestId: String?) -> HTTPHeaders {
-        var headers = HTTPHeaders([
-            .accept: "application/xml",
-            .apiVersion: client.options.apiVersion
-        ])
+    private func downloadHeadersForRequest(withId requestId: String?) -> HeaderParameters {
         let leaseAccessConditions = options.leaseAccessConditions
         let modifiedAccessConditions = options.modifiedAccessConditions
         let cpk = options.customerProvidedEncryptionKey
 
-        headers[.range] = "bytes=\(startRange)-\(endRange)"
-        if let rangeGetContentMD5 = options.range?.calculateMD5 {
-            headers[.rangeGetContentMD5] = String(rangeGetContentMD5)
-        }
-        if let rangeGetContentCRC64 = options.range?.calculateCRC64 {
-            headers[.rangeGetContentCRC64] = String(rangeGetContentCRC64)
-        }
-
-        if let requestId = requestId { headers[.clientRequestId] = requestId }
-        if let leaseId = leaseAccessConditions?.leaseId { headers[.leaseId] = leaseId }
-        if let encryptionKey = cpk?.keyData {
-            headers[.encryptionKey] = String(data: encryptionKey, encoding: .utf8)
-        }
-        if let encryptionKeySHA256 = cpk?.hash { headers[.encryptionKeySHA256] = encryptionKeySHA256 }
-        if let encryptionAlgorithm = cpk?.algorithm { headers[.encryptionAlgorithm] = encryptionAlgorithm }
-        if let ifModifiedSince = modifiedAccessConditions?.ifModifiedSince {
-            headers[.ifModifiedSince] = String(describing: ifModifiedSince, format: .rfc1123)
-        }
-        if let ifUnmodifiedSince = modifiedAccessConditions?.ifUnmodifiedSince {
-            headers[.ifUnmodifiedSince] = String(describing: ifUnmodifiedSince, format: .rfc1123)
-        }
-        if let ifMatch = modifiedAccessConditions?.ifMatch { headers[.ifMatch] = ifMatch }
-        if let ifNoneMatch = modifiedAccessConditions?.ifNoneMatch { headers[.ifNoneMatch] = ifNoneMatch }
-
+        let headers = HeaderParameters(
+            (HTTPHeader.accept, "application/xml"),
+            (HTTPHeader.apiVersion, client.options.apiVersion),
+            (HTTPHeader.range, "bytes=\(startRange)-\(endRange)"),
+            (StorageHTTPHeader.rangeGetContentMD5, String(describing: options.range?.calculateMD5)),
+            (StorageHTTPHeader.rangeGetContentCRC64, String(describing: options.range?.calculateCRC64)),
+            (HTTPHeader.clientRequestId, requestId),
+            (StorageHTTPHeader.leaseId, leaseAccessConditions?.leaseId),
+            (StorageHTTPHeader.encryptionKey, String(data: cpk?.keyData, encoding: .utf8)),
+            (StorageHTTPHeader.encryptionKeySHA256, cpk?.hash),
+            (StorageHTTPHeader.encryptionAlgorithm, cpk?.algorithm),
+            (HTTPHeader.ifModifiedSince, modifiedAccessConditions?.ifModifiedSince),
+            (HTTPHeader.ifUnmodifiedSince, modifiedAccessConditions?.ifUnmodifiedSince),
+            (HTTPHeader.ifMatch, modifiedAccessConditions?.ifMatch),
+            (HTTPHeader.ifNoneMatch, modifiedAccessConditions?.ifNoneMatch)
+        )
         return headers
     }
 

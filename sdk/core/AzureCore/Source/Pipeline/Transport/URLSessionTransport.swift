@@ -78,7 +78,7 @@ public class URLSessionTransport: TransportStage {
         }
         var urlRequest = URLRequest(url: pipelineRequest.httpRequest.url)
         urlRequest.httpMethod = pipelineRequest.httpRequest.httpMethod.rawValue
-        urlRequest.allHTTPHeaderFields = pipelineRequest.httpRequest.headers
+        urlRequest.allHTTPHeaderFields = pipelineRequest.httpRequest.headers.toDict()
         urlRequest.httpBody = pipelineRequest.httpRequest.data
 
         // need immutable copies to pass into the closure. At this point, these can't change

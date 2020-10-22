@@ -251,19 +251,19 @@ internal class StorageSASAuthenticationPolicy: Authenticating {
 
     private func apply(sasToken: StorageSASToken, toRequest request: PipelineRequest) {
         let queryParams = parse(sasToken: sasToken.sasToken)
-        if let requestUrl = request.httpRequest.url.appendingQueryParameters(queryParams) {
+        if let requestUrl = request.httpRequest.url.appending(queryParameters: queryParams) {
             request.httpRequest.url = requestUrl
         }
         request.httpRequest.headers[.xmsDate] = String(describing: Date(), format: .rfc1123)
     }
 
-    private func parse(sasToken: String) -> [QueryParameter] {
-        var queryItems = [QueryParameter]()
+    private func parse(sasToken: String) -> QueryParameters {
+        var queryItems = QueryParameters()
         for component in sasToken.components(separatedBy: "&") {
             let splitComponent = component.split(separator: "=", maxSplits: 1).map(String.init)
             let name = splitComponent.first!
             let value = splitComponent.count == 2 ? splitComponent.last : ""
-            queryItems.append(name, value?.removingPercentEncoding)
+            queryItems.add(value: value?.removingPercentEncoding, forKey: name)
         }
         return queryItems
     }

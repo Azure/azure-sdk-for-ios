@@ -32,7 +32,7 @@ import XCTest
 class HeadersValidationPolicyTests: XCTestCase {
     /// Test that the headers validation policy passes when headers match.
     func test_HeadersValidationPolicy_PassesWhenHeadersMatch() {
-        let validateHeaders = [HTTPHeader.requestId.rawValue]
+        let validateHeaders = [HTTPHeader.requestId.requestString]
         let policy = HeadersValidationPolicy(validatingHeaders: validateHeaders)
         let req = PipelineRequest()
         let res = PipelineResponse(request: req)
@@ -47,14 +47,14 @@ class HeadersValidationPolicyTests: XCTestCase {
 
     /// Test that the headers validation policy fails when headers don't match.
     func test_HeadersValidationPolicy_FailsWhenHeadersDontMatch() {
-        let validateHeaders = [HTTPHeader.requestId.rawValue]
+        let validateHeaders = [HTTPHeader.requestId.requestString]
         let policy = HeadersValidationPolicy(validatingHeaders: validateHeaders)
         let req = PipelineRequest()
         let res = PipelineResponse(request: req)
 
         // set up context where request ID is allowed
         let context = PipelineContext()
-        let allowHeaders: Set = [HTTPHeader.requestId.rawValue.lowercased()]
+        let allowHeaders: Set = [HTTPHeader.requestId.requestString.lowercased()]
         context.add(value: allowHeaders as AnyObject, forKey: .allowedHeaders)
         req.context = context
         res.context = context
@@ -69,14 +69,14 @@ class HeadersValidationPolicyTests: XCTestCase {
 
     /// Test that the headers validation policy redacts unallowed values when failing.
     func test_HeadersValidationPolicy_RedactsUnallowedHeadersOnFail() {
-        let validateHeaders = [HTTPHeader.requestId.rawValue]
+        let validateHeaders = [HTTPHeader.requestId.requestString]
         let policy = HeadersValidationPolicy(validatingHeaders: validateHeaders)
         let req = PipelineRequest()
         let res = PipelineResponse(request: req)
 
         // set up context where request ID is not allowed
         let context = PipelineContext()
-        let allowHeaders: Set = [HTTPHeader.contentType.rawValue.lowercased()]
+        let allowHeaders: Set = [HTTPHeader.contentType.requestString.lowercased()]
         context.add(value: allowHeaders as AnyObject, forKey: .allowedHeaders)
         req.context = context
         res.context = context
@@ -91,7 +91,7 @@ class HeadersValidationPolicyTests: XCTestCase {
 
     /// Test that the headers validation policy redacts all values when no allowHeaders are provided in the context.
     func test_HeadersValidationPolicy_RedactsAllHeadersOnFailWhenNoAllowHeadersProvided() {
-        let validateHeaders = [HTTPHeader.requestId.rawValue]
+        let validateHeaders = [HTTPHeader.requestId.requestString]
         let policy = HeadersValidationPolicy(validatingHeaders: validateHeaders)
         let req = PipelineRequest()
         let res = PipelineResponse(request: req)
@@ -106,7 +106,7 @@ class HeadersValidationPolicyTests: XCTestCase {
 
     /// Test that the headers validation policy passes when response does not include header.
     func test_HeadersValidationPolicy_PassesWhenResponseDoesntContainHeader() {
-        let validateHeaders = [HTTPHeader.requestId.rawValue]
+        let validateHeaders = [HTTPHeader.requestId.requestString]
         let policy = HeadersValidationPolicy(validatingHeaders: validateHeaders)
         let req = PipelineRequest()
         let res = PipelineResponse(request: req)
@@ -119,14 +119,14 @@ class HeadersValidationPolicyTests: XCTestCase {
 
     /// Test that the headers validation policy fails when response includes header but request doesn't.
     func test_HeadersValidationPolicy_FailsWhenResponseContainsHeaderAndRequestDoesnt() {
-        let validateHeaders = [HTTPHeader.requestId.rawValue]
+        let validateHeaders = [HTTPHeader.requestId.requestString]
         let policy = HeadersValidationPolicy(validatingHeaders: validateHeaders)
         let req = PipelineRequest()
         let res = PipelineResponse(request: req)
 
         // set up context where request ID is allowed
         let context = PipelineContext()
-        let allowHeaders: Set = [HTTPHeader.requestId.rawValue.lowercased()]
+        let allowHeaders: Set = [HTTPHeader.requestId.requestString.lowercased()]
         context.add(value: allowHeaders as AnyObject, forKey: .allowedHeaders)
         req.context = context
         res.context = context

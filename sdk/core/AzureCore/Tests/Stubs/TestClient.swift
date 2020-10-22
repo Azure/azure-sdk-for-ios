@@ -82,7 +82,7 @@ class TestClient: PipelineClient {
         completionHandler: @escaping HTTPResultHandler<PipelineContext>
     ) {
         let url = self.url(forTemplate: "/")!
-        let request = try! HTTPRequest(method: .get, url: url, headers: [:])
+        let request = try! HTTPRequest(method: .get, url: url)
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200] as AnyObject
         ])

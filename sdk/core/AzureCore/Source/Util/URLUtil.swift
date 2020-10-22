@@ -26,20 +26,13 @@
 
 import Foundation
 
-public typealias QueryParameter = (String, String?)
-
-public extension Array where Element == QueryParameter {
-    mutating func append(_ name: String, _ value: String?) {
-        append((name, value))
-    }
-}
-
 extension URL {
-    public func appendingQueryParameters(_ addedParams: [QueryParameter]) -> URL? {
-        guard !addedParams.isEmpty else { return self }
+    public func appending(queryParameters addedParams: QueryParameters) -> URL? {
+        guard !addedParams.parameters.isEmpty else { return self }
         guard var urlComps = URLComponents(url: self, resolvingAgainstBaseURL: true) else { return nil }
 
-        let addedQueryItems = addedParams.map { name, value in URLQueryItem(name: name, value: value) }
+        let addedQueryItems = addedParams.parameters
+            .map { name, value in URLQueryItem(name: name.requestString, value: value) }
         if var urlQueryItems = urlComps.queryItems, !urlQueryItems.isEmpty {
             urlQueryItems.append(contentsOf: addedQueryItems)
             urlComps.queryItems = urlQueryItems
