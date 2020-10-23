@@ -27,9 +27,10 @@
 Pod::Spec.new do |s|
     s.name = 'AzureCommunicationChat'
     s.version = '1.0.0-beta.2'
-    s.summary = 'Azure Communication Chat SDK for iOS'
-    s.description = <<-DESC
-    Azure Communication Chat SDK for iOS
+    s.summary = 'Azure Communication Chat Service client library for iOS'
+    s.description = <<~DESC
+      This package contains the Chat client library for Azure Communication
+      Services.
     DESC
   
     s.homepage = 'https://github.com/Azure/azure-sdk-for-ios'
@@ -41,11 +42,9 @@ Pod::Spec.new do |s|
   
     s.swift_version = '5.0'
   
-    s.source = { :git => 'https://github.com/Azure/azure-sdk-for-ios',
+    s.source = { :git => 'https://github.com/Azure/azure-sdk-for-ios.git',
                  :tag => '1.0.0-beta.2' }
-
     s.source_files = 'sdk/communication/AzureCommunicationChat/Source/**/*.{swift,h,m}'
-    s.dependency 'AzureCore'
-
+    
+    s.dependency 'AzureCore', '~> 1.0.0-beta.2'
   end
-  

@@ -27,9 +27,10 @@
 Pod::Spec.new do |s|
     s.name = 'AzureCommunication'
     s.version = '1.0.0-beta.2'
-    s.summary = 'Azure Communication package for iOS'
-    s.description = <<-DESC
-    Azure Communication package for iOS
+    s.summary = 'Azure Communication Service common client library for iOS'
+    s.description = <<~DESC
+      This package contains common code for Azure Communication Services
+      libraries.
     DESC
   
     s.homepage = 'https://github.com/Azure/azure-sdk-for-ios'
@@ -41,10 +42,9 @@ Pod::Spec.new do |s|
   
     s.swift_version = '5.0'
   
-    s.source = { :git => 'https://github.com/Azure/azure-sdk-for-ios',
+    s.source = { :git => 'https://github.com/Azure/azure-sdk-for-ios.git',
                  :tag => '1.0.0-beta.2' }
     s.source_files = 'sdk/communication/AzureCommunication/Source/**/*.{swift,h,m}'
-    s.dependency 'AzureCore', '~> 1.0.0-beta.2'
 
+    s.dependency 'AzureCore', '~> 1.0.0-beta.2'
   end
-  

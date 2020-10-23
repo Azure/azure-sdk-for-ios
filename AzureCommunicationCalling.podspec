@@ -27,23 +27,25 @@
 Pod::Spec.new do |s|
     s.name = 'AzureCommunicationCalling'
     s.version = '1.0.0-beta.4'
-    s.summary = 'Azure Communication Calling SDK for iOS'
-    s.description = <<-DESC
-    Azure Communication Calling SDK for iOS
+    s.summary = 'Azure Communication Calling Service client library for iOS'
+    s.description = <<~DESC
+      This package contains the Calling client library for Azure Communication
+      Services.
     DESC
-  
+
     s.homepage = 'https://github.com/Azure/azure-sdk-for-ios'
     s.license = { :type => 'Commercial',
                   :file => 'sdk/communication/AzureCommunicationCalling/EULA.txt' }
     s.authors = { 'Azure SDK Mobile Team' => 'azuresdkmobileteam@microsoft.com' }
-  
-    s.ios.deployment_target = '12.0'
-    s.ios.vendored_frameworks = "AzureCommunicationCalling.framework"
+
+    s.platform = :ios, '12.0'
 
     s.swift_version = '5.0'
-  
+
     s.source = { :http => 'https://github.com/Azure/Communication/releases/download/v1.0.0-beta.4/azurecommunicationcalling.framework-1.0.0-beta.4.zip' }
-    s.source_files = 'Headers/*.h'
-    s.public_header_files = "Headers/*.h"
+    s.source_files = 'AzureCommunicationCalling.framework/Headers/*.h'
+    s.public_header_files = 'AzureCommunicationCalling.framework/Headers/*.h'
+    s.vendored_frameworks = 'AzureCommunicationCalling.framework'
+
     s.dependency 'AzureCommunication', '~> 1.0.0-beta.2'
   end
