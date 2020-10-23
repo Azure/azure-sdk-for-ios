@@ -35,14 +35,14 @@ Pod::Spec.new do |s|
 
     s.homepage = 'https://github.com/Azure/azure-sdk-for-ios'
     s.license = { :type => 'Commercial',
-                  :file => 'sdk/communication/AzureCommunicationCalling/EULA.txt' }
+                  :file => 'EULA.txt' }
     s.authors = { 'Azure SDK Mobile Team' => 'azuresdkmobileteam@microsoft.com' }
 
     s.platform = :ios, '12.0'
 
     s.swift_version = '5.0'
 
-    s.source = { :http => 'https://github.com/Azure/Communication/releases/download/v1.0.0-beta.4/azurecommunicationcalling.framework-1.0.0-beta.4.zip' }
+    s.source = { :http => 'https://github.com/Azure/Communication/releases/download/v1.0.0-beta.4/AzureCommunicationCalling-1.0.0-beta.4.zip' }
     s.source_files = 'AzureCommunicationCalling.framework/Headers/*.h'
     s.public_header_files = 'AzureCommunicationCalling.framework/Headers/*.h'
     s.vendored_frameworks = 'AzureCommunicationCalling.framework'
