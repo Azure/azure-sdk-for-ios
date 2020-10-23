@@ -46,6 +46,8 @@ Pod::Spec.new do |s|
     s.source_files = 'AzureCommunicationCalling.framework/Headers/*.h'
     s.public_header_files = 'AzureCommunicationCalling.framework/Headers/*.h'
     s.vendored_frameworks = 'AzureCommunicationCalling.framework'
+    s.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
+    s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
 
     s.dependency 'AzureCommunication', '~> 1.0.0-beta.2'
   end
