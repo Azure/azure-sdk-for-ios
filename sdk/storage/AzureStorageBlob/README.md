@@ -63,7 +63,7 @@ into the "Frameworks, Libraries, and Embedded Content" section.
 > extract them to a location within your project directory, and add a Build Phase to your project that will copy them to
 > your Products Directory when installing.
 
-If you plan to use the [Microsoft Authentication Library (MSAL) for iOS](http://aka.ms/aadv2) in your project, add it by
+If you plan to use the [Microsoft Authentication Library (MSAL) for iOS](https://aka.ms/aadv2) in your project, add it by
 following the library's
 [installation instructions](https://github.com/AzureAD/microsoft-authentication-library-for-objc#installation).
 
