@@ -75,7 +75,7 @@
     }
 }
 
-- (void)xtest_ObjCRefreshTokenProactively_TokenAlreadyExpired {
+- (void)test_ObjCRefreshTokenProactively_TokenAlreadyExpired {
     XCTestExpectation *expectation = [self expectationWithDescription:
                                       @"RefreshTokenProactively_TokenAlreadyExpired"];
     __weak ObjCCommunciationUserCredentialTests *weakSelf = self;
