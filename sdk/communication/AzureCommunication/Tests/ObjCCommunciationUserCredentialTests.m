@@ -104,7 +104,7 @@
     [self waitForExpectations:@[expectation] timeout:2.0];
 }
 
-- (void)xtest_ObjCRefreshTokenProactively_FetchTokenReturnsError {
+- (void)test_ObjCRefreshTokenProactively_FetchTokenReturnsError {
     XCTestExpectation *expectation = [self expectationWithDescription:
                                       @"RefreshTokenProactively_FetchTokenReturnsError"];
     __weak ObjCCommunciationUserCredentialTests *weakSelf = self;
