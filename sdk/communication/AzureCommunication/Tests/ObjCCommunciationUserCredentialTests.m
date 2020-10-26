@@ -101,11 +101,7 @@
         [expectation fulfill];
     }];
     
-//    [self waitForExpectations:@[expectation] timeout:2.0];
-    
-    [self waitForExpectationsWithTimeout:2.0 handler:^(NSError * _Nullable error) {
-            
-    }];
+    [self waitForExpectations:@[expectation] timeout:2.0];
 }
 
 - (void)test_ObjCRefreshTokenProactively_FetchTokenReturnsError {
@@ -138,10 +134,7 @@
         [expectation fulfill];
     }];
     
-//    [self waitForExpectations:@[expectation] timeout:2.0];
-    [self waitForExpectationsWithTimeout:2.0 handler:^(NSError * _Nullable error) {
-            
-    }];
+    [self waitForExpectations:@[expectation] timeout:2.0];
 }
 
 - (void)xtest_ObjCRefreshTokenProactively_TokenExpiringInOneMin {
@@ -204,7 +197,7 @@
     [self waitForExpectations:@[expectation] timeout:2.0];
 }
 
-- (void)xtest_ObjCRefreshTokenOnDemand_AsyncRefresh {
+- (void)test_ObjCRefreshTokenOnDemand_AsyncRefresh {
     XCTestExpectation *expectation = [self expectationWithDescription:
                                       @"RefreshTokenOnDemand_AsyncRefresh"];
     __weak ObjCCommunciationUserCredentialTests *weakSelf = self;
