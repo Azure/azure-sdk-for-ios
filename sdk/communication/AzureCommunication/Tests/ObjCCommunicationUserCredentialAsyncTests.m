@@ -76,4 +76,84 @@
     [self waitForExpectations:@[expectation] timeout:5.0];
 }
 
+- (void)test_ObjCRefreshTokenProactively_TokenExpiringInOneMin {
+    XCTestExpectation *expectation = [self expectationWithDescription:
+                                      @"RefreshTokenProactively_TokenExpiringInOneMin"];
+    __weak ObjCCommunicationUserCredentialAsyncTests *weakSelf = self;
+    
+    NSString *token = [self generateTokenValidForMinutes: 1];
+    CommunicationUserCredential *credential = [[CommunicationUserCredential alloc]
+                                               initWithInitialToken:token
+                                               refreshProactively:YES
+                                               error:nil
+                                               tokenRefresher:
+                                               ^(void (^ block)
+                                                 (NSString * _Nullable newToken,
+                                                  NSError * _Nullable error)) {
+        weakSelf.fetchTokenCallCount += 1;
+        block(weakSelf.sampleToken, nil);
+    }];
+    
+    [credential tokenWithCompletionHandler:^(CommunicationAccessToken * _Nullable accessToken,
+                                             NSError * _Nullable error) {
+        XCTAssertNotNil(accessToken);
+        XCTAssertEqual(accessToken.token, weakSelf.sampleToken);
+        XCTAssertEqual(weakSelf.fetchTokenCallCount, 1);
+        
+        [expectation fulfill];
+    }];
+
+    [self waitForExpectations:@[expectation] timeout:2.0];
+}
+
+- (void)test_ObjCRefreshTokenProactively_TokenExpiringInNineMin {
+    XCTestExpectation *expectation = [self expectationWithDescription:
+                                      @"RefreshTokenProactively_TokenExpiringInNineMin"];
+    __weak ObjCCommunicationUserCredentialAsyncTests *weakSelf = self;
+    
+    NSString *token = [self generateTokenValidForMinutes: 9];
+    CommunicationUserCredential *credential = [[CommunicationUserCredential alloc]
+                                               initWithInitialToken:token
+                                               refreshProactively:YES
+                                               error:nil
+                                               tokenRefresher:
+                                               ^(void (^ block)
+                                                 (NSString * _Nullable newToken,
+                                                  NSError * _Nullable error)) {
+        weakSelf.fetchTokenCallCount += 1;
+        block(weakSelf.sampleToken, nil);
+    }];
+    
+    [credential tokenWithCompletionHandler:^(CommunicationAccessToken * _Nullable accessToken,
+                                             NSError * _Nullable error) {
+        XCTAssertNotNil(accessToken);
+        XCTAssertEqual(accessToken.token, weakSelf.sampleToken);
+        XCTAssertEqual(weakSelf.fetchTokenCallCount, 1);
+        
+        [expectation fulfill];
+    }];
+
+    [self waitForExpectations:@[expectation] timeout:2.0];
+}
+
+- (NSString *)generateTokenValidForMinutes: (int) minutes {
+    NSString *d = @"2020-10-20T10:20:28+0000";
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+    dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ssZ";
+    
+    NSDate *rightNow = [[dateFormatter dateFromString:d]
+                        dateByAddingTimeInterval:(60 * minutes)];
+    NSTimeInterval timeInterval = [rightNow timeIntervalSince1970];
+    NSString *tokenString = [NSString stringWithFormat:@"{\"exp\":%f}", timeInterval];
+    NSData *tokenStringData = [tokenString dataUsingEncoding: NSASCIIStringEncoding];
+
+    NSString *validToken = [NSString stringWithFormat:@"%@.%@.%@",
+                            @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+                            [tokenStringData base64EncodedStringWithOptions:NSDataBase64Encoding76CharacterLineLength],
+                            @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs"];
+    
+    return validToken;
+}
+
 @end
