@@ -46,7 +46,10 @@
     self.fetchTokenCallCount = 0;
 }
 
-- (void)xtest_ObjCDecodeToken {
+- (void)test_ObjCDecodeToken {
+    XCTestExpectation *expectation = [self expectationWithDescription:
+                                      @"DecodeToken"];
+
     CommunicationUserCredential *userCredential = [[CommunicationUserCredential alloc] initWithToken: self.sampleToken
                                                                                                error: nil];
     
@@ -54,7 +57,10 @@
         XCTAssertNil(error);
         XCTAssertEqual(accessToken.token, self.sampleToken);
         XCTAssertEqual(accessToken.expiresOn.timeIntervalSince1970, self.sampleTokenExpiry);
+        [expectation fulfill];
     }];
+    
+    [self waitForExpectations:@[expectation] timeout:2.0];
 }
 
 - (void)test_ObjCThrowsIfInvalidToken {
