@@ -197,36 +197,6 @@
     [self waitForExpectations:@[expectation] timeout:2.0];
 }
 
-- (void)test_ObjCRefreshTokenOnDemand_AsyncRefresh {
-    XCTestExpectation *expectation = [self expectationWithDescription:
-                                      @"RefreshTokenOnDemand_AsyncRefresh"];
-    __weak ObjCCommunciationUserCredentialTests *weakSelf = self;
-    
-    CommunicationUserCredential *credential = [[CommunicationUserCredential alloc]
-                                               initWithInitialToken:self.sampleExpiredToken
-                                               refreshProactively:NO
-                                               error:nil
-                                               tokenRefresher:
-                                               ^(void (^ _Nonnull block)
-                                                 (NSString * _Nullable token,
-                                                  NSError * _Nullable error)) {
-            weakSelf.fetchTokenCallCount += 1;
-            block(weakSelf.sampleToken, nil);
-    }];
-    
-    [credential tokenWithCompletionHandler:^(CommunicationAccessToken * _Nullable accessToken,
-                                             NSError * _Nullable error) {
-        XCTAssertNotNil(accessToken);
-        XCTAssertNil(error);
-        XCTAssertEqual(accessToken.token, weakSelf.sampleToken);
-        XCTAssertEqual(accessToken.expiresOn.timeIntervalSince1970, weakSelf.sampleTokenExpiry);
-        
-        [expectation fulfill];
-    }];
-    
-    [self waitForExpectations:@[expectation] timeout:5.0];
-}
-
 - (NSString *)generateTokenValidForMinutes: (int) minutes {
     NSString *d = @"2020-10-20T10:20:28+0000";
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
