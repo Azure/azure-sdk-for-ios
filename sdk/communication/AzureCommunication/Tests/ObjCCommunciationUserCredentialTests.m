@@ -101,7 +101,11 @@
         [expectation fulfill];
     }];
     
-    [self waitForExpectations:@[expectation] timeout:2.0];
+//    [self waitForExpectations:@[expectation] timeout:2.0];
+    
+    [self waitForExpectationsWithTimeout:2.0 handler:^(NSError * _Nullable error) {
+            
+    }];
 }
 
 - (void)test_ObjCRefreshTokenProactively_FetchTokenReturnsError {
@@ -134,7 +138,10 @@
         [expectation fulfill];
     }];
     
-    [self waitForExpectations:@[expectation] timeout:2.0];
+//    [self waitForExpectations:@[expectation] timeout:2.0];
+    [self waitForExpectationsWithTimeout:2.0 handler:^(NSError * _Nullable error) {
+            
+    }];
 }
 
 - (void)xtest_ObjCRefreshTokenProactively_TokenExpiringInOneMin {
