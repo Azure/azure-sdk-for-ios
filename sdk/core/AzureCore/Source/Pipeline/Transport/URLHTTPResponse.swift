@@ -33,10 +33,10 @@ public class URLHTTPResponse: HTTPResponse {
 
     // MARK: Initializers
 
-    public init(request: HTTPRequest, response: HTTPURLResponse?, blockSize: Int = 4096) {
+    public init(request: HTTPRequest, response: HTTPURLResponse?) {
         self.internalResponse = response
         let statusCode = response?.statusCode
-        super.init(request: request, statusCode: statusCode, blockSize: blockSize)
+        super.init(request: request, statusCode: statusCode)
         guard let internalHeaders = response?.allHeaderFields else { return }
         for (key, value) in internalHeaders where key is String {
             // swiftlint:disable:next force_cast

@@ -32,7 +32,6 @@ public class HTTPResponse: DataStringConvertible {
     public var httpRequest: HTTPRequest?
     public var statusCode: Int?
     public var headers = HTTPHeaders()
-    public var blockSize: Int
     public var data: Data?
 
     // Pulled from the IANA HTTP Status Code Registry on 28 Jan 2020
@@ -171,9 +170,8 @@ public class HTTPResponse: DataStringConvertible {
 
     // MARK: Initializers
 
-    public init(request: HTTPRequest?, statusCode: Int?, blockSize: Int = 4096) {
+    public init(request: HTTPRequest?, statusCode: Int?) {
         self.httpRequest = request
-        self.blockSize = blockSize
         self.statusCode = statusCode
     }
 }

@@ -56,12 +56,12 @@ public class CommunicationUserCredentialPolicy: Authenticating {
     public func authenticate(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
         credential.token { token, error in
             if let error = error {
-                completionHandler(request, AzureError.sdk("Error while retrieving access token", error))
+                completionHandler(request, AzureError.client("Error while retrieving access token", error))
                 return
             }
 
             guard let token = token?.token else {
-                completionHandler(request, AzureError.sdk("Token cannot be empty"))
+                completionHandler(request, AzureError.client("Token cannot be empty"))
                 return
             }
 

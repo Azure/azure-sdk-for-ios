@@ -163,7 +163,7 @@ public final class StorageBlobClient: PipelineClient {
     ) throws {
         try credential.validate()
         guard let baseUrl = URL(string: credential.blobEndpoint) else {
-            throw AzureError.sdk("Unable to resolve account URL from credential.")
+            throw AzureError.client("Unable to resolve account URL from credential.")
         }
         let authPolicy = StorageSharedKeyAuthenticationPolicy(credential: credential)
         try self.init(baseUrl: baseUrl, authPolicy: authPolicy, withOptions: options)
@@ -195,7 +195,7 @@ public final class StorageBlobClient: PipelineClient {
             return
         }
 
-        throw AzureError.sdk("The connection string \(connectionString) is invalid.")
+        throw AzureError.client("The connection string \(connectionString) is invalid.")
     }
 
     /// Create a Storage blob data client.
@@ -280,7 +280,7 @@ public final class StorageBlobClient: PipelineClient {
             switch result {
             case let .success(data):
                 guard let data = data else {
-                    let noDataError = AzureError.sdk("Response data expected but not found.")
+                    let noDataError = AzureError.client("Response data expected but not found.")
                     DispatchQueue.main.async {
                         completionHandler(.failure(noDataError), httpResponse)
                     }
@@ -301,7 +301,7 @@ public final class StorageBlobClient: PipelineClient {
                     }
                 } catch {
                     DispatchQueue.main.async {
-                        completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                        completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                     }
                 }
             case let .failure(error):
@@ -376,7 +376,7 @@ public final class StorageBlobClient: PipelineClient {
             switch result {
             case let .success(data):
                 guard let data = data else {
-                    let noDataError = AzureError.sdk("Response data expected but not found.")
+                    let noDataError = AzureError.client("Response data expected but not found.")
 
                     DispatchQueue.main.async {
                         completionHandler(.failure(noDataError), httpResponse)
@@ -398,7 +398,7 @@ public final class StorageBlobClient: PipelineClient {
                     }
                 } catch {
                     DispatchQueue.main.async {
-                        completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                        completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                     }
                 }
             case let .failure(error):

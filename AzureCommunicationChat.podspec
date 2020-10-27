@@ -25,40 +25,26 @@
 # --------------------------------------------------------------------------
 
 Pod::Spec.new do |s|
-  s.name = 'AzureSDK'
-  s.version = '1.0.0-beta.2'
-  s.summary = 'Azure SDK for iOS'
-  s.description = <<-DESC
-  Azure SDK for iOS client libraries
-  DESC
-
-  s.homepage = 'https://github.com/Azure/azure-sdk-for-ios'
-  s.license = { :type => 'MIT',
-                :file => 'LICENSE' }
-  s.authors = { 'Azure SDK Mobile Team' => 'azuresdkmobileteam@microsoft.com' }
-
-  s.ios.deployment_target = '12.0'
-
-  s.swift_version = '5.0'
-
-  # TODO: Change this to a tag reference when we are ready.
-  s.source = { :git => 'https://github.com/Azure/azure-sdk-for-ios.git',
-               :branch => 'master' }
-
-  # AzureCore
-  s.subspec 'AzureCore' do |sp|
-    sp.source_files = 'sdk/core/AzureCore/Source/**/*.{swift,h,m}'
+    s.name = 'AzureCommunicationChat'
+    s.version = '1.0.0-beta.2'
+    s.summary = 'Azure Communication Chat Service client library for iOS'
+    s.description = <<~DESC
+      This package contains the Chat client library for Azure Communication
+      Services.
+    DESC
+  
+    s.homepage = 'https://github.com/Azure/azure-sdk-for-ios'
+    s.license = { :type => 'MIT',
+                  :file => 'LICENSE' }
+    s.authors = { 'Azure SDK Mobile Team' => 'azuresdkmobileteam@microsoft.com' }
+  
+    s.ios.deployment_target = '12.0'
+  
+    s.swift_version = '5.0'
+  
+    s.source = { :git => 'https://github.com/Azure/azure-sdk-for-ios.git',
+                 :tag => '1.0.0-beta.2' }
+    s.source_files = 'sdk/communication/AzureCommunicationChat/Source/**/*.{swift,h,m}'
+    
+    s.dependency 'AzureCore', '~> 1.0.0-beta.2'
   end
-
-  # AzureCommunication
-  s.subspec 'AzureCommunication' do |sp|
-    sp.source_files = 'sdk/communication/AzureCommunication/Source/**/*.{swift,h,m}'
-    sp.dependency 'AzureSDK/AzureCore'
-  end
-
-  # AzureCommunicationChat
-  s.subspec 'AzureCommunicationChat' do |sp|
-    sp.source_files = 'sdk/communication/AzureCommunicationChat/Source/**/*.{swift,h,m}'
-    sp.dependency 'AzureSDK/AzureCore'
-  end
-end

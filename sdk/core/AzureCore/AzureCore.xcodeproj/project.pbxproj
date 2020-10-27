@@ -36,7 +36,6 @@
 		0A6A9B4F234293B50013FCAA /* RegexUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6A9B4E234293B50013FCAA /* RegexUtil.swift */; };
 		0A73AB77243F969700C6DC34 /* StringUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A73AB76243F969700C6DC34 /* StringUtil.swift */; };
 		0A7F563A2321732B00E9765A /* URLHTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F56392321732B00E9765A /* URLHTTPResponse.swift */; };
-		0A8FE7682368A4FF00B96598 /* MatchCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8FE7672368A4FF00B96598 /* MatchCondition.swift */; };
 		0AB5EAFD2375F25400361879 /* ConvertingInitializers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB5EAFC2375F25400361879 /* ConvertingInitializers.swift */; };
 		0AB7412123C79E1400B579B3 /* DataStringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB7411F23C79E1400B579B3 /* DataStringConvertible.swift */; };
 		0AB7412223C79E1400B579B3 /* HTTPTransportStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB7412023C79E1400B579B3 /* HTTPTransportStage.swift */; };
@@ -145,7 +144,6 @@
 		0A6A9B4E234293B50013FCAA /* RegexUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegexUtil.swift; sourceTree = "<group>"; };
 		0A73AB76243F969700C6DC34 /* StringUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtil.swift; sourceTree = "<group>"; };
 		0A7F56392321732B00E9765A /* URLHTTPResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLHTTPResponse.swift; sourceTree = "<group>"; };
-		0A8FE7672368A4FF00B96598 /* MatchCondition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchCondition.swift; sourceTree = "<group>"; };
 		0AB5EAFC2375F25400361879 /* ConvertingInitializers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertingInitializers.swift; sourceTree = "<group>"; };
 		0AB7411F23C79E1400B579B3 /* DataStringConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStringConvertible.swift; sourceTree = "<group>"; };
 		0AB7412023C79E1400B579B3 /* HTTPTransportStage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPTransportStage.swift; sourceTree = "<group>"; };
@@ -359,7 +357,6 @@
 			isa = PBXGroup;
 			children = (
 				0AC0AA8A234F8ADD00F05073 /* Collections.swift */,
-				0A8FE7672368A4FF00B96598 /* MatchCondition.swift */,
 				0A532ACE2417E71100C4C8BA /* XMLMap.swift */,
 				0AC0AA8E234FDB0800F05073 /* XMLModel.swift */,
 				0A532AD02417E73C00C4C8BA /* XMLTree.swift */,
@@ -638,7 +635,6 @@
 				0A22B09424CF84F300EC018E /* TestClientOptions.swift in Sources */,
 				0A3A5F032316DF6600473FDA /* CryptoUtil.swift in Sources */,
 				7AA5366923C0340C00A65A96 /* BundleInfoProvider.swift in Sources */,
-				0A8FE7682368A4FF00B96598 /* MatchCondition.swift in Sources */,
 				0AC0AA83234D017F00F05073 /* AzureCodable.swift in Sources */,
 				0A3A5F1C2316EBC600473FDA /* HeadersPolicy.swift in Sources */,
 				0A0DD9AF24AE7D5800D2E884 /* CancellationToken.swift in Sources */,

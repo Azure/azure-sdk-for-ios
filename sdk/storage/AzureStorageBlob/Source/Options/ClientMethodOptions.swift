@@ -28,7 +28,7 @@ import AzureCore
 import Foundation
 
 /// User-configurable options for the `StorageBlobClient.listContainers` operation.
-public struct ListContainersOptions: AzureOptions {
+public struct ListContainersOptions: RequestOptions {
     /// Datasets which may be included as part of the call response.
     public enum ListContainersInclude: String {
         /// Include the containers' metadata in the response.
@@ -86,7 +86,7 @@ public struct ListContainersOptions: AzureOptions {
 }
 
 /// User-configurable options for the `StorageBlobClient.listBlobs` operation.
-public struct ListBlobsOptions: AzureOptions {
+public struct ListBlobsOptions: RequestOptions {
     /// Datasets which may be included as part of the call response.
     public enum ListBlobsInclude: String {
         /// Include blob snapshots in the response.
@@ -162,7 +162,7 @@ public struct ListBlobsOptions: AzureOptions {
 }
 
 /// User-configurable options for the `StorageBlobClient.delete` operation.
-public struct DeleteBlobOptions: AzureOptions {
+public struct DeleteBlobOptions: RequestOptions {
     /// This header should be specified only for a request against the base blob resource.
     /// If this header is specified on a request to delete an individual snapshot, the Blob
     /// service returns status code 400 (Bad Request).
@@ -219,7 +219,7 @@ public struct DeleteBlobOptions: AzureOptions {
 }
 
 /// User-configurable options for the `StorageBlobClient.download` and `StorageBlobClient.rawDownload` operations.
-public struct DownloadBlobOptions: AzureOptions, Codable, Equatable {
+public struct DownloadBlobOptions: RequestOptions, Codable, Equatable {
     /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
     public let clientRequestId: String?
 
@@ -326,7 +326,7 @@ public struct DownloadBlobOptions: AzureOptions, Codable, Equatable {
 }
 
 /// User-configurable options for the `StorageBlobClient.upload` and `StorageBlobClient.rawUpload` operations.
-public struct UploadBlobOptions: AzureOptions, Codable, Equatable {
+public struct UploadBlobOptions: RequestOptions, Codable, Equatable {
     /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
     public let clientRequestId: String?
 

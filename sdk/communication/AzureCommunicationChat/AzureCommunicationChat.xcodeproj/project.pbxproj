@@ -109,7 +109,6 @@
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		OBJ_60 /* CancellationToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancellationToken.swift; sourceTree = "<group>"; };
 		OBJ_61 /* Collections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collections.swift; sourceTree = "<group>"; };
-		OBJ_62 /* MatchCondition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchCondition.swift; sourceTree = "<group>"; };
 		OBJ_63 /* XMLMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLMap.swift; sourceTree = "<group>"; };
 		OBJ_64 /* XMLModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLModel.swift; sourceTree = "<group>"; };
 		OBJ_65 /* XMLTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLTree.swift; sourceTree = "<group>"; };
@@ -299,7 +298,6 @@
 			children = (
 				OBJ_60 /* CancellationToken.swift */,
 				OBJ_61 /* Collections.swift */,
-				OBJ_62 /* MatchCondition.swift */,
 				OBJ_63 /* XMLMap.swift */,
 				OBJ_64 /* XMLModel.swift */,
 				OBJ_65 /* XMLTree.swift */,

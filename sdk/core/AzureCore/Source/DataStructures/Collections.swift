@@ -201,7 +201,7 @@ public class PagedCollection<SingleElement: Codable> {
         codingKeys: PagedCodingKeys? = nil,
         decoder: JSONDecoder? = nil
     ) throws {
-        let noDataError = AzureError.sdk("Response data expected but not found.")
+        let noDataError = AzureError.client("Response data expected but not found.")
         guard let data = data else { throw noDataError }
         self.client = client
         self.context = context
@@ -218,7 +218,7 @@ public class PagedCollection<SingleElement: Codable> {
     public func nextPage(completionHandler: @escaping Continuation<Element>) {
         // exit if there is no valid continuation token
         guard let continuationToken = continuationToken, !self.isExhausted else {
-            let error = AzureError.sdk("Paged collection exhausted.")
+            let error = AzureError.client("Paged collection exhausted.")
             completionHandler(.failure(error))
             return
         }
@@ -242,7 +242,7 @@ public class PagedCollection<SingleElement: Codable> {
                 do {
                     try self.update(with: data)
                 } catch {
-                    returnError = AzureError.sdk("Error updating page.", error)
+                    returnError = AzureError.client("Error updating page.", error)
                 }
             }
             if let returnError = returnError {
@@ -330,11 +330,11 @@ public class PagedCollection<SingleElement: Codable> {
     /// Deserializes the JSON payload to append the new items, update tracking of the "current page" of items
     /// and reset the per page iterator.
     private func update(with data: Data?) throws {
-        let noDataError = AzureError.sdk("Response data expected but not found.")
+        let noDataError = AzureError.client("Response data expected but not found.")
         guard let data = data else { throw noDataError }
         guard let json = try JSONSerialization.jsonObject(with: data) as? [String: Any] else { throw noDataError }
         let codingKeys = self.codingKeys
-        let notPagedError = AzureError.sdk("Paged response expected but not found.")
+        let notPagedError = AzureError.client("Paged response expected but not found.")
         guard let itemJson = codingKeys.items(fromJson: json) else { throw notPagedError }
         continuationToken = codingKeys.continuationToken(fromJson: json)
 

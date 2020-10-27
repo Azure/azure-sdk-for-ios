@@ -201,7 +201,7 @@ public class ContentDecodePolicy: PipelineStage {
             if let azureError = error as? AzureError {
                 returnError = azureError
             } else {
-                returnError = AzureError.sdk("Deserialization error.", error)
+                returnError = AzureError.client("Deserialization error.", error)
             }
             if let err = returnError {
                 response.logger.error(err.message)
@@ -222,7 +222,7 @@ public class ContentDecodePolicy: PipelineStage {
             jsonData = try JSONSerialization.data(withJSONObject: arrayObj, options: [])
         }
         guard let finalJson = jsonData else {
-            throw AzureError.sdk("Unable to convert XML to JSON", nil)
+            throw AzureError.client("Unable to convert XML to JSON", nil)
         }
         return try JSONSerialization.jsonObject(with: finalJson, options: []) as AnyObject
     }
