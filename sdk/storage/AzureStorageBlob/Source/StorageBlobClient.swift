@@ -269,10 +269,11 @@ public final class StorageBlobClient: PipelineClient {
             xmlItemName: "Container"
         )
         let xmlMap = XMLMap(withPagedCodingKeys: codingKeys, innerType: ContainerItem.self)
-        let context = options?.context ?? PipelineContext.of(keyValues: [
+        let context = PipelineContext.of(keyValues: [
             ContextKey.xmlMap.rawValue: xmlMap as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
+        context.merge(with: options?.context)
         guard let requestUrl = url.appendingQueryParameters(queryParams) else { return }
         guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: headers) else { return }
 
@@ -368,10 +369,11 @@ public final class StorageBlobClient: PipelineClient {
             xmlItemName: "Blob"
         )
         let xmlMap = XMLMap(withPagedCodingKeys: codingKeys, innerType: BlobItem.self)
-        let context = options?.context ?? PipelineContext.of(keyValues: [
+        let context = PipelineContext.of(keyValues: [
             ContextKey.xmlMap.rawValue: xmlMap as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
+        context.merge(with: options?.context)
         self.request(request, context: context) { result, httpResponse in
             switch result {
             case let .success(data):
@@ -454,10 +456,11 @@ public final class StorageBlobClient: PipelineClient {
         }
 
         // Construct and send request
-        let context = options?.context ?? PipelineContext.of(keyValues: [
+        let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [202] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
+        context.merge(with: options?.context)
         guard let requestUrl = url.appendingQueryParameters(queryParams) else { return }
         guard let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: headers) else { return }
         self.request(request, context: context) { result, httpResponse in

@@ -51,6 +51,12 @@ internal class Pipeline {
         self.transport = transport
 
         // Add in any user-supplied policies
+        // Policy order is:
+        //   SDK-supplied perRequest policies
+        //   User-supplied perRequest policies
+        //   SDK-supplied Retry Policy
+        //     SDK-supplied perRetry policies
+        //     User-suppied perRetry policies
         if let retryIndex = self.retryIndex {
             let perRequestPolicies = Array(self.policies[0 ... retryIndex])
             let perRetryPolicies = Array(self.policies[retryIndex...])
@@ -72,25 +78,19 @@ internal class Pipeline {
             }
             prevPolicy = policy
         }
+
+        // Connect the final policy to the TransportStage
+        if var lastPolicy = self.policies.last {
+            lastPolicy.next = transport
+        }
+        // Append the TransportStage for the edge case where there are no policies
+        self.policies.append(transport)
     }
 
     // MARK: Methods
 
     public func run(request: PipelineRequest, completionHandler: @escaping PipelineStageResultHandler) {
-        // special case where there is only a transport stage
-        guard let firstPolicy = policies.first else {
-            transport.process(request: request) { result, httpResponse in
-                switch result {
-                case let .success(pipelineResponse):
-                    completionHandler(.success(pipelineResponse), httpResponse)
-                case let .failure(error):
-                    completionHandler(.failure(error), httpResponse)
-                }
-            }
-            return
-        }
-        // normal case where there are policies
-        firstPolicy.process(request: request) { result, httpResponse in
+        policies.first?.process(request: request) { result, httpResponse in
             switch result {
             case let .success(pipelineResponse):
                 completionHandler(.success(pipelineResponse), httpResponse)

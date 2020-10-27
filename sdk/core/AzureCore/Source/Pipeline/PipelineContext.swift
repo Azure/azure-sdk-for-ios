@@ -80,7 +80,7 @@ extension PipelineContextSupporting {
 
 // MARK: PipelineContext
 
-public class PipelineContext {
+public class PipelineContext: Sequence, IteratorProtocol {
     // MARK: Properties
 
     internal var node: PipelineContextNode?
@@ -179,6 +179,21 @@ public class PipelineContext {
             )
         }
     }
+
+    public func merge(with newContext: PipelineContext?) {
+        guard let context = newContext else { return }
+        for node in context {
+            add(value: node.value as AnyObject, forKey: node.key)
+        }
+    }
+
+    // MARK: Iterator Protocol
+
+    public typealias Element = PipelineContextNode
+
+    public func next() -> PipelineContextNode? {
+        return node?.parent
+    }
 }
 
 extension PipelineContext: Equatable {
@@ -188,7 +203,7 @@ extension PipelineContext: Equatable {
     }
 }
 
-internal class PipelineContextNode {
+public class PipelineContextNode {
     // MARK: Properties
 
     internal let parent: PipelineContextNode?

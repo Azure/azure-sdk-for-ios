@@ -26,10 +26,9 @@
 
 import Foundation
 
-public protocol TransportStage {
+public protocol TransportStage: PipelineStage {
     // MARK: Required Methods
 
     func open()
     func close()
-    func process(request pipelineRequest: PipelineRequest, completionHandler: @escaping PipelineStageResultHandler)
 }

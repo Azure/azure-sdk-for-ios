@@ -109,10 +109,11 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         }
 
         // Send request
-        let context = options?.context ?? PipelineContext.of(keyValues: [
+        let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
+        context.merge(with: options?.context)
         self.request(request, context: context) { result, httpResponse in
             let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
@@ -274,10 +275,11 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         }
 
         // Send request
-        let context = options?.context ?? PipelineContext.of(keyValues: [
+        let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [201, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
+        context.merge(with: options?.context)
         self.request(request, context: context) { result, httpResponse in
             let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
@@ -422,10 +424,11 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         }
 
         // Send request
-        let context = options?.context ?? PipelineContext.of(keyValues: [
+        let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [201, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
+        context.merge(with: options?.context)
         self.request(request, context: context) { result, httpResponse in
             let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
@@ -580,10 +583,11 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         }
 
         // Send request
-        let context = options?.context ?? PipelineContext.of(keyValues: [
+        let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
+        context.merge(with: options?.context)
         self.request(request, context: context) { result, httpResponse in
             let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
@@ -741,10 +745,11 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         }
 
         // Send request
-        let context = options?.context ?? PipelineContext.of(keyValues: [
+        let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
+        context.merge(with: options?.context)
         self.request(request, context: context) { result, httpResponse in
             let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
@@ -898,10 +903,11 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         }
 
         // Send request
-        let context = options?.context ?? PipelineContext.of(keyValues: [
+        let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
+        context.merge(with: options?.context)
         self.request(request, context: context) { result, httpResponse in
             let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
@@ -1042,10 +1048,11 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         }
 
         // Send request
-        let context = options?.context ?? PipelineContext.of(keyValues: [
+        let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [204, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
+        context.merge(with: options?.context)
         self.request(request, context: context) { result, httpResponse in
             let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
@@ -1183,10 +1190,11 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         }
 
         // Send request
-        let context = options?.context ?? PipelineContext.of(keyValues: [
+        let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
+        context.merge(with: options?.context)
         self.request(request, context: context) { result, httpResponse in
             let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
@@ -1324,10 +1332,11 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         }
 
         // Send request
-        let context = options?.context ?? PipelineContext.of(keyValues: [
+        let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
+        context.merge(with: options?.context)
         self.request(request, context: context) { result, httpResponse in
             let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
@@ -1489,10 +1498,11 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         }
 
         // Send request
-        let context = options?.context ?? PipelineContext.of(keyValues: [
+        let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [207, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
+        context.merge(with: options?.context)
         self.request(request, context: context) { result, httpResponse in
             let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
@@ -1633,10 +1643,11 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         }
 
         // Send request
-        let context = options?.context ?? PipelineContext.of(keyValues: [
+        let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [204, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
+        context.merge(with: options?.context)
         self.request(request, context: context) { result, httpResponse in
             let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
@@ -1779,10 +1790,11 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         }
 
         // Send request
-        let context = options?.context ?? PipelineContext.of(keyValues: [
+        let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [207, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
+        context.merge(with: options?.context)
         self.request(request, context: context) { result, httpResponse in
             let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
@@ -1936,10 +1948,11 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         }
 
         // Send request
-        let context = options?.context ?? PipelineContext.of(keyValues: [
+        let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
+        context.merge(with: options?.context)
         self.request(request, context: context) { result, httpResponse in
             let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
@@ -2102,10 +2115,11 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         }
 
         // Send request
-        let context = options?.context ?? PipelineContext.of(keyValues: [
+        let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
+        context.merge(with: options?.context)
         self.request(request, context: context) { result, httpResponse in
             let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
@@ -2243,10 +2257,11 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         }
 
         // Send request
-        let context = options?.context ?? PipelineContext.of(keyValues: [
+        let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
+        context.merge(with: options?.context)
         self.request(request, context: context) { result, httpResponse in
             let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
@@ -2389,10 +2404,11 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         }
 
         // Send request
-        let context = options?.context ?? PipelineContext.of(keyValues: [
+        let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [204, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
+        context.merge(with: options?.context)
         self.request(request, context: context) { result, httpResponse in
             let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
