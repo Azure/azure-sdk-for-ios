@@ -30,19 +30,28 @@ import Foundation
 public struct TransportOptions {
     /// Default timeout on any network call
     public let timeout: TimeInterval?
-    /// An array of `PipelineStage` policies to use in lieu of the default ones.
-    public let pipeline: [PipelineStage]?
+    /// An array of custom `PipelineStage` policies to be applied per client request.
+    public let perRequestPolicies: [PipelineStage]?
+    /// An array of custom `PipelineStage` policies to be applied per retry of a request.
+    public let perRetryPolicies: [PipelineStage]?
     /// An `HTTPTransportStage` policy to use in lieu of the default.
-    public let transport: HTTPTransportStage?
+    public let transport: TransportStage?
 
     /// Initialize a `TransportOptions` structure.
     /// - Parameters:
     ///   - timeout: Default timeout on any network call.
-    ///   - pipeline: An array of `PipelineStage` policies to use in lieu of the default ones.
+    ///   - perRequestPolicies: An array of custom `PipelineStage` policies to be applied per client request.
+    ///   - perRetryPolicies: An array of custom `PipelineStage` policies to be applied per retry of a request.
     ///   - transport: An `HTTPTransportStage` policy to use in lieu of the default.
-    public init(timeout: TimeInterval? = nil, pipeline: [PipelineStage]? = nil, transport: HTTPTransportStage? = nil) {
+    public init(
+        timeout: TimeInterval? = nil,
+        perRequestPolicies: [PipelineStage]? = nil,
+        perRetryPolicies: [PipelineStage]? = nil,
+        transport: TransportStage? = nil
+    ) {
         self.timeout = timeout
-        self.pipeline = pipeline
+        self.perRequestPolicies = perRequestPolicies
+        self.perRetryPolicies = perRetryPolicies
         self.transport = transport
     }
 }

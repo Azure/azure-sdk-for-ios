@@ -33,5 +33,5 @@ struct TestClientOptions: ClientOptions {
     var transportOptions = TransportOptions()
     var dispatchQueue: DispatchQueue?
     var pipeline: [PipelineStage]?
-    var transport: HTTPTransportStage?
+    var transport: TransportStage?
 }

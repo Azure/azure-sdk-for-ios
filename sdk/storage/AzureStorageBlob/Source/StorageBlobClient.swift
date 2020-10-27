@@ -92,7 +92,7 @@ public final class StorageBlobClient: PipelineClient {
         super.init(
             endpoint: endpoint,
             transport: options.transportOptions.transport ?? URLSessionTransport(),
-            policies: options.transportOptions.pipeline ?? [
+            policies: options.transportOptions.perRequestPolicies ?? [
                 UserAgentPolicy(for: StorageBlobClient.self, telemetryOptions: options.telemetryOptions),
                 RequestIdPolicy(),
                 AddDatePolicy(),

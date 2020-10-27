@@ -26,31 +26,35 @@
 
 import Foundation
 
-public final class PipelineRequest: PipelineContextSupporting, NSCopying {
+protocol RetryStage: PipelineStage {}
+
+public class RetryPolicy: RetryStage {
     // MARK: Properties
 
-    public var httpRequest: HTTPRequest
-    public var logger: ClientLogger
-
-    public var context: PipelineContext?
+    public var next: PipelineStage?
 
     // MARK: Initializers
 
-    public convenience init(request: HTTPRequest, logger: ClientLogger) {
-        self.init(request: request, logger: logger, context: nil)
+    public init() {}
+
+    // MARK: PipelineStage Methods
+
+    public func on(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
+        // TODO: Preserve the pipeline request at this stage of the pipeline in case it must be reused for retry
+        completionHandler(request, nil)
     }
 
-    public init(request: HTTPRequest, logger: ClientLogger, context: PipelineContext?) {
-        self.httpRequest = request
-        self.logger = logger
-        self.context = context
+    public func on(response: PipelineResponse, completionHandler: @escaping OnResponseCompletionHandler) {
+        // TODO: Check for a retryable error disguised as success, and retry, if able
+        completionHandler(response, nil)
     }
 
-    public func copy(with _: NSZone? = nil) -> Any {
-        return PipelineRequest(
-            request: httpRequest,
-            logger: logger,
-            context: context
-        )
+    public func on(
+        error: AzureError,
+        pipelineResponse _: PipelineResponse,
+        completionHandler: @escaping OnErrorCompletionHandler
+    ) {
+        // TODO: If retryable, retry the request
+        completionHandler(error, false)
     }
 }

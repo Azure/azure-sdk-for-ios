@@ -27,7 +27,7 @@
 import Foundation
 import os
 
-public class URLSessionTransport: HTTPTransportStage {
+public class URLSessionTransport: TransportStage {
     // MARK: Properties
 
     private var session: URLSession?

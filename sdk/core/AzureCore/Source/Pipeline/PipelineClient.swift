@@ -66,14 +66,14 @@ open class PipelineClient {
 
     public init(
         endpoint: URL,
-        transport: HTTPTransportStage,
+        transport: TransportStage,
         policies: [PipelineStage],
         logger: ClientLogger,
         options: ClientOptions
     ) {
         self.endpoint = endpoint.hasDirectoryPath ? endpoint : endpoint.appendingPathComponent("/")
         self.logger = logger
-        self.pipeline = Pipeline(transport: transport, policies: policies)
+        self.pipeline = Pipeline(transport: transport, policies: policies, withOptions: options.transportOptions)
         self.commonOptions = options
     }
 

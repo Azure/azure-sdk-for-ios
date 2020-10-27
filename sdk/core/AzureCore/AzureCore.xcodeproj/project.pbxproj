@@ -32,13 +32,14 @@
 		0A45B1FB23A82A2E00C54363 /* ApplicationUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A45B1FA23A82A2E00C54363 /* ApplicationUtil.swift */; };
 		0A532ACF2417E71100C4C8BA /* XMLMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A532ACE2417E71100C4C8BA /* XMLMap.swift */; };
 		0A532AD12417E73C00C4C8BA /* XMLTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A532AD02417E73C00C4C8BA /* XMLTree.swift */; };
+		0A55FC3C2548B63D002CBFD8 /* RetryPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A55FC3B2548B63D002CBFD8 /* RetryPolicy.swift */; };
 		0A6864B8233EAC76004B7E17 /* ContentDecodePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6864B7233EAC76004B7E17 /* ContentDecodePolicy.swift */; };
 		0A6A9B4F234293B50013FCAA /* RegexUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6A9B4E234293B50013FCAA /* RegexUtil.swift */; };
 		0A73AB77243F969700C6DC34 /* StringUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A73AB76243F969700C6DC34 /* StringUtil.swift */; };
 		0A7F563A2321732B00E9765A /* URLHTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F56392321732B00E9765A /* URLHTTPResponse.swift */; };
 		0AB5EAFD2375F25400361879 /* ConvertingInitializers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB5EAFC2375F25400361879 /* ConvertingInitializers.swift */; };
 		0AB7412123C79E1400B579B3 /* DataStringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB7411F23C79E1400B579B3 /* DataStringConvertible.swift */; };
-		0AB7412223C79E1400B579B3 /* HTTPTransportStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB7412023C79E1400B579B3 /* HTTPTransportStage.swift */; };
+		0AB7412223C79E1400B579B3 /* TransportStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB7412023C79E1400B579B3 /* TransportStage.swift */; };
 		0AB7412423C7A03400B579B3 /* ClientLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB7412323C7A03400B579B3 /* ClientLogger.swift */; };
 		0AC0AA83234D017F00F05073 /* AzureCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC0AA82234D017F00F05073 /* AzureCodable.swift */; };
 		0AC0AA8C234F8ADD00F05073 /* Collections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC0AA8A234F8ADD00F05073 /* Collections.swift */; };
@@ -140,13 +141,14 @@
 		0A45B1FA23A82A2E00C54363 /* ApplicationUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationUtil.swift; sourceTree = "<group>"; };
 		0A532ACE2417E71100C4C8BA /* XMLMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLMap.swift; sourceTree = "<group>"; };
 		0A532AD02417E73C00C4C8BA /* XMLTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLTree.swift; sourceTree = "<group>"; };
+		0A55FC3B2548B63D002CBFD8 /* RetryPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetryPolicy.swift; sourceTree = "<group>"; };
 		0A6864B7233EAC76004B7E17 /* ContentDecodePolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentDecodePolicy.swift; sourceTree = "<group>"; };
 		0A6A9B4E234293B50013FCAA /* RegexUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegexUtil.swift; sourceTree = "<group>"; };
 		0A73AB76243F969700C6DC34 /* StringUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtil.swift; sourceTree = "<group>"; };
 		0A7F56392321732B00E9765A /* URLHTTPResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLHTTPResponse.swift; sourceTree = "<group>"; };
 		0AB5EAFC2375F25400361879 /* ConvertingInitializers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertingInitializers.swift; sourceTree = "<group>"; };
 		0AB7411F23C79E1400B579B3 /* DataStringConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStringConvertible.swift; sourceTree = "<group>"; };
-		0AB7412023C79E1400B579B3 /* HTTPTransportStage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPTransportStage.swift; sourceTree = "<group>"; };
+		0AB7412023C79E1400B579B3 /* TransportStage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransportStage.swift; sourceTree = "<group>"; };
 		0AB7412323C7A03400B579B3 /* ClientLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientLogger.swift; sourceTree = "<group>"; };
 		0AC0AA82234D017F00F05073 /* AzureCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzureCodable.swift; sourceTree = "<group>"; };
 		0AC0AA8A234F8ADD00F05073 /* Collections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Collections.swift; path = Source/DataStructures/Collections.swift; sourceTree = SOURCE_ROOT; };
@@ -331,6 +333,7 @@
 				7AFCF7652345714200592782 /* LoggingPolicy.swift */,
 				0AE326362499616900C85EAA /* NormalizeETagPolicy.swift */,
 				7AA5366423C0232A00A65A96 /* RequestIdPolicy.swift */,
+				0A55FC3B2548B63D002CBFD8 /* RetryPolicy.swift */,
 				0A3A5F212316FAF000473FDA /* UserAgentPolicy.swift */,
 			);
 			path = Policies;
@@ -344,7 +347,7 @@
 				0A3A5D922315CEB600473FDA /* HTTPMethod.swift */,
 				0A3A5D902315CEB600473FDA /* HTTPRequest.swift */,
 				0A3A5D912315CEB600473FDA /* HTTPResponse.swift */,
-				0AB7412023C79E1400B579B3 /* HTTPTransportStage.swift */,
+				0AB7412023C79E1400B579B3 /* TransportStage.swift */,
 				0A22B09124CF611F00EC018E /* TelemetryOptions.swift */,
 				0A22B08F24CF490C00EC018E /* TransportOptions.swift */,
 				0A7F56392321732B00E9765A /* URLHTTPResponse.swift */,
@@ -613,7 +616,7 @@
 				0A3A5D9E2315CEB600473FDA /* HTTPHeader.swift in Sources */,
 				0A3A5D9C2315CEB600473FDA /* HTTPResponse.swift in Sources */,
 				0AD6351D23F46C6D000D67F6 /* ReachabilityManagerType.swift in Sources */,
-				0AB7412223C79E1400B579B3 /* HTTPTransportStage.swift in Sources */,
+				0AB7412223C79E1400B579B3 /* TransportStage.swift in Sources */,
 				7A5E79EE2474A921000757F6 /* URLUtil.swift in Sources */,
 				0A18D7B523A95FEC008959E6 /* Copyable.swift in Sources */,
 				0A3A5F202316EF9400473FDA /* PipelineContext.swift in Sources */,
@@ -623,6 +626,7 @@
 				0A3A5F422319834500473FDA /* PipelineStage.swift in Sources */,
 				0A45B1FB23A82A2E00C54363 /* ApplicationUtil.swift in Sources */,
 				0A3A5D9D2315CEB600473FDA /* HTTPMethod.swift in Sources */,
+				0A55FC3C2548B63D002CBFD8 /* RetryPolicy.swift in Sources */,
 				0A3A5D9B2315CEB600473FDA /* HTTPRequest.swift in Sources */,
 				7AA5366F23C0409F00A65A96 /* DeviceProviders.swift in Sources */,
 				0AE326352499605700C85EAA /* HeadersValidationPolicy.swift in Sources */,
