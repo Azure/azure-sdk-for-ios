@@ -63,16 +63,17 @@
     [self waitForExpectations:@[expectation] timeout:2.0];
 }
 
-- (void)test_ObjCThrowsIfInvalidToken {
-    NSArray<NSString *> *invalidTokens = @[@"foo",
-                                           @"foo.bar",
-                                           @"foo.bar.foobar"];
+- (void)test_ObjCThrowsIfInvalidTokenFoo {
+    NSString *invalidFoo = @"foo";
     
-    for (int i = 0; i < invalidTokens.count; i++) {
-        NSString *token = [invalidTokens objectAtIndex: i];
-        CommunicationUserCredential *credential = [[CommunicationUserCredential alloc] initWithToken:token error:nil];
-        XCTAssertNil(credential);
-    }
+    CommunicationUserCredential *credential = [[CommunicationUserCredential alloc] initWithToken:invalidFoo error:nil];
+    XCTAssertNil(credential);
+}
+
+- (void)test_ObjCThrowsIfInvalidTokenFormat {
+    NSString *invalidToken = @"foo.bar.foobar";
+    CommunicationUserCredential *credential = [[CommunicationUserCredential alloc] initWithToken:invalidToken error:nil];
+    XCTAssertNil(credential);
 }
 
 - (void)test_ObjCRefreshTokenProactively_TokenAlreadyExpired {
