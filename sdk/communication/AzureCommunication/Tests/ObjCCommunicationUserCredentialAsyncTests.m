@@ -37,6 +37,9 @@
 
 @implementation ObjCCommunicationUserCredentialAsyncTests
 
+NSString const * kSampleTokenHeader = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
+NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs";
+
 - (void)setUp {
     [super setUp];
     
@@ -73,7 +76,7 @@
         [expectation fulfill];
     }];
     
-    [self waitForExpectations:@[expectation] timeout:5.0];
+    [self waitForExpectations:@[expectation] timeout:2.0];
 }
 
 - (void)test_ObjCRefreshTokenProactively_TokenExpiringInOneMin {
@@ -149,9 +152,9 @@
     NSData *tokenStringData = [tokenString dataUsingEncoding: NSASCIIStringEncoding];
 
     NSString *validToken = [NSString stringWithFormat:@"%@.%@.%@",
-                            @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+                            kSampleTokenHeader,
                             [tokenStringData base64EncodedStringWithOptions:NSDataBase64Encoding76CharacterLineLength],
-                            @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs"];
+                            kSampleTokenSignature];
     
     return validToken;
 }
