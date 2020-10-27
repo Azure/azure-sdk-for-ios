@@ -163,11 +163,11 @@ public class PipelineContext {
     /// Add a `CancellationToken` while applying smart defaulting logic. If the client transport options
     /// specify a timeout, this will be used to automatically create `CancellationToken`s for each call,
     /// even when a token is not specified. If the client call options contain a `CancellationToken` with
-    /// no timeout the default timeout will be applied, if specified in `AzureClientOptions`.
+    /// no timeout the default timeout will be applied, if specified in `ClientOptions`.
     /// - Parameters:
     ///   - cancellationToken: Optional `CancellationToken` object.
-    ///   - clientOptions: `AzureClientOptions` for the client generating the request.
-    public func add(cancellationToken: CancellationToken?, applying clientOptions: AzureClientOptions) {
+    ///   - clientOptions: `ClientOptions` for the client generating the request.
+    public func add(cancellationToken: CancellationToken?, applying clientOptions: ClientOptions) {
         let defaultTimeout = clientOptions.transportOptions.timeoutInSeconds
         if let token = cancellationToken {
             token.timeoutInSeconds = token.timeoutInSeconds ?? defaultTimeout

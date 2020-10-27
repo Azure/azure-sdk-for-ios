@@ -28,7 +28,7 @@ import AzureCore
 import Foundation
 
 /// User-configurable options for the `StorageBlobClient`.
-public struct StorageBlobClientOptions: AzureClientOptions {
+public struct StorageBlobClientOptions: ClientOptions {
     /// The API version of the Azure Storage Blob service to invoke.
     public let apiVersion: String
     /// The `ClientLogger` to be used by this `StorageBlobClient`.

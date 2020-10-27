@@ -135,7 +135,7 @@ public struct MSALCredential: TokenCredential {
         if let account = account {
             acquireTokenSilently(forAccount: account, withScopes: scopes) { result, error in
                 if let error = error {
-                    returnError = AzureError.sdk("MSAL error.", error)
+                    returnError = AzureError.client("MSAL error.", error)
                 }
                 if let result = result {
                     accessToken = AccessToken(
@@ -150,7 +150,7 @@ public struct MSALCredential: TokenCredential {
         } else {
             acquireTokenInteractively(withScopes: scopes) { result, error in
                 if let err = error {
-                    returnError = AzureError.sdk("MSAL failure.", err)
+                    returnError = AzureError.client("MSAL failure.", err)
                 }
                 if let result = result {
                     self.delegate?.didCompleteMSALRequest(withResult: result)

@@ -26,7 +26,7 @@
 
 import Foundation
 
-struct TestClientOptions: AzureClientOptions {
+struct TestClientOptions: ClientOptions {
     var apiVersion = "TestAPI"
 
     var logger = ClientLoggers.default(tag: "AzureTest")

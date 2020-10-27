@@ -116,7 +116,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         self.request(request, context: context) { result, httpResponse in
             let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
-                let noDataError = AzureError.sdk("Response data expected but not found.")
+                let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
                     completionHandler(.failure(noDataError), httpResponse)
                 }
@@ -126,7 +126,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
             switch result {
             case .success:
                 guard let statusCode = httpResponse?.statusCode else {
-                    let noStatusCodeError = AzureError.sdk("Expected a status code in response but didn't find one.")
+                    let noStatusCodeError = AzureError.client("Expected a status code in response but didn't find one.")
                     dispatchQueue.async {
                         completionHandler(.failure(noStatusCodeError), httpResponse)
                     }
@@ -154,7 +154,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -170,7 +170,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -185,7 +185,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -200,7 +200,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -215,7 +215,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -281,7 +281,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         self.request(request, context: context) { result, httpResponse in
             let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
-                let noDataError = AzureError.sdk("Response data expected but not found.")
+                let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
                     completionHandler(.failure(noDataError), httpResponse)
                 }
@@ -291,7 +291,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
             switch result {
             case .success:
                 guard let statusCode = httpResponse?.statusCode else {
-                    let noStatusCodeError = AzureError.sdk("Expected a status code in response but didn't find one.")
+                    let noStatusCodeError = AzureError.client("Expected a status code in response but didn't find one.")
                     dispatchQueue.async {
                         completionHandler(.failure(noStatusCodeError), httpResponse)
                     }
@@ -318,7 +318,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -333,7 +333,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -348,7 +348,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -363,7 +363,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -429,7 +429,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         self.request(request, context: context) { result, httpResponse in
             let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
-                let noDataError = AzureError.sdk("Response data expected but not found.")
+                let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
                     completionHandler(.failure(noDataError), httpResponse)
                 }
@@ -439,7 +439,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
             switch result {
             case .success:
                 guard let statusCode = httpResponse?.statusCode else {
-                    let noStatusCodeError = AzureError.sdk("Expected a status code in response but didn't find one.")
+                    let noStatusCodeError = AzureError.client("Expected a status code in response but didn't find one.")
                     dispatchQueue.async {
                         completionHandler(.failure(noStatusCodeError), httpResponse)
                     }
@@ -456,7 +456,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -471,7 +471,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -486,7 +486,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -501,7 +501,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -516,7 +516,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -587,7 +587,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         self.request(request, context: context) { result, httpResponse in
             let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
-                let noDataError = AzureError.sdk("Response data expected but not found.")
+                let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
                     completionHandler(.failure(noDataError), httpResponse)
                 }
@@ -597,7 +597,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
             switch result {
             case .success:
                 guard let statusCode = httpResponse?.statusCode else {
-                    let noStatusCodeError = AzureError.sdk("Expected a status code in response but didn't find one.")
+                    let noStatusCodeError = AzureError.client("Expected a status code in response but didn't find one.")
                     dispatchQueue.async {
                         completionHandler(.failure(noStatusCodeError), httpResponse)
                     }
@@ -625,7 +625,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -641,7 +641,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -656,7 +656,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -671,7 +671,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -686,7 +686,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -748,7 +748,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         self.request(request, context: context) { result, httpResponse in
             let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
-                let noDataError = AzureError.sdk("Response data expected but not found.")
+                let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
                     completionHandler(.failure(noDataError), httpResponse)
                 }
@@ -758,7 +758,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
             switch result {
             case .success:
                 guard let statusCode = httpResponse?.statusCode else {
-                    let noStatusCodeError = AzureError.sdk("Expected a status code in response but didn't find one.")
+                    let noStatusCodeError = AzureError.client("Expected a status code in response but didn't find one.")
                     dispatchQueue.async {
                         completionHandler(.failure(noStatusCodeError), httpResponse)
                     }
@@ -775,7 +775,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -790,7 +790,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -805,7 +805,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -820,7 +820,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -835,7 +835,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -905,7 +905,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         self.request(request, context: context) { result, httpResponse in
             let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
-                let noDataError = AzureError.sdk("Response data expected but not found.")
+                let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
                     completionHandler(.failure(noDataError), httpResponse)
                 }
@@ -915,7 +915,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
             switch result {
             case .success:
                 guard let statusCode = httpResponse?.statusCode else {
-                    let noStatusCodeError = AzureError.sdk("Expected a status code in response but didn't find one.")
+                    let noStatusCodeError = AzureError.client("Expected a status code in response but didn't find one.")
                     dispatchQueue.async {
                         completionHandler(.failure(noStatusCodeError), httpResponse)
                     }
@@ -942,7 +942,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -957,7 +957,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -972,7 +972,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -987,7 +987,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -1049,7 +1049,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         self.request(request, context: context) { result, httpResponse in
             let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
-                let noDataError = AzureError.sdk("Response data expected but not found.")
+                let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
                     completionHandler(.failure(noDataError), httpResponse)
                 }
@@ -1059,7 +1059,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
             switch result {
             case .success:
                 guard let statusCode = httpResponse?.statusCode else {
-                    let noStatusCodeError = AzureError.sdk("Expected a status code in response but didn't find one.")
+                    let noStatusCodeError = AzureError.client("Expected a status code in response but didn't find one.")
                     dispatchQueue.async {
                         completionHandler(.failure(noStatusCodeError), httpResponse)
                     }
@@ -1086,7 +1086,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -1101,7 +1101,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -1116,7 +1116,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -1131,7 +1131,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -1190,7 +1190,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         self.request(request, context: context) { result, httpResponse in
             let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
-                let noDataError = AzureError.sdk("Response data expected but not found.")
+                let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
                     completionHandler(.failure(noDataError), httpResponse)
                 }
@@ -1200,7 +1200,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
             switch result {
             case .success:
                 guard let statusCode = httpResponse?.statusCode else {
-                    let noStatusCodeError = AzureError.sdk("Expected a status code in response but didn't find one.")
+                    let noStatusCodeError = AzureError.client("Expected a status code in response but didn't find one.")
                     dispatchQueue.async {
                         completionHandler(.failure(noStatusCodeError), httpResponse)
                     }
@@ -1227,7 +1227,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -1242,7 +1242,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -1257,7 +1257,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -1272,7 +1272,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -1331,7 +1331,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         self.request(request, context: context) { result, httpResponse in
             let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
-                let noDataError = AzureError.sdk("Response data expected but not found.")
+                let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
                     completionHandler(.failure(noDataError), httpResponse)
                 }
@@ -1341,7 +1341,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
             switch result {
             case .success:
                 guard let statusCode = httpResponse?.statusCode else {
-                    let noStatusCodeError = AzureError.sdk("Expected a status code in response but didn't find one.")
+                    let noStatusCodeError = AzureError.client("Expected a status code in response but didn't find one.")
                     dispatchQueue.async {
                         completionHandler(.failure(noStatusCodeError), httpResponse)
                     }
@@ -1369,7 +1369,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -1385,7 +1385,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -1400,7 +1400,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -1415,7 +1415,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -1430,7 +1430,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -1496,7 +1496,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         self.request(request, context: context) { result, httpResponse in
             let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
-                let noDataError = AzureError.sdk("Response data expected but not found.")
+                let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
                     completionHandler(.failure(noDataError), httpResponse)
                 }
@@ -1506,7 +1506,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
             switch result {
             case .success:
                 guard let statusCode = httpResponse?.statusCode else {
-                    let noStatusCodeError = AzureError.sdk("Expected a status code in response but didn't find one.")
+                    let noStatusCodeError = AzureError.client("Expected a status code in response but didn't find one.")
                     dispatchQueue.async {
                         completionHandler(.failure(noStatusCodeError), httpResponse)
                     }
@@ -1533,7 +1533,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -1548,7 +1548,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -1563,7 +1563,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -1578,7 +1578,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -1640,7 +1640,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         self.request(request, context: context) { result, httpResponse in
             let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
-                let noDataError = AzureError.sdk("Response data expected but not found.")
+                let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
                     completionHandler(.failure(noDataError), httpResponse)
                 }
@@ -1650,7 +1650,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
             switch result {
             case .success:
                 guard let statusCode = httpResponse?.statusCode else {
-                    let noStatusCodeError = AzureError.sdk("Expected a status code in response but didn't find one.")
+                    let noStatusCodeError = AzureError.client("Expected a status code in response but didn't find one.")
                     dispatchQueue.async {
                         completionHandler(.failure(noStatusCodeError), httpResponse)
                     }
@@ -1677,7 +1677,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -1692,7 +1692,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -1707,7 +1707,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -1722,7 +1722,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -1786,7 +1786,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         self.request(request, context: context) { result, httpResponse in
             let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
-                let noDataError = AzureError.sdk("Response data expected but not found.")
+                let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
                     completionHandler(.failure(noDataError), httpResponse)
                 }
@@ -1796,7 +1796,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
             switch result {
             case .success:
                 guard let statusCode = httpResponse?.statusCode else {
-                    let noStatusCodeError = AzureError.sdk("Expected a status code in response but didn't find one.")
+                    let noStatusCodeError = AzureError.client("Expected a status code in response but didn't find one.")
                     dispatchQueue.async {
                         completionHandler(.failure(noStatusCodeError), httpResponse)
                     }
@@ -1813,7 +1813,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -1828,7 +1828,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -1843,7 +1843,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -1858,7 +1858,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -1873,7 +1873,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -1943,7 +1943,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         self.request(request, context: context) { result, httpResponse in
             let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
-                let noDataError = AzureError.sdk("Response data expected but not found.")
+                let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
                     completionHandler(.failure(noDataError), httpResponse)
                 }
@@ -1953,7 +1953,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
             switch result {
             case .success:
                 guard let statusCode = httpResponse?.statusCode else {
-                    let noStatusCodeError = AzureError.sdk("Expected a status code in response but didn't find one.")
+                    let noStatusCodeError = AzureError.client("Expected a status code in response but didn't find one.")
                     dispatchQueue.async {
                         completionHandler(.failure(noStatusCodeError), httpResponse)
                     }
@@ -1981,7 +1981,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -1997,7 +1997,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -2012,7 +2012,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -2027,7 +2027,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -2042,7 +2042,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -2109,7 +2109,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         self.request(request, context: context) { result, httpResponse in
             let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
-                let noDataError = AzureError.sdk("Response data expected but not found.")
+                let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
                     completionHandler(.failure(noDataError), httpResponse)
                 }
@@ -2119,7 +2119,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
             switch result {
             case .success:
                 guard let statusCode = httpResponse?.statusCode else {
-                    let noStatusCodeError = AzureError.sdk("Expected a status code in response but didn't find one.")
+                    let noStatusCodeError = AzureError.client("Expected a status code in response but didn't find one.")
                     dispatchQueue.async {
                         completionHandler(.failure(noStatusCodeError), httpResponse)
                     }
@@ -2146,7 +2146,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -2161,7 +2161,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -2176,7 +2176,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -2191,7 +2191,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -2250,7 +2250,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         self.request(request, context: context) { result, httpResponse in
             let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
-                let noDataError = AzureError.sdk("Response data expected but not found.")
+                let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
                     completionHandler(.failure(noDataError), httpResponse)
                 }
@@ -2260,7 +2260,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
             switch result {
             case .success:
                 guard let statusCode = httpResponse?.statusCode else {
-                    let noStatusCodeError = AzureError.sdk("Expected a status code in response but didn't find one.")
+                    let noStatusCodeError = AzureError.client("Expected a status code in response but didn't find one.")
                     dispatchQueue.async {
                         completionHandler(.failure(noStatusCodeError), httpResponse)
                     }
@@ -2277,7 +2277,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -2292,7 +2292,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -2307,7 +2307,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -2322,7 +2322,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -2337,7 +2337,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -2396,7 +2396,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         self.request(request, context: context) { result, httpResponse in
             let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
-                let noDataError = AzureError.sdk("Response data expected but not found.")
+                let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
                     completionHandler(.failure(noDataError), httpResponse)
                 }
@@ -2406,7 +2406,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
             switch result {
             case .success:
                 guard let statusCode = httpResponse?.statusCode else {
-                    let noStatusCodeError = AzureError.sdk("Expected a status code in response but didn't find one.")
+                    let noStatusCodeError = AzureError.client("Expected a status code in response but didn't find one.")
                     dispatchQueue.async {
                         completionHandler(.failure(noStatusCodeError), httpResponse)
                     }
@@ -2433,7 +2433,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -2448,7 +2448,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -2463,7 +2463,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }
@@ -2478,7 +2478,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
                         }
                     } catch {
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.sdk("Decoding error.", error)), httpResponse)
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
                         }
                     }
                 }

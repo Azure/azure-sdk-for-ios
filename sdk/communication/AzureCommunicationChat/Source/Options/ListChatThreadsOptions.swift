@@ -16,7 +16,7 @@ import Foundation
 // swiftlint:disable line_length
 
 /// User-configurable options for the `AzureCommunicationChatService.ListChatThreads` operation.
-public struct ListChatThreadsOptions: AzureOptions {
+public struct ListChatThreadsOptions: RequestOptions {
     /// The maximum number of chat threads returned per page.
     public let maxPageSize: Int32?
     /// The earliest point in time to get chat threads up to. The timestamp should be in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.

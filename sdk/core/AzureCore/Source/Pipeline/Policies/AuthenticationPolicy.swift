@@ -41,13 +41,13 @@ public struct AccessToken {
     }
 }
 
-public protocol AzureCredential {
+public protocol Credential {
     // MARK: Required Methods
 
     func validate() throws
 }
 
-public protocol TokenCredential: AzureCredential {
+public protocol TokenCredential: Credential {
     // MARK: Required Methods
 
     func token(forScopes scopes: [String], completionHandler: @escaping TokenCompletionHandler)
@@ -103,7 +103,7 @@ public class BearerTokenCredentialPolicy: Authenticating {
                 return
             }
             guard let token = token?.token else {
-                completionHandler(request, AzureError.sdk("Token cannot be empty"))
+                completionHandler(request, AzureError.client("Token cannot be empty"))
                 return
             }
             request.httpRequest.headers[.authorization] = "Bearer \(token)"

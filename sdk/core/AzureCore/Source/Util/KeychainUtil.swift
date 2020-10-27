@@ -31,7 +31,7 @@ public class KeychainUtil {
     internal let keychainErrorDomain = "com.azure.core"
     internal let keychainSecurityService = "com.azure.core"
 
-    private let contentError = AzureError.sdk("Invalid keychain content.")
+    private let contentError = AzureError.client("Invalid keychain content.")
 
     // MARK: Public Methods
 
@@ -55,7 +55,7 @@ public class KeychainUtil {
         queryDictionary[kSecValueData as String] = secret
         let status = SecItemAdd(queryDictionary as CFDictionary, nil)
         guard status == errSecSuccess else {
-            throw AzureError.sdk("Failure storing keychain content.")
+            throw AzureError.client("Failure storing keychain content.")
         }
     }
 
@@ -69,7 +69,7 @@ public class KeychainUtil {
         var data: AnyObject?
         let status = SecItemCopyMatching(queryDictionary as CFDictionary, &data)
         guard status == errSecSuccess else {
-            throw AzureError.sdk("Failure retrieving keychain secret.")
+            throw AzureError.client("Failure retrieving keychain secret.")
         }
         if let result = data as? Data {
             return result
@@ -98,7 +98,7 @@ public class KeychainUtil {
         let queryDictionary = setupQueryDictionary(forKey: key)
         let status = SecItemDelete(queryDictionary as CFDictionary)
         guard status == errSecSuccess else {
-            throw AzureError.sdk("Failure deleting keychain secret.")
+            throw AzureError.client("Failure deleting keychain secret.")
         }
     }
 
