@@ -26,11 +26,23 @@
 
 import Foundation
 
-public struct TransportOptions: Codable {
+/// Options to control the HTTP pipeline transport.
+public struct TransportOptions {
     /// Default timeout on any network call
-    public let timeoutInSeconds: Double?
+    public let timeout: TimeInterval?
+    /// An array of `PipelineStage` policies to use in lieu of the default ones.
+    public let pipeline: [PipelineStage]?
+    /// An `HTTPTransportStage` policy to use in lieu of the default.
+    public let transport: HTTPTransportStage?
 
-    public init(timeoutInSeconds: Double? = nil) {
-        self.timeoutInSeconds = timeoutInSeconds
+    /// Initialize a `TransportOptions` structure.
+    /// - Parameters:
+    ///   - timeout: Default timeout on any network call.
+    ///   - pipeline: An array of `PipelineStage` policies to use in lieu of the default ones.
+    ///   - transport: An `HTTPTransportStage` policy to use in lieu of the default.
+    public init(timeout: TimeInterval? = nil, pipeline: [PipelineStage]? = nil, transport: HTTPTransportStage? = nil) {
+        self.timeout = timeout
+        self.pipeline = pipeline
+        self.transport = transport
     }
 }

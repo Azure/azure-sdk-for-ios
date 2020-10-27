@@ -26,11 +26,6 @@ public struct AzureCommunicationChatClientOptions: ClientOptions {
     public let transportOptions: TransportOptions
     /// The default dispatch queue on which to call all completion handler. Defaults to `DispatchQueue.main`.
     public let dispatchQueue: DispatchQueue?
-    /// An array of `PipelineStage` policies to use in lieu of the default ones.
-    public let pipeline: [PipelineStage]?
-    /// An `HTTPTransportStage` policy to use in lieu of the default.
-    public let transport: HTTPTransportStage?
-
 
     /// Initialize a `AzureCommunicationChatClientOptions` structure.
     /// - Parameters:
@@ -39,23 +34,17 @@ public struct AzureCommunicationChatClientOptions: ClientOptions {
     ///   - telemetryOptions: Options for configuring telemetry sent by this `AzureCommunicationChatClient`.
     ///   - cancellationToken: A token used to make a best-effort attempt at canceling a request.
     ///   - dispatchQueue: The default dispatch queue on which to call all completion handler. Defaults to `DispatchQueue.main`.
-    ///   - pipeline: An array of `PipelineStage` policies to use in lieu of the default ones.
-    ///   - transport: An `HTTPTransportStage` policy to use in lieu of the default.
     public init(
         apiVersion: AzureCommunicationChatClient.ApiVersion = .latest,
         logger: ClientLogger = ClientLoggers.default(tag: "AzureCommunicationChatClientClient"),
         telemetryOptions: TelemetryOptions = TelemetryOptions(),
         transportOptions: TransportOptions? = nil,
         dispatchQueue: DispatchQueue? = nil,
-        pipeline: [PipelineStage]? = nil,
-        transport: HTTPTransportStage? = nil
     ) {
         self.apiVersion = apiVersion.rawValue
         self.logger = logger
         self.telemetryOptions = telemetryOptions
         self.transportOptions = transportOptions ?? TransportOptions()
         self.dispatchQueue = dispatchQueue
-        self.pipeline = pipeline
-        self.transport = transport
     }
 }

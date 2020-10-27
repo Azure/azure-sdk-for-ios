@@ -168,13 +168,13 @@ public class PipelineContext {
     ///   - cancellationToken: Optional `CancellationToken` object.
     ///   - clientOptions: `ClientOptions` for the client generating the request.
     public func add(cancellationToken: CancellationToken?, applying clientOptions: ClientOptions) {
-        let defaultTimeout = clientOptions.transportOptions.timeoutInSeconds
+        let defaultTimeout = clientOptions.transportOptions.timeout
         if let token = cancellationToken {
-            token.timeoutInSeconds = token.timeoutInSeconds ?? defaultTimeout
+            token.timeout = token.timeout ?? defaultTimeout
             add(value: token as AnyObject, forKey: .cancellationToken)
         } else if let timeout = defaultTimeout {
             add(
-                value: CancellationToken(timeoutInSeconds: timeout) as AnyObject,
+                value: CancellationToken(timeout: timeout) as AnyObject,
                 forKey: .cancellationToken
             )
         }

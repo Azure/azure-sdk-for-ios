@@ -31,7 +31,7 @@ public final class CancellationToken: Codable, Equatable {
 
     public internal(set) var isStarted: Bool
 
-    public internal(set) var timeoutInSeconds: Double?
+    public internal(set) var timeout: TimeInterval?
 
     private var runId: UUID
 
@@ -39,8 +39,8 @@ public final class CancellationToken: Codable, Equatable {
         isCanceled = true
     }
 
-    public init(timeoutInSeconds: Double? = nil) {
-        self.timeoutInSeconds = timeoutInSeconds
+    public init(timeout: TimeInterval? = nil) {
+        self.timeout = timeout
         self.isStarted = false
         self.isCanceled = false
         self.runId = UUID()
@@ -56,7 +56,7 @@ public final class CancellationToken: Codable, Equatable {
 
     /// Start the cancellation token countdown. If the countdown is already running, this return immediately.
     public func start() {
-        guard !isStarted, let timeout = timeoutInSeconds else { return }
+        guard !isStarted, let timeout = timeout else { return }
         let expectedRunId = runId
         DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + timeout) {
             // invalidate the timer if reset has been called
@@ -68,7 +68,7 @@ public final class CancellationToken: Codable, Equatable {
 
     /// Reset the cancellation token and allow it to be restarted.
     internal func reset() {
-        guard timeoutInSeconds != nil else { return }
+        guard timeout != nil else { return }
         isStarted = false
         isCanceled = false
         runId = UUID()

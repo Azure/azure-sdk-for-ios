@@ -154,7 +154,7 @@ public struct CustomerProvidedEncryptionKey: Codable, Equatable {
     }
 
     /// Specifies the algorithm to use when encrypting data using the given key. Must be AES256.
-    public let algorithm = "AES256"
+    var algorithm = "AES256"
 
     /// Initialize a `CustomerProvidedEncryptionKey` structure.
     /// - Parameter keyData: The binary AES-256 encryption key.
