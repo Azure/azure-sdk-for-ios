@@ -63,39 +63,6 @@
     [self waitForExpectations:@[expectation] timeout:2.0];
 }
 
-- (void)test_ObjCThrowsIfInvalidTokenFoo {
-    NSString *invalidFoo = @"foo";
-    NSError *error = nil;
-    CommunicationUserCredential *credential = [[CommunicationUserCredential alloc] initWithToken:invalidFoo
-                                                                                           error:&error];
-    XCTAssertNil(credential);
-    XCTAssertNotNil(error);
-}
-
-- (void)test_ObjCThrowsIfInvalidTokenFormat {
-    NSString *invalidToken = @"foo.bar.foobar";
-    NSError *error = nil;
-    CommunicationUserCredential *credential = [[CommunicationUserCredential alloc] initWithToken:invalidToken
-                                                                                           error:&error];
-    XCTAssertNil(credential);
-    XCTAssertNotNil(error);
-}
-
-- (void)test_ObjCThrowsWhenInitWithBlock {
-    NSString *invalidToken = @"foo.bar";
-    NSError *error = nil;
-    CommunicationUserCredential *credential = [[CommunicationUserCredential alloc] initWithInitialToken:invalidToken
-                                                                                     refreshProactively:YES
-                                                                                                  error:&error
-                                                                                         tokenRefresher:^(void (^ _Nonnull block)
-                                                                                                          (NSString * _Nullable token,
-                                                                                                           NSError * _Nullable error)) {
-    }];
-    
-    XCTAssertNil(credential);
-    XCTAssertNotNil(error);
-}
-
 - (void)test_ObjCRefreshTokenProactively_TokenAlreadyExpired {
     XCTestExpectation *expectation = [self expectationWithDescription:
                                       @"RefreshTokenProactively_TokenAlreadyExpired"];

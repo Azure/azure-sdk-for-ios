@@ -17,6 +17,7 @@
 		8856CEAC253A376D00044559 /* CommunicationAccessToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8856CEAB253A376D00044559 /* CommunicationAccessToken.swift */; };
 		8856CEE5253E3AEF00044559 /* ObjCCommunciationUserCredentialTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8856CEE4253E3AEF00044559 /* ObjCCommunciationUserCredentialTests.m */; };
 		88CC8C35254750260028977C /* ObjCCommunicationUserCredentialAsyncTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 88CC8C34254750260028977C /* ObjCCommunicationUserCredentialAsyncTests.m */; };
+		88F1F570254A07BC00876BC4 /* ObjCTokenParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F1F56F254A07BC00876BC4 /* ObjCTokenParserTests.m */; };
 		F11E5CC824B77F8900AA3A58 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3A5ED62316DB8F00473FDA /* AzureCore.framework */; };
 		F183A5EB24AF9D9000F0E0D5 /* CommunicationTokenCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = F183A5EA24AF9D9000F0E0D5 /* CommunicationTokenCredential.swift */; };
 		F183A5FA24AFB37900F0E0D5 /* StaticUserCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = F183A5F924AFB37900F0E0D5 /* StaticUserCredential.swift */; };
@@ -70,6 +71,7 @@
 		8856CEE3253E3AEF00044559 /* AzureCommunicationTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AzureCommunicationTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		8856CEE4253E3AEF00044559 /* ObjCCommunciationUserCredentialTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ObjCCommunciationUserCredentialTests.m; sourceTree = "<group>"; };
 		88CC8C34254750260028977C /* ObjCCommunicationUserCredentialAsyncTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ObjCCommunicationUserCredentialAsyncTests.m; sourceTree = "<group>"; };
+		88F1F56F254A07BC00876BC4 /* ObjCTokenParserTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ObjCTokenParserTests.m; sourceTree = "<group>"; };
 		F183A5EA24AF9D9000F0E0D5 /* CommunicationTokenCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationTokenCredential.swift; sourceTree = "<group>"; };
 		F183A5F924AFB37900F0E0D5 /* StaticUserCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticUserCredential.swift; sourceTree = "<group>"; };
 		F183A5FB24AFEF1400F0E0D5 /* CommunicationUserCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationUserCredential.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 				8856CEE4253E3AEF00044559 /* ObjCCommunciationUserCredentialTests.m */,
 				88CC8C34254750260028977C /* ObjCCommunicationUserCredentialAsyncTests.m */,
 				8856CEE3253E3AEF00044559 /* AzureCommunicationTests-Bridging-Header.h */,
+				88F1F56F254A07BC00876BC4 /* ObjCTokenParserTests.m */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -312,6 +315,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				88F1F570254A07BC00876BC4 /* ObjCTokenParserTests.m in Sources */,
 				8856CEE5253E3AEF00044559 /* ObjCCommunciationUserCredentialTests.m in Sources */,
 				1D07222D24C8FB0F00C2EF4E /* CommunicationUserCredentialTests.swift in Sources */,
 				88CC8C35254750260028977C /* ObjCCommunicationUserCredentialAsyncTests.m in Sources */,
