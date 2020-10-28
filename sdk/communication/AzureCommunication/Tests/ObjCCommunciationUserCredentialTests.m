@@ -76,6 +76,22 @@
     XCTAssertNil(credential);
 }
 
+- (void)test_ObjCThrowsWhenInitWithBlock {
+    NSString *invalidToken = @"foo.bar";
+    NSError *error = nil;
+    CommunicationUserCredential *credential = [[CommunicationUserCredential alloc] initWithInitialToken:invalidToken
+                                                                                     refreshProactively:YES
+                                                                                                  error:&error
+                                                                                         tokenRefresher:^(void (^ _Nonnull block)
+                                                                                                          (NSString * _Nullable token,
+                                                                                                           NSError * _Nullable error)) {
+    }];
+    
+    XCTAssertNil(credential);
+    XCTAssertNotNil(error);
+    XCTAssertEqual([error.localizedDescription containsString:@"Can't convert base64Data to base64AsString."], YES);
+}
+
 - (void)test_ObjCRefreshTokenProactively_TokenAlreadyExpired {
     XCTestExpectation *expectation = [self expectationWithDescription:
                                       @"RefreshTokenProactively_TokenAlreadyExpired"];
