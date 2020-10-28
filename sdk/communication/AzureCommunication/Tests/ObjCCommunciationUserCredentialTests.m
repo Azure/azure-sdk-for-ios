@@ -65,15 +65,20 @@
 
 - (void)test_ObjCThrowsIfInvalidTokenFoo {
     NSString *invalidFoo = @"foo";
-    
-    CommunicationUserCredential *credential = [[CommunicationUserCredential alloc] initWithToken:invalidFoo error:nil];
+    NSError *error = nil;
+    CommunicationUserCredential *credential = [[CommunicationUserCredential alloc] initWithToken:invalidFoo
+                                                                                           error:&error];
     XCTAssertNil(credential);
+    XCTAssertNotNil(error);
 }
 
 - (void)test_ObjCThrowsIfInvalidTokenFormat {
     NSString *invalidToken = @"foo.bar.foobar";
-    CommunicationUserCredential *credential = [[CommunicationUserCredential alloc] initWithToken:invalidToken error:nil];
+    NSError *error = nil;
+    CommunicationUserCredential *credential = [[CommunicationUserCredential alloc] initWithToken:invalidToken
+                                                                                           error:&error];
     XCTAssertNil(credential);
+    XCTAssertNotNil(error);
 }
 
 - (void)test_ObjCThrowsWhenInitWithBlock {
@@ -89,7 +94,6 @@
     
     XCTAssertNil(credential);
     XCTAssertNotNil(error);
-    XCTAssertEqual([error.localizedDescription containsString:@"Can't convert base64Data to base64AsString."], YES);
 }
 
 - (void)test_ObjCRefreshTokenProactively_TokenAlreadyExpired {
