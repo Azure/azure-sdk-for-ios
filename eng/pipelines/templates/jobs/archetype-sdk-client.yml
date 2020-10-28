@@ -110,7 +110,6 @@ jobs:
           set -o pipefail
           xcrun simctl shutdown all
           xcrun simctl erase all
-          xcrun simctl boot '$(SimulatorDevice)' 
           xcodebuild -workspace AzureSDK.xcworkspace \
                      -scheme ${{parameters.BuildScheme}} \
                      -destination "platform=iOS Simulator,OS=$(SimulatorVersion),name=$(SimulatorDevice)" \
@@ -119,11 +118,6 @@ jobs:
                      -enableCodeCoverage YES \
                      test | xcpretty -c
         displayName: 'Build and test libraries'
-
-      - publish: $(Build.ArtifactStagingDirectory)/Logs/Test
-        displayName: 'Preserve logs on failure'
-        artifact: 'test-failure-logs'
-        condition: failed()
 
       - script: trainer --path $(Build.ArtifactStagingDirectory) --fail_build false
         env:
