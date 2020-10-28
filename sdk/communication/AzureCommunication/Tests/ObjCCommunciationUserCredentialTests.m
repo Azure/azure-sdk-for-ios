@@ -46,7 +46,7 @@
     self.fetchTokenCallCount = 0;
 }
 
-- (void)test_ObjCDecodeToken {
+- (void)xtest_ObjCDecodeToken {
     XCTestExpectation *expectation = [self expectationWithDescription:
                                       @"DecodeToken"];
 
