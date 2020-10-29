@@ -26,14 +26,10 @@
 
 import Foundation
 
-struct TestClientOptions: ClientOptions {
-    var apiVersion = "TestAPI"
-
-    var logger = ClientLoggers.default(tag: "AzureTest")
-
-    var telemetryOptions = TelemetryOptions()
-
-    var transportOptions = TransportOptions()
-
-    var dispatchQueue: DispatchQueue?
+public struct TestClientOptions: ClientOptions {
+    public var apiVersion = "TestAPI"
+    public var logger = ClientLoggers.default(tag: "AzureTest")
+    public var telemetryOptions = TelemetryOptions()
+    public var transportOptions = TransportOptions()
+    public var dispatchQueue: DispatchQueue?
 }

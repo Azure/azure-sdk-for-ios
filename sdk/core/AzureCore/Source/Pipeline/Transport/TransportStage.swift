@@ -26,31 +26,9 @@
 
 import Foundation
 
-public final class PipelineRequest: PipelineContextSupporting, NSCopying {
-    // MARK: Properties
+public protocol TransportStage: PipelineStage {
+    // MARK: Required Methods
 
-    public var httpRequest: HTTPRequest
-    public var logger: ClientLogger
-
-    public var context: PipelineContext?
-
-    // MARK: Initializers
-
-    public convenience init(request: HTTPRequest, logger: ClientLogger) {
-        self.init(request: request, logger: logger, context: nil)
-    }
-
-    public init(request: HTTPRequest, logger: ClientLogger, context: PipelineContext?) {
-        self.httpRequest = request
-        self.logger = logger
-        self.context = context
-    }
-
-    public func copy(with _: NSZone? = nil) -> Any {
-        return PipelineRequest(
-            request: httpRequest,
-            logger: logger,
-            context: context
-        )
-    }
+    func open()
+    func close()
 }

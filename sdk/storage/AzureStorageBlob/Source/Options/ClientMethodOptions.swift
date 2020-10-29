@@ -44,6 +44,9 @@ public struct ListContainersOptions: RequestOptions {
     /// A dispatch queue on which to call the completion handler. Defaults to `DispatchQueue.main`.
     public let dispatchQueue: DispatchQueue?
 
+    /// A `PipelineContext` object to associate with the request.
+    public var context: PipelineContext?
+
     /// Return only containers whose names begin with the specified prefix.
     public let prefix: String?
 
@@ -109,6 +112,9 @@ public struct ListBlobsOptions: RequestOptions {
 
     /// A dispatch queue on which to call the completion handler. Defaults to `DispatchQueue.main`.
     public let dispatchQueue: DispatchQueue?
+
+    /// A `PipelineContext` object to associate with the request.
+    public var context: PipelineContext?
 
     /// Return only blobs whose names begin with the specified prefix.
     public let prefix: String?
@@ -184,6 +190,9 @@ public struct DeleteBlobOptions: RequestOptions {
     /// A dispatch queue on which to call the completion handler. Defaults to `DispatchQueue.main`.
     public let dispatchQueue: DispatchQueue?
 
+    /// A `PipelineContext` object to associate with the request.
+    public var context: PipelineContext?
+
     /// Specify how blob snapshots should be handled. Required if the blob has associated snapshots.
     public let deleteSnapshots: DeleteBlobSnapshot?
 
@@ -228,6 +237,9 @@ public struct DownloadBlobOptions: RequestOptions, Codable, Equatable {
 
     /// A dispatch queue on which to call the completion handler. Defaults to `DispatchQueue.main`.
     public var dispatchQueue: DispatchQueue?
+
+    /// A `PipelineContext` object to associate with the request.
+    public var context: PipelineContext?
 
     /// Options for working on a subset of data for a blob.
     public let range: RangeOptions?
@@ -335,6 +347,9 @@ public struct UploadBlobOptions: RequestOptions, Codable, Equatable {
 
     /// A dispatch queue on which to call the completion handler. Defaults to `DispatchQueue.main`.
     public var dispatchQueue: DispatchQueue?
+
+    /// A `PipelineContext` object to associate with the request.
+    public var context: PipelineContext?
 
     /// Options for accessing a blob based on the condition of a lease. If specified, the operation will be performed
     /// only if both of the following conditions are met:

@@ -80,17 +80,22 @@ extension PipelineContextSupporting {
 
 // MARK: PipelineContext
 
-public class PipelineContext {
+public class PipelineContext: Sequence {
     // MARK: Properties
 
-    internal var node: PipelineContextNode?
+    private enum Sentinel {
+        case end
+    }
+
+    internal var head: PipelineContextNode
 
     internal var count: Int {
         var count = 0
-        var current: PipelineContextNode? = node
-        while current != nil {
+        var current: PipelineContextNode = head
+        while current.value as? Sentinel == nil {
             count += 1
-            current = current?.parent
+            guard let parent = current.parent else { break }
+            current = parent
         }
         return count
     }
@@ -109,7 +114,9 @@ public class PipelineContext {
     }
 
     /// Create an empty `PipelineContext`.
-    public init() {}
+    public init() {
+        self.head = PipelineContextNode(key: "", value: Sentinel.end as AnyObject)
+    }
 
     // MARK: Public Methods
 
@@ -118,11 +125,7 @@ public class PipelineContext {
     ///   - value: Object to be added, as `AnyObject`.
     ///   - key: String key with which to store the object.
     public func add(value: AnyObject, forKey key: AnyHashable) {
-        if let node = self.node {
-            self.node = node.add(value: value, forKey: key)
-        } else {
-            node = PipelineContextNode(key: key, value: value)
-        }
+        head = head.add(value: value, forKey: key)
     }
 
     /// Adds a value to the `PipelineContext`.
@@ -137,7 +140,7 @@ public class PipelineContext {
     /// - Parameter key: Raw string key to retrieve.
     /// - Returns: Value for the given property key, if found, as `AnyObject`.
     public func value(forKey key: AnyHashable) -> AnyObject? {
-        return node?.value(forKey: key)
+        return head.value(forKey: key)
     }
 
     /// Retrieves a keyed value from the `PipelineContext`.
@@ -151,11 +154,10 @@ public class PipelineContext {
     /// - Returns: `Dictionary` representation of the `PipelineContext`.
     public func toDict() -> [AnyHashable: AnyObject?] {
         var dict = [AnyHashable: AnyObject]()
-        var current = node
-        while current != nil {
-            guard let currNode = current else { break }
-            dict[currNode.key] = currNode.value
-            current = currNode.parent
+        for node in self {
+            // do not overwrite a value once added
+            guard dict[node.key] == nil else { continue }
+            dict[node.key] = node.value
         }
         return dict
     }
@@ -168,20 +170,60 @@ public class PipelineContext {
     ///   - cancellationToken: Optional `CancellationToken` object.
     ///   - clientOptions: `ClientOptions` for the client generating the request.
     public func add(cancellationToken: CancellationToken?, applying clientOptions: ClientOptions) {
-        let defaultTimeout = clientOptions.transportOptions.timeoutInSeconds
+        let defaultTimeout = clientOptions.transportOptions.timeout
         if let token = cancellationToken {
-            token.timeoutInSeconds = token.timeoutInSeconds ?? defaultTimeout
+            token.timeout = token.timeout ?? defaultTimeout
             add(value: token as AnyObject, forKey: .cancellationToken)
         } else if let timeout = defaultTimeout {
             add(
-                value: CancellationToken(timeoutInSeconds: timeout) as AnyObject,
+                value: CancellationToken(timeout: timeout) as AnyObject,
                 forKey: .cancellationToken
             )
         }
     }
+
+    public func merge(with newContext: PipelineContext?) {
+        guard let context = newContext else { return }
+        for node in context {
+            add(value: node.value as AnyObject, forKey: node.key)
+        }
+    }
+
+    // MARK: Sequence, IteratorProtocol
+
+    public typealias Iterator = PipelineContextIterator
+
+    public __consuming func makeIterator() -> PipelineContextIterator {
+        return PipelineContextIterator(head)
+    }
+
+    public class PipelineContextIterator: IteratorProtocol {
+        public typealias Element = PipelineContextNode
+
+        internal var current: PipelineContextNode
+
+        init(_ node: PipelineContextNode) {
+            self.current = node
+        }
+
+        public func next() -> PipelineContextNode? {
+            // Do not return the sentinel
+            guard current.value as? Sentinel == nil else { return nil }
+            guard let parent = current.parent else { return nil }
+            defer { current = parent }
+            return current
+        }
+    }
 }
 
-internal class PipelineContextNode {
+extension PipelineContext: Equatable {
+    public static func == (lhs: PipelineContext, rhs: PipelineContext) -> Bool {
+        // FIXME: This is likely too restrictive for Equatable
+        return lhs === rhs
+    }
+}
+
+public class PipelineContextNode {
     // MARK: Properties
 
     internal let parent: PipelineContextNode?

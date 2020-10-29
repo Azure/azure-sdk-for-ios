@@ -26,11 +26,32 @@
 
 import Foundation
 
-public struct TransportOptions: Codable {
+/// Options to control the HTTP pipeline transport.
+public struct TransportOptions {
     /// Default timeout on any network call
-    public let timeoutInSeconds: Double?
+    public let timeout: TimeInterval?
+    /// An array of custom `PipelineStage` policies to be applied per client request.
+    public let perRequestPolicies: [PipelineStage]?
+    /// An array of custom `PipelineStage` policies to be applied per retry of a request.
+    public let perRetryPolicies: [PipelineStage]?
+    /// An `HTTPTransportStage` policy to use in lieu of the default.
+    public let transport: TransportStage?
 
-    public init(timeoutInSeconds: Double? = nil) {
-        self.timeoutInSeconds = timeoutInSeconds
+    /// Initialize a `TransportOptions` structure.
+    /// - Parameters:
+    ///   - timeout: Default timeout on any network call.
+    ///   - perRequestPolicies: An array of custom `PipelineStage` policies to be applied per client request.
+    ///   - perRetryPolicies: An array of custom `PipelineStage` policies to be applied per retry of a request.
+    ///   - transport: An `HTTPTransportStage` policy to use in lieu of the default.
+    public init(
+        timeout: TimeInterval? = nil,
+        perRequestPolicies: [PipelineStage]? = nil,
+        perRetryPolicies: [PipelineStage]? = nil,
+        transport: TransportStage? = nil
+    ) {
+        self.timeout = timeout
+        self.perRequestPolicies = perRequestPolicies
+        self.perRetryPolicies = perRetryPolicies
+        self.transport = transport
     }
 }

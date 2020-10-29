@@ -153,7 +153,7 @@ internal class ChunkUploader {
         guard let requestUrl = uploadDestination.appendingQueryParameters(queryParams) else { return }
         guard let request = try? HTTPRequest(method: .put, url: requestUrl, headers: headers, data: buffer)
         else { return }
-        let context = PipelineContext.of(keyValues: [
+        let context = options.context ?? PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [201] as AnyObject
         ])
 
@@ -375,7 +375,7 @@ internal class BlobStreamUploader: BlobUploader {
         guard let requestUrl = uploadDestination.appendingQueryParameters(queryParams) else { return }
         guard let request = try? HTTPRequest(method: .put, url: requestUrl, headers: headers, data: xmlData)
         else { return }
-        let context = PipelineContext.of(keyValues: [
+        let context = options.context ?? PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [201] as AnyObject
         ])
         context.add(cancellationToken: options.cancellationToken, applying: client.options)

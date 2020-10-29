@@ -92,7 +92,7 @@ internal class ChunkDownloader {
         // Construct and send request
         guard let requestUrl = downloadSource.appendingQueryParameters(queryParams) else { return }
         guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: headers) else { return }
-        let context = PipelineContext.of(keyValues: [
+        let context = options.context ?? PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 206] as AnyObject
         ])
         context.add(cancellationToken: options.cancellationToken, applying: client.options)

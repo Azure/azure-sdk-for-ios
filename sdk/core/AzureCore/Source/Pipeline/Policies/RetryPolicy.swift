@@ -26,51 +26,35 @@
 
 import Foundation
 
-public final class CancellationToken: Codable, Equatable {
-    public internal(set) var isCanceled: Bool
+protocol RetryStage: PipelineStage {}
 
-    public internal(set) var isStarted: Bool
+public class RetryPolicy: RetryStage {
+    // MARK: Properties
 
-    public internal(set) var timeout: TimeInterval?
+    public var next: PipelineStage?
 
-    private var runId: UUID
+    // MARK: Initializers
 
-    public func cancel() {
-        isCanceled = true
+    public init() {}
+
+    // MARK: PipelineStage Methods
+
+    public func on(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
+        // TODO: Preserve the pipeline request at this stage of the pipeline in case it must be reused for retry
+        completionHandler(request, nil)
     }
 
-    public init(timeout: TimeInterval? = nil) {
-        self.timeout = timeout
-        self.isStarted = false
-        self.isCanceled = false
-        self.runId = UUID()
+    public func on(response: PipelineResponse, completionHandler: @escaping OnResponseCompletionHandler) {
+        // TODO: Check for a retryable error disguised as success, and retry, if able
+        completionHandler(response, nil)
     }
 
-    // MARK: Equatable Protocol
-
-    public static func == (lhs: CancellationToken, rhs: CancellationToken) -> Bool {
-        return lhs.runId == rhs.runId
-    }
-
-    // MARK: Methods
-
-    /// Start the cancellation token countdown. If the countdown is already running, this return immediately.
-    public func start() {
-        guard !isStarted, let timeout = timeout else { return }
-        let expectedRunId = runId
-        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + timeout) {
-            // invalidate the timer if reset has been called
-            guard self.runId == expectedRunId else { return }
-            self.isCanceled = true
-        }
-        isStarted = true
-    }
-
-    /// Reset the cancellation token and allow it to be restarted.
-    internal func reset() {
-        guard timeout != nil else { return }
-        isStarted = false
-        isCanceled = false
-        runId = UUID()
+    public func on(
+        error: AzureError,
+        pipelineResponse _: PipelineResponse,
+        completionHandler: @escaping OnErrorCompletionHandler
+    ) {
+        // TODO: If retryable, retry the request
+        completionHandler(error, false)
     }
 }

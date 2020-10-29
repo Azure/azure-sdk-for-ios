@@ -49,6 +49,8 @@ public protocol RequestOptions {
     var cancellationToken: CancellationToken? { get }
     /// A dispatch queue on which to call the completion handler. Defaults to `DispatchQueue.main`.
     var dispatchQueue: DispatchQueue? { get }
+    /// A `PipelineContext` object to associate with the request.
+    var context: PipelineContext? { get set }
 }
 
 /// Base class for all pipeline-based service clients.
@@ -56,22 +58,22 @@ open class PipelineClient {
     // MARK: Properties
 
     internal var pipeline: Pipeline
-    public var baseUrl: URL
+    public var endpoint: URL
     public var logger: ClientLogger
     public var commonOptions: ClientOptions
 
     // MARK: Initializers
 
     public init(
-        baseUrl: URL,
-        transport: HTTPTransportStage,
+        endpoint: URL,
+        transport: TransportStage,
         policies: [PipelineStage],
         logger: ClientLogger,
         options: ClientOptions
     ) {
-        self.baseUrl = baseUrl.hasDirectoryPath ? baseUrl : baseUrl.appendingPathComponent("/")
+        self.endpoint = endpoint.hasDirectoryPath ? endpoint : endpoint.appendingPathComponent("/")
         self.logger = logger
-        self.pipeline = Pipeline(transport: transport, policies: policies)
+        self.pipeline = Pipeline(transport: transport, policies: policies, withOptions: options.transportOptions)
         self.commonOptions = options
     }
 
@@ -80,7 +82,7 @@ open class PipelineClient {
     public func url(forTemplate templateIn: String, withKwargs kwargs: [String: String]? = nil) -> URL? {
         var template = templateIn
         if template.hasPrefix("/") { template = String(template.dropFirst()) }
-        var urlString = baseUrl.absoluteString
+        var urlString = endpoint.absoluteString
         if template.starts(with: urlString) {
             urlString = template
         } else {

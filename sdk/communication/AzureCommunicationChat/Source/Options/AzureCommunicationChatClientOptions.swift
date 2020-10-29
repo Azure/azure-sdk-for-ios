@@ -39,7 +39,7 @@ public struct AzureCommunicationChatClientOptions: ClientOptions {
         logger: ClientLogger = ClientLoggers.default(tag: "AzureCommunicationChatClientClient"),
         telemetryOptions: TelemetryOptions = TelemetryOptions(),
         transportOptions: TransportOptions? = nil,
-        dispatchQueue: DispatchQueue? = nil
+        dispatchQueue: DispatchQueue? = nil,
     ) {
         self.apiVersion = apiVersion.rawValue
         self.logger = logger

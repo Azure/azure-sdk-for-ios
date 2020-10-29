@@ -27,31 +27,56 @@
 import Foundation
 
 internal class Pipeline {
-    private var policies: [PipelineStage]
-    private let transport: HTTPTransportStage
+    // MARK: Properties
 
-    public init(transport: HTTPTransportStage, policies: [PipelineStage]) {
+    internal var policies: [PipelineStage]
+
+    internal let transport: TransportStage
+
+    // MARK: Initializers
+
+    public init(transport: TransportStage, policies: [PipelineStage], withOptions options: TransportOptions? = nil) {
         self.transport = transport
-        self.policies = policies
+        self.policies = [PipelineStage]()
+
+        // Add in any user-supplied policies
+        // Policy order is:
+        //   SDK-supplied perRequest policies
+        //   User-supplied perRequest policies
+        //   SDK-supplied Retry Policy
+        //     SDK-supplied perRetry policies
+        //     User-suppied perRetry policies
+        var combinedPolicies: [PipelineStage]
+        if let retryIndex = policies.retryIndex {
+            let perRequestPolicies = Array(policies[0 ..< retryIndex])
+            let perRetryPolicies = Array(policies[retryIndex...])
+            let userPerRequestPolicies = options?.perRequestPolicies ?? []
+            let userPerRetryPolicies = options?.perRetryPolicies ?? []
+            combinedPolicies = perRequestPolicies + userPerRequestPolicies + perRetryPolicies + userPerRetryPolicies
+        } else {
+            // Append user policies if no retry policy
+            assert(options?.perRetryPolicies == nil, "User supplied per-retry policies, but no retry policy exists.")
+            combinedPolicies = policies + (options?.perRequestPolicies ?? [])
+        }
+
+        // Append the TransportStage for the edge case where there are no policies
+        combinedPolicies.append(transport)
+
+        // Link the policies together
         var prevPolicy: PipelineStage?
-        for policy in policies {
+        for policy in combinedPolicies {
             if prevPolicy != nil {
                 prevPolicy!.next = policy
             }
             prevPolicy = policy
-        }
-        if self.policies.count > 0 {
-            var lastPolicy = self.policies.removeLast()
-            lastPolicy.next = transport
-            self.policies.append(lastPolicy)
-        } else {
-            self.policies.append(transport)
+            self.policies.append(policy)
         }
     }
 
+    // MARK: Methods
+
     public func run(request: PipelineRequest, completionHandler: @escaping PipelineStageResultHandler) {
-        let firstPolicy = policies.first ?? transport
-        firstPolicy.process(request: request) { result, httpResponse in
+        policies.first?.process(request: request) { result, httpResponse in
             switch result {
             case let .success(pipelineResponse):
                 completionHandler(.success(pipelineResponse), httpResponse)
@@ -59,5 +84,18 @@ internal class Pipeline {
                 completionHandler(.failure(error), httpResponse)
             }
         }
+    }
+}
+
+extension Array where Element == PipelineStage {
+    var retryPolicy: RetryPolicy? {
+        if let index = retryIndex {
+            return self[index] as? RetryPolicy
+        }
+        return nil
+    }
+
+    var retryIndex: Int? {
+        return firstIndex { $0 as? RetryPolicy != nil }
     }
 }

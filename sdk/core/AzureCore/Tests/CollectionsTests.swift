@@ -57,7 +57,7 @@ class CollectionsTests: XCTestCase {
     /// Test that authors can simply use the default PagedCodingKeys if the service fits the Azure standard.
     func test_PagedCollection_WithDefaultCodingKeys_Inits() {
         let client = TestPageableClient(
-            baseUrl: URL(string: "http://www.microsoft.com")!,
+            endpoint: URL(string: "http://www.microsoft.com")!,
             transport: URLSessionTransport(),
             policies: [
                 UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0")
@@ -94,7 +94,7 @@ class CollectionsTests: XCTestCase {
     /// Test that authors can customize the PagedCodingKeys provided they fit the standard structure.
     func test_PagedCollection_WithCustomCodingKeys_Inits() {
         let client = TestPageableClient(
-            baseUrl: URL(string: "http://www.microsoft.com")!,
+            endpoint: URL(string: "http://www.microsoft.com")!,
             transport: URLSessionTransport(),
             policies: [
                 UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0")
@@ -122,7 +122,7 @@ class CollectionsTests: XCTestCase {
 
     func test_PagedCollection_CanIteratePerItem() {
         let client = TestPageableClient(
-            baseUrl: URL(string: "http://www.microsoft.com")!,
+            endpoint: URL(string: "http://www.microsoft.com")!,
             transport: URLSessionTransport(),
             policies: [
                 UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0")
