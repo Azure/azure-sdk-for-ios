@@ -108,8 +108,6 @@ jobs:
 
       - script: |
           set -o pipefail
-          xcrun simctl shutdown all
-          xcrun simctl erase all
           xcodebuild -workspace AzureSDK.xcworkspace \
                      -scheme ${{parameters.BuildScheme}} \
                      -destination "platform=iOS Simulator,OS=$(SimulatorVersion),name=$(SimulatorDevice)" \
