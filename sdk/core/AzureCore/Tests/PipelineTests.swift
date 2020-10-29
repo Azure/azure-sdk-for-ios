@@ -27,55 +27,8 @@
 @testable import AzureCore
 import XCTest
 
-class CustomPolicy: PipelineStage {
-    var next: PipelineStage?
-
-    func on(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
-        let count = request.context?.value(forKey: "CustomOnRequestCalled") as? Int ?? 0
-        request.context?.add(value: (count + 1) as AnyObject, forKey: "CustomOnRequestCalled")
-        completionHandler(request, nil)
-    }
-
-    func on(response: PipelineResponse, completionHandler: @escaping OnResponseCompletionHandler) {
-        let count = response.context?.value(forKey: "CustomOnResponseCalled") as? Int ?? 0
-        response.context?.add(value: (count + 1) as AnyObject, forKey: "CustomOnResponseCalled")
-        completionHandler(response, nil)
-    }
-}
-
-class CustomPerRetryPolicy: PipelineStage {
-    var next: PipelineStage?
-
-    func on(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
-        let count = request.context?.value(forKey: "CustomPerRetryOnRequestCalled") as? Int ?? 0
-        request.context?.add(value: (count + 1) as AnyObject, forKey: "CustomPerRetryOnRequestCalled")
-        completionHandler(request, nil)
-    }
-
-    func on(response: PipelineResponse, completionHandler: @escaping OnResponseCompletionHandler) {
-        let count = response.context?.value(forKey: "CustomPerRetryOnResponseCalled") as? Int ?? 0
-        response.context?.add(value: (count + 1) as AnyObject, forKey: "CustomPerRetryOnResponseCalled")
-        completionHandler(response, nil)
-    }
-}
-
 // swiftlint:disable force_try
 class PipelineTests: XCTestCase {
-    func createPipelineClient() -> PipelineClient {
-        let baseUrl = URL(string: "http://www.microsoft.com")!
-        let client = PipelineClient(
-            endpoint: baseUrl,
-            transport: URLSessionTransport(),
-            policies: [
-                UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0"),
-                LoggingPolicy()
-            ],
-            logger: ClientLoggers.default(),
-            options: TestClientOptions()
-        )
-        return client
-    }
-
     func test_HTTPRequest_Inits() {
         let headers: HTTPHeaders = ["headerParam": "myHeaderParam"]
         let request = try! HTTPRequest(method: .get, url: "www.test.com", headers: headers)
@@ -86,7 +39,7 @@ class PipelineTests: XCTestCase {
     }
 
     func test_PipelineClient_CanFormatUrl() {
-        let client = createPipelineClient()
+        let client = TestClient()
         let url = client.url(forTemplate: "{a}/{b}/test", withKwargs: [
             "a": "cat",
             "b": "hat"
@@ -95,14 +48,11 @@ class PipelineTests: XCTestCase {
     }
 
     func test_PipelineClient_CanRun() {
-        let client = createPipelineClient()
-        let request = try! HTTPRequest(method: .get, url: "http://www.microsoft.com", headers: [:])
         let didFinishRun = expectation(description: "run completion handler called.")
-        let context = PipelineContext.of(keyValues: [
-            "context": "value" as AnyObject
-        ])
         var requestCompleted = false
-        client.request(request, context: context) { result, httpResponse in
+
+        let client = TestClient()
+        client.testCall(value: "test") { result, httpResponse in
             switch result {
             case .success:
                 didFinishRun.fulfill()
@@ -116,19 +66,11 @@ class PipelineTests: XCTestCase {
     }
 
     func test_PipelineClient_NoPoliciesRuns() {
-        let baseUrl = URL(string: "http://www.microsoft.com")!
-        let client = PipelineClient(
-            endpoint: baseUrl,
-            transport: URLSessionTransport(),
-            policies: [],
-            logger: ClientLoggers.default(),
-            options: TestClientOptions()
-        )
-        let request = try! HTTPRequest(method: .get, url: "http://www.microsoft.com", headers: [:])
         let didFinishRun = expectation(description: "run completion handler called.")
-        let context = PipelineContext()
         var requestCompleted = false
-        client.request(request, context: context) { result, httpResponse in
+
+        let client = TestClient(customPolicies: [])
+        client.testCall(value: "test") { result, httpResponse in
             switch result {
             case .success:
                 didFinishRun.fulfill()
@@ -142,26 +84,16 @@ class PipelineTests: XCTestCase {
     }
 
     func test_PipelineClient_UserPerRequestPolicies() {
-        let baseUrl = URL(string: "http://www.microsoft.com")!
+        let didFinishRun = expectation(description: "run completion handler called.")
+        var requestCompleted = false
+
         var options = TestClientOptions()
         options.transportOptions = TransportOptions(perRequestPolicies: [CustomPolicy()])
-        let client = PipelineClient(
-            endpoint: baseUrl,
-            transport: URLSessionTransport(),
-            policies: [
-                UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0"),
-                LoggingPolicy()
-            ],
-            logger: ClientLoggers.default(),
-            options: options
-        )
-        let request = try! HTTPRequest(method: .get, url: "http://www.microsoft.com", headers: [:])
-        let didFinishRun = expectation(description: "run completion handler called.")
-        let context = PipelineContext()
-        var requestCompleted = false
-        client.request(request, context: context) { result, httpResponse in
+        let client = TestClient(defaultPoliciesWithOptions: options)
+
+        client.testCall(value: "test") { result, httpResponse in
             switch result {
-            case .success:
+            case let .success(context):
                 XCTAssertTrue(context.value(forKey: "CustomOnRequestCalled") != nil)
                 XCTAssertTrue(context.value(forKey: "CustomOnResponseCalled") != nil)
                 didFinishRun.fulfill()
@@ -175,24 +107,15 @@ class PipelineTests: XCTestCase {
     }
 
     func test_PipelineClient_WithRetryPolicy() {
-        let baseUrl = URL(string: "http://www.microsoft.com")!
-        var options = TestClientOptions()
-        let client = PipelineClient(
-            endpoint: baseUrl,
-            transport: URLSessionTransport(),
-            policies: [
-                UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0"),
-                RetryPolicy(),
-                LoggingPolicy()
-            ],
-            logger: ClientLoggers.default(),
-            options: TestClientOptions()
-        )
-        let request = try! HTTPRequest(method: .get, url: "http://www.microsoft.com", headers: [:])
         let didFinishRun = expectation(description: "run completion handler called.")
-        let context = PipelineContext()
         var requestCompleted = false
-        client.request(request, context: context) { result, httpResponse in
+
+        let client = TestClient(customPolicies: [
+            UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0"),
+            RetryPolicy(),
+            LoggingPolicy()
+        ])
+        client.testCall(value: "test") { result, httpResponse in
             switch result {
             case .success:
                 didFinishRun.fulfill()
@@ -206,41 +129,64 @@ class PipelineTests: XCTestCase {
     }
 
     func test_PipelineClient_WithUserRetryPolicy() {
-        let baseUrl = URL(string: "http://www.microsoft.com")!
+        let didFinishRun = expectation(description: "run completion handler called.")
+        var requestCompleted = false
+
         var options = TestClientOptions()
         options.transportOptions = TransportOptions(
             perRequestPolicies: [CustomPolicy()],
             perRetryPolicies: [CustomPerRetryPolicy()]
         )
-        let client = PipelineClient(
-            endpoint: baseUrl,
-            transport: URLSessionTransport(),
-            policies: [
-                UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0"),
-                RetryPolicy(),
-                LoggingPolicy()
-            ],
-            logger: ClientLoggers.default(),
-            options: options
-        )
-        let request = try! HTTPRequest(method: .get, url: "http://www.microsoft.com", headers: [:])
-        let didFinishRun = expectation(description: "run completion handler called.")
-        let context = PipelineContext()
-        XCTAssert(client.pipeline.policies.count == 6, "Incorrect number of policies")
-        XCTAssert(client.pipeline.policies[0] is UserAgentPolicy, "Policies in incorrect order")
-        XCTAssert(client.pipeline.policies[1] is CustomPolicy, "Policies in incorrect order")
-        XCTAssert(client.pipeline.policies[2] is RetryPolicy, "Policies in incorrect order")
-        XCTAssert(client.pipeline.policies[3] is LoggingPolicy, "Policies in incorrect order")
-        XCTAssert(client.pipeline.policies[4] is CustomPerRetryPolicy, "Policies in incorrect order")
-        XCTAssert(client.pipeline.policies[5] is TransportStage, "Policies in incorrect order")
-        var requestCompleted = false
-        client.request(request, context: context) { result, httpResponse in
+        let client = TestClient(customPolicies: [
+            UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0"),
+            RetryPolicy(),
+            LoggingPolicy()
+        ], withOptions: options)
+        client.testCall(value: "test") { result, httpResponse in
             switch result {
-            case .success:
+            case let .success(context):
+                XCTAssert(client.pipeline.policies.count == 6, "Incorrect number of policies")
+                XCTAssert(client.pipeline.policies[0] is UserAgentPolicy, "Policies in incorrect order")
+                XCTAssert(client.pipeline.policies[1] is CustomPolicy, "Policies in incorrect order")
+                XCTAssert(client.pipeline.policies[2] is RetryPolicy, "Policies in incorrect order")
+                XCTAssert(client.pipeline.policies[3] is LoggingPolicy, "Policies in incorrect order")
+                XCTAssert(client.pipeline.policies[4] is CustomPerRetryPolicy, "Policies in incorrect order")
+                XCTAssert(client.pipeline.policies[5] is TransportStage, "Policies in incorrect order")
+
                 let perRetryRequestCount = context.value(forKey: "CustomPerRetryOnRequestCalled") as? Int
                 let perRetryResponseCount = context.value(forKey: "CustomPerRetryOnResponseCalled") as? Int
                 XCTAssertTrue(perRetryRequestCount == 1)
                 XCTAssertTrue(perRetryResponseCount == 1)
+                didFinishRun.fulfill()
+            case let .failure(error):
+                XCTFail("Network call failed. \(error) - \(String(describing: httpResponse))")
+            }
+            requestCompleted = true
+        }
+        wait(for: [didFinishRun], timeout: 10.0, enforceOrder: true)
+        XCTAssertTrue(requestCompleted) // Ensure the request callback runs before the test finishes
+    }
+
+    func test_PipelineClient_WithCustomUserContext() {
+        let didFinishRun = expectation(description: "run completion handler called.")
+        var requestCompleted = false
+
+        var clientOptions = TestClientOptions()
+        clientOptions.transportOptions = TransportOptions(perRequestPolicies: [CustomPolicy()])
+        let client = TestClient(defaultPoliciesWithOptions: clientOptions)
+
+        // Test overriding the pipeline values
+        let context = PipelineContext()
+        context.add(value: 2 as AnyObject, forKey: "CustomOnRequestCalled")
+        context.add(value: "passed" as AnyObject, forKey: "myCustomKey")
+        let options = TestCallOptions(context: context)
+
+        client.testCall(value: "test", withOptions: options) { result, httpResponse in
+            switch result {
+            case let .success(context):
+                XCTAssertTrue(context.value(forKey: "CustomOnRequestCalled") as? Int == 3)
+                XCTAssertTrue(context.value(forKey: "CustomOnResponseCalled") as? Int == 1)
+                XCTAssertTrue(context.value(forKey: "myCustomKey") as? String == "passed")
                 didFinishRun.fulfill()
             case let .failure(error):
                 XCTFail("Network call failed. \(error) - \(String(describing: httpResponse))")

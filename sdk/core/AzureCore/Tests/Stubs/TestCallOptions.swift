@@ -26,10 +26,9 @@
 
 import Foundation
 
-public struct TestClientOptions: ClientOptions {
-    public var apiVersion = "TestAPI"
-    public var logger = ClientLoggers.default(tag: "AzureTest")
-    public var telemetryOptions = TelemetryOptions()
-    public var transportOptions = TransportOptions()
+public struct TestCallOptions: RequestOptions {
+    public var clientRequestId: String?
+    public var cancellationToken: CancellationToken?
     public var dispatchQueue: DispatchQueue?
+    public var context: PipelineContext?
 }
