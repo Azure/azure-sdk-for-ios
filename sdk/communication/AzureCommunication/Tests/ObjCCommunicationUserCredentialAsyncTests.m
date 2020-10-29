@@ -30,8 +30,6 @@
 
 @interface ObjCCommunicationUserCredentialAsyncTests : XCTestCase
 @property (nonatomic, strong) NSString *sampleToken;
-@property (nonatomic, strong) NSString *sampleExpiredToken;
-@property (nonatomic) double sampleTokenExpiry;
 @property (nonatomic) int fetchTokenCallCount;
 @end
 
@@ -44,14 +42,12 @@ NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fS
     [super setUp];
     
     self.sampleToken = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjMyNTAzNjgwMDAwfQ.9i7FNNHHJT8cOzo-yrAUJyBSfJ-tPPk2emcHavOEpWc";
-    self.sampleExpiredToken = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjEwMH0.1h_scYkNp-G98-O4cW6KvfJZwiz54uJMyeDACE4nypg";
-    self.sampleTokenExpiry = 32503680000;
     self.fetchTokenCallCount = 0;
 }
 
-- (void)test_ObjCRefreshTokenProactively_TokenExpiringInOneMin {
+- (void)xtest_ObjCRefreshTokenProactivelyTokenExpiringInOneMin {
     XCTestExpectation *expectation = [self expectationWithDescription:
-                                      @"RefreshTokenProactively_TokenExpiringInOneMin"];
+                                      @"RefreshTokenProactivelyTokenExpiringInOneMin"];
     __weak ObjCCommunicationUserCredentialAsyncTests *weakSelf = self;
     
     NSString *token = [self generateTokenValidForMinutes: 1];
@@ -79,9 +75,9 @@ NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fS
     [self waitForExpectations:@[expectation] timeout:2.0];
 }
 
-- (void)test_ObjCRefreshTokenProactively_TokenExpiringInNineMin {
+- (void)xtest_ObjCRefreshTokenProactivelyTokenExpiringInNineMin {
     XCTestExpectation *expectation = [self expectationWithDescription:
-                                      @"RefreshTokenProactively_TokenExpiringInNineMin"];
+                                      @"RefreshTokenProactivelyTokenExpiringInNineMin"];
     __weak ObjCCommunicationUserCredentialAsyncTests *weakSelf = self;
     
     NSString *token = [self generateTokenValidForMinutes: 9];
