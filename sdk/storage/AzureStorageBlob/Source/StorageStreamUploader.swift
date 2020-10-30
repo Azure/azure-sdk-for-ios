@@ -156,7 +156,7 @@ internal class ChunkUploader {
         let context = options.context ?? PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [201] as AnyObject
         ])
-
+        context.merge(with: options.context)
         client.request(request, context: context) { result, httpResponse in
             switch result {
             case let .failure(error):
@@ -379,7 +379,7 @@ internal class BlobStreamUploader: BlobUploader {
             ContextKey.allowedStatusCodes.rawValue: [201] as AnyObject
         ])
         context.add(cancellationToken: options.cancellationToken, applying: client.options)
-
+        context.merge(with: options.context)
         client.request(request, context: context) { result, httpResponse in
             switch result {
             case let .failure(error):
