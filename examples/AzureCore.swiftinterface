@@ -1,6 +1,6 @@
 // swift-interface-format-version: 1.0
 // swift-compiler-version: Apple Swift version 5.3 (swiftlang-1200.0.29.2 clang-1200.0.30.1)
-// swift-module-flags: -target x86_64-apple-ios12.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name AzureCore
+// swift-module-flags: -target arm64-apple-ios12.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name AzureCore
 import CommonCrypto
 import Foundation
 import Security
@@ -11,19 +11,6 @@ import os.log
 import os
 
 // MARK: HTTP Primitives
-
-public enum MatchCondition : Swift.Int {
-  case unconditionally
-  case ifNotModified
-  case ifModified
-  case ifPresent
-  case ifMissing
-  public typealias RawValue = Swift.Int
-  public init?(rawValue: Swift.Int)
-  public var rawValue: Swift.Int {
-    get
-  }
-}
 
 public enum HTTPMethod : Swift.String {
   case get
@@ -102,7 +89,7 @@ public enum HTTPHeader : Swift.String {
 }
 
 public class HTTPRequest : AzureCore.DataStringConvertible {
-  final public let httpMethod: AzureCore.HTTPMethod
+  public var httpMethod: AzureCore.HTTPMethod
   public var url: Foundation.URL
   public var headers: AzureCore.HTTPHeaders
   public var data: Foundation.Data?
@@ -115,41 +102,41 @@ public class HTTPResponse : AzureCore.DataStringConvertible {
   public var httpRequest: AzureCore.HTTPRequest?
   public var statusCode: Swift.Int?
   public var headers: AzureCore.HTTPHeaders
-  public var blockSize: Swift.Int
   public var data: Foundation.Data?
   public var statusMessage: Swift.String? {
     get
   }
-  public init(request: AzureCore.HTTPRequest?, statusCode: Swift.Int?, blockSize: Swift.Int = 4096)
+  public init(request: AzureCore.HTTPRequest?, statusCode: Swift.Int?)
   @objc deinit
 }
 
 public protocol DataStringConvertible {
   var data: Foundation.Data? { get set }
 }
+
 extension DataStringConvertible {
   public func text(encoding: Swift.String.Encoding = .utf8) -> Swift.String?
 }
 
 public class URLHTTPResponse : AzureCore.HTTPResponse {
-  public init(request: AzureCore.HTTPRequest, response: Foundation.HTTPURLResponse?, blockSize: Swift.Int = 4096)
+  public init(request: AzureCore.HTTPRequest, response: Foundation.HTTPURLResponse?)
   @objc deinit
-  override public init(request: AzureCore.HTTPRequest?, statusCode: Swift.Int?, blockSize: Swift.Int = super)
+  override public init(request: AzureCore.HTTPRequest?, statusCode: Swift.Int?)
 }
 
 // MARK: Pipeline Client Concepts
 
 open class PipelineClient {
-  public var baseUrl: Foundation.URL
+  public var endpoint: Foundation.URL
   public var logger: AzureCore.ClientLogger
-  public var commonOptions: AzureCore.AzureClientOptions
-  public init(baseUrl: Foundation.URL, transport: AzureCore.HTTPTransportStage, policies: [AzureCore.PipelineStage], logger: AzureCore.ClientLogger, options: AzureCore.AzureClientOptions)
+  public var commonOptions: AzureCore.ClientOptions
+  public init(endpoint: Foundation.URL, transport: AzureCore.TransportStage, policies: [AzureCore.PipelineStage], logger: AzureCore.ClientLogger, options: AzureCore.ClientOptions)
   public func url(forTemplate templateIn: Swift.String, withKwargs kwargs: [Swift.String : Swift.String]? = nil) -> Foundation.URL?
   public func request(_ request: AzureCore.HTTPRequest, context: AzureCore.PipelineContext?, completionHandler: @escaping AzureCore.HTTPResultHandler<Foundation.Data?>)
   @objc deinit
 }
 
-public protocol AzureClientOptions {
+public protocol ClientOptions {
   var apiVersion: Swift.String { get }
   var logger: AzureCore.ClientLogger { get }
   var telemetryOptions: AzureCore.TelemetryOptions { get }
@@ -163,29 +150,32 @@ public struct TelemetryOptions {
   public init(telemetryDisabled: Swift.Bool = false, applicationId: Swift.String? = nil)
 }
 
-public struct TransportOptions : Swift.Codable {
-  public let timeoutInSeconds: Swift.Double?
-  public init(timeoutInSeconds: Swift.Double? = nil)
-  public init(from decoder: Swift.Decoder) throws
-  public func encode(to encoder: Swift.Encoder) throws
+public struct TransportOptions {
+  public let timeout: Foundation.TimeInterval?
+  public let perRequestPolicies: [AzureCore.PipelineStage]?
+  public let perRetryPolicies: [AzureCore.PipelineStage]?
+  public let transport: AzureCore.TransportStage?
+  public init(timeout: Foundation.TimeInterval? = nil, perRequestPolicies: [AzureCore.PipelineStage]? = nil, perRetryPolicies: [AzureCore.PipelineStage]? = nil, transport: AzureCore.TransportStage? = nil)
 }
 
 // MARK: Method Concepts
 
-public protocol AzureOptions {
+public protocol RequestOptions {
   var clientRequestId: Swift.String? { get }
   var cancellationToken: AzureCore.CancellationToken? { get }
   var dispatchQueue: Dispatch.DispatchQueue? { get }
+  var context: AzureCore.PipelineContext? { get set }
 }
 
 // MARK: Pipeline Primitives
 
-final public class PipelineRequest : AzureCore.PipelineContextSupporting {
+final public class PipelineRequest : AzureCore.PipelineContextSupporting, Foundation.NSCopying {
   final public var httpRequest: AzureCore.HTTPRequest
   final public var logger: AzureCore.ClientLogger
   final public var context: AzureCore.PipelineContext?
   public convenience init(request: AzureCore.HTTPRequest, logger: AzureCore.ClientLogger)
   public init(request: AzureCore.HTTPRequest, logger: AzureCore.ClientLogger, context: AzureCore.PipelineContext?)
+  @objc final public func copy(with _: ObjectiveC.NSZone? = nil) -> Any
   @objc deinit
 }
 
@@ -219,7 +209,7 @@ extension PipelineStage {
 }
 
 public enum AzureError {
-  case sdk(Swift.String, Swift.Error? = nil)
+  case client(Swift.String, Swift.Error? = nil)
   case service(Swift.String, Swift.Error? = nil)
   public var message: Swift.String {
     get
@@ -227,12 +217,12 @@ public enum AzureError {
 }
 extension AzureCore.AzureError : Foundation.LocalizedError {}
 
-public protocol HTTPTransportStage : AzureCore.PipelineStage {
+public protocol TransportStage : AzureCore.PipelineStage {
   func open()
   func close()
 }
 
-public class URLSessionTransport : AzureCore.HTTPTransportStage {
+public class URLSessionTransport : AzureCore.TransportStage {
   public var next: AzureCore.PipelineStage? {
     get
     set(newValue)
@@ -274,7 +264,7 @@ extension PipelineContextSupporting {
   public func value(forKey key: AzureCore.ContextKey) -> Swift.AnyObject?
 }
 
-public class PipelineContext {
+public class PipelineContext : Swift.Sequence {
   public static func of(keyValues: [Swift.AnyHashable : Swift.AnyObject]) -> AzureCore.PipelineContext
   public init()
   public func add(value: Swift.AnyObject, forKey key: Swift.AnyHashable)
@@ -282,7 +272,23 @@ public class PipelineContext {
   public func value(forKey key: Swift.AnyHashable) -> Swift.AnyObject?
   public func value(forKey key: AzureCore.ContextKey) -> Swift.AnyObject?
   public func toDict() -> [Swift.AnyHashable : Swift.AnyObject?]
-  public func add(cancellationToken: AzureCore.CancellationToken?, applying clientOptions: AzureCore.AzureClientOptions)
+  public func add(cancellationToken: AzureCore.CancellationToken?, applying clientOptions: AzureCore.ClientOptions)
+  public func merge(with newContext: AzureCore.PipelineContext?)
+  public typealias Iterator = AzureCore.PipelineContext.PipelineContextIterator
+  public __consuming func makeIterator() -> AzureCore.PipelineContext.PipelineContextIterator
+  @_hasMissingDesignatedInitializers public class PipelineContextIterator : Swift.IteratorProtocol {
+    public typealias Element = AzureCore.PipelineContextNode
+    public func next() -> AzureCore.PipelineContextNode?
+    @objc deinit
+  }
+  @objc deinit
+  public typealias Element = AzureCore.PipelineContext.PipelineContextIterator.Element
+}
+extension PipelineContext : Swift.Equatable {
+  public static func == (lhs: AzureCore.PipelineContext, rhs: AzureCore.PipelineContext) -> Swift.Bool
+}
+
+@_hasMissingDesignatedInitializers public class PipelineContextNode {
   @objc deinit
 }
 
@@ -369,29 +375,38 @@ public class BearerTokenCredentialPolicy : AzureCore.Authenticating {
   @objc deinit
 }
 
+public class RetryPolicy {
+  public var next: AzureCore.PipelineStage?
+  public init()
+  public func on(request: AzureCore.PipelineRequest, completionHandler: @escaping AzureCore.OnRequestCompletionHandler)
+  public func on(response: AzureCore.PipelineResponse, completionHandler: @escaping AzureCore.OnResponseCompletionHandler)
+  public func on(error: AzureCore.AzureError, pipelineResponse _: AzureCore.PipelineResponse, completionHandler: @escaping AzureCore.OnErrorCompletionHandler)
+  @objc deinit
+}
+extension AzureCore.RetryPolicy : AzureCore.PipelineStage {}
+
 // MARK: Authentication
 
 public protocol Authenticating : AzureCore.PipelineStage {
   func authenticate(request: AzureCore.PipelineRequest, completionHandler: @escaping AzureCore.OnRequestCompletionHandler)
 }
+
 extension Authenticating {
   public func on(request: AzureCore.PipelineRequest, completionHandler: @escaping AzureCore.OnRequestCompletionHandler)
 }
 
-public protocol AzureCredential {
+public protocol Credential {
   func validate() throws
 }
-public protocol TokenCredential : AzureCore.AzureCredential {
+public protocol TokenCredential : AzureCore.Credential {
   func token(forScopes scopes: [Swift.String], completionHandler: @escaping AzureCore.TokenCompletionHandler)
 }
 
 public typealias TokenCompletionHandler = (AzureCore.AccessToken?, AzureCore.AzureError?) -> Swift.Void
-@objc @objcMembers public class AccessToken : ObjectiveC.NSObject {
-  @objc final public let token: Swift.String
-  @objc final public let expiresOn: Foundation.Date
-  @objc public init(token: Swift.String, expiresOn: Foundation.Date)
-  @objc deinit
-  @objc override dynamic public init()
+public struct AccessToken {
+  public let token: Swift.String
+  public let expiresOn: Foundation.Date
+  public init(token: Swift.String, expiresOn: Foundation.Date)
 }
 
 // MARK: Logging
@@ -416,7 +431,6 @@ public protocol ClientLogger {
   func error(_: @autoclosure @escaping () -> Swift.String?)
   func log(_: () -> Swift.String?, atLevel: AzureCore.ClientLogLevel)
 }
-
 extension ClientLogger {
   public func debug(_ message: @escaping () -> Swift.String?)
   public func info(_ message: @escaping () -> Swift.String?)
@@ -569,11 +583,11 @@ final public class CancellationToken : Swift.Codable, Swift.Equatable {
   final public var isStarted: Swift.Bool {
     get
   }
-  final public var timeoutInSeconds: Swift.Double? {
+  final public var timeout: Foundation.TimeInterval? {
     get
   }
   final public func cancel()
-  public init(timeoutInSeconds: Swift.Double? = nil)
+  public init(timeout: Foundation.TimeInterval? = nil)
   public static func == (lhs: AzureCore.CancellationToken, rhs: AzureCore.CancellationToken) -> Swift.Bool
   final public func start()
   @objc deinit
@@ -742,13 +756,13 @@ extension Date {
     case iso8601
 
     public var formatter: Foundation.DateFormatter {
-        get
+      get
     }
 
     public static func == (a: Foundation.Date.Format, b: Foundation.Date.Format) -> Swift.Bool
 
     public var hashValue: Swift.Int {
-        get
+      get
     }
 
     public func hash(into hasher: inout Swift.Hasher)
@@ -788,4 +802,27 @@ extension Dictionary where Key == Swift.String, Value == Swift.String {
 public typealias QueryParameter = (Swift.String, Swift.String?)
 extension Array where Element == AzureCore.QueryParameter {
   public mutating func append(_ name: Swift.String, _ value: Swift.String?)
+}
+
+// MARK: Test Objects
+
+public struct TestClientOptions : AzureCore.ClientOptions {
+  public var apiVersion: Swift.String
+  public var logger: AzureCore.ClientLogger
+  public var telemetryOptions: AzureCore.TelemetryOptions
+  public var transportOptions: AzureCore.TransportOptions
+  public var dispatchQueue: Dispatch.DispatchQueue?
+}
+public struct TestCallOptions : AzureCore.RequestOptions {
+  public var clientRequestId: Swift.String?
+  public var cancellationToken: AzureCore.CancellationToken?
+  public var dispatchQueue: Dispatch.DispatchQueue?
+  public var context: AzureCore.PipelineContext?
+}
+@_hasMissingDesignatedInitializers public class TestClient : AzureCore.PipelineClient {
+  final public let options: AzureCore.TestClientOptions
+  public convenience init(defaultPoliciesWithOptions options: AzureCore.TestClientOptions? = nil)
+  public convenience init(customPolicies policies: [AzureCore.PipelineStage], withOptions options: AzureCore.TestClientOptions? = nil)
+  @objc deinit
+  override public init(endpoint: Foundation.URL, transport: AzureCore.TransportStage, policies: [AzureCore.PipelineStage], logger: AzureCore.ClientLogger, options: AzureCore.ClientOptions)
 }
