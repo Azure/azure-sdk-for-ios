@@ -24,10 +24,11 @@
 //
 // --------------------------------------------------------------------------
 
+import AzureCore
 import Foundation
 
 // swiftlint:disable force_try
-public class TestClient: PipelineClient {
+class TestClient: PipelineClient {
     // MARK: Properties
 
     public let options: TestClientOptions
