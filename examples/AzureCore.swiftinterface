@@ -803,26 +803,3 @@ public typealias QueryParameter = (Swift.String, Swift.String?)
 extension Array where Element == AzureCore.QueryParameter {
   public mutating func append(_ name: Swift.String, _ value: Swift.String?)
 }
-
-// MARK: Test Objects
-
-public struct TestClientOptions : AzureCore.ClientOptions {
-  public var apiVersion: Swift.String
-  public var logger: AzureCore.ClientLogger
-  public var telemetryOptions: AzureCore.TelemetryOptions
-  public var transportOptions: AzureCore.TransportOptions
-  public var dispatchQueue: Dispatch.DispatchQueue?
-}
-public struct TestCallOptions : AzureCore.RequestOptions {
-  public var clientRequestId: Swift.String?
-  public var cancellationToken: AzureCore.CancellationToken?
-  public var dispatchQueue: Dispatch.DispatchQueue?
-  public var context: AzureCore.PipelineContext?
-}
-@_hasMissingDesignatedInitializers public class TestClient : AzureCore.PipelineClient {
-  final public let options: AzureCore.TestClientOptions
-  public convenience init(defaultPoliciesWithOptions options: AzureCore.TestClientOptions? = nil)
-  public convenience init(customPolicies policies: [AzureCore.PipelineStage], withOptions options: AzureCore.TestClientOptions? = nil)
-  @objc deinit
-  override public init(endpoint: Foundation.URL, transport: AzureCore.TransportStage, policies: [AzureCore.PipelineStage], logger: AzureCore.ClientLogger, options: AzureCore.ClientOptions)
-}
