@@ -24,9 +24,10 @@
 //
 // --------------------------------------------------------------------------
 
+import AzureCore
 import Foundation
 
-public struct TestClientOptions: ClientOptions {
+struct TestClientOptions: ClientOptions {
     public var apiVersion = "TestAPI"
     public var logger = ClientLoggers.default(tag: "AzureTest")
     public var telemetryOptions = TelemetryOptions()

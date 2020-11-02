@@ -24,9 +24,10 @@
 //
 // --------------------------------------------------------------------------
 
+import AzureCore
 import Foundation
 
-public struct TestCallOptions: RequestOptions {
+struct TestCallOptions: RequestOptions {
     public var clientRequestId: String?
     public var cancellationToken: CancellationToken?
     public var dispatchQueue: DispatchQueue?
