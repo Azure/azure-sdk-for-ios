@@ -35,18 +35,16 @@ public extension Array where Element == QueryParameter {
 }
 
 extension URL {
-    public func appendingQueryParameters(_ addedParams: [QueryParameter]) -> URL? {
-        guard !addedParams.isEmpty else { return self }
+    public func appendingQueryParameters(_ queryParams: [QueryParameter]?) -> URL? {
+        guard let params = queryParams else { return self }
+        guard !params.isEmpty else { return self }
         guard var urlComps = URLComponents(url: self, resolvingAgainstBaseURL: true) else { return nil }
 
-        let addedQueryItems = addedParams.map { name, value in URLQueryItem(name: name, value: value) }
-        if var urlQueryItems = urlComps.queryItems, !urlQueryItems.isEmpty {
-            urlQueryItems.append(contentsOf: addedQueryItems)
-            urlComps.queryItems = urlQueryItems
-        } else {
-            urlComps.queryItems = addedQueryItems
-        }
-
+        let queryItems = params.map { name, value in URLQueryItem(
+            name: name,
+            value: value?.addingPercentEncoding(withAllowedCharacters: .azureUrlQueryAllowed)
+        ) }
+        urlComps.percentEncodedQueryItems = queryItems
         return urlComps.url
     }
 

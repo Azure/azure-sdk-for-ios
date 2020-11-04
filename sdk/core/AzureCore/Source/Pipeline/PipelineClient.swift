@@ -79,21 +79,32 @@ open class PipelineClient {
 
     // MARK: Public Methods
 
-    public func url(forTemplate templateIn: String, withKwargs kwargs: [String: String]? = nil) -> URL? {
-        var template = templateIn
-        if template.hasPrefix("/") { template = String(template.dropFirst()) }
-        var urlString = endpoint.absoluteString
-        if template.starts(with: urlString) {
-            urlString = template
-        } else {
-            urlString += template
-        }
-        if let urlKwargs = kwargs {
-            for (key, value) in urlKwargs {
-                urlString = urlString.replacingOccurrences(of: "{\(key)}", with: value)
+    public func url(
+        host hostIn: String? = nil,
+        template templateIn: String,
+        pathParams: [String: String]? = nil,
+        queryParams: [QueryParameter]? = nil
+    ) -> URL? {
+        var template = templateIn.hasPrefix("/") ? String(templateIn.dropFirst()) : templateIn
+        var hostString = hostIn
+
+        for (key, value) in pathParams ?? [:] {
+            if let encodedPathValue = value.addingPercentEncoding(withAllowedCharacters: .azureUrlPathAllowed) {
+                template = template.replacingOccurrences(of: "{\(key)}", with: encodedPathValue)
+            }
+            if let host = hostString {
+                hostString = host.replacingOccurrences(of: "{\(key)}", with: value)
             }
         }
-        return URL(string: urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))
+        if let hostUnwrapped = hostString,
+            !hostUnwrapped.hasSuffix("/") {
+            hostString = hostUnwrapped + "/"
+        }
+        let urlString = (hostString ?? endpoint.absoluteString) + template
+        guard let url = URL(string: urlString) else {
+            return nil
+        }
+        return url.appendingQueryParameters(queryParams)
     }
 
     public func request(
