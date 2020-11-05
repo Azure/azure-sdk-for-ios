@@ -121,25 +121,25 @@ class QueryParametersTests: XCTestCase {
 
     func test_QueryParameters_WithOptionals() throws {
         let nilString: String? = nil
-        let query = QueryParameters(
-            ("var1", "test"),
-            ("var2", nilString)
+        let query = RequestParameters(
+            (.query, "var1", "test", false),
+            (.query, "var2", nilString, false)
         )
         XCTAssert(query.parameters.count == 1)
         XCTAssert(query.parameters[0].value == "test")
     }
 
     func test_QueryParameters_WithInt() throws {
-        let query = QueryParameters(
-            ("var1", 5)
+        let query = RequestParameters(
+            (.query, "var1", 5, false)
         )
         XCTAssert(query.parameters.count == 1)
         XCTAssert(query.parameters[0].value == "5")
     }
 
     func test_QueryParameters_WithBool() throws {
-        let query = QueryParameters(
-            ("var1", true)
+        let query = RequestParameters(
+            (.query, "var1", true, false)
         )
         XCTAssert(query.parameters.count == 1)
         XCTAssert(query.parameters[0].value == "true")
@@ -147,8 +147,8 @@ class QueryParametersTests: XCTestCase {
 
     func test_QueryParameters_WithDate() throws {
         let date = MyDate(string: "2000-01-01")
-        let query = QueryParameters(
-            ("var1", date)
+        let query = RequestParameters(
+            (.query, "var1", date, false)
         )
         XCTAssert(query.parameters.count == 1)
         XCTAssert(query.parameters[0].value == "2000-01-01")
@@ -156,25 +156,25 @@ class QueryParametersTests: XCTestCase {
 
     func test_QueryParameters_WithData() throws {
         let data = "test".data(using: .utf8)
-        let query = QueryParameters(
-            ("var1", data)
+        let query = RequestParameters(
+            (.query, "var1", data, false)
         )
         XCTAssert(query.parameters.count == 1)
         XCTAssert(query.parameters[0].value == "test")
     }
 
     func test_QueryParameters_WithStringBackedEnum() throws {
-        let query = QueryParameters(
-            ("var1", AnimalEnum.cat)
+        let query = RequestParameters(
+            (.query, "var1", AnimalEnum.cat, false)
         )
         XCTAssert(query.parameters.count == 1)
         XCTAssert(query.parameters[0].value == "cat")
     }
 
     func test_QueryParameters_WithExtensibleStringBackedEnum() throws {
-        let query = QueryParameters(
-            ("var1", ShapeEnum.custom("parallelogram")),
-            ("var2", ShapeEnum.circle)
+        let query = RequestParameters(
+            (.query, "var1", ShapeEnum.custom("parallelogram"), false),
+            (.query, "var2", ShapeEnum.circle, false)
         )
         XCTAssert(query.parameters.count == 2)
         XCTAssert(query.parameters[0].value == "parallelogram")
@@ -182,16 +182,16 @@ class QueryParametersTests: XCTestCase {
     }
 
     func test_QueryParameters_WithIntBackedEnum() throws {
-        let query = QueryParameters(
-            ("var1", FlavorEnum.chocolate)
+        let query = RequestParameters(
+            (.query, "var1", FlavorEnum.chocolate, false)
         )
         XCTAssert(query.parameters.count == 1)
         XCTAssert(query.parameters[0].value == "0")
     }
 
     func test_QueryParameters_WithOptionalStringArray() throws {
-        let query = QueryParameters(
-            ("var1", ["test", nil, "begin!*'();:@ &=+$,/?#[]end"])
+        let query = RequestParameters(
+            (.query, "var1", ["test", nil, "begin!*'();:@ &=+$,/?#[]end"], false)
         )
         XCTAssert(query.parameters.count == 1)
         XCTAssert(query.parameters[0].value == "test,,begin!*'();:@ &=+$,/?#[]end")

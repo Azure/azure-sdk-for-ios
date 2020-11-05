@@ -28,8 +28,12 @@ import Foundation
 
 // swiftlint:disable function_body_length type_body_length cyclomatic_complexity
 
+/// Type alias for HTTP header dictionary
+public typealias HTTPHeaders = [String: String]
+/// Extensions to work with `HTTPHeader` values within a collection of `HTTPHeaders`.
+
 /// Common HTTP headers.
-public enum HTTPHeader: RequestStringConvertible, Equatable {
+public enum HTTPHeader: RequestStringConvertible, Equatable, Hashable {
     /// Use when the header value you want is not in the list.
     case custom(String)
     /// Accept
@@ -345,5 +349,27 @@ public enum HTTPHeader: RequestStringConvertible, Equatable {
         default:
             self = .custom(val)
         }
+    }
+}
+
+extension HTTPHeaders {
+    /// Access the value of an `HTTPHeader` within a collection of `HTTPHeaders`.
+    /// - Parameters:
+    ///   - index: The `HTTPHeader` value to access.
+    public subscript(index: HTTPHeader) -> String? {
+        get {
+            return self[index.requestString]
+        }
+
+        set(newValue) {
+            self[index.requestString] = newValue
+        }
+    }
+
+    /// Remove an `HTTPHeader` value from a collection of `HTTPHeaders`.
+    /// - Parameters:
+    ///   - index: The `HTTPHeader` value to remove.
+    public mutating func removeValue(forKey key: HTTPHeader) -> Value? {
+        return removeValue(forKey: key.requestString)
     }
 }

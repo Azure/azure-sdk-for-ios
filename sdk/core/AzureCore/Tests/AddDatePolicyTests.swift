@@ -49,7 +49,7 @@ class AddDatePolicyTests: XCTestCase {
     /// Test that the add date policy overwrites any existing Date header
     func test_AddDatePolicy_OverwritesExistingDateHeader() {
         let policy = AddDatePolicy()
-        let headers = HeaderParameters((HTTPHeader.date, "ABCDEF"))
+        let headers = HTTPHeaders([.date: "ABCDEF"])
         let req = PipelineRequest(headers: headers)
         policy.on(request: req) { _, _ in }
         let value = req.httpRequest.headers[.date]

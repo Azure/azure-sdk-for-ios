@@ -26,57 +26,37 @@
 
 import Foundation
 
-public protocol UrlStringConvertible {
-    var queryValue: String { get }
+/// Can be string-formatted for use by AzureCore.
+public protocol RequestStringConvertible {
+    var requestString: String { get }
 }
 
-public typealias QueryParameter = (key: String, value: String)
-
-public struct UrlParameters {
-    internal var parameters = [QueryParameter]()
-
-    public init(_ params: (key: String, value: Any?)...) {
-        // swiftlint:disable force_cast
-        let nonNilParams = params.filter { $0.value as? QueryStringConvertible != nil }
-            .map { (key: $0.key, value: ($0.value as! QueryStringConvertible).queryValue) }
-        self.parameters = nonNilParams
-    }
-
-    public mutating func add(key: String, value: UrlStringConvertible?) {
-        // skip values that evaluate to nil
-        guard let val = value else { return }
-        parameters.append((key: key, value: val.queryValue))
-    }
-
-    /// Returns an unordered `Dictionary` version of the parameter collection.
-    public func toDict() -> [String: String] {
-        let dict: [String: String] = parameters.reduce(into: [:]) { result, next in
-            result[next.key] = next.value
-        }
-        return dict
+extension RequestStringConvertible {
+    public static func == (lhs: RequestStringConvertible, rhs: RequestStringConvertible) -> Bool {
+        return lhs.requestString == rhs.requestString
     }
 }
 
-extension Int: UrlStringConvertible {
-    public var queryValue: String {
+extension Int: RequestStringConvertible {
+    public var requestString: String {
         return String(self)
     }
 }
 
-extension String: UrlStringConvertible {
-    public var queryValue: String {
+extension String: RequestStringConvertible {
+    public var requestString: String {
         return self
     }
 }
 
-extension Bool: UrlStringConvertible {
-    public var queryValue: String {
+extension Bool: RequestStringConvertible {
+    public var requestString: String {
         return String(self)
     }
 }
 
-extension Data: UrlStringConvertible {
-    public var queryValue: String {
+extension Data: RequestStringConvertible {
+    public var requestString: String {
         guard let dataString = String(bytes: self, encoding: .utf8) else {
             assertionFailure("Unable to encode bytes")
             return ""
@@ -85,12 +65,12 @@ extension Data: UrlStringConvertible {
     }
 }
 
-extension Array: UrlStringConvertible {
-    public var queryValue: String {
+extension Array: RequestStringConvertible {
+    public var requestString: String {
         var strings = [String]()
         for value in self {
-            if let val = value as? UrlStringConvertible {
-                strings.append(val.queryValue)
+            if let val = value as? RequestStringConvertible {
+                strings.append(val.requestString)
             } else {
                 strings.append("")
             }

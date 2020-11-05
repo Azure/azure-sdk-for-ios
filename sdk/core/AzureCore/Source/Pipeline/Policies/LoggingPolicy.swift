@@ -162,7 +162,7 @@ public class LoggingPolicy: PipelineStage {
     }
 
     private func log(
-        headers: HeaderParameters,
+        headers: HTTPHeaders,
         body bodyFunc: @autoclosure () -> String?,
         withLogger logger: ClientLogger
     ) {
@@ -175,7 +175,7 @@ public class LoggingPolicy: PipelineStage {
         logger.debug("\(bodyText)")
     }
 
-    private func humanReadable(body bodyFunc: () -> String?, headers: HeaderParameters) -> String {
+    private func humanReadable(body bodyFunc: () -> String?, headers: HTTPHeaders) -> String {
         if
             let encoding = headers[.contentEncoding],
             encoding != "" && encoding.caseInsensitiveCompare("identity") != .orderedSame {
@@ -224,9 +224,9 @@ public class LoggingPolicy: PipelineStage {
         return urlComps.string
     }
 
-    private func redact(headers: HeaderParameters) -> HeaderParameters {
+    private func redact(headers: HTTPHeaders) -> HTTPHeaders {
         var copy = headers
-        for header in copy.toDict().keys {
+        for header in copy.keys {
             if !allowHeaders.contains(header.requestString.lowercased()) {
                 copy[header] = "REDACTED"
             }
@@ -234,7 +234,7 @@ public class LoggingPolicy: PipelineStage {
         return copy
     }
 
-    private func contentLength(from headers: HeaderParameters) -> Int {
+    private func contentLength(from headers: HTTPHeaders) -> Int {
         guard let length = headers[.contentLength] else { return 0 }
         guard let parsed = Int(length) else { return 0 }
         return parsed

@@ -56,14 +56,14 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
         let accessKey = "aGVsbG8gd29ybGQ=" // "hello world"
         let credential = StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
         let policy = StorageSharedKeyAuthenticationPolicy(credential: credential)
-        let headers = HeaderParameters(
-            (HTTPHeader.transferEncoding, "chunked"),
-            (HTTPHeader.userAgent, "foobar"),
-            (HTTPHeader.apiVersion, "2019-02-02"),
-            (HTTPHeader.date, "Thu, 16 Apr 2020 00:00:00 GMT"),
-            (HTTPHeader.accept, "application/xml"),
-            (HTTPHeader.clientRequestId, "00112233-4455-6677-8899-aabbccddeeff")
-        )
+        let headers = HTTPHeaders([
+            .transferEncoding: "chunked",
+            .userAgent: "foobar",
+            .apiVersion: "2019-02-02",
+            .date: "Thu, 16 Apr 2020 00:00:00 GMT",
+            .accept: "application/xml",
+            .clientRequestId: "00112233-4455-6677-8899-aabbccddeeff"
+        ])
         let httpRequest = try! HTTPRequest(
             method: .get,
             url: "https://\(accountName).blob.core.windows.net/samplecontainer/sampleblob?a=foo&b=bar&c=baz",
@@ -100,14 +100,14 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
         let accessKey = "aGVsbG8gd29ybGQ=" // "hello world"
         let credential = StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
         let policy = StorageSharedKeyAuthenticationPolicy(credential: credential)
-        let headers = HeaderParameters(
-            (HTTPHeader.transferEncoding, "chunked"),
-            (HTTPHeader.userAgent, "foobar"),
-            (HTTPHeader.apiVersion, "2019-02-02"),
-            (HTTPHeader.date, "Thu, 16 Apr 2020 00:00:00 GMT"),
-            (HTTPHeader.accept, "application/xml"),
-            (HTTPHeader.clientRequestId, "00112233-4455-6677-8899-aabbccddeeff")
-        )
+        let headers = HTTPHeaders([
+            .transferEncoding: "chunked",
+            .userAgent: "foobar",
+            .apiVersion: "2019-02-02",
+            .date: "Thu, 16 Apr 2020 00:00:00 GMT",
+            .accept: "application/xml",
+            .clientRequestId: "00112233-4455-6677-8899-aabbccddeeff"
+        ])
         let httpRequest = try! HTTPRequest(
             method: .get,
             url: "https://\(accountName).blob.core.windows.net/samplecontainer/sample blob 123?a=foo&b=bar&c=baz",
@@ -144,14 +144,14 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
         let accessKey = "aGVsbG8gd29ybGQ=" // "hello world"
         let credential = StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
         let policy = StorageSharedKeyAuthenticationPolicy(credential: credential)
-        let headers = HeaderParameters(
-            (HTTPHeader.transferEncoding, "chunked"),
-            (HTTPHeader.userAgent, "foobar"),
-            (HTTPHeader.apiVersion, "2019-02-02"),
-            (HTTPHeader.date, "Thu, 16 Apr 2020 00:00:00 GMT"),
-            (HTTPHeader.accept, "application/xml"),
-            (HTTPHeader.clientRequestId, "00112233-4455-6677-8899-aabbccddeeff")
-        )
+        let headers = HTTPHeaders([
+            .transferEncoding: "chunked",
+            .userAgent: "foobar",
+            .apiVersion: "2019-02-02",
+            .date: "Thu, 16 Apr 2020 00:00:00 GMT",
+            .accept: "application/xml",
+            .clientRequestId: "00112233-4455-6677-8899-aabbccddeeff"
+        ])
         let httpRequest = try! HTTPRequest(
             method: .get,
             url: "https://\(accountName).blob.core.windows.net?a=foo&b=bar&c=baz",
@@ -189,14 +189,14 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
         let accessKey = "aGVsbG8gd29ybGQ=" // "hello world"
         let credential = StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
         let policy = StorageSharedKeyAuthenticationPolicy(credential: credential)
-        let headers = HeaderParameters(
-            (HTTPHeader.transferEncoding, "chunked"),
-            (HTTPHeader.userAgent, "foobar"),
-            (HTTPHeader.apiVersion, "2019-02-02"),
-            (HTTPHeader.xmsDate, "Thu, 16 Apr 2020 00:00:00 GMT"),
-            (HTTPHeader.accept, "application/xml"),
-            (HTTPHeader.clientRequestId, "00112233-4455-6677-8899-aabbccddeeff")
-        )
+        let headers = HTTPHeaders([
+            .transferEncoding: "chunked",
+            .userAgent: "foobar",
+            .apiVersion: "2019-02-02",
+            .xmsDate: "Thu, 16 Apr 2020 00:00:00 GMT",
+            .accept: "application/xml",
+            .clientRequestId: "00112233-4455-6677-8899-aabbccddeeff"
+        ])
         let httpRequest = try! HTTPRequest(
             method: .get,
             url: "https://\(accountName).blob.core.windows.net?a=foo&b=bar&c=baz",
@@ -234,15 +234,15 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
         let accessKey = "aGVsbG8gd29ybGQ=" // "hello world"
         let credential = StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
         let policy = StorageSharedKeyAuthenticationPolicy(credential: credential)
-        let headers = HeaderParameters(
-            (HTTPHeader.transferEncoding, "chunked"),
-            (HTTPHeader.userAgent, "foobar"),
-            (HTTPHeader.apiVersion, "2019-02-02"),
-            (HTTPHeader.date, "Thu, 16 Apr 2020 12:12:12 GMT"),
-            (HTTPHeader.xmsDate, "Thu, 16 Apr 2020 00:00:00 GMT"),
-            (HTTPHeader.accept, "application/xml"),
-            (HTTPHeader.clientRequestId, "00112233-4455-6677-8899-aabbccddeeff")
-        )
+        let headers = HTTPHeaders([
+            .transferEncoding: "chunked",
+            .userAgent: "foobar",
+            .apiVersion: "2019-02-02",
+            .date: "Thu, 16 Apr 2020 12:12:12 GMT",
+            .xmsDate: "Thu, 16 Apr 2020 00:00:00 GMT",
+            .accept: "application/xml",
+            .clientRequestId: "00112233-4455-6677-8899-aabbccddeeff"
+        ])
         let httpRequest = try! HTTPRequest(
             method: .get,
             url: "https://\(accountName).blob.core.windows.net?a=foo&b=bar&c=baz",
@@ -279,15 +279,15 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
         let accessKey = "aGVsbG8gd29ybGQ=" // "hello world"
         let credential = StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
         let policy = StorageSharedKeyAuthenticationPolicy(credential: credential)
-        let headers = HeaderParameters(
-            (HTTPHeader.transferEncoding, "chunked"),
-            (HTTPHeader.userAgent, "foobar"),
-            (HTTPHeader.apiVersion, "2019-02-02"),
-            (HTTPHeader.date, "Thu, 16 Apr 2020 00:00:00 GMT"),
-            (HTTPHeader.accept, "application/xml"),
-            (HTTPHeader.clientRequestId, "00112233-4455-6677-8899-aabbccddeeff"),
-            (HTTPHeader.contentLength, "123")
-        )
+        let headers = HTTPHeaders([
+            .transferEncoding: "chunked",
+            .userAgent: "foobar",
+            .apiVersion: "2019-02-02",
+            .date: "Thu, 16 Apr 2020 00:00:00 GMT",
+            .accept: "application/xml",
+            .clientRequestId: "00112233-4455-6677-8899-aabbccddeeff",
+            .contentLength: "123"
+        ])
         let httpRequest = try! HTTPRequest(
             method: .put,
             url: "https://\(accountName).blob.core.windows.net/samplecontainer/sampleblob?a=foo&b=bar&c=baz",
@@ -324,15 +324,15 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
         let accessKey = "aGVsbG8gd29ybGQ=" // "hello world"
         let credential = StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
         let policy = StorageSharedKeyAuthenticationPolicy(credential: credential)
-        let headers = HeaderParameters(
-            (HTTPHeader.transferEncoding, "chunked"),
-            (HTTPHeader.userAgent, "foobar"),
-            (HTTPHeader.apiVersion, "2019-02-02"),
-            (HTTPHeader.date, "Thu, 16 Apr 2020 00:00:00 GMT"),
-            (HTTPHeader.accept, "application/xml"),
-            (HTTPHeader.clientRequestId, "00112233-4455-6677-8899-aabbccddeeff"),
-            (HTTPHeader.contentLength, "0")
-        )
+        let headers = HTTPHeaders([
+            .transferEncoding: "chunked",
+            .userAgent: "foobar",
+            .apiVersion: "2019-02-02",
+            .date: "Thu, 16 Apr 2020 00:00:00 GMT",
+            .accept: "application/xml",
+            .clientRequestId: "00112233-4455-6677-8899-aabbccddeeff",
+            .contentLength: "0"
+        ])
         let httpRequest = try! HTTPRequest(
             method: .put,
             url: "https://\(accountName).blob.core.windows.net/samplecontainer/sampleblob?a=foo&b=bar&c=baz",
@@ -370,14 +370,14 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
         let accessKey = "aGVsbG8gd29ybGQ=" // "hello world"
         let credential = StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
         let policy = StorageSharedKeyAuthenticationPolicy(credential: credential)
-        let headers = HeaderParameters(
-            (HTTPHeader.transferEncoding, "chunked"),
-            (HTTPHeader.userAgent, "foobar"),
-            (HTTPHeader.apiVersion, "2019-02-02"),
-            (HTTPHeader.date, "Thu, 16 Apr 2020 00:00:00 GMT"),
-            (HTTPHeader.accept, "application/xml"),
-            (HTTPHeader.clientRequestId, "00112233-4455-6677-8899-aabbccddeeff")
-        )
+        let headers = HTTPHeaders([
+            .transferEncoding: "chunked",
+            .userAgent: "foobar",
+            .apiVersion: "2019-02-02",
+            .date: "Thu, 16 Apr 2020 00:00:00 GMT",
+            .accept: "application/xml",
+            .clientRequestId: "00112233-4455-6677-8899-aabbccddeeff"
+        ])
         let httpRequest = try! HTTPRequest(
             method: .get,
             url: "https://\(accountName).blob.core.windows.net/samplecontainer/sampleblob?a=foo&b=bar&c=baz",
@@ -416,14 +416,14 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
         let accessKey = "aGVsbG8gd29ybGQ=" // "hello world"
         let credential = StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
         let policy = StorageSharedKeyAuthenticationPolicy(credential: credential)
-        var headers = HeaderParameters(
-            (HTTPHeader.transferEncoding, "chunked"),
-            (HTTPHeader.userAgent, "foobar"),
-            (HTTPHeader.apiVersion, "2019-02-02"),
-            (HTTPHeader.date, "Thu, 16 Apr 2020 00:00:00 GMT"),
-            (HTTPHeader.accept, "application/xml"),
-            (HTTPHeader.clientRequestId, "00112233-4455-6677-8899-aabbccddeeff")
-        )
+        var headers = HTTPHeaders([
+            .transferEncoding: "chunked",
+            .userAgent: "foobar",
+            .apiVersion: "2019-02-02",
+            .date: "Thu, 16 Apr 2020 00:00:00 GMT",
+            .accept: "application/xml",
+            .clientRequestId: "00112233-4455-6677-8899-aabbccddeeff"
+        ])
         headers["X-MS-Copy-Status"] = "foobar"
         let httpRequest = try! HTTPRequest(
             method: .get,
@@ -461,14 +461,14 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
         let accessKey = "aGVsbG8gd29ybGQ=" // "hello world"
         let credential = StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
         let policy = StorageSharedKeyAuthenticationPolicy(credential: credential)
-        let headers = HeaderParameters(
-            (HTTPHeader.transferEncoding, "chunked"),
-            (HTTPHeader.userAgent, "foobar"),
-            (HTTPHeader.apiVersion, "2019-02-02"),
-            (HTTPHeader.date, "Thu, 16 Apr 2020 00:00:00 GMT"),
-            (HTTPHeader.accept, "application/xml"),
-            (HTTPHeader.clientRequestId, "00112233-4455-6677-8899-aabbccddeeff")
-        )
+        let headers = HTTPHeaders([
+            .transferEncoding: "chunked",
+            .userAgent: "foobar",
+            .apiVersion: "2019-02-02",
+            .date: "Thu, 16 Apr 2020 00:00:00 GMT",
+            .accept: "application/xml",
+            .clientRequestId: "00112233-4455-6677-8899-aabbccddeeff"
+        ])
         let httpRequest = try! HTTPRequest(
             method: .get,
             url: "https://otheraccount.blob.core.windows.net/samplecontainer/sampleblob?a=foo&b=bar&c=baz",
@@ -505,14 +505,14 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
         let accessKey = "aGVsbG8gd29ybGQ=" // "hello world"
         let credential = StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
         let policy = StorageSharedKeyAuthenticationPolicy(credential: credential)
-        let headers = HeaderParameters(
-            (HTTPHeader.transferEncoding, "chunked"),
-            (HTTPHeader.userAgent, "foobar"),
-            (HTTPHeader.apiVersion, "2019-02-02"),
-            (HTTPHeader.date, "Thu, 16 Apr 2020 00:00:00 GMT"),
-            (HTTPHeader.accept, "application/xml"),
-            (HTTPHeader.clientRequestId, "00112233-4455-6677-8899-aabbccddeeff")
-        )
+        let headers = HTTPHeaders([
+            .transferEncoding: "chunked",
+            .userAgent: "foobar",
+            .apiVersion: "2019-02-02",
+            .date: "Thu, 16 Apr 2020 00:00:00 GMT",
+            .accept: "application/xml",
+            .clientRequestId: "00112233-4455-6677-8899-aabbccddeeff"
+        ])
         let httpRequest = try! HTTPRequest(
             method: .get,
             url: "https://\(accountName).blob.core.windows.net/samplecontainer/sampleblob?hello%20world=sample%20value&b=bar&c=baz",
@@ -529,14 +529,14 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
         let accessKey = "aGVsbG8gd29ybGQ=" // "hello world"
         let credential = StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
         let policy = StorageSharedKeyAuthenticationPolicy(credential: credential)
-        let headers = HeaderParameters(
-            (HTTPHeader.transferEncoding, "chunked"),
-            (HTTPHeader.userAgent, "foobar"),
-            (HTTPHeader.apiVersion, "2019-02-02"),
-            (HTTPHeader.date, "Thu, 16 Apr 2020 00:00:00 GMT"),
-            (HTTPHeader.accept, "application/xml"),
-            (HTTPHeader.clientRequestId, "00112233-4455-6677-8899-aabbccddeeff")
-        )
+        let headers = HTTPHeaders([
+            .transferEncoding: "chunked",
+            .userAgent: "foobar",
+            .apiVersion: "2019-02-02",
+            .date: "Thu, 16 Apr 2020 00:00:00 GMT",
+            .accept: "application/xml",
+            .clientRequestId: "00112233-4455-6677-8899-aabbccddeeff"
+        ])
         let httpRequest = try! HTTPRequest(
             method: .get,
             url: "https://\(accountName).blob.core.windows.net/samplecontainer/sampleblob?a=foo&b=bar&c=baz",
@@ -557,14 +557,14 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
         let accessKey = "aGVsbG8gd29ybGQ=" // "hello world"
         let credential = StorageSharedKeyCredential(accountName: accountName, accessKey: accessKey)
         let policy = StorageSharedKeyAuthenticationPolicy(credential: credential)
-        let headers = HeaderParameters(
-            (HTTPHeader.transferEncoding, "chunked"),
-            (HTTPHeader.userAgent, "foobar"),
-            (HTTPHeader.apiVersion, "2019-02-02"),
-            (HTTPHeader.date, "Thu, 16 Apr 2020 00:00:00 GMT"),
-            (HTTPHeader.accept, "application/xml"),
-            (HTTPHeader.clientRequestId, "00112233-4455-6677-8899-aabbccddeeff")
-        )
+        let headers = HTTPHeaders([
+            .transferEncoding: "chunked",
+            .userAgent: "foobar",
+            .apiVersion: "2019-02-02",
+            .date: "Thu, 16 Apr 2020 00:00:00 GMT",
+            .accept: "application/xml",
+            .clientRequestId: "00112233-4455-6677-8899-aabbccddeeff"
+        ])
         let httpRequest = try! HTTPRequest(
             method: .get,
             url: "https://otheraccount.blob.core.windows.net/samplecontainer/sampleblob?a=foo&b=bar&c=baz",

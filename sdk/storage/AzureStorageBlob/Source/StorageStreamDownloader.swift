@@ -83,15 +83,15 @@ internal class ChunkDownloader {
     ///   - completionHandler: A completion handler that forwards the downloaded data.
     public func download(requestId: String? = nil, completionHandler: @escaping HTTPResultHandler<Data>) {
         // Construct parameters & headers
-        let queryParams = QueryParameters(
-            ("snapshot", options.snapshot),
-            ("timeout", options.timeoutInSeconds)
+        let queryParams = RequestParameters(
+            (.query, "snapshot", options.snapshot, false),
+            (.query, "timeout", options.timeoutInSeconds, false)
         )
 
         let headers = downloadHeadersForRequest(withId: requestId)
 
         // Construct and send request
-        guard let requestUrl = downloadSource.appending(queryParameters: queryParams) else { return }
+        guard let requestUrl = downloadSource.appendingQueryParameters(queryParams) else { return }
         guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: headers) else { return }
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 206] as AnyObject
@@ -157,28 +157,28 @@ internal class ChunkDownloader {
     // MARK: Private Methods
 
     // swiftlint:disable:next cyclomatic_complexity
-    private func downloadHeadersForRequest(withId requestId: String?) -> HeaderParameters {
+    private func downloadHeadersForRequest(withId requestId: String?) -> HTTPHeaders {
         let leaseAccessConditions = options.leaseAccessConditions
         let modifiedAccessConditions = options.modifiedAccessConditions
         let cpk = options.customerProvidedEncryptionKey
 
-        let headers = HeaderParameters(
-            (HTTPHeader.accept, "application/xml"),
-            (HTTPHeader.apiVersion, client.options.apiVersion),
-            (HTTPHeader.range, "bytes=\(startRange)-\(endRange)"),
-            (StorageHTTPHeader.rangeGetContentMD5, String(describing: options.range?.calculateMD5)),
-            (StorageHTTPHeader.rangeGetContentCRC64, String(describing: options.range?.calculateCRC64)),
-            (HTTPHeader.clientRequestId, requestId),
-            (StorageHTTPHeader.leaseId, leaseAccessConditions?.leaseId),
-            (StorageHTTPHeader.encryptionKey, String(data: cpk?.keyData, encoding: .utf8)),
-            (StorageHTTPHeader.encryptionKeySHA256, cpk?.hash),
-            (StorageHTTPHeader.encryptionAlgorithm, cpk?.algorithm),
-            (HTTPHeader.ifModifiedSince, modifiedAccessConditions?.ifModifiedSince),
-            (HTTPHeader.ifUnmodifiedSince, modifiedAccessConditions?.ifUnmodifiedSince),
-            (HTTPHeader.ifMatch, modifiedAccessConditions?.ifMatch),
-            (HTTPHeader.ifNoneMatch, modifiedAccessConditions?.ifNoneMatch)
+        let headers = RequestParameters(
+            (.header, HTTPHeader.accept, "application/xml", false),
+            (.header, HTTPHeader.apiVersion, client.options.apiVersion, false),
+            (.header, HTTPHeader.range, "bytes=\(startRange)-\(endRange)", false),
+            (.header, HTTPHeader.clientRequestId, requestId, false),
+            (.header, HTTPHeader.ifModifiedSince, modifiedAccessConditions?.ifModifiedSince, false),
+            (.header, HTTPHeader.ifUnmodifiedSince, modifiedAccessConditions?.ifUnmodifiedSince, false),
+            (.header, HTTPHeader.ifMatch, modifiedAccessConditions?.ifMatch, false),
+            (.header, HTTPHeader.ifNoneMatch, modifiedAccessConditions?.ifNoneMatch, false),
+            (.header, StorageHTTPHeader.rangeGetContentMD5, String(describing: options.range?.calculateMD5), false),
+            (.header, StorageHTTPHeader.rangeGetContentCRC64, String(describing: options.range?.calculateCRC64), false),
+            (.header, StorageHTTPHeader.leaseId, leaseAccessConditions?.leaseId, false),
+            (.header, StorageHTTPHeader.encryptionKey, String(data: cpk?.keyData, encoding: .utf8), false),
+            (.header, StorageHTTPHeader.encryptionKeySHA256, cpk?.hash, false),
+            (.header, StorageHTTPHeader.encryptionAlgorithm, cpk?.algorithm, false)
         )
-        return headers
+        return headers.headers
     }
 
     private func decrypt(_ data: Data) -> Data {

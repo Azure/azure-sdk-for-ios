@@ -80,30 +80,14 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         withOptions options: ListChatReadReceiptsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ReadReceipt>>
     ) {
-        // Construct URL
         let urlTemplate = "/chat/threads/{chatThreadId}/readreceipts"
-        let pathParams = [
-            "chatThreadId": chatThreadId
-        ]
-        guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams) else {
-            self.options.logger.error("Failed to construct url")
-            return
-        }
-        // Construct query
-        let queryParams: [QueryParameter] = [
-            ("api-version", "2020-09-21-preview2")
-        ]
-
-        // Construct headers
-        var headers = HTTPHeaders()
-        headers["Accept"] = "application/json"
-        // Construct request
-        guard let requestUrl = url.appendingQueryParameters(queryParams) else {
-            self.options.logger.error("Failed to append query parameters to url")
-            return
-        }
-
-        guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: headers) else {
+        let params = RequestParameters(
+            (.path, "chatThreadId", chatThreadId, false),
+            (.query, "api-version", "2020-09-21-preview2", false)
+            (.header, "Accept", "application/json", false)
+        )
+        let requestUrl = self.url(template: urlTemplate, withParams: params)
+        guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.values(for: .header)) else {
             self.options.logger.error("Failed to construct Http request")
             return
         }

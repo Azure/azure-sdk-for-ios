@@ -31,7 +31,7 @@ extension PipelineRequest {
     public convenience init(
         method: HTTPMethod = .get,
         url: String = "http://www.example.com",
-        headers: HeaderParameters = HeaderParameters(),
+        headers: HTTPHeaders = HTTPHeaders(),
         body: String? = nil,
         context: PipelineContext? = nil,
         logger: ClientLogger = ClientLoggers.none
@@ -50,7 +50,7 @@ extension PipelineResponse {
     public convenience init(
         request: PipelineRequest,
         responseCode: Int = 200,
-        headers: HeaderParameters = HeaderParameters(),
+        headers: HTTPHeaders = HTTPHeaders(),
         body: String? = nil,
         logger: ClientLogger = ClientLoggers.none
     ) {

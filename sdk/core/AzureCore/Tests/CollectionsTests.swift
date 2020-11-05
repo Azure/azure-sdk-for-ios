@@ -31,7 +31,7 @@ import XCTest
 
 class TestPageableClient: PipelineClient, PageableClient {
     internal func continuationUrl(forRequestUrl requestUrl: URL, withContinuationToken token: String) -> URL? {
-        return requestUrl.appending(queryParameters: QueryParameters(("marker", token)))
+        return requestUrl.appendingQueryParameters(RequestParameters((.query, "marker", token, false)))
     }
 }
 
@@ -87,7 +87,7 @@ class CollectionsTests: XCTestCase {
 
         // test default continuationUrl
         let requestUrl = URL(string: "www.requestUrl.com")?
-            .appending(queryParameters: QueryParameters(("ref", "123")))!
+            .appendingQueryParameters(RequestParameters((.query, "ref", "123", false)))!
         let continuationUrl = client.continuationUrl(forRequestUrl: requestUrl!, withContinuationToken: "testToken")!
         XCTAssertEqual(continuationUrl.absoluteString, "\(requestUrl!.absoluteString)&marker=testToken")
     }
