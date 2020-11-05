@@ -105,7 +105,7 @@ internal class ChunkUploader {
             let tempData = fileHandle.readData(ofLength: chunkSize)
             buffer.append(tempData)
         } catch {
-            let request = try? HTTPRequest(method: .put, url: uploadDestination, headers: HeaderParameters())
+            let request = try? HTTPRequest(method: .put, url: uploadDestination, headers: HTTPHeaders())
             completionHandler(
                 .failure(AzureError.client("File error.", error)),
                 HTTPResponse(request: request, statusCode: nil)
@@ -114,32 +114,28 @@ internal class ChunkUploader {
         }
 
         // Construct parameters
-        let queryParams = QueryParameters(
-            ("comp", "block"),
-            ("blockid", blockId.uuidString.base64EncodedString()),
-            ("timeout", options.timeoutInSeconds)
-        )
-
-        // Construct headers
         let leaseAccessConditions = options.leaseAccessConditions
         let cpk = options.customerProvidedEncryptionKey
-        var headers = HeaderParameters(
-            (HTTPHeader.contentType, "application/octet-stream"),
-            (HTTPHeader.contentLength, String(chunkSize)),
-            (HTTPHeader.apiVersion, client.options.apiVersion),
-            (HTTPHeader.contentMD5, String(data: transactionalContentMd5, encoding: .utf8)),
-            (StorageHTTPHeader.contentCRC64, String(data: transactionalContentCrc64, encoding: .utf8)),
-            (HTTPHeader.clientRequestId, requestId),
-            (StorageHTTPHeader.leaseId, leaseAccessConditions?.leaseId),
-            (StorageHTTPHeader.encryptionKey, String(data: cpk?.keyData, encoding: .utf8)),
-            (StorageHTTPHeader.encryptionScope, options.customerProvidedEncryptionScope),
-            (StorageHTTPHeader.encryptionKeySHA256, cpk?.hash),
-            (StorageHTTPHeader.encryptionAlgorithm, cpk?.algorithm)
+        let params = RequestParameters(
+            (.query, "comp", "block", false),
+            (.query, "blockid", blockId.uuidString.base64EncodedString(), false),
+            (.query, "timeout", options.timeoutInSeconds, false),
+            (.header, HTTPHeader.contentType, "application/octet-stream", false),
+            (.header, HTTPHeader.contentLength, String(chunkSize), false),
+            (.header, HTTPHeader.apiVersion, client.options.apiVersion, false),
+            (.header, HTTPHeader.contentMD5, String(data: transactionalContentMd5, encoding: .utf8), false),
+            (.header, StorageHTTPHeader.contentCRC64, String(data: transactionalContentCrc64, encoding: .utf8), false),
+            (.header, HTTPHeader.clientRequestId, requestId, false),
+            (.header, StorageHTTPHeader.leaseId, leaseAccessConditions?.leaseId, false),
+            (.header, StorageHTTPHeader.encryptionKey, String(data: cpk?.keyData, encoding: .utf8), false),
+            (.header, StorageHTTPHeader.encryptionScope, options.customerProvidedEncryptionScope, false),
+            (.header, StorageHTTPHeader.encryptionKeySHA256, cpk?.hash, false),
+            (.header, StorageHTTPHeader.encryptionAlgorithm, cpk?.algorithm, false)
         )
 
         // Construct and send request
-        guard let requestUrl = uploadDestination.appending(queryParameters: queryParams) else { return }
-        guard let request = try? HTTPRequest(method: .put, url: requestUrl, headers: headers, data: buffer)
+        guard let requestUrl = uploadDestination.appendingQueryParameters(params) else { return }
+        guard let request = try? HTTPRequest(method: .put, url: requestUrl, headers: params.headers, data: buffer)
         else { return }
         let context = options.context ?? PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [201] as AnyObject
@@ -343,9 +339,9 @@ internal class BlobStreamUploader: BlobUploader {
         completionHandler: @escaping HTTPResultHandler<BlobProperties>
     ) {
         // Construct parameters & headers
-        let queryParams = QueryParameters(
-            ("comp", "blocklist"),
-            ("timeout", options.timeoutInSeconds)
+        let params = RequestParameters(
+            (.query, "comp", "blocklist", false),
+            (.query, "timeout", options.timeoutInSeconds, false)
         )
         let headers = commitHeadersForRequest(
             withId: requestId,
@@ -361,7 +357,7 @@ internal class BlobStreamUploader: BlobUploader {
         }
         let xmlData = xmlString.data(using: encoding)
 
-        guard let requestUrl = uploadDestination.appending(queryParameters: queryParams) else { return }
+        guard let requestUrl = uploadDestination.appendingQueryParameters(params) else { return }
         guard let request = try? HTTPRequest(method: .put, url: requestUrl, headers: headers, data: xmlData)
         else { return }
         let context = options.context ?? PipelineContext.of(keyValues: [
@@ -379,7 +375,7 @@ internal class BlobStreamUploader: BlobUploader {
                     completionHandler(.failure(error), httpResponse)
                     return
                 }
-                let blobProperties = BlobProperties(from: responseHeaders)
+                let blobProperties = BlobProperties(from: responseHeaders as HTTPHeaders)
                 completionHandler(.success(blobProperties), httpResponse)
             }
         }
@@ -426,36 +422,36 @@ internal class BlobStreamUploader: BlobUploader {
         withId requestId: String?,
         withContentMD5 md5: Data?,
         withContentCRC64 crc64: Data?
-    ) -> HeaderParameters {
+    ) -> HTTPHeaders {
         let leaseAccessConditions = options.leaseAccessConditions
         let modifiedAccessConditions = options.modifiedAccessConditions
         let cpk = options.customerProvidedEncryptionKey
 
         // Construct headers
-        var headers = HeaderParameters(
-            (HTTPHeader.contentType, "application/xml; charset=utf-8"),
-            (HTTPHeader.apiVersion, client.options.apiVersion),
-            (HTTPHeader.contentMD5, String(data: md5, encoding: .utf8)),
-            (StorageHTTPHeader.contentCRC64, String(data: crc64, encoding: .utf8)),
-            (HTTPHeader.clientRequestId, requestId),
-            (StorageHTTPHeader.leaseId, leaseAccessConditions?.leaseId),
-            (StorageHTTPHeader.encryptionKey, cpk?.keyData),
-            (StorageHTTPHeader.encryptionScope, options.customerProvidedEncryptionScope),
-            (StorageHTTPHeader.encryptionKeySHA256, cpk?.hash),
-            (StorageHTTPHeader.encryptionAlgorithm, cpk?.algorithm),
-            (HTTPHeader.ifModifiedSince, modifiedAccessConditions?.ifModifiedSince),
-            (HTTPHeader.ifUnmodifiedSince, modifiedAccessConditions?.ifUnmodifiedSince),
-            (HTTPHeader.ifMatch, modifiedAccessConditions?.ifMatch),
-            (HTTPHeader.ifNoneMatch, modifiedAccessConditions?.ifNoneMatch),
-            (StorageHTTPHeader.accessTier, blobProperties?.accessTier),
-            (StorageHTTPHeader.blobCacheControl, blobProperties?.cacheControl),
-            (StorageHTTPHeader.blobContentType, blobProperties?.contentType),
-            (StorageHTTPHeader.blobContentEncoding, blobProperties?.contentEncoding),
-            (StorageHTTPHeader.blobContentLanguage, blobProperties?.contentLanguage),
-            (StorageHTTPHeader.blobContentMD5, blobProperties?.contentMD5),
-            (StorageHTTPHeader.blobContentDisposition, blobProperties?.contentDisposition)
+        var headers = RequestParameters(
+            (.header, HTTPHeader.contentType, "application/xml; charset=utf-8", false),
+            (.header, HTTPHeader.apiVersion, client.options.apiVersion, false),
+            (.header, HTTPHeader.contentMD5, String(data: md5, encoding: .utf8), false),
+            (.header, StorageHTTPHeader.contentCRC64, String(data: crc64, encoding: .utf8), false),
+            (.header, HTTPHeader.clientRequestId, requestId, false),
+            (.header, StorageHTTPHeader.leaseId, leaseAccessConditions?.leaseId, false),
+            (.header, StorageHTTPHeader.encryptionKey, cpk?.keyData, false),
+            (.header, StorageHTTPHeader.encryptionScope, options.customerProvidedEncryptionScope, false),
+            (.header, StorageHTTPHeader.encryptionKeySHA256, cpk?.hash, false),
+            (.header, StorageHTTPHeader.encryptionAlgorithm, cpk?.algorithm, false),
+            (.header, HTTPHeader.ifModifiedSince, modifiedAccessConditions?.ifModifiedSince, false),
+            (.header, HTTPHeader.ifUnmodifiedSince, modifiedAccessConditions?.ifUnmodifiedSince, false),
+            (.header, HTTPHeader.ifMatch, modifiedAccessConditions?.ifMatch, false),
+            (.header, HTTPHeader.ifNoneMatch, modifiedAccessConditions?.ifNoneMatch, false),
+            (.header, StorageHTTPHeader.accessTier, blobProperties?.accessTier, false),
+            (.header, StorageHTTPHeader.blobCacheControl, blobProperties?.cacheControl, false),
+            (.header, StorageHTTPHeader.blobContentType, blobProperties?.contentType, false),
+            (.header, StorageHTTPHeader.blobContentEncoding, blobProperties?.contentEncoding, false),
+            (.header, StorageHTTPHeader.blobContentLanguage, blobProperties?.contentLanguage, false),
+            (.header, StorageHTTPHeader.blobContentMD5, blobProperties?.contentMD5, false),
+            (.header, StorageHTTPHeader.blobContentDisposition, blobProperties?.contentDisposition, false)
         )
-        return headers
+        return headers.headers
     }
 
     private func buildLookupList() -> BlobLookupList {

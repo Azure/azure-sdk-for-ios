@@ -34,7 +34,10 @@ class HttpRequestTests: XCTestCase {
         var query = URLComponents(url: httpRequest.url, resolvingAgainstBaseURL: true)!.queryItems!
         XCTAssertEqual(query.count, 2, "Failure converting query string from URL into query items.")
 
-        httpRequest.url = httpRequest.url.appending(queryParameters: QueryParameters(("a", "0"), ("c", "3")))!
+        httpRequest.url = httpRequest.url.appendingQueryParameters(RequestParameters(
+            (.query, "a", "0", false),
+            (.query, "c", "3", false)
+        ))!
         query = URLComponents(url: httpRequest.url, resolvingAgainstBaseURL: true)!.queryItems!
         XCTAssertEqual(query.count, 4, "Failure adding new query string parameters.")
         let queryItems = query.reduce(into: [String: [String?]]()) { acc, item in
@@ -49,7 +52,7 @@ class HttpRequestTests: XCTestCase {
 
     func test_HttpHeaders_WithEnumOrStringKey_CanBeModified() {
         // ensure headers can be added by string or enum key
-        let headers = HeaderParameters((HTTPHeader.accept, "json"))
+        let headers = HTTPHeaders([HTTPHeader.accept: "json"])
         let httpRequest = try! HTTPRequest(method: .post, url: "https://www.test.com?a=1&b=2", headers: headers)
         XCTAssertEqual(httpRequest.headers.count, 1, "Failed to accept headers.")
         httpRequest.headers["Authorization"] = "token"

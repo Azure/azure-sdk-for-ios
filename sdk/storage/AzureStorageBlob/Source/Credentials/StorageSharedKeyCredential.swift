@@ -237,7 +237,7 @@ internal class StorageSharedKeyAuthenticationPolicy: Authenticating {
     }
 
     /// Generate the canonicalized headers string for all services.
-    private func canonicalized(headers: HeaderParameters) -> String {
+    private func canonicalized(headers: HTTPHeaders) -> String {
         // 1. Retrieve all headers for the resource that begin with `x-ms-`.
         // 2. Convert each HTTP header name to lowercase.
         var subset = [String: String]()

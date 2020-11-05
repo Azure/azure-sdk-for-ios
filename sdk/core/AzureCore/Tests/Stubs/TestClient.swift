@@ -81,12 +81,12 @@ class TestClient: PipelineClient {
         withOptions options: TestCallOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PipelineContext>
     ) {
-        let url = self.url(forTemplate: "/")!
+        let url = self.url(template: "/", params: RequestParameters())!
         let request = try! HTTPRequest(method: .get, url: url)
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200] as AnyObject
         ])
-        context.add(cancellationToken: options?.cancellationToken, applying: self.options)
+        context.add(cancellationToken: options?.cancellationToken, applying: self.options as ClientOptions)
         context.add(value: value as AnyObject, forKey: "testValue")
         context.merge(with: options?.context)
         self.request(request, context: context) { result, httpResponse in

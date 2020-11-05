@@ -181,7 +181,7 @@ extension BlobProperties {
         self.remainingRetentionDays = nil
     }
 
-    internal init(from headers: HeaderParameters) {
+    internal init(from headers: HTTPHeaders) {
         self.creationTime = Rfc1123Date(string: headers[.creationTime])
         self.lastModified = Rfc1123Date(string: headers[.lastModified])
         self.copyCompletionTime = Rfc1123Date(string: headers[.copyCompletionTime])

@@ -31,7 +31,7 @@ public class HTTPRequest: DataStringConvertible {
 
     public var httpMethod: HTTPMethod
     public var url: URL
-    public var headers: HeaderParameters
+    public var headers: HTTPHeaders
     public var data: Data?
 
     // MARK: Initializers
@@ -39,7 +39,7 @@ public class HTTPRequest: DataStringConvertible {
     public convenience init(
         method: HTTPMethod,
         url: String,
-        headers: HeaderParameters? = nil,
+        headers: HTTPHeaders? = nil,
         data: Data? = nil
     ) throws {
         guard let encodedUrl = URL(string: url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)) else {
@@ -48,10 +48,10 @@ public class HTTPRequest: DataStringConvertible {
         try self.init(method: method, url: encodedUrl, headers: headers, data: data)
     }
 
-    public init(method: HTTPMethod, url: URL, headers: HeaderParameters? = nil, data: Data? = nil) throws {
+    public init(method: HTTPMethod, url: URL, headers: HTTPHeaders? = nil, data: Data? = nil) throws {
         self.httpMethod = method
         self.url = url
-        self.headers = headers ?? HeaderParameters()
+        self.headers = headers ?? HTTPHeaders()
         self.data = data
     }
 }

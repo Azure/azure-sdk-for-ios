@@ -26,22 +26,23 @@
 
 import Foundation
 
-public protocol RequestStringConvertible {
-    var requestString: String { get }
+public typealias RequestParameter = (
+    location: RequestParameterLocation,
+    key: String,
+    value: String,
+    skipUrlEncoding: Bool
+)
+
+/// Identifies where the parameter goes in the request
+public enum RequestParameterLocation {
+    case host
+    case path
+    case query
+    case header
+    case body
 }
 
-extension RequestStringConvertible {
-    public static func == (lhs: RequestStringConvertible, rhs: RequestStringConvertible) -> Bool {
-        return lhs.requestString == rhs.requestString
-    }
-}
-
-public typealias HeaderParameters = RequestParameters
-public typealias PathParameters = RequestParameters
-public typealias QueryParameters = RequestParameters
-public typealias RequestParameter = (key: RequestStringConvertible, value: String)
-
-public struct RequestParameters: Sequence, IteratorProtocol, Equatable {
+public struct RequestParameters: Sequence, IteratorProtocol {
     internal var parameters = [RequestParameter]()
 
     internal var iterator: Array<RequestParameter>.Iterator?
@@ -54,71 +55,78 @@ public struct RequestParameters: Sequence, IteratorProtocol, Equatable {
         return parameters.map { $0.key }
     }
 
+    public var headers: HTTPHeaders {
+        return dict(for: .header)
+    }
+
     // MARK: Initializers
 
-    public init(_ params: (key: RequestStringConvertible, value: RequestStringConvertible?)...) {
+    public init(_ params: (
+        location: RequestParameterLocation,
+        key: RequestStringConvertible,
+        value: RequestStringConvertible?,
+        skipUrlEncoding: Bool
+    )...) {
         for param in params {
-            add(value: param.value, forKey: param.key)
-        }
-    }
-
-    // MARK: Subscripting
-
-    public subscript(index: RequestStringConvertible) -> String? {
-        get {
-            let first = parameters.first { $0.key.requestString == index.requestString }
-            return first?.value
-        }
-
-        set {
-            if let firstIndex = parameters.firstIndex(where: { $0.key.requestString == index.requestString }) {
-                if let value = newValue {
-                    // update the value
-                    parameters[firstIndex].value = value
-                } else {
-                    // remove the value
-                    parameters.remove(at: firstIndex)
-                }
-            } else {
-                // add the value
-                guard let value = newValue else { return }
-                parameters.append((key: index.requestString, value: value))
-            }
-        }
-    }
-
-    public subscript(index: HTTPHeader) -> String? {
-        get {
-            self[index.requestString]
-        }
-
-        set {
-            self[index.requestString] = newValue
+            // Skip values that evaluate to nil
+            guard let value = param.value else { continue }
+            parameters.append((
+                location: param.location,
+                key: param.key.requestString,
+                value: value.requestString,
+                skipUrlEncoding: param.skipUrlEncoding
+            ))
         }
     }
 
     // MARK: Methods
 
-    public mutating func add(value: RequestStringConvertible?, forKey key: RequestStringConvertible) {
-        // skip values that evaluate to nil
-        guard let val = value else { return }
-        parameters.append((key: key, value: val.requestString))
-    }
-
-    @discardableResult
-    public mutating func removeValue(forKey key: RequestStringConvertible) -> String? {
-        var removedValue: String?
-        if let firstIndex = parameters.firstIndex(where: { $0.key.requestString == key.requestString }) {
-            removedValue = parameters[firstIndex].value
-            parameters.remove(at: firstIndex)
+    public mutating func add(_ params: (
+        location: RequestParameterLocation,
+        key: RequestStringConvertible,
+        value: RequestStringConvertible?,
+        skipUrlEncoding: Bool
+    )...) {
+        for param in params {
+            // Skip values that evaluate to nil
+            guard let value = param.value else { continue }
+            parameters.append((
+                location: param.location,
+                key: param.key.requestString,
+                value: value.requestString,
+                skipUrlEncoding: param.skipUrlEncoding
+            ))
         }
-        return removedValue
     }
 
-    /// Returns an unordered `Dictionary` version of the parameter collection.
-    public func toDict() -> [String: String] {
-        let dict: [String: String] = parameters.reduce(into: [:]) { result, next in
-            result[next.key.requestString] = next.value.requestString
+    /// Lookup a value in the `RequestParameters` collection.
+    /// - Parameters:
+    ///   - key: The key to search for.
+    ///   - location: The type of parameters to search. If nil, all parameters are searched.
+    /// - Returns: String value, if found, or nil.
+    public func value(for key: String, in location: RequestParameterLocation? = nil) -> String? {
+        var collection: [RequestParameter]
+        if let loc = location {
+            collection = values(for: loc)
+        } else {
+            collection = parameters
+        }
+        return collection.first(where: { $0.key == key })?.value
+    }
+
+    /// Returns the subset of parameters for a certain location.
+    /// - Parameter location: The parameter location to filter by.
+    /// - Returns: A subset of `RequestParameter`s for the specified location.
+    public func values(for location: RequestParameterLocation) -> [RequestParameter] {
+        return parameters.filter { $0.location == location }
+    }
+
+    /// Returns the unordered dictionary representation of parameters for a given location.
+    /// - Parameter location: The parameter location to filter by.
+    /// - Returns: A `Dictionary` representation of the subset of `RequestParameter`s for a the specified location.
+    public func dict(for location: RequestParameterLocation) -> [String: String] {
+        let dict: [String: String] = values(for: location).reduce(into: [:]) { result, next in
+            result[next.key] = next.value
         }
         return dict
     }
@@ -130,53 +138,5 @@ public struct RequestParameters: Sequence, IteratorProtocol, Equatable {
             iterator = parameters.makeIterator()
         }
         return iterator?.next()
-    }
-
-    // MARK: Equatable
-
-    public static func == (lhs: RequestParameters, rhs: RequestParameters) -> Bool {
-        return lhs.toDict() == rhs.toDict()
-    }
-}
-
-extension Int: RequestStringConvertible {
-    public var requestString: String {
-        return String(self)
-    }
-}
-
-extension String: RequestStringConvertible {
-    public var requestString: String {
-        return self
-    }
-}
-
-extension Bool: RequestStringConvertible {
-    public var requestString: String {
-        return String(self)
-    }
-}
-
-extension Data: RequestStringConvertible {
-    public var requestString: String {
-        guard let dataString = String(bytes: self, encoding: .utf8) else {
-            assertionFailure("Unable to encode bytes")
-            return ""
-        }
-        return dataString
-    }
-}
-
-extension Array: RequestStringConvertible {
-    public var requestString: String {
-        var strings = [String]()
-        for value in self {
-            if let val = value as? RequestStringConvertible {
-                strings.append(val.requestString)
-            } else {
-                strings.append("")
-            }
-        }
-        return strings.joined(separator: ",")
     }
 }
