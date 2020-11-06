@@ -17,10 +17,14 @@ import Foundation
 
 /// Collection of thread members belong to a particular thread.
 public struct ChatThreadMembersCollection: Codable {
+    // MARK: Properties
+
     /// Chat thread members.
     public let value: [ChatThreadMember]?
     /// If there are more chat threads that can be retrieved, the next link will be populated.
     public let nextLink: String?
+
+    // MARK: Initializers
 
     /// Initialize a `ChatThreadMembersCollection` structure.
     /// - Parameters:
@@ -32,6 +36,8 @@ public struct ChatThreadMembersCollection: Codable {
         self.value = value
         self.nextLink = nextLink
     }
+
+    // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
         case value

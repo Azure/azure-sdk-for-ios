@@ -16,8 +16,12 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 public struct UpdateChatThreadRequest: Codable {
+    // MARK: Properties
+
     /// Chat thread topic.
     public let topic: String?
+
+    // MARK: Initializers
 
     /// Initialize a `UpdateChatThreadRequest` structure.
     /// - Parameters:
@@ -27,6 +31,8 @@ public struct UpdateChatThreadRequest: Codable {
     ) {
         self.topic = topic
     }
+
+    // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
         case topic

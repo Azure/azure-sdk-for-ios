@@ -17,10 +17,14 @@ import Foundation
 
 /// Request payload for creating a chat thread.
 public struct CreateChatThreadRequest: Codable {
+    // MARK: Properties
+
     /// The chat thread topic.
     public let topic: String
     /// Members to be added to the chat thread.
     public let members: [ChatThreadMember]
+
+    // MARK: Initializers
 
     /// Initialize a `CreateChatThreadRequest` structure.
     /// - Parameters:
@@ -32,6 +36,8 @@ public struct CreateChatThreadRequest: Codable {
         self.topic = topic
         self.members = members
     }
+
+    // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
         case topic
