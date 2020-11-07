@@ -48,14 +48,10 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
     ///   - authPolicy: An `Authenticating` policy to use for authenticating client requests.
     ///   - options: Options used to configure the client.
     public init(
-        endpoint: String,
-        api - version: String,
         endpoint: URL,
         authPolicy: Authenticating,
         withOptions options: AzureCommunicationChatClientOptions
     ) throws {
-        self.endpoint = endpoint
-        api - version = api - version
         self.options = options
         super.init(
             endpoint: endpoint,
@@ -120,11 +116,6 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         urlComps.percentEncodedQueryItems = queryItems
         return urlComps.url
     }
-
-    // /// The endpoint of the Azure Communication resource.
-    public var endpoint: String
-    // /// Api Version
-    public var api - version: String
 
     public lazy var azureCommunicationChatService: AzureCommunicationChatService =
         AzureCommunicationChatService(client: self)
