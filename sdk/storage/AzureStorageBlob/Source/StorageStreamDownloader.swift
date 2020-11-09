@@ -171,10 +171,10 @@ internal class ChunkDownloader {
             (.header, HTTPHeader.ifUnmodifiedSince, modifiedAccessConditions?.ifUnmodifiedSince, false),
             (.header, HTTPHeader.ifMatch, modifiedAccessConditions?.ifMatch, false),
             (.header, HTTPHeader.ifNoneMatch, modifiedAccessConditions?.ifNoneMatch, false),
-            (.header, StorageHTTPHeader.rangeGetContentMD5, String(describing: options.range?.calculateMD5), false),
-            (.header, StorageHTTPHeader.rangeGetContentCRC64, String(describing: options.range?.calculateCRC64), false),
+            (.header, StorageHTTPHeader.rangeGetContentMD5, options.range?.calculateMD5, false),
+            (.header, StorageHTTPHeader.rangeGetContentCRC64, options.range?.calculateCRC64, false),
             (.header, StorageHTTPHeader.leaseId, leaseAccessConditions?.leaseId, false),
-            (.header, StorageHTTPHeader.encryptionKey, String(data: cpk?.keyData, encoding: .utf8), false),
+            (.header, StorageHTTPHeader.encryptionKey, cpk?.keyData, false),
             (.header, StorageHTTPHeader.encryptionKeySHA256, cpk?.hash, false),
             (.header, StorageHTTPHeader.encryptionAlgorithm, cpk?.algorithm, false)
         )
