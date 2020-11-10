@@ -263,7 +263,7 @@ internal class StorageSASAuthenticationPolicy: Authenticating {
             let splitComponent = component.split(separator: "=", maxSplits: 1).map(String.init)
             let name = splitComponent.first!
             let value = splitComponent.count == 2 ? splitComponent.last : ""
-            queryItems.add((.query, name, value, true))
+            queryItems.add((.query, name, value, .skipEncoding))
         }
         return queryItems
     }

@@ -84,8 +84,8 @@ internal class ChunkDownloader {
     public func download(requestId: String? = nil, completionHandler: @escaping HTTPResultHandler<Data>) {
         // Construct parameters & headers
         let queryParams = RequestParameters(
-            (.query, "snapshot", options.snapshot, false),
-            (.query, "timeout", options.timeoutInSeconds, false)
+            (.query, "snapshot", options.snapshot, .encode),
+            (.query, "timeout", options.timeoutInSeconds, .encode)
         )
 
         let headers = downloadHeadersForRequest(withId: requestId)
@@ -163,20 +163,20 @@ internal class ChunkDownloader {
         let cpk = options.customerProvidedEncryptionKey
 
         let headers = RequestParameters(
-            (.header, HTTPHeader.accept, "application/xml", false),
-            (.header, HTTPHeader.apiVersion, client.options.apiVersion, false),
-            (.header, HTTPHeader.range, "bytes=\(startRange)-\(endRange)", false),
-            (.header, HTTPHeader.clientRequestId, requestId, false),
-            (.header, HTTPHeader.ifModifiedSince, modifiedAccessConditions?.ifModifiedSince, false),
-            (.header, HTTPHeader.ifUnmodifiedSince, modifiedAccessConditions?.ifUnmodifiedSince, false),
-            (.header, HTTPHeader.ifMatch, modifiedAccessConditions?.ifMatch, false),
-            (.header, HTTPHeader.ifNoneMatch, modifiedAccessConditions?.ifNoneMatch, false),
-            (.header, StorageHTTPHeader.rangeGetContentMD5, options.range?.calculateMD5, false),
-            (.header, StorageHTTPHeader.rangeGetContentCRC64, options.range?.calculateCRC64, false),
-            (.header, StorageHTTPHeader.leaseId, leaseAccessConditions?.leaseId, false),
-            (.header, StorageHTTPHeader.encryptionKey, cpk?.keyData, false),
-            (.header, StorageHTTPHeader.encryptionKeySHA256, cpk?.hash, false),
-            (.header, StorageHTTPHeader.encryptionAlgorithm, cpk?.algorithm, false)
+            (.header, HTTPHeader.accept, "application/xml", .encode),
+            (.header, HTTPHeader.apiVersion, client.options.apiVersion, .encode),
+            (.header, HTTPHeader.range, "bytes=\(startRange)-\(endRange)", .encode),
+            (.header, HTTPHeader.clientRequestId, requestId, .encode),
+            (.header, HTTPHeader.ifModifiedSince, modifiedAccessConditions?.ifModifiedSince, .encode),
+            (.header, HTTPHeader.ifUnmodifiedSince, modifiedAccessConditions?.ifUnmodifiedSince, .encode),
+            (.header, HTTPHeader.ifMatch, modifiedAccessConditions?.ifMatch, .encode),
+            (.header, HTTPHeader.ifNoneMatch, modifiedAccessConditions?.ifNoneMatch, .encode),
+            (.header, StorageHTTPHeader.rangeGetContentMD5, options.range?.calculateMD5, .encode),
+            (.header, StorageHTTPHeader.rangeGetContentCRC64, options.range?.calculateCRC64, .encode),
+            (.header, StorageHTTPHeader.leaseId, leaseAccessConditions?.leaseId, .encode),
+            (.header, StorageHTTPHeader.encryptionKey, cpk?.keyData, .encode),
+            (.header, StorageHTTPHeader.encryptionKeySHA256, cpk?.hash, .encode),
+            (.header, StorageHTTPHeader.encryptionAlgorithm, cpk?.algorithm, .encode)
         )
         return headers.headers
     }

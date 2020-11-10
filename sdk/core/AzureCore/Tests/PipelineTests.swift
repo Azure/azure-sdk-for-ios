@@ -33,8 +33,8 @@ class PipelineTests: XCTestCase {
         let headers = HTTPHeaders([HTTPHeader("headerParam"): "myHeaderParam"])
         let request = try! HTTPRequest(method: .get, url: "www.test.com", headers: headers)
         request.url = request.url.appendingQueryParameters(RequestParameters(
-            (.query, "a", "1", false),
-            (.query, "b", "2", false)
+            (.query, "a", "1", .encode),
+            (.query, "b", "2", .encode)
         ))!
         XCTAssertEqual(request.url.absoluteString, "www.test.com?a=1&b=2")
         XCTAssertEqual(request.httpMethod, .get)
@@ -44,8 +44,8 @@ class PipelineTests: XCTestCase {
     func test_PipelineClient_CanFormatUrl() {
         let client = TestClient()
         let url = client.url(template: "{a}/{b}/test", params: RequestParameters(
-            (.path, "a", "cat", false),
-            (.path, "b", "hat", false)
+            (.path, "a", "cat", .encode),
+            (.path, "b", "hat", .encode)
         ))
         XCTAssertEqual(url?.absoluteString, "\(client.endpoint)cat/hat/test")
     }

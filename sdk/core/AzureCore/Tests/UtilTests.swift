@@ -73,8 +73,8 @@ class UtilTests: XCTestCase {
 
     func test_StringUtil_WithBoolString_OutputsBool() {
         let headers = RequestParameters(
-            (.header, "string", "test", false),
-            (.header, "bool", "true", false)
+            (.header, "string", "test", .encode),
+            (.header, "bool", "true", .encode)
         )
 
         XCTAssertEqual(Bool(headers.value(for: "bool")), true)
@@ -82,24 +82,24 @@ class UtilTests: XCTestCase {
 
     func test_StringUtil_WithNonBoolString_OutputsNil() {
         let headers = RequestParameters(
-            (.header, "string", "test", false),
-            (.header, "bool", "true", false)
+            (.header, "string", "test", .encode),
+            (.header, "bool", "true", .encode)
         )
         XCTAssertNil(Bool(headers.value(for: "string")))
     }
 
     func test_StringUtil_WithIntString_OutputsInt() {
         let headers = RequestParameters(
-            (.header, "bool", "true", false),
-            (.header, "int", "22", false)
+            (.header, "bool", "true", .encode),
+            (.header, "int", "22", .encode)
         )
         XCTAssertEqual(Int(headers.value(for: "int")), 22)
     }
 
     func test_StringUtil_WithNonIntString_OutputsNil() {
         let headers = RequestParameters(
-            (.header, "bool", "true", false),
-            (.header, "int", "22", false)
+            (.header, "bool", "true", .encode),
+            (.header, "int", "22", .encode)
         )
         XCTAssertNil(Int(headers.value(for: "bool")))
     }
@@ -114,8 +114,8 @@ class UtilTests: XCTestCase {
         ).date!
 
         let headers = RequestParameters(
-            (.header, "bool", "true", false),
-            (.header, "date", dateString, false)
+            (.header, "bool", "true", .encode),
+            (.header, "date", dateString, .encode)
         )
         XCTAssertEqual(Rfc1123Date(string: headers.value(for: "date"))?.date, date)
     }
@@ -123,8 +123,8 @@ class UtilTests: XCTestCase {
     func test_StringUtil_WithNonRFC1123DateString_OutputsNil() {
         let dateString = "Jan, 02 2020 07:12:34 GMT"
         let headers = RequestParameters(
-            (.header, "bool", "true", false),
-            (.header, "date", dateString, false)
+            (.header, "bool", "true", .encode),
+            (.header, "date", dateString, .encode)
         )
         XCTAssertNil(Rfc1123Date(string: headers.value(for: "bool")))
     }

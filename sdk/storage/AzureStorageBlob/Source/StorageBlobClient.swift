@@ -235,14 +235,14 @@ public final class StorageBlobClient: PipelineClient {
     ) {
         let urlTemplate = ""
         let params = RequestParameters(
-            (.query, "comp", "list", false),
-            (.query, "prefix", options?.prefix, false),
-            (.query, "include", options?.include, false),
-            (.query, "maxResults", options?.maxResults, false),
-            (.query, "timeout", options?.timeoutInSeconds, false),
-            (.header, HTTPHeader.accept, "application/xml", false),
-            (.header, HTTPHeader.apiVersion, self.options.apiVersion, false),
-            (.header, HTTPHeader.clientRequestId, options?.clientRequestId, false)
+            (.query, "comp", "list", .encode),
+            (.query, "prefix", options?.prefix, .encode),
+            (.query, "include", options?.include, .encode),
+            (.query, "maxResults", options?.maxResults, .encode),
+            (.query, "timeout", options?.timeoutInSeconds, .encode),
+            (.header, HTTPHeader.accept, "application/xml", .encode),
+            (.header, HTTPHeader.apiVersion, self.options.apiVersion, .encode),
+            (.header, HTTPHeader.clientRequestId, options?.clientRequestId, .encode)
         )
 
         let codingKeys = PagedCodingKeys(
@@ -307,18 +307,18 @@ public final class StorageBlobClient: PipelineClient {
     ) {
         let urlTemplate = "{container}"
         let params = RequestParameters(
-            (.path, "container", container, false),
-            (.query, "comp", "list", false),
-            (.query, "resType", "container", false),
-            (.query, "prefix", options?.prefix, false),
-            (.query, "delimiter", options?.delimiter, false),
-            (.query, "include", options?.include, false),
-            (.query, "maxResults", options?.maxResults, false),
-            (.query, "timeout", options?.timeoutInSeconds, false),
-            (.header, HTTPHeader.accept, "application/xml", false),
-            (.header, HTTPHeader.transferEncoding, "chunked", false),
-            (.header, HTTPHeader.apiVersion, self.options.apiVersion, false),
-            (.header, HTTPHeader.clientRequestId, options?.clientRequestId, false)
+            (.path, "container", container, .encode),
+            (.query, "comp", "list", .encode),
+            (.query, "resType", "container", .encode),
+            (.query, "prefix", options?.prefix, .encode),
+            (.query, "delimiter", options?.delimiter, .encode),
+            (.query, "include", options?.include, .encode),
+            (.query, "maxResults", options?.maxResults, .encode),
+            (.query, "timeout", options?.timeoutInSeconds, .encode),
+            (.header, HTTPHeader.accept, "application/xml", .encode),
+            (.header, HTTPHeader.transferEncoding, "chunked", .encode),
+            (.header, HTTPHeader.apiVersion, self.options.apiVersion, .encode),
+            (.header, HTTPHeader.clientRequestId, options?.clientRequestId, .encode)
         )
 
         // Construct and send request
@@ -386,13 +386,13 @@ public final class StorageBlobClient: PipelineClient {
     ) {
         let urlTemplate = "{container}/{blob}"
         let params = RequestParameters(
-            (.path, "container", container, false),
-            (.path, "blob", blob, false),
-            (.query, "snapshot", options?.snapshot, false),
-            (.query, "timeout", options?.timeoutInSeconds, false),
-            (.header, HTTPHeader.apiVersion, self.options.apiVersion, false),
-            (.header, StorageHTTPHeader.deleteSnapshots, options?.deleteSnapshots, false),
-            (.header, HTTPHeader.clientRequestId, options?.clientRequestId, false)
+            (.path, "container", container, .encode),
+            (.path, "blob", blob, .encode),
+            (.query, "snapshot", options?.snapshot, .encode),
+            (.query, "timeout", options?.timeoutInSeconds, .encode),
+            (.header, HTTPHeader.apiVersion, self.options.apiVersion, .encode),
+            (.header, StorageHTTPHeader.deleteSnapshots, options?.deleteSnapshots, .encode),
+            (.header, HTTPHeader.clientRequestId, options?.clientRequestId, .encode)
         )
 
         // Construct and send request
@@ -438,8 +438,8 @@ public final class StorageBlobClient: PipelineClient {
         // Construct URL
         let urlTemplate = "/{container}/{blob}"
         let params = RequestParameters(
-            (.path, "container", container, false),
-            (.path, "blob", blob, false)
+            (.path, "container", container, .encode),
+            (.path, "blob", blob, .encode)
         )
         guard let url = url(template: urlTemplate, params: params) else { return }
 
@@ -489,8 +489,8 @@ public final class StorageBlobClient: PipelineClient {
         // Construct URL
         let urlTemplate = "/{container}/{blob}"
         let params = RequestParameters(
-            (.path, "container", container, false),
-            (.path, "blob", blob, false)
+            (.path, "container", container, .encode),
+            (.path, "blob", blob, .encode)
         )
         guard let url = url(template: urlTemplate, params: params) else { return }
 
@@ -539,8 +539,8 @@ public final class StorageBlobClient: PipelineClient {
         // Construct URL
         let urlTemplate = "/{container}/{blob}"
         let params = RequestParameters(
-            (.path, "container", container, false),
-            (.path, "blob", blob, false)
+            (.path, "container", container, .encode),
+            (.path, "blob", blob, .encode)
         )
         guard let url = url(template: urlTemplate, params: params) else { return nil }
 
@@ -595,8 +595,8 @@ public final class StorageBlobClient: PipelineClient {
         // Construct URL
         let urlTemplate = "/{container}/{blob}"
         let params = RequestParameters(
-            (.path, "container", container, false),
-            (.path, "blob", blob, false)
+            (.path, "container", container, .encode),
+            (.path, "blob", blob, .encode)
         )
         guard let url = url(template: urlTemplate, params: params) else { return nil }
 

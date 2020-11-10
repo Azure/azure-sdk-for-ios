@@ -117,20 +117,20 @@ internal class ChunkUploader {
         let leaseAccessConditions = options.leaseAccessConditions
         let cpk = options.customerProvidedEncryptionKey
         let params = RequestParameters(
-            (.query, "comp", "block", false),
-            (.query, "blockid", blockId.uuidString.base64EncodedString(), false),
-            (.query, "timeout", options.timeoutInSeconds, false),
-            (.header, HTTPHeader.contentType, "application/octet-stream", false),
-            (.header, HTTPHeader.contentLength, chunkSize, false),
-            (.header, HTTPHeader.apiVersion, client.options.apiVersion, false),
-            (.header, HTTPHeader.contentMD5, transactionalContentMd5, false),
-            (.header, StorageHTTPHeader.contentCRC64, transactionalContentCrc64, false),
-            (.header, HTTPHeader.clientRequestId, requestId, false),
-            (.header, StorageHTTPHeader.leaseId, leaseAccessConditions?.leaseId, false),
-            (.header, StorageHTTPHeader.encryptionKey, cpk?.keyData, false),
-            (.header, StorageHTTPHeader.encryptionScope, options.customerProvidedEncryptionScope, false),
-            (.header, StorageHTTPHeader.encryptionKeySHA256, cpk?.hash, false),
-            (.header, StorageHTTPHeader.encryptionAlgorithm, cpk?.algorithm, false)
+            (.query, "comp", "block", .encode),
+            (.query, "blockid", blockId.uuidString.base64EncodedString(), .encode),
+            (.query, "timeout", options.timeoutInSeconds, .encode),
+            (.header, HTTPHeader.contentType, "application/octet-stream", .encode),
+            (.header, HTTPHeader.contentLength, chunkSize, .encode),
+            (.header, HTTPHeader.apiVersion, client.options.apiVersion, .encode),
+            (.header, HTTPHeader.contentMD5, transactionalContentMd5, .encode),
+            (.header, StorageHTTPHeader.contentCRC64, transactionalContentCrc64, .encode),
+            (.header, HTTPHeader.clientRequestId, requestId, .encode),
+            (.header, StorageHTTPHeader.leaseId, leaseAccessConditions?.leaseId, .encode),
+            (.header, StorageHTTPHeader.encryptionKey, cpk?.keyData, .encode),
+            (.header, StorageHTTPHeader.encryptionScope, options.customerProvidedEncryptionScope, .encode),
+            (.header, StorageHTTPHeader.encryptionKeySHA256, cpk?.hash, .encode),
+            (.header, StorageHTTPHeader.encryptionAlgorithm, cpk?.algorithm, .encode)
         )
 
         // Construct and send request
@@ -340,8 +340,8 @@ internal class BlobStreamUploader: BlobUploader {
     ) {
         // Construct parameters & headers
         let params = RequestParameters(
-            (.query, "comp", "blocklist", false),
-            (.query, "timeout", options.timeoutInSeconds, false)
+            (.query, "comp", "blocklist", .encode),
+            (.query, "timeout", options.timeoutInSeconds, .encode)
         )
         let headers = commitHeadersForRequest(
             withId: requestId,
@@ -428,28 +428,28 @@ internal class BlobStreamUploader: BlobUploader {
         let cpk = options.customerProvidedEncryptionKey
 
         // Construct headers
-        var headers = RequestParameters(
-            (.header, HTTPHeader.contentType, "application/xml; charset=utf-8", false),
-            (.header, HTTPHeader.apiVersion, client.options.apiVersion, false),
-            (.header, HTTPHeader.contentMD5, String(data: md5, encoding: .utf8), false),
-            (.header, StorageHTTPHeader.contentCRC64, String(data: crc64, encoding: .utf8), false),
-            (.header, HTTPHeader.clientRequestId, requestId, false),
-            (.header, StorageHTTPHeader.leaseId, leaseAccessConditions?.leaseId, false),
-            (.header, StorageHTTPHeader.encryptionKey, cpk?.keyData, false),
-            (.header, StorageHTTPHeader.encryptionScope, options.customerProvidedEncryptionScope, false),
-            (.header, StorageHTTPHeader.encryptionKeySHA256, cpk?.hash, false),
-            (.header, StorageHTTPHeader.encryptionAlgorithm, cpk?.algorithm, false),
-            (.header, HTTPHeader.ifModifiedSince, modifiedAccessConditions?.ifModifiedSince, false),
-            (.header, HTTPHeader.ifUnmodifiedSince, modifiedAccessConditions?.ifUnmodifiedSince, false),
-            (.header, HTTPHeader.ifMatch, modifiedAccessConditions?.ifMatch, false),
-            (.header, HTTPHeader.ifNoneMatch, modifiedAccessConditions?.ifNoneMatch, false),
-            (.header, StorageHTTPHeader.accessTier, blobProperties?.accessTier, false),
-            (.header, StorageHTTPHeader.blobCacheControl, blobProperties?.cacheControl, false),
-            (.header, StorageHTTPHeader.blobContentType, blobProperties?.contentType, false),
-            (.header, StorageHTTPHeader.blobContentEncoding, blobProperties?.contentEncoding, false),
-            (.header, StorageHTTPHeader.blobContentLanguage, blobProperties?.contentLanguage, false),
-            (.header, StorageHTTPHeader.blobContentMD5, blobProperties?.contentMD5, false),
-            (.header, StorageHTTPHeader.blobContentDisposition, blobProperties?.contentDisposition, false)
+        let headers = RequestParameters(
+            (.header, HTTPHeader.contentType, "application/xml; charset=utf-8", .encode),
+            (.header, HTTPHeader.apiVersion, client.options.apiVersion, .encode),
+            (.header, HTTPHeader.contentMD5, String(data: md5, encoding: .utf8), .encode),
+            (.header, StorageHTTPHeader.contentCRC64, String(data: crc64, encoding: .utf8), .encode),
+            (.header, HTTPHeader.clientRequestId, requestId, .encode),
+            (.header, StorageHTTPHeader.leaseId, leaseAccessConditions?.leaseId, .encode),
+            (.header, StorageHTTPHeader.encryptionKey, cpk?.keyData, .encode),
+            (.header, StorageHTTPHeader.encryptionScope, options.customerProvidedEncryptionScope, .encode),
+            (.header, StorageHTTPHeader.encryptionKeySHA256, cpk?.hash, .encode),
+            (.header, StorageHTTPHeader.encryptionAlgorithm, cpk?.algorithm, .encode),
+            (.header, HTTPHeader.ifModifiedSince, modifiedAccessConditions?.ifModifiedSince, .encode),
+            (.header, HTTPHeader.ifUnmodifiedSince, modifiedAccessConditions?.ifUnmodifiedSince, .encode),
+            (.header, HTTPHeader.ifMatch, modifiedAccessConditions?.ifMatch, .encode),
+            (.header, HTTPHeader.ifNoneMatch, modifiedAccessConditions?.ifNoneMatch, .encode),
+            (.header, StorageHTTPHeader.accessTier, blobProperties?.accessTier, .encode),
+            (.header, StorageHTTPHeader.blobCacheControl, blobProperties?.cacheControl, .encode),
+            (.header, StorageHTTPHeader.blobContentType, blobProperties?.contentType, .encode),
+            (.header, StorageHTTPHeader.blobContentEncoding, blobProperties?.contentEncoding, .encode),
+            (.header, StorageHTTPHeader.blobContentLanguage, blobProperties?.contentLanguage, .encode),
+            (.header, StorageHTTPHeader.blobContentMD5, blobProperties?.contentMD5, .encode),
+            (.header, StorageHTTPHeader.blobContentDisposition, blobProperties?.contentDisposition, .encode)
         )
         return headers.headers
     }

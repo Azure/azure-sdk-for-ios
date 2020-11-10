@@ -35,7 +35,7 @@ extension URL {
         let queryItems = queryParams.map { item in
             URLQueryItem(
                 name: item.key.requestString,
-                value: item.skipUrlEncoding ? item.value.requestString : item.value.requestString
+                value: item.encodingStrategy == .skipEncoding ? item.value.requestString : item.value.requestString
                     .addingPercentEncoding(withAllowedCharacters: .azureUrlQueryAllowed)
             )
         }

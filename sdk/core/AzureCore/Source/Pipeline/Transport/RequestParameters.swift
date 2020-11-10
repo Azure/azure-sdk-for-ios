@@ -30,7 +30,7 @@ public typealias RequestParameter = (
     location: RequestParameterLocation,
     key: String,
     value: String,
-    skipUrlEncoding: Bool
+    encodingStrategy: EncodingStrategy
 )
 
 /// Identifies where the parameter goes in the request
@@ -40,6 +40,11 @@ public enum RequestParameterLocation {
     case query
     case header
     case body
+}
+
+public enum EncodingStrategy {
+    case encode
+    case skipEncoding
 }
 
 public struct RequestParameters: Sequence, IteratorProtocol {
@@ -65,7 +70,7 @@ public struct RequestParameters: Sequence, IteratorProtocol {
         location: RequestParameterLocation,
         key: RequestStringConvertible,
         value: RequestStringConvertible?,
-        skipUrlEncoding: Bool
+        encodingStrategy: EncodingStrategy
     )...) {
         for param in params {
             // Skip values that evaluate to nil
@@ -74,7 +79,7 @@ public struct RequestParameters: Sequence, IteratorProtocol {
                 location: param.location,
                 key: param.key.requestString,
                 value: value.requestString,
-                skipUrlEncoding: param.skipUrlEncoding
+                encodingStrategy: param.encodingStrategy
             ))
         }
     }
@@ -85,7 +90,7 @@ public struct RequestParameters: Sequence, IteratorProtocol {
         location: RequestParameterLocation,
         key: RequestStringConvertible,
         value: RequestStringConvertible?,
-        skipUrlEncoding: Bool
+        encodingStrategy: EncodingStrategy
     )...) {
         for param in params {
             // Skip values that evaluate to nil
@@ -94,7 +99,7 @@ public struct RequestParameters: Sequence, IteratorProtocol {
                 location: param.location,
                 key: param.key.requestString,
                 value: value.requestString,
-                skipUrlEncoding: param.skipUrlEncoding
+                encodingStrategy: param.encodingStrategy
             ))
         }
     }
