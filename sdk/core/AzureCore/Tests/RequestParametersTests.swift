@@ -95,10 +95,23 @@ public struct MyDate: RequestStringConvertible, Codable, Equatable, Comparable {
         self.date = unwrapped
     }
 
+    // MARK: Codable
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let dateString = try container.decode(String.self)
+        self.date = Self.formatter.date(from: dateString) ?? Date()
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(requestString)
+    }
+
     // MARK: Equatable
 
     public static func == (lhs: MyDate, rhs: MyDate) -> Bool {
-        return lhs.requestString == rhs.requestString
+        return lhs.date == rhs.date
     }
 
     // MARK: Comparable

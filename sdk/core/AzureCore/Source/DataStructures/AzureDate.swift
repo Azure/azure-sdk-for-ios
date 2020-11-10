@@ -57,10 +57,23 @@ public struct Iso8601Date: RequestStringConvertible, Codable, Equatable, Compara
         self.date = unwrapped
     }
 
+    // MARK: Codable
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let dateString = try container.decode(String.self)
+        self.date = Self.formatter.date(from: dateString) ?? Date()
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(requestString)
+    }
+
     // MARK: Equatable
 
     public static func == (lhs: Iso8601Date, rhs: Iso8601Date) -> Bool {
-        return lhs.requestString == rhs.requestString
+        return lhs.date == rhs.date
     }
 
     // MARK: Comparable
@@ -101,10 +114,23 @@ public struct Rfc1123Date: RequestStringConvertible, Codable, Equatable, Compara
         self.date = unwrapped
     }
 
+    // MARK: Codable
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let dateString = try container.decode(String.self)
+        self.date = Self.formatter.date(from: dateString) ?? Date()
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(requestString)
+    }
+
     // MARK: Equatable
 
     public static func == (lhs: Rfc1123Date, rhs: Rfc1123Date) -> Bool {
-        return lhs.requestString == rhs.requestString
+        return lhs.date == rhs.date
     }
 
     // MARK: Comparable

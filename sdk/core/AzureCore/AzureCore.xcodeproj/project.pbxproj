@@ -17,6 +17,7 @@
 		0A348C6F2550BC9D00C63618 /* AzureDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A348C6E2550BC9D00C63618 /* AzureDate.swift */; };
 		0A348F502555E3B000C63618 /* RequestStringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A348F4F2555E3B000C63618 /* RequestStringConvertible.swift */; };
 		0A348FC42555FE7C00C63618 /* HTTPHeaderStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A348FC32555FE7C00C63618 /* HTTPHeaderStub.swift */; };
+		0A34907E2559C6CB00C63618 /* AzureDateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A34907D2559C6CB00C63618 /* AzureDateTests.swift */; };
 		0A3A5D9B2315CEB600473FDA /* HTTPRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D902315CEB600473FDA /* HTTPRequest.swift */; };
 		0A3A5D9C2315CEB600473FDA /* HTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D912315CEB600473FDA /* HTTPResponse.swift */; };
 		0A3A5D9D2315CEB600473FDA /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D922315CEB600473FDA /* HTTPMethod.swift */; };
@@ -130,6 +131,7 @@
 		0A348C6E2550BC9D00C63618 /* AzureDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzureDate.swift; sourceTree = "<group>"; };
 		0A348F4F2555E3B000C63618 /* RequestStringConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestStringConvertible.swift; sourceTree = "<group>"; };
 		0A348FC32555FE7C00C63618 /* HTTPHeaderStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPHeaderStub.swift; sourceTree = "<group>"; };
+		0A34907D2559C6CB00C63618 /* AzureDateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzureDateTests.swift; sourceTree = "<group>"; };
 		0A3A5D762315C89C00473FDA /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A3A5D7A2315C89C00473FDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A3A5D902315CEB600473FDA /* HTTPRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPRequest.swift; sourceTree = "<group>"; };
@@ -307,6 +309,7 @@
 				0AFEC36423C8FC590065D588 /* Data Files */,
 				7A1A916D23D13E4E00B0B3D2 /* Stubs */,
 				7AFA4D5F23D14BDB001A3BF4 /* AddDatePolicyTests.swift */,
+				0A34907D2559C6CB00C63618 /* AzureDateTests.swift */,
 				0AFEC35523C8FC320065D588 /* CollectionsTests.swift */,
 				7AE1886E2447C3950051628A /* CryptoUtilTests.swift */,
 				7AFA4D5D23D14864001A3BF4 /* HeadersPolicyTests.swift */,
@@ -711,6 +714,7 @@
 				0AFEC36223C8FC490065D588 /* UtilTests.swift in Sources */,
 				0A348C42255071ED00C63618 /* TestClient.swift in Sources */,
 				0AFEC36123C8FC460065D588 /* UserAgentPolicyTests.swift in Sources */,
+				0A34907E2559C6CB00C63618 /* AzureDateTests.swift in Sources */,
 				0AFEC35E23C8FC3D0065D588 /* HTTPRequestTests.swift in Sources */,
 				0AFEC35F23C8FC400065D588 /* PipelineRequestTests.swift in Sources */,
 				7A1A916F23D13E5D00B0B3D2 /* PipelineStubs.swift in Sources */,
