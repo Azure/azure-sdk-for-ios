@@ -24,29 +24,37 @@
 //
 // --------------------------------------------------------------------------
 
-import Foundation
+@testable import AzureCore
+import XCTest
 
-extension URL {
-    public func appendingQueryParameters(_ paramsIn: RequestParameters) -> URL? {
-        let queryParams = paramsIn.values(for: .query)
-        guard !queryParams.isEmpty else { return self }
-        guard var urlComps = URLComponents(url: self, resolvingAgainstBaseURL: true) else { return nil }
+// swiftlint:disable force_try
+class AzureDateTests: XCTestCase {
+    class TestObjectWithDate: Codable {
+        let startDate: MyDate
 
-        let queryItems = queryParams.map { item in
-            URLQueryItem(
-                name: item.key.requestString,
-                value: item.encodingStrategy == .skipEncoding ? item.value.requestString : item.value.requestString
-                    .addingPercentEncoding(withAllowedCharacters: .azureUrlQueryAllowed)
-            )
+        init(startDate: Date) {
+            self.startDate = MyDate(startDate)!
         }
-        let existing = urlComps.percentEncodedQueryItems ?? []
-        urlComps.percentEncodedQueryItems = existing + queryItems
-        return urlComps.url
+
+        init?(startDate: MyDate?) {
+            guard let date = startDate else { return nil }
+            self.startDate = date
+        }
     }
 
-    public func deletingQueryParameters() -> URL? {
-        guard var urlComps = URLComponents(url: self, resolvingAgainstBaseURL: true) else { return nil }
-        urlComps.query = nil
-        return urlComps.url
+    func test_AzureDate_canDecode() throws {
+        let jsonData = "{\"startDate\":\"2000-01-02\"}".data(using: .utf8)!
+        let decoder = JSONDecoder()
+        let testObject = try! decoder.decode(TestObjectWithDate.self, from: jsonData)
+        XCTAssert(testObject.startDate.requestString == "2000-01-02")
+    }
+
+    func test_AzureDate_canEncode() throws {
+        let date = MyDate(string: "2000-01-02")!
+        let testObject = TestObjectWithDate(startDate: date.date)
+        let encoder = JSONEncoder()
+        let testObjectData = try! encoder.encode(testObject)
+        let testObjectEncoded = String(data: testObjectData, encoding: .utf8)
+        XCTAssert(testObjectEncoded == "{\"startDate\":\"2000-01-02\"}")
     }
 }

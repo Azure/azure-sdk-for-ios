@@ -146,8 +146,8 @@ class LoggingPolicyTests: XCTestCase {
         let req = PipelineRequest(method: .get, url: "http://www.example.com", logger: logger)
         req.httpRequest.url = req.httpRequest.url
             .appendingQueryParameters(RequestParameters(
-                (.query, "id", "123", false),
-                (.query, "test", "secret", false)
+                (.query, "id", "123", .encode),
+                (.query, "test", "secret", .encode)
             ))!
         policy.on(request: req) { _, _ in }
         LoggingPolicy.queue.sync {}
@@ -163,8 +163,8 @@ class LoggingPolicyTests: XCTestCase {
         let req = PipelineRequest(method: .get, url: "http://www.example.com", logger: logger)
         req.httpRequest.url = req.httpRequest.url
             .appendingQueryParameters(RequestParameters(
-                (.query, "id", "123", false),
-                (.query, "test", "secret", false)
+                (.query, "id", "123", .encode),
+                (.query, "test", "secret", .encode)
             ))!
         policy.on(request: req) { _, _ in }
         LoggingPolicy.queue.sync {}
@@ -179,7 +179,7 @@ class LoggingPolicyTests: XCTestCase {
         let logger = TestClientLogger(.debug)
         let req = PipelineRequest(method: .get, url: "http://www.example.com?id=123", logger: logger)
         req.httpRequest.url = req.httpRequest.url
-            .appendingQueryParameters(RequestParameters((.query, "test", "secret", false)))!
+            .appendingQueryParameters(RequestParameters((.query, "test", "secret", .encode)))!
         policy.on(request: req) { _, _ in }
         LoggingPolicy.queue.sync {}
         let msg = logger.messages.first { $0.text.starts(with: "GET http://www.example.com") }
@@ -193,7 +193,7 @@ class LoggingPolicyTests: XCTestCase {
         let logger = TestClientLogger(.debug)
         let req = PipelineRequest(method: .get, url: "http://www.example.com?id=123", logger: logger)
         req.httpRequest.url = req.httpRequest.url
-            .appendingQueryParameters(RequestParameters((.query, "test", "secret", false)))!
+            .appendingQueryParameters(RequestParameters((.query, "test", "secret", .encode)))!
         policy.on(request: req) { _, _ in }
         LoggingPolicy.queue.sync {}
         let msg = logger.messages.first { $0.text.starts(with: "GET http://www.example.com") }

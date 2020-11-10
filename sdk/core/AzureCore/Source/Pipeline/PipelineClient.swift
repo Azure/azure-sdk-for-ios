@@ -87,7 +87,7 @@ open class PipelineClient {
             hostString += "/"
         }
         for item in hostParams {
-            let value = item.skipUrlEncoding ? item.value : item.value
+            let value = item.encodingStrategy == .skipEncoding ? item.value : item.value
                 .addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
             hostString = hostString.replacingOccurrences(of: "{\(item.key)}", with: value ?? "")
         }
@@ -98,7 +98,7 @@ open class PipelineClient {
         let pathParams = params.values(for: RequestParameterLocation.path)
         var pathString = path.hasPrefix("/") ? String(path.dropFirst()) : path
         for item in pathParams {
-            let value = item.skipUrlEncoding ? item.value : item.value
+            let value = item.encodingStrategy == .skipEncoding ? item.value : item.value
                 .addingPercentEncoding(withAllowedCharacters: .azureUrlPathAllowed)
             pathString = pathString.replacingOccurrences(of: "{\(item.key)}", with: value ?? "")
         }

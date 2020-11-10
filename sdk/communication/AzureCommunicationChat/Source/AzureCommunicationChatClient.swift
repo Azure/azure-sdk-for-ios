@@ -82,9 +82,9 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
     ) {
         let urlTemplate = "/chat/threads/{chatThreadId}/readreceipts"
         let params = RequestParameters(
-            (.path, "chatThreadId", chatThreadId, false),
-            (.query, "api-version", "2020-09-21-preview2", false)
-            (.header, "Accept", "application/json", false)
+            (.path, "chatThreadId", chatThreadId, .encode),
+            (.query, "api-version", "2020-09-21-preview2", .encode)
+            (.header, "Accept", "application/json", .encode)
         )
         let requestUrl = self.url(template: urlTemplate, withParams: params)
         guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.values(for: .header)) else {

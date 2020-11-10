@@ -35,8 +35,8 @@ class HttpRequestTests: XCTestCase {
         XCTAssertEqual(query.count, 2, "Failure converting query string from URL into query items.")
 
         httpRequest.url = httpRequest.url.appendingQueryParameters(RequestParameters(
-            (.query, "a", "0", false),
-            (.query, "c", "3", false)
+            (.query, "a", "0", .encode),
+            (.query, "c", "3", .encode)
         ))!
         query = URLComponents(url: httpRequest.url, resolvingAgainstBaseURL: true)!.queryItems!
         XCTAssertEqual(query.count, 4, "Failure adding new query string parameters.")
