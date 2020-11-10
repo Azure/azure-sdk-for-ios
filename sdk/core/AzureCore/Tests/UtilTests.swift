@@ -53,7 +53,7 @@ class UtilTests: XCTestCase {
 
         // ensure date string can be round-tripped
         XCTAssertNotNil(date)
-        XCTAssertEqual(String(describing: date!.date, format: .rfc1123), rfc1123String)
+        XCTAssertEqual(date!.requestString, rfc1123String)
 
         // setup calendar
         let units = Set<Calendar.Component>([.day, .month, .year, .hour, .minute, .second, .timeZone])

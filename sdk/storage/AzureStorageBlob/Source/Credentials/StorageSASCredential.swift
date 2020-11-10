@@ -254,7 +254,7 @@ internal class StorageSASAuthenticationPolicy: Authenticating {
         if let requestUrl = request.httpRequest.url.appendingQueryParameters(queryParams) {
             request.httpRequest.url = requestUrl
         }
-        request.httpRequest.headers[.xmsDate] = String(describing: Date(), format: .rfc1123)
+        request.httpRequest.headers[.xmsDate] = Rfc1123Date(Date())?.requestString
     }
 
     private func parse(sasToken: String) -> RequestParameters {

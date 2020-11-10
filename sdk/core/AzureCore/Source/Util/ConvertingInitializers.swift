@@ -48,19 +48,9 @@ extension URL {
 }
 
 extension String {
-    public init?(describing value: Date?, format: AzureDateFormat) {
-        guard let unwrapped = value else { return nil }
-        self = format.formatter.string(from: unwrapped)
-    }
-
     public init?(data: Data?, encoding: Encoding) {
         guard let unwrapped = data else { return nil }
         self.init(data: unwrapped, encoding: encoding)
-    }
-
-    public init?(describing: Any?) {
-        guard let unwrapped = describing else { return nil }
-        self.init(describing: unwrapped)
     }
 }
 
