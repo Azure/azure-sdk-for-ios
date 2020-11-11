@@ -9,15 +9,21 @@
 /sdk/                                               @mayurid @bsiegel
 
 # Service teams
+
+# PRLabel: %Azure.Core
 /sdk/core/                                          @bsiegel @tjprescott
+
+# PRLabel: %Storage
 /sdk/storage/                                       @bsiegel @tjprescott
 
 # PRLabel: %Communication
 /sdk/communication/                                 @RezaJooyandeh @sacheu
 
+# PRLabel: %Azure.Identity
+/sdk/identity/                                      @bsiegel @tjprescott
+
 ###########
 # Eng Sys
 ###########
 /eng/                                               @mitchdenny @weshaggard
-
 /**/ci.yml                                          @mitchdenny
