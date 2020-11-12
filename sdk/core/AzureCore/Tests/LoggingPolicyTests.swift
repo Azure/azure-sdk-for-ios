@@ -67,7 +67,7 @@ class LoggingPolicyTests: XCTestCase {
         policy.on(request: req) { _, _ in }
         LoggingPolicy.queue.sync {}
         XCTAssertEqual(
-            logger.messages.first { $0.text.starts(with: HTTPHeader.accept.rawValue) }?.text,
+            logger.messages.first { $0.text.starts(with: HTTPHeader.accept.requestString) }?.text,
             "Accept: REDACTED"
         )
         XCTAssertEqual(
@@ -86,7 +86,7 @@ class LoggingPolicyTests: XCTestCase {
         policy.on(request: req) { _, _ in }
         LoggingPolicy.queue.sync {}
         XCTAssertEqual(
-            logger.messages.first { $0.text.starts(with: HTTPHeader.accept.rawValue) }?.text,
+            logger.messages.first { $0.text.starts(with: HTTPHeader.accept.requestString) }?.text,
             "Accept: application/json"
         )
         XCTAssertEqual(
@@ -105,7 +105,7 @@ class LoggingPolicyTests: XCTestCase {
         policy.on(request: req) { _, _ in }
         LoggingPolicy.queue.sync {}
         XCTAssertEqual(
-            logger.messages.first { $0.text.starts(with: HTTPHeader.accept.rawValue) }?.text,
+            logger.messages.first { $0.text.starts(with: HTTPHeader.accept.requestString) }?.text,
             "Accept: REDACTED"
         )
         XCTAssertEqual(
@@ -144,7 +144,11 @@ class LoggingPolicyTests: XCTestCase {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.debug)
         let req = PipelineRequest(method: .get, url: "http://www.example.com", logger: logger)
-        req.httpRequest.url = req.httpRequest.url.appendingQueryParameters([("id", "123"), ("test", "secret")])!
+        req.httpRequest.url = req.httpRequest.url
+            .appendingQueryParameters(RequestParameters(
+                (.query, "id", "123", .encode),
+                (.query, "test", "secret", .encode)
+            ))!
         policy.on(request: req) { _, _ in }
         LoggingPolicy.queue.sync {}
         let msg = logger.messages.first { $0.text.starts(with: "GET http://www.example.com") }
@@ -157,7 +161,11 @@ class LoggingPolicyTests: XCTestCase {
         let policy = LoggingPolicy(allowQueryParams: ["id"])
         let logger = TestClientLogger(.debug)
         let req = PipelineRequest(method: .get, url: "http://www.example.com", logger: logger)
-        req.httpRequest.url = req.httpRequest.url.appendingQueryParameters([("id", "123"), ("test", "secret")])!
+        req.httpRequest.url = req.httpRequest.url
+            .appendingQueryParameters(RequestParameters(
+                (.query, "id", "123", .encode),
+                (.query, "test", "secret", .encode)
+            ))!
         policy.on(request: req) { _, _ in }
         LoggingPolicy.queue.sync {}
         let msg = logger.messages.first { $0.text.starts(with: "GET http://www.example.com") }
@@ -170,7 +178,8 @@ class LoggingPolicyTests: XCTestCase {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.debug)
         let req = PipelineRequest(method: .get, url: "http://www.example.com?id=123", logger: logger)
-        req.httpRequest.url = req.httpRequest.url.appendingQueryParameters([("test", "secret")])!
+        req.httpRequest.url = req.httpRequest.url
+            .appendingQueryParameters(RequestParameters((.query, "test", "secret", .encode)))!
         policy.on(request: req) { _, _ in }
         LoggingPolicy.queue.sync {}
         let msg = logger.messages.first { $0.text.starts(with: "GET http://www.example.com") }
@@ -183,7 +192,8 @@ class LoggingPolicyTests: XCTestCase {
         let policy = LoggingPolicy(allowQueryParams: ["id"])
         let logger = TestClientLogger(.debug)
         let req = PipelineRequest(method: .get, url: "http://www.example.com?id=123", logger: logger)
-        req.httpRequest.url = req.httpRequest.url.appendingQueryParameters([("test", "secret")])!
+        req.httpRequest.url = req.httpRequest.url
+            .appendingQueryParameters(RequestParameters((.query, "test", "secret", .encode)))!
         policy.on(request: req) { _, _ in }
         LoggingPolicy.queue.sync {}
         let msg = logger.messages.first { $0.text.starts(with: "GET http://www.example.com") }
@@ -308,7 +318,10 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnRequestWithBinaryBody_LogsOmittedMessageAtDebugLevel() {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.debug)
-        let headers = HTTPHeaders([.contentType: "application/octet-stream", .contentLength: "7"])
+        let headers = HTTPHeaders([
+            .contentType: "application/octet-stream",
+            .contentLength: "7"
+        ])
         let req = PipelineRequest(
             method: .get,
             url: "http://www.example.com",
@@ -443,7 +456,7 @@ class LoggingPolicyTests: XCTestCase {
         policy.on(response: res) { _, _ in }
         LoggingPolicy.queue.sync {}
         XCTAssertEqual(
-            logger.messages.first { $0.text.starts(with: HTTPHeader.contentType.rawValue) }?.text,
+            logger.messages.first { $0.text.starts(with: HTTPHeader.contentType.requestString) }?.text,
             "Content-Type: REDACTED"
         )
         XCTAssertEqual(
@@ -463,7 +476,7 @@ class LoggingPolicyTests: XCTestCase {
         policy.on(response: res) { _, _ in }
         LoggingPolicy.queue.sync {}
         XCTAssertEqual(
-            logger.messages.first { $0.text.starts(with: HTTPHeader.contentType.rawValue) }?.text,
+            logger.messages.first { $0.text.starts(with: HTTPHeader.contentType.requestString) }?.text,
             "Content-Type: application/json"
         )
         XCTAssertEqual(
@@ -483,7 +496,7 @@ class LoggingPolicyTests: XCTestCase {
         policy.on(response: res) { _, _ in }
         LoggingPolicy.queue.sync {}
         XCTAssertEqual(
-            logger.messages.first { $0.text.starts(with: HTTPHeader.contentType.rawValue) }?.text,
+            logger.messages.first { $0.text.starts(with: HTTPHeader.contentType.requestString) }?.text,
             "Content-Type: REDACTED"
         )
         XCTAssertEqual(
@@ -644,7 +657,10 @@ class LoggingPolicyTests: XCTestCase {
     func test_LoggingPolicy_OnResponseWithBinaryBody_LogsOmittedMessageAtDebugLevel() {
         let policy = LoggingPolicy()
         let logger = TestClientLogger(.debug)
-        let headers = HTTPHeaders([.contentType: "application/octet-stream", .contentLength: "7"])
+        let headers = HTTPHeaders([
+            .contentType: "application/octet-stream",
+            .contentLength: "7"
+        ])
         let req = PipelineRequest(method: .get, url: "http://www.example.com")
         let res = PipelineResponse(request: req, headers: headers, body: "Testing", logger: logger)
         policy.on(response: res) { _, _ in }
@@ -766,7 +782,7 @@ class LoggingPolicyTests: XCTestCase {
     func test_CurlFormattedRequestLoggingPolicy_OnRequest_LogsAllHeadersAndQueryStringParams() {
         let policy = CurlFormattedRequestLoggingPolicy()
         let logger = TestClientLogger(.debug)
-        let headers = ["TestHeader": "123"]
+        let headers = HTTPHeaders([.custom("TestHeader"): "123"])
         let req = PipelineRequest(method: .get, url: "http://www.example.com?foo=bar", headers: headers, logger: logger)
         policy.on(request: req) { _, _ in }
         LoggingPolicy.queue.sync {}
@@ -790,7 +806,7 @@ class LoggingPolicyTests: XCTestCase {
     func test_CurlFormattedRequestLoggingPolicy_OnRequest_EscapesQuoteMarksInHeaderValues() {
         let policy = CurlFormattedRequestLoggingPolicy()
         let logger = TestClientLogger(.debug)
-        let headers = ["TestHeader": "\"123\""]
+        let headers = HTTPHeaders([.custom("TestHeader"): "\"123\""])
         let req = PipelineRequest(method: .get, url: "http://www.example.com", headers: headers, logger: logger)
         policy.on(request: req) { _, _ in }
         LoggingPolicy.queue.sync {}
@@ -802,7 +818,7 @@ class LoggingPolicyTests: XCTestCase {
     func test_CurlFormattedRequestLoggingPolicy_OnRequest_EscapesBackslashesInHeaderValues() {
         let policy = CurlFormattedRequestLoggingPolicy()
         let logger = TestClientLogger(.debug)
-        let headers = ["TestHeader": "C:\\Windows"]
+        let headers = HTTPHeaders([.custom("TestHeader"): "C:\\Windows"])
         let req = PipelineRequest(method: .get, url: "http://www.example.com", headers: headers, logger: logger)
         policy.on(request: req) { _, _ in }
         LoggingPolicy.queue.sync {}

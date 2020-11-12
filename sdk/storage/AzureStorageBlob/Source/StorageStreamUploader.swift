@@ -114,44 +114,28 @@ internal class ChunkUploader {
         }
 
         // Construct parameters
-        var queryParams = [
-            ("comp", "block"),
-            ("blockid", blockId.uuidString.base64EncodedString())
-        ]
-        if let timeout = options.timeoutInSeconds { queryParams.append(("timeout", String(timeout))) }
-
-        // Construct headers
-        var headers = HTTPHeaders([
-            .contentType: "application/octet-stream",
-            .contentLength: String(chunkSize),
-            .apiVersion: client.options.apiVersion
-        ])
         let leaseAccessConditions = options.leaseAccessConditions
         let cpk = options.customerProvidedEncryptionKey
-
-        if let transactionalContentMd5 = transactionalContentMd5 {
-            headers[.contentMD5] = String(data: transactionalContentMd5, encoding: .utf8)
-        }
-
-        if let transactionalContentCrc64 = transactionalContentCrc64 {
-            headers[.contentCRC64] = String(data: transactionalContentCrc64, encoding: .utf8)
-        }
-
-        if let requestId = requestId { headers[.clientRequestId] = requestId }
-        if let leaseId = leaseAccessConditions?.leaseId { headers[.leaseId] = leaseId }
-        if let encryptionKey = cpk?.keyData {
-            headers[.encryptionKey] = String(data: encryptionKey, encoding: .utf8)
-        }
-        if let encryptionScope = options.customerProvidedEncryptionScope {
-            headers[.encryptionScope] = encryptionScope
-        }
-
-        if let encryptionKeySHA256 = cpk?.hash { headers[.encryptionKeySHA256] = encryptionKeySHA256 }
-        if let encryptionAlgorithm = cpk?.algorithm { headers[.encryptionAlgorithm] = encryptionAlgorithm }
+        let params = RequestParameters(
+            (.query, "comp", "block", .encode),
+            (.query, "blockid", blockId.uuidString.base64EncodedString(), .encode),
+            (.query, "timeout", options.timeoutInSeconds, .encode),
+            (.header, HTTPHeader.contentType, "application/octet-stream", .encode),
+            (.header, HTTPHeader.contentLength, chunkSize, .encode),
+            (.header, HTTPHeader.apiVersion, client.options.apiVersion, .encode),
+            (.header, HTTPHeader.contentMD5, transactionalContentMd5, .encode),
+            (.header, StorageHTTPHeader.contentCRC64, transactionalContentCrc64, .encode),
+            (.header, HTTPHeader.clientRequestId, requestId, .encode),
+            (.header, StorageHTTPHeader.leaseId, leaseAccessConditions?.leaseId, .encode),
+            (.header, StorageHTTPHeader.encryptionKey, cpk?.keyData, .encode),
+            (.header, StorageHTTPHeader.encryptionScope, options.customerProvidedEncryptionScope, .encode),
+            (.header, StorageHTTPHeader.encryptionKeySHA256, cpk?.hash, .encode),
+            (.header, StorageHTTPHeader.encryptionAlgorithm, cpk?.algorithm, .encode)
+        )
 
         // Construct and send request
-        guard let requestUrl = uploadDestination.appendingQueryParameters(queryParams) else { return }
-        guard let request = try? HTTPRequest(method: .put, url: requestUrl, headers: headers, data: buffer)
+        guard let requestUrl = uploadDestination.appendingQueryParameters(params) else { return }
+        guard let request = try? HTTPRequest(method: .put, url: requestUrl, headers: params.headers, data: buffer)
         else { return }
         let context = options.context ?? PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [201] as AnyObject
@@ -355,9 +339,10 @@ internal class BlobStreamUploader: BlobUploader {
         completionHandler: @escaping HTTPResultHandler<BlobProperties>
     ) {
         // Construct parameters & headers
-        var queryParams: [QueryParameter] = [("comp", "blocklist")]
-        if let timeout = options.timeoutInSeconds { queryParams.append("timeout", String(timeout)) }
-
+        let params = RequestParameters(
+            (.query, "comp", "blocklist", .encode),
+            (.query, "timeout", options.timeoutInSeconds, .encode)
+        )
         let headers = commitHeadersForRequest(
             withId: requestId,
             withContentMD5: transactionalContentMd5,
@@ -372,7 +357,7 @@ internal class BlobStreamUploader: BlobUploader {
         }
         let xmlData = xmlString.data(using: encoding)
 
-        guard let requestUrl = uploadDestination.appendingQueryParameters(queryParams) else { return }
+        guard let requestUrl = uploadDestination.appendingQueryParameters(params) else { return }
         guard let request = try? HTTPRequest(method: .put, url: requestUrl, headers: headers, data: xmlData)
         else { return }
         let context = options.context ?? PipelineContext.of(keyValues: [
@@ -438,66 +423,35 @@ internal class BlobStreamUploader: BlobUploader {
         withContentMD5 md5: Data?,
         withContentCRC64 crc64: Data?
     ) -> HTTPHeaders {
-        // Construct headers
-        var headers = HTTPHeaders([
-            .contentType: "application/xml; charset=utf-8",
-            .apiVersion: client.options.apiVersion
-        ])
         let leaseAccessConditions = options.leaseAccessConditions
         let modifiedAccessConditions = options.modifiedAccessConditions
         let cpk = options.customerProvidedEncryptionKey
 
-        if let transactionalContentMd5 = md5 {
-            headers[.contentMD5] = String(data: transactionalContentMd5, encoding: .utf8)
-        }
-
-        if let transactionalContentCrc64 = crc64 {
-            headers[.contentCRC64] = String(data: transactionalContentCrc64, encoding: .utf8)
-        }
-
-        if let requestId = requestId { headers[.clientRequestId] = requestId }
-        if let leaseId = leaseAccessConditions?.leaseId { headers[.leaseId] = leaseId }
-        if let encryptionKey = cpk?.keyData {
-            headers[.encryptionKey] = String(data: encryptionKey, encoding: .utf8)
-        }
-        if let encryptionScope = options.customerProvidedEncryptionScope {
-            headers[.encryptionScope] = encryptionScope
-        }
-
-        if let encryptionKeySHA256 = cpk?.hash { headers[.encryptionKeySHA256] = encryptionKeySHA256 }
-        if let encryptionAlgorithm = cpk?.algorithm { headers[.encryptionAlgorithm] = encryptionAlgorithm }
-        if let ifModifiedSince = modifiedAccessConditions?.ifModifiedSince {
-            headers[.ifModifiedSince] = String(describing: ifModifiedSince, format: .rfc1123)
-        }
-        if let ifUnmodifiedSince = modifiedAccessConditions?.ifUnmodifiedSince {
-            headers[.ifUnmodifiedSince] = String(describing: ifUnmodifiedSince, format: .rfc1123)
-        }
-        if let ifMatch = modifiedAccessConditions?.ifMatch { headers[.ifMatch] = ifMatch }
-        if let ifNoneMatch = modifiedAccessConditions?.ifNoneMatch { headers[.ifNoneMatch] = ifNoneMatch }
-
-        if let accessTier = blobProperties?.accessTier {
-            headers[.accessTier] = accessTier.rawValue
-        }
-        if let cacheControl = blobProperties?.cacheControl {
-            headers[.blobCacheControl] = cacheControl
-        }
-        if let contentType = blobProperties?.contentType {
-            headers[.blobContentType] = contentType
-        }
-        if let contentEncoding = blobProperties?.contentEncoding {
-            headers[.blobContentEncoding] = contentEncoding
-        }
-        if let contentLanguage = blobProperties?.contentLanguage {
-            headers[.blobContentLanguage] = contentLanguage
-        }
-        if let contentMD5 = blobProperties?.contentMD5 {
-            headers[.blobContentMD5] = contentMD5
-        }
-        if let contentDisposition = blobProperties?.contentDisposition {
-            headers[.blobContentDisposition] = contentDisposition
-        }
-
-        return headers
+        // Construct headers
+        let headers = RequestParameters(
+            (.header, HTTPHeader.contentType, "application/xml; charset=utf-8", .encode),
+            (.header, HTTPHeader.apiVersion, client.options.apiVersion, .encode),
+            (.header, HTTPHeader.contentMD5, String(data: md5, encoding: .utf8), .encode),
+            (.header, StorageHTTPHeader.contentCRC64, String(data: crc64, encoding: .utf8), .encode),
+            (.header, HTTPHeader.clientRequestId, requestId, .encode),
+            (.header, StorageHTTPHeader.leaseId, leaseAccessConditions?.leaseId, .encode),
+            (.header, StorageHTTPHeader.encryptionKey, cpk?.keyData, .encode),
+            (.header, StorageHTTPHeader.encryptionScope, options.customerProvidedEncryptionScope, .encode),
+            (.header, StorageHTTPHeader.encryptionKeySHA256, cpk?.hash, .encode),
+            (.header, StorageHTTPHeader.encryptionAlgorithm, cpk?.algorithm, .encode),
+            (.header, HTTPHeader.ifModifiedSince, modifiedAccessConditions?.ifModifiedSince, .encode),
+            (.header, HTTPHeader.ifUnmodifiedSince, modifiedAccessConditions?.ifUnmodifiedSince, .encode),
+            (.header, HTTPHeader.ifMatch, modifiedAccessConditions?.ifMatch, .encode),
+            (.header, HTTPHeader.ifNoneMatch, modifiedAccessConditions?.ifNoneMatch, .encode),
+            (.header, StorageHTTPHeader.accessTier, blobProperties?.accessTier, .encode),
+            (.header, StorageHTTPHeader.blobCacheControl, blobProperties?.cacheControl, .encode),
+            (.header, StorageHTTPHeader.blobContentType, blobProperties?.contentType, .encode),
+            (.header, StorageHTTPHeader.blobContentEncoding, blobProperties?.contentEncoding, .encode),
+            (.header, StorageHTTPHeader.blobContentLanguage, blobProperties?.contentLanguage, .encode),
+            (.header, StorageHTTPHeader.blobContentMD5, blobProperties?.contentMD5, .encode),
+            (.header, StorageHTTPHeader.blobContentDisposition, blobProperties?.contentDisposition, .encode)
+        )
+        return headers.headers
     }
 
     private func buildLookupList() -> BlobLookupList {

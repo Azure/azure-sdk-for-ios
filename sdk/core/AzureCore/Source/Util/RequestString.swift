@@ -26,22 +26,55 @@
 
 import Foundation
 
-public class URLHTTPResponse: HTTPResponse {
-    // MARK: Properties
+/// Can be string-formatted for use by AzureCore.
+public protocol RequestStringConvertible {
+    var requestString: String { get }
+}
 
-    private var internalResponse: HTTPURLResponse?
+extension RequestStringConvertible {
+    public static func == (lhs: RequestStringConvertible, rhs: RequestStringConvertible) -> Bool {
+        return lhs.requestString == rhs.requestString
+    }
+}
 
-    // MARK: Initializers
+extension Int: RequestStringConvertible {
+    public var requestString: String {
+        return String(self)
+    }
+}
 
-    public init(request: HTTPRequest, response: HTTPURLResponse?) {
-        self.internalResponse = response
-        let statusCode = response?.statusCode
-        super.init(request: request, statusCode: statusCode)
-        guard let internalHeaders = response?.allHeaderFields else { return }
-        for (key, value) in internalHeaders {
-            guard let keyVal = key as? String else { continue }
-            guard let val = value as? String else { continue }
-            headers[keyVal] = val
+extension String: RequestStringConvertible {
+    public var requestString: String {
+        return self
+    }
+}
+
+extension Bool: RequestStringConvertible {
+    public var requestString: String {
+        return String(self)
+    }
+}
+
+extension Data: RequestStringConvertible {
+    public var requestString: String {
+        guard let dataString = String(bytes: self, encoding: .utf8) else {
+            assertionFailure("Unable to encode bytes")
+            return ""
         }
+        return dataString
+    }
+}
+
+extension Array: RequestStringConvertible {
+    public var requestString: String {
+        var strings = [String]()
+        for value in self {
+            if let val = value as? RequestStringConvertible {
+                strings.append(val.requestString)
+            } else {
+                strings.append("")
+            }
+        }
+        return strings.joined(separator: ",")
     }
 }

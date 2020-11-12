@@ -24,24 +24,37 @@
 //
 // --------------------------------------------------------------------------
 
-import Foundation
+@testable import AzureCore
+import XCTest
 
-public class URLHTTPResponse: HTTPResponse {
-    // MARK: Properties
+// swiftlint:disable force_try
+class AzureDateTests: XCTestCase {
+    class TestObjectWithDate: Codable {
+        let startDate: MyDate
 
-    private var internalResponse: HTTPURLResponse?
-
-    // MARK: Initializers
-
-    public init(request: HTTPRequest, response: HTTPURLResponse?) {
-        self.internalResponse = response
-        let statusCode = response?.statusCode
-        super.init(request: request, statusCode: statusCode)
-        guard let internalHeaders = response?.allHeaderFields else { return }
-        for (key, value) in internalHeaders {
-            guard let keyVal = key as? String else { continue }
-            guard let val = value as? String else { continue }
-            headers[keyVal] = val
+        init(startDate: Date) {
+            self.startDate = MyDate(startDate)!
         }
+
+        init?(startDate: MyDate?) {
+            guard let date = startDate else { return nil }
+            self.startDate = date
+        }
+    }
+
+    func test_AzureDate_canDecode() throws {
+        let jsonData = "{\"startDate\":\"2000-01-02\"}".data(using: .utf8)!
+        let decoder = JSONDecoder()
+        let testObject = try! decoder.decode(TestObjectWithDate.self, from: jsonData)
+        XCTAssert(testObject.startDate.requestString == "2000-01-02")
+    }
+
+    func test_AzureDate_canEncode() throws {
+        let date = MyDate(string: "2000-01-02")!
+        let testObject = TestObjectWithDate(startDate: date.value)
+        let encoder = JSONEncoder()
+        let testObjectData = try! encoder.encode(testObject)
+        let testObjectEncoded = String(data: testObjectData, encoding: .utf8)
+        XCTAssert(testObjectEncoded == "{\"startDate\":\"2000-01-02\"}")
     }
 }
