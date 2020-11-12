@@ -61,7 +61,7 @@ class UtilTests: XCTestCase {
         calendar.timeZone = TimeZone(identifier: "GMT")!
 
         // verify parses to correct components
-        let dateComponents = calendar.dateComponents(units, from: date!.date)
+        let dateComponents = calendar.dateComponents(units, from: date!.value)
         XCTAssertEqual(dateComponents.month, 1)
         XCTAssertEqual(dateComponents.day, 2)
         XCTAssertEqual(dateComponents.year, 2020)
@@ -117,7 +117,7 @@ class UtilTests: XCTestCase {
             (.header, "bool", "true", .encode),
             (.header, "date", dateString, .encode)
         )
-        XCTAssertEqual(Rfc1123Date(string: headers.value(for: "date"))?.date, date)
+        XCTAssertEqual(Rfc1123Date(string: headers.value(for: "date"))?.value, date)
     }
 
     func test_StringUtil_WithNonRFC1123DateString_OutputsNil() {

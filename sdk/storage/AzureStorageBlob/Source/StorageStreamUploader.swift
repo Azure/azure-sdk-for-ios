@@ -375,7 +375,7 @@ internal class BlobStreamUploader: BlobUploader {
                     completionHandler(.failure(error), httpResponse)
                     return
                 }
-                let blobProperties = BlobProperties(from: responseHeaders as HTTPHeaders)
+                let blobProperties = BlobProperties(from: responseHeaders)
                 completionHandler(.success(blobProperties), httpResponse)
             }
         }

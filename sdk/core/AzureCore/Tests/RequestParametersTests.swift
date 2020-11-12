@@ -64,35 +64,35 @@ enum ShapeEnum: RequestStringConvertible {
     }
 }
 
-public struct MyDate: RequestStringConvertible, Codable, Equatable, Comparable {
-    static var dateFormat: AzureDateFormat = .custom("yyyy-MM-dd")
+public struct MyDate: AzureDate {
+    public static var dateFormat: AzureDateFormat = .custom("yyyy-MM-dd")
 
-    static var formatter: DateFormatter {
+    public static var formatter: DateFormatter {
         return Self.dateFormat.formatter
     }
 
-    public var date: Date
+    public var value: Date
 
     // MARK: RequestStringConvertible
 
     public var requestString: String {
-        return Self.formatter.string(from: date)
+        return Self.formatter.string(from: value)
     }
 
     // MARK: Initializers
 
     public init() {
-        self.date = Date()
+        self.value = Date()
     }
 
     public init?(string: String?) {
         guard let date = Self.formatter.date(from: string ?? "") else { return nil }
-        self.date = date
+        self.value = date
     }
 
     public init?(_ date: Date?) {
         guard let unwrapped = date else { return nil }
-        self.date = unwrapped
+        self.value = unwrapped
     }
 
     // MARK: Codable
@@ -100,7 +100,7 @@ public struct MyDate: RequestStringConvertible, Codable, Equatable, Comparable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         let dateString = try container.decode(String.self)
-        self.date = Self.formatter.date(from: dateString) ?? Date()
+        self.value = Self.formatter.date(from: dateString) ?? Date()
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -111,13 +111,13 @@ public struct MyDate: RequestStringConvertible, Codable, Equatable, Comparable {
     // MARK: Equatable
 
     public static func == (lhs: MyDate, rhs: MyDate) -> Bool {
-        return lhs.date == rhs.date
+        return lhs.value == rhs.value
     }
 
     // MARK: Comparable
 
     public static func < (lhs: MyDate, rhs: MyDate) -> Bool {
-        return lhs.date < rhs.date
+        return lhs.value < rhs.value
     }
 }
 

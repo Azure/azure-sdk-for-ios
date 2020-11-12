@@ -51,7 +51,7 @@ class AzureDateTests: XCTestCase {
 
     func test_AzureDate_canEncode() throws {
         let date = MyDate(string: "2000-01-02")!
-        let testObject = TestObjectWithDate(startDate: date.date)
+        let testObject = TestObjectWithDate(startDate: date.value)
         let encoder = JSONEncoder()
         let testObjectData = try! encoder.encode(testObject)
         let testObjectEncoded = String(data: testObjectData, encoding: .utf8)
