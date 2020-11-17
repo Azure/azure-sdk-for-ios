@@ -165,6 +165,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		9643C2B7256450A90036A51B /* Generated */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_8 /* AzureCommunicationChatClient.swift */,
+				OBJ_9 /* Models */,
+				OBJ_30 /* Options */,
+			);
+			path = Generated;
+			sourceTree = "<group>";
+		};
 		OBJ_100 /* Util */ = {
 			isa = PBXGroup;
 			children = (
@@ -224,7 +234,7 @@
 			path = Util;
 			sourceTree = "<group>";
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -234,7 +244,6 @@
 				OBJ_113 /* Products */,
 				0A74765A2522918800819FC9 /* Frameworks */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_51 /* Tests */ = {
@@ -323,9 +332,7 @@
 		OBJ_7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_8 /* AzureCommunicationChatClient.swift */,
-				OBJ_9 /* Models */,
-				OBJ_30 /* Options */,
+				9643C2B7256450A90036A51B /* Generated */,
 				OBJ_48 /* Util */,
 			);
 			name = Sources;
@@ -438,7 +445,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_113 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
