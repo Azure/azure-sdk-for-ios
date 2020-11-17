@@ -23,10 +23,10 @@
   - Fixed a deadlock when deleting an `ACSCallAgent` object.
   - The `Call.hangup()` method will return only after all necessary events are delivered to the app.
     [#85](https://github.com/Azure/Communication/issues/85)
-  - The `Call.hangup()` method now terminates a call if the call is in the Connecting or Ringing state.
+  - The `Call.hangup()` method now terminates a call if the call is in the `Connecting` or `Ringing` state.
     [#96](https://github.com/Azure/Communication/issues/96)
-  - The library was raising a RemoteVideoStream removed event when app stopped rendering a stream. The library now also
-    raises a follow-up RemoteVideoStream added event once the stream is ready to be rendered again.
+  - The library was raising a `RemoteVideoStream Removed` event when app stopped rendering a stream. The library now
+    also raises a follow-up `RemoteVideoStream Added` event once the stream is ready to be rendered again.
     [#95](https://github.com/Azure/Communication/issues/95)
 
 ## 1.0.0-beta.2 (2020-10-05)
