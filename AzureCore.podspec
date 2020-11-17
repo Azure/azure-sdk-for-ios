@@ -26,7 +26,7 @@
 
 Pod::Spec.new do |s|
     s.name = 'AzureCore'
-    s.version = '1.0.0-beta.2'
+    s.version = '1.0.0-beta.5'
     s.summary = 'Azure core client library for iOS'
     s.description = <<~DESC
       This is the core framework for the Azure SDK for iOS, containing the HTTP
@@ -50,6 +50,6 @@ Pod::Spec.new do |s|
     s.swift_version = '5.0'
   
     s.source = { :git => 'https://github.com/Azure/azure-sdk-for-ios.git',
-                 :tag => '1.0.0-beta.2' }
+                 :tag => '1.0.0-beta.5' }
     s.source_files = 'sdk/core/AzureCore/Source/**/*.{swift,h,m}'
   end

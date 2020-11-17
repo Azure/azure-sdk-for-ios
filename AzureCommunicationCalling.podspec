@@ -26,7 +26,7 @@
 
 Pod::Spec.new do |s|
     s.name = 'AzureCommunicationCalling'
-    s.version = '1.0.0-beta.4'
+    s.version = '1.0.0-beta.5'
     s.summary = 'Azure Communication Calling Service client library for iOS'
     s.description = <<~DESC
       This package contains the Calling client library for Azure Communication
@@ -49,5 +49,5 @@ Pod::Spec.new do |s|
     s.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
     s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
 
-    s.dependency 'AzureCommunication', '~> 1.0.0-beta.2'
+    s.dependency 'AzureCommunication', '~> 1.0.0-beta.5'
   end
