@@ -31,7 +31,7 @@ import Foundation
 public class ChatThreadClient {
     // MARK: Properties
 
-    private let threadId: String
+    public let threadId: String
     private let client: AzureCommunicationChatClient
     private let credential: CommunicationUserCredential
     private let endpoint: String
