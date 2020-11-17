@@ -13,11 +13,6 @@ This package contains the Chat client library for Azure Communication Services.
 * You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
 [Communication Services resource](https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource) to use this library.
 
-### Versions available
-The latest version of the SDK is [1.0.0-beta.2](https://github.com/Azure/azure-sdk-for-ios/releases/tag/1.0.0-beta.2). Older [releases](https://github.com/Azure/azure-sdk-for-ios/releases) are also available.
-
-> Note: The SDK is currently in **beta**. The API surface and feature sets are subject to change at any time before they become generally available. We do not currently recommend them for production use.
-
 ### Install the library
 To install the Azure client libraries for iOS, we recommend you use
 [Swift Package Manager](#add-a-package-dependency-with-swift-package-manager).

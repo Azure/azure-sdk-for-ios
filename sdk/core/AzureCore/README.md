@@ -16,11 +16,6 @@ library as an example of how to use the shared AzureCore components in your clie
 * The client library is written in modern Swift 5. Due to this, Xcode 10.2 or higher is required to use this library.
 * You must have an [Azure subscription](https://azure.microsoft.com/free/) to use this library.
 
-### Versions available
-The latest version of the SDK is [1.0.0-beta.2](https://github.com/Azure/azure-sdk-for-ios/releases/tag/1.0.0-beta.2). Older [releases](https://github.com/Azure/azure-sdk-for-ios/releases) are also available.
-
-> Note: The SDK is currently in **beta**. The API surface and feature sets are subject to change at any time before they become generally available. We do not currently recommend them for production use.
-
 ### Install the library
 To install the Azure client libraries for iOS, we recommend you use
 [Swift Package Manager](#add-a-package-dependency-with-swift-package-manager).
