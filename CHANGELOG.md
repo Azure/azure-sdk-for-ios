@@ -2,9 +2,13 @@
 
 ## 1.0.0-beta.5 (Unreleased)
 
+### New Features
+
+### Breaking Changes
 - Azure Communication Services Chat
   - `baseUrl` is renamed to `endpoint` in the `AzureCommunicationChatClient` initializers.
-  
+
+### Key Bug Fixes
 
 
 ## 1.0.0-beta.2 (2020-10-05)
