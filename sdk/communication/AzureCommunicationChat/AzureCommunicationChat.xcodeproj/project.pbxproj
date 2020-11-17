@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0A74765C2522918900819FC9 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A74765B2522918900819FC9 /* AzureCore.framework */; };
+		9643C35C256466850036A51B /* ChatThreadClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9643C35A256466850036A51B /* ChatThreadClient.swift */; };
+		9643C35D256466850036A51B /* ChatClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9643C35B256466850036A51B /* ChatClient.swift */; };
 		OBJ_121 /* AzureCommunicationChatClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_8 /* AzureCommunicationChatClient.swift */; };
 		OBJ_122 /* AddChatThreadMembersRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* AddChatThreadMembersRequest.swift */; };
 		OBJ_123 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* ChatMessage.swift */; };
@@ -52,6 +54,8 @@
 
 /* Begin PBXFileReference section */
 		0A74765B2522918900819FC9 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9643C35A256466850036A51B /* ChatThreadClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatThreadClient.swift; sourceTree = "<group>"; };
+		9643C35B256466850036A51B /* ChatClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatClient.swift; sourceTree = "<group>"; };
 		"AzureCommunicationChat::AzureCommunicationChat::Product" /* AzureCommunicationChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCommunicationChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_10 /* AddChatThreadMembersRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChatThreadMembersRequest.swift; sourceTree = "<group>"; };
 		OBJ_101 /* ApplicationUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationUtil.swift; sourceTree = "<group>"; };
@@ -332,6 +336,8 @@
 		OBJ_7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				9643C35B256466850036A51B /* ChatClient.swift */,
+				9643C35A256466850036A51B /* ChatThreadClient.swift */,
 				9643C2B7256450A90036A51B /* Generated */,
 				OBJ_48 /* Util */,
 			);
@@ -466,6 +472,7 @@
 				OBJ_124 /* ChatMessagesCollection.swift in Sources */,
 				OBJ_125 /* ChatThread.swift in Sources */,
 				OBJ_126 /* ChatThreadInfo.swift in Sources */,
+				9643C35D256466850036A51B /* ChatClient.swift in Sources */,
 				OBJ_127 /* ChatThreadMember.swift in Sources */,
 				OBJ_128 /* ChatThreadMembersCollection.swift in Sources */,
 				OBJ_129 /* ChatThreadsInfoCollection.swift in Sources */,
@@ -492,6 +499,7 @@
 				OBJ_150 /* ListChatReadReceiptsOptions.swift in Sources */,
 				OBJ_151 /* ListChatThreadMembersOptions.swift in Sources */,
 				OBJ_152 /* ListChatThreadsOptions.swift in Sources */,
+				9643C35C256466850036A51B /* ChatThreadClient.swift in Sources */,
 				OBJ_153 /* RemoveChatThreadMemberOptions.swift in Sources */,
 				OBJ_154 /* SendChatMessageOptions.swift in Sources */,
 				OBJ_155 /* SendChatReadReceiptOptions.swift in Sources */,
