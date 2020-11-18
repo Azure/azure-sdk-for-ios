@@ -45,6 +45,7 @@ Pod::Spec.new do |s|
     s.source = { :git => 'https://github.com/Azure/azure-sdk-for-ios.git',
                  :tag => '1.0.0-beta.5' }
     s.source_files = 'sdk/communication/AzureCommunication/Source/**/*.{swift,h,m}'
+    s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES' }
 
     s.dependency 'AzureCore', '~> 1.0.0-beta.5'
   end
