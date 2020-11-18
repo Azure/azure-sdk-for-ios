@@ -132,7 +132,7 @@ public enum StorageHTTPHeader: String, RequestStringConvertible {
     /// x-ms-lease-time
     case leaseTime = "x-ms-lease-time"
     /// x-ms-meta
-    case meta = "x-ms-meta"
+    case metadata = "x-ms-meta"
     /// x-ms-page-write
     case pageWrite = "x-ms-page-write"
     /// x-ms-proposed-lease-id

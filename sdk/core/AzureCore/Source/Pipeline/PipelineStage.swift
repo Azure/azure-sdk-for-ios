@@ -104,9 +104,9 @@ public extension PipelineStage {
                     logger: request.logger,
                     context: request.context
                 )
-                self.on(error: error, pipelineResponse: pipelineResponse) { _, handled in
+                self.on(error: error, pipelineResponse: pipelineResponse) { errorOut, handled in
                     if !handled {
-                        completionHandler(.failure(error), nil)
+                        completionHandler(.failure(errorOut), nil)
                         return
                     }
                 }
@@ -116,9 +116,9 @@ public extension PipelineStage {
                 case let .success(pipelineResponse):
                     self.on(response: pipelineResponse) { response, error in
                         if let error = error {
-                            self.on(error: error, pipelineResponse: pipelineResponse) { _, handled in
+                            self.on(error: error, pipelineResponse: pipelineResponse) { errorOut, handled in
                                 if !handled {
-                                    completionHandler(.failure(error), httpResponse)
+                                    completionHandler(.failure(errorOut), httpResponse)
                                     return
                                 }
                             }
@@ -132,9 +132,9 @@ public extension PipelineStage {
                         logger: request.logger,
                         context: request.context
                     )
-                    self.on(error: error, pipelineResponse: pipelineResponse) { _, handled in
+                    self.on(error: error, pipelineResponse: pipelineResponse) { errorOut, handled in
                         if !handled {
-                            completionHandler(.failure(error), httpResponse)
+                            completionHandler(.failure(errorOut), httpResponse)
                             return
                         }
                     }

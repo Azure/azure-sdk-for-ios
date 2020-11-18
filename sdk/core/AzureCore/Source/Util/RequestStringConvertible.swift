@@ -31,43 +31,13 @@ public protocol RequestStringConvertible {
     var requestString: String { get }
 }
 
-public extension RequestStringConvertible {
-    static func == (lhs: RequestStringConvertible, rhs: RequestStringConvertible) -> Bool {
+extension RequestStringConvertible {
+    public static func == (lhs: RequestStringConvertible, rhs: RequestStringConvertible) -> Bool {
         return lhs.requestString == rhs.requestString
     }
 }
 
 extension Int: RequestStringConvertible {
-    public var requestString: String {
-        return String(self)
-    }
-}
-
-extension Decimal: RequestStringConvertible {
-    public var requestString: String {
-        // Test server expects 'positive exponent' to have a + sign. i.e. instead of 2.566e10, it expects 2.566e+10}
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .scientific
-        numberFormatter.maximumSignificantDigits = 8
-        var decimalString = numberFormatter.string(from: self as NSDecimalNumber)
-        decimalString = decimalString?.replacingOccurrences(of: "e([0-9])", with: "e+$1", options: .regularExpression)
-        return decimalString ?? ""
-    }
-}
-
-extension Int32: RequestStringConvertible {
-    public var requestString: String {
-        return String(self)
-    }
-}
-
-extension Int64: RequestStringConvertible {
-    public var requestString: String {
-        return String(self)
-    }
-}
-
-extension Float: RequestStringConvertible {
     public var requestString: String {
         return String(self)
     }
@@ -115,26 +85,8 @@ extension Array: RequestStringConvertible {
     }
 }
 
-extension TimeInterval: RequestStringConvertible {
-    public var requestString: String {
-        return String(self)
-    }
-}
-
 extension Dictionary: RequestStringConvertible {
     public var requestString: String {
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: self)
-            if let jsonString = String(data: jsonData, encoding: .utf8) {
-                return jsonString
-            }
-        } catch {}
         return String(describing: self)
-    }
-}
-
-extension DateComponents: RequestStringConvertible {
-    public var requestString: String {
-        return DateComponentsFormatter().string(from: self) ?? "\"\""
     }
 }

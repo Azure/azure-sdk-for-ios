@@ -60,3 +60,8 @@ target 'AzureSDKDemoSwift' do
   project 'examples/AzureSDKDemoSwift/AzureSDKDemoSwift'
   pod 'MSAL', '~> 1.1.2'
 end
+
+target 'AzureStorageBlobDemo' do
+  project 'examples/AzureStorageBlobDemo/AzureStorageBlobDemo'
+  pod 'MSAL', '~> 1.0.0'
+end

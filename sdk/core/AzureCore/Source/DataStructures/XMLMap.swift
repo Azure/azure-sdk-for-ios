@@ -29,12 +29,24 @@ import Foundation
 // MARK: XML Metadata
 
 public enum ElementToJsonStrategy {
+    /// convert element to a JSON property
     case property
+
+    /// convert element to `AnyObject`
     case anyObject
+
+    /// convert element to another `XMLModel` type.
     case object(XMLModel.Type)
+
+    /// convert element to an arry of `XMLModel`
     case array(XMLModel.Type)
+
     case arrayItem(XMLModel.Type)
+
+    /// Ignore element entirely
     case ignored
+
+    /// flatten element children up one level
     case flatten
 }
 

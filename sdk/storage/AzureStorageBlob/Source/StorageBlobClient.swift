@@ -39,11 +39,11 @@ public final class StorageBlobClient: PipelineClient {
     /// API version of the Azure Storage Blob service to invoke. Defaults to the latest.
     public enum ApiVersion: String {
         /// API version "2019-02-02"
-        case v20190202 = "2019-02-02"
+        case v20200210 = "2020-02-10"
 
         /// The most recent API version of the Azure Storage Blob service
         public static var latest: ApiVersion {
-            return .v20190202
+            return .v20200210
         }
     }
 
@@ -75,6 +75,12 @@ public final class StorageBlobClient: PipelineClient {
     internal static let manager = URLSessionTransferManager.shared
 
     internal static let viewContext: NSManagedObjectContext = manager.persistentContainer.viewContext
+
+    // MARK: Operations
+
+    public lazy var blobs = BlobsOperations(self)
+
+    public lazy var containers = ContainersOperations(self)
 
     // MARK: Initializers
 
@@ -233,66 +239,7 @@ public final class StorageBlobClient: PipelineClient {
         withOptions options: ListContainersOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ContainerItem>>
     ) {
-        let urlTemplate = ""
-        let params = RequestParameters(
-            (.query, "comp", "list", .encode),
-            (.query, "prefix", options?.prefix, .encode),
-            (.query, "include", options?.include, .encode),
-            (.query, "maxResults", options?.maxResults, .encode),
-            (.query, "timeout", options?.timeoutInSeconds, .encode),
-            (.header, HTTPHeader.accept, "application/xml", .encode),
-            (.header, HTTPHeader.apiVersion, self.options.apiVersion, .encode),
-            (.header, HTTPHeader.clientRequestId, options?.clientRequestId, .encode)
-        )
-
-        let codingKeys = PagedCodingKeys(
-            items: "EnumerationResults.Containers",
-            continuationToken: "EnumerationResults.NextMarker",
-            xmlItemName: "Container"
-        )
-        let xmlMap = XMLMap(withPagedCodingKeys: codingKeys, innerType: ContainerItem.self)
-        let context = PipelineContext.of(keyValues: [
-            ContextKey.xmlMap.rawValue: xmlMap as AnyObject
-        ])
-        context.add(cancellationToken: options?.cancellationToken, applying: self.options)
-        context.merge(with: options?.context)
-        guard let requestUrl = url(template: urlTemplate, params: params) else { return }
-        guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers) else { return }
-
-        self.request(request, context: context) { result, httpResponse in
-            switch result {
-            case let .success(data):
-                guard let data = data else {
-                    let noDataError = AzureError.client("Response data expected but not found.")
-                    DispatchQueue.main.async {
-                        completionHandler(.failure(noDataError), httpResponse)
-                    }
-                    return
-                }
-                do {
-                    let decoder = StorageJSONDecoder()
-                    let paged = try PagedCollection<ContainerItem>(
-                        client: self,
-                        request: request,
-                        context: context,
-                        data: data,
-                        codingKeys: codingKeys,
-                        decoder: decoder
-                    )
-                    DispatchQueue.main.async {
-                        completionHandler(.success(paged), httpResponse)
-                    }
-                } catch {
-                    DispatchQueue.main.async {
-                        completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
-                    }
-                }
-            case let .failure(error):
-                DispatchQueue.main.async {
-                    completionHandler(.failure(error), httpResponse)
-                }
-            }
-        }
+        return containers.list(withOptions: options, completionHandler: completionHandler)
     }
 
     /// List blobs within a storage container.
@@ -305,71 +252,7 @@ public final class StorageBlobClient: PipelineClient {
         withOptions options: ListBlobsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<BlobItem>>
     ) {
-        let urlTemplate = "{container}"
-        let params = RequestParameters(
-            (.path, "container", container, .encode),
-            (.query, "comp", "list", .encode),
-            (.query, "resType", "container", .encode),
-            (.query, "prefix", options?.prefix, .encode),
-            (.query, "delimiter", options?.delimiter, .encode),
-            (.query, "include", options?.include, .encode),
-            (.query, "maxResults", options?.maxResults, .encode),
-            (.query, "timeout", options?.timeoutInSeconds, .encode),
-            (.header, HTTPHeader.accept, "application/xml", .encode),
-            (.header, HTTPHeader.transferEncoding, "chunked", .encode),
-            (.header, HTTPHeader.apiVersion, self.options.apiVersion, .encode),
-            (.header, HTTPHeader.clientRequestId, options?.clientRequestId, .encode)
-        )
-
-        // Construct and send request
-        guard let requestUrl = url(template: urlTemplate, params: params) else { return }
-        guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers) else { return }
-        let codingKeys = PagedCodingKeys(
-            items: "EnumerationResults.Blobs",
-            continuationToken: "EnumerationResults.NextMarker",
-            xmlItemName: "Blob"
-        )
-        let xmlMap = XMLMap(withPagedCodingKeys: codingKeys, innerType: BlobItem.self)
-        let context = PipelineContext.of(keyValues: [
-            ContextKey.xmlMap.rawValue: xmlMap as AnyObject
-        ])
-        context.add(cancellationToken: options?.cancellationToken, applying: self.options)
-        context.merge(with: options?.context)
-        self.request(request, context: context) { result, httpResponse in
-            switch result {
-            case let .success(data):
-                guard let data = data else {
-                    let noDataError = AzureError.client("Response data expected but not found.")
-
-                    DispatchQueue.main.async {
-                        completionHandler(.failure(noDataError), httpResponse)
-                    }
-                    return
-                }
-                do {
-                    let decoder = StorageJSONDecoder()
-                    let paged = try PagedCollection<BlobItem>(
-                        client: self,
-                        request: request,
-                        context: context,
-                        data: data,
-                        codingKeys: codingKeys,
-                        decoder: decoder
-                    )
-                    DispatchQueue.main.async {
-                        completionHandler(.success(paged), httpResponse)
-                    }
-                } catch {
-                    DispatchQueue.main.async {
-                        completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
-                    }
-                }
-            case let .failure(error):
-                DispatchQueue.main.async {
-                    completionHandler(.failure(error), httpResponse)
-                }
-            }
-        }
+        return blobs.list(inContainer: container, withOptions: options, completionHandler: completionHandler)
     }
 
     /// Delete a blob within a storage container.
@@ -384,138 +267,12 @@ public final class StorageBlobClient: PipelineClient {
         withOptions options: DeleteBlobOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        let urlTemplate = "{container}/{blob}"
-        let params = RequestParameters(
-            (.path, "container", container, .encode),
-            (.path, "blob", blob, .encode),
-            (.query, "snapshot", options?.snapshot, .encode),
-            (.query, "timeout", options?.timeoutInSeconds, .encode),
-            (.header, HTTPHeader.apiVersion, self.options.apiVersion, .encode),
-            (.header, StorageHTTPHeader.deleteSnapshots, options?.deleteSnapshots, .encode),
-            (.header, HTTPHeader.clientRequestId, options?.clientRequestId, .encode)
+        return blobs.delete(
+            blob: blob,
+            inContainer: container,
+            withOptions: options,
+            completionHandler: completionHandler
         )
-
-        // Construct and send request
-        let context = PipelineContext.of(keyValues: [
-            ContextKey.allowedStatusCodes.rawValue: [202] as AnyObject
-        ])
-        context.add(cancellationToken: options?.cancellationToken, applying: self.options)
-        context.merge(with: options?.context)
-        guard let requestUrl = url(template: urlTemplate, params: params) else { return }
-        guard let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: params.headers) else { return }
-        self.request(request, context: context) { result, httpResponse in
-            switch result {
-            case .success:
-                DispatchQueue.main.async {
-                    completionHandler(.success(()), httpResponse)
-                }
-            case let .failure(error):
-                DispatchQueue.main.async {
-                    completionHandler(.failure(error), httpResponse)
-                }
-            }
-        }
-    }
-
-    /// Download a blob from a storage container.
-    ///
-    /// This method will execute a raw HTTP GET in order to download a single blob to the destination. It is
-    /// **STRONGLY** recommended that you use the `download()` method instead - that method will manage the transfer in
-    /// the face of changing network conditions, and is able to transfer multiple blocks in parallel.
-    /// - Parameters:
-    ///   - blob: The name of the blob.
-    ///   - container: The name of the container.
-    ///   - destinationUrl: The URL to a file path on this device.
-    ///   - options: A `DownloadBlobOptions` object to control the download operation.
-    ///   - completionHandler: A completion handler that receives a `BlobDownloader` object on success.
-    public func rawDownload(
-        blob: String,
-        fromContainer container: String,
-        toFile destinationUrl: LocalURL,
-        withOptions options: DownloadBlobOptions = DownloadBlobOptions(),
-        completionHandler: @escaping HTTPResultHandler<BlobDownloader>
-    ) throws {
-        // Construct URL
-        let urlTemplate = "/{container}/{blob}"
-        let params = RequestParameters(
-            (.path, "container", container, .encode),
-            (.path, "blob", blob, .encode)
-        )
-        guard let url = url(template: urlTemplate, params: params) else { return }
-
-        let context = PipelineContext()
-        context.add(cancellationToken: options.cancellationToken, applying: self.options)
-
-        let downloader = try BlobStreamDownloader(
-            client: self,
-            source: url,
-            destination: destinationUrl,
-            options: options
-        )
-        downloader.initialRequest { result, httpResponse in
-            switch result {
-            case .success:
-                DispatchQueue.main.async {
-                    completionHandler(.success(downloader), httpResponse)
-                }
-            case let .failure(error):
-                DispatchQueue.main.async {
-                    completionHandler(.failure(error), httpResponse)
-                }
-            }
-        }
-    }
-
-    /// Upload a blob to a storage container.
-    ///
-    /// This method will execute a raw HTTP PUT in order to upload a single file to the destination. It is **STRONGLY**
-    /// recommended that you use the `upload()` method instead - that method will manage the transfer in the face of
-    /// changing network conditions, and is able to transfer multiple blocks in parallel.
-    /// - Parameters:
-    ///   - sourceUrl: The URL to a file on this device
-    ///   - container: The name of the container.
-    ///   - blob: The name of the blob.
-    ///   - properties: Properties to set on the resulting blob.
-    ///   - options: An `UploadBlobOptions` object to control the upload operation.
-    ///   - completionHandler: A completion handler that receives a `BlobUploader` object on success.
-    public func rawUpload(
-        file sourceUrl: LocalURL,
-        toContainer container: String,
-        asBlob blob: String,
-        properties: BlobProperties? = nil,
-        withOptions options: UploadBlobOptions = UploadBlobOptions(),
-        completionHandler: @escaping HTTPResultHandler<BlobUploader>
-    ) throws {
-        // Construct URL
-        let urlTemplate = "/{container}/{blob}"
-        let params = RequestParameters(
-            (.path, "container", container, .encode),
-            (.path, "blob", blob, .encode)
-        )
-        guard let url = url(template: urlTemplate, params: params) else { return }
-
-        let context = PipelineContext()
-        context.add(cancellationToken: options.cancellationToken, applying: self.options)
-
-        let uploader = try BlobStreamUploader(
-            client: self,
-            source: sourceUrl,
-            destination: url,
-            properties: properties,
-            options: options
-        )
-        uploader.next { result, httpResponse in
-            switch result {
-            case .success:
-                DispatchQueue.main.async {
-                    completionHandler(.success(uploader), httpResponse)
-                }
-            case let .failure(error):
-                DispatchQueue.main.async {
-                    completionHandler(.failure(error), httpResponse)
-                }
-            }
-        }
     }
 
     /// Create a managed download to reliably download a blob from a storage container.
@@ -536,40 +293,13 @@ public final class StorageBlobClient: PipelineClient {
         withOptions options: DownloadBlobOptions = DownloadBlobOptions(),
         progressHandler: ((BlobTransfer) -> Void)? = nil
     ) throws -> BlobTransfer? {
-        // Construct URL
-        let urlTemplate = "/{container}/{blob}"
-        let params = RequestParameters(
-            (.path, "container", container, .encode),
-            (.path, "blob", blob, .encode)
-        )
-        guard let url = url(template: urlTemplate, params: params) else { return nil }
-
-        let context = PipelineContext()
-        context.add(cancellationToken: options.cancellationToken, applying: self.options)
-
-        let start = Int64(options.range?.offsetBytes ?? 0)
-        let end = Int64(options.range?.lengthInBytes ?? 0)
-        let downloader = try BlobStreamDownloader(
-            client: self,
-            source: url,
-            destination: destinationUrl,
-            options: options
-        )
-        let blobTransfer = BlobTransfer.with(
-            viewContext: StorageBlobClient.viewContext,
-            clientRestorationId: self.options.restorationId,
-            localUrl: destinationUrl,
-            remoteUrl: url,
-            type: .download,
-            startRange: start,
-            endRange: end,
-            parent: nil,
+        return try blobs.download(
+            blob: blob,
+            fromContainer: container,
+            toFile: destinationUrl,
+            withOptions: options,
             progressHandler: progressHandler
         )
-        blobTransfer.downloader = downloader
-        blobTransfer.downloadOptions = options
-        StorageBlobClient.manager.add(transfer: blobTransfer)
-        return blobTransfer
     }
 
     /// Create a managed upload to reliably upload a file to a storage container.
@@ -592,39 +322,13 @@ public final class StorageBlobClient: PipelineClient {
         withOptions options: UploadBlobOptions = UploadBlobOptions(),
         progressHandler: ((BlobTransfer) -> Void)? = nil
     ) throws -> BlobTransfer? {
-        // Construct URL
-        let urlTemplate = "/{container}/{blob}"
-        let params = RequestParameters(
-            (.path, "container", container, .encode),
-            (.path, "blob", blob, .encode)
-        )
-        guard let url = url(template: urlTemplate, params: params) else { return nil }
-
-        let context = PipelineContext()
-        context.add(cancellationToken: options.cancellationToken, applying: self.options)
-
-        let uploader = try BlobStreamUploader(
-            client: self,
-            source: sourceUrl,
-            destination: url,
+        return try blobs.upload(
+            file: sourceUrl,
+            toContainer: container,
+            asBlob: blob,
             properties: properties,
-            options: options
-        )
-        let blobTransfer = BlobTransfer.with(
-            viewContext: StorageBlobClient.viewContext,
-            clientRestorationId: self.options.restorationId,
-            localUrl: sourceUrl,
-            remoteUrl: url,
-            type: .upload,
-            startRange: 0,
-            endRange: Int64(uploader.fileSize),
-            parent: nil,
+            withOptions: options,
             progressHandler: progressHandler
         )
-        blobTransfer.uploader = uploader
-        blobTransfer.uploadOptions = options
-        blobTransfer.properties = properties
-        StorageBlobClient.manager.add(transfer: blobTransfer)
-        return blobTransfer
     }
 }

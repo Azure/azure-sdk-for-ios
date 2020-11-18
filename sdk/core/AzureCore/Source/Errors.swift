@@ -63,6 +63,15 @@ public enum AzureError: BaseError {
             return message(msg, withInnerError: innerError)
         }
     }
+
+    public var innerError: Error? {
+        switch self {
+        case let .client(_, innerError):
+            return innerError
+        case let .service(_, innerError):
+            return innerError
+        }
+    }
 }
 
 extension String: LocalizedError {
