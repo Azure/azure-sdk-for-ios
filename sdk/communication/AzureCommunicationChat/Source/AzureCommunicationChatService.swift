@@ -61,8 +61,7 @@ public final class AzureCommunicationChatService {
         // Construct URL
         let urlTemplate = "/chat/threads/{chatThreadId}/readreceipts"
         let pathParams = [
-            "chatThreadId": chatThreadId,
-            "endpoint": client.endpoint
+            "chatThreadId": chatThreadId
         ]
         // Construct query
         let queryParams: [QueryParameter] = [
@@ -123,7 +122,7 @@ public final class AzureCommunicationChatService {
                             continuationToken: "nextLink"
                         )
                         let paged = try PagedCollection<ReadReceipt>(
-                            client: self,
+                            client: self.client,
                             request: request,
                             context: context,
                             data: data,
@@ -224,8 +223,7 @@ public final class AzureCommunicationChatService {
         // Construct URL
         let urlTemplate = "/chat/threads/{chatThreadId}/readreceipts"
         let pathParams = [
-            "chatThreadId": chatThreadId,
-            "endpoint": client.endpoint
+            "chatThreadId": chatThreadId
         ]
         // Construct query
         let queryParams: [QueryParameter] = [
@@ -375,8 +373,7 @@ public final class AzureCommunicationChatService {
         // Construct URL
         let urlTemplate = "/chat/threads/{chatThreadId}/messages"
         let pathParams = [
-            "chatThreadId": chatThreadId,
-            "endpoint": client.endpoint
+            "chatThreadId": chatThreadId
         ]
         // Construct query
         let queryParams: [QueryParameter] = [
@@ -529,8 +526,7 @@ public final class AzureCommunicationChatService {
         // Construct URL
         let urlTemplate = "/chat/threads/{chatThreadId}/messages"
         let pathParams = [
-            "chatThreadId": chatThreadId,
-            "endpoint": client.endpoint
+            "chatThreadId": chatThreadId
         ]
         // Construct query
         var queryParams: [QueryParameter] = [
@@ -600,7 +596,7 @@ public final class AzureCommunicationChatService {
                             continuationToken: "nextLink"
                         )
                         let paged = try PagedCollection<ChatMessage>(
-                            client: self,
+                            client: self.client,
                             request: request,
                             context: context,
                             data: data,
@@ -702,8 +698,7 @@ public final class AzureCommunicationChatService {
         let urlTemplate = "/chat/threads/{chatThreadId}/messages/{chatMessageId}"
         let pathParams = [
             "chatThreadId": chatThreadId,
-            "chatMessageId": chatMessageId,
-            "endpoint": client.endpoint
+            "chatMessageId": chatMessageId
         ]
         // Construct query
         let queryParams: [QueryParameter] = [
@@ -856,8 +851,7 @@ public final class AzureCommunicationChatService {
         let urlTemplate = "/chat/threads/{chatThreadId}/messages/{chatMessageId}"
         let pathParams = [
             "chatThreadId": chatThreadId,
-            "chatMessageId": chatMessageId,
-            "endpoint": client.endpoint
+            "chatMessageId": chatMessageId
         ]
         // Construct query
         let queryParams: [QueryParameter] = [
@@ -1010,8 +1004,7 @@ public final class AzureCommunicationChatService {
         let urlTemplate = "/chat/threads/{chatThreadId}/messages/{chatMessageId}"
         let pathParams = [
             "chatThreadId": chatThreadId,
-            "chatMessageId": chatMessageId,
-            "endpoint": client.endpoint
+            "chatMessageId": chatMessageId
         ]
         // Construct query
         let queryParams: [QueryParameter] = [
@@ -1154,8 +1147,7 @@ public final class AzureCommunicationChatService {
         // Construct URL
         let urlTemplate = "/chat/threads/{chatThreadId}/typing"
         let pathParams = [
-            "chatThreadId": chatThreadId,
-            "endpoint": client.endpoint
+            "chatThreadId": chatThreadId
         ]
         // Construct query
         let queryParams: [QueryParameter] = [
@@ -1298,8 +1290,7 @@ public final class AzureCommunicationChatService {
         // Construct URL
         let urlTemplate = "/chat/threads/{chatThreadId}/members"
         let pathParams = [
-            "chatThreadId": chatThreadId,
-            "endpoint": client.endpoint
+            "chatThreadId": chatThreadId
         ]
         // Construct query
         let queryParams: [QueryParameter] = [
@@ -1360,7 +1351,7 @@ public final class AzureCommunicationChatService {
                             continuationToken: "nextLink"
                         )
                         let paged = try PagedCollection<ChatThreadMember>(
-                            client: self,
+                            client: self.client,
                             request: request,
                             context: context,
                             data: data,
@@ -1461,8 +1452,7 @@ public final class AzureCommunicationChatService {
         // Construct URL
         let urlTemplate = "/chat/threads/{chatThreadId}/members"
         let pathParams = [
-            "chatThreadId": chatThreadId,
-            "endpoint": client.endpoint
+            "chatThreadId": chatThreadId
         ]
         // Construct query
         let queryParams: [QueryParameter] = [
@@ -1613,8 +1603,7 @@ public final class AzureCommunicationChatService {
         let urlTemplate = "/chat/threads/{chatThreadId}/members/{chatMemberId}"
         let pathParams = [
             "chatThreadId": chatThreadId,
-            "chatMemberId": chatMemberId,
-            "endpoint": client.endpoint
+            "chatMemberId": chatMemberId
         ]
         // Construct query
         let queryParams: [QueryParameter] = [
@@ -2080,8 +2069,7 @@ public final class AzureCommunicationChatService {
         // Construct URL
         let urlTemplate = "/chat/threads/{chatThreadId}"
         let pathParams = [
-            "chatThreadId": chatThreadId,
-            "endpoint": client.endpoint
+            "chatThreadId": chatThreadId
         ]
         // Construct query
         let queryParams: [QueryParameter] = [
@@ -2231,8 +2219,7 @@ public final class AzureCommunicationChatService {
         // Construct URL
         let urlTemplate = "/chat/threads/{chatThreadId}"
         let pathParams = [
-            "chatThreadId": chatThreadId,
-            "endpoint": client.endpoint
+            "chatThreadId": chatThreadId
         ]
         // Construct query
         let queryParams: [QueryParameter] = [
@@ -2380,8 +2367,7 @@ public final class AzureCommunicationChatService {
         // Construct URL
         let urlTemplate = "/chat/threads/{chatThreadId}"
         let pathParams = [
-            "chatThreadId": chatThreadId,
-            "endpoint": client.endpoint
+            "chatThreadId": chatThreadId
         ]
         // Construct query
         let queryParams: [QueryParameter] = [
