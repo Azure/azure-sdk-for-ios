@@ -15,3 +15,13 @@ extension Int32: LocalizedError {
 extension Int64: LocalizedError {
     public var errorDescription: String? { return String(self) }
 }
+
+extension Data {
+    func base64URLEncodedString() -> String {
+        let base64String = base64EncodedString()
+        let base64UrlString = base64String.replacingOccurrences(of: "/", with: "_")
+            .replacingOccurrences(of: "+", with: "-")
+            .replacingOccurrences(of: "=", with: "")
+        return base64UrlString
+    }
+}

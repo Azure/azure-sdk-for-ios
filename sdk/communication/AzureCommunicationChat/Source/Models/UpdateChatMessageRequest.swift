@@ -16,10 +16,14 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 public struct UpdateChatMessageRequest: Codable {
+    // MARK: Properties
+
     /// Chat message content.
     public let content: String?
     /// The chat message priority.
     public let priority: ChatMessagePriority?
+
+    // MARK: Initializers
 
     /// Initialize a `UpdateChatMessageRequest` structure.
     /// - Parameters:
@@ -31,6 +35,8 @@ public struct UpdateChatMessageRequest: Codable {
         self.content = content
         self.priority = priority
     }
+
+    // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
         case content

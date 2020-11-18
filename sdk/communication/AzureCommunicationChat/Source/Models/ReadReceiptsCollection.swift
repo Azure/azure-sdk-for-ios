@@ -16,10 +16,14 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 public struct ReadReceiptsCollection: Codable {
+    // MARK: Properties
+
     /// Collection of read receipts.
     public let value: [ReadReceipt]?
     /// If there are more read receipts that can be retrieved, the next link will be populated.
     public let nextLink: String?
+
+    // MARK: Initializers
 
     /// Initialize a `ReadReceiptsCollection` structure.
     /// - Parameters:
@@ -31,6 +35,8 @@ public struct ReadReceiptsCollection: Codable {
         self.value = value
         self.nextLink = nextLink
     }
+
+    // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
         case value

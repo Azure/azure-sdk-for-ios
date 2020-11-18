@@ -17,12 +17,16 @@ import Foundation
 
 /// A member of the chat thread.
 public struct ChatThreadMember: Codable {
+    // MARK: Properties
+
     /// The id of the chat thread member in the format `8:acs:ResourceId_AcsUserId`.
     public let id: String
     /// Display name for the chat thread member.
     public let displayName: String?
     /// Time from which the chat history is shared with the member. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public let shareHistoryTime: Date?
+
+    // MARK: Initializers
 
     /// Initialize a `ChatThreadMember` structure.
     /// - Parameters:
@@ -36,6 +40,8 @@ public struct ChatThreadMember: Codable {
         self.displayName = displayName
         self.shareHistoryTime = shareHistoryTime
     }
+
+    // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
         case id

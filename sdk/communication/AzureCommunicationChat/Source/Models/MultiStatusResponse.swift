@@ -16,8 +16,12 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 public struct MultiStatusResponse: Codable {
+    // MARK: Properties
+
     /// The list of status information for each resource in the request.
     public let multipleStatus: [IndividualStatusResponse]?
+
+    // MARK: Initializers
 
     /// Initialize a `MultiStatusResponse` structure.
     /// - Parameters:
@@ -27,6 +31,8 @@ public struct MultiStatusResponse: Codable {
     ) {
         self.multipleStatus = multipleStatus
     }
+
+    // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
         case multipleStatus

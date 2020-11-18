@@ -17,10 +17,14 @@ import Foundation
 
 /// Collection of chat messages for a particular chat thread.
 public struct ChatMessagesCollection: Codable {
+    // MARK: Properties
+
     /// Collection of chat messages.
     public let value: [ChatMessage]?
     /// If there are more chat messages that can be retrieved, the next link will be populated.
     public let nextLink: String?
+
+    // MARK: Initializers
 
     /// Initialize a `ChatMessagesCollection` structure.
     /// - Parameters:
@@ -32,6 +36,8 @@ public struct ChatMessagesCollection: Codable {
         self.value = value
         self.nextLink = nextLink
     }
+
+    // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
         case value

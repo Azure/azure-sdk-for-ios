@@ -17,12 +17,16 @@ import Foundation
 
 /// Details of the message to send.
 public struct SendChatMessageRequest: Codable {
+    // MARK: Properties
+
     /// The chat message priority.
     public let priority: ChatMessagePriority?
     /// Chat message content.
     public let content: String
     /// The display name of the chat message sender. This property is used to populate sender name for push notifications.
     public let senderDisplayName: String?
+
+    // MARK: Initializers
 
     /// Initialize a `SendChatMessageRequest` structure.
     /// - Parameters:
@@ -36,6 +40,8 @@ public struct SendChatMessageRequest: Codable {
         self.content = content
         self.senderDisplayName = senderDisplayName
     }
+
+    // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
         case priority

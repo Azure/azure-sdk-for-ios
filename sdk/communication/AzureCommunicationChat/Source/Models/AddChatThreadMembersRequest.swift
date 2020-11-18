@@ -17,8 +17,12 @@ import Foundation
 
 /// Thread members to be added to the thread.
 public struct AddChatThreadMembersRequest: Codable {
+    // MARK: Properties
+
     /// Members to add to a chat thread.
     public let members: [ChatThreadMember]
+
+    // MARK: Initializers
 
     /// Initialize a `AddChatThreadMembersRequest` structure.
     /// - Parameters:
@@ -28,6 +32,8 @@ public struct AddChatThreadMembersRequest: Codable {
     ) {
         self.members = members
     }
+
+    // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
         case members
