@@ -28,12 +28,12 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
 
     /// API version of the  to invoke. Defaults to the latest.
     public enum ApiVersion: String {
-        /// API version ""
-        case v = ""
+        /// API version "2020-09-21-preview2"
+        case v20200921preview2 = "2020-09-21-preview2"
 
         /// The most recent API version of the
         public static var latest: ApiVersion {
-            return .v
+            return .v20200921preview2
         }
     }
 
