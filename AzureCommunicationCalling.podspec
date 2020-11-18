@@ -42,7 +42,7 @@ Pod::Spec.new do |s|
 
     s.swift_version = '5.0'
 
-    s.source = { :http => 'https://github.com/Azure/Communication/releases/download/v1.0.0-beta.4/AzureCommunicationCalling-1.0.0-beta.4.zip' }
+    s.source = { :http => 'https://github.com/Azure/Communication/releases/download/v1.0.0-beta.5/AzureCommunicationCalling-1.0.0-beta.5.zip' }
     s.source_files = 'AzureCommunicationCalling.framework/Headers/*.h'
     s.public_header_files = 'AzureCommunicationCalling.framework/Headers/*.h'
     s.vendored_frameworks = 'AzureCommunicationCalling.framework'
