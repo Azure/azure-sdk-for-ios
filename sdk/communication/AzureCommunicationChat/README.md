@@ -16,6 +16,8 @@ This package contains the Chat client library for Azure Communication Services.
 ### Install the library
 To install the Azure client libraries for iOS, we recommend you use
 [Swift Package Manager](#add-a-package-dependency-with-swift-package-manager).
+As an alternative, you may also integrate the libraries using
+[CocoaPods](#integrate-the-client-libraries-with-cocoapods).
 
 #### Add a package dependency with Swift Package Manager
 
@@ -61,6 +63,34 @@ Next, for each target that needs to use the library, add it to the target's arra
             dependencies: ["AzureCommunicationChat", ...])
     ]
 )
+```
+
+#### Integrate the client libraries with CocoaPods
+
+[CocoaPods](https://cocoapods.org) is a dependency manager for Objective C and Swift projects. You can install it with
+the following command:
+
+```bash
+$ [sudo] gem install cocoapods
+```
+
+> CocoaPods 1.5+ is required.
+
+To integrate one or more client libraries into your project using CocoaPods, specify them in your
+[Podfile](https://guides.cocoapods.org/using/the-podfile.html), providing the version specifier you wish to use. To
+ensure compatibility when using multiple client libraries in the same project, use the same version specifier for all
+Azure SDK client libraries within the project:
+
+```ruby
+platform :ios, '12.0'
+
+# Comment the next line if you don't want to use dynamic frameworks
+use_frameworks!
+
+target 'MyTarget' do
+  pod 'AzureCommunicationChat', '~> 1.0.0-beta.5'
+  ...
+end
 ```
 
 ### Create the AzureCommunicationChatClient
