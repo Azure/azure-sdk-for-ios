@@ -542,7 +542,7 @@ public final class AzureCommunicationChatService {
             queryParams.append("maxPageSize", String(maxPageSize))
         }
         if let startTime = options?.startTime {
-            queryParams.append("startTime", startTimeString)
+            queryParams.append("startTime", String(describing: startTime, format: Date.Format.iso8601))
         }
         // Header options
         // Construct request
@@ -1745,9 +1745,8 @@ public final class AzureCommunicationChatService {
     ) {
         // Construct URL
         let urlTemplate = "/chat/threads"
-        let pathParams = [
-            "endpoint": client.endpoint
-        ]
+        let pathParams = [String:String]()
+
         // Construct query
         let queryParams: [QueryParameter] = [
             ("apiVersion", "2020-09-21-preview2")
@@ -1897,9 +1896,8 @@ public final class AzureCommunicationChatService {
     ) {
         // Construct URL
         let urlTemplate = "/chat/threads"
-        let pathParams = [
-            "endpoint": client.endpoint
-        ]
+        let pathParams = [String: String]()
+
         // Construct query
         var queryParams: [QueryParameter] = [
             ("apiVersion", "2020-09-21-preview2")
@@ -1914,7 +1912,7 @@ public final class AzureCommunicationChatService {
             queryParams.append("maxPageSize", String(maxPageSize))
         }
         if let startTime = options?.startTime {
-            queryParams.append("startTime", startTimeString)
+            queryParams.append("startTime", String(describing: startTime, format: Date.Format.iso8601))
         }
         // Header options
         // Construct request
@@ -1968,7 +1966,7 @@ public final class AzureCommunicationChatService {
                             continuationToken: "nextLink"
                         )
                         let paged = try PagedCollection<ChatThreadInfo>(
-                            client: self,
+                            client: self.client,
                             request: request,
                             context: context,
                             data: data,
