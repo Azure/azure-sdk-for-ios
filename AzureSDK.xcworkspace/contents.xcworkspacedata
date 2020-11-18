@@ -76,6 +76,9 @@
       location = "group:"
       name = "Docs">
       <FileRef
+         location = "group:CHANGELOG.md">
+      </FileRef>
+      <FileRef
          location = "group:CONTRIBUTING.md">
       </FileRef>
       <FileRef
