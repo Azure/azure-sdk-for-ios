@@ -373,10 +373,10 @@ class StorageSharedKeyAuthenticationPolicyTests: XCTestCase {
         let headers = HTTPHeaders([
             .transferEncoding: "chunked",
             .userAgent: "foobar",
-            .apiVersion: "2019-02-02",
+            .apiVersion: " 2019-02-02",
             .date: "Thu, 16 Apr 2020 00:00:00 GMT",
             .accept: "application/xml",
-            .clientRequestId: "00112233-4455-6677-8899-aabbccddeeff"
+            .clientRequestId: "   00112233-4455-6677-8899-aabbccddeeff"
         ])
         let httpRequest = try! HTTPRequest(
             method: .get,

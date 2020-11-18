@@ -93,8 +93,3 @@ extension KeyedDecodingContainer {
         }
     }
 }
-
-extension CharacterSet {
-    static let azureUrlQueryAllowed = urlQueryAllowed.subtracting(.init(charactersIn: "!*'();:@&=+$,/?"))
-    static let azureUrlPathAllowed = urlPathAllowed.subtracting(.init(charactersIn: "!*'()@&=+$,/:"))
-}

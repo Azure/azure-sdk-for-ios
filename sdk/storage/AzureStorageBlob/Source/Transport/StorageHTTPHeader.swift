@@ -28,7 +28,7 @@ import AzureCore
 import Foundation
 
 /// Storage service-specific HTTP headers.
-public enum StorageHTTPHeader: String, RequestStringConvertible {
+public enum StorageHTTPHeader: String {
     /// x-ms-access-tier
     case accessTier = "x-ms-access-tier"
     /// x-ms-access-tier-change-time
@@ -171,30 +171,27 @@ public enum StorageHTTPHeader: String, RequestStringConvertible {
     case sourceRange = "x-ms-source-range"
     /// x-ms-tag-count
     case tagCount = "x-ms-tag-count"
-
-    public var requestString: String {
-        return rawValue
-    }
 }
 
+/// Extensions to work with `StorageHTTPHeader` values within a collection of `HTTPHeaders`.
 extension HTTPHeaders {
-    /// Access the value of an `StorageHTTPHeader` within a collection of `HTTPHeaders`.
+    /// Access the value of a `StorageHTTPHeader` within a collection of `HTTPHeaders`.
     /// - Parameters:
     ///   - index: The `StorageHTTPHeader` value to access.
     public subscript(index: StorageHTTPHeader) -> String? {
         get {
-            return self[index.requestString]
+            return self[index.rawValue]
         }
 
         set(newValue) {
-            self[index.requestString] = newValue
+            self[index.rawValue] = newValue
         }
     }
 
-    /// Remove an `StorageHTTPHeader` value from a collection of `HTTPHeaders`.
+    /// Remove a `StorageHTTPHeader` value from a collection of `HTTPHeaders`.
     /// - Parameters:
     ///   - index: The `StorageHTTPHeader` value to remove.
-    public mutating func removeValue(forKey key: StorageHTTPHeader) -> Value? {
-        return removeValue(forKey: key.requestString)
+    public mutating func removeValue(forKey key: StorageHTTPHeader) -> String? {
+        return removeValue(forKey: key.rawValue)
     }
 }

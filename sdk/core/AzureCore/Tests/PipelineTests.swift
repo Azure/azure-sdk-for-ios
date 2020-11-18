@@ -30,12 +30,9 @@ import XCTest
 // swiftlint:disable force_try
 class PipelineTests: XCTestCase {
     func test_HTTPRequest_Inits() {
-        let headers = HTTPHeaders([HTTPHeader("headerParam"): "myHeaderParam"])
+        let headers: HTTPHeaders = ["headerParam": "myHeaderParam"]
         let request = try! HTTPRequest(method: .get, url: "www.test.com", headers: headers)
-        request.url = request.url.appendingQueryParameters(RequestParameters(
-            (.query, "a", "1", .encode),
-            (.query, "b", "2", .encode)
-        ))!
+        request.url = request.url.appendingQueryParameters([("a", "1"), ("b", "2")])!
         XCTAssertEqual(request.url.absoluteString, "www.test.com?a=1&b=2")
         XCTAssertEqual(request.httpMethod, .get)
         XCTAssertEqual(request.headers, headers)
@@ -43,10 +40,10 @@ class PipelineTests: XCTestCase {
 
     func test_PipelineClient_CanFormatUrl() {
         let client = TestClient()
-        let url = client.url(template: "{a}/{b}/test", params: RequestParameters(
-            (.path, "a", "cat", .encode),
-            (.path, "b", "hat", .encode)
-        ))
+        let url = client.url(forTemplate: "{a}/{b}/test", withKwargs: [
+            "a": "cat",
+            "b": "hat"
+        ])
         XCTAssertEqual(url?.absoluteString, "\(client.endpoint)cat/hat/test")
     }
 

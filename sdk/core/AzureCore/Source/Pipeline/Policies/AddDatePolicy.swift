@@ -38,7 +38,7 @@ public class AddDatePolicy: PipelineStage {
     // MARK: PipelineStage Methods
 
     public func on(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
-        request.httpRequest.headers[.date] = Rfc1123Date(Date())?.requestString
+        request.httpRequest.headers[.date] = String(describing: Date(), format: .rfc1123)
         completionHandler(request, nil)
     }
 }

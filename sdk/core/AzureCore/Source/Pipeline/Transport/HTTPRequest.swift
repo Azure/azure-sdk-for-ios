@@ -36,22 +36,17 @@ public class HTTPRequest: DataStringConvertible {
 
     // MARK: Initializers
 
-    public convenience init(
-        method: HTTPMethod,
-        url: String,
-        headers: HTTPHeaders? = nil,
-        data: Data? = nil
-    ) throws {
+    public convenience init(method: HTTPMethod, url: String, headers: HTTPHeaders, data: Data? = nil) throws {
         guard let encodedUrl = URL(string: url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)) else {
             throw AzureError.client("Invalid URL.")
         }
         try self.init(method: method, url: encodedUrl, headers: headers, data: data)
     }
 
-    public init(method: HTTPMethod, url: URL, headers: HTTPHeaders? = nil, data: Data? = nil) throws {
+    public init(method: HTTPMethod, url: URL, headers: HTTPHeaders, data: Data? = nil) throws {
         self.httpMethod = method
         self.url = url
-        self.headers = headers ?? HTTPHeaders()
+        self.headers = headers
         self.data = data
     }
 }

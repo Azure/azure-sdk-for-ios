@@ -26,21 +26,27 @@
 
 import Foundation
 
+public typealias QueryParameter = (String, String?)
+
+public extension Array where Element == QueryParameter {
+    mutating func append(_ name: String, _ value: String?) {
+        append((name, value))
+    }
+}
+
 extension URL {
-    public func appendingQueryParameters(_ paramsIn: RequestParameters) -> URL? {
-        let queryParams = paramsIn.values(for: .query)
-        guard !queryParams.isEmpty else { return self }
+    public func appendingQueryParameters(_ addedParams: [QueryParameter]) -> URL? {
+        guard !addedParams.isEmpty else { return self }
         guard var urlComps = URLComponents(url: self, resolvingAgainstBaseURL: true) else { return nil }
 
-        let queryItems = queryParams.map { item in
-            URLQueryItem(
-                name: item.key.requestString,
-                value: item.encodingStrategy == .skipEncoding ? item.value.requestString : item.value.requestString
-                    .addingPercentEncoding(withAllowedCharacters: .azureUrlQueryAllowed)
-            )
+        let addedQueryItems = addedParams.map { name, value in URLQueryItem(name: name, value: value) }
+        if var urlQueryItems = urlComps.queryItems, !urlQueryItems.isEmpty {
+            urlQueryItems.append(contentsOf: addedQueryItems)
+            urlComps.queryItems = urlQueryItems
+        } else {
+            urlComps.queryItems = addedQueryItems
         }
-        let existing = urlComps.percentEncodedQueryItems ?? []
-        urlComps.percentEncodedQueryItems = existing + queryItems
+
         return urlComps.url
     }
 

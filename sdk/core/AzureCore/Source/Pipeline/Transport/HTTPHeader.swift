@@ -26,343 +26,125 @@
 
 import Foundation
 
-// swiftlint:disable function_body_length type_body_length cyclomatic_complexity
-
-/// Type alias for HTTP header dictionary
+/// A dictionary of `HTTPHeader` values.
 public typealias HTTPHeaders = [String: String]
-/// Extensions to work with `HTTPHeader` values within a collection of `HTTPHeaders`.
 
 /// Common HTTP headers.
-public enum HTTPHeader: RequestStringConvertible, Equatable, Hashable {
-    /// Use when the header value you want is not in the list.
-    case custom(String)
+public enum HTTPHeader: String {
     /// Accept
-    case accept
+    case accept = "Accept"
     /// Accept-Charset
-    case acceptCharset
+    case acceptCharset = "Accept-Charset"
     /// Accept-Encoding
-    case acceptEncoding
+    case acceptEncoding = "Accept-Encoding"
     /// Accept-Language
-    case acceptLanguage
+    case acceptLanguage = "Accept-Language"
     /// Accept-Ranges
-    case acceptRanges
+    case acceptRanges = "Accept-Ranges"
     /// Access-Control-Allow-Origin
-    case accessControlAllowOrigin
+    case accessControlAllowOrigin = "Access-Control-Allow-Origin"
     /// Age
-    case age
+    case age = "Age"
     /// Allow
-    case allow
+    case allow = "Allow"
     /// x-ms-version
-    case apiVersion
+    case apiVersion = "x-ms-version"
     /// Authorization
-    case authorization
+    case authorization = "Authorization"
     /// Cache-Control
-    case cacheControl
+    case cacheControl = "Cache-Control"
     /// x-ms-client-request-id
-    case clientRequestId
+    case clientRequestId = "x-ms-client-request-id"
     /// Connection
-    case connection
+    case connection = "Connection"
     /// Content-Disposition
-    case contentDisposition
+    case contentDisposition = "Content-Disposition"
     /// Content-Encoding
-    case contentEncoding
+    case contentEncoding = "Content-Encoding"
     /// Content-Language
-    case contentLanguage
+    case contentLanguage = "Content-Language"
     /// Content-Length
-    case contentLength
+    case contentLength = "Content-Length"
     /// Content-Location
-    case contentLocation
+    case contentLocation = "Content-Location"
     /// Content-MD5
-    case contentMD5
+    case contentMD5 = "Content-MD5"
     /// Content-Range
-    case contentRange
+    case contentRange = "Content-Range"
     /// Content-Type
-    case contentType
+    case contentType = "Content-Type"
     /// Date
-    case date
+    case date = "Date"
     /// x-ms-date
-    case xmsDate
+    case xmsDate = "x-ms-date"
     /// Etag
-    case etag
+    case etag = "Etag"
     /// Expect
-    case expect
+    case expect = "Expect"
     /// Expires
-    case expires
+    case expires = "Expires"
     /// From
-    case from
+    case from = "From"
     /// Host
-    case host
+    case host = "Host"
     /// If-Match
-    case ifMatch
+    case ifMatch = "If-Match"
     /// If-Modified-Since
-    case ifModifiedSince
+    case ifModifiedSince = "If-Modified-Since"
     /// If-None-Match
-    case ifNoneMatch
+    case ifNoneMatch = "If-None-Match"
     /// If-Unmodified-Since
-    case ifUnmodifiedSince
+    case ifUnmodifiedSince = "If-Unmodified-Since"
     /// Last-Modified
-    case lastModified
+    case lastModified = "Last-Modified"
     /// Location
-    case location
+    case location = "Location"
     /// Pragma
-    case pragma
+    case pragma = "Pragma"
     /// Range
-    case range
+    case range = "Range"
     /// Referer
-    case referer
+    case referer = "Referer"
     /// Request-Id
-    case requestId
+    case requestId = "Request-Id"
     /// Retry-After
-    case retryAfter
+    case retryAfter = "Retry-After"
     /// x-ms-return-client-request-id
-    case returnClientRequestId
+    case returnClientRequestId = "x-ms-return-client-request-id"
     /// Server
-    case server
+    case server = "Server"
     /// Slug
-    case slug
+    case slug = "Slug"
     /// traceparent
-    case traceparent
+    case traceparent = "traceparent"
     /// Trailer
-    case trailer
+    case trailer = "Trailer"
     /// Transfer-Encoding
-    case transferEncoding
+    case transferEncoding = "Transfer-Encoding"
     /// User-Agent
-    case userAgent
+    case userAgent = "User-Agent"
     /// Vary
-    case vary
+    case vary = "Vary"
     /// Via
-    case via
+    case via = "Via"
     /// Warning
-    case warning
+    case warning = "Warning"
     /// WWW-Authenticate
-    case wwwAuthenticate
-
-    public var requestString: String {
-        switch self {
-        case let .custom(val):
-            return val
-        case .accept:
-            return "Accept"
-        case .acceptCharset:
-            return "Accept-Charset"
-        case .acceptEncoding:
-            return "Accept-Encoding"
-        case .acceptLanguage:
-            return "Accept-Language"
-        case .acceptRanges:
-            return "Accept-Ranges"
-        case .accessControlAllowOrigin:
-            return "Access-Control-Allow-Origin"
-        case .age:
-            return "Age"
-        case .allow:
-            return "Allow"
-        case .apiVersion:
-            return "x-ms-version"
-        case .authorization:
-            return "Authorization"
-        case .cacheControl:
-            return "Cache-Control"
-        case .clientRequestId:
-            return "x-ms-client-request-id"
-        case .connection:
-            return "Connection"
-        case .contentDisposition:
-            return "Content-Disposition"
-        case .contentEncoding:
-            return "Content-Encoding"
-        case .contentLanguage:
-            return "Content-Language"
-        case .contentLength:
-            return "Content-Length"
-        case .contentLocation:
-            return "Content-Location"
-        case .contentMD5:
-            return "Content-MD5"
-        case .contentRange:
-            return "Content-Range"
-        case .contentType:
-            return "Content-Type"
-        case .date:
-            return "Date"
-        case .xmsDate:
-            return "x-ms-date"
-        case .etag:
-            return "Etag"
-        case .expect:
-            return "Expect"
-        case .expires:
-            return "Expires"
-        case .from:
-            return "From"
-        case .host:
-            return "Host"
-        case .ifMatch:
-            return "If-Match"
-        case .ifModifiedSince:
-            return "If-Modified-Since"
-        case .ifNoneMatch:
-            return "If-None-Match"
-        case .ifUnmodifiedSince:
-            return "If-Unmodified-Since"
-        case .lastModified:
-            return "Last-Modified"
-        case .location:
-            return "Location"
-        case .pragma:
-            return "Pragma"
-        case .range:
-            return "Range"
-        case .referer:
-            return "Referer"
-        case .requestId:
-            return "Request-Id"
-        case .retryAfter:
-            return "Retry-After"
-        case .returnClientRequestId:
-            return "x-ms-return-client-request-id"
-        case .server:
-            return "Server"
-        case .slug:
-            return "Slug"
-        case .traceparent:
-            return "traceparent"
-        case .trailer:
-            return "Trailer"
-        case .transferEncoding:
-            return "Transfer-Encoding"
-        case .userAgent:
-            return "User-Agent"
-        case .vary:
-            return "Vary"
-        case .via:
-            return "Via"
-        case .warning:
-            return "Warning"
-        case .wwwAuthenticate:
-            return "WWW-Authenticate"
-        }
-    }
-
-    public init(_ val: String) {
-        switch val.lowercased() {
-        case "accept":
-            self = .accept
-        case "accept-charset":
-            self = .acceptCharset
-        case "accept-encoding":
-            self = .acceptEncoding
-        case "accept-language":
-            self = .acceptLanguage
-        case "accept-ranges":
-            self = .acceptRanges
-        case "access-control-allow-origin":
-            self = .accessControlAllowOrigin
-        case "age":
-            self = .age
-        case "allow":
-            self = .allow
-        case "x-ms-version":
-            self = .apiVersion
-        case "authorization":
-            self = .authorization
-        case "cache-control":
-            self = .cacheControl
-        case "x-ms-client-request-id":
-            self = .clientRequestId
-        case "connection":
-            self = .connection
-        case "content-disposition":
-            self = .contentDisposition
-        case "content-encoding":
-            self = .contentEncoding
-        case "content-language":
-            self = .contentLanguage
-        case "content-length":
-            self = .contentLength
-        case "content-location":
-            self = .contentLocation
-        case "content-md5":
-            self = .contentMD5
-        case "content-range":
-            self = .contentRange
-        case "content-type":
-            self = .contentType
-        case "date":
-            self = .date
-        case "x-ms-date":
-            self = .xmsDate
-        case "etag":
-            self = .etag
-        case "expect":
-            self = .expect
-        case "expires":
-            self = .expires
-        case "from":
-            self = .from
-        case "host":
-            self = .host
-        case "if-match":
-            self = .ifMatch
-        case "if-modified-since":
-            self = .ifModifiedSince
-        case "if-none-match":
-            self = .ifNoneMatch
-        case "if-unmodified-since":
-            self = .ifUnmodifiedSince
-        case "last-modified":
-            self = .lastModified
-        case "location":
-            self = .location
-        case "pragma":
-            self = .pragma
-        case "range":
-            self = .range
-        case "referer":
-            self = .referer
-        case "request-id":
-            self = .requestId
-        case "retry-after":
-            self = .retryAfter
-        case "x-ms-return-client-request-id":
-            self = .returnClientRequestId
-        case "server":
-            self = .server
-        case "slug":
-            self = .slug
-        case "traceparent":
-            self = .traceparent
-        case "trailer":
-            self = .trailer
-        case "transfer-encoding":
-            self = .transferEncoding
-        case "user-agent":
-            self = .userAgent
-        case "vary":
-            self = .vary
-        case "via":
-            self = .via
-        case "warning":
-            self = .warning
-        case "www-authenticate":
-            self = .wwwAuthenticate
-        default:
-            self = .custom(val)
-        }
-    }
+    case wwwAuthenticate = "WWW-Authenticate"
 }
 
+/// Extensions to work with `HTTPHeader` values within a collection of `HTTPHeaders`.
 extension HTTPHeaders {
     /// Access the value of an `HTTPHeader` within a collection of `HTTPHeaders`.
     /// - Parameters:
     ///   - index: The `HTTPHeader` value to access.
     public subscript(index: HTTPHeader) -> String? {
         get {
-            return self[index.requestString]
+            return self[index.rawValue]
         }
 
         set(newValue) {
-            self[index.requestString] = newValue
+            self[index.rawValue] = newValue
         }
     }
 
@@ -370,6 +152,16 @@ extension HTTPHeaders {
     /// - Parameters:
     ///   - index: The `HTTPHeader` value to remove.
     public mutating func removeValue(forKey key: HTTPHeader) -> Value? {
-        return removeValue(forKey: key.requestString)
+        return removeValue(forKey: key.rawValue)
+    }
+
+    /// Initialize a collection of `HTTPHeader` values.
+    /// - Parameters:
+    ///   - values: A dictionary of `HTTPHeader` values to populate the `HTTPHeaders` instance.
+    public init(_ values: [HTTPHeader: String]) {
+        self.init(minimumCapacity: values.underestimatedCount)
+        for (key, value) in values {
+            self[key.rawValue] = value
+        }
     }
 }
