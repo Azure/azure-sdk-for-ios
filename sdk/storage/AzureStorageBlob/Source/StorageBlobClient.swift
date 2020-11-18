@@ -99,8 +99,8 @@ public final class StorageBlobClient: PipelineClient {
                 authPolicy,
                 ContentDecodePolicy(),
                 HeadersValidationPolicy(validatingHeaders: [
-                    HTTPHeader.clientRequestId.rawValue,
-                    StorageHTTPHeader.encryptionKeySHA256.rawValue
+                    HTTPHeader.clientRequestId.requestString,
+                    StorageHTTPHeader.encryptionKeySHA256.requestString
                 ]),
                 LoggingPolicy(
                     allowHeaders: StorageBlobClient.allowHeaders,
@@ -233,36 +233,18 @@ public final class StorageBlobClient: PipelineClient {
         withOptions options: ListContainersOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ContainerItem>>
     ) {
-        // Construct URL
         let urlTemplate = ""
-        guard let url = self.url(forTemplate: urlTemplate) else { return }
+        let params = RequestParameters(
+            (.query, "comp", "list", .encode),
+            (.query, "prefix", options?.prefix, .encode),
+            (.query, "include", options?.include, .encode),
+            (.query, "maxResults", options?.maxResults, .encode),
+            (.query, "timeout", options?.timeoutInSeconds, .encode),
+            (.header, HTTPHeader.accept, "application/xml", .encode),
+            (.header, HTTPHeader.apiVersion, self.options.apiVersion, .encode),
+            (.header, HTTPHeader.clientRequestId, options?.clientRequestId, .encode)
+        )
 
-        // Construct query
-        var queryParams: [QueryParameter] = [("comp", "list")]
-
-        // Construct headers
-        var headers = HTTPHeaders([
-            .accept: "application/xml",
-            .apiVersion: self.options.apiVersion
-        ])
-
-        // Process endpoint options
-        if let options = options {
-            // Query options
-            if let prefix = options.prefix { queryParams.append("prefix", prefix) }
-            if let include = options.include {
-                queryParams.append("include", (include.map { $0.rawValue }).joined(separator: ","))
-            }
-            if let maxResults = options.maxResults { queryParams.append("maxresults", String(maxResults)) }
-            if let timeout = options.timeoutInSeconds { queryParams.append("timeout", String(timeout)) }
-
-            // Header options
-            if let clientRequestId = options.clientRequestId {
-                headers[HTTPHeader.clientRequestId] = clientRequestId
-            }
-        }
-
-        // Construct and send request
         let codingKeys = PagedCodingKeys(
             items: "EnumerationResults.Containers",
             continuationToken: "EnumerationResults.NextMarker",
@@ -274,8 +256,8 @@ public final class StorageBlobClient: PipelineClient {
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
         context.merge(with: options?.context)
-        guard let requestUrl = url.appendingQueryParameters(queryParams) else { return }
-        guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: headers) else { return }
+        guard let requestUrl = url(template: urlTemplate, params: params) else { return }
+        guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers) else { return }
 
         self.request(request, context: context) { result, httpResponse in
             switch result {
@@ -323,46 +305,25 @@ public final class StorageBlobClient: PipelineClient {
         withOptions options: ListBlobsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<BlobItem>>
     ) {
-        // Construct URL
         let urlTemplate = "{container}"
-        let pathParams = [
-            "container": container
-        ]
-        guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return }
-
-        // Construct query
-        var queryParams: [QueryParameter] = [
-            ("comp", "list"),
-            ("resType", "container")
-        ]
-
-        // Construct headers
-        var headers = HTTPHeaders([
-            .accept: "application/xml",
-            .transferEncoding: "chunked",
-            .apiVersion: self.options.apiVersion
-        ])
-
-        // Process endpoint options
-        if let options = options {
-            // Query options
-            if let prefix = options.prefix { queryParams.append("prefix", prefix) }
-            if let delimiter = options.delimiter { queryParams.append("delimiter", delimiter) }
-            if let include = options.include {
-                queryParams.append("include", (include.map { $0.rawValue }).joined(separator: ","))
-            }
-            if let maxResults = options.maxResults { queryParams.append("maxresults", String(maxResults)) }
-            if let timeout = options.timeoutInSeconds { queryParams.append("timeout", String(timeout)) }
-
-            // Header options
-            if let clientRequestId = options.clientRequestId {
-                headers[.clientRequestId] = clientRequestId
-            }
-        }
+        let params = RequestParameters(
+            (.path, "container", container, .encode),
+            (.query, "comp", "list", .encode),
+            (.query, "resType", "container", .encode),
+            (.query, "prefix", options?.prefix, .encode),
+            (.query, "delimiter", options?.delimiter, .encode),
+            (.query, "include", options?.include, .encode),
+            (.query, "maxResults", options?.maxResults, .encode),
+            (.query, "timeout", options?.timeoutInSeconds, .encode),
+            (.header, HTTPHeader.accept, "application/xml", .encode),
+            (.header, HTTPHeader.transferEncoding, "chunked", .encode),
+            (.header, HTTPHeader.apiVersion, self.options.apiVersion, .encode),
+            (.header, HTTPHeader.clientRequestId, options?.clientRequestId, .encode)
+        )
 
         // Construct and send request
-        guard let requestUrl = url.appendingQueryParameters(queryParams) else { return }
-        guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: headers) else { return }
+        guard let requestUrl = url(template: urlTemplate, params: params) else { return }
+        guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers) else { return }
         let codingKeys = PagedCodingKeys(
             items: "EnumerationResults.Blobs",
             continuationToken: "EnumerationResults.NextMarker",
@@ -423,37 +384,16 @@ public final class StorageBlobClient: PipelineClient {
         withOptions options: DeleteBlobOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        // Construct URL
         let urlTemplate = "{container}/{blob}"
-        let pathParams = [
-            "container": container,
-            "blob": blob
-        ]
-        guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return }
-
-        // Construct query
-        var queryParams: [QueryParameter] = []
-
-        // Construct headers
-        var headers = HTTPHeaders([
-            .apiVersion: self.options.apiVersion
-        ])
-        if let deleteSnapshots = options?.deleteSnapshots {
-            headers[.deleteSnapshots] = deleteSnapshots.rawValue
-        }
-
-        // Process endpoint options
-        if let options = options {
-            // Query options
-            if let snapshot = options
-                .snapshot { queryParams.append("snapshot", String(describing: snapshot, format: .rfc1123)) }
-            if let timeout = options.timeoutInSeconds { queryParams.append("timeout", String(timeout)) }
-
-            // Header options
-            if let clientRequestId = options.clientRequestId {
-                headers[.clientRequestId] = clientRequestId
-            }
-        }
+        let params = RequestParameters(
+            (.path, "container", container, .encode),
+            (.path, "blob", blob, .encode),
+            (.query, "snapshot", options?.snapshot, .encode),
+            (.query, "timeout", options?.timeoutInSeconds, .encode),
+            (.header, HTTPHeader.apiVersion, self.options.apiVersion, .encode),
+            (.header, StorageHTTPHeader.deleteSnapshots, options?.deleteSnapshots, .encode),
+            (.header, HTTPHeader.clientRequestId, options?.clientRequestId, .encode)
+        )
 
         // Construct and send request
         let context = PipelineContext.of(keyValues: [
@@ -461,8 +401,8 @@ public final class StorageBlobClient: PipelineClient {
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: self.options)
         context.merge(with: options?.context)
-        guard let requestUrl = url.appendingQueryParameters(queryParams) else { return }
-        guard let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: headers) else { return }
+        guard let requestUrl = url(template: urlTemplate, params: params) else { return }
+        guard let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: params.headers) else { return }
         self.request(request, context: context) { result, httpResponse in
             switch result {
             case .success:
@@ -497,12 +437,11 @@ public final class StorageBlobClient: PipelineClient {
     ) throws {
         // Construct URL
         let urlTemplate = "/{container}/{blob}"
-        let pathParams = [
-            "container": container,
-            "blob": blob
-        ]
-        // Construct and send request
-        guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return }
+        let params = RequestParameters(
+            (.path, "container", container, .encode),
+            (.path, "blob", blob, .encode)
+        )
+        guard let url = url(template: urlTemplate, params: params) else { return }
 
         let context = PipelineContext()
         context.add(cancellationToken: options.cancellationToken, applying: self.options)
@@ -549,11 +488,11 @@ public final class StorageBlobClient: PipelineClient {
     ) throws {
         // Construct URL
         let urlTemplate = "/{container}/{blob}"
-        let pathParams = [
-            "container": container,
-            "blob": blob
-        ]
-        guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return }
+        let params = RequestParameters(
+            (.path, "container", container, .encode),
+            (.path, "blob", blob, .encode)
+        )
+        guard let url = url(template: urlTemplate, params: params) else { return }
 
         let context = PipelineContext()
         context.add(cancellationToken: options.cancellationToken, applying: self.options)
@@ -599,11 +538,11 @@ public final class StorageBlobClient: PipelineClient {
     ) throws -> BlobTransfer? {
         // Construct URL
         let urlTemplate = "/{container}/{blob}"
-        let pathParams = [
-            "container": container,
-            "blob": blob
-        ]
-        guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return nil }
+        let params = RequestParameters(
+            (.path, "container", container, .encode),
+            (.path, "blob", blob, .encode)
+        )
+        guard let url = url(template: urlTemplate, params: params) else { return nil }
 
         let context = PipelineContext()
         context.add(cancellationToken: options.cancellationToken, applying: self.options)
@@ -655,11 +594,11 @@ public final class StorageBlobClient: PipelineClient {
     ) throws -> BlobTransfer? {
         // Construct URL
         let urlTemplate = "/{container}/{blob}"
-        let pathParams = [
-            "container": container,
-            "blob": blob
-        ]
-        guard let url = self.url(forTemplate: urlTemplate, withKwargs: pathParams) else { return nil }
+        let params = RequestParameters(
+            (.path, "container", container, .encode),
+            (.path, "blob", blob, .encode)
+        )
+        guard let url = url(template: urlTemplate, params: params) else { return nil }
 
         let context = PipelineContext()
         context.add(cancellationToken: options.cancellationToken, applying: self.options)

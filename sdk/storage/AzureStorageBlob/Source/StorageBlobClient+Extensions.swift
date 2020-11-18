@@ -33,7 +33,10 @@ import Foundation
 extension StorageBlobClient: PageableClient {
     /// :nodoc:
     public func continuationUrl(forRequestUrl requestUrl: URL, withContinuationToken token: String) -> URL? {
-        return requestUrl.appendingQueryParameters([("marker", token)])
+        let params = RequestParameters(
+            (.query, "marker", token, .encode)
+        )
+        return requestUrl.appendingQueryParameters(params)
     }
 }
 

@@ -30,9 +30,9 @@ import Foundation
 /// Structure containing properties of a blob or blob snapshot.
 public struct BlobProperties: XMLModel, Codable, Equatable {
     /// The date that the blob was created.
-    public let creationTime: Date?
+    public let creationTime: Rfc1123Date?
     /// The date that the blob was last modified.
-    public let lastModified: Date?
+    public let lastModified: Rfc1123Date?
     /// The entity tag for the blob.
     public let eTag: String?
     /// The size of the blob in bytes.
@@ -73,7 +73,7 @@ public struct BlobProperties: XMLModel, Codable, Equatable {
     /// `copyId`.
     public let copyProgress: String?
     /// Completion time of the copy operation identified by `copyId`.
-    public let copyCompletionTime: Date?
+    public let copyCompletionTime: Rfc1123Date?
     /// Describes the cause of a fatal or non-fatal copy operation failure encounted in the copy operation identified by
     /// `copyId`.
     public let copyStatusDescription: String?
@@ -85,9 +85,9 @@ public struct BlobProperties: XMLModel, Codable, Equatable {
     /// blob's content length.
     public let accessTierInferred: Bool?
     /// The date that the access tier was last changed on the blob.
-    public let accessTierChangeTime: Date?
+    public let accessTierChangeTime: Rfc1123Date?
     /// The date that the blob was soft-deleted.
-    public let deletedTime: Date?
+    public let deletedTime: Rfc1123Date?
     /// The number of days remaining in the blob's time-based retention policy.
     public let remainingRetentionDays: Int?
 
@@ -182,9 +182,9 @@ extension BlobProperties {
     }
 
     internal init(from headers: HTTPHeaders) {
-        self.creationTime = Date(headers[.creationTime], format: .rfc1123)
-        self.lastModified = Date(headers[.lastModified], format: .rfc1123)
-        self.copyCompletionTime = Date(headers[.copyCompletionTime], format: .rfc1123)
+        self.creationTime = Rfc1123Date(string: headers[.creationTime])
+        self.lastModified = Rfc1123Date(string: headers[.lastModified])
+        self.copyCompletionTime = Rfc1123Date(string: headers[.copyCompletionTime])
 
         self.eTag = headers[.etag]
         self.contentType = headers[.contentType]
@@ -222,8 +222,8 @@ extension BlobProperties {
     public init(from decoder: Decoder) throws {
         let root = try decoder.container(keyedBy: CodingKeys.self)
         self.init(
-            creationTime: try root.decodeIfPresent(Date.self, forKey: .creationTime),
-            lastModified: try root.decodeIfPresent(Date.self, forKey: .lastModified),
+            creationTime: try root.decodeIfPresent(Rfc1123Date.self, forKey: .creationTime),
+            lastModified: try root.decodeIfPresent(Rfc1123Date.self, forKey: .lastModified),
             eTag: try root.decodeIfPresent(String.self, forKey: .eTag),
             contentLength: try root.decodeIntIfPresent(forKey: .contentLength),
             contentType: try root.decodeIfPresent(String.self, forKey: .contentType),
@@ -243,13 +243,13 @@ extension BlobProperties {
             copyStatus: try root.decodeIfPresent(CopyStatus.self, forKey: .copyStatus),
             copySource: try URL(string: root.decodeIfPresent(String.self, forKey: .copySource) ?? ""),
             copyProgress: try root.decodeIfPresent(String.self, forKey: .copyProgress),
-            copyCompletionTime: try root.decodeIfPresent(Date.self, forKey: .copyCompletionTime),
+            copyCompletionTime: try root.decodeIfPresent(Rfc1123Date.self, forKey: .copyCompletionTime),
             copyStatusDescription: try root.decodeIfPresent(String.self, forKey: .copyStatusDescription),
             serverEncrypted: try root.decodeBoolIfPresent(forKey: .serverEncrypted),
             incrementalCopy: try root.decodeBoolIfPresent(forKey: .incrementalCopy),
             accessTierInferred: try root.decodeBoolIfPresent(forKey: .accessTierInferred),
-            accessTierChangeTime: try root.decodeIfPresent(Date.self, forKey: .accessTierChangeTime),
-            deletedTime: try root.decodeIfPresent(Date.self, forKey: .deletedTime),
+            accessTierChangeTime: try root.decodeIfPresent(Rfc1123Date.self, forKey: .accessTierChangeTime),
+            deletedTime: try root.decodeIfPresent(Rfc1123Date.self, forKey: .deletedTime),
             remainingRetentionDays: try root.decodeIntIfPresent(forKey: .remainingRetentionDays)
         )
     }

@@ -24,6 +24,7 @@
 //
 // --------------------------------------------------------------------------
 
+import AzureCore
 import Foundation
 
 /// Options for accessing a blob based on the condition of a lease. If specified, the operation will be performed only
@@ -45,9 +46,9 @@ public struct LeaseAccessConditions: Codable, Equatable {
 /// performed only if all the specified conditions are met.
 public struct ModifiedAccessConditions: Codable, Equatable {
     /// Perform the operation only if the blob has been modified since the specified date.
-    public let ifModifiedSince: Date?
+    public let ifModifiedSince: Rfc1123Date?
     /// Perform the operation only if the blob has not been modified since the specified date.
-    public let ifUnmodifiedSince: Date?
+    public let ifUnmodifiedSince: Rfc1123Date?
     /// Perform the operation only if the blob's `eTag` matches the value specified.
     public internal(set) var ifMatch: String?
     /// Perform the operation only if the blob's `eTag` does not match the value specified.
@@ -65,8 +66,8 @@ public struct ModifiedAccessConditions: Codable, Equatable {
         ifMatch: String? = nil,
         ifNoneMatch: String? = nil
     ) {
-        self.ifModifiedSince = ifModifiedSince
-        self.ifUnmodifiedSince = ifUnmodifiedSince
+        self.ifModifiedSince = Rfc1123Date(ifModifiedSince)
+        self.ifUnmodifiedSince = Rfc1123Date(ifUnmodifiedSince)
         self.ifMatch = ifMatch
         self.ifNoneMatch = ifNoneMatch
     }
