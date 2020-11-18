@@ -254,16 +254,16 @@ internal class StorageSASAuthenticationPolicy: Authenticating {
         if let requestUrl = request.httpRequest.url.appendingQueryParameters(queryParams) {
             request.httpRequest.url = requestUrl
         }
-        request.httpRequest.headers[.xmsDate] = Rfc1123Date(Date())?.requestString
+        request.httpRequest.headers[.xmsDate] = String(describing: Date(), format: .rfc1123)
     }
 
-    private func parse(sasToken: String) -> RequestParameters {
-        var queryItems = RequestParameters()
+    private func parse(sasToken: String) -> [QueryParameter] {
+        var queryItems = [QueryParameter]()
         for component in sasToken.components(separatedBy: "&") {
             let splitComponent = component.split(separator: "=", maxSplits: 1).map(String.init)
             let name = splitComponent.first!
             let value = splitComponent.count == 2 ? splitComponent.last : ""
-            queryItems.add((.query, name, value, .skipEncoding))
+            queryItems.append(name, value?.removingPercentEncoding)
         }
         return queryItems
     }

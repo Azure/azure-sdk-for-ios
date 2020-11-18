@@ -29,34 +29,30 @@ import Foundation
 public class LoggingPolicy: PipelineStage {
     // MARK: Static Properties
 
-    private static let defaultAllowHeadersEnum: [HTTPHeader] = [
-        .accept,
-        .cacheControl,
-        .clientRequestId,
-        .connection,
-        .contentLength,
-        .contentType,
-        .date,
-        .etag,
-        .expires,
-        .ifMatch,
-        .ifModifiedSince,
-        .ifNoneMatch,
-        .ifUnmodifiedSince,
-        .lastModified,
-        .pragma,
-        .requestId,
-        .retryAfter,
-        .returnClientRequestId,
-        .server,
-        .traceparent,
-        .transferEncoding,
-        .userAgent
+    public static let defaultAllowHeaders: [String] = [
+        HTTPHeader.accept.rawValue,
+        HTTPHeader.cacheControl.rawValue,
+        HTTPHeader.clientRequestId.rawValue,
+        HTTPHeader.connection.rawValue,
+        HTTPHeader.contentLength.rawValue,
+        HTTPHeader.contentType.rawValue,
+        HTTPHeader.date.rawValue,
+        HTTPHeader.etag.rawValue,
+        HTTPHeader.expires.rawValue,
+        HTTPHeader.ifMatch.rawValue,
+        HTTPHeader.ifModifiedSince.rawValue,
+        HTTPHeader.ifNoneMatch.rawValue,
+        HTTPHeader.ifUnmodifiedSince.rawValue,
+        HTTPHeader.lastModified.rawValue,
+        HTTPHeader.pragma.rawValue,
+        HTTPHeader.requestId.rawValue,
+        HTTPHeader.retryAfter.rawValue,
+        HTTPHeader.returnClientRequestId.rawValue,
+        HTTPHeader.server.rawValue,
+        HTTPHeader.traceparent.rawValue,
+        HTTPHeader.transferEncoding.rawValue,
+        HTTPHeader.userAgent.rawValue
     ]
-
-    public static var defaultAllowHeaders: [String] {
-        return LoggingPolicy.defaultAllowHeadersEnum.map { $0.requestString }
-    }
 
     private static let maxBodyLogSize = 1024 * 16
 
@@ -161,14 +157,10 @@ public class LoggingPolicy: PipelineStage {
         }
     }
 
-    private func log(
-        headers: HTTPHeaders,
-        body bodyFunc: @autoclosure () -> String?,
-        withLogger logger: ClientLogger
-    ) {
+    private func log(headers: HTTPHeaders, body bodyFunc: @autoclosure () -> String?, withLogger logger: ClientLogger) {
         let safeHeaders = redact(headers: headers)
         for (header, value) in safeHeaders {
-            logger.debug("\(header.requestString): \(value)")
+            logger.debug("\(header): \(value)")
         }
 
         let bodyText = humanReadable(body: bodyFunc, headers: headers)
@@ -227,8 +219,8 @@ public class LoggingPolicy: PipelineStage {
     private func redact(headers: HTTPHeaders) -> HTTPHeaders {
         var copy = headers
         for header in copy.keys {
-            if !allowHeaders.contains(header.requestString.lowercased()) {
-                copy[header] = "REDACTED"
+            if !allowHeaders.contains(header.lowercased()) {
+                copy.updateValue("REDACTED", forKey: header)
             }
         }
         return copy
@@ -277,12 +269,11 @@ public class CurlFormattedRequestLoggingPolicy: PipelineStage {
                 escapedValue = value.replacingOccurrences(of: "\\", with: "\\\\")
             }
 
-            if header.requestString == HTTPHeader.acceptEncoding.requestString,
-                value.caseInsensitiveCompare("identity") != .orderedSame {
+            if header == HTTPHeader.acceptEncoding.rawValue, value.caseInsensitiveCompare("identity") != .orderedSame {
                 compressed = true
             }
 
-            parts += ["-H", "\"\(header.requestString): \(escapedValue)\""]
+            parts += ["-H", "\"\(header): \(escapedValue)\""]
         }
         if var bodyText = req.text() {
             // Escape literal newlines and single quotes in the body

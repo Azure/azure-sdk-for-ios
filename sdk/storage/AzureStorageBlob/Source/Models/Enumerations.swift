@@ -24,37 +24,28 @@
 //
 // --------------------------------------------------------------------------
 
-import AzureCore
 import Foundation
 
 /// The access tier of a blob.
-public enum AccessTier: String, Codable, RequestStringConvertible {
+public enum AccessTier: String, Codable {
     /// Hot access tier.
     case hot = "Hot"
     /// Cool access tier.
     case cool = "Cool"
-
-    public var requestString: String {
-        return rawValue
-    }
 }
 
 /// The type of a blob.
-public enum BlobType: String, Codable, RequestStringConvertible {
+public enum BlobType: String, Codable {
     /// Block blob.
     case block = "BlockBlob"
     /// Page blob.
     case page = "PageBlob"
     /// Append blob.
     case append = "AppendBlob"
-
-    public var requestString: String {
-        return rawValue
-    }
 }
 
 /// Status of a blob copy operation.
-public enum CopyStatus: String, Codable, RequestStringConvertible {
+public enum CopyStatus: String, Codable {
     /// Copy is in progress.
     case pending
     /// Copy completed successfully.
@@ -63,26 +54,18 @@ public enum CopyStatus: String, Codable, RequestStringConvertible {
     case aborted
     /// Copy failed.
     case failed
-
-    public var requestString: String {
-        return rawValue
-    }
 }
 
 /// The duration of a lease on a blob or container.
-public enum LeaseDuration: String, Codable, RequestStringConvertible {
+public enum LeaseDuration: String, Codable {
     /// The lease is of infinite duration.
     case infinite
     /// The lease is of fixed duration.
     case fixed
-
-    public var requestString: String {
-        return rawValue
-    }
 }
 
 /// The state of a lease on a blob or container.
-public enum LeaseState: String, Codable, RequestStringConvertible {
+public enum LeaseState: String, Codable {
     /// The lease is unlocked and can be acquired.
     case available
     /// The lease is locked.
@@ -93,20 +76,12 @@ public enum LeaseState: String, Codable, RequestStringConvertible {
     case breaking
     /// The lease has been broken, and the break period has expired.
     case broken
-
-    public var requestString: String {
-        return rawValue
-    }
 }
 
 /// The status of a lease on a blob or container.
-public enum LeaseStatus: String, Codable, RequestStringConvertible {
+public enum LeaseStatus: String, Codable {
     /// The lease is locked.
     case locked
     /// The lease is unlocked.
     case unlocked
-
-    public var requestString: String {
-        return rawValue
-    }
 }

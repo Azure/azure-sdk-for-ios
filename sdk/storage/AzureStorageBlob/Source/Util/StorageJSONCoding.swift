@@ -24,19 +24,18 @@
 //
 // --------------------------------------------------------------------------
 
-import AzureCore
 import Foundation
 
 internal class StorageJSONDecoder: JSONDecoder {
     override init() {
         super.init()
-        dateDecodingStrategy = .formatted(AzureDateFormat.rfc1123.formatter)
+        dateDecodingStrategy = .formatted(Date.Format.rfc1123.formatter)
     }
 }
 
 internal class StorageJSONEncoder: JSONEncoder {
     override init() {
         super.init()
-        dateEncodingStrategy = .formatted(AzureDateFormat.rfc1123.formatter)
+        dateEncodingStrategy = .formatted(Date.Format.rfc1123.formatter)
     }
 }

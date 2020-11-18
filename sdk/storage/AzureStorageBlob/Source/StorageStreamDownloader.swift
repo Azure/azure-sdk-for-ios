@@ -83,10 +83,9 @@ internal class ChunkDownloader {
     ///   - completionHandler: A completion handler that forwards the downloaded data.
     public func download(requestId: String? = nil, completionHandler: @escaping HTTPResultHandler<Data>) {
         // Construct parameters & headers
-        let queryParams = RequestParameters(
-            (.query, "snapshot", options.snapshot, .encode),
-            (.query, "timeout", options.timeoutInSeconds, .encode)
-        )
+        var queryParams = [QueryParameter]()
+        if let snapshot = options.snapshot { queryParams.append("snapshot", snapshot) }
+        if let timeout = options.timeoutInSeconds { queryParams.append("timeout", String(timeout)) }
 
         let headers = downloadHeadersForRequest(withId: requestId)
 
@@ -158,27 +157,39 @@ internal class ChunkDownloader {
 
     // swiftlint:disable:next cyclomatic_complexity
     private func downloadHeadersForRequest(withId requestId: String?) -> HTTPHeaders {
+        var headers = HTTPHeaders([
+            .accept: "application/xml",
+            .apiVersion: client.options.apiVersion
+        ])
         let leaseAccessConditions = options.leaseAccessConditions
         let modifiedAccessConditions = options.modifiedAccessConditions
         let cpk = options.customerProvidedEncryptionKey
 
-        let headers = RequestParameters(
-            (.header, HTTPHeader.accept, "application/xml", .encode),
-            (.header, HTTPHeader.apiVersion, client.options.apiVersion, .encode),
-            (.header, HTTPHeader.range, "bytes=\(startRange)-\(endRange)", .encode),
-            (.header, HTTPHeader.clientRequestId, requestId, .encode),
-            (.header, HTTPHeader.ifModifiedSince, modifiedAccessConditions?.ifModifiedSince, .encode),
-            (.header, HTTPHeader.ifUnmodifiedSince, modifiedAccessConditions?.ifUnmodifiedSince, .encode),
-            (.header, HTTPHeader.ifMatch, modifiedAccessConditions?.ifMatch, .encode),
-            (.header, HTTPHeader.ifNoneMatch, modifiedAccessConditions?.ifNoneMatch, .encode),
-            (.header, StorageHTTPHeader.rangeGetContentMD5, options.range?.calculateMD5, .encode),
-            (.header, StorageHTTPHeader.rangeGetContentCRC64, options.range?.calculateCRC64, .encode),
-            (.header, StorageHTTPHeader.leaseId, leaseAccessConditions?.leaseId, .encode),
-            (.header, StorageHTTPHeader.encryptionKey, cpk?.keyData, .encode),
-            (.header, StorageHTTPHeader.encryptionKeySHA256, cpk?.hash, .encode),
-            (.header, StorageHTTPHeader.encryptionAlgorithm, cpk?.algorithm, .encode)
-        )
-        return headers.headers
+        headers[.range] = "bytes=\(startRange)-\(endRange)"
+        if let rangeGetContentMD5 = options.range?.calculateMD5 {
+            headers[.rangeGetContentMD5] = String(rangeGetContentMD5)
+        }
+        if let rangeGetContentCRC64 = options.range?.calculateCRC64 {
+            headers[.rangeGetContentCRC64] = String(rangeGetContentCRC64)
+        }
+
+        if let requestId = requestId { headers[.clientRequestId] = requestId }
+        if let leaseId = leaseAccessConditions?.leaseId { headers[.leaseId] = leaseId }
+        if let encryptionKey = cpk?.keyData {
+            headers[.encryptionKey] = String(data: encryptionKey, encoding: .utf8)
+        }
+        if let encryptionKeySHA256 = cpk?.hash { headers[.encryptionKeySHA256] = encryptionKeySHA256 }
+        if let encryptionAlgorithm = cpk?.algorithm { headers[.encryptionAlgorithm] = encryptionAlgorithm }
+        if let ifModifiedSince = modifiedAccessConditions?.ifModifiedSince {
+            headers[.ifModifiedSince] = String(describing: ifModifiedSince, format: .rfc1123)
+        }
+        if let ifUnmodifiedSince = modifiedAccessConditions?.ifUnmodifiedSince {
+            headers[.ifUnmodifiedSince] = String(describing: ifUnmodifiedSince, format: .rfc1123)
+        }
+        if let ifMatch = modifiedAccessConditions?.ifMatch { headers[.ifMatch] = ifMatch }
+        if let ifNoneMatch = modifiedAccessConditions?.ifNoneMatch { headers[.ifNoneMatch] = ifNoneMatch }
+
+        return headers
     }
 
     private func decrypt(_ data: Data) -> Data {

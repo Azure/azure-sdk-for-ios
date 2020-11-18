@@ -31,7 +31,7 @@ import XCTest
 
 class TestPageableClient: PipelineClient, PageableClient {
     internal func continuationUrl(forRequestUrl requestUrl: URL, withContinuationToken token: String) -> URL? {
-        return requestUrl.appendingQueryParameters(RequestParameters((.query, "marker", token, .encode)))
+        return requestUrl.appendingQueryParameters([("marker", token)])
     }
 }
 
@@ -65,7 +65,7 @@ class CollectionsTests: XCTestCase {
             logger: ClientLoggers.default(),
             options: TestClientOptions()
         )
-        let request = try! HTTPRequest(method: .get, url: "test")
+        let request = try! HTTPRequest(method: .get, url: "test", headers: [:])
 
         // simulate data received
         let data = load(resource: "pagedthings1", withExtension: "json")
@@ -86,8 +86,7 @@ class CollectionsTests: XCTestCase {
         XCTAssertEqual(paged.pageItems?.count, 3)
 
         // test default continuationUrl
-        let requestUrl = URL(string: "www.requestUrl.com")?
-            .appendingQueryParameters(RequestParameters((.query, "ref", "123", .encode)))!
+        let requestUrl = URL(string: "www.requestUrl.com")?.appendingQueryParameters([("ref", "123")])!
         let continuationUrl = client.continuationUrl(forRequestUrl: requestUrl!, withContinuationToken: "testToken")!
         XCTAssertEqual(continuationUrl.absoluteString, "\(requestUrl!.absoluteString)&marker=testToken")
     }
@@ -103,7 +102,7 @@ class CollectionsTests: XCTestCase {
             logger: ClientLoggers.default(),
             options: TestClientOptions()
         )
-        let request = try! HTTPRequest(method: .get, url: "test")
+        let request = try! HTTPRequest(method: .get, url: "test", headers: [:])
 
         // simulate data received
         let data = load(resource: "pagedthings2", withExtension: "json")
@@ -131,7 +130,7 @@ class CollectionsTests: XCTestCase {
             logger: ClientLoggers.default(),
             options: TestClientOptions()
         )
-        let request = try! HTTPRequest(method: .get, url: "test")
+        let request = try! HTTPRequest(method: .get, url: "test", headers: [:])
         // simulate data received
         let data = load(resource: "pagedthings1", withExtension: "json")
         let jsonObject = try! JSONSerialization.jsonObject(with: data)

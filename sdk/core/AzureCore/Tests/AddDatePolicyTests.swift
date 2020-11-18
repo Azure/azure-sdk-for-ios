@@ -43,7 +43,7 @@ class AddDatePolicyTests: XCTestCase {
         let req = PipelineRequest()
         policy.on(request: req) { _, _ in }
         let value = req.httpRequest.headers[.date]
-        XCTAssertNotNil(Rfc1123Date(string: value!))
+        XCTAssertNotNil(Date(value!, format: .rfc1123))
     }
 
     /// Test that the add date policy overwrites any existing Date header

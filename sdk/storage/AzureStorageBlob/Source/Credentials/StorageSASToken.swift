@@ -24,7 +24,6 @@
 //
 // --------------------------------------------------------------------------
 
-import AzureCore
 import Foundation
 
 /// A structure representing a Storage shared access signature token.
@@ -40,16 +39,16 @@ public struct StorageSASToken {
     /// The table endpoint this token applies to.
     public let tableEndpoint: String?
     /// The date at which this token becomes valid.
-    public let validAt: Iso8601Date?
+    public let validAt: Date?
     /// The date at which this token expires.
-    public let expiredAt: Iso8601Date?
+    public let expiredAt: Date?
     /// Permissions granted by this token.
     public let permissions: StorageSASTokenPermissions
 
     /// Whether this token is currently valid.
     public var valid: Bool {
         guard let validAt = validAt, let expiredAt = expiredAt else { return false }
-        let now = Iso8601Date()
+        let now = Date()
         return now >= validAt && now < expiredAt
     }
 
@@ -76,8 +75,8 @@ public struct StorageSASToken {
         self.tableEndpoint = tableEndpoint
 
         let comps = URLComponents(string: "?\(sasToken)")
-        self.validAt = Iso8601Date(string: comps?.queryItems?.first { $0.name == "st" }?.value)
-        self.expiredAt = Iso8601Date(string: comps?.queryItems?.first { $0.name == "se" }?.value)
+        self.validAt = Date(comps?.queryItems?.filter { $0.name == "st" }.first?.value, format: .iso8601)
+        self.expiredAt = Date(comps?.queryItems?.filter { $0.name == "se" }.first?.value, format: .iso8601)
         self.permissions = StorageSASToken.parsePermissions(fromQueryItems: comps?.queryItems)
     }
 
@@ -90,14 +89,14 @@ public struct StorageSASToken {
         var forBlob = false
 
         guard let queryItems = queryItems,
-            let perms = (queryItems.first { $0.name == "sp" }?.value)
+            let perms = (queryItems.filter { $0.name == "sp" }.first?.value)
         else { return StorageSASTokenPermissions(blob: blobPerms, container: containerPerms) }
 
-        if let context = (queryItems.first { $0.name == "srt" }?.value) {
+        if let context = (queryItems.filter { $0.name == "srt" }.first?.value) {
             // Account level
             forContainer = context.contains("c") // container
             forBlob = context.contains("o") // object
-        } else if let context = (queryItems.first { $0.name == "sr" }?.value) {
+        } else if let context = (queryItems.filter { $0.name == "sr" }.first?.value) {
             // Blob or container level
             if context == "c" { // container
                 forContainer = true
