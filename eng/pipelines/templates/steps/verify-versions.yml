@@ -4,3 +4,5 @@ steps:
   inputs:
     pwsh: true
     filePath: eng/scripts/Verify-PodspecVersions.ps1
+    arguments: >
+      -Path $(System.DefaultWorkingDirectory)
