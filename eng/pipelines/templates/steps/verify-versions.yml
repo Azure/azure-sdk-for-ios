@@ -3,6 +3,6 @@ steps:
   displayName: Verify versions
   inputs:
     pwsh: true
-    filePath: eng/scripts/Verify-PodspecVersions.ps1
+    filePath: eng/scripts/Verify-Versions.ps1
     arguments: >
       -Path $(System.DefaultWorkingDirectory)

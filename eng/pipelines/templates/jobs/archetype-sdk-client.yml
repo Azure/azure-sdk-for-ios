@@ -64,7 +64,6 @@ jobs:
       vmImage: '$(OSVmImage)'
 
     steps:
-      - template: /eng/pipelines/templates/steps/verify-versions.yml
 
       - task: UsePythonVersion@0
         displayName: 'Use Python 3.6'
@@ -78,7 +77,13 @@ jobs:
         parameters:
           Directory: ""
           CheckLinkGuidance: $true
-          
+
+      - script: |
+          pod lib lint --quick
+        displayName: Lint PodSpecs 
+
+      - template: /eng/pipelines/templates/steps/verify-versions.yml
+
       - script: |
           brew install swiftlint
           case "${{parameters.BuildScheme}}" in
