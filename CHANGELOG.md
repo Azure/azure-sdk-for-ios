@@ -1,11 +1,33 @@
 # Release History
 
-## 1.0.0-beta.5 (Unreleased)
+## 1.0.0-beta.5 (2020-11-18)
 
-- Azure Communication Services Chat
-  - `baseUrl` is renamed to `endpoint` in the `AzureCommunicationChatClient` initializers.
-  
+### New Features
+- Added Cocoapods specs for AzureCore, AzureCommunication, AzureCommunicationChat, and AzureCommunicationCalling
+  libraries.
 
+### Breaking Changes
+- Azure Communication Chat Service
+  - The `baseUrl` parameter has been renamed to `endpoint` in the `AzureCommunicationChatClient` initializers.
+
+- Azure Communication Calling Service
+  - Swift applications will not see the `ACS` prefix for classes and enums. For example, `ACSCallAgent` is now
+    `CallAgent` when the library is imported in a Swift application.
+  - Parameter labels are now mandatory for all API calls from Swift applications.
+  - Except for the first parameter, parameter labels are now mandatory for all other parameters to delegate methods in
+    Swift applications.
+  - And exception is now thrown if an application tries to render video/camera twice.
+
+### Key Bug Fixes
+- Azure Communication Calling Service
+  - Fixed a deadlock when deleting an `ACSCallAgent` object.
+  - The `Call.hangup()` method will return only after all necessary events are delivered to the app.
+    [#85](https://github.com/Azure/Communication/issues/85)
+  - The `Call.hangup()` method now terminates a call if the call is in the `Connecting` or `Ringing` state.
+    [#96](https://github.com/Azure/Communication/issues/96)
+  - The library was raising a `RemoteVideoStream Removed` event when app stopped rendering a stream. The library now
+    also raises a follow-up `RemoteVideoStream Added` event once the stream is ready to be rendered again.
+    [#95](https://github.com/Azure/Communication/issues/95)
 
 ## 1.0.0-beta.2 (2020-10-05)
 

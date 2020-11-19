@@ -13,14 +13,11 @@ This package contains common code for Azure Communication Services libraries.
 * You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
 [Communication Services resource](https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource) to use this library.
 
-### Versions available
-The latest version of the SDK is [1.0.0-beta.2](https://github.com/Azure/azure-sdk-for-ios/releases/tag/1.0.0-beta.2). Older [releases](https://github.com/Azure/azure-sdk-for-ios/releases) are also available.
-
-> Note: The SDK is currently in **beta**. The API surface and feature sets are subject to change at any time before they become generally available. We do not currently recommend them for production use.
-
 ### Install the library
 To install the Azure client libraries for iOS, we recommend you use
 [Swift Package Manager](#add-a-package-dependency-with-swift-package-manager).
+As an alternative, you may also integrate the libraries using
+[CocoaPods](#integrate-the-client-libraries-with-cocoapods).
 
 #### Add a package dependency with Swift Package Manager
 
@@ -53,7 +50,7 @@ specifying the clone URL of this repository and the version specifier you wish t
 ```swift
     dependencies: [
         ...
-        .package(url: "https://github.com/Azure/azure-sdk-for-ios.git", from: "1.0.0-beta.2")
+        .package(url: "https://github.com/Azure/azure-sdk-for-ios.git", from: "1.0.0-beta.5")
     ],
 ```
 
@@ -66,6 +63,40 @@ Next, for each target that needs to use the library, add it to the target's arra
             dependencies: ["AzureCommunication", ...])
     ]
 )
+```
+
+#### Integrate the client libraries with CocoaPods
+
+[CocoaPods](https://cocoapods.org) is a dependency manager for Objective C and Swift projects. You can install it with
+the following command:
+
+```bash
+$ [sudo] gem install cocoapods
+```
+
+> CocoaPods 1.5+ is required.
+
+To integrate one or more client libraries into your project using CocoaPods, specify them in your
+[Podfile](https://guides.cocoapods.org/using/the-podfile.html), providing the version specifier you wish to use. To
+ensure compatibility when using multiple client libraries in the same project, use the same version specifier for all
+Azure SDK client libraries within the project:
+
+```ruby
+platform :ios, '12.0'
+
+# Comment the next line if you don't want to use dynamic frameworks
+use_frameworks!
+
+target 'MyTarget' do
+  pod 'AzureCommunication', '~> 1.0.0-beta.5'
+  ...
+end
+```
+
+Then, run the following command:
+
+```bash
+$ pod install
 ```
 
 ## Key concepts
