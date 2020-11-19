@@ -16,6 +16,8 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 public struct ChatThread: Codable {
+    // MARK: Properties
+
     /// Chat thread id.
     public let id: String?
     /// Chat thread topic.
@@ -26,6 +28,8 @@ public struct ChatThread: Codable {
     public let createdBy: String?
     /// Chat thread members.
     public let members: [ChatThreadMember]?
+
+    // MARK: Initializers
 
     /// Initialize a `ChatThread` structure.
     /// - Parameters:
@@ -44,6 +48,8 @@ public struct ChatThread: Codable {
         self.createdBy = createdBy
         self.members = members
     }
+
+    // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
         case id

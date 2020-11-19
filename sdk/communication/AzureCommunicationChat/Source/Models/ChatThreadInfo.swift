@@ -16,6 +16,8 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 public struct ChatThreadInfo: Codable {
+    // MARK: Properties
+
     /// Chat thread id.
     public let id: String?
     /// Chat thread topic.
@@ -24,6 +26,8 @@ public struct ChatThreadInfo: Codable {
     public let isDeleted: Bool?
     /// The timestamp when the last message arrived at the server. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public let lastMessageReceivedOn: Date?
+
+    // MARK: Initializers
 
     /// Initialize a `ChatThreadInfo` structure.
     /// - Parameters:
@@ -39,6 +43,8 @@ public struct ChatThreadInfo: Codable {
         self.isDeleted = isDeleted
         self.lastMessageReceivedOn = lastMessageReceivedOn
     }
+
+    // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
         case id

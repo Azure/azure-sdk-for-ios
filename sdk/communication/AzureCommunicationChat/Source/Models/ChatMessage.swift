@@ -16,6 +16,8 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 public struct ChatMessage: Codable {
+    // MARK: Properties
+
     /// The id of the chat message. This id is server generated.
     public let id: String?
     /// Type of the chat message.
@@ -42,6 +44,8 @@ public struct ChatMessage: Codable {
     public let deletedOn: Date?
     /// The timestamp when the chat message was edited. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public let editedOn: Date?
+
+    // MARK: Initializers
 
     /// Initialize a `ChatMessage` structure.
     /// - Parameters:
@@ -77,6 +81,8 @@ public struct ChatMessage: Codable {
         self.deletedOn = deletedOn
         self.editedOn = editedOn
     }
+
+    // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
         case id

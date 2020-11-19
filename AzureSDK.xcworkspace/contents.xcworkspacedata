@@ -50,6 +50,9 @@
       location = "group:examples"
       name = "Examples">
       <FileRef
+         location = "group:AzureCommunicationChatDemo/AzureCommunicationChatDemo.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:AzureSDKDemoSwift/AzureSDKDemoSwift.xcodeproj">
       </FileRef>
    </Group>
@@ -75,6 +78,9 @@
    <Group
       location = "group:"
       name = "Docs">
+      <FileRef
+         location = "group:CHANGELOG.md">
+      </FileRef>
       <FileRef
          location = "group:CONTRIBUTING.md">
       </FileRef>

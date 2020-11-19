@@ -17,8 +17,12 @@ import Foundation
 
 /// Request payload for sending a read receipt.
 public struct SendReadReceiptRequest: Codable {
+    // MARK: Properties
+
     /// Id of the latest chat message read by the user.
     public let chatMessageId: String
+
+    // MARK: Initializers
 
     /// Initialize a `SendReadReceiptRequest` structure.
     /// - Parameters:
@@ -28,6 +32,8 @@ public struct SendReadReceiptRequest: Codable {
     ) {
         self.chatMessageId = chatMessageId
     }
+
+    // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
         case chatMessageId

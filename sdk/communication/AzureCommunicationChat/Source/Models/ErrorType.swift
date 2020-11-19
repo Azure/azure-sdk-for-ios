@@ -16,6 +16,8 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 public struct ErrorType: Codable, Swift.Error {
+    // MARK: Properties
+
     public let code: String?
 
     public let message: String?
@@ -23,6 +25,8 @@ public struct ErrorType: Codable, Swift.Error {
     public let target: String?
 
     public let innerErrors: [ErrorType]?
+
+    // MARK: Initializers
 
     /// Initialize a `ErrorType` structure.
     /// - Parameters:
@@ -38,6 +42,8 @@ public struct ErrorType: Codable, Swift.Error {
         self.target = target
         self.innerErrors = innerErrors
     }
+
+    // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
         case code

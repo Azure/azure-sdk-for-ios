@@ -17,8 +17,12 @@ import Foundation
 
 /// Result of the send message operation.
 public struct SendChatMessageResult: Codable {
+    // MARK: Properties
+
     /// A server-generated message id.
     public let id: String?
+
+    // MARK: Initializers
 
     /// Initialize a `SendChatMessageResult` structure.
     /// - Parameters:
@@ -28,6 +32,8 @@ public struct SendChatMessageResult: Codable {
     ) {
         self.id = id
     }
+
+    // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
         case id

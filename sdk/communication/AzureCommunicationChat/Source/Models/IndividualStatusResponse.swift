@@ -16,6 +16,8 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 public struct IndividualStatusResponse: Codable {
+    // MARK: Properties
+
     /// Identifies the resource to which the individual status corresponds.
     public let id: String?
     /// The status code of the resource operation.
@@ -31,6 +33,8 @@ public struct IndividualStatusResponse: Codable {
     public let message: String?
     /// Identifies the type of the resource to which the individual status corresponds.
     public let type: String?
+
+    // MARK: Initializers
 
     /// Initialize a `IndividualStatusResponse` structure.
     /// - Parameters:
@@ -53,6 +57,8 @@ public struct IndividualStatusResponse: Codable {
         self.message = message
         self.type = type
     }
+
+    // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
         case id
