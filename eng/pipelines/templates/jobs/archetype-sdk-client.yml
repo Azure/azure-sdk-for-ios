@@ -64,6 +64,8 @@ jobs:
       vmImage: '$(OSVmImage)'
 
     steps:
+      - template: /eng/pipelines/templates/steps/verify-versions.yml
+
       - task: UsePythonVersion@0
         displayName: 'Use Python 3.6'
         inputs:
