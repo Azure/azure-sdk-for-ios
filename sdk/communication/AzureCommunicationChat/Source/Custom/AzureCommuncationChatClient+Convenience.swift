@@ -38,7 +38,7 @@ extension AzureCommunicationChatClient {
     public func listChatReadReceipts(
         chatThreadId: String,
         withOptions options: AzureCommunicationChatService.ListChatReadReceiptsOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<PagedCollection<ReadReceipt>>
+        completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatMessageReadReceipt>>
     ) {
         return self.azureCommunicationChatService.listChatReadReceipts(chatThreadId: chatThreadId, withOptions: options, completionHandler: completionHandler)
     }
@@ -161,8 +161,8 @@ extension AzureCommunicationChatClient {
     ///     success.
     public func listChatThreadMembers(
         chatThreadId: String,
-        withOptions options: AzureCommunicationChatService.ListChatThreadMembersOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatThreadMember>>
+        withOptions options: AzureCommunicationChatService.ListChatParticipantsOptions? = nil,
+        completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatParticipant>>
     ) {
         return self.azureCommunicationChatService.listChatThreadMembers(chatThreadId: chatThreadId, withOptions: options, completionHandler: completionHandler)
     }
@@ -175,9 +175,9 @@ extension AzureCommunicationChatClient {
     ///    - completionHandler: A completion handler that receives a status code on
     ///     success.
     public func add(
-        chatThreadMembers: AddChatThreadMembersRequest,
+        chatThreadMembers: AddChatParticipantsRequest,
         chatThreadId: String,
-        withOptions options: AzureCommunicationChatService.AddChatThreadMembersOptions? = nil,
+        withOptions options: AzureCommunicationChatService.AddChatParticipantsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
         return self.azureCommunicationChatService.add(chatThreadMembers: chatThreadMembers, chatThreadId: chatThreadId, withOptions: options, completionHandler: completionHandler)
@@ -193,7 +193,7 @@ extension AzureCommunicationChatClient {
     public func removeChatThreadMember(
         chatThreadId: String,
         chatMemberId: String,
-        withOptions options: AzureCommunicationChatService.RemoveChatThreadMemberOptions? = nil,
+        withOptions options: AzureCommunicationChatService.RemoveChatParticipantOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
         return self.azureCommunicationChatService.removeChatThreadMember(chatThreadId: chatThreadId, chatMemberId: chatMemberId, withOptions: options, completionHandler: completionHandler)
@@ -208,7 +208,7 @@ extension AzureCommunicationChatClient {
     public func create(
         chatThread: CreateChatThreadRequest,
         withOptions options: AzureCommunicationChatService.CreateChatThreadOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<MultiStatusResponse>
+        completionHandler: @escaping HTTPResultHandler<ChatThread>
     ) {
         return self.azureCommunicationChatService.create(chatThread: chatThread, withOptions: options, completionHandler: completionHandler)
     }
