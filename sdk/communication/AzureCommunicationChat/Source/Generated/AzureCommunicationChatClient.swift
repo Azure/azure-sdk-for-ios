@@ -28,12 +28,12 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
 
     /// API version of the  to invoke. Defaults to the latest.
     public enum ApiVersion: String {
-        /// API version ""
-        case v = ""
-
+        /// API version "2020-11-01-preview3"
+        case v20201101preview3 = "2020-11-01-preview3"
+         
         /// The most recent API version of the
         public static var latest: ApiVersion {
-            return .v
+            return .v20201101preview3
         }
     }
 
@@ -48,14 +48,10 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
     ///   - authPolicy: An `Authenticating` policy to use for authenticating client requests.
     ///   - options: Options used to configure the client.
     public init(
-        endpoint: String,
-        apiVersion: String,
         endpoint: URL,
         authPolicy: Authenticating,
         withOptions options: AzureCommunicationChatClientOptions
     ) throws {
-        self.endpoint = endpoint
-        self.apiVersion = apiVersion
         self.options = options
         super.init(
             endpoint: endpoint,
@@ -120,11 +116,6 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         urlComps.percentEncodedQueryItems = queryItems
         return urlComps.url
     }
-
-    // /// The endpoint of the Azure Communication resource.
-    public var endpoint: String
-    // /// Api Version
-    public var apiVersion: String
 
     public lazy var azureCommunicationChatService: AzureCommunicationChatService =
         AzureCommunicationChatService(client: self)

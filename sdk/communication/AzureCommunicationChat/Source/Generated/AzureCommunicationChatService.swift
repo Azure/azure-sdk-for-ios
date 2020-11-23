@@ -62,11 +62,11 @@ public final class AzureCommunicationChatService {
         let urlTemplate = "/chat/threads/{chatThreadId}/readreceipts"
         let pathParams = [
             "chatThreadId": chatThreadId,
-            "endpoint": client.endpoint
+            "$endpoint": client.endpoint.absoluteString
         ]
         // Construct query
         var queryParams: [QueryParameter] = [
-            ("apiVersion", "2020-11-01-preview3")
+            ("api-version", "2020-11-01-preview3")
         ]
 
         // Construct headers
@@ -84,7 +84,7 @@ public final class AzureCommunicationChatService {
         // Header options
         // Construct request
         guard let requestUrl = url(
-            host: "{endpoint}",
+            host: "{$endpoint}",
             template: urlTemplate,
             pathParams: pathParams,
             queryParams: queryParams
@@ -133,7 +133,7 @@ public final class AzureCommunicationChatService {
                             continuationToken: "nextLink"
                         )
                         let paged = try PagedCollection<ChatMessageReadReceipt>(
-                            client: self,
+                            client: self.client,
                             request: request,
                             context: context,
                             data: data,
@@ -235,11 +235,11 @@ public final class AzureCommunicationChatService {
         let urlTemplate = "/chat/threads/{chatThreadId}/readreceipts"
         let pathParams = [
             "chatThreadId": chatThreadId,
-            "endpoint": client.endpoint
+            "$endpoint": client.endpoint.absoluteString
         ]
         // Construct query
         let queryParams: [QueryParameter] = [
-            ("apiVersion", "2020-11-01-preview3")
+            ("api-version", "2020-11-01-preview3")
         ]
 
         // Construct headers
@@ -252,7 +252,7 @@ public final class AzureCommunicationChatService {
             return
         }
         guard let requestUrl = url(
-            host: "{endpoint}",
+            host: "{$endpoint}",
             template: urlTemplate,
             pathParams: pathParams,
             queryParams: queryParams
@@ -386,11 +386,11 @@ public final class AzureCommunicationChatService {
         let urlTemplate = "/chat/threads/{chatThreadId}/messages"
         let pathParams = [
             "chatThreadId": chatThreadId,
-            "endpoint": client.endpoint
+            "$endpoint": client.endpoint.absoluteString
         ]
         // Construct query
         let queryParams: [QueryParameter] = [
-            ("apiVersion", "2020-11-01-preview3")
+            ("api-version", "2020-11-01-preview3")
         ]
 
         // Construct headers
@@ -403,7 +403,7 @@ public final class AzureCommunicationChatService {
             return
         }
         guard let requestUrl = url(
-            host: "{endpoint}",
+            host: "{$endpoint}",
             template: urlTemplate,
             pathParams: pathParams,
             queryParams: queryParams
@@ -540,11 +540,11 @@ public final class AzureCommunicationChatService {
         let urlTemplate = "/chat/threads/{chatThreadId}/messages"
         let pathParams = [
             "chatThreadId": chatThreadId,
-            "endpoint": client.endpoint
+            "$endpoint": client.endpoint.absoluteString
         ]
         // Construct query
         var queryParams: [QueryParameter] = [
-            ("apiVersion", "2020-11-01-preview3")
+            ("api-version", "2020-11-01-preview3")
         ]
 
         // Construct headers
@@ -565,7 +565,7 @@ public final class AzureCommunicationChatService {
         // Header options
         // Construct request
         guard let requestUrl = url(
-            host: "{endpoint}",
+            host: "{$endpoint}",
             template: urlTemplate,
             pathParams: pathParams,
             queryParams: queryParams
@@ -614,7 +614,7 @@ public final class AzureCommunicationChatService {
                             continuationToken: "nextLink"
                         )
                         let paged = try PagedCollection<ChatMessage>(
-                            client: self,
+                            client: self.client,
                             request: request,
                             context: context,
                             data: data,
@@ -717,11 +717,11 @@ public final class AzureCommunicationChatService {
         let pathParams = [
             "chatThreadId": chatThreadId,
             "chatMessageId": chatMessageId,
-            "endpoint": client.endpoint
+            "$endpoint": client.endpoint.absoluteString
         ]
         // Construct query
         let queryParams: [QueryParameter] = [
-            ("apiVersion", "2020-11-01-preview3")
+            ("api-version", "2020-11-01-preview3")
         ]
 
         // Construct headers
@@ -729,7 +729,7 @@ public final class AzureCommunicationChatService {
         headers["Accept"] = "application/json"
         // Construct request
         guard let requestUrl = url(
-            host: "{endpoint}",
+            host: "{$endpoint}",
             template: urlTemplate,
             pathParams: pathParams,
             queryParams: queryParams
@@ -871,11 +871,11 @@ public final class AzureCommunicationChatService {
         let pathParams = [
             "chatThreadId": chatThreadId,
             "chatMessageId": chatMessageId,
-            "endpoint": client.endpoint
+            "$endpoint": client.endpoint.absoluteString
         ]
         // Construct query
         let queryParams: [QueryParameter] = [
-            ("apiVersion", "2020-11-01-preview3")
+            ("api-version", "2020-11-01-preview3")
         ]
 
         // Construct headers
@@ -890,7 +890,7 @@ public final class AzureCommunicationChatService {
         }
 
         guard let requestUrl = url(
-            host: "{endpoint}",
+            host: "{$endpoint}",
             template: urlTemplate,
             pathParams: pathParams,
             queryParams: queryParams
@@ -1025,11 +1025,11 @@ public final class AzureCommunicationChatService {
         let pathParams = [
             "chatThreadId": chatThreadId,
             "chatMessageId": chatMessageId,
-            "endpoint": client.endpoint
+            "$endpoint": client.endpoint.absoluteString
         ]
         // Construct query
         let queryParams: [QueryParameter] = [
-            ("apiVersion", "2020-11-01-preview3")
+            ("api-version", "2020-11-01-preview3")
         ]
 
         // Construct headers
@@ -1037,7 +1037,7 @@ public final class AzureCommunicationChatService {
         headers["Accept"] = "application/json"
         // Construct request
         guard let requestUrl = url(
-            host: "{endpoint}",
+            host: "{$endpoint}",
             template: urlTemplate,
             pathParams: pathParams,
             queryParams: queryParams
@@ -1169,11 +1169,11 @@ public final class AzureCommunicationChatService {
         let urlTemplate = "/chat/threads/{chatThreadId}/typing"
         let pathParams = [
             "chatThreadId": chatThreadId,
-            "endpoint": client.endpoint
+            "$endpoint": client.endpoint.absoluteString
         ]
         // Construct query
         let queryParams: [QueryParameter] = [
-            ("apiVersion", "2020-11-01-preview3")
+            ("api-version", "2020-11-01-preview3")
         ]
 
         // Construct headers
@@ -1181,7 +1181,7 @@ public final class AzureCommunicationChatService {
         headers["Accept"] = "application/json"
         // Construct request
         guard let requestUrl = url(
-            host: "{endpoint}",
+            host: "{$endpoint}",
             template: urlTemplate,
             pathParams: pathParams,
             queryParams: queryParams
@@ -1313,11 +1313,11 @@ public final class AzureCommunicationChatService {
         let urlTemplate = "/chat/threads/{chatThreadId}/participants"
         let pathParams = [
             "chatThreadId": chatThreadId,
-            "endpoint": client.endpoint
+            "$endpoint": client.endpoint.absoluteString
         ]
         // Construct query
         var queryParams: [QueryParameter] = [
-            ("apiVersion", "2020-11-01-preview3")
+            ("api-version", "2020-11-01-preview3")
         ]
 
         // Construct headers
@@ -1335,7 +1335,7 @@ public final class AzureCommunicationChatService {
         // Header options
         // Construct request
         guard let requestUrl = url(
-            host: "{endpoint}",
+            host: "{$endpoint}",
             template: urlTemplate,
             pathParams: pathParams,
             queryParams: queryParams
@@ -1384,7 +1384,7 @@ public final class AzureCommunicationChatService {
                             continuationToken: "nextLink"
                         )
                         let paged = try PagedCollection<ChatParticipant>(
-                            client: self,
+                            client: self.client,
                             request: request,
                             context: context,
                             data: data,
@@ -1486,11 +1486,11 @@ public final class AzureCommunicationChatService {
         let urlTemplate = "/chat/threads/{chatThreadId}/participants"
         let pathParams = [
             "chatThreadId": chatThreadId,
-            "endpoint": client.endpoint
+            "$endpoint": client.endpoint.absoluteString
         ]
         // Construct query
         let queryParams: [QueryParameter] = [
-            ("apiVersion", "2020-11-01-preview3")
+            ("api-version", "2020-11-01-preview3")
         ]
 
         // Construct headers
@@ -1503,7 +1503,7 @@ public final class AzureCommunicationChatService {
             return
         }
         guard let requestUrl = url(
-            host: "{endpoint}",
+            host: "{$endpoint}",
             template: urlTemplate,
             pathParams: pathParams,
             queryParams: queryParams
@@ -1638,11 +1638,11 @@ public final class AzureCommunicationChatService {
         let pathParams = [
             "chatThreadId": chatThreadId,
             "chatParticipantId": chatParticipantId,
-            "endpoint": client.endpoint
+            "$endpoint": client.endpoint.absoluteString
         ]
         // Construct query
         let queryParams: [QueryParameter] = [
-            ("apiVersion", "2020-11-01-preview3")
+            ("api-version", "2020-11-01-preview3")
         ]
 
         // Construct headers
@@ -1650,7 +1650,7 @@ public final class AzureCommunicationChatService {
         headers["Accept"] = "application/json"
         // Construct request
         guard let requestUrl = url(
-            host: "{endpoint}",
+            host: "{$endpoint}",
             template: urlTemplate,
             pathParams: pathParams,
             queryParams: queryParams
@@ -1781,11 +1781,11 @@ public final class AzureCommunicationChatService {
         // Construct URL
         let urlTemplate = "/chat/threads"
         let pathParams = [
-            "endpoint": client.endpoint
+            "$endpoint": client.endpoint.absoluteString
         ]
         // Construct query
         let queryParams: [QueryParameter] = [
-            ("apiVersion", "2020-11-01-preview3")
+            ("api-version", "2020-11-01-preview3")
         ]
 
         // Construct headers
@@ -1796,7 +1796,7 @@ public final class AzureCommunicationChatService {
         // Query options
 
         // Header options
-        if let azure - Acs - IdempotencyKey = options?.azure - Acs - IdempotencyKey {
+        if let azureAcsIdempotencyKey = options?.azureAcsIdempotencyKey {
             headers["azure-Acs-IdempotencyKey"] = azureAcsIdempotencyKey
         }
         // Construct request
@@ -1805,7 +1805,7 @@ public final class AzureCommunicationChatService {
             return
         }
         guard let requestUrl = url(
-            host: "{endpoint}",
+            host: "{$endpoint}",
             template: urlTemplate,
             pathParams: pathParams,
             queryParams: queryParams
@@ -1940,11 +1940,11 @@ public final class AzureCommunicationChatService {
         // Construct URL
         let urlTemplate = "/chat/threads"
         let pathParams = [
-            "endpoint": client.endpoint
+            "$endpoint": client.endpoint.absoluteString
         ]
         // Construct query
         var queryParams: [QueryParameter] = [
-            ("apiVersion", "2020-11-01-preview3")
+            ("api-version", "2020-11-01-preview3")
         ]
 
         // Construct headers
@@ -1965,7 +1965,7 @@ public final class AzureCommunicationChatService {
         // Header options
         // Construct request
         guard let requestUrl = url(
-            host: "{endpoint}",
+            host: "{$endpoint}",
             template: urlTemplate,
             pathParams: pathParams,
             queryParams: queryParams
@@ -2014,7 +2014,7 @@ public final class AzureCommunicationChatService {
                             continuationToken: "nextLink"
                         )
                         let paged = try PagedCollection<ChatThreadInfo>(
-                            client: self,
+                            client: self.client,
                             request: request,
                             context: context,
                             data: data,
@@ -2116,11 +2116,11 @@ public final class AzureCommunicationChatService {
         let urlTemplate = "/chat/threads/{chatThreadId}"
         let pathParams = [
             "chatThreadId": chatThreadId,
-            "endpoint": client.endpoint
+            "$endpoint": client.endpoint.absoluteString
         ]
         // Construct query
         let queryParams: [QueryParameter] = [
-            ("apiVersion", "2020-11-01-preview3")
+            ("api-version", "2020-11-01-preview3")
         ]
 
         // Construct headers
@@ -2135,7 +2135,7 @@ public final class AzureCommunicationChatService {
         }
 
         guard let requestUrl = url(
-            host: "{endpoint}",
+            host: "{$endpoint}",
             template: urlTemplate,
             pathParams: pathParams,
             queryParams: queryParams
@@ -2267,11 +2267,11 @@ public final class AzureCommunicationChatService {
         let urlTemplate = "/chat/threads/{chatThreadId}"
         let pathParams = [
             "chatThreadId": chatThreadId,
-            "endpoint": client.endpoint
+            "$endpoint": client.endpoint.absoluteString
         ]
         // Construct query
         let queryParams: [QueryParameter] = [
-            ("apiVersion", "2020-11-01-preview3")
+            ("api-version", "2020-11-01-preview3")
         ]
 
         // Construct headers
@@ -2279,7 +2279,7 @@ public final class AzureCommunicationChatService {
         headers["Accept"] = "application/json"
         // Construct request
         guard let requestUrl = url(
-            host: "{endpoint}",
+            host: "{$endpoint}",
             template: urlTemplate,
             pathParams: pathParams,
             queryParams: queryParams
@@ -2416,11 +2416,11 @@ public final class AzureCommunicationChatService {
         let urlTemplate = "/chat/threads/{chatThreadId}"
         let pathParams = [
             "chatThreadId": chatThreadId,
-            "endpoint": client.endpoint
+            "$endpoint": client.endpoint.absoluteString
         ]
         // Construct query
         let queryParams: [QueryParameter] = [
-            ("apiVersion", "2020-11-01-preview3")
+            ("api-version", "2020-11-01-preview3")
         ]
 
         // Construct headers
@@ -2428,7 +2428,7 @@ public final class AzureCommunicationChatService {
         headers["Accept"] = "application/json"
         // Construct request
         guard let requestUrl = url(
-            host: "{endpoint}",
+            host: "{$endpoint}",
             template: urlTemplate,
             pathParams: pathParams,
             queryParams: queryParams
