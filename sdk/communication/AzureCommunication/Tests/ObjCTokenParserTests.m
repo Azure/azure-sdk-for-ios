@@ -33,7 +33,7 @@
 
 @implementation ObjCTokenParserTests
 
-- (void)test_ObjCThrowsIfInvalidTokenFoo {
+- (void)xtest_ObjCThrowsIfInvalidTokenFoo {
     NSString *invalidFoo = @"foo";
     NSError *error = nil;
     CommunicationUserCredential *credential = [[CommunicationUserCredential alloc] initWithToken:invalidFoo
@@ -42,7 +42,7 @@
     XCTAssertNotNil(error);
 }
 
-- (void)test_ObjCThrowsIfInvalidTokenFormat {
+- (void)xtest_ObjCThrowsIfInvalidTokenFormat {
     NSString *invalidToken = @"foo.bar.foobar";
     NSError *error = nil;
     CommunicationUserCredential *credential = [[CommunicationUserCredential alloc] initWithToken:invalidToken
@@ -51,7 +51,7 @@
     XCTAssertNotNil(error);
 }
 
-- (void)test_ObjCThrowsWhenInitWithBlock {
+- (void)xtest_ObjCThrowsWhenInitWithBlock {
     NSString *invalidToken = @"foo.bar";
     NSError *error = nil;
     CommunicationUserCredential *credential = [[CommunicationUserCredential alloc] initWithInitialToken:invalidToken
