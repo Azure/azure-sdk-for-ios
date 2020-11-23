@@ -37,6 +37,22 @@ jobs:
       - publish: $(Build.ArtifactStagingDirectory)/Build/Products/Release-iphonesimulator
         displayName: 'Publish release artifacts [iphonesimulator]'
         artifact: 'bundles-release-iphonesimulator'
+      
+
+  - job: 'Swift_Build'
+
+    variables:
+      - template: ../variables/globals.yml
+
+    pool:
+      vmImage: '$(OSVmImage)'
+  
+    steps:
+      - script: sudo xcode-select --switch /Applications/Xcode_$(XcodeVersion).app
+        displayName: 'Use Xcode $(XcodeVersion)'
+
+      - script: swift build
+        displayName: 'Build libraries with swift build'
 
   - job: 'Analyze'
     condition: and(succeeded(), ne(variables['Skip.Analyze'], 'true'))
