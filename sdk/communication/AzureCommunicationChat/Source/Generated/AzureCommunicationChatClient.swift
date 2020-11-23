@@ -119,6 +119,4 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
 
     public lazy var azureCommunicationChatService: AzureCommunicationChatService =
         AzureCommunicationChatService(client: self)
-
-    // MARK: Public Client Methods
 }
