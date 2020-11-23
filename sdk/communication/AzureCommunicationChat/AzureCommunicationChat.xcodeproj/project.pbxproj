@@ -165,14 +165,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		0ADF704D2565C7FB0079F127 /* Custom */ = {
-			isa = PBXGroup;
-			children = (
-				0ADF704E2565C81E0079F127 /* AzureCommuncationChatClient+Convenience.swift */,
-			);
-			path = Custom;
-			sourceTree = "<group>";
-		};
 		D177F8C4256C4413006DB9EA /* Generated */ = {
 			isa = PBXGroup;
 			children = (
@@ -367,8 +359,8 @@
 		OBJ_7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				0ADF704E2565C81E0079F127 /* AzureCommuncationChatClient+Convenience.swift */,
 				D177F8C4256C4413006DB9EA /* Generated */,
-				0ADF704D2565C7FB0079F127 /* Custom */,
 			);
 			name = Sources;
 			path = Source;

@@ -159,7 +159,7 @@ extension AzureCommunicationChatClient {
     ///    - options: A list of options for the operation
     ///    - completionHandler: A completion handler that receives a status code on
     ///     success.
-    public func listChatThreadMembers(
+    public func listChatThreadParticipants(
         chatThreadId: String,
         withOptions options: AzureCommunicationChatService.ListChatParticipantsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatParticipant>>
@@ -190,7 +190,7 @@ extension AzureCommunicationChatClient {
     ///    - options: A list of options for the operation
     ///    - completionHandler: A completion handler that receives a status code on
     ///     success.
-    public func removeChatThreadMember(
+    public func removeChatThreadParticipants(
         chatThreadId: String,
         chatParticipantId: String,
         withOptions options: AzureCommunicationChatService.RemoveChatParticipantOptions? = nil,
