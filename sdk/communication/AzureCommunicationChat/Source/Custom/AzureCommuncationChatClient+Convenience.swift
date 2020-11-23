@@ -164,7 +164,7 @@ extension AzureCommunicationChatClient {
         withOptions options: AzureCommunicationChatService.ListChatParticipantsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatParticipant>>
     ) {
-        return self.azureCommunicationChatService.listChatThreadMembers(chatThreadId: chatThreadId, withOptions: options, completionHandler: completionHandler)
+        return self.azureCommunicationChatService.listChatParticipants(chatThreadId: chatThreadId, withOptions: options, completionHandler: completionHandler)
     }
 
     /// Adds thread members to a thread. If members already exist, no change occurs.
@@ -180,7 +180,7 @@ extension AzureCommunicationChatClient {
         withOptions options: AzureCommunicationChatService.AddChatParticipantsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        return self.azureCommunicationChatService.add(chatThreadMembers: chatThreadMembers, chatThreadId: chatThreadId, withOptions: options, completionHandler: completionHandler)
+        return self.azureCommunicationChatService.add(chatParticipants: chatThreadMembers, chatThreadId: chatThreadId, withOptions: options, completionHandler: completionHandler)
     }
 
     /// Remove a member from a thread.
@@ -192,11 +192,11 @@ extension AzureCommunicationChatClient {
     ///     success.
     public func removeChatThreadMember(
         chatThreadId: String,
-        chatMemberId: String,
+        chatParticipantId: String,
         withOptions options: AzureCommunicationChatService.RemoveChatParticipantOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        return self.azureCommunicationChatService.removeChatThreadMember(chatThreadId: chatThreadId, chatMemberId: chatMemberId, withOptions: options, completionHandler: completionHandler)
+        return self.azureCommunicationChatService.removeChatParticipant(chatThreadId: chatThreadId, chatParticipantId: chatParticipantId, withOptions: options, completionHandler: completionHandler)
     }
 
     /// Creates a chat thread.
