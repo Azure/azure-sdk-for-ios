@@ -153,13 +153,13 @@ extension AzureCommunicationChatClient {
         return self.azureCommunicationChatService.sendTypingNotification(chatThreadId: chatThreadId, withOptions: options, completionHandler: completionHandler)
     }
 
-    /// Gets the members of a thread.
+    /// Gets the participants of a thread.
     /// - Parameters:
-    ///    - chatThreadId : Thread id to get members for.
+    ///    - chatThreadId : Thread id to get participants for.
     ///    - options: A list of options for the operation
     ///    - completionHandler: A completion handler that receives a status code on
     ///     success.
-    public func listChatThreadParticipants(
+    public func listChatParticipants(
         chatThreadId: String,
         withOptions options: AzureCommunicationChatService.ListChatParticipantsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatParticipant>>
@@ -167,30 +167,30 @@ extension AzureCommunicationChatClient {
         return self.azureCommunicationChatService.listChatParticipants(chatThreadId: chatThreadId, withOptions: options, completionHandler: completionHandler)
     }
 
-    /// Adds thread members to a thread. If members already exist, no change occurs.
+    /// Adds thread participants to a thread. If participants already exist, no change occurs.
     /// - Parameters:
-    ///    - chatThreadMembers : Thread members to be added to the thread.
-    ///    - chatThreadId : Id of the thread to add members to.
+    ///    - chatParticipants : Thread participants to be added to the thread.
+    ///    - chatThreadId : Id of the thread to add participants to.
     ///    - options: A list of options for the operation
     ///    - completionHandler: A completion handler that receives a status code on
     ///     success.
     public func add(
-        chatThreadMembers: AddChatParticipantsRequest,
+        chatParticipants: AddChatParticipantsRequest,
         chatThreadId: String,
         withOptions options: AzureCommunicationChatService.AddChatParticipantsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        return self.azureCommunicationChatService.add(chatParticipants: chatThreadMembers, chatThreadId: chatThreadId, withOptions: options, completionHandler: completionHandler)
+        return self.azureCommunicationChatService.add(chatParticipants: chatParticipants, chatThreadId: chatThreadId, withOptions: options, completionHandler: completionHandler)
     }
 
-    /// Remove a member from a thread.
+    /// Remove a participant from a thread.
     /// - Parameters:
-    ///    - chatThreadId : Thread id to remove the member from.
-    ///    - chatMemberId : Id of the thread member to remove from the thread.
+    ///    - chatThreadId : Thread id to remove the participant from.
+    ///    - chatParticipantId : Id of the thread participant to remove from the thread.
     ///    - options: A list of options for the operation
     ///    - completionHandler: A completion handler that receives a status code on
     ///     success.
-    public func removeChatThreadParticipants(
+    public func removeChatParticipant(
         chatThreadId: String,
         chatParticipantId: String,
         withOptions options: AzureCommunicationChatService.RemoveChatParticipantOptions? = nil,
