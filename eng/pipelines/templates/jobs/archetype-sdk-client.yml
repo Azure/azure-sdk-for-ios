@@ -38,10 +38,14 @@ jobs:
         displayName: 'Publish release artifacts [iphonesimulator]'
         artifact: 'bundles-release-iphonesimulator'
       
-      - script: |
-          swift build
-        displayName: "Use swift build for SPM"
+
+  - job: 'Swift Build'
   
+    steps:
+      - script: |
+        swift build
+       displayName: "Use swift build for SPM"
+
   - job: 'Analyze'
     condition: and(succeeded(), ne(variables['Skip.Analyze'], 'true'))
 
