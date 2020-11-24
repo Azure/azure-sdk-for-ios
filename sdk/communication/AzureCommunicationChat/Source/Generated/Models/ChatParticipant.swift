@@ -44,9 +44,9 @@ public struct ChatParticipant: Codable {
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case id = "id"
-        case displayName = "displayName"
-        case shareHistoryTime = "shareHistoryTime"
+        case id
+        case displayName
+        case shareHistoryTime
     }
 
     /// Initialize a `ChatParticipant` structure from decoder

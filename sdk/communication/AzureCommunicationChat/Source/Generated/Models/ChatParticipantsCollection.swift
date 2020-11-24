@@ -40,8 +40,8 @@ public struct ChatParticipantsCollection: Codable {
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case value = "value"
-        case nextLink = "nextLink"
+        case value
+        case nextLink
     }
 
     /// Initialize a `ChatParticipantsCollection` structure from decoder
