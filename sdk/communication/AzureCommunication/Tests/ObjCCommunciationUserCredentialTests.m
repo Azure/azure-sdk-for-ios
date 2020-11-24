@@ -63,7 +63,7 @@
     [self waitForExpectations:@[expectation] timeout:2.0];
 }
 
-- (void)test_ObjCRefreshTokenProactively_TokenAlreadyExpired {
+- (void)xtest_ObjCRefreshTokenProactively_TokenAlreadyExpired {
     XCTestExpectation *expectation = [self expectationWithDescription:
                                       @"RefreshTokenProactively_TokenAlreadyExpired"];
     __weak ObjCCommunciationUserCredentialTests *weakSelf = self;
@@ -92,7 +92,7 @@
     [self waitForExpectations:@[expectation] timeout:2.0];
 }
 
-- (void)test_ObjCRefreshTokenProactively_FetchTokenReturnsError {
+- (void)xtest_ObjCRefreshTokenProactively_FetchTokenReturnsError {
     XCTestExpectation *expectation = [self expectationWithDescription:
                                       @"RefreshTokenProactively_FetchTokenReturnsError"];
     __weak ObjCCommunciationUserCredentialTests *weakSelf = self;
