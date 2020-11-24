@@ -15,24 +15,24 @@ import Foundation
 // swiftlint:disable line_length
 // swiftlint:disable cyclomatic_complexity
 
-/// A member of the chat thread.
-public struct ChatThreadMember: Codable {
+/// A participant of the chat thread.
+public struct ChatParticipant: Codable {
     // MARK: Properties
 
-    /// The id of the chat thread member in the format `8:acs:ResourceId_AcsUserId`.
+    /// The id of the chat participant.
     public let id: String
-    /// Display name for the chat thread member.
+    /// Display name for the chat participant.
     public let displayName: String?
-    /// Time from which the chat history is shared with the member. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    /// Time from which the chat history is shared with the participant. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public let shareHistoryTime: Date?
 
     // MARK: Initializers
 
-    /// Initialize a `ChatThreadMember` structure.
+    /// Initialize a `ChatParticipant` structure.
     /// - Parameters:
-    ///   - id: The id of the chat thread member in the format `8:acs:ResourceId_AcsUserId`.
-    ///   - displayName: Display name for the chat thread member.
-    ///   - shareHistoryTime: Time from which the chat history is shared with the member. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    ///   - id: The id of the chat participant.
+    ///   - displayName: Display name for the chat participant.
+    ///   - shareHistoryTime: Time from which the chat history is shared with the participant. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public init(
         id: String, displayName: String? = nil, shareHistoryTime: Date? = nil
     ) {
@@ -49,7 +49,7 @@ public struct ChatThreadMember: Codable {
         case shareHistoryTime
     }
 
-    /// Initialize a `ChatThreadMember` structure from decoder
+    /// Initialize a `ChatParticipant` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(String.self, forKey: .id)
@@ -61,7 +61,7 @@ public struct ChatThreadMember: Codable {
         }
     }
 
-    /// Encode a `ChatThreadMember` structure
+    /// Encode a `ChatParticipant` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)

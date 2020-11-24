@@ -16,8 +16,11 @@ import Foundation
 // swiftlint:disable line_length
 
 extension AzureCommunicationChatService {
-    /// User-configurable options for the `AzureCommunicationChatService.ListChatReadReceipts` operation.
-    public struct ListChatReadReceiptsOptions: RequestOptions {
+    /// User-configurable options for the `AzureCommunicationChatService.CreateChatThread` operation.
+    public struct CreateChatThreadOptions: RequestOptions {
+        /// Idempotency key to ensure request retries don't yield different side effects.
+        public let azureAcsIdempotencyKey: String?
+
         /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
         /// Highly recommended for correlating client-side activites with requests received by the server.
         public let clientRequestId: String?
@@ -31,18 +34,21 @@ extension AzureCommunicationChatService {
         /// A `PipelineContext` object to associate with the request.
         public var context: PipelineContext?
 
-        /// Initialize a `ListChatReadReceiptsOptions` structure.
+        /// Initialize a `CreateChatThreadOptions` structure.
         /// - Parameters:
+        ///   - azureAcsIdempotencyKey: Idempotency key to ensure request retries don't yield different side effects.
         ///   - clientRequestId: A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
         ///   - cancellationToken: A token used to make a best-effort attempt at canceling a request.
         ///   - dispatchQueue: A dispatch queue on which to call the completion handler. Defaults to `DispatchQueue.main`.
         ///   - context: A `PipelineContext` object to associate with the request.
         public init(
+            azureAcsIdempotencyKey: String? = nil,
             clientRequestId: String? = nil,
             cancellationToken: CancellationToken? = nil,
             dispatchQueue: DispatchQueue? = nil,
             context: PipelineContext? = nil
         ) {
+            self.azureAcsIdempotencyKey = azureAcsIdempotencyKey
             self.clientRequestId = clientRequestId
             self.cancellationToken = cancellationToken
             self.dispatchQueue = dispatchQueue
