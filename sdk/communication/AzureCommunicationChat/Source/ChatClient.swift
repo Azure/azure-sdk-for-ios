@@ -31,10 +31,10 @@ import Foundation
 public class ChatClient {
     // MARK: Properties
 
-    private let client: AzureCommunicationChatClient
-    private let credential: CommunicationUserCredential
     private let endpoint: String
+    private let credential: CommunicationUserCredential
     private let options: AzureCommunicationChatClientOptions
+    private let service: AzureCommunicationChatService
 
     // MARK: Initializers
 
@@ -58,7 +58,9 @@ public class ChatClient {
 
         let authPolicy = CommunicationUserCredentialPolicy(credential: credential)
 
-        self.client = try AzureCommunicationChatClient(endpoint: endpointUrl, authPolicy: authPolicy, withOptions: options)
+        let client = try AzureCommunicationChatClient(endpoint: endpointUrl, authPolicy: authPolicy, withOptions: options)
+        
+        self.service = client.azureCommunicationChatService
     }
 
     // MARK: Public Methods
@@ -77,7 +79,7 @@ public class ChatClient {
 
     /// Create a new ChatThread and return the ChatThreadClient for it.
     /// - Parameters:
-    ///   - request: Request for creating a chat thread with the topic and members to add.
+    ///   - chatThread: Request for creating a chat thread with the topic and members to add.
     ///   - withOptions: Create chat thread options.
     ///   - completionHandler: A completion handler that receives a ChatThreadClient on success.
     public func create(
@@ -85,7 +87,7 @@ public class ChatClient {
         withOptions options: AzureCommunicationChatService.CreateChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<ChatThreadClient>
     ) {
-        client.create(chatThread: chatThread, withOptions: options) { result, httpResponse in
+        service.create(chatThread: chatThread, withOptions: options) { result, httpResponse in
             do {
                 switch result {
                 case let .success(chatThread):
@@ -113,7 +115,7 @@ public class ChatClient {
         }
     }
 
-    /// Get a ChatThread with id chatThreadId.
+    /// Get the ChatThread with given id.
     /// - Parameters:
     ///   - withId: The chat thread id.
     ///   - withOptions: Get chat thread options.
@@ -123,7 +125,7 @@ public class ChatClient {
         withOptions options: AzureCommunicationChatService.GetChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<ChatThread>
     ) {
-        client.getChatThread(chatThreadId: chatThreadId, withOptions: options) { result, httpResponse in
+        service.getChatThread(chatThreadId: chatThreadId, withOptions: options) { result, httpResponse in
             switch result {
             case let .success(chatThread):
                 completionHandler(.success(chatThread), httpResponse)
@@ -142,7 +144,7 @@ public class ChatClient {
         withOptions options: AzureCommunicationChatService.ListChatThreadsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatThreadInfo>>
     ) {
-        client.listChatThreads(withOptions: options) { result, httpResponse in
+        service.listChatThreads(withOptions: options) { result, httpResponse in
             switch result {
             case let .success(chatThreads):
                 completionHandler(.success(chatThreads), httpResponse)
@@ -163,7 +165,7 @@ public class ChatClient {
         withOptions options: AzureCommunicationChatService.DeleteChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        client.deleteChatThread(chatThreadId: chatThreadId, withOptions: options) { result, httpResponse in
+        service.deleteChatThread(chatThreadId: chatThreadId, withOptions: options) { result, httpResponse in
             switch result {
             case .success:
                 completionHandler(.success(()), httpResponse)

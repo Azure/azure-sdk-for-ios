@@ -32,10 +32,10 @@ public class ChatThreadClient {
     // MARK: Properties
 
     public let threadId: String
-    private let client: AzureCommunicationChatClient
-    private let credential: CommunicationUserCredential
     private let endpoint: String
+    private let credential: CommunicationUserCredential
     private let options: AzureCommunicationChatClientOptions
+    private let service: AzureCommunicationChatService
 
     // MARK: Initializers
 
@@ -62,7 +62,9 @@ public class ChatThreadClient {
 
         let authPolicy = CommunicationUserCredentialPolicy(credential: credential)
 
-        self.client = try AzureCommunicationChatClient(endpoint: endpointUrl, authPolicy: authPolicy, withOptions: options)
+        let client = try AzureCommunicationChatClient(endpoint: endpointUrl, authPolicy: authPolicy, withOptions: options)
+        
+        self.service = client.azureCommunicationChatService;
     }
 
     // MARK: Public Methods
@@ -77,7 +79,7 @@ public class ChatThreadClient {
         withOptions options: AzureCommunicationChatService.UpdateChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        client.update(chatThread: chatThread, chatThreadId: threadId, withOptions: options) { result, httpResponse in
+        service.update(chatThread: chatThread, chatThreadId: threadId, withOptions: options) { result, httpResponse in
             switch result {
             case .success:
                 completionHandler(.success(()), httpResponse)
@@ -98,7 +100,7 @@ public class ChatThreadClient {
         withOptions options: AzureCommunicationChatService.SendChatReadReceiptOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        client.send(chatReadReceipt: readReceipt, chatThreadId: threadId, withOptions: options) { result, httpResponse in
+        service.send(chatReadReceipt: readReceipt, chatThreadId: threadId, withOptions: options) { result, httpResponse in
             switch result {
             case .success:
                 completionHandler(.success(()), httpResponse)
@@ -109,7 +111,7 @@ public class ChatThreadClient {
         }
     }
 
-    /// Lists read receipts for the chat thread.
+    /// Lists read receipts for the ChatThread.
     /// - Parameters:
     ///   - options: List chat read receipts options.
     ///   - completionHandler: A completion handler that receives the list of read receipts on success.
@@ -117,7 +119,7 @@ public class ChatThreadClient {
         withOptions options: AzureCommunicationChatService.ListChatReadReceiptsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatMessageReadReceipt>>
     ) {
-        client.listChatReadReceipts(chatThreadId: threadId, withOptions: options) { result, httpResponse in
+        service.listChatReadReceipts(chatThreadId: threadId, withOptions: options) { result, httpResponse in
             switch result {
             case let .success(readReceipts):
                 completionHandler(.success(readReceipts), httpResponse)
@@ -136,7 +138,7 @@ public class ChatThreadClient {
         withOptions options: AzureCommunicationChatService.SendTypingNotificationOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        client.sendTypingNotification(chatThreadId: threadId, withOptions: options) { result, httpResponse in
+        service.sendTypingNotification(chatThreadId: threadId, withOptions: options) { result, httpResponse in
             switch result {
             case .success:
                 completionHandler(.success(()), httpResponse)
@@ -147,7 +149,7 @@ public class ChatThreadClient {
         }
     }
 
-    /// Sends a message to a thread.
+    /// Sends a message to a ChatThread.
     /// - Parameters:
     ///    - chatMessage : Request for sending a message.
     ///    - options: A list of options for the operation.
@@ -157,7 +159,7 @@ public class ChatThreadClient {
         withOptions options: AzureCommunicationChatService.SendChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<SendChatMessageResult>
     ) {
-        client.send(chatMessage: message, chatThreadId: threadId, withOptions: options) { result, httpResponse in
+        service.send(chatMessage: message, chatThreadId: threadId, withOptions: options) { result, httpResponse in
             switch result {
             case let .success(sendMessageResult):
                 completionHandler(.success(sendMessageResult), httpResponse)
@@ -178,7 +180,7 @@ public class ChatThreadClient {
         withOptions options: AzureCommunicationChatService.GetChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<ChatMessage>
     ) {
-        client
+        service
             .getChatMessage(
                 chatThreadId: threadId,
                 chatMessageId: chatMessageId,
@@ -206,7 +208,7 @@ public class ChatThreadClient {
         withOptions options: AzureCommunicationChatService.UpdateChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        client
+        service
             .update(
                 chatMessage: chatMessage,
                 chatThreadId: threadId,
@@ -233,7 +235,7 @@ public class ChatThreadClient {
         options: AzureCommunicationChatService.DeleteChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        client
+        service
             .deleteChatMessage(
                 chatThreadId: threadId,
                 chatMessageId: chatMessageId,
@@ -249,7 +251,7 @@ public class ChatThreadClient {
             }
     }
 
-    /// Gets a list of messages from a thread.
+    /// Gets a list of messages from a ChatThread.
     /// - Parameters:
     ///    - options: List messages options.
     ///    - completionHandler: A completion handler that receives the list of messages on success.
@@ -257,7 +259,7 @@ public class ChatThreadClient {
         withOptions options: AzureCommunicationChatService.ListChatMessagesOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatMessage>>
     ) {
-        client.listChatMessages(chatThreadId: threadId, withOptions: options) { result, httpResponse in
+        service.listChatMessages(chatThreadId: threadId, withOptions: options) { result, httpResponse in
             switch result {
             case let .success(messages):
                 completionHandler(.success(messages), httpResponse)
@@ -268,7 +270,7 @@ public class ChatThreadClient {
         }
     }
 
-    /// Adds thread participants to a thread. If the participants already exist, no change occurs.
+    /// Adds thread participants to a ChatThread. If the participants already exist, no change occurs.
     /// - Parameters:
     ///    - request : The request with thread participants to be added to the thread.
     ///    - options: Add chat participants options.
@@ -278,7 +280,7 @@ public class ChatThreadClient {
         withOptions options: AzureCommunicationChatService.AddChatParticipantsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        client.add(chatParticipants: chatParticipants, chatThreadId: threadId, withOptions: options) { result, httpResponse in
+        service.add(chatParticipants: chatParticipants, chatThreadId: threadId, withOptions: options) { result, httpResponse in
             switch result {
             case .success:
                 completionHandler(.success(()), httpResponse)
@@ -299,7 +301,7 @@ public class ChatThreadClient {
         withOptions options: AzureCommunicationChatService.RemoveChatParticipantOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        client
+        service
             .removeChatParticipant(
                 chatThreadId: threadId,
                 chatParticipantId: chatParticipantId,
@@ -323,7 +325,7 @@ public class ChatThreadClient {
         withOptions options: AzureCommunicationChatService.ListChatParticipantsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatParticipant>>
     ) {
-        client.listChatParticipants(chatThreadId: threadId, withOptions: options) { result, httpResponse in
+        service.listChatParticipants(chatThreadId: threadId, withOptions: options) { result, httpResponse in
             switch result {
             case let .success(participants):
                 completionHandler(.success(participants), httpResponse)
