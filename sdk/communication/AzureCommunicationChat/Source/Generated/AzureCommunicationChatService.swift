@@ -23,30 +23,54 @@ public final class AzureCommunicationChatService {
         self.client = client
     }
 
-    /// Gets read receipts for a thread.
+    /// Gets chat message read receipts for a thread.
     /// - Parameters:
-    ///    - chatThreadId : Thread id to get the read receipts for.
+    ///    - chatThreadId : Thread id to get the chat message read receipts for.
     ///    - options: A list of options for the operation
     ///    - completionHandler: A completion handler that receives a status code on
     ///     success.
     public func listChatReadReceipts(
         chatThreadId: String,
         withOptions options: ListChatReadReceiptsOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<PagedCollection<ReadReceipt>>
+        completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatMessageReadReceipt>>
     ) {
-        // Create request parameters
-        let params = RequestParameters(
-            (.path, "chatThreadId", chatThreadId, .encode),
-            (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "apiVersion", "2020-09-21-preview2", .encode),
-            (.header, "Accept", "application/json", .encode)
-        )
-
-        // Construct request
+        // Construct URL
         let urlTemplate = "/chat/threads/{chatThreadId}/readreceipts"
-        guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-            let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers) else {
-            client.options.logger.error("Failed to construct HTTP request.")
+        let pathParams = [
+            "chatThreadId": chatThreadId,
+            "endpoint": client.endpoint.absoluteString
+        ]
+        // Construct query
+        var queryParams: [QueryParameter] = [
+            ("api-version", "2020-11-01-preview3")
+        ]
+
+        // Construct headers
+        var headers = HTTPHeaders()
+        headers["Accept"] = "application/json"
+        // Process endpoint options
+        // Query options
+        if let maxPageSize = options?.maxPageSize {
+            queryParams.append("maxPageSize", String(maxPageSize))
+        }
+        if let skip = options?.skip {
+            queryParams.append("skip", String(skip))
+        }
+
+        // Header options
+        // Construct request
+        guard let requestUrl = url(
+            host: "{endpoint}",
+            template: urlTemplate,
+            pathParams: pathParams,
+            queryParams: queryParams
+        ) else {
+            self.options.logger.error("Failed to construct request url")
+            return
+        }
+
+        guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: headers) else {
+            self.options.logger.error("Failed to construct Http request")
             return
         }
         // Send request
@@ -82,7 +106,7 @@ public final class AzureCommunicationChatService {
                             items: "value",
                             continuationToken: "nextLink"
                         )
-                        let paged = try PagedCollection<ReadReceipt>(
+                        let paged = try PagedCollection<ChatMessageReadReceipt>(
                             client: self.client,
                             request: request,
                             context: context,
@@ -173,18 +197,29 @@ public final class AzureCommunicationChatService {
         withOptions options: SendChatReadReceiptOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        // Create request parameters
-        let params = RequestParameters(
-            (.path, "chatThreadId", chatThreadId, .encode),
-            (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "apiVersion", "2020-09-21-preview2", .encode),
-            (.header, "Content-Type", "application/json", .encode),
-            (.header, "Accept", "application/json", .encode)
-        )
+        // Construct URL
+        let urlTemplate = "/chat/threads/{chatThreadId}/readreceipts"
+        let pathParams = [
+            "chatThreadId": chatThreadId,
+            "endpoint": client.endpoint.absoluteString
+        ]
+        // Construct query
+        let queryParams: [QueryParameter] = [
+            ("api-version", "2020-11-01-preview3")
+        ]
 
         // Construct request
         guard let requestBody = try? JSONEncoder().encode(chatReadReceipt) else {
-            client.options.logger.error("Failed to encode request body as json.")
+            self.options.logger.error("Failed to encode request body as json.")
+            return
+        }
+        guard let requestUrl = url(
+            host: "{endpoint}",
+            template: urlTemplate,
+            pathParams: pathParams,
+            queryParams: queryParams
+        ) else {
+            self.options.logger.error("Failed to construct request url")
             return
         }
         let urlTemplate = "/chat/threads/{chatThreadId}/readreceipts"
@@ -301,18 +336,29 @@ public final class AzureCommunicationChatService {
         withOptions options: SendChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<SendChatMessageResult>
     ) {
-        // Create request parameters
-        let params = RequestParameters(
-            (.path, "chatThreadId", chatThreadId, .encode),
-            (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "apiVersion", "2020-09-21-preview2", .encode),
-            (.header, "Content-Type", "application/json", .encode),
-            (.header, "Accept", "application/json", .encode)
-        )
+        // Construct URL
+        let urlTemplate = "/chat/threads/{chatThreadId}/messages"
+        let pathParams = [
+            "chatThreadId": chatThreadId,
+            "endpoint": client.endpoint.absoluteString
+        ]
+        // Construct query
+        let queryParams: [QueryParameter] = [
+            ("api-version", "2020-11-01-preview3")
+        ]
 
         // Construct request
         guard let requestBody = try? JSONEncoder().encode(chatMessage) else {
-            client.options.logger.error("Failed to encode request body as json.")
+            self.options.logger.error("Failed to encode request body as json.")
+            return
+        }
+        guard let requestUrl = url(
+            host: "{endpoint}",
+            template: urlTemplate,
+            pathParams: pathParams,
+            queryParams: queryParams
+        ) else {
+            self.options.logger.error("Failed to construct request url")
             return
         }
         let urlTemplate = "/chat/threads/{chatThreadId}/messages"
@@ -432,20 +478,46 @@ public final class AzureCommunicationChatService {
         withOptions options: ListChatMessagesOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatMessage>>
     ) {
-        // Create request parameters
-        let params = RequestParameters(
-            (.path, "chatThreadId", chatThreadId, .encode), (.query, "maxPageSize", options?.maxPageSize, .encode),
-            (.query, "startTime", options?.startTime, .encode),
-            (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "apiVersion", "2020-09-21-preview2", .encode),
-            (.header, "Accept", "application/json", .encode)
-        )
-
-        // Construct request
+        // Construct URL
         let urlTemplate = "/chat/threads/{chatThreadId}/messages"
-        guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-            let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers) else {
-            client.options.logger.error("Failed to construct HTTP request.")
+        let pathParams = [
+            "chatThreadId": chatThreadId,
+            "endpoint": client.endpoint.absoluteString
+        ]
+        // Construct query
+        var queryParams: [QueryParameter] = [
+            ("api-version", "2020-11-01-preview3")
+        ]
+
+        // Construct headers
+        var headers = HTTPHeaders()
+        headers["Accept"] = "application/json"
+        // Process endpoint options
+        // Query options
+        if let maxPageSize = options?.maxPageSize {
+            queryParams.append("maxPageSize", String(maxPageSize))
+        }
+        if let startTime = options?.startTime {
+            let dateFormatter = ISO8601DateFormatter()
+            dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+            let startTimeString = dateFormatter.string(from: startTime)
+            queryParams.append("startTime", startTimeString)
+        }
+
+        // Header options
+        // Construct request
+        guard let requestUrl = url(
+            host: "{endpoint}",
+            template: urlTemplate,
+            pathParams: pathParams,
+            queryParams: queryParams
+        ) else {
+            self.options.logger.error("Failed to construct request url")
+            return
+        }
+
+        guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: headers) else {
+            self.options.logger.error("Failed to construct Http request")
             return
         }
         // Send request
@@ -572,19 +644,31 @@ public final class AzureCommunicationChatService {
         withOptions options: GetChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<ChatMessage>
     ) {
-        // Create request parameters
-        let params = RequestParameters(
-            (.path, "chatThreadId", chatThreadId, .encode), (.path, "chatMessageId", chatMessageId, .encode),
-            (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "apiVersion", "2020-09-21-preview2", .encode),
-            (.header, "Accept", "application/json", .encode)
-        )
+        // Construct URL
+        let urlTemplate = "/chat/threads/{chatThreadId}/messages/{chatMessageId}"
+        let pathParams = [
+            "chatThreadId": chatThreadId,
+            "chatMessageId": chatMessageId,
+            "endpoint": client.endpoint.absoluteString
+        ]
+        // Construct query
+        let queryParams: [QueryParameter] = [
+            ("api-version", "2020-11-01-preview3")
+        ]
 
         // Construct request
-        let urlTemplate = "/chat/threads/{chatThreadId}/messages/{chatMessageId}"
-        guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-            let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers) else {
-            client.options.logger.error("Failed to construct HTTP request.")
+        guard let requestUrl = url(
+            host: "{endpoint}",
+            template: urlTemplate,
+            pathParams: pathParams,
+            queryParams: queryParams
+        ) else {
+            self.options.logger.error("Failed to construct request url")
+            return
+        }
+
+        guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: headers) else {
+            self.options.logger.error("Failed to construct Http request")
             return
         }
         // Send request
@@ -701,18 +785,35 @@ public final class AzureCommunicationChatService {
         withOptions options: UpdateChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        // Create request parameters
-        let params = RequestParameters(
-            (.path, "chatThreadId", chatThreadId, .encode), (.path, "chatMessageId", chatMessageId, .encode),
-            (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "apiVersion", "2020-09-21-preview2", .encode),
-            (.header, "Content-Type", "application/json", .encode),
-            (.header, "Accept", "application/json", .encode)
-        )
+        // Construct URL
+        let urlTemplate = "/chat/threads/{chatThreadId}/messages/{chatMessageId}"
+        let pathParams = [
+            "chatThreadId": chatThreadId,
+            "chatMessageId": chatMessageId,
+            "endpoint": client.endpoint.absoluteString
+        ]
+        // Construct query
+        let queryParams: [QueryParameter] = [
+            ("api-version", "2020-11-01-preview3")
+        ]
 
+        // Construct headers
+        var headers = HTTPHeaders()
+        headers["Content-Type"] = "application/merge-patch+json"
+        headers["Accept"] = "application/json"
         // Construct request
         guard let requestBody = try? JSONEncoder().encode(chatMessage) else {
-            client.options.logger.error("Failed to encode request body as json.")
+            self.options.logger.error("Failed to encode request body as json.")
+            return
+        }
+
+        guard let requestUrl = url(
+            host: "{endpoint}",
+            template: urlTemplate,
+            pathParams: pathParams,
+            queryParams: queryParams
+        ) else {
+            self.options.logger.error("Failed to construct request url")
             return
         }
         let urlTemplate = "/chat/threads/{chatThreadId}/messages/{chatMessageId}"
@@ -724,7 +825,7 @@ public final class AzureCommunicationChatService {
         }
         // Send request
         let context = PipelineContext.of(keyValues: [
-            ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
+            ContextKey.allowedStatusCodes.rawValue: [204, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
@@ -747,7 +848,7 @@ public final class AzureCommunicationChatService {
                     return
                 }
                 if [
-                    200
+                    204
                 ].contains(statusCode) {
                     dispatchQueue.async {
                         completionHandler(
@@ -829,19 +930,31 @@ public final class AzureCommunicationChatService {
         withOptions options: DeleteChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        // Create request parameters
-        let params = RequestParameters(
-            (.path, "chatThreadId", chatThreadId, .encode), (.path, "chatMessageId", chatMessageId, .encode),
-            (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "apiVersion", "2020-09-21-preview2", .encode),
-            (.header, "Accept", "application/json", .encode)
-        )
+        // Construct URL
+        let urlTemplate = "/chat/threads/{chatThreadId}/messages/{chatMessageId}"
+        let pathParams = [
+            "chatThreadId": chatThreadId,
+            "chatMessageId": chatMessageId,
+            "endpoint": client.endpoint.absoluteString
+        ]
+        // Construct query
+        let queryParams: [QueryParameter] = [
+            ("api-version", "2020-11-01-preview3")
+        ]
 
         // Construct request
-        let urlTemplate = "/chat/threads/{chatThreadId}/messages/{chatMessageId}"
-        guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-            let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: params.headers) else {
-            client.options.logger.error("Failed to construct HTTP request.")
+        guard let requestUrl = url(
+            host: "{endpoint}",
+            template: urlTemplate,
+            pathParams: pathParams,
+            queryParams: queryParams
+        ) else {
+            self.options.logger.error("Failed to construct request url")
+            return
+        }
+
+        guard let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: headers) else {
+            self.options.logger.error("Failed to construct Http request")
             return
         }
         // Send request
@@ -949,19 +1062,30 @@ public final class AzureCommunicationChatService {
         withOptions options: SendTypingNotificationOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        // Create request parameters
-        let params = RequestParameters(
-            (.path, "chatThreadId", chatThreadId, .encode),
-            (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "apiVersion", "2020-09-21-preview2", .encode),
-            (.header, "Accept", "application/json", .encode)
-        )
+        // Construct URL
+        let urlTemplate = "/chat/threads/{chatThreadId}/typing"
+        let pathParams = [
+            "chatThreadId": chatThreadId,
+            "endpoint": client.endpoint.absoluteString
+        ]
+        // Construct query
+        let queryParams: [QueryParameter] = [
+            ("api-version", "2020-11-01-preview3")
+        ]
 
         // Construct request
-        let urlTemplate = "/chat/threads/{chatThreadId}/typing"
-        guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-            let request = try? HTTPRequest(method: .post, url: requestUrl, headers: params.headers) else {
-            client.options.logger.error("Failed to construct HTTP request.")
+        guard let requestUrl = url(
+            host: "{endpoint}",
+            template: urlTemplate,
+            pathParams: pathParams,
+            queryParams: queryParams
+        ) else {
+            self.options.logger.error("Failed to construct request url")
+            return
+        }
+
+        guard let request = try? HTTPRequest(method: .post, url: requestUrl, headers: headers) else {
+            self.options.logger.error("Failed to construct Http request")
             return
         }
         // Send request
@@ -1058,30 +1182,54 @@ public final class AzureCommunicationChatService {
         }
     }
 
-    /// Gets the members of a thread.
+    /// Gets the participants of a thread.
     /// - Parameters:
-    ///    - chatThreadId : Thread id to get members for.
+    ///    - chatThreadId : Thread id to get participants for.
     ///    - options: A list of options for the operation
     ///    - completionHandler: A completion handler that receives a status code on
     ///     success.
-    public func listChatThreadMembers(
+    public func listChatParticipants(
         chatThreadId: String,
-        withOptions options: ListChatThreadMembersOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatThreadMember>>
+        withOptions options: ListChatParticipantsOptions? = nil,
+        completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatParticipant>>
     ) {
-        // Create request parameters
-        let params = RequestParameters(
-            (.path, "chatThreadId", chatThreadId, .encode),
-            (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "apiVersion", "2020-09-21-preview2", .encode),
-            (.header, "Accept", "application/json", .encode)
-        )
+        // Construct URL
+        let urlTemplate = "/chat/threads/{chatThreadId}/participants"
+        let pathParams = [
+            "chatThreadId": chatThreadId,
+            "endpoint": client.endpoint.absoluteString
+        ]
+        // Construct query
+        var queryParams: [QueryParameter] = [
+            ("api-version", "2020-11-01-preview3")
+        ]
 
+        // Construct headers
+        var headers = HTTPHeaders()
+        headers["Accept"] = "application/json"
+        // Process endpoint options
+        // Query options
+        if let maxPageSize = options?.maxPageSize {
+            queryParams.append("maxPageSize", String(maxPageSize))
+        }
+        if let skip = options?.skip {
+            queryParams.append("skip", String(skip))
+        }
+
+        // Header options
         // Construct request
-        let urlTemplate = "/chat/threads/{chatThreadId}/members"
-        guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-            let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers) else {
-            client.options.logger.error("Failed to construct HTTP request.")
+        guard let requestUrl = url(
+            host: "{endpoint}",
+            template: urlTemplate,
+            pathParams: pathParams,
+            queryParams: queryParams
+        ) else {
+            self.options.logger.error("Failed to construct request url")
+            return
+        }
+
+        guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: headers) else {
+            self.options.logger.error("Failed to construct Http request")
             return
         }
         // Send request
@@ -1117,7 +1265,7 @@ public final class AzureCommunicationChatService {
                             items: "value",
                             continuationToken: "nextLink"
                         )
-                        let paged = try PagedCollection<ChatThreadMember>(
+                        let paged = try PagedCollection<ChatParticipant>(
                             client: self.client,
                             request: request,
                             context: context,
@@ -1195,31 +1343,42 @@ public final class AzureCommunicationChatService {
         }
     }
 
-    /// Adds thread members to a thread. If members already exist, no change occurs.
+    /// Adds thread participants to a thread. If participants already exist, no change occurs.
     /// - Parameters:
-    ///    - chatThreadMembers : Thread members to be added to the thread.
-    ///    - chatThreadId : Id of the thread to add members to.
+    ///    - chatParticipants : Thread participants to be added to the thread.
+    ///    - chatThreadId : Id of the thread to add participants to.
     ///    - options: A list of options for the operation
     ///    - completionHandler: A completion handler that receives a status code on
     ///     success.
     public func add(
-        chatThreadMembers: AddChatThreadMembersRequest,
+        chatParticipants: AddChatParticipantsRequest,
         chatThreadId: String,
-        withOptions options: AddChatThreadMembersOptions? = nil,
+        withOptions options: AddChatParticipantsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        // Create request parameters
-        let params = RequestParameters(
-            (.path, "chatThreadId", chatThreadId, .encode),
-            (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "apiVersion", "2020-09-21-preview2", .encode),
-            (.header, "Content-Type", "application/json", .encode),
-            (.header, "Accept", "application/json", .encode)
-        )
+        // Construct URL
+        let urlTemplate = "/chat/threads/{chatThreadId}/participants"
+        let pathParams = [
+            "chatThreadId": chatThreadId,
+            "endpoint": client.endpoint.absoluteString
+        ]
+        // Construct query
+        let queryParams: [QueryParameter] = [
+            ("api-version", "2020-11-01-preview3")
+        ]
 
         // Construct request
-        guard let requestBody = try? JSONEncoder().encode(chatThreadMembers) else {
-            client.options.logger.error("Failed to encode request body as json.")
+        guard let requestBody = try? JSONEncoder().encode(chatParticipants) else {
+            self.options.logger.error("Failed to encode request body as json.")
+            return
+        }
+        guard let requestUrl = url(
+            host: "{endpoint}",
+            template: urlTemplate,
+            pathParams: pathParams,
+            queryParams: queryParams
+        ) else {
+            self.options.logger.error("Failed to construct request url")
             return
         }
         let urlTemplate = "/chat/threads/{chatThreadId}/members"
@@ -1231,7 +1390,7 @@ public final class AzureCommunicationChatService {
         }
         // Send request
         let context = PipelineContext.of(keyValues: [
-            ContextKey.allowedStatusCodes.rawValue: [207, 401, 403, 429, 503] as AnyObject
+            ContextKey.allowedStatusCodes.rawValue: [201, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
@@ -1254,7 +1413,7 @@ public final class AzureCommunicationChatService {
                     return
                 }
                 if [
-                    207
+                    201
                 ].contains(statusCode) {
                     dispatchQueue.async {
                         completionHandler(
@@ -1323,32 +1482,44 @@ public final class AzureCommunicationChatService {
         }
     }
 
-    /// Remove a member from a thread.
+    /// Remove a participant from a thread.
     /// - Parameters:
-    ///    - chatThreadId : Thread id to remove the member from.
-    ///    - chatMemberId : Id of the thread member to remove from the thread.
+    ///    - chatThreadId : Thread id to remove the participant from.
+    ///    - chatParticipantId : Id of the thread participant to remove from the thread.
     ///    - options: A list of options for the operation
     ///    - completionHandler: A completion handler that receives a status code on
     ///     success.
-    public func removeChatThreadMember(
+    public func removeChatParticipant(
         chatThreadId: String,
-        chatMemberId: String,
-        withOptions options: RemoveChatThreadMemberOptions? = nil,
+        chatParticipantId: String,
+        withOptions options: RemoveChatParticipantOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        // Create request parameters
-        let params = RequestParameters(
-            (.path, "chatThreadId", chatThreadId, .encode), (.path, "chatMemberId", chatMemberId, .encode),
-            (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "apiVersion", "2020-09-21-preview2", .encode),
-            (.header, "Accept", "application/json", .encode)
-        )
+        // Construct URL
+        let urlTemplate = "/chat/threads/{chatThreadId}/participants/{chatParticipantId}"
+        let pathParams = [
+            "chatThreadId": chatThreadId,
+            "chatParticipantId": chatParticipantId,
+            "endpoint": client.endpoint.absoluteString
+        ]
+        // Construct query
+        let queryParams: [QueryParameter] = [
+            ("api-version", "2020-11-01-preview3")
+        ]
 
         // Construct request
-        let urlTemplate = "/chat/threads/{chatThreadId}/members/{chatMemberId}"
-        guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-            let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: params.headers) else {
-            client.options.logger.error("Failed to construct HTTP request.")
+        guard let requestUrl = url(
+            host: "{endpoint}",
+            template: urlTemplate,
+            pathParams: pathParams,
+            queryParams: queryParams
+        ) else {
+            self.options.logger.error("Failed to construct request url")
+            return
+        }
+
+        guard let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: headers) else {
+            self.options.logger.error("Failed to construct Http request")
             return
         }
         // Send request
@@ -1454,19 +1625,41 @@ public final class AzureCommunicationChatService {
     public func create(
         chatThread: CreateChatThreadRequest,
         withOptions options: CreateChatThreadOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<MultiStatusResponse>
+        completionHandler: @escaping HTTPResultHandler<ChatThread>
     ) {
-        // Create request parameters
-        let params = RequestParameters(
-            (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "apiVersion", "2020-09-21-preview2", .encode),
-            (.header, "Content-Type", "application/json", .encode),
-            (.header, "Accept", "application/json", .encode)
-        )
+        // Construct URL
+        let urlTemplate = "/chat/threads"
+        let pathParams = [
+            "endpoint": client.endpoint.absoluteString
+        ]
+        // Construct query
+        let queryParams: [QueryParameter] = [
+            ("api-version", "2020-11-01-preview3")
+        ]
 
+        // Construct headers
+        var headers = HTTPHeaders()
+        headers["Content-Type"] = "application/json"
+        headers["Accept"] = "application/json"
+        // Process endpoint options
+        // Query options
+
+        // Header options
+        if let azureAcsIdempotencyKey = options?.azureAcsIdempotencyKey {
+            headers["azure-Acs-IdempotencyKey"] = azureAcsIdempotencyKey
+        }
         // Construct request
         guard let requestBody = try? JSONEncoder().encode(chatThread) else {
-            client.options.logger.error("Failed to encode request body as json.")
+            self.options.logger.error("Failed to encode request body as json.")
+            return
+        }
+        guard let requestUrl = url(
+            host: "{endpoint}",
+            template: urlTemplate,
+            pathParams: pathParams,
+            queryParams: queryParams
+        ) else {
+            self.options.logger.error("Failed to construct request url")
             return
         }
         let urlTemplate = "/chat/threads"
@@ -1478,7 +1671,7 @@ public final class AzureCommunicationChatService {
         }
         // Send request
         let context = PipelineContext.of(keyValues: [
-            ContextKey.allowedStatusCodes.rawValue: [207, 401, 403, 429, 503] as AnyObject
+            ContextKey.allowedStatusCodes.rawValue: [201, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
@@ -1501,11 +1694,11 @@ public final class AzureCommunicationChatService {
                     return
                 }
                 if [
-                    207
+                    201
                 ].contains(statusCode) {
                     do {
                         let decoder = JSONDecoder()
-                        let decoded = try decoder.decode(MultiStatusResponse.self, from: data)
+                        let decoded = try decoder.decode(ChatThread.self, from: data)
                         dispatchQueue.async {
                             completionHandler(.success(decoded), httpResponse)
                         }
@@ -1585,19 +1778,45 @@ public final class AzureCommunicationChatService {
         withOptions options: ListChatThreadsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatThreadInfo>>
     ) {
-        // Create request parameters
-        let params = RequestParameters(
-            (.query, "maxPageSize", options?.maxPageSize, .encode), (.query, "startTime", options?.startTime, .encode),
-            (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "apiVersion", "2020-09-21-preview2", .encode),
-            (.header, "Accept", "application/json", .encode)
-        )
-
-        // Construct request
+        // Construct URL
         let urlTemplate = "/chat/threads"
-        guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-            let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers) else {
-            client.options.logger.error("Failed to construct HTTP request.")
+        let pathParams = [
+            "endpoint": client.endpoint.absoluteString
+        ]
+        // Construct query
+        var queryParams: [QueryParameter] = [
+            ("api-version", "2020-11-01-preview3")
+        ]
+
+        // Construct headers
+        var headers = HTTPHeaders()
+        headers["Accept"] = "application/json"
+        // Process endpoint options
+        // Query options
+        if let maxPageSize = options?.maxPageSize {
+            queryParams.append("maxPageSize", String(maxPageSize))
+        }
+        if let startTime = options?.startTime {
+            let dateFormatter = ISO8601DateFormatter()
+            dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+            let startTimeString = dateFormatter.string(from: startTime)
+            queryParams.append("startTime", startTimeString)
+        }
+
+        // Header options
+        // Construct request
+        guard let requestUrl = url(
+            host: "{endpoint}",
+            template: urlTemplate,
+            pathParams: pathParams,
+            queryParams: queryParams
+        ) else {
+            self.options.logger.error("Failed to construct request url")
+            return
+        }
+
+        guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: headers) else {
+            self.options.logger.error("Failed to construct Http request")
             return
         }
         // Send request
@@ -1724,18 +1943,34 @@ public final class AzureCommunicationChatService {
         withOptions options: UpdateChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        // Create request parameters
-        let params = RequestParameters(
-            (.path, "chatThreadId", chatThreadId, .encode),
-            (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "apiVersion", "2020-09-21-preview2", .encode),
-            (.header, "Content-Type", "application/json", .encode),
-            (.header, "Accept", "application/json", .encode)
-        )
+        // Construct URL
+        let urlTemplate = "/chat/threads/{chatThreadId}"
+        let pathParams = [
+            "chatThreadId": chatThreadId,
+            "endpoint": client.endpoint.absoluteString
+        ]
+        // Construct query
+        let queryParams: [QueryParameter] = [
+            ("api-version", "2020-11-01-preview3")
+        ]
 
+        // Construct headers
+        var headers = HTTPHeaders()
+        headers["Content-Type"] = "application/merge-patch+json"
+        headers["Accept"] = "application/json"
         // Construct request
         guard let requestBody = try? JSONEncoder().encode(chatThread) else {
-            client.options.logger.error("Failed to encode request body as json.")
+            self.options.logger.error("Failed to encode request body as json.")
+            return
+        }
+
+        guard let requestUrl = url(
+            host: "{endpoint}",
+            template: urlTemplate,
+            pathParams: pathParams,
+            queryParams: queryParams
+        ) else {
+            self.options.logger.error("Failed to construct request url")
             return
         }
         let urlTemplate = "/chat/threads/{chatThreadId}"
@@ -1747,7 +1982,7 @@ public final class AzureCommunicationChatService {
         }
         // Send request
         let context = PipelineContext.of(keyValues: [
-            ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
+            ContextKey.allowedStatusCodes.rawValue: [204, 401, 403, 429, 503] as AnyObject
         ])
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
@@ -1770,7 +2005,7 @@ public final class AzureCommunicationChatService {
                     return
                 }
                 if [
-                    200
+                    204
                 ].contains(statusCode) {
                     dispatchQueue.async {
                         completionHandler(
@@ -1850,19 +2085,30 @@ public final class AzureCommunicationChatService {
         withOptions options: GetChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<ChatThread>
     ) {
-        // Create request parameters
-        let params = RequestParameters(
-            (.path, "chatThreadId", chatThreadId, .encode),
-            (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "apiVersion", "2020-09-21-preview2", .encode),
-            (.header, "Accept", "application/json", .encode)
-        )
+        // Construct URL
+        let urlTemplate = "/chat/threads/{chatThreadId}"
+        let pathParams = [
+            "chatThreadId": chatThreadId,
+            "endpoint": client.endpoint.absoluteString
+        ]
+        // Construct query
+        let queryParams: [QueryParameter] = [
+            ("api-version", "2020-11-01-preview3")
+        ]
 
         // Construct request
-        let urlTemplate = "/chat/threads/{chatThreadId}"
-        guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-            let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers) else {
-            client.options.logger.error("Failed to construct HTTP request.")
+        guard let requestUrl = url(
+            host: "{endpoint}",
+            template: urlTemplate,
+            pathParams: pathParams,
+            queryParams: queryParams
+        ) else {
+            self.options.logger.error("Failed to construct request url")
+            return
+        }
+
+        guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: headers) else {
+            self.options.logger.error("Failed to construct Http request")
             return
         }
         // Send request
@@ -1975,19 +2221,30 @@ public final class AzureCommunicationChatService {
         withOptions options: DeleteChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        // Create request parameters
-        let params = RequestParameters(
-            (.path, "chatThreadId", chatThreadId, .encode),
-            (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "apiVersion", "2020-09-21-preview2", .encode),
-            (.header, "Accept", "application/json", .encode)
-        )
+        // Construct URL
+        let urlTemplate = "/chat/threads/{chatThreadId}"
+        let pathParams = [
+            "chatThreadId": chatThreadId,
+            "endpoint": client.endpoint.absoluteString
+        ]
+        // Construct query
+        let queryParams: [QueryParameter] = [
+            ("api-version", "2020-11-01-preview3")
+        ]
 
         // Construct request
-        let urlTemplate = "/chat/threads/{chatThreadId}"
-        guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-            let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: params.headers) else {
-            client.options.logger.error("Failed to construct HTTP request.")
+        guard let requestUrl = url(
+            host: "{endpoint}",
+            template: urlTemplate,
+            pathParams: pathParams,
+            queryParams: queryParams
+        ) else {
+            self.options.logger.error("Failed to construct request url")
+            return
+        }
+
+        guard let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: headers) else {
+            self.options.logger.error("Failed to construct Http request")
             return
         }
         // Send request

@@ -26,8 +26,10 @@ public struct ChatThread: Codable {
     public let createdOn: Iso8601Date?
     /// Id of the chat thread owner.
     public let createdBy: String?
-    /// Chat thread members.
-    public let members: [ChatThreadMember]?
+    /// The timestamp when the chat thread was deleted. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    public let deletedOn: Date?
+    /// Chat participants.
+    public let participants: [ChatParticipant]?
 
     // MARK: Initializers
 
@@ -37,16 +39,18 @@ public struct ChatThread: Codable {
     ///   - topic: Chat thread topic.
     ///   - createdOn: The timestamp when the chat thread was created. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
     ///   - createdBy: Id of the chat thread owner.
-    ///   - members: Chat thread members.
+    ///   - deletedOn: The timestamp when the chat thread was deleted. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    ///   - participants: Chat participants.
     public init(
-        id: String? = nil, topic: String? = nil, createdOn: Iso8601Date? = nil, createdBy: String? = nil,
-        members: [ChatThreadMember]? = nil
+        id: String? = nil, topic: String? = nil, createdOn: Date? = nil, createdBy: String? = nil,
+        deletedOn: Date? = nil, participants: [ChatParticipant]? = nil
     ) {
         self.id = id
         self.topic = topic
         self.createdOn = createdOn
         self.createdBy = createdBy
-        self.members = members
+        self.deletedOn = deletedOn
+        self.participants = participants
     }
 
     // MARK: Codable
@@ -56,7 +60,8 @@ public struct ChatThread: Codable {
         case topic
         case createdOn
         case createdBy
-        case members
+        case deletedOn
+        case participants
     }
 
     /// Initialize a `ChatThread` structure from decoder
@@ -66,7 +71,12 @@ public struct ChatThread: Codable {
         self.topic = try? container.decode(String.self, forKey: .topic)
         self.createdOn = try? container.decode(Iso8601Date.self, forKey: .createdOn)
         self.createdBy = try? container.decode(String.self, forKey: .createdBy)
-        self.members = try? container.decode([ChatThreadMember].self, forKey: .members)
+        if let dateString = try? container.decode(String.self, forKey: .deletedOn) {
+            self.deletedOn = Date(dateString, format: Date.Format.iso8601)
+        } else {
+            self.deletedOn = nil
+        }
+        self.participants = try? container.decode([ChatParticipant].self, forKey: .participants)
     }
 
     /// Encode a `ChatThread` structure
@@ -76,6 +86,12 @@ public struct ChatThread: Codable {
         if topic != nil { try? container.encode(topic, forKey: .topic) }
         if createdOn != nil { try? container.encode(createdOn, forKey: .createdOn) }
         if createdBy != nil { try? container.encode(createdBy, forKey: .createdBy) }
-        if members != nil { try? container.encode(members, forKey: .members) }
+        if deletedOn != nil {
+            let dateFormatter = DateFormatter()
+            let dateString = dateFormatter.string(from: deletedOn!)
+            try? container.encode(dateString, forKey: .deletedOn)
+        }
+
+        if participants != nil { try? container.encode(participants, forKey: .participants) }
     }
 }
