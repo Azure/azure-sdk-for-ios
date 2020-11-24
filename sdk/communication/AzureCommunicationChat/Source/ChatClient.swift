@@ -58,8 +58,12 @@ public class ChatClient {
 
         let authPolicy = CommunicationUserCredentialPolicy(credential: credential)
 
-        let client = try AzureCommunicationChatClient(endpoint: endpointUrl, authPolicy: authPolicy, withOptions: options)
-        
+        let client = try AzureCommunicationChatClient(
+            endpoint: endpointUrl,
+            authPolicy: authPolicy,
+            withOptions: options
+        )
+
         self.service = client.azureCommunicationChatService
     }
 
@@ -102,7 +106,7 @@ public class ChatClient {
                         threadId: threadId,
                         withOptions: self.options
                     )
-                    
+
                     completionHandler(.success(chatThreadClient), httpResponse)
 
                 case let .failure(error):

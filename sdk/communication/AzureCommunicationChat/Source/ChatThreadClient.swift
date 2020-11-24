@@ -62,9 +62,13 @@ public class ChatThreadClient {
 
         let authPolicy = CommunicationUserCredentialPolicy(credential: credential)
 
-        let client = try AzureCommunicationChatClient(endpoint: endpointUrl, authPolicy: authPolicy, withOptions: options)
-        
-        self.service = client.azureCommunicationChatService;
+        let client = try AzureCommunicationChatClient(
+            endpoint: endpointUrl,
+            authPolicy: authPolicy,
+            withOptions: options
+        )
+
+        self.service = client.azureCommunicationChatService
     }
 
     // MARK: Public Methods
@@ -100,15 +104,16 @@ public class ChatThreadClient {
         withOptions options: AzureCommunicationChatService.SendChatReadReceiptOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        service.send(chatReadReceipt: readReceipt, chatThreadId: threadId, withOptions: options) { result, httpResponse in
-            switch result {
-            case .success:
-                completionHandler(.success(()), httpResponse)
+        service
+            .send(chatReadReceipt: readReceipt, chatThreadId: threadId, withOptions: options) { result, httpResponse in
+                switch result {
+                case .success:
+                    completionHandler(.success(()), httpResponse)
 
-            case let .failure(error):
-                completionHandler(.failure(error), httpResponse)
+                case let .failure(error):
+                    completionHandler(.failure(error), httpResponse)
+                }
             }
-        }
     }
 
     /// Lists read receipts for the ChatThread.
@@ -280,15 +285,20 @@ public class ChatThreadClient {
         withOptions options: AzureCommunicationChatService.AddChatParticipantsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        service.add(chatParticipants: chatParticipants, chatThreadId: threadId, withOptions: options) { result, httpResponse in
-            switch result {
-            case .success:
-                completionHandler(.success(()), httpResponse)
+        service
+            .add(
+                chatParticipants: chatParticipants,
+                chatThreadId: threadId,
+                withOptions: options
+            ) { result, httpResponse in
+                switch result {
+                case .success:
+                    completionHandler(.success(()), httpResponse)
 
-            case let .failure(error):
-                completionHandler(.failure(error), httpResponse)
+                case let .failure(error):
+                    completionHandler(.failure(error), httpResponse)
+                }
             }
-        }
     }
 
     /// Removes a participant from the thread.
