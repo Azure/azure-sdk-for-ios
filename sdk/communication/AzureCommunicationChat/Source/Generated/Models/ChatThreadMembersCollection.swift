@@ -15,23 +15,22 @@ import Foundation
 // swiftlint:disable line_length
 // swiftlint:disable cyclomatic_complexity
 
-/// Collection of thread members belong to a particular thread.
-public struct ChatThreadMembersCollection: Codable, Equatable {
+public struct ChatMessageReadReceiptsCollection: Codable {
     // MARK: Properties
 
-    /// Chat thread members.
-    public let value: [ChatThreadMember]?
-    /// If there are more chat threads that can be retrieved, the next link will be populated.
+    /// Collection of chat message read receipts.
+    public let value: [ChatMessageReadReceipt]?
+    /// If there are more chat message read receipts that can be retrieved, the next link will be populated.
     public let nextLink: String?
 
     // MARK: Initializers
 
-    /// Initialize a `ChatThreadMembersCollection` structure.
+    /// Initialize a `ChatMessageReadReceiptsCollection` structure.
     /// - Parameters:
-    ///   - value: Chat thread members.
-    ///   - nextLink: If there are more chat threads that can be retrieved, the next link will be populated.
+    ///   - value: Collection of chat message read receipts.
+    ///   - nextLink: If there are more chat message read receipts that can be retrieved, the next link will be populated.
     public init(
-        value: [ChatThreadMember]? = nil, nextLink: String? = nil
+        value: [ChatMessageReadReceipt]? = nil, nextLink: String? = nil
     ) {
         self.value = value
         self.nextLink = nextLink
@@ -44,14 +43,14 @@ public struct ChatThreadMembersCollection: Codable, Equatable {
         case nextLink = "nextLink"
     }
 
-    /// Initialize a `ChatThreadMembersCollection` structure from decoder
+    /// Initialize a `ChatMessageReadReceiptsCollection` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.value = try? container.decode([ChatThreadMember].self, forKey: .value)
+        self.value = try? container.decode([ChatMessageReadReceipt].self, forKey: .value)
         self.nextLink = try? container.decode(String.self, forKey: .nextLink)
     }
 
-    /// Encode a `ChatThreadMembersCollection` structure
+    /// Encode a `ChatMessageReadReceiptsCollection` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         if value != nil { try? container.encode(value, forKey: .value) }

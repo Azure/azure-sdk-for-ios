@@ -37,7 +37,7 @@ public extension AzureCommunicationChatClient {
     func listChatReadReceipts(
         chatThreadId: String,
         withOptions options: AzureCommunicationChatService.ListChatReadReceiptsOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<PagedCollection<ReadReceipt>>
+        completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatMessageReadReceipt>>
     ) {
         return azureCommunicationChatService.listChatReadReceipts(
             chatThreadId: chatThreadId,
@@ -190,16 +190,16 @@ public extension AzureCommunicationChatClient {
         )
     }
 
-    /// Gets the members of a thread.
+    /// Gets the participants of a thread.
     /// - Parameters:
-    ///    - chatThreadId : Thread id to get members for.
+    ///    - chatThreadId : Thread id to get participants for.
     ///    - options: A list of options for the operation
     ///    - completionHandler: A completion handler that receives a status code on
     ///     success.
-    func listChatThreadMembers(
+    public func listChatParticipants(
         chatThreadId: String,
-        withOptions options: AzureCommunicationChatService.ListChatThreadMembersOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatThreadMember>>
+        withOptions options: AzureCommunicationChatService.ListChatParticipantsOptions? = nil,
+        completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatParticipant>>
     ) {
         return azureCommunicationChatService.listChatThreadMembers(
             chatThreadId: chatThreadId,
@@ -208,17 +208,17 @@ public extension AzureCommunicationChatClient {
         )
     }
 
-    /// Adds thread members to a thread. If members already exist, no change occurs.
+    /// Adds thread participants to a thread. If participants already exist, no change occurs.
     /// - Parameters:
-    ///    - chatThreadMembers : Thread members to be added to the thread.
-    ///    - chatThreadId : Id of the thread to add members to.
+    ///    - chatParticipants : Thread participants to be added to the thread.
+    ///    - chatThreadId : Id of the thread to add participants to.
     ///    - options: A list of options for the operation
     ///    - completionHandler: A completion handler that receives a status code on
     ///     success.
-    func add(
-        chatThreadMembers: AddChatThreadMembersRequest,
+    public func add(
+        chatParticipants: AddChatParticipantsRequest,
         chatThreadId: String,
-        withOptions options: AzureCommunicationChatService.AddChatThreadMembersOptions? = nil,
+        withOptions options: AzureCommunicationChatService.AddChatParticipantsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
         return azureCommunicationChatService.add(
@@ -229,17 +229,17 @@ public extension AzureCommunicationChatClient {
         )
     }
 
-    /// Remove a member from a thread.
+    /// Remove a participant from a thread.
     /// - Parameters:
-    ///    - chatThreadId : Thread id to remove the member from.
-    ///    - chatMemberId : Id of the thread member to remove from the thread.
+    ///    - chatThreadId : Thread id to remove the participant from.
+    ///    - chatParticipantId : Id of the thread participant to remove from the thread.
     ///    - options: A list of options for the operation
     ///    - completionHandler: A completion handler that receives a status code on
     ///     success.
-    func removeChatThreadMember(
+    public func removeChatParticipant(
         chatThreadId: String,
-        chatMemberId: String,
-        withOptions options: AzureCommunicationChatService.RemoveChatThreadMemberOptions? = nil,
+        chatParticipantId: String,
+        withOptions options: AzureCommunicationChatService.RemoveChatParticipantOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
         return azureCommunicationChatService.removeChatThreadMember(
@@ -259,7 +259,7 @@ public extension AzureCommunicationChatClient {
     func create(
         chatThread: CreateChatThreadRequest,
         withOptions options: AzureCommunicationChatService.CreateChatThreadOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<MultiStatusResponse>
+        completionHandler: @escaping HTTPResultHandler<ChatThread>
     ) {
         return azureCommunicationChatService.create(
             chatThread: chatThread,
