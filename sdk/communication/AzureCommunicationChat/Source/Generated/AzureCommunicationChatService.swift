@@ -860,7 +860,7 @@ public final class AzureCommunicationChatService {
     ///    - completionHandler: A completion handler that receives a status code on
     ///     success.
     public func update(
-        chatMessage _: UpdateChatMessageRequest,
+        chatMessage: UpdateChatMessageRequest,
         chatThreadId: String,
         chatMessageId: String,
         withOptions options: UpdateChatMessageOptions? = nil,
@@ -1795,7 +1795,7 @@ public final class AzureCommunicationChatService {
         // Query options
 
         // Header options
-        if let azure - Acs - IdempotencyKey = options?.azure - Acs - IdempotencyKey {
+        if let azureAcsIdempotencyKey = options?.azureAcsIdempotencyKey {
             headers["azure-Acs-IdempotencyKey"] = azureAcsIdempotencyKey
         }
         // Construct request
@@ -2106,7 +2106,7 @@ public final class AzureCommunicationChatService {
     ///    - completionHandler: A completion handler that receives a status code on
     ///     success.
     public func update(
-        chatThread _: UpdateChatThreadRequest,
+        chatThread: UpdateChatThreadRequest,
         chatThreadId: String,
         withOptions options: UpdateChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
