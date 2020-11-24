@@ -65,12 +65,12 @@ public class ChatClient {
 
     /// Create a ChatThreadClient for the ChatThread with id threadId.
     /// - Parameters:
-    ///   - threadId: The threadId.
+    ///   - forChatThread: The threadId.
     public func createClient(forChatThread threadId: String) throws -> ChatThreadClient {
         return try ChatThreadClient(
-            threadId: threadId,
             endpoint: endpoint,
             credential: credential,
+            threadId: threadId,
             withOptions: options
         )
     }
@@ -93,11 +93,11 @@ public class ChatClient {
                         throw AzureError.service("Service response does not contain ThreadId.")
                     }
 
-                    // Create and return a ChatThreadClient for the successfully created ChatThread
+                    // Create and return a ChatThreadClient for the new ChatThread
                     let chatThreadClient = try ChatThreadClient(
-                        threadId: threadId,
                         endpoint: self.endpoint,
                         credential: self.credential,
+                        threadId: threadId,
                         withOptions: self.options
                     )
                     
@@ -115,11 +115,11 @@ public class ChatClient {
 
     /// Get a ChatThread with id chatThreadId.
     /// - Parameters:
-    ///   - chatThreadId: The chat thread id.
+    ///   - withId: The chat thread id.
     ///   - withOptions: Get chat thread options.
     ///   - completionHandler: A completion handler that receives the chat thread on success.
-    public func get(
-        chatThreadId: String,
+    public func getChatThread(
+        withId chatThreadId: String,
         withOptions options: AzureCommunicationChatService.GetChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<ChatThread>
     ) {
@@ -138,7 +138,7 @@ public class ChatClient {
     /// - Parameters:
     ///   - withOptions: List chat threads options.
     ///   - completionHandler: A completion handler that receives the list of chat thread info on success.
-    public func list(
+    public func listChatThreads(
         withOptions options: AzureCommunicationChatService.ListChatThreadsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatThreadInfo>>
     ) {
