@@ -37,6 +37,7 @@ Pod::Spec.new do |s|
     s.license = { :type => 'Commercial',
                   :file => 'EULA.txt' }
     s.authors = { 'Azure SDK Mobile Team' => 'azuresdkmobileteam@microsoft.com' }
+    s.documentation_url = 'https://docs.microsoft.com/objectivec/communication-services/calling/'
 
     s.platform = :ios, '12.0'
 

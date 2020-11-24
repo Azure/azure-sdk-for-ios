@@ -44,6 +44,7 @@ Pod::Spec.new do |s|
     s.license = { :type => 'MIT',
                   :file => 'LICENSE' }
     s.authors = { 'Azure SDK Mobile Team' => 'azuresdkmobileteam@microsoft.com' }
+    s.documentation_url = 'https://azure.github.io/azure-sdk-for-ios/AzureCore/index.html'
   
     s.ios.deployment_target = '12.0'
   
