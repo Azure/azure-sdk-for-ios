@@ -73,17 +73,19 @@ public class ChatThreadClient {
 
     // MARK: Public Methods
 
-    /// Updates the ChatThread's properties.
+    /// Updates the ChatThread's topic.
     /// - Parameters:
-    ///   - chatThread: Request for updating a chat thread.
+    ///   - topic: The topic.
     ///   - options: Update chat thread options.
     ///   - completionHandler: A completion handler that receives a status code on success.
     public func update(
-        chatThread: UpdateChatThreadRequest,
+        topic: String,
         withOptions options: AzureCommunicationChatService.UpdateChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        service.update(chatThread: chatThread, chatThreadId: threadId, withOptions: options) { result, httpResponse in
+        let updateChatThreadRequest = UpdateChatThreadRequest(topic: topic)
+
+        service.update(chatThread: updateChatThreadRequest, chatThreadId: threadId, withOptions: options) { result, httpResponse in
             switch result {
             case .success:
                 completionHandler(.success(()), httpResponse)
@@ -96,7 +98,7 @@ public class ChatThreadClient {
 
     /// Sends a read receipt.
     /// - Parameters:
-    ///   - request: Request for sending a read receipt.
+    ///   - readReceipt: Request for sending a read receipt.
     ///   - options: Send read receipt options.
     ///   - completionHandler: A completion handler that receives a status code on success.
     public func send(
@@ -156,7 +158,7 @@ public class ChatThreadClient {
 
     /// Sends a message to a ChatThread.
     /// - Parameters:
-    ///    - chatMessage : Request for sending a message.
+    ///    - message : Request for sending a message.
     ///    - options: A list of options for the operation.
     ///    - completionHandler: A completion handler that receives a status code on success.
     public func send(
@@ -177,11 +179,11 @@ public class ChatThreadClient {
 
     /// Gets a message by id.
     /// - Parameters:
-    ///    - withId : The message id.
+    ///    - chatMessageId : The message id.
     ///    - options: Get chat message options
     ///    - completionHandler: A completion handler that receives the chat message on success.
-    public func getMessage(
-        withId chatMessageId: String,
+    public func get(
+        chatMessageId: String,
         withOptions options: AzureCommunicationChatService.GetChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<ChatMessage>
     ) {
@@ -232,7 +234,7 @@ public class ChatThreadClient {
 
     /// Deletes a message.
     /// - Parameters:
-    ///    - messageId : The message id.
+    ///    - chatMessageId : The message id.
     ///    - options: Delete chat message options
     ///    - completionHandler: A completion handler that receives a status code on success.
     public func delete(
@@ -277,7 +279,7 @@ public class ChatThreadClient {
 
     /// Adds thread participants to a ChatThread. If the participants already exist, no change occurs.
     /// - Parameters:
-    ///    - request : The request with thread participants to be added to the thread.
+    ///    - chatParticipants : The request with thread participants to be added to the thread.
     ///    - options: Add chat participants options.
     ///    - completionHandler: A completion handler that receives a status code on success.
     public func add(
@@ -303,7 +305,7 @@ public class ChatThreadClient {
 
     /// Removes a participant from the thread.
     /// - Parameters:
-    ///    - chatMemberId : Id of the participant to remove.
+    ///    - chatParticipantId : Id of the participant to remove.
     ///    - options: Remove participant options
     ///    - completionHandler: A completion handler that receives a status code on success.
     public func remove(
@@ -331,7 +333,7 @@ public class ChatThreadClient {
     /// - Parameters:
     ///    - options: List chat participants options.
     ///    - completionHandler: A completion handler that receives the list of members on success.
-    public func listParticipants(
+    public func listChatParticipants(
         withOptions options: AzureCommunicationChatService.ListChatParticipantsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatParticipant>>
     ) {

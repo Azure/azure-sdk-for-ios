@@ -71,7 +71,7 @@ public class ChatClient {
 
     /// Create a ChatThreadClient for the ChatThread with id threadId.
     /// - Parameters:
-    ///   - forChatThread: The threadId.
+    ///   - threadId: The threadId.
     public func createClient(forChatThread threadId: String) throws -> ChatThreadClient {
         return try ChatThreadClient(
             endpoint: endpoint,
@@ -84,7 +84,7 @@ public class ChatClient {
     /// Create a new ChatThread and return the ChatThreadClient for it.
     /// - Parameters:
     ///   - chatThread: Request for creating a chat thread with the topic and members to add.
-    ///   - withOptions: Create chat thread options.
+    ///   - options: Create chat thread options.
     ///   - completionHandler: A completion handler that receives a ChatThreadClient on success.
     public func create(
         chatThread: CreateChatThreadRequest,
@@ -121,11 +121,11 @@ public class ChatClient {
 
     /// Get the ChatThread with given id.
     /// - Parameters:
-    ///   - withId: The chat thread id.
-    ///   - withOptions: Get chat thread options.
+    ///   - chatThreadId: The chat thread id.
+    ///   - options: Get chat thread options.
     ///   - completionHandler: A completion handler that receives the chat thread on success.
-    public func getChatThread(
-        withId chatThreadId: String,
+    public func get(
+        chatThreadId: String,
         withOptions options: AzureCommunicationChatService.GetChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<ChatThread>
     ) {
@@ -142,7 +142,7 @@ public class ChatClient {
 
     /// Gets the list of ChatThreads for the user.
     /// - Parameters:
-    ///   - withOptions: List chat threads options.
+    ///   - options: List chat threads options.
     ///   - completionHandler: A completion handler that receives the list of chat thread info on success.
     public func listChatThreads(
         withOptions options: AzureCommunicationChatService.ListChatThreadsOptions? = nil,
@@ -162,7 +162,7 @@ public class ChatClient {
     /// Delete the ChatThread with id chatThreadId.
     /// - Parameters:
     ///   - chatThreadId: The chat thread id.
-    ///   - withOptions: Delete chat thread options.
+    ///   - options: Delete chat thread options.
     ///   - completionHandler: A completion handler.
     public func delete(
         chatThreadId: String,
