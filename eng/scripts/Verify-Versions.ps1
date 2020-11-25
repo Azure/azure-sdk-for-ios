@@ -18,9 +18,11 @@ $podspecs | Format-Table name,version
 
 Write-Host "Checking version alignment."
 
-$versionGroups = $podspecs | Group-Object { $_.version }
+[Array]$versionGroups = $podspecs | Group-Object -Property version
 
-if ($versionGroups.Count -gt 1) {
-    throw "Podspec versions are not aligned."
+if ($versionGroups.Length -gt 1) {
+     throw "Podspec versions are not aligned."
+} else {
+    Write-Host "All versions are aligned to: $($versionGroups.Name)"
 }
 
