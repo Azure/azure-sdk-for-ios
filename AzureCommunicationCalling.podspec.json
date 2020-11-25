@@ -1,6 +1,6 @@
 {
   "name": "AzureCommunicationCalling",
-  "version": "1.0.0-beta.5",
+  "version": "1.0.0-beta.6",
   "summary": "Azure Communication Calling Service client library for iOS",
   "description": "This package contains the Calling client library for Azure Communication\nServices.",
   "homepage": "https://github.com/Azure/azure-sdk-for-ios",
@@ -11,12 +11,13 @@
   "authors": {
     "Azure SDK Mobile Team": "azuresdkmobileteam@microsoft.com"
   },
+  "documentation_url": "https://docs.microsoft.com/objectivec/communication-services/calling/",
   "platforms": {
     "ios": "12.0"
   },
   "swift_versions": "5.0",
   "source": {
-    "http": "https://github.com/Azure/Communication/releases/download/v1.0.0-beta.5/AzureCommunicationCalling-1.0.0-beta.5.zip"
+    "http": "https://github.com/Azure/Communication/releases/download/v1.0.0-beta.6/AzureCommunicationCalling-1.0.0-beta.6.zip"
   },
   "source_files": "AzureCommunicationCalling.framework/Headers/*.h",
   "public_header_files": "AzureCommunicationCalling.framework/Headers/*.h",
@@ -30,7 +31,7 @@
   },
   "dependencies": {
     "AzureCommunication": [
-      "~> 1.0.0-beta.5"
+      "~> 1.0.0-beta.6"
     ]
   },
   "swift_version": "5.0"
