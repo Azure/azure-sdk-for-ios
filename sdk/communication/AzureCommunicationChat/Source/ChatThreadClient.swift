@@ -158,15 +158,15 @@ public class ChatThreadClient {
 
     /// Sends a message to a ChatThread.
     /// - Parameters:
-    ///    - message : Request for sending a message.
+    ///    - chatMessage : Request for sending a message.
     ///    - options: A list of options for the operation.
     ///    - completionHandler: A completion handler that receives a status code on success.
     public func send(
-        message: SendChatMessageRequest,
+        chatMessage: SendChatMessageRequest,
         withOptions options: AzureCommunicationChatService.SendChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<SendChatMessageResult>
     ) {
-        service.send(chatMessage: message, chatThreadId: threadId, withOptions: options) { result, httpResponse in
+        service.send(chatMessage: chatMessage, chatThreadId: threadId, withOptions: options) { result, httpResponse in
             switch result {
             case let .success(sendMessageResult):
                 completionHandler(.success(sendMessageResult), httpResponse)
