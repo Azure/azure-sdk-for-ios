@@ -1,0 +1,57 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.3.1 (swiftlang-1200.0.41 clang-1200.0.32.8)
+// swift-module-flags: -target x86_64-apple-ios12.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name AzureCommunication
+import AzureCore
+import Foundation
+import Swift
+public protocol CommunicationTokenCredential {
+  func token(completionHandler: @escaping AzureCommunication.AccessTokenRefreshOnCompletion)
+}
+@objc public protocol CommunicationIdentifier : ObjectiveC.NSObjectProtocol {
+}
+@objc @objcMembers public class CommunicationUser : ObjectiveC.NSObject, AzureCommunication.CommunicationIdentifier {
+  @objc final public let identifier: Swift.String
+  @objc public init(identifier: Swift.String)
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @objcMembers public class CallingApplication : ObjectiveC.NSObject, AzureCommunication.CommunicationIdentifier {
+  @objc final public let identifier: Swift.String
+  @objc public init(identifier: Swift.String)
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @objcMembers public class UnknownIdentifier : ObjectiveC.NSObject, AzureCommunication.CommunicationIdentifier {
+  @objc final public let identifier: Swift.String
+  @objc public init(identifier: Swift.String)
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @objcMembers public class PhoneNumber : ObjectiveC.NSObject, AzureCommunication.CommunicationIdentifier {
+  @objc final public let value: Swift.String
+  @objc public init(phoneNumber: Swift.String)
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @objcMembers public class CommunicationAccessToken : ObjectiveC.NSObject {
+  @objc final public let token: Swift.String
+  @objc final public let expiresOn: Foundation.Date
+  @objc public init(token: Swift.String, expiresOn: Foundation.Date)
+  @objc deinit
+  @objc override dynamic public init()
+}
+public typealias AccessTokenRefreshOnCompletion = (AzureCommunication.CommunicationAccessToken?, Swift.Error?) -> Swift.Void
+public typealias TokenRefreshOnCompletion = (Swift.String?, Swift.Error?) -> Swift.Void
+@objc @objcMembers public class CommunicationUserCredential : ObjectiveC.NSObject {
+  @objc public init(token: Swift.String) throws
+  @objc public init(initialToken: Swift.String? = nil, refreshProactively: Swift.Bool = false, tokenRefresher: @escaping (@escaping AzureCommunication.TokenRefreshOnCompletion) -> Swift.Void) throws
+  @objc public func token(completionHandler: @escaping AzureCommunication.AccessTokenRefreshOnCompletion)
+  @objc deinit
+  @objc override dynamic public init()
+}
+public class CommunicationUserCredentialPolicy : AzureCore.Authenticating {
+  public var next: AzureCore.PipelineStage?
+  public init(credential: AzureCommunication.CommunicationUserCredential)
+  public func authenticate(request: AzureCore.PipelineRequest, completionHandler: @escaping AzureCore.OnRequestCompletionHandler)
+  @objc deinit
+}
