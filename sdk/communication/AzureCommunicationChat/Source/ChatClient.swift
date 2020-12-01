@@ -72,7 +72,7 @@ public class ChatClient {
     /// Create a ChatThreadClient for the ChatThread with id threadId.
     /// - Parameters:
     ///   - threadId: The threadId.
-    public func createClient(forChatThread threadId: String) throws -> ChatThreadClient {
+    public func createClient(forThread threadId: String) throws -> ChatThreadClient {
         return try ChatThreadClient(
             endpoint: endpoint,
             credential: credential,
@@ -81,33 +81,24 @@ public class ChatClient {
         )
     }
 
-    /// Create a new ChatThread and return the ChatThreadClient for it.
+    /// Create a new ChatThread.
     /// - Parameters:
-    ///   - chatThread: Request for creating a chat thread with the topic and members to add.
+    ///   - thread: Request for creating a chat thread with the topic and members to add.
     ///   - options: Create chat thread options.
     ///   - completionHandler: A completion handler that receives a ChatThreadClient on success.
     public func create(
-        chatThread: CreateChatThreadRequest,
+        thread: CreateChatThreadRequest,
         withOptions options: AzureCommunicationChatService.CreateChatThreadOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<ChatThreadClient>
+        completionHandler: @escaping HTTPResultHandler<ChatThread>
     ) {
-        service.create(chatThread: chatThread, withOptions: options) { result, httpResponse in
+        service.create(chatThread: thread, withOptions: options) { result, httpResponse in
             do {
                 switch result {
                 case let .success(chatThread):
-                    guard let threadId = chatThread.id else {
+                    guard chatThread.id != nil else {
                         throw AzureError.service("Service response does not contain ThreadId.")
                     }
-
-                    // Create and return a ChatThreadClient for the new ChatThread
-                    let chatThreadClient = try ChatThreadClient(
-                        endpoint: self.endpoint,
-                        credential: self.credential,
-                        threadId: threadId,
-                        withOptions: self.options
-                    )
-
-                    completionHandler(.success(chatThreadClient), httpResponse)
+                    completionHandler(.success(chatThread), httpResponse)
 
                 case let .failure(error):
                     throw error
@@ -121,15 +112,15 @@ public class ChatClient {
 
     /// Get the ChatThread with given id.
     /// - Parameters:
-    ///   - chatThreadId: The chat thread id.
+    ///   - threadId: The chat thread id.
     ///   - options: Get chat thread options.
     ///   - completionHandler: A completion handler that receives the chat thread on success.
     public func get(
-        chatThreadId: String,
+        thread threadId: String,
         withOptions options: AzureCommunicationChatService.GetChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<ChatThread>
     ) {
-        service.getChatThread(chatThreadId: chatThreadId, withOptions: options) { result, httpResponse in
+        service.getChatThread(chatThreadId: threadId, withOptions: options) { result, httpResponse in
             switch result {
             case let .success(chatThread):
                 completionHandler(.success(chatThread), httpResponse)
@@ -144,7 +135,7 @@ public class ChatClient {
     /// - Parameters:
     ///   - options: List chat threads options.
     ///   - completionHandler: A completion handler that receives the list of chat thread info on success.
-    public func listChatThreads(
+    public func listThreads(
         withOptions options: AzureCommunicationChatService.ListChatThreadsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatThreadInfo>>
     ) {
@@ -161,15 +152,15 @@ public class ChatClient {
 
     /// Delete the ChatThread with id chatThreadId.
     /// - Parameters:
-    ///   - chatThreadId: The chat thread id.
+    ///   - threadId: The chat thread id.
     ///   - options: Delete chat thread options.
     ///   - completionHandler: A completion handler.
     public func delete(
-        chatThreadId: String,
+        thread threadId: String,
         withOptions options: AzureCommunicationChatService.DeleteChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        service.deleteChatThread(chatThreadId: chatThreadId, withOptions: options) { result, httpResponse in
+        service.deleteChatThread(chatThreadId: threadId, withOptions: options) { result, httpResponse in
             switch result {
             case .success:
                 completionHandler(.success(()), httpResponse)
