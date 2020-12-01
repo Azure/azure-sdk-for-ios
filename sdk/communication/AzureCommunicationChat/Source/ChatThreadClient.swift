@@ -85,15 +85,20 @@ public class ChatThreadClient {
     ) {
         let updateChatThreadRequest = UpdateChatThreadRequest(topic: topic)
 
-        service.update(chatThread: updateChatThreadRequest, chatThreadId: threadId, withOptions: options) { result, httpResponse in
-            switch result {
-            case .success:
-                completionHandler(.success(()), httpResponse)
+        service
+            .update(
+                chatThread: updateChatThreadRequest,
+                chatThreadId: threadId,
+                withOptions: options
+            ) { result, httpResponse in
+                switch result {
+                case .success:
+                    completionHandler(.success(()), httpResponse)
 
-            case let .failure(error):
-                completionHandler(.failure(error), httpResponse)
+                case let .failure(error):
+                    completionHandler(.failure(error), httpResponse)
+                }
             }
-        }
     }
 
     /// Sends a read receipt.
@@ -109,7 +114,11 @@ public class ChatThreadClient {
         let sendReadReceiptRequest = SendReadReceiptRequest(chatMessageId: messageId)
 
         service
-            .send(chatReadReceipt: sendReadReceiptRequest, chatThreadId: threadId, withOptions: options) { result, httpResponse in
+            .send(
+                chatReadReceipt: sendReadReceiptRequest,
+                chatThreadId: threadId,
+                withOptions: options
+            ) { result, httpResponse in
                 switch result {
                 case .success:
                     completionHandler(.success(()), httpResponse)
