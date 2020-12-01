@@ -141,14 +141,15 @@ ChatClient supports the following methods, see the links below for examples.
 - [Get a thread](#get-a-thread)
 - [List threads](#list-threads)
 - [Delete a thread](#delete-a-thread)
+- [Get a thread client](#get-a-thread-client)
 
 ### ChatThreadClient
 
-`ChatThreadClient` provides methods operations within a chat thread such as messaging and managing participants.
+`ChatThreadClient` provides methods for operations within a chat thread, such as messaging and managing participants.
 
 #### Initialization
 
-ChatThreadClients should be created through the ChatClient. Upon creation of a new thread, or using an existing thread, the ChatThreadClient can then be used to perform operations within the thread. See the list below for examples of each operation that ChatThreadClient supports.
+ChatThreadClients should be created through the ChatClient. A ChatThreadClient is associated with a specific chat thread and is used to perform operations within the thread. See the list below for examples of each operation that ChatThreadClient supports.
 
 #### Message Operations
 
@@ -197,7 +198,7 @@ let thread = CreateChatThreadRequest(
 
 chatClient.create(chatThread: thread) { result, _ in
     switch result {
-    case let .success(chatThreadClient):
+    case let .success(chatThread):
         // Take further action
 
     case let .failure(error):
@@ -215,7 +216,7 @@ Use the `get` method of `ChatClient` to retrieve a thread.
 ```swift
 chatClient.get(thread: threadId) { result, _ in
     switch result {
-    case let .success(thread):
+    case let .success(chatThread):
         // Take further action
 
     case let .failure(error):
@@ -254,7 +255,7 @@ chatClient.listThreads(withOptions: options) { result, _ in
 
 #### Delete a thread
 
-Use `delete` method of `ChatClient` to delete a thread.
+Use the `delete` method of `ChatClient` to delete a thread.
 
 - `thread` is the unique ID of the thread.
 
@@ -325,7 +326,7 @@ chatThreadClient.get(message: messageId) { result, _ in
 
 Use the `listMessages` method of `ChatThreadClient` to retrieve messages in a thread.
 
-- `ListChatMessagesOptions` is the object representing the options to pass.
+- `ListChatMessagesOptions` is the optional object representing the options to pass.
 - `maxPageSize`, optional, is the maximum number of messages to be returned per page.
 - `startTime`, optional, is the thread start time to consider in the query.
 
@@ -551,7 +552,7 @@ chatThreadClient.update(topic: newTopic) { result, _ in
 When an error occurs, the client calls the callback, passing in a `failure` result. You can use the provided error to act upon the failure.
 
 ```swift
-client.create(chatThread: thread) { result, _ in
+client.create(thread: thread) { result, _ in
     switch result {
     case let .failure(error):
         // Display error message
