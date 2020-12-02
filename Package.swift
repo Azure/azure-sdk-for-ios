@@ -56,7 +56,7 @@ let package = Package(
         ),
         .target(
             name: "AzureCommunicationChat",
-            dependencies: ["AzureCore"],
+            dependencies: ["AzureCore", "AzureCommunication"],
             path: "sdk/communication/AzureCommunicationChat",
             sources: ["Source"]
         ),
