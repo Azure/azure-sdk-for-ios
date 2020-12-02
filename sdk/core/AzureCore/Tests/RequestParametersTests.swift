@@ -150,6 +150,42 @@ class QueryParametersTests: XCTestCase {
         XCTAssert(query.parameters[0].value == "5")
     }
 
+    func test_QueryParameters_WithInt32() throws {
+        let val: Int32 = 5
+        let query = RequestParameters(
+            (.query, "var1", val, .encode)
+        )
+        XCTAssert(query.parameters.count == 1)
+        XCTAssert(query.parameters[0].value == "5")
+    }
+
+    func test_QueryParameters_WithInt64() throws {
+        let val: Int64 = 5
+        let query = RequestParameters(
+            (.query, "var1", val, .encode)
+        )
+        XCTAssert(query.parameters.count == 1)
+        XCTAssert(query.parameters[0].value == "5")
+    }
+
+    func test_QueryParameters_WithFloat() throws {
+        let val: Float = 5.0
+        let query = RequestParameters(
+            (.query, "var1", val, .encode)
+        )
+        XCTAssert(query.parameters.count == 1)
+        XCTAssert(query.parameters[0].value == "5.0")
+    }
+
+    func test_QueryParameters_WithDouble() throws {
+        let val: Double = 5.0
+        let query = RequestParameters(
+            (.query, "var1", val, .encode)
+        )
+        XCTAssert(query.parameters.count == 1)
+        XCTAssert(query.parameters[0].value == "5.0")
+    }
+
     func test_QueryParameters_WithBool() throws {
         let query = RequestParameters(
             (.query, "var1", true, .encode)

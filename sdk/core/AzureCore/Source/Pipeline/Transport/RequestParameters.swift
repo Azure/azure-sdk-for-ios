@@ -40,6 +40,7 @@ public enum RequestParameterLocation {
     case query
     case header
     case body
+    case uri
 }
 
 public enum EncodingStrategy {

@@ -30,31 +30,48 @@ import XCTest
 // swiftlint:disable force_try
 class AzureDateTests: XCTestCase {
     class TestObjectWithDate: Codable {
-        let startDate: MyDate
+        let myDate: MyDate
+        let unixTime: UnixTime
+        let simpleDate: SimpleDate
+        let rfc1123Date: Rfc1123Date
+        let iso8601Date: Iso8601Date
 
-        init(startDate: Date) {
-            self.startDate = MyDate(startDate)!
-        }
-
-        init?(startDate: MyDate?) {
-            guard let date = startDate else { return nil }
-            self.startDate = date
+        init(_ date: Date) {
+            self.myDate = MyDate(date)!
+            self.unixTime = UnixTime(date)!
+            self.simpleDate = SimpleDate(date)!
+            self.rfc1123Date = Rfc1123Date(date)!
+            self.iso8601Date = Iso8601Date(date)!
         }
     }
 
     func test_AzureDate_canDecode() throws {
-        let jsonData = "{\"startDate\":\"2000-01-02\"}".data(using: .utf8)!
+        let jsonData = """
+            {"myDate":"2016-04-13","simpleDate":"2016-04-13","unixTime":"1460505600",
+             "rfc1123Date":"Wed, 13 Apr 2016 00:00:00 GMT","iso8601Date":"2016-04-13T00:00:00Z"}
+        """.data(using: .utf8)!
         let decoder = JSONDecoder()
         let testObject = try! decoder.decode(TestObjectWithDate.self, from: jsonData)
-        XCTAssert(testObject.startDate.requestString == "2000-01-02")
+        // ensure that the format you put in is what you get back out
+        XCTAssert(testObject.myDate.requestString == "2016-04-13")
+        XCTAssert(testObject.simpleDate.requestString == "2016-04-13")
+        XCTAssert(testObject.unixTime.requestString == "1460505600")
+        XCTAssert(testObject.rfc1123Date.requestString == "Wed, 13 Apr 2016 00:00:00 GMT")
+        XCTAssert(testObject.iso8601Date.requestString == "2016-04-13T00:00:00Z")
     }
 
     func test_AzureDate_canEncode() throws {
-        let date = MyDate(string: "2000-01-02")!
-        let testObject = TestObjectWithDate(startDate: date.value)
+        let date = Iso8601Date(string: "2016-04-13T00:00:00Z")!.value
+        let testObject = TestObjectWithDate(date)
         let encoder = JSONEncoder()
         let testObjectData = try! encoder.encode(testObject)
-        let testObjectEncoded = String(data: testObjectData, encoding: .utf8)
-        XCTAssert(testObjectEncoded == "{\"startDate\":\"2000-01-02\"}")
+        let testObjectEncoded = String(data: testObjectData, encoding: .utf8)!
+        XCTAssert(testObjectEncoded.contains("\"unixTime\":\"1460505600\""))
+        XCTAssert(testObjectEncoded.contains("\"rfc1123Date\":\"Wed, 13 Apr 2016 00:00:00 GMT\""))
+        XCTAssert(testObjectEncoded.contains("\"iso8601Date\":\"2016-04-13T00:00:00Z\""))
+        // since the input format and output format differ, the inclusion of timezone info
+        // changes this output
+        XCTAssert(testObjectEncoded.contains("\"myDate\":\"2016-04-12\""))
+        XCTAssert(testObjectEncoded.contains("\"simpleDate\":\"2016-04-12\""))
     }
 }

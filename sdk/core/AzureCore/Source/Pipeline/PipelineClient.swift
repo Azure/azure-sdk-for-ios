@@ -80,16 +80,16 @@ open class PipelineClient {
     // MARK: Public Methods
 
     private func format(host: String?, params: RequestParameters) -> String {
-        let hostParams = params.values(for: RequestParameterLocation.host)
+        let hostParams = params.values(for: .host) + params.values(for: .uri)
         // if no host string is supplied always return the endpoint, which has no parameters
         guard var hostString = host else { return endpoint.absoluteString }
-        if !hostString.hasSuffix("/") {
-            hostString += "/"
-        }
         for item in hostParams {
             let value = item.encodingStrategy == .skipEncoding ? item.value : item.value
                 .addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
             hostString = hostString.replacingOccurrences(of: "{\(item.key)}", with: value ?? "")
+        }
+        if !hostString.hasSuffix("/") {
+            hostString += "/"
         }
         return hostString
     }

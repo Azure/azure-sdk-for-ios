@@ -38,6 +38,7 @@ public protocol AzureDate: RequestStringConvertible, Codable, Comparable {
     init?(_ date: Date?)
 }
 
+/// Conforms to Modeler4's `DateTimeSchema` with type `date-time`.
 public struct Iso8601Date: AzureDate {
     public static var dateFormat: AzureDateFormat = .iso8601
 
@@ -95,6 +96,7 @@ public struct Iso8601Date: AzureDate {
     }
 }
 
+/// Conforms to Modeler4's `DateTimeSchema` with type `date-time-rfc1123`.
 public struct Rfc1123Date: AzureDate {
     public static var dateFormat: AzureDateFormat = .rfc1123
 
@@ -148,6 +150,115 @@ public struct Rfc1123Date: AzureDate {
     // MARK: Comparable
 
     public static func < (lhs: Rfc1123Date, rhs: Rfc1123Date) -> Bool {
+        return lhs.value < rhs.value
+    }
+}
+
+/// Conforms to Modeler4's `DateSchema`.
+public struct SimpleDate: AzureDate {
+    public static var dateFormat: AzureDateFormat = .custom("yyyy-MM-dd")
+
+    public static var formatter: DateFormatter {
+        return Self.dateFormat.formatter
+    }
+
+    public var value: Date
+
+    // MARK: RequestStringConvertible
+
+    public var requestString: String {
+        return Self.formatter.string(from: value)
+    }
+
+    // MARK: Initializers
+
+    public init() {
+        self.value = Date()
+    }
+
+    public init?(string: String?) {
+        self.init(Self.formatter.date(from: string ?? ""))
+    }
+
+    public init?(_ date: Date?) {
+        guard let unwrapped = date else { return nil }
+        self.value = unwrapped
+    }
+
+    // MARK: Codable
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let dateString = try container.decode(String.self)
+        self.value = Self.formatter.date(from: dateString) ?? Date()
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(requestString)
+    }
+
+    // MARK: Equatable
+
+    public static func == (lhs: SimpleDate, rhs: SimpleDate) -> Bool {
+        return lhs.value == rhs.value
+    }
+
+    // MARK: Comparable
+
+    public static func < (lhs: SimpleDate, rhs: SimpleDate) -> Bool {
+        return lhs.value < rhs.value
+    }
+}
+
+/// Conforms to Modeler4's `UnixTimeSchema`.
+public struct UnixTime: Codable, Comparable, RequestStringConvertible {
+    public var value: Date
+
+    // MARK: RequestStringConvertible
+
+    public var requestString: String {
+        return String(Int(value.timeIntervalSince1970))
+    }
+
+    // MARK: Initializers
+
+    public init() {
+        self.value = Date()
+    }
+
+    public init(timeIntervalSince1970 double: Double) {
+        self.value = Date(timeIntervalSince1970: double)
+    }
+
+    public init?(_ date: Date?) {
+        guard let unwrapped = date else { return nil }
+        self.value = unwrapped
+    }
+
+    // MARK: Codable
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let dateString = try container.decode(String.self)
+        let timeInterval = Double(dateString) ?? 0.0
+        self.value = Date(timeIntervalSince1970: timeInterval)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(requestString)
+    }
+
+    // MARK: Equatable
+
+    public static func == (lhs: UnixTime, rhs: UnixTime) -> Bool {
+        return lhs.value == rhs.value
+    }
+
+    // MARK: Comparable
+
+    public static func < (lhs: UnixTime, rhs: UnixTime) -> Bool {
         return lhs.value < rhs.value
     }
 }
