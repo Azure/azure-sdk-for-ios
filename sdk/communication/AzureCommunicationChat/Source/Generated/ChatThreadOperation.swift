@@ -16,7 +16,7 @@ import Foundation
 // swiftlint:disable function_body_length
 // swiftlint:disable type_body_length
 
-public final class AzureCommunicationChatService {
+public final class ChatThreadOperation {
     public let client: AzureCommunicationChatClient
 
     public let commonOptions: ClientOptions
@@ -59,7 +59,7 @@ public final class AzureCommunicationChatService {
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatMessageReadReceipt>>
     ) {
         // Construct URL
-        let urlTemplate = "/chat/threads/{chatThreadId}/readreceipts"
+        let urlTemplate = "/chat/threads/{chatThreadId}/readReceipts"
         let pathParams = [
             "chatThreadId": chatThreadId,
             "endpoint": client.endpoint.absoluteString
@@ -74,8 +74,8 @@ public final class AzureCommunicationChatService {
         headers["Accept"] = "application/json"
         // Process endpoint options
         // Query options
-        if let maxPageSize = options?.maxPageSize {
-            queryParams.append("maxPageSize", String(maxPageSize))
+        if let maxpagesize = options?.maxpagesize {
+            queryParams.append("$maxpagesize", String(maxpagesize))
         }
         if let skip = options?.skip {
             queryParams.append("skip", String(skip))
@@ -232,7 +232,7 @@ public final class AzureCommunicationChatService {
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
         // Construct URL
-        let urlTemplate = "/chat/threads/{chatThreadId}/readreceipts"
+        let urlTemplate = "/chat/threads/{chatThreadId}/readReceipts"
         let pathParams = [
             "chatThreadId": chatThreadId,
             "endpoint": client.endpoint.absoluteString
@@ -552,8 +552,8 @@ public final class AzureCommunicationChatService {
         headers["Accept"] = "application/json"
         // Process endpoint options
         // Query options
-        if let maxPageSize = options?.maxPageSize {
-            queryParams.append("maxPageSize", String(maxPageSize))
+        if let maxpagesize = options?.maxpagesize {
+            queryParams.append("$maxpagesize", String(maxpagesize))
         }
         if let startTime = options?.startTime {
             let dateFormatter = ISO8601DateFormatter()
@@ -860,7 +860,7 @@ public final class AzureCommunicationChatService {
     ///    - completionHandler: A completion handler that receives a status code on
     ///     success.
     public func update(
-        chatMessage: UpdateChatMessageRequest,
+        chatMessage _: UpdateChatMessageRequest,
         chatThreadId: String,
         chatMessageId: String,
         withOptions options: UpdateChatMessageOptions? = nil,
@@ -882,9 +882,10 @@ public final class AzureCommunicationChatService {
         var headers = HTTPHeaders()
         headers["Content-Type"] = "application/merge-patch+json"
         headers["Accept"] = "application/json"
-        // Construct request
-        guard let requestBody = try? JSONEncoder().encode(chatMessage) else {
-            self.options.logger.error("Failed to encode request body as json.")
+        // Construct patch request
+        let patch = MergePatchObject()
+        guard let patchBody = try? JSONEncoder().encode(patch) else {
+            self.options.logger.error("Failed to encode PATCH request body as JSON.")
             return
         }
 
@@ -898,7 +899,7 @@ public final class AzureCommunicationChatService {
             return
         }
 
-        guard let request = try? HTTPRequest(method: .patch, url: requestUrl, headers: headers, data: requestBody) else {
+        guard let request = try? HTTPRequest(method: .patch, url: requestUrl, headers: headers, data: patchBody) else {
             self.options.logger.error("Failed to construct HTTP request")
             return
         }
@@ -1324,8 +1325,8 @@ public final class AzureCommunicationChatService {
         headers["Accept"] = "application/json"
         // Process endpoint options
         // Query options
-        if let maxPageSize = options?.maxPageSize {
-            queryParams.append("maxPageSize", String(maxPageSize))
+        if let maxpagesize = options?.maxpagesize {
+            queryParams.append("$maxpagesize", String(maxpagesize))
         }
         if let skip = options?.skip {
             queryParams.append("skip", String(skip))
@@ -1479,7 +1480,7 @@ public final class AzureCommunicationChatService {
         chatParticipants: AddChatParticipantsRequest,
         chatThreadId: String,
         withOptions options: AddChatParticipantsOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<Void>
+        completionHandler: @escaping HTTPResultHandler<AddChatParticipantsResult>
     ) {
         // Construct URL
         let urlTemplate = "/chat/threads/{chatThreadId}/participants"
@@ -1544,11 +1545,16 @@ public final class AzureCommunicationChatService {
                 if [
                     201
                 ].contains(statusCode) {
-                    dispatchQueue.async {
-                        completionHandler(
-                            .success(()),
-                            httpResponse
-                        )
+                    do {
+                        let decoder = JSONDecoder()
+                        let decoded = try decoder.decode(AddChatParticipantsResult.self, from: data)
+                        dispatchQueue.async {
+                            completionHandler(.success(decoded), httpResponse)
+                        }
+                    } catch {
+                        dispatchQueue.async {
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
+                        }
                     }
                 }
                 if [
@@ -1766,338 +1772,6 @@ public final class AzureCommunicationChatService {
         }
     }
 
-    /// Creates a chat thread.
-    /// - Parameters:
-    ///    - chatThread : Request payload for creating a chat thread.
-    ///    - options: A list of options for the operation
-    ///    - completionHandler: A completion handler that receives a status code on
-    ///     success.
-    public func create(
-        chatThread: CreateChatThreadRequest,
-        withOptions options: CreateChatThreadOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<ChatThread>
-    ) {
-        // Construct URL
-        let urlTemplate = "/chat/threads"
-        let pathParams = [
-            "endpoint": client.endpoint.absoluteString
-        ]
-        // Construct query
-        let queryParams: [QueryParameter] = [
-            ("api-version", "2020-11-01-preview3")
-        ]
-
-        // Construct headers
-        var headers = HTTPHeaders()
-        headers["Content-Type"] = "application/json"
-        headers["Accept"] = "application/json"
-        // Process endpoint options
-        // Query options
-
-        // Header options
-        if let azureAcsIdempotencyKey = options?.azureAcsIdempotencyKey {
-            headers["azure-Acs-IdempotencyKey"] = azureAcsIdempotencyKey
-        }
-        // Construct request
-        guard let requestBody = try? JSONEncoder().encode(chatThread) else {
-            self.options.logger.error("Failed to encode request body as json.")
-            return
-        }
-        guard let requestUrl = url(
-            host: "{endpoint}",
-            template: urlTemplate,
-            pathParams: pathParams,
-            queryParams: queryParams
-        ) else {
-            self.options.logger.error("Failed to construct request url")
-            return
-        }
-
-        guard let request = try? HTTPRequest(method: .post, url: requestUrl, headers: headers, data: requestBody) else {
-            self.options.logger.error("Failed to construct HTTP request")
-            return
-        }
-
-        // Send request
-        let context = PipelineContext.of(keyValues: [
-            ContextKey.allowedStatusCodes.rawValue: [201, 401, 403, 429, 503] as AnyObject
-        ])
-        context.add(cancellationToken: options?.cancellationToken, applying: self.options)
-        context.merge(with: options?.context)
-        self.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
-            guard let data = httpResponse?.data else {
-                let noDataError = AzureError.client("Response data expected but not found.")
-                dispatchQueue.async {
-                    completionHandler(.failure(noDataError), httpResponse)
-                }
-                return
-            }
-
-            switch result {
-            case .success:
-                guard let statusCode = httpResponse?.statusCode else {
-                    let noStatusCodeError = AzureError.client("Expected a status code in response but didn't find one.")
-                    dispatchQueue.async {
-                        completionHandler(.failure(noStatusCodeError), httpResponse)
-                    }
-                    return
-                }
-                if [
-                    201
-                ].contains(statusCode) {
-                    do {
-                        let decoder = JSONDecoder()
-                        let decoded = try decoder.decode(ChatThread.self, from: data)
-                        dispatchQueue.async {
-                            completionHandler(.success(decoded), httpResponse)
-                        }
-                    } catch {
-                        dispatchQueue.async {
-                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
-                        }
-                    }
-                }
-                if [
-                    401
-                ].contains(statusCode) {
-                    do {
-                        let decoder = JSONDecoder()
-                        let decoded = try decoder.decode(ErrorType.self, from: data)
-                        dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
-                        }
-                    } catch {
-                        dispatchQueue.async {
-                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
-                        }
-                    }
-                }
-                if [
-                    403
-                ].contains(statusCode) {
-                    do {
-                        let decoder = JSONDecoder()
-                        let decoded = try decoder.decode(ErrorType.self, from: data)
-                        dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
-                        }
-                    } catch {
-                        dispatchQueue.async {
-                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
-                        }
-                    }
-                }
-                if [
-                    429
-                ].contains(statusCode) {
-                    do {
-                        let decoder = JSONDecoder()
-                        let decoded = try decoder.decode(ErrorType.self, from: data)
-                        dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
-                        }
-                    } catch {
-                        dispatchQueue.async {
-                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
-                        }
-                    }
-                }
-                if [
-                    503
-                ].contains(statusCode) {
-                    do {
-                        let decoder = JSONDecoder()
-                        let decoded = try decoder.decode(ErrorType.self, from: data)
-                        dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
-                        }
-                    } catch {
-                        dispatchQueue.async {
-                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
-                        }
-                    }
-                }
-            case let .failure(error):
-                dispatchQueue.async {
-                    completionHandler(.failure(error), httpResponse)
-                }
-            }
-        }
-    }
-
-    /// Gets the list of chat threads of a user.
-    /// - Parameters:
-
-    ///    - options: A list of options for the operation
-    ///    - completionHandler: A completion handler that receives a status code on
-    ///     success.
-    public func listChatThreads(
-        withOptions options: ListChatThreadsOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatThreadInfo>>
-    ) {
-        // Construct URL
-        let urlTemplate = "/chat/threads"
-        let pathParams = [
-            "endpoint": client.endpoint.absoluteString
-        ]
-        // Construct query
-        var queryParams: [QueryParameter] = [
-            ("api-version", "2020-11-01-preview3")
-        ]
-
-        // Construct headers
-        var headers = HTTPHeaders()
-        headers["Accept"] = "application/json"
-        // Process endpoint options
-        // Query options
-        if let maxPageSize = options?.maxPageSize {
-            queryParams.append("maxPageSize", String(maxPageSize))
-        }
-        if let startTime = options?.startTime {
-            let dateFormatter = ISO8601DateFormatter()
-            dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-            let startTimeString = dateFormatter.string(from: startTime)
-            queryParams.append("startTime", startTimeString)
-        }
-
-        // Header options
-        // Construct request
-        guard let requestUrl = url(
-            host: "{endpoint}",
-            template: urlTemplate,
-            pathParams: pathParams,
-            queryParams: queryParams
-        ) else {
-            self.options.logger.error("Failed to construct request url")
-            return
-        }
-
-        guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: headers) else {
-            self.options.logger.error("Failed to construct Http request")
-            return
-        }
-
-        // Send request
-        let context = PipelineContext.of(keyValues: [
-            ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
-        ])
-        context.add(cancellationToken: options?.cancellationToken, applying: self.options)
-        context.merge(with: options?.context)
-        self.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
-            guard let data = httpResponse?.data else {
-                let noDataError = AzureError.client("Response data expected but not found.")
-                dispatchQueue.async {
-                    completionHandler(.failure(noDataError), httpResponse)
-                }
-                return
-            }
-
-            switch result {
-            case .success:
-                guard let statusCode = httpResponse?.statusCode else {
-                    let noStatusCodeError = AzureError.client("Expected a status code in response but didn't find one.")
-                    dispatchQueue.async {
-                        completionHandler(.failure(noStatusCodeError), httpResponse)
-                    }
-                    return
-                }
-                if [
-                    200
-                ].contains(statusCode) {
-                    do {
-                        let decoder = JSONDecoder()
-                        let codingKeys = PagedCodingKeys(
-                            items: "value",
-                            continuationToken: "nextLink"
-                        )
-                        let paged = try PagedCollection<ChatThreadInfo>(
-                            client: self.client,
-                            request: request,
-                            context: context,
-                            data: data,
-                            codingKeys: codingKeys,
-                            decoder: decoder
-                        )
-                        dispatchQueue.async {
-                            completionHandler(.success(paged), httpResponse)
-                        }
-                    } catch {
-                        dispatchQueue.async {
-                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
-                        }
-                    }
-                }
-
-                if [
-                    401
-                ].contains(statusCode) {
-                    do {
-                        let decoder = JSONDecoder()
-                        let decoded = try decoder.decode(ErrorType.self, from: data)
-                        dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
-                        }
-                    } catch {
-                        dispatchQueue.async {
-                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
-                        }
-                    }
-                }
-                if [
-                    403
-                ].contains(statusCode) {
-                    do {
-                        let decoder = JSONDecoder()
-                        let decoded = try decoder.decode(ErrorType.self, from: data)
-                        dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
-                        }
-                    } catch {
-                        dispatchQueue.async {
-                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
-                        }
-                    }
-                }
-                if [
-                    429
-                ].contains(statusCode) {
-                    do {
-                        let decoder = JSONDecoder()
-                        let decoded = try decoder.decode(ErrorType.self, from: data)
-                        dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
-                        }
-                    } catch {
-                        dispatchQueue.async {
-                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
-                        }
-                    }
-                }
-                if [
-                    503
-                ].contains(statusCode) {
-                    do {
-                        let decoder = JSONDecoder()
-                        let decoded = try decoder.decode(ErrorType.self, from: data)
-                        dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
-                        }
-                    } catch {
-                        dispatchQueue.async {
-                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
-                        }
-                    }
-                }
-            case let .failure(error):
-                dispatchQueue.async {
-                    completionHandler(.failure(error), httpResponse)
-                }
-            }
-        }
-    }
-
     /// Updates a thread's properties.
     /// - Parameters:
     ///    - chatThread : Request payload for updating a chat thread.
@@ -2106,7 +1780,7 @@ public final class AzureCommunicationChatService {
     ///    - completionHandler: A completion handler that receives a status code on
     ///     success.
     public func update(
-        chatThread: UpdateChatThreadRequest,
+        chatThread _: UpdateChatThreadRequest,
         chatThreadId: String,
         withOptions options: UpdateChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
@@ -2126,9 +1800,10 @@ public final class AzureCommunicationChatService {
         var headers = HTTPHeaders()
         headers["Content-Type"] = "application/merge-patch+json"
         headers["Accept"] = "application/json"
-        // Construct request
-        guard let requestBody = try? JSONEncoder().encode(chatThread) else {
-            self.options.logger.error("Failed to encode request body as json.")
+        // Construct patch request
+        let patch = MergePatchObject()
+        guard let patchBody = try? JSONEncoder().encode(patch) else {
+            self.options.logger.error("Failed to encode PATCH request body as JSON.")
             return
         }
 
@@ -2142,301 +1817,8 @@ public final class AzureCommunicationChatService {
             return
         }
 
-        guard let request = try? HTTPRequest(method: .patch, url: requestUrl, headers: headers, data: requestBody) else {
+        guard let request = try? HTTPRequest(method: .patch, url: requestUrl, headers: headers, data: patchBody) else {
             self.options.logger.error("Failed to construct HTTP request")
-            return
-        }
-
-        // Send request
-        let context = PipelineContext.of(keyValues: [
-            ContextKey.allowedStatusCodes.rawValue: [204, 401, 403, 429, 503] as AnyObject
-        ])
-        context.add(cancellationToken: options?.cancellationToken, applying: self.options)
-        context.merge(with: options?.context)
-        self.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
-            guard let data = httpResponse?.data else {
-                let noDataError = AzureError.client("Response data expected but not found.")
-                dispatchQueue.async {
-                    completionHandler(.failure(noDataError), httpResponse)
-                }
-                return
-            }
-
-            switch result {
-            case .success:
-                guard let statusCode = httpResponse?.statusCode else {
-                    let noStatusCodeError = AzureError.client("Expected a status code in response but didn't find one.")
-                    dispatchQueue.async {
-                        completionHandler(.failure(noStatusCodeError), httpResponse)
-                    }
-                    return
-                }
-                if [
-                    204
-                ].contains(statusCode) {
-                    dispatchQueue.async {
-                        completionHandler(
-                            .success(()),
-                            httpResponse
-                        )
-                    }
-                }
-                if [
-                    401
-                ].contains(statusCode) {
-                    do {
-                        let decoder = JSONDecoder()
-                        let decoded = try decoder.decode(ErrorType.self, from: data)
-                        dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
-                        }
-                    } catch {
-                        dispatchQueue.async {
-                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
-                        }
-                    }
-                }
-                if [
-                    403
-                ].contains(statusCode) {
-                    do {
-                        let decoder = JSONDecoder()
-                        let decoded = try decoder.decode(ErrorType.self, from: data)
-                        dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
-                        }
-                    } catch {
-                        dispatchQueue.async {
-                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
-                        }
-                    }
-                }
-                if [
-                    429
-                ].contains(statusCode) {
-                    do {
-                        let decoder = JSONDecoder()
-                        let decoded = try decoder.decode(ErrorType.self, from: data)
-                        dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
-                        }
-                    } catch {
-                        dispatchQueue.async {
-                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
-                        }
-                    }
-                }
-                if [
-                    503
-                ].contains(statusCode) {
-                    do {
-                        let decoder = JSONDecoder()
-                        let decoded = try decoder.decode(ErrorType.self, from: data)
-                        dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
-                        }
-                    } catch {
-                        dispatchQueue.async {
-                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
-                        }
-                    }
-                }
-            case let .failure(error):
-                dispatchQueue.async {
-                    completionHandler(.failure(error), httpResponse)
-                }
-            }
-        }
-    }
-
-    /// Gets a chat thread.
-    /// - Parameters:
-    ///    - chatThreadId : Thread id to get.
-    ///    - options: A list of options for the operation
-    ///    - completionHandler: A completion handler that receives a status code on
-    ///     success.
-    public func getChatThread(
-        chatThreadId: String,
-        withOptions options: GetChatThreadOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<ChatThread>
-    ) {
-        // Construct URL
-        let urlTemplate = "/chat/threads/{chatThreadId}"
-        let pathParams = [
-            "chatThreadId": chatThreadId,
-            "endpoint": client.endpoint.absoluteString
-        ]
-        // Construct query
-        let queryParams: [QueryParameter] = [
-            ("api-version", "2020-11-01-preview3")
-        ]
-
-        // Construct headers
-        var headers = HTTPHeaders()
-        headers["Accept"] = "application/json"
-        // Construct request
-        guard let requestUrl = url(
-            host: "{endpoint}",
-            template: urlTemplate,
-            pathParams: pathParams,
-            queryParams: queryParams
-        ) else {
-            self.options.logger.error("Failed to construct request url")
-            return
-        }
-
-        guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: headers) else {
-            self.options.logger.error("Failed to construct Http request")
-            return
-        }
-
-        // Send request
-        let context = PipelineContext.of(keyValues: [
-            ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
-        ])
-        context.add(cancellationToken: options?.cancellationToken, applying: self.options)
-        context.merge(with: options?.context)
-        self.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
-            guard let data = httpResponse?.data else {
-                let noDataError = AzureError.client("Response data expected but not found.")
-                dispatchQueue.async {
-                    completionHandler(.failure(noDataError), httpResponse)
-                }
-                return
-            }
-
-            switch result {
-            case .success:
-                guard let statusCode = httpResponse?.statusCode else {
-                    let noStatusCodeError = AzureError.client("Expected a status code in response but didn't find one.")
-                    dispatchQueue.async {
-                        completionHandler(.failure(noStatusCodeError), httpResponse)
-                    }
-                    return
-                }
-                if [
-                    200
-                ].contains(statusCode) {
-                    do {
-                        let decoder = JSONDecoder()
-                        let decoded = try decoder.decode(ChatThread.self, from: data)
-                        dispatchQueue.async {
-                            completionHandler(.success(decoded), httpResponse)
-                        }
-                    } catch {
-                        dispatchQueue.async {
-                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
-                        }
-                    }
-                }
-                if [
-                    401
-                ].contains(statusCode) {
-                    do {
-                        let decoder = JSONDecoder()
-                        let decoded = try decoder.decode(ErrorType.self, from: data)
-                        dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
-                        }
-                    } catch {
-                        dispatchQueue.async {
-                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
-                        }
-                    }
-                }
-                if [
-                    403
-                ].contains(statusCode) {
-                    do {
-                        let decoder = JSONDecoder()
-                        let decoded = try decoder.decode(ErrorType.self, from: data)
-                        dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
-                        }
-                    } catch {
-                        dispatchQueue.async {
-                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
-                        }
-                    }
-                }
-                if [
-                    429
-                ].contains(statusCode) {
-                    do {
-                        let decoder = JSONDecoder()
-                        let decoded = try decoder.decode(ErrorType.self, from: data)
-                        dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
-                        }
-                    } catch {
-                        dispatchQueue.async {
-                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
-                        }
-                    }
-                }
-                if [
-                    503
-                ].contains(statusCode) {
-                    do {
-                        let decoder = JSONDecoder()
-                        let decoded = try decoder.decode(ErrorType.self, from: data)
-                        dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
-                        }
-                    } catch {
-                        dispatchQueue.async {
-                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
-                        }
-                    }
-                }
-            case let .failure(error):
-                dispatchQueue.async {
-                    completionHandler(.failure(error), httpResponse)
-                }
-            }
-        }
-    }
-
-    /// Deletes a thread.
-    /// - Parameters:
-    ///    - chatThreadId : Thread id to delete.
-    ///    - options: A list of options for the operation
-    ///    - completionHandler: A completion handler that receives a status code on
-    ///     success.
-    public func deleteChatThread(
-        chatThreadId: String,
-        withOptions options: DeleteChatThreadOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<Void>
-    ) {
-        // Construct URL
-        let urlTemplate = "/chat/threads/{chatThreadId}"
-        let pathParams = [
-            "chatThreadId": chatThreadId,
-            "endpoint": client.endpoint.absoluteString
-        ]
-        // Construct query
-        let queryParams: [QueryParameter] = [
-            ("api-version", "2020-11-01-preview3")
-        ]
-
-        // Construct headers
-        var headers = HTTPHeaders()
-        headers["Accept"] = "application/json"
-        // Construct request
-        guard let requestUrl = url(
-            host: "{endpoint}",
-            template: urlTemplate,
-            pathParams: pathParams,
-            queryParams: queryParams
-        ) else {
-            self.options.logger.error("Failed to construct request url")
-            return
-        }
-
-        guard let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: headers) else {
-            self.options.logger.error("Failed to construct Http request")
             return
         }
 

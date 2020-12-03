@@ -15,6 +15,7 @@ import Foundation
 // swiftlint:disable line_length
 // swiftlint:disable cyclomatic_complexity
 
+/// Chat message.
 public struct ChatMessage: Codable {
     // MARK: Properties
 
@@ -36,13 +37,13 @@ public struct ChatMessage: Codable {
     public let content: String?
     /// The display name of the chat message sender. This property is used to populate sender name for push notifications.
     public let senderDisplayName: String?
-    /// The timestamp when the chat message arrived at the server. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    /// The timestamp when the chat message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public let createdOn: Date?
     /// The id of the chat message sender.
     public let senderId: String?
-    /// The timestamp when the chat message was deleted. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    /// The timestamp (if applicable) when the message was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public let deletedOn: Date?
-    /// The timestamp when the chat message was edited. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    /// The last timestamp (if applicable) when the message was edited. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public let editedOn: Date?
 
     // MARK: Initializers
@@ -61,10 +62,10 @@ public struct ChatMessage: Codable {
     ///   - version: Version of the chat message.
     ///   - content: Content of the chat message.
     ///   - senderDisplayName: The display name of the chat message sender. This property is used to populate sender name for push notifications.
-    ///   - createdOn: The timestamp when the chat message arrived at the server. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    ///   - createdOn: The timestamp when the chat message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     ///   - senderId: The id of the chat message sender.
-    ///   - deletedOn: The timestamp when the chat message was deleted. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
-    ///   - editedOn: The timestamp when the chat message was edited. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    ///   - deletedOn: The timestamp (if applicable) when the message was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    ///   - editedOn: The last timestamp (if applicable) when the message was edited. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public init(
         id: String? = nil, type: String? = nil, priority: ChatMessagePriority? = nil, version: String? = nil,
         content: String? = nil, senderDisplayName: String? = nil, createdOn: Date? = nil, senderId: String? = nil,

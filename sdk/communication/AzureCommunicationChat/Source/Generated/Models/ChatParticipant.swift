@@ -23,7 +23,7 @@ public struct ChatParticipant: Codable {
     public let id: String
     /// Display name for the chat participant.
     public let displayName: String?
-    /// Time from which the chat history is shared with the participant. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    /// Time from which the chat history is shared with the participant. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public let shareHistoryTime: Date?
 
     // MARK: Initializers
@@ -32,7 +32,7 @@ public struct ChatParticipant: Codable {
     /// - Parameters:
     ///   - id: The id of the chat participant.
     ///   - displayName: Display name for the chat participant.
-    ///   - shareHistoryTime: Time from which the chat history is shared with the participant. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    ///   - shareHistoryTime: Time from which the chat history is shared with the participant. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public init(
         id: String, displayName: String? = nil, shareHistoryTime: Date? = nil
     ) {
