@@ -29,11 +29,11 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
     /// API version of the  to invoke. Defaults to the latest.
     public enum ApiVersion: String {
         /// API version "2020-11-01-preview3"
-        case v20201101preview3 = "2020-11-01-preview3"
+        case v2020_11_01_preview3 = "2020-11-01-preview3"
 
         /// The most recent API version of the
         public static var latest: ApiVersion {
-            return .v20201101preview3
+            return .v2020_11_01_preview3
         }
     }
 
@@ -117,6 +117,8 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         return urlComps.url
     }
 
-    public lazy var azureCommunicationChatService: AzureCommunicationChatService =
-        AzureCommunicationChatService(client: self)
+    public lazy var chat: Chat = Chat(client: self)
+    public lazy var chatThreadOperation: ChatThreadOperation = ChatThreadOperation(client: self)
+
+    // MARK: Public Client Methods
 }

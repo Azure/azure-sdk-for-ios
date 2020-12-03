@@ -15,46 +15,46 @@ import Foundation
 // swiftlint:disable line_length
 // swiftlint:disable cyclomatic_complexity
 
-/// Request payload for updating a chat message.
-public struct UpdateChatMessageRequest: Codable {
+/// Result of the create chat thread operation.
+public struct CreateChatThreadResult: Codable {
     // MARK: Properties
 
-    /// Chat message content.
-    public let content: String?
-    /// The chat message priority.
-    public let priority: ChatMessagePriority?
+    /// Chat thread.
+    public let chatThread: ChatThread?
+    /// Errors encountered during the creation of the chat thread.
+    public let errors: CreateChatThreadErrors?
 
     // MARK: Initializers
 
-    /// Initialize a `UpdateChatMessageRequest` structure.
+    /// Initialize a `CreateChatThreadResult` structure.
     /// - Parameters:
-    ///   - content: Chat message content.
-    ///   - priority: The chat message priority.
+    ///   - chatThread: Chat thread.
+    ///   - errors: Errors encountered during the creation of the chat thread.
     public init(
-        content: String? = nil, priority: ChatMessagePriority? = nil
+        chatThread: ChatThread? = nil, errors: CreateChatThreadErrors? = nil
     ) {
-        self.content = content
-        self.priority = priority
+        self.chatThread = chatThread
+        self.errors = errors
     }
 
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case content
-        case priority
+        case chatThread
+        case errors
     }
 
-    /// Initialize a `UpdateChatMessageRequest` structure from decoder
+    /// Initialize a `CreateChatThreadResult` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.content = try? container.decode(String.self, forKey: .content)
-        self.priority = try? container.decode(ChatMessagePriority.self, forKey: .priority)
+        self.chatThread = try? container.decode(ChatThread.self, forKey: .chatThread)
+        self.errors = try? container.decode(CreateChatThreadErrors.self, forKey: .errors)
     }
 
-    /// Encode a `UpdateChatMessageRequest` structure
+    /// Encode a `CreateChatThreadResult` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        if content != nil { try? container.encode(content, forKey: .content) }
-        if priority != nil { try? container.encode(priority, forKey: .priority) }
+        if chatThread != nil { try? container.encode(chatThread, forKey: .chatThread) }
+        if errors != nil { try? container.encode(errors, forKey: .errors) }
     }
 }
