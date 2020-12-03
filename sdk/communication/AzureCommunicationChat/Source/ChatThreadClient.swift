@@ -296,7 +296,7 @@ public class ChatThreadClient {
     public func add(
         participants: [ChatParticipant],
         withOptions options: ChatThreadOperation.AddChatParticipantsOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<Void>
+        completionHandler: @escaping HTTPResultHandler<AddChatParticipantsResult>
     ) {
         let addParticipantsRequest = AddChatParticipantsRequest(participants: participants)
 
@@ -307,8 +307,8 @@ public class ChatThreadClient {
                 withOptions: options
             ) { result, httpResponse in
                 switch result {
-                case .success:
-                    completionHandler(.success(()), httpResponse)
+                case let .success(addParticipantsResult):
+                    completionHandler(.success(addParticipantsResult), httpResponse)
 
                 case let .failure(error):
                     completionHandler(.failure(error), httpResponse)

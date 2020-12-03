@@ -433,6 +433,7 @@ chatThreadClient.listParticipants() { result, _ in
 Use the `add` method to add participants to a thread.
 
 - `participants` is an array of `ChatParticipant`'s to add
+- `AddChatParticipantsResult` is the model returned, it contains an errors property that has an array of any invalid participants that failed to be added to the chat.
 
 ```swift
 let threadParticipants = [ChatParticipant(
@@ -442,8 +443,8 @@ let threadParticipants = [ChatParticipant(
 
 chatThreadClient.add(participants: threadParticipants) { result, _ in
     switch result {
-    case .success:
-        // Take further action
+    case let .success(result):
+        // Check for invalid participants
 
     case let .failure(error):
         // Display error message
