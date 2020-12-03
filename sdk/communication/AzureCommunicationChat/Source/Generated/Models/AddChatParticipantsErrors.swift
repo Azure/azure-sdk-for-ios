@@ -15,39 +15,39 @@ import Foundation
 // swiftlint:disable line_length
 // swiftlint:disable cyclomatic_complexity
 
-/// Request payload for updating a chat thread.
-public struct UpdateChatThreadRequest: Codable {
+/// Errors encountered during the addition of the chat participant to the chat thread.
+public struct AddChatParticipantsErrors: Codable {
     // MARK: Properties
 
-    /// Chat thread topic.
-    public let topic: String?
+    /// The participants that failed to be added to the chat thread.
+    public let invalidParticipants: [ErrorType]?
 
     // MARK: Initializers
 
-    /// Initialize a `UpdateChatThreadRequest` structure.
+    /// Initialize a `AddChatParticipantsErrors` structure.
     /// - Parameters:
-    ///   - topic: Chat thread topic.
+    ///   - invalidParticipants: The participants that failed to be added to the chat thread.
     public init(
-        topic: String? = nil
+        invalidParticipants: [ErrorType]? = nil
     ) {
-        self.topic = topic
+        self.invalidParticipants = invalidParticipants
     }
 
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case topic = "topic"
+        case invalidParticipants
     }
 
-    /// Initialize a `UpdateChatThreadRequest` structure from decoder
+    /// Initialize a `AddChatParticipantsErrors` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.topic = try? container.decode(String.self, forKey: .topic)
+        self.invalidParticipants = try? container.decode([ErrorType].self, forKey: .invalidParticipants)
     }
 
-    /// Encode a `UpdateChatThreadRequest` structure
+    /// Encode a `AddChatParticipantsErrors` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        if topic != nil { try? container.encode(topic, forKey: .topic) }
+        if invalidParticipants != nil { try? container.encode(invalidParticipants, forKey: .invalidParticipants) }
     }
 }

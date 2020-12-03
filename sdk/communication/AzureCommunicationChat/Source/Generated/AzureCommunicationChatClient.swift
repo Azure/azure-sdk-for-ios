@@ -85,5 +85,8 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
 
     public lazy var azureCommunicationChatService = AzureCommunicationChatService(client: self)
 
+    public lazy var chat: Chat = Chat(client: self)
+    public lazy var chatThreadOperation: ChatThreadOperation = ChatThreadOperation(client: self)
+
     // MARK: Public Client Methods
 }

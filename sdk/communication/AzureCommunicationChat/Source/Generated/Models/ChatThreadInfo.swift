@@ -15,17 +15,18 @@ import Foundation
 // swiftlint:disable line_length
 // swiftlint:disable cyclomatic_complexity
 
-public struct ChatThreadInfo: Codable, Equatable {
+/// Summary information of a chat thread.
+public struct ChatThreadInfo: Codable {
     // MARK: Properties
 
     /// Chat thread id.
     public let id: String?
     /// Chat thread topic.
     public let topic: String?
-    /// The timestamp when the chat thread was deleted. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    /// The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public let deletedOn: Date?
-    /// The timestamp when the last message arrived at the server. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
-    public let lastMessageReceivedOn: Iso8601Date?
+    /// The timestamp when the last message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    public let lastMessageReceivedOn: Date?
 
     // MARK: Initializers
 
@@ -33,8 +34,8 @@ public struct ChatThreadInfo: Codable, Equatable {
     /// - Parameters:
     ///   - id: Chat thread id.
     ///   - topic: Chat thread topic.
-    ///   - deletedOn: The timestamp when the chat thread was deleted. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
-    ///   - lastMessageReceivedOn: The timestamp when the last message arrived at the server. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    ///   - deletedOn: The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    ///   - lastMessageReceivedOn: The timestamp when the last message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public init(
         id: String? = nil, topic: String? = nil, deletedOn: Date? = nil, lastMessageReceivedOn: Date? = nil
     ) {
