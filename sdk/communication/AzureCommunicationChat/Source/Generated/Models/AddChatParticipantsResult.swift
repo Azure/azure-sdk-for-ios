@@ -15,46 +15,39 @@ import Foundation
 // swiftlint:disable line_length
 // swiftlint:disable cyclomatic_complexity
 
-/// Request payload for updating a chat message.
-public struct UpdateChatMessageRequest: Codable {
+/// Result of the add chat participants operation.
+public struct AddChatParticipantsResult: Codable {
     // MARK: Properties
 
-    /// Chat message content.
-    public let content: String?
-    /// The chat message priority.
-    public let priority: ChatMessagePriority?
+    /// Errors encountered during the addition of the chat participant to the chat thread.
+    public let errors: AddChatParticipantsErrors?
 
     // MARK: Initializers
 
-    /// Initialize a `UpdateChatMessageRequest` structure.
+    /// Initialize a `AddChatParticipantsResult` structure.
     /// - Parameters:
-    ///   - content: Chat message content.
-    ///   - priority: The chat message priority.
+    ///   - errors: Errors encountered during the addition of the chat participant to the chat thread.
     public init(
-        content: String? = nil, priority: ChatMessagePriority? = nil
+        errors: AddChatParticipantsErrors? = nil
     ) {
-        self.content = content
-        self.priority = priority
+        self.errors = errors
     }
 
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case content
-        case priority
+        case errors
     }
 
-    /// Initialize a `UpdateChatMessageRequest` structure from decoder
+    /// Initialize a `AddChatParticipantsResult` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.content = try? container.decode(String.self, forKey: .content)
-        self.priority = try? container.decode(ChatMessagePriority.self, forKey: .priority)
+        self.errors = try? container.decode(AddChatParticipantsErrors.self, forKey: .errors)
     }
 
-    /// Encode a `UpdateChatMessageRequest` structure
+    /// Encode a `AddChatParticipantsResult` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        if content != nil { try? container.encode(content, forKey: .content) }
-        if priority != nil { try? container.encode(priority, forKey: .priority) }
+        if errors != nil { try? container.encode(errors, forKey: .errors) }
     }
 }

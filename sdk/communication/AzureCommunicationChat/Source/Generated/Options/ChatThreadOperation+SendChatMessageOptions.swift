@@ -15,9 +15,9 @@ import Foundation
 // swiftlint:disable identifier_name
 // swiftlint:disable line_length
 
-extension AzureCommunicationChatService {
-    /// User-configurable options for the `AzureCommunicationChatService.RemoveChatParticipant` operation.
-    public struct RemoveChatParticipantOptions: RequestOptions {
+extension ChatThreadOperation {
+    /// User-configurable options for the `AzureCommunicationChatService.SendChatMessage` operation.
+    public struct SendChatMessageOptions: RequestOptions {
         /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
         /// Highly recommended for correlating client-side activites with requests received by the server.
         public let clientRequestId: String?
@@ -31,7 +31,7 @@ extension AzureCommunicationChatService {
         /// A `PipelineContext` object to associate with the request.
         public var context: PipelineContext?
 
-        /// Initialize a `RemoveChatParticipantOptions` structure.
+        /// Initialize a `SendChatMessageOptions` structure.
         /// - Parameters:
         ///   - clientRequestId: A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
         ///   - cancellationToken: A token used to make a best-effort attempt at canceling a request.

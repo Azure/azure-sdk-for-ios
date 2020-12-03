@@ -15,46 +15,39 @@ import Foundation
 // swiftlint:disable line_length
 // swiftlint:disable cyclomatic_complexity
 
-/// Request payload for updating a chat message.
-public struct UpdateChatMessageRequest: Codable {
+/// Errors encountered during the creation of the chat thread.
+public struct CreateChatThreadErrors: Codable {
     // MARK: Properties
 
-    /// Chat message content.
-    public let content: String?
-    /// The chat message priority.
-    public let priority: ChatMessagePriority?
+    /// The participants that failed to be added to the chat thread.
+    public let invalidParticipants: [ErrorType]?
 
     // MARK: Initializers
 
-    /// Initialize a `UpdateChatMessageRequest` structure.
+    /// Initialize a `CreateChatThreadErrors` structure.
     /// - Parameters:
-    ///   - content: Chat message content.
-    ///   - priority: The chat message priority.
+    ///   - invalidParticipants: The participants that failed to be added to the chat thread.
     public init(
-        content: String? = nil, priority: ChatMessagePriority? = nil
+        invalidParticipants: [ErrorType]? = nil
     ) {
-        self.content = content
-        self.priority = priority
+        self.invalidParticipants = invalidParticipants
     }
 
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case content
-        case priority
+        case invalidParticipants
     }
 
-    /// Initialize a `UpdateChatMessageRequest` structure from decoder
+    /// Initialize a `CreateChatThreadErrors` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.content = try? container.decode(String.self, forKey: .content)
-        self.priority = try? container.decode(ChatMessagePriority.self, forKey: .priority)
+        self.invalidParticipants = try? container.decode([ErrorType].self, forKey: .invalidParticipants)
     }
 
-    /// Encode a `UpdateChatMessageRequest` structure
+    /// Encode a `CreateChatThreadErrors` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        if content != nil { try? container.encode(content, forKey: .content) }
-        if priority != nil { try? container.encode(priority, forKey: .priority) }
+        if invalidParticipants != nil { try? container.encode(invalidParticipants, forKey: .invalidParticipants) }
     }
 }
