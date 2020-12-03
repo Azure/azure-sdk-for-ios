@@ -15,39 +15,46 @@ import Foundation
 // swiftlint:disable line_length
 // swiftlint:disable cyclomatic_complexity
 
-/// Request payload for updating a chat thread.
-public struct UpdateChatThreadRequest: Codable {
+/// Result of the create chat thread operation.
+public struct CreateChatThreadResult: Codable {
     // MARK: Properties
 
-    /// Chat thread topic.
-    public let topic: String?
+    /// Chat thread.
+    public let chatThread: ChatThread?
+    /// Errors encountered during the creation of the chat thread.
+    public let errors: CreateChatThreadErrors?
 
     // MARK: Initializers
 
-    /// Initialize a `UpdateChatThreadRequest` structure.
+    /// Initialize a `CreateChatThreadResult` structure.
     /// - Parameters:
-    ///   - topic: Chat thread topic.
+    ///   - chatThread: Chat thread.
+    ///   - errors: Errors encountered during the creation of the chat thread.
     public init(
-        topic: String? = nil
+        chatThread: ChatThread? = nil, errors: CreateChatThreadErrors? = nil
     ) {
-        self.topic = topic
+        self.chatThread = chatThread
+        self.errors = errors
     }
 
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case topic = "topic"
+        case chatThread
+        case errors
     }
 
-    /// Initialize a `UpdateChatThreadRequest` structure from decoder
+    /// Initialize a `CreateChatThreadResult` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.topic = try? container.decode(String.self, forKey: .topic)
+        self.chatThread = try? container.decode(ChatThread.self, forKey: .chatThread)
+        self.errors = try? container.decode(CreateChatThreadErrors.self, forKey: .errors)
     }
 
-    /// Encode a `UpdateChatThreadRequest` structure
+    /// Encode a `CreateChatThreadResult` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        if topic != nil { try? container.encode(topic, forKey: .topic) }
+        if chatThread != nil { try? container.encode(chatThread, forKey: .chatThread) }
+        if errors != nil { try? container.encode(errors, forKey: .errors) }
     }
 }

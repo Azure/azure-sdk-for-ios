@@ -15,6 +15,7 @@ import Foundation
 // swiftlint:disable line_length
 // swiftlint:disable cyclomatic_complexity
 
+/// A paged collection of chat message read receipts.
 public struct ChatMessageReadReceiptsCollection: Codable {
     // MARK: Properties
 

@@ -15,7 +15,8 @@ import Foundation
 // swiftlint:disable line_length
 // swiftlint:disable cyclomatic_complexity
 
-public struct UpdateChatMessageRequest: Codable, Equatable {
+/// Request payload for updating a chat message.
+public struct UpdateChatMessageRequest: Codable {
     // MARK: Properties
 
     /// Chat message content.

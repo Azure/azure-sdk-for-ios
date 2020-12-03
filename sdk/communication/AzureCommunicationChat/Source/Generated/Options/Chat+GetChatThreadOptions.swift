@@ -15,14 +15,9 @@ import Foundation
 // swiftlint:disable identifier_name
 // swiftlint:disable line_length
 
-extension AzureCommunicationChatService {
-    /// User-configurable options for the `AzureCommunicationChatService.ListChatParticipants` operation.
-    public struct ListChatParticipantsOptions: RequestOptions {
-        /// The maximum number of participants to be returned per page.
-        public let maxPageSize: Int32?
-        /// Skips participants up to a specified position in response.
-        public let skip: Int32?
-
+extension Chat {
+    /// User-configurable options for the `AzureCommunicationChatService.GetChatThread` operation.
+    public struct GetChatThreadOptions: RequestOptions {
         /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
         /// Highly recommended for correlating client-side activites with requests received by the server.
         public let clientRequestId: String?
@@ -36,24 +31,18 @@ extension AzureCommunicationChatService {
         /// A `PipelineContext` object to associate with the request.
         public var context: PipelineContext?
 
-        /// Initialize a `ListChatParticipantsOptions` structure.
+        /// Initialize a `GetChatThreadOptions` structure.
         /// - Parameters:
-        ///   - maxPageSize: The maximum number of participants to be returned per page.
-        ///   - skip: Skips participants up to a specified position in response.
         ///   - clientRequestId: A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
         ///   - cancellationToken: A token used to make a best-effort attempt at canceling a request.
         ///   - dispatchQueue: A dispatch queue on which to call the completion handler. Defaults to `DispatchQueue.main`.
         ///   - context: A `PipelineContext` object to associate with the request.
         public init(
-            maxPageSize: Int32? = nil,
-            skip: Int32? = nil,
             clientRequestId: String? = nil,
             cancellationToken: CancellationToken? = nil,
             dispatchQueue: DispatchQueue? = nil,
             context: PipelineContext? = nil
         ) {
-            self.maxPageSize = maxPageSize
-            self.skip = skip
             self.clientRequestId = clientRequestId
             self.cancellationToken = cancellationToken
             self.dispatchQueue = dispatchQueue
