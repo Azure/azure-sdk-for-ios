@@ -15,26 +15,27 @@ import Foundation
 // swiftlint:disable line_length
 // swiftlint:disable cyclomatic_complexity
 
+/// Error encountered while performing an operation.
 public struct ErrorType: Codable, Swift.Error {
     // MARK: Properties
 
-    /// Error code
+    /// Error code.
     public let code: String?
-    /// Description of the error
+    /// Description of the error.
     public let message: String?
-    /// If applicable, would be used to indicate the property causing the error
+    /// If applicable, would be used to indicate the property causing the error.
     public let target: String?
-    /// If applicable, inner errors would be returned for more details on the error
+    /// If applicable, inner errors would be returned for more details on the error.
     public let innerErrors: [ErrorType]?
 
     // MARK: Initializers
 
     /// Initialize a `ErrorType` structure.
     /// - Parameters:
-    ///   - code: Error code
-    ///   - message: Description of the error
-    ///   - target: If applicable, would be used to indicate the property causing the error
-    ///   - innerErrors: If applicable, inner errors would be returned for more details on the error
+    ///   - code: Error code.
+    ///   - message: Description of the error.
+    ///   - target: If applicable, would be used to indicate the property causing the error.
+    ///   - innerErrors: If applicable, inner errors would be returned for more details on the error.
     public init(
         code: String? = nil, message: String? = nil, target: String? = nil, innerErrors: [ErrorType]? = nil
     ) {

@@ -184,7 +184,9 @@ Use the `create` method of `ChatClient` to create a new thread.
 
 - `CreateChatThreadRequest` is the model to pass to this method. It contains the participants to add to the thread as well as the topic of the thread.
 
-- `ChatThread` is the result returned from creating a thread. This client can then be used to perform operations within the newly created thread.
+- `CreateChatThreadResult` is the result returned from creating a thread.
+- `chatThread` is the ChatThread that was created
+- `errors` contains an array of errors for any invalid participants that failed to be added to the chat thread.
 
 ```swift
 let thread = CreateChatThreadRequest(
@@ -198,7 +200,7 @@ let thread = CreateChatThreadRequest(
 
 chatClient.create(chatThread: thread) { result, _ in
     switch result {
-    case let .success(chatThread):
+    case let .success(chatThreadResult):
         // Take further action
 
     case let .failure(error):
@@ -431,6 +433,7 @@ chatThreadClient.listParticipants() { result, _ in
 Use the `add` method to add participants to a thread.
 
 - `participants` is an array of `ChatParticipant`'s to add
+- `AddChatParticipantsResult` is the model returned, it contains an errors property that has an array of any invalid participants that failed to be added to the chat.
 
 ```swift
 let threadParticipants = [ChatParticipant(
@@ -440,8 +443,8 @@ let threadParticipants = [ChatParticipant(
 
 chatThreadClient.add(participants: threadParticipants) { result, _ in
     switch result {
-    case .success:
-        // Take further action
+    case let .success(result):
+        // Check for invalid participants
 
     case let .failure(error):
         // Display error message
