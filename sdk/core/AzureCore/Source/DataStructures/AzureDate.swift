@@ -73,14 +73,37 @@ public struct Iso8601Date: AzureDate {
     // MARK: Codable
 
     public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        let dateString = try container.decode(String.self)
-        self.value = Self.formatter.date(from: dateString) ?? Date()
+        let formats = [
+            "yyyy-MM-dd't'HH:mm:ss.SSSZZZZZ",
+            "yyyy-MM-dd't'HH:mm:ssZZZZZ",
+            "yyyy-MM-dd't'HH:mm:ss"
+        ]
+        let formatter = Self.formatter
+        var dateString = ""
+        do {
+            let container = try decoder.singleValueContainer()
+            dateString = try container.decode(String.self)
+            for format in formats {
+                formatter.dateFormat = format
+                (decoder as? JSONDecoder)?.dateDecodingStrategy = .formatted(formatter)
+                if let decoded = formatter.date(from: dateString.lowercased()) {
+                    self.value = decoded
+                    return
+                }
+            }
+        } catch {}
+        let context = DecodingError.Context(codingPath: [], debugDescription: "Invalid date string: \(dateString).")
+        throw DecodingError.dataCorrupted(context)
     }
 
     public func encode(to encoder: Encoder) throws {
+        (encoder as? JSONEncoder)?.dateEncodingStrategy = .formatted(Self.formatter)
         var container = encoder.singleValueContainer()
-        try container.encode(requestString)
+        var stringToEncode = requestString
+        if !stringToEncode.hasSuffix("Z") {
+            stringToEncode += "Z"
+        }
+        try container.encode(stringToEncode)
     }
 
     // MARK: Equatable
@@ -131,12 +154,19 @@ public struct Rfc1123Date: AzureDate {
     // MARK: Codable
 
     public init(from decoder: Decoder) throws {
+        (decoder as? JSONDecoder)?.dateDecodingStrategy = .formatted(Self.formatter)
         let container = try decoder.singleValueContainer()
         let dateString = try container.decode(String.self)
-        self.value = Self.formatter.date(from: dateString) ?? Date()
+        if let decoded = Self.formatter.date(from: dateString) {
+            self.value = decoded
+        } else {
+            let context = DecodingError.Context(codingPath: [], debugDescription: "Invalid date string: \(dateString).")
+            throw DecodingError.dataCorrupted(context)
+        }
     }
 
     public func encode(to encoder: Encoder) throws {
+        (encoder as? JSONEncoder)?.dateEncodingStrategy = .formatted(Self.formatter)
         var container = encoder.singleValueContainer()
         try container.encode(requestString)
     }
@@ -188,12 +218,19 @@ public struct SimpleDate: AzureDate {
     // MARK: Codable
 
     public init(from decoder: Decoder) throws {
+        (decoder as? JSONDecoder)?.dateDecodingStrategy = .formatted(Self.formatter)
         let container = try decoder.singleValueContainer()
         let dateString = try container.decode(String.self)
-        self.value = Self.formatter.date(from: dateString) ?? Date()
+        if let decoded = Self.formatter.date(from: dateString) {
+            self.value = decoded
+        } else {
+            let context = DecodingError.Context(codingPath: [], debugDescription: "Invalid date string: \(dateString).")
+            throw DecodingError.dataCorrupted(context)
+        }
     }
 
     public func encode(to encoder: Encoder) throws {
+        (encoder as? JSONEncoder)?.dateEncodingStrategy = .formatted(Self.formatter)
         var container = encoder.singleValueContainer()
         try container.encode(requestString)
     }
@@ -246,6 +283,7 @@ public struct UnixTime: Codable, Comparable, RequestStringConvertible {
     }
 
     public func encode(to encoder: Encoder) throws {
+        (encoder as? JSONEncoder)?.dateEncodingStrategy = .secondsSince1970
         var container = encoder.singleValueContainer()
         try container.encode(requestString)
     }
@@ -292,7 +330,7 @@ public enum AzureDateFormat {
             formatter.calendar = Calendar(identifier: .iso8601)
             formatter.locale = Locale(identifier: "en_US_POSIX")
             formatter.timeZone = TimeZone(abbreviation: "GMT")
-            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+            formatter.dateFormat = "yyyy-MM-dd't'HH:mm:ss.SSSZZZZZ"
             return formatter
         }
     }

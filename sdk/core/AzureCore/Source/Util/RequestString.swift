@@ -44,14 +44,13 @@ extension Int: RequestStringConvertible {
 }
 
 extension Decimal: RequestStringConvertible {
-
     public var requestString: String {
         // Test server expects 'positive exponent' to have a + sign. i.e. instead of 2.566e10, it expects 2.566e+10}
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .scientific
         numberFormatter.maximumSignificantDigits = 8
         var decimalString = numberFormatter.string(from: self as NSDecimalNumber)
-        decimalString = decimalString?.replacingOccurrences(of: "e([0-9])", with: "e+$1", options:  .regularExpression)
+        decimalString = decimalString?.replacingOccurrences(of: "e([0-9])", with: "e+$1", options: .regularExpression)
         return decimalString ?? ""
     }
 }
