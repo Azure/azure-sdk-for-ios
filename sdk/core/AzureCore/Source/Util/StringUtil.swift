@@ -46,4 +46,13 @@ extension Data {
     public func hexadecimalString() -> String {
         return map { String(format: "%02hhx", $0) }.joined()
     }
+
+    /// Returns a Base-64 encoded string, optionally trimming ending `=` characters.
+    public func base64EncodedString(trimmingEquals: Bool) -> String {
+        if trimmingEquals {
+            return base64EncodedString().trimmingCharacters(in: ["="])
+        } else {
+            return base64EncodedString()
+        }
+    }
 }

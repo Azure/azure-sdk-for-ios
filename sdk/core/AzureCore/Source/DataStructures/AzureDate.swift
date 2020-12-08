@@ -308,6 +308,71 @@ public struct UnixTime: Codable, Comparable, RequestStringConvertible {
     }
 }
 
+/// Conforms to Modeler4's `TimeSchema`.
+public struct SimpleTime: Codable, Comparable, RequestStringConvertible {
+    public var value: Date
+
+    public static var dateFormat: AzureDateFormat = .custom("HH:mm:ss")
+
+    public static var formatter: DateFormatter {
+        return Self.dateFormat.formatter
+    }
+
+    // MARK: RequestStringConvertible
+
+    public var requestString: String {
+        return Self.formatter.string(from: value)
+    }
+
+    // MARK: Initializers
+
+    public init() {
+        self.value = Date()
+    }
+
+    public init?(string: String?) {
+        guard let date = Self.formatter.date(from: string ?? "") else { return nil }
+        self.value = date
+    }
+
+    public init?(_ date: Date?) {
+        guard let unwrapped = date else { return nil }
+        self.value = unwrapped
+    }
+
+    // MARK: Codable
+
+    public init(from decoder: Decoder) throws {
+        (decoder as? JSONDecoder)?.dateDecodingStrategy = .formatted(Self.formatter)
+        let container = try decoder.singleValueContainer()
+        let timeString = try container.decode(String.self)
+        if let decoded = Self.formatter.date(from: timeString) {
+            self.value = decoded
+        } else {
+            let context = DecodingError.Context(codingPath: [], debugDescription: "Invalid time string: \(timeString).")
+            throw DecodingError.dataCorrupted(context)
+        }
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        (encoder as? JSONEncoder)?.dateEncodingStrategy = .formatted(Self.formatter)
+        var container = encoder.singleValueContainer()
+        try container.encode(requestString)
+    }
+
+    // MARK: Equatable
+
+    public static func == (lhs: SimpleTime, rhs: SimpleTime) -> Bool {
+        return lhs.value == rhs.value
+    }
+
+    // MARK: Comparable
+
+    public static func < (lhs: SimpleTime, rhs: SimpleTime) -> Bool {
+        return lhs.value < rhs.value
+    }
+}
+
 public enum AzureDateFormat {
     /// Format a custom date format
     case custom(String)
