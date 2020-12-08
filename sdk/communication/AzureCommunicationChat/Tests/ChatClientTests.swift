@@ -82,7 +82,7 @@ class ChatClientTests: XCTestCase {
             ]
         )
 
-        let expectation = XCTestExpectation(description: "Create Thread")
+        let expectation = self.expectation(description: "Create Thread")
 
         self.chatClient.create(thread: thread) { result, _ in
             switch result {
@@ -100,6 +100,12 @@ class ChatClientTests: XCTestCase {
             }
 
             expectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: 10.0) { error in
+            if let error = error {
+                XCTFail("Create Thread timed out: \(error)")
+            }
         }
     }
 
