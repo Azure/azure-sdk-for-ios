@@ -42,6 +42,12 @@ public protocol AzureDate: RequestStringConvertible, Codable, Comparable {
 public struct Iso8601Date: AzureDate {
     public static var dateFormat: AzureDateFormat = .iso8601
 
+    private let alternateFormats = [
+        "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ",
+        "yyyy-MM-dd'T'HH:mm:ssZZZZZ",
+        "yyyy-MM-dd'T'HH:mm:ss"
+    ]
+
     public static var formatter: DateFormatter {
         return Self.dateFormat.formatter
     }
@@ -61,8 +67,15 @@ public struct Iso8601Date: AzureDate {
     }
 
     public init?(string: String?) {
-        guard let date = Self.formatter.date(from: string ?? "") else { return nil }
-        self.value = date
+        let formatter = Self.formatter
+        for format in alternateFormats {
+            formatter.dateFormat = format
+            if let date = formatter.date(from: string?.uppercased() ?? "") {
+                self.value = date
+                return
+            }
+        }
+        return nil
     }
 
     public init?(_ date: Date?) {
@@ -73,20 +86,15 @@ public struct Iso8601Date: AzureDate {
     // MARK: Codable
 
     public init(from decoder: Decoder) throws {
-        let formats = [
-            "yyyy-MM-dd't'HH:mm:ss.SSSZZZZZ",
-            "yyyy-MM-dd't'HH:mm:ssZZZZZ",
-            "yyyy-MM-dd't'HH:mm:ss"
-        ]
         let formatter = Self.formatter
         var dateString = ""
         do {
             let container = try decoder.singleValueContainer()
             dateString = try container.decode(String.self)
-            for format in formats {
+            for format in alternateFormats {
                 formatter.dateFormat = format
                 (decoder as? JSONDecoder)?.dateDecodingStrategy = .formatted(formatter)
-                if let decoded = formatter.date(from: dateString.lowercased()) {
+                if let decoded = formatter.date(from: dateString.uppercased()) {
                     self.value = decoded
                     return
                 }
@@ -277,8 +285,7 @@ public struct UnixTime: Codable, Comparable, RequestStringConvertible {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        let dateString = try container.decode(String.self)
-        let timeInterval = Double(dateString) ?? 0.0
+        let timeInterval = try container.decode(Double.self)
         self.value = Date(timeIntervalSince1970: timeInterval)
     }
 
@@ -330,7 +337,7 @@ public enum AzureDateFormat {
             formatter.calendar = Calendar(identifier: .iso8601)
             formatter.locale = Locale(identifier: "en_US_POSIX")
             formatter.timeZone = TimeZone(abbreviation: "GMT")
-            formatter.dateFormat = "yyyy-MM-dd't'HH:mm:ss.SSSZZZZZ"
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
             return formatter
         }
     }
