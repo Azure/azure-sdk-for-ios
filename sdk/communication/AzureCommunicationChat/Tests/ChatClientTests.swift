@@ -30,24 +30,77 @@ import AzureCommunicationChat
 
 class ChatClientTests: XCTestCase {
 
-    /// Tests ChatClient is initialized without error.
-    func test_ChatClient_Inits() throws {
-        // TODO: handle when env var isn't set
-        let endpoint = ProcessInfo.processInfo.environment["COMMUNICATION_CONNECTION_STRING"] ?? ""
+    private var chatClient: ChatClient!
+    private var validId: String = "1234"
+    private var invalidId: String = "5678"
 
-        let token = ProcessInfo.processInfo.environment["COMMUNICATION_TOKEN"] ?? ""
-        let options = AzureCommunicationChatClientOptions()
-        
-        guard let credential = try? CommunicationUserCredential(token: token) else {
-            XCTFail("Failed to create credential for test.")
+    override func setUp() {
+        super.setUp()
+
+        guard let endpoint = ProcessInfo.processInfo.environment["COMMUNICATION_ENDPOINT"] else {
+            XCTFail("Failed to retrieve endpoint")
             return
         }
 
-        XCTAssertNoThrow(try ChatClient(endpoint: endpoint, credential: credential, withOptions: options))
+        guard let token = ProcessInfo.processInfo.environment["COMMUNICATION_TOKEN"] else {
+            XCTFail("Failed to retrieve token")
+            return
+        }
+
+        guard let credential = try? CommunicationUserCredential(token: token) else {
+            XCTFail("Failed to create credential")
+            return
+        }
+
+        let options = AzureCommunicationChatClientOptions()
+
+        guard let client = try? ChatClient(endpoint: endpoint, credential: credential, withOptions: options) else {
+            XCTFail("Failed to initialize ChatClient")
+            return
+        }
+
+        self.chatClient = client
+        
+        guard let id = ProcessInfo.processInfo.environment["COMMUNICATION_USER_ID"]  else {
+            XCTFail("Failed to retrieve user ID")
+            return
+        }
+        
+        self.validId = id
     }
 
     func test_CreateThread_ResultContainsChatThread() {
+        let participant = ChatParticipant(
+            id: self.validId,
+            displayName: "Initial Member"
+        )
+ 
+        let thread = CreateChatThreadRequest(
+            topic: "General",
+            participants: [
+                participant
+            ]
+        )
 
+        let expectation = XCTestExpectation(description: "Create Thread")
+
+        self.chatClient.create(thread: thread) { result, _ in
+            switch result {
+            case let .success(response):
+                guard let chatThread = response.chatThread else {
+                    XCTFail("Create Thread failed to return chatThread")
+                    return
+                }
+
+                XCTAssert(chatThread.id != nil)
+                XCTAssert(chatThread.topic == thread.topic)
+                XCTAssert(chatThread.createdBy == participant.id)
+            case let .failure(error):
+                XCTFail("Create Thread failed with error: \(error)")
+            }
+
+            expectation.fulfill()
+        }
     }
 
     func test_CreateThread_WithInvalidParticipants_ResultContainsErrors() {
