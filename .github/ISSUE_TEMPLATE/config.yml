@@ -1,0 +1,4 @@
+contact_links:
+  - name: Question, comment, or idea
+    url: https://github.com/Azure/azure-sdk-for-ios/discussions
+    about: Create a new Discussion
