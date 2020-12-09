@@ -53,12 +53,12 @@ class ChatClientTests: XCTestCase {
     override func setUp() {
         super.setUp()
 
-        guard let endpoint = ProcessInfo.processInfo.environment["COMMUNICATION_ENDPOINT"] else {
+        guard let endpoint = ProcessInfo.processInfo.environment["AZURE_COMMUNICATION_ENDPOINT"] else {
             XCTFail("Failed to retrieve endpoint")
             return
         }
 
-        guard let token = ProcessInfo.processInfo.environment["COMMUNICATION_TOKEN"] else {
+        guard let token = ProcessInfo.processInfo.environment["AZURE_COMMUNICATION_TOKEN"] else {
             XCTFail("Failed to retrieve token")
             return
         }
@@ -77,7 +77,7 @@ class ChatClientTests: XCTestCase {
 
         chatClient = client
 
-        guard let userId = ProcessInfo.processInfo.environment["COMMUNICATION_USER_ID"] else {
+        guard let userId = ProcessInfo.processInfo.environment["AZURE_COMMUNICATION_USER_ID"] else {
             XCTFail("Failed to retrieve user ID")
             return
         }
