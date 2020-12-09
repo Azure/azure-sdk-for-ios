@@ -78,6 +78,12 @@ let package = Package(
                 "Tests/ObjCTokenParserTests.m"
             ],
             sources: ["Tests"]
+        ),
+        .testTarget(
+            name: "AzureCommunicationChatTests",
+            dependencies: ["AzureCommunication", "AzureCommunicationChat"],
+            path: "sdk/communication/AzureCommunicationChat",
+            sources: ["Tests"]
         )
     ],
     swiftLanguageVersions: [.v5]
