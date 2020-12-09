@@ -68,6 +68,34 @@ class ChatClientTests: XCTestCase {
         
         self.validId = id
     }
+    
+    func createThread(completionHandler: @escaping (String) -> Void) {
+        let participant = ChatParticipant(
+            id: self.validId,
+            displayName: "Initial Member"
+        )
+ 
+        let thread = CreateChatThreadRequest(
+            topic: "General",
+            participants: [
+                participant
+            ]
+        )
+        
+        self.chatClient.create(thread: thread) { result, _ in
+            switch result {
+            case let .success(chatThreadResult):
+                guard let threadId = chatThreadResult.chatThread?.id else {
+                    XCTFail("Failed to get thread id")
+                    return
+                }
+                
+                completionHandler(threadId);
+            case let .failure(error):
+                XCTFail("Error creating thread: \(error)")
+            }
+        }
+    }
 
     func test_CreateThread_ResultContainsChatThread() {
         let participant = ChatParticipant(
@@ -82,13 +110,13 @@ class ChatClientTests: XCTestCase {
             ]
         )
 
-        let expectation = self.expectation(description: "Create Thread")
+        let expectation = self.expectation(description: "Create thread")
 
         self.chatClient.create(thread: thread) { result, _ in
             switch result {
             case let .success(response):
                 guard let chatThread = response.chatThread else {
-                    XCTFail("Create Thread failed to return chatThread")
+                    XCTFail("Create thread failed to return chatThread")
                     return
                 }
 
@@ -96,7 +124,7 @@ class ChatClientTests: XCTestCase {
                 XCTAssert(chatThread.topic == thread.topic)
                 XCTAssert(chatThread.createdBy == participant.id)
             case let .failure(error):
-                XCTFail("Create Thread failed with error: \(error)")
+                XCTFail("Create thread failed with error: \(error)")
             }
 
             expectation.fulfill()
@@ -104,12 +132,43 @@ class ChatClientTests: XCTestCase {
         
         waitForExpectations(timeout: 10.0) { error in
             if let error = error {
-                XCTFail("Create Thread timed out: \(error)")
+                XCTFail("Create thread timed out: \(error)")
             }
         }
     }
+    
+    func test_GetThread_ReturnsChatThread() {
+        let expectation = self.expectation(description: "Get thread")
 
-    func test_CreateThread_WithInvalidParticipants_ResultContainsErrors() {
+        self.createThread() { threadId in
+            self.chatClient.get(thread: threadId) { result, _ in
+                switch result {
+                case let .success(thread):
+                    XCTAssert(thread.topic == "General")
+                case let .failure(error):
+                    XCTFail("Get thread failed with error: \(error)")
+                }
+
+                expectation.fulfill()
+            }
+        }
+        
+        waitForExpectations(timeout: 10.0) { error in
+            if let error = error {
+                XCTFail("Get thread timed out: \(error)")
+            }
+        }
+    }
+    
+    func test_ListThreads_ReturnsChatThreadInfos() {
+        
+    }
+    
+    func test_DeleteThread() {
+        
+    }
+    
+    func test_CreateClient_ReturnsChatThreadClient() {
         
     }
 }
