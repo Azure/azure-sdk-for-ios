@@ -19,7 +19,7 @@ extension Chat {
     /// User-configurable options for the `AzureCommunicationChatService.ListChatThreads` operation.
     public struct ListChatThreadsOptions: RequestOptions {
         /// The maximum number of chat threads returned per page.
-        public let maxPageSize: Int32?
+        public let maxpagesize: Int32?
         /// The earliest point in time to get chat threads up to. The timestamp should be in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
         public let startTime: Date?
 
@@ -38,21 +38,21 @@ extension Chat {
 
         /// Initialize a `ListChatThreadsOptions` structure.
         /// - Parameters:
-        ///   - maxPageSize: The maximum number of chat threads returned per page.
+        ///   - maxpagesize: The maximum number of chat threads returned per page.
         ///   - startTime: The earliest point in time to get chat threads up to. The timestamp should be in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
         ///   - clientRequestId: A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
         ///   - cancellationToken: A token used to make a best-effort attempt at canceling a request.
         ///   - dispatchQueue: A dispatch queue on which to call the completion handler. Defaults to `DispatchQueue.main`.
         ///   - context: A `PipelineContext` object to associate with the request.
         public init(
-            maxPageSize: Int32? = nil,
-            startTime: Iso8601Date? = nil,
+            maxpagesize: Int32? = nil,
+            startTime: Date? = nil,
             clientRequestId: String? = nil,
             cancellationToken: CancellationToken? = nil,
             dispatchQueue: DispatchQueue? = nil,
             context: PipelineContext? = nil
         ) {
-            self.maxPageSize = maxPageSize
+            self.maxpagesize = maxpagesize
             self.startTime = startTime
             self.clientRequestId = clientRequestId
             self.cancellationToken = cancellationToken
