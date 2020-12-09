@@ -45,25 +45,35 @@ func registerStubs() {}
 
 class ChatClientTests: XCTestCase {
     private var chatClient: ChatClient!
-    private var validId: String!
-    private var participant: ChatParticipant!
+    private var userId: String!
     private var threadTopic: String = "General"
     private let timeout: TimeInterval = 10.0
 
     override func setUp() {
         super.setUp()
 
+        guard let id = ProcessInfo.processInfo.environment["AZURE_COMMUNICATION_USER_ID"] else {
+            self.continueAfterFailure = false
+            XCTFail("Failed to retrieve user ID")
+            return
+        }
+
+        userId = id
+
         guard let endpoint = ProcessInfo.processInfo.environment["AZURE_COMMUNICATION_ENDPOINT"] else {
+            self.continueAfterFailure = false
             XCTFail("Failed to retrieve endpoint")
             return
         }
 
         guard let token = ProcessInfo.processInfo.environment["AZURE_COMMUNICATION_TOKEN"] else {
+            self.continueAfterFailure = false
             XCTFail("Failed to retrieve token")
             return
         }
 
         guard let credential = try? CommunicationUserCredential(token: token) else {
+            self.continueAfterFailure = false
             XCTFail("Failed to create credential")
             return
         }
@@ -76,21 +86,14 @@ class ChatClientTests: XCTestCase {
         }
 
         chatClient = client
-
-        guard let userId = ProcessInfo.processInfo.environment["AZURE_COMMUNICATION_USER_ID"] else {
-            XCTFail("Failed to retrieve user ID")
-            return
-        }
-
-        validId = userId
-
-        participant = ChatParticipant(
-            id: validId,
-            displayName: "Initial Member"
-        )
     }
 
     func createThread(completionHandler: @escaping (String) -> Void) {
+        let participant = ChatParticipant(
+            id: userId,
+            displayName: "Initial Member"
+        )
+
         let thread = CreateChatThreadRequest(
             topic: threadTopic,
             participants: [
@@ -122,6 +125,10 @@ class ChatClientTests: XCTestCase {
 //        stub(condition: isMethodPOST() && isPath("/chat/threads")) { _ in
 //            return fixture(filePath: path, status: 201, headers: nil)
 //        }
+        let participant = ChatParticipant(
+            id: userId,
+            displayName: "Initial Member"
+        )
 
         let thread = CreateChatThreadRequest(
             topic: threadTopic,
@@ -143,7 +150,7 @@ class ChatClientTests: XCTestCase {
                 // XCTAssert(chatThread.id == "some_id")
                 XCTAssert(chatThread.id != nil)
                 XCTAssert(chatThread.topic == thread.topic)
-                XCTAssert(chatThread.createdBy == self.participant.id)
+                XCTAssert(chatThread.createdBy == participant.id)
 
             case let .failure(error):
                 XCTFail("Create thread failed with error: \(error)")
