@@ -27,6 +27,23 @@
 import XCTest
 import AzureCommunication
 import AzureCommunicationChat
+import OHHTTPStubsSwift
+
+// TODO: util function that generates JSON files from responses - run with each test if mode is record
+func generateRecording() {
+    // pass as completion handler to test calls
+    // create() {\
+//    .success(reponse)
+//        completionHandler(response)
+//    }
+//     completionHandler = generateRecording for record mode, nil for other modes
+    // assign the completion handler during setup function bf each test?
+}
+
+// TODO: util function that registers all the stubs - in test setup class func run at start of all tests if mode is playback
+func registerStubs() {
+    
+}
 
 class ChatClientTests: XCTestCase {
 
@@ -98,6 +115,15 @@ class ChatClientTests: XCTestCase {
     }
 
     func test_CreateThread_ResultContainsChatThread() {
+        // TODO: Move this into setup code
+//        let bundle = Bundle(for: type(of: self))
+//        let path = bundle.path(forResource: "test", ofType: "json") ?? ""
+//
+//        /// This registers the stub and returns the response inside the JSON file at path
+//        stub(condition: isMethodPOST() && isPath("/chat/threads")) { _ in
+//            return fixture(filePath: path, status: 201, headers: nil)
+//        }
+
         let participant = ChatParticipant(
             id: self.validId,
             displayName: "Initial Member"
@@ -120,6 +146,7 @@ class ChatClientTests: XCTestCase {
                     return
                 }
 
+                //XCTAssert(chatThread.id == "some_id")
                 XCTAssert(chatThread.id != nil)
                 XCTAssert(chatThread.topic == thread.topic)
                 XCTAssert(chatThread.createdBy == participant.id)
