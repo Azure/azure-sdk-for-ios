@@ -24,10 +24,10 @@
 //
 // --------------------------------------------------------------------------
 
-import XCTest
 import AzureCommunication
 import AzureCommunicationChat
 import OHHTTPStubsSwift
+import XCTest
 
 // TODO: util function that generates JSON files from responses - run with each test if mode is record
 func generateRecording() {
@@ -41,15 +41,14 @@ func generateRecording() {
 }
 
 // TODO: util function that registers all the stubs - in test setup class func run at start of all tests if mode is playback
-func registerStubs() {
-    
-}
+func registerStubs() {}
 
 class ChatClientTests: XCTestCase {
-
     private var chatClient: ChatClient!
-    private var validId: String = "1234"
-    private var invalidId: String = "5678"
+    private var validId: String!
+    private var participant: ChatParticipant!
+    private var threadTopic: String = "General"
+    private let timeout: TimeInterval = 10.0
 
     override func setUp() {
         super.setUp()
@@ -76,38 +75,38 @@ class ChatClientTests: XCTestCase {
             return
         }
 
-        self.chatClient = client
-        
-        guard let id = ProcessInfo.processInfo.environment["COMMUNICATION_USER_ID"]  else {
+        chatClient = client
+
+        guard let userId = ProcessInfo.processInfo.environment["COMMUNICATION_USER_ID"] else {
             XCTFail("Failed to retrieve user ID")
             return
         }
-        
-        self.validId = id
-    }
-    
-    func createThread(completionHandler: @escaping (String) -> Void) {
-        let participant = ChatParticipant(
-            id: self.validId,
+
+        validId = userId
+
+        participant = ChatParticipant(
+            id: validId,
             displayName: "Initial Member"
         )
- 
+    }
+
+    func createThread(completionHandler: @escaping (String) -> Void) {
         let thread = CreateChatThreadRequest(
-            topic: "General",
+            topic: threadTopic,
             participants: [
                 participant
             ]
         )
-        
-        self.chatClient.create(thread: thread) { result, _ in
+
+        chatClient.create(thread: thread) { result, _ in
             switch result {
             case let .success(chatThreadResult):
                 guard let threadId = chatThreadResult.chatThread?.id else {
                     XCTFail("Failed to get thread id")
                     return
                 }
-                
-                completionHandler(threadId);
+
+                completionHandler(threadId)
             case let .failure(error):
                 XCTFail("Error creating thread: \(error)")
             }
@@ -124,13 +123,8 @@ class ChatClientTests: XCTestCase {
 //            return fixture(filePath: path, status: 201, headers: nil)
 //        }
 
-        let participant = ChatParticipant(
-            id: self.validId,
-            displayName: "Initial Member"
-        )
- 
         let thread = CreateChatThreadRequest(
-            topic: "General",
+            topic: threadTopic,
             participants: [
                 participant
             ]
@@ -138,7 +132,7 @@ class ChatClientTests: XCTestCase {
 
         let expectation = self.expectation(description: "Create thread")
 
-        self.chatClient.create(thread: thread) { result, _ in
+        chatClient.create(thread: thread) { result, _ in
             switch result {
             case let .success(response):
                 guard let chatThread = response.chatThread else {
@@ -146,32 +140,34 @@ class ChatClientTests: XCTestCase {
                     return
                 }
 
-                //XCTAssert(chatThread.id == "some_id")
+                // XCTAssert(chatThread.id == "some_id")
                 XCTAssert(chatThread.id != nil)
                 XCTAssert(chatThread.topic == thread.topic)
-                XCTAssert(chatThread.createdBy == participant.id)
+                XCTAssert(chatThread.createdBy == self.participant.id)
+
             case let .failure(error):
                 XCTFail("Create thread failed with error: \(error)")
             }
 
             expectation.fulfill()
         }
-        
-        waitForExpectations(timeout: 10.0) { error in
+
+        waitForExpectations(timeout: timeout) { error in
             if let error = error {
                 XCTFail("Create thread timed out: \(error)")
             }
         }
     }
-    
+
     func test_GetThread_ReturnsChatThread() {
         let expectation = self.expectation(description: "Get thread")
 
-        self.createThread() { threadId in
+        createThread { threadId in
             self.chatClient.get(thread: threadId) { result, _ in
                 switch result {
                 case let .success(thread):
                     XCTAssert(thread.topic == "General")
+
                 case let .failure(error):
                     XCTFail("Get thread failed with error: \(error)")
                 }
@@ -179,24 +175,69 @@ class ChatClientTests: XCTestCase {
                 expectation.fulfill()
             }
         }
-        
-        waitForExpectations(timeout: 10.0) { error in
+
+        waitForExpectations(timeout: timeout) { error in
             if let error = error {
                 XCTFail("Get thread timed out: \(error)")
             }
         }
     }
-    
+
     func test_ListThreads_ReturnsChatThreadInfos() {
-        
+        let expectation = self.expectation(description: "List threads")
+
+        createThread { _ in
+            self.chatClient.listThreads { result, _ in
+                switch result {
+                case let .success(threads):
+                    threads.nextItem { result in
+                        switch result {
+                        case let .success(item):
+                            XCTAssert(item.topic == self.threadTopic)
+
+                        case let .failure(error):
+                            XCTFail("List threads failed to return threadInfo: \(error)")
+                        }
+
+                        expectation.fulfill()
+                    }
+
+                case let .failure(error):
+                    XCTFail("List threads failed with error: \(error)")
+                }
+            }
+        }
+
+        waitForExpectations(timeout: timeout) { error in
+            if let error = error {
+                XCTFail("List thread timed out: \(error)")
+            }
+        }
     }
-    
+
     func test_DeleteThread() {
-        
-    }
-    
-    func test_CreateClient_ReturnsChatThreadClient() {
-        
+        let expectation = self.expectation(description: "Delete thread")
+
+        createThread { threadId in
+            self.chatClient.delete(thread: threadId) { result, _ in
+                self.chatClient.get(thread: threadId) { result, _ in
+                    switch result {
+                    case let .success(thread):
+                        XCTAssertNotNil(thread.deletedOn)
+
+                    case let .failure(error):
+                        XCTFail("Deleted thread failed with error: \(error)")
+                    }
+
+                    expectation.fulfill()
+                }
+            }
+        }
+
+        waitForExpectations(timeout: timeout) { error in
+            if let error = error {
+                XCTFail("Delete thread timed out: \(error)")
+            }
+        }
     }
 }
-
