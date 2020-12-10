@@ -10,10 +10,11 @@
 		0A74765C2522918900819FC9 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A74765B2522918900819FC9 /* AzureCore.framework */; };
 		D1565C71256DB74900AF45F8 /* ChatClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1565C70256DB74900AF45F8 /* ChatClient.swift */; };
 		D1565C74256DB76C00AF45F8 /* ChatThreadClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1565C73256DB76C00AF45F8 /* ChatThreadClient.swift */; };
+		D1944A6B2582914A009ADFAB /* ChatThreadClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1944A6A2582914A009ADFAB /* ChatThreadClientTests.swift */; };
+		D1944A712582A3C2009ADFAB /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1944A702582A3C2009ADFAB /* Utils.swift */; };
 		D1B7EB01257F03CE004F384A /* ChatClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1B7EAFB257F03A1004F384A /* ChatClientTests.swift */; };
 		D1B7EB06257F0D20004F384A /* AzureCommunicationChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "AzureCommunicationChat::AzureCommunicationChat::Product" /* AzureCommunicationChat.framework */; };
 		D1BA102C258068DA00CA7130 /* AzureCommunication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1BA102B258068DA00CA7130 /* AzureCommunication.framework */; };
-		D1BA104625807B0B00CA7130 /* test.json in Resources */ = {isa = PBXBuildFile; fileRef = D1BA104525807B0B00CA7130 /* test.json */; };
 		D1BA104D25807B7500CA7130 /* OHHTTPStubsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D1BA104C25807B7500CA7130 /* OHHTTPStubsSwift */; };
 		D1E356BF257EBBA200E66A66 /* AzureCommunicationChatClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E35690257EBBA200E66A66 /* AzureCommunicationChatClient.swift */; };
 		D1E356C0257EBBA200E66A66 /* ChatThreadOperation+AddChatParticipantsOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E35692257EBBA200E66A66 /* ChatThreadOperation+AddChatParticipantsOptions.swift */; };
@@ -66,13 +67,14 @@
 		"AzureCommunicationChat::AzureCommunicationChat::Product" /* AzureCommunicationChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCommunicationChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1565C70256DB74900AF45F8 /* ChatClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatClient.swift; sourceTree = "<group>"; };
 		D1565C73256DB76C00AF45F8 /* ChatThreadClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatThreadClient.swift; sourceTree = "<group>"; };
+		D1944A6A2582914A009ADFAB /* ChatThreadClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatThreadClientTests.swift; sourceTree = "<group>"; };
+		D1944A702582A3C2009ADFAB /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		D1B7EAED257F02FC004F384A /* AzureCommunicationChatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AzureCommunicationChatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1B7EAFB257F03A1004F384A /* ChatClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatClientTests.swift; sourceTree = "<group>"; };
 		D1B7EAFC257F03A1004F384A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D1B7EB07257F0D23004F384A /* AzureCommunication.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCommunication.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1B7EB0B257F0D2F004F384A /* AzureCommunication.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCommunication.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1BA102B258068DA00CA7130 /* AzureCommunication.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCommunication.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D1BA104525807B0B00CA7130 /* test.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = test.json; sourceTree = "<group>"; };
 		D1E3568C257EBA1800E66A66 /* swagger.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = swagger.json; sourceTree = "<group>"; };
 		D1E35690257EBBA200E66A66 /* AzureCommunicationChatClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AzureCommunicationChatClient.swift; sourceTree = "<group>"; };
 		D1E35692257EBBA200E66A66 /* ChatThreadOperation+AddChatParticipantsOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatThreadOperation+AddChatParticipantsOptions.swift"; sourceTree = "<group>"; };
@@ -158,6 +160,8 @@
 			children = (
 				D1BA105025807C4900CA7130 /* Recordings */,
 				D1B7EAFB257F03A1004F384A /* ChatClientTests.swift */,
+				D1944A6A2582914A009ADFAB /* ChatThreadClientTests.swift */,
+				D1944A702582A3C2009ADFAB /* Utils.swift */,
 				D1B7EAFC257F03A1004F384A /* Info.plist */,
 			);
 			path = Tests;
@@ -166,7 +170,6 @@
 		D1BA105025807C4900CA7130 /* Recordings */ = {
 			isa = PBXGroup;
 			children = (
-				D1BA104525807B0B00CA7130 /* test.json */,
 			);
 			path = Recordings;
 			sourceTree = "<group>";
@@ -366,7 +369,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D1BA104625807B0B00CA7130 /* test.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,7 +379,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1944A6B2582914A009ADFAB /* ChatThreadClientTests.swift in Sources */,
 				D1B7EB01257F03CE004F384A /* ChatClientTests.swift in Sources */,
+				D1944A712582A3C2009ADFAB /* Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

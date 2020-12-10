@@ -26,76 +26,42 @@
 
 import AzureCommunication
 import AzureCommunicationChat
-import OHHTTPStubsSwift
 import XCTest
 
-// TODO: util function that generates JSON files from responses - run with each test if mode is record
-func generateRecording() {
-    // pass as completion handler to test calls
-    // create() {\
-//    .success(reponse)
-//        completionHandler(response)
-//    }
-//     completionHandler = generateRecording for record mode, nil for other modes
-    // assign the completion handler during setup function bf each test?
-}
-
-// TODO: util function that registers all the stubs - in test setup class func run at start of all tests if mode is playback
-func registerStubs() {}
-
 class ChatClientTests: XCTestCase {
+    /// ChatClient initialized in setup
     private var chatClient: ChatClient!
-    private var userId: String!
-    private var threadTopic: String = "General"
-    private let timeout: TimeInterval = 10.0
+    /// A valid ACS user id initialized in setup
+    private var user: String!
+    /// Thread topic
+    private let topic: String = "General"
 
-    override func setUp() {
+    override func setUpWithError() throws {
         super.setUp()
+        
+        let (id, _) = try TestUtil.getUsers()
+        user = id
 
-        guard let id = ProcessInfo.processInfo.environment["AZURE_COMMUNICATION_USER_ID"] else {
-            self.continueAfterFailure = false
-            XCTFail("Failed to retrieve user ID")
-            return
-        }
-
-        userId = id
-
-        guard let endpoint = ProcessInfo.processInfo.environment["AZURE_COMMUNICATION_ENDPOINT"] else {
-            self.continueAfterFailure = false
-            XCTFail("Failed to retrieve endpoint")
-            return
-        }
-
-        guard let token = ProcessInfo.processInfo.environment["AZURE_COMMUNICATION_TOKEN"] else {
-            self.continueAfterFailure = false
-            XCTFail("Failed to retrieve token")
-            return
-        }
-
-        guard let credential = try? CommunicationUserCredential(token: token) else {
-            self.continueAfterFailure = false
-            XCTFail("Failed to create credential")
-            return
-        }
-
-        let options = AzureCommunicationChatClientOptions()
-
-        guard let client = try? ChatClient(endpoint: endpoint, credential: credential, withOptions: options) else {
-            XCTFail("Failed to initialize ChatClient")
-            return
-        }
-
-        chatClient = client
+        chatClient = try TestUtil.getChatClient()
     }
 
-    func createThread(completionHandler: @escaping (String) -> Void) {
+    /// Helper to create a thread for tests that act on an existing thread.
+    /// - Parameters:
+    ///   - id: The user id.
+    ///   - topic: The thread topic.
+    ///   - completionHandler: Completion handler that receives the thread id of the created thread.
+    func createThread(
+        withUser id: String,
+        withTopic topic: String,
+        completionHandler: @escaping (String) -> Void)
+    {
         let participant = ChatParticipant(
-            id: userId,
-            displayName: "Initial Member"
+            id: id,
+            displayName: "User"
         )
 
         let thread = CreateChatThreadRequest(
-            topic: threadTopic,
+            topic: topic,
             participants: [
                 participant
             ]
@@ -117,21 +83,13 @@ class ChatClientTests: XCTestCase {
     }
 
     func test_CreateThread_ResultContainsChatThread() {
-        // TODO: Move this into setup code
-//        let bundle = Bundle(for: type(of: self))
-//        let path = bundle.path(forResource: "test", ofType: "json") ?? ""
-//
-//        /// This registers the stub and returns the response inside the JSON file at path
-//        stub(condition: isMethodPOST() && isPath("/chat/threads")) { _ in
-//            return fixture(filePath: path, status: 201, headers: nil)
-//        }
         let participant = ChatParticipant(
-            id: userId,
-            displayName: "Initial Member"
+            id: user,
+            displayName: "User"
         )
 
         let thread = CreateChatThreadRequest(
-            topic: threadTopic,
+            topic: topic,
             participants: [
                 participant
             ]
@@ -147,7 +105,6 @@ class ChatClientTests: XCTestCase {
                     return
                 }
 
-                // XCTAssert(chatThread.id == "some_id")
                 XCTAssert(chatThread.id != nil)
                 XCTAssert(chatThread.topic == thread.topic)
                 XCTAssert(chatThread.createdBy == participant.id)
@@ -159,7 +116,7 @@ class ChatClientTests: XCTestCase {
             expectation.fulfill()
         }
 
-        waitForExpectations(timeout: timeout) { error in
+        waitForExpectations(timeout: TestUtil.timeout) { error in
             if let error = error {
                 XCTFail("Create thread timed out: \(error)")
             }
@@ -169,11 +126,12 @@ class ChatClientTests: XCTestCase {
     func test_GetThread_ReturnsChatThread() {
         let expectation = self.expectation(description: "Get thread")
 
-        createThread { threadId in
+        createThread(withUser: user, withTopic: topic) { threadId in
             self.chatClient.get(thread: threadId) { result, _ in
                 switch result {
                 case let .success(thread):
-                    XCTAssert(thread.topic == "General")
+                    XCTAssert(thread.topic == self.topic)
+                    XCTAssert(thread.createdBy == self.user)
 
                 case let .failure(error):
                     XCTFail("Get thread failed with error: \(error)")
@@ -183,7 +141,7 @@ class ChatClientTests: XCTestCase {
             }
         }
 
-        waitForExpectations(timeout: timeout) { error in
+        waitForExpectations(timeout: TestUtil.timeout) { error in
             if let error = error {
                 XCTFail("Get thread timed out: \(error)")
             }
@@ -193,14 +151,14 @@ class ChatClientTests: XCTestCase {
     func test_ListThreads_ReturnsChatThreadInfos() {
         let expectation = self.expectation(description: "List threads")
 
-        createThread { _ in
+        createThread(withUser: user, withTopic: topic) { _ in
             self.chatClient.listThreads { result, _ in
                 switch result {
                 case let .success(threads):
                     threads.nextItem { result in
                         switch result {
                         case let .success(item):
-                            XCTAssert(item.topic == self.threadTopic)
+                            XCTAssert(item.topic == self.topic)
 
                         case let .failure(error):
                             XCTFail("List threads failed to return threadInfo: \(error)")
@@ -215,7 +173,7 @@ class ChatClientTests: XCTestCase {
             }
         }
 
-        waitForExpectations(timeout: timeout) { error in
+        waitForExpectations(timeout: TestUtil.timeout) { error in
             if let error = error {
                 XCTFail("List thread timed out: \(error)")
             }
@@ -225,7 +183,7 @@ class ChatClientTests: XCTestCase {
     func test_DeleteThread() {
         let expectation = self.expectation(description: "Delete thread")
 
-        createThread { threadId in
+        createThread(withUser: user, withTopic: topic) { threadId in
             self.chatClient.delete(thread: threadId) { result, _ in
                 self.chatClient.get(thread: threadId) { result, _ in
                     switch result {
@@ -241,7 +199,7 @@ class ChatClientTests: XCTestCase {
             }
         }
 
-        waitForExpectations(timeout: timeout) { error in
+        waitForExpectations(timeout: TestUtil.timeout) { error in
             if let error = error {
                 XCTFail("Delete thread timed out: \(error)")
             }
