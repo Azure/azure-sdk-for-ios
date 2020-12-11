@@ -19,7 +19,7 @@ extension ChatThreadOperation {
     /// User-configurable options for the `AzureCommunicationChatService.ListChatReadReceipts` operation.
     public struct ListChatReadReceiptsOptions: RequestOptions {
         /// The maximum number of chat message read receipts to be returned per page.
-        public let maxpagesize: Int32?
+        public let maxPageSize: Int32?
         /// Skips chat message read receipts up to a specified position in response.
         public let skip: Int32?
 
@@ -38,21 +38,21 @@ extension ChatThreadOperation {
 
         /// Initialize a `ListChatReadReceiptsOptions` structure.
         /// - Parameters:
-        ///   - maxpagesize: The maximum number of chat message read receipts to be returned per page.
+        ///   - maxPageSize: The maximum number of chat message read receipts to be returned per page.
         ///   - skip: Skips chat message read receipts up to a specified position in response.
         ///   - clientRequestId: A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
         ///   - cancellationToken: A token used to make a best-effort attempt at canceling a request.
         ///   - dispatchQueue: A dispatch queue on which to call the completion handler. Defaults to `DispatchQueue.main`.
         ///   - context: A `PipelineContext` object to associate with the request.
         public init(
-            maxpagesize: Int32? = nil,
+            maxPageSize: Int32? = nil,
             skip: Int32? = nil,
             clientRequestId: String? = nil,
             cancellationToken: CancellationToken? = nil,
             dispatchQueue: DispatchQueue? = nil,
             context: PipelineContext? = nil
         ) {
-            self.maxpagesize = maxpagesize
+            self.maxPageSize = maxPageSize
             self.skip = skip
             self.clientRequestId = clientRequestId
             self.cancellationToken = cancellationToken
