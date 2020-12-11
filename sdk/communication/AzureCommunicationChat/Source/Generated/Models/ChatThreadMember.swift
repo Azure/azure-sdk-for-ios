@@ -54,11 +54,7 @@ public struct ChatThreadMember: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(String.self, forKey: .id)
         self.displayName = try? container.decode(String.self, forKey: .displayName)
-        if let dateString = try? container.decode(String.self, forKey: .shareHistoryTime) {
-            self.shareHistoryTime = Date(dateString, format: Date.Format.iso8601)
-        } else {
-            self.shareHistoryTime = nil
-        }
+        self.shareHistoryTime = try? container.decode(Iso8601Date.self, forKey: .shareHistoryTime)
     }
 
     /// Encode a `ChatThreadMember` structure
@@ -66,10 +62,6 @@ public struct ChatThreadMember: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
         if displayName != nil { try? container.encode(displayName, forKey: .displayName) }
-        if shareHistoryTime != nil {
-            let dateFormatter = DateFormatter()
-            let dateString = dateFormatter.string(from: shareHistoryTime!)
-            try? container.encode(dateString, forKey: .shareHistoryTime)
-        }
+        if shareHistoryTime != nil { try? container.encode(shareHistoryTime, forKey: .shareHistoryTime) }
     }
 }

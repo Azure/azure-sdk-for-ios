@@ -59,11 +59,7 @@ public struct ChatThreadInfo: Codable {
         self.id = try? container.decode(String.self, forKey: .id)
         self.topic = try? container.decode(String.self, forKey: .topic)
         self.isDeleted = try? container.decode(Bool.self, forKey: .isDeleted)
-        if let dateString = try? container.decode(String.self, forKey: .lastMessageReceivedOn) {
-            self.lastMessageReceivedOn = Date(dateString, format: Date.Format.iso8601)
-        } else {
-            self.lastMessageReceivedOn = nil
-        }
+        self.lastMessageReceivedOn = try? container.decode(Iso8601Date.self, forKey: .lastMessageReceivedOn)
     }
 
     /// Encode a `ChatThreadInfo` structure
@@ -72,10 +68,6 @@ public struct ChatThreadInfo: Codable {
         if id != nil { try? container.encode(id, forKey: .id) }
         if topic != nil { try? container.encode(topic, forKey: .topic) }
         if isDeleted != nil { try? container.encode(isDeleted, forKey: .isDeleted) }
-        if lastMessageReceivedOn != nil {
-            let dateFormatter = DateFormatter()
-            let dateString = dateFormatter.string(from: lastMessageReceivedOn!)
-            try? container.encode(dateString, forKey: .lastMessageReceivedOn)
-        }
+        if lastMessageReceivedOn != nil { try? container.encode(lastMessageReceivedOn, forKey: .lastMessageReceivedOn) }
     }
 }

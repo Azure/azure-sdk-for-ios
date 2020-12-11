@@ -64,11 +64,7 @@ public struct ChatThread: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try? container.decode(String.self, forKey: .id)
         self.topic = try? container.decode(String.self, forKey: .topic)
-        if let dateString = try? container.decode(String.self, forKey: .createdOn) {
-            self.createdOn = Date(dateString, format: Date.Format.iso8601)
-        } else {
-            self.createdOn = nil
-        }
+        self.createdOn = try? container.decode(Iso8601Date.self, forKey: .createdOn)
         self.createdBy = try? container.decode(String.self, forKey: .createdBy)
         self.members = try? container.decode([ChatThreadMember].self, forKey: .members)
     }
@@ -78,12 +74,7 @@ public struct ChatThread: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         if id != nil { try? container.encode(id, forKey: .id) }
         if topic != nil { try? container.encode(topic, forKey: .topic) }
-        if createdOn != nil {
-            let dateFormatter = DateFormatter()
-            let dateString = dateFormatter.string(from: createdOn!)
-            try? container.encode(dateString, forKey: .createdOn)
-        }
-
+        if createdOn != nil { try? container.encode(createdOn, forKey: .createdOn) }
         if createdBy != nil { try? container.encode(createdBy, forKey: .createdBy) }
         if members != nil { try? container.encode(members, forKey: .members) }
     }

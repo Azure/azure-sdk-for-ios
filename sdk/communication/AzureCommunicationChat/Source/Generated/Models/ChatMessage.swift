@@ -106,22 +106,10 @@ public struct ChatMessage: Codable {
         self.version = try? container.decode(String.self, forKey: .version)
         self.content = try? container.decode(String.self, forKey: .content)
         self.senderDisplayName = try? container.decode(String.self, forKey: .senderDisplayName)
-        if let dateString = try? container.decode(String.self, forKey: .createdOn) {
-            self.createdOn = Date(dateString, format: Date.Format.iso8601)
-        } else {
-            self.createdOn = nil
-        }
+        self.createdOn = try? container.decode(Iso8601Date.self, forKey: .createdOn)
         self.senderId = try? container.decode(String.self, forKey: .senderId)
-        if let dateString = try? container.decode(String.self, forKey: .deletedOn) {
-            self.deletedOn = Date(dateString, format: Date.Format.iso8601)
-        } else {
-            self.deletedOn = nil
-        }
-        if let dateString = try? container.decode(String.self, forKey: .editedOn) {
-            self.editedOn = Date(dateString, format: Date.Format.iso8601)
-        } else {
-            self.editedOn = nil
-        }
+        self.deletedOn = try? container.decode(Iso8601Date.self, forKey: .deletedOn)
+        self.editedOn = try? container.decode(Iso8601Date.self, forKey: .editedOn)
     }
 
     /// Encode a `ChatMessage` structure
@@ -133,23 +121,9 @@ public struct ChatMessage: Codable {
         if version != nil { try? container.encode(version, forKey: .version) }
         if content != nil { try? container.encode(content, forKey: .content) }
         if senderDisplayName != nil { try? container.encode(senderDisplayName, forKey: .senderDisplayName) }
-        if createdOn != nil {
-            let dateFormatter = DateFormatter()
-            let dateString = dateFormatter.string(from: createdOn!)
-            try? container.encode(dateString, forKey: .createdOn)
-        }
-
+        if createdOn != nil { try? container.encode(createdOn, forKey: .createdOn) }
         if senderId != nil { try? container.encode(senderId, forKey: .senderId) }
-        if deletedOn != nil {
-            let dateFormatter = DateFormatter()
-            let dateString = dateFormatter.string(from: deletedOn!)
-            try? container.encode(dateString, forKey: .deletedOn)
-        }
-
-        if editedOn != nil {
-            let dateFormatter = DateFormatter()
-            let dateString = dateFormatter.string(from: editedOn!)
-            try? container.encode(dateString, forKey: .editedOn)
-        }
+        if deletedOn != nil { try? container.encode(deletedOn, forKey: .deletedOn) }
+        if editedOn != nil { try? container.encode(editedOn, forKey: .editedOn) }
     }
 }

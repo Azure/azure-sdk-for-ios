@@ -54,11 +54,7 @@ public struct ReadReceipt: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.senderId = try? container.decode(String.self, forKey: .senderId)
         self.chatMessageId = try? container.decode(String.self, forKey: .chatMessageId)
-        if let dateString = try? container.decode(String.self, forKey: .readOn) {
-            self.readOn = Date(dateString, format: Date.Format.iso8601)
-        } else {
-            self.readOn = nil
-        }
+        self.readOn = try? container.decode(Iso8601Date.self, forKey: .readOn)
     }
 
     /// Encode a `ReadReceipt` structure
@@ -66,10 +62,6 @@ public struct ReadReceipt: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         if senderId != nil { try? container.encode(senderId, forKey: .senderId) }
         if chatMessageId != nil { try? container.encode(chatMessageId, forKey: .chatMessageId) }
-        if readOn != nil {
-            let dateFormatter = DateFormatter()
-            let dateString = dateFormatter.string(from: readOn!)
-            try? container.encode(dateString, forKey: .readOn)
-        }
+        if readOn != nil { try? container.encode(readOn, forKey: .readOn) }
     }
 }
