@@ -169,6 +169,7 @@ class ChatClientTests: XCTestCase {
 
                 case let .failure(error):
                     XCTFail("List threads failed with error: \(error)")
+                    expectation.fulfill()
                 }
             }
         }

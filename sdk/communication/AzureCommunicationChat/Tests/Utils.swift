@@ -30,7 +30,7 @@ import AzureCommunicationChat
 
 class TestUtil {
 
-    public static let timeout: TimeInterval = 10.0
+    public static let timeout: TimeInterval = 1000.0
 
     public enum TestError: Error {
         case missingData(String)
