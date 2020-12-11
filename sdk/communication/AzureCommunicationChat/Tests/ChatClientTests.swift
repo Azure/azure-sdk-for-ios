@@ -38,7 +38,7 @@ class ChatClientTests: XCTestCase {
 
     override func setUpWithError() throws {
         super.setUp()
-        
+
         let (id, _) = try TestUtil.getUsers()
         user = id
 
@@ -53,8 +53,8 @@ class ChatClientTests: XCTestCase {
     func createThread(
         withUser id: String,
         withTopic topic: String,
-        completionHandler: @escaping (String) -> Void)
-    {
+        completionHandler: @escaping (String) -> Void
+    ) {
         let participant = ChatParticipant(
             id: id,
             displayName: "User"

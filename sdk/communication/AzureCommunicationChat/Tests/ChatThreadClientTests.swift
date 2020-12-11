@@ -29,7 +29,6 @@ import AzureCommunicationChat
 import XCTest
 
 class ChatThreadClientTests: XCTestCase {
-    
     /// A valid ACS user id initialized in setup.
     private var user1: String!
     /// A valid ACS user id initialized in setup.
@@ -58,7 +57,7 @@ class ChatThreadClientTests: XCTestCase {
                 participant
             ]
         )
-        
+
         let expectation = self.expectation(description: "Create thread")
 
         chatClient.create(thread: thread) { result, _ in
@@ -69,10 +68,10 @@ class ChatThreadClientTests: XCTestCase {
             case let .failure(error):
                 print("Failed to create thread with error: \(error)")
             }
-            
+
             expectation.fulfill()
         }
-        
+
         wait(for: [expectation], timeout: TestUtil.timeout)
 
         if threadId == nil {
@@ -94,13 +93,12 @@ class ChatThreadClientTests: XCTestCase {
                 self.chatClient.get(thread: self.threadId) { result, _ in
                     switch result {
                     case let .success(chatThread):
-                        // TODO: not updated
-                        XCTAssert(chatThread.topic == newTopic)
+                        XCTAssertEqual(chatThread.topic, newTopic)
 
                     case let .failure(error):
                         XCTFail("Failed to update topic: \(error)")
                     }
-                    
+
                     expectation.fulfill()
                 }
             case let .failure(error):
@@ -108,21 +106,21 @@ class ChatThreadClientTests: XCTestCase {
                 expectation.fulfill()
             }
         }
-        
+
         waitForExpectations(timeout: TestUtil.timeout) { error in
             if let error = error {
                 XCTFail("Update topic timed out: \(error)")
             }
         }
     }
-    
+
     func test_SendMessage() {
         let testMessage = SendChatMessageRequest(
             priority: .high,
             content: "Hello World!",
             senderDisplayName: "User 1"
         )
-        
+
         let expectation = self.expectation(description: "Send message")
 
         // Send message
@@ -139,13 +137,13 @@ class ChatThreadClientTests: XCTestCase {
                 self.chatThreadClient.get(message: id) { result, _ in
                     switch result {
                     case let .success(message):
-                        XCTAssert(message.content == testMessage.content)
-                        XCTAssert(message.senderDisplayName == testMessage.senderDisplayName)
+                        XCTAssertEqual(message.content, testMessage.content)
+                        XCTAssertEqual(message.senderDisplayName, testMessage.senderDisplayName)
 
                     case let .failure(error):
                         XCTFail("Get message failed: \(error)")
                     }
-                    
+
                     expectation.fulfill()
                 }
             case let .failure(error):
@@ -153,7 +151,7 @@ class ChatThreadClientTests: XCTestCase {
                 expectation.fulfill()
             }
         }
-        
+
         waitForExpectations(timeout: TestUtil.timeout) { error in
             if let error = error {
                 XCTFail("Send message timed out: \(error)")
@@ -164,32 +162,32 @@ class ChatThreadClientTests: XCTestCase {
     func test_SendTypingNotification() {
         let expectation = self.expectation(description: "Send typing notification")
 
-        chatThreadClient.sendTypingNotification() { result, _ in
+        chatThreadClient.sendTypingNotification { result, _ in
             switch result {
             case .success:
                 break
-            
+
             case let .failure(error):
                 XCTFail("Send typing notification failed: \(error)")
             }
-            
+
             expectation.fulfill()
         }
-        
+
         waitForExpectations(timeout: TestUtil.timeout) { error in
             if let error = error {
                 XCTFail("Send typing notification timed out: \(error)")
             }
         }
     }
-    
+
     func test_SendReadReceipt() {
         let testMessage = SendChatMessageRequest(
             priority: .high,
             content: "Hello World!",
             senderDisplayName: "User 1"
         )
-        
+
         let expectation = self.expectation(description: "Send read receipt")
 
         // Send message
@@ -211,7 +209,7 @@ class ChatThreadClientTests: XCTestCase {
                     case let .failure(error):
                         XCTFail("Send read receipt failed: \(error)")
                     }
-                    
+
                     expectation.fulfill()
                 }
 
@@ -220,21 +218,21 @@ class ChatThreadClientTests: XCTestCase {
                 expectation.fulfill()
             }
         }
-        
+
         waitForExpectations(timeout: TestUtil.timeout) { error in
             if let error = error {
                 XCTFail("Send message timed out: \(error)")
             }
         }
     }
-    
+
     func test_UpdateChatMessage() {
         let testMessage = SendChatMessageRequest(
             priority: .high,
             content: "Hello World!",
             senderDisplayName: "User 1"
         )
-        
+
         let expectation = self.expectation(description: "Update message")
 
         // Send message
@@ -260,10 +258,9 @@ class ChatThreadClientTests: XCTestCase {
                         self.chatThreadClient.get(message: id) { result, _ in
                             switch result {
                             case let .success(message):
-                                // TODO: not updated
-                                XCTAssert(message.content == updatedMessage.content)
-                                XCTAssert(message.priority == updatedMessage.priority)
-                            
+                                XCTAssertEqual(message.content, updatedMessage.content)
+                                XCTAssertEqual(message.priority, updatedMessage.priority)
+
                             case let .failure(error):
                                 XCTFail("Get message failed: \(error)")
                             }
@@ -281,21 +278,21 @@ class ChatThreadClientTests: XCTestCase {
                 expectation.fulfill()
             }
         }
-        
+
         waitForExpectations(timeout: TestUtil.timeout) { error in
             if let error = error {
                 XCTFail("Send message timed out: \(error)")
             }
         }
     }
-    
+
     func test_DeleteMessage() {
         let testMessage = SendChatMessageRequest(
             priority: .high,
             content: "Hello World!",
             senderDisplayName: "User 1"
         )
-        
+
         let expectation = self.expectation(description: "Delete message")
 
         // Send message
@@ -317,11 +314,11 @@ class ChatThreadClientTests: XCTestCase {
                             switch result {
                             case let .success(message):
                                 XCTAssertNotNil(message.deletedOn)
-                            
+
                             case let .failure(error):
                                 XCTFail("Get message failed: \(error)")
                             }
-                            
+
                             expectation.fulfill()
                         }
 
@@ -336,21 +333,20 @@ class ChatThreadClientTests: XCTestCase {
                 expectation.fulfill()
             }
         }
-        
+
         waitForExpectations(timeout: TestUtil.timeout) { error in
             if let error = error {
                 XCTFail("Delete message timed out: \(error)")
             }
         }
     }
-    
-    // TODO: failing on add participant
+
     func test_AddValidParticipant_ReturnsWithoutErrors() {
         let newParticipant = ChatParticipant(
             id: user2,
             displayName: "User 2"
         )
-        
+
         let expectation = self.expectation(description: "Add participant")
 
         // Add a participant
@@ -358,76 +354,56 @@ class ChatThreadClientTests: XCTestCase {
             switch result {
             case let .success(addParticipantsResult):
                 XCTAssertNil(addParticipantsResult.errors)
-                
+
             case let .failure(error):
                 XCTFail("Add participants failed: \(error)")
             }
-            
+
             expectation.fulfill()
         }
-        
+
         waitForExpectations(timeout: TestUtil.timeout) { error in
             if let error = error {
                 XCTFail("Add participant timed out: \(error)")
             }
         }
     }
-    
+
     func test_RemoveParticipant() {
-        /// add participant, delete participant, get participants
-    }
-    
-    // TODO: failing on add participant
-    func test_ListParticipants_ReturnsParticipants() {
-        let newParticipant = ChatParticipant(
+        let removedParticipant = ChatParticipant(
             id: user2,
             displayName: "User 2"
         )
-        
+
         let expectation = self.expectation(description: "Add participant")
 
         // Add a participant
-        chatThreadClient.add(participants: [newParticipant]) { result, _ in
+        chatThreadClient.add(participants: [removedParticipant]) { result, _ in
             switch result {
-            case let .success(addParticipantsResult):
-                XCTAssertNil(addParticipantsResult.errors)
-                
-                // List participants
-                self.chatThreadClient.listParticipants() { result, _ in
+            case .success:
+                // Remove participant
+                self.chatThreadClient.remove(participant: removedParticipant.id) { result, _ in
                     switch result {
-                    case let .success(participants):
-//                        var iterator = participants.syncIterator
-//                        while let participant = iterator.next() {
-//                            XCTAssertNotNil(participant.id)
-//                        }
-//
-                        let count = participants.items?.count
-                    
+                    case .success:
+                        break
+
                     case let .failure(error):
-                        XCTFail("List participants failed: \(error)")
+                        XCTFail("Remove participant failed: \(error)")
                     }
-                    
+
                     expectation.fulfill()
                 }
-                
+
             case let .failure(error):
                 XCTFail("Add participants failed: \(error)")
                 expectation.fulfill()
             }
         }
-        
+
         waitForExpectations(timeout: TestUtil.timeout) { error in
             if let error = error {
                 XCTFail("Add participant timed out: \(error)")
             }
         }
-    }
-    
-    func test_ListMessages_ReturnsMessages() {
-        /// send 5 messages, list 5 messages
-    }
-    
-    func test_ListReadReceipts_ReturnsReadReceipts() {
-        /// send 5 messages, send 5 read receipts, list all read receipts
     }
 }
