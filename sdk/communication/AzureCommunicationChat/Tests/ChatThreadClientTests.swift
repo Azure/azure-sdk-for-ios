@@ -375,7 +375,7 @@ class ChatThreadClientTests: XCTestCase {
             displayName: "User 2"
         )
 
-        let expectation = self.expectation(description: "Add participant")
+        let expectation = self.expectation(description: "Remove participant")
 
         // Add a participant
         chatThreadClient.add(participants: [removedParticipant]) { result, _ in
@@ -395,14 +395,70 @@ class ChatThreadClientTests: XCTestCase {
                 }
 
             case let .failure(error):
-                XCTFail("Add participants failed: \(error)")
+                XCTFail("Remove participants failed: \(error)")
                 expectation.fulfill()
             }
         }
 
         waitForExpectations(timeout: TestUtil.timeout) { error in
             if let error = error {
-                XCTFail("Add participant timed out: \(error)")
+                XCTFail("Remove participant timed out: \(error)")
+            }
+        }
+    }
+
+    func test_ListParticipants_ReturnsParticipants() {
+        let removedParticipant = ChatParticipant(
+            id: user2,
+            displayName: "User 2"
+        )
+
+        let expectation = self.expectation(description: "List participants")
+        let participantExpectations = [
+            self.expectation(description: "Particpant 1"),
+            self.expectation(description: "Participant 2")
+        ]
+
+        // Add a participant
+        chatThreadClient.add(participants: [removedParticipant]) { result, _ in
+            switch result {
+            case .success:
+                // List participants
+                self.chatThreadClient.listParticipants { result, _ in
+                    switch result {
+                    case let .success(participants):
+                        // Verify both participants in the list
+                        for i in 0 ... 1 {
+                            participants.nextItem { result in
+                                switch result {
+                                case let .success(participant):
+                                    XCTAssertNotNil(participant)
+
+                                case let .failure(error):
+                                    XCTFail("Failed to retrieve participant: \(error)")
+                                }
+
+                                participantExpectations[i].fulfill()
+                            }
+                        }
+
+                    case let .failure(error):
+                        XCTFail("List participants failed: \(error)")
+                        expectation.fulfill()
+                    }
+
+                    expectation.fulfill()
+                }
+
+            case let .failure(error):
+                XCTFail("Add participant failed: \(error)")
+                expectation.fulfill()
+            }
+        }
+
+        waitForExpectations(timeout: TestUtil.timeout) { error in
+            if let error = error {
+                XCTFail("List participants timed out: \(error)")
             }
         }
     }
