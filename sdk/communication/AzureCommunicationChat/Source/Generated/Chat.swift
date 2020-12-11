@@ -232,8 +232,8 @@ public final class Chat {
         headers["Accept"] = "application/json"
         // Process endpoint options
         // Query options
-        if let maxpagesize = options?.maxpagesize {
-            queryParams.append("$maxpagesize", String(maxpagesize))
+        if let maxPageSize = options?.maxPageSize {
+            queryParams.append("maxPageSize", String(maxPageSize))
         }
         if let startTime = options?.startTime {
             let dateFormatter = ISO8601DateFormatter()
