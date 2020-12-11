@@ -64,63 +64,6 @@ enum ShapeEnum: RequestStringConvertible {
     }
 }
 
-public struct MyDate: AzureDate {
-    public static var dateFormat: AzureDateFormat = .custom("yyyy-MM-dd")
-
-    public static var formatter: DateFormatter {
-        return Self.dateFormat.formatter
-    }
-
-    public var value: Date
-
-    // MARK: RequestStringConvertible
-
-    public var requestString: String {
-        return Self.formatter.string(from: value)
-    }
-
-    // MARK: Initializers
-
-    public init() {
-        self.value = Date()
-    }
-
-    public init?(string: String?) {
-        guard let date = Self.formatter.date(from: string ?? "") else { return nil }
-        self.value = date
-    }
-
-    public init?(_ date: Date?) {
-        guard let unwrapped = date else { return nil }
-        self.value = unwrapped
-    }
-
-    // MARK: Codable
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        let dateString = try container.decode(String.self)
-        self.value = Self.formatter.date(from: dateString) ?? Date()
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        try container.encode(requestString)
-    }
-
-    // MARK: Equatable
-
-    public static func == (lhs: MyDate, rhs: MyDate) -> Bool {
-        return lhs.value == rhs.value
-    }
-
-    // MARK: Comparable
-
-    public static func < (lhs: MyDate, rhs: MyDate) -> Bool {
-        return lhs.value < rhs.value
-    }
-}
-
 // MARK: Test Cases
 
 class QueryParametersTests: XCTestCase {
@@ -195,7 +138,7 @@ class QueryParametersTests: XCTestCase {
     }
 
     func test_QueryParameters_WithDate() throws {
-        let date = MyDate(string: "2000-01-01")
+        let date = SimpleDate(string: "2000-01-01")
         let query = RequestParameters(
             (.query, "var1", date, .encode)
         )

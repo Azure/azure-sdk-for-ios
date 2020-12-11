@@ -285,8 +285,19 @@ public struct UnixTime: Codable, Comparable, RequestStringConvertible {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        let timeInterval = try container.decode(Double.self)
-        self.value = Date(timeIntervalSince1970: timeInterval)
+        do {
+            let timeInterval = try container.decode(Double.self)
+            self.value = Date(timeIntervalSince1970: timeInterval)
+            return
+        } catch {
+            let timeString = try container.decode(String.self)
+            if let timeInterval = Double(timeString) {
+                self.value = Date(timeIntervalSince1970: timeInterval)
+                return
+            } else {
+                throw error
+            }
+        }
     }
 
     public func encode(to encoder: Encoder) throws {
