@@ -37,12 +37,10 @@ class ChatClientTests: XCTestCase {
     private let topic: String = "General"
 
     override func setUpWithError() throws {
-        super.setUp()
-
-        let (id, _) = try TestUtil.getUsers()
+        let (id, _) = try TestSetup.getUsers()
         user = id
 
-        chatClient = try TestUtil.getChatClient()
+        chatClient = try TestSetup.getChatClient()
     }
 
     /// Helper to create a thread for tests that act on an existing thread.
@@ -116,7 +114,7 @@ class ChatClientTests: XCTestCase {
             expectation.fulfill()
         }
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: TestSetup.timeout) { error in
             if let error = error {
                 XCTFail("Create thread timed out: \(error)")
             }
@@ -141,7 +139,7 @@ class ChatClientTests: XCTestCase {
             }
         }
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: TestSetup.timeout) { error in
             if let error = error {
                 XCTFail("Get thread timed out: \(error)")
             }
@@ -174,7 +172,7 @@ class ChatClientTests: XCTestCase {
             }
         }
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: TestSetup.timeout) { error in
             if let error = error {
                 XCTFail("List thread timed out: \(error)")
             }
@@ -200,7 +198,7 @@ class ChatClientTests: XCTestCase {
             }
         }
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: TestSetup.timeout) { error in
             if let error = error {
                 XCTFail("Delete thread timed out: \(error)")
             }

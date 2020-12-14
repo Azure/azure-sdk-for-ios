@@ -24,13 +24,12 @@
 //
 // --------------------------------------------------------------------------
 
-import Foundation
 import AzureCommunication
 import AzureCommunicationChat
+import Foundation
 
-class TestUtil {
-
-    public static let timeout: TimeInterval = 10.0
+class TestSetup {
+    public static let timeout: TimeInterval = 100.0
 
     public enum TestError: Error {
         case missingData(String)
@@ -51,13 +50,13 @@ class TestUtil {
 
         return try ChatClient(endpoint: endpoint, credential: credential, withOptions: options)
     }
-    
+
     /// Returns two valid ACS user id's.
     public static func getUsers() throws -> (String, String) {
         guard let userId1 = ProcessInfo.processInfo.environment["AZURE_COMMUNICATION_USER_ID_1"] else {
             throw TestError.missingData("No user id found.")
         }
-        
+
         guard let userId2 = ProcessInfo.processInfo.environment["AZURE_COMMUNICATION_USER_ID_2"] else {
             throw TestError.missingData("No user id found.")
         }
