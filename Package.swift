@@ -81,7 +81,7 @@ let package = Package(
         ),
         .testTarget(
             name: "AzureCommunicationChatTests",
-            dependencies: ["AzureCommunication", "AzureCommunicationChat", "OHHTTPStubsSwift"],
+            dependencies: ["AzureCommunication", "AzureCommunicationChat"],
             path: "sdk/communication/AzureCommunicationChat",
             sources: ["Tests"]
         )
