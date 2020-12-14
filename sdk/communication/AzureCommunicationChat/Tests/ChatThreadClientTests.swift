@@ -76,7 +76,9 @@ class ChatThreadClientTests: XCTestCase {
 
         wait(for: [expectation], timeout: TestSetup.timeout)
 
-        guard let threadId = id else {
+        if id != nil {
+            self.threadId = id
+        } else {
             throw TestSetup.TestError.missingData("Thread id not found.")
         }
 
@@ -428,6 +430,7 @@ class ChatThreadClientTests: XCTestCase {
                                 participantExpectations[index].fulfill()
                             }
                         }
+                        expectation.fulfill()
 
                     case let .failure(error):
                         XCTFail("List participants failed: \(error)")
