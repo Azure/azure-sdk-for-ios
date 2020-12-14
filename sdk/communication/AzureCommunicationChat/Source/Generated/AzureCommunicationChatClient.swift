@@ -16,11 +16,6 @@ import Foundation
 // swiftlint:disable function_body_length
 // swiftlint:disable type_body_length
 
-extension CharacterSet {
-    static let azureUrlQueryAllowed = urlQueryAllowed.subtracting(.init(charactersIn: "!*'();:@&=+$,/?"))
-    static let azureUrlPathAllowed = urlPathAllowed.subtracting(.init(charactersIn: "!*'()@&=+$,/:"))
-}
-
 public final class AzureCommunicationChatClient: PipelineClient, PageableClient {
     public func continuationUrl(forRequestUrl _: URL, withContinuationToken token: String) -> URL? {
         return URL(string: token)
@@ -70,53 +65,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         )
     }
 
-    public func url(
-        host hostIn: String? = nil,
-        template templateIn: String,
-        pathParams pathParamsIn: [String: String]? = nil,
-        queryParams queryParamsIn: [QueryParameter]? = nil
-    ) -> URL? {
-        var template = templateIn
-        var hostString = hostIn
-        if template.hasPrefix("/") { template = String(template.dropFirst()) }
+    public lazy var azureCommunicationChatService = AzureCommunicationChatService(client: self)
 
-        if let pathParams = pathParamsIn {
-            for (key, value) in pathParams {
-                if let encodedPathValue = value.addingPercentEncoding(withAllowedCharacters: .azureUrlPathAllowed) {
-                    template = template.replacingOccurrences(of: "{\(key)}", with: encodedPathValue)
-                }
-                if let host = hostString {
-                    hostString = host.replacingOccurrences(of: "{\(key)}", with: value)
-                }
-            }
-        }
-
-        if let hostUnwrapped = hostString,
-            !hostUnwrapped.hasSuffix("/") {
-            hostString = hostUnwrapped + "/"
-        }
-        let urlString = (hostString ?? endpoint.absoluteString) + template
-        guard let url = URL(string: urlString) else {
-            return nil
-        }
-
-        guard !(queryParamsIn?.isEmpty ?? false) else { return url }
-
-        return appendingQueryParameters(url: url, queryParamsIn ?? [])
-    }
-
-    private func appendingQueryParameters(url: URL, _ queryParams: [QueryParameter]) -> URL? {
-        guard !queryParams.isEmpty else { return url }
-        guard var urlComps = URLComponents(url: url, resolvingAgainstBaseURL: true) else { return nil }
-
-        let queryItems = queryParams.map { name, value in URLQueryItem(
-            name: name,
-            value: value?.addingPercentEncoding(withAllowedCharacters: .azureUrlQueryAllowed)
-        ) }
-        urlComps.percentEncodedQueryItems = queryItems
-        return urlComps.url
-    }
-
-    public lazy var azureCommunicationChatService: AzureCommunicationChatService =
-        AzureCommunicationChatService(client: self)
+    // MARK: Public Client Methods
 }

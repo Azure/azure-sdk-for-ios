@@ -79,21 +79,37 @@ open class PipelineClient {
 
     // MARK: Public Methods
 
-    public func url(forTemplate templateIn: String, withKwargs kwargs: [String: String]? = nil) -> URL? {
-        var template = templateIn
-        if template.hasPrefix("/") { template = String(template.dropFirst()) }
-        var urlString = endpoint.absoluteString
-        if template.starts(with: urlString) {
-            urlString = template
-        } else {
-            urlString += template
+    private func format(host: String?, params: RequestParameters) -> String {
+        let hostParams = params.values(for: .host) + params.values(for: .uri)
+        // if no host string is supplied always return the endpoint, which has no parameters
+        guard var hostString = host else { return endpoint.absoluteString }
+        for item in hostParams {
+            let value = item.encodingStrategy == .skipEncoding ? item.value : item.value
+                .addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
+            hostString = hostString.replacingOccurrences(of: "{\(item.key)}", with: value ?? "")
         }
-        if let urlKwargs = kwargs {
-            for (key, value) in urlKwargs {
-                urlString = urlString.replacingOccurrences(of: "{\(key)}", with: value)
-            }
+        if !hostString.hasSuffix("/") {
+            hostString += "/"
         }
-        return URL(string: urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))
+        return hostString
+    }
+
+    private func format(path: String, params: RequestParameters) -> String {
+        let pathParams = params.values(for: RequestParameterLocation.path)
+        var pathString = path.hasPrefix("/") ? String(path.dropFirst()) : path
+        for item in pathParams {
+            let value = item.encodingStrategy == .skipEncoding ? item.value : item.value
+                .addingPercentEncoding(withAllowedCharacters: .azureUrlPathAllowed)
+            pathString = pathString.replacingOccurrences(of: "{\(item.key)}", with: value ?? "")
+        }
+        return pathString
+    }
+
+    public func url(host: String? = nil, template: String, params: RequestParameters) -> URL? {
+        let hostString = format(host: host, params: params)
+        let pathString = format(path: template, params: params)
+        let url = URL(string: "\(hostString)\(pathString)")
+        return url?.appendingQueryParameters(params)
     }
 
     public func request(

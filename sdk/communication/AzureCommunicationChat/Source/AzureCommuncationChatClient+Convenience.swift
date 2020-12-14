@@ -28,7 +28,6 @@ import AzureCore
 import Foundation
 
 extension AzureCommunicationChatClient {
-
     /// Gets read receipts for a thread.
     /// - Parameters:
     ///    - chatThreadId : Thread id to get the read receipts for.
@@ -40,7 +39,11 @@ extension AzureCommunicationChatClient {
         withOptions options: AzureCommunicationChatService.ListChatReadReceiptsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ReadReceipt>>
     ) {
-        return self.azureCommunicationChatService.listChatReadReceipts(chatThreadId: chatThreadId, withOptions: options, completionHandler: completionHandler)
+        return azureCommunicationChatService.listChatReadReceipts(
+            chatThreadId: chatThreadId,
+            withOptions: options,
+            completionHandler: completionHandler
+        )
     }
 
     /// Sends a read receipt event to a thread, on behalf of a user.
@@ -56,7 +59,12 @@ extension AzureCommunicationChatClient {
         withOptions options: AzureCommunicationChatService.SendChatReadReceiptOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        return self.azureCommunicationChatService.send(chatReadReceipt: chatReadReceipt, chatThreadId: chatThreadId, withOptions: options, completionHandler: completionHandler)
+        return azureCommunicationChatService.send(
+            chatReadReceipt: chatReadReceipt,
+            chatThreadId: chatThreadId,
+            withOptions: options,
+            completionHandler: completionHandler
+        )
     }
 
     /// Sends a message to a thread.
@@ -72,7 +80,12 @@ extension AzureCommunicationChatClient {
         withOptions options: AzureCommunicationChatService.SendChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<SendChatMessageResult>
     ) {
-        return self.azureCommunicationChatService.send(chatMessage: chatMessage, chatThreadId: chatThreadId, withOptions: options, completionHandler: completionHandler)
+        return azureCommunicationChatService.send(
+            chatMessage: chatMessage,
+            chatThreadId: chatThreadId,
+            withOptions: options,
+            completionHandler: completionHandler
+        )
     }
 
     /// Gets a list of messages from a thread.
@@ -86,7 +99,11 @@ extension AzureCommunicationChatClient {
         withOptions options: AzureCommunicationChatService.ListChatMessagesOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatMessage>>
     ) {
-        return self.azureCommunicationChatService.listChatMessages(chatThreadId: chatThreadId, withOptions: options, completionHandler: completionHandler)
+        return azureCommunicationChatService.listChatMessages(
+            chatThreadId: chatThreadId,
+            withOptions: options,
+            completionHandler: completionHandler
+        )
     }
 
     /// Gets a message by id.
@@ -102,7 +119,12 @@ extension AzureCommunicationChatClient {
         withOptions options: AzureCommunicationChatService.GetChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<ChatMessage>
     ) {
-        return self.azureCommunicationChatService.getChatMessage(chatThreadId: chatThreadId, chatMessageId: chatMessageId, withOptions: options, completionHandler: completionHandler)
+        return azureCommunicationChatService.getChatMessage(
+            chatThreadId: chatThreadId,
+            chatMessageId: chatMessageId,
+            withOptions: options,
+            completionHandler: completionHandler
+        )
     }
 
     /// Updates a message.
@@ -120,7 +142,13 @@ extension AzureCommunicationChatClient {
         withOptions options: AzureCommunicationChatService.UpdateChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        return self.azureCommunicationChatService.update(chatMessage: chatMessage, chatThreadId: chatThreadId, chatMessageId: chatMessageId, withOptions: options, completionHandler: completionHandler)
+        return azureCommunicationChatService.update(
+            chatMessage: chatMessage,
+            chatThreadId: chatThreadId,
+            chatMessageId: chatMessageId,
+            withOptions: options,
+            completionHandler: completionHandler
+        )
     }
 
     /// Deletes a message.
@@ -136,7 +164,12 @@ extension AzureCommunicationChatClient {
         withOptions options: AzureCommunicationChatService.DeleteChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        return self.azureCommunicationChatService.deleteChatMessage(chatThreadId: chatThreadId, chatMessageId: chatMessageId, withOptions: options, completionHandler: completionHandler)
+        return azureCommunicationChatService.deleteChatMessage(
+            chatThreadId: chatThreadId,
+            chatMessageId: chatMessageId,
+            withOptions: options,
+            completionHandler: completionHandler
+        )
     }
 
     /// Posts a typing event to a thread, on behalf of a user.
@@ -150,7 +183,11 @@ extension AzureCommunicationChatClient {
         withOptions options: AzureCommunicationChatService.SendTypingNotificationOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        return self.azureCommunicationChatService.sendTypingNotification(chatThreadId: chatThreadId, withOptions: options, completionHandler: completionHandler)
+        return azureCommunicationChatService.sendTypingNotification(
+            chatThreadId: chatThreadId,
+            withOptions: options,
+            completionHandler: completionHandler
+        )
     }
 
     /// Gets the members of a thread.
@@ -164,7 +201,11 @@ extension AzureCommunicationChatClient {
         withOptions options: AzureCommunicationChatService.ListChatThreadMembersOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatThreadMember>>
     ) {
-        return self.azureCommunicationChatService.listChatThreadMembers(chatThreadId: chatThreadId, withOptions: options, completionHandler: completionHandler)
+        return azureCommunicationChatService.listChatThreadMembers(
+            chatThreadId: chatThreadId,
+            withOptions: options,
+            completionHandler: completionHandler
+        )
     }
 
     /// Adds thread members to a thread. If members already exist, no change occurs.
@@ -180,7 +221,12 @@ extension AzureCommunicationChatClient {
         withOptions options: AzureCommunicationChatService.AddChatThreadMembersOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        return self.azureCommunicationChatService.add(chatThreadMembers: chatThreadMembers, chatThreadId: chatThreadId, withOptions: options, completionHandler: completionHandler)
+        return azureCommunicationChatService.add(
+            chatThreadMembers: chatThreadMembers,
+            chatThreadId: chatThreadId,
+            withOptions: options,
+            completionHandler: completionHandler
+        )
     }
 
     /// Remove a member from a thread.
@@ -196,7 +242,12 @@ extension AzureCommunicationChatClient {
         withOptions options: AzureCommunicationChatService.RemoveChatThreadMemberOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        return self.azureCommunicationChatService.removeChatThreadMember(chatThreadId: chatThreadId, chatMemberId: chatMemberId, withOptions: options, completionHandler: completionHandler)
+        return azureCommunicationChatService.removeChatThreadMember(
+            chatThreadId: chatThreadId,
+            chatMemberId: chatMemberId,
+            withOptions: options,
+            completionHandler: completionHandler
+        )
     }
 
     /// Creates a chat thread.
@@ -210,7 +261,11 @@ extension AzureCommunicationChatClient {
         withOptions options: AzureCommunicationChatService.CreateChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<MultiStatusResponse>
     ) {
-        return self.azureCommunicationChatService.create(chatThread: chatThread, withOptions: options, completionHandler: completionHandler)
+        return azureCommunicationChatService.create(
+            chatThread: chatThread,
+            withOptions: options,
+            completionHandler: completionHandler
+        )
     }
 
     /// Gets the list of chat threads of a user.
@@ -223,7 +278,7 @@ extension AzureCommunicationChatClient {
         withOptions options: AzureCommunicationChatService.ListChatThreadsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatThreadInfo>>
     ) {
-        return self.azureCommunicationChatService.listChatThreads(withOptions: options, completionHandler: completionHandler)
+        return azureCommunicationChatService.listChatThreads(withOptions: options, completionHandler: completionHandler)
     }
 
     /// Updates a thread's properties.
@@ -239,7 +294,12 @@ extension AzureCommunicationChatClient {
         withOptions options: AzureCommunicationChatService.UpdateChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        return self.azureCommunicationChatService.update(chatThread: chatThread, chatThreadId: chatThreadId, withOptions: options, completionHandler: completionHandler)
+        return azureCommunicationChatService.update(
+            chatThread: chatThread,
+            chatThreadId: chatThreadId,
+            withOptions: options,
+            completionHandler: completionHandler
+        )
     }
 
     /// Gets a chat thread.
@@ -253,7 +313,11 @@ extension AzureCommunicationChatClient {
         withOptions options: AzureCommunicationChatService.GetChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<ChatThread>
     ) {
-        return self.azureCommunicationChatService.getChatThread(chatThreadId: chatThreadId, withOptions: options, completionHandler: completionHandler)
+        return azureCommunicationChatService.getChatThread(
+            chatThreadId: chatThreadId,
+            withOptions: options,
+            completionHandler: completionHandler
+        )
     }
 
     /// Deletes a thread.
@@ -267,6 +331,10 @@ extension AzureCommunicationChatClient {
         withOptions options: AzureCommunicationChatService.DeleteChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        return self.azureCommunicationChatService.deleteChatThread(chatThreadId: chatThreadId, withOptions: options, completionHandler: completionHandler)
+        return azureCommunicationChatService.deleteChatThread(
+            chatThreadId: chatThreadId,
+            withOptions: options,
+            completionHandler: completionHandler
+        )
     }
 }

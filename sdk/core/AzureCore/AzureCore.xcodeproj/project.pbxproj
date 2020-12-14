@@ -14,6 +14,10 @@
 		0A348C3F255071E800C63618 /* TestClientOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A22B09324CF84F300EC018E /* TestClientOptions.swift */; };
 		0A348C42255071ED00C63618 /* TestClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A55FD2A254B2564002CBFD8 /* TestClient.swift */; };
 		0A348C44255071F000C63618 /* TestCallOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A55FD27254B2521002CBFD8 /* TestCallOptions.swift */; };
+		0A348C6F2550BC9D00C63618 /* AzureDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A348C6E2550BC9D00C63618 /* AzureDate.swift */; };
+		0A348FC42555FE7C00C63618 /* HTTPHeaderStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A348FC32555FE7C00C63618 /* HTTPHeaderStub.swift */; };
+		0A34907E2559C6CB00C63618 /* AzureDateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A34907D2559C6CB00C63618 /* AzureDateTests.swift */; };
+		0A349403255DB48500C63618 /* RequestString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A348F4F2555E3B000C63618 /* RequestString.swift */; };
 		0A3A5D9B2315CEB600473FDA /* HTTPRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D902315CEB600473FDA /* HTTPRequest.swift */; };
 		0A3A5D9C2315CEB600473FDA /* HTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D912315CEB600473FDA /* HTTPResponse.swift */; };
 		0A3A5D9D2315CEB600473FDA /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3A5D922315CEB600473FDA /* HTTPMethod.swift */; };
@@ -48,6 +52,8 @@
 		0AC0AA83234D017F00F05073 /* AzureCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC0AA82234D017F00F05073 /* AzureCodable.swift */; };
 		0AC0AA8C234F8ADD00F05073 /* Collections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC0AA8A234F8ADD00F05073 /* Collections.swift */; };
 		0AC0AA8F234FDB0800F05073 /* XMLModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC0AA8E234FDB0800F05073 /* XMLModel.swift */; };
+		0AC47D77254209DB00660532 /* RequestParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC47D76254209DB00660532 /* RequestParameters.swift */; };
+		0AC47D9B2542381600660532 /* RequestParametersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC47D9A2542381600660532 /* RequestParametersTests.swift */; };
 		0AD6351B23F46C18000D67F6 /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD6351A23F46C18000D67F6 /* ReachabilityManager.swift */; };
 		0AD6351D23F46C6D000D67F6 /* ReachabilityManagerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD6351C23F46C6D000D67F6 /* ReachabilityManagerType.swift */; };
 		0AD6351F23F46CC4000D67F6 /* ReachabilityManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD6351E23F46CC4000D67F6 /* ReachabilityManagerTests.swift */; };
@@ -122,6 +128,10 @@
 		0A22B08F24CF490C00EC018E /* TransportOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportOptions.swift; sourceTree = "<group>"; };
 		0A22B09124CF611F00EC018E /* TelemetryOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelemetryOptions.swift; sourceTree = "<group>"; };
 		0A22B09324CF84F300EC018E /* TestClientOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestClientOptions.swift; sourceTree = "<group>"; };
+		0A348C6E2550BC9D00C63618 /* AzureDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzureDate.swift; sourceTree = "<group>"; };
+		0A348F4F2555E3B000C63618 /* RequestString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestString.swift; sourceTree = "<group>"; };
+		0A348FC32555FE7C00C63618 /* HTTPHeaderStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPHeaderStub.swift; sourceTree = "<group>"; };
+		0A34907D2559C6CB00C63618 /* AzureDateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzureDateTests.swift; sourceTree = "<group>"; };
 		0A3A5D762315C89C00473FDA /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A3A5D7A2315C89C00473FDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A3A5D902315CEB600473FDA /* HTTPRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPRequest.swift; sourceTree = "<group>"; };
@@ -161,6 +171,8 @@
 		0AC0AA82234D017F00F05073 /* AzureCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzureCodable.swift; sourceTree = "<group>"; };
 		0AC0AA8A234F8ADD00F05073 /* Collections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Collections.swift; path = Source/DataStructures/Collections.swift; sourceTree = SOURCE_ROOT; };
 		0AC0AA8E234FDB0800F05073 /* XMLModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLModel.swift; sourceTree = "<group>"; };
+		0AC47D76254209DB00660532 /* RequestParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestParameters.swift; sourceTree = "<group>"; };
+		0AC47D9A2542381600660532 /* RequestParametersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestParametersTests.swift; sourceTree = "<group>"; };
 		0AD6351A23F46C18000D67F6 /* ReachabilityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityManager.swift; sourceTree = "<group>"; };
 		0AD6351C23F46C6D000D67F6 /* ReachabilityManagerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityManagerType.swift; sourceTree = "<group>"; };
 		0AD6351E23F46CC4000D67F6 /* ReachabilityManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityManagerTests.swift; sourceTree = "<group>"; };
@@ -276,6 +288,7 @@
 				0AD6351A23F46C18000D67F6 /* ReachabilityManager.swift */,
 				0AD6351C23F46C6D000D67F6 /* ReachabilityManagerType.swift */,
 				0A6A9B4E234293B50013FCAA /* RegexUtil.swift */,
+				0A348F4F2555E3B000C63618 /* RequestString.swift */,
 				0A73AB76243F969700C6DC34 /* StringUtil.swift */,
 				7A5E79ED2474A921000757F6 /* URLUtil.swift */,
 			);
@@ -296,6 +309,7 @@
 				0AFEC36423C8FC590065D588 /* Data Files */,
 				7A1A916D23D13E4E00B0B3D2 /* Stubs */,
 				7AFA4D5F23D14BDB001A3BF4 /* AddDatePolicyTests.swift */,
+				0A34907D2559C6CB00C63618 /* AzureDateTests.swift */,
 				0AFEC35523C8FC320065D588 /* CollectionsTests.swift */,
 				7AE1886E2447C3950051628A /* CryptoUtilTests.swift */,
 				7AFA4D5D23D14864001A3BF4 /* HeadersPolicyTests.swift */,
@@ -306,6 +320,7 @@
 				0A55FD30254B31AB002CBFD8 /* PipelineContextTests.swift */,
 				0AFEC35423C8FC320065D588 /* PipelineRequestTests.swift */,
 				0AFEC35023C8FC310065D588 /* PipelineTests.swift */,
+				0AC47D9A2542381600660532 /* RequestParametersTests.swift */,
 				0AD6351E23F46CC4000D67F6 /* ReachabilityManagerTests.swift */,
 				7A1A916B23D13D5700B0B3D2 /* RequestIdPolicyTests.swift */,
 				0AFEC35223C8FC320065D588 /* UserAgentPolicyTests.swift */,
@@ -357,6 +372,7 @@
 				0A3A5D902315CEB600473FDA /* HTTPRequest.swift */,
 				0A3A5D912315CEB600473FDA /* HTTPResponse.swift */,
 				0AB7412023C79E1400B579B3 /* TransportStage.swift */,
+				0AC47D76254209DB00660532 /* RequestParameters.swift */,
 				0A22B09124CF611F00EC018E /* TelemetryOptions.swift */,
 				0A22B08F24CF490C00EC018E /* TransportOptions.swift */,
 				0A7F56392321732B00E9765A /* URLHTTPResponse.swift */,
@@ -368,6 +384,7 @@
 		0AF01856232AF2CC00A0C94D /* DataStructures */ = {
 			isa = PBXGroup;
 			children = (
+				0A348C6E2550BC9D00C63618 /* AzureDate.swift */,
 				0AC0AA8A234F8ADD00F05073 /* Collections.swift */,
 				0A532ACE2417E71100C4C8BA /* XMLMap.swift */,
 				0AC0AA8E234FDB0800F05073 /* XMLModel.swift */,
@@ -393,6 +410,7 @@
 		7A1A916D23D13E4E00B0B3D2 /* Stubs */ = {
 			isa = PBXGroup;
 			children = (
+				0A348FC32555FE7C00C63618 /* HTTPHeaderStub.swift */,
 				7A968D0223E0FC6400E0F054 /* LoggerStubs.swift */,
 				7A1A916E23D13E5D00B0B3D2 /* PipelineStubs.swift */,
 				7A1A917023D13F0300B0B3D2 /* ProviderStubs.swift */,
@@ -496,7 +514,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1030;
-				LastUpgradeCheck = 1030;
+				LastUpgradeCheck = 1210;
 				ORGANIZATIONNAME = "Azure SDK Team";
 				TargetAttributes = {
 					0A3A5D752315C89C00473FDA = {
@@ -627,6 +645,7 @@
 				7AFCF7662345714200592782 /* LoggingPolicy.swift in Sources */,
 				0A3A5D9E2315CEB600473FDA /* HTTPHeader.swift in Sources */,
 				0A3A5D9C2315CEB600473FDA /* HTTPResponse.swift in Sources */,
+				0A348C6F2550BC9D00C63618 /* AzureDate.swift in Sources */,
 				0AD6351D23F46C6D000D67F6 /* ReachabilityManagerType.swift in Sources */,
 				0AB7412223C79E1400B579B3 /* TransportStage.swift in Sources */,
 				7A5E79EE2474A921000757F6 /* URLUtil.swift in Sources */,
@@ -637,10 +656,13 @@
 				0AE5C3A6231F150A0013CA85 /* KeychainUtil.swift in Sources */,
 				0A3A5F422319834500473FDA /* PipelineStage.swift in Sources */,
 				0A45B1FB23A82A2E00C54363 /* ApplicationUtil.swift in Sources */,
+				0AC47D77254209DB00660532 /* RequestParameters.swift in Sources */,
 				0A3A5D9D2315CEB600473FDA /* HTTPMethod.swift in Sources */,
+				0A349403255DB48500C63618 /* RequestString.swift in Sources */,
 				0A55FC3C2548B63D002CBFD8 /* RetryPolicy.swift in Sources */,
 				0A3A5D9B2315CEB600473FDA /* HTTPRequest.swift in Sources */,
 				7AA5366F23C0409F00A65A96 /* DeviceProviders.swift in Sources */,
+				0A348FC42555FE7C00C63618 /* HTTPHeaderStub.swift in Sources */,
 				0AE326352499605700C85EAA /* HeadersValidationPolicy.swift in Sources */,
 				7AA5366523C0232A00A65A96 /* RequestIdPolicy.swift in Sources */,
 				0AC0AA8C234F8ADD00F05073 /* Collections.swift in Sources */,
@@ -681,6 +703,7 @@
 				0AE3263D249A7F9A00C85EAA /* NormalizeETagPolicyTests.swift in Sources */,
 				7A1A917123D13F0300B0B3D2 /* ProviderStubs.swift in Sources */,
 				7A968D0323E0FC6400E0F054 /* LoggerStubs.swift in Sources */,
+				0AC47D9B2542381600660532 /* RequestParametersTests.swift in Sources */,
 				7AE1886F2447C3950051628A /* CryptoUtilTests.swift in Sources */,
 				0AE3263C249A7F9000C85EAA /* HeadersValidationPolicyTests.swift in Sources */,
 				7AFA4D6023D14BDB001A3BF4 /* AddDatePolicyTests.swift in Sources */,
@@ -691,6 +714,7 @@
 				0AFEC36223C8FC490065D588 /* UtilTests.swift in Sources */,
 				0A348C42255071ED00C63618 /* TestClient.swift in Sources */,
 				0AFEC36123C8FC460065D588 /* UserAgentPolicyTests.swift in Sources */,
+				0A34907E2559C6CB00C63618 /* AzureDateTests.swift in Sources */,
 				0AFEC35E23C8FC3D0065D588 /* HTTPRequestTests.swift in Sources */,
 				0AFEC35F23C8FC400065D588 /* PipelineRequestTests.swift in Sources */,
 				7A1A916F23D13E5D00B0B3D2 /* PipelineStubs.swift in Sources */,
@@ -740,6 +764,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -806,6 +831,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;

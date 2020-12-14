@@ -30,11 +30,14 @@ import XCTest
 // swiftlint:disable force_try
 class HttpRequestTests: XCTestCase {
     func test_HttpRequest_WithQueryString_AppendsToQueryString() {
-        let httpRequest = try! HTTPRequest(method: .post, url: "https://www.test.com?a=1&b=2", headers: [:])
+        let httpRequest = try! HTTPRequest(method: .post, url: "https://www.test.com?a=1&b=2")
         var query = URLComponents(url: httpRequest.url, resolvingAgainstBaseURL: true)!.queryItems!
         XCTAssertEqual(query.count, 2, "Failure converting query string from URL into query items.")
 
-        httpRequest.url = httpRequest.url.appendingQueryParameters([("a", "0"), ("c", "3")])!
+        httpRequest.url = httpRequest.url.appendingQueryParameters(RequestParameters(
+            (.query, "a", "0", .encode),
+            (.query, "c", "3", .encode)
+        ))!
         query = URLComponents(url: httpRequest.url, resolvingAgainstBaseURL: true)!.queryItems!
         XCTAssertEqual(query.count, 4, "Failure adding new query string parameters.")
         let queryItems = query.reduce(into: [String: [String?]]()) { acc, item in
@@ -49,7 +52,7 @@ class HttpRequestTests: XCTestCase {
 
     func test_HttpHeaders_WithEnumOrStringKey_CanBeModified() {
         // ensure headers can be added by string or enum key
-        let headers = HTTPHeaders([.accept: "json"])
+        let headers = HTTPHeaders([HTTPHeader.accept: "json"])
         let httpRequest = try! HTTPRequest(method: .post, url: "https://www.test.com?a=1&b=2", headers: headers)
         XCTAssertEqual(httpRequest.headers.count, 1, "Failed to accept headers.")
         httpRequest.headers["Authorization"] = "token"
@@ -65,14 +68,14 @@ class HttpRequestTests: XCTestCase {
         XCTAssertEqual(result, "json")
 
         // remove a header using its enum key
-        result = httpRequest.headers.removeValue(forKey: .authorization)
+        result = httpRequest.headers.removeValue(forKey: HTTPHeader.authorization)
         XCTAssertEqual(httpRequest.headers.count, 0, "Failed to remove header by enum key.")
         XCTAssertEqual(result, "token")
 
         // receive nil if header not found
         result = httpRequest.headers.removeValue(forKey: "Test")
         XCTAssertNil(result)
-        result = httpRequest.headers.removeValue(forKey: .acceptCharset)
+        result = httpRequest.headers.removeValue(forKey: HTTPHeader.acceptCharset)
         XCTAssertNil(result)
     }
 }

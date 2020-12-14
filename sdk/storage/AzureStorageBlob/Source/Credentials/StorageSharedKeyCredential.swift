@@ -242,7 +242,7 @@ internal class StorageSharedKeyAuthenticationPolicy: Authenticating {
         // 2. Convert each HTTP header name to lowercase.
         var subset = [String: String]()
         for key in headers.keys {
-            let lowerKey = key.lowercased()
+            let lowerKey = key.requestString.lowercased()
             if lowerKey.starts(with: "x-ms-") {
                 subset[lowerKey] = headers[key] ?? ""
             }

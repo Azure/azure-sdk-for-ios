@@ -12,8 +12,12 @@ import AzureCore
 import Foundation
 
 /// The chat message priority.
-public enum ChatMessagePriority: String, Codable {
+public enum ChatMessagePriority: String, Codable, RequestStringConvertible {
     case normal = "Normal"
 
     case high = "High"
+
+    public var requestString: String {
+        return rawValue
+    }
 }

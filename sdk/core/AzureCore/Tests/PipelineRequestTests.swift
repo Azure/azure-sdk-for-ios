@@ -31,7 +31,7 @@ import XCTest
 class PipelineRequestTests: XCTestCase {
     func test_PipelineContext_CanAddAndAccessValues() {
         let logger = ClientLoggers.default()
-        let httpRequest = try! HTTPRequest(method: .get, url: "https://www.contoso.com", headers: [:])
+        let httpRequest = try! HTTPRequest(method: .get, url: "https://www.contoso.com")
         var pipelineRequest = PipelineRequest(request: httpRequest, logger: logger)
 
         // add context when one did not exist

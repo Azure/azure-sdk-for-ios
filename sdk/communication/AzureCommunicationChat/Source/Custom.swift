@@ -26,22 +26,4 @@
 
 import Foundation
 
-public class URLHTTPResponse: HTTPResponse {
-    // MARK: Properties
-
-    private var internalResponse: HTTPURLResponse?
-
-    // MARK: Initializers
-
-    public init(request: HTTPRequest, response: HTTPURLResponse?) {
-        self.internalResponse = response
-        let statusCode = response?.statusCode
-        super.init(request: request, statusCode: statusCode)
-        guard let internalHeaders = response?.allHeaderFields else { return }
-        for (key, value) in internalHeaders {
-            guard let keyVal = key as? String else { continue }
-            guard let val = value as? String else { continue }
-            headers[keyVal] = val
-        }
-    }
-}
+// TODO: Custom Code Here

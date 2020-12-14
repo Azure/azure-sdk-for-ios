@@ -15,33 +15,38 @@ import Foundation
 // swiftlint:disable line_length
 // swiftlint:disable cyclomatic_complexity
 
-public struct ChatThreadInfo: Codable {
+public struct ChatThread: Codable {
     // MARK: Properties
 
     /// Chat thread id.
     public let id: String?
     /// Chat thread topic.
     public let topic: String?
-    /// Flag if a chat thread is soft deleted.
-    public let isDeleted: Bool?
-    /// The timestamp when the last message arrived at the server. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
-    public let lastMessageReceivedOn: Date?
+    /// The timestamp when the chat thread was created. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    public let createdOn: Iso8601Date?
+    /// Id of the chat thread owner.
+    public let createdBy: String?
+    /// Chat thread members.
+    public let members: [ChatThreadMember]?
 
     // MARK: Initializers
 
-    /// Initialize a `ChatThreadInfo` structure.
+    /// Initialize a `ChatThread` structure.
     /// - Parameters:
     ///   - id: Chat thread id.
     ///   - topic: Chat thread topic.
-    ///   - isDeleted: Flag if a chat thread is soft deleted.
-    ///   - lastMessageReceivedOn: The timestamp when the last message arrived at the server. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    ///   - createdOn: The timestamp when the chat thread was created. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    ///   - createdBy: Id of the chat thread owner.
+    ///   - members: Chat thread members.
     public init(
-        id: String? = nil, topic: String? = nil, isDeleted: Bool? = nil, lastMessageReceivedOn: Date? = nil
+        id: String? = nil, topic: String? = nil, createdOn: Iso8601Date? = nil, createdBy: String? = nil,
+        members: [ChatThreadMember]? = nil
     ) {
         self.id = id
         self.topic = topic
-        self.isDeleted = isDeleted
-        self.lastMessageReceivedOn = lastMessageReceivedOn
+        self.createdOn = createdOn
+        self.createdBy = createdBy
+        self.members = members
     }
 
     // MARK: Codable
@@ -49,33 +54,28 @@ public struct ChatThreadInfo: Codable {
     enum CodingKeys: String, CodingKey {
         case id
         case topic
-        case isDeleted
-        case lastMessageReceivedOn
+        case createdOn
+        case createdBy
+        case members
     }
 
-    /// Initialize a `ChatThreadInfo` structure from decoder
+    /// Initialize a `ChatThread` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try? container.decode(String.self, forKey: .id)
         self.topic = try? container.decode(String.self, forKey: .topic)
-        self.isDeleted = try? container.decode(Bool.self, forKey: .isDeleted)
-        if let dateString = try? container.decode(String.self, forKey: .lastMessageReceivedOn) {
-            self.lastMessageReceivedOn = Date(dateString, format: Date.Format.iso8601)
-        } else {
-            self.lastMessageReceivedOn = nil
-        }
+        self.createdOn = try? container.decode(Iso8601Date.self, forKey: .createdOn)
+        self.createdBy = try? container.decode(String.self, forKey: .createdBy)
+        self.members = try? container.decode([ChatThreadMember].self, forKey: .members)
     }
 
-    /// Encode a `ChatThreadInfo` structure
+    /// Encode a `ChatThread` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         if id != nil { try? container.encode(id, forKey: .id) }
         if topic != nil { try? container.encode(topic, forKey: .topic) }
-        if isDeleted != nil { try? container.encode(isDeleted, forKey: .isDeleted) }
-        if lastMessageReceivedOn != nil {
-            let dateFormatter = DateFormatter()
-            let dateString = dateFormatter.string(from: lastMessageReceivedOn!)
-            try? container.encode(dateString, forKey: .lastMessageReceivedOn)
-        }
+        if createdOn != nil { try? container.encode(createdOn, forKey: .createdOn) }
+        if createdBy != nil { try? container.encode(createdBy, forKey: .createdBy) }
+        if members != nil { try? container.encode(members, forKey: .members) }
     }
 }
