@@ -415,7 +415,7 @@ class ChatThreadClientTests: XCTestCase {
                     switch result {
                     case let .success(participants):
                         // Verify both participants in the list
-                        for i in 0 ... 1 {
+                        for index in 0 ... 1 {
                             participants.nextItem { result in
                                 switch result {
                                 case let .success(participant):
@@ -425,21 +425,25 @@ class ChatThreadClientTests: XCTestCase {
                                     XCTFail("Failed to retrieve participant: \(error)")
                                 }
 
-                                participantExpectations[i].fulfill()
+                                participantExpectations[index].fulfill()
                             }
                         }
 
                     case let .failure(error):
                         XCTFail("List participants failed: \(error)")
                         expectation.fulfill()
+                        participantExpectations.forEach() { expectation in
+                            expectation.fulfill()
+                        }
                     }
-
-                    expectation.fulfill()
                 }
 
             case let .failure(error):
                 XCTFail("Add participant failed: \(error)")
                 expectation.fulfill()
+                participantExpectations.forEach() { expectation in
+                    expectation.fulfill()
+                }
             }
         }
 
