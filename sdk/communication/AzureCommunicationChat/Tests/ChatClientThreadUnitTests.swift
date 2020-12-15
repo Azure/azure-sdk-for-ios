@@ -501,34 +501,59 @@ class ChatClientThreadUnitTests: XCTestCase {
     }
     
     func test_AddParticipant_ReturnSuccess() {
-        XCTFail()
-//        let bundle = Bundle(for: type(of: self))
-//        let path = bundle.path(forResource: "NoContent", ofType: "json") ?? ""
-//        stub(condition: isMethodPOST()) { _ in
-//            return fixture(filePath: path, status: 201, headers: nil)
-//        }
-//
-//        let expectation = self.expectation(description: "Delete message")
-//
-//        chatClientThread.delete(message: self.messageId, completionHandler: { result, _ in
-//            switch result {
-//            case let .success(response):
-//                XCTAssertNotNil(response)
-//            case .failure(_):
-//                XCTFail("Unexpected failure happened in delete message")
-//            }
-//            expectation.fulfill()
-//        })
-//
-//        waitForExpectations(timeout: timeout) { error in
-//            if let error = error {
-//                XCTFail("Delete message timed out: \(error)")
-//            }
-//        }
+        let bundle = Bundle(for: type(of: self))
+        let path = bundle.path(forResource: "AddParticipantResponse", ofType: "json") ?? ""
+        stub(condition: isMethodPOST()) { _ in
+            return fixture(filePath: path, status: 201, headers: nil)
+        }
+
+        let expectation = self.expectation(description: "Add participant")
+
+        let participant = ChatParticipant(id: self.participantId)
+        
+        chatClientThread.add(participants: [participant], completionHandler: { result, _ in
+            switch result {
+            case let .success(response):
+                XCTAssertNotNil(response)
+            case .failure(_):
+                XCTFail("Unexpected failure happened in Add participant")
+            }
+            expectation.fulfill()
+        })
+
+        waitForExpectations(timeout: timeout) { error in
+            if let error = error {
+                XCTFail("Add participant timed out: \(error)")
+            }
+        }
     }
     
     func test_AddParticipant_ReturnError() {
-        XCTFail()
+        let bundle = Bundle(for: type(of: self))
+        let path = bundle.path(forResource: "UnauthorizedError", ofType: "json") ?? ""
+        stub(condition: isMethodPOST()) { _ in
+            return fixture(filePath: path, status: 401, headers: nil)
+        }
+
+        let expectation = self.expectation(description: "Add participant")
+
+        let participant = ChatParticipant(id: self.participantId)
+        
+        chatClientThread.add(participants: [participant], completionHandler: { result, _ in
+            switch result {
+            case .success(_):
+                XCTFail("Unexpected failure happened in add participant")
+            case let .failure(error):
+                XCTAssertNotNil(error)
+            }
+            expectation.fulfill()
+        })
+
+        waitForExpectations(timeout: timeout) { error in
+            if let error = error {
+                XCTFail("Add participant timed out: \(error)")
+            }
+        }
     }
     
     func test_RemoveParticipant_ReturnSuccess() {
@@ -639,7 +664,7 @@ class ChatClientThreadUnitTests: XCTestCase {
         let bundle = Bundle(for: type(of: self))
         let path = bundle.path(forResource: "NoContent", ofType: "json") ?? ""
         stub(condition: isMethodPOST()) { _ in
-            return fixture(filePath: path, status: 201, headers: nil)
+            return fixture(filePath: path, status: 200, headers: nil)
         }
         
         let expectation = self.expectation(description: "Send read receipt")
