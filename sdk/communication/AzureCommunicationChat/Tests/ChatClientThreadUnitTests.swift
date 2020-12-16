@@ -30,6 +30,7 @@ import AzureCore
 import OHHTTPStubsSwift
 import XCTest
 
+// swiftlint:disable all
 class ChatClientThreadUnitTests: XCTestCase {
     private var chatClient: ChatClient!
     private var chatClientThread: ChatThreadClient!
