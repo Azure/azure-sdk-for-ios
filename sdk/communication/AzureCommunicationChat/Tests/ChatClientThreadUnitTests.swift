@@ -30,13 +30,12 @@ import OHHTTPStubsSwift
 import XCTest
 
 class ChatClientThreadUnitTests: XCTestCase {
-
     private var chatClient: ChatClient!
     private var chatClientThread: ChatThreadClient!
     private let timeout: TimeInterval = 3
     
     private let endpoint = "https://www.acsunittest.com"
-    private let token = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjEwMl9pbnQiLCJ0eXAiOiJKV1QifQ.eyJza3lwZWlkIjoiYWNzOjliNjY1ZDUzLTgxNjQtNDkyMy1hZDVkLTVlOTgzYjA3ZDJlN18wMDAwMDAwNi1lM2UyLThkZTgtNTU3ZC01YTNhMGQwMDAwNTQiLCJzY3AiOjE3OTIsImNzaSI6IjE2MDc1NDg0NTQiLCJpYXQiOjE2MDc1NDg0NTQsImV4cCI6MTYwNzYzNDg1NCwiYWNzU2NvcGUiOiJjaGF0IiwicmVzb3VyY2VJZCI6IjliNjY1ZDUzLTgxNjQtNDkyMy1hZDVkLTVlOTgzYjA3ZDJlNyJ9.mQ-WzZYiEF_g2Q7VusnOYnvrY4TQ1LWbZfwWiwx1r6S4U2T3IDoaNFgb5RFSH3V3R7VysY5teFtgRlyqh6vTYhU-roSK_i1bWSS1K-gLXOK7sEIS1daNTRgjJ2kpA38MY4o9WD5YeIcZ_NkW7IxyIRwOQI9-h_fFBG7oXNhft1Xq1YfC9LuiHSmTsO67D6ldwHbNRZdjELp5Y2L_O5KOVqx2elPSscXPxXvxbk2E5KDtwX8WDgKDiOX9ZFUooulnAGX8jhblgYSwZW5BYfyuXbAhMXAwot0ay3yUbz3J0smewsxrgYI0FEOtlMfg61Ejxf7vx_OaVB_HFkQYRC_5rw"
+    private var token = "replace_value_from_token.json"
     
     private let participantId = "test_participant_id"
     private let participantName = "test_participant_name"
@@ -46,6 +45,15 @@ class ChatClientThreadUnitTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
+        
+        let bundle = Bundle(for: type(of: self))
+        let path = bundle.path(forResource: "token", ofType: "txt") ?? ""
+        do {
+            token = try String(contentsOfFile: path, encoding: String.Encoding.utf8)
+        } catch {
+            XCTFail("Failed to read token value from token.json file")
+        }
+
         guard let credential = try? CommunicationUserCredential(token: self.token) else {
             self.continueAfterFailure = false
             XCTFail("Failed to create credential")
