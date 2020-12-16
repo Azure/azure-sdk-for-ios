@@ -35,6 +35,7 @@ class ChatClientThreadUnitTests: XCTestCase {
     private var chatClientThread: ChatThreadClient!
     private let timeout: TimeInterval = 3
     
+    
     private let endpoint = "https://www.acsunittest.com"
     private let token = generateToken()
     
