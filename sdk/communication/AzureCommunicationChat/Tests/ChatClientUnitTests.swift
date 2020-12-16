@@ -34,23 +34,14 @@ class ChatClientUnitTests: XCTestCase {
     private let timeout: TimeInterval = 3
     
     private let endpoint = "https://www.acsunittest.com"
-    private var token = "replace_value_from_token.json"
+    private let token = generateToken()
 
-    
     private let participantId = "test_participant_id"
     private let threadId = "test_thread_id"
     private let topic = "test topic"
 
     override func setUp() {
         super.setUp()
-        
-        let bundle = Bundle(for: type(of: self))
-        let path = bundle.path(forResource: "token", ofType: "txt") ?? ""
-        do {
-            token = try String(contentsOfFile: path, encoding: String.Encoding.utf8)
-        } catch {
-            XCTFail("Failed to read token value from token.json file")
-        }
         
         guard let credential = try? CommunicationUserCredential(token: self.token) else {
             self.continueAfterFailure = false

@@ -20,7 +20,7 @@
 		0ECA8D2325888DD8006760F7 /* ListParticipantsResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 0ECA8D2225888DD8006760F7 /* ListParticipantsResponse.json */; };
 		0ECA8D29258892CD006760F7 /* AddParticipantResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 0ECA8D28258892CD006760F7 /* AddParticipantResponse.json */; };
 		0ECA8D2F25889619006760F7 /* ListReadReceiptResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 0ECA8D2E25889619006760F7 /* ListReadReceiptResponse.json */; };
-		0ECA8E88258A9904006760F7 /* token.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0ECA8E87258A9903006760F7 /* token.txt */; };
+		0ECA8E94258AB098006760F7 /* util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA8E93258AB098006760F7 /* util.swift */; };
 		D1565C71256DB74900AF45F8 /* ChatClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1565C70256DB74900AF45F8 /* ChatClient.swift */; };
 		D1565C74256DB76C00AF45F8 /* ChatThreadClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1565C73256DB76C00AF45F8 /* ChatThreadClient.swift */; };
 		D1B7EB06257F0D20004F384A /* AzureCommunicationChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "AzureCommunicationChat::AzureCommunicationChat::Product" /* AzureCommunicationChat.framework */; };
@@ -87,7 +87,7 @@
 		0ECA8D2225888DD8006760F7 /* ListParticipantsResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ListParticipantsResponse.json; sourceTree = "<group>"; };
 		0ECA8D28258892CD006760F7 /* AddParticipantResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AddParticipantResponse.json; sourceTree = "<group>"; };
 		0ECA8D2E25889619006760F7 /* ListReadReceiptResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ListReadReceiptResponse.json; sourceTree = "<group>"; };
-		0ECA8E87258A9903006760F7 /* token.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = token.txt; sourceTree = "<group>"; };
+		0ECA8E93258AB098006760F7 /* util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = util.swift; sourceTree = "<group>"; };
 		"AzureCommunicationChat::AzureCommunicationChat::Product" /* AzureCommunicationChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCommunicationChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1565C70256DB74900AF45F8 /* ChatClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatClient.swift; sourceTree = "<group>"; };
 		D1565C73256DB76C00AF45F8 /* ChatThreadClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatThreadClient.swift; sourceTree = "<group>"; };
@@ -180,7 +180,6 @@
 		0ECA8CD52581838E006760F7 /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
-				0ECA8E87258A9903006760F7 /* token.txt */,
 				0ECA8D2E25889619006760F7 /* ListReadReceiptResponse.json */,
 				0ECA8D28258892CD006760F7 /* AddParticipantResponse.json */,
 				0ECA8D2225888DD8006760F7 /* ListParticipantsResponse.json */,
@@ -204,6 +203,7 @@
 				D1B7EAFC257F03A1004F384A /* Info.plist */,
 				0ECA8CD1258181A5006760F7 /* ChatClientUnitTests.swift */,
 				0ECA8D08258432DC006760F7 /* ChatClientThreadUnitTests.swift */,
+				0ECA8E93258AB098006760F7 /* util.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -413,7 +413,6 @@
 				0ECA8CF12582A633006760F7 /* ListThreadsResponse.json in Resources */,
 				0ECA8CEB2582A52D006760F7 /* UnauthorizedError.json in Resources */,
 				0ECA8D2F25889619006760F7 /* ListReadReceiptResponse.json in Resources */,
-				0ECA8E88258A9904006760F7 /* token.txt in Resources */,
 				0ECA8D1725888667006760F7 /* GetMessageResponse.json in Resources */,
 				0ECA8D1D258887D3006760F7 /* ListMessagesResponse.json in Resources */,
 				D1BA104625807B0B00CA7130 /* CreateThreadResponse.json in Resources */,
@@ -432,6 +431,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0ECA8E94258AB098006760F7 /* util.swift in Sources */,
 				0ECA8D09258432DC006760F7 /* ChatClientThreadUnitTests.swift in Sources */,
 				0ECA8CD2258181A5006760F7 /* ChatClientUnitTests.swift in Sources */,
 			);
