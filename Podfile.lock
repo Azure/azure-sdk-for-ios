@@ -2,17 +2,33 @@ PODS:
   - MSAL (1.0.5):
     - MSAL/app-lib (= 1.0.5)
   - MSAL/app-lib (1.0.5)
+  - OHHTTPStubs/Core (9.1.0)
+  - OHHTTPStubs/Default (9.1.0):
+    - OHHTTPStubs/Core
+    - OHHTTPStubs/JSON
+    - OHHTTPStubs/NSURLSession
+    - OHHTTPStubs/OHPathHelpers
+  - OHHTTPStubs/JSON (9.1.0):
+    - OHHTTPStubs/Core
+  - OHHTTPStubs/NSURLSession (9.1.0):
+    - OHHTTPStubs/Core
+  - OHHTTPStubs/OHPathHelpers (9.1.0)
+  - OHHTTPStubs/Swift (9.1.0):
+    - OHHTTPStubs/Default
 
 DEPENDENCIES:
   - MSAL (~> 1.0.0)
+  - OHHTTPStubs/Swift
 
 SPEC REPOS:
   trunk:
     - MSAL
+    - OHHTTPStubs
 
 SPEC CHECKSUMS:
   MSAL: 74bf430ec0f46dd4c79dde2596e2b553610ccab1
+  OHHTTPStubs: 90eac6d8f2c18317baeca36698523dc67c513831
 
-PODFILE CHECKSUM: 284c1fba3199e8509312a2ffdc3996efbc6c261c
+PODFILE CHECKSUM: f3c689b9573f4045273a3d4c7d79c05e4f36921e
 
 COCOAPODS: 1.10.0
