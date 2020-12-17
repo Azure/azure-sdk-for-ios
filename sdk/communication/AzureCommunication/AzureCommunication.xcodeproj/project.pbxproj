@@ -13,12 +13,14 @@
 		1DC3550624D9F02D0095ABD9 /* Supporting Files in Resources */ = {isa = PBXBuildFile; fileRef = 1DC3550524D9F02D0095ABD9 /* Supporting Files */; };
 		1DE4DB7724C0FE8300631921 /* AutoRefreshTokenCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE4DB7624C0FE8300631921 /* AutoRefreshTokenCredential.swift */; };
 		1DE4DB7924C1063E00631921 /* ThreadSafeRefreshableAccessTokenCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE4DB7824C1063E00631921 /* ThreadSafeRefreshableAccessTokenCache.swift */; };
+		6BEEB9676DB4864DB30F6919 /* Pods_AzureCommunicationTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE026FF4E92423EB0A935FD4 /* Pods_AzureCommunicationTests.framework */; };
 		7AAE2D17251444B600C9F897 /* CommunicationAuthenticationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AAE2D16251444B600C9F897 /* CommunicationAuthenticationPolicy.swift */; };
 		882F28D425A632CA009689E3 /* CommunicationTokenRefreshOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882F28D325A632CA009689E3 /* CommunicationTokenRefreshOptions.swift */; };
 		8856CEAC253A376D00044559 /* CommunicationAccessToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8856CEAB253A376D00044559 /* CommunicationAccessToken.swift */; };
 		8856CEE5253E3AEF00044559 /* ObjCCommunicationTokenCredentialTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8856CEE4253E3AEF00044559 /* ObjCCommunicationTokenCredentialTests.m */; };
 		88CC8C35254750260028977C /* ObjCCommunicationTokenCredentialAsyncTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 88CC8C34254750260028977C /* ObjCCommunicationTokenCredentialAsyncTests.m */; };
 		88F1F570254A07BC00876BC4 /* ObjCTokenParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F1F56F254A07BC00876BC4 /* ObjCTokenParserTests.m */; };
+		DC294E02BC5156475835816E /* Pods_AzureCommunication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1FFD6B8DB6B306AC0F040BB /* Pods_AzureCommunication.framework */; };
 		F11E5CC824B77F8900AA3A58 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3A5ED62316DB8F00473FDA /* AzureCore.framework */; };
 		F183A5EB24AF9D9000F0E0D5 /* CommunicationTokenCredentialProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = F183A5EA24AF9D9000F0E0D5 /* CommunicationTokenCredentialProviding.swift */; };
 		F183A5FA24AFB37900F0E0D5 /* StaticTokenCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = F183A5F924AFB37900F0E0D5 /* StaticTokenCredential.swift */; };
@@ -67,6 +69,8 @@
 		1DC3550524D9F02D0095ABD9 /* Supporting Files */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Supporting Files"; sourceTree = "<group>"; };
 		1DE4DB7624C0FE8300631921 /* AutoRefreshTokenCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoRefreshTokenCredential.swift; sourceTree = "<group>"; };
 		1DE4DB7824C1063E00631921 /* ThreadSafeRefreshableAccessTokenCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadSafeRefreshableAccessTokenCache.swift; sourceTree = "<group>"; };
+		316382976240347BE77E907F /* Pods-AzureCommunication.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunication.release.xcconfig"; path = "Target Support Files/Pods-AzureCommunication/Pods-AzureCommunication.release.xcconfig"; sourceTree = "<group>"; };
+		73DFF8D8D93685E64E46AD1B /* Pods-AzureCommunication.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunication.debug.xcconfig"; path = "Target Support Files/Pods-AzureCommunication/Pods-AzureCommunication.debug.xcconfig"; sourceTree = "<group>"; };
 		7AAE2D16251444B600C9F897 /* CommunicationAuthenticationPolicy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunicationAuthenticationPolicy.swift; sourceTree = "<group>"; };
 		882F28D325A632CA009689E3 /* CommunicationTokenRefreshOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationTokenRefreshOptions.swift; sourceTree = "<group>"; };
 		8856CEAB253A376D00044559 /* CommunicationAccessToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationAccessToken.swift; sourceTree = "<group>"; };
@@ -77,6 +81,11 @@
 		F183A5EA24AF9D9000F0E0D5 /* CommunicationTokenCredentialProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationTokenCredentialProviding.swift; sourceTree = "<group>"; };
 		F183A5F924AFB37900F0E0D5 /* StaticTokenCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticTokenCredential.swift; sourceTree = "<group>"; };
 		F183A5FB24AFEF1400F0E0D5 /* CommunicationTokenCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationTokenCredential.swift; sourceTree = "<group>"; };
+		C7FEC671B55120C7AFDF3B62 /* Pods-AzureCommunicationTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunicationTests.debug.xcconfig"; path = "Target Support Files/Pods-AzureCommunicationTests/Pods-AzureCommunicationTests.debug.xcconfig"; sourceTree = "<group>"; };
+		DE026FF4E92423EB0A935FD4 /* Pods_AzureCommunicationTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCommunicationTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1FFD6B8DB6B306AC0F040BB /* Pods_AzureCommunication.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCommunication.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E5E66C937B734ADA8532CFC3 /* Pods-AzureCommunicationTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunicationTests.release.xcconfig"; path = "Target Support Files/Pods-AzureCommunicationTests/Pods-AzureCommunicationTests.release.xcconfig"; sourceTree = "<group>"; };
+		F183A5EA24AF9D9000F0E0D5 /* CommunicationTokenCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationTokenCredential.swift; sourceTree = "<group>"; };
 		F183A5FD24AFF1B100F0E0D5 /* JwtTokenParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JwtTokenParser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -86,6 +95,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F11E5CC824B77F8900AA3A58 /* AzureCore.framework in Frameworks */,
+				DC294E02BC5156475835816E /* Pods_AzureCommunication.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,6 +104,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A3A5EC22316DB1E00473FDA /* AzureCommunication.framework in Frameworks */,
+				6BEEB9676DB4864DB30F6919 /* Pods_AzureCommunicationTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,6 +118,7 @@
 				0A3A5EC52316DB1E00473FDA /* Tests */,
 				0A3A5EB92316DB1E00473FDA /* Products */,
 				0A3A5ED52316DB5700473FDA /* Frameworks */,
+				2D9F376773AE2A9C7A306867 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -146,6 +158,8 @@
 			isa = PBXGroup;
 			children = (
 				0A3A5ED62316DB8F00473FDA /* AzureCore.framework */,
+				E1FFD6B8DB6B306AC0F040BB /* Pods_AzureCommunication.framework */,
+				DE026FF4E92423EB0A935FD4 /* Pods_AzureCommunicationTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -166,6 +180,18 @@
 			path = Authentication;
 			sourceTree = "<group>";
 		};
+		2D9F376773AE2A9C7A306867 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				73DFF8D8D93685E64E46AD1B /* Pods-AzureCommunication.debug.xcconfig */,
+				316382976240347BE77E907F /* Pods-AzureCommunication.release.xcconfig */,
+				C7FEC671B55120C7AFDF3B62 /* Pods-AzureCommunicationTests.debug.xcconfig */,
+				E5E66C937B734ADA8532CFC3 /* Pods-AzureCommunicationTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = ../../../Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -183,6 +209,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0A3A5ECC2316DB1E00473FDA /* Build configuration list for PBXNativeTarget "AzureCommunication" */;
 			buildPhases = (
+				892BA074040FFB4A74C86592 /* [CP] Check Pods Manifest.lock */,
 				0A3A5EB32316DB1E00473FDA /* Headers */,
 				0A3A5EB42316DB1E00473FDA /* Sources */,
 				0A3A5EB52316DB1E00473FDA /* Frameworks */,
@@ -204,6 +231,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0A3A5ECF2316DB1E00473FDA /* Build configuration list for PBXNativeTarget "AzureCommunicationTests" */;
 			buildPhases = (
+				DED08D1BF86630CC5BACF415 /* [CP] Check Pods Manifest.lock */,
 				0A3A5EBD2316DB1E00473FDA /* Sources */,
 				0A3A5EBE2316DB1E00473FDA /* Frameworks */,
 				0A3A5EBF2316DB1E00473FDA /* Resources */,
@@ -291,8 +319,51 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellScript = "
-";
+			shellScript = "\n";
+			showEnvVarsInLog = 0;
+		};
+		892BA074040FFB4A74C86592 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AzureCommunication-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DED08D1BF86630CC5BACF415 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AzureCommunicationTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -463,6 +534,7 @@
 		};
 		0A3A5ECD2316DB1E00473FDA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 73DFF8D8D93685E64E46AD1B /* Pods-AzureCommunication.debug.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
@@ -495,6 +567,7 @@
 		};
 		0A3A5ECE2316DB1E00473FDA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 316382976240347BE77E907F /* Pods-AzureCommunication.release.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
@@ -526,6 +599,7 @@
 		};
 		0A3A5ED02316DB1E00473FDA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C7FEC671B55120C7AFDF3B62 /* Pods-AzureCommunicationTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
@@ -548,6 +622,7 @@
 		};
 		0A3A5ED12316DB1E00473FDA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E5E66C937B734ADA8532CFC3 /* Pods-AzureCommunicationTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
