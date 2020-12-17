@@ -1,0 +1,12 @@
+{
+  "id": "test_message_id",
+  "type": "Text",
+  "priority": "Normal",
+  "version": "string",
+  "content": "Hello world!",
+  "senderDisplayName": "Jane",
+  "createdOn": "2020-10-30T10:50:50Z",
+  "senderId": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b",
+  "deletedOn": "2020-10-30T10:50:50Z",
+  "editedOn": "2020-10-30T10:50:50Z"
+}
