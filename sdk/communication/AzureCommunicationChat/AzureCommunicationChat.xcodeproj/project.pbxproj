@@ -88,7 +88,7 @@
 /* Begin PBXFileReference section */
 		04B336EEF1E42CCE389E4935 /* Pods-AzureCommunicationChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunicationChat.release.xcconfig"; path = "Target Support Files/Pods-AzureCommunicationChat/Pods-AzureCommunicationChat.release.xcconfig"; sourceTree = "<group>"; };
 		0A74765B2522918900819FC9 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0ECA8CD1258181A5006760F7 /* ChatClientUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatClientUnitTests.swift; sourceTree = "<group>"; };
+		0ECA8CD1258181A5006760F7 /* ChatClientUnitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatClientUnitTests.swift; sourceTree = "<group>"; };
 		0ECA8CDE258188D0006760F7 /* GetThreadResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = GetThreadResponse.json; sourceTree = "<group>"; };
 		0ECA8CEA2582A52D006760F7 /* UnauthorizedError.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = UnauthorizedError.json; sourceTree = "<group>"; };
 		0ECA8CF02582A633006760F7 /* ListThreadsResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ListThreadsResponse.json; sourceTree = "<group>"; };
@@ -374,6 +374,7 @@
 				F533BDB375922B2AE143D56C /* [CP] Check Pods Manifest.lock */,
 				OBJ_120 /* Sources */,
 				OBJ_161 /* Frameworks */,
+				0ADDCFDA258D2AA900BD5E58 /* Format and Lint */,
 			);
 			buildRules = (
 			);
@@ -416,6 +417,7 @@
 				LastSwiftMigration = 9999;
 				LastSwiftUpdateCheck = 1220;
 				LastUpgradeCheck = 9999;
+				ORGANIZATIONNAME = "Azure SDK Team";
 				TargetAttributes = {
 					D1B7EAEC257F02FC004F384A = {
 						CreatedOnToolsVersion = 12.2;
@@ -424,7 +426,7 @@
 				};
 			};
 			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "AzureCommunicationChat" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -466,18 +468,35 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0ADDCFDA258D2AA900BD5E58 /* Format and Lint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Format and Lint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "BUILD_PATH=$(pwd)\nROOT_PATH=$(pwd | rev | cut -d'/' -f4- | rev) \n$ROOT_PATH/Scripts/swiftlint.sh $BUILD_PATH\n";
+		};
 		0BA9932A71B8ADED0ED0366F /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AzureCommunicationChatTests/Pods-AzureCommunicationChatTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/OHHTTPStubs/OHHTTPStubs.framework",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AzureCommunicationChatTests/Pods-AzureCommunicationChatTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OHHTTPStubs.framework",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AzureCommunicationChatTests/Pods-AzureCommunicationChatTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -832,6 +851,7 @@
 					"SWIFT_PACKAGE=1",
 					"DEBUG=1",
 				);
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_SWIFT_FLAGS = "$(inherited) -DXcode";
@@ -857,6 +877,7 @@
 					"$(inherited)",
 					"SWIFT_PACKAGE=1",
 				);
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_SWIFT_FLAGS = "$(inherited) -DXcode";
 				PRODUCT_NAME = "$(TARGET_NAME)";
