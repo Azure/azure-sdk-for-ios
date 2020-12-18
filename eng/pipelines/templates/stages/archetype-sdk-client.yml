@@ -1,7 +1,7 @@
 parameters:
 - name: BuildScheme
   type: string
-  default: all
+  default: AzureCommunicationChat
   
 stages:
   - stage: Build
