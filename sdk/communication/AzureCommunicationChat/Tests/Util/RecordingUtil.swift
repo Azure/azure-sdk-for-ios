@@ -1,4 +1,3 @@
-
 // --------------------------------------------------------------------------
 //
 // Copyright (c) Microsoft Corporation. All rights reserved.
@@ -29,37 +28,25 @@ import AzureCore
 import Foundation
 import OHHTTPStubsSwift
 
-/// Names for stubbing network calls
-enum Recording: String, CaseIterable {
-    // ChatClient
-    case createThread
-    case getThread
-    case deleteThread
-
-    // ChatThreadClient
-    case updateTopic
-    case sendReadReceipt
-    case sendTypingNotification
-    case sendMessage
-    case updateMessage
-    case deleteMessage
-    case getMessage
-    case addParticipants
-    case removeParticipant
-    case listParticipants
-}
-
 class Recorder {
     /// Sanitizes response data.
     /// - Parameter data: The string to sanitize.
-    private static func sanitize(data: String) -> String {
+    private static func sanitize(data: String) throws -> String {
         // Sanitize ids
-        var regex = try! NSRegularExpression(pattern: "\\\"id\\\":\\\".*?\\\"", options: .caseInsensitive)
-        var sanitized = regex.stringByReplacingMatches(in: data, range: NSRange(0..<data.utf16.count), withTemplate: "\\\"id\\\":\\\"sanitized\\\"")
+        var regex = try NSRegularExpression(pattern: "\\\"id\\\":\\\".*?\\\"", options: .caseInsensitive)
+        var sanitized = regex.stringByReplacingMatches(
+            in: data,
+            range: NSRange(0 ..< data.utf16.count),
+            withTemplate: "\\\"id\\\":\\\"sanitized\\\""
+        )
 
         // Sanitize createdBy which is also an id
-        regex = try! NSRegularExpression(pattern: "\\\"createdBy\\\":\\\".*?\\\"", options: .caseInsensitive)
-        sanitized = regex.stringByReplacingMatches(in: sanitized, range: NSRange(0..<sanitized.utf16.count), withTemplate: "\\\"createdBy\\\":\\\"sanitized\\\"")
+        regex = try NSRegularExpression(pattern: "\\\"createdBy\\\":\\\".*?\\\"", options: .caseInsensitive)
+        sanitized = regex.stringByReplacingMatches(
+            in: sanitized,
+            range: NSRange(0 ..< sanitized.utf16.count),
+            withTemplate: "\\\"createdBy\\\":\\\"sanitized\\\""
+        )
 
         return sanitized
     }
@@ -92,7 +79,7 @@ class Recorder {
             }
 
             // Remove ids from the response
-            let sanitized = sanitize(data: responseData)
+            let sanitized = try sanitize(data: responseData)
 
             // Write response to file
             try sanitized.write(toFile: path, atomically: true, encoding: .utf8)
@@ -181,4 +168,23 @@ class Recorder {
             }
         }
     }
+}
+
+/// Names for stubbing network calls
+enum Recording: String, CaseIterable {
+    // ChatClient
+    case createThread
+    case getThread
+    case deleteThread
+    // ChatThreadClient
+    case updateTopic
+    case sendReadReceipt
+    case sendTypingNotification
+    case sendMessage
+    case updateMessage
+    case deleteMessage
+    case getMessage
+    case addParticipants
+    case removeParticipant
+    case listParticipants
 }
