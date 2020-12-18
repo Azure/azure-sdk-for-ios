@@ -381,7 +381,165 @@ public final class BlobsOperations {
 
     // TODO: set/get tags
 
-    // TODO: set/get metadata
+    /// Gets blob metadata.
+    /// - Parameters:
+    ///    - blob : The blob name to query.
+    ///    - options: A list of options for the operation
+    ///    - completionHandler: A completion handler that receives a status code on
+    ///     success.
+    public func getMetadata(
+        forBlob blob: String,
+        inContainer container: String,
+        withOptions options: GetBlobMetadataOptions? = nil,
+        completionHandler: @escaping HTTPResultHandler<[String: String]>
+    ) {
+        // Create request parameters
+        let params = RequestParameters(
+            (.path, "container", container, .encode),
+            (.path, "blob", blob, .encode),
+            (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
+            (.query, "comp", "metadata", .encode),
+            (.query, "snapshot", options?.snapshot, .encode),
+            (.query, "versionId", options?.versionId, .encode),
+            (.query, "timeout", options?.timeout, .encode),
+            (.header, HTTPHeader.accept, "application/xml", .encode),
+            (.header, HTTPHeader.apiVersion, client.options.apiVersion, .encode),
+            (.header, HTTPHeader.clientRequestId, options?.clientRequestId, .encode)
+        )
+
+        // Construct request
+        let urlTemplate = "/{container}/{blob}"
+        guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
+            let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers) else {
+            client.options.logger.error("Failed to construct HTTP request.")
+            return
+        }
+        // Send request
+        let context = PipelineContext.of(keyValues: [
+            ContextKey.allowedStatusCodes.rawValue: [200] as AnyObject
+        ])
+        context.add(cancellationToken: options?.cancellationToken, applying: client.options)
+        context.merge(with: options?.context)
+        client.request(request, context: context) { result, httpResponse in
+            let dispatchQueue = options?.dispatchQueue ?? self.client.commonOptions.dispatchQueue ?? DispatchQueue.main
+            guard let data = httpResponse?.data else {
+                let noDataError = AzureError.client("Response data expected but not found.")
+                dispatchQueue.async {
+                    completionHandler(.failure(noDataError), httpResponse)
+                }
+                return
+            }
+            switch result {
+            case .success:
+                guard let statusCode = httpResponse?.statusCode else {
+                    let noStatusCodeError = AzureError.client("Expected a status code in response but didn't find one.")
+                    dispatchQueue.async {
+                        completionHandler(.failure(noStatusCodeError), httpResponse)
+                    }
+                    return
+                }
+                if [
+                    200
+                ].contains(statusCode) {
+                    do {
+                        let decoder = JSONDecoder()
+                        let decoded = try decoder.decode([String: String].self, from: data)
+                        dispatchQueue.async {
+                            completionHandler(.success(decoded), httpResponse)
+                        }
+                    } catch {
+                        dispatchQueue.async {
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
+                        }
+                    }
+                }
+            case let .failure(error):
+                dispatchQueue.async {
+                    completionHandler(.failure(error), httpResponse)
+                }
+            }
+        }
+    }
+
+    /// Gets blob metadata.
+    /// - Parameters:
+    ///    - blob : The blob name to query.
+    ///    - options: A list of options for the operation
+    ///    - completionHandler: A completion handler that receives a status code on
+    ///     success.
+    public func set(
+        metadata: [String: String],
+        forBlob blob: String,
+        inContainer container: String,
+        withOptions options: SetBlobMetadataOptions? = nil,
+        completionHandler: @escaping HTTPResultHandler<[String: String]>
+    ) {
+        // Create request parameters
+        let params = RequestParameters(
+            (.path, "container", container, .encode),
+            (.path, "blob", blob, .encode),
+            (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
+            (.query, "comp", "metadata", .encode),
+            (.query, "timeout", options?.timeout, .encode),
+            (.header, StorageHTTPHeader.metadata, metadata, .encode),
+            (.header, HTTPHeader.accept, "application/xml", .encode),
+            (.header, HTTPHeader.apiVersion, client.options.apiVersion, .encode),
+            (.header, HTTPHeader.clientRequestId, options?.clientRequestId, .encode)
+        )
+
+        // Construct request
+        let urlTemplate = "/{container}/{blob}"
+        guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
+            let request = try? HTTPRequest(method: .put, url: requestUrl, headers: params.headers) else {
+            client.options.logger.error("Failed to construct HTTP request.")
+            return
+        }
+        // Send request
+        let context = PipelineContext.of(keyValues: [
+            ContextKey.allowedStatusCodes.rawValue: [200] as AnyObject
+        ])
+        context.add(cancellationToken: options?.cancellationToken, applying: client.options)
+        context.merge(with: options?.context)
+        client.request(request, context: context) { result, httpResponse in
+            let dispatchQueue = options?.dispatchQueue ?? self.client.commonOptions.dispatchQueue ?? DispatchQueue.main
+            guard let data = httpResponse?.data else {
+                let noDataError = AzureError.client("Response data expected but not found.")
+                dispatchQueue.async {
+                    completionHandler(.failure(noDataError), httpResponse)
+                }
+                return
+            }
+            switch result {
+            case .success:
+                guard let statusCode = httpResponse?.statusCode else {
+                    let noStatusCodeError = AzureError.client("Expected a status code in response but didn't find one.")
+                    dispatchQueue.async {
+                        completionHandler(.failure(noStatusCodeError), httpResponse)
+                    }
+                    return
+                }
+                if [
+                    200
+                ].contains(statusCode) {
+                    do {
+                        let decoder = JSONDecoder()
+                        let decoded = try decoder.decode([String: String].self, from: data)
+                        dispatchQueue.async {
+                            completionHandler(.success(decoded), httpResponse)
+                        }
+                    } catch {
+                        dispatchQueue.async {
+                            completionHandler(.failure(AzureError.client("Decoding error.", error)), httpResponse)
+                        }
+                    }
+                }
+            case let .failure(error):
+                dispatchQueue.async {
+                    completionHandler(.failure(error), httpResponse)
+                }
+            }
+        }
+    }
 
     // TODO: set HTTP header properties
 

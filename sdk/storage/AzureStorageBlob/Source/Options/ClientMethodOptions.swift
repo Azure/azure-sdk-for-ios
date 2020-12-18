@@ -27,6 +27,8 @@
 import AzureCore
 import Foundation
 
+// swiftlint:disable file_length
+
 // MARK: Container Options
 
 /// User-configurable options for the `ContainersOperations.list` operation.
@@ -613,5 +615,95 @@ public struct UploadBlobOptions: RequestOptions, Codable, Equatable {
         case clientRequestId, cancellationToken, leaseAccessConditions, modifiedAccessConditions,
             encryptionOptions, customerProvidedEncryptionKey, customerProvidedEncryptionScope,
             encoding, timeout
+    }
+}
+
+/// User-configurable options for the `BlobsOperations.getMetadata` operation.
+public struct GetBlobMetadataOptions: RequestOptions {
+    /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
+    public let clientRequestId: String?
+
+    /// A token used to make a best-effort attempt at canceling a request.
+    public let cancellationToken: CancellationToken?
+
+    /// A dispatch queue on which to call the completion handler. Defaults to `DispatchQueue.main`.
+    public var dispatchQueue: DispatchQueue?
+
+    /// A `PipelineContext` object to associate with the request.
+    public var context: PipelineContext?
+
+    /// An `Rfc1123Date` specifying the snapshot you wish to query.
+    public let snapshot: Rfc1123Date?
+
+    /// A n`Rfc1123Date` specifying the version of the blob to query.
+    public let versionId: Rfc1123Date?
+
+    /// The timeout parameter is expressed in seconds. This method may make
+    /// multiple calls to the Azure service and the timeout will apply to
+    /// each call individually.
+    public let timeout: TimeInterval?
+
+    /// Initialize an `UploadBlobOptions` structure.
+    /// - Parameters:
+    ///   - clientRequestId: A client-generated, opaque value with 1KB character limit that is recorded in analytics
+    ///     logs.
+    ///   - cancellationToken: A token used to make a best-effort attempt at canceling a request.
+    ///   - dispatchQueue: A dispatch queue on which to call the completion handler. Defaults to `DispatchQueue.main`.
+    ///   - timeout: The timeout parameter is expressed in seconds. This method may make multiple calls to the
+    ///     Azure service and the timeout will apply to each call individually.
+    public init(
+        clientRequestId: String? = nil,
+        cancellationToken: CancellationToken? = nil,
+        dispatchQueue: DispatchQueue? = nil,
+        snapshot: Rfc1123Date? = nil,
+        versionId: Rfc1123Date? = nil,
+        timeout: TimeInterval? = nil
+    ) {
+        self.clientRequestId = clientRequestId
+        self.cancellationToken = cancellationToken
+        self.dispatchQueue = dispatchQueue
+        self.snapshot = snapshot
+        self.versionId = versionId
+        self.timeout = timeout
+    }
+}
+
+/// User-configurable options for the `BlobsOperations.set(metadata:)` operation.
+public struct SetBlobMetadataOptions: RequestOptions {
+    /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
+    public let clientRequestId: String?
+
+    /// A token used to make a best-effort attempt at canceling a request.
+    public let cancellationToken: CancellationToken?
+
+    /// A dispatch queue on which to call the completion handler. Defaults to `DispatchQueue.main`.
+    public var dispatchQueue: DispatchQueue?
+
+    /// A `PipelineContext` object to associate with the request.
+    public var context: PipelineContext?
+
+    /// The timeout parameter is expressed in seconds. This method may make
+    /// multiple calls to the Azure service and the timeout will apply to
+    /// each call individually.
+    public let timeout: TimeInterval?
+
+    /// Initialize an `UploadBlobOptions` structure.
+    /// - Parameters:
+    ///   - clientRequestId: A client-generated, opaque value with 1KB character limit that is recorded in analytics
+    ///     logs.
+    ///   - cancellationToken: A token used to make a best-effort attempt at canceling a request.
+    ///   - dispatchQueue: A dispatch queue on which to call the completion handler. Defaults to `DispatchQueue.main`.
+    ///   - timeout: The timeout parameter is expressed in seconds. This method may make multiple calls to the
+    ///     Azure service and the timeout will apply to each call individually.
+    public init(
+        clientRequestId: String? = nil,
+        cancellationToken: CancellationToken? = nil,
+        dispatchQueue: DispatchQueue? = nil,
+        timeout: TimeInterval? = nil
+    ) {
+        self.clientRequestId = clientRequestId
+        self.cancellationToken = cancellationToken
+        self.dispatchQueue = dispatchQueue
+        self.timeout = timeout
     }
 }
