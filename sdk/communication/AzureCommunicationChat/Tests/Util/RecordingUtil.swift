@@ -40,8 +40,15 @@ class Recorder {
             withTemplate: "\\\"id\\\":\\\"sanitized\\\""
         )
 
-        // Sanitize createdBy which is also an id
+        // Sanitize createdBy and senderId which is also an id
         regex = try NSRegularExpression(pattern: "\\\"createdBy\\\":\\\".*?\\\"", options: .caseInsensitive)
+        sanitized = regex.stringByReplacingMatches(
+            in: sanitized,
+            range: NSRange(0 ..< sanitized.utf16.count),
+            withTemplate: "\\\"createdBy\\\":\\\"sanitized\\\""
+        )
+
+        regex = try NSRegularExpression(pattern: "\\\"senderId\\\":\\\".*?\\\"", options: .caseInsensitive)
         sanitized = regex.stringByReplacingMatches(
             in: sanitized,
             range: NSRange(0 ..< sanitized.utf16.count),
@@ -132,11 +139,6 @@ class Recorder {
                 fixture(filePath: path, status: 200, headers: nil)
             }
 
-        case Recording.listParticipants:
-            stub(condition: isMethodGET() && pathEndsWith("/participants")) { _ in
-                fixture(filePath: path, status: 200, headers: nil)
-            }
-
         case Recording.removeParticipant:
             stub(condition: isMethodDELETE() && pathMatches("//participants//")) { _ in
                 fixture(filePath: path, status: 204, headers: nil)
@@ -186,5 +188,4 @@ enum Recording: String, CaseIterable {
     case getMessage
     case addParticipants
     case removeParticipant
-    case listParticipants
 }

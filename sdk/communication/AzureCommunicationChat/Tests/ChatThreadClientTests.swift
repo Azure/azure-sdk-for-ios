@@ -28,6 +28,8 @@ import AzureCommunication
 import AzureCommunicationChat
 import XCTest
 
+// swiftlint:disable type_body_length
+
 class ChatThreadClientTests: XCTestCase {
     /// An ACS user id.
     private var user1: String = TestConfig.user1
@@ -145,19 +147,37 @@ class ChatThreadClientTests: XCTestCase {
         chatThreadClient.send(message: testMessage) { result, httpResponse in
             switch result {
             case let .success(sendMessageResult):
-                XCTAssertNotNil(sendMessageResult.id)
+                guard let messageId = sendMessageResult.id else {
+                    XCTFail("SendMessageResult does not contain id.")
+                    expectation.fulfill()
+                    return
+                }
 
                 if TestConfig.mode == "record" {
                     Recorder.record(name: Recording.sendMessage, httpResponse: httpResponse)
                 }
 
-                // Get message and verify exists
+                // Get and verify sent message
+                self.chatThreadClient.get(message: messageId) { result, httpResponse in
+                    switch result {
+                    case let .success(chatMessage):
+                        XCTAssertEqual(chatMessage.id, messageId)
+
+                        if TestConfig.mode == "record" {
+                            Recorder.record(name: Recording.getMessage, httpResponse: httpResponse)
+                        }
+
+                    case let .failure(error):
+                        XCTFail("Get message failed: \(error)")
+                    }
+
+                    expectation.fulfill()
+                }
 
             case let .failure(error):
                 XCTFail("Send message failed: \(error)")
+                expectation.fulfill()
             }
-
-            expectation.fulfill()
         }
 
         waitForExpectations(timeout: TestConfig.timeout) { error in
@@ -204,14 +224,14 @@ class ChatThreadClientTests: XCTestCase {
         chatThreadClient.send(message: testMessage) { result, _ in
             switch result {
             case let .success(sendMessageResult):
-                guard let id = sendMessageResult.id else {
+                guard let messageId = sendMessageResult.id else {
                     XCTFail("Send message failed to get id.")
                     expectation.fulfill()
                     return
                 }
 
                 // Send read receipt
-                self.chatThreadClient.sendReadReceipt(forMessage: id) { result, httpResponse in
+                self.chatThreadClient.sendReadReceipt(forMessage: messageId) { result, httpResponse in
                     switch result {
                     case .success:
                         if TestConfig.mode == "record" {
@@ -251,7 +271,7 @@ class ChatThreadClientTests: XCTestCase {
         chatThreadClient.send(message: testMessage) { result, _ in
             switch result {
             case let .success(sendMessageResult):
-                guard let id = sendMessageResult.id else {
+                guard let messageId = sendMessageResult.id else {
                     XCTFail("Send message failed to get id.")
                     expectation.fulfill()
                     return
@@ -263,7 +283,7 @@ class ChatThreadClientTests: XCTestCase {
                 )
 
                 // Update message
-                self.chatThreadClient.update(message: updatedMessage, messageId: id) { result, httpResponse in
+                self.chatThreadClient.update(message: updatedMessage, messageId: messageId) { result, httpResponse in
                     switch result {
                     case .success:
                         if TestConfig.mode == "record" {
@@ -272,7 +292,7 @@ class ChatThreadClientTests: XCTestCase {
 
                         // Get message and verify updated
                         if TestConfig.mode != "playback" {
-                            self.chatThreadClient.get(message: id) { result, _ in
+                            self.chatThreadClient.get(message: messageId) { result, _ in
                                 switch result {
                                 case let .success(message):
                                     XCTAssertEqual(message.content, updatedMessage.content)
@@ -320,14 +340,14 @@ class ChatThreadClientTests: XCTestCase {
         chatThreadClient.send(message: testMessage) { result, _ in
             switch result {
             case let .success(sendMessageResult):
-                guard let id = sendMessageResult.id else {
+                guard let messageId = sendMessageResult.id else {
                     XCTFail("Send message failed to get id.")
                     expectation.fulfill()
                     return
                 }
 
                 // Delete message
-                self.chatThreadClient.delete(message: id) { result, httpResponse in
+                self.chatThreadClient.delete(message: messageId) { result, httpResponse in
                     switch result {
                     case .success:
                         if TestConfig.mode == "record" {
@@ -421,72 +441,6 @@ class ChatThreadClientTests: XCTestCase {
         waitForExpectations(timeout: TestConfig.timeout) { error in
             if let error = error {
                 XCTFail("Remove participant timed out: \(error)")
-            }
-        }
-    }
-
-    func test_ListParticipants_ReturnsParticipants() {
-        let removedParticipant = ChatParticipant(
-            id: user2,
-            displayName: "User 2"
-        )
-
-        let expectation = self.expectation(description: "List participants")
-        let participantExpectations = [
-            self.expectation(description: "Particpant 1"),
-            self.expectation(description: "Participant 2")
-        ]
-
-        // Add another participant
-        chatThreadClient.add(participants: [removedParticipant]) { result, _ in
-            switch result {
-            case .success:
-                // List participants
-                self.chatThreadClient.listParticipants { result, httpResponse in
-                    switch result {
-                    case let .success(participants):
-                        // Verify both participants in the list
-                        for index in 0 ... 1 {
-                            participants.nextItem { result in
-                                switch result {
-                                case let .success(participant):
-                                    XCTAssertNotNil(participant)
-
-                                case let .failure(error):
-                                    XCTFail("Failed to retrieve participant: \(error)")
-                                }
-
-                                participantExpectations[index].fulfill()
-                            }
-                        }
-
-                        if TestConfig.mode == "record" {
-                            Recorder.record(name: Recording.listParticipants, httpResponse: httpResponse)
-                        }
-
-                        expectation.fulfill()
-
-                    case let .failure(error):
-                        XCTFail("List participants failed: \(error)")
-                        expectation.fulfill()
-                        participantExpectations.forEach { expectation in
-                            expectation.fulfill()
-                        }
-                    }
-                }
-
-            case let .failure(error):
-                XCTFail("Add participant failed: \(error)")
-                expectation.fulfill()
-                participantExpectations.forEach { expectation in
-                    expectation.fulfill()
-                }
-            }
-        }
-
-        waitForExpectations(timeout: TestConfig.timeout) { error in
-            if let error = error {
-                XCTFail("List participants timed out: \(error)")
             }
         }
     }
