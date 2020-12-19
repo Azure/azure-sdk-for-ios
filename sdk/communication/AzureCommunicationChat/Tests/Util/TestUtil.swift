@@ -23,8 +23,26 @@
 // IN THE SOFTWARE.
 //
 // --------------------------------------------------------------------------
-
+import AzureCommunication
+import AzureCommunicationChat
 import Foundation
+
+class TestConfig {
+    public static let mode: String = "playback"
+    public static let user1: String = "id:1"
+    public static let user2: String = "id:1"
+    public static let timeout: TimeInterval = 10.0
+
+    /// Creates and returns a ChatClient
+    public static func getChatClient() throws -> ChatClient {
+        let endpoint = "https://endpoint"
+        let token = generateToken()
+        let credential = try CommunicationUserCredential(token: token)
+        let options = AzureCommunicationChatClientOptions()
+
+        return try ChatClient(endpoint: endpoint, credential: credential, withOptions: options)
+    }
+}
 
 func generateToken() -> String {
     let fakeValue = "{\"iss\":\"ACS\",\"iat\": 1608152725,\"exp\": 1739688725,\"aud\": \"\",\"sub\": \"\"}"
