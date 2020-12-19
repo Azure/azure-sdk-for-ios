@@ -304,7 +304,7 @@ class ChatClientUnitTests: XCTestCase {
     func test_DeleteChatThread_ReturnError() {
         let bundle = Bundle(for: type(of: self))
         let path = bundle.path(forResource: "UnauthorizedError", ofType: "json") ?? ""
-        stub(condition: isMethodGET()) { _ in
+        stub(condition: isMethodDELETE()) { _ in
             fixture(filePath: path, status: 401, headers: nil)
         }
 
