@@ -92,7 +92,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         }
 
         if let hostUnwrapped = hostString,
-            !hostUnwrapped.hasSuffix("/") {
+           !hostUnwrapped.hasSuffix("/") {
             hostString = hostUnwrapped + "/"
         }
         let urlString = (hostString ?? endpoint.absoluteString) + template
@@ -117,8 +117,8 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
         return urlComps.url
     }
 
-    public lazy var chat: Chat = Chat(client: self)
-    public lazy var chatThreadOperation: ChatThreadOperation = ChatThreadOperation(client: self)
+    public lazy var chat = Chat(client: self)
+    public lazy var chatThreadOperation = ChatThreadOperation(client: self)
 
     // MARK: Public Client Methods
 }
