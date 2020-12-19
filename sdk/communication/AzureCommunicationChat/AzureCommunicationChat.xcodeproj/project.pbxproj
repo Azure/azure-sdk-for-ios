@@ -37,13 +37,13 @@
 		D1CD93C8258D6E8F00409613 /* deleteMessage.json in Resources */ = {isa = PBXBuildFile; fileRef = D1CD93C7258D6E8F00409613 /* deleteMessage.json */; };
 		D1CD93CC258D6E9E00409613 /* deleteThread.json in Resources */ = {isa = PBXBuildFile; fileRef = D1CD93CB258D6E9E00409613 /* deleteThread.json */; };
 		D1CD93D0258D6EAB00409613 /* getThread.json in Resources */ = {isa = PBXBuildFile; fileRef = D1CD93CF258D6EAB00409613 /* getThread.json */; };
-		D1CD93D4258D6EBF00409613 /* listParticipants.json in Resources */ = {isa = PBXBuildFile; fileRef = D1CD93D3258D6EBF00409613 /* listParticipants.json */; };
 		D1CD93D8258D6ECD00409613 /* removeParticipant.json in Resources */ = {isa = PBXBuildFile; fileRef = D1CD93D7258D6ECD00409613 /* removeParticipant.json */; };
 		D1CD93DC258D6EDA00409613 /* sendMessage.json in Resources */ = {isa = PBXBuildFile; fileRef = D1CD93DB258D6EDA00409613 /* sendMessage.json */; };
 		D1CD93E0258D6EEA00409613 /* sendReadReceipt.json in Resources */ = {isa = PBXBuildFile; fileRef = D1CD93DF258D6EEA00409613 /* sendReadReceipt.json */; };
 		D1CD93E4258D6EF700409613 /* sendTypingNotification.json in Resources */ = {isa = PBXBuildFile; fileRef = D1CD93E3258D6EF700409613 /* sendTypingNotification.json */; };
 		D1CD93E8258D6F0600409613 /* updateMessage.json in Resources */ = {isa = PBXBuildFile; fileRef = D1CD93E7258D6F0600409613 /* updateMessage.json */; };
 		D1CD93EC258D6F1300409613 /* updateTopic.json in Resources */ = {isa = PBXBuildFile; fileRef = D1CD93EB258D6F1300409613 /* updateTopic.json */; };
+		D1CD9417258D7C8E00409613 /* getMessage.json in Resources */ = {isa = PBXBuildFile; fileRef = D1CD9416258D7C8E00409613 /* getMessage.json */; };
 		D1E356BF257EBBA200E66A66 /* AzureCommunicationChatClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E35690257EBBA200E66A66 /* AzureCommunicationChatClient.swift */; };
 		D1E356C0257EBBA200E66A66 /* ChatThreadOperation+AddChatParticipantsOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E35692257EBBA200E66A66 /* ChatThreadOperation+AddChatParticipantsOptions.swift */; };
 		D1E356C1257EBBA200E66A66 /* ChatThreadOperation+ListChatReadReceiptsOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E35693257EBBA200E66A66 /* ChatThreadOperation+ListChatReadReceiptsOptions.swift */; };
@@ -135,13 +135,13 @@
 		D1CD93C7258D6E8F00409613 /* deleteMessage.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = deleteMessage.json; sourceTree = "<group>"; };
 		D1CD93CB258D6E9E00409613 /* deleteThread.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = deleteThread.json; sourceTree = "<group>"; };
 		D1CD93CF258D6EAB00409613 /* getThread.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = getThread.json; sourceTree = "<group>"; };
-		D1CD93D3258D6EBF00409613 /* listParticipants.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = listParticipants.json; sourceTree = "<group>"; };
 		D1CD93D7258D6ECD00409613 /* removeParticipant.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = removeParticipant.json; sourceTree = "<group>"; };
 		D1CD93DB258D6EDA00409613 /* sendMessage.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sendMessage.json; sourceTree = "<group>"; };
 		D1CD93DF258D6EEA00409613 /* sendReadReceipt.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sendReadReceipt.json; sourceTree = "<group>"; };
 		D1CD93E3258D6EF700409613 /* sendTypingNotification.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sendTypingNotification.json; sourceTree = "<group>"; };
 		D1CD93E7258D6F0600409613 /* updateMessage.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = updateMessage.json; sourceTree = "<group>"; };
 		D1CD93EB258D6F1300409613 /* updateTopic.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = updateTopic.json; sourceTree = "<group>"; };
+		D1CD9416258D7C8E00409613 /* getMessage.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = getMessage.json; sourceTree = "<group>"; };
 		D1E3568C257EBA1800E66A66 /* swagger.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = swagger.json; sourceTree = "<group>"; };
 		D1E35690257EBBA200E66A66 /* AzureCommunicationChatClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AzureCommunicationChatClient.swift; sourceTree = "<group>"; };
 		D1E35692257EBBA200E66A66 /* ChatThreadOperation+AddChatParticipantsOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatThreadOperation+AddChatParticipantsOptions.swift"; sourceTree = "<group>"; };
@@ -287,13 +287,13 @@
 				D1CD93C7258D6E8F00409613 /* deleteMessage.json */,
 				D1CD93CB258D6E9E00409613 /* deleteThread.json */,
 				D1CD93CF258D6EAB00409613 /* getThread.json */,
-				D1CD93D3258D6EBF00409613 /* listParticipants.json */,
 				D1CD93D7258D6ECD00409613 /* removeParticipant.json */,
 				D1CD93DB258D6EDA00409613 /* sendMessage.json */,
 				D1CD93DF258D6EEA00409613 /* sendReadReceipt.json */,
 				D1CD93E3258D6EF700409613 /* sendTypingNotification.json */,
 				D1CD93E7258D6F0600409613 /* updateMessage.json */,
 				D1CD93EB258D6F1300409613 /* updateTopic.json */,
+				D1CD9416258D7C8E00409613 /* getMessage.json */,
 			);
 			path = Recordings;
 			sourceTree = "<group>";
@@ -509,12 +509,12 @@
 				0ECA8CEB2582A52D006760F7 /* UnauthorizedError.json in Resources */,
 				0ECA8D2F25889619006760F7 /* ListReadReceiptResponse.json in Resources */,
 				0ECA8D1725888667006760F7 /* GetMessageResponse.json in Resources */,
-				D1CD93D4258D6EBF00409613 /* listParticipants.json in Resources */,
 				0ECA8D1D258887D3006760F7 /* ListMessagesResponse.json in Resources */,
 				D1BA104625807B0B00CA7130 /* CreateThreadResponse.json in Resources */,
 				0ECA8D1025888515006760F7 /* NoContent.json in Resources */,
 				D1CD93C8258D6E8F00409613 /* deleteMessage.json in Resources */,
 				0ECA8CDF258188D0006760F7 /* GetThreadResponse.json in Resources */,
+				D1CD9417258D7C8E00409613 /* getMessage.json in Resources */,
 				0ECA8D2325888DD8006760F7 /* ListParticipantsResponse.json in Resources */,
 				0ECA8D1125888515006760F7 /* SendMessageResponse.json in Resources */,
 				0ECA8D29258892CD006760F7 /* AddParticipantResponse.json in Resources */,
