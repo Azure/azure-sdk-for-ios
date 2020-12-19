@@ -779,7 +779,7 @@ public final class ChatThreadOperation {
     ///    - completionHandler: A completion handler that receives a status code on
     ///     success.
     public func update(
-        chatMessage _: UpdateChatMessageRequest,
+        chatMessage: UpdateChatMessageRequest,
         chatThreadId: String,
         chatMessageId: String,
         withOptions options: UpdateChatMessageOptions? = nil,
@@ -801,10 +801,9 @@ public final class ChatThreadOperation {
         var headers = HTTPHeaders()
         headers["Content-Type"] = "application/merge-patch+json"
         headers["Accept"] = "application/json"
-        // Construct patch request
-        let patch = MergePatchObject()
-        guard let patchBody = try? JSONEncoder().encode(patch) else {
-            self.options.logger.error("Failed to encode PATCH request body as JSON.")
+        // Construct request
+        guard let requestBody = try? JSONEncoder().encode(chatMessage) else {
+            self.options.logger.error("Failed to encode request body as JSON.")
             return
         }
 
@@ -818,7 +817,8 @@ public final class ChatThreadOperation {
             return
         }
 
-        guard let request = try? HTTPRequest(method: .patch, url: requestUrl, headers: headers, data: patchBody) else {
+        guard let request = try? HTTPRequest(method: .patch, url: requestUrl, headers: headers, data: requestBody)
+        else {
             self.options.logger.error("Failed to construct HTTP request")
             return
         }
@@ -1633,7 +1633,7 @@ public final class ChatThreadOperation {
     ///    - completionHandler: A completion handler that receives a status code on
     ///     success.
     public func update(
-        chatThread _: UpdateChatThreadRequest,
+        chatThread: UpdateChatThreadRequest,
         chatThreadId: String,
         withOptions options: UpdateChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
@@ -1653,10 +1653,9 @@ public final class ChatThreadOperation {
         var headers = HTTPHeaders()
         headers["Content-Type"] = "application/merge-patch+json"
         headers["Accept"] = "application/json"
-        // Construct patch request
-        let patch = MergePatchObject()
-        guard let patchBody = try? JSONEncoder().encode(patch) else {
-            self.options.logger.error("Failed to encode PATCH request body as JSON.")
+        // Construct request
+        guard let requestBody = try? JSONEncoder().encode(chatThread) else {
+            self.options.logger.error("Failed to encode request body as JSON.")
             return
         }
 
@@ -1670,7 +1669,8 @@ public final class ChatThreadOperation {
             return
         }
 
-        guard let request = try? HTTPRequest(method: .patch, url: requestUrl, headers: headers, data: patchBody) else {
+        guard let request = try? HTTPRequest(method: .patch, url: requestUrl, headers: headers, data: requestBody)
+        else {
             self.options.logger.error("Failed to construct HTTP request")
             return
         }
