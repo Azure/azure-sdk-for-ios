@@ -82,11 +82,17 @@ import Foundation
         self.value = phoneNumber
     }
 }
-
+/**
+ Communication identifier for Microsoft Teams Users
+ */
 public class MicrosoftTeamsUser: NSObject, CommunicationIdentifier {
     public let identifier: String
     public let isAnonymous: Bool
-    
+    /**
+     Creates a Microsoft Teams user object
+     - Parameter identifier: Id of the Microsoft Teams user. If the user isn't anonymous, the id is the AAD object id of the user.
+     - Parameter isAnonymous: Set this to true if the user is anonymous, for example when joining a meeting with a share link.
+     */
     public init(identifier: String, isAnonymous: Bool = false) {
         self.identifier = identifier
         self.isAnonymous = isAnonymous
