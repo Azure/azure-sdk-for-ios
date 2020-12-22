@@ -36,7 +36,7 @@ import Foundation
 @objcMembers public class CommunicationUserIdentifier: NSObject, CommunicationIdentifier {
     public let identifier: String
     /**
-     Creates a CommunicationUser object
+     Creates a CommunicationUserIdentifier object
      - Parameter identifier: identifier representing the object identity
      */
     public init(identifier: String) {
@@ -49,7 +49,7 @@ import Foundation
 @objcMembers public class CallingApplicationIdentifier: NSObject, CommunicationIdentifier {
     public let identifier: String
     /**
-     Creates a CallingApplication object
+     Creates a CallingApplicationIdentifier object
      - Parameter identifier: identifier representing the object identity
      */
     public init(identifier: String) {
@@ -62,7 +62,7 @@ import Foundation
 @objcMembers public class UnknownIdentifier: NSObject, CommunicationIdentifier {
     public let identifier: String
     /**
-     Creates a CallingApplication object
+     Creates a UnknownIdentifier object
      - Parameter identifier: identifier representing the object identity
      */
     public init(identifier: String) {
@@ -75,7 +75,7 @@ import Foundation
 @objcMembers public class PhoneNumberIdentifier: NSObject, CommunicationIdentifier {
     public let value: String
     /**
-     Creates a Phone Number object
+     Creates a PhoneNumberIdentifier object
      - Parameter phoneNumber: phone number to create the object, different from identifier
      */
     public init(phoneNumber: String) {
@@ -89,7 +89,7 @@ import Foundation
     public let identifier: String
     public let isAnonymous: Bool
     /**
-     Creates a Microsoft Teams user object
+     Creates a MicrosoftTeamsUserIdentifier object
      - Parameter identifier: Id of the Microsoft Teams user. If the user isn't anonymous, the id is the AAD object id of the user.
      - Parameter isAnonymous: Set this to true if the user is anonymous, for example when joining a meeting with a share link.
      */
