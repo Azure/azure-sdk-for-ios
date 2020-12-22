@@ -33,7 +33,7 @@ import Foundation
 /**
  Communication identifier for Communication Services Users
  */
-@objcMembers public class CommunicationUser: NSObject, CommunicationIdentifier {
+@objcMembers public class CommunicationUserIdentifier: NSObject, CommunicationIdentifier {
     public let identifier: String
     /**
      Creates a CommunicationUser object
@@ -46,7 +46,7 @@ import Foundation
 /**
  Communication identifier for Communication Services Applications
  */
-@objcMembers public class CallingApplication: NSObject, CommunicationIdentifier {
+@objcMembers public class CallingApplicationIdentifier: NSObject, CommunicationIdentifier {
     public let identifier: String
     /**
      Creates a CallingApplication object
@@ -72,7 +72,7 @@ import Foundation
 /**
  Communication identifier for Communication Services representing a Phone Number
  */
-@objcMembers public class PhoneNumber: NSObject, CommunicationIdentifier {
+@objcMembers public class PhoneNumberIdentifier: NSObject, CommunicationIdentifier {
     public let value: String
     /**
      Creates a Phone Number object
@@ -85,7 +85,7 @@ import Foundation
 /**
  Communication identifier for Microsoft Teams Users
  */
-public class MicrosoftTeamsUser: NSObject, CommunicationIdentifier {
+@objcMembers public class MicrosoftTeamsUserIdentifier: NSObject, CommunicationIdentifier {
     public let identifier: String
     public let isAnonymous: Bool
     /**
