@@ -82,3 +82,13 @@ import Foundation
         self.value = phoneNumber
     }
 }
+
+public class MicrosoftTeamsUser: NSObject, CommunicationIdentifier {
+    public let identifier: String
+    public let isAnonymous: Bool
+    
+    public init(identifier: String, isAnonymous: Bool = false) {
+        self.identifier = identifier
+        self.isAnonymous = isAnonymous
+    }
+}
