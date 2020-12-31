@@ -243,8 +243,8 @@ let options = ListChatThreadsOptions(maxPageSize: 1)
 chatClient.listThreads(withOptions: options) { result, _ in
     switch result {
     case let .success(listThreadsResponse):
-        var iterator = listThreadsResponse.syncIterator
-        while let threadInfo = iterator.next() {
+        let threads = listThreadsResponse.items
+        threads?.forEach { thread in
             // Take further action
         }
 
@@ -348,8 +348,8 @@ if let date = dateFormatter.date(from: "2020-08-27T17:55:50Z") {
 client.listMessages(withOptions: options) { result, _ in
     switch result {
     case let .success(listMessagesResponse):
-        var iterator = listMessagesResponse.syncIterator
-        while let message = iterator.next() {
+        let messages = listMessagesResponse.items
+        messages?.forEach { message in
             // Take further action
         }
 
@@ -417,8 +417,8 @@ Use the `listParticipants` of `ChatThreadClient` method to retrieve the particip
 chatThreadClient.listParticipants() { result, _ in
     switch result {
     case let .success(threadParticipants):
-        var iterator = threadParticipants.syncIterator
-        while let threadParticipants = iterator.next() {
+        let participants = threadParticipants.items
+        participants?.forEach { participant in
             // Take further action
         }
 
@@ -516,9 +516,9 @@ Use the `listReadReceipts` method of `ChatThreadClient` to retrieve read receipt
 ```swift
 chatThreadClient.listReadReceipts() { result, _ in
     switch result {
-    case let .success(readReceipts):
-        var iterator = readReceipts.syncIterator
-        while let readReceipt = iterator.next() {
+    case let .success(readReceiptsResponse):
+        let readReceipts = readReceiptsResponse.items
+        readReceipts?.forEach { readReceipt in
             // Take further action
         }
 
