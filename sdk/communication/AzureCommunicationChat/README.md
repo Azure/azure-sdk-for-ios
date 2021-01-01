@@ -254,6 +254,8 @@ chatClient.listThreads(withOptions: options) { result, _ in
 }
 ```
 
+You can fetch more data using the `nextPage()` method of `PagedCollection`.
+
 
 #### Delete a thread
 
@@ -359,6 +361,8 @@ client.listMessages(withOptions: options) { result, _ in
 }
 ```
 
+You can fetch more data using the `nextPage()` method of `PagedCollection`.
+
 #### Update a message
 
 Use the `update` method of `ChatThreadClient` to update a message in a thread.
@@ -427,6 +431,8 @@ chatThreadClient.listParticipants() { result, _ in
     }
 }
 ```
+
+You can fetch more data using the `nextPage()` method of `PagedCollection`.
 
 #### Add thread participants
 
@@ -527,6 +533,8 @@ chatThreadClient.listReadReceipts() { result, _ in
     }
 }
 ```
+
+You can fetch more data using the `nextPage()` method of `PagedCollection`.
 
 ### Thread Update Operations
 
