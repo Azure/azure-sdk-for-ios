@@ -51,7 +51,7 @@ NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fS
     __weak ObjCCommunicationUserCredentialAsyncTests *weakSelf = self;
     
     NSString *token = [self generateTokenValidForMinutes: 1];
-    CommunicationUserCredential *credential = [[CommunicationUserCredential alloc]
+    CommunicationTokenCredential *credential = [[CommunicationTokenCredential alloc]
                                                initWithInitialToken:token
                                                refreshProactively:YES
                                                error:nil
@@ -81,7 +81,7 @@ NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fS
     __weak ObjCCommunicationUserCredentialAsyncTests *weakSelf = self;
     
     NSString *token = [self generateTokenValidForMinutes: 9];
-    CommunicationUserCredential *credential = [[CommunicationUserCredential alloc]
+    CommunicationTokenCredential *credential = [[CommunicationTokenCredential alloc]
                                                initWithInitialToken:token
                                                refreshProactively:YES
                                                error:nil

@@ -50,7 +50,7 @@
     XCTestExpectation *expectation = [self expectationWithDescription:
                                       @"DecodeToken"];
 
-    CommunicationUserCredential *userCredential = [[CommunicationUserCredential alloc] initWithToken: self.sampleToken
+    CommunicationTokenCredential *userCredential = [[CommunicationTokenCredential alloc] initWithToken: self.sampleToken
                                                                                                error: nil];
     
     [userCredential tokenWithCompletionHandler:^(CommunicationAccessToken *accessToken, NSError * error) {
@@ -68,7 +68,7 @@
                                       @"RefreshTokenProactively_TokenAlreadyExpired"];
     __weak ObjCCommunciationUserCredentialTests *weakSelf = self;
     
-    CommunicationUserCredential *credential = [[CommunicationUserCredential alloc]
+    CommunicationTokenCredential *credential = [[CommunicationTokenCredential alloc]
                                                initWithInitialToken:self.sampleExpiredToken
                                                refreshProactively:YES
                                                error:nil
@@ -97,7 +97,7 @@
                                       @"RefreshTokenProactively_FetchTokenReturnsError"];
     __weak ObjCCommunciationUserCredentialTests *weakSelf = self;
     NSString *errorDesc = @"Error while fetching token";
-    CommunicationUserCredential *credential = [[CommunicationUserCredential alloc]
+    CommunicationTokenCredential *credential = [[CommunicationTokenCredential alloc]
                                                initWithInitialToken:self.sampleExpiredToken
                                                refreshProactively:YES
                                                error:nil
