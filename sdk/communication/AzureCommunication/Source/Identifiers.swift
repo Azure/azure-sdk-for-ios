@@ -33,10 +33,10 @@ import Foundation
 /**
  Communication identifier for Communication Services Users
  */
-@objcMembers public class CommunicationUser: NSObject, CommunicationIdentifier {
+@objcMembers public class CommunicationUserIdentifier: NSObject, CommunicationIdentifier {
     public let identifier: String
     /**
-     Creates a CommunicationUser object
+     Creates a CommunicationUserIdentifier object
      - Parameter identifier: identifier representing the object identity
      */
     public init(identifier: String) {
@@ -46,10 +46,10 @@ import Foundation
 /**
  Communication identifier for Communication Services Applications
  */
-@objcMembers public class CallingApplication: NSObject, CommunicationIdentifier {
+@objcMembers public class CallingApplicationIdentifier: NSObject, CommunicationIdentifier {
     public let identifier: String
     /**
-     Creates a CallingApplication object
+     Creates a CallingApplicationIdentifier object
      - Parameter identifier: identifier representing the object identity
      */
     public init(identifier: String) {
@@ -62,7 +62,7 @@ import Foundation
 @objcMembers public class UnknownIdentifier: NSObject, CommunicationIdentifier {
     public let identifier: String
     /**
-     Creates a CallingApplication object
+     Creates a UnknownIdentifier object
      - Parameter identifier: identifier representing the object identity
      */
     public init(identifier: String) {
@@ -72,10 +72,10 @@ import Foundation
 /**
  Communication identifier for Communication Services representing a Phone Number
  */
-@objcMembers public class PhoneNumber: NSObject, CommunicationIdentifier {
+@objcMembers public class PhoneNumberIdentifier: NSObject, CommunicationIdentifier {
     public let value: String
     /**
-     Creates a Phone Number object
+     Creates a PhoneNumberIdentifier object
      - Parameter phoneNumber: phone number to create the object, different from identifier
      */
     public init(phoneNumber: String) {
@@ -85,11 +85,11 @@ import Foundation
 /**
  Communication identifier for Microsoft Teams Users
  */
-public class MicrosoftTeamsUser: NSObject, CommunicationIdentifier {
+@objcMembers public class MicrosoftTeamsUserIdentifier: NSObject, CommunicationIdentifier {
     public let identifier: String
     public let isAnonymous: Bool
     /**
-     Creates a Microsoft Teams user object
+     Creates a MicrosoftTeamsUserIdentifier object
      - Parameter identifier: Id of the Microsoft Teams user. If the user isn't anonymous, the id is the AAD object id of the user.
      - Parameter isAnonymous: Set this to true if the user is anonymous, for example when joining a meeting with a share link.
      */

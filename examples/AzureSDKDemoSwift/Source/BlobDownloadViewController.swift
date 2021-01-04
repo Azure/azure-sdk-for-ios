@@ -40,7 +40,7 @@ class BlobDownloadViewController: UIViewController, MSALInteractiveDelegate {
 
     @IBOutlet var tableView: UITableView!
 
-    private lazy var player: AVPlayer = AVPlayer()
+    private lazy var player = AVPlayer()
     private var blobClient: StorageBlobClient?
 
     // MARK: Internal Methods
