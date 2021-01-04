@@ -37,7 +37,7 @@ enum FetchTokenError: Error {
     case badRequest(String)
 }
 
-class CommunicationUserCredentialTests: XCTestCase {
+class CommunicationTokenCredentialTests: XCTestCase {
     private let sampleToken =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjMyNTAzNjgwMDAwfQ.9i7FNNHHJT8cOzo-yrAUJyBSfJ-tPPk2emcHavOEpWc"
     private let sampleTokenExpiry: Double = 32_503_680_000

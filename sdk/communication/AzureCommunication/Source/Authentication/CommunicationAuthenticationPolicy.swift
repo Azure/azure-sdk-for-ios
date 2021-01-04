@@ -31,7 +31,7 @@ import Foundation
 /**
  The Azure Communication Services authentication policy.
  */
-public class CommunicationUserCredentialPolicy: Authenticating {
+public class CommunicationTokenCredentialPolicy: Authenticating {
     public var next: PipelineStage?
 
     private let credential: CommunicationTokenCredential

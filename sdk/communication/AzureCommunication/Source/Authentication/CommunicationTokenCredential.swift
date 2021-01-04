@@ -46,7 +46,7 @@ public typealias TokenRefreshOnCompletion = (String?, Error?) -> Void
      - Throws: `AzureError` if the provided token is not a valid user token.
      */
     public init(token: String) throws {
-        self.userTokenCredential = try StaticUserCredential(token: token)
+        self.userTokenCredential = try StaticTokenCredential(token: token)
     }
     /**
      Creates a CommunicationTokenCredential that automatically refreshes the token.
@@ -68,7 +68,7 @@ public typealias TokenRefreshOnCompletion = (String?, Error?) -> Void
         refreshProactively: Bool = false,
         tokenRefresher: @escaping (@escaping TokenRefreshOnCompletion) -> Void
     ) throws {
-        self.userTokenCredential = try AutoRefreshUserCredential(
+        self.userTokenCredential = try AutoRefreshTokenCredential(
             tokenRefresher: tokenRefresher,
             refreshProactively: refreshProactively,
             initialToken: initialToken

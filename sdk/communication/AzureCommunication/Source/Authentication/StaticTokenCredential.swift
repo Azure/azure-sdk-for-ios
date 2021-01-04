@@ -31,7 +31,7 @@ import Foundation
 /**
  The Azure Communication Services User token credential. 
  */
-internal class StaticUserCredential: CommunicationTokenCredentialProtocol {
+internal class StaticTokenCredential: CommunicationTokenCredentialProtocol {
     private let accessToken: CommunicationAccessToken
 
     /**

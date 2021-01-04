@@ -31,7 +31,7 @@ import Foundation
 /**
  The Azure Communication Services User token credential. This class is used to cache/refresh the access token required by Azure Communication Services.
 */
-internal class AutoRefreshUserCredential: CommunicationTokenCredentialProtocol {
+internal class AutoRefreshTokenCredential: CommunicationTokenCredentialProtocol {
     private let accessTokenCache: ThreadSafeRefreshableAccessTokenCache
 
     /**

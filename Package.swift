@@ -73,8 +73,8 @@ let package = Package(
             path: "sdk/communication/AzureCommunication",
             exclude: [
                 "Tests/AzureCommunicationTests-Bridging-Header.h",
-                "Tests/ObjCCommunciationUserCredentialTests.m",
-                "Tests/ObjCCommunicationUserCredentialAsyncTests.m",
+                "Tests/ObjCCommunciationTokenCredentialTests.m",
+                "Tests/ObjCCommunicationTokenCredentialAsyncTests.m",
                 "Tests/ObjCTokenParserTests.m"
             ],
             sources: ["Tests"]
