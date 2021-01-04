@@ -19,7 +19,7 @@
 		88CC8C35254750260028977C /* ObjCCommunicationTokenCredentialAsyncTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 88CC8C34254750260028977C /* ObjCCommunicationTokenCredentialAsyncTests.m */; };
 		88F1F570254A07BC00876BC4 /* ObjCTokenParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F1F56F254A07BC00876BC4 /* ObjCTokenParserTests.m */; };
 		F11E5CC824B77F8900AA3A58 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3A5ED62316DB8F00473FDA /* AzureCore.framework */; };
-		F183A5EB24AF9D9000F0E0D5 /* CommunicationTokenCredentialProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F183A5EA24AF9D9000F0E0D5 /* CommunicationTokenCredentialProtocol.swift */; };
+		F183A5EB24AF9D9000F0E0D5 /* CommunicationTokenCredentialProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = F183A5EA24AF9D9000F0E0D5 /* CommunicationTokenCredentialProviding.swift */; };
 		F183A5FA24AFB37900F0E0D5 /* StaticTokenCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = F183A5F924AFB37900F0E0D5 /* StaticTokenCredential.swift */; };
 		F183A5FC24AFEF1400F0E0D5 /* CommunicationTokenCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = F183A5FB24AFEF1400F0E0D5 /* CommunicationTokenCredential.swift */; };
 		F183A5FE24AFF1B100F0E0D5 /* JwtTokenParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F183A5FD24AFF1B100F0E0D5 /* JwtTokenParser.swift */; };
@@ -72,7 +72,7 @@
 		8856CEE4253E3AEF00044559 /* ObjCCommunciationTokenCredentialTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ObjCCommunciationTokenCredentialTests.m; sourceTree = "<group>"; };
 		88CC8C34254750260028977C /* ObjCCommunicationTokenCredentialAsyncTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ObjCCommunicationTokenCredentialAsyncTests.m; sourceTree = "<group>"; };
 		88F1F56F254A07BC00876BC4 /* ObjCTokenParserTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ObjCTokenParserTests.m; sourceTree = "<group>"; };
-		F183A5EA24AF9D9000F0E0D5 /* CommunicationTokenCredentialProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationTokenCredentialProtocol.swift; sourceTree = "<group>"; };
+		F183A5EA24AF9D9000F0E0D5 /* CommunicationTokenCredentialProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationTokenCredentialProviding.swift; sourceTree = "<group>"; };
 		F183A5F924AFB37900F0E0D5 /* StaticTokenCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticTokenCredential.swift; sourceTree = "<group>"; };
 		F183A5FB24AFEF1400F0E0D5 /* CommunicationTokenCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationTokenCredential.swift; sourceTree = "<group>"; };
 		F183A5FD24AFF1B100F0E0D5 /* JwtTokenParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JwtTokenParser.swift; sourceTree = "<group>"; };
@@ -152,7 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				8856CEAB253A376D00044559 /* CommunicationAccessToken.swift */,
-				F183A5EA24AF9D9000F0E0D5 /* CommunicationTokenCredentialProtocol.swift */,
+				F183A5EA24AF9D9000F0E0D5 /* CommunicationTokenCredentialProviding.swift */,
 				F183A5F924AFB37900F0E0D5 /* StaticTokenCredential.swift */,
 				F183A5FB24AFEF1400F0E0D5 /* CommunicationTokenCredential.swift */,
 				F183A5FD24AFF1B100F0E0D5 /* JwtTokenParser.swift */,
@@ -299,7 +299,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F183A5EB24AF9D9000F0E0D5 /* CommunicationTokenCredentialProtocol.swift in Sources */,
+				F183A5EB24AF9D9000F0E0D5 /* CommunicationTokenCredentialProviding.swift in Sources */,
 				1D2E7F7024E4589100447964 /* Identifiers.swift in Sources */,
 				8856CEAC253A376D00044559 /* CommunicationAccessToken.swift in Sources */,
 				1DE4DB7924C1063E00631921 /* ThreadSafeRefreshableAccessTokenCache.swift in Sources */,

@@ -29,14 +29,14 @@ import AzureCore
 #endif
 import Foundation
 
-public typealias AccessTokenRefreshOnCompletion = (CommunicationAccessToken?, Error?) -> Void
+public typealias CommuncationTokenCompletionHandler = (CommunicationAccessToken?, Error?) -> Void
 public typealias TokenRefreshOnCompletion = (String?, Error?) -> Void
 
 /**
  The Azure Communication Services User token credential. This class is used to cache/refresh the access token required by Azure Communication Services.
 */
 @objcMembers public class CommunicationTokenCredential: NSObject {
-    private let userTokenCredential: CommunicationTokenCredentialProtocol
+    private let userTokenCredential: CommunicationTokenCredentialProviding
     
     /**
      Creates a static `CommunicationTokenCredential` object from the provided token.
@@ -80,7 +80,7 @@ public typealias TokenRefreshOnCompletion = (String?, Error?) -> Void
      - Parameter completionHandler: Closure that acepts an optional `AccessToken` or optional `Error` as parameters.
      `AccessToken` returns  a token and an expiry date if applicable. `Error` returns `nil` if the current token can be returned.
      */
-    public func token(completionHandler: @escaping AccessTokenRefreshOnCompletion) {
+    public func token(completionHandler: @escaping CommuncationTokenCompletionHandler) {
         userTokenCredential.token(completionHandler: completionHandler)
     }
 }

@@ -31,7 +31,7 @@ import Foundation
 /**
  The Azure Communication Services User token credential. 
  */
-internal class StaticTokenCredential: CommunicationTokenCredentialProtocol {
+internal class StaticTokenCredential: CommunicationTokenCredentialProviding {
     private let accessToken: CommunicationAccessToken
 
     /**
@@ -54,7 +54,7 @@ internal class StaticTokenCredential: CommunicationTokenCredentialProtocol {
      `AccessToken` returns a token and an expiry date if applicable. `Error` returns `nil` if the current token can be returned.
 
      */
-    public func token(completionHandler: AccessTokenRefreshOnCompletion) {
+    public func token(completionHandler: CommuncationTokenCompletionHandler) {
         completionHandler(accessToken, nil)
     }
 }
