@@ -37,5 +37,5 @@ public protocol CommunicationTokenCredentialProviding {
      - Parameter completionHandler: Closure that accepts an optional `AccessToken` or optional `Error` as parameters.
      `AccessToken` returns a token and an expiry date if applicable. `Error` returns `nil` if the current token can be returned.
      */
-    func token(completionHandler: @escaping CommuncationTokenCompletionHandler)
+    func token(completionHandler: @escaping CommunicationTokenCompletionHandler)
 }

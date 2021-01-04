@@ -54,7 +54,7 @@ internal class StaticTokenCredential: CommunicationTokenCredentialProviding {
      `AccessToken` returns a token and an expiry date if applicable. `Error` returns `nil` if the current token can be returned.
 
      */
-    public func token(completionHandler: CommuncationTokenCompletionHandler) {
+    public func token(completionHandler: CommunicationTokenCompletionHandler) {
         completionHandler(accessToken, nil)
     }
 }

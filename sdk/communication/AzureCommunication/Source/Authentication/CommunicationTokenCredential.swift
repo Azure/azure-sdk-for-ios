@@ -29,7 +29,7 @@ import AzureCore
 #endif
 import Foundation
 
-public typealias CommuncationTokenCompletionHandler = (CommunicationAccessToken?, Error?) -> Void
+public typealias CommunicationTokenCompletionHandler = (CommunicationAccessToken?, Error?) -> Void
 public typealias TokenRefreshOnCompletion = (String?, Error?) -> Void
 
 /**
@@ -77,10 +77,10 @@ public typealias TokenRefreshOnCompletion = (String?, Error?) -> Void
 
     /**
      Retrieve an access token from the credential.
-     - Parameter completionHandler: Closure that acepts an optional `AccessToken` or optional `Error` as parameters.
+     - Parameter completionHandler: Closure that accepts an optional `AccessToken` or optional `Error` as parameters.
      `AccessToken` returns  a token and an expiry date if applicable. `Error` returns `nil` if the current token can be returned.
      */
-    public func token(completionHandler: @escaping CommuncationTokenCompletionHandler) {
+    public func token(completionHandler: @escaping CommunicationTokenCompletionHandler) {
         userTokenCredential.token(completionHandler: completionHandler)
     }
 }

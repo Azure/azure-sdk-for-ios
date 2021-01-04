@@ -65,7 +65,7 @@ internal class AutoRefreshTokenCredential: CommunicationTokenCredentialProviding
      `AccessToken` returns  a token and an expiry date if applicable. `Error` returns `nil` if the current token can be returned.
 
      */
-    public func token(completionHandler: @escaping CommuncationTokenCompletionHandler) {
+    public func token(completionHandler: @escaping CommunicationTokenCompletionHandler) {
         accessTokenCache.getValue { newAccessToken, error in
             completionHandler(newAccessToken, error)
         }
