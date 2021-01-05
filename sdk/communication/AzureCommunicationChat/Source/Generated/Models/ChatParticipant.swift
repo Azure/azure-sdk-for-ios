@@ -24,7 +24,7 @@ public struct ChatParticipant: Codable {
     /// Display name for the chat participant.
     public let displayName: String?
     /// Time from which the chat history is shared with the participant. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
-    public let shareHistoryTime: Date?
+    public let shareHistoryTime: Iso8601Date?
 
     // MARK: Initializers
 
@@ -44,9 +44,9 @@ public struct ChatParticipant: Codable {
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case id
-        case displayName
-        case shareHistoryTime
+        case id = "id"
+        case displayName = "displayName"
+        case shareHistoryTime = "shareHistoryTime"
     }
 
     /// Initialize a `ChatParticipant` structure from decoder
