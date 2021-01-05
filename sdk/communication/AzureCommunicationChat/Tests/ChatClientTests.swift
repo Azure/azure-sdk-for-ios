@@ -26,6 +26,7 @@
 
 import AzureCommunication
 import AzureCommunicationChat
+import OHHTTPStubs
 import XCTest
 
 class ChatClientTests: XCTestCase {
@@ -37,9 +38,12 @@ class ChatClientTests: XCTestCase {
     private let topic: String = "General"
 
     override class func setUp() {
-        // Register stubs for playback mode
         if TestConfig.mode == "playback" {
+            // Register stubs for playback mode
             Recorder.registerStubs()
+        } else if TestConfig.mode == "live" {
+            // Remove any stubs that have been registered
+            HTTPStubs.removeAllStubs()
         }
     }
 
