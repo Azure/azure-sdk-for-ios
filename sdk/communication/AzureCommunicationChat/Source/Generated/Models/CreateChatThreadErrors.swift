@@ -36,7 +36,7 @@ public struct CreateChatThreadErrors: Codable {
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case invalidParticipants
+        case invalidParticipants = "invalidParticipants"
     }
 
     /// Initialize a `CreateChatThreadErrors` structure from decoder

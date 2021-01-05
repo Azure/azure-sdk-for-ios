@@ -36,7 +36,7 @@ public struct AddChatParticipantsRequest: Codable {
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case participants
+        case participants = "participants"
     }
 
     /// Initialize a `AddChatParticipantsRequest` structure from decoder

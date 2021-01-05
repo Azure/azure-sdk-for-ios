@@ -40,8 +40,8 @@ public struct UpdateChatMessageRequest: Codable {
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case content
-        case priority
+        case content = "content"
+        case priority = "priority"
     }
 
     /// Initialize a `UpdateChatMessageRequest` structure from decoder
