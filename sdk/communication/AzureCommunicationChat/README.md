@@ -106,8 +106,8 @@ guard let baseUrl = URL(string: "https://<resource>.communication.azure.com") el
     // Display error message
 }
 
-let authPolicy = try CommunicationUserCredentialPolicy(
-    credential: credential ?? CommunicationUserCredential(token: "<user_access_token>")
+let authPolicy = try CommunicationTokenCredentialPolicy(
+    credential: credential ?? CommunicationTokenCredential(token: "<user_access_token>")
 )
 let options = AzureCommunicationChatClientOptions(
     logger: ClientLoggers.default,

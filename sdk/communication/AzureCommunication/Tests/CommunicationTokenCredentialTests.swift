@@ -37,7 +37,7 @@ enum FetchTokenError: Error {
     case badRequest(String)
 }
 
-class CommunicationUserCredentialTests: XCTestCase {
+class CommunicationTokenCredentialTests: XCTestCase {
     private let sampleToken =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjMyNTAzNjgwMDAwfQ.9i7FNNHHJT8cOzo-yrAUJyBSfJ-tPPk2emcHavOEpWc"
     private let sampleTokenExpiry: Double = 32_503_680_000
@@ -82,7 +82,7 @@ class CommunicationUserCredentialTests: XCTestCase {
     }
 
     func test_DecodesToken() throws {
-        let userCredential = try CommunicationUserCredential(token: sampleToken)
+        let userCredential = try CommunicationTokenCredential(token: sampleToken)
         userCredential.token { (accessToken: CommunicationAccessToken?, error: Error?) in
             XCTAssertNil(error)
             XCTAssertEqual(accessToken?.token, self.sampleToken)
@@ -94,14 +94,14 @@ class CommunicationUserCredentialTests: XCTestCase {
         let invalidTokens = ["foo", "foo.bar", "foo.bar.foobar"]
 
         try invalidTokens.forEach { invalidToken in
-            XCTAssertThrowsError(try CommunicationUserCredential(token: invalidToken))
+            XCTAssertThrowsError(try CommunicationTokenCredential(token: invalidToken))
         }
     }
 
     func test_RefreshTokenProactively_TokenAlreadyExpired() throws {
         let expectation = XCTestExpectation()
 
-        let userCredential = try CommunicationUserCredential(
+        let userCredential = try CommunicationTokenCredential(
             initialToken: sampleExpiredToken,
             refreshProactively: true,
             tokenRefresher: fetchTokenSync
@@ -124,7 +124,7 @@ class CommunicationUserCredentialTests: XCTestCase {
     func test_RefreshTokenProactively_FetchTokenReturnsError() throws {
         let expectation = XCTestExpectation()
 
-        let userCredential = try CommunicationUserCredential(
+        let userCredential = try CommunicationTokenCredential(
             initialToken: sampleExpiredToken,
             refreshProactively: true,
             tokenRefresher: fetchTokenSyncWithError
@@ -156,7 +156,7 @@ class CommunicationUserCredentialTests: XCTestCase {
 
             let expiringToken = generateTokenValidForMinutes(minutes)
 
-            let userCredential = try CommunicationUserCredential(
+            let userCredential = try CommunicationTokenCredential(
                 initialToken: expiringToken,
                 refreshProactively: true,
                 tokenRefresher: fetchTokenSync
@@ -191,7 +191,7 @@ class CommunicationUserCredentialTests: XCTestCase {
         let expectedToken = sampleToken
         let expectedTokenExpiry = sampleTokenExpiry
 
-        let userCredential = try CommunicationUserCredential(
+        let userCredential = try CommunicationTokenCredential(
             initialToken: sampleExpiredToken,
             refreshProactively: false,
             tokenRefresher: fetchTokenSync
@@ -217,7 +217,7 @@ class CommunicationUserCredentialTests: XCTestCase {
         let expectedToken = sampleToken
         let expectedTokenExpiry = sampleTokenExpiry
 
-        let userCredential = try CommunicationUserCredential(
+        let userCredential = try CommunicationTokenCredential(
             initialToken: sampleExpiredToken,
             refreshProactively: false,
             tokenRefresher: fetchTokenAsync

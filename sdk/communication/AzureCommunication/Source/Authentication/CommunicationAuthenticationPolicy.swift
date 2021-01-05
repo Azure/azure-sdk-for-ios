@@ -31,19 +31,19 @@ import Foundation
 /**
  The Azure Communication Services authentication policy.
  */
-public class CommunicationUserCredentialPolicy: Authenticating {
+public class CommunicationTokenCredentialPolicy: Authenticating {
     public var next: PipelineStage?
 
-    private let credential: CommunicationUserCredential
+    private let credential: CommunicationTokenCredential
 
     /**
-     Creates a credential policy that authenticates requests using the provided `CommunicationUserCredential`.
+     Creates a credential policy that authenticates requests using the provided `CommunicationTokenCredential`.
      
-     - Parameter credential: The `CommunicationUserCredential` that will be used to authenticate requests.
+     - Parameter credential: The `CommunicationTokenCredential` that will be used to authenticate requests.
      
-     - SeeAlso: `CommunicationUserCredential.init(...)`
+     - SeeAlso: `CommunicationTokenCredential.init(...)`
      */
-    public init(credential: CommunicationUserCredential) {
+    public init(credential: CommunicationTokenCredential) {
         self.credential = credential
     }
 

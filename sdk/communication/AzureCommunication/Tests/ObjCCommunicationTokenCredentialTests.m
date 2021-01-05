@@ -28,37 +28,53 @@
 #import <AzureCommunication/AzureCommunication-Swift.h>
 #import <AzureCore/AzureCore-Swift.h>
 
-@interface ObjCCommunicationUserCredentialAsyncTests : XCTestCase
+@interface ObjCCommunciationTokenCredentialTests : XCTestCase
 @property (nonatomic, strong) NSString *sampleToken;
+@property (nonatomic, strong) NSString *sampleExpiredToken;
+@property (nonatomic) double sampleTokenExpiry;
 @property (nonatomic) int fetchTokenCallCount;
 @end
 
-@implementation ObjCCommunicationUserCredentialAsyncTests
-
-NSString const * kSampleTokenHeader = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
-NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs";
+@implementation ObjCCommunciationTokenCredentialTests
 
 - (void)setUp {
     [super setUp];
     
     self.sampleToken = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjMyNTAzNjgwMDAwfQ.9i7FNNHHJT8cOzo-yrAUJyBSfJ-tPPk2emcHavOEpWc";
+    self.sampleExpiredToken = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjEwMH0.1h_scYkNp-G98-O4cW6KvfJZwiz54uJMyeDACE4nypg";
+    self.sampleTokenExpiry = 32503680000;
     self.fetchTokenCallCount = 0;
 }
 
-- (void)xtest_ObjCRefreshTokenProactivelyTokenExpiringInOneMin {
+- (void)xtest_ObjCDecodeToken {
     XCTestExpectation *expectation = [self expectationWithDescription:
-                                      @"RefreshTokenProactivelyTokenExpiringInOneMin"];
-    __weak ObjCCommunicationUserCredentialAsyncTests *weakSelf = self;
+                                      @"DecodeToken"];
+
+    CommunicationTokenCredential *userCredential = [[CommunicationTokenCredential alloc] initWithToken: self.sampleToken
+                                                                                               error: nil];
     
-    NSString *token = [self generateTokenValidForMinutes: 1];
-    CommunicationUserCredential *credential = [[CommunicationUserCredential alloc]
-                                               initWithInitialToken:token
+    [userCredential tokenWithCompletionHandler:^(CommunicationAccessToken *accessToken, NSError * error) {
+        XCTAssertNil(error);
+        XCTAssertEqual(accessToken.token, self.sampleToken);
+        XCTAssertEqual(accessToken.expiresOn.timeIntervalSince1970, self.sampleTokenExpiry);
+        [expectation fulfill];
+    }];
+    
+    [self waitForExpectations:@[expectation] timeout:2.0];
+}
+
+- (void)xtest_ObjCRefreshTokenProactively_TokenAlreadyExpired {
+    XCTestExpectation *expectation = [self expectationWithDescription:
+                                      @"RefreshTokenProactively_TokenAlreadyExpired"];
+    __weak ObjCCommunciationTokenCredentialTests *weakSelf = self;
+    
+    CommunicationTokenCredential *credential = [[CommunicationTokenCredential alloc]
+                                               initWithInitialToken:self.sampleExpiredToken
                                                refreshProactively:YES
                                                error:nil
-                                               tokenRefresher:
-                                               ^(void (^ block)
-                                                 (NSString * _Nullable newToken,
-                                                  NSError * _Nullable error)) {
+                                               tokenRefresher:^(void (^ block)
+                                                                (NSString * _Nullable accessToken,
+                                                                 NSError * _Nullable error)) {
         weakSelf.fetchTokenCallCount += 1;
         block(weakSelf.sampleToken, nil);
     }];
@@ -66,63 +82,47 @@ NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fS
     [credential tokenWithCompletionHandler:^(CommunicationAccessToken * _Nullable accessToken,
                                              NSError * _Nullable error) {
         XCTAssertNotNil(accessToken);
+        XCTAssertNil(error);
         XCTAssertEqual(accessToken.token, weakSelf.sampleToken);
         XCTAssertEqual(weakSelf.fetchTokenCallCount, 1);
         
         [expectation fulfill];
     }];
-
+    
     [self waitForExpectations:@[expectation] timeout:2.0];
 }
 
-- (void)xtest_ObjCRefreshTokenProactivelyTokenExpiringInNineMin {
+- (void)xtest_ObjCRefreshTokenProactively_FetchTokenReturnsError {
     XCTestExpectation *expectation = [self expectationWithDescription:
-                                      @"RefreshTokenProactivelyTokenExpiringInNineMin"];
-    __weak ObjCCommunicationUserCredentialAsyncTests *weakSelf = self;
-    
-    NSString *token = [self generateTokenValidForMinutes: 9];
-    CommunicationUserCredential *credential = [[CommunicationUserCredential alloc]
-                                               initWithInitialToken:token
+                                      @"RefreshTokenProactively_FetchTokenReturnsError"];
+    __weak ObjCCommunciationTokenCredentialTests *weakSelf = self;
+    NSString *errorDesc = @"Error while fetching token";
+    CommunicationTokenCredential *credential = [[CommunicationTokenCredential alloc]
+                                               initWithInitialToken:self.sampleExpiredToken
                                                refreshProactively:YES
                                                error:nil
-                                               tokenRefresher:
-                                               ^(void (^ block)
-                                                 (NSString * _Nullable newToken,
-                                                  NSError * _Nullable error)) {
+                                               tokenRefresher:^(void (^ block)
+                                                                (NSString * _Nullable token,
+                                                                 NSError * _Nullable error)) {
         weakSelf.fetchTokenCallCount += 1;
-        block(weakSelf.sampleToken, nil);
+        
+        NSDictionary *errorDictionary = @{ NSLocalizedDescriptionKey: errorDesc};
+        NSError *error = [[NSError alloc] initWithDomain:NSOSStatusErrorDomain code:400 userInfo:errorDictionary];
+        
+        block(nil, error);
     }];
     
     [credential tokenWithCompletionHandler:^(CommunicationAccessToken * _Nullable accessToken,
                                              NSError * _Nullable error) {
-        XCTAssertNotNil(accessToken);
-        XCTAssertEqual(accessToken.token, weakSelf.sampleToken);
+        XCTAssertNotNil(error);
+        XCTAssertEqual([error.localizedDescription containsString: errorDesc], YES);
+        XCTAssertNil(accessToken);
         XCTAssertEqual(weakSelf.fetchTokenCallCount, 1);
         
         [expectation fulfill];
     }];
-
+    
     [self waitForExpectations:@[expectation] timeout:2.0];
-}
-
-- (NSString *)generateTokenValidForMinutes: (int) minutes {
-    NSString *d = @"2020-10-20T10:20:28+0000";
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
-    dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ssZ";
-    
-    NSDate *rightNow = [[dateFormatter dateFromString:d]
-                        dateByAddingTimeInterval:(60 * minutes)];
-    NSTimeInterval timeInterval = [rightNow timeIntervalSince1970];
-    NSString *tokenString = [NSString stringWithFormat:@"{\"exp\":%f}", timeInterval];
-    NSData *tokenStringData = [tokenString dataUsingEncoding: NSASCIIStringEncoding];
-
-    NSString *validToken = [NSString stringWithFormat:@"%@.%@.%@",
-                            kSampleTokenHeader,
-                            [tokenStringData base64EncodedStringWithOptions:NSDataBase64Encoding76CharacterLineLength],
-                            kSampleTokenSignature];
-    
-    return validToken;
 }
 
 @end

@@ -28,14 +28,59 @@
 import AzureCore
 #endif
 import Foundation
+
+public typealias CommunicationTokenCompletionHandler = (CommunicationAccessToken?, Error?) -> Void
+public typealias TokenRefreshOnCompletion = (String?, Error?) -> Void
+
 /**
- Protocol defining the shape of credentials used with Azure Communication Services.
- */
-public protocol CommunicationTokenCredential {
+ The Azure Communication Services User token credential. This class is used to cache/refresh the access token required by Azure Communication Services.
+*/
+@objcMembers public class CommunicationTokenCredential: NSObject {
+    private let userTokenCredential: CommunicationTokenCredentialProviding
+    
+    /**
+     Creates a static `CommunicationTokenCredential` object from the provided token.
+        
+     - Parameter token: The static token to use for authenticating all requests.
+     
+     - Throws: `AzureError` if the provided token is not a valid user token.
+     */
+    public init(token: String) throws {
+        self.userTokenCredential = try StaticTokenCredential(token: token)
+    }
+    /**
+     Creates a CommunicationTokenCredential that automatically refreshes the token.
+     The cached token is updated if `token(completionHandler: )` is called and if the difference between the current time
+     and token expiry time is less than 120s.
+     If `refreshProactively` parameter  is `true`:
+        - The cached token will be updated in the background when the difference between the current time
+            and token expiry time is less than 600s.
+        - The cached token will be updated immediately when the constructor is invoked and `initialToken` is expired
+        
+     - Parameters:
+        - initialToken: The initial value of the token.
+        - refreshProactively: Whether the token should be proactively refreshed in the background.
+        - tokenRefresher: Closure to call when a new token value is needed.
+     - Throws: `AzureError` if the provided token is not a valid user token.
+     */
+    public init(
+        initialToken: String? = nil,
+        refreshProactively: Bool = false,
+        tokenRefresher: @escaping (@escaping TokenRefreshOnCompletion) -> Void
+    ) throws {
+        self.userTokenCredential = try AutoRefreshTokenCredential(
+            tokenRefresher: tokenRefresher,
+            refreshProactively: refreshProactively,
+            initialToken: initialToken
+        )
+    }
+
     /**
      Retrieve an access token from the credential.
      - Parameter completionHandler: Closure that accepts an optional `AccessToken` or optional `Error` as parameters.
      `AccessToken` returns a token and an expiry date if applicable. `Error` returns `nil` if the current token can be returned.
      */
-    func token(completionHandler: @escaping AccessTokenRefreshOnCompletion)
+    public func token(completionHandler: @escaping CommunicationTokenCompletionHandler) {
+        userTokenCredential.token(completionHandler: completionHandler)
+    }
 }
