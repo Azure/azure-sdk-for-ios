@@ -213,7 +213,7 @@ class ChatClientThreadUnitTests: XCTestCase {
                     return
                 }
                 XCTAssertEqual(messageId, self.messageId)
-                XCTAssertEqual(content, "Hello world!")
+                XCTAssertEqual(content.message, "Hello world!")
             case .failure:
                 XCTFail("Unexpected failure happened in get message")
             }
@@ -282,7 +282,7 @@ class ChatClientThreadUnitTests: XCTestCase {
                             return
                         }
                         XCTAssertEqual(messageId, self.messageId)
-                        XCTAssertEqual(content, "Hello world!")
+                        XCTAssertEqual(content.message, "Hello world!")
                         XCTAssertEqual(senderId, self.participantId)
                     case .failure:
                         XCTFail("Unexpected failure happened in list messages")
