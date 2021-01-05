@@ -699,7 +699,7 @@ public final class ChatThreadOperation {
     ///    - completionHandler: A completion handler that receives a status code on
     ///     success.
     public func update(
-        chatMessage _: UpdateChatMessageRequest,
+        chatMessage: UpdateChatMessageRequest,
         chatThreadId: String,
         chatMessageId: String,
         withOptions options: UpdateChatMessageOptions? = nil,
@@ -714,15 +714,19 @@ public final class ChatThreadOperation {
             (.header, "Accept", "application/json", .encode)
         )
 
-        // Construct patch request
-        let patch = MergePatchObject()
-        guard let patchBody = try? JSONEncoder().encode(patch) else {
-            client.options.logger.error("Failed to encode PATCH request body as JSON.")
+        // Construct request
+        guard let requestBody = try? JSONEncoder().encode(chatMessage) else {
+            client.options.logger.error("Failed to encode request body as JSON.")
             return
         }
         let urlTemplate = "/chat/threads/{chatThreadId}/messages/{chatMessageId}"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-              let request = try? HTTPRequest(method: .patch, url: requestUrl, headers: params.headers, data: patchBody)
+              let request = try? HTTPRequest(
+                  method: .patch,
+                  url: requestUrl,
+                  headers: params.headers,
+                  data: requestBody
+              )
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
@@ -1468,7 +1472,7 @@ public final class ChatThreadOperation {
     ///    - completionHandler: A completion handler that receives a status code on
     ///     success.
     public func update(
-        chatThread _: UpdateChatThreadRequest,
+        chatThread: UpdateChatThreadRequest,
         chatThreadId: String,
         withOptions options: UpdateChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
@@ -1482,15 +1486,19 @@ public final class ChatThreadOperation {
             (.header, "Accept", "application/json", .encode)
         )
 
-        // Construct patch request
-        let patch = MergePatchObject()
-        guard let patchBody = try? JSONEncoder().encode(patch) else {
-            client.options.logger.error("Failed to encode PATCH request body as JSON.")
+        // Construct request
+        guard let requestBody = try? JSONEncoder().encode(chatThread) else {
+            client.options.logger.error("Failed to encode request body as JSON.")
             return
         }
         let urlTemplate = "/chat/threads/{chatThreadId}"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-              let request = try? HTTPRequest(method: .patch, url: requestUrl, headers: params.headers, data: patchBody)
+              let request = try? HTTPRequest(
+                  method: .patch,
+                  url: requestUrl,
+                  headers: params.headers,
+                  data: requestBody
+              )
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
