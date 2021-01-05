@@ -5,7 +5,9 @@
       "type": "Text",
       "priority": "Normal",
       "version": "string",
-      "content": "Hello world!",
+      "content": {
+          "message": "Hello world!"
+      },
       "senderDisplayName": "Jane",
       "createdOn": "2020-10-30T10:50:50Z",
       "senderId": "test_participant_id",
