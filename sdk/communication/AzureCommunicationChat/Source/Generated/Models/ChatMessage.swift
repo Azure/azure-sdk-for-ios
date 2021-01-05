@@ -21,54 +21,42 @@ public struct ChatMessage: Codable {
 
     /// The id of the chat message. This id is server generated.
     public let id: String?
-    /// Type of the chat message.
-    ///
-    /// Possible values:
-    ///     - Text
-    ///     - ThreadActivity/TopicUpdate
-    ///     - ThreadActivity/AddMember
-    ///     - ThreadActivity/DeleteMember
-    public let type: String?
+    /// The chat message type.
+    public let type: ChatMessageType?
     /// The chat message priority.
     public let priority: ChatMessagePriority?
     /// Version of the chat message.
     public let version: String?
-    /// Content of the chat message.
-    public let content: String?
+    /// Content of a chat message.
+    public let content: ChatMessageContent?
     /// The display name of the chat message sender. This property is used to populate sender name for push notifications.
     public let senderDisplayName: String?
     /// The timestamp when the chat message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
-    public let createdOn: Date?
+    public let createdOn: Iso8601Date?
     /// The id of the chat message sender.
     public let senderId: String?
     /// The timestamp (if applicable) when the message was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
-    public let deletedOn: Date?
+    public let deletedOn: Iso8601Date?
     /// The last timestamp (if applicable) when the message was edited. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
-    public let editedOn: Date?
+    public let editedOn: Iso8601Date?
 
     // MARK: Initializers
 
     /// Initialize a `ChatMessage` structure.
     /// - Parameters:
     ///   - id: The id of the chat message. This id is server generated.
-    ///   - type: Type of the chat message.
-    ///
-    /// Possible values:
-    ///     - Text
-    ///     - ThreadActivity/TopicUpdate
-    ///     - ThreadActivity/AddMember
-    ///     - ThreadActivity/DeleteMember
+    ///   - type: The chat message type.
     ///   - priority: The chat message priority.
     ///   - version: Version of the chat message.
-    ///   - content: Content of the chat message.
+    ///   - content: Content of a chat message.
     ///   - senderDisplayName: The display name of the chat message sender. This property is used to populate sender name for push notifications.
     ///   - createdOn: The timestamp when the chat message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     ///   - senderId: The id of the chat message sender.
     ///   - deletedOn: The timestamp (if applicable) when the message was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     ///   - editedOn: The last timestamp (if applicable) when the message was edited. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public init(
-        id: String? = nil, type: String? = nil, priority: ChatMessagePriority? = nil, version: String? = nil,
-        content: String? = nil, senderDisplayName: String? = nil, createdOn: Iso8601Date? = nil,
+        id: String? = nil, type: ChatMessageType? = nil, priority: ChatMessagePriority? = nil, version: String? = nil,
+        content: ChatMessageContent? = nil, senderDisplayName: String? = nil, createdOn: Iso8601Date? = nil,
         senderId: String? = nil, deletedOn: Iso8601Date? = nil, editedOn: Iso8601Date? = nil
     ) {
         self.id = id
@@ -86,26 +74,26 @@ public struct ChatMessage: Codable {
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case id
-        case type
-        case priority
-        case version
-        case content
-        case senderDisplayName
-        case createdOn
-        case senderId
-        case deletedOn
-        case editedOn
+        case id = "id"
+        case type = "type"
+        case priority = "priority"
+        case version = "version"
+        case content = "content"
+        case senderDisplayName = "senderDisplayName"
+        case createdOn = "createdOn"
+        case senderId = "senderId"
+        case deletedOn = "deletedOn"
+        case editedOn = "editedOn"
     }
 
     /// Initialize a `ChatMessage` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try? container.decode(String.self, forKey: .id)
-        self.type = try? container.decode(String.self, forKey: .type)
+        self.type = try? container.decode(ChatMessageType.self, forKey: .type)
         self.priority = try? container.decode(ChatMessagePriority.self, forKey: .priority)
         self.version = try? container.decode(String.self, forKey: .version)
-        self.content = try? container.decode(String.self, forKey: .content)
+        self.content = try? container.decode(ChatMessageContent.self, forKey: .content)
         self.senderDisplayName = try? container.decode(String.self, forKey: .senderDisplayName)
         self.createdOn = try? container.decode(Iso8601Date.self, forKey: .createdOn)
         self.senderId = try? container.decode(String.self, forKey: .senderId)

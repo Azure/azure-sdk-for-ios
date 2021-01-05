@@ -36,7 +36,7 @@ public struct SendChatMessageResult: Codable {
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case id
+        case id = "id"
     }
 
     /// Initialize a `SendChatMessageResult` structure from decoder

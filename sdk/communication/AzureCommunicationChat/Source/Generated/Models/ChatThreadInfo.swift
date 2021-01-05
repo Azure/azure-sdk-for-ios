@@ -24,9 +24,9 @@ public struct ChatThreadInfo: Codable {
     /// Chat thread topic.
     public let topic: String?
     /// The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
-    public let deletedOn: Date?
+    public let deletedOn: Iso8601Date?
     /// The timestamp when the last message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
-    public let lastMessageReceivedOn: Date?
+    public let lastMessageReceivedOn: Iso8601Date?
 
     // MARK: Initializers
 
@@ -37,7 +37,8 @@ public struct ChatThreadInfo: Codable {
     ///   - deletedOn: The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     ///   - lastMessageReceivedOn: The timestamp when the last message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public init(
-        id: String? = nil, topic: String? = nil, deletedOn: Date? = nil, lastMessageReceivedOn: Date? = nil
+        id: String? = nil, topic: String? = nil, deletedOn: Iso8601Date? = nil,
+        lastMessageReceivedOn: Iso8601Date? = nil
     ) {
         self.id = id
         self.topic = topic
@@ -48,10 +49,10 @@ public struct ChatThreadInfo: Codable {
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case id
-        case topic
-        case deletedOn
-        case lastMessageReceivedOn
+        case id = "id"
+        case topic = "topic"
+        case deletedOn = "deletedOn"
+        case lastMessageReceivedOn = "lastMessageReceivedOn"
     }
 
     /// Initialize a `ChatThreadInfo` structure from decoder
@@ -59,16 +60,8 @@ public struct ChatThreadInfo: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try? container.decode(String.self, forKey: .id)
         self.topic = try? container.decode(String.self, forKey: .topic)
-        if let dateString = try? container.decode(String.self, forKey: .deletedOn) {
-            self.deletedOn = Date(dateString, format: Date.Format.iso8601)
-        } else {
-            self.deletedOn = nil
-        }
-        if let dateString = try? container.decode(String.self, forKey: .lastMessageReceivedOn) {
-            self.lastMessageReceivedOn = Date(dateString, format: Date.Format.iso8601)
-        } else {
-            self.lastMessageReceivedOn = nil
-        }
+        self.deletedOn = try? container.decode(Iso8601Date.self, forKey: .deletedOn)
+        self.lastMessageReceivedOn = try? container.decode(Iso8601Date.self, forKey: .lastMessageReceivedOn)
     }
 
     /// Encode a `ChatThreadInfo` structure
@@ -76,16 +69,7 @@ public struct ChatThreadInfo: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         if id != nil { try? container.encode(id, forKey: .id) }
         if topic != nil { try? container.encode(topic, forKey: .topic) }
-        if deletedOn != nil {
-            let dateFormatter = DateFormatter()
-            let dateString = dateFormatter.string(from: deletedOn!)
-            try? container.encode(dateString, forKey: .deletedOn)
-        }
-
-        if lastMessageReceivedOn != nil {
-            let dateFormatter = DateFormatter()
-            let dateString = dateFormatter.string(from: lastMessageReceivedOn!)
-            try? container.encode(dateString, forKey: .lastMessageReceivedOn)
-        }
+        if deletedOn != nil { try? container.encode(deletedOn, forKey: .deletedOn) }
+        if lastMessageReceivedOn != nil { try? container.encode(lastMessageReceivedOn, forKey: .lastMessageReceivedOn) }
     }
 }

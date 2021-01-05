@@ -40,8 +40,8 @@ public struct CreateChatThreadRequest: Codable {
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case topic
-        case participants
+        case topic = "topic"
+        case participants = "participants"
     }
 
     /// Initialize a `CreateChatThreadRequest` structure from decoder

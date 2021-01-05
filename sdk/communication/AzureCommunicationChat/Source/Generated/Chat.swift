@@ -19,32 +19,8 @@ import Foundation
 public final class Chat {
     public let client: AzureCommunicationChatClient
 
-    public let commonOptions: ClientOptions
-
-    /// Options provided to configure this `AzureCommunicationChatClient`.
-    public let options: AzureCommunicationChatClientOptions
-
     init(client: AzureCommunicationChatClient) {
         self.client = client
-        self.options = client.options
-        self.commonOptions = client.commonOptions
-    }
-
-    public func url(
-        host hostIn: String? = nil,
-        template templateIn: String,
-        pathParams pathParamsIn: [String: String]? = nil,
-        queryParams queryParamsIn: [QueryParameter]? = nil
-    ) -> URL? {
-        return client.url(host: hostIn, template: templateIn, pathParams: pathParamsIn, queryParams: queryParamsIn)
-    }
-
-    public func request(
-        _ request: HTTPRequest,
-        context: PipelineContext?,
-        completionHandler: @escaping HTTPResultHandler<Data?>
-    ) {
-        return client.request(request, context: context, completionHandler: completionHandler)
     }
 
     /// Creates a chat thread.
@@ -58,55 +34,38 @@ public final class Chat {
         withOptions options: CreateChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<CreateChatThreadResult>
     ) {
-        // Construct URL
-        let urlTemplate = "/chat/threads"
-        let pathParams = [
-            "endpoint": client.endpoint.absoluteString
-        ]
-        // Construct query
-        let queryParams: [QueryParameter] = [
-            ("api-version", "2020-11-01-preview3")
-        ]
+        // Create request parameters
+        let params = RequestParameters(
+            (.header, "repeatability-Request-ID", options?.repeatabilityRequestID, .encode), (
+                .uri,
+                "endpoint",
+                client.endpoint.absoluteString,
+                .skipEncoding
+            ), (.query, "apiVersion", "2020-11-01-preview3", .encode),
+            (.header, "Content-Type", "application/json", .encode),
+            (.header, "Accept", "application/json", .encode)
+        )
 
-        // Construct headers
-        var headers = HTTPHeaders()
-        headers["Content-Type"] = "application/json"
-        headers["Accept"] = "application/json"
-        // Process endpoint options
-        // Query options
-
-        // Header options
-        if let repeatabilityRequestID = options?.repeatabilityRequestID {
-            headers["repeatability-Request-ID"] = repeatabilityRequestID
-        }
         // Construct request
         guard let requestBody = try? JSONEncoder().encode(chatThread) else {
-            self.options.logger.error("Failed to encode request body as json.")
+            client.options.logger.error("Failed to encode request body as json.")
             return
         }
-        guard let requestUrl = url(
-            host: "{endpoint}",
-            template: urlTemplate,
-            pathParams: pathParams,
-            queryParams: queryParams
-        ) else {
-            self.options.logger.error("Failed to construct request url")
+        let urlTemplate = "/chat/threads"
+        guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
+            let request = try? HTTPRequest(method: .post, url: requestUrl, headers: params.headers, data: requestBody)
+        else {
+            client.options.logger.error("Failed to construct HTTP request.")
             return
         }
-
-        guard let request = try? HTTPRequest(method: .post, url: requestUrl, headers: headers, data: requestBody) else {
-            self.options.logger.error("Failed to construct HTTP request")
-            return
-        }
-
         // Send request
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [201, 401, 403, 429, 503] as AnyObject
         ])
-        context.add(cancellationToken: options?.cancellationToken, applying: self.options)
+        context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
-        self.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
+        client.request(request, context: context) { result, httpResponse in
+            let dispatchQueue = options?.dispatchQueue ?? self.client.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
                 let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
@@ -114,7 +73,6 @@ public final class Chat {
                 }
                 return
             }
-
             switch result {
             case .success:
                 guard let statusCode = httpResponse?.statusCode else {
@@ -139,9 +97,7 @@ public final class Chat {
                         }
                     }
                 }
-                if [
-                    401
-                ].contains(statusCode) {
+                if [401].contains(statusCode) {
                     do {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
@@ -154,9 +110,7 @@ public final class Chat {
                         }
                     }
                 }
-                if [
-                    403
-                ].contains(statusCode) {
+                if [403].contains(statusCode) {
                     do {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
@@ -169,9 +123,7 @@ public final class Chat {
                         }
                     }
                 }
-                if [
-                    429
-                ].contains(statusCode) {
+                if [429].contains(statusCode) {
                     do {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
@@ -184,9 +136,7 @@ public final class Chat {
                         }
                     }
                 }
-                if [
-                    503
-                ].contains(statusCode) {
+                if [503].contains(statusCode) {
                     do {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
@@ -217,56 +167,29 @@ public final class Chat {
         withOptions options: ListChatThreadsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatThreadInfo>>
     ) {
-        // Construct URL
-        let urlTemplate = "/chat/threads"
-        let pathParams = [
-            "endpoint": client.endpoint.absoluteString
-        ]
-        // Construct query
-        var queryParams: [QueryParameter] = [
-            ("api-version", "2020-11-01-preview3")
-        ]
+        // Create request parameters
+        let params = RequestParameters(
+            (.query, "maxPageSize", options?.maxPageSize, .encode), (.query, "startTime", options?.startTime, .encode),
+            (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
+            (.query, "apiVersion", "2020-11-01-preview3", .encode),
+            (.header, "Accept", "application/json", .encode)
+        )
 
-        // Construct headers
-        var headers = HTTPHeaders()
-        headers["Accept"] = "application/json"
-        // Process endpoint options
-        // Query options
-        if let maxPageSize = options?.maxPageSize {
-            queryParams.append("maxPageSize", String(maxPageSize))
-        }
-        if let startTime = options?.startTime {
-            let dateFormatter = ISO8601DateFormatter()
-            dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-            let startTimeString = dateFormatter.string(from: startTime)
-            queryParams.append("startTime", startTimeString)
-        }
-
-        // Header options
         // Construct request
-        guard let requestUrl = url(
-            host: "{endpoint}",
-            template: urlTemplate,
-            pathParams: pathParams,
-            queryParams: queryParams
-        ) else {
-            self.options.logger.error("Failed to construct request url")
+        let urlTemplate = "/chat/threads"
+        guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
+            let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers) else {
+            client.options.logger.error("Failed to construct HTTP request.")
             return
         }
-
-        guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: headers) else {
-            self.options.logger.error("Failed to construct Http request")
-            return
-        }
-
         // Send request
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
         ])
-        context.add(cancellationToken: options?.cancellationToken, applying: self.options)
+        context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
-        self.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
+        client.request(request, context: context) { result, httpResponse in
+            let dispatchQueue = options?.dispatchQueue ?? self.client.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
                 let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
@@ -274,7 +197,6 @@ public final class Chat {
                 }
                 return
             }
-
             switch result {
             case .success:
                 guard let statusCode = httpResponse?.statusCode else {
@@ -311,9 +233,7 @@ public final class Chat {
                     }
                 }
 
-                if [
-                    401
-                ].contains(statusCode) {
+                if [401].contains(statusCode) {
                     do {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
@@ -326,9 +246,7 @@ public final class Chat {
                         }
                     }
                 }
-                if [
-                    403
-                ].contains(statusCode) {
+                if [403].contains(statusCode) {
                     do {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
@@ -341,9 +259,7 @@ public final class Chat {
                         }
                     }
                 }
-                if [
-                    429
-                ].contains(statusCode) {
+                if [429].contains(statusCode) {
                     do {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
@@ -356,9 +272,7 @@ public final class Chat {
                         }
                     }
                 }
-                if [
-                    503
-                ].contains(statusCode) {
+                if [503].contains(statusCode) {
                     do {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
@@ -390,44 +304,29 @@ public final class Chat {
         withOptions options: GetChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<ChatThread>
     ) {
-        // Construct URL
-        let urlTemplate = "/chat/threads/{chatThreadId}"
-        let pathParams = [
-            "chatThreadId": chatThreadId,
-            "endpoint": client.endpoint.absoluteString
-        ]
-        // Construct query
-        let queryParams: [QueryParameter] = [
-            ("api-version", "2020-11-01-preview3")
-        ]
+        // Create request parameters
+        let params = RequestParameters(
+            (.path, "chatThreadId", chatThreadId, .encode),
+            (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
+            (.query, "apiVersion", "2020-11-01-preview3", .encode),
+            (.header, "Accept", "application/json", .encode)
+        )
 
-        // Construct headers
-        var headers = HTTPHeaders()
-        headers["Accept"] = "application/json"
         // Construct request
-        guard let requestUrl = url(
-            host: "{endpoint}",
-            template: urlTemplate,
-            pathParams: pathParams,
-            queryParams: queryParams
-        ) else {
-            self.options.logger.error("Failed to construct request url")
+        let urlTemplate = "/chat/threads/{chatThreadId}"
+        guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
+            let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers) else {
+            client.options.logger.error("Failed to construct HTTP request.")
             return
         }
-
-        guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: headers) else {
-            self.options.logger.error("Failed to construct Http request")
-            return
-        }
-
         // Send request
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
         ])
-        context.add(cancellationToken: options?.cancellationToken, applying: self.options)
+        context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
-        self.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
+        client.request(request, context: context) { result, httpResponse in
+            let dispatchQueue = options?.dispatchQueue ?? self.client.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
                 let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
@@ -435,7 +334,6 @@ public final class Chat {
                 }
                 return
             }
-
             switch result {
             case .success:
                 guard let statusCode = httpResponse?.statusCode else {
@@ -460,9 +358,7 @@ public final class Chat {
                         }
                     }
                 }
-                if [
-                    401
-                ].contains(statusCode) {
+                if [401].contains(statusCode) {
                     do {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
@@ -475,9 +371,7 @@ public final class Chat {
                         }
                     }
                 }
-                if [
-                    403
-                ].contains(statusCode) {
+                if [403].contains(statusCode) {
                     do {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
@@ -490,9 +384,7 @@ public final class Chat {
                         }
                     }
                 }
-                if [
-                    429
-                ].contains(statusCode) {
+                if [429].contains(statusCode) {
                     do {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
@@ -505,9 +397,7 @@ public final class Chat {
                         }
                     }
                 }
-                if [
-                    503
-                ].contains(statusCode) {
+                if [503].contains(statusCode) {
                     do {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
@@ -539,44 +429,29 @@ public final class Chat {
         withOptions options: DeleteChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        // Construct URL
-        let urlTemplate = "/chat/threads/{chatThreadId}"
-        let pathParams = [
-            "chatThreadId": chatThreadId,
-            "endpoint": client.endpoint.absoluteString
-        ]
-        // Construct query
-        let queryParams: [QueryParameter] = [
-            ("api-version", "2020-11-01-preview3")
-        ]
+        // Create request parameters
+        let params = RequestParameters(
+            (.path, "chatThreadId", chatThreadId, .encode),
+            (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
+            (.query, "apiVersion", "2020-11-01-preview3", .encode),
+            (.header, "Accept", "application/json", .encode)
+        )
 
-        // Construct headers
-        var headers = HTTPHeaders()
-        headers["Accept"] = "application/json"
         // Construct request
-        guard let requestUrl = url(
-            host: "{endpoint}",
-            template: urlTemplate,
-            pathParams: pathParams,
-            queryParams: queryParams
-        ) else {
-            self.options.logger.error("Failed to construct request url")
+        let urlTemplate = "/chat/threads/{chatThreadId}"
+        guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
+            let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: params.headers) else {
+            client.options.logger.error("Failed to construct HTTP request.")
             return
         }
-
-        guard let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: headers) else {
-            self.options.logger.error("Failed to construct Http request")
-            return
-        }
-
         // Send request
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [204, 401, 403, 429, 503] as AnyObject
         ])
-        context.add(cancellationToken: options?.cancellationToken, applying: self.options)
+        context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
-        self.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.commonOptions.dispatchQueue ?? DispatchQueue.main
+        client.request(request, context: context) { result, httpResponse in
+            let dispatchQueue = options?.dispatchQueue ?? self.client.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
                 let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
@@ -584,7 +459,6 @@ public final class Chat {
                 }
                 return
             }
-
             switch result {
             case .success:
                 guard let statusCode = httpResponse?.statusCode else {
@@ -604,9 +478,7 @@ public final class Chat {
                         )
                     }
                 }
-                if [
-                    401
-                ].contains(statusCode) {
+                if [401].contains(statusCode) {
                     do {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
@@ -619,9 +491,7 @@ public final class Chat {
                         }
                     }
                 }
-                if [
-                    403
-                ].contains(statusCode) {
+                if [403].contains(statusCode) {
                     do {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
@@ -634,9 +504,7 @@ public final class Chat {
                         }
                     }
                 }
-                if [
-                    429
-                ].contains(statusCode) {
+                if [429].contains(statusCode) {
                     do {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
@@ -649,9 +517,7 @@ public final class Chat {
                         }
                     }
                 }
-                if [
-                    503
-                ].contains(statusCode) {
+                if [503].contains(statusCode) {
                     do {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
