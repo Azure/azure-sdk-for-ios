@@ -41,7 +41,7 @@ public final class Chat {
                 "endpoint",
                 client.endpoint.absoluteString,
                 .skipEncoding
-            ), (.query, "apiVersion", "2020-11-01-preview3", .encode),
+            ), (.query, "api-version", "2020-11-01-preview3", .encode),
             (.header, "Content-Type", "application/json", .encode),
             (.header, "Accept", "application/json", .encode)
         )
@@ -171,7 +171,7 @@ public final class Chat {
         let params = RequestParameters(
             (.query, "maxPageSize", options?.maxPageSize, .encode), (.query, "startTime", options?.startTime, .encode),
             (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "apiVersion", "2020-11-01-preview3", .encode),
+            (.query, "api-version", "2020-11-01-preview3", .encode),
             (.header, "Accept", "application/json", .encode)
         )
 
@@ -309,7 +309,7 @@ public final class Chat {
         let params = RequestParameters(
             (.path, "chatThreadId", chatThreadId, .encode),
             (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "apiVersion", "2020-11-01-preview3", .encode),
+            (.query, "api-version", "2020-11-01-preview3", .encode),
             (.header, "Accept", "application/json", .encode)
         )
 
@@ -435,7 +435,7 @@ public final class Chat {
         let params = RequestParameters(
             (.path, "chatThreadId", chatThreadId, .encode),
             (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "apiVersion", "2020-11-01-preview3", .encode),
+            (.query, "api-version", "2020-11-01-preview3", .encode),
             (.header, "Accept", "application/json", .encode)
         )
 
