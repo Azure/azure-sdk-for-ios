@@ -295,7 +295,7 @@ class ChatThreadClientTests: XCTestCase {
                             self.chatThreadClient.get(message: messageId) { result, _ in
                                 switch result {
                                 case let .success(message):
-                                    XCTAssertEqual(message.content, updatedMessage.content)
+                                    XCTAssertEqual(message.content?.message, updatedMessage.content)
                                     XCTAssertEqual(message.priority, updatedMessage.priority)
 
                                 case let .failure(error):
