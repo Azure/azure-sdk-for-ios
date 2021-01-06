@@ -28,29 +28,47 @@
 import XCTest
 
 class Iso8601DurationTests: XCTestCase {
-    func test_duration_round_trip() throws {
+    func test_duration_roundTripValid() throws {
         let encoder = JSONEncoder()
         let decoder = JSONDecoder()
         let strings = [
+            "PT1.23S",
+            "PT1,23S",
             "P123DT22H14M12.011S",
-            "P5DT1H0M0S"
+            "P5DT1H0M0S",
+            "PT0S",
+            "P12W"
         ]
 
         for string in strings {
             let duration = Iso8601Duration(string: string)
             let requestString = duration?.requestString ?? ""
+            let expected = string.replacingOccurrences(of: ",", with: ".")
             XCTAssert(
-                duration?.requestString ?? "" == string,
-                "RequestString Error. Expected: \(string) Actual: \(requestString)"
+                duration?.requestString ?? "" == expected,
+                "RequestString Error. Expected: \(expected) Actual: \(requestString)"
             )
             do {
                 let encoded = try encoder.encode(duration)
                 let decoded = try decoder.decode(Iso8601Duration.self, from: encoded)
                 let actual = decoded.requestString
-                XCTAssert(actual == string, "RT Error. Expected: \(string) Actual: \(actual)")
+                XCTAssert(actual == expected, "RT Error. Expected: \(expected) Actual: \(actual)")
             } catch {
                 XCTFail(error.localizedDescription)
             }
+        }
+    }
+
+    func test_duration_invalid() throws {
+        let strings = [
+            "P",
+            "PT",
+            "P2WT3H",
+            ""
+        ]
+        for string in strings {
+            let duration = Iso8601Duration(string: string)
+            XCTAssertNil(duration, "Pattern '\(string)' should fail but did not.")
         }
     }
 }
