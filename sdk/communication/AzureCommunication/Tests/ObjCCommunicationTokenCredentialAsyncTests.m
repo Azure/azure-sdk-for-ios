@@ -51,17 +51,21 @@ NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fS
     __weak ObjCCommunicationTokenCredentialAsyncTests *weakSelf = self;
     
     NSString *token = [self generateTokenValidForMinutes: 1];
-    CommunicationTokenCredential *credential = [[CommunicationTokenCredential alloc]
-                                               initWithInitialToken:token
-                                               refreshProactively:YES
-                                               error:nil
-                                               tokenRefresher:
-                                               ^(void (^ block)
-                                                 (NSString * _Nullable newToken,
-                                                  NSError * _Nullable error)) {
+    
+    CommunicationTokenRefreshOptions *option = [[CommunicationTokenRefreshOptions alloc]
+                                                initWithInitialToken:token
+                                                refreshProactively:YES
+                                                tokenRefresher:
+                                                ^(void (^ block)
+                                                  (NSString * _Nullable newToken,
+                                                   NSError * _Nullable error)) {
         weakSelf.fetchTokenCallCount += 1;
         block(weakSelf.sampleToken, nil);
     }];
+    
+    CommunicationTokenCredential *credential = [[CommunicationTokenCredential alloc]
+                                                initWith: option
+                                                error: nil];
     
     [credential tokenWithCompletionHandler:^(CommunicationAccessToken * _Nullable accessToken,
                                              NSError * _Nullable error) {
@@ -81,17 +85,20 @@ NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fS
     __weak ObjCCommunicationTokenCredentialAsyncTests *weakSelf = self;
     
     NSString *token = [self generateTokenValidForMinutes: 9];
-    CommunicationTokenCredential *credential = [[CommunicationTokenCredential alloc]
-                                               initWithInitialToken:token
-                                               refreshProactively:YES
-                                               error:nil
-                                               tokenRefresher:
-                                               ^(void (^ block)
-                                                 (NSString * _Nullable newToken,
-                                                  NSError * _Nullable error)) {
+    CommunicationTokenRefreshOptions *option = [[CommunicationTokenRefreshOptions alloc]
+                                                initWithInitialToken:token
+                                                refreshProactively:YES
+                                                tokenRefresher:
+                                                ^(void (^ block)
+                                                  (NSString * _Nullable newToken,
+                                                   NSError * _Nullable error)) {
         weakSelf.fetchTokenCallCount += 1;
         block(weakSelf.sampleToken, nil);
     }];
+    
+    CommunicationTokenCredential *credential = [[CommunicationTokenCredential alloc]
+                                                initWith:option
+                                                error:nil];
     
     [credential tokenWithCompletionHandler:^(CommunicationAccessToken * _Nullable accessToken,
                                              NSError * _Nullable error) {

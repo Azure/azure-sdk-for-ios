@@ -63,18 +63,13 @@ public typealias TokenRefreshOnCompletion = (String?, Error?) -> Void
         - tokenRefresher: Closure to call when a new token value is needed.
      - Throws: `AzureError` if the provided token is not a valid user token.
      */
-    public init(
-        initialToken: String? = nil,
-        refreshProactively: Bool = false,
-        tokenRefresher: @escaping (@escaping TokenRefreshOnCompletion) -> Void
-    ) throws {
+    public init(with option: CommunicationTokenRefreshOptions) throws {
         self.userTokenCredential = try AutoRefreshTokenCredential(
-            tokenRefresher: tokenRefresher,
-            refreshProactively: refreshProactively,
-            initialToken: initialToken
+            tokenRefresher: option.tokenRefresher,
+            refreshProactively: option.refreshProactively,
+            initialToken: option.initialToken
         )
     }
-
     /**
      Retrieve an access token from the credential.
      - Parameter completionHandler: Closure that accepts an optional `AccessToken` or optional `Error` as parameters.
@@ -82,5 +77,21 @@ public typealias TokenRefreshOnCompletion = (String?, Error?) -> Void
      */
     public func token(completionHandler: @escaping CommunicationTokenCompletionHandler) {
         userTokenCredential.token(completionHandler: completionHandler)
+    }
+}
+
+@objcMembers public class CommunicationTokenRefreshOptions: NSObject {
+    var initialToken: String?
+    var refreshProactively: Bool
+    var tokenRefresher: (@escaping TokenRefreshOnCompletion) -> Void
+    
+    public init(
+        initialToken: String? = nil,
+        refreshProactively: Bool = false,
+        tokenRefresher: @escaping (@escaping TokenRefreshOnCompletion) -> Void
+    ) {
+        self.initialToken = initialToken
+        self.refreshProactively = refreshProactively
+        self.tokenRefresher = tokenRefresher
     }
 }
