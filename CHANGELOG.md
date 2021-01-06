@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta7 (unreleased)
+## 1.0.0-beta.7 (Unreleased)
 
 ### New Features
 - Azure Communication Common Library
