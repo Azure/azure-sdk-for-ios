@@ -4,13 +4,13 @@
 
 ### New Features
 - Azure Communication Common Library
-  - Added new identifier  `MicrosoftTeamsUserIdentifier`. 
+  - Added new communication identifier  `MicrosoftTeamsUserIdentifier`. Used to represent a Microsoft Teams user.
 
 ### Breaking Changes
 - Azure Communication Common Library
   - Replaced `CommunicationUserCredential` with `CommunicationTokenCredential`.
   - Previously `CommunicationTokenCredential` protocol renamed to `CommunicationTokenCredentialProviding`.
-  - Appended `Identifier` to all classes that conform to `CommunicationIdentifier`
+  - All types that conform to `CommunicationIdentifier` now use the suffix `Identifier`. For example, the `PhoneNumber` class used to represent a phone number identifier is now named `PhoneNumberIdentifier`.
 
 ## 1.0.0-beta.6 (2020-11-23)
 
