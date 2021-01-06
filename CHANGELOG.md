@@ -1,5 +1,17 @@
 # Release History
 
+## 1.0.0-beta7 (unreleased)
+
+### New Features
+- Azure Communication
+  - Added new identifier  `MicrosoftTeamsUserIdentifier`. 
+
+### Breaking Changes
+- Azure Communication 
+  - Replaced `CommunicationUserCredential` with `CommunicationTokenCredential`.
+  - Previously `CommunicationTokenCredential` protocol renamed to `CommunicationTokenCredentialProviding`.
+  - Appended `Identifier` to all classes that conform to `CommunicationIdentifier`
+
 ## 1.0.0-beta.6 (2020-11-23)
 
 ### Key Bug Fixes
