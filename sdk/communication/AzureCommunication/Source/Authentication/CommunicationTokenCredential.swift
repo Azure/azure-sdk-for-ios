@@ -49,7 +49,7 @@ public typealias TokenRefreshOnCompletion = (String?, Error?) -> Void
         self.userTokenCredential = try StaticTokenCredential(token: token)
     }
     /**
-     Creates a CommunicationUserCredential that automatically refreshes the token.
+     Creates a CommunicationTokenCredential that automatically refreshes the token.
      - Parameters:
         - option: Options for how the token will be refreshed
      - Throws: `AzureError` if the provided token is not a valid user token.
@@ -68,35 +68,5 @@ public typealias TokenRefreshOnCompletion = (String?, Error?) -> Void
      */
     public func token(completionHandler: @escaping CommunicationTokenCompletionHandler) {
         userTokenCredential.token(completionHandler: completionHandler)
-    }
-}
-/**
- The Communication Token Refresh Options. Used to initialize a `CommunicationUserCredential`
- - SeeAlso: ` CommunicationUserCredential.init(...)`
-*/
-@objcMembers public class CommunicationTokenRefreshOptions: NSObject {
-    var initialToken: String?
-    var refreshProactively: Bool
-    var tokenRefresher: (@escaping TokenRefreshOnCompletion) -> Void
-    /**
-     Initializes a new instance of `CommunicationTokenRefreshOptions`
-     The cached token is updated if `token(completionHandler: )` is called and if the difference between the current time
-     and token expiry time is less than 120s.
-     If `refreshProactively` parameter  is `true`:
-        - The cached token will be updated in the background when the difference between the current time and token expiry time is less than 600s.
-        - The cached token will be updated immediately when the constructor is invoked and `initialToken` is expired
-     - Parameters:
-        - initialToken: The initial value of the token.
-        - refreshProactively: Whether the token should be proactively refreshed in the background.
-        - tokenRefresher: Closure to call when a new token value is needed.
-     */
-    public init(
-        initialToken: String? = nil,
-        refreshProactively: Bool = false,
-        tokenRefresher: @escaping (@escaping TokenRefreshOnCompletion) -> Void
-    ) {
-        self.initialToken = initialToken
-        self.refreshProactively = refreshProactively
-        self.tokenRefresher = tokenRefresher
     }
 }
