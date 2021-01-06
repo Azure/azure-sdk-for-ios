@@ -36,7 +36,7 @@
   - Parameter labels are now mandatory for all API calls from Swift applications.
   - Except for the first parameter, parameter labels are now mandatory for all other parameters to delegate methods in
     Swift applications.
-  - And exception is now thrown if an application tries to render video/camera twice.
+  - An exception is now thrown if an application tries to render video/camera twice.
 
 ### Key Bug Fixes
 - Azure Communication Calling Service
