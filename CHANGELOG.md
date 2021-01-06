@@ -3,11 +3,11 @@
 ## 1.0.0-beta7 (unreleased)
 
 ### New Features
-- Azure Communication
+- Azure Communication Common Library
   - Added new identifier  `MicrosoftTeamsUserIdentifier`. 
 
 ### Breaking Changes
-- Azure Communication 
+- Azure Communication Common Library
   - Replaced `CommunicationUserCredential` with `CommunicationTokenCredential`.
   - Previously `CommunicationTokenCredential` protocol renamed to `CommunicationTokenCredentialProviding`.
   - Appended `Identifier` to all classes that conform to `CommunicationIdentifier`
