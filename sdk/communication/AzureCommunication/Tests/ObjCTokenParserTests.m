@@ -57,7 +57,7 @@
     NSString *invalidToken = @"foo.bar";
     NSError *error = nil;
     
-    CommunicationTokenRefreshOptions *option = [[CommunicationTokenRefreshOptions alloc]
+    CommunicationTokenRefreshOptions *tokenRefreshOptions = [[CommunicationTokenRefreshOptions alloc]
                                                 initWithInitialToken:invalidToken
                                                 refreshProactively:YES
                                                 tokenRefresher:^(void (^ _Nonnull block)
@@ -66,7 +66,7 @@
     }];
     
     CommunicationTokenCredential *credential = [[CommunicationTokenCredential alloc]
-                                                initWith:option
+                                                initWith:tokenRefreshOptions
                                                 error:&error];
     
     XCTAssertNil(credential);

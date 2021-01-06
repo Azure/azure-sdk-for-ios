@@ -69,7 +69,7 @@
                                       @"RefreshTokenProactively_TokenAlreadyExpired"];
     __weak ObjCCommunciationTokenCredentialTests *weakSelf = self;
     
-    CommunicationTokenRefreshOptions *option = [[CommunicationTokenRefreshOptions alloc]
+    CommunicationTokenRefreshOptions *tokenRefreshOptions = [[CommunicationTokenRefreshOptions alloc]
                                                 initWithInitialToken:self.sampleExpiredToken
                                                 refreshProactively:YES
                                                 tokenRefresher:^(void (^ block)
@@ -80,7 +80,7 @@
     }];
     
     CommunicationTokenCredential *credential = [[CommunicationTokenCredential alloc]
-                                                initWith:option
+                                                initWith:tokenRefreshOptions
                                                 error:nil];
     
     [credential tokenWithCompletionHandler:^(CommunicationAccessToken * _Nullable accessToken,
@@ -101,7 +101,7 @@
                                       @"RefreshTokenProactively_FetchTokenReturnsError"];
     __weak ObjCCommunciationTokenCredentialTests *weakSelf = self;
     NSString *errorDesc = @"Error while fetching token";
-    CommunicationTokenRefreshOptions *option = [[CommunicationTokenRefreshOptions alloc]
+    CommunicationTokenRefreshOptions *tokenRefreshOptions = [[CommunicationTokenRefreshOptions alloc]
                                                 initWithInitialToken:self.sampleExpiredToken
                                                 refreshProactively:YES
                                                 tokenRefresher:^(void (^ block)
@@ -116,7 +116,7 @@
     }];
     
     CommunicationTokenCredential *credential = [[CommunicationTokenCredential alloc]
-                                                initWith:option
+                                                initWith:tokenRefreshOptions
                                                 error:nil];
     
     [credential tokenWithCompletionHandler:^(CommunicationAccessToken * _Nullable accessToken,

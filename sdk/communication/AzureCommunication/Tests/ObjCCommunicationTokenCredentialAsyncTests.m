@@ -52,7 +52,7 @@ NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fS
     
     NSString *token = [self generateTokenValidForMinutes: 1];
     
-    CommunicationTokenRefreshOptions *option = [[CommunicationTokenRefreshOptions alloc]
+    CommunicationTokenRefreshOptions *tokenRefreshOptions = [[CommunicationTokenRefreshOptions alloc]
                                                 initWithInitialToken:token
                                                 refreshProactively:YES
                                                 tokenRefresher:
@@ -64,7 +64,7 @@ NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fS
     }];
     
     CommunicationTokenCredential *credential = [[CommunicationTokenCredential alloc]
-                                                initWith: option
+                                                initWith: tokenRefreshOptions
                                                 error: nil];
     
     [credential tokenWithCompletionHandler:^(CommunicationAccessToken * _Nullable accessToken,
@@ -85,7 +85,7 @@ NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fS
     __weak ObjCCommunicationTokenCredentialAsyncTests *weakSelf = self;
     
     NSString *token = [self generateTokenValidForMinutes: 9];
-    CommunicationTokenRefreshOptions *option = [[CommunicationTokenRefreshOptions alloc]
+    CommunicationTokenRefreshOptions *tokenRefreshOptions = [[CommunicationTokenRefreshOptions alloc]
                                                 initWithInitialToken:token
                                                 refreshProactively:YES
                                                 tokenRefresher:
@@ -97,7 +97,7 @@ NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fS
     }];
     
     CommunicationTokenCredential *credential = [[CommunicationTokenCredential alloc]
-                                                initWith:option
+                                                initWith:tokenRefreshOptions
                                                 error:nil];
     
     [credential tokenWithCompletionHandler:^(CommunicationAccessToken * _Nullable accessToken,
