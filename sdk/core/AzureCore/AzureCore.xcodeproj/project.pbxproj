@@ -45,6 +45,8 @@
 		0A6A9B4F234293B50013FCAA /* RegexUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6A9B4E234293B50013FCAA /* RegexUtil.swift */; };
 		0A73AB77243F969700C6DC34 /* StringUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A73AB76243F969700C6DC34 /* StringUtil.swift */; };
 		0A7F563A2321732B00E9765A /* URLHTTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7F56392321732B00E9765A /* URLHTTPResponse.swift */; };
+		0AA5948325A520A700E77E33 /* Iso8601DurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA5948225A520A700E77E33 /* Iso8601DurationTests.swift */; };
+		0AA5948725A521C100E77E33 /* Iso8601Duration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA5948625A521C100E77E33 /* Iso8601Duration.swift */; };
 		0AB5EAFD2375F25400361879 /* ConvertingInitializers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB5EAFC2375F25400361879 /* ConvertingInitializers.swift */; };
 		0AB7412123C79E1400B579B3 /* DataStringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB7411F23C79E1400B579B3 /* DataStringConvertible.swift */; };
 		0AB7412223C79E1400B579B3 /* TransportStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB7412023C79E1400B579B3 /* TransportStage.swift */; };
@@ -149,6 +151,8 @@
 		0A6A9B4E234293B50013FCAA /* RegexUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegexUtil.swift; sourceTree = "<group>"; };
 		0A73AB76243F969700C6DC34 /* StringUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtil.swift; sourceTree = "<group>"; };
 		0A7F56392321732B00E9765A /* URLHTTPResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLHTTPResponse.swift; sourceTree = "<group>"; };
+		0AA5948225A520A700E77E33 /* Iso8601DurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Iso8601DurationTests.swift; sourceTree = "<group>"; };
+		0AA5948625A521C100E77E33 /* Iso8601Duration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Iso8601Duration.swift; sourceTree = "<group>"; };
 		0AB5EAFC2375F25400361879 /* ConvertingInitializers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertingInitializers.swift; sourceTree = "<group>"; };
 		0AB7411F23C79E1400B579B3 /* DataStringConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStringConvertible.swift; sourceTree = "<group>"; };
 		0AB7412023C79E1400B579B3 /* TransportStage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransportStage.swift; sourceTree = "<group>"; };
@@ -300,6 +304,7 @@
 				7AFA4D5D23D14864001A3BF4 /* HeadersPolicyTests.swift */,
 				0AE32638249A7F3200C85EAA /* HeadersValidationPolicyTests.swift */,
 				0AFEC35123C8FC320065D588 /* HTTPRequestTests.swift */,
+				0AA5948225A520A700E77E33 /* Iso8601DurationTests.swift */,
 				7AFA4D6123D14F01001A3BF4 /* LoggingPolicyTests.swift */,
 				0AE3263A249A7F4900C85EAA /* NormalizeETagPolicyTests.swift */,
 				0A55FD30254B31AB002CBFD8 /* PipelineContextTests.swift */,
@@ -370,11 +375,12 @@
 			isa = PBXGroup;
 			children = (
 				0A348C6E2550BC9D00C63618 /* AzureDate.swift */,
+				0A0DD9AE24AE7D5800D2E884 /* CancellationToken.swift */,
 				0AC0AA8A234F8ADD00F05073 /* Collections.swift */,
+				0AA5948625A521C100E77E33 /* Iso8601Duration.swift */,
 				0A532ACE2417E71100C4C8BA /* XMLMap.swift */,
 				0AC0AA8E234FDB0800F05073 /* XMLModel.swift */,
 				0A532AD02417E73C00C4C8BA /* XMLTree.swift */,
-				0A0DD9AE24AE7D5800D2E884 /* CancellationToken.swift */,
 			);
 			path = DataStructures;
 			sourceTree = "<group>";
@@ -651,6 +657,7 @@
 				7AA5366523C0232A00A65A96 /* RequestIdPolicy.swift in Sources */,
 				0AC0AA8C234F8ADD00F05073 /* Collections.swift in Sources */,
 				0A73AB77243F969700C6DC34 /* StringUtil.swift in Sources */,
+				0AA5948725A521C100E77E33 /* Iso8601Duration.swift in Sources */,
 				0A3A5F3C2318904F00473FDA /* PipelineResponse.swift in Sources */,
 				0A532AD12417E73C00C4C8BA /* XMLTree.swift in Sources */,
 				0A22B09024CF490C00EC018E /* TransportOptions.swift in Sources */,
@@ -692,6 +699,7 @@
 				0AE3263C249A7F9000C85EAA /* HeadersValidationPolicyTests.swift in Sources */,
 				7AFA4D6023D14BDB001A3BF4 /* AddDatePolicyTests.swift in Sources */,
 				7AFA4D5E23D14864001A3BF4 /* HeadersPolicyTests.swift in Sources */,
+				0AA5948325A520A700E77E33 /* Iso8601DurationTests.swift in Sources */,
 				0A55FD35254B322B002CBFD8 /* PipelineContextTests.swift in Sources */,
 				7AFA4D6223D14F01001A3BF4 /* LoggingPolicyTests.swift in Sources */,
 				0AFEC35D23C8FC3A0065D588 /* CollectionsTests.swift in Sources */,
