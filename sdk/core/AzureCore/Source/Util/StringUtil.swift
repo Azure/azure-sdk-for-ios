@@ -34,10 +34,10 @@ public extension String {
         return newPrefix + mutatedString
     }
 
-    /// Returns the base64 representation of a string.
-    func base64EncodedString() -> String {
+    /// Returns the base64 representation of a string, optionally trimming ending `=` characters.
+    public func base64EncodedString(trimmingEquals: Bool = false) -> String {
         let data = Data(bytes: self, count: count)
-        return data.base64EncodedString()
+        return data.base64EncodedString(trimmingEquals: trimmingEquals)
     }
 }
 
