@@ -1,5 +1,18 @@
 # Release History
 
+## 1.0.0-beta.7 (Unreleased)
+
+### New Features
+- Azure Communication Common Library
+  - Added a new communication identifier `MicrosoftTeamsUserIdentifier`, used to represent a Microsoft Teams user.
+
+### Breaking Changes
+- Azure Communication Common Library
+  - Renamed the type `CommunicationUserCredential` to `CommunicationTokenCredential`, as it represents a token.
+  - The protocol `CommunicationTokenCredential` has likewise been renamed to `CommunicationTokenCredentialProviding`.
+  - All types that conform to the `CommunicationIdentifier` protocol now use the suffix `Identifier`. For example, the
+    `PhoneNumber` type used to represent a phone number identifier is now named `PhoneNumberIdentifier`.
+
 ## 1.0.0-beta.6 (2020-11-23)
 
 ### Key Bug Fixes
@@ -24,7 +37,7 @@
   - Parameter labels are now mandatory for all API calls from Swift applications.
   - Except for the first parameter, parameter labels are now mandatory for all other parameters to delegate methods in
     Swift applications.
-  - And exception is now thrown if an application tries to render video/camera twice.
+  - An exception is now thrown if an application tries to render video/camera twice.
 
 ### Key Bug Fixes
 - Azure Communication Calling Service
