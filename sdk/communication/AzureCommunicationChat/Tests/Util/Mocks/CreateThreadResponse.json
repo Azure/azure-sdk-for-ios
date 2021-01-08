@@ -1,7 +1,8 @@
 {
     "chatThread": {
-        "id": "test participant id",
+        "id": "test_thread_id",
         "topic": "test topic",
-        "createdBy": "test participant id"
+        "createdOn": "2021-01-08T01:49:05Z",
+        "createdBy": "test_participant_id"
     }
 }

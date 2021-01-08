@@ -60,7 +60,7 @@ class ChatThreadClientUnitTests: XCTestCase {
             return
         }
 
-        // TODO get this from TestConfig
+        // TODO: get this from TestConfig
         chatClient = client
 
         do {
@@ -213,7 +213,7 @@ class ChatThreadClientUnitTests: XCTestCase {
                 }
                 XCTAssertNotNil(response)
                 XCTAssertEqual(response.id, self.messageId)
-                XCTAssertEqual(content.message, "Hello world!")
+                XCTAssertEqual(content.message, "Hello World!")
 
             case .failure:
                 XCTFail("Unexpected failure happened in get message")

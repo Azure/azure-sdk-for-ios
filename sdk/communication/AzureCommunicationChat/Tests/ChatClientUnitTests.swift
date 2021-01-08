@@ -24,9 +24,9 @@
 //
 // --------------------------------------------------------------------------
 
-import AzureCore
 import AzureCommunication
 import AzureCommunicationChat
+import AzureCore
 import OHHTTPStubsSwift
 import XCTest
 
@@ -76,7 +76,7 @@ class ChatClientUnitTests: XCTestCase {
         }
 
         let participant = ChatParticipant(
-            id: "test participant id",
+            id: "test_participant_id",
             displayName: "test name",
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
@@ -97,7 +97,7 @@ class ChatClientUnitTests: XCTestCase {
                     XCTFail("Failed to extract chatThread from response")
                     return
                 }
-                XCTAssert(thread.id == participant.id)
+                XCTAssert(thread.id == self.threadId)
                 XCTAssert(thread.topic == request.topic)
                 XCTAssert(thread.createdBy == participant.id)
 

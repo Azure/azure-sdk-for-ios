@@ -24,9 +24,9 @@
 //
 // --------------------------------------------------------------------------
 
-import AzureCore
 import AzureCommunication
 import AzureCommunicationChat
+import AzureCore
 import OHHTTPStubs
 import XCTest
 
@@ -142,11 +142,12 @@ class ChatThreadClientTests: XCTestCase {
         }
     }
 
-    func test_SendMessage() {
+    func test_SendMessage_ReturnsMessageId() {
         let testMessage = SendChatMessageRequest(
             priority: .high,
             content: "Hello World!",
-            senderDisplayName: "User 1"
+            senderDisplayName: "User 1",
+            type: .text
         )
 
         let expectation = self.expectation(description: "Send message")
@@ -157,28 +158,13 @@ class ChatThreadClientTests: XCTestCase {
                 if TestConfig.mode == "record" {
                     Recorder.record(name: Recording.sendMessage, httpResponse: httpResponse)
                 }
-
-                // Get and verify sent message
-                self.chatThreadClient.get(message: sendMessageResult.id) { result, httpResponse in
-                    switch result {
-                    case let .success(chatMessage):
-                        XCTAssertEqual(chatMessage.id, sendMessageResult.id)
-
-                        if TestConfig.mode == "record" {
-                            Recorder.record(name: Recording.getMessage, httpResponse: httpResponse)
-                        }
-
-                    case let .failure(error):
-                        XCTFail("Get message failed: \(error)")
-                    }
-
-                    expectation.fulfill()
-                }
+                XCTAssertNotNil(sendMessageResult.id)
 
             case let .failure(error):
                 XCTFail("Send message failed: \(error)")
-                expectation.fulfill()
             }
+
+            expectation.fulfill()
         }
 
         waitForExpectations(timeout: TestConfig.timeout) { error in
@@ -192,7 +178,8 @@ class ChatThreadClientTests: XCTestCase {
         let testMessage = SendChatMessageRequest(
             priority: .high,
             content: "Hello World!",
-            senderDisplayName: "User 1"
+            senderDisplayName: "User 1",
+            type: .text
         )
 
         let expectation = self.expectation(description: "List messages")
@@ -262,7 +249,8 @@ class ChatThreadClientTests: XCTestCase {
         let testMessage = SendChatMessageRequest(
             priority: .high,
             content: "Hello World!",
-            senderDisplayName: "User 1"
+            senderDisplayName: "User 1",
+            type: .text
         )
 
         let expectation = self.expectation(description: "Send read receipt")
@@ -303,7 +291,8 @@ class ChatThreadClientTests: XCTestCase {
         let testMessage = SendChatMessageRequest(
             priority: .high,
             content: "Hello World!",
-            senderDisplayName: "User 1"
+            senderDisplayName: "User 1",
+            type: .text
         )
 
         let expectation = self.expectation(description: "Update message")
@@ -318,36 +307,37 @@ class ChatThreadClientTests: XCTestCase {
                 )
 
                 // Update message
-                self.chatThreadClient.update(message: updatedMessage, messageId: sendMessageResult.id) { result, httpResponse in
-                    switch result {
-                    case .success:
-                        if TestConfig.mode == "record" {
-                            Recorder.record(name: Recording.updateMessage, httpResponse: httpResponse)
-                        }
+                self.chatThreadClient
+                    .update(message: updatedMessage, messageId: sendMessageResult.id) { result, httpResponse in
+                        switch result {
+                        case .success:
+                            if TestConfig.mode == "record" {
+                                Recorder.record(name: Recording.updateMessage, httpResponse: httpResponse)
+                            }
 
-                        // Get message and verify updated
-                        if TestConfig.mode != "playback" {
-                            self.chatThreadClient.get(message: sendMessageResult.id) { result, _ in
-                                switch result {
-                                case let .success(message):
-                                    XCTAssertEqual(message.content?.message, updatedMessage.content)
-                                    XCTAssertEqual(message.priority, updatedMessage.priority)
+                            // Get message and verify updated
+                            if TestConfig.mode != "playback" {
+                                self.chatThreadClient.get(message: sendMessageResult.id) { result, _ in
+                                    switch result {
+                                    case let .success(message):
+                                        XCTAssertEqual(message.content?.message, updatedMessage.content)
+                                        XCTAssertEqual(message.priority, updatedMessage.priority)
 
-                                case let .failure(error):
-                                    XCTFail("Get message failed: \(error)")
+                                    case let .failure(error):
+                                        XCTFail("Get message failed: \(error)")
+                                    }
+
+                                    expectation.fulfill()
                                 }
-
+                            } else {
                                 expectation.fulfill()
                             }
-                        } else {
+
+                        case let .failure(error):
+                            XCTFail("Update message failed: \(error)")
                             expectation.fulfill()
                         }
-
-                    case let .failure(error):
-                        XCTFail("Update message failed: \(error)")
-                        expectation.fulfill()
                     }
-                }
 
             case let .failure(error):
                 XCTFail("Send message failed: \(error)")
@@ -366,7 +356,8 @@ class ChatThreadClientTests: XCTestCase {
         let testMessage = SendChatMessageRequest(
             priority: .high,
             content: "Hello World!",
-            senderDisplayName: "User 1"
+            senderDisplayName: "User 1",
+            type: .text
         )
 
         let expectation = self.expectation(description: "Delete message")

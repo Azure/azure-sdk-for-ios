@@ -1,14 +1,13 @@
 {
-  "id": "test_message_id",
-  "type": "Text",
-  "priority": "Normal",
-  "version": "string",
-  "content": {
-      "message": "Hello world!"
-  },
-  "senderDisplayName": "Jane",
-  "createdOn": "2020-10-30T10:50:50Z",
-  "senderId": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b",
-  "deletedOn": "2020-10-30T10:50:50Z",
-  "editedOn": "2020-10-30T10:50:50Z"
+    "id": "test_message_id",
+    "type": "text",
+    "priority": "high",
+    "sequenceId": "3",
+    "version": "1610070518313",
+    "content": {
+        "message": "Hello World!"
+    },
+    "senderDisplayName": "User 1",
+    "createdOn": "2021-01-08T01:48:38Z",
+    "senderId": "test_sender_id"
 }
