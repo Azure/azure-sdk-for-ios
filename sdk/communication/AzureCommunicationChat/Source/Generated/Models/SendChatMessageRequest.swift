@@ -25,6 +25,8 @@ public struct SendChatMessageRequest: Codable {
     public let content: String
     /// The display name of the chat message sender. This property is used to populate sender name for push notifications.
     public let senderDisplayName: String?
+    /// The chat message type.
+    public let type: ChatMessageType?
 
     // MARK: Initializers
 
@@ -33,12 +35,15 @@ public struct SendChatMessageRequest: Codable {
     ///   - priority: The chat message priority.
     ///   - content: Chat message content.
     ///   - senderDisplayName: The display name of the chat message sender. This property is used to populate sender name for push notifications.
+    ///   - type: The chat message type.
     public init(
-        priority: ChatMessagePriority? = nil, content: String, senderDisplayName: String? = nil
+        priority: ChatMessagePriority? = nil, content: String, senderDisplayName: String? = nil,
+        type: ChatMessageType? = nil
     ) {
         self.priority = priority
         self.content = content
         self.senderDisplayName = senderDisplayName
+        self.type = type
     }
 
     // MARK: Codable
@@ -47,6 +52,7 @@ public struct SendChatMessageRequest: Codable {
         case priority = "priority"
         case content = "content"
         case senderDisplayName = "senderDisplayName"
+        case type = "type"
     }
 
     /// Initialize a `SendChatMessageRequest` structure from decoder
@@ -55,6 +61,7 @@ public struct SendChatMessageRequest: Codable {
         self.priority = try? container.decode(ChatMessagePriority.self, forKey: .priority)
         self.content = try container.decode(String.self, forKey: .content)
         self.senderDisplayName = try? container.decode(String.self, forKey: .senderDisplayName)
+        self.type = try? container.decode(ChatMessageType.self, forKey: .type)
     }
 
     /// Encode a `SendChatMessageRequest` structure
@@ -63,5 +70,6 @@ public struct SendChatMessageRequest: Codable {
         if priority != nil { try? container.encode(priority, forKey: .priority) }
         try container.encode(content, forKey: .content)
         if senderDisplayName != nil { try? container.encode(senderDisplayName, forKey: .senderDisplayName) }
+        if type != nil { try? container.encode(type, forKey: .type) }
     }
 }
