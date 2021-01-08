@@ -20,7 +20,7 @@ public struct ChatMessageReadReceiptsCollection: Codable {
     // MARK: Properties
 
     /// Collection of chat message read receipts.
-    public let value: [ChatMessageReadReceipt]?
+    public let value: [ChatMessageReadReceipt]
     /// If there are more chat message read receipts that can be retrieved, the next link will be populated.
     public let nextLink: String?
 
@@ -31,7 +31,7 @@ public struct ChatMessageReadReceiptsCollection: Codable {
     ///   - value: Collection of chat message read receipts.
     ///   - nextLink: If there are more chat message read receipts that can be retrieved, the next link will be populated.
     public init(
-        value: [ChatMessageReadReceipt]? = nil, nextLink: String? = nil
+        value: [ChatMessageReadReceipt], nextLink: String? = nil
     ) {
         self.value = value
         self.nextLink = nextLink
@@ -47,14 +47,14 @@ public struct ChatMessageReadReceiptsCollection: Codable {
     /// Initialize a `ChatMessageReadReceiptsCollection` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.value = try? container.decode([ChatMessageReadReceipt].self, forKey: .value)
+        self.value = try container.decode([ChatMessageReadReceipt].self, forKey: .value)
         self.nextLink = try? container.decode(String.self, forKey: .nextLink)
     }
 
     /// Encode a `ChatMessageReadReceiptsCollection` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        if value != nil { try? container.encode(value, forKey: .value) }
+        try container.encode(value, forKey: .value)
         if nextLink != nil { try? container.encode(nextLink, forKey: .nextLink) }
     }
 }
