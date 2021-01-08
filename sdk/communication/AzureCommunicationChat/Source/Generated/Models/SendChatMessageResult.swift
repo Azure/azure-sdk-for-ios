@@ -20,7 +20,7 @@ public struct SendChatMessageResult: Codable, Equatable {
     // MARK: Properties
 
     /// A server-generated message id.
-    public let id: String?
+    public let id: String
 
     // MARK: Initializers
 
@@ -28,7 +28,7 @@ public struct SendChatMessageResult: Codable, Equatable {
     /// - Parameters:
     ///   - id: A server-generated message id.
     public init(
-        id: String? = nil
+        id: String
     ) {
         self.id = id
     }
@@ -42,12 +42,12 @@ public struct SendChatMessageResult: Codable, Equatable {
     /// Initialize a `SendChatMessageResult` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try? container.decode(String.self, forKey: .id)
+        self.id = try container.decode(String.self, forKey: .id)
     }
 
     /// Encode a `SendChatMessageResult` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        if id != nil { try? container.encode(id, forKey: .id) }
+        try container.encode(id, forKey: .id)
     }
 }

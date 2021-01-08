@@ -1,10 +1,10 @@
 {
-  "value": [
-    {
-      "senderId": "test_participant_id",
-      "chatMessageId": "test_message_id",
-      "readOn": "2020-10-30T10:50:50Z"
-    }
-  ],
-  "nextLink": "string"
+    "value": [
+        {
+            "senderId": "test_participant_id",
+            "chatMessageId": "test_message_id",
+            "readOn": "2020-10-30T10:50:50Z"
+        }
+    ],
+    "nextLink": "string"
 }

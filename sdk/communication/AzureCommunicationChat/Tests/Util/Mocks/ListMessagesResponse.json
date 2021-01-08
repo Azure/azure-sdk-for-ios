@@ -1,19 +1,21 @@
 {
-  "value": [
-    {
-      "id": "test_message_id",
-      "type": "Text",
-      "priority": "Normal",
-      "version": "string",
-      "content": {
-          "message": "Hello world!"
-      },
-      "senderDisplayName": "Jane",
-      "createdOn": "2020-10-30T10:50:50Z",
-      "senderId": "test_participant_id",
-      "deletedOn": "2020-10-30T10:50:50Z",
-      "editedOn": "2020-10-30T10:50:50Z"
-    }
-  ],
-  "nextLink": "string"
+    "value": [
+        {
+            "id": "test_message_id",
+            "type": "text",
+            "priority": "normal",
+            "sequenceId": "4",
+            "version": "string",
+            "content": {
+                "message": "Hello world!"
+            },
+            "senderDisplayName": "Jane",
+            "createdOn": "2020-10-30T10:50:50Z",
+            "senderId": "test_participant_id",
+            "deletedOn": "2020-10-30T10:50:50Z",
+            "editedOn": "2020-10-30T10:50:50Z"
+        }
+    ],
+    "nextLink": "string"
 }
+

@@ -34,7 +34,6 @@ import XCTest
 class ChatThreadClientUnitTests: XCTestCase {
     private var chatClient: ChatClient!
     private var chatClientThread: ChatThreadClient!
-    private let timeout: TimeInterval = 3
 
     private let endpoint = "https://www.acsunittest.com"
     private let token = generateToken()
@@ -61,6 +60,7 @@ class ChatThreadClientUnitTests: XCTestCase {
             return
         }
 
+        // TODO: get this from TestConfig
         chatClient = client
 
         do {
@@ -83,13 +83,15 @@ class ChatThreadClientUnitTests: XCTestCase {
             switch result {
             case let .success(response):
                 XCTAssertNotNil(response)
+
             case .failure:
                 XCTFail("Unexpected failure happened in update thread topic")
             }
+
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: timeout) { error in
+        waitForExpectations(timeout: TestConfig.timeout) { error in
             if let error = error {
                 XCTFail("Update thread topic timed out: \(error)")
             }
@@ -109,13 +111,15 @@ class ChatThreadClientUnitTests: XCTestCase {
             switch result {
             case .success:
                 XCTFail("Unexpected failure happened in update thread topic")
+
             case let .failure(error):
                 XCTAssertNotNil(error)
             }
+
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: timeout) { error in
+        waitForExpectations(timeout: TestConfig.timeout) { error in
             if let error = error {
                 XCTFail("Update thread topic timed out: \(error)")
             }
@@ -141,18 +145,16 @@ class ChatThreadClientUnitTests: XCTestCase {
             switch result {
             case let .success(response):
                 XCTAssertNotNil(response)
-                guard let messageId = response.id else {
-                    XCTFail("Failed to extract message id from response")
-                    return
-                }
-                XCTAssertEqual(messageId, self.messageId)
+                XCTAssertEqual(response.id, self.messageId)
+
             case .failure:
                 XCTFail("Unexpected failure happened in send message")
             }
+
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: timeout) { error in
+        waitForExpectations(timeout: TestConfig.timeout) { error in
             if let error = error {
                 XCTFail("Send message timed out: \(error)")
             }
@@ -178,13 +180,15 @@ class ChatThreadClientUnitTests: XCTestCase {
             switch result {
             case .success:
                 XCTFail("Unexpected failure happened in send message")
+
             case let .failure(error):
                 XCTAssertNotNil(error)
             }
+
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: timeout) { error in
+        waitForExpectations(timeout: TestConfig.timeout) { error in
             if let error = error {
                 XCTFail("Send message timed out: \(error)")
             }
@@ -203,24 +207,22 @@ class ChatThreadClientUnitTests: XCTestCase {
         chatClientThread.get(message: messageId, completionHandler: { result, _ in
             switch result {
             case let .success(response):
-                XCTAssertNotNil(response)
-                guard let messageId = response.id else {
-                    XCTFail("Failed to extract message id from response")
-                    return
-                }
                 guard let content = response.content else {
                     XCTFail("Failed to extract message content from response")
                     return
                 }
-                XCTAssertEqual(messageId, self.messageId)
-                XCTAssertEqual(content.message, "Hello world!")
+                XCTAssertNotNil(response)
+                XCTAssertEqual(response.id, self.messageId)
+                XCTAssertEqual(content.message, "Hello World!")
+
             case .failure:
                 XCTFail("Unexpected failure happened in get message")
             }
+
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: timeout) { error in
+        waitForExpectations(timeout: TestConfig.timeout) { error in
             if let error = error {
                 XCTFail("Get message timed out: \(error)")
             }
@@ -240,13 +242,15 @@ class ChatThreadClientUnitTests: XCTestCase {
             switch result {
             case .success:
                 XCTFail("Unexpected failure happened in get message")
+
             case let .failure(error):
                 XCTAssertNotNil(error)
             }
+
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: timeout) { error in
+        waitForExpectations(timeout: TestConfig.timeout) { error in
             if let error = error {
                 XCTFail("Get message timed out: \(error)")
             }
@@ -269,32 +273,27 @@ class ChatThreadClientUnitTests: XCTestCase {
                 response.nextItem { result in
                     switch result {
                     case let .success(message):
-                        guard let messageId = message.id else {
-                            XCTFail("Failed to extract message id from response")
-                            return
-                        }
                         guard let content = message.content else {
                             XCTFail("Failed to extract message content from response")
                             return
                         }
-                        guard let senderId = message.senderId else {
-                            XCTFail("Failed to extract message senderId from response")
-                            return
-                        }
-                        XCTAssertEqual(messageId, self.messageId)
+                        XCTAssertEqual(message.id, self.messageId)
                         XCTAssertEqual(content.message, "Hello world!")
-                        XCTAssertEqual(senderId, self.participantId)
+                        XCTAssertEqual(message.senderId, self.participantId)
+
                     case .failure:
                         XCTFail("Unexpected failure happened in list messages")
                     }
                 }
+
             case .failure:
                 XCTFail("Unexpected failure happened in list messages")
             }
+
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: timeout) { error in
+        waitForExpectations(timeout: TestConfig.timeout) { error in
             if let error = error {
                 XCTFail("List messages timed out: \(error)")
             }
@@ -314,13 +313,15 @@ class ChatThreadClientUnitTests: XCTestCase {
             switch result {
             case .success:
                 XCTFail("Unexpected failure happened in list messages")
+
             case let .failure(error):
                 XCTAssertNotNil(error)
             }
+
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: timeout) { error in
+        waitForExpectations(timeout: TestConfig.timeout) { error in
             if let error = error {
                 XCTFail("List messages timed out: \(error)")
             }
@@ -340,13 +341,15 @@ class ChatThreadClientUnitTests: XCTestCase {
             switch result {
             case let .success(response):
                 XCTAssertNotNil(response)
+
             case .failure:
                 XCTFail("Unexpected failure happened in update message")
             }
+
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: timeout) { error in
+        waitForExpectations(timeout: TestConfig.timeout) { error in
             if let error = error {
                 XCTFail("Update message timed out: \(error)")
             }
@@ -366,13 +369,15 @@ class ChatThreadClientUnitTests: XCTestCase {
             switch result {
             case .success:
                 XCTFail("Unexpected failure happened in update message")
+
             case let .failure(error):
                 XCTAssertNotNil(error)
             }
+
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: timeout) { error in
+        waitForExpectations(timeout: TestConfig.timeout) { error in
             if let error = error {
                 XCTFail("Update message timed out: \(error)")
             }
@@ -392,13 +397,15 @@ class ChatThreadClientUnitTests: XCTestCase {
             switch result {
             case let .success(response):
                 XCTAssertNotNil(response)
+
             case .failure:
                 XCTFail("Unexpected failure happened in delete message")
             }
+
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: timeout) { error in
+        waitForExpectations(timeout: TestConfig.timeout) { error in
             if let error = error {
                 XCTFail("Delete message timed out: \(error)")
             }
@@ -418,13 +425,15 @@ class ChatThreadClientUnitTests: XCTestCase {
             switch result {
             case .success:
                 XCTFail("Unexpected failure happened in delete message")
+
             case let .failure(error):
                 XCTAssertNotNil(error)
             }
+
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: timeout) { error in
+        waitForExpectations(timeout: TestConfig.timeout) { error in
             if let error = error {
                 XCTFail("Delete message timed out: \(error)")
             }
@@ -447,27 +456,26 @@ class ChatThreadClientUnitTests: XCTestCase {
                 response.nextItem { result in
                     switch result {
                     case let .success(participant):
-                        guard let participantId = participant.id as? String else {
-                            XCTFail("Failed to extract participantId id from response")
-                            return
-                        }
                         guard let displayName = participant.displayName else {
                             XCTFail("Failed to extract senderDisplayName from response")
                             return
                         }
-                        XCTAssertEqual(participantId, self.participantId)
+                        XCTAssertEqual(participant.id, self.participantId)
                         XCTAssertEqual(displayName, self.participantName)
+
                     case .failure:
                         XCTFail("Unexpected failure happened in list participants")
                     }
                 }
+
             case .failure:
                 XCTFail("Unexpected failure happened in list participants")
             }
+
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: timeout) { error in
+        waitForExpectations(timeout: TestConfig.timeout) { error in
             if let error = error {
                 XCTFail("List participants timed out: \(error)")
             }
@@ -487,13 +495,15 @@ class ChatThreadClientUnitTests: XCTestCase {
             switch result {
             case .success:
                 XCTFail("Unexpected failure happened in list participants")
+
             case let .failure(error):
                 XCTAssertNotNil(error)
             }
+
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: timeout) { error in
+        waitForExpectations(timeout: TestConfig.timeout) { error in
             if let error = error {
                 XCTFail("List participants timed out: \(error)")
             }
@@ -509,19 +519,24 @@ class ChatThreadClientUnitTests: XCTestCase {
 
         let expectation = self.expectation(description: "Add participant")
 
-        let participant = ChatParticipant(id: participantId)
+        let participant = ChatParticipant(
+            id: participantId,
+            shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
+        )
 
         chatClientThread.add(participants: [participant], completionHandler: { result, _ in
             switch result {
             case let .success(response):
                 XCTAssertNotNil(response)
+
             case .failure:
                 XCTFail("Unexpected failure happened in Add participant")
             }
+
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: timeout) { error in
+        waitForExpectations(timeout: TestConfig.timeout) { error in
             if let error = error {
                 XCTFail("Add participant timed out: \(error)")
             }
@@ -537,19 +552,24 @@ class ChatThreadClientUnitTests: XCTestCase {
 
         let expectation = self.expectation(description: "Add participant")
 
-        let participant = ChatParticipant(id: participantId)
+        let participant = ChatParticipant(
+            id: participantId,
+            shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
+        )
 
         chatClientThread.add(participants: [participant], completionHandler: { result, _ in
             switch result {
             case .success:
                 XCTFail("Unexpected failure happened in add participant")
+
             case let .failure(error):
                 XCTAssertNotNil(error)
             }
+
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: timeout) { error in
+        waitForExpectations(timeout: TestConfig.timeout) { error in
             if let error = error {
                 XCTFail("Add participant timed out: \(error)")
             }
@@ -569,13 +589,15 @@ class ChatThreadClientUnitTests: XCTestCase {
             switch result {
             case let .success(response):
                 XCTAssertNotNil(response)
+
             case .failure:
                 XCTFail("Unexpected failure happened in remove participant")
             }
+
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: timeout) { error in
+        waitForExpectations(timeout: TestConfig.timeout) { error in
             if let error = error {
                 XCTFail("Remove participant timed out: \(error)")
             }
@@ -595,13 +617,15 @@ class ChatThreadClientUnitTests: XCTestCase {
             switch result {
             case .success:
                 XCTFail("Unexpected failure happened in remove participant")
+
             case let .failure(error):
                 XCTAssertNotNil(error)
             }
+
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: timeout) { error in
+        waitForExpectations(timeout: TestConfig.timeout) { error in
             if let error = error {
                 XCTFail("Remove participant timed out: \(error)")
             }
@@ -621,13 +645,15 @@ class ChatThreadClientUnitTests: XCTestCase {
             switch result {
             case let .success(response):
                 XCTAssertNotNil(response)
+
             case .failure:
                 XCTFail("Unexpected failure happened in send typing notification")
             }
+
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: timeout) { error in
+        waitForExpectations(timeout: TestConfig.timeout) { error in
             if let error = error {
                 XCTFail("Send typing notification timed out: \(error)")
             }
@@ -647,13 +673,15 @@ class ChatThreadClientUnitTests: XCTestCase {
             switch result {
             case .success:
                 XCTFail("Unexpected failure happened in send typing notification")
+
             case let .failure(error):
                 XCTAssertNotNil(error)
             }
+
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: timeout) { error in
+        waitForExpectations(timeout: TestConfig.timeout) { error in
             if let error = error {
                 XCTFail("Send typing notification timed out: \(error)")
             }
@@ -673,13 +701,15 @@ class ChatThreadClientUnitTests: XCTestCase {
             switch result {
             case let .success(response):
                 XCTAssertNotNil(response)
+
             case .failure:
                 XCTFail("Unexpected failure happened in send read receipt")
             }
+
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: timeout) { error in
+        waitForExpectations(timeout: TestConfig.timeout) { error in
             if let error = error {
                 XCTFail("Send read receipt timed out: \(error)")
             }
@@ -699,13 +729,15 @@ class ChatThreadClientUnitTests: XCTestCase {
             switch result {
             case .success:
                 XCTFail("Unexpected failure happened in send read receipt")
+
             case let .failure(error):
                 XCTAssertNotNil(error)
             }
+
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: timeout) { error in
+        waitForExpectations(timeout: TestConfig.timeout) { error in
             if let error = error {
                 XCTFail("Send read receipt timed out: \(error)")
             }
@@ -728,32 +760,23 @@ class ChatThreadClientUnitTests: XCTestCase {
                 response.nextItem { result in
                     switch result {
                     case let .success(readReceipt):
-                        guard let senderId = readReceipt.senderId else {
-                            XCTFail("Failed to extract senderId id from response")
-                            return
-                        }
-                        guard let chatMessageId = readReceipt.chatMessageId else {
-                            XCTFail("Failed to extract chatMessageId from response")
-                            return
-                        }
-                        guard let readOn = readReceipt.readOn else {
-                            XCTFail("Failed to extract readOn from response")
-                            return
-                        }
-                        XCTAssertEqual(senderId, self.participantId)
-                        XCTAssertEqual(chatMessageId, self.messageId)
-                        XCTAssertNotNil(readOn)
+                        XCTAssertEqual(readReceipt.senderId, self.participantId)
+                        XCTAssertEqual(readReceipt.chatMessageId, self.messageId)
+                        XCTAssertNotNil(readReceipt.readOn)
+
                     case .failure:
                         XCTFail("Unexpected failure happened in list read receipts")
                     }
                 }
+
             case .failure:
                 XCTFail("Unexpected failure happened in list read receipts")
             }
+
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: timeout) { error in
+        waitForExpectations(timeout: TestConfig.timeout) { error in
             if let error = error {
                 XCTFail("List read receipts timed out: \(error)")
             }
@@ -773,13 +796,15 @@ class ChatThreadClientUnitTests: XCTestCase {
             switch result {
             case .success:
                 XCTFail("Unexpected failure happened in list read receipt")
+
             case let .failure(error):
                 XCTAssertNotNil(error)
             }
+
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: timeout) { error in
+        waitForExpectations(timeout: TestConfig.timeout) { error in
             if let error = error {
                 XCTFail("List read receipts timed out: \(error)")
             }

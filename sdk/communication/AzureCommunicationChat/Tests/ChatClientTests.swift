@@ -26,6 +26,7 @@
 
 import AzureCommunication
 import AzureCommunicationChat
+import AzureCore
 import OHHTTPStubs
 import XCTest
 
@@ -63,7 +64,8 @@ class ChatClientTests: XCTestCase {
     ) {
         let participant = ChatParticipant(
             id: id,
-            displayName: "User"
+            displayName: "User",
+            shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
 
         let thread = CreateChatThreadRequest(
@@ -91,7 +93,8 @@ class ChatClientTests: XCTestCase {
     func test_CreateThread_ResultContainsChatThread() {
         let participant = ChatParticipant(
             id: user,
-            displayName: "User"
+            displayName: "User",
+            shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
 
         let thread = CreateChatThreadRequest(
@@ -106,14 +109,9 @@ class ChatClientTests: XCTestCase {
         chatClient.create(thread: thread) { result, httpResponse in
             switch result {
             case let .success(response):
-                guard let chatThread = response.chatThread else {
-                    XCTFail("Create thread failed to return chatThread")
-                    return
-                }
-
-                XCTAssert(chatThread.id != nil)
-                XCTAssert(chatThread.topic == thread.topic)
-                XCTAssertNotNil(chatThread.createdBy)
+                let chatThread = response.chatThread
+                XCTAssertNotNil(response.chatThread)
+                XCTAssertEqual(chatThread?.topic, thread.topic)
 
                 if TestConfig.mode == "record" {
                     Recorder.record(name: Recording.createThread, httpResponse: httpResponse)
@@ -211,27 +209,26 @@ class ChatClientTests: XCTestCase {
     func test_ListThreads_ReturnsThreads() {
         let expectation = self.expectation(description: "List threads")
 
-        // Create a couple threads
+        // Create a thread
         createThread(withUser: user, withTopic: "Hello World") { _ in
-            self.createThread(withUser: self.user, withTopic: "Some other thread") { _ in
-                // List threads
-                self.chatClient.listThreads { result, httpResponse in
-                    switch result {
-                    case let .success(listThreadsResult):
-                        if TestConfig.mode == "record" {
-                            Recorder.record(name: Recording.listThreads, httpResponse: httpResponse)
-                        }
-
-                        let threads = listThreadsResult.items
-                        XCTAssertNotNil(threads)
-                        XCTAssertEqual(threads?.count, 2)
-
-                    case let .failure(error):
-                        XCTFail("List threads failed: \(error)")
+            // List threads
+            self.chatClient.listThreads { result, httpResponse in
+                switch result {
+                case let .success(listThreadsResult):
+                    if TestConfig.mode == "record" {
+                        Recorder.record(name: Recording.listThreads, httpResponse: httpResponse)
                     }
 
-                    expectation.fulfill()
+                    let threads = listThreadsResult.items
+                    XCTAssertNotNil(threads)
+                    XCTAssertNotNil(threads?.count)
+                    XCTAssertNotEqual(threads?.count, 0)
+
+                case let .failure(error):
+                    XCTFail("List threads failed: \(error)")
                 }
+
+                expectation.fulfill()
             }
         }
 
