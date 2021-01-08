@@ -50,31 +50,17 @@ public typealias TokenRefreshOnCompletion = (String?, Error?) -> Void
     }
     /**
      Creates a CommunicationTokenCredential that automatically refreshes the token.
-     The cached token is updated if `token(completionHandler: )` is called and if the difference between the current time
-     and token expiry time is less than 120s.
-     If `refreshProactively` parameter  is `true`:
-        - The cached token will be updated in the background when the difference between the current time
-            and token expiry time is less than 600s.
-        - The cached token will be updated immediately when the constructor is invoked and `initialToken` is expired
-        
      - Parameters:
-        - initialToken: The initial value of the token.
-        - refreshProactively: Whether the token should be proactively refreshed in the background.
-        - tokenRefresher: Closure to call when a new token value is needed.
+        - option: Options for how the token will be refreshed
      - Throws: `AzureError` if the provided token is not a valid user token.
      */
-    public init(
-        initialToken: String? = nil,
-        refreshProactively: Bool = false,
-        tokenRefresher: @escaping (@escaping TokenRefreshOnCompletion) -> Void
-    ) throws {
+    public init(with option: CommunicationTokenRefreshOptions) throws {
         self.userTokenCredential = try AutoRefreshTokenCredential(
-            tokenRefresher: tokenRefresher,
-            refreshProactively: refreshProactively,
-            initialToken: initialToken
+            tokenRefresher: option.tokenRefresher,
+            refreshProactively: option.refreshProactively,
+            initialToken: option.initialToken
         )
     }
-
     /**
      Retrieve an access token from the credential.
      - Parameter completionHandler: Closure that accepts an optional `AccessToken` or optional `Error` as parameters.

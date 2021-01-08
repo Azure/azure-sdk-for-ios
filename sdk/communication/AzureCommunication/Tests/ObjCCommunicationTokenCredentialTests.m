@@ -50,8 +50,9 @@
     XCTestExpectation *expectation = [self expectationWithDescription:
                                       @"DecodeToken"];
 
-    CommunicationTokenCredential *userCredential = [[CommunicationTokenCredential alloc] initWithToken: self.sampleToken
-                                                                                               error: nil];
+    CommunicationTokenCredential *userCredential = [[CommunicationTokenCredential alloc]
+                                                    initWithToken: self.sampleToken
+                                                    error: nil];
     
     [userCredential tokenWithCompletionHandler:^(CommunicationAccessToken *accessToken, NSError * error) {
         XCTAssertNil(error);
@@ -68,16 +69,19 @@
                                       @"RefreshTokenProactively_TokenAlreadyExpired"];
     __weak ObjCCommunciationTokenCredentialTests *weakSelf = self;
     
-    CommunicationTokenCredential *credential = [[CommunicationTokenCredential alloc]
-                                               initWithInitialToken:self.sampleExpiredToken
-                                               refreshProactively:YES
-                                               error:nil
-                                               tokenRefresher:^(void (^ block)
-                                                                (NSString * _Nullable accessToken,
-                                                                 NSError * _Nullable error)) {
+    CommunicationTokenRefreshOptions *tokenRefreshOptions = [[CommunicationTokenRefreshOptions alloc]
+                                                initWithInitialToken:self.sampleExpiredToken
+                                                refreshProactively:YES
+                                                tokenRefresher:^(void (^ block)
+                                                                 (NSString * _Nullable accessToken,
+                                                                  NSError * _Nullable error)) {
         weakSelf.fetchTokenCallCount += 1;
         block(weakSelf.sampleToken, nil);
     }];
+    
+    CommunicationTokenCredential *credential = [[CommunicationTokenCredential alloc]
+                                                initWith:tokenRefreshOptions
+                                                error:nil];
     
     [credential tokenWithCompletionHandler:^(CommunicationAccessToken * _Nullable accessToken,
                                              NSError * _Nullable error) {
@@ -97,13 +101,12 @@
                                       @"RefreshTokenProactively_FetchTokenReturnsError"];
     __weak ObjCCommunciationTokenCredentialTests *weakSelf = self;
     NSString *errorDesc = @"Error while fetching token";
-    CommunicationTokenCredential *credential = [[CommunicationTokenCredential alloc]
-                                               initWithInitialToken:self.sampleExpiredToken
-                                               refreshProactively:YES
-                                               error:nil
-                                               tokenRefresher:^(void (^ block)
-                                                                (NSString * _Nullable token,
-                                                                 NSError * _Nullable error)) {
+    CommunicationTokenRefreshOptions *tokenRefreshOptions = [[CommunicationTokenRefreshOptions alloc]
+                                                initWithInitialToken:self.sampleExpiredToken
+                                                refreshProactively:YES
+                                                tokenRefresher:^(void (^ block)
+                                                                 (NSString * _Nullable token,
+                                                                  NSError * _Nullable error)) {
         weakSelf.fetchTokenCallCount += 1;
         
         NSDictionary *errorDictionary = @{ NSLocalizedDescriptionKey: errorDesc};
@@ -111,6 +114,10 @@
         
         block(nil, error);
     }];
+    
+    CommunicationTokenCredential *credential = [[CommunicationTokenCredential alloc]
+                                                initWith:tokenRefreshOptions
+                                                error:nil];
     
     [credential tokenWithCompletionHandler:^(CommunicationAccessToken * _Nullable accessToken,
                                              NSError * _Nullable error) {
