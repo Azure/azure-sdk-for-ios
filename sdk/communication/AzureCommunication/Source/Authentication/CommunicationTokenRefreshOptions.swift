@@ -26,6 +26,7 @@
 
 import Foundation
 
+public typealias TokenRefresherClosure = (@escaping TokenRefreshOnCompletion) -> Void
 /**
  The Communication Token Refresh Options. Used to initialize a `CommunicationUserCredential`
  - SeeAlso: ` CommunicationUserCredential.init(...)`
@@ -33,7 +34,7 @@ import Foundation
 @objcMembers public class CommunicationTokenRefreshOptions: NSObject {
     var initialToken: String?
     var refreshProactively: Bool
-    var tokenRefresher: (@escaping TokenRefreshOnCompletion) -> Void
+    var tokenRefresher: TokenRefresherClosure
     /**
      Initializes a new instance of `CommunicationTokenRefreshOptions`
      The cached token is updated if `token(completionHandler: )` is called and if the difference between the current time
@@ -49,7 +50,7 @@ import Foundation
     public init(
         initialToken: String? = nil,
         refreshProactively: Bool = false,
-        tokenRefresher: @escaping (@escaping TokenRefreshOnCompletion) -> Void
+        tokenRefresher: @escaping TokenRefresherClosure
     ) {
         self.initialToken = initialToken
         self.refreshProactively = refreshProactively
