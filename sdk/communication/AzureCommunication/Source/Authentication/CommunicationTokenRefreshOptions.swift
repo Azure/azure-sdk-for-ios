@@ -41,7 +41,6 @@ import Foundation
      If `refreshProactively` parameter  is `true`:
      - The cached token will be updated in the background when the difference between the current time and token expiry time is less than 600s.
      - The cached token will be updated immediately when the constructor is invoked and `initialToken` is expired
-     
      - Parameters:
      - initialToken: The initial value of the token.
      - refreshProactively: Whether the token should be proactively refreshed in the background.
