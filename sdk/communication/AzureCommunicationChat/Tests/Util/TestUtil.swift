@@ -30,7 +30,7 @@ import Foundation
 class TestConfig {
     public static let mode: String = "playback"
     public static let user1: String = "id:1"
-    public static let user2: String = "id:1"
+    public static let user2: String = "id:2"
     public static let timeout: TimeInterval = 10.0
 
     /// Creates and returns a ChatClient
