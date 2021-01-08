@@ -31,7 +31,7 @@ import OHHTTPStubsSwift
 import XCTest
 
 // swiftlint:disable all
-class ChatClientThreadUnitTests: XCTestCase {
+class ChatThreadClientUnitTests: XCTestCase {
     private var chatClient: ChatClient!
     private var chatClientThread: ChatThreadClient!
     private let timeout: TimeInterval = 3
