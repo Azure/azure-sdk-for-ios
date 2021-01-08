@@ -131,17 +131,12 @@ class Recorder {
 
         case Recording.deleteMessage:
             stub(condition: isMethodDELETE() && pathMatches("//messages//")) { _ in
-                fixture(filePath: path, status: 201, headers: nil)
+                fixture(filePath: path, status: 204, headers: nil)
             }
 
         case Recording.deleteThread:
             stub(condition: isMethodDELETE() && pathStartsWith("/chat/threads/")) { _ in
                 fixture(filePath: path, status: 204, headers: nil)
-            }
-
-        case Recording.getMessage:
-            stub(condition: isMethodGET() && pathMatches("//messages//")) { _ in
-                fixture(filePath: path, status: 201, headers: nil)
             }
 
         case Recording.getThread:
@@ -210,7 +205,6 @@ enum Recording: String, CaseIterable {
     case sendMessage
     case updateMessage
     case deleteMessage
-    case getMessage
     case addParticipants
     case removeParticipant
     case listParticipants

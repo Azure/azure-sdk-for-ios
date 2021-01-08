@@ -20,9 +20,9 @@ public struct ChatThreadInfo: Codable {
     // MARK: Properties
 
     /// Chat thread id.
-    public let id: String?
+    public let id: String
     /// Chat thread topic.
-    public let topic: String?
+    public let topic: String
     /// The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public let deletedOn: Iso8601Date?
     /// The timestamp when the last message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
@@ -37,8 +37,7 @@ public struct ChatThreadInfo: Codable {
     ///   - deletedOn: The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     ///   - lastMessageReceivedOn: The timestamp when the last message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public init(
-        id: String? = nil, topic: String? = nil, deletedOn: Iso8601Date? = nil,
-        lastMessageReceivedOn: Iso8601Date? = nil
+        id: String, topic: String, deletedOn: Iso8601Date? = nil, lastMessageReceivedOn: Iso8601Date? = nil
     ) {
         self.id = id
         self.topic = topic
@@ -58,8 +57,8 @@ public struct ChatThreadInfo: Codable {
     /// Initialize a `ChatThreadInfo` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try? container.decode(String.self, forKey: .id)
-        self.topic = try? container.decode(String.self, forKey: .topic)
+        self.id = try container.decode(String.self, forKey: .id)
+        self.topic = try container.decode(String.self, forKey: .topic)
         self.deletedOn = try? container.decode(Iso8601Date.self, forKey: .deletedOn)
         self.lastMessageReceivedOn = try? container.decode(Iso8601Date.self, forKey: .lastMessageReceivedOn)
     }
@@ -67,8 +66,8 @@ public struct ChatThreadInfo: Codable {
     /// Encode a `ChatThreadInfo` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        if id != nil { try? container.encode(id, forKey: .id) }
-        if topic != nil { try? container.encode(topic, forKey: .topic) }
+        try container.encode(id, forKey: .id)
+        try container.encode(topic, forKey: .topic)
         if deletedOn != nil { try? container.encode(deletedOn, forKey: .deletedOn) }
         if lastMessageReceivedOn != nil { try? container.encode(lastMessageReceivedOn, forKey: .lastMessageReceivedOn) }
     }

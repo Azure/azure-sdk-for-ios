@@ -13,7 +13,7 @@ import Foundation
 
 /// The chat message priority.
 public enum ChatMessagePriority: RequestStringConvertible, Codable, Equatable {
-    // Custom value for unrecognized enum values
+    /// Custom value for unrecognized enum values
     case custom(String)
 
     case normal
@@ -58,7 +58,7 @@ public enum ChatMessagePriority: RequestStringConvertible, Codable, Equatable {
 
 /// The chat message type.
 public enum ChatMessageType: RequestStringConvertible, Codable, Equatable {
-    // Custom value for unrecognized enum values
+    /// Custom value for unrecognized enum values
     case custom(String)
 
     case text

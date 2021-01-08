@@ -34,12 +34,14 @@ public final class ChatThreadOperation {
         withOptions options: ListChatReadReceiptsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatMessageReadReceipt>>
     ) {
+        let dispatchQueue = options?.dispatchQueue ?? client.commonOptions.dispatchQueue ?? DispatchQueue.main
+
         // Create request parameters
         let params = RequestParameters(
             (.path, "chatThreadId", chatThreadId, .encode), (.query, "maxPageSize", options?.maxPageSize, .encode),
             (.query, "skip", options?.skip, .encode),
             (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "api-version", "2020-11-01-preview3", .encode),
+            (.query, "api-version", client.options.apiVersion, .encode),
             (.header, "Accept", "application/json", .encode)
         )
 
@@ -51,6 +53,7 @@ public final class ChatThreadOperation {
             client.options.logger.error("Failed to construct HTTP request.")
             return
         }
+
         // Send request
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
@@ -58,7 +61,6 @@ public final class ChatThreadOperation {
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
         client.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.client.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
                 let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
@@ -175,11 +177,13 @@ public final class ChatThreadOperation {
         withOptions options: SendChatReadReceiptOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
+        let dispatchQueue = options?.dispatchQueue ?? client.commonOptions.dispatchQueue ?? DispatchQueue.main
+
         // Create request parameters
         let params = RequestParameters(
             (.path, "chatThreadId", chatThreadId, .encode),
             (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "api-version", "2020-11-01-preview3", .encode),
+            (.query, "api-version", client.options.apiVersion, .encode),
             (.header, "Content-Type", "application/json", .encode),
             (.header, "Accept", "application/json", .encode)
         )
@@ -196,6 +200,7 @@ public final class ChatThreadOperation {
             client.options.logger.error("Failed to construct HTTP request.")
             return
         }
+
         // Send request
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
@@ -203,7 +208,6 @@ public final class ChatThreadOperation {
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
         client.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.client.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
                 let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
@@ -303,11 +307,13 @@ public final class ChatThreadOperation {
         withOptions options: SendChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<SendChatMessageResult>
     ) {
+        let dispatchQueue = options?.dispatchQueue ?? client.commonOptions.dispatchQueue ?? DispatchQueue.main
+
         // Create request parameters
         let params = RequestParameters(
             (.path, "chatThreadId", chatThreadId, .encode),
             (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "api-version", "2020-11-01-preview3", .encode),
+            (.query, "api-version", client.options.apiVersion, .encode),
             (.header, "Content-Type", "application/json", .encode),
             (.header, "Accept", "application/json", .encode)
         )
@@ -324,6 +330,7 @@ public final class ChatThreadOperation {
             client.options.logger.error("Failed to construct HTTP request.")
             return
         }
+
         // Send request
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [201, 401, 403, 429, 503] as AnyObject
@@ -331,7 +338,6 @@ public final class ChatThreadOperation {
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
         client.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.client.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
                 let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
@@ -434,12 +440,14 @@ public final class ChatThreadOperation {
         withOptions options: ListChatMessagesOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatMessage>>
     ) {
+        let dispatchQueue = options?.dispatchQueue ?? client.commonOptions.dispatchQueue ?? DispatchQueue.main
+
         // Create request parameters
         let params = RequestParameters(
             (.path, "chatThreadId", chatThreadId, .encode), (.query, "maxPageSize", options?.maxPageSize, .encode),
             (.query, "startTime", options?.startTime, .encode),
             (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "api-version", "2020-11-01-preview3", .encode),
+            (.query, "api-version", client.options.apiVersion, .encode),
             (.header, "Accept", "application/json", .encode)
         )
 
@@ -451,6 +459,7 @@ public final class ChatThreadOperation {
             client.options.logger.error("Failed to construct HTTP request.")
             return
         }
+
         // Send request
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
@@ -458,7 +467,6 @@ public final class ChatThreadOperation {
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
         client.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.client.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
                 let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
@@ -575,11 +583,13 @@ public final class ChatThreadOperation {
         withOptions options: GetChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<ChatMessage>
     ) {
+        let dispatchQueue = options?.dispatchQueue ?? client.commonOptions.dispatchQueue ?? DispatchQueue.main
+
         // Create request parameters
         let params = RequestParameters(
             (.path, "chatThreadId", chatThreadId, .encode), (.path, "chatMessageId", chatMessageId, .encode),
             (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "api-version", "2020-11-01-preview3", .encode),
+            (.query, "api-version", client.options.apiVersion, .encode),
             (.header, "Accept", "application/json", .encode)
         )
 
@@ -591,6 +601,7 @@ public final class ChatThreadOperation {
             client.options.logger.error("Failed to construct HTTP request.")
             return
         }
+
         // Send request
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
@@ -598,7 +609,6 @@ public final class ChatThreadOperation {
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
         client.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.client.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
                 let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
@@ -705,18 +715,20 @@ public final class ChatThreadOperation {
         withOptions options: UpdateChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
+        let dispatchQueue = options?.dispatchQueue ?? client.commonOptions.dispatchQueue ?? DispatchQueue.main
+
         // Create request parameters
         let params = RequestParameters(
             (.path, "chatThreadId", chatThreadId, .encode), (.path, "chatMessageId", chatMessageId, .encode),
             (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "api-version", "2020-11-01-preview3", .encode),
+            (.query, "api-version", client.options.apiVersion, .encode),
             (.header, "Content-Type", "application/merge-patch+json", .encode),
             (.header, "Accept", "application/json", .encode)
         )
 
-        // Construct request
+        // Construct patch request
         guard let requestBody = try? JSONEncoder().encode(chatMessage) else {
-            client.options.logger.error("Failed to encode request body as JSON.")
+            client.options.logger.error("Failed to encode PATCH request body as JSON.")
             return
         }
         let urlTemplate = "/chat/threads/{chatThreadId}/messages/{chatMessageId}"
@@ -731,6 +743,7 @@ public final class ChatThreadOperation {
             client.options.logger.error("Failed to construct HTTP request.")
             return
         }
+
         // Send request
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [204, 401, 403, 429, 503] as AnyObject
@@ -738,7 +751,6 @@ public final class ChatThreadOperation {
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
         client.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.client.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
                 let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
@@ -838,11 +850,13 @@ public final class ChatThreadOperation {
         withOptions options: DeleteChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
+        let dispatchQueue = options?.dispatchQueue ?? client.commonOptions.dispatchQueue ?? DispatchQueue.main
+
         // Create request parameters
         let params = RequestParameters(
             (.path, "chatThreadId", chatThreadId, .encode), (.path, "chatMessageId", chatMessageId, .encode),
             (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "api-version", "2020-11-01-preview3", .encode),
+            (.query, "api-version", client.options.apiVersion, .encode),
             (.header, "Accept", "application/json", .encode)
         )
 
@@ -854,6 +868,7 @@ public final class ChatThreadOperation {
             client.options.logger.error("Failed to construct HTTP request.")
             return
         }
+
         // Send request
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [204, 401, 403, 429, 503] as AnyObject
@@ -861,7 +876,6 @@ public final class ChatThreadOperation {
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
         client.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.client.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
                 let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
@@ -959,11 +973,13 @@ public final class ChatThreadOperation {
         withOptions options: SendTypingNotificationOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
+        let dispatchQueue = options?.dispatchQueue ?? client.commonOptions.dispatchQueue ?? DispatchQueue.main
+
         // Create request parameters
         let params = RequestParameters(
             (.path, "chatThreadId", chatThreadId, .encode),
             (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "api-version", "2020-11-01-preview3", .encode),
+            (.query, "api-version", client.options.apiVersion, .encode),
             (.header, "Accept", "application/json", .encode)
         )
 
@@ -975,6 +991,7 @@ public final class ChatThreadOperation {
             client.options.logger.error("Failed to construct HTTP request.")
             return
         }
+
         // Send request
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
@@ -982,7 +999,6 @@ public final class ChatThreadOperation {
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
         client.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.client.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
                 let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
@@ -1080,12 +1096,14 @@ public final class ChatThreadOperation {
         withOptions options: ListChatParticipantsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatParticipant>>
     ) {
+        let dispatchQueue = options?.dispatchQueue ?? client.commonOptions.dispatchQueue ?? DispatchQueue.main
+
         // Create request parameters
         let params = RequestParameters(
             (.path, "chatThreadId", chatThreadId, .encode), (.query, "maxPageSize", options?.maxPageSize, .encode),
             (.query, "skip", options?.skip, .encode),
             (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "api-version", "2020-11-01-preview3", .encode),
+            (.query, "api-version", client.options.apiVersion, .encode),
             (.header, "Accept", "application/json", .encode)
         )
 
@@ -1097,6 +1115,7 @@ public final class ChatThreadOperation {
             client.options.logger.error("Failed to construct HTTP request.")
             return
         }
+
         // Send request
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
@@ -1104,7 +1123,6 @@ public final class ChatThreadOperation {
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
         client.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.client.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
                 let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
@@ -1221,11 +1239,13 @@ public final class ChatThreadOperation {
         withOptions options: RemoveChatParticipantOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
+        let dispatchQueue = options?.dispatchQueue ?? client.commonOptions.dispatchQueue ?? DispatchQueue.main
+
         // Create request parameters
         let params = RequestParameters(
             (.path, "chatThreadId", chatThreadId, .encode), (.path, "chatParticipantId", chatParticipantId, .encode),
             (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "api-version", "2020-11-01-preview3", .encode),
+            (.query, "api-version", client.options.apiVersion, .encode),
             (.header, "Accept", "application/json", .encode)
         )
 
@@ -1237,6 +1257,7 @@ public final class ChatThreadOperation {
             client.options.logger.error("Failed to construct HTTP request.")
             return
         }
+
         // Send request
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [204, 401, 403, 429, 503] as AnyObject
@@ -1244,7 +1265,6 @@ public final class ChatThreadOperation {
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
         client.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.client.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
                 let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
@@ -1344,11 +1364,13 @@ public final class ChatThreadOperation {
         withOptions options: AddChatParticipantsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<AddChatParticipantsResult>
     ) {
+        let dispatchQueue = options?.dispatchQueue ?? client.commonOptions.dispatchQueue ?? DispatchQueue.main
+
         // Create request parameters
         let params = RequestParameters(
             (.path, "chatThreadId", chatThreadId, .encode),
             (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "api-version", "2020-11-01-preview3", .encode),
+            (.query, "api-version", client.options.apiVersion, .encode),
             (.header, "Content-Type", "application/json", .encode),
             (.header, "Accept", "application/json", .encode)
         )
@@ -1365,6 +1387,7 @@ public final class ChatThreadOperation {
             client.options.logger.error("Failed to construct HTTP request.")
             return
         }
+
         // Send request
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [201, 401, 403, 429, 503] as AnyObject
@@ -1372,7 +1395,6 @@ public final class ChatThreadOperation {
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
         client.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.client.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
                 let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
@@ -1477,18 +1499,20 @@ public final class ChatThreadOperation {
         withOptions options: UpdateChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
+        let dispatchQueue = options?.dispatchQueue ?? client.commonOptions.dispatchQueue ?? DispatchQueue.main
+
         // Create request parameters
         let params = RequestParameters(
             (.path, "chatThreadId", chatThreadId, .encode),
             (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "api-version", "2020-11-01-preview3", .encode),
+            (.query, "api-version", client.options.apiVersion, .encode),
             (.header, "Content-Type", "application/merge-patch+json", .encode),
             (.header, "Accept", "application/json", .encode)
         )
 
-        // Construct request
+        // Construct patch request
         guard let requestBody = try? JSONEncoder().encode(chatThread) else {
-            client.options.logger.error("Failed to encode request body as JSON.")
+            client.options.logger.error("Failed to encode PATCH request body as JSON.")
             return
         }
         let urlTemplate = "/chat/threads/{chatThreadId}"
@@ -1503,6 +1527,7 @@ public final class ChatThreadOperation {
             client.options.logger.error("Failed to construct HTTP request.")
             return
         }
+
         // Send request
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [204, 401, 403, 429, 503] as AnyObject
@@ -1510,7 +1535,6 @@ public final class ChatThreadOperation {
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
         client.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.client.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
                 let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {

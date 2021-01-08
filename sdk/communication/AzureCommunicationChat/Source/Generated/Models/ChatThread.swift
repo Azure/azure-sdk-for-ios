@@ -20,13 +20,13 @@ public struct ChatThread: Codable {
     // MARK: Properties
 
     /// Chat thread id.
-    public let id: String?
+    public let id: String
     /// Chat thread topic.
-    public let topic: String?
+    public let topic: String
     /// The timestamp when the chat thread was created. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
-    public let createdOn: Iso8601Date?
+    public let createdOn: Iso8601Date
     /// Id of the chat thread owner.
-    public let createdBy: String?
+    public let createdBy: String
     /// The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public let deletedOn: Iso8601Date?
 
@@ -40,8 +40,7 @@ public struct ChatThread: Codable {
     ///   - createdBy: Id of the chat thread owner.
     ///   - deletedOn: The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public init(
-        id: String? = nil, topic: String? = nil, createdOn: Iso8601Date? = nil, createdBy: String? = nil,
-        deletedOn: Iso8601Date? = nil
+        id: String, topic: String, createdOn: Iso8601Date, createdBy: String, deletedOn: Iso8601Date? = nil
     ) {
         self.id = id
         self.topic = topic
@@ -63,20 +62,20 @@ public struct ChatThread: Codable {
     /// Initialize a `ChatThread` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try? container.decode(String.self, forKey: .id)
-        self.topic = try? container.decode(String.self, forKey: .topic)
-        self.createdOn = try? container.decode(Iso8601Date.self, forKey: .createdOn)
-        self.createdBy = try? container.decode(String.self, forKey: .createdBy)
+        self.id = try container.decode(String.self, forKey: .id)
+        self.topic = try container.decode(String.self, forKey: .topic)
+        self.createdOn = try container.decode(Iso8601Date.self, forKey: .createdOn)
+        self.createdBy = try container.decode(String.self, forKey: .createdBy)
         self.deletedOn = try? container.decode(Iso8601Date.self, forKey: .deletedOn)
     }
 
     /// Encode a `ChatThread` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        if id != nil { try? container.encode(id, forKey: .id) }
-        if topic != nil { try? container.encode(topic, forKey: .topic) }
-        if createdOn != nil { try? container.encode(createdOn, forKey: .createdOn) }
-        if createdBy != nil { try? container.encode(createdBy, forKey: .createdBy) }
+        try container.encode(id, forKey: .id)
+        try container.encode(topic, forKey: .topic)
+        try container.encode(createdOn, forKey: .createdOn)
+        try container.encode(createdBy, forKey: .createdBy)
         if deletedOn != nil { try? container.encode(deletedOn, forKey: .deletedOn) }
     }
 }

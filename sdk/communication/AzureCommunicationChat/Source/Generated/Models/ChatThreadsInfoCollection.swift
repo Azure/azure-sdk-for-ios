@@ -20,7 +20,7 @@ public struct ChatThreadsInfoCollection: Codable {
     // MARK: Properties
 
     /// Collection of chat threads.
-    public let value: [ChatThreadInfo]?
+    public let value: [ChatThreadInfo]
     /// If there are more chat threads that can be retrieved, the next link will be populated.
     public let nextLink: String?
 
@@ -31,7 +31,7 @@ public struct ChatThreadsInfoCollection: Codable {
     ///   - value: Collection of chat threads.
     ///   - nextLink: If there are more chat threads that can be retrieved, the next link will be populated.
     public init(
-        value: [ChatThreadInfo]? = nil, nextLink: String? = nil
+        value: [ChatThreadInfo], nextLink: String? = nil
     ) {
         self.value = value
         self.nextLink = nextLink
@@ -47,14 +47,14 @@ public struct ChatThreadsInfoCollection: Codable {
     /// Initialize a `ChatThreadsInfoCollection` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.value = try? container.decode([ChatThreadInfo].self, forKey: .value)
+        self.value = try container.decode([ChatThreadInfo].self, forKey: .value)
         self.nextLink = try? container.decode(String.self, forKey: .nextLink)
     }
 
     /// Encode a `ChatThreadsInfoCollection` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        if value != nil { try? container.encode(value, forKey: .value) }
+        try container.encode(value, forKey: .value)
         if nextLink != nil { try? container.encode(nextLink, forKey: .nextLink) }
     }
 }
