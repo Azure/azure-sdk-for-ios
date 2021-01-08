@@ -283,6 +283,7 @@ Use the `send` method of `ChatThreadClient` to send a message to a thread.
 - `priority` is used to specify the message priority level, such as 'normal' or 'high', if not specified, 'normal' will be set.
 - `content`, required, is used to provide the chat message content.
 - `senderDisplayName` is used to specify the display name of the sender, if not specified, an empty name will be set.
+- `type` is the type of message being sent, the supported types are text and html.
 
 `SendChatMessageResult` is the response returned from sending a message, it contains an id, which is the unique ID of the message.
 

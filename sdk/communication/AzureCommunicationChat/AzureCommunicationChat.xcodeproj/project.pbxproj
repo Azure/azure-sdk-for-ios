@@ -47,7 +47,6 @@
 		D1CD93E4258D6EF700409613 /* sendTypingNotification.json in Resources */ = {isa = PBXBuildFile; fileRef = D1CD93E3258D6EF700409613 /* sendTypingNotification.json */; };
 		D1CD93E8258D6F0600409613 /* updateMessage.json in Resources */ = {isa = PBXBuildFile; fileRef = D1CD93E7258D6F0600409613 /* updateMessage.json */; };
 		D1CD93EC258D6F1300409613 /* updateTopic.json in Resources */ = {isa = PBXBuildFile; fileRef = D1CD93EB258D6F1300409613 /* updateTopic.json */; };
-		D1CD9417258D7C8E00409613 /* getMessage.json in Resources */ = {isa = PBXBuildFile; fileRef = D1CD9416258D7C8E00409613 /* getMessage.json */; };
 		D1E356BF257EBBA200E66A66 /* AzureCommunicationChatClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E35690257EBBA200E66A66 /* AzureCommunicationChatClient.swift */; };
 		D1E356C0257EBBA200E66A66 /* ChatThreadOperation+AddChatParticipantsOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E35692257EBBA200E66A66 /* ChatThreadOperation+AddChatParticipantsOptions.swift */; };
 		D1E356C1257EBBA200E66A66 /* ChatThreadOperation+ListChatReadReceiptsOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E35693257EBBA200E66A66 /* ChatThreadOperation+ListChatReadReceiptsOptions.swift */; };
@@ -148,7 +147,6 @@
 		D1CD93E3258D6EF700409613 /* sendTypingNotification.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sendTypingNotification.json; sourceTree = "<group>"; };
 		D1CD93E7258D6F0600409613 /* updateMessage.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = updateMessage.json; sourceTree = "<group>"; };
 		D1CD93EB258D6F1300409613 /* updateTopic.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = updateTopic.json; sourceTree = "<group>"; };
-		D1CD9416258D7C8E00409613 /* getMessage.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = getMessage.json; sourceTree = "<group>"; };
 		D1E3568C257EBA1800E66A66 /* swagger.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = swagger.json; sourceTree = "<group>"; };
 		D1E35690257EBBA200E66A66 /* AzureCommunicationChatClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AzureCommunicationChatClient.swift; sourceTree = "<group>"; };
 		D1E35692257EBBA200E66A66 /* ChatThreadOperation+AddChatParticipantsOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatThreadOperation+AddChatParticipantsOptions.swift"; sourceTree = "<group>"; };
@@ -302,7 +300,6 @@
 				D1CD93E3258D6EF700409613 /* sendTypingNotification.json */,
 				D1CD93E7258D6F0600409613 /* updateMessage.json */,
 				D1CD93EB258D6F1300409613 /* updateTopic.json */,
-				D1CD9416258D7C8E00409613 /* getMessage.json */,
 			);
 			path = Recordings;
 			sourceTree = "<group>";
@@ -524,7 +521,6 @@
 				D1CD93C8258D6E8F00409613 /* deleteMessage.json in Resources */,
 				D10C3BDA25A66D4D00A181E3 /* listThreads.json in Resources */,
 				0ECA8CDF258188D0006760F7 /* GetThreadResponse.json in Resources */,
-				D1CD9417258D7C8E00409613 /* getMessage.json in Resources */,
 				0ECA8D2325888DD8006760F7 /* ListParticipantsResponse.json in Resources */,
 				0ECA8D1125888515006760F7 /* SendMessageResponse.json in Resources */,
 				0ECA8D29258892CD006760F7 /* AddParticipantResponse.json in Resources */,
