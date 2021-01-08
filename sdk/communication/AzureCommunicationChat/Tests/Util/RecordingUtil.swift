@@ -29,33 +29,43 @@ import Foundation
 import OHHTTPStubsSwift
 
 class Recorder {
-    /// Sanitizes response data.
+    /// Remove ids from response data
     /// - Parameter data: The string to sanitize.
     private static func sanitize(data: String) throws -> String {
-        // Sanitize ids
-        var regex = try NSRegularExpression(pattern: "\\\"id\\\":\\\".*?\\\"", options: .caseInsensitive)
-        var sanitized = regex.stringByReplacingMatches(
+        // id
+        var sanitized = try sanitize(
+            data: data,
+            pattern: "\\\"id\\\":\\\".*?\\\"",
+            template: "\\\"id\\\":\\\"sanitized\\\""
+        )
+        // createdBy
+        sanitized = try sanitize(
+            data: sanitized,
+            pattern: "\\\"createdBy\\\":\\\".*?\\\"",
+            template: "\\\"createdBy\\\":\\\"sanitized\\\""
+        )
+        // senderId
+        sanitized = try sanitize(
+            data: sanitized,
+            pattern: "\\\"senderId\\\":\\\".*?\\\"",
+            template: "\\\"senderId\\\":\\\"sanitized\\\""
+        )
+        // initiator
+        sanitized = try sanitize(
+            data: sanitized,
+            pattern: "\\\"initiator\\\":\\\".*?\\\"",
+            template: "\\\"initiator\\\":\\\"sanitized\\\""
+        )
+        return sanitized
+    }
+
+    private static func sanitize(data: String, pattern: String, template: String) throws -> String {
+        let regex = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
+        return regex.stringByReplacingMatches(
             in: data,
             range: NSRange(0 ..< data.utf16.count),
-            withTemplate: "\\\"id\\\":\\\"sanitized\\\""
+            withTemplate: template
         )
-
-        // Sanitize createdBy and senderId which is also an id
-        regex = try NSRegularExpression(pattern: "\\\"createdBy\\\":\\\".*?\\\"", options: .caseInsensitive)
-        sanitized = regex.stringByReplacingMatches(
-            in: sanitized,
-            range: NSRange(0 ..< sanitized.utf16.count),
-            withTemplate: "\\\"createdBy\\\":\\\"sanitized\\\""
-        )
-
-        regex = try NSRegularExpression(pattern: "\\\"senderId\\\":\\\".*?\\\"", options: .caseInsensitive)
-        sanitized = regex.stringByReplacingMatches(
-            in: sanitized,
-            range: NSRange(0 ..< sanitized.utf16.count),
-            withTemplate: "\\\"createdBy\\\":\\\"sanitized\\\""
-        )
-
-        return sanitized
     }
 
     /// Writes an HTTPResponse to a file for playback.
@@ -168,6 +178,21 @@ class Recorder {
             stub(condition: isMethodPATCH() && pathStartsWith("/chat/threads")) { _ in
                 fixture(filePath: path, status: 204, headers: nil)
             }
+
+        case Recording.listParticipants:
+            stub(condition: isMethodGET() && pathEndsWith("/participants")) { _ in
+                fixture(filePath: path, status: 200, headers: nil)
+            }
+
+        case Recording.listMessages:
+            stub(condition: isMethodGET() && pathEndsWith("/messages")) { _ in
+                fixture(filePath: path, status: 200, headers: nil)
+            }
+
+        case Recording.listThreads:
+            stub(condition: isMethodGET() && pathEndsWith("/threads")) { _ in
+                fixture(filePath: path, status: 200, headers: nil)
+            }
         }
     }
 }
@@ -188,4 +213,7 @@ enum Recording: String, CaseIterable {
     case getMessage
     case addParticipants
     case removeParticipant
+    case listParticipants
+    case listMessages
+    case listThreads
 }
