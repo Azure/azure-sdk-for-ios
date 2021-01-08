@@ -24,6 +24,7 @@
 //
 // --------------------------------------------------------------------------
 
+import AzureCore
 import AzureCommunication
 import AzureCommunicationChat
 import OHHTTPStubs
@@ -63,7 +64,8 @@ class ChatClientTests: XCTestCase {
     ) {
         let participant = ChatParticipant(
             id: id,
-            displayName: "User"
+            displayName: "User",
+            shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
 
         let thread = CreateChatThreadRequest(
@@ -91,7 +93,8 @@ class ChatClientTests: XCTestCase {
     func test_CreateThread_ResultContainsChatThread() {
         let participant = ChatParticipant(
             id: user,
-            displayName: "User"
+            displayName: "User",
+            shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
 
         let thread = CreateChatThreadRequest(
@@ -106,14 +109,10 @@ class ChatClientTests: XCTestCase {
         chatClient.create(thread: thread) { result, httpResponse in
             switch result {
             case let .success(response):
-                guard let chatThread = response.chatThread else {
-                    XCTFail("Create thread failed to return chatThread")
-                    return
-                }
-
-                XCTAssert(chatThread.id != nil)
-                XCTAssert(chatThread.topic == thread.topic)
-                XCTAssertNotNil(chatThread.createdBy)
+                let chatThread = response.chatThread
+                XCTAssertNotNil(response.chatThread)
+                XCTAssertEqual(chatThread?.topic, thread.topic)
+                XCTAssertEqual(chatThread?.createdBy, self.user)
 
                 if TestConfig.mode == "record" {
                     Recorder.record(name: Recording.createThread, httpResponse: httpResponse)
