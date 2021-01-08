@@ -5,6 +5,7 @@
 ### New Features
 - Azure Communication Common Library
   - Added a new communication identifier `MicrosoftTeamsUserIdentifier`, used to represent a Microsoft Teams user.
+  - Introduced a new `CommunicationTokenRefreshOptions`. A new object that encompasses properties to define communication token refresh options.
 
 ### Breaking Changes
 - Azure Communication Common Library
@@ -12,7 +13,8 @@
   - The protocol `CommunicationTokenCredential` has likewise been renamed to `CommunicationTokenCredentialProviding`.
   - All types that conform to the `CommunicationIdentifier` protocol now use the suffix `Identifier`. For example, the
     `PhoneNumber` type used to represent a phone number identifier is now named `PhoneNumberIdentifier`.
-
+  - Updated  `CommunicationTokenCredential` init method to take in the new  `CommunicationTokenRefreshOptions` .
+  
 ## 1.0.0-beta.6 (2020-11-23)
 
 ### Key Bug Fixes
