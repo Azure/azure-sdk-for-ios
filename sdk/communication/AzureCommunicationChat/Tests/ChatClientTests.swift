@@ -207,4 +207,38 @@ class ChatClientTests: XCTestCase {
             }
         }
     }
+
+    func test_ListThreads_ReturnsThreads() {
+        let expectation = self.expectation(description: "List threads")
+
+        // Create a couple threads
+        createThread(withUser: user, withTopic: "Hello World") { _ in
+            self.createThread(withUser: self.user, withTopic: "Some other thread") { _ in
+                // List threads
+                self.chatClient.listThreads { result, httpResponse in
+                    switch result {
+                    case let .success(listThreadsResult):
+                        if TestConfig.mode == "record" {
+                            Recorder.record(name: Recording.listThreads, httpResponse: httpResponse)
+                        }
+
+                        let threads = listThreadsResult.items
+                        XCTAssertNotNil(threads)
+                        XCTAssertEqual(threads?.count, 2)
+
+                    case let .failure(error):
+                        XCTFail("List threads failed: \(error)")
+                    }
+
+                    expectation.fulfill()
+                }
+            }
+        }
+
+        waitForExpectations(timeout: TestConfig.timeout) { error in
+            if let error = error {
+                XCTFail("List threads timed out: \(error)")
+            }
+        }
+    }
 }
