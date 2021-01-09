@@ -1,0 +1,126 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.3 (swiftlang-1200.0.29.2 clang-1200.0.30.1)
+// swift-module-flags: -target x86_64-apple-ios12.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name AzureCommunicationSignaling
+@_exported import AzureCommunicationSignaling
+import Foundation
+import Swift
+import TrouterModulePrivate
+import UIKit
+@_hasMissingDesignatedInitializers public class CommunicationUser {
+  public var communicationUserId: Swift.String
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class ChatParticipant {
+  public var user: AzureCommunicationSignaling.CommunicationUser?
+  public var displayName: Swift.String
+  public var shareHistoryTime: Swift.String?
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class ChatThreadProperties {
+  public var topic: Swift.String
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class BaseEvent {
+  public var threadId: Swift.String
+  public var sender: AzureCommunicationSignaling.CommunicationUser?
+  public var recipient: AzureCommunicationSignaling.CommunicationUser?
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class ChatThreadEvent {
+  public var threadId: Swift.String
+  public var version: Swift.String
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class ChatMessageEvent : AzureCommunicationSignaling.BaseEvent {
+  public var id: Swift.String
+  public var senderDisplayName: Swift.String
+  public var createdOn: Swift.String
+  public var version: Swift.String
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class ChatMessageReceivedEvent : AzureCommunicationSignaling.ChatMessageEvent {
+  public var type: Swift.String
+  public var content: Swift.String
+  public var priority: Swift.String
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class ChatMessageEditedEvent : AzureCommunicationSignaling.ChatMessageEvent {
+  public var content: Swift.String
+  public var editedOn: Swift.String
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class ChatMessageDeletedEvent : AzureCommunicationSignaling.ChatMessageEvent {
+  public var deletedOn: Swift.String
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class TypingIndicatorReceivedEvent : AzureCommunicationSignaling.BaseEvent {
+  public var version: Swift.String
+  public var receivedOn: Swift.String
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class ReadReceiptReceivedEvent : AzureCommunicationSignaling.BaseEvent {
+  public var chatMessageId: Swift.String
+  public var readOn: Swift.String
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class ChatThreadCreatedEvent : AzureCommunicationSignaling.ChatThreadEvent {
+  public var createdOn: Swift.String
+  public var properties: AzureCommunicationSignaling.ChatThreadProperties?
+  public var participants: [AzureCommunicationSignaling.ChatParticipant]?
+  public var createdBy: AzureCommunicationSignaling.ChatParticipant?
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class ChatThreadPropertiesUpdatedEvent : AzureCommunicationSignaling.ChatThreadEvent {
+  public var properties: AzureCommunicationSignaling.ChatThreadProperties?
+  public var updatedOn: Swift.String
+  public var updatedBy: AzureCommunicationSignaling.ChatParticipant?
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class ChatThreadDeletedEvent : AzureCommunicationSignaling.ChatThreadEvent {
+  public var deletedOn: Swift.String
+  public var deletedBy: AzureCommunicationSignaling.ChatParticipant?
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class ParticipantsAddedEvent : AzureCommunicationSignaling.ChatThreadEvent {
+  public var addedOn: Swift.String
+  public var participantsAdded: [AzureCommunicationSignaling.ChatParticipant]?
+  public var addedBy: AzureCommunicationSignaling.ChatParticipant?
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class ParticipantsRemovedEvent : AzureCommunicationSignaling.ChatThreadEvent {
+  public var removedOn: Swift.String
+  public var participantsRemoved: [AzureCommunicationSignaling.ChatParticipant]?
+  public var removedBy: AzureCommunicationSignaling.ChatParticipant?
+  @objc deinit
+}
+public enum ChatEventId : Swift.String {
+  case chatMessageReceived
+  case typingIndicatorReceived
+  case readReceiptReceived
+  case chatMessageEdited
+  case chatMessageDeleted
+  case chatThreadCreated
+  case chatThreadPropertiesUpdated
+  case chatThreadDeleted
+  case participantsAdded
+  case participantsRemoved
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public class CommunicationSignalingClient {
+  public init(skypeTokenProvider: AzureCommunicationSignaling.CommunicationSkypeTokenProvider)
+  public func start()
+  public func stop()
+  public func on(event: Swift.String, listener: @escaping AzureCommunicationSignaling.EventListener)
+  @objc deinit
+}
+@objc public class CommunicationSkypeTokenProvider : ObjectiveC.NSObject, TrouterModulePrivate.TrouterSkypetokenProvider {
+  @objc public func getSkypetoken(_ forceRefresh: Swift.Bool) -> Swift.String!
+  public init(skypeToken: Swift.String? = nil)
+  @objc deinit
+  @objc override dynamic public init()
+}
+public typealias EventListener = (Any, AzureCommunicationSignaling.ChatEventId) -> Swift.Void

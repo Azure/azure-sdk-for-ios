@@ -1,0 +1,11 @@
+framework module AzureCommunicationSignaling {
+  umbrella header "AzureCommunicationSignaling.h"
+
+  export *
+  module * { export * }
+}
+
+module AzureCommunicationSignaling.Swift {
+    header "AzureCommunicationSignaling-Swift.h"
+    requires objc
+}

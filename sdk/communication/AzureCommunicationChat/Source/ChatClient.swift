@@ -27,6 +27,7 @@
 import AzureCommunication
 import AzureCore
 import Foundation
+import AzureCommunicationSignaling
 
 public class ChatClient {
     // MARK: Properties
@@ -35,6 +36,8 @@ public class ChatClient {
     private let credential: CommunicationUserCredential
     private let options: AzureCommunicationChatClientOptions
     private let service: Chat
+    private var signalingClient: CommunicationSignalingClient?
+    private var isRealtimeNotificationsStarted: Bool = false
 
     // MARK: Initializers
 
@@ -65,6 +68,21 @@ public class ChatClient {
         )
 
         self.service = client.chat
+
+        var token: String?
+
+        credential.token(completionHandler: {(communicationAccessToken, _)
+            in
+            if communicationAccessToken != nil {
+                token = communicationAccessToken!.token
+            }
+        })
+
+        if token != nil {
+            self.signalingClient = getSignalingClient(token: token!)
+        } else {
+            self.signalingClient = nil
+        }
     }
 
     // MARK: Public Methods
@@ -166,5 +184,38 @@ public class ChatClient {
                 completionHandler(.failure(error), httpResponse)
             }
         }
+    }
+
+    /// Start receiving realtime notifications.
+    /// Call this function before subscribing to any event.
+    public func startRealTimeNotifications () {
+        if self.signalingClient == nil {
+            print("no signaling client is initialized")
+        }
+        if self.isRealtimeNotificationsStarted {
+            return
+        }
+
+        self.isRealtimeNotificationsStarted = true
+        self.signalingClient?.start()
+    }
+
+    /// Stop receiving realtime notifications.
+    /// This function would unsubscribe to all events.
+    public func stopRealTimeNotifications () {
+        if self.signalingClient == nil {
+            print("no signaling client is initialized")
+        }
+        self.isRealtimeNotificationsStarted = false
+        self.signalingClient?.stop()
+    }
+
+    /// Subscribe to chat events
+    public func on (event: String, listener:  @escaping EventListener) {
+        guard let _ =  ChatEventId(rawValue: event) else {
+            print("the event id provided is not supported")
+            return
+        }
+        self.signalingClient?.on(event: event, listener: listener)
     }
 }
