@@ -70,3 +70,33 @@ public class CommunicationUserCredentialPolicy: Authenticating {
         }
     }
 }
+
+public class CommunicationPolicyTokenCredential: TokenCredential {    
+    private let credential: CommunicationTokenCredential
+    var error: AzureError? = nil
+
+    public init(_ credential: CommunicationTokenCredential) {
+        self.credential = credential
+    }
+    
+    public func token(forScopes scopes: [String], completionHandler: @escaping TokenCompletionHandler) {
+        credential.token { (communicationAccessToken, error) in
+            guard let communicationAccessToken = communicationAccessToken else {
+                self.error = AzureError.client("Communication Token Failure", error)
+                completionHandler(nil, self.error)
+                return
+            }
+            
+            let accessToken = AccessToken(token: communicationAccessToken.token,
+                                          expiresOn: communicationAccessToken.expiresOn)
+            
+            completionHandler(accessToken, nil)
+        }
+    }
+    
+    public func validate() throws {
+        if let error = error {
+            throw error
+        }
+    }
+}

@@ -33,7 +33,7 @@ public class ChatThreadClient {
 
     public let threadId: String
     private let endpoint: String
-    private let credential: CommunicationUserCredential
+    private let credential: CommunicationTokenCredential
     private let options: AzureCommunicationChatClientOptions
     private let service: ChatThreadOperation
 
@@ -47,7 +47,7 @@ public class ChatThreadClient {
     ///   - options: Options used to configure the client.
     public init(
         endpoint: String,
-        credential: CommunicationUserCredential,
+        credential: CommunicationTokenCredential,
         threadId: String,
         withOptions options: AzureCommunicationChatClientOptions
     ) throws {
@@ -60,7 +60,8 @@ public class ChatThreadClient {
             throw AzureError.client("Unable to form base URL")
         }
 
-        let authPolicy = CommunicationUserCredentialPolicy(credential: credential)
+        let communicationCredential = CommunicationPolicyTokenCredential(credential)
+        let authPolicy = BearerTokenCredentialPolicy(credential: communicationCredential, scopes: [])
 
         let client = try AzureCommunicationChatClient(
             endpoint: endpointUrl,
