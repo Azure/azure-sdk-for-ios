@@ -1,8 +1,10 @@
 # Azure Communication Chat Service client library for iOS
-Azure Communication Chat Service
 
-[Source code](TODO: Find source URL) | [API reference documentation](TODO: Find API docs URL) | [Product documentation](TODO: Find product documenation URL) | [Samples](TODO: Find samples URL)
+This package contains the Chat client library for Azure Communication Services.
 
+[Source code](https://github.com/Azure/azure-sdk-for-ios/tree/master/sdk/communication/AzureCommunicationChat)
+| [API reference documentation](https://azure.github.io/azure-sdk-for-ios/AzureCommunicationChat/index.html)
+| [Product documentation](https://docs.microsoft.com/azure/communication-services/overview)
 
 ## Getting started
 
@@ -48,7 +50,7 @@ specifying the clone URL of this repository and the version specifier you wish t
 ```swift
     dependencies: [
         ...
-        .package(url: "https://github.com/Azure/azure-sdk-for-ios.git", from: "1.0.0-beta.6")
+        .package(url: "https://github.com/Azure/azure-sdk-for-ios.git", from: "1.0.0-beta.5")
     ],
 ```
 
@@ -86,32 +88,9 @@ platform :ios, '12.0'
 use_frameworks!
 
 target 'MyTarget' do
-  pod 'AzureCommunicationChat', '~> 1.0.0-beta.6'
+  pod 'AzureCommunicationChat', '~> 1.0.0-beta.5'
   ...
 end
-```
-
-### Create the AzureCommunicationChatClient
-
-Create an instance of `AzureCommunicationChatClient` by providing the base URL of the service, the authentication policy to use, and the set of options to use for the client.
-
-```swift
-import AzureCommunication
-import AzureCommunicationChat
-import AzureCore
-
-guard let baseUrl = URL(string: "https://<resource>.communication.azure.com") else {
-    // Display error message
-}
-
-let authPolicy = try CommunicationTokenCredentialPolicy(
-    credential: credential ?? CommunicationTokenCredential(token: "<user_access_token>")
-)
-let options = AzureCommunicationChatClientOptions(
-    logger: ClientLoggers.default,
-    dispatchQueue: self.queue
-)
-let client = AzureCommunicationChatClient(baseUrl: baseUrl, authPolicy: authPolicy, withOptions: options)
 ```
 
 ## Key concepts
@@ -146,8 +125,8 @@ let endpoint = "<communication_resource_endpoint>"
 let credential = try CommunicationUserCredential(<"user_access_token>")
 
 let options = AzureCommunicationChatClientOptions(
-	logger: ClientLoggers.default,
-	dispatchQueue: self.queue
+    logger: ClientLoggers.default,
+    dispatchQueue: self.queue
 )
 
 let chatClient = ChatClient(endpoint: endpoint, credential: credential, withOptions: options)
@@ -264,8 +243,8 @@ let options = ListChatThreadsOptions(maxPageSize: 1)
 chatClient.listThreads(withOptions: options) { result, _ in
     switch result {
     case let .success(listThreadsResponse):
-        var iterator = listThreadsResponse.syncIterator
-        while let threadInfo = iterator.next() {
+        let threads = listThreadsResponse.items
+        threads?.forEach { thread in
             // Take further action
         }
 
@@ -274,6 +253,8 @@ chatClient.listThreads(withOptions: options) { result, _ in
     }
 }
 ```
+
+You can fetch more data using the `nextPage()` method of `PagedCollection`.
 
 
 #### Delete a thread
@@ -369,8 +350,8 @@ if let date = dateFormatter.date(from: "2020-08-27T17:55:50Z") {
 client.listMessages(withOptions: options) { result, _ in
     switch result {
     case let .success(listMessagesResponse):
-        var iterator = listMessagesResponse.syncIterator
-        while let message = iterator.next() {
+        let messages = listMessagesResponse.items
+        messages?.forEach { message in
             // Take further action
         }
 
@@ -379,6 +360,8 @@ client.listMessages(withOptions: options) { result, _ in
     }
 }
 ```
+
+You can fetch more data using the `nextPage()` method of `PagedCollection`.
 
 #### Update a message
 
@@ -438,8 +421,8 @@ Use the `listParticipants` of `ChatThreadClient` method to retrieve the particip
 chatThreadClient.listParticipants() { result, _ in
     switch result {
     case let .success(threadParticipants):
-        var iterator = threadParticipants.syncIterator
-        while let threadParticipants = iterator.next() {
+        let participants = threadParticipants.items
+        participants?.forEach { participant in
             // Take further action
         }
 
@@ -448,6 +431,8 @@ chatThreadClient.listParticipants() { result, _ in
     }
 }
 ```
+
+You can fetch more data using the `nextPage()` method of `PagedCollection`.
 
 #### Add thread participants
 
@@ -537,9 +522,9 @@ Use the `listReadReceipts` method of `ChatThreadClient` to retrieve read receipt
 ```swift
 chatThreadClient.listReadReceipts() { result, _ in
     switch result {
-    case let .success(readReceipts):
-        var iterator = readReceipts.syncIterator
-        while let readReceipt = iterator.next() {
+    case let .success(readReceiptsResponse):
+        let readReceipts = readReceiptsResponse.items
+        readReceipts?.forEach { readReceipt in
             // Take further action
         }
 
@@ -548,6 +533,8 @@ chatThreadClient.listReadReceipts() { result, _ in
     }
 }
 ```
+
+You can fetch more data using the `nextPage()` method of `PagedCollection`.
 
 ### Thread Update Operations
 
@@ -589,11 +576,17 @@ client.create(thread: thread) { result, _ in
 More sample code should go here, along with links out to the appropriate example tests.
 
 ## Contributing
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your contribution. For details, visit https://cla.microsoft.com.
 
-When you submit a pull request, a CLA-bot will automatically determine whether you need to provide a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions provided by the bot. You will only need to do this once across all repos using our CLA.
+This project welcomes contributions and suggestions. Most contributions require you to agree to a Contributor License
+Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your contribution. For
+details, visit https://cla.microsoft.com.
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+When you submit a pull request, a CLA-bot will automatically determine whether you need to provide a CLA and decorate
+the PR appropriately (e.g., label, comment). Simply follow the instructions provided by the bot. You will only need to
+do this once across all repositories using our CLA.
 
-![Impressions](TODO: Find impressions URL)
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
+For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact
+[opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-ios%2Fsdk%communication%2FAzureCommunicationChat%2FREADME.png)
