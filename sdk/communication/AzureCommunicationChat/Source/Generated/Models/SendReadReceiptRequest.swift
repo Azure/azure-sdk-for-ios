@@ -36,7 +36,7 @@ public struct SendReadReceiptRequest: Codable {
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case chatMessageId
+        case chatMessageId = "chatMessageId"
     }
 
     /// Initialize a `SendReadReceiptRequest` structure from decoder

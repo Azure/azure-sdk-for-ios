@@ -36,7 +36,7 @@ public struct UpdateChatThreadRequest: Codable {
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case topic
+        case topic = "topic"
     }
 
     /// Initialize a `UpdateChatThreadRequest` structure from decoder

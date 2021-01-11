@@ -15,13 +15,13 @@ import Foundation
 // swiftlint:disable identifier_name
 // swiftlint:disable line_length
 
-public extension ChatThreadOperation {
+extension ChatThreadOperation {
     /// User-configurable options for the `AzureCommunicationChatService.ListChatMessages` operation.
-    struct ListChatMessagesOptions: RequestOptions {
+    public struct ListChatMessagesOptions: RequestOptions {
         /// The maximum number of messages to be returned per page.
         public let maxPageSize: Int32?
         /// The earliest point in time to get messages up to. The timestamp should be in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
-        public let startTime: Date?
+        public let startTime: Iso8601Date?
 
         /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
         /// Highly recommended for correlating client-side activites with requests received by the server.
@@ -46,7 +46,7 @@ public extension ChatThreadOperation {
         ///   - context: A `PipelineContext` object to associate with the request.
         public init(
             maxPageSize: Int32? = nil,
-            startTime: Date? = nil,
+            startTime: Iso8601Date? = nil,
             clientRequestId: String? = nil,
             cancellationToken: CancellationToken? = nil,
             dispatchQueue: DispatchQueue? = nil,

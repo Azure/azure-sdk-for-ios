@@ -36,7 +36,7 @@ public struct AddChatParticipantsResult: Codable {
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case errors
+        case errors = "errors"
     }
 
     /// Initialize a `AddChatParticipantsResult` structure from decoder

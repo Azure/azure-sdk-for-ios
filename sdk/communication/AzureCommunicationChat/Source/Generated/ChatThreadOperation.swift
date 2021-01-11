@@ -34,43 +34,20 @@ public final class ChatThreadOperation {
         withOptions options: ListChatReadReceiptsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatMessageReadReceipt>>
     ) {
-        // Construct URL
-        let urlTemplate = "/chat/threads/{chatThreadId}/readReceipts"
-        let pathParams = [
-            "chatThreadId": chatThreadId,
-            "endpoint": client.endpoint.absoluteString
-        ]
-        // Construct query
-        var queryParams: [QueryParameter] = [
-            ("api-version", "2020-11-01-preview3")
-        ]
+        // Create request parameters
+        let params = RequestParameters(
+            (.path, "chatThreadId", chatThreadId, .encode), (.query, "maxPageSize", options?.maxPageSize, .encode),
+            (.query, "skip", options?.skip, .encode),
+            (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
+            (.query, "apiVersion", "2020-11-01-preview3", .encode),
+            (.header, "Accept", "application/json", .encode)
+        )
 
-        // Construct headers
-        var headers = HTTPHeaders()
-        headers["Accept"] = "application/json"
-        // Process endpoint options
-        // Query options
-        if let maxPageSize = options?.maxPageSize {
-            queryParams.append("maxPageSize", String(maxPageSize))
-        }
-        if let skip = options?.skip {
-            queryParams.append("skip", String(skip))
-        }
-
-        // Header options
         // Construct request
-        guard let requestUrl = url(
-            host: "{endpoint}",
-            template: urlTemplate,
-            pathParams: pathParams,
-            queryParams: queryParams
-        ) else {
-            self.options.logger.error("Failed to construct request url")
-            return
-        }
-
-        guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: headers) else {
-            self.options.logger.error("Failed to construct Http request")
+        let urlTemplate = "/chat/threads/{chatThreadId}/readReceipts"
+        guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
+            let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers) else {
+            client.options.logger.error("Failed to construct HTTP request.")
             return
         }
         // Send request
@@ -197,32 +174,21 @@ public final class ChatThreadOperation {
         withOptions options: SendChatReadReceiptOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        // Construct URL
-        let urlTemplate = "/chat/threads/{chatThreadId}/readReceipts"
-        let pathParams = [
-            "chatThreadId": chatThreadId,
-            "endpoint": client.endpoint.absoluteString
-        ]
-        // Construct query
-        let queryParams: [QueryParameter] = [
-            ("api-version", "2020-11-01-preview3")
-        ]
+        // Create request parameters
+        let params = RequestParameters(
+            (.path, "chatThreadId", chatThreadId, .encode),
+            (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
+            (.query, "apiVersion", "2020-11-01-preview3", .encode),
+            (.header, "Content-Type", "application/json", .encode),
+            (.header, "Accept", "application/json", .encode)
+        )
 
         // Construct request
         guard let requestBody = try? JSONEncoder().encode(chatReadReceipt) else {
-            self.options.logger.error("Failed to encode request body as json.")
+            client.options.logger.error("Failed to encode request body as json.")
             return
         }
-        guard let requestUrl = url(
-            host: "{endpoint}",
-            template: urlTemplate,
-            pathParams: pathParams,
-            queryParams: queryParams
-        ) else {
-            self.options.logger.error("Failed to construct request url")
-            return
-        }
-        let urlTemplate = "/chat/threads/{chatThreadId}/readreceipts"
+        let urlTemplate = "/chat/threads/{chatThreadId}/readReceipts"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
             let request = try? HTTPRequest(method: .post, url: requestUrl, headers: params.headers, data: requestBody)
         else {
@@ -336,29 +302,18 @@ public final class ChatThreadOperation {
         withOptions options: SendChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<SendChatMessageResult>
     ) {
-        // Construct URL
-        let urlTemplate = "/chat/threads/{chatThreadId}/messages"
-        let pathParams = [
-            "chatThreadId": chatThreadId,
-            "endpoint": client.endpoint.absoluteString
-        ]
-        // Construct query
-        let queryParams: [QueryParameter] = [
-            ("api-version", "2020-11-01-preview3")
-        ]
+        // Create request parameters
+        let params = RequestParameters(
+            (.path, "chatThreadId", chatThreadId, .encode),
+            (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
+            (.query, "apiVersion", "2020-11-01-preview3", .encode),
+            (.header, "Content-Type", "application/json", .encode),
+            (.header, "Accept", "application/json", .encode)
+        )
 
         // Construct request
         guard let requestBody = try? JSONEncoder().encode(chatMessage) else {
-            self.options.logger.error("Failed to encode request body as json.")
-            return
-        }
-        guard let requestUrl = url(
-            host: "{endpoint}",
-            template: urlTemplate,
-            pathParams: pathParams,
-            queryParams: queryParams
-        ) else {
-            self.options.logger.error("Failed to construct request url")
+            client.options.logger.error("Failed to encode request body as json.")
             return
         }
         let urlTemplate = "/chat/threads/{chatThreadId}/messages"
@@ -478,46 +433,20 @@ public final class ChatThreadOperation {
         withOptions options: ListChatMessagesOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatMessage>>
     ) {
-        // Construct URL
-        let urlTemplate = "/chat/threads/{chatThreadId}/messages"
-        let pathParams = [
-            "chatThreadId": chatThreadId,
-            "endpoint": client.endpoint.absoluteString
-        ]
-        // Construct query
-        var queryParams: [QueryParameter] = [
-            ("api-version", "2020-11-01-preview3")
-        ]
+        // Create request parameters
+        let params = RequestParameters(
+            (.path, "chatThreadId", chatThreadId, .encode), (.query, "maxPageSize", options?.maxPageSize, .encode),
+            (.query, "startTime", options?.startTime, .encode),
+            (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
+            (.query, "apiVersion", "2020-11-01-preview3", .encode),
+            (.header, "Accept", "application/json", .encode)
+        )
 
-        // Construct headers
-        var headers = HTTPHeaders()
-        headers["Accept"] = "application/json"
-        // Process endpoint options
-        // Query options
-        if let maxPageSize = options?.maxPageSize {
-            queryParams.append("maxPageSize", String(maxPageSize))
-        }
-        if let startTime = options?.startTime {
-            let dateFormatter = ISO8601DateFormatter()
-            dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-            let startTimeString = dateFormatter.string(from: startTime)
-            queryParams.append("startTime", startTimeString)
-        }
-
-        // Header options
         // Construct request
-        guard let requestUrl = url(
-            host: "{endpoint}",
-            template: urlTemplate,
-            pathParams: pathParams,
-            queryParams: queryParams
-        ) else {
-            self.options.logger.error("Failed to construct request url")
-            return
-        }
-
-        guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: headers) else {
-            self.options.logger.error("Failed to construct Http request")
+        let urlTemplate = "/chat/threads/{chatThreadId}/messages"
+        guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
+            let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers) else {
+            client.options.logger.error("Failed to construct HTTP request.")
             return
         }
         // Send request
@@ -644,31 +573,19 @@ public final class ChatThreadOperation {
         withOptions options: GetChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<ChatMessage>
     ) {
-        // Construct URL
-        let urlTemplate = "/chat/threads/{chatThreadId}/messages/{chatMessageId}"
-        let pathParams = [
-            "chatThreadId": chatThreadId,
-            "chatMessageId": chatMessageId,
-            "endpoint": client.endpoint.absoluteString
-        ]
-        // Construct query
-        let queryParams: [QueryParameter] = [
-            ("api-version", "2020-11-01-preview3")
-        ]
+        // Create request parameters
+        let params = RequestParameters(
+            (.path, "chatThreadId", chatThreadId, .encode), (.path, "chatMessageId", chatMessageId, .encode),
+            (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
+            (.query, "apiVersion", "2020-11-01-preview3", .encode),
+            (.header, "Accept", "application/json", .encode)
+        )
 
         // Construct request
-        guard let requestUrl = url(
-            host: "{endpoint}",
-            template: urlTemplate,
-            pathParams: pathParams,
-            queryParams: queryParams
-        ) else {
-            self.options.logger.error("Failed to construct request url")
-            return
-        }
-
-        guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: headers) else {
-            self.options.logger.error("Failed to construct Http request")
+        let urlTemplate = "/chat/threads/{chatThreadId}/messages/{chatMessageId}"
+        guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
+            let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers) else {
+            client.options.logger.error("Failed to construct HTTP request.")
             return
         }
         // Send request
@@ -779,47 +696,32 @@ public final class ChatThreadOperation {
     ///    - completionHandler: A completion handler that receives a status code on
     ///     success.
     public func update(
-        chatMessage: UpdateChatMessageRequest,
+        chatMessage _: UpdateChatMessageRequest,
         chatThreadId: String,
         chatMessageId: String,
         withOptions options: UpdateChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        // Construct URL
+        // Create request parameters
+        let params = RequestParameters(
+            (.path, "chatThreadId", chatThreadId, .encode), (.path, "chatMessageId", chatMessageId, .encode),
+            (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
+            (.query, "apiVersion", "2020-11-01-preview3", .encode),
+            (.header, "Content-Type", "application/merge-patch+json", .encode),
+            (.header, "Accept", "application/json", .encode)
+        )
+
+        // Construct patch request
+        let patch = MergePatchObject()
+        guard let patchBody = try? JSONEncoder().encode(patch) else {
+            self.options.logger.error("Failed to encode PATCH request body as JSON.")
+            return
+        }
         let urlTemplate = "/chat/threads/{chatThreadId}/messages/{chatMessageId}"
-        let pathParams = [
-            "chatThreadId": chatThreadId,
-            "chatMessageId": chatMessageId,
-            "endpoint": client.endpoint.absoluteString
-        ]
-        // Construct query
-        let queryParams: [QueryParameter] = [
-            ("api-version", "2020-11-01-preview3")
-        ]
-
-        // Construct headers
-        var headers = HTTPHeaders()
-        headers["Content-Type"] = "application/merge-patch+json"
-        headers["Accept"] = "application/json"
-        // Construct request
-        guard let requestBody = try? JSONEncoder().encode(chatMessage) else {
-            self.options.logger.error("Failed to encode request body as JSON.")
-            return
-        }
-
-        guard let requestUrl = url(
-            host: "{endpoint}",
-            template: urlTemplate,
-            pathParams: pathParams,
-            queryParams: queryParams
-        ) else {
-            self.options.logger.error("Failed to construct request url")
-            return
-        }
-
-        guard let request = try? HTTPRequest(method: .patch, url: requestUrl, headers: headers, data: requestBody)
+        guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
+            let request = try? HTTPRequest(method: .patch, url: requestUrl, headers: params.headers, data: patchBody)
         else {
-            self.options.logger.error("Failed to construct HTTP request")
+            client.options.logger.error("Failed to construct HTTP request.")
             return
         }
         // Send request
@@ -929,31 +831,19 @@ public final class ChatThreadOperation {
         withOptions options: DeleteChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        // Construct URL
-        let urlTemplate = "/chat/threads/{chatThreadId}/messages/{chatMessageId}"
-        let pathParams = [
-            "chatThreadId": chatThreadId,
-            "chatMessageId": chatMessageId,
-            "endpoint": client.endpoint.absoluteString
-        ]
-        // Construct query
-        let queryParams: [QueryParameter] = [
-            ("api-version", "2020-11-01-preview3")
-        ]
+        // Create request parameters
+        let params = RequestParameters(
+            (.path, "chatThreadId", chatThreadId, .encode), (.path, "chatMessageId", chatMessageId, .encode),
+            (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
+            (.query, "apiVersion", "2020-11-01-preview3", .encode),
+            (.header, "Accept", "application/json", .encode)
+        )
 
         // Construct request
-        guard let requestUrl = url(
-            host: "{endpoint}",
-            template: urlTemplate,
-            pathParams: pathParams,
-            queryParams: queryParams
-        ) else {
-            self.options.logger.error("Failed to construct request url")
-            return
-        }
-
-        guard let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: headers) else {
-            self.options.logger.error("Failed to construct Http request")
+        let urlTemplate = "/chat/threads/{chatThreadId}/messages/{chatMessageId}"
+        guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
+            let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: params.headers) else {
+            client.options.logger.error("Failed to construct HTTP request.")
             return
         }
         // Send request
@@ -1061,30 +951,19 @@ public final class ChatThreadOperation {
         withOptions options: SendTypingNotificationOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        // Construct URL
-        let urlTemplate = "/chat/threads/{chatThreadId}/typing"
-        let pathParams = [
-            "chatThreadId": chatThreadId,
-            "endpoint": client.endpoint.absoluteString
-        ]
-        // Construct query
-        let queryParams: [QueryParameter] = [
-            ("api-version", "2020-11-01-preview3")
-        ]
+        // Create request parameters
+        let params = RequestParameters(
+            (.path, "chatThreadId", chatThreadId, .encode),
+            (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
+            (.query, "apiVersion", "2020-11-01-preview3", .encode),
+            (.header, "Accept", "application/json", .encode)
+        )
 
         // Construct request
-        guard let requestUrl = url(
-            host: "{endpoint}",
-            template: urlTemplate,
-            pathParams: pathParams,
-            queryParams: queryParams
-        ) else {
-            self.options.logger.error("Failed to construct request url")
-            return
-        }
-
-        guard let request = try? HTTPRequest(method: .post, url: requestUrl, headers: headers) else {
-            self.options.logger.error("Failed to construct Http request")
+        let urlTemplate = "/chat/threads/{chatThreadId}/typing"
+        guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
+            let request = try? HTTPRequest(method: .post, url: requestUrl, headers: params.headers) else {
+            client.options.logger.error("Failed to construct HTTP request.")
             return
         }
         // Send request
@@ -1192,43 +1071,20 @@ public final class ChatThreadOperation {
         withOptions options: ListChatParticipantsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatParticipant>>
     ) {
-        // Construct URL
-        let urlTemplate = "/chat/threads/{chatThreadId}/participants"
-        let pathParams = [
-            "chatThreadId": chatThreadId,
-            "endpoint": client.endpoint.absoluteString
-        ]
-        // Construct query
-        var queryParams: [QueryParameter] = [
-            ("api-version", "2020-11-01-preview3")
-        ]
+        // Create request parameters
+        let params = RequestParameters(
+            (.path, "chatThreadId", chatThreadId, .encode), (.query, "maxPageSize", options?.maxPageSize, .encode),
+            (.query, "skip", options?.skip, .encode),
+            (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
+            (.query, "apiVersion", "2020-11-01-preview3", .encode),
+            (.header, "Accept", "application/json", .encode)
+        )
 
-        // Construct headers
-        var headers = HTTPHeaders()
-        headers["Accept"] = "application/json"
-        // Process endpoint options
-        // Query options
-        if let maxPageSize = options?.maxPageSize {
-            queryParams.append("maxPageSize", String(maxPageSize))
-        }
-        if let skip = options?.skip {
-            queryParams.append("skip", String(skip))
-        }
-
-        // Header options
         // Construct request
-        guard let requestUrl = url(
-            host: "{endpoint}",
-            template: urlTemplate,
-            pathParams: pathParams,
-            queryParams: queryParams
-        ) else {
-            self.options.logger.error("Failed to construct request url")
-            return
-        }
-
-        guard let request = try? HTTPRequest(method: .get, url: requestUrl, headers: headers) else {
-            self.options.logger.error("Failed to construct Http request")
+        let urlTemplate = "/chat/threads/{chatThreadId}/participants"
+        guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
+            let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers) else {
+            client.options.logger.error("Failed to construct HTTP request.")
             return
         }
         // Send request
@@ -1355,34 +1211,19 @@ public final class ChatThreadOperation {
         withOptions options: RemoveChatParticipantOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        // Construct URL
-        let urlTemplate = "/chat/threads/{chatThreadId}/participants/{chatParticipantId}"
-        let pathParams = [
-            "chatThreadId": chatThreadId,
-            "chatParticipantId": chatParticipantId,
-            "endpoint": client.endpoint.absoluteString
-        ]
-        // Construct query
-        let queryParams: [QueryParameter] = [
-            ("api-version", "2020-11-01-preview3")
-        ]
+        // Create request parameters
+        let params = RequestParameters(
+            (.path, "chatThreadId", chatThreadId, .encode), (.path, "chatParticipantId", chatParticipantId, .encode),
+            (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
+            (.query, "apiVersion", "2020-11-01-preview3", .encode),
+            (.header, "Accept", "application/json", .encode)
+        )
 
-        // Construct headers
-        var headers = HTTPHeaders()
-        headers["Accept"] = "application/json"
         // Construct request
-        guard let requestUrl = url(
-            host: "{endpoint}",
-            template: urlTemplate,
-            pathParams: pathParams,
-            queryParams: queryParams
-        ) else {
-            self.options.logger.error("Failed to construct request url")
-            return
-        }
-
-        guard let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: headers) else {
-            self.options.logger.error("Failed to construct Http request")
+        let urlTemplate = "/chat/threads/{chatThreadId}/participants/{chatParticipantId}"
+        guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
+            let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: params.headers) else {
+            client.options.logger.error("Failed to construct HTTP request.")
             return
         }
         // Send request
@@ -1492,38 +1333,25 @@ public final class ChatThreadOperation {
         withOptions options: AddChatParticipantsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<AddChatParticipantsResult>
     ) {
-        // Construct URL
-        let urlTemplate = "/chat/threads/{chatThreadId}/participants/:add"
-        let pathParams = [
-            "chatThreadId": chatThreadId,
-            "endpoint": client.endpoint.absoluteString
-        ]
-        // Construct query
-        let queryParams: [QueryParameter] = [
-            ("api-version", "2020-11-01-preview3")
-        ]
+        // Create request parameters
+        let params = RequestParameters(
+            (.path, "chatThreadId", chatThreadId, .encode),
+            (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
+            (.query, "apiVersion", "2020-11-01-preview3", .encode),
+            (.header, "Content-Type", "application/json", .encode),
+            (.header, "Accept", "application/json", .encode)
+        )
 
-        // Construct headers
-        var headers = HTTPHeaders()
-        headers["Content-Type"] = "application/json"
-        headers["Accept"] = "application/json"
         // Construct request
         guard let requestBody = try? JSONEncoder().encode(chatParticipants) else {
-            self.options.logger.error("Failed to encode request body as json.")
+            client.options.logger.error("Failed to encode request body as json.")
             return
         }
-        guard let requestUrl = url(
-            host: "{endpoint}",
-            template: urlTemplate,
-            pathParams: pathParams,
-            queryParams: queryParams
-        ) else {
-            self.options.logger.error("Failed to construct request url")
-            return
-        }
-
-        guard let request = try? HTTPRequest(method: .post, url: requestUrl, headers: headers, data: requestBody) else {
-            self.options.logger.error("Failed to construct HTTP request")
+        let urlTemplate = "/chat/threads/{chatThreadId}/participants/:add"
+        guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
+            let request = try? HTTPRequest(method: .post, url: requestUrl, headers: params.headers, data: requestBody)
+        else {
+            client.options.logger.error("Failed to construct HTTP request.")
             return
         }
         // Send request
@@ -1633,45 +1461,31 @@ public final class ChatThreadOperation {
     ///    - completionHandler: A completion handler that receives a status code on
     ///     success.
     public func update(
-        chatThread: UpdateChatThreadRequest,
+        chatThread _: UpdateChatThreadRequest,
         chatThreadId: String,
         withOptions options: UpdateChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        // Construct URL
+        // Create request parameters
+        let params = RequestParameters(
+            (.path, "chatThreadId", chatThreadId, .encode),
+            (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
+            (.query, "apiVersion", "2020-11-01-preview3", .encode),
+            (.header, "Content-Type", "application/merge-patch+json", .encode),
+            (.header, "Accept", "application/json", .encode)
+        )
+
+        // Construct patch request
+        let patch = MergePatchObject()
+        guard let patchBody = try? JSONEncoder().encode(patch) else {
+            self.options.logger.error("Failed to encode PATCH request body as JSON.")
+            return
+        }
         let urlTemplate = "/chat/threads/{chatThreadId}"
-        let pathParams = [
-            "chatThreadId": chatThreadId,
-            "endpoint": client.endpoint.absoluteString
-        ]
-        // Construct query
-        let queryParams: [QueryParameter] = [
-            ("api-version", "2020-11-01-preview3")
-        ]
-
-        // Construct headers
-        var headers = HTTPHeaders()
-        headers["Content-Type"] = "application/merge-patch+json"
-        headers["Accept"] = "application/json"
-        // Construct request
-        guard let requestBody = try? JSONEncoder().encode(chatThread) else {
-            self.options.logger.error("Failed to encode request body as JSON.")
-            return
-        }
-
-        guard let requestUrl = url(
-            host: "{endpoint}",
-            template: urlTemplate,
-            pathParams: pathParams,
-            queryParams: queryParams
-        ) else {
-            self.options.logger.error("Failed to construct request url")
-            return
-        }
-
-        guard let request = try? HTTPRequest(method: .patch, url: requestUrl, headers: headers, data: requestBody)
+        guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
+            let request = try? HTTPRequest(method: .patch, url: requestUrl, headers: params.headers, data: patchBody)
         else {
-            self.options.logger.error("Failed to construct HTTP request")
+            client.options.logger.error("Failed to construct HTTP request.")
             return
         }
         // Send request
