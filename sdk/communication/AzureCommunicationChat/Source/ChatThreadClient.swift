@@ -33,7 +33,7 @@ public class ChatThreadClient {
 
     public let threadId: String
     private let endpoint: String
-    private let credential: CommunicationTokenCredential
+    private let credential: CommunicationUserCredential
     private let options: AzureCommunicationChatClientOptions
     private let service: ChatThreadOperation
 
@@ -47,7 +47,7 @@ public class ChatThreadClient {
     ///   - options: Options used to configure the client.
     public init(
         endpoint: String,
-        credential: CommunicationTokenCredential,
+        credential: CommunicationUserCredential,
         threadId: String,
         withOptions options: AzureCommunicationChatClientOptions
     ) throws {

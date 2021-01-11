@@ -28,54 +28,12 @@
 import AzureCore
 #endif
 import Foundation
-/**
- The Azure Communication Services authentication policy.
- */
-public class CommunicationUserCredentialPolicy: Authenticating {
-    public var next: PipelineStage?
-
-    private let credential: CommunicationUserCredential
-
-    /**
-     Creates a credential policy that authenticates requests using the provided `CommunicationUserCredential`.
-     
-     - Parameter credential: The `CommunicationUserCredential` that will be used to authenticate requests.
-     
-     - SeeAlso: `CommunicationUserCredential.init(...)`
-     */
-    public init(credential: CommunicationUserCredential) {
-        self.credential = credential
-    }
-
-    /**
-     Authenticates an HTTP `PipelineRequest` with a token retrieved from the credential.
-     - Parameters:
-        - request:A `PipelineRequest` object.
-        - completionHandler: A completion handler that forwards the modified pipeline request.
-     */
-    public func authenticate(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
-        credential.token { token, error in
-            if let error = error {
-                completionHandler(request, AzureError.client("Error while retrieving access token", error))
-                return
-            }
-
-            guard let token = token?.token else {
-                completionHandler(request, AzureError.client("Token cannot be empty"))
-                return
-            }
-
-            request.httpRequest.headers[.authorization] = "Bearer \(token)"
-            completionHandler(request, nil)
-        }
-    }
-}
 
 public class CommunicationPolicyTokenCredential: TokenCredential {    
-    private let credential: CommunicationTokenCredential
+    private let credential: CommunicationUserCredential
     var error: AzureError? = nil
 
-    public init(_ credential: CommunicationTokenCredential) {
+    public init(_ credential: CommunicationUserCredential) {
         self.credential = credential
     }
     
