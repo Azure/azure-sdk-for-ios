@@ -115,12 +115,6 @@ extension Array: RequestStringConvertible {
     }
 }
 
-extension TimeInterval: RequestStringConvertible {
-    public var requestString: String {
-        return String(self)
-    }
-}
-
 extension Dictionary: RequestStringConvertible {
     public var requestString: String {
         do {
