@@ -17,7 +17,7 @@
 /sdk/storage/                                       @bsiegel @tjprescott
 
 # PRLabel: %Communication
-/sdk/communication/                                 @RezaJooyandeh @sacheu
+/sdk/communication/                                 @sacheu @Azure/azure-sdk-communication-code-reviewers
 
 # PRLabel: %Azure.Identity
 /sdk/identity/                                      @bsiegel @tjprescott
