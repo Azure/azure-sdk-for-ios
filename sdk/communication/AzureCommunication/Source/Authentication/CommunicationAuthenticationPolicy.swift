@@ -28,15 +28,27 @@
 import AzureCore
 #endif
 import Foundation
-
+/**
+ The Azure Communication Services token credential used to authenticate pipeline requests.
+ */
 public class CommunicationPolicyTokenCredential: TokenCredential {    
     private let credential: CommunicationUserCredential
     var error: AzureError? = nil
-
+    /**
+     Creates a token credential  that authenticates requests using the provided `CommunicationUserCredential`.
+     
+     - Parameter credential: The user credential to authenticate with.
+     */
     public init(_ credential: CommunicationUserCredential) {
         self.credential = credential
     }
-    
+    /**
+     Retrieve a token for the provided scope.
+
+     - Parameters:
+     - scopes: A list of a scope strings for which to retrieve the token.
+     - completionHandler: A completion handler which forwards the access token.
+     */
     public func token(forScopes scopes: [String], completionHandler: @escaping TokenCompletionHandler) {
         credential.token { (communicationAccessToken, error) in
             guard let communicationAccessToken = communicationAccessToken else {
@@ -51,7 +63,10 @@ public class CommunicationPolicyTokenCredential: TokenCredential {
             completionHandler(accessToken, nil)
         }
     }
-    
+    /**
+     Validates throws an error if token creating had any errors
+     - Throws: Azure error with the error from the get token call. 
+     */
     public func validate() throws {
         if let error = error {
             throw error
