@@ -32,5 +32,5 @@ target 'AzureSDKSmokeTest' do
   pod 'AzureCore', :git => 'https://github.com/Azure/azure-sdk-for-ios.git', :branch => 'master'
   pod 'AzureCommunication', :git => 'https://github.com/Azure/azure-sdk-for-ios.git', :branch => 'master'
   pod 'AzureCommunicationChat', :git => 'https://github.com/Azure/azure-sdk-for-ios.git', :branch => 'master'
-  pod 'AzureCommunicationCalling',
+  pod 'AzureCommunicationCalling', :podspec => 'https://raw.githubusercontent.com/Azure/azure-sdk-for-ios/master/AzureCommunicationCalling.podspec.json'
 end

@@ -32,7 +32,6 @@ import AzureCommunication
 import AzureCommunicationChat
 import AzureCommunicationCalling
 
-
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 

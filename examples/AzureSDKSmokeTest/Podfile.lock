@@ -8,19 +8,22 @@ PODS:
   - AzureCore (1.0.0-beta.7)
 
 DEPENDENCIES:
-  - AzureCommunication (from `https://github.com/Azure/azure-sdk-for-ios.git`)
-  - AzureCommunicationCalling (from `https://github.com/Azure/azure-sdk-for-ios.git`)
-  - AzureCommunicationChat (from `https://github.com/Azure/azure-sdk-for-ios.git`)
-  - AzureCore (from `https://github.com/Azure/azure-sdk-for-ios.git`)
+  - AzureCommunication (from `https://github.com/Azure/azure-sdk-for-ios.git`, branch `master`)
+  - AzureCommunicationCalling (from `https://raw.githubusercontent.com/Azure/azure-sdk-for-ios/master/AzureCommunicationCalling.podspec.json`)
+  - AzureCommunicationChat (from `https://github.com/Azure/azure-sdk-for-ios.git`, branch `master`)
+  - AzureCore (from `https://github.com/Azure/azure-sdk-for-ios.git`, branch `master`)
 
 EXTERNAL SOURCES:
   AzureCommunication:
+    :branch: master
     :git: https://github.com/Azure/azure-sdk-for-ios.git
   AzureCommunicationCalling:
-    :git: https://github.com/Azure/azure-sdk-for-ios.git
+    :podspec: https://raw.githubusercontent.com/Azure/azure-sdk-for-ios/master/AzureCommunicationCalling.podspec.json
   AzureCommunicationChat:
+    :branch: master
     :git: https://github.com/Azure/azure-sdk-for-ios.git
   AzureCore:
+    :branch: master
     :git: https://github.com/Azure/azure-sdk-for-ios.git
 
 CHECKOUT OPTIONS:
@@ -43,6 +46,6 @@ SPEC CHECKSUMS:
   AzureCommunicationChat: f9b921e3f258f0b1a2a593167fcc0cc26c3cc3ef
   AzureCore: ba548f7483963929620bdca2ad8dcd6efc3d3f55
 
-PODFILE CHECKSUM: 3db8ca22bb9205827387fa44d6bae4c5288425cb
+PODFILE CHECKSUM: ae24947d752c6e6023f2a542b7943e25a04bea6d
 
 COCOAPODS: 1.9.3
