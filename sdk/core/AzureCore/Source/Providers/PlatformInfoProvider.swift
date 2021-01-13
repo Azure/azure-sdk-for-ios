@@ -56,7 +56,7 @@ internal struct DevicePlatformInfoProvider: PlatformInfoProvider {
 
 // MARK: Sysctl
 
-private struct Sysctl {
+private enum Sysctl {
     // MARK: Static Methods
 
     /// Access the raw data for an array of sysctl identifiers.
