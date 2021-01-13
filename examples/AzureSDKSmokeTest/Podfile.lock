@@ -1,0 +1,48 @@
+PODS:
+  - AzureCommunication (1.0.0-beta.7):
+    - AzureCore (~> 1.0.0-beta.7)
+  - AzureCommunicationCalling (1.0.0-beta.7):
+    - AzureCommunication (~> 1.0.0-beta.7)
+  - AzureCommunicationChat (1.0.0-beta.7):
+    - AzureCore (~> 1.0.0-beta.7)
+  - AzureCore (1.0.0-beta.7)
+
+DEPENDENCIES:
+  - AzureCommunication (from `https://github.com/Azure/azure-sdk-for-ios.git`)
+  - AzureCommunicationCalling (from `https://github.com/Azure/azure-sdk-for-ios.git`)
+  - AzureCommunicationChat (from `https://github.com/Azure/azure-sdk-for-ios.git`)
+  - AzureCore (from `https://github.com/Azure/azure-sdk-for-ios.git`)
+
+EXTERNAL SOURCES:
+  AzureCommunication:
+    :git: https://github.com/Azure/azure-sdk-for-ios.git
+  AzureCommunicationCalling:
+    :git: https://github.com/Azure/azure-sdk-for-ios.git
+  AzureCommunicationChat:
+    :git: https://github.com/Azure/azure-sdk-for-ios.git
+  AzureCore:
+    :git: https://github.com/Azure/azure-sdk-for-ios.git
+
+CHECKOUT OPTIONS:
+  AzureCommunication:
+    :commit: c045c58d625a5a446468a279ebcdd7343366dd54
+    :git: https://github.com/Azure/azure-sdk-for-ios.git
+  AzureCommunicationCalling:
+    :commit: c045c58d625a5a446468a279ebcdd7343366dd54
+    :git: https://github.com/Azure/azure-sdk-for-ios.git
+  AzureCommunicationChat:
+    :commit: c045c58d625a5a446468a279ebcdd7343366dd54
+    :git: https://github.com/Azure/azure-sdk-for-ios.git
+  AzureCore:
+    :commit: c045c58d625a5a446468a279ebcdd7343366dd54
+    :git: https://github.com/Azure/azure-sdk-for-ios.git
+
+SPEC CHECKSUMS:
+  AzureCommunication: aa808438f6060ae0968ca9b95893fc3ff5015657
+  AzureCommunicationCalling: ea42b88088908ba041ce8f8d2952f529f209c935
+  AzureCommunicationChat: f9b921e3f258f0b1a2a593167fcc0cc26c3cc3ef
+  AzureCore: ba548f7483963929620bdca2ad8dcd6efc3d3f55
+
+PODFILE CHECKSUM: 3db8ca22bb9205827387fa44d6bae4c5288425cb
+
+COCOAPODS: 1.9.3
