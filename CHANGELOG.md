@@ -1,11 +1,17 @@
 # Release History
 
-## 1.0.0-beta.7 (Unreleased)
+## 1.0.0-beta.8 (Unreleased)
+
+## 1.0.0-beta.7 (2021-01-12)
 
 ### New Features
+
+- Azure Communication Calling Service
+  - Added the ability to set the Caller display name when initializing the library.
+
 - Azure Communication Common Library
   - Added a new communication identifier `MicrosoftTeamsUserIdentifier`, used to represent a Microsoft Teams user.
-  - Introduced a new `CommunicationTokenRefreshOptions`. A new object that encompasses properties to define communication token refresh options.
+  - Introduced the new `CommunicationTokenRefreshOptions` type for specifying communication token refresh options.
 
 ### Breaking Changes
 - Azure Communication Common Library
@@ -13,8 +19,16 @@
   - The protocol `CommunicationTokenCredential` has likewise been renamed to `CommunicationTokenCredentialProviding`.
   - All types that conform to the `CommunicationIdentifier` protocol now use the suffix `Identifier`. For example, the
     `PhoneNumber` type used to represent a phone number identifier is now named `PhoneNumberIdentifier`.
-  - Updated  `CommunicationTokenCredential` init method to take in the new  `CommunicationTokenRefreshOptions` .
-  
+  - Updated the `CommunicationTokenCredential` initializer that automatically refreshes the token to accept a single
+    `CommunicationTokenRefreshOptions` object instead of multiple parameters.
+
+### Key Bug Fixes
+
+- Azure Communication Calling Service
+  - Fixed an issue where `handlePushNotification` did not return false if the same payload had been processed already.
+  - Improved logging to help identify the source of `hangup`-related issues reported in GitHub.
+  - Fixed an issue where the remote participant was still available after hangup/disconnect. [#134](https://github.com/Azure/Communication/issues/134)
+
 ## 1.0.0-beta.6 (2020-11-23)
 
 ### Key Bug Fixes
