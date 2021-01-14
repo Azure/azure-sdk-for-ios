@@ -52,8 +52,8 @@ public protocol PipelineContextSupporting {
     func value(forKey key: ContextKey) -> AnyObject?
 }
 
-extension PipelineContextSupporting {
-    public mutating func add(value: AnyObject, forKey key: AnyHashable) {
+public extension PipelineContextSupporting {
+    mutating func add(value: AnyObject, forKey key: AnyHashable) {
         if let context = self.context {
             return context.add(value: value, forKey: key)
         } else {
@@ -61,7 +61,7 @@ extension PipelineContextSupporting {
         }
     }
 
-    public mutating func add(value: AnyObject, forKey key: ContextKey) {
+    mutating func add(value: AnyObject, forKey key: ContextKey) {
         if let context = self.context {
             return context.add(value: value, forKey: key)
         } else {
@@ -69,11 +69,11 @@ extension PipelineContextSupporting {
         }
     }
 
-    public func value(forKey key: AnyHashable) -> AnyObject? {
+    func value(forKey key: AnyHashable) -> AnyObject? {
         return context?.value(forKey: key)
     }
 
-    public func value(forKey key: ContextKey) -> AnyObject? {
+    func value(forKey key: ContextKey) -> AnyObject? {
         return context?.value(forKey: key)
     }
 }

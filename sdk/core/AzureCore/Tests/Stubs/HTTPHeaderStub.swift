@@ -27,11 +27,11 @@
 import Foundation
 
 /// Extensions to work with `HTTPHeader` values within a collection of `HTTPHeaders`.
-extension HTTPHeaders {
+public extension HTTPHeaders {
     /// Initialize a collection of `HTTPHeader` values.
     /// - Parameters:
     ///   - values: A dictionary of `HTTPHeader` values to populate the `HTTPHeaders` instance.
-    public init(_ values: [HTTPHeader: String]) {
+    init(_ values: [HTTPHeader: String]) {
         self.init(minimumCapacity: values.underestimatedCount)
         for (key, value) in values {
             self[key.requestString] = value

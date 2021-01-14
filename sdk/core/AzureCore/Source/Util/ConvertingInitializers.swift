@@ -26,43 +26,43 @@
 
 import Foundation
 
-extension Bool {
-    public init?(_ description: String?) {
+public extension Bool {
+    init?(_ description: String?) {
         guard let value = description else { return nil }
         self.init(value)
     }
 }
 
-extension Int {
-    public init?(_ description: String?) {
+public extension Int {
+    init?(_ description: String?) {
         guard let value = description else { return nil }
         self.init(value)
     }
 }
 
-extension URL {
-    public init?(string: String?) {
+public extension URL {
+    init?(string: String?) {
         guard let value = string else { return nil }
         self.init(string: value)
     }
 }
 
-extension String {
-    public init?(data: Data?, encoding: Encoding) {
+public extension String {
+    init?(data: Data?, encoding: Encoding) {
         guard let unwrapped = data else { return nil }
         self.init(data: unwrapped, encoding: encoding)
     }
 }
 
-extension RawRepresentable {
-    public init?(rawValue: RawValue?) {
+public extension RawRepresentable {
+    init?(rawValue: RawValue?) {
         guard let value = rawValue else { return nil }
         self.init(rawValue: value)
     }
 }
 
-extension Data {
-    public init?(hexString: String) {
+public extension Data {
+    init?(hexString: String) {
         self.init(capacity: hexString.count / 2)
         if let regex = try? NSRegularExpression(pattern: "[0-9a-f]{1,2}", options: .caseInsensitive) {
             regex.enumerateMatches(
