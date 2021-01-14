@@ -2,6 +2,10 @@
 
 ## 1.0.0-beta.8 (Unreleased)
 
+### Breaking Changes
+- Azure Communication Common Library
+ - Communication identifier `MicrosoftTeamsUserIdentifier` property `identifier` renamed to `userId` since identifier was too generic. 
+ 
 ## 1.0.0-beta.7 (2021-01-12)
 
 ### New Features
