@@ -26,9 +26,9 @@
 # --------------------------------------------------------------------------
 
 platform :ios, '12.0'
+use_frameworks!
 
 target 'AzureSDKSmokeTest' do
-  use_frameworks!
   pod 'AzureCore', :git => 'https://github.com/Azure/azure-sdk-for-ios.git', :branch => 'master'
   pod 'AzureCommunication', :git => 'https://github.com/Azure/azure-sdk-for-ios.git', :branch => 'master'
   pod 'AzureCommunicationChat', :git => 'https://github.com/Azure/azure-sdk-for-ios.git', :branch => 'master'
