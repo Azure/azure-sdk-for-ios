@@ -90,8 +90,7 @@
 		D1E356E8257EBBA300E66A66 /* ChatParticipant.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E356BC257EBBA200E66A66 /* ChatParticipant.swift */; };
 		D1E356E9257EBBA300E66A66 /* ChatParticipantsCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E356BD257EBBA200E66A66 /* ChatParticipantsCollection.swift */; };
 		D1E356EA257EBBA300E66A66 /* ChatThreadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E356BE257EBBA200E66A66 /* ChatThreadOperation.swift */; };
-		D50EC0B925A9314800FA1177 /* AzureCommunicationSignaling.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D50EC0B825A9314800FA1177 /* AzureCommunicationSignaling.framework */; platformFilter = ios; };
-		D50EC0E725A9322900FA1177 /* signalingClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50EC0E625A9322900FA1177 /* signalingClient.swift */; };
+		D50EC0E725A9322900FA1177 /* SignalingClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50EC0E625A9322900FA1177 /* SignalingClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -193,8 +192,7 @@
 		D1E356BC257EBBA200E66A66 /* ChatParticipant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatParticipant.swift; sourceTree = "<group>"; };
 		D1E356BD257EBBA200E66A66 /* ChatParticipantsCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatParticipantsCollection.swift; sourceTree = "<group>"; };
 		D1E356BE257EBBA200E66A66 /* ChatThreadOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatThreadOperation.swift; sourceTree = "<group>"; };
-		D50EC0B825A9314800FA1177 /* AzureCommunicationSignaling.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AzureCommunicationSignaling.framework; sourceTree = "<group>"; };
-		D50EC0E625A9322900FA1177 /* signalingClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = signalingClient.swift; sourceTree = "<group>"; };
+		D50EC0E625A9322900FA1177 /* SignalingClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignalingClient.swift; sourceTree = "<group>"; };
 		F1FE3013E797A134E8A6C3B5 /* Pods_AzureCommunicationChatTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCommunicationChatTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -215,7 +213,6 @@
 			files = (
 				D110F50C258D6053001FA3CD /* Pods_AzureCommunicationChat.framework in Frameworks */,
 				D110F50A258D604B001FA3CD /* AzureCore.framework in Frameworks */,
-				D50EC0B925A9314800FA1177 /* AzureCommunicationSignaling.framework in Frameworks */,
 				D110F507258D603F001FA3CD /* AzureCommunication.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -226,7 +223,6 @@
 		0A74765A2522918800819FC9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D50EC0B825A9314800FA1177 /* AzureCommunicationSignaling.framework */,
 				D110F50B258D6053001FA3CD /* Pods_AzureCommunicationChat.framework */,
 				D110F509258D604B001FA3CD /* AzureCore.framework */,
 				D110F506258D603F001FA3CD /* AzureCommunication.framework */,
@@ -396,7 +392,7 @@
 		D50EC0E525A9321D00FA1177 /* signaling */ = {
 			isa = PBXGroup;
 			children = (
-				D50EC0E625A9322900FA1177 /* signalingClient.swift */,
+				D50EC0E625A9322900FA1177 /* SignalingClient.swift */,
 			);
 			path = signaling;
 			sourceTree = "<group>";
@@ -662,7 +658,7 @@
 				D1E356DE257EBBA300E66A66 /* ChatMessageReadReceiptsCollection.swift in Sources */,
 				D1E356DF257EBBA300E66A66 /* ChatThreadsInfoCollection.swift in Sources */,
 				D1E356C9257EBBA200E66A66 /* ChatThreadOperation+UpdateChatThreadOptions.swift in Sources */,
-				D50EC0E725A9322900FA1177 /* signalingClient.swift in Sources */,
+				D50EC0E725A9322900FA1177 /* SignalingClient.swift in Sources */,
 				D1E356E2257EBBA300E66A66 /* CreateChatThreadResult.swift in Sources */,
 				D1E356DC257EBBA300E66A66 /* Enumerations.swift in Sources */,
 				D1E356CF257EBBA200E66A66 /* Chat+GetChatThreadOptions.swift in Sources */,
@@ -852,7 +848,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)";
+				FRAMEWORK_SEARCH_PATHS = "";
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = AzureCommunicationChat.xcodeproj/AzureCommunicationChat_Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = "";
@@ -894,7 +890,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)";
+				FRAMEWORK_SEARCH_PATHS = "";
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = AzureCommunicationChat.xcodeproj/AzureCommunicationChat_Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = "";
