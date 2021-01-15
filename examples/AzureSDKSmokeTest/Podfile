@@ -26,7 +26,10 @@
 # --------------------------------------------------------------------------
 
 platform :ios, '12.0'
-use_frameworks!
+
+if ENV['SWIFT_USE_FRAMEWORKS'] != nil
+  use_frameworks!
+end
 
 target 'AzureSDKSmokeTest' do
   pod 'AzureCore', :git => 'https://github.com/Azure/azure-sdk-for-ios.git', :branch => 'master'

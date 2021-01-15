@@ -14,8 +14,8 @@
 		0AA5963725AF8ACA00E77E33 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AA5963625AF8ACA00E77E33 /* Assets.xcassets */; };
 		0AA5963A25AF8ACA00E77E33 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AA5963825AF8ACA00E77E33 /* LaunchScreen.storyboard */; };
 		0AA5964325AF8CDF00E77E33 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 0AA5964225AF8CDF00E77E33 /* Podfile */; };
-		0AA5968125AFBC6000E77E33 /* Pods_AzureSDKSmokeTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F339CE4414023800F759553D /* Pods_AzureSDKSmokeTest.framework */; };
 		0AA5968225AFBC6000E77E33 /* Pods_AzureSDKSmokeTest.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F339CE4414023800F759553D /* Pods_AzureSDKSmokeTest.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9056B4CF5D1DDDDCE1360BDE /* Pods_AzureSDKSmokeTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E264CCE2F128730C81E124B3 /* Pods_AzureSDKSmokeTest.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -43,6 +43,7 @@
 		0AA5963B25AF8ACA00E77E33 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0AA5964225AF8CDF00E77E33 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		E13B46AE49C7F47A8F8BDB9F /* Pods-AzureSDKSmokeTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureSDKSmokeTest.release.xcconfig"; path = "Target Support Files/Pods-AzureSDKSmokeTest/Pods-AzureSDKSmokeTest.release.xcconfig"; sourceTree = "<group>"; };
+		E264CCE2F128730C81E124B3 /* Pods_AzureSDKSmokeTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureSDKSmokeTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAF1DB0708C3EB04238458F0 /* Pods-AzureSDKSmokeTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureSDKSmokeTest.debug.xcconfig"; path = "Target Support Files/Pods-AzureSDKSmokeTest/Pods-AzureSDKSmokeTest.debug.xcconfig"; sourceTree = "<group>"; };
 		F339CE4414023800F759553D /* Pods_AzureSDKSmokeTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureSDKSmokeTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -52,7 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0AA5968125AFBC6000E77E33 /* Pods_AzureSDKSmokeTest.framework in Frameworks */,
+				9056B4CF5D1DDDDCE1360BDE /* Pods_AzureSDKSmokeTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,7 +96,7 @@
 		B6CB0229250C38420C8E33BD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F339CE4414023800F759553D /* Pods_AzureSDKSmokeTest.framework */,
+				E264CCE2F128730C81E124B3 /* Pods_AzureSDKSmokeTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
