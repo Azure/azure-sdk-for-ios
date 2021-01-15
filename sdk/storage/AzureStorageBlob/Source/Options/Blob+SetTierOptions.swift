@@ -1,5 +1,3 @@
-#!/usr/bin/env swift
-
 // --------------------------------------------------------------------------
 //
 // Copyright (c) Microsoft Corporation. All rights reserved.
@@ -25,3 +23,20 @@
 // IN THE SOFTWARE.
 //
 // --------------------------------------------------------------------------
+
+<<<<<<< HEAD:examples/AzureSDKSmokeTest/AzureSDKSmokeTest/ViewController.swift
+import UIKit
+
+class ViewController: UIViewController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view.
+    }
+
+
+}
+
+=======
+import Foundation
+>>>>>>> 510fe5c... Code review feedback.:sdk/storage/AzureStorageBlob/Source/Options/Blob+SetTierOptions.swift

@@ -14,6 +14,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "AzureCommunicationChat::AzureCommunicationChat"
+               BuildableName = "AzureCommunicationChat.framework"
+               BlueprintName = "AzureCommunicationChat"
+               ReferencedContainer = "container:sdk/communication/AzureCommunicationChat/AzureCommunicationChat.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "0A3A5EB72316DB1E00473FDA"
                BuildableName = "AzureCommunication.framework"
                BlueprintName = "AzureCommunication"

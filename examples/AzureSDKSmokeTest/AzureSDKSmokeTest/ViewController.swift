@@ -24,6 +24,7 @@
 //
 // --------------------------------------------------------------------------
 
+<<<<<<< HEAD:examples/AzureSDKSmokeTest/AzureSDKSmokeTest/ViewController.swift
 import UIKit
 
 class ViewController: UIViewController {
@@ -36,3 +37,6 @@ class ViewController: UIViewController {
 
 }
 
+=======
+import Foundation
+>>>>>>> 510fe5c... Code review feedback.:sdk/storage/AzureStorageBlob/Source/Options/Blob+SetTierOptions.swift
