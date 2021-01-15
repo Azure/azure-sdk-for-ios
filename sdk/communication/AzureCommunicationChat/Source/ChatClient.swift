@@ -73,13 +73,13 @@ public class ChatClient {
 
         credential.token(completionHandler: {(communicationAccessToken, _)
             in
-            if communicationAccessToken != nil {
-                token = communicationAccessToken!.token
+            if let unwrapped = communicationAccessToken {
+                token = unwrapped.token
             }
         })
-
-        if token != nil {
-            self.signalingClient = getSignalingClient(token: token!)
+        
+        if let unwrapped = token {
+            self.signalingClient = getSignalingClient(token: unwrapped)
         } else {
             self.signalingClient = nil
         }
