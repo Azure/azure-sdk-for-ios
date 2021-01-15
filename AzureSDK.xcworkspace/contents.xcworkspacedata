@@ -53,9 +53,6 @@
          location = "group:AzureSDKSmokeTest/AzureSDKSmokeTest.xcodeproj">
       </FileRef>
       <FileRef
-         location = "group:AzureStorageBlobDemo/AzureStorageBlobDemo.xcodeproj">
-      </FileRef>
-      <FileRef
          location = "group:AzureSDKDemoSwift/AzureSDKDemoSwift.xcodeproj">
       </FileRef>
    </Group>
@@ -63,22 +60,13 @@
       location = "group:"
       name = "Deployment">
       <FileRef
+         location = "group:AzureSDK.podspec">
+      </FileRef>
+      <FileRef
          location = "group:Package.swift">
       </FileRef>
       <FileRef
          location = "group:Podfile">
-      </FileRef>
-      <FileRef
-         location = "group:AzureCommunication.podspec.json">
-      </FileRef>
-      <FileRef
-         location = "group:AzureCommunicationCalling.podspec.json">
-      </FileRef>
-      <FileRef
-         location = "group:AzureCommunicationChat.podspec.json">
-      </FileRef>
-      <FileRef
-         location = "group:AzureCore.podspec.json">
       </FileRef>
       <FileRef
          location = "group:Podfile.lock">
