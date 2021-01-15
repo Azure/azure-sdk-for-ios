@@ -24,89 +24,75 @@
 //
 // --------------------------------------------------------------------------
 
+import AzureStorageBlob
 import Foundation
 
-func testDeleteContainer(_ idx: Int) {
-    print("-> Testing container.delete API")
-
-    let options = DeleteContainerOptions()
-    blobClient.containers.delete(container: containerName, withOptions: options) { result, _ in
-        switch result {
-        case .success:
-            self.dataSource[idx].result = .success
-            self.dataSource[idx].status = "\(self.containerName) deleted"
-            print("  SUCCESS")
-        case let .failure(error):
-            self.dataSource[idx].result = .failure
-            self.dataSource[idx].status = error.message
-            print("  FAILURE: \(error.message)")
-        }
-        DispatchQueue.main.async {
-            self.tableView.reloadRows(at: [IndexPath(row: idx, section: 0)], with: .automatic)
+extension MainViewController {
+    func testDeleteContainer(_ idx: Int) {
+        let options = DeleteContainerOptions()
+        blobClient.containers.delete(container: containerName, withOptions: options) { result, _ in
+            switch result {
+            case .success:
+                self.dataSource[idx].result = .success
+                self.dataSource[idx].status = "\(self.containerName) deleted"
+            case let .failure(error):
+                self.dataSource[idx].result = .failure
+                self.dataSource[idx].status = error.message
+            }
+            DispatchQueue.main.async {
+                self.tableView.reloadRows(at: [IndexPath(row: idx, section: 0)], with: .automatic)
+            }
         }
     }
-}
 
-func testCreateContainer(_ idx: Int) {
-    print("-> Testing container.create API")
-
-    let options = CreateContainerOptions()
-    blobClient.containers.create(container: containerName, withOptions: options) { result, _ in
-        switch result {
-        case let .success(properties):
-            self.dataSource[idx].result = .success
-            self.dataSource[idx].status = "\(self.containerName) created: \(properties.eTag)"
-            print("  SUCCESS")
-        case let .failure(error):
-            self.dataSource[idx].result = .failure
-            self.dataSource[idx].status = error.message
-            print("  FAILURE: \(error.message)")
-        }
-        DispatchQueue.main.async {
-            self.tableView.reloadRows(at: [IndexPath(row: idx, section: 0)], with: .automatic)
+    func testCreateContainer(_ idx: Int) {
+        let options = CreateContainerOptions()
+        blobClient.containers.create(container: containerName, withOptions: options) { result, _ in
+            switch result {
+            case let .success(properties):
+                self.dataSource[idx].result = .success
+                self.dataSource[idx].status = "\(self.containerName) created: \(properties.eTag)"
+            case let .failure(error):
+                self.dataSource[idx].result = .failure
+                self.dataSource[idx].status = error.message
+            }
+            DispatchQueue.main.async {
+                self.tableView.reloadRows(at: [IndexPath(row: idx, section: 0)], with: .automatic)
+            }
         }
     }
-}
 
-func testListContainer(_ idx: Int) {
-    print("-> Testing container.list API")
-
-    let options = ListContainersOptions()
-    blobClient.containers.list(withOptions: options) { result, _ in
-        switch result {
-        case let .success(containers):
-            self.dataSource[idx].result = .success
-            self.dataSource[idx].status = "\(containers.underestimatedCount) containers"
-            print("  SUCCESS")
-        case let .failure(error):
-            self.dataSource[idx].result = .failure
-            self.dataSource[idx].status = error.message
-            print("  FAILURE: \(error.message)")
-        }
-        DispatchQueue.main.async {
-            self.tableView.reloadRows(at: [IndexPath(row: idx, section: 0)], with: .automatic)
+    func testListContainer(_ idx: Int) {
+        let options = ListContainersOptions()
+        blobClient.containers.list(withOptions: options) { result, _ in
+            switch result {
+            case let .success(containers):
+                self.dataSource[idx].result = .success
+                self.dataSource[idx].status = "\(containers.underestimatedCount) containers"
+            case let .failure(error):
+                self.dataSource[idx].result = .failure
+                self.dataSource[idx].status = error.message
+            }
+            DispatchQueue.main.async {
+                self.tableView.reloadRows(at: [IndexPath(row: idx, section: 0)], with: .automatic)
+            }
         }
     }
-}
 
-func testGetContainer(_ idx: Int) {
-    print("-> Testing container.get API")
-
-    let options = GetContainerOptions()
-    blobClient.containers.get(container: containerName, withOptions: options) { result, _ in
-        switch result {
-        case let .success(properties):
-            self.dataSource[idx].result = .success
-            self.dataSource[idx].status = "\(self.containerName): \(properties.eTag)"
-            print(properties)
-            print("  SUCCESS")
-        case let .failure(error):
-            self.dataSource[idx].result = .failure
-            self.dataSource[idx].status = error.message
-            print("  FAILURE: \(error.message)")
-        }
-        DispatchQueue.main.async {
-            self.tableView.reloadRows(at: [IndexPath(row: idx, section: 0)], with: .automatic)
+    func testGetContainer(_ idx: Int) {
+        let options = GetContainerOptions()
+        blobClient.containers.get(container: containerName, withOptions: options) { result, _ in
+            switch result {
+            case let .success(properties):
+                self.dataSource[idx].result = .success
+                self.dataSource[idx].status = "\(self.containerName): \(properties.eTag)"
+            case let .failure(error):
+                self.dataSource[idx].result = .failure
+                self.dataSource[idx].status = error.message
+            }
+            DispatchQueue.main.async {
+                self.tableView.reloadRows(at: [IndexPath(row: idx, section: 0)], with: .automatic)
+            }
         }
     }
 }

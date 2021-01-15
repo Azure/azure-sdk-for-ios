@@ -117,7 +117,7 @@ public final class ContainersOperations {
     /// - Parameters:
     ///   - container: The container name to create.
     ///   - options: A `CreateContainerOptions` object to control the create operation.
-    ///   - completionHandler: A completion handler that receives a dictionary of properties on
+    ///   - completionHandler: A completion handler that receives a `ContainerProperties` object on
     ///     success.
     public func create(
         container: String,
@@ -184,7 +184,7 @@ public final class ContainersOperations {
     /// - Parameters:
     ///   - container: The container name to get.
     ///   - options: A `GetContainerOptions` object to control the get operation.
-    ///   - completionHandler: A completion handler that receives a dictionary of properties on
+    ///   - completionHandler: A completion handler that receives a `ContainerProperties` object on
     ///     success.
     public func get(
         container: String,

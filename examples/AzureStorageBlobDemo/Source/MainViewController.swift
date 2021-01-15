@@ -75,16 +75,16 @@ class TestResultTableViewCell: UITableViewCell {
         data.result = .inProgress
         DispatchQueue.main.async {
             tableView.reloadRows(at: [indexPath], with: .automatic)
+            print("-> Testing \(data.name) API")
             data.method(indexPath.row)
         }
     }
 }
 
 class MainViewController: UITableViewController, MSALInteractiveDelegate {
-    private var blobClient: StorageBlobClient!
-    private let containerName = "testa"
-
-    private var dataSource: [
+    internal var blobClient: StorageBlobClient!
+    internal let containerName = "testa"
+    internal var dataSource: [
         (name: String, result: TestResult, status: String, method: (Int) -> Void)
     ]!
 

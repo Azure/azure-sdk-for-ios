@@ -383,10 +383,10 @@ public final class BlobsOperations {
 
     /// Gets blob metadata.
     /// - Parameters:
-    ///    - blob : The blob name to query.
+    ///    - blob : The target blob name.
+    ///    - container: The container name containing the blob.
     ///    - options: A list of options for the operation
-    ///    - completionHandler: A completion handler that receives a status code on
-    ///     success.
+    ///    - completionHandler: A completion handler that receives a `[String: String]` dictionary of metadata on success.
     public func getMetadata(
         forBlob blob: String,
         inContainer container: String,
@@ -461,12 +461,13 @@ public final class BlobsOperations {
         }
     }
 
-    /// Gets blob metadata.
+    /// Sets blob metadata.
     /// - Parameters:
-    ///    - blob : The blob name to query.
+    ///    - metadata: The `[String: String]` metadata dictionary to set.
+    ///    - blob : The target blob name.
+    ///    - container: The container name containing the blob.
     ///    - options: A list of options for the operation
-    ///    - completionHandler: A completion handler that receives a status code on
-    ///     success.
+    ///    - completionHandler: A completion handler that receives a `[String: String]` dictionary of metadata on success.
     public func set(
         metadata: [String: String],
         forBlob blob: String,

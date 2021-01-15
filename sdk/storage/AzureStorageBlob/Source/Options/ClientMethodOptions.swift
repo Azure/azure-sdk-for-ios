@@ -73,6 +73,7 @@ public struct ListContainersOptions: RequestOptions {
     ///     logs.
     ///   - cancellationToken: A token used to make a best-effort attempt at canceling a request.
     ///   - dispatchQueue: A dispatch queue on which to call the completion handler. Defaults to `DispatchQueue.main`.
+    ///   - context: A `PipelineContext` object to associate with the request.
     ///   - prefix: Return only containers whose names begin with the specified prefix.
     ///   - include: One or more datasets to include in the response.
     ///   - maxResults: Maximum number of containers to return, up to 5000.
@@ -81,6 +82,7 @@ public struct ListContainersOptions: RequestOptions {
         clientRequestId: String? = nil,
         cancellationToken: CancellationToken? = nil,
         dispatchQueue: DispatchQueue? = nil,
+        context: PipelineContext? = nil,
         prefix: String? = nil,
         include: [ListContainersInclude]? = nil,
         maxResults: Int? = nil,
@@ -89,6 +91,7 @@ public struct ListContainersOptions: RequestOptions {
         self.clientRequestId = clientRequestId
         self.cancellationToken = cancellationToken
         self.dispatchQueue = dispatchQueue
+        self.context = context
         self.prefix = prefix
         self.include = include
         self.maxResults = maxResults
@@ -119,16 +122,17 @@ public struct DeleteContainerOptions: RequestOptions {
     /// - The specified lease ID matches that of the container.
     public let leaseAccessConditions: LeaseAccessConditions?
 
-    /// Options for accessing a blob based on its modification date and/or eTag. If specified, the operation will be
+    /// Options for accessing a container based on its modification date and/or eTag. If specified, the operation will be
     /// performed only if all the specified conditions are met.
     public internal(set) var modifiedAccessConditions: ModifiedAccessConditions?
 
-    /// Initialize a DeleteContainerOptions` structure.
+    /// Initialize a `DeleteContainerOptions` structure.
     /// - Parameters:
     ///   - clientRequestId: A client-generated, opaque value with 1KB character limit that is recorded in analytics
     ///     logs.
     ///   - cancellationToken: A token used to make a best-effort attempt at canceling a request.
     ///   - dispatchQueue: A dispatch queue on which to call the completion handler. Defaults to `DispatchQueue.main`.
+    ///   - context: A `PipelineContext` object to associate with the request.
     ///   - timeout: Request timeout in seconds.
     ///   - leaseAccessConditions: Options for accessing a container based on the condition of a lease. If specified, the
     ///     operation will be performed only if both of the following conditions are met:
@@ -140,6 +144,7 @@ public struct DeleteContainerOptions: RequestOptions {
         clientRequestId: String? = nil,
         cancellationToken: CancellationToken? = nil,
         dispatchQueue: DispatchQueue? = nil,
+        context: PipelineContext? = nil,
         timeout: TimeInterval? = nil,
         leaseAccessConditions: LeaseAccessConditions? = nil,
         modifiedAccessConditions: ModifiedAccessConditions? = nil
@@ -147,12 +152,14 @@ public struct DeleteContainerOptions: RequestOptions {
         self.clientRequestId = clientRequestId
         self.cancellationToken = cancellationToken
         self.dispatchQueue = dispatchQueue
+        self.context = context
         self.timeout = timeout
         self.leaseAccessConditions = leaseAccessConditions
         self.modifiedAccessConditions = modifiedAccessConditions
     }
 }
 
+/// User-configurable options for the `ContainersOperations.get(container:)` operation.
 public struct GetContainerOptions: RequestOptions {
     /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
     public let clientRequestId: String?
@@ -175,17 +182,14 @@ public struct GetContainerOptions: RequestOptions {
     /// - The specified lease ID matches that of the container.
     public let leaseAccessConditions: LeaseAccessConditions?
 
-    /// Initialize an `GetConainerOptions` structure.
+    /// Initialize a `GetConainerOptions` structure.
     /// - Parameters:
     ///   - clientRequestId: A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
     ///   - cancellationToken: A token used to make a best-effort attempt at canceling a request.
     ///   - dispatchQueue: A dispatch queue on which to call the completion handler. Defaults to `DispatchQueue.main`.
     ///   - context: A `PipelineContext` object to associate with the request.
     ///   - timeout: Request timeout in seconds.
-    ///   - leaseAccessConditions: Options for accessing a blob based on the condition of a lease. If specified, the
-    ///     operation will be performed only if both of the following conditions are met:
-    ///     - The blob's lease is currently active.
-    ///     - The specified lease ID matches that of the blob.
+    ///   - leaseAccessConditions: Options for accessing a container based on the condition of a lease.
     public init(
         clientRequestId: String? = nil,
         cancellationToken: CancellationToken? = nil,
@@ -203,6 +207,7 @@ public struct GetContainerOptions: RequestOptions {
     }
 }
 
+/// User-configurable options for the `ContainersOperations.create(container:)` operation.
 public struct CreateContainerOptions: RequestOptions {
     /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
     public let clientRequestId: String?
@@ -219,10 +224,8 @@ public struct CreateContainerOptions: RequestOptions {
     /// Request timeout in seconds.
     public let timeout: TimeInterval?
 
-    /// Specifies a user-defined name-value pair associated with the blob. If no name-value pairs are specified, the operation will copy the metadata from the
-    /// source blob or file to the destination blob. If one or more name-value pairs are specified, the destination blob is created with the specified metadata, and
-    /// metadata is not copied from the source blob or file. Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for
-    /// C# identifiers. See Naming and Referencing Containers, Blobs, and Metadata for more information.
+    /// Specifies user-defined name-value pairs associated with the container. Note that beginning with version 2009-09-19, metadata names must
+    /// adhere to the naming rules for C# identifiers.
     public let metadata: [String: String]?
 
     /// Specifies whether data in the container may be accessed publicly and the level of access.
@@ -238,10 +241,8 @@ public struct CreateContainerOptions: RequestOptions {
     ///   - dispatchQueue: A dispatch queue on which to call the completion handler. Defaults to `DispatchQueue.main`.
     ///   - context: A `PipelineContext` object to associate with the request.
     ///   - timeout: Request timeout in seconds.
-    ///   - metadata: Specifies a user-defined name-value pair associated with the blob. If no name-value pairs are specified, the operation will copy
-    ///   the metadata from the source blob or file to the destination blob. If one or more name-value pairs are specified, the destination blob is created
-    ///   with the specified metadata, and metadata is not copied from the source blob or file. Note that beginning with version 2009-09-19, metadata
-    ///   names must adhere to the naming rules for C# identifiers. See Naming and Referencing Containers, Blobs, and Metadata for more information.
+    ///   - metadata: Specifies user-defined name-value pairs associated with the container. Note that beginning with version
+    ///   2009-09-19, metadata names must adhere to the naming rules for C# identifiers.
     ///   - access: Specifies whether data in the container may be accessed publicly and the level of access.
     ///   - containerCpkScopeInfo: Specifies the default encryption scope policy for the container
     public init(
@@ -318,6 +319,7 @@ public struct ListBlobsOptions: RequestOptions {
     ///     logs.
     ///   - cancellationToken: A token used to make a best-effort attempt at canceling a request.
     ///   - dispatchQueue: A dispatch queue on which to call the completion handler. Defaults to `DispatchQueue.main`.
+    ///   - context: A `PipelineContext` object to associate with the request.
     ///   - prefix: Return only blobs whose names begin with the specified prefix.
     ///   - delimiter: Operation returns a BlobPrefix element in the response body that acts as a placeholder for all
     ///     blobs whose names begin with the same substring up to the appearance of the delimiter character. The
@@ -329,6 +331,7 @@ public struct ListBlobsOptions: RequestOptions {
         clientRequestId: String? = nil,
         cancellationToken: CancellationToken? = nil,
         dispatchQueue: DispatchQueue? = nil,
+        context: PipelineContext? = nil,
         prefix: String? = nil,
         delimiter: String? = nil,
         maxResults: Int? = nil,
@@ -338,6 +341,7 @@ public struct ListBlobsOptions: RequestOptions {
         self.clientRequestId = clientRequestId
         self.cancellationToken = cancellationToken
         self.dispatchQueue = dispatchQueue
+        self.context = context
         self.prefix = prefix
         self.delimiter = delimiter
         self.maxResults = maxResults
@@ -384,30 +388,6 @@ public struct DeleteBlobOptions: RequestOptions {
 
     /// Request timeout in seconds.
     public let timeout: TimeInterval?
-
-//    /// Initialize a DeleteBlobOptions` structure.
-//    /// - Parameters:
-//    ///   - clientRequestId: A client-generated, opaque value with 1KB character limit that is recorded in analytics
-//    ///     logs.
-//    ///   - cancellationToken: A token used to make a best-effort attempt at canceling a request.
-//    ///   - dispatchQueue: A dispatch queue on which to call the completion handler. Defaults to `DispatchQueue.main`.
-//    ///   - deleteSnapshots: `DeleteBlobSnapshot` value to specify how snapshots should be handled.
-//    ///   - timeout: Request timeout in seconds.
-//    public init(
-//        clientRequestId: String? = nil,
-//        cancellationToken: CancellationToken? = nil,
-//        dispatchQueue: DispatchQueue? = nil,
-//        deleteSnapshots: DeleteBlobSnapshot? = nil,
-//        snapshot: Date? = nil,
-//        timeout: TimeInterval? = nil
-//    ) {
-//        self.clientRequestId = clientRequestId
-//        self.cancellationToken = cancellationToken
-//        self.dispatchQueue = dispatchQueue
-//        self.deleteSnapshots = deleteSnapshots
-//        self.snapshot = snapshot
-//        self.timeout = timeout
-//    }
 }
 
 /// User-configurable options for the `BlobsOperations.download` and `BlobsOperations.rawDownload` operations.
@@ -467,6 +447,7 @@ public struct DownloadBlobOptions: RequestOptions, Codable, Equatable {
     ///     logs.
     ///   - cancellationToken: A token used to make a best-effort attempt at canceling a request.
     ///   - dispatchQueue: A dispatch queue on which to call the completion handler. Defaults to `DispatchQueue.main`.
+    ///   - context: A `PipelineContext` object to associate with the request.
     ///   - range: Options for working on a subset of data for a blob.
     ///   - leaseId: Required if the blob has an active lease. If specified, download only succeeds if the blob's lease
     ///     is active and matches this ID.
@@ -488,6 +469,7 @@ public struct DownloadBlobOptions: RequestOptions, Codable, Equatable {
         clientRequestId: String? = nil,
         cancellationToken: CancellationToken? = nil,
         dispatchQueue: DispatchQueue? = nil,
+        context: PipelineContext? = nil,
         range: RangeOptions? = nil,
         leaseId: String? = nil,
         snapshot: String? = nil,
@@ -501,6 +483,7 @@ public struct DownloadBlobOptions: RequestOptions, Codable, Equatable {
         self.clientRequestId = clientRequestId
         self.cancellationToken = cancellationToken
         self.dispatchQueue = dispatchQueue
+        self.context = context
         self.range = range
         self.leaseId = leaseId
         self.snapshot = snapshot
@@ -571,6 +554,7 @@ public struct UploadBlobOptions: RequestOptions, Codable, Equatable {
     ///     logs.
     ///   - cancellationToken: A token used to make a best-effort attempt at canceling a request.
     ///   - dispatchQueue: A dispatch queue on which to call the completion handler. Defaults to `DispatchQueue.main`.
+    ///   - context: A `PipelineContext` object to associate with the request.
     ///   - leaseAccessConditions: Options for accessing a blob based on the condition of a lease. If specified, the
     ///     operation will be performed only if both of the following conditions are met:
     ///     - The blob's lease is currently active.
@@ -590,6 +574,7 @@ public struct UploadBlobOptions: RequestOptions, Codable, Equatable {
         clientRequestId: String? = nil,
         cancellationToken: CancellationToken? = nil,
         dispatchQueue: DispatchQueue? = nil,
+        context: PipelineContext? = nil,
         leaseAccessConditions: LeaseAccessConditions? = nil,
         modifiedAccessConditions: ModifiedAccessConditions? = nil,
         encryptionOptions: EncryptionOptions? = nil,
@@ -601,6 +586,7 @@ public struct UploadBlobOptions: RequestOptions, Codable, Equatable {
         self.clientRequestId = clientRequestId
         self.cancellationToken = cancellationToken
         self.dispatchQueue = dispatchQueue
+        self.context = context
         self.leaseAccessConditions = leaseAccessConditions
         self.modifiedAccessConditions = modifiedAccessConditions
         self.encryptionOptions = encryptionOptions
@@ -638,23 +624,24 @@ public struct GetBlobMetadataOptions: RequestOptions {
     /// A n`Rfc1123Date` specifying the version of the blob to query.
     public let versionId: Rfc1123Date?
 
-    /// The timeout parameter is expressed in seconds. This method may make
-    /// multiple calls to the Azure service and the timeout will apply to
-    /// each call individually.
+    /// The timeout parameter is expressed in seconds.
     public let timeout: TimeInterval?
 
-    /// Initialize an `UploadBlobOptions` structure.
+    /// Initialize a `GetBlobMetadataOptions` structure.
     /// - Parameters:
     ///   - clientRequestId: A client-generated, opaque value with 1KB character limit that is recorded in analytics
     ///     logs.
     ///   - cancellationToken: A token used to make a best-effort attempt at canceling a request.
     ///   - dispatchQueue: A dispatch queue on which to call the completion handler. Defaults to `DispatchQueue.main`.
-    ///   - timeout: The timeout parameter is expressed in seconds. This method may make multiple calls to the
-    ///     Azure service and the timeout will apply to each call individually.
+    ///   - context: A `PipelineContext` object to associate with the request.
+    ///   - snapshot: The snapshot parameter is a value that, when present, specifies the blob snapshot to retrieve.
+    ///   - versionId:The version id parameter is a value that, when present, specifies the version of the blob to operate on.
+    ///   - timeout: The timeout parameter is expressed in seconds.
     public init(
         clientRequestId: String? = nil,
         cancellationToken: CancellationToken? = nil,
         dispatchQueue: DispatchQueue? = nil,
+        context: PipelineContext? = nil,
         snapshot: Rfc1123Date? = nil,
         versionId: Rfc1123Date? = nil,
         timeout: TimeInterval? = nil
@@ -662,6 +649,7 @@ public struct GetBlobMetadataOptions: RequestOptions {
         self.clientRequestId = clientRequestId
         self.cancellationToken = cancellationToken
         self.dispatchQueue = dispatchQueue
+        self.context = context
         self.snapshot = snapshot
         self.versionId = versionId
         self.timeout = timeout
@@ -682,28 +670,28 @@ public struct SetBlobMetadataOptions: RequestOptions {
     /// A `PipelineContext` object to associate with the request.
     public var context: PipelineContext?
 
-    /// The timeout parameter is expressed in seconds. This method may make
-    /// multiple calls to the Azure service and the timeout will apply to
-    /// each call individually.
+    /// The timeout parameter is expressed in seconds.
     public let timeout: TimeInterval?
 
-    /// Initialize an `UploadBlobOptions` structure.
+    /// Initialize a `SetBlobMetadataOptions` structure.
     /// - Parameters:
     ///   - clientRequestId: A client-generated, opaque value with 1KB character limit that is recorded in analytics
     ///     logs.
     ///   - cancellationToken: A token used to make a best-effort attempt at canceling a request.
     ///   - dispatchQueue: A dispatch queue on which to call the completion handler. Defaults to `DispatchQueue.main`.
-    ///   - timeout: The timeout parameter is expressed in seconds. This method may make multiple calls to the
-    ///     Azure service and the timeout will apply to each call individually.
+    ///   - context: A `PipelineContext` object to associate with the request.
+    ///   - timeout: The timeout parameter is expressed in seconds.
     public init(
         clientRequestId: String? = nil,
         cancellationToken: CancellationToken? = nil,
         dispatchQueue: DispatchQueue? = nil,
+        context: PipelineContext? = nil,
         timeout: TimeInterval? = nil
     ) {
         self.clientRequestId = clientRequestId
         self.cancellationToken = cancellationToken
         self.dispatchQueue = dispatchQueue
+        self.context = context
         self.timeout = timeout
     }
 }
