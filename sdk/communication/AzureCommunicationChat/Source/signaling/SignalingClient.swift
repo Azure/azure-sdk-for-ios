@@ -26,7 +26,22 @@
 
 import Foundation
 import AzureCommunicationSignaling
+import AzureCommunication
 
-func getSignalingClient (token: String) -> CommunicationSignalingClient? {
-        return CommunicationSignalingClient(skypeTokenProvider: CommunicationSkypeTokenProvider(skypeToken: token))
+func getSignalingClient (credential: CommunicationUserCredential) -> CommunicationSignalingClient? {
+    var token: String?
+
+    credential.token(completionHandler: {(communicationAccessToken, _)
+        in
+        if let unwrapped = communicationAccessToken {
+            token = unwrapped.token
+        }
+    })
+
+    if let unwrapped = token {
+        return CommunicationSignalingClient(skypeTokenProvider: CommunicationSkypeTokenProvider(skypeToken: unwrapped))
+    } else {
+        return nil
+    }
+
 }

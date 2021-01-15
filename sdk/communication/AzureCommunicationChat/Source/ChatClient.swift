@@ -69,20 +69,7 @@ public class ChatClient {
 
         self.service = client.chat
 
-        var token: String?
-
-        credential.token(completionHandler: {(communicationAccessToken, _)
-            in
-            if let unwrapped = communicationAccessToken {
-                token = unwrapped.token
-            }
-        })
-        
-        if let unwrapped = token {
-            self.signalingClient = getSignalingClient(token: unwrapped)
-        } else {
-            self.signalingClient = nil
-        }
+        self.signalingClient = getSignalingClient(credential: credential)
     }
 
     // MARK: Public Methods
