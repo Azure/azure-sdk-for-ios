@@ -5,8 +5,6 @@
 ### Breaking Changes
 - Azure Communication Common Library
  - Communication identifier `MicrosoftTeamsUserIdentifier` property `identifier` renamed to `userId` since identifier was too generic.
- - Removing `CommunicationUserCredentialPolicy`, this policy was a duplicate of cores `BearerTokenCredentialPolicy`. 
- Communication now has new ability to create `BearerTokenCredentialPolicy` using the new `CommunicationPolicyTokenCredential`. 
  
 ## 1.0.0-beta.7 (2021-01-12)
 
