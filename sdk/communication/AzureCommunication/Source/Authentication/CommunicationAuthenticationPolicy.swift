@@ -29,44 +29,47 @@ import AzureCore
 #endif
 import Foundation
 /**
- The Azure Communication Services authentication policy.
+ The Azure Communication Services token credential used to authenticate pipeline requests.
  */
-public class CommunicationUserCredentialPolicy: Authenticating {
-    public var next: PipelineStage?
-
+public class CommunicationPolicyTokenCredential: TokenCredential {    
     private let credential: CommunicationUserCredential
-
+    var error: AzureError? = nil
     /**
-     Creates a credential policy that authenticates requests using the provided `CommunicationUserCredential`.
+     Creates a token credential  that authenticates requests using the provided `CommunicationUserCredential`.
      
-     - Parameter credential: The `CommunicationUserCredential` that will be used to authenticate requests.
-     
-     - SeeAlso: `CommunicationUserCredential.init(...)`
+     - Parameter credential: The user credential to authenticate with.
      */
-    public init(credential: CommunicationUserCredential) {
+    public init(_ credential: CommunicationUserCredential) {
         self.credential = credential
     }
-
     /**
-     Authenticates an HTTP `PipelineRequest` with a token retrieved from the credential.
+     Retrieve a token for the provided scope.
+
      - Parameters:
-        - request:A `PipelineRequest` object.
-        - completionHandler: A completion handler that forwards the modified pipeline request.
+     - scopes: A list of a scope strings for which to retrieve the token.
+     - completionHandler: A completion handler which forwards the access token.
      */
-    public func authenticate(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
-        credential.token { token, error in
-            if let error = error {
-                completionHandler(request, AzureError.client("Error while retrieving access token", error))
+    public func token(forScopes scopes: [String], completionHandler: @escaping TokenCompletionHandler) {
+        credential.token { (communicationAccessToken, error) in
+            guard let communicationAccessToken = communicationAccessToken else {
+                self.error = AzureError.client("Communication Token Failure", error)
+                completionHandler(nil, self.error)
                 return
             }
-
-            guard let token = token?.token else {
-                completionHandler(request, AzureError.client("Token cannot be empty"))
-                return
-            }
-
-            request.httpRequest.headers[.authorization] = "Bearer \(token)"
-            completionHandler(request, nil)
+            
+            let accessToken = AccessToken(token: communicationAccessToken.token,
+                                          expiresOn: communicationAccessToken.expiresOn)
+            
+            completionHandler(accessToken, nil)
+        }
+    }
+    /**
+     Validates throws an error if token creating had any errors
+     - Throws: Azure error with the error from the get token call. 
+     */
+    public func validate() throws {
+        if let error = error {
+            throw error
         }
     }
 }
