@@ -4,34 +4,8 @@
 
 ### Breaking Changes
 - Azure Communication Common Library
- - Communication identifier `MicrosoftTeamsUserIdentifier` property `identifier` renamed to `userId` since identifier was too generic.
- 
-## 1.0.0-beta.7 (2021-01-12)
-
-### New Features
-
-- Azure Communication Calling Service
-  - Added the ability to set the Caller display name when initializing the library.
-
-- Azure Communication Common Library
-  - Added a new communication identifier `MicrosoftTeamsUserIdentifier`, used to represent a Microsoft Teams user.
-  - Introduced the new `CommunicationTokenRefreshOptions` type for specifying communication token refresh options.
-
-### Breaking Changes
-- Azure Communication Common Library
-  - Renamed the type `CommunicationUserCredential` to `CommunicationTokenCredential`, as it represents a token.
-  - The protocol `CommunicationTokenCredential` has likewise been renamed to `CommunicationTokenCredentialProviding`.
-  - All types that conform to the `CommunicationIdentifier` protocol now use the suffix `Identifier`. For example, the
-    `PhoneNumber` type used to represent a phone number identifier is now named `PhoneNumberIdentifier`.
-  - Updated the `CommunicationTokenCredential` initializer that automatically refreshes the token to accept a single
-    `CommunicationTokenRefreshOptions` object instead of multiple parameters.
-
-### Key Bug Fixes
-
-- Azure Communication Calling Service
-  - Fixed an issue where `handlePushNotification` did not return false if the same payload had been processed already.
-  - Improved logging to help identify the source of `hangup`-related issues reported in GitHub.
-  - Fixed an issue where the remote participant was still available after hangup/disconnect. [#134](https://github.com/Azure/Communication/issues/134)
+  - Removing `CommunicationUserCredentialPolicy`, this policy was a duplicate of cores `BearerTokenCredentialPolicy`.  
+  Communication now has new ability to create `BearerTokenCredentialPolicy` using the new `CommunicationPolicyTokenCredential`. 
 
 ## 1.0.0-beta.6 (2020-11-23)
 
