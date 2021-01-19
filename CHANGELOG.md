@@ -35,6 +35,8 @@
   - Fixed an issue where `handlePushNotification` did not return false if the same payload had been processed already.
   - Improved logging to help identify the source of `hangup`-related issues reported in GitHub.
   - Fixed an issue where the remote participant was still available after hangup/disconnect. [#134](https://github.com/Azure/Communication/issues/134)
+  - Removing `CommunicationUserCredentialPolicy`, this policy was a duplicate of cores `BearerTokenCredentialPolicy`.  
+  Communication now has new ability to create `BearerTokenCredentialPolicy` using the new `CommunicationPolicyTokenCredential`. 
 
 ## 1.0.0-beta.6 (2020-11-23)
 
