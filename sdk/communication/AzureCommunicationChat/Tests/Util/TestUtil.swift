@@ -37,7 +37,7 @@ class TestConfig {
     public static func getChatClient() throws -> ChatClient {
         let endpoint = "https://endpoint"
         let token = generateToken()
-        let credential = try CommunicationUserCredential(token: token)
+        let credential = try CommunicationTokenCredential(token: token)
         let options = AzureCommunicationChatClientOptions()
 
         return try ChatClient(endpoint: endpoint, credential: credential, withOptions: options)
