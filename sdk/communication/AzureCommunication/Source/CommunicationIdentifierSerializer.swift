@@ -34,7 +34,7 @@ public class CommunicationIdentifierSerializer {
         let kind = identifier.kind
 
         guard let id = identifier.id else {
-            throw AzureError.client("Can't serialize CommunicationIdentifierModel to CommunicationIdentifier.")
+            throw AzureError.client("Can't serialize CommunicationIdentifierModel: id is undefined.")
         }
 
         switch kind {
