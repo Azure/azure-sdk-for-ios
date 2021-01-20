@@ -743,7 +743,7 @@ public final class ChatThreadOperation {
 
         // Construct request
         guard let requestBody = try? JSONEncoder().encode(chatMessage) else {
-            client.options.logger.error("Failed to encode request body as JSON.")
+            client.options.logger.error("Failed to encode request body as json.")
             return
         }
         let urlTemplate = "/chat/threads/{chatThreadId}/messages/{chatMessageId}"
@@ -1543,9 +1543,9 @@ public final class ChatThreadOperation {
             (.header, "Accept", "application/json", .encode)
         )
 
-        // Construct patch request
+        // Construct request
         guard let requestBody = try? JSONEncoder().encode(chatThread) else {
-            client.options.logger.error("Failed to encode request body as JSON.")
+            client.options.logger.error("Failed to encode request body as json.")
             return
         }
         let urlTemplate = "/chat/threads/{chatThreadId}"
