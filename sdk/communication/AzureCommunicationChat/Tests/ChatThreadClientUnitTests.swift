@@ -134,7 +134,6 @@ class ChatThreadClientUnitTests: XCTestCase {
         }
 
         let messageRequest = SendChatMessageRequest(
-            priority: ChatMessagePriority.normal,
             content: "Hello world!",
             senderDisplayName: "Leo"
         )
@@ -169,7 +168,6 @@ class ChatThreadClientUnitTests: XCTestCase {
         }
 
         let messageRequest = SendChatMessageRequest(
-            priority: ChatMessagePriority.normal,
             content: "Hello world!",
             senderDisplayName: "Leo"
         )
