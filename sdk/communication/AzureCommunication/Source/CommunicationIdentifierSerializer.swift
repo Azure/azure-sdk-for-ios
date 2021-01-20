@@ -24,14 +24,17 @@
 //
 // --------------------------------------------------------------------------
 
+#if canImport(AzureCore)
+    import AzureCore
+#endif
 import Foundation
 
 public class CommunicationIdentifierSerializer {
-    static func deserialize(identifier: CommunicationIdentifierModel) -> CommunicationIdentifier? {
+    static func deserialize(identifier: CommunicationIdentifierModel) throws -> CommunicationIdentifier {
         let kind = identifier.kind
 
         guard let id = identifier.id else {
-            return nil
+            throw AzureError.client("Can't serialize CommunicationIdentifierModel to CommunicationIdentifier.")
         }
 
         switch kind {
@@ -48,22 +51,24 @@ public class CommunicationIdentifierSerializer {
         }
     }
 
-    static func serialize(identifier: CommunicationIdentifier) -> CommunicationIdentifierModel? {
+    static func serialize(identifier: CommunicationIdentifier) throws -> CommunicationIdentifierModel? {
         switch identifier {
         case let userIdentifier as CommunicationUserIdentifier:
             return CommunicationIdentifierModel(kind: .communicationUser, id: userIdentifier.identifier)
         case let callingApplicationIdentifier as CallingApplicationIdentifier:
             return CommunicationIdentifierModel(kind: .callingApplication, id: callingApplicationIdentifier.identifier)
         case let phoneNumberIdentifier as PhoneNumberIdentifier:
-            return CommunicationIdentifierModel(kind: .phoneNumber, id: phoneNumberIdentifier.value)
+            return CommunicationIdentifierModel(kind: .phoneNumber, phoneNumber: phoneNumberIdentifier.phoneNumber)
         case let microsoftTeamUserIdentifier as MicrosoftTeamsUserIdentifier:
             return CommunicationIdentifierModel(
                 kind: .microsoftTeamsUser,
                 id: microsoftTeamUserIdentifier.userId,
                 isAnonymous: microsoftTeamUserIdentifier.isAnonymous
             )
+        case let unknownIdentifier as UnknownIdentifier:
+            return CommunicationIdentifierModel(kind: .unknown, id: unknownIdentifier.identifier)
         default:
-            return nil
+            throw AzureError.client("Not support kind in CommunicationIdentifier.")
         }
     }
 }
