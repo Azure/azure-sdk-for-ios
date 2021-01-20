@@ -29,7 +29,7 @@ import Foundation
 /**
  Common Communication Identifier protocol for all Azure Communication Services. All Communication Identifiers conform to this protocol.
  */
-@objc public protocol CommunicationIdentifier: NSObjectProtocol {  }
+@objc public protocol CommunicationIdentifier: NSObjectProtocol {}
 /**
  Communication identifier for Communication Services Users
  */
@@ -43,6 +43,7 @@ import Foundation
         self.identifier = identifier
     }
 }
+
 /**
  Communication identifier for Communication Services Applications
  */
@@ -56,6 +57,7 @@ import Foundation
         self.identifier = identifier
     }
 }
+
 /**
  Catch-all for all other Communication identifiers for Communication Services
  */
@@ -69,19 +71,21 @@ import Foundation
         self.identifier = identifier
     }
 }
+
 /**
  Communication identifier for Communication Services representing a Phone Number
  */
 @objcMembers public class PhoneNumberIdentifier: NSObject, CommunicationIdentifier {
-    public let value: String
+    public let phoneNumber: String
     /**
      Creates a PhoneNumberIdentifier object
      - Parameter phoneNumber: phone number to create the object, different from identifier
      */
     public init(phoneNumber: String) {
-        self.value = phoneNumber
+        self.phoneNumber = phoneNumber
     }
 }
+
 /**
  Communication identifier for Microsoft Teams Users
  */

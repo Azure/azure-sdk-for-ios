@@ -33,227 +33,118 @@ import XCTest
     @testable import AzureCore
 #endif
 
-enum FetchTokenError: Error {
-    case badRequest(String)
-}
+class CommunicationIdentifierSerializerTests: XCTestCase {
+    func test_DeserializeCommunicationUser() throws {
+        let identifier = try CommunicationIdentifierSerializer
+            .deserialize(identifier: CommunicationIdentifierModel(kind: .communicationUser, id: "some id"))
 
-class CommunicationTokenCredentialTests: XCTestCase {
-    private let sampleToken =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjMyNTAzNjgwMDAwfQ.9i7FNNHHJT8cOzo-yrAUJyBSfJ-tPPk2emcHavOEpWc"
-    private let sampleTokenExpiry: Double = 32_503_680_000
-    private let sampleExpiredToken =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjEwMH0.1h_scYkNp-G98-O4cW6KvfJZwiz54uJMyeDACE4nypg"
+        let expectedIdentifier = CommunicationUserIdentifier(identifier: "some id")
 
-    private var fetchTokenCallCount: Int = 0
-
-    override func setUp() {
-        super.setUp()
-
-        fetchTokenCallCount = 0
+        XCTAssertTrue(identifier is CommunicationUserIdentifier)
+        XCTAssertEqual(expectedIdentifier.identifier, (identifier as? CommunicationUserIdentifier)?.identifier)
     }
 
-    func fetchTokenSync(completionHandler: TokenRefreshOnCompletion) {
-        fetchTokenCallCount += 1
+    func test_SerializeCommunicationUser() throws {
+        let model = try CommunicationIdentifierSerializer
+            .serialize(identifier: CommunicationUserIdentifier(identifier: "some id"))
 
-        let newToken = sampleToken
-        completionHandler(newToken, nil)
+        XCTAssertEqual(model?.kind, .communicationUser)
+        XCTAssertEqual(model?.id, "some id")
     }
 
-    func fetchTokenSyncWithError(completionHandler: TokenRefreshOnCompletion) {
-        fetchTokenCallCount += 1
+    func test_DeserializeUnknown() throws {
+        let identifier = try CommunicationIdentifierSerializer
+            .deserialize(identifier: CommunicationIdentifierModel(kind: .unknown, id: "some id"))
 
-        completionHandler(nil, FetchTokenError.badRequest("Error while fetching token"))
+        let expectedIdentifier = UnknownIdentifier(identifier: "some id")
+
+        XCTAssertTrue(identifier is UnknownIdentifier)
+        XCTAssertEqual(expectedIdentifier.identifier, (identifier as? UnknownIdentifier)?.identifier)
     }
 
-    func fetchTokenAsync(completionHandler: @escaping TokenRefreshOnCompletion) {
-        fetchTokenCallCount += 1
+    func test_SerializeUnknown() throws {
+        let model = try CommunicationIdentifierSerializer
+            .serialize(identifier: UnknownIdentifier(identifier: "some id"))
 
-        func getTokenFromServer(completionHandler: @escaping (String) -> Void) {
-            // Delay to simulate getting token from server async
-
-            DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 3) {
-                completionHandler(self.sampleToken)
-            }
-        }
-
-        getTokenFromServer { newToken in
-            completionHandler(newToken, nil)
-        }
+        XCTAssertEqual(model?.kind, .unknown)
+        XCTAssertEqual(model?.id, "some id")
     }
 
-    func test_DecodesToken() throws {
-        let userCredential = try CommunicationTokenCredential(token: sampleToken)
-        userCredential.token { (accessToken: CommunicationAccessToken?, error: Error?) in
-            XCTAssertNil(error)
-            XCTAssertEqual(accessToken?.token, self.sampleToken)
-            XCTAssertEqual(accessToken?.expiresOn.timeIntervalSince1970, self.sampleTokenExpiry)
-        }
+    func test_DeserializeCallingApplication() throws {
+        let identifier = try CommunicationIdentifierSerializer
+            .deserialize(identifier: CommunicationIdentifierModel(kind: .callingApplication, id: "some id"))
+
+        let expectedIdentifier = CallingApplicationIdentifier(identifier: "some id")
+
+        XCTAssertTrue(identifier is CallingApplicationIdentifier)
+        XCTAssertEqual(expectedIdentifier.identifier, (identifier as? CallingApplicationIdentifier)?.identifier)
     }
 
-    func test_ThrowsIfInvalidToken() throws {
-        let invalidTokens = ["foo", "foo.bar", "foo.bar.foobar"]
+    func test_SerializeCallingApplication() throws {
+        let model = try CommunicationIdentifierSerializer
+            .serialize(identifier: CallingApplicationIdentifier(identifier: "some id"))
 
-        try invalidTokens.forEach { invalidToken in
-            XCTAssertThrowsError(try CommunicationTokenCredential(token: invalidToken))
-        }
+        XCTAssertEqual(model?.kind, .callingApplication)
+        XCTAssertEqual(model?.id, "some id")
     }
 
-    func test_RefreshTokenProactively_TokenAlreadyExpired() throws {
-        let expectation = XCTestExpectation()
+    func test_DeserializePhoneNumber() throws {
+        let identifier = try CommunicationIdentifierSerializer
+            .deserialize(identifier: CommunicationIdentifierModel(kind: .phoneNumber, id: "+12223334444"))
 
-        let tokenRefreshOptions = CommunicationTokenRefreshOptions(
-            initialToken: sampleExpiredToken,
-            refreshProactively: true,
-            tokenRefresher: fetchTokenSync
-        )
+        let expectedIdentifier = PhoneNumberIdentifier(phoneNumber: "+12223334444")
 
-        let userCredential = try CommunicationTokenCredential(with: tokenRefreshOptions)
+        XCTAssertTrue(identifier is PhoneNumberIdentifier)
+        XCTAssertEqual(expectedIdentifier.phoneNumber, (identifier as? PhoneNumberIdentifier)?.phoneNumber)
+    }
 
-        DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 1) {
-            userCredential.token { (accessToken: CommunicationAccessToken?, error: Error?) in
-                XCTAssertNotNil(accessToken)
-                XCTAssertNil(error)
-                XCTAssertEqual(accessToken?.token, self.sampleToken)
-                XCTAssertEqual(self.fetchTokenCallCount, 1)
+    func test_SerializePhoneNumber() throws {
+        let model = try CommunicationIdentifierSerializer
+            .serialize(identifier: PhoneNumberIdentifier(phoneNumber: "+12223334444"))
 
+        XCTAssertEqual(model?.kind, .phoneNumber)
+        XCTAssertEqual(model?.phoneNumber, "+12223334444")
+    }
+
+    func test_DeserializeMicrosoftTeamsUser() throws {
+        let identifier = try CommunicationIdentifierSerializer
+            .deserialize(identifier: CommunicationIdentifierModel(kind: .microsoftTeamsUser, id: "some id"))
+
+        let expectedIdentifier = MicrosoftTeamsUserIdentifier(userId: "some id")
+
+        XCTAssertTrue(identifier is MicrosoftTeamsUserIdentifier)
+        XCTAssertEqual(expectedIdentifier.userId, (identifier as? MicrosoftTeamsUserIdentifier)?.userId)
+    }
+
+    func test_SerializeMicrosoftTeamsUser() throws {
+        let model = try CommunicationIdentifierSerializer
+            .serialize(identifier: MicrosoftTeamsUserIdentifier(userId: "some id"))
+
+        XCTAssertEqual(model?.kind, .microsoftTeamsUser)
+        XCTAssertEqual(model?.id, "some id")
+    }
+
+    func test_DeserializeMissingProperty() throws {
+        let expectation =
+            XCTestExpectation(description: "Exception is throw due to missing id")
+
+        let modelsWithMissingMandatoryProperty: [CommunicationIdentifierModel] = [
+            CommunicationIdentifierModel(kind: .unknown),
+            CommunicationIdentifierModel(kind: .communicationUser),
+            CommunicationIdentifierModel(kind: .callingApplication),
+            CommunicationIdentifierModel(kind: .phoneNumber),
+            CommunicationIdentifierModel(kind: .microsoftTeamsUser)
+        ]
+
+        expectation.expectedFulfillmentCount = modelsWithMissingMandatoryProperty.count
+        expectation.assertForOverFulfill = true
+
+        for item in modelsWithMissingMandatoryProperty {
+            do {
+                try CommunicationIdentifierSerializer.deserialize(identifier: item)
+            } catch {
                 expectation.fulfill()
             }
         }
-
-        wait(for: [expectation], timeout: 2)
-    }
-
-    func test_RefreshTokenProactively_FetchTokenReturnsError() throws {
-        let expectation = XCTestExpectation()
-
-        let tokenRefreshOptions = CommunicationTokenRefreshOptions(
-            initialToken: sampleExpiredToken,
-            refreshProactively: true,
-            tokenRefresher: fetchTokenSyncWithError
-        )
-
-        let userCredential = try CommunicationTokenCredential(with: tokenRefreshOptions)
-
-        DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 1) {
-            userCredential.token { (accessToken: CommunicationAccessToken?, error: Error?) in
-                XCTAssertNotNil(error)
-                XCTAssertEqual(error.debugDescription.contains("Error while fetching token"), true)
-                XCTAssertNil(accessToken)
-                XCTAssertEqual(self.fetchTokenCallCount, 2)
-
-                expectation.fulfill()
-            }
-        }
-
-        wait(for: [expectation], timeout: 2)
-    }
-
-    func test_RefreshTokenProactively_TokenExpiringSoon() throws {
-        let testCases = [1, 9]
-
-        let expectation = XCTestExpectation()
-        let semaphore = DispatchSemaphore(value: 1)
-
-        try testCases.forEach { minutes in
-            semaphore.wait()
-            setUp()
-
-            let expiringToken = generateTokenValidForMinutes(minutes)
-
-            let tokenRefreshOptions = CommunicationTokenRefreshOptions(
-                initialToken: expiringToken,
-                refreshProactively: true,
-                tokenRefresher: fetchTokenSync
-            )
-
-            let userCredential = try CommunicationTokenCredential(with: tokenRefreshOptions)
-
-            DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 1) {
-                userCredential.token { (accessToken: CommunicationAccessToken?, _: Error?) in
-                    XCTAssertNotNil(accessToken)
-                    XCTAssertEqual(accessToken?.token, self.sampleToken)
-
-                    userCredential.token { (accessToken: CommunicationAccessToken?, _: Error?) in
-                        XCTAssertNotNil(accessToken)
-                        XCTAssertEqual(accessToken?.token, self.sampleToken)
-                        XCTAssertEqual(self.fetchTokenCallCount, 1)
-
-                        if minutes == testCases.last {
-                            expectation.fulfill()
-                        }
-
-                        semaphore.signal()
-                    }
-                }
-            }
-        }
-
-        wait(for: [expectation], timeout: 2)
-    }
-
-    func test_RefreshTokenOnDemand_SyncRefresh() throws {
-        let expectation = XCTestExpectation()
-
-        let expectedToken = sampleToken
-        let expectedTokenExpiry = sampleTokenExpiry
-
-        let tokenRefreshOptions = CommunicationTokenRefreshOptions(
-            initialToken: sampleExpiredToken,
-            refreshProactively: false,
-            tokenRefresher: fetchTokenSync
-        )
-
-        let userCredential = try CommunicationTokenCredential(with: tokenRefreshOptions)
-        DispatchQueue.global(qos: .utility).async {
-            userCredential.token { (accessToken: CommunicationAccessToken?, error: Error?) in
-                XCTAssertNotNil(accessToken)
-                XCTAssertNil(error)
-                XCTAssertEqual(accessToken?.token, expectedToken)
-                XCTAssertEqual(accessToken?.expiresOn.timeIntervalSince1970, expectedTokenExpiry)
-
-                expectation.fulfill()
-            }
-        }
-
-        wait(for: [expectation], timeout: 1)
-    }
-
-    func test_RefreshTokenOnDemand_AsyncRefresh() throws {
-        let expectation = XCTestExpectation()
-
-        let expectedToken = sampleToken
-        let expectedTokenExpiry = sampleTokenExpiry
-
-        let tokenRefreshOptions = CommunicationTokenRefreshOptions(
-            initialToken: sampleExpiredToken,
-            refreshProactively: false,
-            tokenRefresher: fetchTokenAsync
-        )
-
-        let userCredential = try CommunicationTokenCredential(with: tokenRefreshOptions)
-
-        DispatchQueue.global(qos: .utility).async {
-            userCredential.token { (accessToken: CommunicationAccessToken?, error: Error?) in
-                XCTAssertNotNil(accessToken)
-                XCTAssertNil(error)
-                XCTAssertEqual(accessToken?.token, expectedToken)
-                XCTAssertEqual(accessToken?.expiresOn.timeIntervalSince1970, expectedTokenExpiry)
-
-                expectation.fulfill()
-            }
-        }
-
-        wait(for: [expectation], timeout: 5)
-    }
-
-    private func generateTokenValidForMinutes(_ minutes: Int) -> String {
-        let expiresOn = Date().addingTimeInterval(TimeInterval(60 * minutes)).timeIntervalSince1970
-        let tokenString = "{\"exp\": \(Int(expiresOn))}"
-
-        let tokenStringData = tokenString.data(using: .ascii)!
-
-        // swiftlint:disable line_length
-        return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.\(tokenStringData.base64EncodedString()).adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs"
-        // swiftlint:enable line_length
     }
 }
