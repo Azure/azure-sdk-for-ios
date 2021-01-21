@@ -24,8 +24,8 @@
 //
 // --------------------------------------------------------------------------
 
-import AzureCore
 import AzureCommunication
+import AzureCore
 import Foundation
 
 /// A read receipt indicates the time a message was read by a recipient.

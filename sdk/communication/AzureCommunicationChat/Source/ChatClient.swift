@@ -82,6 +82,7 @@ public class ChatClient {
         )
     }
 
+    // TODO: CreateChatThreadResult needs return ChatThread
     /// Create a new ChatThread.
     /// - Parameters:
     ///   - thread: Request for creating a chat thread with the topic and members to add.
@@ -103,7 +104,7 @@ public class ChatClient {
         }
     }
 
-    /// Get the ChatThread with given id.
+    /// Get the Thread with given id.
     /// - Parameters:
     ///   - threadId: The chat thread id.
     ///   - options: Get chat thread options.
@@ -111,12 +112,12 @@ public class ChatClient {
     public func get(
         thread threadId: String,
         withOptions options: Chat.GetChatThreadOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<ChatThread>
+        completionHandler: @escaping HTTPResultHandler<Thread>
     ) {
         service.getChatThread(chatThreadId: threadId, withOptions: options) { result, httpResponse in
             switch result {
             case let .success(chatThread):
-                completionHandler(.success(chatThread), httpResponse)
+                completionHandler(.success(Thread(from: chatThread)), httpResponse)
 
             case let .failure(error):
                 completionHandler(.failure(error), httpResponse)
@@ -135,6 +136,7 @@ public class ChatClient {
         service.listChatThreads(withOptions: options) { result, httpResponse in
             switch result {
             case let .success(chatThreads):
+                // TODO: construct new PagedCollection
                 completionHandler(.success(chatThreads), httpResponse)
 
             case let .failure(error):

@@ -24,8 +24,8 @@
 //
 // --------------------------------------------------------------------------
 
-import AzureCore
 import AzureCommunication
+import AzureCore
 import Foundation
 
 /// A participant of the chat thread.
@@ -67,4 +67,3 @@ public struct Participant: Codable {
         self.shareHistoryTime = shareHistoryTime
     }
 }
-

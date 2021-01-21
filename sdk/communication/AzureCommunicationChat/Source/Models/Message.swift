@@ -24,8 +24,8 @@
 //
 // --------------------------------------------------------------------------
 
-import AzureCore
 import AzureCommunication
+import AzureCore
 import Foundation
 
 /// Message.

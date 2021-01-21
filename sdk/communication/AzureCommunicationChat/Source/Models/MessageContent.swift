@@ -50,7 +50,8 @@ public struct MessageContent: Codable {
     ) {
         self.message = chatMessageContent.message
         self.topic = chatMessageContent.topic
-        self.participants = (chatMessageContent.participants != nil) ? chatMessageContent.participants!.map{ Participant(from: $0) } : nil
+        self.participants = (chatMessageContent.participants != nil) ? chatMessageContent.participants!
+            .map { Participant(from: $0) } : nil
         self.initiator = chatMessageContent.initiator
     }
 
