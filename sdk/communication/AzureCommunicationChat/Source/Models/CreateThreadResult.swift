@@ -24,4 +24,37 @@
 //
 // --------------------------------------------------------------------------
 
+import AzureCore
 import Foundation
+
+/// Result of the create thread operation.
+public struct CreateThreadResult: Codable {
+    // MARK: Properties
+
+    /// Chat thread.
+    public let thread: Thread?
+    /// Errors encountered during the creation of the chat thread.
+    public let errors: CreateChatThreadErrors? // TODO: typealias for consistency?
+
+    // MARK: Initializers
+
+    public init(
+        from createChatThreadResult: CreateChatThreadResult
+    ) {
+        self.thread = (createChatThreadResult.chatThread != nil) ?
+            Thread(from: createChatThreadResult.chatThread!) : nil
+        self.errors = createChatThreadResult.errors
+    }
+
+    /// Initialize a `ChatThreadResult` structure.
+    /// - Parameters:
+    ///   - thread: Chat thread.
+    ///   - errors: Errors encountered during the creation of the chat thread.
+    public init(
+        thread: Thread? = nil,
+        errors: CreateChatThreadErrors? = nil
+    ) {
+        self.thread = thread
+        self.errors = errors
+    }
+}

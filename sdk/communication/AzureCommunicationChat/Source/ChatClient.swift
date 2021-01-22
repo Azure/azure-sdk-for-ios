@@ -82,21 +82,34 @@ public class ChatClient {
         )
     }
 
-    // TODO: CreateChatThreadResult needs return ChatThread
     /// Create a new ChatThread.
     /// - Parameters:
     ///   - thread: Request for creating a chat thread with the topic and members to add.
     ///   - options: Create chat thread options.
     ///   - completionHandler: A completion handler that receives a ChatThreadClient on success.
     public func create(
-        thread: CreateChatThreadRequest,
+        thread: CreateThreadRequest,
         withOptions options: Chat.CreateChatThreadOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<CreateChatThreadResult>
+        completionHandler: @escaping HTTPResultHandler<CreateThreadResult>
     ) {
-        service.create(chatThread: thread, withOptions: options) { result, httpResponse in
+        // TODO: split out to helper?
+        let participants = thread.participants.map {
+            ChatParticipant(
+                id: $0.user.identifier,
+                displayName: $0.displayName,
+                shareHistoryTime: $0.shareHistoryTime
+            )
+        }
+
+        let request = CreateChatThreadRequest(
+            topic: thread.topic,
+            participants: participants
+        )
+
+        service.create(chatThread: request, withOptions: options) { result, httpResponse in
             switch result {
             case let .success(chatThreadResult):
-                completionHandler(.success(chatThreadResult), httpResponse)
+                completionHandler(.success(CreateThreadResult(from: chatThreadResult)), httpResponse)
 
             case let .failure(error):
                 completionHandler(.failure(error), httpResponse)
@@ -136,7 +149,6 @@ public class ChatClient {
         service.listChatThreads(withOptions: options) { result, httpResponse in
             switch result {
             case let .success(chatThreads):
-                // TODO: construct new PagedCollection
                 completionHandler(.success(chatThreads), httpResponse)
 
             case let .failure(error):

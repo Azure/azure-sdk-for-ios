@@ -24,4 +24,29 @@
 //
 // --------------------------------------------------------------------------
 
+import AzureCore
 import Foundation
+
+/// Request payload for creating a chat thread.
+public struct CreateThreadRequest: Codable {
+    // MARK: Properties
+
+    /// The thread topic.
+    public let topic: String
+    /// Participants to be added to the thread.
+    public let participants: [Participant]
+
+    // MARK: Initializers
+
+    /// Initialize a `CreateThreadRequest` structure.
+    /// - Parameters:
+    ///   - topic: The thread topic.
+    ///   - participants: Participants to be added to the chat thread.
+    public init(
+        topic: String,
+        participants: [Participant]
+    ) {
+        self.topic = topic
+        self.participants = participants
+    }
+}
