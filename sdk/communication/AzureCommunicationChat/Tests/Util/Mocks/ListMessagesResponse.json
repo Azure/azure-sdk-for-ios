@@ -3,7 +3,6 @@
         {
             "id": "test_message_id",
             "type": "text",
-            "priority": "normal",
             "sequenceId": "4",
             "version": "string",
             "content": {

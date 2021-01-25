@@ -42,7 +42,7 @@ class ChatClientTests: XCTestCase {
         if TestConfig.mode == "playback" {
             // Register stubs for playback mode
             Recorder.registerStubs()
-        } else if TestConfig.mode == "live" {
+        } else {
             // Remove any stubs that have been registered
             HTTPStubs.removeAllStubs()
         }
