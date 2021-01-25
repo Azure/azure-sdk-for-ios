@@ -31,8 +31,8 @@ public protocol RequestStringConvertible {
     var requestString: String { get }
 }
 
-extension RequestStringConvertible {
-    public static func == (lhs: RequestStringConvertible, rhs: RequestStringConvertible) -> Bool {
+public extension RequestStringConvertible {
+    static func == (lhs: RequestStringConvertible, rhs: RequestStringConvertible) -> Bool {
         return lhs.requestString == rhs.requestString
     }
 }

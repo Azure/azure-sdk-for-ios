@@ -17,7 +17,35 @@
                BlueprintIdentifier = "0A3A5EB72316DB1E00473FDA"
                BuildableName = "AzureCommunication.framework"
                BlueprintName = "AzureCommunication"
-               ReferencedContainer = "container:sdk/communication/AzureCommunicationService/AzureCommunication.xcodeproj">
+               ReferencedContainer = "container:sdk/communication/AzureCommunication/AzureCommunication.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0A3A5EC02316DB1E00473FDA"
+               BuildableName = "AzureCommunicationTests.xctest"
+               BlueprintName = "AzureCommunicationTests"
+               ReferencedContainer = "container:sdk/communication/AzureCommunication/AzureCommunication.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "AzureCommunicationChat::AzureCommunicationChat"
+               BuildableName = "AzureCommunicationChat.framework"
+               BlueprintName = "AzureCommunicationChat"
+               ReferencedContainer = "container:sdk/communication/AzureCommunicationChat/AzureCommunicationChat.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -29,16 +57,6 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       codeCoverageEnabled = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0A3A5EC02316DB1E00473FDA"
-               BuildableName = "AzureCommunicationTests.xctest"
-               BlueprintName = "AzureCommunicationTests"
-               ReferencedContainer = "container:sdk/communication/AzureCommunicationService/AzureCommunication.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
@@ -64,7 +82,7 @@
             BlueprintIdentifier = "0A3A5EB72316DB1E00473FDA"
             BuildableName = "AzureCommunication.framework"
             BlueprintName = "AzureCommunication"
-            ReferencedContainer = "container:sdk/communication/AzureCommunicationService/AzureCommunication.xcodeproj">
+            ReferencedContainer = "container:sdk/communication/AzureCommunication/AzureCommunication.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

@@ -26,8 +26,8 @@
 
 import Foundation
 
-extension URL {
-    public func appendingQueryParameters(_ paramsIn: RequestParameters) -> URL? {
+public extension URL {
+    func appendingQueryParameters(_ paramsIn: RequestParameters) -> URL? {
         let queryParams = paramsIn.values(for: .query)
         guard !queryParams.isEmpty else { return self }
         guard var urlComps = URLComponents(url: self, resolvingAgainstBaseURL: true) else { return nil }
@@ -44,7 +44,7 @@ extension URL {
         return urlComps.url
     }
 
-    public func deletingQueryParameters() -> URL? {
+    func deletingQueryParameters() -> URL? {
         guard var urlComps = URLComponents(url: self, resolvingAgainstBaseURL: true) else { return nil }
         urlComps.query = nil
         return urlComps.url

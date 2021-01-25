@@ -27,8 +27,8 @@
 @testable import AzureCore
 
 // swiftlint:disable force_try
-extension PipelineRequest {
-    public convenience init(
+public extension PipelineRequest {
+    convenience init(
         method: HTTPMethod = .get,
         url: String = "http://www.example.com",
         headers: HTTPHeaders = HTTPHeaders(),
@@ -46,8 +46,8 @@ extension PipelineRequest {
     }
 }
 
-extension PipelineResponse {
-    public convenience init(
+public extension PipelineResponse {
+    convenience init(
         request: PipelineRequest,
         responseCode: Int = 200,
         headers: HTTPHeaders = HTTPHeaders(),

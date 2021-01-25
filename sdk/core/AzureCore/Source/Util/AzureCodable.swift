@@ -26,8 +26,8 @@
 
 import Foundation
 
-extension KeyedDecodingContainer {
-    public func decodeBool(forKey key: K) throws -> Bool {
+public extension KeyedDecodingContainer {
+    func decodeBool(forKey key: K) throws -> Bool {
         do {
             return try decode(Bool.self, forKey: key)
         } catch let DecodingError.typeMismatch(expectedType, context) {
@@ -38,7 +38,7 @@ extension KeyedDecodingContainer {
         }
     }
 
-    public func decodeBoolIfPresent(forKey key: K) throws -> Bool? {
+    func decodeBoolIfPresent(forKey key: K) throws -> Bool? {
         do {
             return try decodeIfPresent(Bool.self, forKey: key)
         } catch let DecodingError.typeMismatch(expectedType, context) {
@@ -49,7 +49,7 @@ extension KeyedDecodingContainer {
         }
     }
 
-    public func decodeInt(forKey key: K) throws -> Int {
+    func decodeInt(forKey key: K) throws -> Int {
         do {
             return try decode(Int.self, forKey: key)
         } catch let DecodingError.typeMismatch(expectedType, context) {
@@ -60,7 +60,7 @@ extension KeyedDecodingContainer {
         }
     }
 
-    public func decodeIntIfPresent(forKey key: K) throws -> Int? {
+    func decodeIntIfPresent(forKey key: K) throws -> Int? {
         do {
             return try decodeIfPresent(Int.self, forKey: key)
         } catch let DecodingError.typeMismatch(expectedType, context) {
@@ -71,7 +71,7 @@ extension KeyedDecodingContainer {
         }
     }
 
-    public func decodeDouble(forKey key: K) throws -> Double {
+    func decodeDouble(forKey key: K) throws -> Double {
         do {
             return try decode(Double.self, forKey: key)
         } catch let DecodingError.typeMismatch(expectedType, context) {
@@ -82,7 +82,7 @@ extension KeyedDecodingContainer {
         }
     }
 
-    public func decodeDoubleIfPresent(forKey key: K) throws -> Double? {
+    func decodeDoubleIfPresent(forKey key: K) throws -> Double? {
         do {
             return try decodeIfPresent(Double.self, forKey: key)
         } catch let DecodingError.typeMismatch(expectedType, context) {

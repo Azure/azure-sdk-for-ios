@@ -303,8 +303,8 @@ class UserAgentPolicyTests: XCTestCase {
     }
 }
 
-extension UserAgentPolicy {
-    public convenience init(
+public extension UserAgentPolicy {
+    convenience init(
         sdkName: String,
         sdkVersion: String,
         platformInfoProvider: PlatformInfoProvider? = DeviceProviders.platformInfo,

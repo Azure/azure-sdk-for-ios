@@ -23,38 +23,45 @@
 // IN THE SOFTWARE.
 //
 // --------------------------------------------------------------------------
-
-#if canImport(AzureCore)
-import AzureCore
-#endif
+<<<<<<< HEAD:sdk/communication/AzureCommunicationChat/Tests/Util/TestUtil.swift
+import AzureCommunication
+import AzureCommunicationChat
 import Foundation
-/**
- The Azure Communication Services User token credential. 
- */
-internal class StaticUserCredential: CommunicationTokenCredential {
-    private let accessToken: CommunicationAccessToken
 
-    /**
-     Creates a static `CommunicationUserCredential` object from the provided token.
-        
-     - Parameter token: The static token to use for authenticating all requests.
-     
-     - Throws: `AzureError` if the provided token is not a valid token.
-     
-     - SeeAlso: ` CommunicationUserCredential.init(...)`
-     */
-    public init(token: String) throws {
-        self.accessToken = try JwtTokenParser.createAccessToken(token)
-    }
+class TestConfig {
+    public static let mode: String = "playback"
+    public static let user1: String = "id:1"
+    public static let user2: String = "id:2"
+    public static let timeout: TimeInterval = 10.0
 
-    /**
-     Retrieve an access token from the credential.
-     
-     - Parameter completionHandler: Closure that accepts an optional `AccessToken` or optional `Error` as parameters.
-     `AccessToken` returns a token and an expiry date if applicable. `Error` returns `nil` if the current token can be returned.
+    /// Creates and returns a ChatClient
+    public static func getChatClient() throws -> ChatClient {
+        let endpoint = "https://endpoint"
+        let token = generateToken()
+        let credential = try CommunicationUserCredential(token: token)
+        let options = AzureCommunicationChatClientOptions()
 
-     */
-    public func token(completionHandler: AccessTokenRefreshOnCompletion) {
-        completionHandler(accessToken, nil)
+        return try ChatClient(endpoint: endpoint, credential: credential, withOptions: options)
     }
 }
+
+func generateToken() -> String {
+    let fakeValue = "{\"iss\":\"ACS\",\"iat\": 1608152725,\"exp\": 1739688725,\"aud\": \"\",\"sub\": \"\"}"
+        .base64EncodedString()
+    return "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9." + fakeValue + ".EMS0ExXqRuobm34WKJE8mAfZ7KppU5kEHl0OFdyree8"
+}
+=======
+
+import UIKit
+
+class ViewController: UIViewController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view.
+    }
+
+
+}
+
+>>>>>>> 295c1cbb1420b00fa602b08341ce88bdb8cb3bb9:examples/AzureSDKSmokeTest/AzureSDKSmokeTest/ViewController.swift

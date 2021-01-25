@@ -26,8 +26,8 @@
 
 import Foundation
 
-extension String {
-    public func replacing(prefix: String, with newPrefix: String) -> String {
+public extension String {
+    func replacing(prefix: String, with newPrefix: String) -> String {
         var mutatedString = prefix
         guard hasPrefix(prefix) else { return self }
         mutatedString = String(dropFirst(prefix.count))
@@ -35,20 +35,20 @@ extension String {
     }
 
     /// Returns the base64 representation of a string.
-    public func base64EncodedString() -> String {
+    func base64EncodedString() -> String {
         let data = Data(bytes: self, count: count)
         return data.base64EncodedString()
     }
 }
 
-extension Data {
+public extension Data {
     /// Returns the hexadecimal string representation of the data.
-    public func hexadecimalString() -> String {
+    func hexadecimalString() -> String {
         return map { String(format: "%02hhx", $0) }.joined()
     }
 
     /// Returns a Base-64 encoded string, optionally trimming ending `=` characters.
-    public func base64EncodedString(trimmingEquals: Bool) -> String {
+    func base64EncodedString(trimmingEquals: Bool) -> String {
         if trimmingEquals {
             return base64EncodedString().trimmingCharacters(in: ["="])
         } else {

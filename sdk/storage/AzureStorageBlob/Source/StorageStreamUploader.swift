@@ -338,25 +338,25 @@ internal class BlobStreamUploader: BlobUploader {
         inGroup _: DispatchGroup? = nil,
         completionHandler: @escaping HTTPResultHandler<BlobProperties>
     ) {
+        // Construct request body
+        let lookupList = buildLookupList()
+        guard let xmlData = (try? lookupList.asXmlString(encoding: .utf8))?.data(using: .utf8) else {
+            fatalError("Unable to serialize block list as XML string.")
+        }
+
         // Construct parameters & headers
         let params = RequestParameters(
             (.query, "comp", "blocklist", .encode),
             (.query, "timeout", options.timeoutInSeconds, .encode)
         )
         let headers = commitHeadersForRequest(
+            withContentLength: xmlData.count,
             withId: requestId,
             withContentMD5: transactionalContentMd5,
             withContentCRC64: transactionalContentCrc64
         )
 
         // Construct and send request
-        let lookupList = buildLookupList()
-        let encoding = String.Encoding.utf8
-        guard let xmlString = try? lookupList.asXmlString(encoding: encoding) else {
-            fatalError("Unable to serialize block list as XML string.")
-        }
-        let xmlData = xmlString.data(using: encoding)
-
         guard let requestUrl = uploadDestination.appendingQueryParameters(params) else { return }
         guard let request = try? HTTPRequest(method: .put, url: requestUrl, headers: headers, data: xmlData)
         else { return }
@@ -417,8 +417,8 @@ internal class BlobStreamUploader: BlobUploader {
 
     // MARK: Private Methods
 
-    // swiftlint:disable:next cyclomatic_complexity
     private func commitHeadersForRequest(
+        withContentLength contentLength: Int,
         withId requestId: String?,
         withContentMD5 md5: Data?,
         withContentCRC64 crc64: Data?
@@ -430,6 +430,7 @@ internal class BlobStreamUploader: BlobUploader {
         // Construct headers
         let headers = RequestParameters(
             (.header, HTTPHeader.contentType, "application/xml; charset=utf-8", .encode),
+            (.header, HTTPHeader.contentLength, contentLength, .encode),
             (.header, HTTPHeader.apiVersion, client.options.apiVersion, .encode),
             (.header, HTTPHeader.contentMD5, String(data: md5, encoding: .utf8), .encode),
             (.header, StorageHTTPHeader.contentCRC64, String(data: crc64, encoding: .utf8), .encode),
