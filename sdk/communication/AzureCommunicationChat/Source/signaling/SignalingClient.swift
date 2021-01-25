@@ -28,7 +28,7 @@ import Foundation
 import AzureCommunicationSignaling
 import AzureCommunication
 
-func getSignalingClient (credential: CommunicationUserCredential) -> CommunicationSignalingClient? {
+func getSignalingClient (credential: CommunicationTokenCredential) -> CommunicationSignalingClient? {
     var token: String?
 
     credential.token(completionHandler: {(communicationAccessToken, _)

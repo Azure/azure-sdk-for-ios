@@ -178,7 +178,7 @@ public class ChatClient {
     /// Call this function before subscribing to any event.
     public func startRealTimeNotifications () {
         if self.signalingClient == nil {
-            print("no signaling client is initialized")
+            options.logger.error("no signaling client is initialized")
         }
         if self.isRealtimeNotificationsStarted {
             return
@@ -192,7 +192,7 @@ public class ChatClient {
     /// This function would unsubscribe to all events.
     public func stopRealTimeNotifications () {
         if self.signalingClient == nil {
-            print("no signaling client is initialized")
+            options.logger.error("no signaling client is initialized")
         }
         self.isRealtimeNotificationsStarted = false
         self.signalingClient?.stop()
@@ -201,7 +201,7 @@ public class ChatClient {
     /// Subscribe to chat events
     public func on (event: String, listener:  @escaping EventListener) {
         guard let _ =  ChatEventId(rawValue: event) else {
-            print("the event id provided is not supported")
+            options.logger.error("the event id provided is not supported")
             return
         }
         self.signalingClient?.on(event: event, listener: listener)

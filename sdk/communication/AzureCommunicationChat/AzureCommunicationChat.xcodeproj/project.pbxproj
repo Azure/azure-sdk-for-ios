@@ -101,6 +101,20 @@
 			remoteGlobalIDString = "AzureCommunicationChat::AzureCommunicationChat";
 			remoteInfo = AzureCommunicationChat;
 		};
+		D51B549425B80E0D00B78904 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D51B549025B80E0D00B78904 /* AzureCommunicationSignaling.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D5F08A20259C68C000EAB8F9;
+			remoteInfo = AzureCommunicationSignaling;
+		};
+		D5B6739425BEBE8D00CC426E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D51B549025B80E0D00B78904 /* AzureCommunicationSignaling.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D5F08A1F259C68C000EAB8F9;
+			remoteInfo = AzureCommunicationSignaling;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -193,6 +207,7 @@
 		D1E356BD257EBBA200E66A66 /* ChatParticipantsCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatParticipantsCollection.swift; sourceTree = "<group>"; };
 		D1E356BE257EBBA200E66A66 /* ChatThreadOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatThreadOperation.swift; sourceTree = "<group>"; };
 		D50EC0E625A9322900FA1177 /* SignalingClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignalingClient.swift; sourceTree = "<group>"; };
+		D51B549025B80E0D00B78904 /* AzureCommunicationSignaling.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AzureCommunicationSignaling.xcodeproj; path = Source/signaling/AzureCommunicationSignaling/AzureCommunicationSignaling.xcodeproj; sourceTree = "<group>"; };
 		F1FE3013E797A134E8A6C3B5 /* Pods_AzureCommunicationChatTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCommunicationChatTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -397,6 +412,14 @@
 			path = signaling;
 			sourceTree = "<group>";
 		};
+		D51B549125B80E0D00B78904 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D51B549525B80E0D00B78904 /* AzureCommunicationSignaling.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		OBJ_113 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -409,6 +432,7 @@
 		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
+				D51B549025B80E0D00B78904 /* AzureCommunicationSignaling.xcodeproj */,
 				OBJ_7 /* Sources */,
 				D1B7EAFA257F03A1004F384A /* Tests */,
 				OBJ_113 /* Products */,
@@ -445,6 +469,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D5B6739525BEBE8D00CC426E /* PBXTargetDependency */,
 			);
 			name = AzureCommunicationChat;
 			productName = AzureCommunicationChat;
@@ -504,6 +529,12 @@
 			);
 			productRefGroup = OBJ_113 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = D51B549125B80E0D00B78904 /* Products */;
+					ProjectRef = D51B549025B80E0D00B78904 /* AzureCommunicationSignaling.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				"AzureCommunicationChat::AzureCommunicationChat" /* AzureCommunicationChat */,
@@ -511,6 +542,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		D51B549525B80E0D00B78904 /* AzureCommunicationSignaling.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AzureCommunicationSignaling.framework;
+			remoteRef = D51B549425B80E0D00B78904 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		D1B7EAEB257F02FC004F384A /* Resources */ = {
@@ -704,6 +745,11 @@
 			isa = PBXTargetDependency;
 			target = "AzureCommunicationChat::AzureCommunicationChat" /* AzureCommunicationChat */;
 			targetProxy = D1CD936C258D688D00409613 /* PBXContainerItemProxy */;
+		};
+		D5B6739525BEBE8D00CC426E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AzureCommunicationSignaling;
+			targetProxy = D5B6739425BEBE8D00CC426E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

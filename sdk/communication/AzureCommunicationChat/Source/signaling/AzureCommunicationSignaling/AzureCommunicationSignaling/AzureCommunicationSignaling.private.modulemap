@@ -1,0 +1,11 @@
+//
+//  AzureCommunicationSignaling.private.modulemap
+//  AzureCommunicationSignaling
+//
+//  Copyright (c) Microsoft Corporation. All rights reserved.
+//  Licensed under the MIT License.
+//
+
+module AzureCommunicationSignaling.Private {
+    export *
+}
