@@ -1,5 +1,12 @@
 # Release History
 
+## 1.0.0-beta.8 (Unreleased)
+
+### Breaking Changes
+- Azure Communication Common Library
+  - Removing `CommunicationUserCredentialPolicy`, this policy was a duplicate of cores `BearerTokenCredentialPolicy`.  
+  Communication now has new ability to create `BearerTokenCredentialPolicy` using the new `CommunicationPolicyTokenCredential`. 
+
 ## 1.0.0-beta.6 (2020-11-23)
 
 ### Key Bug Fixes
