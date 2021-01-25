@@ -19,23 +19,23 @@ import Foundation
 public struct ChatMessageContent: Codable {
     // MARK: Properties
 
-    /// Chat message content for type "text" or "html" messages.
+    /// Chat message content for messages of types text or html.
     public let message: String?
-    /// Chat message content for type "topicUpdated" messages.
+    /// Chat message content for messages of type topicUpdated.
     public let topic: String?
-    /// Chat message content for type "participantAdded" or "participantRemoved" messages.
+    /// Chat message content for messages of types participantAdded or participantRemoved.
     public let participants: [ChatParticipant]?
-    /// Chat message content for type "participantAdded" or "participantRemoved" messages.
+    /// Chat message content for messages of types participantAdded or participantRemoved.
     public let initiator: String?
 
     // MARK: Initializers
 
     /// Initialize a `ChatMessageContent` structure.
     /// - Parameters:
-    ///   - message: Chat message content for type "text" or "html" messages.
-    ///   - topic: Chat message content for type "topicUpdated" messages.
-    ///   - participants: Chat message content for type "participantAdded" or "participantRemoved" messages.
-    ///   - initiator: Chat message content for type "participantAdded" or "participantRemoved" messages.
+    ///   - message: Chat message content for messages of types text or html.
+    ///   - topic: Chat message content for messages of type topicUpdated.
+    ///   - participants: Chat message content for messages of types participantAdded or participantRemoved.
+    ///   - initiator: Chat message content for messages of types participantAdded or participantRemoved.
     public init(
         message: String? = nil, topic: String? = nil, participants: [ChatParticipant]? = nil,
         initiator: String? = nil
