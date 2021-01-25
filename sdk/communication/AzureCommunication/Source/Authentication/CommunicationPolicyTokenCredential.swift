@@ -32,14 +32,14 @@ import Foundation
  The Azure Communication Services token credential used to authenticate pipeline requests.
  */
 public class CommunicationPolicyTokenCredential: TokenCredential {    
-    private let credential: CommunicationUserCredential
+    private let credential: CommunicationTokenCredential
     var error: AzureError? = nil
     /**
      Creates a token credential  that authenticates requests using the provided `CommunicationUserCredential`.
      
      - Parameter credential: The user credential to authenticate with.
      */
-    public init(_ credential: CommunicationUserCredential) {
+    public init(_ credential: CommunicationTokenCredential) {
         self.credential = credential
     }
     /**

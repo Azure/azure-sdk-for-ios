@@ -50,7 +50,7 @@ specifying the clone URL of this repository and the version specifier you wish t
 ```swift
     dependencies: [
         ...
-        .package(url: "https://github.com/Azure/azure-sdk-for-ios.git", from: "1.0.0-beta.5")
+        .package(url: "https://github.com/Azure/azure-sdk-for-ios.git", from: "1.0.0-beta.7")
     ],
 ```
 
@@ -88,7 +88,7 @@ platform :ios, '12.0'
 use_frameworks!
 
 target 'MyTarget' do
-  pod 'AzureCommunicationChat', '~> 1.0.0-beta.5'
+  pod 'AzureCommunicationChat', '~> 1.0.0-beta.7'
   ...
 end
 ```
@@ -125,8 +125,8 @@ let endpoint = "<communication_resource_endpoint>"
 let credential = try CommunicationUserCredential(<"user_access_token>")
 
 let options = AzureCommunicationChatClientOptions(
-    logger: ClientLoggers.default,
-    dispatchQueue: self.queue
+	logger: ClientLoggers.default,
+	dispatchQueue: self.queue
 )
 
 let chatClient = ChatClient(endpoint: endpoint, credential: credential, withOptions: options)
@@ -253,8 +253,6 @@ chatClient.listThreads(withOptions: options) { result, _ in
     }
 }
 ```
-
-You can fetch more data using the `nextPage()` method of `PagedCollection`.
 
 
 #### Delete a thread
@@ -422,8 +420,8 @@ Use the `listParticipants` of `ChatThreadClient` method to retrieve the particip
 chatThreadClient.listParticipants() { result, _ in
     switch result {
     case let .success(threadParticipants):
-        let participants = threadParticipants.items
-        participants?.forEach { participant in
+        var iterator = threadParticipants.syncIterator
+        while let threadParticipants = iterator.next() {
             // Take further action
         }
 
@@ -432,8 +430,6 @@ chatThreadClient.listParticipants() { result, _ in
     }
 }
 ```
-
-You can fetch more data using the `nextPage()` method of `PagedCollection`.
 
 #### Add thread participants
 
@@ -534,8 +530,6 @@ chatThreadClient.listReadReceipts() { result, _ in
     }
 }
 ```
-
-You can fetch more data using the `nextPage()` method of `PagedCollection`.
 
 ### Thread Update Operations
 
