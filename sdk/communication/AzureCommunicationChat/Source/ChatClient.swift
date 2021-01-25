@@ -33,11 +33,7 @@ public class ChatClient {
     // MARK: Properties
 
     private let endpoint: String
-<<<<<<< HEAD
-    private let credential: CommunicationUserCredential
-=======
     private let credential: CommunicationTokenCredential
->>>>>>> 295c1cbb1420b00fa602b08341ce88bdb8cb3bb9
     private let options: AzureCommunicationChatClientOptions
     private let service: Chat
     private var signalingClient: CommunicationSignalingClient?
@@ -52,11 +48,7 @@ public class ChatClient {
     ///   - options: Options used to configure the client.
     public init(
         endpoint: String,
-<<<<<<< HEAD
-        credential: CommunicationUserCredential,
-=======
         credential: CommunicationTokenCredential,
->>>>>>> 295c1cbb1420b00fa602b08341ce88bdb8cb3bb9
         withOptions options: AzureCommunicationChatClientOptions
     ) throws {
         self.endpoint = endpoint

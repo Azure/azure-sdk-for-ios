@@ -23,7 +23,6 @@
 // IN THE SOFTWARE.
 //
 // --------------------------------------------------------------------------
-
 import XCTest
 
 #if canImport(AzureCommunication)
@@ -47,11 +46,7 @@ class CommunicationPolicyTokenCredentialTests: XCTestCase {
         let expectation = self.expectation(description: "Create static token")
         
         let token = expiredToken
-<<<<<<< HEAD
-        let userCredential = try CommunicationUserCredential(token: token)
-=======
         let userCredential = try CommunicationTokenCredential(token: token)
->>>>>>> 295c1cbb1420b00fa602b08341ce88bdb8cb3bb9
         let communicationTokenPolicy = CommunicationPolicyTokenCredential(userCredential)
         communicationTokenPolicy.token(forScopes: [""]) { (accessToken, error) in
             XCTAssertNil(error)
@@ -68,17 +63,11 @@ class CommunicationPolicyTokenCredentialTests: XCTestCase {
     
     func testCreateRefreshableWithoutInitialToken() throws {
         let expectation = self.expectation(description: "Create refreshable without initial token")
-<<<<<<< HEAD
-        let userCredential = try CommunicationUserCredential(initialToken: nil,
-                                                             refreshProactively: true,
-                                                             tokenRefresher: fetchTokenSync)
-=======
         let options = CommunicationTokenRefreshOptions(
             refreshProactively: true,
             tokenRefresher: fetchTokenSync
             )
         let userCredential = try CommunicationTokenCredential(with: options)
->>>>>>> 295c1cbb1420b00fa602b08341ce88bdb8cb3bb9
         let communicationTokenPolicy = CommunicationPolicyTokenCredential(userCredential)
         
         communicationTokenPolicy.token(forScopes: [""]) { (accessToken, error) in
@@ -97,18 +86,12 @@ class CommunicationPolicyTokenCredentialTests: XCTestCase {
     func testCreateRefreshableWithInitialToken() throws {
         let expectation = self.expectation(description: "Create refreshable with initial token")
         let token = expiredToken
-<<<<<<< HEAD
-        let userCredential = try CommunicationUserCredential(initialToken: token,
-                                                             refreshProactively: true,
-                                                             tokenRefresher: fetchTokenSync)
-=======
         let options = CommunicationTokenRefreshOptions(
             initialToken: token,
             refreshProactively: true,
             tokenRefresher: fetchTokenSync
             )
         let userCredential = try CommunicationTokenCredential(with: options)
->>>>>>> 295c1cbb1420b00fa602b08341ce88bdb8cb3bb9
         let communicationTokenPolicy = CommunicationPolicyTokenCredential(userCredential)
         
         communicationTokenPolicy.token(forScopes: [""]) { (accessToken, error) in
@@ -127,11 +110,7 @@ class CommunicationPolicyTokenCredentialTests: XCTestCase {
     func testDecodesToken() throws {
         let expectation = self.expectation(description: "Decode access token")
         let initialToken = sampleToken
-<<<<<<< HEAD
-        let userCredential = try CommunicationUserCredential(token: initialToken)
-=======
         let userCredential = try CommunicationTokenCredential(token: initialToken)
->>>>>>> 295c1cbb1420b00fa602b08341ce88bdb8cb3bb9
         let communicationTokenPolicy = CommunicationPolicyTokenCredential(userCredential)
         
         communicationTokenPolicy.token(forScopes: [""]) { (accessToken, error) in
@@ -150,11 +129,7 @@ class CommunicationPolicyTokenCredentialTests: XCTestCase {
     func testStaticTokenReturnsExpiredToken() throws {
         let expectation = self.expectation(description: "Static token is expired")
         let initialToken = expiredToken
-<<<<<<< HEAD
-        let userCredential = try CommunicationUserCredential(token: initialToken)
-=======
         let userCredential = try CommunicationTokenCredential(token: initialToken)
->>>>>>> 295c1cbb1420b00fa602b08341ce88bdb8cb3bb9
         let communicationTokenPolicy = CommunicationPolicyTokenCredential(userCredential)
         
         communicationTokenPolicy.token(forScopes: [""]) { [weak self] (accessToken, error) in

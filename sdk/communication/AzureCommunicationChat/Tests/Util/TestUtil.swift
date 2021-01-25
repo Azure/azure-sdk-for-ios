@@ -23,10 +23,6 @@
 // IN THE SOFTWARE.
 //
 // --------------------------------------------------------------------------
-<<<<<<< HEAD
-<<<<<<< HEAD:sdk/communication/AzureCommunicationChat/Tests/Util/TestUtil.swift
-=======
->>>>>>> 295c1cbb1420b00fa602b08341ce88bdb8cb3bb9
 import AzureCommunication
 import AzureCommunicationChat
 import Foundation
@@ -41,11 +37,7 @@ class TestConfig {
     public static func getChatClient() throws -> ChatClient {
         let endpoint = "https://endpoint"
         let token = generateToken()
-<<<<<<< HEAD
-        let credential = try CommunicationUserCredential(token: token)
-=======
         let credential = try CommunicationTokenCredential(token: token)
->>>>>>> 295c1cbb1420b00fa602b08341ce88bdb8cb3bb9
         let options = AzureCommunicationChatClientOptions()
 
         return try ChatClient(endpoint: endpoint, credential: credential, withOptions: options)
@@ -57,21 +49,3 @@ func generateToken() -> String {
         .base64EncodedString()
     return "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9." + fakeValue + ".EMS0ExXqRuobm34WKJE8mAfZ7KppU5kEHl0OFdyree8"
 }
-<<<<<<< HEAD
-=======
-
-import UIKit
-
-class ViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-    }
-
-
-}
-
->>>>>>> 295c1cbb1420b00fa602b08341ce88bdb8cb3bb9:examples/AzureSDKSmokeTest/AzureSDKSmokeTest/ViewController.swift
-=======
->>>>>>> 295c1cbb1420b00fa602b08341ce88bdb8cb3bb9

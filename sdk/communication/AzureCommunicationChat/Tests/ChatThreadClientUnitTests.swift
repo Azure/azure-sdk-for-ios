@@ -23,7 +23,6 @@
 // IN THE SOFTWARE.
 //
 // --------------------------------------------------------------------------
-
 import AzureCommunication
 import AzureCommunicationChat
 import AzureCore
@@ -47,11 +46,7 @@ class ChatThreadClientUnitTests: XCTestCase {
     override func setUp() {
         super.setUp()
 
-<<<<<<< HEAD
-        guard let credential = try? CommunicationUserCredential(token: token) else {
-=======
         guard let credential = try? CommunicationTokenCredential(token: token) else {
->>>>>>> 295c1cbb1420b00fa602b08341ce88bdb8cb3bb9
             continueAfterFailure = false
             XCTFail("Failed to create credential")
             return
