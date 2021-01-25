@@ -28,12 +28,12 @@
 #import <AzureCommunication/AzureCommunication-Swift.h>
 #import <AzureCore/AzureCore-Swift.h>
 
-@interface ObjCCommunicationUserCredentialAsyncTests : XCTestCase
+@interface ObjCCommunicationTokenCredentialAsyncTests : XCTestCase
 @property (nonatomic, strong) NSString *sampleToken;
 @property (nonatomic) int fetchTokenCallCount;
 @end
 
-@implementation ObjCCommunicationUserCredentialAsyncTests
+@implementation ObjCCommunicationTokenCredentialAsyncTests
 
 NSString const * kSampleTokenHeader = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
 NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs";
@@ -48,20 +48,24 @@ NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fS
 - (void)xtest_ObjCRefreshTokenProactivelyTokenExpiringInOneMin {
     XCTestExpectation *expectation = [self expectationWithDescription:
                                       @"RefreshTokenProactivelyTokenExpiringInOneMin"];
-    __weak ObjCCommunicationUserCredentialAsyncTests *weakSelf = self;
+    __weak ObjCCommunicationTokenCredentialAsyncTests *weakSelf = self;
     
     NSString *token = [self generateTokenValidForMinutes: 1];
-    CommunicationUserCredential *credential = [[CommunicationUserCredential alloc]
-                                               initWithInitialToken:token
-                                               refreshProactively:YES
-                                               error:nil
-                                               tokenRefresher:
-                                               ^(void (^ block)
-                                                 (NSString * _Nullable newToken,
-                                                  NSError * _Nullable error)) {
+    
+    CommunicationTokenRefreshOptions *tokenRefreshOptions = [[CommunicationTokenRefreshOptions alloc]
+                                                initWithInitialToken:token
+                                                refreshProactively:YES
+                                                tokenRefresher:
+                                                ^(void (^ block)
+                                                  (NSString * _Nullable newToken,
+                                                   NSError * _Nullable error)) {
         weakSelf.fetchTokenCallCount += 1;
         block(weakSelf.sampleToken, nil);
     }];
+    
+    CommunicationTokenCredential *credential = [[CommunicationTokenCredential alloc]
+                                                initWith: tokenRefreshOptions
+                                                error: nil];
     
     [credential tokenWithCompletionHandler:^(CommunicationAccessToken * _Nullable accessToken,
                                              NSError * _Nullable error) {
@@ -78,20 +82,23 @@ NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fS
 - (void)xtest_ObjCRefreshTokenProactivelyTokenExpiringInNineMin {
     XCTestExpectation *expectation = [self expectationWithDescription:
                                       @"RefreshTokenProactivelyTokenExpiringInNineMin"];
-    __weak ObjCCommunicationUserCredentialAsyncTests *weakSelf = self;
+    __weak ObjCCommunicationTokenCredentialAsyncTests *weakSelf = self;
     
     NSString *token = [self generateTokenValidForMinutes: 9];
-    CommunicationUserCredential *credential = [[CommunicationUserCredential alloc]
-                                               initWithInitialToken:token
-                                               refreshProactively:YES
-                                               error:nil
-                                               tokenRefresher:
-                                               ^(void (^ block)
-                                                 (NSString * _Nullable newToken,
-                                                  NSError * _Nullable error)) {
+    CommunicationTokenRefreshOptions *tokenRefreshOptions = [[CommunicationTokenRefreshOptions alloc]
+                                                initWithInitialToken:token
+                                                refreshProactively:YES
+                                                tokenRefresher:
+                                                ^(void (^ block)
+                                                  (NSString * _Nullable newToken,
+                                                   NSError * _Nullable error)) {
         weakSelf.fetchTokenCallCount += 1;
         block(weakSelf.sampleToken, nil);
     }];
+    
+    CommunicationTokenCredential *credential = [[CommunicationTokenCredential alloc]
+                                                initWith:tokenRefreshOptions
+                                                error:nil];
     
     [credential tokenWithCompletionHandler:^(CommunicationAccessToken * _Nullable accessToken,
                                              NSError * _Nullable error) {

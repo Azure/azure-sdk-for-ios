@@ -352,11 +352,11 @@ public enum HTTPHeader: RequestStringConvertible, Equatable, Hashable {
     }
 }
 
-extension HTTPHeaders {
+public extension HTTPHeaders {
     /// Access the value of an `HTTPHeader` within a collection of `HTTPHeaders`.
     /// - Parameters:
     ///   - index: The `HTTPHeader` value to access.
-    public subscript(index: HTTPHeader) -> String? {
+    subscript(index: HTTPHeader) -> String? {
         get {
             return self[index.requestString]
         }
@@ -369,7 +369,7 @@ extension HTTPHeaders {
     /// Remove an `HTTPHeader` value from a collection of `HTTPHeaders`.
     /// - Parameters:
     ///   - index: The `HTTPHeader` value to remove.
-    public mutating func removeValue(forKey key: HTTPHeader) -> Value? {
+    mutating func removeValue(forKey key: HTTPHeader) -> Value? {
         return removeValue(forKey: key.requestString)
     }
 }

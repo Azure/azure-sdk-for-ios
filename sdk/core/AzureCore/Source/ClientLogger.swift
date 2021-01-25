@@ -46,27 +46,27 @@ public protocol ClientLogger {
     func log(_: () -> String?, atLevel: ClientLogLevel)
 }
 
-extension ClientLogger {
-    public func debug(_ message: @escaping () -> String?) {
+public extension ClientLogger {
+    func debug(_ message: @escaping () -> String?) {
         log(message, atLevel: .debug)
     }
 
-    public func info(_ message: @escaping () -> String?) {
+    func info(_ message: @escaping () -> String?) {
         log(message, atLevel: .info)
     }
 
-    public func warning(_ message: @escaping () -> String?) {
+    func warning(_ message: @escaping () -> String?) {
         log(message, atLevel: .warning)
     }
 
-    public func error(_ message: @escaping () -> String?) {
+    func error(_ message: @escaping () -> String?) {
         log(message, atLevel: .error)
     }
 }
 
 // MARK: - Constants
 
-public struct ClientLoggers {
+public enum ClientLoggers {
     // MARK: Properties
 
     public static let none: ClientLogger = NullClientLogger()

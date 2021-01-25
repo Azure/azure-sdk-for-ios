@@ -73,16 +73,16 @@ public protocol PipelineStage {
 }
 
 /// Default implementations for `PipelineStage`.
-extension PipelineStage {
-    public func on(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
+public extension PipelineStage {
+    func on(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
         completionHandler(request, nil)
     }
 
-    public func on(response: PipelineResponse, completionHandler: @escaping OnResponseCompletionHandler) {
+    func on(response: PipelineResponse, completionHandler: @escaping OnResponseCompletionHandler) {
         completionHandler(response, nil)
     }
 
-    public func on(
+    func on(
         error: AzureError,
         pipelineResponse _: PipelineResponse,
         completionHandler: @escaping OnErrorCompletionHandler
@@ -90,7 +90,7 @@ extension PipelineStage {
         completionHandler(error, false)
     }
 
-    public func process(
+    func process(
         request pipelineRequest: PipelineRequest,
         completionHandler: @escaping PipelineStageResultHandler
     ) {

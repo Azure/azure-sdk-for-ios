@@ -45,7 +45,7 @@ internal class ThreadSafeRefreshableAccessTokenCache {
     private let tokenRefresher: TokenRefreshAction
 
     private typealias TimerAction = () -> Void
-    internal typealias AccessTokenRefreshAction = (@escaping AccessTokenRefreshOnCompletion) -> Void
+    internal typealias AccessTokenRefreshAction = (@escaping CommunicationTokenCompletionHandler) -> Void
     internal typealias TokenRefreshAction = (@escaping TokenRefreshOnCompletion) -> Void
 
     public convenience init(refreshProactively: Bool, tokenRefresher: @escaping TokenRefreshAction) {
@@ -69,7 +69,7 @@ internal class ThreadSafeRefreshableAccessTokenCache {
         maybeScheduleRefresh()
     }
 
-    private func refreshAccessToken(completionHandler: @escaping AccessTokenRefreshOnCompletion) {
+    private func refreshAccessToken(completionHandler: @escaping CommunicationTokenCompletionHandler) {
         tokenRefresher { newToken, error in
             if let error = error {
                 completionHandler(nil, error)
@@ -87,7 +87,7 @@ internal class ThreadSafeRefreshableAccessTokenCache {
 
     let anyThreadRefreshing = DispatchSemaphore(value: 1)
     public func getValue(
-        _ completionHandler: @escaping AccessTokenRefreshOnCompletion
+        _ completionHandler: @escaping CommunicationTokenCompletionHandler
     ) {
         if !shouldRefresh() {
             completionHandler(currentToken, nil)

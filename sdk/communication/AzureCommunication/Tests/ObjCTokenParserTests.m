@@ -36,8 +36,9 @@
 - (void)xtest_ObjCThrowsIfInvalidTokenFoo {
     NSString *invalidFoo = @"foo";
     NSError *error = nil;
-    CommunicationUserCredential *credential = [[CommunicationUserCredential alloc] initWithToken:invalidFoo
-                                                                                           error:&error];
+    CommunicationTokenCredential *credential = [[CommunicationTokenCredential alloc]
+                                                initWithToken:invalidFoo
+                                                error:&error];
     XCTAssertNil(credential);
     XCTAssertNotNil(error);
 }
@@ -45,8 +46,9 @@
 - (void)xtest_ObjCThrowsIfInvalidTokenFormat {
     NSString *invalidToken = @"foo.bar.foobar";
     NSError *error = nil;
-    CommunicationUserCredential *credential = [[CommunicationUserCredential alloc] initWithToken:invalidToken
-                                                                                           error:&error];
+    CommunicationTokenCredential *credential = [[CommunicationTokenCredential alloc]
+                                                initWithToken:invalidToken
+                                                error:&error];
     XCTAssertNil(credential);
     XCTAssertNotNil(error);
 }
@@ -54,13 +56,18 @@
 - (void)xtest_ObjCThrowsWhenInitWithBlock {
     NSString *invalidToken = @"foo.bar";
     NSError *error = nil;
-    CommunicationUserCredential *credential = [[CommunicationUserCredential alloc] initWithInitialToken:invalidToken
-                                                                                     refreshProactively:YES
-                                                                                                  error:&error
-                                                                                         tokenRefresher:^(void (^ _Nonnull block)
-                                                                                                          (NSString * _Nullable token,
-                                                                                                           NSError * _Nullable error)) {
+    
+    CommunicationTokenRefreshOptions *tokenRefreshOptions = [[CommunicationTokenRefreshOptions alloc]
+                                                initWithInitialToken:invalidToken
+                                                refreshProactively:YES
+                                                tokenRefresher:^(void (^ _Nonnull block)
+                                                                 (NSString * _Nullable token,
+                                                                  NSError * _Nullable error)) {
     }];
+    
+    CommunicationTokenCredential *credential = [[CommunicationTokenCredential alloc]
+                                                initWith:tokenRefreshOptions
+                                                error:&error];
     
     XCTAssertNil(credential);
     XCTAssertNotNil(error);

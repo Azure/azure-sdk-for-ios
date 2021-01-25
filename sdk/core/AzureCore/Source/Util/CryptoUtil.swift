@@ -109,14 +109,14 @@ public enum CryptoAlgorithm {
 
 // MARK: Extension - String
 
-extension String {
+public extension String {
     /**
      Calculate the HMAC digest of a string.
      - Parameter algorithm: The cryptographic algorithm to use.
      - Parameter key: The key used to compute the HMAC, in `Data` format.
      - Returns: The HMAC digest in `Data` format.
      */
-    public func hmac(algorithm: CryptoAlgorithm, key: Data) -> Data {
+    func hmac(algorithm: CryptoAlgorithm, key: Data) -> Data {
         let strBytes = cString(using: .utf8)
         let strLen = Int(lengthOfBytes(using: .utf8))
         return algorithm.hmac(strBytes, dataLength: strLen, withKey: key)
@@ -128,7 +128,7 @@ extension String {
      - Returns: The hash digest in `Data` format. This can then be converted to a base64 or hex string using the
         `base64String` or `hexString` extension methods.
      */
-    public func hash(algorithm: CryptoAlgorithm) -> Data {
+    func hash(algorithm: CryptoAlgorithm) -> Data {
         let strBytes = cString(using: .utf8)
         let strLen = Int(lengthOfBytes(using: .utf8))
         return algorithm.hash(strBytes, dataLength: strLen)
@@ -137,14 +137,14 @@ extension String {
 
 // MARK: Extension - Data
 
-extension Data {
+public extension Data {
     /**
      Calculate the HMAC digest of data.
      - Parameter algorithm: The HMAC algorithm to use.
      - Parameter key: The key used to compute the HMAC, in `Data` format.
      - Returns: The HMAC digest in `Data` format.
      */
-    public func hmac(algorithm: CryptoAlgorithm, key: Data) -> Data {
+    func hmac(algorithm: CryptoAlgorithm, key: Data) -> Data {
         return withUnsafeBytes { dataBytes in
             algorithm.hmac(dataBytes.baseAddress, dataLength: self.count, withKey: key)
         }
@@ -156,7 +156,7 @@ extension Data {
      - Returns: The hash digest in `Data` format. This can then be converted to a base64 or hex
                 string using the `base64String` or `hexString` extension methods.
      */
-    public func hash(algorithm: CryptoAlgorithm) -> Data {
+    func hash(algorithm: CryptoAlgorithm) -> Data {
         return withUnsafeBytes { dataBytes in
             algorithm.hash(dataBytes.baseAddress, dataLength: self.count)
         }

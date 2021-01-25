@@ -29,7 +29,7 @@ import Foundation
     import UIKit
 #endif
 
-public struct ApplicationUtil {
+public enum ApplicationUtil {
     // MARK: Static Methods
 
     /// Boolean describing whether the application is executing within an app extension.

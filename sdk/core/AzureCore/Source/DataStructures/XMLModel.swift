@@ -38,8 +38,8 @@ public protocol XMLModel {
     func asXmlString(encoding: String.Encoding) throws -> String
 }
 
-extension XMLModel {
-    public func asXmlString(encoding _: String.Encoding = .utf8) throws -> String {
+public extension XMLModel {
+    func asXmlString(encoding _: String.Encoding = .utf8) throws -> String {
         fatalError("asXmlString not implemented for \(type(of: self))")
     }
 }

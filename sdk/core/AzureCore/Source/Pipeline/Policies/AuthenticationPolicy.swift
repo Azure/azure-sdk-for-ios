@@ -59,8 +59,8 @@ public protocol Authenticating: PipelineStage {
     func authenticate(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler)
 }
 
-extension Authenticating {
-    public func on(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
+public extension Authenticating {
+    func on(request: PipelineRequest, completionHandler: @escaping OnRequestCompletionHandler) {
         authenticate(request: request, completionHandler: completionHandler)
     }
 }
