@@ -1,7 +1,6 @@
 {
     "id": "test_message_id",
     "type": "text",
-    "priority": "high",
     "sequenceId": "3",
     "version": "1610070518313",
     "content": {

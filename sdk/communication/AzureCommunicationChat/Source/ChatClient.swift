@@ -98,17 +98,12 @@ public class ChatClient {
         completionHandler: @escaping HTTPResultHandler<CreateChatThreadResult>
     ) {
         service.create(chatThread: thread, withOptions: options) { result, httpResponse in
-            do {
-                switch result {
-                case let .success(chatThreadResult):
-                    completionHandler(.success(chatThreadResult), httpResponse)
+            switch result {
+            case let .success(chatThreadResult):
+                completionHandler(.success(chatThreadResult), httpResponse)
 
-                case let .failure(error):
-                    throw error
-                }
-            } catch {
-                let azureError = AzureError.client("Failed to create ChatThread.", error)
-                completionHandler(.failure(azureError), httpResponse)
+            case let .failure(error):
+                completionHandler(.failure(error), httpResponse)
             }
         }
     }
