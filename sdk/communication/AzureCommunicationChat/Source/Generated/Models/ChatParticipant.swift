@@ -24,7 +24,7 @@ public struct ChatParticipant: Codable {
     /// Display name for the chat participant.
     public let displayName: String?
     /// Time from which the chat history is shared with the participant. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
-    public let shareHistoryTime: Iso8601Date
+    public let shareHistoryTime: Iso8601Date?
 
     // MARK: Initializers
 
@@ -34,7 +34,7 @@ public struct ChatParticipant: Codable {
     ///   - displayName: Display name for the chat participant.
     ///   - shareHistoryTime: Time from which the chat history is shared with the participant. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public init(
-        id: String, displayName: String? = nil, shareHistoryTime: Iso8601Date
+        id: String, displayName: String? = nil, shareHistoryTime: Iso8601Date? = nil
     ) {
         self.id = id
         self.displayName = displayName
@@ -54,7 +54,7 @@ public struct ChatParticipant: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(String.self, forKey: .id)
         self.displayName = try? container.decode(String.self, forKey: .displayName)
-        self.shareHistoryTime = try container.decode(Iso8601Date.self, forKey: .shareHistoryTime)
+        self.shareHistoryTime = try? container.decode(Iso8601Date.self, forKey: .shareHistoryTime)
     }
 
     /// Encode a `ChatParticipant` structure
@@ -62,6 +62,6 @@ public struct ChatParticipant: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
         if displayName != nil { try? container.encode(displayName, forKey: .displayName) }
-        try container.encode(shareHistoryTime, forKey: .shareHistoryTime)
+        if shareHistoryTime != nil { try? container.encode(shareHistoryTime, forKey: .shareHistoryTime) }
     }
 }

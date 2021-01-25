@@ -280,7 +280,6 @@ chatClient.delete(thread: threadId) { result, httpResponse in
 Use the `send` method of `ChatThreadClient` to send a message to a thread.
 
 - `SendChatMessageRequest` is the model to pass to this method.
-- `priority` is used to specify the message priority level, such as 'normal' or 'high', if not specified, 'normal' will be set.
 - `content`, required, is used to provide the chat message content.
 - `senderDisplayName` is used to specify the display name of the sender, if not specified, an empty name will be set.
 - `type` is the type of message being sent, the supported types are text and html.
@@ -289,7 +288,6 @@ Use the `send` method of `ChatThreadClient` to send a message to a thread.
 
 ```swift
 let message = SendChatMessageRequest(
-    priority: ChatMessagePriority.high,
     content: "Test message 1",
     senderDisplayName: "An Important person"
 )
@@ -367,7 +365,6 @@ You can fetch more data using the `nextPage()` method of `PagedCollection`.
 Use the `update` method of `ChatThreadClient` to update a message in a thread.
 
 - `UpdateChatMessageRequest` is the model to pass to this method.
-- `priority` is the chat message priority `ChatMessagePriority`, such as 'Normal' or 'High', if not specified, 'Normal' will be set.
 - `content` is the message content to be updated.
 - `chatMessageId` is the unique ID of the message.
 
