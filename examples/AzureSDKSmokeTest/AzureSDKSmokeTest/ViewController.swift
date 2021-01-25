@@ -23,34 +23,6 @@
 // IN THE SOFTWARE.
 //
 // --------------------------------------------------------------------------
-<<<<<<< HEAD:sdk/communication/AzureCommunicationChat/Tests/Util/TestUtil.swift
-import AzureCommunication
-import AzureCommunicationChat
-import Foundation
-
-class TestConfig {
-    public static let mode: String = "playback"
-    public static let user1: String = "id:1"
-    public static let user2: String = "id:2"
-    public static let timeout: TimeInterval = 10.0
-
-    /// Creates and returns a ChatClient
-    public static func getChatClient() throws -> ChatClient {
-        let endpoint = "https://endpoint"
-        let token = generateToken()
-        let credential = try CommunicationUserCredential(token: token)
-        let options = AzureCommunicationChatClientOptions()
-
-        return try ChatClient(endpoint: endpoint, credential: credential, withOptions: options)
-    }
-}
-
-func generateToken() -> String {
-    let fakeValue = "{\"iss\":\"ACS\",\"iat\": 1608152725,\"exp\": 1739688725,\"aud\": \"\",\"sub\": \"\"}"
-        .base64EncodedString()
-    return "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9." + fakeValue + ".EMS0ExXqRuobm34WKJE8mAfZ7KppU5kEHl0OFdyree8"
-}
-=======
 
 import UIKit
 
@@ -63,5 +35,3 @@ class ViewController: UIViewController {
 
 
 }
-
->>>>>>> 295c1cbb1420b00fa602b08341ce88bdb8cb3bb9:examples/AzureSDKSmokeTest/AzureSDKSmokeTest/ViewController.swift

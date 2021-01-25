@@ -23,6 +23,7 @@
 // IN THE SOFTWARE.
 //
 // --------------------------------------------------------------------------
+
 import XCTest
 
 #if canImport(AzureCommunication)
