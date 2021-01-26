@@ -114,13 +114,13 @@ import Foundation
      - Parameter userId: Id of the Microsoft Teams user. If the user isn't anonymous, the id is the AAD object id of the user.
      - Parameter isAnonymous: Set this to true if the user is anonymous, for example when joining a meeting with a share link.
      - Parameter id: Full id of the Microsoft Teams user.
-     - Parameter cloudEnvironemt: The cloud that the Microsoft Team user belongs to. A null value translates to the Public cloud.
+     - Parameter cloudEnvironment: The cloud that the Microsoft Team user belongs to. A null value translates to the Public cloud.
      */
-    public init(userId: String, isAnonymous: Bool = false, id: String? = nil, cloudEnvironemt: CommunicationCloudEnvironment = CommunicationCloudEnvironment.Public) {
+    public init(userId: String, isAnonymous: Bool = false, id: String? = nil, cloudEnvironment: CommunicationCloudEnvironment = CommunicationCloudEnvironment.Public) {
         self.id = id
         self.userId = userId
         self.isAnonymous = isAnonymous
-        self.cloudEnviroment = cloudEnvironemt
+        self.cloudEnviroment = cloudEnvironment
     }
 
     public static func == (lhs: MicrosoftTeamsUserIdentifier, rhs: MicrosoftTeamsUserIdentifier) -> Bool {

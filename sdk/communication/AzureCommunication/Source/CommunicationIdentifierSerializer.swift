@@ -57,7 +57,7 @@ public class CommunicationIdentifierSerializer {
             guard let cloud = identifier.cloud else {
                 throw AzureError.client("Can't serialize CommunicationIdentifierModel: cloud is undefined.")
             }
-            return MicrosoftTeamsUserIdentifier(userId: microsoftTeamsUserId, isAnonymous: isAnonymous, id:id, cloudEnvironemt: try deserialize(model: cloud))
+            return MicrosoftTeamsUserIdentifier(userId: microsoftTeamsUserId, isAnonymous: isAnonymous, id:id, cloudEnvironment: try deserialize(model: cloud))
         default:
             return UnknownIdentifier(identifier: id)
         }

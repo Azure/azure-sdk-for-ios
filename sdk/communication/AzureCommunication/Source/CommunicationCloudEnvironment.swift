@@ -23,9 +23,6 @@
 // IN THE SOFTWARE.
 //
 // --------------------------------------------------------------------------
-
-import Foundation
-
 #if canImport(AzureCore)
     import AzureCore
 #endif

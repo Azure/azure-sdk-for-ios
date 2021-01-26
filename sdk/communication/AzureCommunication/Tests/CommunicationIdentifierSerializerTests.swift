@@ -117,7 +117,7 @@ class CommunicationIdentifierSerializerTests: XCTestCase {
         let identifier = try CommunicationIdentifierSerializer
             .deserialize(identifier: CommunicationIdentifierModel(kind: .microsoftTeamsUser, id: "some id", microsoftTeamsUserId: "user id", isAnonymous: false, cloud: CommunicationCloudEnvironmentModel.Gcch))
 
-        let expectedIdentifier = MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: false, id: "some id", cloudEnvironemt: CommunicationCloudEnvironment.Gcch)
+        let expectedIdentifier = MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: false, id: "some id", cloudEnvironment: CommunicationCloudEnvironment.Gcch)
 
         XCTAssertTrue(identifier is MicrosoftTeamsUserIdentifier)
         XCTAssertEqual(expectedIdentifier.userId, (identifier as? MicrosoftTeamsUserIdentifier)?.userId)
