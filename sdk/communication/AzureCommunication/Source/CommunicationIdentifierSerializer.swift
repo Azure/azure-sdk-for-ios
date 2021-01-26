@@ -49,7 +49,7 @@ public class CommunicationIdentifierSerializer {
             return PhoneNumberIdentifier(phoneNumber: phoneNumber, id: id)
         case .microsoftTeamsUser:
             guard let isAnonymous = identifier.isAnonymous else {
-                throw AzureError.client("Can't serialize CommunicationIdentifierModel: phoneNumber is undefined.")
+                throw AzureError.client("Can't serialize CommunicationIdentifierModel: isAnonymous is undefined.")
             }
             guard let microsoftTeamsUserId = identifier.microsoftTeamsUserId else {
                 throw AzureError.client("Can't serialize CommunicationIdentifierModel: microsoftTeamsUserId is undefined.")
@@ -97,7 +97,7 @@ public class CommunicationIdentifierSerializer {
             return CommunicationCloudEnvironment.Dod;
         }
 
-        throw AzureError.client("Not support kind in CommunicationIdentifier.")
+        return CommunicationCloudEnvironment(environmentValue: model.requestString);
     }
 
     private static func serialize(cloud: CommunicationCloudEnvironment) throws -> CommunicationCloudEnvironmentModel
