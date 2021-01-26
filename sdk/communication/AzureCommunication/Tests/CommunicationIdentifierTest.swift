@@ -48,6 +48,6 @@ class CommunicationIdentifierTest: XCTestCase {
     }
     
     func test_MicrosoftTeamsUserIdentifier_DefaultCloudIsPublic() throws {
-        XCTAssertEqual(CommunicationCloudEnvironment.Public, MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: true, id: "some id").cloudEnvironemt)
+        XCTAssertEqual(CommunicationCloudEnvironment.Public, MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: true, id: "some id").cloudEnviroment)
     }
 }

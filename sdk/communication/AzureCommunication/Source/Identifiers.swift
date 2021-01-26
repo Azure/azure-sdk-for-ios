@@ -107,7 +107,7 @@ import Foundation
     public let id: String?
     public let userId: String
     public let isAnonymous: Bool
-    public let cloudEnvironemt: CommunicationCloudEnvironment
+    public let cloudEnviroment: CommunicationCloudEnvironment
 
     /**
      Creates a MicrosoftTeamsUserIdentifier object
@@ -120,7 +120,7 @@ import Foundation
         self.id = id
         self.userId = userId
         self.isAnonymous = isAnonymous
-        self.cloudEnvironemt = cloudEnvironemt
+        self.cloudEnviroment = cloudEnvironemt
     }
 
     public static func == (lhs: MicrosoftTeamsUserIdentifier, rhs: MicrosoftTeamsUserIdentifier) -> Bool {
@@ -130,7 +130,7 @@ import Foundation
             return false
         }
 
-        if (lhs.cloudEnvironemt != rhs.cloudEnvironemt) {
+        if (lhs.cloudEnviroment != rhs.cloudEnviroment) {
             return false
         }
 

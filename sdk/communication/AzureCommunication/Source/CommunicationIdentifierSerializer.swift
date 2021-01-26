@@ -77,7 +77,7 @@ public class CommunicationIdentifierSerializer {
                 id: microsoftTeamUserIdentifier.id,
                 microsoftTeamsUserId: microsoftTeamUserIdentifier.userId,
                 isAnonymous: microsoftTeamUserIdentifier.isAnonymous,
-                cloud: try serialize(cloud: microsoftTeamUserIdentifier.cloudEnvironemt)
+                cloud: try serialize(cloud: microsoftTeamUserIdentifier.cloudEnviroment)
             )
         case let unknownIdentifier as UnknownIdentifier:
             return CommunicationIdentifierModel(kind: .unknown, id: unknownIdentifier.identifier)
