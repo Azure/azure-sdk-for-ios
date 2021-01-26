@@ -104,7 +104,7 @@ import Foundation
  Communication identifier for Microsoft Teams Users
  */
 @objcMembers public class MicrosoftTeamsUserIdentifier: NSObject, CommunicationIdentifier {
-    public let id: String?
+    public let identifier: String?
     public let userId: String
     public let isAnonymous: Bool
     public let cloudEnviroment: CommunicationCloudEnvironment
@@ -116,8 +116,8 @@ import Foundation
      - Parameter id: Full id of the Microsoft Teams user.
      - Parameter cloudEnvironment: The cloud that the Microsoft Team user belongs to. A null value translates to the Public cloud.
      */
-    public init(userId: String, isAnonymous: Bool = false, id: String? = nil, cloudEnvironment: CommunicationCloudEnvironment = CommunicationCloudEnvironment.Public) {
-        self.id = id
+    public init(userId: String, isAnonymous: Bool = false, identifier: String? = nil, cloudEnvironment: CommunicationCloudEnvironment = CommunicationCloudEnvironment.Public) {
+        self.identifier = identifier
         self.userId = userId
         self.isAnonymous = isAnonymous
         self.cloudEnviroment = cloudEnvironment
@@ -134,8 +134,8 @@ import Foundation
             return false
         }
 
-        return lhs.id == nil
-            || rhs.id == nil
-            || lhs.id == rhs.id;
+        return lhs.identifier == nil
+            || rhs.identifier == nil
+            || lhs.identifier == rhs.identifier;
     }
 }

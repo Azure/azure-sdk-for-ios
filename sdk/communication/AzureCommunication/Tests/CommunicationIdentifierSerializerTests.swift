@@ -118,7 +118,7 @@ class CommunicationIdentifierSerializerTests: XCTestCase {
             .deserialize(identifier: CommunicationIdentifierModel(kind: .microsoftTeamsUser, id: "some id", microsoftTeamsUserId: "user id", isAnonymous: false,
                 cloud: CommunicationCloudEnvironmentModel.Gcch))
 
-        let expectedIdentifier = MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: false, id: "some id", cloudEnvironment: CommunicationCloudEnvironment.Gcch)
+        let expectedIdentifier = MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: false, identifier: "some id", cloudEnvironment: CommunicationCloudEnvironment.Gcch)
 
         XCTAssertTrue(identifier is MicrosoftTeamsUserIdentifier)
         XCTAssertEqual(expectedIdentifier.userId, (identifier as? MicrosoftTeamsUserIdentifier)?.userId)
@@ -133,7 +133,7 @@ class CommunicationIdentifierSerializerTests: XCTestCase {
     
     func serializeMicrosoftTeamsUser(isAnonymous: Bool, expectedId: String?) throws {
         let model = try CommunicationIdentifierSerializer
-            .serialize(identifier: MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: isAnonymous, id: expectedId))
+            .serialize(identifier: MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: isAnonymous, identifier: expectedId))
 
         XCTAssertEqual(model.kind, .microsoftTeamsUser)
         XCTAssertEqual(model.microsoftTeamsUserId, "user id")
