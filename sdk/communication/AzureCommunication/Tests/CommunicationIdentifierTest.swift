@@ -35,19 +35,53 @@ import XCTest
 
 class CommunicationIdentifierTest: XCTestCase {
     func test_IfIdIsOptional_EqualityOnlyTestIfPresentOnBothSide() throws {
-        XCTAssertTrue(MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: true, identifier: "some id") == MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: true));
-        XCTAssertTrue(MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: true, identifier: "some id") == MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: true));
-        XCTAssertTrue(MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: true) == MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: true));
-        XCTAssertTrue(MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: true) == MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: true, identifier: "some id"));
-        XCTAssertFalse(MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: true, identifier: "some id") == MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: true, identifier: "another id"));
+        XCTAssertTrue(
+            MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: true, identifier: "some id") ==
+                MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: true)
+        )
+        XCTAssertTrue(
+            MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: true, identifier: "some id") ==
+                MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: true)
+        )
+        XCTAssertTrue(
+            MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: true) ==
+                MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: true)
+        )
+        XCTAssertTrue(
+            MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: true) ==
+                MicrosoftTeamsUserIdentifier(
+                    userId: "user id",
+                    isAnonymous: true,
+                    identifier: "some id"
+                )
+        )
+        XCTAssertFalse(
+            MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: true, identifier: "some id") ==
+                MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: true, identifier: "another id")
+        )
 
-        XCTAssertTrue(PhoneNumberIdentifier(phoneNumber: "+12223334444", id: "some id") == PhoneNumberIdentifier(phoneNumber: "+12223334444"));
-        XCTAssertTrue(PhoneNumberIdentifier(phoneNumber: "+12223334444") == PhoneNumberIdentifier(phoneNumber: "+12223334444"));
-        XCTAssertTrue(PhoneNumberIdentifier(phoneNumber: "+12223334444") == PhoneNumberIdentifier(phoneNumber: "+12223334444", id: "some id"));
-        XCTAssertFalse(PhoneNumberIdentifier(phoneNumber: "+12223334444", id: "some id") == PhoneNumberIdentifier(phoneNumber: "+12223334444", id: "another id"));
+        XCTAssertTrue(
+            PhoneNumberIdentifier(phoneNumber: "+12223334444", id: "some id") ==
+                PhoneNumberIdentifier(phoneNumber: "+12223334444")
+        )
+        XCTAssertTrue(
+            PhoneNumberIdentifier(phoneNumber: "+12223334444") ==
+                PhoneNumberIdentifier(phoneNumber: "+12223334444")
+        )
+        XCTAssertTrue(
+            PhoneNumberIdentifier(phoneNumber: "+12223334444") ==
+                PhoneNumberIdentifier(phoneNumber: "+12223334444", id: "some id")
+        )
+        XCTAssertFalse(
+            PhoneNumberIdentifier(phoneNumber: "+12223334444", id: "some id") ==
+                PhoneNumberIdentifier(phoneNumber: "+12223334444", id: "another id")
+        )
     }
-    
+
     func test_MicrosoftTeamsUserIdentifier_DefaultCloudIsPublic() throws {
-        XCTAssertEqual(CommunicationCloudEnvironment.Public, MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: true, identifier: "some id").cloudEnviroment)
+        XCTAssertEqual(
+            CommunicationCloudEnvironment.Public,
+            MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: true, identifier: "some id").cloudEnviroment
+        )
     }
 }

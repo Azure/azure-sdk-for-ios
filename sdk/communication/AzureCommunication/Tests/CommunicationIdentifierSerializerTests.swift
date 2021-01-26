@@ -90,7 +90,11 @@ class CommunicationIdentifierSerializerTests: XCTestCase {
 
     func test_DeserializePhoneNumber() throws {
         let identifier = try CommunicationIdentifierSerializer
-            .deserialize(identifier: CommunicationIdentifierModel(kind: .phoneNumber, id: "some id", phoneNumber: "+12223334444"))
+            .deserialize(identifier: CommunicationIdentifierModel(
+                kind: .phoneNumber,
+                id: "some id",
+                phoneNumber: "+12223334444"
+            ))
 
         let expectedIdentifier = PhoneNumberIdentifier(phoneNumber: "+12223334444", id: "some id")
 
@@ -102,7 +106,7 @@ class CommunicationIdentifierSerializerTests: XCTestCase {
     func test_SerializePhoneNumber_ExpectedIdString() throws {
         try serializePhoneNumber(expectedId: "some id")
     }
-    
+
     func test_SerializePhoneNumber_ExpectedIdNil() throws {
         try serializePhoneNumber(expectedId: nil)
     }
@@ -118,10 +122,20 @@ class CommunicationIdentifierSerializerTests: XCTestCase {
 
     func test_DeserializeMicrosoftTeamsUser() throws {
         let identifier = try CommunicationIdentifierSerializer
-            .deserialize(identifier: CommunicationIdentifierModel(kind: .microsoftTeamsUser, id: "some id", microsoftTeamsUserId: "user id", isAnonymous: false,
-                cloud: CommunicationCloudEnvironmentModel.Gcch))
+            .deserialize(identifier: CommunicationIdentifierModel(
+                kind: .microsoftTeamsUser,
+                id: "some id",
+                microsoftTeamsUserId: "user id",
+                isAnonymous: false,
+                cloud: CommunicationCloudEnvironmentModel.Gcch
+            ))
 
-        let expectedIdentifier = MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: false, identifier: "some id", cloudEnvironment: CommunicationCloudEnvironment.Gcch)
+        let expectedIdentifier = MicrosoftTeamsUserIdentifier(
+            userId: "user id",
+            isAnonymous: false,
+            identifier: "some id",
+            cloudEnvironment: CommunicationCloudEnvironment.Gcch
+        )
 
         XCTAssertTrue(identifier is MicrosoftTeamsUserIdentifier)
         XCTAssertEqual(expectedIdentifier.userId, (identifier as? MicrosoftTeamsUserIdentifier)?.userId)
@@ -130,22 +144,26 @@ class CommunicationIdentifierSerializerTests: XCTestCase {
     func test_SerializeMicrosoftTeamsUser_NotAnonymous_ExpectedIdNil() throws {
         try serializeMicrosoftTeamsUser(isAnonymous: false, expectedId: nil)
     }
-    
+
     func test_SerializeMicrosoftTeamsUser_Anonymous_ExpectedIdNil() throws {
         try serializeMicrosoftTeamsUser(isAnonymous: true, expectedId: nil)
     }
-    
+
     func test_SerializeMicrosoftTeamsUser_NotAnonymous_ExpectedIdString() throws {
         try serializeMicrosoftTeamsUser(isAnonymous: false, expectedId: "some id")
     }
-    
+
     func test_SerializeMicrosoftTeamsUser_Anonymous_ExpectedIdString() throws {
         try serializeMicrosoftTeamsUser(isAnonymous: true, expectedId: "some id")
     }
-    
+
     func serializeMicrosoftTeamsUser(isAnonymous: Bool, expectedId: String?) throws {
         let model = try CommunicationIdentifierSerializer
-            .serialize(identifier: MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: isAnonymous, identifier: expectedId))
+            .serialize(identifier: MicrosoftTeamsUserIdentifier(
+                userId: "user id",
+                isAnonymous: isAnonymous,
+                identifier: expectedId
+            ))
 
         XCTAssertEqual(model.kind, .microsoftTeamsUser)
         XCTAssertEqual(model.microsoftTeamsUserId, "user id")
@@ -160,14 +178,34 @@ class CommunicationIdentifierSerializerTests: XCTestCase {
             CommunicationIdentifierModel(kind: .callingApplication), // Missing Id
             CommunicationIdentifierModel(kind: .phoneNumber, id: "some id"), // Missing PhoneNumber
             CommunicationIdentifierModel(kind: .phoneNumber, phoneNumber: "some id"), // Missing Id
-            CommunicationIdentifierModel(kind: .microsoftTeamsUser, id: "some id", microsoftTeamsUserId: "some id", cloud: CommunicationCloudEnvironmentModel.Public), // Missing IsAnonymous
-            CommunicationIdentifierModel(kind: .microsoftTeamsUser, id: "some id", isAnonymous: true, cloud: CommunicationCloudEnvironmentModel.Public), // Missing Missing MicrosoftTeamsUserId
-            CommunicationIdentifierModel(kind: .microsoftTeamsUser, microsoftTeamsUserId: "some id", isAnonymous: true, cloud: CommunicationCloudEnvironmentModel.Public), // Missing id
-            CommunicationIdentifierModel(kind: .microsoftTeamsUser, id: "some id", microsoftTeamsUserId: "some id", isAnonymous: true), // Missing cloud
+            CommunicationIdentifierModel(
+                kind: .microsoftTeamsUser,
+                id: "some id",
+                microsoftTeamsUserId: "some id",
+                cloud: CommunicationCloudEnvironmentModel.Public
+            ), // Missing IsAnonymous
+            CommunicationIdentifierModel(
+                kind: .microsoftTeamsUser,
+                id: "some id",
+                isAnonymous: true,
+                cloud: CommunicationCloudEnvironmentModel.Public
+            ), // Missing Missing MicrosoftTeamsUserId
+            CommunicationIdentifierModel(
+                kind: .microsoftTeamsUser,
+                microsoftTeamsUserId: "some id",
+                isAnonymous: true,
+                cloud: CommunicationCloudEnvironmentModel.Public
+            ), // Missing id
+            CommunicationIdentifierModel(
+                kind: .microsoftTeamsUser,
+                id: "some id",
+                microsoftTeamsUserId: "some id",
+                isAnonymous: true
+            ) // Missing cloud
         ]
 
         var exceptionCount = 0
-        
+
         for item in modelsWithMissingMandatoryProperty {
             do {
                 try CommunicationIdentifierSerializer.deserialize(identifier: item)
