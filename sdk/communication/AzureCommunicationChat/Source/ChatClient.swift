@@ -92,7 +92,7 @@ public class ChatClient {
         withOptions options: Chat.CreateChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<CreateThreadResult>
     ) {
-        // TODO: split out to helper?
+        // Convert Participants to ChatParticipants
         let participants = thread.participants.map {
             ChatParticipant(
                 id: $0.user.identifier,
@@ -100,7 +100,7 @@ public class ChatClient {
                 shareHistoryTime: $0.shareHistoryTime
             )
         }
-
+        // Convert to CreateChatThreadRequest for generated code
         let request = CreateChatThreadRequest(
             topic: thread.topic,
             participants: participants

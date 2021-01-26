@@ -34,7 +34,7 @@ public struct CreateThreadResult: Codable {
     /// Chat thread.
     public let thread: Thread?
     /// Errors encountered during the creation of the chat thread.
-    public let errors: CreateChatThreadErrors? // TODO: typealias for consistency?
+    public let errors: CreateChatThreadErrors?
 
     // MARK: Initializers
 
