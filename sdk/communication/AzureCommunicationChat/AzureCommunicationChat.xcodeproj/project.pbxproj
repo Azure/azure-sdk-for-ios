@@ -207,7 +207,8 @@
 		D1CD93E3258D6EF700409613 /* sendTypingNotification.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sendTypingNotification.json; sourceTree = "<group>"; };
 		D1CD93E7258D6F0600409613 /* updateMessage.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = updateMessage.json; sourceTree = "<group>"; };
 		D1CD93EB258D6F1300409613 /* updateTopic.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = updateTopic.json; sourceTree = "<group>"; };
-		D1E3568C257EBA1800E66A66 /* swagger.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = swagger.json; sourceTree = "<group>"; };D50EC0E625A9322900FA1177 /* SignalingClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignalingClient.swift; sourceTree = "<group>"; };
+		D1E3568C257EBA1800E66A66 /* swagger.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = swagger.json; sourceTree = "<group>"; };
+		D50EC0E625A9322900FA1177 /* SignalingClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignalingClient.swift; sourceTree = "<group>"; };
 		D51B549025B80E0D00B78904 /* AzureCommunicationSignaling.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AzureCommunicationSignaling.xcodeproj; path = Source/signaling/AzureCommunicationSignaling/AzureCommunicationSignaling.xcodeproj; sourceTree = "<group>"; };
 		F1FE3013E797A134E8A6C3B5 /* Pods_AzureCommunicationChatTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCommunicationChatTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -404,22 +405,6 @@
 				D1E3568C257EBA1800E66A66 /* swagger.json */,
 			);
 			path = Swagger;
-			sourceTree = "<group>";
-		};
-		D50EC0E525A9321D00FA1177 /* signaling */ = {
-			isa = PBXGroup;
-			children = (
-				D50EC0E625A9322900FA1177 /* SignalingClient.swift */,
-			);
-			path = signaling;
-			sourceTree = "<group>";
-		};
-		D51B549125B80E0D00B78904 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				D51B549525B80E0D00B78904 /* AzureCommunicationSignaling.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		OBJ_113 /* Products */ = {
@@ -692,7 +677,6 @@
 			files = (
 				D1565C71256DB74900AF45F8 /* ChatClient.swift in Sources */,
 				D1565C74256DB76C00AF45F8 /* ChatThreadClient.swift in Sources */,
-				D50EC0E725A9322900FA1177 /* SignalingClient.swift in Sources */,
 				D15E990525B7C80C00E63DB2 /* Chat+CreateChatThreadOptions.swift in Sources */,
 				D15E991925B7C80C00E63DB2 /* Enumerations.swift in Sources */,
 				D15E990F25B7C80C00E63DB2 /* CommunicationError.swift in Sources */,
