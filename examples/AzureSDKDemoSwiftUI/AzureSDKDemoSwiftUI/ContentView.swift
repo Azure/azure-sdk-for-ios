@@ -8,9 +8,26 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var isShowingDetailView = false
+    
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        NavigationView {
+            VStack {
+                NavigationLink(destination: Text("Second View"), isActive:  $isShowingDetailView) { EmptyView() }
+                Button("Please log in") {
+                    self.isShowingDetailView = true
+                }
+            }.navigationBarItems(
+                leading:
+                    Button("Log Out") {
+                        print("-1")
+                    }.font(.title3),
+                trailing:
+                    Button("Media") {
+                        print("+1")
+                    }.font(.title3)
+            )
+        }
     }
 }
 
