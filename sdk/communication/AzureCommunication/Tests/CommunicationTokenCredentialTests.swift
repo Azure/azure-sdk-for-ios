@@ -144,7 +144,7 @@ class CommunicationTokenCredentialTests: XCTestCase {
             }
         }
 
-        wait(for: [expectation], timeout: 2)
+        wait(for: [expectation], timeout: 3)
     }
 
     func test_RefreshTokenProactively_TokenExpiringSoon() throws {
