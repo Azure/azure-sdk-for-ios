@@ -25,7 +25,7 @@ public struct ChatMessageContent: Codable {
     public let topic: String?
     /// Chat message content for messages of types participantAdded or participantRemoved.
     public let participants: [ChatParticipant]?
-    /// Chat message content for messages of types participantAdded or participantRemoved.
+    /// Chat message initiator.
     public let initiator: String?
 
     // MARK: Initializers
@@ -35,7 +35,7 @@ public struct ChatMessageContent: Codable {
     ///   - message: Chat message content for messages of types text or html.
     ///   - topic: Chat message content for messages of type topicUpdated.
     ///   - participants: Chat message content for messages of types participantAdded or participantRemoved.
-    ///   - initiator: Chat message content for messages of types participantAdded or participantRemoved.
+    ///   - initiator: Chat message initiator.
     public init(
         message: String? = nil, topic: String? = nil, participants: [ChatParticipant]? = nil,
         initiator: String? = nil

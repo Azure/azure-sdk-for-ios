@@ -50,8 +50,8 @@ public struct MessageContent: Codable {
     ) {
         self.message = chatMessageContent.message
         self.topic = chatMessageContent.topic
-        self.participants = (chatMessageContent.participants != nil) ? chatMessageContent.participants!
-            .map { Participant(from: $0) } : nil
+        self.participants = (chatMessageContent.participants != nil) ?
+            chatMessageContent.participants!.map { Participant(from: $0) } : nil
         self.initiator = chatMessageContent.initiator
     }
 
@@ -90,8 +90,7 @@ public struct MessageContent: Codable {
 
         // Convert ChatParticipants to Participants
         let chatParticipants = try? container.decode([ChatParticipant].self, forKey: .participants)
-        self.participants = (chatParticipants != nil) ?
-            chatParticipants!.map { Participant(from: $0) } : nil
+        self.participants = (chatParticipants != nil) ? chatParticipants!.map { Participant(from: $0) } : nil
 
         self.initiator = try? container.decode(String.self, forKey: .initiator)
     }

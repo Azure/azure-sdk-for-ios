@@ -65,12 +65,10 @@ public struct Message: Codable {
         self.type = chatMessage.type
         self.sequenceId = chatMessage.sequenceId
         self.version = chatMessage.version
-        self.content = (chatMessage.content != nil) ?
-            MessageContent(from: chatMessage.content!) : nil
+        self.content = (chatMessage.content != nil) ? MessageContent(from: chatMessage.content!) : nil
         self.senderDisplayName = chatMessage.senderDisplayName
         self.createdOn = chatMessage.createdOn
-        self.sender = (chatMessage.senderId != nil) ?
-            CommunicationUserIdentifier(identifier: chatMessage.senderId!) : nil
+        self.sender = (chatMessage.senderId != nil) ? CommunicationUserIdentifier(identifier: chatMessage.senderId!) : nil
         self.deletedOn = chatMessage.deletedOn
         self.editedOn = chatMessage.editedOn
     }
@@ -106,8 +104,7 @@ public struct Message: Codable {
         self.content = content
         self.senderDisplayName = senderDisplayName
         self.createdOn = createdOn
-        self.sender = (senderId != nil) ?
-            CommunicationUserIdentifier(identifier: senderId!) : nil
+        self.sender = (senderId != nil) ? CommunicationUserIdentifier(identifier: senderId!) : nil
         self.deletedOn = deletedOn
         self.editedOn = editedOn
     }
