@@ -54,7 +54,13 @@ class Recorder {
         sanitized = try sanitize(
             data: sanitized,
             pattern: "\\\"initiator\\\":\\\".*?\\\"",
-            template: "\\\"initiator\\\":\\\"sanitized\\\""
+            template: "\\\"initator\\\":\\\"sanitized\\\""
+        )
+        // chatMessageId
+        sanitized = try sanitize(
+            data: sanitized,
+            pattern: "\\\"chatMessageId\\\":\\\".*?\\\"",
+            template: "\\\"chatMessageId\\\":\\\"sanitized\\\""
         )
         return sanitized
     }
@@ -188,6 +194,11 @@ class Recorder {
             stub(condition: isMethodGET() && pathEndsWith("/threads")) { _ in
                 fixture(filePath: path, status: 200, headers: nil)
             }
+
+        case Recording.listReadReceipts:
+            stub(condition: isMethodGET() && pathEndsWith("/readReceipts")) { _ in
+                fixture(filePath: path, status: 200, headers: nil)
+            }
         }
     }
 }
@@ -210,4 +221,5 @@ enum Recording: String, CaseIterable {
     case listParticipants
     case listMessages
     case listThreads
+    case listReadReceipts
 }

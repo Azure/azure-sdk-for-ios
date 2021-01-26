@@ -302,10 +302,13 @@ class ChatThreadClientTests: XCTestCase {
                     switch result {
                     case .success:
                         // List read receipts
-                        self.chatThreadClient.listReadReceipts { result, _ in
+                        self.chatThreadClient.listReadReceipts { result, httpResponse in
                             switch result {
                             case let .success(readReceipts):
-                                // TODO: record
+                                if TestConfig.mode == "record" {
+                                    Recorder.record(name: Recording.listReadReceipts, httpResponse: httpResponse)
+                                }
+
                                 readReceipts.items?.forEach { readReceipt in
                                     XCTAssertNotNil(readReceipt.sender)
                                     XCTAssertEqual(readReceipt.chatMessageId, sendMessageResult.id)
