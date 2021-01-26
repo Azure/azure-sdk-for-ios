@@ -29,16 +29,24 @@ public protocol CommunicationTokenCredentialProviding {
 }
 @objc @objcMembers public class PhoneNumberIdentifier : ObjectiveC.NSObject, AzureCommunication.CommunicationIdentifier {
   @objc final public let phoneNumber: Swift.String
-  @objc public init(phoneNumber: Swift.String)
+  @objc final public let id: Swift.String?
+  @objc public init(phoneNumber: Swift.String, id: Swift.String? = nil)
+  public static func == (lhs: AzureCommunication.PhoneNumberIdentifier, rhs: AzureCommunication.PhoneNumberIdentifier) -> Swift.Bool
   @objc deinit
   @objc override dynamic public init()
 }
 @objc @objcMembers public class MicrosoftTeamsUserIdentifier : ObjectiveC.NSObject, AzureCommunication.CommunicationIdentifier {
+  @objc final public let identifier: Swift.String?
   @objc final public let userId: Swift.String
   @objc final public let isAnonymous: Swift.Bool
-  @objc public init(userId: Swift.String, isAnonymous: Swift.Bool = false)
+  final public let cloudEnviroment: AzureCommunication.CommunicationCloudEnvironment
+  public init(userId: Swift.String, isAnonymous: Swift.Bool = false, identifier: Swift.String? = nil, cloudEnvironment: AzureCommunication.CommunicationCloudEnvironment = CommunicationCloudEnvironment.Public)
+  public static func == (lhs: AzureCommunication.MicrosoftTeamsUserIdentifier, rhs: AzureCommunication.MicrosoftTeamsUserIdentifier) -> Swift.Bool
   @objc deinit
   @objc override dynamic public init()
+}
+@_hasMissingDesignatedInitializers public class CommunicationIdentifierSerializer {
+  @objc deinit
 }
 @objc @objcMembers public class CommunicationAccessToken : ObjectiveC.NSObject {
   @objc final public let token: Swift.String
@@ -46,6 +54,20 @@ public protocol CommunicationTokenCredentialProviding {
   @objc public init(token: Swift.String, expiresOn: Foundation.Date)
   @objc deinit
   @objc override dynamic public init()
+}
+@_hasMissingDesignatedInitializers @objcMembers public class CommunicationCloudEnvironment {
+  public static var Public: AzureCommunication.CommunicationCloudEnvironment
+  public static var Dod: AzureCommunication.CommunicationCloudEnvironment
+  public static var Gcch: AzureCommunication.CommunicationCloudEnvironment
+  @objc deinit
+}
+extension CommunicationCloudEnvironment : Swift.Equatable {
+  public static func == (lhs: AzureCommunication.CommunicationCloudEnvironment, rhs: AzureCommunication.CommunicationCloudEnvironment) -> Swift.Bool
+}
+extension CommunicationCloudEnvironmentModel {
+  public static var Public: AzureCommunication.CommunicationCloudEnvironmentModel
+  public static var Dod: AzureCommunication.CommunicationCloudEnvironmentModel
+  public static var Gcch: AzureCommunication.CommunicationCloudEnvironmentModel
 }
 public typealias TokenRefresherClosure = (@escaping AzureCommunication.TokenRefreshOnCompletion) -> Swift.Void
 @objc @objcMembers public class CommunicationTokenRefreshOptions : ObjectiveC.NSObject {
@@ -67,4 +89,43 @@ public class CommunicationTokenCredentialPolicy : AzureCore.Authenticating {
   public init(credential: AzureCommunication.CommunicationTokenCredential)
   public func authenticate(request: AzureCore.PipelineRequest, completionHandler: @escaping AzureCore.OnRequestCompletionHandler)
   @objc deinit
+}
+public enum CommunicationIdentifierKind : AzureCore.RequestStringConvertible, Swift.Codable, Swift.Equatable {
+  case custom(Swift.String)
+  case unknown
+  case communicationUser
+  case phoneNumber
+  case callingApplication
+  case microsoftTeamsUser
+  public var requestString: Swift.String {
+    get
+  }
+  public init(_ val: Swift.String)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+  public static func == (a: AzureCommunication.CommunicationIdentifierKind, b: AzureCommunication.CommunicationIdentifierKind) -> Swift.Bool
+}
+public enum CommunicationCloudEnvironmentModel : AzureCore.RequestStringConvertible, Swift.Codable, Swift.Equatable {
+  case custom(Swift.String)
+  case publicType
+  case dod
+  case gcch
+  public var requestString: Swift.String {
+    get
+  }
+  public init(_ val: Swift.String)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+  public static func == (a: AzureCommunication.CommunicationCloudEnvironmentModel, b: AzureCommunication.CommunicationCloudEnvironmentModel) -> Swift.Bool
+}
+public struct CommunicationIdentifierModel : Swift.Codable {
+  public let kind: AzureCommunication.CommunicationIdentifierKind
+  public let id: Swift.String?
+  public let phoneNumber: Swift.String?
+  public let microsoftTeamsUserId: Swift.String?
+  public let isAnonymous: Swift.Bool?
+  public let cloud: AzureCommunication.CommunicationCloudEnvironmentModel?
+  public init(kind: AzureCommunication.CommunicationIdentifierKind, id: Swift.String? = nil, phoneNumber: Swift.String? = nil, microsoftTeamsUserId: Swift.String? = nil, isAnonymous: Swift.Bool? = nil, cloud: AzureCommunication.CommunicationCloudEnvironmentModel? = nil)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
 }
