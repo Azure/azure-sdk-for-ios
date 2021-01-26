@@ -14,8 +14,8 @@
 		0AA5963725AF8ACA00E77E33 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AA5963625AF8ACA00E77E33 /* Assets.xcassets */; };
 		0AA5963A25AF8ACA00E77E33 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AA5963825AF8ACA00E77E33 /* LaunchScreen.storyboard */; };
 		0AA5964325AF8CDF00E77E33 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 0AA5964225AF8CDF00E77E33 /* Podfile */; };
-		0AA5968225AFBC6000E77E33 /* Pods_AzureSDKSmokeTest.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F339CE4414023800F759553D /* Pods_AzureSDKSmokeTest.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		9056B4CF5D1DDDDCE1360BDE /* Pods_AzureSDKSmokeTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E264CCE2F128730C81E124B3 /* Pods_AzureSDKSmokeTest.framework */; };
+		4152965D8F11354FFFFF7961 /* Pods_AzureSDKSmokeTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303D7126DE2A9D98936A45FE /* Pods_AzureSDKSmokeTest.framework */; };
+		7AB0953825BF91C70026A2A5 /* Pods_AzureSDKSmokeTest.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E264CCE2F128730C81E124B3 /* Pods_AzureSDKSmokeTest.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,7 +25,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0AA5968225AFBC6000E77E33 /* Pods_AzureSDKSmokeTest.framework in Embed Frameworks */,
+				7AB0953825BF91C70026A2A5 /* Pods_AzureSDKSmokeTest.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -42,10 +42,10 @@
 		0AA5963925AF8ACA00E77E33 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0AA5963B25AF8ACA00E77E33 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0AA5964225AF8CDF00E77E33 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		303D7126DE2A9D98936A45FE /* Pods_AzureSDKSmokeTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureSDKSmokeTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E13B46AE49C7F47A8F8BDB9F /* Pods-AzureSDKSmokeTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureSDKSmokeTest.release.xcconfig"; path = "Target Support Files/Pods-AzureSDKSmokeTest/Pods-AzureSDKSmokeTest.release.xcconfig"; sourceTree = "<group>"; };
 		E264CCE2F128730C81E124B3 /* Pods_AzureSDKSmokeTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureSDKSmokeTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAF1DB0708C3EB04238458F0 /* Pods-AzureSDKSmokeTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureSDKSmokeTest.debug.xcconfig"; path = "Target Support Files/Pods-AzureSDKSmokeTest/Pods-AzureSDKSmokeTest.debug.xcconfig"; sourceTree = "<group>"; };
-		F339CE4414023800F759553D /* Pods_AzureSDKSmokeTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureSDKSmokeTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,7 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9056B4CF5D1DDDDCE1360BDE /* Pods_AzureSDKSmokeTest.framework in Frameworks */,
+				4152965D8F11354FFFFF7961 /* Pods_AzureSDKSmokeTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,7 +96,7 @@
 		B6CB0229250C38420C8E33BD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E264CCE2F128730C81E124B3 /* Pods_AzureSDKSmokeTest.framework */,
+				303D7126DE2A9D98936A45FE /* Pods_AzureSDKSmokeTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -121,8 +121,9 @@
 				0AA5962625AF8AC900E77E33 /* Sources */,
 				0AA5962725AF8AC900E77E33 /* Frameworks */,
 				0AA5962825AF8AC900E77E33 /* Resources */,
-				470B05212DACF6B51F5CE03E /* [CP] Embed Pods Frameworks */,
 				0AA5968325AFBC6000E77E33 /* Embed Frameworks */,
+				7AB0953925BF91E70026A2A5 /* Format And Lint */,
+				470B05212DACF6B51F5CE03E /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -196,6 +197,24 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AzureSDKSmokeTest/Pods-AzureSDKSmokeTest-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		7AB0953925BF91E70026A2A5 /* Format And Lint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Format And Lint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "BUILD_PATH=$(pwd)\nROOT_PATH=$(pwd | rev | cut -d'/' -f3- | rev) \n$ROOT_PATH/Scripts/swiftlint.sh $BUILD_PATH\n";
 		};
 		7D4CC6286407055AFC02234F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -305,7 +324,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -360,7 +379,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

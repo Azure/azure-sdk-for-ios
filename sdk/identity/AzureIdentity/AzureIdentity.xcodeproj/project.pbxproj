@@ -30,7 +30,7 @@
 		7300B24BBD30372EE41FF661 /* Pods-AzureIdentityTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureIdentityTests.debug.xcconfig"; path = "Target Support Files/Pods-AzureIdentityTests/Pods-AzureIdentityTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7ACBF09F248EFC7D0077C5BA /* MSALCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSALCredential.swift; sourceTree = "<group>"; };
 		7ACBF0A1248EFE800077C5BA /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7ACBF0A5248EFF070077C5BA /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		7ACBF0A5248EFF070077C5BA /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7AE9D567248EF6400029003C /* AzureIdentity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureIdentity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7AE9D570248EF6400029003C /* AzureIdentityTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AzureIdentityTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7AE9D582248EF8BB0029003C /* AzureIdentityTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AzureIdentityTests.swift; sourceTree = "<group>"; };
@@ -193,7 +193,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1150;
-				LastUpgradeCheck = 1150;
+				LastUpgradeCheck = 1230;
 				ORGANIZATIONNAME = "Azure SDK Team";
 				TargetAttributes = {
 					7AE9D566248EF6400029003C = {
@@ -377,6 +377,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -442,6 +443,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
