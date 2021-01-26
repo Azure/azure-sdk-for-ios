@@ -15,39 +15,39 @@ import Foundation
 // swiftlint:disable line_length
 // swiftlint:disable cyclomatic_complexity
 
-/// Errors encountered during the creation of the chat thread.
-public struct CreateChatThreadErrors: Codable {
+/// The Communication Services error.
+public struct CommunicationErrorResponse: Codable, Swift.Error {
     // MARK: Properties
 
-    /// The participants that failed to be added to the chat thread.
-    public let invalidParticipants: [CommunicationError?]?
+    /// The Communication Services error.
+    public let error: CommunicationError
 
     // MARK: Initializers
 
-    /// Initialize a `CreateChatThreadErrors` structure.
+    /// Initialize a `CommunicationErrorResponse` structure.
     /// - Parameters:
-    ///   - invalidParticipants: The participants that failed to be added to the chat thread.
+    ///   - error: The Communication Services error.
     public init(
-        invalidParticipants: [CommunicationError?]? = nil
+        error: CommunicationError
     ) {
-        self.invalidParticipants = invalidParticipants
+        self.error = error
     }
 
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case invalidParticipants = "invalidParticipants"
+        case error = "error"
     }
 
-    /// Initialize a `CreateChatThreadErrors` structure from decoder
+    /// Initialize a `CommunicationErrorResponse` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.invalidParticipants = try? container.decode([CommunicationError?].self, forKey: .invalidParticipants)
+        self.error = try container.decode(CommunicationError.self, forKey: .error)
     }
 
-    /// Encode a `CreateChatThreadErrors` structure
+    /// Encode a `CommunicationErrorResponse` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        if invalidParticipants != nil { try? container.encode(invalidParticipants, forKey: .invalidParticipants) }
+        try container.encode(error, forKey: .error)
     }
 }

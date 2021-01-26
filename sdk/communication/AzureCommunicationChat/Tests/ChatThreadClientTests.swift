@@ -51,7 +51,7 @@ class ChatThreadClientTests: XCTestCase {
         if TestConfig.mode == "playback" {
             // Register stubs for playback mode
             Recorder.registerStubs()
-        } else if TestConfig.mode == "live" {
+        } else {
             // Remove any stubs that have been registered
             HTTPStubs.removeAllStubs()
         }
@@ -144,7 +144,6 @@ class ChatThreadClientTests: XCTestCase {
 
     func test_SendMessage_ReturnsMessageId() {
         let testMessage = SendChatMessageRequest(
-            priority: .high,
             content: "Hello World!",
             senderDisplayName: "User 1",
             type: .text
@@ -176,7 +175,6 @@ class ChatThreadClientTests: XCTestCase {
 
     func test_ListMessages_ReturnsMessages() {
         let testMessage = SendChatMessageRequest(
-            priority: .high,
             content: "Hello World!",
             senderDisplayName: "User 1",
             type: .text
@@ -247,7 +245,6 @@ class ChatThreadClientTests: XCTestCase {
 
     func test_SendReadReceipt() {
         let testMessage = SendChatMessageRequest(
-            priority: .high,
             content: "Hello World!",
             senderDisplayName: "User 1",
             type: .text
@@ -289,7 +286,6 @@ class ChatThreadClientTests: XCTestCase {
 
     func test_UpdateChatMessage() {
         let testMessage = SendChatMessageRequest(
-            priority: .high,
             content: "Hello World!",
             senderDisplayName: "User 1",
             type: .text
@@ -302,8 +298,7 @@ class ChatThreadClientTests: XCTestCase {
             switch result {
             case let .success(sendMessageResult):
                 let updatedMessage = UpdateChatMessageRequest(
-                    content: "Some new content",
-                    priority: .normal
+                    content: "Some new content"
                 )
 
                 // Update message
@@ -321,7 +316,6 @@ class ChatThreadClientTests: XCTestCase {
                                     switch result {
                                     case let .success(message):
                                         XCTAssertEqual(message.content?.message, updatedMessage.content)
-                                        XCTAssertEqual(message.priority, updatedMessage.priority)
 
                                     case let .failure(error):
                                         XCTFail("Get message failed: \(error)")
@@ -354,7 +348,6 @@ class ChatThreadClientTests: XCTestCase {
 
     func test_DeleteMessage() {
         let testMessage = SendChatMessageRequest(
-            priority: .high,
             content: "Hello World!",
             senderDisplayName: "User 1",
             type: .text
