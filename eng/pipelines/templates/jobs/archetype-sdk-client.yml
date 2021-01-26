@@ -2,7 +2,7 @@ parameters:
   BuildScheme: sdk # Build all SDK projects by default
 
 jobs:
-  - job: 'Build'
+  - job: 'XcodeBuild'
 
     variables:
       - template: ../variables/globals.yml
@@ -81,7 +81,7 @@ jobs:
         displayName: 'Publish xcframeworks'
         artifact: 'xcframeworks-release'
 
-  - job: 'Swift_Build'
+  - job: 'SwiftBuild'
 
     variables:
       - template: ../variables/globals.yml
@@ -222,7 +222,31 @@ jobs:
           summaryFileLocation: '$(Build.ArtifactStagingDirectory)/reports/*/*.xml'
         displayName: 'Publish code coverage'
 
- - job: 'SmokeTest'
+  - job: 'IntegrationTest'
+
+    variables:
+      - template: ../variables/globals.yml
+
+    pool:
+      vmImage: '$(OSVmImage)'
+
+    steps:
+      - script: sudo xcode-select --switch /Applications/Xcode_$(XcodeVersion).app
+        displayName: 'Use Xcode $(XcodeVersion)'
+
+      - script: pod install
+        displayName: 'Install dependencies'
+
+      - script: |
+          set -o pipefail
+          xcodebuild build \
+                     -workspace AzureSDK.xcworkspace \
+                     -scheme examples \
+                     -sdk iphonesimulator \
+                     -configuration Debug | xcpretty -c
+        displayName: 'Build examples [iphonesimulator]'
+
+  - job: 'SmokeTest'
     strategy:
       matrix:
         # Build SDK libraries as frameworks, dynamically link to copies stored within the app bundle
