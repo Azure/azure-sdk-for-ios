@@ -365,6 +365,7 @@ public class ChatThreadClient {
         withOptions options: ChatThreadOperation.AddChatParticipantsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<AddChatParticipantsResult>
     ) {
+        // Convert Participants to ChatParticipants
         let chatParticipants = participants.map {
             ChatParticipant(
                 id: $0.user.identifier,
@@ -372,7 +373,7 @@ public class ChatThreadClient {
                 shareHistoryTime: $0.shareHistoryTime
             )
         }
-
+        // Convert to AddChatParticipantsRequest for generated code
         let addParticipantsRequest = AddChatParticipantsRequest(
             participants: chatParticipants
         )
