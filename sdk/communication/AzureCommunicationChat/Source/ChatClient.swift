@@ -201,4 +201,22 @@ public class ChatClient {
         }
         self.signalingClient?.on(event: event, listener: listener)
     }
+
+    private func getSignalingClient (credential: CommunicationTokenCredential) -> CommunicationSignalingClient? {
+        var token: String?
+
+        credential.token(completionHandler: {(communicationAccessToken, _)
+            in
+            if let unwrapped = communicationAccessToken {
+                token = unwrapped.token
+            }
+        })
+
+        if let unwrapped = token {
+            return CommunicationSignalingClient(skypeTokenProvider: CommunicationSkypeTokenProvider(skypeToken: unwrapped))
+        } else {
+            return nil
+        }
+
+    }
 }
