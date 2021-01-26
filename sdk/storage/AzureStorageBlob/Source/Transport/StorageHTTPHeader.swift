@@ -177,11 +177,11 @@ public enum StorageHTTPHeader: String, RequestStringConvertible {
     }
 }
 
-extension HTTPHeaders {
+public extension HTTPHeaders {
     /// Access the value of an `StorageHTTPHeader` within a collection of `HTTPHeaders`.
     /// - Parameters:
     ///   - index: The `StorageHTTPHeader` value to access.
-    public subscript(index: StorageHTTPHeader) -> String? {
+    subscript(index: StorageHTTPHeader) -> String? {
         get {
             return self[index.requestString]
         }
@@ -194,7 +194,7 @@ extension HTTPHeaders {
     /// Remove an `StorageHTTPHeader` value from a collection of `HTTPHeaders`.
     /// - Parameters:
     ///   - index: The `StorageHTTPHeader` value to remove.
-    public mutating func removeValue(forKey key: StorageHTTPHeader) -> Value? {
+    mutating func removeValue(forKey key: StorageHTTPHeader) -> Value? {
         return removeValue(forKey: key.requestString)
     }
 }

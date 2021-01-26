@@ -55,13 +55,13 @@ public protocol StorageBlobClientDelegate: AnyObject {
 }
 
 // Do-nothing default implementations of delegate methods
-extension StorageBlobClientDelegate {
-    public func blobClient(
+public extension StorageBlobClientDelegate {
+    func blobClient(
         _: StorageBlobClient,
         didUpdateTransfer _: BlobTransfer,
         withState _: TransferState,
         andProgress _: TransferProgress
     ) {}
-    public func blobClient(_: StorageBlobClient, didCompleteTransfer _: BlobTransfer) {}
-    public func blobClient(_: StorageBlobClient, didFailTransfer _: BlobTransfer, withError _: Error) {}
+    func blobClient(_: StorageBlobClient, didCompleteTransfer _: BlobTransfer) {}
+    func blobClient(_: StorageBlobClient, didFailTransfer _: BlobTransfer, withError _: Error) {}
 }

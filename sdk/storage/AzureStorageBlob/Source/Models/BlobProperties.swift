@@ -129,7 +129,7 @@ public struct BlobProperties: XMLModel, Codable, Equatable {
     }
 }
 
-extension BlobProperties {
+public extension BlobProperties {
     /// Initialize a `BlobProperties` structure.
     /// - Parameters:
     ///   - contentType: The content type specified for the blob.
@@ -140,7 +140,7 @@ extension BlobProperties {
     ///   - contentCRC64: The value of the blob's x-ms-content-crc64 request header.
     ///   - cacheControl: The value of the blob's Cache-Control request header.
     ///   - accessTier: The access tier of the blob.
-    public init(
+    init(
         contentType: String? = nil,
         contentDisposition: String? = nil,
         contentEncoding: String? = nil,
@@ -219,7 +219,7 @@ extension BlobProperties {
     }
 
     /// :nodoc:
-    public init(from decoder: Decoder) throws {
+    init(from decoder: Decoder) throws {
         let root = try decoder.container(keyedBy: CodingKeys.self)
         self.init(
             creationTime: try root.decodeIfPresent(Rfc1123Date.self, forKey: .creationTime),
