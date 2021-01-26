@@ -99,8 +99,11 @@ class CommunicationIdentifierSerializerTests: XCTestCase {
         XCTAssertEqual(expectedIdentifier.id, (identifier as? PhoneNumberIdentifier)?.id)
     }
 
-    func test_SerializePhoneNumber() throws {
+    func test_SerializePhoneNumber_ExpectedIdString() throws {
         try serializePhoneNumber(expectedId: "some id")
+    }
+    
+    func test_SerializePhoneNumber_ExpectedIdNil() throws {
         try serializePhoneNumber(expectedId: nil)
     }
 
@@ -124,10 +127,19 @@ class CommunicationIdentifierSerializerTests: XCTestCase {
         XCTAssertEqual(expectedIdentifier.userId, (identifier as? MicrosoftTeamsUserIdentifier)?.userId)
     }
 
-    func test_SerializeMicrosoftTeamsUser() throws {
+    func test_SerializeMicrosoftTeamsUser_NotAnonymous_ExpectedIdNil() throws {
         try serializeMicrosoftTeamsUser(isAnonymous: false, expectedId: nil)
+    }
+    
+    func test_SerializeMicrosoftTeamsUser_Anonymous_ExpectedIdNil() throws {
         try serializeMicrosoftTeamsUser(isAnonymous: true, expectedId: nil)
+    }
+    
+    func test_SerializeMicrosoftTeamsUser_NotAnonymous_ExpectedIdString() throws {
         try serializeMicrosoftTeamsUser(isAnonymous: false, expectedId: "some id")
+    }
+    
+    func test_SerializeMicrosoftTeamsUser_Anonymous_ExpectedIdString() throws {
         try serializeMicrosoftTeamsUser(isAnonymous: true, expectedId: "some id")
     }
     
