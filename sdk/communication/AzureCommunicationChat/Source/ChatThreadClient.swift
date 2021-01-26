@@ -72,6 +72,47 @@ public class ChatThreadClient {
         self.service = client.chatThreadOperation
     }
 
+    // MARK: Private Methods
+
+    /// Creates a PagedCollection from the given data and request.
+    /// - Parameters:
+    ///   - data: The data to initialize the PagedCollection with.
+    ///   - request: The HTTPRequest used to make the call.
+    ///   - type: The type of the elements in the PagedCollection.
+    private func createPagedCollection<T: Codable>(
+        from data: Data?,
+        withRequest request: HTTPRequest?,
+        of _: T.Type
+    ) throws -> PagedCollection<T> {
+        guard let request = request else {
+            throw AzureError.client("HTTPResponse does not contain httpRequest.")
+        }
+
+        guard let data = data else {
+            throw AzureError.client("HTTPResponse does not contain data.")
+        }
+
+        let decoder = JSONDecoder()
+
+        let codingKeys = PagedCodingKeys(
+            items: "value",
+            continuationToken: "nextLink"
+        )
+
+        let context = PipelineContext.of(keyValues: [
+            ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
+        ])
+
+        return try PagedCollection<T>(
+            client: service.client,
+            request: request,
+            context: context,
+            data: data,
+            codingKeys: codingKeys,
+            decoder: decoder
+        )
+    }
+
     // MARK: Public Methods
 
     /// Updates the ChatThread's topic.
@@ -136,13 +177,25 @@ public class ChatThreadClient {
     ///   - completionHandler: A completion handler that receives the list of read receipts on success.
     public func listReadReceipts(
         withOptions options: ChatThreadOperation.ListChatReadReceiptsOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatMessageReadReceipt>>
+        completionHandler: @escaping HTTPResultHandler<PagedCollection<ReadReceipt>>
     ) {
         service.listChatReadReceipts(chatThreadId: threadId, withOptions: options) { result, httpResponse in
             switch result {
-            case let .success(readReceipts):
-                // TODO: Construct new PagedCollection
-                completionHandler(.success(readReceipts), httpResponse)
+            case .success:
+                // TODO: https://github.com/Azure/azure-sdk-for-ios/issues/644
+                // Construct a new PagedCollection of type ReadReceipt
+                do {
+                    let readReceipts = try self.createPagedCollection(
+                        from: httpResponse?.data,
+                        withRequest: httpResponse?.httpRequest,
+                        of: ReadReceipt.self
+                    )
+
+                    completionHandler(.success(readReceipts), httpResponse)
+                } catch {
+                    let azureError = AzureError.client(error.localizedDescription, error)
+                    completionHandler(.failure(azureError), httpResponse)
+                }
 
             case let .failure(error):
                 completionHandler(.failure(error), httpResponse)
@@ -277,13 +330,24 @@ public class ChatThreadClient {
     ///    - completionHandler: A completion handler that receives the list of messages on success.
     public func listMessages(
         withOptions options: ChatThreadOperation.ListChatMessagesOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatMessage>>
+        completionHandler: @escaping HTTPResultHandler<PagedCollection<Message>>
     ) {
         service.listChatMessages(chatThreadId: threadId, withOptions: options) { result, httpResponse in
             switch result {
-            case let .success(messages):
-                // TODO: construct new PagedCollection
-                completionHandler(.success(messages), httpResponse)
+            case .success: https: // github.com/Azure/azure-sdk-for-ios/issues/644
+                // Construct a new PagedCollection of type Message
+                do {
+                    let messages = try self.createPagedCollection(
+                        from: httpResponse?.data,
+                        withRequest: httpResponse?.httpRequest,
+                        of: Message.self
+                    )
+
+                    completionHandler(.success(messages), httpResponse)
+                } catch {
+                    let azureError = AzureError.client(error.localizedDescription, error)
+                    completionHandler(.failure(azureError), httpResponse)
+                }
 
             case let .failure(error):
                 completionHandler(.failure(error), httpResponse)
@@ -365,36 +429,20 @@ public class ChatThreadClient {
     ) {
         service.listChatParticipants(chatThreadId: threadId, withOptions: options) { result, httpResponse in
             switch result {
-            case let .success(chatParticipants):
-                // TODO: construct new PagedCollection here
-                // link gh issue
+            case .success:
+                // TODO: https://github.com/Azure/azure-sdk-for-ios/issues/644
+                // Construct a new PagedCollection of type Participant
                 do {
-                    // TODO: pull into helper
-                    let decoder = JSONDecoder()
-                    let codingKeys = PagedCodingKeys(
-                        items: "value",
-                        continuationToken: "nextLink"
+                    let participants = try self.createPagedCollection(
+                        from: httpResponse?.data,
+                        withRequest: httpResponse?.httpRequest,
+                        of: Participant.self
                     )
-                    let context = PipelineContext.of(keyValues: [
-                        ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
-                    ])
-                    guard let request = httpResponse?.httpRequest else {
-                        throw AzureError.client("HTTPResponse does not contain httpRequest.")
-                    }
-                    guard let data = httpResponse?.data else {
-                        throw AzureError.client("HTTPResponse does not contain data.")
-                    }
-                    let participants = try PagedCollection<Participant>(
-                        client: self.service.client,
-                        request: request,
-                        context: context,
-                        data: data,
-                        codingKeys: codingKeys,
-                        decoder: decoder
-                    )
+
                     completionHandler(.success(participants), httpResponse)
                 } catch {
-                    completionHandler(.failure(error))
+                    let azureError = AzureError.client(error.localizedDescription, error)
+                    completionHandler(.failure(azureError), httpResponse)
                 }
 
             case let .failure(error):

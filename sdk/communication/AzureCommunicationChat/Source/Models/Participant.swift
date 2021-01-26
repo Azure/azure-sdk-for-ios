@@ -66,4 +66,35 @@ public struct Participant: Codable {
         self.displayName = displayName
         self.shareHistoryTime = shareHistoryTime
     }
+
+    // MARK: Codable
+
+    enum CodingKeys: String, CodingKey {
+        case user = "id"
+        case displayName
+        case shareHistoryTime
+    }
+
+    /// Initialize a `Participant` structure from decoder
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        // Convert id to CommunicationUserIdentifier
+        let identifier = try container.decodeIfPresent(String.self, forKey: .user)
+        self.user = CommunicationUserIdentifier(identifier: identifier!)
+
+        self.displayName = try container.decodeIfPresent(String.self, forKey: .displayName)
+        self.shareHistoryTime = try container.decodeIfPresent(Iso8601Date.self, forKey: .shareHistoryTime)
+    }
+
+    /// Encode a `Participant` structure
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        // Encode user object to id string
+        try container.encode(user.identifier, forKey: .user)
+
+        if displayName != nil { try? container.encode(displayName, forKey: .displayName) }
+        if shareHistoryTime != nil { try? container.encode(shareHistoryTime, forKey: .shareHistoryTime) }
+    }
 }

@@ -66,4 +66,35 @@ public struct ReadReceipt: Codable {
         self.chatMessageId = chatMessageId
         self.readOn = readOn
     }
+
+    // MARK: Codable
+
+    enum CodingKeys: String, CodingKey {
+        case sender = "senderId"
+        case chatMessageId
+        case readOn
+    }
+
+    /// Initialize a `ReadReceipt` structure from decoder
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        // Convert senderId to CommunicationUserIdentifier
+        let senderId = try container.decode(String.self, forKey: .sender)
+        self.sender = CommunicationUserIdentifier(identifier: senderId)
+
+        self.chatMessageId = try container.decode(String.self, forKey: .chatMessageId)
+        self.readOn = try container.decode(Iso8601Date.self, forKey: .readOn)
+    }
+
+    /// Encode a `ReadReceipt` structure
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        // Encode user object to senderId string
+        try container.encode(sender.identifier, forKey: .sender)
+
+        try container.encode(chatMessageId, forKey: .chatMessageId)
+        try container.encode(readOn, forKey: .readOn)
+    }
 }

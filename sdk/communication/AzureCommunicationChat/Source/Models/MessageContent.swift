@@ -72,4 +72,48 @@ public struct MessageContent: Codable {
         self.participants = participants
         self.initiator = initiator
     }
+
+    // MARK: Codable
+
+    enum CodingKeys: String, CodingKey {
+        case message
+        case topic
+        case participants
+        case initiator
+    }
+
+    /// Initialize a `MessageContent` structure from decoder
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.message = try? container.decode(String.self, forKey: .message)
+        self.topic = try? container.decode(String.self, forKey: .topic)
+
+        // Convert ChatParticipants to Participants
+        let chatParticipants = try? container.decode([ChatParticipant].self, forKey: .participants)
+        self.participants = (chatParticipants != nil) ?
+            chatParticipants!.map { Participant(from: $0) } : nil
+
+        self.initiator = try? container.decode(String.self, forKey: .initiator)
+    }
+
+    /// Encode a `MessageContent` structure
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        if message != nil { try? container.encode(message, forKey: .message) }
+        if topic != nil { try? container.encode(topic, forKey: .topic) }
+
+        // Encode Participant to ChatParticipant format
+        if participants != nil {
+            let test = participants!.map {
+                ChatParticipant(
+                    id: $0.user.identifier,
+                    displayName: $0.displayName,
+                    shareHistoryTime: $0.shareHistoryTime
+                )
+            }
+            try? container.encode(test, forKey: .participants)
+        }
+
+        if initiator != nil { try? container.encode(initiator, forKey: .initiator) }
+    }
 }

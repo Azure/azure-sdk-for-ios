@@ -111,4 +111,62 @@ public struct Message: Codable {
         self.deletedOn = deletedOn
         self.editedOn = editedOn
     }
+
+    // MARK: Codable
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case type
+        case sequenceId
+        case version
+        case content
+        case senderDisplayName
+        case createdOn
+        case sender = "senderId"
+        case deletedOn
+        case editedOn
+    }
+
+    /// Initialize a `Message` structure from decoder
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        self.id = try container.decode(String.self, forKey: .id)
+        self.type = try container.decode(ChatMessageType.self, forKey: .type)
+        self.sequenceId = try container.decode(String.self, forKey: .sequenceId)
+        self.version = try container.decode(String.self, forKey: .version)
+
+        // Convert ChatMessageContent to MessageContent
+        let content = try? container.decode(ChatMessageContent.self, forKey: .content)
+        self.content = MessageContent(from: content!)
+
+        self.senderDisplayName = try? container.decode(String.self, forKey: .senderDisplayName)
+        self.createdOn = try container.decode(Iso8601Date.self, forKey: .createdOn)
+
+        // Convert senderId to CommunicationUserIdentifier
+        let senderId = try? container.decode(String.self, forKey: .sender)
+        self.sender = CommunicationUserIdentifier(identifier: senderId!)
+
+        self.deletedOn = try? container.decode(Iso8601Date.self, forKey: .deletedOn)
+        self.editedOn = try? container.decode(Iso8601Date.self, forKey: .editedOn)
+    }
+
+    /// Encode a `Message` structure
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(id, forKey: .id)
+        try container.encode(type, forKey: .type)
+        try container.encode(sequenceId, forKey: .sequenceId)
+        try container.encode(version, forKey: .version)
+        if content != nil { try? container.encode(content, forKey: .content) }
+        if senderDisplayName != nil { try? container.encode(senderDisplayName, forKey: .senderDisplayName) }
+        try container.encode(createdOn, forKey: .createdOn)
+
+        // Encode user object to senderId string
+        if sender != nil { try? container.encode(sender?.identifier, forKey: .sender) }
+
+        if deletedOn != nil { try? container.encode(deletedOn, forKey: .deletedOn) }
+        if editedOn != nil { try? container.encode(editedOn, forKey: .editedOn) }
+    }
 }

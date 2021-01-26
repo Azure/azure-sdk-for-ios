@@ -62,13 +62,13 @@ class ChatClientTests: XCTestCase {
         withTopic topic: String,
         completionHandler: @escaping (String) -> Void
     ) {
-        let participant = ChatParticipant(
+        let participant = Participant(
             id: id,
             displayName: "User",
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
 
-        let thread = CreateChatThreadRequest(
+        let thread = CreateThreadRequest(
             topic: topic,
             participants: [
                 participant
@@ -78,7 +78,7 @@ class ChatClientTests: XCTestCase {
         chatClient.create(thread: thread) { result, _ in
             switch result {
             case let .success(chatThreadResult):
-                guard let threadId = chatThreadResult.chatThread?.id else {
+                guard let threadId = chatThreadResult.thread?.id else {
                     XCTFail("Failed to get thread id")
                     return
                 }
@@ -91,13 +91,13 @@ class ChatClientTests: XCTestCase {
     }
 
     func test_CreateThread_ResultContainsChatThread() {
-        let participant = ChatParticipant(
+        let participant = Participant(
             id: user,
             displayName: "User",
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
 
-        let thread = CreateChatThreadRequest(
+        let thread = CreateThreadRequest(
             topic: topic,
             participants: [
                 participant
@@ -109,8 +109,8 @@ class ChatClientTests: XCTestCase {
         chatClient.create(thread: thread) { result, httpResponse in
             switch result {
             case let .success(response):
-                let chatThread = response.chatThread
-                XCTAssertNotNil(response.chatThread)
+                let chatThread = response.thread
+                XCTAssertNotNil(response.thread)
                 XCTAssertEqual(chatThread?.topic, thread.topic)
 
                 if TestConfig.mode == "record" {

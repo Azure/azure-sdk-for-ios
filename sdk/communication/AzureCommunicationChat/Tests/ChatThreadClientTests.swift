@@ -61,13 +61,13 @@ class ChatThreadClientTests: XCTestCase {
         // Initialize the chatClient
         chatClient = try TestConfig.getChatClient()
 
-        let participant = ChatParticipant(
+        let participant = Participant(
             id: user1,
             displayName: "User 1",
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
 
-        let thread = CreateChatThreadRequest(
+        let thread = CreateThreadRequest(
             topic: topic,
             participants: [
                 participant
@@ -81,7 +81,7 @@ class ChatThreadClientTests: XCTestCase {
             switch result {
             case let .success(createThreadResult):
                 // Initialize threadId
-                self.threadId = (createThreadResult.chatThread?.id)!
+                self.threadId = (createThreadResult.thread?.id)!
 
                 if TestConfig.mode == "record" {
                     Recorder.record(name: Recording.createThread, httpResponse: httpResponse)
@@ -284,6 +284,60 @@ class ChatThreadClientTests: XCTestCase {
         }
     }
 
+    func test_ListReadReceipts_ReturnsReadReceipts() {
+        let testMessage = SendChatMessageRequest(
+            content: "Hello World!",
+            senderDisplayName: "User 1",
+            type: .text
+        )
+
+        let expectation = self.expectation(description: "Send read receipt")
+
+        // Send message
+        chatThreadClient.send(message: testMessage) { result, _ in
+            switch result {
+            case let .success(sendMessageResult):
+                // Send read receipt
+                self.chatThreadClient.sendReadReceipt(forMessage: sendMessageResult.id) { result, _ in
+                    switch result {
+                    case .success:
+                        // List read receipts
+                        self.chatThreadClient.listReadReceipts { result, _ in
+                            switch result {
+                            case let .success(readReceipts):
+                                // TODO: record
+                                readReceipts.items?.forEach { readReceipt in
+                                    XCTAssertNotNil(readReceipt.sender)
+                                    XCTAssertEqual(readReceipt.chatMessageId, sendMessageResult.id)
+                                }
+
+                                XCTAssertNotNil(readReceipts.items)
+                            case let .failure(error):
+                                XCTFail("List read receipts failed: \(error)")
+                            }
+
+                            expectation.fulfill()
+                        }
+
+                    case let .failure(error):
+                        XCTFail("Send read receipt failed: \(error)")
+                        expectation.fulfill()
+                    }
+                }
+
+            case let .failure(error):
+                XCTFail("Send message failed: \(error)")
+                expectation.fulfill()
+            }
+        }
+
+        waitForExpectations(timeout: TestConfig.timeout) { error in
+            if let error = error {
+                XCTFail("Send message timed out: \(error)")
+            }
+        }
+    }
+
     func test_UpdateChatMessage() {
         let testMessage = SendChatMessageRequest(
             content: "Hello World!",
@@ -388,7 +442,7 @@ class ChatThreadClientTests: XCTestCase {
     }
 
     func test_AddValidParticipant_ReturnsWithoutErrors() {
-        let newParticipant = ChatParticipant(
+        let newParticipant = Participant(
             id: user2,
             displayName: "User 2",
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
@@ -420,7 +474,7 @@ class ChatThreadClientTests: XCTestCase {
     }
 
     func test_RemoveParticipant() {
-        let removedParticipant = ChatParticipant(
+        let removedParticipant = Participant(
             id: user2,
             displayName: "User 2",
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
@@ -433,7 +487,7 @@ class ChatThreadClientTests: XCTestCase {
             switch result {
             case .success:
                 // Remove the participant
-                self.chatThreadClient.remove(participant: removedParticipant.id) { result, httpResponse in
+                self.chatThreadClient.remove(participant: removedParticipant.user.identifier) { result, httpResponse in
                     switch result {
                     case .success:
                         if TestConfig.mode == "record" {
@@ -461,7 +515,7 @@ class ChatThreadClientTests: XCTestCase {
     }
 
     func test_ListParticipants_ReturnsParticipants() {
-        let anotherParticipant = ChatParticipant(
+        let anotherParticipant = Participant(
             id: user2,
             displayName: "User 2",
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
@@ -483,7 +537,7 @@ class ChatThreadClientTests: XCTestCase {
                     case let .success(participantsResult):
                         let participants = participantsResult.pageItems
                         participants?.forEach { participant in
-                            XCTAssertNotNil(participant.id)
+                            XCTAssertNotNil(participant.user.identifier)
                             XCTAssertNotNil(participant.displayName)
                         }
 

@@ -78,4 +78,42 @@ public struct Thread: Codable {
         self.createdBy = CommunicationUserIdentifier(identifier: createdBy)
         self.deletedOn = deletedOn
     }
+
+    // MARK: Codable
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case topic
+        case createdOn
+        case createdBy
+        case deletedOn
+    }
+
+    /// Initialize a `Thread` structure from decoder
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        self.id = try container.decode(String.self, forKey: .id)
+        self.topic = try container.decode(String.self, forKey: .topic)
+        self.createdOn = try container.decode(Iso8601Date.self, forKey: .createdOn)
+
+        // Convert createdBy to CommunicationUserIdentifier
+        let createdBy = try container.decode(String.self, forKey: .createdBy)
+        self.createdBy = CommunicationUserIdentifier(identifier: createdBy)
+
+        self.deletedOn = try? container.decode(Iso8601Date.self, forKey: .deletedOn)
+    }
+
+    /// Encode a `Thread` structure
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encode(topic, forKey: .topic)
+        try container.encode(createdOn, forKey: .createdOn)
+
+        // Encode user object to createdBy string
+        try container.encode(createdBy.identifier, forKey: .createdBy)
+
+        if deletedOn != nil { try? container.encode(deletedOn, forKey: .deletedOn) }
+    }
 }
