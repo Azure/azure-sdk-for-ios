@@ -27,7 +27,13 @@
 
 platform :ios, '13.0'
 
-if ENV['SWIFT_USE_FRAMEWORKS'] != nil
+if ENV['PODS_LINKAGE']&.downcase == 'static'
+  puts 'Using Static Libraries'
+elsif ENV['PODS_LINKAGE']&.downcase == 'staticframeworks'
+  puts 'Using Static Frameworks'
+  use_frameworks! :linkage => :static
+else
+  puts 'Using Frameworks'
   use_frameworks!
 end
 

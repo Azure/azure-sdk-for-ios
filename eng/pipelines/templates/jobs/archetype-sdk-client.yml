@@ -81,32 +81,6 @@ jobs:
         displayName: 'Publish xcframeworks'
         artifact: 'xcframeworks-release'
 
-      - script: |
-          cd examples/AzureSDKSmokeTest && SWIFT_USE_FRAMEWORKS=true pod install
-        displayName: 'Install dependencies for examples [frameworks]'
-
-      - script: |
-          set -o pipefail
-          xcodebuild clean build \
-                     -workspace AzureSDK.xcworkspace \
-                     -scheme examples \
-                     -sdk iphonesimulator \
-                     -configuration Release | xcpretty -c
-        displayName: 'Build and verify examples [frameworks]'
-
-      - script: |
-          cd examples/AzureSDKSmokeTest && SWIFT_USE_FRAMEWORKS=false pod install
-        displayName: 'Install dependencies for examples [staticlibs]'
-
-      - script: |
-          set -o pipefail
-          xcodebuild clean build \
-                     -workspace AzureSDK.xcworkspace \
-                     -scheme examples \
-                     -sdk iphonesimulator \
-                     -configuration Release | xcpretty -c
-        displayName: 'Build and verify examples [staticlibs]'
-
   - job: 'Swift_Build'
 
     variables:
@@ -247,3 +221,47 @@ jobs:
           codeCoverageTool: 'Cobertura'
           summaryFileLocation: '$(Build.ArtifactStagingDirectory)/reports/*/*.xml'
         displayName: 'Publish code coverage'
+
+ - job: 'SmokeTest'
+    strategy:
+      matrix:
+        # Build SDK libraries as frameworks, dynamically link to copies stored within the app bundle
+        frameworks:
+          PodsLinkage: frameworks
+
+        # Build SDK libraries as static libs (.a), statically link them into the app binary
+        # This is currently broken, probably because Calling is pre-built as a framework
+        # static:
+        #   PodsLinkage: static
+
+        # Build SDK libraries as frameworks, but then statically link them into the app binary
+        # Calling is still dynamically linked, probably because Calling is pre-built as a framework
+        staticframeworks:
+          PodsLinkage: staticframeworks
+
+    variables:
+      - template: ../variables/globals.yml
+
+    pool:
+      vmImage: '$(OSVmImage)'
+
+    steps:
+      - script: sudo xcode-select --switch /Applications/Xcode_$(XcodeVersion).app
+        displayName: 'Use Xcode $(XcodeVersion)'
+
+      - script: |
+          cd examples/AzureSDKSmokeTest
+          pod install
+        env:
+          PODS_LINKAGE: $(PodsLinkage)
+        displayName: 'Install dependencies'
+
+      - script: |
+          set -o pipefail
+          cd examples/AzureSDKSmokeTest
+          xcodebuild build \
+                     -workspace AzureSDKSmokeTest.xcworkspace \
+                     -scheme AzureSDKSmokeTest \
+                     -sdk iphonesimulator \
+                     -configuration Debug | xcpretty -c
+        displayName: 'Build smoke test [iphonesimulator]'

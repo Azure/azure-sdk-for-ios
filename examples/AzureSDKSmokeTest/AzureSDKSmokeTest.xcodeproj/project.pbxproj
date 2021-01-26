@@ -14,21 +14,8 @@
 		0AA5963725AF8ACA00E77E33 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AA5963625AF8ACA00E77E33 /* Assets.xcassets */; };
 		0AA5963A25AF8ACA00E77E33 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AA5963825AF8ACA00E77E33 /* LaunchScreen.storyboard */; };
 		0AA5964325AF8CDF00E77E33 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 0AA5964225AF8CDF00E77E33 /* Podfile */; };
-		4152965D8F11354FFFFF7961 /* Pods_AzureSDKSmokeTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303D7126DE2A9D98936A45FE /* Pods_AzureSDKSmokeTest.framework */; };
+		7AB095C925BFB7F50026A2A5 /* Pods_AzureSDKSmokeTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 303D7126DE2A9D98936A45FE /* Pods_AzureSDKSmokeTest.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		0AA5968325AFBC6000E77E33 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0AA5962A25AF8AC900E77E33 /* AzureSDKSmokeTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AzureSDKSmokeTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -50,7 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4152965D8F11354FFFFF7961 /* Pods_AzureSDKSmokeTest.framework in Frameworks */,
+				7AB095C925BFB7F50026A2A5 /* Pods_AzureSDKSmokeTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,7 +105,6 @@
 				0AA5962625AF8AC900E77E33 /* Sources */,
 				0AA5962725AF8AC900E77E33 /* Frameworks */,
 				0AA5962825AF8AC900E77E33 /* Resources */,
-				0AA5968325AFBC6000E77E33 /* Embed Frameworks */,
 				7AB0953925BF91E70026A2A5 /* Format And Lint */,
 				470B05212DACF6B51F5CE03E /* [CP] Embed Pods Frameworks */,
 			);
