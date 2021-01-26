@@ -122,7 +122,7 @@ import AzureCore
 
 let endpoint = "<communication_resource_endpoint>"
 
-let credential = try CommunicationUserCredential(<"user_access_token>")
+let credential = try CommunicationTokenCredential(<"user_access_token>")
 
 let options = AzureCommunicationChatClientOptions(
 	logger: ClientLoggers.default,
@@ -182,23 +182,23 @@ ChatThreadClients should be created through the ChatClient. A ChatThreadClient i
 
 Use the `create` method of `ChatClient` to create a new thread.
 
-- `CreateChatThreadRequest` is the model to pass to this method. It contains the participants to add to the thread as well as the topic of the thread.
+- `CreateThreadRequest` is the model to pass to this method. It contains the participants to add to the thread as well as the topic of the thread.
 
-- `CreateChatThreadResult` is the result returned from creating a thread.
-- `chatThread` is the ChatThread that was created
+- `CreateThreadResult` is the result returned from creating a thread.
+- `thread` is the chat Thread that was created
 - `errors` contains an array of errors for any invalid participants that failed to be added to the chat thread.
 
 ```swift
-let thread = CreateChatThreadRequest(
+let thread = CreateThreadRequest(
     topic: "General",
-    participants: [ChatParticipant(
+    participants: [Participant(
         id: <userId>,
         // Id of this needs to match with the Auth token
         displayName: "initial participant"
     )]
 )
 
-chatClient.create(chatThread: thread) { result, _ in
+chatClient.create(thread: thread) { result, _ in
     switch result {
     case let .success(chatThreadResult):
         // Take further action
@@ -309,7 +309,7 @@ Use the `get` method of `ChatThreadClient` to retrieve a message in a thread.
 
 - `message` is the unique ID of the message.
 
-`ChatMessage` is the response returned from getting a message.
+`Message` is the response returned from getting a message.
 
 ```swift
 chatThreadClient.get(message: messageId) { result, _ in
@@ -331,7 +331,7 @@ Use the `listMessages` method of `ChatThreadClient` to retrieve messages in a th
 - `maxPageSize`, optional, is the maximum number of messages to be returned per page.
 - `startTime`, optional, is the thread start time to consider in the query.
 
-`<PagedCollection<ChatMessage>` is the response returned from listing messages
+`<PagedCollection<Message>` is the response returned from listing messages
 
 ```swift
 let dateFormatter = DateFormatter()
@@ -409,7 +409,7 @@ chatThreadClient.delete(message: messageId) { result, _ in
 Use the `listParticipants` of `ChatThreadClient` method to retrieve the participants of the thread.
 
 
-`PagedCollection<ChatParticipants>` is the response returned from listing participants.
+`PagedCollection<Participant>` is the response returned from listing participants.
 
 ```swift
 chatThreadClient.listParticipants() { result, _ in
@@ -430,11 +430,11 @@ chatThreadClient.listParticipants() { result, _ in
 
 Use the `add` method to add participants to a thread.
 
-- `participants` is an array of `ChatParticipant`'s to add
+- `participants` is an array of `Participant`'s to add
 - `AddChatParticipantsResult` is the model returned, it contains an errors property that has an array of any invalid participants that failed to be added to the chat.
 
 ```swift
-let threadParticipants = [ChatParticipant(
+let threadParticipants = [Participant(
         id: userId,
         displayName: "a new participant"
     )]
