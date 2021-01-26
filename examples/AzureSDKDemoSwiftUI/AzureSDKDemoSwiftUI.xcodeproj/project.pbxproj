@@ -15,6 +15,8 @@
 		883AEE5E25BF8B6A00E21497 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 883AEE5D25BF8B6A00E21497 /* Preview Assets.xcassets */; };
 		883AEE6125BF8B6A00E21497 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 883AEE5F25BF8B6A00E21497 /* LaunchScreen.storyboard */; };
 		88DF478725C0CD0700DEB50A /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88DF478625C0CD0700DEB50A /* Common.swift */; };
+		88DF478B25C0D1AB00DEB50A /* BlobDownloadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88DF478A25C0D1AB00DEB50A /* BlobDownloadView.swift */; };
+		88DF478E25C0D1C900DEB50A /* MediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88DF478D25C0D1C900DEB50A /* MediaView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +31,8 @@
 		883AEE6025BF8B6A00E21497 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		883AEE6225BF8B6A00E21497 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		88DF478625C0CD0700DEB50A /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
+		88DF478A25C0D1AB00DEB50A /* BlobDownloadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlobDownloadView.swift; sourceTree = "<group>"; };
+		88DF478D25C0D1C900DEB50A /* MediaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaView.swift; sourceTree = "<group>"; };
 		C4CC81A25C4A199FD88DE800 /* Pods_AzureSDKDemoSwiftUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureSDKDemoSwiftUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -75,6 +79,7 @@
 		883AEE5325BF8B6800E21497 /* AzureSDKDemoSwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				88DF478925C0D18E00DEB50A /* Pages */,
 				88DF478525C0CCEE00DEB50A /* Utils */,
 				883AEE5425BF8B6800E21497 /* AppDelegate.swift */,
 				883AEE5625BF8B6800E21497 /* SceneDelegate.swift */,
@@ -101,6 +106,15 @@
 				88DF478625C0CD0700DEB50A /* Common.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		88DF478925C0D18E00DEB50A /* Pages */ = {
+			isa = PBXGroup;
+			children = (
+				88DF478A25C0D1AB00DEB50A /* BlobDownloadView.swift */,
+				88DF478D25C0D1C900DEB50A /* MediaView.swift */,
+			);
+			path = Pages;
 			sourceTree = "<group>";
 		};
 		8FC5224D1BDD877FB44CB44E /* Frameworks */ = {
@@ -226,9 +240,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				88DF478725C0CD0700DEB50A /* Common.swift in Sources */,
+				88DF478E25C0D1C900DEB50A /* MediaView.swift in Sources */,
 				883AEE5525BF8B6800E21497 /* AppDelegate.swift in Sources */,
 				883AEE5725BF8B6800E21497 /* SceneDelegate.swift in Sources */,
 				883AEE5925BF8B6800E21497 /* ContentView.swift in Sources */,
+				88DF478B25C0D1AB00DEB50A /* BlobDownloadView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

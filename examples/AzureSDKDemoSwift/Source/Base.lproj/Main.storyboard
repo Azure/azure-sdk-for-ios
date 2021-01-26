@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="obV-HT-tcp">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="obV-HT-tcp">
     <device id="retina3_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,7 +20,7 @@
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="wM1-9u-nsk">
                                 <rect key="frame" x="0.0" y="44" width="320" height="387"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="bfT-e2-l9V">
                                     <size key="itemSize" width="128" height="128"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -35,10 +36,10 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="OAr-9E-DZE">
-                                                    <rect key="frame" x="8" y="8" width="112" height="102"/>
+                                                    <rect key="frame" x="8" y="8" width="112" height="100"/>
                                                 </imageView>
                                                 <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ubS-hV-DdM">
-                                                    <rect key="frame" x="8" y="118" width="112" height="2"/>
+                                                    <rect key="frame" x="8" y="116" width="112" height="4"/>
                                                 </progressView>
                                             </subviews>
                                             <constraints>
@@ -64,14 +65,14 @@
                                 </connections>
                             </collectionView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="kTm-aI-mgf"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="wM1-9u-nsk" firstAttribute="top" secondItem="kTm-aI-mgf" secondAttribute="top" id="EVW-Pk-c6A"/>
                             <constraint firstItem="wM1-9u-nsk" firstAttribute="leading" secondItem="kTm-aI-mgf" secondAttribute="leading" id="Ek2-1h-yOj"/>
                             <constraint firstItem="kTm-aI-mgf" firstAttribute="trailing" secondItem="wM1-9u-nsk" secondAttribute="trailing" id="iaO-TX-Ep9"/>
                             <constraint firstItem="kTm-aI-mgf" firstAttribute="bottom" secondItem="wM1-9u-nsk" secondAttribute="bottom" id="x59-GC-FYx"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="kTm-aI-mgf"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Upload" image="square.and.arrow.up" catalog="system" id="uvU-Yf-dBk"/>
                     <connections>
@@ -92,7 +93,7 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="2CY-ej-hne">
                                 <rect key="frame" x="0.0" y="44" width="320" height="387"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="CustomTableViewCell" rowHeight="79" id="KJM-e4-5X5" customClass="CustomTableViewCell" customModule="AzureSDKDemoSwift" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="320" height="79"/>
@@ -102,7 +103,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Key" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="by0-3d-7fW">
-                                                    <rect key="frame" x="23" y="19" width="29" height="42"/>
+                                                    <rect key="frame" x="24" y="19" width="29" height="40"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -114,7 +115,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VUM-XC-0xR">
-                                                    <rect key="frame" x="8" y="69" width="304" height="2"/>
+                                                    <rect key="frame" x="8" y="67" width="304" height="4"/>
                                                 </progressView>
                                             </subviews>
                                             <constraints>
@@ -144,14 +145,14 @@
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="3Af-st-MYC"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="2CY-ej-hne" firstAttribute="leading" secondItem="3Af-st-MYC" secondAttribute="leading" id="3nN-Mu-teI"/>
                             <constraint firstItem="3Af-st-MYC" firstAttribute="bottom" secondItem="2CY-ej-hne" secondAttribute="bottom" id="ExE-4a-l9l"/>
                             <constraint firstItem="2CY-ej-hne" firstAttribute="top" secondItem="3Af-st-MYC" secondAttribute="top" id="KVP-j5-2ME"/>
                             <constraint firstItem="3Af-st-MYC" firstAttribute="trailing" secondItem="2CY-ej-hne" secondAttribute="trailing" id="PWw-Fk-usC"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="3Af-st-MYC"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Download" image="square.and.arrow.down" catalog="system" id="UxO-MH-UOj"/>
                     <connections>
@@ -193,10 +194,10 @@
                                 <rect key="frame" x="14.5" y="155" width="291" height="170"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="tA0-5A-wpj">
-                                <rect key="frame" x="112" y="341" width="96.5" height="20.5"/>
+                                <rect key="frame" x="112" y="341" width="96" height="20.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please log in" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ely-ko-moY">
-                                        <rect key="frame" x="0.0" y="0.0" width="96.5" height="20.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="96" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -204,14 +205,14 @@
                                 </subviews>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="wqc-uN-IZz"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="tA0-5A-wpj" firstAttribute="top" secondItem="lE4-4w-gqI" secondAttribute="bottom" constant="16" id="AYh-Cu-qIc"/>
                             <constraint firstItem="lE4-4w-gqI" firstAttribute="centerY" secondItem="DdL-ZX-Eza" secondAttribute="centerY" id="Lmx-cC-t26"/>
                             <constraint firstItem="lE4-4w-gqI" firstAttribute="centerX" secondItem="DdL-ZX-Eza" secondAttribute="centerX" id="Qb6-CJ-GbI"/>
                             <constraint firstItem="tA0-5A-wpj" firstAttribute="centerX" secondItem="DdL-ZX-Eza" secondAttribute="centerX" id="Thq-Xk-yco"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="wqc-uN-IZz"/>
                     </view>
                     <navigationItem key="navigationItem" id="z8F-US-uUt">
                         <barButtonItem key="leftBarButtonItem" title="Log Out" id="g8y-CR-3u9">
@@ -256,6 +257,9 @@
     <resources>
         <image name="logo" width="291.33334350585938" height="170"/>
         <image name="square.and.arrow.down" catalog="system" width="121" height="128"/>
-        <image name="square.and.arrow.up" catalog="system" width="32" height="32"/>
+        <image name="square.and.arrow.up" catalog="system" width="115" height="128"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>
