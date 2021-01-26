@@ -334,7 +334,8 @@ public class ChatThreadClient {
     ) {
         service.listChatMessages(chatThreadId: threadId, withOptions: options) { result, httpResponse in
             switch result {
-            case .success: https: // github.com/Azure/azure-sdk-for-ios/issues/644
+            case .success:
+                // TODO: github.com/Azure/azure-sdk-for-ios/issues/644
                 // Construct a new PagedCollection of type Message
                 do {
                     let messages = try self.createPagedCollection(
