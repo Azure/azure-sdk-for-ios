@@ -61,7 +61,7 @@
         [expectation fulfill];
     }];
     
-    [self waitForExpectations:@[expectation] timeout:2.0];
+    [self waitForExpectations:@[expectation] timeout:5.0];
 }
 
 - (void)test_ObjCRefreshTokenProactively_TokenAlreadyExpired {
@@ -93,7 +93,7 @@
         [expectation fulfill];
     }];
     
-    [self waitForExpectations:@[expectation] timeout:2.0];
+    [self waitForExpectations:@[expectation] timeout:5.0];
 }
 
 - (void)test_ObjCRefreshTokenProactively_FetchTokenReturnsError {
@@ -129,7 +129,7 @@
         [expectation fulfill];
     }];
     
-    [self waitForExpectations:@[expectation] timeout:2.0];
+    [self waitForExpectations:@[expectation] timeout:5.0];
 }
 
 @end
