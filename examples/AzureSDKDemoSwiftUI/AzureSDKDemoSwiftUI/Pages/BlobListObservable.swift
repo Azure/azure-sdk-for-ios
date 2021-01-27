@@ -24,33 +24,50 @@
 //
 // --------------------------------------------------------------------------
 
-import SwiftUI
+import Foundation
 
-struct MediaView: View {
-    @State var selectedTabItem: Int = 0
-    @Environment(\.presentationMode) var presentationMode
-    
-    var body: some View {
-        TabView(selection: $selectedTabItem,
-                content:  {
-                    BlobDownloadView()
-                        .tabItem {
-                            Image(systemName: "square.and.arrow.down")
-                            Text("Download")
-                        }
-                        .tag(0)
-                    Text("Tab Content 2")
-                        .tabItem {
-                            Image(systemName: "square.and.arrow.up")
-                            Text("Upload")
-                        }
-                        .tag(1)
-                })
+import AzureCore
+import AzureStorageBlob
+
+class BlobListObservable: ObservableObject {
+    @Published private(set) var blobClient: StorageBlobClient?
+    @Published var items = [BlobItem]()
+    @Published var transfers = [String: BlobTransfer]()
+
+    init() {
+        loadBlobData()
     }
-}
 
-struct MediaView_Previews: PreviewProvider {
-    static var previews: some View {
-        MediaView()
+    func loadBlobData() {
+        blobClient = try? AppState.blobClient()
+        
+        guard let blobClient = blobClient else { return }
+        guard let containerName = AppConstants.videoContainer else { return }
+        let options = ListBlobsOptions(maxResults: 20)
+        
+        blobClient.listBlobs(inContainer: containerName, withOptions: options) { result, _ in
+            switch result {
+            case let .success(collection):
+                // updat table view
+                self.items = collection.items ?? [BlobItem]()
+            case .failure:
+                // show an error here
+                break
+            }
+        }
+        
+        
+        blobClient.downloads.resumeAll(progressHandler: downloadProgress)
+    }
+    
+    private func downloadProgress(transfer: BlobTransfer) {
+        guard transfer.state != .failed else {
+            // show an error here
+            return
+        }
+
+        if transfer.transferType == .download {
+            // reload the list   
+        }
     }
 }

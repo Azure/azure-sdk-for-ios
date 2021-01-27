@@ -34,12 +34,14 @@ import Photos
 
 struct BlobDownloadView: View {
     @ObservedObject var data = BlobListObservable()
-    @State private var blobClinet: StorageBlobClient?
     
     var body: some View {
         NavigationView {
             List(data.items, id: \.name) { item in
-                
+                BlobRow(blob: item, transferId: nil)
+                    .onTapGesture {
+                    
+                }
             }
         }
         .onAppear(perform: initialize)
@@ -47,11 +49,7 @@ struct BlobDownloadView: View {
     
     private func initialize() {
         // Create refresh control
-    }
-    
-    private func initBlobClient() {
-        blobClinet = try? AppState.blobClient()
-        
+        authorizePhotoLib()
     }
     
     private func authorizePhotoLib() {
@@ -61,15 +59,16 @@ struct BlobDownloadView: View {
 
 struct BlobRow: View {
     var blob: BlobItem
-    var transferId: UUID
+    var transferId: UUID?
     @State var progress = Float(0)
 
-    init(blob: BlobItem, transferId: UUID) {
+    init(blob: BlobItem, transferId: UUID?) {
         self.blob = blob
         self.transferId = transferId
         let blobClient = try? AppState.blobClient()
         
-        if let transfer = blobClient?.transfers[transferId]  {
+        if let transferId = transferId,
+            let transfer = blobClient?.transfers[transferId]  {
             self.progress = transfer.progress.asFloat
         }
     }
@@ -102,26 +101,5 @@ struct ProgressView: UIViewRepresentable {
 struct BlobDownloadView_Previews: PreviewProvider {
     static var previews: some View {
         BlobDownloadView()
-    }
-}
-
-class BlobListObservable: ObservableObject {
-    @Published var items = [BlobItem]()
-    @Published var transfers = [String: BlobTransfer]()
-
-    init() {
-        loadBlobData()
-    }
-
-    func loadBlobData() {
-        guard let blobClient = try? AppState.blobClient() else { return }
-        blobClient.listBlobs(inContainer: "videos") { result, _ in
-            switch result {
-            case let .success(paged):
-                self.items = paged.items ?? [BlobItem]()
-            case let .failure(error):
-                print(error.localizedDescription)
-            }
-        }
     }
 }

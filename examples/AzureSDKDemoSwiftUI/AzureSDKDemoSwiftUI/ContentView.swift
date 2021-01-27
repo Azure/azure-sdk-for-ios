@@ -79,14 +79,14 @@ struct ContentView: View {
     }
     
     private func loadAuthority() {
-        guard let authorityUrl = URL(string: AppConstants.authority) else { return }
-        guard let authority = try? MSALAADAuthority(url: authorityUrl) else { return }
-        
+        guard let authorityURL = URL(string: AppConstants.authority) else { return }
+        guard let authority = try? MSALAADAuthority(url: authorityURL) else { return }
         let msalConfiguration = MSALPublicClientApplicationConfig(
             clientId: AppConstants.clientId,
-            redirectUri: nil,
-            authority: authority)
-        
+            redirectUri: AppConstants.redirectUri,
+            authority: authority
+        )
+        msalConfiguration.bypassRedirectURIValidation = true // Why do I need to do this
         AppState.application = try? MSALPublicClientApplication(configuration: msalConfiguration)
         AppState.account = AppState.currentAccount
         
