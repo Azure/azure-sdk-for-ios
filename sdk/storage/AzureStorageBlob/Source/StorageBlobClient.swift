@@ -189,7 +189,7 @@ public final class StorageBlobClient: PipelineClient {
         withOptions options: StorageBlobClientOptions = StorageBlobClientOptions()
     ) throws {
         if let sasToken = try? StorageSASCredential.token(fromConnectionString: connectionString),
-           let endpoint = URL(string: sasToken.blobEndpoint) {
+            let endpoint = URL(string: sasToken.blobEndpoint) {
             let sasCredential = StorageSASCredential(staticCredential: connectionString)
             try self.init(endpoint: endpoint, credential: sasCredential, withOptions: options)
             return
@@ -230,105 +230,107 @@ public final class StorageBlobClient: PipelineClient {
         return "\(endpointProtocol)://\(accountName).blob.\(endpointSuffix)/"
     }
 
-    /// List storage containers in a storage account.
-    /// - Parameters:
-    ///   - options: A `ListContainersOptions` object to control the list operation.
-    ///   - completionHandler: A completion handler that receives a `PagedCollection` of `ContainerItem` objects on
-    ///     success.
-    public func listContainers(
-        withOptions options: ListContainersOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<PagedCollection<ContainerItem>>
-    ) {
-        return containers.list(withOptions: options, completionHandler: completionHandler)
-    }
-
-    /// List blobs within a storage container.
-    /// - Parameters:
-    ///   - container: The container name containing the blobs to list.
-    ///   - options: A `ListBlobsOptions` object to control the list operation.
-    ///   - completionHandler: A completion handler that receives a `PagedCollection` of `BlobItem` objects on success.
-    public func listBlobs(
-        inContainer container: String,
-        withOptions options: ListBlobsOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<PagedCollection<BlobItem>>
-    ) {
-        return blobs.list(inContainer: container, withOptions: options, completionHandler: completionHandler)
-    }
-
-    /// Delete a blob within a storage container.
-    /// - Parameters:
-    ///   - blob: The blob name to delete.
-    ///   - container: The container name containing the blob to delete.
-    ///   - options: A `DeleteBlobOptions` object to control the delete operation.
-    ///   - completionHandler: A completion handler to notify about success or failure.
-    public func delete(
-        blob: String,
-        inContainer container: String,
-        withOptions options: DeleteBlobOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<Void>
-    ) {
-        return blobs.delete(
-            blob: blob,
-            inContainer: container,
-            withOptions: options,
-            completionHandler: completionHandler
-        )
-    }
-
-    /// Create a managed download to reliably download a blob from a storage container.
-    ///
-    /// This method performs a managed download, during which the client will reliably manage the transfer of the blob
-    /// from the cloud service to this device. When called, the download will be queued and a `BlobTransfer` object will
-    /// be returned that allows you to control the download. This client's `transferDelegate` will be notified about
-    /// state changes for all managed uploads and downloads the client creates.
-    /// - Parameters:
-    ///   - blob: The name of the blob.
-    ///   - container: The name of the container.
-    ///   - destinationUrl: The URL to a file path on this device.
-    ///   - options: A `DownloadBlobOptions` object to control the download operation.
-    @discardableResult public func download(
-        blob: String,
-        fromContainer container: String,
-        toFile destinationUrl: LocalURL,
-        withOptions options: DownloadBlobOptions = DownloadBlobOptions(),
-        progressHandler: ((BlobTransfer) -> Void)? = nil
-    ) throws -> BlobTransfer? {
-        return try blobs.download(
-            blob: blob,
-            fromContainer: container,
-            toFile: destinationUrl,
-            withOptions: options,
-            progressHandler: progressHandler
-        )
-    }
-
-    /// Create a managed upload to reliably upload a file to a storage container.
-    ///
-    /// This method performs a managed upload, during which the client will reliably manage the transfer of the blob
-    /// from this device to the cloud service. When called, the upload will be queued and a `BlobTransfer` object will
-    /// be returned that allows you to control the upload. This client's `transferDelegate` will be notified about state
-    /// changes for all managed uploads and downloads the client creates.
-    /// - Parameters:
-    ///   - sourceUrl: The URL to a file on this device.
-    ///   - container: The name of the container.
-    ///   - blob: The name of the blob.
-    ///   - properties: Properties to set on the resulting blob.
-    ///   - options: An `UploadBlobOptions` object to control the upload operation.
-    @discardableResult public func upload(
-        file sourceUrl: LocalURL,
-        toContainer container: String,
-        asBlob blob: String,
-        properties: BlobProperties,
-        withOptions options: UploadBlobOptions = UploadBlobOptions(),
-        progressHandler: ((BlobTransfer) -> Void)? = nil
-    ) throws -> BlobTransfer? {
-        return try blobs.upload(
-            file: sourceUrl,
-            toContainer: container,
-            asBlob: blob,
-            properties: properties,
-            withOptions: options,
-            progressHandler: progressHandler
-        )
-    }
+    // FIXME: Once decision has been made on hierarchical/flat structure, uncomment or remove these.
+    // See: https://github.com/Azure/azure-sdk-for-ios/issues/659
+//    /// List storage containers in a storage account.
+//    /// - Parameters:
+//    ///   - options: A `ListContainersOptions` object to control the list operation.
+//    ///   - completionHandler: A completion handler that receives a `PagedCollection` of `ContainerItem` objects on
+//    ///     success.
+//    public func listContainers(
+//        withOptions options: ListContainersOptions? = nil,
+//        completionHandler: @escaping HTTPResultHandler<PagedCollection<ContainerItem>>
+//    ) {
+//        return containers.list(withOptions: options, completionHandler: completionHandler)
+//    }
+//
+//    /// List blobs within a storage container.
+//    /// - Parameters:
+//    ///   - container: The container name containing the blobs to list.
+//    ///   - options: A `ListBlobsOptions` object to control the list operation.
+//    ///   - completionHandler: A completion handler that receives a `PagedCollection` of `BlobItem` objects on success.
+//    public func listBlobs(
+//        inContainer container: String,
+//        withOptions options: ListBlobsOptions? = nil,
+//        completionHandler: @escaping HTTPResultHandler<PagedCollection<BlobItem>>
+//    ) {
+//        return blobs.list(inContainer: container, withOptions: options, completionHandler: completionHandler)
+//    }
+//
+//    /// Delete a blob within a storage container.
+//    /// - Parameters:
+//    ///   - blob: The blob name to delete.
+//    ///   - container: The container name containing the blob to delete.
+//    ///   - options: A `DeleteBlobOptions` object to control the delete operation.
+//    ///   - completionHandler: A completion handler to notify about success or failure.
+//    public func delete(
+//        blob: String,
+//        inContainer container: String,
+//        withOptions options: DeleteBlobOptions? = nil,
+//        completionHandler: @escaping HTTPResultHandler<Void>
+//    ) {
+//        return blobs.delete(
+//            blob: blob,
+//            inContainer: container,
+//            withOptions: options,
+//            completionHandler: completionHandler
+//        )
+//    }
+//
+//    /// Create a managed download to reliably download a blob from a storage container.
+//    ///
+//    /// This method performs a managed download, during which the client will reliably manage the transfer of the blob
+//    /// from the cloud service to this device. When called, the download will be queued and a `BlobTransfer` object will
+//    /// be returned that allows you to control the download. This client's `transferDelegate` will be notified about
+//    /// state changes for all managed uploads and downloads the client creates.
+//    /// - Parameters:
+//    ///   - blob: The name of the blob.
+//    ///   - container: The name of the container.
+//    ///   - destinationUrl: The URL to a file path on this device.
+//    ///   - options: A `DownloadBlobOptions` object to control the download operation.
+//    @discardableResult public func download(
+//        blob: String,
+//        fromContainer container: String,
+//        toFile destinationUrl: LocalURL,
+//        withOptions options: DownloadBlobOptions = DownloadBlobOptions(),
+//        progressHandler: ((BlobTransfer) -> Void)? = nil
+//    ) throws -> BlobTransfer? {
+//        return try blobs.download(
+//            blob: blob,
+//            fromContainer: container,
+//            toFile: destinationUrl,
+//            withOptions: options,
+//            progressHandler: progressHandler
+//        )
+//    }
+//
+//    /// Create a managed upload to reliably upload a file to a storage container.
+//    ///
+//    /// This method performs a managed upload, during which the client will reliably manage the transfer of the blob
+//    /// from this device to the cloud service. When called, the upload will be queued and a `BlobTransfer` object will
+//    /// be returned that allows you to control the upload. This client's `transferDelegate` will be notified about state
+//    /// changes for all managed uploads and downloads the client creates.
+//    /// - Parameters:
+//    ///   - sourceUrl: The URL to a file on this device.
+//    ///   - container: The name of the container.
+//    ///   - blob: The name of the blob.
+//    ///   - properties: Properties to set on the resulting blob.
+//    ///   - options: An `UploadBlobOptions` object to control the upload operation.
+//    @discardableResult public func upload(
+//        file sourceUrl: LocalURL,
+//        toContainer container: String,
+//        asBlob blob: String,
+//        properties: BlobProperties,
+//        withOptions options: UploadBlobOptions = UploadBlobOptions(),
+//        progressHandler: ((BlobTransfer) -> Void)? = nil
+//    ) throws -> BlobTransfer? {
+//        return try blobs.upload(
+//            file: sourceUrl,
+//            toContainer: container,
+//            asBlob: blob,
+//            properties: properties,
+//            withOptions: options,
+//            progressHandler: progressHandler
+//        )
+//    }
 }
