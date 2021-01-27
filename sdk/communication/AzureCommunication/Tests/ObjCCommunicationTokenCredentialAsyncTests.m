@@ -45,7 +45,7 @@ NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fS
     self.fetchTokenCallCount = 0;
 }
 
-- (void)xtest_ObjCRefreshTokenProactivelyTokenExpiringInOneMin {
+- (void)test_ObjCRefreshTokenProactivelyTokenExpiringInOneMin {
     XCTestExpectation *expectation = [self expectationWithDescription:
                                       @"RefreshTokenProactivelyTokenExpiringInOneMin"];
     __weak ObjCCommunicationTokenCredentialAsyncTests *weakSelf = self;
@@ -79,7 +79,7 @@ NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fS
     [self waitForExpectations:@[expectation] timeout:2.0];
 }
 
-- (void)xtest_ObjCRefreshTokenProactivelyTokenExpiringInNineMin {
+- (void)test_ObjCRefreshTokenProactivelyTokenExpiringInNineMin {
     XCTestExpectation *expectation = [self expectationWithDescription:
                                       @"RefreshTokenProactivelyTokenExpiringInNineMin"];
     __weak ObjCCommunicationTokenCredentialAsyncTests *weakSelf = self;

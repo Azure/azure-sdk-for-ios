@@ -46,7 +46,7 @@
     self.fetchTokenCallCount = 0;
 }
 
-- (void)xtest_ObjCDecodeToken {
+- (void)test_ObjCDecodeToken {
     XCTestExpectation *expectation = [self expectationWithDescription:
                                       @"DecodeToken"];
 
@@ -64,7 +64,7 @@
     [self waitForExpectations:@[expectation] timeout:2.0];
 }
 
-- (void)xtest_ObjCRefreshTokenProactively_TokenAlreadyExpired {
+- (void)test_ObjCRefreshTokenProactively_TokenAlreadyExpired {
     XCTestExpectation *expectation = [self expectationWithDescription:
                                       @"RefreshTokenProactively_TokenAlreadyExpired"];
     __weak ObjCCommunciationTokenCredentialTests *weakSelf = self;
@@ -96,7 +96,7 @@
     [self waitForExpectations:@[expectation] timeout:2.0];
 }
 
-- (void)xtest_ObjCRefreshTokenProactively_FetchTokenReturnsError {
+- (void)test_ObjCRefreshTokenProactively_FetchTokenReturnsError {
     XCTestExpectation *expectation = [self expectationWithDescription:
                                       @"RefreshTokenProactively_FetchTokenReturnsError"];
     __weak ObjCCommunciationTokenCredentialTests *weakSelf = self;
