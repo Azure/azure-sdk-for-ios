@@ -71,3 +71,24 @@ struct BlobDownloadView_Previews: PreviewProvider {
         BlobDownloadView()
     }
 }
+
+class BlobListObservable: ObservableObject {
+    @Published var items = [BlobItem]()
+    @Published var transfers = [String: BlobTransfer]()
+
+    init() {
+        loadBlobData()
+    }
+
+    func loadBlobData() {
+        guard let blobClient = try? AppState.blobClient() else { return }
+        blobClient.listBlobs(inContainer: "videos") { result, _ in
+            switch result {
+            case let .success(paged):
+                self.items = paged.items ?? [BlobItem]()
+            case let .failure(error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+}
