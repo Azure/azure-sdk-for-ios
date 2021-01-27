@@ -92,6 +92,15 @@ public class ChatClient {
         withOptions options: Chat.CreateChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<CreateThreadResult>
     ) {
+        // Set the repeatabilityRequestID if it is not provided
+        let requestOptions = ((options?.repeatabilityRequestID) != nil) ? options : Chat.CreateChatThreadOptions(
+            repeatabilityRequestID: UUID().uuidString,
+            clientRequestId: options?.clientRequestId,
+            cancellationToken: options?.cancellationToken,
+            dispatchQueue: options?.dispatchQueue,
+            context: options?.context
+        )
+
         // Convert Participants to ChatParticipants
         let participants = thread.participants.map {
             ChatParticipant(
@@ -100,13 +109,14 @@ public class ChatClient {
                 shareHistoryTime: $0.shareHistoryTime
             )
         }
+
         // Convert to CreateChatThreadRequest for generated code
         let request = CreateChatThreadRequest(
             topic: thread.topic,
             participants: participants
         )
 
-        service.create(chatThread: request, withOptions: options) { result, httpResponse in
+        service.create(chatThread: request, withOptions: requestOptions) { result, httpResponse in
             switch result {
             case let .success(chatThreadResult):
                 completionHandler(.success(CreateThreadResult(from: chatThreadResult)), httpResponse)

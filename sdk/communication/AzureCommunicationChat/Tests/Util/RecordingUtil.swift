@@ -113,7 +113,7 @@ class Recorder {
 
         case Recording.createThread:
             stub(condition: isMethodPOST() && pathEndsWith("/chat/threads")) { _ in
-                fixture(filePath: path, status: 201, headers: nil)
+                fixture(filePath: path, status: 201, headers: ["repeatability-Request-ID": "test_id"])
             }
 
         case Recording.deleteMessage:

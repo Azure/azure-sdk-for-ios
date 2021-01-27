@@ -112,10 +112,49 @@ class ChatClientTests: XCTestCase {
                 let chatThread = response.thread
                 XCTAssertNotNil(response.thread)
                 XCTAssertEqual(chatThread?.topic, thread.topic)
+                XCTAssertNotNil(httpResponse?.httpRequest?.headers["repeatability-Request-ID"])
 
                 if TestConfig.mode == "record" {
                     Recorder.record(name: Recording.createThread, httpResponse: httpResponse)
                 }
+
+            case let .failure(error):
+                XCTFail("Create thread failed with error: \(error)")
+            }
+
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: TestConfig.timeout) { error in
+            if let error = error {
+                XCTFail("Create thread timed out: \(error)")
+            }
+        }
+    }
+
+    func test_CreateThread_WithOptions_SetsRepeatabilityRequestID() {
+        let participant = Participant(
+            id: user,
+            displayName: "User",
+            shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
+        )
+
+        let thread = CreateThreadRequest(
+            topic: topic,
+            participants: [
+                participant
+            ]
+        )
+
+        // Create options without repeatabilityRequestID
+        let options = Chat.CreateChatThreadOptions(clientRequestId: "test_id")
+
+        let expectation = self.expectation(description: "Create thread")
+
+        chatClient.create(thread: thread, withOptions: options) { result, httpResponse in
+            switch result {
+            case .success:
+                XCTAssertNotNil(httpResponse?.httpRequest?.headers["repeatability-Request-ID"])
 
             case let .failure(error):
                 XCTFail("Create thread failed with error: \(error)")
