@@ -26,10 +26,44 @@
 
 import SwiftUI
 
+import AzureCore
+import AzureIdentity
+import AzureStorageBlob
+import MSAL
+import Photos
+
 struct BlobDownloadView: View {
+    @State private var blobClinet: StorageBlobClient?
+    
+    var items: [Item] = []
+    
     var body: some View {
-        Text("Blob Download")
+        NavigationView {
+            List(items) { item in
+                NavigationLink(destination: Text(item.name)) { }
+            }
+        }
+        .onAppear(perform: initialize)
     }
+    
+    private func initialize() {
+        // Create refresh control
+    }
+    
+    private func initBlobClient() {
+        blobClinet = try? AppState.blobClient()
+        
+    }
+    
+    private func authorizePhotoLib() {
+        PHPhotoLibrary.authorizationStatus()
+    }
+}
+
+struct Item: Identifiable {
+    var id: ObjectIdentifier
+    
+    var name: String
 }
 
 struct BlobDownloadView_Previews: PreviewProvider {

@@ -55,7 +55,6 @@ struct ContentView: View {
                             AppState.account = nil
                             isLoggedIn = false
                         } catch {
-                            // show an alert
                             errorMessage = parseErrorMessage(using: error)
                             isError = true
                         }
@@ -76,6 +75,34 @@ struct ContentView: View {
                             }.font(.title3)
                         })
             )
+        }.onAppear(perform: loadAuthority)
+    }
+    
+    private func loadAuthority() {
+        guard let authorityUrl = URL(string: AppConstants.authority) else { return }
+        guard let authority = try? MSALAADAuthority(url: authorityUrl) else { return }
+        
+        let msalConfiguration = MSALPublicClientApplicationConfig(
+            clientId: AppConstants.clientId,
+            redirectUri: nil,
+            authority: authority)
+        
+        AppState.application = try? MSALPublicClientApplication(configuration: msalConfiguration)
+        AppState.account = AppState.currentAccount
+        
+        updateLoggedInState(enabled: AppState.currentAccount != nil)
+        updateUserName(with: AppState.currentAccount)
+    }
+    
+    private func updateLoggedInState(enabled: Bool) {
+        isLoggedIn = enabled
+    }
+    
+    private func updateUserName(with account: MSALAccount?) {
+        if let account = account {
+            userLabel = account.username ?? "Unknown"
+        } else {
+            userLabel = "Please log in"
         }
     }
     
