@@ -38,25 +38,25 @@ end
 
 target 'AzureIdentity' do
   project 'sdk/identity/AzureIdentity/AzureIdentity'
-  pod 'MSAL', '~> 1.0.0'
+  pod 'MSAL', '~> 1.1.2'
 
   target 'AzureIdentityTests' do
     inherit! :search_paths
-    pod 'MSAL', '~> 1.0.0'
+    pod 'MSAL', '~> 1.1.2'
   end
 end
 
 target 'AzureStorageBlob' do
   project 'sdk/storage/AzureStorageBlob/AzureStorageBlob'
-  pod 'MSAL', '~> 1.0.0'
+  pod 'MSAL', '~> 1.1.2'
 
   target 'AzureStorageBlobTests' do
     inherit! :search_paths
-    pod 'MSAL', '~> 1.0.0'
+    pod 'MSAL', '~> 1.1.2'
   end
 end
 
 target 'AzureSDKDemoSwift' do
   project 'examples/AzureSDKDemoSwift/AzureSDKDemoSwift'
-  pod 'MSAL', '~> 1.0.0'
+  pod 'MSAL', '~> 1.1.2'
 end

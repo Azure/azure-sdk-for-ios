@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1130"
+   LastUpgradeVersion = "1230"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -70,6 +70,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "AzureCommunicationChat::AzureCommunicationChat"
+               BuildableName = "AzureCommunicationChat.framework"
+               BlueprintName = "AzureCommunicationChat"
+               ReferencedContainer = "container:sdk/communication/AzureCommunicationChat/AzureCommunicationChat.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "0A3A5E752315E70400473FDA"
                BuildableName = "AzureSDKDemoSwift.app"
                BlueprintName = "AzureSDKDemoSwift"
@@ -102,20 +116,6 @@
                BuildableName = "AzureIdentityTests.xctest"
                BlueprintName = "AzureIdentityTests"
                ReferencedContainer = "container:sdk/identity/AzureIdentity/AzureIdentity.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "NO"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0A3A5E892315E70600473FDA"
-               BuildableName = "AzureSDKDemoSwiftTests.xctest"
-               BlueprintName = "AzureSDKDemoSwiftTests"
-               ReferencedContainer = "container:examples/AzureSDKDemoSwift/AzureSDKDemoSwift.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -177,16 +177,6 @@
          <TestableReference
             skipped = "NO"
             parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0A3A5E892315E70600473FDA"
-               BuildableName = "AzureSDKDemoSwiftTests.xctest"
-               BlueprintName = "AzureSDKDemoSwiftTests"
-               ReferencedContainer = "container:examples/AzureSDKDemoSwift/AzureSDKDemoSwift.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0A3A5EC02316DB1E00473FDA"

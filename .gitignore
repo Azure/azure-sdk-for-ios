@@ -31,6 +31,7 @@ xcuserdata/
 ## Playgrounds
 timeline.xctimeline
 playground.xcworkspace
+*.playground
 
 # Swift Package Manager
 #
@@ -48,6 +49,7 @@ playground.xcworkspace
 # https://guides.cocoapods.org/using/using-cocoapods.html#should-i-check-the-pods-directory-into-source-control
 #
 Pods/
+Podfile.lock
 
 # Carthage
 #
@@ -70,4 +72,3 @@ fastlane/test_output
 
 # Random Mac files.
 .DS_Store
-Podfile.lock
