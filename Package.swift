@@ -70,8 +70,7 @@ let package = Package(
             path: "sdk/core/AzureCore",
             exclude: [
               "Tests/Info.plist",
-              "Tests/Data Files",
-              "Tests/test.playground"
+              "Tests/Data Files"
             ],
             sources: ["Tests"]
         ),
