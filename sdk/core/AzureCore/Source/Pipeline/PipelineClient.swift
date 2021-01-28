@@ -108,7 +108,8 @@ open class PipelineClient {
     public func url(host: String? = nil, template: String, params: RequestParameters) -> URL? {
         let hostString = format(host: host, params: params)
         let pathString = format(path: template, params: params)
-        let url = URL(string: "\(hostString)\(pathString)")
+        let urlString = "\(hostString)\(pathString)"
+        let url = URL(string: urlString)
         return url?.appendingQueryParameters(params)
     }
 
@@ -121,21 +122,10 @@ open class PipelineClient {
         pipeline.run(request: pipelineRequest) { result, httpResponse in
             switch result {
             case let .success(pipelineResponse):
-                let deserializedData = pipelineResponse.value(forKey: .deserializedData) as? Data
-
-                // invalid status code is a failure
-                let statusCode = httpResponse?.statusCode ?? -1
-                let allowedStatusCodes = pipelineResponse.value(forKey: .allowedStatusCodes) as? [Int] ?? [200]
-                if !allowedStatusCodes.contains(httpResponse?.statusCode ?? -1) {
-                    self.logError(withData: deserializedData)
-                    let error = AzureError.service("Service returned invalid status code [\(statusCode)].", nil)
-                    completionHandler(.failure(error), httpResponse)
-                } else {
-                    if let deserialized = deserializedData {
-                        completionHandler(.success(deserialized), httpResponse)
-                    } else if let data = httpResponse?.data {
-                        completionHandler(.success(data), httpResponse)
-                    }
+                if let deserialized = pipelineResponse.value(forKey: .deserializedData) as? Data {
+                    completionHandler(.success(deserialized), httpResponse)
+                } else if let data = httpResponse?.data {
+                    completionHandler(.success(data), httpResponse)
                 }
             case let .failure(error):
                 completionHandler(.failure(error), httpResponse)

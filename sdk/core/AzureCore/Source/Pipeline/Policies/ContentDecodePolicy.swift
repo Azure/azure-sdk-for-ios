@@ -189,12 +189,14 @@ public class ContentDecodePolicy: PipelineStage {
         var returnResponse = response.copy()
         var returnError: AzureError?
         defer { completionHandler(returnResponse, returnError) }
+        guard let contentType = returnResponse.httpResponse?.contentTypes?.first else { return }
 
-        guard var contentType = returnResponse.httpResponse?.headers["Content-Type"]?.components(separatedBy: ";").first
-        else { return }
-        contentType = contentType.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
         do {
-            if let deserializedData = try deserialize(from: returnResponse, contentType: contentType) {
+            if let deserializedData = try deserialize(
+                from: returnResponse,
+                contentType: contentType,
+                withKey: .xmlMap
+            ) {
                 returnResponse.add(value: deserializedData, forKey: .deserializedData)
             }
         } catch {
@@ -207,6 +209,28 @@ public class ContentDecodePolicy: PipelineStage {
                 response.logger.error(err.message)
             }
         }
+    }
+
+    public func on(
+        error: AzureError,
+        pipelineResponse: PipelineResponse,
+        completionHandler: @escaping OnErrorCompletionHandler
+    ) {
+        let stream = pipelineResponse.value(forKey: "stream") as? Bool ?? false
+        guard stream == false else { return }
+        guard let contentType = pipelineResponse.httpResponse?.contentTypes?.first else { return }
+        guard let deserializedError = try? deserialize(
+            from: pipelineResponse,
+            contentType: contentType,
+            withKey: .xmlErrorMap
+        ) as? Data,
+            let innerErrorString = String(data: deserializedError, encoding: .utf8) else {
+            completionHandler(error, false)
+            return
+        }
+        let innerError = AzureError.service(innerErrorString, nil)
+        let returnError = AzureError.service(error.message, innerError)
+        completionHandler(returnError, false)
     }
 
     // MARK: Internal Methods
@@ -227,12 +251,16 @@ public class ContentDecodePolicy: PipelineStage {
         return try JSONSerialization.jsonObject(with: finalJson, options: []) as AnyObject
     }
 
-    internal func deserialize(from response: PipelineResponse, contentType: String) throws -> AnyObject? {
+    internal func deserialize(
+        from response: PipelineResponse,
+        contentType: String,
+        withKey key: ContextKey
+    ) throws -> AnyObject? {
         guard let data = response.httpResponse?.data else { return nil }
         if jsonRegex.hasMatch(in: contentType) {
             return data as AnyObject
         } else if contentType.contains("xml") {
-            xmlParser.xmlMap = response.value(forKey: .xmlMap) as? XMLMap
+            xmlParser.xmlMap = response.value(forKey: key) as? XMLMap
             xmlParser.logger = response.logger
             let jsonData = try parse(xml: data)
             return try JSONSerialization.data(withJSONObject: jsonData, options: []) as AnyObject
