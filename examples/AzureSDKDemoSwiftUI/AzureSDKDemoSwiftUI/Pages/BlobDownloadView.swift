@@ -25,6 +25,7 @@
 // --------------------------------------------------------------------------
 
 import SwiftUI
+import UIKit
 
 import AzureCore
 import AzureIdentity

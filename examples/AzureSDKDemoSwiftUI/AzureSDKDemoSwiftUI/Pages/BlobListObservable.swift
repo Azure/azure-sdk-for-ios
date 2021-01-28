@@ -27,7 +27,9 @@
 import Foundation
 
 import AzureCore
+import AzureIdentity
 import AzureStorageBlob
+import MSAL
 
 class BlobListObservable: ObservableObject {
     @Published private(set) var blobClient: StorageBlobClient?
@@ -67,7 +69,19 @@ class BlobListObservable: ObservableObject {
         }
 
         if transfer.transferType == .download {
-            // reload the list   
+            // reload the list
         }
     }
+}
+
+extension BlobListObservable: MSALInteractiveDelegate {
+    func parentForWebView() -> UIViewController {
+        return UIViewController()
+    }
+    
+    func didCompleteMSALRequest(withResult result: MSALResult) {
+        AppState.account = result.account
+    }
+    
+    
 }
