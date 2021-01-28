@@ -76,7 +76,7 @@ NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fS
         [expectation fulfill];
     }];
 
-    [self waitForExpectations:@[expectation] timeout:5.0];
+    [self waitForExpectations:@[expectation] timeout:8.0];
 }
 
 - (void)test_ObjCRefreshTokenProactivelyTokenExpiringInNineMin {
@@ -109,7 +109,7 @@ NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fS
         [expectation fulfill];
     }];
 
-    [self waitForExpectations:@[expectation] timeout:5.0];
+    [self waitForExpectations:@[expectation] timeout:8.0];
 }
 
 - (NSString *)generateTokenValidForMinutes: (int) minutes {
