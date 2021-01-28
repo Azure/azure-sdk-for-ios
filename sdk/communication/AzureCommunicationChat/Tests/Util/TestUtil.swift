@@ -27,7 +27,7 @@ import AzureCommunication
 import AzureCommunicationChat
 import Foundation
 
-class TestConfig {
+class TestUtil {
     public static let mode: String = "playback"
     public static let user1: String = "id:1"
     public static let user2: String = "id:2"

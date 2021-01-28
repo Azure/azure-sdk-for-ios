@@ -34,12 +34,12 @@ class ChatClientTests: XCTestCase {
     /// ChatClient initialized in setup.
     private var chatClient: ChatClient!
     /// An ACS user id.
-    private var user: String = TestConfig.user1
+    private var user: String = TestUtil.user1
     /// Thread topic.
     private let topic: String = "General"
 
     override class func setUp() {
-        if TestConfig.mode == "playback" {
+        if TestUtil.mode == "playback" {
             // Register stubs for playback mode
             Recorder.registerStubs()
         } else {
@@ -49,7 +49,7 @@ class ChatClientTests: XCTestCase {
     }
 
     override func setUpWithError() throws {
-        chatClient = try TestConfig.getChatClient()
+        chatClient = try TestUtil.getChatClient()
     }
 
     /// Helper to create a thread for tests that act on an existing thread.
@@ -113,7 +113,7 @@ class ChatClientTests: XCTestCase {
                 XCTAssertNotNil(response.thread)
                 XCTAssertEqual(chatThread?.topic, thread.topic)
 
-                if TestConfig.mode == "record" {
+                if TestUtil.mode == "record" {
                     Recorder.record(name: Recording.createThread, httpResponse: httpResponse)
                 }
 
@@ -124,7 +124,7 @@ class ChatClientTests: XCTestCase {
             expectation.fulfill()
         }
 
-        waitForExpectations(timeout: TestConfig.timeout) { error in
+        waitForExpectations(timeout: TestUtil.timeout) { error in
             if let error = error {
                 XCTFail("Create thread timed out: \(error)")
             }
@@ -143,7 +143,7 @@ class ChatClientTests: XCTestCase {
                     XCTAssert(thread.topic == self.topic)
                     XCTAssertNotNil(thread.createdBy)
 
-                    if TestConfig.mode == "record" {
+                    if TestUtil.mode == "record" {
                         Recorder.record(name: Recording.getThread, httpResponse: httpResponse)
                     }
 
@@ -155,7 +155,7 @@ class ChatClientTests: XCTestCase {
             }
         }
 
-        waitForExpectations(timeout: TestConfig.timeout) { error in
+        waitForExpectations(timeout: TestUtil.timeout) { error in
             if let error = error {
                 XCTFail("Get thread timed out: \(error)")
             }
@@ -171,12 +171,12 @@ class ChatClientTests: XCTestCase {
             self.chatClient.delete(thread: threadId) { result, httpResponse in
                 switch result {
                 case .success:
-                    if TestConfig.mode == "record" {
+                    if TestUtil.mode == "record" {
                         Recorder.record(name: Recording.deleteThread, httpResponse: httpResponse)
                     }
 
                     // Get the thread and verify deleted
-                    if TestConfig.mode != "playback" {
+                    if TestUtil.mode != "playback" {
                         self.chatClient.get(thread: threadId) { result, _ in
                             switch result {
                             case let .success(thread):
@@ -199,7 +199,7 @@ class ChatClientTests: XCTestCase {
             }
         }
 
-        waitForExpectations(timeout: TestConfig.timeout) { error in
+        waitForExpectations(timeout: TestUtil.timeout) { error in
             if let error = error {
                 XCTFail("Delete thread timed out: \(error)")
             }
@@ -215,7 +215,7 @@ class ChatClientTests: XCTestCase {
             self.chatClient.listThreads { result, httpResponse in
                 switch result {
                 case let .success(listThreadsResult):
-                    if TestConfig.mode == "record" {
+                    if TestUtil.mode == "record" {
                         Recorder.record(name: Recording.listThreads, httpResponse: httpResponse)
                     }
 
@@ -232,7 +232,7 @@ class ChatClientTests: XCTestCase {
             }
         }
 
-        waitForExpectations(timeout: TestConfig.timeout) { error in
+        waitForExpectations(timeout: TestUtil.timeout) { error in
             if let error = error {
                 XCTFail("List threads timed out: \(error)")
             }
