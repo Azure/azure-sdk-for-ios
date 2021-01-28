@@ -32,30 +32,17 @@ class Recorder {
     /// Remove ids from response data
     /// - Parameter data: The string to sanitize.
     private static func sanitize(data: String) throws -> String {
-        // id
-        var sanitized = try sanitize(
-            data: data,
-            pattern: "\\\"id\\\":\\\".*?\\\"",
-            template: "\\\"id\\\":\\\"sanitized\\\""
-        )
-        // createdBy
-        sanitized = try sanitize(
-            data: sanitized,
-            pattern: "\\\"createdBy\\\":\\\".*?\\\"",
-            template: "\\\"createdBy\\\":\\\"sanitized\\\""
-        )
-        // senderId
-        sanitized = try sanitize(
-            data: sanitized,
-            pattern: "\\\"senderId\\\":\\\".*?\\\"",
-            template: "\\\"senderId\\\":\\\"sanitized\\\""
-        )
-        // initiator
-        sanitized = try sanitize(
-            data: sanitized,
-            pattern: "\\\"initiator\\\":\\\".*?\\\"",
-            template: "\\\"initiator\\\":\\\"sanitized\\\""
-        )
+        let patterns = [
+            ("\\\"id\\\":\\\".*?\\\"", "\\\"id\\\":\\\"sanitized\\\""),
+            ("\\\"createdBy\\\":\\\".*?\\\"", "\\\"createdBy\\\":\\\"sanitized\\\""),
+            ("\\\"senderId\\\":\\\".*?\\\"", "\\\"senderId\\\":\\\"sanitized\\\""),
+            ("\\\"initiator\\\":\\\".*?\\\"", "\\\"initator\\\":\\\"sanitized\\\""),
+            ("\\\"chatMessageId\\\":\\\".*?\\\"", "\\\"chatMessageId\\\":\\\"sanitized\\\"")
+        ]
+        var sanitized = data
+        for (pattern, template) in patterns {
+            sanitized = try sanitize(data: sanitized, pattern: pattern, template: template)
+        }
         return sanitized
     }
 
@@ -188,6 +175,11 @@ class Recorder {
             stub(condition: isMethodGET() && pathEndsWith("/threads")) { _ in
                 fixture(filePath: path, status: 200, headers: nil)
             }
+
+        case Recording.listReadReceipts:
+            stub(condition: isMethodGET() && pathEndsWith("/readReceipts")) { _ in
+                fixture(filePath: path, status: 200, headers: nil)
+            }
         }
     }
 }
@@ -210,4 +202,5 @@ enum Recording: String, CaseIterable {
     case listParticipants
     case listMessages
     case listThreads
+    case listReadReceipts
 }

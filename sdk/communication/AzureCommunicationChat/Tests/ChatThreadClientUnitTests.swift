@@ -277,7 +277,7 @@ class ChatThreadClientUnitTests: XCTestCase {
                         }
                         XCTAssertEqual(message.id, self.messageId)
                         XCTAssertEqual(content.message, "Hello world!")
-                        XCTAssertEqual(message.senderId, self.participantId)
+                        XCTAssertEqual(message.sender?.identifier, self.participantId)
 
                     case .failure:
                         XCTFail("Unexpected failure happened in list messages")
@@ -458,7 +458,7 @@ class ChatThreadClientUnitTests: XCTestCase {
                             XCTFail("Failed to extract senderDisplayName from response")
                             return
                         }
-                        XCTAssertEqual(participant.id, self.participantId)
+                        XCTAssertEqual(participant.user.identifier, self.participantId)
                         XCTAssertEqual(displayName, self.participantName)
 
                     case .failure:
@@ -517,7 +517,7 @@ class ChatThreadClientUnitTests: XCTestCase {
 
         let expectation = self.expectation(description: "Add participant")
 
-        let participant = ChatParticipant(
+        let participant = Participant(
             id: participantId,
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
@@ -550,7 +550,7 @@ class ChatThreadClientUnitTests: XCTestCase {
 
         let expectation = self.expectation(description: "Add participant")
 
-        let participant = ChatParticipant(
+        let participant = Participant(
             id: participantId,
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
@@ -758,7 +758,7 @@ class ChatThreadClientUnitTests: XCTestCase {
                 response.nextItem { result in
                     switch result {
                     case let .success(readReceipt):
-                        XCTAssertEqual(readReceipt.senderId, self.participantId)
+                        XCTAssertEqual(readReceipt.sender.identifier, self.participantId)
                         XCTAssertEqual(readReceipt.chatMessageId, self.messageId)
                         XCTAssertNotNil(readReceipt.readOn)
 
