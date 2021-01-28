@@ -33,7 +33,7 @@ struct MediaView: View {
     var body: some View {
         TabView(selection: $selectedTabItem,
                 content:  {
-                    BlobDownloadView()
+                    BlobDownloadTableViewController()
                         .tabItem {
                             Image(systemName: "square.and.arrow.down")
                             Text("Download")

@@ -31,10 +31,10 @@ import AzureIdentity
 import AzureStorageBlob
 import MSAL
 
-class BlobListObservable: ObservableObject {
-    @Published private(set) var blobClient: StorageBlobClient?
-    @Published var items = [BlobItem]()
-    @Published var transfers = [String: BlobTransfer]()
+class BlobListViewModel {
+    private(set) var blobClient: StorageBlobClient?
+    var items = [BlobItem]()
+    var transfers = [String: BlobTransfer]()
 
     init() {
         loadBlobData()
@@ -72,16 +72,4 @@ class BlobListObservable: ObservableObject {
             // reload the list
         }
     }
-}
-
-extension BlobListObservable: MSALInteractiveDelegate {
-    func parentForWebView() -> UIViewController {
-        return UIViewController()
-    }
-    
-    func didCompleteMSALRequest(withResult result: MSALResult) {
-        AppState.account = result.account
-    }
-    
-    
 }

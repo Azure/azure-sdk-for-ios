@@ -33,74 +33,68 @@ import AzureStorageBlob
 import MSAL
 import Photos
 
-struct BlobDownloadView: View {
-    @ObservedObject var data = BlobListObservable()
+final class BlobDownloadTableViewController: UIViewControllerRepresentable {
+    typealias UIViewControllerType = UITableViewController
+    var viewController: UITableViewController?
     
-    var body: some View {
-        NavigationView {
-            List(data.items, id: \.name) { item in
-                BlobRow(blob: item, transferId: nil)
-                    .onTapGesture {
-                    
-                }
-            }
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+    
+    func makeUIViewController(context: Context) -> UITableViewController {
+        let tableViewController = UITableViewController(style: .plain)
+        tableViewController.tableView.delegate = context.coordinator
+        tableViewController.tableView.dataSource = context.coordinator
+                
+        viewController = tableViewController
+        return tableViewController
+    }
+    
+    func updateUIViewController(_ uiViewController: UITableViewController,
+                                context: Context) {
+        uiViewController.tableView.reloadData()
+    }
+    
+    class Coordinator: NSObject, UITableViewDataSource, UITableViewDelegate, MSALInteractiveDelegate {
+        var parent: BlobDownloadTableViewController
+        private var data = BlobListViewModel()
+
+        init(_ tableViewController: BlobDownloadTableViewController) {
+            parent = tableViewController
+            
+            PHPhotoLibrary.authorizationStatus()
         }
-        .onAppear(perform: initialize)
-    }
-    
-    private func initialize() {
-        // Create refresh control
-        authorizePhotoLib()
-    }
-    
-    private func authorizePhotoLib() {
-        PHPhotoLibrary.authorizationStatus()
-    }
-}
-
-struct BlobRow: View {
-    var blob: BlobItem
-    var transferId: UUID?
-    @State var progress = Float(0)
-
-    init(blob: BlobItem, transferId: UUID?) {
-        self.blob = blob
-        self.transferId = transferId
-        let blobClient = try? AppState.blobClient()
         
-        if let transferId = transferId,
-            let transfer = blobClient?.transfers[transferId]  {
-            self.progress = transfer.progress.asFloat
+        func tableView(_ tableView: UITableView,
+                       numberOfRowsInSection section: Int) -> Int {
+            return data.items.count
         }
-    }
-
-    var body: some View {
-        return VStack {
-            HStack {
-                Text(blob.name)
-                    .font(.subheadline)
-                Spacer()
-                Text(blob.properties?.blobType?.rawValue ?? "Unknown")
-            }
-            ProgressView(progress: $progress)
+        
+        func tableView(_ tableView: UITableView,
+                       cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+            return UITableViewCell()
         }
-    }
-}
-
-struct ProgressView: UIViewRepresentable {
-    @Binding var progress: Float
-
-    func makeUIView(context _: Context) -> UIProgressView {
-        UIProgressView(progressViewStyle: .bar)
-    }
-
-    func updateUIView(_ uiView: UIProgressView, context _: Context) {
-        uiView.progress = progress
-    }
-}
-
-struct BlobDownloadView_Previews: PreviewProvider {
-    static var previews: some View {
-        BlobDownloadView()
+        
+        func parentForWebView() -> UIViewController {
+            guard let vc = parent.viewController else { return UIViewController() }
+            
+            return vc
+        }
+        
+        func didCompleteMSALRequest(withResult result: MSALResult) {
+            AppState.account = result.account
+        }
+        
+        private func blobTableViewCell(_ indexPath: IndexPath,
+                                       tableView: UITableView) -> UITableViewCell {
+            let blobItem = data.items[indexPath.row]
+            let cell = tableView.dequeueReusableCell(withIdentifier: "BlobCell") ??
+                UITableViewCell(style: .subtitle, reuseIdentifier: "BlobCell")
+            
+            cell.textLabel?.numberOfLines = 0
+            cell.textLabel?.text = "\(blobItem.name)\n\(blobItem.properties?.blobType?.rawValue ?? "Unknown")"
+            
+            return cell
+        }
     }
 }
