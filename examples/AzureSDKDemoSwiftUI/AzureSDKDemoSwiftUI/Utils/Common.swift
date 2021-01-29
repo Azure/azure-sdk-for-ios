@@ -32,18 +32,16 @@ import MSAL
 
 struct AppConstants {
     static let storageAccountUrl = URL(string: "https://iosdemostorage1.blob.core.windows.net/")!
-
     static let tenant = "7e6c9611-413e-47e4-a054-a389854dd732"
-
     static let clientId = "6f2c62dd-d6b2-444a-8dff-c64380e7ac76"
-
     static let redirectUri = "msauth.com.azure.examples.AzureSDKDemoSwift://auth"
-
     static let authority = "https://login.microsoftonline.com/7e6c9611-413e-47e4-a054-a389854dd732"
-
     static let uploadContainer: String! = "uploads"
-
     static let videoContainer: String! = "videos"
+    
+    // swiftlint:disable line_length
+    static let sasConnectionString =
+        "BlobEndpoint=https://iosdemostorage1.blob.core.windows.net/;QueueEndpoint=https://iosdemostorage1.queue.core.windows.net/;FileEndpoint=https://iosdemostorage1.file.core.windows.net/;TableEndpoint=https://iosdemostorage1.table.core.windows.net/;SharedAccessSignature=sv=2019-10-10&ss=bfqt&srt=co&sp=rwdlacupx&se=2020-05-12T01:01:13Z&st=2020-05-11T17:01:13Z&spr=https&sig=%2FHUsW9753QB%2FIDKxMcx2VZ2vs5XThfps8IzAb5xOfQ0%3D"
 }
 
 struct AppState {
@@ -87,24 +85,20 @@ struct AppState {
 
     private static var internalBlobClient: StorageBlobClient?
     static func blobClient(withDelegate delegate: StorageBlobClientDelegate? = nil) throws -> StorageBlobClient {
+        let error = AzureError.client("Unable to create Blob Storage Client.")
         if AppState.internalBlobClient == nil {
-            guard let application = AppState.application else {
+            guard let _ = AppState.application else {
                 fatalError("Application is not initialized. Unable to create Blob Storage Client.")
             }
-            let credential = MSALCredential(
-                tenant: AppConstants.tenant, clientId: AppConstants.clientId, application: application,
-                account: AppState.currentAccount
-            )
-            let options = StorageBlobClientOptions(
-                logger: ClientLoggers.none,
-                transportOptions: TransportOptions(timeout: 5.0),
-                restorationId: "AzureSDKDemoSwift"
-            )
+            
+            let credential = StorageSASCredential(staticCredential: AppConstants.sasConnectionString)
             AppState.internalBlobClient = try? StorageBlobClient(
-                endpoint: AppConstants.storageAccountUrl,
-                credential: credential,
-                withOptions: options
-            )
+                endpoint: URL(string: "https://iosdemostorage1.blob.core.windows.net/")!,
+                credential: credential)
+        }
+        
+        guard AppState.internalBlobClient != nil else {
+            throw error
         }
 
         let client = AppState.internalBlobClient!
