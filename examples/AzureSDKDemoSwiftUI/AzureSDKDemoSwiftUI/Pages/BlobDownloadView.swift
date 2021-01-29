@@ -33,7 +33,7 @@ import AzureStorageBlob
 import MSAL
 import Photos
 
-final class BlobDownloadTableViewController: UIViewControllerRepresentable {
+final class BlobDownloadTableViewController: UIViewControllerRepresentable, MSALInteractiveDelegate {
     typealias UIViewControllerType = UITableViewController
     var viewController: UITableViewController?
     
@@ -55,7 +55,16 @@ final class BlobDownloadTableViewController: UIViewControllerRepresentable {
         uiViewController.tableView.reloadData()
     }
     
-    class Coordinator: NSObject, UITableViewDataSource, UITableViewDelegate, MSALInteractiveDelegate {
+    func parentForWebView() -> UIViewController {
+        return viewController ?? UITableViewController()
+    }
+    
+    func didCompleteMSALRequest(withResult result: MSALResult) {
+        AppState.account = result.account
+    }
+
+    
+    class Coordinator: NSObject, UITableViewDataSource, UITableViewDelegate {
         var parent: BlobDownloadTableViewController
         private var data = BlobListViewModel()
 
@@ -65,6 +74,10 @@ final class BlobDownloadTableViewController: UIViewControllerRepresentable {
             PHPhotoLibrary.authorizationStatus()
         }
         
+        func numberOfSections(in tableView: UITableView) -> Int {
+            return 1
+        }
+        
         func tableView(_ tableView: UITableView,
                        numberOfRowsInSection section: Int) -> Int {
             return data.items.count
@@ -72,21 +85,13 @@ final class BlobDownloadTableViewController: UIViewControllerRepresentable {
         
         func tableView(_ tableView: UITableView,
                        cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            return UITableViewCell()
-        }
-        
-        func parentForWebView() -> UIViewController {
-            guard let vc = parent.viewController else { return UIViewController() }
-            
-            return vc
-        }
-        
-        func didCompleteMSALRequest(withResult result: MSALResult) {
-            AppState.account = result.account
+            return blobTableViewCell(indexPath, tableView: parent.viewController?.tableView)
         }
         
         private func blobTableViewCell(_ indexPath: IndexPath,
-                                       tableView: UITableView) -> UITableViewCell {
+                                       tableView: UITableView?) -> UITableViewCell {
+            guard let tableView = tableView else { return UITableViewCell() }
+            
             let blobItem = data.items[indexPath.row]
             let cell = tableView.dequeueReusableCell(withIdentifier: "BlobCell") ??
                 UITableViewCell(style: .subtitle, reuseIdentifier: "BlobCell")
@@ -94,7 +99,25 @@ final class BlobDownloadTableViewController: UIViewControllerRepresentable {
             cell.textLabel?.numberOfLines = 0
             cell.textLabel?.text = "\(blobItem.name)\n\(blobItem.properties?.blobType?.rawValue ?? "Unknown")"
             
+            if indexPath.row == data.items.count - 1 {
+                loadMoreSettings()
+            }
+            
             return cell
+        }
+        
+        private func loadMoreSettings() {
+            guard !(data.collection?.isExhausted ?? true) else { return }
+            
+            data.collection?.nextPage { result in
+                switch result {
+                case .success:
+                    self.parent.viewController?.tableView.reloadData()
+                case .failure:
+                    // show an alert
+                    break
+                }
+            }
         }
     }
 }

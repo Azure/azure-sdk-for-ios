@@ -33,6 +33,7 @@ import MSAL
 
 class BlobListViewModel {
     private(set) var blobClient: StorageBlobClient?
+    var collection: PagedCollection<BlobItem>?
     var items = [BlobItem]()
     var transfers = [String: BlobTransfer]()
 
@@ -50,7 +51,7 @@ class BlobListViewModel {
         blobClient.listBlobs(inContainer: containerName, withOptions: options) { result, _ in
             switch result {
             case let .success(collection):
-                // updat table view
+                self.collection = collection
                 self.items = collection.items ?? [BlobItem]()
             case .failure:
                 // show an error here
@@ -59,7 +60,7 @@ class BlobListViewModel {
         }
         
         
-        blobClient.downloads.resumeAll(progressHandler: downloadProgress)
+//        blobClient.downloads.resumeAll(progressHandler: downloadProgress)
     }
     
     private func downloadProgress(transfer: BlobTransfer) {
