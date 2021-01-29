@@ -14,7 +14,7 @@ func toEventPayload(request: TrouterRequest, chatEventId: ChatEventId) -> Any? {
     do {
         switch chatEventId {
         case ChatEventId.chatMessageReceived:
-            return try toChatMessageEditedEvent(request: request)
+            return try toChatMessageReceivedEvent(request: request)
         case ChatEventId.typingIndicatorReceived:
             return try toTypingIndicatorReceivedEvent(request: request)
         case ChatEventId.readReceiptReceived:
