@@ -18,10 +18,10 @@ public class CommunicationUser {
 
 public class ChatParticipant {
     public var user: CommunicationUser?
-    public var displayName: String
+    public var displayName: String?
     public var shareHistoryTime: String?
 
-    init(user: CommunicationUser?, displayName: String, shareHistoryTime: String?=nil) {
+    init(user: CommunicationUser?, displayName: String? = nil, shareHistoryTime: String?=nil) {
         self.user=user
         self.displayName=displayName
         self.shareHistoryTime=shareHistoryTime
@@ -60,7 +60,7 @@ public class ChatThreadEvent {
 
 public class ChatMessageEvent: BaseEvent {
     public var id: String
-    public var senderDisplayName: String
+    public var senderDisplayName: String?
     public var createdOn: String
     public var version: String
 
@@ -68,7 +68,7 @@ public class ChatMessageEvent: BaseEvent {
          sender: CommunicationUser?,
          recipient: CommunicationUser?,
          id: String,
-         senderDisplayName: String,
+         senderDisplayName: String? = nil,
          createdOn: String,
          version: String) {
         self.id = id
@@ -89,7 +89,7 @@ public class ChatMessageReceivedEvent: ChatMessageEvent {
          sender: CommunicationUser?,
          recipient: CommunicationUser?,
          id: String,
-         senderDisplayName: String,
+         senderDisplayName: String? = nil,
          createdOn: String,
          version: String,
          type: String,
@@ -110,7 +110,7 @@ public class ChatMessageEditedEvent: ChatMessageEvent {
          sender: CommunicationUser?,
          recipient: CommunicationUser?,
          id: String,
-         senderDisplayName: String,
+         senderDisplayName: String? = nil,
          createdOn: String,
          version: String,
          content: String,
@@ -128,7 +128,7 @@ public class ChatMessageDeletedEvent: ChatMessageEvent {
          sender: CommunicationUser?,
          recipient: CommunicationUser?,
          id: String,
-         senderDisplayName: String,
+         senderDisplayName: String? = nil,
          createdOn: String,
          version: String,
          deletedOn: String) {
