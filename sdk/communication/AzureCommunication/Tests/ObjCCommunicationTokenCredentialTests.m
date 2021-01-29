@@ -33,6 +33,7 @@
 @property (nonatomic, strong) NSString *sampleExpiredToken;
 @property (nonatomic) double sampleTokenExpiry;
 @property (nonatomic) int fetchTokenCallCount;
+@property (nonatomic) NSTimeInterval timeout;
 @end
 
 @implementation ObjCCommunciationTokenCredentialTests
@@ -44,10 +45,11 @@
     self.sampleExpiredToken = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjEwMH0.1h_scYkNp-G98-O4cW6KvfJZwiz54uJMyeDACE4nypg";
     self.sampleTokenExpiry = 32503680000;
     self.fetchTokenCallCount = 0;
+    self.timeout = 10.0;
 }
 
 - (void)test_ObjCDecodeToken {
-//    XCTestExpectation *expectation = [self expectationWithDescription: @"DecodeToken"];
+    XCTestExpectation *expectation = [self expectationWithDescription: @"DecodeToken"];
 
     CommunicationTokenCredential *userCredential = [[CommunicationTokenCredential alloc]
                                                     initWithToken: self.sampleToken
@@ -57,14 +59,14 @@
         XCTAssertNil(error);
         XCTAssertEqual(accessToken.token, self.sampleToken);
         XCTAssertEqual(accessToken.expiresOn.timeIntervalSince1970, self.sampleTokenExpiry);
-//        [expectation fulfill];
+        [expectation fulfill];
     }];
     
-//    [self waitForExpectations:@[expectation] timeout:8.0];
+    [self waitForExpectations:@[expectation] timeout: self.timeout];
 }
 
 - (void)test_ObjCRefreshTokenProactively_TokenAlreadyExpired {
-//    XCTestExpectation *expectation = [self expectationWithDescription: @"RefreshTokenProactively_TokenAlreadyExpired"];
+    XCTestExpectation *expectation = [self expectationWithDescription: @"RefreshTokenProactively_TokenAlreadyExpired"];
     __weak ObjCCommunciationTokenCredentialTests *weakSelf = self;
     
     CommunicationTokenRefreshOptions *tokenRefreshOptions = [[CommunicationTokenRefreshOptions alloc]
@@ -88,14 +90,14 @@
         XCTAssertEqual(accessToken.token, weakSelf.sampleToken);
         XCTAssertEqual(weakSelf.fetchTokenCallCount, 1);
         
-//        [expectation fulfill];
+        [expectation fulfill];
     }];
     
-//    [self waitForExpectations:@[expectation] timeout:8.0];
+    [self waitForExpectations:@[expectation] timeout: self.timeout];
 }
 
 - (void)test_ObjCRefreshTokenProactively_FetchTokenReturnsError {
-//    XCTestExpectation *expectation = [self expectationWithDescription: @"RefreshTokenProactively_FetchTokenReturnsError"];
+    XCTestExpectation *expectation = [self expectationWithDescription: @"RefreshTokenProactively_FetchTokenReturnsError"];
     __weak ObjCCommunciationTokenCredentialTests *weakSelf = self;
     NSString *errorDesc = @"Error while fetching token";
     CommunicationTokenRefreshOptions *tokenRefreshOptions = [[CommunicationTokenRefreshOptions alloc]
@@ -123,10 +125,10 @@
         XCTAssertNil(accessToken);
         XCTAssertEqual(weakSelf.fetchTokenCallCount, 1);
         
-//        [expectation fulfill];
+        [expectation fulfill];
     }];
     
-//    [self waitForExpectations:@[expectation] timeout:8.0];
+    [self waitForExpectations:@[expectation] timeout: self.timeout];
 }
 
 @end

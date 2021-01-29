@@ -31,6 +31,7 @@
 @interface ObjCCommunicationTokenCredentialAsyncTests : XCTestCase
 @property (nonatomic, strong) NSString *sampleToken;
 @property (nonatomic) int fetchTokenCallCount;
+@property (nonatomic) NSTimeInterval timeout;
 @end
 
 @implementation ObjCCommunicationTokenCredentialAsyncTests
@@ -43,10 +44,11 @@ NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fS
     
     self.sampleToken = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjMyNTAzNjgwMDAwfQ.9i7FNNHHJT8cOzo-yrAUJyBSfJ-tPPk2emcHavOEpWc";
     self.fetchTokenCallCount = 0;
+    self.timeout = 10.0;
 }
 
 - (void)test_ObjCRefreshTokenProactivelyTokenExpiringInOneMin {
-//    XCTestExpectation *expectation = [self expectationWithDescription: @"RefreshTokenProactivelyTokenExpiringInOneMin"];
+    XCTestExpectation *expectation = [self expectationWithDescription: @"RefreshTokenProactivelyTokenExpiringInOneMin"];
     __weak ObjCCommunicationTokenCredentialAsyncTests *weakSelf = self;
     
     NSString *token = [self generateTokenValidForMinutes: 1];
@@ -72,14 +74,14 @@ NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fS
         XCTAssertEqual(accessToken.token, weakSelf.sampleToken);
         XCTAssertEqual(weakSelf.fetchTokenCallCount, 1);
         
-//        [expectation fulfill];
+        [expectation fulfill];
     }];
 
-//    [self waitForExpectations:@[expectation] timeout:8.0];
+    [self waitForExpectations:@[expectation] timeout: self.timeout];
 }
 
 - (void)test_ObjCRefreshTokenProactivelyTokenExpiringInNineMin {
-//    XCTestExpectation *expectation = [self expectationWithDescription: @"RefreshTokenProactivelyTokenExpiringInNineMin"];
+    XCTestExpectation *expectation = [self expectationWithDescription: @"RefreshTokenProactivelyTokenExpiringInNineMin"];
     __weak ObjCCommunicationTokenCredentialAsyncTests *weakSelf = self;
     
     NSString *token = [self generateTokenValidForMinutes: 9];
@@ -104,10 +106,10 @@ NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fS
         XCTAssertEqual(accessToken.token, weakSelf.sampleToken);
         XCTAssertEqual(weakSelf.fetchTokenCallCount, 1);
         
-//        [expectation fulfill];
+        [expectation fulfill];
     }];
 
-//    [self waitForExpectations:@[expectation] timeout:8.0];
+    [self waitForExpectations:@[expectation] timeout: self.timeout];
 }
 
 - (NSString *)generateTokenValidForMinutes: (int) minutes {
