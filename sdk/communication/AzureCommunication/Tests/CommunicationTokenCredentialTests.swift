@@ -45,7 +45,8 @@ class CommunicationTokenCredentialTests: XCTestCase {
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjEwMH0.1h_scYkNp-G98-O4cW6KvfJZwiz54uJMyeDACE4nypg"
 
     private var fetchTokenCallCount: Int = 0
-
+    private let timeout: TimeInterval = 10.0
+    
     override func setUp() {
         super.setUp()
 
@@ -119,7 +120,7 @@ class CommunicationTokenCredentialTests: XCTestCase {
             }
         }
 
-        wait(for: [expectation], timeout: 2)
+        wait(for: [expectation], timeout: timeout)
     }
 
     func test_RefreshTokenProactively_FetchTokenReturnsError() throws {
@@ -144,7 +145,7 @@ class CommunicationTokenCredentialTests: XCTestCase {
             }
         }
 
-        wait(for: [expectation], timeout: 2)
+        wait(for: [expectation], timeout: timeout)
     }
 
     func test_RefreshTokenProactively_TokenExpiringSoon() throws {
@@ -187,7 +188,7 @@ class CommunicationTokenCredentialTests: XCTestCase {
             }
         }
 
-        wait(for: [expectation], timeout: 2)
+        wait(for: [expectation], timeout: timeout)
     }
 
     func test_RefreshTokenOnDemand_SyncRefresh() throws {
@@ -214,7 +215,7 @@ class CommunicationTokenCredentialTests: XCTestCase {
             }
         }
 
-        wait(for: [expectation], timeout: 1)
+        wait(for: [expectation], timeout: timeout)
     }
 
     func test_RefreshTokenOnDemand_AsyncRefresh() throws {
@@ -242,7 +243,7 @@ class CommunicationTokenCredentialTests: XCTestCase {
             }
         }
 
-        wait(for: [expectation], timeout: 5)
+        wait(for: [expectation], timeout: timeout)
     }
 
     private func generateTokenValidForMinutes(_ minutes: Int) -> String {
