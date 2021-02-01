@@ -175,8 +175,8 @@ jobs:
           set -o pipefail
           xcodebuild -workspace AzureSDK.xcworkspace \
                      -scheme all \
-                     -destination "platform=iOS Simulator,OS=14.3,name=iPhone 12 Pro Max" 
-                     \-configuration Debug 
+                     -destination "platform=iOS Simulator,OS=14.3,name=iPhone 12 Pro Max" \
+                     -configuration Debug \ 
                      test | xcpretty -c
         displayName: 'Build and test libraries'
 
