@@ -162,7 +162,7 @@ public class StorageSASCredential: Credential {
 
     internal static func token(fromBlobSasUri blobSasUri: String) -> StorageSASToken? {
         if let sasUri = URL(string: blobSasUri), let sasToken = sasUri.query, let scheme = sasUri.scheme,
-           let host = sasUri.host {
+            let host = sasUri.host {
             return StorageSASToken(sasToken: sasToken, blobEndpoint: "\(scheme)://\(host)/")
         } else {
             return nil
@@ -227,8 +227,8 @@ internal class StorageSASAuthenticationPolicy: Authenticating {
 
     public func on(response: PipelineResponse, completionHandler: @escaping OnResponseCompletionHandler) {
         if let sasToken = response.context?.value(forKey: "sasToken") as? StorageSASToken,
-           let cache = credential.tokenCache,
-           let urlToAuthorize = response.httpRequest.url.deletingQueryParameters() {
+            let cache = credential.tokenCache,
+            let urlToAuthorize = response.httpRequest.url.deletingQueryParameters() {
             cache.add(token: sasToken, forUrl: urlToAuthorize)
         }
         completionHandler(response, nil)
@@ -240,8 +240,8 @@ internal class StorageSASAuthenticationPolicy: Authenticating {
         completionHandler: @escaping OnErrorCompletionHandler
     ) {
         if let statusCode = pipelineResponse.httpResponse?.statusCode, statusCode >= 400, statusCode < 500,
-           let cache = credential.tokenCache,
-           let urlToAuthorize = pipelineResponse.httpRequest.url.deletingQueryParameters() {
+            let cache = credential.tokenCache,
+            let urlToAuthorize = pipelineResponse.httpRequest.url.deletingQueryParameters() {
             cache.removeToken(forUrl: urlToAuthorize)
         }
         completionHandler(error, false)

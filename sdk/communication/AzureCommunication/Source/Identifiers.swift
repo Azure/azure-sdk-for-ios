@@ -77,12 +77,26 @@ import Foundation
  */
 @objcMembers public class PhoneNumberIdentifier: NSObject, CommunicationIdentifier {
     public let phoneNumber: String
+    public let id: String?
+
     /**
      Creates a PhoneNumberIdentifier object
      - Parameter phoneNumber: phone number to create the object, different from identifier
+     - Parameter id: Full id of the phone number
      */
-    public init(phoneNumber: String) {
+    public init(phoneNumber: String, id: String? = nil) {
         self.phoneNumber = phoneNumber
+        self.id = id
+    }
+    
+    public static func == (lhs: PhoneNumberIdentifier, rhs: PhoneNumberIdentifier) -> Bool {
+        if lhs.phoneNumber != rhs.phoneNumber {
+            return false
+        }
+        
+        return lhs.id == nil
+            || rhs.id == nil
+            || lhs.id == rhs.id;
     }
 }
 
@@ -90,15 +104,38 @@ import Foundation
  Communication identifier for Microsoft Teams Users
  */
 @objcMembers public class MicrosoftTeamsUserIdentifier: NSObject, CommunicationIdentifier {
+    public let identifier: String?
     public let userId: String
     public let isAnonymous: Bool
+    public let cloudEnviroment: CommunicationCloudEnvironment
+
     /**
      Creates a MicrosoftTeamsUserIdentifier object
      - Parameter userId: Id of the Microsoft Teams user. If the user isn't anonymous, the id is the AAD object id of the user.
      - Parameter isAnonymous: Set this to true if the user is anonymous, for example when joining a meeting with a share link.
+     - Parameter id: Full id of the Microsoft Teams user.
+     - Parameter cloudEnvironment: The cloud that the Microsoft Team user belongs to. A null value translates to the Public cloud.
      */
-    public init(userId: String, isAnonymous: Bool = false) {
+    public init(userId: String, isAnonymous: Bool = false, identifier: String? = nil, cloudEnvironment: CommunicationCloudEnvironment = CommunicationCloudEnvironment.Public) {
+        self.identifier = identifier
         self.userId = userId
         self.isAnonymous = isAnonymous
+        self.cloudEnviroment = cloudEnvironment
+    }
+
+    public static func == (lhs: MicrosoftTeamsUserIdentifier, rhs: MicrosoftTeamsUserIdentifier) -> Bool {
+        if lhs.userId != rhs.userId ||
+            lhs.isAnonymous != rhs.isAnonymous
+            {
+            return false
+        }
+
+        if (lhs.cloudEnviroment != rhs.cloudEnviroment) {
+            return false
+        }
+
+        return lhs.identifier == nil
+            || rhs.identifier == nil
+            || lhs.identifier == rhs.identifier;
     }
 }

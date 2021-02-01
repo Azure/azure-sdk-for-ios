@@ -29,6 +29,8 @@ public struct CommunicationIdentifierModel: Codable {
     public let microsoftTeamsUserId: String?
     /// True if the identifier is anonymous.
     public let isAnonymous: Bool?
+    /// The cloud that the identifier belongs to.
+    public let cloud: CommunicationCloudEnvironmentModel?
 
     // MARK: Initializers
 
@@ -39,15 +41,18 @@ public struct CommunicationIdentifierModel: Codable {
     ///   - phoneNumber: The phone number in E.164 format.
     ///   - microsoftTeamsUserId: The AAD object Id of the Microsoft Teams user.
     ///   - isAnonymous: True if the identifier is anonymous.
+    ///   - cloud: The cloud that the identifier belongs to.
     public init(
         kind: CommunicationIdentifierKind, id: String? = nil, phoneNumber: String? = nil,
-        microsoftTeamsUserId: String? = nil, isAnonymous: Bool? = nil
+        microsoftTeamsUserId: String? = nil, isAnonymous: Bool? = nil,
+        cloud: CommunicationCloudEnvironmentModel? = nil
     ) {
         self.kind = kind
         self.id = id
         self.phoneNumber = phoneNumber
         self.microsoftTeamsUserId = microsoftTeamsUserId
         self.isAnonymous = isAnonymous
+        self.cloud = cloud
     }
 
     // MARK: Codable
@@ -58,6 +63,7 @@ public struct CommunicationIdentifierModel: Codable {
         case phoneNumber = "phoneNumber"
         case microsoftTeamsUserId = "microsoftTeamsUserId"
         case isAnonymous = "isAnonymous"
+        case cloud = "cloud"
     }
 
     /// Initialize a `CommunicationIdentifierModel` structure from decoder
@@ -68,6 +74,7 @@ public struct CommunicationIdentifierModel: Codable {
         self.phoneNumber = try? container.decode(String.self, forKey: .phoneNumber)
         self.microsoftTeamsUserId = try? container.decode(String.self, forKey: .microsoftTeamsUserId)
         self.isAnonymous = try? container.decode(Bool.self, forKey: .isAnonymous)
+        self.cloud = try? container.decode(CommunicationCloudEnvironmentModel.self, forKey: .cloud)
     }
 
     /// Encode a `CommunicationIdentifierModel` structure
@@ -78,5 +85,6 @@ public struct CommunicationIdentifierModel: Codable {
         if phoneNumber != nil { try? container.encode(phoneNumber, forKey: .phoneNumber) }
         if microsoftTeamsUserId != nil { try? container.encode(microsoftTeamsUserId, forKey: .microsoftTeamsUserId) }
         if isAnonymous != nil { try? container.encode(isAnonymous, forKey: .isAnonymous) }
+        if cloud != nil { try? container.encode(cloud, forKey: .cloud) }
     }
 }

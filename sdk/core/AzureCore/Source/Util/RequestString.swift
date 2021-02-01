@@ -115,6 +115,18 @@ extension Array: RequestStringConvertible {
     }
 }
 
+extension Dictionary: RequestStringConvertible {
+    public var requestString: String {
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: self)
+            if let jsonString = String(data: jsonData, encoding: .utf8) {
+                return jsonString
+            }
+        } catch {}
+        return String(describing: self)
+    }
+}
+
 extension DateComponents: RequestStringConvertible {
     public var requestString: String {
         return DateComponentsFormatter().string(from: self) ?? "\"\""

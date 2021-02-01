@@ -85,7 +85,7 @@ internal class ChunkDownloader {
         // Construct parameters & headers
         let queryParams = RequestParameters(
             (.query, "snapshot", options.snapshot, .encode),
-            (.query, "timeout", options.timeoutInSeconds, .encode)
+            (.query, "timeout", options.timeout, .encode)
         )
 
         let headers = downloadHeadersForRequest(withId: requestId)

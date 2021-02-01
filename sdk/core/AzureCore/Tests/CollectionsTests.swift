@@ -82,7 +82,7 @@ class CollectionsTests: XCTestCase {
         // test basics
         XCTAssertEqual(paged.items!.count, 3)
         XCTAssertGreaterThanOrEqual(paged.underestimatedCount, 3)
-        XCTAssertEqual(paged.continuationToken, "token")
+        XCTAssertNil(paged.continuationToken)
         XCTAssertEqual(paged.pageItems?.count, 3)
 
         // test default continuationUrl

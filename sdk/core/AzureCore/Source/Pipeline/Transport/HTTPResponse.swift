@@ -168,6 +168,11 @@ public class HTTPResponse: DataStringConvertible {
         }
     }
 
+    public var contentTypes: [String]? {
+        guard let contentTypes = headers["Content-Type"]?.components(separatedBy: ";") else { return nil }
+        return contentTypes.map { $0.lowercased().trimmingCharacters(in: .whitespacesAndNewlines) }
+    }
+
     // MARK: Initializers
 
     public init(request: HTTPRequest?, statusCode: Int?) {

@@ -48,8 +48,8 @@ class CommunicationIdentifierSerializerTests: XCTestCase {
         let model = try CommunicationIdentifierSerializer
             .serialize(identifier: CommunicationUserIdentifier(identifier: "some id"))
 
-        XCTAssertEqual(model?.kind, .communicationUser)
-        XCTAssertEqual(model?.id, "some id")
+        XCTAssertEqual(model.kind, .communicationUser)
+        XCTAssertEqual(model.id, "some id")
     }
 
     func test_DeserializeUnknown() throws {
@@ -66,8 +66,8 @@ class CommunicationIdentifierSerializerTests: XCTestCase {
         let model = try CommunicationIdentifierSerializer
             .serialize(identifier: UnknownIdentifier(identifier: "some id"))
 
-        XCTAssertEqual(model?.kind, .unknown)
-        XCTAssertEqual(model?.id, "some id")
+        XCTAssertEqual(model.kind, .unknown)
+        XCTAssertEqual(model.id, "some id")
     }
 
     func test_DeserializeCallingApplication() throws {
@@ -84,67 +84,135 @@ class CommunicationIdentifierSerializerTests: XCTestCase {
         let model = try CommunicationIdentifierSerializer
             .serialize(identifier: CallingApplicationIdentifier(identifier: "some id"))
 
-        XCTAssertEqual(model?.kind, .callingApplication)
-        XCTAssertEqual(model?.id, "some id")
+        XCTAssertEqual(model.kind, .callingApplication)
+        XCTAssertEqual(model.id, "some id")
     }
 
     func test_DeserializePhoneNumber() throws {
         let identifier = try CommunicationIdentifierSerializer
-            .deserialize(identifier: CommunicationIdentifierModel(kind: .phoneNumber, id: "+12223334444"))
+            .deserialize(identifier: CommunicationIdentifierModel(
+                kind: .phoneNumber,
+                id: "some id",
+                phoneNumber: "+12223334444"
+            ))
 
-        let expectedIdentifier = PhoneNumberIdentifier(phoneNumber: "+12223334444")
+        let expectedIdentifier = PhoneNumberIdentifier(phoneNumber: "+12223334444", id: "some id")
 
         XCTAssertTrue(identifier is PhoneNumberIdentifier)
         XCTAssertEqual(expectedIdentifier.phoneNumber, (identifier as? PhoneNumberIdentifier)?.phoneNumber)
+        XCTAssertEqual(expectedIdentifier.id, (identifier as? PhoneNumberIdentifier)?.id)
     }
 
-    func test_SerializePhoneNumber() throws {
-        let model = try CommunicationIdentifierSerializer
-            .serialize(identifier: PhoneNumberIdentifier(phoneNumber: "+12223334444"))
+    func test_SerializePhoneNumber_ExpectedIdString() throws {
+        try serializePhoneNumber(expectedId: "some id")
+    }
 
-        XCTAssertEqual(model?.kind, .phoneNumber)
-        XCTAssertEqual(model?.phoneNumber, "+12223334444")
+    func test_SerializePhoneNumber_ExpectedIdNil() throws {
+        try serializePhoneNumber(expectedId: nil)
+    }
+
+    func serializePhoneNumber(expectedId: String?) throws {
+        let model = try CommunicationIdentifierSerializer
+            .serialize(identifier: PhoneNumberIdentifier(phoneNumber: "+12223334444", id: expectedId))
+
+        XCTAssertEqual(model.kind, .phoneNumber)
+        XCTAssertEqual(model.phoneNumber, "+12223334444")
+        XCTAssertEqual(model.id, expectedId)
     }
 
     func test_DeserializeMicrosoftTeamsUser() throws {
         let identifier = try CommunicationIdentifierSerializer
-            .deserialize(identifier: CommunicationIdentifierModel(kind: .microsoftTeamsUser, id: "some id"))
+            .deserialize(identifier: CommunicationIdentifierModel(
+                kind: .microsoftTeamsUser,
+                id: "some id",
+                microsoftTeamsUserId: "user id",
+                isAnonymous: false,
+                cloud: CommunicationCloudEnvironmentModel.Gcch
+            ))
 
-        let expectedIdentifier = MicrosoftTeamsUserIdentifier(userId: "some id")
+        let expectedIdentifier = MicrosoftTeamsUserIdentifier(
+            userId: "user id",
+            isAnonymous: false,
+            identifier: "some id",
+            cloudEnvironment: CommunicationCloudEnvironment.Gcch
+        )
 
         XCTAssertTrue(identifier is MicrosoftTeamsUserIdentifier)
         XCTAssertEqual(expectedIdentifier.userId, (identifier as? MicrosoftTeamsUserIdentifier)?.userId)
     }
 
-    func test_SerializeMicrosoftTeamsUser() throws {
-        let model = try CommunicationIdentifierSerializer
-            .serialize(identifier: MicrosoftTeamsUserIdentifier(userId: "some id"))
+    func test_SerializeMicrosoftTeamsUser_NotAnonymous_ExpectedIdNil() throws {
+        try serializeMicrosoftTeamsUser(isAnonymous: false, expectedId: nil)
+    }
 
-        XCTAssertEqual(model?.kind, .microsoftTeamsUser)
-        XCTAssertEqual(model?.id, "some id")
+    func test_SerializeMicrosoftTeamsUser_Anonymous_ExpectedIdNil() throws {
+        try serializeMicrosoftTeamsUser(isAnonymous: true, expectedId: nil)
+    }
+
+    func test_SerializeMicrosoftTeamsUser_NotAnonymous_ExpectedIdString() throws {
+        try serializeMicrosoftTeamsUser(isAnonymous: false, expectedId: "some id")
+    }
+
+    func test_SerializeMicrosoftTeamsUser_Anonymous_ExpectedIdString() throws {
+        try serializeMicrosoftTeamsUser(isAnonymous: true, expectedId: "some id")
+    }
+
+    func serializeMicrosoftTeamsUser(isAnonymous: Bool, expectedId: String?) throws {
+        let model = try CommunicationIdentifierSerializer
+            .serialize(identifier: MicrosoftTeamsUserIdentifier(
+                userId: "user id",
+                isAnonymous: isAnonymous,
+                identifier: expectedId
+            ))
+
+        XCTAssertEqual(model.kind, .microsoftTeamsUser)
+        XCTAssertEqual(model.microsoftTeamsUserId, "user id")
+        XCTAssertEqual(model.isAnonymous, isAnonymous)
+        XCTAssertEqual(model.id, expectedId)
     }
 
     func test_DeserializeMissingProperty() throws {
-        let expectation =
-            XCTestExpectation(description: "Exception is throw due to missing id")
-
         let modelsWithMissingMandatoryProperty: [CommunicationIdentifierModel] = [
-            CommunicationIdentifierModel(kind: .unknown),
-            CommunicationIdentifierModel(kind: .communicationUser),
-            CommunicationIdentifierModel(kind: .callingApplication),
-            CommunicationIdentifierModel(kind: .phoneNumber),
-            CommunicationIdentifierModel(kind: .microsoftTeamsUser)
+            CommunicationIdentifierModel(kind: .unknown), // Missing Id
+            CommunicationIdentifierModel(kind: .communicationUser), // Missing Id
+            CommunicationIdentifierModel(kind: .callingApplication), // Missing Id
+            CommunicationIdentifierModel(kind: .phoneNumber, id: "some id"), // Missing PhoneNumber
+            CommunicationIdentifierModel(kind: .phoneNumber, phoneNumber: "some id"), // Missing Id
+            CommunicationIdentifierModel(
+                kind: .microsoftTeamsUser,
+                id: "some id",
+                microsoftTeamsUserId: "some id",
+                cloud: CommunicationCloudEnvironmentModel.Public
+            ), // Missing IsAnonymous
+            CommunicationIdentifierModel(
+                kind: .microsoftTeamsUser,
+                id: "some id",
+                isAnonymous: true,
+                cloud: CommunicationCloudEnvironmentModel.Public
+            ), // Missing Missing MicrosoftTeamsUserId
+            CommunicationIdentifierModel(
+                kind: .microsoftTeamsUser,
+                microsoftTeamsUserId: "some id",
+                isAnonymous: true,
+                cloud: CommunicationCloudEnvironmentModel.Public
+            ), // Missing id
+            CommunicationIdentifierModel(
+                kind: .microsoftTeamsUser,
+                id: "some id",
+                microsoftTeamsUserId: "some id",
+                isAnonymous: true
+            ) // Missing cloud
         ]
 
-        expectation.expectedFulfillmentCount = modelsWithMissingMandatoryProperty.count
-        expectation.assertForOverFulfill = true
+        var exceptionCount = 0
 
         for item in modelsWithMissingMandatoryProperty {
             do {
                 try CommunicationIdentifierSerializer.deserialize(identifier: item)
             } catch {
-                expectation.fulfill()
+                exceptionCount += 1
             }
         }
+        XCTAssertEqual(exceptionCount, modelsWithMissingMandatoryProperty.count)
     }
 }

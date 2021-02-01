@@ -119,7 +119,7 @@ internal class ChunkUploader {
         let params = RequestParameters(
             (.query, "comp", "block", .encode),
             (.query, "blockid", blockId.uuidString.base64EncodedString(), .encode),
-            (.query, "timeout", options.timeoutInSeconds, .encode),
+            (.query, "timeout", options.timeout, .encode),
             (.header, HTTPHeader.contentType, "application/octet-stream", .encode),
             (.header, HTTPHeader.contentLength, chunkSize, .encode),
             (.header, HTTPHeader.apiVersion, client.options.apiVersion, .encode),
@@ -347,7 +347,7 @@ internal class BlobStreamUploader: BlobUploader {
         // Construct parameters & headers
         let params = RequestParameters(
             (.query, "comp", "blocklist", .encode),
-            (.query, "timeout", options.timeoutInSeconds, .encode)
+            (.query, "timeout", options.timeout, .encode)
         )
         let headers = commitHeadersForRequest(
             withContentLength: xmlData.count,
@@ -375,7 +375,7 @@ internal class BlobStreamUploader: BlobUploader {
                     completionHandler(.failure(error), httpResponse)
                     return
                 }
-                let blobProperties = BlobProperties(from: responseHeaders)
+                let blobProperties = BlobProperties(from: responseHeaders as HTTPHeaders)
                 completionHandler(.success(blobProperties), httpResponse)
             }
         }

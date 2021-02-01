@@ -6,21 +6,21 @@
 ###########
 
 # Catch all
-/sdk/                                               @mayurid @bsiegel
+/sdk/                                               @mayurid
 
 # Service teams
 
 # PRLabel: %Azure.Core
-/sdk/core/                                          @bsiegel @tjprescott
+/sdk/core/                                          @tjprescott
 
 # PRLabel: %Storage
-/sdk/storage/                                       @bsiegel @tjprescott
+/sdk/storage/                                       @tjprescott
 
 # PRLabel: %Communication
 /sdk/communication/                                 @sacheu @Azure/azure-sdk-communication-code-reviewers
 
 # PRLabel: %Azure.Identity
-/sdk/identity/                                      @bsiegel @tjprescott
+/sdk/identity/                                      @tjprescott
 
 ###########
 # Eng Sys

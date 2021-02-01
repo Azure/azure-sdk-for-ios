@@ -110,3 +110,15 @@ public enum LeaseStatus: String, Codable, RequestStringConvertible {
         return rawValue
     }
 }
+
+/// Specifies the level of public access in a container
+public enum PublicAccessType: String, Codable, RequestStringConvertible {
+    /// Container-level access
+    case container
+    /// Blob-level access
+    case blob
+
+    public var requestString: String {
+        return rawValue
+    }
+}
