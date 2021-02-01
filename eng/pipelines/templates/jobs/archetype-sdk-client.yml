@@ -172,6 +172,7 @@ jobs:
         displayName: 'Install dependencies'
 
       - script: |
+          xcrun instruments -w 'E2E07194-52D9-40C9-A73E-162FBE95FB42' || sleep 15
           set -o pipefail
           xcodebuild -workspace AzureSDK.xcworkspace \
                      -scheme all \
