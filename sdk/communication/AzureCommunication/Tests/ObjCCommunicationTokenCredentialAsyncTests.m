@@ -44,7 +44,7 @@ NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fS
     
     self.sampleToken = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjMyNTAzNjgwMDAwfQ.9i7FNNHHJT8cOzo-yrAUJyBSfJ-tPPk2emcHavOEpWc";
     self.fetchTokenCallCount = 0;
-    self.timeout = 10.0;
+    self.timeout = 18.0;
 }
 
 - (void)test_ObjCRefreshTokenProactivelyTokenExpiringInOneMin {

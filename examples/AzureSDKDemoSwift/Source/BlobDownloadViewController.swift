@@ -134,9 +134,9 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = "CustomTableViewCell"
         guard let blobClient = blobClient,
-              let data = dataSource?.items,
-              let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
-              as? CustomTableViewCell
+            let data = dataSource?.items,
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
+            as? CustomTableViewCell
         else {
             fatalError("Preconditions to create CustomTableViewCell not met.")
         }

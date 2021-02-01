@@ -45,7 +45,7 @@
     self.sampleExpiredToken = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjEwMH0.1h_scYkNp-G98-O4cW6KvfJZwiz54uJMyeDACE4nypg";
     self.sampleTokenExpiry = 32503680000;
     self.fetchTokenCallCount = 0;
-    self.timeout = 10.0;
+    self.timeout = 18.0;
 }
 
 - (void)test_ObjCDecodeToken {
