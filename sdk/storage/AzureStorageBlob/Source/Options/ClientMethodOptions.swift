@@ -340,8 +340,8 @@ public struct DownloadBlobOptions: RequestOptions, Codable, Equatable {
     // TODO: Evalute whether serializing/deserializing dispatchQueue is necessary
     enum CodingKeys: CodingKey {
         case clientRequestId, cancellationToken, range, leaseId, snapshot,
-             leaseAccessConditions, modifiedAccessConditions, encryptionOptions, customerProvidedEncryptionKey,
-             encoding, timeoutInSeconds
+            leaseAccessConditions, modifiedAccessConditions, encryptionOptions, customerProvidedEncryptionKey,
+            encoding, timeoutInSeconds
     }
 }
 
@@ -438,7 +438,7 @@ public struct UploadBlobOptions: RequestOptions, Codable, Equatable {
     // TODO: Evalute whether serializing/deserializing dispatchQueue is necessary
     enum CodingKeys: CodingKey {
         case clientRequestId, cancellationToken, leaseAccessConditions, modifiedAccessConditions,
-             encryptionOptions, customerProvidedEncryptionKey, customerProvidedEncryptionScope,
-             encoding, timeoutInSeconds
+            encryptionOptions, customerProvidedEncryptionKey, customerProvidedEncryptionScope,
+            encoding, timeoutInSeconds
     }
 }
