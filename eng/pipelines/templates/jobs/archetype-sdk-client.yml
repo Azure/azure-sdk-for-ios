@@ -177,6 +177,7 @@ jobs:
                      -scheme all \
                      -destination "platform=iOS Simulator,OS=14.3,name=iPhone 12 Pro Max" \
                      -configuration Debug \
+                     -derivedDataPath $(Build.ArtifactStagingDirectory) \
                      -enableCodeCoverage YES \
                      test | xcpretty -c
         displayName: 'Build and test libraries'
