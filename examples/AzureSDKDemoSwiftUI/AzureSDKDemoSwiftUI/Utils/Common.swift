@@ -41,7 +41,7 @@ struct AppConstants {
     
     // swiftlint:disable line_length
     static let sasConnectionString =
-        "BlobEndpoint=https://iosdemostorage1.blob.core.windows.net/;QueueEndpoint=https://iosdemostorage1.queue.core.windows.net/;FileEndpoint=https://iosdemostorage1.file.core.windows.net/;TableEndpoint=https://iosdemostorage1.table.core.windows.net/;SharedAccessSignature=sv=2019-10-10&ss=bfqt&srt=co&sp=rwdlacupx&se=2020-05-12T01:01:13Z&st=2020-05-11T17:01:13Z&spr=https&sig=%2FHUsW9753QB%2FIDKxMcx2VZ2vs5XThfps8IzAb5xOfQ0%3D"
+        "BlobEndpoint=https://iosdemostorage1.blob.core.windows.net/;QueueEndpoint=https://iosdemostorage1.queue.core.windows.net/;FileEndpoint=https://iosdemostorage1.file.core.windows.net/;TableEndpoint=https://iosdemostorage1.table.core.windows.net/;SharedAccessSignature=sv=2019-12-12&ss=bfqt&srt=co&sp=rl&se=2021-08-30T07:04:27Z&st=2021-01-30T00:04:27Z&spr=https&sig=no%2BHSwTVjheowEdMSJ0iI6NdWvPXZ51n99PJG91O0ko%3D"
 }
 
 struct AppState {

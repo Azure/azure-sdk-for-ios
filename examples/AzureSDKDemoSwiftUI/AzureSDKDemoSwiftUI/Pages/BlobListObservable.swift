@@ -53,6 +53,7 @@ class BlobListViewModel {
             case let .success(collection):
                 self.collection = collection
                 self.items = collection.items ?? [BlobItem]()
+                
             case .failure:
                 // show an error here
                 break
