@@ -172,8 +172,7 @@ jobs:
         displayName: 'Install dependencies'
 
       - script: |
-          xcrun simctl boot B7212137-8D9C-4EE0-924C-2AC82BEED2E4 || sleep 15
-          set -o pipefail
+          xcrun simctl delete unavailable
           xcodebuild -workspace AzureSDK.xcworkspace \
                      -scheme all \
                      -destination "platform=iOS Simulator,OS=14.3,name=iPhone 12 Pro Max" \
