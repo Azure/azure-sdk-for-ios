@@ -1,4 +1,9 @@
 PODS:
+  - InputBarAccessoryView (5.2.3):
+    - InputBarAccessoryView/Core (= 5.2.3)
+  - InputBarAccessoryView/Core (5.2.3)
+  - MessageKit (3.5.0):
+    - InputBarAccessoryView (~> 5.2.1)
   - MSAL (1.0.5):
     - MSAL/app-lib (= 1.0.5)
   - MSAL/app-lib (1.0.5)
@@ -17,18 +22,23 @@ PODS:
     - OHHTTPStubs/Default
 
 DEPENDENCIES:
+  - MessageKit
   - MSAL (~> 1.0.0)
   - OHHTTPStubs/Swift
 
 SPEC REPOS:
   trunk:
+    - InputBarAccessoryView
+    - MessageKit
     - MSAL
     - OHHTTPStubs
 
 SPEC CHECKSUMS:
+  InputBarAccessoryView: f814a0317d47687fafc6bac9e4df6015eaf5b764
+  MessageKit: fb539583599cd914e8e2d41fe7bdceb4bf686565
   MSAL: 74bf430ec0f46dd4c79dde2596e2b553610ccab1
   OHHTTPStubs: 90eac6d8f2c18317baeca36698523dc67c513831
 
-PODFILE CHECKSUM: f3c689b9573f4045273a3d4c7d79c05e4f36921e
+PODFILE CHECKSUM: 6e79b57b3fe398f76c6586eeb05162d98de5a6f0
 
 COCOAPODS: 1.10.0

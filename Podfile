@@ -77,3 +77,9 @@ target 'AzureSDKDemoSwift' do
   project 'examples/AzureSDKDemoSwift/AzureSDKDemoSwift'
   pod 'MSAL', '~> 1.0.0'
 end
+
+target 'iOSChatDemoApp' do
+  project 'examples/iOSChatDemoApp/iOSChatDemoApp'
+  pod 'MessageKit'
+end
+
