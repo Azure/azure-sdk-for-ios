@@ -39,7 +39,7 @@ import Foundation
         self.environmentValue = environmentValue
     }
 
-    func fromModel(environmentModel: CommunicationCloudEnvironmentModel) -> CommunicationCloudEnvironment {
+    static func fromModel(environmentModel: CommunicationCloudEnvironmentModel) -> CommunicationCloudEnvironment {
         return CommunicationCloudEnvironment(environmentValue: environmentModel.requestString);
     }
 
