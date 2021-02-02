@@ -178,7 +178,7 @@ jobs:
                      -scheme all \
                      -destination "platform=iOS Simulator,OS=$(SimulatorVersion),name=$(SimulatorDevice)" \
                      -configuration Debug \
-                     -sdk iphonesimulator
+                     -sdk iphonesimulator \
                      -enableCodeCoverage YES \
                      test 
         displayName: 'Build and test libraries'
