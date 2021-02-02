@@ -28,24 +28,21 @@
 #endif
 import Foundation
 
-@objcMembers public class  CommunicationCloudEnvironment {
+@objcMembers public class  CommunicationCloudEnvironment: NSObject {
     private(set) var environmentValue: String
 
     public static let Public = CommunicationCloudEnvironment(environmentValue: "public")
     public static let Dod = CommunicationCloudEnvironment(environmentValue: "dod")
     public static let Gcch = CommunicationCloudEnvironment(environmentValue: "gcch")
 
-    init(environmentValue: String) {
+    public init(environmentValue: String) {
         self.environmentValue = environmentValue
     }
 
     static func fromModel(environmentModel: CommunicationCloudEnvironmentModel) -> CommunicationCloudEnvironment {
         return CommunicationCloudEnvironment(environmentValue: environmentModel.requestString);
     }
-}
 
-// CommunicationCloudEnvironment Extension
-extension CommunicationCloudEnvironment: Equatable {
     public static func == (lhs: CommunicationCloudEnvironment, rhs: CommunicationCloudEnvironment) -> Bool {
         if lhs.environmentValue == rhs.environmentValue {
             return true
