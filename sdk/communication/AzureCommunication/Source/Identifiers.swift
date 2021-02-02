@@ -77,16 +77,16 @@ import Foundation
  */
 @objcMembers public class PhoneNumberIdentifier: NSObject, CommunicationIdentifier {
     public let phoneNumber: String
-    public let id: String?
+    public let identifier: String?
 
     /**
      Creates a PhoneNumberIdentifier object
      - Parameter phoneNumber: phone number to create the object, different from identifier
      - Parameter id: Full id of the phone number
      */
-    public init(phoneNumber: String, id: String? = nil) {
+    public init(phoneNumber: String, identifier: String? = nil) {
         self.phoneNumber = phoneNumber
-        self.id = id
+        self.identifier = identifier
     }
     
     public static func == (lhs: PhoneNumberIdentifier, rhs: PhoneNumberIdentifier) -> Bool {
@@ -94,9 +94,9 @@ import Foundation
             return false
         }
         
-        return lhs.id == nil
-            || rhs.id == nil
-            || lhs.id == rhs.id;
+        return lhs.identifier == nil
+            || rhs.identifier == nil
+            || lhs.identifier == rhs.identifier;
     }
 }
 

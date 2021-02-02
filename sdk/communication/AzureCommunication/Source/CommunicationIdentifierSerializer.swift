@@ -46,7 +46,7 @@ public class CommunicationIdentifierSerializer {
             guard let phoneNumber = identifier.phoneNumber else {
                 throw AzureError.client("Can't serialize CommunicationIdentifierModel: phoneNumber is undefined.")
             }
-            return PhoneNumberIdentifier(phoneNumber: phoneNumber, id: id)
+            return PhoneNumberIdentifier(phoneNumber: phoneNumber, identifier: id)
         case .microsoftTeamsUser:
             guard let isAnonymous = identifier.isAnonymous else {
                 throw AzureError.client("Can't serialize CommunicationIdentifierModel: isAnonymous is undefined.")
@@ -70,7 +70,7 @@ public class CommunicationIdentifierSerializer {
         case let callingApplicationIdentifier as CallingApplicationIdentifier:
             return CommunicationIdentifierModel(kind: .callingApplication, id: callingApplicationIdentifier.identifier)
         case let phoneNumberIdentifier as PhoneNumberIdentifier:
-            return CommunicationIdentifierModel(kind: .phoneNumber, id: phoneNumberIdentifier.id, phoneNumber: phoneNumberIdentifier.phoneNumber)
+            return CommunicationIdentifierModel(kind: .phoneNumber, id: phoneNumberIdentifier.identifier, phoneNumber: phoneNumberIdentifier.phoneNumber)
         case let microsoftTeamUserIdentifier as MicrosoftTeamsUserIdentifier:
             return CommunicationIdentifierModel(
                 kind: .microsoftTeamsUser,

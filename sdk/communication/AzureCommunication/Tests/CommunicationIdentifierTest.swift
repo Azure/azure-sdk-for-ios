@@ -61,7 +61,7 @@ class CommunicationIdentifierTest: XCTestCase {
         )
 
         XCTAssertTrue(
-            PhoneNumberIdentifier(phoneNumber: "+12223334444", id: "some id") ==
+            PhoneNumberIdentifier(phoneNumber: "+12223334444", identifier: "some id") ==
                 PhoneNumberIdentifier(phoneNumber: "+12223334444")
         )
         XCTAssertTrue(
@@ -70,11 +70,11 @@ class CommunicationIdentifierTest: XCTestCase {
         )
         XCTAssertTrue(
             PhoneNumberIdentifier(phoneNumber: "+12223334444") ==
-                PhoneNumberIdentifier(phoneNumber: "+12223334444", id: "some id")
+                PhoneNumberIdentifier(phoneNumber: "+12223334444", identifier: "some id")
         )
         XCTAssertFalse(
-            PhoneNumberIdentifier(phoneNumber: "+12223334444", id: "some id") ==
-                PhoneNumberIdentifier(phoneNumber: "+12223334444", id: "another id")
+            PhoneNumberIdentifier(phoneNumber: "+12223334444", identifier: "some id") ==
+                PhoneNumberIdentifier(phoneNumber: "+12223334444", identifier: "another id")
         )
     }
 

@@ -96,11 +96,11 @@ class CommunicationIdentifierSerializerTests: XCTestCase {
                 phoneNumber: "+12223334444"
             ))
 
-        let expectedIdentifier = PhoneNumberIdentifier(phoneNumber: "+12223334444", id: "some id")
+        let expectedIdentifier = PhoneNumberIdentifier(phoneNumber: "+12223334444", identifier: "some id")
 
         XCTAssertTrue(identifier is PhoneNumberIdentifier)
         XCTAssertEqual(expectedIdentifier.phoneNumber, (identifier as? PhoneNumberIdentifier)?.phoneNumber)
-        XCTAssertEqual(expectedIdentifier.id, (identifier as? PhoneNumberIdentifier)?.id)
+        XCTAssertEqual(expectedIdentifier.identifier, (identifier as? PhoneNumberIdentifier)?.identifier)
     }
 
     func test_SerializePhoneNumber_ExpectedIdString() throws {
@@ -113,7 +113,7 @@ class CommunicationIdentifierSerializerTests: XCTestCase {
 
     func serializePhoneNumber(expectedId: String?) throws {
         let model = try CommunicationIdentifierSerializer
-            .serialize(identifier: PhoneNumberIdentifier(phoneNumber: "+12223334444", id: expectedId))
+            .serialize(identifier: PhoneNumberIdentifier(phoneNumber: "+12223334444", identifier: expectedId))
 
         XCTAssertEqual(model.kind, .phoneNumber)
         XCTAssertEqual(model.phoneNumber, "+12223334444")
