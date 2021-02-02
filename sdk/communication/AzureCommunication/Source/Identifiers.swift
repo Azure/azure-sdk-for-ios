@@ -116,13 +116,20 @@ import Foundation
      - Parameter id: Full id of the Microsoft Teams user.
      - Parameter cloudEnvironment: The cloud that the Microsoft Team user belongs to. A null value translates to the Public cloud.
      */
-    public init(userId: String, isAnonymous: Bool = false, identifier: String? = nil, cloudEnvironment: CommunicationCloudEnvironment = CommunicationCloudEnvironment.Public) {
+    public init(userId: String, isAnonymous: Bool = false, identifier: String? = nil, cloudEnvironment: CommunicationCloudEnvironment = .Public) {
         self.identifier = identifier
         self.userId = userId
         self.isAnonymous = isAnonymous
         self.cloudEnviroment = cloudEnvironment
     }
 
+    public init(userId: String, isAnonymous: Bool) {
+        self.cloudEnviroment = .Public
+        self.identifier = nil
+        self.userId = userId
+        self.isAnonymous = isAnonymous
+    }
+    
     public static func == (lhs: MicrosoftTeamsUserIdentifier, rhs: MicrosoftTeamsUserIdentifier) -> Bool {
         if lhs.userId != rhs.userId ||
             lhs.isAnonymous != rhs.isAnonymous
