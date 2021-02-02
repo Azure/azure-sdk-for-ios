@@ -71,7 +71,8 @@ public final class ContainersOperations {
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
         guard let requestUrl = client.url(template: urlTemplate, params: params),
-            let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers) else {
+            let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers)
+        else {
             client.options.logger.error("Failed to construct Http request")
             return
         }
@@ -156,7 +157,8 @@ public final class ContainersOperations {
         context.merge(with: options?.context)
 
         guard let requestUrl = client.url(template: urlTemplate, params: params),
-            let request = try? HTTPRequest(method: .put, url: requestUrl, headers: params.headers) else {
+            let request = try? HTTPRequest(method: .put, url: requestUrl, headers: params.headers)
+        else {
             client.options.logger.error("Failed to construct Http request")
             return
         }
@@ -165,7 +167,8 @@ public final class ContainersOperations {
             switch result {
             case .success:
                 guard let headers = httpResponse?.headers,
-                    let properties = ContainerProperties(from: headers) else {
+                    let properties = ContainerProperties(from: headers)
+                else {
                     completionHandler(.failure(AzureError.client("Properties not found.", nil)), httpResponse)
                     return
                 }
@@ -211,7 +214,8 @@ public final class ContainersOperations {
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
         guard let requestUrl = client.url(template: urlTemplate, params: params),
-            let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers) else {
+            let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers)
+        else {
             client.options.logger.error("Failed to construct Http request")
             return
         }
@@ -221,7 +225,8 @@ public final class ContainersOperations {
             switch result {
             case .success:
                 guard let headers = httpResponse?.headers,
-                    let properties = ContainerProperties(from: headers) else {
+                    let properties = ContainerProperties(from: headers)
+                else {
                     completionHandler(.failure(AzureError.client("Properties not found.", nil)), httpResponse)
                     return
                 }
@@ -266,7 +271,8 @@ public final class ContainersOperations {
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
         guard let requestUrl = client.url(template: urlTemplate, params: params),
-            let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: params.headers) else {
+            let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: params.headers)
+        else {
             client.options.logger.error("Failed to construct Http request")
             return
         }
