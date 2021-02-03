@@ -31,6 +31,8 @@ import AzureCore
 import AzureIdentity
 import AzureStorageBlob
 import MSAL
+
+import AVKit
 import Photos
 
 final class BlobDownloadTableViewController: UIViewControllerRepresentable, MSALInteractiveDelegate {
@@ -86,17 +88,24 @@ final class BlobDownloadTableViewController: UIViewControllerRepresentable, MSAL
         
         func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             guard let blobClient = try? AppState.blobClient() else { return }
-            let container = AppConstants.videoContainer
             let blobItem = data.items[indexPath.row]
             
-            do {
-                let localUrl = LocalURL(inDirectory: .cachesDirectory,
-                                        forBlob: blobItem.name,
-                                        inContainer: container)
-                let transfer = try blobClient.download(blob: blobItem.name, fromContainer: container, toFile: localUrl) as? BlobTransfer
-                
-            } catch {
-                // Show error
+            if let existingTransfer = blobClient.downloads.firstWith(containerName: AppConstants.videoContainer,
+                                                                     blobName: blobItem.name) {
+                switch existingTransfer.state {
+                case .complete:
+                    // Play video
+                    guard let destinationUrl = existingTransfer.destinationUrl else { return }
+                    playVideo(from: destinationUrl)
+                case .paused, .failed:
+                    existingTransfer.resume()
+                case .inProgress, .pending:
+                    existingTransfer.pause()
+                default:
+                    existingTransfer.cancel()
+                }
+            } else {
+                data.startDownload(blobItem: blobItem, blobClient: blobClient)
             }
         }
         
@@ -110,26 +119,38 @@ final class BlobDownloadTableViewController: UIViewControllerRepresentable, MSAL
             
             cell.textLabel?.numberOfLines = 0
             cell.textLabel?.text = "\(blobItem.name)\n\(blobItem.properties?.blobType?.rawValue ?? "Unknown")"
-            
-            if indexPath.row == data.items.count - 1 {
-                loadMoreSettings()
+
+            if let transfer = data.transfers[blobItem.name] {
+                let percent = transfer.progress.asPercent
+                cell.textLabel?.text = "\(blobItem.name)\nProgress \(percent)"
             }
+            
+//            if indexPath.row == data.items.count - 1 {
+//                loadMoreSettings()
+//            }
             
             return cell
         }
-                
-        private func loadMoreSettings() {
-            guard !(data.collection?.isExhausted ?? true) else { return }
-            
-            data.collection?.nextPage { result in
-                switch result {
-                case .success:
-                    self.parent.viewController?.tableView.reloadData()
-                case .failure:
-                    // show an alert
-                    break
-                }
-            }
+          
+        private func playVideo(from source: URL) {
+            let player = AVPlayer()
+            player.replaceCurrentItem(with: AVPlayerItem(asset: AVAsset(url: source)))
+            let controller = AVPlayerViewController()
+            controller.player = player
+            parent.viewController?.present(controller, animated: true, completion: {})
         }
+//        private func loadMoreSettings() {
+//            guard !(data.collection?.isExhausted ?? true) else { return }
+//
+//            data.collection?.nextPage { result in
+//                switch result {
+//                case .success:
+//                    self.parent.viewController?.tableView.reloadData()
+//                case .failure:
+//                    // show an alert
+//                    break
+//                }
+//            }
+//        }
     }
 }

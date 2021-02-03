@@ -55,13 +55,49 @@ class BlobListViewModel {
             case let .success(collection):
                 self.collection = collection
                 self.items = collection.items ?? [BlobItem]()
+                self.updateTransfers(using: self.items)
                 self.tableViewController?.viewController?.tableView.reloadData()
+                
             case .failure:
                 // show an error here
                 break
             }
         }
 //        blobClient.downloads.resumeAll(progressHandler: downloadProgress)
+    }
+    
+    func startDownload(blobItem: BlobItem, blobClient: StorageBlobClient) {
+        let container = AppConstants.videoContainer
+        let localUrl = LocalURL(inDirectory: .cachesDirectory,
+                                forBlob: blobItem.name,
+                                inContainer: container)
+                
+        do {
+            let transfer = try blobClient.download(blob: blobItem.name,
+                                                   fromContainer: container,
+                                                   toFile: localUrl,
+                                                   withOptions: AppState.downloadOptions,
+                                                   progressHandler: downloadProgress)
+            
+            transfers[blobItem.name] = transfer
+            self.tableViewController?.viewController?.tableView.reloadData()
+        } catch {
+            // Throw an error
+        }
+    }
+    
+    private func updateTransfers(using items: [BlobItem]) {
+        blobClient = try? AppState.blobClient()
+        
+        guard let blobClient = blobClient else { return }
+        let containerName = AppConstants.videoContainer
+        
+        for item in items {
+            if let existingTransfer = blobClient.downloads.firstWith(containerName: containerName,
+                                                                     blobName: item.name) {
+                
+            }
+        }
     }
     
     private func downloadProgress(transfer: BlobTransfer) {
@@ -71,7 +107,7 @@ class BlobListViewModel {
         }
 
         if transfer.transferType == .download {
-            // reload the list
+            self.tableViewController?.viewController?.tableView.reloadData()
         }
     }
 }
