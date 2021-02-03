@@ -50,7 +50,7 @@ class BlobListViewModel {
         let containerName = AppConstants.videoContainer 
         let options = ListBlobsOptions(maxResults: 20)
         
-        blobClient.listBlobs(inContainer: containerName, withOptions: options) { result, _ in
+        blobClient.blobs.list(inContainer: containerName, withOptions: options) { result, _ in
             switch result {
             case let .success(collection):
                 self.collection = collection
@@ -74,7 +74,7 @@ class BlobListViewModel {
                                 inContainer: container)
                 
         do {
-            let transfer = try blobClient.download(blob: blobItem.name,
+            let transfer = try blobClient.blobs.download(blob: blobItem.name,
                                                    fromContainer: container,
                                                    toFile: localUrl,
                                                    withOptions: AppState.downloadOptions,
