@@ -599,10 +599,7 @@ public struct UploadBlobOptions: RequestOptions, Codable, Equatable {
     // TODO: Evalute whether serializing/deserializing dispatchQueue is necessary
     enum CodingKeys: CodingKey {
         case clientRequestId, cancellationToken, leaseAccessConditions, modifiedAccessConditions,
-<<<<<<< HEAD
-<<<<<<< HEAD
             encryptionOptions, customerProvidedEncryptionKey, customerProvidedEncryptionScope,
-<<<<<<< HEAD
             encoding, timeout
     }
 }
@@ -696,16 +693,5 @@ public struct SetBlobMetadataOptions: RequestOptions {
         self.dispatchQueue = dispatchQueue
         self.context = context
         self.timeout = timeout
-=======
-            encoding, timeoutInSeconds
->>>>>>> 7414974 ([BlobDownloadView] loading table view with the blob data)
-=======
-             encryptionOptions, customerProvidedEncryptionKey, customerProvidedEncryptionScope,
-             encoding, timeoutInSeconds
->>>>>>> 111bc79 ([Revert] revert the empty space changes)
-=======
-            encryptionOptions, customerProvidedEncryptionKey, customerProvidedEncryptionScope,
-            encoding, timeoutInSeconds
->>>>>>> 9f0641e ([revert] revert some empty space change)
     }
 }
