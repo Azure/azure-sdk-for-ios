@@ -45,9 +45,9 @@ internal class BlobDownloadInitialOperation: TransferOperation {
 
     internal func queueRemainingBlocks(forTransfer transfer: BlobTransfer) {
         guard transfer.transferType == .download,
-              let opQueue = queue,
-              let downloader = transfer.downloader,
-              let context = transfer.managedObjectContext
+            let opQueue = queue,
+            let downloader = transfer.downloader,
+            let context = transfer.managedObjectContext
         else {
             assertionFailure("Preconditions failed for queueRemainingBlocks")
             return
@@ -88,8 +88,8 @@ internal class BlobDownloadInitialOperation: TransferOperation {
 
     override public func main() {
         guard let transfer = self.transfer as? BlockTransfer,
-              transfer.parent.transferType == .download,
-              let downloader = transfer.parent.downloader
+            transfer.parent.transferType == .download,
+            let downloader = transfer.parent.downloader
         else {
             assertionFailure("Preconditions failed for BlobDownloadInitialOperation")
             return

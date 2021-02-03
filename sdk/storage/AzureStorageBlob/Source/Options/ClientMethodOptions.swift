@@ -600,6 +600,7 @@ public struct UploadBlobOptions: RequestOptions, Codable, Equatable {
     enum CodingKeys: CodingKey {
         case clientRequestId, cancellationToken, leaseAccessConditions, modifiedAccessConditions,
 <<<<<<< HEAD
+<<<<<<< HEAD
             encryptionOptions, customerProvidedEncryptionKey, customerProvidedEncryptionScope,
 <<<<<<< HEAD
             encoding, timeout
@@ -702,5 +703,9 @@ public struct SetBlobMetadataOptions: RequestOptions {
              encryptionOptions, customerProvidedEncryptionKey, customerProvidedEncryptionScope,
              encoding, timeoutInSeconds
 >>>>>>> 111bc79 ([Revert] revert the empty space changes)
+=======
+            encryptionOptions, customerProvidedEncryptionKey, customerProvidedEncryptionScope,
+            encoding, timeoutInSeconds
+>>>>>>> 9f0641e ([revert] revert some empty space change)
     }
 }
