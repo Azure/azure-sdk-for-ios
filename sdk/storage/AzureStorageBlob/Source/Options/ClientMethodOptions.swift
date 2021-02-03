@@ -600,6 +600,7 @@ public struct UploadBlobOptions: RequestOptions, Codable, Equatable {
     enum CodingKeys: CodingKey {
         case clientRequestId, cancellationToken, leaseAccessConditions, modifiedAccessConditions,
             encryptionOptions, customerProvidedEncryptionKey, customerProvidedEncryptionScope,
+<<<<<<< HEAD
             encoding, timeout
     }
 }
@@ -693,5 +694,8 @@ public struct SetBlobMetadataOptions: RequestOptions {
         self.dispatchQueue = dispatchQueue
         self.context = context
         self.timeout = timeout
+=======
+            encoding, timeoutInSeconds
+>>>>>>> 7414974 ([BlobDownloadView] loading table view with the blob data)
     }
 }

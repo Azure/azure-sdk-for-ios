@@ -37,7 +37,7 @@ struct AppConstants {
     static let redirectUri = "msauth.com.azure.examples.AzureSDKDemoSwift://auth"
     static let authority = "https://login.microsoftonline.com/7e6c9611-413e-47e4-a054-a389854dd732"
     static let uploadContainer: String! = "uploads"
-    static let videoContainer: String! = "videos"
+    static let videoContainer: String = "videos"
     
     // swiftlint:disable line_length
     static let sasConnectionString =

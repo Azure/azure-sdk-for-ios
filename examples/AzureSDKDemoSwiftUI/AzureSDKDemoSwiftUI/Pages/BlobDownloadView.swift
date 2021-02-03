@@ -34,7 +34,6 @@ import MSAL
 import Photos
 
 final class BlobDownloadTableViewController: UIViewControllerRepresentable, MSALInteractiveDelegate {
-    typealias UIViewControllerType = UITableViewController
     var viewController: UITableViewController?
     
     func makeCoordinator() -> Coordinator {
@@ -42,7 +41,7 @@ final class BlobDownloadTableViewController: UIViewControllerRepresentable, MSAL
     }
     
     func makeUIViewController(context: Context) -> UITableViewController {
-        let tableViewController = UITableViewController(style: .plain)
+        let tableViewController = UITableViewController(style: .grouped)
         tableViewController.tableView.delegate = context.coordinator
         tableViewController.tableView.dataSource = context.coordinator
                 
@@ -66,16 +65,13 @@ final class BlobDownloadTableViewController: UIViewControllerRepresentable, MSAL
     
     class Coordinator: NSObject, UITableViewDataSource, UITableViewDelegate {
         var parent: BlobDownloadTableViewController
-        private var data = BlobListViewModel()
+        private var data: BlobListViewModel
 
         init(_ tableViewController: BlobDownloadTableViewController) {
             parent = tableViewController
+            data = BlobListViewModel(parent)
             
             PHPhotoLibrary.authorizationStatus()
-        }
-        
-        func numberOfSections(in tableView: UITableView) -> Int {
-            return 1
         }
         
         func tableView(_ tableView: UITableView,
@@ -86,6 +82,22 @@ final class BlobDownloadTableViewController: UIViewControllerRepresentable, MSAL
         func tableView(_ tableView: UITableView,
                        cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             return blobTableViewCell(indexPath, tableView: parent.viewController?.tableView)
+        }
+        
+        func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+            guard let blobClient = try? AppState.blobClient() else { return }
+            let container = AppConstants.videoContainer
+            let blobItem = data.items[indexPath.row]
+            
+            do {
+                let localUrl = LocalURL(inDirectory: .cachesDirectory,
+                                        forBlob: blobItem.name,
+                                        inContainer: container)
+                let transfer = try blobClient.download(blob: blobItem.name, fromContainer: container, toFile: localUrl) as? BlobTransfer
+                
+            } catch {
+                // Show error
+            }
         }
         
         private func blobTableViewCell(_ indexPath: IndexPath,
@@ -105,7 +117,7 @@ final class BlobDownloadTableViewController: UIViewControllerRepresentable, MSAL
             
             return cell
         }
-        
+                
         private func loadMoreSettings() {
             guard !(data.collection?.isExhausted ?? true) else { return }
             

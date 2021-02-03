@@ -33,11 +33,13 @@ import MSAL
 
 class BlobListViewModel {
     private(set) var blobClient: StorageBlobClient?
+    private(set) var tableViewController: BlobDownloadTableViewController?
     var collection: PagedCollection<BlobItem>?
     var items = [BlobItem]()
     var transfers = [String: BlobTransfer]()
 
-    init() {
+    init(_ tableViewController: BlobDownloadTableViewController) {
+        self.tableViewController = tableViewController
         loadBlobData()
     }
 
@@ -45,7 +47,7 @@ class BlobListViewModel {
         blobClient = try? AppState.blobClient()
         
         guard let blobClient = blobClient else { return }
-        guard let containerName = AppConstants.videoContainer else { return }
+        let containerName = AppConstants.videoContainer 
         let options = ListBlobsOptions(maxResults: 20)
         
         blobClient.listBlobs(inContainer: containerName, withOptions: options) { result, _ in
@@ -53,14 +55,12 @@ class BlobListViewModel {
             case let .success(collection):
                 self.collection = collection
                 self.items = collection.items ?? [BlobItem]()
-                
+                self.tableViewController?.viewController?.tableView.reloadData()
             case .failure:
                 // show an error here
                 break
             }
         }
-        
-        
 //        blobClient.downloads.resumeAll(progressHandler: downloadProgress)
     }
     
