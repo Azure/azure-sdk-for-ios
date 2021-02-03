@@ -90,7 +90,7 @@ public struct StorageSASToken {
         var forBlob = false
 
         guard let queryItems = queryItems,
-            let perms = (queryItems.first { $0.name == "sp" }?.value)
+              let perms = (queryItems.first { $0.name == "sp" }?.value)
         else { return StorageSASTokenPermissions(blob: blobPerms, container: containerPerms) }
 
         if let context = (queryItems.first { $0.name == "srt" }?.value) {

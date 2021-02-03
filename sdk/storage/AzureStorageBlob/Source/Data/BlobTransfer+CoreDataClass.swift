@@ -107,7 +107,7 @@ public class BlobTransfer: NSManagedObject, Transfer {
         get {
             guard cachedProperties == nil else { return cachedProperties! }
             guard let propertiesString = rawProperties,
-                let jsonData = propertiesString.data(using: .utf8)
+                  let jsonData = propertiesString.data(using: .utf8)
             else {
                 cachedProperties = BlobProperties()
                 return cachedProperties!
@@ -134,8 +134,8 @@ public class BlobTransfer: NSManagedObject, Transfer {
         get {
             guard cachedUploadOptions == nil else { return cachedUploadOptions! }
             guard transferType == .upload,
-                let options = rawOptions,
-                let jsonData = options.data(using: .utf8)
+                  let options = rawOptions,
+                  let jsonData = options.data(using: .utf8)
             else {
                 cachedUploadOptions = UploadBlobOptions()
                 return cachedUploadOptions!
@@ -163,8 +163,8 @@ public class BlobTransfer: NSManagedObject, Transfer {
         get {
             guard cachedDownloadOptions == nil else { return cachedDownloadOptions! }
             guard transferType == .download,
-                let options = rawOptions,
-                let jsonData = options.data(using: .utf8)
+                  let options = rawOptions,
+                  let jsonData = options.data(using: .utf8)
             else {
                 cachedDownloadOptions = DownloadBlobOptions()
                 return cachedDownloadOptions!
