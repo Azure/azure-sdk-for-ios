@@ -63,7 +63,8 @@ class BlobListViewModel {
                 break
             }
         }
-//        blobClient.downloads.resumeAll(progressHandler: downloadProgress)
+        
+        blobClient.downloads.resumeAll(progressHandler: downloadProgress)
     }
     
     func startDownload(blobItem: BlobItem, blobClient: StorageBlobClient) {
@@ -95,7 +96,7 @@ class BlobListViewModel {
         for item in items {
             if let existingTransfer = blobClient.downloads.firstWith(containerName: containerName,
                                                                      blobName: item.name) {
-                
+                transfers[item.name] = existingTransfer
             }
         }
     }

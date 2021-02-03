@@ -87,6 +87,8 @@ final class BlobDownloadTableViewController: UIViewControllerRepresentable, MSAL
         }
         
         func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+            tableView.deselectRow(at: indexPath, animated: true)
+            
             guard let blobClient = try? AppState.blobClient() else { return }
             let blobItem = data.items[indexPath.row]
             
@@ -118,20 +120,25 @@ final class BlobDownloadTableViewController: UIViewControllerRepresentable, MSAL
                 UITableViewCell(style: .subtitle, reuseIdentifier: "BlobCell")
             
             cell.textLabel?.numberOfLines = 0
-            cell.textLabel?.text = "\(blobItem.name)\n\(blobItem.properties?.blobType?.rawValue ?? "Unknown")"
 
             if let transfer = data.transfers[blobItem.name] {
-                let percent = transfer.progress.asPercent
-                cell.textLabel?.text = "\(blobItem.name)\nProgress \(percent)"
+                cell.textLabel?.text = getCellText(for: blobItem, transfer: transfer)
+            } else {
+                cell.textLabel?.text = getCellText(for: blobItem)
             }
-            
-//            if indexPath.row == data.items.count - 1 {
-//                loadMoreSettings()
-//            }
-            
+                        
             return cell
         }
-          
+         
+        private func getCellText(for blobItem: BlobItem, transfer: BlobTransfer? = nil) -> String {
+            if let transfer = transfer {
+                let percent = transfer.progress.asPercent
+                return "\(blobItem.name) \n State \(transfer.state.label) Progress \(percent)"
+            } else {
+                return "\(blobItem.name)"
+            }
+        }
+        
         private func playVideo(from source: URL) {
             let player = AVPlayer()
             player.replaceCurrentItem(with: AVPlayerItem(asset: AVAsset(url: source)))
@@ -139,18 +146,5 @@ final class BlobDownloadTableViewController: UIViewControllerRepresentable, MSAL
             controller.player = player
             parent.viewController?.present(controller, animated: true, completion: {})
         }
-//        private func loadMoreSettings() {
-//            guard !(data.collection?.isExhausted ?? true) else { return }
-//
-//            data.collection?.nextPage { result in
-//                switch result {
-//                case .success:
-//                    self.parent.viewController?.tableView.reloadData()
-//                case .failure:
-//                    // show an alert
-//                    break
-//                }
-//            }
-//        }
     }
 }
