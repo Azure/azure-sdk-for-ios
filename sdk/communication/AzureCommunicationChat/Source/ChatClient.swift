@@ -88,14 +88,38 @@ public class ChatClient {
     ///   - options: Create chat thread options.
     ///   - completionHandler: A completion handler that receives a ChatThreadClient on success.
     public func create(
-        thread: CreateChatThreadRequest,
+        thread: CreateThreadRequest,
         withOptions options: Chat.CreateChatThreadOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<CreateChatThreadResult>
+        completionHandler: @escaping HTTPResultHandler<CreateThreadResult>
     ) {
-        service.create(chatThread: thread, withOptions: options) { result, httpResponse in
+        // Set the repeatabilityRequestID if it is not provided
+        let requestOptions = ((options?.repeatabilityRequestID) != nil) ? options : Chat.CreateChatThreadOptions(
+            repeatabilityRequestID: UUID().uuidString,
+            clientRequestId: options?.clientRequestId,
+            cancellationToken: options?.cancellationToken,
+            dispatchQueue: options?.dispatchQueue,
+            context: options?.context
+        )
+
+        // Convert Participants to ChatParticipants
+        let participants = thread.participants.map {
+            ChatParticipant(
+                id: $0.user.identifier,
+                displayName: $0.displayName,
+                shareHistoryTime: $0.shareHistoryTime
+            )
+        }
+
+        // Convert to CreateChatThreadRequest for generated code
+        let request = CreateChatThreadRequest(
+            topic: thread.topic,
+            participants: participants
+        )
+
+        service.create(chatThread: request, withOptions: requestOptions) { result, httpResponse in
             switch result {
             case let .success(chatThreadResult):
-                completionHandler(.success(chatThreadResult), httpResponse)
+                completionHandler(.success(CreateThreadResult(from: chatThreadResult)), httpResponse)
 
             case let .failure(error):
                 completionHandler(.failure(error), httpResponse)
@@ -103,7 +127,7 @@ public class ChatClient {
         }
     }
 
-    /// Get the ChatThread with given id.
+    /// Get the Thread with given id.
     /// - Parameters:
     ///   - threadId: The chat thread id.
     ///   - options: Get chat thread options.
@@ -111,12 +135,12 @@ public class ChatClient {
     public func get(
         thread threadId: String,
         withOptions options: Chat.GetChatThreadOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<ChatThread>
+        completionHandler: @escaping HTTPResultHandler<Thread>
     ) {
         service.getChatThread(chatThreadId: threadId, withOptions: options) { result, httpResponse in
             switch result {
             case let .success(chatThread):
-                completionHandler(.success(chatThread), httpResponse)
+                completionHandler(.success(Thread(from: chatThread)), httpResponse)
 
             case let .failure(error):
                 completionHandler(.failure(error), httpResponse)

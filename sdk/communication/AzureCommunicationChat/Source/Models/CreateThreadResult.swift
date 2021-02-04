@@ -23,29 +23,37 @@
 // IN THE SOFTWARE.
 //
 // --------------------------------------------------------------------------
-import AzureCommunication
-import AzureCommunicationChat
+
+import AzureCore
 import Foundation
 
-class TestUtil {
-    public static let mode: String = "playback"
-    public static let user1: String = "id:1"
-    public static let user2: String = "id:2"
-    public static let timeout: TimeInterval = 10.0
+/// Result of the create thread operation.
+public struct CreateThreadResult: Codable {
+    // MARK: Properties
 
-    /// Creates and returns a ChatClient
-    public static func getChatClient() throws -> ChatClient {
-        let endpoint = "https://endpoint"
-        let token = generateToken()
-        let credential = try CommunicationTokenCredential(token: token)
-        let options = AzureCommunicationChatClientOptions()
+    /// Chat thread.
+    public let thread: Thread?
+    /// Errors encountered during the creation of the chat thread.
+    public let errors: CreateChatThreadErrors?
 
-        return try ChatClient(endpoint: endpoint, credential: credential, withOptions: options)
+    // MARK: Initializers
+
+    public init(
+        from createChatThreadResult: CreateChatThreadResult
+    ) {
+        self.thread = (createChatThreadResult.chatThread != nil) ? Thread(from: createChatThreadResult.chatThread!) : nil
+        self.errors = createChatThreadResult.errors
     }
-}
 
-func generateToken() -> String {
-    let fakeValue = "{\"iss\":\"ACS\",\"iat\": 1608152725,\"exp\": 1739688725,\"aud\": \"\",\"sub\": \"\"}"
-        .base64EncodedString()
-    return "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9." + fakeValue + ".EMS0ExXqRuobm34WKJE8mAfZ7KppU5kEHl0OFdyree8"
+    /// Initialize a `ChatThreadResult` structure.
+    /// - Parameters:
+    ///   - thread: Chat thread.
+    ///   - errors: Errors encountered during the creation of the chat thread.
+    public init(
+        thread: Thread? = nil,
+        errors: CreateChatThreadErrors? = nil
+    ) {
+        self.thread = thread
+        self.errors = errors
+    }
 }
