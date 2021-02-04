@@ -50,14 +50,11 @@ class ThreadsViewController: UIViewController, UITableViewDelegate, UITableViewD
         chatClient?.listThreads { result, _ in
             switch result {
             case let .success(threads):
-                var a = 0
-
-                for item in threads.items ?? []
+                for thread in threads.items ?? []
                 {
-                    a += 1
-                    chatThreads.append(ChatThread(id: item.id, topic: item.topic, createdOn: Iso8601Date(), createdBy: "", deletedOn: item.deletedOn))
+                    if thread.deletedOn == nil
+                    {chatThreads.append(ChatThread(id: thread.id, topic: thread.topic, createdOn: Iso8601Date(), createdBy: "", deletedOn: thread.deletedOn))}
                 }
-                
                 DispatchQueue.main.async(execute: {
                     self.threadsTableView.reloadData()
                 })
@@ -66,8 +63,6 @@ class ThreadsViewController: UIViewController, UITableViewDelegate, UITableViewD
             }
         }
     
-            
-
         chatClient?.startRealTimeNotifications()
         
             let participant = ChatParticipant(
