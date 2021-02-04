@@ -29,7 +29,6 @@ import Foundation
 import AzureCore
 import AzureIdentity
 import AzureStorageBlob
-import MSAL
 
 class BlobListViewModel {
     private(set) var blobClient: StorageBlobClient?
