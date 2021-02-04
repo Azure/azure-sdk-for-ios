@@ -27,7 +27,6 @@
 import SwiftUI
 
 import AzureCore
-import MSAL
 
 struct ContentView: View {
     @State private var isLoggedIn = false
@@ -47,17 +46,18 @@ struct ContentView: View {
             }.navigationBarItems(
                 leading:
                     Button("Log Out") {
-                        guard let application = AppState.application else { return }
-                        guard let account = AppState.currentAccount else { return }
-                        
-                        do {
-                            try application.remove(account)
-                            AppState.account = nil
-                            isLoggedIn = false
-                        } catch {
-                            errorMessage = parseErrorMessage(using: error)
-                            isError = true
-                        }
+// TODO: Investigate to to properly implement MSAL
+//                        guard let application = AppState.application else { return }
+//                        guard let account = AppState.currentAccount else { return }
+//
+//                        do {
+//                            try application.remove(account)
+//                            AppState.account = nil
+//                            isLoggedIn = false
+//                        } catch {
+//                            errorMessage = parseErrorMessage(using: error)
+//                            isError = true
+//                        }
                     }.font(.title3)
                     .disabled(!isLoggedIn)
                     .alert(isPresented: $isError) {
@@ -75,53 +75,53 @@ struct ContentView: View {
                             }.font(.title3)
                         })
             )
-        }.onAppear(perform: loadAuthority)
-    }
-    
-    private func loadAuthority() {
-        guard let authorityURL = URL(string: AppConstants.authority) else { return }
-        guard let authority = try? MSALAADAuthority(url: authorityURL) else { return }
-        let msalConfiguration = MSALPublicClientApplicationConfig(
-            clientId: AppConstants.clientId,
-            redirectUri: AppConstants.redirectUri,
-            authority: authority
-        )
-        msalConfiguration.bypassRedirectURIValidation = true // Why do I need to do this
-        AppState.application = try? MSALPublicClientApplication(configuration: msalConfiguration)
-        AppState.account = AppState.currentAccount
-        
-        updateLoggedInState(enabled: AppState.currentAccount != nil)
-        updateUserName(with: AppState.currentAccount)
-    }
-    
-    private func updateLoggedInState(enabled: Bool) {
-        isLoggedIn = enabled
-    }
-    
-    private func updateUserName(with account: MSALAccount?) {
-        if let account = account {
-            userLabel = account.username ?? "Unknown"
-        } else {
-            userLabel = "Please log in"
         }
     }
-    
-    private func parseErrorMessage(using error: Error?) -> String {
-        var errorString: String = ""
-        if let err = error {
-            switch error {
-            case let azureError as AzureError:
-                errorString = azureError.message
-            default:
-                let errorInfo = (err as NSError).userInfo
-                errorString = errorInfo[NSDebugDescriptionErrorKey] as? String ?? err.localizedDescription
-            }
-        } else {
-            errorString = "An error occurred."
-        }
-        
-        return errorString
-    }
+// TODO: Investigate to to properly implement MSAL
+//    private func loadAuthority() {
+//        guard let authorityURL = URL(string: AppConstants.authority) else { return }
+//        guard let authority = try? MSALAADAuthority(url: authorityURL) else { return }
+//        let msalConfiguration = MSALPublicClientApplicationConfig(
+//            clientId: AppConstants.clientId,
+//            redirectUri: AppConstants.redirectUri,
+//            authority: authority
+//        )
+//        msalConfiguration.bypassRedirectURIValidation = true // Why do I need to do this
+//        AppState.application = try? MSALPublicClientApplication(configuration: msalConfiguration)
+//        AppState.account = AppState.currentAccount
+//
+//        updateLoggedInState(enabled: AppState.currentAccount != nil)
+//        updateUserName(with: AppState.currentAccount)
+//    }
+//
+//    private func updateLoggedInState(enabled: Bool) {
+//        isLoggedIn = enabled
+//    }
+//
+//    private func updateUserName(with account: MSALAccount?) {
+//        if let account = account {
+//            userLabel = account.username ?? "Unknown"
+//        } else {
+//            userLabel = "Please log in"
+//        }
+//    }
+//
+//    private func parseErrorMessage(using error: Error?) -> String {
+//        var errorString: String = ""
+//        if let err = error {
+//            switch error {
+//            case let azureError as AzureError:
+//                errorString = azureError.message
+//            default:
+//                let errorInfo = (err as NSError).userInfo
+//                errorString = errorInfo[NSDebugDescriptionErrorKey] as? String ?? err.localizedDescription
+//            }
+//        } else {
+//            errorString = "An error occurred."
+//        }
+//
+//        return errorString
+//    }
 }
 
 struct ContentView_Previews: PreviewProvider {
