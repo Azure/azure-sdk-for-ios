@@ -30,12 +30,11 @@ import UIKit
 import AzureCore
 import AzureIdentity
 import AzureStorageBlob
-import MSAL
 
 import AVKit
 import Photos
 
-final class BlobDownloadTableViewController: UIViewControllerRepresentable, MSALInteractiveDelegate {
+final class BlobDownloadTableViewController: UIViewControllerRepresentable {
     var viewController: UITableViewController?
     
     func makeCoordinator() -> Coordinator {
@@ -55,15 +54,6 @@ final class BlobDownloadTableViewController: UIViewControllerRepresentable, MSAL
                                 context: Context) {
         uiViewController.tableView.reloadData()
     }
-    
-    func parentForWebView() -> UIViewController {
-        return viewController ?? UITableViewController()
-    }
-    
-    func didCompleteMSALRequest(withResult result: MSALResult) {
-        AppState.account = result.account
-    }
-
     
     class Coordinator: NSObject, UITableViewDataSource, UITableViewDelegate {
         var parent: BlobDownloadTableViewController
