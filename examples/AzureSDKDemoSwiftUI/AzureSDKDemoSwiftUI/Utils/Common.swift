@@ -39,6 +39,7 @@ struct AppConstants {
     static let uploadContainer: String! = "uploads"
     static let videoContainer: String = "videos"
     
+// NOTE: This connection string is a read-only SAS token, may need to be regenerated. Expires end of Aug
     // swiftlint:disable line_length
     static let sasConnectionString =
         "BlobEndpoint=https://iosdemostorage1.blob.core.windows.net/;QueueEndpoint=https://iosdemostorage1.queue.core.windows.net/;FileEndpoint=https://iosdemostorage1.file.core.windows.net/;TableEndpoint=https://iosdemostorage1.table.core.windows.net/;SharedAccessSignature=sv=2019-12-12&ss=bfqt&srt=co&sp=rl&se=2021-08-30T07:04:27Z&st=2021-01-30T00:04:27Z&spr=https&sig=no%2BHSwTVjheowEdMSJ0iI6NdWvPXZ51n99PJG91O0ko%3D"
@@ -72,10 +73,6 @@ struct AppState {
         return nil
     }
 
-    static var uploadOptions: UploadBlobOptions {
-        return UploadBlobOptions()
-    }
-
     static var downloadOptions: DownloadBlobOptions {
         let options = DownloadBlobOptions(
             range: RangeOptions(calculateMD5: true)
@@ -107,77 +104,3 @@ struct AppState {
         return client
     }
 }
-
-class ActivtyViewController: UIViewController {
-    internal var spinner = UIActivityIndicatorView(style: .medium)
-
-    override func loadView() {
-        view = UIView()
-        view.backgroundColor = UIColor(white: 0, alpha: 0.7)
-
-        spinner.translatesAutoresizingMaskIntoConstraints = false
-        spinner.startAnimating()
-        view.addSubview(spinner)
-
-        spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        spinner.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-    }
-}
-
-extension UIViewController {
-    internal func showAlert(error: Error?) {
-        guard presentedViewController == nil else { return }
-        var errorString: String
-        if let err = error {
-            switch error {
-            case let azureError as AzureError:
-                errorString = azureError.message
-            default:
-                let errorInfo = (err as NSError).userInfo
-                errorString = errorInfo[NSDebugDescriptionErrorKey] as? String ?? err.localizedDescription
-            }
-        } else {
-            errorString = "An error occurred."
-        }
-        let alertController = UIAlertController(title: "Error!", message: errorString, preferredStyle: .alert)
-        let title = NSAttributedString(string: "Error!", attributes: [
-            NSAttributedString.Key.foregroundColor: UIColor.red
-        ])
-        alertController.setValue(title, forKey: "attributedTitle")
-        let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alertController.addAction(defaultAction)
-        present(alertController, animated: true)
-    }
-
-    internal func showAlert(message: String) {
-        guard presentedViewController == nil else { return }
-        let alertController = UIAlertController(title: "Blob Contents", message: message, preferredStyle: .alert)
-        let defaultAction = UIAlertAction(title: "Close", style: .default, handler: nil)
-        alertController.addAction(defaultAction)
-        present(alertController, animated: true)
-    }
-}
-
-extension TransferState {
-    public var color: UIColor {
-        switch self {
-        case .pending:
-            return UIColor(red: 222.0 / 255.0, green: 222.0 / 255.0, blue: 222.0 / 255.0, alpha: 1.0)
-        case .inProgress:
-            return UIColor(red: 128.0 / 255.0, green: 230.0 / 255.0, blue: 255.0 / 255.0, alpha: 1.0)
-        case .paused:
-            return UIColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 128.0 / 255.0, alpha: 1.0)
-        case .complete:
-            return UIColor(red: 128.0 / 255.0, green: 255.0 / 255.0, blue: 128.0 / 255.0, alpha: 1.0)
-        case .failed:
-            return .systemRed
-        case .canceled:
-            return .systemRed
-        case .deleted:
-            return .systemRed
-        @unknown default:
-            return .white
-        }
-    }
-}
-
