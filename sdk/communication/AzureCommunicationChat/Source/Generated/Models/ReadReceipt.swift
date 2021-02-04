@@ -16,7 +16,7 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// A read receipt indicates the time a chat message was read by a recipient.
-public struct ReadReceipt: Codable {
+public struct ReadReceipt: Codable, Equatable {
     // MARK: Properties
 
     /// Read receipt sender id.
@@ -44,9 +44,9 @@ public struct ReadReceipt: Codable {
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case senderId
-        case chatMessageId
-        case readOn
+        case senderId = "senderId"
+        case chatMessageId = "chatMessageId"
+        case readOn = "readOn"
     }
 
     /// Initialize a `ReadReceipt` structure from decoder

@@ -22,13 +22,33 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
     }
 
     /// API version of the  to invoke. Defaults to the latest.
-    public enum ApiVersion: String {
+    public enum ApiVersion: RequestStringConvertible {
+        /// Custom value for unrecognized enum values
+        case custom(String)
         /// API version "2020-09-21-preview2"
-        case v20200921preview2 = "2020-09-21-preview2"
+        case v20200921preview2
 
         /// The most recent API version of the
         public static var latest: ApiVersion {
             return .v20200921preview2
+        }
+
+        public var requestString: String {
+            switch self {
+            case let .custom(val):
+                return val
+            case .v20200921preview2:
+                return "2020-09-21-preview2"
+            }
+        }
+
+        public init(_ val: String) {
+            switch val.lowercased() {
+            case "2020-09-21-preview2":
+                self = .v20200921preview2
+            default:
+                self = .custom(val)
+            }
         }
     }
 

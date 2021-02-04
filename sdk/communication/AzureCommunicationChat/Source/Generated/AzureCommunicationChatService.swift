@@ -34,22 +34,24 @@ public final class AzureCommunicationChatService {
         withOptions options: ListChatReadReceiptsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ReadReceipt>>
     ) {
+        let dispatchQueue = options?.dispatchQueue ?? client.commonOptions.dispatchQueue ?? DispatchQueue.main
+
         // Create request parameters
         let params = RequestParameters(
             (.path, "chatThreadId", chatThreadId, .encode),
             (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "apiVersion", "2020-09-21-preview2", .encode),
+            (.query, "api-version", client.options.apiVersion, .encode),
             (.header, "Accept", "application/json", .encode)
         )
 
         // Construct request
         let urlTemplate = "/chat/threads/{chatThreadId}/readreceipts"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-              let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers)
-        else {
+            let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers) else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
         }
+
         // Send request
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
@@ -57,7 +59,6 @@ public final class AzureCommunicationChatService {
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
         client.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.client.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
                 let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
@@ -106,7 +107,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Unauthorized", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -119,7 +120,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Forbidden", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -132,7 +133,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Too many requests", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -145,7 +146,10 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(
+                                .failure(AzureError.service("Service unavailable", decoded)),
+                                httpResponse
+                            )
                         }
                     } catch {
                         dispatchQueue.async {
@@ -174,11 +178,13 @@ public final class AzureCommunicationChatService {
         withOptions options: SendChatReadReceiptOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
+        let dispatchQueue = options?.dispatchQueue ?? client.commonOptions.dispatchQueue ?? DispatchQueue.main
+
         // Create request parameters
         let params = RequestParameters(
             (.path, "chatThreadId", chatThreadId, .encode),
             (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "apiVersion", "2020-09-21-preview2", .encode),
+            (.query, "api-version", client.options.apiVersion, .encode),
             (.header, "Content-Type", "application/json", .encode),
             (.header, "Accept", "application/json", .encode)
         )
@@ -190,11 +196,12 @@ public final class AzureCommunicationChatService {
         }
         let urlTemplate = "/chat/threads/{chatThreadId}/readreceipts"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-              let request = try? HTTPRequest(method: .post, url: requestUrl, headers: params.headers, data: requestBody)
+            let request = try? HTTPRequest(method: .post, url: requestUrl, headers: params.headers, data: requestBody)
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
         }
+
         // Send request
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [201, 401, 403, 429, 503] as AnyObject
@@ -202,7 +209,6 @@ public final class AzureCommunicationChatService {
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
         client.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.client.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
                 let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
@@ -234,7 +240,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Unauthorized", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -247,7 +253,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Forbidden", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -260,7 +266,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Too many requests", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -273,7 +279,10 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(
+                                .failure(AzureError.service("Service unavailable", decoded)),
+                                httpResponse
+                            )
                         }
                     } catch {
                         dispatchQueue.async {
@@ -302,11 +311,13 @@ public final class AzureCommunicationChatService {
         withOptions options: SendChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<SendChatMessageResult>
     ) {
+        let dispatchQueue = options?.dispatchQueue ?? client.commonOptions.dispatchQueue ?? DispatchQueue.main
+
         // Create request parameters
         let params = RequestParameters(
             (.path, "chatThreadId", chatThreadId, .encode),
             (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "apiVersion", "2020-09-21-preview2", .encode),
+            (.query, "api-version", client.options.apiVersion, .encode),
             (.header, "Content-Type", "application/json", .encode),
             (.header, "Accept", "application/json", .encode)
         )
@@ -318,11 +329,12 @@ public final class AzureCommunicationChatService {
         }
         let urlTemplate = "/chat/threads/{chatThreadId}/messages"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-              let request = try? HTTPRequest(method: .post, url: requestUrl, headers: params.headers, data: requestBody)
+            let request = try? HTTPRequest(method: .post, url: requestUrl, headers: params.headers, data: requestBody)
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
         }
+
         // Send request
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [201, 401, 403, 429, 503] as AnyObject
@@ -330,7 +342,6 @@ public final class AzureCommunicationChatService {
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
         client.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.client.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
                 let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
@@ -367,7 +378,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Unauthorized", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -380,7 +391,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Forbidden", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -393,7 +404,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Too many requests", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -406,7 +417,10 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(
+                                .failure(AzureError.service("Service unavailable", decoded)),
+                                httpResponse
+                            )
                         }
                     } catch {
                         dispatchQueue.async {
@@ -433,23 +447,25 @@ public final class AzureCommunicationChatService {
         withOptions options: ListChatMessagesOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatMessage>>
     ) {
+        let dispatchQueue = options?.dispatchQueue ?? client.commonOptions.dispatchQueue ?? DispatchQueue.main
+
         // Create request parameters
         let params = RequestParameters(
             (.path, "chatThreadId", chatThreadId, .encode), (.query, "maxPageSize", options?.maxPageSize, .encode),
             (.query, "startTime", options?.startTime, .encode),
             (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "apiVersion", "2020-09-21-preview2", .encode),
+            (.query, "api-version", client.options.apiVersion, .encode),
             (.header, "Accept", "application/json", .encode)
         )
 
         // Construct request
         let urlTemplate = "/chat/threads/{chatThreadId}/messages"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-              let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers)
-        else {
+            let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers) else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
         }
+
         // Send request
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
@@ -457,7 +473,6 @@ public final class AzureCommunicationChatService {
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
         client.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.client.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
                 let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
@@ -506,7 +521,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Unauthorized", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -519,7 +534,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Forbidden", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -532,7 +547,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Too many requests", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -545,7 +560,10 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(
+                                .failure(AzureError.service("Service unavailable", decoded)),
+                                httpResponse
+                            )
                         }
                     } catch {
                         dispatchQueue.async {
@@ -574,22 +592,24 @@ public final class AzureCommunicationChatService {
         withOptions options: GetChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<ChatMessage>
     ) {
+        let dispatchQueue = options?.dispatchQueue ?? client.commonOptions.dispatchQueue ?? DispatchQueue.main
+
         // Create request parameters
         let params = RequestParameters(
             (.path, "chatThreadId", chatThreadId, .encode), (.path, "chatMessageId", chatMessageId, .encode),
             (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "apiVersion", "2020-09-21-preview2", .encode),
+            (.query, "api-version", client.options.apiVersion, .encode),
             (.header, "Accept", "application/json", .encode)
         )
 
         // Construct request
         let urlTemplate = "/chat/threads/{chatThreadId}/messages/{chatMessageId}"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-              let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers)
-        else {
+            let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers) else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
         }
+
         // Send request
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
@@ -597,7 +617,6 @@ public final class AzureCommunicationChatService {
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
         client.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.client.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
                 let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
@@ -634,7 +653,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Unauthorized", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -647,7 +666,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Forbidden", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -660,7 +679,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Too many requests", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -673,7 +692,10 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(
+                                .failure(AzureError.service("Service unavailable", decoded)),
+                                httpResponse
+                            )
                         }
                     } catch {
                         dispatchQueue.async {
@@ -704,11 +726,13 @@ public final class AzureCommunicationChatService {
         withOptions options: UpdateChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
+        let dispatchQueue = options?.dispatchQueue ?? client.commonOptions.dispatchQueue ?? DispatchQueue.main
+
         // Create request parameters
         let params = RequestParameters(
             (.path, "chatThreadId", chatThreadId, .encode), (.path, "chatMessageId", chatMessageId, .encode),
             (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "apiVersion", "2020-09-21-preview2", .encode),
+            (.query, "api-version", client.options.apiVersion, .encode),
             (.header, "Content-Type", "application/json", .encode),
             (.header, "Accept", "application/json", .encode)
         )
@@ -720,16 +744,12 @@ public final class AzureCommunicationChatService {
         }
         let urlTemplate = "/chat/threads/{chatThreadId}/messages/{chatMessageId}"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-              let request = try? HTTPRequest(
-                  method: .patch,
-                  url: requestUrl,
-                  headers: params.headers,
-                  data: requestBody
-              )
+            let request = try? HTTPRequest(method: .patch, url: requestUrl, headers: params.headers, data: requestBody)
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
         }
+
         // Send request
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
@@ -737,7 +757,6 @@ public final class AzureCommunicationChatService {
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
         client.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.client.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
                 let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
@@ -769,7 +788,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Unauthorized", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -782,7 +801,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Forbidden", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -795,7 +814,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Too many requests", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -808,7 +827,10 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(
+                                .failure(AzureError.service("Service unavailable", decoded)),
+                                httpResponse
+                            )
                         }
                     } catch {
                         dispatchQueue.async {
@@ -837,22 +859,24 @@ public final class AzureCommunicationChatService {
         withOptions options: DeleteChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
+        let dispatchQueue = options?.dispatchQueue ?? client.commonOptions.dispatchQueue ?? DispatchQueue.main
+
         // Create request parameters
         let params = RequestParameters(
             (.path, "chatThreadId", chatThreadId, .encode), (.path, "chatMessageId", chatMessageId, .encode),
             (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "apiVersion", "2020-09-21-preview2", .encode),
+            (.query, "api-version", client.options.apiVersion, .encode),
             (.header, "Accept", "application/json", .encode)
         )
 
         // Construct request
         let urlTemplate = "/chat/threads/{chatThreadId}/messages/{chatMessageId}"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-              let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: params.headers)
-        else {
+            let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: params.headers) else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
         }
+
         // Send request
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [204, 401, 403, 429, 503] as AnyObject
@@ -860,7 +884,6 @@ public final class AzureCommunicationChatService {
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
         client.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.client.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
                 let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
@@ -892,7 +915,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Unauthorized", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -905,7 +928,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Forbidden", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -918,7 +941,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Too many requests", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -931,7 +954,10 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(
+                                .failure(AzureError.service("Service unavailable", decoded)),
+                                httpResponse
+                            )
                         }
                     } catch {
                         dispatchQueue.async {
@@ -958,22 +984,24 @@ public final class AzureCommunicationChatService {
         withOptions options: SendTypingNotificationOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
+        let dispatchQueue = options?.dispatchQueue ?? client.commonOptions.dispatchQueue ?? DispatchQueue.main
+
         // Create request parameters
         let params = RequestParameters(
             (.path, "chatThreadId", chatThreadId, .encode),
             (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "apiVersion", "2020-09-21-preview2", .encode),
+            (.query, "api-version", client.options.apiVersion, .encode),
             (.header, "Accept", "application/json", .encode)
         )
 
         // Construct request
         let urlTemplate = "/chat/threads/{chatThreadId}/typing"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-              let request = try? HTTPRequest(method: .post, url: requestUrl, headers: params.headers)
-        else {
+            let request = try? HTTPRequest(method: .post, url: requestUrl, headers: params.headers) else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
         }
+
         // Send request
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
@@ -981,7 +1009,6 @@ public final class AzureCommunicationChatService {
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
         client.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.client.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
                 let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
@@ -1013,7 +1040,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Unauthorized", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -1026,7 +1053,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Forbidden", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -1039,7 +1066,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Too many requests", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -1052,7 +1079,10 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(
+                                .failure(AzureError.service("Service unavailable", decoded)),
+                                httpResponse
+                            )
                         }
                     } catch {
                         dispatchQueue.async {
@@ -1079,22 +1109,24 @@ public final class AzureCommunicationChatService {
         withOptions options: ListChatThreadMembersOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatThreadMember>>
     ) {
+        let dispatchQueue = options?.dispatchQueue ?? client.commonOptions.dispatchQueue ?? DispatchQueue.main
+
         // Create request parameters
         let params = RequestParameters(
             (.path, "chatThreadId", chatThreadId, .encode),
             (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "apiVersion", "2020-09-21-preview2", .encode),
+            (.query, "api-version", client.options.apiVersion, .encode),
             (.header, "Accept", "application/json", .encode)
         )
 
         // Construct request
         let urlTemplate = "/chat/threads/{chatThreadId}/members"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-              let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers)
-        else {
+            let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers) else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
         }
+
         // Send request
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
@@ -1102,7 +1134,6 @@ public final class AzureCommunicationChatService {
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
         client.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.client.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
                 let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
@@ -1151,7 +1182,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Unauthorized", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -1164,7 +1195,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Forbidden", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -1177,7 +1208,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Too many requests", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -1190,7 +1221,10 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(
+                                .failure(AzureError.service("Service unavailable", decoded)),
+                                httpResponse
+                            )
                         }
                     } catch {
                         dispatchQueue.async {
@@ -1219,11 +1253,13 @@ public final class AzureCommunicationChatService {
         withOptions options: AddChatThreadMembersOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
+        let dispatchQueue = options?.dispatchQueue ?? client.commonOptions.dispatchQueue ?? DispatchQueue.main
+
         // Create request parameters
         let params = RequestParameters(
             (.path, "chatThreadId", chatThreadId, .encode),
             (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "apiVersion", "2020-09-21-preview2", .encode),
+            (.query, "api-version", client.options.apiVersion, .encode),
             (.header, "Content-Type", "application/json", .encode),
             (.header, "Accept", "application/json", .encode)
         )
@@ -1235,11 +1271,12 @@ public final class AzureCommunicationChatService {
         }
         let urlTemplate = "/chat/threads/{chatThreadId}/members"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-              let request = try? HTTPRequest(method: .post, url: requestUrl, headers: params.headers, data: requestBody)
+            let request = try? HTTPRequest(method: .post, url: requestUrl, headers: params.headers, data: requestBody)
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
         }
+
         // Send request
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [207, 401, 403, 429, 503] as AnyObject
@@ -1247,7 +1284,6 @@ public final class AzureCommunicationChatService {
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
         client.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.client.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
                 let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
@@ -1279,7 +1315,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Unauthorized", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -1292,7 +1328,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Forbidden", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -1305,7 +1341,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Too many requests", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -1318,7 +1354,10 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(
+                                .failure(AzureError.service("Service unavailable", decoded)),
+                                httpResponse
+                            )
                         }
                     } catch {
                         dispatchQueue.async {
@@ -1347,22 +1386,24 @@ public final class AzureCommunicationChatService {
         withOptions options: RemoveChatThreadMemberOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
+        let dispatchQueue = options?.dispatchQueue ?? client.commonOptions.dispatchQueue ?? DispatchQueue.main
+
         // Create request parameters
         let params = RequestParameters(
             (.path, "chatThreadId", chatThreadId, .encode), (.path, "chatMemberId", chatMemberId, .encode),
             (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "apiVersion", "2020-09-21-preview2", .encode),
+            (.query, "api-version", client.options.apiVersion, .encode),
             (.header, "Accept", "application/json", .encode)
         )
 
         // Construct request
         let urlTemplate = "/chat/threads/{chatThreadId}/members/{chatMemberId}"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-              let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: params.headers)
-        else {
+            let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: params.headers) else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
         }
+
         // Send request
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [204, 401, 403, 429, 503] as AnyObject
@@ -1370,7 +1411,6 @@ public final class AzureCommunicationChatService {
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
         client.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.client.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
                 let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
@@ -1402,7 +1442,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Unauthorized", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -1415,7 +1455,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Forbidden", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -1428,7 +1468,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Too many requests", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -1441,7 +1481,10 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(
+                                .failure(AzureError.service("Service unavailable", decoded)),
+                                httpResponse
+                            )
                         }
                     } catch {
                         dispatchQueue.async {
@@ -1468,10 +1511,12 @@ public final class AzureCommunicationChatService {
         withOptions options: CreateChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<MultiStatusResponse>
     ) {
+        let dispatchQueue = options?.dispatchQueue ?? client.commonOptions.dispatchQueue ?? DispatchQueue.main
+
         // Create request parameters
         let params = RequestParameters(
             (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "apiVersion", "2020-09-21-preview2", .encode),
+            (.query, "api-version", client.options.apiVersion, .encode),
             (.header, "Content-Type", "application/json", .encode),
             (.header, "Accept", "application/json", .encode)
         )
@@ -1483,11 +1528,12 @@ public final class AzureCommunicationChatService {
         }
         let urlTemplate = "/chat/threads"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-              let request = try? HTTPRequest(method: .post, url: requestUrl, headers: params.headers, data: requestBody)
+            let request = try? HTTPRequest(method: .post, url: requestUrl, headers: params.headers, data: requestBody)
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
         }
+
         // Send request
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [207, 401, 403, 429, 503] as AnyObject
@@ -1495,7 +1541,6 @@ public final class AzureCommunicationChatService {
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
         client.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.client.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
                 let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
@@ -1532,7 +1577,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Unauthorized", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -1545,7 +1590,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Forbidden", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -1558,7 +1603,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Too many requests", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -1571,7 +1616,10 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(
+                                .failure(AzureError.service("Service unavailable", decoded)),
+                                httpResponse
+                            )
                         }
                     } catch {
                         dispatchQueue.async {
@@ -1597,22 +1645,24 @@ public final class AzureCommunicationChatService {
         withOptions options: ListChatThreadsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatThreadInfo>>
     ) {
+        let dispatchQueue = options?.dispatchQueue ?? client.commonOptions.dispatchQueue ?? DispatchQueue.main
+
         // Create request parameters
         let params = RequestParameters(
             (.query, "maxPageSize", options?.maxPageSize, .encode), (.query, "startTime", options?.startTime, .encode),
             (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "apiVersion", "2020-09-21-preview2", .encode),
+            (.query, "api-version", client.options.apiVersion, .encode),
             (.header, "Accept", "application/json", .encode)
         )
 
         // Construct request
         let urlTemplate = "/chat/threads"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-              let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers)
-        else {
+            let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers) else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
         }
+
         // Send request
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
@@ -1620,7 +1670,6 @@ public final class AzureCommunicationChatService {
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
         client.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.client.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
                 let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
@@ -1669,7 +1718,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Unauthorized", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -1682,7 +1731,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Forbidden", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -1695,7 +1744,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Too many requests", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -1708,7 +1757,10 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(
+                                .failure(AzureError.service("Service unavailable", decoded)),
+                                httpResponse
+                            )
                         }
                     } catch {
                         dispatchQueue.async {
@@ -1737,11 +1789,13 @@ public final class AzureCommunicationChatService {
         withOptions options: UpdateChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
+        let dispatchQueue = options?.dispatchQueue ?? client.commonOptions.dispatchQueue ?? DispatchQueue.main
+
         // Create request parameters
         let params = RequestParameters(
             (.path, "chatThreadId", chatThreadId, .encode),
             (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "apiVersion", "2020-09-21-preview2", .encode),
+            (.query, "api-version", client.options.apiVersion, .encode),
             (.header, "Content-Type", "application/json", .encode),
             (.header, "Accept", "application/json", .encode)
         )
@@ -1753,16 +1807,12 @@ public final class AzureCommunicationChatService {
         }
         let urlTemplate = "/chat/threads/{chatThreadId}"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-              let request = try? HTTPRequest(
-                  method: .patch,
-                  url: requestUrl,
-                  headers: params.headers,
-                  data: requestBody
-              )
+            let request = try? HTTPRequest(method: .patch, url: requestUrl, headers: params.headers, data: requestBody)
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
         }
+
         // Send request
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
@@ -1770,7 +1820,6 @@ public final class AzureCommunicationChatService {
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
         client.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.client.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
                 let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
@@ -1802,7 +1851,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Unauthorized", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -1815,7 +1864,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Forbidden", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -1828,7 +1877,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Too many requests", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -1841,7 +1890,10 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(
+                                .failure(AzureError.service("Service unavailable", decoded)),
+                                httpResponse
+                            )
                         }
                     } catch {
                         dispatchQueue.async {
@@ -1868,22 +1920,24 @@ public final class AzureCommunicationChatService {
         withOptions options: GetChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<ChatThread>
     ) {
+        let dispatchQueue = options?.dispatchQueue ?? client.commonOptions.dispatchQueue ?? DispatchQueue.main
+
         // Create request parameters
         let params = RequestParameters(
             (.path, "chatThreadId", chatThreadId, .encode),
             (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "apiVersion", "2020-09-21-preview2", .encode),
+            (.query, "api-version", client.options.apiVersion, .encode),
             (.header, "Accept", "application/json", .encode)
         )
 
         // Construct request
         let urlTemplate = "/chat/threads/{chatThreadId}"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-              let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers)
-        else {
+            let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers) else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
         }
+
         // Send request
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [200, 401, 403, 429, 503] as AnyObject
@@ -1891,7 +1945,6 @@ public final class AzureCommunicationChatService {
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
         client.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.client.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
                 let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
@@ -1928,7 +1981,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Unauthorized", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -1941,7 +1994,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Forbidden", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -1954,7 +2007,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Too many requests", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -1967,7 +2020,10 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(
+                                .failure(AzureError.service("Service unavailable", decoded)),
+                                httpResponse
+                            )
                         }
                     } catch {
                         dispatchQueue.async {
@@ -1994,22 +2050,24 @@ public final class AzureCommunicationChatService {
         withOptions options: DeleteChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
+        let dispatchQueue = options?.dispatchQueue ?? client.commonOptions.dispatchQueue ?? DispatchQueue.main
+
         // Create request parameters
         let params = RequestParameters(
             (.path, "chatThreadId", chatThreadId, .encode),
             (.uri, "endpoint", client.endpoint.absoluteString, .skipEncoding),
-            (.query, "apiVersion", "2020-09-21-preview2", .encode),
+            (.query, "api-version", client.options.apiVersion, .encode),
             (.header, "Accept", "application/json", .encode)
         )
 
         // Construct request
         let urlTemplate = "/chat/threads/{chatThreadId}"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-              let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: params.headers)
-        else {
+            let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: params.headers) else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
         }
+
         // Send request
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [204, 401, 403, 429, 503] as AnyObject
@@ -2017,7 +2075,6 @@ public final class AzureCommunicationChatService {
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
         client.request(request, context: context) { result, httpResponse in
-            let dispatchQueue = options?.dispatchQueue ?? self.client.commonOptions.dispatchQueue ?? DispatchQueue.main
             guard let data = httpResponse?.data else {
                 let noDataError = AzureError.client("Response data expected but not found.")
                 dispatchQueue.async {
@@ -2049,7 +2106,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Unauthorized", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -2062,7 +2119,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Forbidden", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -2075,7 +2132,7 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(.failure(AzureError.service("Too many requests", decoded)), httpResponse)
                         }
                     } catch {
                         dispatchQueue.async {
@@ -2088,7 +2145,10 @@ public final class AzureCommunicationChatService {
                         let decoder = JSONDecoder()
                         let decoded = try decoder.decode(ErrorType.self, from: data)
                         dispatchQueue.async {
-                            completionHandler(.failure(AzureError.service("", decoded)), httpResponse)
+                            completionHandler(
+                                .failure(AzureError.service("Service unavailable", decoded)),
+                                httpResponse
+                            )
                         }
                     } catch {
                         dispatchQueue.async {

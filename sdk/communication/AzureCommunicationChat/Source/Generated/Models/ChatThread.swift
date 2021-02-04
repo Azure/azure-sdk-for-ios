@@ -15,7 +15,7 @@ import Foundation
 // swiftlint:disable line_length
 // swiftlint:disable cyclomatic_complexity
 
-public struct ChatThread: Codable {
+public struct ChatThread: Codable, Equatable {
     // MARK: Properties
 
     /// Chat thread id.
@@ -52,11 +52,11 @@ public struct ChatThread: Codable {
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case id
-        case topic
-        case createdOn
-        case createdBy
-        case members
+        case id = "id"
+        case topic = "topic"
+        case createdOn = "createdOn"
+        case createdBy = "createdBy"
+        case members = "members"
     }
 
     /// Initialize a `ChatThread` structure from decoder

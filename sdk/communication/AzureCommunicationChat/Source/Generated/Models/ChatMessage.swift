@@ -15,7 +15,7 @@ import Foundation
 // swiftlint:disable line_length
 // swiftlint:disable cyclomatic_complexity
 
-public struct ChatMessage: Codable {
+public struct ChatMessage: Codable, Equatable {
     // MARK: Properties
 
     /// The id of the chat message. This id is server generated.
@@ -85,16 +85,16 @@ public struct ChatMessage: Codable {
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case id
-        case type
-        case priority
-        case version
-        case content
-        case senderDisplayName
-        case createdOn
-        case senderId
-        case deletedOn
-        case editedOn
+        case id = "id"
+        case type = "type"
+        case priority = "priority"
+        case version = "version"
+        case content = "content"
+        case senderDisplayName = "senderDisplayName"
+        case createdOn = "createdOn"
+        case senderId = "senderId"
+        case deletedOn = "deletedOn"
+        case editedOn = "editedOn"
     }
 
     /// Initialize a `ChatMessage` structure from decoder

@@ -16,7 +16,7 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Request payload for creating a chat thread.
-public struct CreateChatThreadRequest: Codable {
+public struct CreateChatThreadRequest: Codable, Equatable {
     // MARK: Properties
 
     /// The chat thread topic.
@@ -40,8 +40,8 @@ public struct CreateChatThreadRequest: Codable {
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case topic
-        case members
+        case topic = "topic"
+        case members = "members"
     }
 
     /// Initialize a `CreateChatThreadRequest` structure from decoder

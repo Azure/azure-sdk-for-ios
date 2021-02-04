@@ -15,7 +15,7 @@ import Foundation
 // swiftlint:disable line_length
 // swiftlint:disable cyclomatic_complexity
 
-public struct ReadReceiptsCollection: Codable {
+public struct ReadReceiptsCollection: Codable, Equatable {
     // MARK: Properties
 
     /// Collection of read receipts.
@@ -39,8 +39,8 @@ public struct ReadReceiptsCollection: Codable {
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case value
-        case nextLink
+        case value = "value"
+        case nextLink = "nextLink"
     }
 
     /// Initialize a `ReadReceiptsCollection` structure from decoder

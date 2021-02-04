@@ -16,7 +16,7 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Collection of chat threads.
-public struct ChatThreadsInfoCollection: Codable {
+public struct ChatThreadsInfoCollection: Codable, Equatable {
     // MARK: Properties
 
     /// Collection of chat threads.
@@ -40,8 +40,8 @@ public struct ChatThreadsInfoCollection: Codable {
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case value
-        case nextLink
+        case value = "value"
+        case nextLink = "nextLink"
     }
 
     /// Initialize a `ChatThreadsInfoCollection` structure from decoder

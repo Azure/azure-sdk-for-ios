@@ -41,7 +41,7 @@ public struct AzureCommunicationChatClientOptions: ClientOptions {
         transportOptions: TransportOptions? = nil,
         dispatchQueue: DispatchQueue? = nil
     ) {
-        self.apiVersion = apiVersion.rawValue
+        self.apiVersion = apiVersion.requestString
         self.logger = logger
         self.telemetryOptions = telemetryOptions
         self.transportOptions = transportOptions ?? TransportOptions()
