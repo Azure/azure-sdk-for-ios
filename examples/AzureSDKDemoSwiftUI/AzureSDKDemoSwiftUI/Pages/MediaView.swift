@@ -27,25 +27,8 @@
 import SwiftUI
 
 struct MediaView: View {
-    @State var selectedTabItem: Int = 0
-    @Environment(\.presentationMode) var presentationMode
-    
     var body: some View {
-        TabView(selection: $selectedTabItem,
-                content:  {
-                    BlobDownloadTableViewController()
-                        .tabItem {
-                            Image(systemName: "square.and.arrow.down")
-                            Text("Download")
-                        }
-                        .tag(0)
-                    Text("Tab Content 2")
-                        .tabItem {
-                            Image(systemName: "square.and.arrow.up")
-                            Text("Upload")
-                        }
-                        .tag(1)
-                })
+        BlobDownloadTableViewController()
     }
 }
 
