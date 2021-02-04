@@ -15,12 +15,11 @@ var users: [String: String] = [
         "Gloria": "8:acs:46849534-eb08-4ab7-bde7-c36928cd1547_00000006-f3dd-7f8c-1655-373a0d000426"
     ]
 
-var messages: [ChatMessage] = []
+var chatMessages: [ChatMessage] = []
 var participants: [AzureCommunicationChat.ChatParticipant] = []
 var chatThreads: [ChatThread] = []
 
 var chatClient: ChatClient? = nil
-var currentThread: ChatThread? = nil
 var chatThreadClient: ChatThreadClient? = nil
 var currentUser: String? = nil
 var loggedIn = false
@@ -35,6 +34,48 @@ struct Constants {
 
 class ThreadsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet var threadsTableView: UITableView!
+    @IBAction func createNewThreadButtonTapped(){
+        createNewThread()
+    }
+    
+    func createNewThread()
+    {
+        let participant = ChatParticipant(
+            id: Constants.id,
+            displayName: currentUser,
+
+            shareHistoryTime: Iso8601Date(string: "2020-10-30T10:50:50Z")!
+        )
+        let request = CreateChatThreadRequest(
+            topic: "Lunch Thread",
+            participants: [
+                participant
+            ]
+        )
+        chatClient?.create(thread: request) { result, _ in
+            switch result {
+            case let .success(response):
+                print(response)
+                
+                guard let thread = response.chatThread else {
+                    print("Failed to extract chatThread from response")
+                    return
+                }
+                do {
+                    chatThreadClient = try chatClient?.createClient(forThread: thread.id)
+                    chatThreads.append(thread)
+                    DispatchQueue.main.async(execute: {
+                        self.threadsTableView.reloadData()
+                    })
+                } catch _ {
+                    print("Failed to initialize ChatThreadClient")
+                }
+            case let .failure(error):
+                print("Unexpected failure happened in Create Thread")
+                print("\(error)")
+            }
+        }
+    }
     
     func onStart (skypeToken: String)
     {
@@ -53,7 +94,9 @@ class ThreadsViewController: UIViewController, UITableViewDelegate, UITableViewD
                 for thread in threads.items ?? []
                 {
                     if thread.deletedOn == nil
-                    {chatThreads.append(ChatThread(id: thread.id, topic: thread.topic, createdOn: Iso8601Date(), createdBy: "", deletedOn: thread.deletedOn))}
+                    {
+                        chatThreads.append(ChatThread(id: thread.id, topic: thread.topic, createdOn: Iso8601Date(), createdBy: "", deletedOn: thread.deletedOn))
+                    }
                 }
                 DispatchQueue.main.async(execute: {
                     self.threadsTableView.reloadData()
@@ -64,44 +107,11 @@ class ThreadsViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     
         chatClient?.startRealTimeNotifications()
-        
-            let participant = ChatParticipant(
-                id: Constants.id,
-                displayName: currentUser,
-
-                shareHistoryTime: Iso8601Date(string: "2020-10-30T10:50:50Z")!
-            )
-            let request = CreateChatThreadRequest(
-                topic: "Lunch Thread",
-                participants: [
-                    participant
-                ]
-            )
-            chatClient?.create(thread: request) { result, _ in
-                switch result {
-                case let .success(response):
-                    print(response)
-                    
-                    guard let thread = response.chatThread else {
-                        print("Failed to extract chatThread from response")
-                        return
-                    }
-                    do {
-                        chatThreadClient = try chatClient?.createClient(forThread: thread.id)
-                    } catch _ {
-                        print("Failed to initialize ChatThreadClient")
-                    }
-                case let .failure(error):
-                    print("Unexpected failure happened in Create Thread")
-                    print("\(error)")
-                }
-            }
-        
         chatClient?.on(event: "chatMessageReceived", listener:{
                 (response, eventId)
                 in
             let response = response as! ChatMessageReceivedEvent
-            messages.append(ChatMessage(id: "", type: ChatMessageType.text, sequenceId: "", version: "", content:ChatMessageContent(message:response.content, topic: nil, participants: nil, initiator: nil), senderDisplayName: response.senderDisplayName , createdOn: Iso8601Date(), senderId: "", deletedOn: nil, editedOn: nil))
+            chatMessages.append(ChatMessage(id: "", type: ChatMessageType.text, sequenceId: "", version: "", content:ChatMessageContent(message:response.content, topic: nil, participants: nil, initiator: nil), senderDisplayName: response.senderDisplayName , createdOn: Iso8601Date(), senderId: "", deletedOn: nil, editedOn: nil))
 
             NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "newMessage")))
             }
@@ -178,10 +188,37 @@ class ThreadsViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         threadsTableView.deselectRow(at: indexPath, animated: true)
-        currentThread = chatThreads[indexPath.row]
+        
+        do {
+            chatThreadClient = try chatClient?.createClient(forThread: chatThreads[indexPath.row].id)
+        } catch _ {
+            print("Failed to initialize ChatThreadClient")
+        }
+        
+        chatMessages.removeAll()
+        getMessages()
+
         performSegue(withIdentifier: "SegueToChatViewController", sender: self)
     }
     
+    func getMessages()
+    {
+        chatThreadClient?.listMessages(completionHandler: { result, _ in
+            switch result {
+            case let .success(messages):
+                for message in messages.items?.reversed() ?? []
+                {
+                    if message.type == ChatMessageType.text && message.deletedOn == nil
+                    {
+                        chatMessages.append(message)
+                    }
+                }
+                NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "newMessage")))
+            case .failure:
+                print("Unexpected failure happened in list chat threads")
+            }
+        })
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         threadsTableView.delegate = self

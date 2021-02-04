@@ -78,7 +78,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == messagesTableView{
-            return messages.count
+            return chatMessages.count
         } 
         return 0
     }
@@ -87,8 +87,8 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         if tableView == messagesTableView{
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
             
-            let displayName: String? = messages[indexPath.row].senderDisplayName
-            let message: String? = messages[indexPath.row].content?.message
+            let displayName: String? = chatMessages[indexPath.row].senderDisplayName
+            let message: String? = chatMessages[indexPath.row].content?.message
             
             cell.textLabel?.text = [displayName,message]
                 .compactMap { $0 }
