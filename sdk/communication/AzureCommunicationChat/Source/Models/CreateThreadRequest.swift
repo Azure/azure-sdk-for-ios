@@ -23,29 +23,30 @@
 // IN THE SOFTWARE.
 //
 // --------------------------------------------------------------------------
-import AzureCommunication
-import AzureCommunicationChat
+
+import AzureCore
 import Foundation
 
-class TestUtil {
-    public static let mode: String = "playback"
-    public static let user1: String = "id:1"
-    public static let user2: String = "id:2"
-    public static let timeout: TimeInterval = 10.0
+/// Request payload for creating a chat thread.
+public struct CreateThreadRequest: Codable {
+    // MARK: Properties
 
-    /// Creates and returns a ChatClient
-    public static func getChatClient() throws -> ChatClient {
-        let endpoint = "https://endpoint"
-        let token = generateToken()
-        let credential = try CommunicationTokenCredential(token: token)
-        let options = AzureCommunicationChatClientOptions()
+    /// The thread topic.
+    public let topic: String
+    /// Participants to be added to the thread.
+    public let participants: [Participant]
 
-        return try ChatClient(endpoint: endpoint, credential: credential, withOptions: options)
+    // MARK: Initializers
+
+    /// Initialize a `CreateThreadRequest` structure.
+    /// - Parameters:
+    ///   - topic: The thread topic.
+    ///   - participants: Participants to be added to the chat thread.
+    public init(
+        topic: String,
+        participants: [Participant]
+    ) {
+        self.topic = topic
+        self.participants = participants
     }
-}
-
-func generateToken() -> String {
-    let fakeValue = "{\"iss\":\"ACS\",\"iat\": 1608152725,\"exp\": 1739688725,\"aud\": \"\",\"sub\": \"\"}"
-        .base64EncodedString()
-    return "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9." + fakeValue + ".EMS0ExXqRuobm34WKJE8mAfZ7KppU5kEHl0OFdyree8"
 }
