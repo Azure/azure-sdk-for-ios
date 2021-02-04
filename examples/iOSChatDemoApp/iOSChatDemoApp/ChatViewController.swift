@@ -40,30 +40,30 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     {
         print("Sending Message...")
         let range = messageInputArea.textRange(from: messageInputArea.beginningOfDocument, to: messageInputArea.endOfDocument)!
-        let trimmedText = messageInputArea.text(in: range)
-        if let unwrappedTrimmedText = trimmedText{
-            if unwrappedTrimmedText.trimmingCharacters(in: .whitespaces).isEmpty
+        let message = messageInputArea.text(in:range )
+        if let unwrappedMessage = message{
+            if unwrappedMessage.trimmingCharacters(in: .whitespaces).isEmpty
             {
-                emptyMessageWarning()
+                showAlert(message: "Can't send empty messages", viewController: self)
                 return
             }
             
             let messageRequest = SendChatMessageRequest(
-                content: unwrappedTrimmedText,
-                senderDisplayName: currentUser
+                content: unwrappedMessage,
+                senderDisplayName: currentUser?.name
             )
             chatThreadClient?.send(message: messageRequest, completionHandler: { result, _ in
                 switch result {
                 case let .success(response):
                     print(response)
-                   
+                    
                 case .failure:
                     print("Unexpected failure happened in send message")
                 }
             })
         }
         else {
-            emptyMessageWarning()
+            showAlert(message: "Can't send empty messages", viewController: self)
             return
         }
         
@@ -113,12 +113,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         })
     }
     
-    func emptyMessageWarning ()
-    {
-        let alert = UIAlertController(title: "Error", message: "Can't send empty messages", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-        self.present(alert, animated: true)
-    }
+    
 
 
 }

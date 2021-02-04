@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="0Jd-Yr-dYa" kind="relationship" relationship="rootViewController" id="bpM-Cm-Dt9"/>
+                        <segue destination="3oB-Vp-oTM" kind="relationship" relationship="rootViewController" id="8Cm-Ow-6sa"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JlM-HV-VP8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -57,7 +57,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pp2-lP-IcZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1975.36231884058" y="52.901785714285715"/>
+            <point key="canvasLocation" x="2859" y="52"/>
         </scene>
         <!--Chat View Controller-->
         <scene sceneID="HUn-TT-rbf">
@@ -103,7 +103,47 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DLu-ra-wPT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2948" y="53"/>
+            <point key="canvasLocation" x="3738" y="53"/>
+        </scene>
+        <!--Log In View Controller-->
+        <scene sceneID="1Uq-MR-o6M">
+            <objects>
+                <viewController id="3oB-Vp-oTM" customClass="LogInViewController" customModule="iOSChatDemoApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="pyQ-oW-bEI">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ecx-Zk-kek">
+                                <rect key="frame" x="178" y="500" width="59" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Connect"/>
+                                <connections>
+                                    <action selector="connectButtonTapped" destination="3oB-Vp-oTM" eventType="touchUpInside" id="M38-1V-naJ"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Feq-ko-Ej9" userLabel="User Name">
+                                <rect key="frame" x="108" y="421" width="215" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="connectButtonTapped" destination="3oB-Vp-oTM" eventType="primaryActionTriggered" id="1mf-28-5YT"/>
+                                </connections>
+                            </textField>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Rq1-y5-OfO"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="PF5-9v-trt"/>
+                    <connections>
+                        <outlet property="connectButton" destination="ecx-Zk-kek" id="EiP-M8-lYO"/>
+                        <outlet property="userNameInputArea" destination="Feq-ko-Ej9" id="PNa-fk-6l0"/>
+                        <segue destination="0Jd-Yr-dYa" kind="show" identifier="SegueToThreadsViewController" id="84W-3g-NBT"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Bp5-FF-26U" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2002.8985507246377" y="52.901785714285715"/>
         </scene>
     </scenes>
     <resources>

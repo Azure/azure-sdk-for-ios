@@ -11,27 +11,6 @@ import AzureCore
 import AzureCommunication
 import AzureCommunicationSignaling
 
-var users: [String: String] = [
-        "Gloria": "8:acs:46849534-eb08-4ab7-bde7-c36928cd1547_00000006-f3dd-7f8c-1655-373a0d000426"
-    ]
-
-var chatMessages: [ChatMessage] = []
-var participants: [AzureCommunicationChat.ChatParticipant] = []
-var chatThreads: [ChatThread] = []
-
-var chatClient: ChatClient? = nil
-var chatThreadClient: ChatThreadClient? = nil
-var currentUser: String? = nil
-var loggedIn = false
-//
-//let vc = ChatViewController()
-
-struct Constants {
-    static let endpoint =  "https://chat-sdktester-e2e.int.communication.azure.net/"
-    static let id =  "8:acs:46849534-eb08-4ab7-bde7-c36928cd1547_00000006-f3dd-7f8c-1655-373a0d000426"
-    static let skypeToken = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjEwMl9pbnQiLCJ4NXQiOiJnMTROVjRoSzJKUklPYk15YUUyOUxFU1FKRk0iLCJ0eXAiOiJKV1QifQ.eyJza3lwZWlkIjoiYWNzOjQ2ODQ5NTM0LWViMDgtNGFiNy1iZGU3LWMzNjkyOGNkMTU0N18wMDAwMDAwNi1mM2RkLTdmOGMtMTY1NS0zNzNhMGQwMDA0MjYiLCJzY3AiOjE3OTIsImNzaSI6IjE2MTIzOTgxNzUiLCJpYXQiOjE2MTIzOTgxNzUsImV4cCI6MTYxMjQ4NDU3NSwiYWNzU2NvcGUiOiJjaGF0IiwicmVzb3VyY2VJZCI6IjQ2ODQ5NTM0LWViMDgtNGFiNy1iZGU3LWMzNjkyOGNkMTU0NyJ9.eg4S_J4XNpZtxM_OMLTAsUAw7qFAiKOAN82C0yzdywxJeB3gLYZX4C1CKhy_FAdOlyJHjl4OZNi9xnSXoeNmcfZUD-PgcwcyKJWg21D-CE6IUm1qmKYM90YNwnpbVhlV-gHCDpwHJ-Cjz6HaKsvDlvBOJkyQdjQImnF3qBDKGm821FTsESFWgDES-KsXoGt9Lsgu3Kjg-O_PuVWsFYTj5g4KV4ucCgngqdqdpeMXbPyR0jf1op91eMqoj-OFHkIr5Ga6bU_QECONMqhOTt1r5eZBoRXU_dGNZOLNrfxu7JVrwFKuMDR9WtKIMS471LVSgRZRddnet8d9vgKUQgx7sA"
-}
-
 class ThreadsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet var threadsTableView: UITableView!
     @IBAction func createNewThreadButtonTapped(){
@@ -41,8 +20,8 @@ class ThreadsViewController: UIViewController, UITableViewDelegate, UITableViewD
     func createNewThread()
     {
         let participant = ChatParticipant(
-            id: Constants.id,
-            displayName: currentUser,
+            id: currentUser!.id,
+            displayName: currentUser?.name,
 
             shareHistoryTime: Iso8601Date(string: "2020-10-30T10:50:50Z")!
         )
@@ -79,13 +58,13 @@ class ThreadsViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func onStart (skypeToken: String)
     {
-        currentUser = "Gloria"
         let communicationUserCredential: CommunicationTokenCredential
         do {
             communicationUserCredential = try CommunicationTokenCredential(token:skypeToken)
         } catch {
             fatalError(error.localizedDescription)
         }
+        chatThreads.removeAll()
         chatClient = getClient(credential:communicationUserCredential)
         
         chatClient?.listThreads { result, _ in
@@ -219,12 +198,20 @@ class ThreadsViewController: UIViewController, UITableViewDelegate, UITableViewD
             }
         })
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         threadsTableView.delegate = self
         threadsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         threadsTableView.dataSource = self
-        onStart(skypeToken: Constants.skypeToken)
+        if let unwrappedCurrentUser = currentUser
+        {
+            onStart(skypeToken: unwrappedCurrentUser.token)
+        }
+        else
+        {
+            print("Unexpected failure happened initializing current user")
+        }
     }
 }
 
