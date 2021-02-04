@@ -80,11 +80,11 @@ public struct Participant: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         // Convert id to CommunicationUserIdentifier
-        let identifier = try container.decodeIfPresent(String.self, forKey: .user)
+        let identifier = try? container.decode(String.self, forKey: .user)
         self.user = CommunicationUserIdentifier(identifier: identifier!)
 
-        self.displayName = try container.decodeIfPresent(String.self, forKey: .displayName)
-        self.shareHistoryTime = try container.decodeIfPresent(Iso8601Date.self, forKey: .shareHistoryTime)
+        self.displayName = try? container.decode(String.self, forKey: .displayName)
+        self.shareHistoryTime = try? container.decode(Iso8601Date.self, forKey: .shareHistoryTime)
     }
 
     /// Encode a `Participant` structure
