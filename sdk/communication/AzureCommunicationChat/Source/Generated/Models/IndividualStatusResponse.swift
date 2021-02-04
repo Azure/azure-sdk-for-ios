@@ -15,7 +15,7 @@ import Foundation
 // swiftlint:disable line_length
 // swiftlint:disable cyclomatic_complexity
 
-public struct IndividualStatusResponse: Codable {
+public struct IndividualStatusResponse: Codable, Equatable {
     // MARK: Properties
 
     /// Identifies the resource to which the individual status corresponds.
@@ -61,10 +61,10 @@ public struct IndividualStatusResponse: Codable {
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case id
-        case statusCode
-        case message
-        case type
+        case id = "id"
+        case statusCode = "statusCode"
+        case message = "message"
+        case type = "type"
     }
 
     /// Initialize a `IndividualStatusResponse` structure from decoder

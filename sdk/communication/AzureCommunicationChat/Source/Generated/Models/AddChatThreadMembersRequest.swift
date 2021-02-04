@@ -16,7 +16,7 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Thread members to be added to the thread.
-public struct AddChatThreadMembersRequest: Codable {
+public struct AddChatThreadMembersRequest: Codable, Equatable {
     // MARK: Properties
 
     /// Members to add to a chat thread.
@@ -36,7 +36,7 @@ public struct AddChatThreadMembersRequest: Codable {
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case members
+        case members = "members"
     }
 
     /// Initialize a `AddChatThreadMembersRequest` structure from decoder

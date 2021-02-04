@@ -16,7 +16,7 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Result of the send message operation.
-public struct SendChatMessageResult: Codable {
+public struct SendChatMessageResult: Codable, Equatable {
     // MARK: Properties
 
     /// A server-generated message id.
@@ -36,7 +36,7 @@ public struct SendChatMessageResult: Codable {
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case id
+        case id = "id"
     }
 
     /// Initialize a `SendChatMessageResult` structure from decoder

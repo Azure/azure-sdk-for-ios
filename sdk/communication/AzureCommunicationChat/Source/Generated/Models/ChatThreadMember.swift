@@ -16,7 +16,7 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// A member of the chat thread.
-public struct ChatThreadMember: Codable {
+public struct ChatThreadMember: Codable, Equatable {
     // MARK: Properties
 
     /// The id of the chat thread member in the format `8:acs:ResourceId_AcsUserId`.
@@ -44,9 +44,9 @@ public struct ChatThreadMember: Codable {
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case id
-        case displayName
-        case shareHistoryTime
+        case id = "id"
+        case displayName = "displayName"
+        case shareHistoryTime = "shareHistoryTime"
     }
 
     /// Initialize a `ChatThreadMember` structure from decoder

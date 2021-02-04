@@ -16,7 +16,7 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Details of the message to send.
-public struct SendChatMessageRequest: Codable {
+public struct SendChatMessageRequest: Codable, Equatable {
     // MARK: Properties
 
     /// The chat message priority.
@@ -44,9 +44,9 @@ public struct SendChatMessageRequest: Codable {
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case priority
-        case content
-        case senderDisplayName
+        case priority = "priority"
+        case content = "content"
+        case senderDisplayName = "senderDisplayName"
     }
 
     /// Initialize a `SendChatMessageRequest` structure from decoder

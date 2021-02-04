@@ -46,10 +46,10 @@ public struct ErrorType: Codable, Swift.Error {
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case code
-        case message
-        case target
-        case innerErrors
+        case code = "code"
+        case message = "message"
+        case target = "target"
+        case innerErrors = "innerErrors"
     }
 
     /// Initialize a `ErrorType` structure from decoder

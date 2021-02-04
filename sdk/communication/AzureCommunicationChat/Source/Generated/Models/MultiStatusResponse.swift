@@ -15,7 +15,7 @@ import Foundation
 // swiftlint:disable line_length
 // swiftlint:disable cyclomatic_complexity
 
-public struct MultiStatusResponse: Codable {
+public struct MultiStatusResponse: Codable, Equatable {
     // MARK: Properties
 
     /// The list of status information for each resource in the request.
@@ -35,7 +35,7 @@ public struct MultiStatusResponse: Codable {
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case multipleStatus
+        case multipleStatus = "multipleStatus"
     }
 
     /// Initialize a `MultiStatusResponse` structure from decoder

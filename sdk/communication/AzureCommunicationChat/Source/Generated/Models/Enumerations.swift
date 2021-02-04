@@ -12,12 +12,46 @@ import AzureCore
 import Foundation
 
 /// The chat message priority.
-public enum ChatMessagePriority: String, Codable, RequestStringConvertible {
-    case normal = "Normal"
+public enum ChatMessagePriority: RequestStringConvertible, Codable, Equatable {
+    /// Custom value for unrecognized enum values
+    case custom(String)
 
-    case high = "High"
+    case normal
+
+    case high
 
     public var requestString: String {
-        return rawValue
+        switch self {
+        case let .custom(val):
+            return val
+        case .normal:
+            return "Normal"
+        case .high:
+            return "High"
+        }
+    }
+
+    public init(_ val: String) {
+        switch val.lowercased() {
+        case "normal":
+            self = .normal
+        case "high":
+            self = .high
+        default:
+            self = .custom(val)
+        }
+    }
+
+    // MARK: Codable
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let value = try container.decode(String.self)
+        self.init(value)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(requestString)
     }
 }
