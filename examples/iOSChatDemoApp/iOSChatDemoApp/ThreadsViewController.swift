@@ -22,7 +22,7 @@ class ThreadsViewController: UIViewController, UITableViewDelegate, UITableViewD
         let participant = ChatParticipant(
             id: currentUser!.id,
             displayName: currentUser?.name,
-
+            
             shareHistoryTime: Iso8601Date(string: "2020-10-30T10:50:50Z")!
         )
         let request = CreateChatThreadRequest(
@@ -84,16 +84,16 @@ class ThreadsViewController: UIViewController, UITableViewDelegate, UITableViewD
                 print("Unexpected failure happened in list chat threads")
             }
         }
-    
+        
         chatClient?.startRealTimeNotifications()
         chatClient?.on(event: "chatMessageReceived", listener:{
-                (response, eventId)
-                in
+            (response, eventId)
+            in
             let response = response as! ChatMessageReceivedEvent
             chatMessages.append(ChatMessage(id: "", type: ChatMessageType.text, sequenceId: "", version: "", content:ChatMessageContent(message:response.content, topic: nil, participants: nil, initiator: nil), senderDisplayName: response.senderDisplayName , createdOn: Iso8601Date(), senderId: "", deletedOn: nil, editedOn: nil))
-
+            
             NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "newMessage")))
-            }
+        }
         )
         chatClient?.on(event: "chatThreadCreated", listener:{
             (response, eventId)
@@ -167,36 +167,12 @@ class ThreadsViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         threadsTableView.deselectRow(at: indexPath, animated: true)
-        
         do {
             chatThreadClient = try chatClient?.createClient(forThread: chatThreads[indexPath.row].id)
+            performSegue(withIdentifier: "SegueToChatViewController", sender: self)
         } catch _ {
             print("Failed to initialize ChatThreadClient")
         }
-        
-        chatMessages.removeAll()
-        getMessages()
-
-        performSegue(withIdentifier: "SegueToChatViewController", sender: self)
-    }
-    
-    func getMessages()
-    {
-        chatThreadClient?.listMessages(completionHandler: { result, _ in
-            switch result {
-            case let .success(messages):
-                for message in messages.items?.reversed() ?? []
-                {
-                    if message.type == ChatMessageType.text && message.deletedOn == nil
-                    {
-                        chatMessages.append(message)
-                    }
-                }
-                NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "newMessage")))
-            case .failure:
-                print("Unexpected failure happened in list chat threads")
-            }
-        })
     }
     
     override func viewDidLoad() {

@@ -104,16 +104,33 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         messagesTableView.delegate = self
         messagesTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         messagesTableView.dataSource = self
-        NotificationCenter.default.addObserver(self, selector: #selector(shouldReload), name:  Notification.Name(rawValue: "newMessage"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadMessages), name:  Notification.Name(rawValue: "newMessage"), object: nil)
+        chatMessages.removeAll()
+        getMessages()
     }
     
-    @objc func shouldReload() {
+    func getMessages()
+    {
+        chatThreadClient?.listMessages(completionHandler: { result, _ in
+            switch result {
+            case let .success(messages):
+                for message in messages.items?.reversed() ?? []
+                {
+                    if message.type == ChatMessageType.text && message.deletedOn == nil
+                    {
+                        chatMessages.append(message)
+                    }
+                }
+                self.reloadMessages()
+            case .failure:
+                print("Unexpected failure happened in list chat threads")
+            }
+        })
+    }
+    
+    @objc func reloadMessages() {
         DispatchQueue.main.async(execute: {
             self.messagesTableView.reloadData()
         })
     }
-    
-    
-
-
 }
