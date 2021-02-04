@@ -27,6 +27,7 @@
 import SwiftUI
 
 import AzureCore
+import MSAL
 
 struct ContentView: View {
     @State private var isLoggedIn = false
@@ -46,7 +47,7 @@ struct ContentView: View {
             }.navigationBarItems(
                 leading:
                     Button("Log Out") {
-// TODO: Investigate to to properly implement MSAL
+// TODO: Investigate to to properly implement MSAL authentication
 //                        guard let application = AppState.application else { return }
 //                        guard let account = AppState.currentAccount else { return }
 //
@@ -75,25 +76,26 @@ struct ContentView: View {
                             }.font(.title3)
                         })
             )
-        }
+        }.onAppear(perform: loadAuthority)
     }
-// TODO: Investigate to to properly implement MSAL
-//    private func loadAuthority() {
-//        guard let authorityURL = URL(string: AppConstants.authority) else { return }
-//        guard let authority = try? MSALAADAuthority(url: authorityURL) else { return }
-//        let msalConfiguration = MSALPublicClientApplicationConfig(
-//            clientId: AppConstants.clientId,
-//            redirectUri: AppConstants.redirectUri,
-//            authority: authority
-//        )
-//        msalConfiguration.bypassRedirectURIValidation = true // Why do I need to do this
-//        AppState.application = try? MSALPublicClientApplication(configuration: msalConfiguration)
+    
+    private func loadAuthority() {
+        guard let authorityURL = URL(string: AppConstants.authority) else { return }
+        guard let authority = try? MSALAADAuthority(url: authorityURL) else { return }
+        let msalConfiguration = MSALPublicClientApplicationConfig(
+            clientId: AppConstants.clientId,
+            redirectUri: AppConstants.redirectUri,
+            authority: authority
+        )
+        msalConfiguration.bypassRedirectURIValidation = true
+        AppState.application = try? MSALPublicClientApplication(configuration: msalConfiguration)
+// TODO: Investigate to to properly implement MSAL authentication
 //        AppState.account = AppState.currentAccount
 //
 //        updateLoggedInState(enabled: AppState.currentAccount != nil)
 //        updateUserName(with: AppState.currentAccount)
-//    }
-//
+    }
+// TODO: Investigate to to properly implement MSAL authentication
 //    private func updateLoggedInState(enabled: Bool) {
 //        isLoggedIn = enabled
 //    }
