@@ -1,7 +1,7 @@
 PODS:
-  - MSAL (1.0.5):
-    - MSAL/app-lib (= 1.0.5)
-  - MSAL/app-lib (1.0.5)
+  - MSAL (1.1.11):
+    - MSAL/app-lib (= 1.1.11)
+  - MSAL/app-lib (1.1.11)
   - OHHTTPStubs/Core (9.1.0)
   - OHHTTPStubs/Default (9.1.0):
     - OHHTTPStubs/Core
@@ -17,7 +17,7 @@ PODS:
     - OHHTTPStubs/Default
 
 DEPENDENCIES:
-  - MSAL (~> 1.0.0)
+  - MSAL (~> 1.1.2)
   - OHHTTPStubs/Swift
 
 SPEC REPOS:
@@ -26,9 +26,9 @@ SPEC REPOS:
     - OHHTTPStubs
 
 SPEC CHECKSUMS:
-  MSAL: 74bf430ec0f46dd4c79dde2596e2b553610ccab1
+  MSAL: 0dabdae49d178a00b968390def4b4c7da2a7a858
   OHHTTPStubs: 90eac6d8f2c18317baeca36698523dc67c513831
 
-PODFILE CHECKSUM: f3c689b9573f4045273a3d4c7d79c05e4f36921e
+PODFILE CHECKSUM: 23c39ba0e6270bb534a0f866b9f57b17ca6ae7c2
 
 COCOAPODS: 1.10.1

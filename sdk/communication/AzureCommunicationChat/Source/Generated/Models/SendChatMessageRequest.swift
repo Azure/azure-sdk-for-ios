@@ -16,7 +16,7 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Details of the message to send.
-public struct SendChatMessageRequest: Codable, Equatable {
+public struct SendChatMessageRequest: Codable {
     // MARK: Properties
 
     /// Chat message content.

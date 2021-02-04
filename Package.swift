@@ -1,4 +1,4 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.1
 //  The swift-tools-version declares the minimum version of Swift required to build this package.
 //
 // --------------------------------------------------------------------------
@@ -62,7 +62,7 @@ let package = Package(
             name: "AzureCommunicationChat",
             dependencies: ["AzureCore", "AzureCommunication"],
             path: "sdk/communication/AzureCommunicationChat",
-            exclude: ["Source/Supporting Files"],
+            exclude: ["Source/Supporting Files", "Swagger"],
             sources: ["Source"]
         ),
         // Test targets
@@ -71,8 +71,8 @@ let package = Package(
             dependencies: ["AzureCore"],
             path: "sdk/core/AzureCore",
             exclude: [
-              "Tests/Info.plist",
-              "Tests/Data Files"
+                "Tests/Info.plist",
+                "Tests/Data Files"
             ],
             sources: ["Tests"]
         ),
@@ -93,6 +93,7 @@ let package = Package(
             name: "AzureCommunicationChatTests",
             dependencies: ["AzureCommunication", "AzureCommunicationChat", "OHHTTPStubsSwift"],
             path: "sdk/communication/AzureCommunicationChat",
+            exclude: ["Tests/Info.plist"],
             sources: ["Tests"]
         )
     ],
