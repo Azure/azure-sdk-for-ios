@@ -42,10 +42,6 @@ class ThreadsViewController: UIViewController, UITableViewDelegate, UITableViewD
                 }
                 do {
                     chatThreadClient = try chatClient?.createClient(forThread: thread.id)
-                    chatThreads.append(thread)
-                    DispatchQueue.main.async(execute: {
-                        self.threadsTableView.reloadData()
-                    })
                 } catch _ {
                     print("Failed to initialize ChatThreadClient")
                 }
@@ -86,6 +82,7 @@ class ThreadsViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
         
         chatClient?.startRealTimeNotifications()
+        
         chatClient?.on(event: "chatMessageReceived", listener:{
             (response, eventId)
             in
@@ -93,12 +90,17 @@ class ThreadsViewController: UIViewController, UITableViewDelegate, UITableViewD
             chatMessages.append(ChatMessage(id: "", type: ChatMessageType.text, sequenceId: "", version: "", content:ChatMessageContent(message:response.content, topic: nil, participants: nil, initiator: nil), senderDisplayName: response.senderDisplayName , createdOn: Iso8601Date(), senderId: "", deletedOn: nil, editedOn: nil))
             
             NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "newMessage")))
-        }
-        )
+        })
+        
         chatClient?.on(event: "chatThreadCreated", listener:{
             (response, eventId)
             in
             let response = response as! ChatThreadCreatedEvent
+            chatThreads.append(ChatThread(id: response.threadId, topic: response.properties!.topic, createdOn: Iso8601Date(string:  response.createdOn)!, createdBy:(response.createdBy?.user!.communicationUserId)!, deletedOn:nil))
+            
+            DispatchQueue.main.async(execute: {
+                self.threadsTableView.reloadData()
+            })
         })
         
         chatClient?.on(event: "participantsAdded", listener:{
