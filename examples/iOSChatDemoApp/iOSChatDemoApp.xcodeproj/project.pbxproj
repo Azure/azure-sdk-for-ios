@@ -10,10 +10,11 @@
 		90C321F40B660B50979B51B1 /* Pods_iOSChatDemoApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C7B55F387391DE1E3E8F18 /* Pods_iOSChatDemoApp.framework */; };
 		D50B8EB025C8F49400B127D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50B8EAF25C8F49400B127D9 /* AppDelegate.swift */; };
 		D50B8EB225C8F49400B127D9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50B8EB125C8F49400B127D9 /* SceneDelegate.swift */; };
-		D50B8EB425C8F49400B127D9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50B8EB325C8F49400B127D9 /* ViewController.swift */; };
+		D50B8EB425C8F49400B127D9 /* ThreadsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50B8EB325C8F49400B127D9 /* ThreadsViewController.swift */; };
 		D50B8EB725C8F49400B127D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D50B8EB525C8F49400B127D9 /* Main.storyboard */; };
 		D50B8EB925C8F49600B127D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D50B8EB825C8F49600B127D9 /* Assets.xcassets */; };
 		D50B8EBC25C8F49600B127D9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D50B8EBA25C8F49600B127D9 /* LaunchScreen.storyboard */; };
+		D5EE7A7C25CB76DC00220882 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5EE7A7B25CB76DC00220882 /* ChatViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,11 +24,12 @@
 		D50B8EAC25C8F49400B127D9 /* iOSChatDemoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSChatDemoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D50B8EAF25C8F49400B127D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D50B8EB125C8F49400B127D9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		D50B8EB325C8F49400B127D9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D50B8EB325C8F49400B127D9 /* ThreadsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadsViewController.swift; sourceTree = "<group>"; };
 		D50B8EB625C8F49400B127D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D50B8EB825C8F49600B127D9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D50B8EBB25C8F49600B127D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D50B8EBD25C8F49600B127D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D5EE7A7B25CB76DC00220882 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,7 +76,8 @@
 			children = (
 				D50B8EAF25C8F49400B127D9 /* AppDelegate.swift */,
 				D50B8EB125C8F49400B127D9 /* SceneDelegate.swift */,
-				D50B8EB325C8F49400B127D9 /* ViewController.swift */,
+				D50B8EB325C8F49400B127D9 /* ThreadsViewController.swift */,
+				D5EE7A7B25CB76DC00220882 /* ChatViewController.swift */,
 				D50B8EB525C8F49400B127D9 /* Main.storyboard */,
 				D50B8EB825C8F49600B127D9 /* Assets.xcassets */,
 				D50B8EBA25C8F49600B127D9 /* LaunchScreen.storyboard */,
@@ -205,8 +208,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D50B8EB425C8F49400B127D9 /* ViewController.swift in Sources */,
+				D50B8EB425C8F49400B127D9 /* ThreadsViewController.swift in Sources */,
 				D50B8EB025C8F49400B127D9 /* AppDelegate.swift in Sources */,
+				D5EE7A7C25CB76DC00220882 /* ChatViewController.swift in Sources */,
 				D50B8EB225C8F49400B127D9 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

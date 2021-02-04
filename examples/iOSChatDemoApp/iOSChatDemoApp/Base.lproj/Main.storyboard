@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="5p5-eH-qUo">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="iiK-Ss-9TL">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
@@ -8,69 +8,99 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Messages-->
-        <scene sceneID="tne-QT-ifu">
+        <!--Navigation Controller-->
+        <scene sceneID="7Ue-Vy-YZj">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="iOSChatDemoApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                <navigationController id="iiK-Ss-9TL" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="98i-xi-rFp">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="0Jd-Yr-dYa" kind="relationship" relationship="rootViewController" id="bpM-Cm-Dt9"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JlM-HV-VP8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1164" y="53"/>
+        </scene>
+        <!--Threads View Controller-->
+        <scene sceneID="Qhg-Qw-Dzg">
+            <objects>
+                <viewController id="0Jd-Yr-dYa" customClass="ThreadsViewController" customModule="iOSChatDemoApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="xz6-Lf-fM3">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="4Sq-uI-Tag">
-                                <rect key="frame" x="0.0" y="44" width="414" height="752"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1M4-r3-Cty">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="mjO-UH-CaH"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="mjO-UH-CaH" firstAttribute="trailing" secondItem="1M4-r3-Cty" secondAttribute="trailing" id="5m5-LR-CdZ"/>
+                            <constraint firstItem="1M4-r3-Cty" firstAttribute="top" secondItem="mjO-UH-CaH" secondAttribute="top" id="NAf-Tg-0aM"/>
+                            <constraint firstItem="1M4-r3-Cty" firstAttribute="leading" secondItem="mjO-UH-CaH" secondAttribute="leading" id="raQ-8R-EQx"/>
+                            <constraint firstItem="mjO-UH-CaH" firstAttribute="bottom" secondItem="1M4-r3-Cty" secondAttribute="bottom" id="yWd-jd-qdZ"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="2XZ-Q2-gjC"/>
+                    <connections>
+                        <outlet property="threadsTableView" destination="1M4-r3-Cty" id="QpI-AK-h20"/>
+                        <segue destination="WI6-sV-ggt" kind="show" identifier="SegueToChatViewController" id="x0y-Ta-PP5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Pp2-lP-IcZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1975.36231884058" y="52.901785714285715"/>
+        </scene>
+        <!--Chat View Controller-->
+        <scene sceneID="HUn-TT-rbf">
+            <objects>
+                <viewController id="WI6-sV-ggt" customClass="ChatViewController" customModule="iOSChatDemoApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="h08-Ia-iNQ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="YOo-aD-QQc">
+                                <rect key="frame" x="0.0" y="74" width="414" height="706"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Wfn-2U-cNj">
-                                <rect key="frame" x="20" y="808" width="317" height="34"/>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oRe-Ch-phk">
+                                <rect key="frame" x="20" y="811" width="319" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
-                                    <action selector="didTapButton" destination="BYZ-38-t0r" eventType="primaryActionTriggered" id="xWq-cJ-yD4"/>
-                                    <action selector="typingMessage" destination="BYZ-38-t0r" eventType="editingChanged" id="q3f-e7-wcS"/>
+                                    <action selector="didTapButton" destination="WI6-sV-ggt" eventType="primaryActionTriggered" id="jix-qo-7BL"/>
+                                    <action selector="typingMessage" destination="WI6-sV-ggt" eventType="valueChanged" id="Ch8-5I-wfo"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jar-pf-0oW">
-                                <rect key="frame" x="358" y="810" width="36" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WpP-HG-Y1R">
+                                <rect key="frame" x="347" y="811" width="62" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Send"/>
                                 <connections>
-                                    <action selector="didTapButton" destination="BYZ-38-t0r" eventType="touchUpInside" id="0ld-QX-flH"/>
+                                    <action selector="didTapButton" destination="WI6-sV-ggt" eventType="touchUpInside" id="4tn-Sb-ZDZ"/>
                                 </connections>
                             </button>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <viewLayoutGuide key="safeArea" id="OHC-gg-yRW"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Messages" id="hNk-fa-Jcc"/>
+                    <navigationItem key="navigationItem" id="5ui-l4-l6h"/>
                     <connections>
-                        <outlet property="messageInputArea" destination="Wfn-2U-cNj" id="f0q-kg-4bx"/>
-                        <outlet property="messagesTableView" destination="4Sq-uI-Tag" id="07c-Td-vIE"/>
-                        <outlet property="sendMessageButton" destination="jar-pf-0oW" id="1Do-qH-vwT"/>
+                        <outlet property="messageInputArea" destination="oRe-Ch-phk" id="mrl-tX-GM0"/>
+                        <outlet property="messagesTableView" destination="YOo-aD-QQc" id="g0p-V9-prc"/>
+                        <outlet property="sendMessageButton" destination="WpP-HG-Y1R" id="YIK-FL-pUP"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DLu-ra-wPT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="763.768115942029" y="60.9375"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="ggi-6G-jrf">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="5p5-eH-qUo" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="tF3-lK-fDm">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="Ub2-b7-oRZ"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="5hz-3C-wqL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-146.37681159420291" y="60.9375"/>
+            <point key="canvasLocation" x="2948" y="53"/>
         </scene>
     </scenes>
     <resources>
