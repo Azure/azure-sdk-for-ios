@@ -76,19 +76,19 @@ public class CommunicationIdentifierSerializer {
     }
 
     static func assertOneNestedModel(_ identifier: CommunicationIdentifierModel) throws {
-        var presentProperties = [String]()
-
+        var presentProperties = 0
+        
         if let _ = identifier.communicationUser {
-            presentProperties.append("communicationUser")
+            presentProperties += 1
         }
         if let _ = identifier.phoneNumber {
-            presentProperties.append("phoneNumber")
+            presentProperties += 1
         }
         if let _ = identifier.microsoftTeamsUser {
-            presentProperties.append("microsoftTeamsUser")
+            presentProperties += 1
         }
-
-        if presentProperties.count > 1 {
+        
+        if presentProperties > 1 {
             throw AzureError.client("Only one property should be present")
         }
     }
@@ -136,7 +136,7 @@ public class CommunicationIdentifierSerializer {
                 microsoftTeamsUser: nil
             )
         default:
-            throw AzureError.client("Not support kind in CommunicationIdentifier.")
+            throw AzureError.client("CommunicationIdentifier is not supported and cannot be serialized")
         }
     }
 
