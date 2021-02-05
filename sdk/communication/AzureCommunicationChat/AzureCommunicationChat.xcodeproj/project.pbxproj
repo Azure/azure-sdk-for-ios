@@ -752,7 +752,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.azure.core.AzureCommunicationChatTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.azure.communication.AzureCommunicationChatTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -772,7 +772,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.azure.core.AzureCommunicationChatTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.azure.communication.AzureCommunicationChatTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
