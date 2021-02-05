@@ -45,20 +45,6 @@ import Foundation
 }
 
 /**
- Communication identifier for Communication Services Applications
- */
-@objcMembers public class CallingApplicationIdentifier: NSObject, CommunicationIdentifier {
-    public let identifier: String
-    /**
-     Creates a CallingApplicationIdentifier object
-     - Parameter identifier: identifier representing the object identity
-     */
-    public init(identifier: String) {
-        self.identifier = identifier
-    }
-}
-
-/**
  Catch-all for all other Communication identifiers for Communication Services
  */
 @objcMembers public class UnknownIdentifier: NSObject, CommunicationIdentifier {
@@ -77,16 +63,16 @@ import Foundation
  */
 @objcMembers public class PhoneNumberIdentifier: NSObject, CommunicationIdentifier {
     public let phoneNumber: String
-    public let id: String?
+    public let rawId: String?
 
     /**
      Creates a PhoneNumberIdentifier object
      - Parameter phoneNumber: phone number to create the object, different from identifier
      - Parameter id: Full id of the phone number
      */
-    public init(phoneNumber: String, id: String? = nil) {
+    public init(phoneNumber: String, rawId: String? = nil) {
         self.phoneNumber = phoneNumber
-        self.id = id
+        self.rawId = rawId
     }
     
     public static func == (lhs: PhoneNumberIdentifier, rhs: PhoneNumberIdentifier) -> Bool {
@@ -94,9 +80,9 @@ import Foundation
             return false
         }
         
-        return lhs.id == nil
-            || rhs.id == nil
-            || lhs.id == rhs.id;
+        return lhs.rawId == nil
+            || rhs.rawId == nil
+            || lhs.rawId == rhs.rawId;
     }
 }
 
@@ -104,7 +90,7 @@ import Foundation
  Communication identifier for Microsoft Teams Users
  */
 @objcMembers public class MicrosoftTeamsUserIdentifier: NSObject, CommunicationIdentifier {
-    public let identifier: String?
+    public let rawId: String?
     public let userId: String
     public let isAnonymous: Bool
     public let cloudEnviroment: CommunicationCloudEnvironment
@@ -113,11 +99,11 @@ import Foundation
      Creates a MicrosoftTeamsUserIdentifier object
      - Parameter userId: Id of the Microsoft Teams user. If the user isn't anonymous, the id is the AAD object id of the user.
      - Parameter isAnonymous: Set this to true if the user is anonymous, for example when joining a meeting with a share link.
-     - Parameter id: Full id of the Microsoft Teams user.
+     - Parameter rawId: Full id of the Microsoft Teams user.
      - Parameter cloudEnvironment: The cloud that the Microsoft Team user belongs to. A null value translates to the Public cloud.
      */
-    public init(userId: String, isAnonymous: Bool = false, identifier: String? = nil, cloudEnvironment: CommunicationCloudEnvironment = .Public) {
-        self.identifier = identifier
+    public init(userId: String, isAnonymous: Bool = false, rawId: String? = nil, cloudEnvironment: CommunicationCloudEnvironment = .Public) {
+        self.rawId = rawId
         self.userId = userId
         self.isAnonymous = isAnonymous
         self.cloudEnviroment = cloudEnvironment
@@ -125,7 +111,7 @@ import Foundation
 
     public init(userId: String, isAnonymous: Bool) {
         self.cloudEnviroment = .Public
-        self.identifier = nil
+        self.rawId = nil
         self.userId = userId
         self.isAnonymous = isAnonymous
     }
@@ -141,8 +127,8 @@ import Foundation
             return false
         }
 
-        return lhs.identifier == nil
-            || rhs.identifier == nil
-            || lhs.identifier == rhs.identifier;
+        return lhs.rawId == nil
+            || rhs.rawId == nil
+            || lhs.rawId == rhs.rawId;
     }
 }

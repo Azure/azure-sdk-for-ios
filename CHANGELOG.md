@@ -5,6 +5,9 @@
 ### Breaking Changes
 - Azure Communication Common Library
  - Communication identifier `MicrosoftTeamsUserIdentifier` property `identifier` renamed to `userId` since identifier was too generic.
+ - Communication identifier `MicrosoftTeamsUserIdentifier` property `id` renamed to `rawId` to represent full MRI.
+ - Communication identifier `PhoneNumberIdentifier` property `id` renamed to `rawId` to represent full MRI.
+ - Removed `CallingApplicationIdentifier` as it is currently unused by any service. 
  
 ## 1.0.0-beta.7 (2021-01-12)
 
