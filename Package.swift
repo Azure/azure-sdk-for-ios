@@ -62,7 +62,7 @@ let package = Package(
             name: "AzureCommunicationChat",
             dependencies: ["AzureCore", "AzureCommunication"],
             path: "sdk/communication/AzureCommunicationChat",
-            exclude: ["Source/Supporting Files", "Swagger"],
+            exclude: ["Source/Supporting Files"],
             sources: ["Source"]
         ),
         // Test targets

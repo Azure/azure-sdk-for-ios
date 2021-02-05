@@ -208,7 +208,6 @@
 		D1CD93E3258D6EF700409613 /* sendTypingNotification.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sendTypingNotification.json; sourceTree = "<group>"; };
 		D1CD93E7258D6F0600409613 /* updateMessage.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = updateMessage.json; sourceTree = "<group>"; };
 		D1CD93EB258D6F1300409613 /* updateTopic.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = updateTopic.json; sourceTree = "<group>"; };
-		D1E3568C257EBA1800E66A66 /* swagger.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = swagger.json; sourceTree = "<group>"; };
 		F1FE3013E797A134E8A6C3B5 /* Pods_AzureCommunicationChatTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCommunicationChatTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -413,14 +412,6 @@
 			path = Recordings;
 			sourceTree = "<group>";
 		};
-		D1E3568B257EBA1800E66A66 /* Swagger */ = {
-			isa = PBXGroup;
-			children = (
-				D1E3568C257EBA1800E66A66 /* swagger.json */,
-			);
-			path = Swagger;
-			sourceTree = "<group>";
-		};
 		OBJ_113 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -448,7 +439,6 @@
 				D1565C73256DB76C00AF45F8 /* ChatThreadClient.swift */,
 				D16C802B25BA0A0F00C42803 /* Models */,
 				D15E98C925B7C80C00E63DB2 /* Generated */,
-				D1E3568B257EBA1800E66A66 /* Swagger */,
 			);
 			name = Sources;
 			path = Source;
