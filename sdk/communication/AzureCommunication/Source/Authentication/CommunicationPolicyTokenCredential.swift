@@ -35,9 +35,9 @@ public class CommunicationPolicyTokenCredential: TokenCredential {
     private let credential: CommunicationTokenCredential
     var error: AzureError? = nil
     /**
-     Creates a token credential  that authenticates requests using the provided `CommunicationUserCredential`.
+     Creates a token credential  that authenticates requests using the provided `CommunicationTokenCredential`.
      
-     - Parameter credential: The user credential to authenticate with.
+     - Parameter credential: The token credential to authenticate with.
      */
     public init(_ credential: CommunicationTokenCredential) {
         self.credential = credential
