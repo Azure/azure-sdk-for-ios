@@ -78,11 +78,11 @@ class CommunicationIdentifierSerializerTests: XCTestCase {
                 phoneNumber: "+12223334444"
             ))
 
-        let expectedIdentifier = PhoneNumberIdentifier(phoneNumber: "+12223334444", id: "some id")
+        let expectedIdentifier = PhoneNumberIdentifier(phoneNumber: "+12223334444", rawId: "some id")
 
         XCTAssertTrue(identifier is PhoneNumberIdentifier)
         XCTAssertEqual(expectedIdentifier.phoneNumber, (identifier as? PhoneNumberIdentifier)?.phoneNumber)
-        XCTAssertEqual(expectedIdentifier.id, (identifier as? PhoneNumberIdentifier)?.id)
+        XCTAssertEqual(expectedIdentifier.rawId, (identifier as? PhoneNumberIdentifier)?.rawId)
     }
 
     func test_SerializePhoneNumber_ExpectedIdString() throws {
@@ -95,7 +95,7 @@ class CommunicationIdentifierSerializerTests: XCTestCase {
 
     func serializePhoneNumber(expectedId: String?) throws {
         let model = try CommunicationIdentifierSerializer
-            .serialize(identifier: PhoneNumberIdentifier(phoneNumber: "+12223334444", id: expectedId))
+            .serialize(identifier: PhoneNumberIdentifier(phoneNumber: "+12223334444", rawId: expectedId))
 
         XCTAssertEqual(model.kind, .phoneNumber)
         XCTAssertEqual(model.phoneNumber, "+12223334444")
@@ -115,7 +115,7 @@ class CommunicationIdentifierSerializerTests: XCTestCase {
         let expectedIdentifier = MicrosoftTeamsUserIdentifier(
             userId: "user id",
             isAnonymous: false,
-            identifier: "some id",
+            rawId: "some id",
             cloudEnvironment: CommunicationCloudEnvironment.Gcch
         )
 
@@ -144,7 +144,7 @@ class CommunicationIdentifierSerializerTests: XCTestCase {
             .serialize(identifier: MicrosoftTeamsUserIdentifier(
                 userId: "user id",
                 isAnonymous: isAnonymous,
-                identifier: expectedId
+                rawId: expectedId
             ))
 
         XCTAssertEqual(model.kind, .microsoftTeamsUser)

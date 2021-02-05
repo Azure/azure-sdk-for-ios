@@ -44,7 +44,7 @@ public class CommunicationIdentifierSerializer {
             guard let phoneNumber = identifier.phoneNumber else {
                 throw AzureError.client("Can't serialize CommunicationIdentifierModel: phoneNumber is undefined.")
             }
-            return PhoneNumberIdentifier(phoneNumber: phoneNumber, id: id)
+            return PhoneNumberIdentifier(phoneNumber: phoneNumber, rawId: id)
         case .microsoftTeamsUser:
             guard let isAnonymous = identifier.isAnonymous else {
                 throw AzureError.client("Can't serialize CommunicationIdentifierModel: isAnonymous is undefined.")
@@ -55,7 +55,7 @@ public class CommunicationIdentifierSerializer {
             guard let cloud = identifier.cloud else {
                 throw AzureError.client("Can't serialize CommunicationIdentifierModel: cloud is undefined.")
             }
-            return MicrosoftTeamsUserIdentifier(userId: microsoftTeamsUserId, isAnonymous: isAnonymous, identifier:id, cloudEnvironment: try deserialize(model: cloud))
+            return MicrosoftTeamsUserIdentifier(userId: microsoftTeamsUserId, isAnonymous: isAnonymous, rawId: id, cloudEnvironment: try deserialize(model: cloud))
         default:
             return UnknownIdentifier(identifier: id)
         }
@@ -66,11 +66,11 @@ public class CommunicationIdentifierSerializer {
         case let userIdentifier as CommunicationUserIdentifier:
             return CommunicationIdentifierModel(kind: .communicationUser, id: userIdentifier.identifier)
         case let phoneNumberIdentifier as PhoneNumberIdentifier:
-            return CommunicationIdentifierModel(kind: .phoneNumber, id: phoneNumberIdentifier.id, phoneNumber: phoneNumberIdentifier.phoneNumber)
+            return CommunicationIdentifierModel(kind: .phoneNumber, id: phoneNumberIdentifier.rawId, phoneNumber: phoneNumberIdentifier.phoneNumber)
         case let microsoftTeamUserIdentifier as MicrosoftTeamsUserIdentifier:
             return CommunicationIdentifierModel(
                 kind: .microsoftTeamsUser,
-                id: microsoftTeamUserIdentifier.identifier,
+                id: microsoftTeamUserIdentifier.rawId,
                 microsoftTeamsUserId: microsoftTeamUserIdentifier.userId,
                 isAnonymous: microsoftTeamUserIdentifier.isAnonymous,
                 cloud: try serialize(cloud: microsoftTeamUserIdentifier.cloudEnviroment)
