@@ -45,20 +45,6 @@ import Foundation
 }
 
 /**
- Communication identifier for Communication Services Applications
- */
-@objcMembers public class CallingApplicationIdentifier: NSObject, CommunicationIdentifier {
-    public let identifier: String
-    /**
-     Creates a CallingApplicationIdentifier object
-     - Parameter identifier: identifier representing the object identity
-     */
-    public init(identifier: String) {
-        self.identifier = identifier
-    }
-}
-
-/**
  Catch-all for all other Communication identifiers for Communication Services
  */
 @objcMembers public class UnknownIdentifier: NSObject, CommunicationIdentifier {

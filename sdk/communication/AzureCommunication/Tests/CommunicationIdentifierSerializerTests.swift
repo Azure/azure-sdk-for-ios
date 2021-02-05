@@ -70,24 +70,6 @@ class CommunicationIdentifierSerializerTests: XCTestCase {
         XCTAssertEqual(model.id, "some id")
     }
 
-    func test_DeserializeCallingApplication() throws {
-        let identifier = try CommunicationIdentifierSerializer
-            .deserialize(identifier: CommunicationIdentifierModel(kind: .callingApplication, id: "some id"))
-
-        let expectedIdentifier = CallingApplicationIdentifier(identifier: "some id")
-
-        XCTAssertTrue(identifier is CallingApplicationIdentifier)
-        XCTAssertEqual(expectedIdentifier.identifier, (identifier as? CallingApplicationIdentifier)?.identifier)
-    }
-
-    func test_SerializeCallingApplication() throws {
-        let model = try CommunicationIdentifierSerializer
-            .serialize(identifier: CallingApplicationIdentifier(identifier: "some id"))
-
-        XCTAssertEqual(model.kind, .callingApplication)
-        XCTAssertEqual(model.id, "some id")
-    }
-
     func test_DeserializePhoneNumber() throws {
         let identifier = try CommunicationIdentifierSerializer
             .deserialize(identifier: CommunicationIdentifierModel(
