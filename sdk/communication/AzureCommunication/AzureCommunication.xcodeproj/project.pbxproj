@@ -16,7 +16,6 @@
 		7AAE2D17251444B600C9F897 /* CommunicationPolicyTokenCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AAE2D16251444B600C9F897 /* CommunicationPolicyTokenCredential.swift */; };
 		8803BF4E25CC8C7D004A3C8C /* CommunicationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8803BF4725CC8C7D004A3C8C /* CommunicationError.swift */; };
 		8803BF4F25CC8C7D004A3C8C /* CommunicationUserIdentifierModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8803BF4825CC8C7D004A3C8C /* CommunicationUserIdentifierModel.swift */; };
-		8803BF5025CC8C7D004A3C8C /* CommunicationErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8803BF4925CC8C7D004A3C8C /* CommunicationErrorResponse.swift */; };
 		8803BF5125CC8C7D004A3C8C /* Enumerations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8803BF4A25CC8C7D004A3C8C /* Enumerations.swift */; };
 		8803BF5225CC8C7D004A3C8C /* PhoneNumberIdentifierModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8803BF4B25CC8C7D004A3C8C /* PhoneNumberIdentifierModel.swift */; };
 		8803BF5325CC8C7D004A3C8C /* MicrosoftTeamsUserIdentifierModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8803BF4C25CC8C7D004A3C8C /* MicrosoftTeamsUserIdentifierModel.swift */; };
@@ -64,9 +63,7 @@
 		73DFF8D8D93685E64E46AD1B /* Pods-AzureCommunication.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunication.debug.xcconfig"; path = "Target Support Files/Pods-AzureCommunication/Pods-AzureCommunication.debug.xcconfig"; sourceTree = "<group>"; };
 		7AAE2D16251444B600C9F897 /* CommunicationPolicyTokenCredential.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunicationPolicyTokenCredential.swift; sourceTree = "<group>"; };
 		7AB0952825BF895B0026A2A5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		8803BF4725CC8C7D004A3C8C /* CommunicationError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunicationError.swift; sourceTree = "<group>"; };
 		8803BF4825CC8C7D004A3C8C /* CommunicationUserIdentifierModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunicationUserIdentifierModel.swift; sourceTree = "<group>"; };
-		8803BF4925CC8C7D004A3C8C /* CommunicationErrorResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunicationErrorResponse.swift; sourceTree = "<group>"; };
 		8803BF4A25CC8C7D004A3C8C /* Enumerations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enumerations.swift; sourceTree = "<group>"; };
 		8803BF4B25CC8C7D004A3C8C /* PhoneNumberIdentifierModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneNumberIdentifierModel.swift; sourceTree = "<group>"; };
 		8803BF4C25CC8C7D004A3C8C /* MicrosoftTeamsUserIdentifierModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MicrosoftTeamsUserIdentifierModel.swift; sourceTree = "<group>"; };
@@ -207,9 +204,7 @@
 		8803BF4625CC8C7D004A3C8C /* Generated */ = {
 			isa = PBXGroup;
 			children = (
-				8803BF4725CC8C7D004A3C8C /* CommunicationError.swift */,
 				8803BF4825CC8C7D004A3C8C /* CommunicationUserIdentifierModel.swift */,
-				8803BF4925CC8C7D004A3C8C /* CommunicationErrorResponse.swift */,
 				8803BF4A25CC8C7D004A3C8C /* Enumerations.swift */,
 				8803BF4B25CC8C7D004A3C8C /* PhoneNumberIdentifierModel.swift */,
 				8803BF4C25CC8C7D004A3C8C /* MicrosoftTeamsUserIdentifierModel.swift */,
@@ -399,7 +394,6 @@
 				F183A5EB24AF9D9000F0E0D5 /* CommunicationTokenCredentialProviding.swift in Sources */,
 				1D2E7F7024E4589100447964 /* Identifiers.swift in Sources */,
 				F1540E9825BF83D80056B087 /* CommunicationIdentifierSerializer.swift in Sources */,
-				8803BF5025CC8C7D004A3C8C /* CommunicationErrorResponse.swift in Sources */,
 				8856CEAC253A376D00044559 /* CommunicationAccessToken.swift in Sources */,
 				1DE4DB7924C1063E00631921 /* ThreadSafeRefreshableAccessTokenCache.swift in Sources */,
 				1DE4DB7724C0FE8300631921 /* AutoRefreshTokenCredential.swift in Sources */,
@@ -409,7 +403,6 @@
 				7AAE2D17251444B600C9F897 /* CommunicationPolicyTokenCredential.swift in Sources */,
 				8803BF4F25CC8C7D004A3C8C /* CommunicationUserIdentifierModel.swift in Sources */,
 				8803BF5325CC8C7D004A3C8C /* MicrosoftTeamsUserIdentifierModel.swift in Sources */,
-				8803BF4E25CC8C7D004A3C8C /* CommunicationError.swift in Sources */,
 				F183A5FC24AFEF1400F0E0D5 /* CommunicationTokenCredential.swift in Sources */,
 				8803BF5225CC8C7D004A3C8C /* PhoneNumberIdentifierModel.swift in Sources */,
 				F183A5FE24AFF1B100F0E0D5 /* JwtTokenParser.swift in Sources */,
