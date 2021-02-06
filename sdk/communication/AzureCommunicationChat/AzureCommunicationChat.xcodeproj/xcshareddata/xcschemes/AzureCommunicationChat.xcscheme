@@ -38,6 +38,16 @@
                ReferencedContainer = "container:AzureCommunicationChat.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D147E62725CE242C001CFB5D"
+               BuildableName = "AzureCommunicationChatUnitTests.xctest"
+               BlueprintName = "AzureCommunicationChatUnitTests"
+               ReferencedContainer = "container:AzureCommunicationChat.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

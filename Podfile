@@ -43,6 +43,11 @@ target 'AzureCommunicationChat' do
     inherit! :search_paths
     pod 'OHHTTPStubs/Swift'
   end
+  
+  target 'AzureCommunicationChatUnitTests' do
+    inherit! :search_paths
+    pod 'OHHTTPStubs/Swift'
+  end
 end
 
 target 'AzureCore' do
