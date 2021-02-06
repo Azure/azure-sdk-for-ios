@@ -91,9 +91,17 @@ let package = Package(
         ),
         .testTarget(
             name: "AzureCommunicationChatTests",
-            dependencies: ["AzureCommunication", "AzureCommunicationChat", "OHHTTPStubsSwift"],
+            dependencies: [
+                "AzureCommunication",
+                "AzureCommunicationChat",
+                .product(name: "OHHTTPStubsSwift", package: "OHHTTPStubs"),
+            ],
             path: "sdk/communication/AzureCommunicationChat",
-            exclude: ["Tests/Info.plist"],
+            exclude: [
+                "Tests/Info.plist",
+                "Tests/Util/Mocks",
+                "Tests/Util/Recordings"
+            ],
             sources: ["Tests"]
         )
     ],
