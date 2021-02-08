@@ -16,45 +16,45 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Request payload for creating a chat thread.
-public struct CreateChatThreadRequest: Codable, Equatable {
+public struct CreateChatThreadRequest: Codable {
     // MARK: Properties
 
     /// The chat thread topic.
     public let topic: String
-    /// Members to be added to the chat thread.
-    public let members: [ChatThreadMember]
+    /// Participants to be added to the chat thread.
+    public let participants: [ChatParticipant]
 
     // MARK: Initializers
 
     /// Initialize a `CreateChatThreadRequest` structure.
     /// - Parameters:
     ///   - topic: The chat thread topic.
-    ///   - members: Members to be added to the chat thread.
+    ///   - participants: Participants to be added to the chat thread.
     public init(
-        topic: String, members: [ChatThreadMember]
+        topic: String, participants: [ChatParticipant]
     ) {
         self.topic = topic
-        self.members = members
+        self.participants = participants
     }
 
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
         case topic = "topic"
-        case members = "members"
+        case participants = "participants"
     }
 
     /// Initialize a `CreateChatThreadRequest` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.topic = try container.decode(String.self, forKey: .topic)
-        self.members = try container.decode([ChatThreadMember].self, forKey: .members)
+        self.participants = try container.decode([ChatParticipant].self, forKey: .participants)
     }
 
     /// Encode a `CreateChatThreadRequest` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(topic, forKey: .topic)
-        try container.encode(members, forKey: .members)
+        try container.encode(participants, forKey: .participants)
     }
 }

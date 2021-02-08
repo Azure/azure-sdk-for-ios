@@ -15,16 +15,17 @@ import Foundation
 // swiftlint:disable line_length
 // swiftlint:disable cyclomatic_complexity
 
-public struct ChatThreadInfo: Codable, Equatable {
+/// Summary information of a chat thread.
+public struct ChatThreadInfo: Codable {
     // MARK: Properties
 
     /// Chat thread id.
-    public let id: String?
+    public let id: String
     /// Chat thread topic.
-    public let topic: String?
-    /// Flag if a chat thread is soft deleted.
-    public let isDeleted: Bool?
-    /// The timestamp when the last message arrived at the server. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    public let topic: String
+    /// The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    public let deletedOn: Iso8601Date?
+    /// The timestamp when the last message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public let lastMessageReceivedOn: Iso8601Date?
 
     // MARK: Initializers
@@ -33,14 +34,14 @@ public struct ChatThreadInfo: Codable, Equatable {
     /// - Parameters:
     ///   - id: Chat thread id.
     ///   - topic: Chat thread topic.
-    ///   - isDeleted: Flag if a chat thread is soft deleted.
-    ///   - lastMessageReceivedOn: The timestamp when the last message arrived at the server. The timestamp is in ISO8601 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    ///   - deletedOn: The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    ///   - lastMessageReceivedOn: The timestamp when the last message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public init(
-        id: String? = nil, topic: String? = nil, isDeleted: Bool? = nil, lastMessageReceivedOn: Iso8601Date? = nil
+        id: String, topic: String, deletedOn: Iso8601Date? = nil, lastMessageReceivedOn: Iso8601Date? = nil
     ) {
         self.id = id
         self.topic = topic
-        self.isDeleted = isDeleted
+        self.deletedOn = deletedOn
         self.lastMessageReceivedOn = lastMessageReceivedOn
     }
 
@@ -49,25 +50,25 @@ public struct ChatThreadInfo: Codable, Equatable {
     enum CodingKeys: String, CodingKey {
         case id = "id"
         case topic = "topic"
-        case isDeleted = "isDeleted"
+        case deletedOn = "deletedOn"
         case lastMessageReceivedOn = "lastMessageReceivedOn"
     }
 
     /// Initialize a `ChatThreadInfo` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try? container.decode(String.self, forKey: .id)
-        self.topic = try? container.decode(String.self, forKey: .topic)
-        self.isDeleted = try? container.decode(Bool.self, forKey: .isDeleted)
+        self.id = try container.decode(String.self, forKey: .id)
+        self.topic = try container.decode(String.self, forKey: .topic)
+        self.deletedOn = try? container.decode(Iso8601Date.self, forKey: .deletedOn)
         self.lastMessageReceivedOn = try? container.decode(Iso8601Date.self, forKey: .lastMessageReceivedOn)
     }
 
     /// Encode a `ChatThreadInfo` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        if id != nil { try? container.encode(id, forKey: .id) }
-        if topic != nil { try? container.encode(topic, forKey: .topic) }
-        if isDeleted != nil { try? container.encode(isDeleted, forKey: .isDeleted) }
+        try container.encode(id, forKey: .id)
+        try container.encode(topic, forKey: .topic)
+        if deletedOn != nil { try? container.encode(deletedOn, forKey: .deletedOn) }
         if lastMessageReceivedOn != nil { try? container.encode(lastMessageReceivedOn, forKey: .lastMessageReceivedOn) }
     }
 }

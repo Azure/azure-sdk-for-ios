@@ -11,32 +11,50 @@
 import AzureCore
 import Foundation
 
-/// The chat message priority.
-public enum ChatMessagePriority: RequestStringConvertible, Codable, Equatable {
+/// The chat message type.
+public enum ChatMessageType: RequestStringConvertible, Codable, Equatable {
     /// Custom value for unrecognized enum values
     case custom(String)
 
-    case normal
+    case text
 
-    case high
+    case html
+
+    case topicUpdated
+
+    case participantAdded
+
+    case participantRemoved
 
     public var requestString: String {
         switch self {
         case let .custom(val):
             return val
-        case .normal:
-            return "Normal"
-        case .high:
-            return "High"
+        case .text:
+            return "text"
+        case .html:
+            return "html"
+        case .topicUpdated:
+            return "topicUpdated"
+        case .participantAdded:
+            return "participantAdded"
+        case .participantRemoved:
+            return "participantRemoved"
         }
     }
 
     public init(_ val: String) {
         switch val.lowercased() {
-        case "normal":
-            self = .normal
-        case "high":
-            self = .high
+        case "text":
+            self = .text
+        case "html":
+            self = .html
+        case "topicupdated":
+            self = .topicUpdated
+        case "participantadded":
+            self = .participantAdded
+        case "participantremoved":
+            self = .participantRemoved
         default:
             self = .custom(val)
         }

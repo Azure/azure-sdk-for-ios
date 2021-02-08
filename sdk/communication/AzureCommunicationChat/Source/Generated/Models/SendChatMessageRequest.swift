@@ -16,52 +16,52 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Details of the message to send.
-public struct SendChatMessageRequest: Codable, Equatable {
+public struct SendChatMessageRequest: Codable {
     // MARK: Properties
 
-    /// The chat message priority.
-    public let priority: ChatMessagePriority?
     /// Chat message content.
     public let content: String
     /// The display name of the chat message sender. This property is used to populate sender name for push notifications.
     public let senderDisplayName: String?
+    /// The chat message type.
+    public let type: ChatMessageType?
 
     // MARK: Initializers
 
     /// Initialize a `SendChatMessageRequest` structure.
     /// - Parameters:
-    ///   - priority: The chat message priority.
     ///   - content: Chat message content.
     ///   - senderDisplayName: The display name of the chat message sender. This property is used to populate sender name for push notifications.
+    ///   - type: The chat message type.
     public init(
-        priority: ChatMessagePriority? = nil, content: String, senderDisplayName: String? = nil
+        content: String, senderDisplayName: String? = nil, type: ChatMessageType? = nil
     ) {
-        self.priority = priority
         self.content = content
         self.senderDisplayName = senderDisplayName
+        self.type = type
     }
 
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case priority = "priority"
         case content = "content"
         case senderDisplayName = "senderDisplayName"
+        case type = "type"
     }
 
     /// Initialize a `SendChatMessageRequest` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.priority = try? container.decode(ChatMessagePriority.self, forKey: .priority)
         self.content = try container.decode(String.self, forKey: .content)
         self.senderDisplayName = try? container.decode(String.self, forKey: .senderDisplayName)
+        self.type = try? container.decode(ChatMessageType.self, forKey: .type)
     }
 
     /// Encode a `SendChatMessageRequest` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        if priority != nil { try? container.encode(priority, forKey: .priority) }
         try container.encode(content, forKey: .content)
         if senderDisplayName != nil { try? container.encode(senderDisplayName, forKey: .senderDisplayName) }
+        if type != nil { try? container.encode(type, forKey: .type) }
     }
 }

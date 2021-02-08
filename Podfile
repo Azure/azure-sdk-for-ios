@@ -28,6 +28,28 @@ use_frameworks!
 platform :ios, '12.0'
 workspace 'AzureSDK'
 
+target 'AzureCommunication' do
+  project 'sdk/communication/AzureCommunication/AzureCommunication'
+
+  target 'AzureCommunicationTests' do
+    inherit! :search_paths
+  end
+end
+
+target 'AzureCommunicationChat' do
+  project 'sdk/communication/AzureCommunicationChat/AzureCommunicationChat'
+
+  target 'AzureCommunicationChatTests' do
+    inherit! :search_paths
+    pod 'OHHTTPStubs/Swift'
+  end
+  
+  target 'AzureCommunicationChatUnitTests' do
+    inherit! :search_paths
+    pod 'OHHTTPStubs/Swift'
+  end
+end
+
 target 'AzureCore' do
   project 'sdk/core/AzureCore/AzureCore'
 

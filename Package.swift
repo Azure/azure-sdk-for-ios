@@ -39,7 +39,9 @@ let package = Package(
         .library(name: "AzureCommunication", targets: ["AzureCommunication"]),
         .library(name: "AzureCommunicationChat", targets: ["AzureCommunicationChat"]),
     ],
-    dependencies: [],
+    dependencies: [
+        .package(url: "https://github.com/AliSoftware/OHHTTPStubs.git", from: "9.1.0")
+    ],
     targets: [
         // Build targets
         .target(
@@ -58,7 +60,7 @@ let package = Package(
         ),
         .target(
             name: "AzureCommunicationChat",
-            dependencies: ["AzureCore"],
+            dependencies: ["AzureCore", "AzureCommunication"],
             path: "sdk/communication/AzureCommunicationChat",
             exclude: ["Source/Supporting Files"],
             sources: ["Source"]
@@ -69,8 +71,8 @@ let package = Package(
             dependencies: ["AzureCore"],
             path: "sdk/core/AzureCore",
             exclude: [
-              "Tests/Info.plist",
-              "Tests/Data Files"
+                "Tests/Info.plist",
+                "Tests/Data Files"
             ],
             sources: ["Tests"]
         ),
@@ -84,6 +86,21 @@ let package = Package(
                 "Tests/ObjCCommunicationTokenCredentialTests.m",
                 "Tests/ObjCCommunicationTokenCredentialAsyncTests.m",
                 "Tests/ObjCTokenParserTests.m"
+            ],
+            sources: ["Tests"]
+        ),
+        .testTarget(
+            name: "AzureCommunicationChatTests",
+            dependencies: [
+                "AzureCommunication",
+                "AzureCommunicationChat",
+                .product(name: "OHHTTPStubsSwift", package: "OHHTTPStubs"),
+            ],
+            path: "sdk/communication/AzureCommunicationChat",
+            exclude: [
+                "Tests/Info.plist",
+                "Tests/Util/Mocks",
+                "Tests/Util/Recordings"
             ],
             sources: ["Tests"]
         )

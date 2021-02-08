@@ -1,0 +1,5 @@
+{
+    "code": "401",
+    "message": "Unauthorized",
+    "target": "test_participant_id"
+}
