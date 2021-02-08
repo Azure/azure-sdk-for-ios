@@ -102,7 +102,6 @@
 		D1CD93E4258D6EF700409613 /* sendTypingNotification.json in Resources */ = {isa = PBXBuildFile; fileRef = D1CD93E3258D6EF700409613 /* sendTypingNotification.json */; };
 		D1CD93E8258D6F0600409613 /* updateMessage.json in Resources */ = {isa = PBXBuildFile; fileRef = D1CD93E7258D6F0600409613 /* updateMessage.json */; };
 		D1CD93EC258D6F1300409613 /* updateTopic.json in Resources */ = {isa = PBXBuildFile; fileRef = D1CD93EB258D6F1300409613 /* updateTopic.json */; };
-		D1D829BE25D1FFD700AC3CF3 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1D829BC25D1FFD700AC3CF3 /* Package.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -759,7 +758,6 @@
 				D15E992425B7C80C00E63DB2 /* ChatParticipant.swift in Sources */,
 				D15E991025B7C80C00E63DB2 /* SendChatMessageRequest.swift in Sources */,
 				D15E990825B7C80C00E63DB2 /* ChatThreadOperation+ListChatMessagesOptions.swift in Sources */,
-				D1D829BE25D1FFD700AC3CF3 /* Package.swift in Sources */,
 				D16C804325BA402100C42803 /* CreateThreadRequest.swift in Sources */,
 				D15E98FE25B7C80C00E63DB2 /* Chat+ListChatThreadsOptions.swift in Sources */,
 				D15E991C25B7C80C00E63DB2 /* ChatThreadsInfoCollection.swift in Sources */,
