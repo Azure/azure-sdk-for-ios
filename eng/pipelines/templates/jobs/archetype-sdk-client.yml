@@ -179,6 +179,7 @@ jobs:
                      -destination "platform=iOS Simulator,OS=$(SimulatorVersion),name=$(SimulatorDevice)" \
                      -configuration Debug \
                      -sdk iphonesimulator \
+                     -derivedDataPath $(Build.ArtifactStagingDirectory) \
                      -enableCodeCoverage YES \
                      test 
         displayName: 'Build and test libraries'
