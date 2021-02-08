@@ -3,8 +3,6 @@
 ## 1.0.0-beta.8 (Unreleased)
 
 ### New Features
-- Azure Communication Common Library
- - Renamed the type `CommunicationUserCredential` to `CommunicationTokenCredential`, as it represents a token.
 
 - Azure Communication Chat Library
  - Introduced ChatClient and ChatThreadClient to split operations on threads and operations within a particular thread
@@ -13,6 +11,7 @@
 
 ### Breaking Changes
 - Azure Communication Common Library
+ - Renamed the type `CommunicationUserCredential` to `CommunicationTokenCredential`, as it represents a token.
  - Communication identifier `MicrosoftTeamsUserIdentifier` property `identifier` renamed to `userId` since identifier was too generic.
  - Communication identifier `MicrosoftTeamsUserIdentifier` property `id` renamed to `rawId` to represent full MRI.
  - Communication identifier `PhoneNumberIdentifier` property `id` renamed to `rawId` to represent full MRI.
