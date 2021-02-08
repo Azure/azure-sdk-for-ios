@@ -2,6 +2,15 @@
 
 ## 1.0.0-beta.8 (Unreleased)
 
+### New Features
+- Azure Communication Common Library
+ - Renamed the type `CommunicationUserCredential` to `CommunicationTokenCredential`, as it represents a token.
+
+- Azure Communication Chat Library
+ - Introduced ChatClient and ChatThreadClient to split operations on threads and operations within a particular thread
+ - Create thread sets repeatability-Request-ID for idempotency if not provided
+ - Introduced MessageContent model to replace string content property
+
 ### Breaking Changes
 - Azure Communication Common Library
  - Communication identifier `MicrosoftTeamsUserIdentifier` property `identifier` renamed to `userId` since identifier was too generic.
@@ -10,12 +19,9 @@
  - Removed `CallingApplicationIdentifier` as it is currently unused by any service.
 
 - Azure Communication Chat Library
- - Introduced ChatClient and ChatThreadClient to split operations on threads and operations within a particular thread
  - ChatThreadMember renamed to Participant, uses CommunicationUserIdentifier
  - ChatMessage renamed to Message, uses CommunicationUserIdentifier
  - ChatThread renamed to Thread, uses CommunicationUserIdentifier
- - Introduced MessageContent model
- - Create thread sets repeatability-Request-ID for idempotency if not provided
  
 ## 1.0.0-beta.7 (2021-01-12)
 
@@ -30,7 +36,6 @@
 
 ### Breaking Changes
 - Azure Communication Common Library
-  - Renamed the type `CommunicationUserCredential` to `CommunicationTokenCredential`, as it represents a token.
   - The protocol `CommunicationTokenCredential` has likewise been renamed to `CommunicationTokenCredentialProviding`.
   - All types that conform to the `CommunicationIdentifier` protocol now use the suffix `Identifier`. For example, the
     `PhoneNumber` type used to represent a phone number identifier is now named `PhoneNumberIdentifier`.
