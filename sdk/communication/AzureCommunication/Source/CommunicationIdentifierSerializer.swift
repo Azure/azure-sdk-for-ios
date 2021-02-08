@@ -32,7 +32,7 @@ import Foundation
 public class CommunicationIdentifierSerializer {
     static func deserialize(identifier: CommunicationIdentifierModel) throws -> CommunicationIdentifier {
         guard let rawId = identifier.rawId else {
-            throw AzureError.client("Can't serialize CommunicationIdentifierModel: id is undefined.")
+            throw AzureError.client("Can't serialize CommunicationIdentifierModel: rawId is undefined.")
         }
 
         try assertOneNestedModel(identifier)
@@ -80,9 +80,11 @@ public class CommunicationIdentifierSerializer {
 
         if let _ = identifier.communicationUser {
             presentProperties.append("communicationUser")
-        } else if let _ = identifier.phoneNumber {
+        }
+        if let _ = identifier.phoneNumber {
             presentProperties.append("phoneNumber")
-        } else if let _ = identifier.microsoftTeamsUser {
+        }
+        if let _ = identifier.microsoftTeamsUser {
             presentProperties.append("microsoftTeamsUser")
         }
 

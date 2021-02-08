@@ -34,7 +34,7 @@ public struct MicrosoftTeamsUserIdentifierModel: Codable, Equatable {
     ///   - isAnonymous: True if the Microsoft Teams user is anonymous. By default false if missing.
     ///   - cloud: The cloud that the Microsoft Teams user belongs to. By default 'public' if missing.
     public init(
-        userId: String, isAnonymous: Bool? = nil, cloud: CommunicationCloudEnvironmentModel? = nil
+        userId: String, isAnonymous: Bool? = false, cloud: CommunicationCloudEnvironmentModel? = .public
     ) {
         self.userId = userId
         self.isAnonymous = isAnonymous

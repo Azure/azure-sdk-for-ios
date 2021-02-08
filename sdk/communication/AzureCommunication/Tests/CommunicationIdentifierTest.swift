@@ -34,54 +34,70 @@ import XCTest
 #endif
 
 class CommunicationIdentifierTest: XCTestCase {
+    let testUserId = "User Id";
+    let testRawId = "Raw Id";
+    let testPhoneNumber = "+12223334444";
+    let testTeamsUserId = "Microsoft Teams User Id";
+
     func test_IfIdIsOptional_EqualityOnlyTestIfPresentOnBothSide() throws {
         XCTAssertTrue(
-            MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: true, rawId: "some id") ==
-                MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: true)
+            MicrosoftTeamsUserIdentifier(userId: "user id",
+                                         isAnonymous: true,
+                                         rawId: testRawId) ==
+                MicrosoftTeamsUserIdentifier(userId: "user id",
+                                             isAnonymous: true)
         )
         XCTAssertTrue(
-            MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: true, rawId: "some id") ==
-                MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: true)
+            MicrosoftTeamsUserIdentifier(userId: "user id",
+                                         isAnonymous: true) ==
+                MicrosoftTeamsUserIdentifier(userId: "user id",
+                                             isAnonymous: true)
         )
         XCTAssertTrue(
-            MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: true) ==
-                MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: true)
-        )
-        XCTAssertTrue(
-            MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: true) ==
-                MicrosoftTeamsUserIdentifier(
-                    userId: "user id",
-                    isAnonymous: true,
-                    rawId: "some id"
+            MicrosoftTeamsUserIdentifier(userId: "user id",
+                                         isAnonymous: true) ==
+                MicrosoftTeamsUserIdentifier(userId: "user id",
+                                             isAnonymous: true,
+                                             rawId: testRawId
                 )
         )
         XCTAssertFalse(
-            MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: true, rawId: "some id") ==
-                MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: true, rawId: "another id")
+            MicrosoftTeamsUserIdentifier(userId: "user id",
+                                         isAnonymous: true,
+                                         rawId: "some id") ==
+                MicrosoftTeamsUserIdentifier(userId: "user id",
+                                             isAnonymous: true,
+                                             rawId: testRawId)
         )
 
         XCTAssertTrue(
-            PhoneNumberIdentifier(phoneNumber: "+12223334444", rawId: "some id") ==
-                PhoneNumberIdentifier(phoneNumber: "+12223334444")
+            PhoneNumberIdentifier(phoneNumber: testPhoneNumber,
+                                  rawId: testRawId) ==
+                PhoneNumberIdentifier(phoneNumber: testPhoneNumber)
         )
         XCTAssertTrue(
-            PhoneNumberIdentifier(phoneNumber: "+12223334444") ==
-                PhoneNumberIdentifier(phoneNumber: "+12223334444")
+            PhoneNumberIdentifier(phoneNumber: testPhoneNumber) ==
+                PhoneNumberIdentifier(phoneNumber: testPhoneNumber)
         )
         XCTAssertTrue(
-            PhoneNumberIdentifier(phoneNumber: "+12223334444") ==
-                PhoneNumberIdentifier(phoneNumber: "+12223334444", rawId: "some id")
+            PhoneNumberIdentifier(phoneNumber: testPhoneNumber) ==
+                PhoneNumberIdentifier(phoneNumber: testPhoneNumber,
+                                      rawId: testRawId)
         )
         XCTAssertFalse(
-            PhoneNumberIdentifier(phoneNumber: "+12223334444", rawId: "some id") ==
-                PhoneNumberIdentifier(phoneNumber: "+12223334444", rawId: "another id")
+            PhoneNumberIdentifier(phoneNumber: testPhoneNumber,
+                                  rawId: "some id") ==
+                PhoneNumberIdentifier(phoneNumber: testPhoneNumber,
+                                      rawId: testRawId)
         )
     }
 
     func test_MicrosoftTeamsUserIdentifier_DefaultCloudIsPublic() throws {
         XCTAssertEqual(
             CommunicationCloudEnvironment.Public,
-            MicrosoftTeamsUserIdentifier(userId: "user id", isAnonymous: true, rawId: "some id").cloudEnviroment
+            MicrosoftTeamsUserIdentifier(userId: "user id",
+                                         isAnonymous: true,
+                                         rawId: testRawId).cloudEnviroment
         )
     }
 }
