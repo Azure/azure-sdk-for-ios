@@ -7,7 +7,15 @@
  - Communication identifier `MicrosoftTeamsUserIdentifier` property `identifier` renamed to `userId` since identifier was too generic.
  - Communication identifier `MicrosoftTeamsUserIdentifier` property `id` renamed to `rawId` to represent full MRI.
  - Communication identifier `PhoneNumberIdentifier` property `id` renamed to `rawId` to represent full MRI.
- - Removed `CallingApplicationIdentifier` as it is currently unused by any service. 
+ - Removed `CallingApplicationIdentifier` as it is currently unused by any service.
+
+- Azure Communication Chat Library
+ - Introduced ChatClient and ChatThreadClient to split operations on threads and operations within a particular thread
+ - ChatThreadMember renamed to Participant, uses CommunicationUserIdentifier
+ - ChatMessage renamed to Message, uses CommunicationUserIdentifier
+ - ChatThread renamed to Thread, uses CommunicationUserIdentifier
+ - Introduced MessageContent model
+ - Create thread sets repeatability-Request-ID for idempotency if not provided
  
 ## 1.0.0-beta.7 (2021-01-12)
 
