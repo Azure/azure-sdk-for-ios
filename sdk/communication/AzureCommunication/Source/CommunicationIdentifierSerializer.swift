@@ -31,65 +31,34 @@ import Foundation
 
 public class CommunicationIdentifierSerializer {
     static func deserialize(identifier: CommunicationIdentifierModel) throws -> CommunicationIdentifier {
-        let kind = identifier.kind
-
-        guard let id = identifier.id else {
+        guard let rawId = identifier.rawId else {
             throw AzureError.client("Can't serialize CommunicationIdentifierModel: id is undefined.")
         }
 
-        switch kind {
-        case .communicationUser:
-            return CommunicationUserIdentifier(identifier: id)
-        case .phoneNumber:
-            guard let phoneNumber = identifier.phoneNumber else {
-                throw AzureError.client("Can't serialize CommunicationIdentifierModel: phoneNumber is undefined.")
-            }
-            return PhoneNumberIdentifier(phoneNumber: phoneNumber, rawId: id)
-        case .microsoftTeamsUser:
-            guard let isAnonymous = identifier.isAnonymous else {
+        try assertOneNestedModel(identifier)
+
+        if let communicationUser = identifier.communicationUser {
+            return CommunicationUserIdentifier(identifier: communicationUser.id)
+        } else if let phoneNumber = identifier.phoneNumber {
+            return PhoneNumberIdentifier(phoneNumber: phoneNumber.value, rawId: rawId)
+        } else if let microsoftTeamsUser = identifier.microsoftTeamsUser {
+            guard let isAnonymous = microsoftTeamsUser.isAnonymous else {
                 throw AzureError.client("Can't serialize CommunicationIdentifierModel: isAnonymous is undefined.")
             }
-            guard let microsoftTeamsUserId = identifier.microsoftTeamsUserId else {
-                throw AzureError
-                    .client("Can't serialize CommunicationIdentifierModel: microsoftTeamsUserId is undefined.")
-            }
-            guard let cloud = identifier.cloud else {
+
+            guard let cloud = microsoftTeamsUser.cloud else {
                 throw AzureError.client("Can't serialize CommunicationIdentifierModel: cloud is undefined.")
             }
+
             return MicrosoftTeamsUserIdentifier(
-                userId: microsoftTeamsUserId,
+                userId: microsoftTeamsUser.userId,
                 isAnonymous: isAnonymous,
-                rawId: id,
+                rawId: rawId,
                 cloudEnvironment: try deserialize(model: cloud)
             )
-        default:
-            return UnknownIdentifier(identifier: id)
         }
-    }
 
-    static func serialize(identifier: CommunicationIdentifier) throws -> CommunicationIdentifierModel {
-        switch identifier {
-        case let userIdentifier as CommunicationUserIdentifier:
-            return CommunicationIdentifierModel(kind: .communicationUser, id: userIdentifier.identifier)
-        case let phoneNumberIdentifier as PhoneNumberIdentifier:
-            return CommunicationIdentifierModel(
-                kind: .phoneNumber,
-                id: phoneNumberIdentifier.rawId,
-                phoneNumber: phoneNumberIdentifier.phoneNumber
-            )
-        case let microsoftTeamUserIdentifier as MicrosoftTeamsUserIdentifier:
-            return CommunicationIdentifierModel(
-                kind: .microsoftTeamsUser,
-                id: microsoftTeamUserIdentifier.rawId,
-                microsoftTeamsUserId: microsoftTeamUserIdentifier.userId,
-                isAnonymous: microsoftTeamUserIdentifier.isAnonymous,
-                cloud: try serialize(cloud: microsoftTeamUserIdentifier.cloudEnviroment)
-            )
-        case let unknownIdentifier as UnknownIdentifier:
-            return CommunicationIdentifierModel(kind: .unknown, id: unknownIdentifier.identifier)
-        default:
-            throw AzureError.client("Not support kind in CommunicationIdentifier.")
-        }
+        return UnknownIdentifier(identifier: rawId)
     }
 
     private static func deserialize(model: CommunicationCloudEnvironmentModel) throws -> CommunicationCloudEnvironment {
@@ -104,6 +73,69 @@ public class CommunicationIdentifierSerializer {
         }
 
         return CommunicationCloudEnvironment(environmentValue: model.requestString)
+    }
+
+    static func assertOneNestedModel(_ identifier: CommunicationIdentifierModel) throws {
+        var presentProperties = [String]()
+
+        if let _ = identifier.communicationUser {
+            presentProperties.append("communicationUser")
+        } else if let _ = identifier.phoneNumber {
+            presentProperties.append("phoneNumber")
+        } else if let _ = identifier.microsoftTeamsUser {
+            presentProperties.append("microsoftTeamsUser")
+        }
+
+        if presentProperties.count > 1 {
+            throw AzureError.client("Only one property should be present")
+        }
+    }
+
+    static func serialize(identifier: CommunicationIdentifier) throws -> CommunicationIdentifierModel {
+        switch identifier {
+        case let user as CommunicationUserIdentifier:
+            return CommunicationIdentifierModel(
+                rawId: nil,
+                communicationUser: CommunicationUserIdentifierModel(
+                    id: user
+                        .identifier
+                ),
+                phoneNumber: nil,
+                microsoftTeamsUser: nil
+            )
+        case let phoneNumber as PhoneNumberIdentifier:
+            return CommunicationIdentifierModel(
+                rawId: phoneNumber.rawId,
+                communicationUser: nil,
+                phoneNumber: PhoneNumberIdentifierModel(value: phoneNumber.phoneNumber),
+                microsoftTeamsUser: nil
+            )
+        case let teamsUser as MicrosoftTeamsUserIdentifier:
+            return try CommunicationIdentifierModel(
+                rawId: teamsUser.rawId,
+                communicationUser: nil,
+                phoneNumber: nil,
+                microsoftTeamsUser:
+                MicrosoftTeamsUserIdentifierModel(
+                    userId: teamsUser.userId,
+                    isAnonymous: teamsUser
+                        .isAnonymous,
+                    cloud: serialize(
+                        cloud: teamsUser
+                            .cloudEnviroment
+                    )
+                )
+            )
+        case let unknown as UnknownIdentifier:
+            return CommunicationIdentifierModel(
+                rawId: unknown.identifier,
+                communicationUser: nil,
+                phoneNumber: nil,
+                microsoftTeamsUser: nil
+            )
+        default:
+            throw AzureError.client("Not support kind in CommunicationIdentifier.")
+        }
     }
 
     private static func serialize(cloud: CommunicationCloudEnvironment) throws -> CommunicationCloudEnvironmentModel {
