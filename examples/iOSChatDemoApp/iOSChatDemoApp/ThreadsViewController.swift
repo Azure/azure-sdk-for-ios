@@ -17,111 +17,6 @@ class ThreadsViewController: UIViewController, UITableViewDelegate, UITableViewD
         performSegue(withIdentifier: "SegueToCreateNewThreadViewController", sender: self)
     }
     
-    func onStart (skypeToken: String)
-    {
-        let communicationUserCredential: CommunicationTokenCredential
-        do {
-            communicationUserCredential = try CommunicationTokenCredential(token:skypeToken)
-        } catch {
-            fatalError(error.localizedDescription)
-        }
-        chatThreads.removeAll()
-        chatClient = getClient(credential:communicationUserCredential)
-        
-        chatClient?.listThreads { result, _ in
-            switch result {
-            case let .success(threads):
-                for thread in threads.items ?? []
-                {
-                    if thread.deletedOn == nil
-                    {
-                        chatThreads.append(AzureCommunicationChat.Thread(from:ChatThread(id: thread.id, topic: thread.topic, createdOn: Iso8601Date(), createdBy: "", deletedOn: thread.deletedOn)))
-                    }
-                }
-                DispatchQueue.main.async(execute: {
-                    self.threadsTableView.reloadData()
-                })
-            case .failure:
-                print("Unexpected failure happened in list chat threads")
-            }
-        }
-        
-        chatClient?.startRealTimeNotifications()
-        
-        chatClient?.on(event: "chatMessageReceived", listener:{
-            (response, eventId)
-            in
-            let response = response as! ChatMessageReceivedEvent
-            chatMessages.append(Message(from: ChatMessage(id: "", type: ChatMessageType.text, sequenceId: "", version: "", content:ChatMessageContent(message:response.content, topic: nil, participants: nil, initiator: nil), senderDisplayName: response.senderDisplayName , createdOn: Iso8601Date(), senderId: "", deletedOn: nil, editedOn: nil)))
-            
-            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "newMessage")))
-        })
-        
-        chatClient?.on(event: "chatThreadCreated", listener:{
-            (response, eventId)
-            in
-            let response = response as! ChatThreadCreatedEvent
-            chatThreads.append(AzureCommunicationChat.Thread(from: ChatThread(id: response.threadId, topic: response.properties!.topic, createdOn: Iso8601Date(string:  response.createdOn)!, createdBy:(response.createdBy?.user!.communicationUserId)!, deletedOn:nil)))
-            
-            DispatchQueue.main.async(execute: {
-                self.threadsTableView.reloadData()
-            })
-        })
-        
-        chatClient?.on(event: "participantsAdded", listener:{
-            (response, eventId)
-            in
-            let response = response as! ParticipantsAddedEvent
-        })
-        
-        chatClient?.on(event: "participantsRemoved", listener:{
-            (response, eventId)
-            in
-            let response = response as! ParticipantsRemovedEvent
-        })
-        
-        chatClient?.on(event: "typingIndicatorReceived", listener:{
-            (response, eventId)
-            in
-            let response = response as! TypingIndicatorReceivedEvent
-        })
-        chatClient?.on(event: "readReceiptReceived", listener:{
-            (response, eventId)
-            in
-            let response = response as! ReadReceiptReceivedEvent
-        })
-        chatClient?.on(event: "chatMessageEdited", listener:{
-            (response, eventId)
-            in
-            let response = response as! ChatMessageEditedEvent
-        })
-        chatClient?.on(event: "chatMessageDeleted", listener:{
-            (response, eventId)
-            in
-            let response = response as! ChatMessageDeletedEvent
-        })
-        chatClient?.on(event: "chatThreadPropertiesUpdated", listener:{
-            (response, eventId)
-            in
-            let response = response as! ChatThreadPropertiesUpdatedEvent
-        })
-        chatClient?.on(event: "chatThreadDeleted", listener:{
-            (response, eventId)
-            in
-            let response = response as! ChatThreadDeletedEvent
-        })
-    }
-    
-    func getClient(credential: CommunicationTokenCredential? = nil) -> ChatClient {
-        let scope = Constants.endpoint
-        do {
-            let options = AzureCommunicationChatClientOptions(logger: ClientLoggers.none)
-            return try ChatClient(endpoint: scope, credential: credential!, withOptions: options)
-        } catch {
-            fatalError(error.localizedDescription)
-        }
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return chatThreads.count
     }
@@ -142,19 +37,49 @@ class ThreadsViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool)
+    {
+        super.viewWillDisappear(animated);
+        if self.isMovingFromParent
+        {
+            chatThreads = []
+            currentUser = nil
+            loggedIn = false
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         threadsTableView.delegate = self
         threadsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         threadsTableView.dataSource = self
-        if let unwrappedCurrentUser = currentUser
-        {
-            onStart(skypeToken: unwrappedCurrentUser.token)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadThreads), name:  Notification.Name(rawValue: "newThread"), object: nil)
+        listThreads ()
+    }
+    
+    func listThreads ()
+    {
+        chatClient?.listThreads { result, _ in
+            switch result {
+            case let .success(threads):
+                for thread in threads.items ?? []
+                {
+                    if thread.deletedOn == nil
+                    {
+                        chatThreads.append(AzureCommunicationChat.Thread(from:ChatThread(id: thread.id, topic: thread.topic, createdOn: Iso8601Date(), createdBy: "", deletedOn: thread.deletedOn)))
+                    }
+                }
+                self.reloadThreads()
+            case .failure:
+                print("Unexpected failure happened in list chat threads")
+            }
         }
-        else
-        {
-            print("Unexpected failure happened initializing current user")
-        }
+    }
+    
+    @objc func reloadThreads() {
+        DispatchQueue.main.async(execute: {
+            self.threadsTableView.reloadData()
+        })
     }
 }
 

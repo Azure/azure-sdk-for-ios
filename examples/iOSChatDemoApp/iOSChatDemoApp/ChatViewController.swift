@@ -99,17 +99,27 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         return UITableViewCell()
     }
     
+    override func viewWillDisappear(_ animated: Bool)
+    {
+        super.viewWillDisappear(animated);
+        if self.isMovingFromParent
+        {
+            chatMessages = []
+            participants = []
+            chatThreadClient = nil
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         messagesTableView.delegate = self
         messagesTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         messagesTableView.dataSource = self
         NotificationCenter.default.addObserver(self, selector: #selector(reloadMessages), name:  Notification.Name(rawValue: "newMessage"), object: nil)
-        chatMessages.removeAll()
-        getMessages()
+        listMessages()
     }
     
-    func getMessages()
+    func listMessages()
     {
         chatThreadClient?.listMessages(completionHandler: { result, _ in
             switch result {
