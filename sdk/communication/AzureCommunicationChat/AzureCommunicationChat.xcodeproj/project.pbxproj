@@ -16,7 +16,7 @@
 		D110F50A258D604B001FA3CD /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D110F509258D604B001FA3CD /* AzureCore.framework */; };
 		D110F50C258D6053001FA3CD /* Pods_AzureCommunicationChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D110F50B258D6053001FA3CD /* Pods_AzureCommunicationChat.framework */; };
 		D13CE65125BFB6D700415467 /* listReadReceipts.json in Resources */ = {isa = PBXBuildFile; fileRef = D13CE64E25BFB69100415467 /* listReadReceipts.json */; };
-		D147E62D25CE242C001CFB5D /* AzureCommunicationChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AzureCommunicationChat::AzureCommunicationChat::Product /* AzureCommunicationChat.framework */; };
+		D147E62D25CE242C001CFB5D /* AzureCommunicationChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "AzureCommunicationChat::AzureCommunicationChat::Product" /* AzureCommunicationChat.framework */; };
 		D147E63925CE244A001CFB5D /* ChatClientUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA8CD1258181A5006760F7 /* ChatClientUnitTests.swift */; };
 		D147E64025CE244F001CFB5D /* ChatThreadClientUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA8D08258432DC006760F7 /* ChatThreadClientUnitTests.swift */; };
 		D147E64725CE2459001CFB5D /* TestUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1CD93B2258D6C3D00409613 /* TestUtil.swift */; };
@@ -85,9 +85,9 @@
 		D16C803F25BA0B5200C42803 /* MessageContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16C803E25BA0B5200C42803 /* MessageContent.swift */; };
 		D16C804325BA402100C42803 /* CreateThreadRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16C804225BA402100C42803 /* CreateThreadRequest.swift */; };
 		D16C804725BA406D00C42803 /* CreateThreadResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16C804625BA406D00C42803 /* CreateThreadResult.swift */; };
-		D193C45B25CE258F006F769C /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = D193C45A25CE258F006F769C /* SwiftPackageProductDependency */; };
-		D1B7EB06257F0D20004F384A /* AzureCommunicationChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AzureCommunicationChat::AzureCommunicationChat::Product /* AzureCommunicationChat.framework */; };
-		D1BA104D25807B7500CA7130 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = D1BA104C25807B7500CA7130 /* SwiftPackageProductDependency */; };
+		D193C45B25CE258F006F769C /* OHHTTPStubsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D193C45A25CE258F006F769C /* OHHTTPStubsSwift */; };
+		D1B7EB06257F0D20004F384A /* AzureCommunicationChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "AzureCommunicationChat::AzureCommunicationChat::Product" /* AzureCommunicationChat.framework */; };
+		D1BA104D25807B7500CA7130 /* OHHTTPStubsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D1BA104C25807B7500CA7130 /* OHHTTPStubsSwift */; };
 		D1CD93A2258D6BC700409613 /* ChatClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1CD93A1258D6BC700409613 /* ChatClientTests.swift */; };
 		D1CD93A8258D6BDC00409613 /* ChatThreadClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1CD93A7258D6BDC00409613 /* ChatThreadClientTests.swift */; };
 		D1CD93AD258D6C2500409613 /* RecordingUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1CD93AC258D6C2500409613 /* RecordingUtil.swift */; };
@@ -124,6 +124,7 @@
 
 /* Begin PBXFileReference section */
 		04B336EEF1E42CCE389E4935 /* Pods-AzureCommunicationChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunicationChat.release.xcconfig"; path = "Target Support Files/Pods-AzureCommunicationChat/Pods-AzureCommunicationChat.release.xcconfig"; sourceTree = "<group>"; };
+		0A10411325D306B3008E472E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0ECA8CD1258181A5006760F7 /* ChatClientUnitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatClientUnitTests.swift; sourceTree = "<group>"; };
 		0ECA8CDE258188D0006760F7 /* GetThreadResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = GetThreadResponse.json; sourceTree = "<group>"; };
 		0ECA8CEA2582A52D006760F7 /* UnauthorizedError.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = UnauthorizedError.json; sourceTree = "<group>"; };
@@ -141,7 +142,7 @@
 		81ACD2D328DC5DE8F0F90C92 /* Pods-AzureCommunicationChatUnitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunicationChatUnitTests.debug.xcconfig"; path = "Target Support Files/Pods-AzureCommunicationChatUnitTests/Pods-AzureCommunicationChatUnitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8E5206D2E09378DA0F9FD0E4 /* Pods-AzureCommunicationChatTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunicationChatTests.release.xcconfig"; path = "Target Support Files/Pods-AzureCommunicationChatTests/Pods-AzureCommunicationChatTests.release.xcconfig"; sourceTree = "<group>"; };
 		9FE998BEC9685C476F2AFD1C /* Pods-AzureCommunicationChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunicationChat.debug.xcconfig"; path = "Target Support Files/Pods-AzureCommunicationChat/Pods-AzureCommunicationChat.debug.xcconfig"; sourceTree = "<group>"; };
-		AzureCommunicationChat::AzureCommunicationChat::Product /* AzureCommunicationChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCommunicationChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"AzureCommunicationChat::AzureCommunicationChat::Product" /* AzureCommunicationChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCommunicationChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D10C3BCD25A63F7800A181E3 /* listParticipants.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = listParticipants.json; sourceTree = "<group>"; };
 		D10C3BD325A660AF00A181E3 /* listMessages.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = listMessages.json; sourceTree = "<group>"; };
 		D10C3BD925A66D4D00A181E3 /* listThreads.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = listThreads.json; sourceTree = "<group>"; };
@@ -234,7 +235,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D147E62D25CE242C001CFB5D /* AzureCommunicationChat.framework in Frameworks */,
-				D193C45B25CE258F006F769C /* BuildFile in Frameworks */,
+				D193C45B25CE258F006F769C /* OHHTTPStubsSwift in Frameworks */,
 				4077D21553368B726C02EA20 /* Pods_AzureCommunicationChatUnitTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -244,7 +245,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D1B7EB06257F0D20004F384A /* AzureCommunicationChat.framework in Frameworks */,
-				D1BA104D25807B7500CA7130 /* BuildFile in Frameworks */,
+				D1BA104D25807B7500CA7130 /* OHHTTPStubsSwift in Frameworks */,
 				9766BE9261FCB48436FA6682 /* Pods_AzureCommunicationChatTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -253,15 +254,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
-				D110F50C258D6053001FA3CD /* Pods_AzureCommunicationChat.framework in Frameworks */,
 				D110F50A258D604B001FA3CD /* AzureCore.framework in Frameworks */,
 				D110F507258D603F001FA3CD /* AzureCommunication.framework in Frameworks */,
+				D110F50C258D6053001FA3CD /* Pods_AzureCommunicationChat.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A10411225D306B3008E472E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0A10411325D306B3008E472E /* Info.plist */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		0A74765A2522918800819FC9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -445,7 +454,7 @@
 		OBJ_113 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AzureCommunicationChat::AzureCommunicationChat::Product /* AzureCommunicationChat.framework */,
+				"AzureCommunicationChat::AzureCommunicationChat::Product" /* AzureCommunicationChat.framework */,
 				D1B7EAED257F02FC004F384A /* AzureCommunicationChatTests.xctest */,
 				D147E62825CE242C001CFB5D /* AzureCommunicationChatUnitTests.xctest */,
 			);
@@ -472,6 +481,7 @@
 				D1565C73256DB76C00AF45F8 /* ChatThreadClient.swift */,
 				D16C802B25BA0A0F00C42803 /* Models */,
 				D15E98C925B7C80C00E63DB2 /* Generated */,
+				0A10411225D306B3008E472E /* Supporting Files */,
 			);
 			name = Sources;
 			path = Source;
@@ -480,7 +490,7 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		AzureCommunicationChat::AzureCommunicationChat /* AzureCommunicationChat */ = {
+		"AzureCommunicationChat::AzureCommunicationChat" /* AzureCommunicationChat */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_117 /* Build configuration list for PBXNativeTarget "AzureCommunicationChat" */;
 			buildPhases = (
@@ -495,7 +505,7 @@
 			);
 			name = AzureCommunicationChat;
 			productName = AzureCommunicationChat;
-			productReference = AzureCommunicationChat::AzureCommunicationChat::Product /* AzureCommunicationChat.framework */;
+			productReference = "AzureCommunicationChat::AzureCommunicationChat::Product" /* AzureCommunicationChat.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		D147E62725CE242C001CFB5D /* AzureCommunicationChatUnitTests */ = {
@@ -515,7 +525,7 @@
 			);
 			name = AzureCommunicationChatUnitTests;
 			packageProductDependencies = (
-				D193C45A25CE258F006F769C /* SwiftPackageProductDependency */,
+				D193C45A25CE258F006F769C /* OHHTTPStubsSwift */,
 			);
 			productName = AzureCommunicationChatUnitTests;
 			productReference = D147E62825CE242C001CFB5D /* AzureCommunicationChatUnitTests.xctest */;
@@ -538,7 +548,7 @@
 			);
 			name = AzureCommunicationChatTests;
 			packageProductDependencies = (
-				D1BA104C25807B7500CA7130 /* SwiftPackageProductDependency */,
+				D1BA104C25807B7500CA7130 /* OHHTTPStubsSwift */,
 			);
 			productName = AzureCommunicationChatTests;
 			productReference = D1B7EAED257F02FC004F384A /* AzureCommunicationChatTests.xctest */;
@@ -573,13 +583,13 @@
 			);
 			mainGroup = OBJ_5;
 			packageReferences = (
-				D1BA104B25807B7500CA7130 /* RemoteSwiftPackageReference */,
+				D1BA104B25807B7500CA7130 /* XCRemoteSwiftPackageReference "OHHTTPStubs" */,
 			);
 			productRefGroup = OBJ_113 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				AzureCommunicationChat::AzureCommunicationChat /* AzureCommunicationChat */,
+				"AzureCommunicationChat::AzureCommunicationChat" /* AzureCommunicationChat */,
 				D1B7EAEC257F02FC004F384A /* AzureCommunicationChatTests */,
 				D147E62725CE242C001CFB5D /* AzureCommunicationChatUnitTests */,
 			);
@@ -838,12 +848,12 @@
 /* Begin PBXTargetDependency section */
 		D147E62F25CE242C001CFB5D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = AzureCommunicationChat::AzureCommunicationChat /* AzureCommunicationChat */;
+			target = "AzureCommunicationChat::AzureCommunicationChat" /* AzureCommunicationChat */;
 			targetProxy = D147E62E25CE242C001CFB5D /* PBXContainerItemProxy */;
 		};
 		D1CD936D258D688D00409613 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = AzureCommunicationChat::AzureCommunicationChat /* AzureCommunicationChat */;
+			target = "AzureCommunicationChat::AzureCommunicationChat" /* AzureCommunicationChat */;
 			targetProxy = D1CD936C258D688D00409613 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -962,6 +972,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -969,6 +980,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MARKETING_VERSION = "1.0.0-beta.8";
 				NEW_SETTING = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.azure.communication.AzureCommunicationChat;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -990,6 +1002,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -997,6 +1010,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MARKETING_VERSION = "1.0.0-beta.8";
 				NEW_SETTING = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.azure.communication.AzureCommunicationChat;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -1173,7 +1187,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		D1BA104B25807B7500CA7130 /* RemoteSwiftPackageReference */ = {
+		D1BA104B25807B7500CA7130 /* XCRemoteSwiftPackageReference "OHHTTPStubs" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/AliSoftware/OHHTTPStubs.git";
 			requirement = {
@@ -1184,14 +1198,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		D193C45A25CE258F006F769C /* SwiftPackageProductDependency */ = {
+		D193C45A25CE258F006F769C /* OHHTTPStubsSwift */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = D1BA104B25807B7500CA7130 /* RemoteSwiftPackageReference */;
+			package = D1BA104B25807B7500CA7130 /* XCRemoteSwiftPackageReference "OHHTTPStubs" */;
 			productName = OHHTTPStubsSwift;
 		};
-		D1BA104C25807B7500CA7130 /* SwiftPackageProductDependency */ = {
+		D1BA104C25807B7500CA7130 /* OHHTTPStubsSwift */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = D1BA104B25807B7500CA7130 /* RemoteSwiftPackageReference */;
+			package = D1BA104B25807B7500CA7130 /* XCRemoteSwiftPackageReference "OHHTTPStubs" */;
 			productName = OHHTTPStubsSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
