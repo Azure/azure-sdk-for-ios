@@ -19,13 +19,13 @@ class ThreadsViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func createNewThread()
     {
-        let participant = ChatParticipant(
+        let participant = Participant(from: ChatParticipant(
             id: currentUser!.id,
             displayName: currentUser?.name,
             
             shareHistoryTime: Iso8601Date(string: "2020-10-30T10:50:50Z")!
-        )
-        let request = CreateChatThreadRequest(
+        ))
+        let request = CreateThreadRequest(
             topic: "Lunch Thread",
             participants: [
                 participant
@@ -36,7 +36,7 @@ class ThreadsViewController: UIViewController, UITableViewDelegate, UITableViewD
             case let .success(response):
                 print(response)
                 
-                guard let thread = response.chatThread else {
+                guard let thread = response.thread else {
                     print("Failed to extract chatThread from response")
                     return
                 }
@@ -70,7 +70,7 @@ class ThreadsViewController: UIViewController, UITableViewDelegate, UITableViewD
                 {
                     if thread.deletedOn == nil
                     {
-                        chatThreads.append(ChatThread(id: thread.id, topic: thread.topic, createdOn: Iso8601Date(), createdBy: "", deletedOn: thread.deletedOn))
+                        chatThreads.append(AzureCommunicationChat.Thread(from:ChatThread(id: thread.id, topic: thread.topic, createdOn: Iso8601Date(), createdBy: "", deletedOn: thread.deletedOn)))
                     }
                 }
                 DispatchQueue.main.async(execute: {
@@ -87,7 +87,7 @@ class ThreadsViewController: UIViewController, UITableViewDelegate, UITableViewD
             (response, eventId)
             in
             let response = response as! ChatMessageReceivedEvent
-            chatMessages.append(ChatMessage(id: "", type: ChatMessageType.text, sequenceId: "", version: "", content:ChatMessageContent(message:response.content, topic: nil, participants: nil, initiator: nil), senderDisplayName: response.senderDisplayName , createdOn: Iso8601Date(), senderId: "", deletedOn: nil, editedOn: nil))
+            chatMessages.append(Message(from: ChatMessage(id: "", type: ChatMessageType.text, sequenceId: "", version: "", content:ChatMessageContent(message:response.content, topic: nil, participants: nil, initiator: nil), senderDisplayName: response.senderDisplayName , createdOn: Iso8601Date(), senderId: "", deletedOn: nil, editedOn: nil)))
             
             NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "newMessage")))
         })
@@ -96,7 +96,7 @@ class ThreadsViewController: UIViewController, UITableViewDelegate, UITableViewD
             (response, eventId)
             in
             let response = response as! ChatThreadCreatedEvent
-            chatThreads.append(ChatThread(id: response.threadId, topic: response.properties!.topic, createdOn: Iso8601Date(string:  response.createdOn)!, createdBy:(response.createdBy?.user!.communicationUserId)!, deletedOn:nil))
+            chatThreads.append(AzureCommunicationChat.Thread(from: ChatThread(id: response.threadId, topic: response.properties!.topic, createdOn: Iso8601Date(string:  response.createdOn)!, createdBy:(response.createdBy?.user!.communicationUserId)!, deletedOn:nil)))
             
             DispatchQueue.main.async(execute: {
                 self.threadsTableView.reloadData()

@@ -28,9 +28,9 @@ import UIKit
 import Foundation
 import AzureCommunicationChat
 
-var chatMessages: [ChatMessage] = []
-var participants: [ChatParticipant] = []
-var chatThreads: [ChatThread] = []
+var chatMessages: [Message] = []
+var participants: [Participant] = []
+var chatThreads: [AzureCommunicationChat.Thread] = []
 
 var chatClient: ChatClient? = nil
 var chatThreadClient: ChatThreadClient? = nil
