@@ -49,7 +49,7 @@
                                     <imageReference key="image" image="plus.circle" catalog="system" symbolScale="large"/>
                                 </state>
                                 <connections>
-                                    <action selector="createNewThreadButtonTapped" destination="0Jd-Yr-dYa" eventType="touchUpInside" id="Zri-fW-Zu0"/>
+                                    <action selector="goToCreateNewThreadPageButtonTapped" destination="0Jd-Yr-dYa" eventType="touchUpInside" id="Zri-fW-Zu0"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -60,6 +60,7 @@
                     <connections>
                         <outlet property="threadsTableView" destination="1M4-r3-Cty" id="QpI-AK-h20"/>
                         <segue destination="WI6-sV-ggt" kind="show" identifier="SegueToChatViewController" id="x0y-Ta-PP5"/>
+                        <segue destination="NR0-ci-Xbd" kind="show" identifier="SegueToCreateNewThreadViewController" id="yAg-8d-6IR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pp2-lP-IcZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -167,7 +168,58 @@
             </objects>
             <point key="canvasLocation" x="2002.8985507246377" y="52.901785714285715"/>
         </scene>
+        <!--Create New Thread-->
+        <scene sceneID="zzc-n4-tLO">
+            <objects>
+                <viewController id="NR0-ci-Xbd" customClass="CreateNewThreadViewController" customModule="iOSChatDemoApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="i6J-1L-JwJ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" alpha="0.5" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BOB-P2-JCi">
+                                <rect key="frame" x="113" y="431" width="188" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" name="AccentColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="Create New Thread">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="didTapCreateNewThreadButton" destination="NR0-ci-Xbd" eventType="touchUpInside" id="IsC-kW-0Be"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="h6v-vD-foz">
+                                <rect key="frame" x="56" y="345" width="302" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Topic Name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YBh-uZ-X00">
+                                <rect key="frame" x="56" y="316" width="95" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="lf7-Io-cNM"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Create New Thread" id="4nE-4u-NsZ"/>
+                    <connections>
+                        <outlet property="createNewThreadButton" destination="BOB-P2-JCi" id="O2S-fS-U00"/>
+                        <outlet property="topicNameInputArea" destination="h6v-vD-foz" id="fu8-qG-qIN"/>
+                        <segue destination="WI6-sV-ggt" kind="show" identifier="SegueToChatViewController" id="mw9-au-RyN"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4u1-J1-Za0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2857.971014492754" y="836.38392857142856"/>
+        </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="mw9-au-RyN"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="paperplane" catalog="system" width="128" height="118"/>
         <image name="plus.circle" catalog="system" width="128" height="121"/>

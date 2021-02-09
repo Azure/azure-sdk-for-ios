@@ -16,6 +16,7 @@
 		D50B8EBC25C8F49600B127D9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D50B8EBA25C8F49600B127D9 /* LaunchScreen.storyboard */; };
 		D524814425CC9775001455C5 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D524814325CC9775001455C5 /* LogInViewController.swift */; };
 		D524814825CCA4F7001455C5 /* Commons.swift in Sources */ = {isa = PBXBuildFile; fileRef = D524814725CCA4F7001455C5 /* Commons.swift */; };
+		D55D02EB25D24AA200D7A2F0 /* CreateNewThreadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55D02EA25D24AA200D7A2F0 /* CreateNewThreadViewController.swift */; };
 		D5EE7A7C25CB76DC00220882 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5EE7A7B25CB76DC00220882 /* ChatViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -33,6 +34,7 @@
 		D50B8EBD25C8F49600B127D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D524814325CC9775001455C5 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		D524814725CCA4F7001455C5 /* Commons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Commons.swift; sourceTree = "<group>"; };
+		D55D02EA25D24AA200D7A2F0 /* CreateNewThreadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewThreadViewController.swift; sourceTree = "<group>"; };
 		D5EE7A7B25CB76DC00220882 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -84,6 +86,7 @@
 				D524814325CC9775001455C5 /* LogInViewController.swift */,
 				D50B8EB325C8F49400B127D9 /* ThreadsViewController.swift */,
 				D5EE7A7B25CB76DC00220882 /* ChatViewController.swift */,
+				D55D02EA25D24AA200D7A2F0 /* CreateNewThreadViewController.swift */,
 				D50B8EB525C8F49400B127D9 /* Main.storyboard */,
 				D50B8EB825C8F49600B127D9 /* Assets.xcassets */,
 				D50B8EBA25C8F49600B127D9 /* LaunchScreen.storyboard */,
@@ -216,6 +219,7 @@
 			files = (
 				D50B8EB425C8F49400B127D9 /* ThreadsViewController.swift in Sources */,
 				D50B8EB025C8F49400B127D9 /* AppDelegate.swift in Sources */,
+				D55D02EB25D24AA200D7A2F0 /* CreateNewThreadViewController.swift in Sources */,
 				D5EE7A7C25CB76DC00220882 /* ChatViewController.swift in Sources */,
 				D524814425CC9775001455C5 /* LogInViewController.swift in Sources */,
 				D524814825CCA4F7001455C5 /* Commons.swift in Sources */,

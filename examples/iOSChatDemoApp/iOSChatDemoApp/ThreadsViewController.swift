@@ -13,43 +13,8 @@ import AzureCommunicationSignaling
 
 class ThreadsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet var threadsTableView: UITableView!
-    @IBAction func createNewThreadButtonTapped(){
-        createNewThread()
-    }
-    
-    func createNewThread()
-    {
-        let participant = Participant(from: ChatParticipant(
-            id: currentUser!.id,
-            displayName: currentUser?.name,
-            
-            shareHistoryTime: Iso8601Date(string: "2020-10-30T10:50:50Z")!
-        ))
-        let request = CreateThreadRequest(
-            topic: "Lunch Thread",
-            participants: [
-                participant
-            ]
-        )
-        chatClient?.create(thread: request) { result, _ in
-            switch result {
-            case let .success(response):
-                print(response)
-                
-                guard let thread = response.thread else {
-                    print("Failed to extract chatThread from response")
-                    return
-                }
-                do {
-                    chatThreadClient = try chatClient?.createClient(forThread: thread.id)
-                } catch _ {
-                    print("Failed to initialize ChatThreadClient")
-                }
-            case let .failure(error):
-                print("Unexpected failure happened in Create Thread")
-                print("\(error)")
-            }
-        }
+    @IBAction func goToCreateNewThreadPageButtonTapped(){
+        performSegue(withIdentifier: "SegueToCreateNewThreadViewController", sender: self)
     }
     
     func onStart (skypeToken: String)
