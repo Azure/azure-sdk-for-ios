@@ -16,7 +16,7 @@ public class CommunicationUser {
     }
 }
 
-public class ChatParticipant {
+public class SignalingChatParticipant {
     public var user: CommunicationUser?
     public var displayName: String?
     public var shareHistoryTime: String?
@@ -170,15 +170,15 @@ public class ReadReceiptReceivedEvent: BaseEvent {
 public class ChatThreadCreatedEvent: ChatThreadEvent {
     public var createdOn: String
     public var properties: ChatThreadProperties?
-    public var participants: [ChatParticipant]?
-    public var createdBy: ChatParticipant?
+    public var participants: [SignalingChatParticipant]?
+    public var createdBy: SignalingChatParticipant?
 
     init(threadId: String ,
          version: String ,
          createdOn: String ,
          properties: ChatThreadProperties? ,
-         participants: [ChatParticipant]? ,
-         createdBy: ChatParticipant? ) {
+         participants: [SignalingChatParticipant]? ,
+         createdBy: SignalingChatParticipant? ) {
         self.createdOn = createdOn
         self.properties = properties
         self.participants = participants
@@ -190,13 +190,13 @@ public class ChatThreadCreatedEvent: ChatThreadEvent {
 public class ChatThreadPropertiesUpdatedEvent: ChatThreadEvent {
     public var properties: ChatThreadProperties?
     public var updatedOn: String
-    public var updatedBy: ChatParticipant?
+    public var updatedBy: SignalingChatParticipant?
 
     init(threadId: String ,
          version: String ,
          properties: ChatThreadProperties? ,
          updatedOn: String ,
-         updatedBy: ChatParticipant? ) {
+         updatedBy: SignalingChatParticipant? ) {
         self.properties = properties
         self.updatedOn = updatedOn
         self.updatedBy = updatedBy
@@ -206,12 +206,12 @@ public class ChatThreadPropertiesUpdatedEvent: ChatThreadEvent {
 
 public class ChatThreadDeletedEvent: ChatThreadEvent {
     public var deletedOn: String
-    public var deletedBy: ChatParticipant?
+    public var deletedBy: SignalingChatParticipant?
 
     init(threadId: String ,
          version: String ,
          deletedOn: String ,
-         deletedBy: ChatParticipant? ) {
+         deletedBy: SignalingChatParticipant? ) {
         self.deletedOn = deletedOn
         self.deletedBy = deletedBy
         super.init(threadId: threadId, version: version)
@@ -220,14 +220,14 @@ public class ChatThreadDeletedEvent: ChatThreadEvent {
 
 public class ParticipantsAddedEvent: ChatThreadEvent {
     public var addedOn: String
-    public var participantsAdded: [ChatParticipant]?
-    public var addedBy: ChatParticipant?
+    public var participantsAdded: [SignalingChatParticipant]?
+    public var addedBy: SignalingChatParticipant?
 
     init(threadId: String ,
          version: String ,
          addedOn: String ,
-         participantsAdded: [ChatParticipant]? ,
-         addedBy: ChatParticipant? ) {
+         participantsAdded: [SignalingChatParticipant]? ,
+         addedBy: SignalingChatParticipant? ) {
         self.addedOn = addedOn
         self.participantsAdded = participantsAdded
         self.addedBy = addedBy
@@ -237,14 +237,14 @@ public class ParticipantsAddedEvent: ChatThreadEvent {
 
 public class ParticipantsRemovedEvent: ChatThreadEvent {
     public var removedOn: String
-    public var participantsRemoved: [ChatParticipant]?
-    public var removedBy: ChatParticipant?
+    public var participantsRemoved: [SignalingChatParticipant]?
+    public var removedBy: SignalingChatParticipant?
 
     init(threadId: String ,
          version: String ,
          removedOn: String ,
-         participantsRemoved: [ChatParticipant]? ,
-         removedBy: ChatParticipant? ) {
+         participantsRemoved: [SignalingChatParticipant]? ,
+         removedBy: SignalingChatParticipant? ) {
         self.removedOn = removedOn
         self.participantsRemoved = participantsRemoved
         self.removedBy = removedBy

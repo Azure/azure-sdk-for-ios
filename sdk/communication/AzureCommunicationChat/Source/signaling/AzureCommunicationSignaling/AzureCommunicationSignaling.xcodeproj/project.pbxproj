@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D50EC11F25AE3A7900FA1177 /* libtrouter-client-ios-x64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D50EC11E25AE3A7900FA1177 /* libtrouter-client-ios-x64.a */; };
-		D51D7E0225CB65E6003504F8 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D51D7E0125CB65E6003504F8 /* AzureCore.framework */; };
+		D55D01E725D23D5D00D7A2F0 /* libtrouter-client-ios-x64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D55D01E625D23D5D00D7A2F0 /* libtrouter-client-ios-x64.a */; };
+		D55D01E925D23D6500D7A2F0 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D55D01E825D23D6500D7A2F0 /* AzureCore.framework */; };
 		D5F08A25259C68C000EAB8F9 /* AzureCommunicationSignaling.h in Headers */ = {isa = PBXBuildFile; fileRef = D5F08A23259C68C000EAB8F9 /* AzureCommunicationSignaling.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D5F08A3F259C6A0C00EAB8F9 /* TrouterNotificationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5F08A38259C6A0C00EAB8F9 /* TrouterNotificationPayload.swift */; };
 		D5F08A40259C6A0C00EAB8F9 /* TrouterSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5F08A39259C6A0C00EAB8F9 /* TrouterSettings.swift */; };
@@ -28,6 +28,8 @@
 /* Begin PBXFileReference section */
 		D50EC11E25AE3A7900FA1177 /* libtrouter-client-ios-x64.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libtrouter-client-ios-x64.a"; path = "../../../../../TrouterClientiOS/Lib/libtrouter-client-ios-x64.a"; sourceTree = "<group>"; };
 		D51D7E0125CB65E6003504F8 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D55D01E625D23D5D00D7A2F0 /* libtrouter-client-ios-x64.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libtrouter-client-ios-x64.a"; path = "../../../../../../../../../TrouterClientiOS/Lib/libtrouter-client-ios-x64.a"; sourceTree = "<group>"; };
+		D55D01E825D23D6500D7A2F0 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5F08A20259C68C000EAB8F9 /* AzureCommunicationSignaling.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureCommunicationSignaling.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5F08A23259C68C000EAB8F9 /* AzureCommunicationSignaling.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AzureCommunicationSignaling.h; sourceTree = "<group>"; };
 		D5F08A24259C68C000EAB8F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -53,8 +55,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D51D7E0225CB65E6003504F8 /* AzureCore.framework in Frameworks */,
-				D50EC11F25AE3A7900FA1177 /* libtrouter-client-ios-x64.a in Frameworks */,
+				D55D01E725D23D5D00D7A2F0 /* libtrouter-client-ios-x64.a in Frameworks */,
+				D55D01E925D23D6500D7A2F0 /* AzureCore.framework in Frameworks */,
 				D5F08AC4259D3F8200EAB8F9 /* libz.tbd in Frameworks */,
 				D5F08AB9259D3F3700EAB8F9 /* libc++.tbd in Frameworks */,
 				D5F08AC7259D3F9D00EAB8F9 /* CoreTelephony.framework in Frameworks */,
@@ -65,12 +67,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D55D01CF25D23A3400D7A2F0 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				D51D7E0125CB65E6003504F8 /* AzureCore.framework */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		D5F08A16259C68C000EAB8F9 = {
 			isa = PBXGroup;
 			children = (
 				D5F08A22259C68C000EAB8F9 /* AzureCommunicationSignaling */,
 				D5F08A21259C68C000EAB8F9 /* Products */,
 				D5F08A46259C6A3B00EAB8F9 /* Frameworks */,
+				D55D01CF25D23A3400D7A2F0 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -118,8 +129,9 @@
 		D5F08A46259C6A3B00EAB8F9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D51D7DE125CB4C70003504F8 /* AzureCore.framework */,
+				D55D01E825D23D6500D7A2F0 /* AzureCore.framework */,
 				D50EC11E25AE3A7900FA1177 /* libtrouter-client-ios-x64.a */,
+				D55D01E625D23D5D00D7A2F0 /* libtrouter-client-ios-x64.a */,
 				D5F08A68259C6C0200EAB8F9 /* libz.tbd */,
 				D5F08A65259C6BF000EAB8F9 /* libc++.tbd */,
 				D5F08A5B259C6B7800EAB8F9 /* SystemConfiguration.framework */,
@@ -365,6 +377,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/AzureCommunicationSignaling/TrouterHeaderFiles";
 				INFOPLIST_FILE = AzureCommunicationSignaling/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -395,6 +408,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/AzureCommunicationSignaling/TrouterHeaderFiles";
 				INFOPLIST_FILE = AzureCommunicationSignaling/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;

@@ -103,6 +103,7 @@
 		D1CD93E4258D6EF700409613 /* sendTypingNotification.json in Resources */ = {isa = PBXBuildFile; fileRef = D1CD93E3258D6EF700409613 /* sendTypingNotification.json */; };
 		D1CD93E8258D6F0600409613 /* updateMessage.json in Resources */ = {isa = PBXBuildFile; fileRef = D1CD93E7258D6F0600409613 /* updateMessage.json */; };
 		D1CD93EC258D6F1300409613 /* updateTopic.json in Resources */ = {isa = PBXBuildFile; fileRef = D1CD93EB258D6F1300409613 /* updateTopic.json */; };
+		D55D026225D2411500D7A2F0 /* AzureCommunicationSignaling.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D55D025D25D2410800D7A2F0 /* AzureCommunicationSignaling.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -119,6 +120,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = "AzureCommunicationChat::AzureCommunicationChat";
 			remoteInfo = AzureCommunicationChat;
+		};
+		D55D025C25D2410800D7A2F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D55D025825D2410800D7A2F0 /* AzureCommunicationSignaling.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D5F08A20259C68C000EAB8F9;
+			remoteInfo = AzureCommunicationSignaling;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -223,6 +231,20 @@
 		D1CD93E3258D6EF700409613 /* sendTypingNotification.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sendTypingNotification.json; sourceTree = "<group>"; };
 		D1CD93E7258D6F0600409613 /* updateMessage.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = updateMessage.json; sourceTree = "<group>"; };
 		D1CD93EB258D6F1300409613 /* updateTopic.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = updateTopic.json; sourceTree = "<group>"; };
+		D55D024925D2410700D7A2F0 /* TrouterUrlRegistrar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TrouterUrlRegistrar.h; sourceTree = "<group>"; };
+		D55D024A25D2410700D7A2F0 /* Trouter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Trouter.h; sourceTree = "<group>"; };
+		D55D024B25D2410700D7A2F0 /* SelfHostedTrouterClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelfHostedTrouterClient.h; sourceTree = "<group>"; };
+		D55D024C25D2410700D7A2F0 /* TrouterSkypetokenProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TrouterSkypetokenProvider.h; sourceTree = "<group>"; };
+		D55D024D25D2410700D7A2F0 /* CommunicationSignalingClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationSignalingClient.swift; sourceTree = "<group>"; };
+		D55D024F25D2410700D7A2F0 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		D55D025025D2410700D7A2F0 /* AzureCommunicationSignaling.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AzureCommunicationSignaling.h; sourceTree = "<group>"; };
+		D55D025125D2410700D7A2F0 /* AzureCommunicationSignaling.private.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = AzureCommunicationSignaling.private.modulemap; sourceTree = "<group>"; };
+		D55D025225D2410700D7A2F0 /* TrouterUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrouterUtils.swift; sourceTree = "<group>"; };
+		D55D025325D2410700D7A2F0 /* TrouterNotificationPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrouterNotificationPayload.swift; sourceTree = "<group>"; };
+		D55D025425D2410700D7A2F0 /* TrouterSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrouterSettings.swift; sourceTree = "<group>"; };
+		D55D025625D2410800D7A2F0 /* chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chat.swift; sourceTree = "<group>"; };
+		D55D025725D2410800D7A2F0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D55D025825D2410800D7A2F0 /* AzureCommunicationSignaling.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = AzureCommunicationSignaling.xcodeproj; sourceTree = "<group>"; };
 		F1FE3013E797A134E8A6C3B5 /* Pods_AzureCommunicationChatTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCommunicationChatTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -251,6 +273,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
+				D55D026225D2411500D7A2F0 /* AzureCommunicationSignaling.framework in Frameworks */,
 				D110F50C258D6053001FA3CD /* Pods_AzureCommunicationChat.framework in Frameworks */,
 				D110F50A258D604B001FA3CD /* AzureCore.framework in Frameworks */,
 				D110F507258D603F001FA3CD /* AzureCommunication.framework in Frameworks */,
@@ -440,6 +463,75 @@
 			path = Recordings;
 			sourceTree = "<group>";
 		};
+		D55D024525D2410700D7A2F0 /* Signaling */ = {
+			isa = PBXGroup;
+			children = (
+				D55D024625D2410700D7A2F0 /* AzureCommunicationSignaling */,
+			);
+			path = Signaling;
+			sourceTree = "<group>";
+		};
+		D55D024625D2410700D7A2F0 /* AzureCommunicationSignaling */ = {
+			isa = PBXGroup;
+			children = (
+				D55D024725D2410700D7A2F0 /* AzureCommunicationSignaling */,
+				D55D025825D2410800D7A2F0 /* AzureCommunicationSignaling.xcodeproj */,
+			);
+			path = AzureCommunicationSignaling;
+			sourceTree = "<group>";
+		};
+		D55D024725D2410700D7A2F0 /* AzureCommunicationSignaling */ = {
+			isa = PBXGroup;
+			children = (
+				D55D024825D2410700D7A2F0 /* TrouterHeaderFiles */,
+				D55D024D25D2410700D7A2F0 /* CommunicationSignalingClient.swift */,
+				D55D024E25D2410700D7A2F0 /* TrouterModulesPrivate */,
+				D55D025025D2410700D7A2F0 /* AzureCommunicationSignaling.h */,
+				D55D025125D2410700D7A2F0 /* AzureCommunicationSignaling.private.modulemap */,
+				D55D025225D2410700D7A2F0 /* TrouterUtils.swift */,
+				D55D025325D2410700D7A2F0 /* TrouterNotificationPayload.swift */,
+				D55D025425D2410700D7A2F0 /* TrouterSettings.swift */,
+				D55D025525D2410800D7A2F0 /* events */,
+				D55D025725D2410800D7A2F0 /* Info.plist */,
+			);
+			path = AzureCommunicationSignaling;
+			sourceTree = "<group>";
+		};
+		D55D024825D2410700D7A2F0 /* TrouterHeaderFiles */ = {
+			isa = PBXGroup;
+			children = (
+				D55D024925D2410700D7A2F0 /* TrouterUrlRegistrar.h */,
+				D55D024A25D2410700D7A2F0 /* Trouter.h */,
+				D55D024B25D2410700D7A2F0 /* SelfHostedTrouterClient.h */,
+				D55D024C25D2410700D7A2F0 /* TrouterSkypetokenProvider.h */,
+			);
+			path = TrouterHeaderFiles;
+			sourceTree = "<group>";
+		};
+		D55D024E25D2410700D7A2F0 /* TrouterModulesPrivate */ = {
+			isa = PBXGroup;
+			children = (
+				D55D024F25D2410700D7A2F0 /* module.modulemap */,
+			);
+			path = TrouterModulesPrivate;
+			sourceTree = "<group>";
+		};
+		D55D025525D2410800D7A2F0 /* events */ = {
+			isa = PBXGroup;
+			children = (
+				D55D025625D2410800D7A2F0 /* chat.swift */,
+			);
+			path = events;
+			sourceTree = "<group>";
+		};
+		D55D025925D2410800D7A2F0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D55D025D25D2410800D7A2F0 /* AzureCommunicationSignaling.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		OBJ_113 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -464,6 +556,7 @@
 		OBJ_7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				D55D024525D2410700D7A2F0 /* Signaling */,
 				D1565C70256DB74900AF45F8 /* ChatClient.swift */,
 				D1565C73256DB76C00AF45F8 /* ChatThreadClient.swift */,
 				D16C802B25BA0A0F00C42803 /* Models */,
@@ -573,6 +666,12 @@
 			);
 			productRefGroup = OBJ_113 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = D55D025925D2410800D7A2F0 /* Products */;
+					ProjectRef = D55D025825D2410800D7A2F0 /* AzureCommunicationSignaling.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				"AzureCommunicationChat::AzureCommunicationChat" /* AzureCommunicationChat */,
@@ -581,6 +680,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		D55D025D25D2410800D7A2F0 /* AzureCommunicationSignaling.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AzureCommunicationSignaling.framework;
+			remoteRef = D55D025C25D2410800D7A2F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		D147E62625CE242C001CFB5D /* Resources */ = {
