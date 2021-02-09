@@ -27,7 +27,6 @@
 import AzureCommunication
 import AzureCommunicationChat
 import AzureCore
-import OHHTTPStubs
 import XCTest
 
 // swiftlint:disable type_body_length
@@ -51,9 +50,6 @@ class ChatThreadClientTests: XCTestCase {
         if TestUtil.mode == "playback" {
             // Register stubs for playback mode
             Recorder.registerStubs()
-        } else {
-            // Remove any stubs that have been registered
-            HTTPStubs.removeAllStubs()
         }
     }
 

@@ -24,28 +24,12 @@
 //
 // --------------------------------------------------------------------------
 
-import CoreData
 import Foundation
 
-internal class MultiBlobOperation: TransferOperation {
-    // MARK: Properties
+public struct ContainerCpkScopeInfo: Codable {
+    /// Version 2019-07-07 and later.  Specifies the default encryption scope to set on the container and use for all future writes.
+    public let defaultEncryptionScope: String?
 
-    internal weak var parent: MultiBlobTransfer?
-
-    // MARK: Initializers
-
-    public init(withTransfer transfer: MultiBlobTransfer, delegate: TransferDelegate?) {
-        super.init(transfer: transfer, delegate: delegate)
-        self.parent = transfer
-    }
-
-    // MARK: Public Methods
-
-    override public func main() {
-        // TODO: Complete this implementation
-        guard let transfer = self.transfer as? MultiBlobTransfer else { return }
-        transfer.state = .complete
-        delegate?.transfer(transfer, didUpdateWithState: transfer.state, andProgress: nil)
-        super.main()
-    }
+    /// Version 2019-07-07 and newer.  If true, prevents any request from specifying a different encryption scope than the scope set on the container.
+    public let preventEncryptionScopeOverride: Bool?
 }

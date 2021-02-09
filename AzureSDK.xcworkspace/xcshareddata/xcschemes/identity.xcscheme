@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1150"
+   LastUpgradeVersion = "1230"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -32,6 +32,34 @@
                BuildableName = "AzureIdentityTests.xctest"
                BlueprintName = "AzureIdentityTests"
                ReferencedContainer = "container:sdk/identity/AzureIdentity/AzureIdentity.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0A3A5E752315E70400473FDA"
+               BuildableName = "AzureSDKDemoSwift.app"
+               BlueprintName = "AzureSDKDemoSwift"
+               ReferencedContainer = "container:examples/AzureSDKDemoSwift/AzureSDKDemoSwift.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0A3A5E752315E70400473FDA"
+               BuildableName = "AzureStorageBlobDemo.app"
+               BlueprintName = "AzureStorageBlobDemo"
+               ReferencedContainer = "container:examples/AzureStorageBlobDemo/AzureStorageBlobDemo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

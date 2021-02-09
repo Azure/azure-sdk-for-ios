@@ -30,7 +30,7 @@ import Foundation
 /// Structure containing properties of a blob container.
 public struct ContainerProperties: XMLModel {
     /// The date the container was last modified.
-    public let lastModified: Date
+    public let lastModified: Rfc1123Date
     /// The entity tag for the container.
     public let eTag: String
     /// The lease status of the container.
@@ -43,6 +43,40 @@ public struct ContainerProperties: XMLModel {
     public let hasImmutabilityPolicy: Bool?
     /// Indicates whether the container has a legal hold.
     public let hasLegalHold: Bool?
+
+    // MARK: Initializers
+
+    internal init(
+        lastModified: Rfc1123Date,
+        eTag: String,
+        leaseStatus: LeaseStatus,
+        leaseState: LeaseState,
+        leaseDuration: LeaseDuration? = nil,
+        hasImmutabilityPolicy: Bool? = nil,
+        hasLegalHold: Bool? = nil
+    ) {
+        self.lastModified = lastModified
+        self.eTag = eTag
+        self.leaseStatus = leaseStatus
+        self.leaseState = leaseState
+        self.leaseDuration = leaseDuration
+        self.hasImmutabilityPolicy = hasImmutabilityPolicy
+        self.hasLegalHold = hasLegalHold
+    }
+
+    internal init?(from headers: HTTPHeaders) {
+        guard let lastModified = Rfc1123Date(string: headers[HTTPHeader.lastModified]),
+            let etag = headers[HTTPHeader.etag] else {
+            return nil
+        }
+        self.lastModified = lastModified
+        self.eTag = etag
+        self.leaseStatus = LeaseStatus(rawValue: headers[StorageHTTPHeader.leaseStatus]) ?? .unlocked
+        self.leaseState = LeaseState(rawValue: headers[StorageHTTPHeader.leaseState]) ?? .available
+        self.leaseDuration = LeaseDuration(rawValue: headers[StorageHTTPHeader.leaseDuration])
+        self.hasImmutabilityPolicy = Bool(headers[StorageHTTPHeader.hasImmutabilityPolicy])
+        self.hasLegalHold = Bool(headers[StorageHTTPHeader.hasLegalHold])
+    }
 
     // MARK: XMLModel Delegate
 
@@ -67,7 +101,7 @@ extension ContainerProperties: Codable {
     public init(from decoder: Decoder) throws {
         let root = try decoder.container(keyedBy: CodingKeys.self)
         self.init(
-            lastModified: try root.decode(Date.self, forKey: .lastModified),
+            lastModified: try root.decode(Rfc1123Date.self, forKey: .lastModified),
             eTag: try root.decode(String.self, forKey: .eTag),
             leaseStatus: try root.decode(LeaseStatus.self, forKey: .leaseStatus),
             leaseState: try root.decode(LeaseState.self, forKey: .leaseState),

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1200"
+   LastUpgradeVersion = "1230"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -35,6 +35,16 @@
                BlueprintIdentifier = "D1B7EAEC257F02FC004F384A"
                BuildableName = "AzureCommunicationChatTests.xctest"
                BlueprintName = "AzureCommunicationChatTests"
+               ReferencedContainer = "container:AzureCommunicationChat.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D147E62725CE242C001CFB5D"
+               BuildableName = "AzureCommunicationChatUnitTests.xctest"
+               BlueprintName = "AzureCommunicationChatUnitTests"
                ReferencedContainer = "container:AzureCommunicationChat.xcodeproj">
             </BuildableReference>
          </TestableReference>
