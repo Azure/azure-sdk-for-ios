@@ -3,6 +3,10 @@
 ## 1.0.0-beta.8 (Unreleased)
 ### New Features
 
+**Azure Communication Calling**
+ - Added ability to join a Teams meeting.
+ - New event on `Call` `OnIsRecordingActiveChanged` to indicate when the recording has been started and stopped and new property `IsRecordingActive` to indicate if currently the recording is active or not.
+
 **Azure Communication Chat Library**
  - Introduced ChatClient and ChatThreadClient to split operations on threads and operations within a particular thread
  - Create thread sets repeatability-Request-ID for idempotency if not provided
@@ -27,6 +31,16 @@
  - ChatThread renamed to Thread, uses CommunicationUserIdentifier
  
  ### Key Bug Fixes
+ **Azure Communication Calling**
+ - Fix wrong `callId` on the incoming `Call` object https://github.com/Azure/Communication/issues/164
+ - When placing outgoing call or joining a group call event will be raised `OnCallsUpdated` when call list is updated.
+ - Throw IllegalArgumentException if null camera is passed to constructor of `LocalVideoStream`.
+ - Video freezing in landscape mode https://github.com/Azure/Communication/issues/128
+ - `RendererView` layout is off after a device rotation https://github.com/Azure/Communication/issues/127
+ - `RendererView` is blank when not added to the window right away https://github.com/Azure/Communication/issues/132
+ - `RendererView` Issues when joining a call with a reused `groupId` https://github.com/Azure/Communication/issues/111
+
+**Azure Communication Common Library**
  - Removing `CommunicationUserCredentialPolicy`, this policy was a duplicate of cores `BearerTokenCredentialPolicy`.  
   Communication now has new ability to create `BearerTokenCredentialPolicy` using the new `CommunicationPolicyTokenCredential`. 
 
