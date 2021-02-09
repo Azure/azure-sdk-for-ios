@@ -175,13 +175,12 @@ jobs:
           xcrun simctl delete unavailable
           set -o pipefail
           xcodebuild -workspace AzureSDK.xcworkspace \
-                     -scheme all \
+                     -scheme ${{parameters.BuildScheme}} \
                      -destination "platform=iOS Simulator,OS=$(SimulatorVersion),name=$(SimulatorDevice)" \
                      -configuration Debug \
-                     -sdk iphonesimulator \
                      -derivedDataPath $(Build.ArtifactStagingDirectory) \
                      -enableCodeCoverage YES \
-                     test 
+                     test | xcpretty -c
         displayName: 'Build and test libraries'
 
       - script: trainer --path $(Build.ArtifactStagingDirectory) --fail_build false
