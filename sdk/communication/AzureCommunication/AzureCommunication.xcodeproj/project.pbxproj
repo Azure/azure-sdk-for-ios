@@ -317,9 +317,8 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellScript = "
-";
-			showEnvVarsInLog = 0;
+			shellPath = /bin/sh;
+			shellScript = "BUILD_PATH=$(pwd)\nROOT_PATH=$(pwd | rev | cut -d'/' -f4- | rev) \n$ROOT_PATH/Scripts/swiftlint.sh $BUILD_PATH\n";
 		};
 		892BA074040FFB4A74C86592 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -558,7 +557,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = "1.0.0-beta.7";
+				MARKETING_VERSION = "1.0.0-beta.8";
 				NEW_SETTING = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.azure.communication.AzureCommunication;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -588,7 +587,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = "1.0.0-beta.7";
+				MARKETING_VERSION = "1.0.0-beta.8";
 				NEW_SETTING = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.azure.communication.AzureCommunication;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";

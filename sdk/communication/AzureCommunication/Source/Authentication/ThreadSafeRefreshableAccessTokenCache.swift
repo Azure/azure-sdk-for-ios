@@ -25,7 +25,7 @@
 // --------------------------------------------------------------------------
 
 #if canImport(AzureCore)
-import AzureCore
+    import AzureCore
 #endif
 import Foundation
 
