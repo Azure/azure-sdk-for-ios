@@ -28,7 +28,34 @@ import UIKit
 import AzureCommunicationChat
 import AzureCore
 
-class CreateNewThreadViewController: UIViewController {
+class CreateNewThreadViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return participantsToBeSelected.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        cell.textLabel?.text = participantsToBeSelected[indexPath.row].name
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+          print("You selected \(participantsToBeSelected[indexPath.row].name)!")
+          selectedParticipants.append(participantsToBeSelected[indexPath.row])
+      }
+
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        print("You deselected \(participantsToBeSelected[indexPath.row].name)!")
+        selectedParticipants.removeAll(where: {user in user.name == participantsToBeSelected[indexPath.row].name})
+    }
+    
+    var participantsToBeSelected: [User] = users.filter{ user in
+        return user.id != currentUser?.id
+    }
+    
+    var selectedParticipants: [User] = []
+
+    @IBOutlet var participantsTableView: UITableView!
     
     @IBOutlet var createNewThreadButton: UIButton!
     
@@ -36,6 +63,11 @@ class CreateNewThreadViewController: UIViewController {
     
     @IBAction func didTapCreateNewThreadButton()
     {
+        if selectedParticipants.isEmpty
+        {
+            showAlert(message: "you need to select at least one participant", viewController: self)
+            return
+        }
         let range = topicNameInputArea.textRange(from: topicNameInputArea.beginningOfDocument, to: topicNameInputArea.endOfDocument)!
         let topicName = topicNameInputArea.text(in:range )
         if let unwrappedTopicName = topicName {
@@ -56,17 +88,19 @@ class CreateNewThreadViewController: UIViewController {
     
     func createNewThread(topicName: String)
     {
-        let participant = Participant(from: ChatParticipant(
+        var participants: [Participant] = [Participant(from: ChatParticipant(
             id: currentUser!.id,
             displayName: currentUser?.name,
             
             shareHistoryTime: Iso8601Date(string: "2020-10-30T10:50:50Z")!
-        ))
+        ))]
+        selectedParticipants.map{user in
+            participants.append(Participant(from: ChatParticipant(id: user.id, displayName: user.name, shareHistoryTime: Iso8601Date(string: "2020-10-30T10:50:50Z")!)))}
+
         let request = CreateThreadRequest(
             topic: topicName,
-            participants: [
-                participant
-            ]
+            participants: participants
+            
         )
         chatClient?.create(thread: request) { result, _ in
             switch result {
@@ -91,8 +125,11 @@ class CreateNewThreadViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        participantsTableView.delegate = self
+        participantsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        participantsTableView.dataSource = self
+        participantsTableView.allowsMultipleSelection = true
+        participantsTableView.allowsMultipleSelectionDuringEditing = true
     }
     
 }
