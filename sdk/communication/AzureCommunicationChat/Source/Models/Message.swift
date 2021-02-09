@@ -142,7 +142,7 @@ public struct Message: Codable {
 
         // Convert senderId to CommunicationUserIdentifier
         let senderId = try? container.decode(String.self, forKey: .sender)
-        self.sender = CommunicationUserIdentifier(identifier: senderId!)
+        self.sender = (senderId != nil) ? CommunicationUserIdentifier(identifier: senderId!) : nil
 
         self.deletedOn = try? container.decode(Iso8601Date.self, forKey: .deletedOn)
         self.editedOn = try? container.decode(Iso8601Date.self, forKey: .editedOn)

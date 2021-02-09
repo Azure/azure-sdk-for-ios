@@ -29,14 +29,14 @@ import CoreData
 import Foundation
 
 extension MultiBlobTransfer {
-    @nonobjc internal class func fetchRequest() -> NSFetchRequest<MultiBlobTransfer> {
+    @nonobjc class func fetchRequest() -> NSFetchRequest<MultiBlobTransfer> {
         return NSFetchRequest<MultiBlobTransfer>(entityName: "MultiBlobTransfer")
     }
 
-    @NSManaged internal var id: UUID
-    @NSManaged internal var rawState: Int16
-    @NSManaged internal var totalBlobs: Int64
-    @NSManaged internal var blobs: NSSet?
+    @NSManaged var id: UUID
+    @NSManaged var rawState: Int16
+    @NSManaged var totalBlobs: Int64
+    @NSManaged var blobs: NSSet?
 }
 
 // MARK: Generated accessors for blobs

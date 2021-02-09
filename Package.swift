@@ -1,4 +1,4 @@
-// swift-tools-version:5.1
+// swift-tools-version:5.3
 //  The swift-tools-version declares the minimum version of Swift required to build this package.
 //
 // --------------------------------------------------------------------------
@@ -48,18 +48,21 @@ let package = Package(
             name: "AzureCore",
             dependencies: [],
             path: "sdk/core/AzureCore",
+            exclude: ["Source/Supporting Files"],
             sources: ["Source"]
         ),
         .target(
             name: "AzureCommunication",
             dependencies: ["AzureCore"],
             path: "sdk/communication/AzureCommunication",
+            exclude: ["Source/Supporting Files"],
             sources: ["Source"]
         ),
         .target(
             name: "AzureCommunicationChat",
             dependencies: ["AzureCore", "AzureCommunication"],
             path: "sdk/communication/AzureCommunicationChat",
+            exclude: ["Source/Supporting Files"],
             sources: ["Source"]
         ),
         // Test targets
@@ -67,6 +70,10 @@ let package = Package(
             name: "AzureCoreTests",
             dependencies: ["AzureCore"],
             path: "sdk/core/AzureCore",
+            exclude: [
+                "Tests/Info.plist",
+                "Tests/Data Files"
+            ],
             sources: ["Tests"]
         ),
         .testTarget(
@@ -74,6 +81,7 @@ let package = Package(
             dependencies: ["AzureCommunication"],
             path: "sdk/communication/AzureCommunication",
             exclude: [
+                "Tests/Info.plist",
                 "Tests/AzureCommunicationTests-Bridging-Header.h",
                 "Tests/ObjCCommunicationTokenCredentialTests.m",
                 "Tests/ObjCCommunicationTokenCredentialAsyncTests.m",
@@ -83,8 +91,17 @@ let package = Package(
         ),
         .testTarget(
             name: "AzureCommunicationChatTests",
-            dependencies: ["AzureCommunication", "AzureCommunicationChat", "OHHTTPStubsSwift"],
+            dependencies: [
+                "AzureCommunication",
+                "AzureCommunicationChat",
+                .product(name: "OHHTTPStubsSwift", package: "OHHTTPStubs"),
+            ],
             path: "sdk/communication/AzureCommunicationChat",
+            exclude: [
+                "Tests/Info.plist",
+                "Tests/Util/Mocks",
+                "Tests/Util/Recordings"
+            ],
             sources: ["Tests"]
         )
     ],

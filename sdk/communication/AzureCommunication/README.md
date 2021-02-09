@@ -101,14 +101,14 @@ $ pod install
 
 ## Key concepts
 
-### CommunicationUserCredential
-A `CommunicationUserCredential` authenticates a user with Communication Services, such as Chat or Calling. It optionally
+### CommunicationTokenCredential
+A `CommunicationTokenCredential` authenticates a user with Communication Services, such as Chat or Calling. It optionally
 provides an auto-refresh mechanism to ensure a continuously stable authentication state during communications. User
 tokens are created by the application developer using the Communication Administration SDK - once created, they are
-provided to the various Communication Services client libraries by way of a `CommunicationUserCredential` object.
+provided to the various Communication Services client libraries by way of a `CommunicationTokenCredential` object.
 
 ## Examples
-The following sections provide several code snippets showing different ways to use a `CommunicationUserCredential`:
+The following sections provide several code snippets showing different ways to use a `CommunicationTokenCredential`:
 
 * [Creating a credential with a static token](#creating-a-credential-with-a-static-token)
 * [Creating a credential that refreshes synchronously](#creating-a-credential-that-refreshes-synchronously)
@@ -117,7 +117,7 @@ The following sections provide several code snippets showing different ways to u
 ### Creating a credential with a static token
 ```swift
 let sampleToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjMyNTAzNjgwMDAwfQ.9i7FNNHHJT8cOzo-yrAUJyBSfJ-tPPk2emcHavOEpWc"
-let userCredential = try CommunicationUserCredential(token: sampleToken)
+let credential = try CommunicationTokenCredential(token: sampleToken)
 ```
 
 ### Creating a credential that refreshes synchronously
@@ -130,12 +130,12 @@ func fetchTokenSync(completionHandler: TokenRefreshOnCompletion) {
     completionHandler(newToken, nil)
 }
 
-let userCredential = try CommunicationUserCredential(initialToken: sampleExpiredToken, 
+let credential = try CommunicationTokenCredential(initialToken: sampleExpiredToken, 
     refreshProactively: false, 
     tokenRefresher: fetchTokenSync)
     
 DispatchQueue.global(qos: .utility).async {
-      userCredential.token { (accessToken: AccessToken?, error: Error?) in
+      credential.token { (accessToken: AccessToken?, error: Error?) in
         ...
       }
 }
@@ -156,12 +156,12 @@ func fetchTokenAsync(completionHandler: @escaping TokenRefreshOnCompletion) {
      }
 }
 
-let userCredential = try CommunicationUserCredential(initialToken: sampleExpiredToken, 
+let credential = try CommunicationTokenCredential(initialToken: sampleExpiredToken, 
     refreshProactively: false, 
     tokenRefresher: fetchTokenAsync)
     
 DispatchQueue.global(qos: .utility).async {
-      userCredential.token { (accessToken: AccessToken?, error: Error?) in
+      credential.token { (accessToken: AccessToken?, error: Error?) in
         ...
       }
 }

@@ -27,7 +27,6 @@
 import AzureCommunication
 import AzureCommunicationChat
 import AzureCore
-import OHHTTPStubs
 import XCTest
 
 class ChatClientTests: XCTestCase {
@@ -42,9 +41,6 @@ class ChatClientTests: XCTestCase {
         if TestUtil.mode == "playback" {
             // Register stubs for playback mode
             Recorder.registerStubs()
-        } else {
-            // Remove any stubs that have been registered
-            HTTPStubs.removeAllStubs()
         }
     }
 

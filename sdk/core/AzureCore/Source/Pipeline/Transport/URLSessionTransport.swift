@@ -103,10 +103,18 @@ public class URLSessionTransport: TransportStage {
                     return
                 }
             }
-
             let rawResponse = response as? HTTPURLResponse
             let httpResponse = URLHTTPResponse(request: httpRequest, response: rawResponse)
             httpResponse.data = data
+
+            // check for invalid status codes
+            let statusCode = httpResponse.statusCode ?? -1
+            let allowedStatusCodes = responseContext?.value(forKey: .allowedStatusCodes) as? [Int] ?? [200]
+            if !allowedStatusCodes.contains(statusCode) {
+                // do not add the inner error, as it may require decoding from XML.
+                let error = AzureError.service("Service returned invalid status code [\(statusCode)].", nil)
+                completionHandler(.failure(error), httpResponse)
+            }
 
             let pipelineResponse = PipelineResponse(
                 request: httpRequest,

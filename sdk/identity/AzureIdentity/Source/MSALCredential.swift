@@ -176,7 +176,7 @@ public struct MSALCredential: TokenCredential {
         completionHandler: @escaping MSALResultCompletionHandler
     ) {
         guard let parent = delegate?.parentForWebView(), let application = application else { return }
-        let webViewParameters = MSALWebviewParameters(parentViewController: parent)
+        let webViewParameters = MSALWebviewParameters(authPresentationViewController: parent)
         let parameters = MSALInteractiveTokenParameters(scopes: scopes, webviewParameters: webViewParameters)
         application.acquireToken(with: parameters) { result, error in
             completionHandler(result, error)

@@ -72,7 +72,7 @@ class BlobDownloadViewController: UIViewController, MSALInteractiveDelegate {
         if !(tableView.refreshControl?.isRefreshing ?? false) {
             tableView.refreshControl?.beginRefreshing()
         }
-        blobClient.listBlobs(inContainer: containerName, withOptions: options) { result, _ in
+        blobClient.blobs.list(inContainer: containerName, withOptions: options) { result, _ in
             self.tableView.refreshControl?.endRefreshing()
             switch result {
             case let .success(paged):
@@ -215,7 +215,7 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
         // Otherwise, start the download with TransferManager.
         let options = AppState.downloadOptions
         do {
-            try blobClient.download(
+            try blobClient.blobs.download(
                 blob: blobName,
                 fromContainer: containerName,
                 toFile: destination,
@@ -239,7 +239,7 @@ extension BlobDownloadViewController: UITableViewDelegate, UITableViewDataSource
             guard let containerName = AppConstants.videoContainer else { return }
             guard let blobClient = self.blobClient else { return }
 
-            blobClient.delete(blob: blobName, inContainer: containerName) { result, _ in
+            blobClient.blobs.delete(blob: blobName, inContainer: containerName) { result, _ in
                 switch result {
                 case .success:
                     self.showAlert(message: "\(blobName) successfully deleted.")

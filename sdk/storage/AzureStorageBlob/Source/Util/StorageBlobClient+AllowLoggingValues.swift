@@ -27,7 +27,7 @@
 import AzureCore
 import Foundation
 
-extension StorageBlobClient {
+public extension StorageBlobClient {
     internal static let allowHeadersEnum: [RequestStringConvertible] = [
         HTTPHeader.acceptRanges,
         HTTPHeader.accessControlAllowOrigin,
@@ -110,12 +110,12 @@ extension StorageBlobClient {
     ]
 
     /// Header values that are permitted to be logged from StorageBlobClient API calls.
-    public static var allowHeaders: [String] {
+    static var allowHeaders: [String] {
         return LoggingPolicy.defaultAllowHeaders + StorageBlobClient.allowHeadersEnum.map { $0.requestString }
     }
 
     /// Query string parameter values that are permitted to be logged from StorageBlobClient API calls.
-    public static let allowQueryParams: [String] = [
+    static let allowQueryParams: [String] = [
         "blockid",
         "blocklisttype",
         "comp",

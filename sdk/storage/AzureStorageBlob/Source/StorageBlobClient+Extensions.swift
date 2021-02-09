@@ -77,21 +77,21 @@ extension StorageBlobClient: TransferDelegate {
 
 // MARK: Transfer Management
 
-extension StorageBlobClient {
+public extension StorageBlobClient {
     /// Retrieve all managed transfers created by this client.
-    public var transfers: TransferCollection {
+    var transfers: TransferCollection {
         let collection = StorageBlobClient.manager.transferCollection.items
         return TransferCollection(collection.filter { $0.clientRestorationId == self.options.restorationId })
     }
 
     /// Retrieve all managed downloads created by this client.
-    public var downloads: TransferCollection {
+    var downloads: TransferCollection {
         let collection = StorageBlobClient.manager.downloadCollection.items
         return TransferCollection(collection.filter { $0.clientRestorationId == self.options.restorationId })
     }
 
     /// Retrieve all managed uploads created by this client.
-    public var uploads: TransferCollection {
+    var uploads: TransferCollection {
         let collection = StorageBlobClient.manager.uploadCollection.items
         return TransferCollection(collection.filter { $0.clientRestorationId == self.options.restorationId })
     }

@@ -53,7 +53,7 @@
          location = "group:iOSChatDemoApp/iOSChatDemoApp.xcodeproj">
       </FileRef>
       <FileRef
-         location = "group:AzureSDKSmokeTest/AzureSDKSmokeTest.xcodeproj">
+         location = "group:AzureStorageBlobDemo/AzureStorageBlobDemo.xcodeproj">
       </FileRef>
       <FileRef
          location = "group:SignalingTestApp/SignalingTestApp.xcodeproj">

@@ -159,14 +159,14 @@ func toChatThreadCreatedEvent(request: TrouterRequest) throws -> ChatThreadCreat
 
         let createdByJsonData = (chatThreadCreatedPayload.createdBy.data(using: .utf8))!
         let createdByPayload: ChatParticipantPayload = try JSONDecoder().decode(ChatParticipantPayload.self, from: createdByJsonData)
-        let createdBy: ChatParticipant =
-            ChatParticipant(user: CommunicationUser(communicationUserId: createdByPayload.participantId),
+        let createdBy: SignalingChatParticipant =
+            SignalingChatParticipant(user: CommunicationUser(communicationUserId: createdByPayload.participantId),
                             displayName: createdByPayload.displayName)
 
         let membersJsonData = (chatThreadCreatedPayload.members.data(using: .utf8))!
         let membersPayload: [ChatParticipantPayload] = try JSONDecoder().decode([ChatParticipantPayload].self, from: membersJsonData)
-        let participants: [ChatParticipant] = membersPayload.map { (memberPayload: ChatParticipantPayload) -> ChatParticipant in
-            return ChatParticipant(user: CommunicationUser(communicationUserId: memberPayload.participantId), displayName: memberPayload.displayName)
+        let participants: [SignalingChatParticipant] = membersPayload.map { (memberPayload: ChatParticipantPayload) -> SignalingChatParticipant in
+            return SignalingChatParticipant(user: CommunicationUser(communicationUserId: memberPayload.participantId), displayName: memberPayload.displayName)
         }
 
         let propertiesJsonData = (chatThreadCreatedPayload.properties.data(using: .utf8))!
@@ -194,8 +194,8 @@ func toChatThreadPropertiesUpdatedEvent(request: TrouterRequest) throws -> ChatT
 
         let updatedByJsonData = (chatThreadPropertiesUpdatedPayload.editedBy.data(using: .utf8))!
         let updatedByPayload: ChatParticipantPayload = try JSONDecoder().decode(ChatParticipantPayload.self, from: updatedByJsonData)
-        let updatedBy: ChatParticipant =
-            ChatParticipant(user: CommunicationUser(communicationUserId: updatedByPayload.participantId),
+        let updatedBy: SignalingChatParticipant =
+            SignalingChatParticipant(user: CommunicationUser(communicationUserId: updatedByPayload.participantId),
                             displayName: updatedByPayload.displayName)
 
         let propertiesJsonData = (chatThreadPropertiesUpdatedPayload.properties.data(using: .utf8))!
@@ -223,7 +223,7 @@ func toChatThreadDeletedEvent(request: TrouterRequest) throws -> ChatThreadDelet
 
         let deletedByJsonData = (chatThreadDeletedPayload.deletedBy.data(using: .utf8))!
         let deletedByPayload: ChatParticipantPayload = try JSONDecoder().decode(ChatParticipantPayload.self, from: deletedByJsonData)
-        let deletedBy: ChatParticipant = ChatParticipant(user: CommunicationUser(communicationUserId: deletedByPayload.participantId), displayName: deletedByPayload.displayName)
+        let deletedBy: SignalingChatParticipant = SignalingChatParticipant(user: CommunicationUser(communicationUserId: deletedByPayload.participantId), displayName: deletedByPayload.displayName)
 
         let chatThreadDeletedEvent: ChatThreadDeletedEvent =
             ChatThreadDeletedEvent(threadId: chatThreadDeletedPayload.threadId,
@@ -246,13 +246,13 @@ func toParticipantsAddedEvent(request: TrouterRequest) throws -> ParticipantsAdd
 
         let addeddByJsonData = (participantsAddedPayload.addedBy.data(using: .utf8))!
         let addedByPayload: ChatParticipantPayload = try JSONDecoder().decode(ChatParticipantPayload.self, from: addeddByJsonData)
-        let addedBy: ChatParticipant = ChatParticipant(user: CommunicationUser(communicationUserId: addedByPayload.participantId), displayName: addedByPayload.displayName)
+        let addedBy: SignalingChatParticipant = SignalingChatParticipant(user: CommunicationUser(communicationUserId: addedByPayload.participantId), displayName: addedByPayload.displayName)
 
         let participantsJsonData = (participantsAddedPayload.participantsAdded.data(using: .utf8))!
         let participantsPayload: [ChatParticipantPayload] = try JSONDecoder().decode([ChatParticipantPayload].self, from: participantsJsonData)
 
-        let participants: [ChatParticipant] = participantsPayload.map { (memberPayload: ChatParticipantPayload) -> ChatParticipant in
-            return ChatParticipant(user: CommunicationUser(communicationUserId: memberPayload.participantId),
+        let participants: [SignalingChatParticipant] = participantsPayload.map { (memberPayload: ChatParticipantPayload) -> SignalingChatParticipant in
+            return SignalingChatParticipant(user: CommunicationUser(communicationUserId: memberPayload.participantId),
                                    displayName: memberPayload.displayName,
                                    shareHistoryTime: toISO8601Date(unixTime: memberPayload.shareHistoryTime))
         }
@@ -278,12 +278,12 @@ func toParticipantsRemovedEvent(request: TrouterRequest) throws -> ParticipantsR
 
         let removedByJsonData = (participantsRemovedPayload.removedBy.data(using: .utf8))!
         let removedByPayload: ChatParticipantPayload = try JSONDecoder().decode(ChatParticipantPayload.self, from: removedByJsonData)
-        let removedBy: ChatParticipant = ChatParticipant(user: CommunicationUser(communicationUserId: removedByPayload.participantId), displayName: removedByPayload.displayName)
+        let removedBy: SignalingChatParticipant = SignalingChatParticipant(user: CommunicationUser(communicationUserId: removedByPayload.participantId), displayName: removedByPayload.displayName)
 
         let participantsJsonData = (participantsRemovedPayload.participantsRemoved.data(using: .utf8))!
         let participantsPayload: [ChatParticipantPayload] = try JSONDecoder().decode([ChatParticipantPayload].self, from: participantsJsonData)
-        let participants: [ChatParticipant] = participantsPayload.map { (memberPayload: ChatParticipantPayload) -> ChatParticipant in
-            return ChatParticipant(user: CommunicationUser(communicationUserId: memberPayload.participantId),
+        let participants: [SignalingChatParticipant] = participantsPayload.map { (memberPayload: ChatParticipantPayload) -> SignalingChatParticipant in
+            return SignalingChatParticipant(user: CommunicationUser(communicationUserId: memberPayload.participantId),
                                    displayName: memberPayload.displayName,
                                    shareHistoryTime: toISO8601Date(unixTime: memberPayload.shareHistoryTime))
         }
