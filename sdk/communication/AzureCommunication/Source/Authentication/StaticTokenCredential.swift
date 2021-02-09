@@ -25,22 +25,22 @@
 // --------------------------------------------------------------------------
 
 #if canImport(AzureCore)
-import AzureCore
+    import AzureCore
 #endif
 import Foundation
 /**
- The Azure Communication Services User token credential. 
+ The Azure Communication Services User token credential.
  */
 internal class StaticTokenCredential: CommunicationTokenCredentialProviding {
     private let accessToken: CommunicationAccessToken
 
     /**
      Creates a static `CommunicationTokenCredential` object from the provided token.
-        
+
      - Parameter token: The static token to use for authenticating all requests.
-     
+
      - Throws: `AzureError` if the provided token is not a valid token.
-     
+
      - SeeAlso: ` CommunicationTokenCredential.init(...)`
      */
     public init(token: String) throws {
@@ -49,7 +49,7 @@ internal class StaticTokenCredential: CommunicationTokenCredentialProviding {
 
     /**
      Retrieve an access token from the credential.
-     
+
      - Parameter completionHandler: Closure that accepts an optional `AccessToken` or optional `Error` as parameters.
      `AccessToken` returns a token and an expiry date if applicable. `Error` returns `nil` if the current token can be returned.
 

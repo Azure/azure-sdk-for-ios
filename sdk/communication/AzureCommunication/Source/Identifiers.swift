@@ -74,15 +74,15 @@ import Foundation
         self.phoneNumber = phoneNumber
         self.rawId = rawId
     }
-    
+
     public static func == (lhs: PhoneNumberIdentifier, rhs: PhoneNumberIdentifier) -> Bool {
         if lhs.phoneNumber != rhs.phoneNumber {
             return false
         }
-        
+
         return lhs.rawId == nil
             || rhs.rawId == nil
-            || lhs.rawId == rhs.rawId;
+            || lhs.rawId == rhs.rawId
     }
 }
 
@@ -102,7 +102,12 @@ import Foundation
      - Parameter rawId: Full id of the Microsoft Teams user.
      - Parameter cloudEnvironment: The cloud that the Microsoft Team user belongs to. A null value translates to the Public cloud.
      */
-    public init(userId: String, isAnonymous: Bool = false, rawId: String? = nil, cloudEnvironment: CommunicationCloudEnvironment = .Public) {
+    public init(
+        userId: String,
+        isAnonymous: Bool = false,
+        rawId: String? = nil,
+        cloudEnvironment: CommunicationCloudEnvironment = .Public
+    ) {
         self.rawId = rawId
         self.userId = userId
         self.isAnonymous = isAnonymous
@@ -115,20 +120,19 @@ import Foundation
         self.userId = userId
         self.isAnonymous = isAnonymous
     }
-    
+
     public static func == (lhs: MicrosoftTeamsUserIdentifier, rhs: MicrosoftTeamsUserIdentifier) -> Bool {
         if lhs.userId != rhs.userId ||
-            lhs.isAnonymous != rhs.isAnonymous
-            {
+            lhs.isAnonymous != rhs.isAnonymous {
             return false
         }
 
-        if (lhs.cloudEnviroment != rhs.cloudEnviroment) {
+        if lhs.cloudEnviroment != rhs.cloudEnviroment {
             return false
         }
 
         return lhs.rawId == nil
             || rhs.rawId == nil
-            || lhs.rawId == rhs.rawId;
+            || lhs.rawId == rhs.rawId
     }
 }
