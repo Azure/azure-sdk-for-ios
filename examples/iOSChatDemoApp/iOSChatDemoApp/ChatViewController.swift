@@ -121,7 +121,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         messagesTableView.delegate = self
         messagesTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         messagesTableView.dataSource = self
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadMessages), name:  Notification.Name(rawValue: "newMessage"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadMessages), name:  Notification.Name(rawValue: "reloadMessages"), object: nil)
         listMessages()
     }
     

@@ -53,7 +53,7 @@ class ThreadsViewController: UIViewController, UITableViewDelegate, UITableViewD
         threadsTableView.delegate = self
         threadsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         threadsTableView.dataSource = self
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadThreads), name:  Notification.Name(rawValue: "newThread"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadThreads), name:  Notification.Name(rawValue: "reloadThreads"), object: nil)
         listThreads ()
     }
     

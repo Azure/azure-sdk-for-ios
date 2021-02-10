@@ -91,7 +91,6 @@ class LogInViewController: UIViewController {
         }
         chatClient = getClient(credential:communicationUserCredential)
         
-        
         chatClient?.startRealTimeNotifications()
         
         chatClient?.on(event: "chatMessageReceived", listener:{
@@ -100,7 +99,7 @@ class LogInViewController: UIViewController {
             let response = response as! ChatMessageReceivedEvent
             chatMessages.append(Message(from: ChatMessage(id: "", type: ChatMessageType.text, sequenceId: "", version: "", content:ChatMessageContent(message:response.content, topic: nil, participants: nil, initiator: nil), senderDisplayName: response.senderDisplayName , createdOn: Iso8601Date(), senderId: "", deletedOn: nil, editedOn: nil)))
             
-            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "newMessage")))
+            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "reloadMessages")))
         })
         
         chatClient?.on(event: "chatThreadCreated", listener:{
@@ -109,7 +108,7 @@ class LogInViewController: UIViewController {
             let response = response as! ChatThreadCreatedEvent
             chatThreads.append(AzureCommunicationChat.Thread(from: ChatThread(id: response.threadId, topic: response.properties!.topic, createdOn: Iso8601Date(string:  response.createdOn)!, createdBy:(response.createdBy?.user!.communicationUserId)!, deletedOn:nil)))
             
-            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "newThread")))
+            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "reloadThreads")))
         })
         
         chatClient?.on(event: "participantsAdded", listener:{
@@ -148,6 +147,13 @@ class LogInViewController: UIViewController {
             (response, eventId)
             in
             let response = response as! ChatThreadPropertiesUpdatedEvent
+            if let unwrappedTopicName = response.properties?.topic
+            {
+                if let indexOfUpdatedThread = chatThreads.firstIndex(where: {$0.id == response.threadId}) {
+                    chatThreads[indexOfUpdatedThread] = AzureCommunicationChat.Thread(from: ChatThread(id: chatThreads[indexOfUpdatedThread].id, topic: unwrappedTopicName, createdOn: chatThreads[indexOfUpdatedThread].createdOn, createdBy: chatThreads[indexOfUpdatedThread].createdBy.identifier, deletedOn: chatThreads[indexOfUpdatedThread].deletedOn))
+                }
+            }
+            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "reloadThreads")))
         })
         chatClient?.on(event: "chatThreadDeleted", listener:{
             (response, eventId)

@@ -26,34 +26,48 @@
 
 import UIKit
 
-class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    @IBOutlet var settingsTableView: UITableView!
+class ChangeTopicNameViewController: UIViewController {
+    @IBOutlet var topicNameInputArea: UITextInput!
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return settings.count
-    }
+    @IBOutlet var changeTopicNameButton: UIButton!
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = settings[indexPath.row]
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        settingsTableView.deselectRow(at: indexPath, animated: true)
-        if  settings[indexPath.row] == "Change Topic Name"
-        {
-            performSegue(withIdentifier: "SegueToChangeTopicNameViewController", sender: self)
+    @IBAction func didTapChangeTopicNameButton()
+    {
+        
+        let range = topicNameInputArea.textRange(from: topicNameInputArea.beginningOfDocument, to: topicNameInputArea.endOfDocument)!
+        let topicName = topicNameInputArea.text(in:range )
+        if let unwrappedTopicName = topicName {
+            if unwrappedTopicName.trimmingCharacters(in: .whitespaces).isEmpty
+            {
+                showAlert(message: "topic name cannot be empty", viewController: self)
+                return
+            }
+            changeTopicName(topicName: unwrappedTopicName)
+            topicNameInputArea.replace(range, withText: "")
         }
-        else if settings[indexPath.row] == "Participants"
-        {
-            print("Participants")
+        else {
+            showAlert(message: "topic name cannot be empty", viewController: self)
+            return
         }
     }
+    
+    func changeTopicName (topicName: String){
+        chatThreadClient?.update(topic: topicName, completionHandler: { result, _ in
+            switch result {
+            case let .success(response):
+                print(response)
+
+            case .failure:
+                print("Unexpected failure happened in update topic")
+            }
+        })
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        settingsTableView.delegate = self
-        settingsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        settingsTableView.dataSource = self
+
+        // Do any additional setup after loading the view.
     }
+    
+
 }

@@ -81,7 +81,7 @@ class CreateNewThreadViewController: UIViewController, UITableViewDelegate, UITa
             performSegue(withIdentifier: "SegueToChatViewController", sender: self)
         }
         else {
-            showAlert(message: "user name cannot be empty", viewController: self)
+            showAlert(message: "topic name cannot be empty", viewController: self)
             return
         }
     }

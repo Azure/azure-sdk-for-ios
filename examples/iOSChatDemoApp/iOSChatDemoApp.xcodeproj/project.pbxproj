@@ -18,6 +18,7 @@
 		D524814825CCA4F7001455C5 /* Commons.swift in Sources */ = {isa = PBXBuildFile; fileRef = D524814725CCA4F7001455C5 /* Commons.swift */; };
 		D55D02EB25D24AA200D7A2F0 /* CreateNewThreadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55D02EA25D24AA200D7A2F0 /* CreateNewThreadViewController.swift */; };
 		D55D037325D3564400D7A2F0 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55D037225D3564400D7A2F0 /* SettingsViewController.swift */; };
+		D55D037725D35B6900D7A2F0 /* ChangeTopicNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55D037625D35B6900D7A2F0 /* ChangeTopicNameViewController.swift */; };
 		D5EE7A7C25CB76DC00220882 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5EE7A7B25CB76DC00220882 /* ChatViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +38,7 @@
 		D524814725CCA4F7001455C5 /* Commons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Commons.swift; sourceTree = "<group>"; };
 		D55D02EA25D24AA200D7A2F0 /* CreateNewThreadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewThreadViewController.swift; sourceTree = "<group>"; };
 		D55D037225D3564400D7A2F0 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		D55D037625D35B6900D7A2F0 /* ChangeTopicNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeTopicNameViewController.swift; sourceTree = "<group>"; };
 		D5EE7A7B25CB76DC00220882 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -90,6 +92,7 @@
 				D5EE7A7B25CB76DC00220882 /* ChatViewController.swift */,
 				D55D02EA25D24AA200D7A2F0 /* CreateNewThreadViewController.swift */,
 				D55D037225D3564400D7A2F0 /* SettingsViewController.swift */,
+				D55D037625D35B6900D7A2F0 /* ChangeTopicNameViewController.swift */,
 				D50B8EB525C8F49400B127D9 /* Main.storyboard */,
 				D50B8EB825C8F49600B127D9 /* Assets.xcassets */,
 				D50B8EBA25C8F49600B127D9 /* LaunchScreen.storyboard */,
@@ -227,6 +230,7 @@
 				D524814425CC9775001455C5 /* LogInViewController.swift in Sources */,
 				D524814825CCA4F7001455C5 /* Commons.swift in Sources */,
 				D50B8EB225C8F49400B127D9 /* SceneDelegate.swift in Sources */,
+				D55D037725D35B6900D7A2F0 /* ChangeTopicNameViewController.swift in Sources */,
 				D55D037325D3564400D7A2F0 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
