@@ -224,8 +224,7 @@ public class ContentDecodePolicy: PipelineStage {
             contentType: contentType,
             withKey: .xmlErrorMap
         ) as? Data,
-            let innerErrorString = String(data: deserializedError, encoding: .utf8)
-        else {
+            let innerErrorString = String(data: deserializedError, encoding: .utf8) else {
             completionHandler(error, false)
             return
         }
