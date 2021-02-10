@@ -20,6 +20,20 @@
                ReferencedContainer = "container:examples/AzureSDKDemoSwift/AzureSDKDemoSwift.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0A3A5E752315E70400473FDA"
+               BuildableName = "AzureStorageBlobDemo.app"
+               BlueprintName = "AzureStorageBlobDemo"
+               ReferencedContainer = "container:examples/AzureStorageBlobDemo/AzureStorageBlobDemo.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction

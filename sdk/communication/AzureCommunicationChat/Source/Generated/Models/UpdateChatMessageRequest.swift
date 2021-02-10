@@ -15,45 +15,39 @@ import Foundation
 // swiftlint:disable line_length
 // swiftlint:disable cyclomatic_complexity
 
+/// Request payload for updating a chat message.
 public struct UpdateChatMessageRequest: Codable {
     // MARK: Properties
 
     /// Chat message content.
     public let content: String?
-    /// The chat message priority.
-    public let priority: ChatMessagePriority?
 
     // MARK: Initializers
 
     /// Initialize a `UpdateChatMessageRequest` structure.
     /// - Parameters:
     ///   - content: Chat message content.
-    ///   - priority: The chat message priority.
     public init(
-        content: String? = nil, priority: ChatMessagePriority? = nil
+        content: String? = nil
     ) {
         self.content = content
-        self.priority = priority
     }
 
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case content
-        case priority
+        case content = "content"
     }
 
     /// Initialize a `UpdateChatMessageRequest` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.content = try? container.decode(String.self, forKey: .content)
-        self.priority = try? container.decode(ChatMessagePriority.self, forKey: .priority)
     }
 
     /// Encode a `UpdateChatMessageRequest` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         if content != nil { try? container.encode(content, forKey: .content) }
-        if priority != nil { try? container.encode(priority, forKey: .priority) }
     }
 }

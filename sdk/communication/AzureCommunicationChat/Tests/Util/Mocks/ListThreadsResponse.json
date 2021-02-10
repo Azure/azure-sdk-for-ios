@@ -1,0 +1,11 @@
+{
+    "value": [
+        {
+            "id": "test_thread_id",
+            "topic": "test topic",
+            "deletedOn": "2020-10-30T10:50:50Z",
+            "lastMessageReceivedOn": "2020-10-30T10:50:50Z"
+        }
+    ],
+    "nextLink": "string"
+}

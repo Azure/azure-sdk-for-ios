@@ -15,6 +15,7 @@ import Foundation
 // swiftlint:disable line_length
 // swiftlint:disable cyclomatic_complexity
 
+/// Request payload for updating a chat thread.
 public struct UpdateChatThreadRequest: Codable {
     // MARK: Properties
 
@@ -35,7 +36,7 @@ public struct UpdateChatThreadRequest: Codable {
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case topic
+        case topic = "topic"
     }
 
     /// Initialize a `UpdateChatThreadRequest` structure from decoder

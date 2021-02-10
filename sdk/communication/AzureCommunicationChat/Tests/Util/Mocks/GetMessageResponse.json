@@ -1,0 +1,12 @@
+{
+    "id": "test_message_id",
+    "type": "text",
+    "sequenceId": "3",
+    "version": "1610070518313",
+    "content": {
+        "message": "Hello World!"
+    },
+    "senderDisplayName": "User 1",
+    "createdOn": "2021-01-08T01:48:38Z",
+    "senderId": "test_sender_id"
+}
