@@ -115,12 +115,24 @@ class LogInViewController: UIViewController {
             (response, eventId)
             in
             let response = response as! ParticipantsAddedEvent
+            response.participantsAdded?.map {participantAdded in
+                chatParticipants.append(Participant(from: ChatParticipant(id: participantAdded.user!.communicationUserId, displayName: participantAdded.displayName, shareHistoryTime: Iso8601Date(string: participantAdded.shareHistoryTime))))
+                        
+            }
+            
+            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "reloadParticipants")))
         })
         
         chatClient?.on(event: "participantsRemoved", listener:{
             (response, eventId)
             in
             let response = response as! ParticipantsRemovedEvent
+            
+            response.participantsRemoved?.map {participantRemoved in
+                chatParticipants.removeAll(where: {$0.user.identifier == participantRemoved.user?.communicationUserId})
+            }
+            
+            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "reloadParticipants")))
         })
         
         chatClient?.on(event: "typingIndicatorReceived", listener:{

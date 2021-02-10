@@ -21,6 +21,16 @@
 		C628AE5D2AC8AD799C4D3971 /* Pods_AzureStorageBlobDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 974715446D6414AFFD1A1076 /* Pods_AzureStorageBlobDemo.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		D5548D4525D468F9001355F4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D5548D4125D468F9001355F4 /* iOSChatDemoApp.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D50B8EAC25C8F49400B127D9;
+			remoteInfo = iOSChatDemoApp;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		0A25EA56239821E30012DFE1 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		0A3A5E762315E70400473FDA /* AzureStorageBlobDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AzureStorageBlobDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -40,6 +50,7 @@
 		974715446D6414AFFD1A1076 /* Pods_AzureStorageBlobDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureStorageBlobDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0A776A40094923B6F31057B /* Pods-AzureSDKDemoSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureSDKDemoSwift.debug.xcconfig"; path = "../../Pods/Target Support Files/Pods-AzureSDKDemoSwift/Pods-AzureSDKDemoSwift.debug.xcconfig"; sourceTree = "<group>"; };
 		C90D01C7C1433EAE8EDEE6CB /* Pods-AzureStorageBlobDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureStorageBlobDemo.debug.xcconfig"; path = "../../Pods/Target Support Files/Pods-AzureStorageBlobDemo/Pods-AzureStorageBlobDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		D5548D4125D468F9001355F4 /* iOSChatDemoApp.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = iOSChatDemoApp.xcodeproj; path = ../iOSChatDemoApp/iOSChatDemoApp.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +71,7 @@
 		0A3A5E6D2315E70400473FDA = {
 			isa = PBXGroup;
 			children = (
+				D5548D4125D468F9001355F4 /* iOSChatDemoApp.xcodeproj */,
 				0A3A5E782315E70400473FDA /* Source */,
 				0A3A5E772315E70400473FDA /* Products */,
 				0A3A5E9A2315E76A00473FDA /* Frameworks */,
@@ -122,6 +134,14 @@
 			path = ../Pods;
 			sourceTree = "<group>";
 		};
+		D5548D4225D468F9001355F4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D5548D4625D468F9001355F4 /* iOSChatDemoApp.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -172,12 +192,28 @@
 			mainGroup = 0A3A5E6D2315E70400473FDA;
 			productRefGroup = 0A3A5E772315E70400473FDA /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = D5548D4225D468F9001355F4 /* Products */;
+					ProjectRef = D5548D4125D468F9001355F4 /* iOSChatDemoApp.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				0A3A5E752315E70400473FDA /* AzureStorageBlobDemo */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		D5548D4625D468F9001355F4 /* iOSChatDemoApp.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = iOSChatDemoApp.app;
+			remoteRef = D5548D4525D468F9001355F4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		0A3A5E742315E70400473FDA /* Resources */ = {

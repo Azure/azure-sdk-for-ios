@@ -64,7 +64,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         }
         else if settings[indexPath.row] == "Participants"
         {
-            print("Participants")
+            performSegue(withIdentifier: "SegueToParticipantsViewController", sender: self)
         }
     }
     override func viewDidLoad() {

@@ -8,9 +8,25 @@
 	<string></string>
 	<key>idForUserA</key>
 	<string></string>
+	<key>idForUserB</key>
+	<string></string>
+	<key>idForUserC</key>
+	<string></string>
+	<key>idForUserD</key>
+	<string></string>
+	<key>idForUserE</key>
+	<string></string>
 	<key>tokenForGloria</key>
 	<string></string>
 	<key>tokenForUserA</key>
+	<string></string>
+	<key>tokenForUserB</key>
+	<string></string>
+	<key>tokenForUserC</key>
+	<string></string>
+	<key>tokenForUserD</key>
+	<string></string>
+	<key>tokenForUserE</key>
 	<string></string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>

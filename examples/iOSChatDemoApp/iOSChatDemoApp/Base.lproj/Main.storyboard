@@ -65,7 +65,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pp2-lP-IcZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2857.971014492754" y="51.5625"/>
+            <point key="canvasLocation" x="2858" y="53"/>
         </scene>
         <!--Chat-->
         <scene sceneID="HUn-TT-rbf">
@@ -131,7 +131,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DLu-ra-wPT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3737.68115942029" y="52.901785714285715"/>
+            <point key="canvasLocation" x="3800" y="53"/>
         </scene>
         <!--Log In-->
         <scene sceneID="1Uq-MR-o6M">
@@ -182,7 +182,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bp5-FF-26U" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2002.8985507246377" y="52.901785714285715"/>
+            <point key="canvasLocation" x="2019" y="53"/>
         </scene>
         <!--Create New Thread-->
         <scene sceneID="zzc-n4-tLO">
@@ -283,11 +283,12 @@
                         <outlet property="deleteThreadButton" destination="3lO-xN-nkY" id="KIM-yQ-NcC"/>
                         <outlet property="settingsTableView" destination="i61-4n-hkR" id="4Xg-qN-sf4"/>
                         <segue destination="MM3-u2-il2" kind="show" identifier="SegueToChangeTopicNameViewController" id="0Sn-ou-xhf"/>
+                        <segue destination="4iD-4c-trY" kind="show" identifier="SegueToParticipantsViewController" id="eZy-c0-L3x"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2fI-Us-xQ4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4647.826086956522" y="51.5625"/>
+            <point key="canvasLocation" x="4658" y="53"/>
         </scene>
         <!--Change Topic Name-->
         <scene sceneID="hCY-xl-I5n">
@@ -339,7 +340,87 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4YD-yH-L6Q" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5909" y="-684"/>
+            <point key="canvasLocation" x="5909" y="-303"/>
+        </scene>
+        <!--Participants-->
+        <scene sceneID="CVB-jK-hDS">
+            <objects>
+                <viewController id="4iD-4c-trY" customClass="ParticipantsViewController" customModule="iOSChatDemoApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="LRv-IJ-e20">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="R4v-wu-WqY">
+                                <rect key="frame" x="0.0" y="88" width="414" height="707"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nLc-uf-IPz">
+                                <rect key="frame" x="311" y="803" width="70" height="59"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal">
+                                    <color key="titleColor" name="AccentColor"/>
+                                    <imageReference key="image" image="plus.circle" catalog="system" symbolScale="large"/>
+                                </state>
+                                <connections>
+                                    <action selector="didTapOnGoToAddParticipantButton" destination="4iD-4c-trY" eventType="touchUpInside" id="UYF-6c-vit"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Dcz-ei-ntp"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Participants" id="BhD-f5-mvW"/>
+                    <connections>
+                        <outlet property="goToAddParticipantButton" destination="nLc-uf-IPz" id="PnV-Yy-xdt"/>
+                        <outlet property="participantsTableView" destination="R4v-wu-WqY" id="LB6-RX-CKR"/>
+                        <segue destination="MzS-GM-Lze" kind="show" identifier="SegueToAddParticipantsViewController" id="Eh0-uP-KCU"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="C2K-1j-wOB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5908.6956521739139" y="446.65178571428567"/>
+        </scene>
+        <!--Add Participants-->
+        <scene sceneID="uCQ-Du-nbz">
+            <objects>
+                <viewController id="MzS-GM-Lze" customClass="AddParticipantViewController" customModule="iOSChatDemoApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="u0o-nA-MTj">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" allowsMultipleSelection="YES" allowsMultipleSelectionDuringEditing="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="VF2-XV-suY">
+                                <rect key="frame" x="0.0" y="88" width="414" height="712"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                            <button opaque="NO" alpha="0.5" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M1r-xD-Oeg">
+                                <rect key="frame" x="113" y="828" width="188" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" name="AccentColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="Add">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="didTapAddParticipantsButton" destination="MzS-GM-Lze" eventType="touchUpInside" id="r1b-Zm-7aN"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="QlE-LK-ZR6"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Add Participants" id="ieR-2z-rIq"/>
+                    <connections>
+                        <outlet property="addParticipantsButton" destination="M1r-xD-Oeg" id="WSq-XO-Vzg"/>
+                        <outlet property="participantsTableView" destination="VF2-XV-suY" id="Cue-Qp-pjn"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LdC-iF-6Lu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6863.7681159420299" y="446.65178571428567"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

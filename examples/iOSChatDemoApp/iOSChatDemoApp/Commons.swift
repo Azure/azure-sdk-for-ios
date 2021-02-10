@@ -29,7 +29,7 @@ import Foundation
 import AzureCommunicationChat
 
 var chatMessages: [Message] = []
-var participants: [Participant] = []
+var chatParticipants: [Participant] = []
 var chatThreads: [AzureCommunicationChat.Thread] = []
 
 var chatClient: ChatClient? = nil
@@ -54,7 +54,19 @@ var users: [User] = [
          token:  Bundle.main.object(forInfoDictionaryKey: "tokenForGloria") as! String),
     User(name: "UserA",
          id: Bundle.main.object(forInfoDictionaryKey: "idForUserA") as! String,
-         token:  Bundle.main.object(forInfoDictionaryKey: "tokenForUserA") as! String)
+         token:  Bundle.main.object(forInfoDictionaryKey: "tokenForUserA") as! String),
+    User(name: "UserB",
+         id: Bundle.main.object(forInfoDictionaryKey: "idForUserB") as! String,
+         token:  Bundle.main.object(forInfoDictionaryKey: "tokenForUserB") as! String),
+    User(name: "UserC",
+         id: Bundle.main.object(forInfoDictionaryKey: "idForUserC") as! String,
+         token:  Bundle.main.object(forInfoDictionaryKey: "tokenForUserC") as! String),
+    User(name: "UserD",
+         id: Bundle.main.object(forInfoDictionaryKey: "idForUserD") as! String,
+         token:  Bundle.main.object(forInfoDictionaryKey: "tokenForUserD") as! String),
+    User(name: "UserE",
+         id: Bundle.main.object(forInfoDictionaryKey: "idForUserE") as! String,
+         token:  Bundle.main.object(forInfoDictionaryKey: "tokenForUserE") as! String)
 ]
 
 var settings: [String] = [

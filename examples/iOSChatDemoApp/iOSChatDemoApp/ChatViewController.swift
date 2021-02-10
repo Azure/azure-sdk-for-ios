@@ -112,7 +112,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         if self.isMovingFromParent
         {
             chatMessages = []
-            participants = []
+            chatParticipants = []
             chatThreadClient = nil
         }
     }
