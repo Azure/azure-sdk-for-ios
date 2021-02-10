@@ -289,3 +289,15 @@ jobs:
 #                     -sdk iphonesimulator \
 #                     -configuration Debug | xcpretty -c
 #        displayName: 'Build smoke test [iphonesimulator]'
+  - job: 'PodLint'
+  
+    variables:
+      - template: ../variables/globals.yml
+
+    pool:
+      vmImage: '$(OSVmImage)'
+    
+    steps:
+      - script: pod spec lint --use-modular-headers
+        displayName: 'Pod Spec Lint'
+
