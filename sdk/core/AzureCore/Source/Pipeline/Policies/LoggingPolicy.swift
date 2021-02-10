@@ -178,19 +178,22 @@ public class LoggingPolicy: PipelineStage {
     private func humanReadable(body bodyFunc: () -> String?, headers: HTTPHeaders) -> String {
         if
             let encoding = headers[.contentEncoding],
-            encoding != "" && encoding.caseInsensitiveCompare("identity") != .orderedSame {
+            encoding != "" && encoding.caseInsensitiveCompare("identity") != .orderedSame
+        {
             return "(encoded body omitted)"
         }
 
         if
             let disposition = headers[.contentDisposition],
-            disposition != "" && disposition.caseInsensitiveCompare("inline") != .orderedSame {
+            disposition != "" && disposition.caseInsensitiveCompare("inline") != .orderedSame
+        {
             return "(non-inline body omitted)"
         }
 
         if
             let contentType = headers[.contentType],
-            contentType.lowercased().hasSuffix("octet-stream") || contentType.lowercased().hasPrefix("image") {
+            contentType.lowercased().hasSuffix("octet-stream") || contentType.lowercased().hasPrefix("image")
+        {
             return "(binary body omitted)"
         }
 

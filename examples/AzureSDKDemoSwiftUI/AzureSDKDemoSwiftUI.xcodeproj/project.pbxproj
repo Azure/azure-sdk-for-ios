@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		6E2DA6E09DEFB5FD1D0AB61C /* Pods_AzureSDKDemoSwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4CC81A25C4A199FD88DE800 /* Pods_AzureSDKDemoSwiftUI.framework */; };
-		8803BF2B25CC46DD004A3C8C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8803BF2A25CC46DD004A3C8C /* AppDelegate.swift */; };
 		883AEE5725BF8B6800E21497 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 883AEE5625BF8B6800E21497 /* SceneDelegate.swift */; };
 		883AEE5925BF8B6800E21497 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 883AEE5825BF8B6800E21497 /* ContentView.swift */; };
 		883AEE5B25BF8B6A00E21497 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 883AEE5A25BF8B6A00E21497 /* Assets.xcassets */; };
@@ -22,7 +21,6 @@
 
 /* Begin PBXFileReference section */
 		555CE7932059BAD8EEB00F4B /* Pods-AzureSDKDemoSwiftUI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureSDKDemoSwiftUI.release.xcconfig"; path = "Target Support Files/Pods-AzureSDKDemoSwiftUI/Pods-AzureSDKDemoSwiftUI.release.xcconfig"; sourceTree = "<group>"; };
-		8803BF2A25CC46DD004A3C8C /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		883AEE5125BF8B6800E21497 /* AzureSDKDemoSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AzureSDKDemoSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		883AEE5625BF8B6800E21497 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		883AEE5825BF8B6800E21497 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -81,7 +79,6 @@
 		883AEE5325BF8B6800E21497 /* AzureSDKDemoSwiftUI */ = {
 			isa = PBXGroup;
 			children = (
-				8803BF2A25CC46DD004A3C8C /* AppDelegate.swift */,
 				88DF478925C0D18E00DEB50A /* Pages */,
 				88DF478525C0CCEE00DEB50A /* Utils */,
 				883AEE5625BF8B6800E21497 /* SceneDelegate.swift */,
@@ -246,7 +243,6 @@
 				88DF478E25C0D1C900DEB50A /* MediaView.swift in Sources */,
 				8841071225C2199C003967A4 /* BlobListObservable.swift in Sources */,
 				883AEE5725BF8B6800E21497 /* SceneDelegate.swift in Sources */,
-				8803BF2B25CC46DD004A3C8C /* AppDelegate.swift in Sources */,
 				883AEE5925BF8B6800E21497 /* ContentView.swift in Sources */,
 				88DF478B25C0D1AB00DEB50A /* BlobDownloadView.swift in Sources */,
 			);
