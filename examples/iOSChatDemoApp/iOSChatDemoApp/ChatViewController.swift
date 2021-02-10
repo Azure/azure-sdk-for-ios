@@ -65,6 +65,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                     
                 case .failure:
                     print("Unexpected failure happened in send message")
+                    showAlert(message: "Unexpected failure happened in send message", viewController: self)
                 }
             })
         }
@@ -121,7 +122,9 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         messagesTableView.delegate = self
         messagesTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         messagesTableView.dataSource = self
+        self.title = chatThreads.filter({$0.id == chatThreadClient?.threadId}).first?.topic
         NotificationCenter.default.addObserver(self, selector: #selector(reloadMessages), name:  Notification.Name(rawValue: "reloadMessages"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadTopicName), name:  Notification.Name(rawValue: "reloadThreads"), object: nil)
         listMessages()
     }
     
@@ -147,6 +150,12 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     @objc func reloadMessages() {
         DispatchQueue.main.async(execute: {
             self.messagesTableView.reloadData()
+        })
+    }
+    
+    @objc func reloadTopicName() {
+        DispatchQueue.main.async(execute: {
+            self.title = chatThreads.filter({$0.id == chatThreadClient?.threadId}).first?.topic
         })
     }
 }

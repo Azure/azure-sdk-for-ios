@@ -39,14 +39,14 @@ class ChangeTopicNameViewController: UIViewController {
         if let unwrappedTopicName = topicName {
             if unwrappedTopicName.trimmingCharacters(in: .whitespaces).isEmpty
             {
-                showAlert(message: "topic name cannot be empty", viewController: self)
+                showAlert(message: "Topic name cannot be empty", viewController: self)
                 return
             }
             changeTopicName(topicName: unwrappedTopicName)
             topicNameInputArea.replace(range, withText: "")
         }
         else {
-            showAlert(message: "topic name cannot be empty", viewController: self)
+            showAlert(message: "Topic name cannot be empty", viewController: self)
             return
         }
     }
@@ -56,9 +56,10 @@ class ChangeTopicNameViewController: UIViewController {
             switch result {
             case let .success(response):
                 print(response)
-
+                showInfo(message: "Topic name has been changed", viewController: self)
             case .failure:
                 print("Unexpected failure happened in update topic")
+                showAlert(message: "Unexpected failure happened in update topic", viewController: self)
             }
         })
     }

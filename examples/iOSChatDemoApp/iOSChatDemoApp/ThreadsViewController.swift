@@ -72,6 +72,7 @@ class ThreadsViewController: UIViewController, UITableViewDelegate, UITableViewD
                 self.reloadThreads()
             case .failure:
                 print("Unexpected failure happened in list chat threads")
+                showAlert(message: "Unexpected failure happened in list chat threads", viewController: self)
             }
         }
     }

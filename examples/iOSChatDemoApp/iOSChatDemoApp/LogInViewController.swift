@@ -41,7 +41,7 @@ class LogInViewController: UIViewController {
         if let unwrappedUserName = userName{
             if unwrappedUserName.trimmingCharacters(in: .whitespaces).isEmpty
             {
-                showAlert(message: "user name cannot be empty", viewController: self)
+                showAlert(message: "User name cannot be empty", viewController: self)
                 return
             }
             
@@ -60,12 +60,12 @@ class LogInViewController: UIViewController {
             }
             else
             {
-                showAlert(message: "user does not exist", viewController: self)
+                showAlert(message: "User does not exist", viewController: self)
                 return
             }
         }
         else {
-            showAlert(message: "user name cannot be empty", viewController: self)
+            showAlert(message: "User name cannot be empty", viewController: self)
             return
         }
     }

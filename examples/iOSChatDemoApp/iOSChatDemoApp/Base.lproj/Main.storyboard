@@ -338,11 +338,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4YD-yH-L6Q" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5891" y="-240"/>
+            <point key="canvasLocation" x="5909" y="-684"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="mw9-au-RyN"/>
+        <segue reference="x0y-Ta-PP5"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="gearshape" catalog="system" width="128" height="121"/>

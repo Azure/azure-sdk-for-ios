@@ -68,3 +68,10 @@ func showAlert(message: String, viewController: UIViewController)
     alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
     viewController.present(alert, animated: true)
 }
+
+func showInfo(message: String, viewController: UIViewController)
+{
+    let alert = UIAlertController(title: "Info", message: message, preferredStyle: .alert)
+    alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+    viewController.present(alert, animated: true)
+}

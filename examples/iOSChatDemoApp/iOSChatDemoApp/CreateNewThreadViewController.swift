@@ -65,7 +65,7 @@ class CreateNewThreadViewController: UIViewController, UITableViewDelegate, UITa
     {
         if selectedParticipants.isEmpty
         {
-            showAlert(message: "you need to select at least one participant", viewController: self)
+            showAlert(message: "You need to select at least one participant", viewController: self)
             return
         }
         let range = topicNameInputArea.textRange(from: topicNameInputArea.beginningOfDocument, to: topicNameInputArea.endOfDocument)!
@@ -73,7 +73,7 @@ class CreateNewThreadViewController: UIViewController, UITableViewDelegate, UITa
         if let unwrappedTopicName = topicName {
             if unwrappedTopicName.trimmingCharacters(in: .whitespaces).isEmpty
             {
-                showAlert(message: "topic name cannot be empty", viewController: self)
+                showAlert(message: "Topic name cannot be empty", viewController: self)
                 return
             }
             createNewThread(topicName: unwrappedTopicName)
@@ -81,7 +81,7 @@ class CreateNewThreadViewController: UIViewController, UITableViewDelegate, UITa
             performSegue(withIdentifier: "SegueToChatViewController", sender: self)
         }
         else {
-            showAlert(message: "topic name cannot be empty", viewController: self)
+            showAlert(message: "Topic name cannot be empty", viewController: self)
             return
         }
     }
