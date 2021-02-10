@@ -271,7 +271,7 @@
                                     <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <action selector="didTapCreateNewThreadButton" destination="NR0-ci-Xbd" eventType="touchUpInside" id="O9W-53-33C"/>
+                                    <action selector="didDeleteThreadButtonButton" destination="5Tt-wh-RH3" eventType="touchUpInside" id="Gc5-42-Aic"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -280,6 +280,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Settings" id="NbT-MK-FVf"/>
                     <connections>
+                        <outlet property="deleteThreadButton" destination="3lO-xN-nkY" id="KIM-yQ-NcC"/>
                         <outlet property="settingsTableView" destination="i61-4n-hkR" id="4Xg-qN-sf4"/>
                         <segue destination="MM3-u2-il2" kind="show" identifier="SegueToChangeTopicNameViewController" id="0Sn-ou-xhf"/>
                     </connections>
@@ -342,7 +343,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="x0y-Ta-PP5"/>
+        <segue reference="mw9-au-RyN"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="gearshape" catalog="system" width="128" height="121"/>

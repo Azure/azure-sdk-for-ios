@@ -159,6 +159,8 @@ class LogInViewController: UIViewController {
             (response, eventId)
             in
             let response = response as! ChatThreadDeletedEvent
+            chatThreads.removeAll(where: {$0.id == response.threadId})
+            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "reloadThreads")))
         })
     }
     

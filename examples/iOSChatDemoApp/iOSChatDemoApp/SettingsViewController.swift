@@ -28,6 +28,23 @@ import UIKit
 
 class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet var settingsTableView: UITableView!
+    @IBOutlet var deleteThreadButton: UIButton!
+    
+    @IBAction func didDeleteThreadButtonButton()
+    {
+        chatClient?.delete(thread: chatThreadClient!.threadId, completionHandler: { result, _ in
+            switch result {
+            case let .success(response):
+                print(response)
+                showInfo(message: "Thread has been deleted, please go back to Threads Page", viewController: self)
+                
+            case .failure:
+                print("Unexpected failure happened in delete chat thread")
+                showAlert(message: "Unexpected failure happened in delete chat thread", viewController: self)
+            }
+        })
+    }
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return settings.count
