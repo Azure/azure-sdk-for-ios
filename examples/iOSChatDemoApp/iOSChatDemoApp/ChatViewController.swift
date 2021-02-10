@@ -36,6 +36,12 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet var sendMessageButton: UIButton!
     @IBOutlet var messageInputArea: UITextInput!
     
+    @IBOutlet var goToSettingsButton: UIButton!
+    @IBAction func didTapGoToSettingsButton()
+    {
+        performSegue(withIdentifier: "SegueToSettingsViewController", sender: self)
+    }
+    
     @IBAction func didTapButton()
     {
         print("Sending Message...")

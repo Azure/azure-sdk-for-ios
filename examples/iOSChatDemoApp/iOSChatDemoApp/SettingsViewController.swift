@@ -25,46 +25,35 @@
 // --------------------------------------------------------------------------
 
 import UIKit
-import Foundation
-import AzureCommunicationChat
 
-var chatMessages: [Message] = []
-var participants: [Participant] = []
-var chatThreads: [AzureCommunicationChat.Thread] = []
-
-var chatClient: ChatClient? = nil
-var chatThreadClient: ChatThreadClient? = nil
-var currentUser: User? = nil
-var loggedIn = false
-
-struct Constants {
-    static let endpoint =  Bundle.main.object(forInfoDictionaryKey: "endpoint") as! String
-}
-
-struct User
-{
-    var name: String
-    var id: String
-    var token: String
-}
-
-var users: [User] = [
-    User(name: "Gloria",
-         id: Bundle.main.object(forInfoDictionaryKey: "idForGloria") as! String,
-         token:  Bundle.main.object(forInfoDictionaryKey: "tokenForGloria") as! String),
-    User(name: "UserA",
-         id: Bundle.main.object(forInfoDictionaryKey: "idForUserA") as! String,
-         token:  Bundle.main.object(forInfoDictionaryKey: "tokenForUserA") as! String)
-]
-
-var settings: [String] = [
-    "Change Topic Name",
-    "Participants"
-]
-
-func showAlert(message: String, viewController: UIViewController)
-{
-    let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-    alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-    viewController.present(alert, animated: true)
+class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    @IBOutlet var settingsTableView: UITableView!
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return settings.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        cell.textLabel?.text = settings[indexPath.row]
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        settingsTableView.deselectRow(at: indexPath, animated: true)
+        if  settings[indexPath.row] == "Change Topic Name"
+        {
+            print("Change Topic Name")
+        }
+        else if settings[indexPath.row] == "Participants"
+        {
+            print("Participants")
+        }
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        settingsTableView.delegate = self
+        settingsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        settingsTableView.dataSource = self
+    }
 }
