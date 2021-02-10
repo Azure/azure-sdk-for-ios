@@ -50,12 +50,18 @@ public class CommunicationIdentifierSerializer {
                 throw AzureError.client("Can't serialize CommunicationIdentifierModel: isAnonymous is undefined.")
             }
             guard let microsoftTeamsUserId = identifier.microsoftTeamsUserId else {
-                throw AzureError.client("Can't serialize CommunicationIdentifierModel: microsoftTeamsUserId is undefined.")
+                throw AzureError
+                    .client("Can't serialize CommunicationIdentifierModel: microsoftTeamsUserId is undefined.")
             }
             guard let cloud = identifier.cloud else {
                 throw AzureError.client("Can't serialize CommunicationIdentifierModel: cloud is undefined.")
             }
-            return MicrosoftTeamsUserIdentifier(userId: microsoftTeamsUserId, isAnonymous: isAnonymous, rawId: id, cloudEnvironment: try deserialize(model: cloud))
+            return MicrosoftTeamsUserIdentifier(
+                userId: microsoftTeamsUserId,
+                isAnonymous: isAnonymous,
+                rawId: id,
+                cloudEnvironment: try deserialize(model: cloud)
+            )
         default:
             return UnknownIdentifier(identifier: id)
         }
@@ -66,7 +72,11 @@ public class CommunicationIdentifierSerializer {
         case let userIdentifier as CommunicationUserIdentifier:
             return CommunicationIdentifierModel(kind: .communicationUser, id: userIdentifier.identifier)
         case let phoneNumberIdentifier as PhoneNumberIdentifier:
-            return CommunicationIdentifierModel(kind: .phoneNumber, id: phoneNumberIdentifier.rawId, phoneNumber: phoneNumberIdentifier.phoneNumber)
+            return CommunicationIdentifierModel(
+                kind: .phoneNumber,
+                id: phoneNumberIdentifier.rawId,
+                phoneNumber: phoneNumberIdentifier.phoneNumber
+            )
         case let microsoftTeamUserIdentifier as MicrosoftTeamsUserIdentifier:
             return CommunicationIdentifierModel(
                 kind: .microsoftTeamsUser,
@@ -83,32 +93,30 @@ public class CommunicationIdentifierSerializer {
     }
 
     private static func deserialize(model: CommunicationCloudEnvironmentModel) throws -> CommunicationCloudEnvironment {
-        if (model == CommunicationCloudEnvironmentModel.Public) {
-            return CommunicationCloudEnvironment.Public;
+        if model == CommunicationCloudEnvironmentModel.Public {
+            return CommunicationCloudEnvironment.Public
         }
-        if (model == CommunicationCloudEnvironmentModel.Gcch) {
-            return CommunicationCloudEnvironment.Gcch;
+        if model == CommunicationCloudEnvironmentModel.Gcch {
+            return CommunicationCloudEnvironment.Gcch
         }
-        if (model == CommunicationCloudEnvironmentModel.Dod) {
-            return CommunicationCloudEnvironment.Dod;
+        if model == CommunicationCloudEnvironmentModel.Dod {
+            return CommunicationCloudEnvironment.Dod
         }
 
-        return CommunicationCloudEnvironment(environmentValue: model.requestString);
+        return CommunicationCloudEnvironment(environmentValue: model.requestString)
     }
 
-    private static func serialize(cloud: CommunicationCloudEnvironment) throws -> CommunicationCloudEnvironmentModel
-    {
-        if (cloud == CommunicationCloudEnvironment.Public) {
-            return CommunicationCloudEnvironmentModel.Public;
+    private static func serialize(cloud: CommunicationCloudEnvironment) throws -> CommunicationCloudEnvironmentModel {
+        if cloud == CommunicationCloudEnvironment.Public {
+            return CommunicationCloudEnvironmentModel.Public
         }
-        if (cloud == CommunicationCloudEnvironment.Gcch) {
-            return CommunicationCloudEnvironmentModel.Gcch;
+        if cloud == CommunicationCloudEnvironment.Gcch {
+            return CommunicationCloudEnvironmentModel.Gcch
         }
-        if (cloud == CommunicationCloudEnvironment.Dod) {
-            return CommunicationCloudEnvironmentModel.Dod;
+        if cloud == CommunicationCloudEnvironment.Dod {
+            return CommunicationCloudEnvironmentModel.Dod
         }
 
-        return CommunicationCloudEnvironmentModel(cloud.environmentValue);
+        return CommunicationCloudEnvironmentModel(cloud.environmentValue)
     }
-
 }

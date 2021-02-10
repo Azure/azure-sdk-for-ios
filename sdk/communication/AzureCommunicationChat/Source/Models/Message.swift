@@ -68,7 +68,9 @@ public struct Message: Codable {
         self.content = (chatMessage.content != nil) ? MessageContent(from: chatMessage.content!) : nil
         self.senderDisplayName = chatMessage.senderDisplayName
         self.createdOn = chatMessage.createdOn
-        self.sender = (chatMessage.senderId != nil) ? CommunicationUserIdentifier(identifier: chatMessage.senderId!) : nil
+        self
+            .sender = (chatMessage.senderId != nil) ? CommunicationUserIdentifier(identifier: chatMessage.senderId!) :
+            nil
         self.deletedOn = chatMessage.deletedOn
         self.editedOn = chatMessage.editedOn
     }

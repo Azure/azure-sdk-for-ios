@@ -25,23 +25,24 @@
 // --------------------------------------------------------------------------
 
 #if canImport(AzureCore)
-import AzureCore
+    import AzureCore
 #endif
 import Foundation
 /**
  The Azure Communication Services token credential used to authenticate pipeline requests.
  */
-public class CommunicationPolicyTokenCredential: TokenCredential {    
+public class CommunicationPolicyTokenCredential: TokenCredential {
     private let credential: CommunicationTokenCredential
-    var error: AzureError? = nil
+    var error: AzureError?
     /**
      Creates a token credential  that authenticates requests using the provided `CommunicationTokenCredential`.
-     
+
      - Parameter credential: The token credential to authenticate with.
      */
     public init(_ credential: CommunicationTokenCredential) {
         self.credential = credential
     }
+
     /**
      Retrieve a token for the provided scope.
 
@@ -49,23 +50,26 @@ public class CommunicationPolicyTokenCredential: TokenCredential {
      - scopes: A list of a scope strings for which to retrieve the token.
      - completionHandler: A completion handler which forwards the access token.
      */
-    public func token(forScopes scopes: [String], completionHandler: @escaping TokenCompletionHandler) {
-        credential.token { (communicationAccessToken, error) in
+    public func token(forScopes _: [String], completionHandler: @escaping TokenCompletionHandler) {
+        credential.token { communicationAccessToken, error in
             guard let communicationAccessToken = communicationAccessToken else {
                 self.error = AzureError.client("Communication Token Failure", error)
                 completionHandler(nil, self.error)
                 return
             }
-            
-            let accessToken = AccessToken(token: communicationAccessToken.token,
-                                          expiresOn: communicationAccessToken.expiresOn)
-            
+
+            let accessToken = AccessToken(
+                token: communicationAccessToken.token,
+                expiresOn: communicationAccessToken.expiresOn
+            )
+
             completionHandler(accessToken, nil)
         }
     }
+
     /**
      Validates throws an error if token creating had any errors
-     - Throws: Azure error with the error from the get token call. 
+     - Throws: Azure error with the error from the get token call.
      */
     public func validate() throws {
         if let error = error {

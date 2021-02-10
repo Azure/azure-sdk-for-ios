@@ -2,6 +2,343 @@
 <Workspace
    version = "1.0">
    <Group
+      location = "group:eng"
+      name = "eng">
+      <FileRef
+         location = "group:ignore-links.txt">
+      </FileRef>
+      <Group
+         location = "group:pipelines"
+         name = "pipelines">
+         <Group
+            location = "group:templates"
+            name = "templates">
+            <Group
+               location = "group:stages"
+               name = "stages">
+               <FileRef
+                  location = "group:archetype-sdk-client.yml">
+               </FileRef>
+            </Group>
+            <Group
+               location = "group:steps"
+               name = "steps">
+               <FileRef
+                  location = "group:verify-versions.yml">
+               </FileRef>
+            </Group>
+            <Group
+               location = "group:variables"
+               name = "variables">
+               <FileRef
+                  location = "group:globals.yml">
+               </FileRef>
+            </Group>
+            <Group
+               location = "group:jobs"
+               name = "jobs">
+               <FileRef
+                  location = "group:archetype-sdk-client.yml">
+               </FileRef>
+            </Group>
+         </Group>
+         <FileRef
+            location = "group:ci.yml">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:common"
+         name = "common">
+         <FileRef
+            location = "group:Update-Change-Log.ps1">
+         </FileRef>
+         <Group
+            location = "group:docgeneration"
+            name = "docgeneration">
+            <FileRef
+               location = "group:docfx.json">
+            </FileRef>
+            <Group
+               location = "group:templates"
+               name = "templates">
+               <Group
+                  location = "group:matthews"
+                  name = "matthews">
+                  <Group
+                     location = "group:styles"
+                     name = "styles">
+                     <FileRef
+                        location = "group:main.css">
+                     </FileRef>
+                     <FileRef
+                        location = "group:main.js">
+                     </FileRef>
+                  </Group>
+                  <Group
+                     location = "group:partials"
+                     name = "partials">
+                     <FileRef
+                        location = "group:namespace.tmpl.partial">
+                     </FileRef>
+                     <FileRef
+                        location = "group:affix.tmpl.partial">
+                     </FileRef>
+                     <FileRef
+                        location = "group:enum.tmpl.partial">
+                     </FileRef>
+                     <FileRef
+                        location = "group:class.header.tmpl.partial">
+                     </FileRef>
+                     <FileRef
+                        location = "group:class.tmpl.partial">
+                     </FileRef>
+                  </Group>
+               </Group>
+            </Group>
+            <FileRef
+               location = "group:Generate-DocIndex.ps1">
+            </FileRef>
+            <Group
+               location = "group:assets"
+               name = "assets">
+               <FileRef
+                  location = "group:logo.svg">
+               </FileRef>
+            </Group>
+         </Group>
+         <Group
+            location = "group:pipelines"
+            name = "pipelines">
+            <Group
+               location = "group:templates"
+               name = "templates">
+               <Group
+                  location = "group:steps"
+                  name = "steps">
+                  <FileRef
+                     location = "group:create-pull-request.yml">
+                  </FileRef>
+                  <FileRef
+                     location = "group:verify-agent-os.yml">
+                  </FileRef>
+                  <FileRef
+                     location = "group:get-pr-owners.yml">
+                  </FileRef>
+                  <FileRef
+                     location = "group:cosmos-emulator.yml">
+                  </FileRef>
+                  <FileRef
+                     location = "group:verify-path-length.yml">
+                  </FileRef>
+                  <FileRef
+                     location = "group:create-tags-and-git-release.yml">
+                  </FileRef>
+                  <FileRef
+                     location = "group:mashup-doc-index.yml">
+                  </FileRef>
+                  <FileRef
+                     location = "group:daily-dev-build-variable.yml">
+                  </FileRef>
+                  <FileRef
+                     location = "group:install-pipeline-generation.yml">
+                  </FileRef>
+                  <FileRef
+                     location = "group:bypass-local-dns.yml">
+                  </FileRef>
+                  <FileRef
+                     location = "group:create-apireview.yml">
+                  </FileRef>
+                  <FileRef
+                     location = "group:replace-relative-links.yml">
+                  </FileRef>
+                  <FileRef
+                     location = "group:docindex.yml">
+                  </FileRef>
+                  <FileRef
+                     location = "group:prepare-pipelines.yml">
+                  </FileRef>
+                  <FileRef
+                     location = "group:docs-metadata-release.yml">
+                  </FileRef>
+                  <FileRef
+                     location = "group:verify-links.yml">
+                  </FileRef>
+                  <FileRef
+                     location = "group:publish-blobs.yml">
+                  </FileRef>
+                  <FileRef
+                     location = "group:verify-changelog.yml">
+                  </FileRef>
+               </Group>
+            </Group>
+         </Group>
+         <FileRef
+            location = "group:InterdependencyGraph.html">
+         </FileRef>
+         <FileRef
+            location = "group:README.md">
+         </FileRef>
+         <Group
+            location = "group:scripts"
+            name = "scripts">
+            <FileRef
+               location = "group:Invoke-DevOpsAPI.ps1">
+            </FileRef>
+            <FileRef
+               location = "group:Create-APIReview.ps1">
+            </FileRef>
+            <FileRef
+               location = "group:get-markdown-files-from-changed-files.ps1">
+            </FileRef>
+            <FileRef
+               location = "group:Add-IssueComment.ps1">
+            </FileRef>
+            <FileRef
+               location = "group:Invoke-GitHubAPI.ps1">
+            </FileRef>
+            <FileRef
+               location = "group:Update-ChangeLog.ps1">
+            </FileRef>
+            <FileRef
+               location = "group:ChangeLog-Operations.ps1">
+            </FileRef>
+            <FileRef
+               location = "group:copy-docs-to-blobstorage.ps1">
+            </FileRef>
+            <FileRef
+               location = "group:Delete-RemoteTag.ps1">
+            </FileRef>
+            <FileRef
+               location = "group:update-docs-metadata.ps1">
+            </FileRef>
+            <FileRef
+               location = "group:SemVer.ps1">
+            </FileRef>
+            <FileRef
+               location = "group:Add-IssueLabels.ps1">
+            </FileRef>
+            <FileRef
+               location = "group:logging.ps1">
+            </FileRef>
+            <FileRef
+               location = "group:artifact-metadata-parsing.ps1">
+            </FileRef>
+            <FileRef
+               location = "group:create-tags-and-git-release.ps1">
+            </FileRef>
+            <FileRef
+               location = "group:common.ps1">
+            </FileRef>
+            <FileRef
+               location = "group:update-docs-ci.ps1">
+            </FileRef>
+            <FileRef
+               location = "group:Update-DevOps-Release-WorkItem.ps1">
+            </FileRef>
+            <FileRef
+               location = "group:Save-Package-Properties.ps1">
+            </FileRef>
+            <FileRef
+               location = "group:Submit-PullRequest.ps1">
+            </FileRef>
+            <FileRef
+               location = "group:Package-Properties.ps1">
+            </FileRef>
+            <FileRef
+               location = "group:New-ReleaseAsset.ps1">
+            </FileRef>
+            <FileRef
+               location = "group:Verify-ChangeLog.ps1">
+            </FileRef>
+            <FileRef
+               location = "group:Verify-Links.ps1">
+            </FileRef>
+            <FileRef
+               location = "group:Verify-Resource-Ref.ps1">
+            </FileRef>
+            <FileRef
+               location = "group:Queue-Pipeline.ps1">
+            </FileRef>
+            <Group
+               location = "group:Helpers"
+               name = "Helpers">
+               <FileRef
+                  location = "group:DevOps-WorkItem-Helpers.ps1">
+               </FileRef>
+            </Group>
+            <FileRef
+               location = "group:git-branch-push.ps1">
+            </FileRef>
+            <FileRef
+               location = "group:Prepare-Release.ps1">
+            </FileRef>
+            <FileRef
+               location = "group:Delete-RemoteBranches.ps1">
+            </FileRef>
+            <FileRef
+               location = "group:Get-PullRequestCreator.ps1">
+            </FileRef>
+            <FileRef
+               location = "group:get-codeowners.ps1">
+            </FileRef>
+         </Group>
+         <Group
+            location = "group:TestResources"
+            name = "TestResources">
+            <FileRef
+               location = "group:Remove-TestResources.ps1">
+            </FileRef>
+            <FileRef
+               location = "group:Import-AzModules.ps1">
+            </FileRef>
+            <FileRef
+               location = "group:New-TestResources.ps1">
+            </FileRef>
+            <FileRef
+               location = "group:remove-test-resources.yml">
+            </FileRef>
+            <FileRef
+               location = "group:setup-az-modules.yml">
+            </FileRef>
+            <FileRef
+               location = "group:README.md">
+            </FileRef>
+            <FileRef
+               location = "group:New-TestResources.cmd">
+            </FileRef>
+            <FileRef
+               location = "group:deploy-test-resources.yml">
+            </FileRef>
+            <FileRef
+               location = "group:Remove-TestResources.cmd">
+            </FileRef>
+            <FileRef
+               location = "group:New-TestResources.ps1.md">
+            </FileRef>
+            <FileRef
+               location = "group:Remove-TestResources.ps1.md">
+            </FileRef>
+            <Group
+               location = "group:AzurePowerShellV4"
+               name = "AzurePowerShellV4">
+               <FileRef
+                  location = "group:Utility.ps1">
+               </FileRef>
+            </Group>
+         </Group>
+      </Group>
+      <Group
+         location = "group:scripts"
+         name = "scripts">
+         <FileRef
+            location = "group:Verify-Versions.ps1">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:CHECKENFORCER">
+      </FileRef>
+   </Group>
+   <Group
       location = "group:sdk"
       name = "SDK">
       <Group
@@ -66,7 +403,16 @@
       location = "group:"
       name = "Deployment">
       <FileRef
-         location = "group:AzureSDK.podspec">
+         location = "group:AzureCommunication.podspec.json">
+      </FileRef>
+      <FileRef
+         location = "group:AzureCommunicationCalling.podspec.json">
+      </FileRef>
+      <FileRef
+         location = "group:AzureCommunicationChat.podspec.json">
+      </FileRef>
+      <FileRef
+         location = "group:AzureCore.podspec.json">
       </FileRef>
       <FileRef
          location = "group:Package.swift">
