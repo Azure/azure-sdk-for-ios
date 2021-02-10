@@ -25,7 +25,7 @@
 // --------------------------------------------------------------------------
 
 #if canImport(AzureCore)
-import AzureCore
+    import AzureCore
 #endif
 import Foundation
 
@@ -34,20 +34,21 @@ public typealias TokenRefreshOnCompletion = (String?, Error?) -> Void
 
 /**
  The Azure Communication Services User token credential. This class is used to cache/refresh the access token required by Azure Communication Services.
-*/
+ */
 @objcMembers public class CommunicationTokenCredential: NSObject {
     private let userTokenCredential: CommunicationTokenCredentialProviding
-    
+
     /**
      Creates a static `CommunicationTokenCredential` object from the provided token.
-        
+
      - Parameter token: The static token to use for authenticating all requests.
-     
+
      - Throws: `AzureError` if the provided token is not a valid user token.
      */
     public init(token: String) throws {
         self.userTokenCredential = try StaticTokenCredential(token: token)
     }
+
     /**
      Creates a CommunicationTokenCredential that automatically refreshes the token.
      - Parameters:
@@ -61,6 +62,7 @@ public typealias TokenRefreshOnCompletion = (String?, Error?) -> Void
             initialToken: option.initialToken
         )
     }
+
     /**
      Retrieve an access token from the credential.
      - Parameter completionHandler: Closure that accepts an optional `AccessToken` or optional `Error` as parameters.

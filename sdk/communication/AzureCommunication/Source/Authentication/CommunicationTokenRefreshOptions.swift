@@ -30,7 +30,7 @@ public typealias TokenRefresherClosure = (@escaping TokenRefreshOnCompletion) ->
 /**
  The Communication Token Refresh Options. Used to initialize a `CommunicationTokenCredential`
  - SeeAlso: ` CommunicationTokenCredential.token(...)`
-*/
+ */
 @objcMembers public class CommunicationTokenRefreshOptions: NSObject {
     var initialToken: String?
     var refreshProactively: Bool

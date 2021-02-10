@@ -27,63 +27,65 @@
 import XCTest
 
 #if canImport(AzureCommunication)
-@testable import AzureCommunication
+    @testable import AzureCommunication
 #endif
 #if canImport(AzureCore)
-@testable import AzureCore
+    @testable import AzureCore
 #endif
 
 class CommunicationPolicyTokenCredentialTests: XCTestCase {
-    let sampleToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjMyNTAzNjgwMDAwfQ.9i7FNNHHJT8cOzo-yrAUJyBSfJ-tPPk2emcHavOEpWc"
-    let aampleTokenExpiry = 32503680000
-    let expiredToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjEwMH0.1h_scYkNp-G98-O4cW6KvfJZwiz54uJMyeDACE4nypg"
-            
+    let sampleToken =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjMyNTAzNjgwMDAwfQ.9i7FNNHHJT8cOzo-yrAUJyBSfJ-tPPk2emcHavOEpWc"
+    let aampleTokenExpiry = 32_503_680_000
+    let expiredToken =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjEwMH0.1h_scYkNp-G98-O4cW6KvfJZwiz54uJMyeDACE4nypg"
+
     func fetchTokenSync(completionHandler: TokenRefreshOnCompletion) {
         let newToken = sampleToken
         completionHandler(newToken, nil)
     }
-    
+
     func testCreateStaticToken() throws {
         let expectation = self.expectation(description: "Create static token")
-        
+
         let token = expiredToken
         let userCredential = try CommunicationTokenCredential(token: token)
         let communicationTokenPolicy = CommunicationPolicyTokenCredential(userCredential)
-        communicationTokenPolicy.token(forScopes: [""]) { (accessToken, error) in
+        communicationTokenPolicy.token(forScopes: [""]) { accessToken, error in
             XCTAssertNil(error)
             XCTAssertNotNil(accessToken)
             expectation.fulfill()
         }
-        
-        waitForExpectations(timeout: 1000) { (error) in
+
+        waitForExpectations(timeout: 1000) { error in
             if let error = error {
                 XCTFail("Create token timed out: \(error)")
             }
         }
     }
-    
+
     func testCreateRefreshableWithoutInitialToken() throws {
         let expectation = self.expectation(description: "Create refreshable without initial token")
         let options = CommunicationTokenRefreshOptions(
             refreshProactively: true,
             tokenRefresher: fetchTokenSync
-            )
+        )
         let userCredential = try CommunicationTokenCredential(with: options)
         let communicationTokenPolicy = CommunicationPolicyTokenCredential(userCredential)
-        
-        communicationTokenPolicy.token(forScopes: [""]) { (accessToken, error) in
+
+        communicationTokenPolicy.token(forScopes: [""]) { accessToken, error in
             XCTAssertNil(error)
             XCTAssertNotNil(accessToken)
             expectation.fulfill()
         }
-        
-        waitForExpectations(timeout: 1000) { (error) in
+
+        waitForExpectations(timeout: 1000) { error in
             if let error = error {
                 XCTFail("Create token timed out: \(error)")
             }
         }
     }
-    
+
     func testCreateRefreshableWithInitialToken() throws {
         let expectation = self.expectation(description: "Create refreshable with initial token")
         let token = expiredToken
@@ -91,55 +93,55 @@ class CommunicationPolicyTokenCredentialTests: XCTestCase {
             initialToken: token,
             refreshProactively: true,
             tokenRefresher: fetchTokenSync
-            )
+        )
         let userCredential = try CommunicationTokenCredential(with: options)
         let communicationTokenPolicy = CommunicationPolicyTokenCredential(userCredential)
-        
-        communicationTokenPolicy.token(forScopes: [""]) { (accessToken, error) in
+
+        communicationTokenPolicy.token(forScopes: [""]) { accessToken, error in
             XCTAssertNil(error)
             XCTAssertNotNil(accessToken)
             expectation.fulfill()
         }
-        
-        waitForExpectations(timeout: 1000) { (error) in
+
+        waitForExpectations(timeout: 1000) { error in
             if let error = error {
                 XCTFail("Create token timed out: \(error)")
             }
         }
     }
-    
+
     func testDecodesToken() throws {
         let expectation = self.expectation(description: "Decode access token")
         let initialToken = sampleToken
         let userCredential = try CommunicationTokenCredential(token: initialToken)
         let communicationTokenPolicy = CommunicationPolicyTokenCredential(userCredential)
-        
-        communicationTokenPolicy.token(forScopes: [""]) { (accessToken, error) in
+
+        communicationTokenPolicy.token(forScopes: [""]) { accessToken, _ in
             XCTAssertEqual(accessToken?.token, initialToken)
             XCTAssertEqual(accessToken?.expiresOn, accessToken?.expiresOn)
             expectation.fulfill()
         }
-        
-        waitForExpectations(timeout: 1000) { (error) in
+
+        waitForExpectations(timeout: 1000) { error in
             if let error = error {
                 XCTFail("Create token timed out: \(error)")
             }
         }
     }
-    
+
     func testStaticTokenReturnsExpiredToken() throws {
         let expectation = self.expectation(description: "Static token is expired")
         let initialToken = expiredToken
         let userCredential = try CommunicationTokenCredential(token: initialToken)
         let communicationTokenPolicy = CommunicationPolicyTokenCredential(userCredential)
-        
-        communicationTokenPolicy.token(forScopes: [""]) { [weak self] (accessToken, error) in
+
+        communicationTokenPolicy.token(forScopes: [""]) { [weak self] accessToken, _ in
             guard let self = self else { return }
             XCTAssertEqual(self.expiredToken, accessToken?.token)
             expectation.fulfill()
         }
-        
-        waitForExpectations(timeout: 1000) { (error) in
+
+        waitForExpectations(timeout: 1000) { error in
             if let error = error {
                 XCTFail("Create token timed out: \(error)")
             }

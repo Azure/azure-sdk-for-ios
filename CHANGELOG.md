@@ -1,15 +1,26 @@
 # Release History
 
-## 1.0.0-beta.8 (Unreleased)
+## 1.0.0-beta.9 (Unreleased)
 ### New Features
 
-- Azure Communication Chat Library
+### Breaking Changes
+
+### Key Bug Fixes
+
+## 1.0.0-beta.8 (2021-02-09)
+### New Features
+
+**Azure Communication Calling**
+ - Added ability to join a Teams meeting.
+ - New event on `Call` `OnIsRecordingActiveChanged` to indicate when the recording has been started and stopped and new property `IsRecordingActive` to indicate if currently the recording is active or not.
+
+**Azure Communication Chat Library**
  - Introduced ChatClient and ChatThreadClient to split operations on threads and operations within a particular thread
  - Create thread sets repeatability-Request-ID for idempotency if not provided
  - Introduced MessageContent model to replace string content property
 
 ### Breaking Changes
-- Azure Communication Common Library
+**Azure Communication Common Library**
  - Renamed the type `CommunicationUserCredential` to `CommunicationTokenCredential`, as it represents a token.
  - Communication identifier `MicrosoftTeamsUserIdentifier` property `identifier` renamed to `userId` since identifier was too generic.
  - Communication identifier `MicrosoftTeamsUserIdentifier` property `id` renamed to `rawId` to represent full MRI.
@@ -21,12 +32,22 @@
  - Updated the `CommunicationTokenCredential` initializer that automatically refreshes the token to accept a single
     `CommunicationTokenRefreshOptions` object instead of multiple parameters.
 
-- Azure Communication Chat Library
+**Azure Communication Chat Library**
  - ChatThreadMember renamed to Participant, uses CommunicationUserIdentifier
  - ChatMessage renamed to Message, uses CommunicationUserIdentifier
  - ChatThread renamed to Thread, uses CommunicationUserIdentifier
  
  ### Key Bug Fixes
+ **Azure Communication Calling**
+ - Fix wrong `callId` on the incoming `Call` object https://github.com/Azure/Communication/issues/164
+ - When placing outgoing call or joining a group call event will be raised `OnCallsUpdated` when call list is updated.
+ - Throw IllegalArgumentException if null camera is passed to constructor of `LocalVideoStream`.
+ - Video freezing in landscape mode https://github.com/Azure/Communication/issues/128
+ - `RendererView` layout is off after a device rotation https://github.com/Azure/Communication/issues/127
+ - `RendererView` is blank when not added to the window right away https://github.com/Azure/Communication/issues/132
+ - `RendererView` Issues when joining a call with a reused `groupId` https://github.com/Azure/Communication/issues/111
+
+**Azure Communication Common Library**
  - Removing `CommunicationUserCredentialPolicy`, this policy was a duplicate of cores `BearerTokenCredentialPolicy`.  
   Communication now has new ability to create `BearerTokenCredentialPolicy` using the new `CommunicationPolicyTokenCredential`. 
 
@@ -34,15 +55,15 @@
 
 ### New Features
 
-- Azure Communication Calling Service
+**Azure Communication Calling Service**
   - Added the ability to set the Caller display name when initializing the library.
 
-- Azure Communication Common Library
+**Azure Communication Common Library**
   - Added a new communication identifier `MicrosoftTeamsUserIdentifier`, used to represent a Microsoft Teams user.
   - Introduced the new `CommunicationTokenRefreshOptions` type for specifying communication token refresh options.
 
 ### Breaking Changes
-- Azure Communication Common Library
+**Azure Communication Common Library**
   - Renamed the type `CommunicationUserCredential` to `CommunicationTokenCredential`, as it represents a token.
   - The protocol `CommunicationTokenCredential` has likewise been renamed to `CommunicationTokenCredentialProviding`.
   - All types that conform to the `CommunicationIdentifier` protocol now use the suffix `Identifier`. For example, the
@@ -52,7 +73,7 @@
 
 ### Key Bug Fixes
 
-- Azure Communication Calling Service
+**Azure Communication Calling Service**
   - Fixed an issue where `handlePushNotification` did not return false if the same payload had been processed already.
   - Improved logging to help identify the source of `hangup`-related issues reported in GitHub.
   - Fixed an issue where the remote participant was still available after hangup/disconnect. [#134](https://github.com/Azure/Communication/issues/134)
@@ -61,7 +82,7 @@
 
 ### Key Bug Fixes
 
-- Azure Communication Calling Service
+**Azure Communication Calling Service**
   - Fixed crash on calling `Call.hangup()`. [#106](https://github.com/Azure/Communication/issues/106)
   - Fixed invalid values for `CFBundleVersion` and `CFBundleShortVersionString` in Info.plist. [#113](https://github.com/Azure/Communication/issues/113)
 
@@ -72,10 +93,10 @@
   libraries.
 
 ### Breaking Changes
-- Azure Communication Chat Service
+**Azure Communication Chat Service**
   - The `baseUrl` parameter has been renamed to `endpoint` in the `AzureCommunicationChatClient` initializers.
 
-- Azure Communication Calling Service
+**Azure Communication Calling Service**
   - Swift applications will not see the `ACS` prefix for classes and enums. For example, `ACSCallAgent` is now
     `CallAgent` when the library is imported in a Swift application.
   - Parameter labels are now mandatory for all API calls from Swift applications.
@@ -84,7 +105,7 @@
   - An exception is now thrown if an application tries to render video/camera twice.
 
 ### Key Bug Fixes
-- Azure Communication Calling Service
+**Azure Communication Calling Service**
   - Fixed a deadlock when deleting an `ACSCallAgent` object.
   - The `Call.hangup()` method will return only after all necessary events are delivered to the app. [#85](https://github.com/Azure/Communication/issues/85)
   - The `Call.hangup()` method now terminates a call if the call is in the `Connecting` or `Ringing` state. [#96](https://github.com/Azure/Communication/issues/96)
