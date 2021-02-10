@@ -1,6 +1,13 @@
 # Release History
 
-## 1.0.0-beta.8 (Unreleased)
+## 1.0.0-beta.9 (Unreleased)
+### New Features
+
+### Breaking Changes
+
+### Key Bug Fixes
+
+## 1.0.0-beta.8 (2021-02-09)
 ### New Features
 
 **Azure Communication Calling**
