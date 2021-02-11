@@ -33,6 +33,7 @@
 @property (nonatomic, strong) NSString *sampleExpiredToken;
 @property (nonatomic) double sampleTokenExpiry;
 @property (nonatomic) int fetchTokenCallCount;
+@property (nonatomic) NSTimeInterval timeout;
 @end
 
 @implementation ObjCCommunciationTokenCredentialTests
@@ -44,11 +45,11 @@
     self.sampleExpiredToken = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjEwMH0.1h_scYkNp-G98-O4cW6KvfJZwiz54uJMyeDACE4nypg";
     self.sampleTokenExpiry = 32503680000;
     self.fetchTokenCallCount = 0;
+    self.timeout = 10.0;
 }
 
-- (void)xtest_ObjCDecodeToken {
-    XCTestExpectation *expectation = [self expectationWithDescription:
-                                      @"DecodeToken"];
+- (void)test_ObjCDecodeToken {
+    __block BOOL isComplete = NO;
 
     CommunicationTokenCredential *userCredential = [[CommunicationTokenCredential alloc]
                                                     initWithToken: self.sampleToken
@@ -58,16 +59,22 @@
         XCTAssertNil(error);
         XCTAssertEqual(accessToken.token, self.sampleToken);
         XCTAssertEqual(accessToken.expiresOn.timeIntervalSince1970, self.sampleTokenExpiry);
-        [expectation fulfill];
+        isComplete = YES;
     }];
+
+    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow: self.timeout];
+    while (isComplete == NO && [loopUntil timeIntervalSinceNow] > 0) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:loopUntil];
+    }
     
-    [self waitForExpectations:@[expectation] timeout:2.0];
+    if (!isComplete) {
+        XCTFail(@"test_ObjCDecodeToken timeout exceeded");
+    }
 }
 
-- (void)xtest_ObjCRefreshTokenProactively_TokenAlreadyExpired {
-    XCTestExpectation *expectation = [self expectationWithDescription:
-                                      @"RefreshTokenProactively_TokenAlreadyExpired"];
+- (void)test_ObjCRefreshTokenProactively_TokenAlreadyExpired {
     __weak ObjCCommunciationTokenCredentialTests *weakSelf = self;
+    __block BOOL isComplete = NO;
     
     CommunicationTokenRefreshOptions *tokenRefreshOptions = [[CommunicationTokenRefreshOptions alloc]
                                                 initWithInitialToken:self.sampleExpiredToken
@@ -90,17 +97,25 @@
         XCTAssertEqual(accessToken.token, weakSelf.sampleToken);
         XCTAssertEqual(weakSelf.fetchTokenCallCount, 1);
         
-        [expectation fulfill];
+        isComplete = YES;
     }];
     
-    [self waitForExpectations:@[expectation] timeout:2.0];
+    
+    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow: self.timeout];
+    while (isComplete == NO && [loopUntil timeIntervalSinceNow] > 0) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:loopUntil];
+    }
+    
+    if (!isComplete) {
+        XCTFail(@"test_ObjCRefreshTokenProactively_TokenAlreadyExpired timeout exceeded");
+    }
 }
 
-- (void)xtest_ObjCRefreshTokenProactively_FetchTokenReturnsError {
-    XCTestExpectation *expectation = [self expectationWithDescription:
-                                      @"RefreshTokenProactively_FetchTokenReturnsError"];
+- (void)test_ObjCRefreshTokenProactively_FetchTokenReturnsError {
     __weak ObjCCommunciationTokenCredentialTests *weakSelf = self;
+    __block BOOL isComplete = NO;
     NSString *errorDesc = @"Error while fetching token";
+    
     CommunicationTokenRefreshOptions *tokenRefreshOptions = [[CommunicationTokenRefreshOptions alloc]
                                                 initWithInitialToken:self.sampleExpiredToken
                                                 refreshProactively:YES
@@ -126,10 +141,18 @@
         XCTAssertNil(accessToken);
         XCTAssertEqual(weakSelf.fetchTokenCallCount, 1);
         
-        [expectation fulfill];
+        isComplete = YES;
     }];
     
-    [self waitForExpectations:@[expectation] timeout:2.0];
+
+    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow: self.timeout];
+    while (isComplete == NO && [loopUntil timeIntervalSinceNow] > 0) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:loopUntil];
+    }
+
+    if (!isComplete) {
+        XCTFail(@"test_ObjCRefreshTokenProactively_FetchTokenReturnsError timeout exceeded");
+    }
 }
 
 @end

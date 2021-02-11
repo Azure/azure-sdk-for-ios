@@ -31,6 +31,7 @@
 @interface ObjCCommunicationTokenCredentialAsyncTests : XCTestCase
 @property (nonatomic, strong) NSString *sampleToken;
 @property (nonatomic) int fetchTokenCallCount;
+@property (nonatomic) NSTimeInterval timeout;
 @end
 
 @implementation ObjCCommunicationTokenCredentialAsyncTests
@@ -43,12 +44,12 @@ NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fS
     
     self.sampleToken = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjMyNTAzNjgwMDAwfQ.9i7FNNHHJT8cOzo-yrAUJyBSfJ-tPPk2emcHavOEpWc";
     self.fetchTokenCallCount = 0;
+    self.timeout = 10.0;
 }
 
-- (void)xtest_ObjCRefreshTokenProactivelyTokenExpiringInOneMin {
-    XCTestExpectation *expectation = [self expectationWithDescription:
-                                      @"RefreshTokenProactivelyTokenExpiringInOneMin"];
+- (void)test_ObjCRefreshTokenProactivelyTokenExpiringInOneMin {
     __weak ObjCCommunicationTokenCredentialAsyncTests *weakSelf = self;
+    __block BOOL isComplete = NO;
     
     NSString *token = [self generateTokenValidForMinutes: 1];
     
@@ -73,18 +74,26 @@ NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fS
         XCTAssertEqual(accessToken.token, weakSelf.sampleToken);
         XCTAssertEqual(weakSelf.fetchTokenCallCount, 1);
         
-        [expectation fulfill];
+        isComplete = YES;
     }];
 
-    [self waitForExpectations:@[expectation] timeout:2.0];
+
+    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow: self.timeout];
+    while (isComplete == NO && [loopUntil timeIntervalSinceNow] > 0) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:loopUntil];
+    }
+
+    if (!isComplete) {
+        XCTFail(@"test_ObjCRefreshTokenProactivelyTokenExpiringInOneMin timeout exceeded");
+    }
 }
 
-- (void)xtest_ObjCRefreshTokenProactivelyTokenExpiringInNineMin {
-    XCTestExpectation *expectation = [self expectationWithDescription:
-                                      @"RefreshTokenProactivelyTokenExpiringInNineMin"];
+- (void)test_ObjCRefreshTokenProactivelyTokenExpiringInNineMin {
     __weak ObjCCommunicationTokenCredentialAsyncTests *weakSelf = self;
+    __block BOOL isComplete = NO;
     
     NSString *token = [self generateTokenValidForMinutes: 9];
+    
     CommunicationTokenRefreshOptions *tokenRefreshOptions = [[CommunicationTokenRefreshOptions alloc]
                                                 initWithInitialToken:token
                                                 refreshProactively:YES
@@ -106,10 +115,18 @@ NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fS
         XCTAssertEqual(accessToken.token, weakSelf.sampleToken);
         XCTAssertEqual(weakSelf.fetchTokenCallCount, 1);
         
-        [expectation fulfill];
+        isComplete = YES;
     }];
 
-    [self waitForExpectations:@[expectation] timeout:2.0];
+    
+    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow: self.timeout];
+    while (isComplete == NO && [loopUntil timeIntervalSinceNow] > 0) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:loopUntil];
+    }
+
+    if (!isComplete) {
+        XCTFail(@"test_ObjCRefreshTokenProactivelyTokenExpiringInNineMin timeout exceeded");
+    }
 }
 
 - (NSString *)generateTokenValidForMinutes: (int) minutes {

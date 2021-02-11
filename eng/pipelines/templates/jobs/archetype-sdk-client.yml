@@ -172,6 +172,7 @@ jobs:
         displayName: 'Install dependencies'
 
       - script: |
+          xcrun simctl delete unavailable
           set -o pipefail
           xcodebuild -workspace AzureSDK.xcworkspace \
                      -scheme ${{parameters.BuildScheme}} \
