@@ -48,21 +48,33 @@ let package = Package(
             name: "AzureCore",
             dependencies: [],
             path: "sdk/core/AzureCore",
-            exclude: ["Source/Supporting Files"],
+            exclude: [
+                "Source/Supporting Files",
+                "Tests",
+                "README.md",
+            ],
             sources: ["Source"]
         ),
         .target(
             name: "AzureCommunication",
             dependencies: ["AzureCore"],
             path: "sdk/communication/AzureCommunication",
-            exclude: ["Source/Supporting Files"],
+            exclude: [
+                "Source/Supporting Files",
+                "Tests",
+                "README.md"
+            ],
             sources: ["Source"]
         ),
         .target(
             name: "AzureCommunicationChat",
             dependencies: ["AzureCore", "AzureCommunication"],
             path: "sdk/communication/AzureCommunicationChat",
-            exclude: ["Source/Supporting Files"],
+            exclude: [
+                "Source/Supporting Files",
+                "Tests",
+                "README.md"
+            ],
             sources: ["Source"]
         ),
         // Test targets
