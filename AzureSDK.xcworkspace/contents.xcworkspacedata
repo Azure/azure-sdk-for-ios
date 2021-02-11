@@ -2,6 +2,105 @@
 <Workspace
    version = "1.0">
    <Group
+      location = "group:sdk"
+      name = "SDK">
+      <Group
+         location = "group:communication"
+         name = "communication">
+         <FileRef
+            location = "group:AzureCommunicationChat/AzureCommunicationChat.xcodeproj">
+         </FileRef>
+         <FileRef
+            location = "group:AzureCommunication/AzureCommunication.xcodeproj">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:core"
+         name = "core">
+         <FileRef
+            location = "group:AzureCore/AzureCore.xcodeproj">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:identity"
+         name = "identity">
+         <FileRef
+            location = "group:AzureIdentity/AzureIdentity.xcodeproj">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:storage"
+         name = "storage">
+         <FileRef
+            location = "group:AzureStorageBlob/AzureStorageBlob.xcodeproj">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
+      location = "group:Scripts"
+      name = "Scripts">
+      <FileRef
+         location = "group:build_api_docs.sh">
+      </FileRef>
+      <FileRef
+         location = "group:swiftlint.sh">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:examples"
+      name = "Examples">
+      <FileRef
+         location = "group:AzureStorageBlobDemo/AzureStorageBlobDemo.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:AzureSDKDemoSwift/AzureSDKDemoSwift.xcodeproj">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:"
+      name = "Deployment">
+      <FileRef
+         location = "group:AzureCommunication.podspec.json">
+      </FileRef>
+      <FileRef
+         location = "group:AzureCommunicationCalling.podspec.json">
+      </FileRef>
+      <FileRef
+         location = "group:AzureCommunicationChat.podspec.json">
+      </FileRef>
+      <FileRef
+         location = "group:AzureCore.podspec.json">
+      </FileRef>
+      <FileRef
+         location = "group:Package.swift">
+      </FileRef>
+      <FileRef
+         location = "group:Podfile">
+      </FileRef>
+      <FileRef
+         location = "group:Podfile.lock">
+      </FileRef>
+      <FileRef
+         location = "group:Pods/Pods.xcodeproj">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:"
+      name = "Docs">
+      <FileRef
+         location = "group:CHANGELOG.md">
+      </FileRef>
+      <FileRef
+         location = "group:CONTRIBUTING.md">
+      </FileRef>
+      <FileRef
+         location = "group:LICENSE">
+      </FileRef>
+      <FileRef
+         location = "group:README.md">
+      </FileRef>
+   </Group>
+   <Group
       location = "group:eng"
       name = "eng">
       <FileRef
@@ -339,102 +438,25 @@
       </FileRef>
    </Group>
    <Group
-      location = "group:sdk"
-      name = "SDK">
-      <Group
-         location = "group:communication"
-         name = "communication">
-         <FileRef
-            location = "group:AzureCommunicationChat/AzureCommunicationChat.xcodeproj">
-         </FileRef>
-         <FileRef
-            location = "group:AzureCommunication/AzureCommunication.xcodeproj">
-         </FileRef>
-      </Group>
-      <Group
-         location = "group:core"
-         name = "core">
-         <FileRef
-            location = "group:AzureCore/AzureCore.xcodeproj">
-         </FileRef>
-      </Group>
-      <Group
-         location = "group:identity"
-         name = "identity">
-         <FileRef
-            location = "group:AzureIdentity/AzureIdentity.xcodeproj">
-         </FileRef>
-      </Group>
-      <Group
-         location = "group:storage"
-         name = "storage">
-         <FileRef
-            location = "group:AzureStorageBlob/AzureStorageBlob.xcodeproj">
-         </FileRef>
-      </Group>
-   </Group>
-   <Group
-      location = "group:Scripts"
-      name = "Scripts">
+      location = "group:/Users/travisprescott/repos/azure-sdk-for-ios/jazzy"
+      name = "jazzy">
       <FileRef
-         location = "group:build_api_docs.sh">
+         location = "group:index.html.erb">
       </FileRef>
       <FileRef
-         location = "group:swiftlint.sh">
-      </FileRef>
-   </Group>
-   <Group
-      location = "group:examples"
-      name = "Examples">
-      <FileRef
-         location = "group:AzureStorageBlobDemo/AzureStorageBlobDemo.xcodeproj">
+         location = "group:AzureCommunication.yml">
       </FileRef>
       <FileRef
-         location = "group:AzureSDKDemoSwift/AzureSDKDemoSwift.xcodeproj">
-      </FileRef>
-   </Group>
-   <Group
-      location = "group:"
-      name = "Deployment">
-      <FileRef
-         location = "group:AzureCommunication.podspec.json">
+         location = "group:AzureIdentity.yml">
       </FileRef>
       <FileRef
-         location = "group:AzureCommunicationCalling.podspec.json">
+         location = "group:AzureStorageBlob.yml">
       </FileRef>
       <FileRef
-         location = "group:AzureCommunicationChat.podspec.json">
+         location = "group:AzureCommunicationChat.yml">
       </FileRef>
       <FileRef
-         location = "group:AzureCore.podspec.json">
-      </FileRef>
-      <FileRef
-         location = "group:Package.swift">
-      </FileRef>
-      <FileRef
-         location = "group:Podfile">
-      </FileRef>
-      <FileRef
-         location = "group:Podfile.lock">
-      </FileRef>
-      <FileRef
-         location = "group:Pods/Pods.xcodeproj">
-      </FileRef>
-   </Group>
-   <Group
-      location = "group:"
-      name = "Docs">
-      <FileRef
-         location = "group:CHANGELOG.md">
-      </FileRef>
-      <FileRef
-         location = "group:CONTRIBUTING.md">
-      </FileRef>
-      <FileRef
-         location = "group:LICENSE">
-      </FileRef>
-      <FileRef
-         location = "group:README.md">
+         location = "group:AzureCore.yml">
       </FileRef>
    </Group>
 </Workspace>
