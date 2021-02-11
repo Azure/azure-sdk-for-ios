@@ -45,8 +45,8 @@ class CommunicationTokenCredentialTests: XCTestCase {
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjEwMH0.1h_scYkNp-G98-O4cW6KvfJZwiz54uJMyeDACE4nypg"
 
     private var fetchTokenCallCount: Int = 0
-    private let timeout: TimeInterval = 18.0
-    
+    private let timeout: TimeInterval = 10.0
+
     override func setUp() {
         super.setUp()
 
