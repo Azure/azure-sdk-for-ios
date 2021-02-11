@@ -72,6 +72,7 @@ let package = Package(
             path: "sdk/communication/AzureCommunicationChat",
             exclude: [
                 "Source/Supporting Files",
+                "Package.swift",
                 "Tests",
                 "README.md"
             ],
