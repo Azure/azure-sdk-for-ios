@@ -16,7 +16,7 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// A chat message read receipt indicates the time a chat message was read by a recipient.
-public struct ChatMessageReadReceipt: Codable {
+public struct ChatMessageReadReceipt: Codable, Equatable {
     // MARK: Properties
 
     /// Id of the participant who read the message.

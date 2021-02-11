@@ -27,7 +27,8 @@
 import Foundation
 
 /**
- Common Communication Identifier protocol for all Azure Communication Services. All Communication Identifiers conform to this protocol.
+ Common Communication Identifier protocol for all Azure Communication Services.
+ All Communication Identifiers conform to this protocol.
  */
 @objc public protocol CommunicationIdentifier: NSObjectProtocol {}
 /**
@@ -97,10 +98,13 @@ import Foundation
 
     /**
      Creates a MicrosoftTeamsUserIdentifier object
-     - Parameter userId: Id of the Microsoft Teams user. If the user isn't anonymous, the id is the AAD object id of the user.
-     - Parameter isAnonymous: Set this to true if the user is anonymous, for example when joining a meeting with a share link.
+     - Parameter userId: Id of the Microsoft Teams user. If the user isn't anonymous,
+                            the id is the AAD object id of the user.
+     - Parameter isAnonymous: Set this to true if the user is anonymous:
+                                for example when joining a meeting with a share link.
      - Parameter rawId: The optional raw id of the Microsoft Teams User identifier.
-     - Parameter cloudEnvironment: The cloud that the Microsoft Team user belongs to. A null value translates to the Public cloud.
+     - Parameter cloudEnvironment: The cloud that the Microsoft Team user belongs to.
+                                    A null value translates to the Public cloud.
      */
     public init(
         userId: String,

@@ -11,38 +11,50 @@
 import AzureCore
 import Foundation
 
-/// The cloud that the identifier belongs to.
-public enum CommunicationCloudEnvironmentModel: RequestStringConvertible, Codable, Equatable {
+/// The chat message type.
+public enum ChatMessageType: RequestStringConvertible, Codable, Equatable {
     /// Custom value for unrecognized enum values
     case custom(String)
 
-    case `public`
+    case text
 
-    case dod
+    case html
 
-    case gcch
+    case topicUpdated
+
+    case participantAdded
+
+    case participantRemoved
 
     public var requestString: String {
         switch self {
         case let .custom(val):
             return val
-        case .public:
-            return "public"
-        case .dod:
-            return "dod"
-        case .gcch:
-            return "gcch"
+        case .text:
+            return "text"
+        case .html:
+            return "html"
+        case .topicUpdated:
+            return "topicUpdated"
+        case .participantAdded:
+            return "participantAdded"
+        case .participantRemoved:
+            return "participantRemoved"
         }
     }
 
     public init(_ val: String) {
         switch val.lowercased() {
-        case "public":
-            self = .public
-        case "dod":
-            self = .dod
-        case "gcch":
-            self = .gcch
+        case "text":
+            self = .text
+        case "html":
+            self = .html
+        case "topicupdated":
+            self = .topicUpdated
+        case "participantadded":
+            self = .participantAdded
+        case "participantremoved":
+            self = .participantRemoved
         default:
             self = .custom(val)
         }

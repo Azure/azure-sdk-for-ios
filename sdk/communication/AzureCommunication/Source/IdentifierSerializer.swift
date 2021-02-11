@@ -24,13 +24,12 @@
 //
 // --------------------------------------------------------------------------
 
-#if canImport(AzureCore)
-    import AzureCore
-#endif
+import AzureCommunication
+import AzureCore
 import Foundation
 
-public class CommunicationIdentifierSerializer {
-    static func deserialize(identifier: CommunicationIdentifierModel) throws -> CommunicationIdentifier {
+public class IdentifierSerializer {
+    public static func deserialize(identifier: CommunicationIdentifierModel) throws -> CommunicationIdentifier {
         guard let rawId = identifier.rawId else {
             throw AzureError.client("Can't serialize CommunicationIdentifierModel: rawId is undefined.")
         }
@@ -75,25 +74,25 @@ public class CommunicationIdentifierSerializer {
         return CommunicationCloudEnvironment(environmentValue: model.requestString)
     }
 
-    static func assertOneNestedModel(_ identifier: CommunicationIdentifierModel) throws {
+    public static func assertOneNestedModel(_ identifier: CommunicationIdentifierModel) throws {
         var presentProperties = 0
-        
-        if let _ = identifier.communicationUser {
+
+        if identifier.communicationUser != nil {
             presentProperties += 1
         }
-        if let _ = identifier.phoneNumber {
+        if identifier.phoneNumber != nil {
             presentProperties += 1
         }
-        if let _ = identifier.microsoftTeamsUser {
+        if identifier.microsoftTeamsUser != nil {
             presentProperties += 1
         }
-        
+
         if presentProperties > 1 {
             throw AzureError.client("Only one property should be present")
         }
     }
 
-    static func serialize(identifier: CommunicationIdentifier) throws -> CommunicationIdentifierModel {
+    public static func serialize(identifier: CommunicationIdentifier) throws -> CommunicationIdentifierModel {
         switch identifier {
         case let user as CommunicationUserIdentifier:
             return CommunicationIdentifierModel(
@@ -151,6 +150,12 @@ public class CommunicationIdentifierSerializer {
             return CommunicationCloudEnvironmentModel.Dod
         }
 
-        return CommunicationCloudEnvironmentModel(cloud.environmentValue)
+        return CommunicationCloudEnvironmentModel(cloud.getEnvironmentValue())
     }
+}
+
+extension CommunicationCloudEnvironmentModel {
+    public static let Public = CommunicationCloudEnvironmentModel("public")
+    public static let Dod = CommunicationCloudEnvironmentModel("dod")
+    public static let Gcch = CommunicationCloudEnvironmentModel("gcch")
 }
