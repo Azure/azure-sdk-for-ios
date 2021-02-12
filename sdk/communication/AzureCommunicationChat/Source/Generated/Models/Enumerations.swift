@@ -11,6 +11,57 @@
 import AzureCore
 import Foundation
 
+/// The cloud that the identifier belongs to.
+public enum CommunicationCloudEnvironmentModel: RequestStringConvertible, Codable, Equatable {
+    /// Custom value for unrecognized enum values
+    case custom(String)
+
+    case `public`
+
+    case dod
+
+    case gcch
+
+    public var requestString: String {
+        switch self {
+        case let .custom(val):
+            return val
+        case .public:
+            return "public"
+        case .dod:
+            return "dod"
+        case .gcch:
+            return "gcch"
+        }
+    }
+
+    public init(_ val: String) {
+        switch val.lowercased() {
+        case "public":
+            self = .public
+        case "dod":
+            self = .dod
+        case "gcch":
+            self = .gcch
+        default:
+            self = .custom(val)
+        }
+    }
+
+    // MARK: Codable
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let value = try container.decode(String.self)
+        self.init(value)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(requestString)
+    }
+}
+
 /// The chat message type.
 public enum ChatMessageType: RequestStringConvertible, Codable, Equatable {
     /// Custom value for unrecognized enum values
@@ -55,57 +106,6 @@ public enum ChatMessageType: RequestStringConvertible, Codable, Equatable {
             self = .participantAdded
         case "participantremoved":
             self = .participantRemoved
-        default:
-            self = .custom(val)
-        }
-    }
-
-    // MARK: Codable
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        let value = try container.decode(String.self)
-        self.init(value)
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        try container.encode(requestString)
-    }
-}
-
-/// The cloud that the identifier belongs to.
-public enum CommunicationCloudEnvironmentModel: RequestStringConvertible, Codable, Equatable {
-    /// Custom value for unrecognized enum values
-    case custom(String)
-
-    case `public`
-
-    case dod
-
-    case gcch
-
-    public var requestString: String {
-        switch self {
-        case let .custom(val):
-            return val
-        case .public:
-            return "public"
-        case .dod:
-            return "dod"
-        case .gcch:
-            return "gcch"
-        }
-    }
-
-    public init(_ val: String) {
-        switch val.lowercased() {
-        case "public":
-            self = .public
-        case "dod":
-            self = .dod
-        case "gcch":
-            self = .gcch
         default:
             self = .custom(val)
         }

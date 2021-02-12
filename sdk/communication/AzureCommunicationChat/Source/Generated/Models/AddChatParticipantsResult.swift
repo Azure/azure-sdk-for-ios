@@ -16,7 +16,7 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Result of the add chat participants operation.
-public struct AddChatParticipantsResult: Codable {
+public struct AddChatParticipantsResult: Codable, Equatable {
     // MARK: Properties
 
     /// Errors encountered during the addition of the chat participant to the chat thread.

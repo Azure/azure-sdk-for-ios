@@ -16,7 +16,7 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Participants to be added to the thread.
-public struct AddChatParticipantsRequest: Codable {
+public struct AddChatParticipantsRequest: Codable, Equatable {
     // MARK: Properties
 
     /// Participants to add to a chat thread.
