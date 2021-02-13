@@ -26,7 +26,7 @@ public final class CommunicationError: Codable, Swift.Error {
     /// The error target.
     public let target: String?
     /// Further details about specific errors that led to this error.
-    public let details: [CommunicationError]?
+    public let details: [CommunicationError?]?
     /// The inner error if any.
     public let innerError: CommunicationError?
 
@@ -40,7 +40,7 @@ public final class CommunicationError: Codable, Swift.Error {
     ///   - details: Further details about specific errors that led to this error.
     ///   - innerError: The inner error if any.
     public init(
-        code: String, message: String, target: String? = nil, details: [CommunicationError]? = nil,
+        code: String, message: String, target: String? = nil, details: [CommunicationError?]? = nil,
         innerError: CommunicationError? = nil
     ) {
         self.code = code
@@ -66,7 +66,7 @@ public final class CommunicationError: Codable, Swift.Error {
         self.code = try container.decode(String.self, forKey: .code)
         self.message = try container.decode(String.self, forKey: .message)
         self.target = try? container.decode(String.self, forKey: .target)
-        self.details = try? container.decode([CommunicationError].self, forKey: .details)
+        self.details = try? container.decode([CommunicationError?].self, forKey: .details)
         self.innerError = try? container.decode(CommunicationError.self, forKey: .innerError)
     }
 

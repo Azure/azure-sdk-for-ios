@@ -16,7 +16,7 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Content of a chat message.
-public struct ChatMessageContent: Codable, Equatable {
+public struct ChatMessageContent: Codable {
     // MARK: Properties
 
     /// Chat message content for messages of types text or html.
@@ -25,8 +25,8 @@ public struct ChatMessageContent: Codable, Equatable {
     public let topic: String?
     /// Chat message content for messages of types participantAdded or participantRemoved.
     public let participants: [ChatParticipant]?
-    /// Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.
-    public let initiatorCommunicationIdentifier: CommunicationIdentifierModel?
+    /// Chat message content for messages of types participantAdded or participantRemoved.
+    public let initiator: String?
 
     // MARK: Initializers
 
@@ -35,15 +35,15 @@ public struct ChatMessageContent: Codable, Equatable {
     ///   - message: Chat message content for messages of types text or html.
     ///   - topic: Chat message content for messages of type topicUpdated.
     ///   - participants: Chat message content for messages of types participantAdded or participantRemoved.
-    ///   - initiatorCommunicationIdentifier: Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.
+    ///   - initiator: Chat message content for messages of types participantAdded or participantRemoved.
     public init(
         message: String? = nil, topic: String? = nil, participants: [ChatParticipant]? = nil,
-        initiatorCommunicationIdentifier: CommunicationIdentifierModel? = nil
+        initiator: String? = nil
     ) {
         self.message = message
         self.topic = topic
         self.participants = participants
-        self.initiatorCommunicationIdentifier = initiatorCommunicationIdentifier
+        self.initiator = initiator
     }
 
     // MARK: Codable
@@ -52,7 +52,7 @@ public struct ChatMessageContent: Codable, Equatable {
         case message = "message"
         case topic = "topic"
         case participants = "participants"
-        case initiatorCommunicationIdentifier = "initiatorCommunicationIdentifier"
+        case initiator = "initiator"
     }
 
     /// Initialize a `ChatMessageContent` structure from decoder
@@ -61,10 +61,7 @@ public struct ChatMessageContent: Codable, Equatable {
         self.message = try? container.decode(String.self, forKey: .message)
         self.topic = try? container.decode(String.self, forKey: .topic)
         self.participants = try? container.decode([ChatParticipant].self, forKey: .participants)
-        self.initiatorCommunicationIdentifier = try? container.decode(
-            CommunicationIdentifierModel.self,
-            forKey: .initiatorCommunicationIdentifier
-        )
+        self.initiator = try? container.decode(String.self, forKey: .initiator)
     }
 
     /// Encode a `ChatMessageContent` structure
@@ -73,7 +70,6 @@ public struct ChatMessageContent: Codable, Equatable {
         if message != nil { try? container.encode(message, forKey: .message) }
         if topic != nil { try? container.encode(topic, forKey: .topic) }
         if participants != nil { try? container.encode(participants, forKey: .participants) }
-        if initiatorCommunicationIdentifier !=
-            nil { try? container.encode(initiatorCommunicationIdentifier, forKey: .initiatorCommunicationIdentifier) }
+        if initiator != nil { try? container.encode(initiator, forKey: .initiator) }
     }
 }

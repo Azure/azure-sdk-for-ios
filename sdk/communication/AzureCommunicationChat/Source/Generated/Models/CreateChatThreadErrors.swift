@@ -16,11 +16,11 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Errors encountered during the creation of the chat thread.
-public struct CreateChatThreadErrors: Codable, Equatable {
+public struct CreateChatThreadErrors: Codable {
     // MARK: Properties
 
     /// The participants that failed to be added to the chat thread.
-    public let invalidParticipants: [CommunicationError]?
+    public let invalidParticipants: [CommunicationError?]?
 
     // MARK: Initializers
 
@@ -28,7 +28,7 @@ public struct CreateChatThreadErrors: Codable, Equatable {
     /// - Parameters:
     ///   - invalidParticipants: The participants that failed to be added to the chat thread.
     public init(
-        invalidParticipants: [CommunicationError]? = nil
+        invalidParticipants: [CommunicationError?]? = nil
     ) {
         self.invalidParticipants = invalidParticipants
     }
@@ -42,7 +42,7 @@ public struct CreateChatThreadErrors: Codable, Equatable {
     /// Initialize a `CreateChatThreadErrors` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.invalidParticipants = try? container.decode([CommunicationError].self, forKey: .invalidParticipants)
+        self.invalidParticipants = try? container.decode([CommunicationError?].self, forKey: .invalidParticipants)
     }
 
     /// Encode a `CreateChatThreadErrors` structure

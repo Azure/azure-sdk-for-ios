@@ -25,8 +25,8 @@ public struct ChatThread: Codable, Equatable {
     public let topic: String
     /// The timestamp when the chat thread was created. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public let createdOn: Iso8601Date
-    /// Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.
-    public let createdByCommunicationIdentifier: CommunicationIdentifierModel
+    /// Id of the chat thread owner.
+    public let createdBy: String
     /// The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public let deletedOn: Iso8601Date?
 
@@ -37,16 +37,15 @@ public struct ChatThread: Codable, Equatable {
     ///   - id: Chat thread id.
     ///   - topic: Chat thread topic.
     ///   - createdOn: The timestamp when the chat thread was created. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
-    ///   - createdByCommunicationIdentifier: Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.
+    ///   - createdBy: Id of the chat thread owner.
     ///   - deletedOn: The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public init(
-        id: String, topic: String, createdOn: Iso8601Date,
-        createdByCommunicationIdentifier: CommunicationIdentifierModel, deletedOn: Iso8601Date? = nil
+        id: String, topic: String, createdOn: Iso8601Date, createdBy: String, deletedOn: Iso8601Date? = nil
     ) {
         self.id = id
         self.topic = topic
         self.createdOn = createdOn
-        self.createdByCommunicationIdentifier = createdByCommunicationIdentifier
+        self.createdBy = createdBy
         self.deletedOn = deletedOn
     }
 
@@ -56,7 +55,7 @@ public struct ChatThread: Codable, Equatable {
         case id = "id"
         case topic = "topic"
         case createdOn = "createdOn"
-        case createdByCommunicationIdentifier = "createdByCommunicationIdentifier"
+        case createdBy = "createdBy"
         case deletedOn = "deletedOn"
     }
 
@@ -66,10 +65,7 @@ public struct ChatThread: Codable, Equatable {
         self.id = try container.decode(String.self, forKey: .id)
         self.topic = try container.decode(String.self, forKey: .topic)
         self.createdOn = try container.decode(Iso8601Date.self, forKey: .createdOn)
-        self.createdByCommunicationIdentifier = try container.decode(
-            CommunicationIdentifierModel.self,
-            forKey: .createdByCommunicationIdentifier
-        )
+        self.createdBy = try container.decode(String.self, forKey: .createdBy)
         self.deletedOn = try? container.decode(Iso8601Date.self, forKey: .deletedOn)
     }
 
@@ -79,7 +75,7 @@ public struct ChatThread: Codable, Equatable {
         try container.encode(id, forKey: .id)
         try container.encode(topic, forKey: .topic)
         try container.encode(createdOn, forKey: .createdOn)
-        try container.encode(createdByCommunicationIdentifier, forKey: .createdByCommunicationIdentifier)
+        try container.encode(createdBy, forKey: .createdBy)
         if deletedOn != nil { try? container.encode(deletedOn, forKey: .deletedOn) }
     }
 }

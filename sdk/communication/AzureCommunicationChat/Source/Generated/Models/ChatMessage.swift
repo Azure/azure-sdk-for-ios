@@ -16,7 +16,7 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Chat message.
-public struct ChatMessage: Codable, Equatable {
+public struct ChatMessage: Codable {
     // MARK: Properties
 
     /// The id of the chat message. This id is server generated.
@@ -33,8 +33,8 @@ public struct ChatMessage: Codable, Equatable {
     public let senderDisplayName: String?
     /// The timestamp when the chat message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public let createdOn: Iso8601Date
-    /// Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.
-    public let senderCommunicationIdentifier: CommunicationIdentifierModel?
+    /// The id of the chat message sender.
+    public let senderId: String?
     /// The timestamp (if applicable) when the message was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public let deletedOn: Iso8601Date?
     /// The last timestamp (if applicable) when the message was edited. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
@@ -51,14 +51,13 @@ public struct ChatMessage: Codable, Equatable {
     ///   - content: Content of a chat message.
     ///   - senderDisplayName: The display name of the chat message sender. This property is used to populate sender name for push notifications.
     ///   - createdOn: The timestamp when the chat message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
-    ///   - senderCommunicationIdentifier: Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.
+    ///   - senderId: The id of the chat message sender.
     ///   - deletedOn: The timestamp (if applicable) when the message was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     ///   - editedOn: The last timestamp (if applicable) when the message was edited. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public init(
         id: String, type: ChatMessageType, sequenceId: String, version: String, content: ChatMessageContent? = nil,
-        senderDisplayName: String? = nil, createdOn: Iso8601Date,
-        senderCommunicationIdentifier: CommunicationIdentifierModel? = nil, deletedOn: Iso8601Date? = nil,
-        editedOn: Iso8601Date? = nil
+        senderDisplayName: String? = nil, createdOn: Iso8601Date, senderId: String? = nil,
+        deletedOn: Iso8601Date? = nil, editedOn: Iso8601Date? = nil
     ) {
         self.id = id
         self.type = type
@@ -67,7 +66,7 @@ public struct ChatMessage: Codable, Equatable {
         self.content = content
         self.senderDisplayName = senderDisplayName
         self.createdOn = createdOn
-        self.senderCommunicationIdentifier = senderCommunicationIdentifier
+        self.senderId = senderId
         self.deletedOn = deletedOn
         self.editedOn = editedOn
     }
@@ -82,7 +81,7 @@ public struct ChatMessage: Codable, Equatable {
         case content = "content"
         case senderDisplayName = "senderDisplayName"
         case createdOn = "createdOn"
-        case senderCommunicationIdentifier = "senderCommunicationIdentifier"
+        case senderId = "senderId"
         case deletedOn = "deletedOn"
         case editedOn = "editedOn"
     }
@@ -97,10 +96,7 @@ public struct ChatMessage: Codable, Equatable {
         self.content = try? container.decode(ChatMessageContent.self, forKey: .content)
         self.senderDisplayName = try? container.decode(String.self, forKey: .senderDisplayName)
         self.createdOn = try container.decode(Iso8601Date.self, forKey: .createdOn)
-        self.senderCommunicationIdentifier = try? container.decode(
-            CommunicationIdentifierModel.self,
-            forKey: .senderCommunicationIdentifier
-        )
+        self.senderId = try? container.decode(String.self, forKey: .senderId)
         self.deletedOn = try? container.decode(Iso8601Date.self, forKey: .deletedOn)
         self.editedOn = try? container.decode(Iso8601Date.self, forKey: .editedOn)
     }
@@ -115,8 +111,7 @@ public struct ChatMessage: Codable, Equatable {
         if content != nil { try? container.encode(content, forKey: .content) }
         if senderDisplayName != nil { try? container.encode(senderDisplayName, forKey: .senderDisplayName) }
         try container.encode(createdOn, forKey: .createdOn)
-        if senderCommunicationIdentifier !=
-            nil { try? container.encode(senderCommunicationIdentifier, forKey: .senderCommunicationIdentifier) }
+        if senderId != nil { try? container.encode(senderId, forKey: .senderId) }
         if deletedOn != nil { try? container.encode(deletedOn, forKey: .deletedOn) }
         if editedOn != nil { try? container.encode(editedOn, forKey: .editedOn) }
     }

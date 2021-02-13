@@ -16,7 +16,7 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Collection of participants belong to a particular thread.
-public struct ChatParticipantsCollection: Codable, Equatable {
+public struct ChatParticipantsCollection: Codable {
     // MARK: Properties
 
     /// Chat participants.
