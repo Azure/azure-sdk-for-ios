@@ -207,4 +207,57 @@ class IdentifierSerializerTests: XCTestCase {
         XCTAssertEqual(model.microsoftTeamsUser?.userId, testTeamsUserId)
         XCTAssertEqual(model.microsoftTeamsUser?.cloud, .public)
     }
+
+    func test_DeserializeMissingProperty() throws {
+        let modelsWithMissingMandatoryProperty: [CommunicationIdentifierModel] = [
+            CommunicationIdentifierModel( // missing raw id
+                rawId: nil,
+                communicationUser: testUserModel,
+                phoneNumber: nil,
+                microsoftTeamsUser: nil
+            ),
+            CommunicationIdentifierModel( // missing raw id
+                rawId: nil,
+                communicationUser: nil,
+                phoneNumber: testPhoneNumberModel,
+                microsoftTeamsUser: nil
+            ),
+            CommunicationIdentifierModel( // MicrosoftTeamsUserIdentifierModel missing isAnonymous
+                rawId: "some id",
+                communicationUser: nil,
+                phoneNumber: nil,
+                microsoftTeamsUser: MicrosoftTeamsUserIdentifierModel(
+                    userId: "some id",
+                    cloud: .public
+                )
+            ),
+            CommunicationIdentifierModel( // MicrosoftTeamsUserIdentifierModel missing isAnonymous
+                rawId: "some id",
+                communicationUser: nil,
+                phoneNumber: nil,
+                microsoftTeamsUser: MicrosoftTeamsUserIdentifierModel(
+                    userId: "some id",
+                    isAnonymous: false
+                )
+            ),
+            CommunicationIdentifierModel( // missing raw id
+                rawId: nil,
+                communicationUser: nil,
+                phoneNumber: nil,
+                microsoftTeamsUser: testTeamsUserModel
+            )
+        ]
+
+        var exceptionCount = 0
+
+        for item in modelsWithMissingMandatoryProperty {
+            do {
+                _ = try IdentifierSerializer.deserialize(identifier: item)
+            } catch {
+                exceptionCount += 1
+            }
+        }
+
+        XCTAssertEqual(exceptionCount, modelsWithMissingMandatoryProperty.count)
+    }
 }
