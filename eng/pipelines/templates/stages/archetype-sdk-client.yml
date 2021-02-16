@@ -9,3 +9,8 @@ stages:
     - template: ../jobs/archetype-sdk-client.yml
       parameters:
         BuildScheme: ${{parameters.BuildScheme}}
+
+  - ${{ if and(ne(variables['Build.Reason'], 'PullRequest'), eq(variables['System.TeamProject'], 'internal')) }}:
+    - template: archetype-sdk-release.yml
+      parameters:
+        DependsOn: Build

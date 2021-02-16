@@ -27,12 +27,12 @@ jobs:
       - script: |
           set -o pipefail
           xcodebuild archive \
-                     -workspace AzureSDK.xcworkspace \
-                     -scheme ${{parameters.BuildScheme}} \
-                     -sdk iphonesimulator \
-                     -configuration Release \
-                     -archivePath $(Build.ArtifactStagingDirectory)/AzureSDK-iphonesimulator.xcarchive \
-                     SKIP_INSTALL=NO | xcpretty -c
+                    -workspace AzureSDK.xcworkspace \
+                    -scheme ${{parameters.BuildScheme}} \
+                    -sdk iphonesimulator \
+                    -configuration Release \
+                    -archivePath $(Build.ArtifactStagingDirectory)/AzureSDK-iphonesimulator.xcarchive \
+                    SKIP_INSTALL=NO | xcpretty -c
         displayName: 'Build and archive libraries for release [iphonesimulator]'
 
       - publish: $(Build.ArtifactStagingDirectory)/AzureSDK-iphonesimulator.xcarchive
@@ -42,12 +42,12 @@ jobs:
       - script: |
           set -o pipefail
           xcodebuild archive \
-                     -workspace AzureSDK.xcworkspace \
-                     -scheme ${{parameters.BuildScheme}} \
-                     -sdk iphoneos \
-                     -configuration Release \
-                     -archivePath $(Build.ArtifactStagingDirectory)/AzureSDK-iphoneos.xcarchive \
-                     SKIP_INSTALL=NO | xcpretty -c
+                    -workspace AzureSDK.xcworkspace \
+                    -scheme ${{parameters.BuildScheme}} \
+                    -sdk iphoneos \
+                    -configuration Release \
+                    -archivePath $(Build.ArtifactStagingDirectory)/AzureSDK-iphoneos.xcarchive \
+                    SKIP_INSTALL=NO | xcpretty -c
         displayName: 'Build and archive libraries for release [iphoneos]'
 
       - publish: $(Build.ArtifactStagingDirectory)/AzureSDK-iphoneos.xcarchive
@@ -142,13 +142,13 @@ jobs:
               swiftlint lint --path sdk/${{parameters.BuildScheme}} --quiet --reporter emoji
               ;;
           esac
-        displayName: 'Lint sources'
+        displayName: 'Swiftlint sources'
 
       - script: |
           pip install setuptools wheel
           pip install doc-warden==$(DocWardenVersion)
           ward scan -d $(Build.SourcesDirectory) -c $(Build.SourcesDirectory)/eng/.docsettings.yml
-        displayName: 'Verify readmes'
+        displayName: 'Verify READMEs'
 
       - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
         # ComponentGovernance is currently unable to run on pull requests of public projects. Running on non-PR
@@ -180,12 +180,12 @@ jobs:
           xcrun simctl delete unavailable
           set -o pipefail
           xcodebuild -workspace AzureSDK.xcworkspace \
-                     -scheme ${{parameters.BuildScheme}} \
-                     -destination "platform=iOS Simulator,OS=$(SimulatorVersion),name=$(SimulatorDevice)" \
-                     -configuration Debug \
-                     -derivedDataPath $(Build.ArtifactStagingDirectory) \
-                     -enableCodeCoverage YES \
-                     test | xcpretty -c
+                    -scheme ${{parameters.BuildScheme}} \
+                    -destination "platform=iOS Simulator,OS=$(SimulatorVersion),name=$(SimulatorDevice)" \
+                    -configuration Debug \
+                    -derivedDataPath $(Build.ArtifactStagingDirectory) \
+                    -enableCodeCoverage YES \
+                    test | xcpretty -c
         displayName: 'Build and test libraries'
 
       - publish: $(Build.ArtifactStagingDirectory)/Logs/Test
@@ -208,9 +208,9 @@ jobs:
       - script: |
           echo "Getting list of projects in scheme ${{parameters.BuildScheme}}"
           xcodebuild -showBuildSettings \
-                     -workspace AzureSDK.xcworkspace \
-                     -scheme ${{parameters.BuildScheme}} \
-                     -configuration Debug \
+                    -workspace AzureSDK.xcworkspace \
+                    -scheme ${{parameters.BuildScheme}} \
+                    -configuration Debug \
           | grep PROJECT_FILE_PATH \
           | awk -F ' = ' '{print $NF}' \
           | while read PROJECT_PATH; do
@@ -251,10 +251,10 @@ jobs:
       - script: |
           set -o pipefail
           xcodebuild build \
-                     -workspace AzureSDK.xcworkspace \
-                     -scheme examples \
-                     -sdk iphonesimulator \
-                     -configuration Debug | xcpretty -c
+                    -workspace AzureSDK.xcworkspace \
+                    -scheme examples \
+                    -sdk iphonesimulator \
+                    -configuration Debug | xcpretty -c
         displayName: 'Build examples [iphonesimulator]'
 
   - job: 'SmokeTest'
