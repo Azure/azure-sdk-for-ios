@@ -15,39 +15,39 @@ import Foundation
 // swiftlint:disable line_length
 // swiftlint:disable cyclomatic_complexity
 
-/// Request payload for updating a chat message.
-public struct UpdateChatMessageRequest: Codable, Equatable {
+/// A user that got created with an Azure Communication Services resource.
+public struct CommunicationUserIdentifierModel: Codable, Equatable {
     // MARK: Properties
 
-    /// Chat message content.
-    public let content: String?
+    /// The Id of the communication user.
+    public let id: String
 
     // MARK: Initializers
 
-    /// Initialize a `UpdateChatMessageRequest` structure.
+    /// Initialize a `CommunicationUserIdentifierModel` structure.
     /// - Parameters:
-    ///   - content: Chat message content.
+    ///   - id: The Id of the communication user.
     public init(
-        content: String? = nil
+        id: String
     ) {
-        self.content = content
+        self.id = id
     }
 
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case content = "content"
+        case id = "id"
     }
 
-    /// Initialize a `UpdateChatMessageRequest` structure from decoder
+    /// Initialize a `CommunicationUserIdentifierModel` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.content = try? container.decode(String.self, forKey: .content)
+        self.id = try container.decode(String.self, forKey: .id)
     }
 
-    /// Encode a `UpdateChatMessageRequest` structure
+    /// Encode a `CommunicationUserIdentifierModel` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        if content != nil { try? container.encode(content, forKey: .content) }
+        try container.encode(id, forKey: .id)
     }
 }
