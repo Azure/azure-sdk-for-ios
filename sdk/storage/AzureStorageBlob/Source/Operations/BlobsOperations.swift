@@ -75,8 +75,7 @@ public final class BlobsOperations {
         context.merge(with: options?.context)
 
         guard let requestUrl = client.url(template: urlTemplate, params: params),
-            let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers)
-        else {
+            let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers) else {
             client.options.logger.error("Failed to construct Http request")
             return
         }
@@ -148,8 +147,7 @@ public final class BlobsOperations {
         context.add(cancellationToken: options?.cancellationToken, applying: client.options)
         context.merge(with: options?.context)
         guard let requestUrl = client.url(template: urlTemplate, params: params),
-            let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: params.headers)
-        else {
+            let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: params.headers) else {
             client.options.logger.error("Failed to construct Http request")
             return
         }

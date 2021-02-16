@@ -66,8 +66,7 @@ public struct ContainerProperties: XMLModel {
 
     internal init?(from headers: HTTPHeaders) {
         guard let lastModified = Rfc1123Date(string: headers[HTTPHeader.lastModified]),
-            let etag = headers[HTTPHeader.etag]
-        else {
+            let etag = headers[HTTPHeader.etag] else {
             return nil
         }
         self.lastModified = lastModified
