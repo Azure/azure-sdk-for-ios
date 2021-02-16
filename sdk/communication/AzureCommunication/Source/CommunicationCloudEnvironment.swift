@@ -43,7 +43,7 @@ import Foundation
         return environmentValue
     }
 
-    public static func isEqual(lhs: CommunicationCloudEnvironment, rhs: CommunicationCloudEnvironment) -> Bool {
+    public static func == (lhs: CommunicationCloudEnvironment, rhs: CommunicationCloudEnvironment) -> Bool {
         if lhs.environmentValue == rhs.environmentValue {
             return true
         } else {
