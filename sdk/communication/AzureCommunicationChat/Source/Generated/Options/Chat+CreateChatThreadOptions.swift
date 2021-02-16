@@ -18,8 +18,8 @@ import Foundation
 extension Chat {
     /// User-configurable options for the `AzureCommunicationChatService.CreateChatThread` operation.
     public struct CreateChatThreadOptions: RequestOptions {
-        /// If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-ID and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-ID is an opaque string representing a client-generated, globally unique for all time, identifier for the request. It is recommended to use version 4 (random) UUIDs.
-        public let repeatabilityRequestID: String?
+        /// If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated, globally unique for all time, identifier for the request. It is recommended to use version 4 (random) UUIDs.
+        public let repeatabilityRequestId: String?
 
         /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
         /// Highly recommended for correlating client-side activites with requests received by the server.
@@ -36,19 +36,19 @@ extension Chat {
 
         /// Initialize a `CreateChatThreadOptions` structure.
         /// - Parameters:
-        ///   - repeatabilityRequestID: If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-ID and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-ID is an opaque string representing a client-generated, globally unique for all time, identifier for the request. It is recommended to use version 4 (random) UUIDs.
+        ///   - repeatabilityRequestId: If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated, globally unique for all time, identifier for the request. It is recommended to use version 4 (random) UUIDs.
         ///   - clientRequestId: A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
         ///   - cancellationToken: A token used to make a best-effort attempt at canceling a request.
         ///   - dispatchQueue: A dispatch queue on which to call the completion handler. Defaults to `DispatchQueue.main`.
         ///   - context: A `PipelineContext` object to associate with the request.
         public init(
-            repeatabilityRequestID: String? = nil,
+            repeatabilityRequestId: String? = nil,
             clientRequestId: String? = nil,
             cancellationToken: CancellationToken? = nil,
             dispatchQueue: DispatchQueue? = nil,
             context: PipelineContext? = nil
         ) {
-            self.repeatabilityRequestID = repeatabilityRequestID
+            self.repeatabilityRequestId = repeatabilityRequestId
             self.clientRequestId = clientRequestId
             self.cancellationToken = cancellationToken
             self.dispatchQueue = dispatchQueue

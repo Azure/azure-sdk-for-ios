@@ -16,7 +16,7 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Collection of chat messages for a particular chat thread.
-public struct ChatMessagesCollection: Codable {
+public struct ChatMessagesCollection: Codable, Equatable {
     // MARK: Properties
 
     /// Collection of chat messages.

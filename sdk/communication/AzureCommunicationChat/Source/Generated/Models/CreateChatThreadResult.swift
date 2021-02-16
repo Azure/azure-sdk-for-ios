@@ -16,7 +16,7 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Result of the create chat thread operation.
-public struct CreateChatThreadResult: Codable {
+public struct CreateChatThreadResult: Codable, Equatable {
     // MARK: Properties
 
     /// Chat thread.

@@ -38,8 +38,7 @@ public struct CommunicationIdentifierModel: Codable, Equatable {
     ///   - microsoftTeamsUser: The Microsoft Teams user.
     public init(
         rawId: String? = nil, communicationUser: CommunicationUserIdentifierModel? = nil,
-        phoneNumber: PhoneNumberIdentifierModel? = nil,
-        microsoftTeamsUser: MicrosoftTeamsUserIdentifierModel? = nil
+        phoneNumber: PhoneNumberIdentifierModel? = nil, microsoftTeamsUser: MicrosoftTeamsUserIdentifierModel? = nil
     ) {
         self.rawId = rawId
         self.communicationUser = communicationUser
