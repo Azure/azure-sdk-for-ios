@@ -29,7 +29,7 @@
 import Foundation
 
 @objcMembers public class CommunicationCloudEnvironment: NSObject {
-    private(set) var environmentValue: String
+    private var environmentValue: String
 
     public static let Public = CommunicationCloudEnvironment(environmentValue: "public")
     public static let Dod = CommunicationCloudEnvironment(environmentValue: "dod")
@@ -39,8 +39,8 @@ import Foundation
         self.environmentValue = environmentValue
     }
 
-    static func fromModel(environmentModel: CommunicationCloudEnvironmentModel) -> CommunicationCloudEnvironment {
-        return CommunicationCloudEnvironment(environmentValue: environmentModel.requestString)
+    public func getEnvironmentValue() -> String {
+        return environmentValue
     }
 
     public static func == (lhs: CommunicationCloudEnvironment, rhs: CommunicationCloudEnvironment) -> Bool {
@@ -50,11 +50,4 @@ import Foundation
             return false
         }
     }
-}
-
-// CommunicationCloudEnvironmentModel Extension
-extension CommunicationCloudEnvironmentModel {
-    public static let Public = CommunicationCloudEnvironmentModel("public")
-    public static let Dod = CommunicationCloudEnvironmentModel("dod")
-    public static let Gcch = CommunicationCloudEnvironmentModel("gcch")
 }

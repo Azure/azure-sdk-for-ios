@@ -16,7 +16,7 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Result of the send message operation.
-public struct SendChatMessageResult: Codable {
+public struct SendChatMessageResult: Codable, Equatable {
     // MARK: Properties
 
     /// A server-generated message id.
