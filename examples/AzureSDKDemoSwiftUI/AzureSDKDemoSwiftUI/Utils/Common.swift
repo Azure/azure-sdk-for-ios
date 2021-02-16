@@ -28,7 +28,6 @@ import AzureCore
 import AzureIdentity
 import AzureStorageBlob
 import Foundation
-import MSAL
 
 struct AppConstants {
     static let storageAccountUrl = URL(string: "https://iosdemostorage1.blob.core.windows.net/")!
@@ -46,52 +45,22 @@ struct AppConstants {
 }
 
 struct AppState {
-    static var application: MSALPublicClientApplication?
-
-    static var account: MSALAccount?
-
     static let scopes = [
         "https://storage.azure.com/.default"
     ]
-
-    static var currentAccount: MSALAccount? {
-        if let account = AppState.account {
-            return account
-        }
-        guard let application = AppState.application else { return nil }
-        // We retrieve our current account by getting the first account from cache
-        // In multi-account applications, account should be retrieved by home account identifier or username instead
-        do {
-            let cachedAccounts = try application.allAccounts()
-
-            if !cachedAccounts.isEmpty {
-                return cachedAccounts.first
-            }
-        } catch let error as NSError {
-            print("Didn't find any accounts in cache: \(error)")
-        }
-        return nil
-    }
-
+    private static var internalBlobClient: StorageBlobClient?
+    
     static var downloadOptions: DownloadBlobOptions {
         let options = DownloadBlobOptions(
             range: RangeOptions(calculateMD5: true)
         )
         return options
     }
-
-    private static var internalBlobClient: StorageBlobClient?
+    
     static func blobClient(withDelegate delegate: StorageBlobClientDelegate? = nil) throws -> StorageBlobClient {
         let error = AzureError.client("Unable to create Blob Storage Client.")
         if AppState.internalBlobClient == nil {
-            guard let _ = AppState.application else {
-                fatalError("Application is not initialized. Unable to create Blob Storage Client.")
-            }
-            
-            let credential = StorageSASCredential(staticCredential: AppConstants.sasConnectionString)
-            AppState.internalBlobClient = try? StorageBlobClient(
-                endpoint: URL(string: "https://iosdemostorage1.blob.core.windows.net/")!,
-                credential: credential)
+            AppState.internalBlobClient = try? StorageBlobClient.init(connectionString: AppConstants.sasConnectionString)
         }
         
         guard AppState.internalBlobClient != nil else {

@@ -27,7 +27,6 @@
 import SwiftUI
 
 import AzureCore
-import MSAL
 
 struct ContentView: View {
     @State private var isLoggedIn = false
@@ -80,16 +79,16 @@ struct ContentView: View {
     }
     
     private func loadAuthority() {
-        guard let authorityURL = URL(string: AppConstants.authority) else { return }
-        guard let authority = try? MSALAADAuthority(url: authorityURL) else { return }
-        let msalConfiguration = MSALPublicClientApplicationConfig(
-            clientId: AppConstants.clientId,
-            redirectUri: AppConstants.redirectUri,
-            authority: authority
-        )
-        msalConfiguration.bypassRedirectURIValidation = true
-        AppState.application = try? MSALPublicClientApplication(configuration: msalConfiguration)
 // TODO: Investigate to to properly implement MSAL authentication
+//        guard let authorityURL = URL(string: AppConstants.authority) else { return }
+//        guard let authority = try? MSALAADAuthority(url: authorityURL) else { return }
+//        let msalConfiguration = MSALPublicClientApplicationConfig(
+//            clientId: AppConstants.clientId,
+//            redirectUri: AppConstants.redirectUri,
+//            authority: authority
+//        )
+//        msalConfiguration.bypassRedirectURIValidation = true
+//        AppState.application = try? MSALPublicClientApplication(configuration: msalConfiguration)
 //        AppState.account = AppState.currentAccount
 //
 //        updateLoggedInState(enabled: AppState.currentAccount != nil)
