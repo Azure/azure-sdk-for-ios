@@ -1,0 +1,75 @@
+// --------------------------------------------------------------------------
+//
+// Copyright (c) Microsoft Corporation. All rights reserved.
+//
+// The MIT License (MIT)
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the ""Software""), to
+// deal in the Software without restriction, including without limitation the
+// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+// sell copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED *AS IS*, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+// IN THE SOFTWARE.
+//
+// --------------------------------------------------------------------------
+
+import AzureCore
+import AzureIdentity
+import AzureStorageBlob
+import Foundation
+
+struct AppConstants {
+    static let storageAccountUrl = URL(string: "https://iosdemostorage1.blob.core.windows.net/")!
+    static let tenant = "7e6c9611-413e-47e4-a054-a389854dd732"
+    static let clientId = "6f2c62dd-d6b2-444a-8dff-c64380e7ac76"
+    static let redirectUri = "msauth.com.azure.examples.AzureSDKDemoSwift://auth"
+    static let authority = "https://login.microsoftonline.com/7e6c9611-413e-47e4-a054-a389854dd732"
+    static let uploadContainer: String! = "uploads"
+    static let videoContainer: String = "videos"
+    
+// NOTE: This connection string is a read-only SAS token, may need to be regenerated. Expires end of Aug
+    // swiftlint:disable line_length
+    static let sasConnectionString =
+        "BlobEndpoint=https://iosdemostorage1.blob.core.windows.net/;QueueEndpoint=https://iosdemostorage1.queue.core.windows.net/;FileEndpoint=https://iosdemostorage1.file.core.windows.net/;TableEndpoint=https://iosdemostorage1.table.core.windows.net/;SharedAccessSignature=sv=2019-12-12&ss=bfqt&srt=co&sp=rl&se=2021-08-30T07:04:27Z&st=2021-01-30T00:04:27Z&spr=https&sig=no%2BHSwTVjheowEdMSJ0iI6NdWvPXZ51n99PJG91O0ko%3D"
+}
+
+struct AppState {
+    static let scopes = [
+        "https://storage.azure.com/.default"
+    ]
+    private static var internalBlobClient: StorageBlobClient?
+    
+    static var downloadOptions: DownloadBlobOptions {
+        let options = DownloadBlobOptions(
+            range: RangeOptions(calculateMD5: true)
+        )
+        return options
+    }
+    
+    static func blobClient(withDelegate delegate: StorageBlobClientDelegate? = nil) throws -> StorageBlobClient {
+        let error = AzureError.client("Unable to create Blob Storage Client.")
+        if AppState.internalBlobClient == nil {
+            AppState.internalBlobClient = try? StorageBlobClient.init(connectionString: AppConstants.sasConnectionString)
+        }
+        
+        guard AppState.internalBlobClient != nil else {
+            throw error
+        }
+
+        let client = AppState.internalBlobClient!
+        client.delegate = delegate
+        StorageBlobClient.maxConcurrentTransfers = 4
+        return client
+    }
+}
