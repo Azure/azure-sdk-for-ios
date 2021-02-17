@@ -58,7 +58,7 @@ public class CallingApp : NSObject, CallAgentDelegate, IncomingCallDelegate
                 if error != nil {
                     print("Create agent succeeded")
                     self.callAgent = callAgent
-                    self.callClient!.getDeviceManager(
+                    self.callClient?.getDeviceManager(
                         completionHandler: { (deviceManager, error) in
                             if (error == nil) {
                                 print("Got device manager instance")
@@ -86,7 +86,7 @@ public class CallingApp : NSObject, CallAgentDelegate, IncomingCallDelegate
     public func onIncomingCall(_ callAgent: CallAgent!, incomingcall: IncomingCall!) {
         self.incomingCall = incomingcall
         // Subscribe to get OnCallEnded event
-        self.incomingCall!.delegate = self
+        self.incomingCall?.delegate = self
     }
 
     // Event raised when incoming call was not answered
@@ -103,28 +103,28 @@ public class CallingApp : NSObject, CallAgentDelegate, IncomingCallDelegate
 Call object has various properties
 ```swift
 // [String] caller identity
-self.call.id
+self.call?.id
 
 // CallStateNone = 0,CallStateEarlyMedia = 1,CallStateIncoming = 2,CallStateConnecting = 3,CallStateRinging = 4,CallStateConnected = 5,CallStateHold = 6,CallStateDisconnecting = 7,CallStateDisconnected = 8
-self.call.state
+self.call?.state
 
 // CallDirectionOutgoing = 1, CallDirectionIncoming = 2
-self.call.callDirection
+self.call?.callDirection
 
 // [Bool] isMicrophoneMuted - is local audio muted
-self.call.isMicrophoneMuted
+self.call?.isMicrophoneMuted
 
 // [Errror] callEndReason - containing code/subcode/message indicating how call ended
-self.call.callEndReason
+self.call?.callEndReason
 
 // String[] localVideoStreams - collection of video streams send to other participants in a call
-self.call.localVideoStreams
+self.call?.localVideoStreams
 
 // RemoteParticipant[] remoteParticipants - collection of remote participants participating in this call
-self.call.remoteParticipants
+self.call?.remoteParticipants
 
 // Indicates if the call is currently being recorded or not
-self.call.isRecordingActive;
+self.call?.isRecordingActive;
 ```
 
 ### Call Operations
@@ -142,14 +142,14 @@ public class CallManager : NSObject, CallDelegate
         let audioOptions = AudioOptions()
         audioOptions!.muted = true // Start the call in mute state
         callOptions.audioOptions = audioOptions
-        let call = self.callAgent!.startCall(participants: names,
+        let call = self.callAgent?.startCall(participants: names,
                                             options: callOptions)
-        call!.delegate = self.callObserver
+        call?.delegate = self.callObserver
     }
 
     public func placeVideoCall(names: [CommunicationIdentifier])
     {
-        let camera = self.deviceManager!.cameras!.first
+        let camera = self.deviceManager?.cameras!.first
         let localVideoStream = LocalVideoStream(camera: camera)
         let videoOptions = VideoOptions(localVideoStream: localVideoStream)
         
@@ -158,7 +158,7 @@ public class CallManager : NSObject, CallDelegate
 
         let call = self.callAgent?.startCall(participants: names,
                                                 options: callOptions)
-        call!.delegate = self.callObserver
+        call?.delegate = self.callObserver
     }
 
     // Following is one event which is part of CallDelegate
@@ -181,11 +181,11 @@ public class CallManager : NSObject
     public func acceptCall()
     {
         let acceptCallOptions = AcceptCallOptions()!
-        let camera = self.deviceManager!.cameras!.first
+        let camera = self.deviceManager?.cameras!.first
         let localVideoStream = LocalVideoStream(camera: camera)
         let videoOptions = VideoOptions(localVideoStream: localVideoStream)
         acceptCallOptions.videoOptions = videoOptions
-        self.incomingCall!.accept(options: acceptCallOptions) { (call, error) in
+        self.incomingCall?.accept(options: acceptCallOptions) { (call, error) in
             if(error == nil) {
                 self.call = call
                 self.callObserver = CallObserver(view:self)
@@ -198,7 +198,13 @@ public class CallManager : NSObject
 
     public func rejectCall()
     {
-        s
+        self.incomingCall?.reject { (error) in
+            if (error == nil) {
+                print("Incoming call reject was successfull")
+            } else {
+                print("Incoming call reject failed")
+            }
+        }
     }
 }
 ```
