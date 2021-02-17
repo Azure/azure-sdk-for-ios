@@ -311,9 +311,9 @@ to get notfified when there is a change in collection
 
 To unsubscribe:
 ```swift
-self.call.delegate = nil // Will not recieve anymore call updates
-self.callClient.delegate = nil // Will not get incoming call notification
-self.incomingCall.delegate = nil // Will not get when incoming call end notification
+self.call?.delegate = nil // Will not recieve anymore call updates
+self.callClient?.delegate = nil // Will not get incoming call notification
+self.incomingCall?.delegate = nil // Will not get when incoming call end notification
 ```
 
 #### Examples
@@ -480,15 +480,15 @@ let localRenderer = Renderer(localVideoStream:localVideoStream)
 let remoteRenderer = Renderer(remoteVideoStream:remoteVideoStream)
 
 // [StreamSize] size of the rendering view
-renderer.size
+remoteRenderer?.size
 
 // [RendererDelegate] an object you provide to receive events from this Renderer instance
-renderer.delegate
+remoteRenderer?.delegate
 
 // [Synchronous] create view with rendering options
-renderer!.createView(with: RenderingOptions(scalingMode:ScalingMode.crop));
+remoteRenderer?.createView(with: RenderingOptions(scalingMode:ScalingMode.crop));
 // [Synchronous] dispose rendering view
-renderer.dispose();
+remoteRenderer?.dispose();
 ```
 
 ### Switch Video Source
@@ -549,11 +549,11 @@ audioDeviceInfo?.deviceType
 Enumeration is synchronous
 ```swift
 // enumerate local cameras
-var localCameras = self.CallingApp.deviceManager!.cameras // [VideoDeviceInfo, VideoDeviceInfo...]
+var localCameras = self.deviceManager?.cameras // [VideoDeviceInfo, VideoDeviceInfo...]
 // enumerate local cameras
-var localMicrophones = self.CallingApp.deviceManager!.microphones // [AudioDeviceInfo, AudioDeviceInfo...]
+var localMicrophones = self.deviceManager?.microphones // [AudioDeviceInfo, AudioDeviceInfo...]
 // enumerate local cameras
-var localSpeakers = self.CallingApp.deviceManager!.speakers // [AudioDeviceInfo, AudioDeviceInfo...]
+var localSpeakers = self.deviceManager?.speakers // [AudioDeviceInfo, AudioDeviceInfo...]
 
 ```
 
