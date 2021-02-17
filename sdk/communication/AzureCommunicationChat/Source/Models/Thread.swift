@@ -50,11 +50,12 @@ public struct Thread: Codable {
     ///   - chatThread: The ChatThread to initialize from.
     public init(
         from chatThread: ChatThread
-    ) {
+    ) throws {
         self.id = chatThread.id
         self.topic = chatThread.topic
         self.createdOn = chatThread.createdOn
-        self.createdBy = CommunicationUserIdentifier(identifier: chatThread.createdBy)
+        let identifier = try IdentifierSerializer.deserialize(identifier: chatThread.createdByCommunicationIdentifier)
+        self.createdBy = identifier as! CommunicationUserIdentifier
         self.deletedOn = chatThread.deletedOn
     }
 
@@ -85,7 +86,7 @@ public struct Thread: Codable {
         case id
         case topic
         case createdOn
-        case createdBy
+        case createdBy = "createdByCommunicationIdentifier"
         case deletedOn
     }
 
@@ -97,9 +98,9 @@ public struct Thread: Codable {
         self.topic = try container.decode(String.self, forKey: .topic)
         self.createdOn = try container.decode(Iso8601Date.self, forKey: .createdOn)
 
-        // Convert createdBy to CommunicationUserIdentifier
-        let createdBy = try container.decode(String.self, forKey: .createdBy)
-        self.createdBy = CommunicationUserIdentifier(identifier: createdBy)
+        // Decode CommunicationIdentifierModel to CommunicationUserIdentifier
+        let identifierModel = try container.decode(CommunicationIdentifierModel.self, forKey: .createdBy)
+        self.createdBy = try IdentifierSerializer.deserialize(identifier: identifierModel) as! CommunicationUserIdentifier
 
         self.deletedOn = try? container.decode(Iso8601Date.self, forKey: .deletedOn)
     }
@@ -111,8 +112,9 @@ public struct Thread: Codable {
         try container.encode(topic, forKey: .topic)
         try container.encode(createdOn, forKey: .createdOn)
 
-        // Encode user object to createdBy string
-        try container.encode(createdBy.identifier, forKey: .createdBy)
+        // Encode CommunicationUserIdentifier to CommunicationIdentifierModel
+        let identifierModel = try IdentifierSerializer.serialize(identifier: createdBy)
+        try container.encode(identifierModel, forKey: .createdBy)
 
         if deletedOn != nil { try? container.encode(deletedOn, forKey: .deletedOn) }
     }

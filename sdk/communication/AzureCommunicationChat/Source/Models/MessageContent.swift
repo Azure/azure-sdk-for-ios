@@ -24,6 +24,7 @@
 //
 // --------------------------------------------------------------------------
 
+import AzureCommunication
 import AzureCore
 import Foundation
 
@@ -37,8 +38,8 @@ public struct MessageContent: Codable {
     public let topic: String?
     /// Chat message content for messages of types participantAdded or participantRemoved.
     public let participants: [Participant]?
-    /// Chat message content for messages of types participantAdded or participantRemoved.
-    public let initiator: String?
+    /// CommunicationUserIdentifier of chat message initiator
+    public let initiator: CommunicationUserIdentifier?
 
     // MARK: Initializers
 
@@ -47,12 +48,16 @@ public struct MessageContent: Codable {
     ///   - chatMessageContent: ChatMessageContent to initialize from.
     public init(
         from chatMessageContent: ChatMessageContent
-    ) {
+    ) throws {
         self.message = chatMessageContent.message
         self.topic = chatMessageContent.topic
         self.participants = (chatMessageContent.participants != nil) ?
-            chatMessageContent.participants!.map { Participant(from: $0) } : nil
-        self.initiator = chatMessageContent.initiator
+            try chatMessageContent.participants!.map { try Participant(from: $0) } : nil
+
+        if let identifierModel = chatMessageContent.initiatorCommunicationIdentifier {
+            let identifier = try IdentifierSerializer.deserialize(identifier: identifierModel)
+            self.initiator = identifier as? CommunicationUserIdentifier
+        }
     }
 
     /// Initialize a `MessageContent` structure.
@@ -65,12 +70,15 @@ public struct MessageContent: Codable {
         message: String? = nil,
         topic: String? = nil,
         participants: [Participant]? = nil,
-        initiator: String? = nil
+        initiatorId: String? = nil
     ) {
         self.message = message
         self.topic = topic
         self.participants = participants
-        self.initiator = initiator
+
+        if let identifier = initiatorId {
+            self.initiator = CommunicationUserIdentifier(identifier: identifier)
+        }
     }
 
     // MARK: Codable
@@ -79,7 +87,7 @@ public struct MessageContent: Codable {
         case message
         case topic
         case participants
-        case initiator
+        case initiator = "initiatorCommunicationIdentifier"
     }
 
     /// Initialize a `MessageContent` structure from decoder
@@ -88,11 +96,14 @@ public struct MessageContent: Codable {
         self.message = try? container.decode(String.self, forKey: .message)
         self.topic = try? container.decode(String.self, forKey: .topic)
 
-        // Convert ChatParticipants to Participants
+        // Decode ChatParticipants to Participants
         let chatParticipants = try? container.decode([ChatParticipant].self, forKey: .participants)
-        self.participants = (chatParticipants != nil) ? chatParticipants!.map { Participant(from: $0) } : nil
+        self.participants = (chatParticipants != nil) ? try chatParticipants!.map { try Participant(from: $0) } : nil
 
-        self.initiator = try? container.decode(String.self, forKey: .initiator)
+        // Decode CommunicationIdentifierModel to CommunicationUserIdentifier
+        if let identifierModel = try? container.decode(CommunicationIdentifierModel.self, forKey: .initiator) {
+            self.initiator = try IdentifierSerializer.deserialize(identifier: identifierModel) as? CommunicationUserIdentifier
+        }
     }
 
     /// Encode a `MessageContent` structure
@@ -103,16 +114,21 @@ public struct MessageContent: Codable {
 
         // Encode Participant to ChatParticipant format
         if participants != nil {
-            let test = participants!.map {
-                ChatParticipant(
-                    id: $0.user.identifier,
-                    displayName: $0.displayName,
-                    shareHistoryTime: $0.shareHistoryTime
+            let chatParticipants = try participants!.map({ (participant) -> ChatParticipant in
+                let identifierModel = try IdentifierSerializer.serialize(identifier: participant.user)
+                return ChatParticipant(
+                    communicationIdentifier: identifierModel,
+                    displayName: participant.displayName,
+                    shareHistoryTime: participant.shareHistoryTime
                 )
-            }
-            try? container.encode(test, forKey: .participants)
+            })
+            try? container.encode(chatParticipants, forKey: .participants)
         }
 
-        if initiator != nil { try? container.encode(initiator, forKey: .initiator) }
+        // Encode CommunicationUserIdentifier to CommunicationIdentifierModel
+        if let identifier = initiator {
+            let identifierModel = try IdentifierSerializer.serialize(identifier: identifier)
+            try? container.encode(identifierModel, forKey: .initiator)
+        }
     }
 }

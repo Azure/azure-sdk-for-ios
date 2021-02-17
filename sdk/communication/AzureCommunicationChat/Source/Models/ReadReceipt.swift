@@ -46,8 +46,9 @@ public struct ReadReceipt: Codable {
     ///   - chatMessageReadReceipt: The ChatMessageReadReceipt to initialize from.
     public init(
         from chatMessageReadReceipt: ChatMessageReadReceipt
-    ) {
-        self.sender = CommunicationUserIdentifier(identifier: chatMessageReadReceipt.senderId)
+    ) throws {
+        let identifier = try IdentifierSerializer.deserialize(identifier: chatMessageReadReceipt.senderCommunicationIdentifier)
+        self.sender = identifier as! CommunicationUserIdentifier
         self.chatMessageId = chatMessageReadReceipt.chatMessageId
         self.readOn = chatMessageReadReceipt.readOn
     }
@@ -70,7 +71,7 @@ public struct ReadReceipt: Codable {
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case sender = "senderId"
+        case sender = "senderCommunicationIdentifier"
         case chatMessageId
         case readOn
     }
@@ -79,9 +80,9 @@ public struct ReadReceipt: Codable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        // Convert senderId to CommunicationUserIdentifier
-        let senderId = try container.decode(String.self, forKey: .sender)
-        self.sender = CommunicationUserIdentifier(identifier: senderId)
+        // Decode CommunicationIdentifierModel to CommunicationUserIdentifier
+        let identifierModel = try container.decode(CommunicationIdentifierModel.self, forKey: .sender)
+        self.sender = try IdentifierSerializer.deserialize(identifier: identifierModel) as! CommunicationUserIdentifier
 
         self.chatMessageId = try container.decode(String.self, forKey: .chatMessageId)
         self.readOn = try container.decode(Iso8601Date.self, forKey: .readOn)
@@ -91,8 +92,9 @@ public struct ReadReceipt: Codable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        // Encode user object to senderId string
-        try container.encode(sender.identifier, forKey: .sender)
+        // Encode CommunicationUserIdentifier to CommunicationIdentifierModel
+        let identifierModel = try IdentifierSerializer.serialize(identifier: sender)
+        try container.encode(identifierModel, forKey: .sender)
 
         try container.encode(chatMessageId, forKey: .chatMessageId)
         try container.encode(readOn, forKey: .readOn)

@@ -261,7 +261,13 @@ public class ChatThreadClient {
             ) { result, httpResponse in
                 switch result {
                 case let .success(chatMessage):
-                    completionHandler(.success(Message(from: chatMessage)), httpResponse)
+                    do {
+                        let message = try Message(from: chatMessage)
+                        completionHandler(.success(message), httpResponse)
+                    } catch {
+                        let azureError = AzureError.client(error.localizedDescription, error)
+                        completionHandler(.failure(azureError), httpResponse)
+                    }
 
                 case let .failure(error):
                     completionHandler(.failure(error), httpResponse)
@@ -365,15 +371,17 @@ public class ChatThreadClient {
         participants: [Participant],
         withOptions options: ChatThreadOperation.AddChatParticipantsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<AddChatParticipantsResult>
-    ) {
+    ) throws {
         // Convert Participants to ChatParticipants
-        let chatParticipants = participants.map {
-            ChatParticipant(
-                id: $0.user.identifier,
-                displayName: $0.displayName,
-                shareHistoryTime: $0.shareHistoryTime
+        let chatParticipants = try participants.map({ (participant) -> ChatParticipant in
+            let identifierModel = try IdentifierSerializer.serialize(identifier: participant.user)
+            return ChatParticipant(
+                communicationIdentifier: identifierModel,
+                displayName: participant.displayName,
+                shareHistoryTime: participant.shareHistoryTime
             )
-        }
+        })
+
         // Convert to AddChatParticipantsRequest for generated code
         let addParticipantsRequest = AddChatParticipantsRequest(
             participants: chatParticipants
@@ -404,11 +412,13 @@ public class ChatThreadClient {
         participant participantId: String,
         withOptions options: ChatThreadOperation.RemoveChatParticipantOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
-    ) {
+    ) throws {
+        // Construct CommunicationIdentifierModel from id
+        let identifierModel = try IdentifierSerializer.serialize(identifier: CommunicationUserIdentifier(identifier: participantId))
         service
-            .removeChatParticipant(
+            .remove(
+                chatParticipant: identifierModel,
                 chatThreadId: threadId,
-                chatParticipantId: participantId,
                 withOptions: options
             ) { result, httpResponse in
                 switch result {
