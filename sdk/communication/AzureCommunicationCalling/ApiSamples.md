@@ -52,14 +52,12 @@ public class CallingApp : NSObject, CallAgentDelegate, IncomingCallDelegate
         let options = CallAgentOptions()!
         options.displayName = displayName
         self.callClient!.createCallAgent(
-            userCredential: userCredential!,
-            options: options,
-            completionHandler: { (callAgent, error) in
+            userCredential: userCredential!, 
+            options: options) { (callAgent, error) in
                 if error != nil {
                     print("Create agent succeeded")
                     self.callAgent = callAgent
-                    self.callClient?.getDeviceManager(
-                        completionHandler: { (deviceManager, error) in
+                    self.callClient!.getDeviceManager { (deviceManager, error) in
                             if (error == nil) {
                                 print("Got device manager instance")
                                 self.deviceManager = deviceManager
@@ -149,7 +147,7 @@ public class CallManager : NSObject, CallDelegate
 
     public func placeVideoCall(names: [CommunicationIdentifier])
     {
-        let camera = self.deviceManager?.cameras!.first
+        let camera = self.deviceManager!.cameras!.first
         let localVideoStream = LocalVideoStream(camera: camera)
         let videoOptions = VideoOptions(localVideoStream: localVideoStream)
         
@@ -158,7 +156,7 @@ public class CallManager : NSObject, CallDelegate
 
         let call = self.callAgent?.startCall(participants: names,
                                                 options: callOptions)
-        call?.delegate = self.callObserver
+        call!.delegate = self.callObserver
     }
 
     // Following is one event which is part of CallDelegate
@@ -242,7 +240,7 @@ public class CallManager : NSObject
 [Asynchronous] Local mute
 
 ```swift
-self.call?.mute(completionHandler: { (error) in
+self.call?.mute { (error) in
     if error == nil {
         print("Successfully muted")
     } else {
@@ -254,7 +252,7 @@ self.call?.mute(completionHandler: { (error) in
 [Asynchronous] Local unmute
 
 ```swift
-call.unmute(completionHandler:{ (error) in
+self.call?.unmute { (error) in
     if error == nil {
         print("Successfully unmuted")
     } else {
@@ -480,15 +478,15 @@ let localRenderer = Renderer(localVideoStream:localVideoStream)
 let remoteRenderer = Renderer(remoteVideoStream:remoteVideoStream)
 
 // [StreamSize] size of the rendering view
-remoteRenderer?.size
+renderer?.size
 
 // [RendererDelegate] an object you provide to receive events from this Renderer instance
-remoteRenderer?.delegate
+renderer?.delegate
 
 // [Synchronous] create view with rendering options
-remoteRenderer?.createView(with: RenderingOptions(scalingMode:ScalingMode.crop));
+renderer?.createView(with: RenderingOptions(scalingMode:ScalingMode.crop));
 // [Synchronous] dispose rendering view
-remoteRenderer?.dispose();
+renderer?.dispose();
 ```
 
 ### Switch Video Source
@@ -497,7 +495,7 @@ remoteRenderer?.dispose();
 // get camera
 var firstCamera = self.deviceManager?.cameras?.first
 
-localVideoStream?.switchSource(firstCamera, completionHandler: { (error) in
+localVideoStream?.switchSource(camera: firstCamera) { (error) in
     if (error == nil) {
         print("Successfully switched to new source")
     } else {
@@ -600,13 +598,13 @@ self.callAgent?.handlePush(notification: callNotification) { (error) in
 - Applications can unregister push notification at any time. Simply call the `unregisterPushNotification()` method on *CallAgent*.
 
 ```swift
-self.callAgent?.unRegisterPushNotifications(completionHandler: { (error) in
-                if (error != nil) {
-                    print("Unregister of push notification failed, please try again")
-                } else {
-                    print("Unregister of push notification was successfull")
-                }
-            })
+self.callAgent?.unRegisterPushNotifications { (error) in
+    if (error != nil) {
+        print("Unregister of push notification failed, please try again")
+    } else {
+        print("Unregister of push notification was successfull")
+    }
+})
 ```
 <!--End Push Notification-->
 
