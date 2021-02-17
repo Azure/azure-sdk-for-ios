@@ -57,6 +57,8 @@ public struct MessageContent: Codable {
         if let identifierModel = chatMessageContent.initiatorCommunicationIdentifier {
             let identifier = try IdentifierSerializer.deserialize(identifier: identifierModel)
             self.initiator = identifier as? CommunicationUserIdentifier
+        } else {
+            self.initiator = nil
         }
     }
 
@@ -78,6 +80,8 @@ public struct MessageContent: Codable {
 
         if let identifier = initiatorId {
             self.initiator = CommunicationUserIdentifier(identifier: identifier)
+        } else {
+            self.initiator = nil
         }
     }
 
@@ -103,6 +107,8 @@ public struct MessageContent: Codable {
         // Decode CommunicationIdentifierModel to CommunicationUserIdentifier
         if let identifierModel = try? container.decode(CommunicationIdentifierModel.self, forKey: .initiator) {
             self.initiator = try IdentifierSerializer.deserialize(identifier: identifierModel) as? CommunicationUserIdentifier
+        } else {
+            self.initiator = nil
         }
     }
 

@@ -72,6 +72,8 @@ public struct Message: Codable {
         if let identifierModel = chatMessage.senderCommunicationIdentifier {
             let identifier = try IdentifierSerializer.deserialize(identifier: identifierModel)
             self.sender = identifier as? CommunicationUserIdentifier
+        } else {
+            self.sender = nil
         }
 
         self.deletedOn = chatMessage.deletedOn
@@ -148,6 +150,8 @@ public struct Message: Codable {
         // Decode CommunicationIdentifierModel to CommunicationUserIdentifier
         if let identifierModel = try? container.decode(CommunicationIdentifierModel.self, forKey: .sender) {
             self.sender = try IdentifierSerializer.deserialize(identifier: identifierModel) as? CommunicationUserIdentifier
+        } else {
+            self.sender = nil
         }
 
         self.deletedOn = try? container.decode(Iso8601Date.self, forKey: .deletedOn)
