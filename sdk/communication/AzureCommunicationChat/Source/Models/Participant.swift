@@ -47,7 +47,7 @@ public struct Participant: Codable {
     public init(
         from chatParticipant: ChatParticipant
     ) throws {
-        self.user = try IdentifierSerializer.deserialize(identifier: chatParticipant.identifier) as! CommunicationUserIdentifier
+        self.user = CommunicationUserIdentifier(identifier: chatParticipant.id)
         self.displayName = chatParticipant.displayName
         self.shareHistoryTime = chatParticipant.shareHistoryTime
     }
