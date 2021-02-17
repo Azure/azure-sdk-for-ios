@@ -102,14 +102,14 @@ public class ChatClient {
         )
 
         // Convert Participants to ChatParticipants
-        let participants = try thread.participants.map({ (participant) -> ChatParticipant in
+        let participants = try thread.participants.map { (participant) -> ChatParticipant in
             let identifierModel = try IdentifierSerializer.serialize(identifier: participant.user)
             return ChatParticipant(
                 communicationIdentifier: identifierModel,
                 displayName: participant.displayName,
                 shareHistoryTime: participant.shareHistoryTime
             )
-        })
+        }
 
         // Convert to CreateChatThreadRequest for generated code
         let request = CreateChatThreadRequest(

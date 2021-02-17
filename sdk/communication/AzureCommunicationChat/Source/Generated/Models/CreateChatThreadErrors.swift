@@ -16,7 +16,8 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Errors encountered during the creation of the chat thread.
-public struct CreateChatThreadErrors: Codable, Equatable {
+// TODO: Does not conform to equatable
+public struct CreateChatThreadErrors: Codable {
     // MARK: Properties
 
     /// The participants that failed to be added to the chat thread.

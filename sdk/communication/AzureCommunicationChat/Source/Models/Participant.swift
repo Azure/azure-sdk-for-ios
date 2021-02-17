@@ -28,6 +28,8 @@ import AzureCommunication
 import AzureCore
 import Foundation
 
+// swiftlint:disable force_cast
+
 /// A participant of the chat thread.
 public struct Participant: Codable {
     // MARK: Properties

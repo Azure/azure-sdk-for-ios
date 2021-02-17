@@ -106,7 +106,8 @@ public struct MessageContent: Codable {
 
         // Decode CommunicationIdentifierModel to CommunicationUserIdentifier
         if let identifierModel = try? container.decode(CommunicationIdentifierModel.self, forKey: .initiator) {
-            self.initiator = try IdentifierSerializer.deserialize(identifier: identifierModel) as? CommunicationUserIdentifier
+            self.initiator = try IdentifierSerializer
+                .deserialize(identifier: identifierModel) as? CommunicationUserIdentifier
         } else {
             self.initiator = nil
         }
@@ -120,14 +121,14 @@ public struct MessageContent: Codable {
 
         // Encode Participant to ChatParticipant format
         if participants != nil {
-            let chatParticipants = try participants!.map({ (participant) -> ChatParticipant in
+            let chatParticipants = try participants!.map { (participant) -> ChatParticipant in
                 let identifierModel = try IdentifierSerializer.serialize(identifier: participant.user)
                 return ChatParticipant(
                     communicationIdentifier: identifierModel,
                     displayName: participant.displayName,
                     shareHistoryTime: participant.shareHistoryTime
                 )
-            })
+            }
             try? container.encode(chatParticipants, forKey: .participants)
         }
 

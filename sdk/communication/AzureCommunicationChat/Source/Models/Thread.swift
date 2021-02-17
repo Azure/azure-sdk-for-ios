@@ -28,6 +28,8 @@ import AzureCommunication
 import AzureCore
 import Foundation
 
+// swiftlint:disable force_cast
+
 /// Chat thread.
 public struct Thread: Codable {
     // MARK: Properties
@@ -100,7 +102,8 @@ public struct Thread: Codable {
 
         // Decode CommunicationIdentifierModel to CommunicationUserIdentifier
         let identifierModel = try container.decode(CommunicationIdentifierModel.self, forKey: .createdBy)
-        self.createdBy = try IdentifierSerializer.deserialize(identifier: identifierModel) as! CommunicationUserIdentifier
+        self.createdBy = try IdentifierSerializer
+            .deserialize(identifier: identifierModel) as! CommunicationUserIdentifier
 
         self.deletedOn = try? container.decode(Iso8601Date.self, forKey: .deletedOn)
     }

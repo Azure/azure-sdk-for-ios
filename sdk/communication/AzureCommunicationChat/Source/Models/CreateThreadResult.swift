@@ -41,7 +41,10 @@ public struct CreateThreadResult: Codable {
     public init(
         from createChatThreadResult: CreateChatThreadResult
     ) throws {
-        self.thread = (createChatThreadResult.chatThread != nil) ? try Thread(from: createChatThreadResult.chatThread!) : nil
+        self
+            .thread = (createChatThreadResult.chatThread != nil) ?
+            try Thread(from: createChatThreadResult.chatThread!) :
+            nil
         self.errors = createChatThreadResult.errors
     }
 

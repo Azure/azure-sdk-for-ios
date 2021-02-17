@@ -149,7 +149,8 @@ public struct Message: Codable {
 
         // Decode CommunicationIdentifierModel to CommunicationUserIdentifier
         if let identifierModel = try? container.decode(CommunicationIdentifierModel.self, forKey: .sender) {
-            self.sender = try IdentifierSerializer.deserialize(identifier: identifierModel) as? CommunicationUserIdentifier
+            self.sender = try IdentifierSerializer
+                .deserialize(identifier: identifierModel) as? CommunicationUserIdentifier
         } else {
             self.sender = nil
         }

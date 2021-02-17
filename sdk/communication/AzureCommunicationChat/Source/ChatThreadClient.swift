@@ -373,14 +373,14 @@ public class ChatThreadClient {
         completionHandler: @escaping HTTPResultHandler<AddChatParticipantsResult>
     ) throws {
         // Convert Participants to ChatParticipants
-        let chatParticipants = try participants.map({ (participant) -> ChatParticipant in
+        let chatParticipants = try participants.map { (participant) -> ChatParticipant in
             let identifierModel = try IdentifierSerializer.serialize(identifier: participant.user)
             return ChatParticipant(
                 communicationIdentifier: identifierModel,
                 displayName: participant.displayName,
                 shareHistoryTime: participant.shareHistoryTime
             )
-        })
+        }
 
         // Convert to AddChatParticipantsRequest for generated code
         let addParticipantsRequest = AddChatParticipantsRequest(
@@ -414,7 +414,8 @@ public class ChatThreadClient {
         completionHandler: @escaping HTTPResultHandler<Void>
     ) throws {
         // Construct CommunicationIdentifierModel from id
-        let identifierModel = try IdentifierSerializer.serialize(identifier: CommunicationUserIdentifier(identifier: participantId))
+        let identifierModel = try IdentifierSerializer
+            .serialize(identifier: CommunicationUserIdentifier(identifier: participantId))
         service
             .remove(
                 chatParticipant: identifierModel,

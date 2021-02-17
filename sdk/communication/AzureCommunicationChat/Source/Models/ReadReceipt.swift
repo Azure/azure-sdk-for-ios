@@ -28,6 +28,8 @@ import AzureCommunication
 import AzureCore
 import Foundation
 
+// swiftlint:disable force_cast
+
 /// A read receipt indicates the time a message was read by a recipient.
 public struct ReadReceipt: Codable {
     // MARK: Properties
@@ -47,7 +49,8 @@ public struct ReadReceipt: Codable {
     public init(
         from chatMessageReadReceipt: ChatMessageReadReceipt
     ) throws {
-        let identifier = try IdentifierSerializer.deserialize(identifier: chatMessageReadReceipt.senderCommunicationIdentifier)
+        let identifier = try IdentifierSerializer
+            .deserialize(identifier: chatMessageReadReceipt.senderCommunicationIdentifier)
         self.sender = identifier as! CommunicationUserIdentifier
         self.chatMessageId = chatMessageReadReceipt.chatMessageId
         self.readOn = chatMessageReadReceipt.readOn
