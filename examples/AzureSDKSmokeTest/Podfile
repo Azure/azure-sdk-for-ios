@@ -27,6 +27,7 @@
 
 platform :ios, '13.0'
 
+# Determine linkage type
 if ENV['PODS_LINKAGE']&.downcase == 'static'
   puts 'Using Static Libraries'
 elsif ENV['PODS_LINKAGE']&.downcase == 'staticframeworks'
@@ -37,9 +38,22 @@ else
   use_frameworks!
 end
 
+# determine if running on CI or not and populate local directory
+is_ci = ENV.key?('IS_CI')
+local_path = ENV['PODSPEC_DIR']
+
 target 'AzureSDKSmokeTest' do
-  pod 'AzureCore', :git => 'https://github.com/Azure/azure-sdk-for-ios.git', :branch => 'VersionBeta8'
-  pod 'AzureCommunication', :git => 'https://github.com/Azure/azure-sdk-for-ios.git', :branch => 'VersionBeta8'
-  pod 'AzureCommunicationChat', :git => 'https://github.com/Azure/azure-sdk-for-ios.git', :branch => 'VersionBeta8'
-  pod 'AzureCommunicationCalling', :podspec => 'https://raw.githubusercontent.com/Azure/azure-sdk-for-ios/VersionBeta8/AzureCommunicationCalling.podspec.json'
+  if is_ci
+    # install podspecs locally from source branch/PR
+    pod 'AzureCore', :podspec => "#{local_path}/AzureCore.podspec.json"
+    pod 'AzureCommunication', :podspec => "#{local_path}/AzureCommunication.podspec.json"
+    pod 'AzureCommunicationChat', :podspec => "#{local_path}/AzureCommunicationChat.podspec.json"
+    pod 'AzureCommunicationCalling', :podspec => "#{local_path}/AzureCommunicationCalling.podspec.json"
+  else
+    # manual run targets AzureSDK master branch
+    pod 'AzureCore', :git => 'https://github.com/Azure/azure-sdk-for-ios.git', :branch => 'master'
+    pod 'AzureCommunication', :git => 'https://github.com/Azure/azure-sdk-for-ios.git', :branch => 'master'
+    pod 'AzureCommunicationChat', :git => 'https://github.com/Azure/azure-sdk-for-ios.git', :branch => 'master'
+    pod 'AzureCommunicationCalling', :podspec => 'https://raw.githubusercontent.com/Azure/azure-sdk-for-ios/master/AzureCommunicationCalling.podspec.json'
+  end
 end
