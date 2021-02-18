@@ -73,7 +73,7 @@ class ChatThreadClientTests: XCTestCase {
         let expectation = self.expectation(description: "Create thread")
 
         // Create a thread for the test
-        chatClient.create(thread: thread) { result, httpResponse in
+        try chatClient.create(thread: thread) { result, httpResponse in
             switch result {
             case let .success(createThreadResult):
                 // Initialize threadId
@@ -478,18 +478,23 @@ class ChatThreadClientTests: XCTestCase {
         let expectation = self.expectation(description: "Add participant")
 
         // Add a participant
-        chatThreadClient.add(participants: [newParticipant]) { result, httpResponse in
-            switch result {
-            case let .success(addParticipantsResult):
-                XCTAssertNil(addParticipantsResult.errors)
-                if TestUtil.mode == "record" {
-                    Recorder.record(name: Recording.addParticipants, httpResponse: httpResponse)
+        do {
+            try chatThreadClient.add(participants: [newParticipant]) { result, httpResponse in
+                switch result {
+                case let .success(addParticipantsResult):
+                    XCTAssertNil(addParticipantsResult.errors)
+                    if TestUtil.mode == "record" {
+                        Recorder.record(name: Recording.addParticipants, httpResponse: httpResponse)
+                    }
+
+                case let .failure(error):
+                    XCTFail("Add participants failed: \(error)")
                 }
 
-            case let .failure(error):
-                XCTFail("Add participants failed: \(error)")
+                expectation.fulfill()
             }
-
+        } catch {
+            XCTFail("Add participants failed: \(error)")
             expectation.fulfill()
         }
 
@@ -510,28 +515,39 @@ class ChatThreadClientTests: XCTestCase {
         let expectation = self.expectation(description: "Remove participant")
 
         // Add a participant
-        chatThreadClient.add(participants: [removedParticipant]) { result, _ in
-            switch result {
-            case .success:
-                // Remove the participant
-                self.chatThreadClient.remove(participant: removedParticipant.user.identifier) { result, httpResponse in
-                    switch result {
-                    case .success:
-                        if TestUtil.mode == "record" {
-                            Recorder.record(name: Recording.removeParticipant, httpResponse: httpResponse)
-                        }
+        do {
+            try chatThreadClient.add(participants: [removedParticipant]) { result, _ in
+                switch result {
+                case .success:
+                    // Remove the participant
+                    do {
+                        try self.chatThreadClient
+                            .remove(participant: removedParticipant.user.identifier) { result, httpResponse in
+                                switch result {
+                                case .success:
+                                    if TestUtil.mode == "record" {
+                                        Recorder.record(name: Recording.removeParticipant, httpResponse: httpResponse)
+                                    }
 
-                    case let .failure(error):
-                        XCTFail("Remove participant failed: \(error)")
+                                case let .failure(error):
+                                    XCTFail("Remove participant failed: \(error)")
+                                }
+
+                                expectation.fulfill()
+                            }
+                    } catch {
+                        XCTFail("Remove participants failed: \(error)")
+                        expectation.fulfill()
                     }
 
+                case let .failure(error):
+                    XCTFail("Remove participants failed: \(error)")
                     expectation.fulfill()
                 }
-
-            case let .failure(error):
-                XCTFail("Remove participants failed: \(error)")
-                expectation.fulfill()
             }
+        } catch {
+            XCTFail("Remove participants failed: \(error)")
+            expectation.fulfill()
         }
 
         waitForExpectations(timeout: TestUtil.timeout) { error in
@@ -551,36 +567,41 @@ class ChatThreadClientTests: XCTestCase {
         let expectation = self.expectation(description: "List participants")
 
         // Add a participant
-        chatThreadClient.add(participants: [anotherParticipant]) { result, httpResponse in
-            switch result {
-            case .success:
-                // List participants
-                self.chatThreadClient.listParticipants { result, httpResponse in
-                    if TestUtil.mode == "record" {
-                        Recorder.record(name: Recording.listParticipants, httpResponse: httpResponse)
-                    }
-
-                    switch result {
-                    case let .success(participantsResult):
-                        let participants = participantsResult.pageItems
-                        participants?.forEach { participant in
-                            XCTAssertNotNil(participant.user.identifier)
-                            XCTAssertNotNil(participant.displayName)
+        do {
+            try chatThreadClient.add(participants: [anotherParticipant]) { result, httpResponse in
+                switch result {
+                case .success:
+                    // List participants
+                    self.chatThreadClient.listParticipants { result, httpResponse in
+                        if TestUtil.mode == "record" {
+                            Recorder.record(name: Recording.listParticipants, httpResponse: httpResponse)
                         }
 
-                        XCTAssertEqual(participants?.count, 2)
+                        switch result {
+                        case let .success(participantsResult):
+                            let participants = participantsResult.pageItems
+                            participants?.forEach { participant in
+                                XCTAssertNotNil(participant.user.identifier)
+                                XCTAssertNotNil(participant.displayName)
+                            }
 
-                    case let .failure(error):
-                        XCTFail("List participants failed: \(error)")
+                            XCTAssertEqual(participants?.count, 2)
+
+                        case let .failure(error):
+                            XCTFail("List participants failed: \(error)")
+                        }
+
+                        expectation.fulfill()
                     }
 
+                case let .failure(error):
+                    XCTFail("Add participants failed: \(error)")
                     expectation.fulfill()
                 }
-
-            case let .failure(error):
-                XCTFail("Add participants failed: \(error)")
-                expectation.fulfill()
             }
+        } catch {
+            XCTFail("Add participants failed: \(error)")
+            expectation.fulfill()
         }
 
         waitForExpectations(timeout: TestUtil.timeout) { error in

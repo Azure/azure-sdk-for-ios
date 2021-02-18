@@ -71,18 +71,22 @@ class ChatClientTests: XCTestCase {
             ]
         )
 
-        chatClient.create(thread: thread) { result, _ in
-            switch result {
-            case let .success(chatThreadResult):
-                guard let threadId = chatThreadResult.thread?.id else {
-                    XCTFail("Failed to get thread id")
-                    return
-                }
+        do {
+            try chatClient.create(thread: thread) { result, _ in
+                switch result {
+                case let .success(chatThreadResult):
+                    guard let threadId = chatThreadResult.thread?.id else {
+                        XCTFail("Failed to get thread id")
+                        return
+                    }
 
-                completionHandler(threadId)
-            case let .failure(error):
-                XCTFail("Error creating thread: \(error)")
+                    completionHandler(threadId)
+                case let .failure(error):
+                    XCTFail("Error creating thread: \(error)")
+                }
             }
+        } catch {
+            XCTFail("Error creating thread: \(error)")
         }
     }
 
@@ -102,22 +106,27 @@ class ChatClientTests: XCTestCase {
 
         let expectation = self.expectation(description: "Create thread")
 
-        chatClient.create(thread: thread) { result, httpResponse in
-            switch result {
-            case let .success(response):
-                let chatThread = response.thread
-                XCTAssertNotNil(response.thread)
-                XCTAssertEqual(chatThread?.topic, thread.topic)
-                XCTAssertNotNil(httpResponse?.httpRequest?.headers["repeatability-Request-ID"])
+        do {
+            try chatClient.create(thread: thread) { result, httpResponse in
+                switch result {
+                case let .success(response):
+                    let chatThread = response.thread
+                    XCTAssertNotNil(response.thread)
+                    XCTAssertEqual(chatThread?.topic, thread.topic)
+                    XCTAssertNotNil(httpResponse?.httpRequest?.headers["repeatability-Request-ID"])
 
-                if TestUtil.mode == "record" {
-                    Recorder.record(name: Recording.createThread, httpResponse: httpResponse)
+                    if TestUtil.mode == "record" {
+                        Recorder.record(name: Recording.createThread, httpResponse: httpResponse)
+                    }
+
+                case let .failure(error):
+                    XCTFail("Create thread failed with error: \(error)")
                 }
 
-            case let .failure(error):
-                XCTFail("Create thread failed with error: \(error)")
+                expectation.fulfill()
             }
-
+        } catch {
+            XCTFail("Create thread failed with error: \(error)")
             expectation.fulfill()
         }
 
@@ -147,15 +156,20 @@ class ChatClientTests: XCTestCase {
 
         let expectation = self.expectation(description: "Create thread")
 
-        chatClient.create(thread: thread, withOptions: options) { result, httpResponse in
-            switch result {
-            case .success:
-                XCTAssertNotNil(httpResponse?.httpRequest?.headers["repeatability-Request-ID"])
+        do {
+            try chatClient.create(thread: thread, withOptions: options) { result, httpResponse in
+                switch result {
+                case .success:
+                    XCTAssertNotNil(httpResponse?.httpRequest?.headers["repeatability-Request-ID"])
 
-            case let .failure(error):
-                XCTFail("Create thread failed with error: \(error)")
+                case let .failure(error):
+                    XCTFail("Create thread failed with error: \(error)")
+                }
+
+                expectation.fulfill()
             }
-
+        } catch {
+            XCTFail("Create thread failed with error: \(error)")
             expectation.fulfill()
         }
 

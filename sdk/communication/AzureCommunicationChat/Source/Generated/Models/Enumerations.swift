@@ -17,7 +17,7 @@ public enum CommunicationCloudEnvironmentModel: RequestStringConvertible, Codabl
     case custom(String)
 
     // TODO: public keyword in enum
-    case publicEnvironment
+    case `public`
 
     case dod
 
@@ -27,7 +27,7 @@ public enum CommunicationCloudEnvironmentModel: RequestStringConvertible, Codabl
         switch self {
         case let .custom(val):
             return val
-        case .publicEnvironment:
+        case .public:
             return "public"
         case .dod:
             return "dod"
@@ -39,7 +39,7 @@ public enum CommunicationCloudEnvironmentModel: RequestStringConvertible, Codabl
     public init(_ val: String) {
         switch val.lowercased() {
         case "public":
-            self = .publicEnvironment
+            self = .public
         case "dod":
             self = .dod
         case "gcch":
