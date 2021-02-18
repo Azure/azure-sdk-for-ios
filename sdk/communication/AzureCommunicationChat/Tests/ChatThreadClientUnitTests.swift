@@ -564,7 +564,7 @@ class ChatThreadClientUnitTests: XCTestCase {
     func test_RemoveParticipant_ReturnSuccess() {
         let bundle = Bundle(for: type(of: self))
         let path = bundle.path(forResource: "NoContent", ofType: "json") ?? ""
-        stub(condition: isMethodDELETE()) { _ in
+        stub(condition: isMethodPOST()) { _ in
             fixture(filePath: path, status: 204, headers: nil)
         }
 
@@ -597,7 +597,7 @@ class ChatThreadClientUnitTests: XCTestCase {
     func test_RemoveParticipant_ReturnError() {
         let bundle = Bundle(for: type(of: self))
         let path = bundle.path(forResource: "UnauthorizedError", ofType: "json") ?? ""
-        stub(condition: isMethodDELETE()) { _ in
+        stub(condition: isMethodPOST()) { _ in
             fixture(filePath: path, status: 401, headers: nil)
         }
 

@@ -2,6 +2,11 @@
     "id": "test_thread_id",
     "topic": "test topic",
     "createdOn": "2020-10-30T10:50:50Z",
-    "createdBy": "test_participant_id",
+    "createdByCommunicationIdentifier": {
+        "rawId": "test_participant_id",
+        "communicationUser": {
+            "id": "test_participant_id"
+        }
+    },
     "deletedOn": "2020-10-30T10:50:50Z"
 }
