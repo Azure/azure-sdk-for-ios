@@ -16,7 +16,6 @@ public enum CommunicationCloudEnvironmentModel: RequestStringConvertible, Codabl
     /// Custom value for unrecognized enum values
     case custom(String)
 
-    // TODO: public keyword in enum
     case `public`
 
     case dod

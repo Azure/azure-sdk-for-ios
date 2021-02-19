@@ -16,7 +16,6 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Result of the add chat participants operation.
-// TODO: Does not conform to equatable
 public struct AddChatParticipantsResult: Codable {
     // MARK: Properties
 
