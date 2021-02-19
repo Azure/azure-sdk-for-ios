@@ -108,8 +108,13 @@ public struct Thread: Codable {
 
         // Decode CommunicationIdentifierModel to CommunicationUserIdentifier
         let identifierModel = try container.decode(CommunicationIdentifierModel.self, forKey: .createdBy)
-        self.createdBy = try IdentifierSerializer
-            .deserialize(identifier: identifierModel) as! CommunicationUserIdentifier
+        let identifier = try IdentifierSerializer.deserialize(identifier: identifierModel)
+
+        if let createdBy = identifier as? CommunicationUserIdentifier {
+            self.createdBy = createdBy
+        } else {
+            throw AzureError.client("Identifier for Thread is not a CommunicationUserIdentifier.")
+        }
 
         self.deletedOn = try? container.decode(Iso8601Date.self, forKey: .deletedOn)
     }

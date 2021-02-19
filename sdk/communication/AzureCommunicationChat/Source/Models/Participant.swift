@@ -89,7 +89,13 @@ public struct Participant: Codable {
 
         // Decode CommunicationIdentifierModel to CommunicationUserIdentifier
         let identifierModel = try container.decode(CommunicationIdentifierModel.self, forKey: .user)
-        self.user = try IdentifierSerializer.deserialize(identifier: identifierModel) as! CommunicationUserIdentifier
+        let identifier = try IdentifierSerializer.deserialize(identifier: identifierModel)
+
+        if let user = identifier as? CommunicationUserIdentifier {
+            self.user = user
+        } else {
+            throw AzureError.client("Identifier for Participant is not a CommunicationUserIdentifier.")
+        }
 
         self.displayName = try? container.decode(String.self, forKey: .displayName)
         self.shareHistoryTime = try? container.decode(Iso8601Date.self, forKey: .shareHistoryTime)
