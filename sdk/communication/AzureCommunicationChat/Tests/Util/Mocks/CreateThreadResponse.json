@@ -3,6 +3,11 @@
         "id": "test_thread_id",
         "topic": "test topic",
         "createdOn": "2021-01-08T01:49:05Z",
-        "createdBy": "test_participant_id"
+        "createdByCommunicationIdentifier": {
+            "rawId": "test_participant_id",
+            "communicationUser": {
+                "id": "test_participant_id"
+            }
+        }
     }
 }

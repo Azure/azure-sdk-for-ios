@@ -10,7 +10,12 @@
             },
             "senderDisplayName": "Jane",
             "createdOn": "2020-10-30T10:50:50Z",
-            "senderId": "test_participant_id",
+            "senderCommunicationIdentifier": {
+                "rawId": "test_participant_id",
+                "communicationUser": {
+                    "id": "test_participant_id"
+                }
+            },
             "deletedOn": "2020-10-30T10:50:50Z",
             "editedOn": "2020-10-30T10:50:50Z"
         }

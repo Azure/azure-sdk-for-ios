@@ -28,7 +28,7 @@ import AzureCommunication
 import AzureCore
 import Foundation
 
-public class IdentifierSerializer {
+public enum IdentifierSerializer {
     public static func deserialize(identifier: CommunicationIdentifierModel) throws -> CommunicationIdentifier {
         guard let rawId = identifier.rawId else {
             throw AzureError.client("Can't serialize CommunicationIdentifierModel: rawId is undefined.")
@@ -154,8 +154,8 @@ public class IdentifierSerializer {
     }
 }
 
-extension CommunicationCloudEnvironmentModel {
-    public static let Public = CommunicationCloudEnvironmentModel("public")
-    public static let Dod = CommunicationCloudEnvironmentModel("dod")
-    public static let Gcch = CommunicationCloudEnvironmentModel("gcch")
+public extension CommunicationCloudEnvironmentModel {
+    static let Public = CommunicationCloudEnvironmentModel("public")
+    static let Dod = CommunicationCloudEnvironmentModel("dod")
+    static let Gcch = CommunicationCloudEnvironmentModel("gcch")
 }

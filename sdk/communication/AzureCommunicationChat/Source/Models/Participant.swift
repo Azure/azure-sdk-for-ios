@@ -46,8 +46,16 @@ public struct Participant: Codable {
     ///   - chatParticipant: The ChatParticipant to initialize from.
     public init(
         from chatParticipant: ChatParticipant
-    ) {
-        self.user = CommunicationUserIdentifier(identifier: chatParticipant.id)
+    ) throws {
+        // Deserialize the identifier to CommunicationUserIdentifier
+        let identifier = try IdentifierSerializer.deserialize(identifier: chatParticipant.communicationIdentifier)
+
+        if let user = identifier as? CommunicationUserIdentifier {
+            self.user = user
+        } else {
+            throw AzureError.client("Identifier for Participant is not a CommunicationUserIdentifier.")
+        }
+
         self.displayName = chatParticipant.displayName
         self.shareHistoryTime = chatParticipant.shareHistoryTime
     }
@@ -70,7 +78,7 @@ public struct Participant: Codable {
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case user = "id"
+        case user = "communicationIdentifier"
         case displayName
         case shareHistoryTime
     }
@@ -79,9 +87,15 @@ public struct Participant: Codable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        // Convert id to CommunicationUserIdentifier
-        let identifier = try? container.decode(String.self, forKey: .user)
-        self.user = CommunicationUserIdentifier(identifier: identifier!)
+        // Decode CommunicationIdentifierModel to CommunicationUserIdentifier
+        let identifierModel = try container.decode(CommunicationIdentifierModel.self, forKey: .user)
+        let identifier = try IdentifierSerializer.deserialize(identifier: identifierModel)
+
+        if let user = identifier as? CommunicationUserIdentifier {
+            self.user = user
+        } else {
+            throw AzureError.client("Identifier for Participant is not a CommunicationUserIdentifier.")
+        }
 
         self.displayName = try? container.decode(String.self, forKey: .displayName)
         self.shareHistoryTime = try? container.decode(Iso8601Date.self, forKey: .shareHistoryTime)
@@ -91,8 +105,9 @@ public struct Participant: Codable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        // Encode user object to id string
-        try container.encode(user.identifier, forKey: .user)
+        // Encode CommunicationUserIdentifier to CommunicationIdentifierModel
+        let identifierModel = try IdentifierSerializer.serialize(identifier: user)
+        try container.encode(identifierModel, forKey: .user)
 
         if displayName != nil { try? container.encode(displayName, forKey: .displayName) }
         if shareHistoryTime != nil { try? container.encode(shareHistoryTime, forKey: .shareHistoryTime) }

@@ -20,7 +20,7 @@ public struct CreateChatThreadErrors: Codable {
     // MARK: Properties
 
     /// The participants that failed to be added to the chat thread.
-    public let invalidParticipants: [CommunicationError?]?
+    public let invalidParticipants: [CommunicationError]?
 
     // MARK: Initializers
 
@@ -28,7 +28,7 @@ public struct CreateChatThreadErrors: Codable {
     /// - Parameters:
     ///   - invalidParticipants: The participants that failed to be added to the chat thread.
     public init(
-        invalidParticipants: [CommunicationError?]? = nil
+        invalidParticipants: [CommunicationError]? = nil
     ) {
         self.invalidParticipants = invalidParticipants
     }
@@ -42,7 +42,7 @@ public struct CreateChatThreadErrors: Codable {
     /// Initialize a `CreateChatThreadErrors` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.invalidParticipants = try? container.decode([CommunicationError?].self, forKey: .invalidParticipants)
+        self.invalidParticipants = try? container.decode([CommunicationError].self, forKey: .invalidParticipants)
     }
 
     /// Encode a `CreateChatThreadErrors` structure
