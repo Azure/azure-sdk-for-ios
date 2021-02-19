@@ -91,10 +91,10 @@ public class ChatClient {
         thread: CreateThreadRequest,
         withOptions options: Chat.CreateChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<CreateThreadResult>
-    ) {
+    ) throws {
         // Set the repeatabilityRequestID if it is not provided
-        let requestOptions = ((options?.repeatabilityRequestID) != nil) ? options : Chat.CreateChatThreadOptions(
-            repeatabilityRequestID: UUID().uuidString,
+        let requestOptions = ((options?.repeatabilityRequestId) != nil) ? options : Chat.CreateChatThreadOptions(
+            repeatabilityRequestId: UUID().uuidString,
             clientRequestId: options?.clientRequestId,
             cancellationToken: options?.cancellationToken,
             dispatchQueue: options?.dispatchQueue,
@@ -102,11 +102,12 @@ public class ChatClient {
         )
 
         // Convert Participants to ChatParticipants
-        let participants = thread.participants.map {
-            ChatParticipant(
-                id: $0.user.identifier,
-                displayName: $0.displayName,
-                shareHistoryTime: $0.shareHistoryTime
+        let participants = try thread.participants.map { (participant) -> ChatParticipant in
+            let identifierModel = try IdentifierSerializer.serialize(identifier: participant.user)
+            return ChatParticipant(
+                communicationIdentifier: identifierModel,
+                displayName: participant.displayName,
+                shareHistoryTime: participant.shareHistoryTime
             )
         }
 
@@ -119,7 +120,13 @@ public class ChatClient {
         service.create(chatThread: request, withOptions: requestOptions) { result, httpResponse in
             switch result {
             case let .success(chatThreadResult):
-                completionHandler(.success(CreateThreadResult(from: chatThreadResult)), httpResponse)
+                do {
+                    let threadResult = try CreateThreadResult(from: chatThreadResult)
+                    completionHandler(.success(threadResult), httpResponse)
+                } catch {
+                    let azureError = AzureError.client(error.localizedDescription, error)
+                    completionHandler(.failure(azureError), httpResponse)
+                }
 
             case let .failure(error):
                 completionHandler(.failure(error), httpResponse)
@@ -140,7 +147,13 @@ public class ChatClient {
         service.getChatThread(chatThreadId: threadId, withOptions: options) { result, httpResponse in
             switch result {
             case let .success(chatThread):
-                completionHandler(.success(Thread(from: chatThread)), httpResponse)
+                do {
+                    let thread = try Thread(from: chatThread)
+                    completionHandler(.success(thread), httpResponse)
+                } catch {
+                    let azureError = AzureError.client(error.localizedDescription, error)
+                    completionHandler(.failure(azureError), httpResponse)
+                }
 
             case let .failure(error):
                 completionHandler(.failure(error), httpResponse)

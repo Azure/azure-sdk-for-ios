@@ -499,17 +499,22 @@ class ChatThreadClientUnitTests: XCTestCase {
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
 
-        chatThreadClient.add(participants: [participant], completionHandler: { result, _ in
-            switch result {
-            case let .success(response):
-                XCTAssertNotNil(response)
+        do {
+            try chatThreadClient.add(participants: [participant], completionHandler: { result, _ in
+                switch result {
+                case let .success(response):
+                    XCTAssertNotNil(response)
 
-            case .failure:
-                XCTFail("Unexpected failure happened in Add participant")
-            }
+                case .failure:
+                    XCTFail("Unexpected failure happened in Add participant")
+                }
 
+                expectation.fulfill()
+            })
+        } catch {
+            XCTFail("Add participant failed: \(error.localizedDescription)")
             expectation.fulfill()
-        })
+        }
 
         waitForExpectations(timeout: TestUtil.timeout) { error in
             if let error = error {
@@ -532,17 +537,22 @@ class ChatThreadClientUnitTests: XCTestCase {
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
 
-        chatThreadClient.add(participants: [participant], completionHandler: { result, _ in
-            switch result {
-            case .success:
-                XCTFail("Unexpected failure happened in add participant")
+        do {
+            try chatThreadClient.add(participants: [participant], completionHandler: { result, _ in
+                switch result {
+                case .success:
+                    XCTFail("Unexpected failure happened in add participant")
 
-            case let .failure(error):
-                XCTAssertNotNil(error)
-            }
+                case let .failure(error):
+                    XCTAssertNotNil(error)
+                }
 
+                expectation.fulfill()
+            })
+        } catch {
+            XCTFail("Add participant failed: \(error.localizedDescription)")
             expectation.fulfill()
-        })
+        }
 
         waitForExpectations(timeout: TestUtil.timeout) { error in
             if let error = error {
@@ -554,23 +564,28 @@ class ChatThreadClientUnitTests: XCTestCase {
     func test_RemoveParticipant_ReturnSuccess() {
         let bundle = Bundle(for: type(of: self))
         let path = bundle.path(forResource: "NoContent", ofType: "json") ?? ""
-        stub(condition: isMethodDELETE()) { _ in
+        stub(condition: isMethodPOST()) { _ in
             fixture(filePath: path, status: 204, headers: nil)
         }
 
         let expectation = self.expectation(description: "Remove Participant")
 
-        chatThreadClient.remove(participant: participantId, completionHandler: { result, _ in
-            switch result {
-            case let .success(response):
-                XCTAssertNotNil(response)
+        do {
+            try chatThreadClient.remove(participant: participantId, completionHandler: { result, _ in
+                switch result {
+                case let .success(response):
+                    XCTAssertNotNil(response)
 
-            case .failure:
-                XCTFail("Unexpected failure happened in remove participant")
-            }
+                case .failure:
+                    XCTFail("Unexpected failure happened in remove participant")
+                }
 
+                expectation.fulfill()
+            })
+        } catch {
+            XCTFail("Remove participant failed: \(error.localizedDescription)")
             expectation.fulfill()
-        })
+        }
 
         waitForExpectations(timeout: TestUtil.timeout) { error in
             if let error = error {
@@ -582,23 +597,28 @@ class ChatThreadClientUnitTests: XCTestCase {
     func test_RemoveParticipant_ReturnError() {
         let bundle = Bundle(for: type(of: self))
         let path = bundle.path(forResource: "UnauthorizedError", ofType: "json") ?? ""
-        stub(condition: isMethodDELETE()) { _ in
+        stub(condition: isMethodPOST()) { _ in
             fixture(filePath: path, status: 401, headers: nil)
         }
 
         let expectation = self.expectation(description: "Remove Participant")
 
-        chatThreadClient.remove(participant: participantId, completionHandler: { result, _ in
-            switch result {
-            case .success:
-                XCTFail("Unexpected failure happened in remove participant")
+        do {
+            try chatThreadClient.remove(participant: participantId, completionHandler: { result, _ in
+                switch result {
+                case .success:
+                    XCTFail("Unexpected failure happened in remove participant")
 
-            case let .failure(error):
-                XCTAssertNotNil(error)
-            }
+                case let .failure(error):
+                    XCTAssertNotNil(error)
+                }
 
+                expectation.fulfill()
+            })
+        } catch {
+            XCTFail("Remove participant failed: \(error)")
             expectation.fulfill()
-        })
+        }
 
         waitForExpectations(timeout: TestUtil.timeout) { error in
             if let error = error {

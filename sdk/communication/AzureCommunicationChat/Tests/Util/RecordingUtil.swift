@@ -34,9 +34,7 @@ class Recorder {
     private static func sanitize(data: String) throws -> String {
         let patterns = [
             ("\\\"id\\\":\\\".*?\\\"", "\\\"id\\\":\\\"sanitized\\\""),
-            ("\\\"createdBy\\\":\\\".*?\\\"", "\\\"createdBy\\\":\\\"sanitized\\\""),
-            ("\\\"senderId\\\":\\\".*?\\\"", "\\\"senderId\\\":\\\"sanitized\\\""),
-            ("\\\"initiator\\\":\\\".*?\\\"", "\\\"initator\\\":\\\"sanitized\\\""),
+            ("\\\"rawId\\\":\\\".*?\\\"", "\\\"rawId\\\":\\\"sanitized\\\""),
             ("\\\"chatMessageId\\\":\\\".*?\\\"", "\\\"chatMessageId\\\":\\\"sanitized\\\"")
         ]
         var sanitized = data
@@ -132,7 +130,7 @@ class Recorder {
             }
 
         case Recording.removeParticipant:
-            stub(condition: isMethodDELETE() && pathMatches("//participants//")) { _ in
+            stub(condition: isMethodPOST() && pathMatches("/participants/:remove")) { _ in
                 fixture(filePath: path, status: 204, headers: nil)
             }
 

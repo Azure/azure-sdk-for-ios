@@ -15,9 +15,9 @@ import Foundation
 // swiftlint:disable identifier_name
 // swiftlint:disable line_length
 
-extension ChatThreadOperation {
+public extension ChatThreadOperation {
     /// User-configurable options for the `AzureCommunicationChatService.ListChatParticipants` operation.
-    public struct ListChatParticipantsOptions: RequestOptions {
+    struct ListChatParticipantsOptions: RequestOptions {
         /// The maximum number of participants to be returned per page.
         public let maxPageSize: Int32?
         /// Skips participants up to a specified position in response.
