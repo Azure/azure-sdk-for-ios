@@ -28,8 +28,6 @@ import AzureCommunication
 import AzureCore
 import Foundation
 
-// swiftlint:disable force_cast
-
 /// Chat thread.
 public struct Thread: Codable {
     // MARK: Properties
@@ -56,9 +54,16 @@ public struct Thread: Codable {
         self.id = chatThread.id
         self.topic = chatThread.topic
         self.createdOn = chatThread.createdOn
+
         // Deserialize the identifier to CommunicationUserIdentifier
         let identifier = try IdentifierSerializer.deserialize(identifier: chatThread.createdByCommunicationIdentifier)
-        self.createdBy = identifier as! CommunicationUserIdentifier
+
+        if let createdBy = identifier as? CommunicationUserIdentifier {
+            self.createdBy = createdBy
+        } else {
+            throw AzureError.client("Identifier for Thread is not a CommunicationUserIdentifier.")
+        }
+
         self.deletedOn = chatThread.deletedOn
     }
 

@@ -28,8 +28,6 @@ import AzureCommunication
 import AzureCore
 import Foundation
 
-// swiftlint:disable force_cast
-
 /// A participant of the chat thread.
 public struct Participant: Codable {
     // MARK: Properties
@@ -51,7 +49,13 @@ public struct Participant: Codable {
     ) throws {
         // Deserialize the identifier to CommunicationUserIdentifier
         let identifier = try IdentifierSerializer.deserialize(identifier: chatParticipant.communicationIdentifier)
-        self.user = identifier as! CommunicationUserIdentifier
+
+        if let user = identifier as? CommunicationUserIdentifier {
+            self.user = user
+        } else {
+            throw AzureError.client("Identifier for Participant is not a CommunicationUserIdentifier.")
+        }
+
         self.displayName = chatParticipant.displayName
         self.shareHistoryTime = chatParticipant.shareHistoryTime
     }
