@@ -89,7 +89,13 @@ public struct ReadReceipt: Codable {
 
         // Decode CommunicationIdentifierModel to CommunicationUserIdentifier
         let identifierModel = try container.decode(CommunicationIdentifierModel.self, forKey: .sender)
-        self.sender = try IdentifierSerializer.deserialize(identifier: identifierModel) as! CommunicationUserIdentifier
+        let identifier = try IdentifierSerializer.deserialize(identifier: identifierModel)
+
+        if let sender = identifier as? CommunicationUserIdentifier {
+            self.sender = sender
+        } else {
+            throw AzureError.client("Identifier for ReadReceipt is not a CommunicationUserIdentifier.")
+        }
 
         self.chatMessageId = try container.decode(String.self, forKey: .chatMessageId)
         self.readOn = try container.decode(Iso8601Date.self, forKey: .readOn)
