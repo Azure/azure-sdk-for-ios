@@ -1,10 +1,10 @@
 # Xcode
-#
-# gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
 
 ## Build generated
-build/
-DerivedData/
+build
+build_result
+builtFramework
+DerivedData
 
 ## Various settings
 *.pbxuser
@@ -15,7 +15,7 @@ DerivedData/
 !default.mode2v3
 *.perspectivev3
 !default.perspectivev3
-xcuserdata/
+xcuserdata
 
 ## Other
 *.moved-aside
@@ -48,7 +48,7 @@ Package.resolved
 # you should judge for yourself, the pros and cons are mentioned at:
 # https://guides.cocoapods.org/using/using-cocoapods.html#should-i-check-the-pods-directory-into-source-control
 #
-Pods/
+Pods
 Podfile.lock
 
 # Carthage
@@ -72,3 +72,10 @@ fastlane/test_output
 
 # Random Mac files.
 .DS_Store
+.DS_Store?
+.COMPONENT_CACHED
+.Spotlight-V100
+._*
+.Trashes
+Icon?
+*.bak
