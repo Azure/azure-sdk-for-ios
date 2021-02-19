@@ -113,7 +113,7 @@ class ChatClientTests: XCTestCase {
                     let chatThread = response.thread
                     XCTAssertNotNil(response.thread)
                     XCTAssertEqual(chatThread?.topic, thread.topic)
-                    XCTAssertNotNil(httpResponse?.httpRequest?.headers["repeatability-Request-ID"])
+                    XCTAssertNotNil(httpResponse?.httpRequest?.headers["repeatability-Request-Id"])
 
                     if TestUtil.mode == "record" {
                         Recorder.record(name: Recording.createThread, httpResponse: httpResponse)
@@ -160,7 +160,7 @@ class ChatClientTests: XCTestCase {
             try chatClient.create(thread: thread, withOptions: options) { result, httpResponse in
                 switch result {
                 case .success:
-                    XCTAssertNotNil(httpResponse?.httpRequest?.headers["repeatability-Request-ID"])
+                    XCTAssertNotNil(httpResponse?.httpRequest?.headers["repeatability-Request-Id"])
 
                 case let .failure(error):
                     XCTFail("Create thread failed with error: \(error)")
