@@ -51,9 +51,15 @@ public struct MessageContent: Codable {
     ) throws {
         self.message = chatMessageContent.message
         self.topic = chatMessageContent.topic
-        self.participants = (chatMessageContent.participants != nil) ?
-            try chatMessageContent.participants!.map { try Participant(from: $0) } : nil
 
+        // Convert ChatParticipants to Participants
+        if let participants = chatMessageContent.participants {
+            self.participants = try participants.map { try Participant(from: $0) }
+        } else {
+            self.participants = nil
+        }
+
+        // Deserialize the identifier to CommunicationUserIdentifier
         if let identifierModel = chatMessageContent.initiatorCommunicationIdentifier {
             let identifier = try IdentifierSerializer.deserialize(identifier: identifierModel)
             self.initiator = identifier as? CommunicationUserIdentifier
@@ -78,6 +84,7 @@ public struct MessageContent: Codable {
         self.topic = topic
         self.participants = participants
 
+        // Construct the CommunicationUserIdentifier
         if let identifier = initiatorId {
             self.initiator = CommunicationUserIdentifier(identifier: identifier)
         } else {
@@ -102,7 +109,12 @@ public struct MessageContent: Codable {
 
         // Decode ChatParticipants to Participants
         let chatParticipants = try? container.decode([ChatParticipant].self, forKey: .participants)
-        self.participants = (chatParticipants != nil) ? try chatParticipants!.map { try Participant(from: $0) } : nil
+
+        if let participants = chatParticipants {
+            self.participants = try participants.map { try Participant(from: $0) }
+        } else {
+            self.participants = nil
+        }
 
         // Decode CommunicationIdentifierModel to CommunicationUserIdentifier
         if let identifierModel = try? container.decode(CommunicationIdentifierModel.self, forKey: .initiator) {
@@ -120,8 +132,8 @@ public struct MessageContent: Codable {
         if topic != nil { try? container.encode(topic, forKey: .topic) }
 
         // Encode Participant to ChatParticipant format
-        if participants != nil {
-            let chatParticipants = try participants!.map { (participant) -> ChatParticipant in
+        if let participants = participants {
+            let chatParticipants = try participants.map { (participant) -> ChatParticipant in
                 let identifierModel = try IdentifierSerializer.serialize(identifier: participant.user)
                 return ChatParticipant(
                     communicationIdentifier: identifierModel,

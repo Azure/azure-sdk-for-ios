@@ -65,10 +65,18 @@ public struct Message: Codable {
         self.type = chatMessage.type
         self.sequenceId = chatMessage.sequenceId
         self.version = chatMessage.version
-        self.content = (chatMessage.content != nil) ? try MessageContent(from: chatMessage.content!) : nil
+
+        // Convert ChatMessageContent to MessageContent
+        if let content = chatMessage.content {
+            self.content = try MessageContent(from: content)
+        } else {
+            self.content = nil
+        }
+
         self.senderDisplayName = chatMessage.senderDisplayName
         self.createdOn = chatMessage.createdOn
 
+        // Deserialize the identifier to CommunicationUserIdentifier
         if let identifierModel = chatMessage.senderCommunicationIdentifier {
             let identifier = try IdentifierSerializer.deserialize(identifier: identifierModel)
             self.sender = identifier as? CommunicationUserIdentifier
@@ -111,7 +119,14 @@ public struct Message: Codable {
         self.content = content
         self.senderDisplayName = senderDisplayName
         self.createdOn = createdOn
-        self.sender = (senderId != nil) ? CommunicationUserIdentifier(identifier: senderId!) : nil
+
+        // Construct the CommunicationUserIdentifier
+        if let sender = senderId {
+            self.sender = CommunicationUserIdentifier(identifier: sender)
+        } else {
+            self.sender = nil
+        }
+
         self.deletedOn = deletedOn
         self.editedOn = editedOn
     }
@@ -141,8 +156,13 @@ public struct Message: Codable {
         self.version = try container.decode(String.self, forKey: .version)
 
         // Convert ChatMessageContent to MessageContent
-        let content = try? container.decode(ChatMessageContent.self, forKey: .content)
-        self.content = try? MessageContent(from: content!)
+        let chatMessageContent = try? container.decode(ChatMessageContent.self, forKey: .content)
+
+        if let content = chatMessageContent {
+            self.content = try? MessageContent(from: content)
+        } else {
+            self.content = nil
+        }
 
         self.senderDisplayName = try? container.decode(String.self, forKey: .senderDisplayName)
         self.createdOn = try container.decode(Iso8601Date.self, forKey: .createdOn)

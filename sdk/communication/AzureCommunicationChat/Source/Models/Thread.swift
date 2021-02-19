@@ -56,6 +56,7 @@ public struct Thread: Codable {
         self.id = chatThread.id
         self.topic = chatThread.topic
         self.createdOn = chatThread.createdOn
+        // Deserialize the identifier to CommunicationUserIdentifier
         let identifier = try IdentifierSerializer.deserialize(identifier: chatThread.createdByCommunicationIdentifier)
         self.createdBy = identifier as! CommunicationUserIdentifier
         self.deletedOn = chatThread.deletedOn
