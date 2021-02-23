@@ -51,8 +51,8 @@ internal class StaticTokenCredential: CommunicationTokenCredentialProviding {
      Retrieve an access token from the credential.
 
      - Parameter completionHandler: Closure that accepts an optional `AccessToken` or optional `Error` as parameters.
-     `AccessToken` returns a token and an expiry date if applicable. `Error` returns `nil` if the current token can be returned.
-
+     `AccessToken` returns a token and an expiry date if applicable.
+     `Error` returns `nil` if the current token can be returned.
      */
     public func token(completionHandler: CommunicationTokenCompletionHandler) {
         completionHandler(accessToken, nil)

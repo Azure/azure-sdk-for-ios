@@ -25,11 +25,18 @@
 // --------------------------------------------------------------------------
 
 import Foundation
-
+/**
+ Represents an Azure service bearer access token with expiry information.
+ */
 @objcMembers public class CommunicationAccessToken: NSObject {
     public let token: String
     public let expiresOn: Date
-
+    /**
+     Creates a new instance of CommunicationAccessToken using the provided `token`
+     and `expiresOn`.
+     - Parameter token: The bearer access token value
+     - Parameter expiresOn: The bearer access token expiry date.
+     */
     public init(token: String, expiresOn: Date) {
         self.token = token
         self.expiresOn = expiresOn
