@@ -47,7 +47,7 @@ public struct Message: Codable {
     /// The timestamp when the message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public let createdOn: Iso8601Date
     /// The sender of the message.
-    public let sender: CommunicationUserIdentifier?
+    public let sender: CommunicationIdentifier?
     /// The timestamp (if applicable) when the message was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public let deletedOn: Iso8601Date?
     /// The last timestamp (if applicable) when the message was edited. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
@@ -76,10 +76,9 @@ public struct Message: Codable {
         self.senderDisplayName = chatMessage.senderDisplayName
         self.createdOn = chatMessage.createdOn
 
-        // Deserialize the identifier to CommunicationUserIdentifier
+        // Deserialize the identifier model to CommunicationIdentifier
         if let identifierModel = chatMessage.senderCommunicationIdentifier {
-            let identifier = try IdentifierSerializer.deserialize(identifier: identifierModel)
-            self.sender = identifier as? CommunicationUserIdentifier
+            self.sender = try IdentifierSerializer.deserialize(identifier: identifierModel)
         } else {
             self.sender = nil
         }
@@ -97,7 +96,7 @@ public struct Message: Codable {
     ///   - content: Content of a message.
     ///   - senderDisplayName: The display name of the message sender. This property is used to populate sender name for push notifications.
     ///   - createdOn: The timestamp when the message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
-    ///   - sender: The id of the sender of the message.
+    ///   - sender: The  sender of the message.
     ///   - deletedOn: The timestamp (if applicable) when the message was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     ///   - editedOn: The last timestamp (if applicable) when the message was edited. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public init(
@@ -108,7 +107,7 @@ public struct Message: Codable {
         content: MessageContent? = nil,
         senderDisplayName: String? = nil,
         createdOn: Iso8601Date,
-        senderId: String? = nil,
+        sender: CommunicationIdentifier? = nil,
         deletedOn: Iso8601Date? = nil,
         editedOn: Iso8601Date? = nil
     ) {
@@ -119,14 +118,7 @@ public struct Message: Codable {
         self.content = content
         self.senderDisplayName = senderDisplayName
         self.createdOn = createdOn
-
-        // Construct the CommunicationUserIdentifier
-        if let sender = senderId {
-            self.sender = CommunicationUserIdentifier(identifier: sender)
-        } else {
-            self.sender = nil
-        }
-
+        self.sender = sender
         self.deletedOn = deletedOn
         self.editedOn = editedOn
     }
@@ -167,10 +159,10 @@ public struct Message: Codable {
         self.senderDisplayName = try? container.decode(String.self, forKey: .senderDisplayName)
         self.createdOn = try container.decode(Iso8601Date.self, forKey: .createdOn)
 
-        // Decode CommunicationIdentifierModel to CommunicationUserIdentifier
+        // Decode CommunicationIdentifierModel to CommunicationIdentifier
         if let identifierModel = try? container.decode(CommunicationIdentifierModel.self, forKey: .sender) {
             self.sender = try IdentifierSerializer
-                .deserialize(identifier: identifierModel) as? CommunicationUserIdentifier
+                .deserialize(identifier: identifierModel)
         } else {
             self.sender = nil
         }
@@ -191,7 +183,7 @@ public struct Message: Codable {
         if senderDisplayName != nil { try? container.encode(senderDisplayName, forKey: .senderDisplayName) }
         try container.encode(createdOn, forKey: .createdOn)
 
-        // Encode CommunicationUserIdentifier to CommunicationIdentifierModel
+        // Encode CommunicationIdentifier to CommunicationIdentifierModel
         if sender != nil {
             let identifierModel = try IdentifierSerializer.serialize(identifier: sender!)
             try? container.encode(identifierModel, forKey: .sender)
