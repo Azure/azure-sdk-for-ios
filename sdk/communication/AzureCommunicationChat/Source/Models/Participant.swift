@@ -32,8 +32,8 @@ import Foundation
 public struct Participant: Codable {
     // MARK: Properties
 
-    /// The CommunicationUserIdentifier for the participant.
-    public let user: CommunicationUserIdentifier
+    /// The CommunicationIdentifier for the participant.
+    public let user: CommunicationIdentifier
     /// Display name for the participant.
     public let displayName: String?
     /// Time from which the chat history is shared with the participant. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
@@ -47,14 +47,8 @@ public struct Participant: Codable {
     public init(
         from chatParticipant: ChatParticipant
     ) throws {
-        // Deserialize the identifier to CommunicationUserIdentifier
-        let identifier = try IdentifierSerializer.deserialize(identifier: chatParticipant.communicationIdentifier)
-
-        if let user = identifier as? CommunicationUserIdentifier {
-            self.user = user
-        } else {
-            throw AzureError.client("Identifier for Participant is not a CommunicationUserIdentifier.")
-        }
+        // Deserialize the identifier model to CommunicationIdentifier
+        self.user = try IdentifierSerializer.deserialize(identifier: chatParticipant.communicationIdentifier)
 
         self.displayName = chatParticipant.displayName
         self.shareHistoryTime = chatParticipant.shareHistoryTime
@@ -62,15 +56,15 @@ public struct Participant: Codable {
 
     /// Initialize a `Participant` structure.
     /// - Parameters:
-    ///   - id: The id of the participant.
+    ///   - user: The  identifier of the participant.
     ///   - displayName: Display name for the participant.
     ///   - shareHistoryTime: Time from which the chat history is shared with the participant. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public init(
-        id: String,
+        user: CommunicationIdentifier,
         displayName: String? = nil,
         shareHistoryTime: Iso8601Date? = nil
     ) {
-        self.user = CommunicationUserIdentifier(identifier: id)
+        self.user = user
         self.displayName = displayName
         self.shareHistoryTime = shareHistoryTime
     }
@@ -87,15 +81,9 @@ public struct Participant: Codable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        // Decode CommunicationIdentifierModel to CommunicationUserIdentifier
+        // Decode CommunicationIdentifierModel to CommunicationIdentifier
         let identifierModel = try container.decode(CommunicationIdentifierModel.self, forKey: .user)
-        let identifier = try IdentifierSerializer.deserialize(identifier: identifierModel)
-
-        if let user = identifier as? CommunicationUserIdentifier {
-            self.user = user
-        } else {
-            throw AzureError.client("Identifier for Participant is not a CommunicationUserIdentifier.")
-        }
+        self.user = try IdentifierSerializer.deserialize(identifier: identifierModel)
 
         self.displayName = try? container.decode(String.self, forKey: .displayName)
         self.shareHistoryTime = try? container.decode(Iso8601Date.self, forKey: .shareHistoryTime)
@@ -105,7 +93,7 @@ public struct Participant: Codable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
-        // Encode CommunicationUserIdentifier to CommunicationIdentifierModel
+        // Encode CommunicationIdentifier to CommunicationIdentifierModel
         let identifierModel = try IdentifierSerializer.serialize(identifier: user)
         try container.encode(identifierModel, forKey: .user)
 

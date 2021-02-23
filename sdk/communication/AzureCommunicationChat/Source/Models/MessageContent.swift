@@ -38,8 +38,8 @@ public struct MessageContent: Codable {
     public let topic: String?
     /// Chat message content for messages of types participantAdded or participantRemoved.
     public let participants: [Participant]?
-    /// CommunicationUserIdentifier of chat message initiator
-    public let initiator: CommunicationUserIdentifier?
+    /// Communication Identifier of chat message initiator
+    public let initiator: CommunicationIdentifier?
 
     // MARK: Initializers
 
@@ -59,10 +59,9 @@ public struct MessageContent: Codable {
             self.participants = nil
         }
 
-        // Deserialize the identifier to CommunicationUserIdentifier
+        // Deserialize the identifier model to CommunicationIdentifier
         if let identifierModel = chatMessageContent.initiatorCommunicationIdentifier {
-            let identifier = try IdentifierSerializer.deserialize(identifier: identifierModel)
-            self.initiator = identifier as? CommunicationUserIdentifier
+            self.initiator = try IdentifierSerializer.deserialize(identifier: identifierModel)
         } else {
             self.initiator = nil
         }
@@ -73,23 +72,17 @@ public struct MessageContent: Codable {
     ///   - message: Message content for messages of types text or html.
     ///   - topic: Message content for messages of type topicUpdated.
     ///   - participants: Message content for messages of types participantAdded or participantRemoved.
-    ///   - initiator: Message content for messages of types participantAdded or participantRemoved.
+    ///   - initiator: The initiator of the message..
     public init(
         message: String? = nil,
         topic: String? = nil,
         participants: [Participant]? = nil,
-        initiatorId: String? = nil
+        initiator: CommunicationIdentifier? = nil
     ) {
         self.message = message
         self.topic = topic
         self.participants = participants
-
-        // Construct the CommunicationUserIdentifier
-        if let identifier = initiatorId {
-            self.initiator = CommunicationUserIdentifier(identifier: identifier)
-        } else {
-            self.initiator = nil
-        }
+        self.initiator = initiator
     }
 
     // MARK: Codable
@@ -116,10 +109,10 @@ public struct MessageContent: Codable {
             self.participants = nil
         }
 
-        // Decode CommunicationIdentifierModel to CommunicationUserIdentifier
+        // Decode CommunicationIdentifierModel to CommunicationIdentifier
         if let identifierModel = try? container.decode(CommunicationIdentifierModel.self, forKey: .initiator) {
             self.initiator = try IdentifierSerializer
-                .deserialize(identifier: identifierModel) as? CommunicationUserIdentifier
+                .deserialize(identifier: identifierModel)
         } else {
             self.initiator = nil
         }
@@ -144,10 +137,10 @@ public struct MessageContent: Codable {
             try? container.encode(chatParticipants, forKey: .participants)
         }
 
-        // Encode CommunicationUserIdentifier to CommunicationIdentifierModel
+        // Encode CommunicationIdentifier to CommunicationIdentifierModel
         if let identifier = initiator {
             let identifierModel = try IdentifierSerializer.serialize(identifier: identifier)
-            try? container.encode(identifierModel, forKey: .initiator)
+            try container.encode(identifierModel, forKey: .initiator)
         }
     }
 }

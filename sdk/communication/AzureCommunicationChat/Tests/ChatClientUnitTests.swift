@@ -58,7 +58,7 @@ class ChatClientUnitTests: XCTestCase {
         }
 
         let participant = Participant(
-            id: "test_participant_id",
+            user: CommunicationUserIdentifier(identifier: "test_participant_id"),
             displayName: "test name",
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
@@ -83,7 +83,12 @@ class ChatClientUnitTests: XCTestCase {
                     }
                     XCTAssert(thread.id == self.threadId)
                     XCTAssert(thread.topic == request.topic)
-                    XCTAssert(thread.createdBy.identifier == participant.user.identifier)
+                    guard let createdBy = thread.createdBy as? CommunicationUserIdentifier else {
+                        XCTFail("Identifier is not of expected type.")
+                        expectation.fulfill()
+                        return
+                    }
+                    XCTAssert(createdBy.identifier == "test_participant_id")
 
                 case .failure:
                     XCTFail("Unexpected failure happened in create chat thread")
@@ -111,7 +116,7 @@ class ChatClientUnitTests: XCTestCase {
         }
 
         let participant = Participant(
-            id: "test id",
+            user: CommunicationUserIdentifier(identifier: "test id"),
             displayName: "test name",
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
@@ -163,7 +168,12 @@ class ChatClientUnitTests: XCTestCase {
             case let .success(chatThread):
                 XCTAssertEqual(chatThread.id, self.threadId)
                 XCTAssertEqual(chatThread.topic, self.topic)
-                XCTAssertEqual(chatThread.createdBy.identifier, self.participantId)
+                guard let createdBy = chatThread.createdBy as? CommunicationUserIdentifier else {
+                    XCTFail("Identifier is not of expected type.")
+                    expectation.fulfill()
+                    return
+                }
+                XCTAssertEqual(createdBy.identifier, self.participantId)
 
             case .failure:
                 XCTFail()
