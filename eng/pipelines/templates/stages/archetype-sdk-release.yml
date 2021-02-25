@@ -14,34 +14,35 @@ stages:
               # Build SDK libraries as frameworks, dynamically link to copies stored within the app bundle
               frameworks:
                 PodsLinkage: frameworks
-      
+
               # Build SDK libraries as static libs (.a), statically link them into the app binary
               # This is currently broken, probably because Calling is pre-built as a framework
               # static:
               #   PodsLinkage: static
-      
+
               # Build SDK libraries as frameworks, but then statically link them into the app binary
               # Calling is still dynamically linked, probably because Calling is pre-built as a framework
               staticframeworks:
                 PodsLinkage: staticframeworks
-      
+
           variables:
             - template: ../variables/globals.yml
-      
+
           pool:
             vmImage: '$(OSVmImage)'
-      
+
           steps:
             - script: sudo xcode-select --switch /Applications/Xcode_$(XcodeVersion).app
               displayName: 'Use Xcode $(XcodeVersion)'
-      
+
             - script: |
                 cd examples/AzureSDKSmokeTest
                 pod install
               env:
+                IS_CI: True
+                PODSPEC_DIR: $(Build.Repository.LocalPath)
                 PODS_LINKAGE: $(PodsLinkage)
               displayName: 'Install dependencies'
-      
             - script: |
                 set -o pipefail
                 cd examples/AzureSDKSmokeTest
