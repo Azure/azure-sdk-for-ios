@@ -66,7 +66,7 @@ internal class AutoRefreshTokenCredential: CommunicationTokenCredentialProviding
      if the token is not in the cache or is expired.
 
      - Parameter completionHandler: Closure that accepts an optional `AccessToken` or optional `Error` as parameters.
-     `AccessToken` returns  a token and an expiry date if applicable.
+     `AccessToken` returns a token and an expiry date if applicable.
      `Error` returns `nil` if the current token can be returned.
 
      */
