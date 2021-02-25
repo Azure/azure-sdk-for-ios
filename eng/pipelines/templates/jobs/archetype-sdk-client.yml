@@ -242,18 +242,4 @@ jobs:
       vmImage: '$(OSVmImage)'
 
     steps:
-      - script: sudo xcode-select --switch /Applications/Xcode_$(XcodeVersion).app
-        displayName: 'Use Xcode $(XcodeVersion)'
-
-      - script: pod install
-        displayName: 'Install dependencies'
-
-      - script: |
-          set -o pipefail
-          xcodebuild build \
-                    -workspace AzureSDK.xcworkspace \
-                    -scheme examples \
-                    -sdk iphonesimulator \
-                    -configuration Debug | xcpretty -c
-        displayName: 'Build examples [iphonesimulator]'
-
+      - script: "echo remove me later on!"

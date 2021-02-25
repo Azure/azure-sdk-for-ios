@@ -1,0 +1,62 @@
+parameters:
+  SkipSwiftPMRelease: false
+  SkipCocoaPodsRelease: false
+  SkipPublishDocs: false
+  SkipUpdateVersion: false
+
+jobs:
+  - job: 'CreateReleaseTag'
+
+    condition: ne(${{ parameters.SkipSwiftPMRelease }}, 'true')
+
+    variables:
+      - template: ../variables/globals.yml
+
+    pool:
+      vmImage: '$(OSVmImage)'
+
+    steps:
+      - script: |
+          echo "TODO: Tag Azure/azure-sdk-for-ios repo!"
+
+  - job: 'PublishPodspecsToTrunk'
+
+    condition: ne(${{ parameters.SkipCocoaPodsRelease }}, 'true')
+
+    variables:
+      - template: ../variables/globals.yml
+
+    pool:
+      vmImage: '$(OSVmImage)'
+
+    steps:
+      - script: |
+          echo "TODO: Publish podspecs to trunk!"
+
+  - job: 'PublishJazzyDocs'
+
+    condition: ne(${{ parameters.SkipPublishDocs }}, 'true')
+
+    variables:
+      - template: ../variables/globals.yml
+
+    pool:
+      vmImage: '$(OSVmImage)'
+
+    steps:
+      - script: |
+          echo "TODO: Publish Jazzy docs!"
+
+  - job: 'UpdatePackageVersion'
+
+    condition: ne(${{ parameters.SkipUpdateVersion }}, 'true')
+
+    variables:
+      - template: ../variables/globals.yml
+
+    pool:
+      vmImage: '$(OSVmImage)'
+
+    steps:
+      - script: |
+          echo "TODO: Update package version!"
