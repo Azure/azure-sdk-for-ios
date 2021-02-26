@@ -27,8 +27,7 @@
 import Foundation
 
 /**
- Common Communication Identifier protocol for all
- Azure Communication Services. All Communication Identifiers conform to this protocol.
+ Common Communication Identifier protocol for all Azure Communication Services. All Communication Identifiers conform to this protocol.
  */
 @objc public protocol CommunicationIdentifier: NSObjectProtocol {}
 /**
