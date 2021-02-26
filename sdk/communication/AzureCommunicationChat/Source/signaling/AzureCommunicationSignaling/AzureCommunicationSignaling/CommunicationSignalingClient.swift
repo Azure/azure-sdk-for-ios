@@ -16,6 +16,7 @@ public class CommunicationSignalingClient {
     private var communicationSkypeTokenProvider: CommunicationSkypeTokenProvider
     private var trouterUrlRegistrar: TrouterUrlRegistrar
     private var logger: ClientLogger
+    private var communicationListeners: Set<CommunicationListener> = []
 
     public init (skypeTokenProvider: CommunicationSkypeTokenProvider,
                  logger: ClientLogger = ClientLoggers.default(tag: "AzureCommunicationSignalingClient")) {
@@ -52,29 +53,39 @@ public class CommunicationSignalingClient {
     }
 
     public func on (event: String, listener: @escaping EventListener) {
+        let communicationListener = CommunicationListener(listener: listener)
         switch event {
         case ChatEventId.chatMessageReceived.rawValue:
-            selfHostedTrouterClient.register(CommunicationListener(listener: listener), forPath: "/chatMessageReceived")
+            selfHostedTrouterClient.register(communicationListener, forPath: "/chatMessageReceived")
         case ChatEventId.typingIndicatorReceived.rawValue:
-            selfHostedTrouterClient.register(CommunicationListener(listener: listener), forPath: "/typingIndicatorReceived")
+            selfHostedTrouterClient.register(communicationListener, forPath: "/typingIndicatorReceived")
         case ChatEventId.readReceiptReceived.rawValue:
-            selfHostedTrouterClient.register(CommunicationListener(listener: listener), forPath: "/readReceiptReceived")
+            selfHostedTrouterClient.register(communicationListener, forPath: "/readReceiptReceived")
         case ChatEventId.chatMessageEdited.rawValue:
-            selfHostedTrouterClient.register(CommunicationListener(listener: listener), forPath: "/chatMessageEdited")
+            selfHostedTrouterClient.register(communicationListener, forPath: "/chatMessageEdited")
         case ChatEventId.chatMessageDeleted.rawValue:
-            selfHostedTrouterClient.register(CommunicationListener(listener: listener), forPath: "/chatMessageDeleted")
+            selfHostedTrouterClient.register(communicationListener, forPath: "/chatMessageDeleted")
         case ChatEventId.chatThreadCreated.rawValue:
-            selfHostedTrouterClient.register(CommunicationListener(listener: listener), forPath: "/chatThreadCreated")
+            selfHostedTrouterClient.register(communicationListener, forPath: "/chatThreadCreated")
         case ChatEventId.chatThreadPropertiesUpdated.rawValue:
-            selfHostedTrouterClient.register(CommunicationListener(listener: listener), forPath: "/chatThreadPropertiesUpdated")
+            selfHostedTrouterClient.register(communicationListener, forPath: "/chatThreadPropertiesUpdated")
         case ChatEventId.chatThreadDeleted.rawValue:
-            selfHostedTrouterClient.register(CommunicationListener(listener: listener), forPath: "/chatThreadDeleted")
+            selfHostedTrouterClient.register(communicationListener, forPath: "/chatThreadDeleted")
         case ChatEventId.participantsAdded.rawValue:
-            selfHostedTrouterClient.register(CommunicationListener(listener: listener), forPath: "/participantsAdded")
+            selfHostedTrouterClient.register(communicationListener, forPath: "/participantsAdded")
         case ChatEventId.participantsRemoved.rawValue:
-            selfHostedTrouterClient.register(CommunicationListener(listener: listener), forPath: "/participantsRemoved")
+            selfHostedTrouterClient.register(communicationListener, forPath: "/participantsRemoved")
         default:
             return
+        }
+        communicationListeners.insert(communicationListener)
+    }
+
+    public func off (event: String, listener: @escaping EventListener) {
+        let communicationListener = CommunicationListener(listener: listener)
+        if communicationListeners.contains(communicationListener) {
+            selfHostedTrouterClient.unregisterListener(communicationListener)
+            communicationListeners.remove(communicationListener)
         }
     }
 }

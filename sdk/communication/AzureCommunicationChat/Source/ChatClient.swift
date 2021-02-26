@@ -226,6 +226,15 @@ public class ChatClient {
         self.signalingClient?.on(event: event, listener: listener)
     }
 
+    /// Unsubscribe to chat events
+    public func off (event: String, listener:  @escaping EventListener) {
+        guard let _ =  ChatEventId(rawValue: event) else {
+            options.logger.error("the event id provided is not supported")
+            return
+        }
+        self.signalingClient?.off(event: event, listener: listener)
+    }
+
     private func getSignalingClient (credential: CommunicationTokenCredential) -> CommunicationSignalingClient? {
         var token: String?
 
