@@ -149,7 +149,6 @@
 		7FD7709F18BED14D6B73C734 /* Pods_AzureCommunicationChatUnitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCommunicationChatUnitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		81ACD2D328DC5DE8F0F90C92 /* Pods-AzureCommunicationChatUnitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunicationChatUnitTests.debug.xcconfig"; path = "Target Support Files/Pods-AzureCommunicationChatUnitTests/Pods-AzureCommunicationChatUnitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8E5206D2E09378DA0F9FD0E4 /* Pods-AzureCommunicationChatTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunicationChatTests.release.xcconfig"; path = "Target Support Files/Pods-AzureCommunicationChatTests/Pods-AzureCommunicationChatTests.release.xcconfig"; sourceTree = "<group>"; };
-		960B6AABB8219D5E0141DB7F /* Pods_AzureCommunicationChatUnitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCommunicationChatUnitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FE998BEC9685C476F2AFD1C /* Pods-AzureCommunicationChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunicationChat.debug.xcconfig"; path = "Target Support Files/Pods-AzureCommunicationChat/Pods-AzureCommunicationChat.debug.xcconfig"; sourceTree = "<group>"; };
 		"AzureCommunicationChat::AzureCommunicationChat::Product" /* AzureCommunicationChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCommunicationChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D10C3BCD25A63F7800A181E3 /* listParticipants.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = listParticipants.json; sourceTree = "<group>"; };
@@ -232,22 +231,9 @@
 		D1CD93E3258D6EF700409613 /* sendTypingNotification.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sendTypingNotification.json; sourceTree = "<group>"; };
 		D1CD93E7258D6F0600409613 /* updateMessage.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = updateMessage.json; sourceTree = "<group>"; };
 		D1CD93EB258D6F1300409613 /* updateTopic.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = updateTopic.json; sourceTree = "<group>"; };
-		D55D024925D2410700D7A2F0 /* TrouterUrlRegistrar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TrouterUrlRegistrar.h; sourceTree = "<group>"; };
-		D55D024A25D2410700D7A2F0 /* Trouter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Trouter.h; sourceTree = "<group>"; };
-		D55D024B25D2410700D7A2F0 /* SelfHostedTrouterClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelfHostedTrouterClient.h; sourceTree = "<group>"; };
-		D55D024C25D2410700D7A2F0 /* TrouterSkypetokenProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TrouterSkypetokenProvider.h; sourceTree = "<group>"; };
-		D55D024D25D2410700D7A2F0 /* CommunicationSignalingClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationSignalingClient.swift; sourceTree = "<group>"; };
-		D55D024F25D2410700D7A2F0 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
-		D55D025025D2410700D7A2F0 /* AzureCommunicationSignaling.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AzureCommunicationSignaling.h; sourceTree = "<group>"; };
-		D55D025125D2410700D7A2F0 /* AzureCommunicationSignaling.private.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = AzureCommunicationSignaling.private.modulemap; sourceTree = "<group>"; };
-		D55D025225D2410700D7A2F0 /* TrouterUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrouterUtils.swift; sourceTree = "<group>"; };
-		D55D025325D2410700D7A2F0 /* TrouterNotificationPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrouterNotificationPayload.swift; sourceTree = "<group>"; };
-		D55D025425D2410700D7A2F0 /* TrouterSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrouterSettings.swift; sourceTree = "<group>"; };
-		D55D025625D2410800D7A2F0 /* chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chat.swift; sourceTree = "<group>"; };
-		D55D025725D2410800D7A2F0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D55D025825D2410800D7A2F0 /* AzureCommunicationSignaling.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = AzureCommunicationSignaling.xcodeproj; sourceTree = "<group>"; };
 		D1D829BC25D1FFD700AC3CF3 /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		D1D829BD25D1FFD700AC3CF3 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		D55D025825D2410800D7A2F0 /* AzureCommunicationSignaling.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = AzureCommunicationSignaling.xcodeproj; sourceTree = "<group>"; };
 		F1FE3013E797A134E8A6C3B5 /* Pods_AzureCommunicationChatTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCommunicationChatTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCF18D210ADF02D5CBA71786 /* Pods-AzureCommunicationChatUnitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunicationChatUnitTests.release.xcconfig"; path = "Target Support Files/Pods-AzureCommunicationChatUnitTests/Pods-AzureCommunicationChatUnitTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -487,54 +473,9 @@
 		D55D024625D2410700D7A2F0 /* AzureCommunicationSignaling */ = {
 			isa = PBXGroup;
 			children = (
-				D55D024725D2410700D7A2F0 /* AzureCommunicationSignaling */,
 				D55D025825D2410800D7A2F0 /* AzureCommunicationSignaling.xcodeproj */,
 			);
 			path = AzureCommunicationSignaling;
-			sourceTree = "<group>";
-		};
-		D55D024725D2410700D7A2F0 /* AzureCommunicationSignaling */ = {
-			isa = PBXGroup;
-			children = (
-				D55D024825D2410700D7A2F0 /* TrouterHeaderFiles */,
-				D55D024D25D2410700D7A2F0 /* CommunicationSignalingClient.swift */,
-				D55D024E25D2410700D7A2F0 /* TrouterModulesPrivate */,
-				D55D025025D2410700D7A2F0 /* AzureCommunicationSignaling.h */,
-				D55D025125D2410700D7A2F0 /* AzureCommunicationSignaling.private.modulemap */,
-				D55D025225D2410700D7A2F0 /* TrouterUtils.swift */,
-				D55D025325D2410700D7A2F0 /* TrouterNotificationPayload.swift */,
-				D55D025425D2410700D7A2F0 /* TrouterSettings.swift */,
-				D55D025525D2410800D7A2F0 /* events */,
-				D55D025725D2410800D7A2F0 /* Info.plist */,
-			);
-			path = AzureCommunicationSignaling;
-			sourceTree = "<group>";
-		};
-		D55D024825D2410700D7A2F0 /* TrouterHeaderFiles */ = {
-			isa = PBXGroup;
-			children = (
-				D55D024925D2410700D7A2F0 /* TrouterUrlRegistrar.h */,
-				D55D024A25D2410700D7A2F0 /* Trouter.h */,
-				D55D024B25D2410700D7A2F0 /* SelfHostedTrouterClient.h */,
-				D55D024C25D2410700D7A2F0 /* TrouterSkypetokenProvider.h */,
-			);
-			path = TrouterHeaderFiles;
-			sourceTree = "<group>";
-		};
-		D55D024E25D2410700D7A2F0 /* TrouterModulesPrivate */ = {
-			isa = PBXGroup;
-			children = (
-				D55D024F25D2410700D7A2F0 /* module.modulemap */,
-			);
-			path = TrouterModulesPrivate;
-			sourceTree = "<group>";
-		};
-		D55D025525D2410800D7A2F0 /* events */ = {
-			isa = PBXGroup;
-			children = (
-				D55D025625D2410800D7A2F0 /* chat.swift */,
-			);
-			path = events;
 			sourceTree = "<group>";
 		};
 		D55D025925D2410800D7A2F0 /* Products */ = {
