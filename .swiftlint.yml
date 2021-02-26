@@ -1,2 +1,5 @@
 disabled_rules: # rule identifiers to exclude from running
   - large_tuple
+  
+line_length:
+  ignores_comments: true

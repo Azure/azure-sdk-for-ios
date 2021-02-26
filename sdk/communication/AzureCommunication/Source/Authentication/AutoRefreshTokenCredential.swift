@@ -36,8 +36,7 @@ internal class AutoRefreshTokenCredential: CommunicationTokenCredentialProviding
     private let accessTokenCache: ThreadSafeRefreshableAccessTokenCache
 
     /**
-     Creates a `CommunicationTokenCredential` that automatically refreshes
-     the token using the provided `tokenRefresher`.
+     Creates a `CommunicationTokenCredential` that automatically refreshes the token using the provided `tokenRefresher`.
      - SeeAlso: `CommunicationTokenCredential.init(...)`
      */
     public init(
@@ -62,8 +61,7 @@ internal class AutoRefreshTokenCredential: CommunicationTokenCredentialProviding
     }
 
     /**
-     Retrieve an access token from the cache, or from the `tokenRefresher`
-     if the token is not in the cache or is expired.
+     Retrieve an access token from the cache, or from the `tokenRefresher` if the token is not in the cache or is expired.
 
      - Parameter completionHandler: Closure that accepts an optional `AccessToken` or optional `Error` as parameters.
      `AccessToken` returns a token and an expiry date if applicable.
