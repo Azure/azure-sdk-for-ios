@@ -1,13 +1,5 @@
-parameters:
-  SkipSwiftPMRelease: false
-  SkipCocoaPodsRelease: false
-  SkipPublishDocs: false
-  SkipUpdateVersion: false
-
 jobs:
   - job: 'CreateReleaseTag'
-
-    condition: ne(${{ parameters.SkipSwiftPMRelease }}, 'true')
 
     variables:
       - template: ../variables/globals.yml
@@ -21,8 +13,6 @@ jobs:
 
   - job: 'PublishPodspecsToTrunk'
 
-    condition: ne(${{ parameters.SkipCocoaPodsRelease }}, 'true')
-
     variables:
       - template: ../variables/globals.yml
 
@@ -35,8 +25,6 @@ jobs:
 
   - job: 'PublishJazzyDocs'
 
-    condition: ne(${{ parameters.SkipPublishDocs }}, 'true')
-
     variables:
       - template: ../variables/globals.yml
 
@@ -48,8 +36,6 @@ jobs:
           echo "TODO: Publish Jazzy docs!"
 
   - job: 'UpdatePackageVersion'
-
-    condition: ne(${{ parameters.SkipUpdateVersion }}, 'true')
 
     variables:
       - template: ../variables/globals.yml
