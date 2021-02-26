@@ -99,8 +99,7 @@ import Foundation
     /**
      Creates a MicrosoftTeamsUserIdentifier object
      - Parameter userId: Id of the Microsoft Teams user. If the user isn't anonymous, the id is the AAD object id of the user.
-     - Parameter isAnonymous: Set this to true if the user is anonymous,
-     for example when joining a meeting with a share link.
+     - Parameter isAnonymous: Set this to true if the user is anonymous, for example when joining a meeting with a share link.
      - Parameter rawId: Full id of the Microsoft Teams user.
      - Parameter cloudEnvironment: The cloud that the Microsoft Team user belongs to. A null value translates to the Public cloud.
      */
