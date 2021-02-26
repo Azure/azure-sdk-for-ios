@@ -68,7 +68,7 @@ import Foundation
     /**
      Creates a PhoneNumberIdentifier object
      - Parameter phoneNumber: phone number to create the object, different from identifier
-     - Parameter id: Full id of the phone number
+     - Parameter rawId: Full id of the phone number
      */
     public init(phoneNumber: String, rawId: String? = nil) {
         self.phoneNumber = phoneNumber

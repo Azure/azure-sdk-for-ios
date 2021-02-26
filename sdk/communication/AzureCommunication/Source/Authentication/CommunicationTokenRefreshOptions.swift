@@ -37,8 +37,7 @@ public typealias TokenRefresherClosure = (@escaping TokenRefreshOnCompletion) ->
     var tokenRefresher: TokenRefresherClosure
     /**
      Initializes a new instance of `CommunicationTokenRefreshOptions`
-     The cached token is updated if `token(completionHandler: )` is called and if the difference between the current time
-     and token expiry time is less than 120s.
+     The cached token is updated if `token(completionHandler: )` is called and if the difference between the current time and token expiry time is less than 120s.
      If `refreshProactively` parameter  is `true`:
      - The cached token will be updated in the background when the difference between the current time and token expiry time is less than 600s.
      - The cached token will be updated immediately when the constructor is invoked and `initialToken` is expired
