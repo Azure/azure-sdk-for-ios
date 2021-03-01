@@ -96,7 +96,7 @@ public struct Message: Codable {
     ///   - content: Content of a message.
     ///   - senderDisplayName: The display name of the message sender. This property is used to populate sender name for push notifications.
     ///   - createdOn: The timestamp when the message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
-    ///   - sender: The  sender of the message.
+    ///   - sender: The sender of the message.
     ///   - deletedOn: The timestamp (if applicable) when the message was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     ///   - editedOn: The last timestamp (if applicable) when the message was edited. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public init(
@@ -184,8 +184,8 @@ public struct Message: Codable {
         try container.encode(createdOn, forKey: .createdOn)
 
         // Encode CommunicationIdentifier to CommunicationIdentifierModel
-        if sender != nil {
-            let identifierModel = try IdentifierSerializer.serialize(identifier: sender!)
+        if let identifier = sender {
+            let identifierModel = try IdentifierSerializer.serialize(identifier: identifier)
             try? container.encode(identifierModel, forKey: .sender)
         }
 
