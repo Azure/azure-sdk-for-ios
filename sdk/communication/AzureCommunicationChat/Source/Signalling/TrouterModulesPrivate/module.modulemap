@@ -1,0 +1,15 @@
+//
+//  module.modulemap
+//  AzureCommunicationSignaling
+//
+//  Copyright (c) Microsoft Corporation. All rights reserved.
+//  Licensed under the MIT License.
+//
+
+module TrouterModulePrivate {
+    header "../TrouterHeaderFiles/SelfHostedTrouterClient.h"
+    header "../TrouterHeaderFiles/Trouter.h"
+    header "../TrouterHeaderFiles/TrouterSkypetokenProvider.h"
+    header "../TrouterHeaderFiles/TrouterUrlRegistrar.h"
+    export *
+}
