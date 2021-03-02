@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		4077D21553368B726C02EA20 /* Pods_AzureCommunicationChatUnitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FD7709F18BED14D6B73C734 /* Pods_AzureCommunicationChatUnitTests.framework */; };
 		9766BE9261FCB48436FA6682 /* Pods_AzureCommunicationChatTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1FE3013E797A134E8A6C3B5 /* Pods_AzureCommunicationChatTests.framework */; };
+		D10458A725EEA47800B3EB6D /* CommunicationSignallingClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10458A125EEA47800B3EB6D /* CommunicationSignallingClient.swift */; };
+		D10458A825EEA47800B3EB6D /* TrouterUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10458A225EEA47800B3EB6D /* TrouterUtils.swift */; };
+		D10458A925EEA47800B3EB6D /* TrouterNotificationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10458A325EEA47800B3EB6D /* TrouterNotificationPayload.swift */; };
+		D10458AA25EEA47800B3EB6D /* TrouterSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10458A425EEA47800B3EB6D /* TrouterSettings.swift */; };
+		D10458AB25EEA47800B3EB6D /* chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10458A625EEA47800B3EB6D /* chat.swift */; };
 		D10C3BCE25A63F7800A181E3 /* listParticipants.json in Resources */ = {isa = PBXBuildFile; fileRef = D10C3BCD25A63F7800A181E3 /* listParticipants.json */; };
 		D10C3BD425A660AF00A181E3 /* listMessages.json in Resources */ = {isa = PBXBuildFile; fileRef = D10C3BD325A660AF00A181E3 /* listMessages.json */; };
 		D10C3BDA25A66D4D00A181E3 /* listThreads.json in Resources */ = {isa = PBXBuildFile; fileRef = D10C3BD925A66D4D00A181E3 /* listThreads.json */; };
@@ -143,6 +148,16 @@
 		8E5206D2E09378DA0F9FD0E4 /* Pods-AzureCommunicationChatTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunicationChatTests.release.xcconfig"; path = "Target Support Files/Pods-AzureCommunicationChatTests/Pods-AzureCommunicationChatTests.release.xcconfig"; sourceTree = "<group>"; };
 		9FE998BEC9685C476F2AFD1C /* Pods-AzureCommunicationChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunicationChat.debug.xcconfig"; path = "Target Support Files/Pods-AzureCommunicationChat/Pods-AzureCommunicationChat.debug.xcconfig"; sourceTree = "<group>"; };
 		"AzureCommunicationChat::AzureCommunicationChat::Product" /* AzureCommunicationChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCommunicationChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D104589B25EEA47800B3EB6D /* TrouterUrlRegistrar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrouterUrlRegistrar.h; sourceTree = "<group>"; };
+		D104589C25EEA47800B3EB6D /* Trouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Trouter.h; sourceTree = "<group>"; };
+		D104589D25EEA47800B3EB6D /* SelfHostedTrouterClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelfHostedTrouterClient.h; sourceTree = "<group>"; };
+		D104589E25EEA47800B3EB6D /* TrouterSkypetokenProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrouterSkypetokenProvider.h; sourceTree = "<group>"; };
+		D10458A025EEA47800B3EB6D /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		D10458A125EEA47800B3EB6D /* CommunicationSignallingClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunicationSignallingClient.swift; sourceTree = "<group>"; };
+		D10458A225EEA47800B3EB6D /* TrouterUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrouterUtils.swift; sourceTree = "<group>"; };
+		D10458A325EEA47800B3EB6D /* TrouterNotificationPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrouterNotificationPayload.swift; sourceTree = "<group>"; };
+		D10458A425EEA47800B3EB6D /* TrouterSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrouterSettings.swift; sourceTree = "<group>"; };
+		D10458A625EEA47800B3EB6D /* chat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = chat.swift; sourceTree = "<group>"; };
 		D10C3BCD25A63F7800A181E3 /* listParticipants.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = listParticipants.json; sourceTree = "<group>"; };
 		D10C3BD325A660AF00A181E3 /* listMessages.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = listMessages.json; sourceTree = "<group>"; };
 		D10C3BD925A66D4D00A181E3 /* listThreads.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = listThreads.json; sourceTree = "<group>"; };
@@ -315,6 +330,47 @@
 			path = ../../../Pods;
 			sourceTree = "<group>";
 		};
+		D104589925EEA47800B3EB6D /* Signalling */ = {
+			isa = PBXGroup;
+			children = (
+				D104589A25EEA47800B3EB6D /* TrouterHeaderFiles */,
+				D104589F25EEA47800B3EB6D /* TrouterModulesPrivate */,
+				D10458A125EEA47800B3EB6D /* CommunicationSignallingClient.swift */,
+				D10458A225EEA47800B3EB6D /* TrouterUtils.swift */,
+				D10458A325EEA47800B3EB6D /* TrouterNotificationPayload.swift */,
+				D10458A425EEA47800B3EB6D /* TrouterSettings.swift */,
+				D10458A525EEA47800B3EB6D /* events */,
+			);
+			path = Signalling;
+			sourceTree = "<group>";
+		};
+		D104589A25EEA47800B3EB6D /* TrouterHeaderFiles */ = {
+			isa = PBXGroup;
+			children = (
+				D104589B25EEA47800B3EB6D /* TrouterUrlRegistrar.h */,
+				D104589C25EEA47800B3EB6D /* Trouter.h */,
+				D104589D25EEA47800B3EB6D /* SelfHostedTrouterClient.h */,
+				D104589E25EEA47800B3EB6D /* TrouterSkypetokenProvider.h */,
+			);
+			path = TrouterHeaderFiles;
+			sourceTree = "<group>";
+		};
+		D104589F25EEA47800B3EB6D /* TrouterModulesPrivate */ = {
+			isa = PBXGroup;
+			children = (
+				D10458A025EEA47800B3EB6D /* module.modulemap */,
+			);
+			path = TrouterModulesPrivate;
+			sourceTree = "<group>";
+		};
+		D10458A525EEA47800B3EB6D /* events */ = {
+			isa = PBXGroup;
+			children = (
+				D10458A625EEA47800B3EB6D /* chat.swift */,
+			);
+			path = events;
+			sourceTree = "<group>";
+		};
 		D15E98C925B7C80C00E63DB2 /* Generated */ = {
 			isa = PBXGroup;
 			children = (
@@ -480,6 +536,7 @@
 				D1565C70256DB74900AF45F8 /* ChatClient.swift */,
 				D1565C73256DB76C00AF45F8 /* ChatThreadClient.swift */,
 				D16C802B25BA0A0F00C42803 /* Models */,
+				D104589925EEA47800B3EB6D /* Signalling */,
 				D15E98C925B7C80C00E63DB2 /* Generated */,
 				0A10411225D306B3008E472E /* Supporting Files */,
 			);
@@ -788,6 +845,8 @@
 			files = (
 				D1565C71256DB74900AF45F8 /* ChatClient.swift in Sources */,
 				D1565C74256DB76C00AF45F8 /* ChatThreadClient.swift in Sources */,
+				D10458A725EEA47800B3EB6D /* CommunicationSignallingClient.swift in Sources */,
+				D10458A825EEA47800B3EB6D /* TrouterUtils.swift in Sources */,
 				D15E990525B7C80C00E63DB2 /* Chat+CreateChatThreadOptions.swift in Sources */,
 				D15E991925B7C80C00E63DB2 /* Enumerations.swift in Sources */,
 				D15E990F25B7C80C00E63DB2 /* CommunicationError.swift in Sources */,
@@ -805,6 +864,7 @@
 				D15E991225B7C80C00E63DB2 /* UpdateChatThreadRequest.swift in Sources */,
 				D15E991525B7C80C00E63DB2 /* CreateChatThreadErrors.swift in Sources */,
 				D15E990225B7C80C00E63DB2 /* ChatThreadOperation+SendChatReadReceiptOptions.swift in Sources */,
+				D10458AB25EEA47800B3EB6D /* chat.swift in Sources */,
 				D15E991A25B7C80C00E63DB2 /* AddChatParticipantsResult.swift in Sources */,
 				D15E991E25B7C80C00E63DB2 /* UpdateChatMessageRequest.swift in Sources */,
 				D15E991625B7C80C00E63DB2 /* ChatMessageReadReceipt.swift in Sources */,
@@ -822,6 +882,7 @@
 				D15E991C25B7C80C00E63DB2 /* ChatThreadsInfoCollection.swift in Sources */,
 				D15E98FA25B7C80C00E63DB2 /* AzureCommunicationChatClient.swift in Sources */,
 				D15E98FC25B7C80C00E63DB2 /* ChatThreadOperation+ListChatReadReceiptsOptions.swift in Sources */,
+				D10458AA25EEA47800B3EB6D /* TrouterSettings.swift in Sources */,
 				D15E992125B7C80C00E63DB2 /* ChatThreadInfo.swift in Sources */,
 				D15E991425B7C80C00E63DB2 /* ChatMessagesCollection.swift in Sources */,
 				D15E990D25B7C80C00E63DB2 /* Chat.swift in Sources */,
@@ -829,6 +890,7 @@
 				D15E990125B7C80C00E63DB2 /* ChatThreadOperation+SendChatMessageOptions.swift in Sources */,
 				D15E98FD25B7C80C00E63DB2 /* ChatThreadOperation+UpdateChatMessageOptions.swift in Sources */,
 				D15E991F25B7C80C00E63DB2 /* CreateChatThreadResult.swift in Sources */,
+				D10458A925EEA47800B3EB6D /* TrouterNotificationPayload.swift in Sources */,
 				D15E990B25B7C80C00E63DB2 /* ChatThreadOperation+ListChatParticipantsOptions.swift in Sources */,
 				D15E992525B7C80C00E63DB2 /* ChatParticipantsCollection.swift in Sources */,
 				D15E992025B7C80C00E63DB2 /* SendReadReceiptRequest.swift in Sources */,
