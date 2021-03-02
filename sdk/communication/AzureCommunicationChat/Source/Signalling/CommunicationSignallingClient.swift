@@ -11,7 +11,7 @@ import Foundation
 import TrouterModulePrivate
 import UIKit
 
-public class CommunicationSignalingClient {
+public class CommunicationSignallingClient {
     private var selfHostedTrouterClient: SelfHostedTrouterClient
     private var communicationSkypeTokenProvider: CommunicationSkypeTokenProvider
     private var trouterUrlRegistrar: TrouterUrlRegistrar
