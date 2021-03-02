@@ -48,7 +48,7 @@ public final class ChatThreadOperation {
         // Construct request
         let urlTemplate = "/chat/threads/{chatThreadId}/readReceipts"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-            let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers)
+              let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers)
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
@@ -198,7 +198,7 @@ public final class ChatThreadOperation {
         }
         let urlTemplate = "/chat/threads/{chatThreadId}/readReceipts"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-            let request = try? HTTPRequest(method: .post, url: requestUrl, headers: params.headers, data: requestBody)
+              let request = try? HTTPRequest(method: .post, url: requestUrl, headers: params.headers, data: requestBody)
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
@@ -331,7 +331,7 @@ public final class ChatThreadOperation {
         }
         let urlTemplate = "/chat/threads/{chatThreadId}/messages"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-            let request = try? HTTPRequest(method: .post, url: requestUrl, headers: params.headers, data: requestBody)
+              let request = try? HTTPRequest(method: .post, url: requestUrl, headers: params.headers, data: requestBody)
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
@@ -463,7 +463,7 @@ public final class ChatThreadOperation {
         // Construct request
         let urlTemplate = "/chat/threads/{chatThreadId}/messages"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-            let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers)
+              let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers)
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
@@ -608,7 +608,7 @@ public final class ChatThreadOperation {
         // Construct request
         let urlTemplate = "/chat/threads/{chatThreadId}/messages/{chatMessageId}"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-            let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers)
+              let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers)
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
@@ -748,12 +748,12 @@ public final class ChatThreadOperation {
         }
         let urlTemplate = "/chat/threads/{chatThreadId}/messages/{chatMessageId}"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-            let request = try? HTTPRequest(
-                method: .patch,
-                url: requestUrl,
-                headers: params.headers,
-                data: requestBody
-            )
+              let request = try? HTTPRequest(
+                  method: .patch,
+                  url: requestUrl,
+                  headers: params.headers,
+                  data: requestBody
+              )
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
@@ -881,7 +881,7 @@ public final class ChatThreadOperation {
         // Construct request
         let urlTemplate = "/chat/threads/{chatThreadId}/messages/{chatMessageId}"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-            let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: params.headers)
+              let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: params.headers)
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
@@ -1007,7 +1007,7 @@ public final class ChatThreadOperation {
         // Construct request
         let urlTemplate = "/chat/threads/{chatThreadId}/typing"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-            let request = try? HTTPRequest(method: .post, url: requestUrl, headers: params.headers)
+              let request = try? HTTPRequest(method: .post, url: requestUrl, headers: params.headers)
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
@@ -1134,7 +1134,7 @@ public final class ChatThreadOperation {
         // Construct request
         let urlTemplate = "/chat/threads/{chatThreadId}/participants"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-            let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers)
+              let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers)
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
@@ -1279,7 +1279,7 @@ public final class ChatThreadOperation {
         // Construct request
         let urlTemplate = "/chat/threads/{chatThreadId}/participants/{chatParticipantId}"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-            let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: params.headers)
+              let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: params.headers)
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
@@ -1412,7 +1412,7 @@ public final class ChatThreadOperation {
         }
         let urlTemplate = "/chat/threads/{chatThreadId}/participants/:add"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-            let request = try? HTTPRequest(method: .post, url: requestUrl, headers: params.headers, data: requestBody)
+              let request = try? HTTPRequest(method: .post, url: requestUrl, headers: params.headers, data: requestBody)
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
@@ -1550,12 +1550,12 @@ public final class ChatThreadOperation {
         }
         let urlTemplate = "/chat/threads/{chatThreadId}"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-            let request = try? HTTPRequest(
-                method: .patch,
-                url: requestUrl,
-                headers: params.headers,
-                data: requestBody
-            )
+              let request = try? HTTPRequest(
+                  method: .patch,
+                  url: requestUrl,
+                  headers: params.headers,
+                  data: requestBody
+              )
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
