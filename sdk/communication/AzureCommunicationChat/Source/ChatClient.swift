@@ -35,6 +35,8 @@ public class ChatClient {
     private let credential: CommunicationTokenCredential
     private let options: AzureCommunicationChatClientOptions
     private let service: Chat
+    private let signallingClient: CommunicationSignallingClient?
+    private let isRealtimeNotificationsStarted: Bool = false
 
     // MARK: Initializers
 
@@ -66,6 +68,29 @@ public class ChatClient {
         )
 
         self.service = client.chat
+
+        self.signallingClient = getSignallingClient(credential: credential)
+    }
+
+    // MARK: Private Methods
+
+    private func getSignallingClient(credential: CommunicationTokenCredential) -> CommunicationSignallingClient? {
+        var token: String?
+
+        credential.token(completionHandler: { communicationAccessToken, _
+            in
+            if let unwrapped = communicationAccessToken {
+                token = unwrapped.token
+            }
+        })
+
+        if let unwrapped = token {
+            return CommunicationSignallingClient(
+                skypeTokenProvider: CommunicationSkypeTokenProvider(skypeToken: unwrapped)
+            )
+        } else {
+            return nil
+        }
     }
 
     // MARK: Private Methods
