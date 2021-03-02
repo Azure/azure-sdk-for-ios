@@ -32,7 +32,7 @@ import Foundation
 public struct Participant: Codable {
     // MARK: Properties
 
-    /// The CommunicationIdentifier for the participant.
+    /// The  identifier of the participant.
     public let user: CommunicationIdentifier
     /// Display name for the participant.
     public let displayName: String?
