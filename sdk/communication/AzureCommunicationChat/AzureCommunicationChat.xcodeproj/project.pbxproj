@@ -21,6 +21,11 @@
 		D10458A925EEA47800B3EB6D /* TrouterNotificationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10458A325EEA47800B3EB6D /* TrouterNotificationPayload.swift */; };
 		D10458AA25EEA47800B3EB6D /* TrouterSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10458A425EEA47800B3EB6D /* TrouterSettings.swift */; };
 		D10458AB25EEA47800B3EB6D /* chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10458A625EEA47800B3EB6D /* chat.swift */; };
+		D10458D025EEA54700B3EB6D /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D10458CF25EEA54700B3EB6D /* CoreTelephony.framework */; };
+		D10458D225EEA55400B3EB6D /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D10458D125EEA55400B3EB6D /* libc++.tbd */; };
+		D10458D725EEA57400B3EB6D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D10458D625EEA57400B3EB6D /* libz.tbd */; };
+		D10458DC25EEA57E00B3EB6D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D10458DB25EEA57E00B3EB6D /* SystemConfiguration.framework */; };
+		D10458DE25EEA5CB00B3EB6D /* libtrouter-client-ios-x64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D10458DD25EEA5CB00B3EB6D /* libtrouter-client-ios-x64.a */; };
 		D10C3BCE25A63F7800A181E3 /* listParticipants.json in Resources */ = {isa = PBXBuildFile; fileRef = D10C3BCD25A63F7800A181E3 /* listParticipants.json */; };
 		D10C3BD425A660AF00A181E3 /* listMessages.json in Resources */ = {isa = PBXBuildFile; fileRef = D10C3BD325A660AF00A181E3 /* listMessages.json */; };
 		D10C3BDA25A66D4D00A181E3 /* listThreads.json in Resources */ = {isa = PBXBuildFile; fileRef = D10C3BD925A66D4D00A181E3 /* listThreads.json */; };
@@ -170,6 +175,11 @@
 		D10458A325EEA47800B3EB6D /* TrouterNotificationPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrouterNotificationPayload.swift; sourceTree = "<group>"; };
 		D10458A425EEA47800B3EB6D /* TrouterSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrouterSettings.swift; sourceTree = "<group>"; };
 		D10458A625EEA47800B3EB6D /* chat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = chat.swift; sourceTree = "<group>"; };
+		D10458CF25EEA54700B3EB6D /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/Library/Frameworks/CoreTelephony.framework; sourceTree = DEVELOPER_DIR; };
+		D10458D125EEA55400B3EB6D /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/usr/lib/libc++.tbd"; sourceTree = DEVELOPER_DIR; };
+		D10458D625EEA57400B3EB6D /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
+		D10458DB25EEA57E00B3EB6D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
+		D10458DD25EEA5CB00B3EB6D /* libtrouter-client-ios-x64.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libtrouter-client-ios-x64.a"; path = "../../../../Trouter/TrouterClientiOS/Lib/libtrouter-client-ios-x64.a"; sourceTree = "<group>"; };
 		D10C3BCD25A63F7800A181E3 /* listParticipants.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = listParticipants.json; sourceTree = "<group>"; };
 		D10C3BD325A660AF00A181E3 /* listMessages.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = listMessages.json; sourceTree = "<group>"; };
 		D10C3BD925A66D4D00A181E3 /* listThreads.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = listThreads.json; sourceTree = "<group>"; };
@@ -276,6 +286,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
+				D10458DE25EEA5CB00B3EB6D /* libtrouter-client-ios-x64.a in Frameworks */,
+				D10458DC25EEA57E00B3EB6D /* SystemConfiguration.framework in Frameworks */,
+				D10458D725EEA57400B3EB6D /* libz.tbd in Frameworks */,
+				D10458D225EEA55400B3EB6D /* libc++.tbd in Frameworks */,
+				D10458D025EEA54700B3EB6D /* CoreTelephony.framework in Frameworks */,
 				D110F50A258D604B001FA3CD /* AzureCore.framework in Frameworks */,
 				D110F507258D603F001FA3CD /* AzureCommunication.framework in Frameworks */,
 				D110F50C258D6053001FA3CD /* Pods_AzureCommunicationChat.framework in Frameworks */,
@@ -296,6 +311,11 @@
 		0A74765A2522918800819FC9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D10458DD25EEA5CB00B3EB6D /* libtrouter-client-ios-x64.a */,
+				D10458DB25EEA57E00B3EB6D /* SystemConfiguration.framework */,
+				D10458D625EEA57400B3EB6D /* libz.tbd */,
+				D10458D125EEA55400B3EB6D /* libc++.tbd */,
+				D10458CF25EEA54700B3EB6D /* CoreTelephony.framework */,
 				D110F50B258D6053001FA3CD /* Pods_AzureCommunicationChat.framework */,
 				D110F509258D604B001FA3CD /* AzureCore.framework */,
 				D110F506258D603F001FA3CD /* AzureCommunication.framework */,
