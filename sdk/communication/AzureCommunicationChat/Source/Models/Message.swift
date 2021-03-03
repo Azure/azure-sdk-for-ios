@@ -149,12 +149,7 @@ public struct Message: Codable {
 
         // Convert ChatMessageContent to MessageContent
         let chatMessageContent = try? container.decode(ChatMessageContent.self, forKey: .content)
-
-        if let content = chatMessageContent {
-            self.content = try? MessageContent(from: content)
-        } else {
-            self.content = nil
-        }
+        self.content = try? MessageContent(from: chatMessageContent)
 
         self.senderDisplayName = try? container.decode(String.self, forKey: .senderDisplayName)
         self.createdOn = try container.decode(Iso8601Date.self, forKey: .createdOn)

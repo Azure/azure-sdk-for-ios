@@ -46,24 +46,28 @@ public struct MessageContent: Codable {
     /// Initializes a `MessageContent` structure from a ChatMessageContent.
     /// - Parameters:
     ///   - chatMessageContent: ChatMessageContent to initialize from.
-    public init(
-        from chatMessageContent: ChatMessageContent
+    public init?(
+        from chatMessageContent: ChatMessageContent?
     ) throws {
-        self.message = chatMessageContent.message
-        self.topic = chatMessageContent.topic
+        if let content = chatMessageContent {
+            self.message = content.message
+            self.topic = content.topic
 
-        // Convert ChatParticipants to Participants
-        if let participants = chatMessageContent.participants {
-            self.participants = try participants.map { try Participant(from: $0) }
-        } else {
-            self.participants = nil
-        }
+            // Convert ChatParticipants to Participants
+            if let participants = content.participants {
+                self.participants = try participants.map { try Participant(from: $0) }
+            } else {
+                self.participants = nil
+            }
 
-        // Deserialize the identifier model to CommunicationIdentifier
-        if let identifierModel = chatMessageContent.initiatorCommunicationIdentifier {
-            self.initiator = try IdentifierSerializer.deserialize(identifier: identifierModel)
+            // Deserialize the identifier model to CommunicationIdentifier
+            if let identifierModel = content.initiatorCommunicationIdentifier {
+                self.initiator = try IdentifierSerializer.deserialize(identifier: identifierModel)
+            } else {
+                self.initiator = nil
+            }
         } else {
-            self.initiator = nil
+            return nil
         }
     }
 
