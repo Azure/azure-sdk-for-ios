@@ -196,7 +196,7 @@ let thread = CreateThreadRequest(
     participants: [
         // userId is a valid ACS user ID string
         Participant(
-            user: CommunicationUserIdentifier(identifier: <userId>),
+            user: CommunicationUserIdentifier(<userId>),
             displayName: "initial participant"
         )
     ]

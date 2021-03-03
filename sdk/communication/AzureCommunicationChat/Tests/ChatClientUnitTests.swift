@@ -58,7 +58,7 @@ class ChatClientUnitTests: XCTestCase {
         }
 
         let participant = Participant(
-            user: CommunicationUserIdentifier(identifier: "test_participant_id"),
+            user: CommunicationUserIdentifier("test_participant_id"),
             displayName: "test name",
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
@@ -116,7 +116,7 @@ class ChatClientUnitTests: XCTestCase {
         }
 
         let participant = Participant(
-            user: CommunicationUserIdentifier(identifier: "test id"),
+            user: CommunicationUserIdentifier("test id"),
             displayName: "test name",
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )

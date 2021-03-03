@@ -59,7 +59,7 @@ class ChatClientTests: XCTestCase {
         completionHandler: @escaping (String) -> Void
     ) {
         let participant = Participant(
-            user: CommunicationUserIdentifier(identifier: id),
+            user: CommunicationUserIdentifier(id),
             displayName: "User",
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
@@ -92,7 +92,7 @@ class ChatClientTests: XCTestCase {
 
     func test_CreateThread_ResultContainsChatThread() {
         let participant = Participant(
-            user: CommunicationUserIdentifier(identifier: user),
+            user: CommunicationUserIdentifier(user),
             displayName: "User",
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
@@ -139,7 +139,7 @@ class ChatClientTests: XCTestCase {
 
     func test_CreateThread_WithOptions_SetsRepeatabilityRequestID() {
         let participant = Participant(
-            user: CommunicationUserIdentifier(identifier: user),
+            user: CommunicationUserIdentifier(user),
             displayName: "User",
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )

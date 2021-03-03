@@ -87,7 +87,7 @@ class IdentifierSerializerTests: XCTestCase {
             microsoftTeamsUser: nil
         )
         let identifier = try IdentifierSerializer.deserialize(identifier: identifierModel)
-        let expectedIdentifier = CommunicationUserIdentifier(identifier: testUserId)
+        let expectedIdentifier = CommunicationUserIdentifier(testUserId)
 
         XCTAssertTrue(identifier is CommunicationUserIdentifier)
         XCTAssertEqual(
@@ -98,7 +98,7 @@ class IdentifierSerializerTests: XCTestCase {
 
     func test_SerializeCommunicationUser() throws {
         let model = try IdentifierSerializer
-            .serialize(identifier: CommunicationUserIdentifier(identifier: "some id"))
+            .serialize(identifier: CommunicationUserIdentifier("some id"))
 
         XCTAssertNotNil(model.communicationUser)
         XCTAssertEqual(model.communicationUser?.id, "some id")
@@ -112,7 +112,7 @@ class IdentifierSerializerTests: XCTestCase {
             microsoftTeamsUser: nil
         )
         let identifier = try IdentifierSerializer.deserialize(identifier: identifierModel)
-        let expectedIdentifier = UnknownIdentifier(identifier: testRawId)
+        let expectedIdentifier = UnknownIdentifier(testRawId)
 
         XCTAssertTrue(identifier is UnknownIdentifier)
         XCTAssertEqual(expectedIdentifier.identifier, (identifier as? UnknownIdentifier)?.identifier)
@@ -120,7 +120,7 @@ class IdentifierSerializerTests: XCTestCase {
 
     func test_SerializeUnknown() throws {
         let model = try IdentifierSerializer
-            .serialize(identifier: UnknownIdentifier(identifier: testRawId))
+            .serialize(identifier: UnknownIdentifier(testRawId))
 
         XCTAssertEqual(model.rawId, testRawId)
     }

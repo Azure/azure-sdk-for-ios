@@ -415,7 +415,7 @@ public class ChatThreadClient {
     ) throws {
         // Construct CommunicationIdentifierModel from id
         let identifierModel = try IdentifierSerializer
-            .serialize(identifier: CommunicationUserIdentifier(identifier: participantId))
+            .serialize(identifier: CommunicationUserIdentifier(participantId))
         service
             .remove(
                 chatParticipant: identifierModel,

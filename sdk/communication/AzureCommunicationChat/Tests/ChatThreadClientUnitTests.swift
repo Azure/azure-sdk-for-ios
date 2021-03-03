@@ -502,7 +502,7 @@ class ChatThreadClientUnitTests: XCTestCase {
         let expectation = self.expectation(description: "Add participant")
 
         let participant = Participant(
-            user: CommunicationUserIdentifier(identifier: participantId),
+            user: CommunicationUserIdentifier(participantId),
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
 
@@ -540,7 +540,7 @@ class ChatThreadClientUnitTests: XCTestCase {
         let expectation = self.expectation(description: "Add participant")
 
         let participant = Participant(
-            user: CommunicationUserIdentifier(identifier: participantId),
+            user: CommunicationUserIdentifier(participantId),
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
 
