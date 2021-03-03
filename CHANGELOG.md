@@ -2,10 +2,16 @@
 
 ## 1.0.0-beta.9 (Unreleased)
 ### New Features
-**Azure Communication Calling**
- - Introduction of  a new struct `CommunicationIdentifierModel` to repesent a union type that is either a `communicationUser`, `phoneNumber`, or `microsoftTeamsUser`.  Along side this new object we introduced `CommunicationIdentifierSerializer` to serialize and deserialize valid JSON. 
+**Azure Communication**
+ - Introduction of  a new struct `CommunicationIdentifierModel` to repesent a union type that is either a `communicationUser`, `phoneNumber`, or `microsoftTeamsUser`.
 
 ### Breaking Changes
+**Azure Communication**
+- Removal of `CommunicationCloudEnvironment.fromModel()` method
+- Removal of label `identifier` in `CommunicationUserIdentifier` and `UnknownIdentifier`
+  
+**Azure Communication Chat**
+- On `ChatClient` `create(thread)` method, renamed `repeatabilityRequestID` to `repeatabilityRequestId`
 
 ### Key Bug Fixes
 
