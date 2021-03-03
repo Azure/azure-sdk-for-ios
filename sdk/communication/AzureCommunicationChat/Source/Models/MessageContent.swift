@@ -49,25 +49,25 @@ public struct MessageContent: Codable {
     public init?(
         from chatMessageContent: ChatMessageContent?
     ) throws {
-        if let content = chatMessageContent {
-            self.message = content.message
-            self.topic = content.topic
-
-            // Convert ChatParticipants to Participants
-            if let participants = content.participants {
-                self.participants = try participants.map { try Participant(from: $0) }
-            } else {
-                self.participants = nil
-            }
-
-            // Deserialize the identifier model to CommunicationIdentifier
-            if let identifierModel = content.initiatorCommunicationIdentifier {
-                self.initiator = try IdentifierSerializer.deserialize(identifier: identifierModel)
-            } else {
-                self.initiator = nil
-            }
-        } else {
+        guard let content = chatMessageContent else {
             return nil
+        }
+
+        self.message = content.message
+        self.topic = content.topic
+
+        // Convert ChatParticipants to Participants
+        if let participants = content.participants {
+            self.participants = try participants.map { try Participant(from: $0) }
+        } else {
+            self.participants = nil
+        }
+
+        // Deserialize the identifier model to CommunicationIdentifier
+        if let identifierModel = content.initiatorCommunicationIdentifier {
+            self.initiator = try IdentifierSerializer.deserialize(identifier: identifierModel)
+        } else {
+            self.initiator = nil
         }
     }
 

@@ -113,6 +113,20 @@ public class ChatThreadClient {
         )
     }
 
+    /// Converts Participants to ChatParticipants for internal use.
+    /// - Parameter participants: The array of Participants.
+    /// - Returns: An array of ChatParticipants.
+    private func convert(participants: [Participant]) throws -> [ChatParticipant] {
+        return try participants.map { (participant) -> ChatParticipant in
+            let identifierModel = try IdentifierSerializer.serialize(identifier: participant.user)
+            return ChatParticipant(
+                communicationIdentifier: identifierModel,
+                displayName: participant.displayName,
+                shareHistoryTime: participant.shareHistoryTime
+            )
+        }
+    }
+
     // MARK: Public Methods
 
     /// Updates the ChatThread's topic.
@@ -371,36 +385,35 @@ public class ChatThreadClient {
         participants: [Participant],
         withOptions options: ChatThreadOperation.AddChatParticipantsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<AddChatParticipantsResult>
-    ) throws {
-        // Convert Participants to ChatParticipants
-        let chatParticipants = try participants.map { (participant) -> ChatParticipant in
-            let identifierModel = try IdentifierSerializer.serialize(identifier: participant.user)
-            return ChatParticipant(
-                communicationIdentifier: identifierModel,
-                displayName: participant.displayName,
-                shareHistoryTime: participant.shareHistoryTime
+    ) {
+        do {
+            // Convert Participants to ChatParticipants
+            let chatParticipants = try convert(participants: participants)
+
+            // Convert to AddChatParticipantsRequest for generated code
+            let addParticipantsRequest = AddChatParticipantsRequest(
+                participants: chatParticipants
             )
-        }
 
-        // Convert to AddChatParticipantsRequest for generated code
-        let addParticipantsRequest = AddChatParticipantsRequest(
-            participants: chatParticipants
-        )
+            service
+                .add(
+                    chatParticipants: addParticipantsRequest,
+                    chatThreadId: threadId,
+                    withOptions: options
+                ) { result, httpResponse in
+                    switch result {
+                    case let .success(addParticipantsResult):
+                        completionHandler(.success(addParticipantsResult), httpResponse)
 
-        service
-            .add(
-                chatParticipants: addParticipantsRequest,
-                chatThreadId: threadId,
-                withOptions: options
-            ) { result, httpResponse in
-                switch result {
-                case let .success(addParticipantsResult):
-                    completionHandler(.success(addParticipantsResult), httpResponse)
-
-                case let .failure(error):
-                    completionHandler(.failure(error), httpResponse)
+                    case let .failure(error):
+                        completionHandler(.failure(error), httpResponse)
+                    }
                 }
-            }
+        } catch {
+            // Return error from converting participants
+            let azureError = AzureError.client("Failed to construct add participants request.", error)
+            completionHandler(.failure(azureError), nil)
+        }
     }
 
     /// Removes a participant from the thread.
@@ -412,24 +425,31 @@ public class ChatThreadClient {
         participant participantId: String,
         withOptions options: ChatThreadOperation.RemoveChatParticipantOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
-    ) throws {
-        // Construct CommunicationIdentifierModel from id
-        let identifierModel = try IdentifierSerializer
-            .serialize(identifier: CommunicationUserIdentifier(participantId))
-        service
-            .remove(
-                chatParticipant: identifierModel,
-                chatThreadId: threadId,
-                withOptions: options
-            ) { result, httpResponse in
-                switch result {
-                case .success:
-                    completionHandler(.success(()), httpResponse)
+    ) {
+        do {
+            // Construct CommunicationIdentifierModel from participantId
+            let identifierModel = try IdentifierSerializer
+                .serialize(identifier: CommunicationUserIdentifier(participantId))
 
-                case let .failure(error):
-                    completionHandler(.failure(error), httpResponse)
+            service
+                .remove(
+                    chatParticipant: identifierModel,
+                    chatThreadId: threadId,
+                    withOptions: options
+                ) { result, httpResponse in
+                    switch result {
+                    case .success:
+                        completionHandler(.success(()), httpResponse)
+
+                    case let .failure(error):
+                        completionHandler(.failure(error), httpResponse)
+                    }
                 }
-            }
+        } catch {
+            // Return error from serializing the identifier
+            let azureError = AzureError.client("Failed to construct remove participant request.", error)
+            completionHandler(.failure(azureError), nil)
+        }
     }
 
     /// Gets the participants of the thread.

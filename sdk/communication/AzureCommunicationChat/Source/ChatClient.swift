@@ -68,6 +68,22 @@ public class ChatClient {
         self.service = client.chat
     }
 
+    // MARK: Private Methods
+
+    /// Converts Participants to ChatParticipants for internal use.
+    /// - Parameter participants: The array of Participants.
+    /// - Returns: An array of ChatParticipants.
+    private func convert(participants: [Participant]) throws -> [ChatParticipant] {
+        return try participants.map { (participant) -> ChatParticipant in
+            let identifierModel = try IdentifierSerializer.serialize(identifier: participant.user)
+            return ChatParticipant(
+                communicationIdentifier: identifierModel,
+                displayName: participant.displayName,
+                shareHistoryTime: participant.shareHistoryTime
+            )
+        }
+    }
+
     // MARK: Public Methods
 
     /// Create a ChatThreadClient for the ChatThread with id threadId.
@@ -91,7 +107,7 @@ public class ChatClient {
         thread: CreateThreadRequest,
         withOptions options: Chat.CreateChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<CreateThreadResult>
-    ) throws {
+    ) {
         // Set the repeatabilityRequestID if it is not provided
         let requestOptions = ((options?.repeatabilityRequestId) != nil) ? options : Chat.CreateChatThreadOptions(
             repeatabilityRequestId: UUID().uuidString,
@@ -101,36 +117,35 @@ public class ChatClient {
             context: options?.context
         )
 
-        // Convert Participants to ChatParticipants
-        let participants = try thread.participants.map { (participant) -> ChatParticipant in
-            let identifierModel = try IdentifierSerializer.serialize(identifier: participant.user)
-            return ChatParticipant(
-                communicationIdentifier: identifierModel,
-                displayName: participant.displayName,
-                shareHistoryTime: participant.shareHistoryTime
+        do {
+            // Convert Participants to ChatParticipants
+            let participants = try convert(participants: thread.participants)
+
+            // Convert to CreateChatThreadRequest for generated code
+            let request = CreateChatThreadRequest(
+                topic: thread.topic,
+                participants: participants
             )
-        }
 
-        // Convert to CreateChatThreadRequest for generated code
-        let request = CreateChatThreadRequest(
-            topic: thread.topic,
-            participants: participants
-        )
+            service.create(chatThread: request, withOptions: requestOptions) { result, httpResponse in
+                switch result {
+                case let .success(chatThreadResult):
+                    do {
+                        let threadResult = try CreateThreadResult(from: chatThreadResult)
+                        completionHandler(.success(threadResult), httpResponse)
+                    } catch {
+                        let azureError = AzureError.client(error.localizedDescription, error)
+                        completionHandler(.failure(azureError), httpResponse)
+                    }
 
-        service.create(chatThread: request, withOptions: requestOptions) { result, httpResponse in
-            switch result {
-            case let .success(chatThreadResult):
-                do {
-                    let threadResult = try CreateThreadResult(from: chatThreadResult)
-                    completionHandler(.success(threadResult), httpResponse)
-                } catch {
-                    let azureError = AzureError.client(error.localizedDescription, error)
-                    completionHandler(.failure(azureError), httpResponse)
+                case let .failure(error):
+                    completionHandler(.failure(error), httpResponse)
                 }
-
-            case let .failure(error):
-                completionHandler(.failure(error), httpResponse)
             }
+        } catch {
+            // Return error from converting participants
+            let azureError = AzureError.client("Failed to construct create thread request.", error)
+            completionHandler(.failure(azureError), nil)
         }
     }
 
