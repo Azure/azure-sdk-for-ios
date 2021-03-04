@@ -36,7 +36,7 @@ public class ChatClient {
     private let options: AzureCommunicationChatClientOptions
     private let service: Chat
     private let signallingClient: CommunicationSignallingClient?
-    private let isRealtimeNotificationsStarted: Bool = false
+    private var isRealtimeNotificationsStarted: Bool = false
 
     // MARK: Initializers
 
@@ -71,7 +71,7 @@ public class ChatClient {
 
         // Initialize the signalling client with the users access token
         var token: String?
-        credential.token { accessToken, error in
+        credential.token { accessToken, _ in
             token = accessToken?.token
         }
 
@@ -201,5 +201,51 @@ public class ChatClient {
                 completionHandler(.failure(error), httpResponse)
             }
         }
+    }
+
+    /// Start receiving realtime notifications.
+    /// Call this function before subscribing to any event.
+    public func startRealTimeNotifications() throws {
+        if signallingClient == nil {
+            throw AzureError.client("Signalling client is not initialized.")
+        }
+
+        if isRealtimeNotificationsStarted {
+            return
+        }
+
+        isRealtimeNotificationsStarted = true
+        signallingClient?.start()
+    }
+
+    /// Stop receiving realtime notifications.
+    /// This function would unsubscribe to all events.
+    public func stopRealTimeNotifications() throws {
+        if signallingClient == nil {
+            throw AzureError.client("Signalling client is not initialized.")
+        }
+
+        isRealtimeNotificationsStarted = false
+        signallingClient?.stop()
+    }
+
+    /// Subscribe to chat events
+    public func on(event: String, listener: @escaping EventListener) {
+        guard let _ = ChatEventId(rawValue: event) else {
+            options.logger.error("the event id provided is not supported")
+            return
+        }
+
+        signallingClient?.on(event: event, listener: listener)
+    }
+
+    /// Unsubscribe to chat events
+    public func off(event: String, listener: @escaping EventListener) {
+        guard let _ = ChatEventId(rawValue: event) else {
+            options.logger.error("the event id provided is not supported")
+            return
+        }
+
+        signallingClient?.off(event: event, listener: listener)
     }
 }
