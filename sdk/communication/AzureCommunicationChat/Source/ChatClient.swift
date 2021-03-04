@@ -229,23 +229,25 @@ public class ChatClient {
         signallingClient?.stop()
     }
 
-    /// Subscribe to chat events
-    public func on(event: String, listener: @escaping EventListener) {
-        guard let _ = ChatEventId(rawValue: event) else {
-            options.logger.error("the event id provided is not supported")
-            return
-        }
-
-        signallingClient?.on(event: event, listener: listener)
+    /// Subscribe to chat events.
+    /// - Parameters:
+    ///   - event: The chat event to subsribe to.
+    ///   - listener: The listener for the chat event.
+    public func on(
+        event: ChatEventId,
+        listener: @escaping EventListener
+    ) {
+        signallingClient?.on(event: event.rawValue, listener: listener)
     }
 
-    /// Unsubscribe to chat events
-    public func off(event: String, listener: @escaping EventListener) {
-        guard let _ = ChatEventId(rawValue: event) else {
-            options.logger.error("the event id provided is not supported")
-            return
-        }
-
-        signallingClient?.off(event: event, listener: listener)
+    /// Unsubscribe to chat events.
+    /// - Parameters:
+    ///   - event: The chat event to subsribe to.
+    ///   - listener: The listener for the chat event.
+    public func off(
+        event: ChatEventId,
+        listener: @escaping EventListener
+    ) {
+        signallingClient?.off(event: event.rawValue, listener: listener)
     }
 }
