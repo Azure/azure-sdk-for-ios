@@ -11,14 +11,13 @@ import UIKit
 import AzureCommunicationChat
 import AzureCommunication
 import AzureCore
-import AzureCommunicationSignaling
 
 struct Constants {
-    static let endpoint =  "https://chat-sdktester-e2e.int.communication.azure.net/"
-    static let id1 = "8:acs:46849534-eb08-4ab7-bde7-c36928cd1547_00000006-f3dd-7f8c-1655-373a0d000426"
-    static let skypeToken = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjEwMl9pbnQiLCJ4NXQiOiJnMTROVjRoSzJKUklPYk15YUUyOUxFU1FKRk0iLCJ0eXAiOiJKV1QifQ.eyJza3lwZWlkIjoiYWNzOjQ2ODQ5NTM0LWViMDgtNGFiNy1iZGU3LWMzNjkyOGNkMTU0N18wMDAwMDAwNi1mM2RkLTdmOGMtMTY1NS0zNzNhMGQwMDA0MjYiLCJzY3AiOjE3OTIsImNzaSI6IjE2MTI4NDQ1NzYiLCJpYXQiOjE2MTI4NDQ1NzYsImV4cCI6MTYxMjkzMDk3NiwiYWNzU2NvcGUiOiJjaGF0IiwicmVzb3VyY2VJZCI6IjQ2ODQ5NTM0LWViMDgtNGFiNy1iZGU3LWMzNjkyOGNkMTU0NyJ9.Ku6P0sbIyfuUnDS9wc9JN_Jgm5_NqBF1RhrOaI0Ms3hOH__iW9HCHFQT78wY6sxhLj9g8u3-Flxcxet81HqnP1z5NN9NUSsgsLq_BaZGZapGplEfp6WlgqLqZXQ04-ZaeaS-0FC1o1ZBZsJljY9rveQ6x5Pd1SAsHzfPgG-PNv_1POeihIYwfSoAOLZG4PdJk1D6di2aFfvYNQwxVUDrtsq2x9EGTG6owpE4kpfibGKNVaoK56LQb9Fdhl54VnVewYbJE-cPqa6O5mIkJvGkA29uLSA4qVoJLl9yrDxAqv1f63jKs4ltLkyxw7ID6NJwuY_Cn12xBzgUfHM7OyzqEQ"
-    static let id2 = "8:acs:46849534-eb08-4ab7-bde7-c36928cd1547_00000007-fc40-73d6-b0b7-3a3a0d002613"
-    static let skypeToken2 = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjEwMl9pbnQiLCJ4NXQiOiJnMTROVjRoSzJKUklPYk15YUUyOUxFU1FKRk0iLCJ0eXAiOiJKV1QifQ.eyJza3lwZWlkIjoiYWNzOjQ2ODQ5NTM0LWViMDgtNGFiNy1iZGU3LWMzNjkyOGNkMTU0N18wMDAwMDAwNy1mYzQwLTczZDYtYjBiNy0zYTNhMGQwMDI2MTMiLCJzY3AiOjE3OTIsImNzaSI6IjE2MTI4NDQ1OTUiLCJpYXQiOjE2MTI4NDQ1OTUsImV4cCI6MTYxMjkzMDk5NSwiYWNzU2NvcGUiOiJjaGF0IiwicmVzb3VyY2VJZCI6IjQ2ODQ5NTM0LWViMDgtNGFiNy1iZGU3LWMzNjkyOGNkMTU0NyJ9.UkqPKmMOfsnvtUlhBblaTRoCVQgyLGCr5YDlYnr0r2NUeOhOss80jbNhg4b_vAeAjGgl0b1Q5V4LPYrfTtfqNxiIfbJ694DIY7R346EDejsIu94yhqRp0LCqsnr6EvTti74a2fpxztMadVPqa4p12m86Yf2iw6Fyi7UrPjNDdd_Z3vJF_SnrvJaV7xLAMa4zA7rcJKl_R2L8HF69Ff5lxPbcAFf-7PVgq46NUtRBPx3dai2woH2LqtK2wQAYvDvBEyeE1LrndTTkcQWSiw0OU4Utz8EEK6oPTcc6EBOovyfSl2EvR62-EJzfsFA9GlZnvbNiduA5yG0MLLDDSHlVBQ"
+    static let endpoint =  "<ACS_RESOURCE_ENDPOINT>"
+    static let id1 = "<USER_ID>"
+    static let skypeToken = "<ACCESS_TOKEN>"
+    static let id2 = "<USER_ID>"
+    static let skypeToken2 = "<ACCESS_TOKEN>"
     
 }
 
@@ -44,7 +43,7 @@ extension ViewController: MyTableViewCellDelegate {
     func didTapButton(with title: String) {
         switch title {
         case "Subscribe to Thread Creation":
-            chatClient?.on(event: "chatThreadCreated", listener:{
+            chatClient?.on(event: ChatEventId.chatThreadCreated, listener:{
                 (response, eventId)
                 in
                 self.handleChatEvents(response: response, eventId: eventId)
@@ -55,7 +54,7 @@ extension ViewController: MyTableViewCellDelegate {
                 self.logArea.scrollRangeToVisible(range)
             }
         case "Subscribe to Message":
-            chatClient?.on(event: "chatMessageReceived", listener:{
+            chatClient?.on(event: ChatEventId.chatMessageReceived, listener:{
                 (response, eventId)
                 in
                 self.handleChatEvents(response: response, eventId: eventId)
@@ -66,7 +65,7 @@ extension ViewController: MyTableViewCellDelegate {
                 self.logArea.scrollRangeToVisible(range)
             }
         case "Subscribe to Typing Indicator":
-            chatClient?.on(event: "typingIndicatorReceived", listener:{
+            chatClient?.on(event: ChatEventId.typingIndicatorReceived, listener:{
                 (response, eventId)
                 in
                 self.handleChatEvents(response: response, eventId: eventId)
@@ -77,7 +76,7 @@ extension ViewController: MyTableViewCellDelegate {
                 self.logArea.scrollRangeToVisible(range)
             }
         case "Subscribe to Read Receipt":
-            chatClient?.on(event: "readReceiptReceived", listener:{
+            chatClient?.on(event: ChatEventId.readReceiptReceived, listener:{
                 (response, eventId)
                 in
                 self.handleChatEvents(response: response, eventId: eventId)
@@ -88,7 +87,7 @@ extension ViewController: MyTableViewCellDelegate {
                 self.logArea.scrollRangeToVisible(range)
             }
         case "Subscribe to Message Update":
-            chatClient?.on(event: "chatMessageEdited", listener:{
+            chatClient?.on(event: ChatEventId.chatMessageEdited, listener:{
                 (response, eventId)
                 in
                 self.handleChatEvents(response: response, eventId: eventId)
@@ -99,7 +98,7 @@ extension ViewController: MyTableViewCellDelegate {
                 self.logArea.scrollRangeToVisible(range)
             }
         case "Subscribe to Message Deletion":
-            chatClient?.on(event: "chatMessageDeleted", listener:{
+            chatClient?.on(event: ChatEventId.chatMessageDeleted, listener:{
                 (response, eventId)
                 in
                 self.handleChatEvents(response: response, eventId: eventId)
@@ -110,7 +109,7 @@ extension ViewController: MyTableViewCellDelegate {
                 self.logArea.scrollRangeToVisible(range)
             }
         case "Subscribe to Thread Topic Update":
-            chatClient?.on(event: "chatThreadPropertiesUpdated", listener:{
+            chatClient?.on(event: ChatEventId.chatThreadPropertiesUpdated, listener:{
                 (response, eventId)
                 in
                 self.handleChatEvents(response: response, eventId: eventId)
@@ -121,7 +120,7 @@ extension ViewController: MyTableViewCellDelegate {
                 self.logArea.scrollRangeToVisible(range)
             }
         case "Subscribe to Participant Addition":
-            chatClient?.on(event: "participantsAdded", listener:{
+            chatClient?.on(event: ChatEventId.participantsAdded, listener:{
                 (response, eventId)
                 in
                 self.handleChatEvents(response: response, eventId: eventId)
@@ -132,7 +131,7 @@ extension ViewController: MyTableViewCellDelegate {
                 self.logArea.scrollRangeToVisible(range)
             }
         case "Subscribe to Participant Removal":
-            chatClient?.on(event: "participantsRemoved", listener:{
+            chatClient?.on(event: ChatEventId.participantsRemoved, listener:{
                 (response, eventId)
                 in
                 self.handleChatEvents(response: response, eventId: eventId)
@@ -143,7 +142,7 @@ extension ViewController: MyTableViewCellDelegate {
                 self.logArea.scrollRangeToVisible(range)
             }
         case "Subscribe to Thread Deletion":
-            chatClient?.on(event: "chatThreadDeleted", listener:{
+            chatClient?.on(event: ChatEventId.chatThreadDeleted, listener:{
                 (response, eventId)
                 in
                 self.handleChatEvents(response: response, eventId: eventId)
@@ -493,7 +492,11 @@ class ViewController: UIViewController, UITableViewDataSource {
     
     func onStop()
     {
-        chatClient?.stopRealTimeNotifications()
+        do {
+            try chatClient?.stopRealTimeNotifications()
+        } catch {
+            print("\n------> Failed to stop realtime notifications")
+        }
     }
     
     func onStart (skypeToken: String)
@@ -513,7 +516,12 @@ class ViewController: UIViewController, UITableViewDataSource {
         }
         chatClient = getClient(credential:communicationUserCredential)
         chatClient2 = getClient(credential:communicationUserCredential2)
-        chatClient?.startRealTimeNotifications()
+        
+        do {
+            try chatClient?.startRealTimeNotifications()
+        } catch {
+            print("\n------> Failed to start realtime notifications")
+        }
     }
     
     func getClient(credential: CommunicationTokenCredential? = nil) -> ChatClient {

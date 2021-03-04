@@ -14,7 +14,6 @@
 		D50EC10825AD1DDC00FA1177 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D50EC10725AD1DDC00FA1177 /* Assets.xcassets */; };
 		D50EC10B25AD1DDC00FA1177 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D50EC10925AD1DDC00FA1177 /* LaunchScreen.storyboard */; };
 		D576D4F125AE520F007468C7 /* AzureCommunicationChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D576D4F025AE520F007468C7 /* AzureCommunicationChat.framework */; };
-		D576D4F725AE52B5007468C7 /* AzureCommunicationSignaling.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D576D4F625AE52B5007468C7 /* AzureCommunicationSignaling.framework */; };
 		D5DB4A5025C139A6003396EB /* MyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DB4A4E25C139A6003396EB /* MyTableViewCell.swift */; };
 		D5DB4A5125C139A6003396EB /* MyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5DB4A4F25C139A6003396EB /* MyTableViewCell.xib */; };
 /* End PBXBuildFile section */
@@ -39,7 +38,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D576D4F725AE52B5007468C7 /* AzureCommunicationSignaling.framework in Frameworks */,
 				D576D4F125AE520F007468C7 /* AzureCommunicationChat.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
