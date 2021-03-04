@@ -69,28 +69,13 @@ public class ChatClient {
 
         self.service = client.chat
 
-        self.signallingClient = getSignallingClient(credential: credential)
-    }
-
-    // MARK: Private Methods
-
-    private func getSignallingClient(credential: CommunicationTokenCredential) -> CommunicationSignallingClient? {
+        // Initialize the signalling client with the users access token
         var token: String?
-
-        credential.token(completionHandler: { communicationAccessToken, _
-            in
-            if let unwrapped = communicationAccessToken {
-                token = unwrapped.token
-            }
-        })
-
-        if let unwrapped = token {
-            return CommunicationSignallingClient(
-                skypeTokenProvider: CommunicationSkypeTokenProvider(skypeToken: unwrapped)
-            )
-        } else {
-            return nil
+        credential.token { accessToken, error in
+            token = accessToken?.token
         }
+
+        self.signallingClient = CommunicationSignallingClient(token: token)
     }
 
     // MARK: Private Methods

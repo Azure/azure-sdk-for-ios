@@ -47,6 +47,17 @@ public class CommunicationSignallingClient {
         // swiftlint:enable force_cast
     }
 
+    public convenience init?(
+        token: String?
+    ) {
+        guard let skypeToken = token else {
+            return nil
+        }
+
+        let skypeTokenProvider = CommunicationSkypeTokenProvider(skypeToken: skypeToken)
+        self.init(skypeTokenProvider: skypeTokenProvider)
+    }
+
     public func start() {
         selfHostedTrouterClient.withRegistrar(trouterUrlRegistrar)
         selfHostedTrouterClient.start()
