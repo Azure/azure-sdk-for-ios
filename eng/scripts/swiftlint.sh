@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #  swiftlint.sh
-REPO_ROOT=$(dirname "$0")/..
+REPO_ROOT=$(dirname "$0")/../..
 
 if which swiftformat >/dev/null; then
     echo "Formatting Swift files at paths $@"

@@ -30,7 +30,8 @@ Returns a dictionary of Modules and versions from the Xcodeproj files
 """
 def _get_xcodeproj_versions():
     versions = {}
-    proj_files = glob.glob(r'sdk/*/*/*.xcodeproj/project.pbxproj')
+    pattern = os.path.join(ROOT, 'sdk', '*', '*', '*.xcodeproj', 'project.pbxproj')
+    proj_files = glob.glob(pattern)
     for path in proj_files:
         module_name = re.search(r'/([a-zA-Z]+)\.xcodeproj', path).groups()[0]
         with open(path, mode='r') as f:
@@ -51,9 +52,10 @@ Returns a dictionary of Modules and versions from the podspec files
 """
 def _get_podspec_versions():
     versions = {}
-    podspec_files = glob.glob(r'*.podspec.json')
+    pattern = os.path.join(ROOT, '*.podspec.json')
+    podspec_files = glob.glob(pattern)
     for path in podspec_files:
-        module_name, _ = path.split('.', maxsplit=1)
+        module_name = os.path.basename(os.path.normpath(path.split('.', maxsplit=1)[0]))
         with open(path, mode='r') as f:
             data = json.loads(f.read())
             versions[module_name] = data['version']
@@ -64,7 +66,7 @@ def _get_podspec_versions():
 Returns a list of Modules defined in Package.swift
 """
 def _get_spm_modules():
-    with open('Package.swift', mode='r') as f:
+    with open(os.path.join(ROOT, 'Package.swift'), mode='r') as f:
         data = f.read()
     modules = re.findall(r'library\(\s*name:\s*"([a-zA-Z]+)"', data)
     return modules
@@ -196,10 +198,9 @@ def update(argv):
     _update_xcodeproj(old, new)
 
 
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+
 if __name__ == '__main__':
-    cwd = os.getcwd()
-    if os.path.basename(cwd) != 'azure-sdk-for-ios':
-        _log_error_and_quit('This script must be run from the root of the azure-sdk-for-ios repo')
 
     usage = f'usage: {__file__} {{verify|update|current}} [ARGS]'
     try:
