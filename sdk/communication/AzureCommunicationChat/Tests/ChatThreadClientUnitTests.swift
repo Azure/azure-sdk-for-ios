@@ -506,22 +506,17 @@ class ChatThreadClientUnitTests: XCTestCase {
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
 
-        do {
-            try chatThreadClient.add(participants: [participant], completionHandler: { result, _ in
-                switch result {
-                case let .success(response):
-                    XCTAssertNotNil(response)
+        chatThreadClient.add(participants: [participant], completionHandler: { result, _ in
+            switch result {
+            case let .success(response):
+                XCTAssertNotNil(response)
 
-                case .failure:
-                    XCTFail("Unexpected failure happened in Add participant")
-                }
+            case .failure:
+                XCTFail("Unexpected failure happened in Add participant")
+            }
 
-                expectation.fulfill()
-            })
-        } catch {
-            XCTFail("Add participant failed: \(error.localizedDescription)")
             expectation.fulfill()
-        }
+        })
 
         waitForExpectations(timeout: TestUtil.timeout) { error in
             if let error = error {
@@ -544,22 +539,17 @@ class ChatThreadClientUnitTests: XCTestCase {
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
 
-        do {
-            try chatThreadClient.add(participants: [participant], completionHandler: { result, _ in
-                switch result {
-                case .success:
-                    XCTFail("Unexpected failure happened in add participant")
+        chatThreadClient.add(participants: [participant], completionHandler: { result, _ in
+            switch result {
+            case .success:
+                XCTFail("Unexpected failure happened in add participant")
 
-                case let .failure(error):
-                    XCTAssertNotNil(error)
-                }
+            case let .failure(error):
+                XCTAssertNotNil(error)
+            }
 
-                expectation.fulfill()
-            })
-        } catch {
-            XCTFail("Add participant failed: \(error.localizedDescription)")
             expectation.fulfill()
-        }
+        })
 
         waitForExpectations(timeout: TestUtil.timeout) { error in
             if let error = error {
@@ -577,8 +567,9 @@ class ChatThreadClientUnitTests: XCTestCase {
 
         let expectation = self.expectation(description: "Remove Participant")
 
-        do {
-            try chatThreadClient.remove(participant: participantId, completionHandler: { result, _ in
+        chatThreadClient.remove(
+            participant: CommunicationUserIdentifier(participantId),
+            completionHandler: { result, _ in
                 switch result {
                 case let .success(response):
                     XCTAssertNotNil(response)
@@ -588,11 +579,8 @@ class ChatThreadClientUnitTests: XCTestCase {
                 }
 
                 expectation.fulfill()
-            })
-        } catch {
-            XCTFail("Remove participant failed: \(error.localizedDescription)")
-            expectation.fulfill()
-        }
+            }
+        )
 
         waitForExpectations(timeout: TestUtil.timeout) { error in
             if let error = error {
@@ -610,8 +598,9 @@ class ChatThreadClientUnitTests: XCTestCase {
 
         let expectation = self.expectation(description: "Remove Participant")
 
-        do {
-            try chatThreadClient.remove(participant: participantId, completionHandler: { result, _ in
+        chatThreadClient.remove(
+            participant: CommunicationUserIdentifier(participantId),
+            completionHandler: { result, _ in
                 switch result {
                 case .success:
                     XCTFail("Unexpected failure happened in remove participant")
@@ -621,11 +610,8 @@ class ChatThreadClientUnitTests: XCTestCase {
                 }
 
                 expectation.fulfill()
-            })
-        } catch {
-            XCTFail("Remove participant failed: \(error)")
-            expectation.fulfill()
-        }
+            }
+        )
 
         waitForExpectations(timeout: TestUtil.timeout) { error in
             if let error = error {

@@ -418,18 +418,18 @@ public class ChatThreadClient {
 
     /// Removes a participant from the thread.
     /// - Parameters:
-    ///    - participantId : Id of the participant to remove.
+    ///    - participantIdentifier : Identifier of the participant to remove.
     ///    - options: Remove participant options
     ///    - completionHandler: A completion handler that receives a status code on success.
     public func remove(
-        participant participantId: String,
+        participant participantIdentifier: CommunicationIdentifier,
         withOptions options: ChatThreadOperation.RemoveChatParticipantOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
         do {
             // Construct CommunicationIdentifierModel from participantId
             let identifierModel = try IdentifierSerializer
-                .serialize(identifier: CommunicationUserIdentifier(participantId))
+                .serialize(identifier: participantIdentifier)
 
             service
                 .remove(

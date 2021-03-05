@@ -72,32 +72,27 @@ class ChatClientUnitTests: XCTestCase {
 
         let expectation = self.expectation(description: "Create chat thread")
 
-        do {
-            try chatClient.create(thread: request) { result, _ in
-                switch result {
-                case let .success(response):
-                    guard let thread = response.thread else {
-                        XCTFail("Failed to extract chatThread from response")
-                        expectation.fulfill()
-                        return
-                    }
-                    XCTAssert(thread.id == self.threadId)
-                    XCTAssert(thread.topic == request.topic)
-                    guard let createdBy = thread.createdBy as? CommunicationUserIdentifier else {
-                        XCTFail("Identifier is not of expected type.")
-                        expectation.fulfill()
-                        return
-                    }
-                    XCTAssert(createdBy.identifier == "test_participant_id")
-
-                case .failure:
-                    XCTFail("Unexpected failure happened in create chat thread")
+        chatClient.create(thread: request) { result, _ in
+            switch result {
+            case let .success(response):
+                guard let thread = response.thread else {
+                    XCTFail("Failed to extract chatThread from response")
+                    expectation.fulfill()
+                    return
                 }
+                XCTAssert(thread.id == self.threadId)
+                XCTAssert(thread.topic == request.topic)
+                guard let createdBy = thread.createdBy as? CommunicationUserIdentifier else {
+                    XCTFail("Identifier is not of expected type.")
+                    expectation.fulfill()
+                    return
+                }
+                XCTAssert(createdBy.identifier == "test_participant_id")
 
-                expectation.fulfill()
+            case .failure:
+                XCTFail("Unexpected failure happened in create chat thread")
             }
-        } catch {
-            XCTFail("Create thread failed: \(error.localizedDescription)")
+
             expectation.fulfill()
         }
 
@@ -130,20 +125,15 @@ class ChatClientUnitTests: XCTestCase {
 
         let expectation = self.expectation(description: "Create chat thread")
 
-        do {
-            try chatClient.create(thread: request) { result, _ in
-                switch result {
-                case .success:
-                    XCTFail("Unexpected failure happened in create chat thread")
+        chatClient.create(thread: request) { result, _ in
+            switch result {
+            case .success:
+                XCTFail("Unexpected failure happened in create chat thread")
 
-                case let .failure(error):
-                    XCTAssertNotNil(error)
-                }
-
-                expectation.fulfill()
+            case let .failure(error):
+                XCTAssertNotNil(error)
             }
-        } catch {
-            XCTFail("Create chat thread failed: \(error.localizedDescription)")
+
             expectation.fulfill()
         }
 

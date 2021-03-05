@@ -460,10 +460,10 @@ chatThreadClient.add(participants: threadParticipants) { result, _ in
 
 Use the `remove` method of `ChatThreadClient` to remove a participant from a thread.
 
-- `participant` is id of the participant to remove.
+- `participant` is identifier of the participant to remove. If you have a `Participant` object you can access the identifier through the `id` property.
 
 ```swift
-chatThreadClient.remove(participant: participantId) { result, _ in
+chatThreadClient.remove(participant: identifer) { result, _ in
     switch result {
     case .success:
         // Take further action
