@@ -121,14 +121,14 @@ jobs:
           CheckLinkGuidance: $true
 
       - script: |
-          pod lib lint --quick
-          pod spec lint --use-modular-headers
-        displayName: Lint PodSpecs
-
-      - script: |
           echo $(pwd)
           python ./eng/scripts/version.py verify
         displayName: Verify Versions
+
+      - script: |
+          pod lib lint --quick
+          pod spec lint --use-modular-headers
+        displayName: Lint PodSpecs
 
       - script: |
           brew install swiftlint
