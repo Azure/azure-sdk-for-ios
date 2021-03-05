@@ -24,10 +24,6 @@
 		D1A42CF825CCA1C100408C0F /* CommunicationTokenCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A42CF725CCA1C100408C0F /* CommunicationTokenCredential.swift */; };
 		DC294E02BC5156475835816E /* Pods_AzureCommunication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1FFD6B8DB6B306AC0F040BB /* Pods_AzureCommunication.framework */; };
 		F11E5CC824B77F8900AA3A58 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3A5ED62316DB8F00473FDA /* AzureCore.framework */; };
-		F1540E9625BF83D80056B087 /* Enumerations.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1540E9325BF83D80056B087 /* Enumerations.swift */; };
-		F1540E9725BF83D80056B087 /* CommunicationIdentifierModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1540E9425BF83D80056B087 /* CommunicationIdentifierModel.swift */; };
-		F1540E9825BF83D80056B087 /* CommunicationIdentifierSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1540E9525BF83D80056B087 /* CommunicationIdentifierSerializer.swift */; };
-		F1540E9C25BF85580056B087 /* CommunicationIdentifierSerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1540E9B25BF85580056B087 /* CommunicationIdentifierSerializerTests.swift */; };
 		F1540EBD25BF893C0056B087 /* CommunicationCloudEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1540EBC25BF893C0056B087 /* CommunicationCloudEnvironment.swift */; };
 		F1540EC125BFD6910056B087 /* CommunicationIdentifierTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1540EC025BFD6910056B087 /* CommunicationIdentifierTest.swift */; };
 		F183A5EB24AF9D9000F0E0D5 /* CommunicationTokenCredentialProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = F183A5EA24AF9D9000F0E0D5 /* CommunicationTokenCredentialProviding.swift */; };
@@ -71,10 +67,6 @@
 		DE026FF4E92423EB0A935FD4 /* Pods_AzureCommunicationTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCommunicationTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1FFD6B8DB6B306AC0F040BB /* Pods_AzureCommunication.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCommunication.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5E66C937B734ADA8532CFC3 /* Pods-AzureCommunicationTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunicationTests.release.xcconfig"; path = "Target Support Files/Pods-AzureCommunicationTests/Pods-AzureCommunicationTests.release.xcconfig"; sourceTree = "<group>"; };
-		F1540E9325BF83D80056B087 /* Enumerations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enumerations.swift; sourceTree = "<group>"; };
-		F1540E9425BF83D80056B087 /* CommunicationIdentifierModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunicationIdentifierModel.swift; sourceTree = "<group>"; };
-		F1540E9525BF83D80056B087 /* CommunicationIdentifierSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunicationIdentifierSerializer.swift; sourceTree = "<group>"; };
-		F1540E9B25BF85580056B087 /* CommunicationIdentifierSerializerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunicationIdentifierSerializerTests.swift; sourceTree = "<group>"; };
 		F1540EBC25BF893C0056B087 /* CommunicationCloudEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationCloudEnvironment.swift; sourceTree = "<group>"; };
 		F1540EC025BFD6910056B087 /* CommunicationIdentifierTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationIdentifierTest.swift; sourceTree = "<group>"; };
 		F183A5EA24AF9D9000F0E0D5 /* CommunicationTokenCredentialProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationTokenCredentialProviding.swift; sourceTree = "<group>"; };
@@ -131,10 +123,7 @@
 				1D2E7F6E24E4536500447964 /* Authentication */,
 				1DC3550524D9F02D0095ABD9 /* Supporting Files */,
 				1D2E7F6F24E4589100447964 /* Identifiers.swift */,
-				F1540E9425BF83D80056B087 /* CommunicationIdentifierModel.swift */,
-				F1540E9525BF83D80056B087 /* CommunicationIdentifierSerializer.swift */,
 				F1540EBC25BF893C0056B087 /* CommunicationCloudEnvironment.swift */,
-				F1540E9325BF83D80056B087 /* Enumerations.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -144,7 +133,6 @@
 			children = (
 				0A3A5EC82316DB1E00473FDA /* Info.plist */,
 				1D07222C24C8FB0F00C2EF4E /* CommunicationTokenCredentialTests.swift */,
-				F1540E9B25BF85580056B087 /* CommunicationIdentifierSerializerTests.swift */,
 				8856CEE4253E3AEF00044559 /* ObjCCommunicationTokenCredentialTests.m */,
 				88CC8C34254750260028977C /* ObjCCommunicationTokenCredentialAsyncTests.m */,
 				8856CEE3253E3AEF00044559 /* AzureCommunicationTests-Bridging-Header.h */,
@@ -373,7 +361,6 @@
 			files = (
 				F183A5EB24AF9D9000F0E0D5 /* CommunicationTokenCredentialProviding.swift in Sources */,
 				1D2E7F7024E4589100447964 /* Identifiers.swift in Sources */,
-				F1540E9825BF83D80056B087 /* CommunicationIdentifierSerializer.swift in Sources */,
 				8856CEAC253A376D00044559 /* CommunicationAccessToken.swift in Sources */,
 				1DE4DB7924C1063E00631921 /* ThreadSafeRefreshableAccessTokenCache.swift in Sources */,
 				1DE4DB7724C0FE8300631921 /* AutoRefreshTokenCredential.swift in Sources */,
@@ -384,8 +371,6 @@
 				D112634825B7969B00F437C6 /* (null) in Sources */,
 				D1A42CF825CCA1C100408C0F /* CommunicationTokenCredential.swift in Sources */,
 				F183A5FA24AFB37900F0E0D5 /* StaticTokenCredential.swift in Sources */,
-				F1540E9625BF83D80056B087 /* Enumerations.swift in Sources */,
-				F1540E9725BF83D80056B087 /* CommunicationIdentifierModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -393,7 +378,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F1540E9C25BF85580056B087 /* CommunicationIdentifierSerializerTests.swift in Sources */,
 				88F1F570254A07BC00876BC4 /* ObjCTokenParserTests.m in Sources */,
 				8856CEE5253E3AEF00044559 /* ObjCCommunicationTokenCredentialTests.m in Sources */,
 				F1540EC125BFD6910056B087 /* CommunicationIdentifierTest.swift in Sources */,

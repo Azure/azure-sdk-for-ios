@@ -15,46 +15,39 @@ import Foundation
 // swiftlint:disable line_length
 // swiftlint:disable cyclomatic_complexity
 
-/// A paged collection of chat message read receipts.
-public struct ChatMessageReadReceiptsCollection: Codable, Equatable {
+/// A phone number.
+public struct PhoneNumberIdentifierModel: Codable, Equatable {
     // MARK: Properties
 
-    /// Collection of chat message read receipts.
-    public let value: [ChatMessageReadReceipt]
-    /// If there are more chat message read receipts that can be retrieved, the next link will be populated.
-    public let nextLink: String?
+    /// The phone number in E.164 format.
+    public let value: String
 
     // MARK: Initializers
 
-    /// Initialize a `ChatMessageReadReceiptsCollection` structure.
+    /// Initialize a `PhoneNumberIdentifierModel` structure.
     /// - Parameters:
-    ///   - value: Collection of chat message read receipts.
-    ///   - nextLink: If there are more chat message read receipts that can be retrieved, the next link will be populated.
+    ///   - value: The phone number in E.164 format.
     public init(
-        value: [ChatMessageReadReceipt], nextLink: String? = nil
+        value: String
     ) {
         self.value = value
-        self.nextLink = nextLink
     }
 
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
         case value = "value"
-        case nextLink = "nextLink"
     }
 
-    /// Initialize a `ChatMessageReadReceiptsCollection` structure from decoder
+    /// Initialize a `PhoneNumberIdentifierModel` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.value = try container.decode([ChatMessageReadReceipt].self, forKey: .value)
-        self.nextLink = try? container.decode(String.self, forKey: .nextLink)
+        self.value = try container.decode(String.self, forKey: .value)
     }
 
-    /// Encode a `ChatMessageReadReceiptsCollection` structure
+    /// Encode a `PhoneNumberIdentifierModel` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(value, forKey: .value)
-        if nextLink != nil { try? container.encode(nextLink, forKey: .nextLink) }
     }
 }

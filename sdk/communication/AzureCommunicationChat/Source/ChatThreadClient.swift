@@ -113,6 +113,20 @@ public class ChatThreadClient {
         )
     }
 
+    /// Converts Participants to ChatParticipants for internal use.
+    /// - Parameter participants: The array of Participants.
+    /// - Returns: An array of ChatParticipants.
+    private func convert(participants: [Participant]) throws -> [ChatParticipant] {
+        return try participants.map { (participant) -> ChatParticipant in
+            let identifierModel = try IdentifierSerializer.serialize(identifier: participant.id)
+            return ChatParticipant(
+                communicationIdentifier: identifierModel,
+                displayName: participant.displayName,
+                shareHistoryTime: participant.shareHistoryTime
+            )
+        }
+    }
+
     // MARK: Public Methods
 
     /// Updates the ChatThread's topic.
@@ -261,7 +275,13 @@ public class ChatThreadClient {
             ) { result, httpResponse in
                 switch result {
                 case let .success(chatMessage):
-                    completionHandler(.success(Message(from: chatMessage)), httpResponse)
+                    do {
+                        let message = try Message(from: chatMessage)
+                        completionHandler(.success(message), httpResponse)
+                    } catch {
+                        let azureError = AzureError.client(error.localizedDescription, error)
+                        completionHandler(.failure(azureError), httpResponse)
+                    }
 
                 case let .failure(error):
                     completionHandler(.failure(error), httpResponse)
@@ -366,59 +386,70 @@ public class ChatThreadClient {
         withOptions options: ChatThreadOperation.AddChatParticipantsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<AddChatParticipantsResult>
     ) {
-        // Convert Participants to ChatParticipants
-        let chatParticipants = participants.map {
-            ChatParticipant(
-                id: $0.user.identifier,
-                displayName: $0.displayName,
-                shareHistoryTime: $0.shareHistoryTime
+        do {
+            // Convert Participants to ChatParticipants
+            let chatParticipants = try convert(participants: participants)
+
+            // Convert to AddChatParticipantsRequest for generated code
+            let addParticipantsRequest = AddChatParticipantsRequest(
+                participants: chatParticipants
             )
-        }
-        // Convert to AddChatParticipantsRequest for generated code
-        let addParticipantsRequest = AddChatParticipantsRequest(
-            participants: chatParticipants
-        )
 
-        service
-            .add(
-                chatParticipants: addParticipantsRequest,
-                chatThreadId: threadId,
-                withOptions: options
-            ) { result, httpResponse in
-                switch result {
-                case let .success(addParticipantsResult):
-                    completionHandler(.success(addParticipantsResult), httpResponse)
+            service
+                .add(
+                    chatParticipants: addParticipantsRequest,
+                    chatThreadId: threadId,
+                    withOptions: options
+                ) { result, httpResponse in
+                    switch result {
+                    case let .success(addParticipantsResult):
+                        completionHandler(.success(addParticipantsResult), httpResponse)
 
-                case let .failure(error):
-                    completionHandler(.failure(error), httpResponse)
+                    case let .failure(error):
+                        completionHandler(.failure(error), httpResponse)
+                    }
                 }
-            }
+        } catch {
+            // Return error from converting participants
+            let azureError = AzureError.client("Failed to construct add participants request.", error)
+            completionHandler(.failure(azureError), nil)
+        }
     }
 
     /// Removes a participant from the thread.
     /// - Parameters:
-    ///    - participantId : Id of the participant to remove.
+    ///    - participantIdentifier : Identifier of the participant to remove.
     ///    - options: Remove participant options
     ///    - completionHandler: A completion handler that receives a status code on success.
     public func remove(
-        participant participantId: String,
+        participant participantIdentifier: CommunicationIdentifier,
         withOptions options: ChatThreadOperation.RemoveChatParticipantOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        service
-            .removeChatParticipant(
-                chatThreadId: threadId,
-                chatParticipantId: participantId,
-                withOptions: options
-            ) { result, httpResponse in
-                switch result {
-                case .success:
-                    completionHandler(.success(()), httpResponse)
+        do {
+            // Construct CommunicationIdentifierModel from participantId
+            let identifierModel = try IdentifierSerializer
+                .serialize(identifier: participantIdentifier)
 
-                case let .failure(error):
-                    completionHandler(.failure(error), httpResponse)
+            service
+                .remove(
+                    chatParticipant: identifierModel,
+                    chatThreadId: threadId,
+                    withOptions: options
+                ) { result, httpResponse in
+                    switch result {
+                    case .success:
+                        completionHandler(.success(()), httpResponse)
+
+                    case let .failure(error):
+                        completionHandler(.failure(error), httpResponse)
+                    }
                 }
-            }
+        } catch {
+            // Return error from serializing the identifier
+            let azureError = AzureError.client("Failed to construct remove participant request.", error)
+            completionHandler(.failure(azureError), nil)
+        }
     }
 
     /// Gets the participants of the thread.

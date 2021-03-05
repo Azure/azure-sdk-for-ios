@@ -27,7 +27,8 @@
 import Foundation
 
 /**
- Common Communication Identifier protocol for all Azure Communication Services. All Communication Identifiers conform to this protocol.
+ Common Communication Identifier protocol for all Azure Communication Services.
+ All Communication Identifiers conform to this protocol.
  */
 @objc public protocol CommunicationIdentifier: NSObjectProtocol {}
 /**
@@ -39,7 +40,7 @@ import Foundation
      Creates a CommunicationUserIdentifier object
      - Parameter identifier: identifier representing the object identity
      */
-    public init(identifier: String) {
+    public init(_ identifier: String) {
         self.identifier = identifier
     }
 }
@@ -53,7 +54,7 @@ import Foundation
      Creates a UnknownIdentifier object
      - Parameter identifier: identifier representing the object identity
      */
-    public init(identifier: String) {
+    public init(_ identifier: String) {
         self.identifier = identifier
     }
 }
@@ -68,7 +69,7 @@ import Foundation
     /**
      Creates a PhoneNumberIdentifier object
      - Parameter phoneNumber: phone number to create the object, different from identifier
-     - Parameter rawId: Full id of the phone number
+     - Parameter rawId: The optional raw id of the phone number.
      */
     public init(phoneNumber: String, rawId: String? = nil) {
         self.phoneNumber = phoneNumber
@@ -90,17 +91,20 @@ import Foundation
  Communication identifier for Microsoft Teams Users
  */
 @objcMembers public class MicrosoftTeamsUserIdentifier: NSObject, CommunicationIdentifier {
-    public let rawId: String?
     public let userId: String
     public let isAnonymous: Bool
+    public let rawId: String?
     public let cloudEnviroment: CommunicationCloudEnvironment
 
     /**
      Creates a MicrosoftTeamsUserIdentifier object
-     - Parameter userId: Id of the Microsoft Teams user. If the user isn't anonymous, the id is the AAD object id of the user.
-     - Parameter isAnonymous: Set this to true if the user is anonymous, for example when joining a meeting with a share link.
-     - Parameter rawId: Full id of the Microsoft Teams user.
-     - Parameter cloudEnvironment: The cloud that the Microsoft Team user belongs to. A null value translates to the Public cloud.
+     - Parameter userId: Id of the Microsoft Teams user. If the user isn't anonymous,
+                            the id is the AAD object id of the user.
+     - Parameter isAnonymous: Set this to true if the user is anonymous:
+                                for example when joining a meeting with a share link.
+     - Parameter rawId: The optional raw id of the Microsoft Teams User identifier.
+     - Parameter cloudEnvironment: The cloud that the Microsoft Team user belongs to.
+                                    A null value translates to the Public cloud.
      */
     public init(
         userId: String,

@@ -38,8 +38,8 @@ public struct Thread: Codable {
     public let topic: String
     /// The timestamp when the thread was created. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public let createdOn: Iso8601Date
-    /// CommunicationUserIdentifier of the thread owner.
-    public let createdBy: CommunicationUserIdentifier
+    /// CommunicationIdentifier of the thread owner.
+    public let createdBy: CommunicationIdentifier
     /// The timestamp when the thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public let deletedOn: Iso8601Date?
 
@@ -50,11 +50,14 @@ public struct Thread: Codable {
     ///   - chatThread: The ChatThread to initialize from.
     public init(
         from chatThread: ChatThread
-    ) {
+    ) throws {
         self.id = chatThread.id
         self.topic = chatThread.topic
         self.createdOn = chatThread.createdOn
-        self.createdBy = CommunicationUserIdentifier(identifier: chatThread.createdBy)
+
+        // Deserialize the identifier model to CommunicationIdentifier
+        self.createdBy = try IdentifierSerializer.deserialize(identifier: chatThread.createdByCommunicationIdentifier)
+
         self.deletedOn = chatThread.deletedOn
     }
 
@@ -63,19 +66,19 @@ public struct Thread: Codable {
     ///   - id: Thread id.
     ///   - topic: Thread topic.
     ///   - createdOn: The timestamp when the thread was created. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
-    ///   - createdBy: Id of the thread owner.
+    ///   - createdBy: The thread owner.
     ///   - deletedOn: The timestamp when the thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public init(
         id: String,
         topic: String,
         createdOn: Iso8601Date,
-        createdBy: String,
+        createdBy: CommunicationIdentifier,
         deletedOn: Iso8601Date? = nil
     ) {
         self.id = id
         self.topic = topic
         self.createdOn = createdOn
-        self.createdBy = CommunicationUserIdentifier(identifier: createdBy)
+        self.createdBy = createdBy
         self.deletedOn = deletedOn
     }
 
@@ -85,7 +88,7 @@ public struct Thread: Codable {
         case id
         case topic
         case createdOn
-        case createdBy
+        case createdBy = "createdByCommunicationIdentifier"
         case deletedOn
     }
 
@@ -97,9 +100,9 @@ public struct Thread: Codable {
         self.topic = try container.decode(String.self, forKey: .topic)
         self.createdOn = try container.decode(Iso8601Date.self, forKey: .createdOn)
 
-        // Convert createdBy to CommunicationUserIdentifier
-        let createdBy = try container.decode(String.self, forKey: .createdBy)
-        self.createdBy = CommunicationUserIdentifier(identifier: createdBy)
+        // Decode CommunicationIdentifierModel to CommunicationIdentifier
+        let identifierModel = try container.decode(CommunicationIdentifierModel.self, forKey: .createdBy)
+        self.createdBy = try IdentifierSerializer.deserialize(identifier: identifierModel)
 
         self.deletedOn = try? container.decode(Iso8601Date.self, forKey: .deletedOn)
     }
@@ -111,8 +114,9 @@ public struct Thread: Codable {
         try container.encode(topic, forKey: .topic)
         try container.encode(createdOn, forKey: .createdOn)
 
-        // Encode user object to createdBy string
-        try container.encode(createdBy.identifier, forKey: .createdBy)
+        // Encode CommunicationIdentifier to CommunicationIdentifierModel
+        let identifierModel = try IdentifierSerializer.serialize(identifier: createdBy)
+        try container.encode(identifierModel, forKey: .createdBy)
 
         if deletedOn != nil { try? container.encode(deletedOn, forKey: .deletedOn) }
     }

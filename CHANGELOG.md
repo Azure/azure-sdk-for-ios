@@ -2,8 +2,19 @@
 
 ## 1.0.0-beta.9 (Unreleased)
 ### New Features
+**Azure Communication Chat**
+ - Introduction of  a new struct `CommunicationIdentifierModel` to repesent a union type that is either a `communicationUser`, `phoneNumber`, or `microsoftTeamsUser`.
 
 ### Breaking Changes
+**Azure Communication**
+- Removal of `CommunicationCloudEnvironment.fromModel()` method
+- Removal of label `identifier` in `CommunicationUserIdentifier` and `UnknownIdentifier`
+- `CommunicationIdentifierModel` and `CommunicationIdentifierSerializer` are no longer part of the communication package, they have been moved to AzureCommunicationChat
+  
+**Azure Communication Chat**
+- On `ChatClient` `create(thread)` method, renamed `repeatabilityRequestID` to `repeatabilityRequestId`
+- `ChatThreadClient` `remove(participant)` method now accepts `CommunicationIdentifier` instead of a string
+- For `Participant` renamed `user` property to `id`
 
 ### Key Bug Fixes
 

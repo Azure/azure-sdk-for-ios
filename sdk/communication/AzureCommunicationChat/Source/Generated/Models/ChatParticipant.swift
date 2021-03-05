@@ -16,11 +16,11 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// A participant of the chat thread.
-public struct ChatParticipant: Codable {
+public struct ChatParticipant: Codable, Equatable {
     // MARK: Properties
 
-    /// The id of the chat participant.
-    public let id: String
+    /// Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.
+    public let communicationIdentifier: CommunicationIdentifierModel
     /// Display name for the chat participant.
     public let displayName: String?
     /// Time from which the chat history is shared with the participant. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
@@ -30,13 +30,14 @@ public struct ChatParticipant: Codable {
 
     /// Initialize a `ChatParticipant` structure.
     /// - Parameters:
-    ///   - id: The id of the chat participant.
+    ///   - communicationIdentifier: Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.
     ///   - displayName: Display name for the chat participant.
     ///   - shareHistoryTime: Time from which the chat history is shared with the participant. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public init(
-        id: String, displayName: String? = nil, shareHistoryTime: Iso8601Date? = nil
+        communicationIdentifier: CommunicationIdentifierModel, displayName: String? = nil,
+        shareHistoryTime: Iso8601Date? = nil
     ) {
-        self.id = id
+        self.communicationIdentifier = communicationIdentifier
         self.displayName = displayName
         self.shareHistoryTime = shareHistoryTime
     }
@@ -44,7 +45,7 @@ public struct ChatParticipant: Codable {
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case id = "id"
+        case communicationIdentifier = "communicationIdentifier"
         case displayName = "displayName"
         case shareHistoryTime = "shareHistoryTime"
     }
@@ -52,7 +53,10 @@ public struct ChatParticipant: Codable {
     /// Initialize a `ChatParticipant` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try container.decode(String.self, forKey: .id)
+        self.communicationIdentifier = try container.decode(
+            CommunicationIdentifierModel.self,
+            forKey: .communicationIdentifier
+        )
         self.displayName = try? container.decode(String.self, forKey: .displayName)
         self.shareHistoryTime = try? container.decode(Iso8601Date.self, forKey: .shareHistoryTime)
     }
@@ -60,7 +64,7 @@ public struct ChatParticipant: Codable {
     /// Encode a `ChatParticipant` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(id, forKey: .id)
+        try container.encode(communicationIdentifier, forKey: .communicationIdentifier)
         if displayName != nil { try? container.encode(displayName, forKey: .displayName) }
         if shareHistoryTime != nil { try? container.encode(shareHistoryTime, forKey: .shareHistoryTime) }
     }

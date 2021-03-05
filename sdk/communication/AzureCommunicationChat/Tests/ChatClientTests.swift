@@ -59,7 +59,7 @@ class ChatClientTests: XCTestCase {
         completionHandler: @escaping (String) -> Void
     ) {
         let participant = Participant(
-            id: id,
+            id: CommunicationUserIdentifier(id),
             displayName: "User",
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
@@ -88,7 +88,7 @@ class ChatClientTests: XCTestCase {
 
     func test_CreateThread_ResultContainsChatThread() {
         let participant = Participant(
-            id: user,
+            id: CommunicationUserIdentifier(user),
             displayName: "User",
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
@@ -108,7 +108,7 @@ class ChatClientTests: XCTestCase {
                 let chatThread = response.thread
                 XCTAssertNotNil(response.thread)
                 XCTAssertEqual(chatThread?.topic, thread.topic)
-                XCTAssertNotNil(httpResponse?.httpRequest?.headers["repeatability-Request-ID"])
+                XCTAssertNotNil(httpResponse?.httpRequest?.headers["repeatability-Request-Id"])
 
                 if TestUtil.mode == "record" {
                     Recorder.record(name: Recording.createThread, httpResponse: httpResponse)
@@ -130,7 +130,7 @@ class ChatClientTests: XCTestCase {
 
     func test_CreateThread_WithOptions_SetsRepeatabilityRequestID() {
         let participant = Participant(
-            id: user,
+            id: CommunicationUserIdentifier(user),
             displayName: "User",
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
@@ -150,7 +150,7 @@ class ChatClientTests: XCTestCase {
         chatClient.create(thread: thread, withOptions: options) { result, httpResponse in
             switch result {
             case .success:
-                XCTAssertNotNil(httpResponse?.httpRequest?.headers["repeatability-Request-ID"])
+                XCTAssertNotNil(httpResponse?.httpRequest?.headers["repeatability-Request-Id"])
 
             case let .failure(error):
                 XCTFail("Create thread failed with error: \(error)")

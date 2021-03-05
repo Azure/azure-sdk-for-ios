@@ -15,39 +15,39 @@ import Foundation
 // swiftlint:disable line_length
 // swiftlint:disable cyclomatic_complexity
 
-/// Errors encountered during the creation of the chat thread.
-public struct CreateChatThreadErrors: Codable {
+/// A user that got created with an Azure Communication Services resource.
+public struct CommunicationUserIdentifierModel: Codable, Equatable {
     // MARK: Properties
 
-    /// The participants that failed to be added to the chat thread.
-    public let invalidParticipants: [CommunicationError]?
+    /// The Id of the communication user.
+    public let id: String
 
     // MARK: Initializers
 
-    /// Initialize a `CreateChatThreadErrors` structure.
+    /// Initialize a `CommunicationUserIdentifierModel` structure.
     /// - Parameters:
-    ///   - invalidParticipants: The participants that failed to be added to the chat thread.
+    ///   - id: The Id of the communication user.
     public init(
-        invalidParticipants: [CommunicationError]? = nil
+        id: String
     ) {
-        self.invalidParticipants = invalidParticipants
+        self.id = id
     }
 
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case invalidParticipants = "invalidParticipants"
+        case id = "id"
     }
 
-    /// Initialize a `CreateChatThreadErrors` structure from decoder
+    /// Initialize a `CommunicationUserIdentifierModel` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.invalidParticipants = try? container.decode([CommunicationError].self, forKey: .invalidParticipants)
+        self.id = try container.decode(String.self, forKey: .id)
     }
 
-    /// Encode a `CreateChatThreadErrors` structure
+    /// Encode a `CommunicationUserIdentifierModel` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        if invalidParticipants != nil { try? container.encode(invalidParticipants, forKey: .invalidParticipants) }
+        try container.encode(id, forKey: .id)
     }
 }

@@ -1,7 +1,12 @@
 {
     "value": [
         {
-            "id": "test_participant_id",
+            "communicationIdentifier": {
+                "rawId": "test_participant_id",
+                "communicationUser": {
+                    "id": "test_participant_id"
+                }
+            },
             "displayName": "test_participant_name",
             "shareHistoryTime": "2020-10-30T10:50:50Z"
         }

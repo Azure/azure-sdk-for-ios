@@ -113,7 +113,7 @@ Using the APIs, users can also send typing indicators when typing a message and 
 
 #### Initialization
 
-To instantiate ChatClient you will need the CommunicationServices resource endpoint, a CommunicationUserCredential created from a User Access Token, and optional options to create the client with.
+To instantiate a ChatClient you will need the CommunicationServices resource endpoint, a CommunicationTokenCredential created from a User Access Token, and optional options to create the client with.
 
 ```swift
 import AzureCommunication
@@ -182,20 +182,24 @@ ChatThreadClients should be created through the ChatClient. A ChatThreadClient i
 
 Use the `create` method of `ChatClient` to create a new thread.
 
+Thread creation may result in partial errors, meaning the thread was successfully created but certain participants failed to be added. Participants that failed to be added will be listed as part of the response.
+
 - `CreateThreadRequest` is the model to pass to this method. It contains the participants to add to the thread as well as the topic of the thread.
 
 - `CreateThreadResult` is the result returned from creating a thread.
-- `thread` is the chat Thread that was created
-- `errors` contains an array of errors for any invalid participants that failed to be added to the chat thread.
+- `thread` is the Thread that was created
+- `errors` contains an array of errors for any invalid participants that failed to be added to the chat thread. 
 
 ```swift
 let thread = CreateThreadRequest(
     topic: "General",
-    participants: [Participant(
-        id: <userId>,
-        // Id of this needs to match with the Auth token
-        displayName: "initial participant"
-    )]
+    participants: [
+        // userId is a valid ACS user ID string
+        Participant(
+            user: CommunicationUserIdentifier(<userId>),
+            displayName: "initial participant"
+        )
+    ]
 )
 
 chatClient.create(thread: thread) { result, _ in
@@ -213,7 +217,7 @@ chatClient.create(thread: thread) { result, _ in
 
 Use the `get` method of `ChatClient` to retrieve a thread.
 
-- `thread` is the unique ID of the thread.
+- `thread` is the unique ID of the thread. When creating a thread, the ID is contained within the Thread object that is part of the response.
 
 ```swift
 chatClient.get(thread: threadId) { result, _ in
@@ -236,6 +240,7 @@ Use the `listThreads` method to retrieve a list of threads.
 - `startTime`, optional, is the thread start time to consider in the query.
 
 `PagedCollection<ChatThreadInfo>` is the response returned from listing threads.
+`ChatThreadInfo` represents a summary of information about the thread including the thread ID, topic, time of deletion, and time of last message received, as applicable.
 
 ```swift
 import AzureCore
@@ -284,7 +289,7 @@ Use the `send` method of `ChatThreadClient` to send a message to a thread.
 - `senderDisplayName` is used to specify the display name of the sender, if not specified, an empty name will be set.
 - `type` is the type of message being sent, the supported types are text and html.
 
-`SendChatMessageResult` is the response returned from sending a message, it contains an id, which is the unique ID of the message.
+`SendChatMessageResult` is the response returned from sending a message, it contains the unique ID of the message.
 
 ```swift
 let message = SendChatMessageRequest(
@@ -307,9 +312,9 @@ chatThreadClient.send(message: message) { result, _ in
 
 Use the `get` method of `ChatThreadClient` to retrieve a message in a thread.
 
-- `message` is the unique ID of the message.
+- `message` is the unique ID of the message to retrieve.
 
-`Message` is the response returned from getting a message.
+`Message` is the response returned from getting a message. This object contains information about the message type, content, sender, the sequence of the message in the conversation, as well as information around when the message was created, deleted or edited.
 
 ```swift
 chatThreadClient.get(message: messageId) { result, _ in
@@ -360,7 +365,7 @@ client.listMessages(withOptions: options) { result, _ in
 
 #### Update a message
 
-Use the `update` method of `ChatThreadClient` to update a message in a thread.
+Use the `update` method of `ChatThreadClient` to update the content of a message.
 
 - `UpdateChatMessageRequest` is the model to pass to this method.
 - `content` is the message content to be updated.
@@ -410,6 +415,7 @@ Use the `listParticipants` of `ChatThreadClient` method to retrieve the particip
 
 
 `PagedCollection<Participant>` is the response returned from listing participants.
+`Participant` contains the identifier which holds the unique ACS user ID for this participant, as well as optional display name and share history time.
 
 ```swift
 chatThreadClient.listParticipants() { result, _ in
@@ -428,7 +434,7 @@ chatThreadClient.listParticipants() { result, _ in
 
 #### Add thread participants
 
-Use the `add` method to add participants to a thread.
+Use the `add` method to add one or more participants to a thread.
 
 - `participants` is an array of `Participant`'s to add
 - `AddChatParticipantsResult` is the model returned, it contains an errors property that has an array of any invalid participants that failed to be added to the chat.
@@ -454,10 +460,10 @@ chatThreadClient.add(participants: threadParticipants) { result, _ in
 
 Use the `remove` method of `ChatThreadClient` to remove a participant from a thread.
 
-- `participant` is id of the participant to remove.
+- `participant` is identifier of the participant to remove. If you have a `Participant` object you can access the identifier through the `id` property.
 
 ```swift
-chatThreadClient.remove(participant: participantId) { result, _ in
+chatThreadClient.remove(participant: identifer) { result, _ in
     switch result {
     case .success:
         // Take further action
@@ -509,7 +515,7 @@ chatThreadClient.sendReadReceipt(forMessage: messageId) { result, _ in
 
 Use the `listReadReceipts` method of `ChatThreadClient` to retrieve read receipts for a thread.
 
-`PagedCollection<ReadReceipt>` is the response returned from listing read receipts.
+`PagedCollection<ReadReceipt>` is the response returned from listing read receipts. `ReadReceipt` contains the sender of the read receipt, the id of the message that was read, and the time that the message was read.
 
 ```swift
 chatThreadClient.listReadReceipts() { result, _ in

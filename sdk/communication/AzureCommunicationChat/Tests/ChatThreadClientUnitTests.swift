@@ -253,7 +253,9 @@ class ChatThreadClientUnitTests: XCTestCase {
                         }
                         XCTAssertEqual(message.id, self.messageId)
                         XCTAssertEqual(content.message, "Hello world!")
-                        XCTAssertEqual(message.sender?.identifier, self.participantId)
+                        if let sender = message.sender as? CommunicationUserIdentifier {
+                            XCTAssertEqual(sender.identifier, self.participantId)
+                        }
 
                     case .failure:
                         XCTFail("Unexpected failure happened in list messages")
@@ -435,7 +437,12 @@ class ChatThreadClientUnitTests: XCTestCase {
                             XCTFail("Failed to extract senderDisplayName from response")
                             return
                         }
-                        XCTAssertEqual(participant.user.identifier, self.participantId)
+                        guard let user = participant.id as? CommunicationUserIdentifier else {
+                            XCTFail("Identifier is not of expected type")
+                            expectation.fulfill()
+                            return
+                        }
+                        XCTAssertEqual(user.identifier, self.participantId)
                         XCTAssertEqual(displayName, self.participantName)
 
                     case .failure:
@@ -495,7 +502,7 @@ class ChatThreadClientUnitTests: XCTestCase {
         let expectation = self.expectation(description: "Add participant")
 
         let participant = Participant(
-            id: participantId,
+            id: CommunicationUserIdentifier(participantId),
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
 
@@ -528,7 +535,7 @@ class ChatThreadClientUnitTests: XCTestCase {
         let expectation = self.expectation(description: "Add participant")
 
         let participant = Participant(
-            id: participantId,
+            id: CommunicationUserIdentifier(participantId),
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
 
@@ -554,23 +561,26 @@ class ChatThreadClientUnitTests: XCTestCase {
     func test_RemoveParticipant_ReturnSuccess() {
         let bundle = Bundle(for: type(of: self))
         let path = bundle.path(forResource: "NoContent", ofType: "json") ?? ""
-        stub(condition: isMethodDELETE()) { _ in
+        stub(condition: isMethodPOST()) { _ in
             fixture(filePath: path, status: 204, headers: nil)
         }
 
         let expectation = self.expectation(description: "Remove Participant")
 
-        chatThreadClient.remove(participant: participantId, completionHandler: { result, _ in
-            switch result {
-            case let .success(response):
-                XCTAssertNotNil(response)
+        chatThreadClient.remove(
+            participant: CommunicationUserIdentifier(participantId),
+            completionHandler: { result, _ in
+                switch result {
+                case let .success(response):
+                    XCTAssertNotNil(response)
 
-            case .failure:
-                XCTFail("Unexpected failure happened in remove participant")
+                case .failure:
+                    XCTFail("Unexpected failure happened in remove participant")
+                }
+
+                expectation.fulfill()
             }
-
-            expectation.fulfill()
-        })
+        )
 
         waitForExpectations(timeout: TestUtil.timeout) { error in
             if let error = error {
@@ -582,23 +592,26 @@ class ChatThreadClientUnitTests: XCTestCase {
     func test_RemoveParticipant_ReturnError() {
         let bundle = Bundle(for: type(of: self))
         let path = bundle.path(forResource: "UnauthorizedError", ofType: "json") ?? ""
-        stub(condition: isMethodDELETE()) { _ in
+        stub(condition: isMethodPOST()) { _ in
             fixture(filePath: path, status: 401, headers: nil)
         }
 
         let expectation = self.expectation(description: "Remove Participant")
 
-        chatThreadClient.remove(participant: participantId, completionHandler: { result, _ in
-            switch result {
-            case .success:
-                XCTFail("Unexpected failure happened in remove participant")
+        chatThreadClient.remove(
+            participant: CommunicationUserIdentifier(participantId),
+            completionHandler: { result, _ in
+                switch result {
+                case .success:
+                    XCTFail("Unexpected failure happened in remove participant")
 
-            case let .failure(error):
-                XCTAssertNotNil(error)
+                case let .failure(error):
+                    XCTAssertNotNil(error)
+                }
+
+                expectation.fulfill()
             }
-
-            expectation.fulfill()
-        })
+        )
 
         waitForExpectations(timeout: TestUtil.timeout) { error in
             if let error = error {
@@ -735,7 +748,12 @@ class ChatThreadClientUnitTests: XCTestCase {
                 response.nextItem { result in
                     switch result {
                     case let .success(readReceipt):
-                        XCTAssertEqual(readReceipt.sender.identifier, self.participantId)
+                        guard let sender = readReceipt.sender as? CommunicationUserIdentifier else {
+                            XCTFail("Identifier is not of expected type")
+                            expectation.fulfill()
+                            return
+                        }
+                        XCTAssertEqual(sender.identifier, self.participantId)
                         XCTAssertEqual(readReceipt.chatMessageId, self.messageId)
                         XCTAssertNotNil(readReceipt.readOn)
 

@@ -58,7 +58,7 @@ class ChatThreadClientTests: XCTestCase {
         chatClient = try TestUtil.getChatClient()
 
         let participant = Participant(
-            id: user1,
+            id: CommunicationUserIdentifier(user1),
             displayName: "User 1",
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
@@ -470,7 +470,7 @@ class ChatThreadClientTests: XCTestCase {
 
     func test_AddValidParticipant_ReturnsWithoutErrors() {
         let newParticipant = Participant(
-            id: user2,
+            id: CommunicationUserIdentifier(user2),
             displayName: "User 2",
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
@@ -502,7 +502,7 @@ class ChatThreadClientTests: XCTestCase {
 
     func test_RemoveParticipant() {
         let removedParticipant = Participant(
-            id: user2,
+            id: CommunicationUserIdentifier(user2),
             displayName: "User 2",
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
@@ -514,19 +514,20 @@ class ChatThreadClientTests: XCTestCase {
             switch result {
             case .success:
                 // Remove the participant
-                self.chatThreadClient.remove(participant: removedParticipant.user.identifier) { result, httpResponse in
-                    switch result {
-                    case .success:
-                        if TestUtil.mode == "record" {
-                            Recorder.record(name: Recording.removeParticipant, httpResponse: httpResponse)
+                self.chatThreadClient
+                    .remove(participant: CommunicationUserIdentifier(self.user2)) { result, httpResponse in
+                        switch result {
+                        case .success:
+                            if TestUtil.mode == "record" {
+                                Recorder.record(name: Recording.removeParticipant, httpResponse: httpResponse)
+                            }
+
+                        case let .failure(error):
+                            XCTFail("Remove participant failed: \(error)")
                         }
 
-                    case let .failure(error):
-                        XCTFail("Remove participant failed: \(error)")
+                        expectation.fulfill()
                     }
-
-                    expectation.fulfill()
-                }
 
             case let .failure(error):
                 XCTFail("Remove participants failed: \(error)")
@@ -543,7 +544,7 @@ class ChatThreadClientTests: XCTestCase {
 
     func test_ListParticipants_ReturnsParticipants() {
         let anotherParticipant = Participant(
-            id: user2,
+            id: CommunicationUserIdentifier(user2),
             displayName: "User 2",
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
@@ -564,7 +565,7 @@ class ChatThreadClientTests: XCTestCase {
                     case let .success(participantsResult):
                         let participants = participantsResult.pageItems
                         participants?.forEach { participant in
-                            XCTAssertNotNil(participant.user.identifier)
+                            XCTAssertNotNil(participant.id)
                             XCTAssertNotNil(participant.displayName)
                         }
 
