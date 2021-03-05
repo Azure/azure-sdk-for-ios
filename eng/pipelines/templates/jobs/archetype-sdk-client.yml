@@ -126,7 +126,8 @@ jobs:
         displayName: Lint PodSpecs
 
       - script: |
-          python ../../../../Scripts/version.py verify
+          echo $(cwd)
+          python ./eng/scripts/version.py verify
         displayName: Verify Versions
 
       - script: |
