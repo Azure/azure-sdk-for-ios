@@ -126,7 +126,7 @@ jobs:
         displayName: Lint PodSpecs
 
       - script: |
-          python ../../../../Scripts/check_version.py
+          python ../../../../Scripts/version.py verify
         displayName: Verify Versions
 
       - script: |
