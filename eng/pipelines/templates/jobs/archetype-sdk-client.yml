@@ -121,7 +121,6 @@ jobs:
           CheckLinkGuidance: $true
 
       - script: |
-          echo $(pwd)
           python ./eng/scripts/version.py verify
         displayName: Verify Versions
 
