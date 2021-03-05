@@ -14,6 +14,7 @@
 **Azure Communication Chat**
 - On `ChatClient` `create(thread)` method, renamed `repeatabilityRequestID` to `repeatabilityRequestId`
 - `ChatThreadClient` `remove(participant)` method now accepts `CommunicationIdentifier` instead of a string
+- For `Participant` renamed `user` property to `id`
 
 ### Key Bug Fixes
 

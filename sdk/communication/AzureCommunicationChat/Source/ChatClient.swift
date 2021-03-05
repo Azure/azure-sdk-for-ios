@@ -75,7 +75,7 @@ public class ChatClient {
     /// - Returns: An array of ChatParticipants.
     private func convert(participants: [Participant]) throws -> [ChatParticipant] {
         return try participants.map { (participant) -> ChatParticipant in
-            let identifierModel = try IdentifierSerializer.serialize(identifier: participant.user)
+            let identifierModel = try IdentifierSerializer.serialize(identifier: participant.id)
             return ChatParticipant(
                 communicationIdentifier: identifierModel,
                 displayName: participant.displayName,

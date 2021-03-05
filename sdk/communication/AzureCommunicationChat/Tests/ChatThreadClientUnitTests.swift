@@ -437,7 +437,7 @@ class ChatThreadClientUnitTests: XCTestCase {
                             XCTFail("Failed to extract senderDisplayName from response")
                             return
                         }
-                        guard let user = participant.user as? CommunicationUserIdentifier else {
+                        guard let user = participant.id as? CommunicationUserIdentifier else {
                             XCTFail("Identifier is not of expected type")
                             expectation.fulfill()
                             return
@@ -502,7 +502,7 @@ class ChatThreadClientUnitTests: XCTestCase {
         let expectation = self.expectation(description: "Add participant")
 
         let participant = Participant(
-            user: CommunicationUserIdentifier(participantId),
+            id: CommunicationUserIdentifier(participantId),
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
 
@@ -535,7 +535,7 @@ class ChatThreadClientUnitTests: XCTestCase {
         let expectation = self.expectation(description: "Add participant")
 
         let participant = Participant(
-            user: CommunicationUserIdentifier(participantId),
+            id: CommunicationUserIdentifier(participantId),
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
 

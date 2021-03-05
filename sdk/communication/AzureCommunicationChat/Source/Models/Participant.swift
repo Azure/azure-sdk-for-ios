@@ -33,7 +33,7 @@ public struct Participant: Codable {
     // MARK: Properties
 
     /// The  identifier of the participant.
-    public let user: CommunicationIdentifier
+    public let id: CommunicationIdentifier
     /// Display name for the participant.
     public let displayName: String?
     /// Time from which the chat history is shared with the participant. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
@@ -48,7 +48,7 @@ public struct Participant: Codable {
         from chatParticipant: ChatParticipant
     ) throws {
         // Deserialize the identifier model to CommunicationIdentifier
-        self.user = try IdentifierSerializer.deserialize(identifier: chatParticipant.communicationIdentifier)
+        self.id = try IdentifierSerializer.deserialize(identifier: chatParticipant.communicationIdentifier)
 
         self.displayName = chatParticipant.displayName
         self.shareHistoryTime = chatParticipant.shareHistoryTime
@@ -56,15 +56,15 @@ public struct Participant: Codable {
 
     /// Initialize a `Participant` structure.
     /// - Parameters:
-    ///   - user: The  identifier of the participant.
+    ///   - id: The  identifier of the participant.
     ///   - displayName: Display name for the participant.
     ///   - shareHistoryTime: Time from which the chat history is shared with the participant. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public init(
-        user: CommunicationIdentifier,
+        id: CommunicationIdentifier,
         displayName: String? = nil,
         shareHistoryTime: Iso8601Date? = nil
     ) {
-        self.user = user
+        self.id = id
         self.displayName = displayName
         self.shareHistoryTime = shareHistoryTime
     }
@@ -72,7 +72,7 @@ public struct Participant: Codable {
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case user = "communicationIdentifier"
+        case id = "communicationIdentifier"
         case displayName
         case shareHistoryTime
     }
@@ -82,8 +82,8 @@ public struct Participant: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         // Decode CommunicationIdentifierModel to CommunicationIdentifier
-        let identifierModel = try container.decode(CommunicationIdentifierModel.self, forKey: .user)
-        self.user = try IdentifierSerializer.deserialize(identifier: identifierModel)
+        let identifierModel = try container.decode(CommunicationIdentifierModel.self, forKey: .id)
+        self.id = try IdentifierSerializer.deserialize(identifier: identifierModel)
 
         self.displayName = try? container.decode(String.self, forKey: .displayName)
         self.shareHistoryTime = try? container.decode(Iso8601Date.self, forKey: .shareHistoryTime)
@@ -94,8 +94,8 @@ public struct Participant: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         // Encode CommunicationIdentifier to CommunicationIdentifierModel
-        let identifierModel = try IdentifierSerializer.serialize(identifier: user)
-        try container.encode(identifierModel, forKey: .user)
+        let identifierModel = try IdentifierSerializer.serialize(identifier: id)
+        try container.encode(identifierModel, forKey: .id)
 
         if displayName != nil { try? container.encode(displayName, forKey: .displayName) }
         if shareHistoryTime != nil { try? container.encode(shareHistoryTime, forKey: .shareHistoryTime) }

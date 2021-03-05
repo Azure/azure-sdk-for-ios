@@ -58,7 +58,7 @@ class ChatThreadClientTests: XCTestCase {
         chatClient = try TestUtil.getChatClient()
 
         let participant = Participant(
-            user: CommunicationUserIdentifier(user1),
+            id: CommunicationUserIdentifier(user1),
             displayName: "User 1",
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
@@ -470,7 +470,7 @@ class ChatThreadClientTests: XCTestCase {
 
     func test_AddValidParticipant_ReturnsWithoutErrors() {
         let newParticipant = Participant(
-            user: CommunicationUserIdentifier(user2),
+            id: CommunicationUserIdentifier(user2),
             displayName: "User 2",
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
@@ -502,7 +502,7 @@ class ChatThreadClientTests: XCTestCase {
 
     func test_RemoveParticipant() {
         let removedParticipant = Participant(
-            user: CommunicationUserIdentifier(user2),
+            id: CommunicationUserIdentifier(user2),
             displayName: "User 2",
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
@@ -544,7 +544,7 @@ class ChatThreadClientTests: XCTestCase {
 
     func test_ListParticipants_ReturnsParticipants() {
         let anotherParticipant = Participant(
-            user: CommunicationUserIdentifier(user2),
+            id: CommunicationUserIdentifier(user2),
             displayName: "User 2",
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
@@ -565,7 +565,7 @@ class ChatThreadClientTests: XCTestCase {
                     case let .success(participantsResult):
                         let participants = participantsResult.pageItems
                         participants?.forEach { participant in
-                            XCTAssertNotNil(participant.user)
+                            XCTAssertNotNil(participant.id)
                             XCTAssertNotNil(participant.displayName)
                         }
 
