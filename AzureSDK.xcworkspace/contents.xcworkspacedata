@@ -37,16 +37,6 @@
       </Group>
    </Group>
    <Group
-      location = "group:Scripts"
-      name = "Scripts">
-      <FileRef
-         location = "group:build_api_docs.sh">
-      </FileRef>
-      <FileRef
-         location = "group:swiftlint.sh">
-      </FileRef>
-   </Group>
-   <Group
       location = "group:examples"
       name = "Examples">
       <FileRef
@@ -436,7 +426,10 @@
          location = "group:scripts"
          name = "scripts">
          <FileRef
-            location = "group:Verify-Versions.ps1">
+            location = "group:build_api_docs.sh">
+         </FileRef>
+         <FileRef
+            location = "group:swiftlint.sh">
          </FileRef>
       </Group>
       <FileRef
