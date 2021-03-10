@@ -41,6 +41,7 @@ end
 # determine if running on CI or not and populate local directory
 is_ci = ENV.key?('IS_CI')
 local_path = ENV['PODSPEC_DIR']
+branch = (ENV['PODSPEC_BRANCH'] || 'master')
 
 target 'AzureSDKSmokeTest' do
   if is_ci
@@ -51,9 +52,9 @@ target 'AzureSDKSmokeTest' do
     pod 'AzureCommunicationCalling', :podspec => "#{local_path}/AzureCommunicationCalling.podspec.json"
   else
     # manual run targets AzureSDK master branch
-    pod 'AzureCore', :git => 'https://github.com/Azure/azure-sdk-for-ios.git', :branch => 'master'
-    pod 'AzureCommunication', :git => 'https://github.com/Azure/azure-sdk-for-ios.git', :branch => 'master'
-    pod 'AzureCommunicationChat', :git => 'https://github.com/Azure/azure-sdk-for-ios.git', :branch => 'master'
-    pod 'AzureCommunicationCalling', :podspec => 'https://raw.githubusercontent.com/Azure/azure-sdk-for-ios/master/AzureCommunicationCalling.podspec.json'
+    pod 'AzureCore', :git => 'https://github.com/Azure/azure-sdk-for-ios.git', :branch => "#{branch}"
+    pod 'AzureCommunication', :git => 'https://github.com/Azure/azure-sdk-for-ios.git', :branch => "#{branch}"
+    pod 'AzureCommunicationChat', :git => 'https://github.com/Azure/azure-sdk-for-ios.git', :branch => "#{branch}"
+    pod 'AzureCommunicationCalling', :podspec => "https://raw.githubusercontent.com/Azure/azure-sdk-for-ios/#{branch}/AzureCommunicationCalling.podspec.json"
   end
 end
