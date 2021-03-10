@@ -5,6 +5,11 @@
 **Azure Communication Chat**
  - Introduction of  a new struct `CommunicationIdentifierModel` to repesent a union type that is either a `communicationUser`, `phoneNumber`, or `microsoftTeamsUser`.
 
+**Azure Communication Calling**
+- SDK is now shipped as a XCFramework instead of a FAT framework created using `lipo`.
+- Improved caching of objects. 
+- Added new call state `Hold` when a remote participant puts the call on hold.
+
 ### Breaking Changes
 **Azure Communication**
 - Removal of `CommunicationCloudEnvironment.fromModel()` method
@@ -16,7 +21,21 @@
 - `ChatThreadClient` `remove(participant)` method now accepts `CommunicationIdentifier` instead of a string
 - For `Participant` renamed `user` property to `id`
 
+**Azure Communication Calling**
+- `Renderer` renamed to `VideoStreamRenderer`.
+- `AudioDeviceInfo` removed from `DeviceManager`, please use iOS system API's in your application to switch between audio devices.
+- `CallAgent` raises a new event `onIncomingCall` when a new incoming call is received. 
+- `CallAgent` raises a new event `onCallEnded` event is raised when the incoming call wasn't answered.
+- `Accept` and `Reject` can now be done on `IncomingCall` object and removed from `Call` object.
+- For parsing of push notification payload `IncomingCallPushNotification` has been renamed to `PushNotificationInfo`.
+- `CallerInfo` class created which provides information about the caller in an incoming call. Can be retrieved from `IncomingCall` and `Call` objects. 
+
+
 ### Key Bug Fixes
+**Azure Communication Calling**
+- `OnCallsUpdated` event is raised when the call collection on `CallAgent` is updated for outgoing calls.
+- `Hold` and `Resume` of an active call is fixed. 
+
 
 ## 1.0.0-beta.8 (2021-02-09)
 ### New Features
