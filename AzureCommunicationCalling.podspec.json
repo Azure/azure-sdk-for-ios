@@ -19,8 +19,8 @@
   "source": {
     "http": "https://github.com/Azure/Communication/releases/download/v1.0.0-beta.9/AzureCommunicationCalling-1.0.0-beta9.zip"
   },
-  "source_files": "AzureCommunicationCalling.framework/Headers/*.h",
-  "public_header_files": "AzureCommunicationCalling.framework/Headers/*.h",
+  "source_files": "AzureCommunicationCalling.xcframework/*/AzureCommunicationCalling.framework/Headers/*.h",
+  "public_header_files": "AzureCommunicationCalling.xcframework/*/AzureCommunicationCalling.framework/Headers/*.h",
   "vendored_frameworks": "AzureCommunicationCalling.xcframework",
   "pod_target_xcconfig": {
     "DEFINES_MODULE": "YES",
