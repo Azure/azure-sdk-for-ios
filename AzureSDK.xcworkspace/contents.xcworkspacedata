@@ -39,6 +39,44 @@
    <Group
       location = "group:examples"
       name = "Examples">
+      <Group
+         location = "group:AzureSDKSwiftPM"
+         name = "AzureSDKSwiftPM">
+         <Group
+            location = "group:Tests"
+            name = "Tests">
+            <Group
+               location = "group:AzureSDKSwiftPMTests"
+               name = "AzureSDKSwiftPMTests">
+               <FileRef
+                  location = "group:XCTestManifests.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:AzureSDKSwiftPMTests.swift">
+               </FileRef>
+            </Group>
+            <FileRef
+               location = "group:LinuxMain.swift">
+            </FileRef>
+         </Group>
+         <FileRef
+            location = "group:README.md">
+         </FileRef>
+         <FileRef
+            location = "group:Package.swift">
+         </FileRef>
+         <Group
+            location = "group:Sources"
+            name = "Sources">
+            <Group
+               location = "group:AzureSDKSwiftPM"
+               name = "AzureSDKSwiftPM">
+               <FileRef
+                  location = "group:AzureSDKSwiftPM.swift">
+               </FileRef>
+            </Group>
+         </Group>
+      </Group>
       <FileRef
          location = "group:AzureStorageBlobDemo/AzureStorageBlobDemo.xcodeproj">
       </FileRef>
