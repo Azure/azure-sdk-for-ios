@@ -1,5 +1,12 @@
 # Release History
 
+## 1.0.0-beta.10 (Unreleased)
+### New Features
+
+### Breaking Changes
+
+### Key Bug Fixes
+
 ## 1.0.0-beta.9 (2021-03-10)
 ### New Features
 **Azure Communication Chat**
