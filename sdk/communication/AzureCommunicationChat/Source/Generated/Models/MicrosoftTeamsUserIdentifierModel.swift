@@ -16,7 +16,7 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// A Microsoft Teams user.
-public struct MicrosoftTeamsUserIdentifierModel: Codable, Equatable {
+public struct MicrosoftTeamsUserIdentifierModel: Codable {
     // MARK: Properties
 
     /// The Id of the Microsoft Teams user. If not anonymous, this is the AAD object Id of the user.

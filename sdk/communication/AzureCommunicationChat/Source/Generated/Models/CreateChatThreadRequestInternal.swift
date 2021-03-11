@@ -16,22 +16,22 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Request payload for creating a chat thread.
-public struct CreateChatThreadRequest: Codable, Equatable {
+public struct CreateChatThreadRequestInternal: Codable {
     // MARK: Properties
 
     /// The chat thread topic.
     public let topic: String
     /// Participants to be added to the chat thread.
-    public let participants: [ChatParticipant]
+    public let participants: [ChatParticipantInternal]?
 
     // MARK: Initializers
 
-    /// Initialize a `CreateChatThreadRequest` structure.
+    /// Initialize a `CreateChatThreadRequestInternal` structure.
     /// - Parameters:
     ///   - topic: The chat thread topic.
     ///   - participants: Participants to be added to the chat thread.
     public init(
-        topic: String, participants: [ChatParticipant]
+        topic: String, participants: [ChatParticipantInternal]? = nil
     ) {
         self.topic = topic
         self.participants = participants
@@ -44,17 +44,17 @@ public struct CreateChatThreadRequest: Codable, Equatable {
         case participants = "participants"
     }
 
-    /// Initialize a `CreateChatThreadRequest` structure from decoder
+    /// Initialize a `CreateChatThreadRequestInternal` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.topic = try container.decode(String.self, forKey: .topic)
-        self.participants = try container.decode([ChatParticipant].self, forKey: .participants)
+        self.participants = try? container.decode([ChatParticipantInternal].self, forKey: .participants)
     }
 
-    /// Encode a `CreateChatThreadRequest` structure
+    /// Encode a `CreateChatThreadRequestInternal` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(topic, forKey: .topic)
-        try container.encode(participants, forKey: .participants)
+        if participants != nil { try? container.encode(participants, forKey: .participants) }
     }
 }

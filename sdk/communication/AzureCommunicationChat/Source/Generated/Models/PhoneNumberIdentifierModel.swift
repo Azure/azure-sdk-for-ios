@@ -16,7 +16,7 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// A phone number.
-public struct PhoneNumberIdentifierModel: Codable, Equatable {
+public struct PhoneNumberIdentifierModel: Codable {
     // MARK: Properties
 
     /// The phone number in E.164 format.

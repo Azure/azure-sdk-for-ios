@@ -15,39 +15,46 @@ import Foundation
 // swiftlint:disable line_length
 // swiftlint:disable cyclomatic_complexity
 
-/// Errors encountered during the creation of the chat thread.
-public struct CreateChatThreadErrors: Codable {
+/// Result of the create chat thread operation.
+public struct CreateChatThreadResultInternal: Codable {
     // MARK: Properties
 
+    /// Chat thread.
+    public let chatThread: ChatThreadPropertiesInternal?
     /// The participants that failed to be added to the chat thread.
-    public let invalidParticipants: [CommunicationError]?
+    public let invalidParticipants: [ChatError]?
 
     // MARK: Initializers
 
-    /// Initialize a `CreateChatThreadErrors` structure.
+    /// Initialize a `CreateChatThreadResultInternal` structure.
     /// - Parameters:
+    ///   - chatThread: Chat thread.
     ///   - invalidParticipants: The participants that failed to be added to the chat thread.
     public init(
-        invalidParticipants: [CommunicationError]? = nil
+        chatThread: ChatThreadPropertiesInternal? = nil, invalidParticipants: [ChatError]? = nil
     ) {
+        self.chatThread = chatThread
         self.invalidParticipants = invalidParticipants
     }
 
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
+        case chatThread = "chatThread"
         case invalidParticipants = "invalidParticipants"
     }
 
-    /// Initialize a `CreateChatThreadErrors` structure from decoder
+    /// Initialize a `CreateChatThreadResultInternal` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.invalidParticipants = try? container.decode([CommunicationError].self, forKey: .invalidParticipants)
+        self.chatThread = try? container.decode(ChatThreadPropertiesInternal.self, forKey: .chatThread)
+        self.invalidParticipants = try? container.decode([ChatError].self, forKey: .invalidParticipants)
     }
 
-    /// Encode a `CreateChatThreadErrors` structure
+    /// Encode a `CreateChatThreadResultInternal` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        if chatThread != nil { try? container.encode(chatThread, forKey: .chatThread) }
         if invalidParticipants != nil { try? container.encode(invalidParticipants, forKey: .invalidParticipants) }
     }
 }

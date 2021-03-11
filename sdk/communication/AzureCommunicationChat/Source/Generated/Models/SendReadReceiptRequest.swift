@@ -16,7 +16,7 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Request payload for sending a read receipt.
-public struct SendReadReceiptRequest: Codable, Equatable {
+public struct SendReadReceiptRequest: Codable {
     // MARK: Properties
 
     /// Id of the latest chat message read by the user.

@@ -16,7 +16,7 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// A participant of the chat thread.
-public struct ChatParticipant: Codable, Equatable {
+public struct ChatParticipantInternal: Codable {
     // MARK: Properties
 
     /// Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.
@@ -28,7 +28,7 @@ public struct ChatParticipant: Codable, Equatable {
 
     // MARK: Initializers
 
-    /// Initialize a `ChatParticipant` structure.
+    /// Initialize a `ChatParticipantInternal` structure.
     /// - Parameters:
     ///   - communicationIdentifier: Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.
     ///   - displayName: Display name for the chat participant.
@@ -50,7 +50,7 @@ public struct ChatParticipant: Codable, Equatable {
         case shareHistoryTime = "shareHistoryTime"
     }
 
-    /// Initialize a `ChatParticipant` structure from decoder
+    /// Initialize a `ChatParticipantInternal` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.communicationIdentifier = try container.decode(
@@ -61,7 +61,7 @@ public struct ChatParticipant: Codable, Equatable {
         self.shareHistoryTime = try? container.decode(Iso8601Date.self, forKey: .shareHistoryTime)
     }
 
-    /// Encode a `ChatParticipant` structure
+    /// Encode a `ChatParticipantInternal` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(communicationIdentifier, forKey: .communicationIdentifier)

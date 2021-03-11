@@ -16,7 +16,7 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// A user that got created with an Azure Communication Services resource.
-public struct CommunicationUserIdentifierModel: Codable, Equatable {
+public struct CommunicationUserIdentifierModel: Codable {
     // MARK: Properties
 
     /// The Id of the communication user.

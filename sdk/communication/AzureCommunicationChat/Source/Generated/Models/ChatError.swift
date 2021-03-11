@@ -16,7 +16,7 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// The Communication Services error.
-public final class CommunicationError: Codable, Swift.Error {
+public final class ChatError: Codable, Swift.Error {
     // MARK: Properties
 
     /// The error code.
@@ -26,13 +26,13 @@ public final class CommunicationError: Codable, Swift.Error {
     /// The error target.
     public let target: String?
     /// Further details about specific errors that led to this error.
-    public let details: [CommunicationError]?
+    public let details: [ChatError]?
     /// The inner error if any.
-    public let innerError: CommunicationError?
+    public let innerError: ChatError?
 
     // MARK: Initializers
 
-    /// Initialize a `CommunicationError` structure.
+    /// Initialize a `ChatError` structure.
     /// - Parameters:
     ///   - code: The error code.
     ///   - message: The error message.
@@ -40,8 +40,7 @@ public final class CommunicationError: Codable, Swift.Error {
     ///   - details: Further details about specific errors that led to this error.
     ///   - innerError: The inner error if any.
     public init(
-        code: String, message: String, target: String? = nil, details: [CommunicationError]? = nil,
-        innerError: CommunicationError? = nil
+        code: String, message: String, target: String? = nil, details: [ChatError]? = nil, innerError: ChatError? = nil
     ) {
         self.code = code
         self.message = message
@@ -60,17 +59,17 @@ public final class CommunicationError: Codable, Swift.Error {
         case innerError = "innererror"
     }
 
-    /// Initialize a `CommunicationError` structure from decoder
+    /// Initialize a `ChatError` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.code = try container.decode(String.self, forKey: .code)
         self.message = try container.decode(String.self, forKey: .message)
         self.target = try? container.decode(String.self, forKey: .target)
-        self.details = try? container.decode([CommunicationError].self, forKey: .details)
-        self.innerError = try? container.decode(CommunicationError.self, forKey: .innerError)
+        self.details = try? container.decode([ChatError].self, forKey: .details)
+        self.innerError = try? container.decode(ChatError.self, forKey: .innerError)
     }
 
-    /// Encode a `CommunicationError` structure
+    /// Encode a `ChatError` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(code, forKey: .code)

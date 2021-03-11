@@ -15,40 +15,34 @@ import Foundation
 // swiftlint:disable line_length
 // swiftlint:disable cyclomatic_complexity
 
-/// Chat thread.
-public struct ChatThread: Codable, Equatable {
+/// Summary information of a chat thread.
+public struct ChatThreadItem: Codable {
     // MARK: Properties
 
     /// Chat thread id.
     public let id: String
     /// Chat thread topic.
     public let topic: String
-    /// The timestamp when the chat thread was created. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
-    public let createdOn: Iso8601Date
-    /// Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.
-    public let createdByCommunicationIdentifier: CommunicationIdentifierModel
     /// The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public let deletedOn: Iso8601Date?
+    /// The timestamp when the last message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    public let lastMessageReceivedOn: Iso8601Date?
 
     // MARK: Initializers
 
-    /// Initialize a `ChatThread` structure.
+    /// Initialize a `ChatThreadItem` structure.
     /// - Parameters:
     ///   - id: Chat thread id.
     ///   - topic: Chat thread topic.
-    ///   - createdOn: The timestamp when the chat thread was created. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
-    ///   - createdByCommunicationIdentifier: Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.
     ///   - deletedOn: The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    ///   - lastMessageReceivedOn: The timestamp when the last message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public init(
-        id: String, topic: String, createdOn: Iso8601Date,
-        createdByCommunicationIdentifier: CommunicationIdentifierModel,
-        deletedOn: Iso8601Date? = nil
+        id: String, topic: String, deletedOn: Iso8601Date? = nil, lastMessageReceivedOn: Iso8601Date? = nil
     ) {
         self.id = id
         self.topic = topic
-        self.createdOn = createdOn
-        self.createdByCommunicationIdentifier = createdByCommunicationIdentifier
         self.deletedOn = deletedOn
+        self.lastMessageReceivedOn = lastMessageReceivedOn
     }
 
     // MARK: Codable
@@ -56,31 +50,25 @@ public struct ChatThread: Codable, Equatable {
     enum CodingKeys: String, CodingKey {
         case id = "id"
         case topic = "topic"
-        case createdOn = "createdOn"
-        case createdByCommunicationIdentifier = "createdByCommunicationIdentifier"
         case deletedOn = "deletedOn"
+        case lastMessageReceivedOn = "lastMessageReceivedOn"
     }
 
-    /// Initialize a `ChatThread` structure from decoder
+    /// Initialize a `ChatThreadItem` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(String.self, forKey: .id)
         self.topic = try container.decode(String.self, forKey: .topic)
-        self.createdOn = try container.decode(Iso8601Date.self, forKey: .createdOn)
-        self.createdByCommunicationIdentifier = try container.decode(
-            CommunicationIdentifierModel.self,
-            forKey: .createdByCommunicationIdentifier
-        )
         self.deletedOn = try? container.decode(Iso8601Date.self, forKey: .deletedOn)
+        self.lastMessageReceivedOn = try? container.decode(Iso8601Date.self, forKey: .lastMessageReceivedOn)
     }
 
-    /// Encode a `ChatThread` structure
+    /// Encode a `ChatThreadItem` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
         try container.encode(topic, forKey: .topic)
-        try container.encode(createdOn, forKey: .createdOn)
-        try container.encode(createdByCommunicationIdentifier, forKey: .createdByCommunicationIdentifier)
         if deletedOn != nil { try? container.encode(deletedOn, forKey: .deletedOn) }
+        if lastMessageReceivedOn != nil { try? container.encode(lastMessageReceivedOn, forKey: .lastMessageReceivedOn) }
     }
 }
