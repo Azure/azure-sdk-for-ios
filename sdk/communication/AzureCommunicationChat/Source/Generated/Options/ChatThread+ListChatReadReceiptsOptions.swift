@@ -17,7 +17,7 @@ import Foundation
 
 public extension ChatThread {
     /// User-configurable options for the `AzureCommunicationChatService.ListChatReadReceipts` operation.
-    struct ListChatReadReceiptsOptions: RequestOptions {
+    public struct ListChatReadReceiptsOptions: RequestOptions {
         /// The maximum number of chat message read receipts to be returned per page.
         public let maxPageSize: Int32?
         /// Skips chat message read receipts up to a specified position in response.
