@@ -48,46 +48,57 @@ let package = Package(
             name: "AzureCore",
             dependencies: [],
             path: "sdk/core/AzureCore",
-            exclude: ["Source/Supporting Files"],
+            exclude: [
+                "README.md",
+                "Tests",
+                "Source/Supporting Files"
+            ],
             sources: ["Source"]
         ),
         .target(
             name: "AzureCommunication",
             dependencies: ["AzureCore"],
             path: "sdk/communication/AzureCommunication",
-            exclude: ["Source/Supporting Files"],
+            exclude: [
+                "README.md",
+                "Tests",
+                "Source/Supporting Files"
+            ],
             sources: ["Source"]
         ),
         .target(
             name: "AzureCommunicationChat",
             dependencies: ["AzureCore", "AzureCommunication"],
             path: "sdk/communication/AzureCommunicationChat",
-            exclude: ["Source/Supporting Files"],
+            exclude: [
+                "README.md",
+                "Tests",
+                "Source/Supporting Files",
+                "Package.swift"
+            ],
             sources: ["Source"]
         ),
         // Test targets
         .testTarget(
             name: "AzureCoreTests",
             dependencies: ["AzureCore"],
-            path: "sdk/core/AzureCore",
+            path: "sdk/core/AzureCore/Tests",
             exclude: [
-                "Tests/Info.plist",
-                "Tests/Data Files"
-            ],
-            sources: ["Tests"]
+                "Info.plist",
+                "Data Files"
+            ]
         ),
         .testTarget(
             name: "AzureCommunicationTests",
             dependencies: ["AzureCommunication"],
-            path: "sdk/communication/AzureCommunication",
+            path: "sdk/communication/AzureCommunication/Tests",
             exclude: [
-                "Tests/Info.plist",
-                "Tests/AzureCommunicationTests-Bridging-Header.h",
-                "Tests/ObjCCommunicationTokenCredentialTests.m",
-                "Tests/ObjCCommunicationTokenCredentialAsyncTests.m",
-                "Tests/ObjCTokenParserTests.m"
-            ],
-            sources: ["Tests"]
+                "Info.plist",
+                "AzureCommunicationTests-Bridging-Header.h",
+                "ObjCCommunicationTokenCredentialTests.m",
+                "ObjCCommunicationTokenCredentialAsyncTests.m",
+                "ObjCTokenParserTests.m"
+            ]
         ),
         .testTarget(
             name: "AzureCommunicationChatTests",
@@ -96,13 +107,12 @@ let package = Package(
                 "AzureCommunicationChat",
                 .product(name: "OHHTTPStubsSwift", package: "OHHTTPStubs"),
             ],
-            path: "sdk/communication/AzureCommunicationChat",
+            path: "sdk/communication/AzureCommunicationChat/Tests",
             exclude: [
-                "Tests/Info.plist",
-                "Tests/Util/Mocks",
-                "Tests/Util/Recordings"
-            ],
-            sources: ["Tests"]
+                "Info.plist",
+                "Util/Mocks",
+                "Util/Recordings"
+            ]
         )
     ],
     swiftLanguageVersions: [.v5]
