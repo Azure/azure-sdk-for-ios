@@ -16,22 +16,22 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Collection of chat threads.
-public struct ChatThreadsInfoCollection: Codable, Equatable {
+public struct ChatThreadsItemCollection: Codable {
     // MARK: Properties
 
     /// Collection of chat threads.
-    public let value: [ChatThreadInfo]
+    public let value: [ChatThreadItem]
     /// If there are more chat threads that can be retrieved, the next link will be populated.
     public let nextLink: String?
 
     // MARK: Initializers
 
-    /// Initialize a `ChatThreadsInfoCollection` structure.
+    /// Initialize a `ChatThreadsItemCollection` structure.
     /// - Parameters:
     ///   - value: Collection of chat threads.
     ///   - nextLink: If there are more chat threads that can be retrieved, the next link will be populated.
     public init(
-        value: [ChatThreadInfo], nextLink: String? = nil
+        value: [ChatThreadItem], nextLink: String? = nil
     ) {
         self.value = value
         self.nextLink = nextLink
@@ -44,14 +44,14 @@ public struct ChatThreadsInfoCollection: Codable, Equatable {
         case nextLink = "nextLink"
     }
 
-    /// Initialize a `ChatThreadsInfoCollection` structure from decoder
+    /// Initialize a `ChatThreadsItemCollection` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.value = try container.decode([ChatThreadInfo].self, forKey: .value)
+        self.value = try container.decode([ChatThreadItem].self, forKey: .value)
         self.nextLink = try? container.decode(String.self, forKey: .nextLink)
     }
 
-    /// Encode a `ChatThreadsInfoCollection` structure
+    /// Encode a `ChatThreadsItemCollection` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(value, forKey: .value)

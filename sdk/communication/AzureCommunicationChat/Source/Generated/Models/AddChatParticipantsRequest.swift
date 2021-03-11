@@ -16,11 +16,11 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Participants to be added to the thread.
-public struct AddChatParticipantsRequest: Codable, Equatable {
+public struct AddChatParticipantsRequest: Codable {
     // MARK: Properties
 
     /// Participants to add to a chat thread.
-    public let participants: [ChatParticipant]
+    public let participants: [ChatParticipantInternal]
 
     // MARK: Initializers
 
@@ -28,7 +28,7 @@ public struct AddChatParticipantsRequest: Codable, Equatable {
     /// - Parameters:
     ///   - participants: Participants to add to a chat thread.
     public init(
-        participants: [ChatParticipant]
+        participants: [ChatParticipantInternal]
     ) {
         self.participants = participants
     }
@@ -42,7 +42,7 @@ public struct AddChatParticipantsRequest: Codable, Equatable {
     /// Initialize a `AddChatParticipantsRequest` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.participants = try container.decode([ChatParticipant].self, forKey: .participants)
+        self.participants = try container.decode([ChatParticipantInternal].self, forKey: .participants)
     }
 
     /// Encode a `AddChatParticipantsRequest` structure

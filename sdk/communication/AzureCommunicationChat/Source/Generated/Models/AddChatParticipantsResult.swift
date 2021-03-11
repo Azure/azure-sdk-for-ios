@@ -19,35 +19,35 @@ import Foundation
 public struct AddChatParticipantsResult: Codable {
     // MARK: Properties
 
-    /// Errors encountered during the addition of the chat participant to the chat thread.
-    public let errors: AddChatParticipantsErrors?
+    /// The participants that failed to be added to the chat thread.
+    public let invalidParticipants: [ChatError]?
 
     // MARK: Initializers
 
     /// Initialize a `AddChatParticipantsResult` structure.
     /// - Parameters:
-    ///   - errors: Errors encountered during the addition of the chat participant to the chat thread.
+    ///   - invalidParticipants: The participants that failed to be added to the chat thread.
     public init(
-        errors: AddChatParticipantsErrors? = nil
+        invalidParticipants: [ChatError]? = nil
     ) {
-        self.errors = errors
+        self.invalidParticipants = invalidParticipants
     }
 
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case errors = "errors"
+        case invalidParticipants = "invalidParticipants"
     }
 
     /// Initialize a `AddChatParticipantsResult` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.errors = try? container.decode(AddChatParticipantsErrors.self, forKey: .errors)
+        self.invalidParticipants = try? container.decode([ChatError].self, forKey: .invalidParticipants)
     }
 
     /// Encode a `AddChatParticipantsResult` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        if errors != nil { try? container.encode(errors, forKey: .errors) }
+        if invalidParticipants != nil { try? container.encode(invalidParticipants, forKey: .invalidParticipants) }
     }
 }

@@ -16,7 +16,7 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Chat message.
-public struct ChatMessage: Codable, Equatable {
+public struct ChatMessageInternal: Codable {
     // MARK: Properties
 
     /// The id of the chat message. This id is server generated.
@@ -28,7 +28,7 @@ public struct ChatMessage: Codable, Equatable {
     /// Version of the chat message.
     public let version: String
     /// Content of a chat message.
-    public let content: ChatMessageContent?
+    public let content: ChatMessageContentInternal?
     /// The display name of the chat message sender. This property is used to populate sender name for push notifications.
     public let senderDisplayName: String?
     /// The timestamp when the chat message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
@@ -42,7 +42,7 @@ public struct ChatMessage: Codable, Equatable {
 
     // MARK: Initializers
 
-    /// Initialize a `ChatMessage` structure.
+    /// Initialize a `ChatMessageInternal` structure.
     /// - Parameters:
     ///   - id: The id of the chat message. This id is server generated.
     ///   - type: The chat message type.
@@ -55,7 +55,8 @@ public struct ChatMessage: Codable, Equatable {
     ///   - deletedOn: The timestamp (if applicable) when the message was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     ///   - editedOn: The last timestamp (if applicable) when the message was edited. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public init(
-        id: String, type: ChatMessageType, sequenceId: String, version: String, content: ChatMessageContent? = nil,
+        id: String, type: ChatMessageType, sequenceId: String, version: String,
+        content: ChatMessageContentInternal? = nil,
         senderDisplayName: String? = nil, createdOn: Iso8601Date,
         senderCommunicationIdentifier: CommunicationIdentifierModel? = nil, deletedOn: Iso8601Date? = nil,
         editedOn: Iso8601Date? = nil
@@ -87,14 +88,14 @@ public struct ChatMessage: Codable, Equatable {
         case editedOn = "editedOn"
     }
 
-    /// Initialize a `ChatMessage` structure from decoder
+    /// Initialize a `ChatMessageInternal` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(String.self, forKey: .id)
         self.type = try container.decode(ChatMessageType.self, forKey: .type)
         self.sequenceId = try container.decode(String.self, forKey: .sequenceId)
         self.version = try container.decode(String.self, forKey: .version)
-        self.content = try? container.decode(ChatMessageContent.self, forKey: .content)
+        self.content = try? container.decode(ChatMessageContentInternal.self, forKey: .content)
         self.senderDisplayName = try? container.decode(String.self, forKey: .senderDisplayName)
         self.createdOn = try container.decode(Iso8601Date.self, forKey: .createdOn)
         self.senderCommunicationIdentifier = try? container.decode(
@@ -105,7 +106,7 @@ public struct ChatMessage: Codable, Equatable {
         self.editedOn = try? container.decode(Iso8601Date.self, forKey: .editedOn)
     }
 
-    /// Encode a `ChatMessage` structure
+    /// Encode a `ChatMessageInternal` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
