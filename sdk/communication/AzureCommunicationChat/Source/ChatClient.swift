@@ -153,13 +153,13 @@ public class ChatClient {
         }
     }
 
-    /// Get the Thread with given id.
+    /// Get the ChatThreadProperties for a chat thread with given id.
     /// - Parameters:
     ///   - threadId: The chat thread id.
     ///   - options: Get chat thread options.
     ///   - completionHandler: A completion handler that receives the chat thread properties on success.
     public func get(
-        thread threadId: String,
+        propertiesFor threadId: String,
         withOptions options: Chat.GetChatThreadPropertiesOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<ChatThreadProperties>
     ) {
