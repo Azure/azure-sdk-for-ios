@@ -37,7 +37,7 @@ public enum IdentifierSerializer {
         try assertOneNestedModel(identifier)
 
         if let communicationUser = identifier.communicationUser {
-            return CommunicationUserIdentifier(identifier: communicationUser.id)
+            return CommunicationUserIdentifier(communicationUser.id)
         } else if let phoneNumber = identifier.phoneNumber {
             return PhoneNumberIdentifier(phoneNumber: phoneNumber.value, rawId: rawId)
         } else if let microsoftTeamsUser = identifier.microsoftTeamsUser {
@@ -57,7 +57,7 @@ public enum IdentifierSerializer {
             )
         }
 
-        return UnknownIdentifier(identifier: rawId)
+        return UnknownIdentifier(rawId)
     }
 
     private static func deserialize(model: CommunicationCloudEnvironmentModel) throws -> CommunicationCloudEnvironment {

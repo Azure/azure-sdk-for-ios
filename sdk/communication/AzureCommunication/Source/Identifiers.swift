@@ -40,7 +40,8 @@ import Foundation
      Creates a CommunicationUserIdentifier object
      - Parameter identifier: identifier representing the object identity
      */
-    public init(identifier: String) {
+    @objc(initWithIdentifier:)
+    public init(_ identifier: String) {
         self.identifier = identifier
     }
 }
@@ -54,7 +55,8 @@ import Foundation
      Creates a UnknownIdentifier object
      - Parameter identifier: identifier representing the object identity
      */
-    public init(identifier: String) {
+    @objc(initWithIdentifier:)
+    public init(_ identifier: String) {
         self.identifier = identifier
     }
 }
