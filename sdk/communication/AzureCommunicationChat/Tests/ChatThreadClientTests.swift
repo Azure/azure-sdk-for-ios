@@ -110,7 +110,7 @@ class ChatThreadClientTests: XCTestCase {
 
                 // Get thread and verify topic updated
                 if TestUtil.mode != "playback" {
-                    self.chatClient.get(thread: self.threadId) { result, _ in
+                    self.chatClient.get(propertiesFor: self.threadId) { result, _ in
                         switch result {
                         case let .success(chatThread):
                             XCTAssertEqual(chatThread.topic, newTopic)
@@ -378,13 +378,11 @@ class ChatThreadClientTests: XCTestCase {
         chatThreadClient.send(message: testMessage) { result, _ in
             switch result {
             case let .success(sendMessageResult):
-                let updatedMessage = UpdateChatMessageRequest(
-                    content: "Some new content"
-                )
+                let updatedContent = "Some new content"
 
                 // Update message
                 self.chatThreadClient
-                    .update(message: updatedMessage, messageId: sendMessageResult.id) { result, httpResponse in
+                    .update(content: updatedContent, messageId: sendMessageResult.id) { result, httpResponse in
                         switch result {
                         case .success:
                             if TestUtil.mode == "record" {
@@ -396,7 +394,7 @@ class ChatThreadClientTests: XCTestCase {
                                 self.chatThreadClient.get(message: sendMessageResult.id) { result, _ in
                                     switch result {
                                     case let .success(message):
-                                        XCTAssertEqual(message.content?.message, updatedMessage.content)
+                                        XCTAssertEqual(message.content?.message, updatedContent)
 
                                     case let .failure(error):
                                         XCTFail("Get message failed: \(error)")

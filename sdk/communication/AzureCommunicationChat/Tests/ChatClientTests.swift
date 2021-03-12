@@ -172,7 +172,7 @@ class ChatClientTests: XCTestCase {
         // Create a thread
         createThread(withUser: user, withTopic: topic) { threadId in
             // Get the thread
-            self.chatClient.get(thread: threadId) { result, httpResponse in
+            self.chatClient.get(propertiesFor: threadId) { result, httpResponse in
                 switch result {
                 case let .success(thread):
                     XCTAssert(thread.topic == self.topic)
@@ -212,7 +212,7 @@ class ChatClientTests: XCTestCase {
 
                     // Get the thread and verify deleted
                     if TestUtil.mode != "playback" {
-                        self.chatClient.get(thread: threadId) { result, _ in
+                        self.chatClient.get(propertiesFor: threadId) { result, _ in
                             switch result {
                             case let .success(thread):
                                 XCTAssertNotNil(thread.deletedOn)
