@@ -70,10 +70,14 @@ public class ChatClient {
 
     // MARK: Private Methods
 
-    /// Converts Participants to ChatParticipants for internal use.
-    /// - Parameter participants: The array of Participants.
+    /// Converts [ChatParticipant] to [ChatParticipantInternal] for internal use.
+    /// - Parameter chatParticipants: The array of ChatParticipants.
     /// - Returns: An array of ChatParticipants.
-    private func convert(participants: [ChatParticipant]) throws -> [ChatParticipantInternal] {
+    private func convert(chatParticipants: [ChatParticipant]?) throws -> [ChatParticipantInternal]? {
+        guard let participants = chatParticipants else {
+            return nil
+        }
+
         return try participants.map { (participant) -> ChatParticipantInternal in
             let identifierModel = try IdentifierSerializer.serialize(identifier: participant.id)
             return ChatParticipantInternal(
@@ -100,7 +104,7 @@ public class ChatClient {
 
     /// Create a new ChatThread.
     /// - Parameters:
-    ///   - thread: Request for creating a chat thread with the topic and members to add.
+    ///   - thread: Request for creating a chat thread with the topic and optional members to add.
     ///   - options: Create chat thread options.
     ///   - completionHandler: A completion handler that receives a ChatThreadClient on success.
     public func create(
@@ -108,7 +112,7 @@ public class ChatClient {
         withOptions options: Chat.CreateChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<CreateChatThreadResult>
     ) {
-        // Set the repeatabilityRequestID if it is not provided
+        // Set the idempotencyToken if it is not provided
         let requestOptions = ((options?.idempotencyToken) != nil) ? options : Chat.CreateChatThreadOptions(
             idempotencyToken: UUID().uuidString,
             clientRequestId: options?.clientRequestId,
@@ -118,10 +122,10 @@ public class ChatClient {
         )
 
         do {
-            // Convert Participants to ChatParticipants
-            let participants = try convert(participants: thread.participants)
+            // Convert ChatParticipant to ChatParticipantInternal
+            let participants = try convert(chatParticipants: thread.participants)
 
-            // Convert to CreateChatThreadRequest for generated code
+            // Convert to CreateChatThreadRequestInternal
             let request = CreateChatThreadRequestInternal(
                 topic: thread.topic,
                 participants: participants
@@ -153,7 +157,7 @@ public class ChatClient {
     /// - Parameters:
     ///   - threadId: The chat thread id.
     ///   - options: Get chat thread options.
-    ///   - completionHandler: A completion handler that receives the chat thread on success.
+    ///   - completionHandler: A completion handler that receives the chat thread properties on success.
     public func get(
         thread threadId: String,
         withOptions options: Chat.GetChatThreadPropertiesOptions? = nil,
@@ -179,7 +183,7 @@ public class ChatClient {
     /// Gets the list of ChatThreads for the user.
     /// - Parameters:
     ///   - options: List chat threads options.
-    ///   - completionHandler: A completion handler that receives the list of chat thread info on success.
+    ///   - completionHandler: A completion handler that receives the list of chat thread items on success.
     public func listThreads(
         withOptions options: Chat.ListChatThreadsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatThreadItem>>

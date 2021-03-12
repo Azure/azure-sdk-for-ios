@@ -28,7 +28,7 @@ import AzureCommunication
 import AzureCore
 import Foundation
 
-/// Message.
+/// Chat message.
 public struct ChatMessage: Codable {
     // MARK: Properties
 
@@ -55,39 +55,39 @@ public struct ChatMessage: Codable {
 
     // MARK: Initializers
 
-    /// Initialize a `Message` structure from a ChatMessage.
+    /// Initialize a `ChatMessage` structure from a ChatMessageInternal.
     /// - Parameters:
-    ///   - chatMessage: The ChatMessage to initialize from.
+    ///   - chatMessage: The ChatMessageInternal to initialize from.
     public init(
-        from chatMessage: ChatMessageInternal
+        from chatMessageInternal: ChatMessageInternal
     ) throws {
-        self.id = chatMessage.id
-        self.type = chatMessage.type
-        self.sequenceId = chatMessage.sequenceId
-        self.version = chatMessage.version
+        self.id = chatMessageInternal.id
+        self.type = chatMessageInternal.type
+        self.sequenceId = chatMessageInternal.sequenceId
+        self.version = chatMessageInternal.version
 
-        // Convert ChatMessageContent to MessageContent
-        if let content = chatMessage.content {
+        // Convert ChatMessageContentInternal to ChatMessageContent
+        if let content = chatMessageInternal.content {
             self.content = try ChatMessageContent(from: content)
         } else {
             self.content = nil
         }
 
-        self.senderDisplayName = chatMessage.senderDisplayName
-        self.createdOn = chatMessage.createdOn
+        self.senderDisplayName = chatMessageInternal.senderDisplayName
+        self.createdOn = chatMessageInternal.createdOn
 
         // Deserialize the identifier model to CommunicationIdentifier
-        if let identifierModel = chatMessage.senderCommunicationIdentifier {
+        if let identifierModel = chatMessageInternal.senderCommunicationIdentifier {
             self.sender = try IdentifierSerializer.deserialize(identifier: identifierModel)
         } else {
             self.sender = nil
         }
 
-        self.deletedOn = chatMessage.deletedOn
-        self.editedOn = chatMessage.editedOn
+        self.deletedOn = chatMessageInternal.deletedOn
+        self.editedOn = chatMessageInternal.editedOn
     }
 
-    /// Initialize a `Message` structure.
+    /// Initialize a `ChatMessage` structure.
     /// - Parameters:
     ///   - id: The id of the message. This id is server generated.
     ///   - type: The chat message type.
@@ -138,7 +138,7 @@ public struct ChatMessage: Codable {
         case editedOn
     }
 
-    /// Initialize a `Message` structure from decoder
+    /// Initialize a `ChatMessage` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
@@ -147,7 +147,7 @@ public struct ChatMessage: Codable {
         self.sequenceId = try container.decode(String.self, forKey: .sequenceId)
         self.version = try container.decode(String.self, forKey: .version)
 
-        // Convert ChatMessageContent to MessageContent
+        // Convert ChatMessageContentInternal to ChatMessageContent
         let chatMessageContent = try? container.decode(ChatMessageContentInternal.self, forKey: .content)
         self.content = try? ChatMessageContent(from: chatMessageContent)
 
@@ -166,7 +166,7 @@ public struct ChatMessage: Codable {
         self.editedOn = try? container.decode(Iso8601Date.self, forKey: .editedOn)
     }
 
-    /// Encode a `Message` structure
+    /// Encode a `ChatMessage` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 

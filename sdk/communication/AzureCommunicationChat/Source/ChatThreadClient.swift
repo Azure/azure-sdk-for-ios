@@ -113,9 +113,9 @@ public class ChatThreadClient {
         )
     }
 
-    /// Converts Participants to ChatParticipants for internal use.
-    /// - Parameter participants: The array of Participants.
-    /// - Returns: An array of ChatParticipants.
+    /// Converts [ChatParticipant] to [ChatParticipantInternal] for internal use.
+    /// - Parameter participants: The array of ChatParticipants.
+    /// - Returns: An array of ChatParticipantInternal.
     private func convert(participants: [ChatParticipant]) throws -> [ChatParticipantInternal] {
         return try participants.map { (participant) -> ChatParticipantInternal in
             let identifierModel = try IdentifierSerializer.serialize(identifier: participant.id)
@@ -197,7 +197,7 @@ public class ChatThreadClient {
             switch result {
             case .success:
                 // TODO: https://github.com/Azure/azure-sdk-for-ios/issues/644
-                // Construct a new PagedCollection of type ReadReceipt
+                // Construct a new PagedCollection of type ChatMessageReadReceipt
                 do {
                     let readReceipts = try self.createPagedCollection(
                         from: httpResponse?.data,
@@ -291,19 +291,21 @@ public class ChatThreadClient {
 
     /// Updates a message.
     /// - Parameters:
-    ///    - message: Request that contains the message properties to update.
+    ///    - content: The updated message content.
     ///    - messageId: The message id.
     ///    - options: Update chat message options
     ///    - completionHandler: A completion handler that receives a status code on success.
     public func update(
-        message: UpdateChatMessageRequest,
+        content: String,
         messageId: String,
         withOptions options: ChatThread.UpdateChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
+        let updateMessageRequest = UpdateChatMessageRequest(content: content)
+
         service
             .update(
-                chatMessage: message,
+                chatMessage: updateMessageRequest,
                 chatThreadId: threadId,
                 chatMessageId: messageId,
                 withOptions: options
@@ -356,7 +358,7 @@ public class ChatThreadClient {
             switch result {
             case .success:
                 // TODO: github.com/Azure/azure-sdk-for-ios/issues/644
-                // Construct a new PagedCollection of type Message
+                // Construct a new PagedCollection of type ChatMessage
                 do {
                     let messages = try self.createPagedCollection(
                         from: httpResponse?.data,
@@ -376,9 +378,9 @@ public class ChatThreadClient {
         }
     }
 
-    /// Adds thread participants to a Thread. If the participants already exist, no change occurs.
+    /// Adds participants to a ChatThread. If the participants already exist, no change occurs.
     /// - Parameters:
-    ///    - participants : An array of participants to add.
+    ///    - participants : An array of chat participants to add.
     ///    - options: Add chat participants options.
     ///    - completionHandler: A completion handler that receives a status code on success.
     public func add(
@@ -387,7 +389,7 @@ public class ChatThreadClient {
         completionHandler: @escaping HTTPResultHandler<AddChatParticipantsResult>
     ) {
         do {
-            // Convert Participants to ChatParticipants
+            // Convert ChatParticipant to ChatParticipantInternal
             let chatParticipants = try convert(participants: participants)
 
             // Convert to AddChatParticipantsRequest for generated code
@@ -464,7 +466,7 @@ public class ChatThreadClient {
             switch result {
             case .success:
                 // TODO: https://github.com/Azure/azure-sdk-for-ios/issues/644
-                // Construct a new PagedCollection of type Participant
+                // Construct a new PagedCollection of type ChatParticipant
                 do {
                     let participants = try self.createPagedCollection(
                         from: httpResponse?.data,

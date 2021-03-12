@@ -37,19 +37,21 @@ public struct CreateChatThreadResult: Codable {
     public let invalidParticipants: [ChatError]?
 
     // MARK: Initializers
-
+    
+    /// Initialize a CreateChatThreadResult structure.
+    /// - Parameter createChatThreadResultInternal: The CreateChatThreadResultInternal to initialize from.
     public init(
-        from createChatThreadResult: CreateChatThreadResultInternal
+        from createChatThreadResultInternal: CreateChatThreadResultInternal
     ) throws {
-        if let chatThread = createChatThreadResult.chatThread {
+        if let chatThread = createChatThreadResultInternal.chatThread {
             self.chatThread = try? ChatThreadProperties(from: chatThread)
         } else {
             self.chatThread = nil
         }
-        self.invalidParticipants = createChatThreadResult.invalidParticipants
+        self.invalidParticipants = createChatThreadResultInternal.invalidParticipants
     }
 
-    /// Initialize a `ChatThreadResult` structure.
+    /// Initialize a `CreateChatThreadResult` structure.
     /// - Parameters:
     ///   - thread: Chat thread.
     ///   - errors: Errors encountered during the creation of the chat thread.

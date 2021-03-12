@@ -43,13 +43,13 @@ public struct ChatMessageContent: Codable {
 
     // MARK: Initializers
 
-    /// Initializes a `MessageContent` structure from a ChatMessageContent.
+    /// Initializes a `ChatMessageContent` structure from a ChatMessageContentInternal.
     /// - Parameters:
-    ///   - chatMessageContent: ChatMessageContent to initialize from.
+    ///   - chatMessageContentInternal: ChatMessageContentInternal to initialize from.
     public init?(
-        from chatMessageContent: ChatMessageContentInternal?
+        from chatMessageContentInternal: ChatMessageContentInternal?
     ) throws {
-        guard let content = chatMessageContent else {
+        guard let content = chatMessageContentInternal else {
             return nil
         }
 
@@ -71,7 +71,7 @@ public struct ChatMessageContent: Codable {
         }
     }
 
-    /// Initialize a `MessageContent` structure.
+    /// Initialize a `ChatMessageContent` structure.
     /// - Parameters:
     ///   - message: Message content for messages of types text or html.
     ///   - topic: Message content for messages of type topicUpdated.
@@ -98,7 +98,7 @@ public struct ChatMessageContent: Codable {
         case initiator = "initiatorCommunicationIdentifier"
     }
 
-    /// Initialize a `MessageContent` structure from decoder
+    /// Initialize a `ChatMessageContent` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.message = try? container.decode(String.self, forKey: .message)
@@ -122,7 +122,7 @@ public struct ChatMessageContent: Codable {
         }
     }
 
-    /// Encode a `MessageContent` structure
+    /// Encode a `ChatMessageContent` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         if message != nil { try? container.encode(message, forKey: .message) }

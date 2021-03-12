@@ -28,7 +28,7 @@ import AzureCommunication
 import AzureCore
 import Foundation
 
-/// Chat thread.
+/// Chat thread properties.
 public struct ChatThreadProperties: Codable {
     // MARK: Properties
 
@@ -45,23 +45,23 @@ public struct ChatThreadProperties: Codable {
 
     // MARK: Initializers
 
-    /// Initialize a `ChatThread` structure from a ChatThread.
+    /// Initialize a `ChatThreadProperties` structure from a ChatThread.
     /// - Parameters:
-    ///   - chatThread: The ChatThread to initialize from.
+    ///   - chatThreadPropertiesInternal: The ChatThreadPropertiesInternal to initialize from.
     public init(
-        from chatThread: ChatThreadPropertiesInternal
+        from chatThreadPropertiesInternal: ChatThreadPropertiesInternal
     ) throws {
-        self.id = chatThread.id
-        self.topic = chatThread.topic
-        self.createdOn = chatThread.createdOn
+        self.id = chatThreadPropertiesInternal.id
+        self.topic = chatThreadPropertiesInternal.topic
+        self.createdOn = chatThreadPropertiesInternal.createdOn
 
         // Deserialize the identifier model to CommunicationIdentifier
-        self.createdBy = try IdentifierSerializer.deserialize(identifier: chatThread.createdByCommunicationIdentifier)
+        self.createdBy = try IdentifierSerializer.deserialize(identifier: chatThreadPropertiesInternal.createdByCommunicationIdentifier)
 
-        self.deletedOn = chatThread.deletedOn
+        self.deletedOn = chatThreadPropertiesInternal.deletedOn
     }
 
-    /// Initialize a `ChatThread` structure.
+    /// Initialize a `ChatThreadProperties` structure.
     /// - Parameters:
     ///   - id: Thread id.
     ///   - topic: Thread topic.
@@ -92,7 +92,7 @@ public struct ChatThreadProperties: Codable {
         case deletedOn
     }
 
-    /// Initialize a `Thread` structure from decoder
+    /// Initialize a `ChatThreadProperties` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
@@ -107,7 +107,7 @@ public struct ChatThreadProperties: Codable {
         self.deletedOn = try? container.decode(Iso8601Date.self, forKey: .deletedOn)
     }
 
-    /// Encode a `Thread` structure
+    /// Encode a `ChatThreadProperties` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
