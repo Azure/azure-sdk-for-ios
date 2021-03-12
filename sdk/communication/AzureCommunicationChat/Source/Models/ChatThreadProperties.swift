@@ -56,7 +56,8 @@ public struct ChatThreadProperties: Codable {
         self.createdOn = chatThreadPropertiesInternal.createdOn
 
         // Deserialize the identifier model to CommunicationIdentifier
-        self.createdBy = try IdentifierSerializer.deserialize(identifier: chatThreadPropertiesInternal.createdByCommunicationIdentifier)
+        self.createdBy = try IdentifierSerializer
+            .deserialize(identifier: chatThreadPropertiesInternal.createdByCommunicationIdentifier)
 
         self.deletedOn = chatThreadPropertiesInternal.deletedOn
     }

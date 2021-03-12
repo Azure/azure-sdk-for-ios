@@ -153,7 +153,7 @@ class ChatClientUnitTests: XCTestCase {
 
         let expectation = self.expectation(description: "Get thread")
 
-        chatClient.get(thread: threadId) { result, _ in
+        chatClient.get(propertiesFor: threadId) { result, _ in
             switch result {
             case let .success(chatThread):
                 XCTAssertEqual(chatThread.id, self.threadId)
@@ -187,7 +187,7 @@ class ChatClientUnitTests: XCTestCase {
 
         let expectation = self.expectation(description: "Get thread")
 
-        chatClient.get(thread: threadId) { result, _ in
+        chatClient.get(propertiesFor: threadId) { result, _ in
             switch result {
             case .success:
                 XCTFail("Unexpected failure happened in get thread")
