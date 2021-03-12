@@ -29,7 +29,7 @@ import AzureCore
 import Foundation
 
 /// Chat thread.
-public struct Thread: Codable {
+public struct ChatThreadProperties: Codable {
     // MARK: Properties
 
     /// Thread id.
@@ -49,7 +49,7 @@ public struct Thread: Codable {
     /// - Parameters:
     ///   - chatThread: The ChatThread to initialize from.
     public init(
-        from chatThread: ChatThread
+        from chatThread: ChatThreadPropertiesInternal
     ) throws {
         self.id = chatThread.id
         self.topic = chatThread.topic

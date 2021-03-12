@@ -58,13 +58,13 @@ class ChatClientTests: XCTestCase {
         withTopic topic: String,
         completionHandler: @escaping (String) -> Void
     ) {
-        let participant = Participant(
+        let participant = ChatParticipant(
             id: CommunicationUserIdentifier(id),
             displayName: "User",
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
 
-        let thread = CreateThreadRequest(
+        let thread = CreateChatThreadRequest(
             topic: topic,
             participants: [
                 participant
@@ -74,7 +74,7 @@ class ChatClientTests: XCTestCase {
         chatClient.create(thread: thread) { result, _ in
             switch result {
             case let .success(chatThreadResult):
-                guard let threadId = chatThreadResult.thread?.id else {
+                guard let threadId = chatThreadResult.chatThread?.id else {
                     XCTFail("Failed to get thread id")
                     return
                 }
@@ -87,13 +87,13 @@ class ChatClientTests: XCTestCase {
     }
 
     func test_CreateThread_ResultContainsChatThread() {
-        let participant = Participant(
+        let participant = ChatParticipant(
             id: CommunicationUserIdentifier(user),
             displayName: "User",
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
 
-        let thread = CreateThreadRequest(
+        let thread = CreateChatThreadRequest(
             topic: topic,
             participants: [
                 participant
@@ -105,10 +105,10 @@ class ChatClientTests: XCTestCase {
         chatClient.create(thread: thread) { result, httpResponse in
             switch result {
             case let .success(response):
-                let chatThread = response.thread
-                XCTAssertNotNil(response.thread)
+                let chatThread = response.chatThread
+                XCTAssertNotNil(response.chatThread)
                 XCTAssertEqual(chatThread?.topic, thread.topic)
-                XCTAssertNotNil(httpResponse?.httpRequest?.headers["repeatability-Request-Id"])
+                XCTAssertNotNil(httpResponse?.httpRequest?.headers["idempotency-token"])
 
                 if TestUtil.mode == "record" {
                     Recorder.record(name: Recording.createThread, httpResponse: httpResponse)
@@ -129,13 +129,13 @@ class ChatClientTests: XCTestCase {
     }
 
     func test_CreateThread_WithOptions_SetsRepeatabilityRequestID() {
-        let participant = Participant(
+        let participant = ChatParticipant(
             id: CommunicationUserIdentifier(user),
             displayName: "User",
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
 
-        let thread = CreateThreadRequest(
+        let thread = CreateChatThreadRequest(
             topic: topic,
             participants: [
                 participant
@@ -150,7 +150,7 @@ class ChatClientTests: XCTestCase {
         chatClient.create(thread: thread, withOptions: options) { result, httpResponse in
             switch result {
             case .success:
-                XCTAssertNotNil(httpResponse?.httpRequest?.headers["repeatability-Request-Id"])
+                XCTAssertNotNil(httpResponse?.httpRequest?.headers["idempotency-token"])
 
             case let .failure(error):
                 XCTFail("Create thread failed with error: \(error)")

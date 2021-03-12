@@ -29,7 +29,7 @@ import AzureCore
 import Foundation
 
 /// Content of a message.
-public struct MessageContent: Codable {
+public struct ChatMessageContent: Codable {
     // MARK: Properties
 
     /// Chat message content for messages of types text or html.
@@ -37,7 +37,7 @@ public struct MessageContent: Codable {
     /// Chat message content for messages of type topicUpdated.
     public let topic: String?
     /// Chat message content for messages of types participantAdded or participantRemoved.
-    public let participants: [Participant]?
+    public let participants: [ChatParticipant]?
     /// The initiator of the message.
     public let initiator: CommunicationIdentifier?
 
@@ -47,7 +47,7 @@ public struct MessageContent: Codable {
     /// - Parameters:
     ///   - chatMessageContent: ChatMessageContent to initialize from.
     public init?(
-        from chatMessageContent: ChatMessageContent?
+        from chatMessageContent: ChatMessageContentInternal?
     ) throws {
         guard let content = chatMessageContent else {
             return nil
@@ -58,7 +58,7 @@ public struct MessageContent: Codable {
 
         // Convert ChatParticipants to Participants
         if let participants = content.participants {
-            self.participants = try participants.map { try Participant(from: $0) }
+            self.participants = try participants.map { try ChatParticipant(from: $0) }
         } else {
             self.participants = nil
         }
@@ -80,7 +80,7 @@ public struct MessageContent: Codable {
     public init(
         message: String? = nil,
         topic: String? = nil,
-        participants: [Participant]? = nil,
+        participants: [ChatParticipant]? = nil,
         initiator: CommunicationIdentifier? = nil
     ) {
         self.message = message
@@ -105,10 +105,10 @@ public struct MessageContent: Codable {
         self.topic = try? container.decode(String.self, forKey: .topic)
 
         // Decode ChatParticipants to Participants
-        let chatParticipants = try? container.decode([ChatParticipant].self, forKey: .participants)
+        let chatParticipants = try? container.decode([ChatParticipantInternal].self, forKey: .participants)
 
         if let participants = chatParticipants {
-            self.participants = try participants.map { try Participant(from: $0) }
+            self.participants = try participants.map { try ChatParticipant(from: $0) }
         } else {
             self.participants = nil
         }
@@ -130,9 +130,9 @@ public struct MessageContent: Codable {
 
         // Encode Participant to ChatParticipant format
         if let participants = participants {
-            let chatParticipants = try participants.map { (participant) -> ChatParticipant in
+            let chatParticipants = try participants.map { (participant) -> ChatParticipantInternal in
                 let identifierModel = try IdentifierSerializer.serialize(identifier: participant.id)
-                return ChatParticipant(
+                return ChatParticipantInternal(
                     communicationIdentifier: identifierModel,
                     displayName: participant.displayName,
                     shareHistoryTime: participant.shareHistoryTime

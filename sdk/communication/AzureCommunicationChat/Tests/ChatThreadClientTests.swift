@@ -57,13 +57,13 @@ class ChatThreadClientTests: XCTestCase {
         // Initialize the chatClient
         chatClient = try TestUtil.getChatClient()
 
-        let participant = Participant(
+        let participant = ChatParticipant(
             id: CommunicationUserIdentifier(user1),
             displayName: "User 1",
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
 
-        let thread = CreateThreadRequest(
+        let thread = CreateChatThreadRequest(
             topic: topic,
             participants: [
                 participant
@@ -77,7 +77,7 @@ class ChatThreadClientTests: XCTestCase {
             switch result {
             case let .success(createThreadResult):
                 // Initialize threadId
-                self.threadId = (createThreadResult.thread?.id)!
+                self.threadId = (createThreadResult.chatThread?.id)!
 
                 if TestUtil.mode == "record" {
                     Recorder.record(name: Recording.createThread, httpResponse: httpResponse)
@@ -469,7 +469,7 @@ class ChatThreadClientTests: XCTestCase {
     }
 
     func test_AddValidParticipant_ReturnsWithoutErrors() {
-        let newParticipant = Participant(
+        let newParticipant = ChatParticipant(
             id: CommunicationUserIdentifier(user2),
             displayName: "User 2",
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
@@ -481,7 +481,7 @@ class ChatThreadClientTests: XCTestCase {
         chatThreadClient.add(participants: [newParticipant]) { result, httpResponse in
             switch result {
             case let .success(addParticipantsResult):
-                XCTAssertNil(addParticipantsResult.errors)
+                XCTAssertNil(addParticipantsResult.invalidParticipants)
                 if TestUtil.mode == "record" {
                     Recorder.record(name: Recording.addParticipants, httpResponse: httpResponse)
                 }
@@ -501,7 +501,7 @@ class ChatThreadClientTests: XCTestCase {
     }
 
     func test_RemoveParticipant() {
-        let removedParticipant = Participant(
+        let removedParticipant = ChatParticipant(
             id: CommunicationUserIdentifier(user2),
             displayName: "User 2",
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
@@ -543,7 +543,7 @@ class ChatThreadClientTests: XCTestCase {
     }
 
     func test_ListParticipants_ReturnsParticipants() {
-        let anotherParticipant = Participant(
+        let anotherParticipant = ChatParticipant(
             id: CommunicationUserIdentifier(user2),
             displayName: "User 2",
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!

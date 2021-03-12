@@ -15,9 +15,9 @@ import Foundation
 // swiftlint:disable identifier_name
 // swiftlint:disable line_length
 
-extension ChatThread {
+public extension ChatThread {
     /// User-configurable options for the `AzureCommunicationChatService.ListChatMessages` operation.
-    public struct ListChatMessagesOptions: RequestOptions {
+    struct ListChatMessagesOptions: RequestOptions {
         /// The maximum number of messages to be returned per page.
         public let maxPageSize: Int32?
         /// The earliest point in time to get messages up to. The timestamp should be in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.

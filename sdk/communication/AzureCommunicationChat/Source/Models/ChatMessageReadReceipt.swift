@@ -29,7 +29,7 @@ import AzureCore
 import Foundation
 
 /// A read receipt indicates the time a message was read by a recipient.
-public struct ReadReceipt: Codable {
+public struct ChatMessageReadReceipt: Codable {
     // MARK: Properties
 
     /// The user who read the message.
@@ -45,7 +45,7 @@ public struct ReadReceipt: Codable {
     /// - Parameters:
     ///   - chatMessageReadReceipt: The ChatMessageReadReceipt to initialize from.
     public init(
-        from chatMessageReadReceipt: ChatMessageReadReceipt
+        from chatMessageReadReceipt: ChatMessageReadReceiptInternal
     ) throws {
         // Deserialize the identifier model to CommunicationIdentifier
         self.sender = try IdentifierSerializer
