@@ -29,7 +29,7 @@ import AzureCore
 import Foundation
 
 /// A participant of the chat thread.
-public struct Participant: Codable {
+public struct ChatParticipant: Codable {
     // MARK: Properties
 
     /// The  identifier of the participant.
@@ -45,7 +45,7 @@ public struct Participant: Codable {
     /// - Parameters:
     ///   - chatParticipant: The ChatParticipant to initialize from.
     public init(
-        from chatParticipant: ChatParticipant
+        from chatParticipant: ChatParticipantInternal
     ) throws {
         // Deserialize the identifier model to CommunicationIdentifier
         self.id = try IdentifierSerializer.deserialize(identifier: chatParticipant.communicationIdentifier)

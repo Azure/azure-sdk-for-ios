@@ -57,13 +57,13 @@ class ChatClientUnitTests: XCTestCase {
             fixture(filePath: path, status: 201, headers: nil)
         }
 
-        let participant = Participant(
+        let participant = ChatParticipant(
             id: CommunicationUserIdentifier("test_participant_id"),
             displayName: "test name",
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
 
-        let request = CreateThreadRequest(
+        let request = CreateChatThreadRequest(
             topic: "test topic",
             participants: [
                 participant
@@ -75,7 +75,7 @@ class ChatClientUnitTests: XCTestCase {
         chatClient.create(thread: request) { result, _ in
             switch result {
             case let .success(response):
-                guard let thread = response.thread else {
+                guard let thread = response.chatThread else {
                     XCTFail("Failed to extract chatThread from response")
                     expectation.fulfill()
                     return
@@ -110,13 +110,13 @@ class ChatClientUnitTests: XCTestCase {
             fixture(filePath: path, status: 401, headers: nil)
         }
 
-        let participant = Participant(
+        let participant = ChatParticipant(
             id: CommunicationUserIdentifier("test id"),
             displayName: "test name",
             shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
         )
 
-        let request = CreateThreadRequest(
+        let request = CreateChatThreadRequest(
             topic: "test topic",
             participants: [
                 participant

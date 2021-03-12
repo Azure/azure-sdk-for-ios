@@ -73,10 +73,10 @@ public class ChatClient {
     /// Converts Participants to ChatParticipants for internal use.
     /// - Parameter participants: The array of Participants.
     /// - Returns: An array of ChatParticipants.
-    private func convert(participants: [Participant]) throws -> [ChatParticipant] {
-        return try participants.map { (participant) -> ChatParticipant in
+    private func convert(participants: [ChatParticipant]) throws -> [ChatParticipantInternal] {
+        return try participants.map { (participant) -> ChatParticipantInternal in
             let identifierModel = try IdentifierSerializer.serialize(identifier: participant.id)
-            return ChatParticipant(
+            return ChatParticipantInternal(
                 communicationIdentifier: identifierModel,
                 displayName: participant.displayName,
                 shareHistoryTime: participant.shareHistoryTime
@@ -104,13 +104,13 @@ public class ChatClient {
     ///   - options: Create chat thread options.
     ///   - completionHandler: A completion handler that receives a ChatThreadClient on success.
     public func create(
-        thread: CreateThreadRequest,
+        thread: CreateChatThreadRequest,
         withOptions options: Chat.CreateChatThreadOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<CreateThreadResult>
+        completionHandler: @escaping HTTPResultHandler<CreateChatThreadResult>
     ) {
         // Set the repeatabilityRequestID if it is not provided
-        let requestOptions = ((options?.repeatabilityRequestId) != nil) ? options : Chat.CreateChatThreadOptions(
-            repeatabilityRequestId: UUID().uuidString,
+        let requestOptions = ((options?.idempotencyToken) != nil) ? options : Chat.CreateChatThreadOptions(
+            idempotencyToken: UUID().uuidString,
             clientRequestId: options?.clientRequestId,
             cancellationToken: options?.cancellationToken,
             dispatchQueue: options?.dispatchQueue,
@@ -122,7 +122,7 @@ public class ChatClient {
             let participants = try convert(participants: thread.participants)
 
             // Convert to CreateChatThreadRequest for generated code
-            let request = CreateChatThreadRequest(
+            let request = CreateChatThreadRequestInternal(
                 topic: thread.topic,
                 participants: participants
             )
@@ -131,7 +131,7 @@ public class ChatClient {
                 switch result {
                 case let .success(chatThreadResult):
                     do {
-                        let threadResult = try CreateThreadResult(from: chatThreadResult)
+                        let threadResult = try CreateChatThreadResult(from: chatThreadResult)
                         completionHandler(.success(threadResult), httpResponse)
                     } catch {
                         let azureError = AzureError.client(error.localizedDescription, error)
@@ -156,14 +156,14 @@ public class ChatClient {
     ///   - completionHandler: A completion handler that receives the chat thread on success.
     public func get(
         thread threadId: String,
-        withOptions options: Chat.GetChatThreadOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<Thread>
+        withOptions options: Chat.GetChatThreadPropertiesOptions? = nil,
+        completionHandler: @escaping HTTPResultHandler<ChatThreadProperties>
     ) {
-        service.getChatThread(chatThreadId: threadId, withOptions: options) { result, httpResponse in
+        service.getChatThreadProperties(chatThreadId: threadId, withOptions: options) { result, httpResponse in
             switch result {
             case let .success(chatThread):
                 do {
-                    let thread = try Thread(from: chatThread)
+                    let thread = try ChatThreadProperties(from: chatThread)
                     completionHandler(.success(thread), httpResponse)
                 } catch {
                     let azureError = AzureError.client(error.localizedDescription, error)
@@ -182,7 +182,7 @@ public class ChatClient {
     ///   - completionHandler: A completion handler that receives the list of chat thread info on success.
     public func listThreads(
         withOptions options: Chat.ListChatThreadsOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatThreadInfo>>
+        completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatThreadItem>>
     ) {
         service.listChatThreads(withOptions: options) { result, httpResponse in
             switch result {

@@ -27,26 +27,37 @@
 import AzureCore
 import Foundation
 
-/// Request payload for creating a chat thread.
-public struct CreateThreadRequest: Codable {
+/// Result of the create thread operation.
+public struct CreateChatThreadResult: Codable {
     // MARK: Properties
 
-    /// The thread topic.
-    public let topic: String
-    /// Participants to be added to the thread.
-    public let participants: [Participant]
+    /// Chat thread.
+    public let chatThread: ChatThreadProperties?
+    /// Errors encountered during the creation of the chat thread.
+    public let invalidParticipants: [ChatError]?
 
     // MARK: Initializers
 
-    /// Initialize a `CreateThreadRequest` structure.
-    /// - Parameters:
-    ///   - topic: The thread topic.
-    ///   - participants: Participants to be added to the chat thread.
     public init(
-        topic: String,
-        participants: [Participant]
+        from createChatThreadResult: CreateChatThreadResultInternal
+    ) throws {
+        if let chatThread = createChatThreadResult.chatThread {
+            self.chatThread = try? ChatThreadProperties(from: chatThread)
+        } else {
+            self.chatThread = nil
+        }
+        self.invalidParticipants = createChatThreadResult.invalidParticipants
+    }
+
+    /// Initialize a `ChatThreadResult` structure.
+    /// - Parameters:
+    ///   - thread: Chat thread.
+    ///   - errors: Errors encountered during the creation of the chat thread.
+    public init(
+        chatThread: ChatThreadProperties? = nil,
+        invalidParticipants: [ChatError]? = nil
     ) {
-        self.topic = topic
-        self.participants = participants
+        self.chatThread = chatThread
+        self.invalidParticipants = invalidParticipants
     }
 }

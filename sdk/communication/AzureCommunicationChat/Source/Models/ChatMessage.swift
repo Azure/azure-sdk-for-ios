@@ -29,7 +29,7 @@ import AzureCore
 import Foundation
 
 /// Message.
-public struct Message: Codable {
+public struct ChatMessage: Codable {
     // MARK: Properties
 
     /// The id of the message. This id is server generated.
@@ -41,7 +41,7 @@ public struct Message: Codable {
     /// Version of the message.
     public let version: String
     /// Content of the message.
-    public let content: MessageContent?
+    public let content: ChatMessageContent?
     /// The display name of the message sender. This property is used to populate sender name for push notifications.
     public let senderDisplayName: String?
     /// The timestamp when the message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
@@ -59,7 +59,7 @@ public struct Message: Codable {
     /// - Parameters:
     ///   - chatMessage: The ChatMessage to initialize from.
     public init(
-        from chatMessage: ChatMessage
+        from chatMessage: ChatMessageInternal
     ) throws {
         self.id = chatMessage.id
         self.type = chatMessage.type
@@ -68,7 +68,7 @@ public struct Message: Codable {
 
         // Convert ChatMessageContent to MessageContent
         if let content = chatMessage.content {
-            self.content = try MessageContent(from: content)
+            self.content = try ChatMessageContent(from: content)
         } else {
             self.content = nil
         }
@@ -104,7 +104,7 @@ public struct Message: Codable {
         type: ChatMessageType,
         sequenceId: String,
         version: String,
-        content: MessageContent? = nil,
+        content: ChatMessageContent? = nil,
         senderDisplayName: String? = nil,
         createdOn: Iso8601Date,
         sender: CommunicationIdentifier? = nil,
@@ -148,8 +148,8 @@ public struct Message: Codable {
         self.version = try container.decode(String.self, forKey: .version)
 
         // Convert ChatMessageContent to MessageContent
-        let chatMessageContent = try? container.decode(ChatMessageContent.self, forKey: .content)
-        self.content = try? MessageContent(from: chatMessageContent)
+        let chatMessageContent = try? container.decode(ChatMessageContentInternal.self, forKey: .content)
+        self.content = try? ChatMessageContent(from: chatMessageContent)
 
         self.senderDisplayName = try? container.decode(String.self, forKey: .senderDisplayName)
         self.createdOn = try container.decode(Iso8601Date.self, forKey: .createdOn)
