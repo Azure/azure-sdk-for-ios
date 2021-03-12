@@ -828,6 +828,7 @@
 				D156F639260BA8B800CD0B71 /* ChatThread+GetChatThreadPropertiesOptions.swift in Sources */,
 				88D37B8E25D60CCD004F3699 /* CommunicationIdentifierModel.swift in Sources */,
 				D15E992325B7C80C00E63DB2 /* AddChatParticipantsRequest.swift in Sources */,
+				D17C7B4725FBF4C3007AD39B /* Chat+GetChatThreadPropertiesOptions.swift in Sources */,
 				D15E990C25B7C80C00E63DB2 /* PatchUtil.swift in Sources */,
 				D17C7B2F25FBF4AE007AD39B /* ChatThread.swift in Sources */,
 				D17C7B5A25FBF4D5007AD39B /* ChatThreadsItemCollection.swift in Sources */,
