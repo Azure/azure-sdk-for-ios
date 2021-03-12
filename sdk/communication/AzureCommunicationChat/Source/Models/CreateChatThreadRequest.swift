@@ -34,11 +34,11 @@ public struct CreateChatThreadRequest: Codable {
     /// The thread topic.
     public let topic: String
     /// Participants to be added to the thread.
-    public let participants: [ChatParticipant]
+    public let participants: [ChatParticipant]?
 
     // MARK: Initializers
 
-    /// Initialize a `CreateThreadRequest` structure.
+    /// Initialize a `CreateChatThreadRequest` structure.
     /// - Parameters:
     ///   - topic: The thread topic.
     ///   - participants: Participants to be added to the chat thread.

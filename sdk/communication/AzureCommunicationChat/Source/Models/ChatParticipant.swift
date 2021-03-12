@@ -41,20 +41,20 @@ public struct ChatParticipant: Codable {
 
     // MARK: Initializers
 
-    /// Initialize a `Participant` structure from a ChatParticipant.
+    /// Initialize a `ChatParticipant` structure from a ChatParticipantInternal.
     /// - Parameters:
-    ///   - chatParticipant: The ChatParticipant to initialize from.
+    ///   - chatParticipantInternal: The ChatParticipantInternal to initialize from.
     public init(
-        from chatParticipant: ChatParticipantInternal
+        from chatParticipantInternal: ChatParticipantInternal
     ) throws {
         // Deserialize the identifier model to CommunicationIdentifier
-        self.id = try IdentifierSerializer.deserialize(identifier: chatParticipant.communicationIdentifier)
+        self.id = try IdentifierSerializer.deserialize(identifier: chatParticipantInternal.communicationIdentifier)
 
-        self.displayName = chatParticipant.displayName
-        self.shareHistoryTime = chatParticipant.shareHistoryTime
+        self.displayName = chatParticipantInternal.displayName
+        self.shareHistoryTime = chatParticipantInternal.shareHistoryTime
     }
 
-    /// Initialize a `Participant` structure.
+    /// Initialize a `ChatParticipant` structure.
     /// - Parameters:
     ///   - id: The  identifier of the participant.
     ///   - displayName: Display name for the participant.
@@ -77,7 +77,7 @@ public struct ChatParticipant: Codable {
         case shareHistoryTime
     }
 
-    /// Initialize a `Participant` structure from decoder
+    /// Initialize a `ChatParticipant` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
@@ -89,7 +89,7 @@ public struct ChatParticipant: Codable {
         self.shareHistoryTime = try? container.decode(Iso8601Date.self, forKey: .shareHistoryTime)
     }
 
-    /// Encode a `Participant` structure
+    /// Encode a `ChatParticipant` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
