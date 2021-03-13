@@ -4,6 +4,8 @@
 ### New Features
 
 ### Breaking Changes
+**Azure Communication**
+- Updated the Objective-C initializer for `CommunicationUserIdentifier` and `UnknownIdentifier` to be `initWithIdentifier:`. Making it align more with Objective-C guidelines. 
 
 ### Key Bug Fixes
 
