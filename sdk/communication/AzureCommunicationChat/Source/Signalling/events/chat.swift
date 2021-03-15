@@ -16,7 +16,7 @@ public class CommunicationUser {
     }
 }
 
-public class SignalingChatParticipant {
+public class SignallingChatParticipant {
     public var user: CommunicationUser?
     public var displayName: String?
     public var shareHistoryTime: String?
@@ -28,7 +28,7 @@ public class SignalingChatParticipant {
     }
 }
 
-public class ChatThreadProperties {
+public class SignallingChatThreadProperties {
     public var topic: String
 
     init(topic: String) {
@@ -204,17 +204,17 @@ public class ReadReceiptReceivedEvent: BaseEvent {
 
 public class ChatThreadCreatedEvent: ChatThreadEvent {
     public var createdOn: String
-    public var properties: ChatThreadProperties?
-    public var participants: [SignalingChatParticipant]?
-    public var createdBy: SignalingChatParticipant?
+    public var properties: SignallingChatThreadProperties?
+    public var participants: [SignallingChatParticipant]?
+    public var createdBy: SignallingChatParticipant?
 
     init(
         threadId: String,
         version: String,
         createdOn: String,
-        properties: ChatThreadProperties?,
-        participants: [SignalingChatParticipant]?,
-        createdBy: SignalingChatParticipant?
+        properties: SignallingChatThreadProperties?,
+        participants: [SignallingChatParticipant]?,
+        createdBy: SignallingChatParticipant?
     ) {
         self.createdOn = createdOn
         self.properties = properties
@@ -225,16 +225,16 @@ public class ChatThreadCreatedEvent: ChatThreadEvent {
 }
 
 public class ChatThreadPropertiesUpdatedEvent: ChatThreadEvent {
-    public var properties: ChatThreadProperties?
+    public var properties: SignallingChatThreadProperties?
     public var updatedOn: String
-    public var updatedBy: SignalingChatParticipant?
+    public var updatedBy: SignallingChatParticipant?
 
     init(
         threadId: String,
         version: String,
-        properties: ChatThreadProperties?,
+        properties: SignallingChatThreadProperties?,
         updatedOn: String,
-        updatedBy: SignalingChatParticipant?
+        updatedBy: SignallingChatParticipant?
     ) {
         self.properties = properties
         self.updatedOn = updatedOn
@@ -245,13 +245,13 @@ public class ChatThreadPropertiesUpdatedEvent: ChatThreadEvent {
 
 public class ChatThreadDeletedEvent: ChatThreadEvent {
     public var deletedOn: String
-    public var deletedBy: SignalingChatParticipant?
+    public var deletedBy: SignallingChatParticipant?
 
     init(
         threadId: String,
         version: String,
         deletedOn: String,
-        deletedBy: SignalingChatParticipant?
+        deletedBy: SignallingChatParticipant?
     ) {
         self.deletedOn = deletedOn
         self.deletedBy = deletedBy
@@ -261,15 +261,15 @@ public class ChatThreadDeletedEvent: ChatThreadEvent {
 
 public class ParticipantsAddedEvent: ChatThreadEvent {
     public var addedOn: String
-    public var participantsAdded: [SignalingChatParticipant]?
-    public var addedBy: SignalingChatParticipant?
+    public var participantsAdded: [SignallingChatParticipant]?
+    public var addedBy: SignallingChatParticipant?
 
     init(
         threadId: String,
         version: String,
         addedOn: String,
-        participantsAdded: [SignalingChatParticipant]?,
-        addedBy: SignalingChatParticipant?
+        participantsAdded: [SignallingChatParticipant]?,
+        addedBy: SignallingChatParticipant?
     ) {
         self.addedOn = addedOn
         self.participantsAdded = participantsAdded
@@ -280,15 +280,15 @@ public class ParticipantsAddedEvent: ChatThreadEvent {
 
 public class ParticipantsRemovedEvent: ChatThreadEvent {
     public var removedOn: String
-    public var participantsRemoved: [SignalingChatParticipant]?
-    public var removedBy: SignalingChatParticipant?
+    public var participantsRemoved: [SignallingChatParticipant]?
+    public var removedBy: SignallingChatParticipant?
 
     init(
         threadId: String,
         version: String,
         removedOn: String,
-        participantsRemoved: [SignalingChatParticipant]?,
-        removedBy: SignalingChatParticipant?
+        participantsRemoved: [SignallingChatParticipant]?,
+        removedBy: SignallingChatParticipant?
     ) {
         self.removedOn = removedOn
         self.participantsRemoved = participantsRemoved

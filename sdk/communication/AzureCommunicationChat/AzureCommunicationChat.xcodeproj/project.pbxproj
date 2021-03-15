@@ -18,9 +18,6 @@
 		9766BE9261FCB48436FA6682 /* Pods_AzureCommunicationChatTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1FE3013E797A134E8A6C3B5 /* Pods_AzureCommunicationChatTests.framework */; };
 		D10458A725EEA47800B3EB6D /* CommunicationSignallingClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10458A125EEA47800B3EB6D /* CommunicationSignallingClient.swift */; };
 		D10458A825EEA47800B3EB6D /* TrouterUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10458A225EEA47800B3EB6D /* TrouterUtils.swift */; };
-		D10458A925EEA47800B3EB6D /* TrouterNotificationPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10458A325EEA47800B3EB6D /* TrouterNotificationPayload.swift */; };
-		D10458AA25EEA47800B3EB6D /* TrouterSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10458A425EEA47800B3EB6D /* TrouterSettings.swift */; };
-		D10458AB25EEA47800B3EB6D /* chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10458A625EEA47800B3EB6D /* chat.swift */; };
 		D10458D025EEA54700B3EB6D /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D10458CF25EEA54700B3EB6D /* CoreTelephony.framework */; };
 		D10458D225EEA55400B3EB6D /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D10458D125EEA55400B3EB6D /* libc++.tbd */; };
 		D10458D725EEA57400B3EB6D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D10458D625EEA57400B3EB6D /* libz.tbd */; };
