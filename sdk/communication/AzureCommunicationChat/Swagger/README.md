@@ -1,4 +1,4 @@
-## Configuration
+## Getting Started
 
 ```
 autorest README.md
