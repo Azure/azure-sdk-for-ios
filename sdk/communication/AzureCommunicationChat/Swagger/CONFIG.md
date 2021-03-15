@@ -1,5 +1,3 @@
-## Getting started
-
 ```
 autorest README.md
 --use=<PATH_TO_AUTOREST_SWIFT>
