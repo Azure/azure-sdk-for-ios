@@ -74,6 +74,68 @@ class ChatThreadClientUnitTests: XCTestCase {
         }
     }
 
+    func test_GetProperties_ReturnChatThreadProperties() {
+        let bundle = Bundle(for: type(of: self))
+        let path = bundle.path(forResource: "GetThreadResponse", ofType: "json") ?? ""
+        stub(condition: isMethodGET()) { _ in
+            fixture(filePath: path, status: 200, headers: nil)
+        }
+
+        let expectation = self.expectation(description: "Get thread")
+
+        chatThreadClient.getProperties { result, _ in
+            switch result {
+            case let .success(chatThread):
+                XCTAssertEqual(chatThread.id, self.threadId)
+                XCTAssertEqual(chatThread.topic, self.topic)
+                guard let createdBy = chatThread.createdBy as? CommunicationUserIdentifier else {
+                    XCTFail("Identifier is not of expected type.")
+                    expectation.fulfill()
+                    return
+                }
+                XCTAssertEqual(createdBy.identifier, self.participantId)
+
+            case .failure:
+                XCTFail()
+            }
+
+            expectation.fulfill()
+        }
+        waitForExpectations(timeout: TestUtil.timeout) { error in
+            if let error = error {
+                XCTFail("Get thread timed out: \(error)")
+            }
+        }
+    }
+
+    func test_GetProperties_ReturnError() {
+        let bundle = Bundle(for: type(of: self))
+        let path = bundle.path(forResource: "UnauthorizedError", ofType: "json") ?? ""
+        stub(condition: isMethodGET()) { _ in
+            fixture(filePath: path, status: 401, headers: nil)
+        }
+
+        let expectation = self.expectation(description: "Get thread")
+
+        chatThreadClient.getProperties { result, _ in
+            switch result {
+            case .success:
+                XCTFail("Unexpected failure happened in get thread")
+
+            case let .failure(error):
+                XCTAssertNotNil(error)
+            }
+
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: TestUtil.timeout) { error in
+            if let error = error {
+                XCTFail("Get thread timed out: \(error)")
+            }
+        }
+    }
+
     func test_UpdateThreadTopic_ReturnError() {
         let bundle = Bundle(for: type(of: self))
         let path = bundle.path(forResource: "UnauthorizedError", ofType: "json") ?? ""

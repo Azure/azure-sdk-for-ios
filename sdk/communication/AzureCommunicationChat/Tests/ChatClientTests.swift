@@ -166,37 +166,6 @@ class ChatClientTests: XCTestCase {
         }
     }
 
-    func test_GetThread_ReturnsChatThread() {
-        let expectation = self.expectation(description: "Get thread")
-
-        // Create a thread
-        createThread(withUser: user, withTopic: topic) { threadId in
-            // Get the thread
-            self.chatClient.get(propertiesFor: threadId) { result, httpResponse in
-                switch result {
-                case let .success(thread):
-                    XCTAssert(thread.topic == self.topic)
-                    XCTAssertNotNil(thread.createdBy)
-
-                    if TestUtil.mode == "record" {
-                        Recorder.record(name: Recording.getThread, httpResponse: httpResponse)
-                    }
-
-                case let .failure(error):
-                    XCTFail("Get thread failed with error: \(error)")
-                }
-
-                expectation.fulfill()
-            }
-        }
-
-        waitForExpectations(timeout: TestUtil.timeout) { error in
-            if let error = error {
-                XCTFail("Get thread timed out: \(error)")
-            }
-        }
-    }
-
     func test_DeleteThread() {
         let expectation = self.expectation(description: "Delete thread")
 
@@ -212,16 +181,25 @@ class ChatClientTests: XCTestCase {
 
                     // Get the thread and verify deleted
                     if TestUtil.mode != "playback" {
-                        self.chatClient.get(propertiesFor: threadId) { result, _ in
-                            switch result {
-                            case let .success(thread):
-                                XCTAssertNotNil(thread.deletedOn)
+                        // Create a ChatThreadClient
+                        do {
+                            let chatThreadClient = try self.chatClient.createClient(forThread: threadId)
 
-                            case let .failure(error):
-                                XCTFail("Deleted thread failed with error: \(error)")
+                            chatThreadClient.getProperties { result, _ in
+                                switch result {
+                                case let .success(thread):
+                                    XCTAssertNotNil(thread.deletedOn)
+
+                                case let .failure(error):
+                                    XCTFail("Get thread failed with error: \(error)")
+                                }
+
+                                expectation.fulfill()
                             }
 
-                            expectation.fulfill()
+                        } catch {
+                            XCTFail()
+                            return
                         }
                     } else {
                         expectation.fulfill()
