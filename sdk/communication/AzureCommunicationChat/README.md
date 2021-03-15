@@ -138,7 +138,6 @@ let chatClient = ChatClient(endpoint: endpoint, credential: credential, withOpti
 ChatClient supports the following methods, see the links below for examples.
 
 - [Create a thread](#create-a-thread)
-- [Get a thread](#get-a-thread)
 - [List threads](#list-threads)
 - [Delete a thread](#delete-a-thread)
 - [Get a thread client](#get-a-thread-client)
@@ -150,6 +149,9 @@ ChatClient supports the following methods, see the links below for examples.
 #### Initialization
 
 ChatThreadClients should be created through the ChatClient. A ChatThreadClient is associated with a specific chat thread and is used to perform operations within the thread. See the list below for examples of each operation that ChatThreadClient supports.
+
+#### ChatThread Operations
+- [Get the chat threads properties](#get-a-threads-properties)
 
 #### Message Operations
 
@@ -213,24 +215,6 @@ chatClient.create(chatThread: thread) { result, _ in
 }
 ```
 
-#### Get a thread
-
-Use the `get` method of `ChatClient` to retrieve a chat thread's properties.
-
-- `threadId` is the unique ID of the thread. When creating a thread, the ID is contained within the ChatThreadProperties object that is part of the response.
-
-```swift
-chatClient.get(propertiesFor: threadId) { result, _ in
-    switch result {
-    case let .success(chatThread):
-        // Take further action
-
-    case let .failure(error):
-        // Display error message
-    }
-}
-```
-
 #### List threads
 
 Use the `listThreads` method to retrieve a list of threads.
@@ -270,6 +254,24 @@ Use the `delete` method of `ChatClient` to delete a thread.
 chatClient.delete(thread: threadId) { result, httpResponse in
     switch result {
     case .success:
+        // Take further action
+
+    case let .failure(error):
+        // Display error message
+    }
+}
+```
+
+### ChatThread Operations
+
+#### Get a threads properties
+
+Use the `getProperties` method of `ChatThreadClient` to retrieve a chat thread's properties.
+
+```swift
+chatThreadClient.getProperties() { result, _ in
+    switch result {
+    case let .success(chatThread):
         // Take further action
 
     case let .failure(error):
