@@ -24,14 +24,14 @@ let package = Package(
     dependencies: [
         .package(
             url: "https://github.com/Azure/azure-sdk-for-ios.git",
-            .branch("dev/AzureCore")
+            .branch("master")
         )
     ],
     targets: [
         // Build targets
         .target(
             name: "AzureCommunicationChat",
-            dependencies: ["AzureCore"],
+            dependencies: ["AzureCore", "AzureCommunication"],
             path: "Source"
         )
     ],
