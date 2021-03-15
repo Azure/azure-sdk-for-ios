@@ -153,33 +153,6 @@ public class ChatClient {
         }
     }
 
-    /// Get the ChatThreadProperties for a chat thread with given id.
-    /// - Parameters:
-    ///   - threadId: The chat thread id.
-    ///   - options: Get chat thread options.
-    ///   - completionHandler: A completion handler that receives the chat thread properties on success.
-    public func get(
-        propertiesFor threadId: String,
-        withOptions options: Chat.GetChatThreadPropertiesOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<ChatThreadProperties>
-    ) {
-        service.getChatThreadProperties(chatThreadId: threadId, withOptions: options) { result, httpResponse in
-            switch result {
-            case let .success(chatThread):
-                do {
-                    let thread = try ChatThreadProperties(from: chatThread)
-                    completionHandler(.success(thread), httpResponse)
-                } catch {
-                    let azureError = AzureError.client(error.localizedDescription, error)
-                    completionHandler(.failure(azureError), httpResponse)
-                }
-
-            case let .failure(error):
-                completionHandler(.failure(error), httpResponse)
-            }
-        }
-    }
-
     /// Gets the list of ChatThreads for the user.
     /// - Parameters:
     ///   - options: List chat threads options.
