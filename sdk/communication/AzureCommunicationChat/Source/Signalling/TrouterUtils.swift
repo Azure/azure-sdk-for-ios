@@ -49,11 +49,8 @@ func toChatMessageReceivedEvent(request: TrouterRequest) throws -> ChatMessageRe
         let chatMessageReceivedEvent =
             ChatMessageReceivedEvent(
                 threadId: messageReceivedPayload.groupId,
-                sender: CommunicationUserIdentifier(messageReceivedPayload.senderId),
-                recipient: CommunicationUserIdentifier(
-                    messageReceivedPayload
-                        .recipientId
-                ),
+                sender: getIdentifier(from: messageReceivedPayload.senderId),
+                recipient: getIdentifier(from: messageReceivedPayload.recipientId),
                 id: messageReceivedPayload.messageId,
                 senderDisplayName: messageReceivedPayload.senderDisplayName,
                 createdOn: Iso8601Date(string: messageReceivedPayload.originalArrivalTime),
@@ -76,8 +73,8 @@ func toTypingIndicatorReceivedEvent(request: TrouterRequest) throws -> TypingInd
         let typingIndicatorReceivedEvent =
             TypingIndicatorReceivedEvent(
                 threadId: typingIndicatorReceivedPayload.groupId,
-                sender: CommunicationUserIdentifier(typingIndicatorReceivedPayload.senderId),
-                recipient: CommunicationUserIdentifier(typingIndicatorReceivedPayload.recipientId),
+                sender: getIdentifier(from: typingIndicatorReceivedPayload.senderId),
+                recipient: getIdentifier(from: typingIndicatorReceivedPayload.recipientId),
                 version: typingIndicatorReceivedPayload.version,
                 receivedOn: Iso8601Date(string: typingIndicatorReceivedPayload.originalArrivalTime)
             )
@@ -106,8 +103,8 @@ func toReadReceiptReceivedEvent(request: TrouterRequest) throws -> ReadReceiptRe
         let readReceiptEvent =
             ReadReceiptReceivedEvent(
                 threadId: readReceiptReceivedPayload.groupId,
-                sender: CommunicationUserIdentifier(readReceiptReceivedPayload.senderId),
-                recipient: CommunicationUserIdentifier(readReceiptReceivedPayload.recipientId),
+                sender: getIdentifier(from: readReceiptReceivedPayload.senderId),
+                recipient: getIdentifier(from: readReceiptReceivedPayload.recipientId),
                 chatMessageId: readReceiptReceivedPayload.messageId,
                 readOn: Iso8601Date(string: readOn)
             )
@@ -128,8 +125,8 @@ func toChatMessageEditedEvent(request: TrouterRequest) throws -> ChatMessageEdit
         let chatMessageEditedEvent =
             ChatMessageEditedEvent(
                 threadId: chatMessageEditedPayload.groupId,
-                sender: CommunicationUserIdentifier(chatMessageEditedPayload.senderId),
-                recipient: CommunicationUserIdentifier(chatMessageEditedPayload.recipientId),
+                sender: getIdentifier(from: chatMessageEditedPayload.senderId),
+                recipient: getIdentifier(from: chatMessageEditedPayload.recipientId),
                 id: chatMessageEditedPayload.messageId,
                 senderDisplayName: chatMessageEditedPayload.senderDisplayName,
                 createdOn: Iso8601Date(string: chatMessageEditedPayload.originalArrivalTime),
@@ -153,8 +150,8 @@ func toChatMessageDeletedEvent(request: TrouterRequest) throws -> ChatMessageDel
         let chatMessageDeletedEvent =
             ChatMessageDeletedEvent(
                 threadId: chatMessageDeletedPayload.groupId,
-                sender: CommunicationUserIdentifier(chatMessageDeletedPayload.senderId),
-                recipient: CommunicationUserIdentifier(chatMessageDeletedPayload.recipientId),
+                sender: getIdentifier(from: chatMessageDeletedPayload.senderId),
+                recipient: getIdentifier(from: chatMessageDeletedPayload.recipientId),
                 id: chatMessageDeletedPayload.messageId,
                 senderDisplayName: chatMessageDeletedPayload.senderDisplayName,
                 createdOn: Iso8601Date(string: chatMessageDeletedPayload.originalArrivalTime),
@@ -179,7 +176,7 @@ func toChatThreadCreatedEvent(request: TrouterRequest) throws -> ChatThreadCreat
             .decode(ChatParticipantPayload.self, from: createdByJsonData)
         let createdBy =
             SignallingChatParticipant(
-                id: CommunicationUserIdentifier(createdByPayload.participantId),
+                id: getIdentifier(from: createdByPayload.participantId),
                 displayName: createdByPayload.displayName
             )
 
@@ -189,7 +186,7 @@ func toChatThreadCreatedEvent(request: TrouterRequest) throws -> ChatThreadCreat
         let participants: [SignallingChatParticipant] = membersPayload
             .map { (memberPayload: ChatParticipantPayload) -> SignallingChatParticipant in
                 SignallingChatParticipant(
-                    id: CommunicationUserIdentifier(memberPayload.participantId),
+                    id: getIdentifier(from: memberPayload.participantId),
                     displayName: memberPayload.displayName
                 )
             }
@@ -226,7 +223,7 @@ func toChatThreadPropertiesUpdatedEvent(request: TrouterRequest) throws -> ChatT
             .decode(ChatParticipantPayload.self, from: updatedByJsonData)
         let updatedBy =
             SignallingChatParticipant(
-                id: CommunicationUserIdentifier(updatedByPayload.participantId),
+                id: getIdentifier(from: updatedByPayload.participantId),
                 displayName: updatedByPayload.displayName
             )
 
@@ -261,7 +258,7 @@ func toChatThreadDeletedEvent(request: TrouterRequest) throws -> ChatThreadDelet
         let deletedByPayload: ChatParticipantPayload = try JSONDecoder()
             .decode(ChatParticipantPayload.self, from: deletedByJsonData)
         let deletedBy = SignallingChatParticipant(
-            id: CommunicationUserIdentifier(deletedByPayload.participantId),
+            id: getIdentifier(from: deletedByPayload.participantId),
             displayName: deletedByPayload.displayName
         )
 
@@ -290,7 +287,7 @@ func toParticipantsAddedEvent(request: TrouterRequest) throws -> ParticipantsAdd
         let addedByPayload: ChatParticipantPayload = try JSONDecoder()
             .decode(ChatParticipantPayload.self, from: addeddByJsonData)
         let addedBy = SignallingChatParticipant(
-            id: CommunicationUserIdentifier(addedByPayload.participantId),
+            id: getIdentifier(from: addedByPayload.participantId),
             displayName: addedByPayload.displayName
         )
 
@@ -301,7 +298,7 @@ func toParticipantsAddedEvent(request: TrouterRequest) throws -> ParticipantsAdd
         let participants: [SignallingChatParticipant] = participantsPayload
             .map { (memberPayload: ChatParticipantPayload) -> SignallingChatParticipant in
                 SignallingChatParticipant(
-                    id: CommunicationUserIdentifier(memberPayload.participantId),
+                    id: getIdentifier(from: memberPayload.participantId),
                     displayName: memberPayload.displayName,
                     shareHistoryTime: Iso8601Date(string: toISO8601Date(unixTime: memberPayload.shareHistoryTime))
                 )
@@ -332,7 +329,7 @@ func toParticipantsRemovedEvent(request: TrouterRequest) throws -> ParticipantsR
         let removedByPayload: ChatParticipantPayload = try JSONDecoder()
             .decode(ChatParticipantPayload.self, from: removedByJsonData)
         let removedBy = SignallingChatParticipant(
-            id: CommunicationUserIdentifier(removedByPayload.participantId),
+            id: getIdentifier(from: removedByPayload.participantId),
             displayName: removedByPayload.displayName
         )
 
@@ -342,7 +339,7 @@ func toParticipantsRemovedEvent(request: TrouterRequest) throws -> ParticipantsR
         let participants: [SignallingChatParticipant] = participantsPayload
             .map { (memberPayload: ChatParticipantPayload) -> SignallingChatParticipant in
                 SignallingChatParticipant(
-                    id: CommunicationUserIdentifier(memberPayload.participantId),
+                    id: getIdentifier(from: memberPayload.participantId),
                     displayName: memberPayload.displayName,
                     shareHistoryTime: Iso8601Date(string: toISO8601Date(unixTime: memberPayload.shareHistoryTime))
                 )
@@ -369,4 +366,64 @@ func toISO8601Date(unixTime: Int? = 0) -> String {
     let iso8601DateFormatter = ISO8601DateFormatter()
     iso8601DateFormatter.formatOptions = [.withInternetDateTime]
     return iso8601DateFormatter.string(from: date)
+}
+
+/// Parses out the id/phone number portion of an MRI.
+/// - Parameters:
+///   - mri: The original MRI.
+///   - prefix: The MRI prefix.
+/// - Returns: The part of the MRI after the prefix that corresponds to the id or phone number of a user.
+func parse(mri: String, prefix: String) -> String {
+    let index = mri.index(mri.startIndex, offsetBy: prefix.count)
+    return String(mri.suffix(from: index))
+}
+
+/// Constructs a CommunicationIdentifier from an MRI.
+/// - Parameter mri: The MRI.
+/// - Returns: The CommunicationIdentifier.
+func getIdentifier(from mri: String) -> CommunicationIdentifier {
+    let publicTeamsUserPrefix = "8:orgid:"
+    let dodTeamsUserPrefix = "8:dod:"
+    let gcchTeamsUserPrefix = "8:gcch:"
+    let teamsVisitorUserPrefix = "8:teamsvisitor:"
+    let phoneNumberPrefix = "4:"
+    let acsUserPrefix = "8:acs:"
+    let spoolUserPrefix = "8:spool:"
+
+    if mri.starts(with: publicTeamsUserPrefix) {
+        return MicrosoftTeamsUserIdentifier(
+            userId: parse(mri: mri, prefix: publicTeamsUserPrefix),
+            isAnonymous: false,
+            rawId: mri,
+            cloudEnvironment: CommunicationCloudEnvironment.Public
+        )
+    } else if mri.starts(with: dodTeamsUserPrefix) {
+        return MicrosoftTeamsUserIdentifier(
+            userId: parse(mri: mri, prefix: dodTeamsUserPrefix),
+            isAnonymous: false,
+            rawId: mri,
+            cloudEnvironment: CommunicationCloudEnvironment.Dod
+        )
+    } else if mri.starts(with: gcchTeamsUserPrefix) {
+        return MicrosoftTeamsUserIdentifier(
+            userId: parse(mri: mri, prefix: gcchTeamsUserPrefix),
+            isAnonymous: false,
+            rawId: mri,
+            cloudEnvironment: CommunicationCloudEnvironment.Gcch
+        )
+    } else if mri.starts(with: teamsVisitorUserPrefix) {
+        return MicrosoftTeamsUserIdentifier(
+            userId: parse(mri: mri, prefix: teamsVisitorUserPrefix),
+            isAnonymous: true
+        )
+    } else if mri.starts(with: phoneNumberPrefix) {
+        return PhoneNumberIdentifier(
+            phoneNumber: parse(mri: mri, prefix: phoneNumberPrefix),
+            rawId: mri
+        )
+    } else if mri.starts(with: acsUserPrefix) || mri.starts(with: spoolUserPrefix) {
+        return CommunicationUserIdentifier(mri)
+    } else {
+        return UnknownIdentifier(mri)
+    }
 }
