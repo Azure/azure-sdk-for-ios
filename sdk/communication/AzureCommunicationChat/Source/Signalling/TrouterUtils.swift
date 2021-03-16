@@ -6,6 +6,7 @@
 //  Licensed under the MIT License.
 //
 
+import AzureCommunication
 import AzureCore
 import Foundation
 import TrouterModulePrivate
@@ -48,18 +49,16 @@ func toChatMessageReceivedEvent(request: TrouterRequest) throws -> ChatMessageRe
         let chatMessageReceivedEvent =
             ChatMessageReceivedEvent(
                 threadId: messageReceivedPayload.groupId,
-                sender: CommunicationUser(communicationUserId: messageReceivedPayload.senderId),
-                recipient: CommunicationUser(
-                    communicationUserId: messageReceivedPayload
+                sender: CommunicationUserIdentifier(messageReceivedPayload.senderId),
+                recipient: CommunicationUserIdentifier(
+                    messageReceivedPayload
                         .recipientId
                 ),
                 id: messageReceivedPayload.messageId,
                 senderDisplayName: messageReceivedPayload.senderDisplayName,
-                createdOn: messageReceivedPayload.originalArrivalTime,
+                createdOn: Iso8601Date(string: messageReceivedPayload.originalArrivalTime),
                 version: messageReceivedPayload.version,
-                type: messageReceivedPayload.messageType,
-                content: messageReceivedPayload.messageBody,
-                priority: messageReceivedPayload.priority
+                message: messageReceivedPayload.messageBody
             )
 
         return chatMessageReceivedEvent
@@ -77,16 +76,10 @@ func toTypingIndicatorReceivedEvent(request: TrouterRequest) throws -> TypingInd
         let typingIndicatorReceivedEvent =
             TypingIndicatorReceivedEvent(
                 threadId: typingIndicatorReceivedPayload.groupId,
-                sender: CommunicationUser(
-                    communicationUserId: typingIndicatorReceivedPayload
-                        .senderId
-                ),
-                recipient: CommunicationUser(
-                    communicationUserId: typingIndicatorReceivedPayload
-                        .recipientId
-                ),
+                sender: CommunicationUserIdentifier(typingIndicatorReceivedPayload.senderId),
+                recipient: CommunicationUserIdentifier(typingIndicatorReceivedPayload.recipientId),
                 version: typingIndicatorReceivedPayload.version,
-                receivedOn: typingIndicatorReceivedPayload.originalArrivalTime
+                receivedOn: Iso8601Date(string: typingIndicatorReceivedPayload.originalArrivalTime)
             )
 
         return typingIndicatorReceivedEvent
@@ -113,16 +106,10 @@ func toReadReceiptReceivedEvent(request: TrouterRequest) throws -> ReadReceiptRe
         let readReceiptEvent =
             ReadReceiptReceivedEvent(
                 threadId: readReceiptReceivedPayload.groupId,
-                sender: CommunicationUser(
-                    communicationUserId: readReceiptReceivedPayload
-                        .senderId
-                ),
-                recipient: CommunicationUser(
-                    communicationUserId: readReceiptReceivedPayload
-                        .recipientId
-                ),
+                sender: CommunicationUserIdentifier(readReceiptReceivedPayload.senderId),
+                recipient: CommunicationUserIdentifier(readReceiptReceivedPayload.recipientId),
                 chatMessageId: readReceiptReceivedPayload.messageId,
-                readOn: readOn
+                readOn: Iso8601Date(string: readOn)
             )
 
         return readReceiptEvent
@@ -141,17 +128,14 @@ func toChatMessageEditedEvent(request: TrouterRequest) throws -> ChatMessageEdit
         let chatMessageEditedEvent =
             ChatMessageEditedEvent(
                 threadId: chatMessageEditedPayload.groupId,
-                sender: CommunicationUser(communicationUserId: chatMessageEditedPayload.senderId),
-                recipient: CommunicationUser(
-                    communicationUserId: chatMessageEditedPayload
-                        .recipientId
-                ),
+                sender: CommunicationUserIdentifier(chatMessageEditedPayload.senderId),
+                recipient: CommunicationUserIdentifier(chatMessageEditedPayload.recipientId),
                 id: chatMessageEditedPayload.messageId,
                 senderDisplayName: chatMessageEditedPayload.senderDisplayName,
-                createdOn: chatMessageEditedPayload.originalArrivalTime,
+                createdOn: Iso8601Date(string: chatMessageEditedPayload.originalArrivalTime),
                 version: chatMessageEditedPayload.version,
-                content: chatMessageEditedPayload.messageBody,
-                editedOn: chatMessageEditedPayload.edittime
+                message: chatMessageEditedPayload.messageBody,
+                editedOn: Iso8601Date(string: chatMessageEditedPayload.edittime)
             )
 
         return chatMessageEditedEvent
@@ -169,16 +153,13 @@ func toChatMessageDeletedEvent(request: TrouterRequest) throws -> ChatMessageDel
         let chatMessageDeletedEvent =
             ChatMessageDeletedEvent(
                 threadId: chatMessageDeletedPayload.groupId,
-                sender: CommunicationUser(communicationUserId: chatMessageDeletedPayload.senderId),
-                recipient: CommunicationUser(
-                    communicationUserId: chatMessageDeletedPayload
-                        .recipientId
-                ),
+                sender: CommunicationUserIdentifier(chatMessageDeletedPayload.senderId),
+                recipient: CommunicationUserIdentifier(chatMessageDeletedPayload.recipientId),
                 id: chatMessageDeletedPayload.messageId,
                 senderDisplayName: chatMessageDeletedPayload.senderDisplayName,
-                createdOn: chatMessageDeletedPayload.originalArrivalTime,
+                createdOn: Iso8601Date(string: chatMessageDeletedPayload.originalArrivalTime),
                 version: chatMessageDeletedPayload.version,
-                deletedOn: chatMessageDeletedPayload.deletetime
+                deletedOn: Iso8601Date(string: chatMessageDeletedPayload.deletetime)
             )
 
         return chatMessageDeletedEvent
@@ -198,7 +179,7 @@ func toChatThreadCreatedEvent(request: TrouterRequest) throws -> ChatThreadCreat
             .decode(ChatParticipantPayload.self, from: createdByJsonData)
         let createdBy =
             SignallingChatParticipant(
-                user: CommunicationUser(communicationUserId: createdByPayload.participantId),
+                id: CommunicationUserIdentifier(createdByPayload.participantId),
                 displayName: createdByPayload.displayName
             )
 
@@ -208,7 +189,7 @@ func toChatThreadCreatedEvent(request: TrouterRequest) throws -> ChatThreadCreat
         let participants: [SignallingChatParticipant] = membersPayload
             .map { (memberPayload: ChatParticipantPayload) -> SignallingChatParticipant in
                 SignallingChatParticipant(
-                    user: CommunicationUser(communicationUserId: memberPayload.participantId),
+                    id: CommunicationUserIdentifier(memberPayload.participantId),
                     displayName: memberPayload.displayName
                 )
             }
@@ -222,7 +203,7 @@ func toChatThreadCreatedEvent(request: TrouterRequest) throws -> ChatThreadCreat
             ChatThreadCreatedEvent(
                 threadId: chatThreadCreatedPayload.threadId,
                 version: chatThreadCreatedPayload.version,
-                createdOn: chatThreadCreatedPayload.createTime,
+                createdOn: Iso8601Date(string: chatThreadCreatedPayload.createTime),
                 properties: properties,
                 participants: participants,
                 createdBy: createdBy
@@ -245,7 +226,7 @@ func toChatThreadPropertiesUpdatedEvent(request: TrouterRequest) throws -> ChatT
             .decode(ChatParticipantPayload.self, from: updatedByJsonData)
         let updatedBy =
             SignallingChatParticipant(
-                user: CommunicationUser(communicationUserId: updatedByPayload.participantId),
+                id: CommunicationUserIdentifier(updatedByPayload.participantId),
                 displayName: updatedByPayload.displayName
             )
 
@@ -259,7 +240,7 @@ func toChatThreadPropertiesUpdatedEvent(request: TrouterRequest) throws -> ChatT
                 threadId: chatThreadPropertiesUpdatedPayload.threadId,
                 version: chatThreadPropertiesUpdatedPayload.version,
                 properties: properties,
-                updatedOn: chatThreadPropertiesUpdatedPayload.editTime,
+                updatedOn: Iso8601Date(string: chatThreadPropertiesUpdatedPayload.editTime),
                 updatedBy: updatedBy
             )
 
@@ -280,7 +261,7 @@ func toChatThreadDeletedEvent(request: TrouterRequest) throws -> ChatThreadDelet
         let deletedByPayload: ChatParticipantPayload = try JSONDecoder()
             .decode(ChatParticipantPayload.self, from: deletedByJsonData)
         let deletedBy = SignallingChatParticipant(
-            user: CommunicationUser(communicationUserId: deletedByPayload.participantId),
+            id: CommunicationUserIdentifier(deletedByPayload.participantId),
             displayName: deletedByPayload.displayName
         )
 
@@ -288,7 +269,7 @@ func toChatThreadDeletedEvent(request: TrouterRequest) throws -> ChatThreadDelet
             ChatThreadDeletedEvent(
                 threadId: chatThreadDeletedPayload.threadId,
                 version: chatThreadDeletedPayload.version,
-                deletedOn: chatThreadDeletedPayload.deleteTime,
+                deletedOn: Iso8601Date(string: chatThreadDeletedPayload.deleteTime),
                 deletedBy: deletedBy
             )
 
@@ -309,7 +290,7 @@ func toParticipantsAddedEvent(request: TrouterRequest) throws -> ParticipantsAdd
         let addedByPayload: ChatParticipantPayload = try JSONDecoder()
             .decode(ChatParticipantPayload.self, from: addeddByJsonData)
         let addedBy = SignallingChatParticipant(
-            user: CommunicationUser(communicationUserId: addedByPayload.participantId),
+            id: CommunicationUserIdentifier(addedByPayload.participantId),
             displayName: addedByPayload.displayName
         )
 
@@ -320,9 +301,9 @@ func toParticipantsAddedEvent(request: TrouterRequest) throws -> ParticipantsAdd
         let participants: [SignallingChatParticipant] = participantsPayload
             .map { (memberPayload: ChatParticipantPayload) -> SignallingChatParticipant in
                 SignallingChatParticipant(
-                    user: CommunicationUser(communicationUserId: memberPayload.participantId),
+                    id: CommunicationUserIdentifier(memberPayload.participantId),
                     displayName: memberPayload.displayName,
-                    shareHistoryTime: toISO8601Date(unixTime: memberPayload.shareHistoryTime)
+                    shareHistoryTime: Iso8601Date(string: toISO8601Date(unixTime: memberPayload.shareHistoryTime))
                 )
             }
 
@@ -351,7 +332,7 @@ func toParticipantsRemovedEvent(request: TrouterRequest) throws -> ParticipantsR
         let removedByPayload: ChatParticipantPayload = try JSONDecoder()
             .decode(ChatParticipantPayload.self, from: removedByJsonData)
         let removedBy = SignallingChatParticipant(
-            user: CommunicationUser(communicationUserId: removedByPayload.participantId),
+            id: CommunicationUserIdentifier(removedByPayload.participantId),
             displayName: removedByPayload.displayName
         )
 
@@ -361,9 +342,9 @@ func toParticipantsRemovedEvent(request: TrouterRequest) throws -> ParticipantsR
         let participants: [SignallingChatParticipant] = participantsPayload
             .map { (memberPayload: ChatParticipantPayload) -> SignallingChatParticipant in
                 SignallingChatParticipant(
-                    user: CommunicationUser(communicationUserId: memberPayload.participantId),
+                    id: CommunicationUserIdentifier(memberPayload.participantId),
                     displayName: memberPayload.displayName,
-                    shareHistoryTime: toISO8601Date(unixTime: memberPayload.shareHistoryTime)
+                    shareHistoryTime: Iso8601Date(string: toISO8601Date(unixTime: memberPayload.shareHistoryTime))
                 )
             }
 
@@ -371,7 +352,7 @@ func toParticipantsRemovedEvent(request: TrouterRequest) throws -> ParticipantsR
             ParticipantsRemovedEvent(
                 threadId: participantsRemovedPayload.threadId,
                 version: participantsRemovedPayload.version,
-                removedOn: participantsRemovedPayload.time,
+                removedOn: Iso8601Date(string: participantsRemovedPayload.time),
                 participantsRemoved: participants,
                 removedBy: removedBy
             )

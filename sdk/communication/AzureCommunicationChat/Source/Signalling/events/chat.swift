@@ -6,23 +6,18 @@
 //  Licensed under the MIT License.
 //
 
+import AzureCommunication
+import AzureCore
 import Foundation
 
-public class CommunicationUser {
-    public var communicationUserId: String
-
-    init(communicationUserId: String) {
-        self.communicationUserId = communicationUserId
-    }
-}
-
+// TODO: Can we use existing models?
 public class SignallingChatParticipant {
-    public var user: CommunicationUser?
+    public var id: CommunicationIdentifier?
     public var displayName: String?
-    public var shareHistoryTime: String?
+    public var shareHistoryTime: Iso8601Date?
 
-    init(user: CommunicationUser?, displayName: String? = nil, shareHistoryTime: String? = nil) {
-        self.user = user
+    init(id: CommunicationIdentifier?, displayName: String? = nil, shareHistoryTime: Iso8601Date? = nil) {
+        self.id = id
         self.displayName = displayName
         self.shareHistoryTime = shareHistoryTime
     }
@@ -36,19 +31,26 @@ public class SignallingChatThreadProperties {
     }
 }
 
-public class BaseEvent {
+public class BaseChatEvent {
     public var threadId: String
-    public var sender: CommunicationUser?
-    public var recipient: CommunicationUser?
+    public var sender: CommunicationIdentifier?
+    public var senderDisplayName: String?
+    public var recipient: CommunicationIdentifier?
 
-    init(threadId: String, sender: CommunicationUser?, recipient: CommunicationUser?) {
+    init(
+        threadId: String,
+        sender: CommunicationIdentifier?,
+        senderDisplayName: String? = nil,
+        recipient: CommunicationIdentifier?
+    ) {
         self.threadId = threadId
         self.sender = sender
+        self.senderDisplayName = senderDisplayName
         self.recipient = recipient
     }
 }
 
-public class ChatThreadEvent {
+public class BaseChatThreadEvent {
     public var threadId: String
     public var version: String
 
@@ -58,49 +60,41 @@ public class ChatThreadEvent {
     }
 }
 
-public class ChatMessageEvent: BaseEvent {
+public class BaseChatMessageEvent: BaseChatEvent {
     public var id: String
-    public var senderDisplayName: String?
-    public var createdOn: String
+    public var createdOn: Iso8601Date?
     public var version: String
 
     init(
         threadId: String,
-        sender: CommunicationUser?,
-        recipient: CommunicationUser?,
+        sender: CommunicationIdentifier?,
+        recipient: CommunicationIdentifier?,
         id: String,
         senderDisplayName: String? = nil,
-        createdOn: String,
+        createdOn: Iso8601Date? = nil,
         version: String
     ) {
         self.id = id
-        self.senderDisplayName = senderDisplayName
         self.createdOn = createdOn
         self.version = version
-        super.init(threadId: threadId, sender: sender, recipient: recipient)
+        super.init(threadId: threadId, sender: sender, senderDisplayName: senderDisplayName, recipient: recipient)
     }
 }
 
-public class ChatMessageReceivedEvent: ChatMessageEvent {
-    public var type: String
-    public var content: String
-    public var priority: String
+public class ChatMessageReceivedEvent: BaseChatMessageEvent {
+    public var message: String
 
     init(
         threadId: String,
-        sender: CommunicationUser?,
-        recipient: CommunicationUser?,
+        sender: CommunicationIdentifier?,
+        recipient: CommunicationIdentifier?,
         id: String,
         senderDisplayName: String? = nil,
-        createdOn: String,
+        createdOn: Iso8601Date?,
         version: String,
-        type: String,
-        content: String,
-        priority: String
+        message: String
     ) {
-        self.type = type
-        self.content = content
-        self.priority = priority
+        self.message = message
         super.init(
             threadId: threadId,
             sender: sender,
@@ -113,22 +107,22 @@ public class ChatMessageReceivedEvent: ChatMessageEvent {
     }
 }
 
-public class ChatMessageEditedEvent: ChatMessageEvent {
-    public var content: String
-    public var editedOn: String
+public class ChatMessageEditedEvent: BaseChatMessageEvent {
+    public var message: String
+    public var editedOn: Iso8601Date?
 
     init(
         threadId: String,
-        sender: CommunicationUser?,
-        recipient: CommunicationUser?,
+        sender: CommunicationIdentifier?,
+        recipient: CommunicationIdentifier?,
         id: String,
         senderDisplayName: String? = nil,
-        createdOn: String,
+        createdOn: Iso8601Date?,
         version: String,
-        content: String,
-        editedOn: String
+        message: String,
+        editedOn: Iso8601Date?
     ) {
-        self.content = content
+        self.message = message
         self.editedOn = editedOn
         super.init(
             threadId: threadId,
@@ -142,18 +136,17 @@ public class ChatMessageEditedEvent: ChatMessageEvent {
     }
 }
 
-public class ChatMessageDeletedEvent: ChatMessageEvent {
-    public var deletedOn: String
-
+public class ChatMessageDeletedEvent: BaseChatMessageEvent {
+    public var deletedOn: Iso8601Date?
     init(
         threadId: String,
-        sender: CommunicationUser?,
-        recipient: CommunicationUser?,
+        sender: CommunicationIdentifier?,
+        recipient: CommunicationIdentifier?,
         id: String,
         senderDisplayName: String? = nil,
-        createdOn: String,
+        createdOn: Iso8601Date?,
         version: String,
-        deletedOn: String
+        deletedOn: Iso8601Date?
     ) {
         self.deletedOn = deletedOn
         super.init(
@@ -168,16 +161,16 @@ public class ChatMessageDeletedEvent: ChatMessageEvent {
     }
 }
 
-public class TypingIndicatorReceivedEvent: BaseEvent {
+public class TypingIndicatorReceivedEvent: BaseChatEvent {
     public var version: String
-    public var receivedOn: String
+    public var receivedOn: Iso8601Date?
 
     init(
         threadId: String,
-        sender: CommunicationUser?,
-        recipient: CommunicationUser?,
+        sender: CommunicationIdentifier?,
+        recipient: CommunicationIdentifier?,
         version: String,
-        receivedOn: String
+        receivedOn: Iso8601Date?
     ) {
         self.version = version
         self.receivedOn = receivedOn
@@ -185,16 +178,16 @@ public class TypingIndicatorReceivedEvent: BaseEvent {
     }
 }
 
-public class ReadReceiptReceivedEvent: BaseEvent {
+public class ReadReceiptReceivedEvent: BaseChatEvent {
     public var chatMessageId: String
-    public var readOn: String
+    public var readOn: Iso8601Date?
 
     init(
         threadId: String,
-        sender: CommunicationUser?,
-        recipient: CommunicationUser?,
+        sender: CommunicationIdentifier?,
+        recipient: CommunicationIdentifier?,
         chatMessageId: String,
-        readOn: String
+        readOn: Iso8601Date?
     ) {
         self.chatMessageId = chatMessageId
         self.readOn = readOn
@@ -202,8 +195,8 @@ public class ReadReceiptReceivedEvent: BaseEvent {
     }
 }
 
-public class ChatThreadCreatedEvent: ChatThreadEvent {
-    public var createdOn: String
+public class ChatThreadCreatedEvent: BaseChatThreadEvent {
+    public var createdOn: Iso8601Date?
     public var properties: SignallingChatThreadProperties?
     public var participants: [SignallingChatParticipant]?
     public var createdBy: SignallingChatParticipant?
@@ -211,7 +204,7 @@ public class ChatThreadCreatedEvent: ChatThreadEvent {
     init(
         threadId: String,
         version: String,
-        createdOn: String,
+        createdOn: Iso8601Date?,
         properties: SignallingChatThreadProperties?,
         participants: [SignallingChatParticipant]?,
         createdBy: SignallingChatParticipant?
@@ -224,16 +217,16 @@ public class ChatThreadCreatedEvent: ChatThreadEvent {
     }
 }
 
-public class ChatThreadPropertiesUpdatedEvent: ChatThreadEvent {
+public class ChatThreadPropertiesUpdatedEvent: BaseChatThreadEvent {
     public var properties: SignallingChatThreadProperties?
-    public var updatedOn: String
+    public var updatedOn: Iso8601Date?
     public var updatedBy: SignallingChatParticipant?
 
     init(
         threadId: String,
         version: String,
         properties: SignallingChatThreadProperties?,
-        updatedOn: String,
+        updatedOn: Iso8601Date?,
         updatedBy: SignallingChatParticipant?
     ) {
         self.properties = properties
@@ -243,14 +236,14 @@ public class ChatThreadPropertiesUpdatedEvent: ChatThreadEvent {
     }
 }
 
-public class ChatThreadDeletedEvent: ChatThreadEvent {
-    public var deletedOn: String
+public class ChatThreadDeletedEvent: BaseChatThreadEvent {
+    public var deletedOn: Iso8601Date?
     public var deletedBy: SignallingChatParticipant?
 
     init(
         threadId: String,
         version: String,
-        deletedOn: String,
+        deletedOn: Iso8601Date?,
         deletedBy: SignallingChatParticipant?
     ) {
         self.deletedOn = deletedOn
@@ -259,7 +252,7 @@ public class ChatThreadDeletedEvent: ChatThreadEvent {
     }
 }
 
-public class ParticipantsAddedEvent: ChatThreadEvent {
+public class ParticipantsAddedEvent: BaseChatThreadEvent {
     public var addedOn: String
     public var participantsAdded: [SignallingChatParticipant]?
     public var addedBy: SignallingChatParticipant?
@@ -278,15 +271,15 @@ public class ParticipantsAddedEvent: ChatThreadEvent {
     }
 }
 
-public class ParticipantsRemovedEvent: ChatThreadEvent {
-    public var removedOn: String
+public class ParticipantsRemovedEvent: BaseChatThreadEvent {
+    public var removedOn: Iso8601Date?
     public var participantsRemoved: [SignallingChatParticipant]?
     public var removedBy: SignallingChatParticipant?
 
     init(
         threadId: String,
         version: String,
-        removedOn: String,
+        removedOn: Iso8601Date?,
         participantsRemoved: [SignallingChatParticipant]?,
         removedBy: SignallingChatParticipant?
     ) {
