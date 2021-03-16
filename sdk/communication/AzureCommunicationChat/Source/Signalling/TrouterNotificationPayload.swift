@@ -78,6 +78,7 @@ class MessageEditedPayload: Decodable {
     var messageBody: String
     var version: String
     var edittime: String
+    var messageType: String
     var originalArrivalTime: String
 }
 
@@ -93,6 +94,7 @@ class MessageDeletedPayload: Decodable {
     var senderDisplayName: String
     var version: String
     var deletetime: String
+    var messageType: String
     var originalArrivalTime: String
 }
 

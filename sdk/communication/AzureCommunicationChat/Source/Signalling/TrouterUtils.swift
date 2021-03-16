@@ -55,6 +55,7 @@ func toChatMessageReceivedEvent(request: TrouterRequest) throws -> ChatMessageRe
                 senderDisplayName: messageReceivedPayload.senderDisplayName,
                 createdOn: Iso8601Date(string: messageReceivedPayload.originalArrivalTime),
                 version: messageReceivedPayload.version,
+                type: ChatMessageType(messageReceivedPayload.messageType),
                 message: messageReceivedPayload.messageBody
             )
 
@@ -131,6 +132,7 @@ func toChatMessageEditedEvent(request: TrouterRequest) throws -> ChatMessageEdit
                 senderDisplayName: chatMessageEditedPayload.senderDisplayName,
                 createdOn: Iso8601Date(string: chatMessageEditedPayload.originalArrivalTime),
                 version: chatMessageEditedPayload.version,
+                type: ChatMessageType(chatMessageEditedPayload.messageType),
                 message: chatMessageEditedPayload.messageBody,
                 editedOn: Iso8601Date(string: chatMessageEditedPayload.edittime)
             )
@@ -156,6 +158,7 @@ func toChatMessageDeletedEvent(request: TrouterRequest) throws -> ChatMessageDel
                 senderDisplayName: chatMessageDeletedPayload.senderDisplayName,
                 createdOn: Iso8601Date(string: chatMessageDeletedPayload.originalArrivalTime),
                 version: chatMessageDeletedPayload.version,
+                type: ChatMessageType(chatMessageDeletedPayload.messageType),
                 deletedOn: Iso8601Date(string: chatMessageDeletedPayload.deletetime)
             )
 
@@ -308,7 +311,7 @@ func toParticipantsAddedEvent(request: TrouterRequest) throws -> ParticipantsAdd
             ParticipantsAddedEvent(
                 threadId: participantsAddedPayload.threadId,
                 version: participantsAddedPayload.version,
-                addedOn: participantsAddedPayload.time,
+                addedOn: Iso8601Date(string: participantsAddedPayload.time),
                 participantsAdded: participants,
                 addedBy: addedBy
             )

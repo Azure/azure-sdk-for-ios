@@ -64,6 +64,7 @@ public class BaseChatMessageEvent: BaseChatEvent {
     public var id: String
     public var createdOn: Iso8601Date?
     public var version: String
+    public var type: ChatMessageType
 
     init(
         threadId: String,
@@ -72,11 +73,13 @@ public class BaseChatMessageEvent: BaseChatEvent {
         id: String,
         senderDisplayName: String? = nil,
         createdOn: Iso8601Date? = nil,
-        version: String
+        version: String,
+        type: ChatMessageType
     ) {
         self.id = id
         self.createdOn = createdOn
         self.version = version
+        self.type = type
         super.init(threadId: threadId, sender: sender, senderDisplayName: senderDisplayName, recipient: recipient)
     }
 }
@@ -92,6 +95,7 @@ public class ChatMessageReceivedEvent: BaseChatMessageEvent {
         senderDisplayName: String? = nil,
         createdOn: Iso8601Date?,
         version: String,
+        type: ChatMessageType,
         message: String
     ) {
         self.message = message
@@ -102,7 +106,8 @@ public class ChatMessageReceivedEvent: BaseChatMessageEvent {
             id: id,
             senderDisplayName: senderDisplayName,
             createdOn: createdOn,
-            version: version
+            version: version,
+            type: type
         )
     }
 }
@@ -119,6 +124,7 @@ public class ChatMessageEditedEvent: BaseChatMessageEvent {
         senderDisplayName: String? = nil,
         createdOn: Iso8601Date?,
         version: String,
+        type: ChatMessageType,
         message: String,
         editedOn: Iso8601Date?
     ) {
@@ -131,7 +137,8 @@ public class ChatMessageEditedEvent: BaseChatMessageEvent {
             id: id,
             senderDisplayName: senderDisplayName,
             createdOn: createdOn,
-            version: version
+            version: version,
+            type: type
         )
     }
 }
@@ -146,6 +153,7 @@ public class ChatMessageDeletedEvent: BaseChatMessageEvent {
         senderDisplayName: String? = nil,
         createdOn: Iso8601Date?,
         version: String,
+        type: ChatMessageType,
         deletedOn: Iso8601Date?
     ) {
         self.deletedOn = deletedOn
@@ -156,7 +164,8 @@ public class ChatMessageDeletedEvent: BaseChatMessageEvent {
             id: id,
             senderDisplayName: senderDisplayName,
             createdOn: createdOn,
-            version: version
+            version: version,
+            type: type
         )
     }
 }
@@ -253,14 +262,14 @@ public class ChatThreadDeletedEvent: BaseChatThreadEvent {
 }
 
 public class ParticipantsAddedEvent: BaseChatThreadEvent {
-    public var addedOn: String
+    public var addedOn: Iso8601Date?
     public var participantsAdded: [SignallingChatParticipant]?
     public var addedBy: SignallingChatParticipant?
 
     init(
         threadId: String,
         version: String,
-        addedOn: String,
+        addedOn: Iso8601Date?,
         participantsAdded: [SignallingChatParticipant]?,
         addedBy: SignallingChatParticipant?
     ) {

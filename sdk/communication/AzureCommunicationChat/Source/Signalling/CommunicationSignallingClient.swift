@@ -65,6 +65,10 @@ public class CommunicationSignallingClient {
 
     public func stop() {
         selfHostedTrouterClient.stop()
+        communicationListeners.forEach { listener in
+            selfHostedTrouterClient.unregisterListener(listener)
+        }
+        communicationListeners.removeAll()
     }
 
     public func on(event: String, listener: @escaping EventListener) {
