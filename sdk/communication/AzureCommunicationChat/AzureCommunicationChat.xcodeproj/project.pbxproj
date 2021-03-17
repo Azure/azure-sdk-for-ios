@@ -370,7 +370,7 @@
 			path = ../../../Pods;
 			sourceTree = "<group>";
 		};
-		D104589925EEA47800B3EB6D /* Signalling */ = {
+		D104589925EEA47800B3EB6D /* Signaling */ = {
 			isa = PBXGroup;
 			children = (
 				D104589A25EEA47800B3EB6D /* TrouterHeaderFiles */,
@@ -381,7 +381,7 @@
 				D10458A425EEA47800B3EB6D /* TrouterSettings.swift */,
 				D10458A525EEA47800B3EB6D /* events */,
 			);
-			path = Signalling;
+			path = Signaling;
 			sourceTree = "<group>";
 		};
 		D104589A25EEA47800B3EB6D /* TrouterHeaderFiles */ = {
@@ -579,7 +579,7 @@
 				D1565C70256DB74900AF45F8 /* ChatClient.swift */,
 				D1565C73256DB76C00AF45F8 /* ChatThreadClient.swift */,
 				D16C802B25BA0A0F00C42803 /* Models */,
-				D104589925EEA47800B3EB6D /* Signalling */,
+				D104589925EEA47800B3EB6D /* Signaling */,
 				D15E98C925B7C80C00E63DB2 /* Generated */,
 				0A10411225D306B3008E472E /* Supporting Files */,
 			);
@@ -1093,7 +1093,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.azure.communication.AzureCommunicationChat;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Source/Signalling/TrouterModulesPrivate";
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Source/Signaling/TrouterModulesPrivate";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1126,7 +1126,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.azure.communication.AzureCommunicationChat;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Source/Signalling/TrouterModulesPrivate";
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Source/Signaling/TrouterModulesPrivate";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

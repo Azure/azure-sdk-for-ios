@@ -11,7 +11,7 @@ import Foundation
 import TrouterModulePrivate
 import UIKit
 
-public class CommunicationSignallingClient {
+public class CommunicationSignalingClient {
     private var selfHostedTrouterClient: SelfHostedTrouterClient
     private var communicationSkypeTokenProvider: CommunicationSkypeTokenProvider
     private var trouterUrlRegistrar: TrouterUrlRegistrar
@@ -47,13 +47,9 @@ public class CommunicationSignallingClient {
         // swiftlint:enable force_cast
     }
 
-    public convenience init?(
-        token: String?
+    public convenience init(
+        token: String
     ) {
-        guard let skypeToken = token else {
-            return nil
-        }
-
         let skypeTokenProvider = CommunicationSkypeTokenProvider(skypeToken: skypeToken)
         self.init(skypeTokenProvider: skypeTokenProvider)
     }

@@ -11,7 +11,7 @@ import AzureCore
 import Foundation
 
 // TODO: Can we use existing models?
-public class SignallingChatParticipant {
+public class SignalingChatParticipant {
     public var id: CommunicationIdentifier?
     public var displayName: String?
     public var shareHistoryTime: Iso8601Date?
@@ -23,7 +23,7 @@ public class SignallingChatParticipant {
     }
 }
 
-public class SignallingChatThreadProperties {
+public class SignalingChatThreadProperties {
     public var topic: String
 
     init(topic: String) {
@@ -206,17 +206,17 @@ public class ReadReceiptReceivedEvent: BaseChatEvent {
 
 public class ChatThreadCreatedEvent: BaseChatThreadEvent {
     public var createdOn: Iso8601Date?
-    public var properties: SignallingChatThreadProperties?
-    public var participants: [SignallingChatParticipant]?
-    public var createdBy: SignallingChatParticipant?
+    public var properties: SignalingChatThreadProperties?
+    public var participants: [SignalingChatParticipant]?
+    public var createdBy: SignalingChatParticipant?
 
     init(
         threadId: String,
         version: String,
         createdOn: Iso8601Date?,
-        properties: SignallingChatThreadProperties?,
-        participants: [SignallingChatParticipant]?,
-        createdBy: SignallingChatParticipant?
+        properties: SignalingChatThreadProperties?,
+        participants: [SignalingChatParticipant]?,
+        createdBy: SignalingChatParticipant?
     ) {
         self.createdOn = createdOn
         self.properties = properties
@@ -227,16 +227,16 @@ public class ChatThreadCreatedEvent: BaseChatThreadEvent {
 }
 
 public class ChatThreadPropertiesUpdatedEvent: BaseChatThreadEvent {
-    public var properties: SignallingChatThreadProperties?
+    public var properties: SignalingChatThreadProperties?
     public var updatedOn: Iso8601Date?
-    public var updatedBy: SignallingChatParticipant?
+    public var updatedBy: SignalingChatParticipant?
 
     init(
         threadId: String,
         version: String,
-        properties: SignallingChatThreadProperties?,
+        properties: SignalingChatThreadProperties?,
         updatedOn: Iso8601Date?,
-        updatedBy: SignallingChatParticipant?
+        updatedBy: SignalingChatParticipant?
     ) {
         self.properties = properties
         self.updatedOn = updatedOn
@@ -247,13 +247,13 @@ public class ChatThreadPropertiesUpdatedEvent: BaseChatThreadEvent {
 
 public class ChatThreadDeletedEvent: BaseChatThreadEvent {
     public var deletedOn: Iso8601Date?
-    public var deletedBy: SignallingChatParticipant?
+    public var deletedBy: SignalingChatParticipant?
 
     init(
         threadId: String,
         version: String,
         deletedOn: Iso8601Date?,
-        deletedBy: SignallingChatParticipant?
+        deletedBy: SignalingChatParticipant?
     ) {
         self.deletedOn = deletedOn
         self.deletedBy = deletedBy
@@ -263,15 +263,15 @@ public class ChatThreadDeletedEvent: BaseChatThreadEvent {
 
 public class ParticipantsAddedEvent: BaseChatThreadEvent {
     public var addedOn: Iso8601Date?
-    public var participantsAdded: [SignallingChatParticipant]?
-    public var addedBy: SignallingChatParticipant?
+    public var participantsAdded: [SignalingChatParticipant]?
+    public var addedBy: SignalingChatParticipant?
 
     init(
         threadId: String,
         version: String,
         addedOn: Iso8601Date?,
-        participantsAdded: [SignallingChatParticipant]?,
-        addedBy: SignallingChatParticipant?
+        participantsAdded: [SignalingChatParticipant]?,
+        addedBy: SignalingChatParticipant?
     ) {
         self.addedOn = addedOn
         self.participantsAdded = participantsAdded
@@ -282,15 +282,15 @@ public class ParticipantsAddedEvent: BaseChatThreadEvent {
 
 public class ParticipantsRemovedEvent: BaseChatThreadEvent {
     public var removedOn: Iso8601Date?
-    public var participantsRemoved: [SignallingChatParticipant]?
-    public var removedBy: SignallingChatParticipant?
+    public var participantsRemoved: [SignalingChatParticipant]?
+    public var removedBy: SignalingChatParticipant?
 
     init(
         threadId: String,
         version: String,
         removedOn: Iso8601Date?,
-        participantsRemoved: [SignallingChatParticipant]?,
-        removedBy: SignallingChatParticipant?
+        participantsRemoved: [SignalingChatParticipant]?,
+        removedBy: SignalingChatParticipant?
     ) {
         self.removedOn = removedOn
         self.participantsRemoved = participantsRemoved

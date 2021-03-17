@@ -35,7 +35,7 @@ public class ChatClient {
     private let credential: CommunicationTokenCredential
     private let options: AzureCommunicationChatClientOptions
     private let service: Chat
-    private let signallingClient: CommunicationSignallingClient?
+    private let signalingClient: CommunicationSignalingClient
     private var isRealtimeNotificationsStarted: Bool = false
 
     // MARK: Initializers
@@ -71,11 +71,17 @@ public class ChatClient {
 
         // Initialize the signalling client with the users access token
         var token: String?
-        credential.token { accessToken, _ in
+        var tokenError: Error?
+        credential.token { accessToken, error in
             token = accessToken?.token
+            tokenError = error
         }
 
-        self.signallingClient = CommunicationSignallingClient(token: token)
+        guard let skypeToken = token else {
+            throw AzureError.client("Failed to access token credential", tokenError)
+        }
+
+        self.signalingClient = CommunicationSignalingClient(token: skypeToken)
     }
 
     // MARK: Private Methods
@@ -206,8 +212,8 @@ public class ChatClient {
     /// Start receiving realtime notifications.
     /// Call this function before subscribing to any event.
     public func startRealTimeNotifications() throws {
-        if signallingClient == nil {
-            throw AzureError.client("Signalling client is not initialized.")
+        if signalingClient == nil {
+            throw AzureError.client("Signaling client is not initialized.")
         }
 
         if isRealtimeNotificationsStarted {
@@ -215,18 +221,18 @@ public class ChatClient {
         }
 
         isRealtimeNotificationsStarted = true
-        signallingClient?.start()
+        signalingClient.start()
     }
 
     /// Stop receiving realtime notifications.
     /// This function would unsubscribe to all events.
     public func stopRealTimeNotifications() throws {
-        if signallingClient == nil {
-            throw AzureError.client("Signalling client is not initialized.")
+        if signalingClient == nil {
+            throw AzureError.client("Signaling client is not initialized.")
         }
 
         isRealtimeNotificationsStarted = false
-        signallingClient?.stop()
+        signalingClient.stop()
     }
 
     /// Subscribe to chat events.
@@ -237,7 +243,7 @@ public class ChatClient {
         event: ChatEventId,
         listener: @escaping EventListener
     ) {
-        signallingClient?.on(event: event.rawValue, listener: listener)
+        signalingClient.on(event: event.rawValue, listener: listener)
     }
 
     /// Unsubscribe to chat events.
@@ -248,6 +254,6 @@ public class ChatClient {
         event: ChatEventId,
         listener: @escaping EventListener
     ) {
-        signallingClient?.off(event: event.rawValue, listener: listener)
+        signalingClient.off(event: event.rawValue, listener: listener)
     }
 }
