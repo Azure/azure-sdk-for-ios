@@ -191,14 +191,14 @@ class ChatClientTests: XCTestCase {
                                     XCTAssertNotNil(thread.deletedOn)
 
                                 case let .failure(error):
-                                    XCTFail("Get thread failed with error: \(error)")
+                                    XCTFail("Get thread properties failed with error: \(error)")
                                 }
 
                                 expectation.fulfill()
                             }
 
                         } catch {
-                            XCTFail()
+                            XCTFail("Get thread properties failed with error: \(error)")
                             return
                         }
                     } else {
