@@ -44,7 +44,7 @@ public struct CreateChatThreadRequest: Codable {
     ///   - participants: Participants to be added to the chat thread.
     public init(
         topic: String,
-        participants: [ChatParticipant]
+        participants: [ChatParticipant]? = nil
     ) {
         self.topic = topic
         self.participants = participants
