@@ -66,7 +66,7 @@ class PolicyTokenCredentialTests: XCTestCase {
             refreshProactively: true,
             tokenRefresher: fetchTokenSync
         )
-        let userCredential = try CommunicationTokenCredential(with: options)
+        let userCredential = try CommunicationTokenCredential(withOptions: options)
         let communicationTokenPolicy = PolicyTokenCredential(userCredential)
 
         communicationTokenPolicy.token(forScopes: [""]) { accessToken, error in
@@ -90,7 +90,7 @@ class PolicyTokenCredentialTests: XCTestCase {
             refreshProactively: true,
             tokenRefresher: fetchTokenSync
         )
-        let userCredential = try CommunicationTokenCredential(with: options)
+        let userCredential = try CommunicationTokenCredential(withOptions: options)
         let communicationTokenPolicy = PolicyTokenCredential(userCredential)
 
         communicationTokenPolicy.token(forScopes: [""]) { accessToken, error in

@@ -65,7 +65,7 @@ NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fS
     }];
     
     CommunicationTokenCredential *credential = [[CommunicationTokenCredential alloc]
-                                                initWith: tokenRefreshOptions
+                                                initWithOptions: tokenRefreshOptions
                                                 error: nil];
     
     [credential tokenWithCompletionHandler:^(CommunicationAccessToken * _Nullable accessToken,
@@ -106,7 +106,7 @@ NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fS
     }];
     
     CommunicationTokenCredential *credential = [[CommunicationTokenCredential alloc]
-                                                initWith:tokenRefreshOptions
+                                                initWithOptions:tokenRefreshOptions
                                                 error:nil];
     
     [credential tokenWithCompletionHandler:^(CommunicationAccessToken * _Nullable accessToken,
