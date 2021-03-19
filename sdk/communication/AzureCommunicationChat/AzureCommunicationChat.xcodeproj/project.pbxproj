@@ -10,6 +10,8 @@
 		4077D21553368B726C02EA20 /* Pods_AzureCommunicationChatUnitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FD7709F18BED14D6B73C734 /* Pods_AzureCommunicationChatUnitTests.framework */; };
 		8840448825D5DD7900A194DC /* IdentifierSerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8840448725D5DD7900A194DC /* IdentifierSerializerTests.swift */; };
 		8840449825D5FA6300A194DC /* IdentifierSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8840449725D5FA6200A194DC /* IdentifierSerializer.swift */; };
+		889FF7CA260516FA00722630 /* PolicyTokenCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889FF7C9260516FA00722630 /* PolicyTokenCredential.swift */; };
+		889FF7DD2605189E00722630 /* PolicyTokenCredentialTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889FF7D3260517A100722630 /* PolicyTokenCredentialTests.swift */; };
 		88D37B8E25D60CCD004F3699 /* CommunicationIdentifierModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D37B8A25D60CCD004F3699 /* CommunicationIdentifierModel.swift */; };
 		88D37B8F25D60CCD004F3699 /* MicrosoftTeamsUserIdentifierModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D37B8B25D60CCD004F3699 /* MicrosoftTeamsUserIdentifierModel.swift */; };
 		88D37B9025D60CCD004F3699 /* CommunicationUserIdentifierModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D37B8C25D60CCD004F3699 /* CommunicationUserIdentifierModel.swift */; };
@@ -148,6 +150,8 @@
 		81ACD2D328DC5DE8F0F90C92 /* Pods-AzureCommunicationChatUnitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunicationChatUnitTests.debug.xcconfig"; path = "Target Support Files/Pods-AzureCommunicationChatUnitTests/Pods-AzureCommunicationChatUnitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8840448725D5DD7900A194DC /* IdentifierSerializerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IdentifierSerializerTests.swift; sourceTree = "<group>"; };
 		8840449725D5FA6200A194DC /* IdentifierSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IdentifierSerializer.swift; sourceTree = "<group>"; };
+		889FF7C9260516FA00722630 /* PolicyTokenCredential.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolicyTokenCredential.swift; sourceTree = "<group>"; };
+		889FF7D3260517A100722630 /* PolicyTokenCredentialTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolicyTokenCredentialTests.swift; sourceTree = "<group>"; };
 		88D37B8A25D60CCD004F3699 /* CommunicationIdentifierModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunicationIdentifierModel.swift; sourceTree = "<group>"; };
 		88D37B8B25D60CCD004F3699 /* MicrosoftTeamsUserIdentifierModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MicrosoftTeamsUserIdentifierModel.swift; sourceTree = "<group>"; };
 		88D37B8C25D60CCD004F3699 /* CommunicationUserIdentifierModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunicationUserIdentifierModel.swift; sourceTree = "<group>"; };
@@ -321,6 +325,14 @@
 			path = Serializer;
 			sourceTree = "<group>";
 		};
+		889FF7C82605161A00722630 /* Token */ = {
+			isa = PBXGroup;
+			children = (
+				889FF7C9260516FA00722630 /* PolicyTokenCredential.swift */,
+			);
+			path = Token;
+			sourceTree = "<group>";
+		};
 		A4D0748296D3AEEA8C0DAB94 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -439,6 +451,7 @@
 				0ECA8D08258432DC006760F7 /* ChatThreadClientUnitTests.swift */,
 				D1CD93A1258D6BC700409613 /* ChatClientTests.swift */,
 				D1CD93A7258D6BDC00409613 /* ChatThreadClientTests.swift */,
+				889FF7D3260517A100722630 /* PolicyTokenCredentialTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -502,6 +515,7 @@
 		OBJ_7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				889FF7C82605161A00722630 /* Token */,
 				8840445625D5C65700A194DC /* Serializer */,
 				D1565C70256DB74900AF45F8 /* ChatClient.swift */,
 				D1565C73256DB76C00AF45F8 /* ChatThreadClient.swift */,
@@ -805,6 +819,7 @@
 				D1CD93A8258D6BDC00409613 /* ChatThreadClientTests.swift in Sources */,
 				D1CD93AD258D6C2500409613 /* RecordingUtil.swift in Sources */,
 				D1CD93A2258D6BC700409613 /* ChatClientTests.swift in Sources */,
+				889FF7DD2605189E00722630 /* PolicyTokenCredentialTests.swift in Sources */,
 				D1CD93B3258D6C3D00409613 /* TestUtil.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -858,6 +873,7 @@
 				D15E990D25B7C80C00E63DB2 /* Chat.swift in Sources */,
 				D15E991325B7C80C00E63DB2 /* ChatMessage.swift in Sources */,
 				D15E990125B7C80C00E63DB2 /* ChatThreadOperation+SendChatMessageOptions.swift in Sources */,
+				889FF7CA260516FA00722630 /* PolicyTokenCredential.swift in Sources */,
 				D15E98FD25B7C80C00E63DB2 /* ChatThreadOperation+UpdateChatMessageOptions.swift in Sources */,
 				D15E991F25B7C80C00E63DB2 /* CreateChatThreadResult.swift in Sources */,
 				D15E990B25B7C80C00E63DB2 /* ChatThreadOperation+ListChatParticipantsOptions.swift in Sources */,

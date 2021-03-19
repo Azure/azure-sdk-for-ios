@@ -24,14 +24,13 @@
 //
 // --------------------------------------------------------------------------
 
-#if canImport(AzureCore)
-    import AzureCore
-#endif
+import AzureCommunication
+import AzureCore
 import Foundation
 /**
  The Azure Communication Services token credential used to authenticate pipeline requests.
  */
-public class CommunicationPolicyTokenCredential: TokenCredential {
+public class PolicyTokenCredential: TokenCredential {
     private let credential: CommunicationTokenCredential
     var error: AzureError?
     /**
