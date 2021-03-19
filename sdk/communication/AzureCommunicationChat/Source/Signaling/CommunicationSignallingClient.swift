@@ -50,7 +50,7 @@ public class CommunicationSignalingClient {
     public convenience init(
         token: String
     ) {
-        let skypeTokenProvider = CommunicationSkypeTokenProvider(skypeToken: skypeToken)
+        let skypeTokenProvider = CommunicationSkypeTokenProvider(skypeToken: token)
         self.init(skypeTokenProvider: skypeTokenProvider)
     }
 
