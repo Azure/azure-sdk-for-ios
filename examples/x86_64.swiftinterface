@@ -57,23 +57,17 @@ public protocol CommunicationTokenCredentialProviding {
   @objc deinit
   @objc override dynamic public init()
 }
-public typealias TokenRefresherClosure = (@escaping AzureCommunication.TokenRefreshOnCompletion) -> Swift.Void
+public typealias TokenRefresherClosure = (@escaping AzureCommunication.TokenRefreshHandler) -> Swift.Void
 @objc @objcMembers public class CommunicationTokenRefreshOptions : ObjectiveC.NSObject {
   @objc public init(initialToken: Swift.String? = nil, refreshProactively: Swift.Bool = false, tokenRefresher: @escaping AzureCommunication.TokenRefresherClosure)
   @objc deinit
   @objc override dynamic public init()
 }
-public class CommunicationPolicyTokenCredential : AzureCore.TokenCredential {
-  public init(_ credential: AzureCommunication.CommunicationTokenCredential)
-  public func token(forScopes _: [Swift.String], completionHandler: @escaping AzureCore.TokenCompletionHandler)
-  public func validate() throws
-  @objc deinit
-}
 public typealias CommunicationTokenCompletionHandler = (AzureCommunication.CommunicationAccessToken?, Swift.Error?) -> Swift.Void
-public typealias TokenRefreshOnCompletion = (Swift.String?, Swift.Error?) -> Swift.Void
+public typealias TokenRefreshHandler = (Swift.String?, Swift.Error?) -> Swift.Void
 @objc @objcMembers public class CommunicationTokenCredential : ObjectiveC.NSObject {
   @objc public init(token: Swift.String) throws
-  @objc public init(with option: AzureCommunication.CommunicationTokenRefreshOptions) throws
+  @objc public init(withOptions options: AzureCommunication.CommunicationTokenRefreshOptions) throws
   @objc public func token(completionHandler: @escaping AzureCommunication.CommunicationTokenCompletionHandler)
   @objc deinit
   @objc override dynamic public init()
