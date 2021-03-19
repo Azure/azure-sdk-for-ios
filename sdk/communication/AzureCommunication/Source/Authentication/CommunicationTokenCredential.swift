@@ -55,11 +55,11 @@ public typealias TokenRefreshHandler = (String?, Error?) -> Void
         - option: Options for how the token will be refreshed
      - Throws: `AzureError` if the provided token is not a valid user token.
      */
-    public init(withOptions option: CommunicationTokenRefreshOptions) throws {
+    public init(withOptions options: CommunicationTokenRefreshOptions) throws {
         self.userTokenCredential = try AutoRefreshTokenCredential(
-            tokenRefresher: option.tokenRefresher,
-            refreshProactively: option.refreshProactively,
-            initialToken: option.initialToken
+            tokenRefresher: options.tokenRefresher,
+            refreshProactively: options.refreshProactively,
+            initialToken: options.initialToken
         )
     }
 
