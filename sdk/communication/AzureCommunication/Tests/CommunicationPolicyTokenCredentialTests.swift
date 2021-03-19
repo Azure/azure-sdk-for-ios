@@ -40,7 +40,7 @@ class CommunicationPolicyTokenCredentialTests: XCTestCase {
     let expiredToken =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjEwMH0.1h_scYkNp-G98-O4cW6KvfJZwiz54uJMyeDACE4nypg"
 
-    func fetchTokenSync(completionHandler: TokenRefreshOnCompletion) {
+    func fetchTokenSync(completionHandler: TokenRefreshHandler) {
         let newToken = sampleToken
         completionHandler(newToken, nil)
     }

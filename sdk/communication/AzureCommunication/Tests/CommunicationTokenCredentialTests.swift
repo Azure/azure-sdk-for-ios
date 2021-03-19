@@ -53,20 +53,20 @@ class CommunicationTokenCredentialTests: XCTestCase {
         fetchTokenCallCount = 0
     }
 
-    func fetchTokenSync(completionHandler: TokenRefreshOnCompletion) {
+    func fetchTokenSync(completionHandler: TokenRefreshHandler) {
         fetchTokenCallCount += 1
 
         let newToken = sampleToken
         completionHandler(newToken, nil)
     }
 
-    func fetchTokenSyncWithError(completionHandler: TokenRefreshOnCompletion) {
+    func fetchTokenSyncWithError(completionHandler: TokenRefreshHandler) {
         fetchTokenCallCount += 1
 
         completionHandler(nil, FetchTokenError.badRequest("Error while fetching token"))
     }
 
-    func fetchTokenAsync(completionHandler: @escaping TokenRefreshOnCompletion) {
+    func fetchTokenAsync(completionHandler: @escaping TokenRefreshHandler) {
         fetchTokenCallCount += 1
 
         func getTokenFromServer(completionHandler: @escaping (String) -> Void) {

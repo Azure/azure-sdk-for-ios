@@ -30,7 +30,7 @@
 import Foundation
 
 public typealias CommunicationTokenCompletionHandler = (CommunicationAccessToken?, Error?) -> Void
-public typealias TokenRefreshOnCompletion = (String?, Error?) -> Void
+public typealias TokenRefreshHandler = (String?, Error?) -> Void
 
 /**
  The Azure Communication Services User token credential. This class is used to cache/refresh the access token required by Azure Communication Services.

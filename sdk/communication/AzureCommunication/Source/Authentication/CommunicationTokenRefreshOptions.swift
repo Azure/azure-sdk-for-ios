@@ -26,7 +26,7 @@
 
 import Foundation
 
-public typealias TokenRefresherClosure = (@escaping TokenRefreshOnCompletion) -> Void
+public typealias TokenRefresherClosure = (@escaping TokenRefreshHandler) -> Void
 /**
  The Communication Token Refresh Options. Used to initialize a `CommunicationTokenCredential`
  - SeeAlso: ` CommunicationTokenCredential.token(...)`

@@ -39,7 +39,7 @@ internal class AutoRefreshTokenCredential: CommunicationTokenCredentialProviding
      - SeeAlso: `CommunicationTokenCredential.init(...)`
      */
     public init(
-        tokenRefresher: @escaping (@escaping TokenRefreshOnCompletion) -> Void,
+        tokenRefresher: @escaping (@escaping TokenRefreshHandler) -> Void,
         refreshProactively: Bool,
         initialToken: String?
     ) throws {
