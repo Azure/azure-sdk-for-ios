@@ -46,7 +46,7 @@ internal class ThreadSafeRefreshableAccessTokenCache {
 
     private typealias TimerAction = () -> Void
     internal typealias AccessTokenRefreshAction = (@escaping CommunicationTokenCompletionHandler) -> Void
-    internal typealias TokenRefreshAction = (@escaping TokenRefreshOnCompletion) -> Void
+    internal typealias TokenRefreshAction = (@escaping TokenRefreshHandler) -> Void
 
     public convenience init(refreshProactively: Bool, tokenRefresher: @escaping TokenRefreshAction) {
         self.init(

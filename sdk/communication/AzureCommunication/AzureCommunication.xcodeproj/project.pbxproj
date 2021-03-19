@@ -13,9 +13,7 @@
 		1DE4DB7724C0FE8300631921 /* AutoRefreshTokenCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE4DB7624C0FE8300631921 /* AutoRefreshTokenCredential.swift */; };
 		1DE4DB7924C1063E00631921 /* ThreadSafeRefreshableAccessTokenCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE4DB7824C1063E00631921 /* ThreadSafeRefreshableAccessTokenCache.swift */; };
 		6BEEB9676DB4864DB30F6919 /* Pods_AzureCommunicationTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE026FF4E92423EB0A935FD4 /* Pods_AzureCommunicationTests.framework */; };
-		7AAE2D17251444B600C9F897 /* CommunicationPolicyTokenCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AAE2D16251444B600C9F897 /* CommunicationPolicyTokenCredential.swift */; };
 		882F28D425A632CA009689E3 /* CommunicationTokenRefreshOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882F28D325A632CA009689E3 /* CommunicationTokenRefreshOptions.swift */; };
-		883AEDB825AF623000E21497 /* CommunicationPolicyTokenCredentialTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 883AEDB725AF623000E21497 /* CommunicationPolicyTokenCredentialTests.swift */; };
 		8856CEAC253A376D00044559 /* CommunicationAccessToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8856CEAB253A376D00044559 /* CommunicationAccessToken.swift */; };
 		8856CEE5253E3AEF00044559 /* ObjCCommunicationTokenCredentialTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8856CEE4253E3AEF00044559 /* ObjCCommunicationTokenCredentialTests.m */; };
 		88CC8C35254750260028977C /* ObjCCommunicationTokenCredentialAsyncTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 88CC8C34254750260028977C /* ObjCCommunicationTokenCredentialAsyncTests.m */; };
@@ -53,10 +51,8 @@
 		1DE4DB7824C1063E00631921 /* ThreadSafeRefreshableAccessTokenCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadSafeRefreshableAccessTokenCache.swift; sourceTree = "<group>"; };
 		316382976240347BE77E907F /* Pods-AzureCommunication.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunication.release.xcconfig"; path = "Target Support Files/Pods-AzureCommunication/Pods-AzureCommunication.release.xcconfig"; sourceTree = "<group>"; };
 		73DFF8D8D93685E64E46AD1B /* Pods-AzureCommunication.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunication.debug.xcconfig"; path = "Target Support Files/Pods-AzureCommunication/Pods-AzureCommunication.debug.xcconfig"; sourceTree = "<group>"; };
-		7AAE2D16251444B600C9F897 /* CommunicationPolicyTokenCredential.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunicationPolicyTokenCredential.swift; sourceTree = "<group>"; };
 		7AB0952825BF895B0026A2A5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		882F28D325A632CA009689E3 /* CommunicationTokenRefreshOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationTokenRefreshOptions.swift; sourceTree = "<group>"; };
-		883AEDB725AF623000E21497 /* CommunicationPolicyTokenCredentialTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationPolicyTokenCredentialTests.swift; sourceTree = "<group>"; };
 		8856CEAB253A376D00044559 /* CommunicationAccessToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationAccessToken.swift; sourceTree = "<group>"; };
 		8856CEE3253E3AEF00044559 /* AzureCommunicationTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AzureCommunicationTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		8856CEE4253E3AEF00044559 /* ObjCCommunicationTokenCredentialTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ObjCCommunicationTokenCredentialTests.m; sourceTree = "<group>"; };
@@ -138,7 +134,6 @@
 				8856CEE3253E3AEF00044559 /* AzureCommunicationTests-Bridging-Header.h */,
 				88F1F56F254A07BC00876BC4 /* ObjCTokenParserTests.m */,
 				F1540EC025BFD6910056B087 /* CommunicationIdentifierTest.swift */,
-				883AEDB725AF623000E21497 /* CommunicationPolicyTokenCredentialTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -163,7 +158,6 @@
 				F183A5FD24AFF1B100F0E0D5 /* JwtTokenParser.swift */,
 				1DE4DB7624C0FE8300631921 /* AutoRefreshTokenCredential.swift */,
 				1DE4DB7824C1063E00631921 /* ThreadSafeRefreshableAccessTokenCache.swift */,
-				7AAE2D16251444B600C9F897 /* CommunicationPolicyTokenCredential.swift */,
 				882F28D325A632CA009689E3 /* CommunicationTokenRefreshOptions.swift */,
 			);
 			path = Authentication;
@@ -366,7 +360,6 @@
 				1DE4DB7724C0FE8300631921 /* AutoRefreshTokenCredential.swift in Sources */,
 				F1540EBD25BF893C0056B087 /* CommunicationCloudEnvironment.swift in Sources */,
 				882F28D425A632CA009689E3 /* CommunicationTokenRefreshOptions.swift in Sources */,
-				7AAE2D17251444B600C9F897 /* CommunicationPolicyTokenCredential.swift in Sources */,
 				F183A5FE24AFF1B100F0E0D5 /* JwtTokenParser.swift in Sources */,
 				D112634825B7969B00F437C6 /* (null) in Sources */,
 				D1A42CF825CCA1C100408C0F /* CommunicationTokenCredential.swift in Sources */,
@@ -383,7 +376,6 @@
 				F1540EC125BFD6910056B087 /* CommunicationIdentifierTest.swift in Sources */,
 				1D07222D24C8FB0F00C2EF4E /* CommunicationTokenCredentialTests.swift in Sources */,
 				88CC8C35254750260028977C /* ObjCCommunicationTokenCredentialAsyncTests.m in Sources */,
-				883AEDB825AF623000E21497 /* CommunicationPolicyTokenCredentialTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

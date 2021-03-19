@@ -53,20 +53,20 @@ class CommunicationTokenCredentialTests: XCTestCase {
         fetchTokenCallCount = 0
     }
 
-    func fetchTokenSync(completionHandler: TokenRefreshOnCompletion) {
+    func fetchTokenSync(completionHandler: TokenRefreshHandler) {
         fetchTokenCallCount += 1
 
         let newToken = sampleToken
         completionHandler(newToken, nil)
     }
 
-    func fetchTokenSyncWithError(completionHandler: TokenRefreshOnCompletion) {
+    func fetchTokenSyncWithError(completionHandler: TokenRefreshHandler) {
         fetchTokenCallCount += 1
 
         completionHandler(nil, FetchTokenError.badRequest("Error while fetching token"))
     }
 
-    func fetchTokenAsync(completionHandler: @escaping TokenRefreshOnCompletion) {
+    func fetchTokenAsync(completionHandler: @escaping TokenRefreshHandler) {
         fetchTokenCallCount += 1
 
         func getTokenFromServer(completionHandler: @escaping (String) -> Void) {
@@ -108,7 +108,7 @@ class CommunicationTokenCredentialTests: XCTestCase {
             tokenRefresher: fetchTokenSync
         )
 
-        let userCredential = try CommunicationTokenCredential(with: tokenRefreshOptions)
+        let userCredential = try CommunicationTokenCredential(withOptions: tokenRefreshOptions)
 
         DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 1) {
             userCredential.token { (accessToken: CommunicationAccessToken?, error: Error?) in
@@ -133,7 +133,7 @@ class CommunicationTokenCredentialTests: XCTestCase {
             tokenRefresher: fetchTokenSyncWithError
         )
 
-        let userCredential = try CommunicationTokenCredential(with: tokenRefreshOptions)
+        let userCredential = try CommunicationTokenCredential(withOptions: tokenRefreshOptions)
 
         DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 1) {
             userCredential.token { (accessToken: CommunicationAccessToken?, error: Error?) in
@@ -167,7 +167,7 @@ class CommunicationTokenCredentialTests: XCTestCase {
                 tokenRefresher: fetchTokenSync
             )
 
-            let userCredential = try CommunicationTokenCredential(with: tokenRefreshOptions)
+            let userCredential = try CommunicationTokenCredential(withOptions: tokenRefreshOptions)
 
             DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 1) {
                 userCredential.token { (accessToken: CommunicationAccessToken?, _: Error?) in
@@ -204,7 +204,7 @@ class CommunicationTokenCredentialTests: XCTestCase {
             tokenRefresher: fetchTokenSync
         )
 
-        let userCredential = try CommunicationTokenCredential(with: tokenRefreshOptions)
+        let userCredential = try CommunicationTokenCredential(withOptions: tokenRefreshOptions)
         DispatchQueue.global(qos: .utility).async {
             userCredential.token { (accessToken: CommunicationAccessToken?, error: Error?) in
                 XCTAssertNotNil(accessToken)
@@ -231,7 +231,7 @@ class CommunicationTokenCredentialTests: XCTestCase {
             tokenRefresher: fetchTokenAsync
         )
 
-        let userCredential = try CommunicationTokenCredential(with: tokenRefreshOptions)
+        let userCredential = try CommunicationTokenCredential(withOptions: tokenRefreshOptions)
 
         DispatchQueue.global(qos: .utility).async {
             userCredential.token { (accessToken: CommunicationAccessToken?, error: Error?) in

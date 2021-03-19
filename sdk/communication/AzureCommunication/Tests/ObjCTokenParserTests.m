@@ -66,7 +66,7 @@
     }];
     
     CommunicationTokenCredential *credential = [[CommunicationTokenCredential alloc]
-                                                initWith:tokenRefreshOptions
+                                                initWithOptions: tokenRefreshOptions
                                                 error:&error];
     
     XCTAssertNil(credential);

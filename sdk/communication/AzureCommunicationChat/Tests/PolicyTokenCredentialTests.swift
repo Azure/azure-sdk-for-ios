@@ -24,23 +24,19 @@
 //
 // --------------------------------------------------------------------------
 
+import AzureCommunication
+import AzureCommunicationChat
+import AzureCore
 import XCTest
 
-#if canImport(AzureCommunication)
-    @testable import AzureCommunication
-#endif
-#if canImport(AzureCore)
-    @testable import AzureCore
-#endif
-
-class CommunicationPolicyTokenCredentialTests: XCTestCase {
+class PolicyTokenCredentialTests: XCTestCase {
     let sampleToken =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjMyNTAzNjgwMDAwfQ.9i7FNNHHJT8cOzo-yrAUJyBSfJ-tPPk2emcHavOEpWc"
     let aampleTokenExpiry = 32_503_680_000
     let expiredToken =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjEwMH0.1h_scYkNp-G98-O4cW6KvfJZwiz54uJMyeDACE4nypg"
 
-    func fetchTokenSync(completionHandler: TokenRefreshOnCompletion) {
+    func fetchTokenSync(completionHandler: TokenRefreshHandler) {
         let newToken = sampleToken
         completionHandler(newToken, nil)
     }
@@ -50,7 +46,7 @@ class CommunicationPolicyTokenCredentialTests: XCTestCase {
 
         let token = expiredToken
         let userCredential = try CommunicationTokenCredential(token: token)
-        let communicationTokenPolicy = CommunicationPolicyTokenCredential(userCredential)
+        let communicationTokenPolicy = PolicyTokenCredential(userCredential)
         communicationTokenPolicy.token(forScopes: [""]) { accessToken, error in
             XCTAssertNil(error)
             XCTAssertNotNil(accessToken)
@@ -70,8 +66,8 @@ class CommunicationPolicyTokenCredentialTests: XCTestCase {
             refreshProactively: true,
             tokenRefresher: fetchTokenSync
         )
-        let userCredential = try CommunicationTokenCredential(with: options)
-        let communicationTokenPolicy = CommunicationPolicyTokenCredential(userCredential)
+        let userCredential = try CommunicationTokenCredential(withOptions: options)
+        let communicationTokenPolicy = PolicyTokenCredential(userCredential)
 
         communicationTokenPolicy.token(forScopes: [""]) { accessToken, error in
             XCTAssertNil(error)
@@ -94,8 +90,8 @@ class CommunicationPolicyTokenCredentialTests: XCTestCase {
             refreshProactively: true,
             tokenRefresher: fetchTokenSync
         )
-        let userCredential = try CommunicationTokenCredential(with: options)
-        let communicationTokenPolicy = CommunicationPolicyTokenCredential(userCredential)
+        let userCredential = try CommunicationTokenCredential(withOptions: options)
+        let communicationTokenPolicy = PolicyTokenCredential(userCredential)
 
         communicationTokenPolicy.token(forScopes: [""]) { accessToken, error in
             XCTAssertNil(error)
@@ -114,7 +110,7 @@ class CommunicationPolicyTokenCredentialTests: XCTestCase {
         let expectation = self.expectation(description: "Decode access token")
         let initialToken = sampleToken
         let userCredential = try CommunicationTokenCredential(token: initialToken)
-        let communicationTokenPolicy = CommunicationPolicyTokenCredential(userCredential)
+        let communicationTokenPolicy = PolicyTokenCredential(userCredential)
 
         communicationTokenPolicy.token(forScopes: [""]) { accessToken, _ in
             XCTAssertEqual(accessToken?.token, initialToken)
@@ -133,7 +129,7 @@ class CommunicationPolicyTokenCredentialTests: XCTestCase {
         let expectation = self.expectation(description: "Static token is expired")
         let initialToken = expiredToken
         let userCredential = try CommunicationTokenCredential(token: initialToken)
-        let communicationTokenPolicy = CommunicationPolicyTokenCredential(userCredential)
+        let communicationTokenPolicy = PolicyTokenCredential(userCredential)
 
         communicationTokenPolicy.token(forScopes: [""]) { [weak self] accessToken, _ in
             guard let self = self else { return }

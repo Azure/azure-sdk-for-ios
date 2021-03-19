@@ -125,7 +125,7 @@ let credential = try CommunicationTokenCredential(token: sampleToken)
 let sampleToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjMyNTAzNjgwMDAwfQ.9i7FNNHHJT8cOzo-yrAUJyBSfJ-tPPk2emcHavOEpWc"
 let sampleExpiredToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjEwMH0.1h_scYkNp-G98-O4cW6KvfJZwiz54uJMyeDACE4nypg"
 
-func fetchTokenSync(completionHandler: TokenRefreshOnCompletion) {
+func fetchTokenSync(completionHandler: TokenRefreshHandler) {
     let newToken = sampleToken
     completionHandler(newToken, nil)
 }
@@ -146,7 +146,7 @@ DispatchQueue.global(qos: .utility).async {
 let sampleToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjMyNTAzNjgwMDAwfQ.9i7FNNHHJT8cOzo-yrAUJyBSfJ-tPPk2emcHavOEpWc"
 let sampleExpiredToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjEwMH0.1h_scYkNp-G98-O4cW6KvfJZwiz54uJMyeDACE4nypg"
 
-func fetchTokenAsync(completionHandler: @escaping TokenRefreshOnCompletion) {
+func fetchTokenAsync(completionHandler: @escaping TokenRefreshHandler) {
      func getTokenFromServer(completionHandler: @escaping (String) -> Void) {
           completionHandler(self.sampleToken)   
      }

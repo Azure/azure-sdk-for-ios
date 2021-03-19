@@ -87,7 +87,7 @@
     }];
     
     CommunicationTokenCredential *credential = [[CommunicationTokenCredential alloc]
-                                                initWith:tokenRefreshOptions
+                                                initWithOptions: tokenRefreshOptions
                                                 error:nil];
     
     [credential tokenWithCompletionHandler:^(CommunicationAccessToken * _Nullable accessToken,
@@ -131,7 +131,7 @@
     }];
     
     CommunicationTokenCredential *credential = [[CommunicationTokenCredential alloc]
-                                                initWith:tokenRefreshOptions
+                                                initWithOptions: tokenRefreshOptions
                                                 error:nil];
     
     [credential tokenWithCompletionHandler:^(CommunicationAccessToken * _Nullable accessToken,
