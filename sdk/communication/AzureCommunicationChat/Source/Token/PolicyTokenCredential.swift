@@ -49,7 +49,7 @@ public class PolicyTokenCredential: TokenCredential {
      - scopes: A list of a scope strings for which to retrieve the token.
      - completionHandler: A completion handler which forwards the access token.
      */
-    public func token(forScopes _: [String], completionHandler: @escaping TokenCompletionHandler) {
+    public func token(forScopes _: [String] = [], completionHandler: @escaping TokenCompletionHandler) {
         credential.token { communicationAccessToken, error in
             guard let communicationAccessToken = communicationAccessToken else {
                 self.error = AzureError.client("Communication Token Failure", error)
