@@ -3,13 +3,13 @@
 ## 1.0.0-beta.10 (Unreleased)
 ### New Features
 **Azure Communication Chat**
-- Introduced new `PolicyTokenCredential` from the communication package. 
+- Introduced new `TokenCredentialAdapter` from the communication package. 
 
 ### Breaking Changes
 **Azure Communication**
 - Updated the Objective-C initializer for `CommunicationUserIdentifier` and `UnknownIdentifier` to be `initWithIdentifier:`. Making it align more with Objective-C guidelines. 
 - Updated `CommunicationTokenCredential` init method from `init(with:)` to `init(withOptions:)`. Objective-c method will change from `initWith: error:]` to `initWithOptions: error:]`. 
-- Removed `CommunicationPolicyTokenCredential` and moved to the chat package.
+- Removed `CommunicationPolicyTokenCredential`.
 - Typealias `TokenRefreshOnCompletion` renamed to `TokenRefreshHandler`.
 
 ### Key Bug Fixes
