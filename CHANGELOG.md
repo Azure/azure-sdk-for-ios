@@ -2,8 +2,6 @@
 
 ## 1.0.0-beta.10 (Unreleased)
 ### New Features
-**Azure Communication Chat**
-- Introduced new `TokenCredentialAdapter` from the communication package. 
 
 ### Breaking Changes
 **Azure Communication**
