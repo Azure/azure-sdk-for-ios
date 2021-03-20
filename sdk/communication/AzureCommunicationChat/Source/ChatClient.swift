@@ -212,10 +212,6 @@ public class ChatClient {
     /// Start receiving realtime notifications.
     /// Call this function before subscribing to any event.
     public func startRealTimeNotifications() throws {
-        if signalingClient == nil {
-            throw AzureError.client("Signaling client is not initialized.")
-        }
-
         if isRealtimeNotificationsStarted {
             return
         }
@@ -227,10 +223,6 @@ public class ChatClient {
     /// Stop receiving realtime notifications.
     /// This function would unsubscribe to all events.
     public func stopRealTimeNotifications() throws {
-        if signalingClient == nil {
-            throw AzureError.client("Signaling client is not initialized.")
-        }
-
         isRealtimeNotificationsStarted = false
         signalingClient.stop()
     }
