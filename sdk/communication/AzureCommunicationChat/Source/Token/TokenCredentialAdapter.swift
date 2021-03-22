@@ -30,7 +30,7 @@ import Foundation
 /**
  The Azure Communication Services token credential used to authenticate pipeline requests.
  */
-public class PolicyTokenCredential: TokenCredential {
+class TokenCredentialAdapter: TokenCredential {
     private let credential: CommunicationTokenCredential
     var error: AzureError?
     /**
