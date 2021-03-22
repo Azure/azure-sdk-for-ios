@@ -39,10 +39,11 @@ class ChatThreadClientTests: XCTestCase {
     /// ChatThreadClient initialized in setup.
     private var chatThreadClient: ChatThreadClient!
     /// Test mode.
-    private var mode = ProcessInfo.processInfo.environment["TEST_MODE"]!
+    private var mode = ProcessInfo.processInfo.environment["TEST_MODE"] ?? "playback"
 
     override class func setUp() {
-        if ProcessInfo.processInfo.environment["TEST_MODE"]! == "playback" {
+        let mode = ProcessInfo.processInfo.environment["TEST_MODE"] ?? "playback"
+        if mode == "playback" {
             // Register stubs for playback mode
             Recorder.registerStubs()
         }
