@@ -202,3 +202,10 @@ enum Recording: String, CaseIterable {
     case listThreads
     case listReadReceipts
 }
+
+/// Generates a mock user access token.
+func generateToken() -> String {
+    let fakeValue = "{\"iss\":\"ACS\",\"iat\": 1608152725,\"exp\": 1739688725,\"aud\": \"\",\"sub\": \"\"}"
+        .base64EncodedString()
+    return "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9." + fakeValue + ".EMS0ExXqRuobm34WKJE8mAfZ7KppU5kEHl0OFdyree8"
+}

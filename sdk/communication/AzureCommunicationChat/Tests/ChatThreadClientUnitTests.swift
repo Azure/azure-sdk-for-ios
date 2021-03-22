@@ -42,7 +42,11 @@ class ChatThreadClientUnitTests: XCTestCase {
     private let messageId = "test_message_id"
 
     override func setUpWithError() throws {
-        chatClient = try TestUtil.getChatClient()
+        let endpoint = ProcessInfo.processInfo.environment["AZURE_COMMUNICATION_ENDPOINT"] ?? "https://endpoint"
+        let token = ProcessInfo.processInfo.environment["AZURE_COMMUNICATION_TOKEN"] ?? generateToken()
+        let credential = try CommunicationTokenCredential(token: token)
+        let options = AzureCommunicationChatClientOptions()
+        chatClient = try ChatClient(endpoint: endpoint, credential: credential, withOptions: options)
         chatThreadClient = try chatClient.createClient(forThread: threadId)
     }
 
@@ -67,7 +71,7 @@ class ChatThreadClientUnitTests: XCTestCase {
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Update thread topic timed out: \(error)")
             }
@@ -101,7 +105,7 @@ class ChatThreadClientUnitTests: XCTestCase {
 
             expectation.fulfill()
         }
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Get thread timed out: \(error)")
             }
@@ -129,7 +133,7 @@ class ChatThreadClientUnitTests: XCTestCase {
             expectation.fulfill()
         }
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Get thread timed out: \(error)")
             }
@@ -157,7 +161,7 @@ class ChatThreadClientUnitTests: XCTestCase {
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Update thread topic timed out: \(error)")
             }
@@ -191,7 +195,7 @@ class ChatThreadClientUnitTests: XCTestCase {
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Send message timed out: \(error)")
             }
@@ -224,7 +228,7 @@ class ChatThreadClientUnitTests: XCTestCase {
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Send message timed out: \(error)")
             }
@@ -258,7 +262,7 @@ class ChatThreadClientUnitTests: XCTestCase {
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Get message timed out: \(error)")
             }
@@ -286,7 +290,7 @@ class ChatThreadClientUnitTests: XCTestCase {
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Get message timed out: \(error)")
             }
@@ -331,7 +335,7 @@ class ChatThreadClientUnitTests: XCTestCase {
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("List messages timed out: \(error)")
             }
@@ -359,7 +363,7 @@ class ChatThreadClientUnitTests: XCTestCase {
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("List messages timed out: \(error)")
             }
@@ -388,7 +392,7 @@ class ChatThreadClientUnitTests: XCTestCase {
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Update message timed out: \(error)")
             }
@@ -416,7 +420,7 @@ class ChatThreadClientUnitTests: XCTestCase {
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Update message timed out: \(error)")
             }
@@ -444,7 +448,7 @@ class ChatThreadClientUnitTests: XCTestCase {
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Delete message timed out: \(error)")
             }
@@ -472,7 +476,7 @@ class ChatThreadClientUnitTests: XCTestCase {
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Delete message timed out: \(error)")
             }
@@ -519,7 +523,7 @@ class ChatThreadClientUnitTests: XCTestCase {
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("List participants timed out: \(error)")
             }
@@ -547,7 +551,7 @@ class ChatThreadClientUnitTests: XCTestCase {
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("List participants timed out: \(error)")
             }
@@ -580,7 +584,7 @@ class ChatThreadClientUnitTests: XCTestCase {
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Add participant timed out: \(error)")
             }
@@ -613,7 +617,7 @@ class ChatThreadClientUnitTests: XCTestCase {
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Add participant timed out: \(error)")
             }
@@ -644,7 +648,7 @@ class ChatThreadClientUnitTests: XCTestCase {
             }
         )
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Remove participant timed out: \(error)")
             }
@@ -675,7 +679,7 @@ class ChatThreadClientUnitTests: XCTestCase {
             }
         )
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Remove participant timed out: \(error)")
             }
@@ -703,7 +707,7 @@ class ChatThreadClientUnitTests: XCTestCase {
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Send typing notification timed out: \(error)")
             }
@@ -731,7 +735,7 @@ class ChatThreadClientUnitTests: XCTestCase {
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Send typing notification timed out: \(error)")
             }
@@ -759,7 +763,7 @@ class ChatThreadClientUnitTests: XCTestCase {
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Send read receipt timed out: \(error)")
             }
@@ -787,7 +791,7 @@ class ChatThreadClientUnitTests: XCTestCase {
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Send read receipt timed out: \(error)")
             }
@@ -831,7 +835,7 @@ class ChatThreadClientUnitTests: XCTestCase {
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("List read receipts timed out: \(error)")
             }
@@ -859,7 +863,7 @@ class ChatThreadClientUnitTests: XCTestCase {
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("List read receipts timed out: \(error)")
             }

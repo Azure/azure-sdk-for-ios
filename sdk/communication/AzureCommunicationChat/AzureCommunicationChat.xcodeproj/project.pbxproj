@@ -27,7 +27,6 @@
 		D147E62D25CE242C001CFB5D /* AzureCommunicationChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "AzureCommunicationChat::AzureCommunicationChat::Product" /* AzureCommunicationChat.framework */; };
 		D147E63925CE244A001CFB5D /* ChatClientUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA8CD1258181A5006760F7 /* ChatClientUnitTests.swift */; };
 		D147E64025CE244F001CFB5D /* ChatThreadClientUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA8D08258432DC006760F7 /* ChatThreadClientUnitTests.swift */; };
-		D147E64725CE2459001CFB5D /* TestUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1CD93B2258D6C3D00409613 /* TestUtil.swift */; };
 		D147E65225CE246B001CFB5D /* ListReadReceiptResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 0ECA8D2E25889619006760F7 /* ListReadReceiptResponse.json */; };
 		D147E65925CE246E001CFB5D /* AddParticipantResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 0ECA8D28258892CD006760F7 /* AddParticipantResponse.json */; };
 		D147E66025CE2470001CFB5D /* ListParticipantsResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 0ECA8D2225888DD8006760F7 /* ListParticipantsResponse.json */; };
@@ -92,12 +91,12 @@
 		D17C7B6325FBF4D5007AD39B /* ChatMessageContentInternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17C7B5925FBF4D5007AD39B /* ChatMessageContentInternal.swift */; };
 		D193C45B25CE258F006F769C /* OHHTTPStubsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D193C45A25CE258F006F769C /* OHHTTPStubsSwift */; };
 		D1AEA06B26054E8700849D5C /* PolicyTokenCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889FF7C9260516FA00722630 /* PolicyTokenCredential.swift */; };
+		D1AEA09C2608EE3700849D5C /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1CD93AC258D6C2500409613 /* Util.swift */; };
 		D1B7EB06257F0D20004F384A /* AzureCommunicationChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "AzureCommunicationChat::AzureCommunicationChat::Product" /* AzureCommunicationChat.framework */; };
 		D1BA104D25807B7500CA7130 /* OHHTTPStubsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D1BA104C25807B7500CA7130 /* OHHTTPStubsSwift */; };
 		D1CD93A2258D6BC700409613 /* ChatClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1CD93A1258D6BC700409613 /* ChatClientTests.swift */; };
 		D1CD93A8258D6BDC00409613 /* ChatThreadClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1CD93A7258D6BDC00409613 /* ChatThreadClientTests.swift */; };
-		D1CD93AD258D6C2500409613 /* RecordingUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1CD93AC258D6C2500409613 /* RecordingUtil.swift */; };
-		D1CD93B3258D6C3D00409613 /* TestUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1CD93B2258D6C3D00409613 /* TestUtil.swift */; };
+		D1CD93AD258D6C2500409613 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1CD93AC258D6C2500409613 /* Util.swift */; };
 		D1CD93BE258D6E6200409613 /* addParticipants.json in Resources */ = {isa = PBXBuildFile; fileRef = D1CD93BD258D6E6200409613 /* addParticipants.json */; };
 		D1CD93C4258D6E7300409613 /* createThread.json in Resources */ = {isa = PBXBuildFile; fileRef = D1CD93C3258D6E7300409613 /* createThread.json */; };
 		D1CD93C8258D6E8F00409613 /* deleteMessage.json in Resources */ = {isa = PBXBuildFile; fileRef = D1CD93C7258D6E8F00409613 /* deleteMessage.json */; };
@@ -221,8 +220,7 @@
 		D1BA104525807B0B00CA7130 /* CreateThreadResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = CreateThreadResponse.json; sourceTree = "<group>"; };
 		D1CD93A1258D6BC700409613 /* ChatClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatClientTests.swift; sourceTree = "<group>"; };
 		D1CD93A7258D6BDC00409613 /* ChatThreadClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatThreadClientTests.swift; sourceTree = "<group>"; };
-		D1CD93AC258D6C2500409613 /* RecordingUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingUtil.swift; sourceTree = "<group>"; };
-		D1CD93B2258D6C3D00409613 /* TestUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUtil.swift; sourceTree = "<group>"; };
+		D1CD93AC258D6C2500409613 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		D1CD93BD258D6E6200409613 /* addParticipants.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = addParticipants.json; sourceTree = "<group>"; };
 		D1CD93C3258D6E7300409613 /* createThread.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = createThread.json; sourceTree = "<group>"; };
 		D1CD93C7258D6E8F00409613 /* deleteMessage.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = deleteMessage.json; sourceTree = "<group>"; };
@@ -453,8 +451,7 @@
 			children = (
 				D1CD93BC258D6E3500409613 /* Recordings */,
 				0ECA8CD52581838E006760F7 /* Mocks */,
-				D1CD93AC258D6C2500409613 /* RecordingUtil.swift */,
-				D1CD93B2258D6C3D00409613 /* TestUtil.swift */,
+				D1CD93AC258D6C2500409613 /* Util.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -798,7 +795,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D147E64025CE244F001CFB5D /* ChatThreadClientUnitTests.swift in Sources */,
-				D147E64725CE2459001CFB5D /* TestUtil.swift in Sources */,
+				D1AEA09C2608EE3700849D5C /* Util.swift in Sources */,
 				D147E63925CE244A001CFB5D /* ChatClientUnitTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -809,9 +806,9 @@
 			files = (
 				8840448825D5DD7900A194DC /* IdentifierSerializerTests.swift in Sources */,
 				D1CD93A8258D6BDC00409613 /* ChatThreadClientTests.swift in Sources */,
-				D1CD93AD258D6C2500409613 /* RecordingUtil.swift in Sources */,
+				D1CD93AD258D6C2500409613 /* Util.swift in Sources */,
 				D1CD93A2258D6BC700409613 /* ChatClientTests.swift in Sources */,
-				D1CD93B3258D6C3D00409613 /* TestUtil.swift in Sources */,
+				889FF7DD2605189E00722630 /* PolicyTokenCredentialTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

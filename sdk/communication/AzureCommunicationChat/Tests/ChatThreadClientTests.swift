@@ -31,23 +31,18 @@ import XCTest
 
 // swiftlint:disable type_body_length
 // swiftlint:disable file_length
+// swiftlint:disable force_cast
 
 class ChatThreadClientTests: XCTestCase {
-    /// An ACS user id.
-    private var user1: String = TestUtil.user1
-    /// An ACS user id.
-    private var user2: String = TestUtil.user2
-    /// Id of the thread created in setup.
-    private var threadId: String = "testThreadId"
     /// ChatClient initialized in setup.
     private var chatClient: ChatClient!
     /// ChatThreadClient initialized in setup.
     private var chatThreadClient: ChatThreadClient!
-    /// Initial thread topic.
-    private let topic: String = "General"
+    /// Test mode.
+    private var mode = ProcessInfo.processInfo.environment["TEST_MODE"]!
 
     override class func setUp() {
-        if TestUtil.mode == "playback" {
+        if ProcessInfo.processInfo.environment["TEST_MODE"]! == "playback" {
             // Register stubs for playback mode
             Recorder.registerStubs()
         }
@@ -55,31 +50,28 @@ class ChatThreadClientTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Initialize the chatClient
-        chatClient = try TestUtil.getChatClient()
+        let endpoint = ProcessInfo.processInfo.environment["AZURE_COMMUNICATION_ENDPOINT"] ?? "https://endpoint"
+        let token = ProcessInfo.processInfo.environment["AZURE_COMMUNICATION_TOKEN"] ?? generateToken()
+        let credential = try CommunicationTokenCredential(token: token)
+        let options = AzureCommunicationChatClientOptions()
 
-        let participant = ChatParticipant(
-            id: CommunicationUserIdentifier(user1),
-            displayName: "User 1",
-            shareHistoryTime: Iso8601Date(string: "2016-04-13T00:00:00Z")!
-        )
+        chatClient = try ChatClient(endpoint: endpoint, credential: credential, withOptions: options)
 
         let thread = CreateChatThreadRequest(
-            topic: topic,
-            participants: [
-                participant
-            ]
+            topic: "Test topic"
         )
 
         let expectation = self.expectation(description: "Create thread")
 
-        // Create a thread for the test
+        // Create a thread for the tests
+        var threadId: String?
         chatClient.create(thread: thread) { result, httpResponse in
             switch result {
             case let .success(createThreadResult):
                 // Initialize threadId
-                self.threadId = (createThreadResult.chatThread?.id)!
+                threadId = createThreadResult.chatThread?.id
 
-                if TestUtil.mode == "record" {
+                if self.mode == "record" {
                     Recorder.record(name: Recording.createThread, httpResponse: httpResponse)
                 }
 
@@ -90,10 +82,10 @@ class ChatThreadClientTests: XCTestCase {
             expectation.fulfill()
         }
 
-        wait(for: [expectation], timeout: TestUtil.timeout)
+        wait(for: [expectation], timeout: 10.0)
 
         // Initialize the ChatThreadClient
-        chatThreadClient = try chatClient.createClient(forThread: threadId)
+        chatThreadClient = try chatClient.createClient(forThread: threadId!)
     }
 
     func test_GetProperties_ReturnsChatThreadProperties() {
@@ -103,10 +95,10 @@ class ChatThreadClientTests: XCTestCase {
         chatThreadClient.getProperties { result, httpResponse in
             switch result {
             case let .success(thread):
-                XCTAssert(thread.topic == self.topic)
+                XCTAssert(thread.topic == "Test topic")
                 XCTAssertNotNil(thread.createdBy)
 
-                if TestUtil.mode == "record" {
+                if self.mode == "record" {
                     Recorder.record(name: Recording.getThread, httpResponse: httpResponse)
                 }
 
@@ -117,7 +109,7 @@ class ChatThreadClientTests: XCTestCase {
             expectation.fulfill()
         }
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Get thread timed out: \(error)")
             }
@@ -132,12 +124,12 @@ class ChatThreadClientTests: XCTestCase {
         chatThreadClient.update(topic: newTopic) { result, httpResponse in
             switch result {
             case .success:
-                if TestUtil.mode == "record" {
+                if self.mode == "record" {
                     Recorder.record(name: Recording.updateTopic, httpResponse: httpResponse)
                 }
 
                 // Get thread and verify topic updated
-                if TestUtil.mode != "playback" {
+                if self.mode != "playback" {
                     self.chatThreadClient.getProperties { result, _ in
                         switch result {
                         case let .success(chatThread):
@@ -159,14 +151,14 @@ class ChatThreadClientTests: XCTestCase {
             }
         }
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Update topic timed out: \(error)")
             }
         }
     }
 
-    func test_SendMessage_ReturnsMessageId() {
+    func test_SendMessage_SendsText() {
         let testMessage = SendChatMessageRequest(
             content: "Hello World!",
             senderDisplayName: "User 1",
@@ -178,7 +170,7 @@ class ChatThreadClientTests: XCTestCase {
         chatThreadClient.send(message: testMessage) { result, httpResponse in
             switch result {
             case let .success(sendMessageResult):
-                if TestUtil.mode == "record" {
+                if self.mode == "record" {
                     Recorder.record(name: Recording.sendMessage, httpResponse: httpResponse)
                 }
                 XCTAssertNotNil(sendMessageResult.id)
@@ -190,7 +182,7 @@ class ChatThreadClientTests: XCTestCase {
             expectation.fulfill()
         }
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Send message timed out: \(error)")
             }
@@ -218,58 +210,84 @@ class ChatThreadClientTests: XCTestCase {
             expectation.fulfill()
         }
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Send message timed out: \(error)")
             }
         }
     }
 
-    func test_ListMessages_ReturnsMessages() {
-        let testMessage = SendChatMessageRequest(
-            content: "Hello World!",
-            senderDisplayName: "User 1",
+    func test_ListMessages_ReturnsTextAndHTMLMessages() {
+        let expectation = self.expectation(description: "List messages")
+
+        let textMessage = SendChatMessageRequest(
+            content: "Test text message",
             type: .text
         )
 
-        let expectation = self.expectation(description: "List messages")
+        let htmlMessage = SendChatMessageRequest(
+            content: "<div>Test html message</div>",
+            type: .html
+        )
 
-        // Send a couple messages
-        chatThreadClient.send(message: testMessage) { _, _ in
-            self.chatThreadClient.send(message: testMessage) { _, _ in
-                // List messages
-                self.chatThreadClient.listMessages { result, httpResponse in
-                    switch result {
-                    case let .success(listMessagesResult):
-                        if TestUtil.mode == "record" {
-                            Recorder.record(name: Recording.listMessages, httpResponse: httpResponse)
-                        }
+        // Create a new thread
+        let thread = CreateChatThreadRequest(topic: "Test list messages")
+        chatClient.create(thread: thread) { result, _ in
+            switch result {
+            case let .success(createThreadResult):
+                // Create a chatThreadClient
+                do {
+                    let chatThreadClient = try self.chatClient
+                        .createClient(forThread: createThreadResult.chatThread!.id)
+                    // Send a text message
+                    chatThreadClient.send(message: textMessage) { _, _ in
+                        // Send an HTML message
+                        chatThreadClient.send(message: htmlMessage) { _, _ in
+                            // List messages
+                            chatThreadClient.listMessages { result, httpResponse in
+                                switch result {
+                                case let .success(listMessagesResult):
+                                    if self.mode == "record" {
+                                        Recorder.record(name: Recording.listMessages, httpResponse: httpResponse)
+                                    }
 
-                        let messages = listMessagesResult.items
-                        messages?.forEach { message in
-                            if message.type == ChatMessageType.text {
-                                XCTAssertEqual(message.content?.message, testMessage.content)
-                                XCTAssertEqual(message.senderDisplayName, testMessage.senderDisplayName)
+                                    let messages = listMessagesResult.items
+                                    messages?.forEach { message in
+                                        if message.type == ChatMessageType.text {
+                                            XCTAssertEqual(message.content?.message, textMessage.content)
+                                        } else if message.type == ChatMessageType.html {
+                                            XCTAssertEqual(message.type, ChatMessageType.html)
+                                            XCTAssertEqual(message.content?.message, htmlMessage.content)
+                                        }
+                                    }
+
+                                    XCTAssertNotNil(messages)
+                                    XCTAssert(messages!.count > 0)
+
+                                case let .failure(error):
+                                    XCTFail("List messages failed: \(error)")
+                                }
+
+                                expectation.fulfill()
                             }
                         }
-
-                        XCTAssertNotNil(messages)
-
-                    case let .failure(error):
-                        XCTFail("List messages failed: \(error)")
                     }
-
-                    expectation.fulfill()
+                } catch {
+                    XCTFail("Creating thread client failed")
                 }
+            case let .failure(error):
+                XCTFail("Creating thread failed: \(error)")
             }
         }
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("List messages timed out: \(error)")
             }
         }
     }
+
+    func test_ListMessages_ReturnsSystemMessages() {}
 
     func test_SendTypingNotification() {
         let expectation = self.expectation(description: "Send typing notification")
@@ -277,7 +295,7 @@ class ChatThreadClientTests: XCTestCase {
         chatThreadClient.sendTypingNotification { result, httpResponse in
             switch result {
             case .success:
-                if TestUtil.mode == "record" {
+                if self.mode == "record" {
                     Recorder.record(name: Recording.sendTypingNotification, httpResponse: httpResponse)
                 }
 
@@ -288,7 +306,7 @@ class ChatThreadClientTests: XCTestCase {
             expectation.fulfill()
         }
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Send typing notification timed out: \(error)")
             }
@@ -312,7 +330,7 @@ class ChatThreadClientTests: XCTestCase {
                 self.chatThreadClient.sendReadReceipt(forMessage: sendMessageResult.id) { result, httpResponse in
                     switch result {
                     case .success:
-                        if TestUtil.mode == "record" {
+                        if self.mode == "record" {
                             Recorder.record(name: Recording.sendReadReceipt, httpResponse: httpResponse)
                         }
 
@@ -329,7 +347,7 @@ class ChatThreadClientTests: XCTestCase {
             }
         }
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Send message timed out: \(error)")
             }
@@ -357,7 +375,7 @@ class ChatThreadClientTests: XCTestCase {
                         self.chatThreadClient.listReadReceipts { result, httpResponse in
                             switch result {
                             case let .success(readReceipts):
-                                if TestUtil.mode == "record" {
+                                if self.mode == "record" {
                                     Recorder.record(name: Recording.listReadReceipts, httpResponse: httpResponse)
                                 }
 
@@ -386,7 +404,7 @@ class ChatThreadClientTests: XCTestCase {
             }
         }
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Send message timed out: \(error)")
             }
@@ -413,12 +431,12 @@ class ChatThreadClientTests: XCTestCase {
                     .update(content: updatedContent, messageId: sendMessageResult.id) { result, httpResponse in
                         switch result {
                         case .success:
-                            if TestUtil.mode == "record" {
+                            if self.mode == "record" {
                                 Recorder.record(name: Recording.updateMessage, httpResponse: httpResponse)
                             }
 
                             // Get message and verify updated
-                            if TestUtil.mode != "playback" {
+                            if self.mode != "playback" {
                                 self.chatThreadClient.get(message: sendMessageResult.id) { result, _ in
                                     switch result {
                                     case let .success(message):
@@ -446,7 +464,7 @@ class ChatThreadClientTests: XCTestCase {
             }
         }
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Send message timed out: \(error)")
             }
@@ -470,7 +488,7 @@ class ChatThreadClientTests: XCTestCase {
                 self.chatThreadClient.delete(message: sendMessageResult.id) { result, httpResponse in
                     switch result {
                     case .success:
-                        if TestUtil.mode == "record" {
+                        if self.mode == "record" {
                             Recorder.record(name: Recording.deleteMessage, httpResponse: httpResponse)
                         }
 
@@ -487,14 +505,15 @@ class ChatThreadClientTests: XCTestCase {
             }
         }
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Delete message timed out: \(error)")
             }
         }
     }
 
-    func test_AddValidParticipant_ReturnsWithoutErrors() {
+    func test_Participant() {
+        let user2 = ProcessInfo.processInfo.environment["AZURE_COMMUNICATION_USER_ID_2"] ?? "id2"
         let newParticipant = ChatParticipant(
             id: CommunicationUserIdentifier(user2),
             displayName: "User 2",
@@ -508,7 +527,7 @@ class ChatThreadClientTests: XCTestCase {
             switch result {
             case let .success(addParticipantsResult):
                 XCTAssertNil(addParticipantsResult.invalidParticipants)
-                if TestUtil.mode == "record" {
+                if self.mode == "record" {
                     Recorder.record(name: Recording.addParticipants, httpResponse: httpResponse)
                 }
 
@@ -519,7 +538,7 @@ class ChatThreadClientTests: XCTestCase {
             expectation.fulfill()
         }
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Add participant timed out: \(error)")
             }
@@ -527,6 +546,7 @@ class ChatThreadClientTests: XCTestCase {
     }
 
     func test_RemoveParticipant() {
+        let user2 = ProcessInfo.processInfo.environment["AZURE_COMMUNICATION_USER_ID_2"] ?? "id2"
         let removedParticipant = ChatParticipant(
             id: CommunicationUserIdentifier(user2),
             displayName: "User 2",
@@ -535,16 +555,16 @@ class ChatThreadClientTests: XCTestCase {
 
         let expectation = self.expectation(description: "Remove participant")
 
-        // Add a participant
+        // Make sure the participant is added
         chatThreadClient.add(participants: [removedParticipant]) { result, _ in
             switch result {
             case .success:
                 // Remove the participant
                 self.chatThreadClient
-                    .remove(participant: CommunicationUserIdentifier(self.user2)) { result, httpResponse in
+                    .remove(participant: CommunicationUserIdentifier(user2)) { result, httpResponse in
                         switch result {
                         case .success:
-                            if TestUtil.mode == "record" {
+                            if self.mode == "record" {
                                 Recorder.record(name: Recording.removeParticipant, httpResponse: httpResponse)
                             }
 
@@ -561,7 +581,7 @@ class ChatThreadClientTests: XCTestCase {
             }
         }
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Remove participant timed out: \(error)")
             }
@@ -569,6 +589,7 @@ class ChatThreadClientTests: XCTestCase {
     }
 
     func test_ListParticipants_ReturnsParticipants() {
+        let user2 = ProcessInfo.processInfo.environment["AZURE_COMMUNICATION_USER_ID_2"] ?? "id2"
         let anotherParticipant = ChatParticipant(
             id: CommunicationUserIdentifier(user2),
             displayName: "User 2",
@@ -583,7 +604,7 @@ class ChatThreadClientTests: XCTestCase {
             case .success:
                 // List participants
                 self.chatThreadClient.listParticipants { result, httpResponse in
-                    if TestUtil.mode == "record" {
+                    if self.mode == "record" {
                         Recorder.record(name: Recording.listParticipants, httpResponse: httpResponse)
                     }
 
@@ -592,7 +613,6 @@ class ChatThreadClientTests: XCTestCase {
                         let participants = participantsResult.pageItems
                         participants?.forEach { participant in
                             XCTAssertNotNil(participant.id)
-                            XCTAssertNotNil(participant.displayName)
                         }
 
                         XCTAssertEqual(participants?.count, 2)
@@ -610,7 +630,7 @@ class ChatThreadClientTests: XCTestCase {
             }
         }
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("List participants timed out: \(error)")
             }
