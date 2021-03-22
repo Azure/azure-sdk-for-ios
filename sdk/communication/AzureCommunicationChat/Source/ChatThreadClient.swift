@@ -60,7 +60,7 @@ public class ChatThreadClient {
             throw AzureError.client("Unable to form base URL")
         }
 
-        let communicationCredential = PolicyTokenCredential(credential)
+        let communicationCredential = TokenCredentialAdapter(credential)
         let authPolicy = BearerTokenCredentialPolicy(credential: communicationCredential, scopes: [])
 
         let client = try AzureCommunicationChatClient(
