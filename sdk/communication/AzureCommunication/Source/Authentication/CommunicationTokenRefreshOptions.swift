@@ -26,7 +26,7 @@
 
 import Foundation
 
-public typealias TokenRefresherClosure = (@escaping TokenRefreshHandler) -> Void
+public typealias TokenRefresher = (@escaping TokenRefreshHandler) -> Void
 /**
  The Communication Token Refresh Options. Used to initialize a `CommunicationTokenCredential`
  - SeeAlso: ` CommunicationTokenCredential.token(...)`
@@ -34,7 +34,7 @@ public typealias TokenRefresherClosure = (@escaping TokenRefreshHandler) -> Void
 @objcMembers public class CommunicationTokenRefreshOptions: NSObject {
     var initialToken: String?
     var refreshProactively: Bool
-    var tokenRefresher: TokenRefresherClosure
+    var tokenRefresher: TokenRefresher
     /**
      Initializes a new instance of `CommunicationTokenRefreshOptions`
      The cached token is updated if `token(completionHandler: )` is called and if the difference between the current time and token expiry time is less than 120s.
@@ -49,7 +49,7 @@ public typealias TokenRefresherClosure = (@escaping TokenRefreshHandler) -> Void
     public init(
         initialToken: String? = nil,
         refreshProactively: Bool = false,
-        tokenRefresher: @escaping TokenRefresherClosure
+        tokenRefresher: @escaping TokenRefresher
     ) {
         self.initialToken = initialToken
         self.refreshProactively = refreshProactively
