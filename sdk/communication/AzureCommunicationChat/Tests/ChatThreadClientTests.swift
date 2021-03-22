@@ -124,10 +124,10 @@ class ChatThreadClientTests: XCTestCase {
         chatThreadClient.getProperties { result, httpResponse in
             switch result {
             case let .success(thread):
-                XCTAssert(thread.topic == self.topic)
+                XCTAssert(thread.topic == "Test topic")
                 XCTAssertNotNil(thread.createdBy)
 
-                if TestUtil.mode == "record" {
+                if self.mode == "record" {
                     Recorder.record(name: Recording.getThread, httpResponse: httpResponse)
                 }
 
@@ -138,7 +138,7 @@ class ChatThreadClientTests: XCTestCase {
             expectation.fulfill()
         }
 
-        waitForExpectations(timeout: TestUtil.timeout) { error in
+        waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Get thread timed out: \(error)")
             }
