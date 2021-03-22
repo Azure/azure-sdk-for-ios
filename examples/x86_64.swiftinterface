@@ -57,9 +57,9 @@ public protocol CommunicationTokenCredentialProviding {
   @objc deinit
   @objc override dynamic public init()
 }
-public typealias TokenRefresherClosure = (@escaping AzureCommunication.TokenRefreshHandler) -> Swift.Void
+public typealias TokenRefresher = (@escaping AzureCommunication.TokenRefreshHandler) -> Swift.Void
 @objc @objcMembers public class CommunicationTokenRefreshOptions : ObjectiveC.NSObject {
-  @objc public init(initialToken: Swift.String? = nil, refreshProactively: Swift.Bool = false, tokenRefresher: @escaping AzureCommunication.TokenRefresherClosure)
+  @objc public init(initialToken: Swift.String? = nil, refreshProactively: Swift.Bool = false, tokenRefresher: @escaping AzureCommunication.TokenRefresher)
   @objc deinit
   @objc override dynamic public init()
 }
