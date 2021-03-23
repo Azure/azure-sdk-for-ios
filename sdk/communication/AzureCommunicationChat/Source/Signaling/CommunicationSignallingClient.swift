@@ -8,7 +8,7 @@
 
 import AzureCore
 import Foundation
-import TrouterModulePrivate
+import TrouterClientIos
 import UIKit
 
 public class CommunicationSignalingClient {
