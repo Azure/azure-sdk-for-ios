@@ -327,4 +327,31 @@ public enum ChatEventId: String {
     case chatThreadDeleted
     case participantsAdded
     case participantsRemoved
+
+    init(forCode code: Int) throws {
+        switch code {
+        case 200:
+            self = .chatMessageReceived
+        case 245:
+            self = .typingIndicatorReceived
+        case 246:
+            self = .readReceiptReceived
+        case 247:
+            self = .chatMessageEdited
+        case 248:
+            self = .chatMessageDeleted
+        case 257:
+            self = .chatThreadCreated
+        case 258:
+            self = .chatThreadPropertiesUpdated
+        case 259:
+            self = .chatMessageDeleted
+        case 260:
+            self = .participantsAdded
+        case 261:
+            self = .participantsRemoved
+        default:
+            throw AzureError.client("Event code: \(code) is unsupported")
+        }
+    }
 }

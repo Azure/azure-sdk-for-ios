@@ -188,17 +188,3 @@ class ParticipantsRemovedPayload: Decodable {
     var removedBy: String
     var participantsRemoved: String
 }
-
-var eventIds: [Int: ChatEventId] =
-    [
-        200: ChatEventId.chatMessageReceived,
-        245: ChatEventId.typingIndicatorReceived,
-        246: ChatEventId.readReceiptReceived,
-        247: ChatEventId.chatMessageEdited,
-        248: ChatEventId.chatMessageDeleted,
-        257: ChatEventId.chatThreadCreated,
-        258: ChatEventId.chatThreadPropertiesUpdated,
-        259: ChatEventId.chatThreadDeleted,
-        260: ChatEventId.participantsAdded,
-        261: ChatEventId.participantsRemoved
-    ]

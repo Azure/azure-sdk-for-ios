@@ -174,11 +174,9 @@ class CommunicationListener: NSObject, TrouterListener {
         do {
             let requestJsonData = request.body.data(using: .utf8)!
             let generalPayload = try JSONDecoder().decode(BasePayload.self, from: requestJsonData)
-            guard let chatEventId = eventIds[generalPayload._eventId] else {
-                throw AzureError.client("event Id does not match with what are supported")
-            }
+            let chatEventId = try ChatEventId(forCode: generalPayload._eventId)
 
-            // convert trouter payload to chat event payload
+            // Convert trouter payload to chat event payload
             let chatEvent = toEventPayload(request: request, chatEventId: chatEventId)
             if let unwrapped = chatEvent {
                 listener(unwrapped, chatEventId)
