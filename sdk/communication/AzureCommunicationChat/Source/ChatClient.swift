@@ -211,7 +211,7 @@ public class ChatClient {
 
     /// Start receiving realtime notifications.
     /// Call this function before subscribing to any event.
-    public func startRealTimeNotifications() throws {
+    public func startRealTimeNotifications() {
         if isRealtimeNotificationsStarted {
             return
         }
@@ -222,7 +222,7 @@ public class ChatClient {
 
     /// Stop receiving realtime notifications.
     /// This function would unsubscribe to all events.
-    public func stopRealTimeNotifications() throws {
+    public func stopRealTimeNotifications() {
         isRealtimeNotificationsStarted = false
         signalingClient.stop()
     }
