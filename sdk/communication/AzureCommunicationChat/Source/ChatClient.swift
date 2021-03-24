@@ -236,7 +236,7 @@ public class ChatClient {
         event: ChatEventId,
         listener: @escaping EventListener
     ) {
-        signalingClient.on(event: event.rawValue, listener: listener)
+        signalingClient.on(event: event, listener: listener)
     }
 
     /// Unsubscribe to chat events.
