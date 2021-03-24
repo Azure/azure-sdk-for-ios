@@ -212,7 +212,8 @@ public class ChatClient {
     /// Start receiving realtime notifications.
     /// Call this function before subscribing to any event.
     public func startRealTimeNotifications() {
-        if isRealtimeNotificationsStarted {
+        guard isRealtimeNotificationsStarted == false else {
+            options.logger.warning("Realtime notifications have already started.")
             return
         }
 
