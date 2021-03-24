@@ -27,8 +27,7 @@
 import Foundation
 import TrouterClientIos
 
-// swiftlint:disable force_cast
-var defaultRegistrationData = TrouterUrlRegistrationData.create(
+let defaultRegistrationData: TrouterUrlRegistrationData? = TrouterUrlRegistrationData.create(
     withApplicationId: "AcsiOS",
     registrationId: nil,
     platform: "SPOOL",
@@ -36,25 +35,8 @@ var defaultRegistrationData = TrouterUrlRegistrationData.create(
     templateKey: "AcsiOS_Chat_1.1",
     productContext: nil,
     context: ""
-) as! TrouterUrlRegistrationData
-// swiftlint:enable force_cast
+) as? TrouterUrlRegistrationData
 
-var defaultClientVersion = "1.0.0"
-var defaultTrouterHostname = "go.trouter.skype.com/v4/a"
-var defaultRegistrarHostnameAndBasePath = "edge.skype.com/registrar/prod"
-
-func createRegistrationData() -> TrouterUrlRegistrationData {
-    return defaultRegistrationData
-}
-
-func getClientVersion() -> String {
-    return defaultClientVersion
-}
-
-func getTrouterHostname() -> String {
-    return defaultTrouterHostname
-}
-
-func getRegistrarHostnameAndBasePath() -> String {
-    return defaultRegistrarHostnameAndBasePath
-}
+let defaultClientVersion: String = "1.0.0"
+let defaultTrouterHostname: String = "go.trouter.skype.com/v4/a"
+let defaultRegistrarHostnameAndBasePath: String = "edge.skype.com/registrar/prod"

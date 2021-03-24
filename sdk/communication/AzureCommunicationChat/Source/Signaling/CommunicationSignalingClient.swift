@@ -39,37 +39,43 @@ public class CommunicationSignalingClient {
     public init(
         skypeTokenProvider: CommunicationSkypeTokenProvider,
         logger: ClientLogger = ClientLoggers.default(tag: "AzureCommunicationSignalingClient")
-    ) {
+    ) throws {
         self.communicationSkypeTokenProvider = skypeTokenProvider
         self.logger = logger
+
         let trouterSkypeTokenHeaderProvider = TrouterSkypetokenAuthHeaderProvider(
             skypetokenProvider: communicationSkypeTokenProvider
         )
 
         let communicationCache = CommunicationCache()
         selfHostedTrouterClient = SelfHostedTrouterClient.create(
-            withClientVersion: getClientVersion(),
+            withClientVersion: defaultClientVersion,
             authHeadersProvider: trouterSkypeTokenHeaderProvider,
             dataCache: communicationCache,
-            trouterHostname: getTrouterHostname()
+            trouterHostname: defaultTrouterHostname
         )
 
-        let regData: TrouterUrlRegistrationData = createRegistrationData()
-        // swiftlint:disable force_cast
-        trouterUrlRegistrar = TrouterUrlRegistrar.create(
+        guard let regData = defaultRegistrationData else {
+            throw AzureError.client("Failed to create TrouterUrlRegistrationData.")
+        }
+
+        guard let trouterUrlRegistrar = TrouterUrlRegistrar.create(
             with: communicationSkypeTokenProvider,
             registrationData: regData,
-            registrarHostnameAndBasePath: getRegistrarHostnameAndBasePath(),
+            registrarHostnameAndBasePath: defaultRegistrarHostnameAndBasePath,
             maxRegistrationTtlS: 3600
-        ) as! TrouterUrlRegistrar
-        // swiftlint:enable force_cast
+        ) as? TrouterUrlRegistrar else {
+            throw AzureError.client("Failed to create TrouterUrlRegistrar.")
+        }
+
+        self.trouterUrlRegistrar = trouterUrlRegistrar
     }
 
     public convenience init(
         token: String
-    ) {
+    ) throws {
         let skypeTokenProvider = CommunicationSkypeTokenProvider(skypeToken: token)
-        self.init(skypeTokenProvider: skypeTokenProvider)
+        try self.init(skypeTokenProvider: skypeTokenProvider)
     }
 
     public func start() {

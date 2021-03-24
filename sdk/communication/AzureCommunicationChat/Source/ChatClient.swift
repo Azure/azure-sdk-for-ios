@@ -81,7 +81,7 @@ public class ChatClient {
             throw AzureError.client("Failed to access token credential", tokenError)
         }
 
-        self.signalingClient = CommunicationSignalingClient(token: skypeToken)
+        self.signalingClient = try CommunicationSignalingClient(token: skypeToken)
     }
 
     // MARK: Private Methods
