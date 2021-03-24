@@ -38,7 +38,7 @@ public final class Chat {
 
         // Create request parameters
         let params = RequestParameters(
-            (.header, "idempotency-token", options?.idempotencyToken, .encode), (
+            (.header, "repeatability-Request-Id", options?.repeatabilityRequestId, .encode), (
                 .uri,
                 "endpoint",
                 client.endpoint.absoluteString,

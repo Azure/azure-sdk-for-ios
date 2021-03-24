@@ -35,8 +35,7 @@ public class ChatThreadClient {
     private let endpoint: String
     private let credential: CommunicationTokenCredential
     private let options: AzureCommunicationChatClientOptions
-    private let chatThreadService: ChatThread
-    private let chatService: Chat
+    private let service: ChatThread
 
     // MARK: Initializers
 
@@ -70,8 +69,7 @@ public class ChatThreadClient {
             withOptions: options
         )
 
-        self.chatService = client.chat
-        self.chatThreadService = client.chatThread
+        self.service = client.chatThread
     }
 
     // MARK: Private Methods
@@ -106,7 +104,7 @@ public class ChatThreadClient {
         ])
 
         return try PagedCollection<T>(
-            client: chatThreadService.client,
+            client: service.client,
             request: request,
             context: context,
             data: data,
@@ -168,7 +166,7 @@ public class ChatThreadClient {
     ) {
         let updateChatThreadRequest = UpdateChatThreadRequest(topic: topic)
 
-        chatThreadService
+        service
             .update(
                 chatThreadProperties: updateChatThreadRequest,
                 chatThreadId: threadId,
@@ -196,7 +194,7 @@ public class ChatThreadClient {
     ) {
         let sendReadReceiptRequest = SendReadReceiptRequest(chatMessageId: messageId)
 
-        chatThreadService
+        service
             .send(
                 chatReadReceipt: sendReadReceiptRequest,
                 chatThreadId: threadId,
@@ -220,7 +218,7 @@ public class ChatThreadClient {
         withOptions options: ChatThread.ListChatReadReceiptsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatMessageReadReceipt>>
     ) {
-        chatThreadService.listChatReadReceipts(chatThreadId: threadId, withOptions: options) { result, httpResponse in
+        service.listChatReadReceipts(chatThreadId: threadId, withOptions: options) { result, httpResponse in
             switch result {
             case .success:
                 // TODO: https://github.com/Azure/azure-sdk-for-ios/issues/644
@@ -252,7 +250,7 @@ public class ChatThreadClient {
         withOptions options: ChatThread.SendTypingNotificationOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        chatThreadService.sendTypingNotification(chatThreadId: threadId, withOptions: options) { result, httpResponse in
+        service.sendTypingNotification(chatThreadId: threadId, withOptions: options) { result, httpResponse in
             switch result {
             case .success:
                 completionHandler(.success(()), httpResponse)
@@ -295,7 +293,7 @@ public class ChatThreadClient {
         withOptions options: ChatThread.GetChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<ChatMessage>
     ) {
-        chatThreadService
+        service
             .getChatMessage(
                 chatThreadId: threadId,
                 chatMessageId: messageId,
@@ -331,7 +329,7 @@ public class ChatThreadClient {
     ) {
         let updateMessageRequest = UpdateChatMessageRequest(content: content)
 
-        chatThreadService
+        service
             .update(
                 chatMessage: updateMessageRequest,
                 chatThreadId: threadId,
@@ -358,7 +356,7 @@ public class ChatThreadClient {
         options: ChatThread.DeleteChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        chatThreadService
+        service
             .deleteChatMessage(
                 chatThreadId: threadId,
                 chatMessageId: messageId,
@@ -382,7 +380,7 @@ public class ChatThreadClient {
         withOptions options: ChatThread.ListChatMessagesOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatMessage>>
     ) {
-        chatThreadService.listChatMessages(chatThreadId: threadId, withOptions: options) { result, httpResponse in
+        service.listChatMessages(chatThreadId: threadId, withOptions: options) { result, httpResponse in
             switch result {
             case .success:
                 // TODO: github.com/Azure/azure-sdk-for-ios/issues/644
@@ -425,7 +423,7 @@ public class ChatThreadClient {
                 participants: chatParticipants
             )
 
-            chatThreadService
+            service
                 .add(
                     chatParticipants: addParticipantsRequest,
                     chatThreadId: threadId,
@@ -461,7 +459,7 @@ public class ChatThreadClient {
             let identifierModel = try IdentifierSerializer
                 .serialize(identifier: participantIdentifier)
 
-            chatThreadService
+            service
                 .remove(
                     chatParticipant: identifierModel,
                     chatThreadId: threadId,
@@ -490,7 +488,7 @@ public class ChatThreadClient {
         withOptions options: ChatThread.ListChatParticipantsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatParticipant>>
     ) {
-        chatThreadService.listChatParticipants(chatThreadId: threadId, withOptions: options) { result, httpResponse in
+        service.listChatParticipants(chatThreadId: threadId, withOptions: options) { result, httpResponse in
             switch result {
             case .success:
                 // TODO: https://github.com/Azure/azure-sdk-for-ios/issues/644
