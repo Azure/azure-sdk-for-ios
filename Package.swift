@@ -83,7 +83,7 @@ let package = Package(
         .binaryTarget(
             name: "AzureCommunicationCalling",
             url: "https://github.com/Azure/Communication/releases/download/v1.0.0-beta.9/AzureCommunicationCalling-1.0.0-beta9.zip",
-            checksum: "73c56437ee21ff4c5a868e88e6351ede32445b21f0d9d9f8d31bbb739e4f57a1"
+            checksum: "b632ae508ac5f271ef7b5d83ee2476dc8175b12341e0a32aa079cce87bc19577"
         ),
         .binaryTarget(
           name: "TrouterClientIos",
