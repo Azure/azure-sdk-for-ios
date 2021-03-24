@@ -16,7 +16,7 @@
 		88D37B9125D60CCD004F3699 /* PhoneNumberIdentifierModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D37B8D25D60CCD004F3699 /* PhoneNumberIdentifierModel.swift */; };
 		88D37B9925D60EDB004F3699 /* AzureCommunicationChatClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D37B9825D60EDB004F3699 /* AzureCommunicationChatClient.swift */; };
 		9766BE9261FCB48436FA6682 /* Pods_AzureCommunicationChatTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1FE3013E797A134E8A6C3B5 /* Pods_AzureCommunicationChatTests.framework */; };
-		D10458A725EEA47800B3EB6D /* CommunicationSignallingClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10458A125EEA47800B3EB6D /* CommunicationSignallingClient.swift */; };
+		D10458A725EEA47800B3EB6D /* CommunicationSignalingClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10458A125EEA47800B3EB6D /* CommunicationSignalingClient.swift */; };
 		D10458A825EEA47800B3EB6D /* TrouterUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10458A225EEA47800B3EB6D /* TrouterUtils.swift */; };
 		D10458D025EEA54700B3EB6D /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D10458CF25EEA54700B3EB6D /* CoreTelephony.framework */; };
 		D10458D225EEA55400B3EB6D /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D10458D125EEA55400B3EB6D /* libc++.tbd */; };
@@ -164,7 +164,7 @@
 		8E5206D2E09378DA0F9FD0E4 /* Pods-AzureCommunicationChatTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunicationChatTests.release.xcconfig"; path = "Target Support Files/Pods-AzureCommunicationChatTests/Pods-AzureCommunicationChatTests.release.xcconfig"; sourceTree = "<group>"; };
 		9FE998BEC9685C476F2AFD1C /* Pods-AzureCommunicationChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunicationChat.debug.xcconfig"; path = "Target Support Files/Pods-AzureCommunicationChat/Pods-AzureCommunicationChat.debug.xcconfig"; sourceTree = "<group>"; };
 		"AzureCommunicationChat::AzureCommunicationChat::Product" /* AzureCommunicationChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCommunicationChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D10458A125EEA47800B3EB6D /* CommunicationSignallingClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunicationSignallingClient.swift; sourceTree = "<group>"; };
+		D10458A125EEA47800B3EB6D /* CommunicationSignalingClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunicationSignalingClient.swift; sourceTree = "<group>"; };
 		D10458A225EEA47800B3EB6D /* TrouterUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrouterUtils.swift; sourceTree = "<group>"; };
 		D10458A325EEA47800B3EB6D /* TrouterNotificationPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrouterNotificationPayload.swift; sourceTree = "<group>"; };
 		D10458A425EEA47800B3EB6D /* TrouterSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrouterSettings.swift; sourceTree = "<group>"; };
@@ -369,7 +369,7 @@
 		D104589925EEA47800B3EB6D /* Signaling */ = {
 			isa = PBXGroup;
 			children = (
-				D10458A125EEA47800B3EB6D /* CommunicationSignallingClient.swift */,
+				D10458A125EEA47800B3EB6D /* CommunicationSignalingClient.swift */,
 				D10458A225EEA47800B3EB6D /* TrouterUtils.swift */,
 				D10458A325EEA47800B3EB6D /* TrouterNotificationPayload.swift */,
 				D10458A425EEA47800B3EB6D /* TrouterSettings.swift */,
@@ -865,7 +865,7 @@
 				D1565C71256DB74900AF45F8 /* ChatClient.swift in Sources */,
 				D17C7B4825FBF4C3007AD39B /* ChatThread+SendTypingNotificationOptions.swift in Sources */,
 				D1565C74256DB76C00AF45F8 /* ChatThreadClient.swift in Sources */,
-				D10458A725EEA47800B3EB6D /* CommunicationSignallingClient.swift in Sources */,
+				D10458A725EEA47800B3EB6D /* CommunicationSignalingClient.swift in Sources */,
 				D10458A825EEA47800B3EB6D /* TrouterUtils.swift in Sources */,
 				D15E990525B7C80C00E63DB2 /* Chat+CreateChatThreadOptions.swift in Sources */,
 				D17C7B5E25FBF4D5007AD39B /* ChatParticipantInternal.swift in Sources */,
