@@ -2,8 +2,8 @@ author: Microsoft
 author_url: https://azure.github.io/azure-sdk/
 github_url: https://github.com/Azure/azure-sdk-for-ios
 module: AzureCommunicationChat
-module_version: 0.1
-readme: ../sdk/secret/AzureCommunicationChat/README.md
+module_version: 
+readme: ../sdk/AzureCommunicationChat/AzureCommunicationChat/README.md
 skip_undocumented: false
 theme: fullwidth
 output: ../build/jazzy/AzureCommunicationChat

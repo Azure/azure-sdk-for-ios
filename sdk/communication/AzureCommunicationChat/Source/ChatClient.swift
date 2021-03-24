@@ -112,9 +112,9 @@ public class ChatClient {
         withOptions options: Chat.CreateChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<CreateChatThreadResult>
     ) {
-        // Set the idempotencyToken if it is not provided
-        let requestOptions = ((options?.idempotencyToken) != nil) ? options : Chat.CreateChatThreadOptions(
-            idempotencyToken: UUID().uuidString,
+        // Set the repeatabilityRequestId if it is not provided
+        let requestOptions = ((options?.repeatabilityRequestId) != nil) ? options : Chat.CreateChatThreadOptions(
+            repeatabilityRequestId: UUID().uuidString,
             clientRequestId: options?.clientRequestId,
             cancellationToken: options?.cancellationToken,
             dispatchQueue: options?.dispatchQueue,

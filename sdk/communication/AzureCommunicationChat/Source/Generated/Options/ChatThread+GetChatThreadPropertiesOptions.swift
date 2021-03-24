@@ -15,7 +15,7 @@ import Foundation
 // swiftlint:disable identifier_name
 // swiftlint:disable line_length
 
-public extension Chat {
+public extension ChatThread {
     /// User-configurable options for the `AzureCommunicationChatService.GetChatThreadProperties` operation.
     struct GetChatThreadPropertiesOptions: RequestOptions {
         /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.

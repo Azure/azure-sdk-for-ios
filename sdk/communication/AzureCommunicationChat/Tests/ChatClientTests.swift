@@ -65,7 +65,7 @@ class ChatClientTests: XCTestCase {
                 let chatThread = response.chatThread
                 XCTAssertNotNil(response.chatThread)
                 XCTAssertEqual(chatThread?.topic, thread.topic)
-                XCTAssertNotNil(httpResponse?.httpRequest?.headers["idempotency-token"])
+                XCTAssertNotNil(httpResponse?.httpRequest?.headers["repeatability-Request-Id"])
                 XCTAssertNil(response.invalidParticipants)
 
                 if self.mode == "record" {
@@ -103,7 +103,7 @@ class ChatClientTests: XCTestCase {
                 let chatThread = response.chatThread
                 XCTAssertNotNil(response.chatThread)
                 XCTAssertEqual(chatThread?.topic, thread.topic)
-                XCTAssertNotNil(httpResponse?.httpRequest?.headers["idempotency-token"])
+                XCTAssertNotNil(httpResponse?.httpRequest?.headers["repeatability-Request-Id"])
                 XCTAssertNil(response.invalidParticipants)
 
             case let .failure(error):
@@ -117,15 +117,18 @@ class ChatClientTests: XCTestCase {
             topic: "Test topic"
         )
 
-        let options = Chat.CreateChatThreadOptions(idempotencyToken: "test-idempotency-token")
+        let options = Chat.CreateChatThreadOptions(repeatabilityRequestId: "test-repeatability")
 
         let expectation = self.expectation(description: "Create thread")
 
         chatClient.create(thread: thread, withOptions: options) { result, httpResponse in
             switch result {
             case .success:
-                XCTAssertNotNil(httpResponse?.httpRequest?.headers["idempotency-token"])
-                XCTAssertEqual(httpResponse?.httpRequest?.headers["idempotency-token"], options.idempotencyToken)
+                XCTAssertNotNil(httpResponse?.httpRequest?.headers["repeatability-Request-Id"])
+                XCTAssertEqual(
+                    httpResponse?.httpRequest?.headers["repeatability-Request-Id"],
+                    options.repeatabilityRequestId
+                )
 
             case let .failure(error):
                 XCTFail("Create thread failed with error: \(error)")
