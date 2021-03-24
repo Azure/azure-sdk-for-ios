@@ -12,31 +12,27 @@ import Foundation
 import TrouterClientIos
 
 func toEventPayload(request: TrouterRequest, chatEventId: ChatEventId) -> Any? {
-    do {
-        switch chatEventId {
-        case ChatEventId.chatMessageReceived:
-            return try toChatMessageReceivedEvent(request: request)
-        case ChatEventId.typingIndicatorReceived:
-            return try toTypingIndicatorReceivedEvent(request: request)
-        case ChatEventId.readReceiptReceived:
-            return try toReadReceiptReceivedEvent(request: request)
-        case ChatEventId.chatMessageEdited:
-            return try toChatMessageEditedEvent(request: request)
-        case ChatEventId.chatMessageDeleted:
-            return try toChatMessageDeletedEvent(request: request)
-        case ChatEventId.chatThreadCreated:
-            return try toChatThreadCreatedEvent(request: request)
-        case ChatEventId.chatThreadPropertiesUpdated:
-            return try toChatThreadPropertiesUpdatedEvent(request: request)
-        case ChatEventId.chatThreadDeleted:
-            return try toChatThreadDeletedEvent(request: request)
-        case ChatEventId.participantsAdded:
-            return try toParticipantsAddedEvent(request: request)
-        case ChatEventId.participantsRemoved:
-            return try toParticipantsRemovedEvent(request: request)
-        }
-    } catch {
-        return nil
+    switch chatEventId {
+    case ChatEventId.chatMessageReceived:
+        return try? toChatMessageReceivedEvent(request: request)
+    case ChatEventId.typingIndicatorReceived:
+        return try? toTypingIndicatorReceivedEvent(request: request)
+    case ChatEventId.readReceiptReceived:
+        return try? toReadReceiptReceivedEvent(request: request)
+    case ChatEventId.chatMessageEdited:
+        return try? toChatMessageEditedEvent(request: request)
+    case ChatEventId.chatMessageDeleted:
+        return try? toChatMessageDeletedEvent(request: request)
+    case ChatEventId.chatThreadCreated:
+        return try? toChatThreadCreatedEvent(request: request)
+    case ChatEventId.chatThreadPropertiesUpdated:
+        return try? toChatThreadPropertiesUpdatedEvent(request: request)
+    case ChatEventId.chatThreadDeleted:
+        return try? toChatThreadDeletedEvent(request: request)
+    case ChatEventId.participantsAdded:
+        return try? toParticipantsAddedEvent(request: request)
+    case ChatEventId.participantsRemoved:
+        return try? toParticipantsRemovedEvent(request: request)
     }
 }
 
