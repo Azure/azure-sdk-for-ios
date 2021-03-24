@@ -56,7 +56,9 @@ func toEventPayload(request: TrouterRequest, chatEventId: ChatEventId) -> Any? {
 
 func toChatMessageReceivedEvent(request: TrouterRequest) throws -> ChatMessageReceivedEvent {
     do {
-        let requestJsonData = request.body.data(using: .utf8)!
+        guard let requestJsonData = request.body.data(using: .utf8) else {
+            throw AzureError.client("Unable to convert request body to Data.")
+        }
         let messageReceivedPayload: MessageReceivedPayload = try JSONDecoder()
             .decode(MessageReceivedPayload.self, from: requestJsonData)
 
@@ -81,7 +83,9 @@ func toChatMessageReceivedEvent(request: TrouterRequest) throws -> ChatMessageRe
 
 func toTypingIndicatorReceivedEvent(request: TrouterRequest) throws -> TypingIndicatorReceivedEvent {
     do {
-        let requestJsonData = request.body.data(using: .utf8)!
+        guard let requestJsonData = request.body.data(using: .utf8) else {
+            throw AzureError.client("Unable to convert request body to Data.")
+        }
         let typingIndicatorReceivedPayload: TypingIndicatorReceivedPayload = try JSONDecoder()
             .decode(TypingIndicatorReceivedPayload.self, from: requestJsonData)
 
@@ -102,17 +106,19 @@ func toTypingIndicatorReceivedEvent(request: TrouterRequest) throws -> TypingInd
 
 func toReadReceiptReceivedEvent(request: TrouterRequest) throws -> ReadReceiptReceivedEvent {
     do {
-        let requestJsonData = request.body.data(using: .utf8)!
+        guard let requestJsonData = request.body.data(using: .utf8) else {
+            throw AzureError.client("Unable to convert request body to Data.")
+        }
         let readReceiptReceivedPayload: ReadReceiptReceivedPayload = try JSONDecoder()
             .decode(ReadReceiptReceivedPayload.self, from: requestJsonData)
 
-        let readReceiptMessageBodyJsonData = (readReceiptReceivedPayload.messageBody.data(using: .utf8))!
-
+        guard let readReceiptMessageBodyJsonData = readReceiptReceivedPayload.messageBody.data(using: .utf8) else {
+            throw AzureError.client("Unable to convert payload messageBody to Data.")
+        }
         let readReceiptMessageBody: ReadReceiptMessageBody = try JSONDecoder()
             .decode(ReadReceiptMessageBody.self, from: readReceiptMessageBodyJsonData)
 
         let consumptionHorizon = readReceiptMessageBody.consumptionhorizon.split(separator: ";")
-
         let readOn = String(consumptionHorizon[1])
 
         let readReceiptEvent =
@@ -133,7 +139,9 @@ func toReadReceiptReceivedEvent(request: TrouterRequest) throws -> ReadReceiptRe
 
 func toChatMessageEditedEvent(request: TrouterRequest) throws -> ChatMessageEditedEvent {
     do {
-        let requestJsonData = request.body.data(using: .utf8)!
+        guard let requestJsonData = request.body.data(using: .utf8) else {
+            throw AzureError.client("Unable to convert request body to Data.")
+        }
         let chatMessageEditedPayload: MessageEditedPayload = try JSONDecoder()
             .decode(MessageEditedPayload.self, from: requestJsonData)
 
@@ -159,7 +167,9 @@ func toChatMessageEditedEvent(request: TrouterRequest) throws -> ChatMessageEdit
 
 func toChatMessageDeletedEvent(request: TrouterRequest) throws -> ChatMessageDeletedEvent {
     do {
-        let requestJsonData = request.body.data(using: .utf8)!
+        guard let requestJsonData = request.body.data(using: .utf8) else {
+            throw AzureError.client("Unable to convert request body to Data.")
+        }
         let chatMessageDeletedPayload: MessageDeletedPayload = try JSONDecoder()
             .decode(MessageDeletedPayload.self, from: requestJsonData)
 
@@ -184,11 +194,15 @@ func toChatMessageDeletedEvent(request: TrouterRequest) throws -> ChatMessageDel
 
 func toChatThreadCreatedEvent(request: TrouterRequest) throws -> ChatThreadCreatedEvent {
     do {
-        let requestJsonData = request.body.data(using: .utf8)!
+        guard let requestJsonData = request.body.data(using: .utf8) else {
+            throw AzureError.client("Unable to convert request body to Data.")
+        }
         let chatThreadCreatedPayload: ChatThreadCreatedPayload = try JSONDecoder()
             .decode(ChatThreadCreatedPayload.self, from: requestJsonData)
 
-        let createdByJsonData = (chatThreadCreatedPayload.createdBy.data(using: .utf8))!
+        guard let createdByJsonData = chatThreadCreatedPayload.createdBy.data(using: .utf8) else {
+            throw AzureError.client("Unable to convert payload createdBy to Data.")
+        }
         let createdByPayload: ChatParticipantPayload = try JSONDecoder()
             .decode(ChatParticipantPayload.self, from: createdByJsonData)
         let createdBy =
@@ -197,7 +211,9 @@ func toChatThreadCreatedEvent(request: TrouterRequest) throws -> ChatThreadCreat
                 displayName: createdByPayload.displayName
             )
 
-        let membersJsonData = (chatThreadCreatedPayload.members.data(using: .utf8))!
+        guard let membersJsonData = chatThreadCreatedPayload.members.data(using: .utf8) else {
+            throw AzureError.client("Unable to convert payload members to Data.")
+        }
         let membersPayload: [ChatParticipantPayload] = try JSONDecoder()
             .decode([ChatParticipantPayload].self, from: membersJsonData)
         let participants: [SignalingChatParticipant] = membersPayload
@@ -208,7 +224,9 @@ func toChatThreadCreatedEvent(request: TrouterRequest) throws -> ChatThreadCreat
                 )
             }
 
-        let propertiesJsonData = (chatThreadCreatedPayload.properties.data(using: .utf8))!
+        guard let propertiesJsonData = chatThreadCreatedPayload.properties.data(using: .utf8) else {
+            throw AzureError.client("Unable to convert payload properties to Data.")
+        }
         let propertiesPayload: ChatThreadPropertiesPayload = try JSONDecoder()
             .decode(ChatThreadPropertiesPayload.self, from: propertiesJsonData)
         let properties = SignalingChatThreadProperties(topic: propertiesPayload.topic)
@@ -231,11 +249,15 @@ func toChatThreadCreatedEvent(request: TrouterRequest) throws -> ChatThreadCreat
 
 func toChatThreadPropertiesUpdatedEvent(request: TrouterRequest) throws -> ChatThreadPropertiesUpdatedEvent {
     do {
-        let requestJsonData = request.body.data(using: .utf8)!
+        guard let requestJsonData = request.body.data(using: .utf8) else {
+            throw AzureError.client("Unable to convert request body to Data.")
+        }
         let chatThreadPropertiesUpdatedPayload: ChatThreadPropertiesUpdatedPayload = try JSONDecoder()
             .decode(ChatThreadPropertiesUpdatedPayload.self, from: requestJsonData)
 
-        let updatedByJsonData = (chatThreadPropertiesUpdatedPayload.editedBy.data(using: .utf8))!
+        guard let updatedByJsonData = chatThreadPropertiesUpdatedPayload.editedBy.data(using: .utf8) else {
+            throw AzureError.client("Unable to convert payload editedBy to Data.")
+        }
         let updatedByPayload: ChatParticipantPayload = try JSONDecoder()
             .decode(ChatParticipantPayload.self, from: updatedByJsonData)
         let updatedBy =
@@ -244,7 +266,9 @@ func toChatThreadPropertiesUpdatedEvent(request: TrouterRequest) throws -> ChatT
                 displayName: updatedByPayload.displayName
             )
 
-        let propertiesJsonData = (chatThreadPropertiesUpdatedPayload.properties.data(using: .utf8))!
+        guard let propertiesJsonData = chatThreadPropertiesUpdatedPayload.properties.data(using: .utf8) else {
+            throw AzureError.client("Unable to convert payload properties Data.")
+        }
         let propertiesPayload: ChatThreadPropertiesPayload = try JSONDecoder()
             .decode(ChatThreadPropertiesPayload.self, from: propertiesJsonData)
         let properties = SignalingChatThreadProperties(topic: propertiesPayload.topic)
@@ -267,11 +291,15 @@ func toChatThreadPropertiesUpdatedEvent(request: TrouterRequest) throws -> ChatT
 
 func toChatThreadDeletedEvent(request: TrouterRequest) throws -> ChatThreadDeletedEvent {
     do {
-        let requestJsonData = request.body.data(using: .utf8)!
+        guard let requestJsonData = request.body.data(using: .utf8) else {
+            throw AzureError.client("Unable to convert request body to Data.")
+        }
         let chatThreadDeletedPayload: ChatThreadDeletedPayload = try JSONDecoder()
             .decode(ChatThreadDeletedPayload.self, from: requestJsonData)
 
-        let deletedByJsonData = (chatThreadDeletedPayload.deletedBy.data(using: .utf8))!
+        guard let deletedByJsonData = chatThreadDeletedPayload.deletedBy.data(using: .utf8) else {
+            throw AzureError.client("Unable to convert payload deletedBy to Data.")
+        }
         let deletedByPayload: ChatParticipantPayload = try JSONDecoder()
             .decode(ChatParticipantPayload.self, from: deletedByJsonData)
         let deletedBy = SignalingChatParticipant(
@@ -296,11 +324,15 @@ func toChatThreadDeletedEvent(request: TrouterRequest) throws -> ChatThreadDelet
 
 func toParticipantsAddedEvent(request: TrouterRequest) throws -> ParticipantsAddedEvent {
     do {
-        let requestJsonData = request.body.data(using: .utf8)!
+        guard let requestJsonData = request.body.data(using: .utf8) else {
+            throw AzureError.client("Unable to convert request body to Data.")
+        }
         let participantsAddedPayload: ParticipantsAddedPayload = try JSONDecoder()
             .decode(ParticipantsAddedPayload.self, from: requestJsonData)
 
-        let addeddByJsonData = (participantsAddedPayload.addedBy.data(using: .utf8))!
+        guard let addeddByJsonData = participantsAddedPayload.addedBy.data(using: .utf8) else {
+            throw AzureError.client("Unable to convert payload addedBy to Data.")
+        }
         let addedByPayload: ChatParticipantPayload = try JSONDecoder()
             .decode(ChatParticipantPayload.self, from: addeddByJsonData)
         let addedBy = SignalingChatParticipant(
@@ -308,7 +340,9 @@ func toParticipantsAddedEvent(request: TrouterRequest) throws -> ParticipantsAdd
             displayName: addedByPayload.displayName
         )
 
-        let participantsJsonData = (participantsAddedPayload.participantsAdded.data(using: .utf8))!
+        guard let participantsJsonData = participantsAddedPayload.participantsAdded.data(using: .utf8) else {
+            throw AzureError.client("Unable to convert payload participantsAdded to Data.")
+        }
         let participantsPayload: [ChatParticipantPayload] = try JSONDecoder()
             .decode([ChatParticipantPayload].self, from: participantsJsonData)
 
@@ -338,11 +372,15 @@ func toParticipantsAddedEvent(request: TrouterRequest) throws -> ParticipantsAdd
 
 func toParticipantsRemovedEvent(request: TrouterRequest) throws -> ParticipantsRemovedEvent {
     do {
-        let requestJsonData = request.body.data(using: .utf8)!
+        guard let requestJsonData = request.body.data(using: .utf8) else {
+            throw AzureError.client("Unable to convert request body to Data.")
+        }
         let participantsRemovedPayload: ParticipantsRemovedPayload = try JSONDecoder()
             .decode(ParticipantsRemovedPayload.self, from: requestJsonData)
 
-        let removedByJsonData = (participantsRemovedPayload.removedBy.data(using: .utf8))!
+        guard let removedByJsonData = participantsRemovedPayload.removedBy.data(using: .utf8) else {
+            throw AzureError.client("Unable to convert payload removedBy to Data.")
+        }
         let removedByPayload: ChatParticipantPayload = try JSONDecoder()
             .decode(ChatParticipantPayload.self, from: removedByJsonData)
         let removedBy = SignalingChatParticipant(
@@ -350,7 +388,9 @@ func toParticipantsRemovedEvent(request: TrouterRequest) throws -> ParticipantsR
             displayName: removedByPayload.displayName
         )
 
-        let participantsJsonData = (participantsRemovedPayload.participantsRemoved.data(using: .utf8))!
+        guard let participantsJsonData = participantsRemovedPayload.participantsRemoved.data(using: .utf8) else {
+            throw AzureError.client("Unable to convert payload participantsRemoved to Data.")
+        }
         let participantsPayload: [ChatParticipantPayload] = try JSONDecoder()
             .decode([ChatParticipantPayload].self, from: participantsJsonData)
         let participants: [SignalingChatParticipant] = participantsPayload
