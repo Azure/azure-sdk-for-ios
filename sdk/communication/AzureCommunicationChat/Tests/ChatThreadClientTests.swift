@@ -31,7 +31,6 @@ import XCTest
 
 // swiftlint:disable type_body_length
 // swiftlint:disable file_length
-// swiftlint:disable force_cast
 
 class ChatThreadClientTests: XCTestCase {
     /// ChatClient initialized in setup.
