@@ -43,11 +43,13 @@ target 'AzureCommunicationChat' do
   target 'AzureCommunicationChatTests' do
     inherit! :search_paths
     pod 'OHHTTPStubs/Swift'
+    pod 'TrouterClientIos', '0.0.1-beta.1'
   end
   
   target 'AzureCommunicationChatUnitTests' do
     inherit! :search_paths
     pod 'OHHTTPStubs/Swift'
+    pod 'TrouterClientIos', '0.0.1-beta.1'
   end
 end
 

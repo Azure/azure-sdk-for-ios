@@ -232,6 +232,7 @@
 		D17C7B5725FBF4D5007AD39B /* ChatThreadPropertiesInternal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatThreadPropertiesInternal.swift; sourceTree = "<group>"; };
 		D17C7B5825FBF4D5007AD39B /* ChatThreadItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatThreadItem.swift; sourceTree = "<group>"; };
 		D17C7B5925FBF4D5007AD39B /* ChatMessageContentInternal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatMessageContentInternal.swift; sourceTree = "<group>"; };
+		D1B566FF260BB87B009DE5D3 /* TrouterClientIos.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = TrouterClientIos.xcframework; path = ../../../Pods/TrouterClientIos/TrouterClientIos.xcframework; sourceTree = "<group>"; };
 		D1B7EAED257F02FC004F384A /* AzureCommunicationChatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AzureCommunicationChatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1B7EAFC257F03A1004F384A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D1BA104525807B0B00CA7130 /* CreateThreadResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = CreateThreadResponse.json; sourceTree = "<group>"; };
@@ -303,6 +304,7 @@
 		0A74765A2522918800819FC9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D1B566FF260BB87B009DE5D3 /* TrouterClientIos.xcframework */,
 				D10458DB25EEA57E00B3EB6D /* SystemConfiguration.framework */,
 				D10458D625EEA57400B3EB6D /* libz.tbd */,
 				D10458D125EEA55400B3EB6D /* libc++.tbd */,
@@ -1064,7 +1066,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.azure.communication.AzureCommunicationChat;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Source/Signaling/TrouterModulesPrivate";
+				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1095,7 +1097,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.azure.communication.AzureCommunicationChat;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Source/Signaling/TrouterModulesPrivate";
+				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
