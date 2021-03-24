@@ -10,7 +10,6 @@ import AzureCommunication
 import AzureCore
 import Foundation
 
-// TODO: Can we use existing models?
 public class SignalingChatParticipant {
     public var id: CommunicationIdentifier?
     public var displayName: String?
@@ -300,14 +299,14 @@ public class ParticipantsRemovedEvent: BaseChatThreadEvent {
 }
 
 public enum ChatEventId: String {
-    case chatMessageReceived = "chatMessageReceived"
-    case typingIndicatorReceived = "typingIndicatorReceived"
-    case readReceiptReceived = "readReceiptReceived"
-    case chatMessageEdited = "chatMessageEdited"
-    case chatMessageDeleted = "chatMessageDeleted"
-    case chatThreadCreated = "chatThreadCreated"
-    case chatThreadPropertiesUpdated = "chatThreadPropertiesUpdated"
-    case chatThreadDeleted = "chatThreadDeleted"
-    case participantsAdded = "participantsAdded"
-    case participantsRemoved = "participantsRemoved"
+    case chatMessageReceived
+    case typingIndicatorReceived
+    case readReceiptReceived
+    case chatMessageEdited
+    case chatMessageDeleted
+    case chatThreadCreated
+    case chatThreadPropertiesUpdated
+    case chatThreadDeleted
+    case participantsAdded
+    case participantsRemoved
 }
