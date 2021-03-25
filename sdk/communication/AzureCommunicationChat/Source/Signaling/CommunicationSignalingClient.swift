@@ -177,23 +177,25 @@ class CommunicationListener: NSObject, TrouterListener {
         logger.info("Received a Trouter request \n")
 
         do {
-            let requestJsonData = request.body.data(using: .utf8)!
+            guard let requestJsonData = request.body.data(using: .utf8) else {
+                throw AzureError.client("Unable to convert request body to Data.")
+            }
+
             let generalPayload = try JSONDecoder().decode(BasePayload.self, from: requestJsonData)
             let chatEventId = try ChatEventId(forCode: generalPayload._eventId)
 
             // Convert trouter payload to chat event payload
-            let chatEvent = toEventPayload(request: request, chatEventId: chatEventId)
-            if let unwrapped = chatEvent {
-                listener(unwrapped, chatEventId)
-            }
-
-            response.body = "Request has been handled"
-            response.status = 200
-            let result: TrouterSendResponseResult = response.send()
-            logger.info("Sent a response to Trouter: \(result)")
+            let chatEvent = try TrouterEventUtil.create(chatEvent: chatEventId, from: request)
+            listener(chatEvent, chatEventId)
         } catch {
             logger.error("Error: \(error)")
         }
+
+        // Notify Trouter the request was handled
+        response.body = "Request has been handled"
+        response.status = 200
+        let result: TrouterSendResponseResult = response.send()
+        logger.info("Sent a response to Trouter: \(result)")
     }
 }
 
