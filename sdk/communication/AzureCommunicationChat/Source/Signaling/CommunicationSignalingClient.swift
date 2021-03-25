@@ -140,13 +140,14 @@ public class CommunicationSkypeTokenProvider: NSObject, TrouterSkypetokenProvide
 
 class CommunicationCache: NSObject, TrouterConnectionDataCache {
     var data: String?
+
     func store(_ data: String!) {
         self.data = data
     }
 
-    func load() -> String! {
-        if data == nil {
-            data = ""
+    func load() -> String {
+        guard let data = data else {
+            return ""
         }
         return data
     }
