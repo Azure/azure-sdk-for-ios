@@ -7,7 +7,7 @@
 
 public protocol RendererDelegate : NSObjectProtocol {
 
-    func videoStreamRenderer(didFailToStartRenderer renderer: VideoStreamRenderer)
+    func videoStreamRenderer(didFailToStart renderer: VideoStreamRenderer)
 
     
     optional func videoStreamRenderer(didRenderFirstFrame renderer: VideoStreamRenderer)
