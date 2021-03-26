@@ -93,28 +93,7 @@ public class CommunicationSignalingClient {
 
     public func on(event: ChatEventId, listener: @escaping EventListener) {
         let communicationListener = CommunicationListener(listener: listener)
-        switch event {
-        case .chatMessageReceived:
-            selfHostedTrouterClient.register(communicationListener, forPath: "/chatMessageReceived")
-        case .typingIndicatorReceived:
-            selfHostedTrouterClient.register(communicationListener, forPath: "/typingIndicatorReceived")
-        case .readReceiptReceived:
-            selfHostedTrouterClient.register(communicationListener, forPath: "/readReceiptReceived")
-        case .chatMessageEdited:
-            selfHostedTrouterClient.register(communicationListener, forPath: "/chatMessageEdited")
-        case .chatMessageDeleted:
-            selfHostedTrouterClient.register(communicationListener, forPath: "/chatMessageDeleted")
-        case .chatThreadCreated:
-            selfHostedTrouterClient.register(communicationListener, forPath: "/chatThreadCreated")
-        case .chatThreadPropertiesUpdated:
-            selfHostedTrouterClient.register(communicationListener, forPath: "/chatThreadPropertiesUpdated")
-        case .chatThreadDeleted:
-            selfHostedTrouterClient.register(communicationListener, forPath: "/chatThreadDeleted")
-        case .participantsAdded:
-            selfHostedTrouterClient.register(communicationListener, forPath: "/participantsAdded")
-        case .participantsRemoved:
-            selfHostedTrouterClient.register(communicationListener, forPath: "/participantsRemoved")
-        }
+        selfHostedTrouterClient.register(communicationListener, forPath: "/\(event)")
         communicationListeners[event] = communicationListener
     }
 
