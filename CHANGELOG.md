@@ -136,6 +136,7 @@
   libraries.
 
 ### Breaking Changes
+
 **Azure Communication Chat Service**
   - The `baseUrl` parameter has been renamed to `endpoint` in the `AzureCommunicationChatClient` initializers.
 
