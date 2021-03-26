@@ -40,7 +40,7 @@ public struct CreateChatThreadResult: Codable {
 
     /// Initialize a CreateChatThreadResult structure.
     /// - Parameter createChatThreadResultInternal: The CreateChatThreadResultInternal to initialize from.
-    public init(
+    internal init(
         from createChatThreadResultInternal: CreateChatThreadResultInternal
     ) throws {
         if let chatThread = createChatThreadResultInternal.chatThread {

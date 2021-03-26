@@ -48,7 +48,7 @@ public struct ChatThreadProperties: Codable {
     /// Initialize a `ChatThreadProperties` structure from a ChatThread.
     /// - Parameters:
     ///   - chatThreadPropertiesInternal: The ChatThreadPropertiesInternal to initialize from.
-    public init(
+    internal init(
         from chatThreadPropertiesInternal: ChatThreadPropertiesInternal
     ) throws {
         self.id = chatThreadPropertiesInternal.id

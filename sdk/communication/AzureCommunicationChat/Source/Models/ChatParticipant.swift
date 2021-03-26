@@ -44,7 +44,7 @@ public struct ChatParticipant: Codable {
     /// Initialize a `ChatParticipant` structure from a ChatParticipantInternal.
     /// - Parameters:
     ///   - chatParticipantInternal: The ChatParticipantInternal to initialize from.
-    public init(
+    internal init(
         from chatParticipantInternal: ChatParticipantInternal
     ) throws {
         // Deserialize the identifier model to CommunicationIdentifier

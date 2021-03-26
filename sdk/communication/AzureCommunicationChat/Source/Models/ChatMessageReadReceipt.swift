@@ -44,7 +44,7 @@ public struct ChatMessageReadReceipt: Codable {
     /// Initialize a `ChatMessageReadReceipt` structure from a ChatMessageReadReceiptInternal.
     /// - Parameters:
     ///   - chatMessageReadReceiptInternal: The ChatMessageReadReceiptInternal to initialize from.
-    public init(
+    internal init(
         from chatMessageReadReceiptInternal: ChatMessageReadReceiptInternal
     ) throws {
         // Deserialize the identifier model to CommunicationIdentifier

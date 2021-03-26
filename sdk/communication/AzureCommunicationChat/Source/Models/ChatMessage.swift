@@ -58,7 +58,7 @@ public struct ChatMessage: Codable {
     /// Initialize a `ChatMessage` structure from a ChatMessageInternal.
     /// - Parameters:
     ///   - chatMessage: The ChatMessageInternal to initialize from.
-    public init(
+    internal init(
         from chatMessageInternal: ChatMessageInternal
     ) throws {
         self.id = chatMessageInternal.id

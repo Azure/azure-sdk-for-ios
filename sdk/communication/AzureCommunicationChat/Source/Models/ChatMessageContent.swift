@@ -46,7 +46,7 @@ public struct ChatMessageContent: Codable {
     /// Initializes a `ChatMessageContent` structure from a ChatMessageContentInternal.
     /// - Parameters:
     ///   - chatMessageContentInternal: ChatMessageContentInternal to initialize from.
-    public init?(
+    internal init?(
         from chatMessageContentInternal: ChatMessageContentInternal?
     ) throws {
         guard let content = chatMessageContentInternal else {
