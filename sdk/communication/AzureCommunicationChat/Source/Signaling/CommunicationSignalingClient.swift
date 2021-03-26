@@ -34,7 +34,7 @@ public class CommunicationSignalingClient {
     private var communicationSkypeTokenProvider: CommunicationSkypeTokenProvider
     private var trouterUrlRegistrar: TrouterUrlRegistrar
     private var logger: ClientLogger
-    private var communicationListeners: [ChatEventId: CommunicationListener] = [:]
+    private var communicationHandlers: [ChatEventId: CommunicationHandler] = [:]
 
     public init(
         skypeTokenProvider: CommunicationSkypeTokenProvider,
@@ -85,22 +85,22 @@ public class CommunicationSignalingClient {
 
     public func stop() {
         selfHostedTrouterClient.stop()
-        communicationListeners.forEach { _, listener in
-            selfHostedTrouterClient.unregisterListener(listener)
+        communicationHandlers.forEach { _, handler in
+            selfHostedTrouterClient.unregisterListener(handler)
         }
-        communicationListeners.removeAll()
+        communicationHandlers.removeAll()
     }
 
-    public func on(event: ChatEventId, listener: @escaping EventListener) {
-        let communicationListener = CommunicationListener(listener: listener)
-        selfHostedTrouterClient.register(communicationListener, forPath: "/\(event)")
-        communicationListeners[event] = communicationListener
+    public func on(event: ChatEventId, handler: @escaping EventHandler) {
+        let communicationHandler = CommunicationHandler(handler: handler)
+        selfHostedTrouterClient.register(communicationHandler, forPath: "/\(event)")
+        communicationHandlers[event] = communicationHandler
     }
 
     public func off(event: ChatEventId) {
-        if let communicationListener = communicationListeners[event] {
-            selfHostedTrouterClient.unregisterListener(communicationListener)
-            communicationListeners.removeValue(forKey: event)
+        if let communicationHandler = communicationHandlers[event] {
+            selfHostedTrouterClient.unregisterListener(communicationHandler)
+            communicationHandlers.removeValue(forKey: event)
         }
     }
 }
@@ -131,15 +131,15 @@ class CommunicationCache: NSObject, TrouterConnectionDataCache {
     }
 }
 
-class CommunicationListener: NSObject, TrouterListener {
-    var listener: EventListener
+class CommunicationHandler: NSObject, TrouterListener {
+    var handler: EventHandler
     var logger: ClientLogger
 
     init(
-        listener: @escaping EventListener,
-        logger: ClientLogger = ClientLoggers.default(tag: "AzureCommunicationListener")
+        handler: @escaping EventHandler,
+        logger: ClientLogger = ClientLoggers.default(tag: "AzureCommunicationHandler")
     ) {
-        self.listener = listener
+        self.handler = handler
         self.logger = logger
     }
 
@@ -164,7 +164,7 @@ class CommunicationListener: NSObject, TrouterListener {
 
             // Convert trouter payload to chat event payload
             let chatEvent = try TrouterEventUtil.create(chatEvent: chatEventId, from: request)
-            listener(chatEvent, chatEventId)
+            handler(chatEvent, chatEventId)
         } catch {
             logger.error("Error: \(error)")
         }
@@ -177,4 +177,4 @@ class CommunicationListener: NSObject, TrouterListener {
     }
 }
 
-public typealias EventListener = (_ response: Any, _ eventId: ChatEventId) -> Void
+public typealias EventHandler = (_ response: Any, _ eventId: ChatEventId) -> Void
