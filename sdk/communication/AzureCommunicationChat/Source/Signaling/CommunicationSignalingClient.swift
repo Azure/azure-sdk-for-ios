@@ -34,7 +34,7 @@ public class CommunicationSignalingClient {
     private var communicationSkypeTokenProvider: CommunicationSkypeTokenProvider
     private var trouterUrlRegistrar: TrouterUrlRegistrar
     private var logger: ClientLogger
-    private var communicationListeners: Set<CommunicationListener> = []
+    private var communicationListeners: [ChatEventId: CommunicationListener] = [:]
 
     public init(
         skypeTokenProvider: CommunicationSkypeTokenProvider,
@@ -85,7 +85,7 @@ public class CommunicationSignalingClient {
 
     public func stop() {
         selfHostedTrouterClient.stop()
-        communicationListeners.forEach { listener in
+        communicationListeners.forEach { _, listener in
             selfHostedTrouterClient.unregisterListener(listener)
         }
         communicationListeners.removeAll()
@@ -115,14 +115,13 @@ public class CommunicationSignalingClient {
         case .participantsRemoved:
             selfHostedTrouterClient.register(communicationListener, forPath: "/participantsRemoved")
         }
-        communicationListeners.insert(communicationListener)
+        communicationListeners[event] = communicationListener
     }
 
-    public func off(event _: String, listener: @escaping EventListener) {
-        let communicationListener = CommunicationListener(listener: listener)
-        if communicationListeners.contains(communicationListener) {
+    public func off(event: ChatEventId) {
+        if let communicationListener = communicationListeners[event] {
             selfHostedTrouterClient.unregisterListener(communicationListener)
-            communicationListeners.remove(communicationListener)
+            communicationListeners.removeValue(forKey: event)
         }
     }
 }
