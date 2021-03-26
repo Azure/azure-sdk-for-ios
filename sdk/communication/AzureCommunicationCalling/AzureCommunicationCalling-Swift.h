@@ -258,9 +258,9 @@ public enum HandleType : Int {
 public protocol CallAgentDelegate : NSObjectProtocol {
 
     
-    optional func callAgent(_ callAgent: CallAgent!, didUpdateCalls args: CallsUpdatedEventArgs!)
+    optional func callAgent(_ callAgent: CallAgent, didUpdateCalls args: CallsUpdatedEventArgs)
 
-    optional func callAgent(_ callAgent: CallAgent!, didRecieveIncomingCall incomingcall: IncomingCall!)
+    optional func callAgent(_ callAgent: CallAgent, didRecieveIncomingCall incomingcall: IncomingCall)
 }
 
 
@@ -270,17 +270,17 @@ public protocol CallAgentDelegate : NSObjectProtocol {
 public protocol CallDelegate : NSObjectProtocol {
 
     
-    optional func call(_ call: Call!, didChangeId args: PropertyChangedEventArgs!)
+    optional func call(_ call: Call, didChangeId args: PropertyChangedEventArgs)
 
-    optional func call(_ call: Call!, didChangeState args: PropertyChangedEventArgs!)
+    optional func call(_ call: Call, didChangeState args: PropertyChangedEventArgs)
 
-    optional func call(_ call: Call!, didUpdateRemoteParticipant args: ParticipantsUpdatedEventArgs!)
+    optional func call(_ call: Call, didUpdateRemoteParticipant args: ParticipantsUpdatedEventArgs)
 
-    optional func call(_ call: Call!, didUpdateLocalVideoStreams args: LocalVideoStreamsUpdatedEventArgs!)
+    optional func call(_ call: Call, didUpdateLocalVideoStreams args: LocalVideoStreamsUpdatedEventArgs)
 
-    optional func call(_ call: Call!, didChangeRecordingState args: PropertyChangedEventArgs!)
+    optional func call(_ call: Call, didChangeRecordingState args: PropertyChangedEventArgs)
 
-    optional func call(_ call: Call!, didChangeTranscriptionState args: PropertyChangedEventArgs!)
+    optional func call(_ call: Call, didChangeTranscriptionState args: PropertyChangedEventArgs)
 }
 
 
@@ -290,15 +290,15 @@ public protocol CallDelegate : NSObjectProtocol {
 public protocol RemoteParticipantDelegate : NSObjectProtocol {
 
     
-    optional func remoteParticipant(_ remoteParticipant: RemoteParticipant!, didChangeState args: PropertyChangedEventArgs!)
+    optional func remoteParticipant(_ remoteParticipant: RemoteParticipant, didChangeState args: PropertyChangedEventArgs)
 
-    optional func remoteParticipant(_ remoteParticipant: RemoteParticipant!, didChangeMuteState args: PropertyChangedEventArgs!)
+    optional func remoteParticipant(_ remoteParticipant: RemoteParticipant, didChangeMuteState args: PropertyChangedEventArgs)
 
-    optional func remoteParticipant(_ remoteParticipant: RemoteParticipant!, didChangeSpeakingState args: PropertyChangedEventArgs!)
+    optional func remoteParticipant(_ remoteParticipant: RemoteParticipant, didChangeSpeakingState args: PropertyChangedEventArgs)
 
-    optional func remoteParticipant(_ remoteParticipant: RemoteParticipant!, didChangeDisplayName args: PropertyChangedEventArgs!)
+    optional func remoteParticipant(_ remoteParticipant: RemoteParticipant, didChangeDisplayName args: PropertyChangedEventArgs)
 
-    optional func remoteParticipant(_ remoteParticipant: RemoteParticipant!, didUpdateVideoStreams args: RemoteVideoStreamsEventArgs!)
+    optional func remoteParticipant(_ remoteParticipant: RemoteParticipant, didUpdateVideoStreams args: RemoteVideoStreamsEventArgs)
 }
 
 
@@ -308,7 +308,7 @@ public protocol RemoteParticipantDelegate : NSObjectProtocol {
 public protocol IncomingCallDelegate : NSObjectProtocol {
 
     
-    optional func incomingCall(_ incomingCall: IncomingCall!, didEndCall args: PropertyChangedEventArgs!)
+    optional func incomingCall(_ incomingCall: IncomingCall, didEndCall args: PropertyChangedEventArgs)
 }
 
 
@@ -318,14 +318,14 @@ public protocol IncomingCallDelegate : NSObjectProtocol {
 public protocol DeviceManagerDelegate : NSObjectProtocol {
 
     
-    optional func deviceManager(_ deviceManager: DeviceManager!, didUpdateCameras args: VideoDevicesUpdatedEventArgs!)
+    optional func deviceManager(_ deviceManager: DeviceManager, didUpdateCameras args: VideoDevicesUpdatedEventArgs)
 }
 
 
 /// Property bag class for Video Options. Use this class to set video options required during a call (start/accept/join)
 open class VideoOptions : NSObject {
 
-    public init(localVideoStream: LocalVideoStream!)
+    public init(localVideoStream: LocalVideoStream)
 
     
     /// Deallocates the memory occupied by this object.
@@ -333,14 +333,14 @@ open class VideoOptions : NSObject {
 
     
     /// The video stream that is used to render the video on the UI surface
-    open var localVideoStream: LocalVideoStream!
+    open var localVideoStream: LocalVideoStream
 }
 
 
 /// Local video stream information
 open class LocalVideoStream : NSObject {
 
-    public init(camera: VideoDeviceInfo!)
+    public init(camera: VideoDeviceInfo)
 
     
     /// Deallocates the memory occupied by this object.
@@ -348,7 +348,7 @@ open class LocalVideoStream : NSObject {
 
     
     /// Video device to use as source for local video.
-    open var source: VideoDeviceInfo! { get }
+    open var source: VideoDeviceInfo { get }
 
     
     /// Sets to True when the local video stream is being sent on a call.
@@ -360,7 +360,7 @@ open class LocalVideoStream : NSObject {
 
     
     // Class extension begins for LocalVideoStream.
-    open func switchSource(camera: VideoDeviceInfo!, completionHandler: ((Error?) -> Void)!)
+    open func switchSource(camera: VideoDeviceInfo, completionHandler: @escaping (Error?) -> Void)
 }
 
 // Class extension ends for LocalVideoStream.
@@ -375,11 +375,11 @@ open class VideoDeviceInfo : NSObject {
 
     
     /// Get the name of this video device.
-    open var name: String! { get }
+    open var name: String { get }
 
     
     /// Get Name of this audio device.
-    open var id: String! { get }
+    open var id: String { get }
 
     
     /// Direction of the camera
@@ -417,11 +417,11 @@ open class JoinCallOptions : NSObject {
 
     
     /// Video options when placing a call
-    open var videoOptions: VideoOptions!
+    open var videoOptions: VideoOptions?
 
     
     /// Audio options when placing a call
-    open var audioOptions: AudioOptions!
+    open var audioOptions: AudioOptions?
 }
 
 
@@ -436,7 +436,7 @@ open class AcceptCallOptions : NSObject {
 
     
     /// Video options when accepting a call
-    open var videoOptions: VideoOptions!
+    open var videoOptions: VideoOptions
 }
 
 
@@ -451,11 +451,11 @@ open class StartCallOptions : NSObject {
 
     
     /// Video options when starting a call
-    open var videoOptions: VideoOptions!
+    open var videoOptions: VideoOptions?
 
     
     /// Audio options when starting a call
-    open var audioOptions: AudioOptions!
+    open var audioOptions: AudioOptions?
 
     
     // Class extension begins for StartCallOptions.
@@ -494,45 +494,45 @@ open class JoinMeetingLocator : NSObject {
 /// Options for joining a group call
 open class GroupCallLocator : JoinMeetingLocator {
 
-    public init(groupId: UUID!)
+    public init(groupId: UUID)
 
     
     /// The unique identifier for the group conversation
-    open var groupId: UUID!
+    open var groupId: UUID
 }
 
 
 /// Options for joining a Teams meeting using Coordinates locator
 open class TeamsMeetingCoordinatesLocator : JoinMeetingLocator {
 
-    public init(withThreadId threadId: String!, organizerId: UUID!, tenantId: UUID!, messageId: String!)
+    public init(withThreadId threadId: String, organizerId: UUID, tenantId: UUID, messageId: String)
 
     
     /// The thread identifier of meeting
-    open var threadId: String! { get }
+    open var threadId: String { get }
 
     
     /// The organizer identifier of meeting
-    open var organizerId: UUID!
+    open var organizerId: UUID
 
     
     /// The tenant identifier of meeting
-    open var tenantId: UUID!
+    open var tenantId: UUID
 
     
     /// The message identifier of meeting
-    open var messageId: String! { get }
+    open var messageId: String { get }
 }
 
 
 /// Options for joining a Teams meeting using Link locator
 open class TeamsMeetingLinkLocator : JoinMeetingLocator {
 
-    public init(meetingLink: String!)
+    public init(meetingLink: String)
 
     
     /// The URI of the meeting
-    open var meetingLink: String! { get }
+    open var meetingLink: String { get }
 }
 
 
@@ -545,7 +545,7 @@ open class CallerInfo : NSObject {
 
     
     /// The display name of the caller
-    open var displayName: String! { get }
+    open var displayName: String { get }
 
     
     // Class extension begins for CallerInfo.
@@ -564,7 +564,7 @@ open class PushNotificationInfo : NSObject {
 
     
     /// The display name of the caller
-    open var fromDisplayName: String! { get }
+    open var fromDisplayName: String { get }
 
     
     /// Indicates whether the incoming call has a video or not
@@ -572,13 +572,13 @@ open class PushNotificationInfo : NSObject {
 
     
     // Class extension begins for PushNotificationInfo.
-    open var from: CommunicationIdentifier! { get }
+    open var from: CommunicationIdentifier { get }
 
-    open var to: CommunicationIdentifier! { get }
+    open var to: CommunicationIdentifier { get }
 
     open var callId: UUID { get }
 
-    open class func fromDictionary(_ payload: [AnyHashable : Any]!) -> PushNotificationInfo!
+    open class func fromDictionary(_ payload: [AnyHashable : Any]) -> PushNotificationInfo
 }
 
 // Class extension ends for PushNotificationInfo.
@@ -595,7 +595,7 @@ open class CallAgentOptions : NSObject {
 
     
     /// Specify the display name of the local participant for all new calls
-    open var displayName: String!
+    open var displayName: String
 }
 
 
@@ -608,17 +608,17 @@ open class CallAgent : NSObject {
 
     
     /// Returns the list of all active calls.
-    open var calls: [Call]! { get }
+    open var calls: [Call] { get }
 
     
     /**
      * The delegate that will handle events from the ACSCallAgent.
      */
-    unowned(unsafe) open var delegate: CallAgentDelegate!
+    unowned(unsafe) open var delegate: CallAgentDelegate?
 
     
     /// Handle the push notification. If successful, will raise appropriate incoming call event.
-    open func handlePush(notification: PushNotificationInfo!, completionHandler: @escaping (Error?) -> Void)
+    open func handlePush(notification: PushNotificationInfo, completionHandler: @escaping (Error?) -> Void)
 
     
     /// Unregister all previously registered devices from receiving incoming calls push notifications.
@@ -626,11 +626,12 @@ open class CallAgent : NSObject {
 
     
     // Class extension begins for CallAgent.
-    open func startCall(participants: [CommunicationIdentifier]!, options: StartCallOptions!) -> Call!
+    open func startCall(participants: [CommunicationIdentifier], options: StartCallOptions?) -> Call
 
-    open func join(with meetingLocator: JoinMeetingLocator!, joinCallOptions: JoinCallOptions!) -> Call!
+    /// Join a call using JoinMeetingLocator
+    open func join(with meetingLocator: JoinMeetingLocator, joinCallOptions: JoinCallOptions?) -> Call
 
-    open func registerPushNotifications(deviceToken: Data!, completionHandler: ((Error?) -> Void)!)
+    open func registerPushNotifications(deviceToken: Data, completionHandler: @escaping (Error?) -> Void)
 }
 
 // Class extension ends for CallAgent.
@@ -645,11 +646,11 @@ open class Call : NSObject {
 
     
     /// Get a list of remote participants in the current call.
-    open var remoteParticipants: [RemoteParticipant]! { get }
+    open var remoteParticipants: [RemoteParticipant] { get }
 
     
     /// Id of the call
-    open var id: String! { get }
+    open var id: String { get }
 
     
     /// Current state of the call
@@ -657,7 +658,7 @@ open class Call : NSObject {
 
     
     /// Containing code/subcode indicating how a call has ended
-    open var callEndReason: CallEndReason! { get }
+    open var callEndReason: CallEndReason { get }
 
     
     /// Outgoing or Incoming depending on the Call Direction
@@ -669,11 +670,11 @@ open class Call : NSObject {
 
     
     /// The identity of the caller
-    open var callerInfo: CallerInfo! { get }
+    open var callerInfo: CallerInfo { get }
 
     
     /// Get a list of local video streams in the current call.
-    open var localVideoStreams: [LocalVideoStream]! { get }
+    open var localVideoStreams: [LocalVideoStream] { get }
 
     
     /// Indicates if recording is active in current call
@@ -687,7 +688,7 @@ open class Call : NSObject {
     /**
      * The delegate that will handle events from the ACSCall.
      */
-    unowned(unsafe) open var delegate: CallDelegate!
+    unowned(unsafe) open var delegate: CallDelegate?
 
     
     /// Mute local microphone.
@@ -703,19 +704,19 @@ open class Call : NSObject {
 
     
     /// Start sharing video stream to the call
-    open func startVideo(stream: LocalVideoStream!, completionHandler: @escaping (Error?) -> Void)
+    open func startVideo(stream: LocalVideoStream, completionHandler: @escaping (Error?) -> Void)
 
     
     /// Stop sharing video stream to the call
-    open func stopVideo(stream: LocalVideoStream!, completionHandler: @escaping (Error?) -> Void)
+    open func stopVideo(stream: LocalVideoStream, completionHandler: @escaping (Error?) -> Void)
 
     
     /// HangUp a call
-    open func hangUp(options: HangUpOptions!, completionHandler: @escaping (Error?) -> Void)
+    open func hangUp(options: HangUpOptions, completionHandler: @escaping (Error?) -> Void)
 
     
     /// Remove a participant from a call
-    open func remove(participant: RemoteParticipant!, completionHandler: @escaping (Error?) -> Void)
+    open func remove(participant: RemoteParticipant, completionHandler: @escaping (Error?) -> Void)
 
     
     /// Hold this call
@@ -727,9 +728,9 @@ open class Call : NSObject {
 
     
     // Class extension begins for Call.
-    open func add(participant: CommunicationIdentifier!) -> RemoteParticipant!
+    open func add(participant: CommunicationIdentifier) -> RemoteParticipant
 
-    open func add(participant: PhoneNumberIdentifier!, options: AddPhoneNumberOptions!) -> RemoteParticipant!
+    open func add(participant: PhoneNumberIdentifier, options: AddPhoneNumberOptions?) -> RemoteParticipant
 }
 
 // Class extension ends for Call.
@@ -744,7 +745,7 @@ open class RemoteParticipant : NSObject {
 
     
     /// Private Preview Only: Display Name of the remote participant
-    open var displayName: String! { get }
+    open var displayName: String { get }
 
     
     /// True if the remote participant is muted
@@ -756,7 +757,7 @@ open class RemoteParticipant : NSObject {
 
     
     /// Reason why participant left the call, contains code/subcode.
-    open var callEndReason: CallEndReason! { get }
+    open var callEndReason: CallEndReason { get }
 
     
     /// Current state of the remote participant
@@ -764,13 +765,13 @@ open class RemoteParticipant : NSObject {
 
     
     /// Remote Video streams part of the current call
-    open var videoStreams: [RemoteVideoStream]! { get }
+    open var videoStreams: [RemoteVideoStream] { get }
 
     
     /**
      * The delegate that will handle events from the ACSRemoteParticipant.
      */
-    unowned(unsafe) open var delegate: RemoteParticipantDelegate!
+    unowned(unsafe) open var delegate: RemoteParticipantDelegate?
 
     
     // Class extension begins for RemoteParticipant.
@@ -836,11 +837,11 @@ open class RemoteVideoStreamsEventArgs : NSObject {
 
     
     /// Remote video streams that have been added to the current call
-    open var addedRemoteVideoStreams: [RemoteVideoStream]! { get }
+    open var addedRemoteVideoStreams: [RemoteVideoStream] { get }
 
     
     /// Remote video streams that are no longer part of the current call
-    open var removedRemoteVideoStreams: [RemoteVideoStream]! { get }
+    open var removedRemoteVideoStreams: [RemoteVideoStream] { get }
 }
 
 
@@ -853,11 +854,11 @@ open class ParticipantsUpdatedEventArgs : NSObject {
 
     
     /// List of Participants that were added
-    open var addedParticipants: [RemoteParticipant]! { get }
+    open var addedParticipants: [RemoteParticipant] { get }
 
     
     /// List of Participants that were removed
-    open var removedParticipants: [RemoteParticipant]! { get }
+    open var removedParticipants: [RemoteParticipant] { get }
 }
 
 
@@ -870,11 +871,11 @@ open class LocalVideoStreamsUpdatedEventArgs : NSObject {
 
     
     /// List of LocalVideoStream that were added
-    open var addedStreams: [LocalVideoStream]! { get }
+    open var addedStreams: [LocalVideoStream] { get }
 
     
     /// List of LocalVideoStream that were removed
-    open var removedStreams: [LocalVideoStream]! { get }
+    open var removedStreams: [LocalVideoStream] { get }
 }
 
 
@@ -902,11 +903,11 @@ open class CallsUpdatedEventArgs : NSObject {
 
     
     /// New calls being tracked by the library
-    open var addedCalls: [Call]! { get }
+    open var addedCalls: [Call] { get }
 
     
     /// Calls that are no longer tracked by the library
-    open var removedCalls: [Call]! { get }
+    open var removedCalls: [Call] { get }
 }
 
 
@@ -919,15 +920,15 @@ open class IncomingCall : NSObject {
 
     
     /// Describe the reason why a call has ended
-    open var callEndReason: CallEndReason! { get }
+    open var callEndReason: CallEndReason? { get }
 
     
     /// Information about the caller
-    open var callerInfo: CallerInfo! { get }
+    open var callerInfo: CallerInfo { get }
 
     
     /// Id of the call
-    open var id: String! { get }
+    open var id: String { get }
 
     
     /// Is inoming video enabled
@@ -937,11 +938,11 @@ open class IncomingCall : NSObject {
     /**
      * The delegate that will handle events from the ACSIncomingCall.
      */
-    unowned(unsafe) open var delegate: IncomingCallDelegate!
+    unowned(unsafe) open var delegate: IncomingCallDelegate?
 
     
     /// Accept an incoming call
-    open func accept(options: AcceptCallOptions!, completionHandler: @escaping (Call?, Error?) -> Void)
+    open func accept(options: AcceptCallOptions, completionHandler: @escaping (Call?, Error?) -> Void)
 
     
     /// Reject this incoming call
@@ -959,15 +960,14 @@ open class CallClient : NSObject {
     open func dealloc()
 
     
-    /// Gets a device manager object that can be used to enumerates audio and video devices available for calls.
-    open func getDeviceManager(completionHandler: @escaping (DeviceManager?, Error?) -> Void)
-
-    
     // Class extension begins for CallClient.
-    open func createCallAgent(userCredential: CommunicationTokenCredential!, options callAgentOptions: CallAgentOptions!, completionHandler: ((CallAgent?, Error?) -> Void)!)
+    open func createCallAgent(userCredential: CommunicationTokenCredential, options callAgentOptions: CallAgentOptions?, completionHandler: @escaping (CallAgent?, Error?) -> Void)
 
     
-    open func createCallAgent(userCredential: CommunicationTokenCredential!, completionHandler: ((CallAgent?, Error?) -> Void)!)
+    open func createCallAgent(userCredential: CommunicationTokenCredential, completionHandler: @escaping (CallAgent?, Error?) -> Void)
+
+    
+    open func getDeviceManager(completionHandler: @escaping (DeviceManager?, Error?) -> Void)
 
     
     open var communicationCredential: CommunicationTokenCredential
@@ -985,13 +985,13 @@ open class DeviceManager : NSObject {
 
     
     /// Get the list of currently connected video devices
-    open var cameras: [VideoDeviceInfo]! { get }
+    open var cameras: [VideoDeviceInfo] { get }
 
     
     /**
      * The delegate that will handle events from the ACSDeviceManager.
      */
-    unowned(unsafe) open var delegate: DeviceManagerDelegate!
+    unowned(unsafe) open var delegate: DeviceManagerDelegate?
 }
 
 
@@ -1004,11 +1004,11 @@ open class VideoDevicesUpdatedEventArgs : NSObject {
 
     
     /// Video devicesRemote video streams that have been added to the current call
-    open var addedVideoDevices: [VideoDeviceInfo]! { get }
+    open var addedVideoDevices: [VideoDeviceInfo] { get }
 
     
     /// Remote video streams that have been added to the current call
-    open var removedVideoDevices: [VideoDeviceInfo]! { get }
+    open var removedVideoDevices: [VideoDeviceInfo] { get }
 }
 
 
