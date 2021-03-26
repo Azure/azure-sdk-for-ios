@@ -5,39 +5,29 @@
 //
 //------------------------------------------------------------------------------
 
-#import "ACSRendererView.h"
-#import "ACSStreamSize.h"
+public protocol RendererDelegate : NSObjectProtocol {
 
-@class ACSLocalVideoStream;
-@class ACSRenderingOptions;
-@class ACSRemoteVideoStream;
+    func videoStreamRenderer(didFailToStartRenderer renderer: VideoStreamRenderer)
 
-@class ACSVideoStreamRenderer;
+    
+    optional func videoStreamRenderer(didRenderFirstFrame renderer: VideoStreamRenderer)
+}
 
-NS_SWIFT_NAME(RendererDelegate)
-@protocol ACSRendererDelegate <NSObject>
-- (void)rendererFailedToStart:(ACSVideoStreamRenderer* _Nonnull) renderer NS_SWIFT_NAME( videoStreamRenderer(didFailToStartRenderer:));
-@optional
-- (void)onFirstFrameRendered:(ACSVideoStreamRenderer* _Nonnull) renderer NS_SWIFT_NAME( videoStreamRenderer(didRenderFirstFrame:));
-@end
+open class VideoStreamRenderer : NSObject {
 
-NS_SWIFT_NAME(VideoStreamRenderer)
-@interface ACSVideoStreamRenderer : NSObject
--(nonnull instancetype)init NS_UNAVAILABLE;
--(instancetype _Nonnull)initWithLocalVideoStream:(ACSLocalVideoStream*_Nonnull) localVideoStream
-                                       withError:(NSError*_Nullable*_Nonnull) error __attribute__((swift_error(nonnull_error)))
-        NS_SWIFT_NAME( init(localVideoStream:));
--(instancetype _Nonnull)initWithRemoteVideoStream:(ACSRemoteVideoStream*_Nonnull) remoteVideoStream
-                                        withError:(NSError*_Nullable*_Nonnull) error __attribute__((swift_error(nonnull_error)))
-        NS_SWIFT_NAME( init(remoteVideoStream:));
--(ACSRendererView* _Nonnull)createView:(NSError*_Nullable*_Nonnull) error __attribute__((swift_error(nonnull_error)))
-        NS_SWIFT_NAME( createView());
--(ACSRendererView* _Nonnull)createViewWithOptions:(ACSRenderingOptions*_Nullable) options
-                                        withError:(NSError*_Nullable*_Nonnull) error __attribute__((swift_error(nonnull_error)))
-        NS_SWIFT_NAME( createView(with:));
--(void)dispose;
+    
+    public init(localVideoStream: LocalVideoStream) throws
 
-@property(readonly, nonnull) ACSStreamSize* size;
-@property(nonatomic, assign, nullable) id<ACSRendererDelegate> delegate;
+    public init(remoteVideoStream: RemoteVideoStream) throws
 
-@end
+    open func createView() throws -> RendererView
+
+    open func createView(withOptions options: RenderingOptions?) throws -> RendererView
+
+    open func dispose()
+
+    
+    open var size: StreamSize { get }
+
+    unowned(unsafe) open var delegate: RendererDelegate?
+}
