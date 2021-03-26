@@ -35,7 +35,7 @@ public class ChatClient {
     private let credential: CommunicationTokenCredential
     private let options: AzureCommunicationChatClientOptions
     private let service: Chat
-    private let signalingClient: CommunicationSignalingClient
+    private var signalingClient: CommunicationSignalingClient?
     private var signallingClientStarted: Bool = false
 
     // MARK: Initializers
@@ -68,20 +68,6 @@ public class ChatClient {
         )
 
         self.service = client.chat
-
-        // Initialize the signalling client with the users access token
-        var token: String?
-        var tokenError: Error?
-        credential.token { accessToken, error in
-            token = accessToken?.token
-            tokenError = error
-        }
-
-        guard let skypeToken = token else {
-            throw AzureError.client("Failed to access token credential", tokenError)
-        }
-
-        self.signalingClient = try CommunicationSignalingClient(token: skypeToken)
     }
 
     // MARK: Private Methods
@@ -211,21 +197,40 @@ public class ChatClient {
 
     /// Start receiving realtime notifications.
     /// Call this function before subscribing to any event.
-    public func startRealTimeNotifications() {
+    /// - Parameter completionHandler: Called when starting notifications has completed.
+    public func startRealTimeNotifications(completionHandler: @escaping (Result<Void, AzureError>) -> Void) {
         guard signallingClientStarted == false else {
             options.logger.warning("Realtime notifications have already started.")
             return
         }
 
-        signallingClientStarted = true
-        signalingClient.start()
+        // Retrieve the access token
+        credential.token { accessToken, error in
+            do {
+                guard let token = accessToken?.token else {
+                    throw AzureError.client("Failed to get token from credential.", error)
+                }
+
+                // Initialize the signaling client
+                self.signalingClient = try CommunicationSignalingClient(token: token)
+
+                // Start notifications
+                self.signallingClientStarted = true
+                self.signalingClient?.start()
+
+                completionHandler(.success(()))
+            } catch {
+                let azureError = AzureError.client("Failed to start realtime notifications.", error)
+                completionHandler(.failure(azureError))
+            }
+        }
     }
 
     /// Stop receiving realtime notifications.
     /// This function would unsubscribe to all events.
     public func stopRealTimeNotifications() {
         signallingClientStarted = false
-        signalingClient.stop()
+        signalingClient?.stop()
     }
 
     /// Subscribe to chat events.
@@ -236,17 +241,15 @@ public class ChatClient {
         event: ChatEventId,
         listener: @escaping EventListener
     ) {
-        signalingClient.on(event: event, listener: listener)
+        signalingClient?.on(event: event, listener: listener)
     }
 
     /// Unsubscribe to chat events.
     /// - Parameters:
     ///   - event: The chat event to subsribe to.
-    ///   - listener: The listener for the chat event.
     public func off(
-        event: ChatEventId,
-        listener: @escaping EventListener
+        event: ChatEventId
     ) {
-        signalingClient.off(event: event.rawValue, listener: listener)
+        signalingClient?.off(event: event)
     }
 }
