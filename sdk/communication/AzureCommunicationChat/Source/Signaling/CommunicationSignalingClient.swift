@@ -29,14 +29,14 @@ import Foundation
 import TrouterClientIos
 import UIKit
 
-public class CommunicationSignalingClient {
+class CommunicationSignalingClient {
     private var selfHostedTrouterClient: SelfHostedTrouterClient
     private var communicationSkypeTokenProvider: CommunicationSkypeTokenProvider
     private var trouterUrlRegistrar: TrouterUrlRegistrar
     private var logger: ClientLogger
     private var communicationHandlers: [ChatEventId: CommunicationHandler] = [:]
 
-    public init(
+    init(
         skypeTokenProvider: CommunicationSkypeTokenProvider,
         logger: ClientLogger = ClientLoggers.default(tag: "AzureCommunicationSignalingClient")
     ) throws {
@@ -71,19 +71,19 @@ public class CommunicationSignalingClient {
         self.trouterUrlRegistrar = trouterUrlRegistrar
     }
 
-    public convenience init(
+    convenience init(
         token: String
     ) throws {
         let skypeTokenProvider = CommunicationSkypeTokenProvider(skypeToken: token)
         try self.init(skypeTokenProvider: skypeTokenProvider)
     }
 
-    public func start() {
+    func start() {
         selfHostedTrouterClient.withRegistrar(trouterUrlRegistrar)
         selfHostedTrouterClient.start()
     }
 
-    public func stop() {
+    func stop() {
         selfHostedTrouterClient.stop()
         communicationHandlers.forEach { _, handler in
             selfHostedTrouterClient.unregisterListener(handler)
@@ -91,13 +91,13 @@ public class CommunicationSignalingClient {
         communicationHandlers.removeAll()
     }
 
-    public func on(event: ChatEventId, handler: @escaping EventHandler) {
+    func on(event: ChatEventId, handler: @escaping EventHandler) {
         let communicationHandler = CommunicationHandler(handler: handler)
         selfHostedTrouterClient.register(communicationHandler, forPath: "/\(event)")
         communicationHandlers[event] = communicationHandler
     }
 
-    public func off(event: ChatEventId) {
+    func off(event: ChatEventId) {
         if let communicationHandler = communicationHandlers[event] {
             selfHostedTrouterClient.unregisterListener(communicationHandler)
             communicationHandlers.removeValue(forKey: event)
@@ -105,13 +105,13 @@ public class CommunicationSignalingClient {
     }
 }
 
-public class CommunicationSkypeTokenProvider: NSObject, TrouterSkypetokenProvider {
+class CommunicationSkypeTokenProvider: NSObject, TrouterSkypetokenProvider {
     var skypeToken: String?
-    public func getSkypetoken(_: Bool) -> String! {
+    func getSkypetoken(_: Bool) -> String! {
         return skypeToken
     }
 
-    public init(skypeToken: String? = nil) {
+    init(skypeToken: String? = nil) {
         self.skypeToken = skypeToken
     }
 }
