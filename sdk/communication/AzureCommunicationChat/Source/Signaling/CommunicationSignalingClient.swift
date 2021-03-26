@@ -143,6 +143,8 @@ class CommunicationHandler: NSObject, TrouterListener {
         self.logger = logger
     }
 
+    // MARK: TrouterListenerProtocol
+
     func onTrouterConnected(_: String!, _: TrouterConnectionInfo!) {
         logger.info("Trouter Connected")
     }
