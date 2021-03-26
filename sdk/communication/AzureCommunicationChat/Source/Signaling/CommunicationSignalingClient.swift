@@ -124,10 +124,7 @@ class CommunicationCache: NSObject, TrouterConnectionDataCache {
     }
 
     func load() -> String {
-        guard let data = data else {
-            return ""
-        }
-        return data
+        return data ?? ""
     }
 }
 
@@ -145,7 +142,7 @@ class CommunicationHandler: NSObject, TrouterListener {
 
     // MARK: TrouterListenerProtocol
 
-    func onTrouterConnected(_: String!, _: TrouterConnectionInfo!) {
+    func onTrouterConnected(_: String, _: TrouterConnectionInfo) {
         logger.info("Trouter Connected")
     }
 
@@ -153,7 +150,7 @@ class CommunicationHandler: NSObject, TrouterListener {
         logger.info("Trouter Disconnected")
     }
 
-    func onTrouterRequest(_ request: TrouterRequest!, _ response: TrouterResponse!) {
+    func onTrouterRequest(_ request: TrouterRequest, _ response: TrouterResponse) {
         logger.info("Received a Trouter request \n")
 
         do {
