@@ -237,7 +237,7 @@ public class ChatClient {
     /// - Parameters:
     ///   - event: The chat event to subsribe to.
     ///   - handler: The listener for the chat event.
-    public func on(
+    public func register(
         event: ChatEventId,
         handler: @escaping EventHandler
     ) {
@@ -247,7 +247,7 @@ public class ChatClient {
     /// Unsubscribe to chat events.
     /// - Parameters:
     ///   - event: The chat event to subsribe to.
-    public func off(
+    public func unregister(
         event: ChatEventId
     ) {
         signalingClient?.off(event: event)
