@@ -30,6 +30,9 @@
     ],
     "AzureCommunication": [
       "~> 1.0.0-beta.9"
+    ],
+    "TrouterClientIos": [
+      "~> 0.0.1-beta.3"
     ]
   },
   "swift_version": "5.0"
