@@ -38,6 +38,7 @@ let package = Package(
         .library(name: "AzureCore", targets: ["AzureCore"]),
         .library(name: "AzureCommunication", targets: ["AzureCommunication"]),
         .library(name: "AzureCommunicationChat", targets: ["AzureCommunicationChat"]),
+        .library(name: "TrouterClientIos", targets: ["TrouterClientIos"]),
     ],
     dependencies: [
         .package(url: "https://github.com/AliSoftware/OHHTTPStubs.git", from: "9.1.0")
@@ -68,7 +69,7 @@ let package = Package(
         ),
         .target(
             name: "AzureCommunicationChat",
-            dependencies: ["AzureCore", "AzureCommunication"],
+            dependencies: ["AzureCore", "AzureCommunication", "TrouterClientIos"],
             path: "sdk/communication/AzureCommunicationChat",
             exclude: [
                 "README.md",
@@ -77,6 +78,11 @@ let package = Package(
                 "Package.swift"
             ],
             sources: ["Source"]
+        ),
+        .binaryTarget(
+          name: "TrouterClientIos",
+          url: "https://github.com/microsoft/trouter-client-ios/releases/download/v0.0.1-beta.3/TrouterClientIos-0.0.1-beta.3.zip",
+          checksum: "34651d8be50e86519d31a0f5a644b925fcc0e7e00c8424a29c2e96b8283f797b"
         ),
         // Test targets
         .testTarget(
