@@ -91,7 +91,7 @@ public enum TrouterEventUtil {
         }
     }
 
-    public static func toISO8601Date(unixTime: Int? = 0) -> String {
+    internal static func toIso8601Date(unixTime: Int? = 0) -> String {
         let unixTimeInMilliSeconds = Double(unixTime ?? 0) / 1000
         let date = Date(timeIntervalSince1970: TimeInterval(unixTimeInMilliSeconds))
         let iso8601DateFormatter = ISO8601DateFormatter()

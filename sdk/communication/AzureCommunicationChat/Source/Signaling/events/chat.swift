@@ -555,7 +555,7 @@ public class ParticipantsAddedEvent: BaseChatThreadEvent {
                     displayName: memberPayload.displayName,
                     shareHistoryTime: Iso8601Date(
                         string: TrouterEventUtil
-                            .toISO8601Date(unixTime: memberPayload.shareHistoryTime)
+                            .toIso8601Date(unixTime: memberPayload.shareHistoryTime)
                     )
                 )
             }
@@ -620,7 +620,7 @@ public class ParticipantsRemovedEvent: BaseChatThreadEvent {
                     displayName: memberPayload.displayName,
                     shareHistoryTime: Iso8601Date(
                         string: TrouterEventUtil
-                            .toISO8601Date(unixTime: memberPayload.shareHistoryTime)
+                            .toIso8601Date(unixTime: memberPayload.shareHistoryTime)
                     )
                 )
             }

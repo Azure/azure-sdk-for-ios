@@ -215,7 +215,7 @@ public class ChatClient {
                 self.signalingClient = try CommunicationSignalingClient(token: token)
 
                 // Start notifications
-                self.signallingClientStarted = true
+                self.signalingClientStarted = true
                 self.signalingClient?.start()
 
                 completionHandler(.success(()))
