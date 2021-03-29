@@ -1,0 +1,9 @@
+AzureCore:
+  source: sdk/core/AzureCore
+  mirror: azure-sdk-for-ios-core
+  version: 1.0.0-beta.10
+
+AzureStorageBlob:
+  source: sdk/storage/AzureStorageBlob
+  mirror: azure-sdk-for-ios-storage
+  version: 0.0.1-beta.1
