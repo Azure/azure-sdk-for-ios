@@ -43,19 +43,16 @@ let package = Package(
         .target(
             name: "AzureCore",
             dependencies: [],
+            path: "Source"
             exclude: [
-                "README.md",
-                "CHANGELOG.md",
-                "Tests",
                 "Source/Supporting Files"
             ],
-            sources: ["Source"]
         ),
         // Test targets
         .testTarget(
             name: "AzureCoreTests",
             dependencies: ["AzureCore"],
-            path: "sdk/core/AzureCore/Tests",
+            path: "Tests",
             exclude: [
                 "Info.plist",
                 "Data Files"

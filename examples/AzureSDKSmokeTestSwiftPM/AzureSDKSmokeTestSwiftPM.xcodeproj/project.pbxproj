@@ -3,10 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A6C00B62612667E002573E7 /* AzureCommunication in Frameworks */ = {isa = PBXBuildFile; productRef = 0A6C00B52612667E002573E7 /* AzureCommunication */; };
+		0A6C00B82612667E002573E7 /* AzureCommunicationChat in Frameworks */ = {isa = PBXBuildFile; productRef = 0A6C00B72612667E002573E7 /* AzureCommunicationChat */; };
 		0AE32C652612575A00478F9F /* AzureSDKSmokeTestSwiftPMApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE32C642612575A00478F9F /* AzureSDKSmokeTestSwiftPMApp.swift */; };
 		0AE32C672612575A00478F9F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE32C662612575A00478F9F /* ContentView.swift */; };
 		0AE32C692612576900478F9F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AE32C682612576900478F9F /* Assets.xcassets */; };
@@ -27,6 +29,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A6C00B62612667E002573E7 /* AzureCommunication in Frameworks */,
+				0A6C00B82612667E002573E7 /* AzureCommunicationChat in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,6 +89,10 @@
 			dependencies = (
 			);
 			name = AzureSDKSmokeTestSwiftPM;
+			packageProductDependencies = (
+				0A6C00B52612667E002573E7 /* AzureCommunication */,
+				0A6C00B72612667E002573E7 /* AzureCommunicationChat */,
+			);
 			productName = AzureSDKSmokeTestSwiftPM;
 			productReference = 0AE32C612612575A00478F9F /* AzureSDKSmokeTestSwiftPM.app */;
 			productType = "com.apple.product-type.application";
@@ -112,6 +120,9 @@
 				Base,
 			);
 			mainGroup = 0AE32C582612575A00478F9F;
+			packageReferences = (
+				0A6C00B42612667E002573E7 /* XCRemoteSwiftPackageReference "azure-sdk-for-ios" */,
+			);
 			productRefGroup = 0AE32C622612575A00478F9F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -328,6 +339,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		0A6C00B42612667E002573E7 /* XCRemoteSwiftPackageReference "azure-sdk-for-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Azure/azure-sdk-for-ios.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0A6C00B52612667E002573E7 /* AzureCommunication */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0A6C00B42612667E002573E7 /* XCRemoteSwiftPackageReference "azure-sdk-for-ios" */;
+			productName = AzureCommunication;
+		};
+		0A6C00B72612667E002573E7 /* AzureCommunicationChat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0A6C00B42612667E002573E7 /* XCRemoteSwiftPackageReference "azure-sdk-for-ios" */;
+			productName = AzureCommunicationChat;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0AE32C592612575A00478F9F /* Project object */;
 }
