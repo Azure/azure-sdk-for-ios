@@ -26,7 +26,6 @@
 // IN THE SOFTWARE.
 //
 // --------------------------------------------------------------------------
-
 import PackageDescription
 
 let package = Package(
@@ -43,10 +42,10 @@ let package = Package(
         .target(
             name: "AzureCore",
             dependencies: [],
-            path: "Source"
+            path: "Source",
             exclude: [
                 "Source/Supporting Files"
-            ],
+            ]
         ),
         // Test targets
         .testTarget(
@@ -57,7 +56,7 @@ let package = Package(
                 "Info.plist",
                 "Data Files"
             ]
-        ),
+        )
     ],
     swiftLanguageVersions: [.v5]
 )

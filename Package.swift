@@ -35,7 +35,6 @@ let package = Package(
         .macOS(.v10_13), .iOS(.v12)
     ],
     products: [
-        .library(name: "AzureCore", targets: ["AzureCore"]),
         .library(name: "AzureCommunication", targets: ["AzureCommunication"]),
         .library(name: "AzureCommunicationChat", targets: ["AzureCommunicationChat"]),
     ],
@@ -45,17 +44,6 @@ let package = Package(
     ],
     targets: [
         // Build targets
-        .target(
-            name: "AzureCore",
-            dependencies: [],
-            path: "sdk/core/AzureCore",
-            exclude: [
-                "README.md",
-                "Tests",
-                "Source/Supporting Files"
-            ],
-            sources: ["Source"]
-        ),
         .target(
             name: "AzureCommunication",
             dependencies: ["AzureCore"],
@@ -79,15 +67,6 @@ let package = Package(
             sources: ["Source"]
         ),
         // Test targets
-        .testTarget(
-            name: "AzureCoreTests",
-            dependencies: ["AzureCore"],
-            path: "sdk/core/AzureCore/Tests",
-            exclude: [
-                "Info.plist",
-                "Data Files"
-            ]
-        ),
         .testTarget(
             name: "AzureCommunicationTests",
             dependencies: ["AzureCommunication"],
