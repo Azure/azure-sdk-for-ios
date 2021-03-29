@@ -53,7 +53,7 @@ specifying the clone URL of this repository and the version specifier you wish t
 ```swift
     dependencies: [
         ...
-        .package(url: "https://github.com/Azure/azure-sdk-for-ios.git", from: "1.0.0-beta.11")
+        .package(url: "https://github.com/Azure/azure-sdk-for-ios-core.git", from: "1.0.0-beta.10")
     ],
 ```
 
