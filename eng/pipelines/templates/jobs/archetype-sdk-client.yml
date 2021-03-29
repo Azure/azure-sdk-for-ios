@@ -188,6 +188,11 @@ jobs:
                      test | xcpretty -c
         displayName: 'Build and test libraries'
 
+      - publish: $(Build.ArtifactStagingDirectory)/Logs/Test
+        displayName: 'Preserve logs on failure'
+        artifact: 'test-failure-logs'
+        condition: failed()
+      
       - script: trainer --path $(Build.ArtifactStagingDirectory) --fail_build false
         env:
           FASTLANE_OPT_OUT_USAGE: true
