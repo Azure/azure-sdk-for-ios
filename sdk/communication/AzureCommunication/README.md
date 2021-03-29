@@ -88,7 +88,7 @@ platform :ios, '12.0'
 use_frameworks!
 
 target 'MyTarget' do
-  pod 'AzureCommunication', '~> 1.0.0-beta.8'
+  pod 'AzureCommunication', '~> 1.0.0-beta.9'
   ...
 end
 ```
@@ -111,60 +111,39 @@ provided to the various Communication Services client libraries by way of a `Com
 The following sections provide several code snippets showing different ways to use a `CommunicationTokenCredential`:
 
 * [Creating a credential with a static token](#creating-a-credential-with-a-static-token)
-* [Creating a credential that refreshes synchronously](#creating-a-credential-that-refreshes-synchronously)
 * [Creating a credential that refreshes asynchronously](#creating-a-credential-that-refreshes-asynchronously)
 
 ### Creating a credential with a static token
 ```swift
+import AzureCommunication
+
 let sampleToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjMyNTAzNjgwMDAwfQ.9i7FNNHHJT8cOzo-yrAUJyBSfJ-tPPk2emcHavOEpWc"
 let credential = try CommunicationTokenCredential(token: sampleToken)
 ```
 
-### Creating a credential that refreshes synchronously
+### Creating a credential that refreshes asynchronously
 ```swift
+import AzureCommunication
+
 let sampleToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjMyNTAzNjgwMDAwfQ.9i7FNNHHJT8cOzo-yrAUJyBSfJ-tPPk2emcHavOEpWc"
 let sampleExpiredToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjEwMH0.1h_scYkNp-G98-O4cW6KvfJZwiz54uJMyeDACE4nypg"
+var credential: CommunicationTokenCredential?
 
-func fetchTokenSync(completionHandler: TokenRefreshHandler) {
+private func fetchTokenSync(completionHandler: TokenRefreshHandler) {
     let newToken = sampleToken
     completionHandler(newToken, nil)
 }
 
-let credential = try CommunicationTokenCredential(initialToken: sampleExpiredToken, 
-    refreshProactively: false, 
-    tokenRefresher: fetchTokenSync)
+let options = CommunicationTokenRefreshOptions(initialToken: sampleExpiredToken, 
+                                                refreshProactively: true,
+                                                tokenRefresher: fetchTokenSync)
+credential = try CommunicationTokenCredential(with: options)
     
-DispatchQueue.global(qos: .utility).async {
-      credential.token { (accessToken: AccessToken?, error: Error?) in
-        ...
-      }
-}
-```
 
-### Creating a credential that refreshes asynchronously
-```swift
-let sampleToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjMyNTAzNjgwMDAwfQ.9i7FNNHHJT8cOzo-yrAUJyBSfJ-tPPk2emcHavOEpWc"
-let sampleExpiredToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjEwMH0.1h_scYkNp-G98-O4cW6KvfJZwiz54uJMyeDACE4nypg"
-
-func fetchTokenAsync(completionHandler: @escaping TokenRefreshHandler) {
-     func getTokenFromServer(completionHandler: @escaping (String) -> Void) {
-          completionHandler(self.sampleToken)   
-     }
-
-     getTokenFromServer { newToken in
-         completionHandler(newToken, nil)
-     }
+credential.token { (accessToken: AccessToken?, error: Error?) in
+  ...
 }
 
-let credential = try CommunicationTokenCredential(initialToken: sampleExpiredToken, 
-    refreshProactively: false, 
-    tokenRefresher: fetchTokenAsync)
-    
-DispatchQueue.global(qos: .utility).async {
-      credential.token { (accessToken: AccessToken?, error: Error?) in
-        ...
-      }
-}
 ```
 
 ## Troubleshooting
