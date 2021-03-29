@@ -165,6 +165,8 @@
 		0AE326362499616900C85EAA /* NormalizeETagPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalizeETagPolicy.swift; sourceTree = "<group>"; };
 		0AE32638249A7F3200C85EAA /* HeadersValidationPolicyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadersValidationPolicyTests.swift; sourceTree = "<group>"; };
 		0AE3263A249A7F4900C85EAA /* NormalizeETagPolicyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalizeETagPolicyTests.swift; sourceTree = "<group>"; };
+		0AE32C562612554C00478F9F /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		0AE32C572612560B00478F9F /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		0AE5C3A5231F150A0013CA85 /* KeychainUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainUtil.swift; sourceTree = "<group>"; };
 		0AFEC34F23C8FC310065D588 /* UtilTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilTests.swift; sourceTree = "<group>"; };
 		0AFEC35023C8FC310065D588 /* PipelineTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PipelineTests.swift; sourceTree = "<group>"; };
@@ -228,12 +230,14 @@
 		0A3A5D6C2315C89C00473FDA = {
 			isa = PBXGroup;
 			children = (
+				0AE32C562612554C00478F9F /* Package.swift */,
+				7ACBF0A7248EFF2D0077C5BA /* README.md */,
+				0AE32C572612560B00478F9F /* CHANGELOG.md */,
 				0A3A5D782315C89C00473FDA /* Source */,
 				0A3A5DDF2315D17F00473FDA /* Tests */,
 				0A3A5D772315C89C00473FDA /* Products */,
 				E4BF633BF023E92DD7174C5B /* Frameworks */,
 				92BD27331528A5376457893C /* Pods */,
-				7ACBF0A7248EFF2D0077C5BA /* README.md */,
 			);
 			sourceTree = "<group>";
 		};
