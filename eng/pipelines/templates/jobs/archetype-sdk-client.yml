@@ -67,7 +67,7 @@ jobs:
               BCSYMBOLMAP_FILE=$(grep -l $PROJECT_NAME.build $(Build.ArtifactStagingDirectory)/AzureSDK-iphoneos.xcarchive/BCSymbolMaps/* | head -n1)
               echo "Bundling xcframework for $PROJECT_NAME"
               echo "Including BCSymbolMap at path $BCSYMBOLMAP_FILE"
-              xcodebuild -create-xcframework \
+              xcodebuild -verbose -create-xcframework \
                          -framework $(Build.ArtifactStagingDirectory)/AzureSDK-iphonesimulator.xcarchive/Products/Library/Frameworks/$PROJECT_NAME.framework \
                            -debug-symbols $(Build.ArtifactStagingDirectory)/AzureSDK-iphonesimulator.xcarchive/dSYMs/$PROJECT_NAME.framework.dSYM \
                          -framework $(Build.ArtifactStagingDirectory)/AzureSDK-iphoneos.xcarchive/Products/Library/Frameworks/$PROJECT_NAME.framework \
