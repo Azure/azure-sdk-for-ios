@@ -41,7 +41,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/AliSoftware/OHHTTPStubs.git", from: "9.1.0"),
-        .package(url: "https://github.com/microsoft/trouter-client-ios.git", from: "0.0.1-beta.4")
+        .package(name: "TrouterClientIos", url: "https://github.com/microsoft/trouter-client-ios.git", from: "0.0.1-beta.4")
     ],
     targets: [
         // Build targets
