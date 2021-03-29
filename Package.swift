@@ -38,7 +38,6 @@ let package = Package(
         .library(name: "AzureCore", targets: ["AzureCore"]),
         .library(name: "AzureCommunication", targets: ["AzureCommunication"]),
         .library(name: "AzureCommunicationChat", targets: ["AzureCommunicationChat"]),
-        .library(name: "TrouterClientIos", targets: ["TrouterClientIos"]),
     ],
     dependencies: [
         .package(url: "https://github.com/AliSoftware/OHHTTPStubs.git", from: "9.1.0")
