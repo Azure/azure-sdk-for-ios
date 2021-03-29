@@ -36,7 +36,7 @@ public class ChatClient {
     private let options: AzureCommunicationChatClientOptions
     private let service: Chat
     private var signalingClient: CommunicationSignalingClient?
-    private var signallingClientStarted: Bool = false
+    private var signalingClientStarted: Bool = false
 
     // MARK: Initializers
 
@@ -199,7 +199,7 @@ public class ChatClient {
     /// Call this function before subscribing to any event.
     /// - Parameter completionHandler: Called when starting notifications has completed.
     public func startRealTimeNotifications(completionHandler: @escaping (Result<Void, AzureError>) -> Void) {
-        guard signallingClientStarted == false else {
+        guard signalingClientStarted == false else {
             options.logger.warning("Realtime notifications have already started.")
             return
         }
@@ -229,7 +229,7 @@ public class ChatClient {
     /// Stop receiving realtime notifications.
     /// This function would unsubscribe to all events.
     public func stopRealTimeNotifications() {
-        signallingClientStarted = false
+        signalingClientStarted = false
         signalingClient?.stop()
     }
 
