@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 """
-versions.py
+version.py
 
 Various scripts dealing with versioning
 """

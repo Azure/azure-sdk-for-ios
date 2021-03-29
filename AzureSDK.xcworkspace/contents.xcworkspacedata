@@ -430,6 +430,9 @@
          <FileRef
             location = "group:swiftlint.sh">
          </FileRef>
+         <FileRef
+            location = "group:/Users/travisprescott/repos/azure-sdk-for-ios/eng/scripts/sync_repo.py">
+         </FileRef>
       </Group>
       <FileRef
          location = "group:CHECKENFORCER">
