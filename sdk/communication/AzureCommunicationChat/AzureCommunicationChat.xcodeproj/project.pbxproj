@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4077D21553368B726C02EA20 /* Pods_AzureCommunicationChatUnitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FD7709F18BED14D6B73C734 /* Pods_AzureCommunicationChatUnitTests.framework */; };
+		8821443F261388A700040B91 /* TrouterClientIos in Frameworks */ = {isa = PBXBuildFile; productRef = 8821443E261388A700040B91 /* TrouterClientIos */; };
 		8840448825D5DD7900A194DC /* IdentifierSerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8840448725D5DD7900A194DC /* IdentifierSerializerTests.swift */; };
 		8840449825D5FA6300A194DC /* IdentifierSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8840449725D5FA6200A194DC /* IdentifierSerializer.swift */; };
 		88D37B8E25D60CCD004F3699 /* CommunicationIdentifierModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D37B8A25D60CCD004F3699 /* CommunicationIdentifierModel.swift */; };
@@ -279,6 +280,7 @@
 				D110F50A258D604B001FA3CD /* AzureCore.framework in Frameworks */,
 				D110F507258D603F001FA3CD /* AzureCommunication.framework in Frameworks */,
 				D110F50C258D6053001FA3CD /* Pods_AzureCommunicationChat.framework in Frameworks */,
+				8821443F261388A700040B91 /* TrouterClientIos in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -571,6 +573,9 @@
 			dependencies = (
 			);
 			name = AzureCommunicationChat;
+			packageProductDependencies = (
+				8821443E261388A700040B91 /* TrouterClientIos */,
+			);
 			productName = AzureCommunicationChat;
 			productReference = "AzureCommunicationChat::AzureCommunicationChat::Product" /* AzureCommunicationChat.framework */;
 			productType = "com.apple.product-type.framework";
@@ -651,6 +656,7 @@
 			mainGroup = OBJ_5;
 			packageReferences = (
 				D1BA104B25807B7500CA7130 /* XCRemoteSwiftPackageReference "OHHTTPStubs" */,
+				8821443D261388A700040B91 /* XCRemoteSwiftPackageReference "trouter-client-ios" */,
 			);
 			productRefGroup = OBJ_113 /* Products */;
 			projectDirPath = "";
@@ -1267,6 +1273,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		8821443D261388A700040B91 /* XCRemoteSwiftPackageReference "trouter-client-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/microsoft/trouter-client-ios/";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = "0.0.1-beta.4";
+			};
+		};
 		D1BA104B25807B7500CA7130 /* XCRemoteSwiftPackageReference "OHHTTPStubs" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/AliSoftware/OHHTTPStubs.git";
@@ -1278,6 +1292,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		8821443E261388A700040B91 /* TrouterClientIos */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8821443D261388A700040B91 /* XCRemoteSwiftPackageReference "trouter-client-ios" */;
+			productName = TrouterClientIos;
+		};
 		D193C45A25CE258F006F769C /* OHHTTPStubsSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D1BA104B25807B7500CA7130 /* XCRemoteSwiftPackageReference "OHHTTPStubs" */;
