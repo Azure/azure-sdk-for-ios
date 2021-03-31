@@ -116,34 +116,6 @@ class ChatThreadClientTests: XCTestCase {
         }
     }
 
-    func test_GetProperties_ReturnsChatThreadProperties() {
-        let expectation = self.expectation(description: "Get thread")
-
-        // Get the thread
-        chatThreadClient.getProperties { result, httpResponse in
-            switch result {
-            case let .success(thread):
-                XCTAssert(thread.topic == "Test topic")
-                XCTAssertNotNil(thread.createdBy)
-
-                if self.mode == "record" {
-                    Recorder.record(name: Recording.getThread, httpResponse: httpResponse)
-                }
-
-            case let .failure(error):
-                XCTFail("Get thread failed with error: \(error)")
-            }
-
-            expectation.fulfill()
-        }
-
-        waitForExpectations(timeout: 10.0) { error in
-            if let error = error {
-                XCTFail("Get thread timed out: \(error)")
-            }
-        }
-    }
-
     func test_UpdateTopic() {
         let newTopic = "New topic"
         let expectation = self.expectation(description: "Update topic")
