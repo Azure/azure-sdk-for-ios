@@ -81,20 +81,20 @@ jobs:
         displayName: 'Publish xcframeworks'
         artifact: 'xcframeworks-release'
 
-  - job: 'SwiftBuild'
+  # - job: 'SwiftBuild'
 
-    variables:
-      - template: ../variables/globals.yml
+  #   variables:
+  #     - template: ../variables/globals.yml
 
-    pool:
-      vmImage: '$(OSVmImage)'
+  #   pool:
+  #     vmImage: '$(OSVmImage)'
   
-    steps:
-      - script: sudo xcode-select --switch /Applications/Xcode_$(XcodeVersion).app
-        displayName: 'Use Xcode $(XcodeVersion)'
+  #   steps:
+  #     - script: sudo xcode-select --switch /Applications/Xcode_$(XcodeVersion).app
+  #       displayName: 'Use Xcode $(XcodeVersion)'
 
-      - script: swift build
-        displayName: 'Build libraries with swift build'
+  #     - script: swift build
+  #       displayName: 'Build libraries with swift build'
 
   - job: 'Analyze'
     condition: and(succeeded(), ne(variables['Skip.Analyze'], 'true'))
