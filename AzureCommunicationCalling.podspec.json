@@ -1,6 +1,6 @@
 {
   "name": "AzureCommunicationCalling",
-  "version": "1.0.0-beta.9",
+  "version": "1.0.0-beta.10",
   "summary": "Azure Communication Calling Service client library for iOS",
   "description": "This package contains the Calling client library for Azure Communication\nServices.",
   "homepage": "https://github.com/Azure/azure-sdk-for-ios",
@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "AzureCommunication": [
-      "~> 1.0.0-beta.9"
+      "~> 1.0.0-beta.10"
     ]
   },
   "swift_version": "5.0"

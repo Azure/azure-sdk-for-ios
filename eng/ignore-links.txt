@@ -1,2 +1,2 @@
 # Placeholder file for links that need exceptions from link checking
-https://github.com/Azure/azure-sdk-for-ios/releases/tag/1.0.0-beta.9
+https://github.com/Azure/azure-sdk-for-ios/releases/tag/1.0.0-beta.10
