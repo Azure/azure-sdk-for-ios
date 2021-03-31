@@ -10,6 +10,19 @@
 - Removed `CommunicationPolicyTokenCredential`.
 - Typealias `TokenRefreshOnCompletion` renamed to `TokenRefreshHandler`.
 
+**Azure Communication Chat**
+- Renamed `Participant` to `ChatParticipant`
+- Renamed `Message` to `ChatMessage`
+- Renamed `MessageContent` to `ChatMessageContent`
+- Renamed `ReadReceipt` to `ChatMessageReadReceipt`
+- Renamed `Thread` to `ChatThreadProperties`
+- Renamed `CreateThreadRequest` to `CreateChatThreadRequest`
+- Renamed `CreateThreadResult` to `CreateChatThreadResult`
+- Renamed `CommunicationError` to `ChatError`
+- ChatThreadClient `update()` message accepts a string for the message content instead of an object
+- The method for getting thread properties has been moved from `ChatClient` to `ChatThreadClient` and renamed `getProperties()`
+- Participants are now optional when creating a thread, the creator of the thread is added automatically
+
 ### Key Bug Fixes
 
 ## 1.0.0-beta.9 (2021-03-10)
