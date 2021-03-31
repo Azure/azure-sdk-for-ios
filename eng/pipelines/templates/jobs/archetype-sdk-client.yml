@@ -120,9 +120,10 @@ jobs:
           Directory: ""
           CheckLinkGuidance: $true
 
-      - script: |
-          python ./eng/scripts/version.py verify
-        displayName: Verify Versions
+# FIXME: Version assumptions will no longer hold when each library can version independently
+#      - script: |
+#          python ./eng/scripts/version.py verify
+#        displayName: Verify Versions
 
       - script: |
           pod lib lint --quick

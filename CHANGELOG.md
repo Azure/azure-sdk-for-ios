@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.10 (Unreleased)
+## 1.0.0-beta.10 (2021-04-05)
 ### New Features
 **Azure Communication Chat**
 - `ChatClient` now supports Realtime Notifications for Chat events
@@ -19,6 +19,7 @@
 - Typealias `TokenRefresherClosure` renamed to `TokenRefresher`.
 
 **Azure Communication Chat**
+- Build setting `ENABLE_BITCODE` is no longer supported for `AzureCommunicationChat`. It must be set to NO.
 - Renamed `Participant` to `ChatParticipant`
 - Renamed `Message` to `ChatMessage`
 - Renamed `MessageContent` to `ChatMessageContent`
@@ -30,8 +31,6 @@
 - ChatThreadClient `update()` message accepts a string for the message content instead of an object
 - The method for getting thread properties has been moved from `ChatClient` to `ChatThreadClient` and renamed `getProperties()`
 - Participants are now optional when creating a thread, the creator of the thread is added automatically
-
-### Key Bug Fixes
 
 ## 1.0.0-beta.9 (2021-03-10)
 ### New Features
