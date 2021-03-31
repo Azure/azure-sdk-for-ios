@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		4077D21553368B726C02EA20 /* Pods_AzureCommunicationChatUnitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FD7709F18BED14D6B73C734 /* Pods_AzureCommunicationChatUnitTests.framework */; };
 		8821443F261388A700040B91 /* TrouterClientIos in Frameworks */ = {isa = PBXBuildFile; productRef = 8821443E261388A700040B91 /* TrouterClientIos */; };
-		8840448825D5DD7900A194DC /* IdentifierSerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8840448725D5DD7900A194DC /* IdentifierSerializerTests.swift */; };
 		8840449825D5FA6300A194DC /* IdentifierSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8840449725D5FA6200A194DC /* IdentifierSerializer.swift */; };
 		88D37B8E25D60CCD004F3699 /* CommunicationIdentifierModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D37B8A25D60CCD004F3699 /* CommunicationIdentifierModel.swift */; };
 		88D37B8F25D60CCD004F3699 /* MicrosoftTeamsUserIdentifierModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D37B8B25D60CCD004F3699 /* MicrosoftTeamsUserIdentifierModel.swift */; };
@@ -94,6 +93,7 @@
 		D17C7B6125FBF4D5007AD39B /* ChatThreadPropertiesInternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17C7B5725FBF4D5007AD39B /* ChatThreadPropertiesInternal.swift */; };
 		D17C7B6225FBF4D5007AD39B /* ChatThreadItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17C7B5825FBF4D5007AD39B /* ChatThreadItem.swift */; };
 		D17C7B6325FBF4D5007AD39B /* ChatMessageContentInternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17C7B5925FBF4D5007AD39B /* ChatMessageContentInternal.swift */; };
+		D187D9B126151DB900C233B7 /* IdentifierSerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8840448725D5DD7900A194DC /* IdentifierSerializerTests.swift */; };
 		D193C45B25CE258F006F769C /* OHHTTPStubsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D193C45A25CE258F006F769C /* OHHTTPStubsSwift */; };
 		D197C5DF260E82F80049718B /* TokenCredentialAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889FF7C9260516FA00722630 /* TokenCredentialAdapter.swift */; };
 		D1AEA09C2608EE3700849D5C /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1CD93AC258D6C2500409613 /* Util.swift */; };
@@ -840,6 +840,7 @@
 			files = (
 				D147E64025CE244F001CFB5D /* ChatThreadClientUnitTests.swift in Sources */,
 				D1AEA09C2608EE3700849D5C /* Util.swift in Sources */,
+				D187D9B126151DB900C233B7 /* IdentifierSerializerTests.swift in Sources */,
 				D147E63925CE244A001CFB5D /* ChatClientUnitTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -848,7 +849,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8840448825D5DD7900A194DC /* IdentifierSerializerTests.swift in Sources */,
 				D1CD93A8258D6BDC00409613 /* ChatThreadClientTests.swift in Sources */,
 				D1CD93AD258D6C2500409613 /* Util.swift in Sources */,
 				D1CD93A2258D6BC700409613 /* ChatClientTests.swift in Sources */,
