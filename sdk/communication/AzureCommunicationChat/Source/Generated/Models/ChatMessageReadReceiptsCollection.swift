@@ -16,11 +16,11 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// A paged collection of chat message read receipts.
-public struct ChatMessageReadReceiptsCollection: Codable, Equatable {
+public struct ChatMessageReadReceiptsCollection: Codable {
     // MARK: Properties
 
     /// Collection of chat message read receipts.
-    public let value: [ChatMessageReadReceipt]
+    public let value: [ChatMessageReadReceiptInternal]
     /// If there are more chat message read receipts that can be retrieved, the next link will be populated.
     public let nextLink: String?
 
@@ -31,7 +31,7 @@ public struct ChatMessageReadReceiptsCollection: Codable, Equatable {
     ///   - value: Collection of chat message read receipts.
     ///   - nextLink: If there are more chat message read receipts that can be retrieved, the next link will be populated.
     public init(
-        value: [ChatMessageReadReceipt], nextLink: String? = nil
+        value: [ChatMessageReadReceiptInternal], nextLink: String? = nil
     ) {
         self.value = value
         self.nextLink = nextLink
@@ -47,7 +47,7 @@ public struct ChatMessageReadReceiptsCollection: Codable, Equatable {
     /// Initialize a `ChatMessageReadReceiptsCollection` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.value = try container.decode([ChatMessageReadReceipt].self, forKey: .value)
+        self.value = try container.decode([ChatMessageReadReceiptInternal].self, forKey: .value)
         self.nextLink = try? container.decode(String.self, forKey: .nextLink)
     }
 

@@ -16,7 +16,7 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Request payload for updating a chat thread.
-public struct UpdateChatThreadRequest: Codable, Equatable {
+public struct UpdateChatThreadRequest: Codable {
     // MARK: Properties
 
     /// Chat thread topic.

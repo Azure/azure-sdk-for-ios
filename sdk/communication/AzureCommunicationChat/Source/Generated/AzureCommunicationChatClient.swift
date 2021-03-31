@@ -25,27 +25,27 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
     public enum ApiVersion: RequestStringConvertible {
         /// Custom value for unrecognized enum values
         case custom(String)
-        /// API version "2021-01-27-preview4"
-        case v20210127preview4
+        /// API version "2021-03-07"
+        case v20210307
 
         /// The most recent API version of the
         public static var latest: ApiVersion {
-            return .v20210127preview4
+            return .v20210307
         }
 
         public var requestString: String {
             switch self {
             case let .custom(val):
                 return val
-            case .v20210127preview4:
-                return "2021-01-27-preview4"
+            case .v20210307:
+                return "2021-03-07"
             }
         }
 
         public init(_ val: String) {
             switch val.lowercased() {
-            case "2021-01-27-preview4":
-                self = .v20210127preview4
+            case "2021-03-07":
+                self = .v20210307
             default:
                 self = .custom(val)
             }
@@ -86,7 +86,7 @@ public final class AzureCommunicationChatClient: PipelineClient, PageableClient 
     }
 
     public lazy var chat = Chat(client: self)
-    public lazy var chatThreadOperation = ChatThreadOperation(client: self)
+    public lazy var chatThread = ChatThread(client: self)
 
     // MARK: Public Client Methods
 }

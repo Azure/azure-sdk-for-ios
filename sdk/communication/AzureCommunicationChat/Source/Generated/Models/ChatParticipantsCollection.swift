@@ -16,11 +16,11 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Collection of participants belong to a particular thread.
-public struct ChatParticipantsCollection: Codable, Equatable {
+public struct ChatParticipantsCollection: Codable {
     // MARK: Properties
 
     /// Chat participants.
-    public let value: [ChatParticipant]
+    public let value: [ChatParticipantInternal]
     /// If there are more chat participants that can be retrieved, the next link will be populated.
     public let nextLink: String?
 
@@ -31,7 +31,7 @@ public struct ChatParticipantsCollection: Codable, Equatable {
     ///   - value: Chat participants.
     ///   - nextLink: If there are more chat participants that can be retrieved, the next link will be populated.
     public init(
-        value: [ChatParticipant], nextLink: String? = nil
+        value: [ChatParticipantInternal], nextLink: String? = nil
     ) {
         self.value = value
         self.nextLink = nextLink
@@ -47,7 +47,7 @@ public struct ChatParticipantsCollection: Codable, Equatable {
     /// Initialize a `ChatParticipantsCollection` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.value = try container.decode([ChatParticipant].self, forKey: .value)
+        self.value = try container.decode([ChatParticipantInternal].self, forKey: .value)
         self.nextLink = try? container.decode(String.self, forKey: .nextLink)
     }
 
