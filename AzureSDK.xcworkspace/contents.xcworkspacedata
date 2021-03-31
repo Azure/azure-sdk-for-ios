@@ -116,13 +116,6 @@
                </FileRef>
             </Group>
             <Group
-               location = "group:steps"
-               name = "steps">
-               <FileRef
-                  location = "group:verify-versions.yml">
-               </FileRef>
-            </Group>
-            <Group
                location = "group:variables"
                name = "variables">
                <FileRef
@@ -425,6 +418,9 @@
       <Group
          location = "group:scripts"
          name = "scripts">
+         <FileRef
+            location = "group:version.py">
+         </FileRef>
          <FileRef
             location = "group:build_api_docs.sh">
          </FileRef>
