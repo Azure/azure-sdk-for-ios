@@ -138,10 +138,12 @@ public class ChatMessageReceivedEvent: BaseChatMessageEvent {
             .decode(MessageReceivedPayload.self, from: requestJsonData)
 
         self.message = messageReceivedPayload.messageBody
+        // TODO: Hardcode "8:" as workaround to missing prefix in payload
+        let recipientId = "8:\(messageReceivedPayload.recipientId)"
         super.init(
             threadId: messageReceivedPayload.groupId,
             sender: TrouterEventUtil.getIdentifier(from: messageReceivedPayload.senderId),
-            recipient: TrouterEventUtil.getIdentifier(from: messageReceivedPayload.recipientId),
+            recipient: TrouterEventUtil.getIdentifier(from: recipientId),
             id: messageReceivedPayload.messageId,
             senderDisplayName: messageReceivedPayload.senderDisplayName,
             createdOn: Iso8601Date(string: messageReceivedPayload.originalArrivalTime),
@@ -664,7 +666,7 @@ public enum ChatEventId: String {
         case 258:
             self = .chatThreadPropertiesUpdated
         case 259:
-            self = .chatMessageDeleted
+            self = .chatThreadDeleted
         case 260:
             self = .participantsAdded
         case 261:
