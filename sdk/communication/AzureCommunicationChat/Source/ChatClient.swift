@@ -214,9 +214,9 @@ public class ChatClient {
                 // Initialize the signaling client
                 self.signalingClient = try CommunicationSignalingClient(token: token)
 
-                // Start notifications
+                // After successful initialization, start notifications
                 self.signalingClientStarted = true
-                self.signalingClient?.start()
+                self.signalingClient!.start()
 
                 completionHandler(.success(()))
             } catch {
@@ -229,8 +229,13 @@ public class ChatClient {
     /// Stop receiving realtime notifications.
     /// This function would unsubscribe to all events.
     public func stopRealTimeNotifications() {
+        if signalingClient == nil {
+            options.logger.warning("Signaling client is not initialized, realtime notifications have not been started.")
+            return
+        }
+
         signalingClientStarted = false
-        signalingClient?.stop()
+        signalingClient!.stop()
     }
 
     /// Subscribe to chat events.
@@ -241,7 +246,12 @@ public class ChatClient {
         event: ChatEventId,
         handler: @escaping EventHandler
     ) {
-        signalingClient?.on(event: event, handler: handler)
+        if signalingClient == nil {
+            options.logger.warning("Signaling client is not initialized, cannot register handler. Ensure startRealtimeNotifications() is called first.")
+            return
+        }
+
+        signalingClient!.on(event: event, handler: handler)
     }
 
     /// Unsubscribe to chat events.
@@ -250,6 +260,11 @@ public class ChatClient {
     public func unregister(
         event: ChatEventId
     ) {
-        signalingClient?.off(event: event)
+        if signalingClient == nil {
+            options.logger.warning("Signaling client is not initialized, cannot unregister handler. Ensure startRealtimeNotifications() is called first.")
+            return
+        }
+
+        signalingClient!.off(event: event)
     }
 }
