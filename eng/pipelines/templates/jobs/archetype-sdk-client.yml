@@ -126,7 +126,7 @@ jobs:
 
       - script: |
           pod lib lint --quick
-          pod spec lint --use-modular-headers
+          pod spec lint --use-modular-headers --quick
         displayName: Lint PodSpecs
 
       - script: |
