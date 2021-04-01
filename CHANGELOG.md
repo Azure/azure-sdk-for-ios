@@ -2,6 +2,13 @@
 
 ## 1.0.0-beta.10 (Unreleased)
 ### New Features
+**Azure Communication Chat**
+- `ChatClient` now supports Realtime Notifications for Chat events
+- Following methods added to `ChatClient`:
+  - `startRealtimeNotifications()`
+  - `stopRealtimeNotifications()`
+  - `register(event, handler)` registers handlers for Chat events
+  - `unregister(event)` unregisters handlers for Chat events
 
 ### Breaking Changes
 **Azure Communication**

@@ -35,6 +35,8 @@ public class ChatClient {
     private let credential: CommunicationTokenCredential
     private let options: AzureCommunicationChatClientOptions
     private let service: Chat
+    private var signalingClient: CommunicationSignalingClient?
+    private var signalingClientStarted: Bool = false
 
     // MARK: Initializers
 
@@ -191,5 +193,84 @@ public class ChatClient {
                 completionHandler(.failure(error), httpResponse)
             }
         }
+    }
+
+    /// Start receiving realtime notifications.
+    /// Call this function before subscribing to any event.
+    /// - Parameter completionHandler: Called when starting notifications has completed.
+    public func startRealTimeNotifications(completionHandler: @escaping (Result<Void, AzureError>) -> Void) {
+        guard signalingClientStarted == false else {
+            options.logger.warning("Realtime notifications have already started.")
+            return
+        }
+
+        // Retrieve the access token
+        credential.token { accessToken, error in
+            do {
+                guard let token = accessToken?.token else {
+                    throw AzureError.client("Failed to get token from credential.", error)
+                }
+
+                // Initialize the signaling client
+                self.signalingClient = try CommunicationSignalingClient(token: token)
+
+                // After successful initialization, start notifications
+                self.signalingClientStarted = true
+                self.signalingClient!.start()
+
+                completionHandler(.success(()))
+            } catch {
+                let azureError = AzureError.client("Failed to start realtime notifications.", error)
+                completionHandler(.failure(azureError))
+            }
+        }
+    }
+
+    /// Stop receiving realtime notifications.
+    /// This function would unsubscribe to all events.
+    public func stopRealTimeNotifications() {
+        if signalingClient == nil {
+            options.logger.warning("Signaling client is not initialized, realtime notifications have not been started.")
+            return
+        }
+
+        signalingClientStarted = false
+        signalingClient!.stop()
+    }
+
+    /// Subscribe to chat events.
+    /// - Parameters:
+    ///   - event: The chat event to subsribe to.
+    ///   - handler: The listener for the chat event.
+    public func register(
+        event: ChatEventId,
+        handler: @escaping EventHandler
+    ) {
+        if signalingClient == nil {
+            options.logger
+                .warning(
+                    "Signaling client is not initialized, cannot register handler. Ensure startRealtimeNotifications() is called first."
+                )
+            return
+        }
+
+        signalingClient!.on(event: event, handler: handler)
+    }
+
+    /// Unsubscribe to chat events.
+    /// - Parameters:
+    ///   - event: The chat event to subsribe to.
+    public func unregister(
+        event: ChatEventId
+    ) {
+        if signalingClient == nil {
+            options.logger
+                .warning(
+                    "Signaling client is not initialized, cannot unregister handler. Ensure startRealtimeNotifications() is called first."
+                )
+            return
+        }
+
+        signalingClient!.off(event: event)
     }
 }

@@ -32,7 +32,7 @@ import PackageDescription
 let package = Package(
     name: "AzureSDK",
     platforms: [
-        .macOS(.v10_15), .iOS(.v12), .tvOS(.v12)
+        .macOS(.v10_13), .iOS(.v12)
     ],
     products: [
         .library(name: "AzureCore", targets: ["AzureCore"]),
@@ -40,7 +40,8 @@ let package = Package(
         .library(name: "AzureCommunicationChat", targets: ["AzureCommunicationChat"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/AliSoftware/OHHTTPStubs.git", from: "9.1.0")
+        .package(url: "https://github.com/AliSoftware/OHHTTPStubs.git", from: "9.1.0"),
+        .package(name: "TrouterClientIos", url: "https://github.com/microsoft/trouter-client-ios.git", from: "0.0.1-beta.4")
     ],
     targets: [
         // Build targets
@@ -68,13 +69,12 @@ let package = Package(
         ),
         .target(
             name: "AzureCommunicationChat",
-            dependencies: ["AzureCore", "AzureCommunication"],
+            dependencies: [ "AzureCore", "AzureCommunication", "TrouterClientIos"],
             path: "sdk/communication/AzureCommunicationChat",
             exclude: [
                 "README.md",
                 "Tests",
-                "Source/Supporting Files",
-                "Package.swift"
+                "Source/Supporting Files"
             ],
             sources: ["Source"]
         ),
