@@ -54,19 +54,19 @@ jobs:
         displayName: 'Publish release archive [iphoneos]'
         artifact: 'archive-release-iphoneos'
 
-      - script: |
-          echo "Getting list of projects in scheme ${{parameters.BuildScheme}}"
-          xcodebuild -showBuildSettings \
-                     -workspace AzureSDK.xcworkspace \
-                     -scheme ${{parameters.BuildScheme}} \
-                     -configuration Release \
-          | grep PROJECT_FILE_PATH \
-          | awk -F ' = ' '{print $NF}' \
-          | while read PROJECT_PATH; do
-              PROJECT_NAME=$(echo $PROJECT_PATH | awk -F/ '{print $NF}' | sed 's/.xcodeproj//')
-              BCSYMBOLMAP_FILE=$(grep -l $PROJECT_NAME.build $(Build.ArtifactStagingDirectory)/AzureSDK-iphoneos.xcarchive/BCSymbolMaps/* | head -n1)
-              echo "Bundling xcframework for $PROJECT_NAME"
-              echo "Including BCSymbolMap at path $BCSYMBOLMAP_FILE"
+#     - script: |
+#          echo "Getting list of projects in scheme ${{parameters.BuildScheme}}"
+#          xcodebuild -showBuildSettings \
+#                     -workspace AzureSDK.xcworkspace \
+#                     -scheme ${{parameters.BuildScheme}} \
+#                     -configuration Release \
+#         | grep PROJECT_FILE_PATH \
+#          | awk -F ' = ' '{print $NF}' \
+            #| while read PROJECT_PATH; do
+            #              PROJECT_NAME=$(echo $PROJECT_PATH | awk -F/ '{print $NF}' | sed 's/.xcodeproj//')
+            #              BCSYMBOLMAP_FILE=$(grep -l $PROJECT_NAME.build $(Build.ArtifactStagingDirectory)/AzureSDK-iphoneos.xcarchive/BCSymbolMaps/* | head -n1)
+            #              echo "Bundling xcframework for $PROJECT_NAME"
+            #              echo "Including BCSymbolMap at path $BCSYMBOLMAP_FILE"
             #   xcodebuild -verbose -create-xcframework \
             #              -framework $(Build.ArtifactStagingDirectory)/AzureSDK-iphonesimulator.xcarchive/Products/Library/Frameworks/$PROJECT_NAME.framework \
             #                -debug-symbols $(Build.ArtifactStagingDirectory)/AzureSDK-iphonesimulator.xcarchive/dSYMs/$PROJECT_NAME.framework.dSYM \
@@ -75,7 +75,7 @@ jobs:
             #                -debug-symbols $BCSYMBOLMAP_FILE \
             #              -output $(Build.ArtifactStagingDirectory)/xcframeworks/$PROJECT_NAME.xcframework
             # done
-        displayName: 'Bundle release xcframeworks'
+#        displayName: 'Bundle release xcframeworks'
 
       # - publish: $(Build.ArtifactStagingDirectory)/xcframeworks
       #   displayName: 'Publish xcframeworks'
