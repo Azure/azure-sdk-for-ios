@@ -91,7 +91,8 @@ class CommunicationSignalingClient {
     }
 
     func on(event: ChatEventId, handler: @escaping EventHandler) {
-        let communicationHandler = CommunicationHandler(handler: handler)
+        let logger = ClientLoggers.default(tag: "AzureCommunicationHandler-\(event)")
+        let communicationHandler = CommunicationHandler(handler: handler, logger: logger)
         selfHostedTrouterClient.register(communicationHandler, forPath: "/\(event)")
         communicationHandlers[event] = communicationHandler
     }

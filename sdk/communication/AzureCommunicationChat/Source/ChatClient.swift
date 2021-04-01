@@ -247,7 +247,10 @@ public class ChatClient {
         handler: @escaping EventHandler
     ) {
         if signalingClient == nil {
-            options.logger.warning("Signaling client is not initialized, cannot register handler. Ensure startRealtimeNotifications() is called first.")
+            options.logger
+                .warning(
+                    "Signaling client is not initialized, cannot register handler. Ensure startRealtimeNotifications() is called first."
+                )
             return
         }
 
@@ -261,7 +264,10 @@ public class ChatClient {
         event: ChatEventId
     ) {
         if signalingClient == nil {
-            options.logger.warning("Signaling client is not initialized, cannot unregister handler. Ensure startRealtimeNotifications() is called first.")
+            options.logger
+                .warning(
+                    "Signaling client is not initialized, cannot unregister handler. Ensure startRealtimeNotifications() is called first."
+                )
             return
         }
 
