@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.10 (2021-04-02)
+## 1.0.0-beta.10 (2021-04-05)
 ### New Features
 **Azure Communication Chat**
 - `ChatClient` now supports Realtime Notifications for Chat events
