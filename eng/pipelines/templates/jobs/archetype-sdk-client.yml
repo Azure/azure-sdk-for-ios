@@ -120,14 +120,13 @@ jobs:
           Directory: ""
           CheckLinkGuidance: $true
 
-# FIXME: Version assumptions will no longer hold when each library can version independently
-#      - script: |
-#          python ./eng/scripts/version.py verify
-#        displayName: Verify Versions
+      - script: |
+          python ./eng/scripts/version.py verify
+        displayName: Verify Versions
 
       - script: |
-          pod lib lint --quick
-          pod spec lint --use-modular-headers
+          pod lib lint --sources=https://cdn.cocoapods.org/,https://github.com/Azure/azure-sdk-for-ios
+          pod spec lint --sources=https://cdn.cocoapods.org/,https://github.com/Azure/azure-sdk-for-ios
         displayName: Lint PodSpecs
 
       - script: |
