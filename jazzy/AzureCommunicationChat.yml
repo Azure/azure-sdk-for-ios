@@ -10,12 +10,15 @@ theme: fullwidth
 output: ../build/jazzy/AzureCommunicationChat
 clean: true
 sdk: iphonesimulator
-swift_build_tool: spm
-build_tool_arguments:
-  - "-Xswiftc"
-  - "-swift-version"
-  - "-Xswiftc"
-  - "5"
+xcodebuild_arguments:
+  - "-workspace"
+  - "AzureSDK.xcworkspace"
+  - "-scheme"
+  - "AzureCommunicationCalling"
+  - "-sdk"
+  - "iphonesimulator"
+  - "-arch"
+  - "x86_64"
 exclude:
   - "*/Source/ObjectiveCCompatibility/*"
   - "*/Tests/*"
