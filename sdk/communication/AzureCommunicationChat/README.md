@@ -188,8 +188,8 @@ Thread creation may result in partial errors, meaning the thread was successfull
 - `CreateChatThreadRequest` is the model to pass to this method. It contains the topic of the thread as well as the optional participants to create the thread with.
 
 - `CreateChatThreadResult` is the result returned from creating a thread.
-- `chatThread` is the Thread that was created
-- `errors` contains an array of errors for any invalid participants that failed to be added to the chat thread. 
+- `chatThread` is the `ChatThreadProperties` of the thread that was created.
+- `invalidParticipants` is an array of errors for any participants that failed to be added to the thread.
 
 ```swift
 let thread = CreateChatThreadRequest(
@@ -364,8 +364,8 @@ Use the `update` method of `ChatThreadClient` to update the content of a message
 - `messageId` is the unique ID of the message.
 
 ```swift
-let content = "New content"
-chatThreadClient.update(content: content, messageId: messageId) { result, _ in
+let newContent = "Some new message content"
+chatThreadClient.update(content: newContent, messageId: messageId) { result, _ in
     switch result {
     case .success(_):
         // Take further action
@@ -451,7 +451,7 @@ chatThreadClient.listParticipants() { result, _ in
 Use the `add` method to add one or more participants to a thread.
 
 - `participants` is an array of `ChatParticipant`'s to add
-- `AddChatParticipantsResult` is the model returned, it contains an invalidParticipants property that has an array of errors for any participants that failed to be added to the chat.
+- `AddChatParticipantsResult` is the model returned, it contains an invalidParticipants property that has an array of ChatErrors describing any participants that failed to be added to the chat.
 
 ```swift
 let threadParticipants = [ChatParticipant(
@@ -474,10 +474,10 @@ chatThreadClient.add(participants: threadParticipants) { result, _ in
 
 Use the `remove` method of `ChatThreadClient` to remove a participant from a thread.
 
-- `participant` is id of the participant to remove.
+- `participant` is the identifier of the participant to remove.
 
 ```swift
-chatThreadClient.remove(participant: participantId) { result, _ in
+chatThreadClient.remove(participant: participantIdentifier) { result, _ in
     switch result {
     case .success:
         // Take further action
