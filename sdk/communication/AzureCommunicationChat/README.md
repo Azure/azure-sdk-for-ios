@@ -158,6 +158,7 @@ ChatThreadClients should be created through the ChatClient. A ChatThreadClient i
 - [List messages](#list-messages)
 - [Update a message](#update-a-message)
 - [Delete a message](#delete-a-message)
+- [Receive messages from a thread](#receive-messages-from-a-thread)
 
 #### Thread Participant Operations
 
@@ -391,6 +392,33 @@ chatThreadClient.delete(message: messageId) { result, _ in
         // Display error message
     }
 }
+```
+
+#### Receive messages from a thread
+
+With realtime notifications enabled you can receive events when messages are sent to the thread. 
+To enable realtime notifications use the `startRealtimeNotifications` method of `ChatClient`. Starting notifications is an asynhronous operation.
+
+```swift
+chatClient.startRealTimeNotifications() { result in
+    switch result {
+    case .success:
+        // Notifications started
+    case let.failure(error):
+        // Handle failure
+    }
+}
+```
+
+To receive messages for a thread, use the `register` method of `ChatClient`.
+
+```swift
+func handler (response: Any, eventId: ChatEventId) {
+    // Handle chatMessageReceived event
+}
+                
+chatClient.register(event: ChatEventId.chatMessageReceived, handler: handler)
+
 ```
 
 ### Thread Participant Operations
