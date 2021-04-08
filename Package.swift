@@ -74,7 +74,8 @@ let package = Package(
             exclude: [
                 "README.md",
                 "Tests",
-                "Source/Supporting Files"
+                "Source/Supporting Files",
+                "Swagger/CONFIG.md"
             ],
             sources: ["Source"]
         ),
