@@ -7,12 +7,12 @@ Script to copy code from mono-repo to read-only clone.
 """
 
 import errno
+import glob
 import json
 import logging
 import os
 import shutil
 import sys
-import yaml
 
 def _log_error_and_quit(msg, out = None, err = None, code = 1):
     """ Log an error message and exit. """
@@ -38,32 +38,32 @@ def _copy(src, dest):
 Copies code from a relative path in the mono-repo to the read-only repo.
 """
 def main(argv):
-    usage = f'usage: {__file__} REL_PATH DEST_REPO'
+    usage = f'usage: {__file__} TARGET_SDK'
 
     if len(argv) != 1:
         _log_error_and_quit(f'usage: {__file__} TARGET_SDK')
 
     target = argv[0]
 
-    # Load the manifest where the metadata is registered
-    manifest_path = os.path.abspath(os.path.join(ROOT, 'manifest.yaml'))
-    with open(manifest_path, 'r') as yaml_in:
-        manifest = yaml.load(yaml_in.read(), Loader=yaml.SafeLoader)
-
     try:
-        source_path = os.path.abspath(os.path.join(ROOT, manifest[target]["source"]))
-        dest_path = os.path.abspath(os.path.join(ROOT, '..', manifest[target]["mirror"]))
+        source_path = os.path.abspath(glob.glob(f'sdk/**/{target}.podspec.json', recursive=True)[0])
+        if not os.path.exists(source_path):
+            _log_error_and_quit(f'Source path does not exist: {source_path}')
     except IndexError:
-        _log_error_and_quit(f'{target} not found in manifest.yaml')
+        _log_error_and_quit(f'Could not find {target}.podspec.json')
 
-    if not os.path.exists(source_path):
-        _log_error_and_quit(f'Source path does not exist: {source_path}')
-
+    dest_path = os.path.abspath(os.path.join(ROOT, '..', f'SwiftPM-{target}'))
     if not os.path.exists(dest_path):
         _log_error_and_quit(f'Destination path does not exist: {dest_path}')
 
+    # copy the subfolder to the root of the SwiftPM repo
     _copy(source_path, dest_path)
 
+    # copy the LICENSE and CCONTRIBUTING.md files
+    for fname in ["LICENSE", "CONTRIBUTING.md"]:
+        shutil.copyfile(os.path.join(ROOT, fname), os.path.join(dest_path, fname))
+
+    print(f'Successfully copied {target} from {src_path} to {dest_path}')
     sys.exit(0)
 
 

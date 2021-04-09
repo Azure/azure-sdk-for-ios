@@ -26,36 +26,49 @@
 // IN THE SOFTWARE.
 //
 // --------------------------------------------------------------------------
+
 import PackageDescription
 
 let package = Package(
-    name: "AzureCore",
+    name: "AzureCommunicationChat",
     platforms: [
-        .macOS(.v10_15), .iOS(.v12), .tvOS(.v12)
+        .macOS(.v10_13), .iOS(.v12)
     ],
     products: [
-        .library(name: "AzureCore", targets: ["AzureCore"])
+        .library(name: "AzureCommunicationChat", targets: ["AzureCommunicationChat"])
     ],
-    dependencies: [],
+    dependencies: [
+        .package(url: "https://github.com/Azure/SwiftPM-AzureCore.git", from: "master"),
+        .package(url: "https://github.com/Azure/SwiftPM-AzureCommunication.git", from: "master"),
+        .package(url: "https://github.com/AliSoftware/OHHTTPStubs.git", from: "9.1.0"),
+        .package(name: "TrouterClientIos", url: "https://github.com/microsoft/trouter-client-ios.git", from: "0.0.1-beta.4")
+    ],
     targets: [
         // Build targets
         .target(
-            name: "AzureCore",
-            dependencies: [],
+            name: "AzureCommunicationChat",
+            dependencies: [ "AzureCore", "AzureCommunication", "TrouterClientIos"],
             path: "Source",
             exclude: [
+                "README.md",
+                "Tests",
                 "Source/Supporting Files",
                 "LICENSE"
             ]
         ),
         // Test targets
         .testTarget(
-            name: "AzureCoreTests",
-            dependencies: ["AzureCore"],
+            name: "AzureCommunicationChatTests",
+            dependencies: [
+                "AzureCommunication",
+                "AzureCommunicationChat",
+                .product(name: "OHHTTPStubsSwift", package: "OHHTTPStubs"),
+            ],
             path: "Tests",
             exclude: [
                 "Info.plist",
-                "Data Files"
+                "Util/Mocks",
+                "Util/Recordings"
             ]
         )
     ],

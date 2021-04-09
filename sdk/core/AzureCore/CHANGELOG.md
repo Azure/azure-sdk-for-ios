@@ -1,11 +1,10 @@
 # Release History
 
-## 1.0.0-beta.10 (Unreleased)
+## 1.0.0-beta.11 (2021-04-07)
 ### New Features
 
 ### Breaking Changes
-**Azure Core**
-- Swift PM user should now target the `azure-sdk-for-ios-core` repo. 
+- Swift PM user should now target the `SwiftPM-AzureCore` repo. 
 - AzureCore can now version independently of other libraries.
 
 ## 1.0.0-beta.5 (2020-11-18)
@@ -24,5 +23,3 @@ our efforts can be found in the
 ### Added Libraries
 
 - Azure SDK for iOS core ([AzureCore](https://github.com/Azure/azure-sdk-for-ios/tree/master/sdk/core/AzureCore))
-- Azure Communication Services common ([AzureCommunication](https://github.com/Azure/azure-sdk-for-ios/tree/master/sdk/communication/AzureCommunication))
-  - This library is used by other libraries in this SDK, as well as by libraries in the [Azure Communication SDKs](https://github.com/Azure/Communication).

@@ -145,6 +145,7 @@
 		0A55FD2A254B2564002CBFD8 /* TestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestClient.swift; sourceTree = "<group>"; };
 		0A55FD2D254B25BD002CBFD8 /* TestPolicies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPolicies.swift; sourceTree = "<group>"; };
 		0A55FD30254B31AB002CBFD8 /* PipelineContextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineContextTests.swift; sourceTree = "<group>"; };
+		0A5DCA392621013300A9ABF3 /* AzureCore.podspec.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = AzureCore.podspec.json; sourceTree = "<group>"; };
 		0A6864B7233EAC76004B7E17 /* ContentDecodePolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentDecodePolicy.swift; sourceTree = "<group>"; };
 		0A6A9B4E234293B50013FCAA /* RegexUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegexUtil.swift; sourceTree = "<group>"; };
 		0A6C00D826151315002573E7 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
@@ -231,6 +232,7 @@
 		0A3A5D6C2315C89C00473FDA = {
 			isa = PBXGroup;
 			children = (
+				0A5DCA392621013300A9ABF3 /* AzureCore.podspec.json */,
 				0A6C00D92615131A002573E7 /* CHANGELOG.md */,
 				0A6C00DA2615131A002573E7 /* Package.swift */,
 				0A6C00D626151315002573E7 /* DataModels */,

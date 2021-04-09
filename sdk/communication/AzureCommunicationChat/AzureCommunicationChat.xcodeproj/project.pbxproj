@@ -135,6 +135,9 @@
 /* Begin PBXFileReference section */
 		04B336EEF1E42CCE389E4935 /* Pods-AzureCommunicationChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunicationChat.release.xcconfig"; path = "Target Support Files/Pods-AzureCommunicationChat/Pods-AzureCommunicationChat.release.xcconfig"; sourceTree = "<group>"; };
 		0A10411325D306B3008E472E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0A5DCA302620F95E00A9ABF3 /* AzureCommunicationChat.podspec.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = AzureCommunicationChat.podspec.json; sourceTree = "<group>"; };
+		0A5DCA322620F99400A9ABF3 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		0A5DCA352620FB7200A9ABF3 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		0ECA8CD1258181A5006760F7 /* ChatClientUnitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatClientUnitTests.swift; sourceTree = "<group>"; };
 		0ECA8CDE258188D0006760F7 /* GetThreadResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = GetThreadResponse.json; sourceTree = "<group>"; };
 		0ECA8CEA2582A52D006760F7 /* UnauthorizedError.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = UnauthorizedError.json; sourceTree = "<group>"; };
@@ -531,6 +534,9 @@
 		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
+				0A5DCA352620FB7200A9ABF3 /* CHANGELOG.md */,
+				0A5DCA322620F99400A9ABF3 /* Package.swift */,
+				0A5DCA302620F95E00A9ABF3 /* AzureCommunicationChat.podspec.json */,
 				D1D829BD25D1FFD700AC3CF3 /* README.md */,
 				OBJ_7 /* Sources */,
 				D1B7EAFA257F03A1004F384A /* Tests */,

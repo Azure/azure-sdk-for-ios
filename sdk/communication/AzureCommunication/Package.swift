@@ -26,36 +26,42 @@
 // IN THE SOFTWARE.
 //
 // --------------------------------------------------------------------------
+
 import PackageDescription
 
 let package = Package(
-    name: "AzureCore",
+    name: "AzureCommunication",
     platforms: [
-        .macOS(.v10_15), .iOS(.v12), .tvOS(.v12)
+        .macOS(.v10_13), .iOS(.v12)
     ],
     products: [
-        .library(name: "AzureCore", targets: ["AzureCore"])
+        .library(name: "AzureCommunication", targets: ["AzureCommunication"])
     ],
     dependencies: [],
     targets: [
         // Build targets
         .target(
-            name: "AzureCore",
-            dependencies: [],
+            name: "AzureCommunication",
+            dependencies: ["AzureCore"],
             path: "Source",
             exclude: [
+                "README.md",
+                "Tests",
                 "Source/Supporting Files",
                 "LICENSE"
             ]
         ),
         // Test targets
         .testTarget(
-            name: "AzureCoreTests",
-            dependencies: ["AzureCore"],
+            name: "AzureCommunicationTests",
+            dependencies: ["AzureCommunication"],
             path: "Tests",
             exclude: [
                 "Info.plist",
-                "Data Files"
+                "AzureCommunicationTests-Bridging-Header.h",
+                "ObjCCommunicationTokenCredentialTests.m",
+                "ObjCCommunicationTokenCredentialAsyncTests.m",
+                "ObjCTokenParserTests.m"
             ]
         )
     ],
