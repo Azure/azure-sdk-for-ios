@@ -30,7 +30,7 @@ def _copy(src, dest):
         shutil.copytree(src, dest, dirs_exist_ok=True)
     except OSError as err:
         if err.errno == errno.ENOTDIR:
-            shutil.move(src, dest)
+            shutil.copy2(src, dest)
         else:
             _log_error_and_quit(f'Error copying folder: {err}')
 
@@ -46,7 +46,7 @@ def main(argv):
     target = argv[0]
 
     try:
-        source_path = os.path.abspath(glob.glob(f'sdk/**/{target}.podspec.json', recursive=True)[0])
+        source_path = os.path.abspath(os.path.join(glob.glob(f'sdk/**/{target}.podspec.json', recursive=True)[0], ".."))
         if not os.path.exists(source_path):
             _log_error_and_quit(f'Source path does not exist: {source_path}')
     except IndexError:
@@ -61,9 +61,11 @@ def main(argv):
 
     # copy the LICENSE and CCONTRIBUTING.md files
     for fname in ["LICENSE", "CONTRIBUTING.md"]:
-        shutil.copyfile(os.path.join(ROOT, fname), os.path.join(dest_path, fname))
+        _copy(os.path.join(ROOT, fname), os.path.join(dest_path, fname))
 
-    print(f'Successfully copied {target} from {src_path} to {dest_path}')
+    print(f'Successfully copied {target}:')
+    print(f'  source: {source_path}')
+    print(f'  dest: {dest_path}')
     sys.exit(0)
 
 
