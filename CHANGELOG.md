@@ -1,16 +1,5 @@
 # Release History
 
-## 1.0.0-beta.12 (UNRELEASED)
-
-### New Features
-**SERVICE**
-
-### Breaking Changes
-**SERVICE**
-
-### Key Bug Fixes
-**SERVICE**
-
 ## 1.0.0-beta.12 (2021-04-13)
 Azure Communication Calling iOS SDK version `1.0.0-beta.12`.
 
