@@ -54,6 +54,7 @@ jobs:
         displayName: 'Publish release archive [iphoneos]'
         artifact: 'archive-release-iphoneos'
 
+# TODO: Temporarily disabled due to issue #794
 #     - script: |
 #          echo "Getting list of projects in scheme ${{parameters.BuildScheme}}"
 #          xcodebuild -showBuildSettings \
@@ -81,6 +82,7 @@ jobs:
       #   displayName: 'Publish xcframeworks'
       #   artifact: 'xcframeworks-release'
 
+# TODO: Temporarily disabled due to Trouter lacking macOS compatibility and issue #792
   # - job: 'SwiftBuild'
 
   #   variables:
@@ -120,9 +122,10 @@ jobs:
           Directory: ""
           CheckLinkGuidance: $true
 
-      - script: |
-          python ./eng/scripts/version.py verify
-        displayName: Verify Versions
+# TODO: Temporarily disabled due to issue #815
+#      - script: |
+#          python ./eng/scripts/version.py verify
+#        displayName: Verify Versions
 
       - script: |
           pod lib lint --quick
