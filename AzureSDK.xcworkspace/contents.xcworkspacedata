@@ -421,6 +421,12 @@
          <FileRef
             location = "group:/Users/travisprescott/repos/azure-sdk-for-ios/eng/scripts/sync_repo.py">
          </FileRef>
+         <FileRef
+            location = "group:/Users/travisprescott/repos/azure-sdk-for-ios/eng/scripts/podlint.sh">
+         </FileRef>
+         <FileRef
+            location = "group:util.py">
+         </FileRef>
       </Group>
       <FileRef
          location = "group:CHECKENFORCER">
