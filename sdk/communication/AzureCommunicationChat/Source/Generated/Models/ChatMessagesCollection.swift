@@ -20,7 +20,7 @@ public struct ChatMessagesCollection: Codable {
     // MARK: Properties
 
     /// Collection of chat messages.
-    public let value: [ChatMessageInternal]
+    internal let value: [ChatMessageInternal]
     /// If there are more chat messages that can be retrieved, the next link will be populated.
     public let nextLink: String?
 
@@ -30,7 +30,7 @@ public struct ChatMessagesCollection: Codable {
     /// - Parameters:
     ///   - value: Collection of chat messages.
     ///   - nextLink: If there are more chat messages that can be retrieved, the next link will be populated.
-    public init(
+    internal init(
         value: [ChatMessageInternal], nextLink: String? = nil
     ) {
         self.value = value

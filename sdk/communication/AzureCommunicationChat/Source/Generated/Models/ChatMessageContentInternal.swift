@@ -16,17 +16,17 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Content of a chat message.
-public struct ChatMessageContentInternal: Codable {
+internal struct ChatMessageContentInternal: Codable {
     // MARK: Properties
 
     /// Chat message content for messages of types text or html.
-    public let message: String?
+    internal let message: String?
     /// Chat message content for messages of type topicUpdated.
-    public let topic: String?
+    internal let topic: String?
     /// Chat message content for messages of types participantAdded or participantRemoved.
-    public let participants: [ChatParticipantInternal]?
+    internal let participants: [ChatParticipantInternal]?
     /// Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.
-    public let initiatorCommunicationIdentifier: CommunicationIdentifierModel?
+    internal let initiatorCommunicationIdentifier: CommunicationIdentifierModel?
 
     // MARK: Initializers
 
@@ -36,7 +36,7 @@ public struct ChatMessageContentInternal: Codable {
     ///   - topic: Chat message content for messages of type topicUpdated.
     ///   - participants: Chat message content for messages of types participantAdded or participantRemoved.
     ///   - initiatorCommunicationIdentifier: Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.
-    public init(
+    internal init(
         message: String? = nil, topic: String? = nil, participants: [ChatParticipantInternal]? = nil,
         initiatorCommunicationIdentifier: CommunicationIdentifierModel? = nil
     ) {
@@ -56,7 +56,7 @@ public struct ChatMessageContentInternal: Codable {
     }
 
     /// Initialize a `ChatMessageContentInternal` structure from decoder
-    public init(from decoder: Decoder) throws {
+    internal init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.message = try? container.decode(String.self, forKey: .message)
         self.topic = try? container.decode(String.self, forKey: .topic)
@@ -68,7 +68,7 @@ public struct ChatMessageContentInternal: Codable {
     }
 
     /// Encode a `ChatMessageContentInternal` structure
-    public func encode(to encoder: Encoder) throws {
+    internal func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         if message != nil { try? container.encode(message, forKey: .message) }
         if topic != nil { try? container.encode(topic, forKey: .topic) }
