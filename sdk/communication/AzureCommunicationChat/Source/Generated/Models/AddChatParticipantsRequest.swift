@@ -20,14 +20,14 @@ public struct AddChatParticipantsRequest: Codable {
     // MARK: Properties
 
     /// Participants to add to a chat thread.
-    public let participants: [ChatParticipantInternal]
+    internal let participants: [ChatParticipantInternal]
 
     // MARK: Initializers
 
     /// Initialize a `AddChatParticipantsRequest` structure.
     /// - Parameters:
     ///   - participants: Participants to add to a chat thread.
-    public init(
+    internal init(
         participants: [ChatParticipantInternal]
     ) {
         self.participants = participants

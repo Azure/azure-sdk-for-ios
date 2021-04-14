@@ -20,7 +20,7 @@ public struct ChatMessageReadReceiptsCollection: Codable {
     // MARK: Properties
 
     /// Collection of chat message read receipts.
-    public let value: [ChatMessageReadReceiptInternal]
+    internal let value: [ChatMessageReadReceiptInternal]
     /// If there are more chat message read receipts that can be retrieved, the next link will be populated.
     public let nextLink: String?
 
@@ -30,7 +30,7 @@ public struct ChatMessageReadReceiptsCollection: Codable {
     /// - Parameters:
     ///   - value: Collection of chat message read receipts.
     ///   - nextLink: If there are more chat message read receipts that can be retrieved, the next link will be populated.
-    public init(
+    internal init(
         value: [ChatMessageReadReceiptInternal], nextLink: String? = nil
     ) {
         self.value = value

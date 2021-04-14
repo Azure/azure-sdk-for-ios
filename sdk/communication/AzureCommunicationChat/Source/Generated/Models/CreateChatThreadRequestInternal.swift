@@ -16,13 +16,13 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Request payload for creating a chat thread.
-public struct CreateChatThreadRequestInternal: Codable {
+internal struct CreateChatThreadRequestInternal: Codable {
     // MARK: Properties
 
     /// The chat thread topic.
-    public let topic: String
+    internal let topic: String
     /// Participants to be added to the chat thread.
-    public let participants: [ChatParticipantInternal]?
+    internal let participants: [ChatParticipantInternal]?
 
     // MARK: Initializers
 
@@ -30,7 +30,7 @@ public struct CreateChatThreadRequestInternal: Codable {
     /// - Parameters:
     ///   - topic: The chat thread topic.
     ///   - participants: Participants to be added to the chat thread.
-    public init(
+    internal init(
         topic: String, participants: [ChatParticipantInternal]? = nil
     ) {
         self.topic = topic
@@ -45,14 +45,14 @@ public struct CreateChatThreadRequestInternal: Codable {
     }
 
     /// Initialize a `CreateChatThreadRequestInternal` structure from decoder
-    public init(from decoder: Decoder) throws {
+    internal init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.topic = try container.decode(String.self, forKey: .topic)
         self.participants = try? container.decode([ChatParticipantInternal].self, forKey: .participants)
     }
 
     /// Encode a `CreateChatThreadRequestInternal` structure
-    public func encode(to encoder: Encoder) throws {
+    internal func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(topic, forKey: .topic)
         if participants != nil { try? container.encode(participants, forKey: .participants) }
