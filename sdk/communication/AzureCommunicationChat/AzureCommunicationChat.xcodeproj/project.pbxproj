@@ -538,7 +538,7 @@
 				0A5DCA322620F99400A9ABF3 /* Package.swift */,
 				0A5DCA302620F95E00A9ABF3 /* AzureCommunicationChat.podspec.json */,
 				D1D829BD25D1FFD700AC3CF3 /* README.md */,
-				OBJ_7 /* Sources */,
+				OBJ_7 /* Source */,
 				D1B7EAFA257F03A1004F384A /* Tests */,
 				OBJ_113 /* Products */,
 				0A74765A2522918800819FC9 /* Frameworks */,
@@ -546,7 +546,7 @@
 			);
 			sourceTree = "<group>";
 		};
-		OBJ_7 /* Sources */ = {
+		OBJ_7 /* Source */ = {
 			isa = PBXGroup;
 			children = (
 				889FF7C82605161A00722630 /* Token */,
@@ -558,7 +558,6 @@
 				D15E98C925B7C80C00E63DB2 /* Generated */,
 				0A10411225D306B3008E472E /* Supporting Files */,
 			);
-			name = Sources;
 			path = Source;
 			sourceTree = SOURCE_ROOT;
 		};

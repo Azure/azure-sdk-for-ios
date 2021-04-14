@@ -8,10 +8,13 @@
          location = "group:communication"
          name = "communication">
          <FileRef
-            location = "group:AzureCommunicationChat/AzureCommunicationChat.xcodeproj">
+            location = "group:AzureCommunication/AzureCommunication.xcodeproj">
          </FileRef>
          <FileRef
-            location = "group:AzureCommunication/AzureCommunication.xcodeproj">
+            location = "group:AzureCommunicationCalling/AzureCommunicationCalling.xcodeproj">
+         </FileRef>
+         <FileRef
+            location = "group:AzureCommunicationChat/AzureCommunicationChat.xcodeproj">
          </FileRef>
       </Group>
       <Group
@@ -63,9 +66,6 @@
       </FileRef>
       <FileRef
          location = "group:Podfile">
-      </FileRef>
-      <FileRef
-         location = "group:Podfile.lock">
       </FileRef>
       <FileRef
          location = "group:Pods/Pods.xcodeproj">

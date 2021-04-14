@@ -37,6 +37,7 @@ Azure Communication Calling iOS SDK version `1.0.0-beta.12`.
 - Answering an incoming with Video not rendering for local participant.
 - SDK crash when another video guest user join the Teams meeting from Web/App. https://github.com/Azure/Communication/issues/216
 - Answer an incoming with Video does not show Video streams of remote user.
+
 ## 1.0.0-beta.11 (2021-04-07)
 ### New Features
 **Azure Communication Chat**
