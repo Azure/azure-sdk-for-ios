@@ -7,11 +7,12 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		0ACE96DC26277A9300CD5707 /* AzureCommunicationCalling.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = AzureCommunicationCalling.framework; path = "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/communication/AzureCommunicationCalling/build/Debug-iphoneos/AzureCommunicationCalling.framework"; sourceTree = "<absolute>"; };
 		0ACE96E926277AC600CD5707 /* AzureCommunicationCalling.podspec.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = AzureCommunicationCalling.podspec.json; sourceTree = "<group>"; };
 		0ACE96EB26277B3A00CD5707 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		0ACE96EC26277B3A00CD5707 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		0ACE96ED26277B3A00CD5707 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		0ACE96F42627926C00CD5707 /* AzureCommunicationCalling.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AzureCommunicationCalling.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0ACE96F72628A71000CD5707 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -28,11 +29,29 @@
 		0ACE96D226277A9300CD5707 = {
 			isa = PBXGroup;
 			children = (
+				0ACE96F52628A6D900CD5707 /* Source */,
 				0ACE96EB26277B3A00CD5707 /* CHANGELOG.md */,
 				0ACE96EC26277B3A00CD5707 /* Package.swift */,
 				0ACE96ED26277B3A00CD5707 /* README.md */,
 				0ACE96E926277AC600CD5707 /* AzureCommunicationCalling.podspec.json */,
+				0ACE96F42627926C00CD5707 /* AzureCommunicationCalling.framework */,
 			);
+			sourceTree = "<group>";
+		};
+		0ACE96F52628A6D900CD5707 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				0ACE96F62628A6DE00CD5707 /* Supporting Files */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		0ACE96F62628A6DE00CD5707 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0ACE96F72628A71000CD5707 /* Info.plist */,
+			);
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -63,7 +82,7 @@
 			);
 			name = AzureCommunicationCalling;
 			productName = AzureCommunicationCalling;
-			productReference = 0ACE96DC26277A9300CD5707 /* AzureCommunicationCalling.framework */;
+			productReference = 0ACE96F42627926C00CD5707 /* AzureCommunicationCalling.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -170,7 +189,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -228,7 +247,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -249,13 +268,14 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = AzureCommunicationCalling/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MARKETING_VERSION = "1.0.0-beta.12";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.AzureCommunicationCalling;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -273,13 +293,14 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = AzureCommunicationCalling/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MARKETING_VERSION = "1.0.0-beta.12";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.AzureCommunicationCalling;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

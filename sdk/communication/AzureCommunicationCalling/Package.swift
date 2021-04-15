@@ -46,7 +46,8 @@ let package = Package(
             path: "Source",
             exclude: [
                 "README.md",
-                "LICENSE"
+                "LICENSE",
+                "Source/Supporting Files"
             ]
         )
     ],
