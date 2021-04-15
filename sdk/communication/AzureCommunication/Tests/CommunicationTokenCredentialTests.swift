@@ -91,6 +91,21 @@ class CommunicationTokenCredentialTests: XCTestCase {
         }
     }
 
+    func test_DecodeTokenUsingDelegate() throws {
+        let expectation = XCTestExpectation()
+        let mockDelegate = MockTokenCredentialDelegate(testCase: self, expectation: expectation)
+
+        let userCredential = try CommunicationTokenCredential(withDelegate: mockDelegate, withToken: sampleToken)
+
+        userCredential.token(completionHandler: nil)
+
+        wait(for: [expectation], timeout: timeout)
+
+        let result = try XCTUnwrap(mockDelegate.accessToken)
+        XCTAssertEqual(sampleToken, result.token)
+        XCTAssertNil(mockDelegate.error)
+    }
+
     func test_ThrowsIfInvalidToken() throws {
         let invalidTokens = ["foo", "foo.bar", "foo.bar.foobar"]
 
@@ -124,6 +139,29 @@ class CommunicationTokenCredentialTests: XCTestCase {
         wait(for: [expectation], timeout: timeout)
     }
 
+    func test_RefreshTokenProactivelyWithDelegate_TokenAlreadyExpired() throws {
+        let expectation = XCTestExpectation()
+        let mockDelegate = MockTokenCredentialDelegate(testCase: self, expectation: expectation)
+
+        let tokenRefreshOptions = CommunicationTokenRefreshOptions(
+            initialToken: sampleExpiredToken,
+            refreshProactively: true,
+            tokenRefresher: fetchTokenSync
+        )
+
+        let userCredential = try CommunicationTokenCredential(
+            withDelegate: mockDelegate,
+            withOptions: tokenRefreshOptions
+        )
+        userCredential.token(completionHandler: nil)
+
+        wait(for: [expectation], timeout: timeout)
+
+        let result = try XCTUnwrap(mockDelegate.accessToken)
+        XCTAssertEqual(sampleToken, result.token)
+        XCTAssertNil(mockDelegate.error)
+    }
+
     func test_RefreshTokenProactively_FetchTokenReturnsError() throws {
         let expectation = XCTestExpectation()
 
@@ -147,6 +185,29 @@ class CommunicationTokenCredentialTests: XCTestCase {
         }
 
         wait(for: [expectation], timeout: timeout)
+    }
+
+    func test_RefreshTokenProactivelyWithDelegate_FetchTokenReturnsError() throws {
+        let expectation = XCTestExpectation()
+        let mockDelegate = MockTokenCredentialDelegate(testCase: self, expectation: expectation)
+
+        let tokenRefreshOptions = CommunicationTokenRefreshOptions(
+            initialToken: sampleExpiredToken,
+            refreshProactively: true,
+            tokenRefresher: fetchTokenSyncWithError
+        )
+
+        let userCredential = try CommunicationTokenCredential(
+            withDelegate: mockDelegate,
+            withOptions: tokenRefreshOptions
+        )
+        userCredential.token(completionHandler: nil)
+
+        wait(for: [expectation], timeout: timeout)
+
+        XCTAssertNil(mockDelegate.accessToken)
+        XCTAssertNotNil(mockDelegate.error)
+        XCTAssertEqual(mockDelegate.error.debugDescription.contains("Error while fetching token"), true)
     }
 
     func test_RefreshTokenProactively_TokenExpiringSoon() throws {
@@ -219,6 +280,30 @@ class CommunicationTokenCredentialTests: XCTestCase {
         wait(for: [expectation], timeout: timeout)
     }
 
+    func test_RefreshTokenOnDemandWithDelegate_SyncRefresh() throws {
+        let expectation = XCTestExpectation()
+        let mockDelegate = MockTokenCredentialDelegate(testCase: self, expectation: expectation)
+
+        let tokenRefreshOptions = CommunicationTokenRefreshOptions(
+            initialToken: sampleExpiredToken,
+            refreshProactively: false,
+            tokenRefresher: fetchTokenSync
+        )
+        let userCredential = try CommunicationTokenCredential(
+            withDelegate: mockDelegate,
+            withOptions: tokenRefreshOptions
+        )
+
+        userCredential.token(completionHandler: nil)
+
+        wait(for: [expectation], timeout: timeout)
+
+        XCTAssertNotNil(mockDelegate.accessToken)
+        XCTAssertNil(mockDelegate.error)
+        XCTAssertEqual(mockDelegate.accessToken?.token, sampleToken)
+        XCTAssertEqual(mockDelegate.accessToken?.expiresOn.timeIntervalSince1970, sampleTokenExpiry)
+    }
+
     func test_RefreshTokenOnDemand_AsyncRefresh() throws {
         let expectation = XCTestExpectation()
 
@@ -256,5 +341,28 @@ class CommunicationTokenCredentialTests: XCTestCase {
         // swiftlint:disable line_length
         return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.\(tokenStringData.base64EncodedString()).adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs"
         // swiftlint:enable line_length
+    }
+}
+
+class MockTokenCredentialDelegate: TokenCredentialDelegate {
+    private var expectation: XCTestExpectation?
+    private let testCase: XCTestCase
+
+    var accessToken: CommunicationAccessToken?
+    var error: Error?
+
+    init(testCase: XCTestCase, expectation: XCTestExpectation) {
+        self.testCase = testCase
+        self.expectation = expectation
+    }
+
+    func onTokenRetrieved(withToken token: CommunicationAccessToken?, error: Error?) {
+        if expectation != nil {
+            accessToken = token
+            self.error = error
+        }
+
+        expectation?.fulfill()
+        expectation = nil
     }
 }

@@ -33,9 +33,20 @@ public typealias CommunicationTokenCompletionHandler = (CommunicationAccessToken
 public typealias TokenRefreshHandler = (String?, Error?) -> Void
 
 /**
+ Optional delegate protocol for classes to conform
+ */
+public protocol TokenCredentialDelegate: AnyObject {
+    /**
+     Delegate method to return to the client the `AccessToken` or `Error`
+                             */
+    func onTokenRetrieved(withToken token: CommunicationAccessToken?, error: Error?)
+}
+
+/**
  The Azure Communication Services User token credential. This class is used to cache/refresh the access token required by Azure Communication Services.
  */
 @objcMembers public class CommunicationTokenCredential: NSObject {
+    weak var delegate: TokenCredentialDelegate?
     private let userTokenCredential: CommunicationTokenCredentialProviding
 
     /**
@@ -47,6 +58,19 @@ public typealias TokenRefreshHandler = (String?, Error?) -> Void
      */
     public init(token: String) throws {
         self.userTokenCredential = try StaticTokenCredential(token: token)
+    }
+
+    /**
+     Creates a static `CommunicationTokenCredential` object from the provided token.
+
+     - Parameter delegate: Delegate class conforming to `TokenCredentialDelegate`
+     - Parameter token: The static token to use for authenticating all requests.
+
+     - Throws: `AzureError` if the provided token is not a valid user token.
+     */
+    public init(withDelegate delegate: TokenCredentialDelegate, withToken token: String) throws {
+        self.userTokenCredential = try StaticTokenCredential(token: token)
+        self.delegate = delegate
     }
 
     /**
@@ -64,11 +88,37 @@ public typealias TokenRefreshHandler = (String?, Error?) -> Void
     }
 
     /**
+     Creates a CommunicationTokenCredential that automatically refreshes the token.
+     - Parameter delegate: Delegate class conforming to `TokenCredentialDelegate`
+     - Parameter option: Options for how the token will be refreshed
+     - Throws: `AzureError` if the provided token is not a valid user token.
+     */
+    public init(
+        withDelegate delegate: TokenCredentialDelegate,
+        withOptions options: CommunicationTokenRefreshOptions
+    ) throws {
+        self.userTokenCredential = try AutoRefreshTokenCredential(
+            tokenRefresher: options.tokenRefresher,
+            refreshProactively: options.refreshProactively,
+            initialToken: options.initialToken
+        )
+
+        self.delegate = delegate
+    }
+
+    /**
      Retrieve an access token from the credential.
-     - Parameter completionHandler: Closure that accepts an optional `AccessToken` or optional `Error` as parameters.
+     - Parameter completionHandler?: Closure that accepts an optional `AccessToken` or optional `Error` as parameters.
      `AccessToken` returns a token and an expiry date if applicable. `Error` returns `nil` if the current token can be returned.
      */
-    public func token(completionHandler: @escaping CommunicationTokenCompletionHandler) {
-        userTokenCredential.token(completionHandler: completionHandler)
+    public func token(completionHandler: CommunicationTokenCompletionHandler?) {
+        userTokenCredential.token(completionHandler: { [weak self] token, error in
+            completionHandler?(token, error)
+
+            guard let self = self,
+                let delegate = self.delegate else { return }
+
+            delegate.onTokenRetrieved(withToken: token, error: error)
+        })
     }
 }

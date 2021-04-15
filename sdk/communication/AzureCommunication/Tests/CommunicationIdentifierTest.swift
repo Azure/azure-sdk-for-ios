@@ -39,6 +39,7 @@ class CommunicationIdentifierTest: XCTestCase {
     let testPhoneNumber = "+12223334444"
     let testTeamsUserId = "Microsoft Teams User Id"
 
+    // swiftlint:disable function_body_length
     func test_IfIdIsOptional_EqualityOnlyTestIfPresentOnBothSide() throws {
         XCTAssertTrue(
             MicrosoftTeamsUserIdentifier(
