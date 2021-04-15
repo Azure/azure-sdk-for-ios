@@ -56,11 +56,22 @@ def main(argv):
     if not os.path.exists(dest_path):
         _log_error_and_quit(f'Destination path does not exist: {dest_path}')
 
+    # clear the files to ensure renames are correctly picked up.
+    for obj in os.listdir(dest_path):
+        # skip deleting .git
+        if obj in [".git"]:
+            continue
+        obj_path = os.path.join(dest_path, obj)
+        if os.path.isfile(obj_path):
+            os.unlink(obj_path)
+        else:
+            shutil.rmtree(obj_path)
+
     # copy the subfolder to the root of the SwiftPM repo
     _copy(source_path, dest_path)
 
-    # copy the LICENSE and CCONTRIBUTING.md files
-    for fname in ["LICENSE", "CONTRIBUTING.md"]:
+    # copy the LICENSE, CCONTRIBUTING.md, and .gitignore files
+    for fname in ["LICENSE", "CONTRIBUTING.md", ".gitignore"]:
         _copy(os.path.join(ROOT, fname), os.path.join(dest_path, fname))
 
     print(f'Successfully copied {target}:')
