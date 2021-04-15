@@ -28,6 +28,44 @@
 #import <AzureCommunication/AzureCommunication-Swift.h>
 #import <AzureCore/AzureCore-Swift.h>
 
+@interface MockTokenCredentialDelegate : NSObject <TokenCredentialDelegate>
+@property (nonatomic, strong) XCTestExpectation* expectation;
+@property (nonatomic, strong) XCTestCase* testCase;
+
+@property (nonatomic, strong) CommunicationAccessToken* accessToken;
+@property (nonatomic, strong) NSError* error;
+
+- (instancetype) initWithTestCase:(XCTestCase *) testCase
+                      expectation:(XCTestExpectation *) expectation;
+@end
+
+@implementation MockTokenCredentialDelegate
+
+- (instancetype) initWithTestCase:(XCTestCase *)testCase
+                                     expectation:(XCTestExpectation *) expectation {
+    self = [super init];
+    
+    if (self) {
+        self.testCase = testCase;
+        self.expectation = expectation;
+    }
+    
+    return self;
+}
+
+- (void)onTokenRetrievedWithToken:(CommunicationAccessToken * _Nullable) token
+                            error:(NSError * _Nullable) error {
+    if (self.expectation != nil) {
+        self.accessToken = token;
+        self.error = error;
+    }
+    
+    [self.expectation fulfill];
+    self.expectation = nil;
+}
+
+@end
+
 @interface ObjCCommunciationTokenCredentialTests : XCTestCase
 @property (nonatomic, strong) NSString *sampleToken;
 @property (nonatomic, strong) NSString *sampleExpiredToken;
@@ -70,6 +108,22 @@
     if (!isComplete) {
         XCTFail(@"test_ObjCDecodeToken timeout exceeded");
     }
+}
+
+- (void)test_ObjCDecodeTokenWithDelegate {
+    XCTestExpectation *excpetion = [[XCTestExpectation alloc] init];
+    MockTokenCredentialDelegate *mockDelegate = [[MockTokenCredentialDelegate alloc] initWithTestCase:self
+                                                                                          expectation:excpetion];
+    
+    CommunicationTokenCredential *userCredential = [[CommunicationTokenCredential alloc] initWithDelegate:mockDelegate
+                                                                                                withToken: self.sampleToken
+                                                                                                    error: nil];
+    [userCredential tokenWithCompletionHandler: nil];
+    [self waitForExpectations:@[excpetion] timeout: self.timeout];
+    
+    XCTAssertNil(mockDelegate.error);
+    XCTAssertEqual(mockDelegate.accessToken.token, self.sampleToken);
+    XCTAssertEqual(mockDelegate.accessToken.expiresOn.timeIntervalSince1970, self.sampleTokenExpiry);
 }
 
 - (void)test_ObjCRefreshTokenProactively_TokenAlreadyExpired {

@@ -35,10 +35,10 @@ public typealias TokenRefreshHandler = (String?, Error?) -> Void
 /**
  Optional delegate protocol for classes to conform
  */
-public protocol TokenCredentialDelegate: AnyObject {
+@objc public protocol TokenCredentialDelegate: AnyObject {
     /**
-     Delegate method to return to the client the `AccessToken` or `Error`
-                             */
+      Delegate method to return to the client the `AccessToken` or `Error`
+     */
     func onTokenRetrieved(withToken token: CommunicationAccessToken?, error: Error?)
 }
 
