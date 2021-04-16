@@ -97,7 +97,7 @@ class CommunicationTokenCredentialTests: XCTestCase {
 
         let userCredential = try CommunicationTokenCredential(withDelegate: mockDelegate, withToken: sampleToken)
 
-        userCredential.token(completionHandler: nil)
+        userCredential.token()
 
         wait(for: [expectation], timeout: timeout)
 
@@ -153,7 +153,7 @@ class CommunicationTokenCredentialTests: XCTestCase {
             withDelegate: mockDelegate,
             withOptions: tokenRefreshOptions
         )
-        userCredential.token(completionHandler: nil)
+        userCredential.token()
 
         wait(for: [expectation], timeout: timeout)
 
@@ -201,7 +201,7 @@ class CommunicationTokenCredentialTests: XCTestCase {
             withDelegate: mockDelegate,
             withOptions: tokenRefreshOptions
         )
-        userCredential.token(completionHandler: nil)
+        userCredential.token()
 
         wait(for: [expectation], timeout: timeout)
 
@@ -294,7 +294,7 @@ class CommunicationTokenCredentialTests: XCTestCase {
             withOptions: tokenRefreshOptions
         )
 
-        userCredential.token(completionHandler: nil)
+        userCredential.token()
 
         wait(for: [expectation], timeout: timeout)
 

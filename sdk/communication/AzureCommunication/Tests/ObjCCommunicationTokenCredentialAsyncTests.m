@@ -113,7 +113,7 @@ NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fS
                                                 initWithDelegate:mockDelegate
                                                 withOptions:tokenRefreshOptions
                                                 error:nil];
-    [credential tokenWithCompletionHandler: nil];
+    [credential token];
     
     [self waitForExpectations:@[expectation] timeout:self.timeout];
     
@@ -185,7 +185,7 @@ NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fS
                                                 initWithDelegate:mockDelegate
                                                 withOptions:tokenRefreshOptions
                                                 error:nil];
-    [credential tokenWithCompletionHandler: nil];
+    [credential token];
     
     [self waitForExpectations:@[expectation] timeout:self.timeout];
     

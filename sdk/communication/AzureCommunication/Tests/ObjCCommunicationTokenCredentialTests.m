@@ -82,7 +82,7 @@
     CommunicationTokenCredential *userCredential = [[CommunicationTokenCredential alloc] initWithDelegate:mockDelegate
                                                                                                 withToken: self.sampleToken
                                                                                                     error: nil];
-    [userCredential tokenWithCompletionHandler: nil];
+    [userCredential token];
     [self waitForExpectations:@[excpetion] timeout: self.timeout];
     
     XCTAssertNil(mockDelegate.error);
@@ -134,8 +134,6 @@
     MockTokenCredentialDelegate *mockDelegate = [[MockTokenCredentialDelegate alloc] initWithTestCase:self
                                                                                           expectation:excpetion];
     __weak ObjCCommunciationTokenCredentialTests *weakSelf = self;
-    __block BOOL isComplete = NO;
-    
     CommunicationTokenRefreshOptions *tokenRefreshOptions = [[CommunicationTokenRefreshOptions alloc]
                                                 initWithInitialToken:self.sampleExpiredToken
                                                 refreshProactively:YES
@@ -150,23 +148,12 @@
                                                     withOptions:tokenRefreshOptions
                                                     error:nil];
                                                 
-    [userCredential tokenWithCompletionHandler: ^(CommunicationAccessToken * _Nullable accessToken,
-                                                  NSError * _Nullable error) {
-             isComplete = YES;
-    }];
-        
-    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow: self.timeout];
-    while (isComplete == NO && [loopUntil timeIntervalSinceNow] > 0) {
-        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:loopUntil];
-    }
-
-    if (isComplete) {
-        XCTAssertNotNil(mockDelegate.accessToken);
-        XCTAssertNil(mockDelegate.error);
-        XCTAssertEqual(mockDelegate.accessToken.token, self.sampleToken);
-    } else {
-        XCTFail(@"test_ObjCRefreshTokenProactively_FetchTokenReturnsError timeout exceeded");
-    }
+    [userCredential token];
+    [self waitForExpectations:@[excpetion] timeout: self.timeout];
+    
+    XCTAssertNotNil(mockDelegate.accessToken);
+    XCTAssertNil(mockDelegate.error);
+    XCTAssertEqual(mockDelegate.accessToken.token, self.sampleToken);
 }
 
 
@@ -219,7 +206,6 @@
     XCTestExpectation *excpetion = [[XCTestExpectation alloc] init];
     MockTokenCredentialDelegate *mockDelegate = [[MockTokenCredentialDelegate alloc] initWithTestCase:self
                                                                                           expectation:excpetion];
-    __block BOOL isComplete = NO;
     NSString *errorDesc = @"Error while fetching token";
     
     CommunicationTokenRefreshOptions *tokenRefreshOptions = [[CommunicationTokenRefreshOptions alloc]
@@ -238,24 +224,12 @@
                                                                                           withOptions:tokenRefreshOptions
                                                                                                 error:nil];
                                                 
-    [userCredential tokenWithCompletionHandler: ^(CommunicationAccessToken * _Nullable accessToken,
-                                                  NSError * _Nullable error) {
-             isComplete = YES;
-    }];
+    [userCredential token];
+    [self waitForExpectations:@[excpetion] timeout: self.timeout];
     
-    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow: self.timeout];
-    while (isComplete == NO && [loopUntil timeIntervalSinceNow] > 0) {
-        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:loopUntil];
-    }
-
-    if (isComplete) {
-        XCTAssertNotNil(mockDelegate.error);
-        XCTAssertEqual([mockDelegate.error.localizedDescription containsString: errorDesc], YES);
-        XCTAssertNil(mockDelegate.accessToken);
-    } else {
-        XCTFail(@"test_ObjCRefreshTokenProactively_FetchTokenReturnsError timeout exceeded");
-    }
-    
+    XCTAssertNotNil(mockDelegate.error);
+    XCTAssertEqual([mockDelegate.error.localizedDescription containsString: errorDesc], YES);
+    XCTAssertNil(mockDelegate.accessToken);
 }
 
 
