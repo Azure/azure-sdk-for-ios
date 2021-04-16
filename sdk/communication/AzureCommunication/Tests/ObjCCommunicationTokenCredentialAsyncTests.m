@@ -28,6 +28,8 @@
 #import <AzureCommunication/AzureCommunication-Swift.h>
 #import <AzureCore/AzureCore-Swift.h>
 
+#import "MockTokenCredentialDelegate.h"
+
 @interface ObjCCommunicationTokenCredentialAsyncTests : XCTestCase
 @property (nonatomic, strong) NSString *sampleToken;
 @property (nonatomic) int fetchTokenCallCount;
@@ -88,6 +90,37 @@ NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fS
     }
 }
 
+- (void)test_ObjCRefreshTokenProactivelyWithDelegateTokenExpiringInOneMin {
+    XCTestExpectation *expectation = [[XCTestExpectation alloc] init];
+    MockTokenCredentialDelegate *mockDelegate = [[MockTokenCredentialDelegate alloc]
+                                                 initWithTestCase:self
+                                                 expectation:expectation];
+    __weak ObjCCommunicationTokenCredentialAsyncTests *weakSelf = self;
+    
+    NSString *token = [self generateTokenValidForMinutes: 1];
+    
+    CommunicationTokenRefreshOptions *tokenRefreshOptions = [[CommunicationTokenRefreshOptions alloc]
+                                                initWithInitialToken:token
+                                                refreshProactively:YES
+                                                tokenRefresher:
+                                                ^(void (^ block)
+                                                  (NSString * _Nullable newToken,
+                                                   NSError * _Nullable error)) {
+        block(weakSelf.sampleToken, nil);
+    }];
+    
+    CommunicationTokenCredential *credential = [[CommunicationTokenCredential alloc]
+                                                initWithDelegate:mockDelegate
+                                                withOptions:tokenRefreshOptions
+                                                error:nil];
+    [credential tokenWithCompletionHandler: nil];
+    
+    [self waitForExpectations:@[expectation] timeout:self.timeout];
+    
+    XCTAssertNotNil(mockDelegate.accessToken);
+    XCTAssertEqual(mockDelegate.accessToken.token, self.sampleToken);
+}
+
 - (void)test_ObjCRefreshTokenProactivelyTokenExpiringInNineMin {
     __weak ObjCCommunicationTokenCredentialAsyncTests *weakSelf = self;
     __block BOOL isComplete = NO;
@@ -127,6 +160,37 @@ NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fS
     if (!isComplete) {
         XCTFail(@"test_ObjCRefreshTokenProactivelyTokenExpiringInNineMin timeout exceeded");
     }
+}
+
+- (void)test_ObjCRefreshTokenProactivelyWithDelegateTokenExpiringInNineMin {
+    XCTestExpectation *expectation = [[XCTestExpectation alloc] init];
+    MockTokenCredentialDelegate *mockDelegate = [[MockTokenCredentialDelegate alloc]
+                                                 initWithTestCase:self
+                                                 expectation:expectation];
+    __weak ObjCCommunicationTokenCredentialAsyncTests *weakSelf = self;
+    
+    NSString *token = [self generateTokenValidForMinutes: 9];
+    
+    CommunicationTokenRefreshOptions *tokenRefreshOptions = [[CommunicationTokenRefreshOptions alloc]
+                                                initWithInitialToken:token
+                                                refreshProactively:YES
+                                                tokenRefresher:
+                                                ^(void (^ block)
+                                                  (NSString * _Nullable newToken,
+                                                   NSError * _Nullable error)) {
+        block(weakSelf.sampleToken, nil);
+    }];
+    
+    CommunicationTokenCredential *credential = [[CommunicationTokenCredential alloc]
+                                                initWithDelegate:mockDelegate
+                                                withOptions:tokenRefreshOptions
+                                                error:nil];
+    [credential tokenWithCompletionHandler: nil];
+    
+    [self waitForExpectations:@[expectation] timeout:self.timeout];
+    
+    XCTAssertNotNil(mockDelegate.accessToken);
+    XCTAssertEqual(mockDelegate.accessToken.token, self.sampleToken);
 }
 
 - (NSString *)generateTokenValidForMinutes: (int) minutes {

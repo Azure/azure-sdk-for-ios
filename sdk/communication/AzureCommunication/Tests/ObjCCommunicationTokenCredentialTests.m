@@ -28,43 +28,7 @@
 #import <AzureCommunication/AzureCommunication-Swift.h>
 #import <AzureCore/AzureCore-Swift.h>
 
-@interface MockTokenCredentialDelegate : NSObject <TokenCredentialDelegate>
-@property (nonatomic, strong) XCTestExpectation* expectation;
-@property (nonatomic, strong) XCTestCase* testCase;
-
-@property (nonatomic, strong) CommunicationAccessToken* accessToken;
-@property (nonatomic, strong) NSError* error;
-
-- (instancetype) initWithTestCase:(XCTestCase *) testCase
-                      expectation:(XCTestExpectation *) expectation;
-@end
-
-@implementation MockTokenCredentialDelegate
-
-- (instancetype) initWithTestCase:(XCTestCase *)testCase
-                                     expectation:(XCTestExpectation *) expectation {
-    self = [super init];
-    
-    if (self) {
-        self.testCase = testCase;
-        self.expectation = expectation;
-    }
-    
-    return self;
-}
-
-- (void)onTokenRetrievedWithToken:(CommunicationAccessToken * _Nullable) token
-                            error:(NSError * _Nullable) error {
-    if (self.expectation != nil) {
-        self.accessToken = token;
-        self.error = error;
-    }
-    
-    [self.expectation fulfill];
-    self.expectation = nil;
-}
-
-@end
+#import "MockTokenCredentialDelegate.h"
 
 @interface ObjCCommunciationTokenCredentialTests : XCTestCase
 @property (nonatomic, strong) NSString *sampleToken;
