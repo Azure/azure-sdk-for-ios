@@ -108,16 +108,29 @@ public typealias TokenRefreshHandler = (String?, Error?) -> Void
 
     /**
      Retrieve an access token from the credential.
-     - Parameter completionHandler: An optional closure that accepts an optional `AccessToken` or optional `Error` as parameters.
+     - Parameter completionHandler: Closure that accepts an optional `AccessToken` or optional `Error` as parameters.
      `AccessToken` returns a token and an expiry date if applicable. `Error` returns `nil` if the current token can be returned.
+     */
+    public func token(completionHandler: @escaping CommunicationTokenCompletionHandler) {
+        if delegate != nil {
+            let logger = ClientLoggers.default(tag: "CommunicationTokenCredential")
+            logger.info("TokenCredentialDelegate assigned but will not be called.")
+        }
+        userTokenCredential.token(completionHandler: completionHandler)
+    }
+
+    /**
+     Retrieve an access token from the credential.
      If your class assigned a delegate, this method will call the delegate method `TokenCredentialDelegate`
      */
-    public func token(completionHandler: CommunicationTokenCompletionHandler?) {
+    public func token() {
         userTokenCredential.token(completionHandler: { [weak self] token, error in
-            completionHandler?(token, error)
-
-            guard let self = self,
-                let delegate = self.delegate else { return }
+            guard let self = self else { return }
+            guard let delegate = self.delegate else {
+                let logger = ClientLoggers.default(tag: "CommunicationTokenCredential")
+                logger.info("Client has not set TokenCredentialDelegate")
+                return
+            }
 
             delegate.onTokenRetrieved(withToken: token, error: error)
         })
