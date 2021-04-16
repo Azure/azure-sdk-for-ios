@@ -16,13 +16,13 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Result of the create chat thread operation.
-internal struct CreateChatThreadResultInternal: Codable {
+public struct CreateChatThreadResultInternal: Codable {
     // MARK: Properties
 
     /// Chat thread.
-    internal let chatThread: ChatThreadPropertiesInternal?
+    public let chatThread: ChatThreadPropertiesInternal?
     /// The participants that failed to be added to the chat thread.
-    internal let invalidParticipants: [ChatError]?
+    public let invalidParticipants: [ChatError]?
 
     // MARK: Initializers
 
@@ -30,7 +30,7 @@ internal struct CreateChatThreadResultInternal: Codable {
     /// - Parameters:
     ///   - chatThread: Chat thread.
     ///   - invalidParticipants: The participants that failed to be added to the chat thread.
-    internal init(
+    public init(
         chatThread: ChatThreadPropertiesInternal? = nil, invalidParticipants: [ChatError]? = nil
     ) {
         self.chatThread = chatThread
@@ -45,14 +45,14 @@ internal struct CreateChatThreadResultInternal: Codable {
     }
 
     /// Initialize a `CreateChatThreadResultInternal` structure from decoder
-    internal init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.chatThread = try? container.decode(ChatThreadPropertiesInternal.self, forKey: .chatThread)
         self.invalidParticipants = try? container.decode([ChatError].self, forKey: .invalidParticipants)
     }
 
     /// Encode a `CreateChatThreadResultInternal` structure
-    internal func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         if chatThread != nil { try? container.encode(chatThread, forKey: .chatThread) }
         if invalidParticipants != nil { try? container.encode(invalidParticipants, forKey: .invalidParticipants) }

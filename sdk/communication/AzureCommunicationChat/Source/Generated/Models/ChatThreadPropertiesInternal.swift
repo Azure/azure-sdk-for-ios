@@ -16,19 +16,19 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Chat thread.
-internal struct ChatThreadPropertiesInternal: Codable {
+public struct ChatThreadPropertiesInternal: Codable {
     // MARK: Properties
 
     /// Chat thread id.
-    internal let id: String
+    public let id: String
     /// Chat thread topic.
-    internal let topic: String
+    public let topic: String
     /// The timestamp when the chat thread was created. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
-    internal let createdOn: Iso8601Date
+    public let createdOn: Iso8601Date
     /// Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.
-    internal let createdByCommunicationIdentifier: CommunicationIdentifierModel
+    public let createdByCommunicationIdentifier: CommunicationIdentifierModel
     /// The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
-    internal let deletedOn: Iso8601Date?
+    public let deletedOn: Iso8601Date?
 
     // MARK: Initializers
 
@@ -39,7 +39,7 @@ internal struct ChatThreadPropertiesInternal: Codable {
     ///   - createdOn: The timestamp when the chat thread was created. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     ///   - createdByCommunicationIdentifier: Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.
     ///   - deletedOn: The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
-    internal init(
+    public init(
         id: String, topic: String, createdOn: Iso8601Date,
         createdByCommunicationIdentifier: CommunicationIdentifierModel,
         deletedOn: Iso8601Date? = nil
@@ -62,7 +62,7 @@ internal struct ChatThreadPropertiesInternal: Codable {
     }
 
     /// Initialize a `ChatThreadPropertiesInternal` structure from decoder
-    internal init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(String.self, forKey: .id)
         self.topic = try container.decode(String.self, forKey: .topic)
@@ -75,7 +75,7 @@ internal struct ChatThreadPropertiesInternal: Codable {
     }
 
     /// Encode a `ChatThreadPropertiesInternal` structure
-    internal func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
         try container.encode(topic, forKey: .topic)

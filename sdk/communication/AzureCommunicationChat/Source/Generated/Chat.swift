@@ -17,7 +17,7 @@ import Foundation
 // swiftlint:disable type_body_length
 
 public final class Chat {
-    internal let client: AzureCommunicationChatClient
+    public let client: AzureCommunicationChatClient
 
     init(client: AzureCommunicationChatClient) {
         self.client = client
@@ -29,7 +29,7 @@ public final class Chat {
     ///    - options: A list of options for the operation
     ///    - completionHandler: A completion handler that receives a status code on
     ///     success.
-    internal func create(
+    public func create(
         chatThread: CreateChatThreadRequestInternal,
         withOptions options: CreateChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<CreateChatThreadResultInternal>
@@ -167,7 +167,7 @@ public final class Chat {
     ///    - options: A list of options for the operation
     ///    - completionHandler: A completion handler that receives a status code on
     ///     success.
-    internal func listChatThreads(
+    public func listChatThreads(
         withOptions options: ListChatThreadsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatThreadItem>>
     ) {
@@ -309,7 +309,7 @@ public final class Chat {
     ///    - options: A list of options for the operation
     ///    - completionHandler: A completion handler that receives a status code on
     ///     success.
-    internal func deleteChatThread(
+    public func deleteChatThread(
         chatThreadId: String,
         withOptions options: DeleteChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
