@@ -20,9 +20,9 @@ internal struct CreateChatThreadResultInternal: Codable {
     // MARK: Properties
 
     /// Chat thread.
-    internal let chatThread: ChatThreadProperties?
+    internal let chatThread: ChatThreadPropertiesInternal?
     /// The participants that failed to be added to the chat thread.
-    internal let invalidParticipants: [CommunicationError]?
+    internal let invalidParticipants: [ChatError]?
 
     // MARK: Initializers
 
@@ -31,7 +31,7 @@ internal struct CreateChatThreadResultInternal: Codable {
     ///   - chatThread: Chat thread.
     ///   - invalidParticipants: The participants that failed to be added to the chat thread.
     internal init(
-        chatThread: ChatThreadProperties? = nil, invalidParticipants: [CommunicationError]? = nil
+        chatThread: ChatThreadPropertiesInternal? = nil, invalidParticipants: [ChatError]? = nil
     ) {
         self.chatThread = chatThread
         self.invalidParticipants = invalidParticipants
@@ -45,14 +45,14 @@ internal struct CreateChatThreadResultInternal: Codable {
     }
 
     /// Initialize a `CreateChatThreadResultInternal` structure from decoder
-    public init(from decoder: Decoder) throws {
+    internal init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.chatThread = try? container.decode(ChatThreadProperties.self, forKey: .chatThread)
-        self.invalidParticipants = try? container.decode([CommunicationError].self, forKey: .invalidParticipants)
+        self.chatThread = try? container.decode(ChatThreadPropertiesInternal.self, forKey: .chatThread)
+        self.invalidParticipants = try? container.decode([ChatError].self, forKey: .invalidParticipants)
     }
 
     /// Encode a `CreateChatThreadResultInternal` structure
-    public func encode(to encoder: Encoder) throws {
+    internal func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         if chatThread != nil { try? container.encode(chatThread, forKey: .chatThread) }
         if invalidParticipants != nil { try? container.encode(invalidParticipants, forKey: .invalidParticipants) }

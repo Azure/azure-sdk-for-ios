@@ -28,7 +28,7 @@ internal struct ChatMessageInternal: Codable {
     /// Version of the chat message.
     internal let version: String
     /// Content of a chat message.
-    internal let content: ChatMessageContent?
+    internal let content: ChatMessageContentInternal?
     /// The display name of the chat message sender. This property is used to populate sender name for push notifications.
     internal let senderDisplayName: String?
     /// The timestamp when the chat message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
@@ -55,7 +55,8 @@ internal struct ChatMessageInternal: Codable {
     ///   - deletedOn: The timestamp (if applicable) when the message was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     ///   - editedOn: The last timestamp (if applicable) when the message was edited. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     internal init(
-        id: String, type: ChatMessageType, sequenceId: String, version: String, content: ChatMessageContent? = nil,
+        id: String, type: ChatMessageType, sequenceId: String, version: String,
+        content: ChatMessageContentInternal? = nil,
         senderDisplayName: String? = nil, createdOn: Iso8601Date,
         senderCommunicationIdentifier: CommunicationIdentifierModel? = nil, deletedOn: Iso8601Date? = nil,
         editedOn: Iso8601Date? = nil
@@ -88,13 +89,13 @@ internal struct ChatMessageInternal: Codable {
     }
 
     /// Initialize a `ChatMessageInternal` structure from decoder
-    public init(from decoder: Decoder) throws {
+    internal init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(String.self, forKey: .id)
         self.type = try container.decode(ChatMessageType.self, forKey: .type)
         self.sequenceId = try container.decode(String.self, forKey: .sequenceId)
         self.version = try container.decode(String.self, forKey: .version)
-        self.content = try? container.decode(ChatMessageContent.self, forKey: .content)
+        self.content = try? container.decode(ChatMessageContentInternal.self, forKey: .content)
         self.senderDisplayName = try? container.decode(String.self, forKey: .senderDisplayName)
         self.createdOn = try container.decode(Iso8601Date.self, forKey: .createdOn)
         self.senderCommunicationIdentifier = try? container.decode(
@@ -106,7 +107,7 @@ internal struct ChatMessageInternal: Codable {
     }
 
     /// Encode a `ChatMessageInternal` structure
-    public func encode(to encoder: Encoder) throws {
+    internal func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
         try container.encode(type, forKey: .type)

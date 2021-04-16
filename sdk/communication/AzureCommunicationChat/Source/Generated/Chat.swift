@@ -17,7 +17,7 @@ import Foundation
 // swiftlint:disable type_body_length
 
 public final class Chat {
-    public let client: AzureCommunicationChatClient
+    internal let client: AzureCommunicationChatClient
 
     init(client: AzureCommunicationChatClient) {
         self.client = client
@@ -29,16 +29,16 @@ public final class Chat {
     ///    - options: A list of options for the operation
     ///    - completionHandler: A completion handler that receives a status code on
     ///     success.
-    public func create(
-        chatThread: CreateChatThreadRequest,
+    internal func create(
+        chatThread: CreateChatThreadRequestInternal,
         withOptions options: CreateChatThreadOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<CreateChatThreadResult>
+        completionHandler: @escaping HTTPResultHandler<CreateChatThreadResultInternal>
     ) {
         let dispatchQueue = options?.dispatchQueue ?? client.commonOptions.dispatchQueue ?? DispatchQueue.main
 
         // Create request parameters
         let params = RequestParameters(
-            (.header, "repeatability-request-id", options?.repeatabilityRequestId, .encode), (
+            (.header, "repeatability-Request-Id", options?.repeatabilityRequestId, .encode), (
                 .uri,
                 "endpoint",
                 client.endpoint.absoluteString,
@@ -54,7 +54,7 @@ public final class Chat {
         }
         let urlTemplate = "/chat/threads"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-            let request = try? HTTPRequest(method: .post, url: requestUrl, headers: params.headers, data: requestBody)
+              let request = try? HTTPRequest(method: .post, url: requestUrl, headers: params.headers, data: requestBody)
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
@@ -88,7 +88,7 @@ public final class Chat {
                 ].contains(statusCode) {
                     do {
                         let decoder = JSONDecoder()
-                        let decoded = try decoder.decode(CreateChatThreadResult.self, from: data)
+                        let decoded = try decoder.decode(CreateChatThreadResultInternal.self, from: data)
                         dispatchQueue.async {
                             completionHandler(.success(decoded), httpResponse)
                         }
@@ -167,7 +167,7 @@ public final class Chat {
     ///    - options: A list of options for the operation
     ///    - completionHandler: A completion handler that receives a status code on
     ///     success.
-    public func listChatThreads(
+    internal func listChatThreads(
         withOptions options: ListChatThreadsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatThreadItem>>
     ) {
@@ -184,7 +184,7 @@ public final class Chat {
         // Construct request
         let urlTemplate = "/chat/threads"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-            let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers)
+              let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers)
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
@@ -309,7 +309,7 @@ public final class Chat {
     ///    - options: A list of options for the operation
     ///    - completionHandler: A completion handler that receives a status code on
     ///     success.
-    public func deleteChatThread(
+    internal func deleteChatThread(
         chatThreadId: String,
         withOptions options: DeleteChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
@@ -327,7 +327,7 @@ public final class Chat {
         // Construct request
         let urlTemplate = "/chat/threads/{chatThreadId}"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-            let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: params.headers)
+              let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: params.headers)
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return

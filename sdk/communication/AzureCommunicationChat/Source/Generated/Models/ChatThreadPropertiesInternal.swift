@@ -7,7 +7,6 @@
 // Changes may cause incorrect behavior and will be lost if the code is
 // regenerated.
 // --------------------------------------------------------------------------
-
 import AzureCore
 import Foundation
 // swiftlint:disable superfluous_disable_command
@@ -62,7 +61,7 @@ internal struct ChatThreadPropertiesInternal: Codable {
     }
 
     /// Initialize a `ChatThreadPropertiesInternal` structure from decoder
-    public init(from decoder: Decoder) throws {
+    internal init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(String.self, forKey: .id)
         self.topic = try container.decode(String.self, forKey: .topic)
@@ -75,7 +74,7 @@ internal struct ChatThreadPropertiesInternal: Codable {
     }
 
     /// Encode a `ChatThreadPropertiesInternal` structure
-    public func encode(to encoder: Encoder) throws {
+    internal func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
         try container.encode(topic, forKey: .topic)

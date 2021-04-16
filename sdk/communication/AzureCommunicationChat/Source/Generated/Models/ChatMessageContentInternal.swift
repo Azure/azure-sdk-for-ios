@@ -24,7 +24,7 @@ internal struct ChatMessageContentInternal: Codable {
     /// Chat message content for messages of type topicUpdated.
     internal let topic: String?
     /// Chat message content for messages of types participantAdded or participantRemoved.
-    internal let participants: [ChatParticipant]?
+    internal let participants: [ChatParticipantInternal]?
     /// Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.
     internal let initiatorCommunicationIdentifier: CommunicationIdentifierModel?
 
@@ -37,7 +37,7 @@ internal struct ChatMessageContentInternal: Codable {
     ///   - participants: Chat message content for messages of types participantAdded or participantRemoved.
     ///   - initiatorCommunicationIdentifier: Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.
     internal init(
-        message: String? = nil, topic: String? = nil, participants: [ChatParticipant]? = nil,
+        message: String? = nil, topic: String? = nil, participants: [ChatParticipantInternal]? = nil,
         initiatorCommunicationIdentifier: CommunicationIdentifierModel? = nil
     ) {
         self.message = message
@@ -56,11 +56,11 @@ internal struct ChatMessageContentInternal: Codable {
     }
 
     /// Initialize a `ChatMessageContentInternal` structure from decoder
-    public init(from decoder: Decoder) throws {
+    internal init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.message = try? container.decode(String.self, forKey: .message)
         self.topic = try? container.decode(String.self, forKey: .topic)
-        self.participants = try? container.decode([ChatParticipant].self, forKey: .participants)
+        self.participants = try? container.decode([ChatParticipantInternal].self, forKey: .participants)
         self.initiatorCommunicationIdentifier = try? container.decode(
             CommunicationIdentifierModel.self,
             forKey: .initiatorCommunicationIdentifier
@@ -68,7 +68,7 @@ internal struct ChatMessageContentInternal: Codable {
     }
 
     /// Encode a `ChatMessageContentInternal` structure
-    public func encode(to encoder: Encoder) throws {
+    internal func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         if message != nil { try? container.encode(message, forKey: .message) }
         if topic != nil { try? container.encode(topic, forKey: .topic) }
