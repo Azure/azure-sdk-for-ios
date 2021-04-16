@@ -76,7 +76,7 @@ public typealias TokenRefreshHandler = (String?, Error?) -> Void
     /**
      Creates a CommunicationTokenCredential that automatically refreshes the token.
      - Parameters:
-        - option: Options for how the token will be refreshed
+        - options: Options for how the token will be refreshed
      - Throws: `AzureError` if the provided token is not a valid user token.
      */
     public init(withOptions options: CommunicationTokenRefreshOptions) throws {
@@ -90,7 +90,7 @@ public typealias TokenRefreshHandler = (String?, Error?) -> Void
     /**
      Creates a CommunicationTokenCredential that automatically refreshes the token.
      - Parameter delegate: Delegate class conforming to `TokenCredentialDelegate`
-     - Parameter option: Options for how the token will be refreshed
+     - Parameter options: Options for how the token will be refreshed
      - Throws: `AzureError` if the provided token is not a valid user token.
      */
     public init(
@@ -108,8 +108,9 @@ public typealias TokenRefreshHandler = (String?, Error?) -> Void
 
     /**
      Retrieve an access token from the credential.
-     - Parameter completionHandler?: Closure that accepts an optional `AccessToken` or optional `Error` as parameters.
+     - Parameter completionHandler: An optional closure that accepts an optional `AccessToken` or optional `Error` as parameters.
      `AccessToken` returns a token and an expiry date if applicable. `Error` returns `nil` if the current token can be returned.
+     If your class assigned a delegate, this method will call the delegate method `TokenCredentialDelegate`
      */
     public func token(completionHandler: CommunicationTokenCompletionHandler?) {
         userTokenCredential.token(completionHandler: { [weak self] token, error in
