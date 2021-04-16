@@ -32,7 +32,7 @@ public final class ChatThread {
     public func listChatReadReceipts(
         chatThreadId: String,
         withOptions options: ListChatReadReceiptsOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatMessageReadReceiptInternal>>
+        completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatMessageReadReceipt>>
     ) {
         let dispatchQueue = options?.dispatchQueue ?? client.commonOptions.dispatchQueue ?? DispatchQueue.main
 
@@ -47,7 +47,7 @@ public final class ChatThread {
         // Construct request
         let urlTemplate = "/chat/threads/{chatThreadId}/readReceipts"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-              let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers)
+            let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers)
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
@@ -85,7 +85,7 @@ public final class ChatThread {
                             items: "value",
                             continuationToken: "nextLink"
                         )
-                        let paged = try PagedCollection<ChatMessageReadReceiptInternal>(
+                        let paged = try PagedCollection<ChatMessageReadReceipt>(
                             client: self.client,
                             request: request,
                             context: context,
@@ -196,7 +196,7 @@ public final class ChatThread {
         }
         let urlTemplate = "/chat/threads/{chatThreadId}/readReceipts"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-              let request = try? HTTPRequest(method: .post, url: requestUrl, headers: params.headers, data: requestBody)
+            let request = try? HTTPRequest(method: .post, url: requestUrl, headers: params.headers, data: requestBody)
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
@@ -328,7 +328,7 @@ public final class ChatThread {
         }
         let urlTemplate = "/chat/threads/{chatThreadId}/messages"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-              let request = try? HTTPRequest(method: .post, url: requestUrl, headers: params.headers, data: requestBody)
+            let request = try? HTTPRequest(method: .post, url: requestUrl, headers: params.headers, data: requestBody)
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
@@ -444,7 +444,7 @@ public final class ChatThread {
     public func listChatMessages(
         chatThreadId: String,
         withOptions options: ListChatMessagesOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatMessageInternal>>
+        completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatMessage>>
     ) {
         let dispatchQueue = options?.dispatchQueue ?? client.commonOptions.dispatchQueue ?? DispatchQueue.main
 
@@ -460,7 +460,7 @@ public final class ChatThread {
         // Construct request
         let urlTemplate = "/chat/threads/{chatThreadId}/messages"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-              let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers)
+            let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers)
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
@@ -498,7 +498,7 @@ public final class ChatThread {
                             items: "value",
                             continuationToken: "nextLink"
                         )
-                        let paged = try PagedCollection<ChatMessageInternal>(
+                        let paged = try PagedCollection<ChatMessage>(
                             client: self.client,
                             request: request,
                             context: context,
@@ -590,7 +590,7 @@ public final class ChatThread {
         chatThreadId: String,
         chatMessageId: String,
         withOptions options: GetChatMessageOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<ChatMessageInternal>
+        completionHandler: @escaping HTTPResultHandler<ChatMessage>
     ) {
         let dispatchQueue = options?.dispatchQueue ?? client.commonOptions.dispatchQueue ?? DispatchQueue.main
 
@@ -605,7 +605,7 @@ public final class ChatThread {
         // Construct request
         let urlTemplate = "/chat/threads/{chatThreadId}/messages/{chatMessageId}"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-              let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers)
+            let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers)
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
@@ -639,7 +639,7 @@ public final class ChatThread {
                 ].contains(statusCode) {
                     do {
                         let decoder = JSONDecoder()
-                        let decoded = try decoder.decode(ChatMessageInternal.self, from: data)
+                        let decoded = try decoder.decode(ChatMessage.self, from: data)
                         dispatchQueue.async {
                             completionHandler(.success(decoded), httpResponse)
                         }
@@ -745,12 +745,7 @@ public final class ChatThread {
         }
         let urlTemplate = "/chat/threads/{chatThreadId}/messages/{chatMessageId}"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-              let request = try? HTTPRequest(
-                  method: .patch,
-                  url: requestUrl,
-                  headers: params.headers,
-                  data: requestBody
-              )
+            let request = try? HTTPRequest(method: .patch, url: requestUrl, headers: params.headers, data: requestBody)
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
@@ -878,7 +873,7 @@ public final class ChatThread {
         // Construct request
         let urlTemplate = "/chat/threads/{chatThreadId}/messages/{chatMessageId}"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-              let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: params.headers)
+            let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: params.headers)
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
@@ -1004,7 +999,7 @@ public final class ChatThread {
         // Construct request
         let urlTemplate = "/chat/threads/{chatThreadId}/typing"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-              let request = try? HTTPRequest(method: .post, url: requestUrl, headers: params.headers)
+            let request = try? HTTPRequest(method: .post, url: requestUrl, headers: params.headers)
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
@@ -1115,7 +1110,7 @@ public final class ChatThread {
     public func listChatParticipants(
         chatThreadId: String,
         withOptions options: ListChatParticipantsOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatParticipantInternal>>
+        completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatParticipant>>
     ) {
         let dispatchQueue = options?.dispatchQueue ?? client.commonOptions.dispatchQueue ?? DispatchQueue.main
 
@@ -1130,7 +1125,7 @@ public final class ChatThread {
         // Construct request
         let urlTemplate = "/chat/threads/{chatThreadId}/participants"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-              let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers)
+            let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers)
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
@@ -1168,7 +1163,7 @@ public final class ChatThread {
                             items: "value",
                             continuationToken: "nextLink"
                         )
-                        let paged = try PagedCollection<ChatParticipantInternal>(
+                        let paged = try PagedCollection<ChatParticipant>(
                             client: self.client,
                             request: request,
                             context: context,
@@ -1279,7 +1274,7 @@ public final class ChatThread {
         }
         let urlTemplate = "/chat/threads/{chatThreadId}/participants/:remove"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-              let request = try? HTTPRequest(method: .post, url: requestUrl, headers: params.headers, data: requestBody)
+            let request = try? HTTPRequest(method: .post, url: requestUrl, headers: params.headers, data: requestBody)
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
@@ -1411,7 +1406,7 @@ public final class ChatThread {
         }
         let urlTemplate = "/chat/threads/{chatThreadId}/participants/:add"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-              let request = try? HTTPRequest(method: .post, url: requestUrl, headers: params.headers, data: requestBody)
+            let request = try? HTTPRequest(method: .post, url: requestUrl, headers: params.headers, data: requestBody)
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
@@ -1549,12 +1544,7 @@ public final class ChatThread {
         }
         let urlTemplate = "/chat/threads/{chatThreadId}"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-              let request = try? HTTPRequest(
-                  method: .patch,
-                  url: requestUrl,
-                  headers: params.headers,
-                  data: requestBody
-              )
+            let request = try? HTTPRequest(method: .patch, url: requestUrl, headers: params.headers, data: requestBody)
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
@@ -1665,7 +1655,7 @@ public final class ChatThread {
     public func getChatThreadProperties(
         chatThreadId: String,
         withOptions options: GetChatThreadPropertiesOptions? = nil,
-        completionHandler: @escaping HTTPResultHandler<ChatThreadPropertiesInternal>
+        completionHandler: @escaping HTTPResultHandler<ChatThreadProperties>
     ) {
         let dispatchQueue = options?.dispatchQueue ?? client.commonOptions.dispatchQueue ?? DispatchQueue.main
 
@@ -1680,7 +1670,7 @@ public final class ChatThread {
         // Construct request
         let urlTemplate = "/chat/threads/{chatThreadId}"
         guard let requestUrl = client.url(host: "{endpoint}", template: urlTemplate, params: params),
-              let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers)
+            let request = try? HTTPRequest(method: .get, url: requestUrl, headers: params.headers)
         else {
             client.options.logger.error("Failed to construct HTTP request.")
             return
@@ -1714,7 +1704,7 @@ public final class ChatThread {
                 ].contains(statusCode) {
                     do {
                         let decoder = JSONDecoder()
-                        let decoded = try decoder.decode(ChatThreadPropertiesInternal.self, from: data)
+                        let decoded = try decoder.decode(ChatThreadProperties.self, from: data)
                         dispatchQueue.async {
                             completionHandler(.success(decoded), httpResponse)
                         }

@@ -16,13 +16,13 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Result of the create chat thread operation.
-public struct CreateChatThreadResultInternal: Codable {
+internal struct CreateChatThreadResultInternal: Codable {
     // MARK: Properties
 
     /// Chat thread.
-    public let chatThread: ChatThreadPropertiesInternal?
+    internal let chatThread: ChatThreadProperties?
     /// The participants that failed to be added to the chat thread.
-    public let invalidParticipants: [ChatError]?
+    internal let invalidParticipants: [CommunicationError]?
 
     // MARK: Initializers
 
@@ -30,8 +30,8 @@ public struct CreateChatThreadResultInternal: Codable {
     /// - Parameters:
     ///   - chatThread: Chat thread.
     ///   - invalidParticipants: The participants that failed to be added to the chat thread.
-    public init(
-        chatThread: ChatThreadPropertiesInternal? = nil, invalidParticipants: [ChatError]? = nil
+    internal init(
+        chatThread: ChatThreadProperties? = nil, invalidParticipants: [CommunicationError]? = nil
     ) {
         self.chatThread = chatThread
         self.invalidParticipants = invalidParticipants
@@ -47,8 +47,8 @@ public struct CreateChatThreadResultInternal: Codable {
     /// Initialize a `CreateChatThreadResultInternal` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.chatThread = try? container.decode(ChatThreadPropertiesInternal.self, forKey: .chatThread)
-        self.invalidParticipants = try? container.decode([ChatError].self, forKey: .invalidParticipants)
+        self.chatThread = try? container.decode(ChatThreadProperties.self, forKey: .chatThread)
+        self.invalidParticipants = try? container.decode([CommunicationError].self, forKey: .invalidParticipants)
     }
 
     /// Encode a `CreateChatThreadResultInternal` structure

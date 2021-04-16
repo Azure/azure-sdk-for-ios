@@ -16,19 +16,19 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// The Communication Services error.
-public final class ChatError: Codable, Swift.Error {
+internal struct ChatError: Codable, Swift.Error {
     // MARK: Properties
 
     /// The error code.
-    public let code: String
+    internal let code: String
     /// The error message.
-    public let message: String
+    internal let message: String
     /// The error target.
-    public let target: String?
+    internal let target: String?
     /// Further details about specific errors that led to this error.
-    public let details: [ChatError]?
+    internal let details: [CommunicationError]?
     /// The inner error if any.
-    public let innerError: ChatError?
+    internal let innerError: CommunicationError?
 
     // MARK: Initializers
 
@@ -39,8 +39,9 @@ public final class ChatError: Codable, Swift.Error {
     ///   - target: The error target.
     ///   - details: Further details about specific errors that led to this error.
     ///   - innerError: The inner error if any.
-    public init(
-        code: String, message: String, target: String? = nil, details: [ChatError]? = nil, innerError: ChatError? = nil
+    internal init(
+        code: String, message: String, target: String? = nil, details: [CommunicationError]? = nil,
+        innerError: CommunicationError? = nil
     ) {
         self.code = code
         self.message = message
@@ -65,8 +66,8 @@ public final class ChatError: Codable, Swift.Error {
         self.code = try container.decode(String.self, forKey: .code)
         self.message = try container.decode(String.self, forKey: .message)
         self.target = try? container.decode(String.self, forKey: .target)
-        self.details = try? container.decode([ChatError].self, forKey: .details)
-        self.innerError = try? container.decode(ChatError.self, forKey: .innerError)
+        self.details = try? container.decode([CommunicationError].self, forKey: .details)
+        self.innerError = try? container.decode(CommunicationError.self, forKey: .innerError)
     }
 
     /// Encode a `ChatError` structure

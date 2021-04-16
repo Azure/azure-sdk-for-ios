@@ -20,7 +20,7 @@ public struct ChatMessagesCollection: Codable {
     // MARK: Properties
 
     /// Collection of chat messages.
-    public let value: [ChatMessageInternal]
+    public let value: [ChatMessage]
     /// If there are more chat messages that can be retrieved, the next link will be populated.
     public let nextLink: String?
 
@@ -31,7 +31,7 @@ public struct ChatMessagesCollection: Codable {
     ///   - value: Collection of chat messages.
     ///   - nextLink: If there are more chat messages that can be retrieved, the next link will be populated.
     public init(
-        value: [ChatMessageInternal], nextLink: String? = nil
+        value: [ChatMessage], nextLink: String? = nil
     ) {
         self.value = value
         self.nextLink = nextLink
@@ -47,7 +47,7 @@ public struct ChatMessagesCollection: Codable {
     /// Initialize a `ChatMessagesCollection` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.value = try container.decode([ChatMessageInternal].self, forKey: .value)
+        self.value = try container.decode([ChatMessage].self, forKey: .value)
         self.nextLink = try? container.decode(String.self, forKey: .nextLink)
     }
 
