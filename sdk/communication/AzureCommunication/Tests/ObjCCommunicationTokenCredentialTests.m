@@ -165,6 +165,34 @@
     }
 }
 
+- (void)test_ObjCRefreshTokenProactivelyWithDelegate_TokenAlreadyExpired {
+    XCTestExpectation *excpetion = [[XCTestExpectation alloc] init];
+    MockTokenCredentialDelegate *mockDelegate = [[MockTokenCredentialDelegate alloc] initWithTestCase:self
+                                                                                          expectation:excpetion];
+    __weak ObjCCommunciationTokenCredentialTests *weakSelf = self;
+    
+    CommunicationTokenRefreshOptions *tokenRefreshOptions = [[CommunicationTokenRefreshOptions alloc]
+                                                initWithInitialToken:self.sampleExpiredToken
+                                                refreshProactively:YES
+                                                tokenRefresher:^(void (^ block)
+                                                                 (NSString * _Nullable accessToken,
+                                                                  NSError * _Nullable error)) {
+        block(weakSelf.sampleToken, nil);
+    }];
+    
+    CommunicationTokenCredential *userCredential = [[CommunicationTokenCredential alloc] initWithDelegate:mockDelegate
+                                                                                          withOptions:tokenRefreshOptions
+                                                                                                error:nil];
+                                                
+    [userCredential tokenWithCompletionHandler: nil];
+    [self waitForExpectations:@[excpetion] timeout: self.timeout];
+    
+    XCTAssertNotNil(mockDelegate.accessToken);
+    XCTAssertNil(mockDelegate.error);
+    XCTAssertEqual(mockDelegate.accessToken.token, self.sampleToken);
+}
+
+
 - (void)test_ObjCRefreshTokenProactively_FetchTokenReturnsError {
     __weak ObjCCommunciationTokenCredentialTests *weakSelf = self;
     __block BOOL isComplete = NO;
@@ -208,5 +236,37 @@
         XCTFail(@"test_ObjCRefreshTokenProactively_FetchTokenReturnsError timeout exceeded");
     }
 }
+
+
+- (void)test_ObjCRefreshTokenProactivelyWithDelegate_FetchTokenReturnsError {
+    XCTestExpectation *excpetion = [[XCTestExpectation alloc] init];
+    MockTokenCredentialDelegate *mockDelegate = [[MockTokenCredentialDelegate alloc] initWithTestCase:self
+                                                                                          expectation:excpetion];
+    NSString *errorDesc = @"Error while fetching token";
+    
+    CommunicationTokenRefreshOptions *tokenRefreshOptions = [[CommunicationTokenRefreshOptions alloc]
+                                                initWithInitialToken:self.sampleExpiredToken
+                                                refreshProactively:YES
+                                                tokenRefresher:^(void (^ block)
+                                                                 (NSString * _Nullable accessToken,
+                                                                  NSError * _Nullable error)) {
+        NSDictionary *errorDictionary = @{ NSLocalizedDescriptionKey: errorDesc};
+        NSError *error = [[NSError alloc] initWithDomain:NSOSStatusErrorDomain code:400 userInfo:errorDictionary];
+        
+        block(nil, error);
+    }];
+    
+    CommunicationTokenCredential *userCredential = [[CommunicationTokenCredential alloc] initWithDelegate:mockDelegate
+                                                                                          withOptions:tokenRefreshOptions
+                                                                                                error:nil];
+                                                
+    [userCredential tokenWithCompletionHandler: nil];
+    [self waitForExpectations:@[excpetion] timeout: self.timeout];
+    
+    XCTAssertNotNil(mockDelegate.error);
+    XCTAssertEqual([mockDelegate.error.localizedDescription containsString: errorDesc], YES);
+    XCTAssertNil(mockDelegate.accessToken);
+}
+
 
 @end
