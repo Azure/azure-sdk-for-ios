@@ -15,9 +15,9 @@ import Foundation
 // swiftlint:disable identifier_name
 // swiftlint:disable line_length
 
-extension ChatThread {
+public extension ChatThread {
     /// User-configurable options for the `AzureCommunicationChatService.ListChatReadReceipts` operation.
-    public struct ListChatReadReceiptsOptions: RequestOptions {
+    struct ListChatReadReceiptsOptions: RequestOptions {
         /// The maximum number of chat message read receipts to be returned per page.
         public let maxPageSize: Int32?
         /// Skips chat message read receipts up to a specified position in response.

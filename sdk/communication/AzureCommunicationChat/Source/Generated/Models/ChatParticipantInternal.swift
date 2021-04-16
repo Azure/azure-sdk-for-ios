@@ -51,7 +51,7 @@ internal struct ChatParticipantInternal: Codable {
     }
 
     /// Initialize a `ChatParticipantInternal` structure from decoder
-    public init(from decoder: Decoder) throws {
+    internal init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.communicationIdentifier = try container.decode(
             CommunicationIdentifierModel.self,
@@ -62,7 +62,7 @@ internal struct ChatParticipantInternal: Codable {
     }
 
     /// Encode a `ChatParticipantInternal` structure
-    public func encode(to encoder: Encoder) throws {
+    internal func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(communicationIdentifier, forKey: .communicationIdentifier)
         if displayName != nil { try? container.encode(displayName, forKey: .displayName) }
