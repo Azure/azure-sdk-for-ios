@@ -93,8 +93,8 @@ NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fS
 - (void)test_ObjCRefreshTokenProactivelyWithDelegateTokenExpiringInOneMin {
     XCTestExpectation *expectation = [[XCTestExpectation alloc] init];
     MockTokenCredentialDelegate *mockDelegate = [[MockTokenCredentialDelegate alloc]
-                                                 initWithTestCase:self
-                                                 expectation:expectation];
+                                                 initWithTestCase: self
+                                                 expectation: expectation];
     __weak ObjCCommunicationTokenCredentialAsyncTests *weakSelf = self;
     
     NSString *token = [self generateTokenValidForMinutes: 1];
@@ -165,8 +165,8 @@ NSString const * kSampleTokenSignature = @"adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fS
 - (void)test_ObjCRefreshTokenProactivelyWithDelegateTokenExpiringInNineMin {
     XCTestExpectation *expectation = [[XCTestExpectation alloc] init];
     MockTokenCredentialDelegate *mockDelegate = [[MockTokenCredentialDelegate alloc]
-                                                 initWithTestCase:self
-                                                 expectation:expectation];
+                                                 initWithTestCase: self
+                                                 expectation: expectation];
     __weak ObjCCommunicationTokenCredentialAsyncTests *weakSelf = self;
     
     NSString *token = [self generateTokenValidForMinutes: 9];

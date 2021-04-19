@@ -33,7 +33,7 @@
 @implementation MockTokenCredentialDelegate
 
 - (instancetype) initWithTestCase:(XCTestCase *)testCase
-                                     expectation:(XCTestExpectation *) expectation {
+                      expectation:(XCTestExpectation *) expectation {
     self = [super init];
     
     if (self) {

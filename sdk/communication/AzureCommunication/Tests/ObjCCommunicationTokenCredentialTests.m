@@ -75,15 +75,16 @@
 }
 
 - (void)test_ObjCDecodeTokenWithDelegate {
-    XCTestExpectation *excpetion = [[XCTestExpectation alloc] init];
-    MockTokenCredentialDelegate *mockDelegate = [[MockTokenCredentialDelegate alloc] initWithTestCase:self
-                                                                                          expectation:excpetion];
+    XCTestExpectation *expectation = [[XCTestExpectation alloc] init];
+    MockTokenCredentialDelegate *mockDelegate = [[MockTokenCredentialDelegate alloc]
+                                                 initWithTestCase:self
+                                                 expectation: expectation];
     
     CommunicationTokenCredential *userCredential = [[CommunicationTokenCredential alloc] initWithDelegate:mockDelegate
                                                                                                 withToken: self.sampleToken
                                                                                                     error: nil];
     [userCredential token];
-    [self waitForExpectations:@[excpetion] timeout: self.timeout];
+    [self waitForExpectations:@[expectation] timeout: self.timeout];
     
     XCTAssertNil(mockDelegate.error);
     XCTAssertEqual(mockDelegate.accessToken.token, self.sampleToken);
@@ -130,9 +131,11 @@
 }
 
 - (void)test_ObjCRefreshTokenProactivelyWithDelegate_TokenAlreadyExpired {
-    XCTestExpectation *excpetion = [[XCTestExpectation alloc] init];
-    MockTokenCredentialDelegate *mockDelegate = [[MockTokenCredentialDelegate alloc] initWithTestCase:self
-                                                                                          expectation:excpetion];
+    XCTestExpectation *expectation = [[XCTestExpectation alloc] init];
+    MockTokenCredentialDelegate *mockDelegate = [[MockTokenCredentialDelegate alloc]
+                                                 initWithTestCase:self
+                                                 expectation: expectation];
+    
     __weak ObjCCommunciationTokenCredentialTests *weakSelf = self;
     CommunicationTokenRefreshOptions *tokenRefreshOptions = [[CommunicationTokenRefreshOptions alloc]
                                                 initWithInitialToken:self.sampleExpiredToken
@@ -149,7 +152,7 @@
                                                     error:nil];
                                                 
     [userCredential token];
-    [self waitForExpectations:@[excpetion] timeout: self.timeout];
+    [self waitForExpectations:@[expectation] timeout: self.timeout];
     
     XCTAssertNotNil(mockDelegate.accessToken);
     XCTAssertNil(mockDelegate.error);
@@ -203,9 +206,10 @@
 
 
 - (void)test_ObjCRefreshTokenProactivelyWithDelegate_FetchTokenReturnsError {
-    XCTestExpectation *excpetion = [[XCTestExpectation alloc] init];
-    MockTokenCredentialDelegate *mockDelegate = [[MockTokenCredentialDelegate alloc] initWithTestCase:self
-                                                                                          expectation:excpetion];
+    XCTestExpectation *expectation = [[XCTestExpectation alloc] init];
+    MockTokenCredentialDelegate *mockDelegate = [[MockTokenCredentialDelegate alloc]
+                                                 initWithTestCase: self
+                                                 expectation: expectation];
     NSString *errorDesc = @"Error while fetching token";
     
     CommunicationTokenRefreshOptions *tokenRefreshOptions = [[CommunicationTokenRefreshOptions alloc]
@@ -225,12 +229,12 @@
                                                                                                 error:nil];
                                                 
     [userCredential token];
-    [self waitForExpectations:@[excpetion] timeout: self.timeout];
+    
+    [self waitForExpectations:@[expectation] timeout: self.timeout];
     
     XCTAssertNotNil(mockDelegate.error);
     XCTAssertEqual([mockDelegate.error.localizedDescription containsString: errorDesc], YES);
     XCTAssertNil(mockDelegate.accessToken);
 }
-
 
 @end
