@@ -32,22 +32,30 @@ import PackageDescription
 let package = Package(
     name: "AzureCommunicationChat",
     platforms: [
-        .macOS(.v10_13), .iOS(.v12)
+        .iOS(.v12)
     ],
     products: [
         .library(name: "AzureCommunicationChat", targets: ["AzureCommunicationChat"])
     ],
     dependencies: [
-        .package(url: "https://github.com/Azure/SwiftPM-AzureCore.git", from: "master"),
-        .package(url: "https://github.com/Azure/SwiftPM-AzureCommunication.git", from: "master"),
+        .package(name: "AzureCore", url: "https://github.com/Azure/SwiftPM-AzureCore.git", .branch("master")),
+        .package(
+            name: "AzureCommunication",
+            url: "https://github.com/Azure/SwiftPM-AzureCommunication.git",
+            .branch("master")
+        ),
         .package(url: "https://github.com/AliSoftware/OHHTTPStubs.git", from: "9.1.0"),
-        .package(name: "TrouterClientIos", url: "https://github.com/microsoft/trouter-client-ios.git", from: "0.0.1-beta.4")
+        .package(
+            name: "TrouterClientIos",
+            url: "https://github.com/microsoft/trouter-client-ios.git",
+            from: "0.0.1-beta.4"
+        )
     ],
     targets: [
         // Build targets
         .target(
             name: "AzureCommunicationChat",
-            dependencies: [ "AzureCore", "AzureCommunication", "TrouterClientIos"],
+            dependencies: ["AzureCore", "AzureCommunication", "TrouterClientIos"],
             path: "Source",
             exclude: [
                 "README.md",
@@ -62,7 +70,7 @@ let package = Package(
             dependencies: [
                 "AzureCommunication",
                 "AzureCommunicationChat",
-                .product(name: "OHHTTPStubsSwift", package: "OHHTTPStubs"),
+                .product(name: "OHHTTPStubsSwift", package: "OHHTTPStubs")
             ],
             path: "Tests",
             exclude: [

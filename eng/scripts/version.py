@@ -52,8 +52,8 @@ Returns a dictionary of Modules and versions from the podspec files
 """
 def _get_podspec_versions():
     versions = {}
-    pattern = os.path.join(ROOT, '*.podspec.json')
-    podspec_files = glob.glob(pattern)
+    pattern = os.path.join(ROOT, 'sdk', '**', '*.podspec.json')
+    podspec_files = glob.glob(pattern, recursive=True)
     for path in podspec_files:
         module_name = os.path.basename(os.path.normpath(path.split('.', maxsplit=1)[0]))
         with open(path, mode='r') as f:
@@ -63,32 +63,24 @@ def _get_podspec_versions():
 
 
 """
-Returns a list of Modules defined in Package.swift
+Returns a list of modules which have a Package.swift file.
 """
 def _get_spm_modules():
-    with open(os.path.join(ROOT, 'Package.swift'), mode='r') as f:
-        data = f.read()
-    modules = re.findall(r'library\(\s*name:\s*"([a-zA-Z]+)"', data)
+    modules = []
+    pattern = os.path.join(ROOT, 'sdk', '**', 'Package.swift')
+    package_files = glob.glob(pattern, recursive=True)
+    for path in package_files:
+        _, package_name = os.path.split(os.path.split(path)[0])
+        modules.append(package_name)
     return modules
 
 
 """
-Ensures that all Xcodeproj files, Podspecs and Package.swift have the same versions.
+Check Xcodeproj files, Podspecs and Package.swift for consistency.
 """
 def verify(argv):
     xcodeproj_versions = _get_xcodeproj_versions()
-    if len(set(xcodeproj_versions.values())) != 1:
-        _log_error_and_quit(f'Incompatible versions within Xcodeproj files: {xcodeproj_versions}')
-    xcodeproj_version = list(set(xcodeproj_versions.values()))[0]
-
     podspec_versions = _get_podspec_versions()
-    if len(set(podspec_versions.values())) != 1:
-        _log_error_and_quit(f'Incompatible versions within Podspec files: {podspec_versions}')
-    podspec_version = list(set(podspec_versions.values()))[0]
-
-    if xcodeproj_version != podspec_version:
-        _log_error_and_quit(f'Podspec versions {podspec_versions} doesn\'t match Xcodeproj versions {xcodeproj_versions}')
-
     swift_modules = _get_spm_modules()
     for module in swift_modules:
         if module not in podspec_versions:
@@ -98,6 +90,10 @@ def verify(argv):
     for module in podspec_versions.keys():
         if module not in swift_modules:
             logging.warning(f'Module {module} has a podspec but is not in Package.swift. It cannot be acquired via SPM.')
+        if module not in xcodeproj_versions:
+            _log_error_and_quit(f'Module {module} has a podspec but no Xcodeproj file.')
+        elif podspec_versions[module] != xcodeproj_versions[module]:
+            _log_error_and_quit(f'Module {module} has a podspec version {podspec_versions[module]} but an Xcodeproj version {xcodeproj_versions[module]}.')
 
     # warn for modules which are not released in any form
     for module in xcodeproj_versions.keys():
@@ -112,13 +108,16 @@ def verify(argv):
 Outputs the current version of the Azure SDK for iOS.
 """
 def current(argv):
-    xcodeproj_versions = _get_xcodeproj_versions()
-    if len(set(xcodeproj_versions.values())) != 1:
-        _log_error_and_quit(f'Incompatible versions within Xcodeproj files: {xcodeproj_versions}')
-    xcodeproj_version = list(set(xcodeproj_versions.values()))[0]
+    if len(argv) != 1:
+        _log_error_and_quit(f'usage: {__file__} current package_name')
 
-    # all checks successful, return version
-    print(xcodeproj_version)
+    package_name = argv[0]
+
+    xcodeproj_versions = _get_xcodeproj_versions()
+    try:
+        print(xcodeproj_versions[package_name])
+    except KeyError:
+        _log_error_and_quit(f'Package {package_name} not found.')
     sys.exit(0)
 
 
@@ -131,59 +130,67 @@ def _update_file(path, old, new):
 
 
 """
-Updates the version, source and dependency info for podspec files
+Updates the version, source and dependency info for specified podspec files
 """
-def _update_podspecs(old, new):
-    podspec_files = glob.glob(r'*.podspec.json')
-    module_names = set([name.split('.')[0] for name in podspec_files])
-    for path in podspec_files:
-        with open(path, 'r') as f:
-            data = json.loads(f.read())
-
-        data['version'] = new
-        source = data.get('source', None)
-        if source:
-            if source.get('http', None):
-                source['http'] = source['http'].replace(old, new)
-            if source.get('tag', None):
-                source['tag'] = new
-
-        dependencies = data.get('dependencies', None)
-        for key, vals in (dependencies or {}).items():
-            if key in module_names:
-                dependencies[key] = [val.replace(old, new) for val in vals]
-
-        with open(path, 'w') as f:
-            f.write(json.dumps(data, indent=2, ensure_ascii=False))
-
-
-"""
-Updates the marketing version key for all Xcodeproj files
-"""
-def _update_xcodeproj(old, new):
-    xcodeproj_files = glob.glob(r'sdk/*/*/*.xcodeproj/project.pbxproj')
-    for path in xcodeproj_files:
-        with open(path, 'r') as f:
-            data = f.readlines()
-
-        with open(path, 'w') as f:
-            for line in data:
-                if "MARKETING_VERSION" in line:
-                    f.write(line.replace(old, new))
-                else:
-                    f.write(line)
+def _update_podspecs(old, new, modules):
+    all_podspec_files = glob.glob(r'sdk/*/*/*.podspec.json')
+    module_names = set([name.split('.')[0] for name in all_podspec_files])
+    print(module_names)
+    print(modules)
+    for path in all_podspec_files:
+        pass
+#        with open(path, 'r') as f:
+#            data = json.loads(f.read())
+#
+#        data['version'] = new
+#        source = data.get('source', None)
+#        if source:
+#            if source.get('http', None):
+#                source['http'] = source['http'].replace(old, new)
+#            if source.get('tag', None):
+#                source['tag'] = new
+#
+#        dependencies = data.get('dependencies', None)
+#        for key, vals in (dependencies or {}).items():
+#            if key in module_names:
+#                dependencies[key] = [val.replace(old, new) for val in vals]
+#
+#        with open(path, 'w') as f:
+#            f.write(json.dumps(data, indent=2, ensure_ascii=False))
 
 
 """
-Updates the current version across Xcodeproj files, Package.swift, Jazzy files, and Podspecs.
+Updates the marketing version key for specified Xcodeproj files
+"""
+def _update_xcodeproj(old, new, modules):
+    all_xcodeproj_files = glob.glob(r'sdk/*/*/*.xcodeproj/project.pbxproj')
+    print(all_xcodeproj_files)
+#    for path in xcodeproj_files:
+#        with open(path, 'r') as f:
+#            data = f.readlines()
+#
+#        with open(path, 'w') as f:
+#            for line in data:
+#                if "MARKETING_VERSION" in line:
+#                    f.write(line.replace(old, new))
+#                else:
+#                    f.write(line)
+
+
+"""
+Updates the current version across Xcodeproj files, Jazzy files, and Podspecs.
 """
 def update(argv):
 
-    if len(argv) != 2:
-        _log_error_and_quit(f'usage: {__file__} update old_version new_version')
+    if len(argv) < 3:
+        _log_error_and_quit(f'usage: {__file__} update old_version new_version [package_name ...]')
 
     old = argv[0]
     new = argv[1]
+    modules = argv[2:]
+
+    if "." not in old or "." not in new:
+        _log_error_and_quit(f'usage: {__file__} update old_version new_version [package_name ...]')
 
     # TODO: maybe (?) update CHANGELOG.md
 
@@ -191,11 +198,14 @@ def update(argv):
         'README.md',
         'eng/ignore-links.txt'
     ]
-    files_to_update += glob.glob(r'jazzy/*.yml')
+    for mod in modules:
+        files_to_update.append(f'jazzy/{mod}.yml')
+
     for path in files_to_update:
-        _update_file(path, old, new)
-    _update_podspecs(old, new)
-    _update_xcodeproj(old, new)
+        pass
+        #_update_file(path, old, new)
+    _update_podspecs(old, new, modules)
+    _update_xcodeproj(old, new, modules)
 
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))

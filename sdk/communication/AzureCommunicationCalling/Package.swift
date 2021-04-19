@@ -32,7 +32,7 @@ import PackageDescription
 let package = Package(
     name: "AzureCommunicationCalling",
     platforms: [
-        .macOS(.v10_13), .iOS(.v12)
+        .macOS(.v10_15), .iOS(.v12)
     ],
     products: [
         .library(name: "AzureCommunicationCalling", targets: ["AzureCommunicationCalling"])
