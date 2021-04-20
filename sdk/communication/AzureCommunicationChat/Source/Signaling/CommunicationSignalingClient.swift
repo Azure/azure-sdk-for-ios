@@ -46,11 +46,10 @@ class CommunicationSignalingClient {
             skypetokenProvider: communicationSkypeTokenProvider
         )
 
-        let communicationCache = CommunicationCache()
         selfHostedTrouterClient = SelfHostedTrouterClient.create(
             withClientVersion: defaultClientVersion,
             authHeadersProvider: trouterSkypeTokenHeaderProvider,
-            dataCache: communicationCache,
+            dataCache: nil,
             trouterHostname: defaultTrouterHostname
         )
 
@@ -113,18 +112,6 @@ class CommunicationSkypeTokenProvider: NSObject, TrouterSkypetokenProvider {
 
     init(skypeToken: String? = nil) {
         self.skypeToken = skypeToken
-    }
-}
-
-class CommunicationCache: NSObject, TrouterConnectionDataCache {
-    var data: String?
-
-    func store(_ data: String!) {
-        self.data = data
-    }
-
-    func load() -> String {
-        return data ?? ""
     }
 }
 
