@@ -30,7 +30,7 @@
     "EXCLUDED_ARCHS[sdk=iphonesimulator*]": "arm64"
   },
   "dependencies": {
-    "AzureCommunication": [
+    "AzureCommunicationCommon": [
       "1.0.0-beta.11"
     ]
   },

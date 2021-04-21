@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0-beta.12 (Unrelease)
+### Breaking Changes
+- `AzureCommunication` has been renamed `AzureCommunicationCommon`.
+- Swift PM user should now target the `SwiftPM-AzureCommunicationCommon` repo. 
+
+
 ## 1.0.0-beta.11 (2021-04-07)
 ### Breaking Changes
 - Swift PM user should now target the `SwiftPM-AzureCommunication` repo. 
@@ -64,5 +70,5 @@ our efforts can be found in the
 
 ### Added Libraries
 
-- Azure Communication Services common ([AzureCommunication](https://github.com/Azure/azure-sdk-for-ios/tree/master/sdk/communication/AzureCommunication))
+- Azure Communication Services common ([AzureCommunication](https://github.com/Azure/azure-sdk-for-ios/tree/master/sdk/communication/AzureCommunicationCommon))
   - This library is used by other libraries in this SDK, as well as by libraries in the [Azure Communication SDKs](https://github.com/Azure/Communication).

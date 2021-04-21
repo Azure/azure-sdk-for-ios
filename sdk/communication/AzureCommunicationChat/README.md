@@ -120,7 +120,7 @@ Using the APIs, users can also send typing indicators when typing a message and 
 To instantiate a ChatClient you will need the CommunicationServices resource endpoint, a CommunicationTokenCredential created from a User Access Token, and optional options to create the client with.
 
 ```swift
-import AzureCommunication
+import AzureCommunicationCommon
 import AzureCommunicationChat
 import AzureCore
 

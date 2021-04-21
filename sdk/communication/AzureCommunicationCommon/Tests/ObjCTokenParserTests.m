@@ -25,7 +25,7 @@
 // --------------------------------------------------------------------------
 
 #import <XCTest/XCTest.h>
-#import <AzureCommunication/AzureCommunication-Swift.h>
+#import <AzureCommunicationCommon/AzureCommunicationCommon-Swift.h>
 
 @interface ObjCTokenParserTests : XCTestCase
 

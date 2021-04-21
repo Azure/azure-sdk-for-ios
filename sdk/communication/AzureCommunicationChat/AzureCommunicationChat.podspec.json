@@ -32,7 +32,7 @@
     "AzureCore": [
       "1.0.0-beta.11"
     ],
-    "AzureCommunication": [
+    "AzureCommunicationCommon": [
       "1.0.0-beta.11"
     ],
     "TrouterClientIos": [

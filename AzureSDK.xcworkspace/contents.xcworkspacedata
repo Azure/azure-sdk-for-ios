@@ -8,7 +8,7 @@
          location = "group:communication"
          name = "communication">
          <FileRef
-            location = "group:AzureCommunication/AzureCommunication.xcodeproj">
+            location = "group:AzureCommunicationCommon/AzureCommunicationCommon.xcodeproj">
          </FileRef>
          <FileRef
             location = "group:AzureCommunicationCalling/AzureCommunicationCalling.xcodeproj">
