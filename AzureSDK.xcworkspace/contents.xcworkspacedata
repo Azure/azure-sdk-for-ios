@@ -43,9 +43,6 @@
       location = "group:examples"
       name = "Examples">
       <FileRef
-         location = "group:AzureSDKSmokeTestSwiftPM/AzureSDKSmokeTestSwiftPM.xcodeproj">
-      </FileRef>
-      <FileRef
          location = "group:AzureStorageBlobDemo/AzureStorageBlobDemo.xcodeproj">
       </FileRef>
       <FileRef
@@ -62,9 +59,6 @@
       location = "group:"
       name = "Deployment">
       <FileRef
-         location = "group:Package.swift">
-      </FileRef>
-      <FileRef
          location = "group:Podfile">
       </FileRef>
       <FileRef
@@ -74,9 +68,6 @@
    <Group
       location = "group:"
       name = "Docs">
-      <FileRef
-         location = "group:CHANGELOG.md">
-      </FileRef>
       <FileRef
          location = "group:CONTRIBUTING.md">
       </FileRef>

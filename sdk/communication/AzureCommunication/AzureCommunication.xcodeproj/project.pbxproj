@@ -99,13 +99,13 @@
 			isa = PBXGroup;
 			children = (
 				0A5DCA382620FC2500A9ABF3 /* CHANGELOG.md */,
+				7AB0952825BF895B0026A2A5 /* README.md */,
 				0A5DCA332620F99B00A9ABF3 /* Package.swift */,
 				0A5DCA312620F96600A9ABF3 /* AzureCommunication.podspec.json */,
 				0A3A5EBA2316DB1E00473FDA /* Source */,
 				0A3A5EC52316DB1E00473FDA /* Tests */,
 				0A3A5EB92316DB1E00473FDA /* Products */,
 				0A3A5ED52316DB5700473FDA /* Frameworks */,
-				7AB0952825BF895B0026A2A5 /* README.md */,
 				2D9F376773AE2A9C7A306867 /* Pods */,
 			);
 			sourceTree = "<group>";
