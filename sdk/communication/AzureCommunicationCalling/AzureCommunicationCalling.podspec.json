@@ -23,11 +23,7 @@
   "public_header_files": "AzureCommunicationCalling.xcframework/*/AzureCommunicationCalling.framework/Headers/*.h",
   "vendored_frameworks": "AzureCommunicationCalling.xcframework",
   "pod_target_xcconfig": {
-    "DEFINES_MODULE": "YES",
-    "EXCLUDED_ARCHS[sdk=iphonesimulator*]": "arm64"
-  },
-  "user_target_xcconfig": {
-    "EXCLUDED_ARCHS[sdk=iphonesimulator*]": "arm64"
+    "DEFINES_MODULE": "YES"
   },
   "dependencies": {
     "AzureCommunication": [
