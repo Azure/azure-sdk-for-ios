@@ -3,7 +3,7 @@
 This package contains common code for Azure Communication Services libraries.
 
 [Source code](https://github.com/Azure/azure-sdk-for-ios/tree/master/sdk/communication/AzureCommunicationCommon)
-| [API reference documentation](https://azure.github.io/azure-sdk-for-ios/AzureCommunicationCommon/index.html)
+| [API reference documentation](https://azure.github.io/azure-sdk-for-ios/AzureCommunication/index.html)
 | [Product documentation](https://docs.microsoft.com/azure/communication-services/overview)
 
 ## Getting started
@@ -54,7 +54,7 @@ specifying the clone URL of this repository and the version specifier you wish t
 // swift-tools-version:5.3
     dependencies: [
         ...
-        .package(name: "AzureCommunicationCommon", url: "https://github.com/Azure/SwiftPM-AzureCommunicationCommon.git", from: "1.0.0-beta.11")
+        .package(name: "AzureCommunicationCommon", url: "https://github.com/Azure/SwiftPM-AzureCommunicationCommon.git", from: "1.0.0")
     ],
 ```
 
@@ -92,7 +92,7 @@ platform :ios, '12.0'
 use_frameworks!
 
 target 'MyTarget' do
-  pod 'AzureCommunicationCommon', '1.0.0-beta.11'
+  pod 'AzureCommunicationCommon', '1.0.0'
   ...
 end
 ```

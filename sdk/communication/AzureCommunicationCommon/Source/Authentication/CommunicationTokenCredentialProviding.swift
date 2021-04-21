@@ -24,9 +24,6 @@
 //
 // --------------------------------------------------------------------------
 
-#if canImport(AzureCore)
-    import AzureCore
-#endif
 import Foundation
 /**
  Protocol defining the shape of credentials used with Azure Communication Services.

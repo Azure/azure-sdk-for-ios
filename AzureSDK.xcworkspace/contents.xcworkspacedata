@@ -430,7 +430,7 @@
          location = "group:index.html.erb">
       </FileRef>
       <FileRef
-         location = "group:AzureCommunication.yml">
+         location = "group:AzureCommunicationCommon.yml">
       </FileRef>
       <FileRef
          location = "group:AzureIdentity.yml">

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1230"
+   LastUpgradeVersion = "1240"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0A3A5EB72316DB1E00473FDA"
-               BuildableName = "AzureCommunication.framework"
-               BlueprintName = "AzureCommunication"
-               ReferencedContainer = "container:AzureCommunication.xcodeproj">
+               BuildableName = "AzureCommunicationCommon.framework"
+               BlueprintName = "AzureCommunicationCommon"
+               ReferencedContainer = "container:AzureCommunicationCommon.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -29,14 +29,13 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
          <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
+            skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0A3A5EC02316DB1E00473FDA"
-               BuildableName = "AzureCommunicationTests.xctest"
-               BlueprintName = "AzureCommunicationTests"
-               ReferencedContainer = "container:AzureCommunication.xcodeproj">
+               BuildableName = "AzureCommunicationCommonTests.xctest"
+               BlueprintName = "AzureCommunicationCommonTests"
+               ReferencedContainer = "container:AzureCommunicationCommon.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -62,9 +61,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0A3A5EB72316DB1E00473FDA"
-            BuildableName = "AzureCommunication.framework"
-            BlueprintName = "AzureCommunication"
-            ReferencedContainer = "container:AzureCommunication.xcodeproj">
+            BuildableName = "AzureCommunicationCommon.framework"
+            BlueprintName = "AzureCommunicationCommon"
+            ReferencedContainer = "container:AzureCommunicationCommon.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

@@ -24,9 +24,6 @@
 //
 // --------------------------------------------------------------------------
 
-#if canImport(AzureCore)
-    import AzureCore
-#endif
 import Foundation
 
 internal class ThreadSafeRefreshableAccessTokenCache {

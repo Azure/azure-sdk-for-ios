@@ -24,9 +24,6 @@
 //
 // --------------------------------------------------------------------------
 
-#if canImport(AzureCore)
-    import AzureCore
-#endif
 import Foundation
 
 public typealias CommunicationTokenCompletionHandler = (CommunicationAccessToken?, Error?) -> Void
