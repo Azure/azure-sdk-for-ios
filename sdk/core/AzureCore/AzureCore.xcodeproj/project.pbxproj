@@ -234,6 +234,7 @@
 			children = (
 				0A5DCA392621013300A9ABF3 /* AzureCore.podspec.json */,
 				0A6C00D92615131A002573E7 /* CHANGELOG.md */,
+				7ACBF0A7248EFF2D0077C5BA /* README.md */,
 				0A6C00DA2615131A002573E7 /* Package.swift */,
 				0A6C00D626151315002573E7 /* DataModels */,
 				0A3A5D782315C89C00473FDA /* Source */,
@@ -241,7 +242,6 @@
 				0A3A5D772315C89C00473FDA /* Products */,
 				E4BF633BF023E92DD7174C5B /* Frameworks */,
 				92BD27331528A5376457893C /* Pods */,
-				7ACBF0A7248EFF2D0077C5BA /* README.md */,
 			);
 			sourceTree = "<group>";
 		};
