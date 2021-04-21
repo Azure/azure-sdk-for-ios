@@ -44,6 +44,9 @@
 		0A3A5EC12316DB1E00473FDA /* AzureCommunicationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AzureCommunicationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A3A5EC82316DB1E00473FDA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A3A5ED62316DB8F00473FDA /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0A5DCA312620F96600A9ABF3 /* AzureCommunication.podspec.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = AzureCommunication.podspec.json; sourceTree = "<group>"; };
+		0A5DCA332620F99B00A9ABF3 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		0A5DCA382620FC2500A9ABF3 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		1D07222C24C8FB0F00C2EF4E /* CommunicationTokenCredentialTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationTokenCredentialTests.swift; sourceTree = "<group>"; };
 		1D2E7F6F24E4589100447964 /* Identifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Identifiers.swift; sourceTree = "<group>"; };
 		1DC3550524D9F02D0095ABD9 /* Supporting Files */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Supporting Files"; sourceTree = "<group>"; };
@@ -95,11 +98,14 @@
 		0A3A5EAE2316DB1E00473FDA = {
 			isa = PBXGroup;
 			children = (
+				0A5DCA382620FC2500A9ABF3 /* CHANGELOG.md */,
+				7AB0952825BF895B0026A2A5 /* README.md */,
+				0A5DCA332620F99B00A9ABF3 /* Package.swift */,
+				0A5DCA312620F96600A9ABF3 /* AzureCommunication.podspec.json */,
 				0A3A5EBA2316DB1E00473FDA /* Source */,
 				0A3A5EC52316DB1E00473FDA /* Tests */,
 				0A3A5EB92316DB1E00473FDA /* Products */,
 				0A3A5ED52316DB5700473FDA /* Frameworks */,
-				7AB0952825BF895B0026A2A5 /* README.md */,
 				2D9F376773AE2A9C7A306867 /* Pods */,
 			);
 			sourceTree = "<group>";

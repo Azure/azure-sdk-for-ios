@@ -1,4 +1,4 @@
-# Azure core client library for iOS
+# Azure Core client library for iOS
 
 This is the core framework for the Azure SDK for iOS, containing the HTTP pipeline, as well as a shared set of
 components that are used across all client libraries, including pipeline policies, error types, type aliases, an XML
@@ -36,11 +36,14 @@ most up-to-date code changes.
 To add the library to your application, follow the instructions in
 [Adding Package Dependencies to Your App](https://developer.apple.com/documentation/xcode/adding_package_dependencies_to_your_app):
 
+In order to independently version packages with Swift Package Manager, we mirror the code from azure-sdk-for-ios into separate
+repositories. Your Swift Package Manager-based app should target these repos instead of the azure-sdk-for-ios repo.
+
 With your project open in Xcode 11 or later, select **File > Swift Packages > Add Package Dependency...** Enter the
-clone URL of this repository: *https://github.com/Azure/azure-sdk-for-ios.git* and click **Next**. For the version rule,
-specify the exact version or version range you wish to use with your application and click **Next**. Finally, place a
-checkmark next to the library, ensure your application target is selected in the **Add to target** dropdown, and click
-**Finish**.
+clone URL of the Swift Package Manager mirror repository: *https://github.com/Azure/SwiftPM-AzureCore.git*
+and click **Next**. For the version rule, specify the exact version or version range you wish to use with your application and
+click **Next**. Finally, place a checkmark next to the library, ensure your application target is selected in the **Add to target**
+dropdown, and click **Finish**.
 
 ##### Swift CLI
 
@@ -51,9 +54,10 @@ Open your project's `Package.swift` file and add a new package dependency to you
 specifying the clone URL of this repository and the version specifier you wish to use:
 
 ```swift
+// swift-tools-version:5.3
     dependencies: [
         ...
-        .package(url: "https://github.com/Azure/azure-sdk-for-ios.git", from: "1.0.0-beta.11")
+        .package(name: "AzureCore", url: "https://github.com/Azure/SwiftPM-AzureCore.git", from: "1.0.0-beta.12")
     ],
 ```
 
@@ -91,7 +95,7 @@ platform :ios, '12.0'
 use_frameworks!
 
 target 'MyTarget' do
-  pod 'AzureCore', '1.0.0-beta.11'
+  pod 'AzureCore', '1.0.0-beta.12'
   ...
 end
 ```
@@ -128,7 +132,10 @@ Explore and install
 
 ## Contributing
 
-This project welcomes contributions and suggestions. Most contributions require you to agree to a Contributor License
+This project welcomes contributions and suggestions. All code contributions should be made in the [Azure SDK for iOS]
+(https://github.com/Azure/azure-sdk-for-ios) repository.
+
+Most contributions require you to agree to a Contributor License
 Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your contribution. For
 details, visit https://cla.microsoft.com.
 

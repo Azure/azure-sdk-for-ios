@@ -33,11 +33,14 @@ most up-to-date code changes.
 To add the library to your application, follow the instructions in
 [Adding Package Dependencies to Your App](https://developer.apple.com/documentation/xcode/adding_package_dependencies_to_your_app):
 
+In order to independently version packages with Swift Package Manager, we mirror the code from azure-sdk-for-ios into separate
+repositories. Your Swift Package Manager-based app should target these repositories instead of the azure-sdk-for-ios repo.
+
 With your project open in Xcode 11 or later, select **File > Swift Packages > Add Package Dependency...** Enter the
-clone URL of this repository: *https://github.com/Azure/azure-sdk-for-ios.git* and click **Next**. For the version rule,
-specify the exact version or version range you wish to use with your application and click **Next**. Finally, place a
-checkmark next to the library, ensure your application target is selected in the **Add to target** dropdown, and click
-**Finish**.
+clone URL of the Swift Package Manager mirror repository: *https://github.com/Azure/SwiftPM-AzureCommunicationChat.git*
+and click **Next**. For the version rule, specify the exact version or version range you wish to use with your application and
+click **Next**. Finally, place a checkmark next to the library, ensure your application target is selected in the **Add to target**
+dropdown, and click **Finish**.
 
 ##### Swift CLI
 
@@ -48,9 +51,10 @@ Open your project's `Package.swift` file and add a new package dependency to you
 specifying the clone URL of this repository and the version specifier you wish to use:
 
 ```swift
+// swift-tools-version:5.3
     dependencies: [
         ...
-        .package(url: "https://github.com/Azure/azure-sdk-for-ios.git", from: "1.0.0-beta.11")
+        .package(name: "AzureCommunicationChat", url: "https://github.com/Azure/SwiftPM-AzureCommunicationChat.git", from: "1.0.0-beta.12")
     ],
 ```
 
@@ -88,7 +92,7 @@ platform :ios, '12.0'
 use_frameworks!
 
 target 'MyTarget' do
-  pod 'AzureCommunicationChat', '1.0.0-beta.11'
+  pod 'AzureCommunicationChat', '1.0.0-beta.12'
   ...
 end
 ```
@@ -581,13 +585,19 @@ client.create(thread: thread) { result, _ in
 }
 ```
 
+If you run into issues while using this library, please feel free to
+[file an issue](https://github.com/Azure/azure-sdk-for-ios/issues/new).
+
 ## Next steps
 
 More sample code should go here, along with links out to the appropriate example tests.
 
 ## Contributing
 
-This project welcomes contributions and suggestions. Most contributions require you to agree to a Contributor License
+This project welcomes contributions and suggestions. All code contributions should be made in the [Azure SDK for iOS]
+(https://github.com/Azure/azure-sdk-for-ios) repository.
+
+Most contributions require you to agree to a Contributor License
 Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your contribution. For
 details, visit https://cla.microsoft.com.
 

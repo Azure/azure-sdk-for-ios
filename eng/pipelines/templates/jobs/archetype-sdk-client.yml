@@ -127,9 +127,7 @@ jobs:
 #          python ./eng/scripts/version.py verify
 #        displayName: Verify Versions
 
-      - script: |
-          pod lib lint --quick
-          pod spec lint --quick
+      - script: ./eng/scripts/podlint.sh
         displayName: Lint PodSpecs
 
       - script: |

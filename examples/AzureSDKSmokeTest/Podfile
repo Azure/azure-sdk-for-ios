@@ -46,16 +46,16 @@ branch = (ENV['PODSPEC_BRANCH'] || 'master')
 target 'AzureSDKSmokeTest' do
   if is_ci
     # install podspecs locally from source branch/PR
-    pod 'AzureCore', :podspec => "#{local_path}/AzureCore.podspec.json"
-    pod 'AzureCommunication', :podspec => "#{local_path}/AzureCommunication.podspec.json"
-    pod 'AzureCommunicationChat', :podspec => "#{local_path}/AzureCommunicationChat.podspec.json"
-    pod 'AzureCommunicationCalling', :podspec => "#{local_path}/AzureCommunicationCalling.podspec.json"
+    pod 'AzureCore', :podspec => "#{local_path}/sdk/core/AzureCore/AzureCore.podspec.json"
+    pod 'AzureCommunication', :podspec => "#{local_path}/sdk/communication/AzureCommunication/AzureCommunication.podspec.json"
+    pod 'AzureCommunicationChat', :podspec => "#{local_path}/sdk/communication/AzureCommunicationChat/AzureCommunicationChat.podspec.json"
+    pod 'AzureCommunicationCalling', :podspec => "#{local_path}/sdk/communication/AzureCommunicationCalling/AzureCommunicationCalling.podspec.json"
   else
-    # manual run targets AzureSDK master branch
-    pod 'AzureCore', :git => 'https://github.com/Azure/azure-sdk-for-ios.git', :branch => "#{branch}"
-    pod 'AzureCommunication', :git => 'https://github.com/Azure/azure-sdk-for-ios.git', :branch => "#{branch}"
-    pod 'AzureCommunicationChat', :git => 'https://github.com/Azure/azure-sdk-for-ios.git', :branch => "#{branch}"
-    pod 'AzureCommunicationCalling', :podspec => "https://raw.githubusercontent.com/Azure/azure-sdk-for-ios/#{branch}/AzureCommunicationCalling.podspec.json"
+    # manual run targets AzureSDK branch
+    pod 'AzureCore', :podspec => "https://raw.githubusercontent.com/Azure/azure-sdk-for-ios/#{branch}/sdk/core/AzureCore/AzureCore.podspec.json"
+    pod 'AzureCommunication', :podspec => "https://raw.githubusercontent.com/Azure/azure-sdk-for-ios/#{branch}/sdk/communication/AzureCommunication/AzureCommunication.podspec.json"
+    pod 'AzureCommunicationChat', :podspec => "https://raw.githubusercontent.com/Azure/azure-sdk-for-ios/#{branch}/sdk/communication/AzureCommunicationChat/AzureCommunicationChat.podspec.json"
+    pod 'AzureCommunicationCalling', :podspec => "https://raw.githubusercontent.com/Azure/azure-sdk-for-ios/#{branch}/sdk/communication/AzureCommunicationCalling/AzureCommunicationCalling.podspec.json"
   end
 end
 

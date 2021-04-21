@@ -145,8 +145,12 @@
 		0A55FD2A254B2564002CBFD8 /* TestClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestClient.swift; sourceTree = "<group>"; };
 		0A55FD2D254B25BD002CBFD8 /* TestPolicies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPolicies.swift; sourceTree = "<group>"; };
 		0A55FD30254B31AB002CBFD8 /* PipelineContextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineContextTests.swift; sourceTree = "<group>"; };
+		0A5DCA392621013300A9ABF3 /* AzureCore.podspec.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = AzureCore.podspec.json; sourceTree = "<group>"; };
 		0A6864B7233EAC76004B7E17 /* ContentDecodePolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentDecodePolicy.swift; sourceTree = "<group>"; };
 		0A6A9B4E234293B50013FCAA /* RegexUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegexUtil.swift; sourceTree = "<group>"; };
+		0A6C00D826151315002573E7 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
+		0A6C00D92615131A002573E7 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
+		0A6C00DA2615131A002573E7 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		0A73AB76243F969700C6DC34 /* StringUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtil.swift; sourceTree = "<group>"; };
 		0A7F56392321732B00E9765A /* URLHTTPResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLHTTPResponse.swift; sourceTree = "<group>"; };
 		0AB5EAFC2375F25400361879 /* ConvertingInitializers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertingInitializers.swift; sourceTree = "<group>"; };
@@ -228,12 +232,16 @@
 		0A3A5D6C2315C89C00473FDA = {
 			isa = PBXGroup;
 			children = (
+				0A5DCA392621013300A9ABF3 /* AzureCore.podspec.json */,
+				0A6C00D92615131A002573E7 /* CHANGELOG.md */,
+				7ACBF0A7248EFF2D0077C5BA /* README.md */,
+				0A6C00DA2615131A002573E7 /* Package.swift */,
+				0A6C00D626151315002573E7 /* DataModels */,
 				0A3A5D782315C89C00473FDA /* Source */,
 				0A3A5DDF2315D17F00473FDA /* Tests */,
 				0A3A5D772315C89C00473FDA /* Products */,
 				E4BF633BF023E92DD7174C5B /* Frameworks */,
 				92BD27331528A5376457893C /* Pods */,
-				7ACBF0A7248EFF2D0077C5BA /* README.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -364,6 +372,14 @@
 				0A3A5F432319D49700473FDA /* URLSessionTransport.swift */,
 			);
 			path = Transport;
+			sourceTree = "<group>";
+		};
+		0A6C00D626151315002573E7 /* DataModels */ = {
+			isa = PBXGroup;
+			children = (
+				0A6C00D726151315002573E7 /* PersistentQueue.xcdatamodeld */,
+			);
+			path = DataModels;
 			sourceTree = "<group>";
 		};
 		0AF01856232AF2CC00A0C94D /* DataStructures */ = {
@@ -971,6 +987,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		0A6C00D726151315002573E7 /* PersistentQueue.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				0A6C00D826151315002573E7 /* DataModel.xcdatamodel */,
+			);
+			currentVersion = 0A6C00D826151315002573E7 /* DataModel.xcdatamodel */;
+			path = PersistentQueue.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 0A3A5D6D2315C89C00473FDA /* Project object */;
 }

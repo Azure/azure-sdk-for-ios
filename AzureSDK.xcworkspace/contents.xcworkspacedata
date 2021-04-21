@@ -8,10 +8,13 @@
          location = "group:communication"
          name = "communication">
          <FileRef
-            location = "group:AzureCommunicationChat/AzureCommunicationChat.xcodeproj">
+            location = "group:AzureCommunication/AzureCommunication.xcodeproj">
          </FileRef>
          <FileRef
-            location = "group:AzureCommunication/AzureCommunication.xcodeproj">
+            location = "group:AzureCommunicationCalling/AzureCommunicationCalling.xcodeproj">
+         </FileRef>
+         <FileRef
+            location = "group:AzureCommunicationChat/AzureCommunicationChat.xcodeproj">
          </FileRef>
       </Group>
       <Group
@@ -56,25 +59,7 @@
       location = "group:"
       name = "Deployment">
       <FileRef
-         location = "group:AzureCommunication.podspec.json">
-      </FileRef>
-      <FileRef
-         location = "group:AzureCommunicationCalling.podspec.json">
-      </FileRef>
-      <FileRef
-         location = "group:AzureCommunicationChat.podspec.json">
-      </FileRef>
-      <FileRef
-         location = "group:AzureCore.podspec.json">
-      </FileRef>
-      <FileRef
-         location = "group:Package.swift">
-      </FileRef>
-      <FileRef
          location = "group:Podfile">
-      </FileRef>
-      <FileRef
-         location = "group:Podfile.lock">
       </FileRef>
       <FileRef
          location = "group:Pods/Pods.xcodeproj">
@@ -83,9 +68,6 @@
    <Group
       location = "group:"
       name = "Docs">
-      <FileRef
-         location = "group:CHANGELOG.md">
-      </FileRef>
       <FileRef
          location = "group:CONTRIBUTING.md">
       </FileRef>
@@ -426,6 +408,15 @@
          </FileRef>
          <FileRef
             location = "group:swiftlint.sh">
+         </FileRef>
+         <FileRef
+            location = "group:/Users/travisprescott/repos/azure-sdk-for-ios/eng/scripts/sync_repo.py">
+         </FileRef>
+         <FileRef
+            location = "group:/Users/travisprescott/repos/azure-sdk-for-ios/eng/scripts/podlint.sh">
+         </FileRef>
+         <FileRef
+            location = "group:util.py">
          </FileRef>
       </Group>
       <FileRef

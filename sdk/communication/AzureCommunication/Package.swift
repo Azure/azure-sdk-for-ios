@@ -30,88 +30,40 @@
 import PackageDescription
 
 let package = Package(
-    name: "AzureSDK",
+    name: "AzureCommunication",
     platforms: [
-        .macOS(.v10_13), .iOS(.v12)
+        .macOS(.v10_15), .iOS(.v12)
     ],
     products: [
-        .library(name: "AzureCore", targets: ["AzureCore"]),
-        .library(name: "AzureCommunication", targets: ["AzureCommunication"]),
-        .library(name: "AzureCommunicationChat", targets: ["AzureCommunicationChat"]),
+        .library(name: "AzureCommunication", targets: ["AzureCommunication"])
     ],
     dependencies: [
-        .package(url: "https://github.com/AliSoftware/OHHTTPStubs.git", from: "9.1.0"),
-        .package(name: "TrouterClientIos", url: "https://github.com/microsoft/trouter-client-ios.git", from: "0.0.1-beta.4")
+        .package(name: "AzureCore", url: "https://github.com/Azure/SwiftPM-AzureCore.git", .branch("master"))
     ],
     targets: [
         // Build targets
         .target(
-            name: "AzureCore",
-            dependencies: [],
-            path: "sdk/core/AzureCore",
-            exclude: [
-                "README.md",
-                "Tests",
-                "Source/Supporting Files"
-            ],
-            sources: ["Source"]
-        ),
-        .target(
             name: "AzureCommunication",
             dependencies: ["AzureCore"],
-            path: "sdk/communication/AzureCommunication",
+            path: "Source",
             exclude: [
                 "README.md",
                 "Tests",
-                "Source/Supporting Files"
-            ],
-            sources: ["Source"]
-        ),
-        .target(
-            name: "AzureCommunicationChat",
-            dependencies: [ "AzureCore", "AzureCommunication", "TrouterClientIos"],
-            path: "sdk/communication/AzureCommunicationChat",
-            exclude: [
-                "README.md",
-                "Tests",
-                "Source/Supporting Files"
-            ],
-            sources: ["Source"]
+                "Source/Supporting Files",
+                "LICENSE"
+            ]
         ),
         // Test targets
         .testTarget(
-            name: "AzureCoreTests",
-            dependencies: ["AzureCore"],
-            path: "sdk/core/AzureCore/Tests",
-            exclude: [
-                "Info.plist",
-                "Data Files"
-            ]
-        ),
-        .testTarget(
             name: "AzureCommunicationTests",
             dependencies: ["AzureCommunication"],
-            path: "sdk/communication/AzureCommunication/Tests",
+            path: "Tests",
             exclude: [
                 "Info.plist",
                 "AzureCommunicationTests-Bridging-Header.h",
                 "ObjCCommunicationTokenCredentialTests.m",
                 "ObjCCommunicationTokenCredentialAsyncTests.m",
                 "ObjCTokenParserTests.m"
-            ]
-        ),
-        .testTarget(
-            name: "AzureCommunicationChatTests",
-            dependencies: [
-                "AzureCommunication",
-                "AzureCommunicationChat",
-                .product(name: "OHHTTPStubsSwift", package: "OHHTTPStubs"),
-            ],
-            path: "sdk/communication/AzureCommunicationChat/Tests",
-            exclude: [
-                "Info.plist",
-                "Util/Mocks",
-                "Util/Recordings"
             ]
         )
     ],
