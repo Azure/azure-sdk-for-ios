@@ -133,48 +133,67 @@ def _update_file(path, old, new):
 Updates the version, source and dependency info for specified podspec files
 """
 def _update_podspecs(old, new, modules):
-    all_podspec_files = glob.glob(r'sdk/*/*/*.podspec.json')
-    module_names = set([name.split('.')[0] for name in all_podspec_files])
-    print(module_names)
-    print(modules)
-    for path in all_podspec_files:
-        pass
-#        with open(path, 'r') as f:
-#            data = json.loads(f.read())
-#
-#        data['version'] = new
-#        source = data.get('source', None)
-#        if source:
-#            if source.get('http', None):
-#                source['http'] = source['http'].replace(old, new)
-#            if source.get('tag', None):
-#                source['tag'] = new
-#
-#        dependencies = data.get('dependencies', None)
-#        for key, vals in (dependencies or {}).items():
-#            if key in module_names:
-#                dependencies[key] = [val.replace(old, new) for val in vals]
-#
-#        with open(path, 'w') as f:
-#            f.write(json.dumps(data, indent=2, ensure_ascii=False))
+    podspecs = {}
+    for path in glob.glob(r'sdk/*/*/*.podspec.json'):
+        mod_name = re.search(r'/([a-zA-Z]+)\.podspec.*', path).groups()[0]
+        podspecs[mod_name] = path
+
+    for mod in modules:
+        path = podspecs[mod]
+        with open(path, 'r') as f:
+            data = json.loads(f.read())
+
+        data['version'] = new
+        source = data.get('source', None)
+        if source:
+            if source.get('http', None):
+                source['http'] = source['http'].replace(old, new)
+            if source.get('tag', None):
+                source['tag'] = new
+
+        dependencies = data.get('dependencies', None)
+        for key, vals in (dependencies or {}).items():
+            if key == mod:
+                dependencies[key] = [val.replace(old, new) for val in vals]
+
+        with open(path, 'w') as f:
+            f.write(json.dumps(data, indent=2, ensure_ascii=False))
 
 
 """
 Updates the marketing version key for specified Xcodeproj files
 """
 def _update_xcodeproj(old, new, modules):
-    all_xcodeproj_files = glob.glob(r'sdk/*/*/*.xcodeproj/project.pbxproj')
-    print(all_xcodeproj_files)
-#    for path in xcodeproj_files:
-#        with open(path, 'r') as f:
-#            data = f.readlines()
-#
-#        with open(path, 'w') as f:
-#            for line in data:
-#                if "MARKETING_VERSION" in line:
-#                    f.write(line.replace(old, new))
-#                else:
-#                    f.write(line)
+    xcodeprojs = {}
+    for path in glob.glob(r'sdk/*/*/*.xcodeproj/project.pbxproj'):
+        mod_name = re.search(r'/([a-zA-Z]+)\.xcodeproj.*', path).groups()[0]
+        xcodeprojs[mod_name] = path
+
+    for mod in modules:
+        path = xcodeprojs[mod]
+        with open(path, 'r') as f:
+            data = f.readlines()
+
+        with open(path, 'w') as f:
+            for line in data:
+                if "MARKETING_VERSION" in line:
+                    f.write(line.replace(old, new))
+                else:
+                    f.write(line)
+
+
+"""
+Updates the README for specified modules
+"""
+def _update_readmes(old, new, modules):
+    readmes = {}
+    for path in glob.glob(r'sdk/*/*/README.md'):
+        mod_name = re.search(r'/([a-zA-Z]+)/README\.md', path).groups()[0]
+        readmes[mod_name] = path
+
+    for mod in modules:
+        path = readmes[mod]
+        _update_file(path, old, new)
 
 
 """
@@ -195,17 +214,16 @@ def update(argv):
     # TODO: maybe (?) update CHANGELOG.md
 
     files_to_update = [
-        'README.md',
         'eng/ignore-links.txt'
     ]
     for mod in modules:
         files_to_update.append(f'jazzy/{mod}.yml')
 
     for path in files_to_update:
-        pass
-        #_update_file(path, old, new)
+        _update_file(path, old, new)
     _update_podspecs(old, new, modules)
     _update_xcodeproj(old, new, modules)
+    _update_readmes(old, new, modules)
 
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
