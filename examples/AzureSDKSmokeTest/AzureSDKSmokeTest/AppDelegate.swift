@@ -26,9 +26,9 @@
 
 import UIKit
 
-import AzureCommunication
-import AzureCommunicationCalling
-import AzureCommunicationChat
+//import AzureCommunication
+//import AzureCommunicationCalling
+//import AzureCommunicationChat
 // Import all relevant, released SDKs here
 import AzureCore
 
