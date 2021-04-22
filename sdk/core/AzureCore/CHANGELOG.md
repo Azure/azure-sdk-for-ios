@@ -1,4 +1,7 @@
 # Release History
+## 1.0.0-beta.11 (2021-04-26)
+Minor update for Swift Package Manager.
+
 
 ## 1.0.0-beta.11 (2021-04-07)
 ### New Features
