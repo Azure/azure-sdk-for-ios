@@ -54,10 +54,8 @@
 		1DE4DB7624C0FE8300631921 /* AutoRefreshTokenCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoRefreshTokenCredential.swift; sourceTree = "<group>"; };
 		1DE4DB7824C1063E00631921 /* ThreadSafeRefreshableAccessTokenCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadSafeRefreshableAccessTokenCache.swift; sourceTree = "<group>"; };
 		23175F36E34608688A716D53 /* Pods-AzureCommunicationCommon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunicationCommon.release.xcconfig"; path = "Target Support Files/Pods-AzureCommunicationCommon/Pods-AzureCommunicationCommon.release.xcconfig"; sourceTree = "<group>"; };
-		316382976240347BE77E907F /* Pods-AzureCommunication.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunication.release.xcconfig"; path = "Target Support Files/Pods-AzureCommunication/Pods-AzureCommunication.release.xcconfig"; sourceTree = "<group>"; };
 		502AF53063897B96B7E24DD5 /* Pods-AzureCommunicationCommonTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunicationCommonTests.debug.xcconfig"; path = "Target Support Files/Pods-AzureCommunicationCommonTests/Pods-AzureCommunicationCommonTests.debug.xcconfig"; sourceTree = "<group>"; };
 		65876B73FED970EE674191B8 /* Pods_AzureCommunicationCommonTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCommunicationCommonTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		73DFF8D8D93685E64E46AD1B /* Pods-AzureCommunication.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunication.debug.xcconfig"; path = "Target Support Files/Pods-AzureCommunication/Pods-AzureCommunication.debug.xcconfig"; sourceTree = "<group>"; };
 		7AB0952825BF895B0026A2A5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		882F28D325A632CA009689E3 /* CommunicationTokenRefreshOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationTokenRefreshOptions.swift; sourceTree = "<group>"; };
 		8856CEAB253A376D00044559 /* CommunicationAccessToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationAccessToken.swift; sourceTree = "<group>"; };
@@ -65,11 +63,9 @@
 		8856CEE4253E3AEF00044559 /* ObjCCommunicationTokenCredentialTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ObjCCommunicationTokenCredentialTests.m; sourceTree = "<group>"; };
 		88CC8C34254750260028977C /* ObjCCommunicationTokenCredentialAsyncTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ObjCCommunicationTokenCredentialAsyncTests.m; sourceTree = "<group>"; };
 		88F1F56F254A07BC00876BC4 /* ObjCTokenParserTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ObjCTokenParserTests.m; sourceTree = "<group>"; };
-		C7FEC671B55120C7AFDF3B62 /* Pods-AzureCommunicationTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunicationTests.debug.xcconfig"; path = "Target Support Files/Pods-AzureCommunicationTests/Pods-AzureCommunicationTests.debug.xcconfig"; sourceTree = "<group>"; };
 		CC958AD71D0F5F2AAAF8CD78 /* Pods-AzureCommunicationCommon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunicationCommon.debug.xcconfig"; path = "Target Support Files/Pods-AzureCommunicationCommon/Pods-AzureCommunicationCommon.debug.xcconfig"; sourceTree = "<group>"; };
 		D1A42CF725CCA1C100408C0F /* CommunicationTokenCredential.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunicationTokenCredential.swift; sourceTree = "<group>"; };
 		D532B0F56C67A1E89941A6D6 /* Pods_AzureCommunicationCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCommunicationCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E5E66C937B734ADA8532CFC3 /* Pods-AzureCommunicationTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunicationTests.release.xcconfig"; path = "Target Support Files/Pods-AzureCommunicationTests/Pods-AzureCommunicationTests.release.xcconfig"; sourceTree = "<group>"; };
 		EB30AC02CED3AB47AD4F55A7 /* Pods-AzureCommunicationCommonTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunicationCommonTests.release.xcconfig"; path = "Target Support Files/Pods-AzureCommunicationCommonTests/Pods-AzureCommunicationCommonTests.release.xcconfig"; sourceTree = "<group>"; };
 		F1540EBC25BF893C0056B087 /* CommunicationCloudEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationCloudEnvironment.swift; sourceTree = "<group>"; };
 		F1540EC025BFD6910056B087 /* CommunicationIdentifierTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationIdentifierTest.swift; sourceTree = "<group>"; };
@@ -178,10 +174,6 @@
 		2D9F376773AE2A9C7A306867 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				73DFF8D8D93685E64E46AD1B /* Pods-AzureCommunication.debug.xcconfig */,
-				316382976240347BE77E907F /* Pods-AzureCommunication.release.xcconfig */,
-				C7FEC671B55120C7AFDF3B62 /* Pods-AzureCommunicationTests.debug.xcconfig */,
-				E5E66C937B734ADA8532CFC3 /* Pods-AzureCommunicationTests.release.xcconfig */,
 				CC958AD71D0F5F2AAAF8CD78 /* Pods-AzureCommunicationCommon.debug.xcconfig */,
 				23175F36E34608688A716D53 /* Pods-AzureCommunicationCommon.release.xcconfig */,
 				502AF53063897B96B7E24DD5 /* Pods-AzureCommunicationCommonTests.debug.xcconfig */,
