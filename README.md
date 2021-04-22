@@ -15,7 +15,7 @@ For your convenience, each service has a separate set of libraries that you can 
 
 ### Libraries available
 
-The latest version of the SDK is [1.0.0-beta.11](https://github.com/Azure/azure-sdk-for-ios/releases/tag/1.0.0-beta.11). Older [releases](https://github.com/Azure/azure-sdk-for-ios/releases) are also available.
+Releases of all libraries are available here: [releases](https://github.com/Azure/azure-sdk-for-ios/releases)
 
 Currently, the client libraries are in **beta**. These libraries follow the [Azure SDK Design Guidelines for iOS](https://azure.github.io/azure-sdk/ios_introduction.html) and share a number of core features such as HTTP retries, logging, transport protocols, authentication protocols, etc., so that once you learn how to use these features in one client library, you will know how to use them in other client libraries. You can learn about these shared features in [AzureCore](https://github.com/Azure/azure-sdk-for-ios/blob/master/sdk/core/AzureCore/README.md).
 
@@ -37,85 +37,7 @@ To install the Azure client libraries for iOS, we recommend you use
 As an alternative, you may also integrate the libraries using
 [CocoaPods](#integrate-the-client-libraries-with-cocoapods).
 
-#### Add a package dependency with Swift Package Manager
-
-The [Swift Package Manager](https://swift.org/package-manager/) is a tool for managing the distribution of Swift code.
-It’s integrated with the Swift build system to automate the process of downloading, compiling, and linking dependencies.
-
-Xcode comes with built-in support for Swift Package Manager and source control accounts and makes it easy to leverage
-available Swift packages. Use Xcode to manage the versions of package dependencies and make sure your project has the
-most up-to-date code changes.
-
-##### Xcode
-
-To add the Azure SDK for iOS to your application, follow the instructions in
-[Adding Package Dependencies to Your App](https://developer.apple.com/documentation/xcode/adding_package_dependencies_to_your_app):
-
-With your project open in Xcode 11 or later, select **File > Swift Packages > Add Package Dependency...** Enter the
-clone URL of this repository: *https://github.com/Azure/azure-sdk-for-ios.git* and click **Next**. For the version rule,
-specify the exact version or version range you wish to use with your application and click **Next**. Finally, place a
-checkmark next to each client library you wish to use with your application, ensure your application target is selected
-in the **Add to target** dropdown, and click **Finish**.
-
-##### Swift CLI
-
-To add the Azure SDK for iOS to your application, follow the example in
-[Importing Dependencies](https://swift.org/package-manager/#importing-dependencies):
-
-Open your project's `Package.swift` file and add a new package dependency to your project's `dependencies` section,
-specifying the clone URL of this repository and the version specifier you wish to use:
-
-```swift
-    dependencies: [
-        ...
-        .package(url: "https://github.com/Azure/azure-sdk-for-ios.git", from: "1.0.0-beta.11")
-    ],
-```
-
-Next, add each client library you wish to use in a target to the target's array of `dependencies`:
-```swift
-    targets: [
-        ...
-        .target(
-            name: "MyTarget",
-            dependencies: ["AzureCommunicationChat", ...])
-    ]
-)
-```
-
-#### Integrate the client libraries with CocoaPods
-
-[CocoaPods](https://cocoapods.org) is a dependency manager for Objective C and Swift projects. You can install it with
-the following command:
-
-```bash
-$ [sudo] gem install cocoapods
-```
-
-> CocoaPods 1.5+ is required.
-
-To integrate one or more client libraries into your project using CocoaPods, specify them in your
-[Podfile](https://guides.cocoapods.org/using/the-podfile.html), providing the version specifier you wish to use. To
-ensure compatibility when using multiple client libraries in the same project, use the same version specifier for all
-Azure SDK client libraries within the project:
-
-```ruby
-platform :ios, '12.0'
-
-# Comment the next line if you don't want to use dynamic frameworks
-use_frameworks!
-
-target 'MyTarget' do
-  pod 'AzureCommunicationChat', '~> 1.0.0-beta.11'
-  ...
-end
-```
-
-Then, run the following command:
-
-```bash
-$ pod install
-```
+See the README file for individual libraries for instructions.
 
 ## Need help?
 
