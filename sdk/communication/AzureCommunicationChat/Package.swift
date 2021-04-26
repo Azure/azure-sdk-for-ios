@@ -40,8 +40,8 @@ let package = Package(
     dependencies: [
         .package(name: "AzureCore", url: "https://github.com/Azure/SwiftPM-AzureCore.git", .branch("master")),
         .package(
-            name: "AzureCommunication",
-            url: "https://github.com/Azure/SwiftPM-AzureCommunication.git",
+            name: "AzureCommunicationCommon",
+            url: "https://github.com/Azure/SwiftPM-AzureCommunicationCommon.git",
             .branch("master")
         ),
         .package(url: "https://github.com/AliSoftware/OHHTTPStubs.git", from: "9.1.0"),
@@ -55,7 +55,7 @@ let package = Package(
         // Build targets
         .target(
             name: "AzureCommunicationChat",
-            dependencies: ["AzureCore", "AzureCommunication", "TrouterClientIos"],
+            dependencies: ["AzureCore", "AzureCommunicationCommon", "TrouterClientIos"],
             path: "Source",
             exclude: [
                 "README.md",
@@ -68,7 +68,7 @@ let package = Package(
         .testTarget(
             name: "AzureCommunicationChatTests",
             dependencies: [
-                "AzureCommunication",
+                "AzureCommunicationCommon",
                 "AzureCommunicationChat",
                 .product(name: "OHHTTPStubsSwift", package: "OHHTTPStubs")
             ],

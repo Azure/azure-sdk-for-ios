@@ -25,7 +25,7 @@ The following libraries are currently in **beta**:
 - [AzureCore](https://github.com/Azure/azure-sdk-for-ios/blob/master/sdk/core/AzureCore/)
 
 #### Azure Communication Services
-- [AzureCommunication](https://github.com/Azure/azure-sdk-for-ios/blob/master/sdk/communication/AzureCommunication/)
+- [AzureCommunicationCommon](https://github.com/Azure/azure-sdk-for-ios/blob/master/sdk/communication/AzureCommunicationCommon/)
 - [AzureCommunicationCalling](https://github.com/Azure/Communication/releases)
 - [AzureCommunicationChat](https://github.com/Azure/azure-sdk-for-ios/blob/master/sdk/communication/AzureCommunicationChat/)
 

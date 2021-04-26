@@ -23,9 +23,7 @@
 // IN THE SOFTWARE.
 //
 // --------------------------------------------------------------------------
-#if canImport(AzureCore)
-    import AzureCore
-#endif
+
 import Foundation
 
 @objcMembers public class CommunicationCloudEnvironment: NSObject {

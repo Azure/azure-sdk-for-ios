@@ -8,7 +8,7 @@
          location = "group:communication"
          name = "communication">
          <FileRef
-            location = "group:AzureCommunication/AzureCommunication.xcodeproj">
+            location = "group:AzureCommunicationCommon/AzureCommunicationCommon.xcodeproj">
          </FileRef>
          <FileRef
             location = "group:AzureCommunicationCalling/AzureCommunicationCalling.xcodeproj">
@@ -430,7 +430,7 @@
          location = "group:index.html.erb">
       </FileRef>
       <FileRef
-         location = "group:AzureCommunication.yml">
+         location = "group:AzureCommunicationCommon.yml">
       </FileRef>
       <FileRef
          location = "group:AzureIdentity.yml">

@@ -2,7 +2,7 @@
 
 This package contains common code for Azure Communication Services libraries.
 
-[Source code](https://github.com/Azure/azure-sdk-for-ios/tree/master/sdk/communication/AzureCommunication)
+[Source code](https://github.com/Azure/azure-sdk-for-ios/tree/master/sdk/communication/AzureCommunicationCommon)
 | [API reference documentation](https://azure.github.io/azure-sdk-for-ios/AzureCommunication/index.html)
 | [Product documentation](https://docs.microsoft.com/azure/communication-services/overview)
 
@@ -37,7 +37,7 @@ In order to independently version packages with Swift Package Manager, we mirror
 repositories. Your Swift Package Manager-based app should target these repos instead of the azure-sdk-for-ios repo.
 
 With your project open in Xcode 11 or later, select **File > Swift Packages > Add Package Dependency...** Enter the
-clone URL of the Swift Package Manager mirror repository: *https://github.com/Azure/SwiftPM-AzureCommunication.git*
+clone URL of the Swift Package Manager mirror repository: *https://github.com/Azure/SwiftPM-AzureCommunicationCommon.git*
 and click **Next**. For the version rule, specify the exact version or version range you wish to use with your application and
 click **Next**. Finally, place a checkmark next to the library, ensure your application target is selected in the **Add to target**
 dropdown, and click **Finish**.
@@ -54,7 +54,7 @@ specifying the clone URL of this repository and the version specifier you wish t
 // swift-tools-version:5.3
     dependencies: [
         ...
-        .package(name: "AzureCommunication", url: "https://github.com/Azure/SwiftPM-AzureCommunication.git", from: "1.0.0-beta.12")
+        .package(name: "AzureCommunicationCommon", url: "https://github.com/Azure/SwiftPM-AzureCommunicationCommon.git", from: "1.0.0")
     ],
 ```
 
@@ -64,7 +64,7 @@ Next, for each target that needs to use the library, add it to the target's arra
         ...
         .target(
             name: "MyTarget",
-            dependencies: ["AzureCommunication", ...])
+            dependencies: ["AzureCommunicationCommon", ...])
     ]
 )
 ```
@@ -92,7 +92,7 @@ platform :ios, '12.0'
 use_frameworks!
 
 target 'MyTarget' do
-  pod 'AzureCommunication', '1.0.0-beta.12'
+  pod 'AzureCommunicationCommon', '1.0.0'
   ...
 end
 ```
@@ -119,7 +119,7 @@ The following sections provide several code snippets showing different ways to u
 
 ### Creating a credential with a static token
 ```swift
-import AzureCommunication
+import AzureCommunicationCommon
 
 let sampleToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjMyNTAzNjgwMDAwfQ.9i7FNNHHJT8cOzo-yrAUJyBSfJ-tPPk2emcHavOEpWc"
 let credential = try CommunicationTokenCredential(token: sampleToken)
@@ -127,7 +127,7 @@ let credential = try CommunicationTokenCredential(token: sampleToken)
 
 ### Creating a credential that refreshes asynchronously
 ```swift
-import AzureCommunication
+import AzureCommunicationCommon
 
 let sampleToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjMyNTAzNjgwMDAwfQ.9i7FNNHHJT8cOzo-yrAUJyBSfJ-tPPk2emcHavOEpWc"
 let sampleExpiredToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjEwMH0.1h_scYkNp-G98-O4cW6KvfJZwiz54uJMyeDACE4nypg"
@@ -176,4 +176,4 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact
 [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-ios%2Fsdk%communication%2FAzureCommunication%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-ios%2Fsdk%communication%2FAzureCommunicationCommon%2FREADME.png)

@@ -26,7 +26,7 @@
 
 import XCTest
 
-import AzureCommunication
+import AzureCommunicationCommon
 import AzureCommunicationChat
 import AzureCore
 

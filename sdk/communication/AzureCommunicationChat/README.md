@@ -54,7 +54,7 @@ specifying the clone URL of this repository and the version specifier you wish t
 // swift-tools-version:5.3
     dependencies: [
         ...
-        .package(name: "AzureCommunicationChat", url: "https://github.com/Azure/SwiftPM-AzureCommunicationChat.git", from: "1.0.0-beta.12")
+        .package(name: "AzureCommunicationChat", url: "https://github.com/Azure/SwiftPM-AzureCommunicationChat.git", from: "1.0.0-beta.11")
     ],
 ```
 
@@ -92,7 +92,7 @@ platform :ios, '12.0'
 use_frameworks!
 
 target 'MyTarget' do
-  pod 'AzureCommunicationChat', '1.0.0-beta.12'
+  pod 'AzureCommunicationChat', '1.0.0-beta.11'
   ...
 end
 ```
@@ -120,7 +120,7 @@ Using the APIs, users can also send typing indicators when typing a message and 
 To instantiate a ChatClient you will need the CommunicationServices resource endpoint, a CommunicationTokenCredential created from a User Access Token, and optional options to create the client with.
 
 ```swift
-import AzureCommunication
+import AzureCommunicationCommon
 import AzureCommunicationChat
 import AzureCore
 

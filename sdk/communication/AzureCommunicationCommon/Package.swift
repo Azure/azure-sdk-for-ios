@@ -30,20 +30,20 @@
 import PackageDescription
 
 let package = Package(
-    name: "AzureCommunication",
+    name: "AzureCommunicationCommon",
     platforms: [
         .macOS(.v10_15), .iOS(.v12)
     ],
     products: [
-        .library(name: "AzureCommunication", targets: ["AzureCommunication"])
+        .library(name: "AzureCommunicationCommon", targets: ["AzureCommunicationCommon"])
     ],
     dependencies: [
-        .package(name: "AzureCore", url: "https://github.com/Azure/SwiftPM-AzureCore.git", .branch("master"))
+        .package(name: "AzureCore", url: "https://github.com/Azure/SwiftPM-AzureCore.git", from: "1.0.0-beta.12")
     ],
     targets: [
         // Build targets
         .target(
-            name: "AzureCommunication",
+            name: "AzureCommunicationCommon",
             dependencies: ["AzureCore"],
             path: "Source",
             exclude: [
@@ -55,12 +55,12 @@ let package = Package(
         ),
         // Test targets
         .testTarget(
-            name: "AzureCommunicationTests",
-            dependencies: ["AzureCommunication"],
+            name: "AzureCommunicationCommonTests",
+            dependencies: ["AzureCommunicationCommon"],
             path: "Tests",
             exclude: [
                 "Info.plist",
-                "AzureCommunicationTests-Bridging-Header.h",
+                "AzureCommunicationCommonTests-Bridging-Header.h",
                 "ObjCCommunicationTokenCredentialTests.m",
                 "ObjCCommunicationTokenCredentialAsyncTests.m",
                 "ObjCTokenParserTests.m"

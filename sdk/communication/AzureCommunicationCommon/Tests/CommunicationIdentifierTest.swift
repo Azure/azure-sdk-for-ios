@@ -26,8 +26,8 @@
 
 import XCTest
 
-#if canImport(AzureCommunication)
-    @testable import AzureCommunication
+#if canImport(AzureCommunicationCommon)
+    @testable import AzureCommunicationCommon
 #endif
 #if canImport(AzureCore)
     @testable import AzureCore

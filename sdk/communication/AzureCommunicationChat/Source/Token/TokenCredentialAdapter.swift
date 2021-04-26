@@ -24,7 +24,7 @@
 //
 // --------------------------------------------------------------------------
 
-import AzureCommunication
+import AzureCommunicationCommon
 import AzureCore
 import Foundation
 /**

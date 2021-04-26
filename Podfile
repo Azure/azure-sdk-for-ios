@@ -28,10 +28,10 @@ use_frameworks!
 platform :ios, '12.0'
 workspace 'AzureSDK'
 
-target 'AzureCommunication' do
-  project 'sdk/communication/AzureCommunication/AzureCommunication'
+target 'AzureCommunicationCommon' do
+  project 'sdk/communication/AzureCommunicationCommon/AzureCommunicationCommon'
 
-  target 'AzureCommunicationTests' do
+  target 'AzureCommunicationCommonTests' do
     inherit! :search_paths
   end
 end
