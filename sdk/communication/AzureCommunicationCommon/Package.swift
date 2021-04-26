@@ -38,7 +38,7 @@ let package = Package(
         .library(name: "AzureCommunicationCommon", targets: ["AzureCommunicationCommon"])
     ],
     dependencies: [
-        .package(name: "AzureCore", url: "https://github.com/Azure/SwiftPM-AzureCore.git", .branch("master"))
+        .package(name: "AzureCore", url: "https://github.com/Azure/SwiftPM-AzureCore.git", from: "1.0.0-beta.12")
     ],
     targets: [
         // Build targets

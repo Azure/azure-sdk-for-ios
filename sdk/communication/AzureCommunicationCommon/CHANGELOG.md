@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0 (Unreleased)
+## 1.0.0 (2021-04-26)
 ### New Features
 - `AzureCommunicationCommon` is GA.
 
@@ -8,6 +8,8 @@
 - `AzureCommunication` has been renamed `AzureCommunicationCommon`.
 - Swift PM user should now target the `SwiftPM-AzureCommunicationCommon` repo. 
 
+## 1.0.0-beta.12 (2021-04-26)
+Marking `AzureCommunication` as deprecated in favor of `AzureCommunicationCommon`.
 
 ## 1.0.0-beta.11 (2021-04-07)
 ### Breaking Changes
