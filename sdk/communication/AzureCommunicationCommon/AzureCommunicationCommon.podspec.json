@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "AzureCore": [
-      "1.0.0-beta.11"
+      "1.0.0-beta.12"
     ]
   },
   "swift_version": "5.0"
