@@ -2,28 +2,30 @@
 
 This package contains common code for Azure Communication Calling Services libraries.
 
-TODO: FILL IN
+[API reference documentation](https://docs.microsoft.com/objectivec/communication-services/calling/)
+| [Product documentation](https://docs.microsoft.com/azure/communication-services/overview)
 
 ## Getting started
 
-TODO: FILL IN
+Please follow the quickstart documentation [here](https://docs.microsoft.com/azure/communication-services/quickstarts/voice-video-calling/calling-client-samples?pivots=platform-ios).
 
 ## Key concepts
 
-TODO: FILL IN
+[Calling SDK Overview](https://docs.microsoft.com/azure/communication-services/concepts/voice-video-calling/calling-sdk-features).
 
 ## Examples
 
-TODO: FILL IN
+[Voice calling sample app](https://docs.microsoft.com/azure/communication-services/quickstarts/voice-video-calling/getting-started-with-calling?pivots=platform-ios)
+[Video calling sample app](https://docs.microsoft.com/azure/communication-services/quickstarts/voice-video-calling/get-started-with-video-calling)
 
 ## Troubleshooting
 
-TODO: FILL IN
+Please follow the troubleshooting guide [here](https://docs.microsoft.com/azure/communication-services/concepts/troubleshooting-info).
 
 ## Next steps
 
-TODO: FILL IN
+For any new feature requests or bugs please report [here](https://github.com/Azure/Communication/issues).
 
 ## Contributing
 
-TODO: FILL IN
+Currently the project is closed source and new releases of the Calling library will be available [here](https://github.com/Azure/Communication/releases) and release notes can be found [here](https://github.com/Azure/Communication/tree/master/releasenotes).
