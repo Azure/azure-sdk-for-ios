@@ -26,11 +26,11 @@
 
 import UIKit
 
+import AzureCommunicationCalling
+import AzureCommunicationCommon
 // Import all relevant, released SDKs here
 import AzureCore
-import AzureCommunicationCommon
-import AzureCommunicationCalling
-//import AzureCommunicationChat
+// import AzureCommunicationChat
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
