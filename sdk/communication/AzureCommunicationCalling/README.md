@@ -20,7 +20,11 @@ Please follow the quickstart documentation [here](https://docs.microsoft.com/azu
 
 ## Troubleshooting
 
-Please follow the troubleshooting guide [here](https://docs.microsoft.com/azure/communication-services/concepts/troubleshooting-info) and report bugs [here](https://github.com/Azure/Communication/issues).
+Please follow the troubleshooting guide [here](https://docs.microsoft.com/azure/communication-services/concepts/troubleshooting-info).
+
+## Next steps
+
+For any new feature requests or bugs please report [here](https://github.com/Azure/Communication/issues).
 
 ## Contributing
 
