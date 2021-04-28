@@ -1,5 +1,14 @@
 # Release History
 
+## 1.0.0 (2021-04-27)
+Azure Communication Calling iOS SDK version `1.0.0`.
+
+**This is the first General Availability (GA) release.**
+
+# Breaking changes
+- Video removed/added event are not raised when application stops rendering an incoming video.
+- Teams interop and all other preview APIs are no longer available in the mainstream SDK drop. Please use libraries marked with the -beta suffix for these features.
+
 ## 1.0.0-beta.12 (2021-04-13)
 Azure Communication Calling iOS SDK version `1.0.0-beta.12`.
 
