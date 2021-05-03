@@ -1,5 +1,12 @@
 # Release History
 
+## 1.0.1 (2021-05-03)
+
+Azure Communication Calling iOS SDK version `1.0.1`.
+
+## Bug fixes
+- [iOS] Missing required key bundle version for 1.0.0 https://github.com/Azure/Communication/issues/278.
+
 ## 1.0.0 (2021-04-27)
 Azure Communication Calling iOS SDK version `1.0.0`.
 
