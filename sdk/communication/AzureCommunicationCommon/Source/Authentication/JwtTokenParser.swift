@@ -36,7 +36,7 @@ struct JwtPayload: Decodable {
 /**
  Utility for Handling Access Tokens.
  */
-struct JwtTokenParser {
+enum JwtTokenParser {
     /**
      Create `AccessToken` object from token string
 

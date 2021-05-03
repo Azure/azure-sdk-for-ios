@@ -26,8 +26,8 @@
 
 import XCTest
 
-import AzureCommunicationCommon
 import AzureCommunicationChat
+import AzureCommunicationCommon
 import AzureCore
 
 class IdentifierSerializerTests: XCTestCase {

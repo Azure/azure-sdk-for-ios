@@ -24,8 +24,8 @@
 //
 // --------------------------------------------------------------------------
 
-import AzureCommunicationCommon
 import AzureCommunicationChat
+import AzureCommunicationCommon
 import AzureCore
 import OHHTTPStubsSwift
 import XCTest
