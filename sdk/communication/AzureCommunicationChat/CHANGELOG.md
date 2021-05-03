@@ -8,7 +8,7 @@
     - new:  
         `let options = CreateChatThreadOptions()`
 - Renamed `CommunicationError` to `ChatError`
-
+- Removed following classes:  `CreateChatThreadResult`, `CreateChatThreadRequest`, `ChatMessage`, `ChatMessageContent`, `ChatParticipant`, `ChatMessageReadReceipt`, `ChatThreadProperties`.
 
 ## 1.0.0-beta.11 (2021-04-07)
 ### New Features
