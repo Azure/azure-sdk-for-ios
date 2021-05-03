@@ -2,30 +2,11 @@
 
 ## 1.0.0-beta.12 (2021-05-03)
 ### Breaking Changes
-- Renamed `Chat+CreateChatThreadOptions` to `CreateChatThreadOptions`
-- Renamed `Chat+DeleteChatThreadOptions` to `DeleteChatThreadOptions`
-- Renamed `Chat+ListChatThreadsOptions` to `ListChatThreadsOptions`
-- Renamed `ChatThread+AddChatParticipantsOptions` to `AddChatParticipantsOptions`
-- Renamed `ChatThread+DeleteChatMessageOptions` to `DeleteChatMessageOptions`
-- Renamed `ChatThread+GetChatMessageOptions` to `GetChatMessageOptions`
-- Renamed `ChatThread+GetChatThreadPropertiesOptions` to `GetChatThreadPropertiesOptions`
-- Renamed `ChatThread+ListChatMessagesOptions` to `ListChatMessagesOptions`
-- Renamed `ChatThread+ListChatParticipantsOptions` to `ListChatParticipantsOptions`
-- Renamed `ChatThread+ListChatReadReceiptsOptions` to `ListChatReadReceiptsOptions`
-- Renamed `ChatThread+RemoveChatParticipantOptions` to `RemoveChatParticipantOptions`
-- Renamed `ChatThread+SendChatMessageOptions` to `SendChatMessageOptions`
-- Renamed `ChatThread+SendChatReadReceiptOptions` to `SendChatReadReceiptOptions`
-- Renamed `ChatThread+SendTypingNotificationOptions` to `SendTypingNotificationOptions`
-- Renamed `ChatThread+UpdateChatMessageOptions` to `UpdateChatMessageOptions`
-- Renamed `ChatThread+UpdateChatThreadPropertiesOptions` to `UpdateChatThreadPropertiesOptions`
-- Renamed `CreateChatThreadResult` to `CreateChatThreadResultInternal`
-- Renamed `CreateChatThreadRequest` to `CreateChatThreadRequestInternal`
-- Renamed `ChatMessage` to `ChatMessageInternal`
-- Renamed `ChatMessageContent` to `ChatMessageContentInternal`
-- Renamed `ChatParticipant` to `ChatParticipantInternal`
-- Renamed `ChatMessageReadReceipt` to `ChatMessageReadReceiptInternal`
-- Renamed `ChatThreadProperties` to `ChatThreadPropertiesInternal`
-- Renamed `CommunicationError` to `ChatError`
+- Changed the way in which options are instantiated for the following classes: `CreateChatThreadOptions`, `DeleteChatThreadOptions`,  `ListChatThreadsOptions`, `AddChatParticipantsOptions`, `DeleteChatMessageOptions`, `GetChatMessageOptions`, `GetChatThreadPropertiesOptions`, `ListChatMessagesOptions`, `ListChatParticipantsOptions`, `ListChatReadReceiptsOptions`, `RemoveChatParticipantOptions`, `SendChatMessageOptions`, `SendChatReadReceiptOptions`, `SendTypingNotificationOptions`, `UpdateChatMessageOptions`, `UpdateChatThreadPropertiesOptions`.
+    - old: 
+    `let options = Chat.CreatChatThreadOptions()`
+    - new:  
+    `let options = CreateChatThreadOptions()`
 
 ## 1.0.0-beta.11 (2021-04-07)
 ### New Features
