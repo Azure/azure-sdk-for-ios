@@ -1,5 +1,15 @@
 # Release History
 
+## 1.0.0-beta.12 (2021-05-03)
+### Breaking Changes
+- Changed the way in which options are instantiated for the following classes: `CreateChatThreadOptions`, `DeleteChatThreadOptions`,  `ListChatThreadsOptions`, `AddChatParticipantsOptions`, `DeleteChatMessageOptions`, `GetChatMessageOptions`, `GetChatThreadPropertiesOptions`, `ListChatMessagesOptions`, `ListChatParticipantsOptions`, `ListChatReadReceiptsOptions`, `RemoveChatParticipantOptions`, `SendChatMessageOptions`, `SendChatReadReceiptOptions`, `SendTypingNotificationOptions`, `UpdateChatMessageOptions`, `UpdateChatThreadPropertiesOptions`.
+    - old:
+        `let options = Chat.CreatChatThreadOptions()`
+    - new:  
+        `let options = CreateChatThreadOptions()`
+- Renamed `CommunicationError` to `ChatError`
+- Removed following classes:  `CreateChatThreadResult`, `CreateChatThreadRequest`, `ChatMessage`, `ChatMessageContent`, `ChatParticipant`, `ChatMessageReadReceipt`, `ChatThreadProperties`.
+
 ## 1.0.0-beta.11 (2021-04-07)
 ### New Features
 - Swift PM user should now target the `SwiftPM-AzureCommunicationChat` repo. 

@@ -24,8 +24,8 @@
 //
 // --------------------------------------------------------------------------
 
-import AzureCommunicationCommon
 import AzureCommunicationChat
+import AzureCommunicationCommon
 import AzureCore
 import XCTest
 
@@ -65,7 +65,7 @@ class ChatClientTests: XCTestCase {
                 let chatThread = response.chatThread
                 XCTAssertNotNil(response.chatThread)
                 XCTAssertEqual(chatThread?.topic, thread.topic)
-                XCTAssertNotNil(httpResponse?.httpRequest?.headers["repeatability-Request-Id"])
+                XCTAssertNotNil(httpResponse?.httpRequest?.headers["repeatability-request-id"])
                 XCTAssertNil(response.invalidParticipants)
 
                 if self.mode == "record" {
@@ -103,7 +103,7 @@ class ChatClientTests: XCTestCase {
                 let chatThread = response.chatThread
                 XCTAssertNotNil(response.chatThread)
                 XCTAssertEqual(chatThread?.topic, thread.topic)
-                XCTAssertNotNil(httpResponse?.httpRequest?.headers["repeatability-Request-Id"])
+                XCTAssertNotNil(httpResponse?.httpRequest?.headers["repeatability-request-id"])
                 XCTAssertNil(response.invalidParticipants)
 
             case let .failure(error):
@@ -117,16 +117,16 @@ class ChatClientTests: XCTestCase {
             topic: "Test topic"
         )
 
-        let options = Chat.CreateChatThreadOptions(repeatabilityRequestId: "test-repeatability")
+        let options = CreateChatThreadOptions(repeatabilityRequestId: "test-repeatability")
 
         let expectation = self.expectation(description: "Create thread")
 
         chatClient.create(thread: thread, withOptions: options) { result, httpResponse in
             switch result {
             case .success:
-                XCTAssertNotNil(httpResponse?.httpRequest?.headers["repeatability-Request-Id"])
+                XCTAssertNotNil(httpResponse?.httpRequest?.headers["repeatability-request-id"])
                 XCTAssertEqual(
-                    httpResponse?.httpRequest?.headers["repeatability-Request-Id"],
+                    httpResponse?.httpRequest?.headers["repeatability-request-id"],
                     options.repeatabilityRequestId
                 )
 

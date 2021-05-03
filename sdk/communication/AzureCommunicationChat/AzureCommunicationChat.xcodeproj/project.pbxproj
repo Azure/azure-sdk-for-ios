@@ -7,6 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0EDC08922640892B004CA84B /* SendTypingNotificationOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC08812640892A004CA84B /* SendTypingNotificationOptions.swift */; };
+		0EDC08932640892B004CA84B /* CreateChatThreadOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC08822640892A004CA84B /* CreateChatThreadOptions.swift */; };
+		0EDC08942640892B004CA84B /* ListChatReadReceiptsOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC08832640892A004CA84B /* ListChatReadReceiptsOptions.swift */; };
+		0EDC08952640892B004CA84B /* UpdateChatMessageOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC08842640892A004CA84B /* UpdateChatMessageOptions.swift */; };
+		0EDC08962640892B004CA84B /* SendChatMessageOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC08852640892A004CA84B /* SendChatMessageOptions.swift */; };
+		0EDC08972640892B004CA84B /* GetChatThreadPropertiesOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC08862640892A004CA84B /* GetChatThreadPropertiesOptions.swift */; };
+		0EDC08982640892B004CA84B /* ListChatParticipantsOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC08872640892A004CA84B /* ListChatParticipantsOptions.swift */; };
+		0EDC08992640892B004CA84B /* AzureCommunicationChatClientOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC08882640892A004CA84B /* AzureCommunicationChatClientOptions.swift */; };
+		0EDC089A2640892B004CA84B /* GetChatMessageOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC08892640892A004CA84B /* GetChatMessageOptions.swift */; };
+		0EDC089B2640892B004CA84B /* ListChatMessagesOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC088A2640892B004CA84B /* ListChatMessagesOptions.swift */; };
+		0EDC089C2640892B004CA84B /* DeleteChatThreadOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC088B2640892B004CA84B /* DeleteChatThreadOptions.swift */; };
+		0EDC089D2640892B004CA84B /* ListChatThreadsOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC088C2640892B004CA84B /* ListChatThreadsOptions.swift */; };
+		0EDC089E2640892B004CA84B /* AddChatParticipantsOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC088D2640892B004CA84B /* AddChatParticipantsOptions.swift */; };
+		0EDC089F2640892B004CA84B /* DeleteChatMessageOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC088E2640892B004CA84B /* DeleteChatMessageOptions.swift */; };
+		0EDC08A02640892B004CA84B /* RemoveChatParticipantOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC088F2640892B004CA84B /* RemoveChatParticipantOptions.swift */; };
+		0EDC08A12640892B004CA84B /* SendChatReadReceiptOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC08902640892B004CA84B /* SendChatReadReceiptOptions.swift */; };
+		0EDC08A22640892B004CA84B /* UpdateChatThreadPropertiesOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC08912640892B004CA84B /* UpdateChatThreadPropertiesOptions.swift */; };
 		4077D21553368B726C02EA20 /* Pods_AzureCommunicationChatUnitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FD7709F18BED14D6B73C734 /* Pods_AzureCommunicationChatUnitTests.framework */; };
 		8821443F261388A700040B91 /* TrouterClientIos in Frameworks */ = {isa = PBXBuildFile; productRef = 8821443E261388A700040B91 /* TrouterClientIos */; };
 		8840449825D5FA6300A194DC /* IdentifierSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8840449725D5FA6200A194DC /* IdentifierSerializer.swift */; };
@@ -45,11 +62,6 @@
 		D14DBD00260EACF0005C9C43 /* chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10458A625EEA47800B3EB6D /* chat.swift */; };
 		D1565C71256DB74900AF45F8 /* ChatClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1565C70256DB74900AF45F8 /* ChatClient.swift */; };
 		D1565C74256DB76C00AF45F8 /* ChatThreadClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1565C73256DB76C00AF45F8 /* ChatThreadClient.swift */; };
-		D156F639260BA8B800CD0B71 /* ChatThread+GetChatThreadPropertiesOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D156F638260BA8B800CD0B71 /* ChatThread+GetChatThreadPropertiesOptions.swift */; };
-		D15E98FE25B7C80C00E63DB2 /* Chat+ListChatThreadsOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15E98CF25B7C80C00E63DB2 /* Chat+ListChatThreadsOptions.swift */; };
-		D15E98FF25B7C80C00E63DB2 /* Chat+DeleteChatThreadOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15E98D025B7C80C00E63DB2 /* Chat+DeleteChatThreadOptions.swift */; };
-		D15E990025B7C80C00E63DB2 /* AzureCommunicationChatClientOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15E98D125B7C80C00E63DB2 /* AzureCommunicationChatClientOptions.swift */; };
-		D15E990525B7C80C00E63DB2 /* Chat+CreateChatThreadOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15E98D625B7C80C00E63DB2 /* Chat+CreateChatThreadOptions.swift */; };
 		D15E990C25B7C80C00E63DB2 /* PatchUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15E98DE25B7C80C00E63DB2 /* PatchUtil.swift */; };
 		D15E990D25B7C80C00E63DB2 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15E98DF25B7C80C00E63DB2 /* Chat.swift */; };
 		D15E991025B7C80C00E63DB2 /* SendChatMessageRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15E98E325B7C80C00E63DB2 /* SendChatMessageRequest.swift */; };
@@ -72,18 +84,6 @@
 		D16C804325BA402100C42803 /* CreateChatThreadRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16C804225BA402100C42803 /* CreateChatThreadRequest.swift */; };
 		D16C804725BA406D00C42803 /* CreateChatThreadResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16C804625BA406D00C42803 /* CreateChatThreadResult.swift */; };
 		D17C7B2F25FBF4AE007AD39B /* ChatThread.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17C7B2E25FBF4AE007AD39B /* ChatThread.swift */; };
-		D17C7B4025FBF4C3007AD39B /* ChatThread+UpdateChatThreadPropertiesOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17C7B3325FBF4C2007AD39B /* ChatThread+UpdateChatThreadPropertiesOptions.swift */; };
-		D17C7B4125FBF4C3007AD39B /* ChatThread+ListChatReadReceiptsOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17C7B3425FBF4C2007AD39B /* ChatThread+ListChatReadReceiptsOptions.swift */; };
-		D17C7B4225FBF4C3007AD39B /* ChatThread+SendChatMessageOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17C7B3525FBF4C2007AD39B /* ChatThread+SendChatMessageOptions.swift */; };
-		D17C7B4325FBF4C3007AD39B /* ChatThread+GetChatMessageOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17C7B3625FBF4C2007AD39B /* ChatThread+GetChatMessageOptions.swift */; };
-		D17C7B4425FBF4C3007AD39B /* ChatThread+DeleteChatMessageOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17C7B3725FBF4C2007AD39B /* ChatThread+DeleteChatMessageOptions.swift */; };
-		D17C7B4525FBF4C3007AD39B /* ChatThread+ListChatMessagesOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17C7B3825FBF4C2007AD39B /* ChatThread+ListChatMessagesOptions.swift */; };
-		D17C7B4625FBF4C3007AD39B /* ChatThread+UpdateChatMessageOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17C7B3925FBF4C2007AD39B /* ChatThread+UpdateChatMessageOptions.swift */; };
-		D17C7B4825FBF4C3007AD39B /* ChatThread+SendTypingNotificationOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17C7B3B25FBF4C2007AD39B /* ChatThread+SendTypingNotificationOptions.swift */; };
-		D17C7B4925FBF4C3007AD39B /* ChatThread+SendChatReadReceiptOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17C7B3C25FBF4C3007AD39B /* ChatThread+SendChatReadReceiptOptions.swift */; };
-		D17C7B4A25FBF4C3007AD39B /* ChatThread+AddChatParticipantsOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17C7B3D25FBF4C3007AD39B /* ChatThread+AddChatParticipantsOptions.swift */; };
-		D17C7B4B25FBF4C3007AD39B /* ChatThread+RemoveChatParticipantOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17C7B3E25FBF4C3007AD39B /* ChatThread+RemoveChatParticipantOptions.swift */; };
-		D17C7B4C25FBF4C3007AD39B /* ChatThread+ListChatParticipantsOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17C7B3F25FBF4C3007AD39B /* ChatThread+ListChatParticipantsOptions.swift */; };
 		D17C7B5A25FBF4D5007AD39B /* ChatThreadsItemCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17C7B5025FBF4D5007AD39B /* ChatThreadsItemCollection.swift */; };
 		D17C7B5B25FBF4D5007AD39B /* CreateChatThreadRequestInternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17C7B5125FBF4D5007AD39B /* CreateChatThreadRequestInternal.swift */; };
 		D17C7B5C25FBF4D5007AD39B /* ChatError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17C7B5225FBF4D5007AD39B /* ChatError.swift */; };
@@ -165,6 +165,23 @@
 		0ECA8D2225888DD8006760F7 /* ListParticipantsResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ListParticipantsResponse.json; sourceTree = "<group>"; };
 		0ECA8D28258892CD006760F7 /* AddParticipantResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AddParticipantResponse.json; sourceTree = "<group>"; };
 		0ECA8D2E25889619006760F7 /* ListReadReceiptResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ListReadReceiptResponse.json; sourceTree = "<group>"; };
+		0EDC08812640892A004CA84B /* SendTypingNotificationOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendTypingNotificationOptions.swift; sourceTree = "<group>"; };
+		0EDC08822640892A004CA84B /* CreateChatThreadOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateChatThreadOptions.swift; sourceTree = "<group>"; };
+		0EDC08832640892A004CA84B /* ListChatReadReceiptsOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListChatReadReceiptsOptions.swift; sourceTree = "<group>"; };
+		0EDC08842640892A004CA84B /* UpdateChatMessageOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateChatMessageOptions.swift; sourceTree = "<group>"; };
+		0EDC08852640892A004CA84B /* SendChatMessageOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendChatMessageOptions.swift; sourceTree = "<group>"; };
+		0EDC08862640892A004CA84B /* GetChatThreadPropertiesOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetChatThreadPropertiesOptions.swift; sourceTree = "<group>"; };
+		0EDC08872640892A004CA84B /* ListChatParticipantsOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListChatParticipantsOptions.swift; sourceTree = "<group>"; };
+		0EDC08882640892A004CA84B /* AzureCommunicationChatClientOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AzureCommunicationChatClientOptions.swift; sourceTree = "<group>"; };
+		0EDC08892640892A004CA84B /* GetChatMessageOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetChatMessageOptions.swift; sourceTree = "<group>"; };
+		0EDC088A2640892B004CA84B /* ListChatMessagesOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListChatMessagesOptions.swift; sourceTree = "<group>"; };
+		0EDC088B2640892B004CA84B /* DeleteChatThreadOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteChatThreadOptions.swift; sourceTree = "<group>"; };
+		0EDC088C2640892B004CA84B /* ListChatThreadsOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListChatThreadsOptions.swift; sourceTree = "<group>"; };
+		0EDC088D2640892B004CA84B /* AddChatParticipantsOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddChatParticipantsOptions.swift; sourceTree = "<group>"; };
+		0EDC088E2640892B004CA84B /* DeleteChatMessageOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteChatMessageOptions.swift; sourceTree = "<group>"; };
+		0EDC088F2640892B004CA84B /* RemoveChatParticipantOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoveChatParticipantOptions.swift; sourceTree = "<group>"; };
+		0EDC08902640892B004CA84B /* SendChatReadReceiptOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendChatReadReceiptOptions.swift; sourceTree = "<group>"; };
+		0EDC08912640892B004CA84B /* UpdateChatThreadPropertiesOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateChatThreadPropertiesOptions.swift; sourceTree = "<group>"; };
 		2CB55B558C70B4045A54487D /* Pods-AzureCommunicationChatTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunicationChatTests.debug.xcconfig"; path = "Target Support Files/Pods-AzureCommunicationChatTests/Pods-AzureCommunicationChatTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7FD7709F18BED14D6B73C734 /* Pods_AzureCommunicationChatUnitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCommunicationChatUnitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		81ACD2D328DC5DE8F0F90C92 /* Pods-AzureCommunicationChatUnitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunicationChatUnitTests.debug.xcconfig"; path = "Target Support Files/Pods-AzureCommunicationChatUnitTests/Pods-AzureCommunicationChatUnitTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -199,11 +216,6 @@
 		D147E62825CE242C001CFB5D /* AzureCommunicationChatUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AzureCommunicationChatUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1565C70256DB74900AF45F8 /* ChatClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatClient.swift; sourceTree = "<group>"; };
 		D1565C73256DB76C00AF45F8 /* ChatThreadClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatThreadClient.swift; sourceTree = "<group>"; };
-		D156F638260BA8B800CD0B71 /* ChatThread+GetChatThreadPropertiesOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatThread+GetChatThreadPropertiesOptions.swift"; sourceTree = "<group>"; };
-		D15E98CF25B7C80C00E63DB2 /* Chat+ListChatThreadsOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Chat+ListChatThreadsOptions.swift"; sourceTree = "<group>"; };
-		D15E98D025B7C80C00E63DB2 /* Chat+DeleteChatThreadOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Chat+DeleteChatThreadOptions.swift"; sourceTree = "<group>"; };
-		D15E98D125B7C80C00E63DB2 /* AzureCommunicationChatClientOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AzureCommunicationChatClientOptions.swift; sourceTree = "<group>"; };
-		D15E98D625B7C80C00E63DB2 /* Chat+CreateChatThreadOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Chat+CreateChatThreadOptions.swift"; sourceTree = "<group>"; };
 		D15E98DE25B7C80C00E63DB2 /* PatchUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchUtil.swift; sourceTree = "<group>"; };
 		D15E98DF25B7C80C00E63DB2 /* Chat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		D15E98E325B7C80C00E63DB2 /* SendChatMessageRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendChatMessageRequest.swift; sourceTree = "<group>"; };
@@ -226,18 +238,6 @@
 		D16C804225BA402100C42803 /* CreateChatThreadRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChatThreadRequest.swift; sourceTree = "<group>"; };
 		D16C804625BA406D00C42803 /* CreateChatThreadResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChatThreadResult.swift; sourceTree = "<group>"; };
 		D17C7B2E25FBF4AE007AD39B /* ChatThread.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatThread.swift; sourceTree = "<group>"; };
-		D17C7B3325FBF4C2007AD39B /* ChatThread+UpdateChatThreadPropertiesOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatThread+UpdateChatThreadPropertiesOptions.swift"; sourceTree = "<group>"; };
-		D17C7B3425FBF4C2007AD39B /* ChatThread+ListChatReadReceiptsOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatThread+ListChatReadReceiptsOptions.swift"; sourceTree = "<group>"; };
-		D17C7B3525FBF4C2007AD39B /* ChatThread+SendChatMessageOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatThread+SendChatMessageOptions.swift"; sourceTree = "<group>"; };
-		D17C7B3625FBF4C2007AD39B /* ChatThread+GetChatMessageOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatThread+GetChatMessageOptions.swift"; sourceTree = "<group>"; };
-		D17C7B3725FBF4C2007AD39B /* ChatThread+DeleteChatMessageOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatThread+DeleteChatMessageOptions.swift"; sourceTree = "<group>"; };
-		D17C7B3825FBF4C2007AD39B /* ChatThread+ListChatMessagesOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatThread+ListChatMessagesOptions.swift"; sourceTree = "<group>"; };
-		D17C7B3925FBF4C2007AD39B /* ChatThread+UpdateChatMessageOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatThread+UpdateChatMessageOptions.swift"; sourceTree = "<group>"; };
-		D17C7B3B25FBF4C2007AD39B /* ChatThread+SendTypingNotificationOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatThread+SendTypingNotificationOptions.swift"; sourceTree = "<group>"; };
-		D17C7B3C25FBF4C3007AD39B /* ChatThread+SendChatReadReceiptOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatThread+SendChatReadReceiptOptions.swift"; sourceTree = "<group>"; };
-		D17C7B3D25FBF4C3007AD39B /* ChatThread+AddChatParticipantsOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatThread+AddChatParticipantsOptions.swift"; sourceTree = "<group>"; };
-		D17C7B3E25FBF4C3007AD39B /* ChatThread+RemoveChatParticipantOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatThread+RemoveChatParticipantOptions.swift"; sourceTree = "<group>"; };
-		D17C7B3F25FBF4C3007AD39B /* ChatThread+ListChatParticipantsOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatThread+ListChatParticipantsOptions.swift"; sourceTree = "<group>"; };
 		D17C7B5025FBF4D5007AD39B /* ChatThreadsItemCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatThreadsItemCollection.swift; sourceTree = "<group>"; };
 		D17C7B5125FBF4D5007AD39B /* CreateChatThreadRequestInternal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateChatThreadRequestInternal.swift; sourceTree = "<group>"; };
 		D17C7B5225FBF4D5007AD39B /* ChatError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatError.swift; sourceTree = "<group>"; };
@@ -416,23 +416,23 @@
 		D15E98CB25B7C80C00E63DB2 /* Options */ = {
 			isa = PBXGroup;
 			children = (
-				D156F638260BA8B800CD0B71 /* ChatThread+GetChatThreadPropertiesOptions.swift */,
-				D17C7B3D25FBF4C3007AD39B /* ChatThread+AddChatParticipantsOptions.swift */,
-				D17C7B3725FBF4C2007AD39B /* ChatThread+DeleteChatMessageOptions.swift */,
-				D17C7B3625FBF4C2007AD39B /* ChatThread+GetChatMessageOptions.swift */,
-				D17C7B3825FBF4C2007AD39B /* ChatThread+ListChatMessagesOptions.swift */,
-				D17C7B3F25FBF4C3007AD39B /* ChatThread+ListChatParticipantsOptions.swift */,
-				D17C7B3425FBF4C2007AD39B /* ChatThread+ListChatReadReceiptsOptions.swift */,
-				D17C7B3E25FBF4C3007AD39B /* ChatThread+RemoveChatParticipantOptions.swift */,
-				D17C7B3525FBF4C2007AD39B /* ChatThread+SendChatMessageOptions.swift */,
-				D17C7B3C25FBF4C3007AD39B /* ChatThread+SendChatReadReceiptOptions.swift */,
-				D17C7B3B25FBF4C2007AD39B /* ChatThread+SendTypingNotificationOptions.swift */,
-				D17C7B3925FBF4C2007AD39B /* ChatThread+UpdateChatMessageOptions.swift */,
-				D17C7B3325FBF4C2007AD39B /* ChatThread+UpdateChatThreadPropertiesOptions.swift */,
-				D15E98CF25B7C80C00E63DB2 /* Chat+ListChatThreadsOptions.swift */,
-				D15E98D025B7C80C00E63DB2 /* Chat+DeleteChatThreadOptions.swift */,
-				D15E98D125B7C80C00E63DB2 /* AzureCommunicationChatClientOptions.swift */,
-				D15E98D625B7C80C00E63DB2 /* Chat+CreateChatThreadOptions.swift */,
+				0EDC088D2640892B004CA84B /* AddChatParticipantsOptions.swift */,
+				0EDC08882640892A004CA84B /* AzureCommunicationChatClientOptions.swift */,
+				0EDC08822640892A004CA84B /* CreateChatThreadOptions.swift */,
+				0EDC088E2640892B004CA84B /* DeleteChatMessageOptions.swift */,
+				0EDC088B2640892B004CA84B /* DeleteChatThreadOptions.swift */,
+				0EDC08892640892A004CA84B /* GetChatMessageOptions.swift */,
+				0EDC08862640892A004CA84B /* GetChatThreadPropertiesOptions.swift */,
+				0EDC088A2640892B004CA84B /* ListChatMessagesOptions.swift */,
+				0EDC08872640892A004CA84B /* ListChatParticipantsOptions.swift */,
+				0EDC08832640892A004CA84B /* ListChatReadReceiptsOptions.swift */,
+				0EDC088C2640892B004CA84B /* ListChatThreadsOptions.swift */,
+				0EDC088F2640892B004CA84B /* RemoveChatParticipantOptions.swift */,
+				0EDC08852640892A004CA84B /* SendChatMessageOptions.swift */,
+				0EDC08902640892B004CA84B /* SendChatReadReceiptOptions.swift */,
+				0EDC08812640892A004CA84B /* SendTypingNotificationOptions.swift */,
+				0EDC08842640892A004CA84B /* UpdateChatMessageOptions.swift */,
+				0EDC08912640892B004CA84B /* UpdateChatThreadPropertiesOptions.swift */,
 			);
 			path = Options;
 			sourceTree = "<group>";
@@ -882,68 +882,68 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
+				0EDC08932640892B004CA84B /* CreateChatThreadOptions.swift in Sources */,
+				0EDC08952640892B004CA84B /* UpdateChatMessageOptions.swift in Sources */,
 				D197C5DF260E82F80049718B /* TokenCredentialAdapter.swift in Sources */,
 				D1565C71256DB74900AF45F8 /* ChatClient.swift in Sources */,
-				D17C7B4825FBF4C3007AD39B /* ChatThread+SendTypingNotificationOptions.swift in Sources */,
+				0EDC089D2640892B004CA84B /* ListChatThreadsOptions.swift in Sources */,
+				0EDC08992640892B004CA84B /* AzureCommunicationChatClientOptions.swift in Sources */,
+				0EDC08A02640892B004CA84B /* RemoveChatParticipantOptions.swift in Sources */,
 				D1565C74256DB76C00AF45F8 /* ChatThreadClient.swift in Sources */,
 				D10458A725EEA47800B3EB6D /* CommunicationSignalingClient.swift in Sources */,
 				D10458A825EEA47800B3EB6D /* TrouterEventUtil.swift in Sources */,
-				D15E990525B7C80C00E63DB2 /* Chat+CreateChatThreadOptions.swift in Sources */,
 				D17C7B5E25FBF4D5007AD39B /* ChatParticipantInternal.swift in Sources */,
+				0EDC089C2640892B004CA84B /* DeleteChatThreadOptions.swift in Sources */,
 				D15E991925B7C80C00E63DB2 /* Enumerations.swift in Sources */,
 				D16C803325BA0AE400C42803 /* ChatThreadProperties.swift in Sources */,
 				D16C804725BA406D00C42803 /* CreateChatThreadResult.swift in Sources */,
-				D17C7B4525FBF4C3007AD39B /* ChatThread+ListChatMessagesOptions.swift in Sources */,
+				0EDC08962640892B004CA84B /* SendChatMessageOptions.swift in Sources */,
 				D15E992225B7C80C00E63DB2 /* SendChatMessageResult.swift in Sources */,
 				88D37B9025D60CCD004F3699 /* CommunicationUserIdentifierModel.swift in Sources */,
-				D17C7B4025FBF4C3007AD39B /* ChatThread+UpdateChatThreadPropertiesOptions.swift in Sources */,
-				D156F639260BA8B800CD0B71 /* ChatThread+GetChatThreadPropertiesOptions.swift in Sources */,
+				0EDC089E2640892B004CA84B /* AddChatParticipantsOptions.swift in Sources */,
 				88D37B8E25D60CCD004F3699 /* CommunicationIdentifierModel.swift in Sources */,
 				D15E992325B7C80C00E63DB2 /* AddChatParticipantsRequest.swift in Sources */,
 				D15E990C25B7C80C00E63DB2 /* PatchUtil.swift in Sources */,
+				0EDC089F2640892B004CA84B /* DeleteChatMessageOptions.swift in Sources */,
 				D17C7B2F25FBF4AE007AD39B /* ChatThread.swift in Sources */,
 				D17C7B5A25FBF4D5007AD39B /* ChatThreadsItemCollection.swift in Sources */,
+				0EDC08942640892B004CA84B /* ListChatReadReceiptsOptions.swift in Sources */,
+				0EDC08972640892B004CA84B /* GetChatThreadPropertiesOptions.swift in Sources */,
 				D15E991825B7C80C00E63DB2 /* CommunicationErrorResponse.swift in Sources */,
 				D17C7B6125FBF4D5007AD39B /* ChatThreadPropertiesInternal.swift in Sources */,
 				D15E991225B7C80C00E63DB2 /* UpdateChatThreadRequest.swift in Sources */,
 				D17C7B6325FBF4D5007AD39B /* ChatMessageContentInternal.swift in Sources */,
-				D17C7B4325FBF4C3007AD39B /* ChatThread+GetChatMessageOptions.swift in Sources */,
 				D14DBCFB260EACEA005C9C43 /* TrouterNotificationPayload.swift in Sources */,
 				D17C7B6225FBF4D5007AD39B /* ChatThreadItem.swift in Sources */,
 				D17C7B5C25FBF4D5007AD39B /* ChatError.swift in Sources */,
 				88D37B9125D60CCD004F3699 /* PhoneNumberIdentifierModel.swift in Sources */,
 				D15E991A25B7C80C00E63DB2 /* AddChatParticipantsResult.swift in Sources */,
 				D17C7B5D25FBF4D5007AD39B /* CreateChatThreadResultInternal.swift in Sources */,
-				D17C7B4A25FBF4C3007AD39B /* ChatThread+AddChatParticipantsOptions.swift in Sources */,
 				D15E991E25B7C80C00E63DB2 /* UpdateChatMessageRequest.swift in Sources */,
-				D17C7B4C25FBF4C3007AD39B /* ChatThread+ListChatParticipantsOptions.swift in Sources */,
 				8840449825D5FA6300A194DC /* IdentifierSerializer.swift in Sources */,
 				D16C803F25BA0B5200C42803 /* ChatMessageContent.swift in Sources */,
-				D15E98FF25B7C80C00E63DB2 /* Chat+DeleteChatThreadOptions.swift in Sources */,
-				D17C7B4625FBF4C3007AD39B /* ChatThread+UpdateChatMessageOptions.swift in Sources */,
 				88D37B8F25D60CCD004F3699 /* MicrosoftTeamsUserIdentifierModel.swift in Sources */,
-				D15E990025B7C80C00E63DB2 /* AzureCommunicationChatClientOptions.swift in Sources */,
-				D17C7B4425FBF4C3007AD39B /* ChatThread+DeleteChatMessageOptions.swift in Sources */,
 				D17C7B5F25FBF4D5007AD39B /* ChatMessageInternal.swift in Sources */,
-				D17C7B4B25FBF4C3007AD39B /* ChatThread+RemoveChatParticipantOptions.swift in Sources */,
 				D14DBCFF260EACED005C9C43 /* TrouterSettings.swift in Sources */,
 				D15E991025B7C80C00E63DB2 /* SendChatMessageRequest.swift in Sources */,
 				D16C804325BA402100C42803 /* CreateChatThreadRequest.swift in Sources */,
-				D17C7B4125FBF4C3007AD39B /* ChatThread+ListChatReadReceiptsOptions.swift in Sources */,
-				D15E98FE25B7C80C00E63DB2 /* Chat+ListChatThreadsOptions.swift in Sources */,
 				D14DBD00260EACF0005C9C43 /* chat.swift in Sources */,
 				D15E991425B7C80C00E63DB2 /* ChatMessagesCollection.swift in Sources */,
 				D15E990D25B7C80C00E63DB2 /* Chat.swift in Sources */,
 				D15E992525B7C80C00E63DB2 /* ChatParticipantsCollection.swift in Sources */,
 				D15E992025B7C80C00E63DB2 /* SendReadReceiptRequest.swift in Sources */,
+				0EDC08922640892B004CA84B /* SendTypingNotificationOptions.swift in Sources */,
+				0EDC089A2640892B004CA84B /* GetChatMessageOptions.swift in Sources */,
+				0EDC08A12640892B004CA84B /* SendChatReadReceiptOptions.swift in Sources */,
 				D17C7B5B25FBF4D5007AD39B /* CreateChatThreadRequestInternal.swift in Sources */,
+				0EDC089B2640892B004CA84B /* ListChatMessagesOptions.swift in Sources */,
 				D15E991B25B7C80C00E63DB2 /* ChatMessageReadReceiptsCollection.swift in Sources */,
 				D16C802D25BA0A2400C42803 /* ChatMessage.swift in Sources */,
-				D17C7B4925FBF4C3007AD39B /* ChatThread+SendChatReadReceiptOptions.swift in Sources */,
 				88D37B9925D60EDB004F3699 /* AzureCommunicationChatClient.swift in Sources */,
-				D17C7B4225FBF4C3007AD39B /* ChatThread+SendChatMessageOptions.swift in Sources */,
 				D16C803725BA0AFE00C42803 /* ChatParticipant.swift in Sources */,
 				D16C803B25BA0B0E00C42803 /* ChatMessageReadReceipt.swift in Sources */,
+				0EDC08982640892B004CA84B /* ListChatParticipantsOptions.swift in Sources */,
+				0EDC08A22640892B004CA84B /* UpdateChatThreadPropertiesOptions.swift in Sources */,
 				D17C7B6025FBF4D5007AD39B /* ChatMessageReadReceiptInternal.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -981,7 +981,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1008,7 +1008,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = Tests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
