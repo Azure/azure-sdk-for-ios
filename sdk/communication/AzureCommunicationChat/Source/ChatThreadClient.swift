@@ -134,7 +134,7 @@ public class ChatThreadClient {
     ///   - options: Get chat thread options.
     ///   - completionHandler: A completion handler that receives the chat thread properties on success.
     public func getProperties(
-        withOptions options: ChatThread.GetChatThreadPropertiesOptions? = nil,
+        withOptions options: GetChatThreadPropertiesOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<ChatThreadProperties>
     ) {
         service.getChatThreadProperties(chatThreadId: threadId, withOptions: options) { result, httpResponse in
@@ -161,7 +161,7 @@ public class ChatThreadClient {
     ///   - completionHandler: A completion handler that receives a status code on success.
     public func update(
         topic: String,
-        withOptions options: ChatThread.UpdateChatThreadPropertiesOptions? = nil,
+        withOptions options: UpdateChatThreadPropertiesOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
         let updateChatThreadRequest = UpdateChatThreadRequest(topic: topic)
@@ -189,7 +189,7 @@ public class ChatThreadClient {
     ///   - completionHandler: A completion handler that receives a status code on success.
     public func sendReadReceipt(
         forMessage messageId: String,
-        withOptions options: ChatThread.SendChatReadReceiptOptions? = nil,
+        withOptions options: SendChatReadReceiptOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
         let sendReadReceiptRequest = SendReadReceiptRequest(chatMessageId: messageId)
@@ -215,7 +215,7 @@ public class ChatThreadClient {
     ///   - options: List chat read receipts options.
     ///   - completionHandler: A completion handler that receives the list of read receipts on success.
     public func listReadReceipts(
-        withOptions options: ChatThread.ListChatReadReceiptsOptions? = nil,
+        withOptions options: ListChatReadReceiptsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatMessageReadReceipt>>
     ) {
         service.listChatReadReceipts(chatThreadId: threadId, withOptions: options) { result, httpResponse in
@@ -247,7 +247,7 @@ public class ChatThreadClient {
     ///    - options: Send typing notification options
     ///    - completionHandler: A completion handler that receives a status code on success.
     public func sendTypingNotification(
-        withOptions options: ChatThread.SendTypingNotificationOptions? = nil,
+        withOptions options: SendTypingNotificationOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
         service.sendTypingNotification(chatThreadId: threadId, withOptions: options) { result, httpResponse in
@@ -268,7 +268,7 @@ public class ChatThreadClient {
     ///    - completionHandler: A completion handler that receives a status code on success.
     public func send(
         message: SendChatMessageRequest,
-        withOptions options: ChatThread.SendChatMessageOptions? = nil,
+        withOptions options: SendChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<SendChatMessageResult>
     ) {
         service
@@ -290,7 +290,7 @@ public class ChatThreadClient {
     ///    - completionHandler: A completion handler that receives the chat message on success.
     public func get(
         message messageId: String,
-        withOptions options: ChatThread.GetChatMessageOptions? = nil,
+        withOptions options: GetChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<ChatMessage>
     ) {
         service
@@ -324,7 +324,7 @@ public class ChatThreadClient {
     public func update(
         content: String,
         messageId: String,
-        withOptions options: ChatThread.UpdateChatMessageOptions? = nil,
+        withOptions options: UpdateChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
         let updateMessageRequest = UpdateChatMessageRequest(content: content)
@@ -353,7 +353,7 @@ public class ChatThreadClient {
     ///    - completionHandler: A completion handler that receives a status code on success.
     public func delete(
         message messageId: String,
-        options: ChatThread.DeleteChatMessageOptions? = nil,
+        options: DeleteChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
         service
@@ -377,7 +377,7 @@ public class ChatThreadClient {
     ///    - options: List messages options.
     ///    - completionHandler: A completion handler that receives the list of messages on success.
     public func listMessages(
-        withOptions options: ChatThread.ListChatMessagesOptions? = nil,
+        withOptions options: ListChatMessagesOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatMessage>>
     ) {
         service.listChatMessages(chatThreadId: threadId, withOptions: options) { result, httpResponse in
@@ -411,7 +411,7 @@ public class ChatThreadClient {
     ///    - completionHandler: A completion handler that receives a status code on success.
     public func add(
         participants: [ChatParticipant],
-        withOptions options: ChatThread.AddChatParticipantsOptions? = nil,
+        withOptions options: AddChatParticipantsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<AddChatParticipantsResult>
     ) {
         do {
@@ -451,7 +451,7 @@ public class ChatThreadClient {
     ///    - completionHandler: A completion handler that receives a status code on success.
     public func remove(
         participant participantIdentifier: CommunicationIdentifier,
-        withOptions options: ChatThread.RemoveChatParticipantOptions? = nil,
+        withOptions options: RemoveChatParticipantOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
         do {
@@ -485,7 +485,7 @@ public class ChatThreadClient {
     ///    - options: List chat participants options.
     ///    - completionHandler: A completion handler that receives the list of members on success.
     public func listParticipants(
-        withOptions options: ChatThread.ListChatParticipantsOptions? = nil,
+        withOptions options: ListChatParticipantsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatParticipant>>
     ) {
         service.listChatParticipants(chatThreadId: threadId, withOptions: options) { result, httpResponse in

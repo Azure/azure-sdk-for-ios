@@ -111,11 +111,11 @@ public class ChatClient {
     ///   - completionHandler: A completion handler that receives a ChatThreadClient on success.
     public func create(
         thread: CreateChatThreadRequest,
-        withOptions options: Chat.CreateChatThreadOptions? = nil,
+        withOptions options: CreateChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<CreateChatThreadResult>
     ) {
         // Set the repeatabilityRequestId if it is not provided
-        let requestOptions = ((options?.repeatabilityRequestId) != nil) ? options : Chat.CreateChatThreadOptions(
+        let requestOptions = ((options?.repeatabilityRequestId) != nil) ? options : CreateChatThreadOptions(
             repeatabilityRequestId: UUID().uuidString,
             clientRequestId: options?.clientRequestId,
             cancellationToken: options?.cancellationToken,
@@ -160,7 +160,7 @@ public class ChatClient {
     ///   - options: List chat threads options.
     ///   - completionHandler: A completion handler that receives the list of chat thread items on success.
     public func listThreads(
-        withOptions options: Chat.ListChatThreadsOptions? = nil,
+        withOptions options: ListChatThreadsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<PagedCollection<ChatThreadItem>>
     ) {
         service.listChatThreads(withOptions: options) { result, httpResponse in
@@ -181,7 +181,7 @@ public class ChatClient {
     ///   - completionHandler: A completion handler.
     public func delete(
         thread threadId: String,
-        withOptions options: Chat.DeleteChatThreadOptions? = nil,
+        withOptions options: DeleteChatThreadOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
         service.deleteChatThread(chatThreadId: threadId, withOptions: options) { result, httpResponse in
