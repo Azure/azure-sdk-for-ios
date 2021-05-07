@@ -25,6 +25,13 @@ def _log_error_and_quit(msg, out = None, err = None, code = 1):
     sys.exit(code)
 
 
+def _log_warning(msg):
+    """ Log a warning message. """
+    warning_color = '\033[93m'
+    end_color = '\033[0m'
+    logging.warning(f'{warning_color}{msg}{end_color}')
+
+
 """
 Returns a dictionary of Modules and versions from the Xcodeproj files
 """
@@ -37,7 +44,9 @@ def _get_xcodeproj_versions():
         with open(path, mode='r') as f:
             lines = [l for l in f.readlines() if 'MARKETING_VERSION' in l]
         for line in lines:
-            version = re.search(r'"([^"]+)"', line).groups()[0]
+            # version may or may not be in double quotes in the file
+            version_match = re.search(r'"([^"]+)"', line) or re.search(r'MARKETING_VERSION = ([^;]+);', line)
+            version = version_match.groups()[0]
             if module_name in versions and versions[module_name] != version:
                 # throws error if multiple different versions are found
                 message = f'Found multiple versions for {module_name}: {version} and {versions[module_name]}'
@@ -89,7 +98,7 @@ def verify(argv):
     # warn if there are modules that are available via CocoaPods but not SPM
     for module in podspec_versions.keys():
         if module not in swift_modules:
-            logging.warning(f'Module {module} has a podspec but is not in Package.swift. It cannot be acquired via SPM.')
+            _log_warning(f'Module {module} has a podspec but is not in Package.swift. It cannot be acquired via SPM.')
         if module not in xcodeproj_versions:
             _log_error_and_quit(f'Module {module} has a podspec but no Xcodeproj file.')
         elif podspec_versions[module] != xcodeproj_versions[module]:
@@ -98,7 +107,7 @@ def verify(argv):
     # warn for modules which are not released in any form
     for module in xcodeproj_versions.keys():
         if module not in swift_modules and module not in podspec_versions:
-            logging.warning(f'Module {module} is on the master branch but not available via any release mechanism.')
+            _log_warning(f'Module {module} is on the master branch but not available via any release mechanism.')
 
     print('Package.swift, podspecs and Xcodeproj files are consistent.')
     sys.exit(0)
@@ -122,12 +131,14 @@ def current(argv):
 
 
 def _update_file(path, old, new):
-    with open(path, mode='r') as f:
-        data = f.read()
-    data = data.replace(old, new)
-    with open(path, mode='w') as f:
-        f.write(data)
-
+    try:
+        with open(path, mode='r') as f:
+            data = f.read()
+        data = data.replace(old, new)
+        with open(path, mode='w') as f:
+            f.write(data)
+    except FileNotFoundError:
+        _log_warning(f'File {path} not found. Skipping...')
 
 """
 Updates the version, source and dependency info for specified podspec files
@@ -211,11 +222,7 @@ def update(argv):
     if "." not in old or "." not in new:
         _log_error_and_quit(f'usage: {__file__} update old_version new_version [package_name ...]')
 
-    # TODO: maybe (?) update CHANGELOG.md
-
-    files_to_update = [
-        'eng/ignore-links.txt'
-    ]
+    files_to_update = []
     for mod in modules:
         files_to_update.append(f'jazzy/{mod}.yml')
 
