@@ -122,10 +122,9 @@ jobs:
           Directory: ""
           CheckLinkGuidance: $true
 
-# TODO: Temporarily disabled due to issue #815
-#      - script: |
-#          python ./eng/scripts/version.py verify
-#        displayName: Verify Versions
+      - script: |
+          python ./eng/scripts/version.py verify
+        displayName: Verify Versions
 
       - script: ./eng/scripts/podlint.sh
         displayName: Lint PodSpecs
