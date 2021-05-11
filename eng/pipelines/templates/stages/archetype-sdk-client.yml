@@ -2,7 +2,9 @@ parameters:
 - name: BuildScheme
   type: string
   default: sdk
-  
+- name: ServiceDirectory
+  type: string
+
 stages:
   - stage: Build
     jobs:
