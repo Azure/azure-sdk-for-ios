@@ -16,19 +16,19 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Chat thread.
-public struct ChatThreadPropertiesInternal: Codable {
+internal struct ChatThreadPropertiesInternal: Codable {
     // MARK: Properties
 
     /// Chat thread id.
-    public let id: String
+    internal let id: String
     /// Chat thread topic.
-    public let topic: String
+    internal let topic: String
     /// The timestamp when the chat thread was created. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
-    public let createdOn: Iso8601Date
+    internal let createdOn: Iso8601Date
     /// Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.
-    public let createdByCommunicationIdentifier: CommunicationIdentifierModel
+    internal let createdByCommunicationIdentifier: CommunicationIdentifierModel
     /// The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
-    public let deletedOn: Iso8601Date?
+    internal let deletedOn: Iso8601Date?
 
     // MARK: Initializers
 
@@ -39,7 +39,7 @@ public struct ChatThreadPropertiesInternal: Codable {
     ///   - createdOn: The timestamp when the chat thread was created. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     ///   - createdByCommunicationIdentifier: Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.
     ///   - deletedOn: The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
-    public init(
+    internal init(
         id: String, topic: String, createdOn: Iso8601Date,
         createdByCommunicationIdentifier: CommunicationIdentifierModel,
         deletedOn: Iso8601Date? = nil

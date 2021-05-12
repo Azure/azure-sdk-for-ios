@@ -16,13 +16,13 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Request payload for creating a chat thread.
-public struct CreateChatThreadRequestInternal: Codable {
+internal struct CreateChatThreadRequestInternal: Codable {
     // MARK: Properties
 
     /// The chat thread topic.
-    public let topic: String
+    internal let topic: String
     /// Participants to be added to the chat thread.
-    public let participants: [ChatParticipantInternal]?
+    internal let participants: [ChatParticipantInternal]?
 
     // MARK: Initializers
 
@@ -30,7 +30,7 @@ public struct CreateChatThreadRequestInternal: Codable {
     /// - Parameters:
     ///   - topic: The chat thread topic.
     ///   - participants: Participants to be added to the chat thread.
-    public init(
+    internal init(
         topic: String, participants: [ChatParticipantInternal]? = nil
     ) {
         self.topic = topic
