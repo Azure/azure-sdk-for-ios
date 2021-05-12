@@ -5,6 +5,10 @@ trigger:
     - master
     - hotfix/*
     - release/*
+  paths:
+    include:
+    - sdk/storage/
+    - sdk/eng/
     
 pr:
   branches:
@@ -13,8 +17,12 @@ pr:
     - feature/*
     - hotfix/*
     - release/*
+  paths:
+    include:
+    - sdk/storage/
+    - sdk/eng/
 
 extends:
   template: templates/stages/archetype-sdk-client.yml
   parameters:
-    ServiceDirectory: sdk
+    ServiceDirectory: storage

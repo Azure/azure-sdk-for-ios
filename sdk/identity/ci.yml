@@ -5,6 +5,10 @@ trigger:
     - master
     - hotfix/*
     - release/*
+  paths:
+    include:
+    - sdk/identity/
+    - sdk/eng/
     
 pr:
   branches:
@@ -13,8 +17,13 @@ pr:
     - feature/*
     - hotfix/*
     - release/*
+  paths:
+    include:
+    - sdk/identity/
+    - sdk/eng/
+
 
 extends:
   template: templates/stages/archetype-sdk-client.yml
   parameters:
-    ServiceDirectory: sdk
+    ServiceDirectory: identity
