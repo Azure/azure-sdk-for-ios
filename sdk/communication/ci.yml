@@ -27,3 +27,7 @@ extends:
   template: templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: communication
+    Artifacts:
+    - name: AzureCommunicationCommon
+    - name: AzureCommunicationChat
+    - name: AzureCommunicationCalling

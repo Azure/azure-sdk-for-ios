@@ -27,3 +27,5 @@ extends:
   template: templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: identity
+    Artifacts:
+    - name: AzureIdentity

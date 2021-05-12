@@ -26,3 +26,5 @@ extends:
   template: templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: storage
+    Artifacts:
+    - name: AzureStorageBlob
