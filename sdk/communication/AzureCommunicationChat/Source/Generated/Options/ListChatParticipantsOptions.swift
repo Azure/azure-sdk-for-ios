@@ -15,7 +15,7 @@ import Foundation
 // swiftlint:disable identifier_name
 // swiftlint:disable line_length
 
-/// User-configurable options for the `AzureCommunicationChatService.ListChatParticipants` operation.
+/// User-configurable options for the `ListChatParticipants` operation.
 public struct ListChatParticipantsOptions: RequestOptions {
     /// The maximum number of participants to be returned per page.
     public let maxPageSize: Int32?

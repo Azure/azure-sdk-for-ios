@@ -20,7 +20,7 @@ public struct CommunicationErrorResponse: Codable, Swift.Error {
     // MARK: Properties
 
     /// The Communication Services error.
-    public let error: ChatError
+    public let error: CommunicationError
 
     // MARK: Initializers
 
@@ -28,7 +28,7 @@ public struct CommunicationErrorResponse: Codable, Swift.Error {
     /// - Parameters:
     ///   - error: The Communication Services error.
     public init(
-        error: ChatError
+        error: CommunicationError
     ) {
         self.error = error
     }
@@ -42,7 +42,7 @@ public struct CommunicationErrorResponse: Codable, Swift.Error {
     /// Initialize a `CommunicationErrorResponse` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.error = try container.decode(ChatError.self, forKey: .error)
+        self.error = try container.decode(CommunicationError.self, forKey: .error)
     }
 
     /// Encode a `CommunicationErrorResponse` structure
