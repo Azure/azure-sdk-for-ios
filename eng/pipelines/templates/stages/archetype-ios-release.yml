@@ -58,7 +58,7 @@ stages:
                 deploy:
                   steps:
                     - script: |
-                        echo Pretend we are publishing to CocoaPods truck.
+                        echo "Pretend we are publishing to CocoaPods trunk.""
 
           - deployment: PublishPackageToSwiftPackageManagerMirrors
             displayName: "Publish to CocoaPods Trunk"
@@ -75,4 +75,4 @@ stages:
                 deploy:
                   steps:
                     - script: |
-                        echo Pretend we are publishing to Swift Package Manager mirrors
+                        echo "Pretend we are publishing to Swift Package Manager mirrors"
