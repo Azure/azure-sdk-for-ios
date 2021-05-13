@@ -38,6 +38,13 @@
             location = "group:AzureStorageBlob/AzureStorageBlob.xcodeproj">
          </FileRef>
       </Group>
+      <Group
+         location = "group:/Users/travisprescott/repos/azure-sdk-for-ios/sdk/template"
+         name = "template">
+         <FileRef
+            location = "group:AzureTemplate/AzureTemplate.xcodeproj">
+         </FileRef>
+      </Group>
    </Group>
    <Group
       location = "group:examples"
