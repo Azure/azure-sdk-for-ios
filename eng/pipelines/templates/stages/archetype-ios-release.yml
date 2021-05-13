@@ -1,0 +1,78 @@
+parameters:
+  - name: DependsOn
+    type: object
+  - name: ServiceDirectory
+    type: string
+  - name: Artifacts
+    type: object
+    default: []
+
+stages:
+
+  # We generate two interdepdent stages for each artifact listed in the ci.yml file, creates the release
+  # in GitHub. The Release stage publishes to CocoaPods trunk. Both stages require approval since they
+  # effectively burn the version number. For testing of packages prior to burning the version number -
+  # the Validation step below publishes a package to a "burner" feed which is cleaned up after the
+  # pipeline completes.
+  - ${{if and(eq(variables['Build.Reason'], 'Manual'), eq(variables['System.TeamProject'], 'internal'))}}:
+    - ${{ each artifact in parameters.Artifacts }}:
+      - stage: Release_${{artifact.safeName}}
+        displayName: 'Release: ${{artifact.name}}'
+        dependsOn: ${{parameters.DependsOn}}
+        condition: and(succeeded(), ne(variables['SetDevVersion'], 'true'), ne(variables['Skip.Release'], 'true'), ne(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-java-pr'))
+        jobs:
+          - deployment: TagRepository
+            displayName: "Create release tag"
+            condition: and(succeeded(), ne(variables['Skip.TagRepository'], 'true'))
+            environment: github
+            variables:
+              - template: ../variables/globals.yml
+            pool:
+              name: Azure Pipelines
+              vmImage: vs2017-win2016
+            strategy:
+              runOnce:
+                deploy:
+                  steps:
+                    - checkout: self
+                    - template: /eng/common/pipelines/templates/steps/retain-run.yml
+                    # TODO: Will need to be adapted to work for Cocoapods (we'll read versions from the Cocoapod version specs)
+                    # - template: /eng/common/pipelines/templates/steps/create-tags-and-git-release.yml
+                    #   parameters:
+                    #     ArtifactLocation: $(Pipeline.Workspace)/${{parameters.ArtifactName}}-signed/${{artifact.groupId}}/${{artifact.name}}
+                    #     PackageRepository: Maven
+                    #     ReleaseSha: $(Build.SourceVersion)
+
+          - deployment: PublishPackageToCocoaPodsTrunk
+            displayName: "Publish to CocoaPods Trunk"
+            condition: and(succeeded(), ne(variables['Skip.PublishPackage'], 'true'))
+            environment: cocoapodstrunk
+            dependsOn: TagRepository
+            variables:
+              - template: ../variables/globals.yml
+            pool:
+              name: Azure Pipelines
+              vmImage: $(OSVmImage)
+            strategy:
+              runOnce:
+                deploy:
+                  steps:
+                    - script: |
+                        echo "Pretend we are publishing to CocoaPods trunk.""
+
+          - deployment: PublishPackageToSwiftPackageManagerMirrors
+            displayName: "Publish to CocoaPods Trunk"
+            condition: and(succeeded(), ne(variables['Skip.PublishPackage'], 'true'))
+            environment: cocoapodstrunk
+            dependsOn: TagRepository
+            variables:
+              - template: ../variables/globals.yml
+            pool:
+              name: Azure Pipelines
+              vmImage: $(OSVmImage)
+            strategy:
+              runOnce:
+                deploy:
+                  steps:
+                    - script: |
+                        echo "Pretend we are publishing to Swift Package Manager mirrors"

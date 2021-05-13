@@ -24,6 +24,10 @@ pr:
 
 
 extends:
-  template: templates/stages/archetype-sdk-client.yml
+  template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: communication
+    Artifacts:
+    - name: AzureCommunicationCommon
+    - name: AzureCommunicationChat
+    - name: AzureCommunicationCalling
