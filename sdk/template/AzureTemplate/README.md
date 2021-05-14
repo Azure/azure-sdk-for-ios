@@ -1,4 +1,4 @@
-# Azure Template
+# Azure Template client library for iOS
 
 This package has no functionality and is only used for testing Engineering System deployments.
 
