@@ -20,7 +20,7 @@ public struct ChatMessageReadReceiptsCollection: Codable {
     // MARK: Properties
 
     /// Collection of chat message read receipts.
-    public let value: [ChatMessageReadReceiptInternal]
+    public let value: [ChatMessageReadReceipt]
     /// If there are more chat message read receipts that can be retrieved, the next link will be populated.
     public let nextLink: String?
 
@@ -31,7 +31,7 @@ public struct ChatMessageReadReceiptsCollection: Codable {
     ///   - value: Collection of chat message read receipts.
     ///   - nextLink: If there are more chat message read receipts that can be retrieved, the next link will be populated.
     public init(
-        value: [ChatMessageReadReceiptInternal], nextLink: String? = nil
+        value: [ChatMessageReadReceipt], nextLink: String? = nil
     ) {
         self.value = value
         self.nextLink = nextLink
@@ -47,7 +47,7 @@ public struct ChatMessageReadReceiptsCollection: Codable {
     /// Initialize a `ChatMessageReadReceiptsCollection` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.value = try container.decode([ChatMessageReadReceiptInternal].self, forKey: .value)
+        self.value = try container.decode([ChatMessageReadReceipt].self, forKey: .value)
         self.nextLink = try? container.decode(String.self, forKey: .nextLink)
     }
 

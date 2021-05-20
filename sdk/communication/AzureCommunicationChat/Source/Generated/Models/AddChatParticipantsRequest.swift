@@ -20,7 +20,7 @@ public struct AddChatParticipantsRequest: Codable {
     // MARK: Properties
 
     /// Participants to add to a chat thread.
-    public let participants: [ChatParticipantInternal]
+    public let participants: [ChatParticipant]
 
     // MARK: Initializers
 
@@ -28,7 +28,7 @@ public struct AddChatParticipantsRequest: Codable {
     /// - Parameters:
     ///   - participants: Participants to add to a chat thread.
     public init(
-        participants: [ChatParticipantInternal]
+        participants: [ChatParticipant]
     ) {
         self.participants = participants
     }
@@ -42,7 +42,7 @@ public struct AddChatParticipantsRequest: Codable {
     /// Initialize a `AddChatParticipantsRequest` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.participants = try container.decode([ChatParticipantInternal].self, forKey: .participants)
+        self.participants = try container.decode([ChatParticipant].self, forKey: .participants)
     }
 
     /// Encode a `AddChatParticipantsRequest` structure
