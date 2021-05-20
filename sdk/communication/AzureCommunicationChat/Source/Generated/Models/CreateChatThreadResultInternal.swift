@@ -22,7 +22,7 @@ internal struct CreateChatThreadResultInternal: Codable {
     /// Chat thread.
     internal let chatThread: ChatThreadPropertiesInternal?
     /// The participants that failed to be added to the chat thread.
-    internal let invalidParticipants: [CommunicationError]?
+    internal let invalidParticipants: [ChatError]?
 
     // MARK: Initializers
 
@@ -31,7 +31,7 @@ internal struct CreateChatThreadResultInternal: Codable {
     ///   - chatThread: Chat thread.
     ///   - invalidParticipants: The participants that failed to be added to the chat thread.
     internal init(
-        chatThread: ChatThreadPropertiesInternal? = nil, invalidParticipants: [CommunicationError]? = nil
+        chatThread: ChatThreadPropertiesInternal? = nil, invalidParticipants: [ChatError]? = nil
     ) {
         self.chatThread = chatThread
         self.invalidParticipants = invalidParticipants
@@ -48,7 +48,7 @@ internal struct CreateChatThreadResultInternal: Codable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.chatThread = try? container.decode(ChatThreadPropertiesInternal.self, forKey: .chatThread)
-        self.invalidParticipants = try? container.decode([CommunicationError].self, forKey: .invalidParticipants)
+        self.invalidParticipants = try? container.decode([ChatError].self, forKey: .invalidParticipants)
     }
 
     /// Encode a `CreateChatThreadResultInternal` structure
