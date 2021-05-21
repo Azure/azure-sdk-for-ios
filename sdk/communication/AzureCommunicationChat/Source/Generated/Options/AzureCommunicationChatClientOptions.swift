@@ -14,29 +14,29 @@ import Foundation
 // swiftlint:disable identifier_name
 // swiftlint:disable line_length
 
-/// User-configurable options for the `ChatClientInternal`.
-internal struct ChatClientInternalOptions: ClientOptions {
+/// User-configurable options for the `AzureCommunicationChatClientOptions`.
+public struct AzureCommunicationChatClientOptionsOptions: ClientOptions {
     /// The API version of the  to invoke.
-    internal let apiVersion: String
-    /// The `ClientLogger` to be used by this `ChatClientInternal`.
-    internal let logger: ClientLogger
-    /// Options for configuring telemetry sent by this `ChatClientInternal`.
-    internal let telemetryOptions: TelemetryOptions
+    public let apiVersion: String
+    /// The `ClientLogger` to be used by this `AzureCommunicationChatClientOptions`.
+    public let logger: ClientLogger
+    /// Options for configuring telemetry sent by this `AzureCommunicationChatClientOptions`.
+    public let telemetryOptions: TelemetryOptions
     /// Global transport options
-    internal let transportOptions: TransportOptions
+    public let transportOptions: TransportOptions
     /// The default dispatch queue on which to call all completion handler. Defaults to `DispatchQueue.main`.
-    internal let dispatchQueue: DispatchQueue?
+    public let dispatchQueue: DispatchQueue?
 
-    /// Initialize a `ChatClientInternalOptions` structure.
+    /// Initialize a `AzureCommunicationChatClientOptionsOptions` structure.
     /// - Parameters:
     ///   - apiVersion: The API version of the  to invoke.
-    ///   - logger: The `ClientLogger` to be used by this `ChatClientInternal`.
-    ///   - telemetryOptions: Options for configuring telemetry sent by this `ChatClientInternal`.
+    ///   - logger: The `ClientLogger` to be used by this `AzureCommunicationChatClientOptions`.
+    ///   - telemetryOptions: Options for configuring telemetry sent by this `AzureCommunicationChatClientOptions`.
     ///   - cancellationToken: A token used to make a best-effort attempt at canceling a request.
     ///   - dispatchQueue: The default dispatch queue on which to call all completion handler. Defaults to `DispatchQueue.main`.
-    internal init(
-        apiVersion: ChatClientInternal.ApiVersion = .latest,
-        logger: ClientLogger = ClientLoggers.default(tag: "ChatClientInternalClient"),
+    public init(
+        apiVersion: AzureCommunicationChatClientOptions.ApiVersion = .latest,
+        logger: ClientLogger = ClientLoggers.default(tag: "AzureCommunicationChatClientOptionsClient"),
         telemetryOptions: TelemetryOptions = TelemetryOptions(),
         transportOptions: TransportOptions? = nil,
         dispatchQueue: DispatchQueue? = nil
