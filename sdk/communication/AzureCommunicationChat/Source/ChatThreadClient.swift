@@ -63,7 +63,7 @@ public class ChatThreadClient {
         let communicationCredential = TokenCredentialAdapter(credential)
         let authPolicy = BearerTokenCredentialPolicy(credential: communicationCredential, scopes: [])
 
-        let client = try AzureCommunicationChatClient(
+        let client = try ChatClientInternal(
             endpoint: endpointUrl,
             authPolicy: authPolicy,
             withOptions: options
