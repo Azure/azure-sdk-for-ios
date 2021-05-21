@@ -38,7 +38,7 @@ stages:
                     - template: /eng/common/pipelines/templates/steps/retain-run.yml
                     - template: /eng/common/pipelines/templates/steps/create-tags-and-git-release.yml
                       parameters:
-                        ArtifactLocation: $(Pipeline.Workspace)/sdk/${{}}/${{parameters.ArtifactName}}
+                        ArtifactLocation: $(Pipeline.Workspace)/sdk/${{parameters.ServiceDirectory}}/${{parameters.ArtifactName}}
                         PackageRepository: CocoaPods
                         ReleaseSha: $(Build.SourceVersion)
 
