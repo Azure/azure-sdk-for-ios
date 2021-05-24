@@ -15,7 +15,7 @@ import Foundation
 // swiftlint:disable line_length
 
 /// User-configurable options for the `AzureCommunicationChatClientOptions`.
-public struct AzureCommunicationChatClientOptionsOptions: ClientOptions {
+public struct AzureCommunicationChatClientOptions: ClientOptions {
     /// The API version of the  to invoke.
     public let apiVersion: String
     /// The `ClientLogger` to be used by this `AzureCommunicationChatClientOptions`.
@@ -27,7 +27,38 @@ public struct AzureCommunicationChatClientOptionsOptions: ClientOptions {
     /// The default dispatch queue on which to call all completion handler. Defaults to `DispatchQueue.main`.
     public let dispatchQueue: DispatchQueue?
 
-    /// Initialize a `AzureCommunicationChatClientOptionsOptions` structure.
+    /// API version of the  to invoke. Defaults to the latest.
+    public enum ApiVersion: RequestStringConvertible {
+        /// Custom value for unrecognized enum values
+        case custom(String)
+        /// API version "2021-03-07"
+        case v20210307
+
+        /// The most recent API version of the
+        public static var latest: ApiVersion {
+            return .v20210307
+        }
+
+        public var requestString: String {
+            switch self {
+            case let .custom(val):
+                return val
+            case .v20210307:
+                return "2021-03-07"
+            }
+        }
+
+        public init(_ val: String) {
+            switch val.lowercased() {
+            case "2021-03-07":
+                self = .v20210307
+            default:
+                self = .custom(val)
+            }
+        }
+    }
+
+    /// Initialize a `AzureCommunicationChatClientOptions` structure.
     /// - Parameters:
     ///   - apiVersion: The API version of the  to invoke.
     ///   - logger: The `ClientLogger` to be used by this `AzureCommunicationChatClientOptions`.
