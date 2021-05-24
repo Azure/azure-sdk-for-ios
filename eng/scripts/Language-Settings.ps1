@@ -10,7 +10,7 @@ function ComputeCocoaPodsSpecUrl($PackageId, $PackageVersion)
     #
     #   Spec/x/y/z/[Package]/[Version]/[Package].podspec.json
     #
-    # The x/y/z values are the first four characters from the MD5 hash of the package name. For example 4/4/a
+    # The x/y/z values are the first three characters from the MD5 hash of the package name. For example 4/4/a
     # for the package AzureCore.
 
     $csp = New-Object -TypeName System.Security.Cryptography.MD5CryptoServiceProvider
@@ -64,7 +64,7 @@ function Get-swift-PackageInfoFromPackageFile ($pkg, $workingDirectory)
     $podspec = Get-Content -Raw -Path $pkg | ConvertFrom-Json
     $pkgId = $podspec.name
     $pkgVersion = $podspec.version
-    $docsReadMeName = $pkgId -replace "^azure-" , ""
+    $docsReadMeName = $pkgId -replace "^Azure" , ""
     $releaseNotes = ""
     $readmeContent = ""
 
