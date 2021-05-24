@@ -21,7 +21,7 @@ function ComputeCocoaPodsSpecUrl($PackageId, $PackageVersion)
     return $url
 }
 
-# Returns the maven (really sonatype) publish status of a package id and version.
+# Returns the CocoaPods trunk publish status of a package id and version.
 function IsCocoaPodsPackageVersionPublished($PackageId, $PackageVersion)
 {
     $url = ComputeCocoaPodsSpecUrl -PackageId $PackageId -PackageVersion $PackageVersion
@@ -30,8 +30,7 @@ function IsCocoaPodsPackageVersionPublished($PackageId, $PackageVersion)
 
     try
     {
-        $uri = "https://oss.sonatype.org/content/repositories/releases/$groupId/$pkgId/$pkgVersion/$pkgId-$pkgVersion.pom"
-        $podspecContent = Invoke-RestMethod -MaximumRetryCount 3 -RetryIntervalSec 10 -Method "GET" -uri $uri
+        $podspecContent = Invoke-RestMethod -MaximumRetryCount 3 -RetryIntervalSec 10 -Method "GET" -Uri $url
 
         if ($podspecContent -ne $null -or $podspecContent.Length -eq 0)
         {
@@ -59,7 +58,7 @@ function IsCocoaPodsPackageVersionPublished($PackageId, $PackageVersion)
     return $false
 }
 
-# Parse out package publishing information given a maven CocoaPod spec files
+# Parse out package publishing information given a CocoaPod spec files
 function Get-swift-PackageInfoFromPackageFile ($pkg, $workingDirectory)
 {
     $podspec = Get-Content -Raw -Path $pkg | ConvertFrom-Json
