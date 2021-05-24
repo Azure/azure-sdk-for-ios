@@ -15,7 +15,7 @@ import Foundation
 // swiftlint:disable identifier_name
 // swiftlint:disable line_length
 
-/// User-configurable options for the `UpdateChatMessage` operation.
+/// User-configurable options for the `AzureCommunicationChatService.UpdateChatMessage` operation.
 public struct UpdateChatMessageOptions: RequestOptions {
     /// A client-generated, opaque value with 1KB character limit that is recorded in analytics logs.
     /// Highly recommended for correlating client-side activites with requests received by the server.

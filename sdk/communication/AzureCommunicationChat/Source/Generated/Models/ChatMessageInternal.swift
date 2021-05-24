@@ -16,29 +16,29 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Chat message.
-internal struct ChatMessageInternal: Codable {
+public struct ChatMessageInternal: Codable {
     // MARK: Properties
 
     /// The id of the chat message. This id is server generated.
-    internal let id: String
+    public let id: String
     /// The chat message type.
-    internal let type: ChatMessageType
+    public let type: ChatMessageType
     /// Sequence of the chat message in the conversation.
-    internal let sequenceId: String
+    public let sequenceId: String
     /// Version of the chat message.
-    internal let version: String
+    public let version: String
     /// Content of a chat message.
-    internal let content: ChatMessageContentInternal?
+    public let content: ChatMessageContentInternal?
     /// The display name of the chat message sender. This property is used to populate sender name for push notifications.
-    internal let senderDisplayName: String?
+    public let senderDisplayName: String?
     /// The timestamp when the chat message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
-    internal let createdOn: Iso8601Date
+    public let createdOn: Iso8601Date
     /// Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.
-    internal let senderCommunicationIdentifier: CommunicationIdentifierModel?
+    public let senderCommunicationIdentifier: CommunicationIdentifierModel?
     /// The timestamp (if applicable) when the message was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
-    internal let deletedOn: Iso8601Date?
+    public let deletedOn: Iso8601Date?
     /// The last timestamp (if applicable) when the message was edited. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
-    internal let editedOn: Iso8601Date?
+    public let editedOn: Iso8601Date?
 
     // MARK: Initializers
 
@@ -54,7 +54,7 @@ internal struct ChatMessageInternal: Codable {
     ///   - senderCommunicationIdentifier: Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.
     ///   - deletedOn: The timestamp (if applicable) when the message was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     ///   - editedOn: The last timestamp (if applicable) when the message was edited. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
-    internal init(
+    public init(
         id: String, type: ChatMessageType, sequenceId: String, version: String,
         content: ChatMessageContentInternal? = nil,
         senderDisplayName: String? = nil, createdOn: Iso8601Date,

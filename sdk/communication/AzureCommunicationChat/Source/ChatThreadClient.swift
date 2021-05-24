@@ -63,7 +63,7 @@ public class ChatThreadClient {
         let communicationCredential = TokenCredentialAdapter(credential)
         let authPolicy = BearerTokenCredentialPolicy(credential: communicationCredential, scopes: [])
 
-        let client = try ChatClientInternal(
+        let client = try AzureCommunicationChatClient(
             endpoint: endpointUrl,
             authPolicy: authPolicy,
             withOptions: options
@@ -414,23 +414,33 @@ public class ChatThreadClient {
         withOptions options: AddChatParticipantsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<AddChatParticipantsResult>
     ) {
-        // Convert to AddChatParticipantsRequest for generated code
-        let addParticipantsRequest = AddChatParticipantsRequest(
-            participants: participants
-        )
+        do {
+            // Convert ChatParticipant to ChatParticipantInternal
+            let chatParticipants = try convert(participants: participants)
 
-        service.add(
-            chatParticipants: addParticipantsRequest,
-            chatThreadId: threadId,
-            withOptions: options
-        ) { result, httpResponse in
-            switch result {
-            case let .success(addParticipantsResult):
-                completionHandler(.success(addParticipantsResult), httpResponse)
+            // Convert to AddChatParticipantsRequest for generated code
+            let addParticipantsRequest = AddChatParticipantsRequest(
+                participants: chatParticipants
+            )
 
-            case let .failure(error):
-                completionHandler(.failure(error), httpResponse)
-            }
+            service
+                .add(
+                    chatParticipants: addParticipantsRequest,
+                    chatThreadId: threadId,
+                    withOptions: options
+                ) { result, httpResponse in
+                    switch result {
+                    case let .success(addParticipantsResult):
+                        completionHandler(.success(addParticipantsResult), httpResponse)
+
+                    case let .failure(error):
+                        completionHandler(.failure(error), httpResponse)
+                    }
+                }
+        } catch {
+            // Return error from converting participants
+            let azureError = AzureError.client("Failed to construct add participants request.", error)
+            completionHandler(.failure(azureError), nil)
         }
     }
 

@@ -16,22 +16,53 @@ import Foundation
 // swiftlint:disable function_body_length
 // swiftlint:disable type_body_length
 
-internal final class ChatClientInternal: PipelineClient, PageableClient {
-    internal func continuationUrl(forRequestUrl _: URL, withContinuationToken token: String) -> URL? {
+public final class AzureCommunicationChatClient: PipelineClient, PageableClient {
+    public func continuationUrl(forRequestUrl _: URL, withContinuationToken token: String) -> URL? {
         return URL(string: token)
     }
 
-    /// Options provided to configure this `ChatClientInternal`.
-    internal let options: AzureCommunicationChatClientOptions
+    /// API version of the  to invoke. Defaults to the latest.
+    public enum ApiVersion: RequestStringConvertible {
+        /// Custom value for unrecognized enum values
+        case custom(String)
+        /// API version "2021-03-07"
+        case v20210307
+
+        /// The most recent API version of the
+        public static var latest: ApiVersion {
+            return .v20210307
+        }
+
+        public var requestString: String {
+            switch self {
+            case let .custom(val):
+                return val
+            case .v20210307:
+                return "2021-03-07"
+            }
+        }
+
+        public init(_ val: String) {
+            switch val.lowercased() {
+            case "2021-03-07":
+                self = .v20210307
+            default:
+                self = .custom(val)
+            }
+        }
+    }
+
+    /// Options provided to configure this `AzureCommunicationChatClient`.
+    public let options: AzureCommunicationChatClientOptions
 
     // MARK: Initializers
 
-    /// Create a ChatClientInternal client.
+    /// Create a AzureCommunicationChatClient client.
     /// - Parameters:
-    ///   - endpoint: Base URL for the ChatClientInternal.
+    ///   - endpoint: Base URL for the AzureCommunicationChatClient.
     ///   - authPolicy: An `Authenticating` policy to use for authenticating client requests.
     ///   - options: Options used to configure the client.
-    internal init(
+    public init(
         endpoint: URL,
         authPolicy: Authenticating,
         withOptions options: AzureCommunicationChatClientOptions
@@ -41,7 +72,7 @@ internal final class ChatClientInternal: PipelineClient, PageableClient {
             endpoint: endpoint,
             transport: options.transportOptions.transport ?? URLSessionTransport(),
             policies: [
-                UserAgentPolicy(for: ChatClientInternal.self, telemetryOptions: options.telemetryOptions),
+                UserAgentPolicy(for: AzureCommunicationChatClient.self, telemetryOptions: options.telemetryOptions),
                 RequestIdPolicy(),
                 AddDatePolicy(),
                 authPolicy,
@@ -54,8 +85,8 @@ internal final class ChatClientInternal: PipelineClient, PageableClient {
         )
     }
 
-    internal lazy var chat = Chat(client: self)
-    internal lazy var chatThread = ChatThread(client: self)
+    public lazy var chat = Chat(client: self)
+    public lazy var chatThread = ChatThread(client: self)
 
     // MARK: Client Methods
 }

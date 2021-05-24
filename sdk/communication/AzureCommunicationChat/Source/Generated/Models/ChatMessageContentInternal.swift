@@ -16,17 +16,17 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Content of a chat message.
-internal struct ChatMessageContentInternal: Codable {
+public struct ChatMessageContentInternal: Codable {
     // MARK: Properties
 
     /// Chat message content for messages of types text or html.
-    internal let message: String?
+    public let message: String?
     /// Chat message content for messages of type topicUpdated.
-    internal let topic: String?
+    public let topic: String?
     /// Chat message content for messages of types participantAdded or participantRemoved.
-    internal let participants: [ChatParticipantInternal]?
+    public let participants: [ChatParticipantInternal]?
     /// Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.
-    internal let initiatorCommunicationIdentifier: CommunicationIdentifierModel?
+    public let initiatorCommunicationIdentifier: CommunicationIdentifierModel?
 
     // MARK: Initializers
 
@@ -36,7 +36,7 @@ internal struct ChatMessageContentInternal: Codable {
     ///   - topic: Chat message content for messages of type topicUpdated.
     ///   - participants: Chat message content for messages of types participantAdded or participantRemoved.
     ///   - initiatorCommunicationIdentifier: Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.
-    internal init(
+    public init(
         message: String? = nil, topic: String? = nil, participants: [ChatParticipantInternal]? = nil,
         initiatorCommunicationIdentifier: CommunicationIdentifierModel? = nil
     ) {

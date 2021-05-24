@@ -15,7 +15,7 @@ import Foundation
 // swiftlint:disable identifier_name
 // swiftlint:disable line_length
 
-/// User-configurable options for the `ListChatMessages` operation.
+/// User-configurable options for the `AzureCommunicationChatService.ListChatMessages` operation.
 public struct ListChatMessagesOptions: RequestOptions {
     /// The maximum number of messages to be returned per page.
     public let maxPageSize: Int32?

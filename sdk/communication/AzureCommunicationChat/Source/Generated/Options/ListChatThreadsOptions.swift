@@ -15,7 +15,7 @@ import Foundation
 // swiftlint:disable identifier_name
 // swiftlint:disable line_length
 
-/// User-configurable options for the `ListChatThreads` operation.
+/// User-configurable options for the `AzureCommunicationChatService.ListChatThreads` operation.
 public struct ListChatThreadsOptions: RequestOptions {
     /// The maximum number of chat threads returned per page.
     public let maxPageSize: Int32?
