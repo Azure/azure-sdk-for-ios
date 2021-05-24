@@ -15,7 +15,7 @@ import Foundation
 // swiftlint:disable identifier_name
 // swiftlint:disable line_length
 
-/// User-configurable options for the `AzureCommunicationChatService.CreateChatThread` operation.
+/// User-configurable options for the `CreateChatThread` operation.
 public struct CreateChatThreadOptions: RequestOptions {
     /// If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated, globally unique for all time, identifier for the request. It is recommended to use version 4 (random) UUIDs.
     public let repeatabilityRequestId: String?
