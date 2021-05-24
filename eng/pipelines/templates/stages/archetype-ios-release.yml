@@ -36,12 +36,11 @@ stages:
                   steps:
                     - checkout: self
                     - template: /eng/common/pipelines/templates/steps/retain-run.yml
-                    # TODO: Will need to be adapted to work for Cocoapods (we'll read versions from the Cocoapod version specs)
-                    # - template: /eng/common/pipelines/templates/steps/create-tags-and-git-release.yml
-                    #   parameters:
-                    #     ArtifactLocation: $(Pipeline.Workspace)/${{parameters.ArtifactName}}-signed/${{artifact.groupId}}/${{artifact.name}}
-                    #     PackageRepository: Maven
-                    #     ReleaseSha: $(Build.SourceVersion)
+                    - template: /eng/common/pipelines/templates/steps/create-tags-and-git-release.yml
+                      parameters:
+                        ArtifactLocation: $(System.DefaultWorkingDirectory)/sdk/${{parameters.ServiceDirectory}}/${{artifact.name}}
+                        PackageRepository: CocoaPods
+                        ReleaseSha: $(Build.SourceVersion)
 
           - deployment: PublishPackageToCocoaPodsTrunk
             displayName: "Publish to CocoaPods Trunk"
@@ -61,7 +60,7 @@ stages:
                         echo "Pretend we are publishing to CocoaPods trunk.""
 
           - deployment: PublishPackageToSwiftPackageManagerMirrors
-            displayName: "Publish to CocoaPods Trunk"
+            displayName: "Publish to SPM Mirrors"
             condition: and(succeeded(), ne(variables['Skip.PublishPackage'], 'true'))
             environment: cocoapodstrunk
             dependsOn: TagRepository
