@@ -21,39 +21,8 @@ internal final class ChatClientInternal: PipelineClient, PageableClient {
         return URL(string: token)
     }
 
-    /// API version of the  to invoke. Defaults to the latest.
-    internal enum ApiVersion: RequestStringConvertible {
-        /// Custom value for unrecognized enum values
-        case custom(String)
-        /// API version "2021-03-07"
-        case v20210307
-
-        /// The most recent API version of the
-        internal static var latest: ApiVersion {
-            return .v20210307
-        }
-
-        internal var requestString: String {
-            switch self {
-            case let .custom(val):
-                return val
-            case .v20210307:
-                return "2021-03-07"
-            }
-        }
-
-        internal init(_ val: String) {
-            switch val.lowercased() {
-            case "2021-03-07":
-                self = .v20210307
-            default:
-                self = .custom(val)
-            }
-        }
-    }
-
     /// Options provided to configure this `ChatClientInternal`.
-    internal let options: ChatClientInternalOptions
+    internal let options: AzureCommunicationChatClientOptions
 
     // MARK: Initializers
 
@@ -65,7 +34,7 @@ internal final class ChatClientInternal: PipelineClient, PageableClient {
     internal init(
         endpoint: URL,
         authPolicy: Authenticating,
-        withOptions options: ChatClientInternalOptions
+        withOptions options: AzureCommunicationChatClientOptions
     ) throws {
         self.options = options
         super.init(
