@@ -21,33 +21,40 @@ public struct UpdateChatMessageRequest: Codable {
 
     /// Chat message content.
     public let content: String?
+    /// Message metadata.
+    public let metadata: [String: String?]?
 
     // MARK: Initializers
 
     /// Initialize a `UpdateChatMessageRequest` structure.
     /// - Parameters:
     ///   - content: Chat message content.
+    ///   - metadata: Message metadata.
     public init(
-        content: String? = nil
+        content: String? = nil, metadata: [String: String?]? = nil
     ) {
         self.content = content
+        self.metadata = metadata
     }
 
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
         case content = "content"
+        case metadata = "metadata"
     }
 
     /// Initialize a `UpdateChatMessageRequest` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.content = try? container.decode(String.self, forKey: .content)
+        self.metadata = try? container.decode([String: String?].self, forKey: .metadata)
     }
 
     /// Encode a `UpdateChatMessageRequest` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         if content != nil { try? container.encode(content, forKey: .content) }
+        if metadata != nil { try? container.encode(metadata, forKey: .metadata) }
     }
 }
