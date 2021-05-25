@@ -35,12 +35,12 @@ stages:
                 deploy:
                   steps:
                     - checkout: self
-                    - template: /eng/common/pipelines/templates/steps/retain-run.yml
-                    - template: /eng/common/pipelines/templates/steps/create-tags-and-git-release.yml
-                      parameters:
-                        ArtifactLocation: $(System.DefaultWorkingDirectory)/sdk/${{parameters.ServiceDirectory}}/${{artifact.name}}
-                        PackageRepository: CocoaPods
-                        ReleaseSha: $(Build.SourceVersion)
+                    # - template: /eng/common/pipelines/templates/steps/retain-run.yml
+                    # - template: /eng/common/pipelines/templates/steps/create-tags-and-git-release.yml
+                    #   parameters:
+                    #     ArtifactLocation: $(System.DefaultWorkingDirectory)/sdk/${{parameters.ServiceDirectory}}/${{artifact.name}}
+                    #     PackageRepository: CocoaPods
+                    #     ReleaseSha: $(Build.SourceVersion)
 
           - deployment: PublishPackageToCocoaPodsTrunk
             displayName: "Publish to CocoaPods Trunk"
@@ -58,8 +58,9 @@ stages:
                   steps:
                     - script: |
                         pod trunk me
-                        pod trunk register midenn@microsoft.com 'Microsoft Corporation' --description='Pipeline Run was: $(Build.BuildID)'
                         pod trunk push $(System.DefaultWorkingDirectory)/sdk/${{parameters.ServiceDirectory}}/${{artifact.name}}/${{artifact.name}}.podspec.json --synchronous --use-moduler-headers
+                      env:
+                        COCOAPODS_TRUNK_TOKEN: $(azure-sdk-cocoapods-trunk-token)
 
           - deployment: PublishPackageToSwiftPackageManagerMirrors
             displayName: "Publish to SPM Mirrors"
