@@ -16,13 +16,13 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Result of the create chat thread operation.
-public struct CreateChatThreadResultInternal: Codable {
+internal struct CreateChatThreadResultInternal: Codable {
     // MARK: Properties
 
     /// Chat thread.
-    public let chatThread: ChatThreadPropertiesInternal?
+    internal let chatThread: ChatThreadPropertiesInternal?
     /// The participants that failed to be added to the chat thread.
-    public let invalidParticipants: [ChatError]?
+    internal let invalidParticipants: [ChatError]?
 
     // MARK: Initializers
 
@@ -30,7 +30,7 @@ public struct CreateChatThreadResultInternal: Codable {
     /// - Parameters:
     ///   - chatThread: Chat thread.
     ///   - invalidParticipants: The participants that failed to be added to the chat thread.
-    public init(
+    internal init(
         chatThread: ChatThreadPropertiesInternal? = nil, invalidParticipants: [ChatError]? = nil
     ) {
         self.chatThread = chatThread
