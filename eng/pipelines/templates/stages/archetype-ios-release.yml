@@ -51,7 +51,7 @@ stages:
               - template: ../variables/globals.yml
             pool:
               name: Azure Pipelines
-              vmImage: $(OSVmImage)
+              vmImage: macOS-10.15
             strategy:
               runOnce:
                 deploy:
