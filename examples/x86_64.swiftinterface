@@ -1,0 +1,511 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.3.1 (swiftlang-1200.0.41 clang-1200.0.32.8)
+// swift-module-flags: -target x86_64-apple-ios12.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name AzureCommunicationChat
+import AzureCommunicationCommon
+import AzureCore
+import Foundation
+import Swift
+import TrouterClientIos
+public struct CreateChatThreadOptions : AzureCore.RequestOptions {
+  public let repeatabilityRequestId: Swift.String?
+  public let clientRequestId: Swift.String?
+  public let cancellationToken: AzureCore.CancellationToken?
+  public var dispatchQueue: Dispatch.DispatchQueue?
+  public var context: AzureCore.PipelineContext?
+  public init(repeatabilityRequestId: Swift.String? = nil, clientRequestId: Swift.String? = nil, cancellationToken: AzureCore.CancellationToken? = nil, dispatchQueue: Dispatch.DispatchQueue? = nil, context: AzureCore.PipelineContext? = nil)
+}
+public struct UpdateChatMessageOptions : AzureCore.RequestOptions {
+  public let clientRequestId: Swift.String?
+  public let cancellationToken: AzureCore.CancellationToken?
+  public var dispatchQueue: Dispatch.DispatchQueue?
+  public var context: AzureCore.PipelineContext?
+  public init(clientRequestId: Swift.String? = nil, cancellationToken: AzureCore.CancellationToken? = nil, dispatchQueue: Dispatch.DispatchQueue? = nil, context: AzureCore.PipelineContext? = nil)
+}
+public class ChatClient {
+  public init(endpoint: Swift.String, credential: AzureCommunicationCommon.CommunicationTokenCredential, withOptions options: AzureCommunicationChat.AzureCommunicationChatClientOptions) throws
+  public func createClient(forThread threadId: Swift.String) throws -> AzureCommunicationChat.ChatThreadClient
+  public func create(thread: AzureCommunicationChat.CreateChatThreadRequest, withOptions options: AzureCommunicationChat.CreateChatThreadOptions? = nil, completionHandler: @escaping AzureCore.HTTPResultHandler<AzureCommunicationChat.CreateChatThreadResult>)
+  public func listThreads(withOptions options: AzureCommunicationChat.ListChatThreadsOptions? = nil, completionHandler: @escaping AzureCore.HTTPResultHandler<AzureCore.PagedCollection<AzureCommunicationChat.ChatThreadItem>>)
+  public func delete(thread threadId: Swift.String, withOptions options: AzureCommunicationChat.DeleteChatThreadOptions? = nil, completionHandler: @escaping AzureCore.HTTPResultHandler<Swift.Void>)
+  public func startRealTimeNotifications(completionHandler: @escaping (Swift.Result<Swift.Void, AzureCore.AzureError>) -> Swift.Void)
+  public func stopRealTimeNotifications()
+  public func register(event: AzureCommunicationChat.ChatEventId, handler: @escaping AzureCommunicationChat.EventHandler)
+  public func unregister(event: AzureCommunicationChat.ChatEventId)
+  @objc deinit
+}
+public struct ListChatThreadsOptions : AzureCore.RequestOptions {
+  public let maxPageSize: Swift.Int32?
+  public let startTime: AzureCore.Iso8601Date?
+  public let clientRequestId: Swift.String?
+  public let cancellationToken: AzureCore.CancellationToken?
+  public var dispatchQueue: Dispatch.DispatchQueue?
+  public var context: AzureCore.PipelineContext?
+  public init(maxPageSize: Swift.Int32? = nil, startTime: AzureCore.Iso8601Date? = nil, clientRequestId: Swift.String? = nil, cancellationToken: AzureCore.CancellationToken? = nil, dispatchQueue: Dispatch.DispatchQueue? = nil, context: AzureCore.PipelineContext? = nil)
+}
+public struct RemoveChatParticipantOptions : AzureCore.RequestOptions {
+  public let clientRequestId: Swift.String?
+  public let cancellationToken: AzureCore.CancellationToken?
+  public var dispatchQueue: Dispatch.DispatchQueue?
+  public var context: AzureCore.PipelineContext?
+  public init(clientRequestId: Swift.String? = nil, cancellationToken: AzureCore.CancellationToken? = nil, dispatchQueue: Dispatch.DispatchQueue? = nil, context: AzureCore.PipelineContext? = nil)
+}
+public class ChatThreadClient {
+  final public let threadId: Swift.String
+  public init(endpoint: Swift.String, credential: AzureCommunicationCommon.CommunicationTokenCredential, threadId: Swift.String, withOptions options: AzureCommunicationChat.AzureCommunicationChatClientOptions) throws
+  public func getProperties(withOptions options: AzureCommunicationChat.GetChatThreadPropertiesOptions? = nil, completionHandler: @escaping AzureCore.HTTPResultHandler<AzureCommunicationChat.ChatThreadProperties>)
+  public func update(topic: Swift.String, withOptions options: AzureCommunicationChat.UpdateChatThreadPropertiesOptions? = nil, completionHandler: @escaping AzureCore.HTTPResultHandler<Swift.Void>)
+  public func sendReadReceipt(forMessage messageId: Swift.String, withOptions options: AzureCommunicationChat.SendChatReadReceiptOptions? = nil, completionHandler: @escaping AzureCore.HTTPResultHandler<Swift.Void>)
+  public func listReadReceipts(withOptions options: AzureCommunicationChat.ListChatReadReceiptsOptions? = nil, completionHandler: @escaping AzureCore.HTTPResultHandler<AzureCore.PagedCollection<AzureCommunicationChat.ChatMessageReadReceipt>>)
+  public func sendTypingNotification(withOptions options: AzureCommunicationChat.SendTypingNotificationOptions? = nil, completionHandler: @escaping AzureCore.HTTPResultHandler<Swift.Void>)
+  public func send(message: AzureCommunicationChat.SendChatMessageRequest, withOptions options: AzureCommunicationChat.SendChatMessageOptions? = nil, completionHandler: @escaping AzureCore.HTTPResultHandler<AzureCommunicationChat.SendChatMessageResult>)
+  public func get(message messageId: Swift.String, withOptions options: AzureCommunicationChat.GetChatMessageOptions? = nil, completionHandler: @escaping AzureCore.HTTPResultHandler<AzureCommunicationChat.ChatMessage>)
+  public func update(content: Swift.String, messageId: Swift.String, withOptions options: AzureCommunicationChat.UpdateChatMessageOptions? = nil, completionHandler: @escaping AzureCore.HTTPResultHandler<Swift.Void>)
+  public func delete(message messageId: Swift.String, options: AzureCommunicationChat.DeleteChatMessageOptions? = nil, completionHandler: @escaping AzureCore.HTTPResultHandler<Swift.Void>)
+  public func listMessages(withOptions options: AzureCommunicationChat.ListChatMessagesOptions? = nil, completionHandler: @escaping AzureCore.HTTPResultHandler<AzureCore.PagedCollection<AzureCommunicationChat.ChatMessage>>)
+  public func add(participants: [AzureCommunicationChat.ChatParticipant], withOptions options: AzureCommunicationChat.AddChatParticipantsOptions? = nil, completionHandler: @escaping AzureCore.HTTPResultHandler<AzureCommunicationChat.AddChatParticipantsResult>)
+  public func remove(participant participantIdentifier: AzureCommunicationCommon.CommunicationIdentifier, withOptions options: AzureCommunicationChat.RemoveChatParticipantOptions? = nil, completionHandler: @escaping AzureCore.HTTPResultHandler<Swift.Void>)
+  public func listParticipants(withOptions options: AzureCommunicationChat.ListChatParticipantsOptions? = nil, completionHandler: @escaping AzureCore.HTTPResultHandler<AzureCore.PagedCollection<AzureCommunicationChat.ChatParticipant>>)
+  @objc deinit
+}
+public typealias EventHandler = (Any, AzureCommunicationChat.ChatEventId) -> Swift.Void
+public enum TrouterEventUtil {
+  public static func getIdentifier(from mri: Swift.String) -> AzureCommunicationCommon.CommunicationIdentifier
+  public static func create(chatEvent chatEventId: AzureCommunicationChat.ChatEventId, from request: TrouterClientIos.TrouterRequest) throws -> Any
+}
+public struct DeleteChatThreadOptions : AzureCore.RequestOptions {
+  public let clientRequestId: Swift.String?
+  public let cancellationToken: AzureCore.CancellationToken?
+  public var dispatchQueue: Dispatch.DispatchQueue?
+  public var context: AzureCore.PipelineContext?
+  public init(clientRequestId: Swift.String? = nil, cancellationToken: AzureCore.CancellationToken? = nil, dispatchQueue: Dispatch.DispatchQueue? = nil, context: AzureCore.PipelineContext? = nil)
+}
+public enum CommunicationCloudEnvironmentModel : AzureCore.RequestStringConvertible, Swift.Codable, Swift.Equatable {
+  case custom(Swift.String)
+  case `public`
+  case dod
+  case gcch
+  public var requestString: Swift.String {
+    get
+  }
+  public init(_ val: Swift.String)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+  public static func == (a: AzureCommunicationChat.CommunicationCloudEnvironmentModel, b: AzureCommunicationChat.CommunicationCloudEnvironmentModel) -> Swift.Bool
+}
+public enum ChatMessageType : AzureCore.RequestStringConvertible, Swift.Codable, Swift.Equatable {
+  case custom(Swift.String)
+  case text
+  case html
+  case topicUpdated
+  case participantAdded
+  case participantRemoved
+  public var requestString: Swift.String {
+    get
+  }
+  public init(_ val: Swift.String)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+  public static func == (a: AzureCommunicationChat.ChatMessageType, b: AzureCommunicationChat.ChatMessageType) -> Swift.Bool
+}
+public struct ChatThreadProperties : Swift.Codable {
+  public let id: Swift.String
+  public let topic: Swift.String
+  public let createdOn: AzureCore.Iso8601Date
+  public let createdBy: AzureCommunicationCommon.CommunicationIdentifier
+  public let deletedOn: AzureCore.Iso8601Date?
+  public init(id: Swift.String, topic: Swift.String, createdOn: AzureCore.Iso8601Date, createdBy: AzureCommunicationCommon.CommunicationIdentifier, deletedOn: AzureCore.Iso8601Date? = nil)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct CreateChatThreadResult : Swift.Codable {
+  public let chatThread: AzureCommunicationChat.ChatThreadProperties?
+  public let invalidParticipants: [AzureCommunicationChat.ChatError]?
+  public init(chatThread: AzureCommunicationChat.ChatThreadProperties? = nil, invalidParticipants: [AzureCommunicationChat.ChatError]? = nil)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct SendChatMessageOptions : AzureCore.RequestOptions {
+  public let clientRequestId: Swift.String?
+  public let cancellationToken: AzureCore.CancellationToken?
+  public var dispatchQueue: Dispatch.DispatchQueue?
+  public var context: AzureCore.PipelineContext?
+  public init(clientRequestId: Swift.String? = nil, cancellationToken: AzureCore.CancellationToken? = nil, dispatchQueue: Dispatch.DispatchQueue? = nil, context: AzureCore.PipelineContext? = nil)
+}
+public struct SendChatMessageResult : Swift.Codable {
+  public let id: Swift.String
+  public init(id: Swift.String)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct CommunicationUserIdentifierModel : Swift.Codable {
+  public let id: Swift.String
+  public init(id: Swift.String)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct AddChatParticipantsOptions : AzureCore.RequestOptions {
+  public let clientRequestId: Swift.String?
+  public let cancellationToken: AzureCore.CancellationToken?
+  public var dispatchQueue: Dispatch.DispatchQueue?
+  public var context: AzureCore.PipelineContext?
+  public init(clientRequestId: Swift.String? = nil, cancellationToken: AzureCore.CancellationToken? = nil, dispatchQueue: Dispatch.DispatchQueue? = nil, context: AzureCore.PipelineContext? = nil)
+}
+public struct CommunicationIdentifierModel : Swift.Codable {
+  public let rawId: Swift.String?
+  public let communicationUser: AzureCommunicationChat.CommunicationUserIdentifierModel?
+  public let phoneNumber: AzureCommunicationChat.PhoneNumberIdentifierModel?
+  public let microsoftTeamsUser: AzureCommunicationChat.MicrosoftTeamsUserIdentifierModel?
+  public init(rawId: Swift.String? = nil, communicationUser: AzureCommunicationChat.CommunicationUserIdentifierModel? = nil, phoneNumber: AzureCommunicationChat.PhoneNumberIdentifierModel? = nil, microsoftTeamsUser: AzureCommunicationChat.MicrosoftTeamsUserIdentifierModel? = nil)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct AddChatParticipantsRequest : Swift.Codable {
+  public let participants: [AzureCommunicationChat.ChatParticipant]
+  public init(participants: [AzureCommunicationChat.ChatParticipant])
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct DeleteChatMessageOptions : AzureCore.RequestOptions {
+  public let clientRequestId: Swift.String?
+  public let cancellationToken: AzureCore.CancellationToken?
+  public var dispatchQueue: Dispatch.DispatchQueue?
+  public var context: AzureCore.PipelineContext?
+  public init(clientRequestId: Swift.String? = nil, cancellationToken: AzureCore.CancellationToken? = nil, dispatchQueue: Dispatch.DispatchQueue? = nil, context: AzureCore.PipelineContext? = nil)
+}
+public struct ChatThreadsItemCollection : Swift.Codable {
+  public let value: [AzureCommunicationChat.ChatThreadItem]
+  public let nextLink: Swift.String?
+  public init(value: [AzureCommunicationChat.ChatThreadItem], nextLink: Swift.String? = nil)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct ListChatReadReceiptsOptions : AzureCore.RequestOptions {
+  public let maxPageSize: Swift.Int32?
+  public let skip: Swift.Int32?
+  public let clientRequestId: Swift.String?
+  public let cancellationToken: AzureCore.CancellationToken?
+  public var dispatchQueue: Dispatch.DispatchQueue?
+  public var context: AzureCore.PipelineContext?
+  public init(maxPageSize: Swift.Int32? = nil, skip: Swift.Int32? = nil, clientRequestId: Swift.String? = nil, cancellationToken: AzureCore.CancellationToken? = nil, dispatchQueue: Dispatch.DispatchQueue? = nil, context: AzureCore.PipelineContext? = nil)
+}
+public struct GetChatThreadPropertiesOptions : AzureCore.RequestOptions {
+  public let clientRequestId: Swift.String?
+  public let cancellationToken: AzureCore.CancellationToken?
+  public var dispatchQueue: Dispatch.DispatchQueue?
+  public var context: AzureCore.PipelineContext?
+  public init(clientRequestId: Swift.String? = nil, cancellationToken: AzureCore.CancellationToken? = nil, dispatchQueue: Dispatch.DispatchQueue? = nil, context: AzureCore.PipelineContext? = nil)
+}
+public struct CommunicationErrorResponse : Swift.Codable, Swift.Error {
+  public let error: AzureCommunicationChat.ChatError
+  public init(error: AzureCommunicationChat.ChatError)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct UpdateChatThreadRequest : Swift.Codable {
+  public let topic: Swift.String?
+  public init(topic: Swift.String? = nil)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct AzureCommunicationChatClientOptions : AzureCore.ClientOptions {
+  public let apiVersion: Swift.String
+  public let logger: AzureCore.ClientLogger
+  public let telemetryOptions: AzureCore.TelemetryOptions
+  public let transportOptions: AzureCore.TransportOptions
+  public let dispatchQueue: Dispatch.DispatchQueue?
+  public enum ApiVersion : AzureCore.RequestStringConvertible {
+    case custom(Swift.String)
+    case v20210307
+    public static var latest: AzureCommunicationChat.AzureCommunicationChatClientOptions.ApiVersion {
+      get
+    }
+    public var requestString: Swift.String {
+      get
+    }
+    public init(_ val: Swift.String)
+  }
+  public init(apiVersion: AzureCommunicationChat.AzureCommunicationChatClientOptions.ApiVersion = .latest, logger: AzureCore.ClientLogger = ClientLoggers.default(tag: "AzureCommunicationChat"), telemetryOptions: AzureCore.TelemetryOptions = TelemetryOptions(), transportOptions: AzureCore.TransportOptions? = nil, dispatchQueue: Dispatch.DispatchQueue? = nil)
+}
+public struct ChatThreadItem : Swift.Codable {
+  public let id: Swift.String
+  public let topic: Swift.String
+  public let deletedOn: AzureCore.Iso8601Date?
+  public let lastMessageReceivedOn: AzureCore.Iso8601Date?
+  public init(id: Swift.String, topic: Swift.String, deletedOn: AzureCore.Iso8601Date? = nil, lastMessageReceivedOn: AzureCore.Iso8601Date? = nil)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct PhoneNumberIdentifierModel : Swift.Codable {
+  public let value: Swift.String
+  public init(value: Swift.String)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct AddChatParticipantsResult : Swift.Codable {
+  public let invalidParticipants: [AzureCommunicationChat.ChatError]?
+  public init(invalidParticipants: [AzureCommunicationChat.ChatError]? = nil)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct UpdateChatMessageRequest : Swift.Codable {
+  public let content: Swift.String?
+  public init(content: Swift.String? = nil)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public enum IdentifierSerializer {
+  public static func deserialize(identifier: AzureCommunicationChat.CommunicationIdentifierModel) throws -> AzureCommunicationCommon.CommunicationIdentifier
+  public static func assertOneNestedModel(_ identifier: AzureCommunicationChat.CommunicationIdentifierModel) throws
+  public static func serialize(identifier: AzureCommunicationCommon.CommunicationIdentifier) throws -> AzureCommunicationChat.CommunicationIdentifierModel
+}
+extension CommunicationCloudEnvironmentModel {
+  public static var Public: AzureCommunicationChat.CommunicationCloudEnvironmentModel
+  public static var Dod: AzureCommunicationChat.CommunicationCloudEnvironmentModel
+  public static var Gcch: AzureCommunicationChat.CommunicationCloudEnvironmentModel
+}
+public struct ChatMessageContent : Swift.Codable {
+  public let message: Swift.String?
+  public let topic: Swift.String?
+  public let participants: [AzureCommunicationChat.ChatParticipant]?
+  public let initiator: AzureCommunicationCommon.CommunicationIdentifier?
+  public init(message: Swift.String? = nil, topic: Swift.String? = nil, participants: [AzureCommunicationChat.ChatParticipant]? = nil, initiator: AzureCommunicationCommon.CommunicationIdentifier? = nil)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct MicrosoftTeamsUserIdentifierModel : Swift.Codable {
+  public let userId: Swift.String
+  public let isAnonymous: Swift.Bool?
+  public let cloud: AzureCommunicationChat.CommunicationCloudEnvironmentModel?
+  public init(userId: Swift.String, isAnonymous: Swift.Bool? = nil, cloud: AzureCommunicationChat.CommunicationCloudEnvironmentModel? = nil)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+final public class ChatError : Swift.Codable, Swift.Error {
+  final public let code: Swift.String
+  final public let message: Swift.String
+  final public let target: Swift.String?
+  final public let details: [AzureCommunicationChat.ChatError]?
+  final public let innerError: AzureCommunicationChat.ChatError?
+  public init(code: Swift.String, message: Swift.String, target: Swift.String? = nil, details: [AzureCommunicationChat.ChatError]? = nil, innerError: AzureCommunicationChat.ChatError? = nil)
+  public init(from decoder: Swift.Decoder) throws
+  final public func encode(to encoder: Swift.Encoder) throws
+  @objc deinit
+}
+public struct SendChatMessageRequest : Swift.Codable {
+  public let content: Swift.String
+  public let senderDisplayName: Swift.String?
+  public let type: AzureCommunicationChat.ChatMessageType?
+  public init(content: Swift.String, senderDisplayName: Swift.String? = nil, type: AzureCommunicationChat.ChatMessageType? = nil)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct CreateChatThreadRequest : Swift.Codable {
+  public let topic: Swift.String
+  public let participants: [AzureCommunicationChat.ChatParticipant]?
+  public init(topic: Swift.String, participants: [AzureCommunicationChat.ChatParticipant]? = nil)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+@_hasMissingDesignatedInitializers public class SignalingChatParticipant {
+  public var id: AzureCommunicationCommon.CommunicationIdentifier?
+  public var displayName: Swift.String?
+  public var shareHistoryTime: AzureCore.Iso8601Date?
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class SignalingChatThreadProperties {
+  public var topic: Swift.String
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class BaseChatEvent {
+  public var threadId: Swift.String
+  public var sender: AzureCommunicationCommon.CommunicationIdentifier?
+  public var senderDisplayName: Swift.String?
+  public var recipient: AzureCommunicationCommon.CommunicationIdentifier?
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class BaseChatThreadEvent {
+  public var threadId: Swift.String
+  public var version: Swift.String
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class BaseChatMessageEvent : AzureCommunicationChat.BaseChatEvent {
+  public var id: Swift.String
+  public var createdOn: AzureCore.Iso8601Date?
+  public var version: Swift.String
+  public var type: AzureCommunicationChat.ChatMessageType
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class ChatMessageReceivedEvent : AzureCommunicationChat.BaseChatMessageEvent {
+  public var message: Swift.String
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class ChatMessageEditedEvent : AzureCommunicationChat.BaseChatMessageEvent {
+  public var message: Swift.String
+  public var editedOn: AzureCore.Iso8601Date?
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class ChatMessageDeletedEvent : AzureCommunicationChat.BaseChatMessageEvent {
+  public var deletedOn: AzureCore.Iso8601Date?
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class TypingIndicatorReceivedEvent : AzureCommunicationChat.BaseChatEvent {
+  public var version: Swift.String
+  public var receivedOn: AzureCore.Iso8601Date?
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class ReadReceiptReceivedEvent : AzureCommunicationChat.BaseChatEvent {
+  public var chatMessageId: Swift.String
+  public var readOn: AzureCore.Iso8601Date?
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class ChatThreadCreatedEvent : AzureCommunicationChat.BaseChatThreadEvent {
+  public var createdOn: AzureCore.Iso8601Date?
+  public var properties: AzureCommunicationChat.SignalingChatThreadProperties?
+  public var participants: [AzureCommunicationChat.SignalingChatParticipant]?
+  public var createdBy: AzureCommunicationChat.SignalingChatParticipant?
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class ChatThreadPropertiesUpdatedEvent : AzureCommunicationChat.BaseChatThreadEvent {
+  public var properties: AzureCommunicationChat.SignalingChatThreadProperties?
+  public var updatedOn: AzureCore.Iso8601Date?
+  public var updatedBy: AzureCommunicationChat.SignalingChatParticipant?
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class ChatThreadDeletedEvent : AzureCommunicationChat.BaseChatThreadEvent {
+  public var deletedOn: AzureCore.Iso8601Date?
+  public var deletedBy: AzureCommunicationChat.SignalingChatParticipant?
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class ParticipantsAddedEvent : AzureCommunicationChat.BaseChatThreadEvent {
+  public var addedOn: AzureCore.Iso8601Date?
+  public var participantsAdded: [AzureCommunicationChat.SignalingChatParticipant]?
+  public var addedBy: AzureCommunicationChat.SignalingChatParticipant?
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class ParticipantsRemovedEvent : AzureCommunicationChat.BaseChatThreadEvent {
+  public var removedOn: AzureCore.Iso8601Date?
+  public var participantsRemoved: [AzureCommunicationChat.SignalingChatParticipant]?
+  public var removedBy: AzureCommunicationChat.SignalingChatParticipant?
+  @objc deinit
+}
+public enum ChatEventId : Swift.String {
+  case chatMessageReceived
+  case typingIndicatorReceived
+  case readReceiptReceived
+  case chatMessageEdited
+  case chatMessageDeleted
+  case chatThreadCreated
+  case chatThreadPropertiesUpdated
+  case chatThreadDeleted
+  case participantsAdded
+  case participantsRemoved
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct ChatMessagesCollection : Swift.Codable {
+  public let value: [AzureCommunicationChat.ChatMessage]
+  public let nextLink: Swift.String?
+  public init(value: [AzureCommunicationChat.ChatMessage], nextLink: Swift.String? = nil)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct ChatParticipantsCollection : Swift.Codable {
+  public let value: [AzureCommunicationChat.ChatParticipant]
+  public let nextLink: Swift.String?
+  public init(value: [AzureCommunicationChat.ChatParticipant], nextLink: Swift.String? = nil)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct SendReadReceiptRequest : Swift.Codable {
+  public let chatMessageId: Swift.String
+  public init(chatMessageId: Swift.String)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct SendTypingNotificationOptions : AzureCore.RequestOptions {
+  public let clientRequestId: Swift.String?
+  public let cancellationToken: AzureCore.CancellationToken?
+  public var dispatchQueue: Dispatch.DispatchQueue?
+  public var context: AzureCore.PipelineContext?
+  public init(clientRequestId: Swift.String? = nil, cancellationToken: AzureCore.CancellationToken? = nil, dispatchQueue: Dispatch.DispatchQueue? = nil, context: AzureCore.PipelineContext? = nil)
+}
+public struct GetChatMessageOptions : AzureCore.RequestOptions {
+  public let clientRequestId: Swift.String?
+  public let cancellationToken: AzureCore.CancellationToken?
+  public var dispatchQueue: Dispatch.DispatchQueue?
+  public var context: AzureCore.PipelineContext?
+  public init(clientRequestId: Swift.String? = nil, cancellationToken: AzureCore.CancellationToken? = nil, dispatchQueue: Dispatch.DispatchQueue? = nil, context: AzureCore.PipelineContext? = nil)
+}
+public struct SendChatReadReceiptOptions : AzureCore.RequestOptions {
+  public let clientRequestId: Swift.String?
+  public let cancellationToken: AzureCore.CancellationToken?
+  public var dispatchQueue: Dispatch.DispatchQueue?
+  public var context: AzureCore.PipelineContext?
+  public init(clientRequestId: Swift.String? = nil, cancellationToken: AzureCore.CancellationToken? = nil, dispatchQueue: Dispatch.DispatchQueue? = nil, context: AzureCore.PipelineContext? = nil)
+}
+public struct ListChatMessagesOptions : AzureCore.RequestOptions {
+  public let maxPageSize: Swift.Int32?
+  public let startTime: AzureCore.Iso8601Date?
+  public let clientRequestId: Swift.String?
+  public let cancellationToken: AzureCore.CancellationToken?
+  public var dispatchQueue: Dispatch.DispatchQueue?
+  public var context: AzureCore.PipelineContext?
+  public init(maxPageSize: Swift.Int32? = nil, startTime: AzureCore.Iso8601Date? = nil, clientRequestId: Swift.String? = nil, cancellationToken: AzureCore.CancellationToken? = nil, dispatchQueue: Dispatch.DispatchQueue? = nil, context: AzureCore.PipelineContext? = nil)
+}
+public struct ChatMessageReadReceiptsCollection : Swift.Codable {
+  public let value: [AzureCommunicationChat.ChatMessageReadReceipt]
+  public let nextLink: Swift.String?
+  public init(value: [AzureCommunicationChat.ChatMessageReadReceipt], nextLink: Swift.String? = nil)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct ChatMessage : Swift.Codable {
+  public let id: Swift.String
+  public let type: AzureCommunicationChat.ChatMessageType
+  public let sequenceId: Swift.String
+  public let version: Swift.String
+  public let content: AzureCommunicationChat.ChatMessageContent?
+  public let senderDisplayName: Swift.String?
+  public let createdOn: AzureCore.Iso8601Date
+  public let sender: AzureCommunicationCommon.CommunicationIdentifier?
+  public let deletedOn: AzureCore.Iso8601Date?
+  public let editedOn: AzureCore.Iso8601Date?
+  public init(id: Swift.String, type: AzureCommunicationChat.ChatMessageType, sequenceId: Swift.String, version: Swift.String, content: AzureCommunicationChat.ChatMessageContent? = nil, senderDisplayName: Swift.String? = nil, createdOn: AzureCore.Iso8601Date, sender: AzureCommunicationCommon.CommunicationIdentifier? = nil, deletedOn: AzureCore.Iso8601Date? = nil, editedOn: AzureCore.Iso8601Date? = nil)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct ChatParticipant : Swift.Codable {
+  public let id: AzureCommunicationCommon.CommunicationIdentifier
+  public let displayName: Swift.String?
+  public let shareHistoryTime: AzureCore.Iso8601Date?
+  public init(id: AzureCommunicationCommon.CommunicationIdentifier, displayName: Swift.String? = nil, shareHistoryTime: AzureCore.Iso8601Date? = nil)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct ChatMessageReadReceipt : Swift.Codable {
+  public let sender: AzureCommunicationCommon.CommunicationIdentifier
+  public let chatMessageId: Swift.String
+  public let readOn: AzureCore.Iso8601Date
+  public init(sender: AzureCommunicationCommon.CommunicationIdentifier, chatMessageId: Swift.String, readOn: AzureCore.Iso8601Date)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public struct ListChatParticipantsOptions : AzureCore.RequestOptions {
+  public let maxPageSize: Swift.Int32?
+  public let skip: Swift.Int32?
+  public let clientRequestId: Swift.String?
+  public let cancellationToken: AzureCore.CancellationToken?
+  public var dispatchQueue: Dispatch.DispatchQueue?
+  public var context: AzureCore.PipelineContext?
+  public init(maxPageSize: Swift.Int32? = nil, skip: Swift.Int32? = nil, clientRequestId: Swift.String? = nil, cancellationToken: AzureCore.CancellationToken? = nil, dispatchQueue: Dispatch.DispatchQueue? = nil, context: AzureCore.PipelineContext? = nil)
+}
+public struct UpdateChatThreadPropertiesOptions : AzureCore.RequestOptions {
+  public let clientRequestId: Swift.String?
+  public let cancellationToken: AzureCore.CancellationToken?
+  public var dispatchQueue: Dispatch.DispatchQueue?
+  public var context: AzureCore.PipelineContext?
+  public init(clientRequestId: Swift.String? = nil, cancellationToken: AzureCore.CancellationToken? = nil, dispatchQueue: Dispatch.DispatchQueue? = nil, context: AzureCore.PipelineContext? = nil)
+}
