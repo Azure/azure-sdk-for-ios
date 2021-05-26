@@ -56,9 +56,10 @@ stages:
               runOnce:
                 deploy:
                   steps:
+                    - checkout: self
                     - script: |
                         pod trunk me
-                        pod trunk push $(System.DefaultWorkingDirectory)/sdk/${{parameters.ServiceDirectory}}/${{artifact.name}} --synchronous --use-modular-headers
+                        pod trunk push $(System.DefaultWorkingDirectory)/sdk/${{parameters.ServiceDirectory}}/${{artifact.name}}/${{artifact.name}}.podspec.json --synchronous --use-modular-headers
                       env:
                         COCOAPODS_TRUNK_TOKEN: $(azuresdk-cocoapods-trunk-token)
                       displayName: Push ${{artifact.name}} to CocoaPods Trunk
