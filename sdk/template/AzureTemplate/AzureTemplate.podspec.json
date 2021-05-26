@@ -19,7 +19,7 @@
     "git": "https://github.com/Azure/azure-sdk-for-ios.git",
     "tag": "AzureTemplate_1.2.0"
   },
-  "source_files": "sdk/core/AzureTemplate/Source/**/*.{swift,h,m}",
+  "source_files": "sdk/template/AzureTemplate/Source/**/*.{swift,h,m}",
   "pod_target_xcconfig": {
     "DEFINES_MODULE": "YES"
   },
