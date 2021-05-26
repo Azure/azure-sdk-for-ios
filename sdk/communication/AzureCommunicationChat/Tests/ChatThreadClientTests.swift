@@ -235,11 +235,27 @@ class ChatThreadClientTests: XCTestCase {
             case let .success(sendMessageResult):
                 XCTAssertNotNil(sendMessageResult.id)
 
+                // Get message and verify metadata
+                if self.mode != "playback" {
+                    self.chatThreadClient.get(message: sendMessageResult.id) { result, _ in
+                        switch result {
+                        case let .success(message):
+                            XCTAssertEqual(message.metadata, testMessage.metadata)
+
+                        case let .failure(error):
+                            XCTFail("Get message failed: \(error)")
+                        }
+
+                        expectation.fulfill()
+                    }
+                } else {
+                    expectation.fulfill()
+                }
+
             case let .failure(error):
                 XCTFail("Send message failed to send message with metadata: \(error)")
+                expectation.fulfill()
             }
-
-            expectation.fulfill()
         }
 
         waitForExpectations(timeout: 10.0) { error in
