@@ -35,12 +35,12 @@ stages:
                 deploy:
                   steps:
                     - checkout: self
-                    # - template: /eng/common/pipelines/templates/steps/retain-run.yml
-                    # - template: /eng/common/pipelines/templates/steps/create-tags-and-git-release.yml
-                    #   parameters:
-                    #     ArtifactLocation: $(System.DefaultWorkingDirectory)/sdk/${{parameters.ServiceDirectory}}/${{artifact.name}}
-                    #     PackageRepository: CocoaPods
-                    #     ReleaseSha: $(Build.SourceVersion)
+                    - template: /eng/common/pipelines/templates/steps/retain-run.yml
+                    - template: /eng/common/pipelines/templates/steps/create-tags-and-git-release.yml
+                      parameters:
+                        ArtifactLocation: $(System.DefaultWorkingDirectory)/sdk/${{parameters.ServiceDirectory}}/${{artifact.name}}
+                        PackageRepository: CocoaPods
+                        ReleaseSha: $(Build.SourceVersion)
 
           - deployment: PublishPackageToCocoaPodsTrunk
             displayName: "Publish to CocoaPods Trunk"
