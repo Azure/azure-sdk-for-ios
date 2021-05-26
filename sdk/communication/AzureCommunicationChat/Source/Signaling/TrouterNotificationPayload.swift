@@ -39,18 +39,20 @@ struct MessageReceivedPayload: Decodable {
     // swiftlint:disable identifier_name
     let _eventId: Int
     // swiftlint:enable identifier_name
-    let senderId: String
-    let recipientId: String
-    let transactionId: String
-    let groupId: String
-    let messageId: String
-    let messageType: String
-    let messageBody: String
-    let senderDisplayName: String
-    let clientMessageId: String
-    let originalArrivalTime: String
-    let priority: String
-    let version: String
+    var senderId: String
+    var recipientId: String
+    var recipientMri: String
+    var transactionId: String
+    var groupId: String
+    var messageId: String
+    var messageType: String
+    var messageBody: String
+    var senderDisplayName: String
+    var clientMessageId: String
+    var originalArrivalTime: String
+    var priority: String
+    var version: String
+    var metadata: String
 }
 
 struct TypingIndicatorReceivedPayload: Decodable {

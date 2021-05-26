@@ -175,6 +175,9 @@ public class ChatMessageReceivedEvent: BaseChatMessageEvent {
     /// The content of the message.
     public var message: String
 
+    /// The message metadata.
+    public var metadata:[String: String?]?
+    
     // MARK: Initializers
 
     /// Initialize a ChatMessageReceivedEvent.
@@ -197,9 +200,11 @@ public class ChatMessageReceivedEvent: BaseChatMessageEvent {
         createdOn: Iso8601Date?,
         version: String,
         type: ChatMessageType,
-        message: String
+        message: String,
+        metadata: [String: String?]? = nil
     ) {
         self.message = message
+        self.metadata = metadata
         super.init(
             threadId: threadId,
             sender: sender,
@@ -223,12 +228,11 @@ public class ChatMessageReceivedEvent: BaseChatMessageEvent {
             .decode(MessageReceivedPayload.self, from: requestJsonData)
 
         self.message = messageReceivedPayload.messageBody
-        // TODO: Hardcode "8:" as workaround to missing prefix in payload
-        let recipientId = "8:\(messageReceivedPayload.recipientId)"
+        self.metadata = messageReceivedPayload.
         super.init(
             threadId: messageReceivedPayload.groupId,
             sender: TrouterEventUtil.getIdentifier(from: messageReceivedPayload.senderId),
-            recipient: TrouterEventUtil.getIdentifier(from: recipientId),
+            recipient: TrouterEventUtil.getIdentifier(from: messageReceivedPayload.recipientMri),
             id: messageReceivedPayload.messageId,
             senderDisplayName: messageReceivedPayload.senderDisplayName,
             createdOn: Iso8601Date(string: messageReceivedPayload.originalArrivalTime),
