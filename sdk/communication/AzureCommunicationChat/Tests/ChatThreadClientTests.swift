@@ -56,7 +56,14 @@ class ChatThreadClientTests: XCTestCase {
         let endpoint = settings?.endpoint ?? "https://endpoint"
         let token = settings?.token ?? generateFakeToken()
         let credential = try CommunicationTokenCredential(token: token)
-        let options = AzureCommunicationChatClientOptions()
+        // let options = AzureCommunicationChatClientOptions()
+        // Testing
+        let options = AzureCommunicationChatClientOptions(
+            logger: ClientLoggers.default(tag: "AzureCommunicationChatClient", level: .debug),
+            transportOptions: TransportOptions(
+                perRequestPolicies: [LoggingPolicy(allowHeaders: ["ms-cv"])]
+            )
+        )
 
         chatClient = try ChatClient(endpoint: endpoint, credential: credential, withOptions: options)
 
@@ -220,6 +227,35 @@ class ChatThreadClientTests: XCTestCase {
         }
     }
 
+    func test_SendMessage_SendsMetadata() {
+        let testMessage = SendChatMessageRequest(
+            content: "Hello",
+            senderDisplayName: "User 1",
+            type: .text,
+            metadata: ["testMetadata": "someMetadata"]
+        )
+
+        let expectation = self.expectation(description: "Send message")
+
+        chatThreadClient.send(message: testMessage) { result, _ in
+            switch result {
+            case let .success(sendMessageResult):
+                XCTAssertNotNil(sendMessageResult.id)
+
+            case let .failure(error):
+                XCTFail("Send message failed to send message with metadata: \(error)")
+            }
+
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 10.0) { error in
+            if let error = error {
+                XCTFail("Send message timed out: \(error)")
+            }
+        }
+    }
+
     func test_ListMessages_ReturnsTextAndHTMLMessages() {
         let expectation = self.expectation(description: "List messages")
 
@@ -234,7 +270,7 @@ class ChatThreadClientTests: XCTestCase {
         )
 
         // Create a new thread
-        let thread = CreateChatThreadRequest(topic: "Test list messages")
+        let thread = CreateChatThreadRequest(topic: "Test list user messages")
         chatClient.create(thread: thread) { result, _ in
             switch result {
             case let .success(createThreadResult):
@@ -246,32 +282,38 @@ class ChatThreadClientTests: XCTestCase {
                     chatThreadClient.send(message: textMessage) { _, _ in
                         // Send an HTML message
                         chatThreadClient.send(message: htmlMessage) { _, _ in
-                            // List messages
-                            chatThreadClient.listMessages { result, httpResponse in
-                                switch result {
-                                case let .success(listMessagesResult):
-                                    if self.mode == "record" {
-                                        Recorder.record(name: Recording.listMessages, httpResponse: httpResponse)
-                                    }
-
-                                    let messages = listMessagesResult.items
-                                    messages?.forEach { message in
-                                        if message.type == ChatMessageType.text {
-                                            XCTAssertEqual(message.content?.message, textMessage.content)
-                                        } else if message.type == ChatMessageType.html {
-                                            XCTAssertEqual(message.type, ChatMessageType.html)
-                                            XCTAssertEqual(message.content?.message, htmlMessage.content)
+                            // Update topic (trigger system message)
+                            let updatedTopic = "Updated test list user messages"
+                            chatThreadClient.update(topic: updatedTopic) { result, _ in
+                                // List messages
+                                chatThreadClient.listMessages { result, httpResponse in
+                                    switch result {
+                                    case let .success(listMessagesResult):
+                                        if self.mode == "record" {
+                                            Recorder.record(name: Recording.listMessages, httpResponse: httpResponse)
                                         }
+
+                                        let messages = listMessagesResult.items
+                                        messages?.forEach { message in
+                                            if message.type == ChatMessageType.text {
+                                                XCTAssertEqual(message.content?.message, textMessage.content)
+                                            } else if message.type == ChatMessageType.html {
+                                                XCTAssertEqual(message.type, ChatMessageType.html)
+                                                XCTAssertEqual(message.content?.message, htmlMessage.content)
+                                            } else if message.type == ChatMessageType.topicUpdated {
+                                                XCTAssertEqual(message.content?.topic, updatedTopic)
+                                            }
+                                        }
+
+                                        XCTAssertNotNil(messages)
+                                        XCTAssert(messages!.count > 0)
+
+                                    case let .failure(error):
+                                        XCTFail("List messages failed: \(error)")
                                     }
 
-                                    XCTAssertNotNil(messages)
-                                    XCTAssert(messages!.count > 0)
-
-                                case let .failure(error):
-                                    XCTFail("List messages failed: \(error)")
+                                    expectation.fulfill()
                                 }
-
-                                expectation.fulfill()
                             }
                         }
                     }
@@ -289,8 +331,6 @@ class ChatThreadClientTests: XCTestCase {
             }
         }
     }
-
-    func test_ListMessages_ReturnsSystemMessages() {}
 
     func test_SendTypingNotification() {
         let expectation = self.expectation(description: "Send typing notification")
@@ -427,11 +467,13 @@ class ChatThreadClientTests: XCTestCase {
         chatThreadClient.send(message: testMessage) { result, _ in
             switch result {
             case let .success(sendMessageResult):
-                let updatedContent = UpdateChatMessageRequest(content: "Some new content")
-
                 // Update message
+                let updatedMessage = UpdateChatMessageRequest(
+                    content: "Some new content",
+                    metadata: ["testMetadata": "someMetaData"]
+                )
                 self.chatThreadClient
-                    .update(message: sendMessageResult.id, parameters: updatedContent) { result, httpResponse in
+                    .update(message: updatedMessage, messageId: sendMessageResult.id) { result, httpResponse in
                         switch result {
                         case .success:
                             if self.mode == "record" {
@@ -443,7 +485,8 @@ class ChatThreadClientTests: XCTestCase {
                                 self.chatThreadClient.get(message: sendMessageResult.id) { result, _ in
                                     switch result {
                                     case let .success(message):
-                                        XCTAssertEqual(message.content?.message, updatedContent.content)
+                                        XCTAssertEqual(message.content?.message, updatedMessage.content)
+                                        XCTAssertEqual(message.metadata, updatedMessage.metadata)
 
                                     case let .failure(error):
                                         XCTFail("Get message failed: \(error)")
