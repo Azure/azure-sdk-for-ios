@@ -56,14 +56,7 @@ class ChatThreadClientTests: XCTestCase {
         let endpoint = settings?.endpoint ?? "https://endpoint"
         let token = settings?.token ?? generateFakeToken()
         let credential = try CommunicationTokenCredential(token: token)
-        // let options = AzureCommunicationChatClientOptions()
-        // Testing
-        let options = AzureCommunicationChatClientOptions(
-            logger: ClientLoggers.default(tag: "AzureCommunicationChatClient", level: .debug),
-            transportOptions: TransportOptions(
-                perRequestPolicies: [LoggingPolicy(allowHeaders: ["ms-cv"])]
-            )
-        )
+        let options = AzureCommunicationChatClientOptions()
 
         chatClient = try ChatClient(endpoint: endpoint, credential: credential, withOptions: options)
 
@@ -270,7 +263,7 @@ class ChatThreadClientTests: XCTestCase {
         )
 
         // Create a new thread
-        let thread = CreateChatThreadRequest(topic: "Test list user messages")
+        let thread = CreateChatThreadRequest(topic: "Test list messages")
         chatClient.create(thread: thread) { result, _ in
             switch result {
             case let .success(createThreadResult):
@@ -282,38 +275,32 @@ class ChatThreadClientTests: XCTestCase {
                     chatThreadClient.send(message: textMessage) { _, _ in
                         // Send an HTML message
                         chatThreadClient.send(message: htmlMessage) { _, _ in
-                            // Update topic (trigger system message)
-                            let updatedTopic = "Updated test list user messages"
-                            chatThreadClient.update(topic: updatedTopic) { result, _ in
-                                // List messages
-                                chatThreadClient.listMessages { result, httpResponse in
-                                    switch result {
-                                    case let .success(listMessagesResult):
-                                        if self.mode == "record" {
-                                            Recorder.record(name: Recording.listMessages, httpResponse: httpResponse)
-                                        }
-
-                                        let messages = listMessagesResult.items
-                                        messages?.forEach { message in
-                                            if message.type == ChatMessageType.text {
-                                                XCTAssertEqual(message.content?.message, textMessage.content)
-                                            } else if message.type == ChatMessageType.html {
-                                                XCTAssertEqual(message.type, ChatMessageType.html)
-                                                XCTAssertEqual(message.content?.message, htmlMessage.content)
-                                            } else if message.type == ChatMessageType.topicUpdated {
-                                                XCTAssertEqual(message.content?.topic, updatedTopic)
-                                            }
-                                        }
-
-                                        XCTAssertNotNil(messages)
-                                        XCTAssert(messages!.count > 0)
-
-                                    case let .failure(error):
-                                        XCTFail("List messages failed: \(error)")
+                            // List messages
+                            chatThreadClient.listMessages { result, httpResponse in
+                                switch result {
+                                case let .success(listMessagesResult):
+                                    if self.mode == "record" {
+                                        Recorder.record(name: Recording.listMessages, httpResponse: httpResponse)
                                     }
 
-                                    expectation.fulfill()
+                                    let messages = listMessagesResult.items
+                                    messages?.forEach { message in
+                                        if message.type == ChatMessageType.text {
+                                            XCTAssertEqual(message.content?.message, textMessage.content)
+                                        } else if message.type == ChatMessageType.html {
+                                            XCTAssertEqual(message.type, ChatMessageType.html)
+                                            XCTAssertEqual(message.content?.message, htmlMessage.content)
+                                        }
+                                    }
+
+                                    XCTAssertNotNil(messages)
+                                    XCTAssert(messages!.count > 0)
+
+                                case let .failure(error):
+                                    XCTFail("List messages failed: \(error)")
                                 }
+
+                                expectation.fulfill()
                             }
                         }
                     }
@@ -331,6 +318,8 @@ class ChatThreadClientTests: XCTestCase {
             }
         }
     }
+
+    func test_ListMessages_ReturnsSystemMessages() {}
 
     func test_SendTypingNotification() {
         let expectation = self.expectation(description: "Send typing notification")
