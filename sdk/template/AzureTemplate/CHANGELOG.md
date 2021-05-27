@@ -1,6 +1,9 @@
 # Release History
 
-# 1.2.0 (Unreleased)
+# 1.3.0 (2021-05-26)
+Azure Template release for Engineering System testing.
+
+# 1.2.0 (2021-05-26)
 Azure Template release for Engineering System testing.
 
 ## 1.1.0 (2021-05-24)

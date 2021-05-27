@@ -51,13 +51,18 @@ stages:
               - template: ../variables/globals.yml
             pool:
               name: Azure Pipelines
-              vmImage: $(OSVmImage)
+              vmImage: macOS-10.15
             strategy:
               runOnce:
                 deploy:
                   steps:
+                    - checkout: self
                     - script: |
-                        echo "Pretend we are publishing to CocoaPods trunk.""
+                        pod trunk me
+                        pod trunk push $(System.DefaultWorkingDirectory)/sdk/${{parameters.ServiceDirectory}}/${{artifact.name}}/${{artifact.name}}.podspec.json --synchronous --use-modular-headers
+                      env:
+                        COCOAPODS_TRUNK_TOKEN: $(azuresdk-cocoapods-trunk-token)
+                      displayName: Push ${{artifact.name}} to CocoaPods Trunk
 
           - deployment: PublishPackageToSwiftPackageManagerMirrors
             displayName: "Publish to SPM Mirrors"
