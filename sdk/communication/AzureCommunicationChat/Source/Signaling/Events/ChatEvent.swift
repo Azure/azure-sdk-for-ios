@@ -228,7 +228,11 @@ public class ChatMessageReceivedEvent: BaseChatMessageEvent {
             .decode(MessageReceivedPayload.self, from: requestJsonData)
 
         self.message = messageReceivedPayload.messageBody
-        // self.metadata = messageReceivedPayload.metadata
+
+        if let acsChatMetadata = messageReceivedPayload.acsChatMessageMetadata.data(using: .utf8) {
+            self.metadata = try JSONDecoder().decode([String: String?].self, from: acsChatMetadata)
+        }
+
         super.init(
             threadId: messageReceivedPayload.groupId,
             sender: TrouterEventUtil.getIdentifier(from: messageReceivedPayload.senderId),
@@ -250,7 +254,9 @@ public class ChatMessageEditedEvent: BaseChatMessageEvent {
     public var message: String
     /// The timestamp when the message was edited. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public var editedOn: Iso8601Date?
-
+    /// The message metadata
+    public var metadata: [String: String?]?
+    
     // MARK: Initializers
 
     /// Initialize a ChatMessageEditedEvent.
@@ -275,10 +281,12 @@ public class ChatMessageEditedEvent: BaseChatMessageEvent {
         version: String,
         type: ChatMessageType,
         message: String,
-        editedOn: Iso8601Date?
+        editedOn: Iso8601Date?,
+        metadata: [String: String?]? = nil
     ) {
         self.message = message
         self.editedOn = editedOn
+        self.metadata = metadata
         super.init(
             threadId: threadId,
             sender: sender,
@@ -303,6 +311,11 @@ public class ChatMessageEditedEvent: BaseChatMessageEvent {
 
         self.message = chatMessageEditedPayload.messageBody
         self.editedOn = Iso8601Date(string: chatMessageEditedPayload.edittime)
+
+        if let acsChatMetadata = chatMessageEditedPayload.acsChatMessageMetadata.data(using: .utf8) {
+            self.metadata = try JSONDecoder().decode([String: String?].self, from: acsChatMetadata)
+        }
+
         super.init(
             threadId: chatMessageEditedPayload.groupId,
             sender: TrouterEventUtil.getIdentifier(from: chatMessageEditedPayload.senderId),
