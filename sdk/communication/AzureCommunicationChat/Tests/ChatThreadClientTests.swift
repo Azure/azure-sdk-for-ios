@@ -225,7 +225,10 @@ class ChatThreadClientTests: XCTestCase {
             content: "Hello",
             senderDisplayName: "User 1",
             type: .text,
-            metadata: ["testMetadata": "someMetadata"]
+            metadata: [
+                "testMetadata": "someMetadata",
+                "testNilMetadata": nil
+            ]
         )
 
         let expectation = self.expectation(description: "Send message")
