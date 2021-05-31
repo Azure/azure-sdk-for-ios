@@ -228,7 +228,7 @@ public class ChatMessageReceivedEvent: BaseChatMessageEvent {
             .decode(MessageReceivedPayload.self, from: requestJsonData)
 
         self.message = messageReceivedPayload.messageBody
-        self.metadata = messageReceivedPayload.
+        // self.metadata = messageReceivedPayload.metadata
         super.init(
             threadId: messageReceivedPayload.groupId,
             sender: TrouterEventUtil.getIdentifier(from: messageReceivedPayload.senderId),
