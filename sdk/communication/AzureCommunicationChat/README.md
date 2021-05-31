@@ -287,6 +287,7 @@ Use the `send` method of `ChatThreadClient` to send a message to a thread.
 - `content`, required, is used to provide the chat message content.
 - `senderDisplayName` is used to specify the display name of the sender, if not specified, an empty name will be set.
 - `type` is the type of message being sent, the supported types are text and html.
+- `metadata` is any additional metadata you would like to send with the message.
 
 `SendChatMessageResult` is the response returned from sending a message, it contains the unique ID of the message.
 

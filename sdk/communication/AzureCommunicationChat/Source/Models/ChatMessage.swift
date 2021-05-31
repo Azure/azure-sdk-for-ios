@@ -52,7 +52,7 @@ public struct ChatMessage: Codable {
     public let deletedOn: Iso8601Date?
     /// The last timestamp (if applicable) when the message was edited. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public let editedOn: Iso8601Date?
-    /// Message metadata.
+    /// Optional metadata provided when sending the ChatMessage, data is stringified.
     public let metadata: [String: String?]?
 
     // MARK: Initializers
