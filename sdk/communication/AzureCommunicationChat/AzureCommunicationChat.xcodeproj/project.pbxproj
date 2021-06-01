@@ -90,6 +90,7 @@
 		D17C7B6125FBF4D5007AD39B /* ChatThreadPropertiesInternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17C7B5725FBF4D5007AD39B /* ChatThreadPropertiesInternal.swift */; };
 		D17C7B6225FBF4D5007AD39B /* ChatThreadItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17C7B5825FBF4D5007AD39B /* ChatThreadItem.swift */; };
 		D17C7B6325FBF4D5007AD39B /* ChatMessageContentInternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D17C7B5925FBF4D5007AD39B /* ChatMessageContentInternal.swift */; };
+		D186E299266582CE002D9D45 /* Registrar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D186E298266582CE002D9D45 /* Registrar.swift */; };
 		D187D9B126151DB900C233B7 /* IdentifierSerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8840448725D5DD7900A194DC /* IdentifierSerializerTests.swift */; };
 		D197C5DF260E82F80049718B /* TokenCredentialAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889FF7C9260516FA00722630 /* TokenCredentialAdapter.swift */; };
 		D1AEA09C2608EE3700849D5C /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1CD93AC258D6C2500409613 /* Util.swift */; };
@@ -239,6 +240,8 @@
 		D17C7B5725FBF4D5007AD39B /* ChatThreadPropertiesInternal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatThreadPropertiesInternal.swift; sourceTree = "<group>"; };
 		D17C7B5825FBF4D5007AD39B /* ChatThreadItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatThreadItem.swift; sourceTree = "<group>"; };
 		D17C7B5925FBF4D5007AD39B /* ChatMessageContentInternal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatMessageContentInternal.swift; sourceTree = "<group>"; };
+		D186E298266582CE002D9D45 /* Registrar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Registrar.swift; sourceTree = "<group>"; };
+		D1B566FF260BB87B009DE5D3 /* TrouterClientIos.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = TrouterClientIos.xcframework; path = ../../../Pods/TrouterClientIos/TrouterClientIos.xcframework; sourceTree = "<group>"; };
 		D1B7EAED257F02FC004F384A /* AzureCommunicationChatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AzureCommunicationChatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1B7EAFC257F03A1004F384A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D1BA104525807B0B00CA7130 /* CreateThreadResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = CreateThreadResponse.json; sourceTree = "<group>"; };
@@ -559,6 +562,7 @@
 				8840445625D5C65700A194DC /* Serializer */,
 				D1565C70256DB74900AF45F8 /* ChatClient.swift */,
 				D1565C73256DB76C00AF45F8 /* ChatThreadClient.swift */,
+				D186E298266582CE002D9D45 /* Registrar.swift */,
 				D16C802B25BA0A0F00C42803 /* Models */,
 				D104589925EEA47800B3EB6D /* Signaling */,
 				D15E98C925B7C80C00E63DB2 /* Generated */,
@@ -886,6 +890,8 @@
 				0EDC08972640892B004CA84B /* GetChatThreadPropertiesOptions.swift in Sources */,
 				D15E991825B7C80C00E63DB2 /* CommunicationErrorResponse.swift in Sources */,
 				D17C7B6125FBF4D5007AD39B /* ChatThreadPropertiesInternal.swift in Sources */,
+				D15E991225B7C80C00E63DB2 /* UpdateChatThreadRequest.swift in Sources */,
+				D186E299266582CE002D9D45 /* Registrar.swift in Sources */,
 				D17C7B6325FBF4D5007AD39B /* ChatMessageContentInternal.swift in Sources */,
 				D14DBCFB260EACEA005C9C43 /* TrouterNotificationPayload.swift in Sources */,
 				0A68BF782658747C004A7E3D /* AzureCommunicationChatClientOptions.swift in Sources */,

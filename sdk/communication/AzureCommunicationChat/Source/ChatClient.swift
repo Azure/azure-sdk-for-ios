@@ -274,4 +274,12 @@ public class ChatClient {
 
         signalingClient!.off(event: event)
     }
+    
+    public func startPushNotifications() {
+        // Call registrar.setRegistration
+    }
+    
+    public func stopPushNotifications() {
+        // Call registrar.deleteRegistration
+    }
 }
