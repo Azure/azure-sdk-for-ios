@@ -158,6 +158,10 @@ final class MappedThing: Thing, XMLModel {
 }
 
 extension MappedThing: Codable {
+    enum CodingKeys: String, CodingKey {
+        case attr, reqString, optString, reqDouble, optDouble, reqInt, optInt, reqBool, optBool
+    }
+
     convenience init(from decoder: Decoder) throws {
         let root = try decoder.container(keyedBy: CodingKeys.self)
         self.init(
