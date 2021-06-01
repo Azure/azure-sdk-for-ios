@@ -72,13 +72,15 @@ stages:
             variables:
               - template: ../variables/globals.yml
             pool:
-              name: Azure Pipelines
-              vmImage: $(OSVmImage)
+              name: azsdk-pool-mms-ubuntu-1804-general
+              vmImage: MMSUbuntu18.04
             strategy:
               runOnce:
                 deploy:
                   steps:
                     - checkout: self
                     - checkout: SwiftPM-AzureTemplate
-                    - script: |
-                        echo "Pretend we are publishing to Swift Package Manager mirrors"
+                    - pwsh: |
+                        Get-ChildItem $(Pipeline.Workspace)
+                      core: true
+                    
