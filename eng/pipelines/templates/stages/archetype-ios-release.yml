@@ -88,12 +88,10 @@ stages:
                         git checkout --orphan run-$(Build.BuildID)-temp-branch
                         git reset --hard
                         Copy-Item -Path $(Pipeline.Workspace)/s/azure-sdk-for-ios/sdk/${{parameters.ServiceDirectory}}/${{artifact.name}}/* -Destination $(Pipeline.Workspace)/s/SwiftPM-${{artifact.name}} -Recurse
-                        Get-ChildItem -Path $(Pipeline.Workspace)/s/SwiftPM-${{artifact.name}} -Recurse
                         git add .
                         git commit -m "Releasing: $version"
                         git tag -a $version -m "$version"
                         git push origin $version
-                      displayName: Copy and tag sources
-
+                      displayName: Copy and tag Swift Package
                         
                     
