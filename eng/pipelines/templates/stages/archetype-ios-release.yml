@@ -66,7 +66,7 @@ stages:
 
           - deployment: PublishPackageToSwiftPackageManagerMirrors
             displayName: "Publish to SPM Mirrors"
-            condition: and(succeeded(), ne(variables['Skip.PublishPackage'], 'true'))
+            condition: and(succeeded(), ne(variables['Skip.PublishPackage'], 'true'), ne('${{artifact.skipSwiftPackageManager}}', true))
             environment: cocoapodstrunk
             dependsOn: TagRepository
             variables:
@@ -79,7 +79,7 @@ stages:
                 deploy:
                   steps:
                     - checkout: self
-                    - checkout: SwiftPM-AzureTemplate
+                    - checkout: SwiftPM-${{artifact.name}}
                       persistCredentials: true
                     - pwsh: |
                         $podspec = Get-Content -Raw -Path $(Pipeline.Workspace)/s/azure-sdk-for-ios/sdk/${{parameters.ServiceDirectory}}/${{artifact.name}}/${{artifact.name}}.podspec.json | ConvertFrom-Json

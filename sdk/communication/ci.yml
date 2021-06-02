@@ -22,6 +22,16 @@ pr:
     - sdk/communication/
     - sdk/eng/
 
+resources:
+  repositories:
+  - repository: SwiftPM-AzureCommunicationCommon
+    type: github
+    name: Azure/SwiftPM-AzureCommunicationCommon
+    endpoint: Azure
+  - repository: SwiftPM-AzureCommunicationChat
+    type: github
+    name: Azure/SwiftPM-AzureCommunicationChat
+    endpoint: Azure
 
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
@@ -31,3 +41,4 @@ extends:
     - name: AzureCommunicationCommon
     - name: AzureCommunicationChat
     - name: AzureCommunicationCalling
+      skipSwiftPackageManager: true

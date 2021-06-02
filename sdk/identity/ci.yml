@@ -22,6 +22,12 @@ pr:
     - sdk/identity/
     - sdk/eng/
 
+resources:
+  repositories:
+  - repository: SwiftPM-AzureIdentity
+    type: github
+    name: Azure/SwiftPM-AzureIdentity
+    endpoint: Azure
 
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
