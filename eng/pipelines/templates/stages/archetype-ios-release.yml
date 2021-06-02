@@ -21,54 +21,54 @@ stages:
         dependsOn: ${{parameters.DependsOn}}
         condition: and(succeeded(), ne(variables['SetDevVersion'], 'true'), ne(variables['Skip.Release'], 'true'), ne(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-java-pr'))
         jobs:
-          # - deployment: TagRepository
-          #   displayName: "Create release tag"
-          #   condition: and(succeeded(), ne(variables['Skip.TagRepository'], 'true'))
-          #   environment: github
-          #   variables:
-          #     - template: ../variables/globals.yml
-          #   pool:
-          #     name: Azure Pipelines
-          #     vmImage: vs2017-win2016
-          #   strategy:
-          #     runOnce:
-          #       deploy:
-          #         steps:
-          #           - checkout: self
-          #           - template: /eng/common/pipelines/templates/steps/retain-run.yml
-          #           - template: /eng/common/pipelines/templates/steps/create-tags-and-git-release.yml
-          #             parameters:
-          #               ArtifactLocation: $(System.DefaultWorkingDirectory)/sdk/${{parameters.ServiceDirectory}}/${{artifact.name}}
-          #               PackageRepository: CocoaPods
-          #               ReleaseSha: $(Build.SourceVersion)
+          - deployment: TagRepository
+            displayName: "Create release tag"
+            condition: and(succeeded(), ne(variables['Skip.TagRepository'], 'true'))
+            environment: github
+            variables:
+              - template: ../variables/globals.yml
+            pool:
+              name: Azure Pipelines
+              vmImage: vs2017-win2016
+            strategy:
+              runOnce:
+                deploy:
+                  steps:
+                    - checkout: self
+                    - template: /eng/common/pipelines/templates/steps/retain-run.yml
+                    - template: /eng/common/pipelines/templates/steps/create-tags-and-git-release.yml
+                      parameters:
+                        ArtifactLocation: $(System.DefaultWorkingDirectory)/sdk/${{parameters.ServiceDirectory}}/${{artifact.name}}
+                        PackageRepository: CocoaPods
+                        ReleaseSha: $(Build.SourceVersion)
 
-          # - deployment: PublishPackageToCocoaPodsTrunk
-          #   displayName: "Publish to CocoaPods Trunk"
-          #   condition: and(succeeded(), ne(variables['Skip.PublishPackage'], 'true'))
-          #   environment: cocoapodstrunk
-          #   dependsOn: TagRepository
-          #   variables:
-          #     - template: ../variables/globals.yml
-          #   pool:
-          #     name: Azure Pipelines
-          #     vmImage: macOS-10.15
-          #   strategy:
-          #     runOnce:
-          #       deploy:
-          #         steps:
-          #           - checkout: self
-          #           - script: |
-          #               pod trunk me
-          #               pod trunk push $(System.DefaultWorkingDirectory)/sdk/${{parameters.ServiceDirectory}}/${{artifact.name}}/${{artifact.name}}.podspec.json --synchronous --use-modular-headers
-          #             env:
-          #               COCOAPODS_TRUNK_TOKEN: $(azuresdk-cocoapods-trunk-token)
-          #             displayName: Push ${{artifact.name}} to CocoaPods Trunk
+          - deployment: PublishPackageToCocoaPodsTrunk
+            displayName: "Publish to CocoaPods Trunk"
+            condition: and(succeeded(), ne(variables['Skip.PublishPackage'], 'true'))
+            environment: cocoapodstrunk
+            dependsOn: TagRepository
+            variables:
+              - template: ../variables/globals.yml
+            pool:
+              name: Azure Pipelines
+              vmImage: macOS-10.15
+            strategy:
+              runOnce:
+                deploy:
+                  steps:
+                    - checkout: self
+                    - script: |
+                        pod trunk me
+                        pod trunk push $(System.DefaultWorkingDirectory)/sdk/${{parameters.ServiceDirectory}}/${{artifact.name}}/${{artifact.name}}.podspec.json --synchronous --use-modular-headers
+                      env:
+                        COCOAPODS_TRUNK_TOKEN: $(azuresdk-cocoapods-trunk-token)
+                      displayName: Push ${{artifact.name}} to CocoaPods Trunk
 
           - deployment: PublishPackageToSwiftPackageManagerMirrors
             displayName: "Publish to SPM Mirrors"
             condition: and(succeeded(), ne(variables['Skip.PublishPackage'], 'true'))
             environment: cocoapodstrunk
-#            dependsOn: TagRepository
+            dependsOn: TagRepository
             variables:
               - template: ../variables/globals.yml
             pool:
