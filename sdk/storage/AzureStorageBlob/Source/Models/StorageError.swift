@@ -59,6 +59,10 @@ public final class StorageError: XMLModel {
 // MARK: Codable Delegate
 
 extension StorageError: Codable {
+    enum CodingKeys: String, CodingKey {
+        case code, message
+    }
+
     /// :nodoc:
     public convenience init(from decoder: Decoder) throws {
         let root = try decoder.container(keyedBy: CodingKeys.self)

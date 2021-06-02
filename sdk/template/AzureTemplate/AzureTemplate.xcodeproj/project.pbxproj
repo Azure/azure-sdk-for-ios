@@ -7,9 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		484989A4FFC276765F44332C /* Pods_AzureTemplate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB86CA07730585EB71E6DAAB /* Pods_AzureTemplate.framework */; };
+		51AE71F813F4FD05E356901F /* Pods_AzureTemplateTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6CAE391786B5810053CD6AC /* Pods_AzureTemplateTests.framework */; };
 		OBJ_148 /* Dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_8 /* Dummy.swift */; };
 		OBJ_168 /* AzureTemplateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* AzureTemplateTests.swift */; };
-		OBJ_170 /* AzureTemplate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "AzureTemplate::AzureTemplate::Product" /* AzureTemplate.framework */; };
+		OBJ_170 /* AzureTemplate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AzureTemplate::AzureTemplate::Product /* AzureTemplate.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -24,8 +26,14 @@
 
 /* Begin PBXFileReference section */
 		0AFBCA01264D9E43000068AC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		"AzureTemplate::AzureTemplate::Product" /* AzureTemplate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureTemplate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"AzureTemplate::AzureTemplateTests::Product" /* AzureTemplateTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = AzureTemplateTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		71345128887FD96FD181BD43 /* Pods-AzureTemplateTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureTemplateTests.debug.xcconfig"; path = "Target Support Files/Pods-AzureTemplateTests/Pods-AzureTemplateTests.debug.xcconfig"; sourceTree = "<group>"; };
+		8027F54D3C8788C2E4FD3E77 /* Pods-AzureTemplateTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureTemplateTests.release.xcconfig"; path = "Target Support Files/Pods-AzureTemplateTests/Pods-AzureTemplateTests.release.xcconfig"; sourceTree = "<group>"; };
+		82BF435984ABC2B788F58A71 /* Pods-AzureTemplate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureTemplate.debug.xcconfig"; path = "Target Support Files/Pods-AzureTemplate/Pods-AzureTemplate.debug.xcconfig"; sourceTree = "<group>"; };
+		AzureTemplate::AzureTemplate::Product /* AzureTemplate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureTemplate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AzureTemplate::AzureTemplateTests::Product /* AzureTemplateTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = AzureTemplateTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4B8CCFB68C753349CEBA4B0 /* Pods-AzureTemplate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureTemplate.release.xcconfig"; path = "Target Support Files/Pods-AzureTemplate/Pods-AzureTemplate.release.xcconfig"; sourceTree = "<group>"; };
+		D6CAE391786B5810053CD6AC /* Pods_AzureTemplateTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureTemplateTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EB86CA07730585EB71E6DAAB /* Pods_AzureTemplate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureTemplate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_10 /* AzureTemplateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzureTemplateTests.swift; sourceTree = "<group>"; };
 		OBJ_13 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/template/AzureTemplate/.build/checkouts/SwiftPM-AzureCore/Package.swift"; sourceTree = "<group>"; };
 		OBJ_14 /* AzureTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzureTask.swift; sourceTree = "<group>"; };
@@ -92,6 +100,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
+				484989A4FFC276765F44332C /* Pods_AzureTemplate.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,6 +109,7 @@
 			buildActionMask = 0;
 			files = (
 				OBJ_170 /* AzureTemplate.framework in Frameworks */,
+				51AE71F813F4FD05E356901F /* Pods_AzureTemplateTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +122,27 @@
 				0AFBCA01264D9E43000068AC /* Info.plist */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		82FC4BA835BB1C41D87029BB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EB86CA07730585EB71E6DAAB /* Pods_AzureTemplate.framework */,
+				D6CAE391786B5810053CD6AC /* Pods_AzureTemplateTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8DD598ADA2A1CF7100674C30 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				82BF435984ABC2B788F58A71 /* Pods-AzureTemplate.debug.xcconfig */,
+				D4B8CCFB68C753349CEBA4B0 /* Pods-AzureTemplate.release.xcconfig */,
+				71345128887FD96FD181BD43 /* Pods-AzureTemplateTests.debug.xcconfig */,
+				8027F54D3C8788C2E4FD3E77 /* Pods-AzureTemplateTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = ../../../Pods;
 			sourceTree = "<group>";
 		};
 		OBJ_11 /* Dependencies */ = {
@@ -212,6 +243,8 @@
 				OBJ_76 /* AzureTemplate.podspec.json */,
 				OBJ_77 /* CHANGELOG.md */,
 				OBJ_78 /* README.md */,
+				8DD598ADA2A1CF7100674C30 /* Pods */,
+				82FC4BA835BB1C41D87029BB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -257,8 +290,8 @@
 		OBJ_72 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				"AzureTemplate::AzureTemplate::Product" /* AzureTemplate.framework */,
-				"AzureTemplate::AzureTemplateTests::Product" /* AzureTemplateTests.xctest */,
+				AzureTemplate::AzureTemplate::Product /* AzureTemplate.framework */,
+				AzureTemplate::AzureTemplateTests::Product /* AzureTemplateTests.xctest */,
 			);
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -274,10 +307,11 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		"AzureTemplate::AzureTemplate" /* AzureTemplate */ = {
+		AzureTemplate::AzureTemplate /* AzureTemplate */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_144 /* Build configuration list for PBXNativeTarget "AzureTemplate" */;
 			buildPhases = (
+				852F7F1EA0ABBA359ACF9B0B /* [CP] Check Pods Manifest.lock */,
 				OBJ_147 /* Sources */,
 				OBJ_149 /* Frameworks */,
 			);
@@ -287,13 +321,14 @@
 			);
 			name = AzureTemplate;
 			productName = AzureTemplate;
-			productReference = "AzureTemplate::AzureTemplate::Product" /* AzureTemplate.framework */;
+			productReference = AzureTemplate::AzureTemplate::Product /* AzureTemplate.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		"AzureTemplate::AzureTemplateTests" /* AzureTemplateTests */ = {
+		AzureTemplate::AzureTemplateTests /* AzureTemplateTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_164 /* Build configuration list for PBXNativeTarget "AzureTemplateTests" */;
 			buildPhases = (
+				DB7D859F486601093F4C6838 /* [CP] Check Pods Manifest.lock */,
 				OBJ_167 /* Sources */,
 				OBJ_169 /* Frameworks */,
 			);
@@ -304,7 +339,7 @@
 			);
 			name = AzureTemplateTests;
 			productName = AzureTemplateTests;
-			productReference = "AzureTemplate::AzureTemplateTests::Product" /* AzureTemplateTests.xctest */;
+			productReference = AzureTemplate::AzureTemplateTests::Product /* AzureTemplateTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -328,11 +363,58 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				"AzureTemplate::AzureTemplate" /* AzureTemplate */,
-				"AzureTemplate::AzureTemplateTests" /* AzureTemplateTests */,
+				AzureTemplate::AzureTemplate /* AzureTemplate */,
+				AzureTemplate::AzureTemplateTests /* AzureTemplateTests */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		852F7F1EA0ABBA359ACF9B0B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AzureTemplate-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DB7D859F486601093F4C6838 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AzureTemplateTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		OBJ_147 /* Sources */ = {
@@ -356,7 +438,7 @@
 /* Begin PBXTargetDependency section */
 		OBJ_172 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = "AzureTemplate::AzureTemplate" /* AzureTemplate */;
+			target = AzureTemplate::AzureTemplate /* AzureTemplate */;
 			targetProxy = 0A8BA042264D9C31009C24B0 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -364,6 +446,7 @@
 /* Begin XCBuildConfiguration section */
 		OBJ_145 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 82BF435984ABC2B788F58A71 /* Pods-AzureTemplate.debug.xcconfig */;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_TESTABILITY = YES;
@@ -394,6 +477,7 @@
 		};
 		OBJ_146 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D4B8CCFB68C753349CEBA4B0 /* Pods-AzureTemplate.release.xcconfig */;
 			buildSettings = {
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_TESTABILITY = YES;
@@ -424,6 +508,7 @@
 		};
 		OBJ_165 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 71345128887FD96FD181BD43 /* Pods-AzureTemplateTests.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -450,6 +535,7 @@
 		};
 		OBJ_166 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8027F54D3C8788C2E4FD3E77 /* Pods-AzureTemplateTests.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
