@@ -82,16 +82,17 @@ stages:
                     - checkout: SwiftPM-AzureTemplate
                       persistCredentials: true
                     - pwsh: |
-                        Get-ChildItem $(Pipeline.Workspace)/s
+                        $podspec = Get-Content -Raw -Path $(Pipeline.Workspace)/s/azure-sdk-for-ios/sdk/${{parameters.ServiceDirectory}}/${{artifact.name}}/${{artifact.name}}.podspec.json | ConvertFrom-Json
+                        $version = $podspec.version
                         Push-Location -Path $(Pipeline.Workspace)/s/SwiftPM-${{artifact.name}}
-                        git checkout --orphan run-$(Build.BuildID)-temp
+                        git checkout --orphan run-$(Build.BuildID)-temp-branch
                         git reset --hard
                         Copy-Item -Path $(Pipeline.Workspace)/s/azure-sdk-for-ios/sdk/${{parameters.ServiceDirectory}}/${{artifact.name}}/* -Destination $(Pipeline.Workspace)/s/SwiftPM-${{artifact.name}} -Recurse
                         Get-ChildItem -Path $(Pipeline.Workspace)/s/SwiftPM-${{artifact.name}} -Recurse
                         git add .
-                        git commit -m "Run $(Build.BuildID)"
-                        git tag -a run-$(Build.BuildID) -m "Run $(Build.BuildID)"
-                        git push origin run-$(Build.BuildID)
+                        git commit -m "Releasing: $version"
+                        git tag -a $version -m "$version"
+                        git push origin $version
                       displayName: Copy and tag sources
 
                         
