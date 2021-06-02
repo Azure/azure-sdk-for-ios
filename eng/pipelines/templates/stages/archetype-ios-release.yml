@@ -85,7 +85,7 @@ stages:
                         Get-ChildItem $(Pipeline.Workspace)/s
                         Push-Location -Path $(Pipeline.Workspace)/s/SwiftPM-${{artifact.name}}
                         git checkout --orphan run-$(Build.BuildID)
-                        Copy-Item -Path $(Pipeline.Workspace)/s/azure-sdk-for-ios/sdk/${{parameters.ServiceDirectory}}/${{artifact.name}} -Destination $(Pipeline.Workspace)/s/SwiftPM-${{artifact.name}} -Recurse
+                        Copy-Item -Path $(Pipeline.Workspace)/s/azure-sdk-for-ios/sdk/${{parameters.ServiceDirectory}}/${{artifact.name}}/* -Destination $(Pipeline.Workspace)/s/SwiftPM-${{artifact.name}} -Recurse
                         Get-ChildItem -Path $(Pipeline.Workspace)/s/SwiftPM-${{artifact.name}} -Recurse
                       displayName: Copy and tag sources
 
