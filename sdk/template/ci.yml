@@ -26,7 +26,7 @@ resources:
   repositories:
   - repository: SwiftPM-AzureTemplate
     type: github
-    name: Azure/SwiftPM-AzureCore
+    name: Azure/SwiftPM-AzureTemplate
     endpoint: Azure
 
 extends:
