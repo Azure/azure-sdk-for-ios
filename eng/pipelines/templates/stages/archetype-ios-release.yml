@@ -81,5 +81,5 @@ stages:
                     - checkout: self
                     - checkout: SwiftPM-AzureTemplate
                     - pwsh: |
-                        Get-ChildItem $(Pipeline.Workspace)
+                        Get-ChildItem $(Pipeline.Workspace)\s
                     
