@@ -11,7 +11,7 @@
 		51AE71F813F4FD05E356901F /* Pods_AzureTemplateTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6CAE391786B5810053CD6AC /* Pods_AzureTemplateTests.framework */; };
 		OBJ_148 /* Dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_8 /* Dummy.swift */; };
 		OBJ_168 /* AzureTemplateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* AzureTemplateTests.swift */; };
-		OBJ_170 /* AzureTemplate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AzureTemplate::AzureTemplate::Product /* AzureTemplate.framework */; };
+		OBJ_170 /* AzureTemplate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "AzureTemplate::AzureTemplate::Product" /* AzureTemplate.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,8 +29,8 @@
 		71345128887FD96FD181BD43 /* Pods-AzureTemplateTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureTemplateTests.debug.xcconfig"; path = "Target Support Files/Pods-AzureTemplateTests/Pods-AzureTemplateTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8027F54D3C8788C2E4FD3E77 /* Pods-AzureTemplateTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureTemplateTests.release.xcconfig"; path = "Target Support Files/Pods-AzureTemplateTests/Pods-AzureTemplateTests.release.xcconfig"; sourceTree = "<group>"; };
 		82BF435984ABC2B788F58A71 /* Pods-AzureTemplate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureTemplate.debug.xcconfig"; path = "Target Support Files/Pods-AzureTemplate/Pods-AzureTemplate.debug.xcconfig"; sourceTree = "<group>"; };
-		AzureTemplate::AzureTemplate::Product /* AzureTemplate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureTemplate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		AzureTemplate::AzureTemplateTests::Product /* AzureTemplateTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = AzureTemplateTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		"AzureTemplate::AzureTemplate::Product" /* AzureTemplate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureTemplate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"AzureTemplate::AzureTemplateTests::Product" /* AzureTemplateTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = AzureTemplateTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4B8CCFB68C753349CEBA4B0 /* Pods-AzureTemplate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureTemplate.release.xcconfig"; path = "Target Support Files/Pods-AzureTemplate/Pods-AzureTemplate.release.xcconfig"; sourceTree = "<group>"; };
 		D6CAE391786B5810053CD6AC /* Pods_AzureTemplateTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureTemplateTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB86CA07730585EB71E6DAAB /* Pods_AzureTemplate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureTemplate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -290,8 +290,8 @@
 		OBJ_72 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AzureTemplate::AzureTemplate::Product /* AzureTemplate.framework */,
-				AzureTemplate::AzureTemplateTests::Product /* AzureTemplateTests.xctest */,
+				"AzureTemplate::AzureTemplate::Product" /* AzureTemplate.framework */,
+				"AzureTemplate::AzureTemplateTests::Product" /* AzureTemplateTests.xctest */,
 			);
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -307,7 +307,7 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		AzureTemplate::AzureTemplate /* AzureTemplate */ = {
+		"AzureTemplate::AzureTemplate" /* AzureTemplate */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_144 /* Build configuration list for PBXNativeTarget "AzureTemplate" */;
 			buildPhases = (
@@ -321,10 +321,10 @@
 			);
 			name = AzureTemplate;
 			productName = AzureTemplate;
-			productReference = AzureTemplate::AzureTemplate::Product /* AzureTemplate.framework */;
+			productReference = "AzureTemplate::AzureTemplate::Product" /* AzureTemplate.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		AzureTemplate::AzureTemplateTests /* AzureTemplateTests */ = {
+		"AzureTemplate::AzureTemplateTests" /* AzureTemplateTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_164 /* Build configuration list for PBXNativeTarget "AzureTemplateTests" */;
 			buildPhases = (
@@ -339,7 +339,7 @@
 			);
 			name = AzureTemplateTests;
 			productName = AzureTemplateTests;
-			productReference = AzureTemplate::AzureTemplateTests::Product /* AzureTemplateTests.xctest */;
+			productReference = "AzureTemplate::AzureTemplateTests::Product" /* AzureTemplateTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -363,8 +363,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				AzureTemplate::AzureTemplate /* AzureTemplate */,
-				AzureTemplate::AzureTemplateTests /* AzureTemplateTests */,
+				"AzureTemplate::AzureTemplate" /* AzureTemplate */,
+				"AzureTemplate::AzureTemplateTests" /* AzureTemplateTests */,
 			);
 		};
 /* End PBXProject section */
@@ -438,7 +438,7 @@
 /* Begin PBXTargetDependency section */
 		OBJ_172 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = AzureTemplate::AzureTemplate /* AzureTemplate */;
+			target = "AzureTemplate::AzureTemplate" /* AzureTemplate */;
 			targetProxy = 0A8BA042264D9C31009C24B0 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -518,7 +518,7 @@
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = AzureTemplate.xcodeproj/AzureTemplateTests_Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
@@ -545,7 +545,7 @@
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = AzureTemplate.xcodeproj/AzureTemplateTests_Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
