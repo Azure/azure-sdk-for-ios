@@ -332,7 +332,7 @@ public class ChatClient {
     }
     
     public func startPushNotifications() {
-        // Call registrar.setRegistration
+        
     }
     
     public func stopPushNotifications() {
