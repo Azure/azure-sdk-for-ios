@@ -25,10 +25,11 @@
 // --------------------------------------------------------------------------
 
 import Foundation
+import AzureCore
 import AzureCommunicationCommon
 
 /// Client description for set registration requests.
-internal struct RegistrationClientDescription {
+internal struct RegistrarClientDescription {
     /// The AppId.
     internal let appId: String
     /// IETF Language tags.
@@ -59,10 +60,10 @@ internal struct RegistrationClientDescription {
     }
 }
 
-internal struct RegistrationTransports {
+internal struct RegistrarTransports {
     /// TTL in seconds. Maximum value is 15552000.
     internal let ttl: Int
-    /// Registration path.
+    /// APNS device token.
     internal let path: String
     /// Optional context.
     internal let context: String?
@@ -86,44 +87,129 @@ internal struct RegistrationTransports {
     }
 }
 
+internal struct RegistrarHeaders {
+    /// Content-type header.
+    static let contentType = "Content-Type"
+    /// Skype token for authentication.
+    static let skypeTokenHeader = "X-Skypetoken"
+}
 
 internal class Registrar {
     // MARK: Properties
 
     /// Registrar API endpoint.
     private let endpoint: String
-    /// CommunicationTokenCredential for authorizing requests.
+    /// CommunicationTokenCredential for authenticating requests.
     private let credential: CommunicationTokenCredential
     /// Unique identifier for the registration.
     private let registrationId: String
+    /// URL Session.
+    private let session: URLSession
 
     // MARK: Initializers
 
     internal init(
         endpoint: String,
         credential: CommunicationTokenCredential,
-        registrationId: String
+        registrationId: String,
+        sessionConfiguration: URLSessionConfiguration? = nil
     ) {
         self.endpoint = endpoint
         self.credential = credential
         self.registrationId = registrationId
+        self.session = URLSession(configuration: sessionConfiguration ?? .default)
+    }
+
+    // MARK: Private Methods
+
+    /// Construct the body of the HTTP request for setting a registration.
+    /// - Parameters:
+    ///   - clientDescription: Client description.
+    ///   - transports: Transports.
+    private func createHttpBody(
+        clientDescription: RegistrarClientDescription,
+        transports: RegistrarTransports
+    ) -> Data? {
+        let json: [String: Any] = [
+            "registrationId": self.registrationId,
+            "nodeId": "0", // Ask Gloria about this
+            "clientDescription": clientDescription,
+            "transports": transports
+        ]
+
+        return try? JSONSerialization.data(withJSONObject: json)
+    }
+    
+    /// Create the HTTP request for setting a registration.
+    /// - Parameters:
+    ///   - clientDescription: Client description added to the request body.
+    ///   - transports: Transports added to the request body.
+    ///   - completionHandler: Returns the request, or an error if the request failed to be created.
+    private func createRequest(
+        clientDescription: RegistrarClientDescription,
+        transports: RegistrarTransports,
+        completionHandler: @escaping (URLRequest?, AzureError?) -> Void
+    ) {
+        do {
+            guard let url = URL(string: self.endpoint) else {
+                throw AzureError.client("Failed to construct URL from endpoint.")
+            }
+            
+            guard let httpBody = createHttpBody(clientDescription: clientDescription, transports: transports) else {
+                throw AzureError.client("Failed to construct http body.")
+            }
+
+            self.credential.token() { accessToken, error in
+                guard let token = accessToken?.token else {
+                    completionHandler(nil, AzureError.client("Failed to get token from CommunicationTokenCredential."))
+                    return
+                }
+
+                // Construct the POST request
+                var request = URLRequest(url: url)
+                request.httpMethod = "POST"
+                request.httpBody = httpBody
+                request.setValue("application/json", forHTTPHeaderField: RegistrarHeaders.contentType)
+                request.setValue(token, forHTTPHeaderField: RegistrarHeaders.skypeTokenHeader)
+
+                completionHandler(request, nil)
+            }
+        } catch {
+            completionHandler(nil, AzureError.client("Error creating Registrar request", error))
+        }
     }
 
     // MARK: Internal Methods
-
-    internal func setRegistration(
-        deviceToken: String,
-        clientDescription: RegistrationClientDescription,
-        transports: RegistrationTransports
-    ) {
-        // Given params
-        // Send POST request with skypetoken header
-        // Return Result
-        
-        // What should ttl be?
-    }
     
+    /// Registers for notifications..
+    /// - Parameters:
+    ///   - clientDescription: RegistrarClientDescription options that describe what notifications we are registering for.
+    ///   - transports: RegistrarTransport options.
+    internal func setRegistration(
+        clientDescription: RegistrarClientDescription,
+        transports: RegistrarTransports,
+        completionHandler: @escaping (Result<Void, AzureError>, URLResponse?) -> Void
+    ) {
+        createRequest(clientDescription: clientDescription, transports: transports) { request, error in
+            guard let request = request else {
+                completionHandler(.failure(AzureError.client("Failed to send Registrar request", error)), nil)
+                return
+            }
+
+            self.session.dataTask(with: request) { _, response, error in
+                if error != nil {
+                    completionHandler(.failure(AzureError.client("Registrar request failed", error)), response)
+                    return
+                }
+                completionHandler(.success(()), response)
+            }
+        }
+    }
+
+    /// Unregisters from notifications.
+    /// - Parameter deviceToken: APNS device token.
     internal func deleteRegistration(
+        deviceToken: String
     ) {
         // Given params
         // Send DELETE request with skypetoken header
