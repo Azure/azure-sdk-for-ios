@@ -84,7 +84,7 @@ stages:
                     - pwsh: |
                         Get-ChildItem $(Pipeline.Workspace)/s
                         Push-Location -Path $(Pipeline.Workspace)/s/SwiftPM-${{artifact.name}}
-                        git checkout --orphan run-$(Build.BuildID)
+                        git checkout --orphan run-$(Build.BuildID)-temp
                         git reset --hard
                         Copy-Item -Path $(Pipeline.Workspace)/s/azure-sdk-for-ios/sdk/${{parameters.ServiceDirectory}}/${{artifact.name}}/* -Destination $(Pipeline.Workspace)/s/SwiftPM-${{artifact.name}} -Recurse
                         Get-ChildItem -Path $(Pipeline.Workspace)/s/SwiftPM-${{artifact.name}} -Recurse
