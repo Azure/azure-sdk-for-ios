@@ -81,17 +81,12 @@ stages:
                     - checkout: self
                     - checkout: SwiftPM-${{artifact.name}}
                       persistCredentials: true
-                    - pwsh: |
-                        $podspec = Get-Content -Raw -Path $(Pipeline.Workspace)/s/azure-sdk-for-ios/sdk/${{parameters.ServiceDirectory}}/${{artifact.name}}/${{artifact.name}}.podspec.json | ConvertFrom-Json
-                        $version = $podspec.version
-                        Push-Location -Path $(Pipeline.Workspace)/s/SwiftPM-${{artifact.name}}
-                        git checkout --orphan run-$(Build.BuildID)-temp-branch
-                        git reset --hard
-                        Copy-Item -Path $(Pipeline.Workspace)/s/azure-sdk-for-ios/sdk/${{parameters.ServiceDirectory}}/${{artifact.name}}/* -Destination $(Pipeline.Workspace)/s/SwiftPM-${{artifact.name}} -Recurse
-                        git add .
-                        git commit -m "Releasing: $version"
-                        git tag -a $version -m "$version"
-                        git push origin $version
-                      displayName: Copy and tag Swift Package
-                        
-                    
+                    - task: PowerShell@2
+                      displayName: Publish Swift Package
+                      inputs: 
+                        targetType: filePath
+                        filePath: eng/scripts/Publish-SwiftPackage.ps1
+                        arguments: >- 
+                          -GitSourcePath $(Pipeline.Workspace)/s/azure-sdk-for-ios/sdk/${{parameters.ServiceDirectory}}/${{artifact.name}}
+                          -GitDestinationPath $(Pipeline.Workspace)/s/SwiftPM-${{artifact.name}}
+                        pwsh: true                    
