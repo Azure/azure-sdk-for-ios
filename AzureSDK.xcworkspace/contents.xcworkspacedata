@@ -408,6 +408,12 @@
          location = "group:scripts"
          name = "scripts">
          <FileRef
+            location = "group:Language-Settings.ps1">
+         </FileRef>
+         <FileRef
+            location = "group:prepare_chat_tests.py">
+         </FileRef>
+         <FileRef
             location = "group:version.py">
          </FileRef>
          <FileRef
