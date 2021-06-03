@@ -104,28 +104,7 @@ public enum TrouterEventUtil {
     ///   - chatEventId: The ChatEventId, determines the type of ChatEvent that should be created.
     ///   - request: The request payload.
     /// - Returns: A chat event model.
-    public static func create(chatEvent chatEventId: ChatEventId, from request: TrouterRequest) throws -> Any {
-        switch chatEventId {
-        case ChatEventId.chatMessageReceived:
-            return try ChatMessageReceivedEvent(from: request)
-        case ChatEventId.typingIndicatorReceived:
-            return try TypingIndicatorReceivedEvent(from: request)
-        case ChatEventId.readReceiptReceived:
-            return try ReadReceiptReceivedEvent(from: request)
-        case ChatEventId.chatMessageEdited:
-            return try ChatMessageEditedEvent(from: request)
-        case ChatEventId.chatMessageDeleted:
-            return try ChatMessageDeletedEvent(from: request)
-        case ChatEventId.chatThreadCreated:
-            return try ChatThreadCreatedEvent(from: request)
-        case ChatEventId.chatThreadPropertiesUpdated:
-            return try ChatThreadPropertiesUpdatedEvent(from: request)
-        case ChatEventId.chatThreadDeleted:
-            return try ChatThreadDeletedEvent(from: request)
-        case ChatEventId.participantsAdded:
-            return try ParticipantsAddedEvent(from: request)
-        case ChatEventId.participantsRemoved:
-            return try ParticipantsRemovedEvent(from: request)
-        }
+    public static func create(chatEvent chatEventId: ChatEventId, from request: TrouterRequest) throws -> TrouterEvent {
+        return try TrouterEvent(chatEventId: chatEventId, from: request)
     }
 }

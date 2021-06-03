@@ -163,4 +163,4 @@ class CommunicationHandler: NSObject, TrouterListener {
     }
 }
 
-public typealias EventHandler = (_ response: Any, _ eventId: ChatEventId) -> Void
+public typealias EventHandler = (_ response: TrouterEvent, _ eventId: ChatEventId) -> Void
