@@ -52,17 +52,6 @@ try {
     }
 
     git push origin $version
-    
-    # $podspec = Get-Content -Raw -Path $(Pipeline.Workspace)/s/azure-sdk-for-ios/sdk/${{parameters.ServiceDirectory}}/${{artifact.name}}/${{artifact.name}}.podspec.json | ConvertFrom-Json
-    # $version = $podspec.version
-    # Push-Location -Path $(Pipeline.Workspace)/s/SwiftPM-${{artifact.name}}
-    # git checkout --orphan run-$(Build.BuildID)-temp-branch
-    # git reset --hard
-    # Copy-Item -Path $(Pipeline.Workspace)/s/azure-sdk-for-ios/sdk/${{parameters.ServiceDirectory}}/${{artifact.name}}/* -Destination $(Pipeline.Workspace)/s/SwiftPM-${{artifact.name}} -Recurse
-    # git add .
-    # git commit -m "Releasing: $version"
-    # git tag -a $version -m "$version"
-    # git push origin $version
 }
 finally {
     Pop-Location
