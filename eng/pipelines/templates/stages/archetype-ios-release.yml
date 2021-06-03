@@ -85,7 +85,7 @@ stages:
                       displayName: Publish Swift Package
                       inputs: 
                         targetType: filePath
-                        filePath: eng/scripts/Publish-SwiftPackage.ps1
+                        filePath: azure-sdk-for-ios/eng/scripts/Publish-SwiftPackage.ps1
                         arguments: >- 
                           -GitSourcePath $(Pipeline.Workspace)/s/azure-sdk-for-ios/sdk/${{parameters.ServiceDirectory}}/${{artifact.name}}
                           -GitDestinationPath $(Pipeline.Workspace)/s/SwiftPM-${{artifact.name}}
