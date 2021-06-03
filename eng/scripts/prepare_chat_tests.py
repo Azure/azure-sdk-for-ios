@@ -37,4 +37,4 @@ print('\n== AZURE_COMMUNICATION_USER_ID_2 ==')
 print(user2.identifier)
 
 print('\n== AZURE_COMMUNICATION_TOKEN ==')
-print(token2)
+print(token1)
