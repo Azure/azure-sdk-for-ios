@@ -150,7 +150,7 @@ class CommunicationHandler: NSObject, TrouterListener {
 
             // Convert trouter payload to chat event payload
             let chatEvent = try TrouterEventUtil.create(chatEvent: chatEventId, from: request)
-            handler(chatEvent, chatEventId)
+            handler(chatEvent)
         } catch {
             logger.error("Error: \(error)")
         }
@@ -163,4 +163,4 @@ class CommunicationHandler: NSObject, TrouterListener {
     }
 }
 
-public typealias EventHandler = (_ response: TrouterEvent, _ eventId: ChatEventId) -> Void
+public typealias EventHandler = (_ response: TrouterEvent) -> Void
