@@ -33,10 +33,10 @@ class ChatClientTests: XCTestCase {
     /// ChatClient initialized in setup.
     private var chatClient: ChatClient!
     /// Test mode.
-    private var mode = ProcessInfo.processInfo.environment["TEST_MODE"] ?? "playback"
+    private var mode = getEnvironmentVariable(withKey: "TEST_MODE", default: "playback")
 
     override class func setUp() {
-        let mode = ProcessInfo.processInfo.environment["TEST_MODE"] ?? "playback"
+        let mode = getEnvironmentVariable(withKey: "TEST_MODE", default: "playback")
         if mode == "playback" {
             // Register stubs for playback mode
             Recorder.registerStubs()
@@ -44,8 +44,8 @@ class ChatClientTests: XCTestCase {
     }
 
     override func setUpWithError() throws {
-        let endpoint = ProcessInfo.processInfo.environment["AZURE_COMMUNICATION_ENDPOINT"] ?? "https://endpoint"
-        let token = ProcessInfo.processInfo.environment["AZURE_COMMUNICATION_TOKEN"] ?? generateToken()
+        let endpoint = getEnvironmentVariable(withKey: "AZURE_COMMUNICATION_ENDPOINT", default: "https://endpoint")
+        let token = generateToken()
         let credential = try CommunicationTokenCredential(token: token)
         let options = AzureCommunicationChatClientOptions()
 
@@ -87,7 +87,7 @@ class ChatClientTests: XCTestCase {
     }
 
     func test_CreateThread_WithParticipants() {
-        let userId = ProcessInfo.processInfo.environment["AZURE_COMMUNICATION_USER_ID_2"] ?? "id2"
+        let userId = getEnvironmentVariable(withKey: "AZURE_COMMUNICATION_USER_ID_2", default: "id2")
         let thread = CreateChatThreadRequest(
             topic: "Test topic",
             participants: [

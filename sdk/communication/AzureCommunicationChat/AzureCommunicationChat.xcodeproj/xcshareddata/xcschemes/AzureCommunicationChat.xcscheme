@@ -33,6 +33,26 @@
             value = "playback"
             isEnabled = "YES">
          </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "AZURE_COMMUNICATION_ENDPOINT"
+            value = ""
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "AZURE_COMMUNICATION_TOKEN"
+            value = ""
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "AZURE_COMMUNICATION_USER_ID_1"
+            value = ""
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "AZURE_COMMUNICATION_USER_ID_2"
+            value = ""
+            isEnabled = "YES">
+         </EnvironmentVariable>
       </EnvironmentVariables>
       <Testables>
          <TestableReference

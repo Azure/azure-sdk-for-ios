@@ -38,8 +38,8 @@ class ChatClientUnitTests: XCTestCase {
     private let topic = "test topic"
 
     override func setUpWithError() throws {
-        let endpoint = ProcessInfo.processInfo.environment["AZURE_COMMUNICATION_ENDPOINT"] ?? "https://endpoint"
-        let token = ProcessInfo.processInfo.environment["AZURE_COMMUNICATION_TOKEN"] ?? generateToken()
+        let endpoint = getEnvironmentVariable(withKey: "AZURE_COMMUNICATION_ENDPOINT", default: "https://endpoint")
+        let token = generateToken()
         let credential = try CommunicationTokenCredential(token: token)
         let options = AzureCommunicationChatClientOptions()
 
