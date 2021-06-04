@@ -1,20 +1,47 @@
 # Release History
 
+## 1.1.0-beta.1 (2021-06-04)
+Azure Communication Calling iOS SDK version `1.1.0-beta.1`.
+
+### New features
+- Support for CallKit (**Preview mode**)
+  - Use the api `createCallAgentWithCallKitOptions` to create `CallAgent` with `CallKit` enabled and SDK will report to `CallKit` about incoming call , outgoing calls and all other call operations like `mute`, `unmute`, `hold`, `resume` as part of the API calls. 
+  - When the app is in the killed state and incoming call is received use the api `reportToCallKit`.
+
+- `CallAgent` and `CallClient` now has `dispose` API to explicitly delete the objects instead of relying on ARC.
+
+- Get CorrelationId from `CallInfo` object in `Call` to get the id required for recording feature. 
+
+- Support to start recording by an ACS endpoint.
+
+### Breaking changes
+- Creating multiple CallAgents with same token will throw error.
+ 
+### Bug fixes
+- [iOS] ACSRendererView layout is off after a device rotation https://github.com/Azure/Communication/issues/127.
+- [iOS] Resizing issue for animating streams https://github.com/Azure/Communication/issues/262.
+
+-----------
+
 ## 1.0.1 (2021-05-03)
 
 Azure Communication Calling iOS SDK version `1.0.1`.
 
-## Bug fixes
+### Bug fixes
 - [iOS] Missing required key bundle version for 1.0.0 https://github.com/Azure/Communication/issues/278.
+
+-----------
 
 ## 1.0.0 (2021-04-27)
 Azure Communication Calling iOS SDK version `1.0.0`.
 
 **This is the first General Availability (GA) release.**
 
-# Breaking changes
+### Breaking changes
 - Video removed/added event are not raised when application stops rendering an incoming video.
 - Teams interop and all other preview APIs are no longer available in the mainstream SDK drop. Please use libraries marked with the -beta suffix for these features.
+
+-----------
 
 ## 1.0.0-beta.12 (2021-04-13)
 Azure Communication Calling iOS SDK version `1.0.0-beta.12`.
