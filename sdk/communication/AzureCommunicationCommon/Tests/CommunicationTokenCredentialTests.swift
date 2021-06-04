@@ -29,9 +29,6 @@ import XCTest
 #if canImport(AzureCommunicationCommon)
     @testable import AzureCommunicationCommon
 #endif
-#if canImport(AzureCore)
-    @testable import AzureCore
-#endif
 
 enum FetchTokenError: Error {
     case badRequest(String)
