@@ -66,17 +66,27 @@ stages:
 
           - deployment: PublishPackageToSwiftPackageManagerMirrors
             displayName: "Publish to SPM Mirrors"
-            condition: and(succeeded(), ne(variables['Skip.PublishPackage'], 'true'))
+            condition: and(succeeded(), ne(variables['Skip.PublishPackage'], 'true'), ne('${{artifact.skipSwiftPackageManager}}', true))
             environment: cocoapodstrunk
-            dependsOn: TagRepository
+            dependsOn: PublishPackageToCocoaPodsTrunk
             variables:
               - template: ../variables/globals.yml
             pool:
-              name: Azure Pipelines
-              vmImage: $(OSVmImage)
+              name: azsdk-pool-mms-ubuntu-1804-general
+              vmImage: MMSUbuntu18.04
             strategy:
               runOnce:
                 deploy:
                   steps:
-                    - script: |
-                        echo "Pretend we are publishing to Swift Package Manager mirrors"
+                    - checkout: self
+                    - checkout: SwiftPM-${{artifact.name}}
+                      persistCredentials: true
+                    - task: PowerShell@2
+                      displayName: Publish Swift Package
+                      inputs: 
+                        targetType: filePath
+                        filePath: azure-sdk-for-ios/eng/scripts/Publish-SwiftPackage.ps1
+                        arguments: >- 
+                          -GitSourcePath $(Pipeline.Workspace)/s/azure-sdk-for-ios/sdk/${{parameters.ServiceDirectory}}/${{artifact.name}}
+                          -GitDestinationPath $(Pipeline.Workspace)/s/SwiftPM-${{artifact.name}}
+                        pwsh: true                    

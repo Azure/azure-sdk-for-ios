@@ -22,6 +22,12 @@ pr:
     - sdk/core/
     - sdk/eng/
 
+resources:
+  repositories:
+  - repository: SwiftPM-AzureCore
+    type: github
+    name: Azure/SwiftPM-AzureCore
+    endpoint: Azure
 
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
