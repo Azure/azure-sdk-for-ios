@@ -14,12 +14,10 @@ Azure Communication Calling iOS SDK version `1.1.0-beta.1`.
 
 - Support to start recording by an ACS endpoint.
 
-### Breaking changes
-- Creating multiple CallAgents with same token will throw error.
- 
 ### Bug fixes
 - [iOS] ACSRendererView layout is off after a device rotation https://github.com/Azure/Communication/issues/127.
 - [iOS] Resizing issue for animating streams https://github.com/Azure/Communication/issues/262.
+- Creating multiple CallAgents with same token will throw error.
 
 -----------
 
