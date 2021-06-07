@@ -28,14 +28,12 @@ import Foundation
 
 internal enum RegistrarSettings {
     static let endpoint = "https://edge.skype.net/registrar/testenv/v2/registrations"
-    static let clientDescription = RegistrarClientDescription(
-        appId: "AcsIos",
-        languageId: [""], // TODO is this required
-        platform: "iOS",
-        platformUiVersion: "", // TODO what should this be
-        templateKey: "AcsIos.AcsNotify_2.0",
-        templateVersion: "" // TODO is this required
-    )
-    static let ttl = 15552000 // TODO what should TTL be
-    static let nodeId = "0" // TODO can this be empty
+    static let appId = "AcsIos"
+    static let languageId = "en" // TODO: is this required, what should it be?
+    static let platform = "iOS"
+    static let platformUiVersion = "0.0.0" // TODO: what should this be
+    static let templateKey = "AcsIos.AcsNotify_2.0"
+    static let templateVersion = "0.0.0" // TODO: what should this be
+    static let ttl = 300 // TODO: what should TTL be
+    static let nodeId = "0" // TODO: can this be empty?
 }

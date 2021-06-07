@@ -104,8 +104,8 @@ public class ChatClient {
 
     // MARK: Private Methods
 
-    // TODO
-    private func createRegistrationId(for user: String) -> String {
+    // TODO:
+    private func createRegistrationId(for _: String) -> String {
         return "swift-test-id-abc-123"
     }
 
@@ -352,14 +352,14 @@ public class ChatClient {
 
         do {
             // Initialize the RegistrarClient
-            self.registrarClient = try RegistrarClient(
+            registrarClient = try RegistrarClient(
                 endpoint: RegistrarSettings.endpoint,
                 credential: credential,
                 registrationId: createRegistrationId(for: "test")
             )
 
             // Register for push notifications
-            self.registrarClient?.setRegistration(for: deviceToken) { result, response in
+            registrarClient?.setRegistration(for: deviceToken) { result, response in
                 switch result {
                 case .success:
                     completionHandler(.success(()), response)
@@ -372,7 +372,7 @@ public class ChatClient {
                 }
             }
         } catch {
-            self.options.logger.error("Failed to start push notifications with error: \(error)")
+            options.logger.error("Failed to start push notifications with error: \(error)")
         }
     }
 
@@ -397,6 +397,14 @@ public class ChatClient {
                     response
                 )
             }
+        }
+    }
+
+    public func getRegistrations(
+        completionHandler: @escaping () -> Void
+    ) {
+        registrarClient?.getRegistrations {
+            completionHandler()
         }
     }
 }
