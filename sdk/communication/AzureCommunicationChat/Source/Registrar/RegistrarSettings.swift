@@ -28,12 +28,16 @@ import Foundation
 
 internal enum RegistrarSettings {
     static let endpoint = "https://edge.skype.net/registrar/testenv/v2/registrations"
+    // Node id is unused but we are required to send it
+    static let nodeId = ""
+    // ClientDescription Settings
     static let appId = "AcsIos"
-    static let languageId = "en" // TODO: is this required, what should it be?
+    static let languageId = ""
     static let platform = "iOS"
-    static let platformUiVersion = "0.0.0" // TODO: what should this be
+    static let platformUIVersion = "3619/0.0.0.0/"
     static let templateKey = "AcsIos.AcsNotify_2.0"
-    static let templateVersion = "0.0.0" // TODO: what should this be
-    static let ttl = 300 // TODO: what should TTL be
-    static let nodeId = "0" // TODO: can this be empty?
+    // Transport Settings
+    static let pushNotificationTransport = "APNS"
+    static let ttl = 300 // TODO: Testing - what should actual TTL be
+    static let context = ""
 }

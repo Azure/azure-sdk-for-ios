@@ -28,45 +28,70 @@ import AzureCommunicationCommon
 import AzureCore
 import Foundation
 
+/// POST request body.
+internal struct RegistrarPostBody: Codable {
+    /// The registration id.
+    internal let registrationId: String
+    /// Node id.
+    internal let nodeId: String
+    /// Client description
+    internal let clientDescription: RegistrarClientDescription
+    /// Transports
+    internal let transports: [String: [RegistrarTransport]]
+
+    internal init(
+        registrationId: String,
+        nodeId: String,
+        clientDescription: RegistrarClientDescription,
+        transports: [String: [RegistrarTransport]]
+    ) {
+        self.registrationId = registrationId
+        self.nodeId = nodeId
+        self.clientDescription = clientDescription
+        self.transports = transports
+    }
+}
+
 /// Client description for set registration requests.
 internal struct RegistrarClientDescription: Codable {
     /// The AppId.
     internal let appId: String
     /// IETF Language tags.
-    internal let languageId: [String]
+    internal let languageId: String
     /// Client platform.
     internal let platform: String
     /// Platform ID.
-    internal let platformUiVersion: String
+    internal let platformUIVersion: String
     /// Template key.
     internal let templateKey: String
     /// Template version.
-    internal let templateVersion: String
+    internal let templateVersion: String?
 
     internal init(
         appId: String,
-        languageId: [String],
+        languageId: String,
         platform: String,
-        platformUiVersion: String,
+        platformUIVersion: String,
         templateKey: String,
-        templateVersion: String
+        templateVersion: String? = nil
     ) {
         self.appId = appId
         self.languageId = languageId
         self.platform = platform
-        self.platformUiVersion = platformUiVersion
+        self.platformUIVersion = platformUIVersion
         self.templateKey = templateKey
         self.templateVersion = templateVersion
     }
 }
 
-internal struct RegistrarTransports: Codable {
+/// Registrar transport.
+internal struct RegistrarTransport: Codable {
     /// TTL in seconds. Maximum value is 15552000.
     internal let ttl: Int
     /// APNS device token.
     internal let path: String
     /// Optional context.
-    internal let context: String?
+    internal let context: String
     /// Creation time as RFC 1123 formatted date.
     internal let creationTime: String?
     /// Snooze time in seconds. Maximum value is 15552000.
@@ -75,7 +100,7 @@ internal struct RegistrarTransports: Codable {
     internal init(
         ttl: Int,
         path: String,
-        context: String? = nil,
+        context: String,
         creationTime: String? = nil,
         snoozeSeconds: Int? = nil
     ) {
@@ -138,34 +163,38 @@ internal class RegistrarClient {
             return (nil, AzureError.client("Missing device token."))
         }
 
-        // TODO: clean this up
-        let json: [String: Any] = [
-            "registrationId": registrationId,
-            "nodeId": RegistrarSettings.nodeId,
-            "clientDescription": [
-                "appId": RegistrarSettings.appId,
-                "languageId": RegistrarSettings.languageId,
-                "platform": RegistrarSettings.platform,
-                "platformUiVersion": RegistrarSettings.platformUiVersion,
-                "templateKey": RegistrarSettings.templateKey,
-                "templateVersion": RegistrarSettings.templateVersion
-            ],
-            "transports": [
-                "ttl": RegistrarSettings.ttl,
-                "path": deviceToken
+        // Client description should match valid APNS templates
+        let clientDescription = RegistrarClientDescription(
+            appId: RegistrarSettings.appId,
+            languageId: RegistrarSettings.languageId,
+            platform: RegistrarSettings.platform,
+            platformUIVersion: RegistrarSettings.platformUIVersion,
+            templateKey: RegistrarSettings.templateKey
+        )
+
+        // Path is APNS token
+        let transport = RegistrarTransport(
+            ttl: RegistrarSettings.ttl,
+            path: deviceToken,
+            context: RegistrarSettings.context
+        )
+
+        let postBody = RegistrarPostBody(
+            registrationId: registrationId,
+            nodeId: RegistrarSettings.nodeId,
+            clientDescription: clientDescription,
+            transports: [
+                RegistrarSettings.pushNotificationTransport: [transport]
             ]
-        ]
+        )
 
-        guard let httpBody = try? JSONSerialization.data(withJSONObject: json) else {
-            return (nil, AzureError.client("Failed to serialize request body."))
+        guard let data = try? JSONEncoder().encode(postBody) else {
+            return (nil, AzureError.client("Failed to serialize POST request body."))
         }
-
-        // TODO: this looks ok
-        let jsonString = String(data: httpBody, encoding: String.Encoding.utf8)
 
         // Add body and content-type header for POST
         var postRequest = baseRequest
-        postRequest.httpBody = httpBody
+        postRequest.httpBody = data
         postRequest.setValue("application/json", forHTTPHeaderField: RegistrarHeaders.contentType)
 
         return (postRequest, nil)
@@ -186,17 +215,18 @@ internal class RegistrarClient {
     ///   - method: The HTTP method.
     ///   - completionHandler: Returns the request, or an error if the request failed to be created.
     private func createRequest(
-        method: HTTPMethod,
+        for method: HTTPMethod,
         with deviceToken: String? = nil,
         completionHandler: @escaping (URLRequest?, AzureError?) -> Void
     ) {
         credential.token { token, error in
+            // All client requests must be authenticated
             guard let skypeToken = token?.token else {
                 completionHandler(nil, AzureError.client("Failed to get token from CommunicationTokenCredential."))
                 return
             }
 
-            // All requests must be authenticated with Skype token
+            // Set HTTP method and token
             var baseRequest = URLRequest(url: self.url)
             baseRequest.httpMethod = method.rawValue
             baseRequest.setValue(skypeToken, forHTTPHeaderField: RegistrarHeaders.skypeTokenHeader)
@@ -230,7 +260,7 @@ internal class RegistrarClient {
         with deviceToken: String? = nil,
         completionHandler: @escaping (URLResponse?, AzureError?) -> Void
     ) {
-        createRequest(method: method, with: deviceToken) { request, error in
+        createRequest(for: method, with: deviceToken) { request, error in
             guard let request = request else {
                 completionHandler(nil, AzureError.client("Failed to create Registrar request", error))
                 return
