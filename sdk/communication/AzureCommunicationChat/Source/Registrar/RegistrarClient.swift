@@ -24,12 +24,12 @@
 //
 // --------------------------------------------------------------------------
 
-import Foundation
-import AzureCore
 import AzureCommunicationCommon
+import AzureCore
+import Foundation
 
 /// Client description for set registration requests.
-internal struct RegistrarClientDescription {
+internal struct RegistrarClientDescription: Codable {
     /// The AppId.
     internal let appId: String
     /// IETF Language tags.
@@ -60,7 +60,7 @@ internal struct RegistrarClientDescription {
     }
 }
 
-internal struct RegistrarTransports {
+internal struct RegistrarTransports: Codable {
     /// TTL in seconds. Maximum value is 15552000.
     internal let ttl: Int
     /// APNS device token.
@@ -87,7 +87,7 @@ internal struct RegistrarTransports {
     }
 }
 
-internal struct RegistrarHeaders {
+internal enum RegistrarHeaders {
     /// Content-type header.
     static let contentType = "Content-Type"
     /// Skype token for authentication.
@@ -138,17 +138,30 @@ internal class RegistrarClient {
             return (nil, AzureError.client("Missing device token."))
         }
 
-        // Construct the request body
+        // TODO: clean this up
         let json: [String: Any] = [
-            "registrationId": self.registrationId,
+            "registrationId": registrationId,
             "nodeId": RegistrarSettings.nodeId,
-            "clientDescription": RegistrarSettings.clientDescription,
-            "transports": RegistrarTransports(ttl: RegistrarSettings.ttl, path: deviceToken)
+            "clientDescription": [
+                "appId": RegistrarSettings.appId,
+                "languageId": RegistrarSettings.languageId,
+                "platform": RegistrarSettings.platform,
+                "platformUiVersion": RegistrarSettings.platformUiVersion,
+                "templateKey": RegistrarSettings.templateKey,
+                "templateVersion": RegistrarSettings.templateVersion
+            ],
+            "transports": [
+                "ttl": RegistrarSettings.ttl,
+                "path": deviceToken
+            ]
         ]
 
         guard let httpBody = try? JSONSerialization.data(withJSONObject: json) else {
             return (nil, AzureError.client("Failed to serialize request body."))
         }
+
+        // TODO: this looks ok
+        let jsonString = String(data: httpBody, encoding: String.Encoding.utf8)
 
         // Add body and content-type header for POST
         var postRequest = baseRequest
@@ -157,14 +170,14 @@ internal class RegistrarClient {
 
         return (postRequest, nil)
     }
-    
+
     /// Create a DELETE request from a base Registrar request.
     /// - Parameter baseRequest: The base request.
     private func deleteRequest(
         from baseRequest: URLRequest
     ) -> URLRequest {
         var deleteRequest = baseRequest
-        deleteRequest.url?.appendPathComponent("/\(self.registrationId)")
+        deleteRequest.url?.appendPathComponent("/\(registrationId)")
         return deleteRequest
     }
 
@@ -177,7 +190,7 @@ internal class RegistrarClient {
         with deviceToken: String? = nil,
         completionHandler: @escaping (URLRequest?, AzureError?) -> Void
     ) {
-        self.credential.token() { token, error in
+        credential.token { token, error in
             guard let skypeToken = token?.token else {
                 completionHandler(nil, AzureError.client("Failed to get token from CommunicationTokenCredential."))
                 return
@@ -194,12 +207,12 @@ internal class RegistrarClient {
                 completionHandler(request, error)
 
             case .delete:
-                // TODO - remove if shouldn't delete
+                // TODO: - remove if shouldn't delete
                 let request = self.deleteRequest(from: baseRequest)
                 completionHandler(request, nil)
 
             case .patch:
-                // TODO - invalidate path
+                // TODO: - invalidate path
                 break
 
             default:
@@ -229,7 +242,7 @@ internal class RegistrarClient {
                     return
                 }
                 completionHandler(response, nil)
-            }
+            }.resume()
         }
     }
 
@@ -267,8 +280,10 @@ internal class RegistrarClient {
     }
 
     // REMOVE - TEMPORARY for testing
-    internal func getRegistrations() {
-        self.credential.token() { accessToken, error in
+    internal func getRegistrations(
+        completionHandler: @escaping () -> Void
+    ) {
+        credential.token { accessToken, error in
             guard let token = accessToken?.token else {
                 return
             }
@@ -277,13 +292,13 @@ internal class RegistrarClient {
             var request = URLRequest(url: self.url)
             request.httpMethod = "GET"
             request.setValue(token, forHTTPHeaderField: RegistrarHeaders.skypeTokenHeader)
-            
+
             self.session.dataTask(with: request) { data, response, error in
                 if error != nil {
                     print("failed")
                     return
                 }
-                
+
                 guard let response = data else {
                     return
                 }
@@ -291,11 +306,12 @@ internal class RegistrarClient {
                 do {
                     let json = try JSONSerialization.jsonObject(with: response)
                     print(json)
+                    completionHandler()
                 } catch {
                     print(error)
+                    completionHandler()
                 }
-                
-            }
+            }.resume()
         }
     }
 }
