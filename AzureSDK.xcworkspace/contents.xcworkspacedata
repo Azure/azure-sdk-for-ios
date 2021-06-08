@@ -5,6 +5,13 @@
       location = "group:sdk"
       name = "SDK">
       <Group
+         location = "container:"
+         name = "test">
+         <FileRef
+            location = "group:sdk/test/AzureTest/AzureTest.xcodeproj">
+         </FileRef>
+      </Group>
+      <Group
          location = "group:communication"
          name = "communication">
          <FileRef
