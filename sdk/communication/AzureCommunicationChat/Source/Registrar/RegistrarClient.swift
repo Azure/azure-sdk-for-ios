@@ -28,97 +28,6 @@ import AzureCommunicationCommon
 import AzureCore
 import Foundation
 
-/// POST request body.
-internal struct RegistrarPostBody: Codable {
-    /// The registration id.
-    internal let registrationId: String
-    /// Node id.
-    internal let nodeId: String
-    /// Client description
-    internal let clientDescription: RegistrarClientDescription
-    /// Transports
-    internal let transports: [String: [RegistrarTransport]]
-
-    internal init(
-        registrationId: String,
-        nodeId: String,
-        clientDescription: RegistrarClientDescription,
-        transports: [String: [RegistrarTransport]]
-    ) {
-        self.registrationId = registrationId
-        self.nodeId = nodeId
-        self.clientDescription = clientDescription
-        self.transports = transports
-    }
-}
-
-/// Client description for set registration requests.
-internal struct RegistrarClientDescription: Codable {
-    /// The AppId.
-    internal let appId: String
-    /// IETF Language tags.
-    internal let languageId: String
-    /// Client platform.
-    internal let platform: String
-    /// Platform ID.
-    internal let platformUIVersion: String
-    /// Template key.
-    internal let templateKey: String
-    /// Template version.
-    internal let templateVersion: String?
-
-    internal init(
-        appId: String,
-        languageId: String,
-        platform: String,
-        platformUIVersion: String,
-        templateKey: String,
-        templateVersion: String? = nil
-    ) {
-        self.appId = appId
-        self.languageId = languageId
-        self.platform = platform
-        self.platformUIVersion = platformUIVersion
-        self.templateKey = templateKey
-        self.templateVersion = templateVersion
-    }
-}
-
-/// Registrar transport.
-internal struct RegistrarTransport: Codable {
-    /// TTL in seconds. Maximum value is 15552000.
-    internal let ttl: Int
-    /// APNS device token.
-    internal let path: String
-    /// Optional context.
-    internal let context: String
-    /// Creation time as RFC 1123 formatted date.
-    internal let creationTime: String?
-    /// Snooze time in seconds. Maximum value is 15552000.
-    internal let snoozeSeconds: Int?
-
-    internal init(
-        ttl: Int,
-        path: String,
-        context: String,
-        creationTime: String? = nil,
-        snoozeSeconds: Int? = nil
-    ) {
-        self.ttl = ttl
-        self.path = path
-        self.context = context
-        self.creationTime = creationTime
-        self.snoozeSeconds = snoozeSeconds
-    }
-}
-
-internal enum RegistrarHeaders {
-    /// Content-type header.
-    static let contentType = "Content-Type"
-    /// Skype token for authentication.
-    static let skypeTokenHeader = "X-Skypetoken"
-}
-
 internal class RegistrarClient {
     // MARK: Properties
 
@@ -151,16 +60,13 @@ internal class RegistrarClient {
 
     // MARK: Private Methods
 
-    /// Create a POST request from a base Registrar request.
-    /// - Parameters:
-    ///   - baseRequest: The base request.
-    ///   - deviceToken: APNS push token.
-    private func postRequest(
-        from baseRequest: URLRequest,
-        with deviceToken: String?
-    ) -> (URLRequest?, AzureError?) {
-        guard let deviceToken = deviceToken else {
-            return (nil, AzureError.client("Missing device token."))
+    /// Create the data for the a Registrar POST request body.
+    /// - Parameter deviceToken: APNS Push token.
+    private func createPostData(
+        deviceToken: String?
+    ) -> Data? {
+        guard let token = deviceToken else {
+            return nil
         }
 
         // Client description should match valid APNS templates
@@ -175,11 +81,11 @@ internal class RegistrarClient {
         // Path is APNS token
         let transport = RegistrarTransport(
             ttl: RegistrarSettings.ttl,
-            path: deviceToken,
+            path: token,
             context: RegistrarSettings.context
         )
 
-        let postBody = RegistrarPostBody(
+        let data = RegistrarRequestBody(
             registrationId: registrationId,
             nodeId: RegistrarSettings.nodeId,
             clientDescription: clientDescription,
@@ -188,123 +94,116 @@ internal class RegistrarClient {
             ]
         )
 
-        guard let data = try? JSONEncoder().encode(postBody) else {
-            return (nil, AzureError.client("Failed to serialize POST request body."))
-        }
-
-        // Add body and content-type header for POST
-        var postRequest = baseRequest
-        postRequest.httpBody = data
-        postRequest.setValue("application/json", forHTTPHeaderField: RegistrarHeaders.contentType)
-
-        return (postRequest, nil)
+        return try? JSONEncoder().encode(data)
     }
 
-    /// Create a DELETE request from a base Registrar request.
-    /// - Parameter baseRequest: The base request.
-    private func deleteRequest(
-        from baseRequest: URLRequest
-    ) -> URLRequest {
-        var deleteRequest = baseRequest
-        deleteRequest.url?.appendPathComponent("/\(registrationId)")
-        return deleteRequest
-    }
-
-    /// Create an HTTP request for the Registrar API.
+    /// Sets the authentication header on a Registrar request.
     /// - Parameters:
-    ///   - method: The HTTP method.
-    ///   - completionHandler: Returns the request, or an error if the request failed to be created.
-    private func createRequest(
-        for method: HTTPMethod,
-        with deviceToken: String? = nil,
+    ///   - request: The  HTTP request.
+    ///   - completionHandler: Returns the request, or an error if the request failed to be authenticated.
+    private func setAuthHeader(
+        on request: URLRequest,
         completionHandler: @escaping (URLRequest?, AzureError?) -> Void
     ) {
         credential.token { token, error in
-            // All client requests must be authenticated
             guard let skypeToken = token?.token else {
-                completionHandler(nil, AzureError.client("Failed to get token from CommunicationTokenCredential."))
+                completionHandler(
+                    nil,
+                    AzureError.client("Failed to get token from CommunicationTokenCredential.", error)
+                )
                 return
             }
 
-            // Set HTTP method and token
-            var baseRequest = URLRequest(url: self.url)
-            baseRequest.httpMethod = method.rawValue
-            baseRequest.setValue(skypeToken, forHTTPHeaderField: RegistrarHeaders.skypeTokenHeader)
-
-            switch method {
-            case .post:
-                let (request, error) = self.postRequest(from: baseRequest, with: deviceToken)
-                completionHandler(request, error)
-
-            case .delete:
-                // TODO: - remove if shouldn't delete
-                let request = self.deleteRequest(from: baseRequest)
-                completionHandler(request, nil)
-
-            case .patch:
-                // TODO: - invalidate path
-                break
-
-            default:
-                completionHandler(nil, AzureError.client("Unsupported method \(method)."))
-            }
+            var authenticatedRequest = request
+            authenticatedRequest.setValue(skypeToken, forHTTPHeaderField: RegistrarHeader.skypeTokenHeader)
+            completionHandler(authenticatedRequest, nil)
         }
+    }
+
+    /// Create a Registrar DELETE request.
+    private func createDeleteRequest(
+        completionHandler: @escaping (URLRequest?, AzureError?) -> Void
+    ) {
+        let url = self.url.appendingPathComponent("/\(registrationId)")
+        var request = URLRequest(url: url)
+        request.httpMethod = HTTPMethod.delete.rawValue
+
+        setAuthHeader(on: request, completionHandler: completionHandler)
+    }
+
+    /// Create a Registrar POST request.
+    /// - Parameter deviceToken: APNS push token.
+    private func createPostRequest(
+        with deviceToken: String,
+        completionHandler: @escaping (URLRequest?, AzureError?) -> Void
+    ) {
+        guard let data = createPostData(deviceToken: deviceToken) else {
+            completionHandler(nil, AzureError.client("Failed to serialize POST request body."))
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = HTTPMethod.post.rawValue
+        request.httpBody = data
+        request.setValue(RegistrarMimeType.json, forHTTPHeaderField: RegistrarHeader.contentType)
+
+        setAuthHeader(on: request, completionHandler: completionHandler)
     }
 
     /// Sends an HTTP request to Registrar.
     /// - Parameters:
     ///   - method: The HTTP method.
     ///   - completionHandler: Returns the URLResponse, and an error if any errors occurred.
-    private func sendRequest(
-        method: HTTPMethod,
-        with deviceToken: String? = nil,
-        completionHandler: @escaping (URLResponse?, AzureError?) -> Void
+    private func sendHttpRequest(
+        _ request: URLRequest,
+        completionHandler: @escaping (HTTPURLResponse?, AzureError?) -> Void
     ) {
-        createRequest(for: method, with: deviceToken) { request, error in
-            guard let request = request else {
-                completionHandler(nil, AzureError.client("Failed to create Registrar request", error))
-                return
+        session.dataTask(with: request) { _, response, error in
+            let httpResponse = response as? HTTPURLResponse
+            if (error != nil) || (httpResponse?.statusCode != RegistrarStatusCode.success) {
+                completionHandler(httpResponse, AzureError.service("Registration request failed", error))
+            } else {
+                completionHandler(httpResponse, nil)
             }
-
-            self.session.dataTask(with: request) { _, response, error in
-                if error != nil {
-                    completionHandler(response, AzureError.service("Registrar request failed", error))
-                    return
-                }
-                completionHandler(response, nil)
-            }.resume()
-        }
+        }.resume()
     }
 
     // MARK: Internal Methods
 
-    /// Registers for notifications by sending a POST request to Registrar.
+    /// Sets a registration in Registrar.
     /// - Parameters:
+    ///   - deviceToken: APNS push token.
     ///   - completionHandler: Returns the response. Success indicates the registration was received.
     internal func setRegistration(
         for deviceToken: String,
-        completionHandler: @escaping (Result<Void, AzureError>, URLResponse?) -> Void
+        completionHandler: @escaping (HTTPURLResponse?, AzureError?) -> Void
     ) {
-        sendRequest(method: .post, with: deviceToken) { response, error in
-            if let error = error {
-                completionHandler(.failure(error), response)
-            } else {
-                completionHandler(.success(()), response)
+        createPostRequest(with: deviceToken) { request, error in
+            guard let request = request else {
+                completionHandler(nil, AzureError.client("Failed to create POST request.", error))
+                return
+            }
+
+            self.sendHttpRequest(request) { response, error in
+                completionHandler(response, error)
             }
         }
     }
 
-    /// Unregisters from notifications by sending a DELETE request to Registrar
+    /// Deletes a registration in Registrar.
     /// - Parameters:
     ///   - completionHandler: Returns the response. Success indicates the registration was deleted.
     internal func deleteRegistration(
-        completionHandler: @escaping (Result<Void, AzureError>, URLResponse?) -> Void
+        completionHandler: @escaping (HTTPURLResponse?, AzureError?) -> Void
     ) {
-        sendRequest(method: .delete) { response, error in
-            if let error = error {
-                completionHandler(.failure(error), response)
-            } else {
-                completionHandler(.success(()), response)
+        createDeleteRequest { request, error in
+            guard let request = request else {
+                completionHandler(nil, AzureError.client("Failed to create DELETE request.", error))
+                return
+            }
+
+            self.sendHttpRequest(request) { response, error in
+                completionHandler(response, error)
             }
         }
     }
@@ -321,7 +220,7 @@ internal class RegistrarClient {
             // Construct the POST request
             var request = URLRequest(url: self.url)
             request.httpMethod = "GET"
-            request.setValue(token, forHTTPHeaderField: RegistrarHeaders.skypeTokenHeader)
+            request.setValue(token, forHTTPHeaderField: RegistrarHeader.skypeTokenHeader)
 
             self.session.dataTask(with: request) { data, response, error in
                 if error != nil {

@@ -26,33 +26,34 @@
 
 import Foundation
 
-internal enum RegistrarSettings {
-    static let endpoint = "https://edge.skype.net/registrar/testenv/v2/registrations"
-    // Node id is unused but we are required to send it
-    static let nodeId = ""
-    // ClientDescription Settings
-    static let appId = "AcsIos"
-    static let languageId = ""
-    static let platform = "iOS"
-    static let platformUIVersion = "3619/0.0.0.0/"
-    static let templateKey = "AcsIos.AcsNotify_2.0"
-    // Transport Settings
-    static let pushNotificationTransport = "APNS"
-    static let ttl = 300 // TODO: Testing - what should actual TTL be
-    static let context = ""
-}
+/// Client description for set registration requests.
+internal struct RegistrarClientDescription: Codable {
+    /// The AppId.
+    internal let appId: String
+    /// IETF Language tags.
+    internal let languageId: String
+    /// Client platform.
+    internal let platform: String
+    /// Platform ID.
+    internal let platformUIVersion: String
+    /// Template key.
+    internal let templateKey: String
+    /// Template version.
+    internal let templateVersion: String?
 
-internal enum RegistrarHeader {
-    /// Content-type header.
-    static let contentType = "Content-Type"
-    /// Skype token for authentication.
-    static let skypeTokenHeader = "X-Skypetoken"
-}
-
-internal enum RegistrarMimeType {
-    static let json = "application/json"
-}
-
-internal enum RegistrarStatusCode {
-    static let success = 202
+    internal init(
+        appId: String,
+        languageId: String,
+        platform: String,
+        platformUIVersion: String,
+        templateKey: String,
+        templateVersion: String? = nil
+    ) {
+        self.appId = appId
+        self.languageId = languageId
+        self.platform = platform
+        self.platformUIVersion = platformUIVersion
+        self.templateKey = templateKey
+        self.templateVersion = templateVersion
+    }
 }
