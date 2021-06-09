@@ -203,15 +203,6 @@ enum Recording: String, CaseIterable {
     case listReadReceipts
 }
 
-/// Returns a value from an environment variable or a default. Empty string is treated the same as nil.
-func getEnvironmentVariable(withKey key: String, default defVal: String) -> String {
-    var value = ProcessInfo.processInfo.environment[key]
-    if value == "" || value == nil {
-        value = defVal
-    }
-    return value!
-}
-
 /// Returns the token from an environment variable or fake value.
 func generateToken() -> String {
     var token = ProcessInfo.processInfo.environment["AZURE_COMMUNICATION_TOKEN"]
