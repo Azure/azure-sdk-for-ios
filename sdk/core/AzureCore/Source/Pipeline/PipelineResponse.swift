@@ -37,11 +37,11 @@ public final class PipelineResponse: Copyable, PipelineContextSupporting {
 
     // MARK: Initializers
 
-    convenience init(request: HTTPRequest, response: HTTPResponse, logger: ClientLogger) {
+    public convenience init(request: HTTPRequest, response: HTTPResponse, logger: ClientLogger) {
         self.init(request: request, response: response, logger: logger, context: nil)
     }
 
-    init(request: HTTPRequest, response: HTTPResponse?, logger: ClientLogger, context: PipelineContext?) {
+    public init(request: HTTPRequest, response: HTTPResponse?, logger: ClientLogger, context: PipelineContext?) {
         self.httpRequest = request
         self.httpResponse = response
         self.logger = logger

@@ -12,13 +12,14 @@ let package = Package(
         .library(name: "AzureTest", targets: ["AzureTest"]),
     ],
     dependencies: [
-        .package(name: "AzureCore", url: "https://github.com/Azure/SwiftPM-AzureCore.git", from: "1.0.0-beta.12")
+        .package(name: "AzureCore", url: "https://github.com/Azure/SwiftPM-AzureCore.git", from: "1.0.0-beta.12"),
+        .package(name: "DVR", url: "https://github.com/venmo/DVR.git", from: "2.0.0")
     ],
     targets: [
         // Build targets
         .target(
             name: "AzureTest",
-            dependencies: ["AzureCore"]),
+            dependencies: ["AzureCore", "DVR"]),
         // Test targets
         .testTarget(
             name: "AzureTestTests",

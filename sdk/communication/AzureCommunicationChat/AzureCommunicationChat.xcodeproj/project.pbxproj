@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A1E75922670030A00054F60 /* DVR in Frameworks */ = {isa = PBXBuildFile; productRef = 0A1E75912670030A00054F60 /* DVR */; };
+		0A1E7594267003A000054F60 /* ChatClientDVRTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1E7593267003A000054F60 /* ChatClientDVRTests.swift */; };
+		0A1E759A26700C1E00054F60 /* AzureTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A1E75972670077800054F60 /* AzureTest.framework */; };
 		0A68BF762656EED6004A7E3D /* ChatError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A68BF752656EED6004A7E3D /* ChatError.swift */; };
 		0A68BF782658747C004A7E3D /* AzureCommunicationChatClientOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A68BF772658747C004A7E3D /* AzureCommunicationChatClientOptions.swift */; };
 		0A8B9FF3264C6D2C009C24B0 /* ChatClientInternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8B9FF2264C6D2C009C24B0 /* ChatClientInternal.swift */; };
@@ -151,6 +154,8 @@
 /* Begin PBXFileReference section */
 		04B336EEF1E42CCE389E4935 /* Pods-AzureCommunicationChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunicationChat.release.xcconfig"; path = "Target Support Files/Pods-AzureCommunicationChat/Pods-AzureCommunicationChat.release.xcconfig"; sourceTree = "<group>"; };
 		0A10411325D306B3008E472E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0A1E7593267003A000054F60 /* ChatClientDVRTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatClientDVRTests.swift; sourceTree = "<group>"; };
+		0A1E75972670077800054F60 /* AzureTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A5DCA302620F95E00A9ABF3 /* AzureCommunicationChat.podspec.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = AzureCommunicationChat.podspec.json; sourceTree = "<group>"; };
 		0A5DCA322620F99400A9ABF3 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		0A5DCA352620FB7200A9ABF3 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
@@ -298,7 +303,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
+				0A1E75922670030A00054F60 /* DVR in Frameworks */,
 				D110F50A258D604B001FA3CD /* AzureCore.framework in Frameworks */,
+				0A1E759A26700C1E00054F60 /* AzureTest.framework in Frameworks */,
 				88F361162630EB7200A895D1 /* AzureCommunicationCommon.framework in Frameworks */,
 				D110F50C258D6053001FA3CD /* Pods_AzureCommunicationChat.framework in Frameworks */,
 				8821443F261388A700040B91 /* TrouterClientIos in Frameworks */,
@@ -323,6 +330,7 @@
 				D1B566FF260BB87B009DE5D3 /* TrouterClientIos.xcframework */,
 				D10458DB25EEA57E00B3EB6D /* SystemConfiguration.framework */,
 				D10458D625EEA57400B3EB6D /* libz.tbd */,
+				0A1E75972670077800054F60 /* AzureTest.framework */,
 				D10458D125EEA55400B3EB6D /* libc++.tbd */,
 				D10458CF25EEA54700B3EB6D /* CoreTelephony.framework */,
 				D110F50B258D6053001FA3CD /* Pods_AzureCommunicationChat.framework */,
@@ -505,6 +513,7 @@
 				0ECA8D08258432DC006760F7 /* ChatThreadClientUnitTests.swift */,
 				D1CD93A1258D6BC700409613 /* ChatClientTests.swift */,
 				D1CD93A7258D6BDC00409613 /* ChatThreadClientTests.swift */,
+				0A1E7593267003A000054F60 /* ChatClientDVRTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -601,6 +610,7 @@
 			name = AzureCommunicationChat;
 			packageProductDependencies = (
 				8821443E261388A700040B91 /* TrouterClientIos */,
+				0A1E75912670030A00054F60 /* DVR */,
 			);
 			productName = AzureCommunicationChat;
 			productReference = "AzureCommunicationChat::AzureCommunicationChat::Product" /* AzureCommunicationChat.framework */;
@@ -683,6 +693,7 @@
 			packageReferences = (
 				D1BA104B25807B7500CA7130 /* XCRemoteSwiftPackageReference "OHHTTPStubs" */,
 				8821443D261388A700040B91 /* XCRemoteSwiftPackageReference "trouter-client-ios" */,
+				0A1E75902670030A00054F60 /* XCRemoteSwiftPackageReference "DVR" */,
 			);
 			productRefGroup = OBJ_113 /* Products */;
 			projectDirPath = "";
@@ -876,6 +887,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D1CD93A8258D6BDC00409613 /* ChatThreadClientTests.swift in Sources */,
+				0A1E7594267003A000054F60 /* ChatClientDVRTests.swift in Sources */,
 				D1CD93AD258D6C2500409613 /* Util.swift in Sources */,
 				D1CD93A2258D6BC700409613 /* ChatClientTests.swift in Sources */,
 			);
@@ -1304,6 +1316,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		0A1E75902670030A00054F60 /* XCRemoteSwiftPackageReference "DVR" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/venmo/DVR";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.1.0;
+			};
+		};
 		8821443D261388A700040B91 /* XCRemoteSwiftPackageReference "trouter-client-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/microsoft/trouter-client-ios/";
@@ -1323,6 +1343,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0A1E75912670030A00054F60 /* DVR */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0A1E75902670030A00054F60 /* XCRemoteSwiftPackageReference "DVR" */;
+			productName = DVR;
+		};
 		8821443E261388A700040B91 /* TrouterClientIos */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 8821443D261388A700040B91 /* XCRemoteSwiftPackageReference "trouter-client-ios" */;

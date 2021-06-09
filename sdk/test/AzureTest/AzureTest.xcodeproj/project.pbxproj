@@ -3,10 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A1E758F266FFC9600054F60 /* DVR in Frameworks */ = {isa = PBXBuildFile; productRef = 0A1E758E266FFC9600054F60 /* DVR */; };
+		0A1E75962670053100054F60 /* DVRSessionTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1E75952670053100054F60 /* DVRSessionTransport.swift */; };
 		0A2097BA266FCE7D00FE2272 /* AzureTestClientOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2097B9266FCE7D00FE2272 /* AzureTestClientOptions.swift */; };
 		0A2097BF266FDF0000FE2272 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A2097BB266FDE0200FE2272 /* AzureCore.framework */; };
 		0A2097C0266FDF0000FE2272 /* AzureCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0A2097BB266FDE0200FE2272 /* AzureCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -44,6 +46,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0A1E75952670053100054F60 /* DVRSessionTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DVRSessionTransport.swift; sourceTree = "<group>"; };
 		0A2097B9266FCE7D00FE2272 /* AzureTestClientOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzureTestClientOptions.swift; sourceTree = "<group>"; };
 		0A2097BB266FDE0200FE2272 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A2097C2266FE16200FE2272 /* AzureIdentity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureIdentity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -66,6 +69,7 @@
 				0A2097C3266FE16200FE2272 /* AzureIdentity.framework in Frameworks */,
 				7A2B1CBFB1B422A725A8C01B /* Pods_AzureTest.framework in Frameworks */,
 				0A2097BF266FDF0000FE2272 /* AzureCore.framework in Frameworks */,
+				0A1E758F266FFC9600054F60 /* DVR in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,6 +139,7 @@
 			children = (
 				OBJ_9 /* AzureTestClient.swift */,
 				0A2097B9266FCE7D00FE2272 /* AzureTestClientOptions.swift */,
+				0A1E75952670053100054F60 /* DVRSessionTransport.swift */,
 			);
 			name = Sources;
 			sourceTree = SOURCE_ROOT;
@@ -156,6 +161,9 @@
 			dependencies = (
 			);
 			name = AzureTest;
+			packageProductDependencies = (
+				0A1E758E266FFC9600054F60 /* DVR */,
+			);
 			productName = AzureTest;
 			productReference = "AzureTest::AzureTest::Product" /* AzureTest.framework */;
 			productType = "com.apple.product-type.framework";
@@ -194,6 +202,9 @@
 				en,
 			);
 			mainGroup = OBJ_5;
+			packageReferences = (
+				0A1E758D266FFC9600054F60 /* XCRemoteSwiftPackageReference "DVR" */,
+			);
 			productRefGroup = OBJ_13 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -235,6 +246,7 @@
 			buildActionMask = 0;
 			files = (
 				0A2097BA266FCE7D00FE2272 /* AzureTestClientOptions.swift in Sources */,
+				0A1E75962670053100054F60 /* DVRSessionTransport.swift in Sources */,
 				OBJ_22 /* AzureTestClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -271,7 +283,10 @@
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = AzureTest.xcodeproj/AzureTest_Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
@@ -301,7 +316,10 @@
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = AzureTest.xcodeproj/AzureTest_Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
@@ -360,7 +378,11 @@
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = AzureTest.xcodeproj/AzureTestTests_Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@loader_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
@@ -386,7 +408,11 @@
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = AzureTest.xcodeproj/AzureTestTests_Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@loader_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
@@ -420,7 +446,8 @@
 				SUPPORTED_PLATFORMS = "$(AVAILABLE_PLATFORMS)";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				USE_HEADERMAP = NO;
 			};
 			name = Release;
@@ -456,6 +483,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		0A1E758D266FFC9600054F60 /* XCRemoteSwiftPackageReference "DVR" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/venmo/DVR";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0A1E758E266FFC9600054F60 /* DVR */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0A1E758D266FFC9600054F60 /* XCRemoteSwiftPackageReference "DVR" */;
+			productName = DVR;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = OBJ_1 /* Project object */;
 }
