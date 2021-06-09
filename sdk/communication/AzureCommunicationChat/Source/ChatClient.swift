@@ -287,7 +287,7 @@ public class ChatClient {
     ///   - completionHandler: Success indicates request to register for notifications has been received.
     public func startPushNotifications(
         deviceToken: String,
-        completionHandler: @escaping (Result<Void, AzureError>, URLResponse?) -> Void
+        completionHandler: @escaping (Result<Void, AzureError>, HTTPURLResponse?) -> Void
     ) {
         guard registrarClient == nil else {
             options.logger.warning("Push notifications already started.")
@@ -303,16 +303,14 @@ public class ChatClient {
             )
 
             // Register for push notifications
-            registrarClient?.setRegistration(for: deviceToken) { result, response in
-                switch result {
-                case .success:
-                    completionHandler(.success(()), response)
-
-                case let .failure(error):
+            registrarClient?.setRegistration(for: deviceToken) { response, error in
+                if let error = error {
                     completionHandler(
-                        .failure(AzureError.client("Failed to start push notifications.", error)),
+                        .failure(AzureError.client("Failed to start push notifications", error)),
                         response
                     )
+                } else {
+                    completionHandler(.success(()), response)
                 }
             }
         } catch {
@@ -323,23 +321,18 @@ public class ChatClient {
     /// Stop push notifications.
     /// - Parameter completionHandler: Success indicates push notifications have been stopped.
     public func stopPushNotifications(
-        completionHandler: @escaping (Result<Void, AzureError>, URLResponse?) -> Void
+        completionHandler: @escaping (Result<Void, AzureError>, HTTPURLResponse?) -> Void
     ) {
         if registrarClient == nil {
             options.logger.warning("Push notifications are not enabled.")
             return
         }
 
-        registrarClient?.deleteRegistration { result, response in
-            switch result {
-            case .success:
+        registrarClient?.deleteRegistration { response, error in
+            if let error = error {
+                completionHandler(.failure(AzureError.client("Failed to stop push notifications", error)), response)
+            } else {
                 completionHandler(.success(()), response)
-
-            case let .failure(error):
-                completionHandler(
-                    .failure(AzureError.client("Failed to stop push notifications", error)),
-                    response
-                )
             }
         }
     }

@@ -100,9 +100,10 @@ class ChatThreadClientTests: XCTestCase {
                 self.chatClient.getRegistrations {
                     print("here")
                     // Delete the registration
-                    self.chatClient.stopPushNotifications { _, _ in
+                    self.chatClient.stopPushNotifications { _, response in
                         // Get registrations again
                         // sleep(2)
+                        let test2 = response
                         self.chatClient.getRegistrations {
                             expectation.fulfill()
                         }
