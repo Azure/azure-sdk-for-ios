@@ -107,7 +107,6 @@ end
 
 target 'AzureTest' do
   project 'sdk/test/AzureTest/AzureTest'
-  pod 'MSAL', '1.1.15'
   pod 'DVR', '~>2.0.0'
 end
 

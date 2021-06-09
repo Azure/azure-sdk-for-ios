@@ -28,7 +28,7 @@ import AzureCore
 import Foundation
 
 /// User-configurable client options.
-public struct AzureTestClientOptions: ClientOptions {
+public struct ResourceUtilityClientOptions: ClientOptions {
     /// The API version of the client to invoke.
     public let apiVersion: String
     /// The `ClientLogger` to be used by this client.
@@ -71,7 +71,7 @@ public struct AzureTestClientOptions: ClientOptions {
         }
     }
 
-    /// Initialize a `AzureTestClientOptions` structure.
+    /// Initialize a `ResourceUtilityClientOptions` structure.
     /// - Parameters:
     ///   - apiVersion: The API version of the client to invoke.
     ///   - logger: The `ClientLogger` to be used by this client.
@@ -79,7 +79,7 @@ public struct AzureTestClientOptions: ClientOptions {
     ///   - cancellationToken: A token used to make a best-effort attempt at canceling a request.
     ///   - dispatchQueue: The default dispatch queue on which to call all completion handler. Defaults to `DispatchQueue.main`.
     public init(
-        apiVersion: AzureTestClientOptions.ApiVersion = .latest,
+        apiVersion: ResourceUtilityClientOptions.ApiVersion = .latest,
         logger: ClientLogger = ClientLoggers.default(tag: "AzureTest"),
         telemetryOptions: TelemetryOptions = TelemetryOptions(),
         transportOptions: TransportOptions? = nil,

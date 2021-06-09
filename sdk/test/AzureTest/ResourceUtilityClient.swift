@@ -25,13 +25,12 @@
 // --------------------------------------------------------------------------
 
 import AzureCore
-import AzureIdentity
 import Foundation
 
-public final class AzureTestClient: PipelineClient {
+public final class ResourceUtilityClient: PipelineClient {
 
-    /// Options provided to configure this `AzureTestClient`.
-    public let options: AzureTestClientOptions
+    /// Options provided to configure this `ResourceUtilityClient`.
+    public let options: ResourceUtilityClientOptions
 
     private static let defaultScopes = [
         "https://storage.azure.com/.default"
@@ -49,14 +48,14 @@ public final class AzureTestClient: PipelineClient {
     private init(
         endpoint: URL,
         authPolicy: Authenticating,
-        withOptions options: AzureTestClientOptions
+        withOptions options: ResourceUtilityClientOptions
     ) throws {
         self.options = options
         super.init(
             endpoint: endpoint,
             transport: options.transportOptions.transport ?? URLSessionTransport(),
             policies: [
-                UserAgentPolicy(for: AzureTestClient.self, telemetryOptions: options.telemetryOptions),
+                UserAgentPolicy(for: ResourceUtilityClient.self, telemetryOptions: options.telemetryOptions),
                 RequestIdPolicy(),
                 AddDatePolicy(),
                 authPolicy,
@@ -71,24 +70,6 @@ public final class AzureTestClient: PipelineClient {
             logger: self.options.logger,
             options: options
         )
-    }
-
-    /// Create an Azure resource client.
-    /// - Parameters:
-    ///   - credential: A `MSALCredential` object used to retrieve authentication tokens.
-    ///   - endpoint: The URL for the client.
-    ///   - options: Options used to configure the client.
-    public convenience init(
-        endpoint: URL,
-        credential: MSALCredential,
-        withOptions options: AzureTestClientOptions = AzureTestClientOptions()
-    ) throws {
-        try credential.validate()
-        let authPolicy = BearerTokenCredentialPolicy(
-            credential: credential,
-            scopes: AzureTestClient.defaultScopes
-        )
-        try self.init(endpoint: endpoint, authPolicy: authPolicy, withOptions: options)
     }
 
     // MARK: Public Client Methods
