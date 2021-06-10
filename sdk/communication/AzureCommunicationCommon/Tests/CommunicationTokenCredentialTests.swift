@@ -92,7 +92,12 @@ class CommunicationTokenCredentialTests: XCTestCase {
         let invalidTokens = ["foo", "foo.bar", "foo.bar.foobar"]
 
         try invalidTokens.forEach { invalidToken in
-            XCTAssertThrowsError(try CommunicationTokenCredential(token: invalidToken))
+            XCTAssertThrowsError(
+                try CommunicationTokenCredential(token: invalidToken), ""
+            ) { error in
+                XCTAssertTrue(
+                    error.localizedDescription.contains("AzureCommunicationCommon.JwtTokenParser"))
+            }
         }
     }
 
