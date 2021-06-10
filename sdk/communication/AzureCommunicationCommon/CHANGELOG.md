@@ -1,5 +1,10 @@
 # Release History
 
+## 1.0.1 (Upcoming)
+### New Features
+- Removing dependency on AzureCore
+- `StaticTokenCredential` and `CommunicationTokenCredential` now throw `NSError` instead of an `AzureError`.  
+
 ## 1.0.0 (2021-04-26)
 ### New Features
 - `AzureCommunicationCommon` is GA.

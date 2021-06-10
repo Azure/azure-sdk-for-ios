@@ -50,7 +50,7 @@ enum JwtTokenParser {
      Helper function that converts base64 url to `Data` object
      - Parameter base64Url: Url string to convert
 
-     - Throws: `AzureError` if we can't convert base64Data to base64String or if we can't convert base64String to Data.
+     - Throws: `NSError` if we can't convert base64Data to base64String or if we can't convert base64String to Data.
 
      - Returns: Data representation of url
      */
@@ -84,7 +84,7 @@ enum JwtTokenParser {
 
      - Parameter token: Token string
 
-     - Throws: `AzureError` if the token does not follow JWT standards
+     - Throws: `NSError` if the token does not follow JWT standards.
 
      - Returns: `JwtPayload`
      */
