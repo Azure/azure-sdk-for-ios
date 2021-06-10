@@ -75,7 +75,6 @@ class ChatClientDVRTests: XCTestCase {
                 XCTFail("Create thread failed with error: \(error)")
             }
             expectation.fulfill()
-
         }
 
         waitForExpectations(timeout: 10.0) { error in
