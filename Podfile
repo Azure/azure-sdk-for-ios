@@ -44,6 +44,7 @@ target 'AzureCommunicationChat' do
     inherit! :search_paths
     pod 'OHHTTPStubs/Swift'
     pod 'TrouterClientIos', '0.0.1-beta.4'
+    pod 'DVR', '~>2.0.0'
   end
   
   target 'AzureCommunicationChatUnitTests' do

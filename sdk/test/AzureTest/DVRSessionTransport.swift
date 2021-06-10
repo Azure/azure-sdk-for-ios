@@ -31,8 +31,9 @@ import os
 
 public class DVRSessionTransport: TransportStage {
     // MARK: Properties
-    private var session: Session?
+    public var session: Session?
 
+    // DVR cassette name to search
     private var cassetteName: String
 
     private var _next: PipelineStage?
@@ -58,11 +59,16 @@ public class DVRSessionTransport: TransportStage {
     public func open() {
         guard session == nil else { return }
         session = Session(cassetteName: cassetteName)
-        session?.beginRecording()
+        if environmentVariable(forKey: "TEST_MODE", default: "playback") == "record" {
+            session?.recordingEnabled = true
+            session?.beginRecording()
+        }
     }
 
     public func close() {
-        session = nil
+        session?.endRecording {
+            self.session = nil
+        }
     }
 
     // MARK: PipelineStage Methods
