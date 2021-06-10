@@ -38,7 +38,7 @@ internal enum RegistrarSettings {
     static let templateKey = "AcsIos.AcsNotify_2.0"
     // Transport Settings
     static let pushNotificationTransport = "APNS"
-    static let ttl = 300 // TODO: Testing - what should actual TTL be
+    static let ttl = 1000 // TODO: Testing - what should actual TTL be
     static let context = ""
 }
 

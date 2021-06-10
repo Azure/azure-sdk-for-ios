@@ -99,13 +99,21 @@ class ChatThreadClientTests: XCTestCase {
                 // sleep(3)
                 self.chatClient.getRegistrations {
                     print("here")
-                    // Delete the registration
-                    self.chatClient.stopPushNotifications { _, response in
+                    // Set registration again but different registration
+                    self.chatClient.startPushNotifications(deviceToken: "someOtherToken") { _, response in
+                        let test3 = response
                         // Get registrations again
-                        // sleep(2)
-                        let test2 = response
+                        // Delete the registration
                         self.chatClient.getRegistrations {
-                            expectation.fulfill()
+                            print("here again")
+                            self.chatClient.stopPushNotifications { _, response in
+                                // Get registrations again
+                                // sleep(2)
+                                let test2 = response
+                                self.chatClient.getRegistrations {
+                                    expectation.fulfill()
+                                }
+                            }
                         }
                     }
                 }

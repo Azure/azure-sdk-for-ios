@@ -118,6 +118,13 @@
 		D1F16FA82697B200005606C3 /* AddChatParticipantsRequestInternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F16FA42697B200005606C3 /* AddChatParticipantsRequestInternal.swift */; };
 		D1F16FA92697B200005606C3 /* CommunicationIdentifierModelInternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F16FA52697B200005606C3 /* CommunicationIdentifierModelInternal.swift */; };
 		D56B96117CC0DBAC8167088A /* Pods_AzureCommunicationChatUnitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C53A93628463638BD2194963 /* Pods_AzureCommunicationChatUnitTests.framework */; };
+		D1FDDBE42672B6FA00F9D0B0 /* NoContent.json in Resources */ = {isa = PBXBuildFile; fileRef = 0ECA8D0E25888515006760F7 /* NoContent.json */; };
+		D1FDDBE52672B71900F9D0B0 /* RegistrarClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1FDDBDC2672A83D00F9D0B0 /* RegistrarClientTests.swift */; };
+		D1FDDBE62672B73000F9D0B0 /* RegistrarClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D186E298266582CE002D9D45 /* RegistrarClient.swift */; };
+		D1FDDBE72672B73500F9D0B0 /* RegistrarTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A0C36926703D8100D6780A /* RegistrarTransport.swift */; };
+		D1FDDBE82672B73700F9D0B0 /* RegistrarSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10D5581266AB3F6009504FA /* RegistrarSettings.swift */; };
+		D1FDDBE92672B73A00F9D0B0 /* RegistrarRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A0C36B26703FE900D6780A /* RegistrarRequestBody.swift */; };
+		D1FDDBEA2672B73D00F9D0B0 /* RegistrarClientDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A0C36726703D5200D6780A /* RegistrarClientDescription.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -275,6 +282,8 @@
 		D1F16FA52697B200005606C3 /* CommunicationIdentifierModelInternal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunicationIdentifierModelInternal.swift; sourceTree = "<group>"; };
 		EA55FCB9FB58BAE327C97579 /* Pods_AzureCommunicationChatTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCommunicationChatTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6C8A0BDD521FD8ECD116120 /* Pods_AzureCommunicationChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCommunicationChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D1FDDBDC2672A83D00F9D0B0 /* RegistrarClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrarClientTests.swift; sourceTree = "<group>"; };
+		F1FE3013E797A134E8A6C3B5 /* Pods_AzureCommunicationChatTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureCommunicationChatTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCF18D210ADF02D5CBA71786 /* Pods-AzureCommunicationChatUnitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunicationChatUnitTests.release.xcconfig"; path = "Target Support Files/Pods-AzureCommunicationChatUnitTests/Pods-AzureCommunicationChatUnitTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -512,6 +521,7 @@
 				D1B7EAFC257F03A1004F384A /* Info.plist */,
 				8840448725D5DD7900A194DC /* IdentifierSerializerTests.swift */,
 				0ECA8CD1258181A5006760F7 /* ChatClientUnitTests.swift */,
+				D1FDDBDC2672A83D00F9D0B0 /* RegistrarClientTests.swift */,
 				0ECA8D08258432DC006760F7 /* ChatThreadClientUnitTests.swift */,
 				D1CD93A1258D6BC700409613 /* ChatClientTests.swift */,
 				D1CD93A7258D6BDC00409613 /* ChatThreadClientTests.swift */,
@@ -730,6 +740,7 @@
 				D1CD93E0258D6EEA00409613 /* sendReadReceipt.json in Resources */,
 				D1CD93E8258D6F0600409613 /* updateMessage.json in Resources */,
 				D1CD93BE258D6E6200409613 /* addParticipants.json in Resources */,
+				D1FDDBE42672B6FA00F9D0B0 /* NoContent.json in Resources */,
 				D10C3BD425A660AF00A181E3 /* listMessages.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -874,8 +885,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				D1CD93A8258D6BDC00409613 /* ChatThreadClientTests.swift in Sources */,
+				D1FDDBE62672B73000F9D0B0 /* RegistrarClient.swift in Sources */,
 				D1CD93AD258D6C2500409613 /* Util.swift in Sources */,
+				D1FDDBEA2672B73D00F9D0B0 /* RegistrarClientDescription.swift in Sources */,
+				D1FDDBE52672B71900F9D0B0 /* RegistrarClientTests.swift in Sources */,
 				D1CD93A2258D6BC700409613 /* ChatClientTests.swift in Sources */,
+				D1FDDBE72672B73500F9D0B0 /* RegistrarTransport.swift in Sources */,
+				D1FDDBE82672B73700F9D0B0 /* RegistrarSettings.swift in Sources */,
+				D1FDDBE92672B73A00F9D0B0 /* RegistrarRequestBody.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
