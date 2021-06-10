@@ -34,6 +34,9 @@ import XCTest
 class ChatClientDVRTests: XCTestCase {
     /// ChatClient initialized in setup.
     private var chatClient: ChatClient!
+
+    private var transport: DVRSessionTransport?
+
     /// Test mode.
     private var mode = environmentVariable(forKey: "TEST_MODE", default: "playback")
 
@@ -41,38 +44,73 @@ class ChatClientDVRTests: XCTestCase {
         let endpoint = environmentVariable(forKey: "AZURE_COMMUNICATION_ENDPOINT", default: "https://endpoint")
         let token = generateToken()
         let credential = try CommunicationTokenCredential(token: token)
-        let transportOptions = TransportOptions(transport: DVRSessionTransport(cassetteName: "myTesting"))
+        transport = DVRSessionTransport(cassetteName: "myTesting")
+        let transportOptions = TransportOptions(transport: transport)
         let options = AzureCommunicationChatClientOptions(transportOptions: transportOptions)
+        transport?.open()
 
         chatClient = try ChatClient(endpoint: endpoint, credential: credential, withOptions: options)
     }
 
-    func test_CreateThread_WithoutParticipants() {
+    override func tearDown() {
+        transport?.close()
+    }
+
+//    func test_CreateThread_WithoutParticipants() {
+//        let thread = CreateChatThreadRequest(
+//            topic: "Test topic"
+//        )
+//
+//        let expectation = self.expectation(description: "Create thread")
+//
+//        chatClient.create(thread: thread) { result, httpResponse in
+//            switch result {
+//            case let .success(response):
+//                let chatThread = response.chatThread
+//                XCTAssertNotNil(response.chatThread)
+//                XCTAssertEqual(chatThread?.topic, thread.topic)
+//                XCTAssertNotNil(httpResponse?.httpRequest?.headers["repeatability-request-id"])
+//                XCTAssertNil(response.invalidParticipants)
+//            case let .failure(error):
+//                XCTFail("Create thread failed with error: \(error)")
+//            }
+//            expectation.fulfill()
+//
+//        }
+//
+//        waitForExpectations(timeout: 10.0) { error in
+//            if let error = error {
+//                XCTFail("Create thread timed out: \(error)")
+//            }
+//        }
+//    }
+
+    func test_ListThreads_ReturnsChatThreadItems() {
+        let expectation = self.expectation(description: "List threads")
         let thread = CreateChatThreadRequest(
-            topic: "Test topic"
+            topic: "Test list threads"
         )
 
-        let expectation = self.expectation(description: "Create thread")
+        // Create a thread
+        chatClient.create(thread: thread) { _, _ in
+            // List threads
+            self.chatClient.listThreads { result, _ in
+                switch result {
+                case let .success(listThreadsResult):
+                    let threads = listThreadsResult.items
+                    XCTAssertTrue(threads!.count > 0)
 
-        chatClient.create(thread: thread) { result, httpResponse in
-            switch result {
-            case let .success(response):
-                let chatThread = response.chatThread
-                XCTAssertNotNil(response.chatThread)
-                XCTAssertEqual(chatThread?.topic, thread.topic)
-                XCTAssertNotNil(httpResponse?.httpRequest?.headers["repeatability-request-id"])
-                XCTAssertNil(response.invalidParticipants)
+                case let .failure(error):
+                    XCTFail("List threads failed: \(error)")
+                }
 
-            case let .failure(error):
-                XCTFail("Create thread failed with error: \(error)")
+                expectation.fulfill()
             }
-
-            expectation.fulfill()
         }
 
         waitForExpectations(timeout: 10.0) { error in
             if let error = error {
-                XCTFail("Create thread timed out: \(error)")
+                XCTFail("List threads timed out: \(error)")
             }
         }
     }
