@@ -104,10 +104,11 @@ public class ChatClient {
     }
 
     // MARK: Private Methods
-
-    // TODO:
-    private func createRegistrationId(for _: String) -> String {
-        return "swift-test-id-abc-123"
+    
+    /// Return unique registration id for push notifications.
+    private func getRegistrationId() -> String {
+        // TODO
+        return UUID().uuidString
     }
 
     /// Converts [ChatParticipant] to [ChatParticipantInternal] for internal use.
@@ -356,7 +357,7 @@ public class ChatClient {
             registrarClient = try RegistrarClient(
                 endpoint: RegistrarSettings.endpoint,
                 credential: credential,
-                registrationId: createRegistrationId(for: "test")
+                registrationId: getRegistrationId()
             )
 
             // Register for push notifications
