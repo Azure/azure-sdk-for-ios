@@ -39,6 +39,7 @@ public class ChatClient {
     private let service: Chat
     private var signalingClient: CommunicationSignalingClient?
     private var signalingClientStarted: Bool = false
+    private var pushNotificationsStarted: Bool = false
 
     // MARK: Initializers
 
@@ -345,8 +346,8 @@ public class ChatClient {
         deviceToken: String,
         completionHandler: @escaping (Result<Void, AzureError>, HTTPURLResponse?) -> Void
     ) {
-        guard registrarClient == nil else {
-            options.logger.warning("Push notifications already started.")
+        guard !pushNotificationsStarted else {
+            completionHandler(.failure(AzureError.client("Push notifications already started.")), nil)
             return
         }
 
@@ -366,6 +367,7 @@ public class ChatClient {
                         response
                     )
                 } else {
+                    self.pushNotificationsStarted = true
                     completionHandler(.success(()), response)
                 }
             }
@@ -379,8 +381,8 @@ public class ChatClient {
     public func stopPushNotifications(
         completionHandler: @escaping (Result<Void, AzureError>, HTTPURLResponse?) -> Void
     ) {
-        if registrarClient == nil {
-            options.logger.warning("Push notifications are not enabled.")
+        guard pushNotificationsStarted else {
+            completionHandler(.failure(AzureError.client("Push notifications are not enabled.")), nil)
             return
         }
 
@@ -388,6 +390,7 @@ public class ChatClient {
             if let error = error {
                 completionHandler(.failure(AzureError.client("Failed to stop push notifications", error)), response)
             } else {
+                self.pushNotificationsStarted = false
                 completionHandler(.success(()), response)
             }
         }
