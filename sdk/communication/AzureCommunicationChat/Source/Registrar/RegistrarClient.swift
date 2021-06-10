@@ -207,6 +207,8 @@ internal class RegistrarClient {
             }
         }
     }
+    
+    // TODO: Patch to update existing registration?
 
     // REMOVE - TEMPORARY for testing
     internal func getRegistrations(
