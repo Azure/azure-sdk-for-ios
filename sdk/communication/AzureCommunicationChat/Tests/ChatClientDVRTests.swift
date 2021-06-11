@@ -44,7 +44,10 @@ class ChatClientDVRTests: XCTestCase {
         let endpoint = environmentVariable(forKey: "AZURE_COMMUNICATION_ENDPOINT", default: "https://endpoint")
         let token = generateToken()
         let credential = try CommunicationTokenCredential(token: token)
-        transport = DVRSessionTransport(cassetteName: "myTesting")
+        let fullname = self.name
+        var testName = fullname.split(separator: " ")[1]
+        testName.removeLast()
+        transport = DVRSessionTransport(cassetteName: String(testName))
         let transportOptions = TransportOptions(transport: transport)
         let options = AzureCommunicationChatClientOptions(transportOptions: transportOptions)
         transport?.open()
