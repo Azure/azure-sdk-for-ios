@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0A1E75922670030A00054F60 /* DVR in Frameworks */ = {isa = PBXBuildFile; productRef = 0A1E75912670030A00054F60 /* DVR */; };
 		0A1E7594267003A000054F60 /* ChatClientDVRTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1E7593267003A000054F60 /* ChatClientDVRTests.swift */; };
 		0A1E759A26700C1E00054F60 /* AzureTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A1E75972670077800054F60 /* AzureTest.framework */; };
 		0A68BF762656EED6004A7E3D /* ChatError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A68BF752656EED6004A7E3D /* ChatError.swift */; };
@@ -38,7 +37,6 @@
 		88D37B9025D60CCD004F3699 /* CommunicationUserIdentifierModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D37B8C25D60CCD004F3699 /* CommunicationUserIdentifierModel.swift */; };
 		88D37B9125D60CCD004F3699 /* PhoneNumberIdentifierModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D37B8D25D60CCD004F3699 /* PhoneNumberIdentifierModel.swift */; };
 		88F361162630EB7200A895D1 /* AzureCommunicationCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88F361152630EB7200A895D1 /* AzureCommunicationCommon.framework */; };
-		88F361172630EB7200A895D1 /* AzureCommunicationCommon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 88F361152630EB7200A895D1 /* AzureCommunicationCommon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9766BE9261FCB48436FA6682 /* Pods_AzureCommunicationChatTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1FE3013E797A134E8A6C3B5 /* Pods_AzureCommunicationChatTests.framework */; };
 		D10458A725EEA47800B3EB6D /* CommunicationSignalingClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10458A125EEA47800B3EB6D /* CommunicationSignalingClient.swift */; };
 		D10458A825EEA47800B3EB6D /* TrouterEventUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10458A225EEA47800B3EB6D /* TrouterEventUtil.swift */; };
@@ -136,20 +134,6 @@
 			remoteInfo = AzureCommunicationChat;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		88F361182630EB7200A895D1 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				88F361172630EB7200A895D1 /* AzureCommunicationCommon.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		04B336EEF1E42CCE389E4935 /* Pods-AzureCommunicationChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunicationChat.release.xcconfig"; path = "Target Support Files/Pods-AzureCommunicationChat/Pods-AzureCommunicationChat.release.xcconfig"; sourceTree = "<group>"; };
@@ -303,7 +287,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
-				0A1E75922670030A00054F60 /* DVR in Frameworks */,
 				D110F50A258D604B001FA3CD /* AzureCore.framework in Frameworks */,
 				0A1E759A26700C1E00054F60 /* AzureTest.framework in Frameworks */,
 				88F361162630EB7200A895D1 /* AzureCommunicationCommon.framework in Frameworks */,
@@ -601,7 +584,6 @@
 				OBJ_120 /* Sources */,
 				OBJ_161 /* Frameworks */,
 				0ADDCFDA258D2AA900BD5E58 /* Format and Lint */,
-				88F361182630EB7200A895D1 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -610,7 +592,6 @@
 			name = AzureCommunicationChat;
 			packageProductDependencies = (
 				8821443E261388A700040B91 /* TrouterClientIos */,
-				0A1E75912670030A00054F60 /* DVR */,
 			);
 			productName = AzureCommunicationChat;
 			productReference = "AzureCommunicationChat::AzureCommunicationChat::Product" /* AzureCommunicationChat.framework */;
@@ -693,7 +674,6 @@
 			packageReferences = (
 				D1BA104B25807B7500CA7130 /* XCRemoteSwiftPackageReference "OHHTTPStubs" */,
 				8821443D261388A700040B91 /* XCRemoteSwiftPackageReference "trouter-client-ios" */,
-				0A1E75902670030A00054F60 /* XCRemoteSwiftPackageReference "DVR" */,
 			);
 			productRefGroup = OBJ_113 /* Products */;
 			projectDirPath = "";
@@ -1316,14 +1296,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		0A1E75902670030A00054F60 /* XCRemoteSwiftPackageReference "DVR" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/venmo/DVR";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.1.0;
-			};
-		};
 		8821443D261388A700040B91 /* XCRemoteSwiftPackageReference "trouter-client-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/microsoft/trouter-client-ios/";
@@ -1343,11 +1315,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		0A1E75912670030A00054F60 /* DVR */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 0A1E75902670030A00054F60 /* XCRemoteSwiftPackageReference "DVR" */;
-			productName = DVR;
-		};
 		8821443E261388A700040B91 /* TrouterClientIos */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 8821443D261388A700040B91 /* XCRemoteSwiftPackageReference "trouter-client-ios" */;

@@ -56,34 +56,33 @@ class ChatClientDVRTests: XCTestCase {
         transport?.close()
     }
 
-//    func test_CreateThread_WithoutParticipants() {
-//        let thread = CreateChatThreadRequest(
-//            topic: "Test topic"
-//        )
-//
-//        let expectation = self.expectation(description: "Create thread")
-//
-//        chatClient.create(thread: thread) { result, httpResponse in
-//            switch result {
-//            case let .success(response):
-//                let chatThread = response.chatThread
-//                XCTAssertNotNil(response.chatThread)
-//                XCTAssertEqual(chatThread?.topic, thread.topic)
-//                XCTAssertNotNil(httpResponse?.httpRequest?.headers["repeatability-request-id"])
-//                XCTAssertNil(response.invalidParticipants)
-//            case let .failure(error):
-//                XCTFail("Create thread failed with error: \(error)")
-//            }
-//            expectation.fulfill()
-//
-//        }
-//
-//        waitForExpectations(timeout: 10.0) { error in
-//            if let error = error {
-//                XCTFail("Create thread timed out: \(error)")
-//            }
-//        }
-//    }
+    func test_CreateThread_WithoutParticipants() {
+        let thread = CreateChatThreadRequest(
+            topic: "Test topic"
+        )
+
+        let expectation = self.expectation(description: "Create thread")
+
+        chatClient.create(thread: thread) { result, httpResponse in
+            switch result {
+            case let .success(response):
+                let chatThread = response.chatThread
+                XCTAssertNotNil(response.chatThread)
+                XCTAssertEqual(chatThread?.topic, thread.topic)
+                XCTAssertNotNil(httpResponse?.httpRequest?.headers["repeatability-request-id"])
+                XCTAssertNil(response.invalidParticipants)
+            case let .failure(error):
+                XCTFail("Create thread failed with error: \(error)")
+            }
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 10.0) { error in
+            if let error = error {
+                XCTFail("Create thread timed out: \(error)")
+            }
+        }
+    }
 
     func test_ListThreads_ReturnsChatThreadItems() {
         let expectation = self.expectation(description: "List threads")
