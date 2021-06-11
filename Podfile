@@ -90,7 +90,6 @@ target 'AzureTemplate' do
   end
 end
 
-
 target 'AzureSDKDemoSwift' do
   project 'examples/AzureSDKDemoSwift/AzureSDKDemoSwift'
   pod 'MSAL', '1.1.15'
@@ -108,6 +107,7 @@ end
 
 target 'AzureTest' do
   project 'sdk/test/AzureTest/AzureTest'
+pod 'MSAL', '1.1.15'
   pod 'DVR', :git => 'https://github.com/tjprescott/DVR.git', :branch => 'main'
 end
 

@@ -28,29 +28,27 @@ import AzureCore
 import Foundation
 
 public final class ResourceUtilityClient: PipelineClient {
+    public let subscriptionId: String
 
     /// Options provided to configure this `ResourceUtilityClient`.
     public let options: ResourceUtilityClientOptions
-
-    private static let defaultScopes = [
-        "https://storage.azure.com/.default"
-    ]
-
-    // MARK: Operations
 
     // MARK: Initializers
 
     /// Create an Azure resource client.
     /// - Parameters:
     ///   - baseUrl: Base URL for the client.
+    ///   - subscriptionId: Subscription ID for the client.
     ///   - authPolicy: An `Authenticating` policy to use for authenticating client requests.
     ///   - options: Options used to configure the client.
-    private init(
+    public init(
         endpoint: URL,
+        subscriptionId: String,
         authPolicy: Authenticating,
         withOptions options: ResourceUtilityClientOptions
     ) throws {
         self.options = options
+        self.subscriptionId = subscriptionId
         super.init(
             endpoint: endpoint,
             transport: options.transportOptions.transport ?? URLSessionTransport(),
@@ -72,17 +70,90 @@ public final class ResourceUtilityClient: PipelineClient {
         )
     }
 
-    // MARK: Public Client Methods
-    public func deploy(armTemplate: String) -> String {
+    // MARK: Operations
+
+    public func deploy(armTemplate _: String) -> String {
         // TODO: Deploy the provided ARM template to Azure.
         return ""
     }
 
-    public func delete(resource resourceId: String) {
+    public func delete(resource _: String) {
         // TODO: Delete a resource
     }
 
-    public func delete(resourceGroup group: String) {
-        // TODO: Delete a resource group
+    /// Deletes a resource group.
+    /// - Parameters:
+    ///    - resourceGroup: Resource group to be deleted.
+    ///    - completionHandler: A completion handler that receives a status code on
+    ///     success.
+    public func delete(
+        resourceGroup: String,
+        completionHandler: @escaping HTTPResultHandler<Void>
+    ) {
+        let dispatchQueue = options.dispatchQueue ?? commonOptions.dispatchQueue ?? DispatchQueue.main
+
+        // Create request parameters
+        let params = RequestParameters(
+            (.uri, "endpoint", endpoint.absoluteString, .skipEncoding),
+            (.path, "subscriptionId", subscriptionId, .encode),
+            (.path, "resourceGroup", resourceGroup, .encode),
+            (.query, "api-version", options.apiVersion, .encode),
+            (.header, "Accept", "application/json", .encode)
+        )
+
+        // Construct request
+        let urlTemplate = "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroup}"
+        guard let requestUrl = url(host: "{endpoint}", template: urlTemplate, params: params),
+            let request = try? HTTPRequest(method: .delete, url: requestUrl, headers: params.headers)
+        else {
+            options.logger.error("Failed to construct HTTP request.")
+            return
+        }
+
+        // Send request
+        let context = PipelineContext.of(keyValues: [
+            ContextKey.allowedStatusCodes.rawValue: [200, 202, 401, 404, 409] as AnyObject
+        ])
+        self.request(request, context: context) { result, httpResponse in
+            switch result {
+            case .success:
+                guard let statusCode = httpResponse?.statusCode else {
+                    let noStatusCodeError = AzureError.client("Expected a status code in response but didn't find one.")
+                    dispatchQueue.async {
+                        completionHandler(.failure(noStatusCodeError), httpResponse)
+                    }
+                    return
+                }
+                switch statusCode {
+                case 200:
+                    fallthrough
+                case 202:
+                    dispatchQueue.async {
+                        completionHandler(
+                            .success(()),
+                            httpResponse
+                        )
+                    }
+                case 401:
+                    dispatchQueue.async {
+                        completionHandler(.failure(AzureError.service("Unauthorized.", nil)), httpResponse)
+                    }
+                case 404:
+                    dispatchQueue.async {
+                        completionHandler(.failure(AzureError.service("Resource not found.", nil)), httpResponse)
+                    }
+                case 409:
+                    dispatchQueue.async {
+                        completionHandler(.failure(AzureError.service("Resource exists.", nil)), httpResponse)
+                    }
+                default:
+                    break
+                }
+            case let .failure(error):
+                dispatchQueue.async {
+                    completionHandler(.failure(error), httpResponse)
+                }
+            }
+        }
     }
 }

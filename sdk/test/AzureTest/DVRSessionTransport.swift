@@ -31,6 +31,7 @@ import os
 
 public class DVRSessionTransport: TransportStage {
     // MARK: Properties
+
     public var session: Session?
 
     // DVR cassette name to search
