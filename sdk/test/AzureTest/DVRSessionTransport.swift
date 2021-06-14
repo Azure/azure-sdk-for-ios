@@ -58,7 +58,10 @@ public class DVRSessionTransport: TransportStage {
 
     public func open() {
         guard session == nil else { return }
-        session = Session(cassetteName: cassetteName)
+        let sdkPath = environmentVariable(forKey: "SDK_REPO_ROOT", default: "~")
+        
+        let outputDirectory = sdkPath + ((sdkPath.last == "/") ? "sdk/communication/AzureCommunicationChat/Tests/Recordings" : "/sdk/communication/AzureCommunicationChat/Tests/Recordings")
+        session = Session(outputDirectory: outputDirectory, cassetteName: cassetteName)
         if environmentVariable(forKey: "TEST_MODE", default: "playback") == "record" {
             session?.recordingEnabled = true
             session?.beginRecording()
