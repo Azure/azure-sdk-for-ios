@@ -29,9 +29,6 @@ import XCTest
 #if canImport(AzureCommunicationCommon)
     @testable import AzureCommunicationCommon
 #endif
-#if canImport(AzureCore)
-    @testable import AzureCore
-#endif
 
 enum FetchTokenError: Error {
     case badRequest(String)
@@ -95,7 +92,20 @@ class CommunicationTokenCredentialTests: XCTestCase {
         let invalidTokens = ["foo", "foo.bar", "foo.bar.foobar"]
 
         try invalidTokens.forEach { invalidToken in
-            XCTAssertThrowsError(try CommunicationTokenCredential(token: invalidToken))
+            XCTAssertThrowsError(
+                try CommunicationTokenCredential(token: invalidToken), ""
+            ) { error in
+                let error = error as NSError
+                guard let message = error.userInfo["message"] as? String else {
+                    XCTFail("Message is missing in user info")
+                    return
+                }
+
+                XCTAssertTrue(
+                    error.localizedDescription.contains("AzureCommunicationCommon.JwtTokenParser")
+                )
+                XCTAssertNotNil(message)
+            }
         }
     }
 

@@ -40,7 +40,7 @@ public typealias TokenRefreshHandler = (String?, Error?) -> Void
 
      - Parameter token: The static token to use for authenticating all requests.
 
-     - Throws: `AzureError` if the provided token is not a valid user token.
+     - Throws: `NSError` if the provided token is not a valid user token. `userInfo` contains `message` key for reason.
      */
     public init(token: String) throws {
         self.userTokenCredential = try StaticTokenCredential(token: token)
@@ -50,7 +50,7 @@ public typealias TokenRefreshHandler = (String?, Error?) -> Void
      Creates a CommunicationTokenCredential that automatically refreshes the token.
      - Parameters:
         - option: Options for how the token will be refreshed
-     - Throws: `AzureError` if the provided token is not a valid user token.
+     - Throws: `NSError` if the provided token is not a valid user token. `userInfo` contains `message` key for reason.
      */
     public init(withOptions options: CommunicationTokenRefreshOptions) throws {
         self.userTokenCredential = try AutoRefreshTokenCredential(
