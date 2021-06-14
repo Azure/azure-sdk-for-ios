@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0 (Unreleased)
+## 1.0.0-beta.12 (2021-06-07)
 ### Breaking Changes
 - Changed the way in which options are instantiated for the following classes: `CreateChatThreadOptions`, `DeleteChatThreadOptions`,  `ListChatThreadsOptions`, `AddChatParticipantsOptions`, `DeleteChatMessageOptions`, `GetChatMessageOptions`, `GetChatThreadPropertiesOptions`, `ListChatMessagesOptions`, `ListChatParticipantsOptions`, `ListChatReadReceiptsOptions`, `RemoveChatParticipantOptions`, `SendChatMessageOptions`, `SendChatReadReceiptOptions`, `SendTypingNotificationOptions`, `UpdateChatMessageOptions`, `UpdateChatThreadPropertiesOptions`.
     - old:
@@ -10,6 +10,9 @@
 - Moved `AzureCommunicationChatClient.ApiVersion` to `AzureCommunicationChatClientOptions.ApiVersion`.
 - Renamed `CommunicationError` to `ChatError`
 - Removed following classes:  `CreateChatThreadResult`, `CreateChatThreadRequest`, `ChatMessage`, `ChatMessageContent`, `ChatParticipant`, `ChatMessageReadReceipt`, `ChatThreadProperties`.
+- Removed Any type in TrouterEventUtil, and create a new enum TrouterEvent
+- Signaling event handlers now only accept a single enum argument, `TrouterEvent` instead of type Any and a ChatEventId. This eliminates the need to cast event payloads. Instead, developers can simply using a switch/case statement on the relevant `TrouterEvent` values.
+- The TrouterEventUtil.create method now returns the strongly-typed enum `TrouterEvent` instead of Any.
 
 ## 1.0.0-beta.11 (2021-04-07)
 ### New Features
