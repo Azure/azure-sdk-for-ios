@@ -29,9 +29,8 @@ import AzureIdentity
 @testable import AzureTest
 import XCTest
 
-final class AzureTestTests: XCTestCase {
-
-    private var client: ResourceUtilityClient
+class AzureTestTests: XCTestCase {
+    private var client: ResourceUtilityClient!
 
     override func setUp() {
         let endpoint = URL(string: "www.test.com")!
@@ -39,10 +38,14 @@ final class AzureTestTests: XCTestCase {
         let tenantId = environmentVariable(forKey: "AZURE_TENANT_ID", default: "")
         let clientId = environmentVariable(forKey: "AZURE_CLIENT_ID", default: "")
         let authority = URL(string: "login.microsoftonline.com")!
-        let credential = MSALCredential(tenant: tenant, clientId: clientId, authority: authority)
-        let authPolicy = BearerTokenCredentialPolicy(credential: credential, scopes: [""])
+        let credential = MSALCredential(tenant: tenantId, clientId: clientId, authority: authority)
+        let authPolicy = BearerTokenCredentialPolicy(
+            credential: credential,
+            scopes: ["/subscriptions/\(subscriptionId)"]
+        )
         let options = ResourceUtilityClientOptions()
-        client = ResourceUtilityClient(
+        // swiftlint:disable force_try
+        client = try! ResourceUtilityClient(
             endpoint: endpoint,
             subscriptionId: subscriptionId,
             authPolicy: authPolicy,
@@ -51,6 +54,8 @@ final class AzureTestTests: XCTestCase {
     }
 
     func test_deleteResourceGroup() {
-
+        client.delete(resourceGroup: "banoodle") { _, _ in
+            print("WHOA WHOA!")
+        }
     }
 }

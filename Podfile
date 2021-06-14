@@ -107,7 +107,7 @@ end
 
 target 'AzureTest' do
   project 'sdk/test/AzureTest/AzureTest'
-pod 'MSAL', '1.1.15'
+  pod 'MSAL', '1.1.15'
   pod 'DVR', :git => 'https://github.com/tjprescott/DVR.git', :branch => 'main'
 end
 
