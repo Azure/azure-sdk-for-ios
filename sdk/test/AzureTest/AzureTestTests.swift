@@ -33,7 +33,7 @@ class AzureTestTests: XCTestCase {
     private var client: ResourceUtilityClient!
 
     override func setUp() {
-        let endpoint = URL(string: "www.test.com")!
+        let endpoint = URL(string: "https://management.azure.com")!
         let subscriptionId = environmentVariable(forKey: "AZURE_SUBSCRIPTION_ID", default: "")
         let tenantId = environmentVariable(forKey: "AZURE_TENANT_ID", default: "")
         let clientId = environmentVariable(forKey: "AZURE_CLIENT_ID", default: "")
