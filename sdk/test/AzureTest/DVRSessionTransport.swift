@@ -60,8 +60,18 @@ public class DVRSessionTransport: TransportStage {
         guard session == nil else { return }
         session = Session(cassetteName: cassetteName)
         if environmentVariable(forKey: "TEST_MODE", default: "playback") == "record" {
+            session?.recordMode = .once
             session?.recordingEnabled = true
             session?.beginRecording()
+            
+        }
+        else if environmentVariable(forKey: "TEST_MODE", default: "playback") == "live" {
+            session?.recordMode = .all
+            session?.recordingEnabled = false
+        }
+        else {
+            session?.recordMode = .none
+            session?.recordingEnabled = false
         }
     }
 
