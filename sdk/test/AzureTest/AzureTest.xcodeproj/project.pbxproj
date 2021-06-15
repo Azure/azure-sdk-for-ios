@@ -13,9 +13,10 @@
 		0A1E75AB267918C300054F60 /* Pods_AzureTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63223FEC2B266A9E151BF760 /* Pods_AzureTest.framework */; };
 		0A2097BA266FCE7D00FE2272 /* ResourceUtilityClientOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2097B9266FCE7D00FE2272 /* ResourceUtilityClientOptions.swift */; };
 		0A2097BF266FDF0000FE2272 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A2097BB266FDE0200FE2272 /* AzureCore.framework */; };
+		0B7BCC71E2BCB2C3EAA55E0C /* Pods_AzureTestTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 135CBFB078F79900D8717204 /* Pods_AzureTestTests.framework */; };
 		OBJ_22 /* ResourceUtilityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* ResourceUtilityClient.swift */; };
 		OBJ_40 /* AzureTestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* AzureTestTests.swift */; };
-		OBJ_42 /* AzureTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "AzureTest::AzureTest::Product" /* AzureTest.framework */; };
+		OBJ_42 /* AzureTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AzureTest::AzureTest::Product /* AzureTest.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,10 +36,13 @@
 		0A2097B9266FCE7D00FE2272 /* ResourceUtilityClientOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceUtilityClientOptions.swift; sourceTree = "<group>"; };
 		0A2097BB266FDE0200FE2272 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A2097C2266FE16200FE2272 /* AzureIdentity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureIdentity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		135CBFB078F79900D8717204 /* Pods_AzureTestTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureTestTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		63223FEC2B266A9E151BF760 /* Pods_AzureTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B2A85ACDB0A779F7E84C2CE /* Pods-AzureTestTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureTestTests.release.xcconfig"; path = "Target Support Files/Pods-AzureTestTests/Pods-AzureTestTests.release.xcconfig"; sourceTree = "<group>"; };
 		96F3D908C250C6C135FCD9DC /* Pods-AzureTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureTest.debug.xcconfig"; path = "Target Support Files/Pods-AzureTest/Pods-AzureTest.debug.xcconfig"; sourceTree = "<group>"; };
-		"AzureTest::AzureTest::Product" /* AzureTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"AzureTest::AzureTestTests::Product" /* AzureTestTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = AzureTestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AzureTest::AzureTest::Product /* AzureTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AzureTest::AzureTestTests::Product /* AzureTestTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = AzureTestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D1E366EE4079F743F377542A /* Pods-AzureTestTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureTestTests.debug.xcconfig"; path = "Target Support Files/Pods-AzureTestTests/Pods-AzureTestTests.debug.xcconfig"; sourceTree = "<group>"; };
 		E4CDDDCAAD0879F79B1E8F6A /* Pods-AzureTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureTest.release.xcconfig"; path = "Target Support Files/Pods-AzureTest/Pods-AzureTest.release.xcconfig"; sourceTree = "<group>"; };
 		OBJ_12 /* AzureTestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzureTestTests.swift; sourceTree = "<group>"; };
 		OBJ_16 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -61,6 +65,7 @@
 			buildActionMask = 0;
 			files = (
 				OBJ_42 /* AzureTest.framework in Frameworks */,
+				0B7BCC71E2BCB2C3EAA55E0C /* Pods_AzureTestTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,6 +77,8 @@
 			children = (
 				96F3D908C250C6C135FCD9DC /* Pods-AzureTest.debug.xcconfig */,
 				E4CDDDCAAD0879F79B1E8F6A /* Pods-AzureTest.release.xcconfig */,
+				D1E366EE4079F743F377542A /* Pods-AzureTestTests.debug.xcconfig */,
+				7B2A85ACDB0A779F7E84C2CE /* Pods-AzureTestTests.release.xcconfig */,
 			);
 			name = Pods;
 			path = ../../../Pods;
@@ -84,6 +91,7 @@
 				0A1E75A22673D48100054F60 /* AzureIdentity.framework */,
 				0A2097C2266FE16200FE2272 /* AzureIdentity.framework */,
 				0A2097BB266FDE0200FE2272 /* AzureCore.framework */,
+				135CBFB078F79900D8717204 /* Pods_AzureTestTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -99,8 +107,8 @@
 		OBJ_13 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				"AzureTest::AzureTest::Product" /* AzureTest.framework */,
-				"AzureTest::AzureTestTests::Product" /* AzureTestTests.xctest */,
+				AzureTest::AzureTest::Product /* AzureTest.framework */,
+				AzureTest::AzureTestTests::Product /* AzureTestTests.xctest */,
 			);
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -131,7 +139,7 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		"AzureTest::AzureTest" /* AzureTest */ = {
+		AzureTest::AzureTest /* AzureTest */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_18 /* Build configuration list for PBXNativeTarget "AzureTest" */;
 			buildPhases = (
@@ -145,18 +153,18 @@
 			dependencies = (
 			);
 			name = AzureTest;
-			packageProductDependencies = (
-			);
 			productName = AzureTest;
-			productReference = "AzureTest::AzureTest::Product" /* AzureTest.framework */;
+			productReference = AzureTest::AzureTest::Product /* AzureTest.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		"AzureTest::AzureTestTests" /* AzureTestTests */ = {
+		AzureTest::AzureTestTests /* AzureTestTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_36 /* Build configuration list for PBXNativeTarget "AzureTestTests" */;
 			buildPhases = (
+				DCFA7CB28BE64B1DE23DFF21 /* [CP] Check Pods Manifest.lock */,
 				OBJ_39 /* Sources */,
 				OBJ_41 /* Frameworks */,
+				F831DC3643F2C47234FF2669 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -165,7 +173,7 @@
 			);
 			name = AzureTestTests;
 			productName = AzureTestTests;
-			productReference = "AzureTest::AzureTestTests::Product" /* AzureTestTests.xctest */;
+			productReference = AzureTest::AzureTestTests::Product /* AzureTestTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -185,14 +193,12 @@
 				en,
 			);
 			mainGroup = OBJ_5;
-			packageReferences = (
-			);
 			productRefGroup = OBJ_13 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				"AzureTest::AzureTest" /* AzureTest */,
-				"AzureTest::AzureTestTests" /* AzureTestTests */,
+				AzureTest::AzureTest /* AzureTest */,
+				AzureTest::AzureTestTests /* AzureTestTests */,
 			);
 		};
 /* End PBXProject section */
@@ -238,6 +244,48 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		DCFA7CB28BE64B1DE23DFF21 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AzureTestTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F831DC3643F2C47234FF2669 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AzureTestTests/Pods-AzureTestTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/MSAL/MSAL.framework",
+				"${BUILT_PRODUCTS_DIR}/DVR/DVR.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MSAL.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DVR.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AzureTestTests/Pods-AzureTestTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -265,7 +313,7 @@
 /* Begin PBXTargetDependency section */
 		OBJ_43 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = "AzureTest::AzureTest" /* AzureTest */;
+			target = AzureTest::AzureTest /* AzureTest */;
 			targetProxy = 0A2097B7266ED1C600FE2272 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -362,6 +410,7 @@
 		};
 		OBJ_37 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D1E366EE4079F743F377542A /* Pods-AzureTestTests.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -388,6 +437,7 @@
 		};
 		OBJ_38 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7B2A85ACDB0A779F7E84C2CE /* Pods-AzureTestTests.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;

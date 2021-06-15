@@ -28,6 +28,9 @@ use_frameworks!
 platform :ios, '12.0'
 workspace 'AzureSDK'
 
+# update with local repo location
+$dvr_path = '~/repos/DVR'
+
 target 'AzureCommunicationCommon' do
   project 'sdk/communication/AzureCommunicationCommon/AzureCommunicationCommon'
 
@@ -44,7 +47,8 @@ target 'AzureCommunicationChat' do
     inherit! :search_paths
     pod 'OHHTTPStubs/Swift'
     pod 'TrouterClientIos', '0.0.1-beta.4'
-    pod 'DVR', :git => 'https://github.com/tjprescott/DVR.git', :branch => 'main'
+    pod 'MSAL', '1.1.15'
+    pod 'DVR', :path => $dvr_path
   end
   
   target 'AzureCommunicationChatUnitTests' do
@@ -108,6 +112,11 @@ end
 target 'AzureTest' do
   project 'sdk/test/AzureTest/AzureTest'
   pod 'MSAL', '1.1.15'
-  pod 'DVR', :git => 'https://github.com/tjprescott/DVR.git', :branch => 'main'
-end
+  pod 'DVR', :path => $dvr_path
 
+  target 'AzureTestTests' do
+    inherit! :search_paths
+    pod 'MSAL', '1.1.15'
+    pod 'DVR', :path => $dvr_path
+  end
+end

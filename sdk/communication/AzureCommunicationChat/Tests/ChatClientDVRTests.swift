@@ -44,7 +44,7 @@ class ChatClientDVRTests: XCTestCase {
         let endpoint = environmentVariable(forKey: "AZURE_COMMUNICATION_ENDPOINT", default: "https://endpoint")
         let token = generateToken()
         let credential = try CommunicationTokenCredential(token: token)
-        let fullname = self.name
+        let fullname = name
         var testName = fullname.split(separator: " ")[1]
         testName.removeLast()
         transport = mode != "live" ? DVRSessionTransport(cassetteName: String(testName)) : URLSessionTransport()
