@@ -1,0 +1,73 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.4.63.48766",
+      "templateHash": "968244787317628163"
+    }
+  },
+  "parameters": {
+    "acsName": {
+      "type": "string",
+      "defaultValue": "[format('acs-{0}', uniqueString(resourceGroup().id))]"
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "Global"
+    },
+    "dataLocation": {
+      "type": "string",
+      "defaultValue": "United States"
+    },
+    "acsEndpointSuffix": {
+      "type": "string",
+      "defaultValue": ".communication.azure.com"
+    },
+    "utcValue": {
+      "type": "string",
+      "defaultValue": "[utcNow()]"
+    }
+  },
+  "functions": [],
+  "resources": [
+    {
+      "type": "Microsoft.Communication/communicationServices",
+      "apiVersion": "2020-08-20",
+      "name": "[parameters('acsName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "dataLocation": "[parameters('dataLocation')]"
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deploymentScripts",
+      "apiVersion": "2020-10-01",
+      "name": "dataPlaneSetup",
+      "location": "[resourceGroup().location]",
+      "kind": "AzureCLI",
+      "properties": {
+        "forceUpdateTag": "[parameters('utcValue')]",
+        "azCliVersion": "2.25.0",
+        "scriptContent": "      python --version > $AZ_SCRIPTS_OUTPUT_PATH\n    ",
+        "cleanupPreference": "OnSuccess",
+        "retentionInterval": "P1D"
+      }
+    }
+  ],
+  "outputs": {
+    "azure_communication_endpoint": {
+      "type": "string",
+      "value": "[format('{0}{1}', parameters('acsName'), parameters('acsEndpointSuffix'))]"
+    },
+    "azure_communication_cs": {
+      "type": "string",
+      "value": "[listKeys(parameters('acsName'), '2020-08-20').primaryConnectionString]"
+    },
+    "azure_communication_script": {
+      "type": "object",
+      "value": "[reference('dataPlaneSetup').outputs]"
+    }
+  }
+}
