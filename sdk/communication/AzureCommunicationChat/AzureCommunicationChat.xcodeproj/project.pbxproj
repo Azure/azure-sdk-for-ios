@@ -530,9 +530,8 @@
 				D1CD93E7258D6F0600409613 /* updateMessage.json */,
 				D1CD93EB258D6F1300409613 /* updateTopic.json */,
 			);
-			name = Recordings;
-			path = "/Users/jairmyree/Desktop/azure-sdk-for-ios/sdk/communication/AzureCommunicationChat/Tests/Util/Recordings";
-			sourceTree = "<absolute>";
+			path = Recordings;
+			sourceTree = "<group>";
 		};
 		OBJ_113 /* Products */ = {
 			isa = PBXGroup;
