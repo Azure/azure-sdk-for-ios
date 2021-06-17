@@ -64,7 +64,7 @@ public class DVRSessionTransport: TransportStage {
         }
         session = Session(outputDirectory: outputDirectory, cassetteName: cassetteName)
         if environmentVariable(forKey: "TEST_MODE", default: "playback") == "record" {
-            session?.recordMode = .newEpisodes
+            session?.recordMode = .all
             session?.recordingEnabled = true
             session?.beginRecording()
             
