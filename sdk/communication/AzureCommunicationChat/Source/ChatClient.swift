@@ -304,8 +304,24 @@ public class ChatClient {
                 registrationId: getRegistrationId()
             )
 
+            // Client description should match valid APNS templates
+            let clientDescription = RegistrarClientDescription(
+                appId: RegistrarSettings.appId,
+                languageId: RegistrarSettings.languageId,
+                platform: RegistrarSettings.platform,
+                platformUIVersion: RegistrarSettings.platformUIVersion,
+                templateKey: RegistrarSettings.templateKey
+            )
+    
+            // Path is device token
+            let transport = RegistrarTransport(
+                ttl: RegistrarSettings.ttl,
+                path: deviceToken,
+                context: RegistrarSettings.context
+            )
+
             // Register for push notifications
-            registrarClient?.setRegistration(for: deviceToken) { response, error in
+            registrarClient?.setRegistration(with: clientDescription, for: [transport]) { response, error in
                 if let error = error {
                     completionHandler(
                         .failure(AzureError.client("Failed to start push notifications", error)),

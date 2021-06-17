@@ -61,36 +61,19 @@ internal class RegistrarClient {
     // MARK: Private Methods
 
     /// Create the data for the a Registrar POST request body.
-    /// - Parameter deviceToken: APNS Push token.
+    /// - Parameters:
+    ///   - clientDescription: RegistrarClientDescription which is added to the request body.
+    ///   - transports: RegistrarTransports which are added to the body, transport contains APNS push token as the path.
     private func createPostData(
-        deviceToken: String?
+        with clientDescription: RegistrarClientDescription,
+        for transports: [RegistrarTransport]
     ) -> Data? {
-        guard let token = deviceToken else {
-            return nil
-        }
-
-        // Client description should match valid APNS templates
-        let clientDescription = RegistrarClientDescription(
-            appId: RegistrarSettings.appId,
-            languageId: RegistrarSettings.languageId,
-            platform: RegistrarSettings.platform,
-            platformUIVersion: RegistrarSettings.platformUIVersion,
-            templateKey: RegistrarSettings.templateKey
-        )
-
-        // Path is APNS token
-        let transport = RegistrarTransport(
-            ttl: RegistrarSettings.ttl,
-            path: token,
-            context: RegistrarSettings.context
-        )
-
         let data = RegistrarRequestBody(
             registrationId: registrationId,
             nodeId: RegistrarSettings.nodeId,
             clientDescription: clientDescription,
             transports: [
-                RegistrarSettings.pushNotificationTransport: [transport]
+                RegistrarSettings.pushNotificationTransport: transports
             ]
         )
 
@@ -132,12 +115,16 @@ internal class RegistrarClient {
     }
 
     /// Create a Registrar POST request.
-    /// - Parameter deviceToken: APNS push token.
+    /// - Parameters:
+    ///   - clientDescription: RegistrarClientDescription.
+    ///   - transports: RegistrarTranports, a transport contains the APNS token as the path.
+    ///   - completionHandler: Returns the POST request.
     private func createPostRequest(
-        with deviceToken: String,
+        with clientDescription: RegistrarClientDescription,
+        for transports: [RegistrarTransport],
         completionHandler: @escaping (URLRequest?, AzureError?) -> Void
     ) {
-        guard let data = createPostData(deviceToken: deviceToken) else {
+        guard let data = createPostData(with: clientDescription, for: transports) else {
             completionHandler(nil, AzureError.client("Failed to serialize POST request body."))
             return
         }
@@ -172,13 +159,15 @@ internal class RegistrarClient {
 
     /// Sets a registration in Registrar.
     /// - Parameters:
-    ///   - deviceToken: APNS push token.
+    ///   - clientDescription: RegistrarClientDescription.
+    ///   - transports: RegistrarTransports, a transport contains the APNS token as the path.
     ///   - completionHandler: Returns the response. Success indicates the registration was received.
     internal func setRegistration(
-        for deviceToken: String,
+        with clientDescription: RegistrarClientDescription,
+        for transports: [RegistrarTransport],
         completionHandler: @escaping (HTTPURLResponse?, AzureError?) -> Void
     ) {
-        createPostRequest(with: deviceToken) { request, error in
+        createPostRequest(with: clientDescription, for: transports) { request, error in
             guard let request = request else {
                 completionHandler(nil, AzureError.client("Failed to create POST request.", error))
                 return
