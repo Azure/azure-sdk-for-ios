@@ -15,6 +15,12 @@
          location = "group:communication"
          name = "communication">
          <FileRef
+            location = "group:test-resources-post.ps1">
+         </FileRef>
+         <FileRef
+            location = "group:test-resources.bicep">
+         </FileRef>
+         <FileRef
             location = "group:AzureCommunicationCommon/AzureCommunicationCommon.xcodeproj">
          </FileRef>
          <FileRef
@@ -49,10 +55,10 @@
          </FileRef>
       </Group>
       <Group
-         location = "group:/Users/travisprescott/repos/azure-sdk-for-ios/sdk/template"
+         location = "container:"
          name = "template">
          <FileRef
-            location = "group:AzureTemplate/AzureTemplate.xcodeproj">
+            location = "group:sdk/template/AzureTemplate/AzureTemplate.xcodeproj">
          </FileRef>
       </Group>
    </Group>
@@ -468,7 +474,4 @@
          location = "group:AzureCore.yml">
       </FileRef>
    </Group>
-   <FileRef
-      location = "group:sdk/template/AzureTemplate/AzureTemplate.xcodeproj">
-   </FileRef>
 </Workspace>

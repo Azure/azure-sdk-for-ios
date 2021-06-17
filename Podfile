@@ -31,6 +31,10 @@ workspace 'AzureSDK'
 # update with local repo location
 $dvr_path = '~/repos/DVR'
 
+target 'AzureTemplate' do
+  project 'sdk/template/AzureTemplate/AzureTemplate'
+end
+
 target 'AzureCommunicationCommon' do
   project 'sdk/communication/AzureCommunicationCommon/AzureCommunicationCommon'
 
@@ -86,14 +90,6 @@ target 'AzureStorageBlob' do
   end
 end
 
-target 'AzureTemplate' do
-  project 'sdk/template/AzureTemplate/AzureTemplate'
-
-  target 'AzureTemplateTests' do
-    inherit! :search_paths
-  end
-end
-
 target 'AzureSDKDemoSwift' do
   project 'examples/AzureSDKDemoSwift/AzureSDKDemoSwift'
   pod 'MSAL', '1.1.15'
@@ -111,12 +107,5 @@ end
 
 target 'AzureTest' do
   project 'sdk/test/AzureTest/AzureTest'
-  pod 'MSAL', '1.1.15'
   pod 'DVR', :path => $dvr_path
-
-  target 'AzureTestTests' do
-    inherit! :search_paths
-    pod 'MSAL', '1.1.15'
-    pod 'DVR', :path => $dvr_path
-  end
 end

@@ -60,7 +60,8 @@ public class DVRSessionTransport: TransportStage {
     public func open() {
         guard session == nil else { return }
         let sdkPath = environmentVariable(forKey: "SDK_REPO_ROOT", default: "~")
-        guard let outputDirectory = URL(string: sdkPath)?.appendingPathComponent("sdk/communication/AzureCommunicationChat/Tests/Recordings").absoluteString else {
+        guard let outputDirectory = URL(string: sdkPath)?
+            .appendingPathComponent("sdk/communication/AzureCommunicationChat/Tests/Recordings").absoluteString else {
             fatalError("SDK Path Invalid")
         }
         session = Session(outputDirectory: outputDirectory, cassetteName: cassetteName)
