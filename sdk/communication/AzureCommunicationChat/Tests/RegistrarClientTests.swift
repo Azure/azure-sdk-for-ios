@@ -74,8 +74,23 @@ class RegistrarClientTests: XCTestCase {
     func test_setRegistration_ReturnsSuccess() {
         let expectation = self.expectation(description: "Set Registration")
 
+        let clientDescription = RegistrarClientDescription(
+            appId: RegistrarSettings.appId,
+            languageId: RegistrarSettings.languageId,
+            platform: RegistrarSettings.platform,
+            platformUIVersion: RegistrarSettings.platformUIVersion,
+            templateKey: RegistrarSettings.templateKey
+        )
+
+        let transport = RegistrarTransport(
+            ttl: 10,
+            path: "mockDeviceToken",
+            context: RegistrarSettings.context
+        )
+
         registrarClient.setRegistration(
-            for: "mockDeviceToken"
+            with: clientDescription,
+            for: [transport]
         ) { response, error in
             XCTAssertNil(error)
             XCTAssertEqual(response?.statusCode, RegistrarStatusCode.success)
@@ -92,8 +107,23 @@ class RegistrarClientTests: XCTestCase {
     func test_deleteRegistration_ReturnsSuccess() {
         let expectation = self.expectation(description: "Delete Registration")
 
+        let clientDescription = RegistrarClientDescription(
+            appId: RegistrarSettings.appId,
+            languageId: RegistrarSettings.languageId,
+            platform: RegistrarSettings.platform,
+            platformUIVersion: RegistrarSettings.platformUIVersion,
+            templateKey: RegistrarSettings.templateKey
+        )
+
+        let transport = RegistrarTransport(
+            ttl: 100,
+            path: "mockDeviceToken",
+            context: RegistrarSettings.context
+        )
+
         registrarClient.setRegistration(
-            for: "mockDeviceToken"
+            with: clientDescription,
+            for: [transport]
         ) { response, error in
             if error == nil, response?.statusCode == RegistrarStatusCode.success {
                 self.registrarClient.deleteRegistration { response, error in
