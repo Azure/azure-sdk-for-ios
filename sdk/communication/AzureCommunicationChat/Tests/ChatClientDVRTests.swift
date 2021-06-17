@@ -35,7 +35,7 @@ class ChatClientDVRTests: XCTestCase {
     /// ChatClient initialized in setup.
     private var chatClient: ChatClient!
 
-    private var transport: DVRSessionTransport?
+    private var transport: TransportStage!
 
     /// Test mode.
     private var mode = environmentVariable(forKey: "TEST_MODE", default: "playback")
@@ -47,7 +47,7 @@ class ChatClientDVRTests: XCTestCase {
         let fullname = self.name
         var testName = fullname.split(separator: " ")[1]
         testName.removeLast()
-        transport = DVRSessionTransport(cassetteName: String(testName))
+        transport = mode != "live" ? DVRSessionTransport(cassetteName: String(testName)) : URLSessionTransport()
         let transportOptions = TransportOptions(transport: transport)
         let options = AzureCommunicationChatClientOptions(transportOptions: transportOptions)
         transport?.open()

@@ -64,16 +64,12 @@ public class DVRSessionTransport: TransportStage {
         }
         session = Session(outputDirectory: outputDirectory, cassetteName: cassetteName)
         if environmentVariable(forKey: "TEST_MODE", default: "playback") == "record" {
-            session?.recordMode = .once
+            session?.recordMode = .newEpisodes
             session?.recordingEnabled = true
             session?.beginRecording()
             
         }
-        else if environmentVariable(forKey: "TEST_MODE", default: "playback") == "live" {
-            session?.recordMode = .all
-            session?.recordingEnabled = false
-        }
-        else {
+        else { // when live DVR isn't used, so anything else is treated as playback
             session?.recordMode = .none
             session?.recordingEnabled = false
         }
