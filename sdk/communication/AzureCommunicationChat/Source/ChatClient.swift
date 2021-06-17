@@ -368,7 +368,7 @@ public class ChatClient {
                 platformUIVersion: RegistrarSettings.platformUIVersion,
                 templateKey: RegistrarSettings.templateKey
             )
-    
+
             // Path is device token
             let transport = RegistrarTransport(
                 ttl: RegistrarSettings.ttl,
