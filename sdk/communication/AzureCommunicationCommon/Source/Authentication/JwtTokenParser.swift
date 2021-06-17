@@ -24,9 +24,6 @@
 //
 // --------------------------------------------------------------------------
 
-#if canImport(AzureCore)
-    import AzureCore
-#endif
 import Foundation
 
 struct JwtPayload: Decodable {
@@ -53,7 +50,7 @@ enum JwtTokenParser {
      Helper function that converts base64 url to `Data` object
      - Parameter base64Url: Url string to convert
 
-     - Throws: `AzureError` if we can't convert base64Data to base64String or if we can't convert base64String to Data.
+     - Throws: `NSError` if we can't convert base64Data to base64String or if we can't convert base64String to Data.
 
      - Returns: Data representation of url
      */
@@ -61,14 +58,22 @@ enum JwtTokenParser {
         let base64Url = base64Url.replacingOccurrences(of: "-", with: "+").replacingOccurrences(of: "_", with: "-")
             .appending(String(repeating: "=", count: (4 - (base64Url.count % 4)) % 4))
 
-        let base64Data = Data(base64Encoded: base64Url)!
-
-        guard let base64AsString = String(data: base64Data, encoding: .utf8) else {
-            throw AzureError.client("Can't convert base64Data to base64AsString.")
+        guard let base64Data = Data(base64Encoded: base64Url),
+            let base64AsString = String(data: base64Data, encoding: .utf8)
+        else {
+            throw NSError(
+                domain: "AzureCommunicationCommon.JwtTokenParser.convertFromBase64Url",
+                code: 0,
+                userInfo: ["message": "Can't convert base64Data to base64AsString."]
+            )
         }
 
         guard let result = base64AsString.data(using: .utf8) else {
-            throw AzureError.client("Can't convert base64AsString to Data")
+            throw NSError(
+                domain: "AzureCommunicationCommon.JwtTokenParser.convertFromBase64Url",
+                code: 0,
+                userInfo: ["message": "Can't convert base64AsString to Data"]
+            )
         }
 
         return result
@@ -79,7 +84,7 @@ enum JwtTokenParser {
 
      - Parameter token: Token string
 
-     - Throws: `AzureError` if the token does not follow JWT standards
+     - Throws: `NSError` if the token does not follow JWT standards.
 
      - Returns: `JwtPayload`
      */
@@ -87,7 +92,11 @@ enum JwtTokenParser {
         let tokenParts = token.components(separatedBy: ".")
 
         guard tokenParts.count >= 2 else {
-            throw AzureError.client("Token is not formatted correctly.")
+            throw NSError(
+                domain: "AzureCommunicationCommon.JwtTokenParser.decodeJwtPayload",
+                code: 0,
+                userInfo: ["message": "Token is not formatted correctly."]
+            )
         }
 
         let jsonData = try convertFromBase64Url(tokenParts[1])

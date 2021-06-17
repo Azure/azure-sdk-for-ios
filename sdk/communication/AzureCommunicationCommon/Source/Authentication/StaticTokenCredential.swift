@@ -36,7 +36,7 @@ internal class StaticTokenCredential: CommunicationTokenCredentialProviding {
 
      - Parameter token: The static token to use for authenticating all requests.
 
-     - Throws: `AzureError` if the provided token is not a valid token.
+     - Throws: `NSError` if the provided token is not a valid token. `userInfo` contains `message` key for reason.
 
      - SeeAlso: ` CommunicationTokenCredential.init(...)`
      */

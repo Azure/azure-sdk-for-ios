@@ -30,7 +30,12 @@
       <EnvironmentVariables>
          <EnvironmentVariable
             key = "TEST_MODE"
-            value = "live"
+            value = "record"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "SDK_REPO_ROOT"
+            value = ""
             isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
@@ -50,6 +55,11 @@
          </EnvironmentVariable>
          <EnvironmentVariable
             key = "AZURE_COMMUNICATION_USER_ID_2"
+            value = ""
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = ""
             value = ""
             isEnabled = "YES">
          </EnvironmentVariable>
