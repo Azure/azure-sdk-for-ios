@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.4.63.48766",
-      "templateHash": "968244787317628163"
+      "templateHash": "12265054750446094961"
     }
   },
   "parameters": {
@@ -20,14 +20,6 @@
     "dataLocation": {
       "type": "string",
       "defaultValue": "United States"
-    },
-    "acsEndpointSuffix": {
-      "type": "string",
-      "defaultValue": ".communication.azure.com"
-    },
-    "utcValue": {
-      "type": "string",
-      "defaultValue": "[utcNow()]"
     }
   },
   "functions": [],
@@ -40,34 +32,12 @@
       "properties": {
         "dataLocation": "[parameters('dataLocation')]"
       }
-    },
-    {
-      "type": "Microsoft.Resources/deploymentScripts",
-      "apiVersion": "2020-10-01",
-      "name": "dataPlaneSetup",
-      "location": "[resourceGroup().location]",
-      "kind": "AzureCLI",
-      "properties": {
-        "forceUpdateTag": "[parameters('utcValue')]",
-        "azCliVersion": "2.25.0",
-        "scriptContent": "      python --version > $AZ_SCRIPTS_OUTPUT_PATH\n    ",
-        "cleanupPreference": "OnSuccess",
-        "retentionInterval": "P1D"
-      }
     }
   ],
   "outputs": {
-    "azure_communication_endpoint": {
-      "type": "string",
-      "value": "[format('{0}{1}', parameters('acsName'), parameters('acsEndpointSuffix'))]"
-    },
     "azure_communication_cs": {
       "type": "string",
       "value": "[listKeys(parameters('acsName'), '2020-08-20').primaryConnectionString]"
-    },
-    "azure_communication_script": {
-      "type": "object",
-      "value": "[reference('dataPlaneSetup').outputs]"
     }
   }
 }
