@@ -41,6 +41,8 @@ class ChatClientDVRTests: XCTestCase {
     private var mode = environmentVariable(forKey: "TEST_MODE", default: "playback")
 
     override func setUpWithError() throws {
+        let settings = TestSettings.loadFromPlist()
+        print(settings)
         let endpoint = environmentVariable(forKey: "AZURE_COMMUNICATION_ENDPOINT", default: "https://endpoint")
         let token = generateToken()
         let credential = try CommunicationTokenCredential(token: token)
