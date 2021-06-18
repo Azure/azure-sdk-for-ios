@@ -11,7 +11,6 @@ prepare_chat_tests.py
    "record".
 """
 
-from pprint import pprint
 import sys
 from azure.communication.administration import CommunicationIdentityClient
 
@@ -25,11 +24,14 @@ user1 = identity_client.create_user()
 user2 = identity_client.create_user()
 token = identity_client.issue_token(user1, scopes=["chat"]).token
 
-results = {
-   'endpoint': endpoint,
-   'user1': user1.identifier,
-   'user2': user2.identifier,
-   'token': token
-}
+print('==AZURE_COMMUNCATION_ENDPOINT==')
+print(endpoint)
 
-pprint(results)
+print('==AZURE_COMMUNICATION_USER_ID_1==')
+print(user1.identifier)
+
+print('==AZURE_COMMUNICATION_USER_ID_2==')
+print(user2.identifier)
+
+print('==AZURE_COMMUNICATION_TOKEN==')
+print(token)
