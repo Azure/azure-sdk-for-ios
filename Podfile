@@ -30,6 +30,7 @@ workspace 'AzureSDK'
 
 # update with local repo location
 $dvr_path = '~/repos/DVR'
+$use_local_dvr = true
 
 target 'AzureTemplate' do
   project 'sdk/template/AzureTemplate/AzureTemplate'
@@ -52,7 +53,11 @@ target 'AzureCommunicationChat' do
     pod 'OHHTTPStubs/Swift'
     pod 'TrouterClientIos', '0.0.1-beta.4'
     pod 'MSAL', '1.1.15'
-    pod 'DVR', :path => $dvr_path
+    if $use_local_dvr
+        pod 'DVR', :path => $dvr_path
+    else
+        pod 'DVR', :git => 'https://github.com/tjprescott/DVR.git'
+    end
   end
   
   target 'AzureCommunicationChatUnitTests' do
@@ -107,5 +112,9 @@ end
 
 target 'AzureTest' do
   project 'sdk/test/AzureTest/AzureTest'
-  pod 'DVR', :path => $dvr_path
+  if $use_local_dvr
+      pod 'DVR', :path => $dvr_path
+  else
+      pod 'DVR', :git => 'https://github.com/tjprescott/DVR.git'
+  end
 end
