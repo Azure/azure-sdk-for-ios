@@ -30,7 +30,7 @@ workspace 'AzureSDK'
 
 # update with local repo location
 $dvr_path = '~/repos/DVR'
-$use_local_dvr = true
+$use_local_dvr = false
 
 target 'AzureTemplate' do
   project 'sdk/template/AzureTemplate/AzureTemplate'
