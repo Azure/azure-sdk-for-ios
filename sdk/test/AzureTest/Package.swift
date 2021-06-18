@@ -9,7 +9,7 @@ let package = Package(
         .macOS(.v10_15), .iOS(.v12)
     ],
     products: [
-        .library(name: "AzureTest", targets: ["AzureTest"]),
+        .library(name: "AzureTest", targets: ["AzureTest"])
     ],
     dependencies: [
         .package(name: "AzureCore", url: "https://github.com/Azure/SwiftPM-AzureCore.git", from: "1.0.0-beta.12"),
@@ -19,10 +19,12 @@ let package = Package(
         // Build targets
         .target(
             name: "AzureTest",
-            dependencies: ["AzureCore", "DVR"]),
+            dependencies: ["AzureCore", "DVR"]
+        ),
         // Test targets
         .testTarget(
             name: "AzureTestTests",
-            dependencies: ["AzureTest"]),
+            dependencies: ["AzureTest"]
+        )
     ]
 )
