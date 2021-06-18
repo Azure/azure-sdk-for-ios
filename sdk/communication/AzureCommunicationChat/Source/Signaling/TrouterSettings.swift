@@ -27,17 +27,16 @@
 import Foundation
 import Trouter
 
-// TODO: Test in Prod
 let defaultRegistrationData: TrouterUrlRegistrationData? = TrouterUrlRegistrationData.create(
-    withApplicationId: "AcsiOS_test",
+    withApplicationId: "AcsiOS",
     registrationId: nil,
     platform: "SPOOL",
     platformUiVersion: "0.0.0",
-    templateKey: "AcsiOS_Chat_test_1.3",
+    templateKey: "AcsiOS_Chat_1.3",
     productContext: nil,
     context: ""
 ) as? TrouterUrlRegistrationData
 
 let defaultClientVersion: String = "1.0.0"
-let defaultTrouterHostname: String = "go.trouter-int.skype.net/v4/a"
-let defaultRegistrarHostnameAndBasePath: String = "edge.skype.net/registrar/testenv"
+let defaultTrouterHostname: String = "go.trouter.skype.com/v4/a"
+let defaultRegistrarHostnameAndBasePath: String = "edge.skype.com/registrar/prod"
