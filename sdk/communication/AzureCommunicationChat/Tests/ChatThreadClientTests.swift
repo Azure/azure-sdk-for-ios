@@ -364,6 +364,30 @@ class ChatThreadClientTests: XCTestCase {
         }
     }
 
+    func test_SendTypingNotification_WithDisplayName() {
+        let expectation = self.expectation(description: "Send typing notification")
+
+        chatThreadClient.sendTypingNotification(from: "Foo") { result, httpResponse in
+            switch result {
+            case .success:
+                if self.mode == "record" {
+                    Recorder.record(name: Recording.sendTypingNotification, httpResponse: httpResponse)
+                }
+
+            case let .failure(error):
+                XCTFail("Send typing notification failed: \(error)")
+            }
+
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 10.0) { error in
+            if let error = error {
+                XCTFail("Send typing notification timed out: \(error)")
+            }
+        }
+    }
+
     func test_SendReadReceipt() {
         let testMessage = SendChatMessageRequest(
             content: "Hello World!",
