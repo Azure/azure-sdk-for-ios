@@ -229,7 +229,7 @@ public class ChatMessageReceivedEvent: BaseChatMessageEvent {
 
         self.message = messageReceivedPayload.messageBody
 
-        if let acsChatMetadata = messageReceivedPayload.acsChatMessageMetadata.data(using: .utf8) {
+        if let acsChatMetadata = messageReceivedPayload.acsChatMessageMetadata.data(using: .utf8), !acsChatMetadata.isEmpty {
             self.metadata = try JSONDecoder().decode([String: String?].self, from: acsChatMetadata)
         }
 
@@ -312,7 +312,7 @@ public class ChatMessageEditedEvent: BaseChatMessageEvent {
         self.message = chatMessageEditedPayload.messageBody
         self.editedOn = Iso8601Date(string: chatMessageEditedPayload.edittime)
 
-        if let acsChatMetadata = chatMessageEditedPayload.acsChatMessageMetadata.data(using: .utf8) {
+        if let acsChatMetadata = chatMessageEditedPayload.acsChatMessageMetadata.data(using: .utf8), !acsChatMetadata.isEmpty {
             self.metadata = try JSONDecoder().decode([String: String?].self, from: acsChatMetadata)
         }
 
