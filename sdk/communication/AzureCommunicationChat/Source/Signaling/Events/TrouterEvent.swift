@@ -27,6 +27,8 @@
 import Foundation
 import Trouter
 
+public typealias TrouterEventHandler = (_ response: TrouterEvent) -> Void
+
 public enum TrouterEvent {
     case chatMessageReceivedEvent(ChatMessageReceivedEvent)
     case typingIndicatorReceived(TypingIndicatorReceivedEvent)

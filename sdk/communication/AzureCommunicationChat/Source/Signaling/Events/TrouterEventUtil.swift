@@ -30,7 +30,7 @@ import Foundation
 import Trouter
 
 /// Utility class for working with Trouter event payloads.
-public enum TrouterEventUtil {
+internal enum TrouterEventUtil {
     /// Parses out the id/phone number portion of an MRI.
     /// - Parameters:
     ///   - mri: The original MRI.
@@ -44,7 +44,7 @@ public enum TrouterEventUtil {
     /// Constructs a CommunicationIdentifier from an MRI.
     /// - Parameter mri: The MRI.
     /// - Returns: The CommunicationIdentifier.
-    public static func getIdentifier(from mri: String) -> CommunicationIdentifier {
+    internal static func getIdentifier(from mri: String) -> CommunicationIdentifier {
         let publicTeamsUserPrefix = "8:orgid:"
         let dodTeamsUserPrefix = "8:dod:"
         let gcchTeamsUserPrefix = "8:gcch:"
@@ -99,12 +99,12 @@ public enum TrouterEventUtil {
         return iso8601DateFormatter.string(from: date)
     }
 
-    /// Construct a BaseChatEvent or BaseChatThreadEvent model from a TrouterRequest payload.
+    /// Construct a TrouterEvent from a TrouterRequest payload.
     /// - Parameters:
     ///   - chatEventId: The ChatEventId, determines the type of ChatEvent that should be created.
     ///   - request: The request payload.
-    /// - Returns: A chat event model.
-    public static func create(chatEvent chatEventId: ChatEventId, from request: TrouterRequest) throws -> TrouterEvent {
+    /// - Returns: A TrouterEvent.
+    internal static func create(chatEvent chatEventId: ChatEventId, from request: TrouterRequest) throws -> TrouterEvent {
         return try TrouterEvent(chatEventId: chatEventId, from: request)
     }
 }

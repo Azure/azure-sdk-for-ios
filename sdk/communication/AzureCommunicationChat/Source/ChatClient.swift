@@ -241,10 +241,10 @@ public class ChatClient {
     /// Subscribe to chat events.
     /// - Parameters:
     ///   - event: The chat event to subsribe to.
-    ///   - handler: The listener for the chat event.
+    ///   - handler: The handler for the chat event.
     public func register(
         event: ChatEventId,
-        handler: @escaping EventHandler
+        handler: @escaping TrouterEventHandler
     ) {
         if signalingClient == nil {
             options.logger
@@ -259,7 +259,7 @@ public class ChatClient {
 
     /// Unsubscribe to chat events.
     /// - Parameters:
-    ///   - event: The chat event to subsribe to.
+    ///   - event: The chat event to unsubsribe from.
     public func unregister(
         event: ChatEventId
     ) {

@@ -29,11 +29,24 @@ import AzureCore
 import Foundation
 import Trouter
 
-public class SignalingChatParticipant {
-    public var id: CommunicationIdentifier?
-    public var displayName: String?
-    public var shareHistoryTime: Iso8601Date?
+/// Chat Participant for realtime notification events.
+public struct SignalingChatParticipant {
+    // MARK: Properties
 
+    /// The  identifier of the participant.
+    public let id: CommunicationIdentifier?
+    /// Display name for the participant.
+    public let displayName: String?
+    /// Time from which the chat history is shared with the participant. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    public let shareHistoryTime: Iso8601Date?
+
+    // MARK: Initializers
+    
+    /// Initialize a SignalingChatParticipant
+    /// - Parameters:
+    ///   - id: The  identifier of the participant.
+    ///   - displayName: Display name for the participant.
+    ///   - shareHistoryTime: Time from which the chat history is shared with the participant. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     init(id: CommunicationIdentifier?, displayName: String? = nil, shareHistoryTime: Iso8601Date? = nil) {
         self.id = id
         self.displayName = displayName
@@ -41,20 +54,41 @@ public class SignalingChatParticipant {
     }
 }
 
-public class SignalingChatThreadProperties {
-    public var topic: String
+/// ChatThreadProperties for realtime notification events.
+public struct SignalingChatThreadProperties {
+    // MARK: Properties
+    
+    /// Thread topic.
+    public let topic: String
 
+    // MARK: Initializers
+    
+    /// Initialize a SignalingChatThreadProperties
+    /// - Parameter topic: Thread topic.
     init(topic: String) {
         self.topic = topic
     }
 }
 
+/// BaseChatEvent for realtime notifications.
 public class BaseChatEvent {
+    // MARK: Properties
+    
+    /// ChatThread id.
     public var threadId: String
+    /// Sender identifier.
     public var sender: CommunicationIdentifier?
+    /// Sender display name.
     public var senderDisplayName: String?
+    /// Recipient identifier.
     public var recipient: CommunicationIdentifier?
-
+    
+    /// Initialize a BaseChatEvent
+    /// - Parameters:
+    ///   - threadId: ChatThread id.
+    ///   - sender: Sender identifier.
+    ///   - senderDisplayName: Sender display name.
+    ///   - recipient: Recipient identifier.
     init(
         threadId: String,
         sender: CommunicationIdentifier?,
@@ -68,10 +102,14 @@ public class BaseChatEvent {
     }
 }
 
+/// BaseChatThreadEvent for realtime notifications.
 public class BaseChatThreadEvent {
+    // MARK: Properties
+    
     public var threadId: String
     public var version: String
 
+    // MARK: Initializers
     init(threadId: String, version: String) {
         self.threadId = threadId
         self.version = version
@@ -79,6 +117,8 @@ public class BaseChatThreadEvent {
 }
 
 public class BaseChatMessageEvent: BaseChatEvent {
+    // MARK: Properties
+    
     public var id: String
     public var createdOn: Iso8601Date?
     public var version: String
@@ -103,6 +143,8 @@ public class BaseChatMessageEvent: BaseChatEvent {
 }
 
 public class ChatMessageReceivedEvent: BaseChatMessageEvent {
+    // MARK: Properties
+    
     public var message: String
 
     init(
@@ -154,6 +196,8 @@ public class ChatMessageReceivedEvent: BaseChatMessageEvent {
 }
 
 public class ChatMessageEditedEvent: BaseChatMessageEvent {
+    // MARK: Properties
+    
     public var message: String
     public var editedOn: Iso8601Date?
 
@@ -207,6 +251,8 @@ public class ChatMessageEditedEvent: BaseChatMessageEvent {
 }
 
 public class ChatMessageDeletedEvent: BaseChatMessageEvent {
+    // MARK: Properties
+    
     public var deletedOn: Iso8601Date?
     init(
         threadId: String,
@@ -255,6 +301,8 @@ public class ChatMessageDeletedEvent: BaseChatMessageEvent {
 }
 
 public class TypingIndicatorReceivedEvent: BaseChatEvent {
+    // MARK: Properties
+    
     public var version: String
     public var receivedOn: Iso8601Date?
 
@@ -290,6 +338,8 @@ public class TypingIndicatorReceivedEvent: BaseChatEvent {
 }
 
 public class ReadReceiptReceivedEvent: BaseChatEvent {
+    // MARK: Properties
+    
     public var chatMessageId: String
     public var readOn: Iso8601Date?
 
@@ -334,6 +384,8 @@ public class ReadReceiptReceivedEvent: BaseChatEvent {
 }
 
 public class ChatThreadCreatedEvent: BaseChatThreadEvent {
+    // MARK: Properties
+    
     public var createdOn: Iso8601Date?
     public var properties: SignalingChatThreadProperties?
     public var participants: [SignalingChatParticipant]?
@@ -408,6 +460,8 @@ public class ChatThreadCreatedEvent: BaseChatThreadEvent {
 }
 
 public class ChatThreadPropertiesUpdatedEvent: BaseChatThreadEvent {
+    // MARK: Properties
+    
     public var properties: SignalingChatThreadProperties?
     public var updatedOn: Iso8601Date?
     public var updatedBy: SignalingChatParticipant?
@@ -464,6 +518,8 @@ public class ChatThreadPropertiesUpdatedEvent: BaseChatThreadEvent {
 }
 
 public class ChatThreadDeletedEvent: BaseChatThreadEvent {
+    // MARK: Properties
+    
     public var deletedOn: Iso8601Date?
     public var deletedBy: SignalingChatParticipant?
 
@@ -507,6 +563,8 @@ public class ChatThreadDeletedEvent: BaseChatThreadEvent {
 }
 
 public class ParticipantsAddedEvent: BaseChatThreadEvent {
+    // MARK: Properties
+    
     public var addedOn: Iso8601Date?
     public var participantsAdded: [SignalingChatParticipant]?
     public var addedBy: SignalingChatParticipant?
@@ -573,6 +631,8 @@ public class ParticipantsAddedEvent: BaseChatThreadEvent {
 }
 
 public class ParticipantsRemovedEvent: BaseChatThreadEvent {
+    // MARK: Properties
+    
     public var removedOn: Iso8601Date?
     public var participantsRemoved: [SignalingChatParticipant]?
     public var removedBy: SignalingChatParticipant?
