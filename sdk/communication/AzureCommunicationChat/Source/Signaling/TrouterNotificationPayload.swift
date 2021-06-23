@@ -26,165 +26,165 @@
 
 import Foundation
 
-class BasePayload: Decodable {
+struct BasePayload: Codable {
     // swiftlint:disable identifier_name
-    var _eventId: Int
+    let _eventId: Int
     // swiftlint:enable identifier_name
-    var senderId: String
-    var recipientId: String
-    var groupId: String
+    let senderId: String
+    let recipientId: String
+    let groupId: String
 }
 
-class MessageReceivedPayload: Decodable {
+struct MessageReceivedPayload: Decodable {
     // swiftlint:disable identifier_name
-    var _eventId: Int
+    let _eventId: Int
     // swiftlint:enable identifier_name
-    var senderId: String
-    var recipientId: String
-    var transactionId: String
-    var groupId: String
-    var messageId: String
-    var messageType: String
-    var messageBody: String
-    var senderDisplayName: String
-    var clientMessageId: String
-    var originalArrivalTime: String
-    var priority: String
-    var version: String
+    let senderId: String
+    let recipientId: String
+    let transactionId: String
+    let groupId: String
+    let messageId: String
+    let messageType: String
+    let messageBody: String
+    let senderDisplayName: String
+    let clientMessageId: String
+    let originalArrivalTime: String
+    let priority: String
+    let version: String
 }
 
-class TypingIndicatorReceivedPayload: Decodable {
+struct TypingIndicatorReceivedPayload: Decodable {
     // swiftlint:disable identifier_name
-    var _eventId: Int
+    let _eventId: Int
     // swiftlint:enable identifier_name
-    var senderId: String
-    var recipientId: String
-    var groupId: String
-    var version: String
-    var originalArrivalTime: String
+    let senderId: String
+    let recipientId: String
+    let groupId: String
+    let version: String
+    let originalArrivalTime: String
 }
 
-class ReadReceiptMessageBody: Decodable {
-    var user: String
-    var consumptionhorizon: String
-    var messageVisibilityTime: Int
-    var version: String
+struct ReadReceiptMessageBody: Decodable {
+    let user: String
+    let consumptionhorizon: String
+    let messageVisibilityTime: Int
+    let version: String
 }
 
-class ReadReceiptReceivedPayload: Decodable {
+struct ReadReceiptReceivedPayload: Decodable {
     // swiftlint:disable identifier_name
-    var _eventId: Int
+    let _eventId: Int
     // swiftlint:enable identifier_name
-    var senderId: String
-    var recipientId: String
-    var groupId: String
-    var messageId: String
-    var clientMessageId: String
-    var messageBody: String
+    let senderId: String
+    let recipientId: String
+    let groupId: String
+    let messageId: String
+    let clientMessageId: String
+    let messageBody: String
 }
 
-class MessageEditedPayload: Decodable {
+struct MessageEditedPayload: Decodable {
     // swiftlint:disable identifier_name
-    var _eventId: Int
+    let _eventId: Int
     // swiftlint:enable identifier_name
-    var senderId: String
-    var recipientId: String
-    var groupId: String
-    var messageId: String
-    var clientMessageId: String
-    var senderDisplayName: String
-    var messageBody: String
-    var version: String
-    var edittime: String
-    var messageType: String
-    var originalArrivalTime: String
+    let senderId: String
+    let recipientId: String
+    let groupId: String
+    let messageId: String
+    let clientMessageId: String
+    let senderDisplayName: String
+    let messageBody: String
+    let version: String
+    let edittime: String
+    let messageType: String
+    let originalArrivalTime: String
 }
 
-class MessageDeletedPayload: Decodable {
+struct MessageDeletedPayload: Decodable {
     // swiftlint:disable identifier_name
-    var _eventId: Int
+    let _eventId: Int
     // swiftlint:enable identifier_name
-    var senderId: String
-    var recipientId: String
-    var groupId: String
-    var messageId: String
-    var clientMessageId: String
-    var senderDisplayName: String
-    var version: String
-    var deletetime: String
-    var messageType: String
-    var originalArrivalTime: String
+    let senderId: String
+    let recipientId: String
+    let groupId: String
+    let messageId: String
+    let clientMessageId: String
+    let senderDisplayName: String
+    let version: String
+    let deletetime: String
+    let messageType: String
+    let originalArrivalTime: String
 }
 
-class ChatThreadPayload: Decodable {
+struct ChatThreadPayload: Decodable {
     // swiftlint:disable identifier_name
-    var _eventId: Int
+    let _eventId: Int
     // swiftlint:enable identifier_name
-    var threadId: String
-    var version: String
+    let threadId: String
+    let version: String
 }
 
-class ChatParticipantPayload: Decodable {
-    var participantId: String
-    var displayName: String
-    var shareHistoryTime: Int?
+struct ChatParticipantPayload: Decodable {
+    let participantId: String
+    let displayName: String
+    let shareHistoryTime: Int?
 }
 
-class ChatThreadCreatedPayload: Decodable {
+struct ChatThreadCreatedPayload: Decodable {
     // swiftlint:disable identifier_name
-    var _eventId: Int
+    let _eventId: Int
     // swiftlint:enable identifier_name
-    var threadId: String
-    var version: String
-    var createTime: String
-    var createdBy: String
-    var members: String
-    var properties: String
+    let threadId: String
+    let version: String
+    let createTime: String
+    let createdBy: String
+    let members: String
+    let properties: String
 }
 
-class ChatThreadPropertiesPayload: Decodable {
-    var topic: String
+struct ChatThreadPropertiesPayload: Decodable {
+    let topic: String
 }
 
-class ChatThreadPropertiesUpdatedPayload: Decodable {
+struct ChatThreadPropertiesUpdatedPayload: Decodable {
     // swiftlint:disable identifier_name
-    var _eventId: Int
+    let _eventId: Int
     // swiftlint:enable identifier_name
-    var threadId: String
-    var version: String
-    var editTime: String
-    var editedBy: String
-    var properties: String
+    let threadId: String
+    let version: String
+    let editTime: String
+    let editedBy: String
+    let properties: String
 }
 
-class ChatThreadDeletedPayload: Decodable {
+struct ChatThreadDeletedPayload: Decodable {
     // swiftlint:disable identifier_name
-    var _eventId: Int
+    let _eventId: Int
     // swiftlint:enable identifier_name
-    var threadId: String
-    var version: String
-    var deleteTime: String
-    var deletedBy: String
+    let threadId: String
+    let version: String
+    let deleteTime: String
+    let deletedBy: String
 }
 
-class ParticipantsAddedPayload: Decodable {
+struct ParticipantsAddedPayload: Decodable {
     // swiftlint:disable identifier_name
-    var _eventId: Int
+    let _eventId: Int
     // swiftlint:enable identifier_name
-    var threadId: String
-    var version: String
-    var time: String
-    var addedBy: String
-    var participantsAdded: String
+    let threadId: String
+    let version: String
+    let time: String
+    let addedBy: String
+    let participantsAdded: String
 }
 
-class ParticipantsRemovedPayload: Decodable {
+struct ParticipantsRemovedPayload: Decodable {
     // swiftlint:disable identifier_name
-    var _eventId: Int
+    let _eventId: Int
     // swiftlint:enable identifier_name
-    var threadId: String
-    var version: String
-    var time: String
-    var removedBy: String
-    var participantsRemoved: String
+    let threadId: String
+    let version: String
+    let time: String
+    let removedBy: String
+    let participantsRemoved: String
 }
