@@ -24,7 +24,7 @@ user1 = identity_client.create_user()
 user2 = identity_client.create_user()
 token = identity_client.issue_token(user1, scopes=["chat"]).token
 
-print('==AZURE_COMMUNCATION_ENDPOINT==')
+print('==AZURE_COMMUNICATION_ENDPOINT==')
 print(endpoint)
 
 print('==AZURE_COMMUNICATION_USER_ID_1==')

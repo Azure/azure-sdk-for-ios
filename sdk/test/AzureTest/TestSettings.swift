@@ -26,13 +26,13 @@
 
 import Foundation
 
-public protocol TestSettingsProtocol: Codable {
+public protocol TestSettingsProtocol: AnyObject, Codable {
     static func loadFromPlist() -> Self
 }
 
 public extension TestSettingsProtocol {
     static func loadFromPlist() -> Self {
-        if let path = Bundle.main.path(forResource: "test-settings", ofType: "plist"),
+        if let path = Bundle(for: self).path(forResource: "test-settings", ofType: "plist"),
             let xml = FileManager.default.contents(atPath: path),
             let settings = try? PropertyListDecoder().decode(Self.self, from: xml) {
             return settings

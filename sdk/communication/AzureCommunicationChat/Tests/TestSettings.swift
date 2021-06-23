@@ -27,9 +27,9 @@
 import AzureTest
 import Foundation
 
-struct TestSettings: TestSettingsProtocol {
-    var endpoint: String
-    var user1: String
-    var user2: String
-    var token: String
+class TestSettings: TestSettingsProtocol {
+    var endpoint: String?
+    var user1: String?
+    var user2: String?
+    var token: String?
 }

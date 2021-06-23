@@ -42,9 +42,8 @@ class ChatClientDVRTests: XCTestCase {
 
     override func setUpWithError() throws {
         let settings = TestSettings.loadFromPlist()
-        print(settings)
-        let endpoint = environmentVariable(forKey: "AZURE_COMMUNICATION_ENDPOINT", default: "https://endpoint")
-        let token = generateToken()
+        let endpoint = settings.endpoint ?? "https://endpoint"
+        let token = settings.token ?? generateFakeToken()
         let credential = try CommunicationTokenCredential(token: token)
         let fullname = name
         var testName = fullname.split(separator: " ")[1]
