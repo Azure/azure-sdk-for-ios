@@ -37,7 +37,7 @@ class ChatClientDVRTests: XCTestCase {
 
     private var transport: TransportStage!
 
-    /// Test mode.
+    /// Test mode
     private var mode = environmentVariable(forKey: "TEST_MODE", default: "playback")
 
     override func setUpWithError() throws {
