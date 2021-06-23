@@ -31,20 +31,20 @@ import Trouter
 
 /// Utility class for working with Trouter event payloads.
 internal enum TrouterEventUtil {
-    /// Parses out the id/phone number portion of an MRI.
+    /// Parses out the id/phone number portion of a user id.
     /// - Parameters:
-    ///   - mri: The original MRI.
-    ///   - prefix: The MRI prefix.
-    /// - Returns: The part of the MRI after the prefix that corresponds to the id or phone number of a user.
-    private static func parse(mri: String, prefix: String) -> String {
-        let index = mri.index(mri.startIndex, offsetBy: prefix.count)
-        return String(mri.suffix(from: index))
+    ///   - id: The string id.
+    ///   - prefix: The id prefix.
+    /// - Returns: The part of the id after the prefix that corresponds to the user id or phone number of a user.
+    private static func parse(id: String, prefix: String) -> String {
+        let index = id.index(id.startIndex, offsetBy: prefix.count)
+        return String(id.suffix(from: index))
     }
 
-    /// Constructs a CommunicationIdentifier from an MRI.
-    /// - Parameter mri: The MRI.
+    /// Constructs a CommunicationIdentifier from a string id.
+    /// - Parameter id: The string id.
     /// - Returns: The CommunicationIdentifier.
-    internal static func getIdentifier(from mri: String) -> CommunicationIdentifier {
+    internal static func getIdentifier(from id: String) -> CommunicationIdentifier {
         let publicTeamsUserPrefix = "8:orgid:"
         let dodTeamsUserPrefix = "8:dod:"
         let gcchTeamsUserPrefix = "8:gcch:"
@@ -53,44 +53,47 @@ internal enum TrouterEventUtil {
         let acsUserPrefix = "8:acs:"
         let spoolUserPrefix = "8:spool:"
 
-        if mri.starts(with: publicTeamsUserPrefix) {
+        if id.starts(with: publicTeamsUserPrefix) {
             return MicrosoftTeamsUserIdentifier(
-                userId: parse(mri: mri, prefix: publicTeamsUserPrefix),
+                userId: parse(id: id, prefix: publicTeamsUserPrefix),
                 isAnonymous: false,
-                rawId: mri,
+                rawId: id,
                 cloudEnvironment: CommunicationCloudEnvironment.Public
             )
-        } else if mri.starts(with: dodTeamsUserPrefix) {
+        } else if id.starts(with: dodTeamsUserPrefix) {
             return MicrosoftTeamsUserIdentifier(
-                userId: parse(mri: mri, prefix: dodTeamsUserPrefix),
+                userId: parse(id: id, prefix: dodTeamsUserPrefix),
                 isAnonymous: false,
-                rawId: mri,
+                rawId: id,
                 cloudEnvironment: CommunicationCloudEnvironment.Dod
             )
-        } else if mri.starts(with: gcchTeamsUserPrefix) {
+        } else if id.starts(with: gcchTeamsUserPrefix) {
             return MicrosoftTeamsUserIdentifier(
-                userId: parse(mri: mri, prefix: gcchTeamsUserPrefix),
+                userId: parse(id: id, prefix: gcchTeamsUserPrefix),
                 isAnonymous: false,
-                rawId: mri,
+                rawId: id,
                 cloudEnvironment: CommunicationCloudEnvironment.Gcch
             )
-        } else if mri.starts(with: teamsVisitorUserPrefix) {
+        } else if id.starts(with: teamsVisitorUserPrefix) {
             return MicrosoftTeamsUserIdentifier(
-                userId: parse(mri: mri, prefix: teamsVisitorUserPrefix),
+                userId: parse(id: id, prefix: teamsVisitorUserPrefix),
                 isAnonymous: true
             )
-        } else if mri.starts(with: phoneNumberPrefix) {
+        } else if id.starts(with: phoneNumberPrefix) {
             return PhoneNumberIdentifier(
-                phoneNumber: parse(mri: mri, prefix: phoneNumberPrefix),
-                rawId: mri
+                phoneNumber: parse(id: id, prefix: phoneNumberPrefix),
+                rawId: id
             )
-        } else if mri.starts(with: acsUserPrefix) || mri.starts(with: spoolUserPrefix) {
-            return CommunicationUserIdentifier(mri)
+        } else if id.starts(with: acsUserPrefix) || id.starts(with: spoolUserPrefix) {
+            return CommunicationUserIdentifier(id)
         } else {
-            return UnknownIdentifier(mri)
+            return UnknownIdentifier(id)
         }
     }
-
+    
+    /// Convert an Int to an ISO 8601 Date.
+    /// - Parameter unixTime: The date time.
+    /// - Returns: The ISO 8601 formatted timestamp.
     internal static func toIso8601Date(unixTime: Int? = 0) -> String {
         let unixTimeInMilliSeconds = Double(unixTime ?? 0) / 1000
         let date = Date(timeIntervalSince1970: TimeInterval(unixTimeInMilliSeconds))

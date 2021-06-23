@@ -27,8 +27,10 @@
 import Foundation
 import Trouter
 
+/// TrouterEventHandler for handling real-time notifications.
 public typealias TrouterEventHandler = (_ response: TrouterEvent) -> Void
 
+/// TrouterEvents.
 public enum TrouterEvent {
     case chatMessageReceivedEvent(ChatMessageReceivedEvent)
     case typingIndicatorReceived(TypingIndicatorReceivedEvent)
@@ -40,7 +42,11 @@ public enum TrouterEvent {
     case chatThreadDeleted(ChatThreadDeletedEvent)
     case participantsAdded(ParticipantsAddedEvent)
     case participantsRemoved(ParticipantsRemovedEvent)
-
+    
+    /// Initialize a TrouterEvent given the ChatEventId and the TrouterRequest that contains the event data.
+    /// - Parameters:
+    ///   - chatEventId: The ChatEventId.
+    ///   - request: The TrouterRequest that contains the event data.
     init(chatEventId: ChatEventId, from request: TrouterRequest) throws {
         switch chatEventId {
         case ChatEventId.chatMessageReceived:

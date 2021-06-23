@@ -28,6 +28,7 @@ import AzureCommunicationCommon
 import AzureCore
 import Foundation
 
+/// ChatThreadClient class for operations within a ChatThread.
 public class ChatThreadClient {
     // MARK: Properties
 
