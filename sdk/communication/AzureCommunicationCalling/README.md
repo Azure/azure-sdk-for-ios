@@ -28,4 +28,4 @@ For any new feature requests or bugs please report [here](https://github.com/Azu
 
 ## Contributing
 
-Currently the project is closed source and new releases of the Calling library will be available [here](https://github.com/Azure/Communication/releases) and release notes can be found [here](https://github.com/Azure/Communication/tree/master/releasenotes).
+Currently the project is closed source and new releases of the Calling library will be available [here](https://github.com/Azure/Communication/releases) and release notes can be found [here](https://github.com/Azure/Communication/tree/main/releasenotes).

@@ -7,7 +7,7 @@ will be installed automatically when you install other SDK libraries. If you are
 reference the [AzureCommunicationChat](https://github.com/Azure/azure-sdk-for-ios/blob/master/sdk/communication/AzureCommunicationChat/)
 library as an example of how to use the shared AzureCore components in your client library.
 
-[Source code](https://github.com/Azure/azure-sdk-for-ios/tree/master/sdk/core/AzureCore)
+[Source code](https://github.com/Azure/azure-sdk-for-ios/tree/main/sdk/core/AzureCore)
 | [API reference documentation](https://azure.github.io/azure-sdk-for-ios/AzureCore/index.html)
 
 ## Getting started
@@ -118,7 +118,7 @@ The main shared concepts of AzureCore (and thus, Azure SDK libraries using Azure
 
 ## Examples
 
-See [AzureSDKDemoSwift](https://github.com/Azure/azure-sdk-for-ios/tree/master/examples/AzureSDKDemoSwift) for an example of using this library.
+See [AzureSDKDemoSwift](https://github.com/Azure/azure-sdk-for-ios/tree/main/examples/AzureSDKDemoSwift) for an example of using this library.
 
 ## Troubleshooting
 

@@ -2,7 +2,7 @@
 
 This package contains the a library for testing Azure services for iOS.
 
-[Source code](https://github.com/Azure/azure-sdk-for-ios/tree/master/sdk/communication/AzureTest)
+[Source code](https://github.com/Azure/azure-sdk-for-ios/tree/main/sdk/communication/AzureTest)
 
 ## Getting started
 

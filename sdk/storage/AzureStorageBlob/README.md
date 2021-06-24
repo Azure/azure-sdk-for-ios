@@ -9,10 +9,10 @@ Blob storage is ideal for:
 * Storing data for backup and restore, disaster recovery, and archiving
 * Storing data for analysis by an on-premises or Azure-hosted service
 
-[Source code](https://github.com/Azure/azure-sdk-for-ios/tree/master/sdk/storage/AzureStorageBlob)
+[Source code](https://github.com/Azure/azure-sdk-for-ios/tree/main/sdk/storage/AzureStorageBlob)
 | [API reference documentation]<!--(https://azure.github.io/azure-sdk-for-ios/AzureStorageBlob/index.html)-->
 | [Product documentation](https://docs.microsoft.com/azure/storage/)
-| [Samples](https://github.com/Azure/azure-sdk-for-ios/tree/master/examples/AzureSDKDemoSwift)
+| [Samples](https://github.com/Azure/azure-sdk-for-ios/tree/main/examples/AzureSDKDemoSwift)
 
 
 ## Getting started
@@ -186,7 +186,7 @@ To use the
 to authenticate your client, you'll need to provide your AAD tenant ID and your application's client ID, and you'll need
 to use the MSAL for iOS library to authenticate the user and obtain instances of `MSALPublicClientApplication` and
 `MSALAccount`. Refer to the
-[AzureSDKSwiftDemo](https://github.com/Azure/azure-sdk-for-ios/tree/master/examples/AzureSDKDemoSwift)
+[AzureSDKSwiftDemo](https://github.com/Azure/azure-sdk-for-ios/tree/main/examples/AzureSDKDemoSwift)
 sample for an example of how to use the MSAL for iOS library to authenticate a `StorageBlobClient`.
 
 To initialize a client instance with an MSAL credential, create an instance of `MSALCredential` using your AAD tenant
@@ -640,11 +640,11 @@ client.listBlobs(...)
 
 ### More sample code
 
-Get started with our [examples](https://github.com/Azure/azure-sdk-for-ios/tree/master/examples/).
+Get started with our [examples](https://github.com/Azure/azure-sdk-for-ios/tree/main/examples/).
 
 Storage Blobs Swift SDK samples are available to you in the SDK's GitHub repository. These samples provide example code for additional scenarios commonly encountered while working with Storage Blobs:
 
-* [AzureSDKSwiftDemo](https://github.com/Azure/azure-sdk-for-ios/tree/master/examples/AzureSDKDemoSwift) - Example for common Storage Blob tasks:
+* [AzureSDKSwiftDemo](https://github.com/Azure/azure-sdk-for-ios/tree/main/examples/AzureSDKDemoSwift) - Example for common Storage Blob tasks:
     * List blobs in a container
     * Upload blobs
     * Download blobs

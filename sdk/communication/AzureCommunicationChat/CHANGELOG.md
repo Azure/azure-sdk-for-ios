@@ -80,4 +80,4 @@ Version 1.0.0-beta.2 adds the Azure Communication Services Chat to the SDK.
 
 ### Added Libraries
 
-- Azure Communication Services Chat ([AzureCommunicationChat](https://github.com/Azure/azure-sdk-for-ios/tree/master/sdk/communication/AzureCommunicationChat))
+- Azure Communication Services Chat ([AzureCommunicationChat](https://github.com/Azure/azure-sdk-for-ios/tree/main/sdk/communication/AzureCommunicationChat))

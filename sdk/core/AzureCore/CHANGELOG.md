@@ -25,4 +25,4 @@ our efforts can be found in the
 
 ### Added Libraries
 
-- Azure SDK for iOS core ([AzureCore](https://github.com/Azure/azure-sdk-for-ios/tree/master/sdk/core/AzureCore))
+- Azure SDK for iOS core ([AzureCore](https://github.com/Azure/azure-sdk-for-ios/tree/main/sdk/core/AzureCore))
