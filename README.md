@@ -17,17 +17,17 @@ For your convenience, each service has a separate set of libraries that you can 
 
 Releases of all libraries are available here: [releases](https://github.com/Azure/azure-sdk-for-ios/releases)
 
-Currently, the client libraries are in **beta**. These libraries follow the [Azure SDK Design Guidelines for iOS](https://azure.github.io/azure-sdk/ios_introduction.html) and share a number of core features such as HTTP retries, logging, transport protocols, authentication protocols, etc., so that once you learn how to use these features in one client library, you will know how to use them in other client libraries. You can learn about these shared features in [AzureCore](https://github.com/Azure/azure-sdk-for-ios/blob/master/sdk/core/AzureCore/README.md).
+Currently, the client libraries are in **beta**. These libraries follow the [Azure SDK Design Guidelines for iOS](https://azure.github.io/azure-sdk/ios_introduction.html) and share a number of core features such as HTTP retries, logging, transport protocols, authentication protocols, etc., so that once you learn how to use these features in one client library, you will know how to use them in other client libraries. You can learn about these shared features in [AzureCore](https://github.com/Azure/azure-sdk-for-ios/blob/main/sdk/core/AzureCore/README.md).
 
 The following libraries are currently in **beta**:
 
 #### Core
-- [AzureCore](https://github.com/Azure/azure-sdk-for-ios/blob/master/sdk/core/AzureCore/)
+- [AzureCore](https://github.com/Azure/azure-sdk-for-ios/blob/main/sdk/core/AzureCore/)
 
 #### Azure Communication Services
-- [AzureCommunicationCommon](https://github.com/Azure/azure-sdk-for-ios/blob/master/sdk/communication/AzureCommunicationCommon/)
+- [AzureCommunicationCommon](https://github.com/Azure/azure-sdk-for-ios/blob/main/sdk/communication/AzureCommunicationCommon/)
 - [AzureCommunicationCalling](https://github.com/Azure/Communication/releases)
-- [AzureCommunicationChat](https://github.com/Azure/azure-sdk-for-ios/blob/master/sdk/communication/AzureCommunicationChat/)
+- [AzureCommunicationChat](https://github.com/Azure/azure-sdk-for-ios/blob/main/sdk/communication/AzureCommunicationChat/)
 
 > Note: The SDK is currently in **beta**. The API surface and feature sets are subject to change at any time before they become generally available. We do not currently recommend them for production use.
 
@@ -49,7 +49,7 @@ See the README file for individual libraries for instructions.
 Security issues and bugs should be reported privately, via email, to the Microsoft Security Response Center (MSRC) <secure@microsoft.com>. You should receive a response within 24 hours. If for some reason you do not, please follow up via email to ensure we received your original message. Further information, including the MSRC PGP key, can be found in the [Security TechCenter](https://www.microsoft.com/msrc/faqs-report-an-issue).
 
 ## Contributing
-For details on contributing to this repository, see the [contributing guide](https://github.com/Azure/azure-sdk-for-ios/blob/master/CONTRIBUTING.md).
+For details on contributing to this repository, see the [contributing guide](https://github.com/Azure/azure-sdk-for-ios/blob/main/CONTRIBUTING.md).
 
 This project welcomes contributions and suggestions. Most contributions require you to agree to a Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your contribution. For details, visit
 https://cla.microsoft.com.

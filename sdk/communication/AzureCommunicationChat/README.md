@@ -2,7 +2,7 @@
 
 This package contains the Chat client library for Azure Communication Services.
 
-[Source code](https://github.com/Azure/azure-sdk-for-ios/tree/master/sdk/communication/AzureCommunicationChat)
+[Source code](https://github.com/Azure/azure-sdk-for-ios/tree/main/sdk/communication/AzureCommunicationChat)
 | [API reference documentation](https://azure.github.io/azure-sdk-for-ios/AzureCommunicationChat/index.html)
 | [Product documentation](https://docs.microsoft.com/azure/communication-services/overview)
 
@@ -400,7 +400,7 @@ chatThreadClient.delete(message: messageId) { result, _ in
 
 #### Receive messages from a thread
 
-With realtime notifications enabled you can receive events when messages are sent to the thread. 
+With realtime notifications enabled you can receive events when messages are sent to the thread.
 To enable realtime notifications use the `startRealtimeNotifications` method of `ChatClient`. Starting notifications is an asynhronous operation.
 
 ```swift
@@ -420,7 +420,7 @@ To receive messages for a thread, use the `register` method of `ChatClient`.
 func handler (response: Any, eventId: ChatEventId) {
     // Handle chatMessageReceived event
 }
-                
+
 chatClient.register(event: ChatEventId.chatMessageReceived, handler: handler)
 
 ```

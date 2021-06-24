@@ -14,15 +14,15 @@ This project provides examples for the following scenarios:
   client applications.
 
 * Using the
-  [Azure Storage Blobs client library for iOS](https://github.com/Azure/azure-sdk-for-ios/tree/master/sdk/storage/AzureStorageBlob)
+  [Azure Storage Blobs client library for iOS](https://github.com/Azure/azure-sdk-for-ios/tree/main/sdk/storage/AzureStorageBlob)
   to access Azure Blob Storage with a
-  [StorageSASCredential](https://github.com/Azure/azure-sdk-for-ios/blob/master/sdk/storage/AzureStorageBlob/Source/Credentials/StorageSASCredential.swift).
+  [StorageSASCredential](https://github.com/Azure/azure-sdk-for-ios/blob/main/sdk/storage/AzureStorageBlob/Source/Credentials/StorageSASCredential.swift).
 
 ## Getting started
 
 ### Prerequisites
 * You must have the
-  [Azure Functions Core Tools version 3.x](https://docs.microsoft.com/azure/azure-functions/functions-run-local#v2) installed to run this example. 
+  [Azure Functions Core Tools version 3.x](https://docs.microsoft.com/azure/azure-functions/functions-run-local#v2) installed to run this example.
 * This example is written in Python. Because version 3.x of the Azure Functions
   Core Runtime supports Python 3.8+ only, you must have
   [Python 3.8](https://www.python.org/downloads/) or higher installed to run
@@ -43,7 +43,7 @@ This project provides examples for the following scenarios:
 
 2. A general recommendation for Python development is to use a Virtual
    Environment. For more information, see https://docs.python.org/3/tutorial/venv.html
-   
+
    Install and initialize the virtual environment with the "venv" module:
    ```bash
    python3 -m venv .venv        # Might be "python" or "py -3.8" depending on your Python installation
@@ -65,7 +65,7 @@ This project provides examples for the following scenarios:
    python3 -m pip install -r requirements.txt
    ```
 
-3. Edit the [`local.settings.json`](https://github.com/Azure/azure-sdk-for-ios/blob/master/examples/AzureFunctionSASTokenVendor/local.settings.json) file to include your
+3. Edit the [`local.settings.json`](https://github.com/Azure/azure-sdk-for-ios/blob/main/examples/AzureFunctionSASTokenVendor/local.settings.json) file to include your
    storage account name,
    [storage account access key](https://docs.microsoft.com/azure/storage/common/storage-account-keys-manage#view-account-access-keys),
    and blob container name:
