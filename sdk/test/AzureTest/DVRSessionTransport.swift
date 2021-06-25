@@ -64,6 +64,9 @@ public class DVRSessionTransport: TransportStage {
             .appendingPathComponent("sdk/communication/AzureCommunicationChat/Tests/Recordings").absoluteString else {
             fatalError("SDK Path Invalid")
         }
+        let replacements = ["authorization": "", "client-request-id" : "", "retry-after" : "","x-ms-client-request-id": "","x-ms-correlation-request-id": "", "x-ms-ratelimit-remaining-subscription-reads": "",
+                            "x-ms-request-id":"","x-ms-routing-request-id":"","x-ms-gateway-service-instanceid":"","x-ms-ratelimit-remaining-tenant-reads":"","x-ms-served-by":"","x-ms-authorization-auxiliary":""]
+        
         session = Session(outputDirectory: outputDirectory, cassetteName: cassetteName)
         if environmentVariable(forKey: "TEST_MODE", default: "playback") == "record" {
             session?.recordMode = .all
