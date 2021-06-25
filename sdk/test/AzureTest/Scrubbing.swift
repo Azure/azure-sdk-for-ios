@@ -87,7 +87,7 @@ public class Scrubbing {
 }
 
 
-public extension Array where Element == Any {
+extension Array where Element == Any {
     func dictionaryForIndex(_ index: Int) throws -> Dictionary<String,Any> {
         if let dictionary = self[index] as? Dictionary<String, Any> {
             return dictionary
@@ -111,12 +111,13 @@ public extension Array where Element == Any {
     
 }
 
-public extension Dictionary where Key == String, Value == Any {
+ extension Dictionary where Key == String, Value == Any {
     
     static func findValue(key: String, dictionary: Dictionary<String,Any>) -> Any? {
        if dictionary[key] != nil {
            return dictionary[key]
        }
+        
        for testKey in dictionary.keys {
            if let innerDictionary = dictionary[testKey] as? Dictionary<String , Any> {
                let returnedValue = findValue(key: key, dictionary: innerDictionary)
