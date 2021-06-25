@@ -196,42 +196,4 @@ internal class RegistrarClient {
             }
         }
     }
-    
-    // TODO: Patch to update existing registration?
-
-    // REMOVE - TEMPORARY for testing
-    internal func getRegistrations(
-        completionHandler: @escaping () -> Void
-    ) {
-        credential.token { accessToken, error in
-            guard let token = accessToken?.token else {
-                return
-            }
-
-            // Construct the POST request
-            var request = URLRequest(url: self.url)
-            request.httpMethod = "GET"
-            request.setValue(token, forHTTPHeaderField: RegistrarHeader.skypeTokenHeader)
-
-            self.session.dataTask(with: request) { data, response, error in
-                if error != nil {
-                    print("failed")
-                    return
-                }
-
-                guard let response = data else {
-                    return
-                }
-
-                do {
-                    let json = try JSONSerialization.jsonObject(with: response)
-                    print(json)
-                    completionHandler()
-                } catch {
-                    print(error)
-                    completionHandler()
-                }
-            }.resume()
-        }
-    }
 }
