@@ -39,7 +39,7 @@ class ChatClientTests: XCTestCase {
     override class func setUp() {
         let mode = getEnvironmentVariable(withKey: "TEST_MODE", default: "playback")
         if mode == "playback" {
-            // Register stubs for playback mode
+            // Register stubs for recordings
             Recorder.registerStubs()
         }
     }
@@ -56,10 +56,10 @@ class ChatClientTests: XCTestCase {
         if mode == "playback" {
             let bundle = Bundle(for: type(of: self))
             let path = bundle.path(forResource: "noContent", ofType: "json") ?? ""
-            stub(condition: isMethodPOST() && isPath("/registrations")) { _ in
+            stub(condition: isMethodPOST() && pathEndsWith("/registrations")) { _ in
                 fixture(filePath: path, status: 202, headers: nil)
             }
-            stub(condition: isMethodDELETE() && pathStartsWith("/registrations")) { _ in
+            stub(condition: isMethodDELETE() && pathMatches("/registrations")) { _ in
                 fixture(filePath: path, status: 202, headers: nil)
             }
         }
@@ -247,7 +247,7 @@ class ChatClientTests: XCTestCase {
             expectation.fulfill()
         }
 
-        waitForExpectations(timeout: 10.0) { error in
+        waitForExpectations(timeout: 10000.0) { error in
             if let error = error {
                 XCTFail("Start push notifications timed out: \(error)")
             }

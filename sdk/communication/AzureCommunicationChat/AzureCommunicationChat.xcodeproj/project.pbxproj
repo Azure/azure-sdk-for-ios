@@ -94,6 +94,8 @@
 		D186E299266582CE002D9D45 /* RegistrarClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D186E298266582CE002D9D45 /* RegistrarClient.swift */; };
 		D187D9B126151DB900C233B7 /* IdentifierSerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8840448725D5DD7900A194DC /* IdentifierSerializerTests.swift */; };
 		D197C5DF260E82F80049718B /* TokenCredentialAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889FF7C9260516FA00722630 /* TokenCredentialAdapter.swift */; };
+		D19DA63D26863E68000D1C34 /* TrouterClientIos.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1B566FF260BB87B009DE5D3 /* TrouterClientIos.xcframework */; };
+		D19DA63E26863E68000D1C34 /* TrouterClientIos.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D1B566FF260BB87B009DE5D3 /* TrouterClientIos.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D1A0C36826703D5200D6780A /* RegistrarClientDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A0C36726703D5200D6780A /* RegistrarClientDescription.swift */; };
 		D1A0C36A26703D8100D6780A /* RegistrarTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A0C36926703D8100D6780A /* RegistrarTransport.swift */; };
 		D1A0C36C26703FE900D6780A /* RegistrarRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A0C36B26703FE900D6780A /* RegistrarRequestBody.swift */; };
@@ -151,6 +153,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				D19DA63E26863E68000D1C34 /* TrouterClientIos.xcframework in Embed Frameworks */,
 				88F361172630EB7200A895D1 /* AzureCommunicationCommon.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -1324,6 +1327,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		8821443D261388A700040B91 /* XCRemoteSwiftPackageReference "trouter-client-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/microsoft/trouter-client-ios/";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = "0.0.1-beta.4";
+			};
+		};
+		D1BA104B25807B7500CA7130 /* XCRemoteSwiftPackageReference "OHHTTPStubs" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AliSoftware/OHHTTPStubs.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D193C45A25CE258F006F769C /* OHHTTPStubsSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D1BA104B25807B7500CA7130 /* XCRemoteSwiftPackageReference "OHHTTPStubs" */;
+			productName = OHHTTPStubsSwift;
+		};
+		D1BA104C25807B7500CA7130 /* OHHTTPStubsSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D1BA104B25807B7500CA7130 /* XCRemoteSwiftPackageReference "OHHTTPStubs" */;
+			productName = OHHTTPStubsSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = OBJ_1 /* Project object */;
 }
