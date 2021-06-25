@@ -201,7 +201,7 @@ public class ChatClient {
     /// - Parameter completionHandler: Called when starting notifications has completed.
     public func startRealTimeNotifications(completionHandler: @escaping (Result<Void, AzureError>) -> Void) {
         guard signalingClientStarted == false else {
-            options.logger.warning("Realtime notifications have already started.")
+            completionHandler(.failure(AzureError.client("Realtime notifications have already started.")))
             return
         }
 
