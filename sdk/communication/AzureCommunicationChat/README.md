@@ -30,6 +30,8 @@ most up-to-date code changes.
 
 ##### Xcode
 
+**Important:** AzureCommunicationChat currently does not support arm64 for iOS Simulator. If you are developing on M1 please run Xcode with Rosetta. See [#787](https://github.com/Azure/azure-sdk-for-ios/issues/787)
+
 To add the library to your application, follow the instructions in
 [Adding Package Dependencies to Your App](https://developer.apple.com/documentation/xcode/adding_package_dependencies_to_your_app):
 
@@ -365,11 +367,11 @@ client.listMessages(withOptions: options) { result, _ in
 Use the `update` method of `ChatThreadClient` to update the content of a message.
 
 - `content` is the message content to be updated.
-- `messageId` is the unique ID of the message.
+- `forMessage` is the unique ID of the message.
 
 ```swift
 let newContent = "Some new message content"
-chatThreadClient.update(content: newContent, messageId: messageId) { result, _ in
+chatThreadClient.update(content: newContent, forMessage: messageId) { result, _ in
     switch result {
     case .success(_):
         // Take further action
