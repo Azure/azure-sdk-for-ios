@@ -25,7 +25,7 @@
 // --------------------------------------------------------------------------
 
 import Foundation
-import TrouterClientIos
+import Trouter
 
 public enum TrouterEvent {
     case chatMessageReceivedEvent(ChatMessageReceivedEvent)

@@ -458,7 +458,4 @@
          location = "group:AzureCore.yml">
       </FileRef>
    </Group>
-   <FileRef
-      location = "group:sdk/template/AzureTemplate/AzureTemplate.xcodeproj">
-   </FileRef>
 </Workspace>

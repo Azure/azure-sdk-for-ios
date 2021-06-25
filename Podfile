@@ -38,18 +38,18 @@ end
 
 target 'AzureCommunicationChat' do
   project 'sdk/communication/AzureCommunicationChat/AzureCommunicationChat'
-  pod 'TrouterClientIos', '0.0.1-beta.4'
+  pod 'Trouter', '0.0.1-beta.5'
 
   target 'AzureCommunicationChatTests' do
     inherit! :search_paths
     pod 'OHHTTPStubs/Swift'
-    pod 'TrouterClientIos', '0.0.1-beta.4'
+    pod 'Trouter', '0.0.1-beta.5'
   end
   
   target 'AzureCommunicationChatUnitTests' do
     inherit! :search_paths
     pod 'OHHTTPStubs/Swift'
-    pod 'TrouterClientIos', '0.0.1-beta.4'
+    pod 'Trouter', '0.0.1-beta.5'
   end
 end
 
@@ -89,7 +89,6 @@ target 'AzureTemplate' do
   end
 end
 
-
 target 'AzureSDKDemoSwift' do
   project 'examples/AzureSDKDemoSwift/AzureSDKDemoSwift'
   pod 'MSAL', '1.1.15'
@@ -105,3 +104,10 @@ target 'AzureSDKDemoSwiftUI' do
   pod 'MSAL', '1.1.15'
 end
 
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.0'
+    end
+  end
+end

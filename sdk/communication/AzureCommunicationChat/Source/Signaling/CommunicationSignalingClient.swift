@@ -26,7 +26,7 @@
 
 import AzureCore
 import Foundation
-import TrouterClientIos
+import Trouter
 
 class CommunicationSignalingClient {
     private var selfHostedTrouterClient: SelfHostedTrouterClient

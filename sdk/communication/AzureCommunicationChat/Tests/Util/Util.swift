@@ -26,7 +26,7 @@
 
 import AzureCore
 import Foundation
-import OHHTTPStubsSwift
+import OHHTTPStubs.Swift
 
 class Recorder {
     /// Remove ids from response data
