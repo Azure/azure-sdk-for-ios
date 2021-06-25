@@ -7,11 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A1982DA26829E7C00B7F3A2 /* test-settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0AE5BA04267D19BE006B93B7 /* test-settings.plist */; };
+		0A1982DB26829E7D00B7F3A2 /* test-settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0AE5BA04267D19BE006B93B7 /* test-settings.plist */; };
+		0A1982DC2682A2DB00B7F3A2 /* TestSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE5BA06267D25AD006B93B7 /* TestSettings.swift */; };
 		0A1E7594267003A000054F60 /* ChatClientDVRTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1E7593267003A000054F60 /* ChatClientDVRTests.swift */; };
 		0A1E759A26700C1E00054F60 /* AzureTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A1E75972670077800054F60 /* AzureTest.framework */; };
 		0A68BF762656EED6004A7E3D /* ChatError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A68BF752656EED6004A7E3D /* ChatError.swift */; };
 		0A68BF782658747C004A7E3D /* AzureCommunicationChatClientOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A68BF772658747C004A7E3D /* AzureCommunicationChatClientOptions.swift */; };
 		0A8B9FF3264C6D2C009C24B0 /* ChatClientInternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8B9FF2264C6D2C009C24B0 /* ChatClientInternal.swift */; };
+		0AE5BA07267D25AD006B93B7 /* TestSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE5BA06267D25AD006B93B7 /* TestSettings.swift */; };
 		0E5C83242667561B00F7D58F /* TrouterEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5C83232667561B00F7D58F /* TrouterEvent.swift */; };
 		0EDC08922640892B004CA84B /* SendTypingNotificationOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC08812640892A004CA84B /* SendTypingNotificationOptions.swift */; };
 		0EDC08932640892B004CA84B /* CreateChatThreadOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC08822640892A004CA84B /* CreateChatThreadOptions.swift */; };
@@ -146,6 +150,8 @@
 		0A68BF752656EED6004A7E3D /* ChatError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatError.swift; sourceTree = "<group>"; };
 		0A68BF772658747C004A7E3D /* AzureCommunicationChatClientOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AzureCommunicationChatClientOptions.swift; sourceTree = "<group>"; };
 		0A8B9FF2264C6D2C009C24B0 /* ChatClientInternal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatClientInternal.swift; sourceTree = "<group>"; };
+		0AE5BA04267D19BE006B93B7 /* test-settings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "test-settings.plist"; sourceTree = "<group>"; };
+		0AE5BA06267D25AD006B93B7 /* TestSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSettings.swift; sourceTree = "<group>"; };
 		0E5C83232667561B00F7D58F /* TrouterEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrouterEvent.swift; sourceTree = "<group>"; };
 		0ECA8CD1258181A5006760F7 /* ChatClientUnitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatClientUnitTests.swift; sourceTree = "<group>"; };
 		0ECA8CDE258188D0006760F7 /* GetThreadResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = GetThreadResponse.json; sourceTree = "<group>"; };
@@ -325,6 +331,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		0A9207EC26839B3100469608 /* Recordings */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Recordings;
+			sourceTree = "<group>";
+		};
 		0ECA8CD52581838E006760F7 /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
@@ -489,14 +502,17 @@
 		D1B7EAFA257F03A1004F384A /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				0A9207EC26839B3100469608 /* Recordings */,
 				D1CD93AB258D6C0300409613 /* Util */,
 				D1B7EAFC257F03A1004F384A /* Info.plist */,
+				0AE5BA06267D25AD006B93B7 /* TestSettings.swift */,
 				8840448725D5DD7900A194DC /* IdentifierSerializerTests.swift */,
 				0ECA8CD1258181A5006760F7 /* ChatClientUnitTests.swift */,
 				0ECA8D08258432DC006760F7 /* ChatThreadClientUnitTests.swift */,
 				D1CD93A1258D6BC700409613 /* ChatClientTests.swift */,
 				D1CD93A7258D6BDC00409613 /* ChatThreadClientTests.swift */,
 				0A1E7593267003A000054F60 /* ChatClientDVRTests.swift */,
+				0AE5BA04267D19BE006B93B7 /* test-settings.plist */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -702,6 +718,7 @@
 				D147E68325CE247D001CFB5D /* ListThreadsResponse.json in Resources */,
 				D147E67C25CE247B001CFB5D /* SendMessageResponse.json in Resources */,
 				D147E69825CE2485001CFB5D /* CreateThreadResponse.json in Resources */,
+				0A1982DB26829E7D00B7F3A2 /* test-settings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -720,6 +737,7 @@
 				D1CD93D0258D6EAB00409613 /* getThread.json in Resources */,
 				D10C3BCE25A63F7800A181E3 /* listParticipants.json in Resources */,
 				D1CD93E4258D6EF700409613 /* sendTypingNotification.json in Resources */,
+				0A1982DA26829E7C00B7F3A2 /* test-settings.plist in Resources */,
 				D1CD93E0258D6EEA00409613 /* sendReadReceipt.json in Resources */,
 				D1CD93E8258D6F0600409613 /* updateMessage.json in Resources */,
 				D1CD93BE258D6E6200409613 /* addParticipants.json in Resources */,
@@ -858,6 +876,7 @@
 				D147E64025CE244F001CFB5D /* ChatThreadClientUnitTests.swift in Sources */,
 				D1AEA09C2608EE3700849D5C /* Util.swift in Sources */,
 				D187D9B126151DB900C233B7 /* IdentifierSerializerTests.swift in Sources */,
+				0A1982DC2682A2DB00B7F3A2 /* TestSettings.swift in Sources */,
 				D147E63925CE244A001CFB5D /* ChatClientUnitTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -869,6 +888,7 @@
 				D1CD93A8258D6BDC00409613 /* ChatThreadClientTests.swift in Sources */,
 				0A1E7594267003A000054F60 /* ChatClientDVRTests.swift in Sources */,
 				D1CD93AD258D6C2500409613 /* Util.swift in Sources */,
+				0AE5BA07267D25AD006B93B7 /* TestSettings.swift in Sources */,
 				D1CD93A2258D6BC700409613 /* ChatClientTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

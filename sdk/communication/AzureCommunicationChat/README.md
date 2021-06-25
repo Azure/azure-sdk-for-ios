@@ -2,7 +2,7 @@
 
 This package contains the Chat client library for Azure Communication Services.
 
-[Source code](https://github.com/Azure/azure-sdk-for-ios/tree/master/sdk/communication/AzureCommunicationChat)
+[Source code](https://github.com/Azure/azure-sdk-for-ios/tree/main/sdk/communication/AzureCommunicationChat)
 | [API reference documentation](https://azure.github.io/azure-sdk-for-ios/AzureCommunicationChat/index.html)
 | [Product documentation](https://docs.microsoft.com/azure/communication-services/overview)
 

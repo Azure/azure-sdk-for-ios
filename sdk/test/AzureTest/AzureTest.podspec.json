@@ -1,0 +1,37 @@
+{
+  "name": "AzureTest",
+  "version": "1.0.0",
+  "summary": "Azure Developer Test Tools",
+  "description": "This package contains developer tools for testing Azure SDKs.",
+  "homepage": "https://github.com/Azure/azure-sdk-for-ios",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Azure SDK Mobile Team": "azuresdkmobileteam@microsoft.com"
+  },
+  "documentation_url": "https://azure.github.io/azure-sdk-for-ios/AzureTest/index.html",
+  "platforms": {
+    "ios": "12.0"
+  },
+  "swift_versions": "5.0",
+  "source": {
+    "git": "https://github.com/Azure/azure-sdk-for-ios.git",
+    "tag": "AzureTest_1.0.0"
+  },
+  "source_files": "sdk/communication/AzureTest/Source/**/*.{swift,h,m}",
+  "pod_target_xcconfig": {
+    "DEFINES_MODULE": "YES",
+    "EXCLUDED_ARCHS[sdk=iphonesimulator*]": "arm64"
+  },
+  "user_target_xcconfig": {
+    "EXCLUDED_ARCHS[sdk=iphonesimulator*]": "arm64"
+  },
+  "dependencies": {
+    "AzureCore": [
+      "1.0.0-beta.12"
+    ]
+  },
+  "swift_version": "5.0"
+}

@@ -37,12 +37,13 @@ class ChatClientDVRTests: XCTestCase {
 
     private var transport: TransportStage!
 
-    /// Test mode.
+    /// Test mode
     private var mode = environmentVariable(forKey: "TEST_MODE", default: "playback")
 
     override func setUpWithError() throws {
-        let endpoint = environmentVariable(forKey: "AZURE_COMMUNICATION_ENDPOINT", default: "https://endpoint")
-        let token = generateToken()
+        let settings = TestSettings.loadFromPlist()
+        let endpoint = settings.endpoint ?? "https://endpoint"
+        let token = settings.token ?? generateFakeToken()
         let credential = try CommunicationTokenCredential(token: token)
         let fullname = name
         var testName = fullname.split(separator: " ")[1]

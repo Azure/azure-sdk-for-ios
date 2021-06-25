@@ -11,27 +11,43 @@ prepare_chat_tests.py
    "record".
 """
 
+import os
 import sys
+import plistlib
+import urllib
+import xml
 from azure.communication.administration import CommunicationIdentityClient
 
 connection_string = sys.argv[1]
 identity_client = CommunicationIdentityClient.from_connection_string(connection_string)
 
 items = { key:val for (key, val) in (x.split('=', 1) for x in connection_string.split(';')) }
-endpoint = items['endpoint']
 
 user1 = identity_client.create_user()
 user2 = identity_client.create_user()
-token = identity_client.issue_token(user1, scopes=["chat"]).token
 
-print('==AZURE_COMMUNCATION_ENDPOINT==')
-print(endpoint)
+data = {
+    'endpoint': items['endpoint'],
+    'user1': user1.identifier,
+    'user2': user2.identifier,
+    'token': identity_client.issue_token(user1, scopes=["chat"]).token
+}
 
-print('==AZURE_COMMUNICATION_USER_ID_1==')
-print(user1.identifier)
+cwd = os.getcwd()
+path = os.path.join(cwd, 'sdk', 'communication', 'AzureCommunicationChat', 'Tests', 'test-settings.plist')
 
-print('==AZURE_COMMUNICATION_USER_ID_2==')
-print(user2.identifier)
+print(f'Settings path: {path}')
 
-print('==AZURE_COMMUNICATION_TOKEN==')
-print(token)
+# update or create plist file
+try:
+    with open(path, 'rb') as fp:
+        plist = plistlib.load(fp)
+        plist.update(data)
+except (IOError, plistlib.InvalidFileException, xml.parsers.expat.ExpatError):
+    plist = data
+
+# save plist file
+with open(path, 'wb') as fp:
+    plistlib.dump(plist, fp)
+
+print('==PLIST UPDATED SUCCESSFULLY==')

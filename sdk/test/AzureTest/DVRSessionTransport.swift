@@ -69,9 +69,7 @@ public class DVRSessionTransport: TransportStage {
             session?.recordMode = .all
             session?.recordingEnabled = true
             session?.beginRecording()
-            
-        }
-        else { // when live DVR isn't used, so anything else is treated as playback
+        } else { // when live DVR isn't used, so anything else is treated as playback
             session?.recordMode = .none
             session?.recordingEnabled = false
         }
