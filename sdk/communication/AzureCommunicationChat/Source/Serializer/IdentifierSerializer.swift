@@ -28,8 +28,8 @@ import AzureCommunicationCommon
 import AzureCore
 import Foundation
 
-public enum IdentifierSerializer {
-    public static func deserialize(identifier: CommunicationIdentifierModel) throws -> CommunicationIdentifier {
+internal enum IdentifierSerializer {
+    static func deserialize(identifier: CommunicationIdentifierModel) throws -> CommunicationIdentifier {
         guard let rawId = identifier.rawId else {
             throw AzureError.client("Can't serialize CommunicationIdentifierModel: rawId is undefined.")
         }
@@ -74,7 +74,7 @@ public enum IdentifierSerializer {
         return CommunicationCloudEnvironment(environmentValue: model.requestString)
     }
 
-    public static func assertOneNestedModel(_ identifier: CommunicationIdentifierModel) throws {
+    static func assertOneNestedModel(_ identifier: CommunicationIdentifierModel) throws {
         var presentProperties = 0
 
         if identifier.communicationUser != nil {
@@ -92,7 +92,7 @@ public enum IdentifierSerializer {
         }
     }
 
-    public static func serialize(identifier: CommunicationIdentifier) throws -> CommunicationIdentifierModel {
+    static func serialize(identifier: CommunicationIdentifier) throws -> CommunicationIdentifierModel {
         switch identifier {
         case let user as CommunicationUserIdentifier:
             return CommunicationIdentifierModel(
