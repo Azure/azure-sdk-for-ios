@@ -7,7 +7,7 @@ Minor update for Swift Package Manager.
 ### New Features
 
 ### Breaking Changes
-- Swift PM user should now target the `SwiftPM-AzureCore` repo. 
+- Swift PM user should now target the `SwiftPM-AzureCore` repo.
 - AzureCore can now version independently of other libraries.
 
 ## 1.0.0-beta.5 (2020-11-18)

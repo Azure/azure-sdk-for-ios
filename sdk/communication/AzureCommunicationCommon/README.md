@@ -138,11 +138,11 @@ private func fetchTokenSync(completionHandler: TokenRefreshHandler) {
     completionHandler(newToken, nil)
 }
 
-let options = CommunicationTokenRefreshOptions(initialToken: sampleExpiredToken, 
+let options = CommunicationTokenRefreshOptions(initialToken: sampleExpiredToken,
                                                 refreshProactively: true,
                                                 tokenRefresher: fetchTokenSync)
 credential = try CommunicationTokenCredential(with: options)
-    
+
 
 credential.token { (accessToken: AccessToken?, error: Error?) in
   ...

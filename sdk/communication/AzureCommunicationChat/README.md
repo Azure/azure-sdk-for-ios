@@ -400,7 +400,7 @@ chatThreadClient.delete(message: messageId) { result, _ in
 
 #### Receive messages from a thread
 
-With realtime notifications enabled you can receive events when messages are sent to the thread. 
+With realtime notifications enabled you can receive events when messages are sent to the thread.
 To enable realtime notifications use the `startRealtimeNotifications` method of `ChatClient`. Starting notifications is an asynhronous operation.
 
 ```swift
@@ -420,7 +420,7 @@ To receive messages for a thread, use the `register` method of `ChatClient`.
 func handler (response: Any, eventId: ChatEventId) {
     // Handle chatMessageReceived event
 }
-                
+
 chatClient.register(event: ChatEventId.chatMessageReceived, handler: handler)
 
 ```

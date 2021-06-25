@@ -112,7 +112,7 @@ Not applicable.
 ## Next steps
 
 Explore and install
-[available Azure SDK libraries](https://github.com/Azure/azure-sdk-for-ios/blob/master/README.md#libraries-available).
+[available Azure SDK libraries](https://github.com/Azure/azure-sdk-for-ios/blob/main/README.md#libraries-available).
 
 ## Contributing
 

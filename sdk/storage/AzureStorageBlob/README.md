@@ -306,7 +306,7 @@ thrown.
 
 #### Customizing the client
 When creating a client, you may choose to provide an optional
-[StorageBlobClientOptions](https://github.com/Azure/azure-sdk-for-ios/blob/master/sdk/storage/AzureStorageBlob/Source/Options/ClientOptions.swift)
+[StorageBlobClientOptions](https://github.com/Azure/azure-sdk-for-ios/blob/main/sdk/storage/AzureStorageBlob/Source/Options/ClientOptions.swift)
 object in order to configure the client as desired. You may instruct the client to use a specific API version of the
 Azure Storage Blob service, change when and how log messages are emitted from the client, and control the chunk size
 used when uploading and downloading blobs - the maximum size of each piece when the client breaks an upload or download
@@ -414,7 +414,7 @@ A `TransferCollection` allows you to easily select one or more transfers that ma
 transfer using the `firstWith` and `filterWhere` methods. A single transfer within the `TransferCollection` can be
 accessed by its `id` using subscript syntax, whereas the contents of the `TransferCollection` can be accessed as a Swift
 `Collection` via the `items` property, allowing you to use all of the operations that the `Collection` protocol declares
-and implements. 
+and implements.
 
 A `TransferCollection` also contains methods that allow you to easily manipulate all transfers it contains. You can
 pause, resume, or cancel all transfers within a `TransferCollection` by calling the `pauseAll`, `resumeAll`, or
@@ -474,7 +474,7 @@ The Azure Storage Blobs client library for iOS allows you to interact with some 
 
 ### Client
 A single client is provided to interact with the various components of the Blob Service:
-1. [StorageBlobClient](https://github.com/Azure/azure-sdk-for-ios/blob/master/sdk/storage/AzureStorageBlob/Source/StorageBlobClient.swift) -
+1. [StorageBlobClient](https://github.com/Azure/azure-sdk-for-ios/blob/main/sdk/storage/AzureStorageBlob/Source/StorageBlobClient.swift) -
    this client represents interaction with a specific blob container. It provides operations to upload, download and list blobs.
 
 ### Blob Types
@@ -569,11 +569,11 @@ let transfer = try client.download(
 ## Troubleshooting
 ### General
 Storage Blob clients raise exceptions defined in
-[Azure Core](https://github.com/Azure/azure-sdk-for-ios/blob/master/sdk/core/AzureCore/Source/Errors.swift).
+[Azure Core](https://github.com/Azure/azure-sdk-for-ios/blob/main/sdk/core/AzureCore/Source/Errors.swift).
 
 ### Logging
 This library uses the
-[ClientLogger](https://github.com/Azure/azure-sdk-for-ios/blob/master/sdk/core/AzureCore/Source/ClientLogger.swift)
+[ClientLogger](https://github.com/Azure/azure-sdk-for-ios/blob/main/sdk/core/AzureCore/Source/ClientLogger.swift)
 protocol for logging. The desired style of logger can be set when initializing the client:
 
 ```swift

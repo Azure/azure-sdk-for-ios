@@ -3,7 +3,7 @@
 ## 1.0.1 (Upcoming)
 ### New Features
 - Removing dependency on AzureCore
-- `StaticTokenCredential` and `CommunicationTokenCredential` now throw `NSError` instead of an `AzureError`.  
+- `StaticTokenCredential` and `CommunicationTokenCredential` now throw `NSError` instead of an `AzureError`.
 
 ## 1.0.0 (2021-04-26)
 ### New Features
@@ -11,17 +11,17 @@
 
 ### Breaking Changes
 - `AzureCommunication` has been renamed `AzureCommunicationCommon`.
-- Swift PM user should now target the `SwiftPM-AzureCommunicationCommon` repo. 
+- Swift PM user should now target the `SwiftPM-AzureCommunicationCommon` repo.
 
 ## 1.0.0-beta.12 (2021-04-26)
 Marking `AzureCommunication` as deprecated in favor of `AzureCommunicationCommon`.
 
 ## 1.0.0-beta.11 (2021-04-07)
 ### Breaking Changes
-- Swift PM user should now target the `SwiftPM-AzureCommunication` repo. 
+- Swift PM user should now target the `SwiftPM-AzureCommunication` repo.
 - AzureCommunication can now version independently of other libraries.
-- Updated the Objective-C initializer for `CommunicationUserIdentifier` and `UnknownIdentifier` to be `initWithIdentifier:`. Making it align more with Objective-C guidelines. 
-- Updated `CommunicationTokenCredential` init method from `init(with:)` to `init(withOptions:)`. Objective-c method will change from `initWith: error:]` to `initWithOptions: error:]`. 
+- Updated the Objective-C initializer for `CommunicationUserIdentifier` and `UnknownIdentifier` to be `initWithIdentifier:`. Making it align more with Objective-C guidelines.
+- Updated `CommunicationTokenCredential` init method from `init(with:)` to `init(withOptions:)`. Objective-c method will change from `initWith: error:]` to `initWithOptions: error:]`.
 - Removed `CommunicationPolicyTokenCredential`.
 - Typealias `TokenRefreshOnCompletion` renamed to `TokenRefreshHandler`.
 - Typealias `TokenRefresherClosure` renamed to `TokenRefresher`.
@@ -46,10 +46,10 @@ Marking `AzureCommunication` as deprecated in favor of `AzureCommunicationCommon
     `PhoneNumber` type used to represent a phone number identifier is now named `PhoneNumberIdentifier`.
  - Updated the `CommunicationTokenCredential` initializer that automatically refreshes the token to accept a single
     `CommunicationTokenRefreshOptions` object instead of multiple parameters.
- 
+
  ### Key Bug Fixes
- - Removing `CommunicationUserCredentialPolicy`, this policy was a duplicate of cores `BearerTokenCredentialPolicy`.  
-  Communication now has new ability to create `BearerTokenCredentialPolicy` using the new `CommunicationPolicyTokenCredential`. 
+ - Removing `CommunicationUserCredentialPolicy`, this policy was a duplicate of cores `BearerTokenCredentialPolicy`.
+  Communication now has new ability to create `BearerTokenCredentialPolicy` using the new `CommunicationPolicyTokenCredential`.
 
 ## 1.0.0-beta.7 (2021-01-12)
 

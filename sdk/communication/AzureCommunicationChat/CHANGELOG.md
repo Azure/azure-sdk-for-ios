@@ -5,7 +5,7 @@
 - Changed the way in which options are instantiated for the following classes: `CreateChatThreadOptions`, `DeleteChatThreadOptions`,  `ListChatThreadsOptions`, `AddChatParticipantsOptions`, `DeleteChatMessageOptions`, `GetChatMessageOptions`, `GetChatThreadPropertiesOptions`, `ListChatMessagesOptions`, `ListChatParticipantsOptions`, `ListChatReadReceiptsOptions`, `RemoveChatParticipantOptions`, `SendChatMessageOptions`, `SendChatReadReceiptOptions`, `SendTypingNotificationOptions`, `UpdateChatMessageOptions`, `UpdateChatThreadPropertiesOptions`.
     - old:
         `let options = Chat.CreatChatThreadOptions()`
-    - new:  
+    - new:
         `let options = CreateChatThreadOptions()`
 - Moved `AzureCommunicationChatClient.ApiVersion` to `AzureCommunicationChatClientOptions.ApiVersion`.
 - Renamed `CommunicationError` to `ChatError`
@@ -16,7 +16,7 @@
 
 ## 1.0.0-beta.11 (2021-04-07)
 ### New Features
-- Swift PM user should now target the `SwiftPM-AzureCommunicationChat` repo. 
+- Swift PM user should now target the `SwiftPM-AzureCommunicationChat` repo.
 - AzureCommunicationChat can now version independently of other libraries.
 - `ChatClient` now supports Realtime Notifications for Chat events
 - Following methods added to `ChatClient`:
@@ -43,7 +43,7 @@
 ### New Features
  - Introduction of  a new struct `CommunicationIdentifierModel` to repesent a union type that is either a `communicationUser`, `phoneNumber`, or `microsoftTeamsUser`.
 
-### Breaking Changes  
+### Breaking Changes
 - On `ChatClient` `create(thread)` method, renamed `repeatabilityRequestID` to `repeatabilityRequestId`
 - `ChatThreadClient` `remove(participant)` method now accepts `CommunicationIdentifier` instead of a string
 - For `Participant` renamed `user` property to `id`
@@ -51,7 +51,7 @@
 
 ### Key Bug Fixes
 - `OnCallsUpdated` event is raised when the call collection on `CallAgent` is updated for outgoing calls.
-- `Hold` and `Resume` of an active call is fixed. 
+- `Hold` and `Resume` of an active call is fixed.
 
 
 ## 1.0.0-beta.8 (2021-02-09)
@@ -64,7 +64,7 @@
  - ChatThreadMember renamed to Participant, uses CommunicationUserIdentifier
  - ChatMessage renamed to Message, uses CommunicationUserIdentifier
  - ChatThread renamed to Thread, uses CommunicationUserIdentifier
- 
+
 ## 1.0.0-beta.5 (2020-11-18)
 
 ### New Features
