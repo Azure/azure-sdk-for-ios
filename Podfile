@@ -38,18 +38,18 @@ end
 
 target 'AzureCommunicationChat' do
   project 'sdk/communication/AzureCommunicationChat/AzureCommunicationChat'
-  pod 'TrouterClientIos', '0.0.1-beta.4'
+  pod 'Trouter', '0.0.1-beta.5'
 
   target 'AzureCommunicationChatTests' do
     inherit! :search_paths
     pod 'OHHTTPStubs/Swift'
-    pod 'TrouterClientIos', '0.0.1-beta.4'
+    pod 'Trouter', '0.0.1-beta.5'
   end
   
   target 'AzureCommunicationChatUnitTests' do
     inherit! :search_paths
     pod 'OHHTTPStubs/Swift'
-    pod 'TrouterClientIos', '0.0.1-beta.4'
+    pod 'Trouter', '0.0.1-beta.5'
   end
 end
 
@@ -88,7 +88,6 @@ target 'AzureTemplate' do
     inherit! :search_paths
   end
 end
-
 
 target 'AzureSDKDemoSwift' do
   project 'examples/AzureSDKDemoSwift/AzureSDKDemoSwift'

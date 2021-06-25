@@ -27,7 +27,7 @@
 import AzureCommunicationCommon
 import AzureCore
 import Foundation
-import TrouterClientIos
+import Trouter
 
 public class SignalingChatParticipant {
     public var id: CommunicationIdentifier?
