@@ -59,7 +59,7 @@ public class ChatThreadClient {
   public func sendTypingNotification(withOptions options: AzureCommunicationChat.SendTypingNotificationOptions? = nil, completionHandler: @escaping AzureCore.HTTPResultHandler<Swift.Void>)
   public func send(message: AzureCommunicationChat.SendChatMessageRequest, withOptions options: AzureCommunicationChat.SendChatMessageOptions? = nil, completionHandler: @escaping AzureCore.HTTPResultHandler<AzureCommunicationChat.SendChatMessageResult>)
   public func get(message messageId: Swift.String, withOptions options: AzureCommunicationChat.GetChatMessageOptions? = nil, completionHandler: @escaping AzureCore.HTTPResultHandler<AzureCommunicationChat.ChatMessage>)
-  public func update(content: Swift.String, messageId: Swift.String, withOptions options: AzureCommunicationChat.UpdateChatMessageOptions? = nil, completionHandler: @escaping AzureCore.HTTPResultHandler<Swift.Void>)
+  public func update(content: Swift.String, forMessage messageId: Swift.String, withOptions options: AzureCommunicationChat.UpdateChatMessageOptions? = nil, completionHandler: @escaping AzureCore.HTTPResultHandler<Swift.Void>)
   public func delete(message messageId: Swift.String, options: AzureCommunicationChat.DeleteChatMessageOptions? = nil, completionHandler: @escaping AzureCore.HTTPResultHandler<Swift.Void>)
   public func listMessages(withOptions options: AzureCommunicationChat.ListChatMessagesOptions? = nil, completionHandler: @escaping AzureCore.HTTPResultHandler<AzureCore.PagedCollection<AzureCommunicationChat.ChatMessage>>)
   public func add(participants: [AzureCommunicationChat.ChatParticipant], withOptions options: AzureCommunicationChat.AddChatParticipantsOptions? = nil, completionHandler: @escaping AzureCore.HTTPResultHandler<AzureCommunicationChat.AddChatParticipantsResult>)
@@ -260,16 +260,6 @@ public struct UpdateChatMessageRequest : Swift.Codable {
   public init(content: Swift.String? = nil)
   public init(from decoder: Swift.Decoder) throws
   public func encode(to encoder: Swift.Encoder) throws
-}
-public enum IdentifierSerializer {
-  public static func deserialize(identifier: AzureCommunicationChat.CommunicationIdentifierModel) throws -> AzureCommunicationCommon.CommunicationIdentifier
-  public static func assertOneNestedModel(_ identifier: AzureCommunicationChat.CommunicationIdentifierModel) throws
-  public static func serialize(identifier: AzureCommunicationCommon.CommunicationIdentifier) throws -> AzureCommunicationChat.CommunicationIdentifierModel
-}
-extension CommunicationCloudEnvironmentModel {
-  public static var Public: AzureCommunicationChat.CommunicationCloudEnvironmentModel
-  public static var Dod: AzureCommunicationChat.CommunicationCloudEnvironmentModel
-  public static var Gcch: AzureCommunicationChat.CommunicationCloudEnvironmentModel
 }
 public struct ChatMessageContent : Swift.Codable {
   public let message: Swift.String?
