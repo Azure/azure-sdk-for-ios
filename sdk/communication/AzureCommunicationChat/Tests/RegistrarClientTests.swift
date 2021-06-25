@@ -51,10 +51,10 @@ class RegistrarClientTests: XCTestCase {
         if mode == "playback" {
             let bundle = Bundle(for: type(of: self))
             let path = bundle.path(forResource: "noContent", ofType: "json") ?? ""
-            stub(condition: isMethodPOST() && isPath("/registrations")) { _ in
+            stub(condition: isMethodPOST() && pathEndsWith("/registrations")) { _ in
                 fixture(filePath: path, status: 202, headers: nil)
             }
-            stub(condition: isMethodDELETE() && pathStartsWith("/registrations")) { _ in
+            stub(condition: isMethodDELETE() && pathMatches("/registrations")) { _ in
                 fixture(filePath: path, status: 202, headers: nil)
             }
         }
@@ -137,7 +137,7 @@ class RegistrarClientTests: XCTestCase {
             }
         }
 
-        waitForExpectations(timeout: 10.0) { error in
+        waitForExpectations(timeout: 1000.0) { error in
             if let error = error {
                 XCTFail("Delete registration timed out: \(error)")
             }
