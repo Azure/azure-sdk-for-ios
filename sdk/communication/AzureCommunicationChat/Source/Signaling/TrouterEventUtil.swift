@@ -27,7 +27,7 @@
 import AzureCommunicationCommon
 import AzureCore
 import Foundation
-import TrouterClientIos
+import Trouter
 
 /// Utility class for working with Trouter event payloads.
 public enum TrouterEventUtil {

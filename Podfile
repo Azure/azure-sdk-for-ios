@@ -46,12 +46,12 @@ end
 
 target 'AzureCommunicationChat' do
   project 'sdk/communication/AzureCommunicationChat/AzureCommunicationChat'
-  pod 'TrouterClientIos', '0.0.1-beta.4'
+  pod 'Trouter', '0.0.1-beta.5'
 
   target 'AzureCommunicationChatTests' do
     inherit! :search_paths
     pod 'OHHTTPStubs/Swift'
-    pod 'TrouterClientIos', '0.0.1-beta.4'
+    pod 'Trouter', '0.0.1-beta.5'
     pod 'MSAL', '1.1.15'
     if $use_local_dvr
         pod 'DVR', :path => $dvr_path
@@ -63,7 +63,7 @@ target 'AzureCommunicationChat' do
   target 'AzureCommunicationChatUnitTests' do
     inherit! :search_paths
     pod 'OHHTTPStubs/Swift'
-    pod 'TrouterClientIos', '0.0.1-beta.4'
+    pod 'Trouter', '0.0.1-beta.5'
   end
 end
 
@@ -92,6 +92,14 @@ target 'AzureStorageBlob' do
   target 'AzureStorageBlobTests' do
     inherit! :search_paths
     pod 'MSAL', '1.1.15'
+  end
+end
+
+target 'AzureTemplate' do
+  project 'sdk/template/AzureTemplate/AzureTemplate'
+
+  target 'AzureTemplateTests' do
+    inherit! :search_paths
   end
 end
 

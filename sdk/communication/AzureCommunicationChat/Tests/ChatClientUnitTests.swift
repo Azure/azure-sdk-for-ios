@@ -28,7 +28,7 @@ import AzureCommunicationChat
 import AzureCommunicationCommon
 import AzureCore
 import AzureTest
-import OHHTTPStubsSwift
+import OHHTTPStubs.Swift
 import XCTest
 
 class ChatClientUnitTests: XCTestCase {
