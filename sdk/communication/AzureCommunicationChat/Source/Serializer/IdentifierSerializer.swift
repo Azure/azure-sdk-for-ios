@@ -61,13 +61,13 @@ public enum IdentifierSerializer {
     }
 
     private static func deserialize(model: CommunicationCloudEnvironmentModel) throws -> CommunicationCloudEnvironment {
-        if model == CommunicationCloudEnvironmentModel.Public {
+        if model == CommunicationCloudEnvironmentModel.public {
             return CommunicationCloudEnvironment.Public
         }
-        if model == CommunicationCloudEnvironmentModel.Gcch {
+        if model == CommunicationCloudEnvironmentModel.gcch {
             return CommunicationCloudEnvironment.Gcch
         }
-        if model == CommunicationCloudEnvironmentModel.Dod {
+        if model == CommunicationCloudEnvironmentModel.dod {
             return CommunicationCloudEnvironment.Dod
         }
 
@@ -141,21 +141,15 @@ public enum IdentifierSerializer {
 
     private static func serialize(cloud: CommunicationCloudEnvironment) throws -> CommunicationCloudEnvironmentModel {
         if cloud == CommunicationCloudEnvironment.Public {
-            return CommunicationCloudEnvironmentModel.Public
+            return CommunicationCloudEnvironmentModel.public
         }
         if cloud == CommunicationCloudEnvironment.Gcch {
-            return CommunicationCloudEnvironmentModel.Gcch
+            return CommunicationCloudEnvironmentModel.gcch
         }
         if cloud == CommunicationCloudEnvironment.Dod {
-            return CommunicationCloudEnvironmentModel.Dod
+            return CommunicationCloudEnvironmentModel.dod
         }
 
         return CommunicationCloudEnvironmentModel(cloud.getEnvironmentValue())
     }
-}
-
-public extension CommunicationCloudEnvironmentModel {
-    static let Public = CommunicationCloudEnvironmentModel("public")
-    static let Dod = CommunicationCloudEnvironmentModel("dod")
-    static let Gcch = CommunicationCloudEnvironmentModel("gcch")
 }

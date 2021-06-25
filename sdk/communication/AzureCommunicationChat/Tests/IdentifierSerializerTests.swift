@@ -48,7 +48,7 @@ class IdentifierSerializerTests: XCTestCase {
         testTeamsUserModel = MicrosoftTeamsUserIdentifierModel(
             userId: testTeamsUserId,
             isAnonymous: true,
-            cloud: .Gcch
+            cloud: .gcch
         )
     }
 
