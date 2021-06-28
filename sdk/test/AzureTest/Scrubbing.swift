@@ -49,7 +49,7 @@ public class Scrubbing {
         return cleanRequest
     }
     
-    static func regexSubscriptionReplace(_ string: String?)->String?{
+    func scrubSubscriptionId(from string: String?) -> String? {
         guard var editedString = string else {
             return nil
         }
