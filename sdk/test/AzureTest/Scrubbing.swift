@@ -41,11 +41,7 @@ public class Scrubbing {
         for key in dirtyHeaders.keys {
             cleanHeaders[key] = regexSubscriptionReplace(dirtyHeaders[key])
         }
-        if cleanHeaders.isEmpty {
-            cleanRequest.allHTTPHeaderFields = nil
-        } else {
-            cleanRequest.allHTTPHeaderFields = cleanHeaders
-        }
+        cleanRequest.allHTTPHeaderFields = cleanHeaders.isEmpty ? nil : cleanHeaders
         
         cleanRequest.url = URL(string: regexSubscriptionReplace(request.url?.absoluteString))
         cleanRequest.mainDocumentURL = URL(string: regexSubscriptionReplace(request.mainDocumentURL?.absoluteString))
