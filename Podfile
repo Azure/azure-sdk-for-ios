@@ -121,18 +121,20 @@ end
 target 'AzureTest' do
   project 'sdk/test/AzureTest/AzureTest'
 
-if $use_local_dvr
-pod 'DVR', :path => $dvr_path
-else
-pod 'DVR', :git => 'https://github.com/tjprescott/DVR.git'
-end
-end
+  if $use_local_dvr
+    pod 'DVR', :path => $dvr_path
+  else
+    pod 'DVR', :git => 'https://github.com/tjprescott/DVR.git'
+  end
 
-target 'AzureTestTests' do
-inherit! :search_paths
-pod 'DVR', :path => $dvr_path
+  target 'AzureTestTests' do
+  inherit! :search_paths
+  if $use_local_dvr
+    pod 'DVR', :path => $dvr_path
+  else
+    pod 'DVR', :git => 'https://github.com/tjprescott/DVR.git'
+  end
 end
-
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|
@@ -140,6 +142,4 @@ post_install do |installer|
       config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.0'
     end
   end
-  pod 'DVR', :path => $dvr_path
-
 end
