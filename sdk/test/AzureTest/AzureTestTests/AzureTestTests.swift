@@ -27,7 +27,7 @@
 import XCTest
 import Foundation
 import DVR
-import AzureTest
+@testable import AzureTest
 
 class AzureTestTests: XCTestCase {
 
@@ -52,12 +52,9 @@ class AzureTestTests: XCTestCase {
     }
 
     func testCleanRequestURL() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
         print(fakeRequest?.url)
         let cleanedRequest = Scrubbing.scrubRequests(request: fakeRequest!)
-        print(cleanedRequest.url)
-        
+        XCTAssert(cleanedRequest.url?.absoluteString == "https://management.azure.com/subscriptions/99999999-9999-9999-9999-999999999999/resourceGroups/rgname/providers/Microsoft.KeyVault/vaults/myValtZikfikxz?api-version=2019-09-01")
     }
 
         
