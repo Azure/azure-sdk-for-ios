@@ -28,7 +28,7 @@
             buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "31B4D6DD2685520B0008412D"
+               BlueprintIdentifier = "31CAC0A8268A5D7E0084F817"
                BuildableName = "AzureTestTests.xctest"
                BlueprintName = "AzureTestTests"
                ReferencedContainer = "container:AzureTest.xcodeproj">
@@ -46,7 +46,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "31B4D6DD2685520B0008412D"
+               BlueprintIdentifier = "31CAC0A8268A5D7E0084F817"
                BuildableName = "AzureTestTests.xctest"
                BlueprintName = "AzureTestTests"
                ReferencedContainer = "container:AzureTest.xcodeproj">
