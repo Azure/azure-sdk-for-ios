@@ -36,11 +36,10 @@ public class Scrubbing {
         
         var cleanRequest = request
         
-        let dirtyHeaders = request.allHTTPHeaderFields ?? [:]
-        var cleanHeaders : [String:String] = [:]
-        for key in dirtyHeaders.keys {
-            cleanHeaders[key] = regexSubscriptionReplace(dirtyHeaders[key])
-        }
+    let dirtyHeaders = request.allHTTPHeaderFields ?? [:]
+    let cleanHeaders = dirtyHeaders.map { key, val in
+        (key, regexSubscriptionReplace(val))
+    }
         cleanRequest.allHTTPHeaderFields = cleanHeaders.isEmpty ? nil : cleanHeaders
         
         cleanRequest.url = URL(string: regexSubscriptionReplace(request.url?.absoluteString))
