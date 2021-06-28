@@ -50,10 +50,9 @@ public class Scrubbing {
     }
     
     static func regexSubscriptionReplace(_ string: String?)->String?{
-        guard string != nil else {
+        guard var editedString = string else {
             return nil
         }
-        var editedString = string!
         var range = NSRange(location: 0, length: editedString.utf8.count)
         if subscriptionIDRegex.numberOfMatches(in: editedString, options: [], range: range) > 0 {
             editedString = subscriptionIDRegex.stringByReplacingMatches(in: editedString, options: [], range: range, withTemplate: "$1/99999999-9999-9999-9999-999999999999")
