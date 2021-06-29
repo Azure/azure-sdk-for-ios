@@ -88,49 +88,6 @@ class ChatThreadClientTests: XCTestCase {
         chatThreadClient = try chatClient.createClient(forThread: threadId!)
     }
 
-    func test_Push() {
-        let expectation = self.expectation(description: "Get thread")
-
-        chatClient.startPushNotifications(deviceToken: "testing") { result, response in
-            let test = response
-            switch result {
-            case .success:
-                // Try get registrations call
-                // sleep(3)
-                self.chatClient.getRegistrations {
-                    print("here")
-                    // Set registration again but different registration
-                    self.chatClient.startPushNotifications(deviceToken: "someOtherToken") { _, response in
-                        let test3 = response
-                        // Get registrations again
-                        // Delete the registration
-                        self.chatClient.getRegistrations {
-                            print("here again")
-                            self.chatClient.stopPushNotifications { _, response in
-                                // Get registrations again
-                                // sleep(2)
-                                let test2 = response
-                                self.chatClient.getRegistrations {
-                                    expectation.fulfill()
-                                }
-                            }
-                        }
-                    }
-                }
-
-            case let .failure(error):
-                print(error)
-                expectation.fulfill()
-            }
-        }
-
-        waitForExpectations(timeout: 10000.0) { error in
-            if let error = error {
-                XCTFail("Get thread timed out: \(error)")
-            }
-        }
-    }
-
     func test_GetProperties_ReturnsChatThreadProperties() {
         let expectation = self.expectation(description: "Get thread")
 
