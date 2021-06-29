@@ -30,15 +30,18 @@ internal enum RegistrarSettings {
     static let endpoint = "https://edge.skype.net/registrar/testenv/v2/registrations"
     // Node id is unused but we are required to send it
     static let nodeId = ""
+
     // ClientDescription Settings
     static let appId = "AcsIos"
     static let languageId = ""
     static let platform = "iOS"
     static let platformUIVersion = "3619/0.0.0.0/"
     static let templateKey = "AcsIos.AcsNotify_2.0"
+
     // Transport Settings
     static let pushNotificationTransport = "APNS"
-    static let ttl = 1000 // TODO: Testing - what should actual TTL be
+    // Max TTL is 180 days
+    static let ttl = 15552000
     static let context = ""
 }
 
