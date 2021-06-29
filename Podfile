@@ -95,14 +95,6 @@ target 'AzureStorageBlob' do
   end
 end
 
-target 'AzureTemplate' do
-  project 'sdk/template/AzureTemplate/AzureTemplate'
-
-  target 'AzureTemplateTests' do
-    inherit! :search_paths
-  end
-end
-
 target 'AzureSDKDemoSwift' do
   project 'examples/AzureSDKDemoSwift/AzureSDKDemoSwift'
   pod 'MSAL', '1.1.15'
