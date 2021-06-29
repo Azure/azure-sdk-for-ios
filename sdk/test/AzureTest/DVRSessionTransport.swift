@@ -66,7 +66,7 @@ public class DVRSessionTransport: TransportStage {
         }
         session = Session(outputDirectory: outputDirectory, cassetteName: cassetteName)
         session?.filter.filterHeaders = [
-            "authorization": .remove,
+            "Authorization": .remove,
             "client-request-id": .remove,
             "retry-after": .remove,
             "x-ms-client-request-id": .remove,
