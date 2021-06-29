@@ -65,6 +65,20 @@ public class DVRSessionTransport: TransportStage {
             fatalError("SDK Path Invalid")
         }
         session = Session(outputDirectory: outputDirectory, cassetteName: cassetteName)
+        session?.filter.filterHeaders = [
+            "authorization": .remove,
+            "client-request-id": .remove,
+            "retry-after": .remove,
+            "x-ms-client-request-id": .remove,
+            "x-ms-correlation-request-id": .remove,
+            "x-ms-ratelimit-remaining-subscription-reads": .remove,
+            "x-ms-request-id": .remove,
+            "x-ms-routing-request-id": .remove,
+            "x-ms-gateway-service-instanceid": .remove,
+            "x-ms-ratelimit-remaining-tenant-reads": .remove,
+            "x-ms-served-by": .remove,
+            "x-ms-authorization-auxiliary": .remove
+        ]
         if environmentVariable(forKey: "TEST_MODE", default: "playback") == "record" {
             session?.recordMode = .all
             session?.recordingEnabled = true
