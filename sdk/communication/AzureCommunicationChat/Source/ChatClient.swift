@@ -107,7 +107,6 @@ public class ChatClient {
     
     /// Return unique registration id for push notifications.
     private func getRegistrationId() -> String {
-        // TODO
         return UUID().uuidString
     }
 
@@ -410,14 +409,6 @@ public class ChatClient {
                 self.pushNotificationsStarted = false
                 completionHandler(.success(()), response)
             }
-        }
-    }
-
-    public func getRegistrations(
-        completionHandler: @escaping () -> Void
-    ) {
-        registrarClient?.getRegistrations {
-            completionHandler()
         }
     }
 }
