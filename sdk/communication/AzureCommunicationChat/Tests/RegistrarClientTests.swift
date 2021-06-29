@@ -25,7 +25,7 @@
 // --------------------------------------------------------------------------
 
 import AzureCommunicationCommon
-import OHHTTPStubsSwift
+import OHHTTPStubs.Swift
 import XCTest
 
 class RegistrarClientTests: XCTestCase {
