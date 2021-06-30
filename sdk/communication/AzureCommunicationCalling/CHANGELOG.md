@@ -1,5 +1,17 @@
 # Release History
 
+## 1.1.0 (2021-06-30)
+Azure Communication Calling iOS SDK version `1.1.0`.
+
+### New features
+- `CallAgent` and `CallClient` now has `dispose` API to explicitly delete the objects instead of relying on ARC.
+
+### Bug fixes
+- [iOS] ACSRendererView layout is off after a device rotation https://github.com/Azure/Communication/issues/127.
+- [iOS] Resizing issue for animating streams https://github.com/Azure/Communication/issues/262.
+- Creating multiple `CallAgent` with same token will throw error.
+- `onFirstFrameRendered` on `RendererDelegate` is marked as optional optional but crashes if listener did not implement that, this has been fixed now.
+
 ## 1.1.0-beta.1 (2021-06-04)
 Azure Communication Calling iOS SDK version `1.1.0-beta.1`.
 
