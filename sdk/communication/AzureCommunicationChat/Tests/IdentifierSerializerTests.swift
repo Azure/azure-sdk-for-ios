@@ -26,7 +26,7 @@
 
 import XCTest
 
-import AzureCommunicationChat
+@testable import AzureCommunicationChat
 import AzureCommunicationCommon
 import AzureCore
 
@@ -48,7 +48,7 @@ class IdentifierSerializerTests: XCTestCase {
         testTeamsUserModel = MicrosoftTeamsUserIdentifierModel(
             userId: testTeamsUserId,
             isAnonymous: true,
-            cloud: .Gcch
+            cloud: .gcch
         )
     }
 

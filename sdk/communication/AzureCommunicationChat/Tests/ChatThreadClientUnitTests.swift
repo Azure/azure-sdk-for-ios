@@ -380,7 +380,7 @@ class ChatThreadClientUnitTests: XCTestCase {
         let expectation = self.expectation(description: "Update message")
 
         let message = "update message"
-        chatThreadClient.update(content: message, messageId: messageId, completionHandler: { result, _ in
+        chatThreadClient.update(content: message, forMessage: messageId, completionHandler: { result, _ in
             switch result {
             case let .success(response):
                 XCTAssertNotNil(response)

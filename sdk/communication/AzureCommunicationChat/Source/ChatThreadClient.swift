@@ -28,6 +28,7 @@ import AzureCommunicationCommon
 import AzureCore
 import Foundation
 
+/// ChatThreadClient class for operations within a ChatThread.
 public class ChatThreadClient {
     // MARK: Properties
 
@@ -323,7 +324,7 @@ public class ChatThreadClient {
     ///    - completionHandler: A completion handler that receives a status code on success.
     public func update(
         content: String,
-        messageId: String,
+        forMessage messageId: String,
         withOptions options: UpdateChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {

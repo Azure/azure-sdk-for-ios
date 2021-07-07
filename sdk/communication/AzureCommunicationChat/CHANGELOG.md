@@ -1,5 +1,10 @@
 # Release History
 
+## 1.0.0
+### Breaking Changes
+- Update message parameter `messageId` renamed to `forMessage` - `update(content: String, forMessage: String)`
+- `EventHandler` renamed to `TrouterEventHandler`
+
 ## 1.0.0-beta.12 (2021-06-07)
 ### Breaking Changes
 - Changed the way in which options are instantiated for the following classes: `CreateChatThreadOptions`, `DeleteChatThreadOptions`,  `ListChatThreadsOptions`, `AddChatParticipantsOptions`, `DeleteChatMessageOptions`, `GetChatMessageOptions`, `GetChatThreadPropertiesOptions`, `ListChatMessagesOptions`, `ListChatParticipantsOptions`, `ListChatReadReceiptsOptions`, `RemoveChatParticipantOptions`, `SendChatMessageOptions`, `SendChatReadReceiptOptions`, `SendTypingNotificationOptions`, `UpdateChatMessageOptions`, `UpdateChatThreadPropertiesOptions`.
