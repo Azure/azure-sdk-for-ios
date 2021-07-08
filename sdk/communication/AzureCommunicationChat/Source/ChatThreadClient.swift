@@ -318,13 +318,13 @@ public class ChatThreadClient {
 
     /// Updates a message.
     /// - Parameters:
+    ///    - message: The message id.
     ///    - content: The updated message content.
-    ///    - messageId: The message id.
     ///    - options: Update chat message options
     ///    - completionHandler: A completion handler that receives a status code on success.
     public func update(
+        message messageId: String,
         content: String,
-        forMessage messageId: String,
         withOptions options: UpdateChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {

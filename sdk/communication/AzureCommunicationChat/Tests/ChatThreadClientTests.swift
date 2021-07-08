@@ -428,7 +428,7 @@ class ChatThreadClientTests: XCTestCase {
 
                 // Update message
                 self.chatThreadClient
-                    .update(content: updatedContent, forMessage: sendMessageResult.id) { result, httpResponse in
+                    .update(message: sendMessageResult.id, content: updatedContent) { result, httpResponse in
                         switch result {
                         case .success:
                             if self.mode == "record" {
