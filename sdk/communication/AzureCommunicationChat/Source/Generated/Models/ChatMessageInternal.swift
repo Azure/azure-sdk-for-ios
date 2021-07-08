@@ -34,7 +34,7 @@ internal struct ChatMessageInternal: Codable {
     /// The timestamp when the chat message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     internal let createdOn: Iso8601Date
     /// Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.
-    internal let senderCommunicationIdentifier: CommunicationIdentifierModel?
+    internal let senderCommunicationIdentifier: CommunicationIdentifierModelInternal?
     /// The timestamp (if applicable) when the message was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     internal let deletedOn: Iso8601Date?
     /// The last timestamp (if applicable) when the message was edited. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
@@ -58,7 +58,7 @@ internal struct ChatMessageInternal: Codable {
         id: String, type: ChatMessageType, sequenceId: String, version: String,
         content: ChatMessageContentInternal? = nil,
         senderDisplayName: String? = nil, createdOn: Iso8601Date,
-        senderCommunicationIdentifier: CommunicationIdentifierModel? = nil, deletedOn: Iso8601Date? = nil,
+        senderCommunicationIdentifier: CommunicationIdentifierModelInternal? = nil, deletedOn: Iso8601Date? = nil,
         editedOn: Iso8601Date? = nil
     ) {
         self.id = id
@@ -99,7 +99,7 @@ internal struct ChatMessageInternal: Codable {
         self.senderDisplayName = try? container.decode(String.self, forKey: .senderDisplayName)
         self.createdOn = try container.decode(Iso8601Date.self, forKey: .createdOn)
         self.senderCommunicationIdentifier = try? container.decode(
-            CommunicationIdentifierModel.self,
+            CommunicationIdentifierModelInternal.self,
             forKey: .senderCommunicationIdentifier
         )
         self.deletedOn = try? container.decode(Iso8601Date.self, forKey: .deletedOn)

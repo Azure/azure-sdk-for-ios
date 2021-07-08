@@ -20,7 +20,7 @@ internal struct ChatParticipantInternal: Codable {
     // MARK: Properties
 
     /// Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.
-    internal let communicationIdentifier: CommunicationIdentifierModel
+    internal let communicationIdentifier: CommunicationIdentifierModelInternal
     /// Display name for the chat participant.
     internal let displayName: String?
     /// Time from which the chat history is shared with the participant. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
@@ -34,7 +34,7 @@ internal struct ChatParticipantInternal: Codable {
     ///   - displayName: Display name for the chat participant.
     ///   - shareHistoryTime: Time from which the chat history is shared with the participant. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     internal init(
-        communicationIdentifier: CommunicationIdentifierModel, displayName: String? = nil,
+        communicationIdentifier: CommunicationIdentifierModelInternal, displayName: String? = nil,
         shareHistoryTime: Iso8601Date? = nil
     ) {
         self.communicationIdentifier = communicationIdentifier
@@ -54,7 +54,7 @@ internal struct ChatParticipantInternal: Codable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.communicationIdentifier = try container.decode(
-            CommunicationIdentifierModel.self,
+            CommunicationIdentifierModelInternal.self,
             forKey: .communicationIdentifier
         )
         self.displayName = try? container.decode(String.self, forKey: .displayName)

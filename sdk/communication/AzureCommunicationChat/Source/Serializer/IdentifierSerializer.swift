@@ -29,7 +29,7 @@ import AzureCore
 import Foundation
 
 internal enum IdentifierSerializer {
-    static func deserialize(identifier: CommunicationIdentifierModel) throws -> CommunicationIdentifier {
+    static func deserialize(identifier: CommunicationIdentifierModelInternal) throws -> CommunicationIdentifier {
         guard let rawId = identifier.rawId else {
             throw AzureError.client("Can't serialize CommunicationIdentifierModel: rawId is undefined.")
         }
@@ -74,7 +74,7 @@ internal enum IdentifierSerializer {
         return CommunicationCloudEnvironment(environmentValue: model.requestString)
     }
 
-    static func assertOneNestedModel(_ identifier: CommunicationIdentifierModel) throws {
+    static func assertOneNestedModel(_ identifier: CommunicationIdentifierModelInternal) throws {
         var presentProperties = 0
 
         if identifier.communicationUser != nil {
@@ -92,10 +92,10 @@ internal enum IdentifierSerializer {
         }
     }
 
-    static func serialize(identifier: CommunicationIdentifier) throws -> CommunicationIdentifierModel {
+    static func serialize(identifier: CommunicationIdentifier) throws -> CommunicationIdentifierModelInternal {
         switch identifier {
         case let user as CommunicationUserIdentifier:
-            return CommunicationIdentifierModel(
+            return CommunicationIdentifierModelInternal(
                 rawId: nil,
                 communicationUser: CommunicationUserIdentifierModel(
                     id: user
@@ -105,14 +105,14 @@ internal enum IdentifierSerializer {
                 microsoftTeamsUser: nil
             )
         case let phoneNumber as PhoneNumberIdentifier:
-            return CommunicationIdentifierModel(
+            return CommunicationIdentifierModelInternal(
                 rawId: phoneNumber.rawId,
                 communicationUser: nil,
                 phoneNumber: PhoneNumberIdentifierModel(value: phoneNumber.phoneNumber),
                 microsoftTeamsUser: nil
             )
         case let teamsUser as MicrosoftTeamsUserIdentifier:
-            return try CommunicationIdentifierModel(
+            return try CommunicationIdentifierModelInternal(
                 rawId: teamsUser.rawId,
                 communicationUser: nil,
                 phoneNumber: nil,
@@ -128,7 +128,7 @@ internal enum IdentifierSerializer {
                 )
             )
         case let unknown as UnknownIdentifier:
-            return CommunicationIdentifierModel(
+            return CommunicationIdentifierModelInternal(
                 rawId: unknown.identifier,
                 communicationUser: nil,
                 phoneNumber: nil,

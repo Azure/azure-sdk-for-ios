@@ -721,7 +721,7 @@ internal final class ChatThread {
     ///    - completionHandler: A completion handler that receives a status code on
     ///     success.
     internal func update(
-        chatMessage: UpdateChatMessageRequest,
+        chatMessage: UpdateChatMessageRequestInternal,
         chatThreadId: String,
         chatMessageId: String,
         withOptions options: UpdateChatMessageOptions? = nil,
@@ -1252,7 +1252,7 @@ internal final class ChatThread {
     ///    - completionHandler: A completion handler that receives a status code on
     ///     success.
     internal func remove(
-        chatParticipant: CommunicationIdentifierModel,
+        chatParticipant: CommunicationIdentifierModelInternal,
         chatThreadId: String,
         withOptions options: RemoveChatParticipantOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
@@ -1384,7 +1384,7 @@ internal final class ChatThread {
     ///    - completionHandler: A completion handler that receives a status code on
     ///     success.
     internal func add(
-        chatParticipants: AddChatParticipantsRequest,
+        chatParticipants: AddChatParticipantsRequestInternal,
         chatThreadId: String,
         withOptions options: AddChatParticipantsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<AddChatParticipantsResult>
@@ -1521,7 +1521,7 @@ internal final class ChatThread {
     ///    - completionHandler: A completion handler that receives a status code on
     ///     success.
     internal func update(
-        chatThreadProperties: UpdateChatThreadRequest,
+        chatThreadProperties: UpdateChatThreadRequestInternal,
         chatThreadId: String,
         withOptions options: UpdateChatThreadPropertiesOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>

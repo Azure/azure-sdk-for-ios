@@ -15,39 +15,39 @@ import Foundation
 // swiftlint:disable line_length
 // swiftlint:disable cyclomatic_complexity
 
-/// Request payload for updating a chat message.
-public struct UpdateChatMessageRequest: Codable {
+/// Participants to be added to the thread.
+internal struct AddChatParticipantsRequestInternal: Codable {
     // MARK: Properties
 
-    /// Chat message content.
-    public let content: String?
+    /// Participants to add to a chat thread.
+    internal let participants: [ChatParticipantInternal]
 
     // MARK: Initializers
 
-    /// Initialize a `UpdateChatMessageRequest` structure.
+    /// Initialize a `AddChatParticipantsRequestInternal` structure.
     /// - Parameters:
-    ///   - content: Chat message content.
-    public init(
-        content: String? = nil
+    ///   - participants: Participants to add to a chat thread.
+    internal init(
+        participants: [ChatParticipantInternal]
     ) {
-        self.content = content
+        self.participants = participants
     }
 
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case content = "content"
+        case participants = "participants"
     }
 
-    /// Initialize a `UpdateChatMessageRequest` structure from decoder
+    /// Initialize a `AddChatParticipantsRequestInternal` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.content = try? container.decode(String.self, forKey: .content)
+        self.participants = try container.decode([ChatParticipantInternal].self, forKey: .participants)
     }
 
-    /// Encode a `UpdateChatMessageRequest` structure
+    /// Encode a `AddChatParticipantsRequestInternal` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        if content != nil { try? container.encode(content, forKey: .content) }
+        try container.encode(participants, forKey: .participants)
     }
 }

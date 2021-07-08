@@ -2,8 +2,12 @@
 
 ## 1.0.0
 ### Breaking Changes
-- Update message parameter `messageId` renamed to `forMessage` - `update(content: String, forMessage: String)`
+- Update message parameters updated to `update(message: String, content: String)`
 - `EventHandler` renamed to `TrouterEventHandler`
+- `AddChatParticipantsRequest` is internal
+- `UpdateChatThreadRequest` is internal
+- `UpdateChatMessageRequest` is internal
+- `CommunicationIdentifierModel` is internal
 
 ## 1.0.0-beta.12 (2021-06-07)
 ### Breaking Changes
