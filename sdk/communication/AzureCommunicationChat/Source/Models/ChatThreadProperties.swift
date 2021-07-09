@@ -102,7 +102,7 @@ public struct ChatThreadProperties: Codable {
         self.createdOn = try container.decode(Iso8601Date.self, forKey: .createdOn)
 
         // Decode CommunicationIdentifierModel to CommunicationIdentifier
-        let identifierModel = try container.decode(CommunicationIdentifierModel.self, forKey: .createdBy)
+        let identifierModel = try container.decode(CommunicationIdentifierModelInternal.self, forKey: .createdBy)
         self.createdBy = try IdentifierSerializer.deserialize(identifier: identifierModel)
 
         self.deletedOn = try? container.decode(Iso8601Date.self, forKey: .deletedOn)

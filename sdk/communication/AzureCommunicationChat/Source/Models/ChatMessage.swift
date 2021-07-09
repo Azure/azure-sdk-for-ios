@@ -155,7 +155,7 @@ public struct ChatMessage: Codable {
         self.createdOn = try container.decode(Iso8601Date.self, forKey: .createdOn)
 
         // Decode CommunicationIdentifierModel to CommunicationIdentifier
-        if let identifierModel = try? container.decode(CommunicationIdentifierModel.self, forKey: .sender) {
+        if let identifierModel = try? container.decode(CommunicationIdentifierModelInternal.self, forKey: .sender) {
             self.sender = try IdentifierSerializer
                 .deserialize(identifier: identifierModel)
         } else {

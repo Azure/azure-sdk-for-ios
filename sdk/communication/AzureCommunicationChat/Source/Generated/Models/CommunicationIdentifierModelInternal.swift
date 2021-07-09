@@ -16,27 +16,27 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.
-public struct CommunicationIdentifierModel: Codable {
+internal struct CommunicationIdentifierModelInternal: Codable {
     // MARK: Properties
 
     /// Raw Id of the identifier. Optional in requests, required in responses.
-    public let rawId: String?
+    internal let rawId: String?
     /// The communication user.
-    public let communicationUser: CommunicationUserIdentifierModel?
+    internal let communicationUser: CommunicationUserIdentifierModel?
     /// The phone number.
-    public let phoneNumber: PhoneNumberIdentifierModel?
+    internal let phoneNumber: PhoneNumberIdentifierModel?
     /// The Microsoft Teams user.
-    public let microsoftTeamsUser: MicrosoftTeamsUserIdentifierModel?
+    internal let microsoftTeamsUser: MicrosoftTeamsUserIdentifierModel?
 
     // MARK: Initializers
 
-    /// Initialize a `CommunicationIdentifierModel` structure.
+    /// Initialize a `CommunicationIdentifierModelInternal` structure.
     /// - Parameters:
     ///   - rawId: Raw Id of the identifier. Optional in requests, required in responses.
     ///   - communicationUser: The communication user.
     ///   - phoneNumber: The phone number.
     ///   - microsoftTeamsUser: The Microsoft Teams user.
-    public init(
+    internal init(
         rawId: String? = nil, communicationUser: CommunicationUserIdentifierModel? = nil,
         phoneNumber: PhoneNumberIdentifierModel? = nil, microsoftTeamsUser: MicrosoftTeamsUserIdentifierModel? = nil
     ) {
@@ -55,7 +55,7 @@ public struct CommunicationIdentifierModel: Codable {
         case microsoftTeamsUser = "microsoftTeamsUser"
     }
 
-    /// Initialize a `CommunicationIdentifierModel` structure from decoder
+    /// Initialize a `CommunicationIdentifierModelInternal` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.rawId = try? container.decode(String.self, forKey: .rawId)
@@ -70,7 +70,7 @@ public struct CommunicationIdentifierModel: Codable {
         )
     }
 
-    /// Encode a `CommunicationIdentifierModel` structure
+    /// Encode a `CommunicationIdentifierModelInternal` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         if rawId != nil { try? container.encode(rawId, forKey: .rawId) }

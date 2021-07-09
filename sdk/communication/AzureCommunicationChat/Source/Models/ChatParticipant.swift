@@ -82,7 +82,7 @@ public struct ChatParticipant: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         // Decode CommunicationIdentifierModel to CommunicationIdentifier
-        let identifierModel = try container.decode(CommunicationIdentifierModel.self, forKey: .id)
+        let identifierModel = try container.decode(CommunicationIdentifierModelInternal.self, forKey: .id)
         self.id = try IdentifierSerializer.deserialize(identifier: identifierModel)
 
         self.displayName = try? container.decode(String.self, forKey: .displayName)

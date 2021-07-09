@@ -424,11 +424,11 @@ class ChatThreadClientTests: XCTestCase {
         chatThreadClient.send(message: testMessage) { result, _ in
             switch result {
             case let .success(sendMessageResult):
-                let updatedContent = "Some new content"
+                let updatedContent = UpdateChatMessageRequest(content: "Some new content")
 
                 // Update message
                 self.chatThreadClient
-                    .update(content: updatedContent, forMessage: sendMessageResult.id) { result, httpResponse in
+                    .update(message: sendMessageResult.id, parameters: updatedContent) { result, httpResponse in
                         switch result {
                         case .success:
                             if self.mode == "record" {
@@ -440,7 +440,7 @@ class ChatThreadClientTests: XCTestCase {
                                 self.chatThreadClient.get(message: sendMessageResult.id) { result, _ in
                                     switch result {
                                     case let .success(message):
-                                        XCTAssertEqual(message.content?.message, updatedContent)
+                                        XCTAssertEqual(message.content?.message, updatedContent.content)
 
                                     case let .failure(error):
                                         XCTFail("Get message failed: \(error)")
