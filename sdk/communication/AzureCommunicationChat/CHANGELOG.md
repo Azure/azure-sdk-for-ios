@@ -2,7 +2,7 @@
 
 ## 1.0.0
 ### Breaking Changes
-- Update message parameters updated to `update(message: String, content: UpdateChatMessageRequest)`
+- Update message parameters updated to `update(message: String, parameters: UpdateChatMessageRequest)`
 - `EventHandler` renamed to `TrouterEventHandler`
 - Removed `AddChatParticipantsRequest`, `UpdateChatThreadRequest`, `CommunicationIdentifierModel`
 
