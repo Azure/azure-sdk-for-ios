@@ -67,6 +67,12 @@ public class ChatThreadClient {
   public func listParticipants(withOptions options: AzureCommunicationChat.ListChatParticipantsOptions? = nil, completionHandler: @escaping AzureCore.HTTPResultHandler<AzureCore.PagedCollection<AzureCommunicationChat.ChatParticipant>>)
   @objc deinit
 }
+public struct UpdateChatMessageRequest : Swift.Codable {
+  public let content: Swift.String?
+  public init(content: Swift.String? = nil)
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
 public struct DeleteChatThreadOptions : AzureCore.RequestOptions {
   public let clientRequestId: Swift.String?
   public let cancellationToken: AzureCore.CancellationToken?
