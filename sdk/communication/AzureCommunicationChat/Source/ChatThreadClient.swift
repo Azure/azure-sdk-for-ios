@@ -324,15 +324,13 @@ public class ChatThreadClient {
     ///    - completionHandler: A completion handler that receives a status code on success.
     public func update(
         message messageId: String,
-        content: String,
+        content: UpdateChatMessageRequest,
         withOptions options: UpdateChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        let updateMessageRequest = UpdateChatMessageRequest(content: content)
-
         service
             .update(
-                chatMessage: updateMessageRequest,
+                chatMessage: content,
                 chatThreadId: threadId,
                 chatMessageId: messageId,
                 withOptions: options

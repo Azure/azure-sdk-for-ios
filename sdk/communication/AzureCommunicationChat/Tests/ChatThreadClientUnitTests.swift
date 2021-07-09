@@ -379,7 +379,7 @@ class ChatThreadClientUnitTests: XCTestCase {
 
         let expectation = self.expectation(description: "Update message")
 
-        let message = "update message"
+        let message = UpdateChatMessageRequest(content: "update message")
         chatThreadClient.update(message: messageId, content: message, completionHandler: { result, _ in
             switch result {
             case let .success(response):
