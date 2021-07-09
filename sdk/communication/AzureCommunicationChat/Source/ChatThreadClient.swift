@@ -328,7 +328,7 @@ public class ChatThreadClient {
         withOptions options: UpdateChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        let updateMessageRequest = UpdateChatMessageRequestInternal(content: content)
+        let updateMessageRequest = UpdateChatMessageRequest(content: content)
 
         service
             .update(

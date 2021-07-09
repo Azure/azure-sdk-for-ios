@@ -721,7 +721,7 @@ internal final class ChatThread {
     ///    - completionHandler: A completion handler that receives a status code on
     ///     success.
     internal func update(
-        chatMessage: UpdateChatMessageRequestInternal,
+        chatMessage: UpdateChatMessageRequest,
         chatThreadId: String,
         chatMessageId: String,
         withOptions options: UpdateChatMessageOptions? = nil,

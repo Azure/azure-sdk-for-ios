@@ -16,18 +16,18 @@ import Foundation
 // swiftlint:disable cyclomatic_complexity
 
 /// Request payload for updating a chat message.
-internal struct UpdateChatMessageRequestInternal: Codable {
+public struct UpdateChatMessageRequest: Codable {
     // MARK: Properties
 
     /// Chat message content.
-    internal let content: String?
+    public let content: String?
 
     // MARK: Initializers
 
-    /// Initialize a `UpdateChatMessageRequestInternal` structure.
+    /// Initialize a `UpdateChatMessageRequest` structure.
     /// - Parameters:
     ///   - content: Chat message content.
-    internal init(
+    public init(
         content: String? = nil
     ) {
         self.content = content
@@ -39,13 +39,13 @@ internal struct UpdateChatMessageRequestInternal: Codable {
         case content = "content"
     }
 
-    /// Initialize a `UpdateChatMessageRequestInternal` structure from decoder
+    /// Initialize a `UpdateChatMessageRequest` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.content = try? container.decode(String.self, forKey: .content)
     }
 
-    /// Encode a `UpdateChatMessageRequestInternal` structure
+    /// Encode a `UpdateChatMessageRequest` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         if content != nil { try? container.encode(content, forKey: .content) }
