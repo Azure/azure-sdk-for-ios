@@ -366,12 +366,14 @@ client.listMessages(withOptions: options) { result, _ in
 
 Use the `update` method of `ChatThreadClient` to update the content of a message.
 
-- `content` is the message content to be updated.
-- `forMessage` is the unique ID of the message.
+- `message` is the unique ID of the message.
+- `parameters` contains the message content to be updated.
 
 ```swift
-let newContent = "Some new message content"
-chatThreadClient.update(content: newContent, forMessage: messageId) { result, _ in
+let updatedContent = {
+    content: "Updated message content"
+}
+chatThreadClient.update(message: messageId, parameters: updatedContent) { result, _ in
     switch result {
     case .success(_):
         // Take further action
