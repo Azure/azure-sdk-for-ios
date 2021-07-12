@@ -61,7 +61,7 @@ internal struct ChatMessageInternal: Codable {
         id: String, type: ChatMessageType, sequenceId: String, version: String,
         content: ChatMessageContentInternal? = nil,
         senderDisplayName: String? = nil, createdOn: Iso8601Date,
-        senderCommunicationIdentifier: CommunicationIdentifierModel? = nil, deletedOn: Iso8601Date? = nil,
+        senderCommunicationIdentifier: CommunicationIdentifierModelInternal? = nil, deletedOn: Iso8601Date? = nil,
         editedOn: Iso8601Date? = nil, metadata: [String: String?]? = nil
     ) {
         self.id = id
