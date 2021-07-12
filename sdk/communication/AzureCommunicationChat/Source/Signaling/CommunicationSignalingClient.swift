@@ -147,7 +147,7 @@ class CommunicationHandler: NSObject, TrouterListener {
             }
 
             let generalPayload = try JSONDecoder().decode(BasePayload.self, from: requestJsonData)
-            let chatEventId = try ChatEventId(forCode: generalPayload.eventId)
+            let chatEventId = try ChatEventId(forCode: generalPayload._eventId)
 
             // Convert trouter payload to chat event payload
             let chatEvent = try TrouterEventUtil.create(chatEvent: chatEventId, from: request)
