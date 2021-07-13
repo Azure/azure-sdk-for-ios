@@ -5,7 +5,15 @@
 Azure Communication Calling iOS SDK version `1.2.0-beta.1`.
 
 ### New features
-- `Recording` and `Transcription` features are decoupled from `Call` object and can be used via extensions.
+- `Recording` and `Transcription` features are decoupled from `Call` object and now can only be used via extensions.
+  For e.g. 
+```
+            let recordingFeature = self.call!.api(RecordingFeature.self)
+            recordingFeature.delegate = self.callObserver
+```
+
+### Breaking changes
+- `didChangeRecordingState` and `didChangeTranscriptionState` are moved out of `CallDelegate` and into `RecordingFeatureDelegate` and `TranscriptionFeatureDelegate`.
 
 ### Bug fixes
 - [iOS] Not triggering calldidChangeState if using createCallAgentWithCallKitOption. And not able to accept the call in App killed state https://github.com/Azure/Communication/issues/316.
