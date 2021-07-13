@@ -505,7 +505,7 @@ class ChatThreadClientTests: XCTestCase {
                     metadata: ["testMetadata": "someMetaData"]
                 )
                 self.chatThreadClient
-                    .update(message: updatedMessage, messageId: sendMessageResult.id) { result, httpResponse in
+                    .update(message: sendMessageResult.id, parameters: updatedMessage) { result, httpResponse in
                         switch result {
                         case .success:
                             if self.mode == "record" {

@@ -321,21 +321,21 @@ public class ChatThreadClient {
 
     /// Updates a message.
     /// - Parameters:
-    ///    - message: The updated message.
-    ///    - messageId: The message id.
+    ///    - message: The message id.
+    ///    - parameters: The UpdateChatMessageRequest.
     ///    - options: Update chat message options
     ///    - completionHandler: A completion handler that receives a status code on success.
     public func update(
-        message: UpdateChatMessageRequest,
-        messageId: String,
+        message: String,
+        parameters: UpdateChatMessageRequest,
         withOptions options: UpdateChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
         service
             .update(
-                chatMessage: message,
+                chatMessage: parameters,
                 chatThreadId: threadId,
-                chatMessageId: messageId,
+                chatMessageId: message,
                 withOptions: options
             ) { result, httpResponse in
                 switch result {

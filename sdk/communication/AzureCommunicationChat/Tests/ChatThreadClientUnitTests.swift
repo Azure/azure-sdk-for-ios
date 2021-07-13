@@ -386,7 +386,7 @@ class ChatThreadClientUnitTests: XCTestCase {
             metadata: ["test": "metadata"]
         )
 
-        chatThreadClient.update(message: updatedMessage, messageId: messageId, completionHandler: { result, _ in
+        chatThreadClient.update(message: messageId, parameters: updatedMessage, completionHandler: { result, _ in
             switch result {
             case let .success(response):
                 XCTAssertNotNil(response)
