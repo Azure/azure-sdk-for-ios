@@ -326,7 +326,7 @@ public class ChatThreadClient {
     ///    - options: Update chat message options
     ///    - completionHandler: A completion handler that receives a status code on success.
     public func update(
-        message: String,
+        message messageId: String,
         parameters: UpdateChatMessageRequest,
         withOptions options: UpdateChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
@@ -335,7 +335,7 @@ public class ChatThreadClient {
             .update(
                 chatMessage: parameters,
                 chatThreadId: threadId,
-                chatMessageId: message,
+                chatMessageId: messageId,
                 withOptions: options
             ) { result, httpResponse in
                 switch result {
