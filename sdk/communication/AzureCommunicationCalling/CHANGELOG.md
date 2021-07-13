@@ -1,5 +1,19 @@
 # Release History
 
+## 1.2.0-beta.1 (2021-07-12)
+
+Azure Communication Calling iOS SDK version `1.2.0-beta.1`.
+
+### New features
+- `Recording` and `Transcription` features are decoupled from `Call` object and can be used via extensions.
+
+### Bug fixes
+- [iOS] Not triggering calldidChangeState if using createCallAgentWithCallKitOption. And not able to accept the call in App killed state https://github.com/Azure/Communication/issues/316.
+- [iOS] Remote participant stream is stretched after hang-up https://github.com/Azure/Communication/issues/311.
+- CallKit bug fixes with sometimes call gets disconnected immediately after picking up the call.
+- Intermittent freezing of UI thread issue is fixed when for e.g. reading property `remoteParticipants` in a `Call`.
+- `Hold` and `Resume` support fixed with CallKit enabled `CallAgent`'s.
+
 ## 1.1.0 (2021-06-30)
 Azure Communication Calling iOS SDK version `1.1.0`.
 
