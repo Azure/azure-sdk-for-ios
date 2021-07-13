@@ -930,7 +930,6 @@
 				D10D5582266AB3F6009504FA /* RegistrarSettings.swift in Sources */,
 				D15E991825B7C80C00E63DB2 /* CommunicationErrorResponse.swift in Sources */,
 				D17C7B6125FBF4D5007AD39B /* ChatThreadPropertiesInternal.swift in Sources */,
-				D15E991225B7C80C00E63DB2 /* UpdateChatThreadRequest.swift in Sources */,
 				D1A0C36826703D5200D6780A /* RegistrarClientDescription.swift in Sources */,
 				D186E299266582CE002D9D45 /* RegistrarClient.swift in Sources */,
 				D17C7B6325FBF4D5007AD39B /* ChatMessageContentInternal.swift in Sources */,
