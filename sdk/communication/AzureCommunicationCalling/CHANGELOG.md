@@ -2,7 +2,7 @@
 
 ## 2.0.0-beta.1 (2021-07-14)
 
-*NOTE: Previously released `1.2.0-beta.1` version and this version only has the difference in version number and only this version will be available in cocoapods.*
+*NOTE: Previously released version `1.2.0-beta.1` is functionally identical to `2.0.0-beta.1` version and the only difference is in version number and only `2.0.0-beta.1` version will be available in cocoapods.*
 
 ### Features Added
 - `Recording` and `Transcription` features are decoupled from `Call` object and now can only be used via extensions.
