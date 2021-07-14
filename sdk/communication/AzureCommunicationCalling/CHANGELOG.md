@@ -18,8 +18,8 @@
 **More documentation on extensions and the breaking change can be found [here](https://docs.microsoft.com/en-us/azure/communication-services/quickstarts/voice-video-calling/calling-client-samples?pivots=platform-ios).**
 
 ### Bugs Fixed
-- [iOS] Not triggering calldidChangeState if using createCallAgentWithCallKitOption. And not able to accept the call in App killed state ([#316](https://github.com/Azure/Communication/issues/316)).
-- [iOS] Remote participant stream is stretched after hang-up ([#311](https://github.com/Azure/Communication/issues/311)).
+- Not triggering calldidChangeState if using createCallAgentWithCallKitOption. And not able to accept the call in App killed state ([#316](https://github.com/Azure/Communication/issues/316)).
+- Remote participant stream is stretched after hang-up ([#311](https://github.com/Azure/Communication/issues/311)).
 - CallKit bug fixes with sometimes call gets disconnected immediately after picking up the call.
 - Intermittent freezing of UI thread issue is fixed when for e.g. reading property `remoteParticipants` in a `Call`.
 - `Hold` and `Resume` support fixed with CallKit enabled `CallAgent`'s.
