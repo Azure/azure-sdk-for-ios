@@ -1,9 +1,6 @@
 # Release History
 
-## 1.2.0-beta.1 (2021-07-12)
-
-Azure Communication Calling iOS SDK version `1.2.0-beta.1`.
-
+## 2.0.0-beta.1 (2021-07-14)
 ### New features
 - `Recording` and `Transcription` features are decoupled from `Call` object and now can only be used via extensions.
   For e.g. 
@@ -13,7 +10,11 @@ Azure Communication Calling iOS SDK version `1.2.0-beta.1`.
 ```
 
 ### Breaking changes
-- `didChangeRecordingState` and `didChangeTranscriptionState` are moved out of `CallDelegate` and into `RecordingFeatureDelegate` and `TranscriptionFeatureDelegate`.
+- `didChangeRecordingState` and `didChangeTranscriptionState` are moved out of `CallDelegate` into `RecordingFeatureDelegate` and into `TranscriptionFeatureDelegate`.
+
+**More documentation on extensions and the breaking change can be found [here](https://docs.microsoft.com/en-us/azure/communication-services/quickstarts/voice-video-calling/calling-client-samples?pivots=platform-ios).**
+
+*NOTE: Version previously released `1.2.0-beta.1` and this version only has the difference in version number and this version will be available in cocoapods.*
 
 ### Bug fixes
 - [iOS] Not triggering calldidChangeState if using createCallAgentWithCallKitOption. And not able to accept the call in App killed state https://github.com/Azure/Communication/issues/316.
