@@ -1,24 +1,25 @@
 # Release History
 
 ## 2.0.0-beta.1 (2021-07-14)
-### New features
+
+*NOTE: Previously released `1.2.0-beta.1` version and this version only has the difference in version number and only this version will be available in cocoapods.*
+
+### Features Added
 - `Recording` and `Transcription` features are decoupled from `Call` object and now can only be used via extensions.
-  For e.g. 
+ Usage example:
 ```
             let recordingFeature = self.call!.api(RecordingFeature.self)
             recordingFeature.delegate = self.callObserver
 ```
 
-### Breaking changes
+### Breaking Changes
 - `didChangeRecordingState` and `didChangeTranscriptionState` are moved out of `CallDelegate` into `RecordingFeatureDelegate` and into `TranscriptionFeatureDelegate`.
 
 **More documentation on extensions and the breaking change can be found [here](https://docs.microsoft.com/en-us/azure/communication-services/quickstarts/voice-video-calling/calling-client-samples?pivots=platform-ios).**
 
-*NOTE: Version previously released `1.2.0-beta.1` and this version only has the difference in version number and this version will be available in cocoapods.*
-
-### Bug fixes
-- [iOS] Not triggering calldidChangeState if using createCallAgentWithCallKitOption. And not able to accept the call in App killed state https://github.com/Azure/Communication/issues/316.
-- [iOS] Remote participant stream is stretched after hang-up https://github.com/Azure/Communication/issues/311.
+### Bugs Fixed
+- [iOS] Not triggering calldidChangeState if using createCallAgentWithCallKitOption. And not able to accept the call in App killed state ([#316](https://github.com/Azure/Communication/issues/316)).
+- [iOS] Remote participant stream is stretched after hang-up ([#311](https://github.com/Azure/Communication/issues/311)).
 - CallKit bug fixes with sometimes call gets disconnected immediately after picking up the call.
 - Intermittent freezing of UI thread issue is fixed when for e.g. reading property `remoteParticipants` in a `Call`.
 - `Hold` and `Resume` support fixed with CallKit enabled `CallAgent`'s.
