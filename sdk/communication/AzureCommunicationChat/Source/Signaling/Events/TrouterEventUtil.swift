@@ -105,9 +105,9 @@ internal enum TrouterEventUtil {
     /// Construct a TrouterEvent from a TrouterRequest payload.
     /// - Parameters:
     ///   - chatEventId: The ChatEventId, determines the type of ChatEvent that should be created.
-    ///   - request: The request payload.
+    ///   - data: The request payload data.
     /// - Returns: A TrouterEvent.
-    internal static func create(chatEvent chatEventId: ChatEventId, from request: TrouterRequest) throws -> TrouterEvent {
-        return try TrouterEvent(chatEventId: chatEventId, from: request)
+    internal static func create(chatEvent chatEventId: ChatEventId, from data: Data) throws -> TrouterEvent {
+        return try TrouterEvent(chatEventId: chatEventId, from: data)
     }
 }
