@@ -135,7 +135,7 @@ struct MessageDeletedPayload: TrouterPayload, ChatMessagePayload {
 
 struct ChatParticipantPayload: Codable {
     let participantId: String
-    let displayName: String
+    let displayName: String?
     let shareHistoryTime: Int?
 }
 
