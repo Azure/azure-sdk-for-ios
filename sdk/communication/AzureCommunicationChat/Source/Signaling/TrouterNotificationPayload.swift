@@ -97,7 +97,7 @@ struct ReadReceiptReceivedPayload: TrouterPayload, ChatMessagePayload {
     let groupId: String
     let messageId: String
     let clientMessageId: String
-    let messageBody: String // TODO This is the ReadReceiptMessageBody
+    let messageBody: String
 }
 
 struct MessageEditedPayload: TrouterPayload, ChatMessagePayload {

@@ -29,8 +29,6 @@ import AzureCore
 import Foundation
 import Trouter
 
-// TODO: these are shared by signaling and push notifications so move to common models
-
 /// Chat Participant for real-time notification events.
 public struct SignalingChatParticipant {
     // MARK: Properties
