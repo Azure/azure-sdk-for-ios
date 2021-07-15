@@ -420,12 +420,11 @@ public class ChatClient {
         notification: [AnyHashable : Any],
         completionHandler: TrouterEventHandler
     ) throws {
-        // TODO what is type of notification["data"]
-        guard let payload = notification["data"] as? String else {
+        guard let payload = notification["data"] as? [String: AnyObject] else {
             throw AzureError.client("Push notification does not contain data payload.")
         }
 
-        guard let data = payload.data(using: .utf8) else {
+        guard let data = try? JSONSerialization.data(withJSONObject: payload) else {
             throw AzureError.client("Unable to convert request body to Data.")
         }
 
@@ -434,6 +433,7 @@ public class ChatClient {
         let chatEventId = try ChatEventId(for: basePayload._eventId)
 
         let chatEvent = try TrouterEventUtil.create(chatEvent: chatEventId, from: data)
+
         completionHandler(chatEvent)
     }
 }
