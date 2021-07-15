@@ -26,16 +26,33 @@
 
 import Foundation
 
-struct BasePayload: Codable {
+protocol TrouterPayload: Codable {
+    // swiftlint:disable identifier_name
+    var _eventId: Int { get }
+    // swiftlint:enable identifier_name
+}
+
+/// ChatMessagePayload that all message notification payloads conform to.
+protocol ChatMessagePayload: Codable {
+    var senderId: String { get }
+    var recipientId: String { get }
+    var groupId: String { get }
+}
+
+/// ChatThreadPayload that all chat thread notification payloads conform to.
+protocol ChatThreadPayload: Codable {
+    var threadId: String { get }
+    var version: String { get }
+}
+
+/// BasePayload for a generic notification.
+struct BasePayload: TrouterPayload {
     // swiftlint:disable identifier_name
     let _eventId: Int
     // swiftlint:enable identifier_name
-    let senderId: String
-    let recipientId: String
-    let groupId: String
 }
 
-struct MessageReceivedPayload: Decodable {
+struct MessageReceivedPayload: TrouterPayload, ChatMessagePayload {
     // swiftlint:disable identifier_name
     let _eventId: Int
     // swiftlint:enable identifier_name
@@ -53,7 +70,7 @@ struct MessageReceivedPayload: Decodable {
     let version: String
 }
 
-struct TypingIndicatorReceivedPayload: Decodable {
+struct TypingIndicatorReceivedPayload: TrouterPayload, ChatMessagePayload {
     // swiftlint:disable identifier_name
     let _eventId: Int
     // swiftlint:enable identifier_name
@@ -64,14 +81,14 @@ struct TypingIndicatorReceivedPayload: Decodable {
     let originalArrivalTime: String
 }
 
-struct ReadReceiptMessageBody: Decodable {
+struct ReadReceiptMessageBody: Codable {
     let user: String
     let consumptionhorizon: String
     let messageVisibilityTime: Int
     let version: String
 }
 
-struct ReadReceiptReceivedPayload: Decodable {
+struct ReadReceiptReceivedPayload: TrouterPayload, ChatMessagePayload {
     // swiftlint:disable identifier_name
     let _eventId: Int
     // swiftlint:enable identifier_name
@@ -80,10 +97,10 @@ struct ReadReceiptReceivedPayload: Decodable {
     let groupId: String
     let messageId: String
     let clientMessageId: String
-    let messageBody: String
+    let messageBody: String // TODO This is the ReadReceiptMessageBody
 }
 
-struct MessageEditedPayload: Decodable {
+struct MessageEditedPayload: TrouterPayload, ChatMessagePayload {
     // swiftlint:disable identifier_name
     let _eventId: Int
     // swiftlint:enable identifier_name
@@ -100,7 +117,7 @@ struct MessageEditedPayload: Decodable {
     let originalArrivalTime: String
 }
 
-struct MessageDeletedPayload: Decodable {
+struct MessageDeletedPayload: TrouterPayload, ChatMessagePayload {
     // swiftlint:disable identifier_name
     let _eventId: Int
     // swiftlint:enable identifier_name
@@ -116,21 +133,13 @@ struct MessageDeletedPayload: Decodable {
     let originalArrivalTime: String
 }
 
-struct ChatThreadPayload: Decodable {
-    // swiftlint:disable identifier_name
-    let _eventId: Int
-    // swiftlint:enable identifier_name
-    let threadId: String
-    let version: String
-}
-
-struct ChatParticipantPayload: Decodable {
+struct ChatParticipantPayload: Codable {
     let participantId: String
     let displayName: String
     let shareHistoryTime: Int?
 }
 
-struct ChatThreadCreatedPayload: Decodable {
+struct ChatThreadCreatedPayload: TrouterPayload, ChatThreadPayload {
     // swiftlint:disable identifier_name
     let _eventId: Int
     // swiftlint:enable identifier_name
@@ -142,11 +151,11 @@ struct ChatThreadCreatedPayload: Decodable {
     let properties: String
 }
 
-struct ChatThreadPropertiesPayload: Decodable {
+struct ChatThreadPropertiesPayload: Codable {
     let topic: String
 }
 
-struct ChatThreadPropertiesUpdatedPayload: Decodable {
+struct ChatThreadPropertiesUpdatedPayload: TrouterPayload, ChatThreadPayload {
     // swiftlint:disable identifier_name
     let _eventId: Int
     // swiftlint:enable identifier_name
@@ -157,7 +166,7 @@ struct ChatThreadPropertiesUpdatedPayload: Decodable {
     let properties: String
 }
 
-struct ChatThreadDeletedPayload: Decodable {
+struct ChatThreadDeletedPayload: TrouterPayload, ChatThreadPayload {
     // swiftlint:disable identifier_name
     let _eventId: Int
     // swiftlint:enable identifier_name
@@ -167,7 +176,7 @@ struct ChatThreadDeletedPayload: Decodable {
     let deletedBy: String
 }
 
-struct ParticipantsAddedPayload: Decodable {
+struct ParticipantsAddedPayload: TrouterPayload, ChatThreadPayload {
     // swiftlint:disable identifier_name
     let _eventId: Int
     // swiftlint:enable identifier_name
@@ -178,7 +187,7 @@ struct ParticipantsAddedPayload: Decodable {
     let participantsAdded: String
 }
 
-struct ParticipantsRemovedPayload: Decodable {
+struct ParticipantsRemovedPayload: TrouterPayload, ChatThreadPayload {
     // swiftlint:disable identifier_name
     let _eventId: Int
     // swiftlint:enable identifier_name
