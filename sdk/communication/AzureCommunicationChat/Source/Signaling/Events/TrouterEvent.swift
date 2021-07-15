@@ -46,38 +46,38 @@ public enum TrouterEvent {
     /// Initialize a TrouterEvent given the ChatEventId and the TrouterRequest that contains the event data.
     /// - Parameters:
     ///   - chatEventId: The ChatEventId.
-    ///   - request: The TrouterRequest that contains the event data.
-    init(chatEventId: ChatEventId, from request: TrouterRequest) throws {
+    ///   - data: The payload Data.
+    init(chatEventId: ChatEventId, from data: Data) throws {
         switch chatEventId {
         case ChatEventId.chatMessageReceived:
-            let event = try ChatMessageReceivedEvent(from: request)
+            let event = try ChatMessageReceivedEvent(from: data)
             self = .chatMessageReceivedEvent(event)
         case .typingIndicatorReceived:
-            let event = try TypingIndicatorReceivedEvent(from: request)
+            let event = try TypingIndicatorReceivedEvent(from: data)
             self = .typingIndicatorReceived(event)
         case .readReceiptReceived:
-            let event = try ReadReceiptReceivedEvent(from: request)
+            let event = try ReadReceiptReceivedEvent(from: data)
             self = .readReceiptReceived(event)
         case .chatMessageEdited:
-            let event = try ChatMessageEditedEvent(from: request)
+            let event = try ChatMessageEditedEvent(from: data)
             self = .chatMessageEdited(event)
         case .chatMessageDeleted:
-            let event = try ChatMessageDeletedEvent(from: request)
+            let event = try ChatMessageDeletedEvent(from: data)
             self = .chatMessageDeleted(event)
         case .chatThreadCreated:
-            let event = try ChatThreadCreatedEvent(from: request)
+            let event = try ChatThreadCreatedEvent(from: data)
             self = .chatThreadCreated(event)
         case .chatThreadPropertiesUpdated:
-            let event = try ChatThreadPropertiesUpdatedEvent(from: request)
+            let event = try ChatThreadPropertiesUpdatedEvent(from: data)
             self = .chatThreadPropertiesUpdated(event)
         case .chatThreadDeleted:
-            let event = try ChatThreadDeletedEvent(from: request)
+            let event = try ChatThreadDeletedEvent(from: data)
             self = .chatThreadDeleted(event)
         case .participantsAdded:
-            let event = try ParticipantsAddedEvent(from: request)
+            let event = try ParticipantsAddedEvent(from: data)
             self = .participantsAdded(event)
         case .participantsRemoved:
-            let event = try ParticipantsRemovedEvent(from: request)
+            let event = try ParticipantsRemovedEvent(from: data)
             self = .participantsRemoved(event)
         }
     }

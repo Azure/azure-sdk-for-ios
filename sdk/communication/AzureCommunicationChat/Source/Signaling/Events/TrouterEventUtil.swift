@@ -29,6 +29,8 @@ import AzureCore
 import Foundation
 import Trouter
 
+// TODO: same thing if this is re-used by push notifications move out to common models
+
 /// Utility class for working with Trouter event payloads.
 internal enum TrouterEventUtil {
     /// Parses out the id/phone number portion of a user id.
@@ -105,12 +107,11 @@ internal enum TrouterEventUtil {
     /// Construct a TrouterEvent from a TrouterRequest payload.
     /// - Parameters:
     ///   - chatEventId: The ChatEventId, determines the type of ChatEvent that should be created.
-    ///   - request: The request payload.
+    ///   - data: The request payload data.
     /// - Returns: A TrouterEvent.
-    internal static func create(
-        chatEvent chatEventId: ChatEventId,
-        from request: TrouterRequest
-    ) throws -> TrouterEvent {
-        return try TrouterEvent(chatEventId: chatEventId, from: request)
+    // TODO: Instead of passing TrouterRequest pass Data and re-use for push notifications
+    internal static func create(chatEvent chatEventId: ChatEventId, from data: Data) throws -> TrouterEvent {
+        // TODO from: Data
+        return try TrouterEvent(chatEventId: chatEventId, from: data)
     }
 }
