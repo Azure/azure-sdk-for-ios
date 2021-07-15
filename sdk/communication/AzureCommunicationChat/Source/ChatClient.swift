@@ -411,4 +411,29 @@ public class ChatClient {
             }
         }
     }
+
+    /// Handle an incoming push notification.
+    /// - Parameters:
+    ///   - notification: The APNS push notification payload.
+    ///   - completionHandler: Called with the TrouterEvent payload from the push notification.
+    public func handlePush(
+        notification: [AnyHashable : Any],
+        completionHandler: TrouterEventHandler
+    ) throws {
+        // TODO what is type of notification["data"]
+        guard let payload = notification["data"] as? String else {
+            throw AzureError.client("Push notification does not contain data payload.")
+        }
+
+        guard let data = payload.data(using: .utf8) else {
+            throw AzureError.client("Unable to convert request body to Data.")
+        }
+
+        // Determine the event type from the eventId
+        let basePayload = try JSONDecoder().decode(BasePayload.self, from: data)
+        let chatEventId = try ChatEventId(for: basePayload._eventId)
+
+        let chatEvent = try TrouterEventUtil.create(chatEvent: chatEventId, from: data)
+        completionHandler(chatEvent)
+    }
 }

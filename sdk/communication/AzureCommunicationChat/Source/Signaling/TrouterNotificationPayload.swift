@@ -60,7 +60,7 @@ struct TypingIndicatorReceivedPayload: Decodable {
     let senderDisplayName: String
 }
 
-struct ReadReceiptMessageBody: Decodable {
+struct ReadReceiptMessageBody: Codable {
     let user: String
     let consumptionhorizon: String
     let messageVisibilityTime: Int
@@ -74,7 +74,7 @@ struct ReadReceiptReceivedPayload: Decodable {
     let groupId: String
     let messageId: String
     let clientMessageId: String
-    let messageBody: String
+    let messageBody: String // TODO This is the ReadReceiptMessageBody
 }
 
 struct MessageEditedPayload: Decodable {
@@ -129,7 +129,7 @@ struct ChatThreadCreatedPayload: Decodable {
     let properties: String
 }
 
-struct ChatThreadPropertiesPayload: Decodable {
+struct ChatThreadPropertiesPayload: Codable {
     let topic: String
 }
 
