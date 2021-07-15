@@ -412,28 +412,31 @@ public class ChatClient {
         }
     }
 
-    /// Handle an incoming push notification.
+    /// Handle the data payload for an incoming push notification.
     /// - Parameters:
-    ///   - notification: The APNS push notification payload.
-    ///   - completionHandler: Called with the TrouterEvent payload from the push notification.
+    ///   - notification: The APNS push notification.
+    ///   - completionHandler: Receives the TrouterEvent from the push notification payload.
     public func handlePush(
         notification: [AnyHashable : Any],
         completionHandler: TrouterEventHandler
-    ) throws {
+    ) {
         guard let payload = notification["data"] as? [String: AnyObject] else {
-            throw AzureError.client("Push notification does not contain data payload.")
+            options.logger.error("Push notification does not contain data payload.")
+            return
         }
 
-        guard let data = try? JSONSerialization.data(withJSONObject: payload) else {
-            throw AzureError.client("Unable to convert request body to Data.")
+        do {
+            let data = try JSONSerialization.data(withJSONObject: payload)
+
+            // Determine the event type from the eventId
+            let basePayload = try JSONDecoder().decode(BasePayload.self, from: data)
+            let chatEventId = try ChatEventId(for: basePayload._eventId)
+
+            let chatEvent = try TrouterEventUtil.create(chatEvent: chatEventId, from: data)
+
+            completionHandler(chatEvent)
+        } catch {
+            options.logger.error("Failed to handle push notification: \(error.localizedDescription)")
         }
-
-        // Determine the event type from the eventId
-        let basePayload = try JSONDecoder().decode(BasePayload.self, from: data)
-        let chatEventId = try ChatEventId(for: basePayload._eventId)
-
-        let chatEvent = try TrouterEventUtil.create(chatEvent: chatEventId, from: data)
-
-        completionHandler(chatEvent)
     }
 }
