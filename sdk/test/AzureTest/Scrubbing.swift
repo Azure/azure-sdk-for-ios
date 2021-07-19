@@ -25,61 +25,96 @@
 // --------------------------------------------------------------------------
 
 import Foundation
+import DVR
 
+public extension Filter {
+    static let subscriptionIDRegex = try! NSRegularExpression(pattern: "(/(subscriptions))/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", options: [.caseInsensitive])
+    static let graphSubscriptionIDRegex = try! NSRegularExpression(pattern: "(https://(graph.windows.net))/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", options: [.caseInsensitive])
     
-//regex for subscription id scrubbing
-let subscriptionIDRegex = try! NSRegularExpression(pattern: "(/(subscriptions))/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", options: [.caseInsensitive])
-let graphSubscriptionIDRegex = try! NSRegularExpression(pattern: "(https://(graph.windows.net))/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", options: [.caseInsensitive])
-
-fileprivate func scrubSubscriptionIDs(request: URLRequest) -> URLRequest {
+    static let standard: Filter = {
+        var standardFilter = Filter()
+        let headers = ["Authorization" : FilterBehavior.remove]
+        standardFilter.beforeRecordRequest = scrubSubscriptionIDs
+        standardFilter.beforeRecordResponse = scrubSubscriptionIDs
+        return standardFilter
+    }()
     
-    var cleanRequest = request
-    
-    let dirtyHeaders = request.allHTTPHeaderFields ?? [:]
-    let cleanHeaders = dirtyHeaders.mapValues { val -> String in
-        guard let newValue = scrubSubscriptionId(from: val) else {
-            return val
+    static func scrubSubscriptionId(from string: String?, embeddedStringKeys: [String] = ["tenantID","objectId"]) -> String? {
+        
+        
+        
+        let embeddedIDRegex = { (_ key : String) in
+            try! NSRegularExpression(pattern: "\"\(key)\":\"/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\"", options: [.caseInsensitive])
         }
-        return newValue
+        
+        guard var editedString = string else {
+            return nil
+        }
+        var range = NSRange(location: 0, length: editedString.utf8.count)
+        if Filter.subscriptionIDRegex.numberOfMatches(in: editedString, options: [], range: range) > 0 {
+            editedString = Filter.subscriptionIDRegex.stringByReplacingMatches(in: editedString, options: [], range: range, withTemplate: "$1/99999999-9999-9999-9999-999999999999")
+        }
+        range = NSRange(location: 0, length: editedString.utf8.count)
+        if Filter.graphSubscriptionIDRegex.numberOfMatches(in: editedString, options: [], range: range) > 0 {
+            editedString = Filter.graphSubscriptionIDRegex.stringByReplacingMatches(in: editedString, options: [], range: range, withTemplate: "$1/99999999-9999-9999-9999-999999999999")
+        }
+        
+        for key in embeddedStringKeys {
+            let embeddedRegex = embeddedIDRegex(key)
+            range = NSRange(location: 0, length: editedString.utf8.count)
+            if embeddedRegex.numberOfMatches(in: editedString, options: [], range: range) > 0 {
+                editedString = embeddedRegex.stringByReplacingMatches(in: editedString, options: [], range: range, withTemplate: "\"\(key)\":\"/99999999-9999-9999-9999-999999999999\"")
+            }
+        }
+        return editedString
+        
+        
     }
-    cleanRequest.allHTTPHeaderFields = cleanHeaders.isEmpty ? nil : cleanHeaders
     
-    cleanRequest.url = URL(string: scrubSubscriptionId(from: request.url?.absoluteString))
-    cleanRequest.mainDocumentURL = URL(string: scrubSubscriptionId(from: request.mainDocumentURL?.absoluteString))
-    cleanRequest.httpBody = scrubSubscriptionId(from: String(data: request.httpBody, encoding: .utf8))?.data(using: .utf8)
+    static func scrubSubscriptionIDs(request: URLRequest) -> URLRequest {
+        
+        var cleanRequest = request
+        
+        let dirtyHeaders = request.allHTTPHeaderFields ?? [:]
+        let cleanHeaders = dirtyHeaders.mapValues { val -> String in
+            guard let newValue = scrubSubscriptionId(from: val) else {
+                return val
+            }
+            return newValue
+        }
+        cleanRequest.allHTTPHeaderFields = cleanHeaders.isEmpty ? nil : cleanHeaders
+        
+        cleanRequest.url = URL(string: scrubSubscriptionId(from: request.url?.absoluteString))
+        cleanRequest.mainDocumentURL = URL(string: scrubSubscriptionId(from: request.mainDocumentURL?.absoluteString))
+        cleanRequest.httpBody = scrubSubscriptionId(from: String(data: request.httpBody, encoding: .utf8))?.data(using: .utf8)
 
-    return cleanRequest
-}
-
-fileprivate func scrubSubscriptionId(from string: String?) -> String? {
-    guard var editedString = string else {
-        return nil
+        return cleanRequest
     }
-    var range = NSRange(location: 0, length: editedString.utf8.count)
-    if subscriptionIDRegex.numberOfMatches(in: editedString, options: [], range: range) > 0 {
-        editedString = subscriptionIDRegex.stringByReplacingMatches(in: editedString, options: [], range: range, withTemplate: "$1/99999999-9999-9999-9999-999999999999")
-    }
-    range = NSRange(location: 0, length: editedString.utf8.count)
-    if graphSubscriptionIDRegex.numberOfMatches(in: editedString, options: [], range: range) > 0 {
-        editedString = graphSubscriptionIDRegex.stringByReplacingMatches(in: editedString, options: [], range: range, withTemplate: "$1/99999999-9999-9999-9999-999999999999")
-    }
-    return editedString
-}
-
-fileprivate func scrubSubscriptionIDs(response: Foundation.URLResponse, data: Data?) -> URLRequest {
-    fatalError("Unimplemented")
-}
-
-public func scrubRequests(request: URLRequest) -> URLRequest {
-    var cleanedRequest = request
-    cleanedRequest = scrubSubscriptionIDs(request: cleanedRequest)
     
-    return cleanedRequest
+    static func scrubSubscriptionIDs(response: Foundation.URLResponse, data: Data?) -> (Foundation.URLResponse, Data?) {
+        guard let dirtyData = data else {
+            return (response, data)
+        }
+        
+        do {
+            guard let responseDataString = try JSONSerialization.jsonObject(with: dirtyData, options: .allowFragments) as? String else {
+                return (response, data)
+            }
+            let cleanedDataString = scrubSubscriptionId(from: responseDataString)
+            let cleanedData = cleanedDataString?.data(using: .utf8)
+            return (response, cleanedData)
+        } catch {
+            return (response, data)
+        }
+    }
+    
 }
 
-public func scrubResponse(response: Foundation.URLResponse,data: Data?) -> (Foundation.URLResponse, Data?) {
-    fatalError("Unimplemented")
-}
+
+
+
+
+
 
 
 

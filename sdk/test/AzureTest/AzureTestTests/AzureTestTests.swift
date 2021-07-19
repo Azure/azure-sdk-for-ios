@@ -50,6 +50,10 @@ class AzureTestTests: XCTestCase {
         let dataDictionary = try! JSONSerialization.jsonObject(with: fakeData, options: []) as! [String:Any]
         fakeRequest = URLRequest(url: URL(string: try! dataDictionary.array(forKey: "interactions").dictionary(forIndex: 0).dictionary(forKey: "request").string(forKey: "uri"))!)
         fakeRequest?.httpBody = try! dataDictionary.array(forKey: "interactions").dictionary(forIndex: 0).dictionary(forKey: "request").string(forKey: "body").data(using: .utf8)
+        
+        fakeResponse = HTTPURLResponse(url: URL(string: try! dataDictionary.array(forKey: "interactions").dictionary(forIndex: 0).dictionary(forKey: "request").string(forKey: "uri"))!, statusCode: 200, httpVersion: nil, headerFields: try! dataDictionary.array(forKey: "interactions").dictionary(forIndex: 0).dictionary(forKey: "response").dictionary(forKey: "headers") as! [String:String])
+        
+        fakeResponseData = try! dataDictionary.array(forKey: "interactions").dictionary(forIndex: 0).dictionary(forKey: "response").dictionary(forKey: "body").description.data(using: .utf8)
     }
 
     override func tearDownWithError() throws {
@@ -60,13 +64,18 @@ class AzureTestTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
         
-        let cleanedRequest = scrubRequests(request: fakeRequest!)
+        let cleanedRequest = Filter.scrubSubscriptionIDs(request: fakeRequest!)
         XCTAssert(cleanedRequest.url?.absoluteString == "https://management.azure.com/subscriptions/99999999-9999-9999-9999-999999999999/resourceGroups/rgname/providers/Microsoft.KeyVault/vaults/myValtZikfikxz?api-version=2019-09-01")
         
     }
 
+    func test_scrubbingResponse_removeSubscriptionIDs() throws {
         
+        let cleanedResponse = Filter.scrubSubscriptionIDs(response: fakeResponse!, data: fakeResponseData)
+        print(String(data: cleanedResponse.1, encoding: .utf8))
+    }
 
+    
 }
 
 fileprivate extension Array where Element == Any {
@@ -95,6 +104,19 @@ fileprivate extension Array where Element == Any {
 
  fileprivate extension Dictionary where Key == String, Value == Any {
     
+     func stringValues() throws -> [String:String]  {
+         var newDictionary = [String:String]()
+         try self.forEach { key, val in
+             if let val = val as? CustomStringConvertible {
+                 newDictionary[key] = val.description
+             }
+             else {
+                 throw "Not string representable"
+             }
+         }
+         return newDictionary
+     }
+     
     func findValue(key: String, dictionary: Dictionary<String,Any>) -> Any? {
        if dictionary[key] != nil {
            return dictionary[key]
