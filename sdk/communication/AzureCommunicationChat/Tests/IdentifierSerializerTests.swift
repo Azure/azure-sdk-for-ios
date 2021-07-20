@@ -26,7 +26,7 @@
 
 import XCTest
 
-import AzureCommunicationChat
+@testable import AzureCommunicationChat
 import AzureCommunicationCommon
 import AzureCore
 
@@ -48,25 +48,25 @@ class IdentifierSerializerTests: XCTestCase {
         testTeamsUserModel = MicrosoftTeamsUserIdentifierModel(
             userId: testTeamsUserId,
             isAnonymous: true,
-            cloud: .Gcch
+            cloud: .gcch
         )
     }
 
     func test_moreThanOneNestObject_Deserialize() throws {
         let communicationModels = [
-            CommunicationIdentifierModel(
+            CommunicationIdentifierModelInternal(
                 rawId: testRawId,
                 communicationUser: testUserModel,
                 phoneNumber: testPhoneNumberModel,
                 microsoftTeamsUser: nil
             ),
-            CommunicationIdentifierModel(
+            CommunicationIdentifierModelInternal(
                 rawId: testRawId,
                 communicationUser: testUserModel,
                 phoneNumber: nil,
                 microsoftTeamsUser: testTeamsUserModel
             ),
-            CommunicationIdentifierModel(
+            CommunicationIdentifierModelInternal(
                 rawId: testRawId,
                 communicationUser: nil,
                 phoneNumber: testPhoneNumberModel,
@@ -80,7 +80,7 @@ class IdentifierSerializerTests: XCTestCase {
     }
 
     func test_DeserializeCommunicationUser() throws {
-        let identifierModel = CommunicationIdentifierModel(
+        let identifierModel = CommunicationIdentifierModelInternal(
             rawId: testRawId,
             communicationUser: testUserModel,
             phoneNumber: nil,
@@ -105,7 +105,7 @@ class IdentifierSerializerTests: XCTestCase {
     }
 
     func test_DeserializeUnknown() throws {
-        let identifierModel = CommunicationIdentifierModel(
+        let identifierModel = CommunicationIdentifierModelInternal(
             rawId: testRawId,
             communicationUser: nil,
             phoneNumber: nil,
@@ -126,7 +126,7 @@ class IdentifierSerializerTests: XCTestCase {
     }
 
     func test_DeserializePhoneNumber() throws {
-        let identifierModel = CommunicationIdentifierModel(
+        let identifierModel = CommunicationIdentifierModelInternal(
             rawId: testRawId,
             communicationUser: nil,
             phoneNumber: testPhoneNumberModel,
@@ -158,7 +158,7 @@ class IdentifierSerializerTests: XCTestCase {
     }
 
     func test_DeserializeMicrosoftTeamsUser() throws {
-        let model = CommunicationIdentifierModel(
+        let model = CommunicationIdentifierModelInternal(
             rawId: testRawId,
             communicationUser: nil,
             phoneNumber: nil,
@@ -209,20 +209,20 @@ class IdentifierSerializerTests: XCTestCase {
     }
 
     func test_DeserializeMissingProperty() throws {
-        let modelsWithMissingMandatoryProperty: [CommunicationIdentifierModel] = [
-            CommunicationIdentifierModel( // missing raw id
+        let modelsWithMissingMandatoryProperty: [CommunicationIdentifierModelInternal] = [
+            CommunicationIdentifierModelInternal( // missing raw id
                 rawId: nil,
                 communicationUser: testUserModel,
                 phoneNumber: nil,
                 microsoftTeamsUser: nil
             ),
-            CommunicationIdentifierModel( // missing raw id
+            CommunicationIdentifierModelInternal( // missing raw id
                 rawId: nil,
                 communicationUser: nil,
                 phoneNumber: testPhoneNumberModel,
                 microsoftTeamsUser: nil
             ),
-            CommunicationIdentifierModel( // MicrosoftTeamsUserIdentifierModel missing isAnonymous
+            CommunicationIdentifierModelInternal( // MicrosoftTeamsUserIdentifierModel missing isAnonymous
                 rawId: "some id",
                 communicationUser: nil,
                 phoneNumber: nil,
@@ -231,7 +231,7 @@ class IdentifierSerializerTests: XCTestCase {
                     cloud: .public
                 )
             ),
-            CommunicationIdentifierModel( // MicrosoftTeamsUserIdentifierModel missing isAnonymous
+            CommunicationIdentifierModelInternal( // MicrosoftTeamsUserIdentifierModel missing isAnonymous
                 rawId: "some id",
                 communicationUser: nil,
                 phoneNumber: nil,
@@ -240,7 +240,7 @@ class IdentifierSerializerTests: XCTestCase {
                     isAnonymous: false
                 )
             ),
-            CommunicationIdentifierModel( // missing raw id
+            CommunicationIdentifierModelInternal( // missing raw id
                 rawId: nil,
                 communicationUser: nil,
                 phoneNumber: nil,

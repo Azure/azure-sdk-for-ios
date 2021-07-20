@@ -28,6 +28,7 @@ import AzureCommunicationCommon
 import AzureCore
 import Foundation
 
+/// ChatThreadClient class for operations within a ChatThread.
 public class ChatThreadClient {
     // MARK: Properties
 
@@ -164,7 +165,7 @@ public class ChatThreadClient {
         withOptions options: UpdateChatThreadPropertiesOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        let updateChatThreadRequest = UpdateChatThreadRequest(topic: topic)
+        let updateChatThreadRequest = UpdateChatThreadRequestInternal(topic: topic)
 
         service
             .update(
@@ -317,21 +318,19 @@ public class ChatThreadClient {
 
     /// Updates a message.
     /// - Parameters:
-    ///    - content: The updated message content.
-    ///    - messageId: The message id.
+    ///    - message: The message id.
+    ///    - parameters: The updated message content.
     ///    - options: Update chat message options
     ///    - completionHandler: A completion handler that receives a status code on success.
     public func update(
-        content: String,
-        messageId: String,
+        message messageId: String,
+        parameters: UpdateChatMessageRequest,
         withOptions options: UpdateChatMessageOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        let updateMessageRequest = UpdateChatMessageRequest(content: content)
-
         service
             .update(
-                chatMessage: updateMessageRequest,
+                chatMessage: parameters,
                 chatThreadId: threadId,
                 chatMessageId: messageId,
                 withOptions: options
@@ -414,9 +413,18 @@ public class ChatThreadClient {
         withOptions options: AddChatParticipantsOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<AddChatParticipantsResult>
     ) {
+        // Convert to ChatParticipantInternal for request
+        let participantsInternal: [ChatParticipantInternal]
+        do {
+            participantsInternal = try convert(participants: participants)
+        } catch {
+            completionHandler(.failure(AzureError.client("Failed to convert participants to ChatParticipantInternal")), nil)
+            return
+        }
+
         // Convert to AddChatParticipantsRequest for generated code
-        let addParticipantsRequest = AddChatParticipantsRequest(
-            participants: participants
+        let addParticipantsRequest = AddChatParticipantsRequestInternal(
+            participants: participantsInternal
         )
 
         service.add(

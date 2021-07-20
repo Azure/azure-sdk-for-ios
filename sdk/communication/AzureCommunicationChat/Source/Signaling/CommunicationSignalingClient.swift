@@ -89,7 +89,7 @@ class CommunicationSignalingClient {
         communicationHandlers.removeAll()
     }
 
-    func on(event: ChatEventId, handler: @escaping EventHandler) {
+    func on(event: ChatEventId, handler: @escaping TrouterEventHandler) {
         let logger = ClientLoggers.default(tag: "AzureCommunicationHandler-\(event)")
         let communicationHandler = CommunicationHandler(handler: handler, logger: logger)
         selfHostedTrouterClient.register(communicationHandler, forPath: "/\(event)")
@@ -116,11 +116,11 @@ class CommunicationSkypeTokenProvider: NSObject, TrouterSkypetokenProvider {
 }
 
 class CommunicationHandler: NSObject, TrouterListener {
-    var handler: EventHandler
+    var handler: TrouterEventHandler
     var logger: ClientLogger
 
     init(
-        handler: @escaping EventHandler,
+        handler: @escaping TrouterEventHandler,
         logger: ClientLogger = ClientLoggers.default(tag: "AzureCommunicationHandler")
     ) {
         self.handler = handler
@@ -162,5 +162,3 @@ class CommunicationHandler: NSObject, TrouterListener {
         logger.info("Sent a response to Trouter: \(result)")
     }
 }
-
-public typealias EventHandler = (_ response: TrouterEvent) -> Void
