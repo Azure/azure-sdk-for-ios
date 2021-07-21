@@ -42,7 +42,7 @@ public enum TrouterEvent {
     case chatThreadDeleted(ChatThreadDeletedEvent)
     case participantsAdded(ParticipantsAddedEvent)
     case participantsRemoved(ParticipantsRemovedEvent)
-    
+
     /// Initialize a TrouterEvent given the ChatEventId and the TrouterRequest that contains the event data.
     /// - Parameters:
     ///   - chatEventId: The ChatEventId.

@@ -40,8 +40,8 @@ class ChatClientUnitTests: XCTestCase {
 
     override func setUpWithError() throws {
         let settings = TestSettings.loadFromPlist()
-        let endpoint = settings.endpoint ?? "https://endpoint"
-        let token = settings.endpoint ?? generateFakeToken()
+        let endpoint = settings?.endpoint ?? "https://endpoint"
+        let token = settings?.endpoint ?? generateFakeToken()
         let credential = try CommunicationTokenCredential(token: token)
         let options = AzureCommunicationChatClientOptions()
 

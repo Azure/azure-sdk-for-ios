@@ -24,20 +24,42 @@
 //
 // --------------------------------------------------------------------------
 
-import Foundation
+import AzureCore
+import XCTest
 
-public protocol TestSettingsProtocol: AnyObject, Codable {
-    static func loadFromPlist() -> Self?
-}
+open class RecordableXCTestCase<SettingsType: TestSettingsProtocol>: XCTestCase {
+    public let settings = {
+        SettingsType.loadFromPlist()
+    }()
 
-public extension TestSettingsProtocol {
-    static func loadFromPlist() -> Self? {
-        if let path = Bundle(for: self).path(forResource: "test-settings", ofType: "plist"),
-            let xml = FileManager.default.contents(atPath: path),
-            let settings = try? PropertyListDecoder().decode(Self.self, from: xml) {
-            return settings
-        } else {
-            return nil
-        }
+    public var transportOptions: TransportOptions {
+        return TransportOptions(transport: transport)
     }
+
+    private var transport: TransportStage!
+
+    private var mode = environmentVariable(forKey: "TEST_MODE", default: "playback")
+
+    override public final func setUp() {}
+
+    override public final func setUpWithError() throws {
+        let fullname = name
+        var testName = fullname.split(separator: " ")[1]
+        testName.removeLast()
+        transport = mode != "live" ? DVRSessionTransport(cassetteName: String(testName)) : URLSessionTransport()
+        try setUpTestWithError()
+        transport?.open()
+    }
+
+    /// Method which the test author can override to configure setup
+    open func setUpTestWithError() throws {}
+
+    override public final func tearDownWithError() throws {}
+
+    override public final func tearDown() {
+        transport?.close()
+    }
+
+    /// Method which the test author can override to configure setup
+    open func tearDownTestWithError() throws {}
 }
