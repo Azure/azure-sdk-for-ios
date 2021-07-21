@@ -28,89 +28,80 @@ import Foundation
 import DVR
 
 public extension Filter {
-    static let subscriptionIDRegex = try! NSRegularExpression(pattern: "(/(subscriptions))/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", options: [.caseInsensitive])
-    static let graphSubscriptionIDRegex = try! NSRegularExpression(pattern: "(https://(graph.windows.net))/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", options: [.caseInsensitive])
     
-    static let standard: Filter = {
-        var standardFilter = Filter()
-        let headers = ["Authorization" : FilterBehavior.remove]
-        standardFilter.beforeRecordRequest = scrubSubscriptionIDs
-        standardFilter.beforeRecordResponse = scrubSubscriptionIDs
-        return standardFilter
-    }()
+    static let subscriptionIDRegex = "(/(subscriptions))/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+    static let graphSubscriptionIDRegex = "(https://(graph.windows.net))/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
     
-    static func scrubSubscriptionId(from string: String?, embeddedStringKeys: [String] = ["tenantID","objectId"]) -> String? {
+    static var subcriptionIDReplacement = "99999999-9999-9999-9999-999999999999"
+    
+    static var standardHeaderScrubbing: [String : FilterBehavior] = [
+        "location": .closure({ key, val in
+            scrubSubscriptionId(from: val ?? "")
+        }),
+        "operation-location": .replace(""),
+        "azure-asyncoperation": .replace(""),
+        "www-authenticate": .replace(""),
+        "access_token": .replace("")
         
-        
-        
-        let embeddedIDRegex = { (_ key : String) in
-            try! NSRegularExpression(pattern: "\"\(key)\":\"/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\"", options: [.caseInsensitive])
-        }
+    ]
+    
+    static func scrubSubscriptionId(from string: String?) -> String? {
         
         guard var editedString = string else {
             return nil
         }
-        var range = NSRange(location: 0, length: editedString.utf8.count)
-        if Filter.subscriptionIDRegex.numberOfMatches(in: editedString, options: [], range: range) > 0 {
-            editedString = Filter.subscriptionIDRegex.stringByReplacingMatches(in: editedString, options: [], range: range, withTemplate: "$1/99999999-9999-9999-9999-999999999999")
-        }
-        range = NSRange(location: 0, length: editedString.utf8.count)
-        if Filter.graphSubscriptionIDRegex.numberOfMatches(in: editedString, options: [], range: range) > 0 {
-            editedString = Filter.graphSubscriptionIDRegex.stringByReplacingMatches(in: editedString, options: [], range: range, withTemplate: "$1/99999999-9999-9999-9999-999999999999")
-        }
+        editedString.replaceAllMatches(usingRegex: Filter.subscriptionIDRegex, withReplacement: "$1/\(Filter.subcriptionIDReplacement)", options: .caseInsensitive)
+        editedString.replaceAllMatches(usingRegex: Filter.graphSubscriptionIDRegex, withReplacement: "$1/\(Filter.subcriptionIDReplacement)", options: .caseInsensitive)
         
-        for key in embeddedStringKeys {
-            let embeddedRegex = embeddedIDRegex(key)
-            range = NSRange(location: 0, length: editedString.utf8.count)
-            if embeddedRegex.numberOfMatches(in: editedString, options: [], range: range) > 0 {
-                editedString = embeddedRegex.stringByReplacingMatches(in: editedString, options: [], range: range, withTemplate: "\"\(key)\":\"/99999999-9999-9999-9999-999999999999\"")
-            }
-        }
         return editedString
         
         
     }
     
-    static func scrubSubscriptionIDs(request: URLRequest) -> URLRequest {
+    
+    
+    func scrubSubscriptionIDs(from request: URLRequest) -> URLRequest {
         
         var cleanRequest = request
         
         let dirtyHeaders = request.allHTTPHeaderFields ?? [:]
-        let cleanHeaders = dirtyHeaders.mapValues { val -> String in
-            guard let newValue = scrubSubscriptionId(from: val) else {
-                return val
-            }
-            return newValue
+        let cleanHeaders = dirtyHeaders.mapValues { val in
+            return Filter.scrubSubscriptionId(from: val) ?? val
         }
-        cleanRequest.allHTTPHeaderFields = cleanHeaders.isEmpty ? nil : cleanHeaders
         
-        cleanRequest.url = URL(string: scrubSubscriptionId(from: request.url?.absoluteString))
-        cleanRequest.mainDocumentURL = URL(string: scrubSubscriptionId(from: request.mainDocumentURL?.absoluteString))
-        cleanRequest.httpBody = scrubSubscriptionId(from: String(data: request.httpBody, encoding: .utf8))?.data(using: .utf8)
+        cleanRequest.allHTTPHeaderFields = cleanHeaders.isEmpty ? nil : cleanHeaders
+        cleanRequest.url = URL(string: Filter.scrubSubscriptionId(from: request.url?.absoluteString))
+        cleanRequest.mainDocumentURL = URL(string: Filter.scrubSubscriptionId(from: request.mainDocumentURL?.absoluteString))
+        cleanRequest.httpBody = Filter.scrubSubscriptionId(from: String(data: request.httpBody, encoding: .utf8))?.data(using: .utf8)
 
         return cleanRequest
     }
     
-    static func scrubSubscriptionIDs(response: Foundation.URLResponse, data: Data?) -> (Foundation.URLResponse, Data?) {
+    func scrubSubscriptionIDs(from response: Foundation.URLResponse, data: Data?) -> (Foundation.URLResponse, Data?) {
         guard let dirtyData = data else {
             return (response, data)
         }
+        let responseDataString = String(data: dirtyData, encoding: .utf8)
+        let cleanedDataString = Filter.scrubSubscriptionId(from: responseDataString)
+        let cleanedData = cleanedDataString?.data(using: .utf8)
+        return (response, cleanedData)
         
-        do {
-            guard let responseDataString = try JSONSerialization.jsonObject(with: dirtyData, options: .allowFragments) as? String else {
-                return (response, data)
-            }
-            let cleanedDataString = scrubSubscriptionId(from: responseDataString)
-            let cleanedData = cleanedDataString?.data(using: .utf8)
-            return (response, cleanedData)
-        } catch {
-            return (response, data)
-        }
     }
     
 }
 
-
+extension String {
+    
+    mutating func replaceAllMatches(usingRegex: String, withReplacement: String, options: NSRegularExpression.Options = [], matchingOptions: NSRegularExpression.MatchingOptions = []) {
+        do {
+            let regularExpression = try NSRegularExpression(pattern: usingRegex, options: options)
+            let range = NSRange(location: 0, length: self.utf8.count)
+            self = regularExpression.stringByReplacingMatches(in: self, options: matchingOptions, range: range, withTemplate: withReplacement)
+        } catch {
+            return
+        }
+    }
+}
 
 
 

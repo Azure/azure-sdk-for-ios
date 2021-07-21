@@ -31,136 +31,141 @@ import AzureTest
 
 class AzureTestTests: XCTestCase {
 
-    var fakeData : Data!
+    var fakeData: Data!
     
-    var fakeRequest : URLRequest?
+    var fakeRequest: URLRequest?
     
-    var fakeResponse : URLResponse?
+    var fakeResponse: URLResponse?
     
-    var fakeResponseData : Data?
+    var fakeResponseData: Data?
     
+    private func chooseRecordedInteraction(number: Int) {
+        fakeRequest = fakeData.request(number: number)
+        fakeResponse = fakeData.response(number: number)
+        fakeResponseData = fakeData.responseData(number: number)
+    }
     
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-        
         let testBundle = Bundle(for: type(of: self))
         let path = testBundle.path(forResource: "TestData", ofType: "json")
         fakeData = try! Data(contentsOf: URL(fileURLWithPath: path!))
+        chooseRecordedInteraction(number: 8)
         
-        let dataDictionary = try! JSONSerialization.jsonObject(with: fakeData, options: []) as! [String:Any]
-        fakeRequest = URLRequest(url: URL(string: try! dataDictionary.array(forKey: "interactions").dictionary(forIndex: 0).dictionary(forKey: "request").string(forKey: "uri"))!)
-        fakeRequest?.httpBody = try! dataDictionary.array(forKey: "interactions").dictionary(forIndex: 0).dictionary(forKey: "request").string(forKey: "body").data(using: .utf8)
-        
-        fakeResponse = HTTPURLResponse(url: URL(string: try! dataDictionary.array(forKey: "interactions").dictionary(forIndex: 0).dictionary(forKey: "request").string(forKey: "uri"))!, statusCode: 200, httpVersion: nil, headerFields: try! dataDictionary.array(forKey: "interactions").dictionary(forIndex: 0).dictionary(forKey: "response").dictionary(forKey: "headers") as! [String:String])
-        
-        fakeResponseData = try! dataDictionary.array(forKey: "interactions").dictionary(forIndex: 0).dictionary(forKey: "response").dictionary(forKey: "body").description.data(using: .utf8)
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
     func test_scrubbingRequest_removeSubscriptionIDs() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        
-        let cleanedRequest = Filter.scrubSubscriptionIDs(request: fakeRequest!)
-        XCTAssert(cleanedRequest.url?.absoluteString == "https://management.azure.com/subscriptions/99999999-9999-9999-9999-999999999999/resourceGroups/rgname/providers/Microsoft.KeyVault/vaults/myValtZikfikxz?api-version=2019-09-01")
+        let cleanedRequest = Filter().scrubSubscriptionIDs(from: fakeRequest!)
+        guard let shouldPass = cleanedRequest.url?.absoluteString.contains(regex: Filter.subcriptionIDReplacement) else {
+            XCTFail(); return
+        }
+        XCTAssert(shouldPass)
         
     }
 
     func test_scrubbingResponse_removeSubscriptionIDs() throws {
+        let dirtyHeaders = ["location": "[\"https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/eastus/operationResults/VVR8MDYzNzU0NDA3MTY0MzE2NTczMnwwNjZENTEwRTA4N0U0MTY5ODc1MDhDRDY3QUJDMzdGOQ?api-version=2019-09-01\"]"]
         
-        let cleanedResponse = Filter.scrubSubscriptionIDs(response: fakeResponse!, data: fakeResponseData)
-        print(String(data: cleanedResponse.1, encoding: .utf8))
+        let dirtyBody = """
+            "string": "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/eastus/deletedVaults/myValtZikfikxz\",\"name\":\"myValtZikfikxz\",\"type\":\"Microsoft.KeyVault/deletedVaults\",\"properties\":{\"vaultId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgname/providers/Microsoft.KeyVault/vaults/myValtZikfikxz\",\"location\":\"eastus\",\"tags\":{},\"deletionDate\":\"2021-04-19T05:32:42Z\",\"scheduledPurgeDate\":\"2021-07-18T05:32:42Z\"}}"
+        """
+        
+        var shouldPass : Bool? = true
+        
+        let cleanLocation = Filter.scrubSubscriptionId(from: dirtyHeaders["location"])
+        let cleanBody = Filter.scrubSubscriptionId(from: dirtyBody)
+        
+        shouldPass = cleanLocation?.contains(regex: Filter.subcriptionIDReplacement) ?? cleanBody?.contains(regex: Filter.subcriptionIDReplacement)
+        
+        XCTAssert(shouldPass ?? false)
     }
 
     
 }
+
+
 
 fileprivate extension Array where Element == Any {
-    func dictionary(forIndex: Int) throws -> Dictionary<String,Any> {
-        if let dictionary = self[forIndex] as? Dictionary<String, Any> {
-            return dictionary
-        }
-        throw "Not a dictionary"
+    func dictionary(forIndex: Int) -> Dictionary<String,Any>? {
+        return self[forIndex] as? Dictionary<String, Any>
     }
     
-    func array(forIndex: Int) throws -> Array<Any> {
-        if let array = self[forIndex] as? Array<Any> {
-            return array
-        }
-        throw "Not an array"
+    func array(forIndex: Int) -> Array<Any>? {
+        return self[forIndex] as? Array<Any>
     }
     
-    func string(forIndex: Int) throws -> String {
-        if let string = self[forIndex] as? String {
-            return string
-        }
-        throw "Not a string"
+    func string(forIndex: Int) -> String? {
+        return self[forIndex] as? String
     }
     
 }
 
- fileprivate extension Dictionary where Key == String, Value == Any {
+fileprivate extension Data {
     
-     func stringValues() throws -> [String:String]  {
+    private func topLevelDataDictionary() -> [String:Any] {
+        try! JSONSerialization.jsonObject(with: self, options: []) as! [String:Any]
+    }
+    
+    
+    func responseDataHeaders() -> [String:String?] {
+        let dictionary = topLevelDataDictionary()
+        var stringDictionary = [String:String]()
+        dictionary.forEach {
+            stringDictionary[$0] = ($1 as? CustomStringConvertible)?.description
+        }
+        return stringDictionary
+    }
+    
+    func request(number: Int = 0) -> URLRequest {
+        let dataDictionary = topLevelDataDictionary()
+        var fakeRequest = URLRequest(url: URL(string: dataDictionary.array(forKey: "interactions")?.dictionary(forIndex: number)?.dictionary(forKey: "request")?.string(forKey: "uri"))!)
+        fakeRequest.httpBody = dataDictionary.array(forKey: "interactions")?.dictionary(forIndex: number)?.dictionary(forKey: "request")?.string(forKey: "body")?.data(using: .utf8)
+        return fakeRequest
+    }
+    
+    func response(number: Int = 0) -> URLResponse {
+        let dataDictionary = topLevelDataDictionary()
+        return HTTPURLResponse(url: URL(string: dataDictionary.array(forKey: "interactions")?.dictionary(forIndex: number)?.dictionary(forKey: "request")?.string(forKey: "uri"))!, statusCode: 200, httpVersion: nil, headerFields: dataDictionary.array(forKey: "interactions")?.dictionary(forIndex: number)?.dictionary(forKey: "response")?.dictionary(forKey: "headers")?.stringValues())! as URLResponse
+    }
+    
+    func responseData(number: Int = 0) -> Data {
+        let dataDictionary = topLevelDataDictionary()
+        return (dataDictionary.array(forKey: "interactions")?.dictionary(forIndex: number)?.dictionary(forKey: "response")?.dictionary(forKey: "body")?.description.data(using: .utf8)!)!
+    }
+}
+
+fileprivate extension Dictionary where Key == String, Value == Any {
+    
+     func stringValues() -> [String:String]  {
          var newDictionary = [String:String]()
-         try self.forEach { key, val in
-             if let val = val as? CustomStringConvertible {
-                 newDictionary[key] = val.description
-             }
-             else {
-                 throw "Not string representable"
-             }
+         self.forEach { key, val in
+            newDictionary[key] = (val as! CustomStringConvertible).description
          }
          return newDictionary
      }
-     
-    func findValue(key: String, dictionary: Dictionary<String,Any>) -> Any? {
-       if dictionary[key] != nil {
-           return dictionary[key]
-       }
-        
-       for testKey in dictionary.keys {
-           if let innerDictionary = dictionary[testKey] as? Dictionary<String , Any> {
-               let returnedValue = findValue(key: key, dictionary: innerDictionary)
-               if returnedValue != nil {
-                   return returnedValue
-               }
-           }
-       }
-       return nil
+  
+    
+    func dictionary(forKey: Key) -> Dictionary<String,Any>?  {
+        return self[forKey] as? Dictionary<String,Any>
     }
     
-    func dictionary(forKey: Key) throws -> Dictionary<String,Any>  {
-        if let innerDictionary = self[forKey] as? Dictionary<String,Any> {
-            return innerDictionary
-        }
-        throw "Not a dictionary"
+    func array(forKey: Key) -> Array<Any>?  {
+        return self[forKey] as? Array<Any>
     }
     
-    func array(forKey: Key) throws -> Array<Any>  {
-        if let innerArray = self[forKey] as? Array<Any> {
-            return innerArray
-        }
-        throw "Not an array"
-    }
-    
-    func string(forKey: Key) throws -> String {
-        if let string = self[forKey] as? String {
-            return string
-        }
-        throw "Not a string"
+    func string(forKey: Key) -> String? {
+        return self[forKey] as? String
     }
 }
 
 fileprivate extension String {
-    func dictionaryFromString() throws -> [String : Any] {
+    func dictionaryFromString() -> [String : Any] {
         let data = self.data(using: .utf8)
-        guard let dictionary = try! JSONSerialization.jsonObject(with: data!, options: []) as? [String: Any] else {
-            throw "Not a dictionary"
-        }
-        return dictionary
+        return try! JSONSerialization.jsonObject(with: data!, options: []) as! [String: Any]
+    }
+    
+    func contains(regex pattern: String, regexOptions: NSRegularExpression.Options = [], matchingOptions: NSRegularExpression.MatchingOptions = []) -> Bool {
+            let regularExpression = try! NSRegularExpression(pattern: pattern, options: regexOptions)
+            let range = NSRange(location: 0, length: self.utf8.count)
+            return regularExpression.numberOfMatches(in: self, options: matchingOptions, range: range) > 0
     }
 }
