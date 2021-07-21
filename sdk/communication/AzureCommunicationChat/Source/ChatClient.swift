@@ -59,13 +59,32 @@ public class ChatClient {
             throw AzureError.client("Unable to form base URL.")
         }
 
+        // If applicationId is not provided bundle identifier will be used
+        // Instead set the default application id to be an empty string
+        var updatedOptions: AzureCommunicationChatClientOptions?
+        if options.telemetryOptions.applicationId == nil {
+            let apiVersion = AzureCommunicationChatClientOptions.ApiVersion(options.apiVersion)
+            let telemetryOptions = TelemetryOptions(
+                telemetryDisabled: options.telemetryOptions.telemetryDisabled,
+                applicationId: ""
+            )
+
+            updatedOptions = AzureCommunicationChatClientOptions(
+                apiVersion: apiVersion,
+                logger: options.logger,
+                telemetryOptions: telemetryOptions,
+                transportOptions: options.transportOptions,
+                dispatchQueue: options.dispatchQueue
+            )
+        }
+
         let communicationCredential = TokenCredentialAdapter(credential)
         let authPolicy = BearerTokenCredentialPolicy(credential: communicationCredential, scopes: [])
 
         let client = try ChatClientInternal(
             endpoint: endpointUrl,
             authPolicy: authPolicy,
-            withOptions: options
+            withOptions: updatedOptions ?? options
         )
 
         self.service = client.chat
