@@ -17,17 +17,10 @@ For your convenience, each service has a separate set of libraries that you can 
 
 Releases of all libraries are available here: [releases](https://github.com/Azure/azure-sdk-for-ios/releases)
 
-Currently, the client libraries are in **beta**. These libraries follow the [Azure SDK Design Guidelines for iOS](https://azure.github.io/azure-sdk/ios_introduction.html) and share a number of core features such as HTTP retries, logging, transport protocols, authentication protocols, etc., so that once you learn how to use these features in one client library, you will know how to use them in other client libraries. You can learn about these shared features in [AzureCore](https://github.com/Azure/azure-sdk-for-ios/blob/main/sdk/core/AzureCore/README.md).
-
-The following libraries are currently in **beta**:
+Currently, the following client libraries are in **beta**. These libraries follow the [Azure SDK Design Guidelines for iOS](https://azure.github.io/azure-sdk/ios_introduction.html) and share a number of core features such as HTTP retries, logging, transport protocols, authentication protocols, etc., so that once you learn how to use these features in one client library, you will know how to use them in other client libraries. You can learn about these shared features in [AzureCore](https://github.com/Azure/azure-sdk-for-ios/blob/main/sdk/core/AzureCore/README.md).
 
 #### Core
 - [AzureCore](https://github.com/Azure/azure-sdk-for-ios/blob/main/sdk/core/AzureCore/)
-
-#### Azure Communication Services
-- [AzureCommunicationCommon](https://github.com/Azure/azure-sdk-for-ios/blob/main/sdk/communication/AzureCommunicationCommon/)
-- [AzureCommunicationCalling](https://github.com/Azure/Communication/releases)
-- [AzureCommunicationChat](https://github.com/Azure/azure-sdk-for-ios/blob/main/sdk/communication/AzureCommunicationChat/)
 
 > Note: The SDK is currently in **beta**. The API surface and feature sets are subject to change at any time before they become generally available. We do not currently recommend them for production use.
 
