@@ -38,10 +38,10 @@ public extension Filter {
         "location": .closure({ key, val in
             scrubSubscriptionId(from: val ?? "")
         }),
-        "operation-location": .replace(""),
-        "azure-asyncoperation": .replace(""),
-        "www-authenticate": .replace(""),
-        "access_token": .replace("")
+        "operation-location": .remove,
+        "azure-asyncoperation": .remove,
+        "www-authenticate": .remove,
+        "access_token": .remove
         
     ]
     
