@@ -67,12 +67,10 @@ class AzureTestTests: XCTestCase {
             "string": "{\"id\":\"/subscriptions/72f988bf-86f1-41af-91ab-2d7cd011db47/providers/Microsoft.KeyVault/locations/eastus/deletedVaults/myValtZikfikxz\",\"name\":\"myValtZikfikxz\",\"type\":\"Microsoft.KeyVault/deletedVaults\",\"properties\":{\"vaultId\":\"/subscriptions/72f988bf-86f1-41af-91ab-2d7cd011db47/resourceGroups/rgname/providers/Microsoft.KeyVault/vaults/myValtZikfikxz\",\"location\":\"eastus\",\"tags\":{},\"deletionDate\":\"2021-04-19T05:32:42Z\",\"scheduledPurgeDate\":\"2021-07-18T05:32:42Z\"}}"
         """
         
-        var shouldPass = false
-        
-        let cleanLocation = Filter.scrubSubscriptionId(from: dirtyHeaders["location"])
+        let cleanLocation = Filter.scrubSubscriptionId(from: dirtyHeaders["location"]!)
         let cleanBody = Filter.scrubSubscriptionId(from: dirtyBody)
         
-        let shouldPass = cleanLocation!.contains(regex: Filter.subcriptionIDReplacement) && cleanBody!.contains(regex: Filter.subcriptionIDReplacement)
+        let shouldPass = !(cleanLocation.contains(regex: "72f988bf-86f1-41af-91ab-2d7cd011db47")) && !(cleanBody.contains(regex: "72f988bf-86f1-41af-91ab-2d7cd011db47"))
         
         XCTAssert(shouldPass)
     }
