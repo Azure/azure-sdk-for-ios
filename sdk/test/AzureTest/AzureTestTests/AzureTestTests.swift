@@ -111,21 +111,21 @@ fileprivate extension Data {
         return stringDictionary
     }
     
-    func request(number: Int = 0) -> URLRequest {
+    func request(forIndex: Int) -> URLRequest {
         let dataDictionary = topLevelDataDictionary()
-        var fakeRequest = URLRequest(url: URL(string: dataDictionary.array(forKey: "interactions")?.dictionary(forIndex: number)?.dictionary(forKey: "request")?.string(forKey: "uri"))!)
-        fakeRequest.httpBody = dataDictionary.array(forKey: "interactions")?.dictionary(forIndex: number)?.dictionary(forKey: "request")?.string(forKey: "body")?.data(using: .utf8)
+        var fakeRequest = URLRequest(url: URL(string: dataDictionary.array(forKey: "interactions")?.dictionary(forIndex: forIndex)?.dictionary(forKey: "request")?.string(forKey: "uri"))!)
+        fakeRequest.httpBody = dataDictionary.array(forKey: "interactions")?.dictionary(forIndex: forIndex)?.dictionary(forKey: "request")?.string(forKey: "body")?.data(using: .utf8)
         return fakeRequest
     }
     
-    func response(number: Int = 0) -> URLResponse {
+    func response(forIndex: Int) -> URLResponse {
         let dataDictionary = topLevelDataDictionary()
-        return HTTPURLResponse(url: URL(string: dataDictionary.array(forKey: "interactions")?.dictionary(forIndex: number)?.dictionary(forKey: "request")?.string(forKey: "uri"))!, statusCode: 200, httpVersion: nil, headerFields: dataDictionary.array(forKey: "interactions")?.dictionary(forIndex: number)?.dictionary(forKey: "response")?.dictionary(forKey: "headers")?.stringValues())! as URLResponse
+        return HTTPURLResponse(url: URL(string: dataDictionary.array(forKey: "interactions")?.dictionary(forIndex: forIndex)?.dictionary(forKey: "request")?.string(forKey: "uri"))!, statusCode: 200, httpVersion: nil, headerFields: dataDictionary.array(forKey: "interactions")?.dictionary(forIndex: forIndex)?.dictionary(forKey: "response")?.dictionary(forKey: "headers")?.stringValues())! as URLResponse
     }
     
-    func responseData(number: Int = 0) -> Data {
+    func responseData(forIndex: Int) -> Data {
         let dataDictionary = topLevelDataDictionary()
-        return (dataDictionary.array(forKey: "interactions")?.dictionary(forIndex: number)?.dictionary(forKey: "response")?.dictionary(forKey: "body")?.description.data(using: .utf8)!)!
+        return (dataDictionary.array(forKey: "interactions")?.dictionary(forIndex: forIndex)?.dictionary(forKey: "response")?.dictionary(forKey: "body")?.description.data(using: .utf8)!)!
     }
 }
 
