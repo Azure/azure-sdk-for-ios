@@ -33,11 +33,11 @@ class AzureTestTests: XCTestCase {
 
     var fakeData: Data!
     
-    var fakeRequest: URLRequest?
+    var fakeRequest: URLRequest!
     
-    var fakeResponse: URLResponse?
+    var fakeResponse: URLResponse!
     
-    var fakeResponseData: Data?
+    var fakeResponseData: Data!
     
     private func chooseRecordedInteraction(number: Int) {
         fakeRequest = fakeData.request(number: number)
@@ -55,28 +55,26 @@ class AzureTestTests: XCTestCase {
 
     func test_scrubbingRequest_removeSubscriptionIDs() throws {
         let cleanedRequest = Filter().scrubSubscriptionIDs(from: fakeRequest!)
-        guard let shouldPass = cleanedRequest.url?.absoluteString.contains(regex: Filter.subcriptionIDReplacement) else {
-            XCTFail(); return
-        }
+        let shouldPass = cleanedRequest.url?.absoluteString.contains(regex: Filter.subcriptionIDReplacement) ?? false
         XCTAssert(shouldPass)
         
     }
 
     func test_scrubbingResponse_removeSubscriptionIDs() throws {
-        let dirtyHeaders = ["location": "[\"https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/eastus/operationResults/VVR8MDYzNzU0NDA3MTY0MzE2NTczMnwwNjZENTEwRTA4N0U0MTY5ODc1MDhDRDY3QUJDMzdGOQ?api-version=2019-09-01\"]"]
+        let dirtyHeaders = ["location": "[\"https://management.azure.com/subscriptions/72f988bf-86f1-41af-91ab-2d7cd011db47/providers/Microsoft.KeyVault/locations/eastus/operationResults/VVR8MDYzNzU0NDA3MTY0MzE2NTczMnwwNjZENTEwRTA4N0U0MTY5ODc1MDhDRDY3QUJDMzdGOQ?api-version=2019-09-01\"]"]
         
         let dirtyBody = """
-            "string": "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.KeyVault/locations/eastus/deletedVaults/myValtZikfikxz\",\"name\":\"myValtZikfikxz\",\"type\":\"Microsoft.KeyVault/deletedVaults\",\"properties\":{\"vaultId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgname/providers/Microsoft.KeyVault/vaults/myValtZikfikxz\",\"location\":\"eastus\",\"tags\":{},\"deletionDate\":\"2021-04-19T05:32:42Z\",\"scheduledPurgeDate\":\"2021-07-18T05:32:42Z\"}}"
+            "string": "{\"id\":\"/subscriptions/72f988bf-86f1-41af-91ab-2d7cd011db47/providers/Microsoft.KeyVault/locations/eastus/deletedVaults/myValtZikfikxz\",\"name\":\"myValtZikfikxz\",\"type\":\"Microsoft.KeyVault/deletedVaults\",\"properties\":{\"vaultId\":\"/subscriptions/72f988bf-86f1-41af-91ab-2d7cd011db47/resourceGroups/rgname/providers/Microsoft.KeyVault/vaults/myValtZikfikxz\",\"location\":\"eastus\",\"tags\":{},\"deletionDate\":\"2021-04-19T05:32:42Z\",\"scheduledPurgeDate\":\"2021-07-18T05:32:42Z\"}}"
         """
         
-        var shouldPass : Bool? = true
+        var shouldPass = false
         
         let cleanLocation = Filter.scrubSubscriptionId(from: dirtyHeaders["location"])
         let cleanBody = Filter.scrubSubscriptionId(from: dirtyBody)
         
-        shouldPass = cleanLocation?.contains(regex: Filter.subcriptionIDReplacement) ?? cleanBody?.contains(regex: Filter.subcriptionIDReplacement)
+        shouldPass = (cleanLocation?.contains(regex: Filter.subcriptionIDReplacement) ?? false) && (cleanBody?.contains(regex: Filter.subcriptionIDReplacement) ?? false)
         
-        XCTAssert(shouldPass ?? false)
+        XCTAssert(shouldPass)
     }
 
     

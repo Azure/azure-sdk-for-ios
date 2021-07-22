@@ -29,10 +29,10 @@ import DVR
 
 public extension Filter {
     
-    static let subscriptionIDRegex = "(/(subscriptions))/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
-    static let graphSubscriptionIDRegex = "(https://(graph.windows.net))/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+    static let subscriptionIDRegex = try! NSRegularExpression(pattern: "(/(subscriptions))/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", options: .caseInsensitive)
+    static let graphSubscriptionIDRegex = try! NSRegularExpression(pattern: "(https://(graph.windows.net))/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", options: .caseInsensitive)
     
-    static var subcriptionIDReplacement = "99999999-9999-9999-9999-999999999999"
+    static var subcriptionIDReplacement = "00000000-0000-0000-0000-000000000000"
     
     static var standardHeaderScrubbing: [String : FilterBehavior] = [
         "location": .closure({ key, val in
@@ -45,20 +45,34 @@ public extension Filter {
         
     ]
     
-    static func scrubSubscriptionId(from string: String?) -> String? {
-        
-        guard var editedString = string else {
-            return nil
-        }
-        editedString.replaceAllMatches(usingRegex: Filter.subscriptionIDRegex, withReplacement: "$1/\(Filter.subcriptionIDReplacement)", options: .caseInsensitive)
-        editedString.replaceAllMatches(usingRegex: Filter.graphSubscriptionIDRegex, withReplacement: "$1/\(Filter.subcriptionIDReplacement)", options: .caseInsensitive)
+    /// Returns the original string with subscription ID info (if any) replaced.
+    static func scrubSubscriptionId(from string: String) -> String {
+        var editedString = string
+        editedString.replaceAllMatches(usingRegex: Filter.subscriptionIDRegex, withReplacement: "$1/\(Filter.subcriptionIDReplacement)")
+        editedString.replaceAllMatches(usingRegex: Filter.graphSubscriptionIDRegex, withReplacement: "$1/\(Filter.subcriptionIDReplacement)")
         
         return editedString
         
         
     }
     
+    /// Attempts to scrub subscription ID from optional String. Returns nil if the input is nil.
+    static func tryScrubSubscriptionId(from string: String?) -> String? {
+        
+        if string != nil {
+            return scrubSubscriptionId(from: string!)
+        }
+        return nil
+    }
     
+    /// Attempts to scrub subsctiption ID from optional Data that represents a string. Returns null if the input is nil or if the Data is not String-representable.
+    static func tryScrubSubscriptionId(from data: Data?) -> Data? {
+        
+        guard let stringData = String(data: data, encoding: .utf8) else {
+            return nil
+        }
+        return scrubSubscriptionId(from: stringData).data(using: .utf8)
+    }
     
     func scrubSubscriptionIDs(from request: URLRequest) -> URLRequest {
         
@@ -66,41 +80,33 @@ public extension Filter {
         
         let dirtyHeaders = request.allHTTPHeaderFields ?? [:]
         let cleanHeaders = dirtyHeaders.mapValues { val in
-            return Filter.scrubSubscriptionId(from: val) ?? val
+            return Filter.scrubSubscriptionId(from: val)
         }
         
         cleanRequest.allHTTPHeaderFields = cleanHeaders.isEmpty ? nil : cleanHeaders
-        cleanRequest.url = URL(string: Filter.scrubSubscriptionId(from: request.url?.absoluteString))
-        cleanRequest.mainDocumentURL = URL(string: Filter.scrubSubscriptionId(from: request.mainDocumentURL?.absoluteString))
-        cleanRequest.httpBody = Filter.scrubSubscriptionId(from: String(data: request.httpBody, encoding: .utf8))?.data(using: .utf8)
+        cleanRequest.url = URL(string: Filter.tryScrubSubscriptionId(from: request.url?.absoluteString))
+        cleanRequest.mainDocumentURL = URL(string: Filter.tryScrubSubscriptionId(from: request.mainDocumentURL?.absoluteString))
+        cleanRequest.httpBody = Filter.tryScrubSubscriptionId(from: String(data: request.httpBody, encoding: .utf8))?.data(using: .utf8)
 
         return cleanRequest
     }
     
+    /// This function relies on Filter within DVR to scrub the URLResponse and is only responsible for scrubbing the optional Data. The URLResponse is passed as a parameter and within the return type so that this function can be used as Filter's beforeRecordResponse function
     func scrubSubscriptionIDs(from response: Foundation.URLResponse, data: Data?) -> (Foundation.URLResponse, Data?) {
-        guard let dirtyData = data else {
-            return (response, data)
-        }
-        let responseDataString = String(data: dirtyData, encoding: .utf8)
-        let cleanedDataString = Filter.scrubSubscriptionId(from: responseDataString)
-        let cleanedData = cleanedDataString?.data(using: .utf8)
-        return (response, cleanedData)
-        
+        return (response, Filter.tryScrubSubscriptionId(from: data))
     }
     
 }
 
 extension String {
     
-    mutating func replaceAllMatches(usingRegex: String, withReplacement: String, options: NSRegularExpression.Options = [], matchingOptions: NSRegularExpression.MatchingOptions = []) {
-        do {
-            let regularExpression = try NSRegularExpression(pattern: usingRegex, options: options)
-            let range = NSRange(location: 0, length: self.utf8.count)
-            self = regularExpression.stringByReplacingMatches(in: self, options: matchingOptions, range: range, withTemplate: withReplacement)
-        } catch {
-            return
-        }
+    mutating func replaceAllMatches(usingRegex: NSRegularExpression, withReplacement: String, matchingOptions: NSRegularExpression.MatchingOptions = []) {
+        let range = NSRange(location: 0, length: self.utf8.count)
+        self = usingRegex.stringByReplacingMatches(in: self, options: matchingOptions, range: range, withTemplate: withReplacement)
+
     }
+    
+    
 }
 
 
