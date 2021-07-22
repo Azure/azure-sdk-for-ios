@@ -72,7 +72,7 @@ class AzureTestTests: XCTestCase {
         let cleanLocation = Filter.scrubSubscriptionId(from: dirtyHeaders["location"])
         let cleanBody = Filter.scrubSubscriptionId(from: dirtyBody)
         
-        shouldPass = (cleanLocation?.contains(regex: Filter.subcriptionIDReplacement) ?? false) && (cleanBody?.contains(regex: Filter.subcriptionIDReplacement) ?? false)
+        let shouldPass = cleanLocation!.contains(regex: Filter.subcriptionIDReplacement) && cleanBody!.contains(regex: Filter.subcriptionIDReplacement)
         
         XCTAssert(shouldPass)
     }
