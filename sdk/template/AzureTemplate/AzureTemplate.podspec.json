@@ -3,7 +3,7 @@
   "version": "1.6.1",
   "summary": "Azure Template Dummy Library",
   "description": "This is a test library for Azure Engineering Systems.",
-  "homepage": "https://github.com/Azure/azure-sdk-for-ios/sdk/template/AzureTemplate",
+  "homepage": "https://github.com/Azure/azure-sdk-for-ios/tree/main/sdk/template/AzureTemplate",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
