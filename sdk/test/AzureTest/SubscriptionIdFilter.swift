@@ -33,10 +33,6 @@ public class SubscriptionIDFilter : Filter {
         super.init()
         let standardHeaderScrubbing: [String : FilterBehavior] = [
             "location": .closure(scrubSubscriptionIDClosure),
-           "operation-location": .remove,
-           "azure-asyncoperation": .remove,
-           "www-authenticate": .remove,
-           "access_token": .remove
        ]
         filterHeaders = standardHeaderScrubbing
         beforeRecordRequest = scrubSubscriptionIDs

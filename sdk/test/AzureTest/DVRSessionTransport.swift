@@ -76,7 +76,11 @@ public class DVRSessionTransport: TransportStage {
             "x-ms-gateway-service-instanceid": .remove,
             "x-ms-ratelimit-remaining-tenant-reads": .remove,
             "x-ms-served-by": .remove,
-            "x-ms-authorization-auxiliary": .remove
+            "x-ms-authorization-auxiliary": .remove,
+            "operation-location": .remove,
+            "azure-asyncoperation": .remove,
+            "www-authenticate": .remove,
+            "access_token": .remove
             ]
         
         session = Session(outputDirectory: outputDirectory, cassetteName: cassetteName)
