@@ -1,5 +1,41 @@
 # Release History
 
+## 2.0.0-beta.1 (2021-07-14)
+
+*NOTE: Previously released version `1.2.0-beta.1` is functionally identical to `2.0.0-beta.1` version and the only difference is in version number and only `2.0.0-beta.1` version will be available in cocoapods.*
+
+### Features Added
+- `Recording` and `Transcription` features are decoupled from `Call` object and now can only be used via extensions.
+ Usage example:
+```
+            let recordingFeature = self.call!.api(RecordingFeature.self)
+            recordingFeature.delegate = self.callObserver
+```
+
+### Breaking Changes
+- Changed: `didChangeRecordingState` and `didChangeTranscriptionState` are moved out of `CallDelegate` into `RecordingFeatureDelegate` and into `TranscriptionFeatureDelegate`.
+
+**More documentation on extensions and the breaking change can be found [here](https://docs.microsoft.com/azure/communication-services/quickstarts/voice-video-calling/calling-client-samples?pivots=platform-ios).**
+
+### Bugs Fixed
+- Not triggering calldidChangeState if using createCallAgentWithCallKitOption. And not able to accept the call in App killed state ([#316](https://github.com/Azure/Communication/issues/316)).
+- Remote participant stream is stretched after hang-up ([#311](https://github.com/Azure/Communication/issues/311)).
+- CallKit bug fixes with sometimes call gets disconnected immediately after picking up the call.
+- Intermittent freezing of UI thread issue is fixed when for e.g. reading property `remoteParticipants` in a `Call`.
+- `Hold` and `Resume` support fixed with CallKit enabled `CallAgent`'s.
+
+## 1.1.0 (2021-06-30)
+Azure Communication Calling iOS SDK version `1.1.0`.
+
+### Features Added
+- `CallAgent` and `CallClient` now have `dispose` API to explicitly delete objects instead of relying on ARC.
+
+### Bug fixes
+- `ACSRendererView` layout fixed after a device rotation ([#127](https://github.com/Azure/Communication/issues/127)).
+- Resizing fixed for animating streams ([#262](https://github.com/Azure/Communication/issues/262)).
+- Creating multiple `CallAgent` with same token will now throw an error.
+- Fixed issue where `RendererDelegate.onFirstFrameRendered` was marked as optional but crashed if listener did not implement.
+
 ## 1.1.0-beta.1 (2021-06-04)
 Azure Communication Calling iOS SDK version `1.1.0-beta.1`.
 

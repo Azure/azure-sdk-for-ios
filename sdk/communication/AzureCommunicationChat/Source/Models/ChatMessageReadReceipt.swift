@@ -83,7 +83,7 @@ public struct ChatMessageReadReceipt: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         // Decode CommunicationIdentifierModel to CommunicationIdentifier
-        let identifierModel = try container.decode(CommunicationIdentifierModel.self, forKey: .sender)
+        let identifierModel = try container.decode(CommunicationIdentifierModelInternal.self, forKey: .sender)
         self.sender = try IdentifierSerializer.deserialize(identifier: identifierModel)
 
         self.chatMessageId = try container.decode(String.self, forKey: .chatMessageId)

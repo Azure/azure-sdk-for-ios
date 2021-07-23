@@ -382,8 +382,8 @@ class ChatThreadClientUnitTests: XCTestCase {
 
         let expectation = self.expectation(description: "Update message")
 
-        let message = "update message"
-        chatThreadClient.update(content: message, messageId: messageId, completionHandler: { result, _ in
+        let message = UpdateChatMessageRequest(content: "update message")
+        chatThreadClient.update(message: messageId, parameters: message, completionHandler: { result, _ in
             switch result {
             case let .success(response):
                 XCTAssertNotNil(response)

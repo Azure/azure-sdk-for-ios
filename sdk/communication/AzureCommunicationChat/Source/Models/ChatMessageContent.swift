@@ -114,7 +114,7 @@ public struct ChatMessageContent: Codable {
         }
 
         // Decode CommunicationIdentifierModel to CommunicationIdentifier
-        if let identifierModel = try? container.decode(CommunicationIdentifierModel.self, forKey: .initiator) {
+        if let identifierModel = try? container.decode(CommunicationIdentifierModelInternal.self, forKey: .initiator) {
             self.initiator = try IdentifierSerializer
                 .deserialize(identifier: identifierModel)
         } else {

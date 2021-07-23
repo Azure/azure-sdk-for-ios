@@ -26,7 +26,7 @@ internal struct ChatMessageContentInternal: Codable {
     /// Chat message content for messages of types participantAdded or participantRemoved.
     internal let participants: [ChatParticipantInternal]?
     /// Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.
-    internal let initiatorCommunicationIdentifier: CommunicationIdentifierModel?
+    internal let initiatorCommunicationIdentifier: CommunicationIdentifierModelInternal?
 
     // MARK: Initializers
 
@@ -38,7 +38,7 @@ internal struct ChatMessageContentInternal: Codable {
     ///   - initiatorCommunicationIdentifier: Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.
     internal init(
         message: String? = nil, topic: String? = nil, participants: [ChatParticipantInternal]? = nil,
-        initiatorCommunicationIdentifier: CommunicationIdentifierModel? = nil
+        initiatorCommunicationIdentifier: CommunicationIdentifierModelInternal? = nil
     ) {
         self.message = message
         self.topic = topic
@@ -62,7 +62,7 @@ internal struct ChatMessageContentInternal: Codable {
         self.topic = try? container.decode(String.self, forKey: .topic)
         self.participants = try? container.decode([ChatParticipantInternal].self, forKey: .participants)
         self.initiatorCommunicationIdentifier = try? container.decode(
-            CommunicationIdentifierModel.self,
+            CommunicationIdentifierModelInternal.self,
             forKey: .initiatorCommunicationIdentifier
         )
     }

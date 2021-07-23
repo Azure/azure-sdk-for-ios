@@ -26,7 +26,7 @@ internal struct ChatThreadPropertiesInternal: Codable {
     /// The timestamp when the chat thread was created. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     internal let createdOn: Iso8601Date
     /// Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.
-    internal let createdByCommunicationIdentifier: CommunicationIdentifierModel
+    internal let createdByCommunicationIdentifier: CommunicationIdentifierModelInternal
     /// The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     internal let deletedOn: Iso8601Date?
 
@@ -41,8 +41,7 @@ internal struct ChatThreadPropertiesInternal: Codable {
     ///   - deletedOn: The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     internal init(
         id: String, topic: String, createdOn: Iso8601Date,
-        createdByCommunicationIdentifier: CommunicationIdentifierModel,
-        deletedOn: Iso8601Date? = nil
+        createdByCommunicationIdentifier: CommunicationIdentifierModelInternal, deletedOn: Iso8601Date? = nil
     ) {
         self.id = id
         self.topic = topic
@@ -68,7 +67,7 @@ internal struct ChatThreadPropertiesInternal: Codable {
         self.topic = try container.decode(String.self, forKey: .topic)
         self.createdOn = try container.decode(Iso8601Date.self, forKey: .createdOn)
         self.createdByCommunicationIdentifier = try container.decode(
-            CommunicationIdentifierModel.self,
+            CommunicationIdentifierModelInternal.self,
             forKey: .createdByCommunicationIdentifier
         )
         self.deletedOn = try? container.decode(Iso8601Date.self, forKey: .deletedOn)
