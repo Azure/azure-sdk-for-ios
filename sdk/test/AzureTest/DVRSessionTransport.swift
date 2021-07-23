@@ -80,6 +80,13 @@ public class DVRSessionTransport: TransportStage {
             ]
         
         session = Session(outputDirectory: outputDirectory, cassetteName: cassetteName)
+        let defaultFilter = Filter()
+        defaultFilter.filterHeaders = replacements
+        let subscriptionIdFilter = SubscriptionIDFilter()
+        session?.filters = [
+            defaultFilter,
+            subscriptionIdFilter
+        ]
         if environmentVariable(forKey: "TEST_MODE", default: "playback") == "record" {
             session?.recordMode = .all
             session?.recordingEnabled = true
