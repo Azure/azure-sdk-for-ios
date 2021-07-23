@@ -24,25 +24,22 @@
 //
 // --------------------------------------------------------------------------
 
-import XCTest
-import Foundation
-import DVR
-import AzureTest
 @testable import AzureTest
+import DVR
+import Foundation
+import XCTest
 
 class AzureTestTests: XCTestCase {
-
     var fakeData: Data!
-    
+
     var fakeRequest: URLRequest!
-    
+
     var fakeResponse: URLResponse!
-    
+
     var fakeResponseData: Data!
-    
-    
+
     let insertedGUID = "72f988bf-86f1-41af-91ab-2d7cd011db47"
-    
+
     override func setUpWithError() throws {
         let testBundle = Bundle(for: type(of: self))
         let path = testBundle.path(forResource: "TestData", ofType: "json")
@@ -50,41 +47,46 @@ class AzureTestTests: XCTestCase {
     }
 
     func test_scrubbingRequest_removeSubscriptionIDs() throws {
-        let dirtyURLString = "https://management.azure.com/subscriptions/\(insertedGUID)/resourceGroups/rgname/providers/Microsoft.KeyVault/vaults/myValtZikfikxz?api-version=2019-09-01"
-        
+        let dirtyURLString =
+            "https://management.azure.com/subscriptions/\(insertedGUID)/resourceGroups/rgname/providers/Microsoft.KeyVault/vaults/myValtZikfikxz?api-version=2019-09-01"
+
         let cleanedURLString = SubscriptionIDFilter().scrubSubscriptionId(from: dirtyURLString)
-        let shouldPass = !(cleanedURLString.contains(regex: insertedGUID))
+        let shouldPass = !cleanedURLString.contains(regex: insertedGUID)
         XCTAssert(shouldPass)
-        
     }
 
     func test_scrubbingResponse_removeSubscriptionIDs() throws {
-        let dirtyHeaders = ["location": "[\"https://management.azure.com/subscriptions/\(insertedGUID)/providers/Microsoft.KeyVault/locations/eastus/operationResults/VVR8MDYzNzU0NDA3MTY0MzE2NTczMnwwNjZENTEwRTA4N0U0MTY5ODc1MDhDRDY3QUJDMzdGOQ?api-version=2019-09-01\"]"]
-        
+        let dirtyHeaders =
+            [
+                "location": "[\"https://management.azure.com/subscriptions/\(insertedGUID)/providers/Microsoft.KeyVault/locations/eastus/operationResults/VVR8MDYzNzU0NDA3MTY0MzE2NTczMnwwNjZENTEwRTA4N0U0MTY5ODc1MDhDRDY3QUJDMzdGOQ?api-version=2019-09-01\"]"
+            ]
+
         let dirtyBody = """
             "string": "{\"id\":\"/subscriptions/\(insertedGUID)/providers/Microsoft.KeyVault/locations/eastus/deletedVaults/myValtZikfikxz\",\"name\":\"myValtZikfikxz\",\"type\":\"Microsoft.KeyVault/deletedVaults\",\"properties\":{\"vaultId\":\"/subscriptions/72f988bf-86f1-41af-91ab-2d7cd011db47/resourceGroups/rgname/providers/Microsoft.KeyVault/vaults/myValtZikfikxz\",\"location\":\"eastus\",\"tags\":{},\"deletionDate\":\"2021-04-19T05:32:42Z\",\"scheduledPurgeDate\":\"2021-07-18T05:32:42Z\"}}"
         """
-        
+
         let cleanLocation = SubscriptionIDFilter().scrubSubscriptionId(from: dirtyHeaders["location"]!)
         let cleanBody = SubscriptionIDFilter().scrubSubscriptionId(from: dirtyBody)
-        
-        let shouldPass = !(cleanLocation.contains(regex: insertedGUID)) && !(cleanBody.contains(regex: insertedGUID))
-        
+
+        let shouldPass = !cleanLocation.contains(regex: insertedGUID) && !cleanBody.contains(regex: insertedGUID)
+
         XCTAssert(shouldPass)
     }
-
-    
 }
 
-fileprivate extension String {
-    func dictionaryFromString() -> [String : Any] {
+private extension String {
+    func dictionaryFromString() -> [String: Any] {
         let data = self.data(using: .utf8)
         return try! JSONSerialization.jsonObject(with: data!, options: []) as! [String: Any]
     }
-    
-    func contains(regex pattern: String, regexOptions: NSRegularExpression.Options = [], matchingOptions: NSRegularExpression.MatchingOptions = []) -> Bool {
-            let regularExpression = try! NSRegularExpression(pattern: pattern, options: regexOptions)
-            let range = NSRange(location: 0, length: self.utf8.count)
-            return regularExpression.numberOfMatches(in: self, options: matchingOptions, range: range) > 0
+
+    func contains(
+        regex pattern: String,
+        regexOptions: NSRegularExpression.Options = [],
+        matchingOptions: NSRegularExpression.MatchingOptions = []
+    ) -> Bool {
+        let regularExpression = try! NSRegularExpression(pattern: pattern, options: regexOptions)
+        let range = NSRange(location: 0, length: utf8.count)
+        return regularExpression.numberOfMatches(in: self, options: matchingOptions, range: range) > 0
     }
 }
