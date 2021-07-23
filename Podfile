@@ -112,10 +112,20 @@ end
 
 target 'AzureTest' do
   project 'sdk/test/AzureTest/AzureTest'
+
   if $use_local_dvr
-      pod 'DVR', :path => $dvr_path
+    pod 'DVR', :path => $dvr_path
   else
+    pod 'DVR', :git => 'https://github.com/tjprescott/DVR.git'
+  end
+
+  target 'AzureTestTests' do
+    inherit! :search_paths
+    if $use_local_dvr
+      pod 'DVR', :path => $dvr_path
+    else
       pod 'DVR', :git => 'https://github.com/tjprescott/DVR.git'
+    end
   end
 end
 

@@ -64,20 +64,32 @@ public class DVRSessionTransport: TransportStage {
             .appendingPathComponent("sdk/communication/AzureCommunicationChat/Tests/Recordings").absoluteString else {
             fatalError("SDK Path Invalid")
         }
-        session = Session(outputDirectory: outputDirectory, cassetteName: cassetteName)
-        session?.filter.filterHeaders = [
-            "Authorization": .remove,
-            "client-request-id": .remove,
-            "retry-after": .remove,
+        let replacements: [String: Filter.FilterBehavior] = [
+            "authorization": .remove,
+            "client-request-id" : .remove,
+            "retry-after" : .remove,
             "x-ms-client-request-id": .remove,
             "x-ms-correlation-request-id": .remove,
             "x-ms-ratelimit-remaining-subscription-reads": .remove,
-            "x-ms-request-id": .remove,
+            "x-ms-request-id":.remove,
             "x-ms-routing-request-id": .remove,
             "x-ms-gateway-service-instanceid": .remove,
             "x-ms-ratelimit-remaining-tenant-reads": .remove,
             "x-ms-served-by": .remove,
-            "x-ms-authorization-auxiliary": .remove
+            "x-ms-authorization-auxiliary": .remove,
+            "operation-location": .remove,
+            "azure-asyncoperation": .remove,
+            "www-authenticate": .remove,
+            "access_token": .remove
+            ]
+        
+        session = Session(outputDirectory: outputDirectory, cassetteName: cassetteName)
+        let defaultFilter = Filter()
+        defaultFilter.filterHeaders = replacements
+        let subscriptionIdFilter = SubscriptionIDFilter()
+        session?.filters = [
+            defaultFilter,
+            subscriptionIdFilter
         ]
         if environmentVariable(forKey: "TEST_MODE", default: "playback") == "record" {
             session?.recordMode = .all
