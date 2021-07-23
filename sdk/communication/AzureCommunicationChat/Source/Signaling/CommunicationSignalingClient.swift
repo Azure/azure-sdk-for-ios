@@ -79,6 +79,7 @@ class CommunicationSignalingClient {
     func start() {
         selfHostedTrouterClient.withRegistrar(trouterUrlRegistrar)
         selfHostedTrouterClient.start()
+        selfHostedTrouterClient.setUserActivityState(UserActivityState.TrouterUserActivityStateActive)
     }
 
     func stop() {
