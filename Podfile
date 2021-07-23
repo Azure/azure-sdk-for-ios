@@ -95,14 +95,6 @@ target 'AzureStorageBlob' do
   end
 end
 
-target 'AzureTemplate' do
-  project 'sdk/template/AzureTemplate/AzureTemplate'
-
-  target 'AzureTemplateTests' do
-    inherit! :search_paths
-  end
-end
-
 target 'AzureSDKDemoSwift' do
   project 'examples/AzureSDKDemoSwift/AzureSDKDemoSwift'
   pod 'MSAL', '1.1.15'
@@ -128,11 +120,12 @@ target 'AzureTest' do
   end
 
   target 'AzureTestTests' do
-  inherit! :search_paths
-  if $use_local_dvr
-    pod 'DVR', :path => $dvr_path
-  else
-    pod 'DVR', :git => 'https://github.com/tjprescott/DVR.git'
+    inherit! :search_paths
+    if $use_local_dvr
+      pod 'DVR', :path => $dvr_path
+    else
+      pod 'DVR', :git => 'https://github.com/tjprescott/DVR.git'
+    end
   end
 end
 
