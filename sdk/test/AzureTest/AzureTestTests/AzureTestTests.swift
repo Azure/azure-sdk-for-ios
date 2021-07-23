@@ -43,12 +43,6 @@ class AzureTestTests: XCTestCase {
     
     let insertedGUID = "72f988bf-86f1-41af-91ab-2d7cd011db47"
     
-    private func chooseRecordedInteraction(index: Int) {
-        fakeRequest = fakeData.request(forIndex: index)
-        fakeResponse = fakeData.response(forIndex: index)
-        fakeResponseData = fakeData.responseData(forIndex: index)
-    }
-    
     override func setUpWithError() throws {
         let testBundle = Bundle(for: type(of: self))
         let path = testBundle.path(forResource: "TestData", ofType: "json")

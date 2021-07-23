@@ -36,19 +36,7 @@ public class SubscriptionIDFilter : Filter {
            "operation-location": .remove,
            "azure-asyncoperation": .remove,
            "www-authenticate": .remove,
-           "access_token": .remove,
-            "authorization": .remove,
-            "client-request-id" : .remove,
-            "retry-after" : .remove,
-            "x-ms-client-request-id": .remove,
-            "x-ms-correlation-request-id": .remove,
-            "x-ms-ratelimit-remaining-subscription-reads": .remove,
-            "x-ms-request-id":.remove,
-            "x-ms-routing-request-id": .remove,
-            "x-ms-gateway-service-instanceid": .remove,
-            "x-ms-ratelimit-remaining-tenant-reads": .remove,
-            "x-ms-served-by": .remove,
-            "x-ms-authorization-auxiliary": .remove
+           "access_token": .remove
        ]
         filterHeaders = standardHeaderScrubbing
         beforeRecordRequest = scrubSubscriptionIDs
