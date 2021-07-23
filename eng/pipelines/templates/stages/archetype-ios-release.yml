@@ -47,7 +47,7 @@ stages:
               displayName: "Publish to SPM Mirrors"
               condition: and(succeeded(), ne(variables['Skip.PublishPackage'], 'true'))
               environment: cocoapodstrunk
-              dependsOn: PublishPackageToCocoaPodsTrunk
+              dependsOn: TagRepository
               variables:
                 - template: ../variables/globals.yml
               pool:
@@ -74,7 +74,7 @@ stages:
             displayName: "Publish to CocoaPods Trunk"
             condition: and(succeeded(), ne(variables['Skip.PublishPackage'], 'true'))
             environment: cocoapodstrunk
-            dependsOn: TagRepository
+            dependsOn: PublishPackageToSwiftPackageManagerMirrors
             variables:
               - template: ../variables/globals.yml
             pool:
