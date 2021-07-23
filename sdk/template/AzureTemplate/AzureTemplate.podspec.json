@@ -16,7 +16,7 @@
   },
   "swift_versions": "5.0",
   "source": {
-    "git": "https://github.com/Azure/azure-sdk-for-ios",
+    "git": "https://github.com/Azure/azure-sdk-for-ios.git",
     "tag": "AzureTemplate_1.6.3"
   },
   "source_files": "sdk/template/AzureTemplate/Source/**/*.{swift,h,m}",
