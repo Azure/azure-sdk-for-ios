@@ -28,6 +28,7 @@ import XCTest
 import Foundation
 import DVR
 import AzureTest
+@testable import AzureTest
 
 class AzureTestTests: XCTestCase {
 
@@ -39,38 +40,42 @@ class AzureTestTests: XCTestCase {
     
     var fakeResponseData: Data!
     
-    private func chooseRecordedInteraction(number: Int) {
-        fakeRequest = fakeData.request(number: number)
-        fakeResponse = fakeData.response(number: number)
-        fakeResponseData = fakeData.responseData(number: number)
+    
+    let insertedGUID = "72f988bf-86f1-41af-91ab-2d7cd011db47"
+    
+    private func chooseRecordedInteraction(index: Int) {
+        fakeRequest = fakeData.request(forIndex: index)
+        fakeResponse = fakeData.response(forIndex: index)
+        fakeResponseData = fakeData.responseData(forIndex: index)
     }
     
     override func setUpWithError() throws {
         let testBundle = Bundle(for: type(of: self))
         let path = testBundle.path(forResource: "TestData", ofType: "json")
         fakeData = try! Data(contentsOf: URL(fileURLWithPath: path!))
-        chooseRecordedInteraction(number: 8)
-        
     }
 
     func test_scrubbingRequest_removeSubscriptionIDs() throws {
-        let cleanedRequest = Filter().scrubSubscriptionIDs(from: fakeRequest!)
-        let shouldPass = cleanedRequest.url?.absoluteString.contains(regex: Filter.subcriptionIDReplacement) ?? false
+        chooseRecordedInteraction(index: 0)
+        let dirtyURLString = "https://management.azure.com/subscriptions/\(insertedGUID)/resourceGroups/rgname/providers/Microsoft.KeyVault/vaults/myValtZikfikxz?api-version=2019-09-01"
+        
+        let cleanedURLString = SubscriptionIDFilter().scrubSubscriptionId(from: dirtyURLString)
+        let shouldPass = !(cleanedURLString.contains(regex: insertedGUID))
         XCTAssert(shouldPass)
         
     }
 
     func test_scrubbingResponse_removeSubscriptionIDs() throws {
-        let dirtyHeaders = ["location": "[\"https://management.azure.com/subscriptions/72f988bf-86f1-41af-91ab-2d7cd011db47/providers/Microsoft.KeyVault/locations/eastus/operationResults/VVR8MDYzNzU0NDA3MTY0MzE2NTczMnwwNjZENTEwRTA4N0U0MTY5ODc1MDhDRDY3QUJDMzdGOQ?api-version=2019-09-01\"]"]
+        let dirtyHeaders = ["location": "[\"https://management.azure.com/subscriptions/\(insertedGUID)/providers/Microsoft.KeyVault/locations/eastus/operationResults/VVR8MDYzNzU0NDA3MTY0MzE2NTczMnwwNjZENTEwRTA4N0U0MTY5ODc1MDhDRDY3QUJDMzdGOQ?api-version=2019-09-01\"]"]
         
         let dirtyBody = """
-            "string": "{\"id\":\"/subscriptions/72f988bf-86f1-41af-91ab-2d7cd011db47/providers/Microsoft.KeyVault/locations/eastus/deletedVaults/myValtZikfikxz\",\"name\":\"myValtZikfikxz\",\"type\":\"Microsoft.KeyVault/deletedVaults\",\"properties\":{\"vaultId\":\"/subscriptions/72f988bf-86f1-41af-91ab-2d7cd011db47/resourceGroups/rgname/providers/Microsoft.KeyVault/vaults/myValtZikfikxz\",\"location\":\"eastus\",\"tags\":{},\"deletionDate\":\"2021-04-19T05:32:42Z\",\"scheduledPurgeDate\":\"2021-07-18T05:32:42Z\"}}"
+            "string": "{\"id\":\"/subscriptions/\(insertedGUID)/providers/Microsoft.KeyVault/locations/eastus/deletedVaults/myValtZikfikxz\",\"name\":\"myValtZikfikxz\",\"type\":\"Microsoft.KeyVault/deletedVaults\",\"properties\":{\"vaultId\":\"/subscriptions/72f988bf-86f1-41af-91ab-2d7cd011db47/resourceGroups/rgname/providers/Microsoft.KeyVault/vaults/myValtZikfikxz\",\"location\":\"eastus\",\"tags\":{},\"deletionDate\":\"2021-04-19T05:32:42Z\",\"scheduledPurgeDate\":\"2021-07-18T05:32:42Z\"}}"
         """
         
-        let cleanLocation = Filter.scrubSubscriptionId(from: dirtyHeaders["location"]!)
-        let cleanBody = Filter.scrubSubscriptionId(from: dirtyBody)
+        let cleanLocation = SubscriptionIDFilter().scrubSubscriptionId(from: dirtyHeaders["location"]!)
+        let cleanBody = SubscriptionIDFilter().scrubSubscriptionId(from: dirtyBody)
         
-        let shouldPass = !(cleanLocation.contains(regex: "72f988bf-86f1-41af-91ab-2d7cd011db47")) && !(cleanBody.contains(regex: "72f988bf-86f1-41af-91ab-2d7cd011db47"))
+        let shouldPass = !(cleanLocation.contains(regex: insertedGUID)) && !(cleanBody.contains(regex: insertedGUID))
         
         XCTAssert(shouldPass)
     }
