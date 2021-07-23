@@ -1,6 +1,10 @@
 # Release History
 
-## 1.0.0
+## 1.0.1 (2021-07-23)
+### New Features
+- ChatClient sets `applicationId` to be empty by default instead of using the bundle identifier
+
+## 1.0.0 (2021-07-20)
 ### Breaking Changes
 - Update message parameters updated to `update(message: String, parameters: UpdateChatMessageRequest)`
 - `EventHandler` renamed to `TrouterEventHandler`

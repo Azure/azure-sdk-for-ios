@@ -63,6 +63,7 @@ stages:
                       env:
                         COCOAPODS_TRUNK_TOKEN: $(azuresdk-cocoapods-trunk-token)
                       displayName: Push ${{artifact.name}} to CocoaPods Trunk
+
           - ${{if ne(artifact.skipSwiftPackageManager, 'true')}}:
             - deployment: PublishPackageToSwiftPackageManagerMirrors
               displayName: "Publish to SPM Mirrors"
@@ -83,10 +84,10 @@ stages:
                         persistCredentials: true
                       - task: PowerShell@2
                         displayName: Publish Swift Package
-                        inputs: 
+                        inputs:
                           targetType: filePath
                           filePath: azure-sdk-for-ios/eng/scripts/Publish-SwiftPackage.ps1
-                          arguments: >- 
+                          arguments: >-
                             -GitSourcePath $(Pipeline.Workspace)/s/azure-sdk-for-ios/sdk/${{parameters.ServiceDirectory}}/${{artifact.name}}
                             -GitDestinationPath $(Pipeline.Workspace)/s/SwiftPM-${{artifact.name}}
-                          pwsh: true                    
+                          pwsh: true

@@ -117,6 +117,15 @@
                location = "group:stages"
                name = "stages">
                <FileRef
+                  location = "group:archetype-ios-release.yml">
+               </FileRef>
+               <FileRef
+                  location = "group:archetype-sdk-tests.yml">
+               </FileRef>
+               <FileRef
+                  location = "group:platform-matrix.json">
+               </FileRef>
+               <FileRef
                   location = "group:archetype-sdk-client.yml">
                </FileRef>
             </Group>
@@ -130,6 +139,9 @@
             <Group
                location = "group:jobs"
                name = "jobs">
+               <FileRef
+                  location = "group:live.tests.yml">
+               </FileRef>
                <FileRef
                   location = "group:archetype-sdk-client.yml">
                </FileRef>
