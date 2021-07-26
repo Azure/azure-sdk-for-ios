@@ -7,13 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0A1E75962670053100054F60 /* DVRSessionTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1E75952670053100054F60 /* DVRSessionTransport.swift */; };
-		0A1E759E2671386500054F60 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1E759D2671386500054F60 /* Util.swift */; };
 		0A1E75AB267918C300054F60 /* Pods_AzureTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63223FEC2B266A9E151BF760 /* Pods_AzureTest.framework */; };
 		0A2097BF266FDF0000FE2272 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A2097BB266FDE0200FE2272 /* AzureCore.framework */; };
-		0AC16A2D267D2B3D000AD7EA /* TestSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC16A2C267D2B3D000AD7EA /* TestSettings.swift */; };
-		0AF8C2F126A8917D0052FBFF /* RecordableXCTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF8C2F026A8917D0052FBFF /* RecordableXCTestCase.swift */; };
-		31CAC086268A53AA0084F817 /* SubscriptionIdFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CAC085268A53AA0084F817 /* SubscriptionIdFilter.swift */; };
 		31CAC0AC268A5D7E0084F817 /* AzureTestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CAC0AB268A5D7E0084F817 /* AzureTestTests.swift */; };
 		31CAC0AE268A5D7E0084F817 /* AzureTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "AzureTest::AzureTest::Product" /* AzureTest.framework */; };
 		31CAC0B6268A60080084F817 /* TestData.json in Resources */ = {isa = PBXBuildFile; fileRef = 31CAC0B5268A60070084F817 /* TestData.json */; };
@@ -31,15 +26,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0A1E75952670053100054F60 /* DVRSessionTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DVRSessionTransport.swift; sourceTree = "<group>"; };
-		0A1E759D2671386500054F60 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		0A1E75A22673D48100054F60 /* AzureIdentity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureIdentity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A2097BB266FDE0200FE2272 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A2097C2266FE16200FE2272 /* AzureIdentity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureIdentity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A6A542126853667001006AF /* AzureTest.podspec.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = AzureTest.podspec.json; sourceTree = "<group>"; };
-		0AC16A2C267D2B3D000AD7EA /* TestSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSettings.swift; sourceTree = "<group>"; };
-		0AF8C2F026A8917D0052FBFF /* RecordableXCTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordableXCTestCase.swift; sourceTree = "<group>"; };
-		31CAC085268A53AA0084F817 /* SubscriptionIdFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubscriptionIdFilter.swift; sourceTree = "<group>"; };
+		0A9229E026AF288D00D4B387 /* DVRSessionTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DVRSessionTransport.swift; sourceTree = "<group>"; };
+		0A9229E126AF288D00D4B387 /* TestSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSettings.swift; sourceTree = "<group>"; };
+		0A9229E226AF288D00D4B387 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
+		0A9229E326AF288D00D4B387 /* SubscriptionIdFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionIdFilter.swift; sourceTree = "<group>"; };
+		0A9229E426AF288D00D4B387 /* RecordableXCTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordableXCTestCase.swift; sourceTree = "<group>"; };
+		0A9229E526AF28AD00D4B387 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		31CAC0A9268A5D7E0084F817 /* AzureTestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AzureTestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		31CAC0AB268A5D7E0084F817 /* AzureTestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzureTestTests.swift; sourceTree = "<group>"; };
 		31CAC0AD268A5D7E0084F817 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -76,6 +72,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A9229DF26AF288D00D4B387 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				0A9229E026AF288D00D4B387 /* DVRSessionTransport.swift */,
+				0A9229E126AF288D00D4B387 /* TestSettings.swift */,
+				0A9229E226AF288D00D4B387 /* Util.swift */,
+				0A9229E326AF288D00D4B387 /* SubscriptionIdFilter.swift */,
+				0A9229E426AF288D00D4B387 /* RecordableXCTestCase.swift */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
 		21E91398ED202E8262E7364B /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -88,14 +96,14 @@
 			path = ../../../Pods;
 			sourceTree = "<group>";
 		};
-		31CAC0AA268A5D7E0084F817 /* AzureTestTests */ = {
+		31CAC0AA268A5D7E0084F817 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
 				31CAC0B4268A5FD00084F817 /* Resources */,
 				31CAC0AB268A5D7E0084F817 /* AzureTestTests.swift */,
 				31CAC0AD268A5D7E0084F817 /* Info.plist */,
 			);
-			path = AzureTestTests;
+			path = Tests;
 			sourceTree = "<group>";
 		};
 		31CAC0B4268A5FD00084F817 /* Resources */ = {
@@ -130,27 +138,16 @@
 		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
+				0A9229E526AF28AD00D4B387 /* Package.swift */,
 				0A6A542126853667001006AF /* AzureTest.podspec.json */,
-				OBJ_7 /* Sources */,
-				31CAC0AA268A5D7E0084F817 /* AzureTestTests */,
+				0A9229DF26AF288D00D4B387 /* Source */,
+				31CAC0AA268A5D7E0084F817 /* Tests */,
 				OBJ_13 /* Products */,
 				OBJ_16 /* README.md */,
 				21E91398ED202E8262E7364B /* Pods */,
 				931914D81AEE8242AC264A8F /* Frameworks */,
 			);
 			sourceTree = "<group>";
-		};
-		OBJ_7 /* Sources */ = {
-			isa = PBXGroup;
-			children = (
-				31CAC085268A53AA0084F817 /* SubscriptionIdFilter.swift */,
-				0AF8C2F026A8917D0052FBFF /* RecordableXCTestCase.swift */,
-				0A1E75952670053100054F60 /* DVRSessionTransport.swift */,
-				0A1E759D2671386500054F60 /* Util.swift */,
-				0AC16A2C267D2B3D000AD7EA /* TestSettings.swift */,
-			);
-			name = Sources;
-			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -334,11 +331,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				0AC16A2D267D2B3D000AD7EA /* TestSettings.swift in Sources */,
-				0A1E75962670053100054F60 /* DVRSessionTransport.swift in Sources */,
-				31CAC086268A53AA0084F817 /* SubscriptionIdFilter.swift in Sources */,
-				0A1E759E2671386500054F60 /* Util.swift in Sources */,
-				0AF8C2F126A8917D0052FBFF /* RecordableXCTestCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
