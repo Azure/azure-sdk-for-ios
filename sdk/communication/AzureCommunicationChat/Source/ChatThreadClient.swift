@@ -253,7 +253,11 @@ public class ChatThreadClient {
         withOptions options: SendTypingNotificationOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        let request = SendTypingNotificationRequest(senderDisplayName: senderDisplayName)
+        // Send the displayName if provided
+        var request: SendTypingNotificationRequest?
+        if let displayName = senderDisplayName {
+            request = SendTypingNotificationRequest(senderDisplayName: displayName)
+        }
         service.send(typingNotification: request, chatThreadId: threadId, withOptions: options) { result, httpResponse in
             switch result {
             case .success:
