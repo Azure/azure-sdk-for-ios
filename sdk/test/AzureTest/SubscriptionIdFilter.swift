@@ -38,10 +38,12 @@ public class SubscriptionIDFilter: Filter {
         beforeRecordResponse = scrubSubscriptionIDs
     }
 
+    // swiftlint:disable:next force_try
     static let subscriptionIDRegex = try! NSRegularExpression(
         pattern: "(/(subscriptions))/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
         options: .caseInsensitive
     )
+    // swiftlint:disable:next force_try
     static let graphSubscriptionIDRegex = try! NSRegularExpression(
         pattern: "(https://(graph.windows.net))/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
         options: .caseInsensitive

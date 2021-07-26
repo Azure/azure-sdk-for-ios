@@ -29,6 +29,7 @@ import DVR
 import Foundation
 import XCTest
 
+// swiftlint:disable force_try force_cast line_length
 class AzureTestTests: XCTestCase {
     var fakeData: Data!
 
