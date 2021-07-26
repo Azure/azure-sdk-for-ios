@@ -1,6 +1,6 @@
 {
   "name": "AzureTemplate",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "summary": "Azure Template Dummy Library",
   "description": "This is a test library for Azure Engineering Systems.",
   "homepage": "https://github.com/Azure/azure-sdk-for-ios/tree/main/sdk/template/AzureTemplate",
@@ -15,9 +15,11 @@
     "ios": "12.0"
   },
   "swift_versions": "5.0",
+  "readme": "https://github.com/Azure/azure-sdk-for-ios/blob/main/sdk/template/AzureTemplate/README.md",
+  "changelog": "https://github.com/Azure/azure-sdk-for-ios/blob/main/sdk/template/AzureTemplate/CHANGELOG.md",
   "source": {
     "git": "https://github.com/Azure/azure-sdk-for-ios.git",
-    "tag": "AzureTemplate_1.6.3"
+    "tag": "AzureTemplate_1.6.4"
   },
   "source_files": "sdk/template/AzureTemplate/Source/**/*.{swift,h,m}",
   "pod_target_xcconfig": {
