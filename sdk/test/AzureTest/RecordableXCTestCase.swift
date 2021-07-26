@@ -1,6 +1,3 @@
-// swift-tools-version:5.3
-//  The swift-tools-version declares the minimum version of Swift required to build this package.
-//
 // --------------------------------------------------------------------------
 //
 // Copyright (c) Microsoft Corporation. All rights reserved.
@@ -27,39 +24,42 @@
 //
 // --------------------------------------------------------------------------
 
-import PackageDescription
+import AzureCore
+import XCTest
 
-let package = Package(
-    name: "AzureTemplate",
-    platforms: [
-        .macOS(.v10_15), .iOS(.v12), .tvOS(.v12)
-    ],
-    products: [
-        .library(name: "AzureTemplate", targets: ["AzureTemplate"])
-    ],
-    dependencies: [
-        .package(name: "AzureCore", url: "https://github.com/Azure/SwiftPM-AzureCore.git", from: "1.0.0-beta.12")
-    ],
-    targets: [
-        // Build targets
-        .target(
-            name: "AzureTemplate",
-            dependencies: ["AzureCore"],
-            path: "Source",
-            exclude: [
-                "Source/Supporting Files",
-                "LICENSE"
-            ]
-        ),
-        // Test targets
-        .testTarget(
-            name: "AzureTemplateTests",
-            dependencies: ["AzureTemplate"],
-            path: "Tests",
-            exclude: [
-                "Info.plist"
-            ]
-        )
-    ],
-    swiftLanguageVersions: [.v5]
-)
+open class RecordableXCTestCase<SettingsType: TestSettingsProtocol>: XCTestCase {
+    public let settings = {
+        SettingsType.loadFromPlist()
+    }()
+
+    public var transportOptions: TransportOptions {
+        return TransportOptions(transport: transport)
+    }
+
+    private var transport: TransportStage!
+
+    private var mode = environmentVariable(forKey: "TEST_MODE", default: "playback")
+
+    override public final func setUp() {}
+
+    override public final func setUpWithError() throws {
+        let fullname = name
+        var testName = fullname.split(separator: " ")[1]
+        testName.removeLast()
+        transport = mode != "live" ? DVRSessionTransport(cassetteName: String(testName)) : URLSessionTransport()
+        try setUpTestWithError()
+        transport?.open()
+    }
+
+    /// Method which the test author can override to configure setup
+    open func setUpTestWithError() throws {}
+
+    override public final func tearDownWithError() throws {}
+
+    override public final func tearDown() {
+        transport?.close()
+    }
+
+    /// Method which the test author can override to configure setup
+    open func tearDownTestWithError() throws {}
+}

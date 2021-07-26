@@ -29,9 +29,6 @@
          <FileRef
             location = "group:AzureCommunicationChat/AzureCommunicationChat.xcodeproj">
          </FileRef>
-         <FileRef
-            location = "group:test-resources.json">
-         </FileRef>
       </Group>
       <Group
          location = "group:core"

@@ -27,17 +27,17 @@
 import Foundation
 
 public protocol TestSettingsProtocol: AnyObject, Codable {
-    static func loadFromPlist() -> Self
+    static func loadFromPlist() -> Self?
 }
 
 public extension TestSettingsProtocol {
-    static func loadFromPlist() -> Self {
+    static func loadFromPlist() -> Self? {
         if let path = Bundle(for: self).path(forResource: "test-settings", ofType: "plist"),
             let xml = FileManager.default.contents(atPath: path),
             let settings = try? PropertyListDecoder().decode(Self.self, from: xml) {
             return settings
         } else {
-            fatalError("Unable to decode test-settings.plist!")
+            return nil
         }
     }
 }

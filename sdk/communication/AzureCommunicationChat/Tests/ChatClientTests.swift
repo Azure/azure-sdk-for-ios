@@ -47,8 +47,8 @@ class ChatClientTests: XCTestCase {
     }
 
     override func setUpWithError() throws {
-        let endpoint = settings.endpoint ?? "https://endpoint"
-        let token = settings.token ?? generateFakeToken()
+        let endpoint = settings?.endpoint ?? "https://endpoint"
+        let token = settings?.token ?? generateFakeToken()
         let credential = try CommunicationTokenCredential(token: token)
         let options = AzureCommunicationChatClientOptions()
 
@@ -90,7 +90,7 @@ class ChatClientTests: XCTestCase {
     }
 
     func test_CreateThread_WithParticipants() {
-        let userId = settings.user2!
+        let userId = settings!.user2!
         let thread = CreateChatThreadRequest(
             topic: "Test topic",
             participants: [

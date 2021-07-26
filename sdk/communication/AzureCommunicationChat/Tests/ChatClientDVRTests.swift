@@ -31,33 +31,16 @@ import AzureTest
 import DVR
 import XCTest
 
-class ChatClientDVRTests: XCTestCase {
+class ChatClientDVRTests: RecordableXCTestCase<TestSettings> {
     /// ChatClient initialized in setup.
     private var chatClient: ChatClient!
 
-    private var transport: TransportStage!
-
-    /// Test mode
-    private var mode = environmentVariable(forKey: "TEST_MODE", default: "playback")
-
-    override func setUpWithError() throws {
-        let settings = TestSettings.loadFromPlist()
-        let endpoint = settings.endpoint ?? "https://endpoint"
-        let token = settings.token ?? generateFakeToken()
+    override func setUpTestWithError() throws {
+        let endpoint = settings?.endpoint ?? "https://endpoint"
+        let token = settings?.token ?? generateFakeToken()
         let credential = try CommunicationTokenCredential(token: token)
-        let fullname = name
-        var testName = fullname.split(separator: " ")[1]
-        testName.removeLast()
-        transport = mode != "live" ? DVRSessionTransport(cassetteName: String(testName)) : URLSessionTransport()
-        let transportOptions = TransportOptions(transport: transport)
         let options = AzureCommunicationChatClientOptions(transportOptions: transportOptions)
-        transport?.open()
-
         chatClient = try ChatClient(endpoint: endpoint, credential: credential, withOptions: options)
-    }
-
-    override func tearDown() {
-        transport?.close()
     }
 
     func test_CreateThread_WithoutParticipants() {

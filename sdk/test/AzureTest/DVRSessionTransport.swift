@@ -66,12 +66,12 @@ public class DVRSessionTransport: TransportStage {
         }
         let replacements: [String: Filter.FilterBehavior] = [
             "authorization": .remove,
-            "client-request-id" : .remove,
-            "retry-after" : .remove,
+            "client-request-id": .remove,
+            "retry-after": .remove,
             "x-ms-client-request-id": .remove,
             "x-ms-correlation-request-id": .remove,
             "x-ms-ratelimit-remaining-subscription-reads": .remove,
-            "x-ms-request-id":.remove,
+            "x-ms-request-id": .remove,
             "x-ms-routing-request-id": .remove,
             "x-ms-gateway-service-instanceid": .remove,
             "x-ms-ratelimit-remaining-tenant-reads": .remove,
@@ -81,8 +81,8 @@ public class DVRSessionTransport: TransportStage {
             "azure-asyncoperation": .remove,
             "www-authenticate": .remove,
             "access_token": .remove
-            ]
-        
+        ]
+
         session = Session(outputDirectory: outputDirectory, cassetteName: cassetteName)
         let defaultFilter = Filter()
         defaultFilter.filterHeaders = replacements
