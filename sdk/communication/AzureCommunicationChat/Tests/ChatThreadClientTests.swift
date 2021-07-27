@@ -516,7 +516,7 @@ class ChatThreadClientTests: XCTestCase {
     }
 
     func test_Participant() {
-        let user2 = settings!.user2!
+        let user2 = settings?.user2 ?? "id2"
         let newParticipant = ChatParticipant(
             id: CommunicationUserIdentifier(user2),
             displayName: "User 2",
@@ -549,7 +549,7 @@ class ChatThreadClientTests: XCTestCase {
     }
 
     func test_RemoveParticipant() {
-        let user2 = settings!.user2!
+        let user2 = settings?.user2 ?? "id2"
         let removedParticipant = ChatParticipant(
             id: CommunicationUserIdentifier(user2),
             displayName: "User 2",
@@ -592,7 +592,7 @@ class ChatThreadClientTests: XCTestCase {
     }
 
     func test_ListParticipants_ReturnsParticipants() {
-        let user2 = settings!.user2!
+        let user2 = settings?.user2 ?? "id2"
         let anotherParticipant = ChatParticipant(
             id: CommunicationUserIdentifier(user2),
             displayName: "User 2",

@@ -90,7 +90,7 @@ class ChatClientTests: XCTestCase {
     }
 
     func test_CreateThread_WithParticipants() {
-        let userId = settings!.user2!
+        let userId = settings?.user2 ?? "id2"
         let thread = CreateChatThreadRequest(
             topic: "Test topic",
             participants: [
