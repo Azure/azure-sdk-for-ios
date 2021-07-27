@@ -7,35 +7,45 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0A1E75AB267918C300054F60 /* Pods_AzureTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63223FEC2B266A9E151BF760 /* Pods_AzureTest.framework */; };
-		0A2097BF266FDF0000FE2272 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A2097BB266FDE0200FE2272 /* AzureCore.framework */; };
+		0A9229F926B0704400D4B387 /* DVRSessionTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9229E026AF288D00D4B387 /* DVRSessionTransport.swift */; };
+		0A9229FA26B0704800D4B387 /* TestSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9229E126AF288D00D4B387 /* TestSettings.swift */; };
+		0A9229FB26B0704B00D4B387 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9229E226AF288D00D4B387 /* Util.swift */; };
+		0A9229FC26B0704E00D4B387 /* SubscriptionIdFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9229E326AF288D00D4B387 /* SubscriptionIdFilter.swift */; };
+		0A9229FD26B0705000D4B387 /* RecordableXCTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9229E426AF288D00D4B387 /* RecordableXCTestCase.swift */; };
+		0A9229FF26B070B500D4B387 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A9229FE26B070B500D4B387 /* XCTest.framework */; };
+		0A922A0B26B0780400D4B387 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A922A0A26B0780400D4B387 /* AzureCore.framework */; };
 		31CAC0AC268A5D7E0084F817 /* AzureTestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CAC0AB268A5D7E0084F817 /* AzureTestTests.swift */; };
-		31CAC0AE268A5D7E0084F817 /* AzureTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "AzureTest::AzureTest::Product" /* AzureTest.framework */; };
 		31CAC0B6268A60080084F817 /* TestData.json in Resources */ = {isa = PBXBuildFile; fileRef = 31CAC0B5268A60070084F817 /* TestData.json */; };
 		4B4694B556C92673B62DBD56 /* Pods_AzureTestTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A926CB03D0FC387E9DFF6F62 /* Pods_AzureTestTests.framework */; };
+		B706C03719DA5D1E3DCAF13C /* Pods_AzureTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63223FEC2B266A9E151BF760 /* Pods_AzureTest.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		31CAC0AF268A5D7E0084F817 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = "AzureTest::AzureTest";
-			remoteInfo = AzureTest;
+/* Begin PBXCopyFilesBuildPhase section */
+		0A9229F026B0702300D4B387 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
-/* End PBXContainerItemProxy section */
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0A1E75A22673D48100054F60 /* AzureIdentity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureIdentity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A2097BB266FDE0200FE2272 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A2097C2266FE16200FE2272 /* AzureIdentity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureIdentity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0A6A542126853667001006AF /* AzureTest.podspec.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = AzureTest.podspec.json; sourceTree = "<group>"; };
 		0A9229E026AF288D00D4B387 /* DVRSessionTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DVRSessionTransport.swift; sourceTree = "<group>"; };
 		0A9229E126AF288D00D4B387 /* TestSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSettings.swift; sourceTree = "<group>"; };
 		0A9229E226AF288D00D4B387 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		0A9229E326AF288D00D4B387 /* SubscriptionIdFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionIdFilter.swift; sourceTree = "<group>"; };
 		0A9229E426AF288D00D4B387 /* RecordableXCTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordableXCTestCase.swift; sourceTree = "<group>"; };
-		0A9229E526AF28AD00D4B387 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		0A9229F226B0702300D4B387 /* libAzureTest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAzureTest.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		0A9229FE26B070B500D4B387 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		0A922A0026B070E300D4B387 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0A922A0226B0710800D4B387 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0A922A0A26B0780400D4B387 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		31CAC0A9268A5D7E0084F817 /* AzureTestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AzureTestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		31CAC0AB268A5D7E0084F817 /* AzureTestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzureTestTests.swift; sourceTree = "<group>"; };
 		31CAC0AD268A5D7E0084F817 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -45,27 +55,26 @@
 		96F3D908C250C6C135FCD9DC /* Pods-AzureTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureTest.debug.xcconfig"; path = "Target Support Files/Pods-AzureTest/Pods-AzureTest.debug.xcconfig"; sourceTree = "<group>"; };
 		A926CB03D0FC387E9DFF6F62 /* Pods_AzureTestTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureTestTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADCC08EA457E7D6F9AD12244 /* Pods-AzureTestTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureTestTests.release.xcconfig"; path = "Target Support Files/Pods-AzureTestTests/Pods-AzureTestTests.release.xcconfig"; sourceTree = "<group>"; };
-		"AzureTest::AzureTest::Product" /* AzureTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4CDDDCAAD0879F79B1E8F6A /* Pods-AzureTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureTest.release.xcconfig"; path = "Target Support Files/Pods-AzureTest/Pods-AzureTest.release.xcconfig"; sourceTree = "<group>"; };
 		OBJ_16 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0A9229EF26B0702300D4B387 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0A922A0B26B0780400D4B387 /* AzureCore.framework in Frameworks */,
+				0A9229FF26B070B500D4B387 /* XCTest.framework in Frameworks */,
+				B706C03719DA5D1E3DCAF13C /* Pods_AzureTest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		31CAC0A6268A5D7E0084F817 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				31CAC0AE268A5D7E0084F817 /* AzureTest.framework in Frameworks */,
 				4B4694B556C92673B62DBD56 /* Pods_AzureTestTests.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		OBJ_23 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 0;
-			files = (
-				0A2097BF266FDF0000FE2272 /* AzureCore.framework in Frameworks */,
-				0A1E75AB267918C300054F60 /* Pods_AzureTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,6 +126,10 @@
 		931914D81AEE8242AC264A8F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0A922A0A26B0780400D4B387 /* AzureCore.framework */,
+				0A922A0226B0710800D4B387 /* AzureCore.framework */,
+				0A922A0026B070E300D4B387 /* AzureCore.framework */,
+				0A9229FE26B070B500D4B387 /* XCTest.framework */,
 				63223FEC2B266A9E151BF760 /* Pods_AzureTest.framework */,
 				0A1E75A22673D48100054F60 /* AzureIdentity.framework */,
 				0A2097C2266FE16200FE2272 /* AzureIdentity.framework */,
@@ -129,8 +142,8 @@
 		OBJ_13 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				"AzureTest::AzureTest::Product" /* AzureTest.framework */,
 				31CAC0A9268A5D7E0084F817 /* AzureTestTests.xctest */,
+				0A9229F226B0702300D4B387 /* libAzureTest.a */,
 			);
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -138,8 +151,6 @@
 		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
-				0A9229E526AF28AD00D4B387 /* Package.swift */,
-				0A6A542126853667001006AF /* AzureTest.podspec.json */,
 				0A9229DF26AF288D00D4B387 /* Source */,
 				31CAC0AA268A5D7E0084F817 /* Tests */,
 				OBJ_13 /* Products */,
@@ -152,6 +163,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0A9229F126B0702300D4B387 /* AzureTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0A9229F826B0702300D4B387 /* Build configuration list for PBXNativeTarget "AzureTest" */;
+			buildPhases = (
+				D556A51346D47C1433719BFA /* [CP] Check Pods Manifest.lock */,
+				0A9229EE26B0702300D4B387 /* Sources */,
+				0A9229EF26B0702300D4B387 /* Frameworks */,
+				0A9229F026B0702300D4B387 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AzureTest;
+			productName = AzureTestStatic;
+			productReference = 0A9229F226B0702300D4B387 /* libAzureTest.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		31CAC0A8268A5D7E0084F817 /* AzureTestTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 31CAC0B1268A5D7E0084F817 /* Build configuration list for PBXNativeTarget "AzureTestTests" */;
@@ -165,30 +194,11 @@
 			buildRules = (
 			);
 			dependencies = (
-				31CAC0B0268A5D7E0084F817 /* PBXTargetDependency */,
 			);
 			name = AzureTestTests;
 			productName = AzureTestTests;
 			productReference = 31CAC0A9268A5D7E0084F817 /* AzureTestTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		"AzureTest::AzureTest" /* AzureTest */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_18 /* Build configuration list for PBXNativeTarget "AzureTest" */;
-			buildPhases = (
-				36DA6D3F6489BCC66BB4718A /* [CP] Check Pods Manifest.lock */,
-				OBJ_21 /* Sources */,
-				OBJ_23 /* Frameworks */,
-				0A1E75A12673D1D900054F60 /* Format and Lint */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = AzureTest;
-			productName = AzureTest;
-			productReference = "AzureTest::AzureTest::Product" /* AzureTest.framework */;
-			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
@@ -200,6 +210,11 @@
 				LastSwiftUpdateCheck = 1250;
 				LastUpgradeCheck = 9999;
 				TargetAttributes = {
+					0A9229F126B0702300D4B387 = {
+						CreatedOnToolsVersion = 12.5.1;
+						DevelopmentTeam = UBF8T346G9;
+						ProvisioningStyle = Automatic;
+					};
 					31CAC0A8268A5D7E0084F817 = {
 						CreatedOnToolsVersion = 12.5.1;
 						ProvisioningStyle = Automatic;
@@ -218,7 +233,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				"AzureTest::AzureTest" /* AzureTest */,
+				0A9229F126B0702300D4B387 /* AzureTest */,
 				31CAC0A8268A5D7E0084F817 /* AzureTestTests */,
 			);
 		};
@@ -236,24 +251,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0A1E75A12673D1D900054F60 /* Format and Lint */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Format and Lint";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "BUILD_PATH=$(pwd)\nROOT_PATH=$(pwd | rev | cut -d'/' -f4- | rev) \n$ROOT_PATH/eng/scripts/swiftlint.sh $BUILD_PATH\n";
-		};
 		36AAC72EFA4D6D37A8B8C40C /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -272,7 +269,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AzureTestTests/Pods-AzureTestTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		36DA6D3F6489BCC66BB4718A /* [CP] Check Pods Manifest.lock */ = {
+		D556A51346D47C1433719BFA /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -319,6 +316,18 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0A9229EE26B0702300D4B387 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0A9229FA26B0704800D4B387 /* TestSettings.swift in Sources */,
+				0A9229FD26B0705000D4B387 /* RecordableXCTestCase.swift in Sources */,
+				0A9229FC26B0704E00D4B387 /* SubscriptionIdFilter.swift in Sources */,
+				0A9229FB26B0704B00D4B387 /* Util.swift in Sources */,
+				0A9229F926B0704400D4B387 /* DVRSessionTransport.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		31CAC0A5268A5D7E0084F817 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -327,24 +336,131 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_21 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		31CAC0B0268A5D7E0084F817 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = "AzureTest::AzureTest" /* AzureTest */;
-			targetProxy = 31CAC0AF268A5D7E0084F817 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin XCBuildConfiguration section */
+		0A9229F626B0702300D4B387 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 96F3D908C250C6C135FCD9DC /* Pods-AzureTest.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = "$(inherited)";
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = UBF8T346G9;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = "$(inherited)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0A9229F726B0702300D4B387 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E4CDDDCAAD0879F79B1E8F6A /* Pods-AzureTest.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = "$(inherited)";
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = UBF8T346G9;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = "$(inherited)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		31CAC0B2268A5D7E0084F817 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7FFEFE60028E7EF3807647F9 /* Pods-AzureTestTests.debug.xcconfig */;
@@ -371,7 +487,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = "$(inherited)";
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -433,7 +549,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = "$(inherited)";
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -461,68 +577,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Azure.AzureTestTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
-		OBJ_19 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 96F3D908C250C6C135FCD9DC /* Pods-AzureTest.debug.xcconfig */;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 1;
-				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = AzureTest.xcodeproj/AzureTest_Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MARKETING_VERSION = 1.0.0;
-				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = AzureTest;
-				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 5.0;
-				TARGET_NAME = AzureTest;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
-			};
-			name = Debug;
-		};
-		OBJ_20 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E4CDDDCAAD0879F79B1E8F6A /* Pods-AzureTest.release.xcconfig */;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 1;
-				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = AzureTest.xcodeproj/AzureTest_Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MARKETING_VERSION = 1.0.0;
-				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = AzureTest;
-				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 5.0;
-				TARGET_NAME = AzureTest;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
@@ -586,20 +640,20 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0A9229F826B0702300D4B387 /* Build configuration list for PBXNativeTarget "AzureTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0A9229F626B0702300D4B387 /* Debug */,
+				0A9229F726B0702300D4B387 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		31CAC0B1268A5D7E0084F817 /* Build configuration list for PBXNativeTarget "AzureTestTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				31CAC0B2268A5D7E0084F817 /* Debug */,
 				31CAC0B3268A5D7E0084F817 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		OBJ_18 /* Build configuration list for PBXNativeTarget "AzureTest" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				OBJ_19 /* Debug */,
-				OBJ_20 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

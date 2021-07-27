@@ -14,8 +14,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AzureTest::AzureTest"
-               BuildableName = "AzureTest.framework"
+               BlueprintIdentifier = "0A9229F126B0702300D4B387"
+               BuildableName = "libAzureTest.a"
                BlueprintName = "AzureTest"
                ReferencedContainer = "container:AzureTest.xcodeproj">
             </BuildableReference>
@@ -74,8 +74,8 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "AzureTest::AzureTest"
-            BuildableName = "AzureTest.framework"
+            BlueprintIdentifier = "0A9229F126B0702300D4B387"
+            BuildableName = "libAzureTest.a"
             BlueprintName = "AzureTest"
             ReferencedContainer = "container:AzureTest.xcodeproj">
          </BuildableReference>
