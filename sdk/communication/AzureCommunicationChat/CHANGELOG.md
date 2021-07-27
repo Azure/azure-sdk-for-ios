@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.0 (Unreleased)
+## 1.1.0-beta.1 (Unreleased)
 ### New Features
 - `ChatMessage` supports metadata, provide optional metadata when sending a `ChatMessage`
 - `ChatMessageReceivedEvent` and `ChatMessageEditedEvent` also contain metadata
