@@ -89,7 +89,10 @@ public class DVRSessionTransport: TransportStage {
         let subscriptionIdFilter = SubscriptionIDFilter()
         session?.filters = [
             defaultFilter,
-            subscriptionIdFilter
+            subscriptionIdFilter,
+            OAuthFilter(),
+            MetadataFilter(),
+            LargeBodyFilter()
         ]
         if environmentVariable(forKey: "TEST_MODE", default: "playback") == "record" {
             session?.recordMode = .all
