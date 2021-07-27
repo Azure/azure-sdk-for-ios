@@ -41,9 +41,11 @@ class ChatThreadClientUnitTests: XCTestCase {
     private let topic = "test topic"
     private let messageId = "test_message_id"
 
+    private let settings = TestSettings.loadFromPlist()
+
     override func setUpWithError() throws {
-        let endpoint = getEnvironmentVariable(withKey: "AZURE_COMMUNICATION_ENDPOINT", default: "https://endpoint")
-        let token = generateToken()
+        let endpoint = settings?.endpoint ?? "https://endpoint"
+        let token = settings?.token ?? generateFakeToken()
         let credential = try CommunicationTokenCredential(token: token)
         let options = AzureCommunicationChatClientOptions()
         chatClient = try ChatClient(endpoint: endpoint, credential: credential, withOptions: options)

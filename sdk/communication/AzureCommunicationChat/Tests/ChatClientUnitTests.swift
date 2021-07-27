@@ -27,6 +27,7 @@
 import AzureCommunicationChat
 import AzureCommunicationCommon
 import AzureCore
+import AzureTest
 import OHHTTPStubs.Swift
 import XCTest
 
@@ -38,8 +39,9 @@ class ChatClientUnitTests: XCTestCase {
     private let topic = "test topic"
 
     override func setUpWithError() throws {
-        let endpoint = getEnvironmentVariable(withKey: "AZURE_COMMUNICATION_ENDPOINT", default: "https://endpoint")
-        let token = generateToken()
+        let settings = TestSettings.loadFromPlist()
+        let endpoint = settings?.endpoint ?? "https://endpoint"
+        let token = settings?.endpoint ?? generateFakeToken()
         let credential = try CommunicationTokenCredential(token: token)
         let options = AzureCommunicationChatClientOptions()
 

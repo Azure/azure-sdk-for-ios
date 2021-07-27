@@ -1,6 +1,3 @@
-// swift-tools-version:5.3
-//  The swift-tools-version declares the minimum version of Swift required to build this package.
-//
 // --------------------------------------------------------------------------
 //
 // Copyright (c) Microsoft Corporation. All rights reserved.
@@ -27,39 +24,20 @@
 //
 // --------------------------------------------------------------------------
 
-import PackageDescription
+import Foundation
 
-let package = Package(
-    name: "AzureTemplate",
-    platforms: [
-        .macOS(.v10_15), .iOS(.v12), .tvOS(.v12)
-    ],
-    products: [
-        .library(name: "AzureTemplate", targets: ["AzureTemplate"])
-    ],
-    dependencies: [
-        .package(name: "AzureCore", url: "https://github.com/Azure/SwiftPM-AzureCore.git", from: "1.0.0-beta.12")
-    ],
-    targets: [
-        // Build targets
-        .target(
-            name: "AzureTemplate",
-            dependencies: ["AzureCore"],
-            path: "Source",
-            exclude: [
-                "Source/Supporting Files",
-                "LICENSE"
-            ]
-        ),
-        // Test targets
-        .testTarget(
-            name: "AzureTemplateTests",
-            dependencies: ["AzureTemplate"],
-            path: "Tests",
-            exclude: [
-                "Info.plist"
-            ]
-        )
-    ],
-    swiftLanguageVersions: [.v5]
-)
+public protocol TestSettingsProtocol: AnyObject, Codable {
+    static func loadFromPlist() -> Self?
+}
+
+public extension TestSettingsProtocol {
+    static func loadFromPlist() -> Self? {
+        if let path = Bundle(for: self).path(forResource: "test-settings", ofType: "plist"),
+            let xml = FileManager.default.contents(atPath: path),
+            let settings = try? PropertyListDecoder().decode(Self.self, from: xml) {
+            return settings
+        } else {
+            return nil
+        }
+    }
+}

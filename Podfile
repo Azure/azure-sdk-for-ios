@@ -28,6 +28,14 @@ use_frameworks!
 platform :ios, '12.0'
 workspace 'AzureSDK'
 
+# update with local repo location
+$dvr_path = '~/repos/DVR'
+$use_local_dvr = false
+
+target 'AzureTemplate' do
+  project 'sdk/template/AzureTemplate/AzureTemplate'
+end
+
 target 'AzureCommunicationCommon' do
   project 'sdk/communication/AzureCommunicationCommon/AzureCommunicationCommon'
 
@@ -44,6 +52,12 @@ target 'AzureCommunicationChat' do
     inherit! :search_paths
     pod 'OHHTTPStubs/Swift'
     pod 'Trouter', '0.0.1-beta.5'
+    pod 'MSAL', '1.1.15'
+    if $use_local_dvr
+        pod 'DVR', :path => $dvr_path
+    else
+        pod 'DVR', :git => 'https://github.com/tjprescott/DVR.git'
+    end
   end
   
   target 'AzureCommunicationChatUnitTests' do
@@ -81,14 +95,6 @@ target 'AzureStorageBlob' do
   end
 end
 
-target 'AzureTemplate' do
-  project 'sdk/template/AzureTemplate/AzureTemplate'
-
-  target 'AzureTemplateTests' do
-    inherit! :search_paths
-  end
-end
-
 target 'AzureSDKDemoSwift' do
   project 'examples/AzureSDKDemoSwift/AzureSDKDemoSwift'
   pod 'MSAL', '1.1.15'
@@ -102,6 +108,25 @@ end
 target 'AzureSDKDemoSwiftUI' do
   project 'examples/AzureSDKDemoSwiftUI/AzureSDKDemoSwiftUI'
   pod 'MSAL', '1.1.15'
+end
+
+target 'AzureTest' do
+  project 'sdk/test/AzureTest/AzureTest'
+
+  if $use_local_dvr
+    pod 'DVR', :path => $dvr_path
+  else
+    pod 'DVR', :git => 'https://github.com/tjprescott/DVR.git'
+  end
+
+  target 'AzureTestTests' do
+    inherit! :search_paths
+    if $use_local_dvr
+      pod 'DVR', :path => $dvr_path
+    else
+      pod 'DVR', :git => 'https://github.com/tjprescott/DVR.git'
+    end
+  end
 end
 
 post_install do |installer|

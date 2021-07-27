@@ -24,28 +24,13 @@
 //
 // --------------------------------------------------------------------------
 
-import XCTest
+import Foundation
 
-class AzureTemplateTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+/// Returns a value from an environment variable or a default. Empty string is treated the same as nil.
+public func environmentVariable(forKey key: String, default defVal: String) -> String {
+    var value = ProcessInfo.processInfo.environment[key]
+    if value == "" || value == nil {
+        value = defVal
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
+    return value!
 }

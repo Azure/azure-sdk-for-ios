@@ -27,6 +27,7 @@
 import AzureCommunicationChat
 import AzureCommunicationCommon
 import AzureCore
+import AzureTest
 import XCTest
 
 // swiftlint:disable type_body_length
@@ -38,10 +39,12 @@ class ChatThreadClientTests: XCTestCase {
     /// ChatThreadClient initialized in setup.
     private var chatThreadClient: ChatThreadClient!
     /// Test mode.
-    private var mode = getEnvironmentVariable(withKey: "TEST_MODE", default: "playback")
+    private var mode = environmentVariable(forKey: "TEST_MODE", default: "playback")
+
+    private let settings = TestSettings.loadFromPlist()
 
     override class func setUp() {
-        let mode = getEnvironmentVariable(withKey: "TEST_MODE", default: "playback")
+        let mode = environmentVariable(forKey: "TEST_MODE", default: "playback")
         if mode == "playback" {
             // Register stubs for playback mode
             Recorder.registerStubs()
@@ -50,8 +53,8 @@ class ChatThreadClientTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Initialize the chatClient
-        let endpoint = getEnvironmentVariable(withKey: "AZURE_COMMUNICATION_ENDPOINT", default: "https://endpoint")
-        let token = generateToken()
+        let endpoint = settings?.endpoint ?? "https://endpoint"
+        let token = settings?.token ?? generateFakeToken()
         let credential = try CommunicationTokenCredential(token: token)
         let options = AzureCommunicationChatClientOptions()
 
@@ -513,7 +516,7 @@ class ChatThreadClientTests: XCTestCase {
     }
 
     func test_Participant() {
-        let user2 = getEnvironmentVariable(withKey: "AZURE_COMMUNICATION_USER_ID_2", default: "id2")
+        let user2 = settings?.user2 ?? "id2"
         let newParticipant = ChatParticipant(
             id: CommunicationUserIdentifier(user2),
             displayName: "User 2",
@@ -546,7 +549,7 @@ class ChatThreadClientTests: XCTestCase {
     }
 
     func test_RemoveParticipant() {
-        let user2 = getEnvironmentVariable(withKey: "AZURE_COMMUNICATION_USER_ID_2", default: "id2")
+        let user2 = settings?.user2 ?? "id2"
         let removedParticipant = ChatParticipant(
             id: CommunicationUserIdentifier(user2),
             displayName: "User 2",
@@ -589,7 +592,7 @@ class ChatThreadClientTests: XCTestCase {
     }
 
     func test_ListParticipants_ReturnsParticipants() {
-        let user2 = getEnvironmentVariable(withKey: "AZURE_COMMUNICATION_USER_ID_2", default: "id2")
+        let user2 = settings?.user2 ?? "id2"
         let anotherParticipant = ChatParticipant(
             id: CommunicationUserIdentifier(user2),
             displayName: "User 2",
