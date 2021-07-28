@@ -93,7 +93,10 @@ public class DVRSessionTransport: TransportStage {
         let subscriptionIdFilter = SubscriptionIDFilter()
         session?.filters = [
             defaultFilter,
-            subscriptionIdFilter
+            subscriptionIdFilter,
+            OAuthFilter(),
+            MetadataFilter(),
+            LargeBodyFilter()
         ]
         if let appendFilters = additionalFilters {
             session?.filters.append(contentsOf: appendFilters)

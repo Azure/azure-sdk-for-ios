@@ -29,8 +29,8 @@ platform :ios, '12.0'
 workspace 'AzureSDK'
 
 # update with local repo location
-$dvr_path = '~/repos/DVR'
-$use_local_dvr = false
+$dvr_path = '/Users/jairmyree/DVR/'
+$use_local_dvr = true
 
 target 'AzureTemplate' do
   project 'sdk/template/AzureTemplate/AzureTemplate'
