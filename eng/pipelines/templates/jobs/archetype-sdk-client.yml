@@ -179,6 +179,7 @@ jobs:
       - script: |
           xcrun simctl delete unavailable
           set -o pipefail
+          echo ${{parameters.BuildScheme}}
           xcodebuild -workspace AzureSDK.xcworkspace \
                      -scheme ${{parameters.BuildScheme}} \
                      -destination "platform=iOS Simulator,OS=$(SimulatorVersion),name=$(SimulatorDevice)" \
