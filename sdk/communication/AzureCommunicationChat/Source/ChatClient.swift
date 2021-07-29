@@ -430,7 +430,7 @@ public class ChatClient {
 
             // Determine the event type from the eventId
             let basePayload = try JSONDecoder().decode(BasePayload.self, from: data)
-            let chatEventId = try ChatEventId(for: basePayload._eventId)
+            let chatEventId = try ChatEventId(forCode: basePayload._eventId)
 
             let chatEvent = try TrouterEventUtil.create(chatEvent: chatEventId, from: data)
 
