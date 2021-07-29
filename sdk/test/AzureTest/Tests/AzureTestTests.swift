@@ -41,12 +41,6 @@ class AzureTestTests: XCTestCase {
 
     let insertedGUID = "72f988bf-86f1-41af-91ab-2d7cd011db47"
 
-    override func setUpWithError() throws {
-        let testBundle = Bundle(for: type(of: self))
-        let path = testBundle.path(forResource: "TestData", ofType: "json")
-        fakeData = try! Data(contentsOf: URL(fileURLWithPath: path!))
-    }
-
     func test_scrubbingRequest_removeSubscriptionIDs() throws {
         let dirtyURLString =
             "https://management.azure.com/subscriptions/\(insertedGUID)/resourceGroups/rgname/providers/Microsoft.KeyVault/vaults/myValtZikfikxz?api-version=2019-09-01"
@@ -72,6 +66,38 @@ class AzureTestTests: XCTestCase {
         let shouldPass = !cleanLocation.contains(regex: insertedGUID) && !cleanBody.contains(regex: insertedGUID)
 
         XCTAssert(shouldPass)
+    }
+    
+    func test_OAuth_Filter() {
+        let filter = OAuthFilter()
+        let request = URLRequest(url: URL(string: "https://login.microsoftonline.com/72f988bf-86f1-41af-91ab-2d7cd011db47/oauth2/token")!)
+        let returned = filter.beforeRecordRequest!(request)
+        XCTAssert(returned == nil)
+    }
+    
+    func test_Metadata_Filter() {
+        let filter = MetadataFilter()
+        var request = URLRequest(url: URL(string: "https://path/path/path/.well-known/openid-configuration/etc/etc/etc")!)
+        var returned = filter.beforeRecordRequest!(request)
+        XCTAssert(returned == nil)
+        request = URLRequest(url: URL(string: "https://path/path/path//common/discovery/instance/etc/etc/etc")!)
+        returned = filter.beforeRecordRequest!(request)
+        XCTAssert(returned == nil)
+    }
+    
+    func test_LargeBody_Filter() {
+        let filter = LargeBodyFilter()
+        let expectedCount = filter.maxBodySize + "...".count
+        let body = "Large Body Large Body Large Body Large Body Large Body Large Body Large Body Large Body Large Body Large Body Large Body Large Body Large Body Large Body Large Body Large Body Large Body Large Body Large Body Large Body Large Body Large Body Large Body Large Body Large Body Large Body Large Body Large Body".data(using: .utf8)
+        var returned = filter.beforeRecordResponse!(URLResponse(), body)!.1
+        var returnedString = String(data: returned, encoding: .utf8)!
+        XCTAssert(returnedString.count == expectedCount)
+        
+        var request = URLRequest(url: URL(string: "https://path/path/path")!)
+        request.httpBody = body
+        returned = filter.beforeRecordRequest!(request)!.httpBody
+        returnedString = String(data: returned, encoding: .utf8)!
+        XCTAssert(returnedString.count == expectedCount)
     }
 }
 
