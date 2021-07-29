@@ -26,10 +26,11 @@
 
 import AzureCommunicationCommon
 import OHHTTPStubs.Swift
+import AzureTest
 import XCTest
 
 class RegistrarClientTests: XCTestCase {
-    private var mode = getEnvironmentVariable(withKey: "TEST_MODE", default: "playback")
+    private var mode = environmentVariable(forKey: "TEST_MODE", default: "playback")
 
     private var registrarEndpoint: String!
 
@@ -37,7 +38,7 @@ class RegistrarClientTests: XCTestCase {
 
     override func setUpWithError() throws {
         registrarEndpoint = (mode != "playback") ? RegistrarSettings.endpoint : "https://endpoint/registrations"
-        let token = generateToken()
+        let token = generateFakeToken()
         let credential = try CommunicationTokenCredential(token: token)
         let registrationId = UUID().uuidString
 
