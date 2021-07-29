@@ -245,13 +245,20 @@ public class ChatThreadClient {
 
     /// Sends a typing notification.
     /// - Parameters:
+    ///    - senderDisplayName: Display name for the typing notification.
     ///    - options: Send typing notification options
     ///    - completionHandler: A completion handler that receives a status code on success.
     public func sendTypingNotification(
+        from senderDisplayName: String? = nil,
         withOptions options: SendTypingNotificationOptions? = nil,
         completionHandler: @escaping HTTPResultHandler<Void>
     ) {
-        service.sendTypingNotification(chatThreadId: threadId, withOptions: options) { result, httpResponse in
+        // Send the displayName if provided
+        var request: SendTypingNotificationRequest?
+        if let displayName = senderDisplayName {
+            request = SendTypingNotificationRequest(senderDisplayName: displayName)
+        }
+        service.send(typingNotification: request, chatThreadId: threadId, withOptions: options) { result, httpResponse in
             switch result {
             case .success:
                 completionHandler(.success(()), httpResponse)
@@ -319,7 +326,7 @@ public class ChatThreadClient {
     /// Updates a message.
     /// - Parameters:
     ///    - message: The message id.
-    ///    - parameters: The updated message content.
+    ///    - parameters: The UpdateChatMessageRequest.
     ///    - options: Update chat message options
     ///    - completionHandler: A completion handler that receives a status code on success.
     public func update(

@@ -175,6 +175,9 @@ public class ChatMessageReceivedEvent: BaseChatMessageEvent {
     /// The content of the message.
     public var message: String
 
+    /// The message metadata.
+    public var metadata:[String: String?]?
+    
     // MARK: Initializers
 
     /// Initialize a ChatMessageReceivedEvent.
@@ -197,9 +200,11 @@ public class ChatMessageReceivedEvent: BaseChatMessageEvent {
         createdOn: Iso8601Date?,
         version: String,
         type: ChatMessageType,
-        message: String
+        message: String,
+        metadata: [String: String?]? = nil
     ) {
         self.message = message
+        self.metadata = metadata
         super.init(
             threadId: threadId,
             sender: sender,
@@ -223,12 +228,15 @@ public class ChatMessageReceivedEvent: BaseChatMessageEvent {
             .decode(MessageReceivedPayload.self, from: requestJsonData)
 
         self.message = messageReceivedPayload.messageBody
-        // TODO: Hardcode "8:" as workaround to missing prefix in payload
-        let recipientId = "8:\(messageReceivedPayload.recipientId)"
+
+        if let acsChatMetadata = messageReceivedPayload.acsChatMessageMetadata.data(using: .utf8), !acsChatMetadata.isEmpty {
+            self.metadata = try JSONDecoder().decode([String: String?].self, from: acsChatMetadata)
+        }
+
         super.init(
             threadId: messageReceivedPayload.groupId,
             sender: TrouterEventUtil.getIdentifier(from: messageReceivedPayload.senderId),
-            recipient: TrouterEventUtil.getIdentifier(from: recipientId),
+            recipient: TrouterEventUtil.getIdentifier(from: messageReceivedPayload.recipientMri),
             id: messageReceivedPayload.messageId,
             senderDisplayName: messageReceivedPayload.senderDisplayName,
             createdOn: Iso8601Date(string: messageReceivedPayload.originalArrivalTime),
@@ -246,7 +254,9 @@ public class ChatMessageEditedEvent: BaseChatMessageEvent {
     public var message: String
     /// The timestamp when the message was edited. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public var editedOn: Iso8601Date?
-
+    /// The message metadata
+    public var metadata: [String: String?]?
+    
     // MARK: Initializers
 
     /// Initialize a ChatMessageEditedEvent.
@@ -271,10 +281,12 @@ public class ChatMessageEditedEvent: BaseChatMessageEvent {
         version: String,
         type: ChatMessageType,
         message: String,
-        editedOn: Iso8601Date?
+        editedOn: Iso8601Date?,
+        metadata: [String: String?]? = nil
     ) {
         self.message = message
         self.editedOn = editedOn
+        self.metadata = metadata
         super.init(
             threadId: threadId,
             sender: sender,
@@ -299,6 +311,11 @@ public class ChatMessageEditedEvent: BaseChatMessageEvent {
 
         self.message = chatMessageEditedPayload.messageBody
         self.editedOn = Iso8601Date(string: chatMessageEditedPayload.edittime)
+
+        if let acsChatMetadata = chatMessageEditedPayload.acsChatMessageMetadata.data(using: .utf8), !acsChatMetadata.isEmpty {
+            self.metadata = try JSONDecoder().decode([String: String?].self, from: acsChatMetadata)
+        }
+
         super.init(
             threadId: chatMessageEditedPayload.groupId,
             sender: TrouterEventUtil.getIdentifier(from: chatMessageEditedPayload.senderId),

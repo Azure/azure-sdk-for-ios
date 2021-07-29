@@ -220,6 +220,54 @@ class ChatThreadClientTests: XCTestCase {
         }
     }
 
+    func test_SendMessage_SendsMetadata() {
+        let testMessage = SendChatMessageRequest(
+            content: "Hello",
+            senderDisplayName: "User 1",
+            type: .text,
+            metadata: [
+                "testMetadata": "someMetadata",
+                "testNilMetadata": nil
+            ]
+        )
+
+        let expectation = self.expectation(description: "Send message")
+
+        chatThreadClient.send(message: testMessage) { result, _ in
+            switch result {
+            case let .success(sendMessageResult):
+                XCTAssertNotNil(sendMessageResult.id)
+
+                // Get message and verify metadata
+                if self.mode != "playback" {
+                    self.chatThreadClient.get(message: sendMessageResult.id) { result, _ in
+                        switch result {
+                        case let .success(message):
+                            XCTAssertEqual(message.metadata, testMessage.metadata)
+
+                        case let .failure(error):
+                            XCTFail("Get message failed: \(error)")
+                        }
+
+                        expectation.fulfill()
+                    }
+                } else {
+                    expectation.fulfill()
+                }
+
+            case let .failure(error):
+                XCTFail("Send message failed to send message with metadata: \(error)")
+                expectation.fulfill()
+            }
+        }
+
+        waitForExpectations(timeout: 10.0) { error in
+            if let error = error {
+                XCTFail("Send message timed out: \(error)")
+            }
+        }
+    }
+
     func test_ListMessages_ReturnsTextAndHTMLMessages() {
         let expectation = self.expectation(description: "List messages")
 
@@ -296,6 +344,30 @@ class ChatThreadClientTests: XCTestCase {
         let expectation = self.expectation(description: "Send typing notification")
 
         chatThreadClient.sendTypingNotification { result, httpResponse in
+            switch result {
+            case .success:
+                if self.mode == "record" {
+                    Recorder.record(name: Recording.sendTypingNotification, httpResponse: httpResponse)
+                }
+
+            case let .failure(error):
+                XCTFail("Send typing notification failed: \(error)")
+            }
+
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 10.0) { error in
+            if let error = error {
+                XCTFail("Send typing notification timed out: \(error)")
+            }
+        }
+    }
+
+    func test_SendTypingNotification_WithDisplayName() {
+        let expectation = self.expectation(description: "Send typing notification")
+
+        chatThreadClient.sendTypingNotification(from: "Foo") { result, httpResponse in
             switch result {
             case .success:
                 if self.mode == "record" {
@@ -427,11 +499,13 @@ class ChatThreadClientTests: XCTestCase {
         chatThreadClient.send(message: testMessage) { result, _ in
             switch result {
             case let .success(sendMessageResult):
-                let updatedContent = UpdateChatMessageRequest(content: "Some new content")
-
                 // Update message
+                let updatedMessage = UpdateChatMessageRequest(
+                    content: "Some new content",
+                    metadata: ["testMetadata": "someMetaData"]
+                )
                 self.chatThreadClient
-                    .update(message: sendMessageResult.id, parameters: updatedContent) { result, httpResponse in
+                    .update(message: sendMessageResult.id, parameters: updatedMessage) { result, httpResponse in
                         switch result {
                         case .success:
                             if self.mode == "record" {
@@ -443,7 +517,8 @@ class ChatThreadClientTests: XCTestCase {
                                 self.chatThreadClient.get(message: sendMessageResult.id) { result, _ in
                                     switch result {
                                     case let .success(message):
-                                        XCTAssertEqual(message.content?.message, updatedContent.content)
+                                        XCTAssertEqual(message.content?.message, updatedMessage.content)
+                                        XCTAssertEqual(message.metadata, updatedMessage.metadata)
 
                                     case let .failure(error):
                                         XCTFail("Get message failed: \(error)")

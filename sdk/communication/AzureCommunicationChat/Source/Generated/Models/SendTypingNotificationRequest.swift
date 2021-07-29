@@ -15,46 +15,39 @@ import Foundation
 // swiftlint:disable line_length
 // swiftlint:disable cyclomatic_complexity
 
-/// Request payload for updating a chat message.
-public struct UpdateChatMessageRequest: Codable {
+/// Request payload for typing notifications.
+public struct SendTypingNotificationRequest: Codable {
     // MARK: Properties
 
-    /// Chat message content.
-    public let content: String?
-    /// Message metadata.
-    public let metadata: [String: String?]?
+    /// The display name of the typing notification sender. This property is used to populate sender name for push notifications.
+    public let senderDisplayName: String?
 
     // MARK: Initializers
 
-    /// Initialize a `UpdateChatMessageRequest` structure.
+    /// Initialize a `SendTypingNotificationRequest` structure.
     /// - Parameters:
-    ///   - content: Chat message content.
-    ///   - metadata: Message metadata.
+    ///   - senderDisplayName: The display name of the typing notification sender. This property is used to populate sender name for push notifications.
     public init(
-        content: String? = nil, metadata: [String: String?]? = nil
+        senderDisplayName: String? = nil
     ) {
-        self.content = content
-        self.metadata = metadata
+        self.senderDisplayName = senderDisplayName
     }
 
     // MARK: Codable
 
     enum CodingKeys: String, CodingKey {
-        case content = "content"
-        case metadata = "metadata"
+        case senderDisplayName = "senderDisplayName"
     }
 
-    /// Initialize a `UpdateChatMessageRequest` structure from decoder
+    /// Initialize a `SendTypingNotificationRequest` structure from decoder
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.content = try? container.decode(String.self, forKey: .content)
-        self.metadata = try? container.decode([String: String?].self, forKey: .metadata)
+        self.senderDisplayName = try? container.decode(String.self, forKey: .senderDisplayName)
     }
 
-    /// Encode a `UpdateChatMessageRequest` structure
+    /// Encode a `SendTypingNotificationRequest` structure
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        if content != nil { try? container.encode(content, forKey: .content) }
-        if metadata != nil { try? container.encode(metadata, forKey: .metadata) }
+        if senderDisplayName != nil { try? container.encode(senderDisplayName, forKey: .senderDisplayName) }
     }
 }

@@ -1,5 +1,11 @@
 # Release History
 
+## 1.1.0-beta.1 (Unreleased)
+### New Features
+- `ChatMessage` supports metadata, provide optional metadata when sending a `ChatMessage`
+- `ChatMessageReceivedEvent` and `ChatMessageEditedEvent` also contain metadata
+- Typing notifications support sender display name, `sendTypingNotification()` accepts an optional `senderDisplayName`
+
 ## 1.0.1 (2021-07-26)
 ### New Features
 - ChatClient sets `applicationId` to be empty by default instead of using the bundle identifier

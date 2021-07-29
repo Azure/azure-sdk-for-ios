@@ -52,6 +52,8 @@ public struct ChatMessage: Codable {
     public let deletedOn: Iso8601Date?
     /// The last timestamp (if applicable) when the message was edited. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public let editedOn: Iso8601Date?
+    /// Optional metadata provided when sending the ChatMessage, data is stringified.
+    public let metadata: [String: String?]?
 
     // MARK: Initializers
 
@@ -85,6 +87,7 @@ public struct ChatMessage: Codable {
 
         self.deletedOn = chatMessageInternal.deletedOn
         self.editedOn = chatMessageInternal.editedOn
+        self.metadata = chatMessageInternal.metadata
     }
 
     /// Initialize a `ChatMessage` structure.
@@ -109,7 +112,8 @@ public struct ChatMessage: Codable {
         createdOn: Iso8601Date,
         sender: CommunicationIdentifier? = nil,
         deletedOn: Iso8601Date? = nil,
-        editedOn: Iso8601Date? = nil
+        editedOn: Iso8601Date? = nil,
+        metadata: [String: String?]? = nil
     ) {
         self.id = id
         self.type = type
@@ -121,6 +125,7 @@ public struct ChatMessage: Codable {
         self.sender = sender
         self.deletedOn = deletedOn
         self.editedOn = editedOn
+        self.metadata = metadata
     }
 
     // MARK: Codable
@@ -136,6 +141,7 @@ public struct ChatMessage: Codable {
         case sender = "senderCommunicationIdentifier"
         case deletedOn
         case editedOn
+        case metadata
     }
 
     /// Initialize a `ChatMessage` structure from decoder
@@ -164,6 +170,7 @@ public struct ChatMessage: Codable {
 
         self.deletedOn = try? container.decode(Iso8601Date.self, forKey: .deletedOn)
         self.editedOn = try? container.decode(Iso8601Date.self, forKey: .editedOn)
+        self.metadata = try? container.decode([String: String?].self, forKey: .metadata)
     }
 
     /// Encode a `ChatMessage` structure
