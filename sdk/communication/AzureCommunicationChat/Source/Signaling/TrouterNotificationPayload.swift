@@ -26,14 +26,29 @@
 
 import Foundation
 
-struct BasePayload: Codable {
-    let eventId: Int
-    let senderId: String
-    let recipientId: String
-    let groupId: String
+protocol TrouterPayload: Codable {
+    var eventId: Int { get }
 }
 
-struct MessageReceivedPayload: Decodable {
+/// ChatMessagePayload that all message notification payloads conform to.
+protocol ChatMessagePayload: Codable {
+    var senderId: String { get }
+    var recipientId: String { get }
+    var groupId: String { get }
+}
+
+/// ChatThreadPayload that all chat thread notification payloads conform to.
+protocol ChatThreadPayload: Codable {
+    var threadId: String { get }
+    var version: String { get }
+}
+
+/// BasePayload for a generic notification.
+struct BasePayload: TrouterPayload {
+    let eventId: Int
+}
+
+struct MessageReceivedPayload: TrouterPayload, ChatMessagePayload {
     let eventId: Int
     let senderId: String
     let recipientMri: String
@@ -50,7 +65,7 @@ struct MessageReceivedPayload: Decodable {
     let acsChatMessageMetadata: String
 }
 
-struct TypingIndicatorReceivedPayload: Decodable {
+struct TypingIndicatorReceivedPayload: TrouterPayload, ChatMessagePayload {
     let eventId: Int
     let senderId: String
     let recipientMri: String
@@ -67,7 +82,7 @@ struct ReadReceiptMessageBody: Codable {
     let version: String
 }
 
-struct ReadReceiptReceivedPayload: Decodable {
+struct ReadReceiptReceivedPayload: TrouterPayload, ChatMessagePayload {
     let eventId: Int
     let senderId: String
     let recipientMri: String
@@ -77,7 +92,7 @@ struct ReadReceiptReceivedPayload: Decodable {
     let messageBody: String
 }
 
-struct MessageEditedPayload: Decodable {
+struct MessageEditedPayload: TrouterPayload, ChatMessagePayload {
     let eventId: Int
     let senderId: String
     let recipientMri: String
@@ -93,7 +108,7 @@ struct MessageEditedPayload: Decodable {
     let acsChatMessageMetadata: String
 }
 
-struct MessageDeletedPayload: Decodable {
+struct MessageDeletedPayload: TrouterPayload, ChatMessagePayload {
     let eventId: Int
     let senderId: String
     let recipientMri: String
@@ -119,7 +134,7 @@ struct ChatParticipantPayload: Decodable {
     let shareHistoryTime: Int?
 }
 
-struct ChatThreadCreatedPayload: Decodable {
+struct ChatThreadCreatedPayload: TrouterPayload, ChatThreadPayload {
     let eventId: Int
     let threadId: String
     let version: String
@@ -133,7 +148,7 @@ struct ChatThreadPropertiesPayload: Codable {
     let topic: String
 }
 
-struct ChatThreadPropertiesUpdatedPayload: Decodable {
+struct ChatThreadPropertiesUpdatedPayload: TrouterPayload, ChatThreadPayload {
     let eventId: Int
     let threadId: String
     let version: String
@@ -142,7 +157,7 @@ struct ChatThreadPropertiesUpdatedPayload: Decodable {
     let properties: String
 }
 
-struct ChatThreadDeletedPayload: Decodable {
+struct ChatThreadDeletedPayload: TrouterPayload, ChatThreadPayload {
     let eventId: Int
     let threadId: String
     let version: String
@@ -150,7 +165,7 @@ struct ChatThreadDeletedPayload: Decodable {
     let deletedBy: String
 }
 
-struct ParticipantsAddedPayload: Decodable {
+struct ParticipantsAddedPayload: TrouterPayload, ChatThreadPayload {
     let eventId: Int
     let threadId: String
     let version: String
@@ -159,7 +174,7 @@ struct ParticipantsAddedPayload: Decodable {
     let participantsAdded: String
 }
 
-struct ParticipantsRemovedPayload: Decodable {
+struct ParticipantsRemovedPayload: TrouterPayload, ChatThreadPayload {
     let eventId: Int
     let threadId: String
     let version: String
