@@ -46,6 +46,45 @@ public enum TrouterEvent {
     /// Initialize a TrouterEvent given the ChatEventId and the TrouterRequest that contains the event data.
     /// - Parameters:
     ///   - chatEventId: The ChatEventId.
+    ///   - request: The TrouterRequest that contains the event data.
+    init(chatEventId: ChatEventId, from request: TrouterRequest) throws {
+        switch chatEventId {
+        case ChatEventId.chatMessageReceived:
+            let event = try ChatMessageReceivedEvent(from: request)
+            self = .chatMessageReceivedEvent(event)
+        case .typingIndicatorReceived:
+            let event = try TypingIndicatorReceivedEvent(from: request)
+            self = .typingIndicatorReceived(event)
+        case .readReceiptReceived:
+            let event = try ReadReceiptReceivedEvent(from: request)
+            self = .readReceiptReceived(event)
+        case .chatMessageEdited:
+            let event = try ChatMessageEditedEvent(from: request)
+            self = .chatMessageEdited(event)
+        case .chatMessageDeleted:
+            let event = try ChatMessageDeletedEvent(from: request)
+            self = .chatMessageDeleted(event)
+        case .chatThreadCreated:
+            let event = try ChatThreadCreatedEvent(from: request)
+            self = .chatThreadCreated(event)
+        case .chatThreadPropertiesUpdated:
+            let event = try ChatThreadPropertiesUpdatedEvent(from: request)
+            self = .chatThreadPropertiesUpdated(event)
+        case .chatThreadDeleted:
+            let event = try ChatThreadDeletedEvent(from: request)
+            self = .chatThreadDeleted(event)
+        case .participantsAdded:
+            let event = try ParticipantsAddedEvent(from: request)
+            self = .participantsAdded(event)
+        case .participantsRemoved:
+            let event = try ParticipantsRemovedEvent(from: request)
+            self = .participantsRemoved(event)
+        }
+    }
+
+    /// Initialize a TrouterEvent given the ChatEventId and the TrouterRequest that contains the event data.
+    /// - Parameters:
+    ///   - chatEventId: The ChatEventId.
     ///   - data: The payload Data.
     init(chatEventId: ChatEventId, from data: Data) throws {
         switch chatEventId {

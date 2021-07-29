@@ -214,7 +214,16 @@ public class ChatMessageReceivedEvent: BaseChatMessageEvent {
             type: type
         )
     }
-    
+
+    /// Initialize a ChatMessageReceivedEvent from a TrouterRequest
+    /// - Parameter request: The TrouterRequest.
+    convenience init(from request: TrouterRequest) throws {
+        guard let data = request.body.data(using: .utf8) else {
+            throw AzureError.client("Unable to convert request body to Data.")
+        }
+        try self.init(from: data)
+    }
+
     /// Initialize a ChatMessageReceivedEvent from Data.
     /// - Parameter data: The payload data.
     init(from data: Data) throws {
@@ -294,7 +303,16 @@ public class ChatMessageEditedEvent: BaseChatMessageEvent {
             type: type
         )
     }
-    
+
+    /// Initialize a ChatMessageReceivedEvent from a TrouterRequest
+    /// - Parameter request: The TrouterRequest.
+    convenience init(from request: TrouterRequest) throws {
+        guard let data = request.body.data(using: .utf8) else {
+            throw AzureError.client("Unable to convert request body to Data.")
+        }
+        try self.init(from: data)
+    }
+
     /// Initialize a ChatMessageEditedEvent from Data.
     /// - Parameter data: The payload data.
     init(from data: Data) throws {
@@ -366,7 +384,16 @@ public class ChatMessageDeletedEvent: BaseChatMessageEvent {
             type: type
         )
     }
-    
+
+    /// Initialize a ChatMessageDeletedEvent from a TrouterRequest.
+    /// - Parameter request: The TrouterRequest.
+    convenience init(from request: TrouterRequest) throws {
+        guard let data = request.body.data(using: .utf8) else {
+            throw AzureError.client("Unable to convert request body to Data.")
+        }
+        try self.init(from: data)
+    }
+
     /// Initialize a ChatMessageDeletedEvent from Data.
     /// - Parameter request: The payload data.
     init(from data: Data) throws {
@@ -422,7 +449,16 @@ public class TypingIndicatorReceivedEvent: BaseChatEvent {
         self.senderDisplayName = senderDisplayName
         super.init(threadId: threadId, sender: sender, recipient: recipient)
     }
-    
+
+    /// Initialize a TypingIndicatorReceivedEvent from a TrouterRequest.
+    /// - Parameter request: The TrouterRequest.
+    convenience init(from request: TrouterRequest) throws {
+        guard let data = request.body.data(using: .utf8) else {
+            throw AzureError.client("Unable to convert request body to Data.")
+        }
+        try self.init(from: data)
+    }
+
     /// Initialize a TypingIndicatorReceivedEvent from Data.
     /// - Parameter request: The payload data.
     init(from data: Data) throws {
@@ -469,7 +505,16 @@ public class ReadReceiptReceivedEvent: BaseChatEvent {
         self.readOn = readOn
         super.init(threadId: threadId, sender: sender, recipient: recipient)
     }
-    
+
+    /// Initialize a ReadReceiptReceivedEvent from a TrouterRequest.
+    /// - Parameter request: The TrouterRequest.
+    convenience init(from request: TrouterRequest) throws {
+        guard let data = request.body.data(using: .utf8) else {
+            throw AzureError.client("Unable to convert request body to Data.")
+        }
+        try self.init(from: data)
+    }
+
     /// Initialize a ReadReceiptReceivedEvent from Data.
     /// - Parameter data: The TrouterRequest.
     init(from data: Data) throws {
@@ -543,7 +588,16 @@ public class ChatThreadCreatedEvent: BaseChatThreadEvent {
         self.createdBy = createdBy
         super.init(threadId: threadId, version: version)
     }
-    
+
+    /// Initialize a ChatThreadCreatedEvent from a TrouterRequest.
+    /// - Parameter request: The TrouterRequest.
+    convenience init(from request: TrouterRequest) throws {
+        guard let data = request.body.data(using: .utf8) else {
+            throw AzureError.client("Unable to convert request body to Data.")
+        }
+        try self.init(from: data)
+    }
+
     /// Initialize a ChatThreadCreatedEvent from Data.
     /// - Parameter data: The payload data.
     init(from data: Data) throws {
@@ -627,7 +681,16 @@ public class ChatThreadPropertiesUpdatedEvent: BaseChatThreadEvent {
         self.updatedBy = updatedBy
         super.init(threadId: threadId, version: version)
     }
-    
+
+    /// Initialize a ChatThreadPropertiesUpdatedEvent from a TrouterRequest.
+    /// - Parameter request: The TrouterRequest.
+    convenience init(from request: TrouterRequest) throws {
+        guard let data = request.body.data(using: .utf8) else {
+            throw AzureError.client("Unable to convert request body to Data.")
+        }
+        try self.init(from: data)
+    }
+
     /// Initialize a ChatThreadPropertiesUpdatedEvent from Data.
     /// - Parameter data: The payload data.
     init(from data: Data) throws {
@@ -691,7 +754,16 @@ public class ChatThreadDeletedEvent: BaseChatThreadEvent {
         self.deletedBy = deletedBy
         super.init(threadId: threadId, version: version)
     }
-    
+
+    /// Initialize a ChatThreadDeletedEvent from a TrouterRequest.
+    /// - Parameter request: The TrouterRequest.
+    convenience init(from request: TrouterRequest) throws {
+        guard let data = request.body.data(using: .utf8) else {
+            throw AzureError.client("Unable to convert request body to Data.")
+        }
+        try self.init(from: data)
+    }
+
     /// Initialize a ChatThreadDeletedEvent from Data.
     /// - Parameter request: The payload data.
     init(from data: Data) throws {
@@ -750,7 +822,16 @@ public class ParticipantsAddedEvent: BaseChatThreadEvent {
         self.addedBy = addedBy
         super.init(threadId: threadId, version: version)
     }
-    
+
+    /// Initialize a ParticipantsAddedEvent from a TrouterRequest.
+    /// - Parameter request: The TrouterRequest.
+    convenience init(from request: TrouterRequest) throws {
+        guard let data = request.body.data(using: .utf8) else {
+            throw AzureError.client("Unable to convert request body to Data.")
+        }
+        try self.init(from: data)
+    }
+
     /// Initialize a ParticipantsAddedEvent from Data.
     /// - Parameter request: The payload data.
     init(from data: Data) throws {
@@ -829,7 +910,16 @@ public class ParticipantsRemovedEvent: BaseChatThreadEvent {
         self.removedBy = removedBy
         super.init(threadId: threadId, version: version)
     }
-    
+
+    /// Initialize a ParticipantsRemovedEvent from a TrouterRequest.
+    /// - Parameter request: The TrouterRequest.
+    convenience init(from request: TrouterRequest) throws {
+        guard let data = request.body.data(using: .utf8) else {
+            throw AzureError.client("Unable to convert request body to Data.")
+        }
+        try self.init(from: data)
+    }
+
     /// Initialize a ParticipantsRemovedEvent from Data.
     /// - Parameter data: The payload data.
     init(from data: Data) throws {
@@ -888,8 +978,8 @@ public enum ChatEventId: String {
     case participantsAdded
     case participantsRemoved
 
-    init(for eventId: Int) throws {
-        switch eventId {
+    init(forCode code: Int) throws {
+        switch code {
         case 200:
             self = .chatMessageReceived
         case 245:
@@ -911,7 +1001,7 @@ public enum ChatEventId: String {
         case 261:
             self = .participantsRemoved
         default:
-            throw AzureError.client("Event id: \(eventId) is unsupported")
+            throw AzureError.client("Event id: \(code) is unsupported")
         }
     }
 }
