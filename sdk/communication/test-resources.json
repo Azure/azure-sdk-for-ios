@@ -1,0 +1,43 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.4.63.48766",
+      "templateHash": "12265054750446094961"
+    }
+  },
+  "parameters": {
+    "acsName": {
+      "type": "string",
+      "defaultValue": "[format('acs-{0}', uniqueString(resourceGroup().id))]"
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "Global"
+    },
+    "dataLocation": {
+      "type": "string",
+      "defaultValue": "United States"
+    }
+  },
+  "functions": [],
+  "resources": [
+    {
+      "type": "Microsoft.Communication/communicationServices",
+      "apiVersion": "2020-08-20",
+      "name": "[parameters('acsName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "dataLocation": "[parameters('dataLocation')]"
+      }
+    }
+  ],
+  "outputs": {
+    "azure_communication_cs": {
+      "type": "string",
+      "value": "[listKeys(parameters('acsName'), '2020-08-20').primaryConnectionString]"
+    }
+  }
+}
