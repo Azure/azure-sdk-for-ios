@@ -41,7 +41,7 @@ let package = Package(
         // Build targets
         .target(
             name: "AzureCommunicationCommon",
-            dependencies: ["AzureCore"],
+            dependencies: [],
             path: "Source",
             exclude: [
                 "README.md",
