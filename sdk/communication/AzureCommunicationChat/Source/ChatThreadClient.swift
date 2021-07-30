@@ -258,15 +258,16 @@ public class ChatThreadClient {
         if let displayName = senderDisplayName {
             request = SendTypingNotificationRequest(senderDisplayName: displayName)
         }
-        service.send(typingNotification: request, chatThreadId: threadId, withOptions: options) { result, httpResponse in
-            switch result {
-            case .success:
-                completionHandler(.success(()), httpResponse)
+        service
+            .send(typingNotification: request, chatThreadId: threadId, withOptions: options) { result, httpResponse in
+                switch result {
+                case .success:
+                    completionHandler(.success(()), httpResponse)
 
-            case let .failure(error):
-                completionHandler(.failure(error), httpResponse)
+                case let .failure(error):
+                    completionHandler(.failure(error), httpResponse)
+                }
             }
-        }
     }
 
     /// Sends a message to a ChatThread.
