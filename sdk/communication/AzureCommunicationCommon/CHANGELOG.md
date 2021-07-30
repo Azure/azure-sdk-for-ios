@@ -1,6 +1,10 @@
 # Release History
 
-## 1.0.1 (Upcoming)
+## 1.0.2 (2021-07-30)
+### New Features
+- Fix dependency in `Package.swift`.
+
+## 1.0.1 (2021-07-07)
 ### New Features
 - Removing dependency on AzureCore
 - `StaticTokenCredential` and `CommunicationTokenCredential` now throw `NSError` instead of an `AzureError`.
