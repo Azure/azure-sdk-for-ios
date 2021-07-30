@@ -176,8 +176,8 @@ public class ChatMessageReceivedEvent: BaseChatMessageEvent {
     public var message: String
 
     /// The message metadata.
-    public var metadata:[String: String?]?
-    
+    public var metadata: [String: String?]?
+
     // MARK: Initializers
 
     /// Initialize a ChatMessageReceivedEvent.
@@ -229,7 +229,8 @@ public class ChatMessageReceivedEvent: BaseChatMessageEvent {
 
         self.message = messageReceivedPayload.messageBody
 
-        if let acsChatMetadata = messageReceivedPayload.acsChatMessageMetadata.data(using: .utf8), !acsChatMetadata.isEmpty {
+        if let acsChatMetadata = messageReceivedPayload.acsChatMessageMetadata.data(using: .utf8),
+            !acsChatMetadata.isEmpty {
             self.metadata = try JSONDecoder().decode([String: String?].self, from: acsChatMetadata)
         }
 
@@ -256,7 +257,7 @@ public class ChatMessageEditedEvent: BaseChatMessageEvent {
     public var editedOn: Iso8601Date?
     /// The message metadata
     public var metadata: [String: String?]?
-    
+
     // MARK: Initializers
 
     /// Initialize a ChatMessageEditedEvent.
@@ -312,7 +313,8 @@ public class ChatMessageEditedEvent: BaseChatMessageEvent {
         self.message = chatMessageEditedPayload.messageBody
         self.editedOn = Iso8601Date(string: chatMessageEditedPayload.edittime)
 
-        if let acsChatMetadata = chatMessageEditedPayload.acsChatMessageMetadata.data(using: .utf8), !acsChatMetadata.isEmpty {
+        if let acsChatMetadata = chatMessageEditedPayload.acsChatMessageMetadata.data(using: .utf8),
+            !acsChatMetadata.isEmpty {
             self.metadata = try JSONDecoder().decode([String: String?].self, from: acsChatMetadata)
         }
 
