@@ -28,9 +28,7 @@ import AzureCore
 import XCTest
 
 open class RecordableXCTestCase<SettingsType: TestSettingsProtocol>: XCTestCase {
-    public let settings = {
-        SettingsType.loadFromPlist()
-    }()
+    public var settings = SettingsType()
 
     public var transportOptions: TransportOptions {
         return TransportOptions(transport: transport)
@@ -48,6 +46,7 @@ open class RecordableXCTestCase<SettingsType: TestSettingsProtocol>: XCTestCase 
         testName.removeLast()
         transport = mode != "live" ? DVRSessionTransport(cassetteName: String(testName)) : URLSessionTransport()
         try setUpTestWithError()
+        loadSettingsFromPlist()
         transport?.open()
     }
 
@@ -62,4 +61,17 @@ open class RecordableXCTestCase<SettingsType: TestSettingsProtocol>: XCTestCase 
 
     /// Method which the test author can override to configure setup
     open func tearDownTestWithError() throws {}
+
+    /// attempts to load settings from plist if not in playback mode
+    internal func loadSettingsFromPlist() {
+        // if in playback mode, don't load from plist
+        guard self.mode != "playback" else {
+            return
+        }
+        if let path = Bundle(for: SettingsType.self).path(forResource: "test-settings", ofType: "plist"),
+           let xml = FileManager.default.contents(atPath: path),
+           let settings = try? PropertyListDecoder().decode(SettingsType.self, from: xml) {
+            self.settings = settings
+       }
+    }
 }

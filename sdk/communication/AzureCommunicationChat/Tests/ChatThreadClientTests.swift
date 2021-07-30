@@ -40,8 +40,8 @@ class ChatThreadClientTests: XCTestCase {
     private var chatThreadClient: ChatThreadClient!
     /// Test mode.
     private var mode = environmentVariable(forKey: "TEST_MODE", default: "playback")
-
-    private let settings = TestSettings.loadFromPlist()
+    /// default settings
+    private let settings = TestSettings()
 
     override class func setUp() {
         let mode = environmentVariable(forKey: "TEST_MODE", default: "playback")
@@ -53,8 +53,8 @@ class ChatThreadClientTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Initialize the chatClient
-        let endpoint = settings?.endpoint ?? "https://endpoint"
-        let token = settings?.token ?? generateFakeToken()
+        let endpoint = settings.endpoint
+        let token = settings.token
         let credential = try CommunicationTokenCredential(token: token)
         let options = AzureCommunicationChatClientOptions()
 
@@ -591,7 +591,7 @@ class ChatThreadClientTests: XCTestCase {
     }
 
     func test_Participant() {
-        let user2 = settings?.user2 ?? "id2"
+        let user2 = settings.user2
         let newParticipant = ChatParticipant(
             id: CommunicationUserIdentifier(user2),
             displayName: "User 2",
@@ -624,7 +624,7 @@ class ChatThreadClientTests: XCTestCase {
     }
 
     func test_RemoveParticipant() {
-        let user2 = settings?.user2 ?? "id2"
+        let user2 = settings.user2
         let removedParticipant = ChatParticipant(
             id: CommunicationUserIdentifier(user2),
             displayName: "User 2",
@@ -667,7 +667,7 @@ class ChatThreadClientTests: XCTestCase {
     }
 
     func test_ListParticipants_ReturnsParticipants() {
-        let user2 = settings?.user2 ?? "id2"
+        let user2 = settings.user2
         let anotherParticipant = ChatParticipant(
             id: CommunicationUserIdentifier(user2),
             displayName: "User 2",

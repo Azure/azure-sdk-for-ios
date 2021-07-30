@@ -28,8 +28,15 @@ import AzureTest
 import Foundation
 
 class TestSettings: TestSettingsProtocol {
-    var endpoint: String?
-    var user1: String?
-    var user2: String?
-    var token: String?
+    var endpoint = "https://endpoint"
+    var user1 = "user1"
+    var user2 = "user2"
+    var token: String = {
+        let fakeValue = "{\"iss\":\"ACS\",\"iat\": 1608152725,\"exp\": 1739688725,\"aud\": \"\",\"sub\": \"\"}"
+            .base64EncodedString()
+        let token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9." + fakeValue + ".EMS0ExXqRuobm34WKJE8mAfZ7KppU5kEHl0OFdyree8"
+        return token
+    }()
+
+    required init() {}
 }

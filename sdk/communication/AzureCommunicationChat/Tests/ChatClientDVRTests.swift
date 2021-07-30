@@ -36,8 +36,8 @@ class ChatClientDVRTests: RecordableXCTestCase<TestSettings> {
     private var chatClient: ChatClient!
 
     override func setUpTestWithError() throws {
-        let endpoint = settings?.endpoint ?? "https://endpoint"
-        let token = settings?.token ?? generateFakeToken()
+        let endpoint = settings.endpoint
+        let token = settings.token
         let credential = try CommunicationTokenCredential(token: token)
         let options = AzureCommunicationChatClientOptions(transportOptions: transportOptions)
         chatClient = try ChatClient(endpoint: endpoint, credential: credential, withOptions: options)
