@@ -101,7 +101,7 @@ jobs:
 
   #   pool:
   #     vmImage: '$(OSVmImage)'
-  
+
   #   steps:
   #     - script: sudo xcode-select --switch /Applications/Xcode_$(XcodeVersion).app
   #       displayName: 'Use Xcode $(XcodeVersion)'
@@ -121,9 +121,9 @@ jobs:
     steps:
 
       - task: UsePythonVersion@0
-        displayName: 'Use Python 3.6'
+        displayName: 'Use Python 3.10'
         inputs:
-          versionSpec: '3.6'
+          versionSpec: '3.10'
 
       - script: sudo xcode-select --switch /Applications/Xcode_$(XcodeVersion).app
         displayName: 'Use Xcode $(XcodeVersion)'
@@ -203,7 +203,7 @@ jobs:
         displayName: 'Preserve logs on failure'
         artifact: 'test-failure-logs'
         condition: failed()
-      
+
       - script: trainer --path $(Build.ArtifactStagingDirectory) --fail_build false
         env:
           FASTLANE_OPT_OUT_USAGE: true
