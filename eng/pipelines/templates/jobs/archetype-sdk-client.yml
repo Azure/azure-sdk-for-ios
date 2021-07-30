@@ -185,7 +185,8 @@ jobs:
                      -configuration Debug \
                      -derivedDataPath $(Build.ArtifactStagingDirectory) \
                      -enableCodeCoverage YES \
-                     test | xcpretty -c
+                     -quiet \
+                     test
         displayName: 'Build and test libraries'
 
       - publish: $(Build.ArtifactStagingDirectory)/Logs/Test
