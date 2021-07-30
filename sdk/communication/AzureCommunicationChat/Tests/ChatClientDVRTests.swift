@@ -31,7 +31,7 @@ import AzureTest
 import DVR
 import XCTest
 
-class ChatClientDVRTests: XCRecordableTestCase<TestSettings> {
+class ChatClientDVRTests: RecordableXCTestCase<TestSettings> {
     /// ChatClient initialized in setup.
     private var chatClient: ChatClient!
 

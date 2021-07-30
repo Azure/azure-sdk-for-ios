@@ -1,6 +1,6 @@
 variables:
   OSVmImage: 'macOS-10.15'
   DocWardenVersion: '0.5.0'
-  XcodeVersion: '12.3'
+  XcodeVersion: '12.5'
   SimulatorVersion: '14.3'
   SimulatorDevice: 'iPhone 12 Pro Max'

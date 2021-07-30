@@ -152,6 +152,11 @@
                BlueprintName = "AzureCommunicationChatTests"
                ReferencedContainer = "container:sdk/communication/AzureCommunicationChat/AzureCommunicationChat.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "RecordableXCTestCase">
+               </Test>
+            </SkippedTests>
          </TestableReference>
          <TestableReference
             skipped = "NO">
@@ -162,6 +167,11 @@
                BlueprintName = "AzureCommunicationChatUnitTests"
                ReferencedContainer = "container:sdk/communication/AzureCommunicationChat/AzureCommunicationChat.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "RecordableXCTestCase">
+               </Test>
+            </SkippedTests>
          </TestableReference>
          <TestableReference
             skipped = "NO">
