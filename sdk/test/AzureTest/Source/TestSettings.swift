@@ -27,5 +27,8 @@
 import Foundation
 
 public protocol TestSettingsProtocol: AnyObject, Codable {
+
+    var textFilter: TextFilter { get }
+
     init()
 }

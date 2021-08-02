@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A8CE8D926B86C08002124EF /* TextFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8CE8D826B86C08002124EF /* TextFilter.swift */; };
 		0A9229F926B0704400D4B387 /* DVRSessionTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9229E026AF288D00D4B387 /* DVRSessionTransport.swift */; };
 		0A9229FA26B0704800D4B387 /* TestSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9229E126AF288D00D4B387 /* TestSettings.swift */; };
 		0A9229FB26B0704B00D4B387 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9229E226AF288D00D4B387 /* Util.swift */; };
@@ -36,6 +37,7 @@
 		0A1E75A22673D48100054F60 /* AzureIdentity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureIdentity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A2097BB266FDE0200FE2272 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A2097C2266FE16200FE2272 /* AzureIdentity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureIdentity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0A8CE8D826B86C08002124EF /* TextFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFilter.swift; sourceTree = "<group>"; };
 		0A9229E026AF288D00D4B387 /* DVRSessionTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DVRSessionTransport.swift; sourceTree = "<group>"; };
 		0A9229E126AF288D00D4B387 /* TestSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSettings.swift; sourceTree = "<group>"; };
 		0A9229E226AF288D00D4B387 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 				0A9229E226AF288D00D4B387 /* Util.swift */,
 				0A9229E326AF288D00D4B387 /* SubscriptionIdFilter.swift */,
 				0A9229E426AF288D00D4B387 /* RecordableXCTestCase.swift */,
+				0A8CE8D826B86C08002124EF /* TextFilter.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -322,6 +325,7 @@
 			files = (
 				0A9229FA26B0704800D4B387 /* TestSettings.swift in Sources */,
 				0A9229FD26B0705000D4B387 /* RecordableXCTestCase.swift in Sources */,
+				0A8CE8D926B86C08002124EF /* TextFilter.swift in Sources */,
 				0A9229FC26B0704E00D4B387 /* SubscriptionIdFilter.swift in Sources */,
 				0A9229FB26B0704B00D4B387 /* Util.swift in Sources */,
 				0A9229F926B0704400D4B387 /* DVRSessionTransport.swift in Sources */,
@@ -511,7 +515,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = AzureTestTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 11.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -569,7 +573,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = AzureTestTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 11.3;
 				MTL_ENABLE_DEBUG_INFO = NO;

@@ -39,4 +39,14 @@ class TestSettings: TestSettingsProtocol {
     }()
 
     required init() {}
+
+    var textFilter: TextFilter {
+        let defaults = TestSettings()
+        let textFilter = TextFilter()
+        textFilter.register(replacement: defaults.endpoint, for: endpoint)
+        textFilter.register(replacement: defaults.token, for: token)
+        textFilter.register(replacement: defaults.user1, for: user1)
+        textFilter.register(replacement: defaults.user2, for: user2)
+        return textFilter
+    }
 }
