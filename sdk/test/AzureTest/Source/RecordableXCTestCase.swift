@@ -45,8 +45,8 @@ open class RecordableXCTestCase<SettingsType: TestSettingsProtocol>: XCTestCase 
         var testName = fullname.split(separator: " ")[1]
         testName.removeLast()
         transport = mode != "live" ? DVRSessionTransport(cassetteName: String(testName)) : URLSessionTransport()
-        try setUpTestWithError()
         loadSettingsFromPlist()
+        try setUpTestWithError()
         transport?.open()
     }
 
