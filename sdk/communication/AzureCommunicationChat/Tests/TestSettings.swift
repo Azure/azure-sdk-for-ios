@@ -28,7 +28,7 @@ import AzureTest
 import Foundation
 
 class TestSettings: TestSettingsProtocol {
-    var endpoint = "https://endpoint"
+    var endpoint = "https://endpoint/"
     var user1 = "user1"
     var user2 = "user2"
     var token: String = {
