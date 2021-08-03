@@ -43,9 +43,14 @@ open class RecordableXCTestCase<SettingsType: TestSettingsProtocol>: XCTestCase 
     override public final func setUpWithError() throws {
         let fullname = name
         var testName = fullname.split(separator: " ")[1]
-        testName.removeLast()
-        transport = mode != "live" ? DVRSessionTransport(cassetteName: String(testName)) : URLSessionTransport()
         loadSettingsFromPlist()
+        testName.removeLast()
+        if mode != "live" {
+            transport = DVRSessionTransport(cassetteName: String(testName))
+            (transport as! DVRSessionTransport).add(filter: settings.textFilter)
+        } else {
+            transport = URLSessionTransport()
+        }
         try setUpTestWithError()
         transport?.open()
     }

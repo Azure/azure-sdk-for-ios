@@ -107,6 +107,10 @@ public class DVRSessionTransport: TransportStage {
         }
     }
 
+    public func add(filter: Filter) {
+        session?.filters.append(filter)
+    }
+
     // MARK: PipelineStage Methods
 
     public func process(

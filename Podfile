@@ -52,7 +52,6 @@ target 'AzureCommunicationChat' do
     inherit! :search_paths
     pod 'OHHTTPStubs/Swift'
     pod 'Trouter', '0.0.1-beta.5'
-    pod 'MSAL', '1.1.15'
     if $use_local_dvr
         pod 'DVR', :path => $dvr_path
     else
@@ -64,6 +63,11 @@ target 'AzureCommunicationChat' do
     inherit! :search_paths
     pod 'OHHTTPStubs/Swift'
     pod 'Trouter', '0.0.1-beta.5'
+    if $use_local_dvr
+        pod 'DVR', :path => $dvr_path
+    else
+        pod 'DVR', :git => 'https://github.com/tjprescott/DVR.git'
+    end
   end
 end
 

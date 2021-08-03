@@ -27,7 +27,6 @@
 import AzureCommunicationChat
 import AzureCommunicationCommon
 import AzureCore
-import AzureTest
 import OHHTTPStubs.Swift
 import XCTest
 
