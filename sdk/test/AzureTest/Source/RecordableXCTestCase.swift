@@ -46,8 +46,9 @@ open class RecordableXCTestCase<SettingsType: TestSettingsProtocol>: XCTestCase 
         loadSettingsFromPlist()
         testName.removeLast()
         if mode != "live" {
-            transport = DVRSessionTransport(cassetteName: String(testName))
-            (transport as! DVRSessionTransport).add(filter: settings.textFilter)
+            let filters = [settings.textFilter]
+            let dvrTransport = DVRSessionTransport(cassetteName: String(testName), withFilters: filters)
+            transport = dvrTransport
         } else {
             transport = URLSessionTransport()
         }

@@ -42,6 +42,7 @@ public class TextFilter: Filter {
 
         for (old, new) in replacements {
             if let url = request.url {
+                let test = URL(string: url.absoluteString.replacingOccurrences(of: old, with: new))
                 cleanRequest.url = URL(string: url.absoluteString.replacingOccurrences(of: old, with: new))
             }
 
@@ -74,7 +75,7 @@ public class TextFilter: Filter {
         return (cleanResponse, cleanData)
     }
 
-    public func register(replacement oldVal: String, for newVal: String) {
+    public func register(replacement newVal: String, for oldVal: String) {
         replacements[oldVal] = newVal
     }
 }
