@@ -27,14 +27,13 @@
 import DVR
 import Foundation
 
-public class TextFilter: Filter {
+public class URLFilter: Filter {
 
     private var replacements = [String: String]()
 
     override public init() {
         super.init()
         beforeRecordRequest = process(request:)
-        beforeRecordResponse = process(response:data:)
     }
 
     func process(request: URLRequest) -> URLRequest? {
@@ -42,7 +41,6 @@ public class TextFilter: Filter {
 
         for (old, new) in replacements {
             if let url = request.url {
-                let test = URL(string: url.absoluteString.replacingOccurrences(of: old, with: new))
                 cleanRequest.url = URL(string: url.absoluteString.replacingOccurrences(of: old, with: new))
             }
 
@@ -52,27 +50,6 @@ public class TextFilter: Filter {
         }
 
         return cleanRequest
-    }
-
-    func process(response: URLResponse, data: Data?) -> (URLResponse, Data?)? {
-        var cleanUrl: URL? = nil
-        var cleanData = data
-
-        for (old, new) in replacements {
-            if let url = response.url {
-                cleanUrl = URL(string: url.absoluteString.replacingOccurrences(of: old, with: new))
-            }
-
-            if let responseBody = String(data: data, encoding: .utf8) {
-                cleanData = responseBody.replacingOccurrences(of: old, with: new).data(using: .utf8)
-            }
-        }
-
-        guard let unwrappedUrl = cleanUrl else {
-            fatalError("Response URL unexpectedly nil")
-        }
-        let cleanResponse = URLResponse(url: unwrappedUrl, mimeType: response.mimeType, expectedContentLength: Int(response.expectedContentLength), textEncodingName: response.textEncodingName)
-        return (cleanResponse, cleanData)
     }
 
     public func register(replacement newVal: String, for oldVal: String) {
