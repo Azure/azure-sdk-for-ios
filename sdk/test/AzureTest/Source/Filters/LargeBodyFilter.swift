@@ -55,11 +55,11 @@ public class LargeBodyFilter: Filter {
     }
 
     func truncateBody(response: Foundation.URLResponse, data: Data?) -> (Foundation.URLResponse, Data?)? {
-        guard let data = data else {
+        guard let unwrappedData = data else {
             return (response, data)
         }
 
-        guard var stringData = String(data: data, encoding: .utf8) else {
+        guard var stringData = String(data: unwrappedData, encoding: .utf8) else {
             return (response, data)
         }
 
