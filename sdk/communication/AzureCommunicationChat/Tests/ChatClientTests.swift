@@ -35,8 +35,8 @@ class ChatClientTests: XCTestCase {
     private var chatClient: ChatClient!
     /// Test mode.
     private var mode = environmentVariable(forKey: "TEST_MODE", default: "playback")
-
-    private var settings = TestSettings.loadFromPlist()
+    /// default test settings
+    private let settings = TestSettings()
 
     override class func setUp() {
         let mode = environmentVariable(forKey: "TEST_MODE", default: "playback")
@@ -47,8 +47,8 @@ class ChatClientTests: XCTestCase {
     }
 
     override func setUpWithError() throws {
-        let endpoint = settings?.endpoint ?? "https://endpoint"
-        let token = settings?.token ?? generateFakeToken()
+        let endpoint = settings.endpoint
+        let token = settings.token
         let credential = try CommunicationTokenCredential(token: token)
         let options = AzureCommunicationChatClientOptions()
 
@@ -90,7 +90,7 @@ class ChatClientTests: XCTestCase {
     }
 
     func test_CreateThread_WithParticipants() {
-        let userId = settings?.user2 ?? "id2"
+        let userId = settings.user2
         let thread = CreateChatThreadRequest(
             topic: "Test topic",
             participants: [

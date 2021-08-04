@@ -24,8 +24,35 @@
 //
 // --------------------------------------------------------------------------
 
+import DVR
 import Foundation
 
-public protocol TestSettingsProtocol: AnyObject, Codable {
-    init()
+/// A filter for replacing non-deterministic values in the request URL with deterministic ones to facilitate reliable playback.
+public class RequestURLFilter: Filter {
+    private var replacements = [String: String]()
+
+    override public init() {
+        super.init()
+        beforeRecordRequest = process(request:)
+    }
+
+    func process(request: URLRequest) -> URLRequest? {
+        var cleanRequest = request
+
+        for (old, new) in replacements {
+            if let url = request.url {
+                cleanRequest.url = URL(string: url.absoluteString.replacingOccurrences(of: old, with: new))
+            }
+
+            if let httpBody = String(data: request.httpBody, encoding: .utf8) {
+                cleanRequest.httpBody = httpBody.replacingOccurrences(of: old, with: new).data(using: .utf8)
+            }
+        }
+
+        return cleanRequest
+    }
+
+    public func register(replacement newVal: String, for oldVal: String) {
+        replacements[oldVal] = newVal
+    }
 }

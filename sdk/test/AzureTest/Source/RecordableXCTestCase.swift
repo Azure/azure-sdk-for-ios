@@ -25,12 +25,11 @@
 // --------------------------------------------------------------------------
 
 import AzureCore
+import DVR
 import XCTest
 
 open class RecordableXCTestCase<SettingsType: TestSettingsProtocol>: XCTestCase {
-    public let settings = {
-        SettingsType.loadFromPlist()
-    }()
+    public var settings = SettingsType()
 
     public var transportOptions: TransportOptions {
         return TransportOptions(transport: transport)
@@ -40,15 +39,25 @@ open class RecordableXCTestCase<SettingsType: TestSettingsProtocol>: XCTestCase 
 
     private var mode = environmentVariable(forKey: "TEST_MODE", default: "playback")
 
+    public final func add(filter: Filter) {
+        (transport as? DVRSessionTransport)?.session?.filters.append(filter)
+    }
+
     override public final func setUp() {}
 
     override public final func setUpWithError() throws {
         let fullname = name
         var testName = fullname.split(separator: " ")[1]
+        loadSettingsFromPlist()
         testName.removeLast()
-        transport = mode != "live" ? DVRSessionTransport(cassetteName: String(testName)) : URLSessionTransport()
-        try setUpTestWithError()
+        if mode != "live" {
+            let dvrTransport = DVRSessionTransport(cassetteName: String(testName))
+            transport = dvrTransport
+        } else {
+            transport = URLSessionTransport()
+        }
         transport?.open()
+        try setUpTestWithError()
     }
 
     /// Method which the test author can override to configure setup
@@ -62,4 +71,17 @@ open class RecordableXCTestCase<SettingsType: TestSettingsProtocol>: XCTestCase 
 
     /// Method which the test author can override to configure setup
     open func tearDownTestWithError() throws {}
+
+    /// attempts to load settings from plist if not in playback mode
+    internal func loadSettingsFromPlist() {
+        // if in playback mode, don't load from plist
+        guard mode != "playback" else {
+            return
+        }
+        if let path = Bundle(for: SettingsType.self).path(forResource: "test-settings", ofType: "plist"),
+            let xml = FileManager.default.contents(atPath: path),
+            let settings = try? PropertyListDecoder().decode(SettingsType.self, from: xml) {
+            self.settings = settings
+        }
+    }
 }

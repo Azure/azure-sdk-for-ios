@@ -37,6 +37,9 @@ public class DVRSessionTransport: TransportStage {
     // DVR cassette name to search
     private var cassetteName: String
 
+    // Additional filters to append
+    private var additionalFilters: [Filter]?
+
     private var _next: PipelineStage?
     public var next: PipelineStage? {
         get {
@@ -51,8 +54,9 @@ public class DVRSessionTransport: TransportStage {
 
     // MARK: Initializers
 
-    public init(cassetteName: String) {
+    public init(cassetteName: String, withFilters filters: [Filter]? = nil) {
         self.cassetteName = cassetteName
+        self.additionalFilters = filters
     }
 
     // MARK: HTTPTransportStage Methods
@@ -91,6 +95,9 @@ public class DVRSessionTransport: TransportStage {
             defaultFilter,
             subscriptionIdFilter
         ]
+        if let appendFilters = additionalFilters {
+            session?.filters.append(contentsOf: appendFilters)
+        }
         if environmentVariable(forKey: "TEST_MODE", default: "playback") == "record" {
             session?.recordMode = .all
             session?.recordingEnabled = true
@@ -105,6 +112,10 @@ public class DVRSessionTransport: TransportStage {
         session?.endRecording {
             self.session = nil
         }
+    }
+
+    public func add(filter: Filter) {
+        session?.filters.append(filter)
     }
 
     // MARK: PipelineStage Methods
