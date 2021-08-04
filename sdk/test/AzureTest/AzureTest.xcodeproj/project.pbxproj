@@ -15,8 +15,18 @@
 		0A9229FD26B0705000D4B387 /* RecordableXCTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9229E426AF288D00D4B387 /* RecordableXCTestCase.swift */; };
 		0A9229FF26B070B500D4B387 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A9229FE26B070B500D4B387 /* XCTest.framework */; };
 		0A922A0B26B0780400D4B387 /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A922A0A26B0780400D4B387 /* AzureCore.framework */; };
+		312681CF26B042A100EAFE59 /* OAuthFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312681CD26B042A100EAFE59 /* OAuthFilter.swift */; };
+		312681D226B042E100EAFE59 /* MetadataFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312681D026B042E100EAFE59 /* MetadataFilter.swift */; };
+		312681D526B042F000EAFE59 /* LargeBodyFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312681D326B042F000EAFE59 /* LargeBodyFilter.swift */; };
+		313B14E726B21EDA008922F7 /* OAuthFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312681CD26B042A100EAFE59 /* OAuthFilter.swift */; };
+		313B14E826B21EDA008922F7 /* MetadataFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312681D026B042E100EAFE59 /* MetadataFilter.swift */; };
+		313B14E926B21EDA008922F7 /* LargeBodyFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312681D326B042F000EAFE59 /* LargeBodyFilter.swift */; };
+		318E677226B0A7BD00FB75DD /* DVRSessionTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9229E026AF288D00D4B387 /* DVRSessionTransport.swift */; };
+		318E677426B0A7C000FB75DD /* TestSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9229E126AF288D00D4B387 /* TestSettings.swift */; };
+		318E677626B0A7C400FB75DD /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9229E226AF288D00D4B387 /* Util.swift */; };
+		318E677826B0A7CA00FB75DD /* RecordableXCTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9229E426AF288D00D4B387 /* RecordableXCTestCase.swift */; };
+		318E677A26B0A7D700FB75DD /* SubscriptionIdFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9229E326AF288D00D4B387 /* SubscriptionIdFilter.swift */; };
 		31CAC0AC268A5D7E0084F817 /* AzureTestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CAC0AB268A5D7E0084F817 /* AzureTestTests.swift */; };
-		31CAC0B6268A60080084F817 /* TestData.json in Resources */ = {isa = PBXBuildFile; fileRef = 31CAC0B5268A60070084F817 /* TestData.json */; };
 		4B4694B556C92673B62DBD56 /* Pods_AzureTestTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A926CB03D0FC387E9DFF6F62 /* Pods_AzureTestTests.framework */; };
 		B706C03719DA5D1E3DCAF13C /* Pods_AzureTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63223FEC2B266A9E151BF760 /* Pods_AzureTest.framework */; };
 /* End PBXBuildFile section */
@@ -48,10 +58,12 @@
 		0A922A0026B070E300D4B387 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A922A0226B0710800D4B387 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A922A0A26B0780400D4B387 /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		312681CD26B042A100EAFE59 /* OAuthFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthFilter.swift; sourceTree = "<group>"; };
+		312681D026B042E100EAFE59 /* MetadataFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetadataFilter.swift; sourceTree = "<group>"; };
+		312681D326B042F000EAFE59 /* LargeBodyFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeBodyFilter.swift; sourceTree = "<group>"; };
 		31CAC0A9268A5D7E0084F817 /* AzureTestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AzureTestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		31CAC0AB268A5D7E0084F817 /* AzureTestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzureTestTests.swift; sourceTree = "<group>"; };
 		31CAC0AD268A5D7E0084F817 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		31CAC0B5268A60070084F817 /* TestData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = TestData.json; path = "../../../../../../../../../Users/jairmyree/Desktop/azure-sdk-for-ios/sdk/test/AzureTest/AzureTestTests/Resources/TestData.json"; sourceTree = SDKROOT; };
 		63223FEC2B266A9E151BF760 /* Pods_AzureTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7FFEFE60028E7EF3807647F9 /* Pods-AzureTestTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureTestTests.debug.xcconfig"; path = "Target Support Files/Pods-AzureTestTests/Pods-AzureTestTests.debug.xcconfig"; sourceTree = "<group>"; };
 		96F3D908C250C6C135FCD9DC /* Pods-AzureTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureTest.debug.xcconfig"; path = "Target Support Files/Pods-AzureTest/Pods-AzureTest.debug.xcconfig"; sourceTree = "<group>"; };
@@ -89,7 +101,7 @@
 				0A9229E026AF288D00D4B387 /* DVRSessionTransport.swift */,
 				0A9229E126AF288D00D4B387 /* TestSettings.swift */,
 				0A9229E226AF288D00D4B387 /* Util.swift */,
-				0A9229E326AF288D00D4B387 /* SubscriptionIdFilter.swift */,
+				312681CC26B0417D00EAFE59 /* Filters */,
 				0A9229E426AF288D00D4B387 /* RecordableXCTestCase.swift */,
 				0A8CE8D826B86C08002124EF /* RequestURLFilter.swift */,
 			);
@@ -108,6 +120,17 @@
 			path = ../../../Pods;
 			sourceTree = "<group>";
 		};
+		312681CC26B0417D00EAFE59 /* Filters */ = {
+			isa = PBXGroup;
+			children = (
+				0A9229E326AF288D00D4B387 /* SubscriptionIdFilter.swift */,
+				312681CD26B042A100EAFE59 /* OAuthFilter.swift */,
+				312681D026B042E100EAFE59 /* MetadataFilter.swift */,
+				312681D326B042F000EAFE59 /* LargeBodyFilter.swift */,
+			);
+			path = Filters;
+			sourceTree = "<group>";
+		};
 		31CAC0AA268A5D7E0084F817 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -121,7 +144,6 @@
 		31CAC0B4268A5FD00084F817 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				31CAC0B5268A60070084F817 /* TestData.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -174,7 +196,7 @@
 				0A9229EE26B0702300D4B387 /* Sources */,
 				0A9229EF26B0702300D4B387 /* Frameworks */,
 				0A9229F026B0702300D4B387 /* CopyFiles */,
-				0ABFEE4626BB019300AB2B39 /* Format and Lint */,
+				311A641726BAD5440045D5BD /* Format and Lint */,
 			);
 			buildRules = (
 			);
@@ -248,14 +270,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				31CAC0B6268A60080084F817 /* TestData.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0ABFEE4626BB019300AB2B39 /* Format and Lint */ = {
+		311A641726BAD5440045D5BD /* Format and Lint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -271,7 +292,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "BUILD_PATH=$(pwd)\nROOT_PATH=$(pwd | rev | cut -d'/' -f4- | rev) \n$ROOT_PATH/eng/scripts/swiftlint.sh $BUILD_PATH\n";
+			shellScript = "if test -d \"/opt/homebrew/bin/\"; then\n  PATH=\"/opt/homebrew/bin/:${PATH}\"\nfi\n\nexport PATH\n\nBUILD_PATH=$(pwd)\nROOT_PATH=$(pwd | rev | cut -d'/' -f4- | rev) \n$ROOT_PATH/eng/scripts/swiftlint.sh $BUILD_PATH\n\n\n";
 		};
 		36AAC72EFA4D6D37A8B8C40C /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -342,6 +363,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				313B14E726B21EDA008922F7 /* OAuthFilter.swift in Sources */,
+				313B14E826B21EDA008922F7 /* MetadataFilter.swift in Sources */,
+				313B14E926B21EDA008922F7 /* LargeBodyFilter.swift in Sources */,
 				0A9229FA26B0704800D4B387 /* TestSettings.swift in Sources */,
 				0A9229FD26B0705000D4B387 /* RecordableXCTestCase.swift in Sources */,
 				0A8CE8D926B86C08002124EF /* RequestURLFilter.swift in Sources */,
@@ -355,7 +379,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				318E677426B0A7C000FB75DD /* TestSettings.swift in Sources */,
 				31CAC0AC268A5D7E0084F817 /* AzureTestTests.swift in Sources */,
+				312681CF26B042A100EAFE59 /* OAuthFilter.swift in Sources */,
+				312681D226B042E100EAFE59 /* MetadataFilter.swift in Sources */,
+				318E677626B0A7C400FB75DD /* Util.swift in Sources */,
+				318E677A26B0A7D700FB75DD /* SubscriptionIdFilter.swift in Sources */,
+				312681D526B042F000EAFE59 /* LargeBodyFilter.swift in Sources */,
+				318E677226B0A7BD00FB75DD /* DVRSessionTransport.swift in Sources */,
+				318E677826B0A7CA00FB75DD /* RecordableXCTestCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -488,6 +520,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7FFEFE60028E7EF3807647F9 /* Pods-AzureTestTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -550,6 +583,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = ADCC08EA457E7D6F9AD12244 /* Pods-AzureTestTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
