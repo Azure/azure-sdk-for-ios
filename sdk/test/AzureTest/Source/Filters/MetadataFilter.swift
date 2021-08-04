@@ -24,18 +24,22 @@
 //
 // --------------------------------------------------------------------------
 
-import Foundation
 import DVR
+import Foundation
 
-public class MetadataFilter : Filter {
-    static let metadataRegex = try! NSRegularExpression(pattern: "/.well-known/openid-configuration|/common/discovery/instance", options: .caseInsensitive)
+public class MetadataFilter: Filter {
+    // swiftlint:disable force_try
+    static let metadataRegex = try! NSRegularExpression(
+        pattern: "/.well-known/openid-configuration|/common/discovery/instance",
+        options: .caseInsensitive
+    )
 
-    public override init() {
+    override public init() {
         super.init()
         beforeRecordRequest = filterMetadata
     }
-    
-    func filterMetadata(from request : URLRequest) -> URLRequest? {
+
+    func filterMetadata(from request: URLRequest) -> URLRequest? {
         guard let requestURL = request.url else {
             return request
         }
@@ -44,12 +48,11 @@ public class MetadataFilter : Filter {
         }
         return request
     }
-    
 }
 
 extension String {
     func contains(regex: NSRegularExpression, matchingOptions: NSRegularExpression.MatchingOptions = []) -> Bool {
-        let range = NSRange(location: 0, length: self.count)
+        let range = NSRange(location: 0, length: count)
         return regex.numberOfMatches(in: self, options: matchingOptions, range: range) > 0
     }
 }

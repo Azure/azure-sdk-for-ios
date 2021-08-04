@@ -24,52 +24,49 @@
 //
 // --------------------------------------------------------------------------
 
-import Foundation
 import DVR
+import Foundation
 
-public class LargeBodyFilter : Filter {
-    
-    let maxBodySize : Int
+public class LargeBodyFilter: Filter {
+    let maxBodySize: Int
     init(maxBodySize: Int = 128) {
         self.maxBodySize = maxBodySize
         super.init()
         beforeRecordRequest = truncateBody
         beforeRecordResponse = truncateBody
     }
-    
-    func truncateBody (request: URLRequest) -> URLRequest? {
+
+    func truncateBody(request: URLRequest) -> URLRequest? {
         guard let data = request.httpBody else {
             return request
         }
         guard var stringBody = String(data: data, encoding: .utf8) else {
             return request
         }
-        
+
         if stringBody.count > maxBodySize {
             var newRequest = request
             stringBody = stringBody.prefix(maxBodySize) + "..."
             newRequest.httpBody = stringBody.data(using: .utf8)
             return newRequest
-        }
-        else {
+        } else {
             return request
         }
     }
-    
-    func truncateBody (response: Foundation.URLResponse, data: Data?) -> (Foundation.URLResponse, Data?)? {
+
+    func truncateBody(response: Foundation.URLResponse, data: Data?) -> (Foundation.URLResponse, Data?)? {
         guard let data = data else {
             return (response, data)
         }
-        
+
         guard var stringData = String(data: data, encoding: .utf8) else {
             return (response, data)
         }
-        
+
         if stringData.count > maxBodySize {
             stringData = String(stringData.prefix(maxBodySize)) + "..."
             return (response, stringData.data(using: .utf8))
-        }
-        else {
+        } else {
             return (response, data)
         }
     }

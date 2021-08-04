@@ -24,17 +24,18 @@
 //
 // --------------------------------------------------------------------------
 
-import Foundation
 import DVR
+import Foundation
 
-public class OAuthFilter : Filter {
+public class OAuthFilter: Filter {
+    // swiftlint:disable force_try
     static let oAuthRegex = try! NSRegularExpression(pattern: "/oauth2(?:/v2.0)?/token", options: .caseInsensitive)
-    
-    public override init() {
+
+    override public init() {
         super.init()
         beforeRecordRequest = filterOAuth
     }
-    
+
     func filterOAuth(from request: URLRequest) -> URLRequest? {
         guard let requestURL = request.url else {
             return request
@@ -44,5 +45,4 @@ public class OAuthFilter : Filter {
         }
         return request
     }
-    
 }

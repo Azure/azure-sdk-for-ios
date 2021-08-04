@@ -65,7 +65,8 @@ public class DVRSessionTransport: TransportStage {
         guard session == nil else { return }
         let sdkPath = environmentVariable(forKey: "SDK_REPO_ROOT", default: "~")
         guard let outputDirectory = URL(string: sdkPath)?
-            .appendingPathComponent("sdk/communication/AzureCommunicationChat/Tests/Recordings").absoluteString else {
+            .appendingPathComponent("sdk/communication/AzureCommunicationChat/Tests/Recordings").absoluteString
+        else {
             fatalError("SDK Path Invalid")
         }
         let replacements: [String: Filter.FilterBehavior] = [
