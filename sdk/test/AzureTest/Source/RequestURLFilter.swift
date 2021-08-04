@@ -27,8 +27,8 @@
 import DVR
 import Foundation
 
-public class URLFilter: Filter {
-
+/// A filter for replacing non-deterministic values in the request URL with deterministic ones to facilitate reliable playback.
+public class RequestURLFilter: Filter {
     private var replacements = [String: String]()
 
     override public init() {

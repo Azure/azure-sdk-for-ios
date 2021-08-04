@@ -35,7 +35,15 @@ class ChatClientDVRTests: RecordableXCTestCase<TestSettings> {
     /// ChatClient initialized in setup.
     private var chatClient: ChatClient!
 
+    private var urlFilter: RequestURLFilter {
+        let defaults = TestSettings()
+        let textFilter = RequestURLFilter()
+        textFilter.register(replacement: defaults.endpoint, for: settings.endpoint)
+        return textFilter
+    }
+
     override func setUpTestWithError() throws {
+        add(filter: urlFilter)
         let endpoint = settings.endpoint
         let token = settings.token
         let credential = try CommunicationTokenCredential(token: token)

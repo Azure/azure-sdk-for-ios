@@ -25,6 +25,7 @@
 // --------------------------------------------------------------------------
 
 import AzureCore
+import DVR
 import XCTest
 
 open class RecordableXCTestCase<SettingsType: TestSettingsProtocol>: XCTestCase {
@@ -38,6 +39,10 @@ open class RecordableXCTestCase<SettingsType: TestSettingsProtocol>: XCTestCase 
 
     private var mode = environmentVariable(forKey: "TEST_MODE", default: "playback")
 
+    public final func add(filter: Filter) {
+        (transport as? DVRSessionTransport)?.session?.filters.append(filter)
+    }
+
     override public final func setUp() {}
 
     override public final func setUpWithError() throws {
@@ -46,14 +51,13 @@ open class RecordableXCTestCase<SettingsType: TestSettingsProtocol>: XCTestCase 
         loadSettingsFromPlist()
         testName.removeLast()
         if mode != "live" {
-            let filters = [settings.textFilter]
-            let dvrTransport = DVRSessionTransport(cassetteName: String(testName), withFilters: filters)
+            let dvrTransport = DVRSessionTransport(cassetteName: String(testName))
             transport = dvrTransport
         } else {
             transport = URLSessionTransport()
         }
-        try setUpTestWithError()
         transport?.open()
+        try setUpTestWithError()
     }
 
     /// Method which the test author can override to configure setup
@@ -71,13 +75,13 @@ open class RecordableXCTestCase<SettingsType: TestSettingsProtocol>: XCTestCase 
     /// attempts to load settings from plist if not in playback mode
     internal func loadSettingsFromPlist() {
         // if in playback mode, don't load from plist
-        guard self.mode != "playback" else {
+        guard mode != "playback" else {
             return
         }
         if let path = Bundle(for: SettingsType.self).path(forResource: "test-settings", ofType: "plist"),
-           let xml = FileManager.default.contents(atPath: path),
-           let settings = try? PropertyListDecoder().decode(SettingsType.self, from: xml) {
+            let xml = FileManager.default.contents(atPath: path),
+            let settings = try? PropertyListDecoder().decode(SettingsType.self, from: xml) {
             self.settings = settings
-       }
+        }
     }
 }
