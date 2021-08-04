@@ -34,6 +34,16 @@
             isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
+            key = "SDK_LIBRARY_NAME"
+            value = "AzureCommunicationChat"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "SDK_SERVICE_DIRECTORY"
+            value = "communication"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
             key = "SDK_REPO_ROOT"
             value = "/Users/travisprescott/repos/azure-sdk-for-ios"
             isEnabled = "YES">
