@@ -102,6 +102,7 @@
 		0AA59B2C25C21B7400E77E33 /* BlobsOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlobsOperations.swift; sourceTree = "<group>"; };
 		0AA59B3025C21B8400E77E33 /* ContainersOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainersOperations.swift; sourceTree = "<group>"; };
 		0AB24708243CDA4200E62844 /* StorageJSONCoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageJSONCoding.swift; sourceTree = "<group>"; };
+		0ABFEE4926BDA3F800AB2B39 /* AzureStorageBlob.podspec.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = AzureStorageBlob.podspec.json; sourceTree = "<group>"; };
 		0AC0AA84234D31C300F05073 /* BlobItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlobItem.swift; sourceTree = "<group>"; };
 		0AC0AA86234D38B000F05073 /* ContainerProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerProperties.swift; sourceTree = "<group>"; };
 		0AC34914235633110094C576 /* ClientOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientOptions.swift; sourceTree = "<group>"; };
@@ -170,6 +171,7 @@
 		0A68647F233E834D004B7E17 = {
 			isa = PBXGroup;
 			children = (
+				0ABFEE4926BDA3F800AB2B39 /* AzureStorageBlob.podspec.json */,
 				0A6864A8233E8388004B7E17 /* Source */,
 				0A686496233E834D004B7E17 /* Tests */,
 				0A68648A233E834D004B7E17 /* Products */,
