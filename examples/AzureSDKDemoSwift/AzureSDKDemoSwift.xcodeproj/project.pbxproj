@@ -59,7 +59,7 @@
 		0A71C5CA234BE18200604F2D /* BlobDownloadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlobDownloadViewController.swift; sourceTree = "<group>"; };
 		0A71C5CC234BE85700604F2D /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		0A80BD55239EEFD400491345 /* AzureSDKDemoSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AzureSDKDemoSwift.entitlements; sourceTree = "<group>"; };
-		0ABFEE4726BC8FF700AB2B39 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		0ABFEE4A26BDD4DD00AB2B39 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		0AF03F1B2433EE80002E65F8 /* CustomTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
 		1C261B405813394338B82960 /* Pods-AzureSDKDemoSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureSDKDemoSwift.release.xcconfig"; path = "../AzureSDKDemoSwift/Pods/Target Support Files/Pods-AzureSDKDemoSwift/Pods-AzureSDKDemoSwift.release.xcconfig"; sourceTree = "<group>"; };
 		7AB817E6248F159D00819F53 /* AzureIdentity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureIdentity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -85,6 +85,7 @@
 		0A3A5E6D2315E70400473FDA = {
 			isa = PBXGroup;
 			children = (
+				0ABFEE4A26BDD4DD00AB2B39 /* Podfile */,
 				0A80BD55239EEFD400491345 /* AzureSDKDemoSwift.entitlements */,
 				0A3A5E782315E70400473FDA /* Source */,
 				0A3A5E772315E70400473FDA /* Products */,
@@ -123,7 +124,6 @@
 			isa = PBXGroup;
 			children = (
 				0A3A5E852315E70500473FDA /* Info.plist */,
-				0ABFEE4726BC8FF700AB2B39 /* Podfile */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -249,7 +249,6 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AzureSDKDemoSwift/Pods-AzureSDKDemoSwift-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
