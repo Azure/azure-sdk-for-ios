@@ -3,6 +3,36 @@ $LanguageDisplayName = "Swift"
 $PackageRepository = "CocoaPods"
 $packagePattern = "*.podspec.json"
 
+function Get-AllPackageInfoFromRepo($serviceDirectory)
+{
+    $allPackageProps = @()
+    $searchPath = "sdk"
+
+    if ($serviceDirectory)
+    {
+        $searchPath = Join-Path sdk ${serviceDirectory}
+    }
+
+    $podSpecFiles = Get-ChildItem -Path $searchPath -Include *.podspec.json -Recurse
+
+    foreach ($file in $podSpecFiles)
+    {
+        $podSpecContent = Get-Content -Path $file | ConvertFrom-Json
+        $pkgPath = $file.Directory.FullName
+        $pkgName = $podSpecContent.Name
+        $pkgVersion = $podSpecContent.Version
+
+        $pkgProp = [PackageProps]::new($pkgName, $pkgVersion, $pkgPath, $serviceDirectory)
+        $pkgProp.SdkType = "client"
+        $pkgProp.IsNewSdk = $true
+        $pkgProp.ArtifactName = $pkgName
+
+        $allPackageProps += $pkgProp
+    }
+
+    return $allPackageProps
+}
+
 function ComputeCocoaPodsSpecUrl($PackageId, $PackageVersion)
 {
     # The CocoaPods spec repo is a repository for JSONified versions of the PodSpec file. The path to the JSON
