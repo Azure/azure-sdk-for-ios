@@ -61,10 +61,10 @@
 		0A80BD55239EEFD400491345 /* AzureSDKDemoSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AzureSDKDemoSwift.entitlements; sourceTree = "<group>"; };
 		0ABFEE4A26BDD4DD00AB2B39 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		0AF03F1B2433EE80002E65F8 /* CustomTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
-		1C261B405813394338B82960 /* Pods-AzureSDKDemoSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureSDKDemoSwift.release.xcconfig"; path = "../AzureSDKDemoSwift/Pods/Target Support Files/Pods-AzureSDKDemoSwift/Pods-AzureSDKDemoSwift.release.xcconfig"; sourceTree = "<group>"; };
+		1C261B405813394338B82960 /* Pods-AzureSDKDemoSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureSDKDemoSwift.release.xcconfig"; path = "../../Pods/Target Support Files/Pods-AzureSDKDemoSwift/Pods-AzureSDKDemoSwift.release.xcconfig"; sourceTree = "<group>"; };
 		7AB817E6248F159D00819F53 /* AzureIdentity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureIdentity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F31A5A26BA837DAEC8BD8E4 /* Pods_AzureSDKDemoSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureSDKDemoSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B0A776A40094923B6F31057B /* Pods-AzureSDKDemoSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureSDKDemoSwift.debug.xcconfig"; path = "../AzureSDKDemoSwift/Pods/Target Support Files/Pods-AzureSDKDemoSwift/Pods-AzureSDKDemoSwift.debug.xcconfig"; sourceTree = "<group>"; };
+		B0A776A40094923B6F31057B /* Pods-AzureSDKDemoSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureSDKDemoSwift.debug.xcconfig"; path = "../../Pods/Target Support Files/Pods-AzureSDKDemoSwift/Pods-AzureSDKDemoSwift.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -249,6 +249,7 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AzureSDKDemoSwift/Pods-AzureSDKDemoSwift-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -441,6 +442,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = AzureSDKDemoSwift.entitlements;
 				DEVELOPMENT_TEAM = UBF8T346G9;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -461,6 +463,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = AzureSDKDemoSwift.entitlements;
 				DEVELOPMENT_TEAM = UBF8T346G9;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (

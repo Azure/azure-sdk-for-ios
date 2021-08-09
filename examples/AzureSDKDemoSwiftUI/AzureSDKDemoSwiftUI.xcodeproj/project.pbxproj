@@ -388,6 +388,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"AzureSDKDemoSwiftUI/Preview Content\"";
 				DEVELOPMENT_TEAM = CF883Z8M2L;
 				ENABLE_PREVIEWS = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = AzureSDKDemoSwiftUI/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -410,6 +411,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"AzureSDKDemoSwiftUI/Preview Content\"";
 				DEVELOPMENT_TEAM = CF883Z8M2L;
 				ENABLE_PREVIEWS = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = AzureSDKDemoSwiftUI/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
