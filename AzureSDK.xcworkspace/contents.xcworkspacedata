@@ -79,6 +79,9 @@
       location = "group:"
       name = "Deployment">
       <FileRef
+         location = "group:Package.swift">
+      </FileRef>
+      <FileRef
          location = "group:Podfile">
       </FileRef>
       <FileRef
