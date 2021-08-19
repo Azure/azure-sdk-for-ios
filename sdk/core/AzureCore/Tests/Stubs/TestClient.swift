@@ -34,7 +34,7 @@ class TestClient: PipelineClient {
     public let options: TestClientOptions
 
     internal static let defaultPolicies: [PipelineStage] = [
-        UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0", telemetryOptions: TelemetryOptions()),
+        try! UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0", telemetryOptions: TelemetryOptions()),
         RetryPolicy(),
         LoggingPolicy()
     ]

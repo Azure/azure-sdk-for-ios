@@ -114,7 +114,7 @@ class PipelineTests: XCTestCase {
         var requestCompleted = false
 
         let client = TestClient(customPolicies: [
-            UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0"),
+            try! UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0"),
             RetryPolicy(),
             LoggingPolicy()
         ])
@@ -141,7 +141,7 @@ class PipelineTests: XCTestCase {
             perRetryPolicies: [CustomPerRetryPolicy()]
         )
         let client = TestClient(customPolicies: [
-            UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0"),
+            try! UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0"),
             RetryPolicy(),
             LoggingPolicy()
         ], withOptions: options)

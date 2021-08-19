@@ -60,7 +60,7 @@ class CollectionsTests: XCTestCase {
             endpoint: URL(string: "http://www.microsoft.com")!,
             transport: URLSessionTransport(),
             policies: [
-                UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0")
+                try! UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0")
             ],
             logger: ClientLoggers.default(),
             options: TestClientOptions()
@@ -98,7 +98,7 @@ class CollectionsTests: XCTestCase {
             endpoint: URL(string: "http://www.microsoft.com")!,
             transport: URLSessionTransport(),
             policies: [
-                UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0")
+                try! UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0")
             ],
             logger: ClientLoggers.default(),
             options: TestClientOptions()
@@ -126,7 +126,7 @@ class CollectionsTests: XCTestCase {
             endpoint: URL(string: "http://www.microsoft.com")!,
             transport: URLSessionTransport(),
             policies: [
-                UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0")
+                try! UserAgentPolicy(sdkName: "Test", sdkVersion: "1.0")
             ],
             logger: ClientLoggers.default(),
             options: TestClientOptions()

@@ -27,10 +27,11 @@
 @testable import AzureCore
 import XCTest
 
+// swiftlint:disable force_try
 class UserAgentPolicyTests: XCTestCase {
     /// Test that the user agent policy creates the correct user agent when all optional parts are omitted
     func test_UserAgentPolicy_WithRequiredPartsOnly() {
-        let policy = UserAgentPolicy(
+        let policy = try! UserAgentPolicy(
             sdkName: "Test",
             sdkVersion: "1.0",
             platformInfoProvider: nil,
@@ -43,7 +44,7 @@ class UserAgentPolicyTests: XCTestCase {
 
     /// Test that the user agent policy creates the correct user agent when the applicationId only is provided
     func test_UserAgentPolicy_WithAppIdOnly() {
-        let policy = UserAgentPolicy(
+        let policy = try! UserAgentPolicy(
             sdkName: "Test",
             sdkVersion: "1.0",
             telemetryOptions: TelemetryOptions(applicationId: "MyApplication"),
@@ -52,73 +53,51 @@ class UserAgentPolicyTests: XCTestCase {
             localeInfoProvider: nil
         )
         let userAgent = policy.userAgent
-        XCTAssertEqual(userAgent, "[MyApplication] azsdk-ios-Test/1.0")
+        XCTAssertEqual(userAgent, "MyApplication azsdk-ios-Test/1.0")
     }
 
     /// Test that the user agent policy truncates an applicationId >24 characters
-    func test_UserAgentPolicy_WithAppIdTooLong_TruncatesAppId() {
-        let policy = UserAgentPolicy(
-            sdkName: "Test",
-            sdkVersion: "1.0",
-            telemetryOptions: TelemetryOptions(applicationId: "MyExtremelyLongApplication"),
-            platformInfoProvider: nil,
-            appBundleInfoProvider: nil,
-            localeInfoProvider: nil
-        )
-        let userAgent = policy.userAgent
-        XCTAssertEqual(userAgent, "[MyExtremelyLongApplicati] azsdk-ios-Test/1.0")
+    func test_UserAgentPolicy_WithAppIdTooLong_Throws() {
+        XCTAssertThrowsError(
+            try UserAgentPolicy(
+                sdkName: "Test",
+                sdkVersion: "1.0",
+                telemetryOptions: TelemetryOptions(applicationId: "MyExtremelyLongApplication"),
+                platformInfoProvider: nil,
+                appBundleInfoProvider: nil,
+                localeInfoProvider: nil
+            )
+        ) { error in
+            XCTAssertTrue(
+                error.localizedDescription.contains("24")
+            )
+        }
     }
 
     /// Test that the user agent policy removes whitespaces from an applicationId
-    func test_UserAgentPolicy_WithAppIdContainingWhitespace_StripsWhitespace() {
-        let policy = UserAgentPolicy(
-            sdkName: "Test",
-            sdkVersion: "1.0",
-            telemetryOptions: TelemetryOptions(
-                applicationId: "\u{3000}My\u{2003}Long\u{000d}\u{000a}App\u{0009}  Na\u{200b}me\u{00a0} "
-            ),
-            platformInfoProvider: nil,
-            appBundleInfoProvider: nil,
-            localeInfoProvider: nil
-        )
-        let userAgent = policy.userAgent
-        XCTAssertEqual(userAgent, "[MyLongAppName] azsdk-ios-Test/1.0")
-    }
-
-    /// Test that the user agent policy truncates an applicationId only after first stripping whitespace
-    func test_UserAgentPolicy_WithAppIdMadeTooLongByWhitespace_StripsWhitespaceBeforeTruncating() {
-        let policy = UserAgentPolicy(
-            sdkName: "Test",
-            sdkVersion: "1.0",
-            telemetryOptions: TelemetryOptions(applicationId: " My Very Long Application "),
-            platformInfoProvider: nil,
-            appBundleInfoProvider: nil,
-            localeInfoProvider: nil
-        )
-        let userAgent = policy.userAgent
-        XCTAssertEqual(userAgent, "[MyVeryLongApplication] azsdk-ios-Test/1.0")
-    }
-
-    /// Test that the user agent policy omits the applicationId if it is empty after stripping whitespace
-    func test_UserAgentPolicy_WithAppIdContainingOnlyWhitespace_OmitsAppId() {
-        let policy = UserAgentPolicy(
-            sdkName: "Test",
-            sdkVersion: "1.0",
-            telemetryOptions: TelemetryOptions(
-                applicationId: "\u{3000}\u{2003}\u{000d}\u{000a}\u{0009}  \u{200b}\u{00a0} "
-            ),
-            platformInfoProvider: nil,
-            appBundleInfoProvider: nil,
-            localeInfoProvider: nil
-        )
-        let userAgent = policy.userAgent
-        XCTAssertEqual(userAgent, "azsdk-ios-Test/1.0")
+    func test_UserAgentPolicy_WithAppIdContainingWhitespace_Throws() {
+        XCTAssertThrowsError(
+            try UserAgentPolicy(
+                sdkName: "Test",
+                sdkVersion: "1.0",
+                telemetryOptions: TelemetryOptions(
+                    applicationId: "\u{3000}My\u{2003}Long\u{000d}\u{000a}App\u{0009}  Na\u{200b}me\u{00a0} "
+                ),
+                platformInfoProvider: nil,
+                appBundleInfoProvider: nil,
+                localeInfoProvider: nil
+            )
+        ) { error in
+            XCTAssertTrue(
+                error.localizedDescription.contains("24")
+            )
+        }
     }
 
     /// Test that the user agent policy creates the correct user agent when the applicationId is explicitly provided
     /// and is also available from the bundleInfoProvider
     func test_UserAgentPolicy_WithBundleInfoAndAppId_UsesAppId() {
-        let policy = UserAgentPolicy(
+        let policy = try! UserAgentPolicy(
             sdkName: "Test",
             sdkVersion: "1.0",
             telemetryOptions: TelemetryOptions(applicationId: "MyApplication"),
@@ -127,13 +106,13 @@ class UserAgentPolicyTests: XCTestCase {
             localeInfoProvider: nil
         )
         let userAgent = policy.userAgent
-        XCTAssertEqual(userAgent, "[MyApplication] azsdk-ios-Test/1.0")
+        XCTAssertEqual(userAgent, "MyApplication azsdk-ios-Test/1.0")
     }
 
     /// Test that the user agent policy omits the applicationId when the applicationId is explicitly provided as an
     /// empty string and is also available from the bundleInfoProvider
     func test_UserAgentPolicy_WithBundleInfoAndEmptyAppId_OmitsAppId() {
-        let policy = UserAgentPolicy(
+        let policy = try! UserAgentPolicy(
             sdkName: "Test",
             sdkVersion: "1.0",
             telemetryOptions: TelemetryOptions(applicationId: ""),
@@ -148,7 +127,7 @@ class UserAgentPolicyTests: XCTestCase {
     /// Test that the user agent policy creates the correct user agent when the applicationId is not explicitly provided
     /// but is available from the bundleInfoProvider
     func test_UserAgentPolicy_WithBundleInfoAndNoAppId_UsesAppIdFromBundle() {
-        let policy = UserAgentPolicy(
+        let policy = try! UserAgentPolicy(
             sdkName: "Test",
             sdkVersion: "1.0",
             platformInfoProvider: nil,
@@ -156,12 +135,12 @@ class UserAgentPolicyTests: XCTestCase {
             localeInfoProvider: nil
         )
         let userAgent = policy.userAgent
-        XCTAssertEqual(userAgent, "[BundleApplicationId] azsdk-ios-Test/1.0")
+        XCTAssertEqual(userAgent, "BundleApplicationId azsdk-ios-Test/1.0")
     }
 
     /// Test that the user agent policy creates the correct user agent when all the bundle info is available
     func test_UserAgentPolicy_WithAllBundleInfo_AppendsInfoSuffix() {
-        let policy = UserAgentPolicy(
+        let policy = try! UserAgentPolicy(
             sdkName: "Test",
             sdkVersion: "1.0",
             telemetryOptions: TelemetryOptions(applicationId: "MyApplication"),
@@ -174,12 +153,12 @@ class UserAgentPolicyTests: XCTestCase {
             localeInfoProvider: nil
         )
         let userAgent = policy.userAgent
-        XCTAssertEqual(userAgent, "[MyApplication] azsdk-ios-Test/1.0 (MyBundle:2.0 -> iOS 9.0)")
+        XCTAssertEqual(userAgent, "MyApplication azsdk-ios-Test/1.0 (MyBundle:2.0 -> iOS 9.0)")
     }
 
     /// Test that the user agent policy creates the correct user agent when only the bundle name & version are available
     func test_UserAgentPolicy_WithBundleNameVersionOnly_AppendsInfoSuffix() {
-        let policy = UserAgentPolicy(
+        let policy = try! UserAgentPolicy(
             sdkName: "Test",
             sdkVersion: "1.0",
             telemetryOptions: TelemetryOptions(applicationId: "MyApplication"),
@@ -188,12 +167,12 @@ class UserAgentPolicyTests: XCTestCase {
             localeInfoProvider: nil
         )
         let userAgent = policy.userAgent
-        XCTAssertEqual(userAgent, "[MyApplication] azsdk-ios-Test/1.0 (MyBundle:2.0)")
+        XCTAssertEqual(userAgent, "MyApplication azsdk-ios-Test/1.0 (MyBundle:2.0)")
     }
 
     /// Test that the user agent policy creates the correct user agent when platform info is available
     func test_UserAgentPolicy_WithPlatformInfo_AppendsInfoSuffix() {
-        let policy = UserAgentPolicy(
+        let policy = try! UserAgentPolicy(
             sdkName: "Test",
             sdkVersion: "1.0",
             telemetryOptions: TelemetryOptions(applicationId: "MyApplication"),
@@ -202,12 +181,12 @@ class UserAgentPolicyTests: XCTestCase {
             localeInfoProvider: nil
         )
         let userAgent = policy.userAgent
-        XCTAssertEqual(userAgent, "[MyApplication] azsdk-ios-Test/1.0 (iPhone6,2 - 13.2)")
+        XCTAssertEqual(userAgent, "MyApplication azsdk-ios-Test/1.0 (iPhone6,2 - 13.2)")
     }
 
     /// Test that the user agent policy creates the correct user agent when locale info is available
     func test_UserAgentPolicy_WithLocaleInfo_AppendsInfoSuffix() {
-        let policy = UserAgentPolicy(
+        let policy = try! UserAgentPolicy(
             sdkName: "Test",
             sdkVersion: "1.0",
             telemetryOptions: TelemetryOptions(applicationId: "MyApplication"),
@@ -216,12 +195,12 @@ class UserAgentPolicyTests: XCTestCase {
             localeInfoProvider: TestLocaleInfoProvider(language: "en", region: "US")
         )
         let userAgent = policy.userAgent
-        XCTAssertEqual(userAgent, "[MyApplication] azsdk-ios-Test/1.0 (en_US)")
+        XCTAssertEqual(userAgent, "MyApplication azsdk-ios-Test/1.0 (en_US)")
     }
 
     /// Test that the user agent policy correctly separates and orders multiple parts of the info suffix
     func test_UserAgentPolicy_WithMultipleInfoParts_AppendsInfoSuffixPartsInCorrectOrder() {
-        let policy = UserAgentPolicy(
+        let policy = try! UserAgentPolicy(
             sdkName: "Test",
             sdkVersion: "1.0",
             telemetryOptions: TelemetryOptions(applicationId: "MyApplication"),
@@ -236,13 +215,13 @@ class UserAgentPolicyTests: XCTestCase {
         let userAgent = policy.userAgent
         XCTAssertEqual(
             userAgent,
-            "[MyApplication] azsdk-ios-Test/1.0 (iPhone6,2 - 13.2; MyBundle:2.0 -> iOS 9.0; en_US)"
+            "MyApplication azsdk-ios-Test/1.0 (iPhone6,2 - 13.2; MyBundle:2.0 -> iOS 9.0; en_US)"
         )
     }
 
     /// Test that the user agent policy correctly omits the info sufix when telemetry is disabled
     func test_UserAgentPolicy_WithTelemetryDisabled_OmitsInfoSuffix() {
-        let policy = UserAgentPolicy(
+        let policy = try! UserAgentPolicy(
             sdkName: "Test",
             sdkVersion: "1.0",
             telemetryOptions: TelemetryOptions(telemetryDisabled: true),
@@ -260,7 +239,7 @@ class UserAgentPolicyTests: XCTestCase {
 
     /// Test that the user agent policy adds the user agent header to the request when none exists
     func test_UserAgentPolicy_WithoutCurrentUserAgent_AddsHeaderToRequest() {
-        let policy = UserAgentPolicy(
+        let policy = try! UserAgentPolicy(
             sdkName: "Test",
             sdkVersion: "1.0",
             platformInfoProvider: nil,
@@ -274,7 +253,7 @@ class UserAgentPolicyTests: XCTestCase {
 
     /// Test that the user agent policy replaces an existing user agent header generated by the policy
     func test_UserAgentPolicy_WithCurrentDefaultUserAgent_ReplacesHeaderValue() {
-        let policy = UserAgentPolicy(
+        let policy = try! UserAgentPolicy(
             sdkName: "Test",
             sdkVersion: "1.0",
             platformInfoProvider: nil,
@@ -289,7 +268,7 @@ class UserAgentPolicyTests: XCTestCase {
 
     /// Test that the user agent policy prepends its user agent header value if a user agent header already exists
     func test_UserAgentPolicy_WithCurrentNonDefaultUserAgent_PrependsHeaderValue() {
-        let policy = UserAgentPolicy(
+        let policy = try! UserAgentPolicy(
             sdkName: "Test",
             sdkVersion: "1.0",
             platformInfoProvider: nil,
@@ -310,8 +289,8 @@ public extension UserAgentPolicy {
         platformInfoProvider: PlatformInfoProvider? = DeviceProviders.platformInfo,
         appBundleInfoProvider: BundleInfoProvider? = DeviceProviders.appBundleInfo,
         localeInfoProvider: LocaleInfoProvider? = DeviceProviders.localeInfo
-    ) {
-        self.init(
+    ) throws {
+        try self.init(
             sdkName: sdkName,
             sdkVersion: sdkVersion,
             telemetryOptions: TelemetryOptions(),
