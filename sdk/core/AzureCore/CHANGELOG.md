@@ -1,7 +1,12 @@
 # Release History
+
+## 1.0.0-beta.13 (Unreleased)
+### Breaking Changes
+- `UserAgentPolicy` creation will now throw an error if a supplied application ID contains spaces or is longer than 24 characters. 
+  Previously, spaces would be removed and the application ID would be truncated.
+
 ## 1.0.0-beta.12 (2021-04-22)
 Minor update for Swift Package Manager.
-
 
 ## 1.0.0-beta.11 (2021-04-07)
 ### New Features

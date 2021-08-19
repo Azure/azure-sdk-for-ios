@@ -36,7 +36,7 @@ public class UserAgentPolicy: PipelineStage {
     // From the design guidelines, the full user agent header format is:
     // [<application_id>] azsdk-ios-<sdk_name>/<sdk_version> (<platform_info>; <application_info>; <user_locale_info>)
     private static let userAgentFormat = defaultUserAgent + "-%@/%@"
-    private static let appIdPrefixFormat = "[%@] "
+    private static let appIdPrefixFormat = "%@ "
     private static let infoSuffixFormat = " (%@)"
     private static let infoSuffixSeparator = "; "
 
@@ -57,11 +57,11 @@ public class UserAgentPolicy: PipelineStage {
 
     // MARK: Initializers
 
-    public convenience init(for clazz: AnyClass, telemetryOptions: TelemetryOptions) {
+    public convenience init(for clazz: AnyClass, telemetryOptions: TelemetryOptions) throws {
         let libraryBundleInfo = DeviceProviders.bundleInfo(for: clazz)
         let sdkName = libraryBundleInfo?.name ?? ""
         let sdkVersion = libraryBundleInfo?.version ?? ""
-        self.init(sdkName: sdkName, sdkVersion: sdkVersion, telemetryOptions: telemetryOptions)
+        try self.init(sdkName: sdkName, sdkVersion: sdkVersion, telemetryOptions: telemetryOptions)
     }
 
     public init(
@@ -71,23 +71,19 @@ public class UserAgentPolicy: PipelineStage {
         platformInfoProvider: PlatformInfoProvider? = DeviceProviders.platformInfo,
         appBundleInfoProvider: BundleInfoProvider? = DeviceProviders.appBundleInfo,
         localeInfoProvider: LocaleInfoProvider? = DeviceProviders.localeInfo
-    ) {
+    ) throws {
         var userAgent = String(format: UserAgentPolicy.userAgentFormat, sdkName, sdkVersion)
 
         let applicationId = telemetryOptions.applicationId ?? appBundleInfoProvider?.identifier
-        if var applicationId = applicationId, !applicationId.isEmpty {
-            // From the design guidelines, applicationId must not contain a space
-            if applicationId.rangeOfCharacter(from: .whitespacesAndNewlines) != nil {
-                applicationId = applicationId.components(separatedBy: .whitespacesAndNewlines).joined()
+        if let applicationId = applicationId, !applicationId.isEmpty {
+            // From the design guidelines, applicationId must not contain a space or be longer than 24 characters
+            guard applicationId.rangeOfCharacter(from: .whitespacesAndNewlines) == nil, applicationId.count <= 24 else {
+                throw AzureError.client(
+                    "TelemetryOptions.applicationId must not contain spaces and may not be longer than 24 characters.",
+                    nil
+                )
             }
-            // From the design guidelines, applicationId must not be more than 24 characters in length
-            if applicationId.count > 24 {
-                applicationId = String(applicationId.prefix(24))
-            }
-            // Don't use the applicationId if it's empty after applying the validations above
-            if !applicationId.isEmpty {
-                userAgent = String(format: UserAgentPolicy.appIdPrefixFormat, applicationId) + userAgent
-            }
+            userAgent = String(format: UserAgentPolicy.appIdPrefixFormat, applicationId) + userAgent
         }
 
         if !telemetryOptions.telemetryDisabled, let infoSuffix = UserAgentPolicy.getInfoSuffix(
