@@ -33,6 +33,15 @@ function Get-AllPackageInfoFromRepo($serviceDirectory)
     return $allPackageProps
 }
 
+function SetPackageVersion ($PackageName, $Version, $ReleaseDate)
+{
+  if($null -eq $ReleaseDate)
+  {
+    $ReleaseDate = Get-Date -Format "yyyy-MM-dd"
+  }
+  & "$EngDir/scripts/Update-PkgVersion.ps1" -PackageName $PackageName -NewVersionString $Version -ReleaseDate $ReleaseDate
+}
+
 function ComputeCocoaPodsSpecUrl($PackageId, $PackageVersion)
 {
     # The CocoaPods spec repo is a repository for JSONified versions of the PodSpec file. The path to the JSON
