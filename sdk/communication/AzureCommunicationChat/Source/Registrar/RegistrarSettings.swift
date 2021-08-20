@@ -36,7 +36,7 @@ internal enum RegistrarSettings {
     static let languageId = ""
     static let platform = "iOS"
     static let platformUIVersion = "3619/0.0.0.0/"
-    static let templateKey = "AcsIos.AcsNotify_2.0"
+    static let templateKey = "AcsIos.AcsNotify_Chat_1.0"
 
     // Transport Settings
     static let pushNotificationTransport = "APNS"
