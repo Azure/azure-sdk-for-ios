@@ -479,11 +479,18 @@ public class ReadReceiptReceivedEvent: BaseChatEvent {
         let readReceiptMessageBody: ReadReceiptMessageBody = try JSONDecoder()
             .decode(ReadReceiptMessageBody.self, from: readReceiptMessageBodyJsonData)
 
+        // Extract readOn value from consumptionHorizon
         let consumptionHorizon = readReceiptMessageBody.consumptionhorizon.split(separator: ";")
-        let readOn = String(consumptionHorizon[1])
+        guard let readOnMs = Int(consumptionHorizon[1]) else {
+            throw AzureError.client("Failed to construct Int from consumptionHorizon for readOn property.")
+        }
+
+        // In the payload readOn is represented as epoch time in milliseconds 
+        let readOnSeconds = readOnMs / 1000
+        let readOnDate = Date(timeIntervalSince1970: TimeInterval(readOnSeconds))
 
         self.chatMessageId = readReceiptReceivedPayload.messageId
-        self.readOn = Iso8601Date(string: readOn)
+        self.readOn = Iso8601Date(readOnDate)
         super.init(
             threadId: readReceiptReceivedPayload.groupId,
             sender: TrouterEventUtil.getIdentifier(from: readReceiptReceivedPayload.senderId),
