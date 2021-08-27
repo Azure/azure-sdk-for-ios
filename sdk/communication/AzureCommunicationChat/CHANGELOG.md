@@ -3,6 +3,8 @@
 ## 1.0.2 (TODO add date)
 ### Key Bug Fixes
 - Fix realtime notifications to handle null displayName
+- Fix readOn property in readReceiptReceived events
+- Upgrade Trouter package to 0.1.0
 
 ## 1.0.1 (2021-07-26)
 ### New Features
