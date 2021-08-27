@@ -91,7 +91,6 @@ public class BaseChatEvent {
     init(
         threadId: String,
         sender: CommunicationIdentifier?,
-        //senderDisplayName: String? = nil,
         recipient: CommunicationIdentifier?
     ) {
         self.threadId = threadId
