@@ -78,8 +78,6 @@ public class BaseChatEvent {
     public var threadId: String
     /// Sender identifier.
     public var sender: CommunicationIdentifier?
-    /// Sender display name.
-    public var senderDisplayName: String?
     /// Recipient identifier.
     public var recipient: CommunicationIdentifier?
     
@@ -89,17 +87,15 @@ public class BaseChatEvent {
     /// - Parameters:
     ///   - threadId: ChatThread id.
     ///   - sender: Sender identifier.
-    ///   - senderDisplayName: Sender display name.
     ///   - recipient: Recipient identifier.
     init(
         threadId: String,
         sender: CommunicationIdentifier?,
-        senderDisplayName: String? = nil,
+        //senderDisplayName: String? = nil,
         recipient: CommunicationIdentifier?
     ) {
         self.threadId = threadId
         self.sender = sender
-        self.senderDisplayName = senderDisplayName
         self.recipient = recipient
     }
 }
@@ -137,6 +133,8 @@ public class BaseChatMessageEvent: BaseChatEvent {
     public var version: String
     /// The message type.
     public var type: ChatMessageType
+    /// Sender display name.
+    public var senderDisplayName: String?
     
     // MARK: Initializers
     
@@ -164,7 +162,8 @@ public class BaseChatMessageEvent: BaseChatEvent {
         self.createdOn = createdOn
         self.version = version
         self.type = type
-        super.init(threadId: threadId, sender: sender, senderDisplayName: senderDisplayName, recipient: recipient)
+        self.senderDisplayName = senderDisplayName
+        super.init(threadId: threadId, sender: sender, recipient: recipient)
     }
 }
 
