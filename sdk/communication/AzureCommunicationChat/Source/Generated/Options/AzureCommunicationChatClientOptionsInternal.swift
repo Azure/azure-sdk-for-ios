@@ -15,31 +15,31 @@ import Foundation
 // swiftlint:disable line_length
 
 /// User-configurable client options.
-public struct AzureCommunicationChatClientOptions: ClientOptions {
+internal struct AzureCommunicationChatClientOptionsInternal: ClientOptions {
     /// The API version of the client to invoke.
-    public let apiVersion: String
+    internal let apiVersion: String
     /// The `ClientLogger` to be used by this client.
-    public let logger: ClientLogger
+    internal let logger: ClientLogger
     /// Options for configuring telemetry sent by this client.
-    public let telemetryOptions: TelemetryOptions
+    internal let telemetryOptions: TelemetryOptions
     /// Global transport options
-    public let transportOptions: TransportOptions
+    internal let transportOptions: TransportOptions
     /// The default dispatch queue on which to call all completion handler. Defaults to `DispatchQueue.main`.
-    public let dispatchQueue: DispatchQueue?
+    internal let dispatchQueue: DispatchQueue?
 
     /// API version of the  to invoke. Defaults to the latest.
-    public enum ApiVersion: RequestStringConvertible {
+    internal enum ApiVersion: RequestStringConvertible {
         /// Custom value for unrecognized enum values
         case custom(String)
         /// API version "2021-03-07"
         case v20210307
 
         /// The most recent API version of the
-        public static var latest: ApiVersion {
+        internal static var latest: ApiVersion {
             return .v20210307
         }
 
-        public var requestString: String {
+        internal var requestString: String {
             switch self {
             case let .custom(val):
                 return val
@@ -48,7 +48,7 @@ public struct AzureCommunicationChatClientOptions: ClientOptions {
             }
         }
 
-        public init(_ val: String) {
+        internal init(_ val: String) {
             switch val.lowercased() {
             case "2021-03-07":
                 self = .v20210307
@@ -58,15 +58,15 @@ public struct AzureCommunicationChatClientOptions: ClientOptions {
         }
     }
 
-    /// Initialize a `AzureCommunicationChatClientOptions` structure.
+    /// Initialize a `AzureCommunicationChatClientOptionsInternal` structure.
     /// - Parameters:
     ///   - apiVersion: The API version of the client to invoke.
     ///   - logger: The `ClientLogger` to be used by this client.
     ///   - telemetryOptions: Options for configuring telemetry sent by this client.
     ///   - cancellationToken: A token used to make a best-effort attempt at canceling a request.
     ///   - dispatchQueue: The default dispatch queue on which to call all completion handler. Defaults to `DispatchQueue.main`.
-    public init(
-        apiVersion: AzureCommunicationChatClientOptions.ApiVersion = .latest,
+    internal init(
+        apiVersion: AzureCommunicationChatClientOptionsInternal.ApiVersion = .latest,
         logger: ClientLogger = ClientLoggers.default(tag: "AzureCommunicationChat"),
         telemetryOptions: TelemetryOptions = TelemetryOptions(),
         transportOptions: TransportOptions? = nil,

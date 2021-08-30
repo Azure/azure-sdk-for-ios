@@ -22,7 +22,7 @@ internal final class ChatClientInternal: PipelineClient, PageableClient {
     }
 
     /// Options provided to configure this `ChatClientInternal`.
-    internal let options: AzureCommunicationChatClientOptions
+    internal let options: AzureCommunicationChatClientOptionsInternal
 
     // MARK: Initializers
 
@@ -34,7 +34,7 @@ internal final class ChatClientInternal: PipelineClient, PageableClient {
     internal init(
         endpoint: URL,
         authPolicy: Authenticating,
-        withOptions options: AzureCommunicationChatClientOptions
+        withOptions options: AzureCommunicationChatClientOptionsInternal
     ) throws {
         self.options = options
         super.init(
