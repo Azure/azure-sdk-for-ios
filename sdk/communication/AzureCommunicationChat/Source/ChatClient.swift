@@ -231,8 +231,26 @@ public class ChatClient {
                     throw AzureError.client("Failed to get token from credential.", error)
                 }
 
+                // TODO: Also call user provided completion handler?
+                // We need to stop the connection, but no way to signal this to user besides logging errors
+                let tokenProvider = CommunicationSkypeTokenProvider(
+                    token: token,
+                    credential: self.credential,
+                    tokenErrorHandler: { stopSignalingClient in
+                        self.options.logger.error("Failed to get token for realtime-notifications.")
+
+                        // Max retries exceeded, stop the connection
+                        if stopSignalingClient {
+                            self.signalingClient?.stop()
+                            self.options.logger.warning("Unable to get valid token for realtime-notifications, stopping notifications.")
+                        }
+                    })
+
                 // Initialize the signaling client
-                self.signalingClient = try CommunicationSignalingClient(token: token)
+                self.signalingClient = try CommunicationSignalingClient(
+                    communicationSkypeTokenProvider: tokenProvider,
+                    logger: self.options.logger
+                )
 
                 // After successful initialization, start notifications
                 self.signalingClientStarted = true

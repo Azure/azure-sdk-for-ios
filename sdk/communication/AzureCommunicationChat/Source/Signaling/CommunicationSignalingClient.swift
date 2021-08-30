@@ -25,8 +25,12 @@
 // --------------------------------------------------------------------------
 
 import AzureCore
+import AzureCommunicationCommon
 import Foundation
 import Trouter
+
+/// TrouterTokenHandler for fetching tokens.
+public typealias TrouterTokenHandler = (_ forceRefresh: Bool) -> String
 
 class CommunicationSignalingClient {
     private var selfHostedTrouterClient: SelfHostedTrouterClient
@@ -36,11 +40,11 @@ class CommunicationSignalingClient {
     private var communicationHandlers: [ChatEventId: CommunicationHandler] = [:]
 
     init(
-        skypeTokenProvider: CommunicationSkypeTokenProvider,
+        communicationSkypeTokenProvider: CommunicationSkypeTokenProvider,
         logger: ClientLogger = ClientLoggers.default(tag: "AzureCommunicationSignalingClient")
     ) throws {
-        self.communicationSkypeTokenProvider = skypeTokenProvider
         self.logger = logger
+        self.communicationSkypeTokenProvider = communicationSkypeTokenProvider
 
         let trouterSkypeTokenHeaderProvider = TrouterSkypetokenAuthHeaderProvider(
             skypetokenProvider: communicationSkypeTokenProvider
@@ -67,13 +71,6 @@ class CommunicationSignalingClient {
         }
 
         self.trouterUrlRegistrar = trouterUrlRegistrar
-    }
-
-    convenience init(
-        token: String
-    ) throws {
-        let skypeTokenProvider = CommunicationSkypeTokenProvider(skypeToken: token)
-        try self.init(skypeTokenProvider: skypeTokenProvider)
     }
 
     func start() {
@@ -106,13 +103,57 @@ class CommunicationSignalingClient {
 }
 
 class CommunicationSkypeTokenProvider: NSObject, TrouterSkypetokenProvider {
-    var skypeToken: String?
-    func getSkypetoken(_: Bool) -> String! {
-        return skypeToken
+    /// The cached skypeToken.
+    var token: String
+
+    /// The CommunicationTokenCredential.
+    var credential: CommunicationTokenCredential
+
+    /// Called from getSkypetoken, handle token errors here.
+    var tokenErrorHandler: (_ stopSignalingClient: Bool) -> Void
+
+    /// Current number of token fetch retries.
+    var tokenRetries: Int
+
+    /// Max number of token retries allowed.
+    let MAX_TOKEN_RETRIES: Int = 3
+
+    // TODO: Call completion handler from here?
+    func getSkypetoken(_ forceRefresh: Bool) -> String! {
+        if forceRefresh {
+            tokenRetries += 1
+
+            // Max retries exceeded, stop the trouter connection
+            if tokenRetries > MAX_TOKEN_RETRIES {
+                tokenErrorHandler(true)
+            }
+
+            // Fetch new token
+            credential.token { token, error in
+                guard let newToken = token?.token else {
+                    self.tokenErrorHandler(false)
+                    return
+                }
+
+                // Cache the new token
+                self.token = newToken
+            }
+        } else {
+            tokenRetries = 0
+        }
+
+        return token
     }
 
-    init(skypeToken: String? = nil) {
-        self.skypeToken = skypeToken
+    init(
+        token: String,
+        credential: CommunicationTokenCredential,
+        tokenErrorHandler: @escaping (_ stopSignalingClient: Bool) -> Void
+    ) {
+        self.token = token
+        self.credential = credential
+        self.tokenErrorHandler = tokenErrorHandler
+        self.tokenRetries = 0
     }
 }
 
