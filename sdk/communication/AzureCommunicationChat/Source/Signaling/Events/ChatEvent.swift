@@ -484,7 +484,7 @@ public class ReadReceiptReceivedEvent: BaseChatEvent {
 
         // Extract readOn value from consumptionHorizon
         let consumptionHorizon = readReceiptMessageBody.consumptionhorizon.split(separator: ";")
-        guard let readOnMs = Int(consumptionHorizon[1]) else {
+        guard let readOnMs = Double(consumptionHorizon[1]) else {
             throw AzureError.client("Failed to construct Int from consumptionHorizon for readOn property.")
         }
 
