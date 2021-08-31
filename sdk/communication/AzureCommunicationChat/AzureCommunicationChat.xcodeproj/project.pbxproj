@@ -74,6 +74,7 @@
 		D15E992025B7C80C00E63DB2 /* SendReadReceiptRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15E98F325B7C80C00E63DB2 /* SendReadReceiptRequest.swift */; };
 		D15E992225B7C80C00E63DB2 /* SendChatMessageResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15E98F525B7C80C00E63DB2 /* SendChatMessageResult.swift */; };
 		D15E992525B7C80C00E63DB2 /* ChatParticipantsCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D15E98F825B7C80C00E63DB2 /* ChatParticipantsCollection.swift */; };
+		D162875B26DE9BBA005DBC8D /* TrouterEventUtilTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D162875A26DE9BBA005DBC8D /* TrouterEventUtilTests.swift */; };
 		D16C802D25BA0A2400C42803 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16C802C25BA0A2400C42803 /* ChatMessage.swift */; };
 		D16C803325BA0AE400C42803 /* ChatThreadProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16C803225BA0AE400C42803 /* ChatThreadProperties.swift */; };
 		D16C803725BA0AFE00C42803 /* ChatParticipant.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16C803625BA0AFE00C42803 /* ChatParticipant.swift */; };
@@ -224,6 +225,7 @@
 		D15E98F325B7C80C00E63DB2 /* SendReadReceiptRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendReadReceiptRequest.swift; sourceTree = "<group>"; };
 		D15E98F525B7C80C00E63DB2 /* SendChatMessageResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendChatMessageResult.swift; sourceTree = "<group>"; };
 		D15E98F825B7C80C00E63DB2 /* ChatParticipantsCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatParticipantsCollection.swift; sourceTree = "<group>"; };
+		D162875A26DE9BBA005DBC8D /* TrouterEventUtilTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrouterEventUtilTests.swift; sourceTree = "<group>"; };
 		D16C802C25BA0A2400C42803 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
 		D16C803225BA0AE400C42803 /* ChatThreadProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatThreadProperties.swift; sourceTree = "<group>"; };
 		D16C803625BA0AFE00C42803 /* ChatParticipant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatParticipant.swift; sourceTree = "<group>"; };
@@ -499,6 +501,7 @@
 				8840448725D5DD7900A194DC /* IdentifierSerializerTests.swift */,
 				0ECA8CD1258181A5006760F7 /* ChatClientUnitTests.swift */,
 				0ECA8D08258432DC006760F7 /* ChatThreadClientUnitTests.swift */,
+				D162875A26DE9BBA005DBC8D /* TrouterEventUtilTests.swift */,
 				D1CD93A1258D6BC700409613 /* ChatClientTests.swift */,
 				D1CD93A7258D6BDC00409613 /* ChatThreadClientTests.swift */,
 			);
@@ -848,6 +851,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D162875B26DE9BBA005DBC8D /* TrouterEventUtilTests.swift in Sources */,
 				D147E64025CE244F001CFB5D /* ChatThreadClientUnitTests.swift in Sources */,
 				D1AEA09C2608EE3700849D5C /* Util.swift in Sources */,
 				D187D9B126151DB900C233B7 /* IdentifierSerializerTests.swift in Sources */,
