@@ -132,14 +132,17 @@ class CommunicationSkypeTokenProvider: NSObject, TrouterSkypetokenProvider {
             tokenRetries += 1
 
             // Max retries exceeded, stop the trouter connection
+            // We have to return the token, but don't attempt to refresh again
             if tokenRetries > MAX_TOKEN_RETRIES {
                 tokenRefreshHandler(true)
+                return token
             }
 
             // Fetch new token
             credential.token { token, error in
+                self.tokenRefreshHandler(false)
+
                 guard let newToken = token?.token else {
-                    self.tokenRefreshHandler(false)
                     return
                 }
 

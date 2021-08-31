@@ -73,7 +73,8 @@ public class ChatClient {
                 logger: userOptions.logger,
                 telemetryOptions: telemetryOptions,
                 transportOptions: userOptions.transportOptions,
-                dispatchQueue: userOptions.dispatchQueue
+                dispatchQueue: userOptions.dispatchQueue,
+                signalingErrorHandler: userOptions.signalingErrorHandler
             )
         }
 
