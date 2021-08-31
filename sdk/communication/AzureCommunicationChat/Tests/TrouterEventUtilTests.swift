@@ -177,7 +177,7 @@ class TrouterEventUtilTests: XCTestCase {
         }
     }
 
-    func test_createChatMessageEdited_withSenderDisplayName() {
+    func test_createChatMessageEditedEvent_withSenderDisplayName() {
         do {
             let editTime = "2021-08-26T20:33:17.651Z"
             let payload = """
@@ -230,14 +230,14 @@ class TrouterEventUtilTests: XCTestCase {
                 let sender = event.sender as! CommunicationUserIdentifier
                 XCTAssertEqual(sender.identifier, senderId)
             default:
-                XCTFail("Did not create ChatMessageEdited")
+                XCTFail("Did not create ChatMessageEditedEvent")
             }
         } catch {
-            XCTFail("Failed to create ChatMessageEdited: \(error)")
+            XCTFail("Failed to create ChatMessageEditedEvent: \(error)")
         }
     }
     
-    func test_createChatMessageEdited_withoutSenderDisplayName() {
+    func test_createChatMessageEditedEvent_withoutSenderDisplayName() {
         do {
             let editTime = "2021-08-26T20:33:17.651Z"
             let payload = """
@@ -290,14 +290,14 @@ class TrouterEventUtilTests: XCTestCase {
                 let sender = event.sender as! CommunicationUserIdentifier
                 XCTAssertEqual(sender.identifier, senderId)
             default:
-                XCTFail("Did not create ChatMessageEdited")
+                XCTFail("Did not create ChatMessageEditedEvent")
             }
         } catch {
-            XCTFail("Failed to create ChatMessageEdited: \(error)")
+            XCTFail("Failed to create ChatMessageEditedEvent: \(error)")
         }
     }
     
-    func test_createChatMessageDeleted_withSenderDisplayName() {
+    func test_createChatMessageDeletedEvent_withSenderDisplayName() {
         do {
             let deleteTime = "2021-08-26T20:34:21.322Z"
             let payload = """
@@ -347,14 +347,14 @@ class TrouterEventUtilTests: XCTestCase {
                 let sender = event.sender as! CommunicationUserIdentifier
                 XCTAssertEqual(sender.identifier, senderId)
             default:
-                XCTFail("Did not create ChatMessageDeleted")
+                XCTFail("Did not create ChatMessageDeletedEvent")
             }
         } catch {
-            XCTFail("Failed to create ChatMessageDeleted: \(error)")
+            XCTFail("Failed to create ChatMessageDeletedEvent: \(error)")
         }
     }
 
-    func test_createChatMessageDeleted_withoutSenderDisplayName() {
+    func test_createChatMessageDeletedEvent_withoutSenderDisplayName() {
         do {
             let deleteTime = "2021-08-26T20:34:21.322Z"
             let payload = """
@@ -404,14 +404,14 @@ class TrouterEventUtilTests: XCTestCase {
                 let sender = event.sender as! CommunicationUserIdentifier
                 XCTAssertEqual(sender.identifier, senderId)
             default:
-                XCTFail("Did not create ChatMessageDeleted")
+                XCTFail("Did not create ChatMessageDeletedEvent")
             }
         } catch {
-            XCTFail("Failed to create ChatMessageDeleted: \(error)")
+            XCTFail("Failed to create ChatMessageDeletedEvent: \(error)")
         }
     }
     
-    func test_typingIndicatorReceived() {
+    func test_typingIndicatorReceivedEvent() {
         do {
             let payload = """
                 {
@@ -453,14 +453,14 @@ class TrouterEventUtilTests: XCTestCase {
                 let sender = event.sender as! CommunicationUserIdentifier
                 XCTAssertEqual(sender.identifier, senderId)
             default:
-                XCTFail("Did not create TypingIndicatorReceived")
+                XCTFail("Did not create TypingIndicatorReceivedEvent")
             }
         } catch {
-            XCTFail("Failed to create TypingIndicatorReceived: \(error)")
+            XCTFail("Failed to create TypingIndicatorReceivedEvent: \(error)")
         }
     }
     
-    func test_readReceiptReceived() {
+    func test_readReceiptReceivedEvent() {
         do {
             let iso8601Date = Iso8601Date(string: dateString)
             guard let date = iso8601Date?.value else {
@@ -511,14 +511,14 @@ class TrouterEventUtilTests: XCTestCase {
                 let sender = event.sender as! CommunicationUserIdentifier
                 XCTAssertEqual(sender.identifier, senderId)
             default:
-                XCTFail("Did not create ReadReceiptReceived")
+                XCTFail("Did not create ReadReceiptReceivedEvent")
             }
         } catch {
-            XCTFail("Failed to create ReadReceiptReceived: \(error)")
+            XCTFail("Failed to create ReadReceiptReceivedEvent: \(error)")
         }
     }
 
-    func test_chatThreadCreated_withDisplayName() {
+    func test_chatThreadCreatedEvent_withDisplayName() {
         do {
             let createdByDisplayName = "Creator Name"
             let createdById = "8:acs:creatorId"
@@ -584,14 +584,14 @@ class TrouterEventUtilTests: XCTestCase {
                 
                 XCTAssertEqual(event.properties?.topic, topic)
             default:
-                XCTFail("Did not create ChatThreadCreated")
+                XCTFail("Did not create ChatThreadCreatedEvent")
             }
         } catch {
-            XCTFail("Failed to create ChatThreadCreated: \(error)")
+            XCTFail("Failed to create ChatThreadCreatedEvent: \(error)")
         }
     }
     
-    func test_chatThreadCreated_withoutDisplayName() {
+    func test_chatThreadCreatedEvent_withoutDisplayName() {
         do {
             let createdById = "8:acs:creatorId"
             let createdBy = "\"{\\\"displayName\\\":null,\\\"participantId\\\":\\\"\(createdById)\\\"}\""
@@ -655,10 +655,10 @@ class TrouterEventUtilTests: XCTestCase {
                 
                 XCTAssertEqual(event.properties?.topic, topic)
             default:
-                XCTFail("Did not create ChatThreadCreated")
+                XCTFail("Did not create ChatThreadCreatedEvent")
             }
         } catch {
-            XCTFail("Failed to create ChatThreadCreated: \(error)")
+            XCTFail("Failed to create ChatThreadCreatedEvent: \(error)")
         }
     }
     
@@ -774,7 +774,7 @@ class TrouterEventUtilTests: XCTestCase {
         }
     }
     
-    func test_chatThreadDeleted_withDisplayName() {
+    func test_chatThreadDeletedEvent_withDisplayName() {
         do {
             let deletedBy = "\"{\\\"displayName\\\":\\\"\(senderDisplayName)\\\",\\\"participantId\\\":\\\"\(senderId)\\\"}\""
             let deleteTime = "2021-08-26T20:35:17.9882388Z"
@@ -825,7 +825,7 @@ class TrouterEventUtilTests: XCTestCase {
         }
     }
     
-    func test_chatThreadDeleted_withoutDisplayName() {
+    func test_chatThreadDeletedEvent_withoutDisplayName() {
         do {
             let deletedBy = "\"{\\\"displayName\\\":null,\\\"participantId\\\":\\\"\(senderId)\\\"}\""
             let deleteTime = "2021-08-26T20:35:17.9882388Z"
@@ -869,10 +869,125 @@ class TrouterEventUtilTests: XCTestCase {
                 XCTAssertEqual(event.deletedBy?.displayName, nil)
                 XCTAssertEqual(deletedById.identifier, senderId)
             default:
-                XCTFail("Did not create ChatThreadDeleted")
+                XCTFail("Did not create ChatThreadDeletedEvent")
             }
         } catch {
-            XCTFail("Failed to create ChatThreadDeleted: \(error)")
+            XCTFail("Failed to create ChatThreadDeletedEvent: \(error)")
+        }
+    }
+    
+    func test_createParticipantsAdded_withDisplayName() {
+        do {
+            let userDisplayName = "User Name"
+            let userId = "8:acs:user"
+            let participantsAdded = "\"[{\\\"shareHistoryTime\\\":1604055050000,\\\"displayName\\\":\\\"\(userDisplayName)\\\",\\\"participantId\\\":\\\"\(userId)\\\"}]\""
+            let addedBy = "\"{\\\"displayName\\\":\\\"\(senderDisplayName)\\\",\\\"participantId\\\":\\\"\(senderId)\\\"}\""
+
+            let payload = """
+                {
+                    "_eventId": 260,
+                    "senderId": "\(senderId)",
+                    "addedBy": \(addedBy),
+                    "recipientId": "\(payloadRecipientId)",
+                    "transactionId": "transactionId",
+                    "groupId": "",
+                    "threadId": "\(threadId)",
+                    "collapseId": "",
+                    "createTime": "2021-08-26T20:30:04.562Z",
+                    "time": "\(dateString)",
+                    "participantsAdded": \(participantsAdded),
+                    "version": "\(version)"
+                }
+            """
+
+            let trouterRequest = TrouterRequestMock(
+                id: 1,
+                method: "POST",
+                path: "",
+                headers: [
+                    "ms-cv": "abcd"
+                ],
+                body: payload
+            )
+
+            let result = try TrouterEventUtil.create(chatEvent: .participantsAdded, from: trouterRequest)
+            
+            switch result {
+            case let .participantsAdded(event):
+                XCTAssertEqual(event.addedOn, Iso8601Date(string: dateString))
+                XCTAssertEqual(event.threadId, threadId)
+                XCTAssertEqual(event.version, version)
+
+                let addedBy = event.addedBy?.id as! CommunicationUserIdentifier
+                XCTAssertEqual(event.addedBy?.displayName, senderDisplayName)
+                XCTAssertEqual(addedBy.identifier, senderId)
+                
+                let participant = event.participantsAdded?[0]
+                let participantId = participant?.id as! CommunicationUserIdentifier
+                XCTAssertEqual(participant?.displayName, userDisplayName)
+                XCTAssertEqual(participantId.identifier, userId)
+            default:
+                XCTFail("Did not create ParticipantsAddedEvent")
+            }
+        } catch {
+            XCTFail("Failed to create ParticipantsAddedEvent: \(error)")
+        }
+    }
+    
+    func test_createParticipantsAdded_withoutDisplayName() {
+        do {
+            let userId = "8:acs:user"
+            let participantsAdded = "\"[{\\\"shareHistoryTime\\\":1604055050000,\\\"displayName\\\":null,\\\"participantId\\\":\\\"\(userId)\\\"}]\""
+            let addedBy = "\"{\\\"displayName\\\":null,\\\"participantId\\\":\\\"\(senderId)\\\"}\""
+
+            let payload = """
+                {
+                    "_eventId": 260,
+                    "senderId": "\(senderId)",
+                    "addedBy": \(addedBy),
+                    "recipientId": "\(payloadRecipientId)",
+                    "transactionId": "transactionId",
+                    "groupId": "",
+                    "threadId": "\(threadId)",
+                    "collapseId": "",
+                    "createTime": "2021-08-26T20:30:04.562Z",
+                    "time": "\(dateString)",
+                    "participantsAdded": \(participantsAdded),
+                    "version": "\(version)"
+                }
+            """
+
+            let trouterRequest = TrouterRequestMock(
+                id: 1,
+                method: "POST",
+                path: "",
+                headers: [
+                    "ms-cv": "abcd"
+                ],
+                body: payload
+            )
+
+            let result = try TrouterEventUtil.create(chatEvent: .participantsAdded, from: trouterRequest)
+            
+            switch result {
+            case let .participantsAdded(event):
+                XCTAssertEqual(event.addedOn, Iso8601Date(string: dateString))
+                XCTAssertEqual(event.threadId, threadId)
+                XCTAssertEqual(event.version, version)
+
+                let addedBy = event.addedBy?.id as! CommunicationUserIdentifier
+                XCTAssertEqual(event.addedBy?.displayName, nil)
+                XCTAssertEqual(addedBy.identifier, senderId)
+                
+                let participant = event.participantsAdded?[0]
+                let participantId = participant?.id as! CommunicationUserIdentifier
+                XCTAssertEqual(participant?.displayName, nil)
+                XCTAssertEqual(participantId.identifier, userId)
+            default:
+                XCTFail("Did not create ParticipantsAddedEvent")
+            }
+        } catch {
+            XCTFail("Failed to create ParticipantsAddedEvent: \(error)")
         }
     }
 
