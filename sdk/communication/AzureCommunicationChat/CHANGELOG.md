@@ -1,14 +1,14 @@
 # Release History
 
 ## 1.0.2 (2021-09-03)
+### Features Added
+- Added `CommunicationSignalingErrorHandler` to AzureCommunicationChatClientOptions for handling signaling errors
+
 ### Bugs Fixed
 - Fix realtime notifications to handle null displayName
 - Fix readOn property in readReceiptReceived events
 - Fix recipient id format in events
 - Upgrade Trouter package to 0.1.0
-
-### New Features
-- Added `CommunicationSignalingErrorHandler` to AzureCommunicationChatClientOptions for handling signaling errors
 
 ## 1.0.1 (2021-07-26)
 ### New Features
