@@ -79,7 +79,7 @@ public class ChatClient {
 
         self.options = options
 
-        // Internal options do not use the SignalingErrorHandler
+        // Internal options do not use the CommunicationSignalingErrorHandler
         let internalOptions = AzureCommunicationChatClientOptionsInternal(
             apiVersion: AzureCommunicationChatClientOptionsInternal.ApiVersion(options.apiVersion),
             logger: options.logger,

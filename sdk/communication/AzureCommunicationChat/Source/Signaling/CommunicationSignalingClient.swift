@@ -30,12 +30,12 @@ import Foundation
 import Trouter
 
 /// Signaling errors enum for errors that might occur when realtime-notifications are started.
-public enum SignalingError: Error {
+public enum CommunicationSignalingError: Error {
     case failedToRefreshToken(String)
 }
 
 /// Handler for signaling errors.
-public typealias SignalingErrorHandler = (SignalingError) -> Void
+public typealias CommunicationSignalingErrorHandler = (CommunicationSignalingError) -> Void
 
 /// TrouterTokenRefreshHandler for fetching tokens.
 internal typealias TrouterTokenRefreshHandler = (_ stopSignalingClient: Bool) -> Void

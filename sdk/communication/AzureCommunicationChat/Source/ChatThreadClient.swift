@@ -61,7 +61,7 @@ public class ChatThreadClient {
             throw AzureError.client("Unable to form base URL")
         }
 
-        // Internal options do not use the SignalingErrorHandler
+        // Internal options do not use the CommunicationSignalingErrorHandler
         let internalOptions = AzureCommunicationChatClientOptionsInternal(
             apiVersion: AzureCommunicationChatClientOptionsInternal.ApiVersion(options.apiVersion),
             logger: options.logger,
