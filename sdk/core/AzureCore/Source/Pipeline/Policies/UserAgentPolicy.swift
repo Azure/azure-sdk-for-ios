@@ -36,7 +36,7 @@ public class UserAgentPolicy: PipelineStage {
     // From the design guidelines, the full user agent header format is:
     // [<application_id>] azsdk-ios-<sdk_name>/<sdk_version> (<platform_info>; <application_info>; <user_locale_info>)
     private static let userAgentFormat = defaultUserAgent + "-%@/%@"
-    private static let appIdPrefixFormat = "%@ "
+    private static let appIdPrefixFormat = "[%@] "
     private static let infoSuffixFormat = " (%@)"
     private static let infoSuffixSeparator = "; "
 

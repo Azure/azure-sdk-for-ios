@@ -52,7 +52,7 @@ class UserAgentPolicyTests: XCTestCase {
             localeInfoProvider: nil
         )
         let userAgent = policy.userAgent
-        XCTAssertEqual(userAgent, "MyApplication azsdk-ios-Test/1.0")
+        XCTAssertEqual(userAgent, "[MyApplication] azsdk-ios-Test/1.0")
     }
 
     /// Test that the user agent policy truncates an applicationId >24 characters
@@ -66,7 +66,7 @@ class UserAgentPolicyTests: XCTestCase {
             localeInfoProvider: nil
         )
         let userAgent = policy.userAgent
-        XCTAssertEqual(userAgent, "MyExtremelyLongApplicati azsdk-ios-Test/1.0")
+        XCTAssertEqual(userAgent, "[MyExtremelyLongApplicati] azsdk-ios-Test/1.0")
     }
 
     /// Test that the user agent policy removes whitespaces from an applicationId
@@ -82,7 +82,7 @@ class UserAgentPolicyTests: XCTestCase {
             localeInfoProvider: nil
         )
         let userAgent = policy.userAgent
-        XCTAssertEqual(userAgent, "MyLongAppName azsdk-ios-Test/1.0")
+        XCTAssertEqual(userAgent, "[MyLongAppName] azsdk-ios-Test/1.0")
     }
 
     /// Test that the user agent policy truncates an applicationId only after first stripping whitespace
@@ -96,7 +96,7 @@ class UserAgentPolicyTests: XCTestCase {
             localeInfoProvider: nil
         )
         let userAgent = policy.userAgent
-        XCTAssertEqual(userAgent, "MyVeryLongApplication azsdk-ios-Test/1.0")
+        XCTAssertEqual(userAgent, "[MyVeryLongApplication] azsdk-ios-Test/1.0")
     }
 
     /// Test that the user agent policy omits the applicationId if it is empty after stripping whitespace
@@ -127,7 +127,7 @@ class UserAgentPolicyTests: XCTestCase {
             localeInfoProvider: nil
         )
         let userAgent = policy.userAgent
-        XCTAssertEqual(userAgent, "MyApplication azsdk-ios-Test/1.0")
+        XCTAssertEqual(userAgent, "[MyApplication] azsdk-ios-Test/1.0")
     }
 
     /// Test that the user agent policy omits the applicationId when the applicationId is explicitly provided as an
@@ -156,7 +156,7 @@ class UserAgentPolicyTests: XCTestCase {
             localeInfoProvider: nil
         )
         let userAgent = policy.userAgent
-        XCTAssertEqual(userAgent, "BundleApplicationId azsdk-ios-Test/1.0")
+        XCTAssertEqual(userAgent, "[BundleApplicationId] azsdk-ios-Test/1.0")
     }
 
     /// Test that the user agent policy creates the correct user agent when all the bundle info is available
@@ -174,7 +174,7 @@ class UserAgentPolicyTests: XCTestCase {
             localeInfoProvider: nil
         )
         let userAgent = policy.userAgent
-        XCTAssertEqual(userAgent, "MyApplication azsdk-ios-Test/1.0 (MyBundle:2.0 -> iOS 9.0)")
+        XCTAssertEqual(userAgent, "[MyApplication] azsdk-ios-Test/1.0 (MyBundle:2.0 -> iOS 9.0)")
     }
 
     /// Test that the user agent policy creates the correct user agent when only the bundle name & version are available
@@ -188,7 +188,7 @@ class UserAgentPolicyTests: XCTestCase {
             localeInfoProvider: nil
         )
         let userAgent = policy.userAgent
-        XCTAssertEqual(userAgent, "MyApplication azsdk-ios-Test/1.0 (MyBundle:2.0)")
+        XCTAssertEqual(userAgent, "[MyApplication] azsdk-ios-Test/1.0 (MyBundle:2.0)")
     }
 
     /// Test that the user agent policy creates the correct user agent when platform info is available
@@ -202,7 +202,7 @@ class UserAgentPolicyTests: XCTestCase {
             localeInfoProvider: nil
         )
         let userAgent = policy.userAgent
-        XCTAssertEqual(userAgent, "MyApplication azsdk-ios-Test/1.0 (iPhone6,2 - 13.2)")
+        XCTAssertEqual(userAgent, "[MyApplication] azsdk-ios-Test/1.0 (iPhone6,2 - 13.2)")
     }
 
     /// Test that the user agent policy creates the correct user agent when locale info is available
@@ -216,7 +216,7 @@ class UserAgentPolicyTests: XCTestCase {
             localeInfoProvider: TestLocaleInfoProvider(language: "en", region: "US")
         )
         let userAgent = policy.userAgent
-        XCTAssertEqual(userAgent, "MyApplication azsdk-ios-Test/1.0 (en_US)")
+        XCTAssertEqual(userAgent, "[MyApplication] azsdk-ios-Test/1.0 (en_US)")
     }
 
     /// Test that the user agent policy correctly separates and orders multiple parts of the info suffix
@@ -236,7 +236,7 @@ class UserAgentPolicyTests: XCTestCase {
         let userAgent = policy.userAgent
         XCTAssertEqual(
             userAgent,
-            "MyApplication azsdk-ios-Test/1.0 (iPhone6,2 - 13.2; MyBundle:2.0 -> iOS 9.0; en_US)"
+            "[MyApplication] azsdk-ios-Test/1.0 (iPhone6,2 - 13.2; MyBundle:2.0 -> iOS 9.0; en_US)"
         )
     }
 
