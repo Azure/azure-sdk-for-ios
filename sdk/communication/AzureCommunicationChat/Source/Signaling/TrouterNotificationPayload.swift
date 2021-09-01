@@ -126,7 +126,7 @@ struct ChatThreadPayload: Decodable {
 
 struct ChatParticipantPayload: Decodable {
     let participantId: String
-    let displayName: String
+    let displayName: String?
     let shareHistoryTime: Int?
 }
 
