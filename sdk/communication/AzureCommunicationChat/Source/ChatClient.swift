@@ -254,7 +254,8 @@ public class ChatClient {
                         }
 
                         // Token is invalid, attempting to refresh token
-                        self.options.logger.warning("Failed to get token with error: \(error?.localizedDescription), attempting to refresh")
+                        self.options.logger.error("Failed to get valid token. \(error ?? "")")
+                        self.options.logger.warning("Attempting to refresh token for realtime-notifications.")
                     })
 
                 // Initialize the signaling client
