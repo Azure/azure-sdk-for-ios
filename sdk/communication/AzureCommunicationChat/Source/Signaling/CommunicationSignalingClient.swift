@@ -38,7 +38,7 @@ public enum CommunicationSignalingError: Error {
 public typealias CommunicationSignalingErrorHandler = (CommunicationSignalingError) -> Void
 
 /// TrouterTokenRefreshHandler for fetching tokens.
-internal typealias TrouterTokenRefreshHandler = (_ stopSignalingClient: Bool) -> Void
+internal typealias TrouterTokenRefreshHandler = (_ stopSignalingClient: Bool, Error?) -> Void
 
 class CommunicationSignalingClient {
     private var selfHostedTrouterClient: SelfHostedTrouterClient
@@ -124,7 +124,7 @@ class CommunicationSkypeTokenProvider: NSObject, TrouterSkypetokenProvider {
     var tokenRetries: Int
 
     /// Max number of token retries allowed.
-    let MAX_TOKEN_RETRIES: Int = 3
+    let maxTokenRetries: Int = 3
 
     /// Return the cached token, will attempt to refresh the token if forceRefresh is true.
     func getSkypetoken(_ forceRefresh: Bool) -> String! {
@@ -133,15 +133,15 @@ class CommunicationSkypeTokenProvider: NSObject, TrouterSkypetokenProvider {
 
             // We have to return the token but don't attempt to refresh again
             // Pass true to the callback to signal that we should stop the connection
-            if tokenRetries > MAX_TOKEN_RETRIES {
-                tokenRefreshHandler(true)
+            if tokenRetries > maxTokenRetries {
+                tokenRefreshHandler(true, nil)
                 return token
             }
 
             // Fetch new token
             credential.token { token, error in
                 // Let callback know we are attempting to refresh
-                self.tokenRefreshHandler(false)
+                self.tokenRefreshHandler(false, error)
                 guard let newToken = token?.token else {
                     return
                 }

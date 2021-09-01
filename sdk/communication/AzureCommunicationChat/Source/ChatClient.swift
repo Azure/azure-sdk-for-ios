@@ -245,7 +245,7 @@ public class ChatClient {
                 let tokenProvider = CommunicationSkypeTokenProvider(
                     token: token,
                     credential: self.credential,
-                    tokenRefreshHandler: { stopSignalingClient in
+                    tokenRefreshHandler: { stopSignalingClient, error  in
                         // Unable to refresh the token, stop the connection
                         if stopSignalingClient {
                             self.signalingClient?.stop()
@@ -254,7 +254,7 @@ public class ChatClient {
                         }
 
                         // Token is invalid, attempting to refresh token
-                        self.options.logger.warning("Signaling client token invalid, attempting to refresh.")
+                        self.options.logger.warning("Failed to get token with error: \(error?.localizedDescription), attempting to refresh")
                     })
 
                 // Initialize the signaling client
