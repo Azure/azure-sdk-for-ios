@@ -23,7 +23,7 @@
   "source_files": "sdk/identity/AzureIdentity/Source/**/*.{swift,h,m}",
   "dependencies": {
     "AzureCore": [
-      "1.0.0-beta.12"
+      "1.0.0-beta.13"
     ],
     "MSAL": [
       "1.1.15"
