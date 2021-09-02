@@ -1,5 +1,5 @@
 $Language = "swift"
-$LanguageDisplayName = "Swift"
+$LanguageDisplayName = "iOS"
 $PackageRepository = "CocoaPods"
 $packagePattern = "*.podspec.json"
 
