@@ -23,7 +23,7 @@
   "source_files": "sdk/storage/AzureStorageBlob/Source/**/*.{swift,h,m}",
   "dependencies": {
     "AzureCore": [
-      "1.0.0-beta.12"
+      "1.0.0-beta.13"
     ]
   },
   "swift_version": "5.0"

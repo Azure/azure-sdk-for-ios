@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.13 (Unreleased)
+## 1.0.0-beta.13 (2021-09-02)
 ### Bugs Fixed
 - Changed the format for application ID in `UserAgentPolicy` to remove the square brackets around it.  
 
