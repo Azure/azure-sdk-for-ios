@@ -132,6 +132,8 @@ public class BaseChatMessageEvent: BaseChatEvent {
     public var version: String
     /// The message type.
     public var type: ChatMessageType
+    /// Sender display name.
+    public var senderDisplayName: String?
 
     // MARK: Initializers
 
