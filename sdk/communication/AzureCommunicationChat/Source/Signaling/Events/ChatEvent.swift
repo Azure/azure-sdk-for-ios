@@ -447,11 +447,7 @@ public class TypingIndicatorReceivedEvent: BaseChatEvent {
 
         self.version = typingIndicatorReceivedPayload.version
         self.receivedOn = Iso8601Date(string: typingIndicatorReceivedPayload.originalArrivalTime)
-        
-        if !typingIndicatorReceivedPayload.senderDisplayName.isEmpty {
-            self.senderDisplayName = typingIndicatorReceivedPayload.senderDisplayName
-        }
-
+        self.senderDisplayName = typingIndicatorReceivedPayload.senderDisplayName
         super.init(
             threadId: typingIndicatorReceivedPayload.groupId,
             sender: TrouterEventUtil.getIdentifier(from: typingIndicatorReceivedPayload.senderId),
