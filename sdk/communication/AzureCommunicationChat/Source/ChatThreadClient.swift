@@ -427,7 +427,10 @@ public class ChatThreadClient {
         do {
             participantsInternal = try convert(participants: participants)
         } catch {
-            completionHandler(.failure(AzureError.client("Failed to convert participants to ChatParticipantInternal")), nil)
+            completionHandler(
+                .failure(AzureError.client("Failed to convert participants to ChatParticipantInternal")),
+                nil
+            )
             return
         }
 

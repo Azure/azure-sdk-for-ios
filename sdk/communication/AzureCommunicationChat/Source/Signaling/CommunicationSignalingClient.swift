@@ -24,8 +24,8 @@
 //
 // --------------------------------------------------------------------------
 
-import AzureCore
 import AzureCommunicationCommon
+import AzureCore
 import Foundation
 import Trouter
 
@@ -154,7 +154,7 @@ class CommunicationSkypeTokenProvider: NSObject, TrouterSkypetokenProvider {
 
         return token
     }
-    
+
     /// Initialize CommunicationSkypetokenProvider
     /// - Parameters:
     ///   - token: The token to cache.

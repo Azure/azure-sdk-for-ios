@@ -97,4 +97,3 @@ public struct AzureCommunicationChatClientOptions: ClientOptions {
         self.signalingErrorHandler = signalingErrorHandler
     }
 }
-

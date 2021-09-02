@@ -41,7 +41,7 @@ public struct SignalingChatParticipant {
     public let shareHistoryTime: Iso8601Date?
 
     // MARK: Initializers
-    
+
     /// Initialize a SignalingChatParticipant
     /// - Parameters:
     ///   - id: The  identifier of the participant.
@@ -57,12 +57,12 @@ public struct SignalingChatParticipant {
 /// ChatThreadProperties for real-time notification events.
 public struct SignalingChatThreadProperties {
     // MARK: Properties
-    
+
     /// Thread topic.
     public let topic: String
 
     // MARK: Initializers
-    
+
     /// Initialize a SignalingChatThreadProperties
     /// - Parameter topic: Thread topic.
     init(topic: String) {
@@ -73,16 +73,16 @@ public struct SignalingChatThreadProperties {
 /// BaseChatEvent for real-time notifications.
 public class BaseChatEvent {
     // MARK: Properties
-    
+
     /// Chat thread id.
     public var threadId: String
     /// Sender identifier.
     public var sender: CommunicationIdentifier?
     /// Recipient identifier.
     public var recipient: CommunicationIdentifier?
-    
+
     // MARK: Initializers
-    
+
     /// Initialize a BaseChatEvent
     /// - Parameters:
     ///   - threadId: ChatThread id.
@@ -102,14 +102,14 @@ public class BaseChatEvent {
 /// BaseChatThreadEvent for real-time notifications.
 public class BaseChatThreadEvent {
     // MARK: Properties
-    
+
     /// Chat thread id.
     public var threadId: String
     /// Version of the thread.
     public var version: String
 
     // MARK: Initializers
-    
+
     /// Initialize a BaseChatThreadEvent
     /// - Parameters:
     ///   - threadId: ChatThread id.
@@ -123,7 +123,7 @@ public class BaseChatThreadEvent {
 /// BaseChatMessageEvent for real-time notifications.
 public class BaseChatMessageEvent: BaseChatEvent {
     // MARK: Properties
-    
+
     /// The id of the message. This id is server generated.
     public var id: String
     /// The timestamp when the message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
@@ -134,9 +134,9 @@ public class BaseChatMessageEvent: BaseChatEvent {
     public var type: ChatMessageType
     /// Sender display name.
     public var senderDisplayName: String?
-    
+
     // MARK: Initializers
-    
+
     /// Initialize a BaseChatMessageEvent.
     /// - Parameters:
     ///   - threadId: Chat thread id.
@@ -169,12 +169,12 @@ public class BaseChatMessageEvent: BaseChatEvent {
 /// ChatMessageReceivedEvent for real-time notifications.
 public class ChatMessageReceivedEvent: BaseChatMessageEvent {
     // MARK: Properties
-    
+
     /// The content of the message.
     public var message: String
-    
+
     // MARK: Initializers
-    
+
     /// Initialize a ChatMessageReceivedEvent.
     /// - Parameters:
     ///   - threadId: Chat thread id.
@@ -209,7 +209,7 @@ public class ChatMessageReceivedEvent: BaseChatMessageEvent {
             type: type
         )
     }
-    
+
     /// Initialize a ChatMessageReceivedEvent from a TrouterRequest
     /// - Parameter request: The TrouterRequest.
     init(from request: TrouterRequest) throws {
@@ -239,14 +239,14 @@ public class ChatMessageReceivedEvent: BaseChatMessageEvent {
 /// ChatMessageEditedEvent for real-time notifications.
 public class ChatMessageEditedEvent: BaseChatMessageEvent {
     // MARK: Properties
-    
+
     /// The message content.
     public var message: String
     /// The timestamp when the message was edited. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public var editedOn: Iso8601Date?
-    
+
     // MARK: Initializers
-    
+
     /// Initialize a ChatMessageEditedEvent.
     /// - Parameters:
     ///   - threadId: Chat thread id.
@@ -284,7 +284,7 @@ public class ChatMessageEditedEvent: BaseChatMessageEvent {
             type: type
         )
     }
-    
+
     /// Initialize a ChatMessageEditedEvent from a TrouterRequest.
     /// - Parameter request: The TrouterRequest.
     init(from request: TrouterRequest) throws {
@@ -315,12 +315,12 @@ public class ChatMessageEditedEvent: BaseChatMessageEvent {
 /// ChatMessageDeletedEvent for real-time notifications.
 public class ChatMessageDeletedEvent: BaseChatMessageEvent {
     // MARK: Properties
-    
+
     /// The timestamp when the message was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public var deletedOn: Iso8601Date?
-    
+
     // MARK: Initializers
-    
+
     /// Initialize a ChatMessageDeletedEvent.
     /// - Parameters:
     ///   - threadId: Chat thread id.
@@ -355,7 +355,7 @@ public class ChatMessageDeletedEvent: BaseChatMessageEvent {
             type: type
         )
     }
-    
+
     /// Initialize a ChatMessageDeletedEvent from a TrouterRequest.
     /// - Parameter request: The TrouterRequest.
     init(from request: TrouterRequest) throws {
@@ -385,15 +385,15 @@ public class ChatMessageDeletedEvent: BaseChatMessageEvent {
 /// TypingIndicatorReceivedEvent for real-time notifications.
 public class TypingIndicatorReceivedEvent: BaseChatEvent {
     // MARK: Properties
-    
-    /// TODO
+
+    // TODO:
     public var version: String
-    
+
     /// The timestamp when the indicator was received. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public var receivedOn: Iso8601Date?
-    
+
     // MARK: Initializers
-    
+
     /// Initialize a TypingIndicatorReceivedEvent.
     /// - Parameters:
     ///   - threadId: Chat thread id.
@@ -412,7 +412,7 @@ public class TypingIndicatorReceivedEvent: BaseChatEvent {
         self.receivedOn = receivedOn
         super.init(threadId: threadId, sender: sender, recipient: recipient)
     }
-    
+
     /// Initialize a TypingIndicatorReceivedEvent from a TrouterRequest.
     /// - Parameter request: The TrouterRequest.
     init(from request: TrouterRequest) throws {
@@ -438,14 +438,14 @@ public class TypingIndicatorReceivedEvent: BaseChatEvent {
 /// ReadReceiptReceivedEvent for real-time notifications.
 public class ReadReceiptReceivedEvent: BaseChatEvent {
     // MARK: Properties
-    
+
     /// Id of the chat message that has been read. This id is generated by the server.
     public var chatMessageId: String
     /// The time at which the message was read. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public var readOn: Iso8601Date?
-    
+
     // MARK: Initializers
-    
+
     /// Initialize a ReadReceiptReceivedEvent.
     /// - Parameters:
     ///   - threadId: Chat thread id,
@@ -464,7 +464,7 @@ public class ReadReceiptReceivedEvent: BaseChatEvent {
         self.readOn = readOn
         super.init(threadId: threadId, sender: sender, recipient: recipient)
     }
-    
+
     /// Initialize a ReadReceiptReceivedEvent from a TrouterRequest.
     /// - Parameter request: The TrouterRequest.
     init(from request: TrouterRequest) throws {
@@ -488,7 +488,7 @@ public class ReadReceiptReceivedEvent: BaseChatEvent {
             throw AzureError.client("Failed to construct Int from consumptionHorizon for readOn property.")
         }
 
-        // In the payload readOn is represented as epoch time in milliseconds 
+        // In the payload readOn is represented as epoch time in milliseconds
         let readOnSeconds = readOnMs / 1000
         let readOnDate = Date(timeIntervalSince1970: TimeInterval(readOnSeconds))
 
@@ -507,21 +507,21 @@ public class ReadReceiptReceivedEvent: BaseChatEvent {
 /// ChatThreadCreatedEvent for real-time notifications.
 public class ChatThreadCreatedEvent: BaseChatThreadEvent {
     // MARK: Properties
-    
+
     /// The timestamp when the thread was created. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public var createdOn: Iso8601Date?
-    
+
     /// ChatThread properties, contains the thread topic.
     public var properties: SignalingChatThreadProperties?
-    
+
     /// List of participants currently in the thread.
     public var participants: [SignalingChatParticipant]?
-    
+
     /// The participant that created the thread.
     public var createdBy: SignalingChatParticipant?
-    
+
     // MARK: Initializers
-    
+
     /// Initialize a ChatThreadCreatedEvent.
     /// - Parameters:
     ///   - threadId: Chat thread id,
@@ -544,7 +544,7 @@ public class ChatThreadCreatedEvent: BaseChatThreadEvent {
         self.createdBy = createdBy
         super.init(threadId: threadId, version: version)
     }
-    
+
     /// Initialize a ChatThreadCreatedEvent from a TrouterRequest.
     /// - Parameter request: The TrouterRequest.
     init(from request: TrouterRequest) throws {
@@ -603,16 +603,16 @@ public class ChatThreadCreatedEvent: BaseChatThreadEvent {
 /// ChatThreadPropertiesUpdatedEvent for real-time notifications.
 public class ChatThreadPropertiesUpdatedEvent: BaseChatThreadEvent {
     // MARK: Properties
-    
+
     /// The chat thread properties, includes the thread topic.
     public var properties: SignalingChatThreadProperties?
     /// The timestamp when the thread was updated. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public var updatedOn: Iso8601Date?
     /// The participant that updated the thread.
     public var updatedBy: SignalingChatParticipant?
-    
+
     // MARK: Initializers
-    
+
     /// Initialize a ChatThreadPropertiesUpdatedEvent.
     /// - Parameters:
     ///   - threadId: Chat thread id.
@@ -632,7 +632,7 @@ public class ChatThreadPropertiesUpdatedEvent: BaseChatThreadEvent {
         self.updatedBy = updatedBy
         super.init(threadId: threadId, version: version)
     }
-    
+
     /// Initialize a ChatThreadPropertiesUpdatedEvent from a TrouterRequest.
     /// - Parameter request: The TrouterRequest.
     init(from request: TrouterRequest) throws {
@@ -676,14 +676,14 @@ public class ChatThreadPropertiesUpdatedEvent: BaseChatThreadEvent {
 /// ChatThreadDeletedEvent for real-time notifications.
 public class ChatThreadDeletedEvent: BaseChatThreadEvent {
     // MARK: Properties
-    
+
     /// The timestamp when the thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public var deletedOn: Iso8601Date?
     /// The participant that deleted the chat thread.
     public var deletedBy: SignalingChatParticipant?
-    
+
     // MARK: Initializers
-    
+
     /// Initialize a ChatThreadDeletedEvent.
     /// - Parameters:
     ///   - threadId: Chat thread id.
@@ -700,7 +700,7 @@ public class ChatThreadDeletedEvent: BaseChatThreadEvent {
         self.deletedBy = deletedBy
         super.init(threadId: threadId, version: version)
     }
-    
+
     /// Initialize a ChatThreadDeletedEvent from a TrouterRequest.
     /// - Parameter request: The TrouterRequest.
     init(from request: TrouterRequest) throws {
@@ -734,16 +734,16 @@ public class ChatThreadDeletedEvent: BaseChatThreadEvent {
 /// ParticipantsAddedEvent for real-time notifications.
 public class ParticipantsAddedEvent: BaseChatThreadEvent {
     // MARK: Properties
-    
+
     /// The timestamp when the participant(s) were added. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public var addedOn: Iso8601Date?
     /// The participants that were added.
     public var participantsAdded: [SignalingChatParticipant]?
     /// The participant that added the new participant(s).
     public var addedBy: SignalingChatParticipant?
-    
+
     // MARK: Initializers
-    
+
     /// Initialize a ParticipantsAddedEvent.
     /// - Parameters:
     ///   - threadId: Chat thread id.
@@ -763,7 +763,7 @@ public class ParticipantsAddedEvent: BaseChatThreadEvent {
         self.addedBy = addedBy
         super.init(threadId: threadId, version: version)
     }
-    
+
     /// Initialize a ParticipantsAddedEvent from a TrouterRequest.
     /// - Parameter request: The TrouterRequest.
     init(from request: TrouterRequest) throws {
@@ -817,16 +817,16 @@ public class ParticipantsAddedEvent: BaseChatThreadEvent {
 /// ParticipantsRemovedEvent for real-time notifications.
 public class ParticipantsRemovedEvent: BaseChatThreadEvent {
     // MARK: Properties
-    
+
     /// The timestamp when the participant(s) were removed. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public var removedOn: Iso8601Date?
-    /// TODO: Should this be singular?
+    // TODO: Should this be singular?
     public var participantsRemoved: [SignalingChatParticipant]?
     /// The participant that initiated the removal.
     public var removedBy: SignalingChatParticipant?
-    
+
     // MARK: Initializers
-    
+
     /// Initialize a ParticipantsRemovedEvent
     /// - Parameters:
     ///   - threadId: Chat thread id.
@@ -846,7 +846,7 @@ public class ParticipantsRemovedEvent: BaseChatThreadEvent {
         self.removedBy = removedBy
         super.init(threadId: threadId, version: version)
     }
-    
+
     /// Initialize a ParticipantsRemovedEvent from a TrouterRequest.
     /// - Parameter request: The TrouterRequest.
     init(from request: TrouterRequest) throws {

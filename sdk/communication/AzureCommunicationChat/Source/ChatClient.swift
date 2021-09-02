@@ -245,18 +245,24 @@ public class ChatClient {
                 let tokenProvider = CommunicationSkypeTokenProvider(
                     token: token,
                     credential: self.credential,
-                    tokenRefreshHandler: { stopSignalingClient, error  in
+                    tokenRefreshHandler: { stopSignalingClient, error in
                         // Unable to refresh the token, stop the connection
                         if stopSignalingClient {
                             self.signalingClient?.stop()
-                            self.options.signalingErrorHandler?(.failedToRefreshToken("Unable to get valid token for realtime-notifications, stopping notifications."))
+                            self.options
+                                .signalingErrorHandler?(
+                                    .failedToRefreshToken(
+                                        "Unable to get valid token for realtime-notifications, stopping notifications."
+                                    )
+                                )
                             return
                         }
 
                         // Token is invalid, attempting to refresh token
                         self.options.logger.error("Failed to get valid token. \(error ?? "")")
                         self.options.logger.warning("Attempting to refresh token for realtime-notifications.")
-                    })
+                    }
+                )
 
                 // Initialize the signaling client
                 self.signalingClient = try CommunicationSignalingClient(

@@ -90,7 +90,7 @@ internal enum TrouterEventUtil {
             return UnknownIdentifier(id)
         }
     }
-    
+
     /// Convert an Int to an ISO 8601 Date.
     /// - Parameter unixTime: The date time.
     /// - Returns: The ISO 8601 formatted timestamp.
@@ -107,7 +107,10 @@ internal enum TrouterEventUtil {
     ///   - chatEventId: The ChatEventId, determines the type of ChatEvent that should be created.
     ///   - request: The request payload.
     /// - Returns: A TrouterEvent.
-    internal static func create(chatEvent chatEventId: ChatEventId, from request: TrouterRequest) throws -> TrouterEvent {
+    internal static func create(
+        chatEvent chatEventId: ChatEventId,
+        from request: TrouterRequest
+    ) throws -> TrouterEvent {
         return try TrouterEvent(chatEventId: chatEventId, from: request)
     }
 }
