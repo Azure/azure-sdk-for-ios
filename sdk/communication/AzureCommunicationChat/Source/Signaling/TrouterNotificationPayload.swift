@@ -29,14 +29,13 @@ import Foundation
 struct BasePayload: Codable {
     let eventId: Int
     let senderId: String
-    let recipientId: String
+    let recipientMri: String
     let groupId: String
 }
 
 struct MessageReceivedPayload: Decodable {
     let eventId: Int
     let senderId: String
-    let recipientId: String
     let recipientMri: String
     let transactionId: String
     let groupId: String
@@ -54,7 +53,7 @@ struct MessageReceivedPayload: Decodable {
 struct TypingIndicatorReceivedPayload: Decodable {
     let eventId: Int
     let senderId: String
-    let recipientId: String
+    let recipientMri: String
     let groupId: String
     let version: String
     let originalArrivalTime: String
@@ -71,7 +70,7 @@ struct ReadReceiptMessageBody: Decodable {
 struct ReadReceiptReceivedPayload: Decodable {
     let eventId: Int
     let senderId: String
-    let recipientId: String
+    let recipientMri: String
     let groupId: String
     let messageId: String
     let clientMessageId: String
@@ -81,7 +80,7 @@ struct ReadReceiptReceivedPayload: Decodable {
 struct MessageEditedPayload: Decodable {
     let eventId: Int
     let senderId: String
-    let recipientId: String
+    let recipientMri: String
     let groupId: String
     let messageId: String
     let clientMessageId: String
@@ -97,7 +96,7 @@ struct MessageEditedPayload: Decodable {
 struct MessageDeletedPayload: Decodable {
     let eventId: Int
     let senderId: String
-    let recipientId: String
+    let recipientMri: String
     let groupId: String
     let messageId: String
     let clientMessageId: String

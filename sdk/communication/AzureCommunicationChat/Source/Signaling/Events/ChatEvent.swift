@@ -321,7 +321,7 @@ public class ChatMessageEditedEvent: BaseChatMessageEvent {
         super.init(
             threadId: chatMessageEditedPayload.groupId,
             sender: TrouterEventUtil.getIdentifier(from: chatMessageEditedPayload.senderId),
-            recipient: TrouterEventUtil.getIdentifier(from: chatMessageEditedPayload.recipientId),
+            recipient: TrouterEventUtil.getIdentifier(from: chatMessageEditedPayload.recipientMri),
             id: chatMessageEditedPayload.messageId,
             senderDisplayName: chatMessageEditedPayload.senderDisplayName,
             createdOn: Iso8601Date(string: chatMessageEditedPayload.originalArrivalTime),
@@ -389,7 +389,7 @@ public class ChatMessageDeletedEvent: BaseChatMessageEvent {
         super.init(
             threadId: chatMessageDeletedPayload.groupId,
             sender: TrouterEventUtil.getIdentifier(from: chatMessageDeletedPayload.senderId),
-            recipient: TrouterEventUtil.getIdentifier(from: chatMessageDeletedPayload.recipientId),
+            recipient: TrouterEventUtil.getIdentifier(from: chatMessageDeletedPayload.recipientMri),
             id: chatMessageDeletedPayload.messageId,
             senderDisplayName: chatMessageDeletedPayload.senderDisplayName,
             createdOn: Iso8601Date(string: chatMessageDeletedPayload.originalArrivalTime),
@@ -451,7 +451,7 @@ public class TypingIndicatorReceivedEvent: BaseChatEvent {
         super.init(
             threadId: typingIndicatorReceivedPayload.groupId,
             sender: TrouterEventUtil.getIdentifier(from: typingIndicatorReceivedPayload.senderId),
-            recipient: TrouterEventUtil.getIdentifier(from: typingIndicatorReceivedPayload.recipientId)
+            recipient: TrouterEventUtil.getIdentifier(from: typingIndicatorReceivedPayload.recipientMri)
         )
     }
 }
@@ -518,7 +518,7 @@ public class ReadReceiptReceivedEvent: BaseChatEvent {
         super.init(
             threadId: readReceiptReceivedPayload.groupId,
             sender: TrouterEventUtil.getIdentifier(from: readReceiptReceivedPayload.senderId),
-            recipient: TrouterEventUtil.getIdentifier(from: readReceiptReceivedPayload.recipientId)
+            recipient: TrouterEventUtil.getIdentifier(from: readReceiptReceivedPayload.recipientMri)
         )
     }
 }
