@@ -56,7 +56,7 @@ class TrouterRequestMock: NSObject, TrouterRequest {
 
 class TrouterEventUtilTests: XCTestCase {
     let senderId = "8:acs:senderId"
-    let payloadRecipientId = "acs:recipientId"
+    let payloadRecipientId = "8:acs:recipientId"
     let expectedRecipientId = "8:acs:recipientId"
     let messageId = "123"
     let threadId = "thread123"
@@ -70,7 +70,7 @@ class TrouterEventUtilTests: XCTestCase {
         do {
             let payload = """
                 {
-                    "_eventId": 200,
+                    "eventId": 200,
                     "senderId": "\(senderId)",
                     "recipientId": "\(payloadRecipientId)",
                     "transactionId": "transactionId",
@@ -126,7 +126,7 @@ class TrouterEventUtilTests: XCTestCase {
         do {
             let payload = """
                 {
-                    "_eventId": 200,
+                    "eventId": 200,
                     "senderId": "\(senderId)",
                     "recipientId": "\(payloadRecipientId)",
                     "transactionId": "transactionId",
@@ -183,7 +183,7 @@ class TrouterEventUtilTests: XCTestCase {
             let editTime = "2021-08-26T20:33:17.651Z"
             let payload = """
                 {
-                    "_eventId": 247,
+                    "eventId": 247,
                     "senderId": "\(senderId)",
                     "recipientId": "\(payloadRecipientId)",
                     "transactionId": "transactionId",
@@ -243,7 +243,7 @@ class TrouterEventUtilTests: XCTestCase {
             let editTime = "2021-08-26T20:33:17.651Z"
             let payload = """
                 {
-                    "_eventId": 247,
+                    "eventId": 247,
                     "senderId": "\(senderId)",
                     "recipientId": "\(payloadRecipientId)",
                     "transactionId": "transactionId",
@@ -303,7 +303,7 @@ class TrouterEventUtilTests: XCTestCase {
             let deleteTime = "2021-08-26T20:34:21.322Z"
             let payload = """
                 {
-                    "_eventId": 248,
+                    "eventId": 248,
                     "senderId": "\(senderId)",
                     "recipientId": "\(payloadRecipientId)",
                     "transactionId": "transactionId",
@@ -360,7 +360,7 @@ class TrouterEventUtilTests: XCTestCase {
             let deleteTime = "2021-08-26T20:34:21.322Z"
             let payload = """
                 {
-                    "_eventId": 248,
+                    "eventId": 248,
                     "senderId": "\(senderId)",
                     "recipientId": "\(payloadRecipientId)",
                     "transactionId": "transactionId",
@@ -416,7 +416,7 @@ class TrouterEventUtilTests: XCTestCase {
         do {
             let payload = """
                 {
-                    "_eventId": 245,
+                    "eventId": 245,
                     "senderId": "\(senderId)",
                     "recipientId": "\(payloadRecipientId)",
                     "transactionId": "transactionId",
@@ -475,7 +475,7 @@ class TrouterEventUtilTests: XCTestCase {
 
             let payload = """
                 {
-                    "_eventId": 246,
+                    "eventId": 246,
                     "senderId": "\(senderId)",
                     "recipientId": "\(payloadRecipientId)",
                     "transactionId": "transactionId",
@@ -539,7 +539,7 @@ class TrouterEventUtilTests: XCTestCase {
 
             let payload = """
                 {
-                    "_eventId": 257,
+                    "eventId": 257,
                     "senderId": "\(senderId)",
                     "createdBy": \(createdBy),
                     "recipientId": "\(userId)",
@@ -612,7 +612,7 @@ class TrouterEventUtilTests: XCTestCase {
 
             let payload = """
                 {
-                    "_eventId": 257,
+                    "eventId": 257,
                     "senderId": "\(senderId)",
                     "createdBy": \(createdBy),
                     "recipientId": "\(userId)",
@@ -680,7 +680,7 @@ class TrouterEventUtilTests: XCTestCase {
 
             let payload = """
                 {
-                    "_eventId": 258,
+                    "eventId": 258,
                     "senderId": "\(senderId)",
                     "editedBy": \(editedBy),
                     "recipientId": "\(payloadRecipientId)",
@@ -737,7 +737,7 @@ class TrouterEventUtilTests: XCTestCase {
 
             let payload = """
                 {
-                    "_eventId": 258,
+                    "eventId": 258,
                     "senderId": "\(senderId)",
                     "editedBy": \(editedBy),
                     "recipientId": "\(payloadRecipientId)",
@@ -792,7 +792,7 @@ class TrouterEventUtilTests: XCTestCase {
 
             let payload = """
                 {
-                    "_eventId": 259,
+                    "eventId": 259,
                     "senderId": "\(senderId)",
                     "deletedBy": \(deletedBy),
                     "recipientId": "\(payloadRecipientId)",
@@ -843,7 +843,7 @@ class TrouterEventUtilTests: XCTestCase {
 
             let payload = """
                 {
-                    "_eventId": 259,
+                    "eventId": 259,
                     "senderId": "\(senderId)",
                     "deletedBy": \(deletedBy),
                     "recipientId": "\(payloadRecipientId)",
@@ -898,7 +898,7 @@ class TrouterEventUtilTests: XCTestCase {
 
             let payload = """
                 {
-                    "_eventId": 260,
+                    "eventId": 260,
                     "senderId": "\(senderId)",
                     "addedBy": \(addedBy),
                     "recipientId": "\(payloadRecipientId)",
@@ -956,7 +956,7 @@ class TrouterEventUtilTests: XCTestCase {
 
             let payload = """
                 {
-                    "_eventId": 260,
+                    "eventId": 260,
                     "senderId": "\(senderId)",
                     "addedBy": \(addedBy),
                     "recipientId": "\(payloadRecipientId)",

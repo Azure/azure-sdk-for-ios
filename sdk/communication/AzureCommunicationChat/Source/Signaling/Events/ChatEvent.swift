@@ -227,9 +227,10 @@ public class ChatMessageReceivedEvent: BaseChatMessageEvent {
 
         self.message = messageReceivedPayload.messageBody
 
-        if let acsChatMetadata = messageReceivedPayload.acsChatMessageMetadata.data(using: .utf8),
-            !acsChatMetadata.isEmpty {
-            self.metadata = try JSONDecoder().decode([String: String?].self, from: acsChatMetadata)
+        if messageReceivedPayload.acsChatMessageMetadata != "null" {
+            if let acsChatMetadata = messageReceivedPayload.acsChatMessageMetadata.data(using: .utf8) {
+                self.metadata = try JSONDecoder().decode([String: String?].self, from: acsChatMetadata)
+            }
         }
 
         super.init(
@@ -310,18 +311,17 @@ public class ChatMessageEditedEvent: BaseChatMessageEvent {
 
         self.message = chatMessageEditedPayload.messageBody
         self.editedOn = Iso8601Date(string: chatMessageEditedPayload.edittime)
-        // TODO: Hardcode "8:" as workaround to missing prefix in payload
-        let recipientId = "8:\(chatMessageEditedPayload.recipientId)"
 
-        if let acsChatMetadata = chatMessageEditedPayload.acsChatMessageMetadata.data(using: .utf8),
-            !acsChatMetadata.isEmpty {
-            self.metadata = try JSONDecoder().decode([String: String?].self, from: acsChatMetadata)
+        if chatMessageEditedPayload.acsChatMessageMetadata != "null" {
+            if let acsChatMetadata = chatMessageEditedPayload.acsChatMessageMetadata.data(using: .utf8) {
+                self.metadata = try JSONDecoder().decode([String: String?].self, from: acsChatMetadata)
+            }
         }
 
         super.init(
             threadId: chatMessageEditedPayload.groupId,
             sender: TrouterEventUtil.getIdentifier(from: chatMessageEditedPayload.senderId),
-            recipient: TrouterEventUtil.getIdentifier(from: recipientId),
+            recipient: TrouterEventUtil.getIdentifier(from: chatMessageEditedPayload.recipientId),
             id: chatMessageEditedPayload.messageId,
             senderDisplayName: chatMessageEditedPayload.senderDisplayName,
             createdOn: Iso8601Date(string: chatMessageEditedPayload.originalArrivalTime),
@@ -386,12 +386,10 @@ public class ChatMessageDeletedEvent: BaseChatMessageEvent {
             .decode(MessageDeletedPayload.self, from: requestJsonData)
 
         self.deletedOn = Iso8601Date(string: chatMessageDeletedPayload.deletetime)
-        // TODO: Hardcode "8:" as workaround to missing prefix in payload
-        let recipientId = "8:\(chatMessageDeletedPayload.recipientId)"
         super.init(
             threadId: chatMessageDeletedPayload.groupId,
             sender: TrouterEventUtil.getIdentifier(from: chatMessageDeletedPayload.senderId),
-            recipient: TrouterEventUtil.getIdentifier(from: recipientId),
+            recipient: TrouterEventUtil.getIdentifier(from: chatMessageDeletedPayload.recipientId),
             id: chatMessageDeletedPayload.messageId,
             senderDisplayName: chatMessageDeletedPayload.senderDisplayName,
             createdOn: Iso8601Date(string: chatMessageDeletedPayload.originalArrivalTime),
@@ -411,6 +409,9 @@ public class TypingIndicatorReceivedEvent: BaseChatEvent {
     /// The timestamp when the indicator was received. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public var receivedOn: Iso8601Date?
 
+    /// The sender displayName.
+    public var senderDisplayName: String?
+
     // MARK: Initializers
 
     /// Initialize a TypingIndicatorReceivedEvent.
@@ -425,10 +426,12 @@ public class TypingIndicatorReceivedEvent: BaseChatEvent {
         sender: CommunicationIdentifier?,
         recipient: CommunicationIdentifier?,
         version: String,
-        receivedOn: Iso8601Date?
+        receivedOn: Iso8601Date?,
+        senderDisplayName: String? = nil
     ) {
         self.version = version
         self.receivedOn = receivedOn
+        self.senderDisplayName = senderDisplayName
         super.init(threadId: threadId, sender: sender, recipient: recipient)
     }
 
@@ -444,12 +447,15 @@ public class TypingIndicatorReceivedEvent: BaseChatEvent {
 
         self.version = typingIndicatorReceivedPayload.version
         self.receivedOn = Iso8601Date(string: typingIndicatorReceivedPayload.originalArrivalTime)
-        // TODO: Hardcode "8:" as workaround to missing prefix in payload
-        let recipientId = "8:\(typingIndicatorReceivedPayload.recipientId)"
+        
+        if !typingIndicatorReceivedPayload.senderDisplayName.isEmpty {
+            self.senderDisplayName = typingIndicatorReceivedPayload.senderDisplayName
+        }
+
         super.init(
             threadId: typingIndicatorReceivedPayload.groupId,
             sender: TrouterEventUtil.getIdentifier(from: typingIndicatorReceivedPayload.senderId),
-            recipient: TrouterEventUtil.getIdentifier(from: recipientId)
+            recipient: TrouterEventUtil.getIdentifier(from: typingIndicatorReceivedPayload.recipientId)
         )
     }
 }
@@ -513,12 +519,10 @@ public class ReadReceiptReceivedEvent: BaseChatEvent {
 
         self.chatMessageId = readReceiptReceivedPayload.messageId
         self.readOn = Iso8601Date(readOnDate)
-        // TODO: Hardcode "8:" as workaround to missing prefix in payload
-        let recipientId = "8:\(readReceiptReceivedPayload.recipientId)"
         super.init(
             threadId: readReceiptReceivedPayload.groupId,
             sender: TrouterEventUtil.getIdentifier(from: readReceiptReceivedPayload.senderId),
-            recipient: TrouterEventUtil.getIdentifier(from: recipientId)
+            recipient: TrouterEventUtil.getIdentifier(from: readReceiptReceivedPayload.recipientId)
         )
     }
 }
