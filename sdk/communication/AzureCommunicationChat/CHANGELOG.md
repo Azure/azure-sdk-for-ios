@@ -9,6 +9,7 @@
 - Fix readOn property in readReceiptReceived events
 - Fix recipient id format in events
 - Upgrade Trouter package to 0.1.0
+- Update AzureCore package to 1.0.0-beta.13 to fix square brackets around applicationId
 
 ## 1.0.1 (2021-07-26)
 ### New Features
