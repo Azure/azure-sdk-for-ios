@@ -70,6 +70,7 @@ let package = Package(
             dependencies: [
                 "AzureCommunicationCommon",
                 "AzureCommunicationChat",
+                "AzureTest",
                 .product(name: "OHHTTPStubsSwift", package: "OHHTTPStubs")
             ],
             path: "Tests",

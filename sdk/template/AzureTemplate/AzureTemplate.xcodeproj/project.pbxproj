@@ -8,21 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		484989A4FFC276765F44332C /* Pods_AzureTemplate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB86CA07730585EB71E6DAAB /* Pods_AzureTemplate.framework */; };
-		51AE71F813F4FD05E356901F /* Pods_AzureTemplateTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6CAE391786B5810053CD6AC /* Pods_AzureTemplateTests.framework */; };
 		OBJ_148 /* Dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_8 /* Dummy.swift */; };
-		OBJ_168 /* AzureTemplateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* AzureTemplateTests.swift */; };
-		OBJ_170 /* AzureTemplate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "AzureTemplate::AzureTemplate::Product" /* AzureTemplate.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		0A8BA042264D9C31009C24B0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = "AzureTemplate::AzureTemplate";
-			remoteInfo = AzureTemplate;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		0AFBCA01264D9E43000068AC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -30,11 +17,9 @@
 		8027F54D3C8788C2E4FD3E77 /* Pods-AzureTemplateTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureTemplateTests.release.xcconfig"; path = "Target Support Files/Pods-AzureTemplateTests/Pods-AzureTemplateTests.release.xcconfig"; sourceTree = "<group>"; };
 		82BF435984ABC2B788F58A71 /* Pods-AzureTemplate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureTemplate.debug.xcconfig"; path = "Target Support Files/Pods-AzureTemplate/Pods-AzureTemplate.debug.xcconfig"; sourceTree = "<group>"; };
 		"AzureTemplate::AzureTemplate::Product" /* AzureTemplate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureTemplate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"AzureTemplate::AzureTemplateTests::Product" /* AzureTemplateTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = AzureTemplateTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4B8CCFB68C753349CEBA4B0 /* Pods-AzureTemplate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureTemplate.release.xcconfig"; path = "Target Support Files/Pods-AzureTemplate/Pods-AzureTemplate.release.xcconfig"; sourceTree = "<group>"; };
 		D6CAE391786B5810053CD6AC /* Pods_AzureTemplateTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureTemplateTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB86CA07730585EB71E6DAAB /* Pods_AzureTemplate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AzureTemplate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		OBJ_10 /* AzureTemplateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzureTemplateTests.swift; sourceTree = "<group>"; };
 		OBJ_13 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/travisprescott/repos/azure-sdk-for-ios/sdk/template/AzureTemplate/.build/checkouts/SwiftPM-AzureCore/Package.swift"; sourceTree = "<group>"; };
 		OBJ_14 /* AzureTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AzureTask.swift; sourceTree = "<group>"; };
 		OBJ_15 /* ClientLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientLogger.swift; sourceTree = "<group>"; };
@@ -101,15 +86,6 @@
 			buildActionMask = 0;
 			files = (
 				484989A4FFC276765F44332C /* Pods_AzureTemplate.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		OBJ_169 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 0;
-			files = (
-				OBJ_170 /* AzureTemplate.framework in Frameworks */,
-				51AE71F813F4FD05E356901F /* Pods_AzureTemplateTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -237,7 +213,6 @@
 			children = (
 				OBJ_6 /* Package.swift */,
 				OBJ_7 /* Source */,
-				OBJ_9 /* Tests */,
 				OBJ_11 /* Dependencies */,
 				OBJ_72 /* Products */,
 				OBJ_76 /* AzureTemplate.podspec.json */,
@@ -291,18 +266,9 @@
 			isa = PBXGroup;
 			children = (
 				"AzureTemplate::AzureTemplate::Product" /* AzureTemplate.framework */,
-				"AzureTemplate::AzureTemplateTests::Product" /* AzureTemplateTests.xctest */,
 			);
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		OBJ_9 /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_10 /* AzureTemplateTests.swift */,
-			);
-			path = Tests;
-			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -323,24 +289,6 @@
 			productName = AzureTemplate;
 			productReference = "AzureTemplate::AzureTemplate::Product" /* AzureTemplate.framework */;
 			productType = "com.apple.product-type.framework";
-		};
-		"AzureTemplate::AzureTemplateTests" /* AzureTemplateTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_164 /* Build configuration list for PBXNativeTarget "AzureTemplateTests" */;
-			buildPhases = (
-				DB7D859F486601093F4C6838 /* [CP] Check Pods Manifest.lock */,
-				OBJ_167 /* Sources */,
-				OBJ_169 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				OBJ_172 /* PBXTargetDependency */,
-			);
-			name = AzureTemplateTests;
-			productName = AzureTemplateTests;
-			productReference = "AzureTemplate::AzureTemplateTests::Product" /* AzureTemplateTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -364,7 +312,6 @@
 			projectRoot = "";
 			targets = (
 				"AzureTemplate::AzureTemplate" /* AzureTemplate */,
-				"AzureTemplate::AzureTemplateTests" /* AzureTemplateTests */,
 			);
 		};
 /* End PBXProject section */
@@ -392,28 +339,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		DB7D859F486601093F4C6838 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-AzureTemplateTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -425,23 +350,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_167 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 0;
-			files = (
-				OBJ_168 /* AzureTemplateTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		OBJ_172 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = "AzureTemplate::AzureTemplate" /* AzureTemplate */;
-			targetProxy = 0A8BA042264D9C31009C24B0 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		OBJ_145 /* Debug */ = {
@@ -459,7 +368,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 1.6.3;
+				MARKETING_VERSION = 1.6.4;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
@@ -490,7 +399,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 1.6.3;
+				MARKETING_VERSION = 1.6.4;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
@@ -503,60 +412,6 @@
 				TARGET_NAME = AzureTemplate;
 				TVOS_DEPLOYMENT_TARGET = 12.0;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
-			};
-			name = Release;
-		};
-		OBJ_165 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 71345128887FD96FD181BD43 /* Pods-AzureTemplateTests.debug.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = "$(SRCROOT)/Source/Supporting Files/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 5.0;
-				TARGET_NAME = AzureTemplateTests;
-				TVOS_DEPLOYMENT_TARGET = 12.0;
-				WATCHOS_DEPLOYMENT_TARGET = 7.0;
-			};
-			name = Debug;
-		};
-		OBJ_166 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8027F54D3C8788C2E4FD3E77 /* Pods-AzureTemplateTests.release.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = "$(SRCROOT)/Source/Supporting Files/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 5.0;
-				TARGET_NAME = AzureTemplateTests;
-				TVOS_DEPLOYMENT_TARGET = 12.0;
-				WATCHOS_DEPLOYMENT_TARGET = 7.0;
 			};
 			name = Release;
 		};
@@ -621,15 +476,6 @@
 			buildConfigurations = (
 				OBJ_145 /* Debug */,
 				OBJ_146 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		OBJ_164 /* Build configuration list for PBXNativeTarget "AzureTemplateTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				OBJ_165 /* Debug */,
-				OBJ_166 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

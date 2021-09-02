@@ -1,7 +1,11 @@
 # Release History
+
+## 1.0.0-beta.13 (2021-09-02)
+### Bugs Fixed
+- Changed the format for application ID in `UserAgentPolicy` to remove the square brackets around it.  
+
 ## 1.0.0-beta.12 (2021-04-22)
 Minor update for Swift Package Manager.
-
 
 ## 1.0.0-beta.11 (2021-04-07)
 ### New Features

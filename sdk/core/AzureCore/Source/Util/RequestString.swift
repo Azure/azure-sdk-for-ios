@@ -115,10 +115,12 @@ extension Array: RequestStringConvertible {
     }
 }
 
-extension Dictionary: RequestStringConvertible {
+extension Dictionary: RequestStringConvertible where Key: Encodable, Value: Encodable {
     public var requestString: String {
         do {
-            let jsonData = try JSONSerialization.data(withJSONObject: self)
+            let encoder = JSONEncoder()
+            encoder.outputFormatting = .sortedKeys
+            let jsonData = try encoder.encode(self)
             if let jsonString = String(data: jsonData, encoding: .utf8) {
                 return jsonString
             }

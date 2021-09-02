@@ -24,28 +24,25 @@
 //
 // --------------------------------------------------------------------------
 
-import XCTest
+import DVR
+import Foundation
 
-class AzureTemplateTests: XCTestCase {
+public class OAuthFilter: Filter {
+    // swiftlint:disable force_try
+    static let oAuthRegex = try! NSRegularExpression(pattern: "/oauth2(?:/v2.0)?/token", options: .caseInsensitive)
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    override public init() {
+        super.init()
+        beforeRecordRequest = filterOAuth
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        measure {
-            // Put the code you want to measure the time of here.
+    func filterOAuth(from request: URLRequest) -> URLRequest? {
+        guard let requestURL = request.url else {
+            return request
         }
+        if requestURL.absoluteString.contains(regex: OAuthFilter.oAuthRegex) {
+            return nil
+        }
+        return request
     }
-
 }

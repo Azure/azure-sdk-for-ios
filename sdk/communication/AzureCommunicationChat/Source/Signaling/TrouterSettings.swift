@@ -32,7 +32,7 @@ let defaultRegistrationData: TrouterUrlRegistrationData? = TrouterUrlRegistratio
     registrationId: nil,
     platform: "SPOOL",
     platformUiVersion: "0.0.0",
-    templateKey: "AcsiOS_Chat_1.1",
+    templateKey: "AcsiOS_Chat_1.3",
     productContext: nil,
     context: ""
 ) as? TrouterUrlRegistrationData

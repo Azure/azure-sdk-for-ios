@@ -1,0 +1,30 @@
+{
+  "name": "AzureStorageBlob",
+  "version": "1.0.0-beta.1",
+  "summary": "Azure Storage Blob service client library for iOS",
+  "description": "This package contains the Azure Storage Blob service library.",
+  "homepage": "https://github.com/Azure/azure-sdk-for-ios/tree/main/sdk/storage/AzureStorageBlob",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Azure SDK Mobile Team": "azuresdkmobileteam@microsoft.com"
+  },
+  "documentation_url": "https://azure.github.io/azure-sdk-for-ios/AzureStorageBlob/index.html",
+  "platforms": {
+    "ios": "12.0"
+  },
+  "swift_versions": "5.0",
+  "source": {
+    "git": "https://github.com/Azure/azure-sdk-for-ios.git",
+    "branch": "main"
+  },
+  "source_files": "sdk/storage/AzureStorageBlob/Source/**/*.{swift,h,m}",
+  "dependencies": {
+    "AzureCore": [
+      "1.0.0-beta.13"
+    ]
+  },
+  "swift_version": "5.0"
+}

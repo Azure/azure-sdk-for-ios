@@ -39,6 +39,8 @@ internal struct ChatMessageInternal: Codable {
     internal let deletedOn: Iso8601Date?
     /// The last timestamp (if applicable) when the message was edited. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     internal let editedOn: Iso8601Date?
+    /// Message metadata.
+    internal let metadata: [String: String?]?
 
     // MARK: Initializers
 
@@ -54,12 +56,13 @@ internal struct ChatMessageInternal: Codable {
     ///   - senderCommunicationIdentifier: Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.
     ///   - deletedOn: The timestamp (if applicable) when the message was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     ///   - editedOn: The last timestamp (if applicable) when the message was edited. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+    ///   - metadata: Message metadata.
     internal init(
         id: String, type: ChatMessageType, sequenceId: String, version: String,
         content: ChatMessageContentInternal? = nil,
         senderDisplayName: String? = nil, createdOn: Iso8601Date,
         senderCommunicationIdentifier: CommunicationIdentifierModelInternal? = nil, deletedOn: Iso8601Date? = nil,
-        editedOn: Iso8601Date? = nil
+        editedOn: Iso8601Date? = nil, metadata: [String: String?]? = nil
     ) {
         self.id = id
         self.type = type
@@ -71,6 +74,7 @@ internal struct ChatMessageInternal: Codable {
         self.senderCommunicationIdentifier = senderCommunicationIdentifier
         self.deletedOn = deletedOn
         self.editedOn = editedOn
+        self.metadata = metadata
     }
 
     // MARK: Codable
@@ -86,6 +90,7 @@ internal struct ChatMessageInternal: Codable {
         case senderCommunicationIdentifier = "senderCommunicationIdentifier"
         case deletedOn = "deletedOn"
         case editedOn = "editedOn"
+        case metadata = "metadata"
     }
 
     /// Initialize a `ChatMessageInternal` structure from decoder
@@ -104,6 +109,7 @@ internal struct ChatMessageInternal: Codable {
         )
         self.deletedOn = try? container.decode(Iso8601Date.self, forKey: .deletedOn)
         self.editedOn = try? container.decode(Iso8601Date.self, forKey: .editedOn)
+        self.metadata = try? container.decode([String: String?].self, forKey: .metadata)
     }
 
     /// Encode a `ChatMessageInternal` structure
@@ -120,5 +126,6 @@ internal struct ChatMessageInternal: Codable {
             nil { try? container.encode(senderCommunicationIdentifier, forKey: .senderCommunicationIdentifier) }
         if deletedOn != nil { try? container.encode(deletedOn, forKey: .deletedOn) }
         if editedOn != nil { try? container.encode(editedOn, forKey: .editedOn) }
+        if metadata != nil { try? container.encode(metadata, forKey: .metadata) }
     }
 }

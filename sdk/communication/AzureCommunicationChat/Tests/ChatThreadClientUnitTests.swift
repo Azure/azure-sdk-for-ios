@@ -41,9 +41,11 @@ class ChatThreadClientUnitTests: XCTestCase {
     private let topic = "test topic"
     private let messageId = "test_message_id"
 
+    private let settings = TestSettings()
+
     override func setUpWithError() throws {
-        let endpoint = getEnvironmentVariable(withKey: "AZURE_COMMUNICATION_ENDPOINT", default: "https://endpoint")
-        let token = generateToken()
+        let endpoint = settings.endpoint
+        let token = settings.token
         let credential = try CommunicationTokenCredential(token: token)
         let options = AzureCommunicationChatClientOptions()
         chatClient = try ChatClient(endpoint: endpoint, credential: credential, withOptions: options)
@@ -379,8 +381,12 @@ class ChatThreadClientUnitTests: XCTestCase {
 
         let expectation = self.expectation(description: "Update message")
 
-        let message = UpdateChatMessageRequest(content: "update message")
-        chatThreadClient.update(message: messageId, parameters: message, completionHandler: { result, _ in
+        let updatedMessage = UpdateChatMessageRequest(
+            content: "update message",
+            metadata: ["test": "metadata"]
+        )
+
+        chatThreadClient.update(message: messageId, parameters: updatedMessage, completionHandler: { result, _ in
             switch result {
             case let .success(response):
                 XCTAssertNotNil(response)
@@ -696,6 +702,34 @@ class ChatThreadClientUnitTests: XCTestCase {
         let expectation = self.expectation(description: "Send typing notification")
 
         chatThreadClient.sendTypingNotification(completionHandler: { result, _ in
+            switch result {
+            case let .success(response):
+                XCTAssertNotNil(response)
+
+            case .failure:
+                XCTFail("Unexpected failure happened in send typing notification")
+            }
+
+            expectation.fulfill()
+        })
+
+        waitForExpectations(timeout: 10.0) { error in
+            if let error = error {
+                XCTFail("Send typing notification timed out: \(error)")
+            }
+        }
+    }
+
+    func test_SendTypingNotification_WithDisplayName_ReturnSuccess() {
+        let bundle = Bundle(for: type(of: self))
+        let path = bundle.path(forResource: "NoContent", ofType: "json") ?? ""
+        stub(condition: isMethodPOST()) { _ in
+            fixture(filePath: path, status: 200, headers: nil)
+        }
+
+        let expectation = self.expectation(description: "Send typing notification")
+
+        chatThreadClient.sendTypingNotification(from: "Foo", completionHandler: { result, _ in
             switch result {
             case let .success(response):
                 XCTAssertNotNil(response)

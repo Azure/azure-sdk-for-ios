@@ -24,6 +24,35 @@
 //
 // --------------------------------------------------------------------------
 
+import DVR
 import Foundation
 
-// TODO: Custom Code Here
+public class MetadataFilter: Filter {
+    // swiftlint:disable force_try
+    static let metadataRegex = try! NSRegularExpression(
+        pattern: "/.well-known/openid-configuration|/common/discovery/instance",
+        options: .caseInsensitive
+    )
+
+    override public init() {
+        super.init()
+        beforeRecordRequest = filterMetadata
+    }
+
+    func filterMetadata(from request: URLRequest) -> URLRequest? {
+        guard let requestURL = request.url else {
+            return request
+        }
+        if requestURL.absoluteString.contains(regex: MetadataFilter.metadataRegex) {
+            return nil
+        }
+        return request
+    }
+}
+
+extension String {
+    func contains(regex: NSRegularExpression, matchingOptions: NSRegularExpression.MatchingOptions = []) -> Bool {
+        let range = NSRange(location: 0, length: count)
+        return regex.numberOfMatches(in: self, options: matchingOptions, range: range) > 0
+    }
+}
