@@ -182,34 +182,12 @@ class TrouterEventUtilTests: XCTestCase {
             XCTFail("Failed to create ChatMessageReceivedEvent: \(error)")
         }
     }
-    
+
     func test_createChatMessageReceivedEvent_withMetadata() {
         do {
             let metadataKey = "testKey"
             let metadataValue = "testValue"
-//            let payload = """
-//                {
-//                    "eventId": 200,
-//                    "senderId": "\(senderId)",
-//                    "recipientId": "\(payloadRecipientId)",
-//                    "recipientMri": "\(payloadRecipientMri)",
-//                    "transactionId": "transactionId",
-//                    "groupId": "\(threadId)",
-//                    "messageId": "\(messageId)",
-//                    "collapseId": "collapseId",
-//                    "messageType": "\(ChatMessageType.text.requestString)",
-//                    "messageBody": "\(messageContent)",
-//                    "senderDisplayName": "\(senderDisplayName)",
-//                    "clientMessageId": "",
-//                    "originalArrivalTime": "\(dateString)",
-//                    "priority": "",
-//                    "version": "\(version)"
-//                    "acsChatMessageMetadata:" : "null"
-//                }
-//            """
-            let payload = """
-                {"eventId": 200,"senderId": "8:acs:4fba785c-8d9d-4e5b-8c60-2a02d49866e6_0000000c-48ad-754b-a4f5-343a0d000661","recipientId": "acs:4fba785c-8d9d-4e5b-8c60-2a02d49866e6_0000000c-48ad-754b-a4f5-343a0d000661","recipientMri": "8:acs:4fba785c-8d9d-4e5b-8c60-2a02d49866e6_0000000c-48ad-754b-a4f5-343a0d000661","transactionId": "iouSVS0P1kqIyXI6EcZ6Fg.1.2.1.1.2061405687.1.0","groupId": "19:gwBxt3whRNMG47wWP8L21bG79bW4TvVll7JFnZ0Xan81@thread.v2","messageId": "1630687799638","collapseId":"YKbqPoEf002p+jGu+AWJkv6SrnRoqHuRh5X6PAP9Sn4=","messageType": "Text","messageBody": "This is a message from Bob!","senderDisplayName": "","clientMessageId": "","originalArrivalTime": "2021-09-03T16:49:59.638Z","priority": "","version": "1630687799638","acsChatMessageMetadata": "{\"testkey\":\"testvalue\"}"}
-                """
+            let payload = "{\"eventId\": 200,\"senderId\": \"\(senderId)\",\"recipientId\": \"\(payloadRecipientId)\",\"recipientMri\": \"\(payloadRecipientMri)\",\"transactionId\": \"transactionId\",\"groupId\": \"\(threadId)\",\"messageId\": \"\(messageId)\",\"collapseId\":\"collapseId\",\"messageType\": \"\(ChatMessageType.text.requestString)\",\"messageBody\": \"\(messageContent)\",\"senderDisplayName\": \"\(emptyDisplayName)\",\"clientMessageId\": \"\",\"originalArrivalTime\": \"\(dateString)\",\"priority\": \"\",\"version\": \"\(version)\",\"acsChatMessageMetadata\": \"{\\\"\(metadataKey)\\\":\\\"\(metadataValue)\\\"}\"}"
 
             let trouterRequest = TrouterRequestMock(
                 id: 1,
@@ -228,7 +206,7 @@ class TrouterEventUtilTests: XCTestCase {
                 XCTAssertEqual(event.id, messageId)
                 XCTAssertEqual(event.createdOn, Iso8601Date(string: dateString))
                 XCTAssertEqual(event.message, messageContent)
-                XCTAssertEqual(event.senderDisplayName, senderDisplayName)
+                XCTAssertEqual(event.senderDisplayName, emptyDisplayName)
                 XCTAssertEqual(event.threadId, threadId)
                 XCTAssertEqual(event.type, .text)
                 XCTAssertEqual(event.version, version)
@@ -269,7 +247,8 @@ class TrouterEventUtilTests: XCTestCase {
                     "priority": "",
                     "version": "\(version)",
                     "edittime": "\(editTime)",
-                    "composetime": "2021-08-26T20:30:09.593Z"
+                    "composetime": "2021-08-26T20:30:09.593Z",
+                    "acsChatMessageMetadata": "{}"
                 }
             """
 
@@ -295,6 +274,7 @@ class TrouterEventUtilTests: XCTestCase {
                 XCTAssertEqual(event.type, .text)
                 XCTAssertEqual(event.version, version)
                 XCTAssertEqual(event.editedOn, Iso8601Date(string: editTime))
+                XCTAssertEqual(event.metadata, [:])
 
                 let recipient = event.recipient as! CommunicationUserIdentifier
                 XCTAssertEqual(recipient.identifier, expectedRecipientId)
@@ -309,7 +289,7 @@ class TrouterEventUtilTests: XCTestCase {
         }
     }
 
-    func test_createChatMessageEditedEvent_withoutSenderDisplayName() {
+    func test_createChatMessageEditedEvent_withoutSenderDisplayNameOrMetadata() {
         do {
             let editTime = "2021-08-26T20:33:17.651Z"
             let payload = """
@@ -331,6 +311,7 @@ class TrouterEventUtilTests: XCTestCase {
                     "version": "\(version)",
                     "edittime": "\(editTime)",
                     "composetime": "2021-08-26T20:30:09.593Z"
+                    "acsChatMessageMetadata": "{}"
                 }
             """
 
@@ -356,6 +337,70 @@ class TrouterEventUtilTests: XCTestCase {
                 XCTAssertEqual(event.type, .text)
                 XCTAssertEqual(event.version, version)
                 XCTAssertEqual(event.editedOn, Iso8601Date(string: editTime))
+                XCTAssertEqual(event.metadata, [:])
+
+                let recipient = event.recipient as! CommunicationUserIdentifier
+                XCTAssertEqual(recipient.identifier, expectedRecipientId)
+
+                let sender = event.sender as! CommunicationUserIdentifier
+                XCTAssertEqual(sender.identifier, senderId)
+            default:
+                XCTFail("Did not create ChatMessageEditedEvent")
+            }
+        } catch {
+            XCTFail("Failed to create ChatMessageEditedEvent: \(error)")
+        }
+    }
+
+    func test_createChatMessageEditedEvent_withMetadata() {
+        do {
+            let editTime = "2021-08-26T20:33:17.651Z"
+            let payload = """
+                {
+                    "eventId": 247,
+                    "senderId": "\(senderId)",
+                    "recipientId": "\(payloadRecipientId)",
+                    "recipientMri": "\(payloadRecipientMri)",
+                    "transactionId": "transactionId",
+                    "groupId": "\(threadId)",
+                    "messageId": "\(messageId)",
+                    "collapseId": "collapseId",
+                    "messageType": "\(ChatMessageType.text.requestString)",
+                    "messageBody": "\(messageContent)",
+                    "senderDisplayName": "\(senderDisplayName)",
+                    "clientMessageId": "",
+                    "originalArrivalTime": "\(dateString)",
+                    "priority": "",
+                    "version": "\(version)",
+                    "edittime": "\(editTime)",
+                    "composetime": "2021-08-26T20:30:09.593Z",
+                    "acsChatMessageMetadata": "{}"
+                }
+            """
+
+            let trouterRequest = TrouterRequestMock(
+                id: 1,
+                method: "POST",
+                path: "",
+                headers: [
+                    "ms-cv": "abcd"
+                ],
+                body: payload
+            )
+
+            let result = try TrouterEventUtil.create(chatEvent: .chatMessageEdited, from: trouterRequest)
+
+            switch result {
+            case let .chatMessageEdited(event):
+                XCTAssertEqual(event.id, messageId)
+                XCTAssertEqual(event.createdOn, Iso8601Date(string: dateString))
+                XCTAssertEqual(event.message, messageContent)
+                XCTAssertEqual(event.senderDisplayName, senderDisplayName)
+                XCTAssertEqual(event.threadId, threadId)
+                XCTAssertEqual(event.type, .text)
+                XCTAssertEqual(event.version, version)
+                XCTAssertEqual(event.editedOn, Iso8601Date(string: editTime))
+                XCTAssertEqual(event.metadata?[metadataKey], metadataValue)
 
                 let recipient = event.recipient as! CommunicationUserIdentifier
                 XCTAssertEqual(recipient.identifier, expectedRecipientId)
