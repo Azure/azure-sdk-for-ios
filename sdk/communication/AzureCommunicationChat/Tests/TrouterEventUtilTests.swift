@@ -69,26 +69,7 @@ class TrouterEventUtilTests: XCTestCase {
 
     func test_createChatMessageReceivedEvent_withSenderDisplayName() {
         do {
-            let payload = """
-                {
-                    "eventId": 200,
-                    "senderId": "\(senderId)",
-                    "recipientId": "\(payloadRecipientId)",
-                    "recipientMri": "\(payloadRecipientMri)",
-                    "transactionId": "transactionId",
-                    "groupId": "\(threadId)",
-                    "messageId": "\(messageId)",
-                    "collapseId": "collapseId",
-                    "messageType": "\(ChatMessageType.text.requestString)",
-                    "messageBody": "\(messageContent)",
-                    "senderDisplayName": "\(senderDisplayName)",
-                    "clientMessageId": "",
-                    "originalArrivalTime": "\(dateString)",
-                    "priority": "",
-                    "version": "\(version)",
-                    "acsChatMessageMetadata:" : "null"
-                }
-            """
+            let payload = "{\"eventId\": 200,\"senderId\": \"\(senderId)\",\"recipientId\": \"\(payloadRecipientId)\",\"recipientMri\": \"\(payloadRecipientMri)\",\"transactionId\": \"transactionId\",\"groupId\": \"\(threadId)\",\"messageId\": \"\(messageId)\",\"collapseId\":\"collapseId\",\"messageType\": \"\(ChatMessageType.text.requestString)\",\"messageBody\": \"\(messageContent)\",\"senderDisplayName\": \"\(senderDisplayName)\",\"clientMessageId\": \"\",\"originalArrivalTime\": \"\(dateString)\",\"priority\": \"\",\"version\": \"\(version)\",\"acsChatMessageMetadata\": \"null\"}"
 
             let trouterRequest = TrouterRequestMock(
                 id: 1,
@@ -127,26 +108,7 @@ class TrouterEventUtilTests: XCTestCase {
 
     func test_createChatMessageReceivedEvent_withoutDisplayNameOrMetdata() {
         do {
-            let payload = """
-                {
-                    "eventId": 200,
-                    "senderId": "\(senderId)",
-                    "recipientId": "\(payloadRecipientId)",
-                    "recipientMri": "\(payloadRecipientMri)",
-                    "transactionId": "transactionId",
-                    "groupId": "\(threadId)",
-                    "messageId": "\(messageId)",
-                    "collapseId": "collapseId",
-                    "messageType": "\(ChatMessageType.text.requestString)",
-                    "messageBody": "\(messageContent)",
-                    "senderDisplayName": "\(emptyDisplayName)",
-                    "clientMessageId": "",
-                    "originalArrivalTime": "\(dateString)",
-                    "priority": "",
-                    "version": "\(version)",
-                    "acsChatMessageMetadata:" : "null"
-                }
-            """
+            let payload = "{\"eventId\": 200,\"senderId\": \"\(senderId)\",\"recipientId\": \"\(payloadRecipientId)\",\"recipientMri\": \"\(payloadRecipientMri)\",\"transactionId\": \"transactionId\",\"groupId\": \"\(threadId)\",\"messageId\": \"\(messageId)\",\"collapseId\":\"collapseId\",\"messageType\": \"\(ChatMessageType.text.requestString)\",\"messageBody\": \"\(messageContent)\",\"senderDisplayName\": \"\(emptyDisplayName)\",\"clientMessageId\": \"\",\"originalArrivalTime\": \"\(dateString)\",\"priority\": \"\",\"version\": \"\(version)\",\"acsChatMessageMetadata\": \"null\"}"
 
             let trouterRequest = TrouterRequestMock(
                 id: 1,
@@ -292,28 +254,7 @@ class TrouterEventUtilTests: XCTestCase {
     func test_createChatMessageEditedEvent_withoutSenderDisplayNameOrMetadata() {
         do {
             let editTime = "2021-08-26T20:33:17.651Z"
-            let payload = """
-                {
-                    "eventId": 247,
-                    "senderId": "\(senderId)",
-                    "recipientId": "\(payloadRecipientId)",
-                    "recipientMri": "\(payloadRecipientMri)",
-                    "transactionId": "transactionId",
-                    "groupId": "\(threadId)",
-                    "messageId": "\(messageId)",
-                    "collapseId": "collapseId",
-                    "messageType": "\(ChatMessageType.text.requestString)",
-                    "messageBody": "\(messageContent)",
-                    "senderDisplayName": "\(emptyDisplayName)",
-                    "clientMessageId": "",
-                    "originalArrivalTime": "\(dateString)",
-                    "priority": "",
-                    "version": "\(version)",
-                    "edittime": "\(editTime)",
-                    "composetime": "2021-08-26T20:30:09.593Z"
-                    "acsChatMessageMetadata": "{}"
-                }
-            """
+            let payload = "{\"eventId\": 247,\"senderId\": \"\(senderId)\",\"recipientId\": \"\(payloadRecipientId)\",\"recipientMri\": \"\(payloadRecipientMri)\",\"transactionId\": \"transactionId\",\"groupId\": \"\(threadId)\",\"messageId\": \"\(messageId)\",\"collapseId\":\"collapseId\",\"messageType\": \"\(ChatMessageType.text.requestString)\",\"messageBody\": \"\(messageContent)\",\"senderDisplayName\": \"\(emptyDisplayName)\",\"clientMessageId\": \"\",\"originalArrivalTime\": \"\(dateString)\",\"priority\": \"\",\"version\": \"\(version)\",\"edittime\": \"\(editTime)\",\"composetime\": \"2021-09-03T17:35:28.663Z\",\"acsChatMessageMetadata\": \"{}\"}"
 
             let trouterRequest = TrouterRequestMock(
                 id: 1,
