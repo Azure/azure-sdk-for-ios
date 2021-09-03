@@ -29,7 +29,7 @@ import Foundation
 struct BasePayload: Codable {
     let eventId: Int
     let senderId: String
-    let recipientMri: String
+    let recipientId: String
     let groupId: String
 }
 
