@@ -46,12 +46,12 @@ end
 
 target 'AzureCommunicationChat' do
   project 'sdk/communication/AzureCommunicationChat/AzureCommunicationChat'
-  pod 'Trouter', '0.0.1-beta.5'
+  pod 'Trouter', '0.1.0'
 
   target 'AzureCommunicationChatTests' do
     inherit! :search_paths
     pod 'OHHTTPStubs/Swift'
-    pod 'Trouter', '0.0.1-beta.5'
+    pod 'Trouter', '0.1.0'
     if $use_local_dvr
         pod 'DVR', :path => $dvr_path
     else
@@ -62,7 +62,7 @@ target 'AzureCommunicationChat' do
   target 'AzureCommunicationChatUnitTests' do
     inherit! :search_paths
     pod 'OHHTTPStubs/Swift'
-    pod 'Trouter', '0.0.1-beta.5'
+    pod 'Trouter', '0.1.0'
     if $use_local_dvr
         pod 'DVR', :path => $dvr_path
     else

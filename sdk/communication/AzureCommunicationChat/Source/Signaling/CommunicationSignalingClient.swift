@@ -24,9 +24,21 @@
 //
 // --------------------------------------------------------------------------
 
+import AzureCommunicationCommon
 import AzureCore
 import Foundation
 import Trouter
+
+/// Signaling errors enum for errors that might occur when realtime-notifications are started.
+public enum CommunicationSignalingError: Error {
+    case failedToRefreshToken(String)
+}
+
+/// Handler for signaling errors.
+public typealias CommunicationSignalingErrorHandler = (CommunicationSignalingError) -> Void
+
+/// TrouterTokenRefreshHandler for fetching tokens.
+internal typealias TrouterTokenRefreshHandler = (_ stopSignalingClient: Bool, Error?) -> Void
 
 class CommunicationSignalingClient {
     private var selfHostedTrouterClient: SelfHostedTrouterClient
@@ -36,11 +48,11 @@ class CommunicationSignalingClient {
     private var communicationHandlers: [ChatEventId: CommunicationHandler] = [:]
 
     init(
-        skypeTokenProvider: CommunicationSkypeTokenProvider,
+        communicationSkypeTokenProvider: CommunicationSkypeTokenProvider,
         logger: ClientLogger = ClientLoggers.default(tag: "AzureCommunicationSignalingClient")
     ) throws {
-        self.communicationSkypeTokenProvider = skypeTokenProvider
         self.logger = logger
+        self.communicationSkypeTokenProvider = communicationSkypeTokenProvider
 
         let trouterSkypeTokenHeaderProvider = TrouterSkypetokenAuthHeaderProvider(
             skypetokenProvider: communicationSkypeTokenProvider
@@ -67,13 +79,6 @@ class CommunicationSignalingClient {
         }
 
         self.trouterUrlRegistrar = trouterUrlRegistrar
-    }
-
-    convenience init(
-        token: String
-    ) throws {
-        let skypeTokenProvider = CommunicationSkypeTokenProvider(skypeToken: token)
-        try self.init(skypeTokenProvider: skypeTokenProvider)
     }
 
     func start() {
@@ -106,13 +111,64 @@ class CommunicationSignalingClient {
 }
 
 class CommunicationSkypeTokenProvider: NSObject, TrouterSkypetokenProvider {
-    var skypeToken: String?
-    func getSkypetoken(_: Bool) -> String! {
-        return skypeToken
+    /// The cached skypeToken.
+    var token: String
+
+    /// The CommunicationTokenCredential.
+    var credential: CommunicationTokenCredential
+
+    /// Called from getSkypetoken, handle token errors here.
+    var tokenRefreshHandler: TrouterTokenRefreshHandler
+
+    /// Current number of token fetch retries.
+    var tokenRetries: Int
+
+    /// Max number of token retries allowed.
+    let maxTokenRetries: Int = 3
+
+    /// Return the cached token, will attempt to refresh the token if forceRefresh is true.
+    func getSkypetoken(_ forceRefresh: Bool) -> String! {
+        if forceRefresh {
+            tokenRetries += 1
+
+            // We have to return the token but don't attempt to refresh again
+            // Pass true to the callback to signal that we should stop the connection
+            if tokenRetries > maxTokenRetries {
+                tokenRefreshHandler(true, nil)
+                return token
+            }
+
+            // Fetch new token
+            credential.token { token, error in
+                // Let callback know we are attempting to refresh
+                self.tokenRefreshHandler(false, error)
+                guard let newToken = token?.token else {
+                    return
+                }
+                // Cache the new token
+                self.token = newToken
+            }
+        } else {
+            tokenRetries = 0
+        }
+
+        return token
     }
 
-    init(skypeToken: String? = nil) {
-        self.skypeToken = skypeToken
+    /// Initialize CommunicationSkypetokenProvider
+    /// - Parameters:
+    ///   - token: The token to cache.
+    ///   - credential: CommunicationTokenCredential for refreshing the token.
+    ///   - tokenRefreshHandler: Called when the token is expired, stopSignalingClient will be true if retry attempts are exceeded.
+    init(
+        token: String,
+        credential: CommunicationTokenCredential,
+        tokenRefreshHandler: @escaping TrouterTokenRefreshHandler
+    ) {
+        self.token = token
+        self.credential = credential
+        self.tokenRefreshHandler = tokenRefreshHandler
+        self.tokenRetries = 0
     }
 }
 

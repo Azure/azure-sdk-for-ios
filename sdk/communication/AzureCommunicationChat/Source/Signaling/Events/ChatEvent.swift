@@ -78,8 +78,6 @@ public class BaseChatEvent {
     public var threadId: String
     /// Sender identifier.
     public var sender: CommunicationIdentifier?
-    /// Sender display name.
-    public var senderDisplayName: String?
     /// Recipient identifier.
     public var recipient: CommunicationIdentifier?
 
@@ -89,17 +87,14 @@ public class BaseChatEvent {
     /// - Parameters:
     ///   - threadId: ChatThread id.
     ///   - sender: Sender identifier.
-    ///   - senderDisplayName: Sender display name.
     ///   - recipient: Recipient identifier.
     init(
         threadId: String,
         sender: CommunicationIdentifier?,
-        senderDisplayName: String? = nil,
         recipient: CommunicationIdentifier?
     ) {
         self.threadId = threadId
         self.sender = sender
-        self.senderDisplayName = senderDisplayName
         self.recipient = recipient
     }
 }
@@ -137,6 +132,8 @@ public class BaseChatMessageEvent: BaseChatEvent {
     public var version: String
     /// The message type.
     public var type: ChatMessageType
+    /// Sender display name.
+    public var senderDisplayName: String?
 
     // MARK: Initializers
 
@@ -164,7 +161,8 @@ public class BaseChatMessageEvent: BaseChatEvent {
         self.createdOn = createdOn
         self.version = version
         self.type = type
-        super.init(threadId: threadId, sender: sender, senderDisplayName: senderDisplayName, recipient: recipient)
+        self.senderDisplayName = senderDisplayName
+        super.init(threadId: threadId, sender: sender, recipient: recipient)
     }
 }
 
@@ -229,9 +227,10 @@ public class ChatMessageReceivedEvent: BaseChatMessageEvent {
 
         self.message = messageReceivedPayload.messageBody
 
-        if let acsChatMetadata = messageReceivedPayload.acsChatMessageMetadata.data(using: .utf8),
-            !acsChatMetadata.isEmpty {
-            self.metadata = try JSONDecoder().decode([String: String?].self, from: acsChatMetadata)
+        if messageReceivedPayload.acsChatMessageMetadata != "null" {
+            if let acsChatMetadata = messageReceivedPayload.acsChatMessageMetadata.data(using: .utf8) {
+                self.metadata = try JSONDecoder().decode([String: String?].self, from: acsChatMetadata)
+            }
         }
 
         super.init(
@@ -313,15 +312,16 @@ public class ChatMessageEditedEvent: BaseChatMessageEvent {
         self.message = chatMessageEditedPayload.messageBody
         self.editedOn = Iso8601Date(string: chatMessageEditedPayload.edittime)
 
-        if let acsChatMetadata = chatMessageEditedPayload.acsChatMessageMetadata.data(using: .utf8),
-            !acsChatMetadata.isEmpty {
-            self.metadata = try JSONDecoder().decode([String: String?].self, from: acsChatMetadata)
+        if chatMessageEditedPayload.acsChatMessageMetadata != "null" {
+            if let acsChatMetadata = chatMessageEditedPayload.acsChatMessageMetadata.data(using: .utf8) {
+                self.metadata = try JSONDecoder().decode([String: String?].self, from: acsChatMetadata)
+            }
         }
 
         super.init(
             threadId: chatMessageEditedPayload.groupId,
             sender: TrouterEventUtil.getIdentifier(from: chatMessageEditedPayload.senderId),
-            recipient: TrouterEventUtil.getIdentifier(from: chatMessageEditedPayload.recipientId),
+            recipient: TrouterEventUtil.getIdentifier(from: chatMessageEditedPayload.recipientMri),
             id: chatMessageEditedPayload.messageId,
             senderDisplayName: chatMessageEditedPayload.senderDisplayName,
             createdOn: Iso8601Date(string: chatMessageEditedPayload.originalArrivalTime),
@@ -389,7 +389,7 @@ public class ChatMessageDeletedEvent: BaseChatMessageEvent {
         super.init(
             threadId: chatMessageDeletedPayload.groupId,
             sender: TrouterEventUtil.getIdentifier(from: chatMessageDeletedPayload.senderId),
-            recipient: TrouterEventUtil.getIdentifier(from: chatMessageDeletedPayload.recipientId),
+            recipient: TrouterEventUtil.getIdentifier(from: chatMessageDeletedPayload.recipientMri),
             id: chatMessageDeletedPayload.messageId,
             senderDisplayName: chatMessageDeletedPayload.senderDisplayName,
             createdOn: Iso8601Date(string: chatMessageDeletedPayload.originalArrivalTime),
@@ -409,6 +409,9 @@ public class TypingIndicatorReceivedEvent: BaseChatEvent {
     /// The timestamp when the indicator was received. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
     public var receivedOn: Iso8601Date?
 
+    /// The sender displayName.
+    public var senderDisplayName: String?
+
     // MARK: Initializers
 
     /// Initialize a TypingIndicatorReceivedEvent.
@@ -423,10 +426,12 @@ public class TypingIndicatorReceivedEvent: BaseChatEvent {
         sender: CommunicationIdentifier?,
         recipient: CommunicationIdentifier?,
         version: String,
-        receivedOn: Iso8601Date?
+        receivedOn: Iso8601Date?,
+        senderDisplayName: String? = nil
     ) {
         self.version = version
         self.receivedOn = receivedOn
+        self.senderDisplayName = senderDisplayName
         super.init(threadId: threadId, sender: sender, recipient: recipient)
     }
 
@@ -442,11 +447,11 @@ public class TypingIndicatorReceivedEvent: BaseChatEvent {
 
         self.version = typingIndicatorReceivedPayload.version
         self.receivedOn = Iso8601Date(string: typingIndicatorReceivedPayload.originalArrivalTime)
-
+        self.senderDisplayName = typingIndicatorReceivedPayload.senderDisplayName
         super.init(
             threadId: typingIndicatorReceivedPayload.groupId,
             sender: TrouterEventUtil.getIdentifier(from: typingIndicatorReceivedPayload.senderId),
-            recipient: TrouterEventUtil.getIdentifier(from: typingIndicatorReceivedPayload.recipientId)
+            recipient: TrouterEventUtil.getIdentifier(from: typingIndicatorReceivedPayload.recipientMri)
         )
     }
 }
@@ -498,15 +503,22 @@ public class ReadReceiptReceivedEvent: BaseChatEvent {
         let readReceiptMessageBody: ReadReceiptMessageBody = try JSONDecoder()
             .decode(ReadReceiptMessageBody.self, from: readReceiptMessageBodyJsonData)
 
+        // Extract readOn value from consumptionHorizon
         let consumptionHorizon = readReceiptMessageBody.consumptionhorizon.split(separator: ";")
-        let readOn = String(consumptionHorizon[1])
+        guard let readOnMs = Double(consumptionHorizon[1]) else {
+            throw AzureError.client("Failed to construct Int from consumptionHorizon for readOn property.")
+        }
+
+        // In the payload readOn is represented as epoch time in milliseconds
+        let readOnSeconds = readOnMs / 1000
+        let readOnDate = Date(timeIntervalSince1970: TimeInterval(readOnSeconds))
 
         self.chatMessageId = readReceiptReceivedPayload.messageId
-        self.readOn = Iso8601Date(string: readOn)
+        self.readOn = Iso8601Date(readOnDate)
         super.init(
             threadId: readReceiptReceivedPayload.groupId,
             sender: TrouterEventUtil.getIdentifier(from: readReceiptReceivedPayload.senderId),
-            recipient: TrouterEventUtil.getIdentifier(from: readReceiptReceivedPayload.recipientId)
+            recipient: TrouterEventUtil.getIdentifier(from: readReceiptReceivedPayload.recipientMri)
         )
     }
 }

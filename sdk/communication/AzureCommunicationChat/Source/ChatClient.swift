@@ -45,15 +45,14 @@ public class ChatClient {
     /// - Parameters:
     ///   - endpoint: The Communication Services endpoint.
     ///   - credential: The user credential.
-    ///   - options: Options used to configure the client.
+    ///   - userOptions: Options used to configure the client.
     public init(
         endpoint: String,
         credential: CommunicationTokenCredential,
-        withOptions options: AzureCommunicationChatClientOptions
+        withOptions userOptions: AzureCommunicationChatClientOptions
     ) throws {
         self.endpoint = endpoint
         self.credential = credential
-        self.options = options
 
         guard let endpointUrl = URL(string: endpoint) else {
             throw AzureError.client("Unable to form base URL.")
@@ -61,22 +60,34 @@ public class ChatClient {
 
         // If applicationId is not provided bundle identifier will be used
         // Instead set the default application id to be an empty string
-        var updatedOptions: AzureCommunicationChatClientOptions?
-        if options.telemetryOptions.applicationId == nil {
-            let apiVersion = AzureCommunicationChatClientOptions.ApiVersion(options.apiVersion)
+        var options: AzureCommunicationChatClientOptions = userOptions
+        if userOptions.telemetryOptions.applicationId == nil {
+            let apiVersion = AzureCommunicationChatClientOptions.ApiVersion(userOptions.apiVersion)
             let telemetryOptions = TelemetryOptions(
-                telemetryDisabled: options.telemetryOptions.telemetryDisabled,
+                telemetryDisabled: userOptions.telemetryOptions.telemetryDisabled,
                 applicationId: ""
             )
 
-            updatedOptions = AzureCommunicationChatClientOptions(
+            options = AzureCommunicationChatClientOptions(
                 apiVersion: apiVersion,
-                logger: options.logger,
+                logger: userOptions.logger,
                 telemetryOptions: telemetryOptions,
-                transportOptions: options.transportOptions,
-                dispatchQueue: options.dispatchQueue
+                transportOptions: userOptions.transportOptions,
+                dispatchQueue: userOptions.dispatchQueue,
+                signalingErrorHandler: userOptions.signalingErrorHandler
             )
         }
+
+        self.options = options
+
+        // Internal options do not use the CommunicationSignalingErrorHandler
+        let internalOptions = AzureCommunicationChatClientOptionsInternal(
+            apiVersion: AzureCommunicationChatClientOptionsInternal.ApiVersion(options.apiVersion),
+            logger: options.logger,
+            telemetryOptions: options.telemetryOptions,
+            transportOptions: options.transportOptions,
+            dispatchQueue: options.dispatchQueue
+        )
 
         let communicationCredential = TokenCredentialAdapter(credential)
         let authPolicy = BearerTokenCredentialPolicy(credential: communicationCredential, scopes: [])
@@ -84,7 +95,7 @@ public class ChatClient {
         let client = try ChatClientInternal(
             endpoint: endpointUrl,
             authPolicy: authPolicy,
-            withOptions: updatedOptions ?? options
+            withOptions: internalOptions
         )
 
         self.service = client.chat
@@ -231,8 +242,34 @@ public class ChatClient {
                     throw AzureError.client("Failed to get token from credential.", error)
                 }
 
+                let tokenProvider = CommunicationSkypeTokenProvider(
+                    token: token,
+                    credential: self.credential,
+                    tokenRefreshHandler: { stopSignalingClient, error in
+                        // Unable to refresh the token, stop the connection
+                        if stopSignalingClient {
+                            self.signalingClient?.stop()
+                            self.signalingClientStarted = false
+                            self.options
+                                .signalingErrorHandler?(
+                                    .failedToRefreshToken(
+                                        "Unable to get valid token for realtime-notifications, stopping notifications."
+                                    )
+                                )
+                            return
+                        }
+
+                        // Token is invalid, attempting to refresh token
+                        self.options.logger.error("Failed to get valid token. \(error ?? "")")
+                        self.options.logger.warning("Attempting to refresh token for realtime-notifications.")
+                    }
+                )
+
                 // Initialize the signaling client
-                self.signalingClient = try CommunicationSignalingClient(token: token)
+                self.signalingClient = try CommunicationSignalingClient(
+                    communicationSkypeTokenProvider: tokenProvider,
+                    logger: self.options.logger
+                )
 
                 // After successful initialization, start notifications
                 self.signalingClientStarted = true

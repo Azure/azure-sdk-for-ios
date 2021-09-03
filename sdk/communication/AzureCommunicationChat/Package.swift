@@ -42,13 +42,13 @@ let package = Package(
         .package(
             name: "AzureCommunicationCommon",
             url: "https://github.com/Azure/SwiftPM-AzureCommunicationCommon.git",
-            from: "1.0.0"
+            from: "1.0.2"
         ),
         .package(url: "https://github.com/AliSoftware/OHHTTPStubs.git", from: "9.1.0"),
         .package(
             name: "Trouter",
             url: "https://github.com/microsoft/trouter-client-ios.git",
-            .branch("v0.0.1-beta.5")
+            .exact("0.1.0")
         )
     ],
     targets: [
