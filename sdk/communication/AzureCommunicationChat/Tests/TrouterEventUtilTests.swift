@@ -56,7 +56,8 @@ class TrouterRequestMock: NSObject, TrouterRequest {
 
 class TrouterEventUtilTests: XCTestCase {
     let senderId = "8:acs:senderId"
-    let payloadRecipientId = "8:acs:recipientId"
+    let payloadRecipientId = "acs:recipientId"
+    let payloadRecipientMri = "8:acs:recipientId"
     let expectedRecipientId = "8:acs:recipientId"
     let messageId = "123"
     let threadId = "thread123"
@@ -73,6 +74,7 @@ class TrouterEventUtilTests: XCTestCase {
                     "eventId": 200,
                     "senderId": "\(senderId)",
                     "recipientId": "\(payloadRecipientId)",
+                    "recipientMri": "\(payloadRecipientMri)",
                     "transactionId": "transactionId",
                     "groupId": "\(threadId)",
                     "messageId": "\(messageId)",
@@ -83,7 +85,8 @@ class TrouterEventUtilTests: XCTestCase {
                     "clientMessageId": "",
                     "originalArrivalTime": "\(dateString)",
                     "priority": "",
-                    "version": "\(version)"
+                    "version": "\(version)",
+                    "acsChatMessageMetadata:" : "null"
                 }
             """
 
@@ -122,13 +125,14 @@ class TrouterEventUtilTests: XCTestCase {
         }
     }
 
-    func test_createChatMessageReceivedEvent_withoutSenderDisplayName() {
+    func test_createChatMessageReceivedEvent_withoutDisplayNameOrMetdata() {
         do {
             let payload = """
                 {
                     "eventId": 200,
                     "senderId": "\(senderId)",
                     "recipientId": "\(payloadRecipientId)",
+                    "recipientMri": "\(payloadRecipientMri)",
                     "transactionId": "transactionId",
                     "groupId": "\(threadId)",
                     "messageId": "\(messageId)",
@@ -139,7 +143,8 @@ class TrouterEventUtilTests: XCTestCase {
                     "clientMessageId": "",
                     "originalArrivalTime": "\(dateString)",
                     "priority": "",
-                    "version": "\(version)"
+                    "version": "\(version)",
+                    "acsChatMessageMetadata:" : "null"
                 }
             """
 
@@ -177,6 +182,68 @@ class TrouterEventUtilTests: XCTestCase {
             XCTFail("Failed to create ChatMessageReceivedEvent: \(error)")
         }
     }
+    
+    func test_createChatMessageReceivedEvent_withMetadata() {
+        do {
+            let metadataKey = "testKey"
+            let metadataValue = "testValue"
+            let payload = """
+                {
+                    "eventId": 200,
+                    "senderId": "\(senderId)",
+                    "recipientId": "\(payloadRecipientId)",
+                    "recipientMri": "\(payloadRecipientMri)",
+                    "transactionId": "transactionId",
+                    "groupId": "\(threadId)",
+                    "messageId": "\(messageId)",
+                    "collapseId": "collapseId",
+                    "messageType": "\(ChatMessageType.text.requestString)",
+                    "messageBody": "\(messageContent)",
+                    "senderDisplayName": "\(senderDisplayName)",
+                    "clientMessageId": "",
+                    "originalArrivalTime": "\(dateString)",
+                    "priority": "",
+                    "version": "\(version)"
+                    "acsChatMessageMetadata:" : "null"
+                }
+            """
+
+            let trouterRequest = TrouterRequestMock(
+                id: 1,
+                method: "POST",
+                path: "",
+                headers: [
+                    "ms-cv": "abcd"
+                ],
+                body: payload
+            )
+
+            let result = try TrouterEventUtil.create(chatEvent: .chatMessageReceived, from: trouterRequest)
+
+            switch result {
+            case let .chatMessageReceivedEvent(event):
+                XCTAssertEqual(event.id, messageId)
+                XCTAssertEqual(event.createdOn, Iso8601Date(string: dateString))
+                XCTAssertEqual(event.message, messageContent)
+                XCTAssertEqual(event.senderDisplayName, senderDisplayName)
+                XCTAssertEqual(event.threadId, threadId)
+                XCTAssertEqual(event.type, .text)
+                XCTAssertEqual(event.version, version)
+                XCTAssertNotNil(event.metadata)
+                XCTAssertEqual(event.metadata?[metadataKey], metadataValue)
+
+                let recipient = event.recipient as! CommunicationUserIdentifier
+                XCTAssertEqual(recipient.identifier, expectedRecipientId)
+
+                let sender = event.sender as! CommunicationUserIdentifier
+                XCTAssertEqual(sender.identifier, senderId)
+            default:
+                XCTFail("Did not create ChatMessageReceivedEvent")
+            }
+        } catch {
+            XCTFail("Failed to create ChatMessageReceivedEvent: \(error)")
+        }
+    }
 
     func test_createChatMessageEditedEvent_withSenderDisplayName() {
         do {
@@ -186,6 +253,7 @@ class TrouterEventUtilTests: XCTestCase {
                     "eventId": 247,
                     "senderId": "\(senderId)",
                     "recipientId": "\(payloadRecipientId)",
+                    "recipientMri": "\(payloadRecipientMri)",
                     "transactionId": "transactionId",
                     "groupId": "\(threadId)",
                     "messageId": "\(messageId)",
@@ -246,6 +314,7 @@ class TrouterEventUtilTests: XCTestCase {
                     "eventId": 247,
                     "senderId": "\(senderId)",
                     "recipientId": "\(payloadRecipientId)",
+                    "recipientMri": "\(payloadRecipientMri)",
                     "transactionId": "transactionId",
                     "groupId": "\(threadId)",
                     "messageId": "\(messageId)",
@@ -306,6 +375,7 @@ class TrouterEventUtilTests: XCTestCase {
                     "eventId": 248,
                     "senderId": "\(senderId)",
                     "recipientId": "\(payloadRecipientId)",
+                    "recipientMri": "\(payloadRecipientMri)",
                     "transactionId": "transactionId",
                     "groupId": "\(threadId)",
                     "messageId": "\(messageId)",
@@ -363,6 +433,7 @@ class TrouterEventUtilTests: XCTestCase {
                     "eventId": 248,
                     "senderId": "\(senderId)",
                     "recipientId": "\(payloadRecipientId)",
+                    "recipientMri": "\(payloadRecipientMri)",
                     "transactionId": "transactionId",
                     "groupId": "\(threadId)",
                     "messageId": "\(messageId)",
@@ -419,6 +490,7 @@ class TrouterEventUtilTests: XCTestCase {
                     "eventId": 245,
                     "senderId": "\(senderId)",
                     "recipientId": "\(payloadRecipientId)",
+                    "recipientMri": "\(payloadRecipientMri)",
                     "transactionId": "transactionId",
                     "groupId": "\(threadId)",
                     "messageId": "\(messageId)",
@@ -478,6 +550,7 @@ class TrouterEventUtilTests: XCTestCase {
                     "eventId": 246,
                     "senderId": "\(senderId)",
                     "recipientId": "\(payloadRecipientId)",
+                    "recipientMri": "\(payloadRecipientMri)",
                     "transactionId": "transactionId",
                     "groupId": "\(threadId)",
                     "messageId": "\(messageId)",
