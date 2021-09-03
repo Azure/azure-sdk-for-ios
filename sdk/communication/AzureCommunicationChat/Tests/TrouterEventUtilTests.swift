@@ -187,26 +187,29 @@ class TrouterEventUtilTests: XCTestCase {
         do {
             let metadataKey = "testKey"
             let metadataValue = "testValue"
+//            let payload = """
+//                {
+//                    "eventId": 200,
+//                    "senderId": "\(senderId)",
+//                    "recipientId": "\(payloadRecipientId)",
+//                    "recipientMri": "\(payloadRecipientMri)",
+//                    "transactionId": "transactionId",
+//                    "groupId": "\(threadId)",
+//                    "messageId": "\(messageId)",
+//                    "collapseId": "collapseId",
+//                    "messageType": "\(ChatMessageType.text.requestString)",
+//                    "messageBody": "\(messageContent)",
+//                    "senderDisplayName": "\(senderDisplayName)",
+//                    "clientMessageId": "",
+//                    "originalArrivalTime": "\(dateString)",
+//                    "priority": "",
+//                    "version": "\(version)"
+//                    "acsChatMessageMetadata:" : "null"
+//                }
+//            """
             let payload = """
-                {
-                    "eventId": 200,
-                    "senderId": "\(senderId)",
-                    "recipientId": "\(payloadRecipientId)",
-                    "recipientMri": "\(payloadRecipientMri)",
-                    "transactionId": "transactionId",
-                    "groupId": "\(threadId)",
-                    "messageId": "\(messageId)",
-                    "collapseId": "collapseId",
-                    "messageType": "\(ChatMessageType.text.requestString)",
-                    "messageBody": "\(messageContent)",
-                    "senderDisplayName": "\(senderDisplayName)",
-                    "clientMessageId": "",
-                    "originalArrivalTime": "\(dateString)",
-                    "priority": "",
-                    "version": "\(version)"
-                    "acsChatMessageMetadata:" : "null"
-                }
-            """
+                {"eventId": 200,"senderId": "8:acs:4fba785c-8d9d-4e5b-8c60-2a02d49866e6_0000000c-48ad-754b-a4f5-343a0d000661","recipientId": "acs:4fba785c-8d9d-4e5b-8c60-2a02d49866e6_0000000c-48ad-754b-a4f5-343a0d000661","recipientMri": "8:acs:4fba785c-8d9d-4e5b-8c60-2a02d49866e6_0000000c-48ad-754b-a4f5-343a0d000661","transactionId": "iouSVS0P1kqIyXI6EcZ6Fg.1.2.1.1.2061405687.1.0","groupId": "19:gwBxt3whRNMG47wWP8L21bG79bW4TvVll7JFnZ0Xan81@thread.v2","messageId": "1630687799638","collapseId":"YKbqPoEf002p+jGu+AWJkv6SrnRoqHuRh5X6PAP9Sn4=","messageType": "Text","messageBody": "This is a message from Bob!","senderDisplayName": "","clientMessageId": "","originalArrivalTime": "2021-09-03T16:49:59.638Z","priority": "","version": "1630687799638","acsChatMessageMetadata": "{\"testkey\":\"testvalue\"}"}
+                """
 
             let trouterRequest = TrouterRequestMock(
                 id: 1,
