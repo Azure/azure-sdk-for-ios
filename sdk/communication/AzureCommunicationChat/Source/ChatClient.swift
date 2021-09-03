@@ -249,6 +249,7 @@ public class ChatClient {
                         // Unable to refresh the token, stop the connection
                         if stopSignalingClient {
                             self.signalingClient?.stop()
+                            self.signalingClientStarted = false
                             self.options
                                 .signalingErrorHandler?(
                                     .failedToRefreshToken(

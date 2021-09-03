@@ -22,6 +22,8 @@
 		D10C3BCE25A63F7800A181E3 /* listParticipants.json in Resources */ = {isa = PBXBuildFile; fileRef = D10C3BCD25A63F7800A181E3 /* listParticipants.json */; };
 		D10C3BD425A660AF00A181E3 /* listMessages.json in Resources */ = {isa = PBXBuildFile; fileRef = D10C3BD325A660AF00A181E3 /* listMessages.json */; };
 		D10C3BDA25A66D4D00A181E3 /* listThreads.json in Resources */ = {isa = PBXBuildFile; fileRef = D10C3BD925A66D4D00A181E3 /* listThreads.json */; };
+		D10F55FB26E186F200742727 /* TestSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE5BA06267D25AD006B93B7 /* TestSettings.swift */; };
+		D10F55FE26E1874700742727 /* TrouterEventUtilTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10F55FC26E1873600742727 /* TrouterEventUtilTests.swift */; };
 		D110F50A258D604B001FA3CD /* AzureCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D110F509258D604B001FA3CD /* AzureCore.framework */; };
 		D13CE65125BFB6D700415467 /* listReadReceipts.json in Resources */ = {isa = PBXBuildFile; fileRef = D13CE64E25BFB69100415467 /* listReadReceipts.json */; };
 		D147E62D25CE242C001CFB5D /* AzureCommunicationChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "AzureCommunicationChat::AzureCommunicationChat::Product" /* AzureCommunicationChat.framework */; };
@@ -239,6 +241,7 @@
 		D10C3BCD25A63F7800A181E3 /* listParticipants.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = listParticipants.json; sourceTree = "<group>"; };
 		D10C3BD325A660AF00A181E3 /* listMessages.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = listMessages.json; sourceTree = "<group>"; };
 		D10C3BD925A66D4D00A181E3 /* listThreads.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = listThreads.json; sourceTree = "<group>"; };
+		D10F55FC26E1873600742727 /* TrouterEventUtilTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrouterEventUtilTests.swift; sourceTree = "<group>"; };
 		D110F509258D604B001FA3CD /* AzureCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AzureCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D13CE64E25BFB69100415467 /* listReadReceipts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = listReadReceipts.json; sourceTree = "<group>"; };
 		D147E62825CE242C001CFB5D /* AzureCommunicationChatUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AzureCommunicationChatUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -519,6 +522,7 @@
 				D1CD93AB258D6C0300409613 /* Util */,
 				D1B7EAFC257F03A1004F384A /* Info.plist */,
 				0AE5BA06267D25AD006B93B7 /* TestSettings.swift */,
+				D10F55FC26E1873600742727 /* TrouterEventUtilTests.swift */,
 				8840448725D5DD7900A194DC /* IdentifierSerializerTests.swift */,
 				0ECA8CD1258181A5006760F7 /* ChatClientUnitTests.swift */,
 				0ECA8D08258432DC006760F7 /* ChatThreadClientUnitTests.swift */,
@@ -879,6 +883,8 @@
 				D147E64025CE244F001CFB5D /* ChatThreadClientUnitTests.swift in Sources */,
 				D1AEA09C2608EE3700849D5C /* Util.swift in Sources */,
 				D187D9B126151DB900C233B7 /* IdentifierSerializerTests.swift in Sources */,
+				D10F55FB26E186F200742727 /* TestSettings.swift in Sources */,
+				D10F55FE26E1874700742727 /* TrouterEventUtilTests.swift in Sources */,
 				D147E63925CE244A001CFB5D /* ChatClientUnitTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
