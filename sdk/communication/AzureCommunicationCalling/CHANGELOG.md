@@ -5,7 +5,7 @@
 ### Bugs Fixed
 - `IncomingCall.accept` will now throw errors when trying to accept a terminated call or if already in an active call.
 - SDK rebuilt with latest available AzureCommunicationCommon `1.0.2` ([#344](https://github.com/Azure/Communication/issues/344)).
-- Using `CallKit` implementation in SDK and phone is locked and when another incoming call is recieved, accepting the new call operation now completes successfully. 
+- Using `CallKit` implementation in SDK when already in an incoming call another incoming call is recieved, accepting the new call operation now completes successfully.
 
 ## 2.0.0-beta.1 (2021-07-14)
 
