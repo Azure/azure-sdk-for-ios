@@ -1,5 +1,12 @@
 # Release History
 
+## 2.0.1-beta.1 (2021-09-09)
+
+### Bugs Fixed
+- `IncomingCall.accept` will now throw errors when trying to accept a terminated call or if already in an active call.
+- SDK rebuilt with latest available AzureCommunicationCommon `1.0.2` ([#344](https://github.com/Azure/Communication/issues/344)).
+- Using `CallKit` implementation in SDK when already in an incoming call another incoming call is recieved, accepting the new call operation now completes successfully.
+
 ## 2.0.0-beta.1 (2021-07-14)
 
 *NOTE: Previously released version `1.2.0-beta.1` is functionally identical to `2.0.0-beta.1` version and the only difference is in version number and only `2.0.0-beta.1` version will be available in cocoapods.*
