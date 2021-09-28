@@ -26,29 +26,14 @@
 
 import Foundation
 
-protocol TrouterPayload: Codable {
-    var eventId: Int { get }
-}
-
-/// ChatMessagePayload that all message notification payloads conform to.
-protocol ChatMessagePayload: Codable {
-    var senderId: String { get }
-    var recipientId: String { get }
-    var groupId: String { get }
-}
-
-/// ChatThreadPayload that all chat thread notification payloads conform to.
-protocol ChatThreadPayload: Codable {
-    var threadId: String { get }
-    var version: String { get }
-}
-
-/// BasePayload for a generic notification.
-struct BasePayload: TrouterPayload {
+struct BasePayload: Codable {
     let eventId: Int
+    let senderId: String
+    let recipientId: String
+    let groupId: String
 }
 
-struct MessageReceivedPayload: TrouterPayload, ChatMessagePayload {
+struct MessageReceivedPayload: Decodable {
     let eventId: Int
     let senderId: String
     let recipientMri: String
@@ -65,7 +50,7 @@ struct MessageReceivedPayload: TrouterPayload, ChatMessagePayload {
     let acsChatMessageMetadata: String
 }
 
-struct TypingIndicatorReceivedPayload: TrouterPayload, ChatMessagePayload {
+struct TypingIndicatorReceivedPayload: Decodable {
     let eventId: Int
     let senderId: String
     let recipientMri: String
@@ -75,14 +60,14 @@ struct TypingIndicatorReceivedPayload: TrouterPayload, ChatMessagePayload {
     let senderDisplayName: String
 }
 
-struct ReadReceiptMessageBody: Codable {
+struct ReadReceiptMessageBody: Decodable {
     let user: String
     let consumptionhorizon: String
     let messageVisibilityTime: Int
     let version: String
 }
 
-struct ReadReceiptReceivedPayload: TrouterPayload, ChatMessagePayload {
+struct ReadReceiptReceivedPayload: Decodable {
     let eventId: Int
     let senderId: String
     let recipientMri: String
@@ -92,7 +77,7 @@ struct ReadReceiptReceivedPayload: TrouterPayload, ChatMessagePayload {
     let messageBody: String
 }
 
-struct MessageEditedPayload: TrouterPayload, ChatMessagePayload {
+struct MessageEditedPayload: Decodable {
     let eventId: Int
     let senderId: String
     let recipientMri: String
@@ -108,7 +93,7 @@ struct MessageEditedPayload: TrouterPayload, ChatMessagePayload {
     let acsChatMessageMetadata: String
 }
 
-struct MessageDeletedPayload: TrouterPayload, ChatMessagePayload {
+struct MessageDeletedPayload: Decodable {
     let eventId: Int
     let senderId: String
     let recipientMri: String
@@ -134,7 +119,7 @@ struct ChatParticipantPayload: Decodable {
     let shareHistoryTime: Int?
 }
 
-struct ChatThreadCreatedPayload: TrouterPayload, ChatThreadPayload {
+struct ChatThreadCreatedPayload: Decodable {
     let eventId: Int
     let threadId: String
     let version: String
@@ -144,11 +129,11 @@ struct ChatThreadCreatedPayload: TrouterPayload, ChatThreadPayload {
     let properties: String
 }
 
-struct ChatThreadPropertiesPayload: Codable {
+struct ChatThreadPropertiesPayload: Decodable {
     let topic: String
 }
 
-struct ChatThreadPropertiesUpdatedPayload: TrouterPayload, ChatThreadPayload {
+struct ChatThreadPropertiesUpdatedPayload: Decodable {
     let eventId: Int
     let threadId: String
     let version: String
@@ -157,7 +142,7 @@ struct ChatThreadPropertiesUpdatedPayload: TrouterPayload, ChatThreadPayload {
     let properties: String
 }
 
-struct ChatThreadDeletedPayload: TrouterPayload, ChatThreadPayload {
+struct ChatThreadDeletedPayload: Decodable {
     let eventId: Int
     let threadId: String
     let version: String
@@ -165,7 +150,7 @@ struct ChatThreadDeletedPayload: TrouterPayload, ChatThreadPayload {
     let deletedBy: String
 }
 
-struct ParticipantsAddedPayload: TrouterPayload, ChatThreadPayload {
+struct ParticipantsAddedPayload: Decodable {
     let eventId: Int
     let threadId: String
     let version: String
@@ -174,7 +159,7 @@ struct ParticipantsAddedPayload: TrouterPayload, ChatThreadPayload {
     let participantsAdded: String
 }
 
-struct ParticipantsRemovedPayload: TrouterPayload, ChatThreadPayload {
+struct ParticipantsRemovedPayload: Decodable {
     let eventId: Int
     let threadId: String
     let version: String
