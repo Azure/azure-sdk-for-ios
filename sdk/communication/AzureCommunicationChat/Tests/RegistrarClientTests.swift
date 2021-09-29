@@ -38,8 +38,11 @@ class RegistrarClientTests: XCTestCase {
 
     override func setUpWithError() throws {
         registrarEndpoint = (mode != "playback") ? RegistrarSettings.endpoint : "https://endpoint/registrations"
-        let token = generateFakeToken()
+
+        let settings = TestSettings()
+        let token = settings.token
         let credential = try CommunicationTokenCredential(token: token)
+
         let registrationId = UUID().uuidString
 
         registrarClient = try RegistrarClient(
