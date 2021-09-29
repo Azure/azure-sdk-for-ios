@@ -81,7 +81,12 @@ class TrouterEventUtilTests: XCTestCase {
                 body: payload
             )
 
-            let result = try TrouterEventUtil.create(chatEvent: .chatMessageReceived, from: trouterRequest)
+            guard let data = trouterRequest.body.data(using: .utf8) else {
+                XCTFail("Creating chat event data failed.")
+                return
+            }
+
+            let result = try TrouterEventUtil.create(chatEvent: .chatMessageReceived, from: data)
 
             switch result {
             case let .chatMessageReceivedEvent(event):
@@ -120,7 +125,12 @@ class TrouterEventUtilTests: XCTestCase {
                 body: payload
             )
 
-            let result = try TrouterEventUtil.create(chatEvent: .chatMessageReceived, from: trouterRequest)
+            guard let data = trouterRequest.body.data(using: .utf8) else {
+                XCTFail("Creating chat event data failed.")
+                return
+            }
+
+            let result = try TrouterEventUtil.create(chatEvent: .chatMessageReceived, from: data)
 
             switch result {
             case let .chatMessageReceivedEvent(event):
@@ -161,7 +171,12 @@ class TrouterEventUtilTests: XCTestCase {
                 body: payload
             )
 
-            let result = try TrouterEventUtil.create(chatEvent: .chatMessageReceived, from: trouterRequest)
+            guard let data = trouterRequest.body.data(using: .utf8) else {
+                XCTFail("Creating chat event data failed.")
+                return
+            }
+
+            let result = try TrouterEventUtil.create(chatEvent: .chatMessageReceived, from: data)
 
             switch result {
             case let .chatMessageReceivedEvent(event):
@@ -224,7 +239,12 @@ class TrouterEventUtilTests: XCTestCase {
                 body: payload
             )
 
-            let result = try TrouterEventUtil.create(chatEvent: .chatMessageEdited, from: trouterRequest)
+            guard let data = trouterRequest.body.data(using: .utf8) else {
+                XCTFail("Creating chat event data failed.")
+                return
+            }
+
+            let result = try TrouterEventUtil.create(chatEvent: .chatMessageEdited, from: data)
 
             switch result {
             case let .chatMessageEdited(event):
@@ -266,7 +286,12 @@ class TrouterEventUtilTests: XCTestCase {
                 body: payload
             )
 
-            let result = try TrouterEventUtil.create(chatEvent: .chatMessageEdited, from: trouterRequest)
+            guard let data = trouterRequest.body.data(using: .utf8) else {
+                XCTFail("Creating chat event data failed.")
+                return
+            }
+
+            let result = try TrouterEventUtil.create(chatEvent: .chatMessageEdited, from: data)
 
             switch result {
             case let .chatMessageEdited(event):
@@ -310,7 +335,12 @@ class TrouterEventUtilTests: XCTestCase {
                 body: payload
             )
 
-            let result = try TrouterEventUtil.create(chatEvent: .chatMessageEdited, from: trouterRequest)
+            guard let data = trouterRequest.body.data(using: .utf8) else {
+                XCTFail("Creating chat event data failed.")
+                return
+            }
+
+            let result = try TrouterEventUtil.create(chatEvent: .chatMessageEdited, from: data)
 
             switch result {
             case let .chatMessageEdited(event):
@@ -370,7 +400,12 @@ class TrouterEventUtilTests: XCTestCase {
                 body: payload
             )
 
-            let result = try TrouterEventUtil.create(chatEvent: .chatMessageDeleted, from: trouterRequest)
+            guard let data = trouterRequest.body.data(using: .utf8) else {
+                XCTFail("Creating chat event data failed.")
+                return
+            }
+
+            let result = try TrouterEventUtil.create(chatEvent: .chatMessageDeleted, from: data)
 
             switch result {
             case let .chatMessageDeleted(event):
@@ -428,7 +463,12 @@ class TrouterEventUtilTests: XCTestCase {
                 body: payload
             )
 
-            let result = try TrouterEventUtil.create(chatEvent: .chatMessageDeleted, from: trouterRequest)
+            guard let data = trouterRequest.body.data(using: .utf8) else {
+                XCTFail("Creating chat event data failed.")
+                return
+            }
+
+            let result = try TrouterEventUtil.create(chatEvent: .chatMessageDeleted, from: data)
 
             switch result {
             case let .chatMessageDeleted(event):
@@ -482,7 +522,12 @@ class TrouterEventUtilTests: XCTestCase {
                 body: payload
             )
 
-            let result = try TrouterEventUtil.create(chatEvent: .typingIndicatorReceived, from: trouterRequest)
+            guard let data = trouterRequest.body.data(using: .utf8) else {
+                XCTFail("Creating chat event data failed.")
+                return
+            }
+
+            let result = try TrouterEventUtil.create(chatEvent: .typingIndicatorReceived, from: data)
 
             switch result {
             case let .typingIndicatorReceived(event):
@@ -542,7 +587,12 @@ class TrouterEventUtilTests: XCTestCase {
                 body: payload
             )
 
-            let result = try TrouterEventUtil.create(chatEvent: .readReceiptReceived, from: trouterRequest)
+            guard let data = trouterRequest.body.data(using: .utf8) else {
+                XCTFail("Creating chat event data failed.")
+                return
+            }
+
+            let result = try TrouterEventUtil.create(chatEvent: .readReceiptReceived, from: data)
 
             switch result {
             case let .readReceiptReceived(event):
@@ -608,7 +658,12 @@ class TrouterEventUtilTests: XCTestCase {
                 body: payload
             )
 
-            let result = try TrouterEventUtil.create(chatEvent: .chatThreadCreated, from: trouterRequest)
+            guard let data = trouterRequest.body.data(using: .utf8) else {
+                XCTFail("Creating chat event data failed.")
+                return
+            }
+
+            let result = try TrouterEventUtil.create(chatEvent: .chatThreadCreated, from: data)
 
             switch result {
             case let .chatThreadCreated(event):
@@ -681,7 +736,12 @@ class TrouterEventUtilTests: XCTestCase {
                 body: payload
             )
 
-            let result = try TrouterEventUtil.create(chatEvent: .chatThreadCreated, from: trouterRequest)
+            guard let data = trouterRequest.body.data(using: .utf8) else {
+                XCTFail("Creating chat event data failed.")
+                return
+            }
+
+            let result = try TrouterEventUtil.create(chatEvent: .chatThreadCreated, from: data)
 
             switch result {
             case let .chatThreadCreated(event):
@@ -749,7 +809,12 @@ class TrouterEventUtilTests: XCTestCase {
                 body: payload
             )
 
-            let result = try TrouterEventUtil.create(chatEvent: .chatThreadPropertiesUpdated, from: trouterRequest)
+            guard let data = trouterRequest.body.data(using: .utf8) else {
+                XCTFail("Creating chat event data failed.")
+                return
+            }
+
+            let result = try TrouterEventUtil.create(chatEvent: .chatThreadPropertiesUpdated, from: data)
 
             switch result {
             case let .chatThreadPropertiesUpdated(event):
@@ -806,7 +871,12 @@ class TrouterEventUtilTests: XCTestCase {
                 body: payload
             )
 
-            let result = try TrouterEventUtil.create(chatEvent: .chatThreadPropertiesUpdated, from: trouterRequest)
+            guard let data = trouterRequest.body.data(using: .utf8) else {
+                XCTFail("Creating chat event data failed.")
+                return
+            }
+
+            let result = try TrouterEventUtil.create(chatEvent: .chatThreadPropertiesUpdated, from: data)
 
             switch result {
             case let .chatThreadPropertiesUpdated(event):
@@ -860,7 +930,12 @@ class TrouterEventUtilTests: XCTestCase {
                 body: payload
             )
 
-            let result = try TrouterEventUtil.create(chatEvent: .chatThreadDeleted, from: trouterRequest)
+            guard let data = trouterRequest.body.data(using: .utf8) else {
+                XCTFail("Creating chat event data failed.")
+                return
+            }
+
+            let result = try TrouterEventUtil.create(chatEvent: .chatThreadDeleted, from: data)
 
             switch result {
             case let .chatThreadDeleted(event):
@@ -911,7 +986,12 @@ class TrouterEventUtilTests: XCTestCase {
                 body: payload
             )
 
-            let result = try TrouterEventUtil.create(chatEvent: .chatThreadDeleted, from: trouterRequest)
+            guard let data = trouterRequest.body.data(using: .utf8) else {
+                XCTFail("Creating chat event data failed.")
+                return
+            }
+
+            let result = try TrouterEventUtil.create(chatEvent: .chatThreadDeleted, from: data)
 
             switch result {
             case let .chatThreadDeleted(event):
@@ -966,7 +1046,12 @@ class TrouterEventUtilTests: XCTestCase {
                 body: payload
             )
 
-            let result = try TrouterEventUtil.create(chatEvent: .participantsAdded, from: trouterRequest)
+            guard let data = trouterRequest.body.data(using: .utf8) else {
+                XCTFail("Creating chat event data failed.")
+                return
+            }
+
+            let result = try TrouterEventUtil.create(chatEvent: .participantsAdded, from: data)
 
             switch result {
             case let .participantsAdded(event):
@@ -1024,7 +1109,12 @@ class TrouterEventUtilTests: XCTestCase {
                 body: payload
             )
 
-            let result = try TrouterEventUtil.create(chatEvent: .participantsAdded, from: trouterRequest)
+            guard let data = trouterRequest.body.data(using: .utf8) else {
+                XCTFail("Creating chat event data failed.")
+                return
+            }
+
+            let result = try TrouterEventUtil.create(chatEvent: .participantsAdded, from: data)
 
             switch result {
             case let .participantsAdded(event):
