@@ -1,5 +1,9 @@
 # Release History
 
+## 1.1.0-beta.2 (2021-09-30)
+### Bugs Fixed
+- Fix missing AzureTest dependency in Package.swift
+
 ## 1.1.0-beta.1 (2021-09-30)
 ### New Features
 - `ChatMessage` supports metadata, provide optional metadata when sending a `ChatMessage`
