@@ -49,6 +49,11 @@ let package = Package(
             name: "Trouter",
             url: "https://github.com/microsoft/trouter-client-ios.git",
             .exact("0.1.0")
+        ),
+        .package(
+            name: "AzureTest",
+            url: "https://github.com/Azure/azure-sdk-for-ios.git",
+            .branch("main")
         )
     ],
     targets: [
