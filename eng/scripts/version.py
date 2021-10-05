@@ -154,13 +154,17 @@ def _update_podspecs(old, new, modules):
         with open(path, 'r') as f:
             data = json.loads(f.read())
 
+        name = data['name']
         data['version'] = new
+        old_branch = f'{name}_{old}'
+        new_branch = f'{name}_{new}'
+
         source = data.get('source', None)
         if source:
             if source.get('http', None):
-                source['http'] = source['http'].replace(old, new)
+                source['http'] = source['http'].replace(old_branch, new_branch)
             if source.get('tag', None):
-                source['tag'] = new
+                source['tag'] = new_branch
 
         dependencies = data.get('dependencies', None)
         for key, vals in (dependencies or {}).items():
