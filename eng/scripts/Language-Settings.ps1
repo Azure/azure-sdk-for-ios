@@ -33,13 +33,14 @@ function Get-AllPackageInfoFromRepo($serviceDirectory)
     return $allPackageProps
 }
 
-function SetPackageVersion ($PackageName, $Version, $ReleaseDate)
+function SetPackageVersion ($PackageName, $Version, $ReleaseDate, $ReplaceLatestEntryTitle=$true)
 {
   if($null -eq $ReleaseDate)
   {
     $ReleaseDate = Get-Date -Format "yyyy-MM-dd"
   }
-  & "$EngDir/scripts/Update-PkgVersion.ps1" -PackageName $PackageName -NewVersionString $Version -ReleaseDate $ReleaseDate
+  & "$EngDir/scripts/Update-PkgVersion.ps1" -PackageName $PackageName `
+  -NewVersionString $Version -ReleaseDate $ReleaseDate -ReplaceLatestEntryTitle $ReplaceLatestEntryTitle
 }
 
 function ComputeCocoaPodsSpecUrl($PackageId, $PackageVersion)

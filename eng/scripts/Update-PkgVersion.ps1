@@ -4,7 +4,8 @@ Param (
   [Parameter(Mandatory=$True)]
   [string] $PackageName,
   [string] $NewVersionString,
-  [string] $ReleaseDate
+  [string] $ReleaseDate,
+  [boolean] $ReplaceLatestEntryTitle=$true
 )
 
 . (Join-Path $PSScriptRoot ".." common scripts common.ps1)
@@ -25,7 +26,7 @@ else
     $packageSemVer = [AzureEngSemanticVersion]::new($NewVersionString)
     & "${EngCommonScriptsDir}/Update-ChangeLog.ps1" -Version $packageSemVer.ToString() `
     -ChangelogPath $pkgProperties.ChangeLogPath -Unreleased $False `
-    -ReplaceLatestEntryTitle $True -ReleaseDate $ReleaseDate
+    -ReplaceLatestEntryTitle $ReplaceLatestEntryTitle -ReleaseDate $ReleaseDate
 }
 
 $podSpecFile = Join-Path $pkgProperties.DirectoryPath "$($pkgProperties.Name).podspec.json"
