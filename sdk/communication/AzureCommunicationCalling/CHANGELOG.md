@@ -7,7 +7,7 @@
 ### Features Added
 - The call extended features now are accessed but the `feature` method call instead of the `api` like previous versions. Also, you can leverage the class `Features` to obtain the list of available features like `Features.RECORDING` and `Features.TRANSCRIPTION`. Classes `RecordingFeature` and `TranscriptionFeature` have been renamed to `RecordingCallFeature` and `TranscriptionCallFeature`. More information on [Record Calls](https://docs.microsoft.com/en-us/azure/communication-services/how-tos/calling-sdk/record-calls?pivots=platform-android#record-calls) and [Show Transcription state](https://docs.microsoft.com/en-us/azure/communication-services/how-tos/calling-sdk/call-transcription?pivots=platform-android)
 
-- New API to initialize `CallClient` with `CallClientOptions` with property `DiagnosticOptions` with properties `appName`, 'appVersion' and `tags` for telemetry purposes to identify which Application is using the SDK.
+- New API to initialize `CallClient` with `CallClientOptions` with property `DiagnosticOptions` with properties `appName`, `appVersion` and `tags` for telemetry purposes to identify which Application is using the SDK.
  
 ### Bugs fixed
 - Fix for crash when user inputs an invalid teams meeting link. [GH#198](https://github.com/Azure/Communication/issues/198)
