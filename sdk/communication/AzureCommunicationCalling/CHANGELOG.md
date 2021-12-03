@@ -1,5 +1,11 @@
 # Release History
-## 2.1.0-beta.1 (2021-12-11)
+
+## 2.2.0-beta.1 (2021-12-03)
+
+### Features Added
+- Added support for specifying emergency country code when creating `CallAgent` by setting the property `emergencyCountryCode` in `CallAgentOptions`.
+
+## 2.1.0-beta.1 (2021-11-12)
 
 ### Breaking Changes
 1. `Call.addParticipant` API is now a throwable type when trying to add a participant that is already to the call or when a participant is added to an unconnected call.
