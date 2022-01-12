@@ -4,3 +4,4 @@ variables:
   XcodeVersion: '12.3'
   SimulatorVersion: '14.3'
   SimulatorDevice: 'iPhone 12 Pro Max'
+  Package.EnableSBOMSigning: true
