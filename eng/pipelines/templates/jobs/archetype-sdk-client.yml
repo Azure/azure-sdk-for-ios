@@ -59,9 +59,10 @@ jobs:
         inputs:
           BuildDropPath: $(Build.ArtifactStagingDirectory)
 
-      - publish: $(Build.ArtifactStagingDirectory)/_manifest
-        displayName: 'Publish Package Manifest'
-        artifact: 'manifest'
+      - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
+        parameters:
+          ArtifactPath: '$(Build.ArtifactStagingDirectory)/_manifest'
+          ArtifactName: 'manifest'
 
 # TODO: Temporarily disabled due to issue #794
 #     - script: |
