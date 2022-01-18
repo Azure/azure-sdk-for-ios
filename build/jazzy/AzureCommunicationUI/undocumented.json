@@ -1,0 +1,12 @@
+{
+  "warnings": [
+    {
+      "file": "/Users/amylong/MS/Project/communication-ui-library-ios/AzureCommunicationUI/AzureCommunicationUI/CallCompositeOptions/CallCompositeOptions.swift",
+      "line": 19,
+      "symbol": "CallCompositeOptions.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/amylong/MS/Project/communication-ui-library-ios"
+}
