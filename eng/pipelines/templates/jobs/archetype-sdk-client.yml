@@ -56,6 +56,7 @@ jobs:
 
       - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
         displayName: 'Generate Package BOM'
+        condition: succeededOrFailed()
         inputs:
           BuildDropPath: $(Build.ArtifactStagingDirectory)
 
