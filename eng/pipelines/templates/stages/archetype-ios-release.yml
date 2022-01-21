@@ -29,7 +29,7 @@ stages:
               - template: ../variables/globals.yml
             pool:
               name: Azure Pipelines
-              vmImage: vs2017-win2016
+              vmImage: windows-2019
             strategy:
               runOnce:
                 deploy:
@@ -51,7 +51,7 @@ stages:
               - template: ../variables/globals.yml
             pool:
               name: Azure Pipelines
-              vmImage: macOS-10.15
+              vmImage: macOS-11
             strategy:
               runOnce:
                 deploy:
