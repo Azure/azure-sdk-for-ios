@@ -482,5 +482,8 @@
       <FileRef
          location = "group:AzureCore.yml">
       </FileRef>
+      <FileRef
+         location = "group:/Users/travisprescott/repos/azure-sdk-for-ios/jazzy/AzureCommunicationUI.yml">
+      </FileRef>
    </Group>
 </Workspace>
