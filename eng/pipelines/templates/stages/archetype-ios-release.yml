@@ -91,3 +91,12 @@ stages:
                             -GitSourcePath $(Pipeline.Workspace)/s/azure-sdk-for-ios/sdk/${{parameters.ServiceDirectory}}/${{artifact.name}}
                             -GitDestinationPath $(Pipeline.Workspace)/s/SwiftPM-${{artifact.name}}
                           pwsh: true
+                      - task: PowerShell@2
+                        displayName: Update Redirect README for mirror repo
+                        inputs:
+                          targetType: filePath
+                          filePath: azure-sdk-for-ios/eng/scripts/Publish-SwiftMirrorRedirectReadme.ps1
+                          arguments: >-
+                            -GitSourcePath $(Pipeline.Workspace)/s/azure-sdk-for-ios
+                            -GitDestinationPath $(Pipeline.Workspace)/s/SwiftPM-${{artifact.name}}
+                          pwsh: true
