@@ -40,7 +40,7 @@ if ($repoUrl -imatch ".*($Repository/SwiftPM-.*)") {
     $repoUrl = "https://github.com/$($matches[1])"
 }
 $readme = cat README.md
-$readme.Replace("MIRROR_REPO_URL", $repoUrl) | Out-File README.md
+$readme.Replace("#mirror_repo_url", $repoUrl) | Out-File README.md
 
 if (git status --porcelain) {
     LogDebug "Committing mirror README.md to $UpstreamBranch"
