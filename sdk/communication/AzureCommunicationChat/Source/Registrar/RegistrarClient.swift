@@ -98,7 +98,7 @@ internal class RegistrarClient {
             }
 
             var authenticatedRequest = request
-            authenticatedRequest.setValue(skypeToken, forHTTPHeaderField: RegistrarHeader.skypeTokenHeader)
+            authenticatedRequest.setValue(skypeToken, forHTTPHeaderField: RegistrarHeader.skypeTokenHeader.rawValue)
             completionHandler(authenticatedRequest, nil)
         }
     }
@@ -132,7 +132,7 @@ internal class RegistrarClient {
         var request = URLRequest(url: url)
         request.httpMethod = HTTPMethod.post.rawValue
         request.httpBody = data
-        request.setValue(RegistrarMimeType.json, forHTTPHeaderField: RegistrarHeader.contentType)
+        request.setValue(RegistrarMimeType.json.rawValue, forHTTPHeaderField: RegistrarHeader.contentType.rawValue)
 
         setAuthHeader(on: request, completionHandler: completionHandler)
     }
@@ -147,7 +147,7 @@ internal class RegistrarClient {
     ) {
         session.dataTask(with: request) { _, response, error in
             let httpResponse = response as? HTTPURLResponse
-            if (error != nil) || (httpResponse?.statusCode != RegistrarStatusCode.success) {
+            if (error != nil) || (httpResponse?.statusCode != RegistrarStatusCode.success.rawValue) {
                 completionHandler(httpResponse, AzureError.service("Registration request failed", error))
             } else {
                 completionHandler(httpResponse, nil)

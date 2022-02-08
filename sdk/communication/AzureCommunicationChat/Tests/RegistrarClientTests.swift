@@ -97,7 +97,7 @@ class RegistrarClientTests: XCTestCase {
             for: [transport]
         ) { response, error in
             XCTAssertNil(error)
-            XCTAssertEqual(response?.statusCode, RegistrarStatusCode.success)
+            XCTAssertEqual(response?.statusCode, RegistrarStatusCode.success.rawValue)
             expectation.fulfill()
         }
 
@@ -129,10 +129,10 @@ class RegistrarClientTests: XCTestCase {
             with: clientDescription,
             for: [transport]
         ) { response, error in
-            if error == nil, response?.statusCode == RegistrarStatusCode.success {
+            if error == nil, response?.statusCode == RegistrarStatusCode.success.rawValue {
                 self.registrarClient.deleteRegistration { response, error in
                     XCTAssertNil(error)
-                    XCTAssertEqual(response?.statusCode, RegistrarStatusCode.success)
+                    XCTAssertEqual(response?.statusCode, RegistrarStatusCode.success.rawValue)
                     expectation.fulfill()
                 }
             } else {

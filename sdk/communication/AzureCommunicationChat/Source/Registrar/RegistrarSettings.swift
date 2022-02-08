@@ -45,17 +45,17 @@ internal enum RegistrarSettings {
     static let context = ""
 }
 
-internal enum RegistrarHeader {
+internal enum RegistrarHeader: String {
     /// Content-type header.
-    static let contentType = "Content-Type"
+    case contentType = "Content-Type"
     /// Skype token for authentication.
-    static let skypeTokenHeader = "X-Skypetoken"
+    case skypeTokenHeader = "X-Skypetoken"
 }
 
-internal enum RegistrarMimeType {
-    static let json = "application/json"
+internal enum RegistrarMimeType: String {
+    case json = "application/json"
 }
 
-internal enum RegistrarStatusCode {
-    static let success = 202
+internal enum RegistrarStatusCode: Int {
+    case success = 202
 }

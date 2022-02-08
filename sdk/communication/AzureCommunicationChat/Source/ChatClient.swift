@@ -344,10 +344,10 @@ public class ChatClient {
     ///   - completionHandler: Success indicates request to register for notifications has been received.
     public func startPushNotifications(
         deviceToken: String,
-        completionHandler: @escaping (Result<Void, AzureError>, HTTPURLResponse?) -> Void
+        completionHandler: @escaping (Result<HTTPURLResponse?, AzureError>) -> Void
     ) {
         guard !pushNotificationsStarted else {
-            completionHandler(.failure(AzureError.client("Push notifications already started.")), nil)
+            completionHandler(.failure(AzureError.client("Push notifications already started.")))
             return
         }
 
@@ -358,6 +358,11 @@ public class ChatClient {
                 credential: credential,
                 registrationId: getRegistrationId()
             )
+            
+            guard let registrarClient = registrarClient else {
+                completionHandler(.failure(AzureError.client("Failed to enable push notifications.")))
+                return
+            }
 
             // Client description should match valid APNS templates
             let clientDescription = RegistrarClientDescription(
@@ -376,38 +381,42 @@ public class ChatClient {
             )
 
             // Register for push notifications
-            registrarClient?.setRegistration(with: clientDescription, for: [transport]) { response, error in
+            registrarClient.setRegistration(with: clientDescription, for: [transport]) { response, error in
                 if let error = error {
-                    completionHandler(
-                        .failure(AzureError.client("Failed to start push notifications", error)),
-                        response
-                    )
+                    completionHandler(.failure(AzureError.client("Failed to start push notifications", error)))
                 } else {
                     self.pushNotificationsStarted = true
-                    completionHandler(.success(()), response)
+                    completionHandler(.success(response))
                 }
             }
         } catch {
             options.logger.error("Failed to start push notifications with error: \(error)")
+            completionHandler(.failure(AzureError.client("Invalid URL.", error)))
         }
     }
+
 
     /// Stop push notifications.
     /// - Parameter completionHandler: Success indicates push notifications have been stopped.
     public func stopPushNotifications(
-        completionHandler: @escaping (Result<Void, AzureError>, HTTPURLResponse?) -> Void
+        completionHandler: @escaping (Result<HTTPURLResponse?, AzureError>) -> Void
     ) {
         guard pushNotificationsStarted else {
-            completionHandler(.failure(AzureError.client("Push notifications are not enabled.")), nil)
+            completionHandler(.failure(AzureError.client("Push notifications are not enabled.")))
+            return
+        }
+        
+        guard let registrarClient = registrarClient else {
+            completionHandler(.failure(AzureError.client("Failed to stop push notifications.")))
             return
         }
 
-        registrarClient?.deleteRegistration { response, error in
+        registrarClient.deleteRegistration { response, error in
             if let error = error {
-                completionHandler(.failure(AzureError.client("Failed to stop push notifications", error)), response)
+                completionHandler(.failure(AzureError.client("Failed to stop push notifications", error)))
             } else {
                 self.pushNotificationsStarted = false
-                completionHandler(.success(()), response)
+                completionHandler(.success(response))
             }
         }
     }
@@ -416,9 +425,13 @@ public class ChatClient {
     /// - Parameters:
     ///   - notification: The APNS push notification.
     ///   - completionHandler: Receives the TrouterEvent from the push notification payload.
+    /// Handle the data payload for an incoming push notification.
+    /// - Parameters:
+    ///   - notification: The APNS push notification.
+    ///   - completionHandler: Receives the TrouterEvent from the push notification payload.
     public func handlePush(
         notification: [AnyHashable : Any],
-        completionHandler: TrouterEventHandler
+        completionHandler: PushNotificationEventHandler
     ) {
         guard let payload = notification["data"] as? [String: AnyObject] else {
             options.logger.error("Push notification does not contain data payload.")
@@ -431,12 +444,12 @@ public class ChatClient {
             // Determine the event type from the eventId
             let basePayload = try JSONDecoder().decode(BasePayload.self, from: data)
             let chatEventId = try ChatEventId(forCode: basePayload.eventId)
+            let chatEvent = try PushNotificationEvent(chatEventId: chatEventId, from: data)
 
-            let chatEvent = try TrouterEventUtil.create(chatEvent: chatEventId, from: data)
-
-            completionHandler(chatEvent)
+            completionHandler(chatEvent, nil)
         } catch {
             options.logger.error("Failed to handle push notification: \(error.localizedDescription)")
+            completionHandler(nil, error)
         }
     }
 }

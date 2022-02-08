@@ -25,13 +25,13 @@
 // --------------------------------------------------------------------------
 
 import Foundation
-import Trouter
-
-/// TrouterEventHandler for handling real-time notifications.
-public typealias TrouterEventHandler = (_ response: TrouterEvent) -> Void
-
-/// TrouterEvents.
-public enum TrouterEvent {
+import AzureCore
+ 
+/// PushNotificationEventHandler for handling push notifications.
+public typealias PushNotificationEventHandler = (_ response: PushNotificationEvent?, _ error: Error?) -> Void
+ 
+/// PushNotificationEvents.
+public enum PushNotificationEvent {
     case chatMessageReceivedEvent(ChatMessageReceivedEvent)
     case typingIndicatorReceived(TypingIndicatorReceivedEvent)
     case readReceiptReceived(ReadReceiptReceivedEvent)
@@ -42,47 +42,8 @@ public enum TrouterEvent {
     case chatThreadDeleted(ChatThreadDeletedEvent)
     case participantsAdded(ParticipantsAddedEvent)
     case participantsRemoved(ParticipantsRemovedEvent)
-
-    /// Initialize a TrouterEvent given the ChatEventId and the TrouterRequest that contains the event data.
-    /// - Parameters:
-    ///   - chatEventId: The ChatEventId.
-    ///   - request: The TrouterRequest that contains the event data.
-    init(chatEventId: ChatEventId, from request: TrouterRequest) throws {
-        switch chatEventId {
-        case ChatEventId.chatMessageReceived:
-            let event = try ChatMessageReceivedEvent(from: request)
-            self = .chatMessageReceivedEvent(event)
-        case .typingIndicatorReceived:
-            let event = try TypingIndicatorReceivedEvent(from: request)
-            self = .typingIndicatorReceived(event)
-        case .readReceiptReceived:
-            let event = try ReadReceiptReceivedEvent(from: request)
-            self = .readReceiptReceived(event)
-        case .chatMessageEdited:
-            let event = try ChatMessageEditedEvent(from: request)
-            self = .chatMessageEdited(event)
-        case .chatMessageDeleted:
-            let event = try ChatMessageDeletedEvent(from: request)
-            self = .chatMessageDeleted(event)
-        case .chatThreadCreated:
-            let event = try ChatThreadCreatedEvent(from: request)
-            self = .chatThreadCreated(event)
-        case .chatThreadPropertiesUpdated:
-            let event = try ChatThreadPropertiesUpdatedEvent(from: request)
-            self = .chatThreadPropertiesUpdated(event)
-        case .chatThreadDeleted:
-            let event = try ChatThreadDeletedEvent(from: request)
-            self = .chatThreadDeleted(event)
-        case .participantsAdded:
-            let event = try ParticipantsAddedEvent(from: request)
-            self = .participantsAdded(event)
-        case .participantsRemoved:
-            let event = try ParticipantsRemovedEvent(from: request)
-            self = .participantsRemoved(event)
-        }
-    }
-    
-    /// Initialize a TrouterEvent given the ChatEventId and the TrouterRequest that contains the event data.
+ 
+    /// Initialize a PushNotificationEvent given the ChatEventId and the event payload data.
     /// - Parameters:
     ///   - chatEventId: The ChatEventId.
     ///   - data: The payload Data.
@@ -91,12 +52,6 @@ public enum TrouterEvent {
         case ChatEventId.chatMessageReceived:
             let event = try ChatMessageReceivedEvent(from: data)
             self = .chatMessageReceivedEvent(event)
-        case .typingIndicatorReceived:
-            let event = try TypingIndicatorReceivedEvent(from: data)
-            self = .typingIndicatorReceived(event)
-        case .readReceiptReceived:
-            let event = try ReadReceiptReceivedEvent(from: data)
-            self = .readReceiptReceived(event)
         case .chatMessageEdited:
             let event = try ChatMessageEditedEvent(from: data)
             self = .chatMessageEdited(event)
@@ -118,6 +73,10 @@ public enum TrouterEvent {
         case .participantsRemoved:
             let event = try ParticipantsRemovedEvent(from: data)
             self = .participantsRemoved(event)
+        case .readReceiptReceived:
+            throw AzureError.client("Event 'readReceiptReceived' is unsupported")
+        case .typingIndicatorReceived:
+            throw AzureError.client("Event 'typingIndicatorReceived' is unsupported")
         }
     }
 }

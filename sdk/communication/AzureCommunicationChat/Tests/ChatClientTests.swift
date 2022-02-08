@@ -239,10 +239,10 @@ class ChatClientTests: XCTestCase {
         let expectation = self.expectation(description: "Start push notifications")
 
         chatClient.startPushNotifications(deviceToken: "mockDeviceToken") {
-            result, response in
+            result in
             switch result {
-            case .success:
-                XCTAssertEqual(response?.statusCode, RegistrarStatusCode.success)
+            case .success(let response):
+                XCTAssertEqual(response?.statusCode, RegistrarStatusCode.success.rawValue)
             case .failure:
                 XCTFail("Start push notifications failed.")
             }
@@ -257,19 +257,20 @@ class ChatClientTests: XCTestCase {
         }
     }
 
+    
     func test_StopPushNotifications_ReturnsSuccess() {
         let expectation = self.expectation(description: "Stop push notifications")
 
         // Start notifications first
         chatClient.startPushNotifications(deviceToken: "mockDeviceToken") {
-            result, response in
+            result in
             switch result {
             case .success:
                 // Stop notifications
-                self.chatClient.stopPushNotifications { result, response in
+                self.chatClient.stopPushNotifications { result in
                     switch result {
-                    case .success:
-                        XCTAssertEqual(response?.statusCode, RegistrarStatusCode.success)
+                    case .success(let response):
+                        XCTAssertEqual(response?.statusCode, RegistrarStatusCode.success.rawValue)
                     case .failure:
                         XCTFail("Stop push notifications failed.")
                     }
@@ -293,7 +294,7 @@ class ChatClientTests: XCTestCase {
         let expectation = self.expectation(description: "Stop push notifications")
 
         // Stop notifications without starting them
-        chatClient.stopPushNotifications { result, _ in
+        chatClient.stopPushNotifications { result in
             switch result {
             case .success:
                 XCTFail("Push notifications should not be enabled.")
@@ -310,4 +311,5 @@ class ChatClientTests: XCTestCase {
             }
         }
     }
+    
 }
