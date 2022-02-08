@@ -217,6 +217,10 @@ public class ContentDecodePolicy: PipelineStage {
         completionHandler: @escaping OnErrorCompletionHandler
     ) {
         let stream = pipelineResponse.value(forKey: "stream") as? Bool ?? false
+        var returnError = error
+        defer {
+            completionHandler(returnError, false)
+        }
         guard stream == false else { return }
         guard let contentType = pipelineResponse.httpResponse?.contentTypes?.first else { return }
         guard let deserializedError = try? deserialize(
@@ -226,12 +230,10 @@ public class ContentDecodePolicy: PipelineStage {
         ) as? Data,
             let innerErrorString = String(data: deserializedError, encoding: .utf8)
         else {
-            completionHandler(error, false)
             return
         }
         let innerError = AzureError.service(innerErrorString, nil)
-        let returnError = AzureError.service(error.message, innerError)
-        completionHandler(returnError, false)
+        returnError = AzureError.service(error.message, innerError)
     }
 
     // MARK: Internal Methods

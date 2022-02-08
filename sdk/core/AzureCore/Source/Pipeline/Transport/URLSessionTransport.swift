@@ -90,16 +90,20 @@ public class URLSessionTransport: TransportStage {
         if let cancellationToken = pipelineRequest.context?.value(forKey: .cancellationToken) as? CancellationToken {
             cancellationToken.start()
             if cancellationToken.isCanceled {
-                completionHandler(.failure(AzureError.client("Request canceled.")), nil)
+                completionHandler(.failure(AzureError.client("Request canceled")), nil)
                 return
             }
         }
 
         session.dataTask(with: urlRequest) { data, response, error in
+            if let error = error {
+                completionHandler(.failure(AzureError.service("Error", error)), nil)
+                return
+            }
             if let cancellationToken = pipelineRequest.context?
                 .value(forKey: .cancellationToken) as? CancellationToken {
                 if cancellationToken.isCanceled {
-                    completionHandler(.failure(AzureError.client("Request canceled.")), nil)
+                    completionHandler(.failure(AzureError.client("Request canceled")), nil)
                     return
                 }
             }
@@ -112,7 +116,7 @@ public class URLSessionTransport: TransportStage {
             let allowedStatusCodes = responseContext?.value(forKey: .allowedStatusCodes) as? [Int] ?? [200]
             if !allowedStatusCodes.contains(statusCode) {
                 // do not add the inner error, as it may require decoding from XML.
-                let error = AzureError.service("Service returned invalid status code [\(statusCode)].", nil)
+                let error = AzureError.service("Service returned invalid status code [\(statusCode)]", nil)
                 completionHandler(.failure(error), httpResponse)
             }
 
@@ -122,11 +126,7 @@ public class URLSessionTransport: TransportStage {
                 logger: logger,
                 context: responseContext
             )
-            if let error = error {
-                completionHandler(.failure(AzureError.service("Service error.", error)), httpResponse)
-            } else {
-                completionHandler(.success(pipelineResponse), httpResponse)
-            }
+            completionHandler(.success(pipelineResponse), httpResponse)
         }.resume()
     }
 }
