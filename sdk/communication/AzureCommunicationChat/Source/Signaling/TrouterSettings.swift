@@ -40,3 +40,11 @@ let defaultRegistrationData: TrouterUrlRegistrationData? = TrouterUrlRegistratio
 let defaultClientVersion: String = "1.0.0"
 let defaultTrouterHostname: String = "go.trouter.skype.com/v4/a"
 let defaultRegistrarHostnameAndBasePath: String = "edge.skype.com/registrar/prod"
+
+// GCC High gov cloud URLs
+let gcchTrouterHostname: String = "go.trouter.gov.teams.microsoft.us/v4/a";
+let gcchRegistrarHostnameAndBasePath: String = "registrar.gov.teams.microsoft.us";
+
+// DoD gov cloud URLs
+let gcchTrouterHostname: String = "go.trouter.dod.teams.microsoft.us/v4/a";
+let gcchRegistrarHostnameAndBasePath: String = "registrar.dod.teams.microsoft.us";
