@@ -27,6 +27,7 @@
 import Foundation
 import Trouter
 
+
 let defaultRegistrationData: TrouterUrlRegistrationData? = TrouterUrlRegistrationData.create(
     withApplicationId: "AcsiOS",
     registrationId: nil,
@@ -46,5 +47,28 @@ let gcchTrouterHostname: String = "go.trouter.gov.teams.microsoft.us/v4/a";
 let gcchRegistrarHostnameAndBasePath: String = "registrar.gov.teams.microsoft.us";
 
 // DoD gov cloud URLs
-let gcchTrouterHostname: String = "go.trouter.dod.teams.microsoft.us/v4/a";
-let gcchRegistrarHostnameAndBasePath: String = "registrar.dod.teams.microsoft.us";
+let dodTrouterHostname: String = "go.trouter.dod.teams.microsoft.us/v4/a";
+let dodRegistrarHostnameAndBasePath: String = "registrar.dod.teams.microsoft.us";
+
+func getTrouterSettings(skypeToken: String)->(trouterHostname: String, registrarHostnameAndBasePath: String){
+    if (isGcch(token)) return{
+        return(gcchTrouterHostname, gcchRegistrarHostnameAndBasePath)
+    }
+    if (isDod(token)) return{
+        return(dodTrouterHostname, dodRegistrarHostnameAndBasePath)
+    }
+    
+    return(defaultTrouterHostname, gcchRegistrarHostnameAndBasePath)
+}
+
+func isDod(id: String)-> Bool {
+    let gcchTeamsUserPrefix = "8:dod:"
+    let gcchAcsUserPrefix = "8:dod-acs:"
+    return (id.starts(with: gcchTeamsUserPrefix) || id.starts(with: gcchAcsUserPrefix))
+}
+
+func isGcch(id: String)-> Bool {
+    let gcchTeamsUserPrefix = "8:gcch:"
+    let gcchAcsUserPrefix = "8:gcch-acs:"
+    return (id.starts(with: gcchTeamsUserPrefix) || id.starts(with: gcchAcsUserPrefix))
+}
