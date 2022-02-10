@@ -58,7 +58,7 @@ class CommunicationSignalingClient {
             skypetokenProvider: communicationSkypeTokenProvider
         )
         
-        let trouterSettings = getTrouterSettings(communicationSkypeTokenProvider.token)
+        let trouterSettings = getTrouterSettings(skypeToken: communicationSkypeTokenProvider.token)
 
         selfHostedTrouterClient = SelfHostedTrouterClient.create(
             withClientVersion: defaultClientVersion,

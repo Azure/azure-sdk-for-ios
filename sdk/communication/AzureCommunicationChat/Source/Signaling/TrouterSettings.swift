@@ -51,10 +51,10 @@ let dodTrouterHostname: String = "go.trouter.dod.teams.microsoft.us/v4/a";
 let dodRegistrarHostnameAndBasePath: String = "registrar.dod.teams.microsoft.us";
 
 func getTrouterSettings(skypeToken: String)->(trouterHostname: String, registrarHostnameAndBasePath: String){
-    if (isGcch(skypeToken)){
+    if (isGcch(id: skypeToken)){
         return(gcchTrouterHostname, gcchRegistrarHostnameAndBasePath)
     }
-    if (isDod(skypeToken)){
+    if (isDod(id: skypeToken)){
         return(dodTrouterHostname, dodRegistrarHostnameAndBasePath)
     }
     
