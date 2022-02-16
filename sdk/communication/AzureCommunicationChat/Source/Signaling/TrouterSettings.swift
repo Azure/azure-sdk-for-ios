@@ -27,7 +27,6 @@
 import Foundation
 import Trouter
 
-
 let defaultRegistrationData: TrouterUrlRegistrationData? = TrouterUrlRegistrationData.create(
     withApplicationId: "AcsiOS",
     registrationId: nil,
@@ -43,28 +42,26 @@ let defaultTrouterHostname: String = "go.trouter.skype.com/v4/a"
 let defaultRegistrarHostnameAndBasePath: String = "edge.skype.com/registrar/prod"
 
 // GCC High gov cloud URLs
-let gcchTrouterHostname: String = "go.trouter.gov.teams.microsoft.us/v4/a";
-let gcchRegistrarHostnameAndBasePath: String = "registrar.gov.teams.microsoft.us";
+let gcchTrouterHostname: String = "go.trouter.gov.teams.microsoft.us/v4/a"
+let gcchRegistrarHostnameAndBasePath: String = "registrar.gov.teams.microsoft.us"
 
 // DoD gov cloud URLs
-let dodTrouterHostname: String = "go.trouter.dod.teams.microsoft.us/v4/a";
-let dodRegistrarHostnameAndBasePath: String = "registrar.dod.teams.microsoft.us";
+let dodTrouterHostname: String = "go.trouter.dod.teams.microsoft.us/v4/a"
+let dodRegistrarHostnameAndBasePath: String = "registrar.dod.teams.microsoft.us"
 
-func getTrouterSettings(token: String) throws ->(trouterHostname: String, registrarHostnameAndBasePath: String){
+public func getTrouterSettings(token: String) throws
+    -> (trouterHostname: String, registrarHostnameAndBasePath: String) {
     let jwt = try decode(jwtToken: token)
-    var skypeToken = ""
-    if (jwt["skypeid"] != nil){
-        skypeToken = jwt["skypeid"] as!String
-        
-        if (isGcch(id: skypeToken)){
-            return(gcchTrouterHostname, gcchRegistrarHostnameAndBasePath)
+    if let skypeToken = jwt["skypeid"] as? String {
+        if isGcch(id: skypeToken) {
+            return (gcchTrouterHostname, gcchRegistrarHostnameAndBasePath)
         }
-        if (isDod(id: skypeToken)){
-            return(dodTrouterHostname, dodRegistrarHostnameAndBasePath)
+        if isDod(id: skypeToken) {
+            return (dodTrouterHostname, dodRegistrarHostnameAndBasePath)
         }
     }
-    
-    return(defaultTrouterHostname, defaultRegistrarHostnameAndBasePath)
+
+    return (defaultTrouterHostname, defaultRegistrarHostnameAndBasePath)
 }
 
 func decode(jwtToken jwt: String) throws -> [String: Any] {
@@ -97,13 +94,13 @@ func decode(jwtToken jwt: String) throws -> [String: Any] {
     return try decodeJWTPart(segments[1])
 }
 
-func isDod(id: String)-> Bool {
+func isDod(id: String) -> Bool {
     let gcchTeamsUserPrefix = "dod:"
     let gcchAcsUserPrefix = "dod-acs:"
     return (id.starts(with: gcchTeamsUserPrefix) || id.starts(with: gcchAcsUserPrefix))
 }
 
-func isGcch(id: String)-> Bool {
+func isGcch(id: String) -> Bool {
     let gcchTeamsUserPrefix = "gcch:"
     let gcchAcsUserPrefix = "gcch-acs:"
     return (id.starts(with: gcchTeamsUserPrefix) || id.starts(with: gcchAcsUserPrefix))
