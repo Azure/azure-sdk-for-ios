@@ -49,7 +49,7 @@ let gcchRegistrarHostnameAndBasePath: String = "registrar.gov.teams.microsoft.us
 let dodTrouterHostname: String = "go.trouter.dod.teams.microsoft.us/v4/a"
 let dodRegistrarHostnameAndBasePath: String = "registrar.dod.teams.microsoft.us"
 
-public func getTrouterSettings(token: String) throws
+func getTrouterSettings(token: String) throws
     -> (trouterHostname: String, registrarHostnameAndBasePath: String) {
     let jwt = try decode(jwtToken: token)
     if let skypeToken = jwt["skypeid"] as? String {

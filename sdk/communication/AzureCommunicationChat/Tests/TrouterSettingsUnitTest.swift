@@ -24,7 +24,7 @@
 //
 // --------------------------------------------------------------------------
 
-import AzureCommunicationChat
+@testable import AzureCommunicationChat
 import AzureCommunicationCommon
 import AzureCore
 import OHHTTPStubs.Swift
@@ -32,17 +32,6 @@ import XCTest
 
 // swiftlint:disable all
 class TrouterSettingsUnitTests: XCTestCase {
-    let defaultTrouterHostname: String = "go.trouter.skype.com/v4/a"
-    let defaultRegistrarHostnameAndBasePath: String = "edge.skype.com/registrar/prod"
-
-    // GCC High gov cloud URLs
-    let gcchTrouterHostname: String = "go.trouter.gov.teams.microsoft.us/v4/a"
-    let gcchRegistrarHostnameAndBasePath: String = "registrar.gov.teams.microsoft.us"
-
-    // DoD gov cloud URLs
-    let dodTrouterHostname: String = "go.trouter.dod.teams.microsoft.us/v4/a"
-    let dodRegistrarHostnameAndBasePath: String = "registrar.dod.teams.microsoft.us"
-
     private var testSettings = TestSettings()
 
     func test_GetTrouterSettings_ReturnDefault() {
