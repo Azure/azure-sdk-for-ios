@@ -23,7 +23,6 @@
 // IN THE SOFTWARE.
 //
 // --------------------------------------------------------------------------
-
 import AzureCommunicationCommon
 import AzureCore
 import Foundation
@@ -344,7 +343,7 @@ public class ChatClient {
     ///   - completionHandler: Success indicates request to register for notifications has been received.
     public func startPushNotifications(
         deviceToken: String,
-        completionHandler: @escaping (Result<HTTPURLResponse?, AzureError>) -> Void
+        completionHandler: @escaping (Result<HTTPResponse?, AzureError>) -> Void
     ) {
         guard !pushNotificationsStarted else {
             completionHandler(.failure(AzureError.client("Push notifications already started.")))
@@ -352,11 +351,26 @@ public class ChatClient {
         }
 
         do {
+            // Internal options do not use the CommunicationSignalingErrorHandler
+            let internalOptions = AzureCommunicationChatClientOptionsInternal(
+                apiVersion: AzureCommunicationChatClientOptionsInternal.ApiVersion(options.apiVersion),
+                logger: options.logger,
+                telemetryOptions: options.telemetryOptions,
+                transportOptions: options.transportOptions,
+                dispatchQueue: options.dispatchQueue
+            )
+
+            let communicationCredential = TokenCredentialAdapter(credential)
+            let authPolicy = BearerTokenCredentialPolicy(credential: communicationCredential, scopes: [])
+
+            
             // Initialize the RegistrarClient
             registrarClient = try RegistrarClient(
                 endpoint: RegistrarSettings.endpoint,
                 credential: credential,
-                registrationId: getRegistrationId()
+                registrationId: getRegistrationId(),
+                authPolicy: authPolicy,
+                withOptions: internalOptions
             )
             
             guard let registrarClient = registrarClient else {
@@ -381,16 +395,18 @@ public class ChatClient {
             )
 
             // Register for push notifications
-            registrarClient.setRegistration(with: clientDescription, for: [transport]) { response, error in
-                if let error = error {
-                    completionHandler(.failure(AzureError.client("Failed to start push notifications", error)))
-                } else {
+            registrarClient.setRegistration(with: clientDescription, for: [transport]) { result in
+                switch result {
+                case .success(let response):
                     self.pushNotificationsStarted = true
                     completionHandler(.success(response))
+                case .failure(let error):
+                    self.options.logger.error("Failed to start push notifications with error: \(error.localizedDescription)")
+                    completionHandler(.failure(AzureError.client("Failed to start push notifications", error)))
                 }
             }
         } catch {
-            options.logger.error("Failed to start push notifications with error: \(error)")
+            options.logger.error("Failed to start push notifications with error: \(error.localizedDescription)")
             completionHandler(.failure(AzureError.client("Invalid URL.", error)))
         }
     }
@@ -399,24 +415,21 @@ public class ChatClient {
     /// Stop push notifications.
     /// - Parameter completionHandler: Success indicates push notifications have been stopped.
     public func stopPushNotifications(
-        completionHandler: @escaping (Result<HTTPURLResponse?, AzureError>) -> Void
+        completionHandler: @escaping (Result<HTTPResponse?, AzureError>) -> Void
     ) {
         guard pushNotificationsStarted else {
             completionHandler(.failure(AzureError.client("Push notifications are not enabled.")))
             return
         }
-        
-        guard let registrarClient = registrarClient else {
-            completionHandler(.failure(AzureError.client("Failed to stop push notifications.")))
-            return
-        }
 
-        registrarClient.deleteRegistration { response, error in
-            if let error = error {
-                completionHandler(.failure(AzureError.client("Failed to stop push notifications", error)))
-            } else {
+        registrarClient?.deleteRegistration { result in
+            switch result {
+            case .success(let response):
                 self.pushNotificationsStarted = false
                 completionHandler(.success(response))
+            case .failure(let error):
+                self.options.logger.error("Failed to stop push notifications with error: \(error.localizedDescription)")
+                completionHandler(.failure(AzureError.client("Failed to stop push notifications", error)))
             }
         }
     }
@@ -424,11 +437,7 @@ public class ChatClient {
     /// Handle the data payload for an incoming push notification.
     /// - Parameters:
     ///   - notification: The APNS push notification.
-    ///   - completionHandler: Receives the TrouterEvent from the push notification payload.
-    /// Handle the data payload for an incoming push notification.
-    /// - Parameters:
-    ///   - notification: The APNS push notification.
-    ///   - completionHandler: Receives the TrouterEvent from the push notification payload.
+    ///   - completionHandler: Receives the PushNotificationEvent from the push notification payload.
     public func handlePush(
         notification: [AnyHashable : Any],
         completionHandler: PushNotificationEventHandler
