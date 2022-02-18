@@ -58,11 +58,13 @@ class CommunicationSignalingClient {
             skypetokenProvider: communicationSkypeTokenProvider
         )
 
-        selfHostedTrouterClient = SelfHostedTrouterClient.create(
+        let trouterSettings = try getTrouterSettings(token: communicationSkypeTokenProvider.token)
+
+        self.selfHostedTrouterClient = SelfHostedTrouterClient.create(
             withClientVersion: defaultClientVersion,
             authHeadersProvider: trouterSkypeTokenHeaderProvider,
             dataCache: nil,
-            trouterHostname: defaultTrouterHostname
+            trouterHostname: trouterSettings.trouterHostname
         )
 
         guard let regData = defaultRegistrationData else {
@@ -72,7 +74,7 @@ class CommunicationSignalingClient {
         guard let trouterUrlRegistrar = TrouterUrlRegistrar.create(
             with: communicationSkypeTokenProvider,
             registrationData: regData,
-            registrarHostnameAndBasePath: defaultRegistrarHostnameAndBasePath,
+            registrarHostnameAndBasePath: trouterSettings.registrarHostnameAndBasePath,
             maxRegistrationTtlS: 3600
         ) as? TrouterUrlRegistrar else {
             throw AzureError.client("Failed to create TrouterUrlRegistrar.")
