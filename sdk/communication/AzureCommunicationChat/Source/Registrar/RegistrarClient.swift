@@ -54,16 +54,16 @@ internal class RegistrarClient: PipelineClient {
         withOptions options: ClientOptions
         
     ) throws {
-        guard let registrarURL = URL(string: endpoint) else {
+        guard let registrarUrl = URL(string: endpoint) else {
             throw AzureError.client("Unable to form base registrar URL.")
         }
-        self.url = registrarURL
+        self.url = registrarUrl
         self.credential = credential
         self.registrationId = registrationId
         self.session = URLSession(configuration: sessionConfiguration ?? .default)
         self.options = options
         super.init(
-            endpoint: registrarURL,
+            endpoint: registrarUrl,
             transport: options.transportOptions.transport ?? URLSessionTransport(),
             policies: [
                 UserAgentPolicy(for: RegistrarClient.self, telemetryOptions: options.telemetryOptions),

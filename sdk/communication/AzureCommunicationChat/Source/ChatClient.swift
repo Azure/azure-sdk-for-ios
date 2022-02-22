@@ -422,7 +422,12 @@ public class ChatClient {
             return
         }
 
-        registrarClient?.deleteRegistration { result in
+        guard let registrarClient = registrarClient else {
+            completionHandler(.failure(AzureError.client("Failed to stop push notifications. There is no registrarClient.")))
+            return
+        }
+        
+        registrarClient.deleteRegistration { result in
             switch result {
             case .success(let response):
                 self.pushNotificationsStarted = false
