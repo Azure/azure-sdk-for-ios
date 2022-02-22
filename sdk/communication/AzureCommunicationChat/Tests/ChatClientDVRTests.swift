@@ -32,6 +32,7 @@ import DVR
 import XCTest
 
 class ChatClientDVRTests: RecordableXCTestCase<TestSettings> {
+    
     /// ChatClient initialized in setup.
     private var chatClient: ChatClient!
 
@@ -72,7 +73,7 @@ class ChatClientDVRTests: RecordableXCTestCase<TestSettings> {
             expectation.fulfill()
         }
 
-        waitForExpectations(timeout: 10.0) { error in
+        waitForExpectations(timeout: 30.0) { error in
             if let error = error {
                 XCTFail("Create thread timed out: \(error)")
             }
@@ -105,6 +106,81 @@ class ChatClientDVRTests: RecordableXCTestCase<TestSettings> {
         waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("List threads timed out: \(error)")
+            }
+        }
+    }
+    
+    func test_StartPushNotifications_ReturnsSuccess() {
+        let expectation = self.expectation(description: "Start push notifications")
+
+        chatClient.startPushNotifications(deviceToken: "mockDeviceToken") {
+            result in
+            switch result {
+            case .success(let response):
+                XCTAssertEqual(response?.statusCode, RegistrarStatusCode.success.rawValue)
+            case .failure:
+                XCTFail("Start push notifications failed.")
+            }
+
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 10.0) { error in
+            if let error = error {
+                XCTFail("Start push notifications timed out: \(error)")
+            }
+        }
+    }
+    
+    func test_StopPushNotifications_ReturnsSuccess() {
+        let expectation = self.expectation(description: "Stop push notifications")
+
+        // Start notifications first
+        chatClient.startPushNotifications(deviceToken: "mockDeviceToken") {
+            result in
+            switch result {
+            case .success:
+                // Stop notifications
+                self.chatClient.stopPushNotifications { result in
+                    switch result {
+                    case .success(let response):
+                        XCTAssertEqual(response?.statusCode, RegistrarStatusCode.success.rawValue)
+                    case .failure:
+                        XCTFail("Stop push notifications failed.")
+                    }
+                }
+            case .failure:
+                XCTFail("Start push notifications failed.")
+            }
+            
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 10.0) { error in
+            if let error = error {
+                XCTFail("Stop push notifications timed out: \(error)")
+            }
+        }
+    }
+
+    func test_StopPushNotifications_ReturnsFailure() {
+        let expectation = self.expectation(description: "Stop push notifications")
+
+        // Stop notifications without starting them
+        chatClient.stopPushNotifications { result in
+            switch result {
+            case .success:
+                XCTFail("Push notifications should not be enabled.")
+            case let .failure(error):
+                XCTAssertNotNil(error)
+            }
+
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 10.0) { error in
+            if let error = error {
+                XCTFail("Stop push notifications timed out: \(error)")
             }
         }
     }

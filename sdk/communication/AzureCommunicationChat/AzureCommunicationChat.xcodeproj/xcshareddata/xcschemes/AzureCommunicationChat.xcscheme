@@ -45,7 +45,7 @@
          </EnvironmentVariable>
          <EnvironmentVariable
             key = "SDK_REPO_ROOT"
-            value = "/Users/travisprescott/repos/azure-sdk-for-ios"
+            value = "/Users/ningxinlan/Desktop/Development/azure-sdk-for-ios"
             isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>

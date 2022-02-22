@@ -24,33 +24,85 @@
 //
 // --------------------------------------------------------------------------
 
+@testable import AzureCommunicationChat
 import AzureCommunicationCommon
+import AzureCore
 import OHHTTPStubs.Swift
 import AzureTest
+import DVR
 import XCTest
 
-class RegistrarClientTests: XCTestCase {
+class RegistrarClientTests: RecordableXCTestCase<TestSettings> {
+    /*
     private var mode = environmentVariable(forKey: "TEST_MODE", default: "playback")
 
     private var registrarEndpoint: String!
 
     private var registrarClient: RegistrarClient!
+    */
 
-    override func setUpWithError() throws {
+    //RegistrarClient initialied in setup
+    private var registrarClient: RegistrarClient!
+    
+    //add URLfilter in refactoring
+    private var urlFilter: RequestURLFilter {
+        let defaults = TestSettings()
+        let textFilter = RequestURLFilter()
+        textFilter.register(replacement: defaults.endpoint, for: settings.endpoint)
+        return textFilter
+    }
+    
+    override func setUpTestWithError() throws {
+        /*
         registrarEndpoint = (mode != "playback") ? RegistrarSettings.endpoint : "https://endpoint/registrations"
-
+        */
+        add(filter: urlFilter)
+        let registrarEndpoint = settings.endpoint
         let settings = TestSettings()
         let token = settings.token
         let credential = try CommunicationTokenCredential(token: token)
 
         let registrationId = UUID().uuidString
 
+        //add these in refactoring
+        let communicationCredential = TokenCredentialAdapter(credential)
+        let authPolicy = BearerTokenCredentialPolicy(credential: communicationCredential, scopes: [])
+        let userOptions = AzureCommunicationChatClientOptions(transportOptions: transportOptions)
+        var options = userOptions
+        if userOptions.telemetryOptions.applicationId == nil {
+            let apiVersion = AzureCommunicationChatClientOptions.ApiVersion(userOptions.apiVersion)
+            let telemetryOptions = TelemetryOptions(
+                telemetryDisabled: userOptions.telemetryOptions.telemetryDisabled,
+                applicationId: ""
+            )
+
+            options = AzureCommunicationChatClientOptions(
+                apiVersion: apiVersion,
+                logger: userOptions.logger,
+                telemetryOptions: telemetryOptions,
+                transportOptions: userOptions.transportOptions,
+                dispatchQueue: userOptions.dispatchQueue,
+                signalingErrorHandler: userOptions.signalingErrorHandler
+            )
+        }
+        
+        let internalOptions = AzureCommunicationChatClientOptionsInternal(
+            apiVersion: AzureCommunicationChatClientOptionsInternal.ApiVersion(options.apiVersion),
+            logger: options.logger,
+            telemetryOptions: options.telemetryOptions,
+            transportOptions: options.transportOptions,
+            dispatchQueue: options.dispatchQueue
+        )
+        
         registrarClient = try RegistrarClient(
             endpoint: registrarEndpoint,
             credential: credential,
-            registrationId: registrationId
+            registrationId: registrationId,
+            authPolicy: authPolicy,
+            withOptions: internalOptions
         )
 
+        /*
         // Register stubs
         if mode == "playback" {
             let bundle = Bundle(for: type(of: self))
@@ -62,8 +114,10 @@ class RegistrarClientTests: XCTestCase {
                 fixture(filePath: path, status: 202, headers: nil)
             }
         }
+        */
     }
 
+    /*
     override func tearDown() {
         // Delete any registrations that were created by tests
         if mode != "playback" {
@@ -74,7 +128,9 @@ class RegistrarClientTests: XCTestCase {
             }
         }
     }
+     */
 
+    //Question：Can I use the actual RegistrarSettings?
     func test_setRegistration_ReturnsSuccess() {
         let expectation = self.expectation(description: "Set Registration")
 
@@ -95,9 +151,13 @@ class RegistrarClientTests: XCTestCase {
         registrarClient.setRegistration(
             with: clientDescription,
             for: [transport]
-        ) { response, error in
-            XCTAssertNil(error)
-            XCTAssertEqual(response?.statusCode, RegistrarStatusCode.success.rawValue)
+        ) { result in
+            switch result {
+            case let .success(response):
+                XCTAssertEqual(response?.statusCode, RegistrarStatusCode.success.rawValue)
+            case let .failure(error):
+                XCTFail("Create thread failed with error: \(error)")
+            }
             expectation.fulfill()
         }
 
@@ -128,23 +188,31 @@ class RegistrarClientTests: XCTestCase {
         registrarClient.setRegistration(
             with: clientDescription,
             for: [transport]
-        ) { response, error in
-            if error == nil, response?.statusCode == RegistrarStatusCode.success.rawValue {
-                self.registrarClient.deleteRegistration { response, error in
-                    XCTAssertNil(error)
-                    XCTAssertEqual(response?.statusCode, RegistrarStatusCode.success.rawValue)
-                    expectation.fulfill()
+        ) { result in
+            switch result {
+            case let .success(response):
+                if response?.statusCode == RegistrarStatusCode.success.rawValue {
+                    self.registrarClient.deleteRegistration { result in
+                        switch result {
+                        case let .success(response):
+                            XCTAssertEqual(response?.statusCode, RegistrarStatusCode.success.rawValue)
+                        case let .failure(error):
+                            XCTFail("Create thread failed with error: \(error)")
+                        }
+                    }
+                } else {
+                    XCTFail("Failed to set registration.")
                 }
-            } else {
-                XCTFail("Failed to set registration.")
-                expectation.fulfill()
+            case let .failure(error):
+                    XCTFail("Create thread failed with error: \(error)")
             }
-        }
+        expectation.fulfill()
 
-        waitForExpectations(timeout: 1000.0) { error in
+        self.waitForExpectations(timeout: 10.0) { error in
             if let error = error {
                 XCTFail("Delete registration timed out: \(error)")
             }
         }
+      }
     }
 }

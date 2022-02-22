@@ -1,0 +1,32 @@
+{
+  "interactions" : [
+    {
+      "recorded_at" : 1645148619.8356471,
+      "response" : {
+        "body" : "",
+        "status" : 202,
+        "headers" : {
+          "ms-cv" : "iQft4z2SnU+HQgoheQi8JA.0",
+          "x-content-type-options" : "nosniff",
+          "x-cache" : "CONFIG_NOCACHE",
+          "Date" : "Fri, 18 Feb 2022 01:43:39 GMT",
+          "x-msedge-ref" : "Ref A: AC9610D5B40A4C0EBEF3648F1CA6BD78 Ref B: YVR311000110033 Ref C: 2022-02-18T01:43:39Z",
+          "Strict-Transport-Security" : "max-age=31536000; includeSubDomains",
+          "Content-Length" : "0"
+        },
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations"
+      },
+      "request" : {
+        "method" : "POST",
+        "url" : "https:\/\/edge.skype.com\/registrar\/prod\/v2\/registrations",
+        "headers" : {
+          "Date" : "Fri, 18 Feb 2022 01:43:39 GMT",
+          "User-Agent" : "azsdk-ios-AzureCommunicationChat\/1.1.0-beta.2 (MacBookPro16,1 - 21.3.0; xctest:13.2 -> iOS 9.0; en_US)",
+          "Content-Type" : "application\/json",
+          "X-Skypetoken" : "eyJhbGciOiJSUzI1NiIsImtpZCI6IjEwNCIsIng1dCI6IlJDM0NPdTV6UENIWlVKaVBlclM0SUl4Szh3ZyIsInR5cCI6IkpXVCJ9.eyJza3lwZWlkIjoiYWNzOjM3MzM4ZTlhLTI5MmUtNDI1MS04M2Y0LTFkNjk1N2E1M2E1NV8wMDAwMDAwZi1hYTQ3LTJhNjctMjkwYy0xMTNhMGQwMDM1ZmQiLCJzY3AiOjE3OTIsImNzaSI6IjE2NDUxNDY5MDAiLCJleHAiOjE2NDUyMzMzMDAsImFjc1Njb3BlIjoiY2hhdCIsInJlc291cmNlSWQiOiIzNzMzOGU5YS0yOTJlLTQyNTEtODNmNC0xZDY5NTdhNTNhNTUiLCJpYXQiOjE2NDUxNDY5MDB9.ENxDHQ3mFKJU4iauGhqMQq-NKhDHJUxfjXGQH8dm9pRQ2fbC-xCSDghcLKQ0xTPHLitkm68lbVj4BfegtVplPigMVGsohli-EzSb-_1MXdH77_UPJ-pfSA_Io0Zagwli19UOqnka-j5wnSUfveYNqdzSGfXH-tlxsPtcLWboD3TTiUUsHS34TZfHZFtVD7MukbFI0sobn3rf3AIMBz5aPLcLmXMG9P5nFa0Y7oiyBu14I_RVUQDSzjxZGs53j9Fixnxh5w4CjWiJPgw4-7nK8dUvYdN6x0jIy0hn-LxBB6JzOIKA54mGiUYUORgurIcAQKIQTqd2GoMrrWV0ePrScw"
+        }
+      }
+    }
+  ],
+  "name" : "test_StartPushNotifications_ReturnsSuccess"
+}

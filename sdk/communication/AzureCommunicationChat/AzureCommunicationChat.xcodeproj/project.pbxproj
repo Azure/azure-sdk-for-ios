@@ -140,6 +140,15 @@
 		D1FDDBE82672B73700F9D0B0 /* RegistrarSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10D5581266AB3F6009504FA /* RegistrarSettings.swift */; };
 		D1FDDBE92672B73A00F9D0B0 /* RegistrarRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A0C36B26703FE900D6780A /* RegistrarRequestBody.swift */; };
 		D1FDDBEA2672B73D00F9D0B0 /* RegistrarClientDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A0C36726703D5200D6780A /* RegistrarClientDescription.swift */; };
+		E06DC2F827BF2E5C0074CD45 /* test-settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = E06DC2F727BF2E5C0074CD45 /* test-settings.plist */; };
+		E06DC2FA27BF328D0074CD45 /* test_StartPushNotifications_ReturnsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = E06DC2F927BF328D0074CD45 /* test_StartPushNotifications_ReturnsSuccess.json */; };
+		E06DC2FC27BF366E0074CD45 /* test_StopPushNotifications_ReturnsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = E06DC2FB27BF366E0074CD45 /* test_StopPushNotifications_ReturnsSuccess.json */; };
+		E06DC30227BF60860074CD45 /* test_ListThreads_ReturnsChatThreadItems.json in Resources */ = {isa = PBXBuildFile; fileRef = E06DC2FE27BF60860074CD45 /* test_ListThreads_ReturnsChatThreadItems.json */; };
+		E06DC30327BF60860074CD45 /* test_StopPushNotifications_ReturnsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = E06DC2FF27BF60860074CD45 /* test_StopPushNotifications_ReturnsSuccess.json */; };
+		E06DC30427BF60860074CD45 /* test_CreateThread_WithoutParticipants.json in Resources */ = {isa = PBXBuildFile; fileRef = E06DC30027BF60860074CD45 /* test_CreateThread_WithoutParticipants.json */; };
+		E06DC30527BF60860074CD45 /* test_StartPushNotifications_ReturnsSuccess.json in Resources */ = {isa = PBXBuildFile; fileRef = E06DC30127BF60860074CD45 /* test_StartPushNotifications_ReturnsSuccess.json */; };
+		E06DC30627BF60B00074CD45 /* test_CreateThread_WithoutParticipants.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A6A5453268BAB8B001006AF /* test_CreateThread_WithoutParticipants.json */; };
+		E06DC30727BF60B60074CD45 /* test_ListThreads_ReturnsChatThreadItems.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A6A5454268BAB8B001006AF /* test_ListThreads_ReturnsChatThreadItems.json */; };
 		E09423C227B23A84006DBEE8 /* PushNotificationEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09423C127B23A84006DBEE8 /* PushNotificationEvent.swift */; };
 /* End PBXBuildFile section */
 
@@ -331,6 +340,13 @@
 		D1D617B226B317F70022231D /* ChatClientInternal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatClientInternal.swift; sourceTree = "<group>"; };
 		D1D617B426B317F70022231D /* TokenCredentialAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenCredentialAdapter.swift; sourceTree = "<group>"; };
 		D1D829BD25D1FFD700AC3CF3 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		E06DC2F727BF2E5C0074CD45 /* test-settings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "test-settings.plist"; sourceTree = "<group>"; };
+		E06DC2F927BF328D0074CD45 /* test_StartPushNotifications_ReturnsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_StartPushNotifications_ReturnsSuccess.json; sourceTree = "<group>"; };
+		E06DC2FB27BF366E0074CD45 /* test_StopPushNotifications_ReturnsSuccess.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test_StopPushNotifications_ReturnsSuccess.json; sourceTree = "<group>"; };
+		E06DC2FE27BF60860074CD45 /* test_ListThreads_ReturnsChatThreadItems.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = test_ListThreads_ReturnsChatThreadItems.json; path = Tests/Recordings/test_ListThreads_ReturnsChatThreadItems.json; sourceTree = "<group>"; };
+		E06DC2FF27BF60860074CD45 /* test_StopPushNotifications_ReturnsSuccess.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = test_StopPushNotifications_ReturnsSuccess.json; path = Tests/Recordings/test_StopPushNotifications_ReturnsSuccess.json; sourceTree = "<group>"; };
+		E06DC30027BF60860074CD45 /* test_CreateThread_WithoutParticipants.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = test_CreateThread_WithoutParticipants.json; path = Tests/Recordings/test_CreateThread_WithoutParticipants.json; sourceTree = "<group>"; };
+		E06DC30127BF60860074CD45 /* test_StartPushNotifications_ReturnsSuccess.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = test_StartPushNotifications_ReturnsSuccess.json; path = Tests/Recordings/test_StartPushNotifications_ReturnsSuccess.json; sourceTree = "<group>"; };
 		E09423C127B23A84006DBEE8 /* PushNotificationEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationEvent.swift; sourceTree = "<group>"; };
 		FCF18D210ADF02D5CBA71786 /* Pods-AzureCommunicationChatUnitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AzureCommunicationChatUnitTests.release.xcconfig"; path = "Target Support Files/Pods-AzureCommunicationChatUnitTests/Pods-AzureCommunicationChatUnitTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -400,6 +416,8 @@
 		0A9207EC26839B3100469608 /* Recordings */ = {
 			isa = PBXGroup;
 			children = (
+				E06DC2FB27BF366E0074CD45 /* test_StopPushNotifications_ReturnsSuccess.json */,
+				E06DC2F927BF328D0074CD45 /* test_StartPushNotifications_ReturnsSuccess.json */,
 				0A6A5453268BAB8B001006AF /* test_CreateThread_WithoutParticipants.json */,
 				0A6A5454268BAB8B001006AF /* test_ListThreads_ReturnsChatThreadItems.json */,
 			);
@@ -478,6 +496,7 @@
 				0A9207EC26839B3100469608 /* Recordings */,
 				D1CD93AB258D6C0300409613 /* Util */,
 				D1B7EAFC257F03A1004F384A /* Info.plist */,
+				E06DC2F727BF2E5C0074CD45 /* test-settings.plist */,
 				0AE5BA06267D25AD006B93B7 /* TestSettings.swift */,
 				D10F55FC26E1873600742727 /* TrouterEventUtilTests.swift */,
 				8840448725D5DD7900A194DC /* IdentifierSerializerTests.swift */,
@@ -699,6 +718,10 @@
 		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
+				E06DC30027BF60860074CD45 /* test_CreateThread_WithoutParticipants.json */,
+				E06DC2FE27BF60860074CD45 /* test_ListThreads_ReturnsChatThreadItems.json */,
+				E06DC30127BF60860074CD45 /* test_StartPushNotifications_ReturnsSuccess.json */,
+				E06DC2FF27BF60860074CD45 /* test_StopPushNotifications_ReturnsSuccess.json */,
 				0A5DCA352620FB7200A9ABF3 /* CHANGELOG.md */,
 				0A5DCA322620F99400A9ABF3 /* Package.swift */,
 				0A5DCA302620F95E00A9ABF3 /* AzureCommunicationChat.podspec.json */,
@@ -740,6 +763,7 @@
 				OBJ_120 /* Sources */,
 				OBJ_161 /* Frameworks */,
 				0ADDCFDA258D2AA900BD5E58 /* Format and Lint */,
+				E06DC2FD27BF60640074CD45 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -859,18 +883,34 @@
 				D1CD93EC258D6F1300409613 /* updateTopic.json in Resources */,
 				D1CD93C4258D6E7300409613 /* createThread.json in Resources */,
 				D1CD93D8258D6ECD00409613 /* removeParticipant.json in Resources */,
+				E06DC2FC27BF366E0074CD45 /* test_StopPushNotifications_ReturnsSuccess.json in Resources */,
 				D1CD93DC258D6EDA00409613 /* sendMessage.json in Resources */,
+				E06DC30627BF60B00074CD45 /* test_CreateThread_WithoutParticipants.json in Resources */,
+				E06DC30727BF60B60074CD45 /* test_ListThreads_ReturnsChatThreadItems.json in Resources */,
+				E06DC2FA27BF328D0074CD45 /* test_StartPushNotifications_ReturnsSuccess.json in Resources */,
 				D13CE65125BFB6D700415467 /* listReadReceipts.json in Resources */,
 				D1CD93C8258D6E8F00409613 /* deleteMessage.json in Resources */,
 				D10C3BDA25A66D4D00A181E3 /* listThreads.json in Resources */,
 				D1CD93D0258D6EAB00409613 /* getThread.json in Resources */,
 				D10C3BCE25A63F7800A181E3 /* listParticipants.json in Resources */,
 				D1CD93E4258D6EF700409613 /* sendTypingNotification.json in Resources */,
+				E06DC2F827BF2E5C0074CD45 /* test-settings.plist in Resources */,
 				D1CD93E0258D6EEA00409613 /* sendReadReceipt.json in Resources */,
 				D1CD93E8258D6F0600409613 /* updateMessage.json in Resources */,
 				D1CD93BE258D6E6200409613 /* addParticipants.json in Resources */,
 				D1FDDBE42672B6FA00F9D0B0 /* NoContent.json in Resources */,
 				D10C3BD425A660AF00A181E3 /* listMessages.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E06DC2FD27BF60640074CD45 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E06DC30227BF60860074CD45 /* test_ListThreads_ReturnsChatThreadItems.json in Resources */,
+				E06DC30327BF60860074CD45 /* test_StopPushNotifications_ReturnsSuccess.json in Resources */,
+				E06DC30427BF60860074CD45 /* test_CreateThread_WithoutParticipants.json in Resources */,
+				E06DC30527BF60860074CD45 /* test_StartPushNotifications_ReturnsSuccess.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
