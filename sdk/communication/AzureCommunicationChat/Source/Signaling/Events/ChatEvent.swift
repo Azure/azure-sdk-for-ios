@@ -29,6 +29,7 @@ import AzureCore
 import Foundation
 import Trouter
 
+// swiftlint:disable file_length
 /// Chat Participant for real-time notification events.
 public struct SignalingChatParticipant {
     // MARK: Properties
