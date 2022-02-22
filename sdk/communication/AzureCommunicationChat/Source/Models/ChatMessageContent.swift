@@ -130,7 +130,7 @@ public struct ChatMessageContent: Codable {
 
         // Encode Participant to ChatParticipant format
         if let participants = participants {
-            let chatParticipants = try participants.map { (participant) -> ChatParticipantInternal in
+            let chatParticipants = try participants.map { participant -> ChatParticipantInternal in
                 let identifierModel = try IdentifierSerializer.serialize(identifier: participant.id)
                 return ChatParticipantInternal(
                     communicationIdentifier: identifierModel,

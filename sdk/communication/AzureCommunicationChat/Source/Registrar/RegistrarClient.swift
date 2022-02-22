@@ -28,7 +28,6 @@ import AzureCommunicationCommon
 import AzureCore
 import Foundation
 
-
 internal class RegistrarClient: PipelineClient {
     // MARK: Properties
 
@@ -42,7 +41,7 @@ internal class RegistrarClient: PipelineClient {
     private let session: URLSession
     /// Options provided to configure this RegistrarClient
     internal let options: ClientOptions
-    
+
     // MARK: Initializers
 
     internal init(
@@ -52,7 +51,7 @@ internal class RegistrarClient: PipelineClient {
         sessionConfiguration: URLSessionConfiguration? = nil,
         authPolicy: Authenticating,
         withOptions options: ClientOptions
-        
+
     ) throws {
         guard let registrarUrl = URL(string: endpoint) else {
             throw AzureError.client("Unable to form base registrar URL.")
@@ -70,7 +69,7 @@ internal class RegistrarClient: PipelineClient {
                 RequestIdPolicy(),
                 AddDatePolicy(),
                 authPolicy,
-                LoggingPolicy(),
+                LoggingPolicy()
             ],
             logger: options.logger,
             options: options
@@ -113,13 +112,14 @@ internal class RegistrarClient: PipelineClient {
             completionHandler(nil, AzureError.client("Failed to serialize POST request body."))
             return
         }
-        
+
         guard let request =
-            try? HTTPRequest(method: HTTPMethod.post, url: url, data: data) else {
-                completionHandler(nil, AzureError.client("Failed to create POST request in registration process."))
-                return
+            try? HTTPRequest(method: HTTPMethod.post, url: url, data: data)
+        else {
+            completionHandler(nil, AzureError.client("Failed to create POST request in registration process."))
+            return
         }
-        
+
         setRequestHeader(on: request, completionHandler: completionHandler)
     }
 
@@ -128,11 +128,12 @@ internal class RegistrarClient: PipelineClient {
         completionHandler: @escaping (HTTPRequest?, AzureError?) -> Void
     ) {
         let url = self.url.appendingPathComponent("/\(registrationId)")
-        
+
         guard let request =
-                try? HTTPRequest(method: HTTPMethod.delete, url: url) else {
-                completionHandler(nil, AzureError.client("Failed to create DELETE request in registration process."))
-                return
+            try? HTTPRequest(method: HTTPMethod.delete, url: url)
+        else {
+            completionHandler(nil, AzureError.client("Failed to create DELETE request in registration process."))
+            return
         }
 
         setRequestHeader(on: request, completionHandler: completionHandler)
@@ -148,7 +149,7 @@ internal class RegistrarClient: PipelineClient {
     ) {
         credential.token { accessToken, error in
             do {
-                //Get token from CommunicationTokenCredential to set the authentication header
+                // Get token from CommunicationTokenCredential to set the authentication header
                 guard let skypeToken = accessToken?.token else {
                     completionHandler(
                         nil,
@@ -156,14 +157,19 @@ internal class RegistrarClient: PipelineClient {
                     )
                     return
                 }
-                
+
                 let httpHeaders: HTTPHeaders = [
-                    RegistrarHeader.contentType.rawValue : RegistrarMimeType.json.rawValue,
-                    RegistrarHeader.skypeTokenHeader.rawValue : skypeToken
+                    RegistrarHeader.contentType.rawValue: RegistrarMimeType.json.rawValue,
+                    RegistrarHeader.skypeTokenHeader.rawValue: skypeToken
                 ]
-                
-                let httpRequest = try HTTPRequest(method: request.httpMethod, url: request.url, headers: httpHeaders, data: request.data)
-                
+
+                let httpRequest = try HTTPRequest(
+                    method: request.httpMethod,
+                    url: request.url,
+                    headers: httpHeaders,
+                    data: request.data
+                )
+
                 completionHandler(httpRequest, nil)
             } catch {
                 let azureError = AzureError.client("Failed to add headers to the Register request.", error)
@@ -171,7 +177,6 @@ internal class RegistrarClient: PipelineClient {
             }
         }
     }
-    
 
     /// Sends an HTTP request to Registrar.
     /// - Parameters:
@@ -182,13 +187,13 @@ internal class RegistrarClient: PipelineClient {
         completionHandler: @escaping (Result<HTTPResponse?, AzureError>) -> Void
     ) {
         let dispatchQueue = DispatchQueue.main
-        
+
         let context = PipelineContext.of(keyValues: [
             ContextKey.allowedStatusCodes.rawValue: [202] as AnyObject
         ])
-        
+
         self.request(request, context: context) { result, httpResponse in
-            switch result{
+            switch result {
             case .success:
                 guard (httpResponse?.statusCode) != nil else {
                     let invalidStatusCodeError = AzureError.client("Didn't find a valid status code.")
@@ -227,10 +232,10 @@ internal class RegistrarClient: PipelineClient {
             }
 
             self.sendHttpRequest(request) { result in
-                switch result{
-                case .success(let response):
+                switch result {
+                case let .success(response):
                     completionHandler(.success(response))
-                case .failure(let error):
+                case let .failure(error):
                     completionHandler(.failure(AzureError.client("Registration request failed.", error)))
                 }
             }
@@ -250,14 +255,13 @@ internal class RegistrarClient: PipelineClient {
             }
 
             self.sendHttpRequest(request) { result in
-                switch result{
-                case .success(let response):
+                switch result {
+                case let .success(response):
                     completionHandler(.success(response))
-                case .failure(let error):
+                case let .failure(error):
                     completionHandler(.failure(AzureError.client("Registration request failed.", error)))
                 }
             }
         }
     }
 }
-

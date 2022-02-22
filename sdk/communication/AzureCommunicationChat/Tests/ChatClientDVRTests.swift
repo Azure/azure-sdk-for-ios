@@ -32,7 +32,6 @@ import DVR
 import XCTest
 
 class ChatClientDVRTests: RecordableXCTestCase<TestSettings> {
-    
     /// ChatClient initialized in setup.
     private var chatClient: ChatClient!
 
@@ -109,14 +108,14 @@ class ChatClientDVRTests: RecordableXCTestCase<TestSettings> {
             }
         }
     }
-    
+
     func test_StartPushNotifications_ReturnsSuccess() {
         let expectation = self.expectation(description: "Start push notifications")
 
         chatClient.startPushNotifications(deviceToken: "mockDeviceToken") {
             result in
             switch result {
-            case .success(let response):
+            case let .success(response):
                 XCTAssertEqual(response?.statusCode, RegistrarStatusCode.success.rawValue)
             case .failure:
                 XCTFail("Start push notifications failed.")
@@ -131,7 +130,7 @@ class ChatClientDVRTests: RecordableXCTestCase<TestSettings> {
             }
         }
     }
-    
+
     func test_StopPushNotifications_ReturnsSuccess() {
         let expectation = self.expectation(description: "Stop push notifications")
 
@@ -143,7 +142,7 @@ class ChatClientDVRTests: RecordableXCTestCase<TestSettings> {
                 // Stop notifications
                 self.chatClient.stopPushNotifications { result in
                     switch result {
-                    case .success(let response):
+                    case let .success(response):
                         XCTAssertEqual(response?.statusCode, RegistrarStatusCode.success.rawValue)
                     case .failure:
                         XCTFail("Stop push notifications failed.")
@@ -152,7 +151,7 @@ class ChatClientDVRTests: RecordableXCTestCase<TestSettings> {
             case .failure:
                 XCTFail("Start push notifications failed.")
             }
-            
+
             expectation.fulfill()
         }
 

@@ -127,7 +127,7 @@ public class ChatThreadClient {
     /// - Parameter participants: The array of ChatParticipants.
     /// - Returns: An array of ChatParticipantInternal.
     private func convert(participants: [ChatParticipant]) throws -> [ChatParticipantInternal] {
-        return try participants.map { (participant) -> ChatParticipantInternal in
+        return try participants.map { participant -> ChatParticipantInternal in
             let identifierModel = try IdentifierSerializer.serialize(identifier: participant.id)
             return ChatParticipantInternal(
                 communicationIdentifier: identifierModel,

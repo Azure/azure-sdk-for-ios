@@ -24,12 +24,12 @@
 //
 // --------------------------------------------------------------------------
 
-import Foundation
 import AzureCore
- 
+import Foundation
+
 /// PushNotificationEventHandler for handling push notifications.
 public typealias PushNotificationEventHandler = (_ response: PushNotificationEvent?, _ error: Error?) -> Void
- 
+
 /// PushNotificationEvents.
 public enum PushNotificationEvent {
     case chatMessageReceivedEvent(ChatMessageReceivedEvent)
@@ -42,7 +42,7 @@ public enum PushNotificationEvent {
     case chatThreadDeleted(ChatThreadDeletedEvent)
     case participantsAdded(ParticipantsAddedEvent)
     case participantsRemoved(ParticipantsRemovedEvent)
- 
+
     /// Initialize a PushNotificationEvent given the ChatEventId and the event payload data.
     /// - Parameters:
     ///   - chatEventId: The ChatEventId.

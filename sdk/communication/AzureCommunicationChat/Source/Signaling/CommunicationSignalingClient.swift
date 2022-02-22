@@ -58,7 +58,7 @@ class CommunicationSignalingClient {
             skypetokenProvider: communicationSkypeTokenProvider
         )
 
-        selfHostedTrouterClient = SelfHostedTrouterClient.create(
+        self.selfHostedTrouterClient = SelfHostedTrouterClient.create(
             withClientVersion: defaultClientVersion,
             authHeadersProvider: trouterSkypeTokenHeaderProvider,
             dataCache: nil,

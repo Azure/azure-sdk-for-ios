@@ -41,7 +41,7 @@ internal enum RegistrarSettings {
     // Transport Settings
     static let pushNotificationTransport = "APNS"
     // Max TTL is 180 days
-    static let ttl = 15552000
+    static let ttl = 15_552_000
     static let context = ""
 }
 

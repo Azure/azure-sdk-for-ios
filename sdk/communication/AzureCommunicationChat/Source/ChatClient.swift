@@ -103,7 +103,7 @@ public class ChatClient {
     }
 
     // MARK: Private Methods
-    
+
     /// Return unique registration id for push notifications.
     private func getRegistrationId() -> String {
         return UUID().uuidString
@@ -117,7 +117,7 @@ public class ChatClient {
             return nil
         }
 
-        return try participants.map { (participant) -> ChatParticipantInternal in
+        return try participants.map { participant -> ChatParticipantInternal in
             let identifierModel = try IdentifierSerializer.serialize(identifier: participant.id)
             return ChatParticipantInternal(
                 communicationIdentifier: identifierModel,
@@ -363,7 +363,6 @@ public class ChatClient {
             let communicationCredential = TokenCredentialAdapter(credential)
             let authPolicy = BearerTokenCredentialPolicy(credential: communicationCredential, scopes: [])
 
-            
             // Initialize the RegistrarClient
             registrarClient = try RegistrarClient(
                 endpoint: RegistrarSettings.endpoint,
@@ -372,7 +371,7 @@ public class ChatClient {
                 authPolicy: authPolicy,
                 withOptions: internalOptions
             )
-            
+
             guard let registrarClient = registrarClient else {
                 completionHandler(.failure(AzureError.client("Failed to enable push notifications.")))
                 return
@@ -397,11 +396,12 @@ public class ChatClient {
             // Register for push notifications
             registrarClient.setRegistration(with: clientDescription, for: [transport]) { result in
                 switch result {
-                case .success(let response):
+                case let .success(response):
                     self.pushNotificationsStarted = true
                     completionHandler(.success(response))
-                case .failure(let error):
-                    self.options.logger.error("Failed to start push notifications with error: \(error.localizedDescription)")
+                case let .failure(error):
+                    self.options.logger
+                        .error("Failed to start push notifications with error: \(error.localizedDescription)")
                     completionHandler(.failure(AzureError.client("Failed to start push notifications", error)))
                 }
             }
@@ -410,7 +410,6 @@ public class ChatClient {
             completionHandler(.failure(AzureError.client("Invalid URL.", error)))
         }
     }
-
 
     /// Stop push notifications.
     /// - Parameter completionHandler: Success indicates push notifications have been stopped.
@@ -423,16 +422,19 @@ public class ChatClient {
         }
 
         guard let registrarClient = registrarClient else {
-            completionHandler(.failure(AzureError.client("Failed to stop push notifications. There is no registrarClient.")))
+            completionHandler(.failure(
+                AzureError
+                    .client("Failed to stop push notifications. There is no registrarClient.")
+            ))
             return
         }
-        
+
         registrarClient.deleteRegistration { result in
             switch result {
-            case .success(let response):
+            case let .success(response):
                 self.pushNotificationsStarted = false
                 completionHandler(.success(response))
-            case .failure(let error):
+            case let .failure(error):
                 self.options.logger.error("Failed to stop push notifications with error: \(error.localizedDescription)")
                 completionHandler(.failure(AzureError.client("Failed to stop push notifications", error)))
             }
@@ -444,7 +446,7 @@ public class ChatClient {
     ///   - notification: The APNS push notification.
     ///   - completionHandler: Receives the PushNotificationEvent from the push notification payload.
     public func handlePush(
-        notification: [AnyHashable : Any],
+        notification: [AnyHashable: Any],
         completionHandler: PushNotificationEventHandler
     ) {
         guard let payload = notification["data"] as? [String: AnyObject] else {

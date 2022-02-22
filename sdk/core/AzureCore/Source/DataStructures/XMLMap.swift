@@ -166,7 +166,7 @@ public class XMLMap: Sequence, IteratorProtocol {
 
         // update the map with the map of the inner type
         let modelMap = XMLMap(withType: innerType, prefix: prefix)
-        map = map.merging(modelMap) { _, new in new }
+        self.map = map.merging(modelMap) { _, new in new }
     }
 
     // MARK: Public Methods

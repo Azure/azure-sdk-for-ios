@@ -241,7 +241,7 @@ class ChatClientTests: XCTestCase {
         chatClient.startPushNotifications(deviceToken: "mockDeviceToken") {
             result in
             switch result {
-            case .success(let response):
+            case let .success(response):
                 XCTAssertEqual(response?.statusCode, RegistrarStatusCode.success.rawValue)
             case .failure:
                 XCTFail("Start push notifications failed.")
@@ -257,7 +257,6 @@ class ChatClientTests: XCTestCase {
         }
     }
 
-    
     func test_StopPushNotifications_ReturnsSuccess() {
         let expectation = self.expectation(description: "Stop push notifications")
 
@@ -269,7 +268,7 @@ class ChatClientTests: XCTestCase {
                 // Stop notifications
                 self.chatClient.stopPushNotifications { result in
                     switch result {
-                    case .success(let response):
+                    case let .success(response):
                         XCTAssertEqual(response?.statusCode, RegistrarStatusCode.success.rawValue)
                     case .failure:
                         XCTFail("Stop push notifications failed.")
@@ -311,5 +310,4 @@ class ChatClientTests: XCTestCase {
             }
         }
     }
-    
 }

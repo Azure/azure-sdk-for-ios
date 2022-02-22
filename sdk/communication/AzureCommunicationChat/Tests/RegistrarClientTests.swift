@@ -27,35 +27,35 @@
 @testable import AzureCommunicationChat
 import AzureCommunicationCommon
 import AzureCore
-import OHHTTPStubs.Swift
 import AzureTest
 import DVR
+import OHHTTPStubs.Swift
 import XCTest
 
 class RegistrarClientTests: RecordableXCTestCase<TestSettings> {
     /*
-    private var mode = environmentVariable(forKey: "TEST_MODE", default: "playback")
+     private var mode = environmentVariable(forKey: "TEST_MODE", default: "playback")
 
-    private var registrarEndpoint: String!
+     private var registrarEndpoint: String!
 
+     private var registrarClient: RegistrarClient!
+     */
+
+    // RegistrarClient initialied in setup
     private var registrarClient: RegistrarClient!
-    */
 
-    //RegistrarClient initialied in setup
-    private var registrarClient: RegistrarClient!
-    
-    //add URLfilter in refactoring
+    // add URLfilter in refactoring
     private var urlFilter: RequestURLFilter {
         let defaults = TestSettings()
         let textFilter = RequestURLFilter()
         textFilter.register(replacement: defaults.endpoint, for: settings.endpoint)
         return textFilter
     }
-    
+
     override func setUpTestWithError() throws {
         /*
-        registrarEndpoint = (mode != "playback") ? RegistrarSettings.endpoint : "https://endpoint/registrations"
-        */
+         registrarEndpoint = (mode != "playback") ? RegistrarSettings.endpoint : "https://endpoint/registrations"
+         */
         add(filter: urlFilter)
         let registrarEndpoint = settings.endpoint
         let settings = TestSettings()
@@ -64,7 +64,7 @@ class RegistrarClientTests: RecordableXCTestCase<TestSettings> {
 
         let registrationId = UUID().uuidString
 
-        //add these in refactoring
+        // add these in refactoring
         let communicationCredential = TokenCredentialAdapter(credential)
         let authPolicy = BearerTokenCredentialPolicy(credential: communicationCredential, scopes: [])
         let userOptions = AzureCommunicationChatClientOptions(transportOptions: transportOptions)
@@ -85,7 +85,7 @@ class RegistrarClientTests: RecordableXCTestCase<TestSettings> {
                 signalingErrorHandler: userOptions.signalingErrorHandler
             )
         }
-        
+
         let internalOptions = AzureCommunicationChatClientOptionsInternal(
             apiVersion: AzureCommunicationChatClientOptionsInternal.ApiVersion(options.apiVersion),
             logger: options.logger,
@@ -93,7 +93,7 @@ class RegistrarClientTests: RecordableXCTestCase<TestSettings> {
             transportOptions: options.transportOptions,
             dispatchQueue: options.dispatchQueue
         )
-        
+
         registrarClient = try RegistrarClient(
             endpoint: registrarEndpoint,
             credential: credential,
@@ -103,34 +103,34 @@ class RegistrarClientTests: RecordableXCTestCase<TestSettings> {
         )
 
         /*
-        // Register stubs
-        if mode == "playback" {
-            let bundle = Bundle(for: type(of: self))
-            let path = bundle.path(forResource: "noContent", ofType: "json") ?? ""
-            stub(condition: isMethodPOST() && pathEndsWith("/registrations")) { _ in
-                fixture(filePath: path, status: 202, headers: nil)
-            }
-            stub(condition: isMethodDELETE() && pathMatches("/registrations")) { _ in
-                fixture(filePath: path, status: 202, headers: nil)
-            }
-        }
-        */
+         // Register stubs
+         if mode == "playback" {
+             let bundle = Bundle(for: type(of: self))
+             let path = bundle.path(forResource: "noContent", ofType: "json") ?? ""
+             stub(condition: isMethodPOST() && pathEndsWith("/registrations")) { _ in
+                 fixture(filePath: path, status: 202, headers: nil)
+             }
+             stub(condition: isMethodDELETE() && pathMatches("/registrations")) { _ in
+                 fixture(filePath: path, status: 202, headers: nil)
+             }
+         }
+         */
     }
 
     /*
-    override func tearDown() {
-        // Delete any registrations that were created by tests
-        if mode != "playback" {
-            registrarClient.deleteRegistration { response, error in
-                if (error != nil) || (response?.statusCode != 202) {
-                    print("Failed to delete test registration.")
-                }
-            }
-        }
-    }
-     */
+     override func tearDown() {
+         // Delete any registrations that were created by tests
+         if mode != "playback" {
+             registrarClient.deleteRegistration { response, error in
+                 if (error != nil) || (response?.statusCode != 202) {
+                     print("Failed to delete test registration.")
+                 }
+             }
+         }
+     }
+      */
 
-    //Question：Can I use the actual RegistrarSettings?
+    // Question：Can I use the actual RegistrarSettings?
     func test_setRegistration_ReturnsSuccess() {
         let expectation = self.expectation(description: "Set Registration")
 
@@ -204,15 +204,15 @@ class RegistrarClientTests: RecordableXCTestCase<TestSettings> {
                     XCTFail("Failed to set registration.")
                 }
             case let .failure(error):
-                    XCTFail("Create thread failed with error: \(error)")
+                XCTFail("Create thread failed with error: \(error)")
             }
-        expectation.fulfill()
+            expectation.fulfill()
 
-        self.waitForExpectations(timeout: 10.0) { error in
-            if let error = error {
-                XCTFail("Delete registration timed out: \(error)")
+            self.waitForExpectations(timeout: 10.0) { error in
+                if let error = error {
+                    XCTFail("Delete registration timed out: \(error)")
+                }
             }
         }
-      }
     }
 }
