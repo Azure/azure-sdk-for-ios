@@ -31,7 +31,7 @@ use_frameworks!
 branch = 'feature/AddPodspecs'
 
 target 'AzureSDKDemoSwift' do
-  pod 'AzureCore', '1.0.0-beta.13'
+  pod 'AzureCore', '1.0.0-beta.12'
   pod 'AzureIdentity', :podspec => "https://raw.githubusercontent.com/Azure/azure-sdk-for-ios/#{branch}/sdk/identity/AzureIdentity/AzureIdentity.podspec.json"
   pod 'AzureStorageBlob', :podspec => "https://raw.githubusercontent.com/Azure/azure-sdk-for-ios/#{branch}/sdk/storage/AzureStorageBlob/AzureStorageBlob.podspec.json"
   pod 'MSAL', '1.1.15'

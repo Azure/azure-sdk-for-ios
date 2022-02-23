@@ -63,6 +63,9 @@
       location = "group:examples"
       name = "Examples">
       <FileRef
+         location = "group:AzureCommunicationChatPushNotificationTest/AzureCommunicationChatPushNotificationTest.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:AzureStorageBlobDemo/AzureStorageBlobDemo.xcodeproj">
       </FileRef>
       <FileRef

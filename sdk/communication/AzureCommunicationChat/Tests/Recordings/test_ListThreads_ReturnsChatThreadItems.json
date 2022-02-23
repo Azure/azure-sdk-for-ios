@@ -3,61 +3,60 @@
   "interactions" : [
     {
       "response" : {
-        "headers" : {
-          "Location" : "https:\/\/acs-gnygqibv4wh32.communication.azure.com\/chat\/threads\/19%3A5XMCsj2yf3vQN4g2UsRI2ARA0Mgb1DTTfxR9d9tj88I1@thread.v2",
-          "Date" : "Fri, 18 Feb 2022 01:35:21 GMT",
-          "api-supported-versions" : "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2021-10-01-preview7",
-          "Strict-Transport-Security" : "max-age=2592000",
-          "Content-Type" : "application\/json; charset=utf-8",
-          "x-azure-ref" : "02PcOYgAAAADCrt5RoZweQraklO\/KAIoWWVZSMzExMDAwMTE1MDA5ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
-          "x-processing-time" : "1270ms",
-          "x-cache" : "CONFIG_NOCACHE",
-          "ms-cv" : "\/Ekd2pBm3US2ubU9VPvxLA.0"
-        },
         "url" : "https:\/\/acs-gnygqibv4wh32.communication.azure.com\/chat\/threads?api-version=2021-04-05-preview6",
-        "status" : 201
+        "headers" : {
+          "Content-Length" : "0",
+          "Strict-Transport-Security" : "max-age=2592000",
+          "x-azure-ref" : "0IHQVYgAAAAAZnEjn6AzIR6\/s83M91RKsWVZSMzExMDAwMTE1MDExADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+          "Date" : "Tue, 22 Feb 2022 23:39:12 GMT",
+          "x-processing-time" : "2ms",
+          "x-cache" : "CONFIG_NOCACHE",
+          "ms-cv" : "YdHfke1Rqk2mScnM0LZt2Q.0"
+        },
+        "status" : 401,
+        "body" : ""
       },
-      "recorded_at" : 1645148121.5668149,
       "request" : {
+        "headers" : {
+          "repeatability-request-id" : "ED79C013-935F-483E-BD5D-D9FA9A431D04",
+          "Accept" : "application\/json",
+          "Content-Type" : "application\/json",
+          "Date" : "Tue, 22 Feb 2022 23:39:11 GMT",
+          "User-Agent" : "azsdk-ios-AzureCommunicationChat\/1.1.0-beta.2 (MacBookPro16,1 - 21.3.0; xctest:13.2 -> iOS 9.0; en_US)"
+        },
         "method" : "POST",
+        "url" : "https:\/\/endpoint\/chat\/threads?",
         "body" : {
           "topic" : "Test list threads"
-        },
-        "headers" : {
-          "User-Agent" : "azsdk-ios-AzureCommunicationChat\/1.1.0-beta.2 (MacBookPro16,1 - 21.3.0; xctest:13.2 -> iOS 9.0; en_US)",
-          "Date" : "Fri, 18 Feb 2022 01:35:20 GMT",
-          "repeatability-request-id" : "AA016AED-7616-4CD4-BA8A-6E10C1FDC2D3",
-          "Content-Type" : "application\/json",
-          "Accept" : "application\/json"
-        },
-        "url" : "https:\/\/endpoint\/chat\/threads?"
-      }
+        }
+      },
+      "recorded_at" : 1645573151.8586001
     },
     {
       "response" : {
         "url" : "https:\/\/acs-gnygqibv4wh32.communication.azure.com\/chat\/threads?api-version=2021-04-05-preview6",
+        "status" : 401,
         "headers" : {
-          "Content-Type" : "application\/json; charset=utf-8",
-          "x-processing-time" : "131ms",
-          "x-cache" : "CONFIG_NOCACHE",
-          "ms-cv" : "Qr8zsciV+EyvB5VQXeIGqg.0",
-          "x-azure-ref" : "02fcOYgAAAABMglAZu3XjRLskPSrZ8zC4WVZSMzExMDAwMTE1MDA5ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
           "Strict-Transport-Security" : "max-age=2592000",
-          "Date" : "Fri, 18 Feb 2022 01:35:21 GMT",
-          "api-supported-versions" : "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2021-10-01-preview7"
+          "x-cache" : "CONFIG_NOCACHE",
+          "x-azure-ref" : "0IHQVYgAAAAAQ86K6zLNJQY4rS5lWXvKKWVZSMzExMDAwMTE1MDExADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+          "Content-Length" : "0",
+          "Date" : "Tue, 22 Feb 2022 23:39:12 GMT",
+          "x-processing-time" : "6ms",
+          "ms-cv" : "XLPz1rvNwEKpBAL\/w4wTwg.0"
         },
-        "status" : 200
+        "body" : ""
       },
       "request" : {
         "url" : "https:\/\/endpoint\/chat\/threads?",
+        "method" : "GET",
         "headers" : {
-          "Accept" : "application\/json",
+          "Date" : "Tue, 22 Feb 2022 23:39:11 GMT",
           "User-Agent" : "azsdk-ios-AzureCommunicationChat\/1.1.0-beta.2 (MacBookPro16,1 - 21.3.0; xctest:13.2 -> iOS 9.0; en_US)",
-          "Date" : "Fri, 18 Feb 2022 01:35:21 GMT"
-        },
-        "method" : "GET"
+          "Accept" : "application\/json"
+        }
       },
-      "recorded_at" : 1645148121.780164
+      "recorded_at" : 1645573151.941267
     }
   ]
 }
